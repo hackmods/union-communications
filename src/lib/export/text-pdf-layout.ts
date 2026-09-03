@@ -615,9 +615,6 @@ export async function writeBrandedWorksheetPdf(
     }
   }
 
-  drawAccentRule(pdf, y, margin, pageWidth, accent);
-  y += 7;
-
   const drawRule = (x1: number, ruleY: number, x2: number) => {
     pdf.setDrawColor(190, 198, 210);
     pdf.setLineWidth(0.55);
@@ -728,6 +725,9 @@ export async function writeBrandedWorksheetPdf(
   };
 
   writeWrapped(opts.title, 12, true, navy, 1);
+  y += 3;
+  drawAccentRule(pdf, y, margin, pageWidth, accent);
+  y += 10;
   if (opts.subtitle) {
     writeWrapped(opts.subtitle, 8, false, muted, 1);
   }
@@ -743,40 +743,42 @@ export async function writeBrandedWorksheetPdf(
     renderSections(opts.closingSections, pageHeight - margin - footerBandHeight);
   }
 
-  const bandAnchorY = pinFooterToPageBottom
-    ? pageHeight - margin
-    : y + WORKSHEET_FLOW_FOOTER_GAP + footerBandHeight;
+  const footerTop = pinFooterToPageBottom
+    ? pageHeight - margin - footerBandHeight
+    : y + WORKSHEET_FLOW_FOOTER_GAP;
 
-  let bandY = bandAnchorY;
-  setBodyFont(7, false, muted);
-  const footerLines = pdf.splitTextToSize(opts.footer, contentWidth);
-  for (let i = footerLines.length - 1; i >= 0; i--) {
-    pdf.text(footerLines[i]!, margin, bandY);
-    bandY -= 8;
+  let bandY = footerTop;
+
+  if (opts.tips?.lines.length) {
+    setBodyFont(7.5, true, navy);
+    pdf.text(opts.tips.heading, margin, bandY);
+    bandY += 9;
+    setBodyFont(7.5, false, ink);
+    for (const tip of opts.tips.lines) {
+      const tipLines = pdf.splitTextToSize(`• ${tip}`, contentWidth);
+      for (const tipLine of tipLines) {
+        pdf.text(tipLine, margin, bandY);
+        bandY += 8;
+      }
+    }
+    bandY += 2;
   }
 
   if (opts.reminder) {
-    bandY -= 2;
+    setBodyFont(7, false, muted);
     const reminderLines = pdf.splitTextToSize(opts.reminder, contentWidth);
-    for (let i = reminderLines.length - 1; i >= 0; i--) {
-      pdf.text(reminderLines[i]!, margin, bandY);
-      bandY -= 8;
+    for (const reminderLine of reminderLines) {
+      pdf.text(reminderLine, margin, bandY);
+      bandY += 8;
     }
+    bandY += 2;
   }
 
-  if (opts.tips?.lines.length) {
-    bandY -= 2;
-    setBodyFont(7.5, true, navy);
-    pdf.text(opts.tips.heading, margin, bandY);
-    bandY -= 9;
-    setBodyFont(7.5, false, ink);
-    for (let i = opts.tips.lines.length - 1; i >= 0; i--) {
-      const tipLines = pdf.splitTextToSize(`• ${opts.tips.lines[i]!}`, contentWidth);
-      for (let j = tipLines.length - 1; j >= 0; j--) {
-        pdf.text(tipLines[j]!, margin, bandY);
-        bandY -= 8;
-      }
-    }
+  setBodyFont(7, false, muted);
+  const footerLines = pdf.splitTextToSize(opts.footer, contentWidth);
+  for (const footerLine of footerLines) {
+    pdf.text(footerLine, margin, bandY);
+    bandY += 8;
   }
 
   await saveBlob(pdf.output("blob"), opts.filename);

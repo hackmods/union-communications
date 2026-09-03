@@ -9,8 +9,7 @@ import {
 } from "@/lib/export/worksheet-pdf-test-helpers";
 import {
   downloadLandAcknowledgementWorksheetPdf,
-  LAND_ACK_DRAFT_MAX_ROWS,
-  LAND_ACK_DRAFT_MIN_ROWS,
+  LAND_ACK_DRAFT_ROWS,
 } from "./land-acknowledgement-worksheet-pdf";
 
 const REFLECT_RULED_ROW_COUNT = 2;
@@ -109,6 +108,9 @@ describe("land-acknowledgement-worksheet-pdf", () => {
       src: `data:image/png;base64,${Buffer.from(markBytes).toString("base64")}`,
     };
 
+    const draftMinRows = 6;
+    const draftMaxRows = 10;
+
     const skeletonSections = [
       {
         heading: "Step 2 — Reflect",
@@ -124,7 +126,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
           {
             kind: "ruled" as const,
             fill: true,
-            minRows: LAND_ACK_DRAFT_MIN_ROWS,
+            minRows: draftMinRows,
             rowHeight: 17,
           },
         ],
@@ -174,8 +176,8 @@ describe("land-acknowledgement-worksheet-pdf", () => {
             {
               kind: "ruled",
               fill: true,
-              minRows: LAND_ACK_DRAFT_MIN_ROWS,
-              maxRows: LAND_ACK_DRAFT_MAX_ROWS,
+              minRows: draftMinRows,
+              maxRows: draftMaxRows,
               rowHeight: 17,
             },
           ],
@@ -194,7 +196,47 @@ describe("land-acknowledgement-worksheet-pdf", () => {
 
     expect(cappedStrokes).toBeLessThan(uncappedStrokes);
     expect(cappedStrokes).toBeGreaterThanOrEqual(
-      REFLECT_RULED_ROW_COUNT + LAND_ACK_DRAFT_MIN_ROWS,
+      REFLECT_RULED_ROW_COUNT + draftMinRows,
+    );
+  });
+
+  it("uses fixed draft rows instead of fill on the floor handout", async () => {
+    const fixed = await exportWorksheet({
+      localLabel: "Local 243",
+      locale: "en",
+    });
+
+    vi.mocked(saveBlob).mockClear();
+    await writeBrandedWorksheetPdf({
+      platformMark: {
+        bytes: transparentPngBytes(),
+        widthPx: 192,
+        heightPx: 96,
+        src: "data:image/png;base64,AA==",
+      },
+      title: "Land acknowledgement — floor handout",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Step 3 — Draft",
+          lines: [
+            { kind: "text", text: "Draft in your own words:" },
+            { kind: "ruled", fill: true, minRows: 6, rowHeight: 16 },
+          ],
+        },
+      ],
+      tips: { heading: "Floor tips", lines: ["Territory first."] },
+      reminder: "Education only.",
+      filename: "fill-dominated-test.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+    const fillDominated = await countWorksheetStrokeOps(
+      (await parseWorksheetPdfBlob(vi.mocked(saveBlob).mock.calls.at(-1)![0])).page,
+    );
+
+    expect(fixed.strokeOps).toBeLessThan(fillDominated);
+    expect(fixed.strokeOps).toBeGreaterThanOrEqual(
+      REFLECT_RULED_ROW_COUNT + LAND_ACK_DRAFT_ROWS,
     );
   });
 
@@ -211,7 +253,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(step4Y! - tipsY!).toBeLessThan(110);
   });
 
-  it("renders Step 4 in closingSections above floor tips in reading order", async () => {
+  it("renders Step 4 in main flow above floor tips in reading order", async () => {
     const { parsed } = await exportWorksheet({
       localLabel: "Local 243",
       locale: "en",
@@ -230,6 +272,26 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(step3Idx).toBeGreaterThan(-1);
     expect(step4Idx).toBeGreaterThan(step3Idx);
     expect(tipsIdx).toBeGreaterThan(step4Idx);
+  });
+
+  it("places floor tips heading above tip bullets and education disclaimer", async () => {
+    const { parsed } = await exportWorksheet({
+      localLabel: "Local 243",
+      locale: "en",
+    });
+
+    const tipsY = findTextY(parsed, "Floor tips");
+    const bulletY = findTextY(parsed, "Territory first");
+    const reminderY = findTextY(parsed, "Education only");
+    const footerY = findTextY(parsed, "UnionOps Comms");
+
+    expect(tipsY).toBeDefined();
+    expect(bulletY).toBeDefined();
+    expect(reminderY).toBeDefined();
+    expect(footerY).toBeDefined();
+    expect(tipsY!).toBeGreaterThan(bulletY!);
+    expect(bulletY!).toBeGreaterThan(reminderY!);
+    expect(reminderY!).toBeGreaterThan(footerY!);
   });
 
   it("includes comms education footer copy for each locale", async () => {
