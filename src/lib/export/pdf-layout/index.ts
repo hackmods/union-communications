@@ -12,23 +12,8 @@ export * from "./worksheet-builder";
 
 export { GUIDE_PDF_PALETTE as PDF_LAYOUT_PALETTE } from "./constants";
 
-/** jsPDF inventory — stragglers not yet on shared chrome. */
+/** jsPDF inventory — intentional exceptions (canvas raster + landscape cert). */
 export const PDF_ENGINE_STRAGGLERS = [
-  {
-    path: "src/lib/travel/export.ts",
-    fn: "buildTravelExportPdf",
-    note: "Private jsPDF loop — Hub travel package; candidate for writeBrandedNotesPdf",
-  },
-  {
-    path: "src/lib/time/export-rollup.ts",
-    fn: "exportTimeRollupPdf",
-    note: "Private jsPDF — workforce rollup tables; candidate for table primitive + shared footer",
-  },
-  {
-    path: "src/lib/expenses/export.ts",
-    fn: "buildExpensePdf",
-    note: "Private jsPDF — expense claims",
-  },
   {
     path: "src/lib/export/pdf-export.ts",
     fn: "exportFlyerPdf / nodeToPdf",

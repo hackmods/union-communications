@@ -54,15 +54,14 @@ Pre-flight: `layoutWorksheet()`. Preview: `npm run pdf:preview -- land-acknowled
 
 Reference: [`land-acknowledgement-worksheet-pdf.ts`](../../src/lib/comms/land-acknowledgement-worksheet-pdf.ts).
 
-### jsPDF stragglers (inventory — not shared chrome yet)
+### jsPDF exceptions (canvas raster + landscape certificate)
 
 | Path | Notes |
 |------|-------|
-| `src/lib/travel/export.ts` | Travel expense PDF package |
-| `src/lib/time/export-rollup.ts` | Workforce rollup |
-| `src/lib/expenses/export.ts` | Expense claims |
 | `src/lib/export/pdf-export.ts` | Canvas raster — intentional |
 | `src/lib/officer-learning/certificate.ts` | Landscape cert — shares mark/fonts |
+
+Hub travel, expense, and time rollup PDFs now use `createHubInternalReportPdfBlob` (shared chrome).
 
 Also exported as `PDF_ENGINE_STRAGGLERS` from `pdf-layout/index.ts`.
 | Certificates | module + path via `downloadOfficerLearningCertificate` |

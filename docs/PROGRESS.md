@@ -1,5 +1,8 @@
 # Progress Log
 
+- [x] **Hub stragglers migrated:** travel / expense / time rollup PDFs → `createHubInternalReportPdfBlob`
+- Verify: `npm run test:unit -- src/lib/export/pdf-layout.test.ts` + `npm run pdf:preview -- hub-travel en`
+
 ## PDF layout engine phases 0–6 (2026-09-03)
 
 - [x] **`src/lib/export/pdf-layout/`:** extracted header/footer bands, layout modes (`flow` | `pinnedFooter` | `pinnedClosing`), `layoutWorksheet()` budget API, `buildWorksheet()` DSL, `table` / `columnLayout` / `pageBreak` primitives, golden spatial tests, `npm run pdf:preview`

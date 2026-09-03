@@ -1,4 +1,5 @@
 import type { TimeEntry } from "@/types/time";
+import { createHubInternalReportPdfBlob } from "@/lib/export/text-pdf-layout";
 
 export function entryDurationHours(entry: TimeEntry): number {
   if (!entry.clockOutAt) return 0;
@@ -114,37 +115,24 @@ export async function buildTimeExportXlsx(entries: TimeEntry[]): Promise<Buffer>
 }
 
 export async function buildTimeExportPdf(entries: TimeEntry[]): Promise<Blob> {
-  const { jsPDF } = await import("jspdf");
-  const pdf = new jsPDF();
   const totalHours = entries.reduce((sum, e) => sum + entryDurationHours(e), 0);
-  const lines = [
-    "UNIONOPS — TIME ROLLUP",
-    "======================",
+  const body = [
     `Entries: ${entries.length}`,
     `Total hours: ${totalHours.toFixed(1)}`,
     "",
-    "BY WORKER",
-    "---------",
+    "# By worker",
     ...rollupByWorker(entries).map(
-      (r) => `${r.workerName}: ${r.hours.toFixed(1)}h (${r.entries})`,
+      (r) => `${r.workerName}: ${r.hours.toFixed(1)}h (${r.entries} entries)`,
     ),
     "",
-    "BY CATEGORY",
-    "-----------",
+    "# By category",
     ...rollupByCategory(entries).map(
-      (r) => `${r.category}: ${r.hours.toFixed(1)}h (${r.entries})`,
+      (r) => `${r.category}: ${r.hours.toFixed(1)}h (${r.entries} entries)`,
     ),
-  ];
+  ].join("\n");
 
-  let y = 16;
-  for (const line of lines) {
-    if (y > 280) {
-      pdf.addPage();
-      y = 16;
-    }
-    pdf.setFontSize(10);
-    pdf.text(line, 14, y);
-    y += 6;
-  }
-  return pdf.output("blob");
+  return createHubInternalReportPdfBlob({
+    title: "Time rollup report",
+    body,
+  });
 }

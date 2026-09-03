@@ -1,5 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import { COMMS_GUIDE_FOOTER, EDUCATION_FOOTER, writeBrandedWorksheetPdf } from "@/lib/export/text-pdf-layout";
+import {
+  COMMS_GUIDE_FOOTER,
+  EDUCATION_FOOTER,
+  HUB_INTERNAL_REPORT_FOOTER,
+  writeBrandedWorksheetPdf,
+  createHubInternalReportPdfBlob,
+} from "@/lib/export/text-pdf-layout";
 import {
   buildWorksheet,
   layoutWorksheet,
@@ -34,9 +40,9 @@ const mark = {
 };
 
 describe("pdf-layout engine", () => {
-  it("lists jsPDF stragglers for audit inventory", () => {
-    expect(PDF_ENGINE_STRAGGLERS.length).toBeGreaterThanOrEqual(4);
-    expect(PDF_ENGINE_STRAGGLERS.some((s) => s.path.includes("travel/export"))).toBe(true);
+  it("lists remaining jsPDF exceptions (canvas + certificate)", () => {
+    expect(PDF_ENGINE_STRAGGLERS.length).toBe(2);
+    expect(PDF_ENGINE_STRAGGLERS.some((s) => s.path.includes("pdf-export"))).toBe(true);
   });
 
   it("resolves layout modes from structure", () => {
@@ -187,5 +193,17 @@ describe("guide PDF golden layout contracts", () => {
     expect(parsed.joined).toMatch(/Advanced primitives/);
     expect(parsed.joined).toMatch(/Name/);
     expect(parsed.joined).toMatch(/Role/);
+  });
+
+  it("hub internal reports use shared chrome and internal footer", async () => {
+    const blob = await createHubInternalReportPdfBlob({
+      title: "Travel authorization — expense package",
+      body: "Event: Steward conference\n\n# Line items\n2026-01-01 | travel | Train | 120.00",
+    });
+    const parsed = await parseWorksheetPdfBlob(blob);
+    expect(parsed.joined).toMatch(/Travel authorization/);
+    expect(parsed.joined).toMatch(/UnionOps Officer Hub/);
+    expect(parsed.joined).toMatch(/SAP\/ERP/);
+    expect(parsed.joined).not.toContain(HUB_INTERNAL_REPORT_FOOTER.fr);
   });
 });

@@ -4,8 +4,15 @@
 import { describe, it, vi } from "vitest";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { downloadLandAcknowledgementWorksheetPdf } from "@/lib/comms/land-acknowledgement-worksheet-pdf";
-import { COMMS_GUIDE_FOOTER, layoutWorksheet } from "@/lib/export/text-pdf-layout";
+import {
+  COMMS_GUIDE_FOOTER,
+  createHubInternalReportPdfBlob,
+  guidePdfBrandFromKit,
+  layoutWorksheet,
+} from "@/lib/export/text-pdf-layout";
+import { downloadFarSheetPdf } from "@/lib/officer-learning/reference-pdf";
 
 const outDir = join(process.cwd(), "test-results", "pdf-preview");
 const template = process.env.PDF_PREVIEW_TEMPLATE ?? "land-acknowledgement";
@@ -36,6 +43,33 @@ describe("pdf preview script", () => {
         localLabel: locale === "fr" ? "Section 243" : "Local 243",
         locale,
       });
+      return;
+    }
+
+    if (template === "far-sheet") {
+      await downloadFarSheetPdf({
+        moduleTitle: "Contract Enforcement",
+        localLabel: locale === "fr" ? "Section 243" : "Local 243",
+        locale,
+        brand: guidePdfBrandFromKit(DEFAULT_BRAND_KIT),
+      });
+      return;
+    }
+
+    if (template === "hub-travel") {
+      const blob = await createHubInternalReportPdfBlob({
+        title: "Travel authorization — expense package",
+        body: [
+          "Event: Steward conference",
+          "Purpose: Parent union assembly",
+          "",
+          "# Line items",
+          "2026-01-01 | travel | Train fare | 120.00",
+        ].join("\n"),
+      });
+      mkdirSync(outDir, { recursive: true });
+      writeFileSync(join(outDir, "unionops-travel-preview.pdf"), Buffer.from(await blob.arrayBuffer()));
+      console.log(`Wrote ${join(outDir, "unionops-travel-preview.pdf")}`);
     }
   });
 });

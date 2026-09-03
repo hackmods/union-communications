@@ -71,6 +71,12 @@ export const COMMS_GUIDE_FOOTER = {
   fr: "UnionOps Communications — référence sur le plancher. Vérifiez affiches et liens sur les pages ministérielles à jour. Pas un avis juridique.",
 } as const;
 
+/** Hub internal exports (travel, expenses, time rollup) — not steward education sheets. */
+export const HUB_INTERNAL_REPORT_FOOTER = {
+  en: "UnionOps Officer Hub — internal report on this device. Confirm totals before submitting to your parent union. Not connected to SAP/ERP.",
+  fr: "UnionOps Hub des dirigeants — rapport interne sur cet appareil. Vérifiez les totaux avant de transmettre à votre syndicat parent. Non connecté à SAP/ERP.",
+} as const;
+
 export type GuidePdfBrand = {
   primaryColor?: string;
   headlineFontId?: CanvasFontId;
@@ -470,14 +476,13 @@ export async function writeBrandedWorksheetPdf(
   await saveBlob(pdf.output("blob"), opts.filename);
 }
 
-export async function writeBrandedNotesPdf(opts: {
+export async function createBrandedNotesPdfBlob(opts: {
   title: string;
   body: string;
-  filename: string;
   footer?: string;
   platformMark?: PdfImageBytes | null;
   brand?: GuidePdfBrand | null;
-}): Promise<void> {
+}): Promise<Blob> {
   const pdf = await createLetterPdf();
   const faces = await registerGuidePdfFonts(pdf, opts.brand);
   const margin = GUIDE_PDF_MARGIN_DEFAULT;
@@ -566,8 +571,38 @@ export async function writeBrandedNotesPdf(opts: {
   ensureSpace(24);
   writeWrapped(footer, { size: 8, color: muted });
 
+  return pdf.output("blob");
+}
+
+/** Hub travel / expense / time rollup PDFs — shared mark + header + internal footer. */
+export async function createHubInternalReportPdfBlob(opts: {
+  title: string;
+  body: string;
+  locale?: GuidePdfLocale;
+  platformMark?: PdfImageBytes | null;
+  brand?: GuidePdfBrand | null;
+}): Promise<Blob> {
+  const locale = opts.locale === "fr" ? "fr" : "en";
+  return createBrandedNotesPdfBlob({
+    title: opts.title,
+    body: opts.body,
+    footer: HUB_INTERNAL_REPORT_FOOTER[locale],
+    platformMark: opts.platformMark,
+    brand: opts.brand,
+  });
+}
+
+export async function writeBrandedNotesPdf(opts: {
+  title: string;
+  body: string;
+  filename: string;
+  footer?: string;
+  platformMark?: PdfImageBytes | null;
+  brand?: GuidePdfBrand | null;
+}): Promise<void> {
+  const blob = await createBrandedNotesPdfBlob(opts);
   const safe = opts.filename.endsWith(".pdf")
     ? opts.filename
     : `${opts.filename}.pdf`;
-  await saveBlob(pdf.output("blob"), safe);
+  await saveBlob(blob, safe);
 }

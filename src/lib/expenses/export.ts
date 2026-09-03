@@ -1,4 +1,5 @@
 import type { ExpenseSubmission } from "@/types/expenses";
+import { createHubInternalReportPdfBlob } from "@/lib/export/text-pdf-layout";
 import { sumLineItems } from "./totals";
 
 function downloadSafeName(name: string): string {
@@ -46,35 +47,24 @@ export async function buildExpenseExportXlsx(
 export async function buildExpenseExportPdf(
   submission: ExpenseSubmission,
 ): Promise<Blob> {
-  const { jsPDF } = await import("jspdf");
-  const doc = new jsPDF();
-  let y = 14;
-  const line = (text: string) => {
-    doc.text(text, 14, y);
-    y += 7;
-    if (y > 280) {
-      doc.addPage();
-      y = 14;
-    }
-  };
-  line("Union business expense submission");
-  line(`Title: ${submission.title}`);
-  line(`Purpose: ${submission.purpose}`);
-  line(`Submitted by: ${submission.submittedByName}`);
-  line(`Status: ${submission.status}`);
-  line(`Total: ${submission.totalAmount.toFixed(2)}`);
-  line("");
-  line("Line items:");
-  for (const item of submission.lineItems) {
-    line(
-      `${item.date} | ${item.category} | ${item.description} | ${item.amount.toFixed(2)}`,
-    );
-  }
-  line("");
-  line(
-    "Hand this package to your parent union’s expense system. UnionOps does not connect to SAP/ERP.",
-  );
-  return doc.output("blob");
+  const body = [
+    `Title: ${submission.title}`,
+    `Purpose: ${submission.purpose}`,
+    `Submitted by: ${submission.submittedByName}`,
+    `Status: ${submission.status}`,
+    `Total: ${submission.totalAmount.toFixed(2)}`,
+    "",
+    "# Line items",
+    ...submission.lineItems.map(
+      (item) =>
+        `${item.date} | ${item.category} | ${item.description} | ${item.amount.toFixed(2)}`,
+    ),
+  ].join("\n");
+
+  return createHubInternalReportPdfBlob({
+    title: "Union business expense submission",
+    body,
+  });
 }
 
 export async function buildExpenseReceiptZip(opts: {

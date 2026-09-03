@@ -74,7 +74,8 @@ if (!budget.fitsOnePage) console.warn(budget.warnings);
 
 ```bash
 npm run pdf:preview -- land-acknowledgement en
-# → test-results/pdf-preview/ + layout budget JSON on stdout
+npm run pdf:preview -- far-sheet en
+npm run pdf:preview -- hub-travel en
 ```
 
 ## Tests
@@ -86,9 +87,9 @@ npm run pdf:preview -- land-acknowledgement en
 
 Spatial helpers: `expectBlockOrder`, `expectFooterBandOrder`, `expectMinVerticalGap` in `worksheet-pdf-test-helpers.ts`.
 
-## jsPDF stragglers (not yet on shared chrome)
+## jsPDF exceptions
 
-See `PDF_ENGINE_STRAGGLERS` in `src/lib/export/pdf-layout/index.ts` — travel, time rollup, expenses exports. Migrate when those surfaces need Brand Kit chrome.
+Hub travel, expense, and time rollup PDFs use `createHubInternalReportPdfBlob`. Remaining exceptions: canvas raster (`pdf-export.ts`) and landscape certificate — see `PDF_ENGINE_STRAGGLERS`.
 
 ## Header contract (all text PDF families)
 
