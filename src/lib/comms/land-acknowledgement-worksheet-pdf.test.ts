@@ -372,6 +372,36 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expectMinFieldBlockGap(parsed, "Nations for where we meet", "Treaties / agreements");
   });
 
+  it("keeps Step 2 reflect prompt close to the first writing line", async () => {
+    const { parsed } = await exportWorksheet({
+      localLabel: "Local 243",
+      locale: "en",
+    });
+
+    const promptY = findTextY(parsed, "why acknowledgement matters");
+    const step3Y = findTextY(parsed, "Step 3 — Draft");
+    expect(promptY).toBeDefined();
+    expect(step3Y).toBeDefined();
+    const reflectBand = promptY! - step3Y!;
+    expect(reflectBand).toBeGreaterThan(18);
+    expect(reflectBand).toBeLessThan(42);
+  });
+
+  it("aligns Step 4 field pair rules on one row", async () => {
+    const { parsed, strokeOps } = await exportWorksheet({
+      localLabel: "Local 243",
+      locale: "en",
+    });
+
+    expect(parsed.joined).toMatch(/Executive review date/i);
+    expectPairUsesRowColumns(
+      parsed,
+      "Who reads it at the next meeting",
+      "Executive review date",
+    );
+    expect(strokeOps).toBeGreaterThan(20);
+  });
+
   it("includes comms education footer copy for each locale", async () => {
     const en = await exportWorksheet({ localLabel: "Local 243", locale: "en" });
     const fr = await exportWorksheet({ localLabel: "Section 243", locale: "fr" });

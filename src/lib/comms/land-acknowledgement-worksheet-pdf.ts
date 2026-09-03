@@ -10,6 +10,8 @@ import {
 export const LAND_ACK_DRAFT_ROWS = 5;
 export const LAND_ACK_REFLECT_ROWS = 2;
 export const LAND_ACK_RULE_ROW_HEIGHT = 15;
+/** Tighter ruled rows when the prompt sits directly above (Step 2 reflect). */
+export const LAND_ACK_REFLECT_ROW_HEIGHT = 10;
 
 const WORKSHEET_COPY = {
   en: {
@@ -69,7 +71,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "One honest sentence — why acknowledgement matters to me / our local:",
           },
-          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: LAND_ACK_RULE_ROW_HEIGHT },
+          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: LAND_ACK_REFLECT_ROW_HEIGHT },
         ],
       },
       {
@@ -161,7 +163,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "Une phrase honnête — pourquoi la reconnaissance compte pour moi / notre section :",
           },
-          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: LAND_ACK_RULE_ROW_HEIGHT },
+          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: LAND_ACK_REFLECT_ROW_HEIGHT },
         ],
       },
       {

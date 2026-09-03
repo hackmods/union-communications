@@ -10,6 +10,7 @@ import {
   WORKSHEET_MARK_TITLE_GAP,
   WORKSHEET_PAIR_COL_GAP,
   WORKSHEET_LINE_AFTER_TEXT_GAP,
+  WORKSHEET_TEXT_TO_RULED_GAP,
   WORKSHEET_RULED_BLOCK_LEADING,
   WORKSHEET_RULED_BLOCK_TRAILING,
   WORKSHEET_RULE_ROW_DEFAULT,
@@ -55,12 +56,13 @@ export function measureWorksheetLine(
   measurer: TextMeasurer,
   line: WorksheetLine,
   contentWidth: number,
+  lineCtx: { afterText?: boolean; beforeRuled?: boolean } = {},
 ): number {
   switch (line.kind) {
     case "text":
       return (
         measureWrappedHeight(measurer, line.text, 8.5, 1, contentWidth) +
-        WORKSHEET_LINE_AFTER_TEXT_GAP
+        (lineCtx.beforeRuled ? WORKSHEET_TEXT_TO_RULED_GAP : WORKSHEET_LINE_AFTER_TEXT_GAP)
       );
     case "field":
     case "fieldInline":
@@ -77,11 +79,8 @@ export function measureWorksheetLine(
     case "ruled": {
       const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
       const count = line.fill ? line.minRows ?? 6 : line.count ?? 0;
-      return (
-        WORKSHEET_RULED_BLOCK_LEADING +
-        count * rowHeight +
-        WORKSHEET_RULED_BLOCK_TRAILING
-      );
+      const leading = lineCtx.afterText ? 0 : WORKSHEET_RULED_BLOCK_LEADING;
+      return leading + count * rowHeight + WORKSHEET_RULED_BLOCK_TRAILING;
     }
     case "check":
       return measureWrappedHeight(measurer, `☐  ${line.text}`, 8, 1, contentWidth);
@@ -128,8 +127,14 @@ export function measureWorksheetSectionBlock(
     if (section.intro) {
       h += measureWrappedHeight(measurer, section.intro, 7.5, 0, contentWidth);
     }
-    for (const line of section.lines) {
-      h += measureWorksheetLine(measurer, line, contentWidth);
+    for (let i = 0; i < section.lines.length; i++) {
+      const line = section.lines[i]!;
+      const prev = section.lines[i - 1];
+      const next = section.lines[i + 1];
+      h += measureWorksheetLine(measurer, line, contentWidth, {
+        afterText: prev?.kind === "text",
+        beforeRuled: next?.kind === "ruled",
+      });
     }
   }
   return h;
