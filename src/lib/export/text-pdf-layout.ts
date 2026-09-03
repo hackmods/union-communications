@@ -457,40 +457,49 @@ export const WORKSHEET_MARGIN_DEFAULT = 18;
 /** Default ruled-row height when `rowHeight` is omitted (pt). */
 export const WORKSHEET_RULE_ROW_DEFAULT = 20;
 
-/**
- * Branded one-page fill-in worksheet (pen-and-paper floor handouts).
- *
- * Layout model:
- * - **Header** — compact mark, title, subtitle, optional instructions.
- * - **`sections`** — flowing body; last block may use `{ kind: "ruled", fill: true }`
- *   so draft space expands instead of leaving a dead zone.
- * - **`closingSections`** — checklist / sign-off pinned above the footer band
- *   (measured first so fill rows know how much space remains).
- * - **Footer band** — optional tips + reminder + education footer, drawn upward
- *   from the page bottom.
- *
- * Prefer `fieldPair` / `checkPair` over stacked full-width fields. Keep long
- * copy on the web guide — PDF intros should be one line max.
- */
-export async function writeBrandedWorksheetPdf(opts: {
+/** Gap between closing block and footer band (pt). */
+const WORKSHEET_CLOSING_GAP = 2;
+/** Gap between flowing body and footer when footer attaches after content (pt). */
+const WORKSHEET_FLOW_FOOTER_GAP = 12;
+
+function sectionsHaveFill(sections: WorksheetSection[]): boolean {
+  return sections.some((section) =>
+    section.lines.some((line) => line.kind === "ruled" && line.fill),
+  );
+}
+
+export type WriteBrandedWorksheetPdfOptions = {
   title: string;
   subtitle?: string;
-  /** How to use this sheet — printed under the subtitle. */
   instructions?: string;
-  /** Flowing body sections — may include `{ kind: "ruled", fill: true }` to grow draft space. */
   sections: WorksheetSection[];
-  /** Checklist / sign-off block pinned above the footer band (not in the fill zone). */
   closingSections?: WorksheetSection[];
-  /** Short floor tips before the reminder. */
   tips?: { heading: string; lines: readonly string[] };
-  /** Short reminder printed above the footer — saves a section heading. */
   reminder?: string;
   filename: string;
   footer: string;
   platformMark?: PdfImageBytes | null;
   brand?: GuidePdfBrand | null;
   margin?: number;
-}): Promise<void> {
+};
+
+/**
+ * Branded one-page fill-in worksheet (pen-and-paper floor handouts).
+ *
+ * Layout model:
+ * - **Header** — compact mark, title, subtitle, optional instructions.
+ * - **`sections`** — flowing body; use `{ kind: "ruled", fill: true, maxRows }` once
+ *   for the main draft block when `closingSections` reserves sign-off above the footer.
+ * - **`closingSections`** — checklist / sign-off pinned above the footer band.
+ * - **Footer band** — tips + reminder + education footer. Pinned to the page bottom when
+ *   `closingSections` or fill is present; otherwise flows directly after body content
+ *   (avoids a dead zone on short worksheets).
+ *
+ * Prefer `fieldPair` / `checkPair`. Keep long copy on the web guide.
+ */
+export async function writeBrandedWorksheetPdf(
+  opts: WriteBrandedWorksheetPdfOptions,
+): Promise<void> {
   const pdf = await createLetterPdf();
   const faces = await registerGuidePdfFonts(pdf, opts.brand);
   const margin = opts.margin ?? WORKSHEET_MARGIN_DEFAULT;
@@ -548,7 +557,7 @@ export async function writeBrandedWorksheetPdf(opts: {
   const measureSectionBlock = (sections: WorksheetSection[]): number => {
     let h = 0;
     for (const section of sections) {
-      h += 3;
+      h += 2;
       h += 9.5 + 1;
       if (section.intro) h += measureWrapped(section.intro, 7.5, 0, contentWidth);
       for (const line of section.lines) {
@@ -575,11 +584,13 @@ export async function writeBrandedWorksheetPdf(opts: {
   };
 
   const footerBandHeight = measureFooterBand();
+  const pinFooterToPageBottom =
+    Boolean(opts.closingSections?.length) || sectionsHaveFill(opts.sections);
   const closingHeight = opts.closingSections?.length
-    ? measureSectionBlock(opts.closingSections) + 4
+    ? measureSectionBlock(opts.closingSections) + WORKSHEET_CLOSING_GAP
     : 0;
   const contentBottom =
-    pageHeight - margin - footerBandHeight - closingHeight - 4;
+    pageHeight - margin - footerBandHeight - closingHeight - WORKSHEET_CLOSING_GAP;
 
   const mark =
     opts.platformMark === undefined
@@ -728,11 +739,15 @@ export async function writeBrandedWorksheetPdf(opts: {
   renderSections(opts.sections, contentBottom);
 
   if (opts.closingSections?.length) {
-    y = pageHeight - margin - footerBandHeight - closingHeight + 2;
+    y = pageHeight - margin - footerBandHeight - closingHeight + WORKSHEET_CLOSING_GAP;
     renderSections(opts.closingSections, pageHeight - margin - footerBandHeight);
   }
 
-  let bandY = pageHeight - margin;
+  const bandAnchorY = pinFooterToPageBottom
+    ? pageHeight - margin
+    : y + WORKSHEET_FLOW_FOOTER_GAP + footerBandHeight;
+
+  let bandY = bandAnchorY;
   setBodyFont(7, false, muted);
   const footerLines = pdf.splitTextToSize(opts.footer, contentWidth);
   for (let i = footerLines.length - 1; i >= 0; i--) {

@@ -32,6 +32,7 @@ import {
 } from "@/lib/officer-learning/reference-pdf";
 import { downloadOfficerLearningCertificate } from "@/lib/officer-learning/certificate";
 import { exportWorkspacePdf } from "@/lib/steward-guides/export";
+import { downloadLandAcknowledgementWorksheetPdf } from "@/lib/comms/land-acknowledgement-worksheet-pdf";
 
 describe("guide PDF review samples", () => {
   const brand = guidePdfBrandFromKit(DEFAULT_BRAND_KIT);
@@ -111,9 +112,14 @@ describe("guide PDF review samples", () => {
         `workspace-${locale}.pdf`,
         { locale, brand },
       );
+      await downloadLandAcknowledgementWorksheetPdf({
+        localLabel,
+        locale,
+        brand,
+      });
     }
 
-    expect(vi.mocked(saveBlob).mock.calls.length).toBeGreaterThanOrEqual(20);
+    expect(vi.mocked(saveBlob).mock.calls.length).toBeGreaterThanOrEqual(22);
     expect(existsSync(outDir)).toBe(true);
     const files = readdirSync(outDir).filter((f) => f.endsWith(".pdf"));
     // Many sheet filenames omit locale, so FR overwrites EN on disk — still ≥10 unique names.
