@@ -2,6 +2,7 @@ import {
   WORKSHEET_CHECK_FONT_SIZE,
   WORKSHEET_CHECK_ROW_HEIGHT,
   WORKSHEET_CHECK_ROW_TRAILING,
+  WORKSHEET_FIELD_BLOCK_LEADING,
   WORKSHEET_FIELD_FONT_SIZE,
   WORKSHEET_FIELD_LINE_GAP,
   WORKSHEET_FIELD_RULE_OFFSET,
@@ -104,11 +105,12 @@ export function resolvePairLayoutFromRender(
   fontSize: number,
   layout?: PairLayoutMode,
 ): PairLayoutMode {
-  if (layout === "stack" || layout === "row") return layout;
-  setPdfFont(ctx, fontSize, false, GUIDE_PDF_PALETTE.ink);
-  const leftLines = wrapPdfTextLines(ctx, leftText, colWidth).length;
-  const rightLines = wrapPdfTextLines(ctx, rightText, colWidth).length;
-  return leftLines > 1 || rightLines > 1 ? "stack" : "row";
+  void ctx;
+  void leftText;
+  void rightText;
+  void colWidth;
+  void fontSize;
+  return layout === "stack" ? "stack" : "row";
 }
 
 export function resolvePairLayout(
@@ -119,10 +121,12 @@ export function resolvePairLayout(
   colWidth: number,
   fontSize: number,
 ): PairLayoutMode {
-  if (layout === "stack" || layout === "row") return layout;
-  return shouldStackPairContent(measurer, leftText, rightText, colWidth, fontSize)
-    ? "stack"
-    : "row";
+  void measurer;
+  void leftText;
+  void rightText;
+  void colWidth;
+  void fontSize;
+  return layout === "stack" ? "stack" : "row";
 }
 
 /** Budget height for a wrapped field label + rule — must match drawLabeledFieldBlock. */
@@ -137,7 +141,7 @@ export function measureLabeledFieldBlockHeight(
     usableTextWidth(maxWidth),
   );
   const textHeight = lines * (WORKSHEET_FIELD_FONT_SIZE + WORKSHEET_FIELD_LINE_GAP);
-  return textHeight + fieldBlockTrailing();
+  return WORKSHEET_FIELD_BLOCK_LEADING + textHeight + fieldBlockTrailing();
 }
 
 export function measureFieldPairRowHeight(
@@ -195,6 +199,7 @@ export function measureCheckPairRowHeight(
       contentWidth,
     );
     return (
+      WORKSHEET_FIELD_BLOCK_LEADING +
       leftLines * WORKSHEET_CHECK_ROW_HEIGHT +
       rightLines * WORKSHEET_CHECK_ROW_HEIGHT +
       WORKSHEET_CHECK_ROW_TRAILING +
@@ -214,7 +219,12 @@ export function measureCheckPairRowHeight(
     colW,
   );
   const rows = Math.max(leftLines, rightLines);
-  return rows * WORKSHEET_CHECK_ROW_HEIGHT + WORKSHEET_CHECK_ROW_TRAILING + WORKSHEET_PAIR_ROW_GAP;
+  return (
+    WORKSHEET_FIELD_BLOCK_LEADING +
+    rows * WORKSHEET_CHECK_ROW_HEIGHT +
+    WORKSHEET_CHECK_ROW_TRAILING +
+    WORKSHEET_PAIR_ROW_GAP
+  );
 }
 
 function drawFieldRule(pdf: JsPdfLike, x1: number, ruleY: number, x2: number): void {
@@ -234,7 +244,7 @@ export function drawLabeledFieldBlock(
   const { pdf } = ctx;
   setPdfFont(ctx, WORKSHEET_FIELD_FONT_SIZE, false, GUIDE_PDF_PALETTE.ink);
   const lines = wrapPdfTextLines(ctx, label, maxWidth);
-  let y = startY;
+  let y = startY + WORKSHEET_FIELD_BLOCK_LEADING;
   for (const line of lines) {
     pdf.text(line, x + WORKSHEET_FIELD_TEXT_INSET, y);
     y += WORKSHEET_FIELD_FONT_SIZE + WORKSHEET_FIELD_LINE_GAP;
@@ -314,7 +324,7 @@ export function drawCheckPairRow(
   setPdfFont(ctx, WORKSHEET_CHECK_FONT_SIZE, false, GUIDE_PDF_PALETTE.ink);
 
   if (mode === "stack") {
-    let y = startY;
+    let y = startY + WORKSHEET_FIELD_BLOCK_LEADING;
     for (const line of wrapPdfTextLines(ctx, leftText, contentWidth)) {
       pdf.text(line, margin + WORKSHEET_FIELD_TEXT_INSET, y);
       y += WORKSHEET_CHECK_ROW_HEIGHT;
@@ -329,7 +339,7 @@ export function drawCheckPairRow(
   const leftLines = wrapPdfTextLines(ctx, leftText, colW);
   const rightLines = wrapPdfTextLines(ctx, rightText, colW);
   const rows = Math.max(leftLines.length, rightLines.length);
-  let y = startY;
+  let y = startY + WORKSHEET_FIELD_BLOCK_LEADING;
   const rightX = margin + colW + gap;
   for (let i = 0; i < rows; i++) {
     if (leftLines[i]) {

@@ -5,6 +5,9 @@ import {
   WORKSHEET_HEADER_BODY_GAP,
   WORKSHEET_PAIR_COL_GAP,
   WORKSHEET_PRE_FOOTER_GAP,
+  WORKSHEET_LINE_AFTER_TEXT_GAP,
+  WORKSHEET_RULED_BLOCK_LEADING,
+  WORKSHEET_RULED_BLOCK_TRAILING,
   WORKSHEET_RULE_ROW_DEFAULT,
   WORKSHEET_SECTION_GAP,
 } from "./constants";
@@ -92,6 +95,7 @@ export function renderWorksheetLine(
     }
     case "text":
       writeWrapped(line.text, 8.5, false, ink, 1);
+      flow.advance(WORKSHEET_LINE_AFTER_TEXT_GAP);
       break;
     case "field":
     case "fieldInline": {
@@ -126,12 +130,14 @@ export function renderWorksheetLine(
         count = Math.max(line.minRows ?? 6, Math.floor(available / rowHeight));
         if (line.maxRows !== undefined) count = Math.min(count, line.maxRows);
       }
+      y += WORKSHEET_RULED_BLOCK_LEADING;
       for (let i = 0; i < count; i++) {
         if (y + rowHeight > maxY) break;
         y += rowHeight - 2;
         drawRuledRow(pdf, margin + colOffset, y, margin + colOffset + colWidth);
         y += 2;
       }
+      y += WORKSHEET_RULED_BLOCK_TRAILING;
       flow.y = y;
       break;
     }

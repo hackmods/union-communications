@@ -347,7 +347,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(budget.fitsOnePage).toBe(true);
   });
 
-  it("renders Step 4 review pairs stacked full-width without column overlap", async () => {
+  it("renders Step 4 review pairs in two columns using the full page width", async () => {
     const { parsed } = await exportWorksheet({
       localLabel: "Local 243",
       locale: "en",
@@ -359,10 +359,22 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     );
     expect(speakerItems.length).toBeGreaterThan(0);
     expect(accurateItems.length).toBeGreaterThan(0);
-    for (const item of [...speakerItems, ...accurateItems]) {
-      expect(item.x).toBeLessThan(100);
-    }
+    expect(accurateItems[0]!.x).toBeLessThan(120);
+    expect(speakerItems[0]!.x).toBeGreaterThan(250);
     expect(parsed.joined).toMatch(/without notes/i);
+  });
+
+  it("keeps breathable gap between field rules and the next label", async () => {
+    const { parsed } = await exportWorksheet({
+      localLabel: "Local 243",
+      locale: "en",
+    });
+
+    const nationsY = findTextY(parsed, "Nations for where we meet");
+    const treatiesY = findTextY(parsed, "Treaties / agreements");
+    expect(nationsY).toBeDefined();
+    expect(treatiesY).toBeDefined();
+    expect(nationsY! - treatiesY!).toBeGreaterThan(14);
   });
 
   it("includes comms education footer copy for each locale", async () => {

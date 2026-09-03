@@ -53,10 +53,20 @@ export const CHECKLIST_HEADER_RULE_GAP_AFTER_RULE = CHECKLIST_HEADER_RULE_GAP - 
 /** Worksheet field / checkbox typography (pt) — shared by render + budget measure. */
 export const WORKSHEET_FIELD_FONT_SIZE = 8.5;
 export const WORKSHEET_FIELD_LINE_GAP = 1;
-export const WORKSHEET_FIELD_RULE_OFFSET = 2;
-export const WORKSHEET_FIELD_RULE_TRAILING = 4;
+/** Vertical gap after a field rule before the next block (pt). */
+export const WORKSHEET_FIELD_RULE_TRAILING = 8;
+/** Space between label baseline and the rule beneath it (pt). */
+export const WORKSHEET_FIELD_RULE_OFFSET = 4;
+/** Leading space before a field / checkbox block starts (pt). */
+export const WORKSHEET_FIELD_BLOCK_LEADING = 6;
+/** Gap after plain text / intro lines before the next primitive (pt). */
+export const WORKSHEET_LINE_AFTER_TEXT_GAP = 4;
+/** Leading space before the first ruled writing line (pt). */
+export const WORKSHEET_RULED_BLOCK_LEADING = 5;
+/** Extra space at the bottom of a ruled block (pt). */
+export const WORKSHEET_RULED_BLOCK_TRAILING = 4;
 export const WORKSHEET_CHECK_FONT_SIZE = 8;
-export const WORKSHEET_CHECK_ROW_HEIGHT = 9;
+export const WORKSHEET_CHECK_ROW_HEIGHT = 10;
 export const WORKSHEET_CHECK_ROW_TRAILING = 2;
 
 /** Letter page size (pt) — budget API without a live jsPDF instance. */
