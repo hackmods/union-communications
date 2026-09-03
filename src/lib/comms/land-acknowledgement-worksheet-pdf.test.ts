@@ -7,10 +7,12 @@ import {
   findTextY,
   parseWorksheetPdfBlob,
 } from "@/lib/export/worksheet-pdf-test-helpers";
-import { downloadLandAcknowledgementWorksheetPdf } from "./land-acknowledgement-worksheet-pdf";
+import {
+  downloadLandAcknowledgementWorksheetPdf,
+  LAND_ACK_DRAFT_MAX_ROWS,
+  LAND_ACK_DRAFT_MIN_ROWS,
+} from "./land-acknowledgement-worksheet-pdf";
 
-/** Layout contract — keep in sync with land-acknowledgement-worksheet-pdf.ts */
-const DRAFT_RULED_ROW_COUNT = 7;
 const REFLECT_RULED_ROW_COUNT = 2;
 
 vi.mock("@/lib/export/save-blob", () => ({
@@ -18,72 +20,6 @@ vi.mock("@/lib/export/save-blob", () => ({
 }));
 
 import { saveBlob } from "@/lib/export/save-blob";
-
-async function exportUncappedFillBaseline() {
-  const markBytes = transparentPngBytes();
-  const mark = {
-    bytes: markBytes,
-    widthPx: 192,
-    heightPx: 96,
-    src: `data:image/png;base64,${Buffer.from(markBytes).toString("base64")}`,
-  };
-  vi.mocked(saveBlob).mockClear();
-  await writeBrandedWorksheetPdf({
-    platformMark: mark,
-    title: "Land acknowledgement — floor handout",
-    subtitle: "Local 243",
-    sections: [
-      {
-        heading: "Before you start",
-        lines: [
-          {
-            kind: "fieldPair",
-            left: { label: "Local / committee" },
-            right: { label: "Date" },
-          },
-        ],
-      },
-      {
-        heading: "Step 1 — Research",
-        lines: [{ kind: "field", label: "Nations for where we meet" }],
-      },
-      {
-        heading: "Step 2 — Reflect",
-        lines: [
-          { kind: "text", text: "Why acknowledgement matters:" },
-          { kind: "ruled", count: REFLECT_RULED_ROW_COUNT, rowHeight: 17 },
-        ],
-      },
-      {
-        heading: "Step 3 — Draft",
-        lines: [
-          { kind: "text", text: "Draft in your own words:" },
-          { kind: "ruled", fill: true, minRows: 5, rowHeight: 17 },
-        ],
-      },
-      {
-        heading: "Step 4 — Review and commit",
-        lines: [
-          {
-            kind: "checkPair",
-            left: "Accurate for this territory",
-            right: "Speaker can explain every phrase",
-          },
-        ],
-      },
-    ],
-    tips: {
-      heading: "Floor tips",
-      lines: ["Territory first."],
-    },
-    reminder: "Education only.",
-    filename: "unionops-land-ack-fill-baseline.pdf",
-    footer: COMMS_GUIDE_FOOTER.en,
-  });
-  const [blob] = vi.mocked(saveBlob).mock.calls.at(-1)!;
-  const parsed = await parseWorksheetPdfBlob(blob);
-  return countWorksheetStrokeOps(parsed.page);
-}
 
 async function exportWorksheet(
   opts: Parameters<typeof downloadLandAcknowledgementWorksheetPdf>[0],
@@ -138,7 +74,6 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(tipsY).toBeDefined();
     expect(step3Y!).toBeGreaterThan(step4Y!);
     expect(step4Y!).toBeGreaterThan(tipsY!);
-    expect(step4Y!).toBeGreaterThan(120);
   });
 
   it("exports FR floor handout on one page with matching structure", async () => {
@@ -165,28 +100,118 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     ]);
   });
 
-  it("uses fewer ruled strokes than an uncapped fill baseline (regression)", async () => {
-    const { strokeOps: templateStrokes } = await exportWorksheet({
+  it("uses capped fill for Step 3 — fewer ruled strokes than uncapped fill on same skeleton", async () => {
+    const markBytes = transparentPngBytes();
+    const mark = {
+      bytes: markBytes,
+      widthPx: 192,
+      heightPx: 96,
+      src: `data:image/png;base64,${Buffer.from(markBytes).toString("base64")}`,
+    };
+
+    const skeletonSections = [
+      {
+        heading: "Step 2 — Reflect",
+        lines: [
+          { kind: "text" as const, text: "Why acknowledgement matters:" },
+          { kind: "ruled" as const, count: REFLECT_RULED_ROW_COUNT, rowHeight: 17 },
+        ],
+      },
+      {
+        heading: "Step 3 — Draft",
+        lines: [
+          { kind: "text" as const, text: "Draft in your own words:" },
+          {
+            kind: "ruled" as const,
+            fill: true,
+            minRows: LAND_ACK_DRAFT_MIN_ROWS,
+            rowHeight: 17,
+          },
+        ],
+      },
+    ];
+    const closing = [
+      {
+        heading: "Step 4 — Review and commit",
+        lines: [
+          {
+            kind: "checkPair" as const,
+            left: "Accurate for this territory",
+            right: "Speaker can explain every phrase",
+          },
+        ],
+      },
+    ];
+
+    vi.mocked(saveBlob).mockClear();
+    await writeBrandedWorksheetPdf({
+      platformMark: mark,
+      title: "Cap compare",
+      subtitle: "Local 243",
+      sections: skeletonSections,
+      closingSections: closing,
+      tips: { heading: "Floor tips", lines: ["Territory first."] },
+      reminder: "Education only.",
+      filename: "cap-compare-uncapped.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+    const uncappedBlob = vi.mocked(saveBlob).mock.calls.at(-1)![0];
+    const uncappedStrokes = await countWorksheetStrokeOps(
+      (await parseWorksheetPdfBlob(uncappedBlob)).page,
+    );
+
+    vi.mocked(saveBlob).mockClear();
+    await writeBrandedWorksheetPdf({
+      platformMark: mark,
+      title: "Cap compare",
+      subtitle: "Local 243",
+      sections: [
+        skeletonSections[0]!,
+        {
+          heading: "Step 3 — Draft",
+          lines: [
+            { kind: "text", text: "Draft in your own words:" },
+            {
+              kind: "ruled",
+              fill: true,
+              minRows: LAND_ACK_DRAFT_MIN_ROWS,
+              maxRows: LAND_ACK_DRAFT_MAX_ROWS,
+              rowHeight: 17,
+            },
+          ],
+        },
+      ],
+      closingSections: closing,
+      tips: { heading: "Floor tips", lines: ["Territory first."] },
+      reminder: "Education only.",
+      filename: "cap-compare-capped.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+    const cappedBlob = vi.mocked(saveBlob).mock.calls.at(-1)![0];
+    const cappedStrokes = await countWorksheetStrokeOps(
+      (await parseWorksheetPdfBlob(cappedBlob)).page,
+    );
+
+    expect(cappedStrokes).toBeLessThan(uncappedStrokes);
+    expect(cappedStrokes).toBeGreaterThanOrEqual(
+      REFLECT_RULED_ROW_COUNT + LAND_ACK_DRAFT_MIN_ROWS,
+    );
+  });
+
+  it("pins Step 4 just above the footer band without a large dead zone", async () => {
+    const { parsed } = await exportWorksheet({
       localLabel: "Local 243",
       locale: "en",
     });
-    const fillBaselineStrokes = await exportUncappedFillBaseline();
 
-    expect(templateStrokes).toBeLessThan(fillBaselineStrokes - 8);
+    const step4Y = findTextY(parsed, "Step 4 — Review and commit");
+    const tipsY = findTextY(parsed, "Floor tips");
+    expect(step4Y).toBeDefined();
+    expect(tipsY).toBeDefined();
+    expect(step4Y! - tipsY!).toBeLessThan(110);
   });
 
-  it("uses fixed draft and reflect ruled rows (not uncapped fill)", async () => {
-    const { strokeOps: enStrokes } = await exportWorksheet({
-      localLabel: "Local 243",
-      locale: "en",
-    });
-
-    const expectedMinimum =
-      REFLECT_RULED_ROW_COUNT + DRAFT_RULED_ROW_COUNT + 4;
-    expect(enStrokes).toBeGreaterThanOrEqual(expectedMinimum);
-  });
-
-  it("does not use closingSections pin — Step 4 follows Step 3 in the body flow", async () => {
+  it("renders Step 4 in closingSections above floor tips in reading order", async () => {
     const { parsed } = await exportWorksheet({
       localLabel: "Local 243",
       locale: "en",

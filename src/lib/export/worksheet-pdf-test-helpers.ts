@@ -95,3 +95,16 @@ export function expectHeadingOrder(
     }
   }
 }
+
+/** True when pdf.js operator list includes an embedded image (platform mark). */
+export async function pdfHasEmbeddedMark(
+  page: ParsedWorksheetPdf["page"],
+): Promise<boolean> {
+  const ops = await page.getOperatorList();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const OPS = (await import("pdfjs-dist/legacy/build/pdf.mjs") as any).OPS ?? {};
+  return ops.fnArray.some((fn: number) => {
+    const name = Object.entries(OPS).find(([, v]) => v === fn)?.[0] ?? "";
+    return /paintImage/i.test(name);
+  });
+}

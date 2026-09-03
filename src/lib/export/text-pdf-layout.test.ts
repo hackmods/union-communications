@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import { transparentPngBytes } from "@/lib/export/brand-logo-bytes";
 import {
+  COMMS_GUIDE_FOOTER,
   EDUCATION_FOOTER,
   STEWARD_WORKSPACE_FOOTER,
-  COMMS_GUIDE_FOOTER,
   certificateBrandLogoPlacement,
   certificatePlatformMarkPlacement,
   guidePdfMarkPlacementPt,
@@ -346,6 +346,27 @@ describe("writeBrandedWorksheetPdf", () => {
     expect(footerY).toBeDefined();
     expect(notesY!).toBeGreaterThan(tipsY!);
     expect(tipsY!).toBeGreaterThan(footerY!);
+  });
+
+  it("flows footer after short body when no fill or closingSections", async () => {
+    const parsed = await worksheetText({
+      title: "Short sheet",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Notes",
+          lines: [{ kind: "ruled", count: 2, rowHeight: 18 }],
+        },
+      ],
+      filename: "unionops-short-flow-footer.pdf",
+      footer: EDUCATION_FOOTER.en,
+    });
+
+    const notesY = findTextY(parsed, "Notes");
+    const footerY = findTextY(parsed, "UnionOps Officer Learning");
+    expect(notesY).toBeDefined();
+    expect(footerY).toBeDefined();
+    expect(notesY! - footerY!).toBeLessThan(180);
   });
 
   it("renders more ruled strokes when fixed row count increases", async () => {

@@ -6,6 +6,11 @@ import {
   type WorksheetSection,
 } from "@/lib/export/text-pdf-layout";
 
+/** Minimum ruled rows for the Step 3 draft block (fill grows up to max). */
+export const LAND_ACK_DRAFT_MIN_ROWS = 7;
+/** Cap so fill cannot dominate the page like uncapped ~22-row runs. */
+export const LAND_ACK_DRAFT_MAX_ROWS = 10;
+
 const WORKSHEET_COPY = {
   en: {
     title: "Land acknowledgement — floor handout",
@@ -74,9 +79,17 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "Territory → history thread or local action → follow-up. Draft in your own words:",
           },
-          { kind: "ruled", count: 7, rowHeight: 17 },
+          {
+            kind: "ruled",
+            fill: true,
+            minRows: LAND_ACK_DRAFT_MIN_ROWS,
+            maxRows: LAND_ACK_DRAFT_MAX_ROWS,
+            rowHeight: 17,
+          },
         ],
       },
+    ] satisfies WorksheetSection[],
+    closingSections: [
       {
         heading: "Step 4 — Review and commit (~10 min solo · ~20 min workshop close)",
         lines: [
@@ -166,9 +179,17 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "Territoire → fil historique ou action locale → suivi. Ébauche dans vos propres mots :",
           },
-          { kind: "ruled", count: 7, rowHeight: 17 },
+          {
+            kind: "ruled",
+            fill: true,
+            minRows: LAND_ACK_DRAFT_MIN_ROWS,
+            maxRows: LAND_ACK_DRAFT_MAX_ROWS,
+            rowHeight: 17,
+          },
         ],
       },
+    ] satisfies WorksheetSection[],
+    closingSections: [
       {
         heading: "Étape 4 — Réviser et s'engager (~10 min seul·e · ~20 min clôture)",
         lines: [
@@ -206,6 +227,10 @@ export async function downloadLandAcknowledgementWorksheetPdf(opts: {
     subtitle: `${copy.subtitle} · ${opts.localLabel}`,
     instructions: copy.instructions,
     sections: copy.sections.map((section) => ({
+      heading: section.heading,
+      lines: section.lines.map((line) => ({ ...line })),
+    })),
+    closingSections: copy.closingSections.map((section) => ({
       heading: section.heading,
       lines: section.lines.map((line) => ({ ...line })),
     })),
