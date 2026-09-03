@@ -64,6 +64,9 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(parsed.joined).toMatch(/Nations for where we meet/i);
     expect(parsed.joined).toMatch(/Accurate for this territory/i);
     expect(parsed.joined).toMatch(/Executive review date/i);
+    expect(parsed.joined).toMatch(/without notes/i);
+    expect(parsed.joined).toMatch(/Federation guide \(OFL \/ national \/ CUPE \/ other\)/i);
+    expect(parsed.joined).toMatch(/consulted if unsure/i);
 
     const step3Y = findTextY(parsed, "Step 3 — Draft");
     const step4Y = findTextY(parsed, "Step 4 — Review and commit");
@@ -238,6 +241,26 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(fixed.strokeOps).toBeGreaterThanOrEqual(
       REFLECT_RULED_ROW_COUNT + LAND_ACK_DRAFT_ROWS,
     );
+  });
+
+  it("keeps readable gap between title, subtitle, and Step 4 footer band", async () => {
+    const { parsed } = await exportWorksheet({
+      localLabel: "Local 243",
+      locale: "en",
+    });
+
+    const titleY = findTextY(parsed, "Land acknowledgement");
+    const subtitleY = findTextY(parsed, "Solo draft or group workshop");
+    const step4Y = findTextY(parsed, "Step 4 — Review and commit");
+    const tipsY = findTextY(parsed, "Floor tips");
+
+    expect(titleY).toBeDefined();
+    expect(subtitleY).toBeDefined();
+    expect(step4Y).toBeDefined();
+    expect(tipsY).toBeDefined();
+    expect(titleY! - subtitleY!).toBeGreaterThan(10);
+    expect(step4Y! - tipsY!).toBeGreaterThan(24);
+    expect(step4Y! - tipsY!).toBeLessThan(110);
   });
 
   it("pins Step 4 just above the footer band without a large dead zone", async () => {

@@ -1,4 +1,14 @@
-import { GUIDE_PDF_PALETTE, type PdfRgb } from "./constants";
+import {
+  CHECKLIST_HEADER_RULE_GAP_AFTER_RULE,
+  CHECKLIST_HEADER_RULE_GAP_AFTER_TITLE,
+  CHECKLIST_HEADER_TITLE_SIZE,
+  GUIDE_PDF_PALETTE,
+  WORKSHEET_HEADER_BODY_GAP,
+  WORKSHEET_HEADER_RULE_GAP_AFTER_RULE,
+  WORKSHEET_HEADER_RULE_GAP_AFTER_TITLE,
+  WORKSHEET_HEADER_TITLE_SIZE,
+  type PdfRgb,
+} from "./constants";
 import type { JsPdfLike, PdfFontContext } from "./types";
 
 export function drawAccentRule(
@@ -43,6 +53,22 @@ export type RenderGuideHeaderOpts = {
   ruleGapAfterRule?: number;
   startY: number;
 };
+
+/** Preset header rhythm for compact worksheets (floor handouts). */
+export const WORKSHEET_GUIDE_HEADER = {
+  titleSize: WORKSHEET_HEADER_TITLE_SIZE,
+  ruleGapAfterTitle: WORKSHEET_HEADER_RULE_GAP_AFTER_TITLE,
+  ruleGapAfterRule: WORKSHEET_HEADER_RULE_GAP_AFTER_RULE,
+  bodyGap: WORKSHEET_HEADER_BODY_GAP,
+} as const;
+
+/** Preset header rhythm for checklist / notes PDFs. */
+export const CHECKLIST_GUIDE_HEADER = {
+  titleSize: CHECKLIST_HEADER_TITLE_SIZE,
+  ruleGapAfterTitle: CHECKLIST_HEADER_RULE_GAP_AFTER_TITLE,
+  ruleGapAfterRule: CHECKLIST_HEADER_RULE_GAP_AFTER_RULE,
+  bodyGap: 8,
+} as const;
 
 /**
  * Canonical guide header: mark already placed → title → accent rule → subtitle/instructions.

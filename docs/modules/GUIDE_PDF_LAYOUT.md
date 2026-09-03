@@ -8,8 +8,10 @@ Authoritative reference for **text PDF** worksheets and shared chrome. Canvas Co
 src/lib/export/text-pdf-layout.ts     — public API (writers + re-exports)
 src/lib/export/pdf-layout/            — layout engine (phases 0–6)
   constants.ts                        — palette, margins, page sizes
-  guide-header.ts                     — mark → title → rule → subtitle
+  guide-header.ts                     — mark → title → rule → subtitle; header presets
+  guide-mark.ts                       — platform mark draw + mark→title gap (all families)
   guide-footer-band.ts                — tips → reminder → disclaimer (top-down)
+  worksheet-fields.ts                 — fieldPair/checkPair wrap + measure parity
   worksheet-validate.ts               — layout modes + validation
   worksheet-measure.ts                — measure == budget math
   worksheet-budget.ts                 — layoutWorksheet() pre-flight
@@ -35,10 +37,10 @@ Set explicitly via `layoutMode` on `writeBrandedWorksheetPdf`, or omit to infer 
 
 | Kind | Use |
 |------|-----|
-| `field` / `fieldPair` | Inline label + rule |
+| `field` / `fieldPair` | Wrapped label + rule (never single-line truncate) |
 | `ruled` + `count` | Fixed note rows |
 | `ruled` + `fill` + `maxRows` | Expanding draft (once per sheet) |
-| `check` / `checkPair` | Review checklist |
+| `check` / `checkPair` | Wrapped review checklist columns |
 | `table` | Header row + ruled body rows |
 | `columnLayout` | 2–3 side-by-side columns |
 | `pageBreak` | Multi-page (`allowMultiPage: true`) |
@@ -94,6 +96,17 @@ Hub travel, expense, and time rollup PDFs use `createHubInternalReportPdfBlob`. 
 ## Header contract (all text PDF families)
 
 **Logo → title → accent rule → subtitle/instructions** — never draw the rule through the title.
+
+Platform mark placement and title start Y are centralized in `guide-mark.ts` via `drawGuidePlatformMark()`:
+
+| Profile | Mark placement | Title gap constant |
+|---------|----------------|-------------------|
+| `worksheet` | Compact (margin-aligned) | `WORKSHEET_MARK_TITLE_GAP` (12pt) |
+| `checklist` / `notes` | Officer Learning margin | `CHECKLIST_MARK_TITLE_GAP` (14pt) |
+
+Do not hardcode `+ 5` or `+ 14` in writers — use the engine helper.
+
+Field/checkbox columns use `worksheet-fields.ts` for both **render** and **budget measure** so long labels wrap instead of clipping at column edges.
 
 ## Footer band contract (worksheets with tips)
 

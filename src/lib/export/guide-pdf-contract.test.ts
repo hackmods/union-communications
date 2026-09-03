@@ -17,6 +17,7 @@ import {
 } from "@/lib/export/text-pdf-layout";
 import {
   findTextY,
+  expectMinVerticalGap,
   parseWorksheetPdfBlob,
   pdfHasEmbeddedMark,
 } from "@/lib/export/worksheet-pdf-test-helpers";
@@ -111,6 +112,10 @@ describe("guide PDF family contracts", () => {
     expect(step4Y).toBeDefined();
     expect(tipsY).toBeDefined();
     expect(step4Y! - tipsY!).toBeLessThan(110);
+    expectMinVerticalGap(parsed, "Land acknowledgement", "Solo draft or group workshop", 10);
+    expectMinVerticalGap(parsed, "Step 4 — Review and commit", "Floor tips", 24);
+    expect(parsed.joined).toMatch(/without notes/i);
+    expect(parsed.joined).toMatch(/CUPE \/ other/i);
   });
 
   it("simple worksheet without fill flows footer after content (no page-bottom dead zone)", async () => {

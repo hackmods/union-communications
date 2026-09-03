@@ -14,12 +14,13 @@ Layout engine spec: [`docs/modules/GUIDE_PDF_LAYOUT.md`](../../docs/modules/GUID
 1. **Shared chrome only** — pocket sheets, floor checklists, bylaws sheets, steward workspace PDFs, and certificates draw through [`text-pdf-layout.ts`](../../src/lib/export/text-pdf-layout.ts) (layout primitives in [`pdf-layout/`](../../src/lib/export/pdf-layout/)). Do not reintroduce private jsPDF letter loops.
 2. **Header contract** — logo → **title** → accent rule → subtitle/instructions. Never draw the rule before the title.
 3. **Footer band contract** (worksheets with tips) — tips heading → bullets → reminder → disclaimer. Always top-down via `renderGuideFooterBand`; never bottom-up.
-4. **Layout modes** — `flow` | `pinnedFooter` | `pinnedClosing`. Set `layoutMode` explicitly on dense templates; run `layoutWorksheet()` in tests for one-page handouts.
-5. **Platform awareness** — header embeds UnionOps mark PNG. Education footer wordmark required.
-6. **Dynamic-import jsPDF** (`TOOL-004`). Wrap UI triggers in `useExportHandler`.
-7. **EN + FR** copy parity on claim (`i18n-public-copy.mdc`).
-8. **Canvas Comms PDFs** stay on `pdf-export.ts` — not text-PDF layout.
-9. **One `fill` block per worksheet** — always set `maxRows`. Prefer fixed `count` for floor handouts.
+4. **Mark + field engine** — all writers call `drawGuidePlatformMark()`; `field`/`fieldPair`/`checkPair` wrap via `worksheet-fields.ts` (render + measure share constants).
+5. **Layout modes** — `flow` | `pinnedFooter` | `pinnedClosing`. Set `layoutMode` explicitly on dense templates; run `layoutWorksheet()` in tests for one-page handouts.
+6. **Platform awareness** — header embeds UnionOps mark PNG. Education footer wordmark required.
+7. **Dynamic-import jsPDF** (`TOOL-004`). Wrap UI triggers in `useExportHandler`.
+8. **EN + FR** copy parity on claim (`i18n-public-copy.mdc`).
+9. **Canvas Comms PDFs** stay on `pdf-export.ts` — not text-PDF layout.
+10. **One `fill` block per worksheet** — always set `maxRows`. Prefer fixed `count` for floor handouts.
 
 ## Tests
 

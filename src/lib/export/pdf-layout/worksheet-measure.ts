@@ -3,13 +3,23 @@ import {
   LETTER_PAGE_HEIGHT_PT,
   LETTER_PAGE_WIDTH_PT,
   WORKSHEET_CLOSING_GAP,
-  WORKSHEET_FLOW_FOOTER_GAP,
+  WORKSHEET_HEADER_BODY_GAP,
+  WORKSHEET_HEADER_RULE_GAP_AFTER_RULE,
+  WORKSHEET_HEADER_RULE_GAP_AFTER_TITLE,
   WORKSHEET_MARGIN_DEFAULT,
+  WORKSHEET_MARK_TITLE_GAP,
+  WORKSHEET_PAIR_COL_GAP,
   WORKSHEET_RULE_ROW_DEFAULT,
+  WORKSHEET_SECTION_GAP,
 } from "./constants";
 import type { GuideFooterBandContent } from "./types";
 import type { WorksheetLayoutMode } from "./types";
 import type { WorksheetLine, WorksheetSection } from "./worksheet-types";
+import {
+  measureCheckPairRowHeight,
+  measureFieldPairRowHeight,
+  measureLabeledFieldBlockHeight,
+} from "./worksheet-fields";
 
 export type TextMeasurer = {
   wrappedLineCount: (text: string, size: number, maxW: number) => number;
@@ -48,8 +58,15 @@ export function measureWorksheetLine(
       return measureWrappedHeight(measurer, line.text, 8.5, 1, contentWidth);
     case "field":
     case "fieldInline":
+      return measureLabeledFieldBlockHeight(measurer, line.label, contentWidth);
     case "fieldPair":
-      return 10;
+      return measureFieldPairRowHeight(
+        measurer,
+        line.left.label,
+        line.right.label,
+        contentWidth,
+        WORKSHEET_PAIR_COL_GAP,
+      );
     case "ruled": {
       const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
       const count = line.fill ? line.minRows ?? 6 : line.count ?? 0;
@@ -57,12 +74,14 @@ export function measureWorksheetLine(
     }
     case "check":
       return measureWrappedHeight(measurer, `☐  ${line.text}`, 8, 1, contentWidth);
-    case "checkPair": {
-      const half = (contentWidth - 12) / 2;
-      const leftH = measureWrappedHeight(measurer, `☐  ${line.left}`, 8, 1, half);
-      const rightH = measureWrappedHeight(measurer, `☐  ${line.right}`, 8, 1, half);
-      return Math.max(leftH, rightH);
-    }
+    case "checkPair":
+      return measureCheckPairRowHeight(
+        measurer,
+        line.left,
+        line.right,
+        contentWidth,
+        WORKSHEET_PAIR_COL_GAP,
+      );
     case "table": {
       const rowHeight = line.rowHeight ?? 14;
       return rowHeight * (1 + line.rows);
@@ -92,7 +111,7 @@ export function measureWorksheetSectionBlock(
 ): number {
   let h = 0;
   for (const section of sections) {
-    h += 2;
+    h += WORKSHEET_SECTION_GAP;
     h += 9.5 + 1;
     if (section.intro) {
       h += measureWrappedHeight(measurer, section.intro, 7.5, 0, contentWidth);
@@ -132,12 +151,12 @@ export function measureWorksheetHeaderHeight(
 ): number {
   let h = 0;
   h += measureWrappedHeight(measurer, input.title, 12, 1, contentWidth);
-  h += 3 + 10; // rule gap
+  h += WORKSHEET_HEADER_RULE_GAP_AFTER_TITLE + WORKSHEET_HEADER_RULE_GAP_AFTER_RULE;
   if (input.subtitle) h += measureWrappedHeight(measurer, input.subtitle, 8, 1, contentWidth);
   if (input.instructions) {
     h += measureWrappedHeight(measurer, input.instructions, 7.5, 1, contentWidth);
   }
-  h += WORKSHEET_FLOW_FOOTER_GAP - 10; // align with render post-header gap
+  h += WORKSHEET_HEADER_BODY_GAP;
   return h;
 }
 
@@ -165,7 +184,10 @@ export function computeWorksheetZones(opts: {
   const pageWidth = LETTER_PAGE_WIDTH_PT;
   const contentWidth = pageWidth - margin * 2;
 
-  const header = measureWorksheetHeaderHeight(opts.measurer, opts.header, contentWidth) + 24 + 5;
+  const header =
+    measureWorksheetHeaderHeight(opts.measurer, opts.header, contentWidth) +
+    24 +
+    WORKSHEET_MARK_TITLE_GAP;
   const body = measureWorksheetSectionBlock(opts.measurer, opts.sections, contentWidth);
   const closing = opts.closingSections?.length
     ? measureWorksheetSectionBlock(opts.measurer, opts.closingSections, contentWidth) +

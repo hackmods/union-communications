@@ -21,15 +21,18 @@ import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import {
   BODY_FACE,
-  CHECKLIST_HEADER_RULE_GAP,
-  CHECKLIST_HEADER_TITLE_SIZE,
   GUIDE_PDF_MARGIN_DEFAULT,
   GUIDE_PDF_PALETTE,
   HEADLINE_FACE,
   WORKSHEET_MARGIN_DEFAULT,
   type PdfRgb,
 } from "@/lib/export/pdf-layout/constants";
-import { renderGuideHeader, setPdfFont } from "@/lib/export/pdf-layout/guide-header";
+import { drawGuidePlatformMark } from "@/lib/export/pdf-layout/guide-mark";
+import {
+  CHECKLIST_GUIDE_HEADER,
+  renderGuideHeader,
+  setPdfFont,
+} from "@/lib/export/pdf-layout/guide-header";
 import { renderWorksheetDocument } from "@/lib/export/pdf-layout/worksheet-render";
 import {
   resolveWorksheetLayoutMode,
@@ -140,43 +143,10 @@ export function logoDataUrlFromBytes(logo: PdfImageBytes | BrandLogoBytes): stri
   return bytesToPngDataUrl(logo.bytes);
 }
 
-export function guidePdfMarkPlacementPt(
-  logo: PdfImageBytes | BrandLogoBytes | null | undefined,
-  opts?: { maxW?: number; maxH?: number; x?: number; y?: number },
-): { draw: boolean; x: number; y: number; widthPt: number; heightPt: number } | null {
-  if (!logo?.bytes?.length) return null;
-  const maxW = opts?.maxW ?? 72;
-  const maxH = opts?.maxH ?? 36;
-  const aspect =
-    logo.widthPx > 0 && logo.heightPx > 0
-      ? logo.widthPx / logo.heightPx
-      : 2.4;
-  let widthPt = maxW;
-  let heightPt = widthPt / aspect;
-  if (heightPt > maxH) {
-    heightPt = maxH;
-    widthPt = heightPt * aspect;
-  }
-  return {
-    draw: true,
-    x: opts?.x ?? 48,
-    y: opts?.y ?? 36,
-    widthPt,
-    heightPt,
-  };
-}
-
-export function guidePdfWorksheetMarkPlacementPt(
-  logo: PdfImageBytes | BrandLogoBytes | null | undefined,
-  margin: number,
-): { draw: boolean; x: number; y: number; widthPt: number; heightPt: number } | null {
-  return guidePdfMarkPlacementPt(logo, {
-    maxW: 52,
-    maxH: 26,
-    x: margin,
-    y: 24,
-  });
-}
+export {
+  guidePdfMarkPlacementPt,
+  guidePdfWorksheetMarkPlacementPt,
+} from "@/lib/export/pdf-layout/guide-mark";
 
 export function certificatePlatformMarkPlacement(
   logo: PdfImageBytes | BrandLogoBytes | null | undefined,
@@ -329,23 +299,17 @@ export async function writeBrandedChecklistPdf(opts: {
     opts.platformMark === undefined
       ? await resolveUnionOpsMarkBytes()
       : opts.platformMark;
-  const placement = guidePdfMarkPlacementPt(mark);
 
   let startY = margin;
-  if (placement && mark) {
-    try {
-      pdf.addImage(
-        logoDataUrlFromBytes(mark),
-        "PNG",
-        placement.x,
-        placement.y,
-        placement.widthPt,
-        placement.heightPt,
-      );
-      startY = placement.y + placement.heightPt + 14;
-    } catch {
-      startY = margin;
-    }
+  if (mark?.bytes?.length) {
+    const { startY: afterMark } = drawGuidePlatformMark(
+      pdf,
+      mark,
+      "checklist",
+      margin,
+      logoDataUrlFromBytes(mark),
+    );
+    startY = afterMark;
   }
 
   let y = renderGuideHeader({
@@ -355,9 +319,7 @@ export async function writeBrandedChecklistPdf(opts: {
     accent,
     title: opts.title,
     subtitle: opts.subtitle,
-    titleSize: CHECKLIST_HEADER_TITLE_SIZE,
-    ruleGapAfterTitle: 0,
-    ruleGapAfterRule: CHECKLIST_HEADER_RULE_GAP - 4,
+    ...CHECKLIST_GUIDE_HEADER,
     startY,
   });
 
@@ -436,24 +398,14 @@ export async function writeBrandedWorksheetPdf(
     opts.platformMark === undefined
       ? await resolveUnionOpsMarkBytes()
       : opts.platformMark;
-  const placement = guidePdfWorksheetMarkPlacementPt(mark, margin);
 
-  let markStartY = margin;
-  if (placement && mark) {
-    try {
-      pdf.addImage(
-        logoDataUrlFromBytes(mark),
-        "PNG",
-        placement.x,
-        placement.y,
-        placement.widthPt,
-        placement.heightPt,
-      );
-      markStartY = placement.y + placement.heightPt + 5;
-    } catch {
-      markStartY = 24;
-    }
-  }
+  const { startY: markStartY } = drawGuidePlatformMark(
+    pdf,
+    mark ?? null,
+    "worksheet",
+    margin,
+    mark?.bytes?.length ? logoDataUrlFromBytes(mark) : "",
+  );
 
   renderWorksheetDocument({
     pdf,
@@ -498,23 +450,17 @@ export async function createBrandedNotesPdfBlob(opts: {
     opts.platformMark === undefined
       ? await resolveUnionOpsMarkBytes()
       : opts.platformMark;
-  const placement = guidePdfMarkPlacementPt(mark);
 
   let startY = margin;
-  if (placement && mark) {
-    try {
-      pdf.addImage(
-        logoDataUrlFromBytes(mark),
-        "PNG",
-        placement.x,
-        placement.y,
-        placement.widthPt,
-        placement.heightPt,
-      );
-      startY = placement.y + placement.heightPt + 14;
-    } catch {
-      startY = margin;
-    }
+  if (mark?.bytes?.length) {
+    const { startY: afterMark } = drawGuidePlatformMark(
+      pdf,
+      mark,
+      "checklist",
+      margin,
+      logoDataUrlFromBytes(mark),
+    );
+    startY = afterMark;
   }
 
   let y = renderGuideHeader({
@@ -523,12 +469,10 @@ export async function createBrandedNotesPdfBlob(opts: {
     pageWidth,
     accent,
     title: opts.title,
-    titleSize: CHECKLIST_HEADER_TITLE_SIZE,
-    ruleGapAfterTitle: 0,
-    ruleGapAfterRule: CHECKLIST_HEADER_RULE_GAP - 4,
+    ...CHECKLIST_GUIDE_HEADER,
     startY,
   });
-  y += 8;
+  y += CHECKLIST_GUIDE_HEADER.bodyGap;
 
   const ensureSpace = (needed: number) => {
     if (y + needed > pageHeight - margin - 28) {
