@@ -78,7 +78,13 @@ if (!budget.fitsOnePage) console.warn(budget.warnings);
 npm run pdf:preview -- land-acknowledgement en
 npm run pdf:preview -- far-sheet en
 npm run pdf:preview -- hub-travel en
+npm run pdf:preview -- board-checklist en
+npm run pdf:preview -- steward-workspace en
 ```
+
+### Operator content verification
+
+After deploy, open `/{locale}/build/` (footer: **Site build**) → **Content review map** for grouped links to every public page, tool, guide, PDF surface, Hub, and Portal route. Not indexed; not in main nav.
 
 ## Tests
 

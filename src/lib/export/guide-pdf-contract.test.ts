@@ -118,6 +118,20 @@ describe("guide PDF family contracts", () => {
     expect(parsed.joined).toMatch(/CUPE \/ other/i);
   });
 
+  it("FAR checklist: title precedes section headings", async () => {
+    vi.mocked(saveBlob).mockClear();
+    await downloadFarSheetPdf({
+      moduleTitle: "Contract Enforcement",
+      localLabel: "Local 243",
+      locale: "en",
+      brand,
+    });
+
+    const parsed = await parseWorksheetPdfBlob(vi.mocked(saveBlob).mock.calls.at(-1)![0]);
+    expect(parsed.joined).toMatch(/FAR sheet/i);
+    expectMinVerticalGap(parsed, "FAR sheet", "Facts (what happened", 10);
+  });
+
   it("simple worksheet without fill flows footer after content (no page-bottom dead zone)", async () => {
     vi.mocked(saveBlob).mockClear();
     await writeBrandedWorksheetPdf({

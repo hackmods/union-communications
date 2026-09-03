@@ -2,6 +2,7 @@
 /**
  * Wrapper for pdf preview generation via vitest (needs jsPDF + path aliases).
  * Usage: npm run pdf:preview -- land-acknowledgement en
+ * Templates: land-acknowledgement | far-sheet | hub-travel | board-checklist | steward-workspace
  */
 import { spawnSync } from "node:child_process";
 

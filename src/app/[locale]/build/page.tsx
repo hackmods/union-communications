@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { buildHealthStatus } from "@/lib/ops/health-status";
 import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
@@ -52,7 +53,12 @@ export default async function BuildInfoPage({
           </div>
         ))}
       </dl>
-      <p className="mt-6 max-w-prose text-sm text-gray-600">{t("apiHint")}</p>
+      <p className="mt-6 max-w-prose text-sm text-gray-600">
+        <Link href="/build/review" className="text-opseu-blue underline">
+          {t("reviewLink")}
+        </Link>
+      </p>
+      <p className="mt-4 max-w-prose text-sm text-gray-600">{t("apiHint")}</p>
     </PageShell>
   );
 }

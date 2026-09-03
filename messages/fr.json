@@ -6816,7 +6816,56 @@
     "version": "Version",
     "commit": "Commit",
     "builtAt": "Construit (UTC)",
+    "reviewLink": "Carte de révision du contenu — liens groupés vers chaque page publique, outil, guide et surface PDF",
     "apiHint": "Les opérateurs peuvent aussi lire le JSON sur /api/health (champs version, commit, builtAt)."
+  },
+  "buildReview": {
+    "metaTitle": "Carte de révision du contenu",
+    "metaDescription": "Liens groupés réservés aux opérateurs pour vérifier les pages, outils, guides, exports PDF, Hub et Portail UnionOps après un déploiement.",
+    "title": "Carte de révision du contenu",
+    "description": "Accédez à chaque route indexée en un seul endroit — groupée pour la vérification après déploiement. Absente de la navigation principale.",
+    "operatorNote": "Usage opérateur seulement. Cette page n'est pas indexée. Les exports PDF s'ouvrent sur leur page parente — utilisez le bouton de téléchargement sur place.",
+    "backToBuild": "← Version du site",
+    "tocLabel": "Sections",
+    "requiresAuth": "Connexion requise — les liens peuvent rediriger vers la page de connexion.",
+    "sections": {
+      "siteShell": "Pages du site",
+      "tools": "Outils Communications",
+      "guides": "Guides et playbooks",
+      "officerLearning": "Modules Officer Learning",
+      "libraries": "Bibliothèques et actifs",
+      "pdfExports": "Surfaces d'export PDF",
+      "hub": "Officer Hub",
+      "portal": "Portail local"
+    },
+    "hints": {
+      "tools": "Vérifier : npm run test:smoke — exports canvas dans e2e/tools.export.smoke",
+      "guides": "Vérifier : npm run test:smoke — guide-pdf.export.smoke pour les PDF texte",
+      "pdfText": "Vérifier : npm run pdf:preview -- land-acknowledgement en",
+      "hub": "Vérifier : npm run test:smoke — parcours de connexion Hub",
+      "portal": "Vérifier : connectez-vous via le Hub, puis ouvrez le Portail local depuis le sélecteur de module"
+    },
+    "tags": {
+      "pdf": "PDF texte",
+      "canvas": "PDF canvas",
+      "hub": "hub",
+      "portal": "portail"
+    },
+    "links": {
+      "olContractEnforcement": "Module application de la convention",
+      "olProgressiveDiscipline": "Module discipline progressive",
+      "olHumanRights": "Module droits de la personne et adaptation",
+      "olDemocraticGovernance": "Module gouvernance démocratique",
+      "olFinancialHealth": "Module santé financière",
+      "olCollectivePower": "Module bâtir le pouvoir collectif",
+      "portalHome": "Accueil du portail",
+      "portalFronts": "Fronts",
+      "portalDispatch": "Dispatch",
+      "portalSidebars": "Sidebars",
+      "portalFeedback": "Envoyer une rétroaction",
+      "hubDashboard": "Tableau de bord Hub",
+      "hubLogin": "Connexion Hub"
+    }
   },
   "accessibility": {
     "title": "Déclaration d'accessibilité",

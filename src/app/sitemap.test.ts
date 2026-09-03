@@ -1,6 +1,7 @@
 import { readdirSync, existsSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { PUBLIC_PATHS } from "./sitemap";
 import { SITE_URL } from "@/lib/seo/site";
 import sitemap from "./sitemap";
 
@@ -20,6 +21,11 @@ function guidePathsFromFilesystem(): string[] {
 }
 
 describe("sitemap", () => {
+  it("excludes operator-only build routes from PUBLIC_PATHS", () => {
+    expect(PUBLIC_PATHS).not.toContain("/build");
+    expect(PUBLIC_PATHS).not.toContain("/build/review");
+  });
+
   it("includes every top-level /guide route from the filesystem (en + fr)", () => {
     const entries = sitemap();
     const urls = new Set(entries.map((e) => e.url));
