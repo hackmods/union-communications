@@ -2,10 +2,8 @@
 
 ## Land Acknowledgement — worksheet PDF layout QOL (2026-09-03)
 
-- [x] **`writeBrandedWorksheetPdf` engine:** 18pt margins, `fieldPair` / `checkPair`, `ruled` + `fill`, `closingSections` pinned above footer band; documented in `guide-pdf-quality-2026-08.md` + `guide-pdfs.mdc`
-- [x] **Land acknowledgement handout:** rebalance draft fill + compact metadata (PR #54)
-- [x] **Gold handout copy:** floor-handout title, step intros, floor tips on PDF; guide playbook for using the sheet
-- Verify: `npm run test:unit -- src/lib/export/text-pdf-layout.test.ts src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts` + guide PDF smoke
+- [x] **`writeBrandedWorksheetPdf` engine:** capped fill + `closingSections`, flow-footer for short sheets, `guide-pdf-contract.test.ts` cross-family regression
+- [x] **Land acknowledgement handout:** dead-zone fix (PR #58); audit confirms checklist/notes/board PDFs unchanged
 
 ## Land Acknowledgement — discoverability pass (2026-09-02)
 
