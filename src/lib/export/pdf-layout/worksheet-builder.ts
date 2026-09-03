@@ -81,10 +81,15 @@ export class WorksheetBuilder {
 export const wsLine = {
   text: (text: string): WorksheetLine => ({ kind: "text", text }),
   field: (label: string): WorksheetLine => ({ kind: "field", label }),
-  fieldPair: (left: string, right: string): WorksheetLine => ({
+  fieldPair: (
+    left: string,
+    right: string,
+    layout?: "row" | "stack",
+  ): WorksheetLine => ({
     kind: "fieldPair",
     left: { label: left },
     right: { label: right },
+    layout,
   }),
   ruled: (count: number, rowHeight?: number): WorksheetLine => ({
     kind: "ruled",
@@ -97,10 +102,11 @@ export const wsLine = {
     ...opts,
   }),
   check: (text: string): WorksheetLine => ({ kind: "check", text }),
-  checkPair: (left: string, right: string): WorksheetLine => ({
+  checkPair: (left: string, right: string, layout?: "row" | "stack"): WorksheetLine => ({
     kind: "checkPair",
     left,
     right,
+    layout,
   }),
   table: (headers: readonly string[], rows: number, rowHeight?: number): WorksheetLine => ({
     kind: "table",

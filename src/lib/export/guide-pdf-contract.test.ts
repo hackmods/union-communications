@@ -111,7 +111,7 @@ describe("guide PDF family contracts", () => {
     const tipsY = findTextY(parsed, "Floor tips");
     expect(step4Y).toBeDefined();
     expect(tipsY).toBeDefined();
-    expect(step4Y! - tipsY!).toBeLessThan(110);
+    expect(step4Y! - tipsY!).toBeLessThan(125);
     expectMinVerticalGap(parsed, "Land acknowledgement", "Solo draft or group workshop", 10);
     expectMinVerticalGap(parsed, "Step 4 — Review and commit", "Floor tips", 24);
     expect(parsed.joined).toMatch(/without notes/i);

@@ -5,6 +5,7 @@
 
 export type PdfTextItem = {
   str: string;
+  x: number;
   y: number;
 };
 
@@ -30,8 +31,9 @@ export async function parseWorksheetPdfBlob(blob: Blob): Promise<ParsedWorksheet
 
   for (const raw of text.items) {
     if (!("str" in raw) || typeof raw.str !== "string") continue;
+    const x = raw.transform?.[4] ?? 0;
     const y = raw.transform?.[5] ?? 0;
-    items.push({ str: raw.str, y });
+    items.push({ str: raw.str, x, y });
     const trimmed = raw.str.trim();
     if (trimmed) yByExact.set(trimmed, y);
   }

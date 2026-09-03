@@ -260,7 +260,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(tipsY).toBeDefined();
     expect(titleY! - subtitleY!).toBeGreaterThan(10);
     expect(step4Y! - tipsY!).toBeGreaterThan(24);
-    expect(step4Y! - tipsY!).toBeLessThan(110);
+    expect(step4Y! - tipsY!).toBeLessThan(125);
   });
 
   it("pins Step 4 just above the footer band without a large dead zone", async () => {
@@ -273,7 +273,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     const tipsY = findTextY(parsed, "Floor tips");
     expect(step4Y).toBeDefined();
     expect(tipsY).toBeDefined();
-    expect(step4Y! - tipsY!).toBeLessThan(110);
+    expect(step4Y! - tipsY!).toBeLessThan(125);
   });
 
   it("renders Step 4 in main flow above floor tips in reading order", async () => {
@@ -329,7 +329,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
         },
         {
           heading: "Step 3 — Draft",
-          lines: [{ kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: 16 }],
+          lines: [{ kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: 15 }],
         },
         {
           heading: "Step 4 — Review and commit",
@@ -345,6 +345,24 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     });
     expect(budget.errors).toHaveLength(0);
     expect(budget.fitsOnePage).toBe(true);
+  });
+
+  it("renders Step 4 review pairs stacked full-width without column overlap", async () => {
+    const { parsed } = await exportWorksheet({
+      localLabel: "Local 243",
+      locale: "en",
+    });
+
+    const speakerItems = parsed.items.filter((item) => item.str.includes("Speaker can explain"));
+    const accurateItems = parsed.items.filter((item) =>
+      item.str.includes("Accurate for this territory"),
+    );
+    expect(speakerItems.length).toBeGreaterThan(0);
+    expect(accurateItems.length).toBeGreaterThan(0);
+    for (const item of [...speakerItems, ...accurateItems]) {
+      expect(item.x).toBeLessThan(100);
+    }
+    expect(parsed.joined).toMatch(/without notes/i);
   });
 
   it("includes comms education footer copy for each locale", async () => {
