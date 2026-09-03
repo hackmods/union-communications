@@ -61,6 +61,8 @@ export const WORKSHEET_FIELD_RULE_OFFSET = 4;
 export const WORKSHEET_FIELD_BLOCK_LEADING = 6;
 /** Gap after plain text / intro lines before the next primitive (pt). */
 export const WORKSHEET_LINE_AFTER_TEXT_GAP = 4;
+/** Combined gap when a `text` line is immediately followed by `ruled` (pt). */
+export const WORKSHEET_TEXT_TO_RULED_GAP = 2;
 /** Leading space before the first ruled writing line (pt). */
 export const WORKSHEET_RULED_BLOCK_LEADING = 5;
 /** Extra space at the bottom of a ruled block (pt). */
@@ -68,6 +70,10 @@ export const WORKSHEET_RULED_BLOCK_TRAILING = 4;
 export const WORKSHEET_CHECK_FONT_SIZE = 8;
 export const WORKSHEET_CHECK_ROW_HEIGHT = 10;
 export const WORKSHEET_CHECK_ROW_TRAILING = 2;
+/** Leading before a checkPair row — tighter than field blocks (pt). */
+export const WORKSHEET_CHECK_PAIR_LEADING = 2;
+/** Vertical gap after a checkPair row (pt). */
+export const WORKSHEET_CHECK_PAIR_ROW_GAP = 2;
 
 /**
  * Minimum vertical gap between consecutive field/check labels (pt).

@@ -6,6 +6,7 @@ import {
   WORKSHEET_PAIR_COL_GAP,
   WORKSHEET_PRE_FOOTER_GAP,
   WORKSHEET_LINE_AFTER_TEXT_GAP,
+  WORKSHEET_TEXT_TO_RULED_GAP,
   WORKSHEET_RULED_BLOCK_LEADING,
   WORKSHEET_RULED_BLOCK_TRAILING,
   WORKSHEET_RULE_ROW_DEFAULT,
@@ -52,6 +53,13 @@ function drawRuledRow(pdf: JsPdfLike, x1: number, y: number, x2: number): void {
   pdf.line(x1, y, x2, y);
 }
 
+export type RenderLineContext = {
+  /** Previous line in the same section was `text`. */
+  afterText?: boolean;
+  /** Next line in the same section is `ruled`. */
+  beforeRuled?: boolean;
+};
+
 export function renderWorksheetLine(
   rctx: RenderWorksheetContext,
   flow: PdfVerticalFlow,
@@ -59,6 +67,7 @@ export function renderWorksheetLine(
   maxY: number,
   colWidth = rctx.contentWidth,
   colOffset = 0,
+  lineCtx: RenderLineContext = {},
 ): void {
   const { fontCtx, margin, contentRight } = rctx;
   const { pdf } = fontCtx;
@@ -95,7 +104,9 @@ export function renderWorksheetLine(
     }
     case "text":
       writeWrapped(line.text, 8.5, false, ink, 1);
-      flow.advance(WORKSHEET_LINE_AFTER_TEXT_GAP);
+      flow.advance(
+        lineCtx.beforeRuled ? WORKSHEET_TEXT_TO_RULED_GAP : WORKSHEET_LINE_AFTER_TEXT_GAP,
+      );
       break;
     case "field":
     case "fieldInline": {
@@ -130,7 +141,9 @@ export function renderWorksheetLine(
         count = Math.max(line.minRows ?? 6, Math.floor(available / rowHeight));
         if (line.maxRows !== undefined) count = Math.min(count, line.maxRows);
       }
-      y += WORKSHEET_RULED_BLOCK_LEADING;
+      if (!lineCtx.afterText) {
+        y += WORKSHEET_RULED_BLOCK_LEADING;
+      }
       for (let i = 0; i < count; i++) {
         if (y + rowHeight > maxY) break;
         y += rowHeight - 2;
@@ -232,13 +245,19 @@ export function renderWorksheetSections(
         flow.advance(7.5);
       }
     }
-    for (const line of section.lines) {
+    for (let i = 0; i < section.lines.length; i++) {
+      const line = section.lines[i]!;
       if (line.kind === "pageBreak" && rctx.allowMultiPage) {
         rctx.pdf.addPage();
         flow.y = rctx.margin;
         continue;
       }
-      renderWorksheetLine(rctx, flow, line, maxY);
+      const prev = section.lines[i - 1];
+      const next = section.lines[i + 1];
+      renderWorksheetLine(rctx, flow, line, maxY, rctx.contentWidth, 0, {
+        afterText: prev?.kind === "text",
+        beforeRuled: next?.kind === "ruled",
+      });
     }
   }
 }

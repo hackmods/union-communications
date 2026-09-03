@@ -122,6 +122,9 @@ These guard against the recurring layout failures (tight text under rules, empty
 |-----------|-------------------|-------------|
 | Label below rule has breathable gap | `WORKSHEET_MIN_LABEL_GAP` (= rule trailing + block leading) | Render + measure share `WORKSHEET_FIELD_*` constants |
 | Row-mode pairs use both columns | `worksheetPairColumnBounds()` | `expectPairUsesRowColumns()` in golden contract tests |
+| Field pair rules share one baseline | `drawFieldPairRow` aligned rule Y | Render + measure use max text height per row |
+| Check pairs flow per column | `drawCheckPairRow` independent columns | Avoids empty cells when wrap counts differ |
+| Text → ruled prompt spacing | `WORKSHEET_TEXT_TO_RULED_GAP` | Skips double leading when intro precedes ruled block |
 | Stack only when explicit | `resolvePairLayout()` defaults to `"row"` | `validateWorksheetLayout()` warns on unnecessary `layout: "stack"` |
 
 **Do not** auto-stack pairs when labels wrap — `wrapPdfTextLines()` handles column bleed. Use `layout: "stack"` only when a full-width stack is intentional (e.g. extremely long single-column copy).
