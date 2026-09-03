@@ -84,6 +84,6 @@ Generate EN + FR samples (`npm run test:unit -- src/lib/export/guide-pdf-review.
 ## Verify
 
 ```bash
-npm run test:unit -- src/lib/export/text-pdf-layout.test.ts src/lib/officer-learning/certificate.test.ts
+npm run test:unit -- src/lib/export/text-pdf-layout.test.ts src/lib/export/worksheet-pdf-test-helpers.test.ts src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts src/lib/officer-learning/certificate.test.ts
 npx playwright test e2e/guide-pdf.export.smoke.spec.ts
 ```
