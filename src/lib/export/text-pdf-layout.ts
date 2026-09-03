@@ -228,6 +228,7 @@ type JsPdfLike = {
   setLineWidth: (w: number) => void;
   line: (x1: number, y1: number, x2: number, y2: number) => void;
   text: (text: string, x: number, y: number, opts?: { align?: string; maxWidth?: number }) => void;
+  getTextWidth: (text: string) => number;
   splitTextToSize: (text: string, maxWidth: number) => string[];
   addPage: () => void;
   addImage: (
@@ -420,8 +421,19 @@ export async function writeBrandedChecklistPdf(opts: {
 export type WorksheetLine =
   | { kind: "text"; text: string }
   | { kind: "field"; label: string }
-  | { kind: "ruled"; count: number; rowHeight?: number }
-  | { kind: "check"; text: string };
+  | { kind: "fieldInline"; label: string }
+  | { kind: "fieldPair"; left: { label: string }; right: { label: string } }
+  | {
+      kind: "ruled";
+      count?: number;
+      rowHeight?: number;
+      /** Grow ruled rows to consume space above the reserved footer band. */
+      fill?: boolean;
+      minRows?: number;
+      reserveBottom?: number;
+    }
+  | { kind: "check"; text: string }
+  | { kind: "checkPair"; left: string; right: string };
 
 export type WorksheetSection = {
   heading: string;
@@ -430,7 +442,7 @@ export type WorksheetSection = {
   lines: WorksheetLine[];
 };
 
-const WORKSHEET_MARGIN_DEFAULT = 28;
+const WORKSHEET_MARGIN_DEFAULT = 18;
 const WORKSHEET_RULE_ROW_DEFAULT = 20;
 
 export async function writeBrandedWorksheetPdf(opts: {
@@ -438,7 +450,10 @@ export async function writeBrandedWorksheetPdf(opts: {
   subtitle?: string;
   /** How to use this sheet — printed under the subtitle. */
   instructions?: string;
+  /** Flowing body sections — may include `{ kind: "ruled", fill: true }` to grow draft space. */
   sections: WorksheetSection[];
+  /** Checklist / sign-off block pinned above the footer band (not in the fill zone). */
+  closingSections?: WorksheetSection[];
   /** Short floor tips before the reminder. */
   tips?: { heading: string; lines: readonly string[] };
   /** Short reminder printed above the footer — saves a section heading. */
@@ -458,7 +473,86 @@ export async function writeBrandedWorksheetPdf(opts: {
   const contentWidth = contentRight - margin;
   const { ink, muted, navy } = GUIDE_PDF_PALETTE;
   const accent = resolveGuidePdfAccent(opts.brand);
-  const footerReserve = 22;
+
+  const setBodyFont = (size: number, bold: boolean, color: PdfRgb) => {
+    const face = bold ? faces.headline : faces.body;
+    const style =
+      face === "helvetica" ? (bold ? "bold" : "normal") : bold ? "bold" : "normal";
+    pdf.setFont(face, style);
+    pdf.setFontSize(size);
+    pdf.setTextColor(color.r, color.g, color.b);
+  };
+
+  const wrappedLineCount = (text: string, size: number, maxW: number) => {
+    setBodyFont(size, false, ink);
+    return pdf.splitTextToSize(text, maxW).length;
+  };
+
+  const measureWrapped = (text: string, size: number, lineGap: number, maxW: number) =>
+    wrappedLineCount(text, size, maxW) * (size + lineGap);
+
+  const measureLine = (line: WorksheetLine, colW = contentWidth): number => {
+    switch (line.kind) {
+      case "text":
+        return measureWrapped(line.text, 8.5, 1, colW);
+      case "field":
+      case "fieldInline":
+        return 10;
+      case "fieldPair":
+        return 10;
+      case "ruled": {
+        const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
+        const count = line.fill
+          ? line.minRows ?? 6
+          : line.count ?? 0;
+        return count * rowHeight;
+      }
+      case "check":
+        return measureWrapped(`☐  ${line.text}`, 8, 1, colW);
+      case "checkPair": {
+        const half = (colW - 12) / 2;
+        const leftH = measureWrapped(`☐  ${line.left}`, 8, 1, half);
+        const rightH = measureWrapped(`☐  ${line.right}`, 8, 1, half);
+        return Math.max(leftH, rightH);
+      }
+    }
+  };
+
+  const measureSectionBlock = (sections: WorksheetSection[]): number => {
+    let h = 0;
+    for (const section of sections) {
+      h += 3;
+      h += 9.5 + 1;
+      if (section.intro) h += measureWrapped(section.intro, 7.5, 0, contentWidth);
+      for (const line of section.lines) {
+        h += measureLine(line);
+      }
+    }
+    return h;
+  };
+
+  const measureFooterBand = (): number => {
+    let h = 0;
+    h += wrappedLineCount(opts.footer, 7, contentWidth) * 8;
+    if (opts.reminder) {
+      h += 2;
+      h += wrappedLineCount(opts.reminder, 7, contentWidth) * 8;
+    }
+    if (opts.tips?.lines.length) {
+      h += 2 + 9;
+      for (const tip of opts.tips.lines) {
+        h += wrappedLineCount(`• ${tip}`, 7.5, contentWidth) * 8;
+      }
+    }
+    return h;
+  };
+
+  const footerBandHeight = measureFooterBand();
+  const closingHeight = opts.closingSections?.length
+    ? measureSectionBlock(opts.closingSections) + 4
+    : 0;
+  const contentBottom =
+    pageHeight - margin - footerBandHeight - closingHeight - 4;
 
   const mark =
     opts.platformMark === undefined
@@ -477,29 +571,26 @@ export async function writeBrandedWorksheetPdf(opts: {
         placement.widthPt,
         placement.heightPt,
       );
-      y = placement.y + placement.heightPt + 8;
+      y = placement.y + placement.heightPt + 5;
     } catch {
-      y = 28;
+      y = 24;
     }
   }
 
   drawAccentRule(pdf, y, margin, pageWidth, accent);
-  y += 10;
+  y += 7;
 
-  const ensureSpace = (needed: number) => {
-    if (y + needed > pageHeight - margin - footerReserve) {
-      pdf.addPage();
-      y = margin;
-    }
+  const drawRule = (x1: number, ruleY: number, x2: number) => {
+    pdf.setDrawColor(190, 198, 210);
+    pdf.setLineWidth(0.55);
+    pdf.line(x1, ruleY, x2, ruleY);
   };
 
-  const setBodyFont = (size: number, bold: boolean, color: PdfRgb) => {
-    const face = bold ? faces.headline : faces.body;
-    const style =
-      face === "helvetica" ? (bold ? "bold" : "normal") : bold ? "bold" : "normal";
-    pdf.setFont(face, style);
-    pdf.setFontSize(size);
-    pdf.setTextColor(color.r, color.g, color.b);
+  const drawInlineField = (label: string, x: number, maxX: number, fieldY: number) => {
+    setBodyFont(8.5, false, ink);
+    pdf.text(label, x, fieldY);
+    const labelEnd = x + Math.min(pdf.getTextWidth(label) + 4, (maxX - x) * 0.42);
+    drawRule(labelEnd, fieldY + 1.5, maxX);
   };
 
   const writeWrapped = (
@@ -508,92 +599,141 @@ export async function writeBrandedWorksheetPdf(opts: {
     bold: boolean,
     color: PdfRgb,
     lineGap = 3,
+    maxY = contentBottom,
   ) => {
     setBodyFont(size, bold, color);
     const lines = pdf.splitTextToSize(text, contentWidth);
     for (const line of lines) {
-      ensureSpace(size + lineGap);
+      if (y + size + lineGap > maxY) break;
       pdf.text(line, margin, y);
       y += size + lineGap;
     }
   };
 
-  const drawRule = (ruleY: number) => {
-    pdf.setDrawColor(190, 198, 210);
-    pdf.setLineWidth(0.6);
-    pdf.line(margin, ruleY, contentRight, ruleY);
+  const renderLine = (line: WorksheetLine, maxY = contentBottom) => {
+    if (y + 8 > maxY) return;
+    switch (line.kind) {
+      case "text": {
+        writeWrapped(line.text, 8.5, false, ink, 1, maxY);
+        break;
+      }
+      case "field":
+      case "fieldInline": {
+        drawInlineField(line.label, margin, contentRight, y);
+        y += 10;
+        break;
+      }
+      case "fieldPair": {
+        const gap = 14;
+        const colW = (contentWidth - gap) / 2;
+        const leftMax = margin + colW;
+        const rightX = margin + colW + gap;
+        drawInlineField(line.left.label, margin, leftMax, y);
+        drawInlineField(line.right.label, rightX, contentRight, y);
+        y += 10;
+        break;
+      }
+      case "ruled": {
+        const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
+        let count = line.count ?? 0;
+        if (line.fill) {
+          const available = maxY - y;
+          count = Math.max(line.minRows ?? 6, Math.floor(available / rowHeight));
+        }
+        for (let i = 0; i < count; i++) {
+          if (y + rowHeight > maxY) break;
+          y += rowHeight - 5;
+          drawRule(margin, y, contentRight);
+          y += 5;
+        }
+        break;
+      }
+      case "check": {
+        writeWrapped(`☐  ${line.text}`, 8, false, ink, 1, maxY);
+        break;
+      }
+      case "checkPair": {
+        const gap = 12;
+        const colW = (contentWidth - gap) / 2;
+        setBodyFont(8, false, ink);
+        const leftLines = pdf.splitTextToSize(`☐  ${line.left}`, colW);
+        const rightLines = pdf.splitTextToSize(`☐  ${line.right}`, colW);
+        const rows = Math.max(leftLines.length, rightLines.length);
+        for (let i = 0; i < rows; i++) {
+          if (y + 9 > maxY) break;
+          if (leftLines[i]) pdf.text(leftLines[i]!, margin, y);
+          if (rightLines[i]) {
+            pdf.text(rightLines[i]!, margin + colW + gap, y);
+          }
+          y += 9;
+        }
+        break;
+      }
+    }
   };
 
-  writeWrapped(opts.title, 14, true, navy, 2);
-  y += 2;
+  const renderSections = (sections: WorksheetSection[], maxY: number) => {
+    for (const section of sections) {
+      if (y + 12 > maxY) break;
+      y += 3;
+      writeWrapped(section.heading, 9.5, true, navy, 1, maxY);
+      if (section.intro) {
+        writeWrapped(section.intro, 7.5, false, muted, 0, maxY);
+      }
+      for (const line of section.lines) {
+        renderLine(line, maxY);
+      }
+    }
+  };
+
+  writeWrapped(opts.title, 12, true, navy, 1);
   if (opts.subtitle) {
-    writeWrapped(opts.subtitle, 9, false, muted, 2);
-    y += 2;
+    writeWrapped(opts.subtitle, 8, false, muted, 1);
   }
   if (opts.instructions) {
-    writeWrapped(opts.instructions, 8, false, muted, 1);
-    y += 3;
+    writeWrapped(opts.instructions, 7.5, false, muted, 1);
+  }
+  y += 2;
+
+  renderSections(opts.sections, contentBottom);
+
+  if (opts.closingSections?.length) {
+    y = pageHeight - margin - footerBandHeight - closingHeight + 4;
+    renderSections(opts.closingSections, pageHeight - margin - footerBandHeight);
   }
 
-  for (const section of opts.sections) {
-    y += 4;
-    writeWrapped(section.heading, 10, true, navy, 2);
-    if (section.intro) {
-      y += 1;
-      writeWrapped(section.intro, 8, false, muted, 1);
-    }
-    y += 1;
+  let bandY = pageHeight - margin;
+  setBodyFont(7, false, muted);
+  const footerLines = pdf.splitTextToSize(opts.footer, contentWidth);
+  for (let i = footerLines.length - 1; i >= 0; i--) {
+    pdf.text(footerLines[i]!, margin, bandY);
+    bandY -= 8;
+  }
 
-    for (const line of section.lines) {
-      switch (line.kind) {
-        case "text": {
-          writeWrapped(line.text, 9, false, ink, 2);
-          break;
-        }
-        case "field": {
-          ensureSpace(18);
-          setBodyFont(9, false, ink);
-          pdf.text(line.label, margin, y);
-          y += 10;
-          drawRule(y);
-          y += 8;
-          break;
-        }
-        case "ruled": {
-          const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
-          for (let i = 0; i < line.count; i++) {
-            ensureSpace(rowHeight);
-            y += rowHeight - 6;
-            drawRule(y);
-            y += 6;
-          }
-          y += 1;
-          break;
-        }
-        case "check": {
-          writeWrapped(`☐  ${line.text}`, 9, false, ink, 2);
-          break;
-        }
-      }
+  if (opts.reminder) {
+    bandY -= 2;
+    const reminderLines = pdf.splitTextToSize(opts.reminder, contentWidth);
+    for (let i = reminderLines.length - 1; i >= 0; i--) {
+      pdf.text(reminderLines[i]!, margin, bandY);
+      bandY -= 8;
     }
   }
 
   if (opts.tips?.lines.length) {
-    y += 4;
-    writeWrapped(opts.tips.heading, 9, true, navy, 2);
-    for (const tip of opts.tips.lines) {
-      writeWrapped(`•  ${tip}`, 8, false, ink, 1);
+    bandY -= 2;
+    setBodyFont(7.5, true, navy);
+    pdf.text(opts.tips.heading, margin, bandY);
+    bandY -= 9;
+    setBodyFont(7.5, false, ink);
+    for (let i = opts.tips.lines.length - 1; i >= 0; i--) {
+      const tipLines = pdf.splitTextToSize(`• ${opts.tips.lines[i]!}`, contentWidth);
+      for (let j = tipLines.length - 1; j >= 0; j--) {
+        pdf.text(tipLines[j]!, margin, bandY);
+        bandY -= 8;
+      }
     }
   }
 
-  if (opts.reminder) {
-    y += 6;
-    writeWrapped(opts.reminder, 8.5, false, muted, 2);
-  }
-
-  y += 8;
-  ensureSpace(16);
-  writeWrapped(opts.footer, 7.5, false, muted, 2);
   await saveBlob(pdf.output("blob"), opts.filename);
 }
 

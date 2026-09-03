@@ -26,21 +26,30 @@ const WORKSHEET_COPY = {
         heading: "Before you start",
         lines: [
           { kind: "text", text: "Path: □ On my own    □ Group workshop" },
-          { kind: "field", label: "Local / committee" },
-          { kind: "field", label: "Date" },
-          { kind: "field", label: "Facilitator (if workshop)" },
-          { kind: "field", label: "Meeting territory (city / campus)" },
+          {
+            kind: "fieldPair",
+            left: { label: "Local / committee" },
+            right: { label: "Date" },
+          },
+          {
+            kind: "fieldPair",
+            left: { label: "Facilitator (if workshop)" },
+            right: { label: "Meeting territory (city / campus)" },
+          },
         ],
       },
       {
         heading: "Step 1 — Research (~20 min solo · ~25 min workshop)",
-        intro: "Native-Land.ca, Whose Land, and your federation territory PDF — introductions, not final authority.",
         lines: [
-          { kind: "field", label: "Nations for where we meet" },
-          { kind: "field", label: "Treaties / agreements" },
           {
-            kind: "field",
-            label: "Federation guide used (OFL / national union / CUPE / other)",
+            kind: "text",
+            text: "Native-Land.ca, Whose Land, federation territory PDF — introductions, not final authority.",
+          },
+          { kind: "field", label: "Nations for where we meet" },
+          {
+            kind: "fieldPair",
+            left: { label: "Treaties / agreements" },
+            right: { label: "Federation guide (OFL / national / CUPE / other)" },
           },
           {
             kind: "field",
@@ -50,45 +59,44 @@ const WORKSHEET_COPY = {
       },
       {
         heading: "Step 2 — Reflect (~10 min solo · opening block in workshop)",
-        intro: "One honest sentence — why this matters to you or your local.",
         lines: [
           {
             kind: "text",
-            text: "Why acknowledgement matters to me / our local:",
+            text: "One honest sentence — why acknowledgement matters to me / our local:",
           },
-          { kind: "ruled", count: 3 },
+          { kind: "ruled", count: 2, rowHeight: 18 },
         ],
       },
       {
         heading: "Step 3 — Draft (~15 min solo · ~25 min in pairs at workshop)",
-        intro: "Territory → one history thread or local action → commitment to follow up.",
         lines: [
-          { kind: "text", text: "Draft in your own words:" },
-          { kind: "ruled", count: 5, rowHeight: 18 },
+          {
+            kind: "text",
+            text: "Territory → one history thread or local action → commitment to follow up. Draft in your own words:",
+          },
+          { kind: "ruled", fill: true, minRows: 5, rowHeight: 20 },
         ],
       },
+    ] satisfies WorksheetSection[],
+    closingSections: [
       {
         heading: "Step 4 — Review and commit (~10 min solo · ~20 min workshop close)",
-        intro: "Run every check before executive adoption or reading aloud.",
         lines: [
           {
-            kind: "check",
-            text: "Accurate for this territory (not copied from another city)",
+            kind: "checkPair",
+            left: "Accurate for this territory (not another city)",
+            right: "Speaker can explain every phrase without notes",
           },
           {
-            kind: "check",
-            text: "Speaker can explain every phrase without notes",
+            kind: "checkPair",
+            left: "Pairs words with one concrete local action",
+            right: "Indigenous Circle / equity contact consulted if unsure",
           },
           {
-            kind: "check",
-            text: "Pairs words with one concrete local action",
+            kind: "fieldPair",
+            left: { label: "Who reads it at the next meeting?" },
+            right: { label: "Executive review date" },
           },
-          {
-            kind: "check",
-            text: "Indigenous Circle / equity contact consulted if unsure",
-          },
-          { kind: "field", label: "Who reads it at the next meeting?" },
-          { kind: "field", label: "Executive review date" },
         ],
       },
     ] satisfies WorksheetSection[],
@@ -112,22 +120,30 @@ const WORKSHEET_COPY = {
         heading: "Avant de commencer",
         lines: [
           { kind: "text", text: "Voie : □ Seul·e    □ Atelier de groupe" },
-          { kind: "field", label: "Section / comité" },
-          { kind: "field", label: "Date" },
-          { kind: "field", label: "Facilitateur·rice (si atelier)" },
-          { kind: "field", label: "Territoire de la réunion (ville / campus)" },
+          {
+            kind: "fieldPair",
+            left: { label: "Section / comité" },
+            right: { label: "Date" },
+          },
+          {
+            kind: "fieldPair",
+            left: { label: "Facilitateur·rice (si atelier)" },
+            right: { label: "Territoire de la réunion (ville / campus)" },
+          },
         ],
       },
       {
         heading: "Étape 1 — Recherche (~20 min seul·e · ~25 min en atelier)",
-        intro:
-          "Native-Land.ca, Whose Land et PDF territorial fédéral — introductions, pas autorité finale.",
         lines: [
-          { kind: "field", label: "Nations où nous nous réunissons" },
-          { kind: "field", label: "Traités / ententes" },
           {
-            kind: "field",
-            label: "Guide fédéral utilisé (FTO / syndicat national / SCFP / autre)",
+            kind: "text",
+            text: "Native-Land.ca, Whose Land et PDF territorial fédéral — introductions, pas autorité finale.",
+          },
+          { kind: "field", label: "Nations où nous nous réunissons" },
+          {
+            kind: "fieldPair",
+            left: { label: "Traités / ententes" },
+            right: { label: "Guide fédéral (FTO / national / SCFP / autre)" },
           },
           {
             kind: "field",
@@ -137,47 +153,44 @@ const WORKSHEET_COPY = {
       },
       {
         heading: "Étape 2 — Réflexion (~10 min seul·e · ouverture en atelier)",
-        intro: "Une phrase honnête — pourquoi cela compte pour vous ou votre section.",
         lines: [
           {
             kind: "text",
-            text: "Pourquoi la reconnaissance compte pour moi / notre section :",
+            text: "Une phrase honnête — pourquoi la reconnaissance compte pour moi / notre section :",
           },
-          { kind: "ruled", count: 3 },
+          { kind: "ruled", count: 2, rowHeight: 18 },
         ],
       },
       {
         heading: "Étape 3 — Rédaction (~15 min seul·e · ~25 min en duo à l'atelier)",
-        intro:
-          "Territoire → fil historique ou action locale → engagement de suivi.",
         lines: [
-          { kind: "text", text: "Ébauche dans vos propres mots :" },
-          { kind: "ruled", count: 5, rowHeight: 18 },
+          {
+            kind: "text",
+            text: "Territoire → fil historique ou action locale → engagement de suivi. Ébauche dans vos propres mots :",
+          },
+          { kind: "ruled", fill: true, minRows: 5, rowHeight: 20 },
         ],
       },
+    ] satisfies WorksheetSection[],
+    closingSections: [
       {
         heading: "Étape 4 — Réviser et s'engager (~10 min seul·e · ~20 min clôture)",
-        intro:
-          "Cochez chaque point avant l'adoption exécutive ou une lecture à voix haute.",
         lines: [
           {
-            kind: "check",
-            text: "Exact pour ce territoire (pas copié d'une autre ville)",
+            kind: "checkPair",
+            left: "Exact pour ce territoire (pas une autre ville)",
+            right: "La personne qui lit peut expliquer chaque phrase sans notes",
           },
           {
-            kind: "check",
-            text: "La personne qui lit peut expliquer chaque phrase sans notes",
+            kind: "checkPair",
+            left: "Les mots sont liés à une action locale concrète",
+            right: "Cercle autochtone / contact équité consulté si incertain",
           },
           {
-            kind: "check",
-            text: "Les mots sont liés à une action locale concrète",
+            kind: "fieldPair",
+            left: { label: "Qui lit à la prochaine réunion?" },
+            right: { label: "Date de revue exécutif" },
           },
-          {
-            kind: "check",
-            text: "Cercle autochtone / contact équité consulté si incertain",
-          },
-          { kind: "field", label: "Qui lit à la prochaine réunion?" },
-          { kind: "field", label: "Date de revue exécutif" },
         ],
       },
     ] satisfies WorksheetSection[],
@@ -198,7 +211,10 @@ export async function downloadLandAcknowledgementWorksheetPdf(opts: {
     instructions: copy.instructions,
     sections: copy.sections.map((section) => ({
       heading: section.heading,
-      intro: section.intro,
+      lines: section.lines.map((line) => ({ ...line })),
+    })),
+    closingSections: copy.closingSections.map((section) => ({
+      heading: section.heading,
       lines: section.lines.map((line) => ({ ...line })),
     })),
     tips: copy.tips,
