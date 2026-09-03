@@ -209,6 +209,7 @@ export async function downloadLandAcknowledgementWorksheetPdf(opts: {
     title: copy.title,
     subtitle: `${copy.subtitle} · ${opts.localLabel}`,
     instructions: copy.instructions,
+    layoutMode: "flow",
     sections: copy.sections.map((section) => ({
       heading: section.heading,
       lines: section.lines.map((line) => ({ ...line })),

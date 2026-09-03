@@ -2,6 +2,9 @@
  * Shared chrome for guide / Officer Learning / steward text PDFs.
  * Platform mark = UnionOps interlock PNG; Brand Kit faces/palette when provided.
  * Dynamic-import jsPDF at call sites (TOOL-004).
+ *
+ * Layout engine primitives live in `./pdf-layout/` — header/footer bands,
+ * worksheet modes, budget API, and builder DSL.
  */
 
 import {
@@ -16,24 +19,40 @@ import {
 } from "@/lib/comms/canvas-fonts";
 import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import {
+  BODY_FACE,
+  CHECKLIST_HEADER_RULE_GAP,
+  CHECKLIST_HEADER_TITLE_SIZE,
+  GUIDE_PDF_MARGIN_DEFAULT,
+  GUIDE_PDF_PALETTE,
+  HEADLINE_FACE,
+  WORKSHEET_MARGIN_DEFAULT,
+  type PdfRgb,
+} from "@/lib/export/pdf-layout/constants";
+import { renderGuideHeader, setPdfFont } from "@/lib/export/pdf-layout/guide-header";
+import { renderWorksheetDocument } from "@/lib/export/pdf-layout/worksheet-render";
+import {
+  resolveWorksheetLayoutMode,
+  validateWorksheetLayout,
+} from "@/lib/export/pdf-layout/worksheet-validate";
+import type { WorksheetLayoutMode } from "@/lib/export/pdf-layout/types";
+import type {
+  WorksheetSection,
+} from "@/lib/export/pdf-layout/worksheet-types";
 import { saveBlob } from "@/lib/export/save-blob";
 import type { BrandKit } from "@/types/entities";
 import { hexToRgb } from "@/lib/utils/contrast";
+import type { JsPdfLike, GuidePdfFontFaces } from "@/lib/export/pdf-layout/types";
 
-export const GUIDE_PDF_PALETTE = {
-  navy: { r: 11, g: 19, b: 43 },
-  /** Platform brand orange — OL certificates + default guide PDF accent */
-  brand: { r: 194, g: 65, b: 12 },
-  brandLight: { r: 251, g: 146, b: 60 },
-  /** @deprecated alias — use brand */
-  teal: { r: 194, g: 65, b: 12 },
-  /** @deprecated alias — use brandLight */
-  amber: { r: 251, g: 146, b: 60 },
-  ink: { r: 15, g: 23, b: 42 },
-  muted: { r: 71, g: 85, b: 105 },
-} as const;
-
-export type PdfRgb = { r: number; g: number; b: number };
+export { GUIDE_PDF_PALETTE, WORKSHEET_MARGIN_DEFAULT, WORKSHEET_RULE_ROW_DEFAULT } from "@/lib/export/pdf-layout/constants";
+export type { PdfRgb, WorksheetLayoutMode } from "@/lib/export/pdf-layout";
+export type { WorksheetLine, WorksheetSection } from "@/lib/export/pdf-layout/worksheet-types";
+export {
+  layoutWorksheet,
+  buildWorksheet,
+  wsLine,
+  PDF_ENGINE_STRAGGLERS,
+} from "@/lib/export/pdf-layout";
 
 export const EDUCATION_FOOTER = {
   en: "UnionOps Officer Learning — education only. Confirm every step against your collective agreement. Not legal advice.",
@@ -52,14 +71,18 @@ export const COMMS_GUIDE_FOOTER = {
   fr: "UnionOps Communications — référence sur le plancher. Vérifiez affiches et liens sur les pages ministérielles à jour. Pas un avis juridique.",
 } as const;
 
-/** Optional Brand Kit styling for text PDFs. */
+/** Hub internal exports (travel, expenses, time rollup) — not steward education sheets. */
+export const HUB_INTERNAL_REPORT_FOOTER = {
+  en: "UnionOps Officer Hub — internal report on this device. Confirm totals before submitting to your parent union. Not connected to SAP/ERP.",
+  fr: "UnionOps Hub des dirigeants — rapport interne sur cet appareil. Vérifiez les totaux avant de transmettre à votre syndicat parent. Non connecté à SAP/ERP.",
+} as const;
+
 export type GuidePdfBrand = {
   primaryColor?: string;
   headlineFontId?: CanvasFontId;
   bodyFontId?: CanvasFontId;
 };
 
-/** Brand fonts resolved from a kit — always has canvas font ids. */
 export type GuidePdfBrandResolved = GuidePdfBrand & {
   headlineFontId: CanvasFontId;
   bodyFontId: CanvasFontId;
@@ -143,7 +166,6 @@ export function guidePdfMarkPlacementPt(
   };
 }
 
-/** Compact header mark for fill-in worksheets (tighter margins). */
 export function guidePdfWorksheetMarkPlacementPt(
   logo: PdfImageBytes | BrandLogoBytes | null | undefined,
   margin: number,
@@ -219,41 +241,8 @@ export async function resolveUnionOpsMarkBytes(): Promise<PdfImageBytes | null> 
   };
 }
 
-type JsPdfLike = {
-  internal: { pageSize: { getWidth: () => number; getHeight: () => number } };
-  setFont: (name: string, style: string) => void;
-  setFontSize: (size: number) => void;
-  setTextColor: (r: number, g: number, b: number) => void;
-  setDrawColor: (r: number, g: number, b: number) => void;
-  setLineWidth: (w: number) => void;
-  line: (x1: number, y1: number, x2: number, y2: number) => void;
-  text: (text: string, x: number, y: number, opts?: { align?: string; maxWidth?: number }) => void;
-  getTextWidth: (text: string) => number;
-  splitTextToSize: (text: string, maxWidth: number) => string[];
-  addPage: () => void;
-  addImage: (
-    imageData: string,
-    format: string,
-    x: number,
-    y: number,
-    w: number,
-    h: number,
-  ) => void;
-  addFileToVFS?: (filename: string, filecontent: string) => void;
-  addFont?: (postScriptName: string, id: string, fontStyle: string) => string;
-  output: (type: "blob") => Blob;
-};
+export type { GuidePdfFontFaces };
 
-export type GuidePdfFontFaces = {
-  headline: string;
-  body: string;
-  custom: boolean;
-};
-
-const HEADLINE_FACE = "UnionOpsHeadline";
-const BODY_FACE = "UnionOpsBody";
-
-/** Register Brand Kit TTFs on a jsPDF instance; fall back to Helvetica. */
 export async function registerGuidePdfFonts(
   pdf: JsPdfLike,
   brand?: GuidePdfBrand | null,
@@ -317,18 +306,6 @@ async function createLetterPdf(): Promise<JsPdfLike> {
   return new jsPDF({ unit: "pt", format: "letter" }) as unknown as JsPdfLike;
 }
 
-function drawAccentRule(
-  pdf: JsPdfLike,
-  y: number,
-  margin: number,
-  pageWidth: number,
-  accent: PdfRgb,
-): void {
-  pdf.setDrawColor(accent.r, accent.g, accent.b);
-  pdf.setLineWidth(1.5);
-  pdf.line(margin, y, pageWidth - margin, y);
-}
-
 export async function writeBrandedChecklistPdf(opts: {
   title: string;
   subtitle?: string;
@@ -340,12 +317,13 @@ export async function writeBrandedChecklistPdf(opts: {
 }): Promise<void> {
   const pdf = await createLetterPdf();
   const faces = await registerGuidePdfFonts(pdf, opts.brand);
-  const margin = 48;
+  const margin = GUIDE_PDF_MARGIN_DEFAULT;
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
   const maxWidth = pageWidth - margin * 2;
   const { ink, muted, navy } = GUIDE_PDF_PALETTE;
   const accent = resolveGuidePdfAccent(opts.brand);
+  const fontCtx = { pdf, faces };
 
   const mark =
     opts.platformMark === undefined
@@ -353,7 +331,7 @@ export async function writeBrandedChecklistPdf(opts: {
       : opts.platformMark;
   const placement = guidePdfMarkPlacementPt(mark);
 
-  let y = margin;
+  let startY = margin;
   if (placement && mark) {
     try {
       pdf.addImage(
@@ -364,14 +342,24 @@ export async function writeBrandedChecklistPdf(opts: {
         placement.widthPt,
         placement.heightPt,
       );
-      y = placement.y + placement.heightPt + 14;
+      startY = placement.y + placement.heightPt + 14;
     } catch {
-      y = margin;
+      startY = margin;
     }
   }
 
-  drawAccentRule(pdf, y, margin, pageWidth, accent);
-  y += 16;
+  let y = renderGuideHeader({
+    ctx: fontCtx,
+    margin,
+    pageWidth,
+    accent,
+    title: opts.title,
+    subtitle: opts.subtitle,
+    titleSize: CHECKLIST_HEADER_TITLE_SIZE,
+    ruleGapAfterTitle: 0,
+    ruleGapAfterRule: CHECKLIST_HEADER_RULE_GAP - 4,
+    startY,
+  });
 
   const ensureSpace = (needed: number) => {
     if (y + needed > pageHeight - margin - 28) {
@@ -381,12 +369,7 @@ export async function writeBrandedChecklistPdf(opts: {
   };
 
   const write = (text: string, size: number, bold: boolean, color: PdfRgb) => {
-    const face = bold ? faces.headline : faces.body;
-    const style =
-      face === "helvetica" ? (bold ? "bold" : "normal") : bold ? "bold" : "normal";
-    pdf.setFont(face, style);
-    pdf.setFontSize(size);
-    pdf.setTextColor(color.r, color.g, color.b);
+    setPdfFont(fontCtx, size, bold, color);
     const lines = pdf.splitTextToSize(text, maxWidth);
     for (const line of lines) {
       ensureSpace(size + 5);
@@ -395,12 +378,7 @@ export async function writeBrandedChecklistPdf(opts: {
     }
   };
 
-  write(opts.title, 16, true, navy);
   y += 4;
-  if (opts.subtitle) {
-    write(opts.subtitle, 10, false, muted);
-    y += 8;
-  }
 
   for (const section of opts.sections) {
     y += 6;
@@ -417,57 +395,6 @@ export async function writeBrandedChecklistPdf(opts: {
   await saveBlob(pdf.output("blob"), opts.filename);
 }
 
-/** Fill-in worksheet line — ruled rows, fields, checks, or plain prompts. */
-export type WorksheetLine =
-  | { kind: "text"; text: string }
-  /** Full-width label with ruled underline to the right margin. */
-  | { kind: "field"; label: string }
-  /** Alias of `field` — inline label + rule on one row. */
-  | { kind: "fieldInline"; label: string }
-  /** Two half-width fields on one row (Local / Date, etc.). */
-  | { kind: "fieldPair"; left: { label: string }; right: { label: string } }
-  | {
-      kind: "ruled";
-      /** Fixed row count — omit when using `fill`. */
-      count?: number;
-      rowHeight?: number;
-      /**
-       * Grow ruled rows to consume vertical space above `closingSections` and
-       * the pinned footer band. Use once per worksheet (typically the main draft block).
-       */
-      fill?: boolean;
-      /** Minimum rows when `fill` is true (default 6). */
-      minRows?: number;
-      /** Cap rows when `fill` is true — prevents a draft block from dominating the page. */
-      maxRows?: number;
-    }
-  | { kind: "check"; text: string }
-  /** Two half-width checkboxes on one row. */
-  | { kind: "checkPair"; left: string; right: string };
-
-export type WorksheetSection = {
-  heading: string;
-  /** One-line prompt under the section heading (muted). */
-  intro?: string;
-  lines: WorksheetLine[];
-};
-
-/** Default side margins for fill-in worksheets (pt). */
-export const WORKSHEET_MARGIN_DEFAULT = 18;
-/** Default ruled-row height when `rowHeight` is omitted (pt). */
-export const WORKSHEET_RULE_ROW_DEFAULT = 20;
-
-/** Gap between closing block and footer band (pt). */
-const WORKSHEET_CLOSING_GAP = 2;
-/** Gap between flowing body and footer when footer attaches after content (pt). */
-const WORKSHEET_FLOW_FOOTER_GAP = 12;
-
-function sectionsHaveFill(sections: WorksheetSection[]): boolean {
-  return sections.some((section) =>
-    section.lines.some((line) => line.kind === "ruled" && line.fill),
-  );
-}
-
 export type WriteBrandedWorksheetPdfOptions = {
   title: string;
   subtitle?: string;
@@ -481,116 +408,29 @@ export type WriteBrandedWorksheetPdfOptions = {
   platformMark?: PdfImageBytes | null;
   brand?: GuidePdfBrand | null;
   margin?: number;
+  /** Explicit layout mode — inferred from sections when omitted. */
+  layoutMode?: WorksheetLayoutMode;
+  /** Allow pageBreak lines and multi-page output. */
+  allowMultiPage?: boolean;
 };
 
 /**
- * Branded one-page fill-in worksheet (pen-and-paper floor handouts).
- *
- * Layout model:
- * - **Header** — compact mark, title, subtitle, optional instructions.
- * - **`sections`** — flowing body; use `{ kind: "ruled", fill: true, maxRows }` once
- *   for the main draft block when `closingSections` reserves sign-off above the footer.
- * - **`closingSections`** — checklist / sign-off pinned above the footer band.
- * - **Footer band** — tips + reminder + education footer. Pinned to the page bottom when
- *   `closingSections` or fill is present; otherwise flows directly after body content
- *   (avoids a dead zone on short worksheets).
- *
- * Prefer `fieldPair` / `checkPair`. Keep long copy on the web guide.
+ * Branded fill-in worksheet (pen-and-paper floor handouts).
+ * Layout modes: `flow` | `pinnedFooter` | `pinnedClosing` — see `pdf-layout/`.
  */
 export async function writeBrandedWorksheetPdf(
   opts: WriteBrandedWorksheetPdfOptions,
 ): Promise<void> {
+  const validation = validateWorksheetLayout(opts);
+  if (!validation.ok) {
+    throw new Error(`Invalid worksheet layout: ${validation.errors.join(" ")}`);
+  }
+
   const pdf = await createLetterPdf();
   const faces = await registerGuidePdfFonts(pdf, opts.brand);
   const margin = opts.margin ?? WORKSHEET_MARGIN_DEFAULT;
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
-  const contentRight = pageWidth - margin;
-  const contentWidth = contentRight - margin;
-  const { ink, muted, navy } = GUIDE_PDF_PALETTE;
   const accent = resolveGuidePdfAccent(opts.brand);
-
-  const setBodyFont = (size: number, bold: boolean, color: PdfRgb) => {
-    const face = bold ? faces.headline : faces.body;
-    const style =
-      face === "helvetica" ? (bold ? "bold" : "normal") : bold ? "bold" : "normal";
-    pdf.setFont(face, style);
-    pdf.setFontSize(size);
-    pdf.setTextColor(color.r, color.g, color.b);
-  };
-
-  const wrappedLineCount = (text: string, size: number, maxW: number) => {
-    setBodyFont(size, false, ink);
-    return pdf.splitTextToSize(text, maxW).length;
-  };
-
-  const measureWrapped = (text: string, size: number, lineGap: number, maxW: number) =>
-    wrappedLineCount(text, size, maxW) * (size + lineGap);
-
-  const measureLine = (line: WorksheetLine, colW = contentWidth): number => {
-    switch (line.kind) {
-      case "text":
-        return measureWrapped(line.text, 8.5, 1, colW);
-      case "field":
-      case "fieldInline":
-        return 10;
-      case "fieldPair":
-        return 10;
-      case "ruled": {
-        const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
-        const count = line.fill
-          ? line.minRows ?? 6
-          : line.count ?? 0;
-        return count * rowHeight;
-      }
-      case "check":
-        return measureWrapped(`☐  ${line.text}`, 8, 1, colW);
-      case "checkPair": {
-        const half = (colW - 12) / 2;
-        const leftH = measureWrapped(`☐  ${line.left}`, 8, 1, half);
-        const rightH = measureWrapped(`☐  ${line.right}`, 8, 1, half);
-        return Math.max(leftH, rightH);
-      }
-    }
-  };
-
-  const measureSectionBlock = (sections: WorksheetSection[]): number => {
-    let h = 0;
-    for (const section of sections) {
-      h += 2;
-      h += 9.5 + 1;
-      if (section.intro) h += measureWrapped(section.intro, 7.5, 0, contentWidth);
-      for (const line of section.lines) {
-        h += measureLine(line);
-      }
-    }
-    return h;
-  };
-
-  const measureFooterBand = (): number => {
-    let h = 0;
-    h += wrappedLineCount(opts.footer, 7, contentWidth) * 8;
-    if (opts.reminder) {
-      h += 2;
-      h += wrappedLineCount(opts.reminder, 7, contentWidth) * 8;
-    }
-    if (opts.tips?.lines.length) {
-      h += 2 + 9;
-      for (const tip of opts.tips.lines) {
-        h += wrappedLineCount(`• ${tip}`, 7.5, contentWidth) * 8;
-      }
-    }
-    return h;
-  };
-
-  const footerBandHeight = measureFooterBand();
-  const pinFooterToPageBottom =
-    Boolean(opts.closingSections?.length) || sectionsHaveFill(opts.sections);
-  const closingHeight = opts.closingSections?.length
-    ? measureSectionBlock(opts.closingSections) + WORKSHEET_CLOSING_GAP
-    : 0;
-  const contentBottom =
-    pageHeight - margin - footerBandHeight - closingHeight - WORKSHEET_CLOSING_GAP;
+  const layoutMode = resolveWorksheetLayoutMode(opts);
 
   const mark =
     opts.platformMark === undefined
@@ -598,7 +438,7 @@ export async function writeBrandedWorksheetPdf(
       : opts.platformMark;
   const placement = guidePdfWorksheetMarkPlacementPt(mark, margin);
 
-  let y = margin;
+  let markStartY = margin;
   if (placement && mark) {
     try {
       pdf.addImage(
@@ -609,198 +449,50 @@ export async function writeBrandedWorksheetPdf(
         placement.widthPt,
         placement.heightPt,
       );
-      y = placement.y + placement.heightPt + 5;
+      markStartY = placement.y + placement.heightPt + 5;
     } catch {
-      y = 24;
+      markStartY = 24;
     }
   }
 
-  const drawRule = (x1: number, ruleY: number, x2: number) => {
-    pdf.setDrawColor(190, 198, 210);
-    pdf.setLineWidth(0.55);
-    pdf.line(x1, ruleY, x2, ruleY);
-  };
-
-  const drawInlineField = (label: string, x: number, maxX: number, fieldY: number) => {
-    setBodyFont(8.5, false, ink);
-    pdf.text(label, x, fieldY);
-    const labelEnd = x + Math.min(pdf.getTextWidth(label) + 4, (maxX - x) * 0.42);
-    drawRule(labelEnd, fieldY + 1.5, maxX);
-  };
-
-  const writeWrapped = (
-    text: string,
-    size: number,
-    bold: boolean,
-    color: PdfRgb,
-    lineGap = 3,
-    maxY = contentBottom,
-  ) => {
-    setBodyFont(size, bold, color);
-    const lines = pdf.splitTextToSize(text, contentWidth);
-    for (const line of lines) {
-      if (y + size + lineGap > maxY) break;
-      pdf.text(line, margin, y);
-      y += size + lineGap;
-    }
-  };
-
-  const renderLine = (line: WorksheetLine, maxY = contentBottom) => {
-    if (y + 8 > maxY) return;
-    switch (line.kind) {
-      case "text": {
-        writeWrapped(line.text, 8.5, false, ink, 1, maxY);
-        break;
-      }
-      case "field":
-      case "fieldInline": {
-        drawInlineField(line.label, margin, contentRight, y);
-        y += 10;
-        break;
-      }
-      case "fieldPair": {
-        const gap = 14;
-        const colW = (contentWidth - gap) / 2;
-        const leftMax = margin + colW;
-        const rightX = margin + colW + gap;
-        drawInlineField(line.left.label, margin, leftMax, y);
-        drawInlineField(line.right.label, rightX, contentRight, y);
-        y += 10;
-        break;
-      }
-      case "ruled": {
-        const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
-        let count = line.count ?? 0;
-        if (line.fill) {
-          const available = maxY - y;
-          count = Math.max(line.minRows ?? 6, Math.floor(available / rowHeight));
-          if (line.maxRows !== undefined) {
-            count = Math.min(count, line.maxRows);
-          }
-        }
-        for (let i = 0; i < count; i++) {
-          if (y + rowHeight > maxY) break;
-          y += rowHeight - 5;
-          drawRule(margin, y, contentRight);
-          y += 5;
-        }
-        break;
-      }
-      case "check": {
-        writeWrapped(`☐  ${line.text}`, 8, false, ink, 1, maxY);
-        break;
-      }
-      case "checkPair": {
-        const gap = 12;
-        const colW = (contentWidth - gap) / 2;
-        setBodyFont(8, false, ink);
-        const leftLines = pdf.splitTextToSize(`☐  ${line.left}`, colW);
-        const rightLines = pdf.splitTextToSize(`☐  ${line.right}`, colW);
-        const rows = Math.max(leftLines.length, rightLines.length);
-        for (let i = 0; i < rows; i++) {
-          if (y + 9 > maxY) break;
-          if (leftLines[i]) pdf.text(leftLines[i]!, margin, y);
-          if (rightLines[i]) {
-            pdf.text(rightLines[i]!, margin + colW + gap, y);
-          }
-          y += 9;
-        }
-        break;
-      }
-    }
-  };
-
-  const renderSections = (sections: WorksheetSection[], maxY: number) => {
-    for (const section of sections) {
-      if (y + 12 > maxY) break;
-      y += 2;
-      writeWrapped(section.heading, 9.5, true, navy, 1, maxY);
-      if (section.intro) {
-        writeWrapped(section.intro, 7.5, false, muted, 0, maxY);
-      }
-      for (const line of section.lines) {
-        renderLine(line, maxY);
-      }
-    }
-  };
-
-  writeWrapped(opts.title, 12, true, navy, 1);
-  y += 3;
-  drawAccentRule(pdf, y, margin, pageWidth, accent);
-  y += 10;
-  if (opts.subtitle) {
-    writeWrapped(opts.subtitle, 8, false, muted, 1);
-  }
-  if (opts.instructions) {
-    writeWrapped(opts.instructions, 7.5, false, muted, 1);
-  }
-  y += 2;
-
-  renderSections(opts.sections, contentBottom);
-
-  if (opts.closingSections?.length) {
-    y = pageHeight - margin - footerBandHeight - closingHeight + WORKSHEET_CLOSING_GAP;
-    renderSections(opts.closingSections, pageHeight - margin - footerBandHeight);
-  }
-
-  const footerTop = pinFooterToPageBottom
-    ? pageHeight - margin - footerBandHeight
-    : y + WORKSHEET_FLOW_FOOTER_GAP;
-
-  let bandY = footerTop;
-
-  if (opts.tips?.lines.length) {
-    setBodyFont(7.5, true, navy);
-    pdf.text(opts.tips.heading, margin, bandY);
-    bandY += 9;
-    setBodyFont(7.5, false, ink);
-    for (const tip of opts.tips.lines) {
-      const tipLines = pdf.splitTextToSize(`• ${tip}`, contentWidth);
-      for (const tipLine of tipLines) {
-        pdf.text(tipLine, margin, bandY);
-        bandY += 8;
-      }
-    }
-    bandY += 2;
-  }
-
-  if (opts.reminder) {
-    setBodyFont(7, false, muted);
-    const reminderLines = pdf.splitTextToSize(opts.reminder, contentWidth);
-    for (const reminderLine of reminderLines) {
-      pdf.text(reminderLine, margin, bandY);
-      bandY += 8;
-    }
-    bandY += 2;
-  }
-
-  setBodyFont(7, false, muted);
-  const footerLines = pdf.splitTextToSize(opts.footer, contentWidth);
-  for (const footerLine of footerLines) {
-    pdf.text(footerLine, margin, bandY);
-    bandY += 8;
-  }
+  renderWorksheetDocument({
+    pdf,
+    fontCtx: { pdf, faces },
+    margin,
+    accent,
+    title: opts.title,
+    subtitle: opts.subtitle,
+    instructions: opts.instructions,
+    sections: opts.sections,
+    closingSections: opts.closingSections,
+    footer: opts.footer,
+    reminder: opts.reminder,
+    tips: opts.tips,
+    layoutMode,
+    allowMultiPage: opts.allowMultiPage,
+    markStartY,
+  });
 
   await saveBlob(pdf.output("blob"), opts.filename);
 }
 
-export async function writeBrandedNotesPdf(opts: {
+export async function createBrandedNotesPdfBlob(opts: {
   title: string;
   body: string;
-  filename: string;
   footer?: string;
   platformMark?: PdfImageBytes | null;
   brand?: GuidePdfBrand | null;
-}): Promise<void> {
+}): Promise<Blob> {
   const pdf = await createLetterPdf();
   const faces = await registerGuidePdfFonts(pdf, opts.brand);
-  const margin = 48;
+  const margin = GUIDE_PDF_MARGIN_DEFAULT;
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
   const maxWidth = pageWidth - margin * 2;
   const { ink, muted, navy } = GUIDE_PDF_PALETTE;
   const accent = resolveGuidePdfAccent(opts.brand);
   const footer = opts.footer ?? STEWARD_WORKSPACE_FOOTER.en;
+  const fontCtx = { pdf, faces };
 
   const mark =
     opts.platformMark === undefined
@@ -808,7 +500,7 @@ export async function writeBrandedNotesPdf(opts: {
       : opts.platformMark;
   const placement = guidePdfMarkPlacementPt(mark);
 
-  let y = margin;
+  let startY = margin;
   if (placement && mark) {
     try {
       pdf.addImage(
@@ -819,14 +511,24 @@ export async function writeBrandedNotesPdf(opts: {
         placement.widthPt,
         placement.heightPt,
       );
-      y = placement.y + placement.heightPt + 14;
+      startY = placement.y + placement.heightPt + 14;
     } catch {
-      y = margin;
+      startY = margin;
     }
   }
 
-  drawAccentRule(pdf, y, margin, pageWidth, accent);
-  y += 16;
+  let y = renderGuideHeader({
+    ctx: fontCtx,
+    margin,
+    pageWidth,
+    accent,
+    title: opts.title,
+    titleSize: CHECKLIST_HEADER_TITLE_SIZE,
+    ruleGapAfterTitle: 0,
+    ruleGapAfterRule: CHECKLIST_HEADER_RULE_GAP - 4,
+    startY,
+  });
+  y += 8;
 
   const ensureSpace = (needed: number) => {
     if (y + needed > pageHeight - margin - 28) {
@@ -842,12 +544,7 @@ export async function writeBrandedNotesPdf(opts: {
     const size = optsWrite?.size ?? 11;
     const color = optsWrite?.color ?? ink;
     const bold = Boolean(optsWrite?.bold);
-    const face = bold ? faces.headline : faces.body;
-    const style =
-      face === "helvetica" ? (bold ? "bold" : "normal") : bold ? "bold" : "normal";
-    pdf.setFont(face, style);
-    pdf.setFontSize(size);
-    pdf.setTextColor(color.r, color.g, color.b);
+    setPdfFont(fontCtx, size, bold, color);
     const lines = pdf.splitTextToSize(text, maxWidth);
     for (const line of lines) {
       ensureSpace(size + 4);
@@ -855,9 +552,6 @@ export async function writeBrandedNotesPdf(opts: {
       y += size + 4;
     }
   };
-
-  writeWrapped(opts.title, { bold: true, size: 16, color: navy });
-  y += 8;
 
   for (const paragraph of opts.body.split(/\n/)) {
     if (!paragraph.trim()) {
@@ -877,8 +571,38 @@ export async function writeBrandedNotesPdf(opts: {
   ensureSpace(24);
   writeWrapped(footer, { size: 8, color: muted });
 
+  return pdf.output("blob");
+}
+
+/** Hub travel / expense / time rollup PDFs — shared mark + header + internal footer. */
+export async function createHubInternalReportPdfBlob(opts: {
+  title: string;
+  body: string;
+  locale?: GuidePdfLocale;
+  platformMark?: PdfImageBytes | null;
+  brand?: GuidePdfBrand | null;
+}): Promise<Blob> {
+  const locale = opts.locale === "fr" ? "fr" : "en";
+  return createBrandedNotesPdfBlob({
+    title: opts.title,
+    body: opts.body,
+    footer: HUB_INTERNAL_REPORT_FOOTER[locale],
+    platformMark: opts.platformMark,
+    brand: opts.brand,
+  });
+}
+
+export async function writeBrandedNotesPdf(opts: {
+  title: string;
+  body: string;
+  filename: string;
+  footer?: string;
+  platformMark?: PdfImageBytes | null;
+  brand?: GuidePdfBrand | null;
+}): Promise<void> {
+  const blob = await createBrandedNotesPdfBlob(opts);
   const safe = opts.filename.endsWith(".pdf")
     ? opts.filename
     : `${opts.filename}.pdf`;
-  await saveBlob(pdf.output("blob"), safe);
+  await saveBlob(blob, safe);
 }

@@ -1,34 +1,37 @@
 ---
 description: Guide/training text PDF branding, inventory, and regression tests
-globs: src/lib/officer-learning/**/*.ts,src/lib/steward-guides/**/*.ts,src/lib/export/text-pdf-layout.ts,src/components/officer-learning/**/*.tsx,src/components/comms/BylawsReferenceSheetButton.tsx,src/components/tools/steward-guides/**/*.tsx,e2e/guide-pdf*.ts
+globs: src/lib/officer-learning/**/*.ts,src/lib/steward-guides/**/*.ts,src/lib/export/text-pdf-layout.ts,src/lib/export/pdf-layout/**/*.ts,src/components/officer-learning/**/*.tsx,src/components/comms/BylawsReferenceSheetButton.tsx,src/components/tools/steward-guides/**/*.tsx,e2e/guide-pdf*.ts
 alwaysApply: false
 ---
 
 # Guide / training text PDFs
 
-Companion inventory + quality bar: [`docs/audit/guide-pdf-quality-2026-08.md`](../../docs/audit/guide-pdf-quality-2026-08.md).
+Companion inventory + quality bar: [`docs/audit/guide-pdf-quality-2026-08.md`](../../docs/audit/guide-pdf-quality-2026-08.md).  
+Layout engine spec: [`docs/modules/GUIDE_PDF_LAYOUT.md`](../../docs/modules/GUIDE_PDF_LAYOUT.md).
 
 ## Hard rules
 
-1. **Shared chrome only** — pocket sheets, floor checklists, bylaws sheets, steward workspace PDFs, and certificates draw through [`text-pdf-layout.ts`](../../src/lib/export/text-pdf-layout.ts) (or certificate helpers that reuse the same mark loader). Do not reintroduce a private Helvetica-only `writeSimplePdf`.
-2. **Platform awareness** — header embeds UnionOps mark PNG (`UNIONOPS_LOGOS.markInterlock`). Keep the education footer wordmark (“UnionOps … education only”). Do not rely on centered Helvetica `UNIONOPS` as the only brand signal.
-3. **Local vs platform** — header = UnionOps platform mark. Subtitle/local line = Brand Kit local number. Certificates may add optional Brand Kit (local) logo as secondary — never replace the platform mark with a local logo alone.
-4. **Dynamic-import jsPDF** inside the export path (`TOOL-004`). Wrap UI triggers in `useExportHandler` + user-visible error.
-5. **EN + FR** education footers and localized sheet copy stay in sync on claim (see `i18n-public-copy.mdc`).
-6. **Do not rebrand** static Ontario ministry PDFs under `public/assets/ontario-board-posters/`.
-7. **Canvas Comms PDFs** stay on `pdf-export.ts` + Phase 9 fidelity — do not route them through text-PDF layout.
-8. **Brand Kit faces when provided** — register OFL TTFs via `registerGuidePdfFonts`; system faces stay Helvetica. Locale follows UI `en` | `fr`. OOXML binary embed remains deferred (B3).
+1. **Shared chrome only** — pocket sheets, floor checklists, bylaws sheets, steward workspace PDFs, and certificates draw through [`text-pdf-layout.ts`](../../src/lib/export/text-pdf-layout.ts) (layout primitives in [`pdf-layout/`](../../src/lib/export/pdf-layout/)). Do not reintroduce private jsPDF letter loops.
+2. **Header contract** — logo → **title** → accent rule → subtitle/instructions. Never draw the rule before the title.
+3. **Footer band contract** (worksheets with tips) — tips heading → bullets → reminder → disclaimer. Always top-down via `renderGuideFooterBand`; never bottom-up.
+4. **Layout modes** — `flow` | `pinnedFooter` | `pinnedClosing`. Set `layoutMode` explicitly on dense templates; run `layoutWorksheet()` in tests for one-page handouts.
+5. **Platform awareness** — header embeds UnionOps mark PNG. Education footer wordmark required.
+6. **Dynamic-import jsPDF** (`TOOL-004`). Wrap UI triggers in `useExportHandler`.
+7. **EN + FR** copy parity on claim (`i18n-public-copy.mdc`).
+8. **Canvas Comms PDFs** stay on `pdf-export.ts` — not text-PDF layout.
+9. **One `fill` block per worksheet** — always set `maxRows`. Prefer fixed `count` for floor handouts.
 
 ## Tests
 
-- Unit: layout helpers + worksheet layout contracts (`text-pdf-layout.test.ts`, `worksheet-pdf-test-helpers.test.ts`, `land-acknowledgement-worksheet-pdf.test.ts`) + certificate dual-logo placement (`certificate.test.ts`).
-- Smoke: `e2e/guide-pdf.export.smoke.spec.ts` — real download, size floor, pdf.js text (title + footer), embedded mark image.
-- Text PDFs are **not** canvas `compareRasters` targets.
+- Unit: `pdf-layout.test.ts`, `text-pdf-layout.test.ts`, `land-acknowledgement-worksheet-pdf.test.ts`, `guide-pdf-contract.test.ts`
+- Spatial: `expectBlockOrder`, `expectFooterBandOrder` in `worksheet-pdf-test-helpers.ts`
+- Smoke: `e2e/guide-pdf.export.smoke.spec.ts`
+- Preview: `npm run pdf:preview -- land-acknowledgement en`
 
 ## When adding a new guide handout PDF
 
-1. Add export to the inventory table in the audit doc.
-2. **Checklist sheets** → `writeBrandedChecklistPdf`. **Fill-in worksheets** (ruled rows, inline fields, sign-off) → `writeBrandedWorksheetPdf` — see layout model in `text-pdf-layout.ts` (`sections` + optional `closingSections` + pinned footer band). **Long-form notes** → `writeBrandedNotesPdf`. No one-off jsPDF letter loops.
-3. Worksheet primitives: `field` / `fieldPair`, `ruled` with optional `fill: true` + `maxRows`, `check` / `checkPair`. Use `closingSections` for sign-off above a pinned footer band; short worksheets without fill flow the footer after content. One `fill` block per sheet.
-4. Extend unit content contracts (`guide-pdf-contract.test.ts`) and at least one smoke download path if the CTA is new on a guide page.
+1. Add export to inventory in the audit doc.
+2. Pick writer: checklist → `writeBrandedChecklistPdf`; worksheet → `writeBrandedWorksheetPdf` + optional `buildWorksheet()` DSL; notes → `writeBrandedNotesPdf`.
+3. Choose layout mode; validate with `layoutWorksheet()` before shipping one-page handouts.
+4. Extend `guide-pdf-contract.test.ts` or `pdf-layout.test.ts` golden spatial contracts.
 5. Steward-visible capability → What's new note (`whats-new.mdc`).

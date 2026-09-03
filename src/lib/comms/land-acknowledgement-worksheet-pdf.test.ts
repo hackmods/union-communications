@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { COMMS_GUIDE_FOOTER, writeBrandedWorksheetPdf } from "@/lib/export/text-pdf-layout";
+import { COMMS_GUIDE_FOOTER, layoutWorksheet, writeBrandedWorksheetPdf } from "@/lib/export/text-pdf-layout";
 import { transparentPngBytes } from "@/lib/export/brand-logo-bytes";
 import {
   countWorksheetStrokeOps,
@@ -292,6 +292,36 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(tipsY!).toBeGreaterThan(bulletY!);
     expect(bulletY!).toBeGreaterThan(reminderY!);
     expect(reminderY!).toBeGreaterThan(footerY!);
+  });
+
+  it("passes layoutWorksheet one-page budget for EN template shape", () => {
+    const budget = layoutWorksheet({
+      title: "Land acknowledgement — floor handout",
+      subtitle: "Local 243",
+      layoutMode: "flow",
+      sections: [
+        {
+          heading: "Before you start",
+          lines: [{ kind: "fieldPair", left: { label: "Local" }, right: { label: "Date" } }],
+        },
+        {
+          heading: "Step 3 — Draft",
+          lines: [{ kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: 16 }],
+        },
+        {
+          heading: "Step 4 — Review and commit",
+          lines: [{ kind: "checkPair", left: "Accurate", right: "Explainable" }],
+        },
+      ],
+      tips: {
+        heading: "Floor tips",
+        lines: ["Territory first."],
+      },
+      reminder: "Education only.",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+    expect(budget.errors).toHaveLength(0);
+    expect(budget.fitsOnePage).toBe(true);
   });
 
   it("includes comms education footer copy for each locale", async () => {

@@ -41,7 +41,8 @@
     "db:durability-smoke": "tsx scripts/durability-smoke.ts",
     "ops:verify-durable": "node scripts/verify-durable-local.mjs",
     "copy:readability": "tsx scripts/copy-readability.ts",
-    "fonts:sync-ttf": "node scripts/sync-canvas-font-ttf.mjs"
+    "fonts:sync-ttf": "node scripts/sync-canvas-font-ttf.mjs",
+    "pdf:preview": "node scripts/pdf-preview.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1094.0",

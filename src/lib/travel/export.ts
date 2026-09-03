@@ -3,6 +3,7 @@ import type {
   ExpenseClaim,
   TravelAuthorization,
 } from "@/types/travel";
+import { createHubInternalReportPdfBlob } from "@/lib/export/text-pdf-layout";
 import {
   estimatedTotal,
   reconcileDifference,
@@ -69,54 +70,47 @@ export async function buildTravelExportXlsx(opts: {
   return Buffer.from(buf);
 }
 
-/** Simple text PDF via jsPDF for the same package. */
+/** Branded Hub PDF via shared text-PDF chrome (UnionOps mark + internal footer). */
 export async function buildTravelExportPdf(opts: {
   auth: TravelAuthorization;
   advance: CashAdvance | null;
   claim: ExpenseClaim | null;
 }): Promise<Blob> {
-  const { jsPDF } = await import("jspdf");
-  const doc = new jsPDF();
-  let y = 14;
-  const line = (text: string) => {
-    doc.text(text, 14, y);
-    y += 7;
-    if (y > 280) {
-      doc.addPage();
-      y = 14;
-    }
-  };
-  line("Travel authorization — expense package");
-  line(`Event: ${opts.auth.eventName}`);
-  line(`Purpose: ${opts.auth.purpose}`);
-  line(`Dates: ${opts.auth.eventStartDate} – ${opts.auth.eventEndDate}`);
-  line(`Requested by: ${opts.auth.requestedByName}`);
-  line(`Status: ${opts.auth.status}`);
-  line(`Estimated total: ${estimatedTotal(opts.auth.estimatedCosts).toFixed(2)}`);
-  line(`Cash advance: ${(opts.advance?.amount ?? 0).toFixed(2)}`);
+  const lines = [
+    `Event: ${opts.auth.eventName}`,
+    `Purpose: ${opts.auth.purpose}`,
+    `Dates: ${opts.auth.eventStartDate} – ${opts.auth.eventEndDate}`,
+    `Requested by: ${opts.auth.requestedByName}`,
+    `Status: ${opts.auth.status}`,
+    `Estimated total: ${estimatedTotal(opts.auth.estimatedCosts).toFixed(2)}`,
+    `Cash advance: ${(opts.advance?.amount ?? 0).toFixed(2)}`,
+  ];
   if (opts.claim) {
-    line(`Claim status: ${opts.claim.status}`);
-    line(`Actual spend: ${sumLineItems(opts.claim.lineItems).toFixed(2)}`);
     const diff =
       opts.claim.difference ??
       reconcileDifference(opts.claim.lineItems, opts.claim.advanceAmount);
-    line(`Difference (spend − advance): ${diff.toFixed(2)}`);
-    line("");
-    line("Line items:");
-    for (const item of opts.claim.lineItems) {
-      line(
-        `  ${item.date} | ${item.category} | ${item.description} | ${item.amount.toFixed(2)}`,
-      );
-    }
+    lines.push(
+      "",
+      "# Claim",
+      `Status: ${opts.claim.status}`,
+      `Actual spend: ${sumLineItems(opts.claim.lineItems).toFixed(2)}`,
+      `Difference (spend − advance): ${diff.toFixed(2)}`,
+      "",
+      "# Line items",
+      ...opts.claim.lineItems.map(
+        (item) =>
+          `${item.date} | ${item.category} | ${item.description} | ${item.amount.toFixed(2)}`,
+      ),
+    );
   }
-  line("");
-  line(
+  lines.push(
+    "",
     "Export Receipt ZIP from the Hub to bundle scanned receipts with this report.",
   );
-  line(
-    "UnionOps prepares this package only — it does not connect to SAP/ERP systems.",
-  );
-  return doc.output("blob");
+  return createHubInternalReportPdfBlob({
+    title: "Travel authorization — expense package",
+    body: lines.join("\n"),
+  });
 }
 
 export function travelExportFilename(

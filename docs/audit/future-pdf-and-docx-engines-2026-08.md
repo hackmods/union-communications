@@ -15,6 +15,7 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 | B2 presets (seniority/grievance DOCX) | **Shipped** (2026-08-27) |
 | B3 OOXML binary font embed (DOCX/PPTX) | **Shipped** (2026-08-27) |
 | Worksheet fill-in PDF engine (`writeBrandedWorksheetPdf`) | **Shipped** (2026-09-03) — `fieldPair`, `checkPair`, `ruled` + `fill`, `closingSections`; see [`guide-pdf-quality-2026-08.md`](guide-pdf-quality-2026-08.md) |
+| **Project A2 — PDF layout engine refactor (phases 0–6)** | **Shipped** (2026-09-03) — `pdf-layout/` modules, layout modes, `layoutWorksheet()`, builder DSL, table/column/pageBreak primitives, golden spatial tests, `npm run pdf:preview`; see [`GUIDE_PDF_LAYOUT.md`](../modules/GUIDE_PDF_LAYOUT.md) |
 
 ## Review — Brand Kit typefaces in text PDFs
 

@@ -25,9 +25,11 @@ Agent rule: [`.cursor/rules/guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc)
 | financial-health | `audit-controls`, `floor-checklist` |
 | building-collective-power | `equity-clause`, `floor-checklist` |
 | `/guide/bylaws` | adoption checklist, quorum/motion |
-| `/guide/land-acknowledgement` | writing worksheet (`writeBrandedWorksheetPdf` — flowing steps 1–4, 7 draft rows, footer band pinned) |
+| `/guide/land-acknowledgement` | writing worksheet (`writeBrandedWorksheetPdf`, `layoutMode: flow`, 8 draft + 2 reflect rows, footer flows after Step 4) |
 
 ### Worksheet engine (`writeBrandedWorksheetPdf`)
+
+Engine code: [`src/lib/export/pdf-layout/`](../../src/lib/export/pdf-layout/). Spec: [`GUIDE_PDF_LAYOUT.md`](../modules/GUIDE_PDF_LAYOUT.md).
 
 Use for **pen-and-paper floor handouts** where stewards write in ruled space (not checkbox-only checklists).
 
@@ -35,15 +37,33 @@ Use for **pen-and-paper floor handouts** where stewards write in ruled space (no
 |-----------|---------|
 | `field` / `fieldInline` | Label + ruled underline, full width |
 | `fieldPair` | Two half-width fields on one row |
-| `ruled` + `count` | Fixed note rows |
-| `ruled` + `fill: true` | Draft block expands up to `maxRows` (always cap — uncapped fill dominates the page) |
+| `ruled` + `count` | Fixed note rows (preferred for floor handouts) |
+| `ruled` + `fill: true` + `maxRows` | Expanding draft — **once per sheet**, always cap |
 | `check` / `checkPair` | Review checklist items |
-| `closingSections` | Sign-off block pinned above tips/footer (keeps fill math honest) |
-| `tips` + `reminder` | Short floor copy above education footer |
+| `table` | Header row + ruled body rows |
+| `columnLayout` | 2–3 side-by-side columns |
+| `pageBreak` | Multi-page when `allowMultiPage: true` |
+| `closingSections` | Sign-off pinned above footer (`layoutMode: pinnedClosing`) |
+| `tips` + `reminder` | Floor copy above education footer |
 
-Layout: compact header mark → flowing `sections` → measured `closingSections` → footer band drawn upward from page bottom. Default margin **18pt** (`WORKSHEET_MARGIN_DEFAULT`).
+**Layout modes:** `flow` (land ack) · `pinnedFooter` (fill draft) · `pinnedClosing` (sign-off pin).
 
-Reference implementation: [`land-acknowledgement-worksheet-pdf.ts`](../../src/lib/comms/land-acknowledgement-worksheet-pdf.ts).
+**Header:** mark → title → accent rule → subtitle. **Footer band:** tips → bullets → reminder → disclaimer (top-down).
+
+Pre-flight: `layoutWorksheet()`. Preview: `npm run pdf:preview -- land-acknowledgement en`.
+
+Reference: [`land-acknowledgement-worksheet-pdf.ts`](../../src/lib/comms/land-acknowledgement-worksheet-pdf.ts).
+
+### jsPDF exceptions (canvas raster + landscape certificate)
+
+| Path | Notes |
+|------|-------|
+| `src/lib/export/pdf-export.ts` | Canvas raster — intentional |
+| `src/lib/officer-learning/certificate.ts` | Landscape cert — shares mark/fonts |
+
+Hub travel, expense, and time rollup PDFs now use `createHubInternalReportPdfBlob` (shared chrome).
+
+Also exported as `PDF_ENGINE_STRAGGLERS` from `pdf-layout/index.ts`.
 | Certificates | module + path via `downloadOfficerLearningCertificate` |
 
 ## Quality bar
@@ -84,6 +104,7 @@ Generate EN + FR samples (`npm run test:unit -- src/lib/export/guide-pdf-review.
 ## Verify
 
 ```bash
-npm run test:unit -- src/lib/export/text-pdf-layout.test.ts src/lib/export/worksheet-pdf-test-helpers.test.ts src/lib/export/guide-pdf-contract.test.ts src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts src/lib/officer-learning/certificate.test.ts
+npm run test:unit -- src/lib/export/pdf-layout.test.ts src/lib/export/text-pdf-layout.test.ts src/lib/export/worksheet-pdf-test-helpers.test.ts src/lib/export/guide-pdf-contract.test.ts src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts src/lib/officer-learning/certificate.test.ts
+npm run pdf:preview -- land-acknowledgement en
 npx playwright test e2e/guide-pdf.export.smoke.spec.ts
 ```
