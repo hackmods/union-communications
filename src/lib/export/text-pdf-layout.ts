@@ -440,7 +440,7 @@ export async function writeBrandedWorksheetPdf(opts: {
   instructions?: string;
   sections: WorksheetSection[];
   /** Short floor tips before the reminder. */
-  tips?: { heading: string; lines: string[] };
+  tips?: { heading: string; lines: readonly string[] };
   /** Short reminder printed above the footer — saves a section heading. */
   reminder?: string;
   filename: string;
