@@ -420,19 +420,27 @@ export async function writeBrandedChecklistPdf(opts: {
 /** Fill-in worksheet line — ruled rows, fields, checks, or plain prompts. */
 export type WorksheetLine =
   | { kind: "text"; text: string }
+  /** Full-width label with ruled underline to the right margin. */
   | { kind: "field"; label: string }
+  /** Alias of `field` — inline label + rule on one row. */
   | { kind: "fieldInline"; label: string }
+  /** Two half-width fields on one row (Local / Date, etc.). */
   | { kind: "fieldPair"; left: { label: string }; right: { label: string } }
   | {
       kind: "ruled";
+      /** Fixed row count — omit when using `fill`. */
       count?: number;
       rowHeight?: number;
-      /** Grow ruled rows to consume space above the reserved footer band. */
+      /**
+       * Grow ruled rows to consume vertical space above `closingSections` and
+       * the pinned footer band. Use once per worksheet (typically the main draft block).
+       */
       fill?: boolean;
+      /** Minimum rows when `fill` is true (default 6). */
       minRows?: number;
-      reserveBottom?: number;
     }
   | { kind: "check"; text: string }
+  /** Two half-width checkboxes on one row. */
   | { kind: "checkPair"; left: string; right: string };
 
 export type WorksheetSection = {
@@ -442,9 +450,26 @@ export type WorksheetSection = {
   lines: WorksheetLine[];
 };
 
-const WORKSHEET_MARGIN_DEFAULT = 18;
-const WORKSHEET_RULE_ROW_DEFAULT = 20;
+/** Default side margins for fill-in worksheets (pt). */
+export const WORKSHEET_MARGIN_DEFAULT = 18;
+/** Default ruled-row height when `rowHeight` is omitted (pt). */
+export const WORKSHEET_RULE_ROW_DEFAULT = 20;
 
+/**
+ * Branded one-page fill-in worksheet (pen-and-paper floor handouts).
+ *
+ * Layout model:
+ * - **Header** — compact mark, title, subtitle, optional instructions.
+ * - **`sections`** — flowing body; last block may use `{ kind: "ruled", fill: true }`
+ *   so draft space expands instead of leaving a dead zone.
+ * - **`closingSections`** — checklist / sign-off pinned above the footer band
+ *   (measured first so fill rows know how much space remains).
+ * - **Footer band** — optional tips + reminder + education footer, drawn upward
+ *   from the page bottom.
+ *
+ * Prefer `fieldPair` / `checkPair` over stacked full-width fields. Keep long
+ * copy on the web guide — PDF intros should be one line max.
+ */
 export async function writeBrandedWorksheetPdf(opts: {
   title: string;
   subtitle?: string;

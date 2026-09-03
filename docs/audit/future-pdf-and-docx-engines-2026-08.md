@@ -14,6 +14,7 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 | Project B1 — Hub minutes/ballot Brand Kit DOCX | **Shipped** (2026-08-27) |
 | B2 presets (seniority/grievance DOCX) | **Shipped** (2026-08-27) |
 | B3 OOXML binary font embed (DOCX/PPTX) | **Shipped** (2026-08-27) |
+| Worksheet fill-in PDF engine (`writeBrandedWorksheetPdf`) | **Shipped** (2026-09-03) — `fieldPair`, `checkPair`, `ruled` + `fill`, `closingSections`; see [`guide-pdf-quality-2026-08.md`](guide-pdf-quality-2026-08.md) |
 
 ## Review — Brand Kit typefaces in text PDFs
 

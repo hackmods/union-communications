@@ -156,19 +156,52 @@ describe("writeBrandedChecklistPdf", () => {
 });
 
 describe("writeBrandedWorksheetPdf", () => {
-  it("emits a compact worksheet with ruled rows and field labels", async () => {
+  const markBytes = transparentPngBytes();
+  const mark = {
+    bytes: markBytes,
+    widthPx: 192,
+    heightPx: 96,
+    src: `data:image/png;base64,${Buffer.from(markBytes).toString("base64")}`,
+  };
+
+  async function worksheetText(opts: Parameters<
+    Awaited<ReturnType<typeof import("./text-pdf-layout")>>["writeBrandedWorksheetPdf"]
+  >[0]) {
     const { writeBrandedWorksheetPdf } = await import("./text-pdf-layout");
     vi.mocked(saveBlob).mockClear();
+    await writeBrandedWorksheetPdf({ platformMark: mark, ...opts });
+    const [blob] = vi.mocked(saveBlob).mock.calls.at(-1)!;
+    const data = new Uint8Array(await blob.arrayBuffer());
+    const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+    const doc = await pdfjs.getDocument({ data }).promise;
+    const page = await doc.getPage(1);
+    const text = await page.getTextContent();
+    const joined = text.items
+      .map((item) => ("str" in item ? item.str : ""))
+      .join(" ");
+    const yBySnippet = new Map<string, number>();
+    for (const item of text.items) {
+      if (!("str" in item) || !item.str.trim()) continue;
+      const y = item.transform[5] ?? 0;
+      yBySnippet.set(item.str.trim(), y);
+    }
+    return { joined, doc, page, yBySnippet, blob };
+  }
 
-    const bytes = transparentPngBytes();
-    const mark = {
-      bytes,
-      widthPx: 192,
-      heightPx: 96,
-      src: `data:image/png;base64,${Buffer.from(bytes).toString("base64")}`,
-    };
+  async function countLineOps(page: Awaited<
+    ReturnType<Awaited<ReturnType<typeof import("pdfjs-dist/legacy/build/pdf.mjs")["getDocument"]>>["promise"]>["getPage"]
+  >) {
+    const ops = await page.getOperatorList();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const OPS = (await import("pdfjs-dist/legacy/build/pdf.mjs") as any).OPS ?? {};
+    return ops.fnArray.filter((fn: number) => {
+      const name = Object.entries(OPS).find(([, v]) => v === fn)?.[0] ?? "";
+      return /constructPath|stroke/i.test(name);
+    }).length;
+  }
 
-    await writeBrandedWorksheetPdf({
+  it("emits a compact worksheet with ruled rows and field labels", async () => {
+    const { joined } = await worksheetText({
       title: "Land acknowledgement — floor handout",
       subtitle: "Solo draft · Local 243",
       instructions: "Fill in pen. Confirm spellings before the next meeting.",
@@ -191,25 +224,113 @@ describe("writeBrandedWorksheetPdf", () => {
       reminder: "Education only — not a script to paste.",
       filename: "unionops-land-acknowledgement-worksheet-test.pdf",
       footer: COMMS_GUIDE_FOOTER.en,
-      platformMark: mark,
       margin: 32,
     });
 
-    expect(saveBlob).toHaveBeenCalledOnce();
-    const [blob] = vi.mocked(saveBlob).mock.calls[0]!;
-    const data = new Uint8Array(await blob.arrayBuffer());
-    const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-    const doc = await pdfjs.getDocument({ data }).promise;
-    expect(doc.numPages).toBe(1);
-    const page = await doc.getPage(1);
-    const text = await page.getTextContent();
-    const joined = text.items
-      .map((item) => ("str" in item ? item.str : ""))
-      .join(" ");
     expect(joined).toMatch(/Land acknowledgement — floor handout/i);
     expect(joined).toMatch(/Floor tips/i);
     expect(joined).toMatch(/Executive review date/i);
     expect(joined).toMatch(/UnionOps Comms/i);
+  });
+
+  it("renders fieldPair, checkPair, and closingSections on one page", async () => {
+    const { joined, doc, yBySnippet } = await worksheetText({
+      title: "Worksheet engine sample",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Metadata",
+          lines: [
+            {
+              kind: "fieldPair",
+              left: { label: "Local / committee" },
+              right: { label: "Date" },
+            },
+            { kind: "text", text: "Draft prompt:" },
+            { kind: "ruled", fill: true, minRows: 4, rowHeight: 20 },
+          ],
+        },
+      ],
+      closingSections: [
+        {
+          heading: "Review and commit",
+          lines: [
+            {
+              kind: "checkPair",
+              left: "Accurate for this territory",
+              right: "Speaker can explain every phrase",
+            },
+            {
+              kind: "fieldPair",
+              left: { label: "Who reads?" },
+              right: { label: "Review date" },
+            },
+          ],
+        },
+      ],
+      tips: { heading: "Floor tips", lines: ["Territory first."] },
+      reminder: "Education only.",
+      filename: "unionops-worksheet-engine-sample.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+
+    expect(doc.numPages).toBe(1);
+    expect(joined).toMatch(/Local \/ committee/i);
+    expect(joined).toMatch(/Review and commit/i);
+    expect(joined).toMatch(/Accurate for this territory/i);
+    expect(joined).toMatch(/Floor tips/i);
+
+    const draftY = yBySnippet.get("Draft prompt:");
+    const reviewY = yBySnippet.get("Review and commit");
+    expect(draftY).toBeDefined();
+    expect(reviewY).toBeDefined();
+    // PDF text transform y is from page bottom — closing band sits below the fill block.
+    expect(reviewY!).toBeLessThan(draftY!);
+  });
+
+  it("draws more ruled lines when fill is enabled vs a fixed count", async () => {
+    const base = {
+      title: "Fill test",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Body",
+          lines: [{ kind: "text", text: "Notes:" }],
+        },
+      ],
+      filename: "unionops-worksheet-fill-test.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    } as const;
+
+    const fixed = await worksheetText({
+      ...base,
+      sections: [
+        {
+          heading: "Body",
+          lines: [
+            { kind: "text", text: "Notes:" },
+            { kind: "ruled", count: 2, rowHeight: 20 },
+          ],
+        },
+      ],
+    });
+    const filled = await worksheetText({
+      ...base,
+      sections: [
+        {
+          heading: "Body",
+          lines: [
+            { kind: "text", text: "Notes:" },
+            { kind: "ruled", fill: true, minRows: 6, rowHeight: 20 },
+          ],
+        },
+      ],
+    });
+
+    const fixedLines = await countLineOps(fixed.page);
+    const filledLines = await countLineOps(filled.page);
+    expect(filledLines).toBeGreaterThan(fixedLines);
+    expect(filled.doc.numPages).toBe(1);
   });
 });
 

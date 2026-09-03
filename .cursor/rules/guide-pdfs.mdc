@@ -28,6 +28,7 @@ Companion inventory + quality bar: [`docs/audit/guide-pdf-quality-2026-08.md`](.
 ## When adding a new guide handout PDF
 
 1. Add export to the inventory table in the audit doc.
-2. Use `writeBrandedChecklistPdf` / shared notes writer — no one-off jsPDF letter loops.
-3. Extend unit content contracts and at least one smoke download path if the CTA is new on a guide page.
-4. Steward-visible capability → What's new note (`whats-new.mdc`).
+2. **Checklist sheets** → `writeBrandedChecklistPdf`. **Fill-in worksheets** (ruled rows, inline fields, sign-off) → `writeBrandedWorksheetPdf` — see layout model in `text-pdf-layout.ts` (`sections` + optional `closingSections` + pinned footer band). **Long-form notes** → `writeBrandedNotesPdf`. No one-off jsPDF letter loops.
+3. Worksheet primitives: `field` / `fieldPair`, `ruled` with optional `fill: true`, `check` / `checkPair`. One `fill` block per sheet; pin review checklists in `closingSections`.
+4. Extend unit content contracts and at least one smoke download path if the CTA is new on a guide page.
+5. Steward-visible capability → What's new note (`whats-new.mdc`).
