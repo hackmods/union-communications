@@ -11,9 +11,9 @@ const WORKSHEET_COPY = {
     title: "Land acknowledgement — floor handout",
     subtitle: "Solo draft or group workshop · research, write, commit",
     instructions:
-      "Fill in pen. Steps match unionops.org/guide/land-acknowledgement — confirm nation names and spellings before your next meeting.",
+      "Fill in pen. Steps match unionops.org/guide/land-acknowledgement — confirm nation names before your next meeting.",
     reminder:
-      "Education only — not a script to paste unchanged. Confirm territory, treaties, and follow-up action with Indigenous sources and your federation guide.",
+      "Education only — not a script to paste unchanged. Confirm territory, treaties, and follow-up with Indigenous sources and your federation guide.",
     tips: {
       heading: "Floor tips",
       lines: [
@@ -64,7 +64,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "One honest sentence — why acknowledgement matters to me / our local:",
           },
-          { kind: "ruled", count: 2, rowHeight: 18 },
+          { kind: "ruled", count: 2, rowHeight: 17 },
         ],
       },
       {
@@ -72,13 +72,11 @@ const WORKSHEET_COPY = {
         lines: [
           {
             kind: "text",
-            text: "Territory → one history thread or local action → commitment to follow up. Draft in your own words:",
+            text: "Territory → history thread or local action → follow-up. Draft in your own words:",
           },
-          { kind: "ruled", fill: true, minRows: 5, rowHeight: 20 },
+          { kind: "ruled", count: 7, rowHeight: 17 },
         ],
       },
-    ] satisfies WorksheetSection[],
-    closingSections: [
       {
         heading: "Step 4 — Review and commit (~10 min solo · ~20 min workshop close)",
         lines: [
@@ -105,9 +103,9 @@ const WORKSHEET_COPY = {
     title: "Reconnaissance territoriale — feuille de terrain",
     subtitle: "Seul·e ou atelier de groupe · recherche, rédaction, engagement",
     instructions:
-      "Remplir à la main. Les étapes suivent unionops.org/guide/land-acknowledgement — confirmez noms de nations et orthographes avant la prochaine réunion.",
+      "Remplir à la main. Étapes : unionops.org/guide/land-acknowledgement — confirmez les noms de nations avant la prochaine réunion.",
     reminder:
-      "Formation seulement — pas un texte à coller tel quel. Confirmez territoire, traités et action de suivi auprès de sources autochtones et du guide fédéral.",
+      "Formation seulement — pas un texte à coller tel quel. Confirmez territoire, traités et suivi auprès de sources autochtones et du guide fédéral.",
     tips: {
       heading: "Conseils sur le plancher",
       lines: [
@@ -158,7 +156,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "Une phrase honnête — pourquoi la reconnaissance compte pour moi / notre section :",
           },
-          { kind: "ruled", count: 2, rowHeight: 18 },
+          { kind: "ruled", count: 2, rowHeight: 17 },
         ],
       },
       {
@@ -166,13 +164,11 @@ const WORKSHEET_COPY = {
         lines: [
           {
             kind: "text",
-            text: "Territoire → fil historique ou action locale → engagement de suivi. Ébauche dans vos propres mots :",
+            text: "Territoire → fil historique ou action locale → suivi. Ébauche dans vos propres mots :",
           },
-          { kind: "ruled", fill: true, minRows: 5, rowHeight: 20 },
+          { kind: "ruled", count: 7, rowHeight: 17 },
         ],
       },
-    ] satisfies WorksheetSection[],
-    closingSections: [
       {
         heading: "Étape 4 — Réviser et s'engager (~10 min seul·e · ~20 min clôture)",
         lines: [
@@ -210,10 +206,6 @@ export async function downloadLandAcknowledgementWorksheetPdf(opts: {
     subtitle: `${copy.subtitle} · ${opts.localLabel}`,
     instructions: copy.instructions,
     sections: copy.sections.map((section) => ({
-      heading: section.heading,
-      lines: section.lines.map((line) => ({ ...line })),
-    })),
-    closingSections: copy.closingSections.map((section) => ({
       heading: section.heading,
       lines: section.lines.map((line) => ({ ...line })),
     })),

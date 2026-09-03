@@ -324,7 +324,7 @@ describe("writeBrandedWorksheetPdf", () => {
           heading: "Body",
           lines: [
             { kind: "text", text: "Notes:" },
-            { kind: "ruled", fill: true, minRows: 6, rowHeight: 20 },
+            { kind: "ruled", fill: true, minRows: 6, maxRows: 8, rowHeight: 20 },
           ],
         },
       ],
@@ -334,6 +334,43 @@ describe("writeBrandedWorksheetPdf", () => {
     const filledLines = await countLineOps(filled.page);
     expect(filledLines).toBeGreaterThan(fixedLines);
     expect(filled.doc.numPages).toBe(1);
+  });
+
+  it("caps fill rows when maxRows is set", async () => {
+    const capped = await worksheetText({
+      title: "Fill cap test",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Body",
+          lines: [
+            { kind: "text", text: "Notes:" },
+            { kind: "ruled", fill: true, minRows: 4, maxRows: 6, rowHeight: 20 },
+          ],
+        },
+      ],
+      filename: "unionops-worksheet-fill-cap-test.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+    const uncapped = await worksheetText({
+      title: "Fill cap test",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Body",
+          lines: [
+            { kind: "text", text: "Notes:" },
+            { kind: "ruled", fill: true, minRows: 4, rowHeight: 20 },
+          ],
+        },
+      ],
+      filename: "unionops-worksheet-fill-open-test.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+
+    const cappedLines = await countLineOps(capped.page);
+    const uncappedLines = await countLineOps(uncapped.page);
+    expect(cappedLines).toBeLessThan(uncappedLines);
   });
 });
 
