@@ -3,7 +3,7 @@ export type WorksheetLine =
   | { kind: "text"; text: string }
   | { kind: "field"; label: string }
   | { kind: "fieldInline"; label: string }
-  | { kind: "fieldPair"; left: { label: string }; right: { label: string } }
+  | { kind: "fieldPair"; left: { label: string }; right: { label: string }; layout?: "row" | "stack" }
   | {
       kind: "ruled";
       count?: number;
@@ -13,7 +13,7 @@ export type WorksheetLine =
       maxRows?: number;
     }
   | { kind: "check"; text: string }
-  | { kind: "checkPair"; left: string; right: string }
+  | { kind: "checkPair"; left: string; right: string; layout?: "row" | "stack" }
   /** Tabular block with header row + fixed body rows. */
   | {
       kind: "table";

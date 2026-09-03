@@ -66,6 +66,7 @@ export function measureWorksheetLine(
         line.right.label,
         contentWidth,
         WORKSHEET_PAIR_COL_GAP,
+        line.layout,
       );
     case "ruled": {
       const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
@@ -81,6 +82,7 @@ export function measureWorksheetLine(
         line.right,
         contentWidth,
         WORKSHEET_PAIR_COL_GAP,
+        line.layout,
       );
     case "table": {
       const rowHeight = line.rowHeight ?? 14;

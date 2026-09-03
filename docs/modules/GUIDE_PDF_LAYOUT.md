@@ -37,10 +37,10 @@ Set explicitly via `layoutMode` on `writeBrandedWorksheetPdf`, or omit to infer 
 
 | Kind | Use |
 |------|-----|
-| `field` / `fieldPair` | Wrapped label + rule (never single-line truncate) |
+| `field` / `fieldPair` | Wrapped label + rule; `layout: "stack"` for full-width pairs |
 | `ruled` + `count` | Fixed note rows |
 | `ruled` + `fill` + `maxRows` | Expanding draft (once per sheet) |
-| `check` / `checkPair` | Wrapped review checklist columns |
+| `check` / `checkPair` | Wrapped checklist; auto-stack when labels wrap or `layout: "stack"` |
 | `table` | Header row + ruled body rows |
 | `columnLayout` | 2–3 side-by-side columns |
 | `pageBreak` | Multi-page (`allowMultiPage: true`) |

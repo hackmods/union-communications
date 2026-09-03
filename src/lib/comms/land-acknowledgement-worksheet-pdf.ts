@@ -7,8 +7,9 @@ import {
 } from "@/lib/export/text-pdf-layout";
 
 /** Fixed ruled rows for the Step 3 draft block (pen-and-paper paragraph space). */
-export const LAND_ACK_DRAFT_ROWS = 7;
+export const LAND_ACK_DRAFT_ROWS = 5;
 export const LAND_ACK_REFLECT_ROWS = 2;
+export const LAND_ACK_RULE_ROW_HEIGHT = 15;
 
 const WORKSHEET_COPY = {
   en: {
@@ -52,6 +53,7 @@ const WORKSHEET_COPY = {
           { kind: "field", label: "Nations for where we meet" },
           {
             kind: "fieldPair",
+            layout: "stack",
             left: { label: "Treaties / agreements" },
             right: { label: "Federation guide (OFL / national / CUPE / other)" },
           },
@@ -68,7 +70,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "One honest sentence — why acknowledgement matters to me / our local:",
           },
-          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: 14 },
+          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: LAND_ACK_RULE_ROW_HEIGHT },
         ],
       },
       {
@@ -78,7 +80,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "Territory → history thread or local action → follow-up. Draft in your own words:",
           },
-          { kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: 14 },
+          { kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: LAND_ACK_RULE_ROW_HEIGHT },
         ],
       },
       {
@@ -86,16 +88,19 @@ const WORKSHEET_COPY = {
         lines: [
           {
             kind: "checkPair",
+            layout: "stack",
             left: "Accurate for this territory (not another city)",
             right: "Speaker can explain every phrase without notes",
           },
           {
             kind: "checkPair",
+            layout: "stack",
             left: "Pairs words with one concrete local action",
             right: "Indigenous Circle / equity contact consulted if unsure",
           },
           {
             kind: "fieldPair",
+            layout: "stack",
             left: { label: "Who reads it at the next meeting?" },
             right: { label: "Executive review date" },
           },
@@ -160,7 +165,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "Une phrase honnête — pourquoi la reconnaissance compte pour moi / notre section :",
           },
-          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: 14 },
+          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: LAND_ACK_RULE_ROW_HEIGHT },
         ],
       },
       {
@@ -170,7 +175,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "Territoire → fil historique ou action locale → suivi. Ébauche dans vos propres mots :",
           },
-          { kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: 14 },
+          { kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: LAND_ACK_RULE_ROW_HEIGHT },
         ],
       },
       {
@@ -178,16 +183,19 @@ const WORKSHEET_COPY = {
         lines: [
           {
             kind: "checkPair",
+            layout: "stack",
             left: "Exact pour ce territoire (pas une autre ville)",
             right: "La personne qui lit peut expliquer chaque phrase sans notes",
           },
           {
             kind: "checkPair",
+            layout: "stack",
             left: "Les mots sont liés à une action locale concrète",
             right: "Cercle autochtone / contact équité consulté si incertain",
           },
           {
             kind: "fieldPair",
+            layout: "stack",
             left: { label: "Qui lit à la prochaine réunion?" },
             right: { label: "Date de revue exécutif" },
           },

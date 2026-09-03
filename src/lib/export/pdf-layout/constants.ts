@@ -29,8 +29,12 @@ export const WORKSHEET_MARK_TITLE_GAP = 12;
 export const CHECKLIST_MARK_TITLE_GAP = 14;
 /** Space between worksheet sections (pt). */
 export const WORKSHEET_SECTION_GAP = 5;
-/** Column gutter for fieldPair / checkPair (pt). */
-export const WORKSHEET_PAIR_COL_GAP = 16;
+/** Column gutter for fieldPair / checkPair side-by-side layout (pt). */
+export const WORKSHEET_PAIR_COL_GAP = 22;
+/** Horizontal inset inside each pair column so text never touches the gutter (pt). */
+export const WORKSHEET_FIELD_TEXT_INSET = 4;
+/** Vertical gap after a fieldPair / checkPair row (pt). */
+export const WORKSHEET_PAIR_ROW_GAP = 4;
 /** Min space between body end and footer band in flow mode (pt). */
 export const WORKSHEET_PRE_FOOTER_GAP = 10;
 

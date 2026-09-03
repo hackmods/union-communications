@@ -35,6 +35,9 @@ function mockPdf(labelWidths: Record<string, number> = {}) {
       }
       return lines.length ? lines : [text];
     },
+    getTextWidth(text: string) {
+      return text.length * 4.5;
+    },
   } as unknown as JsPdfLike;
 
   const ctx: PdfFontContext = {

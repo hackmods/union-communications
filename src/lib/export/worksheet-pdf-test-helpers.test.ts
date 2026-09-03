@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { expectHeadingOrder, type ParsedWorksheetPdf } from "./worksheet-pdf-test-helpers";
 
-function fakeParsed(items: { str: string; y: number }[]): ParsedWorksheetPdf {
+function fakeParsed(items: { str: string; y: number; x?: number }[]): ParsedWorksheetPdf {
   const yByExact = new Map<string, number>();
   for (const item of items) {
     yByExact.set(item.str, item.y);
@@ -9,7 +9,7 @@ function fakeParsed(items: { str: string; y: number }[]): ParsedWorksheetPdf {
   return {
     numPages: 1,
     joined: items.map((item) => item.str).join(" "),
-    items,
+    items: items.map((item) => ({ ...item, x: item.x ?? 18 })),
     yByExact,
     page: { getOperatorList: async () => ({ fnArray: [] }), getTextContent: async () => ({ items: [] }) },
   };

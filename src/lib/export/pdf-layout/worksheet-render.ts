@@ -114,6 +114,7 @@ export function renderWorksheetLine(
         contentRight,
         y,
         WORKSHEET_PAIR_COL_GAP,
+        line.layout,
       );
       break;
     }
@@ -146,6 +147,7 @@ export function renderWorksheetLine(
         rctx.contentWidth,
         y,
         WORKSHEET_PAIR_COL_GAP,
+        line.layout,
       );
       break;
     }
