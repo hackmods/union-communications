@@ -39,7 +39,7 @@ function mockPdf(labelWidths: Record<string, number> = {}) {
 
   const ctx: PdfFontContext = {
     pdf,
-    faces: { headline: "helvetica", body: "helvetica" },
+    faces: { headline: "helvetica", body: "helvetica", custom: false },
   };
 
   return { pdf, ctx, ops };
