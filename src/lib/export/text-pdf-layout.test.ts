@@ -8,6 +8,7 @@ import {
   certificatePlatformMarkPlacement,
   guidePdfMarkPlacementPt,
   writeBrandedChecklistPdf,
+  writeBrandedWorksheetPdf,
 } from "./text-pdf-layout";
 
 vi.mock("@/lib/export/save-blob", () => ({
@@ -156,6 +157,11 @@ describe("writeBrandedChecklistPdf", () => {
 });
 
 describe("writeBrandedWorksheetPdf", () => {
+  type WorksheetPdfOpts = Omit<
+    Parameters<typeof writeBrandedWorksheetPdf>[0],
+    "platformMark"
+  >;
+
   const markBytes = transparentPngBytes();
   const mark = {
     bytes: markBytes,
@@ -164,10 +170,7 @@ describe("writeBrandedWorksheetPdf", () => {
     src: `data:image/png;base64,${Buffer.from(markBytes).toString("base64")}`,
   };
 
-  async function worksheetText(opts: Parameters<
-    Awaited<ReturnType<typeof import("./text-pdf-layout")>>["writeBrandedWorksheetPdf"]
-  >[0]) {
-    const { writeBrandedWorksheetPdf } = await import("./text-pdf-layout");
+  async function worksheetText(opts: WorksheetPdfOpts) {
     vi.mocked(saveBlob).mockClear();
     await writeBrandedWorksheetPdf({ platformMark: mark, ...opts });
     const [blob] = vi.mocked(saveBlob).mock.calls.at(-1)!;
@@ -188,9 +191,9 @@ describe("writeBrandedWorksheetPdf", () => {
     return { joined, doc, page, yBySnippet, blob };
   }
 
-  async function countLineOps(page: Awaited<
-    ReturnType<Awaited<ReturnType<typeof import("pdfjs-dist/legacy/build/pdf.mjs")["getDocument"]>>["promise"]>["getPage"]
-  >) {
+  async function countLineOps(page: {
+    getOperatorList: () => Promise<{ fnArray: number[] }>;
+  }) {
     const ops = await page.getOperatorList();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const OPS = (await import("pdfjs-dist/legacy/build/pdf.mjs") as any).OPS ?? {};
