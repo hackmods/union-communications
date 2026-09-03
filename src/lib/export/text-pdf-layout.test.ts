@@ -169,11 +169,13 @@ describe("writeBrandedWorksheetPdf", () => {
     };
 
     await writeBrandedWorksheetPdf({
-      title: "Land acknowledgement writing worksheet",
+      title: "Land acknowledgement — floor handout",
       subtitle: "Solo draft · Local 243",
+      instructions: "Fill in pen. Confirm spellings before the next meeting.",
       sections: [
         {
           heading: "Draft",
+          intro: "Territory first, then action.",
           lines: [
             { kind: "text", text: "Territory and action:" },
             { kind: "ruled", count: 2 },
@@ -182,6 +184,10 @@ describe("writeBrandedWorksheetPdf", () => {
           ],
         },
       ],
+      tips: {
+        heading: "Floor tips",
+        lines: ["Territory first — where you meet."],
+      },
       reminder: "Education only — not a script to paste.",
       filename: "unionops-land-acknowledgement-worksheet-test.pdf",
       footer: COMMS_GUIDE_FOOTER.en,
@@ -200,7 +206,8 @@ describe("writeBrandedWorksheetPdf", () => {
     const joined = text.items
       .map((item) => ("str" in item ? item.str : ""))
       .join(" ");
-    expect(joined).toMatch(/Land acknowledgement writing worksheet/i);
+    expect(joined).toMatch(/Land acknowledgement — floor handout/i);
+    expect(joined).toMatch(/Floor tips/i);
     expect(joined).toMatch(/Executive review date/i);
     expect(joined).toMatch(/UnionOps Comms/i);
   });

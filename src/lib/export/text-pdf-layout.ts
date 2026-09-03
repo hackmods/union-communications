@@ -425,6 +425,8 @@ export type WorksheetLine =
 
 export type WorksheetSection = {
   heading: string;
+  /** One-line prompt under the section heading (muted). */
+  intro?: string;
   lines: WorksheetLine[];
 };
 
@@ -434,7 +436,11 @@ const WORKSHEET_RULE_ROW_DEFAULT = 20;
 export async function writeBrandedWorksheetPdf(opts: {
   title: string;
   subtitle?: string;
+  /** How to use this sheet — printed under the subtitle. */
+  instructions?: string;
   sections: WorksheetSection[];
+  /** Short floor tips before the reminder. */
+  tips?: { heading: string; lines: string[] };
   /** Short reminder printed above the footer — saves a section heading. */
   reminder?: string;
   filename: string;
@@ -522,12 +528,20 @@ export async function writeBrandedWorksheetPdf(opts: {
   y += 2;
   if (opts.subtitle) {
     writeWrapped(opts.subtitle, 9, false, muted, 2);
-    y += 4;
+    y += 2;
+  }
+  if (opts.instructions) {
+    writeWrapped(opts.instructions, 8, false, muted, 1);
+    y += 3;
   }
 
   for (const section of opts.sections) {
     y += 4;
     writeWrapped(section.heading, 10, true, navy, 2);
+    if (section.intro) {
+      y += 1;
+      writeWrapped(section.intro, 8, false, muted, 1);
+    }
     y += 1;
 
     for (const line of section.lines) {
@@ -561,6 +575,14 @@ export async function writeBrandedWorksheetPdf(opts: {
           break;
         }
       }
+    }
+  }
+
+  if (opts.tips?.lines.length) {
+    y += 4;
+    writeWrapped(opts.tips.heading, 9, true, navy, 2);
+    for (const tip of opts.tips.lines) {
+      writeWrapped(`•  ${tip}`, 8, false, ink, 1);
     }
   }
 

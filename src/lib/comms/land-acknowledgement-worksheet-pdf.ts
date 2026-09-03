@@ -8,10 +8,19 @@ import {
 
 const WORKSHEET_COPY = {
   en: {
-    title: "Land acknowledgement writing worksheet",
-    subtitle: "Solo draft or group workshop — research, write, commit",
+    title: "Land acknowledgement — floor handout",
+    subtitle: "Solo draft or group workshop · research, write, commit",
+    instructions:
+      "Fill in pen. Steps match unionops.org/guide/land-acknowledgement — confirm nation names and spellings before your next meeting.",
     reminder:
-      "This worksheet helps you write your own words. It is not a script to paste unchanged — confirm everything with Indigenous sources and your federation guide.",
+      "Education only — not a script to paste unchanged. Confirm territory, treaties, and follow-up action with Indigenous sources and your federation guide.",
+    tips: {
+      heading: "Floor tips",
+      lines: [
+        "Territory first — name the nations and treaties for where you meet, not another city.",
+        "If you cannot explain a phrase without notes, cut it or rewrite in your own words.",
+      ],
+    },
     sections: [
       {
         heading: "Before you start",
@@ -25,6 +34,7 @@ const WORKSHEET_COPY = {
       },
       {
         heading: "Step 1 — Research (~20 min solo · ~25 min workshop)",
+        intro: "Native-Land.ca, Whose Land, and your federation territory PDF — introductions, not final authority.",
         lines: [
           { kind: "field", label: "Nations for where we meet" },
           { kind: "field", label: "Treaties / agreements" },
@@ -40,26 +50,26 @@ const WORKSHEET_COPY = {
       },
       {
         heading: "Step 2 — Reflect (~10 min solo · opening block in workshop)",
+        intro: "One honest sentence — why this matters to you or your local.",
         lines: [
           {
             kind: "text",
-            text: "Why acknowledgement matters to me / our local (one sentence):",
+            text: "Why acknowledgement matters to me / our local:",
           },
           { kind: "ruled", count: 3 },
         ],
       },
       {
         heading: "Step 3 — Draft (~15 min solo · ~25 min in pairs at workshop)",
+        intro: "Territory → one history thread or local action → commitment to follow up.",
         lines: [
-          {
-            kind: "text",
-            text: "Draft (territory → history or action → commitment):",
-          },
+          { kind: "text", text: "Draft in your own words:" },
           { kind: "ruled", count: 5, rowHeight: 18 },
         ],
       },
       {
         heading: "Step 4 — Review and commit (~10 min solo · ~20 min workshop close)",
+        intro: "Run every check before executive adoption or reading aloud.",
         lines: [
           {
             kind: "check",
@@ -84,10 +94,19 @@ const WORKSHEET_COPY = {
     ] satisfies WorksheetSection[],
   },
   fr: {
-    title: "Feuille de rédaction — reconnaissance territoriale",
-    subtitle: "Seul·e ou atelier de groupe — recherche, rédaction, engagement",
+    title: "Reconnaissance territoriale — feuille de terrain",
+    subtitle: "Seul·e ou atelier de groupe · recherche, rédaction, engagement",
+    instructions:
+      "Remplir à la main. Les étapes suivent unionops.org/guide/land-acknowledgement — confirmez noms de nations et orthographes avant la prochaine réunion.",
     reminder:
-      "Cette feuille aide à rédiger vos propres mots. Ce n'est pas un texte à coller tel quel — confirmez tout auprès de sources autochtones et du guide de votre fédération.",
+      "Formation seulement — pas un texte à coller tel quel. Confirmez territoire, traités et action de suivi auprès de sources autochtones et du guide fédéral.",
+    tips: {
+      heading: "Conseils sur le plancher",
+      lines: [
+        "Territoire d'abord — nommez nations et traités où vous vous réunissez, pas une autre ville.",
+        "Si vous ne pouvez pas expliquer une phrase sans notes, coupez-la ou réécrivez-la.",
+      ],
+    },
     sections: [
       {
         heading: "Avant de commencer",
@@ -101,6 +120,8 @@ const WORKSHEET_COPY = {
       },
       {
         heading: "Étape 1 — Recherche (~20 min seul·e · ~25 min en atelier)",
+        intro:
+          "Native-Land.ca, Whose Land et PDF territorial fédéral — introductions, pas autorité finale.",
         lines: [
           { kind: "field", label: "Nations où nous nous réunissons" },
           { kind: "field", label: "Traités / ententes" },
@@ -116,26 +137,28 @@ const WORKSHEET_COPY = {
       },
       {
         heading: "Étape 2 — Réflexion (~10 min seul·e · ouverture en atelier)",
+        intro: "Une phrase honnête — pourquoi cela compte pour vous ou votre section.",
         lines: [
           {
             kind: "text",
-            text: "Pourquoi la reconnaissance compte pour moi / notre section (une phrase) :",
+            text: "Pourquoi la reconnaissance compte pour moi / notre section :",
           },
           { kind: "ruled", count: 3 },
         ],
       },
       {
         heading: "Étape 3 — Rédaction (~15 min seul·e · ~25 min en duo à l'atelier)",
+        intro:
+          "Territoire → fil historique ou action locale → engagement de suivi.",
         lines: [
-          {
-            kind: "text",
-            text: "Ébauche (territoire → histoire ou action → engagement) :",
-          },
+          { kind: "text", text: "Ébauche dans vos propres mots :" },
           { kind: "ruled", count: 5, rowHeight: 18 },
         ],
       },
       {
         heading: "Étape 4 — Réviser et s'engager (~10 min seul·e · ~20 min clôture)",
+        intro:
+          "Cochez chaque point avant l'adoption exécutive ou une lecture à voix haute.",
         lines: [
           {
             kind: "check",
@@ -172,10 +195,13 @@ export async function downloadLandAcknowledgementWorksheetPdf(opts: {
   await writeBrandedWorksheetPdf({
     title: copy.title,
     subtitle: `${copy.subtitle} · ${opts.localLabel}`,
+    instructions: copy.instructions,
     sections: copy.sections.map((section) => ({
       heading: section.heading,
+      intro: section.intro,
       lines: section.lines.map((line) => ({ ...line })),
     })),
+    tips: copy.tips,
     reminder: copy.reminder,
     filename:
       locale === "fr"

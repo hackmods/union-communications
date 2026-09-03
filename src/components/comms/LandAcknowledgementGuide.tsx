@@ -26,6 +26,7 @@ const soloFlowStepKeys = ["research", "reflect", "draft", "review"] as const;
 const workshopPrepKeys = ["who", "materials", "room", "followUp"] as const;
 const workshopAgendaKeys = ["open", "research", "draft", "close"] as const;
 const worksheetFeatureKeys = ["print", "ruled", "checklist"] as const;
+const worksheetStepKeys = ["print", "research", "reflect", "draft", "review"] as const;
 const researchKeys = ["research", "accuracy", "context", "friendship"] as const;
 const termKeys = ["nations", "treaties", "turtleIsland", "dish", "capitalize"] as const;
 const workedExampleKeys = ["territory", "action", "covenant"] as const;
@@ -167,6 +168,9 @@ export async function LandAcknowledgementGuide() {
 
         <div className="mt-8 max-w-prose">
           <SubHeading>{t("howToWrite.worksheetHeading")}</SubHeading>
+          <p className="mt-2 text-sm leading-relaxed text-gray-600">
+            {t("howToWrite.worksheetIntro")}
+          </p>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-gray-700">
             {worksheetFeatureKeys.map((key) => (
               <li key={key}>
@@ -178,6 +182,16 @@ export async function LandAcknowledgementGuide() {
               </li>
             ))}
           </ul>
+          <SubHeading className="mt-6">{t("howToWrite.worksheetStepsHeading")}</SubHeading>
+          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-gray-700">
+            {worksheetStepKeys.map((key) => (
+              <li key={key}>{t(`howToWrite.worksheetSteps.${key}`)}</li>
+            ))}
+          </ol>
+          <Callout className="mt-5">
+            <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+            <p className="mt-1">{t("howToWrite.worksheetGoldTip")}</p>
+          </Callout>
           <LandAcknowledgementWorksheetButton className="mt-4" />
           <p className="mt-2 text-sm leading-relaxed text-gray-600">
             {t("howToWrite.worksheetHint")}

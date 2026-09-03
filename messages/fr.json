@@ -6570,7 +6570,7 @@
       },
       "land-acknowledgement-guide": {
         "title": "Guide de reconnaissance territoriale",
-        "body": "Guide de reconnaissance territoriale — feuille PDF lignée d'une page à marges réduites pour notes à la main, plus voies solo et atelier dans le guide."
+        "body": "Guide de reconnaissance territoriale — feuille de terrain PDF avec invites d'étapes, bloc ligné, conseils sur le plancher et mise en page stylo sur une page."
       },
       "guide-tool-aside": {
         "title": "Guides — raccourcis outils sur ordinateur",
@@ -9910,7 +9910,7 @@
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
-    "intro": "La reconnaissance territoriale rappelle que les réunions syndicales ont lieu sur des terres au long passé autochtone. Ce guide accompagne votre section de la recherche à une première ébauche — sources fédérales, voies solo et atelier, et exemple commenté. UnionOps ne génère pas de texte pour vous.",
+    "intro": "La reconnaissance territoriale rappelle que les réunions syndicales ont lieu sur des terres au long passé autochtone. Ce guide accompagne votre section de la recherche à une première ébauche — feuille de terrain d'une page, sources fédérales, voies solo et atelier, et exemple commenté. UnionOps ne génère pas de texte pour vous.",
     "groundRules": {
       "navLabel": "Règles de base",
       "title": "Règles de base",
@@ -10043,25 +10043,35 @@
         }
       },
       "workshopTip": "Si la salle est grande, formez des duos pour la rédaction — pas de nombre fixe de participants. Si quelqu'un hésite, proposez de consulter le cercle autochtone du syndicat avant de finaliser.",
-      "worksheetHeading": "Feuille imprimable (une page)",
+      "worksheetHeading": "Feuille de terrain (une page)",
+      "worksheetIntro": "Même profondeur qu'une fiche de poche pour délégué·es : étapes, bloc de rédaction ligné et liste de révision — imprimez pour l'exécutif ou un atelier.",
       "worksheetFeatures": {
         "print": {
           "label": "Imprimer ou PDF",
-          "content": "Une page format lettre à marges réduites — de la place pour écrire à la main, pas de bordures perdues."
+          "content": "Format lettre à marges serrées — lignes pour la main, pas de bordures perdues."
         },
         "ruled": {
-          "label": "Lignes à main levée",
-          "content": "Champs étiquetés pour la recherche et bloc réflexion/rédaction ligné pour la prise de notes."
+          "label": "Bloc de rédaction ligné",
+          "content": "Champs de recherche étiquetés plus lignes de réflexion et rédaction pour la prise de notes à la main."
         },
         "checklist": {
-          "label": "Liste de révision",
-          "content": "Quatre vérifications plus qui lit à la prochaine réunion et une date de revue exécutive."
+          "label": "Porte de révision",
+          "content": "Quatre vérifications, conseils sur le PDF, et cases pour qui lit plus date de revue exécutive."
         }
       },
-      "worksheetHint": "Formation seulement — pas un texte à coller tel quel. Confirmez noms de nations et orthographes auprès de sources autochtones et du guide de votre fédération."
+      "worksheetStepsHeading": "Comment utiliser la feuille",
+      "worksheetSteps": {
+        "print": "Téléchargez et imprimez une copie par personne — ou ouvrez sur tablette avec stylet.",
+        "research": "Complétez l'étape 1 avant de rédiger. Cartes et PDF fédéraux introduisent le territoire ; confirmez les orthographes auprès de sources autochtones.",
+        "reflect": "Écrivez une phrase honnête à l'étape 2 — pourquoi cela compte pour votre section, pas un langage générique.",
+        "draft": "Utilisez les lignes à l'étape 3 : territoire, puis fil historique ou action locale, puis engagement.",
+        "review": "Cochez l'étape 4 et fixez la revue exécutive avant toute lecture à voix haute en réunion."
+      },
+      "worksheetGoldTip": "Traitez la feuille comme une fiche FAR — annotez-la à la main à l'exécutif, archivez l'ébauche avec le procès-verbal, et revisitez si le lieu de réunion change.",
+      "worksheetHint": "Le PDF reprend les invites d'étapes et conseils de terrain de ce guide. Formation seulement — pas un texte à coller tel quel."
     },
     "worksheet": {
-      "cta": "Télécharger la feuille (PDF)",
+      "cta": "Télécharger la feuille de terrain (PDF)",
       "downloading": "Préparation du PDF…"
     },
     "prepareWords": {
@@ -10290,7 +10300,7 @@
         },
         "reflect": {
           "label": "Rédiger ou tenir un atelier",
-          "content": "Suivez la voie solo ou l'ordre du jour d'atelier ci-dessus — téléchargez la feuille si utile — puis vérifiez l'exactitude avant la prochaine réunion."
+          "content": "Suivez les étapes de la feuille PDF — voie solo ou ordre du jour d'atelier ci-dessus — puis vérifiez l'exactitude avant la prochaine réunion."
         },
         "followUp": {
           "label": "Suivi avec l'exécutif",
