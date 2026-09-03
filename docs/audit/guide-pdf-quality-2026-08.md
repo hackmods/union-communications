@@ -25,7 +25,7 @@ Agent rule: [`.cursor/rules/guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc)
 | financial-health | `audit-controls`, `floor-checklist` |
 | building-collective-power | `equity-clause`, `floor-checklist` |
 | `/guide/bylaws` | adoption checklist, quorum/motion |
-| `/guide/land-acknowledgement` | writing worksheet (`writeBrandedWorksheetPdf` — 18pt margins, field pairs, fill draft, pinned closing checklist) |
+| `/guide/land-acknowledgement` | writing worksheet (`writeBrandedWorksheetPdf` — flowing steps 1–4, 7 draft rows, footer band pinned) |
 
 ### Worksheet engine (`writeBrandedWorksheetPdf`)
 
@@ -36,7 +36,7 @@ Use for **pen-and-paper floor handouts** where stewards write in ruled space (no
 | `field` / `fieldInline` | Label + ruled underline, full width |
 | `fieldPair` | Two half-width fields on one row |
 | `ruled` + `count` | Fixed note rows |
-| `ruled` + `fill: true` | Draft block expands to consume space above closing/footer bands |
+| `ruled` + `fill: true` | Draft block expands up to `maxRows` (always cap — uncapped fill dominates the page) |
 | `check` / `checkPair` | Review checklist items |
 | `closingSections` | Sign-off block pinned above tips/footer (keeps fill math honest) |
 | `tips` + `reminder` | Short floor copy above education footer |
@@ -84,6 +84,6 @@ Generate EN + FR samples (`npm run test:unit -- src/lib/export/guide-pdf-review.
 ## Verify
 
 ```bash
-npm run test:unit -- src/lib/export/text-pdf-layout.test.ts src/lib/officer-learning/certificate.test.ts
+npm run test:unit -- src/lib/export/text-pdf-layout.test.ts src/lib/export/worksheet-pdf-test-helpers.test.ts src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts src/lib/officer-learning/certificate.test.ts
 npx playwright test e2e/guide-pdf.export.smoke.spec.ts
 ```

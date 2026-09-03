@@ -21,7 +21,7 @@ Companion inventory + quality bar: [`docs/audit/guide-pdf-quality-2026-08.md`](.
 
 ## Tests
 
-- Unit: layout helpers + certificate dual-logo placement (`text-pdf-layout.test.ts`, `certificate.test.ts`).
+- Unit: layout helpers + worksheet layout contracts (`text-pdf-layout.test.ts`, `worksheet-pdf-test-helpers.test.ts`, `land-acknowledgement-worksheet-pdf.test.ts`) + certificate dual-logo placement (`certificate.test.ts`).
 - Smoke: `e2e/guide-pdf.export.smoke.spec.ts` — real download, size floor, pdf.js text (title + footer), embedded mark image.
 - Text PDFs are **not** canvas `compareRasters` targets.
 

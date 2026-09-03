@@ -10,6 +10,11 @@ import {
   writeBrandedChecklistPdf,
   writeBrandedWorksheetPdf,
 } from "./text-pdf-layout";
+import {
+  countWorksheetStrokeOps,
+  findTextY,
+  parseWorksheetPdfBlob,
+} from "./worksheet-pdf-test-helpers";
 
 vi.mock("@/lib/export/save-blob", () => ({
   saveBlob: vi.fn(async () => undefined),
@@ -174,33 +179,9 @@ describe("writeBrandedWorksheetPdf", () => {
     vi.mocked(saveBlob).mockClear();
     await writeBrandedWorksheetPdf({ platformMark: mark, ...opts });
     const [blob] = vi.mocked(saveBlob).mock.calls.at(-1)!;
-    const data = new Uint8Array(await blob.arrayBuffer());
-    const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-    const doc = await pdfjs.getDocument({ data }).promise;
-    const page = await doc.getPage(1);
-    const text = await page.getTextContent();
-    const joined = text.items
-      .map((item) => ("str" in item ? item.str : ""))
-      .join(" ");
-    const yBySnippet = new Map<string, number>();
-    for (const item of text.items) {
-      if (!("str" in item) || !item.str.trim()) continue;
-      const y = item.transform[5] ?? 0;
-      yBySnippet.set(item.str.trim(), y);
-    }
-    return { joined, doc, page, yBySnippet, blob };
-  }
-
-  async function countLineOps(page: {
-    getOperatorList: () => Promise<{ fnArray: number[] }>;
-  }) {
-    const ops = await page.getOperatorList();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const OPS = (await import("pdfjs-dist/legacy/build/pdf.mjs") as any).OPS ?? {};
-    return ops.fnArray.filter((fn: number) => {
-      const name = Object.entries(OPS).find(([, v]) => v === fn)?.[0] ?? "";
-      return /constructPath|stroke/i.test(name);
-    }).length;
+    const parsed = await parseWorksheetPdfBlob(blob);
+    const strokeOps = await countWorksheetStrokeOps(parsed.page);
+    return { ...parsed, blob, strokeOps };
   }
 
   it("emits a compact worksheet with ruled rows and field labels", async () => {
@@ -237,7 +218,7 @@ describe("writeBrandedWorksheetPdf", () => {
   });
 
   it("renders fieldPair, checkPair, and closingSections on one page", async () => {
-    const { joined, doc, yBySnippet } = await worksheetText({
+    const { joined, numPages, yByExact: yBySnippet } = await worksheetText({
       title: "Worksheet engine sample",
       subtitle: "Local 243",
       sections: [
@@ -277,7 +258,7 @@ describe("writeBrandedWorksheetPdf", () => {
       footer: COMMS_GUIDE_FOOTER.en,
     });
 
-    expect(doc.numPages).toBe(1);
+    expect(numPages).toBe(1);
     expect(joined).toMatch(/Local \/ committee/i);
     expect(joined).toMatch(/Review and commit/i);
     expect(joined).toMatch(/Accurate for this territory/i);
@@ -324,16 +305,113 @@ describe("writeBrandedWorksheetPdf", () => {
           heading: "Body",
           lines: [
             { kind: "text", text: "Notes:" },
-            { kind: "ruled", fill: true, minRows: 6, rowHeight: 20 },
+            { kind: "ruled", fill: true, minRows: 6, maxRows: 8, rowHeight: 20 },
           ],
         },
       ],
     });
 
-    const fixedLines = await countLineOps(fixed.page);
-    const filledLines = await countLineOps(filled.page);
+    const fixedLines = fixed.strokeOps;
+    const filledLines = filled.strokeOps;
     expect(filledLines).toBeGreaterThan(fixedLines);
-    expect(filled.doc.numPages).toBe(1);
+    expect(filled.numPages).toBe(1);
+  });
+
+  it("pins footer band below flowing sections when closingSections is omitted", async () => {
+    const parsed = await worksheetText({
+      title: "Flowing worksheet",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Notes",
+          lines: [
+            { kind: "text", text: "Write here:" },
+            { kind: "ruled", count: 3, rowHeight: 18 },
+          ],
+        },
+      ],
+      tips: { heading: "Floor tips", lines: ["Keep it short."] },
+      reminder: "Education only.",
+      filename: "unionops-flowing-worksheet-test.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+
+    expect(parsed.numPages).toBe(1);
+
+    const notesY = findTextY(parsed, "Notes");
+    const tipsY = findTextY(parsed, "Floor tips");
+    const footerY = findTextY(parsed, "UnionOps Comms");
+    expect(notesY).toBeDefined();
+    expect(tipsY).toBeDefined();
+    expect(footerY).toBeDefined();
+    expect(notesY!).toBeGreaterThan(tipsY!);
+    expect(tipsY!).toBeGreaterThan(footerY!);
+  });
+
+  it("renders more ruled strokes when fixed row count increases", async () => {
+    const threeRows = await worksheetText({
+      title: "Row count",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Draft",
+          lines: [{ kind: "ruled", count: 3, rowHeight: 20 }],
+        },
+      ],
+      filename: "unionops-row-count-3.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+    const fiveRows = await worksheetText({
+      title: "Row count",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Draft",
+          lines: [{ kind: "ruled", count: 5, rowHeight: 20 }],
+        },
+      ],
+      filename: "unionops-row-count-5.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+
+    expect(fiveRows.strokeOps).toBeGreaterThan(threeRows.strokeOps);
+  });
+
+  it("caps fill rows when maxRows is set", async () => {
+    const capped = await worksheetText({
+      title: "Fill cap test",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Body",
+          lines: [
+            { kind: "text", text: "Notes:" },
+            { kind: "ruled", fill: true, minRows: 4, maxRows: 6, rowHeight: 20 },
+          ],
+        },
+      ],
+      filename: "unionops-worksheet-fill-cap-test.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+    const uncapped = await worksheetText({
+      title: "Fill cap test",
+      subtitle: "Local 243",
+      sections: [
+        {
+          heading: "Body",
+          lines: [
+            { kind: "text", text: "Notes:" },
+            { kind: "ruled", fill: true, minRows: 4, rowHeight: 20 },
+          ],
+        },
+      ],
+      filename: "unionops-worksheet-fill-open-test.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+
+    const cappedLines = capped.strokeOps;
+    const uncappedLines = uncapped.strokeOps;
+    expect(cappedLines).toBeLessThan(uncappedLines);
   });
 });
 

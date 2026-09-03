@@ -438,6 +438,8 @@ export type WorksheetLine =
       fill?: boolean;
       /** Minimum rows when `fill` is true (default 6). */
       minRows?: number;
+      /** Cap rows when `fill` is true — prevents a draft block from dominating the page. */
+      maxRows?: number;
     }
   | { kind: "check"; text: string }
   /** Two half-width checkboxes on one row. */
@@ -664,6 +666,9 @@ export async function writeBrandedWorksheetPdf(opts: {
         if (line.fill) {
           const available = maxY - y;
           count = Math.max(line.minRows ?? 6, Math.floor(available / rowHeight));
+          if (line.maxRows !== undefined) {
+            count = Math.min(count, line.maxRows);
+          }
         }
         for (let i = 0; i < count; i++) {
           if (y + rowHeight > maxY) break;
@@ -700,7 +705,7 @@ export async function writeBrandedWorksheetPdf(opts: {
   const renderSections = (sections: WorksheetSection[], maxY: number) => {
     for (const section of sections) {
       if (y + 12 > maxY) break;
-      y += 3;
+      y += 2;
       writeWrapped(section.heading, 9.5, true, navy, 1, maxY);
       if (section.intro) {
         writeWrapped(section.intro, 7.5, false, muted, 0, maxY);
