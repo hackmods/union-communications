@@ -1,5 +1,14 @@
 import type { WorksheetLayoutMode } from "./types";
 import type { WorksheetLayoutInput, WorksheetLine, WorksheetSection } from "./worksheet-types";
+import {
+  LETTER_PAGE_WIDTH_PT,
+  WORKSHEET_CHECK_FONT_SIZE,
+  WORKSHEET_FIELD_FONT_SIZE,
+  WORKSHEET_MARGIN_DEFAULT,
+  WORKSHEET_PAIR_COL_GAP,
+} from "./constants";
+import { createStaticTextMeasurer } from "./worksheet-measure";
+import { pairColumnWidth } from "./worksheet-fields";
 
 export type WorksheetLayoutValidation = {
   ok: boolean;
@@ -102,6 +111,12 @@ export function validateWorksheetLayout(input: WorksheetLayoutInput): WorksheetL
     }
   }
 
+  warnUnnecessaryStackPairs(
+    [...input.sections, ...(input.closingSections ?? [])],
+    warnings,
+    input.margin,
+  );
+
   return {
     ok: errors.length === 0,
     errors,
@@ -121,6 +136,60 @@ function countPageBreaks(
     }
   }
   return n;
+}
+
+function warnUnnecessaryStackPairs(
+  sections: WorksheetSection[],
+  warnings: string[],
+  margin = WORKSHEET_MARGIN_DEFAULT,
+): void {
+  const contentWidth = LETTER_PAGE_WIDTH_PT - margin * 2;
+  const colW = pairColumnWidth(contentWidth, WORKSHEET_PAIR_COL_GAP);
+  const measurer = createStaticTextMeasurer(contentWidth);
+
+  for (const section of sections) {
+    for (const line of section.lines) {
+      if (line.kind !== "fieldPair" && line.kind !== "checkPair") continue;
+      if (line.layout !== "stack") continue;
+
+      if (line.kind === "fieldPair") {
+        const leftLines = measurer.wrappedLineCount(
+          line.left.label,
+          WORKSHEET_FIELD_FONT_SIZE,
+          colW,
+        );
+        const rightLines = measurer.wrappedLineCount(
+          line.right.label,
+          WORKSHEET_FIELD_FONT_SIZE,
+          colW,
+        );
+        if (leftLines === 1 && rightLines === 1) {
+          warnings.push(
+            `fieldPair in "${section.heading}" uses layout: "stack" but labels fit side-by-side — omit stack to use page width.`,
+          );
+        }
+        continue;
+      }
+
+      if (line.kind === "checkPair") {
+        const leftLines = measurer.wrappedLineCount(
+          `☐  ${line.left}`,
+          WORKSHEET_CHECK_FONT_SIZE,
+          colW,
+        );
+        const rightLines = measurer.wrappedLineCount(
+          `☐  ${line.right}`,
+          WORKSHEET_CHECK_FONT_SIZE,
+          colW,
+        );
+        if (leftLines === 1 && rightLines === 1) {
+          warnings.push(
+            `checkPair in "${section.heading}" uses layout: "stack" but labels fit side-by-side — omit stack to use page width.`,
+          );
+        }
+      }
+    }
+  }
 }
 
 export function sectionsHaveFillExport(sections: WorksheetSection[]): boolean {

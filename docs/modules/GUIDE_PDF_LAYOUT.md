@@ -108,6 +108,20 @@ Do not hardcode `+ 5` or `+ 14` in writers — use the engine helper.
 
 Field/checkbox columns use `worksheet-fields.ts` for both **render** and **budget measure** so long labels wrap instead of clipping at column edges.
 
+## Spatial contracts (engine invariants)
+
+These guard against the recurring layout failures (tight text under rules, empty right column):
+
+| Invariant | Constant / helper | Enforced by |
+|-----------|-------------------|-------------|
+| Label below rule has breathable gap | `WORKSHEET_MIN_LABEL_GAP` (= rule trailing + block leading) | Render + measure share `WORKSHEET_FIELD_*` constants |
+| Row-mode pairs use both columns | `worksheetPairColumnBounds()` | `expectPairUsesRowColumns()` in golden contract tests |
+| Stack only when explicit | `resolvePairLayout()` defaults to `"row"` | `validateWorksheetLayout()` warns on unnecessary `layout: "stack"` |
+
+**Do not** auto-stack pairs when labels wrap — `wrapPdfTextLines()` handles column bleed. Use `layout: "stack"` only when a full-width stack is intentional (e.g. extremely long single-column copy).
+
+Spatial helpers live in `worksheet-pdf-test-helpers.ts`: `expectPairUsesRowColumns`, `expectMinFieldBlockGap`, `expectMinVerticalGap`.
+
 ## Footer band contract (worksheets with tips)
 
 **Tips heading → bullets → reminder → education disclaimer** — always top-down.

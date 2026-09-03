@@ -28,13 +28,13 @@ export type TextMeasurer = {
   wrappedLineCount: (text: string, size: number, maxW: number) => number;
 };
 
-/** Static text measurer for budget API (approximates jsPDF splitTextToSize at ~10 chars/pt). */
+/** Static text measurer for budget API (approximates jsPDF splitTextToSize at ~5 chars/pt). */
 export function createStaticTextMeasurer(contentWidth: number): TextMeasurer {
-  const avgCharsPerLine = Math.max(24, Math.floor(contentWidth / 6));
   return {
     wrappedLineCount(text: string, size: number, maxW: number) {
       void size;
-      void maxW;
+      const effectiveW = maxW > 0 ? maxW : contentWidth;
+      const avgCharsPerLine = Math.max(16, Math.floor(effectiveW / 5));
       const len = text.length;
       return Math.max(1, Math.ceil(len / avgCharsPerLine));
     },

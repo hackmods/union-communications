@@ -4,6 +4,8 @@ import { transparentPngBytes } from "@/lib/export/brand-logo-bytes";
 import {
   countWorksheetStrokeOps,
   expectHeadingOrder,
+  expectMinFieldBlockGap,
+  expectPairUsesRowColumns,
   findTextY,
   parseWorksheetPdfBlob,
 } from "@/lib/export/worksheet-pdf-test-helpers";
@@ -353,14 +355,11 @@ describe("land-acknowledgement-worksheet-pdf", () => {
       locale: "en",
     });
 
-    const speakerItems = parsed.items.filter((item) => item.str.includes("Speaker can explain"));
-    const accurateItems = parsed.items.filter((item) =>
-      item.str.includes("Accurate for this territory"),
+    expectPairUsesRowColumns(
+      parsed,
+      "Accurate for this territory",
+      "Speaker can explain",
     );
-    expect(speakerItems.length).toBeGreaterThan(0);
-    expect(accurateItems.length).toBeGreaterThan(0);
-    expect(accurateItems[0]!.x).toBeLessThan(120);
-    expect(speakerItems[0]!.x).toBeGreaterThan(250);
     expect(parsed.joined).toMatch(/without notes/i);
   });
 
@@ -370,11 +369,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
       locale: "en",
     });
 
-    const nationsY = findTextY(parsed, "Nations for where we meet");
-    const treatiesY = findTextY(parsed, "Treaties / agreements");
-    expect(nationsY).toBeDefined();
-    expect(treatiesY).toBeDefined();
-    expect(nationsY! - treatiesY!).toBeGreaterThan(14);
+    expectMinFieldBlockGap(parsed, "Nations for where we meet", "Treaties / agreements");
   });
 
   it("includes comms education footer copy for each locale", async () => {

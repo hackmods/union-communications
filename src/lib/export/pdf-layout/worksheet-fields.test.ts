@@ -8,6 +8,11 @@ import {
   pairColumnWidth,
 } from "./worksheet-fields";
 import { createStaticTextMeasurer } from "./worksheet-measure";
+import {
+  WORKSHEET_FIELD_BLOCK_LEADING,
+  WORKSHEET_FIELD_RULE_OFFSET,
+  WORKSHEET_FIELD_RULE_TRAILING,
+} from "./constants";
 import type { JsPdfLike, PdfFontContext } from "./types";
 
 function mockPdf(labelWidths: Record<string, number> = {}) {
@@ -92,5 +97,21 @@ describe("worksheet-fields", () => {
       576,
     );
     expect(checkH).toBeGreaterThanOrEqual(9);
+  });
+
+  it("measure height matches drawLabeledFieldBlock vertical span", () => {
+    const measurer = createStaticTextMeasurer(576);
+    const label = "Nations for where we meet";
+    const colW = pairColumnWidth(576, 16);
+    const startY = 100;
+    const measured = measureLabeledFieldBlockHeight(measurer, label, colW);
+    const { ctx } = mockPdf();
+    const endY = drawLabeledFieldBlock(ctx, label, 18, colW, startY);
+    expect(endY - startY).toBe(measured);
+  });
+
+  it("field block spacing constants sum to minimum label gap contract", () => {
+    expect(WORKSHEET_FIELD_RULE_OFFSET + WORKSHEET_FIELD_RULE_TRAILING).toBeGreaterThan(0);
+    expect(WORKSHEET_FIELD_BLOCK_LEADING).toBeGreaterThanOrEqual(4);
   });
 });

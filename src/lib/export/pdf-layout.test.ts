@@ -21,7 +21,9 @@ import { transparentPngBytes } from "@/lib/export/brand-logo-bytes";
 import {
   expectBlockOrder,
   expectFooterBandOrder,
+  expectMinFieldBlockGap,
   expectMinVerticalGap,
+  expectPairUsesRowColumns,
   findTextY,
   parseWorksheetPdfBlob,
 } from "@/lib/export/worksheet-pdf-test-helpers";
@@ -90,6 +92,55 @@ describe("pdf-layout engine", () => {
       ],
     });
     expect(result.warnings.join(" ")).toMatch(/maxRows/);
+  });
+
+  it("warns when stack layout is unnecessary for short pair labels", () => {
+    const result = validateWorksheetLayout({
+      title: "Stacked pairs",
+      sections: [
+        {
+          heading: "Step 4",
+          lines: [
+            {
+              kind: "checkPair",
+              left: "Accurate",
+              right: "Explainable",
+              layout: "stack",
+            },
+            {
+              kind: "fieldPair",
+              left: { label: "Local" },
+              right: { label: "Date" },
+              layout: "stack",
+            },
+          ],
+        },
+      ],
+    });
+    expect(result.warnings.join(" ")).toMatch(/side-by-side/);
+  });
+
+  it("does not warn on stack when labels wrap in row columns", () => {
+    const longLeft = "Who reads it at the next meeting and records the outcome?";
+    const longRight =
+      "Federation guide (OFL / national / CUPE / other) with extra context";
+    const result = validateWorksheetLayout({
+      title: "Wrapped stack",
+      sections: [
+        {
+          heading: "Review",
+          lines: [
+            {
+              kind: "fieldPair",
+              left: { label: longLeft },
+              right: { label: longRight },
+              layout: "stack",
+            },
+          ],
+        },
+      ],
+    });
+    expect(result.warnings.join(" ")).not.toMatch(/side-by-side/);
   });
 
   it("layoutWorksheet reports fit for land ack template shape", () => {
@@ -168,6 +219,17 @@ describe("pdf-layout engine", () => {
     expect(parsed.joined).toMatch(/consulted if unsure/i);
     expectMinVerticalGap(parsed, "Engine field wrap", "Local 243", 10);
     expectMinVerticalGap(parsed, "Review and commit", "Floor tips", 24);
+    expectPairUsesRowColumns(
+      parsed,
+      "Who reads it at the next meeting",
+      "Federation guide (OFL",
+    );
+    expectPairUsesRowColumns(
+      parsed,
+      "Accurate for this territory",
+      "Speaker can explain",
+    );
+    expectMinFieldBlockGap(parsed, "Who reads it at the next meeting", "Accurate for this territory");
   });
 });
 

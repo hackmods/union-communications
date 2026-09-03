@@ -85,18 +85,6 @@ function wrappedLineCountForMeasurer(
   return measurer.wrappedLineCount(text, size, usableTextWidth(maxWidth));
 }
 
-export function shouldStackPairContent(
-  measurer: FieldTextMeasurer,
-  leftText: string,
-  rightText: string,
-  colWidth: number,
-  fontSize: number,
-): boolean {
-  const leftLines = wrappedLineCountForMeasurer(measurer, leftText, fontSize, colWidth);
-  const rightLines = wrappedLineCountForMeasurer(measurer, rightText, fontSize, colWidth);
-  return leftLines > 1 || rightLines > 1;
-}
-
 export function resolvePairLayoutFromRender(
   ctx: PdfFontContext,
   leftText: string,
