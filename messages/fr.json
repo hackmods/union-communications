@@ -8795,6 +8795,7 @@
       "color": "Couleurs complètes",
       "onPrimary": "Sur plaque corail",
       "knockout": "Blanc et or (sans plaque)",
+      "knockoutBurgundy": "Blanc sur plaque bourgogne",
       "onGold": "Sur plaque or",
       "onBurgundy": "Sur plaque bourgogne",
       "onCoalition": "Sur plaque bleu de coalition",
