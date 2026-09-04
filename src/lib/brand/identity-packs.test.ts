@@ -154,7 +154,6 @@ describe("identity-packs", () => {
       opseuSectorId: "caat-academic",
       identityPackId: OPSEU_CAAT_A_PACK_ID,
       useOfficialLogo: true,
-      officialLogoVariant: "lockup",
     });
     expect(logos?.lockup.aspect).toBe("wide");
     expect(logos?.mark?.selectable).toBe(true);

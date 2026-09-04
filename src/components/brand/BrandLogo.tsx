@@ -61,6 +61,7 @@ function resolveInk(
 
 type LogoDimensions =
   | (typeof lockupSize)[keyof typeof lockupSize]
+  | (typeof wideLockupSize)[keyof typeof wideLockupSize]
   | (typeof markSize)[keyof typeof markSize];
 
 function logoDims(
