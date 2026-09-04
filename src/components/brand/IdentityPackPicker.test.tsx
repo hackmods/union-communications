@@ -31,6 +31,13 @@ vi.mock("next-intl", () => ({
       "packs.opseu-caat-s.plates.gold.name": "College Support — gold",
       "packs.opseu-caat-s.plates.gold.description":
         "Gold campaign field with the white-and-coral College Support lockup.",
+      "packs.opseu-caat-a.plates.burgundy.name": "College Faculty — burgundy",
+      "packs.opseu-caat-a.plates.burgundy.description":
+        "Burgundy campaign field with the white College Faculty lockup.",
+      "packs.opseu-caat-a.plates.coalition.name":
+        "College Faculty — coalition blue",
+      "packs.opseu-caat-a.plates.coalition.description":
+        "OPSEU / SEFPO blue field for joint bargaining graphics alongside other CAAT units.",
       "plates.coral": "Coral",
       "plates.gold": "Gold",
     };
@@ -113,6 +120,37 @@ describe("IdentityPackPicker layout", () => {
     expect(useBrandStore.getState().brandKit.primaryColor).toBe("#FFB837");
     expect(useBrandStore.getState().brandKit.accentColor).toBe("#EA5A4F");
     expect(gold).toHaveAttribute("aria-checked", "true");
+  });
+});
+
+describe("IdentityPackPicker — CAAT-A faculty", () => {
+  beforeEach(() => {
+    const pack = getIdentityPack("opseu-caat-a")!;
+    useBrandStore.setState({
+      hydrated: true,
+      brandKit: {
+        ...DEFAULT_BRAND_KIT,
+        unionPresetId: "opseu",
+        opseuSectorId: "caat-academic",
+        ...applyIdentityPack(pack),
+      } as BrandKit,
+    });
+  });
+
+  afterEach(() => {
+    cleanup();
+    useBrandStore.setState({ brandKit: DEFAULT_BRAND_KIT, hydrated: false });
+  });
+
+  it("offers burgundy and coalition blue as peer Look cards", () => {
+    render(<IdentityPackPicker />);
+
+    expect(
+      screen.getByRole("radio", { name: /College Faculty — burgundy/ }),
+    ).toBeChecked();
+    expect(
+      screen.getByRole("radio", { name: /College Faculty — coalition blue/ }),
+    ).toBeInTheDocument();
   });
 });
 

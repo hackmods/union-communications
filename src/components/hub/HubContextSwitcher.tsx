@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { getTenantContext } from "@/lib/tenant/loader";

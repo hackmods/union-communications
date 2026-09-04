@@ -34,6 +34,7 @@ import {
   canvasSurfaceStyle,
   softGradientEndColor,
 } from "@/lib/utils/canvas-surface";
+import { JointActionCard } from "@/components/comms/campaign/JointActionCard";
 
 export type GraphicLayoutId = Exclude<ExampleLayout, "quote">;
 
@@ -43,6 +44,7 @@ export const GRAPHIC_LAYOUT_ORDER: readonly GraphicLayoutId[] = [
   "spotlight",
   "notice",
   "results",
+  "jointAction",
 ] as const;
 
 export interface GraphicLayoutCopy {
@@ -76,6 +78,8 @@ export interface GraphicLayoutCanvasProps {
   tokens?: CanvasTokens;
   logoMode?: BoardLogoMode;
   showLocalNumber?: boolean;
+  /** Optional coalition badge from Brand Kit campaign badge */
+  coalitionBadge?: string;
 }
 
 /**
@@ -213,6 +217,7 @@ export function GraphicLayoutCanvas({
   tokens,
   logoMode = "lockup",
   showLocalNumber = true,
+  coalitionBadge,
 }: GraphicLayoutCanvasProps) {
   const { primary, accent, secondary } = colors;
   const surface = tokens
@@ -309,6 +314,65 @@ export function GraphicLayoutCanvas({
           showLocalNumber={showLocalNumber}
         />
       )}
+      {layout === "jointAction" && (
+        <JointActionLayout
+          primary={primary}
+          accent={accent}
+          copy={copy}
+          localNumber={localNumber}
+          subText={subText}
+          size={size}
+          coalitionBadge={coalitionBadge}
+          showLocalNumber={showLocalNumber}
+        />
+      )}
+    </div>
+  );
+}
+
+function JointActionLayout({
+  primary,
+  accent,
+  copy,
+  localNumber,
+  subText,
+  size,
+  coalitionBadge,
+  showLocalNumber,
+}: {
+  primary: string;
+  accent: string;
+  copy: GraphicLayoutCopy;
+  localNumber: string;
+  subText: string;
+  size: "preview" | "export";
+  coalitionBadge?: string;
+  showLocalNumber: boolean;
+}) {
+  const chrome = graphicLayoutChrome(undefined, size === "export");
+  const actionLabel = copy.detail?.trim() || "Show up — details to follow";
+
+  return (
+    <div
+      className="flex h-full flex-col justify-center"
+      style={{ padding: chrome.pad, backgroundColor: primary }}
+    >
+      <JointActionCard
+        primaryColor={primary}
+        accentColor={accent}
+        title={copy.headline}
+        body={copy.body}
+        actionLabel={actionLabel}
+        coalitionBadge={coalitionBadge}
+        className={size === "export" ? "text-base" : "text-sm"}
+      />
+      <LocalFooter
+        localNumber={localNumber}
+        subText={subText}
+        size={size}
+        color={pickContrastingInk(primary)}
+        show={showLocalNumber}
+      />
     </div>
   );
 }

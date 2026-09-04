@@ -13,6 +13,49 @@ const DESKTOP_VIEWPORTS = [
   { width: 1920, height: 1080 },
 ] as const;
 
+const CAAT_A_BURGUNDY_COPY =
+  /Burgundy campaign field with the white College Faculty lockup/;
+
+async function selectOpseuCaatALook(page: Page) {
+  const unionSelect = page.getByLabel(/^Union preset$|^Union$/);
+  await expect(unionSelect).toBeVisible();
+  await expect(async () => {
+    if ((await unionSelect.inputValue()) !== "opseu") {
+      await unionSelect.selectOption("opseu");
+    }
+    await expect(page.getByLabel("OPSEU / SEFPO sector")).toBeVisible();
+  }).toPass({ timeout: 15_000 });
+  await page.getByLabel("OPSEU / SEFPO sector").selectOption("caat-academic");
+  const gallery = page.getByTestId("identity-pack-gallery");
+  await expect(gallery).toBeVisible();
+  await gallery
+    .getByRole("radio", { name: /College Faculty — burgundy/i })
+    .click();
+  await expect(
+    gallery.getByRole("radio", { name: /College Faculty — burgundy/i }),
+  ).toBeChecked();
+  await expect(
+    gallery.getByRole("radio", { name: /College Faculty — coalition blue/i }),
+  ).toBeVisible();
+}
+
+async function assertCaatALookFits(page: Page) {
+  await assertNoHorizontalOverflow(page);
+  const gallery = page.getByTestId("identity-pack-gallery");
+  await expect(gallery).toBeVisible();
+  await assertFitsViewport(page, gallery);
+
+  const description = page.getByText(CAAT_A_BURGUNDY_COPY);
+  await expect(description).toBeVisible();
+  await assertFitsViewport(page, description);
+
+  const card = gallery.getByRole("radio", {
+    name: /College Faculty — burgundy/i,
+  });
+  await expect(card).toBeVisible();
+  await assertFitsViewport(page, card);
+}
+
 async function selectOpseuCaatSLook(page: Page) {
   // Brand Kit labels the control "Union preset"; onboarding uses "Union".
   const unionSelect = page.getByLabel(/^Union preset$|^Union$/);
@@ -81,6 +124,23 @@ test.describe("Brand Kit layout — OPSEU CAAT-S Look @smoke", () => {
     for (const size of DESKTOP_VIEWPORTS) {
       await page.setViewportSize(size);
       await assertCaatSLookFits(page);
+    }
+  });
+});
+
+test.describe("Brand Kit layout — OPSEU CAAT-A Look @smoke", () => {
+  test("Look gallery stays inside the page at tablet and desktop widths", async ({
+    page,
+  }) => {
+    await page.goto("/en/brand-kit/");
+    await expect(
+      page.getByRole("heading", { name: /Brand Kit|Trousse/i }),
+    ).toBeVisible();
+    await selectOpseuCaatALook(page);
+
+    for (const size of DESKTOP_VIEWPORTS) {
+      await page.setViewportSize(size);
+      await assertCaatALookFits(page);
     }
   });
 });

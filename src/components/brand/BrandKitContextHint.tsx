@@ -19,8 +19,9 @@ export function BrandKitContextHint() {
   if ((brandKit.profiles?.length ?? 0) < 2) return null;
 
   return (
-    <Callout variant="info" title={t("title")}>
-      <p>{t("body")}</p>
+    <Callout tone="brand" className="mt-6">
+      <p className="font-semibold text-opseu-dark">{t("title")}</p>
+      <p className="mt-1">{t("body")}</p>
     </Callout>
   );
 }

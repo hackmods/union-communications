@@ -3583,7 +3583,7 @@
     "campaignBadge": {
       "label": "Campaign badge (optional)",
       "placeholder": "e.g. Francophone committee",
-      "hint": "Short caucus or sub-committee label for coalition graphics. It appears on joint-action previews — not on every tool yet."
+      "hint": "Short caucus or sub-committee label for coalition graphics. It appears on Joint action layouts in Graphic Maker and on Brand Kit previews."
     },
     "coalitionPreview": {
       "title": "Joint bargaining preview",
@@ -3819,7 +3819,8 @@
       "thanks": "Thank you",
       "spotlight": "Spotlight",
       "notice": "Notice",
-      "results": "Results"
+      "results": "Results",
+      "jointAction": "Joint action"
     },
     "aspect": "Format",
     "aspects": {

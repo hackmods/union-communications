@@ -23,6 +23,12 @@ export const TOOL_PRESETS = {
     subheadline: "Celebrating the workers who make our local strong",
     theme: "celebration",
   },
+  jointCoalition: {
+    id: "joint-coalition",
+    headline: "Stand together at the table",
+    subheadline: "Faculty and support locals united for fair collective agreements",
+    theme: "urgent",
+  },
 } as const;
 
 export type ToolPresetKey = keyof typeof TOOL_PRESETS;

@@ -3583,7 +3583,7 @@
     "campaignBadge": {
       "label": "Badge de campagne (optionnel)",
       "placeholder": "p. ex. Comité francophone",
-      "hint": "Étiquette courte pour un comité ou un sous-groupe sur les graphiques de coalition. Elle apparaît dans l'aperçu d'action conjointe — pas encore sur tous les outils."
+      "hint": "Étiquette courte pour un comité ou un sous-groupe sur les graphiques de coalition. Elle apparaît sur la mise en page Action conjointe du Créateur graphique et dans les aperçus de la Trousse de marque."
     },
     "coalitionPreview": {
       "title": "Aperçu de négociation conjointe",
@@ -3767,7 +3767,8 @@
       "thanks": "Remerciement",
       "spotlight": "Projecteur",
       "notice": "Avis",
-      "results": "Résultats"
+      "results": "Résultats",
+      "jointAction": "Action conjointe"
     },
     "aspect": "Format",
     "aspects": {
