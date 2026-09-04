@@ -6808,7 +6808,7 @@
       },
       "local-bylaws-builder": {
         "title": "Créateur de règlements — préréglages, brouillons et exports",
-        "body": "Remplissez un modèle selon la taille de la section, enregistrez le brouillon sur cet appareil, puis copiez, imprimez ou exportez en Markdown, PDF ou texte pour Word."
+        "body": "Remplissez un modèle selon la taille de la section, enregistrez le brouillon sur cet appareil, puis copiez, imprimez ou exportez en PDF ou texte brut pour Word."
       },
       "bargaining-lifecycle-guide": {
         "title": "Le cycle de négociation : du sondage à la signature",
@@ -9406,7 +9406,6 @@
       "verbal": "Script verbal"
     },
     "export": {
-      "markdown": "Exporter en Markdown",
       "pdf": "Exporter en PDF",
       "clear": "Effacer le brouillon",
       "printChecklist": "Imprimer la liste"
@@ -9520,7 +9519,6 @@
       "gaps": "État de la liste des droits"
     },
     "export": {
-      "markdown": "Exporter en Markdown",
       "pdf": "Exporter en PDF",
       "clear": "Effacer le brouillon",
       "printChecklist": "Imprimer la liste"
@@ -9632,7 +9630,6 @@
       "farDraft": "Brouillon FAR"
     },
     "export": {
-      "markdown": "Exporter en Markdown",
       "pdf": "Exporter en PDF",
       "clear": "Effacer le brouillon",
       "printChecklist": "Imprimer la liste"
@@ -10612,7 +10609,7 @@
         },
         "export": {
           "label": "Exporter pour le CEL / l'AGM",
-          "content": "Téléchargez Markdown ou PDF pour une reprise dans Word, puis suivez la liste d'adoption avant le vote."
+          "content": "Téléchargez un PDF ou un texte brut pour une reprise dans Word, puis suivez la liste d'adoption avant le vote."
         }
       },
       "portalCta": "Ouvrir le Portail local",
@@ -10795,7 +10792,7 @@
       },
       "builder": {
         "title": "Créateur de règlements (exemple campus)",
-        "body": "Chargez un brouillon de taille campus, modifiez les articles, puis exportez texte, Markdown ou PDF pour Word.",
+        "body": "Chargez un brouillon de taille campus, modifiez les articles, puis exportez un PDF ou un texte brut pour Word.",
         "cta": "Ouvrir l'exemple campus"
       },
       "governance": {
@@ -10815,7 +10812,6 @@
     "saveFailed": "Impossible d'enregistrer le brouillon sur cet appareil. Copiez ou téléchargez maintenant pour ne pas perdre le texte, puis libérez de l'espace du navigateur et réessayez.",
     "copy": "Copier dans le presse-papiers",
     "downloadTxt": "Télécharger en .TXT",
-    "exportMarkdown": "Télécharger Markdown",
     "exportPdf": "Télécharger PDF",
     "print": "Imprimer le brouillon",
     "clearDraft": "Effacer le brouillon",

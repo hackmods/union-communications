@@ -6860,7 +6860,7 @@
       },
       "local-bylaws-builder": {
         "title": "Bylaw Builder — presets, drafts, and exports",
-        "body": "Fill sample local sizes, save a draft on this device, then copy, print, or export Markdown, PDF, or text for Word."
+        "body": "Fill sample local sizes, save a draft on this device, then copy, print, or export PDF or plain text for Word."
       },
       "bargaining-lifecycle-guide": {
         "title": "The Bargaining Lifecycle: From Survey to Signing",
@@ -9432,7 +9432,6 @@
       "verbal": "Verbal script"
     },
     "export": {
-      "markdown": "Export Markdown",
       "pdf": "Export PDF",
       "clear": "Clear draft",
       "printChecklist": "Print checklist"
@@ -9531,7 +9530,6 @@
       "gaps": "Rights checklist status"
     },
     "export": {
-      "markdown": "Export Markdown",
       "pdf": "Export PDF",
       "clear": "Clear draft",
       "printChecklist": "Print checklist"
@@ -9638,7 +9636,6 @@
       "farDraft": "FAR draft"
     },
     "export": {
-      "markdown": "Export Markdown",
       "pdf": "Export PDF",
       "clear": "Clear draft",
       "printChecklist": "Print checklist"
@@ -10612,7 +10609,7 @@
         },
         "export": {
           "label": "Export for LEC / GMM",
-          "content": "Download Markdown or PDF for Word cleanup, then walk the adoption checklist before the vote."
+          "content": "Download PDF or plain text for Word cleanup, then walk the adoption checklist before the vote."
         }
       },
       "portalCta": "Open Local Portal",
@@ -10795,7 +10792,7 @@
       },
       "builder": {
         "title": "Bylaw Builder (campus sample)",
-        "body": "Load a campus-sized draft, edit the articles, then export text, Markdown, or PDF for Word.",
+        "body": "Load a campus-sized draft, edit the articles, then export PDF or plain text for Word.",
         "cta": "Open campus sample"
       },
       "governance": {
@@ -10815,7 +10812,6 @@
     "saveFailed": "Could not save the draft on this device. Copy or download now so you do not lose the text, then free browser storage and try again.",
     "copy": "Copy to clipboard",
     "downloadTxt": "Download as .TXT",
-    "exportMarkdown": "Download Markdown",
     "exportPdf": "Download PDF",
     "print": "Print draft",
     "clearDraft": "Clear draft",

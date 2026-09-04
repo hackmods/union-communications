@@ -28,7 +28,6 @@ import {
   buildPreDisciplinaryScripts,
   clearPreDisciplinaryDraft,
   createEmptyPreDisciplinaryDraft,
-  exportWorkspaceMarkdown,
   exportWorkspacePdf,
   hasProceduralDefect,
   loadPreDisciplinaryDraft,
@@ -131,18 +130,9 @@ export default function PreDisciplinaryLogPage() {
       <StewardGuideExportBar
         exporting={exporting}
         labels={{
-          exportMarkdown: t("export.markdown"),
           exportPdf: t("export.pdf"),
           clearDraft: t("export.clear"),
           printChecklist: t("export.printChecklist"),
-        }}
-        onExportMarkdown={() => {
-          void runExport(async () => {
-            await exportWorkspaceMarkdown(
-              buildMarkdown(),
-              "pre-disciplinary-log.md",
-            );
-          });
         }}
         onExportPdf={() => {
           void runExport(async () => {
