@@ -1,7 +1,7 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
@@ -11,10 +11,10 @@ import { cn } from "@/lib/utils";
  * Invite-accept and login stay reachable; Home stays Comms-focused.
  */
 export function SoftLaunchBanner() {
-  const { status } = useSession();
+  const { authenticated } = useHubAuthenticated();
   const t = useTranslations("hub");
 
-  if (isOfficerHubPublic() || status !== "authenticated") return null;
+  if (isOfficerHubPublic() || !authenticated) return null;
 
   return (
     <div

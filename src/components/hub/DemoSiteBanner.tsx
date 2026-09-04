@@ -1,7 +1,7 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { isDemoSite } from "@/lib/features/demo-site";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
@@ -11,10 +11,10 @@ import { cn } from "@/lib/utils";
  * Hidden on the login screen and whenever `NEXT_PUBLIC_DEMO_SITE` is off.
  */
 export function DemoSiteBanner() {
-  const { status } = useSession();
+  const { authenticated } = useHubAuthenticated();
   const t = useTranslations("hub");
 
-  if (!isDemoSite() || status !== "authenticated") return null;
+  if (!isDemoSite() || !authenticated) return null;
 
   return (
     <div

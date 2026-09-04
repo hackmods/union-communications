@@ -1,7 +1,7 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { isMemoryCaseDataActive } from "@/lib/db/backend";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
@@ -11,10 +11,10 @@ import { cn } from "@/lib/utils";
  * (SEC-003). Hidden only when all backends are postgres.
  */
 export function MemoryDataBanner() {
-  const { status } = useSession();
+  const { authenticated } = useHubAuthenticated();
   const t = useTranslations("hub");
 
-  if (!isMemoryCaseDataActive() || status !== "authenticated") return null;
+  if (!isMemoryCaseDataActive() || !authenticated) return null;
 
   return (
     <div

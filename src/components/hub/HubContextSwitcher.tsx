@@ -1,7 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
+import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canCrossLocalGrievance } from "@/lib/grievance/access";
@@ -18,7 +17,7 @@ export function HubContextSwitcher({
 }: {
   variant?: "bar" | "drawer";
 }) {
-  const { data: session, update, status } = useSession();
+  const { session, update, authenticated } = useHubAuthenticated();
   const t = useTranslations("hub");
   const liveTenant = useLiveTenant();
   const unionId = session?.user?.unionId;
@@ -27,7 +26,7 @@ export function HubContextSwitcher({
     : null;
   const tenant = liveTenant ?? seedTenant;
 
-  if (status !== "authenticated" || !session?.user?.unionId || !tenant) {
+  if (!authenticated || !session?.user?.unionId || !tenant) {
     return null;
   }
 
