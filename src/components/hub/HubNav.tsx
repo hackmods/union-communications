@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useId, useLayoutEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { getHubNavModules } from "@/lib/modules/registry";
 import { getTenantContext } from "@/lib/tenant/loader";
 import {
@@ -31,7 +31,7 @@ import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { NavDropdown } from "@/components/layout/nav/NavDropdown";
 
 export function HubNav() {
-  const { data: session, status } = useSession();
+  const { session, authenticated } = useHubAuthenticated();
   const t = useTranslations("hub");
   const pathname = usePathname();
   const mfaEnabled = useMfaEnabled();
@@ -72,7 +72,7 @@ export function HubNav() {
     setDrawer((prev) => (prev?.path === pathname ? null : { path: pathname }));
   };
 
-  if (status !== "authenticated" || !session?.user) return null;
+  if (!authenticated || !session?.user) return null;
 
   const tenant =
     liveTenant ??
@@ -119,7 +119,7 @@ export function HubNav() {
       ref={barRef}
       className={cn(
         "sticky z-40 border-b border-gray-200 bg-gray-50",
-        "top-[var(--site-header-height,3.5rem)]",
+        "top-[calc(var(--site-header-height,3.5rem)+var(--hub-banner-stack-height,0px))]",
         drawerOpen && "z-[80]",
       )}
       aria-label={t("navLabel")}

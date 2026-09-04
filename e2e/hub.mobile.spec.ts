@@ -129,6 +129,36 @@ test.describe("Hub dashboards mobile @smoke @mobile", () => {
     await assertNoHorizontalOverflow(page);
   });
 
+  test("hub menu drawer stays open when active collection changes", async ({
+    page,
+  }) => {
+    await page.goto("/en/app");
+    await page.getByTestId("hub-nav-toggle").click();
+    const drawer = page.getByTestId("hub-nav-drawer");
+    await expect(drawer).toBeVisible();
+
+    const collectionSelect = drawer.getByRole("combobox", {
+      name: /Active collection|Collection active/i,
+    });
+    if ((await collectionSelect.count()) === 0) {
+      test.skip(true, "Demo tenant has no collection switcher");
+    }
+
+    const options = await collectionSelect.locator("option").allTextContents();
+    const alternate = options.find((label) =>
+      /PT|TP|Part-time|Temps partiel/i.test(label),
+    );
+    if (!alternate) {
+      test.skip(true, "No alternate collection option in demo seed");
+    }
+
+    await collectionSelect.selectOption({ label: alternate! });
+    await expect(drawer).toBeVisible();
+    await expect(
+      drawer.getByRole("link", { name: /Grievances|Griefs/i }),
+    ).toBeVisible();
+  });
+
   test("hub menu drawer reaches modules and officer tools", async ({ page }) => {
     await page.goto("/en/app");
     await page.getByTestId("hub-nav-toggle").click();

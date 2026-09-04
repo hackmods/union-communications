@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { DemoSiteBanner } from "@/components/hub/DemoSiteBanner";
-import { MemoryDataBanner } from "@/components/hub/MemoryDataBanner";
-import { MeetingReminderBanner } from "@/components/hub/MeetingReminderBanner";
-import { SoftLaunchBanner } from "@/components/hub/SoftLaunchBanner";
+import { HubBannerStack } from "@/components/hub/HubBannerStack";
 import { MfaPolicyProvider } from "@/components/hub/MfaPolicyProvider";
 import { TotpEnrollmentGate } from "@/components/hub/TotpEnrollmentGate";
 import { HubNav } from "@/components/hub/HubNav";
@@ -27,10 +24,7 @@ export default async function AppLayout({
     <MfaPolicyProvider mfaEnabled={mfaEnabled}>
       <TotpEnrollmentGate>
         <TenantLiveProvider>
-          <DemoSiteBanner />
-          <SoftLaunchBanner />
-          <MemoryDataBanner />
-          <MeetingReminderBanner />
+          <HubBannerStack />
           <HubNav />
           {/* Body uses `wide` (not chrome): avoid stretched empty margins on phone/tablet. */}
           <div className={cn(PAGE_SHELL.wide, "py-4 sm:py-6 md:py-8")}>

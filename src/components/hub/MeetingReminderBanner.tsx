@@ -1,7 +1,7 @@
 "use client";
 
+import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
@@ -12,7 +12,7 @@ import type { MeetingRsvpTallies, NextMeetingInfo } from "@/types/meetings";
 const REMINDER_WINDOW_DAYS = 7;
 
 export function MeetingReminderBanner() {
-  const { status } = useSession();
+  const { authenticated } = useHubAuthenticated();
   const t = useTranslations("hub");
   const [nextMeeting, setNextMeeting] = useState<NextMeetingInfo | null>(null);
   const [days, setDays] = useState<number | null>(null);
@@ -21,7 +21,7 @@ export function MeetingReminderBanner() {
   const [tallies, setTallies] = useState<MeetingRsvpTallies | null>(null);
 
   useEffect(() => {
-    if (status !== "authenticated") return;
+    if (!authenticated) return;
     let cancelled = false;
     fetch("/api/meetings/upcoming")
       .then((res) => (res.ok ? res.json() : null))
@@ -49,7 +49,7 @@ export function MeetingReminderBanner() {
     return () => {
       cancelled = true;
     };
-  }, [status]);
+  }, [authenticated]);
 
   const scheduleInWindow =
     nextMeeting &&
@@ -63,7 +63,7 @@ export function MeetingReminderBanner() {
     eventDays >= 0 &&
     eventDays <= REMINDER_WINDOW_DAYS;
 
-  if (status !== "authenticated" || (!scheduleInWindow && !eventInWindow)) {
+  if (!authenticated || (!scheduleInWindow && !eventInWindow)) {
     return null;
   }
 
