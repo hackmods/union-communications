@@ -14,6 +14,7 @@
 
 import type { BrandKit, BrandKitPatch } from "@/types/entities";
 import type { OfficialLogoVariant } from "@/lib/constants/brand";
+import { resolveOpseuSectorId } from "@/lib/brand/collection-profiles";
 import { isOpseuSectorId } from "@/lib/brand/opseu-sector-catalog";
 
 /** Paths mirror `OFFICIAL_LOGOS` in brand.ts — keep in sync. */
@@ -361,25 +362,75 @@ export function defaultIdentityPackId(unionPresetId: string | undefined): string
 
 /**
  * Packs offered in the Look gallery for this union + sector.
- * Always includes `savedPackId` when it still belongs to the same union so a
- * steward who switches sector does not lose a saved Look until they pick again.
+ * Sector-scoped Looks (CAAT-S, CAAT-A) never appear outside their sector.
  */
 export function identityPacksFor(
   unionPresetId: string | undefined,
   sectorId?: string | undefined,
-  savedPackId?: string | undefined,
 ): IdentityPack[] {
   if (!unionPresetId?.trim()) return [];
 
-  const offered = IDENTITY_PACKS.filter((pack) => {
+  return IDENTITY_PACKS.filter((pack) => {
     if (pack.unionPresetId !== unionPresetId) return false;
     if (!pack.sectorIds || pack.sectorIds.length === 0) return true;
     if (sectorId && pack.sectorIds.includes(sectorId)) return true;
-    if (savedPackId && pack.id === savedPackId) return true;
     return false;
   });
+}
 
-  return offered;
+/** True when a saved Look belongs on the active OPSEU sector (national packs always pass). */
+export function identityPackValidForSector(
+  packId: string | undefined,
+  sectorId: string | undefined,
+): boolean {
+  const pack = getIdentityPack(packId);
+  if (!pack) return false;
+  if (!pack.sectorIds?.length) return true;
+  if (!sectorId) return false;
+  return pack.sectorIds.includes(sectorId);
+}
+
+/** Default Look after a sector switch — sector pack when one exists, else national blue. */
+export function preferredIdentityPackForSector(
+  unionPresetId: string | undefined,
+  sectorId: string | undefined,
+): IdentityPack | undefined {
+  if (!unionPresetId?.trim()) return undefined;
+  const offered = identityPacksFor(unionPresetId, sectorId);
+  const sectorSpecific = offered.filter(
+    (pack) => pack.sectorIds && pack.sectorIds.length > 0,
+  );
+  if (sectorSpecific.length > 0) return sectorSpecific[0];
+  const nationalId = defaultIdentityPackId(unionPresetId);
+  return nationalId ? getIdentityPack(nationalId) : undefined;
+}
+
+/** Coerce an invalid sector Look back to the sector default (hydrate + sector changes). */
+export function alignIdentityPackToSector<
+  T extends Pick<
+    BrandKit,
+    | "unionPresetId"
+    | "opseuSectorId"
+    | "identityPackId"
+    | "campaignPlate"
+    | "primaryColor"
+    | "secondaryColor"
+    | "accentColor"
+    | "useOfficialLogo"
+    | "officialLogoVariant"
+    | "profiles"
+  >,
+>(kit: T): T {
+  if (kit.unionPresetId !== "opseu") return kit;
+  const sectorId = resolveOpseuSectorId(
+    kit.unionPresetId,
+    kit.opseuSectorId,
+    kit.profiles,
+  );
+  if (identityPackValidForSector(kit.identityPackId, sectorId)) return kit;
+  const pack = preferredIdentityPackForSector(kit.unionPresetId, sectorId);
+  if (!pack) return kit;
+  return { ...kit, ...applyIdentityPack(pack) };
 }
 
 /** Gallery tile: one Look card, optionally bound to a named plate. */
@@ -612,11 +663,20 @@ export function normalizeCampaignPlate(
 export function resolveIdentityPackForKit(
   kit: Pick<
     BrandKit,
-    "identityPackId" | "unionPresetId" | "opseuSectorId" | "useOfficialLogo"
+    | "identityPackId"
+    | "unionPresetId"
+    | "opseuSectorId"
+    | "useOfficialLogo"
+    | "profiles"
   >,
 ): IdentityPack | undefined {
+  const sectorId = resolveOpseuSectorId(
+    kit.unionPresetId,
+    kit.opseuSectorId,
+    kit.profiles,
+  );
   const saved = getIdentityPack(kit.identityPackId);
-  if (saved) return saved;
+  if (saved && identityPackValidForSector(saved.id, sectorId)) return saved;
 
   if (kit.unionPresetId === "opseu" && kit.useOfficialLogo) {
     return getIdentityPack(OPSEU_NATIONAL_PACK_ID);

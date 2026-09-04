@@ -40,6 +40,7 @@ describe("resolveBrandLogoPresentation", () => {
     const kit: BrandKit = {
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
+      opseuSectorId: "caat-support",
       identityPackId: "opseu-caat-s",
       useOfficialLogo: true,
       officialLogoVariant: "lockup",
@@ -54,6 +55,7 @@ describe("resolveBrandLogoPresentation", () => {
     const kit: BrandKit = {
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
+      opseuSectorId: "caat-support",
       identityPackId: "opseu-caat-s",
       campaignPlate: "gold",
       useOfficialLogo: true,
@@ -70,6 +72,7 @@ describe("resolveBrandLogoPresentation", () => {
     const kit: BrandKit = {
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
+      opseuSectorId: "caat-support",
       identityPackId: "opseu-caat-s",
       campaignPlate: "coral",
       useOfficialLogo: true,
@@ -88,6 +91,7 @@ describe("resolveBrandLogoPresentation", () => {
     const kit: BrandKit = {
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
+      opseuSectorId: "caat-support",
       identityPackId: "opseu-caat-s",
       campaignPlate: "gold",
       useOfficialLogo: true,

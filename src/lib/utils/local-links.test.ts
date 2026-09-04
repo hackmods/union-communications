@@ -261,6 +261,7 @@ describe("normalizeBrandKit official logo vs custom mark", () => {
     const saved = normalizeBrandKit({
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
+      opseuSectorId: "caat-support",
       identityPackId: "opseu-caat-s",
       useOfficialLogo: true,
       officialLogoVariant: "lockup",
@@ -279,6 +280,7 @@ describe("normalizeBrandKit official logo vs custom mark", () => {
     const saved = normalizeBrandKit({
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
+      opseuSectorId: "caat-support",
       identityPackId: "opseu-caat-s",
       campaignPlate: "gold",
       useOfficialLogo: true,
@@ -297,6 +299,7 @@ describe("normalizeBrandKit official logo vs custom mark", () => {
     const kit = normalizeBrandKit({
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
+      opseuSectorId: "caat-support",
       identityPackId: "opseu-caat-s",
       campaignPlate: "accent",
       useOfficialLogo: true,
