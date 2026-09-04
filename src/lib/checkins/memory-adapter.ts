@@ -14,51 +14,55 @@ function newId(prefix: string): string {
 
 const now = () => new Date().toISOString();
 
-const schedules: CheckinSchedule[] = [
-  {
-    id: "checkin-sched-001",
-    unionId: "union-opseu",
-    localId: "local-243",
-    bargainingUnitId: "bu-243-ft",
-    question: "What are you working on for the local this week?",
-    cadence: "weekly",
-    weekday: 1,
-    active: true,
-    createdById: "user-president-243",
-    createdByName: "Local 243 President",
-    createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: "checkin-sched-002",
-    unionId: "union-opseu",
-    localId: "local-243",
-    bargainingUnitId: "bu-243-ft",
-    question: "Any member issues or board questions that need a follow-up today?",
-    cadence: "weekdays",
-    active: true,
-    createdById: "user-president-243",
-    createdByName: "Local 243 President",
-    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: "checkin-sched-003",
-    unionId: "union-opseu",
-    localId: "local-243",
-    bargainingUnitId: "bu-243-pt",
-    question:
-      "Were any part-time members skipped on this week's additional-hours list?",
-    cadence: "weekly",
-    weekday: 3,
-    active: true,
-    createdById: "user-president-243",
-    createdByName: "Local 243 President",
-    createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-];
+function seedSchedules(): CheckinSchedule[] {
+  return [
+    {
+      id: "checkin-sched-001",
+      unionId: "union-opseu",
+      localId: "local-243",
+      bargainingUnitId: "bu-243-ft",
+      question: "What are you working on for the local this week?",
+      cadence: "weekly",
+      weekday: 1,
+      active: true,
+      createdById: "user-president-243",
+      createdByName: "Local 243 President",
+      createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: "checkin-sched-002",
+      unionId: "union-opseu",
+      localId: "local-243",
+      bargainingUnitId: "bu-243-ft",
+      question:
+        "Any member issues or board questions that need a follow-up today?",
+      cadence: "weekdays",
+      active: true,
+      createdById: "user-president-243",
+      createdByName: "Local 243 President",
+      createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: "checkin-sched-003",
+      unionId: "union-opseu",
+      localId: "local-243",
+      bargainingUnitId: "bu-243-pt",
+      question:
+        "Were any part-time members skipped on this week's additional-hours list?",
+      cadence: "weekly",
+      weekday: 3,
+      active: true,
+      createdById: "user-president-243",
+      createdByName: "Local 243 President",
+      createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+  ];
+}
 
+const schedules: CheckinSchedule[] = seedSchedules();
 const answers: CheckinAnswer[] = [];
 
 export class MemoryCheckinsAdapter implements CheckinsAdapter {
@@ -206,3 +210,9 @@ export class MemoryCheckinsAdapter implements CheckinsAdapter {
 }
 
 export const memoryCheckinsStore = new MemoryCheckinsAdapter();
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetCheckinsMemoryForTests(): void {
+  schedules.splice(0, schedules.length, ...seedSchedules());
+  answers.length = 0;
+}
