@@ -16,9 +16,9 @@ export const LAND_ACK_REFLECT_ROW_HEIGHT = 10;
 const WORKSHEET_COPY = {
   en: {
     title: "Land acknowledgement — floor handout",
-    subtitle: "Solo draft or group workshop · research, write, commit",
+    subtitle: "Research, write, commit — solo or workshop",
     instructions:
-      "Fill in pen. Steps match unionops.org/guide/land-acknowledgement — confirm nation names before your next meeting.",
+      "Pen in hand. Steps mirror the Land Acknowledgement Guide — confirm nation names before your next meeting.",
     reminder:
       "Education only — not a script to paste unchanged. Confirm territory, treaties, and follow-up with Indigenous sources and your federation guide.",
     tips: {
@@ -31,6 +31,7 @@ const WORKSHEET_COPY = {
     sections: [
       {
         heading: "Before you start",
+        intro: "Choose your path and note where your local meets.",
         lines: [
           { kind: "text", text: "Path: □ On my own    □ Group workshop" },
           {
@@ -46,7 +47,8 @@ const WORKSHEET_COPY = {
         ],
       },
       {
-        heading: "Step 1 — Research (~20 min solo · ~25 min workshop)",
+        heading: "Step 1 — Research",
+        intro: "~20 min solo · ~25 min workshop · Complete before you draft.",
         lines: [
           {
             kind: "text",
@@ -56,7 +58,7 @@ const WORKSHEET_COPY = {
           {
             kind: "fieldPair",
             left: { label: "Treaties / agreements" },
-            right: { label: "Federation guide (OFL / national / CUPE / other)" },
+            right: { label: "National / federation territory guide" },
           },
           {
             kind: "field",
@@ -65,37 +67,40 @@ const WORKSHEET_COPY = {
         ],
       },
       {
-        heading: "Step 2 — Reflect (~10 min solo · opening block in workshop)",
+        heading: "Step 2 — Reflect",
+        intro: "~10 min solo · opening round in workshop",
         lines: [
           {
             kind: "text",
-            text: "One honest sentence — why acknowledgement matters to me / our local:",
+            text: "One honest sentence — why this matters to your local:",
           },
           { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: LAND_ACK_REFLECT_ROW_HEIGHT },
         ],
       },
       {
-        heading: "Step 3 — Draft (~15 min solo · ~25 min in pairs at workshop)",
+        heading: "Step 3 — Draft",
+        intro: "~15 min solo · ~25 min in pairs at workshop",
         lines: [
           {
             kind: "text",
-            text: "Territory → history thread or local action → follow-up. Draft in your own words:",
+            text: "Territory, then one history thread or local action, then a commitment — in your own words:",
           },
           { kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: LAND_ACK_RULE_ROW_HEIGHT },
         ],
       },
       {
-        heading: "Step 4 — Review and commit (~10 min solo · ~20 min workshop close)",
+        heading: "Step 4 — Review and commit",
+        intro: "~10 min solo · ~20 min workshop close · Checklist before you share.",
         lines: [
           {
             kind: "checkPair",
-            left: "Accurate for this territory (not another city)",
-            right: "Speaker can explain every phrase without notes",
+            left: "Accurate for this territory",
+            right: "Speaker explains every phrase",
           },
           {
             kind: "checkPair",
-            left: "Pairs words with one concrete local action",
-            right: "Indigenous Circle / equity contact consulted if unsure",
+            left: "Words paired with local action",
+            right: "Indigenous Circle consulted if unsure",
           },
           {
             kind: "fieldPair",
@@ -108,9 +113,9 @@ const WORKSHEET_COPY = {
   },
   fr: {
     title: "Reconnaissance territoriale — feuille de terrain",
-    subtitle: "Seul·e ou atelier de groupe · recherche, rédaction, engagement",
+    subtitle: "Recherche, rédaction, engagement — seul·e ou en atelier",
     instructions:
-      "Remplir à la main. Étapes : unionops.org/guide/land-acknowledgement — confirmez les noms de nations avant la prochaine réunion.",
+      "Remplir à la main. Les étapes reprennent le guide Reconnaissance territoriale — confirmez les noms de nations avant la prochaine réunion.",
     reminder:
       "Formation seulement — pas un texte à coller tel quel. Confirmez territoire, traités et suivi auprès de sources autochtones et du guide fédéral.",
     tips: {
@@ -123,6 +128,7 @@ const WORKSHEET_COPY = {
     sections: [
       {
         heading: "Avant de commencer",
+        intro: "Choisissez votre voie et notez où votre section se réunit.",
         lines: [
           { kind: "text", text: "Voie : □ Seul·e    □ Atelier de groupe" },
           {
@@ -138,7 +144,8 @@ const WORKSHEET_COPY = {
         ],
       },
       {
-        heading: "Étape 1 — Recherche (~20 min seul·e · ~25 min en atelier)",
+        heading: "Étape 1 — Recherche",
+        intro: "~20 min seul·e · ~25 min en atelier · Complétez avant de rédiger.",
         lines: [
           {
             kind: "text",
@@ -148,7 +155,7 @@ const WORKSHEET_COPY = {
           {
             kind: "fieldPair",
             left: { label: "Traités / ententes" },
-            right: { label: "Guide fédéral (FTO / national / SCFP / autre)" },
+            right: { label: "Guide territorial national / fédéral" },
           },
           {
             kind: "field",
@@ -157,37 +164,40 @@ const WORKSHEET_COPY = {
         ],
       },
       {
-        heading: "Étape 2 — Réflexion (~10 min seul·e · ouverture en atelier)",
+        heading: "Étape 2 — Réflexion",
+        intro: "~10 min seul·e · tour d'ouverture en atelier",
         lines: [
           {
             kind: "text",
-            text: "Une phrase honnête — pourquoi la reconnaissance compte pour moi / notre section :",
+            text: "Une phrase honnête — pourquoi cela compte pour votre section :",
           },
           { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: LAND_ACK_REFLECT_ROW_HEIGHT },
         ],
       },
       {
-        heading: "Étape 3 — Rédaction (~15 min seul·e · ~25 min en duo à l'atelier)",
+        heading: "Étape 3 — Rédaction",
+        intro: "~15 min seul·e · ~25 min en duo à l'atelier",
         lines: [
           {
             kind: "text",
-            text: "Territoire → fil historique ou action locale → suivi. Ébauche dans vos propres mots :",
+            text: "Territoire, puis un fil historique ou une action locale, puis un engagement — dans vos propres mots :",
           },
           { kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: LAND_ACK_RULE_ROW_HEIGHT },
         ],
       },
       {
-        heading: "Étape 4 — Réviser et s'engager (~10 min seul·e · ~20 min clôture)",
+        heading: "Étape 4 — Réviser et s'engager",
+        intro: "~10 min seul·e · ~20 min clôture · Liste de contrôle avant de partager.",
         lines: [
           {
             kind: "checkPair",
-            left: "Exact pour ce territoire (pas une autre ville)",
-            right: "La personne qui lit peut expliquer chaque phrase sans notes",
+            left: "Exact pour ce territoire",
+            right: "La personne qui lit explique chaque phrase",
           },
           {
             kind: "checkPair",
-            left: "Les mots sont liés à une action locale concrète",
-            right: "Cercle autochtone / contact équité consulté si incertain",
+            left: "Mots liés à une action locale",
+            right: "Cercle autochtone consulté si incertain",
           },
           {
             kind: "fieldPair",
@@ -215,6 +225,7 @@ export async function downloadLandAcknowledgementWorksheetPdf(opts: {
     layoutMode: "flow",
     sections: copy.sections.map((section) => ({
       heading: section.heading,
+      intro: section.intro,
       lines: section.lines.map((line) => ({ ...line })),
     })),
     tips: copy.tips,

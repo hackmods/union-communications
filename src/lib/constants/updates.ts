@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "land-acknowledgement-worksheet-pdf",
+    date: "2026-09-04",
+    kind: "improved",
+    href: "/guide/land-acknowledgement",
+  },
+  {
     id: "land-acknowledgement-guide",
     date: "2026-09-02",
     kind: "guide",
