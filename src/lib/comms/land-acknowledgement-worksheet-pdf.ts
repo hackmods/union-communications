@@ -12,6 +12,9 @@ export const LAND_ACK_REFLECT_ROWS = 2;
 export const LAND_ACK_RULE_ROW_HEIGHT = 15;
 /** Tighter ruled rows when the prompt sits directly above (Step 2 reflect). */
 export const LAND_ACK_REFLECT_ROW_HEIGHT = 10;
+/** Compact ruled rows for Step 4 review notes. */
+export const LAND_ACK_REVIEW_ROWS = 2;
+export const LAND_ACK_REVIEW_ROW_HEIGHT = 10;
 
 const WORKSHEET_COPY = {
   en: {
@@ -103,9 +106,22 @@ const WORKSHEET_COPY = {
             right: "Indigenous Circle consulted if unsure",
           },
           {
+            kind: "field",
+            label: "One concrete local action we commit to:",
+          },
+          {
             kind: "fieldPair",
             left: { label: "Who reads it at the next meeting?" },
             right: { label: "Executive review date" },
+          },
+          {
+            kind: "text",
+            text: "Changes or open questions from this review:",
+          },
+          {
+            kind: "ruled",
+            count: LAND_ACK_REVIEW_ROWS,
+            rowHeight: LAND_ACK_REVIEW_ROW_HEIGHT,
           },
         ],
       },
@@ -200,9 +216,22 @@ const WORKSHEET_COPY = {
             right: "Cercle autochtone consulté si incertain",
           },
           {
+            kind: "field",
+            label: "Une action locale concrète à laquelle nous nous engageons :",
+          },
+          {
             kind: "fieldPair",
             left: { label: "Qui lit à la prochaine réunion?" },
             right: { label: "Date de revue exécutif" },
+          },
+          {
+            kind: "text",
+            text: "Modifications ou questions ouvertes après cette révision :",
+          },
+          {
+            kind: "ruled",
+            count: LAND_ACK_REVIEW_ROWS,
+            rowHeight: LAND_ACK_REVIEW_ROW_HEIGHT,
           },
         ],
       },

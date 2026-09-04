@@ -65,6 +65,8 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(parsed.joined).toMatch(/Local \/ committee/i);
     expect(parsed.joined).toMatch(/Nations for where we meet/i);
     expect(parsed.joined).toMatch(/Accurate for this territory/i);
+    expect(parsed.joined).toMatch(/One concrete local action we commit to/i);
+    expect(parsed.joined).toMatch(/Changes or open questions from this review/i);
     expect(parsed.joined).toMatch(/Executive review date/i);
     expect(parsed.joined).toMatch(/without notes/i);
     expect(parsed.joined).toMatch(/National \/ federation territory guide/i);
@@ -246,7 +248,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     );
   });
 
-  it("keeps readable gap between title, subtitle, and Step 4 footer band", async () => {
+  it("keeps readable gap between title, subtitle, and footer band", async () => {
     const { parsed } = await exportWorksheet({
       localLabel: "Local 243",
       locale: "en",
@@ -254,29 +256,32 @@ describe("land-acknowledgement-worksheet-pdf", () => {
 
     const titleY = findTextY(parsed, "Land acknowledgement");
     const subtitleY = findTextY(parsed, "Research, write, commit");
-    const step4Y = findTextY(parsed, "Step 4 — Review and commit");
+    const reviewNotesY = findTextY(parsed, "Changes or open questions from this review");
     const tipsY = findTextY(parsed, "Floor tips");
 
     expect(titleY).toBeDefined();
     expect(subtitleY).toBeDefined();
-    expect(step4Y).toBeDefined();
+    expect(reviewNotesY).toBeDefined();
     expect(tipsY).toBeDefined();
     expect(titleY! - subtitleY!).toBeGreaterThan(10);
-    expect(step4Y! - tipsY!).toBeGreaterThan(24);
-    expect(step4Y! - tipsY!).toBeLessThan(125);
+    expect(reviewNotesY! - tipsY!).toBeGreaterThan(20);
+    expect(reviewNotesY! - tipsY!).toBeLessThan(90);
   });
 
-  it("pins Step 4 just above the footer band without a large dead zone", async () => {
+  it("places Step 4 answer lines just above floor tips without a large dead zone", async () => {
     const { parsed } = await exportWorksheet({
       localLabel: "Local 243",
       locale: "en",
     });
 
-    const step4Y = findTextY(parsed, "Step 4 — Review and commit");
+    const actionFieldY = findTextY(parsed, "One concrete local action we commit to");
+    const reviewNotesY = findTextY(parsed, "Changes or open questions from this review");
     const tipsY = findTextY(parsed, "Floor tips");
-    expect(step4Y).toBeDefined();
+    expect(actionFieldY).toBeDefined();
+    expect(reviewNotesY).toBeDefined();
     expect(tipsY).toBeDefined();
-    expect(step4Y! - tipsY!).toBeLessThan(125);
+    expect(actionFieldY!).toBeGreaterThan(reviewNotesY!);
+    expect(reviewNotesY! - tipsY!).toBeLessThan(90);
   });
 
   it("renders Step 4 in main flow above floor tips in reading order", async () => {
