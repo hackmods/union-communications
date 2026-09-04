@@ -105,6 +105,21 @@ describe("resolveBrandLogoPresentation", () => {
     expect(cssFilter).toBeUndefined();
   });
 
+  it("uses CAAT-A mark on white nav without CSS filter", () => {
+    const kit: BrandKit = {
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      opseuSectorId: "caat-academic",
+      identityPackId: "opseu-caat-a",
+      useOfficialLogo: true,
+      officialLogoVariant: "mark",
+      primaryColor: "#7B1E3F",
+    };
+    const { src, cssFilter } = resolveBrandLogoPresentation(kit);
+    expect(src).toContain("logo-mark.png");
+    expect(cssFilter).toBeUndefined();
+  });
+
   it("puts a paper plate behind custom uploads on brand fills (keeps full colour)", () => {
     const kit: BrandKit = {
       ...DEFAULT_BRAND_KIT,

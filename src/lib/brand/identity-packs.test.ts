@@ -25,6 +25,7 @@ import {
   resolveCampaignPlateForKit,
   resolveIdentityPackForKit,
   resolveOfficialLogos,
+  resolveSiteChromeLogoVariant,
 } from "./identity-packs";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 
@@ -137,6 +138,40 @@ describe("identity-packs", () => {
     expect(patch.campaignPlate).toBe(CAAT_S_CORAL_PLATE_ID);
     expect(patch.useOfficialLogo).toBe(true);
     expect(patch.officialLogoVariant).toBe("lockup");
+  });
+
+  it("defaults CAAT-A to compact mark with full lockup as secondary", () => {
+    const caatA = getIdentityPack(OPSEU_CAAT_A_PACK_ID)!;
+    expect(caatA.selectableVariants).toEqual(["lockup", "mark"]);
+    expect(caatA.defaultVariant).toBe("mark");
+
+    const patch = applyIdentityPack(caatA);
+    expect(patch.officialLogoVariant).toBe("mark");
+
+    const logos = resolveOfficialLogos({
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      opseuSectorId: "caat-academic",
+      identityPackId: OPSEU_CAAT_A_PACK_ID,
+      useOfficialLogo: true,
+    });
+    expect(logos?.lockup.aspect).toBe("wide");
+    expect(logos?.mark?.selectable).toBe(true);
+  });
+
+  it("uses compact mark in site chrome when CAAT-A lockup is selected", () => {
+    const kit = {
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      opseuSectorId: "caat-academic",
+      identityPackId: OPSEU_CAAT_A_PACK_ID,
+      useOfficialLogo: true,
+      officialLogoVariant: "lockup" as const,
+    };
+    expect(resolveSiteChromeLogoVariant(kit)).toBe("mark");
+    expect(
+      resolveSiteChromeLogoVariant({ ...kit, officialLogoVariant: "mark" }),
+    ).toBeUndefined();
   });
 
   it("applies explicit gold plate colours without an invert shortcut", () => {

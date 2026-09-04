@@ -3743,6 +3743,8 @@
       "useLockupHint": "Full OPSEU / SEFPO lockup from the reference asset pack.",
       "useCaatSLockup": "College Support lockup",
       "useCaatSLockupHint": "Bilingual College Support / Soutien lockup with the OPSEU / SEFPO mark.",
+      "useCaatALockup": "College Faculty lockup",
+      "useCaatALockupHint": "Full bilingual College Faculty lockup for flyers, exports, and wide headers. The site nav keeps the compact OPSEU / SEFPO emblem for readability.",
       "useMark": "OPSEU / SEFPO emblem",
       "useMarkHint": "Bars and trillium mark - compact for headers and circular logos.",
       "useSlitBlue": "OPSEU / SEFPO slit mark (blue)",

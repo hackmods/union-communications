@@ -5,6 +5,8 @@ import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { resolveSiteChromeLogoVariant } from "@/lib/brand/identity-packs";
+import { useBrandStore } from "@/store/brand-store";
 import { DisplaySettingsMenu } from "@/components/layout/DisplaySettingsMenu";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { AuthAccountControls } from "@/components/layout/AuthAccountControls";
@@ -49,6 +51,8 @@ export function MobileNavDrawer({
 }: MobileNavDrawerProps) {
   const t = useTranslations("nav");
   const th = useTranslations("hub");
+  const brandKit = useBrandStore((s) => s.brandKit);
+  const siteChromeLogoVariant = resolveSiteChromeLogoVariant(brandKit);
   const drawerRef = useRef<HTMLDivElement>(null);
   const { data: session, status } = useSession();
   const authenticated =
@@ -170,7 +174,8 @@ export function MobileNavDrawer({
           >
             <BrandLogo
               size="sm"
-              className="h-8 w-auto max-w-[10rem] shrink-0 object-contain"
+              variantOverride={siteChromeLogoVariant}
+              className="h-10 w-auto max-w-[11rem] shrink-0 object-contain"
             />
             <span>{th("platformName")}</span>
           </Link>
