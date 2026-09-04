@@ -6,6 +6,7 @@ import {
   collectionPatchForOpseuSector,
   resolveOpseuSectorId,
 } from "@/lib/brand/collection-profiles";
+import { alignIdentityPackToSector } from "@/lib/brand/identity-packs";
 import { listOpseuSectorsByGroup } from "@/lib/brand/opseu-sector-catalog";
 
 type OpseuSectorSelectProps = {
@@ -34,12 +35,29 @@ export function OpseuSectorSelect({ compact = false }: OpseuSectorSelectProps) {
         className="min-h-11 w-full rounded-md border border-gray-300 px-3 text-sm"
         value={sectorId}
         onChange={(e) => {
-          const patch = collectionPatchForOpseuSector(
+          const collectionPatch = collectionPatchForOpseuSector(
             e.target.value,
             brandKit.local.localNumber,
             brandKit.local.subText,
           );
-          setBrandKit(patch);
+          const aligned = alignIdentityPackToSector({
+            ...brandKit,
+            ...collectionPatch,
+          });
+          setBrandKit({
+            ...collectionPatch,
+            ...(aligned.identityPackId !== brandKit.identityPackId
+              ? {
+                  identityPackId: aligned.identityPackId,
+                  campaignPlate: aligned.campaignPlate,
+                  primaryColor: aligned.primaryColor,
+                  secondaryColor: aligned.secondaryColor,
+                  accentColor: aligned.accentColor,
+                  useOfficialLogo: aligned.useOfficialLogo,
+                  officialLogoVariant: aligned.officialLogoVariant,
+                }
+              : {}),
+          });
         }}
         aria-label={t("opseuSector.label")}
       >

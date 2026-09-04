@@ -71,11 +71,7 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
     brandKit.opseuSectorId,
     brandKit.profiles,
   );
-  const packs = identityPacksFor(
-    brandKit.unionPresetId,
-    sectorId,
-    brandKit.identityPackId,
-  );
+  const packs = identityPacksFor(brandKit.unionPresetId, sectorId);
   const tiles = identityPackGalleryTiles(packs);
 
   if (tiles.length < 2) return null;

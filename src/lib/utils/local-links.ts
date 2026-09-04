@@ -7,6 +7,7 @@ import {
 import {
   normalizeCampaignPlate,
   normalizeIdentityPackId,
+  alignIdentityPackToSector,
 } from "@/lib/brand/identity-packs";
 import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
@@ -217,7 +218,7 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
     unionPresetId,
   );
 
-  return {
+  return alignIdentityPackToSector({
     ...base,
     ...input,
     version: "2.0",
@@ -254,7 +255,7 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
       typeof input.updatedAt === "string"
         ? input.updatedAt
         : base.updatedAt,
-  };
+  });
 }
 
 /** Apply a saved profile onto local identity fields. */

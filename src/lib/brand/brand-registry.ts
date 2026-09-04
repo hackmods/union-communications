@@ -34,9 +34,8 @@ export type BrandRegistryLook = IdentityPack;
 export function listLooksForContext(
   unionPresetId: string | undefined,
   sectorId?: string,
-  savedPackId?: string,
 ): IdentityPack[] {
-  return identityPacksFor(unionPresetId, sectorId, savedPackId);
+  return identityPacksFor(unionPresetId, sectorId);
 }
 
 export function resolveLook(id: string | undefined): IdentityPack | undefined {

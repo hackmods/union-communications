@@ -10,6 +10,7 @@ import {
   OPSEU_CAAT_A_PACK_ID,
   OPSEU_CAAT_S_PACK_ID,
   OPSEU_NATIONAL_PACK_ID,
+  alignIdentityPackToSector,
   applyIdentityPack,
   colorsMatchIdentityPack,
   defaultIdentityPackId,
@@ -18,6 +19,7 @@ import {
   identityPackGalleryTiles,
   identityPackSectorGaps,
   identityPacksFor,
+  identityPackValidForSector,
   lockupForCanvasBackground,
   normalizeCampaignPlate,
   resolveCampaignPlateForKit,
@@ -71,9 +73,50 @@ describe("identity-packs", () => {
       OPSEU_NATIONAL_PACK_ID,
     ]);
     expect(
-      identityPacksFor("opseu", "ops", OPSEU_CAAT_S_PACK_ID).map((p) => p.id),
-    ).toContain(OPSEU_CAAT_S_PACK_ID);
+      identityPacksFor("opseu", "ops").map((p) => p.id),
+    ).not.toContain(OPSEU_CAAT_S_PACK_ID);
     expect(identityPacksFor("cupe")).toEqual([]);
+  });
+
+  it("does not leak CAAT-S into CAAT-A sector gallery", () => {
+    expect(
+      identityPacksFor("opseu", "caat-academic").map((p) => p.id),
+    ).not.toContain(OPSEU_CAAT_S_PACK_ID);
+  });
+
+  it("realigns a CAAT-S Look when the sector no longer matches", () => {
+    const caatS = applyIdentityPack(getIdentityPack(OPSEU_CAAT_S_PACK_ID)!);
+    const realigned = alignIdentityPackToSector({
+      unionPresetId: "opseu",
+      opseuSectorId: "boards-of-education",
+      identityPackId: caatS.identityPackId,
+      campaignPlate: caatS.campaignPlate,
+      primaryColor: caatS.primaryColor!,
+      secondaryColor: caatS.secondaryColor!,
+      accentColor: caatS.accentColor!,
+      useOfficialLogo: caatS.useOfficialLogo!,
+      officialLogoVariant: caatS.officialLogoVariant,
+    });
+    expect(realigned.identityPackId).toBe(OPSEU_NATIONAL_PACK_ID);
+    expect(identityPackValidForSector(realigned.identityPackId, "boards-of-education")).toBe(
+      true,
+    );
+  });
+
+  it("switches CAAT-S to CAAT-A when the sector becomes College Faculty", () => {
+    const caatS = applyIdentityPack(getIdentityPack(OPSEU_CAAT_S_PACK_ID)!);
+    const realigned = alignIdentityPackToSector({
+      unionPresetId: "opseu",
+      opseuSectorId: "caat-academic",
+      identityPackId: caatS.identityPackId,
+      campaignPlate: caatS.campaignPlate,
+      primaryColor: caatS.primaryColor!,
+      secondaryColor: caatS.secondaryColor!,
+      accentColor: caatS.accentColor!,
+      useOfficialLogo: caatS.useOfficialLogo!,
+      officialLogoVariant: caatS.officialLogoVariant,
+    });
+    expect(realigned.identityPackId).toBe(OPSEU_CAAT_A_PACK_ID);
   });
 
   it("expands CAAT-S into coral and gold gallery tiles", () => {
@@ -152,6 +195,7 @@ describe("identity-packs", () => {
     const kit = {
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
+      opseuSectorId: "caat-support",
       identityPackId: OPSEU_CAAT_S_PACK_ID,
       useOfficialLogo: true,
     };
@@ -166,6 +210,7 @@ describe("identity-packs", () => {
     const kit = {
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
+      opseuSectorId: "caat-support",
       identityPackId: OPSEU_CAAT_S_PACK_ID,
       campaignPlate: CAAT_S_GOLD_PLATE_ID,
       useOfficialLogo: true,
