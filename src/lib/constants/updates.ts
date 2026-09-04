@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "caat-a-look",
+    date: "2026-09-04",
+    kind: "added",
+    href: "/brand-kit",
+  },
+  {
     id: "land-acknowledgement-worksheet-pdf",
     date: "2026-09-04",
     kind: "improved",

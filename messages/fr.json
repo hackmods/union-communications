@@ -3536,6 +3536,8 @@
       "plates": {
         "coral": "Corail",
         "gold": "Or",
+        "burgundy": "Bourgogne",
+        "coalition": "Bleu de coalition",
         "primary": "Corail",
         "accent": "Or"
       },
@@ -3557,8 +3559,39 @@
               "description": "Fond de campagne or avec le logo Soutien collégial blanc et corail."
             }
           }
+        },
+        "opseu-caat-a": {
+          "name": "Personnel enseignant collégial (CAAT-A)",
+          "description": "Logo bilingue bourgogne du personnel enseignant, d'après l'art sectoriel OPSEU / SEFPO — pour professeurs, conseillers et bibliothécaires.",
+          "plates": {
+            "burgundy": {
+              "name": "Personnel enseignant — bourgogne",
+              "description": "Fond de campagne bourgogne avec le logo blanc du personnel enseignant."
+            },
+            "coalition": {
+              "name": "Personnel enseignant — bleu de coalition",
+              "description": "Fond bleu OPSEU / SEFPO pour les graphiques de négociation conjointe avec d'autres unités CAAT."
+            }
+          }
         }
       }
+    },
+    "contextHint": {
+      "title": "Collection du Hub vs profil de la Trousse",
+      "body": "Le Hub des dirigeants filtre le travail de grief par collection. Les profils de la Trousse de marque changent les mots sur vos exports — pas les couleurs de l'apparence. Choisissez le profil qui correspond à la voix que vous utilisez avant de télécharger un graphique."
+    },
+    "campaignBadge": {
+      "label": "Badge de campagne (optionnel)",
+      "placeholder": "p. ex. Comité francophone",
+      "hint": "Étiquette courte pour un comité ou un sous-groupe sur les graphiques de coalition. Elle apparaît sur la mise en page Action conjointe du Créateur graphique et dans les aperçus de la Trousse de marque."
+    },
+    "coalitionPreview": {
+      "title": "Aperçu de négociation conjointe",
+      "description": "Exemple de carte avec vos couleurs d'apparence et le badge de campagne optionnel.",
+      "sampleTitle": "Tenir la ligne ensemble à la table",
+      "sampleBody": "Utilisez les fonds de coalition lorsque le personnel enseignant et le personnel de soutien partagent un message de négociation.",
+      "sampleAction": "Soyez présents — détails à suivre",
+      "defaultBadge": "Solidarité"
     },
     "profileAdd": "Ajouter une collection",
     "profileRemove": "Retirer cette collection",
@@ -3734,7 +3767,8 @@
       "thanks": "Remerciement",
       "spotlight": "Projecteur",
       "notice": "Avis",
-      "results": "Résultats"
+      "results": "Résultats",
+      "jointAction": "Action conjointe"
     },
     "aspect": "Format",
     "aspects": {
@@ -6644,6 +6678,10 @@
         "title": "Cercles pour plus d'une section",
         "body": "Dans le Portail local, cochez les membres de plus d'une section quand vous créez un Cercle de comité. Invitez le côté syndical des autres sections. La Salle reste à une section."
       },
+      "caat-a-look": {
+        "title": "Apparence Personnel enseignant dans la Trousse",
+        "body": "Les sections de personnel enseignant peuvent choisir l'apparence CAAT-A bourgogne dans la Trousse de marque, avec un fond bleu de coalition pour les graphiques de négociation conjointe. Les badges de campagne optionnels apparaissent dans l'aperçu d'action conjointe."
+      },
       "caat-s-gold-plate": {
         "title": "Corail ou or pour le Soutien collégial",
         "body": "Dans la Trousse de marque, le corail et l'or du Soutien collégial apparaissent comme des cartes Apparence séparées. Choisissez l'or pour le fond de campagne or et le logo blanc et corail, ou le corail pour le fond corail."
@@ -8756,6 +8794,8 @@
       "onPrimary": "Sur plaque corail",
       "knockout": "Blanc et or (sans plaque)",
       "onGold": "Sur plaque or",
+      "onBurgundy": "Sur plaque bourgogne",
+      "onCoalition": "Sur plaque bleu de coalition",
       "oneColor": "Une seule couleur",
       "reverse": "Version blanche"
     },

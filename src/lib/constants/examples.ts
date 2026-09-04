@@ -13,7 +13,8 @@ export type ExampleLayout =
   | "notice"
   | "quote"
   | "results"
-  | "thanks";
+  | "thanks"
+  | "jointAction";
 
 export type ExamplePrimaryTool =
   | "graphic-maker"

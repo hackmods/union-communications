@@ -123,6 +123,7 @@ export const DEFAULT_BRAND_KIT = {
   customLinks: [] as { id: string; label: string; url: string }[],
   // Empty by default — OPSEU EMA URLs live in reference seed / OPSEU preset only
   membershipUrls: [] as MembershipUrl[],
+  campaignBadge: undefined as string | undefined,
   updatedAt: new Date().toISOString(),
 };
 

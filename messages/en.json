@@ -3536,6 +3536,8 @@
       "plates": {
         "coral": "Coral",
         "gold": "Gold",
+        "burgundy": "Burgundy",
+        "coalition": "Coalition blue",
         "primary": "Coral",
         "accent": "Gold"
       },
@@ -3557,8 +3559,39 @@
               "description": "Gold campaign field with the white-and-coral College Support lockup."
             }
           }
+        },
+        "opseu-caat-a": {
+          "name": "College Faculty (CAAT-A)",
+          "description": "Burgundy bilingual College Faculty lockup from OPSEU / SEFPO sector art — for professors, counsellors, and instructors.",
+          "plates": {
+            "burgundy": {
+              "name": "College Faculty — burgundy",
+              "description": "Burgundy campaign field with the white College Faculty lockup."
+            },
+            "coalition": {
+              "name": "College Faculty — coalition blue",
+              "description": "OPSEU / SEFPO blue field for joint bargaining graphics alongside other CAAT units."
+            }
+          }
         }
       }
+    },
+    "contextHint": {
+      "title": "Hub collection vs Brand Kit profile",
+      "body": "Officer Hub filters casework by collection. Brand Kit profiles change the words on your exports — not your Look colours. Pick the profile that matches who you are speaking as before you download graphics."
+    },
+    "campaignBadge": {
+      "label": "Campaign badge (optional)",
+      "placeholder": "e.g. Francophone committee",
+      "hint": "Short caucus or sub-committee label for coalition graphics. It appears on Joint action layouts in Graphic Maker and on Brand Kit previews."
+    },
+    "coalitionPreview": {
+      "title": "Joint bargaining preview",
+      "description": "Sample card using your Look colours and optional campaign badge.",
+      "sampleTitle": "Stand together at the table",
+      "sampleBody": "Use coalition plates when faculty and support locals share a bargaining message.",
+      "sampleAction": "Show up — details to follow",
+      "defaultBadge": "Solidarity"
     },
     "profileAdd": "Add a collection",
     "profileRemove": "Remove this collection",
@@ -3747,6 +3780,8 @@
       "onPrimary": "On coral plate",
       "knockout": "White and gold (no plate)",
       "onGold": "On gold plate",
+      "onBurgundy": "On burgundy plate",
+      "onCoalition": "On coalition blue plate",
       "oneColor": "One colour",
       "reverse": "White reverse"
     },
@@ -3784,7 +3819,8 @@
       "thanks": "Thank you",
       "spotlight": "Spotlight",
       "notice": "Notice",
-      "results": "Results"
+      "results": "Results",
+      "jointAction": "Joint action"
     },
     "aspect": "Format",
     "aspects": {
@@ -6693,6 +6729,10 @@
       "portal-union-circles": {
         "title": "Circles for more than one local",
         "body": "In Local Portal, tick members from more than one local when you create a committee Circle. Invite the union side from other locals. Hall still belongs to one local."
+      },
+      "caat-a-look": {
+        "title": "College Faculty Look in Brand Kit",
+        "body": "College Faculty locals can pick the CAAT-A burgundy Look in Brand Kit, with a coalition blue plate for joint bargaining graphics. Optional campaign badges preview on joint-action cards."
       },
       "caat-s-gold-plate": {
         "title": "Coral or gold for College Support",

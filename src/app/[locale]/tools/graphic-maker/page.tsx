@@ -66,6 +66,21 @@ function defaultAspectForPreset(key: ToolPresetKey): ExampleAspect {
   return key === "memberSpotlight" ? "square" : "landscape";
 }
 
+function layoutForPreset(key: ToolPresetKey): GraphicLayoutId {
+  if (key === "memberSpotlight") return "spotlight";
+  if (key === "jointCoalition") return "jointAction";
+  if (key === "agmNotice" || key === "bargainingUpdate") return "notice";
+  return "solidarity";
+}
+
+function detailForPreset(key: ToolPresetKey): string {
+  if (key === "agmNotice") return "AGM";
+  if (key === "bargainingUpdate") return "Update";
+  if (key === "strikeAction") return "Strike";
+  if (key === "jointCoalition") return "Show up — details to follow";
+  return "";
+}
+
 interface GraphicState {
   layout: GraphicLayoutId;
   aspect: ExampleAspect;
@@ -127,26 +142,13 @@ function GraphicMakerPageContent() {
 
   const applyPreset = (key: ToolPresetKey) => {
     const preset = TOOL_PRESETS[key];
-    const layout: GraphicLayoutId =
-      key === "memberSpotlight"
-        ? "spotlight"
-        : key === "agmNotice" || key === "bargainingUpdate"
-          ? "notice"
-          : "solidarity";
     setState({
       ...state,
-      layout,
+      layout: layoutForPreset(key),
       aspect: defaultAspectForPreset(key),
       headline: preset.headline,
       subheadline: preset.subheadline,
-      detail:
-        key === "agmNotice"
-          ? "AGM"
-          : key === "bargainingUpdate"
-            ? "Update"
-            : key === "strikeAction"
-              ? "Strike"
-              : "",
+      detail: detailForPreset(key),
     });
   };
 
@@ -194,33 +196,20 @@ function GraphicMakerPageContent() {
     const presetRaw = searchParams.get("preset");
     if (presetRaw && isToolPresetKey(presetRaw)) {
       const preset = TOOL_PRESETS[presetRaw];
-      const layout: GraphicLayoutId =
-        presetRaw === "memberSpotlight"
-          ? "spotlight"
-          : presetRaw === "agmNotice" || presetRaw === "bargainingUpdate"
-            ? "notice"
-            : "solidarity";
       presetApplied.current = true;
       reset({
         ...initial,
         ...colours,
         logoMode: defaultLogoMode(themeEstablished),
         showLocalNumber: defaultShowLocalNumber(),
-        layout,
+        layout: layoutForPreset(presetRaw),
         aspect: aspectFromQuery(
           searchParams,
           defaultAspectForPreset(presetRaw),
         ),
         headline: preset.headline,
         subheadline: preset.subheadline,
-        detail:
-          presetRaw === "agmNotice"
-            ? "AGM"
-            : presetRaw === "bargainingUpdate"
-              ? "Update"
-              : presetRaw === "strikeAction"
-                ? "Strike"
-                : "",
+        detail: detailForPreset(presetRaw),
       });
       return;
     }
@@ -252,29 +241,16 @@ function GraphicMakerPageContent() {
     if (presetRaw && isToolPresetKey(presetRaw)) {
       presetApplied.current = true;
       const preset = TOOL_PRESETS[presetRaw];
-      const layout: GraphicLayoutId =
-        presetRaw === "memberSpotlight"
-          ? "spotlight"
-          : presetRaw === "agmNotice" || presetRaw === "bargainingUpdate"
-            ? "notice"
-            : "solidarity";
       setState((prev) => ({
         ...prev,
-        layout,
+        layout: layoutForPreset(presetRaw),
         aspect: aspectFromQuery(
           searchParams,
           defaultAspectForPreset(presetRaw),
         ),
         headline: preset.headline,
         subheadline: preset.subheadline,
-        detail:
-          presetRaw === "agmNotice"
-            ? "AGM"
-            : presetRaw === "bargainingUpdate"
-              ? "Update"
-              : presetRaw === "strikeAction"
-                ? "Strike"
-                : "",
+        detail: detailForPreset(presetRaw),
       }));
     }
   }, [searchParams, setState, hydrated]);
@@ -316,7 +292,8 @@ function GraphicMakerPageContent() {
     state.layout === "notice" ||
     state.layout === "results" ||
     state.layout === "solidarity" ||
-    state.layout === "thanks";
+    state.layout === "thanks" ||
+    state.layout === "jointAction";
   const showInitials = state.layout === "spotlight" && !state.photoUrl;
 
   return (
@@ -548,6 +525,7 @@ function GraphicMakerPageContent() {
                 tokens={resolveCanvasTokens(brandKit)}
                 logoMode={state.logoMode}
                 showLocalNumber={state.showLocalNumber}
+                coalitionBadge={brandKit.campaignBadge?.trim() || undefined}
               />
             </div>
           </div>

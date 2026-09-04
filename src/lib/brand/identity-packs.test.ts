@@ -7,6 +7,7 @@ import {
   CAAT_S_GOLD_COLORS,
   CAAT_S_GOLD_PLATE_ID,
   IDENTITY_PACKS,
+  OPSEU_CAAT_A_PACK_ID,
   OPSEU_CAAT_S_PACK_ID,
   OPSEU_NATIONAL_PACK_ID,
   applyIdentityPack,
@@ -61,6 +62,10 @@ describe("identity-packs", () => {
     expect(identityPacksFor("opseu", "caat-support").map((p) => p.id)).toEqual([
       OPSEU_NATIONAL_PACK_ID,
       OPSEU_CAAT_S_PACK_ID,
+    ]);
+    expect(identityPacksFor("opseu", "caat-academic").map((p) => p.id)).toEqual([
+      OPSEU_NATIONAL_PACK_ID,
+      OPSEU_CAAT_A_PACK_ID,
     ]);
     expect(identityPacksFor("opseu", "ops").map((p) => p.id)).toEqual([
       OPSEU_NATIONAL_PACK_ID,

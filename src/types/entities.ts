@@ -115,6 +115,8 @@ export interface BrandKit {
    * `accent` — hydrate coerces them onto named ids.
    */
   campaignPlate?: string;
+  /** Optional caucus / sub-committee badge on canvas exports (Comms-only) */
+  campaignBadge?: string;
   divisionId?: string;
   /** Local website (optional) - used by QR cards, posters, website template */
   websiteUrl?: string;
