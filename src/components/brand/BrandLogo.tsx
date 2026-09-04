@@ -9,6 +9,7 @@ import {
   resolveBrandLogoPresentation,
   type LogoSafePlate,
 } from "@/lib/brand/resolve-logo-presentation";
+import { resolveOfficialLogos } from "@/lib/brand/identity-packs";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import {
@@ -36,6 +37,13 @@ const lockupSize = {
   lg: { width: 200, height: 80 },
 } as const;
 
+/** Horizontal faculty/support lockups need more width at the same height. */
+const wideLockupSize = {
+  sm: { width: 176, height: 40 },
+  md: { width: 220, height: 50 },
+  lg: { width: 308, height: 56 },
+} as const;
+
 const markSize = {
   sm: { width: 32, height: 32 },
   md: { width: 48, height: 48 },
@@ -59,6 +67,7 @@ function logoDims(
   brandKit: BrandKit,
   size: keyof typeof markSize,
   variantOverride?: "lockup" | "mark",
+  wideLockup = false,
 ): LogoDimensions {
   const customSrc = brandKit.customLogoDataUrl?.trim();
   if (customSrc && !brandKit.useOfficialLogo) {
@@ -82,6 +91,9 @@ function logoDims(
     variantOverride === "lockup" || variantOverride === "mark"
       ? variantOverride
       : kitVariant;
+  if (variant === "lockup" && wideLockup) {
+    return wideLockupSize[size];
+  }
   return variant === "lockup" ? lockupSize[size] : markSize[size];
 }
 
@@ -176,12 +188,28 @@ export function BrandLogo({
   // Official Look / pack logos win over a leftover UnionOps customLogoDataUrl
   // (DEFAULT_BRAND_KIT mark used to resurrect after localStorage round-trips).
   if (effectiveKit.useOfficialLogo) {
+    const officialLogos = resolveOfficialLogos(effectiveKit);
+    const kitVariant = isOfficialLogoVariant(effectiveKit.officialLogoVariant)
+      ? effectiveKit.officialLogoVariant
+      : "lockup";
+    const activeVariant =
+      variantOverride === "lockup" || variantOverride === "mark"
+        ? variantOverride
+        : kitVariant;
+    const wideLockup =
+      activeVariant === "lockup" && officialLogos?.lockup.aspect === "wide";
+
     const { src, cssFilter, plate } = resolveBrandLogoPresentation(
       effectiveKit,
       backgroundColor,
       variantOverride,
     );
-    const officialDims = logoDims(effectiveKit, size, variantOverride);
+    const officialDims = logoDims(
+      effectiveKit,
+      size,
+      variantOverride,
+      wideLockup,
+    );
 
     return (
       <LogoWithOptionalPlate

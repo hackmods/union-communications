@@ -13,6 +13,7 @@ import {
   preferredToolsMegaMenuWidth,
 } from "@/lib/utils/flyout-geometry";
 import { useBrandStore } from "@/store/brand-store";
+import { resolveSiteChromeLogoVariant } from "@/lib/brand/identity-packs";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import {
   getStartedHref as resolveGetStartedHref,
@@ -46,6 +47,7 @@ export function Header() {
   const drawerOpen = drawer?.path === pathname;
 
   const brandKit = useBrandStore((s) => s.brandKit);
+  const siteChromeLogoVariant = resolveSiteChromeLogoVariant(brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const themeEstablished = isBrandThemeEstablished(
     brandKit,
@@ -126,7 +128,8 @@ export function Header() {
         >
           <BrandLogo
             size="sm"
-            className="h-8 w-auto max-w-[10rem] shrink-0 object-contain"
+            variantOverride={siteChromeLogoVariant}
+            className="h-10 w-auto max-w-[11rem] shrink-0 object-contain"
           />
           <span className="truncate">{th("platformName")}</span>
         </Link>

@@ -281,6 +281,8 @@ export const IDENTITY_PACKS: readonly IdentityPack[] = [
       lockup: "/assets/caat-a/logo-lockup-color.svg",
       lockupOnDark: "/assets/caat-a/logo-lockup-on-primary-knockout.svg",
       oneColor: "/assets/caat-a/logo-lockup-one-color.svg",
+      mark: OPSEU_NATIONAL_MARK,
+      markOnDark: OPSEU_NATIONAL_MARK_ON_DARK,
     },
     plates: [
       {
@@ -297,8 +299,8 @@ export const IDENTITY_PACKS: readonly IdentityPack[] = [
         lockupOnPlate: "/assets/caat-a/logo-lockup-on-coalition.svg",
       },
     ],
-    selectableVariants: ["lockup"],
-    defaultVariant: "lockup",
+    selectableVariants: ["lockup", "mark"],
+    defaultVariant: "mark",
     assetVariants: [
       {
         id: "color",
@@ -761,6 +763,33 @@ export function resolveOfficialLogos(
     ...nationalExtras,
     selectableVariants: [...pack.selectableVariants],
   };
+}
+
+/**
+ * Wide bilingual lockups (CAAT-A) stay legible on flyers and exports, but the
+ * site header keeps the compact national mark when the steward picks lockup.
+ */
+export function resolveSiteChromeLogoVariant(
+  kit: Pick<
+    BrandKit,
+    | "identityPackId"
+    | "unionPresetId"
+    | "opseuSectorId"
+    | "useOfficialLogo"
+    | "officialLogoVariant"
+    | "campaignPlate"
+    | "primaryColor"
+  >,
+): "mark" | undefined {
+  if (!kit.useOfficialLogo) return undefined;
+  const variant = kit.officialLogoVariant === "mark" ? "mark" : "lockup";
+  if (variant === "mark") return undefined;
+
+  const logos = resolveOfficialLogos(kit);
+  if (!logos) return undefined;
+  if (logos.lockup.aspect !== "wide") return undefined;
+  if (!logos.mark?.selectable) return undefined;
+  return "mark";
 }
 
 export function isSelectablePackVariant(

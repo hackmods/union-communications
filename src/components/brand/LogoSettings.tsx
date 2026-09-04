@@ -238,22 +238,31 @@ export function LogoSettings({
 
   if (showOfficialPack && officialLogos) {
     const isCaatS = officialLogos.packId === "opseu-caat-s";
+    const isCaatA = officialLogos.packId === "opseu-caat-a";
     if (officialLogos.selectableVariants.includes("lockup")) {
       const onDarkPreview = Boolean(
         isCaatS && officialLogos.lockup.srcOnDark,
       );
       options.push({
         id: "lockup",
-        title: isCaatS ? t("useCaatSLockup") : t("useLockup"),
-        description: isCaatS ? t("useCaatSLockupHint") : t("useLockupHint"),
+        title: isCaatS
+          ? t("useCaatSLockup")
+          : isCaatA
+            ? t("useCaatALockup")
+            : t("useLockup"),
+        description: isCaatS
+          ? t("useCaatSLockupHint")
+          : isCaatA
+            ? t("useCaatALockupHint")
+            : t("useLockupHint"),
         preview: {
           // CAAT-S: show knockout on coral so the preview matches Look cards
           // and never collapses to an empty white ring.
           src: onDarkPreview
             ? officialLogos.lockup.srcOnDark!
             : officialLogos.lockup.src,
-          width: isCaatS ? 220 : 160,
-          height: isCaatS ? 72 : 64,
+          width: isCaatS ? 220 : isCaatA ? 220 : 160,
+          height: isCaatS ? 72 : isCaatA ? 50 : 64,
           onDark: onDarkPreview,
           plateColor: onDarkPreview ? primaryColor : undefined,
         },
