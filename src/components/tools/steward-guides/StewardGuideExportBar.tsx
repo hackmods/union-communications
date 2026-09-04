@@ -3,13 +3,11 @@
 import { Button } from "@/components/ui/Button";
 
 type StewardGuideExportBarProps = {
-  onExportMarkdown: () => void;
   onExportPdf: () => void;
   onClear: () => void;
   onPrintChecklist?: () => void;
   exporting?: boolean;
   labels: {
-    exportMarkdown: string;
     exportPdf: string;
     clearDraft: string;
     printChecklist?: string;
@@ -17,7 +15,6 @@ type StewardGuideExportBarProps = {
 };
 
 export function StewardGuideExportBar({
-  onExportMarkdown,
   onExportPdf,
   onClear,
   onPrintChecklist,
@@ -25,41 +22,34 @@ export function StewardGuideExportBar({
   labels,
 }: StewardGuideExportBarProps) {
   return (
-    <div className="flex flex-wrap gap-2 print:hidden">
-      <Button
-        type="button"
-        onClick={onExportPdf}
-        disabled={exporting}
-        className="min-h-11"
-      >
-        {labels.exportPdf}
-      </Button>
-      <Button
-        type="button"
-        variant="secondary"
-        onClick={onExportMarkdown}
-        disabled={exporting}
-        className="min-h-11"
-      >
-        {labels.exportMarkdown}
-      </Button>
-      {onPrintChecklist && labels.printChecklist ? (
+    <div className="flex flex-col gap-2 print:hidden sm:flex-row sm:flex-wrap sm:items-center">
+      <div className="flex flex-wrap gap-2">
         <Button
           type="button"
-          variant="outline"
-          onClick={onPrintChecklist}
+          onClick={onExportPdf}
           disabled={exporting}
           className="min-h-11"
         >
-          {labels.printChecklist}
+          {labels.exportPdf}
         </Button>
-      ) : null}
+        {onPrintChecklist && labels.printChecklist ? (
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onPrintChecklist}
+            disabled={exporting}
+            className="min-h-11"
+          >
+            {labels.printChecklist}
+          </Button>
+        ) : null}
+      </div>
       <Button
         type="button"
         variant="ghost"
         onClick={onClear}
         disabled={exporting}
-        className="min-h-11"
+        className="min-h-11 self-start sm:self-auto"
       >
         {labels.clearDraft}
       </Button>

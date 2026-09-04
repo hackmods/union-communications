@@ -34,7 +34,6 @@ import {
   buildRtwScripts,
   clearRtwDraft,
   createEmptyRtwDraft,
-  exportWorkspaceMarkdown,
   exportWorkspacePdf,
   loadRtwDraft,
   maybePrefillGradualHours,
@@ -188,18 +187,9 @@ export default function RtwAccommodationPage() {
       <StewardGuideExportBar
         exporting={exporting}
         labels={{
-          exportMarkdown: t("export.markdown"),
           exportPdf: t("export.pdf"),
           clearDraft: t("export.clear"),
           printChecklist: t("export.printChecklist"),
-        }}
-        onExportMarkdown={() => {
-          void runExport(async () => {
-            await exportWorkspaceMarkdown(
-              buildMarkdown(),
-              "rtw-accommodation-notes.md",
-            );
-          });
         }}
         onExportPdf={() => {
           void runExport(async () => {

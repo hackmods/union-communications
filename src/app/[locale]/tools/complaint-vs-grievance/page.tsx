@@ -32,7 +32,6 @@ import {
   clearComplaintDraft,
   complaintDraftToMarkdown,
   createEmptyComplaintDraft,
-  exportWorkspaceMarkdown,
   exportWorkspacePdf,
   grievanceViabilityIndex,
   loadComplaintDraft,
@@ -137,18 +136,9 @@ export default function ComplaintVsGrievancePage() {
       <StewardGuideExportBar
         exporting={exporting}
         labels={{
-          exportMarkdown: t("export.markdown"),
           exportPdf: t("export.pdf"),
           clearDraft: t("export.clear"),
           printChecklist: t("export.printChecklist"),
-        }}
-        onExportMarkdown={() => {
-          void runExport(async () => {
-            await exportWorkspaceMarkdown(
-              buildMarkdown(),
-              "complaint-vs-grievance.md",
-            );
-          });
         }}
         onExportPdf={() => {
           void runExport(async () => {

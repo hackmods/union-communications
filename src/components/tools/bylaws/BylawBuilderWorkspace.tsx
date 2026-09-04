@@ -45,10 +45,7 @@ import {
   changedBylawRedlineCount,
   summarizeBylawRedline,
 } from "@/lib/bylaws/redline";
-import {
-  exportWorkspaceMarkdown,
-  exportWorkspacePdf,
-} from "@/lib/steward-guides";
+import { exportWorkspacePdf } from "@/lib/steward-guides";
 
 function downloadText(filename: string, text: string) {
   const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
@@ -212,11 +209,6 @@ export function BylawBuilderWorkspace() {
   const exportBar = (
     <StewardGuideExportBar
       exporting={exporting}
-      onExportMarkdown={() =>
-        void runExport(() =>
-          exportWorkspaceMarkdown(previewText, `${basename}.md`),
-        )
-      }
       onExportPdf={() =>
         void runExport(() =>
           exportWorkspacePdf(t("title"), previewText, `${basename}.pdf`, {
@@ -228,7 +220,6 @@ export function BylawBuilderWorkspace() {
       onPrintChecklist={() => window.print()}
       onClear={clear}
       labels={{
-        exportMarkdown: t("exportMarkdown"),
         exportPdf: t("exportPdf"),
         printChecklist: t("print"),
         clearDraft: t("clearDraft"),
