@@ -239,8 +239,64 @@ function LogoDownloadCard({
   );
 }
 
-function packTitleKey(packId: string): "opseu-national" | "opseu-caat-s" {
-  return packId === "opseu-caat-s" ? "opseu-caat-s" : "opseu-national";
+function packTitleKey(
+  packId: string,
+): "opseu-national" | "opseu-caat-s" | "opseu-caat-a" {
+  if (packId === "opseu-caat-s") return "opseu-caat-s";
+  if (packId === "opseu-caat-a") return "opseu-caat-a";
+  return "opseu-national";
+}
+
+type KitOfficialLogoDownload = {
+  id: "lockup" | "mark";
+  href: string;
+  downloadName: string;
+  label: string;
+  previewSrc: string;
+  onDark?: boolean;
+  plateColor?: string;
+};
+
+function resolveKitOfficialLogoDownloads(
+  kit: Pick<
+    BrandKit,
+    | "useOfficialLogo"
+    | "identityPackId"
+    | "unionPresetId"
+    | "opseuSectorId"
+    | "campaignPlate"
+    | "primaryColor"
+  >,
+  labels: { lockup: string; mark: string },
+): KitOfficialLogoDownload[] {
+  if (!kit.useOfficialLogo) return [];
+
+  const logos = resolveOfficialLogos(kit);
+  if (!logos) return [];
+
+  const downloads: KitOfficialLogoDownload[] = [];
+
+  if (logos.lockup.selectable) {
+    downloads.push({
+      id: "lockup",
+      href: logos.lockup.src,
+      downloadName: logos.lockup.src.split("/").pop() ?? "logo-lockup.svg",
+      label: labels.lockup,
+      previewSrc: logos.lockup.src,
+    });
+  }
+
+  if (logos.mark?.selectable) {
+    downloads.push({
+      id: "mark",
+      href: logos.mark.src,
+      downloadName: logos.mark.src.split("/").pop() ?? "logo-mark.png",
+      label: labels.mark,
+      previewSrc: logos.mark.src,
+    });
+  }
+
+  return downloads;
 }
 
 function LookPackDownloads({
@@ -307,6 +363,7 @@ function LookPackDownloads({
 export function AssetPackPanel() {
   const t = useTranslations("assets");
   const tPack = useTranslations("brandKit.identityPack");
+  const tLogo = useTranslations("brandKit.logoSettings");
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const [kitBusy, setKitBusy] = useState(false);
@@ -334,6 +391,15 @@ export function AssetPackPanel() {
   ];
 
   const kitDownload = resolveKitLogoDownload(brandKit);
+  const activePack = resolveIdentityPackForKit(brandKit);
+  const kitOfficialDownloads = resolveKitOfficialLogoDownloads(brandKit, {
+    lockup:
+      activePack?.id === "opseu-caat-a"
+        ? tLogo("useCaatALockup")
+        : t("variantLabels.lockup"),
+    mark: tLogo("useMark"),
+  });
+  const showDualOfficialLogos = kitOfficialDownloads.length > 1;
   const referenceSwatches: Swatch[] = [
     { name: t("swatchPrimary"), hex: ASSET_PACK_COLORS.primary },
     { name: t("swatchAccent"), hex: ASSET_PACK_COLORS.accent },
@@ -348,7 +414,6 @@ export function AssetPackPanel() {
   const lookPacks = showReferencePack
     ? identityPacksFor(brandKit.unionPresetId ?? "opseu", sectorId)
     : [];
-  const activePack = resolveIdentityPackForKit(brandKit);
   // Prefer CAAT-S (and other sector packs) ahead of national when both are offered
   const packsForDownloads = [...lookPacks].sort((a, b) => {
     if (a.id === activePack?.id) return -1;
@@ -382,59 +447,93 @@ export function AssetPackPanel() {
 
         <section className="border-l-2 border-opseu-blue/30 pl-5">
           <h2 className="text-xl font-bold text-opseu-dark">{t("yourLogo")}</h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:max-w-none lg:grid-cols-1 xl:grid-cols-2">
-            <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white px-4 py-4">
-              <div className="flex min-h-20 items-center justify-center">
-                <BrandLogo size="lg" alt={t("logoAlt")} />
-              </div>
-              {kitDownload ? (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      void (async () => {
-                        setKitBusy(true);
-                        setKitError(false);
-                        try {
-                          await downloadHrefAsFile(
-                            kitDownload.href,
-                            kitDownload.downloadName ?? "brand-logo.png",
-                          );
-                        } catch {
-                          setKitError(true);
-                        } finally {
-                          setKitBusy(false);
+          {showDualOfficialLogos ? (
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              {kitOfficialDownloads.map((item) => {
+                const isSvg = item.href.toLowerCase().endsWith(".svg");
+                return (
+                  <LogoDownloadCard
+                    key={item.id}
+                    href={item.href}
+                    downloadName={item.downloadName}
+                    label={`${isSvg ? t("downloadSvg") : t("downloadPng")} — ${item.label}`}
+                    downloadingLabel={t("downloading")}
+                    failedLabel={t("downloadFailed")}
+                  >
+                    <span
+                      className="flex min-h-20 w-full items-center justify-center rounded-md bg-white px-2 py-2"
+                    >
+                      <SafeLogoImage
+                        src={item.previewSrc}
+                        alt=""
+                        width={item.id === "lockup" ? 220 : 72}
+                        height={item.id === "lockup" ? 72 : 72}
+                        className={
+                          item.id === "lockup"
+                            ? "h-16 w-auto max-w-[92%] object-contain"
+                            : "h-14 w-auto max-w-[92%] object-contain"
                         }
-                      })();
-                    }}
-                    disabled={kitBusy}
-                    className="text-left text-sm font-medium text-opseu-blue underline disabled:opacity-60"
-                  >
-                    {kitBusy
-                      ? t("downloading")
-                      : kitDownload.href.toLowerCase().endsWith(".svg")
-                        ? t("downloadSvg")
-                        : t("downloadPng")}
-                  </button>
-                  {kitError ? (
-                    <p className="text-sm text-red-700" role="alert">
-                      {t("downloadFailed")}
-                    </p>
-                  ) : null}
-                </>
-              ) : (
-                <p className="text-sm text-gray-600">
-                  {t("downloadUnavailable")}{" "}
-                  <Link
-                    href="/brand-kit"
-                    className="font-medium text-opseu-blue underline"
-                  >
-                    {t("editBrandKit")}
-                  </Link>
-                </p>
-              )}
+                      />
+                    </span>
+                  </LogoDownloadCard>
+                );
+              })}
             </div>
-          </div>
+          ) : (
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:max-w-none lg:grid-cols-1 xl:grid-cols-2">
+              <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white px-4 py-4">
+                <div className="flex min-h-20 items-center justify-center">
+                  <BrandLogo size="lg" alt={t("logoAlt")} />
+                </div>
+                {kitDownload ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void (async () => {
+                          setKitBusy(true);
+                          setKitError(false);
+                          try {
+                            await downloadHrefAsFile(
+                              kitDownload.href,
+                              kitDownload.downloadName ?? "brand-logo.png",
+                            );
+                          } catch {
+                            setKitError(true);
+                          } finally {
+                            setKitBusy(false);
+                          }
+                        })();
+                      }}
+                      disabled={kitBusy}
+                      className="text-left text-sm font-medium text-opseu-blue underline disabled:opacity-60"
+                    >
+                      {kitBusy
+                        ? t("downloading")
+                        : kitDownload.href.toLowerCase().endsWith(".svg")
+                          ? t("downloadSvg")
+                          : t("downloadPng")}
+                    </button>
+                    {kitError ? (
+                      <p className="text-sm text-red-700" role="alert">
+                        {t("downloadFailed")}
+                      </p>
+                    ) : null}
+                  </>
+                ) : (
+                  <p className="text-sm text-gray-600">
+                    {t("downloadUnavailable")}{" "}
+                    <Link
+                      href="/brand-kit"
+                      className="font-medium text-opseu-blue underline"
+                    >
+                      {t("editBrandKit")}
+                    </Link>
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
         </section>
       </div>
 

@@ -3781,6 +3781,7 @@
       "color": "Full colour",
       "onPrimary": "On coral plate",
       "knockout": "White and gold (no plate)",
+      "knockoutBurgundy": "White on burgundy plate",
       "onGold": "On gold plate",
       "onBurgundy": "On burgundy plate",
       "onCoalition": "On coalition blue plate",

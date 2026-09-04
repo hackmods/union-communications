@@ -20,6 +20,7 @@ import {
   identityPackSectorGaps,
   identityPacksFor,
   identityPackValidForSector,
+  identityAssetPlateColor,
   lockupForCanvasBackground,
   normalizeCampaignPlate,
   resolveCampaignPlateForKit,
@@ -172,6 +173,20 @@ describe("identity-packs", () => {
     expect(
       resolveSiteChromeLogoVariant({ ...kit, officialLogoVariant: "mark" }),
     ).toBeUndefined();
+  });
+
+  it("uses light preview plates and faculty knockout label for CAAT-A assets", () => {
+    const caatA = getIdentityPack(OPSEU_CAAT_A_PACK_ID)!;
+    const color = caatA.assetVariants.find((v) => v.id === "color")!;
+    const knockout = caatA.assetVariants.find((v) => v.id === "knockout")!;
+    const reverse = caatA.assetVariants.find((v) => v.id === "reverse")!;
+
+    expect(color.plate).toBe("light");
+    expect(knockout.plate).toBe("light");
+    expect(knockout.labelKey).toBe("knockoutBurgundy");
+    expect(reverse.plate).toBe("dark");
+    expect(identityAssetPlateColor(caatA, color)).toBe("#FFFFFF");
+    expect(identityAssetPlateColor(caatA, reverse)).toBe("#1A1A1A");
   });
 
   it("applies explicit gold plate colours without an invert shortcut", () => {
