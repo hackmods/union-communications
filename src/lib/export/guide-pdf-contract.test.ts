@@ -94,7 +94,7 @@ describe("guide PDF family contracts", () => {
     expect(parsed.joined).toMatch(/Always print \(bare minimum\)/i);
   });
 
-  it("land acknowledgement worksheet stays one page with Step 4 above footer tips", async () => {
+  it("land acknowledgement worksheet stays one page with Step 4 answer block above footer tips", async () => {
     vi.mocked(saveBlob).mockClear();
     await downloadLandAcknowledgementWorksheetPdf({
       localLabel: "Local 243",
@@ -106,16 +106,19 @@ describe("guide PDF family contracts", () => {
     expect(parsed.numPages).toBe(1);
     expect(parsed.joined).toMatch(/Land acknowledgement — floor handout/i);
     expect(parsed.joined).toMatch(/Step 4 — Review and commit/i);
+    expect(parsed.joined).toMatch(/One concrete local action we commit to/i);
+    expect(parsed.joined).toMatch(/Changes or open questions from this review/i);
 
-    const step4Y = findTextY(parsed, "Step 4 — Review and commit");
+    const reviewNotesY = findTextY(parsed, "Changes or open questions from this review");
     const tipsY = findTextY(parsed, "Floor tips");
-    expect(step4Y).toBeDefined();
+    expect(reviewNotesY).toBeDefined();
     expect(tipsY).toBeDefined();
-    expect(step4Y! - tipsY!).toBeLessThan(125);
-    expectMinVerticalGap(parsed, "Land acknowledgement", "Solo draft or group workshop", 10);
-    expectMinVerticalGap(parsed, "Step 4 — Review and commit", "Floor tips", 24);
+    expect(reviewNotesY! - tipsY!).toBeGreaterThan(20);
+    expect(reviewNotesY! - tipsY!).toBeLessThan(90);
+    expectMinVerticalGap(parsed, "Land acknowledgement", "Research, write, commit", 10);
+    expectMinVerticalGap(parsed, "Changes or open questions from this review", "Floor tips", 20);
     expect(parsed.joined).toMatch(/without notes/i);
-    expect(parsed.joined).toMatch(/CUPE \/ other/i);
+    expect(parsed.joined).toMatch(/National \/ federation territory guide/i);
   });
 
   it("FAR checklist: title precedes section headings", async () => {
