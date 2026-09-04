@@ -25,9 +25,13 @@ const OPSEU_SLIT_WHITE = "/assets/caat-opseu/opseu-mark-slit-white.svg";
 
 export const OPSEU_NATIONAL_PACK_ID = "opseu-national";
 export const OPSEU_CAAT_S_PACK_ID = "opseu-caat-s";
+export const OPSEU_CAAT_A_PACK_ID = "opseu-caat-a";
 
 export const CAAT_S_CORAL_PLATE_ID = "coral";
 export const CAAT_S_GOLD_PLATE_ID = "gold";
+
+export const CAAT_A_BURGUNDY_PLATE_ID = "burgundy";
+export const CAAT_A_COALITION_PLATE_ID = "coalition";
 
 export type IdentityLogoVariant = "lockup" | "mark";
 
@@ -139,6 +143,22 @@ export const CAAT_S_GOLD_COLORS: IdentityPackColors = {
   accentColor: CAAT_S_COLORS.primaryColor,
 };
 
+/**
+ * CAAT-A burgundy from OPSEU/SEFPO College Faculty campaign art
+ * (white-on-burgundy stacked lockups). Coalition plate uses national blue.
+ */
+export const CAAT_A_COLORS: IdentityPackColors = {
+  primaryColor: "#7B1E3F",
+  secondaryColor: "#FFFFFF",
+  accentColor: "#003DA5",
+};
+
+export const CAAT_A_COALITION_COLORS: IdentityPackColors = {
+  primaryColor: "#003DA5",
+  secondaryColor: "#FFFFFF",
+  accentColor: "#7B1E3F",
+};
+
 export const IDENTITY_PACKS: readonly IdentityPack[] = [
   {
     id: OPSEU_NATIONAL_PACK_ID,
@@ -247,6 +267,79 @@ export const IDENTITY_PACKS: readonly IdentityPack[] = [
         src: "/assets/caat-s/logo-lockup-reverse.svg",
         plate: "dark",
         downloadName: "caat-s-bilingual-06-reverse.svg",
+        labelKey: "reverse",
+      },
+    ],
+  },
+  {
+    id: OPSEU_CAAT_A_PACK_ID,
+    unionPresetId: "opseu",
+    sectorIds: ["caat-academic"],
+    colors: CAAT_A_COLORS,
+    logos: {
+      lockup: "/assets/caat-a/logo-lockup-color.svg",
+      lockupOnDark: "/assets/caat-a/logo-lockup-on-primary-knockout.svg",
+      oneColor: "/assets/caat-a/logo-lockup-one-color.svg",
+    },
+    plates: [
+      {
+        id: CAAT_A_BURGUNDY_PLATE_ID,
+        labelKey: "burgundy",
+        colors: CAAT_A_COLORS,
+        lockupOnPlate: "/assets/caat-a/logo-lockup-on-primary-knockout.svg",
+        default: true,
+      },
+      {
+        id: CAAT_A_COALITION_PLATE_ID,
+        labelKey: "coalition",
+        colors: CAAT_A_COALITION_COLORS,
+        lockupOnPlate: "/assets/caat-a/logo-lockup-on-coalition.svg",
+      },
+    ],
+    selectableVariants: ["lockup"],
+    defaultVariant: "lockup",
+    assetVariants: [
+      {
+        id: "color",
+        src: "/assets/caat-a/logo-lockup-color.svg",
+        plate: "dark",
+        downloadName: "caat-a-bilingual-01-color.svg",
+        labelKey: "color",
+      },
+      {
+        id: "on-primary",
+        src: "/assets/caat-a/logo-lockup-on-primary.svg",
+        plate: "primary",
+        downloadName: "caat-a-bilingual-02-on-burgundy.svg",
+        labelKey: "onBurgundy",
+      },
+      {
+        id: "knockout",
+        src: "/assets/caat-a/logo-lockup-on-primary-knockout.svg",
+        plate: "primary",
+        downloadName: "caat-a-bilingual-02-knockout.svg",
+        labelKey: "knockout",
+      },
+      {
+        id: "on-coalition",
+        src: "/assets/caat-a/logo-lockup-on-coalition.svg",
+        plate: "primary",
+        plateColor: "#003DA5",
+        downloadName: "caat-a-bilingual-03-on-coalition-blue.svg",
+        labelKey: "onCoalition",
+      },
+      {
+        id: "one-color",
+        src: "/assets/caat-a/logo-lockup-one-color.svg",
+        plate: "dark",
+        downloadName: "caat-a-bilingual-04-one-color.svg",
+        labelKey: "oneColor",
+      },
+      {
+        id: "reverse",
+        src: "/assets/caat-a/logo-lockup-reverse.svg",
+        plate: "dark",
+        downloadName: "caat-a-bilingual-06-reverse.svg",
         labelKey: "reverse",
       },
     ],

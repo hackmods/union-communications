@@ -23,6 +23,7 @@ import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import { MembershipUrlsEditor } from "@/components/brand/MembershipUrlsEditor";
 import { OpseuSectorSelect } from "@/components/brand/OpseuSectorSelect";
 import { IdentityPackPicker } from "@/components/brand/IdentityPackPicker";
+import { BrandKitContextHint } from "@/components/brand/BrandKitContextHint";
 import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesEditor";
 import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
 import { resolveIdentityPackForKit } from "@/lib/brand/identity-packs";
@@ -40,6 +41,7 @@ import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { PageShell } from "@/components/layout/PageShell";
 import { PresetSloganPicker } from "@/components/brand/PresetSloganPicker";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { JointActionCard } from "@/components/comms/campaign/JointActionCard";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 
 export default function BrandKitPage() {
@@ -219,6 +221,8 @@ export default function BrandKitPage() {
         </div>
       </Callout>
 
+      <BrandKitContextHint />
+
       <div className="mt-4 grid min-w-0 items-start gap-4 lg:grid-cols-2 xl:grid-cols-3">
         <Card
           density="compact"
@@ -237,6 +241,22 @@ export default function BrandKitPage() {
           ) : null}
           {unionPresetId === "opseu" ? <OpseuSectorSelect /> : null}
           {unionPresetId === "opseu" ? <IdentityPackPicker /> : null}
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-gray-700" htmlFor="campaign-badge">
+              {t("campaignBadge.label")}
+            </label>
+            <Input
+              id="campaign-badge"
+              value={brandKit.campaignBadge ?? ""}
+              placeholder={t("campaignBadge.placeholder")}
+              onChange={(e) =>
+                setBrandKit({
+                  campaignBadge: e.target.value.trim() || undefined,
+                })
+              }
+            />
+            <p className="text-xs text-gray-600">{t("campaignBadge.hint")}</p>
+          </div>
           {selectedPreset && selectedLogos ? (
             <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start xl:grid-cols-1">
               <div className="flex min-w-0 flex-wrap items-center gap-4">
@@ -361,6 +381,22 @@ export default function BrandKitPage() {
       </div>
 
       <div className="mt-4">
+        {themeEstablished && unionPresetId === "opseu" ? (
+          <Card density="compact" className="mb-4 space-y-3">
+            <CardTitle className="text-base">{t("coalitionPreview.title")}</CardTitle>
+            <p className="text-sm text-gray-600">{t("coalitionPreview.description")}</p>
+            <JointActionCard
+              primaryColor={brandKit.primaryColor}
+              accentColor={brandKit.accentColor}
+              title={t("coalitionPreview.sampleTitle")}
+              body={t("coalitionPreview.sampleBody")}
+              actionLabel={t("coalitionPreview.sampleAction")}
+              coalitionBadge={
+                brandKit.campaignBadge?.trim() || t("coalitionPreview.defaultBadge")
+              }
+            />
+          </Card>
+        ) : null}
         <BrandKitCanvasPanel />
       </div>
 

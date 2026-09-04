@@ -103,6 +103,48 @@ Cited national union and government URLs are **not** owned by UnionOps. When a r
 
 Steward copy: `sources.intro` in `messages/en.json` / `fr.json`. Update registry first; sync `docs/SOURCES.md`.
 
+## Multi-brand architecture (Looks, collections, Hub scope)
+
+UnionOps separates three layers — do not collapse them:
+
+| Layer | Storage | Job |
+|-------|---------|-----|
+| **Look** | `BrandKit.identityPackId` + `campaignPlate` | Colours + official logos (`IDENTITY_PACKS` in `src/lib/brand/identity-packs.ts`) |
+| **Collection profile** | `BrandKit.activeProfileId` | Who you speak as (sub-text, membership URL) |
+| **Hub bargaining unit** | JWT `bargainingUnitId` | Casework API scope (grievance, tasks, …) |
+
+Runtime theming is **state-driven** (`BrandProvider` → CSS custom properties on `:root`), not `.theme-*` root classes.
+
+### Shipped Looks (OPSEU preset)
+
+| Pack id | Sector | Plates |
+|---------|--------|--------|
+| `opseu-national` | all | single blue |
+| `opseu-caat-s` | `caat-support` | coral, gold |
+| `opseu-caat-a` | `caat-academic` | burgundy, coalition blue |
+
+Discoverability facade: `src/lib/brand/brand-registry.ts` (re-exports — not a parallel token store).
+
+### Coalition / joint bargaining (Comms)
+
+- `src/components/comms/campaign/` — `BargainingBanner`, `JointActionCard`, `SolidarityBadge`
+- Optional `BrandKit.campaignBadge` — caucus overlay on Brand Kit coalition preview
+- Dual Look pairs via `resolveDualIdentityLooks()` for future unified CAAT graphics
+
+### Explicitly deferred (good reasons)
+
+| Skipped | Why |
+|---------|-----|
+| `brand.config.ts` duplicate registry | Data lives in `identity-packs.ts`, `unionPresets.ts`, sector catalogs |
+| `.theme-catt-a` CSS class switcher | `identityPackId` + `BrandProvider` already switch theme |
+| Rebuild Hub context switcher | `HubContextSwitcher` + validated JWT updates shipped |
+| Hub / marketing shell theming | Comms-only v1; Officer Hub chrome stays platform grey/orange until a later milestone |
+| Merge collection profiles ↔ bargaining units | ADR-013 — CAAT-S one comms identity, Hub FT/PT units for casework |
+
+### Bridge (hint only)
+
+`BrandKitContextHint` on `/brand-kit` reminds signed-in officers that Hub collection filters and Brand Kit profiles are separate — no auto-sync.
+
 ## Public vs Authenticated
 
 v1: all public. Phase 1+: optional premium templates behind login; core tools stay public.

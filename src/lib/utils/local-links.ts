@@ -241,6 +241,10 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
     opseuSectorId,
     identityPackId,
     campaignPlate: normalizeCampaignPlate(input.campaignPlate, identityPackId),
+    campaignBadge:
+      typeof input.campaignBadge === "string"
+        ? input.campaignBadge.trim().slice(0, 48) || undefined
+        : base.campaignBadge,
     websiteUrl: trimUrl(input.websiteUrl),
     facebookUrl: trimUrl(input.facebookUrl),
     customLinks: normalizeCustomLinks(input.customLinks),

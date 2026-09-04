@@ -23,8 +23,12 @@ type IdentityPackPickerProps = {
   compact?: boolean;
 };
 
-function packNameKey(packId: string): "opseu-national" | "opseu-caat-s" {
-  return packId === "opseu-caat-s" ? "opseu-caat-s" : "opseu-national";
+function packNameKey(
+  packId: string,
+): "opseu-national" | "opseu-caat-s" | "opseu-caat-a" {
+  if (packId === "opseu-caat-s") return "opseu-caat-s";
+  if (packId === "opseu-caat-a") return "opseu-caat-a";
+  return "opseu-national";
 }
 
 function tileTitle(
