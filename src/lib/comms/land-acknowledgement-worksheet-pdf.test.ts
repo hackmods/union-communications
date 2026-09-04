@@ -67,8 +67,9 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(parsed.joined).toMatch(/Accurate for this territory/i);
     expect(parsed.joined).toMatch(/Executive review date/i);
     expect(parsed.joined).toMatch(/without notes/i);
-    expect(parsed.joined).toMatch(/Federation guide \(OFL \/ national \/ CUPE \/ other\)/i);
-    expect(parsed.joined).toMatch(/consulted if unsure/i);
+    expect(parsed.joined).toMatch(/National \/ federation territory guide/i);
+    expect(parsed.joined).toMatch(/Indigenous Circle consulted if unsure/i);
+    expect(parsed.joined).toMatch(/Speaker explains every phrase/i);
 
     const step3Y = findTextY(parsed, "Step 3 — Draft");
     const step4Y = findTextY(parsed, "Step 4 — Review and commit");
@@ -252,7 +253,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     });
 
     const titleY = findTextY(parsed, "Land acknowledgement");
-    const subtitleY = findTextY(parsed, "Solo draft or group workshop");
+    const subtitleY = findTextY(parsed, "Research, write, commit");
     const step4Y = findTextY(parsed, "Step 4 — Review and commit");
     const tipsY = findTextY(parsed, "Floor tips");
 
@@ -358,7 +359,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expectPairUsesRowColumns(
       parsed,
       "Accurate for this territory",
-      "Speaker can explain",
+      "Speaker explains",
     );
     expect(parsed.joined).toMatch(/without notes/i);
   });
@@ -378,7 +379,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
       locale: "en",
     });
 
-    const promptY = findTextY(parsed, "why acknowledgement matters");
+    const promptY = findTextY(parsed, "why this matters to your local");
     const step3Y = findTextY(parsed, "Step 3 — Draft");
     expect(promptY).toBeDefined();
     expect(step3Y).toBeDefined();
