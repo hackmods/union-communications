@@ -176,14 +176,14 @@ export function ToolEditorLayout({
         </div>
       ) : null}
 
-      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:gap-6 xl:grid-cols-[minmax(18rem,0.95fr)_minmax(0,1.15fr)] xl:gap-8 2xl:gap-10">
+      <div className="mt-4 grid min-w-0 items-start gap-4 lg:mt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:gap-6 xl:grid-cols-[minmax(18rem,0.95fr)_minmax(0,1.15fr)] xl:gap-8 2xl:gap-10">
         <div
           id={editPanelId}
           role="tabpanel"
           aria-labelledby={editTabId}
           hidden={!isLg && pane !== "edit"}
           className={cn(
-            "order-2 lg:order-1",
+            "order-2 min-w-0 lg:order-1",
             pane === "edit" || isLg ? "block" : "hidden",
             "lg:block",
           )}
@@ -196,9 +196,11 @@ export function ToolEditorLayout({
           role="tabpanel"
           aria-labelledby={previewTabId}
           data-tool-preview-panel=""
+          hidden={!isLg && pane !== "preview" && !showMini}
           className={cn(
-            "order-1 lg:order-2",
-            "block",
+            "order-1 min-w-0 lg:order-2",
+            isLg || pane === "preview" || showMini ? "block" : "hidden",
+            "lg:block",
             !isLg &&
               pane === "edit" &&
               miniCollapsed &&

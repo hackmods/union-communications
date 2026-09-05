@@ -6662,6 +6662,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "document-generator-phone": {
+        "title": "Document Generator on a phone",
+        "body": "Pick a letter or worksheet, then Edit or Preview. Downloads sit on the Preview tab so the form is not buried under example cards."
+      },
       "union-history-guide": {
         "title": "How Canadian unions connect",
         "body": "Map your local on two tracks with a printable floor handout. OPSEU / SEFPO Local 243 is the worked example."

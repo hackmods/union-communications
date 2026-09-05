@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "document-generator-phone",
+    date: "2026-09-05",
+    kind: "improved",
+    href: "/tools/document-generator",
+  },
+  {
     id: "union-history-guide",
     date: "2026-09-05",
     kind: "guide",

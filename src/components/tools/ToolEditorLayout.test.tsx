@@ -216,6 +216,24 @@ describe("ToolEditorLayout", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("keeps the preview off the Edit pane when miniPreview is false", () => {
+    render(
+      <ToolEditorLayout
+        title="Worksheet"
+        form={<div>Edit fields</div>}
+        preview={<div>Live mock</div>}
+        miniPreview={false}
+      />,
+    );
+
+    expect(screen.getByText("Edit fields")).toBeVisible();
+    expect(screen.getByText("Live mock")).not.toBeVisible();
+
+    fireEvent.click(screen.getByRole("tab", { name: "Preview" }));
+    expect(screen.getByText("Live mock")).toBeVisible();
+    expect(screen.getByText("Edit fields")).not.toBeVisible();
+  });
+
   it("keeps both columns and secondary preview on desktop", async () => {
     stubMatchMedia(true);
 

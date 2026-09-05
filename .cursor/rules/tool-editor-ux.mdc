@@ -91,11 +91,11 @@ Update when a surface ships.
 | website-template | done |
 | board-banner | done |
 | alt-text | done (PageShell; purposeHint + RelatedTools W1; ToolFormDetails + Graphic link W3) |
-| document-generator | done (PageShell; whenToUse + header BrandSetup + form collapses W3) |
+| document-generator | done (`ToolEditorLayout` `miniPreview={false}`; compact preset chips in the Edit pane; downloads on Preview tab) |
 | pulse-poll | done (RelatedTools + exportSuccess; Hub publish in toolbar) |
 | share-kit | **folded 2026-08-18** — redirect to Graphic Maker; do not rebuild |
 
-Workshop polish (2026-08): canvas tools wire `exportSuccess`, `ToolRelatedFooter`, and `purposeHint`; PageShell exceptions (alt-text, document-generator) match shell checklist without fake Edit/Preview. Re-touch register rows when four-width check fails.
+Workshop polish (2026-08): canvas tools wire `exportSuccess`, `ToolRelatedFooter`, and `purposeHint`; alt-text stays a PageShell exception. Document Generator uses `ToolEditorLayout` without a canvas mini dock. Re-touch register rows when four-width check fails.
 
 ### Public secondary
 

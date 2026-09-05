@@ -1,5 +1,12 @@
 # Progress Log
 
+## Document Generator phone / tablet layout (2026-09-05)
+
+- [x] Document Generator on `ToolEditorLayout` (`miniPreview={false}`) so phone/tablet get Edit/Preview tabs instead of a wall of example cards
+- [x] Compact colour-chip preset picker in the Edit pane (2-col phone → 7-col desktop); downloads on form + Preview tab
+- [x] `ToolEditorLayout` hides the preview pane on Edit when `miniPreview` is false
+- Verify: `npm run test:unit -- src/components/tools/ToolEditorLayout.test.tsx src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Officer Learning colour setting (2026-09-05)
 
 - [x] Display settings: `officerLearningColour` (`navy` default / `light` opt-in) — training pages only, not Brand Kit, not site-wide dark mode

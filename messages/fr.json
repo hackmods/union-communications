@@ -6609,6 +6609,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "document-generator-phone": {
+        "title": "Générateur de documents sur téléphone",
+        "body": "Choisissez une lettre ou une feuille, puis Modifier ou Aperçu. Les téléchargements sont sur l'onglet Aperçu pour que le formulaire ne soit plus caché sous les exemples."
+      },
       "union-history-guide": {
         "title": "Comment les syndicats se relient",
         "body": "Placez votre section sur deux voies avec une feuille de terrain imprimable. OPSEU / SEFPO section 243 est l'exemple travaillé."

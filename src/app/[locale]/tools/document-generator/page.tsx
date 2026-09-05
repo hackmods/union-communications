@@ -7,11 +7,10 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
-import { Callout } from "@/components/ui/Callout";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useBrandStore } from "@/store/brand-store";
 import {
@@ -507,251 +506,244 @@ function DocumentGeneratorPageContent() {
     });
   }
 
-  return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <div className="mb-4 max-w-prose">
-        <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
-          {t("title")}
-        </h1>
-        <p className="mt-1 text-gray-600">{t("subtitle")}</p>
-        <p className="mt-2 max-w-2xl text-sm text-gray-500">{t("whenToUse")}</p>
-        {!themeEstablished ? (
-          <div className="mt-4">
-            <BrandSetupPrompt
-              themeEstablished={themeEstablished}
-              prompt={t("setupBrandPrompt")}
-            />
-          </div>
-        ) : null}
-      </div>
-
-      <div
-        className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-        role="group"
-        aria-label={t("examples")}
-      >
-        {OFFICE_PRESETS.map((p) => (
-          <OfficeExampleTile
-            key={p.id}
-            presetId={p.id}
-            title={t(p.titleKey)}
-            selected={state.presetId === p.id}
-            palette={palette}
-            onSelect={() => applyPreset(p.id)}
-          />
-        ))}
-      </div>
-
-      <div className="grid items-start gap-4 lg:grid-cols-2 lg:gap-6 xl:grid-cols-[minmax(20rem,1.05fr)_minmax(0,1fr)] xl:gap-8">
-        <Card density="compact" className="space-y-5">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <CardTitle className="text-base">{t("settings")}</CardTitle>
-            <UndoRedoBar
-              canUndo={canUndo}
-              canRedo={canRedo}
-              onUndo={undo}
-              onRedo={redo}
-              onReset={() =>
-                reset(initialState(state.presetId, state.includeLogo))
-              }
-            />
-          </div>
-
-          <p className="text-sm leading-snug text-gray-600">
-            {t(preset.blurbKey)}
-          </p>
-
-          {/* Mobile a11y preset select */}
-          <div className="sm:hidden">
-            <Select
-              id="design-preset"
-              label={t("designPreset")}
-              value={state.presetId}
-              onChange={(e) => applyPreset(e.target.value as OfficePresetId)}
-            >
-              {OFFICE_PRESETS.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {t(p.titleKey)}
-                </option>
-              ))}
-            </Select>
-          </div>
-
-          <ToolFormDetails title={t("fieldsHeading")} defaultOpen>
-            {preset.fields.map((field) =>
-              field.multiline ? (
-                <Textarea
-                  key={field.key}
-                  label={t(field.labelKey)}
-                  rows={3}
-                  value={state.fields[field.key] ?? ""}
-                  onChange={(e) => setField(field.key, e.target.value)}
-                />
-              ) : (
-                <Input
-                  key={field.key}
-                  label={t(field.labelKey)}
-                  value={state.fields[field.key] ?? ""}
-                  onChange={(e) => setField(field.key, e.target.value)}
-                />
-              ),
-            )}
-          </ToolFormDetails>
-
-          <ToolFormDetails title={t("sectionBranding")}>
-            <Checkbox
-              label={t("includeLogo")}
-              checked={state.includeLogo}
-              onChange={(e) =>
-                setState({ ...state, includeLogo: e.target.checked })
-              }
-            />
-          </ToolFormDetails>
-
-          <ToolFormDetails title={t("outputs")}>
-            <div className="flex flex-col gap-1.5">
-              {preset.outputs.docx ? (
-                <Checkbox
-                  label={t("outputDocx")}
-                  checked={state.includeDocx}
-                  onChange={(e) =>
-                    setState({ ...state, includeDocx: e.target.checked })
-                  }
-                />
-              ) : null}
-              {preset.outputs.xlsx ? (
-                <Checkbox
-                  label={
-                    state.presetId === "seniority-worksheet" ||
-                    state.presetId === "grievance-intake"
-                      ? t("outputXlsxWorksheet")
-                      : t("outputXlsx")
-                  }
-                  checked={state.includeXlsx}
-                  onChange={(e) =>
-                    setState({ ...state, includeXlsx: e.target.checked })
-                  }
-                />
-              ) : null}
-              {preset.outputs.ics ? (
-                <Checkbox
-                  label={t("outputIcs")}
-                  checked={state.includeIcs}
-                  onChange={(e) =>
-                    setState({ ...state, includeIcs: e.target.checked })
-                  }
-                />
-              ) : null}
-              {preset.outputs.pptx ? (
-                <Checkbox
-                  label={t("outputPptx")}
-                  checked={state.includePptx}
-                  onChange={(e) =>
-                    setState({ ...state, includePptx: e.target.checked })
-                  }
-                />
-              ) : null}
-            </div>
-          </ToolFormDetails>
-
-          <div className="flex flex-wrap gap-2 border-t border-gray-200 pt-5">
-            {preset.outputs.docx ? (
-              <Button
-                type="button"
-                variant="outline"
-                disabled={busy}
-                onClick={handleDownloadDocx}
-              >
-                {tc("downloadDocx")}
-              </Button>
-            ) : null}
-            {preset.outputs.xlsx ? (
-              <Button
-                type="button"
-                variant="outline"
-                disabled={busy}
-                onClick={handleDownloadXlsx}
-              >
-                {tc("downloadXlsx")}
-              </Button>
-            ) : null}
-            {preset.outputs.ics ? (
-              <Button
-                type="button"
-                variant="outline"
-                disabled={busy}
-                onClick={handleDownloadIcs}
-              >
-                {t("downloadIcs")}
-              </Button>
-            ) : null}
-            {preset.outputs.pptx ? (
-              <Button
-                type="button"
-                variant="outline"
-                disabled={busy}
-                onClick={handleDownloadPptx}
-              >
-                {tc("downloadPptx")}
-              </Button>
-            ) : null}
-            <Button
-              type="button"
-              disabled={busy}
-              onClick={handleDownloadZip}
-              aria-busy={busy}
-            >
-              {busy ? tc("exporting") : t("downloadZip")}
-            </Button>
-          </div>
-          {success ? (
-            <Callout tone="success" role="status" className="mt-3">
-              {success}
-            </Callout>
-          ) : null}
-          {error ? (
-            <p className="text-sm text-red-700" role="alert">
-              {error}
-            </p>
-          ) : null}
-        </Card>
-
-        <div className="space-y-3 lg:sticky lg:top-4">
-          <h2 className="text-base font-semibold text-opseu-dark">
-            {t("preview")}
-          </h2>
-          <p className="text-sm text-gray-600">{t("previewHint")}</p>
-          <OfficePresetMock
-            presetId={state.presetId}
-            palette={palette}
-            localLabel={localLabel}
-            fields={fields}
-            logoSrc={state.includeLogo ? logoPreviewSrc : null}
-            includeDocx={state.includeDocx && preset.outputs.docx}
-            includeXlsx={state.includeXlsx && preset.outputs.xlsx}
-            includePptx={state.includePptx && preset.outputs.pptx}
-            tokens={canvasTokens}
-          />
-          <ToolFormDetails title={t("sectionStructure")}>
-            <ul className="list-disc space-y-1 pl-5 text-xs text-gray-600">
-              {preset.structureKeys.map((key) => (
-                <li key={key}>{t(key)}</li>
-              ))}
-            </ul>
-          </ToolFormDetails>
-        </div>
-      </div>
-
-      {showInviteEmail ? (
-        <InviteEmailPanel
-          className="mt-4"
-          fields={fields}
-          localNumber={resolveLocalNumber(localNumber)}
-          messagesNamespace="documentGenerator"
-        />
+  function renderDownloadActions() {
+    return (
+    <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+      {preset.outputs.docx ? (
+        <Button
+          type="button"
+          variant="outline"
+          className="min-h-11 w-full sm:w-auto"
+          disabled={busy}
+          onClick={handleDownloadDocx}
+        >
+          {tc("downloadDocx")}
+        </Button>
       ) : null}
+      {preset.outputs.xlsx ? (
+        <Button
+          type="button"
+          variant="outline"
+          className="min-h-11 w-full sm:w-auto"
+          disabled={busy}
+          onClick={handleDownloadXlsx}
+        >
+          {tc("downloadXlsx")}
+        </Button>
+      ) : null}
+      {preset.outputs.ics ? (
+        <Button
+          type="button"
+          variant="outline"
+          className="min-h-11 w-full sm:w-auto"
+          disabled={busy}
+          onClick={handleDownloadIcs}
+        >
+          {t("downloadIcs")}
+        </Button>
+      ) : null}
+      {preset.outputs.pptx ? (
+        <Button
+          type="button"
+          variant="outline"
+          className="min-h-11 w-full sm:w-auto"
+          disabled={busy}
+          onClick={handleDownloadPptx}
+        >
+          {tc("downloadPptx")}
+        </Button>
+      ) : null}
+      <Button
+        type="button"
+        className="min-h-11 w-full sm:w-auto"
+        disabled={busy}
+        onClick={handleDownloadZip}
+        aria-busy={busy}
+      >
+        {busy ? tc("exporting") : t("downloadZip")}
+      </Button>
+    </div>
+    );
+  }
 
-      <ToolRelatedFooter toolSlug="document-generator" className="mt-8" />
-    </PageShell>
+  const presetPicker = (
+    <div
+      className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7"
+      role="group"
+      aria-label={t("examples")}
+    >
+      {OFFICE_PRESETS.map((p) => (
+        <OfficeExampleTile
+          key={p.id}
+          presetId={p.id}
+          title={t(p.titleKey)}
+          selected={state.presetId === p.id}
+          palette={palette}
+          onSelect={() => applyPreset(p.id)}
+        />
+      ))}
+    </div>
+  );
+
+  const form = (
+    <div className="space-y-4">
+      <div>
+        <p className="mb-2 text-sm font-medium text-gray-700">{t("examples")}</p>
+        {presetPicker}
+      </div>
+    <Card density="compact" className="space-y-5">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <CardTitle className="text-base">{t("settings")}</CardTitle>
+        <UndoRedoBar
+          canUndo={canUndo}
+          canRedo={canRedo}
+          onUndo={undo}
+          onRedo={redo}
+          onReset={() =>
+            reset(initialState(state.presetId, state.includeLogo))
+          }
+        />
+      </div>
+
+      <p className="text-sm leading-snug text-gray-600">{t(preset.blurbKey)}</p>
+
+      <ToolFormDetails title={t("fieldsHeading")} defaultOpen>
+        {preset.fields.map((field) =>
+          field.multiline ? (
+            <Textarea
+              key={field.key}
+              label={t(field.labelKey)}
+              rows={3}
+              value={state.fields[field.key] ?? ""}
+              onChange={(e) => setField(field.key, e.target.value)}
+            />
+          ) : (
+            <Input
+              key={field.key}
+              label={t(field.labelKey)}
+              value={state.fields[field.key] ?? ""}
+              onChange={(e) => setField(field.key, e.target.value)}
+            />
+          ),
+        )}
+      </ToolFormDetails>
+
+      <ToolFormDetails title={t("sectionBranding")}>
+        <Checkbox
+          label={t("includeLogo")}
+          checked={state.includeLogo}
+          onChange={(e) =>
+            setState({ ...state, includeLogo: e.target.checked })
+          }
+        />
+      </ToolFormDetails>
+
+      <ToolFormDetails title={t("outputs")}>
+        <div className="flex flex-col gap-1.5">
+          {preset.outputs.docx ? (
+            <Checkbox
+              label={t("outputDocx")}
+              checked={state.includeDocx}
+              onChange={(e) =>
+                setState({ ...state, includeDocx: e.target.checked })
+              }
+            />
+          ) : null}
+          {preset.outputs.xlsx ? (
+            <Checkbox
+              label={
+                state.presetId === "seniority-worksheet" ||
+                state.presetId === "grievance-intake"
+                  ? t("outputXlsxWorksheet")
+                  : t("outputXlsx")
+              }
+              checked={state.includeXlsx}
+              onChange={(e) =>
+                setState({ ...state, includeXlsx: e.target.checked })
+              }
+            />
+          ) : null}
+          {preset.outputs.ics ? (
+            <Checkbox
+              label={t("outputIcs")}
+              checked={state.includeIcs}
+              onChange={(e) =>
+                setState({ ...state, includeIcs: e.target.checked })
+              }
+            />
+          ) : null}
+          {preset.outputs.pptx ? (
+            <Checkbox
+              label={t("outputPptx")}
+              checked={state.includePptx}
+              onChange={(e) =>
+                setState({ ...state, includePptx: e.target.checked })
+              }
+            />
+          ) : null}
+        </div>
+      </ToolFormDetails>
+
+      <div className="border-t border-gray-200 pt-5">{renderDownloadActions()}</div>
+    </Card>
+    </div>
+  );
+
+  const preview = (
+    <div className="min-w-0 space-y-3">
+      <h2 className="text-base font-semibold text-opseu-dark">{t("preview")}</h2>
+      <p className="text-sm text-gray-600">{t("previewHint")}</p>
+      <OfficePresetMock
+        presetId={state.presetId}
+        palette={palette}
+        localLabel={localLabel}
+        fields={fields}
+        logoSrc={state.includeLogo ? logoPreviewSrc : null}
+        includeDocx={state.includeDocx && preset.outputs.docx}
+        includeXlsx={state.includeXlsx && preset.outputs.xlsx}
+        includePptx={state.includePptx && preset.outputs.pptx}
+        tokens={canvasTokens}
+      />
+      <ToolFormDetails title={t("sectionStructure")}>
+        <ul className="list-disc space-y-1 pl-5 text-xs text-gray-600">
+          {preset.structureKeys.map((key) => (
+            <li key={key}>{t(key)}</li>
+          ))}
+        </ul>
+      </ToolFormDetails>
+    </div>
+  );
+
+  return (
+    <ToolEditorLayout
+      title={t("title")}
+      description={t("subtitle")}
+      purposeHint={t("whenToUse")}
+      previewAccessibleName={t("preview")}
+      miniPreview={false}
+      toolbar={
+        !themeEstablished ? (
+          <BrandSetupPrompt
+            themeEstablished={themeEstablished}
+            prompt={t("setupBrandPrompt")}
+          />
+        ) : undefined
+      }
+      form={form}
+      preview={preview}
+      previewActions={renderDownloadActions()}
+      exportError={error}
+      exportSuccess={success}
+      belowGrid={
+        showInviteEmail ? (
+          <InviteEmailPanel
+            fields={fields}
+            localNumber={resolveLocalNumber(localNumber)}
+            messagesNamespace="documentGenerator"
+          />
+        ) : null
+      }
+      footer={<ToolRelatedFooter toolSlug="document-generator" />}
+    />
   );
 }

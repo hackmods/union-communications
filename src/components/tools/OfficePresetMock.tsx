@@ -89,7 +89,7 @@ export function OfficePresetMock({
       ["Want", fields.want],
     ] as const;
     return (
-      <div className={cn("space-y-3", className)}>
+      <div className={cn("min-w-0 space-y-3", className)}>
         <div
           className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"
           style={{ backgroundColor: "#fff" }}
@@ -166,7 +166,7 @@ export function OfficePresetMock({
       "Notes",
     ];
     return (
-      <div className={cn("space-y-3", className)}>
+      <div className={cn("min-w-0 space-y-3", className)}>
         <div
           className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"
           style={{ backgroundColor: "#fff" }}
@@ -254,7 +254,7 @@ export function OfficePresetMock({
 
   if (presetId === "quick-event") {
     return (
-      <div className={cn("space-y-3", className)}>
+      <div className={cn("min-w-0 space-y-3", className)}>
         <div
           className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"
           style={{ backgroundColor: "#fff" }}
@@ -343,7 +343,7 @@ export function OfficePresetMock({
 
   // simple-letter + letterhead
   return (
-    <div className={cn("space-y-3", className)}>
+    <div className={cn("min-w-0 space-y-3", className)}>
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
         <div
           className="flex items-center gap-3 px-4 py-3"
@@ -432,9 +432,8 @@ export function OfficePresetMock({
   );
 }
 
-/** Compact picker tile with mini silhouette */
+/** Compact picker tile — colour chip + title, sized for phone grids. */
 export function OfficeExampleTile({
-  presetId,
   title,
   selected,
   palette,
@@ -452,57 +451,20 @@ export function OfficeExampleTile({
       onClick={onSelect}
       aria-pressed={selected}
       className={cn(
-        "flex w-full flex-col overflow-hidden rounded-xl border text-left transition-colors",
+        "flex min-h-11 min-w-0 w-full flex-col overflow-hidden rounded-lg border text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
         selected
           ? "border-opseu-blue ring-2 ring-opseu-blue/30"
           : "border-gray-200 hover:border-opseu-blue/40",
       )}
     >
-      <div
-        className="h-16 border-b border-black/5 px-3 py-2"
+      <span
+        className="block h-1.5 w-full"
         style={{ backgroundColor: palette.primary }}
-      >
-        <div className="h-full rounded-sm bg-white/95 p-1.5 shadow-sm">
-          {presetId === "quick-event" ? (
-            <div className="space-y-1">
-              <div
-                className="h-1.5 w-2/3 rounded-sm"
-                style={{ backgroundColor: palette.secondary }}
-              />
-              <div className="h-1 w-1/3 rounded-sm bg-gray-300" />
-              <div className="h-1 w-1/2 rounded-sm bg-gray-200" />
-            </div>
-          ) : presetId === "seniority-worksheet" ||
-            presetId === "grievance-intake" ? (
-            <div className="space-y-1">
-              <div className="grid grid-cols-4 gap-0.5">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-1 rounded-sm bg-gray-200"
-                    style={
-                      i < 4
-                        ? { backgroundColor: palette.primary, opacity: 0.35 }
-                        : undefined
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-1">
-              <div
-                className="mb-1 h-2 w-full rounded-sm"
-                style={{ backgroundColor: palette.primary, opacity: 0.35 }}
-              />
-              <div className="h-1 w-full rounded-sm bg-gray-200" />
-              <div className="h-1 w-5/6 rounded-sm bg-gray-200" />
-              <div className="h-1 w-4/6 rounded-sm bg-gray-200" />
-            </div>
-          )}
-        </div>
-      </div>
-      <p className="px-3 py-2 text-sm font-semibold text-opseu-dark">{title}</p>
+        aria-hidden
+      />
+      <span className="px-2.5 py-2 text-sm font-semibold leading-snug text-opseu-dark">
+        {title}
+      </span>
     </button>
   );
 }
