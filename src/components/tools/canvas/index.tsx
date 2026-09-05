@@ -177,7 +177,9 @@ export function CanvasStackSlot({
     <div
       data-canvas-stack-slot=""
       className={cn(
-        "relative z-[2] min-h-0 min-w-0 flex-1 overflow-hidden",
+        // min-h keeps a real type budget when meta/header are tall — never
+        // collapse the slot to 0px (which hid headlines under `fit`).
+        "relative z-[2] flex min-h-[28%] min-w-0 flex-1 flex-col overflow-hidden",
         className,
       )}
     >
@@ -229,8 +231,15 @@ export function CanvasTypeBlock({
     const measure = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
+        const parent = el.parentElement;
+        // Budget is the stack slot — not self.clientHeight (h-full + empty
+        // flex slot reported 0 and hid the headline).
+        const budgetW = parent?.clientWidth || el.clientWidth;
+        const budgetH = parent?.clientHeight || el.clientHeight;
+        if (!(budgetW > 0) || !(budgetH > 0)) return;
+
         let next = 1;
-        // Walk down from Brand Kit size until the slot contains the copy.
+        // Walk down from Brand Kit size until copy fits the slot budget.
         for (let i = 0; i < CANVAS_TYPE_FIT_MAX_ITERS; i++) {
           el.dataset.canvasTypeFit = String(next);
           const titleEl = el.querySelector<HTMLElement>("[data-canvas-title]");
@@ -250,8 +259,8 @@ export function CanvasTypeBlock({
           const overflowing = typeFitOverflows(
             el.scrollWidth,
             el.scrollHeight,
-            el.clientWidth,
-            el.clientHeight,
+            budgetW,
+            budgetH,
           );
           if (!overflowing || next <= CANVAS_TYPE_FIT_MIN_SCALE) break;
           next = nextTypeFitScale(next, true);
@@ -299,7 +308,9 @@ export function CanvasTypeBlock({
       data-canvas-type-fit={fit ? scale.toFixed(3) : undefined}
       className={cn(
         "relative z-[2] flex w-full flex-col",
-        fit && "h-full min-h-0 min-w-0 overflow-hidden",
+        // Intrinsic height at fitted size; max-h clips if still over budget.
+        // Avoid h-full — a squeezed flex slot made headlines height:0.
+        fit && "max-h-full min-h-0 min-w-0 overflow-hidden",
         className,
       )}
       style={{ alignItems: items, textAlign: align, ...asymmetric }}
