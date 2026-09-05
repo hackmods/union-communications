@@ -14,15 +14,19 @@ Brand Kit is the Comms home base (colours, logo, local number, links). First wee
 
 ## Header Guides menu (keep this shape)
 
-Four groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**). **Hub-first:** topic labour playbooks (grievance, DFR, bylaws, membership, workplace mapping, RTR, seniority, joint committee) are **not** mega-menu links — they live on `/guide/steward-playbooks` (+ Resources / Blueprint strips). **Officer Learning Center** is a **top-level header link** (between Guides and Brand Kit) — not nested under Steward craft. Five columns at 2xl.
+Five groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**). Job groups (floor / local / campaign) live in [`guide-registry.ts`](src/lib/comms/guide-registry.ts). **Officer Learning Center** is a **top-level header link** (between Guides and Brand Kit) — not nested under Steward craft. Five columns at 2xl. Floor and The local start **collapsed** below 2xl (`<details>`), expanded at 2xl.
 
 1. **Comms** — First week (`/guide/social-media-plan`), The Blueprint (`/guide`), Workshop outline (`/guide/workshop`)
 2. **By channel** — Print Guide, Union Boards Guide, Website Guide, Email & outreach, Short-form video
-3. **Steward craft** — Steward playbooks hub, Steward 101, Bargaining lifecycle, Strike operations (`/guide/strike`). Crisis comms stays on Resources comms + related links, not this column.
-4. **Libraries** — Social Examples, Captions, Photo Consent, Brand Assets, Comms Resources
-5. **About** — What's new, Built in solidarity, Install as an app
+3. **Steward craft** — Steward playbooks hub, Steward 101, Bargaining lifecycle, Strike operations (`/guide/strike`), Crisis comms
+4. **Floor and the local** — nested **Floor** (grievance, DFR, RTR, seniority, joint committee, workplace mapping) and **The local** (union history, running meetings, bylaws, land acknowledgement, membership signup)
+5. **Libraries** — Social Examples, Captions, Photo Consent, Brand Assets, Comms Resources
 
-Do not re-flatten channel guides into a long top-level link bar. Do not invent marketing routes (`/about`, `/pricing`, `/blog`) unless product expands. Do not dump every new topic playbook into the mega-menu — add it to the Steward playbooks hub instead.
+What's new, Built in solidarity, and Install stay in the **footer**, not the mega-menu.
+
+Do not re-flatten channel guides into a long top-level link bar. Do not invent marketing routes (`/about`, `/pricing`, `/blog`) unless product expands. Do not add a sixth mega-menu column. New topic playbooks go in the Floor or The local subgroup (and `/guides` catalog) — not as extra top-level columns.
+
+Footer row in the mega-menu: **All guides** → `/guides` catalog (Blueprint stays `/guide`). Do not point All guides at The Blueprint.
 
 ## Header Tools menu (keep this shape)
 

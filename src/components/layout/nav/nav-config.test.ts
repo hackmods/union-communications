@@ -10,7 +10,13 @@ import {
   PULSE_POLL_HREF,
   toolGroups,
   visibleToolGroups,
+  flatNavLinks,
 } from "./nav-config";
+import {
+  GUIDE_CATALOG_PATH,
+  GUIDE_JOB_GROUP_HREFS,
+  GUIDE_NAV_STEWARD_CRAFT_HREFS,
+} from "@/lib/comms/guide-registry";
 
 describe("getStartedHref", () => {
   it("points at the Home toolkit chooser", () => {
@@ -34,9 +40,10 @@ describe("path helpers", () => {
     expect(isLearnPath("/guide/resources")).toBe(true);
     expect(isLearnPath("/examples")).toBe(true);
     expect(isLearnPath("/assets")).toBe(true);
-    expect(isLearnPath("/manifesto")).toBe(true);
-    expect(isLearnPath("/updates")).toBe(true);
-    expect(isLearnPath("/install")).toBe(true);
+    expect(isLearnPath("/manifesto")).toBe(false);
+    expect(isLearnPath("/updates")).toBe(false);
+    expect(isLearnPath("/install")).toBe(false);
+    expect(isLearnPath(GUIDE_CATALOG_PATH)).toBe(true);
     expect(isLearnPath("/guide/grievance-process")).toBe(true);
     expect(isLearnPath(OFFICER_LEARNING_HREF)).toBe(false);
     expect(isLearnPath("/guide/officer-learning/contract-enforcement")).toBe(
@@ -61,17 +68,17 @@ describe("path helpers", () => {
     ]);
   });
 
-  it("keeps five hub-first guide groups with steward training after channels", () => {
+  it("keeps five guide groups with floor and local after steward craft", () => {
     expect(learnGroups.map((g) => g.labelKey)).toEqual([
       "learnGroupGuides",
       "learnGroupChannels",
       "learnGroupStewardTraining",
+      "learnGroupFloorLocal",
       "learnGroupLibraries",
-      "learnGroupAbout",
     ]);
   });
 
-  it("leads steward craft with the playbooks hub", () => {
+  it("leads steward craft with the playbooks hub and crisis", () => {
     const steward = learnGroups.find(
       (g) => g.labelKey === "learnGroupStewardTraining",
     );
@@ -79,10 +86,7 @@ describe("path helpers", () => {
       (g) => g.labelKey === "learnGroupChannels",
     );
     expect(steward?.links.map((l) => l.href)).toEqual([
-      "/guide/steward-playbooks",
-      "/guide/steward-101",
-      "/guide/bargaining",
-      "/guide/strike",
+      ...GUIDE_NAV_STEWARD_CRAFT_HREFS,
     ]);
     expect(channels?.links.map((l) => l.href)).toEqual([
       "/guide/print",
@@ -91,21 +95,36 @@ describe("path helpers", () => {
       "/guide/email-broadcast",
       "/guide/short-form",
     ]);
-    // Topic playbooks stay on the hub — not mega-menu destinations.
-    const allGuideHrefs = learnGroups.flatMap((g) =>
-      g.links.map((l) => l.href),
-    );
-    expect(allGuideHrefs).not.toContain("/guide/grievance-process");
-    expect(allGuideHrefs).not.toContain("/guide/dfr");
-    expect(allGuideHrefs).not.toContain("/guide/bylaws");
-    expect(allGuideHrefs).not.toContain("/guide/membership-signup");
   });
 
-  it("splits libraries from about", () => {
+  it("groups floor and local playbooks as nested mega-menu subgroups", () => {
+    const floorLocal = learnGroups.find(
+      (g) => g.labelKey === "learnGroupFloorLocal",
+    );
+    expect(floorLocal?.links).toEqual([]);
+    expect(floorLocal?.subgroups?.map((s) => s.labelKey)).toEqual([
+      "learnSubgroupFloor",
+      "learnSubgroupLocal",
+    ]);
+    expect(floorLocal?.subgroups?.[0]?.links.map((l) => l.href)).toEqual([
+      ...GUIDE_JOB_GROUP_HREFS.floor,
+    ]);
+    expect(floorLocal?.subgroups?.[1]?.links.map((l) => l.href)).toEqual([
+      ...GUIDE_JOB_GROUP_HREFS.local,
+    ]);
+    const allGuideHrefs = flatNavLinks(learnGroups).map((l) => l.href);
+    expect(allGuideHrefs).toContain("/guide/grievance-process");
+    expect(allGuideHrefs).toContain("/guide/dfr");
+    expect(allGuideHrefs).toContain("/guide/bylaws");
+    expect(allGuideHrefs).toContain("/guide/membership-signup");
+    expect(allGuideHrefs).not.toContain("/manifesto");
+    expect(allGuideHrefs).not.toContain("/install");
+  });
+
+  it("keeps libraries without the footer About links", () => {
     const libraries = learnGroups.find(
       (g) => g.labelKey === "learnGroupLibraries",
     );
-    const about = learnGroups.find((g) => g.labelKey === "learnGroupAbout");
     expect(libraries?.links.map((l) => l.href)).toEqual([
       "/examples",
       "/captions",
@@ -113,11 +132,9 @@ describe("path helpers", () => {
       "/assets",
       "/guide/resources",
     ]);
-    expect(about?.links.map((l) => l.href)).toEqual([
-      "/updates",
-      "/manifesto",
-      "/install",
-    ]);
+    expect(learnGroups.some((g) => g.labelKey === "learnGroupAbout")).toBe(
+      false,
+    );
   });
 });
 

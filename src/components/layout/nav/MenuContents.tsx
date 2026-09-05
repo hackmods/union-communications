@@ -11,7 +11,9 @@ import {
   linkActive,
   visibleToolGroups,
   type NavGroup,
+  type NavSubgroup,
 } from "./nav-config";
+import { GUIDE_CATALOG_PATH } from "@/lib/comms/guide-registry";
 
 type MenuLinkGroupsProps = {
   groups: readonly NavGroup[];
@@ -102,6 +104,76 @@ function MegaFooterLink({
   );
 }
 
+function MegaSubgroupLinks({
+  subgroup,
+  pathname,
+  onNavigate,
+}: {
+  subgroup: NavSubgroup;
+  pathname: string;
+  onNavigate: () => void;
+}) {
+  const t = useTranslations("nav");
+  return (
+    <ul className="mt-1 space-y-0.5">
+      {subgroup.links.map(({ href, key }) => (
+        <li key={href}>
+          <MenuItemLink
+            href={href}
+            label={t(key)}
+            active={linkActive(pathname, href)}
+            onNavigate={onNavigate}
+          />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function MegaSubgroups({
+  subgroups,
+  pathname,
+  onNavigate,
+}: {
+  subgroups: readonly NavSubgroup[];
+  pathname: string;
+  onNavigate: () => void;
+}) {
+  const t = useTranslations("nav");
+  return (
+    <>
+      <div className="hidden 2xl:block">
+        {subgroups.map((subgroup) => (
+          <div key={subgroup.labelKey} className="mt-3 first:mt-2">
+            <p className="px-2.5 pb-1 text-[0.65rem] font-semibold tracking-wide text-gray-500">
+              {t(subgroup.labelKey)}
+            </p>
+            <MegaSubgroupLinks
+              subgroup={subgroup}
+              pathname={pathname}
+              onNavigate={onNavigate}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="2xl:hidden">
+        {subgroups.map((subgroup) => (
+          <details key={subgroup.labelKey} className="mt-2">
+            <summary className="cursor-pointer list-none rounded-lg px-2.5 py-1.5 text-[0.7rem] font-semibold tracking-wide text-gray-500 outline-none marker:content-none hover:bg-opseu-blue/5 focus-visible:bg-opseu-blue/10 focus-visible:ring-2 focus-visible:ring-opseu-blue/40 [&::-webkit-details-marker]:hidden">
+              {t(subgroup.labelKey)}
+            </summary>
+            <MegaSubgroupLinks
+              subgroup={subgroup}
+              pathname={pathname}
+              onNavigate={onNavigate}
+            />
+          </details>
+        ))}
+      </div>
+    </>
+  );
+}
+
 export function MenuLinkGroups({
   groups,
   pathname,
@@ -118,18 +190,27 @@ export function MenuLinkGroups({
             <p className="border-b border-gray-100 px-2.5 pb-2 text-[0.7rem] font-semibold tracking-wide text-gray-500">
               {t(group.labelKey)}
             </p>
-            <ul className="mt-2 space-y-0.5">
-              {group.links.map(({ href, key }) => (
-                <li key={href}>
-                  <MenuItemLink
-                    href={href}
-                    label={t(key)}
-                    active={linkActive(pathname, href)}
-                    onNavigate={onNavigate}
-                  />
-                </li>
-              ))}
-            </ul>
+            {group.links.length > 0 ? (
+              <ul className="mt-2 space-y-0.5">
+                {group.links.map(({ href, key }) => (
+                  <li key={href}>
+                    <MenuItemLink
+                      href={href}
+                      label={t(key)}
+                      active={linkActive(pathname, href)}
+                      onNavigate={onNavigate}
+                    />
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            {group.subgroups ? (
+              <MegaSubgroups
+                subgroups={group.subgroups}
+                pathname={pathname}
+                onNavigate={onNavigate}
+              />
+            ) : null}
           </div>
         ))}
       </div>
@@ -156,6 +237,23 @@ export function MenuLinkGroups({
               dense
             />
           ))}
+          {group.subgroups?.map((subgroup) => (
+            <details key={subgroup.labelKey} className="mt-1">
+              <summary className="cursor-pointer list-none px-3 py-1.5 text-[0.7rem] font-semibold tracking-wide text-gray-500 marker:content-none [&::-webkit-details-marker]:hidden">
+                {t(subgroup.labelKey)}
+              </summary>
+              {subgroup.links.map(({ href, key }) => (
+                <MenuItemLink
+                  key={href}
+                  href={href}
+                  label={t(key)}
+                  active={linkActive(pathname, href)}
+                  onNavigate={onNavigate}
+                  dense
+                />
+              ))}
+            </details>
+          ))}
         </div>
       ))}
     </>
@@ -170,7 +268,7 @@ export function LearnMenuContent({
   onNavigate: () => void;
 }) {
   const t = useTranslations("nav");
-  const allActive = pathname === "/guide";
+  const allActive = pathname === GUIDE_CATALOG_PATH;
 
   return (
     <div className="w-full min-w-0">
@@ -181,7 +279,7 @@ export function LearnMenuContent({
         layout="mega"
       />
       <MegaFooterLink
-        href="/guide"
+        href={GUIDE_CATALOG_PATH}
         label={t("allGuides")}
         active={allActive}
         onNavigate={onNavigate}

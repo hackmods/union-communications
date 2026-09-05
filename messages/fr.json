@@ -60,7 +60,9 @@
     "learnGroupStewardTraining": "Travail de délégué",
     "learnGroupChannels": "Par canal",
     "learnGroupLibraries": "Bibliothèques",
-    "learnGroupAbout": "À propos",
+    "learnGroupFloorLocal": "Plancher et section",
+    "learnSubgroupFloor": "Plancher",
+    "learnSubgroupLocal": "La section",
     "install": "Installer comme appli",
     "toolsGroupBrand": "Marque",
     "toolsGroupBoards": "Tableaux syndicaux",
@@ -4688,6 +4690,12 @@
       "title": "Tous les guides pratiques",
       "intro": "Même profondeur qu'une fiche de formation : seuil, étapes, exemple commenté et sources."
     },
+    "groups": {
+      "training": "Formation",
+      "floor": "Plancher",
+      "local": "La section",
+      "campaign": "Campagne"
+    },
     "links": {
       "steward101": "Délégué 101 : votre rôle et vos droits",
       "officerLearning": "Centre de formation des dirigeants",
@@ -4700,6 +4708,7 @@
       "jointCommittee": "Guide des comités conjoints",
       "bargaining": "Le cycle de négociation : du sondage à la signature",
       "strike": "Guide des opérations de grève",
+      "crisis": "Guide des communications de crise",
       "bylaws": "Règlements locaux : les règles de votre section",
       "runningMeetings": "Tenir une assemblée et règles de procédure",
       "unionHistory": "Comment les syndicats se relient",
@@ -4717,6 +4726,7 @@
       "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
       "bargaining": "Du sondage à la signature pour les comités de négociation locaux — mises à jour de table, votes de grève, ratification, listes et Suivi des propositions sur appareil.",
       "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail. Pas un calendrier de publications.",
+      "crisis": "Gardez des messages locaux calmes pendant les grèves, la négociation, les mises à pied et les réactions de la direction.",
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale.",
       "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire pour une motion ou un rappel au règlement.",
       "unionHistory": "Deux voies, pas une échelle : famille syndicale et conseil du travail municipal, cartographiées depuis OPSEU / SEFPO section 243.",
@@ -6610,6 +6620,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "guides-catalog": {
+        "title": "Tous les guides, sur une liste",
+        "body": "Parcourez tous les manuels publics depuis Tous les guides, y compris les guides de plancher, les assemblées et comment les syndicats se relient."
+      },
       "flyer-maker-phone": {
         "title": "Créateur de tracts sur téléphone",
         "body": "Choisissez piquetage, rassemblement, assemblée ou tournée, puis Modifier ou Aperçu. Les téléchargements sont sur l'onglet Aperçu pour que le formulaire tienne sur un téléphone."
@@ -8967,6 +8981,66 @@
       "bylawBuilder": "Rédigez un modèle de règlements locaux à partir du quorum et de la structure de l'exécutif.",
       "proposalTracker": "Suivez les propositions et contre-propositions sur cet appareil, puis exportez en CSV pour sauvegarde.",
       "rulesOfOrder": "Quatorze actions parlementaires avec formulation exacte, notes pour le président et copie — conçu pour le téléphone en salle."
+    }
+  },
+  "guidesIndex": {
+    "title": "Guides",
+    "subtitle": "Première semaine, manuels par canal, et guides pratiques pour le plancher et la section. La formation des dirigeants reste un lien en tête de page.",
+    "hint": "Définissez d'abord les couleurs et le logo dans",
+    "startHereTitle": "Par où commencer",
+    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte six modules autogérés.",
+    "startHereRoadmap": "Ouvrir tous les guides pratiques",
+    "startHereSteps": {
+      "firstWeek": "Tableaux, impression, social et un site simple après la Trousse de marque.",
+      "playbooks": "Formation de plancher, assemblées, griefs et manuels de campagne.",
+      "officerLearning": "Six modules avec listes de contrôle et un quiz sur cet appareil."
+    },
+    "groups": {
+      "commsPath": {
+        "title": "Parcours Comms",
+        "intro": "Identité, le manuel de pratique hebdomadaire, et notes d'atelier."
+      },
+      "channels": {
+        "title": "Par canal",
+        "intro": "Tableaux, impression, web, courriel, vidéo courte et adhésion."
+      },
+      "bargaining": {
+        "title": "Campagne",
+        "intro": "Négociation, opérations de grève et communications de crise."
+      },
+      "labour": {
+        "title": "Travail de délégué",
+        "intro": "Formation des dirigeants, guides de plancher, assemblées, et comment les syndicats se relient."
+      }
+    },
+    "blurbs": {
+      "plan": "Quoi faire après la Trousse de marque : tableaux, impression, réseaux sociaux et un site simple.",
+      "blueprint": "Pratique continue des comms locales : plateformes, ton, rythme de publication et accessibilité.",
+      "resources": "Liste de pratique et sources derrière cette boîte à outils, en solo ou en atelier.",
+      "workshop": "Plan d'une heure pour cadres bénévoles : plateformes, logo local, exemples et ZIP de site.",
+      "photoConsent": "Protégez les membres avant de publier une photo : trois contextes et un retrait.",
+      "unionBoards": "Mise en page du tableau, quoi imprimer, avis et affiches de solidarité.",
+      "print": "Pourquoi l'imprimé rejoint les membres hors réseaux, et comment concevoir un tract lisible.",
+      "website": "Rédigez un site local simple, téléchargez le ZIP, puis publiez-le sur GitHub Pages.",
+      "email": "Rédigez l'avis officiel de réunion ou de vote, puis collez-le dans votre boîte.",
+      "shortForm": "Filmez au téléphone, protégez la vie privée des membres, et orientez la vidéo vers une prochaine étape.",
+      "membershipSignup": "Recrutez et orientez les nouveaux membres avec un parcours d'adhésion reproductible.",
+      "bargaining": "Du sondage à la signature pour les comités locaux, avec listes et Suivi des propositions.",
+      "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail.",
+      "crisis": "Gardez des messages locaux calmes pendant les grèves, la négociation, les mises à pied et les réactions de la direction.",
+      "officerLearning": "Six modules avec scénarios, listes de contrôle, fiches imprimables et un quiz par module.",
+      "stewardPlaybooks": "Porte d'entrée pour la formation de plancher, les assemblées, les griefs et les manuels de campagne.",
+      "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
+      "unionHistory": "Deux voies, pas une échelle : famille syndicale et conseil du travail municipal.",
+      "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable.",
+      "dfr": "Ce que la représentation équitable exige en pratique, et comment garder un dossier propre.",
+      "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
+      "rightToRefuse": "LSST art. 43, étapes 1 et 2 pour les délégués et les membres du CSS.",
+      "jointCommittee": "Campus, caucus, table, puis une note aux membres après procès-verbaux signés.",
+      "workplaceMapping": "Recensez les collègues, repérez les leaders organiques et cotez l'appui syndical de 1 à 5.",
+      "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis et quorum.",
+      "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire.",
+      "landAcknowledgement": "Rédigez seul ou animez un atelier avec la feuille PDF lignée d'une page."
     }
   },
   "portal": {

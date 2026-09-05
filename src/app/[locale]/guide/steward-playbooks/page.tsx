@@ -11,7 +11,7 @@ import {
 } from "@/components/comms/guideCtaClasses";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Callout } from "@/components/ui/Callout";
-import { GUIDE_STEWARD_PLAYBOOK_LINKS } from "@/lib/comms/guide-registry";
+import { GUIDE_STEWARD_PLAYBOOK_GROUPS } from "@/lib/comms/guide-registry";
 
 export async function generateMetadata({
   params,
@@ -22,10 +22,10 @@ export async function generateMetadata({
 }
 
 const TOC = [
+  ["playbooks", "playbooks"],
   ["trainingPath", "trainingPath"],
   ["workspaces", "workspaces"],
   ["quiz", "quiz"],
-  ["playbooks", "playbooks"],
 ] as const;
 
 const workspaceLinks = [
@@ -61,7 +61,12 @@ const workspaceLinks = [
   },
 ] as const;
 
-const playbookLinks = GUIDE_STEWARD_PLAYBOOK_LINKS;
+const playbookGroups = [
+  "training",
+  "floor",
+  "local",
+  "campaign",
+] as const;
 
 export default async function StewardPlaybooksPage({
   params,
@@ -118,7 +123,51 @@ export default async function StewardPlaybooksPage({
         />
       }
     >
-      <section id="trainingPath" className="scroll-mt-28">
+      <section
+        id="playbooks"
+        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+      >
+        <h2 className="text-xl font-bold text-opseu-dark">{t("playbooks.title")}</h2>
+        <p className="mt-2 max-w-prose text-gray-700">{t("playbooks.intro")}</p>
+        {playbookGroups.map((groupId) => (
+          <div key={groupId} className="mt-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+              {t(`groups.${groupId}`)}
+            </h3>
+            <ul className="mt-3 space-y-4">
+              {GUIDE_STEWARD_PLAYBOOK_GROUPS[groupId].map(
+                ({ href, key, ...rest }) => (
+                  <li
+                    key={href}
+                    className={
+                      "featured" in rest && rest.featured
+                        ? "rounded-xl border border-opseu-blue/25 bg-opseu-blue/[0.06] p-4"
+                        : undefined
+                    }
+                  >
+                    <Link
+                      href={href}
+                      className="font-medium text-opseu-blue underline"
+                    >
+                      {t(`links.${key}`)}
+                    </Link>
+                    {"featured" in rest && rest.featured ? (
+                      <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-opseu-blue">
+                        {t("quizBadge")}
+                      </p>
+                    ) : null}
+                    <p className="mt-1 text-sm text-gray-600">
+                      {t(`blurbs.${key}`)}
+                    </p>
+                  </li>
+                ),
+              )}
+            </ul>
+          </div>
+        ))}
+      </section>
+
+      <section id="trainingPath" className="mt-12 scroll-mt-28">
         <Callout className="mb-8 max-w-3xl">
           <p className="font-semibold text-opseu-dark">{t("trainingPath.title")}</p>
           <p className="mt-2 leading-relaxed text-gray-700">{t("trainingPath.body")}</p>
@@ -167,36 +216,6 @@ export default async function StewardPlaybooksPage({
           <p className="font-semibold text-opseu-dark">{t("quizCallout.title")}</p>
           <p className="mt-2 leading-relaxed text-gray-700">{t("quizCallout.body")}</p>
         </Callout>
-      </section>
-
-      <section
-        id="playbooks"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-      >
-        <h2 className="text-xl font-bold text-opseu-dark">{t("playbooks.title")}</h2>
-        <p className="mt-2 max-w-prose text-gray-700">{t("playbooks.intro")}</p>
-        <ul className="mt-4 space-y-4">
-          {playbookLinks.map(({ href, key, ...rest }) => (
-            <li
-              key={href}
-              className={
-                "featured" in rest && rest.featured
-                  ? "rounded-xl border border-opseu-blue/25 bg-opseu-blue/[0.06] p-4"
-                  : undefined
-              }
-            >
-              <Link href={href} className="font-medium text-opseu-blue underline">
-                {t(`links.${key}`)}
-              </Link>
-              {"featured" in rest && rest.featured ? (
-                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-opseu-blue">
-                  {t("quizBadge")}
-                </p>
-              ) : null}
-              <p className="mt-1 text-sm text-gray-600">{t(`blurbs.${key}`)}</p>
-            </li>
-          ))}
-        </ul>
       </section>
     </GuideLayout>
   );

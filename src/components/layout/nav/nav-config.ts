@@ -1,3 +1,10 @@
+import {
+  GUIDE_CATALOG_PATH,
+  GUIDE_JOB_GROUP_HREFS,
+  GUIDE_NAV_STEWARD_CRAFT_HREFS,
+  registryEntryByHref,
+} from "@/lib/comms/guide-registry";
+
 export type NavLinkKey =
   | "resources"
   | "guide"
@@ -61,21 +68,29 @@ export type NavGroupLabelKey =
   | "learnGroupStewardTraining"
   | "learnGroupChannels"
   | "learnGroupLibraries"
-  | "learnGroupAbout"
+  | "learnGroupFloorLocal"
   | "toolsGroupBrand"
   | "toolsGroupBoards"
   | "toolsGroupPrint"
   | "toolsGroupSocialWeb"
   | "toolsGroupStewardWorksheets";
 
+export type NavSubgroupLabelKey = "learnSubgroupFloor" | "learnSubgroupLocal";
+
 export type NavLink = {
   href: string;
   key: NavLinkKey;
 };
 
+export type NavSubgroup = {
+  labelKey: NavSubgroupLabelKey;
+  links: readonly NavLink[];
+};
+
 export type NavGroup = {
   labelKey: NavGroupLabelKey;
   links: readonly NavLink[];
+  subgroups?: readonly NavSubgroup[];
 };
 
 /** Officer Learning — top-level header link; not nested under Guides ▾. */
@@ -84,38 +99,57 @@ export const OFFICER_LEARNING_HREF = "/guide/officer-learning" as const;
 /** Top-level label key for the Guides disclosure (was Learn). */
 export const guidesMenuLabelKey = "guides" as const;
 
+function navLinksFromHrefs(hrefs: readonly string[]): NavLink[] {
+  return hrefs.map((href) => {
+    const entry = registryEntryByHref(href);
+    if (!entry?.navKey) {
+      throw new Error(`nav-config: missing registry navKey for ${href}`);
+    }
+    return { href, key: entry.navKey as NavLinkKey };
+  });
+}
+
 /**
  * Guides ▾ mega-menu — toolkit-first. Comms practice, channels, then
  * steward craft. Officer Learning is a top-level header link, not nested here.
- * Topic playbooks (grievance, DFR, bylaws, …) live on `/guide/steward-playbooks`.
- * Resources (bibliography) sits in Libraries.
+ * Floor and local playbooks sit in a grouped column (collapsed below 2xl).
+ * Resources (bibliography) sits in Libraries. About links stay in the footer.
  */
 export const learnGroups: readonly NavGroup[] = [
   {
     labelKey: "learnGroupGuides",
-    links: [
-      { href: "/guide/social-media-plan", key: "firstWeek" },
-      { href: "/guide", key: "guide" },
-      { href: "/guide/workshop", key: "workshopGuide" },
-    ],
+    links: navLinksFromHrefs([
+      "/guide/social-media-plan",
+      "/guide",
+      "/guide/workshop",
+    ]),
   },
   {
     labelKey: "learnGroupChannels",
-    links: [
-      { href: "/guide/print", key: "printGuide" },
-      { href: "/guide/union-boards", key: "unionBoardsGuide" },
-      { href: "/guide/website", key: "websiteGuide" },
-      { href: "/guide/email-broadcast", key: "emailBroadcastGuide" },
-      { href: "/guide/short-form", key: "shortFormGuide" },
-    ],
+    links: navLinksFromHrefs([
+      "/guide/print",
+      "/guide/union-boards",
+      "/guide/website",
+      "/guide/email-broadcast",
+      "/guide/short-form",
+    ]),
   },
   {
     labelKey: "learnGroupStewardTraining",
-    links: [
-      { href: "/guide/steward-playbooks", key: "stewardPlaybooksHub" },
-      { href: "/guide/steward-101", key: "steward101Guide" },
-      { href: "/guide/bargaining", key: "bargainingGuide" },
-      { href: "/guide/strike", key: "strikeOpsGuide" },
+    links: navLinksFromHrefs(GUIDE_NAV_STEWARD_CRAFT_HREFS),
+  },
+  {
+    labelKey: "learnGroupFloorLocal",
+    links: [],
+    subgroups: [
+      {
+        labelKey: "learnSubgroupFloor",
+        links: navLinksFromHrefs(GUIDE_JOB_GROUP_HREFS.floor),
+      },
+      {
+        labelKey: "learnSubgroupLocal",
+        links: navLinksFromHrefs(GUIDE_JOB_GROUP_HREFS.local),
+      },
     ],
   },
   {
@@ -128,15 +162,7 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/guide/resources", key: "resources" },
     ],
   },
-  {
-    labelKey: "learnGroupAbout",
-    links: [
-      { href: "/updates", key: "whatsNew" },
-      { href: "/manifesto", key: "manifesto" },
-      { href: "/install", key: "install" },
-    ],
-  },
-] as const;
+];
 
 /** Hub-backed authoring tool — hide unless Officer Hub login is on and the user is signed in. */
 export const PULSE_POLL_HREF = "/tools/pulse-poll" as const;
@@ -217,14 +243,27 @@ export function visibleToolGroups(options: {
     .filter((group) => group.links.length > 0);
 }
 
+export function flatNavLinks(groups: readonly NavGroup[]): NavLink[] {
+  return groups.flatMap((g) => [
+    ...g.links,
+    ...(g.subgroups?.flatMap((s) => [...s.links]) ?? []),
+  ]);
+}
+
 const learnHrefs: Set<string> = new Set(
-  learnGroups.flatMap((g) => g.links.map((l) => l.href)),
+  flatNavLinks(learnGroups).map((l) => l.href),
 );
 
 export function linkActive(pathname: string, href: string): boolean {
   if (pathname === href) return true;
   // Index routes must not light up on every child page.
-  if (href === "/guide" || href === "/tools") return false;
+  if (
+    href === "/guide" ||
+    href === "/tools" ||
+    href === GUIDE_CATALOG_PATH
+  ) {
+    return false;
+  }
   return pathname.startsWith(`${href}/`);
 }
 
@@ -248,6 +287,7 @@ export function isOfficerLearningPath(pathname: string): boolean {
 
 export function isLearnPath(pathname: string): boolean {
   if (isOfficerLearningPath(pathname)) return false;
+  if (pathname === GUIDE_CATALOG_PATH) return true;
   return learnHrefs.has(pathname) || pathname.startsWith("/guide/");
 }
 
@@ -255,6 +295,3 @@ export function isToolsPath(pathname: string): boolean {
   return pathname === "/tools" || pathname.startsWith("/tools/");
 }
 
-export function flatNavLinks(groups: readonly NavGroup[]): NavLink[] {
-  return groups.flatMap((g) => [...g.links]);
-}

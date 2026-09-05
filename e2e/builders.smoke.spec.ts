@@ -261,6 +261,7 @@ test.describe("Public secondary pages smoke @smoke", () => {
       heading: "Steward playbooks",
     },
     { path: "/en/tools/", heading: "Tools" },
+    { path: "/en/guides/", heading: "Guides" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },
     { path: "/en/support/", heading: "Support the builder" },

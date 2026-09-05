@@ -60,7 +60,9 @@
     "learnGroupStewardTraining": "Steward craft",
     "learnGroupChannels": "By channel",
     "learnGroupLibraries": "Libraries",
-    "learnGroupAbout": "About",
+    "learnGroupFloorLocal": "Floor and the local",
+    "learnSubgroupFloor": "Floor",
+    "learnSubgroupLocal": "The local",
     "install": "Install as an app",
     "toolsGroupBrand": "Brand",
     "toolsGroupBoards": "Union boards",
@@ -4740,6 +4742,12 @@
       "title": "All steward playbooks",
       "intro": "Same depth as a training handout: gate, steps, worked example, and sources."
     },
+    "groups": {
+      "training": "Training",
+      "floor": "Floor",
+      "local": "The local",
+      "campaign": "Campaign"
+    },
     "links": {
       "steward101": "Steward 101: Your Role and Rights",
       "officerLearning": "Officer Learning Center",
@@ -4752,6 +4760,7 @@
       "jointCommittee": "Joint committee playbook",
       "bargaining": "The Bargaining Lifecycle: From Survey to Signing",
       "strike": "Strike operations playbook",
+      "crisis": "Crisis comms playbook",
       "bylaws": "Local Bylaws: The Rules of Your Local",
       "runningMeetings": "Running a Meeting & Robert's Rules",
       "unionHistory": "How Canadian unions connect",
@@ -4769,6 +4778,7 @@
       "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
       "bargaining": "Survey to signing for Local Bargaining Committees — table updates, strike votes, ratification, checklists, and the on-device Proposal Tracker.",
       "strike": "Command, the picket line, member care, money, safety, and return to work. Not a posting calendar.",
+      "crisis": "Calm local messages during strikes, bargaining, layoffs, and management reactions.",
       "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval.",
       "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say when you move or raise a point.",
       "unionHistory": "Two tracks, not one ladder: union family and the city labour council, mapped from OPSEU / SEFPO Local 243.",
@@ -6662,6 +6672,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "guides-catalog": {
+        "title": "All guides, in one list",
+        "body": "Browse every public handbook from All guides, including floor playbooks, running meetings, and how Canadian unions connect."
+      },
       "flyer-maker-phone": {
         "title": "Flyer Maker on a phone",
         "body": "Pick picket, rally, meeting, or walkabout, then Edit or Preview. Downloads sit on the Preview tab so the form fits a phone."
@@ -8967,6 +8981,66 @@
       "bylawBuilder": "Draft a standard local bylaws template from quorum and executive fields.",
       "proposalTracker": "Track bargaining proposals and counters on this device, then export CSV for backup.",
       "rulesOfOrder": "Fourteen parliamentary actions with exact wording, chair notes, and copy — built for phones in the meeting room."
+    }
+  },
+  "guidesIndex": {
+    "title": "Guides",
+    "subtitle": "First week, channel handbooks, and steward playbooks for the floor and the local. Officer Learning stays a top-level link.",
+    "hint": "Set colours and logo first in",
+    "startHereTitle": "Start here",
+    "startHereIntro": "Set the brand, then pick a comms path or a floor playbook. Officer Learning is six self-paced modules.",
+    "startHereRoadmap": "Open all steward playbooks",
+    "startHereSteps": {
+      "firstWeek": "Boards, print, social, and a simple website after Brand Kit.",
+      "playbooks": "Floor training, meetings, grievances, and campaign handbooks.",
+      "officerLearning": "Six modules with checklists and a quiz on this device."
+    },
+    "groups": {
+      "commsPath": {
+        "title": "Comms path",
+        "intro": "Identity, the weekly practice handbook, and workshop notes."
+      },
+      "channels": {
+        "title": "By channel",
+        "intro": "Boards, print, web, email, short-form video, and membership signup."
+      },
+      "bargaining": {
+        "title": "Campaign",
+        "intro": "Bargaining, strike operations, and crisis comms."
+      },
+      "labour": {
+        "title": "Steward craft",
+        "intro": "Officer Learning, floor playbooks, meetings, and how unions connect."
+      }
+    },
+    "blurbs": {
+      "plan": "What to do after Brand Kit: boards, print, socials, and a simple website.",
+      "blueprint": "Ongoing local comms: platforms, tone, posting rhythm, and accessibility.",
+      "resources": "Practice list and sources behind this toolkit, for solo work or a workshop.",
+      "workshop": "A one-hour facilitator outline: platforms, a local logo, examples, and a site ZIP.",
+      "photoConsent": "Protect members before you publish a photo: three contexts and a takedown path.",
+      "unionBoards": "Cork-board layout, what to print, notices, and solidarity posters.",
+      "print": "Why print reaches members off social, and how to design a flyer people can read.",
+      "website": "Write a simple local site, download the ZIP, and publish it on GitHub Pages.",
+      "email": "Write the official meeting or vote notice, then paste it into your own mailbox.",
+      "shortForm": "Film on a phone, protect member privacy, and point short videos at a next step.",
+      "membershipSignup": "Recruit and orient new members with a repeatable signup path.",
+      "bargaining": "Survey to signing for local bargaining committees, with checklists and the Proposal Tracker.",
+      "strike": "Command, the picket line, member care, money, safety, and return to work.",
+      "crisis": "Calm local messages during strikes, bargaining, layoffs, and management reactions.",
+      "officerLearning": "Six modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
+      "stewardPlaybooks": "Front door for floor training, meetings, grievances, and campaign handbooks.",
+      "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
+      "unionHistory": "Two tracks, not one ladder: union family and the city labour council.",
+      "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet.",
+      "dfr": "What fair representation requires in practice, and how to keep a clean file.",
+      "seniority": "Two cascade examples and a printable seniority worksheet.",
+      "rightToRefuse": "Ontario OHSA s.43 stage 1 and 2 for stewards and JHSC members.",
+      "jointCommittee": "Campus to caucus to table, then a member note after signed minutes.",
+      "workplaceMapping": "Chart coworkers, find organic leaders, and score union support 1 to 5.",
+      "bylaws": "What must be in local bylaws and how to amend them with notice and quorum.",
+      "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say.",
+      "landAcknowledgement": "Draft alone or lead a workshop with the one-page ruled PDF."
     }
   },
   "portal": {

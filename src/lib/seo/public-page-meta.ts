@@ -67,6 +67,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Makers for your brand, union boards, print, social, and the web. They all run on your device, with no account needed.",
     },
+    "/guides": {
+      title: "Guides",
+      description:
+        "Every UnionOps handbook in one list: First week, channel guides, and steward playbooks for the shop floor and the local.",
+    },
     "/guide": {
       title: "The Blueprint",
       description:
@@ -288,6 +293,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Outils",
       description:
         "Des créateurs pour votre marque, les tableaux syndicaux, l'impression, le social et le web. Tout reste sur votre appareil, sans compte à créer.",
+    },
+    "/guides": {
+      title: "Guides",
+      description:
+        "Tous les manuels UnionOps au même endroit : Première semaine, guides par canal, et guides pratiques pour le plancher et la section.",
     },
     "/guide": {
       title: "Le Plan directeur",

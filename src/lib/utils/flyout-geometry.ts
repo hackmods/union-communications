@@ -28,7 +28,8 @@ export type MegaMenuWidthStep = {
 
 /**
  * Preferred Guides / Tools mega-menu size by Tailwind breakpoint.
- * Tools has five job groups; Guides has five hub-first columns. Use the same
+ * Tools has five job groups; Guides has five columns (Comms, channels,
+ * steward craft, floor and the local, libraries). Use the same
  * stepped grid (2 → 3 → 5) so Steward worksheets is not an orphan wrap at 2xl.
  * lg stays 2-col so the panel fits laptops.
  */

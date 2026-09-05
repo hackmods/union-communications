@@ -21,7 +21,9 @@ import {
   visibleToolGroups,
   type NavGroup,
   type NavLinkKey,
+  type NavSubgroupLabelKey,
 } from "./nav-config";
+import { GUIDE_CATALOG_PATH } from "@/lib/comms/guide-registry";
 
 type AccordionId = "learn" | "tools";
 
@@ -215,8 +217,22 @@ export function MobileNavDrawer({
                 linkClass={drawerLinkClass}
                 label={t(group.labelKey)}
                 linkLabel={(key) => t(key)}
+                subgroupLabel={(key) => t(key)}
               />
             ))}
+            <Link
+              href={GUIDE_CATALOG_PATH}
+              onClick={onCloseAfterNav}
+              aria-current={
+                pathname === GUIDE_CATALOG_PATH ? "page" : undefined
+              }
+              className={cn(
+                "mt-1 font-semibold text-opseu-blue",
+                drawerLinkClass(pathname === GUIDE_CATALOG_PATH),
+              )}
+            >
+              {t("allGuides")}
+            </Link>
           </AccordionSection>
 
           <Link
@@ -346,6 +362,7 @@ function MobileGroup({
   linkClass,
   label,
   linkLabel,
+  subgroupLabel,
 }: {
   group: NavGroup;
   pathname: string;
@@ -353,6 +370,7 @@ function MobileGroup({
   linkClass: (active: boolean) => string;
   label: string;
   linkLabel: (key: NavLinkKey) => string;
+  subgroupLabel?: (key: NavSubgroupLabelKey) => string;
 }) {
   return (
     <div className="mt-2 first:mt-1">
@@ -374,6 +392,29 @@ function MobileGroup({
             </Link>
           );
         })}
+        {group.subgroups?.map((subgroup) => (
+          <details key={subgroup.labelKey} className="px-1">
+            <summary className="cursor-pointer list-none rounded-md px-3 py-2 text-[0.7rem] font-semibold tracking-wide text-gray-500 marker:content-none hover:bg-opseu-blue/5 [&::-webkit-details-marker]:hidden">
+              {subgroupLabel?.(subgroup.labelKey) ?? subgroup.labelKey}
+            </summary>
+            <div className="space-y-0.5 pb-1">
+              {subgroup.links.map(({ href, key }) => {
+                const active = linkActive(pathname, href);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={onNavigate}
+                    aria-current={active ? "page" : undefined}
+                    className={linkClass(active)}
+                  >
+                    {linkLabel(key)}
+                  </Link>
+                );
+              })}
+            </div>
+          </details>
+        ))}
       </div>
     </div>
   );

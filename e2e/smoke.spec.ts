@@ -42,7 +42,7 @@ test.describe("Smoke tests @smoke", () => {
     ]);
   });
 
-  test("guides about links include assets manifesto install", async ({
+  test("guides menu lists brand assets; about links stay in the footer", async ({
     page,
   }) => {
     await page.goto("/en/");
@@ -55,12 +55,10 @@ test.describe("Smoke tests @smoke", () => {
     ).toBeVisible();
     await expect(
       main.getByRole("menuitem", { name: "Built in solidarity" }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await expect(
       main.getByRole("menuitem", { name: "Install as an app" }),
-    ).toBeVisible();
-    // About sits near the bottom of a tall, viewport-clamped Guides panel —
-    // scroll the menuitem into the panel before Playwright's click action.
+    ).toHaveCount(0);
     const assets = main.getByRole("menuitem", { name: "Brand Assets" });
     await assets.evaluate((el) => {
       el.scrollIntoView({ block: "nearest", inline: "nearest" });
@@ -165,6 +163,20 @@ test.describe("Smoke tests @smoke", () => {
     await page.goto("/en/guide/website/");
     await expect(
       page.getByLabel("Also see").getByRole("link", { name: "Email & outreach" }),
+    ).toBeVisible();
+  });
+
+  test("guides menu all guides opens the catalog", async ({ page }) => {
+    await page.goto("/en/");
+    const main = page.getByRole("navigation", {
+      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
+    });
+    await main.getByRole("button", { name: /Guides/ }).click();
+    await main.getByRole("menuitem", { name: "All guides" }).click();
+    await expect(page).toHaveURL(/\/en\/guides\/?$/);
+    await expect(page.getByRole("heading", { name: "Guides", exact: true })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "How Canadian unions connect" }),
     ).toBeVisible();
   });
 

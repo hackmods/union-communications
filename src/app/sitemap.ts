@@ -25,6 +25,7 @@ export const PUBLIC_PATHS = [
   "/captions",
   "/assets",
   "/tools",
+  "/guides",
   "/guide",
   "/guide/social-media-plan",
   "/guide/workshop",

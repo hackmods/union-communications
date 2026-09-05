@@ -1,5 +1,13 @@
 # Progress Log
 
+## Guides catalog + Floor mega-menu (2026-09-05)
+
+- [x] Job groups (`floor` / `local` / `campaign` / `training`) on `guide-registry.ts`; nav and catalog derive from them
+- [x] Guides ▾: About column → Floor and the local (nested disclosures below 2xl); Steward craft adds crisis; All guides → `/guides`
+- [x] `/guides` catalog mirrors `/tools`; Blueprint stays `/guide`
+- [x] Steward playbooks hub lists grouped playbooks above the training path
+- Verify: `npm run test:unit -- src/lib/comms/guide-registry.test.ts src/components/layout/nav/nav-config.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts`
+
 ## Flyer Maker phone / tablet layout (2026-09-05)
 
 - [x] Compact 2-col (4-col from sm) flyer-type chips in the Edit pane; BrandSetup stays in `toolbar`

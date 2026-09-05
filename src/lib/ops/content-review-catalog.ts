@@ -3,7 +3,11 @@
  * Do not hand-maintain duplicate href lists; derive from PUBLIC_PATHS, nav, guides, hub.
  */
 import { GUIDE_REGISTRY, type GuideGroupId } from "@/lib/comms/guide-registry";
-import { toolGroups, learnGroups } from "@/components/layout/nav/nav-config";
+import {
+  toolGroups,
+  learnGroups,
+  flatNavLinks,
+} from "@/components/layout/nav/nav-config";
 import { HUB_TOOL_CATALOG } from "@/components/hub/hub-tool-catalog";
 import { HUB_TOOL_GROUPS } from "@/components/hub/hub-nav-model";
 import { MODULE_REGISTRY } from "@/lib/modules/registry";
@@ -32,34 +36,13 @@ export type ContentReviewSection = {
 };
 
 /** Map guide-registry keys to existing nav label keys. */
-const GUIDE_KEY_TO_NAV: Record<string, string> = {
-  plan: "socialMediaPlan",
-  blueprint: "guide",
-  resources: "resources",
-  workshop: "workshopGuide",
-  photoConsent: "photoConsent",
-  unionBoards: "unionBoardsGuide",
-  print: "printGuide",
-  website: "websiteGuide",
-  email: "emailBroadcastGuide",
-  shortForm: "shortFormGuide",
-  membershipSignup: "membershipSignupGuide",
-  bargaining: "bargainingGuide",
-  strike: "strikeOpsGuide",
-  crisis: "crisisCommsGuide",
-  officerLearning: "officerLearningGuide",
-  stewardPlaybooks: "stewardPlaybooksHub",
-  steward101: "steward101Guide",
-  grievance: "grievanceProcessGuide",
-  dfr: "dfrGuide",
-  seniority: "seniorityGuide",
-  rightToRefuse: "rightToRefuseGuide",
-  jointCommittee: "jointCommitteeGuide",
-  workplaceMapping: "workplaceMappingGuide",
-  bylaws: "bylawsGuide",
-  runningMeetings: "runningMeetingsGuide",
-  landAcknowledgement: "landAcknowledgementGuide",
-};
+const GUIDE_KEY_TO_NAV: Record<string, string> = Object.fromEntries(
+  Object.values(GUIDE_REGISTRY).flatMap((group) =>
+    group
+      .filter((entry) => Boolean(entry.navKey))
+      .map((entry) => [entry.key, entry.navKey as string]),
+  ),
+);
 
 const GUIDE_GROUP_LABEL: Record<GuideGroupId, string> = {
   commsPath: "learnGroupGuides",
@@ -81,6 +64,7 @@ const SITE_SHELL_PATHS: readonly { href: string; navKey: string }[] = [
   { href: "/onboarding", navKey: "getStarted" },
   { href: "/brand-kit", navKey: "brandKit" },
   { href: "/tools", navKey: "tools" },
+  { href: "/guides", navKey: "allGuides" },
   { href: "/guide", navKey: "guides" },
 ];
 
@@ -150,7 +134,7 @@ function guideEntriesFromRegistry(): ContentReviewEntry[] {
       seen.add(entry.href);
       entries.push({
         href: entry.href,
-        navKey: GUIDE_KEY_TO_NAV[entry.key],
+        navKey: entry.navKey,
       });
     }
   }
@@ -228,13 +212,11 @@ export function buildContentReviewCatalog(): ContentReviewSection[] {
     })),
   );
 
-  const learnExtraEntries: ContentReviewEntry[] = learnGroups.flatMap((group) =>
-    group.links
-      .filter((link) => !guideEntries.some((e) => e.href === link.href))
-      .filter((link) => !LIBRARY_PATHS.some((l) => l.href === link.href))
-      .filter((link) => link.href !== "/guide" && link.href !== "/tools")
-      .map((link) => ({ href: link.href, navKey: link.key })),
-  );
+  const learnExtraEntries: ContentReviewEntry[] = flatNavLinks(learnGroups)
+    .filter((link) => !guideEntries.some((e) => e.href === link.href))
+    .filter((link) => !LIBRARY_PATHS.some((l) => l.href === link.href))
+    .filter((link) => link.href !== "/guide" && link.href !== "/tools")
+    .map((link) => ({ href: link.href, navKey: link.key }));
 
   const mergedGuides = [...guideEntries];
   for (const extra of learnExtraEntries) {
