@@ -25,7 +25,8 @@ Split the old “Strike Guide” nametag from Crisis Comms.
 - i18n namespace `strikeOpsGuide`; copy guards via `PUBLIC_NS`.
 - Primary discoverability group: `GUIDE_REGISTRY.bargaining`. Also labour resources + steward playbooks.
 - Sources `pageId="strike"` — statute/federation list, not crisis’s OPSEU-portal-heavy set.
-- Diagram: `StrikeCommandDiagram` (executive → committee → captains → members).
+- Diagrams: `StrikeCommandDiagram` (executive → committee → captains → members); `StrikeRhythmsDiagram` (internal huddle → captains first → sparse public note).
+- Floor handout: captains' standing brief on-page checklist + printable PDF (`downloadStrikeStandingBriefPdf`). No amounts or posting quotas on the sheet.
 - Officer Learning module 6 (`building-collective-power`) related resources include `/guide/strike`.
 
 ## Agent habits
@@ -33,3 +34,4 @@ Split the old “Strike Guide” nametag from Crisis Comms.
 - Do not restore “three messages a day” or label `/guide/crisis` as Strike Guide.
 - Do not add strike-pay software or a Home/hero CTA for this page.
 - Confirm dates and pay rules with servicing — this page never announces a start date.
+- Gold-standard labour depth (checklist + printable brief + second diagram) stays `tier: "playbook"` in `GUIDE_REGISTRY`. Do not retag as Comms `gold`.

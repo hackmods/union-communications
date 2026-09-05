@@ -9770,6 +9770,7 @@
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
+    "relatedLabel": "Related guides and tools",
     "intro": "Affiliation is how a local sits inside a larger house of labour. This guide sketches Canadian union history, then maps OPSEU / SEFPO Local 243 from Niagara College to the Canadian Labour Congress so you can draw the same map for your own local.",
     "disclaimer": {
       "title": "A teaching map, not a certificate of affiliation",
@@ -9778,7 +9779,17 @@
     "related": {
       "officerLearning": "Officer Learning Center",
       "steward101": "Steward 101",
+      "bylaws": "Local bylaws",
+      "runningMeetings": "Running meetings",
+      "landAcknowledgement": "Land acknowledgement",
       "workplaceMapping": "Workplace mapping"
+    },
+    "worksheet": {
+      "heading": "Floor handout (one page)",
+      "intro": "Print this sheet for executive or a steward meeting. Fill names in pen, confirm standing, then copy the finished map into Brand Kit links.",
+      "cta": "Download affiliation map (PDF)",
+      "downloading": "Preparing PDF…",
+      "hint": "The PDF includes the two tracks and a confirm checklist. Education only. Not an affiliation certificate."
     },
     "why": {
       "navLabel": "Why it matters",
@@ -9807,6 +9818,8 @@
       "navLabel": "A short history",
       "title": "A short history of the Canadian house",
       "intro": "The bodies in the map below are not a corporate org chart. They are the leftover architecture of a century of fights over who gets to bargain, strike, and speak for workers.",
+      "expandTitle": "Open the dates (Nine-Hour Movement to the public-sector wave)",
+      "expandSummary": "Read this if you need the why behind the house, not only the map. Québec centrals still sit outside the 1956 CLC merger.",
       "items": {
         "nineHour": {
           "label": "1872: Nine-Hour Movement",
@@ -9857,7 +9870,9 @@
       "nupgeTail": ". It walks local, component, national union, and the CLC, then treats labour councils and federations as a parallel path, not a higher boss.",
       "clcLead": "The Canadian Labour Congress lists every provincial federation and labour council on",
       "clcLink": "Federations of Labour and Labour Councils",
-      "clcTail": ". Use that directory to find your city council instead of guessing from a neighbouring local's website."
+      "clcTail": ". Use that directory to find your city council instead of guessing from a neighbouring local's website.",
+      "warningTitle": "Area council is not the labour council",
+      "warningBody": "Your union's area or district council is locals from one union in a region. The labour council is every affiliated union in the city. Niagara has both. PSAC reuses the Area Council name for a third body. Print the labour council on flyers, not the area council, unless the event is internal."
     },
     "example": {
       "navLabel": "Local 243 map",
@@ -9964,6 +9979,15 @@
         "internal": {
           "label": "List union-internal regional bodies last",
           "content": "Area councils, district councils, regional offices, and sectors. They matter for campaigns and staff support. They are not the labour council."
+        }
+      },
+      "confirm": {
+        "title": "Confirm before you print",
+        "items": {
+          "executive": "Your local executive named the parent union and any federation.",
+          "council": "The labour-council secretary confirmed dues and delegates, not a screenshot.",
+          "quebec": "If you sit in Québec, you checked whether the local is in the CLC at all.",
+          "split": "Area council and labour council are two names on the sheet, not one."
         }
       },
       "tip": "Write the finished map in Brand Kit links and on your local site so the next steward does not have to reconstruct it from hallway knowledge."

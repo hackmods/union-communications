@@ -4,7 +4,8 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
-import { StrikeCommandDiagram } from "@/components/comms/StewardGuideDiagrams";
+import { StrikeCommandDiagram, StrikeRhythmsDiagram } from "@/components/comms/StewardGuideDiagrams";
+import { StrikeStandingBriefButton } from "@/components/comms/StrikeStandingBriefButton";
 import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
@@ -12,6 +13,8 @@ import {
   guideCtaClass,
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
+import { guideTocItems } from "@/lib/comms/guide-toc-items";
+import { cn } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -31,6 +34,7 @@ const TOC = [
   ["safety", "safety"],
   ["allies", "allies"],
   ["rhythms", "rhythms"],
+  ["checklist", "checklist"],
   ["return", "return"],
   ["fullScenario", "fullScenario"],
   ["failureModes", "failureModes"],
@@ -47,6 +51,17 @@ const moneyKeys = ["distinguish", "facts", "record", "public"] as const;
 const safetyKeys = ["emergency", "noDare", "escalate", "deescalate"] as const;
 const allyKeys = ["ask", "coordinator", "sameFacts"] as const;
 const rhythmKeys = ["internal", "public", "captainsFirst"] as const;
+const checklistKeys = [
+  "names",
+  "gate",
+  "fallback",
+  "hardship",
+  "emergency",
+  "captainsFirst",
+  "visitors",
+  "returnWatch",
+] as const;
+const roleKeys = ["executive", "committee", "captains", "spokesperson"] as const;
 const returnKeys = ["lastDay", "firstShift", "retaliation"] as const;
 const scenarioKeys = ["t545", "t600", "t615", "t630", "t700", "t800"] as const;
 const failureKeys = [
@@ -58,7 +73,7 @@ const failureKeys = [
   "noWatch",
 ] as const;
 const notThisKeys = ["crisis", "bargaining", "wildcat", "national"] as const;
-const toolKeys = ["crisis", "bargaining", "consent", "mapping", "board", "email"] as const;
+const toolKeys = ["crisis", "bargaining", "brief", "consent", "mapping", "board", "email"] as const;
 
 export default async function StrikeOpsGuidePage({
   params,
@@ -72,10 +87,7 @@ export default async function StrikeOpsGuidePage({
   const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
-  const tocItems = TOC.map(([id, key]) => ({
-    id,
-    label: t(`${key}.navLabel`),
-  }));
+  const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
 
   return (
     <GuideLayout
@@ -175,6 +187,20 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </ul>
+        <RolesTable
+          caption={t("command.roles.caption")}
+          headers={{
+            job: t("command.roles.headers.job"),
+            who: t("command.roles.headers.who"),
+            notThis: t("command.roles.headers.notThis"),
+          }}
+          rows={roleKeys.map((key) => ({
+            key,
+            job: t(`command.roles.rows.${key}.job`),
+            who: t(`command.roles.rows.${key}.who`),
+            notThis: t(`command.roles.rows.${key}.notThis`),
+          }))}
+        />
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("command.tip")}</p>
@@ -223,6 +249,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </ul>
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("membership.tip")}</p>
+        </Callout>
       </GuideSection>
 
       <GuideSection id="money" title={t("money.title")} intro={t("money.intro")}>
@@ -267,9 +297,22 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </ul>
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("allies.tip")}</p>
+        </Callout>
       </GuideSection>
 
       <GuideSection id="rhythms" title={t("rhythms.title")} intro={t("rhythms.intro")}>
+        <StrikeRhythmsDiagram
+          className="mt-5"
+          labels={{
+            internal: t("rhythms.diagram.internal"),
+            captainsFirst: t("rhythms.diagram.captainsFirst"),
+            public: t("rhythms.diagram.public"),
+          }}
+          caption={t("rhythms.diagram.caption")}
+        />
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
           {rhythmKeys.map((key) => (
             <TipItem
@@ -287,6 +330,20 @@ export default async function StrikeOpsGuidePage({
           <Link href="/guide/crisis" className={guideCtaOutlineClass}>
             {t("rhythms.crisisCta")}
           </Link>
+        </div>
+      </GuideSection>
+
+      <GuideSection id="checklist" title={t("checklist.title")} intro={t("checklist.intro")}>
+        <ChecklistFigure
+          items={checklistKeys.map((key) => ({
+            key,
+            label: t(`checklist.items.${key}.label`),
+            content: t(`checklist.items.${key}.content`),
+          }))}
+        />
+        <p className="mt-4 max-w-prose text-sm text-gray-700">{t("checklist.exportHint")}</p>
+        <div className="mt-4">
+          <StrikeStandingBriefButton />
         </div>
       </GuideSection>
 
@@ -382,6 +439,7 @@ export default async function StrikeOpsGuidePage({
           <Link href="/guide/bargaining" className={guideCtaOutlineClass}>
             {nav("bargainingGuide")}
           </Link>
+          <StrikeStandingBriefButton />
           <Link href="/guide/photo-consent" className={guideCtaOutlineClass}>
             {nav("photoConsent")}
           </Link>
@@ -428,5 +486,72 @@ function TipItem({ label, content }: { label: string; content: string }) {
     <li className="max-w-prose leading-relaxed">
       <span className="font-semibold text-opseu-dark">{label}.</span> {content}
     </li>
+  );
+}
+
+function ChecklistFigure({
+  items,
+}: {
+  items: { key: string; label: string; content: string }[];
+}) {
+  return (
+    <ul className="mt-4 divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white">
+      {items.map((item) => (
+        <li key={item.key} className="flex gap-3 px-4 py-3">
+          <span
+            className={cn(
+              "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded border-2 border-opseu-blue/40",
+            )}
+            aria-hidden="true"
+          />
+          <div className="min-w-0 max-w-prose leading-relaxed">
+            <span className="font-semibold text-opseu-dark">{item.label}.</span>{" "}
+            <span className="text-gray-700">{item.content}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function RolesTable({
+  caption,
+  headers,
+  rows,
+}: {
+  caption: string;
+  headers: { job: string; who: string; notThis: string };
+  rows: { key: string; job: string; who: string; notThis: string }[];
+}) {
+  return (
+    <figure className="mt-6 overflow-x-auto">
+      <table className="min-w-full border-collapse text-left text-sm">
+        <caption className="mb-2 text-left text-xs text-gray-600">{caption}</caption>
+        <thead>
+          <tr className="border-b border-gray-200 bg-gray-50 text-opseu-dark">
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.job}
+            </th>
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.who}
+            </th>
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.notThis}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.key} className="border-b border-gray-100 align-top">
+              <th scope="row" className="px-3 py-2 font-medium text-opseu-dark">
+                {row.job}
+              </th>
+              <td className="px-3 py-2 text-gray-700">{row.who}</td>
+              <td className="px-3 py-2 text-gray-700">{row.notThis}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </figure>
   );
 }

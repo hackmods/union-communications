@@ -607,6 +607,54 @@ export function StrikeCommandDiagram({ labels, caption, className }: StrikeComma
   );
 }
 
+interface StrikeRhythmsDiagramProps {
+  labels: { internal: string; captainsFirst: string; public: string };
+  caption?: string;
+  className?: string;
+}
+
+/** Internal huddle → captains first → sparse public note. */
+export function StrikeRhythmsDiagram({ labels, caption, className }: StrikeRhythmsDiagramProps) {
+  const steps = [labels.internal, labels.captainsFirst, labels.public] as const;
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <ol
+        className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-2"
+        aria-label={steps.join("; ")}
+      >
+        {steps.map((label, index) => (
+          <li key={label} className="flex flex-1 items-center gap-2">
+            <div
+              className={cn(
+                "flex-1 rounded-lg border-2 px-3 py-3 text-center text-xs font-semibold leading-snug sm:text-sm",
+                index === 1
+                  ? "border-opseu-dark bg-opseu-dark text-white"
+                  : "border-opseu-blue/40 bg-opseu-blue/5 text-opseu-dark",
+              )}
+            >
+              <span
+                className={cn(
+                  "mb-1 block text-[0.65rem] uppercase tracking-wide",
+                  index === 1 ? "opacity-80" : "opacity-70",
+                )}
+              >
+                {index + 1}
+              </span>
+              {label}
+            </div>
+            {index < steps.length - 1 ? (
+              <span className="hidden shrink-0 text-lg text-gray-400 sm:inline" aria-hidden="true">
+                →
+              </span>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+      {caption ? <figcaption className="text-xs text-gray-600">{caption}</figcaption> : null}
+    </figure>
+  );
+}
+
 interface BargainingLifecycleDiagramProps {
   labels: {
     prep: string;

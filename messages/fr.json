@@ -9770,6 +9770,7 @@
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
+    "relatedLabel": "Guides et outils connexes",
     "intro": "L'affiliation décrit la place d'une section dans une maison plus large du travail. Ce guide esquisse l'histoire syndicale canadienne, puis cartographie la section 243 d'OPSEU / SEFPO, du Collège Niagara jusqu'au Congrès du travail du Canada, pour que vous puissiez tracer la même carte chez vous.",
     "disclaimer": {
       "title": "Une carte d'enseignement, pas un certificat d'affiliation",
@@ -9778,7 +9779,17 @@
     "related": {
       "officerLearning": "Centre de formation des dirigeants",
       "steward101": "Délégué 101",
+      "bylaws": "Règlements locaux",
+      "runningMeetings": "Tenir une assemblée",
+      "landAcknowledgement": "Reconnaissance territoriale",
       "workplaceMapping": "Cartographie du lieu de travail"
+    },
+    "worksheet": {
+      "heading": "Feuille de terrain (une page)",
+      "intro": "Imprimez cette feuille pour l'exécutif ou une réunion de délégués. Inscrivez les noms à la main, confirmez le statut, puis copiez la carte finie dans les liens de Brand Kit.",
+      "cta": "Télécharger la carte d'affiliation (PDF)",
+      "downloading": "Préparation du PDF…",
+      "hint": "Le PDF reprend les deux voies et une liste de confirmation. Formation seulement. Pas un certificat d'affiliation."
     },
     "why": {
       "navLabel": "Pourquoi ça compte",
@@ -9807,6 +9818,8 @@
       "navLabel": "Une courte histoire",
       "title": "Une courte histoire de la maison canadienne",
       "intro": "Les organismes de la carte ci-dessous ne sont pas un organigramme d'entreprise. C'est l'architecture restante d'un siècle de luttes sur qui a le droit de négocier, de faire grève et de parler pour les travailleurs.",
+      "expandTitle": "Ouvrez les dates (mouvement des neuf heures jusqu'à la vague du secteur public)",
+      "expandSummary": "Lisez ceci si vous avez besoin du pourquoi de la maison, pas seulement de la carte. Les centrales québécoises siègent encore hors de la fusion du CTC de 1956.",
       "items": {
         "nineHour": {
           "label": "1872 : mouvement des neuf heures",
@@ -9857,7 +9870,9 @@
       "nupgeTail": ". Elle parcourt la section, la composante, le syndicat national et le CTC, puis traite les conseils du travail et les fédérations comme une voie parallèle, pas un patron supérieur.",
       "clcLead": "Le Congrès du travail du Canada dresse la liste de chaque fédération provinciale et conseil du travail dans",
       "clcLink": "Fédérations du travail et conseils du travail",
-      "clcTail": ". Servez-vous de ce répertoire pour trouver le conseil de votre ville plutôt que de deviner à partir du site d'une section voisine."
+      "clcTail": ". Servez-vous de ce répertoire pour trouver le conseil de votre ville plutôt que de deviner à partir du site d'une section voisine.",
+      "warningTitle": "Le conseil de secteur n'est pas le conseil du travail",
+      "warningBody": "Le conseil de secteur ou de district de votre syndicat, ce sont les sections d'un seul syndicat dans une région. Le conseil du travail, c'est chaque syndicat affilié dans la ville. Niagara a les deux. L'AFPC réutilise le nom Conseil de secteur pour un troisième organisme. Imprimez le conseil du travail sur les affiches, pas le conseil de secteur, sauf si l'événement est interne."
     },
     "example": {
       "navLabel": "Carte de la section 243",
@@ -9966,7 +9981,16 @@
           "content": "Conseils de secteur, conseils de district, bureaux régionaux et secteurs. Ils comptent pour les campagnes et le soutien du personnel. Ce n'est pas le conseil du travail."
         }
       },
-      "tip": "Écrivez la carte finie dans les liens de la Trousse de marque et sur le site de votre section pour que le prochain délégué n'ait pas à la reconstruire à partir du savoir des couloirs."
+      "confirm": {
+        "title": "Confirmez avant d'imprimer",
+        "items": {
+          "executive": "Votre exécutif local a confirmé les noms sur cette carte.",
+          "council": "Le secrétaire du conseil du travail a confirmé que la section est en règle, pas seulement nommée sur une vieille page.",
+          "quebec": "Vous avez vérifié si cette section siège au CTC. Les centrales québécoises et certains syndicats indépendants n'y siègent pas.",
+          "split": "Vous pouvez nommer la distinction : le conseil de secteur, ce sont les sections de votre syndicat dans la ville ; le conseil du travail, c'est chaque syndicat affilié dans la ville."
+        }
+      },
+      "tip": "Écrivez la carte finie dans les liens de Brand Kit et sur le site de votre section pour que le prochain délégué n'ait pas à la reconstruire à partir du savoir des couloirs."
     },
     "notThis": {
       "navLabel": "Mélanges fréquents",
