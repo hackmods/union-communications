@@ -6608,6 +6608,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "union-history-guide": {
+        "title": "Comment les syndicats se relient",
+        "body": "Placez votre section sur deux voies : la famille syndicale et le conseil du travail de la ville, avec OPSEU / SEFPO section 243 comme exemple travaillé."
+      },
       "officer-learning-colour": {
         "title": "Centre de formation des dirigeants — page claire dans Affichage",
         "body": "Les pages de formation restent marine par défaut. Ouvrez Affichage pour passer le Centre de formation des dirigeants à une page claire comme les autres guides."

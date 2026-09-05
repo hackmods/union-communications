@@ -108,7 +108,13 @@ describe("public Comms copy style", () => {
   // over clarity and rewarded clipping subjects/verbs out of body copy
   // ("Prefer Install when it appears."). Body tips and guide paragraphs
   // should read as complete sentences; only named lead fields are kept short
-  // above, and em-dash stacking is capped below.
+  // above. Em dashes: at most one on leads, and new namespaces stay off them.
+
+  it("treats stacked em dashes as a miss and a single contrast dash as fine", () => {
+    expect(emDashCount("Aid only — not legal advice")).toBe(1);
+    expect(emDashCount("Monday — plan — then post")).toBe(2);
+    expect(emDashCount("A teaching map, not a certificate")).toBe(0);
+  });
 
   it("allows at most one em dash on public tool/guide lead fields", () => {
     const leads: string[] = [];
@@ -123,6 +129,28 @@ describe("public Comms copy style", () => {
     }
     const crowded = leads.filter((line) => emDashCount(line) > 1);
     expect(crowded, crowded.join("\n")).toEqual([]);
+  });
+
+  /**
+   * New public namespaces default off the em dash. Prefer a period or colon
+   * in fresh copy. Add a namespace here when you ship it, rather than
+   * stripping the older catalog.
+   */
+  const ZERO_EM_DASH_NS = ["unionHistoryGuide"] as const;
+
+  it("keeps listed new namespaces off the em dash", () => {
+    const listed = ZERO_EM_DASH_NS.filter((ns) =>
+      [...EN_LEAVES, ...FR_LEAVES].some(([path]) => path.startsWith(`${ns}.`)),
+    );
+    expect(listed, "ZERO_EM_DASH_NS must name catalogs that exist").toEqual([
+      ...ZERO_EM_DASH_NS,
+    ]);
+    const hits = [...EN_LEAVES, ...FR_LEAVES].filter(
+      ([path, value]) =>
+        ZERO_EM_DASH_NS.some((ns) => path.startsWith(`${ns}.`)) &&
+        emDashCount(value) > 0,
+    );
+    expect(hits, report(hits)).toEqual([]);
   });
 });
 

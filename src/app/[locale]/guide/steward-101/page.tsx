@@ -157,6 +157,7 @@ export default async function Steward101GuidePage({
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/officer-learning", label: t("related.officerLearning") },
+        { href: "/guide/union-history", label: t("related.unionHistory") },
         { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/dfr", label: t("related.dfr") },
         { href: "/brand-kit", label: t("related.brandKit") },

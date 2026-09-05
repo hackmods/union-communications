@@ -35,6 +35,12 @@ External resources cited across guides, tools, and exported materials. Canonical
 | Forms and documents | https://opseu.org/opseu-members-tools-and-resources/ | Crisis guide, exported site footer |
 | Ontario Federation of Labour | https://ofl.ca/ | Universal; Resources, Blueprint, boards, crisis, membership signup; website ZIP Rights & Partners |
 | NUPGE | https://nupge.ca/ | Universal; same pages + website ZIP Rights & Partners |
+| NUPGE labour map | https://nupge.ca/about-nupge/finding-yourself-in-the-labour-movement/ | Union history guide — local / component / CLC, then councils as a parallel path |
+| CLC Who we are | https://canadianlabour.ca/who-we-are/ | Union history guide |
+| CLC federations and councils | https://canadianlabour.ca/who-we-are/labour-federations-and-councils/ | Union history guide — find a city labour council |
+| Niagara Regional Labour Council | https://niagaralabour.ca/who-we-are/ | Union history guide — Local 243 worked example |
+| The Canadian Encyclopedia — working-class history | https://www.thecanadianencyclopedia.ca/en/article/working-class-history | Union history guide |
+| The Canadian Encyclopedia — CLC | https://www.thecanadianencyclopedia.ca/en/article/canadian-labour-congress | Union history guide |
 | Canadian Labour Congress | https://canadianlabour.ca/ | Universal; same pages + website ZIP Rights & Partners |
 | Posters required in the workplace | https://www.ontario.ca/page/posters-required-workplace | Union boards guide — feed empty boards |
 | ESA mandatory information | https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees | Union boards guide + printable PDF mirror |

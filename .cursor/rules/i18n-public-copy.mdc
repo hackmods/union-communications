@@ -36,7 +36,7 @@ the French value in the same commit.
 | French space before `:` and `;` | same |
 | No developer jargon | same |
 | No untranslated FR (identical to EN, >4 words) | same |
-| Named lead-length limits + ≤1 em dash on leads | same |
+| Named lead-length limits + ≤1 em dash on leads; new namespaces in `ZERO_EM_DASH_NS` stay at 0 | same |
 | SEO description length band, duplicates, capitalization | [`public-page-meta.test.ts`](../../src/lib/seo/public-page-meta.test.ts) |
 | Smoke-asserted EN prose still in `messages/en.json` (COPY-002) | [`smoke-asserted-copy.test.ts`](../../src/lib/comms/smoke-asserted-copy.test.ts) |
 | EN readability ranking (report only, COPY-005) | `npm run copy:readability` — see below |
@@ -127,12 +127,29 @@ with a comment — rather than by weakening a pattern.
   never looks abandoned"* and *"so updates do not die when someone leaves"* — the
   sentence still parsed, but the advice no longer explained itself.
 
+## Em dashes
+
+Prefer a period or a colon. An em dash (U+2014, `—`) is allowed **once** in a
+string when the second clause is a real contrast (`Aid only — not legal advice`).
+It is not a pause, a subtitle divider, year/event glue (`1872 — Strike`), or JSX
+between a label and a body (`{" — "}`). Never two in one string.
+
+En dashes (U+2013, `–`) are fine for ranges (`1960s–70s`). Hyphens stay fine for
+compounds. Do **not** bulk-strip the existing catalog; that is how the 2026-08-11
+lowercase-sentence fingerprint happened.
+
+**New public namespaces default to zero em dashes.** Add the namespace to
+`ZERO_EM_DASH_NS` in [`public-copy-style.test.ts`](../../src/lib/comms/public-copy-style.test.ts)
+when you ship it. `unionHistoryGuide` is the model. If a new string truly needs
+one contrast dash, say why in the commit and keep it off that list.
+
 ## Body copy vs lead copy
 
-There is intentionally **no blanket per-leaf word ceiling** (removed 2026-08-11 —
-it rewarded clipping subjects and verbs). Guide paragraphs, tips, checklist items,
+There is intentionally **no blanket per-leaf word ceiling** (removed 2026-08-11,
+because it rewarded clipping subjects and verbs). Guide paragraphs, tips, checklist items,
 and hints must read as complete sentences a steward could say aloud. Only a few
-*named* lead fields stay short, and lead fields cap at one em dash.
+*named* lead fields stay short. Lead fields still cap at one em dash; new namespaces
+on `ZERO_EM_DASH_NS` stay at zero.
 
 Error, empty, and success states owe the reader **a consequence and a remedy**.
 "Invalid brand kit file" names neither; "That file is not a Brand Kit export. Pick
@@ -157,6 +174,7 @@ the .json file you downloaded from Brand Kit and try again." names both.
 ## Do not
 
 - Reintroduce a blanket word-count ceiling
+- Bulk-strip em dashes from the existing catalog (new copy stays off them; old strings keep theirs)
 - Hardcode a national union name, colour, or hashtag into generic copy (OPSEU/CAAT
   is reference tenant #1, not a default) — prefer `#LocalUnion` + `[Local Number]`
 - Leak env vars, cron paths, or `*_DB_BACKEND` into volunteer-facing copy

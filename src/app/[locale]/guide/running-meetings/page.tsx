@@ -126,6 +126,7 @@ export default async function RunningMeetingsGuidePage({
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/officer-learning", label: t("related.officerLearning") },
+        { href: "/guide/union-history", label: t("related.unionHistory") },
         { href: "/guide/land-acknowledgement", label: nav("landAcknowledgementGuide") },
         { href: "/guide/bylaws", label: nav("bylawsGuide") },
         { href: "/guide/bargaining", label: nav("bargainingGuide") },

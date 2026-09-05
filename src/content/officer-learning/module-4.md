@@ -4,7 +4,7 @@
 
 Reserve **30–40 minutes** for reading and **15 minutes** to run the practice drill with your Secretary or another officer. Bring your **local bylaws**, the last set of **minutes**, a calculator for quorum math, and a **notepad**. If your local is preparing an election, read Section 4 twice before nomination night.
 
-Sections cover officer roles, quorum tiers, dull minutes, and secret ballot procedure. Cross-reference your national constitution — the Universal Quorum Scale here matches common Canadian local practice; confirm against your governing documents. Pair with `/guide/union-boards` for officer role context.
+Sections cover officer roles, quorum tiers, dull minutes, and secret ballot procedure. Cross-reference your national constitution — the Universal Quorum Scale here matches common Canadian local practice; confirm against your governing documents. Pair with `/guide/union-boards` for officer role context and `/guide/union-history` for how the local sits in the house of labour.
 
 💡 Note: Democracy failures are procedural — lost quorum and plurality winners are fixable before they become crises if the Secretary tracks headcount in real time.
 
