@@ -13,7 +13,7 @@ import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
-import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { cn, formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { getExamplePost } from "@/lib/constants/examples";
 import { coloursFromBrandKit } from "@/lib/utils/brand-theme";
 import {
@@ -111,6 +111,12 @@ function FlyerMakerPageContent() {
   const [qrSrc, setQrSrc] = useState<string | null>(null);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
+  const [activePreset, setActivePreset] = useState<FlyerPresetKey | null>(
+    () => {
+      const deep = searchParams.get("preset");
+      return isFlyerPresetKey(deep) ? deep : "picket";
+    },
+  );
 
   const brandColors = coloursFromBrandKit(brandKit);
 
@@ -224,6 +230,7 @@ function FlyerMakerPageContent() {
       accentColor: colours.accent,
       secondaryColor: colours.secondary,
     });
+    setActivePreset(null);
     return true;
   }, "example", hydrated);
 
@@ -252,6 +259,7 @@ function FlyerMakerPageContent() {
         logoMode: defaultLogoMode(themeEstablished),
         showLocalNumber: defaultShowLocalNumber(),
       });
+      setActivePreset(fromDeep.id);
       return;
     }
     reset({
@@ -264,6 +272,7 @@ function FlyerMakerPageContent() {
   const applyPreset = (key: FlyerPresetKey) => {
     const preset = FLYER_PRESETS[key];
     const colours = coloursFromBrandKit(brandKit);
+    setActivePreset(key);
     setState({
       ...state,
       ...flyerPresetCopy(key),
@@ -341,24 +350,11 @@ function FlyerMakerPageContent() {
         description={tf("subtitle")}
         purposeHint={tf("whenToUse")}
         previewAccessibleName={previewName}
+        miniPreview={false}
         toolbar={
-          <div className="space-y-3">
-            {!themeEstablished ? (
-              <BrandSetupPrompt themeEstablished={themeEstablished} />
-            ) : null}
-            <div className="flex flex-wrap gap-2">
-              {FLYER_PRESET_ORDER.map((key) => (
-                <Button
-                  key={key}
-                  size="sm"
-                  variant="outline"
-                  onClick={() => applyPreset(key)}
-                >
-                  {tf(`presets.${key}.label`)}
-                </Button>
-              ))}
-            </div>
-          </div>
+          !themeEstablished ? (
+            <BrandSetupPrompt themeEstablished={themeEstablished} />
+          ) : undefined
         }
         exportError={exportError}
         exportSuccess={exportSuccess}
@@ -373,6 +369,37 @@ function FlyerMakerPageContent() {
           </div>
         }
         form={
+          <div className="space-y-4">
+            <div>
+              <p className="mb-2 text-sm font-medium text-gray-700">
+                {tf("presetHeading")}
+              </p>
+              <div
+                className="grid grid-cols-2 gap-2 sm:grid-cols-4"
+                role="group"
+                aria-label={tf("presetHeading")}
+              >
+                {FLYER_PRESET_ORDER.map((key) => {
+                  const selected = activePreset === key;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      aria-pressed={selected}
+                      onClick={() => applyPreset(key)}
+                      className={cn(
+                        "min-h-11 min-w-0 rounded-lg border px-2.5 py-2 text-left text-sm font-semibold leading-snug text-opseu-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+                        selected
+                          ? "border-opseu-blue ring-2 ring-opseu-blue/30"
+                          : "border-gray-200 hover:border-opseu-blue/40",
+                      )}
+                    >
+                      {tf(`presets.${key}.label`)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           <Card density="compact" className="space-y-5">
             <ToolFormDetails title={tf("sectionEventDetails")} defaultOpen>
               <Textarea
@@ -584,6 +611,7 @@ function FlyerMakerPageContent() {
                   onRedo={redo}
                   onReset={() => {
                     const colours = coloursFromBrandKit(brandKit);
+                    setActivePreset("picket");
                     reset(buildInitial(colours));
                   }}
                 />
@@ -601,6 +629,7 @@ function FlyerMakerPageContent() {
                 </div>
               </div>
             </Card>
+          </div>
         }
         previewActions={
           <>

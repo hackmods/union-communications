@@ -24,6 +24,18 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "flyer-maker-phone",
+    date: "2026-09-05",
+    kind: "improved",
+    href: "/tools/flyer-maker",
+  },
+  {
+    id: "caat-a-logo-knockouts",
+    date: "2026-09-05",
+    kind: "improved",
+    href: "/assets",
+  },
+  {
     id: "document-generator-phone",
     date: "2026-09-05",
     kind: "improved",

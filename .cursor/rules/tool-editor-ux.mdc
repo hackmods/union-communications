@@ -81,7 +81,7 @@ Update when a surface ships.
 | logo-builder | done |
 | board-notice | done |
 | graphic-maker | done |
-| flyer-maker | done |
+| flyer-maker | done (`ToolEditorLayout` `miniPreview={false}`; compact type chips in Edit; downloads on Preview tab) |
 | quote-card | done |
 | qr-card | done |
 | qr-board | done |

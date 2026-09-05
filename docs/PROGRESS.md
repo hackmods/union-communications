@@ -1,5 +1,11 @@
 # Progress Log
 
+## Flyer Maker phone / tablet layout (2026-09-05)
+
+- [x] Compact 2-col (4-col from sm) flyer-type chips in the Edit pane; BrandSetup stays in `toolbar`
+- [x] `miniPreview={false}` so a letter-height canvas no longer clips to a 96px header peek on Edit
+- Verify: `npm run test:unit -- src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/components/tools/ToolEditorLayout.test.tsx`
+
 ## Document Generator phone / tablet layout (2026-09-05)
 
 - [x] Document Generator on `ToolEditorLayout` (`miniPreview={false}`) so phone/tablet get Edit/Preview tabs instead of a wall of example cards
