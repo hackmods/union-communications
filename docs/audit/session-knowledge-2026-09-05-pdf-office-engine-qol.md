@@ -114,3 +114,19 @@ npm run test:unit -- \
 - Growing the face catalog / variable fonts
 - LEC directory filled from Org Chart (needs product ticket)
 - Production Postgres flip (ops track)
+
+## Go-live residuals (closed 2026-09-05)
+
+| Residual | Fix |
+|----------|-----|
+| Logo soft-omit when include/configured | `requireBrandLogoBytes` / `resolveConfiguredBrandLogoBytes`; PPTX uses `resolveLogo()`; minutes/certificate/ballot surface `common.logoResolveFailed` / 422 |
+| Node/Vitest public PNG fetch | `fetchBytes` tries `public/` via `fs` before HTTP (jsdom has `window` but no `/assets` HTTP) |
+| PNG before canvas | Root-relative `.png` loads bytes before `rasterizeSrcToPng` (avoids jsdom Image timeouts) |
+| Guide/Hub success UX | Reference sheet buttons, spreadsheet XLSX, steward pocket sheets, Hub reports show `exportSuccess` / `reportsExportSuccess` |
+
+### Still deferred
+
+- XLSX body-row Brand Kit fonts
+- Merging raster + text PDF writers
+- Ballot Brand Kit from client store (still `DEFAULT_BRAND_KIT` on the API)
+

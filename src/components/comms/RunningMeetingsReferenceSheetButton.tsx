@@ -17,7 +17,7 @@ export function RunningMeetingsReferenceSheetButton({ className }: Props) {
   const t = useTranslations("runningMeetingsGuide.referenceMaterials");
   const locale = useLocale();
   const brandKit = useBrandStore((s) => s.brandKit);
-  const { exporting, exportError, runExport } = useExportHandler();
+  const { exporting, exportError, exportSuccess, runExport } = useExportHandler();
 
   const handleDownload = () => {
     void runExport(async () => {
@@ -46,6 +46,11 @@ export function RunningMeetingsReferenceSheetButton({ className }: Props) {
       </Button>
       {exportError ? (
         <p className="mt-2 text-sm text-amber-800">{exportError}</p>
+      ) : null}
+      {exportSuccess ? (
+        <p className="mt-2 text-sm text-emerald-800" role="status">
+          {exportSuccess}
+        </p>
       ) : null}
     </div>
   );

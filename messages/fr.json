@@ -148,7 +148,8 @@
     "downloadSuccess": "Téléchargé!",
     "downloadSuccessDetail": "Votre fichier est prêt. Consultez votre dossier de téléchargements.",
     "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la Trousse de marque"
+    "setupBrandLink": "Ouvrir la Trousse de marque",
+    "logoResolveFailed": "Impossible de charger le logo de la Trousse de marque en PNG. Essayez un PNG dans la Trousse de marque, ou désactivez le logo."
   },
   "guideCommon": {
     "asideTitle": "Ouvrir un outil",
@@ -6584,6 +6585,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "export-download-confirm": {
+        "title": "Les téléchargements confirment quand c’est prêt",
+        "body": "Les fiches des guides et les rapports du Hub des dirigeants confirment quand le fichier est prêt, et un problème de logo de la Trousse de marque affiche une solution claire au lieu d’un blanc silencieux."
+      },
       "office-export-brand-fonts": {
         "title": "Word et Excel gardent la typo de votre Trousse de marque",
         "body": "Les procès-verbaux, bulletins de vote et classeurs du Générateur de documents portent maintenant les polices de votre Trousse de marque dans Word et Excel — y compris les feuilles RSVP en français — pour des téléchargements fidèles hors ligne."
@@ -7259,7 +7264,8 @@
       "portal": "Portail local",
       "portalDesc": "Cercles pour les membres, délégués et comités"
     },
-    "stewardGuidesLink": "Guides de rencontre"
+    "stewardGuidesLink": "Guides de rencontre",
+    "reportsExportSuccess": "Rapport téléchargé."
   },
   "tenantOnboarding": {
     "title": "Configuration du syndicat",

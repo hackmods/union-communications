@@ -4,7 +4,10 @@ import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { downloadOfficerLearningCertificate } from "@/lib/officer-learning/certificate";
-import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import {
+  BrandLogoResolveError,
+  resolveConfiguredBrandLogoBytes,
+} from "@/lib/export/brand-logo-bytes";
 import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import { olTheme } from "@/lib/officer-learning/theme";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -26,6 +29,7 @@ export function CertificateDownload({
   className,
 }: Props) {
   const t = useTranslations("officerLearning.certificate");
+  const tCommon = useTranslations("common");
   const locale = useLocale();
   const brandKit = useBrandStore((s) => s.brandKit);
   const localNumber = brandKit.local.localNumber;
@@ -34,10 +38,18 @@ export function CertificateDownload({
 
   const handleDownload = () => {
     void runExport(async () => {
-      const logo = await resolveBrandLogoBytes(brandKit, {
-        includeLogo: true,
-        backgroundColor: "#0B132B",
-      });
+      let logo;
+      try {
+        logo = await resolveConfiguredBrandLogoBytes(brandKit, {
+          includeLogo: true,
+          backgroundColor: "#0B132B",
+        });
+      } catch (err) {
+        if (err instanceof BrandLogoResolveError) {
+          throw new Error(tCommon("logoResolveFailed"));
+        }
+        throw err;
+      }
       await downloadOfficerLearningCertificate({
         kind,
         recipientName: name.trim() || t("defaultName"),
@@ -81,7 +93,9 @@ export function CertificateDownload({
       )}
       {exportError && (
         <p className="text-sm text-red-200" role="alert">
-          {t("error")}
+          {exportError === tCommon("logoResolveFailed")
+            ? exportError
+            : t("error")}
         </p>
       )}
     </div>

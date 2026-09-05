@@ -41,3 +41,10 @@ Prefer a byte-level listing of `export function` / `export type` in the target f
 ```bash
 npm run test:unit -- src/lib/export/office-brand-styles.test.ts src/lib/export/office-export.test.ts src/lib/minutes/export-docx.test.ts src/lib/elections/export-ballot.test.ts
 ```
+
+## Logo embeds
+
+- When the steward opted into a logo (Include logo / Brand Kit has a presentation `src`), fail closed with `requireBrandLogoBytes` / `resolveConfiguredBrandLogoBytes` — never soft-omit without a visible remedy.
+- Surface `common.logoResolveFailed` (or Document Generator `logoResolveFailed`) naming cause + next step.
+- Root-relative public PNGs must load via disk in Node/Vitest (`fetchBytes` → `public/`), not only `fetch`.
+

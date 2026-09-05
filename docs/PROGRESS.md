@@ -1,6 +1,16 @@
 # Progress Log
 
 
+## Export go-live QOL — logo fail-closed + download success (2026-09-05)
+
+Companion to Office Brand Kit parity. Session note: [`docs/audit/session-knowledge-2026-09-05-pdf-office-engine-qol.md`](audit/session-knowledge-2026-09-05-pdf-office-engine-qol.md) (go-live residuals).
+
+- [x] `requireBrandLogoBytes` / `resolveConfiguredBrandLogoBytes` + Node public-PNG disk load (Vitest/jsdom-safe)
+- [x] Document Generator PPTX/ZIP fail-closed when Include logo is on
+- [x] Hub minutes DOCX, election ballot DOCX, Officer Learning certificate — logo resolve errors surface with remedy
+- [x] Guide/spreadsheet download buttons + Hub reports show export success (not error-only)
+- [x] `common.logoResolveFailed` EN/FR + What's new `export-download-confirm`
+
 ## Office / PDF engine QOL — Brand Kit parity (2026-09-05)
 
 Lessons + parity rules: [`docs/audit/session-knowledge-2026-09-05-pdf-office-engine-qol.md`](audit/session-knowledge-2026-09-05-pdf-office-engine-qol.md). Cursor rule: `.cursor/rules/export-engine-parity.mdc`.

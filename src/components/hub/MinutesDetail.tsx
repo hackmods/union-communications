@@ -15,7 +15,10 @@ import {
   canWriteMinutes,
 } from "@/lib/minutes/access";
 import { canvasFontOfficeName } from "@/lib/comms/canvas-fonts";
-import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import {
+  BrandLogoResolveError,
+  resolveConfiguredBrandLogoBytes,
+} from "@/lib/export/brand-logo-bytes";
 import { downloadBlob } from "@/lib/export/image-export";
 import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import {
@@ -29,6 +32,7 @@ import type { UserRole } from "@/types/tenant";
 
 export function MinutesDetail({ minutesId }: { minutesId: string }) {
   const t = useTranslations("minutes");
+  const tCommon = useTranslations("common");
   const locale = useLocale();
   const brandKit = useBrandStore((s) => s.brandKit);
   const { data: session } = useSession();
@@ -119,10 +123,18 @@ export function MinutesDetail({ minutesId }: { minutesId: string }) {
     setError(null);
     try {
       const brand = guidePdfBrandFromKit(brandKit);
-      const logo = await resolveBrandLogoBytes(brandKit, {
-        includeLogo: true,
-        backgroundColor: brandKit.primaryColor,
-      });
+      let logo;
+      try {
+        logo = await resolveConfiguredBrandLogoBytes(brandKit, {
+          includeLogo: true,
+          backgroundColor: brandKit.primaryColor,
+        });
+      } catch (err) {
+        if (err instanceof BrandLogoResolveError) {
+          throw new Error(tCommon("logoResolveFailed"));
+        }
+        throw err;
+      }
       const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)}`;
       const blob = await buildMinutesDocxBlob(entry, localLabel, {
         headlineFont: canvasFontOfficeName(brand.headlineFontId),
@@ -135,8 +147,12 @@ export function MinutesDetail({ minutesId }: { minutesId: string }) {
       });
       await downloadBlob(blob, minutesExportFilename(entry));
       setMessage(t("exported"));
-    } catch {
-      setError(t("exportError"));
+    } catch (err) {
+      setError(
+        err instanceof Error && err.message.trim()
+          ? err.message
+          : t("exportError"),
+      );
     } finally {
       setBusy(false);
     }
