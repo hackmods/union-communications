@@ -23,7 +23,7 @@ export function BylawsReferenceSheetButton({ kind, className }: Props) {
   const t = useTranslations("bylawsGuide.referenceMaterials");
   const locale = useLocale();
   const brandKit = useBrandStore((s) => s.brandKit);
-  const { exporting, exportError, runExport } = useExportHandler();
+  const { exporting, exportError, exportSuccess, runExport } = useExportHandler();
 
   const handleDownload = () => {
     void runExport(async () => {
@@ -62,6 +62,11 @@ export function BylawsReferenceSheetButton({ kind, className }: Props) {
       {exportError ? (
         <p className="mt-1 text-xs text-red-700" role="alert">
           {t("exportError")}
+        </p>
+      ) : null}
+      {exportSuccess ? (
+        <p className="mt-1 text-xs text-emerald-700" role="status">
+          {exportSuccess}
         </p>
       ) : null}
     </div>

@@ -75,6 +75,7 @@ export function ReportsClient() {
   const [summary, setSummary] = useState<ReportsSummary | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [exportError, setExportError] = useState<string | null>(null);
+  const [exportSuccess, setExportSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState<"csv" | "xlsx" | "pdf" | null>(
     null,
@@ -118,10 +119,12 @@ export function ReportsClient() {
     if (!summary) return;
     setExporting(kind);
     setExportError(null);
+    setExportSuccess(null);
     try {
       if (kind === "csv") await exportReportsCsv(summary);
       else if (kind === "xlsx") await exportReportsXlsx(summary);
       else await exportReportsPdf(summary, undefined, t("reportsTitle"));
+      setExportSuccess(t("reportsExportSuccess"));
     } catch (e) {
       setExportError(
         e instanceof Error ? e.message : t("reportsExportError"),
@@ -214,6 +217,11 @@ export function ReportsClient() {
       {exportError && (
         <p className="mt-3 text-sm text-red-700" role="alert">
           {exportError}
+        </p>
+      )}
+      {exportSuccess && (
+        <p className="mt-3 text-sm text-emerald-700" role="status">
+          {exportSuccess}
         </p>
       )}
 

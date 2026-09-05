@@ -29,7 +29,11 @@ import {
 } from "@/lib/export/office-export";
 import { renderEventIcsBlob } from "@/lib/calendar/event-ics";
 import { downloadBlob } from "@/lib/export/image-export";
-import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import {
+  BrandLogoResolveError,
+  requireBrandLogoBytes,
+  resolveBrandLogoBytes,
+} from "@/lib/export/brand-logo-bytes";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
@@ -257,14 +261,17 @@ function DocumentGeneratorPageContent() {
 
   async function resolveLogo(): Promise<BrandLogoBytes | null> {
     if (!state.includeLogo) return null;
-    const logo = await resolveBrandLogoBytes(brandKit, {
-      includeLogo: true,
-      backgroundColor: palette.primary,
-    });
-    if (!logo) {
-      throw new Error(t("logoResolveFailed"));
+    try {
+      return await requireBrandLogoBytes(brandKit, {
+        includeLogo: true,
+        backgroundColor: palette.primary,
+      });
+    } catch (err) {
+      if (err instanceof BrandLogoResolveError) {
+        throw new Error(t("logoResolveFailed"));
+      }
+      throw err;
     }
-    return logo;
   }
 
   function pptOpts(logo: BrandLogoBytes | null) {
@@ -370,12 +377,7 @@ function DocumentGeneratorPageContent() {
     if (!preset.outputs.pptx) return;
     void run(async () => {
       const { exportPptx } = await import("@/lib/export/office-export");
-      const logo = state.includeLogo
-        ? await resolveBrandLogoBytes(brandKit, {
-            includeLogo: true,
-            backgroundColor: palette.primary,
-          })
-        : null;
+      const logo = await resolveLogo();
       await exportPptx({
         ...pptOpts(logo),
         filename: formatFilename(preset.fileStem, localNumber, "pptx"),
@@ -411,11 +413,17 @@ function DocumentGeneratorPageContent() {
 
       let logo: BrandLogoBytes | null = null;
       if (state.includeLogo) {
-        logo = await resolveBrandLogoBytes(brandKit, {
-          includeLogo: true,
-          backgroundColor: palette.primary,
-        });
-        if (!logo) throw new Error(t("logoResolveFailed"));
+        try {
+          logo = await requireBrandLogoBytes(brandKit, {
+            includeLogo: true,
+            backgroundColor: palette.primary,
+          });
+        } catch (err) {
+          if (err instanceof BrandLogoResolveError) {
+            throw new Error(t("logoResolveFailed"));
+          }
+          throw err;
+        }
       }
 
       const files: { name: string; blob: Promise<Blob> | Blob }[] = [];

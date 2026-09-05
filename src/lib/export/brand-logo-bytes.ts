@@ -45,6 +45,18 @@ function bytesToPngDataUrl(bytes: Uint8Array): string {
 }
 
 async function fetchBytes(url: string): Promise<Uint8Array | null> {
+  // Root-relative public assets: prefer disk (API routes + Vitest/jsdom).
+  // Do not gate on `typeof window` — jsdom defines window but has no HTTP for /assets.
+  if (url.startsWith("/")) {
+    try {
+      const { readFile } = await import("node:fs/promises");
+      const { join } = await import("node:path");
+      const filePath = join(process.cwd(), "public", url.replace(/^\//, ""));
+      return new Uint8Array(await readFile(filePath));
+    } catch {
+      // Browser bundles cannot import node:fs — fall through to fetch.
+    }
+  }
   try {
     const res = await fetch(url);
     if (!res.ok) return null;
@@ -207,6 +219,21 @@ export async function resolveBrandLogoBytes(
     };
   }
 
+  // Public PNGs: read disk (API/Vitest) or fetch (browser) before canvas.
+  // jsdom's Image often times out on /assets paths; Office embeds need bytes.
+  if (!src.startsWith("data:") && src.toLowerCase().endsWith(".png")) {
+    const bytes = await fetchBytes(src);
+    if (bytes) {
+      return {
+        bytes,
+        extension: "png",
+        widthPx: src.includes("lockup") || src.includes("primary") ? 200 : 96,
+        heightPx: src.includes("lockup") || src.includes("primary") ? 80 : 96,
+        src,
+      };
+    }
+  }
+
   // Prefer canvas re-encode so JPEG/WebP/SVG become real PNG
   const raster = await rasterizeSrcToPng(src);
   if (raster) {
@@ -215,23 +242,6 @@ export async function resolveBrandLogoBytes(
       extension: "png",
       widthPx: raster.widthPx,
       heightPx: raster.heightPx,
-      src,
-    };
-  }
-
-  // Node / no-canvas path: fetched PNG files only
-  if (src.startsWith("data:")) {
-    return null;
-  }
-
-  if (src.toLowerCase().endsWith(".png")) {
-    const bytes = await fetchBytes(src);
-    if (!bytes) return null;
-    return {
-      bytes,
-      extension: "png",
-      widthPx: src.includes("lockup") || src.includes("primary") ? 200 : 96,
-      heightPx: src.includes("lockup") || src.includes("primary") ? 80 : 96,
       src,
     };
   }
@@ -249,4 +259,51 @@ export function logoDisplaySizePx(
     Math.max(1, Math.round(logo.widthPx * ratio)),
     Math.max(1, Math.round(logo.heightPx * ratio)),
   ];
+}
+
+/** Stable error code for failed Brand Kit logo rasterization when a logo was required. */
+export const BRAND_LOGO_RESOLVE_FAILED = "BRAND_LOGO_RESOLVE_FAILED";
+
+export class BrandLogoResolveError extends Error {
+  readonly code = BRAND_LOGO_RESOLVE_FAILED;
+  constructor() {
+    super(BRAND_LOGO_RESOLVE_FAILED);
+    this.name = "BrandLogoResolveError";
+  }
+}
+
+/**
+ * Like {@link resolveBrandLogoBytes}, but throws {@link BrandLogoResolveError}
+ * when a logo was requested and could not be resolved to PNG bytes.
+ */
+export async function requireBrandLogoBytes(
+  brandKit: BrandKit,
+  opts?: ResolveBrandLogoBytesOpts,
+): Promise<BrandLogoBytes> {
+  if (opts?.includeLogo === false) {
+    throw new BrandLogoResolveError();
+  }
+  const logo = await resolveBrandLogoBytes(brandKit, {
+    ...opts,
+    includeLogo: true,
+  });
+  if (!logo) throw new BrandLogoResolveError();
+  return logo;
+}
+
+/**
+ * Soft when Brand Kit presentation has no `src`; fail-closed when a logo is
+ * present but cannot be rasterized to PNG (Office / certificate embeds).
+ */
+export async function resolveConfiguredBrandLogoBytes(
+  brandKit: BrandKit,
+  opts?: ResolveBrandLogoBytesOpts,
+): Promise<BrandLogoBytes | null> {
+  if (opts?.includeLogo === false) return null;
+  const { src } = resolveBrandLogoPresentation(
+    brandKit,
+    opts?.backgroundColor,
+  );
+  if (!src) return null;
+  return requireBrandLogoBytes(brandKit, opts);
 }

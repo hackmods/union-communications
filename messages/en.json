@@ -148,7 +148,8 @@
     "downloadSuccess": "Downloaded!",
     "downloadSuccessDetail": "Your file is ready. Check your downloads folder.",
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit"
+    "setupBrandLink": "Open Brand Kit",
+    "logoResolveFailed": "Could not load your Brand Kit logo as PNG. Try a PNG upload in Brand Kit, or turn off the logo."
   },
   "guideCommon": {
     "asideTitle": "Open a tool",
@@ -6637,6 +6638,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "export-download-confirm": {
+        "title": "Downloads confirm when they finish",
+        "body": "Guide worksheets and Officer Hub reports now say when your file is ready, and Brand Kit logo problems show a clear fix instead of a quiet blank."
+      },
       "office-export-brand-fonts": {
         "title": "Word and Excel keep your Brand Kit type",
         "body": "Minutes, ballots, and Document Generator worksheets now carry your Brand Kit fonts into Word and Excel—including French RSVP sheets—so downloads look on-brand offline."
@@ -7312,7 +7317,8 @@
       "portal": "Local Portal",
       "portalDesc": "Circles for members, stewards, and committees"
     },
-    "stewardGuidesLink": "Steward meeting guides"
+    "stewardGuidesLink": "Steward meeting guides",
+    "reportsExportSuccess": "Report downloaded."
   },
   "tenantOnboarding": {
     "title": "Union setup",

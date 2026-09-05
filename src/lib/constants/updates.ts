@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "export-download-confirm",
+    date: "2026-09-05",
+    kind: "improved",
+    href: "/guide/union-boards",
+  },
+  {
     id: "office-export-brand-fonts",
     date: "2026-09-05",
     kind: "improved",
