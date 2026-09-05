@@ -5,7 +5,8 @@ import type {
   UpdateCaSnippetInput,
 } from "@/types/qol";
 
-const snippets: CaSnippet[] = [
+function seedSnippets(): CaSnippet[] {
+  return [
   {
     id: "snip-001",
     unionId: "union-opseu",
@@ -60,7 +61,10 @@ const snippets: CaSnippet[] = [
     createdAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
     updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
   },
-];
+  ];
+}
+
+const snippets: CaSnippet[] = seedSnippets();
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -151,3 +155,8 @@ export class MemorySnippetAdapter implements SnippetAdapter {
 }
 
 export const snippetStore: SnippetAdapter = new MemorySnippetAdapter();
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetSnippetMemoryForTests(): void {
+  snippets.splice(0, snippets.length, ...seedSnippets());
+}

@@ -3,6 +3,7 @@ import { auditLog } from "@/lib/audit/store";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
 import { canDeleteSharedContent, canManageQolContent } from "@/lib/qol/access";
 import { snippetStore } from "@/lib/snippets/memory-adapter";
+import type { UpdateCaSnippetInput } from "@/types/qol";
 import type { UserRole } from "@/types/tenant";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -51,8 +52,22 @@ export async function PATCH(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const body = await request.json();
-  const updated = await snippetStore.update(id, body);
+  const raw = await request.json();
+  const body =
+    raw && typeof raw === "object" && !Array.isArray(raw)
+      ? (raw as Record<string, unknown>)
+      : {};
+  const patch: UpdateCaSnippetInput = {};
+  if (typeof body.title === "string") patch.title = body.title;
+  if (typeof body.clauseRef === "string") patch.clauseRef = body.clauseRef;
+  if (typeof body.body === "string") patch.body = body.body;
+  if (
+    Array.isArray(body.tags) &&
+    body.tags.every((tag) => typeof tag === "string")
+  ) {
+    patch.tags = body.tags;
+  }
+  const updated = await snippetStore.update(id, patch);
   await auditLog.log({
     userId: authResult.session.user.id,
     action: "snippet.update",

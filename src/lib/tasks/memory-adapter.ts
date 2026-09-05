@@ -8,7 +8,8 @@ import type {
 import type { HubReactionKind } from "@/types/hub-social";
 import { toggleHubReaction } from "@/lib/hub/reactions";
 
-const tasks: Task[] = [
+function seedTasks(): Task[] {
+  return [
   {
     id: "task-001",
     unionId: "union-opseu",
@@ -72,7 +73,10 @@ const tasks: Task[] = [
     mentionedUserIds: ["user-president-243"],
     reactions: [],
   },
-];
+  ];
+}
+
+const tasks: Task[] = seedTasks();
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -215,3 +219,8 @@ export class MemoryTaskAdapter implements TaskAdapter {
 }
 
 export const memoryTaskStore: TaskAdapter = new MemoryTaskAdapter();
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetTaskMemoryForTests(): void {
+  tasks.splice(0, tasks.length, ...seedTasks());
+}
