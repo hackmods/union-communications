@@ -33,7 +33,7 @@ import {
 import { downloadOfficerLearningCertificate } from "@/lib/officer-learning/certificate";
 import { exportWorkspacePdf } from "@/lib/steward-guides/export";
 import { downloadLandAcknowledgementWorksheetPdf } from "@/lib/comms/land-acknowledgement-worksheet-pdf";
-import { downloadStrikeStandingBriefPdf } from "@/lib/comms/strike-standing-brief-pdf";
+import { downloadAffiliationMapWorksheetPdf } from "@/lib/comms/affiliation-map-worksheet-pdf";
 
 describe("guide PDF review samples", () => {
   const brand = guidePdfBrandFromKit(DEFAULT_BRAND_KIT);
@@ -118,7 +118,7 @@ describe("guide PDF review samples", () => {
         locale,
         brand,
       });
-      await downloadStrikeStandingBriefPdf({
+      await downloadAffiliationMapWorksheetPdf({
         localLabel,
         locale,
         brand,

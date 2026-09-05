@@ -22,7 +22,7 @@ import {
   pdfHasEmbeddedMark,
 } from "@/lib/export/worksheet-pdf-test-helpers";
 import { downloadLandAcknowledgementWorksheetPdf } from "@/lib/comms/land-acknowledgement-worksheet-pdf";
-import { downloadStrikeStandingBriefPdf } from "@/lib/comms/strike-standing-brief-pdf";
+import { downloadAffiliationMapWorksheetPdf } from "@/lib/comms/affiliation-map-worksheet-pdf";
 import { downloadBoardReferencePdf } from "@/lib/comms/board-reference-pdf";
 import { downloadFarSheetPdf } from "@/lib/officer-learning/reference-pdf";
 import { exportWorkspacePdf } from "@/lib/steward-guides/export";
@@ -122,9 +122,9 @@ describe("guide PDF family contracts", () => {
     expect(parsed.joined).toMatch(/National \/ federation territory guide/i);
   });
 
-  it("strike standing brief stays one page with named command above floor tips", async () => {
+  it("affiliation map worksheet stays one page with confirm block above floor tips", async () => {
     vi.mocked(saveBlob).mockClear();
-    await downloadStrikeStandingBriefPdf({
+    await downloadAffiliationMapWorksheetPdf({
       localLabel: "Local 243",
       locale: "en",
       brand,
@@ -132,12 +132,10 @@ describe("guide PDF family contracts", () => {
 
     const parsed = await parseWorksheetPdfBlob(await lastPdfBlob());
     expect(parsed.numPages).toBe(1);
-    expect(parsed.joined).toMatch(/Captains' standing brief/i);
-    expect(parsed.joined).toMatch(/Named command/i);
-    expect(parsed.joined).toMatch(/Staff Representative/i);
+    expect(parsed.joined).toMatch(/Affiliation map: floor handout/i);
+    expect(parsed.joined).toMatch(/Confirm before you speak/i);
     expect(parsed.joined).toContain(COMMS_GUIDE_FOOTER.en);
-    expectMinVerticalGap(parsed, "Captains' standing brief", "Fill before the first gate", 8);
-    expectMinVerticalGap(parsed, "Before the shift", "Floor tips", 16);
+    expectMinVerticalGap(parsed, "Confirm before you speak", "Floor tips", 20);
   });
 
   it("FAR checklist: title precedes section headings", async () => {
