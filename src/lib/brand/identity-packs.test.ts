@@ -177,16 +177,62 @@ describe("identity-packs", () => {
 
   it("uses light preview plates and faculty knockout label for CAAT-A assets", () => {
     const caatA = getIdentityPack(OPSEU_CAAT_A_PACK_ID)!;
+    expect(caatA.assetVariants.map((v) => v.id)).toEqual([
+      "color",
+      "knockout",
+      "on-coalition",
+      "reverse",
+    ]);
     const color = caatA.assetVariants.find((v) => v.id === "color")!;
     const knockout = caatA.assetVariants.find((v) => v.id === "knockout")!;
+    const coalition = caatA.assetVariants.find((v) => v.id === "on-coalition")!;
     const reverse = caatA.assetVariants.find((v) => v.id === "reverse")!;
 
     expect(color.plate).toBe("light");
     expect(knockout.plate).toBe("light");
     expect(knockout.labelKey).toBe("knockoutBurgundy");
+    expect(knockout.src).toBe("/assets/caat-a/logo-lockup-on-primary-knockout.svg");
+    expect(coalition.src).toBe("/assets/caat-a/logo-lockup-on-coalition.svg");
     expect(reverse.plate).toBe("dark");
+    expect(reverse.src).toBe("/assets/caat-a/logo-lockup-reverse.svg");
     expect(identityAssetPlateColor(caatA, color)).toBe("#FFFFFF");
     expect(identityAssetPlateColor(caatA, reverse)).toBe("#1A1A1A");
+  });
+
+  it("ships CAAT-A plated knockouts with full-bleed plates and a tight one-colour crop", () => {
+    const caatA = getIdentityPack(OPSEU_CAAT_A_PACK_ID)!;
+    const read = (src: string) =>
+      readFileSync(join(process.cwd(), "public", src.replace(/^\//, "")), "utf8");
+
+    const knockout = read(
+      caatA.assetVariants.find((v) => v.id === "knockout")!.src,
+    );
+    const coalition = read(
+      caatA.assetVariants.find((v) => v.id === "on-coalition")!.src,
+    );
+    const reverse = read(
+      caatA.assetVariants.find((v) => v.id === "reverse")!.src,
+    );
+    const oneColor = read(caatA.logos.oneColor!);
+
+    expect(knockout).toMatch(/<rect[^>]*fill="#7B1E3F"/);
+    expect(coalition).toMatch(/<rect[^>]*fill="#003DA5"/);
+    expect(reverse).toMatch(/<rect[^>]*fill="#231F20"/);
+
+    const knockBox = knockout.match(/viewBox="0 0 (\d+) (\d+)"/);
+    expect(knockBox).toBeTruthy();
+    expect(Number(knockBox![1])).toBe(200);
+    expect(Number(knockBox![2])).toBe(100);
+
+    const coalBox = coalition.match(/viewBox="0 0 (\d+) (\d+)"/);
+    const revBox = reverse.match(/viewBox="0 0 (\d+) (\d+)"/);
+    expect(coalBox?.[1]).toBe(knockBox![1]);
+    expect(revBox?.[1]).toBe(knockBox![1]);
+
+    const oneBox = oneColor.match(/viewBox="0 0 (\d+) (\d+)"/);
+    expect(oneBox).toBeTruthy();
+    expect(Number(oneBox![1])).toBeGreaterThan(500);
+    expect(Number(oneBox![2])).toBeLessThan(120);
   });
 
   it("applies explicit gold plate colours without an invert shortcut", () => {

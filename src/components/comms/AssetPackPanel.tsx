@@ -48,6 +48,11 @@ type LogoDownload = {
   downloadName?: string;
 };
 
+/** Plated lockups ship their own fill — let the SVG be the tile, not a postage stamp. */
+function lookPackSrcFillsWell(src: string): boolean {
+  return /on-primary|on-coalition|on-gold|knockout|reverse/i.test(src);
+}
+
 function needsChecker(hex: string): boolean {
   return pickContrastingInk(hex) === INK_BLACK;
 }
@@ -326,6 +331,7 @@ function LookPackDownloads({
         {pack.assetVariants.map((variant) => {
           const plate = identityAssetPlateColor(pack, variant);
           const isSvg = variant.src.toLowerCase().endsWith(".svg");
+          const fillsWell = lookPackSrcFillsWell(variant.src);
           return (
             <LogoDownloadCard
               key={`${pack.id}-${variant.id}`}
@@ -336,15 +342,24 @@ function LookPackDownloads({
               failedLabel={failedLabel}
             >
               <span
-                className="flex min-h-24 w-full items-center justify-center rounded-md px-2 py-2"
+                className={cn(
+                  "flex w-full items-center justify-center overflow-hidden rounded-md",
+                  fillsWell
+                    ? "aspect-[2/1] p-0"
+                    : "min-h-28 px-3 py-4",
+                )}
                 style={{ backgroundColor: plate }}
               >
                 <SafeLogoImage
                   src={variant.src}
                   alt=""
-                  width={220}
-                  height={72}
-                  className="h-16 w-auto max-w-[92%] object-contain"
+                  width={fillsWell ? 880 : 588}
+                  height={fillsWell ? 440 : 336}
+                  className={
+                    fillsWell
+                      ? "aspect-auto h-full w-full object-contain"
+                      : "aspect-auto h-auto w-full object-contain"
+                  }
                   onDark={
                     variant.plate === "dark" ||
                     variant.plate === "primary" ||

@@ -6616,7 +6616,7 @@
       },
       "caat-a-logo-knockouts": {
         "title": "Logos du personnel enseignant dans les Actifs de marque",
-        "body": "Les fichiers du personnel enseignant utilisent maintenant un logo blanc sur la plaque bleu de coalition et en version blanche. Les cartes bourgogne et une seule couleur montrent la marque à une taille lisible."
+        "body": "Les fichiers du personnel enseignant sont le logo couleur, le blanc sur bourgogne, le bleu de coalition et la version blanche. Les fichiers bourgogne et une seule couleur en trop montraient la même marque, donc ils sont retirés."
       },
       "document-generator-phone": {
         "title": "Générateur de documents sur téléphone",
@@ -8870,7 +8870,6 @@
       "knockout": "Blanc et or (sans plaque)",
       "knockoutBurgundy": "Blanc sur plaque bourgogne",
       "onGold": "Sur plaque or",
-      "onBurgundy": "Sur plaque bourgogne",
       "onCoalition": "Sur plaque bleu de coalition",
       "oneColor": "Une seule couleur",
       "reverse": "Version blanche"

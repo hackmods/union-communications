@@ -310,13 +310,6 @@ export const IDENTITY_PACKS: readonly IdentityPack[] = [
         labelKey: "color",
       },
       {
-        id: "on-primary",
-        src: "/assets/caat-a/logo-lockup-on-primary.svg",
-        plate: "light",
-        downloadName: "caat-a-bilingual-02-on-burgundy.svg",
-        labelKey: "onBurgundy",
-      },
-      {
         id: "knockout",
         src: "/assets/caat-a/logo-lockup-on-primary-knockout.svg",
         plate: "light",
@@ -329,13 +322,6 @@ export const IDENTITY_PACKS: readonly IdentityPack[] = [
         plate: "light",
         downloadName: "caat-a-bilingual-03-on-coalition-blue.svg",
         labelKey: "onCoalition",
-      },
-      {
-        id: "one-color",
-        src: "/assets/caat-a/logo-lockup-one-color.svg",
-        plate: "light",
-        downloadName: "caat-a-bilingual-04-one-color.svg",
-        labelKey: "oneColor",
       },
       {
         id: "reverse",

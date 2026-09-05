@@ -6,6 +6,15 @@
 - [x] `miniPreview={false}` so a letter-height canvas no longer clips to a 96px header peek on Edit
 - Verify: `npm run test:unit -- src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/components/tools/ToolEditorLayout.test.tsx`
 
+## CAAT-A logo knockouts and preview crop (2026-09-05)
+
+- [x] Coalition blue and reverse lockups are true white knockouts (OPSEU wordmark + faculty body)
+- [x] Burgundy knockout: full-bleed `#7B1E3F` plate + tight 2:1 artboard
+- [x] Plated lockups are vector art on a `200×100` plate rect; Look cards fill the tile (`aspect-[2/1]`) instead of a height-capped island
+- [x] One-colour cropped tight around the burgundy lockup
+- [x] Brand Assets catalog drops duplicate burgundy plate (`on-primary`) and one-colour strip (same burgundy art as colour) — keep knockout, coalition, reverse, colour
+- Verify: `npm run test:unit -- src/lib/brand/identity-packs.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Document Generator phone / tablet layout (2026-09-05)
 
 - [x] Document Generator on `ToolEditorLayout` (`miniPreview={false}`) so phone/tablet get Edit/Preview tabs instead of a wall of example cards

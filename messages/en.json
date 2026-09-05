@@ -3803,7 +3803,6 @@
       "knockout": "White and gold (no plate)",
       "knockoutBurgundy": "White on burgundy plate",
       "onGold": "On gold plate",
-      "onBurgundy": "On burgundy plate",
       "onCoalition": "On coalition blue plate",
       "oneColor": "One colour",
       "reverse": "White reverse"
@@ -6669,7 +6668,7 @@
       },
       "caat-a-logo-knockouts": {
         "title": "College Faculty logos on Brand Assets",
-        "body": "College Faculty downloads now use a white lockup on coalition blue and reverse plates. The burgundy and one-colour cards show the mark at a readable size."
+        "body": "College Faculty downloads are colour, white on burgundy, coalition blue, and reverse. Extra burgundy and one-colour files showed the same mark, so they are gone."
       },
       "document-generator-phone": {
         "title": "Document Generator on a phone",
