@@ -113,7 +113,7 @@ describe("resolveBrandLogoPresentation", () => {
       identityPackId: "opseu-caat-a",
       useOfficialLogo: true,
       officialLogoVariant: "mark",
-      primaryColor: "#7B1E3F",
+      primaryColor: "#B22E2C",
     };
     const { src, cssFilter } = resolveBrandLogoPresentation(kit);
     expect(src).toContain("logo-mark.png");

@@ -17,9 +17,9 @@
 ## CAAT-A logo knockouts and preview crop (2026-09-05)
 
 - [x] Coalition blue and reverse lockups are true white knockouts (OPSEU wordmark + faculty body)
-- [x] Burgundy knockout: full-bleed `#7B1E3F` plate + tight 2:1 artboard
+- [x] Faculty-red knockout: full-bleed `#B22E2C` plate (stacked-art field) + tight 2:1 artboard
 - [x] Plated lockups are vector art on a `200×100` plate rect; Look cards fill the tile (`aspect-[2/1]`) instead of a height-capped island
-- [x] One-colour cropped tight around the burgundy lockup
+- [x] Colour / one-colour path fills stay `#B22E2C`; coalition Look accent is white so canvas type is not leftover red
 - [x] Brand Assets catalog drops duplicate burgundy plate (`on-primary`) and one-colour strip (same burgundy art as colour) — keep knockout, coalition, reverse, colour
 - Verify: `npm run test:unit -- src/lib/brand/identity-packs.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
 

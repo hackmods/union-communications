@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
+  CAAT_A_COLORS,
+  CAAT_A_COALITION_COLORS,
+  CAAT_A_COALITION_PLATE_ID,
   CAAT_S_COLORS,
   CAAT_S_CORAL_PLATE_ID,
   CAAT_S_GOLD_COLORS,
@@ -148,6 +151,12 @@ describe("identity-packs", () => {
 
     const patch = applyIdentityPack(caatA);
     expect(patch.officialLogoVariant).toBe("mark");
+    expect(patch.primaryColor).toBe(CAAT_A_COLORS.primaryColor);
+    expect(patch.primaryColor).toBe("#B22E2C");
+
+    const coalition = applyIdentityPack(caatA, CAAT_A_COALITION_PLATE_ID);
+    expect(coalition.primaryColor).toBe(CAAT_A_COALITION_COLORS.primaryColor);
+    expect(coalition.accentColor).toBe("#FFFFFF");
 
     const logos = resolveOfficialLogos({
       ...DEFAULT_BRAND_KIT,
@@ -215,14 +224,28 @@ describe("identity-packs", () => {
     );
     const oneColor = read(caatA.logos.oneColor!);
 
-    expect(knockout).toMatch(/<rect[^>]*fill="#7B1E3F"/);
+    expect(knockout).toMatch(/<rect[^>]*fill="#B22E2C"/);
     expect(coalition).toMatch(/<rect[^>]*fill="#003DA5"/);
     expect(reverse).toMatch(/<rect[^>]*fill="#231F20"/);
+    expect(knockout).toMatch(/<path[^>]*fill="#FFFFFF"/);
+    expect(coalition).toMatch(/<path[^>]*fill="#FFFFFF"/);
+    expect(reverse).toMatch(/<path[^>]*fill="#FFFFFF"/);
+
+    const colour = read(
+      caatA.assetVariants.find((v) => v.id === "color")!.src,
+    );
+    expect(colour).toMatch(/<path[^>]*fill="#B22E2C"/);
+    expect(oneColor).toMatch(/<path[^>]*fill="#B22E2C"/);
+    for (const svg of [colour, oneColor, knockout, coalition, reverse]) {
+      expect(svg).not.toMatch(/data:image\/png/);
+      expect(svg).toMatch(/<path /);
+    }
 
     const knockBox = knockout.match(/viewBox="0 0 (\d+) (\d+)"/);
     expect(knockBox).toBeTruthy();
     expect(Number(knockBox![1])).toBe(200);
     expect(Number(knockBox![2])).toBe(100);
+    expect(Number(knockBox![1]) / Number(knockBox![2])).toBeCloseTo(2, 1);
 
     const coalBox = coalition.match(/viewBox="0 0 (\d+) (\d+)"/);
     const revBox = reverse.match(/viewBox="0 0 (\d+) (\d+)"/);
@@ -326,6 +349,14 @@ describe("identity-packs", () => {
       lockupForCanvasBackground(pack, CAAT_S_GOLD_COLORS.primaryColor),
     ).toContain("on-gold");
     expect(lockupForCanvasBackground(pack, "#FFFFFF")).toBeUndefined();
+
+    const caatA = getIdentityPack(OPSEU_CAAT_A_PACK_ID)!;
+    expect(lockupForCanvasBackground(caatA, CAAT_A_COLORS.primaryColor)).toContain(
+      "knockout",
+    );
+    expect(
+      lockupForCanvasBackground(caatA, CAAT_A_COALITION_COLORS.primaryColor),
+    ).toContain("on-coalition");
   });
 
   it("detects colour drift from the active pack", () => {

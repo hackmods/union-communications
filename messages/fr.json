@@ -6630,7 +6630,7 @@
       },
       "caat-a-logo-knockouts": {
         "title": "Logos du personnel enseignant dans les Actifs de marque",
-        "body": "Les fichiers du personnel enseignant sont le logo couleur, le blanc sur bourgogne, le bleu de coalition et la version blanche. Les fichiers bourgogne et une seule couleur en trop montraient la même marque, donc ils sont retirés."
+        "body": "Les téléchargements du personnel enseignant sont maintenant le logo couleur net, le blanc sur le rouge du logo, le bleu de coalition et la version blanche. La couleur et la version une seule couleur reprennent le rouge du logo. Sur le bleu de coalition, le texte reste blanc."
       },
       "document-generator-phone": {
         "title": "Générateur de documents sur téléphone",

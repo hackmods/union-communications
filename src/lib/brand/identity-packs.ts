@@ -145,11 +145,12 @@ export const CAAT_S_GOLD_COLORS: IdentityPackColors = {
 };
 
 /**
- * CAAT-A burgundy from OPSEU/SEFPO College Faculty campaign art
- * (white-on-burgundy stacked lockups). Coalition plate uses national blue.
+ * CAAT-A primary from the College Faculty stacked-plate field in the
+ * supplied raster (`#B22E2C`). Coalition uses national blue with white
+ * accent so canvas type stays knockout-white, not faculty red.
  */
 export const CAAT_A_COLORS: IdentityPackColors = {
-  primaryColor: "#7B1E3F",
+  primaryColor: "#B22E2C",
   secondaryColor: "#FFFFFF",
   accentColor: "#003DA5",
 };
@@ -157,7 +158,7 @@ export const CAAT_A_COLORS: IdentityPackColors = {
 export const CAAT_A_COALITION_COLORS: IdentityPackColors = {
   primaryColor: "#003DA5",
   secondaryColor: "#FFFFFF",
-  accentColor: "#7B1E3F",
+  accentColor: "#FFFFFF",
 };
 
 export const IDENTITY_PACKS: readonly IdentityPack[] = [
