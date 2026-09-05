@@ -78,7 +78,7 @@ const failureKeys = [
   "rejected",
   "wrongDate",
 ] as const;
-const notThisKeys = ["crisis", "grievance", "joint", "wildcat"] as const;
+const notThisKeys = ["crisis", "strike", "grievance", "joint", "wildcat"] as const;
 const toolKeys = ["tracker", "email", "graphic", "flyer", "mapping"] as const;
 const sectorKeys = ["lra", "ccba"] as const;
 
@@ -129,7 +129,8 @@ export default async function BargainingGuidePage({
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/crisis", label: nav("strikeGuide") },
+        { href: "/guide/strike", label: nav("strikeOpsGuide") },
+        { href: "/guide/crisis", label: nav("crisisCommsGuide") },
         { href: "/guide/grievance-process", label: nav("grievanceProcessGuide") },
         { href: "/guide/joint-committee", label: nav("jointCommitteeGuide") },
         { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
@@ -327,7 +328,10 @@ export default async function BargainingGuidePage({
           </p>
           <p className="mt-1">{t("dispute.warning")}</p>
         </Callout>
-        <div className="button-row mt-5 max-w-lg">
+        <div className="button-row mt-5 max-w-2xl">
+          <Link href="/guide/strike" className={guideCtaOutlineClass}>
+            {t("dispute.strikeOpsCta")}
+          </Link>
           <Link href="/guide/crisis" className={guideCtaOutlineClass}>
             {t("dispute.crisisCta")}
           </Link>
@@ -437,8 +441,11 @@ export default async function BargainingGuidePage({
           <Link href="/guide/joint-committee" className={guideCtaOutlineClass}>
             {nav("jointCommitteeGuide")}
           </Link>
+          <Link href="/guide/strike" className={guideCtaOutlineClass}>
+            {nav("strikeOpsGuide")}
+          </Link>
           <Link href="/guide/crisis" className={guideCtaOutlineClass}>
-            {nav("strikeGuide")}
+            {nav("crisisCommsGuide")}
           </Link>
         </div>
       </GuideSection>

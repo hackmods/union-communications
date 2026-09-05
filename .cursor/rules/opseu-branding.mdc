@@ -9,7 +9,7 @@ alwaysApply: false
 ## Product context
 This comms toolbox is a **complementary volunteer tool** for local union communicators. OPSEU/SEFPO does not provide basic local-level social media branding, logo export, or graphic generation — locals fill that gap themselves. This hub exists to make that work easier while respecting official brand guidelines.
 
-Strike/crisis comms live at `/guide/crisis` (not top nav) — OPSEU/local-focused high-level guidance for volunteer comms leads.
+Strike operations live at `/guide/strike`. Crisis comms (who may speak) live at `/guide/crisis` — high-level guidance for volunteer comms leads, not a posting quota.
 
 ## Official OPSEU colours
 **Canonical citation URL:** registry id `opseu-branding` in [`src/lib/constants/comms-sources.ts`](../../src/lib/constants/comms-sources.ts) — do not duplicate hrefs in pages; sync this rule when that URL changes.

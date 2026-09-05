@@ -18,7 +18,7 @@ Four groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learn
 
 1. **Comms** — First week (`/guide/social-media-plan`), The Blueprint (`/guide`), Workshop outline (`/guide/workshop`)
 2. **By channel** — Print Guide, Union Boards Guide, Website Guide, Email & outreach, Short-form video
-3. **Steward craft** — Steward playbooks hub, Steward 101, Bargaining lifecycle, Strike Guide (`/guide/crisis` — keep the Strike Guide label)
+3. **Steward craft** — Steward playbooks hub, Steward 101, Bargaining lifecycle, Strike operations (`/guide/strike`). Crisis comms stays on Resources comms + related links, not this column.
 4. **Libraries** — Social Examples, Captions, Photo Consent, Brand Assets, Comms Resources
 5. **About** — What's new, Built in solidarity, Install as an app
 

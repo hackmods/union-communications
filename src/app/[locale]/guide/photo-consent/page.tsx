@@ -92,7 +92,7 @@ export default async function PhotoConsentGuidePage({
       relatedLinks={[
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/short-form", label: nav("shortFormGuide") },
-        { href: "/guide/crisis", label: nav("strikeGuide") },
+        { href: "/guide/crisis", label: nav("crisisCommsGuide") },
       ]}
       footer={
         <SourcesBlock

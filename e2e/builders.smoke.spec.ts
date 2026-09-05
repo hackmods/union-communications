@@ -184,7 +184,8 @@ test.describe("Public secondary pages smoke @smoke", () => {
     { path: "/en/updates/", heading: "What's new" },
     { path: "/en/install/", heading: "Install UnionOps as an app" },
     { path: "/en/guide/print/", heading: "Print Communications Guide" },
-    { path: "/en/guide/crisis/", heading: "Strike & Crisis Comms Guide" },
+    { path: "/en/guide/crisis/", heading: "Crisis Comms Guide" },
+    { path: "/en/guide/strike/", heading: "Strike operations playbook" },
     { path: "/en/guide/website/", heading: "Local Website Guide" },
     { path: "/en/guide/union-boards/", heading: "Union Boards Guide" },
     { path: "/en/guide/social-media-plan/", heading: "First week" },
@@ -230,6 +231,10 @@ test.describe("Public secondary pages smoke @smoke", () => {
     {
       path: "/en/guide/running-meetings/",
       heading: /Running a Meeting.*Robert/i,
+    },
+    {
+      path: "/en/guide/union-history/",
+      heading: "How Canadian Unions Connect",
     },
     {
       path: "/en/guide/land-acknowledgement/",

@@ -124,6 +124,7 @@ export default async function CrisisPage({
       }
       relatedLinks={[
         { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/strike", label: nav("strikeOpsGuide") },
         { href: "/guide/bargaining", label: nav("bargainingGuide") },
         { href: "/guide/photo-consent", label: nav("photoConsent") },
         { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
@@ -173,6 +174,11 @@ export default async function CrisisPage({
 
       <GuideSection id="strike" title={t("strike.title")} intro={t("strike.intro")}>
         <ItemList section="strike" keys={strikeKeys} t={t} />
+        <div className="button-row mt-5 max-w-lg">
+          <Link href="/guide/strike" className={guideCtaOutlineClass}>
+            {nav("strikeOpsGuide")}
+          </Link>
+        </div>
       </GuideSection>
 
       <GuideSection

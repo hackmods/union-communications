@@ -160,7 +160,7 @@ export const RELATED_BY_TOOL: Record<
     { href: "/guide/bargaining", navKey: "bargainingGuide" },
     { href: "/tools/bylaw-builder", navKey: "bylawBuilder" },
     { href: "/tools/document-generator", navKey: "documentGenerator" },
-    { href: "/guide/crisis", navKey: "strikeGuide" },
+    { href: "/guide/strike", navKey: "strikeOpsGuide" },
     { href: "/guide/email-broadcast", navKey: "emailBroadcastGuide" },
   ],
   "rules-of-order": [

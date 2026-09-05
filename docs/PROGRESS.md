@@ -1,5 +1,23 @@
 # Progress Log
 
+## How Canadian unions connect (2026-09-05)
+
+- [x] New `/guide/union-history` playbook: two tracks (union family vs geographic house), Local 243 worked example, map-your-local steps
+- [x] Affiliation diagrams; registry on labour / Resources / steward playbooks (not Guides mega-menu)
+- [x] Sources via `comms-sources.ts` only (NUPGE map, CLC federations, NRLC, TCE)
+- [x] Public copy rule: new namespaces stay off the em dash (`ZERO_EM_DASH_NS`)
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/guide-registry.test.ts src/lib/constants/comms-sources.test.ts src/lib/constants/updates.test.ts`
+
+## Strike operations playbook (2026-09-05)
+
+Lessons: [`docs/audit/session-knowledge-2026-09-05-strike-operations.md`](audit/session-knowledge-2026-09-05-strike-operations.md).
+
+- [x] New `/guide/strike` — high-level operations playbook (command, line, membership, money, safety, return). Not legal advice; no posting quotas or strike-pay amounts
+- [x] `/guide/crisis` stays Crisis Comms; recast quota/naming; live strike ops point at `/guide/strike`
+- [x] Mega-menu Steward craft “Strike operations” → `/guide/strike` (never means crisis)
+- [x] Registry: primary group bargaining; also labour resources + steward playbooks
+- Verify: `npm run test:unit -- src/lib/comms/guide-registry.test.ts src/components/layout/nav/nav-config.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts src/lib/comms/copy-namespaces.ts`
+
 ## Public toolkit front door (2026-09-04)
 
 - [x] Home hero + `#toolkit` chooser: Comms / steward craft / run the local (Officer Hub only when advertised)

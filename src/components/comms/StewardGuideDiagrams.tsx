@@ -579,6 +579,34 @@ export function QuorumTiersDiagram({
   );
 }
 
+interface StrikeCommandDiagramProps {
+  labels: { executive: string; committee: string; captains: string; members: string };
+  caption?: string;
+  className?: string;
+}
+
+export function StrikeCommandDiagram({ labels, caption, className }: StrikeCommandDiagramProps) {
+  const steps = [labels.executive, labels.committee, labels.captains, labels.members] as const;
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <ol className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-2" aria-label={steps.join("; ")}>
+        {steps.map((label, index) => (
+          <li key={label} className="flex flex-1 items-center gap-2">
+            <div className="flex-1 rounded-lg border-2 border-opseu-blue/40 bg-opseu-blue/5 px-3 py-3 text-center text-xs font-semibold leading-snug text-opseu-dark sm:text-sm">
+              <span className="mb-1 block text-[0.65rem] uppercase tracking-wide opacity-70">{index + 1}</span>
+              {label}
+            </div>
+            {index < steps.length - 1 ? (
+              <span className="hidden shrink-0 text-lg text-gray-400 sm:inline" aria-hidden="true">→</span>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+      {caption ? <figcaption className="text-xs text-gray-600">{caption}</figcaption> : null}
+    </figure>
+  );
+}
+
 interface BargainingLifecycleDiagramProps {
   labels: {
     prep: string;
@@ -736,6 +764,145 @@ export function MotionPrecedenceDiagram({
           </li>
         ))}
       </ol>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+interface AffiliationTracksDiagramProps {
+  familyTitle: string;
+  geoTitle: string;
+  family: readonly string[];
+  geo: readonly string[];
+  caption?: string;
+  className?: string;
+}
+
+function TrackColumn({
+  title,
+  steps,
+}: {
+  title: string;
+  steps: readonly string[];
+}) {
+  return (
+    <div className="min-w-0 space-y-2">
+      <p className="text-center text-xs font-bold uppercase tracking-wide text-opseu-blue">
+        {title}
+      </p>
+      <ol className="space-y-2">
+        {steps.map((label, index) => (
+          <li key={`${title}-${label}`}>
+            <div className="rounded-lg border-2 border-opseu-blue/40 bg-opseu-blue/5 px-3 py-3 text-center text-sm font-semibold leading-snug text-opseu-dark">
+              {label}
+            </div>
+            {index < steps.length - 1 ? (
+              <div
+                className="mx-auto my-1 h-3 w-px bg-gray-300"
+                aria-hidden="true"
+              />
+            ) : null}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+/** Two parallel tracks that share the CLC: union family vs geographic house. */
+export function AffiliationTracksDiagram({
+  familyTitle,
+  geoTitle,
+  family,
+  geo,
+  caption,
+  className,
+}: AffiliationTracksDiagramProps) {
+  return (
+    <figure className={cn("space-y-3", className)}>
+      <div
+        className="grid gap-6 sm:grid-cols-2"
+        role="img"
+        aria-label={`${familyTitle}: ${family.join(", ")}. ${geoTitle}: ${geo.join(", ")}.`}
+      >
+        <TrackColumn title={familyTitle} steps={family} />
+        <TrackColumn title={geoTitle} steps={geo} />
+      </div>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+interface AffiliationExampleDiagramProps {
+  local: string;
+  area: string;
+  council: string;
+  union: string;
+  ofl: string;
+  nupge: string;
+  clc: string;
+  caption?: string;
+  className?: string;
+}
+
+function ExampleNode({
+  label,
+  tone = "default",
+}: {
+  label: string;
+  tone?: "default" | "emphasis";
+}) {
+  return (
+    <div
+      className={cn(
+        "rounded-lg border-2 px-3 py-3 text-center text-sm font-semibold leading-snug",
+        tone === "emphasis"
+          ? "border-opseu-dark bg-opseu-dark text-white"
+          : "border-opseu-blue/40 bg-opseu-blue/5 text-opseu-dark",
+      )}
+    >
+      {label}
+    </div>
+  );
+}
+
+/** Local 243 diamond: area vs labour council, then OFL vs NUPGE, both into the CLC. */
+export function AffiliationExampleDiagram({
+  local,
+  area,
+  council,
+  union,
+  ofl,
+  nupge,
+  clc,
+  caption,
+  className,
+}: AffiliationExampleDiagramProps) {
+  return (
+    <figure className={cn("space-y-3", className)}>
+      <div
+        className="mx-auto grid max-w-xl grid-cols-2 gap-x-3 gap-y-2"
+        role="img"
+        aria-label={`${local}; ${area}; ${council}; ${union}; ${ofl}; ${nupge}; ${clc}`}
+      >
+        <div className="col-span-2">
+          <ExampleNode label={local} tone="emphasis" />
+        </div>
+        <ExampleNode label={area} />
+        <ExampleNode label={council} />
+        <div className="col-span-2">
+          <ExampleNode label={union} />
+        </div>
+        <ExampleNode label={ofl} />
+        <ExampleNode label={nupge} />
+        <div className="col-span-2">
+          <ExampleNode label={clc} tone="emphasis" />
+        </div>
+      </div>
       {caption ? (
         <figcaption className="text-xs text-gray-600">{caption}</figcaption>
       ) : null}

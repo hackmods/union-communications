@@ -10,7 +10,10 @@ import {
   GUIDE_REGISTRY,
   GUIDE_STEWARD_PLAYBOOKS_HUB,
 } from "@/lib/comms/guide-registry";
-import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
+import {
+  guideCtaClass,
+  guideCtaOutlineClass,
+} from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
 
 export async function generateMetadata({
@@ -52,7 +55,7 @@ export default async function GuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("guide");
   const nav = await getTranslations("nav");
-  const crisis = await getTranslations("crisisGuide");
+  const strike = await getTranslations("strikeOpsGuide");
   const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
@@ -77,14 +80,16 @@ export default async function GuidePage({
       }
     >
       <Callout className="mb-8 max-w-3xl">
-        <p className="font-semibold text-opseu-dark">{crisis("title")}</p>
-        <p className="mt-1">{crisis("subtitle")}</p>
-        <Link
-          href="/guide/crisis"
-          className="mt-2 inline-block font-medium text-opseu-blue underline"
-        >
-          {nav("strikeGuide")} →
-        </Link>
+        <p className="font-semibold text-opseu-dark">{strike("title")}</p>
+        <p className="mt-1">{strike("subtitle")}</p>
+        <div className="button-row mt-3 max-w-lg">
+          <Link href="/guide/strike" className={guideCtaClass}>
+            {nav("strikeOpsGuide")}
+          </Link>
+          <Link href="/guide/crisis" className={guideCtaOutlineClass}>
+            {nav("crisisCommsGuide")}
+          </Link>
+        </div>
       </Callout>
 
       <GuideSection

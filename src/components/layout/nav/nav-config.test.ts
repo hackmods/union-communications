@@ -82,7 +82,7 @@ describe("path helpers", () => {
       "/guide/steward-playbooks",
       "/guide/steward-101",
       "/guide/bargaining",
-      "/guide/crisis",
+      "/guide/strike",
     ]);
     expect(channels?.links.map((l) => l.href)).toEqual([
       "/guide/print",

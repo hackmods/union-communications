@@ -118,9 +118,14 @@ export const PUBLIC_PAGE_SEO: Record<
         "Protect members before you post a photo: three consent settings, an immediate take-down, and a checklist for faces, minors, and workplace details.",
     },
     "/guide/crisis": {
-      title: "Strike & Crisis Comms Guide",
+      title: "Crisis Comms Guide",
       description:
         "How to keep local messaging calm and clear during strikes, bargaining, layoffs, and management pushback.",
+    },
+    "/guide/strike": {
+      title: "Strike operations playbook",
+      description:
+        "How a local runs a lawful strike or lockout: command, the picket line, member care, money, safety, and return to work. Not legal advice.",
     },
     "/guide/membership-signup": {
       title: "Membership signup playbook",
@@ -181,6 +186,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Running a Meeting & Robert's Rules",
       description:
         "Quorum, motion precedence, debate, and voting for local chairs — plus a fourteen-action Rules of Order cheat sheet for the floor.",
+    },
+    "/guide/union-history": {
+      title: "How Canadian Unions Connect",
+      description:
+        "Canadian labour history plus a two-track map from OPSEU / SEFPO Local 243 to the CLC, so you can draw the same house for your local.",
     },
     "/guide/land-acknowledgement": {
       title: "Land Acknowledgement Guide",
@@ -330,9 +340,14 @@ export const PUBLIC_PAGE_SEO: Record<
         "Protégez les membres avant de publier une photo : trois contextes, un retrait immédiat, et une liste pour les visages, les mineurs et le lieu de travail.",
     },
     "/guide/crisis": {
-      title: "Guide de communication - grève et crise",
+      title: "Guide des communications de crise",
       description:
         "Comment garder des messages locaux calmes et clairs pendant les grèves, la négociation, les mises à pied et les réactions de la direction.",
+    },
+    "/guide/strike": {
+      title: "Guide des opérations de grève",
+      description:
+        "Comment une section mène une grève ou un lock-out légal : commandement, piquetage, soins aux membres, argent, sécurité et retour au travail.",
     },
     "/guide/membership-signup": {
       title: "Guide pratique d'adhésion",
@@ -393,6 +408,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Tenir une assemblée et règles de procédure",
       description:
         "Quorum, priorité des motions, débat et vote pour les présidents locaux — plus un aide-mémoire de quatorze actions pour le plancher.",
+    },
+    "/guide/union-history": {
+      title: "Comment les syndicats canadiens se relient",
+      description:
+        "Histoire syndicale canadienne et carte à deux voies d'OPSEU / SEFPO section 243 jusqu'au CTC, pour tracer la même maison chez vous.",
     },
     "/guide/land-acknowledgement": {
       title: "Guide de reconnaissance territoriale",

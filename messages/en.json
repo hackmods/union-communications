@@ -12,7 +12,7 @@
     "guides": "Guides",
     "guide": "The Blueprint",
     "stewardPlaybooksHub": "Steward playbooks",
-    "strikeGuide": "Strike Guide",
+    "strikeGuide": "Strike operations",
     "examples": "Social Examples",
     "captions": "Captions",
     "assets": "Brand Assets",
@@ -93,7 +93,10 @@
     "proposalTracker": "Proposal Tracker",
     "rulesOfOrder": "Rules of Order Cheat Sheet",
     "runningMeetingsGuide": "Running meetings",
-    "landAcknowledgementGuide": "Land acknowledgement"
+    "unionHistoryGuide": "How Canadian unions connect",
+    "landAcknowledgementGuide": "Land acknowledgement",
+    "strikeOpsGuide": "Strike operations",
+    "crisisCommsGuide": "Crisis comms"
   },
   "common": {
     "download": "Download",
@@ -473,6 +476,7 @@
       "workplaceMapping": "Workplace mapping & organic leaders",
       "bylaws": "Local Bylaws: The Rules of Your Local",
       "runningMeetings": "Running a Meeting & Robert's Rules",
+      "unionHistory": "How Canadian Unions Connect",
       "landAcknowledgement": "Land Acknowledgement Guide"
     },
     "startHere": {
@@ -695,6 +699,7 @@
       "workplaceMapping": "Workplace mapping",
       "bylaws": "Local bylaws",
       "runningMeetings": "Running meetings & Robert's Rules",
+      "unionHistory": "How Canadian unions connect",
       "landAcknowledgement": "Land Acknowledgement Guide"
     }
   },
@@ -787,6 +792,7 @@
         "bargaining": "Bargaining lifecycle",
         "proposalTracker": "Proposal Tracker",
         "runningMeetings": "Running meetings guide",
+        "unionHistory": "How Canadian unions connect",
         "landAcknowledgement": "Land Acknowledgement Guide",
         "rulesOfOrder": "Rules of Order cheat sheet"
       }
@@ -3131,6 +3137,7 @@
         "workplaceMapping": "Workplace mapping & organic leaders",
         "bylaws": "Local Bylaws: The Rules of Your Local",
         "runningMeetings": "Running a Meeting & Robert's Rules",
+        "unionHistory": "How Canadian Unions Connect",
         "landAcknowledgement": "Land Acknowledgement Guide"
       },
       "blurb": {
@@ -3147,6 +3154,7 @@
         "workplaceMapping": "Chart every coworker, find organic leaders, and score union support 1 to 5. Keep the file off employer systems.",
         "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote.",
         "runningMeetings": "Scale formality to the room, run a standard agenda, and use the cheat sheet during live debate.",
+        "unionHistory": "Canadian labour history and a two-track map from one Niagara local to the CLC, so you can draw the same house.",
         "landAcknowledgement": "Solo path or facilitator workshop, one-page ruled PDF worksheet, federation sources, and annotated example — write your own words, not a script."
       }
     },
@@ -4310,7 +4318,7 @@
           "content": "Comms lead holds drafts; president batch-approves. Prevents duplicate posts from well-meaning volunteers."
         }
       },
-      "tip": "Write tomorrow’s three messages tonight. Crisis mornings are not for drafting from scratch."
+      "tip": "Write the next update when you still have the facts, not at 05:00 on the line. Captains hear it first."
     },
     "fullScenario": {
       "navLabel": "Full walk-through",
@@ -4762,6 +4770,7 @@
       "strike": "Command, the picket line, member care, money, safety, and return to work. Not a posting calendar.",
       "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval.",
       "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say when you move or raise a point.",
+      "unionHistory": "Two tracks, not one ladder: union family and the city labour council, mapped from OPSEU / SEFPO Local 243.",
       "landAcknowledgement": "Draft alone or lead a workshop with the one-page ruled PDF — research, reflect, and pair words with action. Federation guides linked; no copy-paste generator."
     },
     "workspaces": {
@@ -4802,6 +4811,7 @@
       "rightToRefuse": "Right to refuse unsafe work",
       "officerLearning": "Officer Learning Center",
       "stewardPlaybooks": "All steward playbooks",
+      "unionHistory": "How Canadian unions connect",
       "membership": "Membership signup playbook",
       "brandKit": "Brand Kit",
       "pocketCard": "Representation pocket card",
@@ -6651,6 +6661,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "strike-ops-guide": {
+        "title": "Strike operations playbook",
+        "body": "A new guide for running a lawful strike or lockout: command, the picket line, member care, money, safety, and return to work. Crisis comms stays the page for who may speak."
+      },
       "export-download-confirm": {
         "title": "Downloads confirm when they finish",
         "body": "Guide worksheets and Officer Hub reports now say when your file is ready, and Brand Kit logo problems show a clear fix instead of a quiet blank."
@@ -11832,6 +11846,386 @@
         "isDebatable": "No",
         "voteRequired": "Majority",
         "chairNote": "State the return time; reconvene with \"The meeting will come to order.\""
+      }
+    }
+  },
+  "strikeOpsGuide": {
+    "title": "Strike operations playbook",
+    "subtitle": "Command, the picket line, member care, and return to work — not a posting calendar",
+    "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "intro": "A lawful strike or lockout is a physical operation. Members need a gate that opens, a captain who knows the brief, a hardship path they can trust, and one set of facts. Public posts come after that work, not instead of it.",
+    "disclaimer": {
+      "title": "Not legal advice. Confirm before any stoppage.",
+      "body": "This page is not a national strike manual and it does not start a strike. Confirm the Act, your constitution, and your union’s strike protocol with your Staff Representative before any work stoppage. Local executive and the strike committee decide. This page does not."
+    },
+    "diagram": {
+      "executive": "Local executive",
+      "committee": "Strike committee",
+      "captains": "Picket captains",
+      "members": "Members on the line",
+      "caption": "Volunteers rotate; jobs do not. Public voice is a downstream job — see Crisis comms."
+    },
+    "gate": {
+      "navLabel": "Is this operations?",
+      "title": "Is this the operations page?",
+      "intro": "Use this playbook when a lawful strike or lockout is live or hours away. Other jobs live on other pages so members get the right help.",
+      "items": {
+        "lawful": {
+          "label": "Lawful strike or lockout only",
+          "content": "Unauthorized stoppages put members and the local at risk. Stay inside the statutory path your Staff Representative confirms."
+        },
+        "clock": {
+          "label": "The legal clock is elsewhere",
+          "content": "Conciliation, strike votes, and No Board dates live on the Bargaining lifecycle guide. Do not announce a start date from this page."
+        },
+        "voice": {
+          "label": "Public voice is Crisis comms",
+          "content": "Who may speak, what never goes public, and how you answer management bait live on the Crisis Comms Guide."
+        },
+        "files": {
+          "label": "Individual files stay on the floor playbooks",
+          "content": "Discipline, grievances, and duty of fair representation stay on Steward 101 and the grievance playbook. A stoppage does not pause those clocks."
+        }
+      },
+      "warningTitle": "If two officers are running two different strikes",
+      "warning": "Stop. Name one committee, write the jobs down, and tell captains who is in charge before the next gate opens."
+    },
+    "command": {
+      "navLabel": "Command",
+      "title": "Who decides what",
+      "intro": "Write names before the first gate opens. On a small local one person may hold two jobs. Two people must not hold the same job.",
+      "items": {
+        "names": {
+          "label": "Names on paper",
+          "content": "President, strike committee lead, picket captains, hardship contact, and spokesperson. A sticky note beats a hallway rumour."
+        },
+        "executive": {
+          "label": "Local executive",
+          "content": "Holds the political yes and no: whether to start, settle, or return. Can delegate the day; cannot delegate the decision."
+        },
+        "committee": {
+          "label": "Strike committee",
+          "content": "Runs the day: gates, rotations, hardship questions, and the standing brief captains carry. Reports to executive, not to the Facebook group."
+        },
+        "captains": {
+          "label": "Picket captains",
+          "content": "Run a gate. They know who is in charge, what is in bounds, and who to call. They do not negotiate with the employer at the fence."
+        },
+        "promises": {
+          "label": "Nobody else promises",
+          "content": "Money, return-to-work terms, and legal positions come only from the people named for those jobs. A well-meaning volunteer is still a leak."
+        }
+      },
+      "tip": "If a reporter, a manager, or a member asks a question you do not own, send them to the named person. Silence plus a name beats a guess."
+    },
+    "readiness": {
+      "navLabel": "Before day one",
+      "title": "Before day one",
+      "intro": "The test is simple: can captains open a gate at 06:00 without calling the president for the washroom key.",
+      "items": {
+        "people": {
+          "label": "People",
+          "content": "Enough captains for every gate and rotation, plus a backup for the first no-show. Write the phone tree on paper as well as a group chat."
+        },
+        "places": {
+          "label": "Places",
+          "content": "Every gate location, a washroom plan, weather cover, and an indoor fallback if the employer or weather shuts a sidewalk."
+        },
+        "money": {
+          "label": "Money path",
+          "content": "Know who runs strike pay if your parent union does, and who runs local hardship. Do not invent amounts or dates."
+        },
+        "reach": {
+          "label": "Member reach",
+          "content": "A way to reach every department and shift that is not an employer email list. Workplace mapping tells you who you will miss."
+        },
+        "hardship": {
+          "label": "Hardship path",
+          "content": "One contact, one way to ask, one promise about when an answer comes. Members should not learn this in a comment thread on day three."
+        }
+      },
+      "tip": "If captains still need the president to open a gate, you are not ready. Finish the brief before you finish the graphic."
+    },
+    "line": {
+      "navLabel": "The line",
+      "title": "The picket line is the meeting",
+      "intro": "The line is where the local is visible. Treat it like a meeting with weather, not a photo backdrop.",
+      "items": {
+        "locations": {
+          "label": "Locations everyone can find",
+          "content": "Same gate names on the captains’ brief, the strike page, and the notice at the entrance. Do not invent a prettier name that members cannot match."
+        },
+        "rotations": {
+          "label": "Rotations that hold",
+          "content": "Start times, length of a shift, and who relieves whom. A line that empties at lunch is a line the employer will test."
+        },
+        "access": {
+          "label": "Accessibility and weather",
+          "content": "Seating, shade or warm-up, washrooms, and a plan for members who cannot stand a full rotation. An uncomfortable line empties."
+        },
+        "visitors": {
+          "label": "Visitors",
+          "content": "Allies, reporters, and politicians go to the captain first. The captain knows the bounds. Nobody gives a tour that becomes a confrontation."
+        },
+        "brief": {
+          "label": "Standing brief",
+          "content": "Who is in charge, what is in bounds, who to call for money, safety, or media. Captains carry this. The public schedule is a copy of it, not a separate creative product."
+        }
+      },
+      "tip": "If the notice at the gate disagrees with the strike page, members will trust neither. Fix the brief, then copy it out."
+    },
+    "membership": {
+      "navLabel": "Holding members",
+      "title": "Holding the membership",
+      "intro": "Turnout is a relationship job, not a posting job. People come because someone they trust asked, and they stay because the line is livable.",
+      "items": {
+        "turnout": {
+          "label": "Ask people, not feeds",
+          "content": "Captains and stewards call the people who are missing. A loud group chat with empty gates is a failure, not a success."
+        },
+        "missing": {
+          "label": "Map who is missing",
+          "content": "Use workplace mapping: department, shift, and who has not been seen. Do not assume night staff saw the morning post."
+        },
+        "rumours": {
+          "label": "Kill rumours in the huddle",
+          "content": "Captains hear the rumour, the committee confirms or kills it, and one official FAQ carries the answer. Comment threads invent a second strike."
+        },
+        "care": {
+          "label": "Care is operations",
+          "content": "Food, washrooms, weather, and dependents are why people can stay. They are not a branding opportunity."
+        }
+      }
+    },
+    "money": {
+      "navLabel": "Money",
+      "title": "Strike pay and hardship",
+      "intro": "Members will ask about money on day one. Answer with who decides, how to ask, and when to expect an answer — never with a number you cannot pay.",
+      "items": {
+        "distinguish": {
+          "label": "Two different purses",
+          "content": "Strike pay, if it exists, usually runs through the parent union. Local hardship is a different fund with different rules. Do not mix them in public."
+        },
+        "facts": {
+          "label": "Facts members can use",
+          "content": "Who decides, how to ask, and when an answer comes. If the amount is not confirmed, say so. A delayed honest answer beats a cheerful guess."
+        },
+        "record": {
+          "label": "Keep a record",
+          "content": "Who asked, what you said, and who authorized it. Public posts are not the archive."
+        },
+        "public": {
+          "label": "Do not argue eligibility in public",
+          "content": "Send the member to the hardship contact. A comment-thread eligibility fight humiliates people and invents policy."
+        }
+      },
+      "warningTitle": "Never invent amounts or dates",
+      "warning": "A promise the local cannot keep empties the line faster than employer flyers. If you do not know, say who will find out."
+    },
+    "safety": {
+      "navLabel": "Safety",
+      "title": "Safety on the line",
+      "intro": "Emergency first, communications second. This is not a security manual. De-escalate, get people safe, then tell the named officers.",
+      "items": {
+        "emergency": {
+          "label": "Emergency first",
+          "content": "If someone is hurt or in danger, follow emergency protocol. Do not film. Do not post. Comms wait until members are safe and leadership agrees on the facts."
+        },
+        "noDare": {
+          "label": "No dare posts",
+          "content": "No livestreamed confrontations, no member home addresses, no challenges to cross the line on camera. Those posts put members at risk and help the employer."
+        },
+        "escalate": {
+          "label": "Same-hour escalation",
+          "content": "Harassment, surveillance, or an injunction goes to president and servicing the same hour. Do not wait until the evening recap."
+        },
+        "deescalate": {
+          "label": "De-escalate",
+          "content": "Captains keep the line inside the brief. They do not chase vehicles, argue with replacement workers, or improvise a police strategy."
+        }
+      },
+      "warningTitle": "Injunctions and legal letters",
+      "warning": "Stop improvising. Forward the letter. Wait for legal guidance from your Staff Representative. A clever post is not a defence."
+    },
+    "allies": {
+      "navLabel": "Allies",
+      "title": "Allies support the line, not a media campaign",
+      "intro": "Other locals, community groups, and elected officials can help the line and the hardship path. They are not a substitute for members at the gate.",
+      "items": {
+        "ask": {
+          "label": "One ask",
+          "content": "Food, turnout at a named gate, or hardship support. A vague “show solidarity” leaves allies posting while the line stays thin."
+        },
+        "coordinator": {
+          "label": "One coordinator",
+          "content": "Allies talk to one named person. Five officers taking five different offers is how the committee loses the day."
+        },
+        "sameFacts": {
+          "label": "Same facts as members",
+          "content": "Allies get the standing brief, not a special story. If it is not true for members, it is not true for a politician’s camera."
+        }
+      }
+    },
+    "rhythms": {
+      "navLabel": "Two rhythms",
+      "title": "Two rhythms: internal and public",
+      "intro": "Captains need facts as often as the facts change, including “nothing changed.” The public needs one official place to look, updated when something actually changed.",
+      "items": {
+        "internal": {
+          "label": "Internal rhythm",
+          "content": "Committee, captains, and hardship: a short standing brief. Send it when facts change, and say so when they have not."
+        },
+        "public": {
+          "label": "Public rhythm",
+          "content": "Sparse, approved, one channel of record. Crisis comms owns who may speak. This page does not set a posting quota."
+        },
+        "captainsFirst": {
+          "label": "Captains before social",
+          "content": "The people on the gate hear the facts before the Facebook group does. A public post that surprises captains is a split command."
+        }
+      },
+      "tip": "If the group chat is louder than the line, you are feeding the wrong room. Brief captains, then publish once.",
+      "crisisCta": "Open crisis comms — who may speak"
+    },
+    "return": {
+      "navLabel": "Return to work",
+      "title": "Return to work is still the stoppage",
+      "intro": "The graphic coming down is not the end. The first shifts back are when retaliation shows up and rumours about “who won” start.",
+      "items": {
+        "lastDay": {
+          "label": "Last-day brief",
+          "content": "When the line comes down, who tells members, and what they should do on the first shift. Same facts at every gate."
+        },
+        "firstShift": {
+          "label": "First-shift-back watch",
+          "content": "Stewards know who to call if a supervisor fishes for strike stories or changes an assignment overnight."
+        },
+        "retaliation": {
+          "label": "No-retaliation routing",
+          "content": "Discipline and sudden schedule changes go to stewards and the grievance playbook. Do not litigate them in the Facebook group."
+        }
+      },
+      "tip": "Keep the hardship contact live for a while after return. Money questions do not end when the fence comes down."
+    },
+    "fullScenario": {
+      "navLabel": "Day-one morning",
+      "title": "Worked morning: day one, 5:45 a.m.",
+      "intro": "The legal window opened overnight. Members are arriving in the dark. This is operations, not a press day.",
+      "phases": {
+        "t545": {
+          "label": "5:45 — captain no-show",
+          "content": "Backup captain opens the named gate from the paper brief. Committee lead is told once, not in a group thread of twenty."
+        },
+        "t600": {
+          "label": "6:00 — weather change",
+          "content": "Move to the indoor fallback already on the brief. Same gate name. Do not invent a new location in a chat that night staff will miss."
+        },
+        "t615": {
+          "label": "6:15 — employer flyer at the gate",
+          "content": "Captain collects one copy for the committee. Members are told to ignore it until the official note. Nobody debates the flyer with a manager at the fence."
+        },
+        "t630": {
+          "label": "6:30 — “Are we getting paid today?”",
+          "content": "Captain gives the hardship facts from the brief: who decides, how to ask, when an answer comes. No invented amount."
+        },
+        "t700": {
+          "label": "7:00 — committee confirms",
+          "content": "Ten minutes: weather move, flyer in the file, hardship script unchanged. Then one public note with the same facts. Captains already have them."
+        },
+        "t800": {
+          "label": "8:00 — the line is the meeting",
+          "content": "Rotations hold. Rumours go to the huddle, not the comments. Media is sent to the spokesperson."
+        }
+      },
+      "tip": "Resolve it on the line and in committee, then publish once. A morning of posts is a morning you were not running the gate."
+    },
+    "failureModes": {
+      "navLabel": "Failure modes",
+      "title": "How locals lose a stoppage",
+      "intro": "These failures are more common than a bad graphic. Watch for them from day one.",
+      "items": {
+        "split": {
+          "label": "Split command",
+          "content": "Two officers giving two briefs. Captains pick a side. Members pick a rumour. Name one committee."
+        },
+        "money": {
+          "label": "Promised money the local cannot pay",
+          "content": "A number said out loud becomes policy. Use the hardship path. Do not guess."
+        },
+        "emptyGates": {
+          "label": "Empty gates, loud group",
+          "content": "If the Facebook group is packed and the sidewalk is not, stop posting and start calling the people who are missing."
+        },
+        "contradiction": {
+          "label": "Public contradiction",
+          "content": "Two official posts with two facts. Stop public posting until executive and the committee align on one correction."
+        },
+        "wildcat": {
+          "label": "Wildcat drift",
+          "content": "A gate that “just stays” after a return order, or a department that walks without a mandate, puts members at legal risk. Call servicing the same hour."
+        },
+        "noWatch": {
+          "label": "Return with no steward watch",
+          "content": "The stoppage is not over because the graphic came down. First-shift retaliation is a grievance job, not a recap post."
+        }
+      },
+      "tip": "The fix is almost always the same: one committee, one brief, captains first, then one public note."
+    },
+    "notThis": {
+      "navLabel": "Boundaries",
+      "title": "What this guide is not",
+      "intro": "Keep jobs separate so members get the right playbook.",
+      "items": {
+        "crisis": {
+          "label": "Not the Crisis Comms Guide",
+          "content": "Who may speak, photo consent, and management bait live there. This page runs the line."
+        },
+        "bargaining": {
+          "label": "Not the bargaining clock",
+          "content": "Strike votes, No Board, and ratification live on the Bargaining lifecycle guide. Do not announce dates from here."
+        },
+        "wildcat": {
+          "label": "Not a green light for wildcats",
+          "content": "Unauthorized stoppages put members and the local at risk. Stay inside the statutory path your Staff Representative confirms."
+        },
+        "national": {
+          "label": "Not a national strike protocol",
+          "content": "Your union may have its own strike manual, pay rules, and legal team. Follow those. This page does not replace them."
+        }
+      }
+    },
+    "tools": {
+      "navLabel": "Related",
+      "title": "Related guides and tools",
+      "intro": "Open these on personal devices. Strategy and member lists stay off employer systems.",
+      "items": {
+        "crisis": {
+          "label": "Crisis comms",
+          "content": "Who may speak and what never goes on a public channel."
+        },
+        "bargaining": {
+          "label": "Bargaining lifecycle",
+          "content": "How a unit reaches a lawful window — votes, No Board, ratification."
+        },
+        "consent": {
+          "label": "Photo consent",
+          "content": "Faces on the line need a checklist, not a hope."
+        },
+        "mapping": {
+          "label": "Workplace mapping",
+          "content": "Who is missing by department and shift."
+        },
+        "board": {
+          "label": "Board Notice Maker",
+          "content": "Print the standing brief for the gate — same facts as the strike page."
+        },
+        "email": {
+          "label": "Email and outreach",
+          "content": "A durable note members can find later, not a thread that scrolls away."
+        }
       }
     }
   }

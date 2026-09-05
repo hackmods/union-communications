@@ -12,7 +12,7 @@
     "guides": "Guides",
     "guide": "Le Plan directeur",
     "stewardPlaybooksHub": "Guides pratiques pour délégués",
-    "strikeGuide": "Guide de grève",
+    "strikeGuide": "Opérations de grève",
     "examples": "Exemples sociaux",
     "captions": "Légendes",
     "assets": "Actifs de marque",
@@ -93,7 +93,10 @@
     "proposalTracker": "Suivi des propositions",
     "rulesOfOrder": "Aide-mémoire de procédure",
     "runningMeetingsGuide": "Tenir une assemblée",
-    "landAcknowledgementGuide": "Reconnaissance territoriale"
+    "unionHistoryGuide": "Comment les syndicats se relient",
+    "landAcknowledgementGuide": "Reconnaissance territoriale",
+    "strikeOpsGuide": "Opérations de grève",
+    "crisisCommsGuide": "Communications de crise"
   },
   "common": {
     "download": "Télécharger",
@@ -473,6 +476,7 @@
       "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
       "bylaws": "Règlements locaux : les règles de votre section",
       "runningMeetings": "Tenir une assemblée et règles de procédure",
+      "unionHistory": "Comment les syndicats canadiens se relient",
       "landAcknowledgement": "Guide de reconnaissance territoriale"
     },
     "startHere": {
@@ -695,6 +699,7 @@
       "workplaceMapping": "Cartographie du lieu de travail",
       "bylaws": "Règlements locaux",
       "runningMeetings": "Assemblées et règles de procédure",
+      "unionHistory": "Comment les syndicats se relient",
       "landAcknowledgement": "Guide de reconnaissance territoriale"
     }
   },
@@ -787,6 +792,7 @@
         "bargaining": "Cycle de négociation",
         "proposalTracker": "Suivi des propositions",
         "runningMeetings": "Guide Tenir une assemblée",
+        "unionHistory": "Comment les syndicats se relient",
         "landAcknowledgement": "Guide de reconnaissance territoriale",
         "rulesOfOrder": "Aide-mémoire de procédure"
       }
@@ -3131,6 +3137,7 @@
         "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
         "bylaws": "Règlements locaux : les règles de votre section",
         "runningMeetings": "Tenir une assemblée et règles de procédure",
+        "unionHistory": "Comment les syndicats canadiens se relient",
         "landAcknowledgement": "Guide de reconnaissance territoriale"
       },
       "blurb": {
@@ -3147,6 +3154,7 @@
         "workplaceMapping": "Recensez chaque collègue, repérez les leaders organiques et cotez l'appui syndical de 1 à 5. Gardez le fichier hors des systèmes de l'employeur.",
         "bylaws": "Structure de l'exécutif, quorum, autorités de signature, élections, et comment modifier les règlements avec préavis et vote en assemblée.",
         "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire pendant le débat.",
+        "unionHistory": "Histoire syndicale canadienne et carte à deux voies d'une section niagaraise jusqu'au CTC, pour tracer la même maison.",
         "landAcknowledgement": "Voie solo ou atelier avec animateur·rice, feuille PDF lignée d'une page, sources fédérales et exemple commenté — vos propres mots, pas un texte copié."
       }
     },
@@ -4257,7 +4265,7 @@
           "content": "Le responsable Comms garde les brouillons ; le président approuve par lot. Évite les publications en double de volontaires bien intentionnés."
         }
       },
-      "tip": "Rédigez les trois messages de demain ce soir. Les matins de crise ne sont pas faits pour rédiger de zéro."
+      "tip": "Rédigez la prochaine mise à jour tant que vous avez encore les faits, pas à 5 h sur la ligne. Les capitaines l'entendent en premier."
     },
     "fullScenario": {
       "navLabel": "Parcours complet",
@@ -4709,6 +4717,7 @@
       "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail. Pas un calendrier de publications.",
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale.",
       "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire pour une motion ou un rappel au règlement.",
+      "unionHistory": "Deux voies, pas une échelle : famille syndicale et conseil du travail municipal, cartographiées depuis OPSEU / SEFPO section 243.",
       "landAcknowledgement": "Rédigez seul·e ou animez un atelier avec la feuille PDF lignée d'une page — recherche, réflexion et mots liés à l'action. Guides fédéraux en bas de page ; sans générateur copier-coller."
     },
     "workspaces": {
@@ -4749,6 +4758,7 @@
       "rightToRefuse": "Droit de refuser un travail dangereux",
       "officerLearning": "Centre de formation des dirigeants",
       "stewardPlaybooks": "Tous les guides pratiques pour délégués",
+      "unionHistory": "Comment les syndicats se relient",
       "membership": "Guide pratique d'adhésion",
       "brandKit": "Trousse de marque",
       "pocketCard": "Carte de poche — représentation",
@@ -6598,6 +6608,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "strike-ops-guide": {
+        "title": "Guide des opérations de grève",
+        "body": "Un nouveau guide pour mener une grève ou un lock-out légal : commandement, piquetage, soins aux membres, argent, sécurité et retour au travail. Les communications de crise restent la page pour qui peut parler."
+      },
       "export-download-confirm": {
         "title": "Les téléchargements confirment quand c’est prêt",
         "body": "Les fiches des guides et les rapports du Hub des dirigeants confirment quand le fichier est prêt, et un problème de logo de la Trousse de marque affiche une solution claire au lieu d’un blanc silencieux."
@@ -11832,6 +11846,386 @@
         "isDebatable": "Non",
         "voteRequired": "Majorité",
         "chairNote": "Énoncez l'heure de reprise ; reconvenez avec « L'assemblée est ouverte. »"
+      }
+    }
+  },
+  "strikeOpsGuide": {
+    "title": "Guide des opérations de grève",
+    "subtitle": "Commandement, piquetage, soins aux membres et retour au travail — pas un calendrier de publications",
+    "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "Une grève ou un lock-out légal est une opération physique. Les membres ont besoin d'une entrée qui ouvre, d'un capitaine qui connaît la consigne, d'un chemin d'aide d'urgence digne de confiance, et d'un seul ensemble de faits. Les publications publiques viennent après ce travail, pas à sa place.",
+    "disclaimer": {
+      "title": "Pas un avis juridique. Confirmez avant toute cessation.",
+      "body": "Cette page n'est pas un manuel national de grève et elle ne déclenche pas une grève. Confirmez la loi, votre constitution et le protocole de grève de votre syndicat avec votre représentant de service avant toute cessation de travail. L'exécutif local et le comité de grève décident. Cette page ne décide pas."
+    },
+    "diagram": {
+      "executive": "Exécutif local",
+      "committee": "Comité de grève",
+      "captains": "Capitaines de piquetage",
+      "members": "Membres sur la ligne",
+      "caption": "Les bénévoles tournent ; les jobs ne tournent pas. La voix publique est un job en aval — voir Communications de crise."
+    },
+    "gate": {
+      "navLabel": "Est-ce les opérations?",
+      "title": "Est-ce la page des opérations?",
+      "intro": "Utilisez ce guide quand une grève ou un lock-out légal est en cours ou à quelques heures. Les autres jobs sont sur d'autres pages pour que les membres reçoivent la bonne aide.",
+      "items": {
+        "lawful": {
+          "label": "Grève ou lock-out légal seulement",
+          "content": "Les cessations non autorisées mettent les membres et la section à risque. Restez dans le parcours prévu par la loi que confirme votre représentant de service."
+        },
+        "clock": {
+          "label": "L'horloge juridique est ailleurs",
+          "content": "La conciliation, les votes de grève et les dates « no board » sont dans le guide du cycle de négociation. N'annoncez pas une date de début à partir de cette page."
+        },
+        "voice": {
+          "label": "La voix publique est Communications de crise",
+          "content": "Qui peut parler, ce qui ne va jamais au public, et comment répondre aux provocations de la direction se trouvent dans le Guide des communications de crise."
+        },
+        "files": {
+          "label": "Les dossiers individuels restent dans les guides de terrain",
+          "content": "Discipline, griefs et devoir de représentation équitable restent dans Délégué 101 et le guide des griefs. Une cessation ne suspend pas ces délais."
+        }
+      },
+      "warningTitle": "Si deux dirigeants mènent deux grèves différentes",
+      "warning": "Arrêtez. Nommez un seul comité, écrivez les jobs, et dites aux capitaines qui est responsable avant la prochaine ouverture d'entrée."
+    },
+    "command": {
+      "navLabel": "Commandement",
+      "title": "Qui décide de quoi",
+      "intro": "Écrivez les noms avant l'ouverture de la première entrée. Dans une petite section, une personne peut tenir deux jobs. Deux personnes ne doivent pas tenir le même job.",
+      "items": {
+        "names": {
+          "label": "Des noms sur papier",
+          "content": "Président, responsable du comité de grève, capitaines de piquetage, contact d'aide d'urgence et porte-parole. Un papier collant bat une rumeur de corridor."
+        },
+        "executive": {
+          "label": "Exécutif local",
+          "content": "Détient le oui et le non politiques : commencer, régler ou revenir. Peut déléguer la journée ; ne peut pas déléguer la décision."
+        },
+        "committee": {
+          "label": "Comité de grève",
+          "content": "Mène la journée : entrées, rotations, questions d'aide d'urgence, et la consigne que portent les capitaines. Rend compte à l'exécutif, pas au groupe Facebook."
+        },
+        "captains": {
+          "label": "Capitaines de piquetage",
+          "content": "Mènent une entrée. Ils savent qui est responsable, ce qui est permis, et qui appeler. Ils ne négocient pas avec l'employeur à la clôture."
+        },
+        "promises": {
+          "label": "Personne d'autre ne promet",
+          "content": "L'argent, les conditions de retour au travail et les positions juridiques viennent seulement des personnes nommées pour ces jobs. Un bénévole bien intentionné reste une fuite."
+        }
+      },
+      "tip": "Si un journaliste, un gestionnaire ou un membre pose une question que vous ne détenez pas, envoyez-les à la personne nommée. Le silence plus un nom bat une supposition."
+    },
+    "readiness": {
+      "navLabel": "Avant le jour un",
+      "title": "Avant le jour un",
+      "intro": "Le test est simple : les capitaines peuvent-ils ouvrir une entrée à 6 h sans appeler le président pour la clé des toilettes.",
+      "items": {
+        "people": {
+          "label": "Les gens",
+          "content": "Assez de capitaines pour chaque entrée et chaque rotation, plus un remplaçant pour le premier absent. Écrivez l'arbre téléphonique sur papier autant que dans le clavardage."
+        },
+        "places": {
+          "label": "Les lieux",
+          "content": "Chaque emplacement d'entrée, un plan de toilettes, un abri météo, et un repli intérieur si l'employeur ou la météo ferme un trottoir."
+        },
+        "money": {
+          "label": "Le chemin de l'argent",
+          "content": "Sachez qui gère l'indemnité de grève si votre syndicat parent le fait, et qui gère l'aide d'urgence locale. N'inventez ni montants ni dates."
+        },
+        "reach": {
+          "label": "Joindre les membres",
+          "content": "Un moyen de joindre chaque service et chaque quart qui n'est pas une liste courriel de l'employeur. La cartographie du lieu de travail dit qui vous manquerez."
+        },
+        "hardship": {
+          "label": "Le chemin d'aide d'urgence",
+          "content": "Un contact, une façon de demander, une promesse sur le délai de réponse. Les membres ne devraient pas l'apprendre dans un fil de commentaires au jour trois."
+        }
+      },
+      "tip": "Si les capitaines ont encore besoin du président pour ouvrir une entrée, vous n'êtes pas prêts. Terminez la consigne avant de terminer le graphique."
+    },
+    "line": {
+      "navLabel": "La ligne",
+      "title": "Le piquetage est l'assemblée",
+      "intro": "La ligne est l'endroit où la section est visible. Traitez-la comme une assemblée avec de la météo, pas comme un décor photo.",
+      "items": {
+        "locations": {
+          "label": "Des lieux que tout le monde trouve",
+          "content": "Les mêmes noms d'entrée sur la consigne des capitaines, la page grève et l'avis à l'entrée. N'inventez pas un nom plus joli que les membres ne peuvent pas faire correspondre."
+        },
+        "rotations": {
+          "label": "Des rotations qui tiennent",
+          "content": "Heures de début, durée d'un quart, et qui relève qui. Une ligne qui se vide à l'heure du dîner est une ligne que l'employeur testera."
+        },
+        "access": {
+          "label": "Accessibilité et météo",
+          "content": "Sièges, ombre ou réchauffement, toilettes, et un plan pour les membres qui ne peuvent pas rester debout toute une rotation. Une ligne inconfortable se vide."
+        },
+        "visitors": {
+          "label": "Visiteurs",
+          "content": "Alliés, journalistes et élus vont d'abord au capitaine. Le capitaine connaît les limites. Personne ne fait une visite qui devient une confrontation."
+        },
+        "brief": {
+          "label": "Consigne permanente",
+          "content": "Qui est responsable, ce qui est permis, qui appeler pour l'argent, la sécurité ou les médias. Les capitaines la portent. L'horaire public en est une copie, pas un produit créatif distinct."
+        }
+      },
+      "tip": "Si l'avis à l'entrée contredit la page grève, les membres ne croiront ni l'un ni l'autre. Corrigez la consigne, puis copiez-la."
+    },
+    "membership": {
+      "navLabel": "Garder les membres",
+      "title": "Garder les membres",
+      "intro": "La participation est un job de relations, pas un job de publication. Les gens viennent parce que quelqu'un en qui ils ont confiance a demandé, et ils restent parce que la ligne est vivable.",
+      "items": {
+        "turnout": {
+          "label": "Demandez aux personnes, pas aux fils",
+          "content": "Les capitaines et les délégués appellent les personnes absentes. Un groupe bruyant avec des entrées vides est un échec, pas un succès."
+        },
+        "missing": {
+          "label": "Repérez qui manque",
+          "content": "Utilisez la cartographie du lieu de travail : service, quart, et qui n'a pas été vu. Ne supposez pas que le quart de nuit a vu la publication du matin."
+        },
+        "rumours": {
+          "label": "Éteignez les rumeurs au point des capitaines",
+          "content": "Les capitaines entendent la rumeur, le comité la confirme ou l'éteint, et une FAQ officielle porte la réponse. Les fils de commentaires inventent une deuxième grève."
+        },
+        "care": {
+          "label": "Les soins sont des opérations",
+          "content": "Nourriture, toilettes, météo et personnes à charge expliquent pourquoi les gens peuvent rester. Ce n'est pas une occasion de marque."
+        }
+      }
+    },
+    "money": {
+      "navLabel": "Argent",
+      "title": "Indemnité de grève et aide d'urgence",
+      "intro": "Les membres poseront des questions d'argent dès le jour un. Répondez avec qui décide, comment demander, et quand attendre une réponse — jamais avec un chiffre que vous ne pouvez pas payer.",
+      "items": {
+        "distinguish": {
+          "label": "Deux bourses différentes",
+          "content": "L'indemnité de grève, si elle existe, passe d'habitude par le syndicat parent. L'aide d'urgence locale est un fonds différent, avec des règles différentes. Ne les mélangez pas en public."
+        },
+        "facts": {
+          "label": "Des faits que les membres peuvent utiliser",
+          "content": "Qui décide, comment demander, et quand vient une réponse. Si le montant n'est pas confirmé, dites-le. Une réponse honnête en retard bat une supposition joyeuse."
+        },
+        "record": {
+          "label": "Gardez un dossier",
+          "content": "Qui a demandé, ce que vous avez dit, et qui l'a autorisé. Les publications publiques ne sont pas l'archive."
+        },
+        "public": {
+          "label": "Ne discutez pas l'admissibilité en public",
+          "content": "Envoyez le membre au contact d'aide d'urgence. Un débat d'admissibilité dans les commentaires humilie les gens et invente une politique."
+        }
+      },
+      "warningTitle": "N'inventez jamais de montants ni de dates",
+      "warning": "Une promesse que la section ne peut pas tenir vide la ligne plus vite que les tracts de l'employeur. Si vous ne savez pas, dites qui va le savoir."
+    },
+    "safety": {
+      "navLabel": "Sécurité",
+      "title": "Sécurité sur la ligne",
+      "intro": "L'urgence d'abord, les communications ensuite. Ce n'est pas un manuel de sécurité. Désamorcez, mettez les gens en sécurité, puis dites-le aux dirigeants nommés.",
+      "items": {
+        "emergency": {
+          "label": "L'urgence d'abord",
+          "content": "Si quelqu'un est blessé ou en danger, suivez le protocole d'urgence. Ne filmez pas. Ne publiez pas. Les communications attendent que les membres soient en sécurité et que les dirigeants s'entendent sur les faits."
+        },
+        "noDare": {
+          "label": "Pas de publications de défi",
+          "content": "Pas de confrontations en direct, pas d'adresses domiciliaires de membres, pas de défis à traverser la ligne devant une caméra. Ces publications mettent les membres à risque et aident l'employeur."
+        },
+        "escalate": {
+          "label": "Escalade dans l'heure",
+          "content": "Harcèlement, surveillance ou injonction vont au président et au représentant de service dans l'heure. N'attendez pas le bilan du soir."
+        },
+        "deescalate": {
+          "label": "Désamorcez",
+          "content": "Les capitaines gardent la ligne dans la consigne. Ils ne poursuivent pas les véhicules, ne se disputent pas avec des travailleurs de remplacement, et n'improvisent pas une stratégie policière."
+        }
+      },
+      "warningTitle": "Injonctions et lettres juridiques",
+      "warning": "Arrêtez d'improviser. Transfétez la lettre. Attendez l'avis juridique de votre représentant de service. Une publication habile n'est pas une défense."
+    },
+    "allies": {
+      "navLabel": "Alliés",
+      "title": "Les alliés appuient la ligne, pas une campagne médiatique",
+      "intro": "D'autres sections, des groupes communautaires et des élus peuvent aider la ligne et le chemin d'aide d'urgence. Ils ne remplacent pas les membres à l'entrée.",
+      "items": {
+        "ask": {
+          "label": "Une seule demande",
+          "content": "Nourriture, présence à une entrée nommée, ou aide d'urgence. Un vague « montrez votre solidarité » laisse les alliés publier pendant que la ligne reste mince."
+        },
+        "coordinator": {
+          "label": "Un seul coordonnateur",
+          "content": "Les alliés parlent à une personne nommée. Cinq dirigeants qui acceptent cinq offres différentes, c'est ainsi que le comité perd la journée."
+        },
+        "sameFacts": {
+          "label": "Les mêmes faits que les membres",
+          "content": "Les alliés reçoivent la consigne permanente, pas une histoire spéciale. Si ce n'est pas vrai pour les membres, ce n'est pas vrai pour la caméra d'un politicien."
+        }
+      }
+    },
+    "rhythms": {
+      "navLabel": "Deux rythmes",
+      "title": "Deux rythmes : interne et public",
+      "intro": "Les capitaines ont besoin des faits aussi souvent que les faits changent, y compris « rien n'a changé ». Le public a besoin d'un seul endroit officiel où regarder, mis à jour quand quelque chose a vraiment changé.",
+      "items": {
+        "internal": {
+          "label": "Rythme interne",
+          "content": "Comité, capitaines et aide d'urgence : une courte consigne permanente. Envoyez-la quand les faits changent, et dites-le quand ils n'ont pas changé."
+        },
+        "public": {
+          "label": "Rythme public",
+          "content": "Rare, approuvé, un canal de référence. Les communications de crise détiennent qui peut parler. Cette page ne fixe pas un quota de publications."
+        },
+        "captainsFirst": {
+          "label": "Les capitaines avant les réseaux",
+          "content": "Les gens à l'entrée entendent les faits avant le groupe Facebook. Une publication publique qui surprend les capitaines est un commandement fendu."
+        }
+      },
+      "tip": "Si le clavardage est plus bruyant que la ligne, vous nourrissez la mauvaise salle. Informez les capitaines, puis publiez une fois.",
+      "crisisCta": "Ouvrir les communications de crise — qui peut parler"
+    },
+    "return": {
+      "navLabel": "Retour au travail",
+      "title": "Le retour au travail fait encore partie de la cessation",
+      "intro": "Retirer le graphique n'est pas la fin. Les premiers quarts du retour sont le moment où les représailles apparaissent et où les rumeurs sur « qui a gagné » commencent.",
+      "items": {
+        "lastDay": {
+          "label": "Consigne du dernier jour",
+          "content": "Quand la ligne descend, qui le dit aux membres, et ce qu'ils doivent faire au premier quart. Les mêmes faits à chaque entrée."
+        },
+        "firstShift": {
+          "label": "Veille du premier quart",
+          "content": "Les délégués savent qui appeler si un superviseur pêche des histoires de grève ou change une affectation du jour au lendemain."
+        },
+        "retaliation": {
+          "label": "Acheminer les représailles",
+          "content": "Discipline et changements soudains d'horaire vont aux délégués et au guide des griefs. Ne les plaidez pas dans le groupe Facebook."
+        }
+      },
+      "tip": "Gardez le contact d'aide d'urgence vivant un moment après le retour. Les questions d'argent ne finissent pas quand la clôture descend."
+    },
+    "fullScenario": {
+      "navLabel": "Matin du jour un",
+      "title": "Matin commenté : jour un, 5 h 45",
+      "intro": "La fenêtre légale s'est ouverte dans la nuit. Les membres arrivent dans le noir. Ce sont des opérations, pas une journée presse.",
+      "phases": {
+        "t545": {
+          "label": "5 h 45 — capitaine absent",
+          "content": "Le capitaine remplaçant ouvre l'entrée nommée à partir de la consigne papier. Le responsable du comité est avisé une fois, pas dans un fil de vingt personnes."
+        },
+        "t600": {
+          "label": "6 h 00 — changement de météo",
+          "content": "Passez au repli intérieur déjà inscrit dans la consigne. Même nom d'entrée. N'inventez pas un nouveau lieu dans un clavardage que le quart de nuit manquera."
+        },
+        "t615": {
+          "label": "6 h 15 — tract de l'employeur à l'entrée",
+          "content": "Le capitaine prend une copie pour le comité. On dit aux membres de l'ignorer jusqu'à la note officielle. Personne ne débat le tract avec un gestionnaire à la clôture."
+        },
+        "t630": {
+          "label": "6 h 30 — « Est-ce qu'on est payés aujourd'hui? »",
+          "content": "Le capitaine donne les faits d'aide d'urgence de la consigne : qui décide, comment demander, quand vient une réponse. Aucun montant inventé."
+        },
+        "t700": {
+          "label": "7 h 00 — le comité confirme",
+          "content": "Dix minutes : déplacement météo, tract au dossier, script d'aide d'urgence inchangé. Puis une note publique avec les mêmes faits. Les capitaines les ont déjà."
+        },
+        "t800": {
+          "label": "8 h 00 — la ligne est l'assemblée",
+          "content": "Les rotations tiennent. Les rumeurs vont au point des capitaines, pas aux commentaires. Les médias sont envoyés au porte-parole."
+        }
+      },
+      "tip": "Réglez-le sur la ligne et en comité, puis publiez une fois. Une matinée de publications est une matinée où vous ne meniez pas l'entrée."
+    },
+    "failureModes": {
+      "navLabel": "Échecs fréquents",
+      "title": "Comment les sections perdent une cessation",
+      "intro": "Ces échecs sont plus courants qu'un mauvais graphique. Surveillez-les dès le jour un.",
+      "items": {
+        "split": {
+          "label": "Commandement fendu",
+          "content": "Deux dirigeants qui donnent deux consignes. Les capitaines choisissent un camp. Les membres choisissent une rumeur. Nommez un seul comité."
+        },
+        "money": {
+          "label": "De l'argent promis que la section ne peut pas payer",
+          "content": "Un chiffre dit à voix haute devient une politique. Utilisez le chemin d'aide d'urgence. Ne supposez pas."
+        },
+        "emptyGates": {
+          "label": "Entrées vides, groupe bruyant",
+          "content": "Si le groupe Facebook est plein et le trottoir ne l'est pas, arrêtez de publier et commencez à appeler les personnes absentes."
+        },
+        "contradiction": {
+          "label": "Contradiction publique",
+          "content": "Deux publications officielles avec deux faits. Arrêtez de publier jusqu'à ce que l'exécutif et le comité s'entendent sur une correction."
+        },
+        "wildcat": {
+          "label": "Dérive vers une grève sauvage",
+          "content": "Une entrée qui « reste juste » après un ordre de retour, ou un service qui part sans mandat, met les membres à risque juridique. Appelez le service dans l'heure."
+        },
+        "noWatch": {
+          "label": "Retour sans veille des délégués",
+          "content": "La cessation n'est pas finie parce que le graphique est descendu. Les représailles du premier quart sont un job de grief, pas une publication de bilan."
+        }
+      },
+      "tip": "La correction est presque toujours la même : un comité, une consigne, les capitaines d'abord, puis une note publique."
+    },
+    "notThis": {
+      "navLabel": "Limites",
+      "title": "Ce que ce guide n'est pas",
+      "intro": "Gardez les jobs séparés pour que les membres reçoivent le bon guide.",
+      "items": {
+        "crisis": {
+          "label": "Pas le Guide des communications de crise",
+          "content": "Qui peut parler, le consentement photo et les provocations de la direction sont là-bas. Cette page mène la ligne."
+        },
+        "bargaining": {
+          "label": "Pas l'horloge de négociation",
+          "content": "Les votes de grève, le « no board » et la ratification sont dans le guide du cycle de négociation. N'annoncez pas de dates d'ici."
+        },
+        "wildcat": {
+          "label": "Pas un feu vert pour les grèves sauvages",
+          "content": "Les cessations non autorisées mettent les membres et la section à risque. Restez dans le parcours prévu par la loi que confirme votre représentant de service."
+        },
+        "national": {
+          "label": "Pas un protocole national de grève",
+          "content": "Votre syndicat peut avoir son propre manuel de grève, ses règles de paie et son équipe juridique. Suivez-les. Cette page ne les remplace pas."
+        }
+      }
+    },
+    "tools": {
+      "navLabel": "Connexes",
+      "title": "Guides et outils connexes",
+      "intro": "Ouvrez-les sur des appareils personnels. La stratégie et les listes de membres restent hors des systèmes de l'employeur.",
+      "items": {
+        "crisis": {
+          "label": "Communications de crise",
+          "content": "Qui peut parler et ce qui ne va jamais sur un canal public."
+        },
+        "bargaining": {
+          "label": "Cycle de négociation",
+          "content": "Comment une unité atteint une fenêtre légale — votes, « no board », ratification."
+        },
+        "consent": {
+          "label": "Consentement photo",
+          "content": "Les visages sur la ligne ont besoin d'une liste, pas d'un espoir."
+        },
+        "mapping": {
+          "label": "Cartographie du lieu de travail",
+          "content": "Qui manque, par service et par quart."
+        },
+        "board": {
+          "label": "Avis pour tableau syndical",
+          "content": "Imprimez la consigne permanente pour l'entrée — les mêmes faits que la page grève."
+        },
+        "email": {
+          "label": "Courriel et diffusion",
+          "content": "Une note durable que les membres peuvent retrouver plus tard, pas un fil qui défile."
+        }
       }
     }
   }

@@ -5,6 +5,8 @@ export type NavLinkKey =
   | "firstWeek"
   | "workshopGuide"
   | "strikeGuide"
+  | "strikeOpsGuide"
+  | "crisisCommsGuide"
   | "photoConsent"
   | "membershipSignupGuide"
   | "printGuide"
@@ -113,7 +115,7 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/guide/steward-playbooks", key: "stewardPlaybooksHub" },
       { href: "/guide/steward-101", key: "steward101Guide" },
       { href: "/guide/bargaining", key: "bargainingGuide" },
-      { href: "/guide/crisis", key: "strikeGuide" },
+      { href: "/guide/strike", key: "strikeOpsGuide" },
     ],
   },
   {

@@ -53,6 +53,7 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
     ],
     bargaining: [
       { href: "/guide/bargaining", key: "bargaining", tier: "playbook" },
+      { href: "/guide/strike", key: "strike", tier: "playbook" },
       { href: "/guide/crisis", key: "crisis", tier: "playbook" },
     ],
     labour: [
@@ -68,6 +69,7 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
         tier: "playbook",
       },
       { href: "/guide/steward-101", key: "steward101", tier: "playbook" },
+      { href: "/guide/union-history", key: "unionHistory", tier: "playbook" },
       { href: "/guide/grievance-process", key: "grievance", tier: "playbook" },
       { href: "/guide/dfr", key: "dfr", tier: "playbook" },
       { href: "/guide/seniority-bumping", key: "seniority", tier: "playbook" },
@@ -104,8 +106,10 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
 export const GUIDE_BLUEPRINT_PATH_LINKS: readonly GuideRegistryEntry[] = [
   { href: "/guide/social-media-plan", key: "plan", tier: "gold" },
   { href: "/guide/resources", key: "resources", tier: "gold" },
+  { href: "/guide/strike", key: "strike", tier: "playbook" },
   { href: "/guide/crisis", key: "crisis", tier: "playbook" },
   { href: "/guide/steward-101", key: "steward101", tier: "playbook" },
+  { href: "/guide/union-history", key: "unionHistory", tier: "playbook" },
   { href: "/guide/officer-learning", key: "officerLearning", tier: "gold" },
   { href: "/guide/grievance-process", key: "grievance", tier: "playbook" },
   { href: "/guide/dfr", key: "dfr", tier: "playbook" },
@@ -159,12 +163,14 @@ export const GUIDE_RESOURCES_LABOUR_LINKS: readonly {
   { href: "/guide/officer-learning", key: "officerLearning" },
   { href: GUIDE_STEWARD_PLAYBOOKS_HUB, key: "stewardPlaybooks" },
   { href: "/guide/steward-101", key: "steward101" },
+  { href: "/guide/union-history", key: "unionHistory" },
   { href: "/guide/grievance-process", key: "grievance" },
   { href: "/guide/dfr", key: "dfr" },
   { href: "/guide/seniority-bumping", key: "seniority" },
   { href: "/guide/right-to-refuse", key: "rightToRefuse" },
   { href: "/guide/joint-committee", key: "jointCommittee" },
   { href: "/guide/bargaining", key: "bargaining" },
+  { href: "/guide/strike", key: "strike" },
   { href: "/guide/workplace-mapping", key: "workplaceMapping" },
   { href: "/guide/bylaws", key: "bylaws" },
   { href: "/guide/running-meetings", key: "runningMeetings" },
@@ -183,6 +189,7 @@ export const GUIDE_STEWARD_PLAYBOOK_LINKS: readonly GuideRegistryEntry[] = [
     featured: true,
   },
   { href: "/guide/steward-101", key: "steward101", tier: "playbook" },
+  { href: "/guide/union-history", key: "unionHistory", tier: "playbook" },
   { href: "/guide/grievance-process", key: "grievance", tier: "playbook" },
   { href: "/guide/dfr", key: "dfr", tier: "playbook" },
   {
@@ -203,6 +210,7 @@ export const GUIDE_STEWARD_PLAYBOOK_LINKS: readonly GuideRegistryEntry[] = [
     tier: "playbook",
   },
   { href: "/guide/bargaining", key: "bargaining", tier: "playbook" },
+  { href: "/guide/strike", key: "strike", tier: "playbook" },
   { href: "/guide/bylaws", key: "bylaws", tier: "playbook" },
   {
     href: "/guide/running-meetings",

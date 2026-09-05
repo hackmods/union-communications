@@ -11,7 +11,7 @@ Top bar is slim and dual-audience oriented:
 | Item | Route / contents |
 |------|------------------|
 | **Get started** | `/#toolkit` — Home chooser (Comms / steward craft / run the local). Brand Kit stays a separate link. Comms onboarding is the Comms path card, not this CTA |
-| **Guides ▾** | **Featured:** Officer Learning card above grid · **Comms:** First week, Blueprint, Workshop outline · **By channel:** Print, Union Boards, Website, Email & outreach, Short-form video · **Steward craft:** Steward playbooks hub first, Officer Learning, Steward 101, Bargaining lifecycle, Strike Guide · **Libraries:** Social Examples, Captions, Photo Consent, Brand Assets, Comms Resources · **About:** What's new, Built in solidarity, Install. Topic labour playbooks (grievance, DFR, bylaws, …) live on `/guide/steward-playbooks`, not in the mega-menu |
+| **Guides ▾** | **Featured:** Officer Learning card above grid · **Comms:** First week, Blueprint, Workshop outline · **By channel:** Print, Union Boards, Website, Email & outreach, Short-form video · **Steward craft:** Steward playbooks hub first, Steward 101, Bargaining lifecycle, Strike operations (`/guide/strike`) · **Libraries:** Social Examples, Captions, Photo Consent, Brand Assets, Comms Resources · **About:** What's new, Built in solidarity, Install. Topic labour playbooks (grievance, DFR, bylaws, …) live on `/guide/steward-playbooks`, not in the mega-menu. Crisis comms stays on Resources comms + related links. |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Assets) |
 | **Tools ▾** | Mega-menu columns grouped by **job** — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, Org Chart · **Print & cards:** Flyer, QR Cards, Action Cards, Pulse Poll (signed-in) · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · **Steward worksheets:** RTW, Pre-disciplinary log, Complaint vs grievance, Bylaw Builder, Proposal Tracker · footer **All tools** → `/tools`. Do not 1:1-map these columns to First week channels; see [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../audit/session-knowledge-2026-08-18-tools-catalog-ia.md) |
 | **Officer Hub** | `/app` (auth) — filled primary CTA |
@@ -33,6 +33,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (toolkit headline + `HomeHe
 | `/[locale]/guide` | The Blueprint handbook |
 | `/[locale]/guide/social-media-plan` | First-week roadmap after Brand Kit: brand → boards → print → socials → website |
 | `/[locale]/guide/resources` | Comms Resources — orientation, practice checklist, presentation + workshop outlines, bibliography (`/guide/materials` redirects here) |
+| `/[locale]/guide/strike` | Strike operations playbook — command, picket line, member care, money, safety, return to work |
 | `/[locale]/guide/crisis` | Crisis comms playbook |
 | `/[locale]/guide/photo-consent` | Photo consent & member media — member protection, three event settings, immediate take-down, and a before-you-post checklist |
 | `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, ministry posters, anonymized templates, IRL reference patterns) |
@@ -56,6 +57,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (toolkit headline + `HomeHe
 | `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF; Membership FT+PT preset) |
 | `/[locale]/tools/org-chart` | Who-to-contact **poster** or **directory** (letter/tabloid portrait + landscape PNG + PDF); on-device officers/stewards roster; JSON/CSV; hydrates Website Template |
 | `/[locale]/guide/membership-signup` | Membership growth guide — Brand Kit links → QR materials → welcome letter |
+| `/[locale]/guide/union-history` | How Canadian unions connect — two-track affiliation map; Local 243 worked example |
 | `/[locale]/tools/graphic-maker` | Social graphics (landscape, square, 9:16 portrait) |
 | `/[locale]/tools/resizer` | Omnichannel resizer — Logo Builder plate (circle/square/rectangle) or upload; social + custom sizes at true pixels; ZIP/PNG |
 | `/[locale]/tools/quote-card` | Leadership quote cards (stripe / centered / large mark; square, landscape, 9:16; `?preset=` / `?aspect=` / `?layout=`) |

@@ -74,6 +74,19 @@ describe("guide-registry", () => {
     ).toBe(true);
   });
 
+  it("lists strike operations on labour resources, steward playbooks, and bargaining group", () => {
+    expect(
+      GUIDE_RESOURCES_LABOUR_LINKS.some((row) => row.href === "/guide/strike"),
+    ).toBe(true);
+    expect(
+      GUIDE_STEWARD_PLAYBOOK_LINKS.some((row) => row.href === "/guide/strike"),
+    ).toBe(true);
+    expect(
+      GUIDE_REGISTRY.bargaining.some((row) => row.href === "/guide/strike"),
+    ).toBe(true);
+    expect(primaryGuideGroupForPath("/guide/strike")).toBe("bargaining");
+  });
+
   it("lists membership signup under channels only", () => {
     expect(primaryGuideGroupForPath("/guide/membership-signup")).toBe(
       "channels",

@@ -86,7 +86,7 @@ export default async function EmailBroadcastGuidePage({
         { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
         { href: "/tools/document-generator", label: nav("documentGenerator") },
         { href: "/tools/flyer-maker", label: nav("flyerMaker") },
-        { href: "/guide/crisis", label: nav("strikeGuide") },
+        { href: "/guide/crisis", label: nav("crisisCommsGuide") },
       ]}
       footer={
         <SourcesBlock

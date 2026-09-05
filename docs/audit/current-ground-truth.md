@@ -1,6 +1,10 @@
-# Current ground truth (agents) — as of 2026-08-28
+# Current ground truth (agents) — as of 2026-09-05
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
+
+**How Canadian unions connect (2026-09-05):** `/guide/union-history` is a labour playbook (not mega-menu). Affiliation is two tracks, not one ladder: union family vs geographic house. OPSEU / SEFPO Local 243 is the worked example. Niagara Area Council is OPSEU-internal; NRLC is the multi-union labour council. External URLs live in `comms-sources.ts` only.
+
+**Strike operations vs crisis comms (2026-09-05):** [`session-knowledge-2026-09-05-strike-operations.md`](session-knowledge-2026-09-05-strike-operations.md) — `/guide/strike` is the operations playbook (command, line, membership, money, safety, return). `/guide/crisis` is Crisis Comms (who may speak). Do not label crisis as “Strike Guide” or restore a three-posts-a-day quota. Bargaining lifecycle stays the legal clock.
 
 **Running meetings / Rules of Order (2026-08-28):** [`session-knowledge-2026-08-28-running-meetings-rules-of-order.md`](session-knowledge-2026-08-28-running-meetings-rules-of-order.md) — public `/guide/running-meetings` (quorum, precedence, debate, voting, worked GMM) + `/tools/rules-of-order` (14 actions, copy phrase). Not Hub `/app/meetings` (calendar/RSVP). Pocket PDF via OL module 4 helper. Discoverability: `guide-registry.ts` labour group + steward playbooks.
 
