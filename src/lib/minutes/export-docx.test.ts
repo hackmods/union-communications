@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildMinutesDocxBlob } from "./export-docx";
+import { listEmbeddedOoxmlFonts } from "@/lib/export/ooxml-font-embed";
 import { transparentPngBytes } from "@/lib/export/brand-logo-bytes";
 import type { MeetingMinutes } from "@/types/minutes";
 
@@ -54,5 +55,19 @@ describe("buildMinutesDocxBlob", () => {
       locale: "fr",
     });
     expect(blob.size).toBeGreaterThan(1000);
+  });
+
+
+  it("embeds Brand Kit OFL faces for offline Word", async () => {
+    const blob = await buildMinutesDocxBlob(sampleMinutes, "Local 243", {
+      headlineFont: "Montserrat",
+      bodyFont: "Source Sans 3",
+      headlineFontId: "montserrat",
+      bodyFontId: "sourceSans",
+      primaryColor: "#003366",
+      locale: "en",
+    });
+    const embedded = await listEmbeddedOoxmlFonts(blob);
+    expect(embedded.length).toBeGreaterThan(0);
   });
 });

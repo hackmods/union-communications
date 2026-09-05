@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildElectionBallotDocxBlob } from "./export-ballot";
+import { listEmbeddedOoxmlFonts } from "@/lib/export/ooxml-font-embed";
 import { transparentPngBytes } from "@/lib/export/brand-logo-bytes";
 import type { ElectionCycle } from "@/types/elections";
 
@@ -67,5 +68,19 @@ describe("buildElectionBallotDocxBlob", () => {
       { locale: "fr" },
     );
     expect(blob.size).toBeGreaterThan(1000);
+  });
+
+
+  it("embeds Brand Kit OFL faces for offline Word", async () => {
+    const blob = await buildElectionBallotDocxBlob(sampleCycle, "Local 243", {
+      headlineFont: "Montserrat",
+      bodyFont: "Source Sans 3",
+      headlineFontId: "montserrat",
+      bodyFontId: "sourceSans",
+      primaryColor: "#003366",
+      locale: "en",
+    });
+    const embedded = await listEmbeddedOoxmlFonts(blob);
+    expect(embedded.length).toBeGreaterThan(0);
   });
 });

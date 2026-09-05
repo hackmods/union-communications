@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -22,9 +22,10 @@ import {
   type OfficePresetId,
 } from "@/lib/constants/office-templates";
 import { resolvePresetDestination } from "@/lib/utils/local-links";
-import type {
-  GrievanceIntakeLabels,
-  SeniorityWorksheetLabels,
+import {
+  EVENT_RSVP_XLSX_LABELS,
+  type GrievanceIntakeLabels,
+  type SeniorityWorksheetLabels,
 } from "@/lib/export/office-export";
 import { renderEventIcsBlob } from "@/lib/calendar/event-ics";
 import { downloadBlob } from "@/lib/export/image-export";
@@ -93,6 +94,7 @@ export default function DocumentGeneratorPage() {
 function DocumentGeneratorPageContent() {
   const t = useTranslations("documentGenerator");
   const tc = useTranslations("common");
+  const locale = useLocale();
   const searchParams = useSearchParams();
   const [initialPreset] = useState<OfficePresetId>(() =>
     resolveOfficePresetFromQuery(searchParams.get("preset")),
@@ -156,6 +158,12 @@ function DocumentGeneratorPageContent() {
       headlineFontId: canvasTokens.headlineFontId,
       bodyFontId: canvasTokens.bodyFontId,
     };
+  }
+
+  function rsvpXlsxLabels() {
+    return locale.startsWith("fr")
+      ? EVENT_RSVP_XLSX_LABELS.fr
+      : EVENT_RSVP_XLSX_LABELS.en;
   }
 
   function worksheetDocxExtras() {
@@ -309,6 +317,7 @@ function DocumentGeneratorPageContent() {
           fields,
           labels: seniorityLabels(),
           filename,
+          ...officeFontOpts(),
         });
       });
       return;
@@ -324,6 +333,7 @@ function DocumentGeneratorPageContent() {
           fields,
           labels: grievanceIntakeLabels(),
           filename,
+          ...officeFontOpts(),
         });
       });
       return;
@@ -338,6 +348,7 @@ function DocumentGeneratorPageContent() {
           localNumber: local,
           fields,
           filename,
+          ...officeFontOpts(),
         });
       });
       return;
@@ -349,6 +360,8 @@ function DocumentGeneratorPageContent() {
         localNumber: local,
         fields,
         filename,
+        labels: rsvpXlsxLabels(),
+        ...officeFontOpts(),
       });
     });
   }
@@ -431,6 +444,7 @@ function DocumentGeneratorPageContent() {
                   localNumber: local,
                   fields,
                   labels: seniorityLabels(),
+                  ...officeFontOpts(),
                 })
               : state.presetId === "grievance-intake"
                 ? renderGrievanceIntakeXlsx({
@@ -438,17 +452,21 @@ function DocumentGeneratorPageContent() {
                     localNumber: local,
                     fields,
                     labels: grievanceIntakeLabels(),
+                    ...officeFontOpts(),
                   })
               : state.presetId === "lec-directory"
                 ? renderLecDirectoryXlsx({
                     palette,
                     localNumber: local,
                     fields,
+                    ...officeFontOpts(),
                   })
                 : renderEventRsvpXlsx({
                     palette,
                     localNumber: local,
                     fields,
+                    labels: rsvpXlsxLabels(),
+                    ...officeFontOpts(),
                   }),
         });
       }

@@ -86,9 +86,9 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 
 **B1 — Brand Kit parity (no binary fonts yet)**
 
-- [x] Minutes DOCX ([`minutes/export-docx.ts`](../../src/lib/minutes/export-docx.ts)) and election ballot ([`elections/export-ballot.ts`](../../src/lib/elections/export-ballot.ts)) use Brand Kit fonts + palette + logo (font names only — no OOXML binary embed)
+- [x] Minutes DOCX ([`minutes/export-docx.ts`](../../src/lib/minutes/export-docx.ts)) and election ballot ([`elections/export-ballot.ts`](../../src/lib/elections/export-ballot.ts)) use Brand Kit fonts + palette + logo + OOXML binary embed (2026-09-05)
 - [x] Legacy docxtemplater / `public/templates/office/` path unchanged — samples and tests only; Hub exports use `docx` builders above
-- [ ] XLSX header fonts optionally map `canvasFontOfficeName` (lower priority)
+- [x] XLSX header fonts map `canvasFontOfficeName` via shared `office-brand-styles` (2026-09-05)
 - [ ] Surface logo-resolve failures when `includeLogo` is on (Document Generator already partial)
 
 **B2 — Preset / coverage growth (as product asks)**
@@ -114,11 +114,14 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 
 ## Suggested sequence
 
-1. **Font binary pipeline** (shared foundation) — decide format, size budget, NOTICE packaging  
-2. **Project A** — text PDF engine (floor sheets feel branded in selectable text)  
-3. **Project B1** — Hub DOCX onto Brand Kit builders  
-4. **Project B3** — OOXML binary embed (only if offline Word without installed fonts is a real steward pain)  
-5. **Project B2** — new presets as guides/Hub demand them  
+1. **Font binary pipeline** (shared foundation) — decide format, size budget, NOTICE packaging — **done**
+2. **Project A** — text PDF engine (floor sheets feel branded in selectable text) — **done** (layout refactor 2026-09-03)
+3. **Project B1** — Hub DOCX onto Brand Kit builders — **done**; Hub OOXML embed + XLSX header fonts **done** (2026-09-05) — see [`session-knowledge-2026-09-05-pdf-office-engine-qol.md`](session-knowledge-2026-09-05-pdf-office-engine-qol.md)
+4. **Project B3** — OOXML binary font embed — **done** (DOCX/PPTX presets 2026-08-27; Hub minutes/ballot 2026-09-05)
+5. **Project B2** — new presets as guides/Hub demand them
+6. **Residual QOL** — logo-resolve failures when `includeLogo` is on; any remaining error-only export buttons; optional XLSX body fonts
+
+**Do not** merge canvas raster PDF + text PDF into one engine — share font/download helpers only (session knowledge 2026-09-05).
 
 ## Explicitly still deferred
 

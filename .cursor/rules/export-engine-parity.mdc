@@ -1,0 +1,43 @@
+---
+description: Keep PDF + Office export lanes at Brand Kit parity — shared fonts, embed, i18n, downloads
+globs: src/lib/export/**,src/lib/minutes/export-docx.ts,src/lib/elections/export-ballot.ts,src/app/**/document-generator/**,src/components/hub/**Board.tsx,src/components/hub/MinutesDetail.tsx
+alwaysApply: false
+---
+
+# Export engine parity (PDF + Office)
+
+Canonical lessons: [`docs/audit/session-knowledge-2026-09-05-pdf-office-engine-qol.md`](../../docs/audit/session-knowledge-2026-09-05-pdf-office-engine-qol.md).
+Roadmap: [`docs/audit/future-pdf-and-docx-engines-2026-08.md`](../../docs/audit/future-pdf-and-docx-engines-2026-08.md).
+
+## Three lanes
+
+| Lane | Use for |
+|------|---------|
+| `pdf-export.ts` (raster) | Canvas Comms print (Flyer, Board Notice, …) |
+| `text-pdf-layout.ts` + `pdf-layout/` | Selectable worksheets, certificates, Hub reports |
+| `office-export.ts` + builders + `ooxml-font-embed.ts` | Editable DOCX / XLSX / PPTX |
+
+Do **not** merge raster + text PDF into one writer. Share Brand Kit font resolution, OFL binaries, and `downloadBlob` / export success UX instead.
+
+## Must do on new/changed Office exports
+
+1. Resolve faces via `resolveOfficeBrandFonts` / `canvasFontOfficeName` (`office-brand-styles.ts`).
+2. DOCX/PPTX: `embedDocxBrandFonts` / `embedPptxBrandFonts` after build (catalog ids; system faces no-op).
+3. XLSX: `withOfficeXlsxFont` on header/title cells.
+4. Steward-facing sheet chrome: EN/FR label packs; COUNTIF + data-validation strings use the same tokens.
+5. UI downloads: `downloadBlob` — no one-off `createObjectURL` helpers in Hub boards.
+6. Tests: blob size; embed → `listEmbeddedOoxmlFonts`; XLSX → `font.name` + localized labels.
+
+## PDF
+
+- Floor handouts → text PDF layout (no private jsPDF letter loops).
+- New canvas tools → raster path + capture fidelity.
+- Guide PDF chrome: [`.cursor/rules/guide-pdfs.mdc`](guide-pdfs.mdc).
+
+## Verify before editing symbols
+
+Prefer a byte-level listing of `export function` / `export type` in the target file before imports — search paraphrases have drifted identifiers in this repo before.
+
+```bash
+npm run test:unit -- src/lib/export/office-brand-styles.test.ts src/lib/export/office-export.test.ts src/lib/minutes/export-docx.test.ts src/lib/elections/export-ballot.test.ts
+```

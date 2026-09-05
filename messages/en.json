@@ -6637,6 +6637,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "office-export-brand-fonts": {
+        "title": "Word and Excel keep your Brand Kit type",
+        "body": "Minutes, ballots, and Document Generator worksheets now carry your Brand Kit fonts into Word and Excel—including French RSVP sheets—so downloads look on-brand offline."
+      },
       "union-boards-pdf-templates": {
         "title": "Guide spreadsheets — open CSV templates as Excel",
         "body": "Union Boards, Steward 101, and Workplace Mapping now offer Download Excel beside every CSV template — board trackers, intake sheets, and workplace maps."

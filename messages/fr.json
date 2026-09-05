@@ -6584,6 +6584,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "office-export-brand-fonts": {
+        "title": "Word et Excel gardent la typo de votre Trousse de marque",
+        "body": "Les procès-verbaux, bulletins de vote et classeurs du Générateur de documents portent maintenant les polices de votre Trousse de marque dans Word et Excel — y compris les feuilles RSVP en français — pour des téléchargements fidèles hors ligne."
+      },
       "union-boards-pdf-templates": {
         "title": "Feuilles de calcul — ouvrir les modèles CSV dans Excel",
         "body": "Les guides Tableaux syndicaux, Délégué 101 et Cartographie du milieu de travail offrent maintenant Télécharger Excel à côté de chaque modèle CSV — suivis de tableaux, feuilles d'accueil et cartes du milieu."

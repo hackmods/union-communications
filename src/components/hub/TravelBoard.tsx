@@ -1,5 +1,6 @@
 "use client";
 
+import { downloadBlob } from "@/lib/export/image-export";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
@@ -27,15 +28,6 @@ function formatMoney(n: number): string {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-}
-
-function downloadBlob(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
 }
 
 const emptyCosts = {
@@ -161,7 +153,7 @@ export function TravelBoard() {
       const blob = await res.blob();
       const disp = res.headers.get("Content-Disposition");
       const match = disp?.match(/filename="([^"]+)"/);
-      downloadBlob(blob, match?.[1] ?? `travel-export.${format}`);
+      void downloadBlob(blob, match?.[1] ?? `travel-export.${format}`);
       setMessage(t("exported"));
     } catch {
       setError(t("exportError"));
