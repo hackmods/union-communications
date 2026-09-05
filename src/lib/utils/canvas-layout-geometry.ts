@@ -59,3 +59,18 @@ export function rectOutside(
     inner.bottom > outer.bottom + epsilon
   );
 }
+
+
+/** Count pairwise overlaps among rects (each pair once). */
+export function countOverlappingPairs(
+  rects: readonly LayoutRect[],
+  minPx: number = 1,
+): number {
+  let n = 0;
+  for (let i = 0; i < rects.length; i++) {
+    for (let j = i + 1; j < rects.length; j++) {
+      if (rectsOverlap(rects[i]!, rects[j]!, minPx)) n += 1;
+    }
+  }
+  return n;
+}

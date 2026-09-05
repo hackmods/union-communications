@@ -2261,10 +2261,10 @@
     "previewAccessibleName": "Aperçu d'avis pour tableau",
     "noticeType": "Type d'avis",
     "types": {
-      "meeting": "Assemblée générale",
-      "bargaining": "Mise à jour de négociation",
+      "meeting": "Assemblée",
+      "bargaining": "Négociation",
       "event": "Événement",
-      "general": "Avis général"
+      "general": "Avis"
     },
     "headline": "Titre",
     "body": "Détails",
@@ -6683,6 +6683,10 @@
       "caat-a-look": {
         "title": "Apparence Personnel enseignant dans la Trousse",
         "body": "Les sections de personnel enseignant peuvent choisir l'apparence CAAT-A bourgogne dans la Trousse de marque, avec un fond bleu de coalition pour les graphiques de négociation conjointe. Les badges de campagne optionnels apparaissent dans l'aperçu d'action conjointe."
+      },
+      "canvas-type-fit": {
+        "title": "Les avis de babillard gardent la date et l'heure lisibles",
+        "body": "Les longs titres dans le Créateur d'avis de babillard et le Créateur de tracts rétrécissent maintenant pour tenir sur la page, afin que la date, l'heure et le lieu restent clairs sur l'aperçu téléphone et à l'impression."
       },
       "caat-s-gold-plate": {
         "title": "Corail ou or pour le Soutien collégial",

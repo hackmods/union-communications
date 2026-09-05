@@ -387,3 +387,62 @@ export function expectPreviewFitsColumn(
   expect(fit.columnWidth, label).toBeGreaterThan(0);
   expect(fit.visualWidth, label).toBeLessThanOrEqual(fit.columnWidth + 2);
 }
+
+
+export type TypeMetaOverlapReport = {
+  typeCount: number;
+  metaCount: number;
+  overlaps: number;
+};
+
+/**
+ * Board Notice / Flyer stack integrity: headline/body must not paint over
+ * Date/Time/Location. Requires [data-canvas-type] + [data-canvas-meta].
+ */
+export async function measureTypeMetaOverlap(
+  page: Page,
+): Promise<TypeMetaOverlapReport> {
+  return page.evaluate((rootSel) => {
+    const root = document.querySelector(rootSel);
+    if (!root) return { typeCount: 0, metaCount: 0, overlaps: 0 };
+
+    const toRect = (r: DOMRect) => ({
+      left: r.left,
+      top: r.top,
+      right: r.right,
+      bottom: r.bottom,
+    });
+    const overlaps = (
+      a: { left: number; top: number; right: number; bottom: number },
+      b: { left: number; top: number; right: number; bottom: number },
+      minPx = 1,
+    ) => {
+      const oy = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      const ox = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      return oy > minPx && ox > minPx;
+    };
+
+    const types = [...root.querySelectorAll("[data-canvas-type]")];
+    const metas = [...root.querySelectorAll("[data-canvas-meta]")];
+    let hit = 0;
+    for (const typeEl of types) {
+      const tr = toRect(typeEl.getBoundingClientRect());
+      if (tr.bottom - tr.top < 2 || tr.right - tr.left < 2) continue;
+      for (const metaEl of metas) {
+        const mr = toRect(metaEl.getBoundingClientRect());
+        if (mr.bottom - mr.top < 2 || mr.right - mr.left < 2) continue;
+        if (overlaps(tr, mr, 1)) hit += 1;
+      }
+    }
+    return { typeCount: types.length, metaCount: metas.length, overlaps: hit };
+  }, EXPORT_ROOT_SELECTOR);
+}
+
+export function expectTypeMetaClear(
+  report: TypeMetaOverlapReport,
+  label = "type/meta",
+): void {
+  expect(report.typeCount, label).toBeGreaterThan(0);
+  expect(report.metaCount, label).toBeGreaterThan(0);
+  expect(report.overlaps, label).toBe(0);
+}

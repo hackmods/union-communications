@@ -4,6 +4,7 @@ import type { CSSProperties, ReactNode, Ref } from "react";
 import {
   CanvasBrandHeader,
   CanvasGrainOverlay,
+  CanvasStackSlot,
   CanvasTypeBlock,
 } from "@/components/tools/canvas";
 import type { BoardNoticeLayoutId } from "@/lib/comms/board-notice-layouts";
@@ -114,6 +115,7 @@ function MetaBlock({
 
   return (
     <div
+      data-canvas-meta=""
       className={cn("relative z-[2] flex w-full flex-col", className)}
       style={{
         color: ink,
@@ -276,19 +278,22 @@ export function BoardNoticeLayoutCanvas({
             showLocalLabel={showLocalLabel}
             badge={headerBadge(copy, colours.secondary, scaledTokens)}
           />
-          <CanvasTypeBlock
-            tokens={{
-              ...scaledTokens,
-              alignmentBias: "center",
-            }}
-            title={copy.headline}
-            ink={bandInk}
-            accentColor={
-              meetsWcagAA(colours.accent, colours.secondary, true)
-                ? colours.accent
-                : undefined
-            }
-          />
+          <div className="max-h-[42%] min-h-0 w-full overflow-hidden">
+            <CanvasTypeBlock
+              fit
+              tokens={{
+                ...scaledTokens,
+                alignmentBias: "center",
+              }}
+              title={copy.headline}
+              ink={bandInk}
+              accentColor={
+                meetsWcagAA(colours.accent, colours.secondary, true)
+                  ? colours.accent
+                  : undefined
+              }
+            />
+          </div>
         </div>
         <div
           className="relative z-[2] flex min-h-0 flex-1 flex-col justify-between"
@@ -300,20 +305,21 @@ export function BoardNoticeLayoutCanvas({
           }}
         >
           {copy.body.trim() ? (
-            <p
-              className="min-h-0 shrink"
-              style={{
-                color: panelInk,
-                fontSize: scaledTokens.subtitleFontSizePx,
-                fontWeight: scaledTokens.bodyFontWeight,
-                lineHeight: scaledTokens.bodyLineHeight,
-                margin: 0,
-                opacity: 0.9,
-                fontFamily: scaledTokens.bodyFontFamily,
-              }}
-            >
-              {copy.body}
-            </p>
+            <div className="min-h-0 flex-1 overflow-hidden">
+              <p
+                style={{
+                  color: panelInk,
+                  fontSize: scaledTokens.subtitleFontSizePx,
+                  fontWeight: scaledTokens.bodyFontWeight,
+                  lineHeight: scaledTokens.bodyLineHeight,
+                  margin: 0,
+                  opacity: 0.9,
+                  fontFamily: scaledTokens.bodyFontFamily,
+                }}
+              >
+                {copy.body}
+              </p>
+            </div>
           ) : null}
           <MetaBlock
             copy={copy}
@@ -322,6 +328,7 @@ export function BoardNoticeLayoutCanvas({
             gap={scaledTokens.gapPx}
             backgroundColor={panelBg}
             fontFamily={scaledTokens.bodyFontFamily}
+            className="shrink-0"
           />
         </div>
       </div>
@@ -354,13 +361,16 @@ export function BoardNoticeLayoutCanvas({
             showLocalLabel={showLocalLabel}
             badge={headerBadge(copy, colours.primary, scaledTokens)}
           />
-          <CanvasTypeBlock
-            tokens={scaledTokens}
-            title={copy.headline}
-            subtitle={copy.body}
-            ink={ink}
-            accentColor={accent}
-          />
+          <CanvasStackSlot>
+            <CanvasTypeBlock
+              fit
+              tokens={scaledTokens}
+              title={copy.headline}
+              subtitle={copy.body}
+              ink={ink}
+              accentColor={accent}
+            />
+          </CanvasStackSlot>
         </div>
         <div
           className="relative z-[2] flex min-h-0 flex-1 flex-col justify-end"
@@ -410,15 +420,16 @@ export function BoardNoticeLayoutCanvas({
           badge={headerBadge(copy, colours.primary, scaledTokens)}
         />
       </div>
-      <div className="relative z-[2] min-h-0 flex-1">
+      <CanvasStackSlot>
         <CanvasTypeBlock
+          fit
           tokens={scaledTokens}
           title={copy.headline}
           subtitle={copy.body}
           ink={ink}
           accentColor={accent}
         />
-      </div>
+      </CanvasStackSlot>
       <MetaBlock
         copy={copy}
         ink={ink}

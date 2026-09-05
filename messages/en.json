@@ -2261,10 +2261,10 @@
     "previewAccessibleName": "Board notice preview",
     "noticeType": "Notice type",
     "types": {
-      "meeting": "General membership meeting",
-      "bargaining": "Bargaining update",
+      "meeting": "Meeting",
+      "bargaining": "Bargaining",
       "event": "Event",
-      "general": "General notice"
+      "general": "Notice"
     },
     "headline": "Headline",
     "body": "Details",
@@ -6736,6 +6736,10 @@
       "caat-a-look": {
         "title": "College Faculty Look in Brand Kit",
         "body": "College Faculty locals can pick the CAAT-A burgundy Look in Brand Kit, with a coalition blue plate for joint bargaining graphics. Optional campaign badges preview on joint-action cards."
+      },
+      "canvas-type-fit": {
+        "title": "Board notices keep date and time readable",
+        "body": "Long headlines on Board Notice Maker and Flyer Maker now shrink to fit the page, so date, time, and location stay clear on phone previews and print exports."
       },
       "caat-s-gold-plate": {
         "title": "Coral or gold for College Support",

@@ -6,6 +6,7 @@ import {
   CanvasDuotonePhoto,
   CanvasGrainOverlay,
   CanvasQrPlate,
+  CanvasStackSlot,
   CanvasTypeBlock,
 } from "@/components/tools/canvas";
 import type { FlyerLayoutId } from "@/lib/comms/flyer-layouts";
@@ -98,6 +99,7 @@ function MetaBlock({
 
   return (
     <div
+      data-canvas-meta=""
       className={cn("relative z-[2]", className)}
       style={{
         color: ink,
@@ -257,7 +259,9 @@ export function FlyerLayoutCanvas({
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
           />
-          <CanvasTypeBlock
+          <div className="max-h-[42%] min-h-0 w-full overflow-hidden">
+            <CanvasTypeBlock
+            fit
             tokens={{
               ...scaledTokens,
               alignmentBias: "center",
@@ -269,7 +273,8 @@ export function FlyerLayoutCanvas({
                 ? colours.accent
                 : undefined
             }
-          />
+            />
+          </div>
         </div>
         <div
           className="relative z-[2] flex min-h-0 flex-1 flex-col justify-between"
@@ -346,12 +351,15 @@ export function FlyerLayoutCanvas({
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
           />
-          <CanvasTypeBlock
-            tokens={scaledTokens}
-            title={copy.message}
-            ink={ink}
-            accentColor={accent}
-          />
+          <CanvasStackSlot>
+            <CanvasTypeBlock
+              fit
+              tokens={scaledTokens}
+              title={copy.message}
+              ink={ink}
+              accentColor={accent}
+            />
+          </CanvasStackSlot>
           <MetaBlock
             copy={copy}
             ink={ink}
@@ -395,12 +403,15 @@ export function FlyerLayoutCanvas({
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
           />
-          <CanvasTypeBlock
-            tokens={scaledTokens}
-            title={copy.message}
-            ink={ink}
-            accentColor={accent}
-          />
+          <CanvasStackSlot>
+            <CanvasTypeBlock
+              fit
+              tokens={scaledTokens}
+              title={copy.message}
+              ink={ink}
+              accentColor={accent}
+            />
+          </CanvasStackSlot>
         </div>
         <div
           className="relative z-[2] flex min-h-0 flex-1 flex-col justify-end"
@@ -466,14 +477,17 @@ export function FlyerLayoutCanvas({
         logoMode={logoMode}
         showLocalLabel={showLocalLabel}
       />
-      <CanvasTypeBlock
-        tokens={scaledTokens}
-        title={copy.message}
-        ink={ink}
-        accentColor={accent}
-      />
+      <CanvasStackSlot>
+        <CanvasTypeBlock
+          fit
+          tokens={scaledTokens}
+          title={copy.message}
+          ink={ink}
+          accentColor={accent}
+        />
+      </CanvasStackSlot>
       <div
-        className="relative z-[2] flex flex-col"
+        className="relative z-[2] shrink-0 flex flex-col"
         style={{ gap: scaledTokens.gapPx }}
       >
         <MetaBlock
