@@ -24,7 +24,10 @@ test.describe("Smoke tests @smoke", () => {
       .getByRole("navigation", { name: /Site navigation|Navigation du site|Main|Navigation principale/i })
       .getByRole("link", { name: "Get started" })
       .click();
-    await expect(page).toHaveURL(/\/en\/onboarding/);
+    await expect(page).toHaveURL(/\/en\/(?:#toolkit)?\/?$/);
+    await expect(
+      page.getByRole("heading", { name: "Where to start" }),
+    ).toBeVisible();
     await page.goto("/en/");
     const main = page.getByRole("navigation", {
       name: /Site navigation|Navigation du site|Main|Navigation principale/i,
@@ -100,12 +103,12 @@ test.describe("Smoke tests @smoke", () => {
     expect(res.ok()).toBeTruthy();
   });
 
-  test("French footer includes email outreach guide", async ({ page }) => {
+  test("French footer includes steward playbooks", async ({ page }) => {
     await page.goto("/fr/");
     await expect(
       page
         .getByLabel(/Footer|Pied de page/i)
-        .getByRole("link", { name: /Courriel et diffusion/i }),
+        .getByRole("link", { name: /Guides pratiques pour délégués/i }),
     ).toBeVisible();
   });
 
@@ -138,10 +141,10 @@ test.describe("Smoke tests @smoke", () => {
     ).toBeVisible();
   });
 
-  test("footer includes email outreach guide", async ({ page }) => {
+  test("footer includes steward playbooks", async ({ page }) => {
     await page.goto("/en/");
     await expect(
-      page.getByLabel(/Footer|Pied de page/i).getByRole("link", { name: "Email & outreach" }),
+      page.getByLabel(/Footer|Pied de page/i).getByRole("link", { name: "Steward playbooks" }),
     ).toBeVisible();
   });
 

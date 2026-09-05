@@ -2,7 +2,7 @@
 
 ## Product
 
-**UnionOps** is a multi-union platform for local communications, grievance tracking, and sector workflows. Locals should not have to wait on weak central comms.
+**UnionOps** is a multi-union operating toolkit for a local or a union: communications, steward craft, and officer work. Comms stay free on the device. Case files live in Officer Hub.
 
 **Slogan:** Solidarity.  
 **Public domain:** https://unionops.org
@@ -32,13 +32,13 @@ Platform (you host)
 
 ## Problem Statement
 
-Union central communications are often under-resourced. Local executives and volunteer communicators need:
+Union locals and unions need an operating toolkit they can run themselves — communications, steward craft, and officer work — without waiting on a weak central office, and without replacing national ERP or membership systems.
 
 1. **Self-serve media tools** - guides, templates, image generation (shipped in v1 Comms)
-2. **Grievance tracking** - dates, notes, follow-up emails, deadline awareness
-3. **Sector workflows** - e.g. college bumping / stability committee PDF comparison
+2. **Steward craft** - floor playbooks and Officer Learning on the public site
+3. **Officer casework** - grievance tracking, sector workflows, handoffs (Officer Hub)
 
-This hub fills the gap without replacing national union systems.
+This toolkit fills the gap without replacing national union ERP or membership systems.
 
 ## Modules
 

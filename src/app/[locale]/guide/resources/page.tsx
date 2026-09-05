@@ -143,39 +143,6 @@ export default async function ResourcesPage({
 
       <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
         <h2 className="text-xl font-bold text-opseu-dark">
-          {t("presentation.title")}
-        </h2>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("presentation.body")}
-        </p>
-        <ol className="mt-3 list-decimal space-y-2 pl-5 text-gray-700">
-          {(t.raw("presentation.outline") as string[]).map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ol>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("presentation.tinker")}
-        </p>
-        <p className="mt-3 text-sm text-gray-600">{t("presentation.note")}</p>
-      </section>
-
-      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">
-          {t("facilitators.title")}
-        </h2>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("facilitators.body")}
-        </p>
-        <ol className="mt-3 list-decimal space-y-2 pl-5 text-gray-700">
-          {(t.raw("facilitators.outline") as string[]).map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ol>
-        <p className="mt-3 text-sm text-gray-600">{t("facilitators.note")}</p>
-      </section>
-
-      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">
           {t("builtFrom.title")}
         </h2>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">

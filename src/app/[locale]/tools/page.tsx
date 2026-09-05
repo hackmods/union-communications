@@ -24,13 +24,6 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/tools", params);
 }
 
-const LABOUR_PLAYBOOK_LINKS = [
-  { href: "/guide/steward-101", key: "steward101Guide" as const },
-  { href: "/guide/grievance-process", key: "grievanceProcessGuide" as const },
-  { href: "/guide/dfr", key: "dfrGuide" as const },
-  { href: "/guide/seniority-bumping", key: "seniorityGuide" as const },
-] as const;
-
 function StartHerePanel({
   title,
   intro,
@@ -238,20 +231,14 @@ export default async function ToolsIndexPage({
         <p className="mt-2 max-w-prose text-sm text-gray-600">
           {t("labourPlaybooksIntro")}
         </p>
-        <nav
-          className="mt-4 grid gap-3 sm:grid-cols-2 2xl:grid-cols-4"
-          aria-label={t("labourPlaybooksTitle")}
-        >
-          {LABOUR_PLAYBOOK_LINKS.map(({ href, key }) => (
-            <Link
-              key={href}
-              href={href}
-              className="rounded-lg border border-gray-200 bg-white/80 px-4 py-3 text-sm font-medium text-opseu-blue transition-colors hover:border-opseu-blue/30 hover:bg-white"
-            >
-              {nav(key)}
-            </Link>
-          ))}
-        </nav>
+        <p className="mt-4">
+          <Link
+            href="/guide/steward-playbooks"
+            className="inline-flex min-h-11 items-center font-semibold text-opseu-blue underline-offset-2 hover:underline"
+          >
+            {t("labourPlaybooksCta")} →
+          </Link>
+        </p>
       </section>
 
       {channelGuides ? (

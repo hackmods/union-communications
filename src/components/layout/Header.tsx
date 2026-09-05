@@ -14,9 +14,8 @@ import {
 } from "@/lib/utils/flyout-geometry";
 import { useBrandStore } from "@/store/brand-store";
 import { resolveSiteChromeLogoVariant } from "@/lib/brand/identity-packs";
-import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import {
-  getStartedHref as resolveGetStartedHref,
+  GET_STARTED_HREF,
   isLearnPath,
   isOfficerLearningPath,
   isToolsPath,
@@ -48,15 +47,15 @@ export function Header() {
 
   const brandKit = useBrandStore((s) => s.brandKit);
   const siteChromeLogoVariant = resolveSiteChromeLogoVariant(brandKit);
-  const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
-  const themeEstablished = isBrandThemeEstablished(
-    brandKit,
-    onboardingComplete,
-  );
-  const startedHref = resolveGetStartedHref(themeEstablished);
+  const startedHref = GET_STARTED_HREF;
   const learnActive = isLearnPath(pathname);
   const officerLearningActive = isOfficerLearningPath(pathname);
   const toolsActive = isToolsPath(pathname);
+
+  const goToToolkit = useCallback(() => {
+    if (pathname !== "/") return;
+    document.getElementById("toolkit")?.scrollIntoView({ behavior: "smooth" });
+  }, [pathname]);
 
   useLayoutEffect(() => {
     const el = headerRef.current;
@@ -105,7 +104,7 @@ export function Header() {
       active && "bg-opseu-blue/10 font-semibold text-opseu-dark",
     );
 
-  const getStartedActive = linkActive(pathname, startedHref);
+  const getStartedActive = pathname === "/";
 
   return (
     <header
@@ -141,6 +140,7 @@ export function Header() {
           <Link
             href={startedHref}
             aria-current={getStartedActive ? "page" : undefined}
+            onClick={goToToolkit}
             className={cn(
               "rounded-md border border-opseu-blue/40 px-2.5 py-1 font-semibold text-opseu-blue transition-colors duration-150 hover:bg-opseu-blue/5",
               getStartedActive &&

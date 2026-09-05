@@ -182,12 +182,17 @@ export function MobileNavDrawer({
 
           <Link
             href={startedHref}
-            onClick={onCloseAfterNav}
-            aria-current={
-              linkActive(pathname, startedHref) ? "page" : undefined
-            }
+            onClick={() => {
+              if (pathname === "/") {
+                document.getElementById("toolkit")?.scrollIntoView({
+                  behavior: "smooth",
+                });
+              }
+              onCloseAfterNav();
+            }}
+            aria-current={pathname === "/" ? "page" : undefined}
             className={cn(
-              drawerLinkClass(linkActive(pathname, startedHref)),
+              drawerLinkClass(pathname === "/"),
               "border border-opseu-blue/30 font-semibold text-opseu-blue",
             )}
           >

@@ -6,20 +6,20 @@ alwaysApply: false
 
 # Comms public navigation
 
-## Get started (progressive CTA)
+## Get started (toolkit chooser)
 
-**Get started** in Header resolves to `/onboarding` when Brand Kit is not established, otherwise `/guide/social-media-plan` (First week roadmap). Do **not** retarget Get started at `/brand-kit` once identity exists — Brand Kit stays its own top-level link.
+**Get started** in Header resolves to `/#toolkit` (Home: Comms / steward craft / run the local). Do **not** retarget Get started at `/brand-kit`. Brand Kit stays its own top-level link. The Comms path card on Home still sends empty kits to `/onboarding` and established kits to First week.
 
-Brand Kit is the Comms home base (colours, logo, local number, links). First week (`/guide/social-media-plan`) is the channel roadmap after identity — also listed under Guides → Start here and the home “What’s next” CTA.
+Brand Kit is the Comms home base (colours, logo, local number, links). First week (`/guide/social-media-plan`) is the channel roadmap after identity — listed under Guides → Comms.
 
 ## Header Guides menu (keep this shape)
 
-Four groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**). **Hub-first:** topic labour playbooks (grievance, DFR, bylaws, membership, workplace mapping, RTR, seniority, joint committee) are **not** mega-menu links — they live on `/guide/steward-playbooks` (+ Resources / Blueprint strips). **Officer Learning Center** is a **top-level header link** (between Guides and Brand Kit) — not a dark featured card inside Guides ▾. Five columns at 2xl.
+Four groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**). **Hub-first:** topic labour playbooks (grievance, DFR, bylaws, membership, workplace mapping, RTR, seniority, joint committee) are **not** mega-menu links — they live on `/guide/steward-playbooks` (+ Resources / Blueprint strips). **Officer Learning Center** is a **top-level header link** (between Guides and Brand Kit) — not nested under Steward craft. Five columns at 2xl.
 
-1. **Start here** — The Blueprint (`/guide`), First week (`/guide/social-media-plan`), Comms Resources (`/guide/resources`), Workshop outline (`/guide/workshop`)
+1. **Comms** — First week (`/guide/social-media-plan`), The Blueprint (`/guide`), Workshop outline (`/guide/workshop`)
 2. **By channel** — Print Guide, Union Boards Guide, Website Guide, Email & outreach, Short-form video
-3. **Steward training** — Steward playbooks hub, Steward 101, Bargaining lifecycle, Strike Guide
-4. **Libraries** — Social Examples, Captions, Photo Consent, Brand Assets
+3. **Steward craft** — Steward playbooks hub, Steward 101, Bargaining lifecycle, Strike Guide (`/guide/crisis` — keep the Strike Guide label)
+4. **Libraries** — Social Examples, Captions, Photo Consent, Brand Assets, Comms Resources
 5. **About** — What's new, Built in solidarity, Install as an app
 
 Do not re-flatten channel guides into a long top-level link bar. Do not invent marketing routes (`/about`, `/pricing`, `/blog`) unless product expands. Do not dump every new topic playbook into the mega-menu — add it to the Steward playbooks hub instead.
@@ -32,17 +32,19 @@ Five groups in `nav-config.ts` `toolGroups` (mega-menu columns). Group by **job*
 2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters, Org Chart
 3. **Print & cards** — Flyer Maker, QR Link Cards, Action Cards, Pulse Poll (Hub-signed-in only)
 4. **Social & web** — Graphic Maker, Quote Card, Meeting Backgrounds, Website Template, Alt-Text Assistant
-5. **Steward worksheets** — RTW & accommodation, Pre-disciplinary log, Complaint vs grievance, Bylaw Builder, Proposal Tracker
+5. **Steward worksheets** — RTW & accommodation, Pre-disciplinary log, Complaint vs grievance, Bylaw Builder, Proposal Tracker, Rules of Order
 
 Footer row in the mega-menu: **All tools** → `/tools` index. Do not re-flatten Tools into a single ungrouped list. Keep one **Tools ▾** trigger — do not add extra top-level tool links. Prefer extending an existing job group over inventing a sixth mega-menu column.
 
 ## Footer
 
-Include Tools (`/tools`), Print Guide, **Email & outreach**, Blueprint / Examples / Captions / Resources, **Steward playbooks** (`/guide/steward-playbooks`), **Officer Learning** (`/guide/officer-learning`), **Brand Assets**, **What's new**, **Built in solidarity**, **Install as an app**, Privacy, Accessibility, Support.
+Keep footer slim: product + legal. Include Tools (`/tools`), **Steward playbooks** (`/guide/steward-playbooks`), **Officer Learning** (`/guide/officer-learning` — same destination as the top-level header link), **Brand Kit**, **What's new**, **Built in solidarity**, Privacy, Security, Accessibility, Feedback.
+
+Channel guides, Social Examples, Captions, Resources, Brand Assets, and Install as an app stay in Guides ▾ — do not re-inflate the footer with every Comms library link.
 
 ## Brand Assets
 
-`/assets` lives under Guides → Libraries & about and in the footer. Brand Kit may still link Brand Assets on-page.
+`/assets` lives under Guides → Libraries. Brand Kit may still link Brand Assets on-page.
 
 ## Auth chrome (session-aware)
 

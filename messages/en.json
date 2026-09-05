@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "UnionOps | Free Tools & Officer Hub for Union Locals",
-    "titleCommsOnly": "UnionOps | Free Tools for Union Locals",
-    "description": "Free Comms tools on your device. Hosted Officer Hub or Local Portal has a hosting cost, and you control who sees that data.",
-    "descriptionCommsOnly": "Free Comms tools for union stewards and officers. They stay on your device: no ads, and nobody harvesting your data."
+    "title": "UnionOps | Toolkit for locals and unions",
+    "titleCommsOnly": "UnionOps | Toolkit for union locals",
+    "description": "Communications, steward training, and officer playbooks. Comms stay free on your device. Hosted Officer Hub has a hosting cost.",
+    "descriptionCommsOnly": "Communications, steward training, and officer playbooks for union locals. They stay on your device: no ads, nobody harvesting your data."
   },
   "nav": {
     "home": "Home",
@@ -56,8 +56,8 @@
     "seniorityGuide": "Seniority & bumping",
     "jointCommitteeGuide": "Joint committee",
     "bargainingGuide": "Bargaining lifecycle",
-    "learnGroupGuides": "Start here",
-    "learnGroupStewardTraining": "Steward training",
+    "learnGroupGuides": "Comms",
+    "learnGroupStewardTraining": "Steward craft",
     "learnGroupChannels": "By channel",
     "learnGroupLibraries": "Libraries",
     "learnGroupAbout": "About",
@@ -241,32 +241,38 @@
     "whenToUse": "Use first to build a local logo plate, then Save to Brand Kit so every tool matches."
   },
   "home": {
-    "title": "UnionOps: Professional comms for local unions",
-    "headline": "Look like the union you already are",
+    "title": "UnionOps: toolkit for locals and unions",
+    "headline": "One toolkit for a local or a union",
     "slogan": "Solidarity.",
-    "subtitle": "Free Comms tools that save time and give any local a professional voice, from the board to the web.",
-    "subtitleCommsOnly": "Comms tools that save volunteer officers time and give any local a professional voice.",
-    "heroCta": "Set up your local brand",
+    "subtitle": "Communications, steward training, and officer work for a local or a union.",
+    "subtitleCommsOnly": "Communications, steward training, and officer playbooks on your device.",
+    "heroCta": "See the toolkit",
+    "brandSetupCta": "Set up your local brand",
+    "openFirstWeekCta": "Open First week",
     "openBrandKitCta": "Open Brand Kit",
-    "whatsNextCta": "Open the first-week roadmap",
-    "socialMediaPlanCta": "Continue the first-week roadmap",
+    "whatsNextCta": "Open First week",
+    "socialMediaPlanCta": "Continue First week",
     "socialMediaPlanDesc": "After Brand Kit: boards, print, socials, and a simple website.",
-    "pathCommsTitle": "Communicate like a pro, right out of the gate",
-    "pathCommsDesc": "Set your colours, local number, and logo once, and every graphic, notice, and poster picks them up.",
-    "pathCommsCta": "Get started",
-    "pathCommsHint": "You will find the channel guides, Social Examples, and Captions under Guides.",
-    "pathOfficerTitle": "Track grievances and keep the local organized",
-    "pathOfficerDesc": "Grievances, college bumping, overdue work, and handoffs stay in the Officer Hub, ready for the next steward.",
+    "jobsTitle": "Where to start",
+    "jobsIntro": "Pick the work in front of you. You can come back for the rest.",
+    "pathCommsTitle": "Speak with one voice",
+    "pathCommsDesc": "Set Brand Kit once, then follow First week: boards, print, socials, and a simple website.",
+    "pathCommsCta": "Open First week",
+    "pathCommsHint": "Channel guides, Social Examples, and Captions live under Guides.",
+    "pathOfficerTitle": "Run the local",
+    "pathOfficerDesc": "Grievances, bumping, overdue work, and handoffs stay in Officer Hub, ready for the next steward.",
     "pathOfficerCta": "Open Officer Hub",
-    "pathOfficerTitleComingSoon": "Officer workflows on the way",
-    "pathOfficerDescComingSoon": "Grievance tracking, college bumping, overdue boards, and handoffs are in progress. Comms tools are ready today.",
-    "pathOfficerCtaComingSoon": "Officer Hub: coming soon",
-    "pathStewardTitle": "Steward training on the floor",
-    "pathStewardDesc": "Steward 101, six Officer Learning modules with self-tests, and printable pocket sheets — all on your device.",
+    "pathOfficerLearningDesc": "Officer Learning, meetings, and bylaws are here now. Case files live in Officer Hub when your local is invited.",
+    "pathOfficerLearningCta": "Open Officer Learning",
+    "pathOfficerTitleComingSoon": "Officer Hub on invite",
+    "pathOfficerDescComingSoon": "Grievance tracking, bumping, overdue boards, and handoffs wait in Officer Hub. Training and Comms are ready today.",
+    "pathOfficerCtaComingSoon": "Officer Hub: invite only",
+    "pathStewardTitle": "Represent on the floor",
+    "pathStewardDesc": "Steward 101, grievances, bargaining, and printable pocket sheets — start at Steward playbooks.",
     "pathStewardCta": "Open steward playbooks",
     "pathStewardOfficerLearningCta": "Open Officer Learning",
-    "channelsTitle": "The Toolbox",
-    "channelsIntro": "These tools work together so the local’s message stays consistent from the board to the web.",
+    "channelsTitle": "Comms tools",
+    "channelsIntro": "Makers for boards, print, social, and a simple website. Same Brand Kit on every file.",
     "brandRailDesc": "Colours, logo, and key links for every graphic. Browse the reference asset pack when you need starter files.",
     "privacyNote": "Your Comms work never leaves your browser. Host an Officer Hub and you control who can see that data.",
     "privacyNoteCommsOnly": "Your Comms work never leaves your browser. Your graphics and Brand Kit stay on your device.",
@@ -455,7 +461,8 @@
       "title": "Related paths",
       "plan": "Get started — Brand Kit first, then the First week roadmap",
       "resources": "Comms Resources — orientation, practice, sources",
-      "crisis": "Strike Guide — high-stakes bargaining and strike communications",
+      "crisis": "Crisis comms — who may speak when the local is under pressure",
+      "strike": "Strike operations — command, the picket line, and return to work",
       "steward101": "Steward 101: Your Role and Rights",
       "officerLearning": "Officer Learning Center",
       "grievance": "The Steward's Guide to Grievances",
@@ -560,7 +567,7 @@
         },
         "crisis": {
           "label": "Shorter in crisis",
-          "content": "Strike mode: fewer adjectives, one spokesperson, president approves. See the Strike Guide."
+          "content": "Strike mode: fewer adjectives, one spokesperson, president approves. See Crisis comms."
         }
       }
     },
@@ -579,7 +586,7 @@
         },
         "strike": {
           "label": "Strike or countdown",
-          "content": "Switch to the Strike Guide three-messages rhythm — not endless reactive posting."
+          "content": "Switch to Crisis comms: one official place to look, update when facts change. Run the line from Strike operations."
         },
         "quiet": {
           "label": "Quiet weeks are fine",
@@ -603,7 +610,7 @@
         },
         "pin": {
           "label": "Pin the correction",
-          "content": "One pinned post beats twenty replies. Link the Strike Guide management section in crisis."
+          "content": "One pinned post beats twenty replies. Link the Crisis comms management section when stakes rise."
         },
         "never": {
           "label": "Never post",
@@ -672,7 +679,8 @@
     "bargainingGuides": {
       "title": "Bargaining & Strikes",
       "bargaining": "Bargaining lifecycle",
-      "crisis": "Strike & crisis comms"
+      "strike": "Strike operations",
+      "crisis": "Crisis comms"
     },
     "labourGuides": {
       "title": "Labour rights guides",
@@ -769,7 +777,8 @@
         "blueprint": "The Blueprint",
         "workplaceMapping": "Workplace mapping",
         "membershipSignup": "Membership signup playbook",
-        "crisis": "Strike & crisis comms",
+        "crisis": "Crisis comms",
+        "strikeOps": "Strike operations",
         "stewardPlaybooks": "All steward playbooks",
         "unionBoards": "Union boards guide",
         "solidarityPoster": "Solidarity posters",
@@ -1605,7 +1614,7 @@
         },
         "crisis": {
           "label": "Strike or discipline context",
-          "content": "Extra caution. A solidarity photo can become evidence management uses. Read the Strike Guide consent lines before you post."
+          "content": "Extra caution. A solidarity photo can become evidence management uses. Read the Crisis comms consent lines before you post."
         }
       },
       "warningTitle": "When in doubt",
@@ -1767,7 +1776,7 @@
         },
         "crisis": {
           "label": "Strike and discipline",
-          "content": "Extra risk during crises. Pair with the Strike Guide — solidarity photos are not worth a member’s job."
+          "content": "Extra risk during crises. Pair with Crisis comms — solidarity photos are not worth a member’s job."
         }
       }
     },
@@ -1819,7 +1828,7 @@
           "content": "Filming and privacy for Reels and Shorts."
         },
         "crisis": {
-          "label": "Strike Guide",
+          "label": "Crisis comms",
           "content": "Consent rules when the local is under pressure."
         },
         "privacy": {
@@ -3064,8 +3073,8 @@
   },
   "resources": {
     "title": "Comms Resources",
-    "subtitle": "Orientation, practice, and sources for union locals building solidarity communications",
-    "intro": "Orientation, practice checklist, and sources for local Comms. Use it self-paced, in a lunch-and-learn, or in a workshop.",
+    "subtitle": "Practice checklist, demo kit, and sources. The timed workshop hour lives on Workshop outline.",
+    "intro": "Use the checklist on your own or in a room. Workshop outline has the hour; this page keeps sources and the demo kit.",
     "purpose": {
       "title": "What UnionOps Comms is for",
       "body": "Every local needs clear communications on four channels: social media, print, workplace boards, and a simple website.",
@@ -3088,7 +3097,7 @@
         "website": "Website Guide",
         "email": "Email & outreach",
         "shortForm": "Short-form video",
-        "crisis": "Strike Guide",
+        "crisis": "Crisis comms",
         "photoConsent": "Photo Consent",
         "workshop": "Workshop outline"
       },
@@ -3100,7 +3109,7 @@
         "website": "What to put on a local site, build the ZIP, and publish on GitHub Pages.",
         "email": "Copy-only invites and officer reminders. No marketing lists.",
         "shortForm": "Phone filming, member privacy, and pointing Reels or Shorts at a real ask.",
-        "crisis": "High-stakes bargaining and strike communications.",
+        "crisis": "Who may speak during a strike, lockout, or layoff.",
         "photoConsent": "Member photo checklist for stewards and workshops.",
         "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path."
       }
@@ -3118,6 +3127,7 @@
         "rightToRefuse": "Right to refuse (Ontario)",
         "jointCommittee": "Joint committee playbook",
         "bargaining": "Bargaining lifecycle",
+        "strike": "Strike operations",
         "workplaceMapping": "Workplace mapping & organic leaders",
         "bylaws": "Local Bylaws: The Rules of Your Local",
         "runningMeetings": "Running a Meeting & Robert's Rules",
@@ -3133,6 +3143,7 @@
         "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
         "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
         "bargaining": "From member survey and demand setting through No Board and ratification — for Local Bargaining Committees.",
+        "strike": "Command, the picket line, member care, money, safety, and return to work — not a posting calendar.",
         "workplaceMapping": "Chart every coworker, find organic leaders, and score union support 1 to 5. Keep the file off employer systems.",
         "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote.",
         "runningMeetings": "Scale formality to the room, run a standard agenda, and use the cheat sheet during live debate.",
@@ -3165,7 +3176,7 @@
       "flyer": "Flyer Maker",
       "graphic": "Graphic Maker",
       "website": "Website Template",
-      "crisis": "Strike Guide"
+      "crisis": "Crisis comms"
     },
     "presentation": {
       "title": "From Scratch to Solidarity: Launching Your Local's Social Media",
@@ -4096,8 +4107,8 @@
     "ratio": "Contrast ratio: {ratio}:1"
   },
   "crisisGuide": {
-    "title": "Strike & Crisis Comms Guide",
-    "subtitle": "One voice, three messages a day, and a channel plan when the local is under pressure",
+    "title": "Crisis Comms Guide",
+    "subtitle": "One voice, a short chain of command, and a channel plan when the local is under pressure",
     "backToGuide": "Back to The Blueprint",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -4113,11 +4124,11 @@
       "items": {
         "strike": {
           "label": "Strike or lockout live",
-          "content": "Use this guide. One comms lead, one spokesperson, president approves every public post."
+          "content": "Operations live on the Strike operations playbook. This page is who may speak and what never goes public. One comms lead, one spokesperson, president approves every public post."
         },
         "bargaining": {
           "label": "Bargaining countdown",
-          "content": "Use the bargaining section and the three-messages rule. Share only what the bargaining team cleared for release."
+          "content": "Use the bargaining section. Share only what the bargaining team cleared for release."
         },
         "layoff": {
           "label": "Layoffs or restructuring announced",
@@ -4165,8 +4176,8 @@
           "content": "Draft in Graphic Maker or Flyer Maker, export, then send the PNG/PDF to president before it goes live."
         },
         "schedule": {
-          "label": "Daily picket schedule",
-          "content": "Gate locations, start times, and weather/safety reminders. Board Notice at each gate; same facts on the website."
+          "label": "Publish the schedule the strike committee set",
+          "content": "Same gates, times, and weather notes the captains already carry. Put those facts on the strike page and at each gate. Do not invent a prettier version that disagrees."
         },
         "safety": {
           "label": "Safety first on the line",
@@ -4278,28 +4289,28 @@
       "warning": "Table blow-by-blow feels satisfying and helps management. If it is not on the bargaining team release sheet, it stays offline."
     },
     "rhythm": {
-      "navLabel": "Daily rhythm",
-      "title": "Three messages a day",
-      "intro": "During strike or late bargaining, members check phones constantly. Give them a predictable rhythm instead of panic posting.",
+      "navLabel": "Rhythm",
+      "title": "A predictable source of truth, not a quota",
+      "intro": "Members check phones constantly. Give them one official place to look, and update it when facts change. Do not invent a posting calendar you cannot keep.",
       "items": {
         "morning": {
-          "label": "Morning — schedule and safety",
-          "content": "Picket gates, weather, any line protocol change. Board Notice PDF plus one social post."
+          "label": "If the line is live — schedule and safety first",
+          "content": "Publish the gates, weather, and protocol the strike committee already set. Captains get those facts before social does."
         },
         "midday": {
-          "label": "Midday — only if facts changed",
+          "label": "Only if facts changed",
           "content": "Skip if nothing new. Silence beats noise when the facts are stable."
         },
         "evening": {
-          "label": "Evening — recap and tomorrow",
-          "content": "Thank members, confirm tomorrow’s schedule, link website FAQ. No new bargaining details unless cleared."
+          "label": "Recap only if members need tomorrow’s facts",
+          "content": "Thank members, confirm tomorrow’s schedule, link the strike page. No new bargaining details unless cleared."
         },
         "queue": {
-          "label": "Draft queue in one doc",
+          "label": "Draft queue in one place",
           "content": "Comms lead holds drafts; president batch-approves. Prevents duplicate posts from well-meaning volunteers."
         }
       },
-      "tip": "Write tomorrow’s three messages tonight. Crisis mornings are not for drafting from scratch."
+      "tip": "Write the next update when you still have the facts, not at 5 a.m. on the line. Captains hear it first."
     },
     "fullScenario": {
       "navLabel": "Full walk-through",
@@ -4331,7 +4342,7 @@
           "content": "Pull expired meeting flyers. Leave contacts strip up overnight."
         }
       },
-      "tip": "If you posted more than three times before lunch, you probably posted too much."
+      "tip": "Hold the channel until president and servicing agree on the facts. Then one correction, same text everywhere."
     },
     "escalation": {
       "navLabel": "Escalation",
@@ -4732,6 +4743,7 @@
       "seniority": "Seniority & bumping",
       "jointCommittee": "Joint committee playbook",
       "bargaining": "The Bargaining Lifecycle: From Survey to Signing",
+      "strike": "Strike operations playbook",
       "bylaws": "Local Bylaws: The Rules of Your Local",
       "runningMeetings": "Running a Meeting & Robert's Rules",
       "landAcknowledgement": "Land Acknowledgement Guide"
@@ -4747,6 +4759,7 @@
       "seniority": "Two cascade examples and a printable seniority worksheet.",
       "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
       "bargaining": "Survey to signing for Local Bargaining Committees — table updates, strike votes, ratification, checklists, and the on-device Proposal Tracker.",
+      "strike": "Command, the picket line, member care, money, safety, and return to work. Not a posting calendar.",
       "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval.",
       "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say when you move or raise a point.",
       "landAcknowledgement": "Draft alone or lead a workshop with the one-page ruled PDF — research, reflect, and pair words with action. Federation guides linked; no copy-paste generator."
@@ -6597,7 +6610,7 @@
     "noDataBodyCommsOnly": "We don’t harvest data or sell ads. Comms stay in your browser. No venture landlords, no surveillance business model.",
     "noAdsTitle": "No ads, no tracking:",
     "noAdsBody": "We aren't selling your attention.",
-    "closing": "UnionOps is built by union volunteers who wanted a solid tool for people doing the hard work on the ground.",
+    "closing": "UnionOps is built by union volunteers who wanted a solid toolkit for a local — or a whole union — doing the hard work on the ground.",
     "slogan": "Solidarity.",
     "supportLead": "If the public tools helped and you want to chip in for coffee or the public site,",
     "supportLink": "there’s a quiet Support page.",
@@ -6645,6 +6658,10 @@
       "office-export-brand-fonts": {
         "title": "Word and Excel keep your Brand Kit type",
         "body": "Minutes, ballots, and Document Generator worksheets now carry your Brand Kit fonts into Word and Excel—including French RSVP sheets—so downloads look on-brand offline."
+      },
+      "union-toolkit-home": {
+        "title": "Home — pick Comms, steward craft, or running the local",
+        "body": "The public site now opens as a union toolkit. Choose First week for communications, Steward playbooks for floor training, or Officer Learning until Officer Hub is invited."
       },
       "union-boards-pdf-templates": {
         "title": "Guide spreadsheets — open CSV templates as Excel",
@@ -6994,7 +7011,7 @@
       "altText": "Alt-text on all informational images",
       "reducedMotion": "Reduced motion support via system settings and user preference",
       "bilingual": "English and French language options",
-      "displaySettings": "Adjustable font size, high contrast, and reduced motion settings",
+      "displaySettings": "Adjustable font size, high contrast, reduced motion, and Officer Learning colour settings",
       "skipLink": "Skip link to jump directly to main content",
       "altTextTool": "Alt-Text Assistant to draft image descriptions for social posts"
     },
@@ -7023,6 +7040,12 @@
       "highContrastDescription": "Stronger text and border contrast for easier reading.",
       "reducedMotionLabel": "Reduce motion",
       "reducedMotionDescription": "Minimize animations and transitions, regardless of system settings.",
+      "officerLearningColourLabel": "Officer Learning colour",
+      "officerLearningColourDescription": "This only changes the Officer Learning training pages. Other guides stay as they are.",
+      "officerLearningColour": {
+        "navy": "Navy (default)",
+        "light": "Light"
+      },
       "previewLabel": "Preview",
       "previewText": "The quick brown fox jumps over the lazy dog. Your local union deserves tools that work for everyone."
     }
@@ -8882,8 +8905,9 @@
     "startHereTitle": "Start here",
     "startHereIntro": "Follow the first-week channel order after Brand Kit, or open the full roadmap.",
     "startHereRoadmap": "Open First week roadmap",
-    "labourPlaybooksTitle": "Floor playbooks",
-    "labourPlaybooksIntro": "When a member asks for help on the floor, start with these guides.",
+    "labourPlaybooksTitle": "Steward craft",
+    "labourPlaybooksIntro": "Floor playbooks, Officer Learning, and worksheets share one front door.",
+    "labourPlaybooksCta": "Open steward playbooks",
     "blurbs": {
       "logoBuilder": "Build a circular, square, or rectangle local logo plate.",
       "resizer": "Crop logos and images to Facebook, Instagram, and YouTube sizes.",
@@ -9714,6 +9738,262 @@
       "far": "Download FAR pocket sheet",
       "discipline": "Download discipline pocket sheet",
       "meiorin": "Download Meiorin pocket sheet"
+    }
+  },
+  "unionHistoryGuide": {
+    "title": "How Canadian Unions Connect",
+    "subtitle": "Canadian labour history and a worked map from one Niagara local to the CLC",
+    "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "intro": "Affiliation is how a local sits inside a larger house of labour. This guide sketches Canadian union history, then maps OPSEU / SEFPO Local 243 from Niagara College to the Canadian Labour Congress so you can draw the same map for your own local.",
+    "disclaimer": {
+      "title": "A teaching map — not a certificate of affiliation",
+      "body": "Locals, area councils, and labour councils change delegates and dues status. Confirm your own affiliations with your local executive and parent union before you speak for them. This is education for the floor, not legal advice and not an official directory."
+    },
+    "related": {
+      "officerLearning": "Officer Learning Center",
+      "steward101": "Steward 101",
+      "workplaceMapping": "Workplace mapping"
+    },
+    "why": {
+      "navLabel": "Why it matters",
+      "title": "Why a steward should know the house",
+      "intro": "You do not need a civics lecture. You need to know who to call when the fight leaves your worksite.",
+      "items": {
+        "rally": {
+          "label": "A city-wide rally or Labour Day",
+          "content": "That is usually your labour council, not your provincial union's head office. Delegates from many unions vote and share lists."
+        },
+        "campaign": {
+          "label": "A provincial law or budget fight",
+          "content": "Provincial federations coordinate affiliates so one local is not shouting alone at Queen's Park or a legislature."
+        },
+        "education": {
+          "label": "Steward school while you wait for national training",
+          "content": "The Canadian Labour Congress and many labour councils run courses that any affiliated local can send people to."
+        },
+        "strike": {
+          "label": "A strike or lock-out nearby",
+          "content": "Labour councils and federations exist so other unions hear early, show up on the line, and do not cross it."
+        }
+      }
+    },
+    "history": {
+      "navLabel": "A short history",
+      "title": "A short history of the Canadian house",
+      "intro": "The bodies in the map below are not a corporate org chart. They are the leftover architecture of a century of fights over who gets to bargain, strike, and speak for workers.",
+      "items": {
+        "nineHour": {
+          "label": "1872 — Nine-Hour Movement",
+          "content": "Craft workers in Ontario and Montréal struck for a shorter day. The campaign helped win a limited legal right to form unions, which is why locals still treat the right to associate as something that was taken, not granted."
+        },
+        "winnipeg": {
+          "label": "1919 — Winnipeg General Strike",
+          "content": "Building and metal trades walked out; much of the city followed. The strike failed as a bargaining round and still taught the movement that craft isolation loses city-wide fights."
+        },
+        "rand": {
+          "label": "1946 — Rand Formula",
+          "content": "After the Windsor Ford strike, Justice Ivan Rand's award required dues from everyone in the bargaining unit. Union security in Canadian public-sector agreements still sits on that idea."
+        },
+        "clcMerge": {
+          "label": "1956 — Canadian Labour Congress",
+          "content": "The Trades and Labor Congress (craft) and the Canadian Congress of Labour (industrial) merged. Provincial federations and local labour councils are chartered under that congress, not invented by each union."
+        },
+        "publicSector": {
+          "label": "1960s–70s — public-sector wave",
+          "content": "CUPE, provincial government unions, and NUPGE (1976) grew as public workers won bargaining rights. OPSEU / SEFPO is a NUPGE component: a provincial union inside a national federation of unions."
+        },
+        "quebec": {
+          "label": "Québec is not the same house",
+          "content": "Québec Catholic unions stayed outside the 1956 merger. CSN, FTQ, and other centrals still mean a Québec local may not sit in the CLC at all. Do not paste an Ontario map onto a Québec local."
+        }
+      },
+      "tip": "History is the reason a campus local can call a city labour council for a rally and a national federation for research in the same week. The house was built so you are not alone."
+    },
+    "tracks": {
+      "navLabel": "Two tracks",
+      "title": "Two tracks, not one ladder",
+      "intro": "Tidy charts that stack every body in a single parent-child line are wrong. A local sits on two tracks at once: its union family, and the geographic house of labour in its city and province.",
+      "diagram": {
+        "familyTitle": "Union family",
+        "geoTitle": "Geographic house",
+        "familyLocal": "Your local",
+        "familyUnion": "Parent union",
+        "familyNational": "National federation (if any)",
+        "familyCongress": "Canadian Labour Congress",
+        "geoLocal": "Your local (or parent union)",
+        "geoCouncil": "Labour council",
+        "geoFed": "Provincial federation",
+        "geoCongress": "Canadian Labour Congress",
+        "caption": "The CLC sits on both tracks because federations, labour councils, and national unions are chartered into the same congress — not because one body bosses the other."
+      },
+      "nupgeLead": "NUPGE's own steward map of this forest is",
+      "nupgeLink": "Finding Yourself in the Labour Movement",
+      "nupgeTail": ". It walks local, component, national union, and the CLC, then treats labour councils and federations as a parallel path — not a higher boss.",
+      "clcLead": "The Canadian Labour Congress lists every provincial federation and labour council on",
+      "clcLink": "Federations of Labour and Labour Councils",
+      "clcTail": ". Use that directory to find your city council instead of guessing from a neighbouring local's website."
+    },
+    "example": {
+      "navLabel": "Local 243 map",
+      "title": "Worked example: OPSEU / SEFPO Local 243",
+      "intro": "UnionOps uses Local 243 as the reference local because it is a real Niagara College CAAT Support local, not a fictional demo. Your numbers and names will differ. The shape is what to copy.",
+      "diagram": {
+        "local": "Local 243 — Niagara College CAAT Support",
+        "area": "Niagara Area Council (OPSEU / SEFPO)",
+        "council": "Niagara Regional Labour Council",
+        "union": "OPSEU / SEFPO (Region 2)",
+        "ofl": "Ontario Federation of Labour",
+        "nupge": "NUPGE",
+        "clc": "Canadian Labour Congress",
+        "caption": "Two forks at the city and two at the national: Area Council versus labour council, then OFL versus NUPGE, both into the CLC."
+      },
+      "items": {
+        "local": {
+          "label": "The local",
+          "content": "OPSEU / SEFPO Local 243 represents full-time and part-time support staff at Niagara College. The first digit of an OPSEU / SEFPO local number is the region — 243 sits in Region 2. Bargaining for college support is provincial; the local still owns representation, meetings, and community work."
+        },
+        "council": {
+          "label": "The labour council",
+          "before": "The Niagara Regional Labour Council is a CLC-chartered, multi-union body. Its",
+          "link": "Who We Are affiliate list",
+          "after": "names OPSEU / SEFPO Local 243 beside CUPE, USW, teachers' locals, and others in Niagara. That is the receipt: the local sits in the city house of labour, not only inside its parent union."
+        },
+        "area": {
+          "label": "The area council",
+          "content": "Niagara Area Council is an OPSEU / SEFPO body of locals in the same region. It is not the labour council. There is no durable public homepage to cite; ask your local executive or regional office. PSAC also uses the name Niagara Area Council for a different body — do not mix them."
+        },
+        "union": {
+          "label": "The parent union",
+          "content": "Locals affiliate to OPSEU / SEFPO, which holds convention, regions, and sectors. The local does not join NUPGE or the CLC as a standalone. Those seats belong to the provincial union (and, for the city, to the labour council)."
+        },
+        "nupge": {
+          "label": "NUPGE and the CLC",
+          "before": "NUPGE is a union of unions. Components elect their own officers, set dues, and bargain.",
+          "link": "NUPGE's About page",
+          "after": "lists thirteen autonomous components, including OPSEU / SEFPO. Membership in NUPGE is how those components sit in the Canadian Labour Congress and in Public Services International."
+        }
+      },
+      "tip": "If you only remember one split: Area Council is your union's locals in the city. Labour council is every affiliated union in the city."
+    },
+    "layers": {
+      "navLabel": "What each layer does",
+      "title": "What each layer actually does",
+      "intro": "Names without jobs are trivia. Use this when a member asks why dues leave the local.",
+      "items": {
+        "local": {
+          "label": "Local",
+          "content": "Stewards, grievances, GMMs, local bylaws, and the first face members see. If this layer is weak, the rest of the house cannot see the worksite."
+        },
+        "area": {
+          "label": "Union area or district council",
+          "content": "Optional and union-specific. OPSEU / SEFPO area councils pool neighbouring locals for municipal campaigns and shared events. CUPE uses district councils. Many unions have neither."
+        },
+        "council": {
+          "label": "Labour council",
+          "content": "CLC-chartered. Multi-union. Labour Day, municipal politics, flying squads, and the first call when another local in town is on strike."
+        },
+        "union": {
+          "label": "Parent union",
+          "content": "Constitution, bargaining (or bargaining support), strike fund, staff reps, and convention. This is the body that usually holds the CLC and federation affiliations."
+        },
+        "ofl": {
+          "label": "Provincial federation",
+          "content": "In Ontario, the Ontario Federation of Labour. Chartered by the CLC. Coordinates affiliates in the province and is the room for a common fight with the provincial government."
+        },
+        "nupge": {
+          "label": "National federation of unions",
+          "content": "NUPGE is this layer for OPSEU / SEFPO. CUPE and Unifor skip it: they affiliate to the CLC as national unions. Do not invent a NUPGE-shaped box on a CUPE map."
+        },
+        "clc": {
+          "label": "Canadian Labour Congress",
+          "content": "The largest Canadian labour central. National campaigns, labour education, and the charter for federations and labour councils. Not a bargaining agent for your members."
+        }
+      }
+    },
+    "mapYours": {
+      "navLabel": "Map your local",
+      "title": "Map your own local",
+      "intro": "Copy the Local 243 shape, then replace every proper name. Thirty minutes with your bylaws, a labour council directory, and one officer who has been to convention is enough.",
+      "items": {
+        "name": {
+          "label": "Write the local's legal name and number",
+          "content": "Include the employer or bargaining unit in one line, the way Local 243 names Niagara College CAAT Support. That line is what you print on a website and a board."
+        },
+        "parent": {
+          "label": "Name the parent union",
+          "content": "The constitution on your local's wall is the parent. That is who bargains or who staffs your bargaining, and who must approve local bylaws."
+        },
+        "federation": {
+          "label": "Ask if the parent sits inside a federation of unions",
+          "content": "NUPGE components do. CUPE, Unifor, USW, and many others affiliate to the CLC directly. If your officer cannot name the federation, you probably do not have one."
+        },
+        "council": {
+          "label": "Find the labour council",
+          "content": "Use the CLC federations and councils directory. Then confirm your local actually pays per capita and sends delegates. A listing on someone else's website is not the same as being in good standing."
+        },
+        "provincial": {
+          "label": "Name the provincial or territorial federation",
+          "content": "OFL in Ontario, FTQ in Québec for CLC affiliates, and a different central if your union is outside the CLC. Labour councils also affiliate upward to that federation."
+        },
+        "internal": {
+          "label": "List union-internal regional bodies last",
+          "content": "Area councils, district councils, regional offices, and sectors. They matter for campaigns and staff support. They are not the labour council."
+        }
+      },
+      "tip": "Write the finished map in Brand Kit links and on your local site so the next steward does not have to reconstruct it from hallway knowledge."
+    },
+    "notThis": {
+      "navLabel": "Common mix-ups",
+      "title": "Common mix-ups",
+      "intro": "These are the errors that make a tidy chart lie to a new steward.",
+      "items": {
+        "oneStack": {
+          "label": "One ladder from local to CLC",
+          "content": "The local does not report to NUPGE, and NUPGE does not supervise the labour council. Two tracks share a congress at the top."
+        },
+        "nupgeParent": {
+          "label": "Treating NUPGE as the local's parent",
+          "content": "NUPGE does not bargain your campus agreement or hear your GMM. OPSEU / SEFPO (or your own parent union) does. NUPGE coordinates components and holds the national CLC seat for that family."
+        },
+        "areaEqualsCouncil": {
+          "label": "Area council equals labour council",
+          "content": "One is your union's locals in the city. The other is every affiliated union in the city. Niagara has both, and PSAC reuses the Area Council name for a third body."
+        },
+        "quebec": {
+          "label": "Assuming every Canadian local sits in the CLC",
+          "content": "Québec centrals and some independent unions do not. Ask before you print CLC and OFL logos on a flyer."
+        },
+        "unaffiliated": {
+          "label": "Assuming the local is in the labour council",
+          "content": "CLC affiliates are expected to send locals into councils where they exist. Dues lapse. New locals delay. Confirm with the council secretary, not a screenshot of a five-year-old list."
+        }
+      }
+    },
+    "tools": {
+      "navLabel": "Tools",
+      "title": "Tools that hold the map",
+      "intro": "Once the names are right, put them where members can see them. Do not keep the house of labour as hallway lore.",
+      "items": {
+        "orgChart": {
+          "label": "Org Chart",
+          "content": "Put local officers and the labour-council delegate on the same poster so members know who sits in which room."
+        },
+        "website": {
+          "label": "Website Template",
+          "content": "Local 243's live site is the reference for a simple local page. Link the labour council and parent union from the footer, using Brand Kit links — not a one-off paste."
+        },
+        "bylaws": {
+          "label": "Local bylaws",
+          "content": "Affiliation, delegates, and who may speak for the local belong in bylaws or policy, not only in a slide from last convention."
+        },
+        "meetings": {
+          "label": "Running meetings",
+          "content": "Labour council and area council reports are GMM business. Give them a spot on the agenda so affiliation is a habit, not a trivia question."
+        }
+      }
     }
   },
   "runningMeetingsGuide": {
@@ -11083,11 +11363,11 @@
         },
         "crisis": {
           "label": "Escalate when stakes rise",
-          "content": "Strike votes, No Board, and picket logistics live in the Strike & Crisis Comms Guide — use that playbook for high-stakes messaging."
+          "content": "When a lawful stoppage is near, Strike operations runs the line. Crisis comms owns who may speak and what never goes public."
         }
       },
       "tip": "One message, many channels. If the email and the board notice disagree, members will trust neither.",
-      "crisisCta": "Open strike & crisis bargaining rules"
+      "crisisCta": "Open crisis comms"
     },
     "tracker": {
       "navLabel": "Proposal Tracker",
@@ -11146,7 +11426,8 @@
       },
       "warningTitle": "Ontario countdown is statute-specific",
       "warning": "Do not announce a strike start date from this page. Use the mailed No Board date, your Act, and your Staff Representative. Wrong dates put members at legal risk.",
-      "crisisCta": "Strike & crisis comms guide",
+      "crisisCta": "Crisis comms guide",
+      "strikeOpsCta": "Strike operations playbook",
       "ccbaTitle": "College units (CCBA)",
       "ccbaBody": "If your certificate sits under the Colleges Collective Bargaining Act, do not assume the LRA No Board diagram applies day-for-day. Ask your national or provincial college bargaining team for the sector clock, then keep the same local jobs: survey, updates, strike vote logistics, and tracker discipline."
     },
@@ -11261,8 +11542,12 @@
       "intro": "Keep jobs separate so members get the right playbook.",
       "items": {
         "crisis": {
-          "label": "Not the Strike & Crisis Comms Guide",
-          "content": "Use the Strike Guide for picket messaging, media lines, and high-stakes cadence once a work stoppage is near."
+          "label": "Not the Crisis Comms Guide",
+          "content": "Who may speak, photo consent, and management bait live there. Picket logistics live on Strike operations."
+        },
+        "strike": {
+          "label": "Not the Strike operations playbook",
+          "content": "Command, the picket line, hardship, safety, and return to work live there. This page is how a unit reaches a lawful window."
         },
         "grievance": {
           "label": "Not the grievance process",

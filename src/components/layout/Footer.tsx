@@ -32,29 +32,8 @@ export function Footer() {
           className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-0 lg:flex-1 lg:justify-end"
           aria-label={nav("footerNav")}
         >
-          <Link href="/guide" className={footerLinkClass}>
-            {nav("guide")}
-          </Link>
           <Link href="/tools" className={footerLinkClass}>
             {nav("tools")}
-          </Link>
-          <Link href="/guide/print" className={footerLinkClass}>
-            {nav("printGuide")}
-          </Link>
-          <Link href="/guide/email-broadcast" className={footerLinkClass}>
-            {nav("emailBroadcastGuide")}
-          </Link>
-          <Link href="/examples" className={footerLinkClass}>
-            {nav("socialExamples")}
-          </Link>
-          <Link href="/captions" className={footerLinkClass}>
-            {nav("captions")}
-          </Link>
-          <Link href="/guide/resources" className={footerLinkClass}>
-            {nav("resources")}
-          </Link>
-          <Link href="/guide/land-acknowledgement" className={footerLinkClass}>
-            {nav("landAcknowledgementGuide")}
           </Link>
           <Link href="/guide/steward-playbooks" className={footerLinkClass}>
             {nav("stewardPlaybooksHub")}
@@ -62,17 +41,14 @@ export function Footer() {
           <Link href={OFFICER_LEARNING_HREF} className={footerLinkClass}>
             {nav("officerLearningTopNav")}
           </Link>
-          <Link href="/assets" className={footerLinkClass}>
-            {nav("assets")}
+          <Link href="/brand-kit" className={footerLinkClass}>
+            {nav("brandKit")}
           </Link>
           <Link href="/updates" className={footerLinkClass}>
             {nav("whatsNew")}
           </Link>
           <Link href="/manifesto" className={footerLinkClass}>
             {nav("manifesto")}
-          </Link>
-          <Link href="/install" className={footerLinkClass}>
-            {nav("install")}
           </Link>
           <Link href="/privacy" className={footerLinkClass}>
             {nav("privacy")}
@@ -85,9 +61,6 @@ export function Footer() {
           </Link>
           <Link href="/feedback" className={footerLinkClass}>
             {nav("feedback")}
-          </Link>
-          <Link href="/build" className={footerLinkClass}>
-            {nav("buildInfo")}
           </Link>
         </nav>
       </div>

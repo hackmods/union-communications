@@ -42,6 +42,12 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/tools/board-notice",
   },
   {
+    id: "union-toolkit-home",
+    date: "2026-09-04",
+    kind: "improved",
+    href: "/",
+  },
+  {
     id: "caat-a-look",
     date: "2026-09-04",
     kind: "added",

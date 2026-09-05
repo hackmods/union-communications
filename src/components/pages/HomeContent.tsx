@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
@@ -58,12 +59,13 @@ const channelOrder: ChannelId[] = ["boards", "print", "social", "website"];
 export function HomeContent() {
   const t = useTranslations("home");
   const nav = useTranslations("nav");
-  const common = useTranslations("common");
   const hubPublic = isOfficerHubPublic();
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
-  const brandHref = themeEstablished ? "/brand-kit" : "/onboarding";
+  const commsHref = themeEstablished
+    ? "/guide/social-media-plan"
+    : "/onboarding";
 
   const primary = brandKit.primaryColor;
   const secondary = brandKit.secondaryColor;
@@ -77,6 +79,11 @@ export function HomeContent() {
   const inkMuted = inkWithAlpha(ink, isLightInk(ink) ? 0.92 : 0.88);
   const inkSoft = inkWithAlpha(ink, isLightInk(ink) ? 0.84 : 0.78);
   const lightInk = isLightInk(ink);
+
+  useEffect(() => {
+    if (window.location.hash !== "#toolkit") return;
+    document.getElementById("toolkit")?.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   return (
     <>
@@ -135,32 +142,17 @@ export function HomeContent() {
                 {t(hubPublic ? "subtitle" : "subtitleCommsOnly")}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href={brandHref} onClick={markWorkshopDemoSession}>
-                  <Button
-                    size="lg"
-                    className={cn(
-                      "min-h-11",
-                      lightInk
-                        ? "bg-white text-opseu-dark hover:bg-white/90"
-                        : "bg-opseu-dark text-white hover:bg-opseu-dark/90",
-                    )}
-                  >
-                    {themeEstablished ? t("openBrandKitCta") : t("heroCta")}
-                  </Button>
-                </Link>
-                <Link href="/guide/social-media-plan">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="min-h-11 border-2 bg-transparent hover:bg-black/5"
-                    style={{
-                      borderColor: ink,
-                      color: ink,
-                    }}
-                  >
-                    {t("whatsNextCta")}
-                  </Button>
-                </Link>
+                <a
+                  href="#toolkit"
+                  className={cn(
+                    "inline-flex min-h-11 items-center justify-center rounded-lg px-6 py-3 text-lg font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+                    lightInk
+                      ? "bg-white text-opseu-dark hover:bg-white/90"
+                      : "bg-opseu-dark text-white hover:bg-opseu-dark/90",
+                  )}
+                >
+                  {t("heroCta")}
+                </a>
               </div>
             </div>
           </div>
@@ -170,7 +162,7 @@ export function HomeContent() {
       </section>
 
       <PageShell className="py-8 md:py-12">
-        <section className="home-enter home-enter-delay-1 mb-12 space-y-4">
+        <section className="home-enter home-enter-delay-1 mb-10">
           <Callout tone="plain" className="bg-opseu-blue/5" role="note">
             {t(hubPublic ? "trustBanner" : "trustBannerCommsOnly")}{" "}
             <Link
@@ -180,112 +172,113 @@ export function HomeContent() {
               {t("trustManifestoLink")}
             </Link>
           </Callout>
-          <WorkshopDemoPath className="rounded-xl border border-gray-200 bg-white p-4 sm:p-5" />
-          <p className="text-sm text-gray-600">
-            {t(hubPublic ? "privacyNote" : "privacyNoteCommsOnly")}
-          </p>
-          <ShareThisTool />
         </section>
 
-        {hubPublic ? (
-          <section className="home-enter home-enter-delay-2 mb-12 space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
+        <section
+          id="toolkit"
+          className="home-enter home-enter-delay-2 mb-12 scroll-mt-28"
+          aria-labelledby="home-jobs-heading"
+        >
+          <h2
+            id="home-jobs-heading"
+            className="text-2xl font-bold text-opseu-dark"
+          >
+            {t("jobsTitle")}
+          </h2>
+          <p className="mt-2 max-w-2xl text-base text-gray-600">
+            {t("jobsIntro")}
+          </p>
+          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Callout
               tone="brand"
               data-testid="home-path-comms"
               className="flex flex-col gap-3 p-5"
             >
               <div>
-                <h2 className="text-lg font-bold text-opseu-dark">
+                <h3 className="text-lg font-bold text-opseu-dark">
                   {t("pathCommsTitle")}
-                </h2>
+                </h3>
                 <p className="mt-2 text-sm text-gray-600">{t("pathCommsDesc")}</p>
                 <p className="mt-2 text-sm text-gray-600">{t("pathCommsHint")}</p>
               </div>
               <div>
-                <Link href={brandHref}>
+                <Link href={commsHref} onClick={markWorkshopDemoSession}>
                   <Button size="md" className="min-h-11">
-                    {t("pathCommsCta")}
+                    {themeEstablished
+                      ? t("openFirstWeekCta")
+                      : t("brandSetupCta")}
+                  </Button>
+                </Link>
+              </div>
+            </Callout>
+
+            <Callout
+              tone="plain"
+              data-testid="home-path-steward"
+              className="flex flex-col gap-3 p-5"
+            >
+              <div>
+                <h3 className="text-lg font-bold text-opseu-dark">
+                  {t("pathStewardTitle")}
+                </h3>
+                <p className="mt-2 text-sm text-gray-600">{t("pathStewardDesc")}</p>
+              </div>
+              <div>
+                <Link href="/guide/steward-playbooks">
+                  <Button size="md" variant="outline" className="min-h-11">
+                    {t("pathStewardCta")}
                   </Button>
                 </Link>
               </div>
             </Callout>
             <Callout
               tone="plain"
-              className="flex flex-col gap-3 p-5"
+              data-testid="home-path-officer"
+              className="flex flex-col gap-3 p-5 md:col-span-2 lg:col-span-1"
             >
               <div>
-                <h2 className="text-lg font-bold text-opseu-dark">
+                <h3 className="text-lg font-bold text-opseu-dark">
                   {t("pathOfficerTitle")}
-                </h2>
-                <p className="mt-2 text-sm text-gray-600">{t("pathOfficerDesc")}</p>
-              </div>
-              <div>
-                <Link href="/app">
-                  <Button size="md" className="min-h-11">
-                    {t("pathOfficerCta")}
-                  </Button>
-                </Link>
-              </div>
-            </Callout>
-            </div>
-            <Callout tone="plain" className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-lg font-bold text-opseu-dark">{t("pathStewardTitle")}</h2>
-                <p className="mt-2 text-sm text-gray-600">{t("pathStewardDesc")}</p>
-              </div>
-              <div className="flex flex-col gap-2 sm:shrink-0 sm:flex-row">
-                <Link href="/guide/steward-playbooks">
-                  <Button size="md" variant="outline" className="min-h-11 w-full sm:w-auto">
-                    {t("pathStewardCta")}
-                  </Button>
-                </Link>
-                <Link href="/guide/officer-learning">
-                  <Button size="md" variant="outline" className="min-h-11 w-full sm:w-auto">
-                    {t("pathStewardOfficerLearningCta")}
-                  </Button>
-                </Link>
-              </div>
-            </Callout>
-          </section>
-        ) : (
-          <section className="home-enter home-enter-delay-2 mb-12 space-y-4">
-            <Callout tone="plain" className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-lg font-bold text-opseu-dark">{t("pathStewardTitle")}</h2>
-                <p className="mt-2 text-sm text-gray-600">{t("pathStewardDesc")}</p>
-              </div>
-              <div className="flex flex-col gap-2 sm:shrink-0 sm:flex-row">
-                <Link href="/guide/steward-playbooks">
-                  <Button size="md" variant="outline" className="min-h-11 w-full sm:w-auto">
-                    {t("pathStewardCta")}
-                  </Button>
-                </Link>
-                <Link href="/guide/officer-learning">
-                  <Button size="md" variant="outline" className="min-h-11 w-full sm:w-auto">
-                    {t("pathStewardOfficerLearningCta")}
-                  </Button>
-                </Link>
-              </div>
-            </Callout>
-            <Callout
-              tone="muted"
-              className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
-            >
-              <div>
-                <p className="font-semibold text-opseu-dark">
-                  {t("pathOfficerTitleComingSoon")}
-                </p>
-                <p className="mt-1 text-sm text-gray-600">
-                  {t("pathOfficerDescComingSoon")}
+                </h3>
+                <p className="mt-2 text-sm text-gray-600">
+                  {t(
+                    hubPublic
+                      ? "pathOfficerDesc"
+                      : "pathOfficerLearningDesc",
+                  )}
                 </p>
               </div>
-              <p className="shrink-0 text-xs font-semibold uppercase tracking-wide text-gray-700">
-                {t("pathOfficerCtaComingSoon")}
-              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                {hubPublic ? (
+                  <Link href="/app">
+                    <Button size="md" className="min-h-11">
+                      {t("pathOfficerCta")}
+                    </Button>
+                  </Link>
+                ) : (
+                  <>
+                    <Link href="/guide/officer-learning">
+                      <Button size="md" variant="outline" className="min-h-11">
+                        {t("pathOfficerLearningCta")}
+                      </Button>
+                    </Link>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-700">
+                      {t("pathOfficerCtaComingSoon")}
+                    </p>
+                  </>
+                )}
+              </div>
             </Callout>
-          </section>
-        )}
+          </div>
+        </section>
+
+        <section className="home-enter home-enter-delay-2 mb-12 space-y-4">
+          <WorkshopDemoPath className="rounded-xl border border-gray-200 bg-white p-4 sm:p-5" />
+          <p className="text-sm text-gray-600">
+            {t(hubPublic ? "privacyNote" : "privacyNoteCommsOnly")}
+          </p>
+          <ShareThisTool />
+        </section>
 
         <section className="home-enter home-enter-delay-3">
           <div className="flex flex-col gap-4 border-b border-gray-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
@@ -315,15 +308,6 @@ export function HomeContent() {
                 className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
               >
                 {nav("logoBuilder")}
-              </Link>
-              <span className="text-gray-300" aria-hidden="true">
-                ·
-              </span>
-              <Link
-                href="/assets"
-                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-              >
-                {nav("assets")}
               </Link>
             </nav>
           </div>
@@ -359,19 +343,19 @@ export function HomeContent() {
 
         <section className="mt-12 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
           <Link
-            href="/guide/resources"
+            href="/guide/social-media-plan"
             className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
           >
-            {nav("resources")}
+            {nav("firstWeek")}
           </Link>
           <span className="text-gray-300" aria-hidden="true">
             ·
           </span>
           <Link
-            href="/guide"
+            href="/guide/steward-playbooks"
             className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
           >
-            {common("learnMore")}
+            {nav("stewardPlaybooksHub")}
           </Link>
         </section>
       </PageShell>

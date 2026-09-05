@@ -77,11 +77,11 @@ test.describe("Workshop demo path E2E @smoke", () => {
     ).toHaveCount(0);
   });
 
-  test("home hero Brand Kit CTA joins the demo trail", async ({ page }) => {
+  test("home Comms path Brand Kit CTA joins the demo trail", async ({ page }) => {
     await page.goto("/en/");
     await page
-      .locator(".home-hero")
-      .getByRole("link", { name: /Set up your local brand|Open Brand Kit/i })
+      .getByTestId("home-path-comms")
+      .getByRole("link", { name: /Set up your local brand|Open First week|Open Brand Kit/i })
       .click();
     await page.goto("/en/tools/graphic-maker/");
     await expect(

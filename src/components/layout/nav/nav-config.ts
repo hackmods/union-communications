@@ -83,17 +83,17 @@ export const OFFICER_LEARNING_HREF = "/guide/officer-learning" as const;
 export const guidesMenuLabelKey = "guides" as const;
 
 /**
- * Guides ▾ mega-menu — hub-first. Comms onboarding and channels first;
- * steward training second lane; reference libraries and about last.
+ * Guides ▾ mega-menu — toolkit-first. Comms practice, channels, then
+ * steward craft. Officer Learning is a top-level header link, not nested here.
  * Topic playbooks (grievance, DFR, bylaws, …) live on `/guide/steward-playbooks`.
+ * Resources (bibliography) sits in Libraries.
  */
 export const learnGroups: readonly NavGroup[] = [
   {
     labelKey: "learnGroupGuides",
     links: [
-      { href: "/guide", key: "guide" },
       { href: "/guide/social-media-plan", key: "firstWeek" },
-      { href: "/guide/resources", key: "resources" },
+      { href: "/guide", key: "guide" },
       { href: "/guide/workshop", key: "workshopGuide" },
     ],
   },
@@ -123,6 +123,7 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/captions", key: "captions" },
       { href: "/guide/photo-consent", key: "photoConsent" },
       { href: "/assets", key: "assets" },
+      { href: "/guide/resources", key: "resources" },
     ],
   },
   {
@@ -226,11 +227,14 @@ export function linkActive(pathname: string, href: string): boolean {
 }
 
 /**
- * Get started: onboarding until Brand Kit identity exists, then first-week roadmap.
- * Brand Kit stays a separate top-level link so chrome does not duplicate `/brand-kit`.
+ * Get started lands on the Home toolkit chooser (Comms / steward / officers).
+ * Brand Kit stays a separate top-level link. Comms onboarding is the Comms
+ * path card, not this chrome CTA.
  */
-export function getStartedHref(themeEstablished: boolean): string {
-  return themeEstablished ? "/guide/social-media-plan" : "/onboarding";
+export const GET_STARTED_HREF = "/#toolkit" as const;
+
+export function getStartedHref(): string {
+  return GET_STARTED_HREF;
 }
 
 export function isOfficerLearningPath(pathname: string): boolean {

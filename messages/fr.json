@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "UnionOps | Outils gratuits et Hub des dirigeants pour sections locales",
-    "titleCommsOnly": "UnionOps | Outils gratuits pour sections locales",
-    "description": "Outils Comms gratuits sur votre appareil. Un Hub des dirigeants ou un Portail local hébergé a un coût, et vous contrôlez qui voit ces dossiers.",
-    "descriptionCommsOnly": "Outils Comms gratuits pour délégués et dirigeants. Ils restent sur votre appareil : pas de pubs, et personne ne collecte vos données."
+    "title": "UnionOps | Outils pour sections et syndicats",
+    "titleCommsOnly": "UnionOps | Outils pour sections locales",
+    "description": "Communications, formation des délégués et guides pour dirigeants. Les outils Comms restent gratuits sur votre appareil. Un Hub des dirigeants hébergé a un coût.",
+    "descriptionCommsOnly": "Communications, formation des délégués et guides pour dirigeants. Ils restent sur votre appareil : pas de pubs, personne ne récolte vos données."
   },
   "nav": {
     "home": "Accueil",
@@ -56,8 +56,8 @@
     "seniorityGuide": "Ancienneté et bumping",
     "jointCommitteeGuide": "Comité conjoint",
     "bargainingGuide": "Cycle de négociation",
-    "learnGroupGuides": "Pour commencer",
-    "learnGroupStewardTraining": "Formation des délégués",
+    "learnGroupGuides": "Comms",
+    "learnGroupStewardTraining": "Travail de délégué",
     "learnGroupChannels": "Par canal",
     "learnGroupLibraries": "Bibliothèques",
     "learnGroupAbout": "À propos",
@@ -241,32 +241,38 @@
     "whenToUse": "À utiliser en premier pour créer une plaque logo locale, puis enregistrez-la dans la Trousse de marque pour que tous les outils s’accordent."
   },
   "home": {
-    "title": "UnionOps : Des communications professionnelles pour les sections locales",
-    "headline": "Ressemblez au syndicat que vous êtes déjà",
+    "title": "UnionOps : outils pour sections et syndicats",
+    "headline": "Un ensemble d'outils pour une section ou un syndicat",
     "slogan": "Solidarity.",
-    "subtitle": "Des outils Comms gratuits qui font gagner du temps et donnent à toute section une voix professionnelle, du tableau au Web.",
-    "subtitleCommsOnly": "Des outils de communication qui font gagner du temps aux dirigeants bénévoles et donnent à toute section une voix professionnelle.",
-    "heroCta": "Configurer la marque de votre section",
+    "subtitle": "Communications, formation des délégués et travail des dirigeants pour une section ou un syndicat.",
+    "subtitleCommsOnly": "Communications, formation des délégués et guides pour dirigeants, sur votre appareil.",
+    "heroCta": "Voir par où commencer",
+    "brandSetupCta": "Configurer la marque de votre section",
+    "openFirstWeekCta": "Ouvrir Première semaine",
     "openBrandKitCta": "Ouvrir la Trousse de marque",
-    "whatsNextCta": "Ouvrir la feuille de route de la première semaine",
-    "socialMediaPlanCta": "Continuer la feuille de route de la première semaine",
+    "whatsNextCta": "Ouvrir Première semaine",
+    "socialMediaPlanCta": "Continuer Première semaine",
     "socialMediaPlanDesc": "Après la Trousse de marque : tableaux, impression, médias sociaux et site Web simple.",
-    "pathCommsTitle": "Communiquez comme un pro, dès le premier jour",
-    "pathCommsDesc": "Réglez vos couleurs, votre numéro de section et votre logo une seule fois : chaque graphique, avis et affiche les reprend ensuite.",
-    "pathCommsCta": "Commencer",
-    "pathCommsHint": "Vous trouverez les guides par canal, les Exemples sociaux et les Légendes sous Guides.",
-    "pathOfficerTitle": "Suivez les griefs et gardez la section organisée",
-    "pathOfficerDesc": "Griefs, bumpage collégial, retards et passations restent dans le Hub des dirigeants, prêts pour le prochain délégué.",
+    "jobsTitle": "Par où commencer",
+    "jobsIntro": "Choisissez le travail devant vous. Vous pourrez revenir aux autres chemins.",
+    "pathCommsTitle": "Parlez d'une seule voix",
+    "pathCommsDesc": "Réglez la Trousse de marque une fois, puis suivez Première semaine : tableaux, impression, médias sociaux et un site simple.",
+    "pathCommsCta": "Ouvrir Première semaine",
+    "pathCommsHint": "Les guides par canal, les Exemples sociaux et les Légendes sont sous Guides.",
+    "pathOfficerTitle": "Faites tourner la section",
+    "pathOfficerDesc": "Griefs, bumpage, retards et passations restent dans le Hub des dirigeants, prêts pour le prochain délégué.",
     "pathOfficerCta": "Ouvrir le Hub des dirigeants",
-    "pathOfficerTitleComingSoon": "Flux de travail dirigeants à venir",
-    "pathOfficerDescComingSoon": "Le suivi des griefs, le bumpage collégial, les tableaux de retards et les passations sont en cours. Les outils de communication sont prêts dès maintenant.",
-    "pathOfficerCtaComingSoon": "Hub des dirigeants : bientôt",
-    "pathStewardTitle": "Formation des délégués sur le plancher",
-    "pathStewardDesc": "Délégué 101, six modules du Centre de formation des dirigeants avec autoévaluations et fiches de poche imprimables — le tout sur votre appareil.",
+    "pathOfficerLearningDesc": "Le Centre de formation des dirigeants, les réunions et les règlements sont déjà là. Les dossiers de cas vivent dans le Hub des dirigeants quand votre section est invitée.",
+    "pathOfficerLearningCta": "Ouvrir la formation des dirigeants",
+    "pathOfficerTitleComingSoon": "Hub des dirigeants sur invitation",
+    "pathOfficerDescComingSoon": "Le suivi des griefs, le bumpage, les tableaux de retards et les passations attendent dans le Hub des dirigeants. La formation et les Comms sont prêts dès maintenant.",
+    "pathOfficerCtaComingSoon": "Hub des dirigeants : sur invitation",
+    "pathStewardTitle": "Représentez sur le plancher",
+    "pathStewardDesc": "Délégué 101, griefs, négociation et fiches de poche imprimables — commencez par les guides pratiques.",
     "pathStewardCta": "Ouvrir les guides pratiques",
     "pathStewardOfficerLearningCta": "Ouvrir la formation des dirigeants",
-    "channelsTitle": "La boîte à outils",
-    "channelsIntro": "Ces outils fonctionnent ensemble pour que le message de la section reste cohérent, du tableau au Web.",
+    "channelsTitle": "Outils Comms",
+    "channelsIntro": "Des créateurs pour tableaux, impression, social et un site simple. La même Trousse de marque sur chaque fichier.",
     "brandRailDesc": "Couleurs, logo et liens clés pour chaque graphique. Consultez le pack d'actifs de référence pour des fichiers de départ.",
     "privacyNote": "Votre travail Comms ne quitte jamais votre navigateur. Hébergez un Hub des dirigeants et c’est vous qui contrôlez qui peut voir ces données.",
     "privacyNoteCommsOnly": "Votre travail Comms ne quitte jamais votre navigateur. Vos graphiques et votre Trousse de marque restent sur votre appareil.",
@@ -455,7 +461,8 @@
       "title": "Parcours connexes",
       "plan": "Commencer — Trousse de marque d'abord, puis la feuille de route Première semaine",
       "resources": "Ressources de communication — orientation, pratique, sources",
-      "crisis": "Guide de grève — communications de négociation et de grève à enjeux élevés",
+      "crisis": "Communications de crise — qui peut parler quand la section est sous pression",
+      "strike": "Opérations de grève — commandement, piquetage et retour au travail",
       "steward101": "Délégué 101 : votre rôle et vos droits",
       "officerLearning": "Centre de formation des dirigeants",
       "grievance": "Le guide du délégué sur les griefs",
@@ -560,7 +567,7 @@
         },
         "crisis": {
           "label": "Plus court en crise",
-          "content": "Mode grève : moins d'adjectifs, un porte-parole, le président approuve. Voir le Guide de grève."
+          "content": "Mode grève : moins d'adjectifs, un porte-parole, le président approuve. Voir les communications de crise."
         }
       }
     },
@@ -579,7 +586,7 @@
         },
         "strike": {
           "label": "Grève ou décompte",
-          "content": "Passez au rythme trois messages du Guide de grève — pas des publications réactives sans fin."
+          "content": "Passez aux communications de crise : un seul endroit officiel, mise à jour quand les faits changent. Menez la ligne depuis les opérations de grève."
         },
         "quiet": {
           "label": "Les semaines calmes, c'est correct",
@@ -603,7 +610,7 @@
         },
         "pin": {
           "label": "Épinglez la correction",
-          "content": "Une publication épinglée vaut mieux que vingt réponses. Liez la section direction du Guide de grève en crise."
+          "content": "Une publication épinglée vaut mieux que vingt réponses. Liez la section direction des communications de crise quand les enjeux montent."
         },
         "never": {
           "label": "Ne publiez jamais",
@@ -672,7 +679,8 @@
     "bargainingGuides": {
       "title": "Négociation et grèves",
       "bargaining": "Cycle de négociation",
-      "crisis": "Comms de grève et de crise"
+      "strike": "Opérations de grève",
+      "crisis": "Communications de crise"
     },
     "labourGuides": {
       "title": "Guides de droits au travail",
@@ -769,7 +777,8 @@
         "blueprint": "Le Plan directeur",
         "workplaceMapping": "Cartographie du lieu de travail",
         "membershipSignup": "Guide d'adhésion",
-        "crisis": "Comms de grève et de crise",
+        "crisis": "Communications de crise",
+        "strikeOps": "Opérations de grève",
         "stewardPlaybooks": "Tous les guides pratiques pour délégués",
         "unionBoards": "Guide des tableaux syndicaux",
         "solidarityPoster": "Affiches de solidarité",
@@ -1605,7 +1614,7 @@
         },
         "crisis": {
           "label": "Contexte de grève ou de discipline",
-          "content": "Prudence accrue. Une photo de solidarité peut devenir une preuve que la direction exploite. Lisez les lignes sur le consentement du Guide de grève avant de publier."
+          "content": "Prudence accrue. Une photo de solidarité peut devenir une preuve que la direction exploite. Lisez les lignes sur le consentement des communications de crise avant de publier."
         }
       },
       "warningTitle": "En cas de doute",
@@ -1767,7 +1776,7 @@
         },
         "crisis": {
           "label": "Grève et discipline",
-          "content": "Risque accru en période de crise. À combiner avec le Guide de grève — une photo de solidarité ne vaut pas l'emploi d'un membre."
+          "content": "Risque accru en période de crise. À combiner avec les communications de crise — une photo de solidarité ne vaut pas l'emploi d'un membre."
         }
       }
     },
@@ -1819,7 +1828,7 @@
           "content": "Tournage et vie privée pour Reels et Shorts."
         },
         "crisis": {
-          "label": "Guide de grève",
+          "label": "Communications de crise",
           "content": "Règles de consentement quand la section est sous pression."
         },
         "privacy": {
@@ -3064,8 +3073,8 @@
   },
   "resources": {
     "title": "Ressources de communication",
-    "subtitle": "Orientation, pratique et sources pour les sections locales qui bâtissent des communications solidaires",
-    "intro": "Orientation, liste de pratique et sources pour les Comms de votre section. Utilisez-la en solo, en dîner-causerie ou en atelier.",
+    "subtitle": "Liste de pratique, trousse de démo et sources. L'heure d'atelier chronométrée est dans le plan d'atelier.",
+    "intro": "Utilisez la liste seul ou en groupe. Le plan d'atelier a l'heure ; cette page garde les sources et la trousse de démo.",
     "purpose": {
       "title": "À quoi servent les Comms UnionOps",
       "body": "Chaque section a besoin de communications claires sur quatre canaux : les réseaux sociaux, l'imprimé, les tableaux syndicaux et un site Web simple.",
@@ -3088,7 +3097,7 @@
         "website": "Guide site Web",
         "email": "Courriel et diffusion",
         "shortForm": "Vidéo courte",
-        "crisis": "Guide de grève",
+        "crisis": "Communications de crise",
         "photoConsent": "Consentement photo",
         "workshop": "Plan d'atelier"
       },
@@ -3100,7 +3109,7 @@
         "website": "Quoi mettre sur un site local, créer le ZIP et publier sur GitHub Pages.",
         "email": "Invitations à copier-coller et rappels aux dirigeants. Pas de listes marketing.",
         "shortForm": "Filmer au téléphone, protéger les membres, et orienter Reels ou Shorts vers une vraie demande.",
-        "crisis": "Communications de négociation et de grève à enjeux élevés.",
+        "crisis": "Qui peut parler pendant une grève, un lock-out ou des mises à pied.",
         "photoConsent": "Liste photo membre pour délégués et ateliers.",
         "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo."
       }
@@ -3118,6 +3127,7 @@
         "rightToRefuse": "Droit de refuser (Ontario)",
         "jointCommittee": "Guide des comités conjoints",
         "bargaining": "Cycle de négociation",
+        "strike": "Opérations de grève",
         "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
         "bylaws": "Règlements locaux : les règles de votre section",
         "runningMeetings": "Tenir une assemblée et règles de procédure",
@@ -3133,6 +3143,7 @@
         "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
         "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
         "bargaining": "Du sondage des membres et de l'établissement des demandes jusqu'au rapport « no board » et à la ratification — pour les comités de négociation locaux.",
+        "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail — pas un calendrier de publications.",
         "workplaceMapping": "Recensez chaque collègue, repérez les leaders organiques et cotez l'appui syndical de 1 à 5. Gardez le fichier hors des systèmes de l'employeur.",
         "bylaws": "Structure de l'exécutif, quorum, autorités de signature, élections, et comment modifier les règlements avec préavis et vote en assemblée.",
         "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire pendant le débat.",
@@ -3165,7 +3176,7 @@
       "flyer": "Créateur de tracts",
       "graphic": "Créateur graphique",
       "website": "Modèle de site Web",
-      "crisis": "Guide de grève"
+      "crisis": "Communications de crise"
     },
     "presentation": {
       "title": "De zéro à la solidarité : lancer les médias sociaux de votre section",
@@ -4043,8 +4054,8 @@
     "ratio": "Ratio de contraste : {ratio}:1"
   },
   "crisisGuide": {
-    "title": "Guide de communication — grève et crise",
-    "subtitle": "Une voix, trois messages par jour et un plan de canaux quand la section est sous pression",
+    "title": "Guide des communications de crise",
+    "subtitle": "Une voix, une courte chaîne de commandement et un plan de canaux quand la section est sous pression",
     "backToGuide": "Retour au Plan directeur",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -4060,11 +4071,11 @@
       "items": {
         "strike": {
           "label": "Grève ou lock-out en cours",
-          "content": "Utilisez ce guide. Un responsable Comms, un porte-parole, le président approuve chaque publication publique."
+          "content": "Les opérations sont dans le Guide des opérations de grève. Cette page dit qui peut parler et ce qui ne va jamais au public. Un responsable Comms, un porte-parole, le président approuve chaque publication publique."
         },
         "bargaining": {
           "label": "Compte à rebours de négociation",
-          "content": "Utilisez la section négociation et la règle des trois messages. Partagez seulement ce que l'équipe de négociation a autorisé pour diffusion."
+          "content": "Utilisez la section négociation. Partagez seulement ce que l'équipe de négociation a autorisé pour diffusion."
         },
         "layoff": {
           "label": "Mises à pied ou restructuration annoncées",
@@ -4112,8 +4123,8 @@
           "content": "Rédigez dans le Créateur graphique ou le Créateur de tracts, exportez, puis envoyez le PNG/PDF au président avant la mise en ligne."
         },
         "schedule": {
-          "label": "Horaire de piquetage quotidien",
-          "content": "Emplacements des entrées, heures de début et rappels météo/sécurité. Avis pour tableau syndical à chaque entrée ; mêmes faits sur le site Web."
+          "label": "Publiez l'horaire que le comité de grève a déjà fixé",
+          "content": "Les mêmes entrées, heures et notes météo que portent déjà les capitaines. Mettez ces faits sur la page grève et à chaque entrée. N'inventez pas une version plus jolie qui contredit."
         },
         "safety": {
           "label": "La sécurité d'abord sur la ligne",
@@ -4225,28 +4236,28 @@
       "warning": "Le journal minute par minute de la table est satisfaisant et aide la direction. Si ce n'est pas sur la feuille de communiqué de l'équipe de négociation, ça reste hors ligne."
     },
     "rhythm": {
-      "navLabel": "Rythme quotidien",
-      "title": "Trois messages par jour",
-      "intro": "Pendant une grève ou une négociation tardive, les membres consultent leur téléphone constamment. Donnez-leur un rythme prévisible plutôt que des publications paniquées.",
+      "navLabel": "Rythme",
+      "title": "Une source de vérité prévisible, pas un quota",
+      "intro": "Les membres consultent leur téléphone constamment. Donnez-leur un seul endroit officiel où regarder, et mettez à jour quand les faits changent. N'inventez pas un calendrier de publications que vous ne pouvez pas tenir.",
       "items": {
         "morning": {
-          "label": "Matin — horaire et sécurité",
-          "content": "Entrées de piquet, météo, tout changement de protocole sur la ligne. PDF d'avis pour tableau plus une publication sociale."
+          "label": "Si la ligne est ouverte — horaire et sécurité d'abord",
+          "content": "Publiez les entrées, la météo et le protocole que le comité de grève a déjà fixés. Les capitaines reçoivent ces faits avant les réseaux."
         },
         "midday": {
-          "label": "Midi — seulement si les faits ont changé",
+          "label": "Seulement si les faits ont changé",
           "content": "Passez si rien de nouveau. Le silence bat le bruit quand les faits sont stables."
         },
         "evening": {
-          "label": "Soir — récap et demain",
-          "content": "Remerciez les membres, confirmez l'horaire de demain, liez la FAQ du site Web. Pas de nouveaux détails de négociation sauf si autorisés."
+          "label": "Récap seulement si les membres ont besoin des faits de demain",
+          "content": "Remerciez les membres, confirmez l'horaire de demain, liez la page grève. Pas de nouveaux détails de négociation sauf si autorisés."
         },
         "queue": {
-          "label": "File de brouillons dans un seul document",
+          "label": "File de brouillons au même endroit",
           "content": "Le responsable Comms garde les brouillons ; le président approuve par lot. Évite les publications en double de volontaires bien intentionnés."
         }
       },
-      "tip": "Rédigez les trois messages de demain ce soir. Les matins de crise ne sont pas faits pour rédiger de zéro."
+      "tip": "Rédigez la prochaine mise à jour tant que vous avez encore les faits, pas à 5 h sur la ligne. Les capitaines l'entendent en premier."
     },
     "fullScenario": {
       "navLabel": "Parcours complet",
@@ -4278,7 +4289,7 @@
           "content": "Retirez les tracts de réunion expirés. Laissez la bande de contacts en place pour la nuit."
         }
       },
-      "tip": "Si vous avez publié plus de trois fois avant le dîner, vous avez probablement trop publié."
+      "tip": "Tenez le canal jusqu'à ce que le président et le représentant de service s'entendent sur les faits. Puis une correction, le même texte partout."
     },
     "escalation": {
       "navLabel": "Escalade",
@@ -4679,6 +4690,7 @@
       "seniority": "Ancienneté et bumping",
       "jointCommittee": "Guide des comités conjoints",
       "bargaining": "Le cycle de négociation : du sondage à la signature",
+      "strike": "Guide des opérations de grève",
       "bylaws": "Règlements locaux : les règles de votre section",
       "runningMeetings": "Tenir une assemblée et règles de procédure",
       "landAcknowledgement": "Guide de reconnaissance territoriale"
@@ -4694,6 +4706,7 @@
       "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
       "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
       "bargaining": "Du sondage à la signature pour les comités de négociation locaux — mises à jour de table, votes de grève, ratification, listes et Suivi des propositions sur appareil.",
+      "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail. Pas un calendrier de publications.",
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale.",
       "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire pour une motion ou un rappel au règlement.",
       "landAcknowledgement": "Rédigez seul·e ou animez un atelier avec la feuille PDF lignée d'une page — recherche, réflexion et mots liés à l'action. Guides fédéraux en bas de page ; sans générateur copier-coller."
@@ -6544,7 +6557,7 @@
     "noDataBodyCommsOnly": "Nous ne collectons pas vos données ni ne vendons de pubs. Les Comms restent dans votre navigateur. Pas d’investisseurs à enrichir, pas de modèle d’affaires basé sur la surveillance.",
     "noAdsTitle": "Pas de pubs, pas de pistage :",
     "noAdsBody": "On ne vend pas votre attention.",
-    "closing": "UnionOps est bâti par des bénévoles syndicaux qui voulaient un bon outil pour les gens qui font le vrai travail sur le terrain.",
+    "closing": "UnionOps est bâti par des bénévoles syndicaux qui voulaient une vraie trousse d'outils pour une section — ou tout un syndicat — qui fait le vrai travail sur le terrain.",
     "slogan": "Solidarity.",
     "supportLead": "Si les outils publics vous ont aidé et que vous voulez contribuer pour un café ou le site public,",
     "supportLink": "il y a une page Soutien discrète.",
@@ -6592,6 +6605,10 @@
       "office-export-brand-fonts": {
         "title": "Word et Excel gardent la typo de votre Trousse de marque",
         "body": "Les procès-verbaux, bulletins de vote et classeurs du Générateur de documents portent maintenant les polices de votre Trousse de marque dans Word et Excel — y compris les feuilles RSVP en français — pour des téléchargements fidèles hors ligne."
+      },
+      "union-toolkit-home": {
+        "title": "Accueil — Comms, travail de délégué, ou faire tourner la section",
+        "body": "Le site public s'ouvre maintenant comme une trousse syndicale. Choisissez Première semaine pour les communications, les guides pratiques pour la formation de terrain, ou la formation des dirigeants en attendant une invitation au Hub des dirigeants."
       },
       "union-boards-pdf-templates": {
         "title": "Feuilles de calcul — ouvrir les modèles CSV dans Excel",
@@ -6941,7 +6958,7 @@
       "altText": "Texte alternatif sur toutes les images informatives",
       "reducedMotion": "Réduction des animations via les paramètres système et les préférences utilisateur",
       "bilingual": "Options de langue anglais et français",
-      "displaySettings": "Taille de texte, contraste élevé et réduction des animations configurables",
+      "displaySettings": "Taille de texte, contraste élevé, réduction des animations et couleur du Centre de formation des dirigeants configurables",
       "skipLink": "Lien d'évitement pour accéder directement au contenu principal",
       "altTextTool": "Assistant texte alternatif pour rédiger des descriptions d'images pour les publications"
     },
@@ -6970,6 +6987,12 @@
       "highContrastDescription": "Contraste renforcé du texte et des bordures pour une lecture plus facile.",
       "reducedMotionLabel": "Réduire les animations",
       "reducedMotionDescription": "Minimiser les animations et transitions, indépendamment des paramètres système.",
+      "officerLearningColourLabel": "Couleur du Centre de formation des dirigeants",
+      "officerLearningColourDescription": "Ceci ne change que les pages de formation des dirigeants. Les autres guides restent tels quels.",
+      "officerLearningColour": {
+        "navy": "Marine (par défaut)",
+        "light": "Clair"
+      },
       "previewLabel": "Aperçu",
       "previewText": "Voix ambiguë d'un cœur qui au zéphyr préfère les jattes de kiwis. Votre section syndicale mérite des outils accessibles à tous."
     }
@@ -8882,8 +8905,9 @@
     "startHereTitle": "Par où commencer",
     "startHereIntro": "Suivez l'ordre des canaux de la première semaine après la Trousse de marque, ou ouvrez la feuille de route complète.",
     "startHereRoadmap": "Ouvrir la feuille de route Première semaine",
-    "labourPlaybooksTitle": "Guides de terrain",
-    "labourPlaybooksIntro": "Quand un membre demande de l'aide sur le plancher, commencez par ces guides.",
+    "labourPlaybooksTitle": "Travail de délégué",
+    "labourPlaybooksIntro": "Les guides de terrain, la formation des dirigeants et les fiches partagent une même porte d'entrée.",
+    "labourPlaybooksCta": "Ouvrir les guides pratiques",
     "blurbs": {
       "logoBuilder": "Créez une plaque logo circulaire, carrée ou rectangulaire.",
       "resizer": "Recadrez logos et images aux formats Facebook, Instagram et YouTube.",
@@ -9714,6 +9738,262 @@
       "far": "Télécharger la fiche FAR de poche",
       "discipline": "Télécharger la fiche discipline de poche",
       "meiorin": "Télécharger la fiche Meiorin de poche"
+    }
+  },
+  "unionHistoryGuide": {
+    "title": "Comment les syndicats canadiens se relient",
+    "subtitle": "Histoire du mouvement et une carte travaillée, d'une section de Niagara jusqu'au CTC",
+    "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "L'affiliation décrit la place d'une section dans une maison plus large du travail. Ce guide esquisse l'histoire syndicale canadienne, puis cartographie la section 243 d'OPSEU / SEFPO, du Collège Niagara jusqu'au Congrès du travail du Canada, pour que vous puissiez tracer la même carte chez vous.",
+    "disclaimer": {
+      "title": "Une carte d'enseignement — pas un certificat d'affiliation",
+      "body": "Les sections, conseils de secteur et conseils du travail changent de délégués et de cotisations. Confirmez vos propres affiliations auprès de votre exécutif local et de votre syndicat parent avant de parler en leur nom. C'est de la formation pour le plancher, pas un avis juridique et pas un répertoire officiel."
+    },
+    "related": {
+      "officerLearning": "Centre de formation des dirigeants",
+      "steward101": "Délégué 101",
+      "workplaceMapping": "Cartographie du lieu de travail"
+    },
+    "why": {
+      "navLabel": "Pourquoi ça compte",
+      "title": "Pourquoi un délégué doit connaître la maison",
+      "intro": "Vous n'avez pas besoin d'un cours d'éducation civique. Vous devez savoir qui appeler quand le combat quitte votre lieu de travail.",
+      "items": {
+        "rally": {
+          "label": "Un rassemblement municipal ou la fête du Travail",
+          "content": "C'est en général votre conseil du travail, pas le siège de votre syndicat provincial. Des délégués de plusieurs syndicats votent et partagent des listes."
+        },
+        "campaign": {
+          "label": "Une loi provinciale ou une bataille budgétaire",
+          "content": "Les fédérations provinciales coordonnent les affiliés pour qu'une section ne crie pas seule vers Queen's Park ou une législature."
+        },
+        "education": {
+          "label": "L'école des délégués en attendant la formation nationale",
+          "content": "Le Congrès du travail du Canada et beaucoup de conseils du travail offrent des cours auxquels toute section affiliée peut envoyer du monde."
+        },
+        "strike": {
+          "label": "Une grève ou un lock-out tout près",
+          "content": "Les conseils du travail et les fédérations existent pour que les autres syndicats soient prévenus tôt, se présentent à la ligne et ne la franchissent pas."
+        }
+      }
+    },
+    "history": {
+      "navLabel": "Une courte histoire",
+      "title": "Une courte histoire de la maison canadienne",
+      "intro": "Les organismes de la carte ci-dessous ne sont pas un organigramme d'entreprise. C'est l'architecture restante d'un siècle de luttes sur qui a le droit de négocier, de faire grève et de parler pour les travailleurs.",
+      "items": {
+        "nineHour": {
+          "label": "1872 — mouvement des neuf heures",
+          "content": "Des travailleurs de métier en Ontario et à Montréal ont fait grève pour une journée plus courte. La campagne a aidé à gagner un droit limité de se syndiquer, ce qui explique pourquoi les sections traitent encore le droit d'association comme quelque chose de conquis, pas d'accordé."
+        },
+        "winnipeg": {
+          "label": "1919 — grève générale de Winnipeg",
+          "content": "Les métiers de la construction et du métal ont débrayé ; une grande partie de la ville a suivi. La grève a échoué comme ronde de négociation et a tout de même enseigné au mouvement que l'isolement des métiers perd les combats à l'échelle d'une ville."
+        },
+        "rand": {
+          "label": "1946 — formule Rand",
+          "content": "Après la grève Ford à Windsor, la sentence du juge Ivan Rand a exigé des cotisations de toutes les personnes de l'unité. La sécurité syndicale dans les conventions du secteur public canadien repose encore sur cette idée."
+        },
+        "clcMerge": {
+          "label": "1956 — Congrès du travail du Canada",
+          "content": "Le Congrès des métiers et du travail (métiers) et le Congrès canadien du travail (industriel) ont fusionné. Les fédérations provinciales et les conseils du travail locaux sont constitués sous ce congrès, pas inventés par chaque syndicat."
+        },
+        "publicSector": {
+          "label": "Années 1960-70 — vague du secteur public",
+          "content": "Le SCFP, les syndicats de la fonction publique provinciale et le NUPGE (1976) ont grandi quand les travailleurs du public ont obtenu le droit de négocier. OPSEU / SEFPO est une composante du NUPGE : un syndicat provincial dans une fédération nationale de syndicats."
+        },
+        "quebec": {
+          "label": "Le Québec n'est pas la même maison",
+          "content": "Les syndicats catholiques québécois sont restés hors de la fusion de 1956. La CSN, la FTQ et d'autres centrales veulent dire qu'une section québécoise peut ne pas siéger du tout au CTC. Ne collez pas une carte ontarienne sur une section du Québec."
+        }
+      },
+      "tip": "L'histoire explique pourquoi une section de campus peut appeler un conseil du travail municipal pour un rassemblement et une fédération nationale pour de la recherche la même semaine. La maison a été bâtie pour que vous ne soyez pas seuls."
+    },
+    "tracks": {
+      "navLabel": "Deux voies",
+      "title": "Deux voies, pas une seule échelle",
+      "intro": "Les tableaux trop propres qui empilent chaque organisme en une seule ligne parent-enfant sont faux. Une section siège sur deux voies à la fois : sa famille syndicale, et la maison géographique du travail dans sa ville et sa province.",
+      "diagram": {
+        "familyTitle": "Famille syndicale",
+        "geoTitle": "Maison géographique",
+        "familyLocal": "Votre section",
+        "familyUnion": "Syndicat parent",
+        "familyNational": "Fédération nationale (s'il y en a une)",
+        "familyCongress": "Congrès du travail du Canada",
+        "geoLocal": "Votre section (ou syndicat parent)",
+        "geoCouncil": "Conseil du travail",
+        "geoFed": "Fédération provinciale",
+        "geoCongress": "Congrès du travail du Canada",
+        "caption": "Le CTC apparaît sur les deux voies parce que les fédérations, conseils du travail et syndicats nationaux sont constitués dans le même congrès — pas parce qu'un organisme commande l'autre."
+      },
+      "nupgeLead": "La propre carte du NUPGE pour les délégués s'intitule",
+      "nupgeLink": "Trouver sa place dans le mouvement syndical",
+      "nupgeTail": ". Elle parcourt la section, la composante, le syndicat national et le CTC, puis traite les conseils du travail et les fédérations comme une voie parallèle — pas un patron supérieur.",
+      "clcLead": "Le Congrès du travail du Canada dresse la liste de chaque fédération provinciale et conseil du travail dans",
+      "clcLink": "Fédérations du travail et conseils du travail",
+      "clcTail": ". Servez-vous de ce répertoire pour trouver le conseil de votre ville plutôt que de deviner à partir du site d'une section voisine."
+    },
+    "example": {
+      "navLabel": "Carte de la section 243",
+      "title": "Exemple travaillé : section 243 d'OPSEU / SEFPO",
+      "intro": "UnionOps utilise la section 243 comme section de référence parce que c'est une vraie section du personnel de soutien CAAT du Collège Niagara, pas une démo fictive. Vos numéros et noms différeront. C'est la forme à copier.",
+      "diagram": {
+        "local": "Section 243 — personnel de soutien CAAT, Collège Niagara",
+        "area": "Conseil de secteur de Niagara (OPSEU / SEFPO)",
+        "council": "Conseil du travail de la région de Niagara",
+        "union": "OPSEU / SEFPO (région 2)",
+        "ofl": "Fédération du travail de l'Ontario",
+        "nupge": "NUPGE",
+        "clc": "Congrès du travail du Canada",
+        "caption": "Deux fourches en ville et deux au national : conseil de secteur contre conseil du travail, puis FTO contre NUPGE, les deux vers le CTC."
+      },
+      "items": {
+        "local": {
+          "label": "La section",
+          "content": "La section 243 d'OPSEU / SEFPO représente le personnel de soutien à temps plein et à temps partiel du Collège Niagara. Le premier chiffre d'un numéro de section OPSEU / SEFPO est la région — 243 siège dans la région 2. La négociation du soutien collégial est provinciale ; la section garde tout de même la représentation, les assemblées et le travail communautaire."
+        },
+        "council": {
+          "label": "Le conseil du travail",
+          "before": "Le Conseil du travail de la région de Niagara est un organisme multi-syndical constitué par le CTC. Sa",
+          "link": "liste d'affiliés Qui nous sommes",
+          "after": "nomme la section 243 d'OPSEU / SEFPO à côté du SCFP, des Métallos, de sections enseignantes et d'autres à Niagara. C'est le reçu : la section siège dans la maison municipale du travail, pas seulement dans son syndicat parent."
+        },
+        "area": {
+          "label": "Le conseil de secteur",
+          "content": "Le conseil de secteur de Niagara est un organisme d'OPSEU / SEFPO qui réunit des sections de la même région. Ce n'est pas le conseil du travail. Il n'y a pas de page d'accueil publique durable à citer ; demandez à votre exécutif local ou au bureau régional. L'AFPC utilise aussi le nom Niagara Area Council pour un autre organisme — ne les mélangez pas."
+        },
+        "union": {
+          "label": "Le syndicat parent",
+          "content": "Les sections s'affilient à OPSEU / SEFPO, qui tient le congrès, les régions et les secteurs. La section ne joint pas le NUPGE ni le CTC comme entité autonome. Ces sièges appartiennent au syndicat provincial (et, en ville, au conseil du travail)."
+        },
+        "nupge": {
+          "label": "Le NUPGE et le CTC",
+          "before": "Le NUPGE est un syndicat de syndicats. Les composantes élisent leurs dirigeants, fixent les cotisations et négocient.",
+          "link": "La page À propos du NUPGE",
+          "after": "dresse treize composantes autonomes, dont OPSEU / SEFPO. L'adhésion au NUPGE est la façon dont ces composantes siègent au Congrès du travail du Canada et à Internationale des services publics."
+        }
+      },
+      "tip": "Si vous ne retenez qu'une distinction : le conseil de secteur, ce sont les sections de votre syndicat dans la ville. Le conseil du travail, c'est chaque syndicat affilié dans la ville."
+    },
+    "layers": {
+      "navLabel": "Ce que fait chaque couche",
+      "title": "Ce que fait vraiment chaque couche",
+      "intro": "Des noms sans tâches, c'est du trivia. Servez-vous de ceci quand un membre demande pourquoi des cotisations quittent la section.",
+      "items": {
+        "local": {
+          "label": "Section",
+          "content": "Délégués, griefs, assemblées générales, règlements locaux, et le premier visage que les membres voient. Si cette couche est faible, le reste de la maison ne voit pas le lieu de travail."
+        },
+        "area": {
+          "label": "Conseil de secteur ou de district du syndicat",
+          "content": "Facultatif et propre à chaque syndicat. Les conseils de secteur d'OPSEU / SEFPO mettent en commun des sections voisines pour des campagnes municipales et des activités partagées. Le SCFP utilise des conseils de district. Beaucoup de syndicats n'ont ni l'un ni l'autre."
+        },
+        "council": {
+          "label": "Conseil du travail",
+          "content": "Constitué par le CTC. Multi-syndical. Fête du Travail, politique municipale, escouades volantes, et le premier appel quand une autre section en ville est en grève."
+        },
+        "union": {
+          "label": "Syndicat parent",
+          "content": "Constitution, négociation (ou soutien à la négociation), caisse de grève, représentants du personnel et congrès. C'est en général l'organisme qui détient les affiliations au CTC et à la fédération."
+        },
+        "ofl": {
+          "label": "Fédération provinciale",
+          "content": "En Ontario, la Fédération du travail de l'Ontario. Constituée par le CTC. Elle coordonne les affiliés dans la province et c'est la salle pour un combat commun avec le gouvernement provincial."
+        },
+        "nupge": {
+          "label": "Fédération nationale de syndicats",
+          "content": "Le NUPGE est cette couche pour OPSEU / SEFPO. Le SCFP et Unifor la sautent : ils s'affilient au CTC comme syndicats nationaux. N'inventez pas une case en forme de NUPGE sur une carte SCFP."
+        },
+        "clc": {
+          "label": "Congrès du travail du Canada",
+          "content": "La plus grande centrale syndicale canadienne. Campagnes nationales, formation syndicale, et la charte des fédérations et des conseils du travail. Pas un agent négociateur pour vos membres."
+        }
+      }
+    },
+    "mapYours": {
+      "navLabel": "Cartographiez votre section",
+      "title": "Cartographiez votre propre section",
+      "intro": "Copiez la forme de la section 243, puis remplacez chaque nom propre. Trente minutes avec vos règlements, un répertoire de conseils du travail et un dirigeant qui est allé au congrès suffisent.",
+      "items": {
+        "name": {
+          "label": "Écrivez le nom légal et le numéro de la section",
+          "content": "Incluez l'employeur ou l'unité de négociation en une ligne, comme la section 243 nomme le personnel de soutien CAAT du Collège Niagara. C'est la ligne que vous imprimez sur un site et un babillard."
+        },
+        "parent": {
+          "label": "Nommez le syndicat parent",
+          "content": "La constitution au mur de votre section, c'est le parent. C'est lui qui négocie ou qui dote votre négociation, et qui doit approuver les règlements locaux."
+        },
+        "federation": {
+          "label": "Demandez si le parent siège dans une fédération de syndicats",
+          "content": "Les composantes du NUPGE le font. Le SCFP, Unifor, les Métallos et beaucoup d'autres s'affilient au CTC directement. Si votre dirigeant ne peut pas nommer la fédération, vous n'en avez probablement pas."
+        },
+        "council": {
+          "label": "Trouvez le conseil du travail",
+          "content": "Utilisez le répertoire des fédérations et conseils du CTC. Puis confirmez que votre section paie vraiment la capitation et envoie des délégués. Une mention sur le site de quelqu'un d'autre n'équivaut pas à être en règle."
+        },
+        "provincial": {
+          "label": "Nommez la fédération provinciale ou territoriale",
+          "content": "La FTO en Ontario, la FTQ au Québec pour les affiliés du CTC, et une autre centrale si votre syndicat est hors du CTC. Les conseils du travail s'affilient aussi vers le haut à cette fédération."
+        },
+        "internal": {
+          "label": "Dressez en dernier les organismes régionaux internes au syndicat",
+          "content": "Conseils de secteur, conseils de district, bureaux régionaux et secteurs. Ils comptent pour les campagnes et le soutien du personnel. Ce n'est pas le conseil du travail."
+        }
+      },
+      "tip": "Écrivez la carte finie dans les liens de la Trousse de marque et sur le site de votre section pour que le prochain délégué n'ait pas à la reconstruire à partir du savoir des couloirs."
+    },
+    "notThis": {
+      "navLabel": "Mélanges fréquents",
+      "title": "Mélanges fréquents",
+      "intro": "Voici les erreurs qui font mentir un tableau trop propre à un nouveau délégué.",
+      "items": {
+        "oneStack": {
+          "label": "Une seule échelle de la section au CTC",
+          "content": "La section ne relève pas du NUPGE, et le NUPGE ne supervise pas le conseil du travail. Deux voies partagent un congrès au sommet."
+        },
+        "nupgeParent": {
+          "label": "Traiter le NUPGE comme le parent de la section",
+          "content": "Le NUPGE ne négocie pas votre convention de campus et n'entend pas votre assemblée générale. OPSEU / SEFPO (ou votre propre syndicat parent) le fait. Le NUPGE coordonne les composantes et détient le siège national au CTC pour cette famille."
+        },
+        "areaEqualsCouncil": {
+          "label": "Conseil de secteur égale conseil du travail",
+          "content": "L'un, ce sont les sections de votre syndicat dans la ville. L'autre, c'est chaque syndicat affilié dans la ville. Niagara a les deux, et l'AFPC réutilise le nom Area Council pour un troisième organisme."
+        },
+        "quebec": {
+          "label": "Supposer que chaque section canadienne siège au CTC",
+          "content": "Les centrales québécoises et certains syndicats indépendants n'y siègent pas. Demandez avant d'imprimer les logos du CTC et de la FTO sur un tract."
+        },
+        "unaffiliated": {
+          "label": "Supposer que la section est dans le conseil du travail",
+          "content": "On s'attend à ce que les affiliés du CTC envoient leurs sections dans les conseils là où ils existent. Les cotisations expirent. Les nouvelles sections retardent. Confirmez auprès du secrétaire du conseil, pas d'une capture d'écran d'une liste vieille de cinq ans."
+        }
+      }
+    },
+    "tools": {
+      "navLabel": "Outils",
+      "title": "Des outils qui portent la carte",
+      "intro": "Une fois les noms justes, mettez-les où les membres peuvent les voir. Ne gardez pas la maison du travail comme un savoir de couloir.",
+      "items": {
+        "orgChart": {
+          "label": "Organigramme",
+          "content": "Mettez les dirigeants locaux et le délégué au conseil du travail sur la même affiche pour que les membres sachent qui siège dans quelle salle."
+        },
+        "website": {
+          "label": "Modèle de site",
+          "content": "Le site en direct de la section 243 est la référence pour une page locale simple. Liez le conseil du travail et le syndicat parent depuis le pied de page, avec les liens de la Trousse de marque — pas un collage ponctuel."
+        },
+        "bylaws": {
+          "label": "Règlements locaux",
+          "content": "L'affiliation, les délégués et qui peut parler pour la section appartiennent aux règlements ou à une politique, pas seulement à une diapositive du dernier congrès."
+        },
+        "meetings": {
+          "label": "Tenir une assemblée",
+          "content": "Les rapports du conseil du travail et du conseil de secteur sont des affaires d'assemblée générale. Donnez-leur une place à l'ordre du jour pour que l'affiliation soit une habitude, pas une question de trivia."
+        }
+      }
     }
   },
   "runningMeetingsGuide": {
@@ -11083,11 +11363,11 @@
         },
         "crisis": {
           "label": "Montez d'un cran quand les enjeux montent",
-          "content": "Les votes de grève, le « no board » et la logistique de piquetage se trouvent dans le Guide de communication — grève et crise. Utilisez ce guide pour les messages à fort enjeu."
+          "content": "Quand une cessation légale approche, les opérations de grève mènent la ligne. Les communications de crise détiennent qui peut parler et ce qui ne va jamais au public."
         }
       },
       "tip": "Un message, plusieurs canaux. Si le courriel et l'avis au babillard se contredisent, les membres ne croiront ni l'un ni l'autre.",
-      "crisisCta": "Ouvrir les règles de négociation — grève et crise"
+      "crisisCta": "Ouvrir les communications de crise"
     },
     "tracker": {
       "navLabel": "Suivi des propositions",
@@ -11146,7 +11426,8 @@
       },
       "warningTitle": "Le compte à rebours ontarien dépend de la loi",
       "warning": "N'annoncez pas une date de début de grève à partir de cette page. Utilisez la date de l'avis « no board » posté, votre loi et votre représentant du personnel. De mauvaises dates exposent les membres à un risque juridique.",
-      "crisisCta": "Guide de communication — grève et crise",
+      "crisisCta": "Guide des communications de crise",
+      "strikeOpsCta": "Guide des opérations de grève",
       "ccbaTitle": "Unités collégiales (LNCC)",
       "ccbaBody": "Si votre certificat relève de la Loi de 2008 sur la négociation collective dans les collèges, ne supposez pas que le diagramme « no board » de la LRT s'applique jour pour jour. Demandez l'horloge sectorielle à votre équipe collégiale nationale ou provinciale, puis gardez les mêmes jobs locaux : sondage, mises à jour, logistique du vote de grève et discipline du suivi."
     },
@@ -11261,8 +11542,12 @@
       "intro": "Gardez les jobs séparés pour que les membres reçoivent le bon guide.",
       "items": {
         "crisis": {
-          "label": "Pas le Guide de communication — grève et crise",
-          "content": "Utilisez le Guide de grève pour les messages de piquetage, les lignes médias et le rythme à fort enjeu quand une cessation de travail approche."
+          "label": "Pas le Guide des communications de crise",
+          "content": "Qui peut parler, le consentement photo et les provocations de la direction sont là-bas. La logistique de piquetage est dans les opérations de grève."
+        },
+        "strike": {
+          "label": "Pas le Guide des opérations de grève",
+          "content": "Le commandement, la ligne, l'aide d'urgence, la sécurité et le retour au travail sont là-bas. Cette page dit comment une unité atteint une fenêtre légale."
         },
         "grievance": {
           "label": "Pas le processus de grief",

@@ -1,5 +1,13 @@
 # Progress Log
 
+## Public toolkit front door (2026-09-04)
+
+- [x] Home hero + `#toolkit` chooser: Comms / steward craft / run the local (Officer Hub only when advertised)
+- [x] Guides ▾: Comms (First week, Blueprint, Workshop) · Steward craft leads with playbooks hub · Resources in Libraries
+- [x] Get started → `/#toolkit`; footer slimmed to product + legal (Officer Learning stays a top-level header peer)
+- [x] Comms Resources no longer duplicates Workshop outline; `/tools` labour strip is one Steward playbooks link
+- [x] VISION one-liner + What's new `union-toolkit-home`
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts src/components/layout/nav/nav-config.test.ts src/lib/comms/smoke-asserted-copy.test.ts`
 
 ## Export go-live QOL — logo fail-closed + download success (2026-09-05)
 
@@ -103,6 +111,7 @@ Lessons + parity rules: [`docs/audit/session-knowledge-2026-09-05-pdf-office-eng
 - [x] **Sources:** `opseu-forms` hub note expanded for constitution + bylaws checks
 - [x] **What's new:** `/updates` bylaw-builder-committee note
 - Verify: `npm run test:unit -- src/lib/bylaws/ src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts`
+
 
 ## Post-ship QOL — smoke matrix + agent ground truth (2026-08-28)
 

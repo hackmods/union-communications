@@ -45,23 +45,20 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(page.getByTestId("home-hero-brand")).toBeVisible();
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
     await expect(page.getByText("Solidarity.")).toBeVisible();
-    // Hero owns brand setup; Comms path uses pathCommsCta ("Get started") — COPY-001.
+    // Hero points at the toolkit chooser; Comms path owns Brand Kit / First week — COPY-001.
     await expect(
       page
-        .getByRole("region", { name: /look like the union you already are/i })
-        .getByRole("link", { name: "Set up your local brand" }),
+        .getByRole("region", { name: /one toolkit for a local or a union/i })
+        .getByRole("link", { name: "See the toolkit" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Open the first-week roadmap|What’s next|What's next/i }).first(),
+      page.getByRole("heading", { name: "Where to start" }),
     ).toBeVisible();
-    // Path card only when NEXT_PUBLIC_OFFICER_HUB_PUBLIC is on (CI / soft-launch).
     const pathComms = page.getByTestId("home-path-comms");
-    if ((await pathComms.count()) > 0) {
-      await expect(pathComms.getByRole("link", { name: "Get started" })).toBeVisible();
-      await expect(
-        pathComms.getByRole("link", { name: "Set up your local brand" }),
-      ).toHaveCount(0);
-    }
+    await expect(pathComms.getByRole("link", { name: "Set up your local brand" })).toBeVisible();
+    await expect(
+      pathComms.getByRole("link", { name: "See the toolkit" }),
+    ).toHaveCount(0);
     await expect(page.getByText(/never leaves your browser/i).first()).toBeVisible();
   });
 

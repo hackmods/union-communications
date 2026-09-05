@@ -13,12 +13,8 @@ import {
 } from "./nav-config";
 
 describe("getStartedHref", () => {
-  it("points to onboarding when theme is not established", () => {
-    expect(getStartedHref(false)).toBe("/onboarding");
-  });
-
-  it("points to first-week roadmap when theme is established", () => {
-    expect(getStartedHref(true)).toBe("/guide/social-media-plan");
+  it("points at the Home toolkit chooser", () => {
+    expect(getStartedHref()).toBe("/#toolkit");
   });
 });
 
@@ -56,12 +52,11 @@ describe("path helpers", () => {
     expect(isToolsPath("/guide")).toBe(false);
   });
 
-  it("orders Start here as Blueprint, First week, Resources, Workshop", () => {
+  it("orders Comms as First week, Blueprint, Workshop", () => {
     const guides = learnGroups.find((g) => g.labelKey === "learnGroupGuides");
     expect(guides?.links.map((l) => l.href)).toEqual([
-      "/guide",
       "/guide/social-media-plan",
-      "/guide/resources",
+      "/guide",
       "/guide/workshop",
     ]);
   });
@@ -76,7 +71,7 @@ describe("path helpers", () => {
     ]);
   });
 
-  it("leads steward training with playbooks hub after Officer Learning moved top-level", () => {
+  it("leads steward craft with the playbooks hub", () => {
     const steward = learnGroups.find(
       (g) => g.labelKey === "learnGroupStewardTraining",
     );
@@ -116,6 +111,7 @@ describe("path helpers", () => {
       "/captions",
       "/guide/photo-consent",
       "/assets",
+      "/guide/resources",
     ]);
     expect(about?.links.map((l) => l.href)).toEqual([
       "/updates",
