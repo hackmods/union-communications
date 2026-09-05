@@ -22,7 +22,8 @@ Lessons: [`docs/audit/session-knowledge-2026-09-05-strike-operations.md`](audit/
 - [x] `/guide/crisis` stays Crisis Comms; recast quota/naming; live strike ops point at `/guide/strike`
 - [x] Mega-menu Steward craft “Strike operations” → `/guide/strike` (never means crisis)
 - [x] Registry: primary group bargaining; also labour resources + steward playbooks
-- Verify: `npm run test:unit -- src/lib/comms/guide-registry.test.ts src/components/layout/nav/nav-config.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts src/lib/comms/copy-namespaces.ts`
+- [x] Gold-standard pass: command roles table, two-rhythms diagram, captains' standing-brief checklist + printable PDF
+- Verify: `npm run test:unit -- src/lib/comms/guide-registry.test.ts src/components/layout/nav/nav-config.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts src/lib/comms/strike-standing-brief-pdf.test.ts src/lib/export/guide-pdf-contract.test.ts`
 
 ## Public toolkit front door (2026-09-04)
 

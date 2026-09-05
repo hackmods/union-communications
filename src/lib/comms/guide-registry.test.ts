@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { PUBLIC_PATHS } from "@/app/sitemap";
+import en from "../../../messages/en.json";
+import fr from "../../../messages/fr.json";
 import {
   GUIDE_HUB_PATH,
   GUIDE_REGISTRY,
@@ -91,5 +93,44 @@ describe("guide-registry", () => {
     expect(primaryGuideGroupForPath("/guide/membership-signup")).toBe(
       "channels",
     );
+  });
+
+  it("lists union history on labour resources and steward playbooks", () => {
+    expect(
+      GUIDE_RESOURCES_LABOUR_LINKS.some(
+        (row) => row.href === "/guide/union-history",
+      ),
+    ).toBe(true);
+    expect(
+      GUIDE_STEWARD_PLAYBOOK_LINKS.some(
+        (row) => row.href === "/guide/union-history",
+      ),
+    ).toBe(true);
+    expect(
+      GUIDE_STEWARD_PLAYBOOK_LINKS.find((row) => row.href === "/guide/union-history")
+        ?.tier,
+    ).toBe("gold");
+    expect(
+      GUIDE_REGISTRY.labour.find((row) => row.href === "/guide/union-history")
+        ?.tier,
+    ).toBe("gold");
+  });
+
+  it("has EN/FR titles and blurbs for every steward playbook link", () => {
+    for (const locale of [en, fr] as const) {
+      const links = locale.stewardPlaybooksHub.links as Record<string, string>;
+      const blurbs = locale.stewardPlaybooksHub.blurbs as Record<
+        string,
+        string
+      >;
+      for (const { key } of GUIDE_STEWARD_PLAYBOOK_LINKS) {
+        expect(links[key], `missing stewardPlaybooksHub.links.${key}`).toBeTruthy();
+        expect(
+          blurbs[key],
+          `missing stewardPlaybooksHub.blurbs.${key}`,
+        ).toBeTruthy();
+        expect(links[key]).not.toMatch(/^stewardPlaybooksHub\./);
+      }
+    }
   });
 });

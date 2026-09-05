@@ -4701,6 +4701,7 @@
       "strike": "Guide des opérations de grève",
       "bylaws": "Règlements locaux : les règles de votre section",
       "runningMeetings": "Tenir une assemblée et règles de procédure",
+      "unionHistory": "Comment les syndicats se relient",
       "landAcknowledgement": "Guide de reconnaissance territoriale"
     },
     "blurbs": {
@@ -6610,7 +6611,7 @@
     "items": {
       "union-history-guide": {
         "title": "Comment les syndicats se relient",
-        "body": "Placez votre section sur deux voies : la famille syndicale et le conseil du travail de la ville, avec OPSEU / SEFPO section 243 comme exemple travaillé."
+        "body": "Placez votre section sur deux voies avec une feuille de terrain imprimable. OPSEU / SEFPO section 243 est l'exemple travaillé."
       },
       "officer-learning-colour": {
         "title": "Centre de formation des dirigeants — page claire dans Affichage",
@@ -6618,7 +6619,7 @@
       },
       "strike-ops-guide": {
         "title": "Guide des opérations de grève",
-        "body": "Un nouveau guide pour mener une grève ou un lock-out légal : commandement, piquetage, soins aux membres, argent, sécurité et retour au travail. Les communications de crise restent la page pour qui peut parler."
+        "body": "Commandement, piquetage, soins aux membres, et une consigne imprimable pour les capitaines. Les communications de crise restent qui peut parler."
       },
       "export-download-confirm": {
         "title": "Les téléchargements confirment quand c’est prêt",
@@ -11927,7 +11928,37 @@
           "content": "L'argent, les conditions de retour au travail et les positions juridiques viennent seulement des personnes nommées pour ces jobs. Un bénévole bien intentionné reste une fuite."
         }
       },
-      "tip": "Si un journaliste, un gestionnaire ou un membre pose une question que vous ne détenez pas, envoyez-les à la personne nommée. Le silence plus un nom bat une supposition."
+      "tip": "Si un journaliste, un gestionnaire ou un membre pose une question que vous ne détenez pas, envoyez-les à la personne nommée. Le silence plus un nom bat une supposition.",
+      "roles": {
+        "caption": "Les jobs restent nommés même quand les bénévoles tournent.",
+        "headers": {
+          "job": "Job",
+          "who": "Qui décide",
+          "notThis": "Pas cette personne"
+        },
+        "rows": {
+          "executive": {
+            "job": "Exécutif local",
+            "who": "Oui et non politiques : commencer, régler, revenir.",
+            "notThis": "Ne peut pas déléguer la décision à un groupe de discussion."
+          },
+          "committee": {
+            "job": "Comité de grève",
+            "who": "Mène la journée : entrées, rotations, aide d'urgence, la consigne permanente.",
+            "notThis": "Ne rend pas compte au groupe Facebook."
+          },
+          "captains": {
+            "job": "Capitaines de piquetage",
+            "who": "Mènent une entrée nommée à partir de la consigne.",
+            "notThis": "Ne négocient pas avec l'employeur à la clôture."
+          },
+          "spokesperson": {
+            "job": "Porte-parole",
+            "who": "Voix publique, après que les capitaines ont les faits.",
+            "notThis": "Les capitaines ne donnent pas d'entrevues."
+          }
+        }
+      }
     },
     "readiness": {
       "navLabel": "Avant le jour un",
@@ -12006,7 +12037,8 @@
           "label": "Les soins sont des opérations",
           "content": "Nourriture, toilettes, météo et personnes à charge expliquent pourquoi les gens peuvent rester. Ce n'est pas une occasion de marque."
         }
-      }
+      },
+      "tip": "Si le groupe est bruyant et le trottoir vide, arrêtez de publier et commencez à appeler les personnes qui manquent."
     },
     "money": {
       "navLabel": "Argent",
@@ -12075,7 +12107,8 @@
           "label": "Les mêmes faits que les membres",
           "content": "Les alliés reçoivent la consigne permanente, pas une histoire spéciale. Si ce n'est pas vrai pour les membres, ce n'est pas vrai pour la caméra d'un politicien."
         }
-      }
+      },
+      "tip": "Une camionnette de sandwichs à une entrée nommée bat un graphique de solidarité sans adresse."
     },
     "rhythms": {
       "navLabel": "Deux rythmes",
@@ -12096,7 +12129,13 @@
         }
       },
       "tip": "Si le clavardage est plus bruyant que la ligne, vous nourrissez la mauvaise salle. Informez les capitaines, puis publiez une fois.",
-      "crisisCta": "Ouvrir les communications de crise — qui peut parler"
+      "crisisCta": "Ouvrir les communications de crise — qui peut parler",
+      "diagram": {
+        "internal": "Point interne",
+        "captainsFirst": "Capitaines d'abord",
+        "public": "Note publique rare",
+        "caption": "Les capitaines sont la charnière. Une publication publique qui surprend l'entrée est un commandement fendu."
+      }
     },
     "return": {
       "navLabel": "Retour au travail",
@@ -12117,6 +12156,48 @@
         }
       },
       "tip": "Gardez le contact d'aide d'urgence vivant un moment après le retour. Les questions d'argent ne finissent pas quand la clôture descend."
+    },
+    "checklist": {
+      "navLabel": "Consigne permanente",
+      "title": "Consigne permanente des capitaines",
+      "intro": "Imprimez ceci avant le jour un. Les capitaines inscrivent les noms, l'entrée et les faits du jour. C'est une feuille de terrain, pas un manuel national de grève.",
+      "cta": "Télécharger la consigne PDF",
+      "downloading": "Préparation du PDF…",
+      "exportHint": "Les mêmes faits que l'avis à l'entrée. Confirmez la loi et le protocole de grève de votre syndicat avec votre représentant de service avant toute cessation.",
+      "items": {
+        "names": {
+          "label": "Des noms sur papier",
+          "content": "Président, responsable de comité, capitaine, contact d'aide d'urgence et porte-parole — avec téléphones."
+        },
+        "gate": {
+          "label": "Entrée nommée",
+          "content": "Le même nom sur cette consigne, la page grève et l'avis à l'entrée."
+        },
+        "fallback": {
+          "label": "Repli intérieur",
+          "content": "Toilettes, abri météo, et où la ligne se déplace si le trottoir ferme."
+        },
+        "hardship": {
+          "label": "Chemin d'aide d'urgence",
+          "content": "Qui décide, comment demander, quand vient une réponse. Aucun montant inventé."
+        },
+        "emergency": {
+          "label": "Urgence et service",
+          "content": "Qui appeler après le 911, et qui reçoit une injonction dans l'heure."
+        },
+        "captainsFirst": {
+          "label": "Les capitaines avant les réseaux",
+          "content": "L'entrée entend les faits avant toute note publique."
+        },
+        "visitors": {
+          "label": "Visiteurs vers le capitaine",
+          "content": "Alliés, journalistes et élus passent d'abord par le capitaine nommé."
+        },
+        "returnWatch": {
+          "label": "Veille du retour nommée",
+          "content": "Qui dit aux membres que la ligne descend, et quel délégué veille le premier quart du retour."
+        }
+      }
     },
     "fullScenario": {
       "navLabel": "Matin du jour un",
@@ -12217,6 +12298,10 @@
         "bargaining": {
           "label": "Cycle de négociation",
           "content": "Comment une unité atteint une fenêtre légale — votes, « no board », ratification."
+        },
+        "brief": {
+          "label": "Consigne permanente des capitaines",
+          "content": "Imprimez la feuille à remplir plus haut. Les capitaines portent du papier ; l'horaire public en est une copie."
         },
         "consent": {
           "label": "Consentement photo",

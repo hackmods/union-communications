@@ -133,6 +133,36 @@ test.describe("Steward meeting guides @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
+  test("union history guide loads playbook sections and affiliation map", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/union-history/");
+    await expect(
+      page.getByRole("heading", { name: /How Canadian Unions Connect/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Two tracks, not one ladder/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Map your own local/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Floor handout \(one page\)/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/Area council is not the labour council/i),
+    ).toBeVisible();
+    await expect(
+      page
+        .locator("#mapYours")
+        .getByRole("button", { name: /Download affiliation map/i }),
+    ).toBeVisible();
+    await expect(
+      page.locator("#tools").getByRole("link", { name: /Running meetings/i }),
+    ).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
   test("steward playbooks hub lists practice workspaces", async ({ page }) => {
     await page.goto("/en/guide/steward-playbooks/#workspaces");
     await expect(

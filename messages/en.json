@@ -4754,6 +4754,7 @@
       "strike": "Strike operations playbook",
       "bylaws": "Local Bylaws: The Rules of Your Local",
       "runningMeetings": "Running a Meeting & Robert's Rules",
+      "unionHistory": "How Canadian unions connect",
       "landAcknowledgement": "Land Acknowledgement Guide"
     },
     "blurbs": {
@@ -6663,7 +6664,7 @@
     "items": {
       "union-history-guide": {
         "title": "How Canadian unions connect",
-        "body": "Map your local on two tracks: union family and the city labour council, using OPSEU / SEFPO Local 243 as the worked example."
+        "body": "Map your local on two tracks with a printable floor handout. OPSEU / SEFPO Local 243 is the worked example."
       },
       "officer-learning-colour": {
         "title": "Officer Learning — light page from Display settings",
@@ -6671,7 +6672,7 @@
       },
       "strike-ops-guide": {
         "title": "Strike operations playbook",
-        "body": "A new guide for running a lawful strike or lockout: command, the picket line, member care, money, safety, and return to work. Crisis comms stays the page for who may speak."
+        "body": "Command, the picket line, member care, and a printable captains' brief. Crisis comms stays who may speak."
       },
       "export-download-confirm": {
         "title": "Downloads confirm when they finish",
@@ -11927,7 +11928,37 @@
           "content": "Money, return-to-work terms, and legal positions come only from the people named for those jobs. A well-meaning volunteer is still a leak."
         }
       },
-      "tip": "If a reporter, a manager, or a member asks a question you do not own, send them to the named person. Silence plus a name beats a guess."
+      "tip": "If a reporter, a manager, or a member asks a question you do not own, send them to the named person. Silence plus a name beats a guess.",
+      "roles": {
+        "caption": "Jobs stay named even when volunteers rotate.",
+        "headers": {
+          "job": "Job",
+          "who": "Who decides",
+          "notThis": "Not this person"
+        },
+        "rows": {
+          "executive": {
+            "job": "Local executive",
+            "who": "Political yes and no: start, settle, return.",
+            "notThis": "Cannot delegate the decision to a group chat."
+          },
+          "committee": {
+            "job": "Strike committee",
+            "who": "Runs the day: gates, rotations, hardship, the standing brief.",
+            "notThis": "Does not report to the Facebook group."
+          },
+          "captains": {
+            "job": "Picket captains",
+            "who": "Run a named gate from the brief.",
+            "notThis": "Do not negotiate with the employer at the fence."
+          },
+          "spokesperson": {
+            "job": "Spokesperson",
+            "who": "Public voice, after captains have the facts.",
+            "notThis": "Captains do not give interviews."
+          }
+        }
+      }
     },
     "readiness": {
       "navLabel": "Before day one",
@@ -12006,7 +12037,8 @@
           "label": "Care is operations",
           "content": "Food, washrooms, weather, and dependents are why people can stay. They are not a branding opportunity."
         }
-      }
+      },
+      "tip": "If the group is loud and the sidewalk is empty, stop posting and start calling the people who are missing."
     },
     "money": {
       "navLabel": "Money",
@@ -12075,7 +12107,8 @@
           "label": "Same facts as members",
           "content": "Allies get the standing brief, not a special story. If it is not true for members, it is not true for a politician’s camera."
         }
-      }
+      },
+      "tip": "A van of sandwiches at a named gate beats a solidarity graphic with no address."
     },
     "rhythms": {
       "navLabel": "Two rhythms",
@@ -12096,7 +12129,13 @@
         }
       },
       "tip": "If the group chat is louder than the line, you are feeding the wrong room. Brief captains, then publish once.",
-      "crisisCta": "Open crisis comms — who may speak"
+      "crisisCta": "Open crisis comms — who may speak",
+      "diagram": {
+        "internal": "Internal huddle",
+        "captainsFirst": "Captains first",
+        "public": "Sparse public note",
+        "caption": "Captains are the hinge. A public post that surprises the gate is split command."
+      }
     },
     "return": {
       "navLabel": "Return to work",
@@ -12117,6 +12156,48 @@
         }
       },
       "tip": "Keep the hardship contact live for a while after return. Money questions do not end when the fence comes down."
+    },
+    "checklist": {
+      "navLabel": "Standing brief",
+      "title": "Captains' standing brief",
+      "intro": "Print this before day one. Captains fill names, the gate, and today's facts. It is a handout, not a national strike manual.",
+      "cta": "Download captains' brief PDF",
+      "downloading": "Preparing PDF…",
+      "exportHint": "Same facts as the notice at the gate. Confirm the Act and your union's strike protocol with your Staff Representative before any stoppage.",
+      "items": {
+        "names": {
+          "label": "Names on paper",
+          "content": "President, committee lead, captain, hardship contact, and spokesperson — with phones."
+        },
+        "gate": {
+          "label": "Named gate",
+          "content": "The same name on this brief, the strike page, and the notice at the entrance."
+        },
+        "fallback": {
+          "label": "Indoor fallback",
+          "content": "Washrooms, weather cover, and where the line moves if the sidewalk closes."
+        },
+        "hardship": {
+          "label": "Hardship path",
+          "content": "Who decides, how to ask, when an answer comes. No invented amount."
+        },
+        "emergency": {
+          "label": "Emergency and servicing",
+          "content": "Who to call after 911, and who gets an injunction the same hour."
+        },
+        "captainsFirst": {
+          "label": "Captains before social",
+          "content": "The gate hears the facts before any public note."
+        },
+        "visitors": {
+          "label": "Visitors to the captain",
+          "content": "Allies, reporters, and politicians go to the named captain first."
+        },
+        "returnWatch": {
+          "label": "Return watch named",
+          "content": "Who tells members the line is down, and which steward watches the first shift back."
+        }
+      }
     },
     "fullScenario": {
       "navLabel": "Day-one morning",
@@ -12217,6 +12298,10 @@
         "bargaining": {
           "label": "Bargaining lifecycle",
           "content": "How a unit reaches a lawful window — votes, No Board, ratification."
+        },
+        "brief": {
+          "label": "Captains' standing brief",
+          "content": "Print the fill-in sheet above. Captains carry paper; the public schedule is a copy of it."
         },
         "consent": {
           "label": "Photo consent",

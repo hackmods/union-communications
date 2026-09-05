@@ -2,7 +2,7 @@
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 
-**How Canadian unions connect (2026-09-05):** `/guide/union-history` is a labour playbook (not mega-menu). Affiliation is two tracks, not one ladder: union family vs geographic house. OPSEU / SEFPO Local 243 is the worked example. Niagara Area Council is OPSEU-internal; NRLC is the multi-union labour council. External URLs live in `comms-sources.ts` only.
+**How Canadian unions connect (2026-09-05):** `/guide/union-history` is a gold labour playbook (not mega-menu). Affiliation is two tracks, not one ladder: union family vs geographic house. OPSEU / SEFPO Local 243 is the worked example. Niagara Area Council is OPSEU-internal; NRLC is the multi-union labour council. Printable affiliation-map PDF on Map your local. External URLs live in `comms-sources.ts` only.
 
 **Strike operations vs crisis comms (2026-09-05):** [`session-knowledge-2026-09-05-strike-operations.md`](session-knowledge-2026-09-05-strike-operations.md) — `/guide/strike` is the operations playbook (command, line, membership, money, safety, return). `/guide/crisis` is Crisis Comms (who may speak). Do not label crisis as “Strike Guide” or restore a three-posts-a-day quota. Bargaining lifecycle stays the legal clock.
 

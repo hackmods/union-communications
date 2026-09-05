@@ -27,7 +27,7 @@ Layout engine spec: [`docs/modules/GUIDE_PDF_LAYOUT.md`](../../docs/modules/GUID
 - Unit: `pdf-layout.test.ts`, `text-pdf-layout.test.ts`, `land-acknowledgement-worksheet-pdf.test.ts`, `guide-pdf-contract.test.ts`
 - Spatial: `expectBlockOrder`, `expectFooterBandOrder` in `worksheet-pdf-test-helpers.ts`
 - Smoke: `e2e/guide-pdf.export.smoke.spec.ts`
-- Preview: `npm run pdf:preview -- land-acknowledgement en`
+- Preview: `npm run pdf:preview -- land-acknowledgement en` or `affiliation-map en`
 
 ## When adding a new guide handout PDF
 

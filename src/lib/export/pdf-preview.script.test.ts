@@ -6,6 +6,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { downloadLandAcknowledgementWorksheetPdf } from "@/lib/comms/land-acknowledgement-worksheet-pdf";
+import { downloadAffiliationMapWorksheetPdf } from "@/lib/comms/affiliation-map-worksheet-pdf";
 import {
   COMMS_GUIDE_FOOTER,
   createHubInternalReportPdfBlob,
@@ -44,6 +45,15 @@ describe("pdf preview script", () => {
       await downloadLandAcknowledgementWorksheetPdf({
         localLabel: locale === "fr" ? "Section 243" : "Local 243",
         locale,
+      });
+      return;
+    }
+
+    if (template === "affiliation-map") {
+      await downloadAffiliationMapWorksheetPdf({
+        localLabel: locale === "fr" ? "Section 243" : "Local 243",
+        locale,
+        brand: guidePdfBrandFromKit(DEFAULT_BRAND_KIT),
       });
       return;
     }

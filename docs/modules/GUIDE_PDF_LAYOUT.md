@@ -91,6 +91,7 @@ After deploy, open `/{locale}/build/` (footer: **Site build**) → **Content rev
 - `src/lib/export/pdf-layout.test.ts` — validate, budget, builder, golden spatial contracts
 - `src/lib/export/guide-pdf-contract.test.ts` — cross-family regression
 - `src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts` — template contract
+- `src/lib/comms/affiliation-map-worksheet-pdf.test.ts` — union-history floor handout
 - `e2e/guide-pdf.export.smoke.spec.ts` — browser download smoke
 
 Spatial helpers: `expectBlockOrder`, `expectFooterBandOrder`, `expectMinVerticalGap` in `worksheet-pdf-test-helpers.ts`.

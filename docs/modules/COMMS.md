@@ -33,7 +33,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (toolkit headline + `HomeHe
 | `/[locale]/guide` | The Blueprint handbook |
 | `/[locale]/guide/social-media-plan` | First-week roadmap after Brand Kit: brand → boards → print → socials → website |
 | `/[locale]/guide/resources` | Comms Resources — orientation, practice checklist, presentation + workshop outlines, bibliography (`/guide/materials` redirects here) |
-| `/[locale]/guide/strike` | Strike operations playbook — command, picket line, member care, money, safety, return to work |
+| `/[locale]/guide/strike` | Strike operations playbook — command, picket line, member care, money, safety, return to work, printable captains' brief |
 | `/[locale]/guide/crisis` | Crisis comms playbook |
 | `/[locale]/guide/photo-consent` | Photo consent & member media — member protection, three event settings, immediate take-down, and a before-you-post checklist |
 | `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, ministry posters, anonymized templates, IRL reference patterns) |

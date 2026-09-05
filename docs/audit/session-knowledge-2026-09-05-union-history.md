@@ -2,7 +2,9 @@
 
 ## What shipped
 
-Public playbook `/guide/union-history` (`unionHistoryGuide`). Discoverability: labour registry, Resources labour path, steward playbooks hub. **Not** in the Guides mega-menu.
+Public **gold** playbook `/guide/union-history` (`unionHistoryGuide`). Discoverability: labour registry (gold tier), Resources labour path, steward playbooks hub. **Not** in the Guides mega-menu.
+
+Facilitator kit: two-track diagrams, Local 243 worked example, map-your-local steps, confirm-before-you-speak checklist, history dates in `GuideExpandSection`, warning callout for area council vs labour council, and a one-page affiliation map PDF (`AffiliationMapWorksheetButton` → `downloadAffiliationMapWorksheetPdf`).
 
 ## Pedagogy
 
@@ -22,3 +24,7 @@ All external URLs in `src/lib/constants/comms-sources.ts` (`PAGE_SOURCE_IDS.unio
 ## Copy
 
 New public namespaces default to **zero em dashes** (`ZERO_EM_DASH_NS`). Prefer period or colon. Do not bulk-strip the older catalog.
+
+## Floor handout
+
+`src/lib/comms/affiliation-map-worksheet-pdf.ts` via `writeBrandedWorksheetPdf` (`layoutMode: flow`). Preview: `npm run pdf:preview -- affiliation-map en`. Keep copy off U+2014.

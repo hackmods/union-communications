@@ -26,6 +26,7 @@ Agent rule: [`.cursor/rules/guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc)
 | building-collective-power | `equity-clause`, `floor-checklist` |
 | `/guide/bylaws` | adoption checklist, quorum/motion |
 | `/guide/land-acknowledgement` | writing worksheet (`writeBrandedWorksheetPdf`, `layoutMode: flow`, 8 draft + 2 reflect rows, footer flows after Step 4) |
+| `/guide/union-history` | affiliation map worksheet (`writeBrandedWorksheetPdf`, `layoutMode: flow`, two-track fields + confirm checks) |
 
 ### Worksheet engine (`writeBrandedWorksheetPdf`)
 

@@ -148,6 +148,33 @@ test.describe("Guide text PDF export smoke @smoke", () => {
       titleNeedle: /Land acknowledgement — floor handout/i,
       footerNeedle: /UnionOps Comms/i,
     });
+
+    await page.goto("/en/guide/union-history/", { waitUntil: "domcontentloaded" });
+    await expect(
+      page.getByRole("heading", { name: "How Canadian Unions Connect" }),
+    ).toBeVisible({ timeout: 60_000 });
+
+    const affiliationCta = page.getByRole("button", {
+      name: /Download affiliation map/i,
+    }).first();
+    await affiliationCta.scrollIntoViewIfNeeded();
+    const affiliationDownloadPromise = page.waitForEvent("download");
+    await affiliationCta.click();
+    const affiliationDownload = await affiliationDownloadPromise;
+    expect(affiliationDownload.suggestedFilename()).toMatch(
+      /unionops-affiliation-map.*\.pdf$/i,
+    );
+    const affiliationPath = path.join(
+      outDir,
+      affiliationDownload.suggestedFilename(),
+    );
+    await affiliationDownload.saveAs(affiliationPath);
+    await assertTextPdfWithMark({
+      filePath: affiliationPath,
+      minBytes: 3_000,
+      titleNeedle: /Affiliation map: floor handout/i,
+      footerNeedle: /UnionOps Comms/i,
+    });
   });
 
   test("FR FAR sheet uses French education footer", async ({ page }) => {

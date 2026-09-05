@@ -15,7 +15,7 @@
 
 | Tier | Meaning | Guides |
 |---|---|---|
-| **Gold** | Facilitator-ready depth; TOC or rich components; tool handoffs | First week, workshop, union-boards, website, short-form, membership signup |
+| **Gold** | Facilitator-ready depth; TOC or rich components; tool handoffs | First week, workshop, union-boards, website, short-form, membership signup, **union-history** |
 | **Playbook** | Gate → steps → worked example → Hub/tool CTA → on-topic sources | DFR, joint committee, right-to-refuse, seniority, crisis, photo consent, Blueprint |
 | **Channel (usable)** | TOC + checklists + channel practice; **not** full playbook depth | **Print**, **email-broadcast** — launch-ready; deepen only if stewards ask |
 

@@ -5,6 +5,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
+import { GuideExpandSection } from "@/components/comms/GuideExpandSection";
 import {
   AffiliationExampleDiagram,
   AffiliationTracksDiagram,
@@ -16,6 +17,7 @@ import {
 import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import { AffiliationMapWorksheetButton } from "@/components/comms/AffiliationMapWorksheetButton";
 import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
 
 export async function generateMetadata({
@@ -70,7 +72,13 @@ const notThisKeys = [
   "quebec",
   "unaffiliated",
 ] as const;
-const toolKeys = ["orgChart", "website", "bylaws", "meetings"] as const;
+const confirmKeys = ["executive", "council", "quebec", "split"] as const;
+const toolRows = [
+  { key: "orgChart", href: "/tools/org-chart" },
+  { key: "website", href: "/tools/website-template" },
+  { key: "bylaws", href: "/guide/bylaws" },
+  { key: "meetings", href: "/guide/running-meetings" },
+] as const;
 
 function RegistryLink({
   id,
@@ -142,14 +150,26 @@ export default async function UnionHistoryGuidePage({
               label: nav("runningMeetingsGuide"),
               variant: "outline",
             },
+            {
+              href: "/brand-kit",
+              label: nav("brandKit"),
+              variant: "outline",
+            },
           ]}
         />
       }
+      relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/officer-learning", label: t("related.officerLearning") },
         { href: "/guide/steward-101", label: t("related.steward101") },
+        { href: "/guide/bylaws", label: t("related.bylaws") },
+        { href: "/guide/running-meetings", label: t("related.runningMeetings") },
+        {
+          href: "/guide/land-acknowledgement",
+          label: t("related.landAcknowledgement"),
+        },
         {
           href: "/guide/workplace-mapping",
           label: t("related.workplaceMapping"),
@@ -192,15 +212,21 @@ export default async function UnionHistoryGuidePage({
         title={t("history.title")}
         intro={t("history.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-          {historyKeys.map((key) => (
-            <TipItem
-              key={key}
-              label={t(`history.items.${key}.label`)}
-              content={t(`history.items.${key}.content`)}
-            />
-          ))}
-        </ul>
+        <GuideExpandSection
+          title={t("history.expandTitle")}
+          summary={t("history.expandSummary")}
+          className="mt-5 max-w-prose"
+        >
+          <ul className="list-disc space-y-3 pl-5 text-gray-700">
+            {historyKeys.map((key) => (
+              <TipItem
+                key={key}
+                label={t(`history.items.${key}.label`)}
+                content={t(`history.items.${key}.content`)}
+              />
+            ))}
+          </ul>
+        </GuideExpandSection>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("history.tip")}</p>
@@ -242,6 +268,10 @@ export default async function UnionHistoryGuidePage({
           <RegistryLink id="clc-federations">{t("tracks.clcLink")}</RegistryLink>
           {t("tracks.clcTail")}
         </p>
+        <Callout tone="warning" className="mt-5 max-w-prose">
+          <p className="font-semibold text-amber-950">{t("tracks.warningTitle")}</p>
+          <p className="mt-2 leading-relaxed">{t("tracks.warningBody")}</p>
+        </Callout>
       </GuideSection>
 
       <GuideSection
@@ -329,6 +359,28 @@ export default async function UnionHistoryGuidePage({
           ))}
         </ol>
         <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">
+            {t("mapYours.confirm.title")}
+          </p>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+            {confirmKeys.map((key) => (
+              <li key={key}>{t(`mapYours.confirm.items.${key}`)}</li>
+            ))}
+          </ul>
+        </Callout>
+        <div className="mt-8 max-w-prose">
+          <h3 className="text-base font-bold text-opseu-dark md:text-lg">
+            {t("worksheet.heading")}
+          </h3>
+          <p className="mt-2 leading-relaxed text-gray-700">
+            {t("worksheet.intro")}
+          </p>
+          <AffiliationMapWorksheetButton className="mt-4" />
+          <p className="mt-2 text-sm leading-relaxed text-gray-600">
+            {t("worksheet.hint")}
+          </p>
+        </div>
+        <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("mapYours.tip")}</p>
         </Callout>
@@ -352,14 +404,20 @@ export default async function UnionHistoryGuidePage({
 
       <GuideSection id="tools" title={t("tools.title")} intro={t("tools.intro")}>
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-          {toolKeys.map((key) => (
-            <TipItem
-              key={key}
-              label={t(`tools.items.${key}.label`)}
-              content={t(`tools.items.${key}.content`)}
-            />
+          {toolRows.map(({ key, href }) => (
+            <li key={key} className="max-w-prose leading-relaxed">
+              <Link
+                href={href}
+                className="font-semibold text-opseu-blue underline underline-offset-2"
+              >
+                {t(`tools.items.${key}.label`)}
+              </Link>
+              {". "}
+              {t(`tools.items.${key}.content`)}
+            </li>
           ))}
         </ul>
+        <AffiliationMapWorksheetButton className="mt-5" />
         <div className="button-row mt-5 max-w-2xl">
           <Link href="/tools/org-chart" className={guideCtaClass}>
             {nav("orgChart")}
@@ -372,6 +430,12 @@ export default async function UnionHistoryGuidePage({
           </Link>
           <Link href="/guide/bylaws" className={guideCtaOutlineClass}>
             {nav("bylawsGuide")}
+          </Link>
+          <Link
+            href="/guide/running-meetings"
+            className={guideCtaOutlineClass}
+          >
+            {nav("runningMeetingsGuide")}
           </Link>
         </div>
       </GuideSection>
