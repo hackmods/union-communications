@@ -4,7 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
-import { StrikeCommandDiagram, StrikeRhythmsDiagram } from "@/components/comms/StewardGuideDiagrams";
+import { StrikeCommandDiagram, StrikeRhythmsDiagram, StrikeGatesDiagram } from "@/components/comms/StewardGuideDiagrams";
 import { StrikeStandingBriefButton } from "@/components/comms/StrikeStandingBriefButton";
 import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
@@ -28,11 +28,16 @@ const TOC = [
   ["gate", "gate"],
   ["command", "command"],
   ["readiness", "readiness"],
+  ["kit", "kit"],
+  ["coverage", "coverage"],
+  ["tactics", "tactics"],
   ["line", "line"],
+  ["captains", "captains"],
   ["membership", "membership"],
   ["money", "money"],
   ["safety", "safety"],
   ["allies", "allies"],
+  ["visit", "visit"],
   ["rhythms", "rhythms"],
   ["checklist", "checklist"],
   ["return", "return"],
@@ -45,35 +50,61 @@ const TOC = [
 const gateKeys = ["lawful", "clock", "voice", "files"] as const;
 const commandKeys = ["names", "executive", "committee", "captains", "promises"] as const;
 const readinessKeys = ["people", "places", "money", "reach", "hardship"] as const;
+const kitKeys = ["captainBag", "gateKit", "weather", "food", "signs", "paper"] as const;
+const coverageKeys = ["countDoors", "bodies", "shiftLength", "reliefMath", "lunch"] as const;
+const coverageRowKeys = ["thin", "working", "deep"] as const;
+const tacticKeys = ["mapDoors", "early", "liveDoor", "publicSide", "notThis"] as const;
 const lineKeys = ["locations", "rotations", "access", "visitors", "brief"] as const;
+const captainKeys = ["nightBefore", "huddle", "talk", "chants", "flyers"] as const;
+const talkKeys = ["member", "driver", "manager", "media", "visitor"] as const;
+const chantKeys = ["fairContract", "whoRuns", "together"] as const;
 const membershipKeys = ["turnout", "missing", "rumours", "care"] as const;
 const moneyKeys = ["distinguish", "facts", "record", "public"] as const;
 const safetyKeys = ["emergency", "noDare", "escalate", "deescalate"] as const;
 const allyKeys = ["ask", "coordinator", "sameFacts"] as const;
+const visitKeys = ["callFirst", "namedGate", "followCaptain", "noSpeak", "noFilm"] as const;
 const rhythmKeys = ["internal", "public", "captainsFirst"] as const;
 const checklistKeys = [
   "names",
   "gate",
+  "kit",
+  "doors",
+  "early",
   "fallback",
   "hardship",
   "emergency",
+  "flyers",
   "captainsFirst",
   "visitors",
   "returnWatch",
 ] as const;
 const roleKeys = ["executive", "committee", "captains", "spokesperson"] as const;
 const returnKeys = ["lastDay", "firstShift", "retaliation"] as const;
-const scenarioKeys = ["t545", "t600", "t615", "t630", "t700", "t800"] as const;
+const scenarioKeys = ["t530", "t545", "t600", "t615", "t630", "t700", "t800"] as const;
 const failureKeys = [
   "split",
   "money",
   "emptyGates",
+  "lateOpen",
+  "sideDoor",
+  "visitSpeak",
   "contradiction",
   "wildcat",
   "noWatch",
 ] as const;
-const notThisKeys = ["crisis", "bargaining", "wildcat", "national"] as const;
-const toolKeys = ["crisis", "bargaining", "brief", "consent", "mapping", "board", "email"] as const;
+const notThisKeys = ["crisis", "bargaining", "wildcat", "illegal", "national"] as const;
+const toolKeys = [
+  "crisis",
+  "bargaining",
+  "brief",
+  "mapping",
+  "flyer",
+  "qr",
+  "website",
+  "consent",
+  "board",
+  "email",
+] as const;
 
 export default async function StrikeOpsGuidePage({
   params,
@@ -119,6 +150,21 @@ export default async function StrikeOpsGuidePage({
               variant: "outline",
             },
             {
+              href: "/tools/flyer-maker",
+              label: nav("flyerMaker"),
+              variant: "outline",
+            },
+            {
+              href: "/tools/qr-card",
+              label: nav("qrCard"),
+              variant: "outline",
+            },
+            {
+              href: "/tools/website-template",
+              label: nav("websiteTemplate"),
+              variant: "outline",
+            },
+            {
               href: "/guide/workplace-mapping",
               label: nav("workplaceMappingGuide"),
               variant: "outline",
@@ -132,6 +178,9 @@ export default async function StrikeOpsGuidePage({
         { href: "/guide/crisis", label: nav("crisisCommsGuide") },
         { href: "/guide/bargaining", label: nav("bargainingGuide") },
         { href: "/guide/photo-consent", label: nav("photoConsent") },
+        { href: "/tools/flyer-maker", label: nav("flyerMaker") },
+        { href: "/tools/qr-card", label: nav("qrCard") },
+        { href: "/tools/website-template", label: nav("websiteTemplate") },
         { href: "/guide/workplace-mapping", label: nav("workplaceMappingGuide") },
         { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
         { href: "/guide/officer-learning", label: nav("officerLearningGuide") },
@@ -223,6 +272,78 @@ export default async function StrikeOpsGuidePage({
         </Callout>
       </GuideSection>
 
+      <GuideSection id="kit" title={t("kit.title")} intro={t("kit.intro")}>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {kitKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`kit.items.${key}.label`)}
+              content={t(`kit.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("kit.tip")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection id="coverage" title={t("coverage.title")} intro={t("coverage.intro")}>
+        <StrikeGatesDiagram
+          className="mt-5"
+          labels={{
+            main: t("coverage.diagram.main"),
+            side: t("coverage.diagram.side"),
+            dock: t("coverage.diagram.dock"),
+          }}
+          caption={t("coverage.diagram.caption")}
+        />
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {coverageKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`coverage.items.${key}.label`)}
+              content={t(`coverage.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <p className="mt-5 max-w-prose leading-relaxed text-gray-700">{t("coverage.worked")}</p>
+        <CoverageTable
+          caption={t("coverage.table.caption")}
+          headers={{
+            band: t("coverage.table.headers.band"),
+            bodies: t("coverage.table.headers.bodies"),
+            layout: t("coverage.table.headers.layout"),
+          }}
+          rows={coverageRowKeys.map((key) => ({
+            key,
+            band: t(`coverage.table.rows.${key}.band`),
+            bodies: t(`coverage.table.rows.${key}.bodies`),
+            layout: t(`coverage.table.rows.${key}.layout`),
+          }))}
+        />
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("coverage.tip")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection id="tactics" title={t("tactics.title")} intro={t("tactics.intro")}>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {tacticKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`tactics.items.${key}.label`)}
+              content={t(`tactics.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout tone="warning" className="mt-5 max-w-prose">
+          <p className="font-semibold text-amber-950">{t("tactics.warningTitle")}</p>
+          <p className="mt-1">{t("tactics.warning")}</p>
+        </Callout>
+      </GuideSection>
+
       <GuideSection id="line" title={t("line.title")} intro={t("line.intro")}>
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
           {lineKeys.map((key) => (
@@ -236,6 +357,61 @@ export default async function StrikeOpsGuidePage({
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("line.tip")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection id="captains" title={t("captains.title")} intro={t("captains.intro")}>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {captainKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`captains.items.${key}.label`)}
+              content={t(`captains.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <TalkTable
+          caption={t("captains.talk.caption")}
+          headers={{
+            who: t("captains.talk.headers.who"),
+            say: t("captains.talk.headers.say"),
+          }}
+          rows={talkKeys.map((key) => ({
+            key,
+            who: t(`captains.talk.rows.${key}.who`),
+            say: t(`captains.talk.rows.${key}.say`),
+          }))}
+        />
+        <ChantTable
+          caption={t("captains.chants.caption")}
+          headers={{
+            call: t("captains.chants.headers.call"),
+            response: t("captains.chants.headers.response"),
+            when: t("captains.chants.headers.when"),
+          }}
+          rows={chantKeys.map((key) => ({
+            key,
+            call: t(`captains.chants.rows.${key}.call`),
+            response: t(`captains.chants.rows.${key}.response`),
+            when: t(`captains.chants.rows.${key}.when`),
+          }))}
+        />
+        <p className="mt-5 max-w-prose leading-relaxed text-gray-700">{t("captains.chants.technique")}</p>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{t("captains.flyers.body")}</p>
+        <div className="button-row mt-5 max-w-2xl">
+          <Link href="/tools/flyer-maker" className={guideCtaClass}>
+            {nav("flyerMaker")}
+          </Link>
+          <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+            {nav("qrCard")}
+          </Link>
+          <Link href="/tools/website-template" className={guideCtaOutlineClass}>
+            {nav("websiteTemplate")}
+          </Link>
+        </div>
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("captains.tip")}</p>
         </Callout>
       </GuideSection>
 
@@ -300,6 +476,22 @@ export default async function StrikeOpsGuidePage({
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("allies.tip")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection id="visit" title={t("visit.title")} intro={t("visit.intro")}>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {visitKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`visit.items.${key}.label`)}
+              content={t(`visit.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("visit.tip")}</p>
         </Callout>
       </GuideSection>
 
@@ -446,6 +638,15 @@ export default async function StrikeOpsGuidePage({
           <Link href="/guide/workplace-mapping" className={guideCtaOutlineClass}>
             {nav("workplaceMappingGuide")}
           </Link>
+          <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+            {nav("flyerMaker")}
+          </Link>
+          <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+            {nav("qrCard")}
+          </Link>
+          <Link href="/tools/website-template" className={guideCtaOutlineClass}>
+            {nav("websiteTemplate")}
+          </Link>
           <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
             {nav("boardNotice")}
           </Link>
@@ -511,6 +712,128 @@ function ChecklistFigure({
         </li>
       ))}
     </ul>
+  );
+}
+
+function CoverageTable({
+  caption,
+  headers,
+  rows,
+}: {
+  caption: string;
+  headers: { band: string; bodies: string; layout: string };
+  rows: { key: string; band: string; bodies: string; layout: string }[];
+}) {
+  return (
+    <figure className="mt-6 overflow-x-auto">
+      <table className="min-w-full border-collapse text-left text-sm">
+        <caption className="mb-2 text-left text-xs text-gray-600">{caption}</caption>
+        <thead>
+          <tr className="border-b border-gray-200 bg-gray-50 text-opseu-dark">
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.band}
+            </th>
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.bodies}
+            </th>
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.layout}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.key} className="border-b border-gray-100 align-top">
+              <th scope="row" className="px-3 py-2 font-medium text-opseu-dark">
+                {row.band}
+              </th>
+              <td className="px-3 py-2 text-gray-700">{row.bodies}</td>
+              <td className="px-3 py-2 text-gray-700">{row.layout}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </figure>
+  );
+}
+
+function TalkTable({
+  caption,
+  headers,
+  rows,
+}: {
+  caption: string;
+  headers: { who: string; say: string };
+  rows: { key: string; who: string; say: string }[];
+}) {
+  return (
+    <figure className="mt-6 overflow-x-auto">
+      <table className="min-w-full border-collapse text-left text-sm">
+        <caption className="mb-2 text-left text-xs text-gray-600">{caption}</caption>
+        <thead>
+          <tr className="border-b border-gray-200 bg-gray-50 text-opseu-dark">
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.who}
+            </th>
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.say}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.key} className="border-b border-gray-100 align-top">
+              <th scope="row" className="px-3 py-2 font-medium text-opseu-dark">
+                {row.who}
+              </th>
+              <td className="px-3 py-2 text-gray-700">{row.say}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </figure>
+  );
+}
+
+function ChantTable({
+  caption,
+  headers,
+  rows,
+}: {
+  caption: string;
+  headers: { call: string; response: string; when: string };
+  rows: { key: string; call: string; response: string; when: string }[];
+}) {
+  return (
+    <figure className="mt-6 overflow-x-auto">
+      <table className="min-w-full border-collapse text-left text-sm">
+        <caption className="mb-2 text-left text-xs text-gray-600">{caption}</caption>
+        <thead>
+          <tr className="border-b border-gray-200 bg-gray-50 text-opseu-dark">
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.call}
+            </th>
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.response}
+            </th>
+            <th scope="col" className="px-3 py-2 font-semibold">
+              {headers.when}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.key} className="border-b border-gray-100 align-top">
+              <th scope="row" className="px-3 py-2 font-medium text-opseu-dark">
+                {row.call}
+              </th>
+              <td className="px-3 py-2 text-gray-700">{row.response}</td>
+              <td className="px-3 py-2 text-gray-700">{row.when}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </figure>
   );
 }
 

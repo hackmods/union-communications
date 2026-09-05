@@ -3939,6 +3939,7 @@
     "accentColor": "Accent colour",
     "secondaryColor": "Secondary colour",
     "whenToUse": "Use for handouts at meetings, walkabouts, and actions. Pair with boards so offline members still get the facts.",
+    "presetHeading": "Flyer type",
     "sectionEventDetails": "Event details",
     "defaults": {
       "message": "PICKET LINE — ALL MEMBERS WELCOME",
@@ -6662,6 +6663,14 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "flyer-maker-phone": {
+        "title": "Flyer Maker on a phone",
+        "body": "Pick picket, rally, meeting, or walkabout, then Edit or Preview. Downloads sit on the Preview tab so the form fits a phone."
+      },
+      "caat-a-logo-knockouts": {
+        "title": "College Faculty logos on Brand Assets",
+        "body": "College Faculty downloads now use a white lockup on coalition blue and reverse plates. The burgundy and one-colour cards show the mark at a readable size."
+      },
       "document-generator-phone": {
         "title": "Document Generator on a phone",
         "body": "Pick a letter or worksheet, then Edit or Preview. Downloads sit on the Preview tab so the form is not buried under example cards."
@@ -6676,7 +6685,7 @@
       },
       "strike-ops-guide": {
         "title": "Strike operations playbook",
-        "body": "Command, the picket line, member care, and a printable captains' brief. Crisis comms stays who may speak."
+        "body": "Kits, gate coverage from headcount, captain talking scripts, and a printable brief. Crisis comms stays who may speak."
       },
       "export-download-confirm": {
         "title": "Downloads confirm when they finish",
@@ -11888,12 +11897,12 @@
   },
   "strikeOpsGuide": {
     "title": "Strike operations playbook",
-    "subtitle": "Command, the picket line, member care, and return to work — not a posting calendar",
+    "subtitle": "Kits, gate coverage, captain training, and return to work — not a posting calendar",
     "backToGuide": "Back to The Blueprint",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
-    "intro": "A lawful strike or lockout is a physical operation. Members need a gate that opens, a captain who knows the brief, a hardship path they can trust, and one set of facts. Public posts come after that work, not instead of it.",
+    "intro": "A lawful strike or lockout is a physical operation. Pack the kits, staff the door the employer is actually using, train captains on what to say, and keep one set of facts. Public posts come after that work, not instead of it.",
     "disclaimer": {
       "title": "Not legal advice. Confirm before any stoppage.",
       "body": "This page is not a national strike manual and it does not start a strike. Confirm the Act, your constitution, and your union’s strike protocol with your Staff Representative before any work stoppage. Local executive and the strike committee decide. This page does not."
@@ -12016,6 +12025,127 @@
       },
       "tip": "If captains still need the president to open a gate, you are not ready. Finish the brief before you finish the graphic."
     },
+    "kit": {
+      "navLabel": "Line kits",
+      "title": "Pack the line before you pack a graphic",
+      "intro": "Captains open a gate with a tote they can carry. The gate itself needs seating, weather cover, and a paper map to the washroom. Do not wait for someone to bring stuff at 5:30 a.m.",
+      "items": {
+        "captainBag": {
+          "label": "Captain tote",
+          "content": "Paper brief, phone tree, extra flyers, tape, markers, pens, a basic first-aid kit, and a printed washroom map. Phones die. The tote does not."
+        },
+        "gateKit": {
+          "label": "Gate kit",
+          "content": "Folding chairs or a bench, water, a sandwich board with the same gate name as the brief, trash bags, and a way to hold signs in wind. Name who packs it the night before."
+        },
+        "weather": {
+          "label": "Weather",
+          "content": "Rain, heat, and cold empty a line faster than a rumour. Tarp or umbrella, shade or a warm-up rotation, shorter shifts when the sidewalk is brutal."
+        },
+        "food": {
+          "label": "Food drop",
+          "content": "One named drop at a named gate, with a time. A vague promise that someone will bring something is how lunch empties the live door."
+        },
+        "signs": {
+          "label": "Signs and slogans",
+          "content": "One demand from the brief. No member home addresses. No photos of people who did not consent. Captains collect extra signs so the line does not invent a second slogan."
+        },
+        "paper": {
+          "label": "Paper beats a dead phone",
+          "content": "Captains carry the brief on paper. Group chats are a backup, not the original."
+        }
+      },
+      "tip": "If the tote is still in someone's trunk at 5:45, the gate opens empty. Pack the night before. Put the tote in the car that is opening the gate."
+    },
+    "coverage": {
+      "navLabel": "Shifts from numbers",
+      "title": "Design shifts from the bodies you have",
+      "intro": "Count doors first, then people, then shift length. Do not pretty-staff the front door while the loading dock is the real entrance.",
+      "diagram": {
+        "main": "Main door",
+        "side": "Side stair",
+        "dock": "Dock or staff lot",
+        "caption": "Staff the door the employer is actually using. An empty side door is a hole, not a rest."
+      },
+      "items": {
+        "countDoors": {
+          "label": "Count doors first",
+          "content": "Walk the site with workplace mapping. Main entrance, side stair, loading dock, staff lot, contractor gate. Write the list on the brief. Your Staff Representative confirms where you may stand."
+        },
+        "bodies": {
+          "label": "Bodies on a live gate",
+          "content": "A live gate needs at least three or four visible people so it looks like a line, not a pair of friends. One person at a door is a witness, not coverage."
+        },
+        "shiftLength": {
+          "label": "Shift length",
+          "content": "Two or three hours is enough for weather and a washroom break. Four-hour shifts empty at the two-hour mark unless you built relief in."
+        },
+        "reliefMath": {
+          "label": "Relief math",
+          "content": "Live gates times people per gate times (hours in the day divided by hours in a shift), then add about one extra person in five for no-shows. If that number is bigger than your turnout, you do not have enough gates. Close a door on paper, not by hoping."
+        },
+        "lunch": {
+          "label": "Lunch is a coverage hour",
+          "content": "The employer will test the line at lunch. Stagger food. Never let every captain sit down at once."
+        }
+      },
+      "worked": "Example. Twenty-four members, a twelve-hour day, three-hour shifts. That is four shift slots, so six people on the sidewalk at once. Staff the live gate at four and a skeleton side door at two. Do not pretend you have three full lines.",
+      "table": {
+        "caption": "Match the layout to the count, not to a pretty map.",
+        "headers": {
+          "band": "Band",
+          "bodies": "On the sidewalk at once",
+          "layout": "Layout"
+        },
+        "rows": {
+          "thin": {
+            "band": "Thin (about 8 to 12)",
+            "bodies": "4 to 6 at a time if you rotate",
+            "layout": "One main gate, two-hour rotations, skeleton on the one side door that is actually used."
+          },
+          "working": {
+            "band": "Working (about 20 to 30)",
+            "bodies": "8 to 12 at a time",
+            "layout": "Main gate plus one side. Lunch covered. Move bodies the same hour onto the live door."
+          },
+          "deep": {
+            "band": "Deep (40 or more)",
+            "bodies": "16 or more at a time",
+            "layout": "Every mapped entrance at shift change. Keep a reserve for the door that opens late."
+          }
+        }
+      },
+      "tip": "Do not pretty-staff an empty main while the dock is the real door. Move people the same hour."
+    },
+    "tactics": {
+      "navLabel": "Cover every door",
+      "title": "Cover every door the employer can use",
+      "intro": "Management will try the side stair, the dock, and an earlier start. Your job is lawful coverage of every mapped entrance, not a prettier crowd at the front.",
+      "items": {
+        "mapDoors": {
+          "label": "Map the real doors",
+          "content": "Staff lot, loading dock, side stair, contractor gate, late-night receiving. The front door is often the photo, not the traffic."
+        },
+        "early": {
+          "label": "Open earlier than they do",
+          "content": "Captains in place thirty to sixty minutes before the first management cars and the first shift. A line that arrives at 7:00 for a 6:30 start already lost the door."
+        },
+        "liveDoor": {
+          "label": "Longer hold on the live door",
+          "content": "If traffic moved to the dock, the committee moves bodies the same hour. Do not leave a photogenic empty main and a working hole."
+        },
+        "publicSide": {
+          "label": "Public sidewalk, confirmed bounds",
+          "content": "Stand where your Staff Representative says you may stand. A public sidewalk is not a private lot, a highway, or a driveway you do not control."
+        },
+        "notThis": {
+          "label": "Not a blockade",
+          "content": "Do not chase vehicles, occupy a private lot, or block a highway. Captains de-escalate. Coverage is not a dare."
+        }
+      },
+      "warningTitle": "This is coverage of a lawful picket",
+      "warning": "Your Staff Representative confirms where you may stand. This is not a wildcat, not a blockade, and not advice to occupy property. A department that walks without a mandate puts members at legal risk."
+    },
     "line": {
       "navLabel": "The line",
       "title": "The picket line is the meeting",
@@ -12043,6 +12173,92 @@
         }
       },
       "tip": "If the notice at the gate disagrees with the strike page, members will trust neither. Fix the brief, then copy it out."
+    },
+    "captains": {
+      "navLabel": "Captain training",
+      "title": "Captain training: huddle, talking, chants, flyers",
+      "intro": "Captains are trained the night before, not in the dark at 5:45. They know the brief out loud, what to say at the fence, and when to stop a chant.",
+      "items": {
+        "nightBefore": {
+          "label": "Night-before walk",
+          "content": "Walk every mapped door. Assign totes. Read the brief out loud. Name the backup captain. Confirm who opens thirty to sixty minutes early."
+        },
+        "huddle": {
+          "label": "Morning huddle",
+          "content": "Who is missing, which door is live, what rumour is already on the sidewalk. Ten minutes. Then the gate opens from paper."
+        },
+        "talk": {
+          "label": "Talking is a job",
+          "content": "One demand, one hardship path, one spokesperson. Captains do not debate managers at the fence and do not guess strike pay."
+        },
+        "chants": {
+          "label": "Chants have a captain",
+          "content": "The captain starts, one demand, stop if a camera is baiting a dare. No slurs. No copyrighted anthem lyrics on this page: write a short original call-and-response your local owns."
+        },
+        "flyers": {
+          "label": "Flyers with a way back",
+          "content": "Same facts as the brief. A QR code to the local strike page or Brand Kit website, not to a thread that will scroll away. Stack them in the tote."
+        }
+      },
+      "talk": {
+        "caption": "Captains say this. They do not improvise a second brief.",
+        "headers": {
+          "who": "Who they meet",
+          "say": "What they say"
+        },
+        "rows": {
+          "member": {
+            "who": "A member arriving",
+            "say": "Gate name, shift length, washroom, hardship path from the brief. Thank them. Ask who else on their shift is coming."
+          },
+          "driver": {
+            "who": "Someone approaching the gate",
+            "say": "This is a lawful picket. Please do not cross. Here is a flyer with the facts and the local page. If they insist, do not chase the vehicle. Note the time for the committee."
+          },
+          "manager": {
+            "who": "A manager at the fence",
+            "say": "Please speak with our spokesperson. Here is the name and number from the brief. Captains do not negotiate terms at the fence."
+          },
+          "media": {
+            "who": "A reporter",
+            "say": "The spokesperson is named on the brief. Captains do not give interviews or let cameras bait a dare."
+          },
+          "visitor": {
+            "who": "An ally or visiting local",
+            "say": "Check in with this captain. Named gate only. Follow our brief. Do not speak for this local."
+          }
+        }
+      },
+      "chants": {
+        "caption": "Original call-and-response. Keep it short enough to start in the rain.",
+        "headers": {
+          "call": "Captain call",
+          "response": "Line responds",
+          "when": "When"
+        },
+        "rows": {
+          "fairContract": {
+            "call": "Fair contract now",
+            "response": "Fair contract now",
+            "when": "Arrival and shift change, one demand."
+          },
+          "whoRuns": {
+            "call": "Who does the work?",
+            "response": "We do.",
+            "when": "When the line needs energy, not a speech."
+          },
+          "together": {
+            "call": "Together we stand",
+            "response": "Together we win",
+            "when": "End of a rotation, not over a confrontation."
+          }
+        },
+        "technique": "The captain starts. One person, one demand. Stop if a camera is baiting a dare, if replacement workers are being baited, or if the chant slides into a slur. Do not paste someone else's anthem. Write three lines your local can own."
+      },
+      "flyers": {
+        "body": "Print a stack with the same gate names, hardship path, and a QR code to the local strike page. Flyer Maker and QR Link Cards build that on a personal device. Website Template is the page the QR should open if you do not already have one."
+      },
+      "tip": "If a captain cannot say the hardship path without looking at a phone, they are not trained yet. Read it out loud the night before."
     },
     "membership": {
       "navLabel": "Holding members",
@@ -12138,6 +12354,34 @@
       },
       "tip": "A van of sandwiches at a named gate beats a solidarity graphic with no address."
     },
+    "visit": {
+      "navLabel": "Visiting another line",
+      "title": "Showing up on another local's line",
+      "intro": "Solidarity is bodies and food at a named gate, on their captain's terms. It is not a visiting officer giving interviews for the host.",
+      "items": {
+        "callFirst": {
+          "label": "Call first",
+          "content": "Their strike coordinator names the gate, the time, and what they actually need. Do not convoy in unannounced with a banner they did not ask for."
+        },
+        "namedGate": {
+          "label": "Named gate, named drop",
+          "content": "Take people and food to the gate they named. A photogenic stop at the front door while their dock is empty is not help."
+        },
+        "followCaptain": {
+          "label": "Follow their captain",
+          "content": "Wear your local so members can see who you are. Then take their brief. Their bounds, their hardship facts, their spokesperson."
+        },
+        "noSpeak": {
+          "label": "Do not speak for them",
+          "content": "Reporters and managers go to the host spokesperson. A visiting president who just wanted to add a comment splits their command."
+        },
+        "noFilm": {
+          "label": "Do not film their members",
+          "content": "No livestream of their line, no faces without their consent process. You are a guest. Their photo rules apply."
+        }
+      },
+      "tip": "Ask which gate, what time, what they need. Then show up as labour, not as a tour."
+    },
     "rhythms": {
       "navLabel": "Two rhythms",
       "title": "Two rhythms: internal and public",
@@ -12201,6 +12445,18 @@
           "label": "Named gate",
           "content": "The same name on this brief, the strike page, and the notice at the entrance."
         },
+        "kit": {
+          "label": "Line kits packed",
+          "content": "Captain tote and gate kit in the car that opens the gate. Packed the night before."
+        },
+        "doors": {
+          "label": "Doors mapped",
+          "content": "Main, side, dock, staff lot. Your Staff Representative confirmed where you may stand."
+        },
+        "early": {
+          "label": "Early open named",
+          "content": "Who is on the live door thirty to sixty minutes before first arrival."
+        },
         "fallback": {
           "label": "Indoor fallback",
           "content": "Washrooms, weather cover, and where the line moves if the sidewalk closes."
@@ -12212,6 +12468,10 @@
         "emergency": {
           "label": "Emergency and servicing",
           "content": "Who to call after 911, and who gets an injunction the same hour."
+        },
+        "flyers": {
+          "label": "Flyer stack with QR",
+          "content": "Same facts as this brief. QR to the local strike page, not a group thread."
         },
         "captainsFirst": {
           "label": "Captains before social",
@@ -12230,8 +12490,12 @@
     "fullScenario": {
       "navLabel": "Day-one morning",
       "title": "Worked morning: day one, 5:45 a.m.",
-      "intro": "The legal window opened overnight. Members are arriving in the dark. This is operations, not a press day.",
+      "intro": "The legal window opened overnight. Members are arriving in the dark. Open the live door early. This is operations, not a press day.",
       "phases": {
+        "t530": {
+          "label": "5:30 — open the live door",
+          "content": "Captains on the side stair or dock thirty minutes before first management cars. The main door can wait. The hole cannot."
+        },
         "t545": {
           "label": "5:45 — captain no-show",
           "content": "Backup captain opens the named gate from the paper brief. Committee lead is told once, not in a group thread of twenty."
@@ -12276,13 +12540,25 @@
           "label": "Empty gates, loud group",
           "content": "If the Facebook group is packed and the sidewalk is not, stop posting and start calling the people who are missing."
         },
+        "lateOpen": {
+          "label": "Opened with the first shift",
+          "content": "Management and replacement workers were already through the side door. Open thirty to sixty minutes earlier tomorrow. Name who."
+        },
+        "sideDoor": {
+          "label": "Empty side door",
+          "content": "A pretty crowd at the main and a working hole at the dock. Move bodies the same hour."
+        },
+        "visitSpeak": {
+          "label": "A guest speaks for the host",
+          "content": "A visiting local giving interviews splits command and invents facts. Host spokesperson only."
+        },
         "contradiction": {
           "label": "Public contradiction",
           "content": "Two official posts with two facts. Stop public posting until executive and the committee align on one correction."
         },
         "wildcat": {
           "label": "Wildcat drift",
-          "content": "A gate that “just stays” after a return order, or a department that walks without a mandate, puts members at legal risk. Call servicing the same hour."
+          "content": "A gate that just stays after a return order, or a department that walks without a mandate, puts members at legal risk. Call servicing the same hour."
         },
         "noWatch": {
           "label": "Return with no steward watch",
@@ -12308,6 +12584,10 @@
           "label": "Not a green light for wildcats",
           "content": "Unauthorized stoppages put members and the local at risk. Stay inside the statutory path your Staff Representative confirms."
         },
+        "illegal": {
+          "label": "Not a blockade manual",
+          "content": "Do not block a highway, occupy a private lot, or chase vehicles. Your Staff Representative confirms lawful picket bounds."
+        },
         "national": {
           "label": "Not a national strike protocol",
           "content": "Your union may have its own strike manual, pay rules, and legal team. Follow those. This page does not replace them."
@@ -12331,13 +12611,25 @@
           "label": "Captains' standing brief",
           "content": "Print the fill-in sheet above. Captains carry paper; the public schedule is a copy of it."
         },
+        "mapping": {
+          "label": "Workplace mapping",
+          "content": "Who is missing by department and shift. Count the real doors."
+        },
+        "flyer": {
+          "label": "Flyer Maker",
+          "content": "A gate flyer with the same facts as the brief, on a personal device."
+        },
+        "qr": {
+          "label": "QR Link Cards",
+          "content": "Pocket cards and flyer QR codes that open the local strike page, not a thread."
+        },
+        "website": {
+          "label": "Website Template",
+          "content": "The page the QR should open if the local does not already have a strike page."
+        },
         "consent": {
           "label": "Photo consent",
           "content": "Faces on the line need a checklist, not a hope."
-        },
-        "mapping": {
-          "label": "Workplace mapping",
-          "content": "Who is missing by department and shift."
         },
         "board": {
           "label": "Board Notice Maker",

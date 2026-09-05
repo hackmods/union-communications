@@ -125,7 +125,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/strike": {
       title: "Strike operations playbook",
       description:
-        "How a local runs a lawful strike or lockout: command, the picket line, member care, money, safety, and return to work. Not legal advice.",
+        "How a local runs a lawful strike: picket kits, gate coverage from numbers, captain training, member care, and return to work. Not legal advice.",
     },
     "/guide/membership-signup": {
       title: "Membership signup playbook",
@@ -347,7 +347,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/strike": {
       title: "Guide des opérations de grève",
       description:
-        "Comment une section mène une grève ou un lock-out légal : commandement, piquetage, soins aux membres, argent, sécurité et retour au travail.",
+        "Comment une section mène une grève légale : trousses, couverture des portes, formation des capitaines, soins aux membres et retour. Pas un avis juridique.",
     },
     "/guide/membership-signup": {
       title: "Guide pratique d'adhésion",

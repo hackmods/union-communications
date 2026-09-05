@@ -655,6 +655,39 @@ export function StrikeRhythmsDiagram({ labels, caption, className }: StrikeRhyth
   );
 }
 
+interface StrikeGatesDiagramProps {
+  labels: { main: string; side: string; dock: string };
+  caption?: string;
+  className?: string;
+}
+
+/** Main door, side door, and dock/lot — staff the door the employer is actually using. */
+export function StrikeGatesDiagram({ labels, caption, className }: StrikeGatesDiagramProps) {
+  const gates = [
+    { key: "main", label: labels.main },
+    { key: "side", label: labels.side },
+    { key: "dock", label: labels.dock },
+  ] as const;
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <ul
+        className="grid gap-2 sm:grid-cols-3"
+        aria-label={gates.map((g) => g.label).join("; ")}
+      >
+        {gates.map((gate) => (
+          <li
+            key={gate.key}
+            className="rounded-lg border-2 border-opseu-blue/40 bg-opseu-blue/5 px-3 py-3 text-center text-xs font-semibold leading-snug text-opseu-dark sm:text-sm"
+          >
+            {gate.label}
+          </li>
+        ))}
+      </ul>
+      {caption ? <figcaption className="text-xs text-gray-600">{caption}</figcaption> : null}
+    </figure>
+  );
+}
+
 interface BargainingLifecycleDiagramProps {
   labels: {
     prep: string;

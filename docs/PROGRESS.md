@@ -30,6 +30,7 @@ Lessons: [`docs/audit/session-knowledge-2026-09-05-strike-operations.md`](audit/
 - [x] Mega-menu Steward craft “Strike operations” → `/guide/strike` (never means crisis)
 - [x] Registry: primary group bargaining; also labour resources + steward playbooks
 - [x] Gold-standard pass: command roles table, two-rhythms diagram, captains' standing-brief checklist + printable PDF
+- [x] Floor-depth pass: line kits, shift/layout math from headcount, cover-every-door tactics, captain talking scripts + original chants, QR flyers, visiting another local's line
 - Verify: `npm run test:unit -- src/lib/comms/guide-registry.test.ts src/components/layout/nav/nav-config.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts src/lib/comms/strike-standing-brief-pdf.test.ts src/lib/export/guide-pdf-contract.test.ts`
 
 ## Public toolkit front door (2026-09-04)
