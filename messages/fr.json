@@ -4257,7 +4257,7 @@
           "content": "Le responsable Comms garde les brouillons ; le président approuve par lot. Évite les publications en double de volontaires bien intentionnés."
         }
       },
-      "tip": "Rédigez la prochaine mise à jour tant que vous avez encore les faits, pas à 5 h sur la ligne. Les capitaines l'entendent en premier."
+      "tip": "Rédigez les trois messages de demain ce soir. Les matins de crise ne sont pas faits pour rédiger de zéro."
     },
     "fullScenario": {
       "navLabel": "Parcours complet",
@@ -9749,7 +9749,7 @@
     "tipLabel": "À retenir",
     "intro": "L'affiliation décrit la place d'une section dans une maison plus large du travail. Ce guide esquisse l'histoire syndicale canadienne, puis cartographie la section 243 d'OPSEU / SEFPO, du Collège Niagara jusqu'au Congrès du travail du Canada, pour que vous puissiez tracer la même carte chez vous.",
     "disclaimer": {
-      "title": "Une carte d'enseignement — pas un certificat d'affiliation",
+      "title": "Une carte d'enseignement, pas un certificat d'affiliation",
       "body": "Les sections, conseils de secteur et conseils du travail changent de délégués et de cotisations. Confirmez vos propres affiliations auprès de votre exécutif local et de votre syndicat parent avant de parler en leur nom. C'est de la formation pour le plancher, pas un avis juridique et pas un répertoire officiel."
     },
     "related": {
@@ -9786,23 +9786,23 @@
       "intro": "Les organismes de la carte ci-dessous ne sont pas un organigramme d'entreprise. C'est l'architecture restante d'un siècle de luttes sur qui a le droit de négocier, de faire grève et de parler pour les travailleurs.",
       "items": {
         "nineHour": {
-          "label": "1872 — mouvement des neuf heures",
+          "label": "1872 : mouvement des neuf heures",
           "content": "Des travailleurs de métier en Ontario et à Montréal ont fait grève pour une journée plus courte. La campagne a aidé à gagner un droit limité de se syndiquer, ce qui explique pourquoi les sections traitent encore le droit d'association comme quelque chose de conquis, pas d'accordé."
         },
         "winnipeg": {
-          "label": "1919 — grève générale de Winnipeg",
+          "label": "1919 : grève générale de Winnipeg",
           "content": "Les métiers de la construction et du métal ont débrayé ; une grande partie de la ville a suivi. La grève a échoué comme ronde de négociation et a tout de même enseigné au mouvement que l'isolement des métiers perd les combats à l'échelle d'une ville."
         },
         "rand": {
-          "label": "1946 — formule Rand",
+          "label": "1946 : formule Rand",
           "content": "Après la grève Ford à Windsor, la sentence du juge Ivan Rand a exigé des cotisations de toutes les personnes de l'unité. La sécurité syndicale dans les conventions du secteur public canadien repose encore sur cette idée."
         },
         "clcMerge": {
-          "label": "1956 — Congrès du travail du Canada",
+          "label": "1956 : Congrès du travail du Canada",
           "content": "Le Congrès des métiers et du travail (métiers) et le Congrès canadien du travail (industriel) ont fusionné. Les fédérations provinciales et les conseils du travail locaux sont constitués sous ce congrès, pas inventés par chaque syndicat."
         },
         "publicSector": {
-          "label": "Années 1960-70 — vague du secteur public",
+          "label": "Années 1960-70 : vague du secteur public",
           "content": "Le SCFP, les syndicats de la fonction publique provinciale et le NUPGE (1976) ont grandi quand les travailleurs du public ont obtenu le droit de négocier. OPSEU / SEFPO est une composante du NUPGE : un syndicat provincial dans une fédération nationale de syndicats."
         },
         "quebec": {
@@ -9827,11 +9827,11 @@
         "geoCouncil": "Conseil du travail",
         "geoFed": "Fédération provinciale",
         "geoCongress": "Congrès du travail du Canada",
-        "caption": "Le CTC apparaît sur les deux voies parce que les fédérations, conseils du travail et syndicats nationaux sont constitués dans le même congrès — pas parce qu'un organisme commande l'autre."
+        "caption": "Le CTC apparaît sur les deux voies parce que les fédérations, conseils du travail et syndicats nationaux sont constitués dans le même congrès, pas parce qu'un organisme commande l'autre."
       },
       "nupgeLead": "La propre carte du NUPGE pour les délégués s'intitule",
       "nupgeLink": "Trouver sa place dans le mouvement syndical",
-      "nupgeTail": ". Elle parcourt la section, la composante, le syndicat national et le CTC, puis traite les conseils du travail et les fédérations comme une voie parallèle — pas un patron supérieur.",
+      "nupgeTail": ". Elle parcourt la section, la composante, le syndicat national et le CTC, puis traite les conseils du travail et les fédérations comme une voie parallèle, pas un patron supérieur.",
       "clcLead": "Le Congrès du travail du Canada dresse la liste de chaque fédération provinciale et conseil du travail dans",
       "clcLink": "Fédérations du travail et conseils du travail",
       "clcTail": ". Servez-vous de ce répertoire pour trouver le conseil de votre ville plutôt que de deviner à partir du site d'une section voisine."
@@ -9841,7 +9841,7 @@
       "title": "Exemple travaillé : section 243 d'OPSEU / SEFPO",
       "intro": "UnionOps utilise la section 243 comme section de référence parce que c'est une vraie section du personnel de soutien CAAT du Collège Niagara, pas une démo fictive. Vos numéros et noms différeront. C'est la forme à copier.",
       "diagram": {
-        "local": "Section 243 — personnel de soutien CAAT, Collège Niagara",
+        "local": "Section 243 : personnel de soutien CAAT, Collège Niagara",
         "area": "Conseil de secteur de Niagara (OPSEU / SEFPO)",
         "council": "Conseil du travail de la région de Niagara",
         "union": "OPSEU / SEFPO (région 2)",
@@ -9853,7 +9853,7 @@
       "items": {
         "local": {
           "label": "La section",
-          "content": "La section 243 d'OPSEU / SEFPO représente le personnel de soutien à temps plein et à temps partiel du Collège Niagara. Le premier chiffre d'un numéro de section OPSEU / SEFPO est la région — 243 siège dans la région 2. La négociation du soutien collégial est provinciale ; la section garde tout de même la représentation, les assemblées et le travail communautaire."
+          "content": "La section 243 d'OPSEU / SEFPO représente le personnel de soutien à temps plein et à temps partiel du Collège Niagara. Le premier chiffre d'un numéro de section OPSEU / SEFPO est la région : 243 siège dans la région 2. La négociation du soutien collégial est provinciale ; la section garde tout de même la représentation, les assemblées et le travail communautaire."
         },
         "council": {
           "label": "Le conseil du travail",
@@ -9863,7 +9863,7 @@
         },
         "area": {
           "label": "Le conseil de secteur",
-          "content": "Le conseil de secteur de Niagara est un organisme d'OPSEU / SEFPO qui réunit des sections de la même région. Ce n'est pas le conseil du travail. Il n'y a pas de page d'accueil publique durable à citer ; demandez à votre exécutif local ou au bureau régional. L'AFPC utilise aussi le nom Niagara Area Council pour un autre organisme — ne les mélangez pas."
+          "content": "Le conseil de secteur de Niagara est un organisme d'OPSEU / SEFPO qui réunit des sections de la même région. Ce n'est pas le conseil du travail. Il n'y a pas de page d'accueil publique durable à citer ; demandez à votre exécutif local ou au bureau régional. L'AFPC utilise aussi le nom Niagara Area Council pour un autre organisme. Ne les mélangez pas."
         },
         "union": {
           "label": "Le syndicat parent",
@@ -9983,7 +9983,7 @@
         },
         "website": {
           "label": "Modèle de site",
-          "content": "Le site en direct de la section 243 est la référence pour une page locale simple. Liez le conseil du travail et le syndicat parent depuis le pied de page, avec les liens de la Trousse de marque — pas un collage ponctuel."
+          "content": "Le site en direct de la section 243 est la référence pour une page locale simple. Liez le conseil du travail et le syndicat parent depuis le pied de page, avec les liens de Brand Kit, pas un collage ponctuel."
         },
         "bylaws": {
           "label": "Règlements locaux",
@@ -10009,7 +10009,8 @@
       "body": "Beaucoup de sections adoptent les règles de Robert par renvoi dans leurs règlements ; d'autres utilisent un règlement intérieur simplifié. Lisez vos règlements et toute règle de la constitution nationale avant de présider une assemblée générale des membres."
     },
     "related": {
-      "officerLearning": "Centre de formation des dirigeants"
+      "officerLearning": "Centre de formation des dirigeants",
+      "unionHistory": "Comment les syndicats se relient"
     },
     "formality": {
       "navLabel": "Niveau de formalité",

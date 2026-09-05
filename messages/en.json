@@ -4310,7 +4310,7 @@
           "content": "Comms lead holds drafts; president batch-approves. Prevents duplicate posts from well-meaning volunteers."
         }
       },
-      "tip": "Write the next update when you still have the facts, not at 5 a.m. on the line. Captains hear it first."
+      "tip": "Write tomorrow’s three messages tonight. Crisis mornings are not for drafting from scratch."
     },
     "fullScenario": {
       "navLabel": "Full walk-through",
@@ -9749,7 +9749,7 @@
     "tipLabel": "Takeaway",
     "intro": "Affiliation is how a local sits inside a larger house of labour. This guide sketches Canadian union history, then maps OPSEU / SEFPO Local 243 from Niagara College to the Canadian Labour Congress so you can draw the same map for your own local.",
     "disclaimer": {
-      "title": "A teaching map — not a certificate of affiliation",
+      "title": "A teaching map, not a certificate of affiliation",
       "body": "Locals, area councils, and labour councils change delegates and dues status. Confirm your own affiliations with your local executive and parent union before you speak for them. This is education for the floor, not legal advice and not an official directory."
     },
     "related": {
@@ -9786,23 +9786,23 @@
       "intro": "The bodies in the map below are not a corporate org chart. They are the leftover architecture of a century of fights over who gets to bargain, strike, and speak for workers.",
       "items": {
         "nineHour": {
-          "label": "1872 — Nine-Hour Movement",
+          "label": "1872: Nine-Hour Movement",
           "content": "Craft workers in Ontario and Montréal struck for a shorter day. The campaign helped win a limited legal right to form unions, which is why locals still treat the right to associate as something that was taken, not granted."
         },
         "winnipeg": {
-          "label": "1919 — Winnipeg General Strike",
+          "label": "1919: Winnipeg General Strike",
           "content": "Building and metal trades walked out; much of the city followed. The strike failed as a bargaining round and still taught the movement that craft isolation loses city-wide fights."
         },
         "rand": {
-          "label": "1946 — Rand Formula",
+          "label": "1946: Rand Formula",
           "content": "After the Windsor Ford strike, Justice Ivan Rand's award required dues from everyone in the bargaining unit. Union security in Canadian public-sector agreements still sits on that idea."
         },
         "clcMerge": {
-          "label": "1956 — Canadian Labour Congress",
+          "label": "1956: Canadian Labour Congress",
           "content": "The Trades and Labor Congress (craft) and the Canadian Congress of Labour (industrial) merged. Provincial federations and local labour councils are chartered under that congress, not invented by each union."
         },
         "publicSector": {
-          "label": "1960s–70s — public-sector wave",
+          "label": "1960s–70s: public-sector wave",
           "content": "CUPE, provincial government unions, and NUPGE (1976) grew as public workers won bargaining rights. OPSEU / SEFPO is a NUPGE component: a provincial union inside a national federation of unions."
         },
         "quebec": {
@@ -9827,11 +9827,11 @@
         "geoCouncil": "Labour council",
         "geoFed": "Provincial federation",
         "geoCongress": "Canadian Labour Congress",
-        "caption": "The CLC sits on both tracks because federations, labour councils, and national unions are chartered into the same congress — not because one body bosses the other."
+        "caption": "The CLC sits on both tracks because federations, labour councils, and national unions are chartered into the same congress, not because one body bosses the other."
       },
       "nupgeLead": "NUPGE's own steward map of this forest is",
       "nupgeLink": "Finding Yourself in the Labour Movement",
-      "nupgeTail": ". It walks local, component, national union, and the CLC, then treats labour councils and federations as a parallel path — not a higher boss.",
+      "nupgeTail": ". It walks local, component, national union, and the CLC, then treats labour councils and federations as a parallel path, not a higher boss.",
       "clcLead": "The Canadian Labour Congress lists every provincial federation and labour council on",
       "clcLink": "Federations of Labour and Labour Councils",
       "clcTail": ". Use that directory to find your city council instead of guessing from a neighbouring local's website."
@@ -9841,7 +9841,7 @@
       "title": "Worked example: OPSEU / SEFPO Local 243",
       "intro": "UnionOps uses Local 243 as the reference local because it is a real Niagara College CAAT Support local, not a fictional demo. Your numbers and names will differ. The shape is what to copy.",
       "diagram": {
-        "local": "Local 243 — Niagara College CAAT Support",
+        "local": "Local 243: Niagara College CAAT Support",
         "area": "Niagara Area Council (OPSEU / SEFPO)",
         "council": "Niagara Regional Labour Council",
         "union": "OPSEU / SEFPO (Region 2)",
@@ -9853,7 +9853,7 @@
       "items": {
         "local": {
           "label": "The local",
-          "content": "OPSEU / SEFPO Local 243 represents full-time and part-time support staff at Niagara College. The first digit of an OPSEU / SEFPO local number is the region — 243 sits in Region 2. Bargaining for college support is provincial; the local still owns representation, meetings, and community work."
+          "content": "OPSEU / SEFPO Local 243 represents full-time and part-time support staff at Niagara College. The first digit of an OPSEU / SEFPO local number is the region: 243 sits in Region 2. Bargaining for college support is provincial; the local still owns representation, meetings, and community work."
         },
         "council": {
           "label": "The labour council",
@@ -9863,7 +9863,7 @@
         },
         "area": {
           "label": "The area council",
-          "content": "Niagara Area Council is an OPSEU / SEFPO body of locals in the same region. It is not the labour council. There is no durable public homepage to cite; ask your local executive or regional office. PSAC also uses the name Niagara Area Council for a different body — do not mix them."
+          "content": "Niagara Area Council is an OPSEU / SEFPO body of locals in the same region. It is not the labour council. There is no durable public homepage to cite; ask your local executive or regional office. PSAC also uses the name Niagara Area Council for a different body. Do not mix them."
         },
         "union": {
           "label": "The parent union",
@@ -9983,7 +9983,7 @@
         },
         "website": {
           "label": "Website Template",
-          "content": "Local 243's live site is the reference for a simple local page. Link the labour council and parent union from the footer, using Brand Kit links — not a one-off paste."
+          "content": "Local 243's live site is the reference for a simple local page. Link the labour council and parent union from the footer, using Brand Kit links, not a one-off paste."
         },
         "bylaws": {
           "label": "Local bylaws",
@@ -10009,7 +10009,8 @@
       "body": "Many locals adopt Robert's Rules by reference in their bylaws; some use a simplified standing order. Read your bylaws and any national constitution rules before you chair a general membership meeting."
     },
     "related": {
-      "officerLearning": "Officer Learning Center"
+      "officerLearning": "Officer Learning Center",
+      "unionHistory": "How Canadian unions connect"
     },
     "formality": {
       "navLabel": "Level of formality",
