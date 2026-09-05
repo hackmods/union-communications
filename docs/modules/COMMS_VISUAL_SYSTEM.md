@@ -98,6 +98,13 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - QR Board: title / cell type + padding / header alignment from tokens
 - Board Notice lead/type labels; Quote Card outer surface; Solidarity headline weight/tracking
 
+### Content-aware type fit (2026-09-05)
+
+- `CanvasTypeBlock` accepts `fit` — shrinks title/subtitle into the parent slot via `canvas-type-fit.ts` (Brand Kit size is preferred; floor keeps capture legible).
+- `CanvasStackSlot` — `min-h-0 flex-1 overflow-hidden` host so fit has a real height budget on fixed print pages.
+- Board Notice + Flyer Maker stack/band/split opt in; long steward copy must not paint over `[data-canvas-meta]`.
+- Playwright: `measureTypeMetaOverlap` / `expectTypeMetaClear` (layout matrix). Do not treat column-fit alone as layout integrity.
+
 ### Stop-gap pass 2 (2026-08-06)
 
 - Meeting: layout field fills yield to Brand Kit soft-gradient / grain / accent-band on the capture root

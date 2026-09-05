@@ -1,8 +1,22 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  CANVAS_TYPE_FIT_MAX_ITERS,
+  CANVAS_TYPE_FIT_MIN_SCALE,
+  fittedFontSizePx,
+  nextTypeFitScale,
+  typeFitOverflows,
+} from "@/lib/utils/canvas-type-fit";
 import {
   flexAlignFromBias,
   textAlignFromBias,
@@ -148,6 +162,37 @@ export function CanvasBrandHeader({
   );
 }
 
+/**
+ * Flex slot for type on fixed-height print canvases. Gives CanvasTypeBlock a
+ * bounded height so `fit` can shrink copy instead of painting over meta rows.
+ */
+export function CanvasStackSlot({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      data-canvas-stack-slot=""
+      className={cn(
+        "relative z-[2] min-h-0 min-w-0 flex-1 overflow-hidden",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+/**
+ * Title + optional subtitle for export canvases.
+ *
+ * When `fit` is true, type scales down into the parent slot (use with
+ * CanvasStackSlot / any `min-h-0 flex-1 overflow-hidden` region) so long
+ * steward copy cannot overlap Date / Time / Location siblings.
+ */
 export function CanvasTypeBlock({
   tokens,
   title,
@@ -155,6 +200,7 @@ export function CanvasTypeBlock({
   ink,
   accentColor,
   className,
+  fit = false,
 }: {
   tokens: CanvasTokens;
   title: string;
@@ -162,7 +208,11 @@ export function CanvasTypeBlock({
   ink: string;
   accentColor?: string;
   className?: string;
+  /** Shrink title/subtitle to the parent box — required on fixed print stacks. */
+  fit?: boolean;
 }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
   const align = textAlignFromBias(tokens.alignmentBias);
   const items = flexAlignFromBias(tokens.alignmentBias);
   const asymmetric =
@@ -170,15 +220,95 @@ export function CanvasTypeBlock({
       ? ({ paddingInlineStart: "8%", maxWidth: "92%" } satisfies CSSProperties)
       : undefined;
 
+  useLayoutEffect(() => {
+    if (!fit) return;
+    const el = wrapRef.current;
+    if (!el) return;
+
+    let raf = 0;
+    const measure = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        let next = 1;
+        // Walk down from Brand Kit size until the slot contains the copy.
+        for (let i = 0; i < CANVAS_TYPE_FIT_MAX_ITERS; i++) {
+          el.dataset.canvasTypeFit = String(next);
+          const titleEl = el.querySelector<HTMLElement>("[data-canvas-title]");
+          const subEl = el.querySelector<HTMLElement>("[data-canvas-subtitle]");
+          const ruleEl = el.querySelector<HTMLElement>("[data-canvas-rule]");
+          if (titleEl) {
+            titleEl.style.fontSize = `${fittedFontSizePx(tokens.titleFontSizePx, next, 12)}px`;
+          }
+          if (subEl) {
+            subEl.style.fontSize = `${fittedFontSizePx(tokens.subtitleFontSizePx, next, 10)}px`;
+            subEl.style.marginTop = `${Math.max(4, Math.round(12 * next))}px`;
+          }
+          if (ruleEl) {
+            ruleEl.style.height = `${Math.max(2, Math.round(4 * next))}px`;
+            ruleEl.style.marginTop = `${Math.max(4, Math.round(16 * next))}px`;
+          }
+          const overflowing = typeFitOverflows(
+            el.scrollWidth,
+            el.scrollHeight,
+            el.clientWidth,
+            el.clientHeight,
+          );
+          if (!overflowing || next <= CANVAS_TYPE_FIT_MIN_SCALE) break;
+          next = nextTypeFitScale(next, true);
+        }
+        setScale((prev) => (prev === next ? prev : next));
+      });
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    if (el.parentElement) ro.observe(el.parentElement);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, [
+    fit,
+    title,
+    subtitle,
+    tokens.titleFontSizePx,
+    tokens.subtitleFontSizePx,
+    tokens.headlineFontFamily,
+    tokens.bodyFontFamily,
+    tokens.alignmentBias,
+    tokens.titleFontWeight,
+    tokens.titleLetterSpacing,
+    tokens.titleTextTransform,
+    tokens.bodyFontWeight,
+    tokens.bodyLineHeight,
+    accentColor,
+  ]);
+
+  const applied = fit ? scale : 1;
+  const titlePx = fittedFontSizePx(tokens.titleFontSizePx, applied, 12);
+  const subtitlePx = fittedFontSizePx(tokens.subtitleFontSizePx, applied, 10);
+  const ruleGap = Math.max(4, Math.round(16 * applied));
+  const subGap = Math.max(4, Math.round(12 * applied));
+  const ruleH = Math.max(2, Math.round(4 * applied));
+
   return (
     <div
-      className={cn("relative z-[2] flex w-full flex-col", className)}
+      ref={wrapRef}
+      data-canvas-type=""
+      data-canvas-type-fit={fit ? scale.toFixed(3) : undefined}
+      className={cn(
+        "relative z-[2] flex w-full flex-col",
+        fit && "h-full min-h-0 min-w-0 overflow-hidden",
+        className,
+      )}
       style={{ alignItems: items, textAlign: align, ...asymmetric }}
     >
       <h2
+        data-canvas-title=""
         style={{
           color: ink,
-          fontSize: tokens.titleFontSizePx,
+          fontSize: titlePx,
           fontWeight: tokens.titleFontWeight,
           letterSpacing: tokens.titleLetterSpacing,
           textTransform: tokens.titleTextTransform,
@@ -191,8 +321,11 @@ export function CanvasTypeBlock({
       </h2>
       {accentColor ? (
         <div
-          className="mt-4 h-1 w-24"
+          data-canvas-rule=""
+          className="w-24"
           style={{
+            height: ruleH,
+            marginTop: ruleGap,
             backgroundColor: accentColor,
             marginLeft: align === "center" ? "auto" : undefined,
             marginRight: align === "center" ? "auto" : undefined,
@@ -202,13 +335,14 @@ export function CanvasTypeBlock({
       ) : null}
       {subtitle ? (
         <p
-          className="mt-3"
+          data-canvas-subtitle=""
           style={{
             color: ink,
-            fontSize: tokens.subtitleFontSizePx,
+            fontSize: subtitlePx,
             fontWeight: tokens.bodyFontWeight,
             lineHeight: tokens.bodyLineHeight,
             margin: 0,
+            marginTop: subGap,
             opacity: 0.9,
             fontFamily: tokens.bodyFontFamily,
           }}

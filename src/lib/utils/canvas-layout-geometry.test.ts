@@ -5,6 +5,7 @@ import {
   clipRect,
   plateAspectOk,
   rectOutside,
+  countOverlappingPairs,
   rectsOverlap,
 } from "./canvas-layout-geometry";
 
@@ -65,5 +66,14 @@ describe("rectOutside", () => {
   it("flags a plate that spills past the export root", () => {
     expect(rectOutside(box(-4, 0, 80, 80), box(0, 0, 200, 200))).toBe(true);
     expect(rectOutside(box(10, 10, 80, 80), box(0, 0, 200, 200))).toBe(false);
+  });
+});
+
+describe("countOverlappingPairs", () => {
+  it("counts each overlapping pair once", () => {
+    const a = { left: 0, top: 0, right: 10, bottom: 10 };
+    const b = { left: 5, top: 5, right: 15, bottom: 15 };
+    const c = { left: 20, top: 20, right: 30, bottom: 30 };
+    expect(countOverlappingPairs([a, b, c])).toBe(1);
   });
 });

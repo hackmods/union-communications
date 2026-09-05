@@ -1,5 +1,14 @@
 # Progress Log
 
+## Canvas type-fit engine (2026-09-05)
+
+- [x] **Root cause:** Fixed-height print canvases (`BoardNoticeLayoutCanvas` stack/band/split, Flyer stack siblings) let `CanvasTypeBlock` paint over Date/Time/Location when Brand Kit display type + lockup logo + long steward copy exceeded the slot. Mobile Preview tab made it obvious; exports shared the same layout tree.
+- [x] **Engine:** `canvas-type-fit.ts` + `CanvasTypeBlock fit` + `CanvasStackSlot` — content-aware uniform shrink into bounded flex slots (any copy length, all print tools that opt in).
+- [x] **Wired:** Board Notice + Flyer Maker layouts; short notice-type badges (Meeting / Bargaining / Event / Notice) so the badge no longer duplicates the headline.
+- [x] **Why tests missed it:** Layout matrix only asserted preview *column* fit (`measurePreviewFit`), not internal type↔meta rect overlap. QR overlap helpers never ran on Board Notice.
+- [x] **Guards:** unit tests for fit math; `measureTypeMetaOverlap` / `expectTypeMetaClear`; layout-matrix Board Notice default + long-copy cases.
+- Verify: `npm run test:unit -- src/lib/utils/canvas-type-fit.test.ts src/lib/utils/canvas-layout-geometry.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 - [x] **Hub stragglers migrated:** travel / expense / time rollup PDFs → `createHubInternalReportPdfBlob`
 - Verify: `npm run test:unit -- src/lib/export/pdf-layout.test.ts` + `npm run pdf:preview -- hub-travel en`
 

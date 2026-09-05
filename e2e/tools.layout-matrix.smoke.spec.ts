@@ -13,9 +13,11 @@ import { seedCanvasFonts } from "./helpers/canvas-fonts";
 import {
   expectPlateGeometry,
   expectPreviewFitsColumn,
+  expectTypeMetaClear,
   expectUrlLayout,
   measurePlateFill,
   measurePreviewFit,
+  measureTypeMetaOverlap,
   measureUrlLayout,
   openLayoutSection,
   openPreviewTab,
@@ -262,7 +264,9 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     );
   });
 
-  test("board notice default export root fits the column", async ({ page }) => {
+  test("board notice default export root fits the column without type/meta overlap", async ({
+    page,
+  }) => {
     await seedCanvasFonts(page);
     await page.goto("/en/tools/board-notice/");
     await expect(
@@ -270,6 +274,33 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     ).toBeVisible();
     await waitForExportRoot(page);
     expectPreviewFitsColumn(await measurePreviewFit(page), "board-notice");
+    expectTypeMetaClear(
+      await measureTypeMetaOverlap(page),
+      "board-notice-type-meta",
+    );
+  });
+
+  test("board notice stack survives long steward copy without type/meta overlap", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/en/tools/board-notice/");
+    await expect(
+      page.getByRole("heading", { name: "Board Notice Maker" }),
+    ).toBeVisible();
+    await page.getByLabel(/^Headline$/i).fill(
+      "GENERAL MEMBERSHIP MEETING — BARGAINING UPDATE AND STEWARD ELECTIONS FOR THE FULL MEMBERSHIP",
+    );
+    await page.getByLabel(/^Details$/i).fill(
+      "All members are invited to attend. Agenda: bargaining update, steward reports, committee nominations, and an extended Q&A so every shift can be heard.",
+    );
+    await openPreviewTab(page);
+    await waitForExportRoot(page);
+    expectTypeMetaClear(
+      await measureTypeMetaOverlap(page),
+      "board-notice-long-copy",
+    );
   });
 
   test("board banner header export root fits the column", async ({ page }) => {
