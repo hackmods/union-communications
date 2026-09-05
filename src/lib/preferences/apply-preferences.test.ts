@@ -9,6 +9,7 @@ afterEach(() => {
   root.removeAttribute("data-font-size");
   root.removeAttribute("data-high-contrast");
   root.removeAttribute("data-reduced-motion");
+  root.removeAttribute("data-ol-colour");
 });
 
 describe("applyPreferencesToDocument", () => {
@@ -29,5 +30,13 @@ describe("applyPreferencesToDocument", () => {
     expect(root.hasAttribute("data-font-size")).toBe(false);
     expect(root.hasAttribute("data-high-contrast")).toBe(false);
     expect(root.hasAttribute("data-reduced-motion")).toBe(false);
+  });
+
+  it("sets data-ol-colour only when Officer Learning colour is light", () => {
+    applyPreferencesToDocument({ ...base, officerLearningColour: "light" });
+    expect(document.documentElement.getAttribute("data-ol-colour")).toBe("light");
+
+    applyPreferencesToDocument(base);
+    expect(document.documentElement.hasAttribute("data-ol-colour")).toBe(false);
   });
 });

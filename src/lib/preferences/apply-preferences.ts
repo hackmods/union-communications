@@ -20,4 +20,10 @@ export function applyPreferencesToDocument(prefs: UserPreferences): void {
   } else {
     root.removeAttribute("data-reduced-motion");
   }
+
+  if (prefs.officerLearningColour === "light") {
+    root.setAttribute("data-ol-colour", "light");
+  } else {
+    root.removeAttribute("data-ol-colour");
+  }
 }

@@ -6608,6 +6608,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "officer-learning-colour": {
+        "title": "Centre de formation des dirigeants — page claire dans Affichage",
+        "body": "Les pages de formation restent marine par défaut. Ouvrez Affichage pour passer le Centre de formation des dirigeants à une page claire comme les autres guides."
+      },
       "strike-ops-guide": {
         "title": "Guide des opérations de grève",
         "body": "Un nouveau guide pour mener une grève ou un lock-out légal : commandement, piquetage, soins aux membres, argent, sécurité et retour au travail. Les communications de crise restent la page pour qui peut parler."

@@ -7,6 +7,7 @@ describe("applyPreferencesToDocument", () => {
     document.documentElement.removeAttribute("data-font-size");
     document.documentElement.removeAttribute("data-high-contrast");
     document.documentElement.removeAttribute("data-reduced-motion");
+    document.documentElement.removeAttribute("data-ol-colour");
   });
 
   it("applies font size attribute for non-default sizes", () => {
@@ -81,12 +82,32 @@ describe("preferences store", () => {
     usePreferencesStore.getState().setHighContrast(true);
     usePreferencesStore.getState().setReducedMotion(true);
     expect(saveUserPreferences).toHaveBeenLastCalledWith({
-      fontSize: "default",
+      ...DEFAULT_USER_PREFERENCES,
       highContrast: true,
       reducedMotion: true,
-      stewardMobileMode: false,
     });
     expect(document.documentElement.hasAttribute("data-high-contrast")).toBe(true);
     expect(document.documentElement.hasAttribute("data-reduced-motion")).toBe(true);
+  });
+
+  it("persists Officer Learning colour and sets data-ol-colour", async () => {
+    const { usePreferencesStore } = await import("@/store/preferences-store");
+    usePreferencesStore.getState().setOfficerLearningColour("light");
+    expect(usePreferencesStore.getState().preferences.officerLearningColour).toBe("light");
+    expect(saveUserPreferences).toHaveBeenCalledWith({
+      ...DEFAULT_USER_PREFERENCES,
+      officerLearningColour: "light",
+    });
+    expect(document.documentElement.getAttribute("data-ol-colour")).toBe("light");
+  });
+
+  it("hydrates coerce unknown Officer Learning colour to navy", async () => {
+    getUserPreferences.mockResolvedValue({
+      ...DEFAULT_USER_PREFERENCES,
+      officerLearningColour: "neon",
+    });
+    const { usePreferencesStore } = await import("@/store/preferences-store");
+    await usePreferencesStore.getState().hydrate();
+    expect(usePreferencesStore.getState().preferences.officerLearningColour).toBe("navy");
   });
 });

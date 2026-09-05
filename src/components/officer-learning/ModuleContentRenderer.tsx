@@ -4,11 +4,12 @@ import { useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { ContentBlock, ModuleSection } from "@/lib/officer-learning/types";
-import { olTheme } from "@/lib/officer-learning/theme";
+import type { OlTheme } from "@/lib/officer-learning/theme";
+import { useOlTheme } from "./OlThemeProvider";
 import clsx from "clsx";
 import { WorkedScenarioSection } from "./WorkedScenarioSection";
 
-function renderInline(text: string): ReactNode[] {
+function renderInline(text: string, olTheme: OlTheme): ReactNode[] {
   const parts: ReactNode[] = [];
   const tokenRe =
     /(\*\*.+?\*\*|\*.+?\*|\/(?:guide|tools|app|brand-kit|portal)(?:\/[\w-]+)*(?:\?[\w=&%-]+)?)/g;
@@ -64,6 +65,7 @@ function ChecklistBlock({
   storageKey: string;
 }) {
   const t = useTranslations("officerLearning.checklist");
+  const olTheme = useOlTheme();
   const [checked, setChecked] = useState<Record<number, boolean>>(() => {
     if (typeof window === "undefined") return {};
     try {
@@ -127,7 +129,7 @@ function ChecklistBlock({
                     isOn && "line-through opacity-80",
                   )}
                 >
-                  {renderInline(item)}
+                  {renderInline(item, olTheme)}
                 </span>
               </label>
             </li>
@@ -147,17 +149,18 @@ function BlockRenderer({
   checklistKey: string;
 }) {
   const t = useTranslations("officerLearning.callouts");
+  const olTheme = useOlTheme();
 
   switch (block.type) {
     case "paragraph":
-      return <p className="leading-relaxed text-slate-200/90">{renderInline(block.text)}</p>;
+      return <p className={olTheme.prose}>{renderInline(block.text, olTheme)}</p>;
     case "list":
       if (block.ordered) {
         return (
           <ol className="list-decimal space-y-2 pl-5 text-slate-200/90">
             {block.items.map((item, index) => (
               <li key={`${item}-${index}`} className="leading-relaxed">
-                {renderInline(item)}
+                {renderInline(item, olTheme)}
               </li>
             ))}
           </ol>
@@ -167,7 +170,7 @@ function BlockRenderer({
         <ul className="list-disc space-y-2 pl-5 text-slate-200/90">
           {block.items.map((item, index) => (
             <li key={`${item}-${index}`} className="leading-relaxed">
-              {renderInline(item)}
+              {renderInline(item, olTheme)}
             </li>
           ))}
         </ul>
@@ -182,7 +185,7 @@ function BlockRenderer({
               <tr>
                 {block.headers.map((header, index) => (
                   <th key={`${header}-${index}`} className="px-4 py-3 font-semibold">
-                    {renderInline(header)}
+                    {renderInline(header, olTheme)}
                   </th>
                 ))}
               </tr>
@@ -195,7 +198,7 @@ function BlockRenderer({
                       key={`cell-${rowIndex}-${cellIndex}`}
                       className="px-4 py-3 align-top text-slate-200/90"
                     >
-                      {renderInline(cell)}
+                      {renderInline(cell, olTheme)}
                     </td>
                   ))}
                 </tr>
@@ -222,7 +225,7 @@ function BlockRenderer({
       return (
         <div className={styles}>
           <p className="font-semibold">{t(block.variant)}</p>
-          <p className="mt-2 leading-relaxed">{renderInline(block.text)}</p>
+          <p className="mt-2 leading-relaxed">{renderInline(block.text, olTheme)}</p>
         </div>
       );
     }
@@ -238,6 +241,7 @@ type Props = {
 };
 
 export function ModuleContentRenderer({ sections, moduleId, moduleSlug }: Props) {
+  const olTheme = useOlTheme();
   return (
     <div className="space-y-10">
       {sections.map((section) =>

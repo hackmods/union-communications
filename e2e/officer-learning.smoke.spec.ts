@@ -21,6 +21,22 @@ test.describe("Officer Learning @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
+  test("Display can switch Officer Learning to the light colour", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/en/guide/officer-learning/");
+    const shell = page.locator("[data-ol-shell]").first();
+    await expect(shell).toHaveCSS("background-color", "rgb(11, 19, 43)");
+
+    await page.getByRole("button", { name: "Display" }).click();
+    await page.getByRole("radio", { name: "Light" }).click();
+    await expect(shell).not.toHaveCSS("background-color", "rgb(11, 19, 43)");
+
+    await page.getByRole("radio", { name: "Navy (default)" }).click();
+    await expect(shell).toHaveCSS("background-color", "rgb(11, 19, 43)");
+  });
+
   test("officer learning is top-level nav, not inside Guides flyout", async ({
     page,
   }) => {

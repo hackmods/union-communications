@@ -2,8 +2,8 @@
 
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { olTheme } from "@/lib/officer-learning/theme";
 import type { ModuleStatus } from "@/lib/officer-learning/types";
+import { useOlTheme } from "./OlThemeProvider";
 
 type PathStep = {
   id: string;
@@ -21,22 +21,17 @@ type Props = {
   className?: string;
 };
 
-const STATUS_RING: Record<ModuleStatus, string> = {
-  completed: olTheme.statusCompleted,
-  in_progress: olTheme.statusInProgress,
-  not_started: olTheme.statusNotStarted,
-};
-
 /** Six-module learning path with live progress on the dashboard. */
 export function LearningPathDiagram({ steps, label, className }: Props) {
+  const olTheme = useOlTheme();
+  const STATUS_RING: Record<ModuleStatus, string> = {
+    completed: olTheme.statusCompleted,
+    in_progress: olTheme.statusInProgress,
+    not_started: olTheme.statusNotStarted,
+  };
+
   return (
-    <nav
-      aria-label={label}
-      className={cn(
-        "rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5",
-        className,
-      )}
-    >
+    <nav aria-label={label} className={cn(olTheme.pathNav, className)}>
       <p className={cn("mb-4", olTheme.sectionLabel)}>{label}</p>
       <ol className="flex flex-col gap-3 lg:flex-row lg:flex-wrap lg:items-stretch lg:gap-2">
         {steps.map((step, index) => (
@@ -61,16 +56,13 @@ export function LearningPathDiagram({ steps, label, className }: Props) {
                 {step.status === "completed" ? "✓" : step.number}
               </span>
               <span className="min-w-0">
-                <span className="block truncate text-sm font-semibold text-white" aria-hidden="true">
+                <span className={olTheme.pathTitle} aria-hidden="true">
                   {step.title}
                 </span>
               </span>
             </Link>
             {index < steps.length - 1 ? (
-              <span
-                className="hidden shrink-0 self-center text-slate-500 lg:inline"
-                aria-hidden="true"
-              >
+              <span className={olTheme.pathArrow} aria-hidden="true">
                 →
               </span>
             ) : null}

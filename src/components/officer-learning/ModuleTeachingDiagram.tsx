@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { olTheme } from "@/lib/officer-learning/theme";
+import { useOlTheme } from "./OlThemeProvider";
 
 type Props = {
   slug: string;
@@ -18,6 +18,7 @@ function DiagramShell({
   children: React.ReactNode;
   className?: string;
 }) {
+  const olTheme = useOlTheme();
   return (
     <figure className={cn(olTheme.diagramShell, className)}>
       <figcaption className={cn("mb-4 text-sm font-semibold uppercase tracking-[0.18em]", olTheme.sectionLabel)}>
@@ -29,6 +30,7 @@ function DiagramShell({
 }
 
 function StepPill({ label, index }: { label: string; index: number }) {
+  const olTheme = useOlTheme();
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-3">
       <span className={olTheme.stepBadge} aria-hidden="true">
@@ -42,6 +44,7 @@ function StepPill({ label, index }: { label: string; index: number }) {
 /** Teaching diagrams keyed by module slug — CSS/SVG, no bitmap assets. */
 export function ModuleTeachingDiagram({ slug, className }: Props) {
   const t = useTranslations("officerLearning.diagrams");
+  const olTheme = useOlTheme();
 
   if (slug === "contract-enforcement") {
     return (

@@ -1,5 +1,11 @@
 # Progress Log
 
+## Officer Learning colour setting (2026-09-05)
+
+- [x] Display settings: `officerLearningColour` (`navy` default / `light` opt-in) — training pages only, not Brand Kit, not site-wide dark mode
+- [x] `olThemeNavy` / `olThemeLight` + `useOlTheme()`; Sources inset follows the shell; certificate PDF stays navy
+- Verify: `npm run test:unit -- src/store/preferences-store.test.ts src/lib/preferences/apply-preferences.test.ts src/lib/officer-learning/theme.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## How Canadian unions connect (2026-09-05)
 
 - [x] New `/guide/union-history` playbook: two tracks (union family vs geographic house), Local 243 worked example, map-your-local steps

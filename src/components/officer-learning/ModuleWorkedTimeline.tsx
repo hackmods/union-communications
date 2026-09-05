@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { olTheme } from "@/lib/officer-learning/theme";
+import { useOlTheme } from "./OlThemeProvider";
 import clsx from "clsx";
 
 /** Day-phase keys per module — grievance-process worked-file spacing (D0–D7). */
@@ -23,6 +23,7 @@ type Props = {
 export function ModuleWorkedTimeline({ slug, className }: Props) {
   const phases = MODULE_TIMELINE_PHASES[slug];
   const t = useTranslations(`officerLearning.timelines.${slug}`);
+  const olTheme = useOlTheme();
 
   if (!phases?.length) return null;
 

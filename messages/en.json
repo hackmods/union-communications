@@ -6661,6 +6661,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "officer-learning-colour": {
+        "title": "Officer Learning — light page from Display settings",
+        "body": "Navy training pages stay the default. Open Display to switch Officer Learning to a light page that matches the other guides."
+      },
       "strike-ops-guide": {
         "title": "Strike operations playbook",
         "body": "A new guide for running a lawful strike or lockout: command, the picket line, member care, money, safety, and return to work. Crisis comms stays the page for who may speak."

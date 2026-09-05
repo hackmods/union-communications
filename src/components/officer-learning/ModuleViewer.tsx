@@ -18,7 +18,7 @@ import { ModuleToc } from "./ModuleToc";
 import { ModuleTeachingDiagram } from "./ModuleTeachingDiagram";
 import { ModuleRelatedResources } from "./ModuleRelatedResources";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { olTheme } from "@/lib/officer-learning/theme";
+import { OlThemeProvider, useOlTheme } from "./OlThemeProvider";
 import { scrollQuizIntoView } from "@/lib/officer-learning/quiz-scroll";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +31,15 @@ type Props = {
   sourcesIntro: string;
 };
 
-export function ModuleViewer({
+export function ModuleViewer(props: Props) {
+  return (
+    <OlThemeProvider>
+      <ModuleViewerInner {...props} />
+    </OlThemeProvider>
+  );
+}
+
+function ModuleViewerInner({
   meta,
   module,
   nextModuleSlug,
@@ -40,6 +48,7 @@ export function ModuleViewer({
   sourcesIntro,
 }: Props) {
   const t = useTranslations("officerLearning");
+  const olTheme = useOlTheme();
   const articleRef = useRef<HTMLElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState<string | undefined>();
@@ -123,27 +132,21 @@ export function ModuleViewer({
   }, []);
 
   return (
-    <div className={olTheme.shell}>
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B132B]/95 backdrop-blur print:hidden">
+    <div className={olTheme.shell} data-ol-shell>
+      <header className={olTheme.stickyChrome}>
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
-          <Link
-            href="/guide/steward-playbooks"
-            className="shrink-0 rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-orange-400/40 hover:text-white"
-          >
+          <Link href="/guide/steward-playbooks" className={olTheme.stickyNavBtn}>
             {t("viewer.playbooksNav")}
           </Link>
-          <Link
-            href="/guide/officer-learning"
-            className="shrink-0 rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-orange-400/40 hover:text-white"
-          >
+          <Link href="/guide/officer-learning" className={olTheme.stickyNavBtn}>
             ← {t("viewer.back")}
           </Link>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm text-orange-300/90">
+            <p className={olTheme.stickyMeta}>
               {t("moduleLabel", { number: meta.number })}
             </p>
-            <p className="truncate font-semibold text-white">{moduleTitle}</p>
-            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+            <p className={olTheme.stickyTitle}>{moduleTitle}</p>
+            <div className={olTheme.progressTrack}>
               <div
                 className={cn("h-full rounded-full transition-all duration-300", olTheme.progressBar)}
                 style={{ width: `${Math.round(displayProgress)}%` }}
@@ -153,22 +156,18 @@ export function ModuleViewer({
           <button
             type="button"
             onClick={() => window.print()}
-            className="hidden shrink-0 rounded-lg border border-white/15 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-orange-400/40 md:inline-flex"
+            className={cn(olTheme.stickyNavBtn, "hidden md:inline-flex")}
           >
             {t("viewer.print")}
           </button>
-          <button
-            type="button"
-            onClick={handleJumpToQuiz}
-            className="inline-flex shrink-0 rounded-lg bg-opseu-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-opseu-dark"
-          >
+          <button type="button" onClick={handleJumpToQuiz} className={olTheme.jumpToQuiz}>
             {t("viewer.jumpToQuiz")}
           </button>
         </div>
       </header>
 
-      <div className="border-b border-white/10 bg-[#0B132B] px-4 py-2 lg:hidden sm:px-6 print:hidden">
-        <details className="rounded-xl border border-white/10 bg-slate-900/60 open:pb-2">
+      <div className={olTheme.tocMobile}>
+        <details className={olTheme.tocDetails}>
           <summary className={cn("cursor-pointer list-none px-3 py-2 text-sm font-semibold marker:content-none [&::-webkit-details-marker]:hidden", olTheme.linkPlain)}>
             {t("viewer.toc")}
           </summary>
@@ -184,10 +183,8 @@ export function ModuleViewer({
 
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:px-8">
         <aside className="hidden lg:block print:hidden">
-          <div className="sticky top-28 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
-            <p className={cn("mb-3", olTheme.sectionLabel)}>
-              {t("viewer.toc")}
-            </p>
+          <div className={olTheme.tocAside}>
+            <p className={cn("mb-3", olTheme.sectionLabel)}>{t("viewer.toc")}</p>
             <ModuleToc
               sections={module.sections}
               quizLabel={t("quiz.title")}
@@ -197,11 +194,8 @@ export function ModuleViewer({
         </aside>
 
         <article ref={articleRef} className="min-w-0 space-y-8">
-          <div className={cn(olTheme.callout, "text-sm")}>
-            {t("disclaimer")}
-          </div>
+          <div className={cn(olTheme.callout, "text-sm")}>{t("disclaimer")}</div>
 
-          {/* Compact related strip (GuideLayout placement) — sticky chrome keeps short nav labels. */}
           <nav className="text-sm" aria-label={t("viewer.relatedLabel")}>
             <p className={cn("font-semibold", olTheme.bodySmall)}>{t("viewer.relatedLabel")}</p>
             <ul className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -211,7 +205,7 @@ export function ModuleViewer({
                 </Link>
               </li>
               <li className="inline-flex items-baseline gap-x-3">
-                <span className="text-slate-600" aria-hidden="true">
+                <span className={olTheme.relatedDot} aria-hidden="true">
                   ·
                 </span>
                 <Link href="/guide" className={olTheme.link}>
@@ -221,7 +215,7 @@ export function ModuleViewer({
             </ul>
           </nav>
 
-          <div className="overflow-hidden rounded-2xl border border-white/10">
+          <div className={olTheme.heroFrame}>
             <div className="relative aspect-[21/9] w-full print:hidden">
               <Image
                 src={meta.coverSrc}
@@ -231,24 +225,17 @@ export function ModuleViewer({
                 priority
                 sizes="(max-width: 1024px) 100vw, 70vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B132B] via-[#0B132B]/20 to-transparent" />
+              <div className={olTheme.heroFade} />
             </div>
-            <div className="space-y-4 p-6 md:p-8">
-              <p className={olTheme.eyebrow}>
-                {t("moduleLabel", { number: meta.number })}
-              </p>
-              <h1 className="text-3xl font-bold md:text-4xl">{moduleTitle}</h1>
-              <p className={olTheme.bodySmall}>
-                {t("readingTime", { minutes: meta.readingMinutes })}
-              </p>
-              <p className="max-w-3xl leading-relaxed text-slate-200">{module.purpose}</p>
+            <div className={olTheme.heroBody}>
+              <p className={olTheme.eyebrow}>{t("moduleLabel", { number: meta.number })}</p>
+              <h1 className={cn("text-3xl font-bold md:text-4xl", olTheme.heading)}>{moduleTitle}</h1>
+              <p className={olTheme.bodySmall}>{t("readingTime", { minutes: meta.readingMinutes })}</p>
+              <p className={olTheme.purpose}>{module.purpose}</p>
               {module.objectives.length > 0 && (
                 <ul className="grid gap-2 md:grid-cols-1">
                   {module.objectives.map((objective) => (
-                    <li
-                      key={objective}
-                      className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200"
-                    >
+                    <li key={objective} className={olTheme.objective}>
                       {objective}
                     </li>
                   ))}
@@ -287,8 +274,8 @@ export function ModuleViewer({
             onCompleted={() => setProgress(getModuleProgress(meta.id))}
           />
 
-          <div className="rounded-2xl bg-white p-6 text-slate-900 shadow-lg md:p-8 print:break-before-page">
-            <p className="mb-4 text-sm text-gray-600">{sourcesIntro}</p>
+          <div className={cn(olTheme.sourcesCard, "print:break-before-page")}>
+            <p className={olTheme.sourcesIntro}>{sourcesIntro}</p>
             <SourcesBlock pageId={sourcesPageId} title={sourcesTitle} />
           </div>
         </article>

@@ -19,7 +19,7 @@ Do **not** redo the earlier 2026-08-27 pass (shared `guideCtaClasses` on bargain
 
 | Exception | Why it stays |
 |---|---|
-| **Dark training shell** (`#0B132B`, platform orange via `olTheme`) | Intentional focus mode — all in-lesson surfaces use `olTheme`; not a user toggle |
+| **Dark training shell** (`#0B132B` navy default; light via Display settings) | Focus mode — all in-lesson surfaces use `useOlTheme()`; not Brand Kit and not site-wide dark mode |
 | **Sticky module chrome** (progress bar, Jump to Quiz, print) | Training UX; not part of public GuideLayout |
 | **SourcesBlock in a white inset card** on dark pages | Readable bibliography without forcing the whole page light |
 | **ModuleRelatedResources mid-article** (after content, before quiz) | Practice tools belong next to the lesson; GuideLayout related strip is navigation-only |

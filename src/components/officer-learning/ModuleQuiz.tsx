@@ -7,7 +7,7 @@ import { markQuizPassed } from "@/lib/officer-learning/progress";
 import { resetQuizState } from "@/lib/officer-learning/quiz-state";
 import { scrollQuizIntoView, focusQuizStart } from "@/lib/officer-learning/quiz-scroll";
 import { maybePushHubProgressAfterPass } from "@/lib/officer-learning/hub-sync-client";
-import { olTheme } from "@/lib/officer-learning/theme";
+import { useOlTheme } from "./OlThemeProvider";
 import { Link } from "@/i18n/navigation";
 import { CertificateDownload } from "./CertificateDownload";
 import clsx from "clsx";
@@ -36,6 +36,7 @@ export function ModuleQuiz({
   onCompleted,
 }: Props) {
   const t = useTranslations("officerLearning");
+  const olTheme = useOlTheme();
   const sectionRef = useRef<HTMLElement>(null);
   const [answers, setAnswers] = useState<AnswerState>({});
   const [submitted, setSubmitted] = useState(false);

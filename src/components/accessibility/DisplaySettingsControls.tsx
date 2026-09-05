@@ -2,10 +2,11 @@
 
 import { useTranslations } from "next-intl";
 import { usePreferencesStore } from "@/store/preferences-store";
-import type { FontSize } from "@/types/preferences";
+import type { FontSize, OfficerLearningColour } from "@/types/preferences";
 import { cn } from "@/lib/utils";
 
 const FONT_SIZES: FontSize[] = ["default", "large", "larger", "maximum"];
+const OL_COLOURS: OfficerLearningColour[] = ["navy", "light"];
 
 interface DisplaySettingsControlsProps {
   variant?: "panel" | "compact";
@@ -21,6 +22,9 @@ export function DisplaySettingsControls({
   const setFontSize = usePreferencesStore((s) => s.setFontSize);
   const setHighContrast = usePreferencesStore((s) => s.setHighContrast);
   const setReducedMotion = usePreferencesStore((s) => s.setReducedMotion);
+  const setOfficerLearningColour = usePreferencesStore(
+    (s) => s.setOfficerLearningColour,
+  );
 
   const isCompact = variant === "compact";
 
@@ -102,6 +106,47 @@ export function DisplaySettingsControls({
           />
         </label>
       </div>
+
+      <fieldset>
+        <legend className={cn("font-semibold text-opseu-dark", isCompact ? "text-sm" : "text-base")}>
+          {t("officerLearningColourLabel")}
+        </legend>
+        <p
+          id="officer-learning-colour-description"
+          className={cn("mt-1 text-gray-600", isCompact ? "text-sm" : "text-base")}
+        >
+          {t("officerLearningColourDescription")}
+        </p>
+        <div
+          role="radiogroup"
+          aria-labelledby="officer-learning-colour-description"
+          className={cn("mt-3 grid gap-2", isCompact ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2")}
+        >
+          {OL_COLOURS.map((colour) => (
+            <label
+              key={colour}
+              className={cn(
+                "flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 transition-colors",
+                preferences.officerLearningColour === colour
+                  ? "border-opseu-blue bg-opseu-blue/5 font-medium"
+                  : "border-gray-200 hover:border-opseu-blue/40",
+              )}
+            >
+              <input
+                type="radio"
+                name="officer-learning-colour"
+                value={colour}
+                checked={preferences.officerLearningColour === colour}
+                onChange={() => setOfficerLearningColour(colour)}
+                className="accent-opseu-blue"
+              />
+              <span className={isCompact ? "text-sm" : "text-base"}>
+                {t(`officerLearningColour.${colour}`)}
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
 
       {!isCompact && (
         <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4">

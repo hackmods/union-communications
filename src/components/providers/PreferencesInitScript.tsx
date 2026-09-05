@@ -21,6 +21,9 @@ const preferencesInitScript = `
     if (prefs.reducedMotion) {
       root.setAttribute("data-reduced-motion", "");
     }
+    if (prefs.officerLearningColour === "light") {
+      root.setAttribute("data-ol-colour", "light");
+    }
   } catch (e) {}
 })();
 `;

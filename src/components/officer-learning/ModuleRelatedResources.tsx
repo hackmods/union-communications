@@ -22,7 +22,7 @@ import {
   downloadQuorumMotionPdf,
 } from "@/lib/officer-learning/reference-pdf";
 import type { ParsedModule } from "@/lib/officer-learning/types";
-import { olTheme } from "@/lib/officer-learning/theme";
+import { useOlTheme } from "./OlThemeProvider";
 import clsx from "clsx";
 
 type Props = {
@@ -41,6 +41,7 @@ export function ModuleRelatedResources({
   className,
 }: Props) {
   const t = useTranslations("officerLearning");
+  const olTheme = useOlTheme();
   const locale = useLocale();
   const brandKit = useBrandStore((s) => s.brandKit);
   const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)}`;

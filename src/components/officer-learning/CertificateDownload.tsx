@@ -9,7 +9,7 @@ import {
   resolveConfiguredBrandLogoBytes,
 } from "@/lib/export/brand-logo-bytes";
 import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
-import { olTheme } from "@/lib/officer-learning/theme";
+import { useOlTheme } from "./OlThemeProvider";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import clsx from "clsx";
 
@@ -29,6 +29,7 @@ export function CertificateDownload({
   className,
 }: Props) {
   const t = useTranslations("officerLearning.certificate");
+  const olTheme = useOlTheme();
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const brandKit = useBrandStore((s) => s.brandKit);
@@ -73,7 +74,7 @@ export function CertificateDownload({
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-white/15 bg-slate-950/50 px-3 py-2 text-white"
+          className={olTheme.input}
           placeholder={t("namePlaceholder")}
           autoComplete="name"
         />
@@ -87,12 +88,12 @@ export function CertificateDownload({
         {exporting ? t("downloading") : t("download")}
       </button>
       {exportSuccess && (
-        <p className="text-sm text-emerald-200" role="status">
+        <p className={olTheme.successText} role="status">
           {t("success")}
         </p>
       )}
       {exportError && (
-        <p className="text-sm text-red-200" role="alert">
+        <p className={olTheme.errorText} role="alert">
           {exportError === tCommon("logoResolveFailed")
             ? exportError
             : t("error")}
