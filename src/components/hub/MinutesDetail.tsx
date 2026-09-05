@@ -16,6 +16,7 @@ import {
 } from "@/lib/minutes/access";
 import { canvasFontOfficeName } from "@/lib/comms/canvas-fonts";
 import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import { downloadBlob } from "@/lib/export/image-export";
 import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import {
   buildMinutesDocxBlob,
@@ -126,12 +127,13 @@ export function MinutesDetail({ minutesId }: { minutesId: string }) {
       const blob = await buildMinutesDocxBlob(entry, localLabel, {
         headlineFont: canvasFontOfficeName(brand.headlineFontId),
         bodyFont: canvasFontOfficeName(brand.bodyFontId),
+        headlineFontId: brand.headlineFontId,
+        bodyFontId: brand.bodyFontId,
         primaryColor: brandKit.primaryColor,
         logo,
         locale: locale === "fr" ? "fr" : "en",
       });
-      const { saveAs } = await import("file-saver");
-      saveAs(blob, minutesExportFilename(entry));
+      await downloadBlob(blob, minutesExportFilename(entry));
       setMessage(t("exported"));
     } catch {
       setError(t("exportError"));

@@ -7,6 +7,7 @@ import {
   canvasFontOfficeName,
   DEFAULT_BODY_FONT,
   DEFAULT_HEADLINE_FONT,
+  type CanvasFontId,
 } from "@/lib/comms/canvas-fonts";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { logoDisplaySizePx } from "@/lib/export/brand-logo-bytes";
@@ -15,6 +16,9 @@ import type { ElectionCycle } from "@/types/elections";
 export type BallotDocxStyle = {
   headlineFont?: string;
   bodyFont?: string;
+  /** Catalog ids for OOXML binary embed (offline Word). */
+  headlineFontId?: CanvasFontId;
+  bodyFontId?: CanvasFontId;
   primaryColor?: string;
   logo?: BrandLogoBytes | null;
   locale?: "en" | "fr";
@@ -230,5 +234,9 @@ export async function buildElectionBallotDocxBlob(
   const doc = new Document({
     sections: [{ children }],
   });
-  return Packer.toBlob(doc);
+  const blob = await Packer.toBlob(doc);
+  const headlineFontId = style?.headlineFontId ?? DEFAULT_HEADLINE_FONT;
+  const bodyFontId = style?.bodyFontId ?? DEFAULT_BODY_FONT;
+  const { embedDocxBrandFonts } = await import("@/lib/export/ooxml-font-embed");
+  return embedDocxBrandFonts(blob, headlineFontId, bodyFontId);
 }

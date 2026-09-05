@@ -1,5 +1,6 @@
 "use client";
 
+import { downloadBlob } from "@/lib/export/image-export";
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -13,15 +14,6 @@ import type {
   PollDefinition,
   PollQuestion,
 } from "@/types/polls";
-
-function downloadBlob(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
 export function PollsBoard() {
   const t = useTranslations("hubPolls");
@@ -148,7 +140,7 @@ export function PollsBoard() {
       const blob = await res.blob();
       const disp = res.headers.get("Content-Disposition");
       const match = disp?.match(/filename="([^"]+)"/);
-      downloadBlob(blob, match?.[1] ?? `poll-results.${format}`);
+      void downloadBlob(blob, match?.[1] ?? `poll-results.${format}`);
       setMessage(t("exported"));
     } catch {
       setError(t("exportError"));

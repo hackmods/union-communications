@@ -1,5 +1,17 @@
 # Progress Log
 
+
+## Office / PDF engine QOL — Brand Kit parity (2026-09-05)
+
+Lessons + parity rules: [`docs/audit/session-knowledge-2026-09-05-pdf-office-engine-qol.md`](audit/session-knowledge-2026-09-05-pdf-office-engine-qol.md). Cursor rule: `.cursor/rules/export-engine-parity.mdc`.
+
+- [x] Shared `office-brand-styles` for DOCX/XLSX/PPTX face resolution
+- [x] Hub minutes + election ballot DOCX embed Brand Kit OFL fonts (offline Word)
+- [x] Document Generator XLSX worksheets apply Brand Kit header fonts
+- [x] RSVP workbook EN/FR label packs + localized validation lists
+- [x] Hub board downloads use shared `downloadBlob` (mobile share / MIME)
+- [x] Session knowledge + export-engine-parity cursor rule (scripts, parity rules, engine next steps)
+
 ## Canvas type-fit engine (2026-09-05)
 
 - [x] **Root cause:** Fixed-height print canvases (`BoardNoticeLayoutCanvas` stack/band/split, Flyer stack siblings) let `CanvasTypeBlock` paint over Date/Time/Location when Brand Kit display type + lockup logo + long steward copy exceeded the slot. Mobile Preview tab made it obvious; exports shared the same layout tree.

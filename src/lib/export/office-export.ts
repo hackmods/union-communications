@@ -17,6 +17,11 @@ import {
   type CanvasFontId,
 } from "@/lib/comms/canvas-fonts";
 import { pickContrastingInk } from "@/lib/utils/ink";
+import {
+  resolveOfficeBrandFonts,
+  withOfficeXlsxFont,
+  type OfficeBrandFontOpts,
+} from "@/lib/export/office-brand-styles";
 
 export type DocxData = Record<string, unknown>;
 
@@ -191,37 +196,169 @@ const RSVP_GUESTS = "G";
  * Hybrid LEC / membership RSVP sheet.
  * Tallies quorum (Yes) separately from on-site heads for the food order.
  */
+
+/** Localized chrome for the hybrid LEC / membership RSVP workbook. */
+export type EventRsvpXlsxLabels = {
+  sheetName: string;
+  event: string;
+  local: string;
+  when: string;
+  where: string;
+  contact: string;
+  quorumNeeded: string;
+  quorumBoard: string;
+  yesQuorum: string;
+  maybe: string;
+  no: string;
+  stillShort: string;
+  foodOrder: string;
+  onSiteYes: string;
+  remoteYes: string;
+  foodHeads: string;
+  maybeOnSite: string;
+  tip: string;
+  columns: readonly string[];
+  attendingYes: string;
+  attendingNo: string;
+  attendingMaybe: string;
+  modeOnSite: string;
+  modeRemote: string;
+  attendingErrorTitle: string;
+  attendingError: string;
+  joiningErrorTitle: string;
+  joiningError: string;
+  guestsErrorTitle: string;
+  guestsError: string;
+};
+
+export const EVENT_RSVP_XLSX_LABELS = {
+  en: {
+    sheetName: "RSVP",
+    event: "Event",
+    local: "Local",
+    when: "When",
+    where: "Where",
+    contact: "Contact",
+    quorumNeeded: "Quorum needed",
+    quorumBoard: "Quorum board",
+    yesQuorum: "Yes (quorum)",
+    maybe: "Maybe",
+    no: "No",
+    stillShort: "Still short",
+    foodOrder: "Food order (on site)",
+    onSiteYes: "On site Yes",
+    remoteYes: "Remote Yes",
+    foodHeads: "Food heads",
+    maybeOnSite: "Maybe on site",
+    tip: "Tip: set How joining to On site or Remote when Attending is Yes/Maybe. Food heads = on-site Yes + their guests.",
+    columns: [
+      "Name",
+      "Email",
+      "Phone",
+      "Role / office",
+      "Attending",
+      "How joining",
+      "Guests (on site)",
+      "Dietary",
+      "Accessibility",
+      "Notes",
+    ],
+    attendingYes: "Yes",
+    attendingNo: "No",
+    attendingMaybe: "Maybe",
+    modeOnSite: "On site",
+    modeRemote: "Remote",
+    attendingErrorTitle: "Attending",
+    attendingError: "Choose Yes, No, or Maybe.",
+    joiningErrorTitle: "How joining",
+    joiningError: "Choose On site or Remote.",
+    guestsErrorTitle: "Guests",
+    guestsError: "Enter 0 or a whole number of on-site guests.",
+  },
+  fr: {
+    sheetName: "RSVP",
+    event: "Événement",
+    local: "Section locale",
+    when: "Quand",
+    where: "Où",
+    contact: "Contact",
+    quorumNeeded: "Quorum requis",
+    quorumBoard: "Tableau du quorum",
+    yesQuorum: "Oui (quorum)",
+    maybe: "Peut-être",
+    no: "Non",
+    stillShort: "Encore manquant",
+    foodOrder: "Commande de nourriture (sur place)",
+    onSiteYes: "Sur place Oui",
+    remoteYes: "À distance Oui",
+    foodHeads: "Têtes à nourrir",
+    maybeOnSite: "Peut-être sur place",
+    tip: "Conseil : indiquez Sur place ou À distance pour Comment joindre lorsque Présence est Oui/Peut-être. Têtes à nourrir = Oui sur place + leurs invités.",
+    columns: [
+      "Nom",
+      "Courriel",
+      "Téléphone",
+      "Rôle / poste",
+      "Présence",
+      "Comment joindre",
+      "Invités (sur place)",
+      "Allergies / régime",
+      "Accessibilité",
+      "Notes",
+    ],
+    attendingYes: "Oui",
+    attendingNo: "Non",
+    attendingMaybe: "Peut-être",
+    modeOnSite: "Sur place",
+    modeRemote: "À distance",
+    attendingErrorTitle: "Présence",
+    attendingError: "Choisissez Oui, Non ou Peut-être.",
+    joiningErrorTitle: "Comment joindre",
+    joiningError: "Choisissez Sur place ou À distance.",
+    guestsErrorTitle: "Invités",
+    guestsError: "Entrez 0 ou un nombre entier d’invités sur place.",
+  },
+} as const satisfies Record<"en" | "fr", EventRsvpXlsxLabels>;
+
 export async function renderEventRsvpXlsx(opts: {
   palette: BrandPalette;
   localNumber: string;
   fields: Record<string, string>;
-}): Promise<Blob> {
+  labels?: EventRsvpXlsxLabels;
+} & OfficeBrandFontOpts): Promise<Blob> {
   const excelMod = await import("exceljs");
   const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
   const workbook = new ExcelNS.Workbook();
-  const ws = workbook.addWorksheet("RSVP");
+  const fonts = resolveOfficeBrandFonts(opts);
+  const labels = opts.labels ?? EVENT_RSVP_XLSX_LABELS.en;
+  const ws = workbook.addWorksheet(labels.sheetName.slice(0, 31) || "RSVP");
   const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
+  const headFace = fonts.headlineFont;
+  const bodyFace = fonts.bodyFont;
   const attendingRange = `${RSVP_ATTENDING}${RSVP_FIRST_DATA_ROW}:${RSVP_ATTENDING}${RSVP_LAST_DATA_ROW}`;
   const modeRange = `${RSVP_MODE}${RSVP_FIRST_DATA_ROW}:${RSVP_MODE}${RSVP_LAST_DATA_ROW}`;
   const guestsRange = `${RSVP_GUESTS}${RSVP_FIRST_DATA_ROW}:${RSVP_GUESTS}${RSVP_LAST_DATA_ROW}`;
 
-  ws.getCell("A1").value = "Event";
+  ws.getCell("A1").value = labels.event;
   ws.getCell("B1").value = opts.fields.title ?? "";
-  ws.getCell("A2").value = "Local";
+  ws.getCell("A2").value = labels.local;
   ws.getCell("B2").value = opts.localNumber;
-  ws.getCell("A3").value = "When";
+  ws.getCell("A3").value = labels.when;
   ws.getCell("B3").value = [opts.fields.date, opts.fields.time]
     .filter(Boolean)
     .join(" · ");
-  ws.getCell("A4").value = "Where";
+  ws.getCell("A4").value = labels.where;
   ws.getCell("B4").value = opts.fields.location ?? "";
-  ws.getCell("A5").value = "Contact";
+  ws.getCell("A5").value = labels.contact;
   ws.getCell("B5").value = opts.fields.contactName ?? "";
-  ws.getCell("A6").value = "Quorum needed";
+  ws.getCell("A6").value = labels.quorumNeeded;
   ws.getCell("B6").value = opts.fields.quorumNeeded?.trim() || "";
 
   for (let r = 1; r <= 6; r++) {
-    ws.getCell(`A${r}`).font = { bold: true, color: { argb: "FFFFFFFF" } };
+    ws.getCell(`A${r}`).font = withOfficeXlsxFont(
+      { bold: true, color: { argb: "FFFFFFFF" } },
+      headFace,
+    );
     ws.getCell(`A${r}`).fill = {
       type: "pattern",
       pattern: "solid",
@@ -229,69 +366,65 @@ export async function renderEventRsvpXlsx(opts: {
     };
   }
 
+  const yes = labels.attendingYes;
+  const maybe = labels.attendingMaybe;
+  const no = labels.attendingNo;
+  const onSite = labels.modeOnSite;
+  const remote = labels.modeRemote;
+
   // Quorum board — Yes counts toward quorum whether on site or remote
-  ws.getCell("A8").value = "Quorum board";
-  ws.getCell("A8").font = { bold: true };
-  ws.getCell("B8").value = "Yes (quorum)";
+  ws.getCell("A8").value = labels.quorumBoard;
+  ws.getCell("A8").font = withOfficeXlsxFont({ bold: true }, headFace);
+  ws.getCell("B8").value = labels.yesQuorum;
   ws.getCell("C8").value = {
-    formula: `COUNTIF(${attendingRange},"Yes")`,
+    formula: `COUNTIF(${attendingRange},"${yes}")`,
   };
-  ws.getCell("D8").value = "Maybe";
+  ws.getCell("D8").value = labels.maybe;
   ws.getCell("E8").value = {
-    formula: `COUNTIF(${attendingRange},"Maybe")`,
+    formula: `COUNTIF(${attendingRange},"${maybe}")`,
   };
-  ws.getCell("F8").value = "No";
+  ws.getCell("F8").value = labels.no;
   ws.getCell("G8").value = {
-    formula: `COUNTIF(${attendingRange},"No")`,
+    formula: `COUNTIF(${attendingRange},"${no}")`,
   };
-  ws.getCell("H8").value = "Still short";
+  ws.getCell("H8").value = labels.stillShort;
   ws.getCell("I8").value = {
     formula: `IF(B6="","" ,MAX(0,VALUE(B6)-C8))`,
   };
 
   // Food board — on-site Yes only (+ their guests)
-  ws.getCell("A9").value = "Food order (on site)";
-  ws.getCell("A9").font = { bold: true };
-  ws.getCell("B9").value = "On site Yes";
+  ws.getCell("A9").value = labels.foodOrder;
+  ws.getCell("A9").font = withOfficeXlsxFont({ bold: true }, headFace);
+  ws.getCell("B9").value = labels.onSiteYes;
   ws.getCell("C9").value = {
-    formula: `COUNTIFS(${attendingRange},"Yes",${modeRange},"On site")`,
+    formula: `COUNTIFS(${attendingRange},"${yes}",${modeRange},"${onSite}")`,
   };
-  ws.getCell("D9").value = "Remote Yes";
+  ws.getCell("D9").value = labels.remoteYes;
   ws.getCell("E9").value = {
-    formula: `COUNTIFS(${attendingRange},"Yes",${modeRange},"Remote")`,
+    formula: `COUNTIFS(${attendingRange},"${yes}",${modeRange},"${remote}")`,
   };
-  ws.getCell("F9").value = "Food heads";
+  ws.getCell("F9").value = labels.foodHeads;
   ws.getCell("G9").value = {
     formula:
-      `COUNTIFS(${attendingRange},"Yes",${modeRange},"On site")` +
-      `+SUMIFS(${guestsRange},${attendingRange},"Yes",${modeRange},"On site")`,
+      `COUNTIFS(${attendingRange},"${yes}",${modeRange},"${onSite}")` +
+      `+SUMIFS(${guestsRange},${attendingRange},"${yes}",${modeRange},"${onSite}")`,
   };
-  ws.getCell("H9").value = "Maybe on site";
+  ws.getCell("H9").value = labels.maybeOnSite;
   ws.getCell("I9").value = {
-    formula: `COUNTIFS(${attendingRange},"Maybe",${modeRange},"On site")`,
+    formula: `COUNTIFS(${attendingRange},"${maybe}",${modeRange},"${onSite}")`,
   };
 
-  ws.getCell("A10").value =
-    "Tip: set How joining to On site or Remote when Attending is Yes/Maybe. Food heads = on-site Yes + their guests.";
-  ws.getCell("A10").font = { italic: true, color: { argb: "FF4B5563" } };
+  ws.getCell("A10").value = labels.tip;
+  ws.getCell("A10").font = withOfficeXlsxFont(
+    { italic: true, color: { argb: "FF4B5563" } },
+    bodyFace,
+  );
   ws.mergeCells("A10:I10");
 
-  const headers = [
-    "Name",
-    "Email",
-    "Phone",
-    "Role / office",
-    "Attending",
-    "How joining",
-    "Guests (on site)",
-    "Dietary",
-    "Accessibility",
-    "Notes",
-  ];
-  headers.forEach((h, i) => {
+  labels.columns.forEach((h, i) => {
     const cell = ws.getCell(RSVP_HEADER_ROW, i + 1);
     cell.value = h;
-    cell.font = { bold: true };
+    cell.font = withOfficeXlsxFont({ bold: true }, headFace);
     cell.fill = {
       type: "pattern",
       pattern: "solid",
@@ -299,22 +432,25 @@ export async function renderEventRsvpXlsx(opts: {
     };
   });
 
+  const attendingList = `"${yes},${no},${maybe}"`;
+  const modeList = `"${onSite},${remote}"`;
+
   for (let r = RSVP_FIRST_DATA_ROW; r <= RSVP_LAST_DATA_ROW; r++) {
     ws.getCell(r, 5).dataValidation = {
       type: "list",
       allowBlank: true,
-      formulae: ['"Yes,No,Maybe"'],
+      formulae: [attendingList],
       showErrorMessage: true,
-      errorTitle: "Attending",
-      error: "Choose Yes, No, or Maybe.",
+      errorTitle: labels.attendingErrorTitle,
+      error: labels.attendingError,
     };
     ws.getCell(r, 6).dataValidation = {
       type: "list",
       allowBlank: true,
-      formulae: ['"On site,Remote"'],
+      formulae: [modeList],
       showErrorMessage: true,
-      errorTitle: "How joining",
-      error: "Choose On site or Remote.",
+      errorTitle: labels.joiningErrorTitle,
+      error: labels.joiningError,
     };
     ws.getCell(r, 7).dataValidation = {
       type: "whole",
@@ -322,8 +458,8 @@ export async function renderEventRsvpXlsx(opts: {
       formulae: [0],
       allowBlank: true,
       showErrorMessage: true,
-      errorTitle: "Guests",
-      error: "Enter 0 or a whole number of on-site guests.",
+      errorTitle: labels.guestsErrorTitle,
+      error: labels.guestsError,
     };
   }
 
@@ -348,7 +484,8 @@ export async function exportEventRsvpXlsx(
     localNumber: string;
     fields: Record<string, string>;
     filename: string;
-  },
+    labels?: EventRsvpXlsxLabels;
+  } & OfficeBrandFontOpts,
 ): Promise<void> {
   const { filename, ...rest } = opts;
   await downloadBlob(await renderEventRsvpXlsx(rest), filename);
@@ -382,15 +519,17 @@ export async function renderSeniorityWorksheetXlsx(opts: {
   localNumber: string;
   fields: Record<string, string>;
   labels: SeniorityWorksheetLabels;
-}): Promise<Blob> {
+} & OfficeBrandFontOpts): Promise<Blob> {
   const excelMod = await import("exceljs");
   const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
   const workbook = new ExcelNS.Workbook();
+  const fonts = resolveOfficeBrandFonts(opts);
+  const headFace = fonts.headlineFont;
   const ws = workbook.addWorksheet(opts.labels.sheetName.slice(0, 31) || "Worksheet");
   const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
 
   ws.getCell("A1").value = opts.labels.title;
-  ws.getCell("A1").font = { bold: true, size: 14, color: { argb: "FFFFFFFF" } };
+  ws.getCell("A1").font = withOfficeXlsxFont({ bold: true, size: 14, color: { argb: "FFFFFFFF" } }, headFace);
   ws.getCell("A1").fill = {
     type: "pattern",
     pattern: "solid",
@@ -411,7 +550,7 @@ export async function renderSeniorityWorksheetXlsx(opts: {
   ws.mergeCells("B6:G6");
 
   for (let r = 2; r <= 6; r++) {
-    ws.getCell(`A${r}`).font = { bold: true, color: { argb: "FFFFFFFF" } };
+    ws.getCell(`A${r}`).font = withOfficeXlsxFont({ bold: true, color: { argb: "FFFFFFFF" } }, headFace);
     ws.getCell(`A${r}`).fill = {
       type: "pattern",
       pattern: "solid",
@@ -426,7 +565,7 @@ export async function renderSeniorityWorksheetXlsx(opts: {
   opts.labels.columns.forEach((h, i) => {
     const cell = ws.getCell(SENIORITY_HEADER_ROW, i + 1);
     cell.value = h;
-    cell.font = { bold: true };
+    cell.font = withOfficeXlsxFont({ bold: true }, headFace);
     cell.fill = {
       type: "pattern",
       pattern: "solid",
@@ -447,7 +586,7 @@ export async function renderSeniorityWorksheetXlsx(opts: {
 
   const footerRow = SENIORITY_LAST_DATA_ROW + 2;
   ws.getCell(`A${footerRow}`).value = opts.labels.footerDecision;
-  ws.getCell(`A${footerRow}`).font = { bold: true };
+  ws.getCell(`A${footerRow}`).font = withOfficeXlsxFont({ bold: true }, headFace);
   ws.mergeCells(`A${footerRow}:G${footerRow}`);
   ws.getCell(`A${footerRow + 1}`).value = "";
   ws.mergeCells(`A${footerRow + 1}:G${footerRow + 3}`);
@@ -477,7 +616,7 @@ export async function exportSeniorityWorksheetXlsx(
     fields: Record<string, string>;
     labels: SeniorityWorksheetLabels;
     filename: string;
-  },
+  } & OfficeBrandFontOpts,
 ): Promise<void> {
   const { filename, ...rest } = opts;
   await downloadBlob(await renderSeniorityWorksheetXlsx(rest), filename);
@@ -523,15 +662,17 @@ export async function renderGrievanceIntakeXlsx(opts: {
   localNumber: string;
   fields: Record<string, string>;
   labels: GrievanceIntakeLabels;
-}): Promise<Blob> {
+} & OfficeBrandFontOpts): Promise<Blob> {
   const excelMod = await import("exceljs");
   const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
   const workbook = new ExcelNS.Workbook();
+  const fonts = resolveOfficeBrandFonts(opts);
+  const headFace = fonts.headlineFont;
   const ws = workbook.addWorksheet(opts.labels.sheetName.slice(0, 31) || "Intake");
   const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
 
   ws.getCell("A1").value = opts.labels.title;
-  ws.getCell("A1").font = { bold: true, size: 14, color: { argb: "FFFFFFFF" } };
+  ws.getCell("A1").font = withOfficeXlsxFont({ bold: true, size: 14, color: { argb: "FFFFFFFF" } }, headFace);
   ws.getCell("A1").fill = {
     type: "pattern",
     pattern: "solid",
@@ -547,7 +688,7 @@ export async function renderGrievanceIntakeXlsx(opts: {
   ws.getCell("B4").value = opts.fields.caArticle ?? "";
 
   for (let r = 2; r <= 4; r++) {
-    ws.getCell(`A${r}`).font = { bold: true, color: { argb: "FFFFFFFF" } };
+    ws.getCell(`A${r}`).font = withOfficeXlsxFont({ bold: true, color: { argb: "FFFFFFFF" } }, headFace);
     ws.getCell(`A${r}`).fill = {
       type: "pattern",
       pattern: "solid",
@@ -563,7 +704,7 @@ export async function renderGrievanceIntakeXlsx(opts: {
   ws.getCell("A6").value = opts.labels.itemCol;
   ws.getCell("B6").value = opts.labels.notesCol;
   for (const col of ["A", "B"] as const) {
-    ws.getCell(`${col}6`).font = { bold: true };
+    ws.getCell(`${col}6`).font = withOfficeXlsxFont({ bold: true }, headFace);
     ws.getCell(`${col}6`).fill = {
       type: "pattern",
       pattern: "solid",
@@ -574,14 +715,14 @@ export async function renderGrievanceIntakeXlsx(opts: {
   INTAKE_W_KEYS.forEach((key, i) => {
     const row = 7 + i;
     ws.getCell(`A${row}`).value = opts.labels.rows[key];
-    ws.getCell(`A${row}`).font = { bold: true };
+    ws.getCell(`A${row}`).font = withOfficeXlsxFont({ bold: true }, headFace);
     ws.getCell(`B${row}`).value = opts.fields[key] ?? "";
     ws.getCell(`B${row}`).alignment = { wrapText: true, vertical: "top" };
     ws.getRow(row).height = 36;
   });
 
   ws.getCell("A13").value = opts.labels.witnesses;
-  ws.getCell("A13").font = { bold: true, color: { argb: "FFFFFFFF" } };
+  ws.getCell("A13").font = withOfficeXlsxFont({ bold: true, color: { argb: "FFFFFFFF" } }, headFace);
   ws.getCell("A13").fill = {
     type: "pattern",
     pattern: "solid",
@@ -592,7 +733,7 @@ export async function renderGrievanceIntakeXlsx(opts: {
   ws.getRow(13).height = 36;
 
   ws.getCell("A14").value = opts.labels.clockNotes;
-  ws.getCell("A14").font = { bold: true, color: { argb: "FFFFFFFF" } };
+  ws.getCell("A14").font = withOfficeXlsxFont({ bold: true, color: { argb: "FFFFFFFF" } }, headFace);
   ws.getCell("A14").fill = {
     type: "pattern",
     pattern: "solid",
@@ -616,7 +757,7 @@ export async function exportGrievanceIntakeXlsx(
     fields: Record<string, string>;
     labels: GrievanceIntakeLabels;
     filename: string;
-  },
+  } & OfficeBrandFontOpts,
 ): Promise<void> {
   const { filename, ...rest } = opts;
   await downloadBlob(await renderGrievanceIntakeXlsx(rest), filename);
@@ -642,15 +783,17 @@ export async function renderLecDirectoryXlsx(opts: {
   palette: BrandPalette;
   localNumber: string;
   fields: Record<string, string>;
-}): Promise<Blob> {
+} & OfficeBrandFontOpts): Promise<Blob> {
   const excelMod = await import("exceljs");
   const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
   const workbook = new ExcelNS.Workbook();
+  const fonts = resolveOfficeBrandFonts(opts);
+  const headFace = fonts.headlineFont;
   const ws = workbook.addWorksheet("LEC directory");
   const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
 
   ws.getCell("A1").value = "LOCAL EXECUTIVE COMMITTEE";
-  ws.getCell("A1").font = { bold: true, size: 14, color: { argb: "FFFFFFFF" } };
+  ws.getCell("A1").font = withOfficeXlsxFont({ bold: true, size: 14, color: { argb: "FFFFFFFF" } }, headFace);
   ws.getCell("A1").fill = {
     type: "pattern",
     pattern: "solid",
@@ -667,7 +810,7 @@ export async function renderLecDirectoryXlsx(opts: {
   ws.mergeCells("B4:C4");
 
   for (const r of [2, 3, 4]) {
-    ws.getCell(`A${r}`).font = { bold: true };
+    ws.getCell(`A${r}`).font = withOfficeXlsxFont({ bold: true }, headFace);
   }
 
   const headerRow = 6;
@@ -680,7 +823,7 @@ export async function renderLecDirectoryXlsx(opts: {
   ).forEach(([col, label]) => {
     const cell = ws.getCell(headerRow, col);
     cell.value = label;
-    cell.font = { bold: true, color: { argb: "FFFFFFFF" } };
+    cell.font = withOfficeXlsxFont({ bold: true, color: { argb: "FFFFFFFF" } }, headFace);
     cell.fill = {
       type: "pattern",
       pattern: "solid",
@@ -721,7 +864,7 @@ export async function exportLecDirectoryXlsx(opts: {
   localNumber: string;
   fields: Record<string, string>;
   filename: string;
-}): Promise<void> {
+} & OfficeBrandFontOpts): Promise<void> {
   const { filename, ...rest } = opts;
   await downloadBlob(await renderLecDirectoryXlsx(rest), filename);
 }

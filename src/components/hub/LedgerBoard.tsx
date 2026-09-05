@@ -1,5 +1,6 @@
 "use client";
 
+import { downloadBlob } from "@/lib/export/image-export";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
@@ -14,15 +15,6 @@ function formatMoney(n: number): string {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-}
-
-function downloadBlob(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
 }
 
 function toCsv(rows: LedgerEntryWithBalance[]): string {
@@ -146,7 +138,7 @@ export function LedgerBoard() {
     setExportError(null);
     try {
       const csv = toCsv(entries);
-      downloadBlob(
+      void downloadBlob(
         new Blob([csv], { type: "text/csv;charset=utf-8" }),
         "discretionary-fund-ledger.csv",
       );
@@ -181,7 +173,7 @@ export function LedgerBoard() {
         });
       }
       const buffer = await workbook.xlsx.writeBuffer();
-      downloadBlob(
+      void downloadBlob(
         new Blob([new Uint8Array(buffer as ArrayBuffer)], {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         }),

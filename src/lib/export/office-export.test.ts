@@ -16,6 +16,7 @@ import {
   loadTemplateBuffer,
   renderDocxFromPreset,
   renderEventRsvpXlsx,
+  EVENT_RSVP_XLSX_LABELS,
   renderSeniorityWorksheetXlsx,
   renderGrievanceIntakeXlsx,
   renderPptx,
@@ -215,6 +216,37 @@ describe("office-export", () => {
           : String(foodHeads);
       expect(foodFormula).toContain("COUNTIFS");
       expect(foodFormula).toContain("On site");
+    },
+    20_000,
+  );
+
+  it(
+    "renderEventRsvpXlsx applies Brand Kit header fonts and French labels",
+    async () => {
+      const blob = await renderEventRsvpXlsx({
+        palette: { primary: "#003366", secondary: "#001a33", accent: "#c45c26" },
+        localNumber: "243",
+        fields: {
+          title: "Assemblée",
+          date: "2026-09-10",
+          time: "18:00",
+          location: "Salle",
+        },
+        labels: EVENT_RSVP_XLSX_LABELS.fr,
+        headlineFont: "Oswald",
+        bodyFont: "Lato",
+      });
+      expect(blob.size).toBeGreaterThan(1000);
+
+      const excelMod = await import("exceljs");
+      const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+      const wb = new ExcelNS.Workbook();
+      await wb.xlsx.load(await blob.arrayBuffer());
+      const ws = wb.getWorksheet(EVENT_RSVP_XLSX_LABELS.fr.sheetName);
+      expect(ws).toBeTruthy();
+      expect(ws!.getCell("A1").value).toBe(EVENT_RSVP_XLSX_LABELS.fr.event);
+      expect(String(ws!.getCell("A1").font?.name ?? "")).toContain("Oswald");
+      expect(ws!.getCell("A8").value).toBe(EVENT_RSVP_XLSX_LABELS.fr.quorumBoard);
     },
     20_000,
   );

@@ -43,6 +43,8 @@ export async function GET(_request: Request, context: RouteContext) {
     const blob = await buildElectionBallotDocxBlob(cycle, localLabel, {
       headlineFont: canvasFontOfficeName(brand.headlineFontId),
       bodyFont: canvasFontOfficeName(brand.bodyFontId),
+      headlineFontId: brand.headlineFontId,
+      bodyFontId: brand.bodyFontId,
       primaryColor: DEFAULT_BRAND_KIT.primaryColor,
       logo,
       locale: "en",

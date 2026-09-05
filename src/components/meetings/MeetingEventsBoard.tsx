@@ -1,5 +1,6 @@
 "use client";
 
+import { downloadBlob } from "@/lib/export/image-export";
 import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
@@ -20,15 +21,6 @@ import type {
   RsvpToken,
   UnionMeeting,
 } from "@/types/meetings";
-
-function downloadBlob(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
 function fromLocalInputValue(value: string): string {
   return new Date(value).toISOString();
@@ -224,7 +216,7 @@ export function MeetingEventsBoard({
       const blob = await res.blob();
       const disp = res.headers.get("Content-Disposition");
       const match = disp?.match(/filename="([^"]+)"/);
-      downloadBlob(blob, match?.[1] ?? "rsvp-export.csv");
+      void downloadBlob(blob, match?.[1] ?? "rsvp-export.csv");
       setMessage(t("exported"));
     } catch {
       setError(t("exportError"));

@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "office-export-brand-fonts",
+    date: "2026-09-05",
+    kind: "improved",
+    href: "/tools/document-generator",
+  },
+  {
     id: "canvas-type-fit",
     date: "2026-09-05",
     kind: "improved",

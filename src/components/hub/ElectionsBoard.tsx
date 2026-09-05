@@ -1,5 +1,6 @@
 "use client";
 
+import { downloadBlob } from "@/lib/export/image-export";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
@@ -10,15 +11,6 @@ import type {
   ElectionCycle,
   NominationStatus,
 } from "@/types/elections";
-
-function downloadBlob(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
 function buildTallyDraft(cycle: ElectionCycle | null) {
   if (!cycle) return [];
@@ -217,7 +209,7 @@ export function ElectionsBoard() {
       const res = await fetch(`/api/elections/${selected.id}/ballot`);
       if (!res.ok) throw new Error("fail");
       const blob = await res.blob();
-      downloadBlob(blob, `ballot-${selected.id}.docx`);
+      void downloadBlob(blob, `ballot-${selected.id}.docx`);
       setMessage(t("ballotExported"));
     } catch {
       setExportError(t("ballotError"));
