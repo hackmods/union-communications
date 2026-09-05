@@ -132,8 +132,8 @@ describe("path helpers", () => {
       "/assets",
       "/guide/resources",
     ]);
-    expect(learnGroups.some((g) => g.labelKey === "learnGroupAbout")).toBe(
-      false,
+    expect(learnGroups.map((g) => g.labelKey)).not.toContain(
+      "learnGroupAbout",
     );
   });
 });
