@@ -47,9 +47,9 @@ Without all three, agents and stewards rebuild Module 5/6/ signup playbooks insi
 
 “Ten modules” lived in nav blurbs, SEO, certificate path title, steward playbooks, smoke regexes, and FR leftovers (`ten modules` untranslated). When the catalog grows, grep both locales for the old count **and** update smoke-asserted copy in the same change.
 
-### 7. Dashboard chrome scales by grid, not flex
+### 7. Dashboard chrome scales by readable columns, not max density
 
-At ten modules, `LearningPathDiagram` used `lg:grid-cols-5` (5×2). At fourteen, `lg:grid-cols-7` (7×2). Do not squeeze fourteen steps into one flex row. Re-check title truncation on real card titles after any catalog growth.
+At ten modules, `LearningPathDiagram` used `lg:grid-cols-5`. At fourteen, a 7-column grid made each cell too narrow: `truncate` + `line-clamp` fought each other and titles spilled across neighbours. Prefer **lg 4 / xl 5** with `line-clamp-3` + `overflow-hidden` on the card. Density that unreadable is not a win.
 
 ### 8. Wiring checklist is longer than the markdown
 

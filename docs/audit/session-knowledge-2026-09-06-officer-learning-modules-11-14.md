@@ -33,7 +33,7 @@ Same container as modules 1–10:
 7. SEO + `PUBLIC_PATHS` + `PAGE_SOURCE_IDS` + content-review labels
 8. Card titles/summaries in `officerLearning.modules.{slug}` EN/FR
 
-Dashboard path: `LearningPathDiagram` uses **lg 7×2** grid at fourteen modules.
+Dashboard path: `LearningPathDiagram` uses **lg 4-col / xl 5-col** grid at fourteen modules (not 7-col — titles overflowed). Compact cells `line-clamp-3` + `overflow-hidden`; mobile stack still single-line truncate.
 
 ---
 

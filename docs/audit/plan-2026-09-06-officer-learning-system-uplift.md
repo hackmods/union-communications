@@ -102,10 +102,11 @@ Verdicts allowed: `complementary`, `callout wrong`, `contradiction`, `duplicate 
 
 ### D. Chrome spot-check
 
-- Desktop ~1280 and ~1536: path titles readable (truncate OK; squash not OK)
+- Desktop ~1280 and ~1536: path titles readable inside cards (`lg:grid-cols-4` / `xl:grid-cols-5`, line-clamp — never overlapping neighbours)
 - Phone: stacked path + module card covers
 - One advanced module smoke: jump to quiz, related PDFs present, timeline visible
 - Certificate download copy still says fourteen
+- Regression to watch: do **not** restore `lg:grid-cols-7` for fourteen modules without re-checking long titles (Human Rights, Advanced Grievance, Joint Workplace Committees)
 
 ### E. Optional guard ideas (pick ≤1 per session)
 

@@ -23,8 +23,8 @@ type Props = {
 
 /**
  * Officer Learning path with live progress on the dashboard.
- * Mobile: stacked steps with arrows. Desktop: dense grid (7×2 at fourteen modules)
- * so titles stay readable instead of a single squeezed flex row.
+ * Mobile: stacked steps. Desktop: 4→5 column grid so fourteen long titles
+ * wrap inside the card instead of overflowing into neighbours (7-col was too narrow).
  */
 export function LearningPathDiagram({ steps, label, className }: Props) {
   const olTheme = useOlTheme();
@@ -56,8 +56,8 @@ export function LearningPathDiagram({ steps, label, className }: Props) {
         ))}
       </ol>
 
-      {/* lg+: grid so fourteen modules stay scannable (7 cols × 2 rows) */}
-      <ol className="hidden gap-2 lg:grid lg:grid-cols-7">
+      {/* lg+: wider cells (4 cols → 5 at xl) — titles line-clamp inside the card */}
+      <ol className="hidden gap-2 lg:grid lg:grid-cols-4 xl:grid-cols-5">
         {steps.map((step) => (
           <li key={step.id} className="min-w-0">
             <PathStepLink
@@ -89,11 +89,13 @@ function PathStepLink({
       href={step.href}
       aria-label={step.ariaLabel}
       className={cn(
-        "flex min-w-0 flex-1 items-center gap-3 rounded-xl border px-3 py-3 transition",
+        "flex min-w-0 items-center gap-3 rounded-xl border px-3 py-3 transition",
         olTheme.surfaceHover,
         step.status === "completed" && "border-emerald-400/30",
         step.status === "in_progress" && "border-orange-400/40",
-        compact && "h-full flex-col items-start gap-2",
+        compact
+          ? "h-full w-full flex-col items-stretch gap-1.5 overflow-hidden py-2.5"
+          : "flex-1",
       )}
     >
       <span
@@ -105,16 +107,17 @@ function PathStepLink({
       >
         {step.status === "completed" ? "✓" : step.number}
       </span>
-      <span className="min-w-0">
-        <span
-          className={cn(
-            olTheme.pathTitle,
-            compact && "line-clamp-2 text-sm leading-snug",
-          )}
-          aria-hidden="true"
-        >
-          {step.title}
-        </span>
+      <span
+        className={cn(
+          olTheme.pathTitle,
+          "min-w-0",
+          compact
+            ? "line-clamp-3 w-full break-words leading-snug"
+            : "truncate",
+        )}
+        aria-hidden="true"
+      >
+        {step.title}
       </span>
     </Link>
   );
