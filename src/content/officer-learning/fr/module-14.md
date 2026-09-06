@@ -184,7 +184,7 @@ Un délégué anime sa première session d'orientation de 15 minutes pour nouvea
 *   D) Reporter l'orientation jusqu'à la première campagne de convention pour que l'urgence motive les adhésions.
 
 **Correct Answer: B**
-*Explanation* : Les premières impressions comptent. Une orientation du jour 1 doit être accueillante, informative et centrée sur la connexion et la sécurité, se terminant par l'étape administrative cruciale de signer la carte d'adhésion.
+*Explication* : Les premières impressions comptent. Une orientation du jour 1 doit être accueillante, informative et centrée sur la connexion et la sécurité, se terminant par l'étape administrative cruciale de signer la carte d'adhésion.
 
 ### Question 2
 Un magasin d'équipement de travail offre à tous les membres de votre section un rabais de 15 % sur les bottes de travail, mais exige que le trésorier local leur envoie par courriel une liste de tous les noms des membres et leurs adresses courriel personnelles pour vérifier l'admissibilité. Que devrait faire le trésorier ?
@@ -194,7 +194,7 @@ Un magasin d'équipement de travail offre à tous les membres de votre section u
 *   D) Afficher la liste des membres sur le babillard syndical pour que le magasin puisse la copier.
 
 **Correct Answer: C**
-*Explanation* : Protéger les données des membres est primordial. Les syndicats ne doivent jamais partager les bases de données d'adhésion ni les coordonnées personnelles avec des entités commerciales. Fournir des cartes de rabais à l'effigie du syndicat maintient la sécurité tout en offrant l'avantage d'affinité.
+*Explication* : Protéger les données des membres est primordial. Les syndicats ne doivent jamais partager les bases de données d'adhésion ni les coordonnées personnelles avec des entités commerciales. Fournir des cartes de rabais à l'effigie du syndicat maintient la sécurité tout en offrant l'avantage d'affinité.
 
 ### Question 3
 Lequel des éléments suivants est le meilleur exemple de « syndicalisme communautaire » en action ?
@@ -204,7 +204,7 @@ Lequel des éléments suivants est le meilleur exemple de « syndicalisme commun
 *   D) Refuser tout contact avec les groupes communautaires pour garder la section « purement axée sur le lieu de travail ».
 
 **Correct Answer: B**
-*Explanation* : Le syndicalisme communautaire relie les luttes en milieu de travail au bien public plus large. Campagner aux côtés de partenaires communautaires pour la sécurité publique et le financement bâtit une solidarité mutuelle puissante qui profite aux travailleurs et à la communauté locale.
+*Explication* : Le syndicalisme communautaire relie les luttes en milieu de travail au bien public plus large. Campagner aux côtés de partenaires communautaires pour la sécurité publique et le financement bâtit une solidarité mutuelle puissante qui profite aux travailleurs et à la communauté locale.
 
 ### Question 4
 Votre section veut maximiser la participation à la ratification. Meilleure pratique d'orientation liée à ce module ?
@@ -214,7 +214,7 @@ Votre section veut maximiser la participation à la ratification. Meilleure prat
 *   D) Envoyer la liste d'adhésion à une campagne politique pour rappeler aux membres de voter.
 
 **Correct Answer: B**
-*Explanation* : Le droit de vote exige une carte signée ; la signature le jour 1 convertit les nouveaux en participants admissibles tôt — sans partager les listes à l'extérieur.
+*Explication* : Le droit de vote exige une carte signée ; la signature le jour 1 convertit les nouveaux en participants admissibles tôt — sans partager les listes à l'extérieur.
 
 ### Question 5
 En quoi le module 14 diffère-t-il du module 6 (Bâtir le pouvoir collectif) ?
@@ -224,7 +224,7 @@ En quoi le module 14 diffère-t-il du module 6 (Bâtir le pouvoir collectif) ?
 *   D) Ils sont identiques — ne suivez qu'un seul.
 
 **Correct Answer: B**
-*Explanation* : Le module 6 traite l'équité structurelle et l'application ; le module 14 bâtit l'appartenance quotidienne et les alliances publiques — complémentaires, pas interchangeables.
+*Explication* : Le module 6 traite l'équité structurelle et l'application ; le module 14 bâtit l'appartenance quotidienne et les alliances publiques — complémentaires, pas interchangeables.
 
 ### Question 6
 Une ONG communautaire demande votre liste de courriels des membres pour inviter les travailleurs à un rassemblement sur le logement aligné sur vos thèmes de négociation. Meilleure réponse ?
@@ -234,4 +234,4 @@ Une ONG communautaire demande votre liste de courriels des membres pour inviter 
 *   D) Laisser l'employeur envoyer des courriels aux membres au nom du syndicat.
 
 **Correct Answer: B**
-*Explanation* : La communication interne syndicale préserve la confidentialité des listes (module 11) ; le travail de coalition public se fait dans des espaces partagés, pas par transfert de données des membres.
+*Explication* : La communication interne syndicale préserve la confidentialité des listes (module 11) ; le travail de coalition public se fait dans des espaces partagés, pas par transfert de données des membres.

@@ -117,14 +117,16 @@ Exercice : AGM simulée avec cartes de décompte papier. Le secrétaire suit le 
 
 ## Liste de contrôle du plancher
 
+- [ ] Confirmer les règles de quorum dans les règlements locaux (l'échelle universelle est un défaut pédagogique)
 - [ ] Calculer le quorum avant la rencontre en utilisant l'effectif inscrit actuel
 - [ ] Feuille de présence : membres en règle seulement
 - [ ] Annoncer le statut de quorum à l'ouverture et après tout changement de décompte
-- [ ] Consigner le quorum perdu avec l'heure et le décompte dans les procès-verbaux
+- [ ] Consigner le quorum perdu avec l'heure et le décompte dans les procès-verbaux — suspendre, regagner le quorum ou reporter le vote
 - [ ] Motions consignées verbatim avec proposeur, secondeur, résultat
 - [ ] Élections : trois appels de candidature, se présenter/décliner, verrouiller les portes
 - [ ] Scrutateurs nommés avant le dépouillement
 - [ ] Majorité = plus de 50 % des bulletins valides ; éliminer le candidat bas et revoter si nécessaire
+- [ ] Associer `/guide/running-meetings` et `/tools/rules-of-order` pour le libellé du président sur le plancher
 
 ---
 
@@ -143,7 +145,7 @@ Exercice : AGM simulée avec cartes de décompte papier. Le secrétaire suit le 
 - Formation syndicale du **Congrès du travail du Canada** — gouvernance et démocratie des sections locales
 - **Manuel du délégué** du SCFP — procédure de rencontre et bases des droits des membres
 - **Fédération du travail de l'Ontario** — ressources de développement du leadership local
-- UnionOps : `/guide/union-boards`, `/guide/membership-signup`, `/guide/workshop`
+- UnionOps : `/guide/running-meetings`, `/guide/bylaws`, `/tools/rules-of-order`, `/guide/union-boards`, `/guide/membership-signup`
 
 ---
 
@@ -157,7 +159,7 @@ Une section locale a 300 membres inscrits. Selon l'échelle universelle de quoru
 *   D) 50 membres.
 
 **Correct Answer: B**
-*Explanation* : Pour les sections locales de 201 membres ou plus, le quorum est de 5 % de l'effectif inscrit. 5 % de 300 égale 15. Donc, un minimum de 15 membres doit être présent pour tenir un vote légal.
+*Explication* : Pour les sections locales de 201 membres ou plus, l'échelle universelle de quorum pédagogique utilise 5 % de l'effectif inscrit. 5 % de 300 égale 15. Confirmez vos règlements locaux — cette échelle est un défaut pour la pratique, pas chaque constitution.
 
 ### Question 2
 Durant une assemblée générale tendue, 4 membres quittent la salle pour prendre l'autobus, laissant seulement 12 membres dans une section locale qui exige 15 pour le quorum. Une motion est immédiatement présentée et adoptée pour dépenser 1 000 $ pour une œuvre locale. Quel est le statut de ce vote ?
@@ -167,7 +169,7 @@ Durant une assemblée générale tendue, 4 membres quittent la salle pour prendr
 *   D) Le vote est valide parce que les dons de charité n'exigent pas le quorum.
 
 **Correct Answer: B**
-*Explanation* : Le quorum doit être maintenu tout au long de la rencontre pour qu'un vote puisse avoir lieu. Une fois que l'assistance tombe sous le seuil, la rencontre entre dans un état non votant. Tout vote tenu sans quorum est juridiquement nul.
+*Explication* : Le quorum doit être maintenu tout au long de la rencontre pour qu'un vote puisse avoir lieu. Une fois que l'assistance tombe sous le seuil, la rencontre entre dans un état non votant. Tout vote tenu sans quorum est juridiquement nul.
 
 ### Question 3
 Dans une élection locale pour la présidence, 100 bulletins valides sont exprimés. Le candidat A reçoit 45 voix, le candidat B en reçoit 35, et le candidat C en reçoit 20. Que se passe-t-il ensuite ?
@@ -177,7 +179,7 @@ Dans une élection locale pour la présidence, 100 bulletins valides sont exprim
 *   D) L'élection est déclarée nulle et doit être reportée au mois suivant.
 
 **Correct Answer: C**
-*Explanation* : Les élections de section locale exigent une majorité claire (plus de 50 % des bulletins valides, ce qui dans ce cas serait au moins 51 voix). Parce qu'aucun candidat n'a atteint 51 voix, le candidat avec le moins de voix (candidat C avec 20 voix) est éliminé, et un second scrutin est tenu entre A et B.
+*Explication* : Les élections de section locale exigent une majorité claire (plus de 50 % des bulletins valides, ce qui dans ce cas serait au moins 51 voix). Parce qu'aucun candidat n'a atteint 51 voix, le candidat avec le moins de voix (candidat C avec 20 voix) est éliminé, et un second scrutin est tenu entre A et B.
 
 ### Question 4
 Un secrétaire veut consigner que « le membre X s'est opposé avec colère à la motion et a accusé l'exécutif de corruption » dans les procès-verbaux. Meilleur conseil ?
@@ -187,7 +189,7 @@ Un secrétaire veut consigner que « le membre X s'est opposé avec colère à l
 *   D) Consigner les accusations mais omettre le résultat de la motion.
 
 **Correct Answer: B**
-*Explanation* : La norme d'écriture sobre consigne les décisions et actions, pas le débat émotionnel ni les attaques personnelles. Le libellé de la motion, le résultat et les tâches assignées constituent le dossier juridique.
+*Explication* : La norme d'écriture sobre consigne les décisions et actions, pas le débat émotionnel ni les attaques personnelles. Le libellé de la motion, le résultat et les tâches assignées constituent le dossier juridique.
 
 ### Question 5
 Lors d'une élection présidentielle contestée, le président veut annoncer « Le candidat A gagne avec 45 % — le plus de votes ». Que doit-il se passer ?
@@ -197,7 +199,7 @@ Lors d'une élection présidentielle contestée, le président veut annoncer « 
 *   D) Accepter un tirage au sort entre les deux premiers.
 
 **Correct Answer: B**
-*Explanation* : Les élections syndicales exigent une majorité claire, pas une pluralité. Lorsqu'aucun candidat n'atteint 50 % + 1, éliminez le plus bas et recomptez jusqu'à un gagnant majoritaire.
+*Explication* : Les élections syndicales exigent une majorité claire, pas une pluralité. Lorsqu'aucun candidat n'atteint 50 % + 1, éliminez le plus bas et recomptez jusqu'à un gagnant majoritaire.
 
 ### Question 6
 Avant le dépouillement, un membre exige de compter seul sans scrutateurs nommés. Meilleure pratique ?
@@ -207,4 +209,4 @@ Avant le dépouillement, un membre exige de compter seul sans scrutateurs nommé
 *   D) Laisser le président compter dans son bureau et annoncer le résultat plus tard.
 
 **Correct Answer: B**
-*Explanation* : Les dépouillements contestés exigent des observateurs neutres nommés avant l'ouverture du scrutin. Les scrutateurs protègent les deux côtés des contestations et font partie de la liste de contrôle électorale standard.
+*Explication* : Les dépouillements contestés exigent des observateurs neutres nommés avant l'ouverture du scrutin. Les scrutateurs protègent les deux côtés des contestations et font partie de la liste de contrôle électorale standard.

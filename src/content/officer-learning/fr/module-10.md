@@ -4,7 +4,7 @@
 
 Prévoyez **40 à 50 minutes**. Apportez les termes de référence de votre CSTS (ou notes de structure requises par la LSST), tout procès-verbal de comité patronal-syndical (CPS), et une plainte actuelle de danger ou de charge de travail du plancher. Esquissez qui siège où avec `/tools/org-chart` avant l'exercice pratique — le pouvoir des comités est inutile si les délégués ne trouvent pas la bonne porte.
 
-Les sections passent des mandats CSTS vs CPS à la discipline de caucus uni, à l'escalade multi-comités, et aux voies de refus de travail de la LSST qui engagent le CSTS. Associez `/guide/joint-committee` et `/guide/right-to-refuse`. L'éducation en santé et sécurité du **CTC** et les concepts provinciaux de la LSST approfondissent les pouvoirs statutaires ; la pratique du CPS reste consultative sauf si votre CC dit autrement.
+Les sections passent des mandats CSTS vs CPS à la discipline de caucus uni, à l'escalade multi-comités, et aux voies de refus de travail de la LSST qui engagent le CSTS. Associez `/guide/joint-committee` et `/guide/right-to-refuse`. **Ce module** forme le routage des délégués, la discipline de caucus et l'escalade parallèle ; le **guide des comités conjoints** possède les chartes, le rythme et les opérations de réunion — ne reconstruisez pas ces modèles ici. L'éducation en santé et sécurité du **CTC** et les concepts provinciaux de la LSST approfondissent les pouvoirs statutaires ; la pratique du CPS reste consultative sauf si votre CC dit autrement.
 
 🪞 Réflexion : Les tables conjointes sont des caucus avec un but — pas des auditoires pour les présentations de la direction.
 
@@ -45,7 +45,7 @@ Avant toute rencontre conjointe, les représentants syndicaux tiennent une **pr�
 
 **Discipline de caucus uni :** Ne jamais être en désaccord, argumenter ou briser les rangs devant la direction. Une scission publique enseigne à l'employeur quel représentant peler. Débattez durement en caucus ; parlez d'une seule voix à la table.
 
-⚠️ Avertissement : « Juste être honnête » devant les RH n'est pas de la transparence — c'est du renseignement gratuit pour l'autre côté.
+⚠️ Avertissement : « Juste être honnête » devant les RH n'est pas de la transparence — c'est du renseignement gratuit pour l'autre côté. Réglez les désaccords en caucus d'abord ; présentez une seule demande unie à la table conjointe.
 
 ---
 
@@ -155,7 +155,7 @@ Durant une rencontre du comité conjoint de santé et sécurité (CSTS), un repr
 *   D) La règle de libellé de grief à porte ouverte.
 
 **Correct Answer: B**
-*Explanation* : Les représentants syndicaux doivent toujours présenter un front complètement uni à la direction durant les rencontres conjointes. Tout désaccord doit être réglé en préréunions privées (caucus).
+*Explication* : Les représentants syndicaux doivent toujours présenter un front complètement uni à la direction durant les rencontres conjointes. Tout désaccord doit être réglé en préréunions privées (caucus).
 
 ### Question 2
 Quel comité a le pouvoir statutaire et juridiquement mandaté de forcer un employeur à répondre à des recommandations de sécurité écrites dans un délai législatif fixé ?
@@ -165,7 +165,7 @@ Quel comité a le pouvoir statutaire et juridiquement mandaté de forcer un empl
 *   D) Le comité social qui planifie le pique-nique du personnel.
 
 **Correct Answer: B**
-*Explanation* : Sous la législation de santé et sécurité, le CSTS a des pouvoirs statutaires uniques pour faire des recommandations formelles, et les employeurs sont légalement tenus de fournir une réponse écrite dans un délai strict (souvent 21 jours).
+*Explication* : Sous la législation de santé et sécurité, le CSTS a des pouvoirs statutaires uniques pour faire des recommandations formelles, et les employeurs sont légalement tenus de fournir une réponse écrite dans un délai strict (souvent 21 jours).
 
 ### Question 3
 Un délégué découvre qu'un département fait face à un stress sévère et à des blessures physiques en raison d'un sous-effectif systémique. Quelle est la stratégie d'escalade multi-comités la plus efficace ?
@@ -175,7 +175,7 @@ Un délégué découvre qu'un département fait face à un stress sévère et à
 *   D) Le soulever seulement comme plainte personnelle auprès d'un superviseur amical.
 
 **Correct Answer: C**
-*Explanation* : Escalader l'enjeu par plusieurs comités conjoints et le processus de grief simultanément maximise la pression organisationnelle sur l'employeur, le forçant à traiter le sous-effectif systémique tôt.
+*Explication* : Escalader l'enjeu par plusieurs comités conjoints et le processus de grief simultanément maximise la pression organisationnelle sur l'employeur, le forçant à traiter le sous-effectif systémique tôt.
 
 ### Question 4
 Un travailleur refuse d'opérer un équipement avec un verrouillage de sécurité désactivé. La direction dit « mettez-le à l'ordre du jour du CPS du mois prochain ». Meilleure réponse du délégué ?
@@ -185,7 +185,7 @@ Un travailleur refuse d'opérer un équipement avec un verrouillage de sécurit�
 *   D) Dire au membre de travailler prudemment jusqu'à ce que le comité du pique-nique se réunisse.
 
 **Correct Answer: B**
-*Explanation* : Les refus vivants suivent le processus de la LSST et l'implication du CSTS ; la discussion au CPS n'est pas un substitut pour retirer le danger.
+*Explication* : Les refus vivants suivent le processus de la LSST et l'implication du CSTS ; la discussion au CPS n'est pas un substitut pour retirer le danger.
 
 ### Question 5
 Qu'est-ce qui appartient à un caucus syndical qui n'appartient **pas** à la rencontre conjointe avec la direction présente ?
@@ -195,7 +195,7 @@ Qu'est-ce qui appartient à un caucus syndical qui n'appartient **pas** à la re
 *   D) La feuille de présence pour le quorum statutaire.
 
 **Correct Answer: B**
-*Explanation* : Le caucus est où vit le désaccord. La table conjointe entend une position syndicale disciplinée.
+*Explication* : Le caucus est où vit le désaccord. La table conjointe entend une position syndicale disciplinée.
 
 ### Question 6
 Quelle affirmation capture le mieux la limite habituelle du CPS par rapport au CSTS ?
@@ -205,4 +205,4 @@ Quelle affirmation capture le mieux la limite habituelle du CPS par rapport au C
 *   D) Le CPS ne peut jamais discuter d'horaire ou de charge de travail sous aucune CC.
 
 **Correct Answer: C**
-*Explanation* : Connaissez la ligne de partage : le CSTS porte les dents statutaires de sécurité ; le CPS porte le dialogue opérationnel sauf si votre convention ajoute une morsure plus forte.
+*Explication* : Connaissez la ligne de partage : le CSTS porte les dents statutaires de sécurité ; le CPS porte le dialogue opérationnel sauf si votre convention ajoute une morsure plus forte.

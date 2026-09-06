@@ -808,7 +808,11 @@
         "financialHealthModule": "Module 5: Financial Health & Audits",
         "membershipListsModule": "Module 11: Member Lists & Data Privacy",
         "democraticGovernanceModule": "Module 4: Democratic Governance",
-        "collectivePowerModule": "Module 6: Building Collective Power"
+        "collectivePowerModule": "Module 6: Building Collective Power",
+        "settlementModule": "Module 8: Advanced Grievance & Settlement",
+        "contractEnforcementModule": "Module 1: Contract Enforcement",
+        "advancedFinanceModule": "Module 12: Advanced Local Finance",
+        "mobilizerModule": "Module 7: Mobilizer & Bargaining Partner"
       }
     },
     "reference": {

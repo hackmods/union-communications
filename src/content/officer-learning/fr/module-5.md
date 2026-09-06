@@ -157,7 +157,7 @@ Exercice : **Partie A — simulation d'audit de fiduciaire.** Étant donné un g
 - Formation syndicale du **Congrès du travail du Canada** — administration financière des sections locales
 - **Manuel du délégué** du SCFP — aperçu des finances locales pour les délégués qui surveillent la responsabilité de l'exécutif
 - **Fédération du travail de l'Ontario** — matériaux de formation des trésoriers et fiduciaires locaux
-- UnionOps : `/guide/union-boards`, `/guide/workshop`
+- UnionOps : `/guide/union-boards`, `/guide/officer-learning/advanced-local-finance`
 
 ---
 
@@ -171,7 +171,7 @@ Le président de la section locale soumet une réclamation de dépenses de 150 $
 *   D) Non, à moins que le président n'accepte de rembourser la portion de taxe de sa poche.
 
 **Correct Answer: B**
-*Explanation* : Pour assurer la conformité financière et prévenir la fraude, toutes les dépenses syndicales doivent être appuyées par des reçus originaux et détaillés. Les reçus de carte montrant seulement le total ne prouvent pas que la dépense était uniquement à des fins syndicales légitimes (p. ex. ils ne montrent pas si de l'alcool ou des articles personnels ont été achetés).
+*Explication* : Pour assurer la conformité financière et prévenir la fraude, toutes les dépenses syndicales doivent être appuyées par des reçus originaux et détaillés. Les reçus de carte montrant seulement le total ne prouvent pas que la dépense était uniquement à des fins syndicales légitimes (p. ex. ils ne montrent pas si de l'alcool ou des articles personnels ont été achetés).
 
 ### Question 2
 Le trésorier de la section locale part en vacances pour deux semaines. Pour s'assurer que les factures peuvent être payées pendant son absence, il signe trois chèques en blanc et les laisse dans le tiroir du bureau du président. Est-ce une pratique acceptable ?
@@ -181,7 +181,7 @@ Le trésorier de la section locale part en vacances pour deux semaines. Pour s'a
 *   D) Non, à moins que le secrétaire n'ait été témoin de l'endroit où les chèques sont cachés.
 
 **Correct Answer: B**
-*Explanation* : Présigner des chèques en blanc est une violation critique du contrôle financier. Cela permet à un seul dirigeant de dépenser les fonds syndicaux sans surveillance, exposant la section locale à des risques élevés d'erreur, de vol ou de transactions non autorisées.
+*Explication* : Présigner des chèques en blanc est une violation critique du contrôle financier. Cela permet à un seul dirigeant de dépenser les fonds syndicaux sans surveillance, exposant la section locale à des risques élevés d'erreur, de vol ou de transactions non autorisées.
 
 ### Question 3
 Un fiduciaire local élu est prié de combler une vacance soudaine pour le poste de vice-président local. Le fiduciaire peut-il servir de vice-président tout en poursuivant son mandat de fiduciaire ?
@@ -191,7 +191,7 @@ Un fiduciaire local élu est prié de combler une vacance soudaine pour le poste
 *   D) Non, à moins que l'assemblée générale n'adopte une dérogation spéciale.
 
 **Correct Answer: B**
-*Explanation* : Les fiduciaires servent de comité d'audit indépendant. Pour assurer un audit impartial des opérations financières de la section locale, les fiduciaires ne peuvent détenir aucun autre poste au conseil exécutif ayant un pouvoir de dépense ou de décision.
+*Explication* : Les fiduciaires servent de comité d'audit indépendant. Pour assurer un audit impartial des opérations financières de la section locale, les fiduciaires ne peuvent détenir aucun autre poste au conseil exécutif ayant un pouvoir de dépense ou de décision.
 
 ### Question 4
 Un membre demande pourquoi la section locale ne peut pas donner 500 $ de cotisations à la campagne d'un politicien. Meilleure réponse ?
@@ -201,7 +201,7 @@ Un membre demande pourquoi la section locale ne peut pas donner 500 $ de cotisat
 *   D) Les dons sous 500 $ sont toujours permis.
 
 **Correct Answer: A**
-*Explanation* : Les fonds locaux doivent faire avancer des fins syndicales. Les dons politiques personnels ou à des candidats sortent des dépenses approuvées, peu importe le montant ou l'alignement.
+*Explication* : Les fonds locaux doivent faire avancer des fins syndicales. Les dons politiques personnels ou à des candidats sortent des dépenses approuvées, peu importe le montant ou l'alignement.
 
 ### Question 5
 Le président pré-signe trois chèques vides « pour les urgences » avant des vacances de deux semaines. Le trésorier est indisponible. Meilleure réponse ?
@@ -211,7 +211,7 @@ Le président pré-signe trois chèques vides « pour les urgences » avant des 
 *   D) Laisser le vice-président signer seul parce qu'il agit comme président.
 
 **Correct Answer: B**
-*Explanation* : Les chèques vierges détruisent le double contrôle. L'urgence ne l'emporte jamais sur les reçus détaillés et deux signatures autorisées — reportez ou utilisez des signataires alternatifs selon les règlements.
+*Explication* : Les chèques vierges détruisent le double contrôle. L'urgence ne l'emporte jamais sur les reçus détaillés et deux signatures autorisées — reportez ou utilisez des signataires alternatifs selon les règlements.
 
 ### Question 6
 Les fiduciaires trouvent un reçu de repas de 400 $ avec de l'alcool parmi les aliments, payé à partir de la ligne budget formation. Action correcte ?
@@ -221,4 +221,4 @@ Les fiduciaires trouvent un reçu de repas de 400 $ avec de l'alcool parmi les a
 *   D) Demander au président d'approuver verbalement après coup.
 
 **Correct Answer: B**
-*Explanation* : Les fiduciaires rapportent les faits et recommandent des motions correctives — l'alcool sur une ligne formation est une violation de politique. Les reçus détaillés existent précisément pour repérer les erreurs de catégorie et d'objet.
+*Explication* : Les fiduciaires rapportent les faits et recommandent des motions correctives — l'alcool sur une ligne formation est une violation de politique. Les reçus détaillés existent précisément pour repérer les erreurs de catégorie et d'objet.

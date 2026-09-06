@@ -4,7 +4,7 @@
 
 Prévoyez **25 à 35 minutes** pour une première lecture, puis **20 minutes** supplémentaires pour compléter l'exercice pratique avec un partenaire. Apportez votre **convention collective**, un **carnet** et toute plainte récente d'un membre dont vous n'êtes pas certain. Si votre section locale dispose d'un programme de mentorat pour délégués, formez une paire avec un représentant expérimenté pour le scénario commenté et le jeu de rôle — le modèle de formation des délégués du Congrès du travail du Canada traite l'enquête comme une compétence acquise sur le plancher, pas seulement devant un écran.
 
-Lisez les sections 1 à 4 dans l'ordre ; elles intègrent le **filtre en 5 points**, les **6 W**, la **fiche FAR** et l'**immunité du représentant** en un seul processus. Après le quiz d'autoévaluation, passez un vrai dossier au travers de la liste de contrôle du plancher avant votre prochain quart. Les guides UnionOps `/guide/steward-101` et `/guide/grievance-process` complètent ce module lorsque vous avez besoin des mécanismes de dépôt étape par étape.
+Lisez les sections 1 à 4 dans l'ordre ; elles intègrent le **filtre en 5 points**, les **6 W**, la **fiche FAR** et l'**immunité du représentant** en un seul processus. Après le quiz d'autoévaluation, passez un vrai dossier au travers de la liste de contrôle du plancher avant votre prochain quart. Les guides UnionOps `/guide/steward-101` et `/guide/grievance-process` complètent ce module lorsque vous avez besoin des mécanismes de dépôt étape par étape. Le **module 8** approfondit l'architecture de dossier prêt pour l'arbitrage et le libellé de règlement — ce module possède le filtre d'admission, les 6 W et la FAR.
 
 💡 Note : Ce module suppose que vous savez déjà où se trouvent les délais de grief dans votre convention. Sinon, signalez cela comme premier devoir avant de représenter formellement qui que ce soit.
 
@@ -120,18 +120,22 @@ En droit du travail, lorsqu'un délégué élu ou nommé agit dans sa capacité 
 
 Exercice : Formez des paires. Une personne joue un délégué pressé ; l'autre joue un membre qui dit seulement « Ils me fous toujours dans les heures supplémentaires — je veux porter un grief. » Le délégué a sept minutes pour poser des questions sur les 6 W et compléter une fiche FAR d'une page. Inversez les rôles avec un scénario différent (pause manquée, jour de vacances refusé). Débriefing : Quelqu'un a-t-il déposé avant de confirmer une clause contractuelle ? Le VOULOIR est-il resté précis ?
 
+Exercice dans l'outil : ouvrez Outils → Fiches délégué → Plainte ou grief (/tools/complaint-vs-grievance) et notez le même scénario avant de rédiger la FAR.
+
 ---
 
 ## Liste de contrôle du plancher
 
 - [ ] Écouter le membre sans promettre un grief avant que le filtre ne soit appliqué
 - [ ] Extraire l'article de convention cité et lire la clause complète, pas le résumé du membre
+- [ ] Appliquer le filtre en 5 points et nommer quelle norme est violée (ou arrêter et accompagner)
 - [ ] Noter les dates : incident, prise de connaissance, délai de dépôt selon la convention
 - [ ] Identifier les gardiens des preuves (système d'horaires, horodateurs, courriels)
 - [ ] Interroger au moins un témoin ou documenter pourquoi aucun n'existe
-- [ ] Compléter la fiche FAR avant toute rencontre de l'étape 1
+- [ ] Compléter la fiche FAR avant toute rencontre de l'étape 1 — le VOULOIR doit être précis et exécutoire
 - [ ] Conserver les notes de façon sécurisée ; partager les détails du dossier seulement avec le membre et les dirigeants syndicaux selon les besoins
 - [ ] Confirmer le contexte d'immunité de représentation — rencontre ou plancher
+- [ ] Noter le dossier dans `/tools/complaint-vs-grievance` avant de déposer lorsque la porte est incertaine
 
 ---
 
@@ -151,7 +155,7 @@ Exercice : Formez des paires. Une personne joue un délégué pressé ; l'autre 
 - **Manuel du délégué** du SCFP — filtre plainte/grief et préparation des rencontres
 - Cours de traitement des griefs et de leadership en milieu de travail d'**Unifor** — constitution de dossiers et présentation des cas
 - **Loi sur les relations de travail** de l'Ontario et bulletins du BRET sur le DRE — devoirs de représentation et attentes de diligence
-- UnionOps : `/guide/steward-101`, `/guide/grievance-process`, `/guide/dfr`, `/guide/workshop`
+- UnionOps : `/guide/steward-101`, `/guide/grievance-process`, `/guide/dfr`, `/guide/workplace-mapping`
 
 ---
 
@@ -165,7 +169,7 @@ Un membre s'approche de vous, en colère, parce que son superviseur lui a dit qu
 *   D) Oui, mais seulement si la photo de famille affiche un motif protégé en droits de la personne.
 
 **Correct Answer: B**
-*Explanation* : Même si la convention collective est muette, l'application sélective et incohérente d'une règle non écrite (permettre des photos à certains employés tout en en refusant à d'autres sans raison d'affaires claire et objective) constitue un traitement arbitraire et inéquitable, satisfaisant les points 4 et 5 de la liste de contrôle.
+*Explication* : Même si la convention collective est muette, l'application sélective et incohérente d'une règle non écrite (permettre des photos à certains employés tout en en refusant à d'autres sans raison d'affaires claire et objective) constitue un traitement arbitraire et inéquitable, satisfaisant les points 4 et 5 de la liste de contrôle.
 
 ### Question 2
 Durant une rencontre de grief à l'étape 1, un superviseur coupe constamment la parole à un délégué et qualifie l'argument du syndicat de « ridicule et stupide ». Frustré, le délégué frappe la table et dit : « C'est un mensonge, et vous le savez. Votre interprétation est complètement incompétente ! » Le superviseur peut-il discipliner le délégué pour insubordination ?
@@ -175,7 +179,7 @@ Durant une rencontre de grief à l'étape 1, un superviseur coupe constamment la
 *   D) Non, mais seulement si le délégué s'excuse immédiatement après la fin de la rencontre.
 
 **Correct Answer: B**
-*Explanation* : Selon le principe du pied d'égalité, les délégués bénéficient de l'immunité du représentant durant les rencontres avec la direction. Bien que frapper la table et employer des mots forts soit tendu, cela ne franchit pas la limite de la violence physique ou d'actes illégaux, et ne peut donc pas être sanctionné comme insubordination.
+*Explication* : Selon le principe du pied d'égalité, les délégués bénéficient de l'immunité du représentant durant les rencontres avec la direction. Bien que frapper la table et employer des mots forts soit tendu, cela ne franchit pas la limite de la violence physique ou d'actes illégaux, et ne peut donc pas être sanctionné comme insubordination.
 
 ### Question 3
 Lequel des éléments suivants constitue le « Vouloir » (redressement) le plus efficace et juridiquement solide pour un grief impliquant une suspension sans solde ?
@@ -185,7 +189,7 @@ Lequel des éléments suivants constitue le « Vouloir » (redressement) le plus
 *   D) « Que l'employeur verse une amende à la section locale pour avoir violé la convention collective. »
 
 **Correct Answer: C**
-*Explanation* : Un redressement doit être précis, exécutoire et axé sur le fait de remettre le plaignant « dans sa situation antérieure » (le restaurer à la position où il se serait trouvé si la violation n'avait pas eu lieu). L'option C précise exactement ce qui doit être fait pour purger le dossier et restaurer les salaires et l'ancienneté perdus. L'option A dépasse généralement la compétence d'un arbitre (les syndicats ne peuvent habituellement pas dicter la discipline interne de la direction). L'option B est trop vague pour être exécutée.
+*Explication* : Un redressement doit être précis, exécutoire et axé sur le fait de remettre le plaignant « dans sa situation antérieure » (le restaurer à la position où il se serait trouvé si la violation n'avait pas eu lieu). L'option C précise exactement ce qui doit être fait pour purger le dossier et restaurer les salaires et l'ancienneté perdus. L'option A dépasse généralement la compétence d'un arbitre (les syndicats ne peuvent habituellement pas dicter la discipline interne de la direction). L'option B est trop vague pour être exécutée.
 
 ### Question 4
 Un membre vous demande d'enquêter sur un problème d'horaire mais insiste pour que vous ne parliez pas à son superviseur parce que « ça va empirer les choses ». Vous avez des relevés de temps qui appuient partiellement l'allégation, mais aucune déclaration de témoin. Quelle est la meilleure prochaine étape ?
@@ -195,7 +199,7 @@ Un membre vous demande d'enquêter sur un problème d'horaire mais insiste pour 
 *   D) Contacter le superviseur vous-même sans informer le membre pour recueillir des faits en secret.
 
 **Correct Answer: B**
-*Explanation* : L'enquête exige des faits objectifs. Vous devez équilibrer les préoccupations du membre avec le besoin d'un dossier défendable, documenter les limites de façon transparente, et éviter de déposer des griefs fondés uniquement sur des ouï-dire ou de mener des enquêtes secrètes qui brisent la confiance et l'équité procédurale.
+*Explication* : L'enquête exige des faits objectifs. Vous devez équilibrer les préoccupations du membre avec le besoin d'un dossier défendable, documenter les limites de façon transparente, et éviter de déposer des griefs fondés uniquement sur des ouï-dire ou de mener des enquêtes secrètes qui brisent la confiance et l'équité procédurale.
 
 ### Question 5
 La convention collective exige un grief écrit dans les dix jours ouvrables suivant la prise de connaissance de la violation par le membre. Maria apprend qu'elle a été passée samedi, mais attend le vendredi suivant pour vous appeler par embarras. Aujourd'hui, c'est lundi de la deuxième semaine. Quelle est la priorité du délégué ?
@@ -205,7 +209,7 @@ La convention collective exige un grief écrit dans les dix jours ouvrables suiv
 *   D) Attendre deux témoins supplémentaires avant de compter le délai.
 
 **Correct Answer: B**
-*Explanation* : Les délais de dépôt commencent habituellement à la prise de connaissance, pas à l'incident lui-même. Les délégués doivent calculer les échéances le jour même, déposer dans la fenêtre lorsque possible, et documenter honnêtement le retard du membre — l'embarras n'est pas de la malveillance, mais les délais manqués sont fatals.
+*Explication* : Les délais de dépôt commencent habituellement à la prise de connaissance, pas à l'incident lui-même. Les délégués doivent calculer les échéances le jour même, déposer dans la fenêtre lorsque possible, et documenter honnêtement le retard du membre — l'embarras n'est pas de la malveillance, mais les délais manqués sont fatals.
 
 ### Question 6
 Un membre insiste : « Tout le monde sait que le superviseur favorise — déposez. » Vous avez les relevés de temps de Maria et un collègue prêt à confirmer l'ordre de la liste. Est-ce suffisant pour ouvrir un dossier ?
@@ -215,4 +219,4 @@ Un membre insiste : « Tout le monde sait que le superviseur favorise — dépos
 *   D) Non — attendre que trois membres joignent un seul grief.
 
 **Correct Answer: B**
-*Explanation* : Les ouï-dire seuls échouent, mais un patron documenté avec dossiers et au moins un témoin volontaire bat « tout le monde sait ». Complétez le cadre d'enquête avant de déposer ; n'attendez pas l'unanimité parfaite.
+*Explication* : Les ouï-dire seuls échouent, mais un schéma documenté avec dossiers et au moins un témoin volontaire bat « tout le monde sait ». Complétez le cadre d'enquête avant de déposer ; n'attendez pas l'unanimité parfaite.

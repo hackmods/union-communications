@@ -47,6 +47,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 | Officer Learning olTheme + Guides nav IA | **Shipped 2026-08-28** — platform orange tokens; guide registry; [`session-knowledge-2026-08-28-officer-learning-nav-guides.md`](../../docs/audit/session-knowledge-2026-08-28-officer-learning-nav-guides.md) |
 | Officer Learning modules 7–10 | **Shipped 2026-09-06** — mobilizer, settlement, benefits/disability, joint committees; [`session-knowledge-2026-09-06-officer-learning-modules-7-10.md`](../../docs/audit/session-knowledge-2026-09-06-officer-learning-modules-7-10.md) |
 | Officer Learning modules 11–14 | **Shipped 2026-09-06** — lists/privacy, advanced finance, digital security/transitions, everyday value; content review 7–14; [`session-knowledge-2026-09-06-officer-learning-modules-11-14.md`](../../docs/audit/session-knowledge-2026-09-06-officer-learning-modules-11-14.md) |
+| Officer Learning system uplift | **Shipped 2026-09-06** — claim audit 1–14, path md 2/lg 4/xl 5, claim-chain guards; [`session-knowledge-2026-09-06-officer-learning-system-uplift.md`](../../docs/audit/session-knowledge-2026-09-06-officer-learning-system-uplift.md) |
 | Public UX uplift (guides/tools/pages) | **Shipped 2026-08-27** — flexible `GuideLayout` presets, playbook TOC rails, tools catalog labour strip; [`public-space-composition-audit-2026-08.md`](../../docs/audit/public-space-composition-audit-2026-08.md) |
 
 ## Next planned work (in order)

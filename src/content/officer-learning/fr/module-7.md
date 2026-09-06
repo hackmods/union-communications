@@ -4,7 +4,7 @@
 
 Prévoyez **40 à 50 minutes**. Lisez avec votre **convention collective**, une carte de milieu de travail vierge (quarts × classifications), et un carnet pour les idées d'escalade. Parcourez les limites juridiques de la section 4 avec votre représentant de service ou un conseiller juridique avant de lancer tout *work-to-rule* — ce module enseigne la carte ; le conseil juridique assume le jugement de risque.
 
-Les sections passent du cycle de négociation à la cartographie démographique, à l'échelle d'escalade à cinq échelons, et aux limites de grève du *Code des relations de travail* (LRT) de l'Ontario. Associez `/guide/workplace-mapping`, `/guide/bargaining`, `/guide/strike`, et `/guide/membership-signup`. L'éducation à l'organisation du **CTC** et le **Leadership en milieu de travail d'Unifor** approfondissent la pratique de cartographie ; les chapitres du **manuel des délégués du SCFP** sur la pression au lieu de travail renforcent la prudence juridique.
+Les sections passent du cycle de négociation à la cartographie démographique, à l'échelle d'escalade à cinq échelons, et aux limites de grève du *Code des relations de travail* (LRT) de l'Ontario. Associez `/guide/workplace-mapping`, `/guide/bargaining`, `/guide/strike`, et `/guide/membership-signup`. Le **module 6** possède le langage de négociation d'équité et la RAD ; **ce module** possède les échelles de mobilisation et les limites de grève en cours de convention du LRT — les guides publics sont des cahiers de marche, pas un second cours OL. L'éducation à l'organisation du **CTC** et le **Leadership en milieu de travail d'Unifor** approfondissent la pratique de cartographie ; les chapitres du **manuel des délégués du SCFP** sur la pression au lieu de travail renforcent la prudence juridique.
 
 🪞 Réflexion : Une convention sans plancher organisé est un document. Votre travail est de transformer l'encre en pouvoir — légalement.
 
@@ -166,7 +166,7 @@ Durant un tour de négociation tendu, un superviseur demande à un délégué d'
 *   D) Non, sauf si chaque membre a déjà déposé un grief individuel d'heures supplémentaires.
 
 **Correct Answer: B**
-*Explanation* : Le refus coordonné de tâches strictement volontaires et non contractuelles est une forme protégée de pression au lieu de travail (*Work-to-Rule*) et ne constitue pas une grève illégale, pourvu que les devoirs contractuels normaux soient accomplis à un rythme standard.
+*Explication* : Le refus coordonné de tâches strictement volontaires et non contractuelles est une forme protégée de pression au lieu de travail (*Work-to-Rule*) et ne constitue pas une grève illégale, pourvu que les devoirs contractuels normaux soient accomplis à un rythme standard.
 
 ### Question 2
 Quel est le but premier de construire une « carte du milieu de travail » durant le cycle de négociation ?
@@ -176,7 +176,7 @@ Quel est le but premier de construire une « carte du milieu de travail » duran
 *   D) Remplacer le besoin de sondages de négociation et d'assemblées.
 
 **Correct Answer: C**
-*Explanation* : La cartographie du milieu de travail est un outil d'organisation utilisé pour identifier les leaders naturels, suivre les réseaux sociaux et localiser les poches de l'effectif isolées ou désengagées des activités syndicales.
+*Explication* : La cartographie du milieu de travail est un outil d'organisation utilisé pour identifier les leaders naturels, suivre les réseaux sociaux et localiser les poches de l'effectif isolées ou désengagées des activités syndicales.
 
 ### Question 3
 Lequel des éléments suivants est considéré comme un « drapeau rouge » procédural qui pourrait transformer une campagne de *work-to-rule* en grève illégale ?
@@ -186,7 +186,7 @@ Lequel des éléments suivants est considéré comme un « drapeau rouge » proc
 *   D) Prendre chaque pause contractuelle exactement comme prévue dans la convention collective.
 
 **Correct Answer: A**
-*Explanation* : Refuser des heures supplémentaires contractuellement obligatoires ou historiquement contraignantes peut être interprété par les tribunaux d'arbitrage comme un ralentissement de travail illégal et coordonné.
+*Explication* : Refuser des heures supplémentaires contractuellement obligatoires ou historiquement contraignantes peut être interprété par les tribunaux d'arbitrage comme un ralentissement de travail illégal et coordonné.
 
 ### Question 4
 Quelle séquence reflète le mieux le cycle de négociation continu dans lequel les délégués travaillent ?
@@ -196,7 +196,7 @@ Quelle séquence reflète le mieux le cycle de négociation continu dans lequel 
 *   D) Élaboration des demandes par l'employeur, puis tamponnage du délégué.
 
 **Correct Answer: B**
-*Explanation* : Les délégués appliquent la convention, convertissent la douleur du plancher en demandes, puis appuient la table — le cycle ne commence pas à l'avis de négocier seul.
+*Explication* : Les délégués appliquent la convention, convertissent la douleur du plancher en demandes, puis appuient la table — le cycle ne commence pas à l'avis de négocier seul.
 
 ### Question 5
 Une section locale passe d'une journée de chandails réussie directement à une interdiction d'heures supplémentaires en cours de convention sans avis juridique. Quel est le risque principal ?
@@ -206,7 +206,7 @@ Une section locale passe d'une journée de chandails réussie directement à une
 *   D) Les interdictions d'heures supplémentaires sont toujours légales si la pétition a cinquante signatures.
 
 **Correct Answer: B**
-*Explanation* : Le droit du travail ontarien traite de nombreux retraits concertés de services pendant la durée d'une CC — y compris interdictions d'HS et ralentissements — comme activité de grève qui peut être illégale en cours de convention.
+*Explication* : Le droit du travail ontarien traite de nombreux retraits concertés de services pendant la durée d'une CC — y compris interdictions d'HS et ralentissements — comme activité de grève qui peut être illégale en cours de convention.
 
 ### Question 6
 Vous avez cartographié trois leaders organiques de nuit et un noyau de jour qui assiste déjà aux AGM. Meilleure prochaine étape de mobilisation ?
@@ -216,4 +216,4 @@ Vous avez cartographié trois leaders organiques de nuit et un noyau de jour qui
 *   D) Sauter les événements de solidarité et annoncer immédiatement la préparation à la grève.
 
 **Correct Answer: B**
-*Explanation* : La cartographie n'aide que si vous organisez les poches isolées — les leaders organiques de nuit transforment un club de jour en pouvoir à l'échelle du site.
+*Explication* : La cartographie n'aide que si vous organisez les poches isolées — les leaders organiques de nuit transforment un club de jour en pouvoir à l'échelle du site.

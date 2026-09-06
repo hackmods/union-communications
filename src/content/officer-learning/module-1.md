@@ -4,7 +4,7 @@
 
 Set aside **25–35 minutes** for a first read, then another **20 minutes** to complete the practice drill with a partner. Bring your **collective agreement**, a **notepad**, and any recent member complaint you are unsure about. If your local has a mentor steward program, pair with an experienced rep for the worked scenario and role-play — the Canadian Labour Congress steward education model treats investigation as a skill learned on the floor, not from a screen alone.
 
-Read sections 1–4 in order; they build the **5-Point Filter**, the **6 W's**, the **FAR sheet**, and **representative immunity** into one workflow. After the Self-Test Quiz, walk one real file through the floor checklist before your next shift. UnionOps guides `/guide/steward-101` and `/guide/grievance-process` complement this module when you need step-by-step filing mechanics.
+Read sections 1–4 in order; they build the **5-Point Filter**, the **6 W's**, the **FAR sheet**, and **representative immunity** into one workflow. After the Self-Test Quiz, walk one real file through the floor checklist before your next shift. UnionOps guides `/guide/steward-101` and `/guide/grievance-process` complement this module when you need step-by-step filing mechanics. **Module 8** deepens trial-ready file architecture and settlement wording — this module owns the intake filter, 6 W's, and FAR.
 
 💡 Note: This module assumes you already know where grievance deadlines live in your contract. If not, flag that as your first homework item before representing anyone formally.
 
@@ -128,12 +128,14 @@ Practice in the tool: open Tools → Steward worksheets → Complaint vs grievan
 
 - [ ] Hear the member out without promising a grievance before the filter runs
 - [ ] Pull the cited contract article and read the full clause, not the member's summary
+- [ ] Run the 5-Point Filter and name which standard is violated (or stop and coach)
 - [ ] Record dates: incident, awareness, filing deadline from the agreement
 - [ ] Identify custodians of evidence (scheduling system, time clocks, emails)
 - [ ] Interview at least one witness or document why none exist
-- [ ] Complete FAR sheet before any Step 1 meeting
+- [ ] Complete FAR sheet before any Step 1 meeting — WANT must be specific and enforceable
 - [ ] Store notes securely; share file details only with the member and union officers as required
 - [ ] Confirm representation immunity context — meeting vs. shop floor
+- [ ] Score the file in `/tools/complaint-vs-grievance` before filing when the gate is unclear
 
 ---
 

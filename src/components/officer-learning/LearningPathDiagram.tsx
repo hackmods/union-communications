@@ -23,7 +23,7 @@ type Props = {
 
 /**
  * Officer Learning path with live progress on the dashboard.
- * Mobile: stacked steps. Desktop: 4→5 column grid so fourteen long titles
+ * Mobile: stacked steps. md+: 2→4→5 column grid so fourteen long titles
  * wrap inside the card instead of overflowing into neighbours (7-col was too narrow).
  */
 export function LearningPathDiagram({ steps, label, className }: Props) {
@@ -38,8 +38,8 @@ export function LearningPathDiagram({ steps, label, className }: Props) {
     <nav aria-label={label} className={cn(olTheme.pathNav, className)}>
       <p className={cn("mb-4", olTheme.sectionLabel)}>{label}</p>
 
-      {/* Mobile / tablet: vertical path with connectors */}
-      <ol className="flex flex-col gap-3 lg:hidden">
+      {/* Phone: vertical path with connectors */}
+      <ol className="flex flex-col gap-3 md:hidden">
         {steps.map((step, index) => (
           <li key={step.id} className="flex min-w-0 items-stretch gap-2">
             <PathStepLink
@@ -56,8 +56,8 @@ export function LearningPathDiagram({ steps, label, className }: Props) {
         ))}
       </ol>
 
-      {/* lg+: wider cells (4 cols → 5 at xl) — titles line-clamp inside the card */}
-      <ol className="hidden gap-2 lg:grid lg:grid-cols-4 xl:grid-cols-5">
+      {/* md+: wider cells (2 → 4 at lg → 5 at xl) — titles line-clamp inside the card */}
+      <ol className="hidden gap-2 md:grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
         {steps.map((step) => (
           <li key={step.id} className="min-w-0">
             <PathStepLink

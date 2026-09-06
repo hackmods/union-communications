@@ -1,6 +1,14 @@
 # Progress Log
 
-## Officer Learning modules 11–14 + content review 7–14 (2026-09-06)
+## 2026-09-06 — Officer Learning system uplift (modules 1–14 + chrome)
+
+- [x] Inventory + overlap matrix vs peer modules/guides (complementary; no trim contradictions)
+- [x] EN+FR claim audit all 14; fixed M8 EN prejudice/precedent explanation, M1 FR `patron`→`schéma`, checklists ≥10 (M1/M2/M4), FR `*Explication*`, peer How-to/related wiring
+- [x] `LearningPathDiagram` mid-width: md 2-col / lg 4 / xl 5; related M1↔M8, M5→M12, M6↔M7
+- [x] Guard: `claim-chain-guards.test.ts` (legal-term pairs, FR labels, checklist ≥10)
+- [x] Session knowledge + this PROGRESS note; What’s new skipped (accuracy/chrome only)
+
+## 2026-09-06 — Officer Learning modules 11–14 + content review 7–14
 
 - [x] Modules 11–14 EN+FR (lists/privacy, advanced finance, digital security/transitions, everyday union value) with tables, callouts, worked scenarios, ≥10-item checklists, 6-question quizzes
 - [x] Covers `module-11.webp`…`module-14.webp` (watermark-free); catalog/SEO/sitemap/sources/related sheets/diagrams/timelines/What's new

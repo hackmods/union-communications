@@ -4,7 +4,7 @@
 
 Allow **40–50 minutes**. Bring your local bylaws retention clause (if any), a sketch of your current digital folder tree, and the last Officer Transition Checklist your local used — or a blank template if elections are coming. Walk cybersecurity guardrails with your executive before moving grievance files or membership data to any new drive.
 
-Sections move from information architecture through retention schedules, cybersecurity, and the Officer Transition Checklist. Pair with Module 11 (member lists and data privacy) and `/guide/membership-signup`. **CLC** secretary education and **CUPE** local administration materials reinforce retention discipline; Ontario locals should confirm seven-year financial rules with their national union and CRA guidance.
+Sections move from information architecture through retention schedules, cybersecurity, and the Officer Transition Checklist. Pair with Module 11 (member lists and data privacy) and `/guide/membership-signup`. **Module 11** owns list content and who may receive it (Rand, political/commercial bans); **this module** owns where all union records live, how long they are kept, and how officers hand them over — both forbid employer OneDrive/Teams, for different jobs. **CLC** secretary education and **CUPE** local administration materials reinforce retention discipline; Ontario locals should confirm seven-year financial rules with their national union and CRA guidance.
 
 🪞 Reflection: A lost password is an inconvenience. A grievance file on employer OneDrive is a breach waiting to happen.
 

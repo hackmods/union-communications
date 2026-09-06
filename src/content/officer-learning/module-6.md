@@ -4,7 +4,7 @@
 
 Allow **40–50 minutes** — this module covers heavy material. Read in a setting where you can pause and reflect. Bring bargaining survey drafts if available, your **collective agreement** preamble and leave language, and a **notepad**. Discuss Section 4 cultural protocols with Indigenous members or your local's equity committee before hosting ceremonies — this module introduces protocols; community relationships guide practice.
 
-Sections move from systemic vs. individual bias through equity bargaining, contract language, and ADR with cultural protocols. Pair with `/guide/joint-committee` for committee structures and `/guide/workshop` for member education events. **CLC** anti-racism labour education and **CUPE Stop Harassment guide** deepen Sections 1 and 3.
+Sections move from systemic vs. individual bias through equity bargaining, contract language, and ADR with cultural protocols. Pair with `/guide/bargaining`, `/guide/strike`, and `/guide/membership-signup` for campaign runbooks. **Module 7** deepens mobilization ladders and LRA mid-term strike boundaries — this module owns equity language and ADR. **CLC** anti-racism labour education and **CUPE Stop Harassment guide** deepen Sections 1 and 3.
 
 🪞 Reflection: Systemic change is slower than calling out one racist joke — but it is how the next member avoids the same barrier.
 
@@ -164,7 +164,7 @@ Practice: **Round 1 — Bargaining committee tabletop.** Given membership map sh
 - **Unifor Grievance Handling & Workplace Leadership courses** — representative committees and power mapping
 - **Ontario Human Rights Commission** — **Human Rights at Work** (systemic discrimination concepts)
 - **Ontario Federation of Labour** — equity and inclusion resources for locals
-- UnionOps: `/guide/joint-committee`, `/guide/workshop`, `/guide/steward-101`, `/guide/photo-consent`
+- UnionOps: `/guide/bargaining`, `/guide/strike`, `/guide/membership-signup`, `/guide/workplace-mapping`, `/guide/joint-committee`, `/guide/steward-101`, `/guide/officer-learning/mobilizer-bargaining-partner`
 
 ---
 

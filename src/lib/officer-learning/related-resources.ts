@@ -8,6 +8,11 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
     { href: "/guide/steward-101", labelKey: "steward101", kind: "guide" },
     { href: "/guide/grievance-process", labelKey: "grievanceProcess", kind: "guide" },
     {
+      href: "/guide/officer-learning/advanced-grievance-settlement",
+      labelKey: "settlementModule",
+      kind: "guide",
+    },
+    {
       href: "/tools/qr-card?preset=stewardRepresentation",
       labelKey: "stewardPocketCard",
       kind: "pocket",
@@ -52,6 +57,11 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
   "financial-health": [
     { href: "/tools/document-generator", labelKey: "documentGenerator", kind: "tool" },
     { href: "/guide/union-boards", labelKey: "unionBoards", kind: "guide" },
+    {
+      href: "/guide/officer-learning/advanced-local-finance",
+      labelKey: "advancedFinanceModule",
+      kind: "guide",
+    },
   ],
   "building-collective-power": [
     { href: "/guide/workplace-mapping", labelKey: "workplaceMapping", kind: "guide" },
@@ -61,6 +71,11 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
     { href: "/guide/membership-signup", labelKey: "membershipSignup", kind: "guide" },
     { href: "/guide/crisis", labelKey: "crisis", kind: "guide" },
     { href: "/tools/solidarity-poster", labelKey: "solidarityPoster", kind: "tool" },
+    {
+      href: "/guide/officer-learning/mobilizer-bargaining-partner",
+      labelKey: "mobilizerModule",
+      kind: "guide",
+    },
   ],
   "mobilizer-bargaining-partner": [
     { href: "/guide/workplace-mapping", labelKey: "workplaceMapping", kind: "guide" },
@@ -69,6 +84,11 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
     { href: "/guide/membership-signup", labelKey: "membershipSignup", kind: "guide" },
     { href: "/tools/proposal-tracker", labelKey: "proposalTracker", kind: "tool" },
     { href: "/tools/solidarity-poster", labelKey: "solidarityPoster", kind: "tool" },
+    {
+      href: "/guide/officer-learning/building-collective-power",
+      labelKey: "collectivePowerModule",
+      kind: "guide",
+    },
   ],
   "advanced-grievance-settlement": [
     { href: "/guide/grievance-process", labelKey: "grievanceProcess", kind: "guide" },
@@ -79,6 +99,11 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
       kind: "tool",
     },
     { href: "/guide/steward-101", labelKey: "steward101", kind: "guide" },
+    {
+      href: "/guide/officer-learning/contract-enforcement",
+      labelKey: "contractEnforcementModule",
+      kind: "guide",
+    },
     {
       href: "/tools/qr-card?preset=stewardRepresentation",
       labelKey: "stewardPocketCard",

@@ -4,7 +4,7 @@
 
 Allow **40–50 minutes**. Bring a recent grievance file (or the blank intake from Document Generator), your **collective agreement**, and a notepad for settlement language. Practice open-door wording on a live file before your next step meeting — theory without a draft rarely sticks.
 
-Sections move from the five-part grievance file through open-door wording, without prejudice vs. without precedent, and Four Corners settlement discipline. Pair with `/guide/grievance-process` and `/tools/complaint-vs-grievance`. Use Document Generator grievance intake worksheets to structure chronology. **CUPE steward handbook** and **Unifor Grievance Handling** courses deepen file architecture; arbitral practice on make-whole remedies informs remedy asks.
+Sections move from the five-part grievance file through open-door wording, without prejudice vs. without precedent, and Four Corners settlement discipline. Pair with `/guide/grievance-process` and `/tools/complaint-vs-grievance`. **Module 1** owns the complaint-vs-grievance filter, 6 W's, and FAR intake; **this module** owns trial-ready file pillars, open-door drafting, and MOS / Four Corners settlement discipline — the grievance-process guide covers step filing mechanics. Use Document Generator grievance intake worksheets to structure chronology. **CUPE steward handbook** and **Unifor Grievance Handling** courses deepen file architecture; arbitral practice on make-whole remedies informs remedy asks.
 
 🪞 Reflection: A weak grievance form loses arguments before the meeting starts. Write for the arbitrator you hope never to need.
 
@@ -164,7 +164,7 @@ If a settlement is signed "Without Precedent," what does this legally mean for f
 *   D) The grievance remains open until an arbitrator endorses the settlement.
 
 **Correct Answer: A**
-*Explanation*: "Without prejudice" ensures that the compromise made to settle a specific dispute does not establish a permanent interpretation of the contract that can be weaponized in future cases.
+*Explanation*: "Without precedent" ensures that the compromise made to settle a specific dispute does not establish a permanent interpretation of the contract that can be weaponized in future cases.
 
 ### Question 3
 During a step meeting, HR verbally promises to clean up the scheduling backlog if the union withdraws the grievance. The steward signs a "Full and Final" settlement that does not mention this promise. Can the union enforce the verbal promise later?

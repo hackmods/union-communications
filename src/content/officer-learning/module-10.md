@@ -4,7 +4,7 @@
 
 Allow **40–50 minutes**. Bring your JHSC terms of reference (or OHSA-required structure notes), any Labour-Management Committee (LMC) minutes, and a current hazard or workload complaint from the floor. Sketch who sits where using `/tools/org-chart` before the practice drill — committee power is useless if stewards cannot find the right door.
 
-Sections move from JHSC vs. LMC mandates through United Caucus Discipline, multi-committee escalation, and OHSA work-refusal routes that engage the JHSC. Pair with `/guide/joint-committee` and `/guide/right-to-refuse`. **CLC** health and safety education and provincial OHSA concepts deepen statutory powers; LMC practice stays consultative unless your CA says otherwise.
+Sections move from JHSC vs. LMC mandates through United Caucus Discipline, multi-committee escalation, and OHSA work-refusal routes that engage the JHSC. Pair with `/guide/joint-committee` and `/guide/right-to-refuse`. **This module** trains steward routing, caucus discipline, and parallel escalation; the **joint-committee guide** owns standing-committee charters, cadence, and meeting ops — do not rebuild those templates here. **CLC** health and safety education and provincial OHSA concepts deepen statutory powers; LMC practice stays consultative unless your CA says otherwise.
 
 🪞 Reflection: Joint tables are caucuses with a purpose — not audiences for management presentations.
 
@@ -45,7 +45,7 @@ Before any joint meeting, union reps hold a **private pre-meeting (caucus)**:
 
 **United Caucus Discipline:** Never disagree, argue, or break ranks in front of management. A public split teaches the employer which rep to peel off. Debate hard in caucus; speak with one voice at the table.
 
-⚠️ Warning: "Just being honest" in front of HR is not transparency — it is free intelligence for the other side.
+⚠️ Warning: "Just being honest" in front of HR is not transparency — it is free intelligence for the other side. Resolve disagreements in caucus first; present one united ask at the joint table.
 
 ---
 

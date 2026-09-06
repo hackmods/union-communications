@@ -163,7 +163,7 @@ Un employeur exige qu'un travailleur de retour fournisse son dossier médical co
 *   D) Offrir le dossier complet si les RH acceptent de le ranger dans une armoire verrouillée.
 
 **Correct Answer: B**
-*Explanation* : Les employeurs ont le droit de savoir quelles tâches un travailleur peut accomplir en sécurité, mais ils n'ont aucun droit aux notes diagnostiques ou thérapeutiques confidentielles sous les principes établis de confidentialité des droits de la personne.
+*Explication* : Les employeurs ont le droit de savoir quelles tâches un travailleur peut accomplir en sécurité, mais ils n'ont aucun droit aux notes diagnostiques ou thérapeutiques confidentielles sous les principes établis de confidentialité des droits de la personne.
 
 ### Question 2
 Quand un employeur peut-il légalement forcer un membre à subir un examen médical indépendant (EME) par un médecin choisi par l'employeur ?
@@ -173,7 +173,7 @@ Quand un employeur peut-il légalement forcer un membre à subir un examen médi
 *   D) Automatiquement après l'ouverture de toute réclamation CSPAAT, indépendamment du langage de la CC.
 
 **Correct Answer: B**
-*Explanation* : Forcer un employé à voir un médecin nommé par l'employeur est une atteinte à la vie privée. Cela n'est permis que lorsqu'explicitement négocié dans la convention collective ou quand le médecin de l'employé échoue à clarifier des restrictions fonctionnelles conflictuelles.
+*Explication* : Forcer un employé à voir un médecin nommé par l'employeur est une atteinte à la vie privée. Cela n'est permis que lorsqu'explicitement négocié dans la convention collective ou quand le médecin de l'employé échoue à clarifier des restrictions fonctionnelles conflictuelles.
 
 ### Question 3
 Le programme de gestion de l'assiduité (PGA) d'un employeur place automatiquement un membre sur un plan d'action correctif parce qu'il a manqué 10 jours de travail en raison de traitements documentés pour une invalidité chronique. Cette administration du programme est-elle légale ?
@@ -183,7 +183,7 @@ Le programme de gestion de l'assiduité (PGA) d'un employeur place automatiqueme
 *   D) Oui, si le livret de PGA a été remis au membre à l'orientation.
 
 **Correct Answer: B**
-*Explanation* : Appliquer une politique d'assiduité « neutre » de façon mécaniste à un travailleur avec une invalidité est discriminatoire. Les absences liées à l'invalidité doivent être accommodées et exclues des comptes PGA punitifs.
+*Explication* : Appliquer une politique d'assiduité « neutre » de façon mécaniste à un travailleur avec une invalidité est discriminatoire. Les absences liées à l'invalidité doivent être accommodées et exclues des comptes PGA punitifs.
 
 ### Question 4
 Quel est le principal rôle de défense d'un comité conjoint d'assurance (CCA) quand un transporteur refuse l'ILD ?
@@ -193,7 +193,7 @@ Quel est le principal rôle de défense d'un comité conjoint d'assurance (CCA) 
 *   D) Renoncer à toutes les échéances d'appel en échange d'une rencontre.
 
 **Correct Answer: B**
-*Explanation* : Les CCA sont des forums de surveillance conjointe — ils escaladent les schémas de refus et de retard ; ils n'effacent pas les horloges d'appel du régime ni les devoirs de confidentialité.
+*Explication* : Les CCA sont des forums de surveillance conjointe — ils escaladent les schémas de refus et de retard ; ils n'effacent pas les horloges d'appel du régime ni les devoirs de confidentialité.
 
 ### Question 5
 En quoi le focus de ce module diffère-t-il de la formation Meiorin/EPJ du module 3 ?
@@ -203,7 +203,7 @@ En quoi le focus de ce module diffère-t-il de la formation Meiorin/EPJ du modul
 *   D) Il n'y a pas de différence — les deux modules sont des scripts d'accommodement identiques.
 
 **Correct Answer: B**
-*Explanation* : Gardez les voies droites : les combats EPJ testent les exigences essentielles ; ce module combat les systèmes de réclamations, le dépassement de confidentialité et le calcul punitif d'assiduité.
+*Explication* : Gardez les voies droites : les combats EPJ testent les exigences essentielles ; ce module combat les systèmes de réclamations, le dépassement de confidentialité et le calcul punitif d'assiduité.
 
 ### Question 6
 Un formulaire d'aptitudes fonctionnelles appuie déjà des quarts de jour modifiés. Les RH exigent encore les noms de médicaments « pour la sécurité ». Meilleure réponse du délégué ?
@@ -213,4 +213,4 @@ Un formulaire d'aptitudes fonctionnelles appuie déjà des quarts de jour modifi
 *   D) Permettre aux RH d'assister aux séances de thérapie comme représentant du milieu de travail.
 
 **Correct Answer: B**
-*Explanation* : Quand les fonctions permettent déjà de concevoir un travail sécuritaire, les listes de médicaments sont de la pêche diagnostique — pas une condition préalable de sécurité.
+*Explication* : Quand les fonctions permettent déjà de concevoir un travail sécuritaire, les listes de médicaments sont de la pêche diagnostique — pas une condition préalable de sécurité.

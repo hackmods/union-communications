@@ -1,6 +1,6 @@
 # Plan — Officer Learning system uplift audit (next session)
 
-**Status:** ready to run in a fresh chat  
+**Status:** executed 2026-09-06 — findings + fixes in [`session-knowledge-2026-09-06-officer-learning-system-uplift.md`](session-knowledge-2026-09-06-officer-learning-system-uplift.md)  
 **Date drafted:** 2026-09-06  
 **Depends on:** modules 1–14 shipped; lessons in [`session-knowledge-2026-09-06-officer-learning-lessons.md`](session-knowledge-2026-09-06-officer-learning-lessons.md)  
 **Goal shape:** system QOL / correctness uplift — **not** “add module 15” unless product asks

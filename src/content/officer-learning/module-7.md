@@ -4,7 +4,7 @@
 
 Allow **40–50 minutes**. Read with your **collective agreement**, a blank workplace map (shifts × classifications), and a notepad for escalation ideas. Walk Section 4 legal boundaries with your servicing representative or legal counsel before launching any work-to-rule — this module teaches the map; counsel owns the risk call.
 
-Sections move from the bargaining cycle through demographic mapping, the five-rung escalation ladder, and Ontario *Labour Relations Act* (LRA) strike boundaries. Pair with `/guide/workplace-mapping`, `/guide/bargaining`, `/guide/strike`, and `/guide/membership-signup`. **CLC** organizing education and **Unifor Workplace Leadership** deepen mapping practice; **CUPE steward handbook** chapters on worksite pressure reinforce legal caution.
+Sections move from the bargaining cycle through demographic mapping, the five-rung escalation ladder, and Ontario *Labour Relations Act* (LRA) strike boundaries. Pair with `/guide/workplace-mapping`, `/guide/bargaining`, `/guide/strike`, and `/guide/membership-signup`. **Module 6** owns equity bargaining language and ADR; **this module** owns mobilization ladders and mid-term LRA strike boundaries — the public guides are runbooks, not a second OL course. **CLC** organizing education and **Unifor Workplace Leadership** deepen mapping practice; **CUPE steward handbook** chapters on worksite pressure reinforce legal caution.
 
 🪞 Reflection: A contract without an organized floor is a document. Your job is to turn ink into power — legally.
 

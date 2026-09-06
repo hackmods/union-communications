@@ -4,7 +4,7 @@
 
 Prévoyez **40 à 50 minutes**. Apportez un dossier de grief récent (ou la prise en charge vierge du Générateur de documents), votre **convention collective**, et un carnet pour le langage de règlement. Pratiquez le libellé à porte ouverte sur un dossier vivant avant votre prochaine rencontre d'étape — la théorie sans brouillon colle rarement.
 
-Les sections passent du dossier de grief en cinq parties au libellé à porte ouverte, sans préjudice vs sans précédent, et à la discipline de règlement des Quatre coins. Associez `/guide/grievance-process` et `/tools/complaint-vs-grievance`. Utilisez les feuilles de prise en charge de grief du Générateur de documents pour structurer la chronologie. Le **manuel des délégués du SCFP** et les cours de **traitement des griefs d'Unifor** approfondissent l'architecture du dossier ; la pratique arbitrale sur les remèdes de réparation intégrale informe les demandes de remède.
+Les sections passent du dossier de grief en cinq parties au libellé à porte ouverte, sans préjudice vs sans précédent, et à la discipline de règlement des Quatre coins. Associez `/guide/grievance-process` et `/tools/complaint-vs-grievance`. Le **module 1** possède le filtre plainte/grief, les 6 W et la FAR d'admission ; **ce module** possède les piliers de dossier prêts pour l'arbitrage, la rédaction à porte ouverte et la discipline de PR / Quatre coins — le guide de grief couvre les mécanismes de dépôt par étape. Utilisez les feuilles de prise en charge de grief du Générateur de documents pour structurer la chronologie. Le **manuel des délégués du SCFP** et les cours de **traitement des griefs d'Unifor** approfondissent l'architecture du dossier ; la pratique arbitrale sur les remèdes de réparation intégrale informe les demandes de remède.
 
 🪞 Réflexion : Un formulaire de grief faible perd des arguments avant que la rencontre commence. Rédigez pour l'arbitre que vous espérez ne jamais avoir besoin.
 
@@ -154,7 +154,7 @@ Pourquoi un délégué devrait-il inclure la phrase « et/ou tout autre article 
 *   D) Pour convertir automatiquement chaque grief en grief de politique sans approbation des membres.
 
 **Correct Answer: B**
-*Explanation* : Le libellé « à porte ouverte » empêche l'employeur de bloquer le grief en arbitrage sur une technicité si le syndicat découvre des violations d'articles supplémentaires durant l'enquête.
+*Explication* : Le libellé « à porte ouverte » empêche l'employeur de bloquer le grief en arbitrage sur une technicité si le syndicat découvre des violations d'articles supplémentaires durant l'enquête.
 
 ### Question 2
 Si un règlement est signé « sans précédent », que signifie cela juridiquement pour les différends futurs ?
@@ -164,7 +164,7 @@ Si un règlement est signé « sans précédent », que signifie cela juridiquem
 *   D) Le grief demeure ouvert jusqu'à ce qu'un arbitre endosse le règlement.
 
 **Correct Answer: A**
-*Explanation* : « Sans précédent » assure que le compromis fait pour régler un différend précis n'établit pas une interprétation permanente de la convention qui peut être armée dans des dossiers futurs.
+*Explication* : « Sans précédent » assure que le compromis fait pour régler un différend précis n'établit pas une interprétation permanente de la convention qui peut être armée dans des dossiers futurs.
 
 ### Question 3
 Durant une rencontre d'étape, les RH promettent verbalement de nettoyer l'arriéré d'horaire si le syndicat retire le grief. Le délégué signe un règlement « plein et final » qui ne mentionne pas cette promesse. Le syndicat peut-il faire respecter la promesse verbale plus tard ?
@@ -174,7 +174,7 @@ Durant une rencontre d'étape, les RH promettent verbalement de nettoyer l'arri�
 *   D) Oui, si le délégué envoie un texto de confirmation après la signature.
 
 **Correct Answer: C**
-*Explanation* : Une fois qu'un règlement « plein et final » est signé, il représente l'entente entière. Toute entente latérale verbale omise est juridiquement morte.
+*Explication* : Une fois qu'un règlement « plein et final » est signé, il représente l'entente entière. Toute entente latérale verbale omise est juridiquement morte.
 
 ### Question 4
 Quel élément appartient au pilier de la fiche de faits chronologique d'un dossier de grief ?
@@ -184,7 +184,7 @@ Quel élément appartient au pilier de la fiche de faits chronologique d'un doss
 *   D) Le récit préféré de l'employeur sans dates syndicales attachées.
 
 **Correct Answer: A**
-*Explanation* : La discipline chronologique — entrées datées et attribuées — est la colonne vertébrale qui tient ensemble les déclarations de témoins et les documents.
+*Explication* : La discipline chronologique — entrées datées et attribuées — est la colonne vertébrale qui tient ensemble les déclarations de témoins et les documents.
 
 ### Question 5
 Quelle est la demande de remède la plus forte sur un grief de promotion à porte ouverte ?
@@ -194,7 +194,7 @@ Quelle est la demande de remède la plus forte sur un grief de promotion à port
 *   D) « Émettre des excuses verbales sans trace écrite. »
 
 **Correct Answer: B**
-*Explanation* : Le langage de réparation intégrale préserve un soulagement restauratif complet ; les demandes symboliques plafonnent le recouvrement avant même que la négociation commence à la table d'étape.
+*Explication* : Le langage de réparation intégrale préserve un soulagement restauratif complet ; les demandes symboliques plafonnent le recouvrement avant même que la négociation commence à la table d'étape.
 
 ### Question 6
 Les RH offrent un retrait rapide mais refusent d'écrire une promesse de paie de formation dans le PR. Meilleur geste du délégué ?
@@ -204,4 +204,4 @@ Les RH offrent un retrait rapide mais refusent d'écrire une promesse de paie de
 *   D) Accepter une étiquette sans précédent comme substitut au langage de paie manquant.
 
 **Correct Answer: C**
-*Explanation* : Les étiquettes ne remplacent pas les conditions opératoires. Si la contrepartie n'est pas écrite, les Quatre coins ne la sauveront pas après le retrait.
+*Explication* : Les étiquettes ne remplacent pas les conditions opératoires. Si la contrepartie n'est pas écrite, les Quatre coins ne la sauveront pas après le retrait.

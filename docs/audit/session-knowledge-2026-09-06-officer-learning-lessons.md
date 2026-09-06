@@ -3,7 +3,7 @@
 **Audience:** Ryan + future agents.  
 **Companion ship log:** [`session-knowledge-2026-09-06-officer-learning-modules-11-14.md`](session-knowledge-2026-09-06-officer-learning-modules-11-14.md)  
 **Prior wave:** [`session-knowledge-2026-09-06-officer-learning-modules-7-10.md`](session-knowledge-2026-09-06-officer-learning-modules-7-10.md)  
-**Uplift audit playbook (next session):** [`plan-2026-09-06-officer-learning-system-uplift.md`](plan-2026-09-06-officer-learning-system-uplift.md)
+**Uplift audit (done 2026-09-06):** [`session-knowledge-2026-09-06-officer-learning-system-uplift.md`](session-knowledge-2026-09-06-officer-learning-system-uplift.md) · plan: [`plan-2026-09-06-officer-learning-system-uplift.md`](plan-2026-09-06-officer-learning-system-uplift.md)
 
 ---
 
@@ -80,20 +80,18 @@ On Windows shells, prefer a short `scripts/tmp-*.mjs` for bulk JSON and image wo
 
 ---
 
-## Residual risks left for a system uplift
+## Residual risks (post-uplift)
 
-1. **Modules 1–6** did not get the same 2026-09-06 content-review depth as 7–14.
-2. **Without prejudice** is taught in M8 but no longer quizzed after the prompt fix.
+1. ~~**Modules 1–6** did not get the same 2026-09-06 content-review depth as 7–14.~~ — **done** in system uplift (claim audit + fixes).
+2. **Without prejudice** is taught in M8 but still not quizzed separately (precedent is quizzed; intentional after prompt fix).
 3. **Historical What’s new** rows still say “Six bilingual modules” (correct for that day — do not rewrite history into fourteen).
-4. **Diagram / timeline i18n** can drift from lesson tables if only one side is edited.
-5. **14-step path** readability on mid-width laptops (between mobile stack and `lg`) is unproven in smoke.
-6. No mechanical guard yet for “quiz prompt keyword ⊆ correct option / section heading” claim chains.
-7. FR quiz labels sometimes use `*Explanation*` instead of `*Explication*` (parser accepts both; voice is inconsistent).
+4. Diagram / timeline i18n can still drift if only one side is edited — mechanical slug coverage remains.
+5. ~~**14-step path** readability on mid-width~~ — **md 2-col** grid added in uplift.
+6. ~~No mechanical guard for claim chains~~ — **`claim-chain-guards.test.ts`** (prejudice/precedent pairs + FR Explication + checklist ≥10).
+7. ~~FR quiz labels sometimes use `*Explanation*`~~ — **standardized to `*Explication*`**.
 
 ---
 
 ## Pasteable opener for the uplift session
 
-Use the plan file below as the `/goal` body, or paste:
-
-> Audit and uplift the Officer Learning **system** (modules 1–14 + dashboard/chrome), not add module 15. Follow `docs/audit/plan-2026-09-06-officer-learning-system-uplift.md`. Evidence-first; no redesign of the markdown architecture unless a checklist item fails.
+> Completed 2026-09-06 — see [`session-knowledge-2026-09-06-officer-learning-system-uplift.md`](session-knowledge-2026-09-06-officer-learning-system-uplift.md).

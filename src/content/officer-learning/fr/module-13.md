@@ -4,7 +4,7 @@
 
 Prévoyez **40 à 50 minutes**. Apportez la clause de conservation de vos règlements (le cas échéant), un croquis de votre arborescence de dossiers numériques, et la dernière liste de contrôle de transition de dirigeants utilisée par votre section — ou un modèle vierge si des élections approchent. Parcourez les garde-fous de cybersécurité avec votre exécutif avant de déplacer des dossiers de griefs ou des données d'adhésion vers un nouveau lecteur.
 
-Les sections passent de l'architecture de l'information aux calendriers de conservation, à la cybersécurité et à la liste de contrôle de transition de dirigeants. Associez le module 11 (listes de membres et confidentialité des données) et `/guide/membership-signup`. L'éducation des secrétaires du **CTC** et les matériaux d'administration locale du **SCFP** renforcent la discipline de conservation ; les sections locales de l'Ontario doivent confirmer les règles financières de sept ans avec leur syndicat national et les directives de l'ARC.
+Les sections passent de l'architecture de l'information aux calendriers de conservation, à la cybersécurité et à la liste de contrôle de transition de dirigeants. Associez le module 11 (listes de membres et confidentialité des données) et `/guide/membership-signup`. Le **module 11** possède le contenu des listes et qui peut les recevoir (Rand, interdictions politiques/commerciales) ; **ce module** possède où vivent tous les dossiers syndicaux, combien de temps on les conserve, et comment les dirigeants les remettent — les deux interdisent OneDrive/Teams de l'employeur, pour des emplois différents. L'éducation des secrétaires du **CTC** et les matériaux d'administration locale du **SCFP** renforcent la discipline de conservation ; les sections locales de l'Ontario doivent confirmer les règles financières de sept ans avec leur syndicat national et les directives de l'ARC.
 
 🪞 Réflexion : Un mot de passe perdu est un inconvénient. Un dossier de grief sur OneDrive de l'employeur est une brèche en attente.
 
@@ -177,7 +177,7 @@ Un secrétaire de section nouvellement élu découvre des boîtes de dossiers lo
 *   D) Ébauches de procès-verbaux abrogées qui n'ont jamais été approuvées en AGM.
 
 **Correct Answer: A**
-*Explanation* : Les procès-verbaux d'assemblée et les règlements de la section sont des dossiers juridiques permanents du syndicat et ne doivent jamais être détruits. Les reçus financiers et dossiers bancaires doivent être conservés au minimum sept ans pour la conformité aux vérifications fiscales, après quoi ils peuvent être déchiquetés de façon sécurisée.
+*Explication* : Les procès-verbaux d'assemblée et les règlements de la section sont des dossiers juridiques permanents du syndicat et ne doivent jamais être détruits. Les reçus financiers et dossiers bancaires doivent être conservés au minimum sept ans pour la conformité aux vérifications fiscales, après quoi ils peuvent être déchiquetés de façon sécurisée.
 
 ### Question 2
 Le conseil d'administration local configure son système de stockage numérique. Le président propose de créer un dossier sur son compte Microsoft OneDrive fourni par l'employeur parce que « nous avons déjà du stockage d'entreprise gratuit et c'est facile de se connecter sur nos ordinateurs de travail ». Que devrait conseiller le secrétaire ?
@@ -187,7 +187,7 @@ Le conseil d'administration local configure son système de stockage numérique.
 *   D) Accepter pour les dossiers financiers seulement, mais garder les griefs sur des clés USB personnelles.
 
 **Correct Answer: B**
-*Explanation* : Stocker des dossiers syndicaux sur les serveurs de l'employeur viole le principe fondamental d'indépendance et de confidentialité syndicale. Les employeurs peuvent surveiller, analyser et récupérer les données de leurs réseaux à tout moment.
+*Explication* : Stocker des dossiers syndicaux sur les serveurs de l'employeur viole le principe fondamental d'indépendance et de confidentialité syndicale. Les employeurs peuvent surveiller, analyser et récupérer les données de leurs réseaux à tout moment.
 
 ### Question 3
 Une élection vient d'avoir lieu et un nouveau trésorier local est élu, remplaçant le trésorier sortant qui a servi six ans. Comment devrait être gérée la transition des comptes numériques et de l'accès bancaire ?
@@ -197,7 +197,7 @@ Une élection vient d'avoir lieu et un nouveau trésorier local est élu, rempla
 *   D) Attendre la vérification du syndic l'année prochaine pour mettre à jour les signataires afin que les livres restent continus.
 
 **Correct Answer: B**
-*Explanation* : Une transition sécurisée et professionnelle assure l'intégrité des données et la sécurité des actifs. Les signataires doivent être mis à jour immédiatement à la banque, et la propriété administrative de tous les actifs numériques doit être transférée formellement selon des protocoles sécurisés.
+*Explication* : Une transition sécurisée et professionnelle assure l'intégrité des données et la sécurité des actifs. Les signataires doivent être mis à jour immédiatement à la banque, et la propriété administrative de tous les actifs numériques doit être transférée formellement selon des protocoles sécurisés.
 
 ### Question 4
 Quelle pratique de cybersécurité protège le mieux la section lorsque plusieurs dirigeants partagent l'accès au lecteur cloud syndical ?
@@ -207,7 +207,7 @@ Quelle pratique de cybersécurité protège le mieux la section lorsque plusieur
 *   D) Désactiver l'A2F pour le secrétaire afin qu'il puisse toujours récupérer les comptes rapidement.
 
 **Correct Answer: B**
-*Explanation* : L'A2F bloque la plupart des vols d'identifiants ; les gestionnaires de mots de passe permettent des passations vérifiables et révocables sans envoyer des mots de passe personnels par texto.
+*Explication* : L'A2F bloque la plupart des vols d'identifiants ; les gestionnaires de mots de passe permettent des passations vérifiables et révocables sans envoyer des mots de passe personnels par texto.
 
 ### Question 5
 Un grief clos de 2018 a modifié l'ancienneté de douze membres. Le dossier a clos en 2019. Nous sommes en 2026. Quelle est la meilleure approche d'archivage ?
@@ -217,7 +217,7 @@ Un grief clos de 2018 a modifié l'ancienneté de douze membres. Le dossier a cl
 *   D) Déplacer le dossier vers Teams de l'employeur pour stockage à long terme.
 
 **Correct Answer: B**
-*Explanation* : Les dossiers de griefs clos exigent au moins sept ans après clôture ; les ajustements d'ancienneté faisant jurisprudence justifient un résumé permanent même lorsque le dossier complet finit par expirer.
+*Explication* : Les dossiers de griefs clos exigent au moins sept ans après clôture ; les ajustements d'ancienneté faisant jurisprudence justifient un résumé permanent même lorsque le dossier complet finit par expirer.
 
 ### Question 6
 Le secrétaire construit `03_Application_de_la_convention/`. Quelle configuration de sous-dossiers correspond le mieux aux normes de ce module ?
@@ -227,4 +227,4 @@ Le secrétaire construit `03_Application_de_la_convention/`. Quelle configuratio
 *   D) Imprimer tous les griefs et les stocker seulement dans le casier du délégué.
 
 **Correct Answer: B**
-*Explanation* : Les dossiers de griefs actifs exigent le chiffrement, l'accès au moindre privilège et un hébergement syndical uniquement — pas les systèmes de l'employeur ni des comptes personnels informels.
+*Explication* : Les dossiers de griefs actifs exigent le chiffrement, l'accès au moindre privilège et un hébergement syndical uniquement — pas les systèmes de l'employeur ni des comptes personnels informels.
