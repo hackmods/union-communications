@@ -65,6 +65,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (toolkit headline + `HomeHe
 | `/[locale]/tools/website-template` | GitHub Pages site ZIP (default) + optional classic WordPress theme ZIP; not a CMS. **UnionOps does not support WordPress.** Squarespace 7.1 theme export is a non-option: [`plan-2026-08-18-website-export-wp-squarespace.md`](../audit/plan-2026-08-18-website-export-wp-squarespace.md) |
 | `/[locale]/tools/document-generator` | Branded Word / Excel / PowerPoint + ZIP (simple letter, letterhead, welcome letter, event notice) |
 | `/[locale]/tools/alt-text` | Alt-text draft helper (starters, platform limits, checklist) |
+| `/[locale]/guide/officer-learning` | Officer Learning Center — **ten** self-paced modules (scenarios, floor checklists, quizzes, pocket PDFs). Progress on-device (`unionops-officer-learning-progress`). Top-level header link, not under Guides ▾. Module slugs under `/guide/officer-learning/{slug}` — see [`session-knowledge-2026-09-06-officer-learning-modules-7-10.md`](../audit/session-knowledge-2026-09-06-officer-learning-modules-7-10.md) |
 
 ## Channels
 

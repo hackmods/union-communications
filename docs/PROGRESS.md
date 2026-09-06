@@ -1,5 +1,13 @@
 # Progress Log
 
+## Officer Learning modules 7–10 polish (2026-09-06)
+
+- [x] Cover webps: remove Gemini Notebook watermarks
+- [x] Session knowledge + COMMS/AGENTS pointers for agents
+- [x] Smoke: Ten-module nav hygiene, dashboard cards 7/10, Module 8 spot-check
+- [x] Dashboard `LearningPathDiagram`: mobile stack + lg 5×2 grid for ten steps
+- Verify: `npm run test:unit -- src/lib/officer-learning/modules.test.ts src/lib/constants/updates.test.ts`; smoke `e2e/officer-learning.smoke.spec.ts`
+
 ## Officer Learning modules 7–10 (2026-09-06)
 
 - [x] Modules 7–10 EN+FR markdown (mobilizer/bargaining, advanced grievance settlement, benefits/disability, joint committees) with tables, callouts, worked scenarios, floor checklists, 6-question quizzes
