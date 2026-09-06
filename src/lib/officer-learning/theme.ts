@@ -129,12 +129,16 @@ export const olThemeNavy = {
   statusPillNotStarted:
     "rounded-full px-3 py-1 text-xs font-semibold bg-white/10 text-slate-300",
   resetPanel:
-    "flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 p-4",
-  resetHint: "text-sm text-slate-300",
+    "flex flex-col gap-3 rounded-xl border border-white/10 bg-white/5 p-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4",
+  resetHint: "min-w-0 flex-1 text-sm leading-snug text-slate-300",
   resetBtn:
-    "rounded-lg border border-white/15 bg-transparent px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-orange-400/40",
+    "shrink-0 rounded-lg border border-white/15 bg-transparent px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-orange-400/40",
   resetBtnConfirm:
-    "rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-400",
+    "shrink-0 rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-400",
+  prefsPanel: "mb-8 space-y-5 rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5",
+  prefsTitle: "text-lg font-semibold text-white",
+  prefsBody: "mt-2 max-w-3xl text-sm leading-relaxed text-slate-300",
+  prefsDivider: "border-t border-white/10",
   relatedDot: "text-slate-600",
   sourcesOuter: "bg-[#0B132B] px-4 pb-12 sm:px-6 lg:px-8",
   sourcesCard:
@@ -285,10 +289,17 @@ export const olThemeLight: OlTheme = {
   statusPillCompleted: "rounded-full px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800",
   statusPillInProgress: "rounded-full px-3 py-1 text-xs font-semibold bg-orange-100 text-orange-800",
   statusPillNotStarted: "rounded-full px-3 py-1 text-xs font-semibold bg-gray-100 text-gray-600",
-  resetPanel: "flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4",
-  resetHint: "text-sm text-gray-600",
-  resetBtn: "rounded-lg border border-gray-300 bg-transparent px-4 py-2 text-sm font-semibold text-opseu-dark transition hover:border-opseu-blue/40",
-  resetBtnConfirm: "rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-400",
+  resetPanel:
+    "flex flex-col gap-3 rounded-xl border border-gray-200 bg-gray-50 p-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4",
+  resetHint: "min-w-0 flex-1 text-sm leading-snug text-gray-600",
+  resetBtn:
+    "shrink-0 rounded-lg border border-gray-300 bg-transparent px-4 py-2 text-sm font-semibold text-opseu-dark transition hover:border-opseu-blue/40",
+  resetBtnConfirm:
+    "shrink-0 rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-400",
+  prefsPanel: "mb-8 space-y-5 rounded-2xl border border-gray-200 bg-white p-4 sm:p-5",
+  prefsTitle: "text-lg font-semibold text-opseu-dark",
+  prefsBody: "mt-2 max-w-3xl text-sm leading-relaxed text-gray-600",
+  prefsDivider: "border-t border-gray-200",
   relatedDot: "text-gray-400",
   sourcesOuter: "bg-background px-4 pb-12 sm:px-6 lg:px-8",
   sourcesCard: "mx-auto max-w-7xl rounded-2xl border border-gray-200 bg-white p-6 text-opseu-dark md:p-8",

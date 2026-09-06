@@ -86,16 +86,20 @@ export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
       </div>
 
       {loaded && (
-        <>
-          <label className={clsx("block", olTheme.syncLabel)}>
-            {t("displayName")}
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="ol-hub-display-name" className={olTheme.syncLabel}>
+              {t("displayName")}
+            </label>
             <input
+              id="ol-hub-display-name"
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className={olTheme.input}
+              autoComplete="nickname"
+              className={clsx(olTheme.input, "mt-1.5")}
             />
-          </label>
+          </div>
 
           <label className={clsx("flex items-start gap-3", olTheme.syncLabel)}>
             <input
@@ -107,7 +111,7 @@ export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
               }}
               className={clsx("mt-1", olTheme.inputAccent)}
             />
-            <span>
+            <span className="min-w-0">
               <span className="font-semibold">{t("syncLabel")}</span>
               <span className={olTheme.syncHint}>{t("syncHint")}</span>
             </span>
@@ -127,7 +131,7 @@ export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
               onChange={(e) => setShareWithLocal(e.target.checked)}
               className={clsx("mt-1", olTheme.inputAccent)}
             />
-            <span>
+            <span className="min-w-0">
               <span className="font-semibold">{t("shareLabel")}</span>
               <span className={olTheme.syncHint}>{t("shareHint")}</span>
             </span>
@@ -151,7 +155,7 @@ export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
               {t("error")}
             </p>
           )}
-        </>
+        </div>
       )}
     </div>
   );

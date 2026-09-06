@@ -156,19 +156,36 @@ function OfficerLearningDashboardInner({
             })}
           />
 
-          <div className="mb-8 grid gap-4 lg:grid-cols-2">
+          <section
+            className={olTheme.prefsPanel}
+            aria-labelledby="ol-progress-prefs-heading"
+          >
+            <div>
+              <h2 id="ol-progress-prefs-heading" className={olTheme.prefsTitle}>
+                {t("progressPrefs.title")}
+              </h2>
+              <p className={olTheme.prefsBody}>{t("progressPrefs.body")}</p>
+            </div>
+
             <div className={olTheme.resetPanel}>
               <p className={olTheme.resetHint}>{t("settings.hint")}</p>
               <button
                 type="button"
                 onClick={handleReset}
-                className={clsx(confirmReset ? olTheme.resetBtnConfirm : olTheme.resetBtn)}
+                className={clsx(
+                  confirmReset ? olTheme.resetBtnConfirm : olTheme.resetBtn,
+                )}
               >
-                {confirmReset ? t("settings.confirmReset") : t("settings.reset")}
+                {confirmReset
+                  ? t("settings.confirmReset")
+                  : t("settings.reset")}
               </button>
             </div>
+
+            <div className={olTheme.prefsDivider} />
+
             <LearningHubSyncPanel onProgressHydrated={handleProgressHydrated} />
-          </div>
+          </section>
 
           {completedCount === modules.length && modules.length > 0 && (
             <div className="mb-8">

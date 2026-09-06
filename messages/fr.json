@@ -735,9 +735,13 @@
       "completedPercent": "Complété 100 %"
     },
     "settings": {
-      "hint": "La progression est stockée dans ce navigateur seulement — aucun compte requis.",
+      "hint": "Stockée dans ce navigateur seulement. La réinitialisation efface tous les modules sur cet appareil.",
       "reset": "Réinitialiser la progression",
       "confirmReset": "Confirmer la réinitialisation"
+    },
+    "progressPrefs": {
+      "title": "Votre progression",
+      "body": "Les quiz réussis et les coches de listes restent sur cet appareil par défaut, pour vous former sans compte. Connectez-vous seulement si vous voulez une sauvegarde Hub, ou partager vos réussites avec votre section lorsque vous et un président y consentez."
     },
     "viewer": {
       "back": "Tableau de bord",
@@ -1392,11 +1396,11 @@
       "pathTitle": "Parcours complet de formation des dirigeants (quatorze modules)"
     },
     "hubSync": {
-      "signedOutTitle": "Optionnel : synchroniser avec le Hub",
-      "signedOutBody": "Connectez-vous pour enregistrer la progression sur votre compte Officer Hub et, si vous le souhaitez, partager les réussites avec votre section.",
+      "signedOutTitle": "Voulez-vous une sauvegarde Hub ?",
+      "signedOutBody": "Connectez-vous au Hub des dirigeants pour enregistrer vos réussites sur votre compte. Le partage avec votre section reste optionnel et exige votre consentement.",
       "signIn": "Se connecter au Hub des dirigeants",
-      "title": "Sync Hub et partage local",
-      "body": "Phases B/C : conservez la progression sur votre compte, et ne la partagez avec la section que si vous et la section y consentez.",
+      "title": "Sauvegarde Hub optionnelle",
+      "body": "Enregistrez les quiz réussis sur votre compte Hub des dirigeants. Le partage avec votre section exige votre consentement et un président qui active le rapport local.",
       "displayName": "Nom affiché à votre section",
       "syncLabel": "Synchroniser la progression avec mon compte Hub",
       "syncHint": "Envoie les quiz réussis de ce navigateur vers votre compte connecté.",

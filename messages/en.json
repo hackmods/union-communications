@@ -735,9 +735,13 @@
       "completedPercent": "Completed 100%"
     },
     "settings": {
-      "hint": "Progress is stored in this browser only — no account required.",
+      "hint": "Stored in this browser only. Reset clears every module on this device.",
       "reset": "Reset progress",
       "confirmReset": "Confirm reset"
+    },
+    "progressPrefs": {
+      "title": "Your progress",
+      "body": "Quiz completions and checklist ticks stay on this device by default, so you can train without an account. Sign in only if you want a Hub backup, or to share completions with your local when both you and a president opt in."
     },
     "viewer": {
       "back": "Dashboard",
@@ -1392,11 +1396,11 @@
       "pathTitle": "Full Officer Learning path (all fourteen modules)"
     },
     "hubSync": {
-      "signedOutTitle": "Optional: sync to Officer Hub",
-      "signedOutBody": "Sign in to save progress on your Officer Hub account and, if you choose, share completions with your local.",
+      "signedOutTitle": "Want a Hub backup?",
+      "signedOutBody": "Sign in to Officer Hub to save completions to your account. Sharing with your local stays optional and needs your consent.",
       "signIn": "Sign in to Officer Hub",
-      "title": "Hub sync & local sharing",
-      "body": "Phase B/C: keep progress on your account, and only share with the local when both you and the local opt in.",
+      "title": "Optional Hub backup",
+      "body": "Save quiz completions to your Officer Hub account. Sharing with your local needs your consent and a president who turns on local reporting.",
       "displayName": "Name shown to your local",
       "syncLabel": "Sync progress to my Officer Hub account",
       "syncHint": "Uploads quiz completions from this browser to your signed-in account.",
