@@ -39,7 +39,7 @@ Also:
 
 - Tracks filter both the path diagram and the card grid; path still uses md 2 / lg 4 / xl 5.
 - Hub sync panel sits beside progress prefs (not buried below a divider stack).
-- Covers for 15–16 are solid branded SVG→webp placeholders — replace with illustrated art when available (strip Gemini watermarks).
+- Covers for 15–16: illustrated art shipped (scales→15, shields→16); Gemini Notebook watermark paint-matched before webp.
 
 ---
 
