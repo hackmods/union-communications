@@ -1,6 +1,7 @@
 # Session knowledge — Officer Learning modules 11–14 + content review 7–14 (2026-09-06)
 
-**Audience:** future agents + Ryan.
+**Audience:** future agents + Ryan.  
+**Lessons + next-session uplift plan:** [`session-knowledge-2026-09-06-officer-learning-lessons.md`](session-knowledge-2026-09-06-officer-learning-lessons.md), [`plan-2026-09-06-officer-learning-system-uplift.md`](plan-2026-09-06-officer-learning-system-uplift.md)
 
 ---
 

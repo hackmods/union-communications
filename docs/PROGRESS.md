@@ -6,6 +6,7 @@
 - [x] Covers `module-11.webp`…`module-14.webp` (watermark-free); catalog/SEO/sitemap/sources/related sheets/diagrams/timelines/What's new
 - [x] Progress keys `module-11`…`module-14`; dashboard path lg 7×2; ten→fourteen copy
 - [x] Content review 7–14: Module 8 without-precedent quiz wording; Module 11 FR copy fixes
+- [x] Lessons + system uplift audit plan: `docs/audit/session-knowledge-2026-09-06-officer-learning-lessons.md`, `docs/audit/plan-2026-09-06-officer-learning-system-uplift.md`
 - Verify: `npm run test:unit -- src/lib/officer-learning/modules.test.ts src/lib/officer-learning/parse-module.test.ts src/lib/officer-learning/related-resources.test.ts src/lib/officer-learning/module-timeline.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`; smoke `e2e/officer-learning.smoke.spec.ts`
 
 ## Officer Learning modules 7–10 polish (2026-09-06)
