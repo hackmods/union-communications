@@ -121,7 +121,7 @@ export default async function MembershipSignupGuidePage({
         />
       }
     >
-      <OfficerLearningModuleCallout slug="building-collective-power" moduleNumber={6} />
+      <OfficerLearningModuleCallout slug="membership-lists-privacy" moduleNumber={11} />
 
       <section
         id="why"

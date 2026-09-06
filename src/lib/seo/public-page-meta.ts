@@ -205,7 +205,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/officer-learning": {
       title: "Officer Learning Center",
       description:
-        "Ten expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
+        "Fourteen expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1: Contract Enforcement",
@@ -256,6 +256,26 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Module 10: Joint Workplace Committees",
       description:
         "JHSC versus LMC powers, united caucus discipline, and multi-committee escalation. Self-test quiz included.",
+    },
+    "/guide/officer-learning/membership-lists-privacy": {
+      title: "Module 11: Member Lists & Data Privacy",
+      description:
+        "Rand versus signed cards, membership list directive, dues reconciliation, and secure storage. Self-test quiz included.",
+    },
+    "/guide/officer-learning/advanced-local-finance": {
+      title: "Module 12: Advanced Local Finance",
+      description:
+        "Expense policies, taxable honoraria, and hardship fund governance with dual-signature controls. Self-test quiz included.",
+    },
+    "/guide/officer-learning/digital-security-transitions": {
+      title: "Module 13: Digital Security & Transitions",
+      description:
+        "Folder architecture, retention schedules, cybersecurity, and officer transition checklists. Self-test quiz included.",
+    },
+    "/guide/officer-learning/everyday-union-value": {
+      title: "Module 14: Everyday Union Value",
+      description:
+        "Day-1 orientations, affinity benefits without list sharing, and community unionism. Self-test quiz included.",
     },
   },
   fr: {
@@ -452,7 +472,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",
       description:
-        "Dix modules approfondis avec scénarios, exercices et quiz. S'appuie sur la formation du CTC, de la SCFP, d'Unifor et de la CODP — progression sur votre appareil.",
+        "Quatorze modules avec scénarios, exercices et quiz (CTC, SCFP, Unifor, CODP). Progression sur votre appareil.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1 : Application de la convention",
@@ -503,6 +523,26 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Module 10 : Comités conjoints en milieu de travail",
       description:
         "Pouvoirs du JHSC et du LMC, discipline de caucus uni et escalade multi-comités. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/membership-lists-privacy": {
+      title: "Module 11 : Listes de membres et confidentialité",
+      description:
+        "Formule Rand vs cartes signées, directive sur les listes, rapprochement des cotisations et stockage sécurisé. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/advanced-local-finance": {
+      title: "Module 12 : Finances locales avancées",
+      description:
+        "Politiques de dépenses, honoraires imposables et gouvernance des fonds de détresse avec double signature. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/digital-security-transitions": {
+      title: "Module 13 : Sécurité numérique et transitions",
+      description:
+        "Architecture des dossiers, calendriers de rétention, cybersécurité et listes de transition. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/everyday-union-value": {
+      title: "Module 14 : Valeur syndicale quotidienne",
+      description:
+        "Orientations Jour 1, avantages d'affinité sans partage de listes et syndicalisme communautaire. Quiz d'autoévaluation inclus.",
     },
   },
 };

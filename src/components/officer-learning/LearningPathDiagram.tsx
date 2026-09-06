@@ -23,7 +23,7 @@ type Props = {
 
 /**
  * Officer Learning path with live progress on the dashboard.
- * Mobile: stacked steps with arrows. Desktop: dense grid (5×2 at ten modules)
+ * Mobile: stacked steps with arrows. Desktop: dense grid (7×2 at fourteen modules)
  * so titles stay readable instead of a single squeezed flex row.
  */
 export function LearningPathDiagram({ steps, label, className }: Props) {
@@ -56,8 +56,8 @@ export function LearningPathDiagram({ steps, label, className }: Props) {
         ))}
       </ol>
 
-      {/* lg+: grid so ten modules stay scannable (5 cols × 2 rows) */}
-      <ol className="hidden gap-2 lg:grid lg:grid-cols-5">
+      {/* lg+: grid so fourteen modules stay scannable (7 cols × 2 rows) */}
+      <ol className="hidden gap-2 lg:grid lg:grid-cols-7">
         {steps.map((step) => (
           <li key={step.id} className="min-w-0">
             <PathStepLink

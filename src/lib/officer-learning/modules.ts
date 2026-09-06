@@ -72,6 +72,34 @@ export const OFFICER_LEARNING_MODULES: ModuleMeta[] = [
     coverSrc: "/assets/officer-learning/module-10.webp",
     readingMinutes: 28,
   },
+  {
+    id: "module-11",
+    slug: "membership-lists-privacy",
+    number: 11,
+    coverSrc: "/assets/officer-learning/module-11.webp",
+    readingMinutes: 30,
+  },
+  {
+    id: "module-12",
+    slug: "advanced-local-finance",
+    number: 12,
+    coverSrc: "/assets/officer-learning/module-12.webp",
+    readingMinutes: 32,
+  },
+  {
+    id: "module-13",
+    slug: "digital-security-transitions",
+    number: 13,
+    coverSrc: "/assets/officer-learning/module-13.webp",
+    readingMinutes: 30,
+  },
+  {
+    id: "module-14",
+    slug: "everyday-union-value",
+    number: 14,
+    coverSrc: "/assets/officer-learning/module-14.webp",
+    readingMinutes: 28,
+  },
 ];
 
 export function getModuleBySlug(slug: string): ModuleMeta | undefined {

@@ -20,6 +20,10 @@ const SOURCES_PAGE_BY_SLUG: Record<string, string> = {
   "advanced-grievance-settlement": "officerLearningSettlement",
   "benefits-disability-claims": "officerLearningBenefits",
   "joint-workplace-committees": "officerLearningCommittees",
+  "membership-lists-privacy": "officerLearningLists",
+  "advanced-local-finance": "officerLearningAdvancedFinance",
+  "digital-security-transitions": "officerLearningDigitalSecurity",
+  "everyday-union-value": "officerLearningEverydayValue",
 };
 
 export async function generateStaticParams() {

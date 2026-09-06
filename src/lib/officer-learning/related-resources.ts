@@ -97,6 +97,31 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
     { href: "/guide/running-meetings", labelKey: "runningMeetings", kind: "guide" },
     { href: "/tools/board-notice", labelKey: "boardNotice", kind: "tool" },
   ],
+  "membership-lists-privacy": [
+    { href: "/guide/membership-signup", labelKey: "membershipSignup", kind: "guide" },
+    { href: "/guide/photo-consent", labelKey: "photoConsent", kind: "guide" },
+    { href: "/guide/officer-learning/digital-security-transitions", labelKey: "digitalSecurityModule", kind: "guide" },
+    { href: "/guide/officer-learning/everyday-union-value", labelKey: "everydayValueModule", kind: "guide" },
+  ],
+  "advanced-local-finance": [
+    { href: "/guide/officer-learning/financial-health", labelKey: "financialHealthModule", kind: "guide" },
+    { href: "/tools/document-generator", labelKey: "documentGenerator", kind: "tool" },
+    { href: "/guide/union-boards", labelKey: "unionBoards", kind: "guide" },
+    { href: "/guide/bylaws", labelKey: "bylaws", kind: "guide" },
+  ],
+  "digital-security-transitions": [
+    { href: "/guide/officer-learning/membership-lists-privacy", labelKey: "membershipListsModule", kind: "guide" },
+    { href: "/guide/running-meetings", labelKey: "runningMeetings", kind: "guide" },
+    { href: "/guide/bylaws", labelKey: "bylaws", kind: "guide" },
+    { href: "/guide/officer-learning/democratic-governance", labelKey: "democraticGovernanceModule", kind: "guide" },
+  ],
+  "everyday-union-value": [
+    { href: "/guide/membership-signup", labelKey: "membershipSignup", kind: "guide" },
+    { href: "/guide/officer-learning/membership-lists-privacy", labelKey: "membershipListsModule", kind: "guide" },
+    { href: "/guide/officer-learning/building-collective-power", labelKey: "collectivePowerModule", kind: "guide" },
+    { href: "/guide/workplace-mapping", labelKey: "workplaceMapping", kind: "guide" },
+    { href: "/tools/solidarity-poster", labelKey: "solidarityPoster", kind: "tool" },
+  ],
 };
 
 export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
@@ -232,6 +257,62 @@ export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
       titleKey: "caucusTitle",
       bodyKey: "caucusBody",
       ctaKey: "caucusCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "membership-lists-privacy": [
+    {
+      id: "list-directive",
+      titleKey: "listTitle",
+      bodyKey: "listBody",
+      ctaKey: "listCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "advanced-local-finance": [
+    {
+      id: "expense-hardship",
+      titleKey: "expenseTitle",
+      bodyKey: "expenseBody",
+      ctaKey: "expenseCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "digital-security-transitions": [
+    {
+      id: "transition-checklist",
+      titleKey: "transitionTitle",
+      bodyKey: "transitionBody",
+      ctaKey: "transitionCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "everyday-union-value": [
+    {
+      id: "orientation-kit",
+      titleKey: "orientationTitle",
+      bodyKey: "orientationBody",
+      ctaKey: "orientationCta",
     },
     {
       id: "floor-checklist",

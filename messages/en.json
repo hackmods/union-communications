@@ -48,7 +48,7 @@
     "steward101Guide": "Steward 101",
     "officerLearningGuide": "Officer Learning Center",
     "officerLearningTopNav": "Officer Learning",
-    "officerLearningFeatured": "Ten self-paced modules with floor checklists and quizzes.",
+    "officerLearningFeatured": "Fourteen self-paced modules with floor checklists and quizzes.",
     "workplaceMappingGuide": "Workplace mapping",
     "grievanceProcessGuide": "Grievance process",
     "dfrGuide": "Duty of Fair Representation",
@@ -708,7 +708,7 @@
   "officerLearning": {
     "eyebrow": "Officer training",
     "title": "Officer Learning Center",
-    "intro": "Ten self-paced modules for stewards and local officers — contract enforcement through joint committees. Progress saves on this device only.",
+    "intro": "Fourteen self-paced modules for stewards and local officers — contract enforcement through everyday union value. Progress saves on this device only.",
     "disclaimer": "Education for the floor — not legal advice. Confirm every deadline, remedy, and procedure against your own collective agreement and statute.",
     "sourcesIntro": "Further reading from Canadian labour federations, multi-union steward handbooks, and public human rights guidance — not tied to one national. Confirm every rule against your own collective agreement and statute.",
     "moduleLabel": "Module {number}",
@@ -798,7 +798,13 @@
         "landAcknowledgement": "Land Acknowledgement Guide",
         "rulesOfOrder": "Rules of Order cheat sheet",
         "humanRightsModule": "Module 3: Human Rights & Accommodation",
-        "rightToRefuse": "Right to refuse guide"
+        "rightToRefuse": "Right to refuse guide",
+        "digitalSecurityModule": "Module 13: Digital Security & Transitions",
+        "everydayValueModule": "Module 14: Everyday Union Value",
+        "financialHealthModule": "Module 5: Financial Health & Audits",
+        "membershipListsModule": "Module 11: Member Lists & Data Privacy",
+        "democraticGovernanceModule": "Module 4: Democratic Governance",
+        "collectivePowerModule": "Module 6: Building Collective Power"
       }
     },
     "reference": {
@@ -838,7 +844,19 @@
       "privacyCta": "Download privacy PDF",
       "caucusTitle": "United caucus briefing",
       "caucusBody": "Pre-meeting caucus roles, united front, and multi-forum routing.",
-      "caucusCta": "Download caucus PDF"
+      "caucusCta": "Download caucus PDF",
+      "listTitle": "List directive sheet",
+      "listBody": "Rand vs card, monthly reconciliation, and storage rules on one page.",
+      "listCta": "Download list PDF",
+      "expenseTitle": "Expense & hardship sheet",
+      "expenseBody": "Policy limits, honoraria tax notes, and dual-signature hardship controls.",
+      "expenseCta": "Download finance PDF",
+      "transitionTitle": "Transition & retention sheet",
+      "transitionBody": "Folder map, retention periods, and officer handover checklist.",
+      "transitionCta": "Download transition PDF",
+      "orientationTitle": "Day-1 orientation kit",
+      "orientationBody": "Fifteen-minute welcome script, kit contents, and affinity card rules.",
+      "orientationCta": "Download orientation PDF"
     },
     "diagrams": {
       "filterTitle": "5-point grievance filter",
@@ -922,7 +940,31 @@
       "routeJhsc": "JHSC hazard",
       "routeLmc": "LMC policy",
       "routeGrievance": "Group grievance",
-      "routeCaption": "One systemic problem can travel three forums at once — caucus first, then present a united front."
+      "routeCaption": "One systemic problem can travel three forums at once — caucus first, then present a united front.",
+      "listTitle": "Dues → card → secure store",
+      "listAria": "Reconcile dues payers into signed members on a secure system",
+      "listDues": "Dues report",
+      "listCard": "Signed card",
+      "listSecure": "Encrypted union store",
+      "listCaption": "Payroll rows are not voting members until cards are signed and stored off employer systems.",
+      "expenseTitle": "Policy → honoraria → hardship",
+      "expenseAria": "Expense policy, taxable honoraria, and hardship governance",
+      "expensePolicy": "GMM expense policy",
+      "expenseHonoraria": "Taxable honoraria",
+      "expenseHardship": "Blind hardship committee",
+      "expenseCaption": "Reimbursements need receipts; honoraria need slips; hardship needs two signatures.",
+      "archiveTitle": "Folders → retain → handover",
+      "archiveAria": "Information architecture, retention, and officer transition",
+      "archiveFolders": "Standard folders",
+      "archiveRetain": "Permanent vs 7-year",
+      "archiveHandover": "Transition checklist",
+      "archiveCaption": "Never shred minutes. Never leave accounts on personal passwords after an election.",
+      "welcomeTitle": "Day-1 → affinity → community",
+      "welcomeAria": "Orientation, affinity benefits, and community unionism",
+      "welcomeDay1": "15-minute welcome",
+      "welcomeAffinity": "Discount card (no list share)",
+      "welcomeCommunity": "Community alliances",
+      "welcomeCaption": "Everyday value starts on hire day — without handing membership data to vendors."
     },
     "timelines": {
       "contract-enforcement": {
@@ -1170,6 +1212,98 @@
             "summary": "Group file for contract breaches while committees run in parallel."
           }
         }
+      },
+      "membership-lists-privacy": {
+        "title": "Worked file timeline",
+        "aria": "List hygiene from dues dump through secure store",
+        "caption": "Reconcile monthly. Never store the cleaned list on employer cloud.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — dues dump",
+            "summary": "Receive employer CSV. Do not edit it on work OneDrive."
+          },
+          "d1": {
+            "label": "Day 1 — reconcile",
+            "summary": "Match dues rows to signed cards. Flag payers without cards."
+          },
+          "d3": {
+            "label": "Day 3 — signup list",
+            "summary": "Build internal outreach targets for /guide/membership-signup craft."
+          },
+          "d7": {
+            "label": "Day 7 — secure store",
+            "summary": "Update encrypted union database. Refuse any third-party list ask."
+          }
+        }
+      },
+      "advanced-local-finance": {
+        "title": "Worked file timeline",
+        "aria": "Expense and hardship controls from request through dual signature",
+        "caption": "Policy first. Tax slips for honoraria. Two signatures even in emergencies.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — request",
+            "summary": "Officer submits voucher or hardship application lands."
+          },
+          "d1": {
+            "label": "Day 1 — classify",
+            "summary": "Reimbursement vs honorarium vs hardship. Check GMM policy."
+          },
+          "d3": {
+            "label": "Day 3 — committee / tax",
+            "summary": "Blind hardship review or flag T4A threshold for honoraria."
+          },
+          "d7": {
+            "label": "Day 7 — dual sign",
+            "summary": "Two authorized signatures. Ledger note for trustees."
+          }
+        }
+      },
+      "digital-security-transitions": {
+        "title": "Worked file timeline",
+        "aria": "Officer transition from election through account ownership",
+        "caption": "Update bank authorities immediately. Transfer admin ownership — never text passwords.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — election result",
+            "summary": "New officers named. Freeze personal account sharing."
+          },
+          "d1": {
+            "label": "Day 1 — inventory",
+            "summary": "List drives, domains, mailing lists, and bank signers."
+          },
+          "d2": {
+            "label": "Day 2 — bank + 2FA",
+            "summary": "Update signing cards. Enforce MFA on union accounts."
+          },
+          "d3": {
+            "label": "Day 3 — password manager",
+            "summary": "Reset shared vault. Revoke outgoing officer access."
+          }
+        }
+      },
+      "everyday-union-value": {
+        "title": "Worked file timeline",
+        "aria": "Day-1 orientation from kit prep through card signed",
+        "caption": "Welcome first. Sign the card. Never trade lists for discounts.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — kit ready",
+            "summary": "Welcome letter, CA, steward card, membership card, discount card."
+          },
+          "d1": {
+            "label": "Day 1 — 15 minutes",
+            "summary": "Warm pitch on contract value. Sign membership card on the spot."
+          },
+          "d3": {
+            "label": "Day 3 — secure entry",
+            "summary": "Enter new member in union database. Introduce area steward."
+          },
+          "d7": {
+            "label": "Day 7 — community invite",
+            "summary": "Invite to GMM or community solidarity action. Affinity without list share."
+          }
+        }
       }
     },
     "quiz": {
@@ -1227,6 +1361,22 @@
       "joint-workplace-committees": {
         "title": "Joint Workplace Committees",
         "summary": "Use JHSC and LMC as strategic forums with united caucus discipline and multi-track escalation."
+      },
+      "membership-lists-privacy": {
+        "title": "Member Lists & Data Privacy",
+        "summary": "Reconcile dues reports with signed cards, apply the membership list directive, and keep databases off employer systems."
+      },
+      "advanced-local-finance": {
+        "title": "Advanced Local Finance",
+        "summary": "Design GMM expense policies, treat honoraria as taxable income, and run blind hardship funds with dual signatures."
+      },
+      "digital-security-transitions": {
+        "title": "Digital Security & Transitions",
+        "summary": "Build folder architecture, follow retention schedules, and hand over accounts with 2FA and a transition checklist."
+      },
+      "everyday-union-value": {
+        "title": "Everyday Union Value",
+        "summary": "Run Day-1 orientations, deliver affinity benefits without sharing lists, and build community unionism alliances."
       }
     },
     "certificate": {
@@ -1239,7 +1389,7 @@
       "downloading": "Preparing PDF…",
       "success": "Certificate downloaded.",
       "error": "Could not create the PDF. Try again, or check that downloads are allowed in this browser.",
-      "pathTitle": "Full Officer Learning path (all ten modules)"
+      "pathTitle": "Full Officer Learning path (all fourteen modules)"
     },
     "hubSync": {
       "signedOutTitle": "Optional: sync to Officer Hub",
@@ -3299,7 +3449,7 @@
       "blurb": {
         "stewardPlaybooks": "Start here: Steward 101, Officer Learning modules with self-tests, and every floor playbook in one list.",
         "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example — start here.",
-        "officerLearning": "Ten self-paced modules with quizzes, floor checklists, and printable take-to-meeting sheets — progress saves on this device.",
+        "officerLearning": "Fourteen self-paced modules with quizzes, floor checklists, and printable take-to-meeting sheets — progress saves on this device.",
         "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet. Confirm steps in your agreement.",
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",
@@ -4838,7 +4988,7 @@
     "backToGuide": "Back to The Blueprint",
     "trainingPath": {
       "title": "Recommended training path",
-      "body": "Start with Steward 101 for role basics, then Officer Learning Center for ten modules with self-tests. Open the other playbooks when a live file needs them.",
+      "body": "Start with Steward 101 for role basics, then Officer Learning Center for fourteen modules with self-tests. Open the other playbooks when a live file needs them.",
       "steward101Cta": "Start Steward 101",
       "officerLearningCta": "Open Officer Learning modules"
     },
@@ -4922,7 +5072,7 @@
     },
     "blurbs": {
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
-      "officerLearning": "Ten modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
+      "officerLearning": "Fourteen modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
       "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet.",
       "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
       "workplaceMapping": "Chart coworkers, find organic leaders, and score union support 1 to 5.",
@@ -7137,6 +7287,10 @@
       "logo-on-brand-fills": {
         "title": "Logos stay readable on brand-coloured backgrounds",
         "body": "Meeting backgrounds and other canvas tools keep your mark readable on coral, gold, or other Brand Kit fills — official Looks use the matching plate lockup; your uploaded logo sits on a white card so every colour stays visible."
+      },
+      "officer-learning-modules-11-14": {
+        "title": "Officer Learning modules 11–14",
+        "body": "Four new self-paced modules: member lists and privacy, advanced local finance, digital security and transitions, and Day-1 orientation with affinity and community unionism."
       }
     }
   },
@@ -7206,7 +7360,11 @@
       "portalSidebars": "Sidebars",
       "portalFeedback": "Send feedback",
       "hubDashboard": "Hub dashboard",
-      "hubLogin": "Hub login"
+      "hubLogin": "Hub login",
+      "olLists": "Member Lists & Data Privacy module",
+      "olAdvancedFinance": "Advanced Local Finance module",
+      "olDigitalSecurity": "Digital Security & Transitions module",
+      "olEverydayValue": "Everyday Union Value module"
     }
   },
   "accessibility": {
@@ -9159,7 +9317,7 @@
     "startHereSteps": {
       "firstWeek": "Boards, print, social, and a simple website after Brand Kit.",
       "playbooks": "Floor training, meetings, grievances, and campaign handbooks.",
-      "officerLearning": "Ten modules with checklists and a quiz on this device."
+      "officerLearning": "Fourteen modules with checklists and a quiz on this device."
     },
     "groups": {
       "commsPath": {
@@ -9202,7 +9360,7 @@
       "bargaining": "Survey to signing for local bargaining committees, with checklists and the Proposal Tracker.",
       "strike": "Command, the picket line, member care, money, safety, and return to work.",
       "crisis": "Calm local messages during strikes, bargaining, layoffs, and management reactions.",
-      "officerLearning": "Ten modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
+      "officerLearning": "Fourteen modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
       "stewardPlaybooks": "Front door for floor training, meetings, grievances, and campaign handbooks.",
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
       "unionHistory": "Two tracks, not one ladder: union family and the city labour council.",
@@ -10016,7 +10174,11 @@
     "utilGrievanceGuide": "Grievance process guide",
     "readModule3": "Module 3: human rights & accommodation",
     "moduleHint": "Pair with",
-    "workspacesIntro": "Practice workspaces save notes on this device only."
+    "workspacesIntro": "Practice workspaces save notes on this device only.",
+    "readModule11": "Module 11: member lists & data privacy",
+    "readModule12": "Module 12: advanced local finance",
+    "readModule13": "Module 13: digital security & transitions",
+    "readModule14": "Module 14: everyday union value"
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Preparing PDF…",

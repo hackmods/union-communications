@@ -13,7 +13,7 @@ describe("officer learning catalog", () => {
     expect(new Set(ids).size).toBe(ids.length);
     expect(new Set(slugs).size).toBe(slugs.length);
     expect(OFFICER_LEARNING_MODULES.map((m) => m.number)).toEqual([
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
     ]);
   });
 
@@ -21,6 +21,8 @@ describe("officer learning catalog", () => {
     expect(getModuleBySlug("democratic-governance")?.id).toBe("module-4");
     expect(getModuleById("module-4")?.slug).toBe("democratic-governance");
     expect(getModuleBySlug("mobilizer-bargaining-partner")?.id).toBe("module-7");
+    expect(getModuleBySlug("membership-lists-privacy")?.id).toBe("module-11");
+    expect(getModuleBySlug("everyday-union-value")?.id).toBe("module-14");
     expect(getModuleBySlug("missing")).toBeUndefined();
   });
 
@@ -34,7 +36,10 @@ describe("officer learning catalog", () => {
     expect(getNextModuleSlug("building-collective-power")).toBe(
       "mobilizer-bargaining-partner",
     );
-    expect(getNextModuleSlug("joint-workplace-committees")).toBeNull();
+    expect(getNextModuleSlug("joint-workplace-committees")).toBe(
+      "membership-lists-privacy",
+    );
+    expect(getNextModuleSlug("everyday-union-value")).toBeNull();
     expect(getNextModuleSlug("not-a-module")).toBeNull();
   });
 });

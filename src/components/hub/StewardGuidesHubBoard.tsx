@@ -74,6 +74,22 @@ const READ_FIRST = [
     href: "/guide/officer-learning/joint-workplace-committees",
     titleKey: "readModule10" as const,
   },
+  {
+    href: "/guide/officer-learning/membership-lists-privacy",
+    titleKey: "readModule11" as const,
+  },
+  {
+    href: "/guide/officer-learning/advanced-local-finance",
+    titleKey: "readModule12" as const,
+  },
+  {
+    href: "/guide/officer-learning/digital-security-transitions",
+    titleKey: "readModule13" as const,
+  },
+  {
+    href: "/guide/officer-learning/everyday-union-value",
+    titleKey: "readModule14" as const,
+  },
 ] as const;
 
 const UTILITIES = [

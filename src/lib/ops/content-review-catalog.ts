@@ -87,6 +87,10 @@ const OFFICER_LEARNING_MODULES: readonly { href: string; labelKey: string }[] = 
   { href: "/guide/officer-learning/advanced-grievance-settlement", labelKey: "olSettlement" },
   { href: "/guide/officer-learning/benefits-disability-claims", labelKey: "olBenefits" },
   { href: "/guide/officer-learning/joint-workplace-committees", labelKey: "olCommittees" },
+  { href: "/guide/officer-learning/membership-lists-privacy", labelKey: "olLists" },
+  { href: "/guide/officer-learning/advanced-local-finance", labelKey: "olAdvancedFinance" },
+  { href: "/guide/officer-learning/digital-security-transitions", labelKey: "olDigitalSecurity" },
+  { href: "/guide/officer-learning/everyday-union-value", labelKey: "olEverydayValue" },
 ];
 
 /** Pages where stewards download text or canvas PDFs (button on page). */

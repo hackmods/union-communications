@@ -22,7 +22,10 @@ test.describe("Officer Learning @smoke", () => {
       page.getByRole("link", { name: "Mobilizer & Bargaining Partner", exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Joint Workplace Committees", exact: true }),
+      page.getByRole("link", { name: "Member Lists & Data Privacy", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Everyday Union Value", exact: true }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
@@ -59,7 +62,7 @@ test.describe("Officer Learning @smoke", () => {
     ).toHaveCount(0);
     await expect(
       main.getByRole("menuitem", {
-        name: /Ten self-paced modules with floor checklists/i,
+        name: /Fourteen self-paced modules with floor checklists/i,
       }),
     ).toHaveCount(0);
   });

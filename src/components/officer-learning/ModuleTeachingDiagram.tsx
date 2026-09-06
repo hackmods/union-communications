@@ -296,5 +296,97 @@ export function ModuleTeachingDiagram({ slug, className }: Props) {
     );
   }
 
+  if (slug === "membership-lists-privacy") {
+    return (
+      <DiagramShell title={t("listTitle")} className={className}>
+        <div
+          className="flex flex-col gap-2 sm:flex-row sm:items-center"
+          role="img"
+          aria-label={t("listAria")}
+        >
+          <StepPill index={1} label={t("listDues")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={2} label={t("listCard")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={3} label={t("listSecure")} />
+        </div>
+        <p className="mt-3 text-sm text-slate-300">{t("listCaption")}</p>
+      </DiagramShell>
+    );
+  }
+
+  if (slug === "advanced-local-finance") {
+    return (
+      <DiagramShell title={t("expenseTitle")} className={className}>
+        <div
+          className="flex flex-col gap-2 sm:flex-row sm:items-center"
+          role="img"
+          aria-label={t("expenseAria")}
+        >
+          <StepPill index={1} label={t("expensePolicy")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={2} label={t("expenseHonoraria")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={3} label={t("expenseHardship")} />
+        </div>
+        <p className="mt-3 text-sm text-slate-300">{t("expenseCaption")}</p>
+      </DiagramShell>
+    );
+  }
+
+  if (slug === "digital-security-transitions") {
+    return (
+      <DiagramShell title={t("archiveTitle")} className={className}>
+        <div
+          className="flex flex-col gap-2 sm:flex-row sm:items-center"
+          role="img"
+          aria-label={t("archiveAria")}
+        >
+          <StepPill index={1} label={t("archiveFolders")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={2} label={t("archiveRetain")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={3} label={t("archiveHandover")} />
+        </div>
+        <p className="mt-3 text-sm text-slate-300">{t("archiveCaption")}</p>
+      </DiagramShell>
+    );
+  }
+
+  if (slug === "everyday-union-value") {
+    return (
+      <DiagramShell title={t("welcomeTitle")} className={className}>
+        <div
+          className="flex flex-col gap-2 sm:flex-row sm:items-center"
+          role="img"
+          aria-label={t("welcomeAria")}
+        >
+          <StepPill index={1} label={t("welcomeDay1")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={2} label={t("welcomeAffinity")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={3} label={t("welcomeCommunity")} />
+        </div>
+        <p className="mt-3 text-sm text-slate-300">{t("welcomeCaption")}</p>
+      </DiagramShell>
+    );
+  }
+
   return null;
 }

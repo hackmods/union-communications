@@ -759,6 +759,302 @@ export async function downloadCaucusBriefingPdf(opts: ModulePdfContext): Promise
   });
 }
 
+/** Membership list directive pocket sheet (module 11). */
+export async function downloadListDirectivePdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Directive sur les listes — fiche de plancher",
+          sections: [
+            {
+              heading: "Ce que la liste n'est pas",
+              lines: [
+                "Pas un fichier marketing pour un partenaire commercial",
+                "Pas une liste à remettre à une campagne politique",
+                "Pas un dossier à stocker sur OneDrive / Teams employeur",
+              ],
+            },
+            {
+              heading: "Réconciliation mensuelle",
+              lines: [
+                "Rapport de cotisations employeur ↔ cartes signées",
+                "Signaler les payeurs sans carte pour le recrutement",
+                "Vérifier classifications et arriérés de cotisations",
+              ],
+            },
+            {
+              heading: "Stockage sécurisé",
+              lines: [
+                "Drive ou base chiffrée contrôlée par le syndicat + 2FA",
+                "Jamais d'USB dans un casier partagé",
+                "Accès limité aux dirigeants autorisés",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Membership list directive — floor sheet",
+          sections: [
+            {
+              heading: "What the list is not",
+              lines: [
+                "Not a marketing file for any commercial partner",
+                "Not a contact dump for a political campaign",
+                "Not a file to store on employer OneDrive / Teams",
+              ],
+            },
+            {
+              heading: "Monthly reconciliation",
+              lines: [
+                "Employer dues report ↔ signed membership cards",
+                "Flag dues payers without cards for signup outreach",
+                "Check classifications and dues arrears",
+              ],
+            },
+            {
+              heading: "Secure storage",
+              lines: [
+                "Encrypted union-controlled drive or database + 2FA",
+                "Never a USB left in a shared locker",
+                "Access limited to authorized officers",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-list-directive-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
+/** Expense policy & hardship controls sheet (module 12). */
+export async function downloadExpenseHardshipPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Dépenses, honoraires et fonds de détresse",
+          sections: [
+            {
+              heading: "Politique de dépenses (approuvée en AG)",
+              lines: [
+                "Kilométrage (taux fixe) documenté",
+                "Per diem repas — pas si le repas est fourni",
+                "Soins aux personnes à charge avec reçu",
+              ],
+            },
+            {
+              heading: "Honoraires",
+              lines: [
+                "Montant et poste dans les règlements + vote AG",
+                "Revenus imposables — feuillet fiscal si seuil atteint",
+                "Bon mensuel des heures et tâches",
+              ],
+            },
+            {
+              heading: "Fonds de détresse",
+              lines: [
+                "Comité indépendant (pas président/trésorier)",
+                "Demandes à l'aveugle selon critères écrits",
+                "Deux signatures exécutives même en urgence",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Expenses, honoraria & hardship controls",
+          sections: [
+            {
+              heading: "Expense policy (GMM-approved)",
+              lines: [
+                "Documented mileage at a fixed rate",
+                "Meal per diems — not when a meal is provided",
+                "Dependent care with caregiver receipt",
+              ],
+            },
+            {
+              heading: "Honoraria",
+              lines: [
+                "Amount and office in bylaws + GMM vote",
+                "Taxable income — tax slip if threshold met",
+                "Monthly voucher of hours and duties",
+              ],
+            },
+            {
+              heading: "Hardship fund",
+              lines: [
+                "Independent committee (not president/treasurer)",
+                "Blind applications against written criteria",
+                "Two executive signatures even in emergencies",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-expense-hardship-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
+/** Officer transition & retention sheet (module 13). */
+export async function downloadTransitionChecklistPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Transition et rétention — fiche secrétaire",
+          sections: [
+            {
+              heading: "Architecture des dossiers",
+              lines: [
+                "01 Gouvernance / 02 Finances / 03 Griefs / 04 Négociation",
+                "Griefs actifs chiffrés et à accès restreint",
+              ],
+            },
+            {
+              heading: "Rétention",
+              lines: [
+                "Permanent : PV, règlements, conventions signées",
+                "7 ans : grands livres, reçus, feuillets fiscaux",
+                "Griefs : ≥7 ans après clôture (précédents : résumé permanent)",
+              ],
+            },
+            {
+              heading: "Liste de transition",
+              lines: [
+                "Autorités bancaires mises à jour immédiatement",
+                "Propriété admin des comptes (pas de mots de passe SMS)",
+                "Gestionnaire de mots de passe + 2FA partout",
+                "Aucun appareil ou drive employeur",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Transition & retention — secretary sheet",
+          sections: [
+            {
+              heading: "Folder architecture",
+              lines: [
+                "01 Governance / 02 Financials / 03 Grievances / 04 Bargaining",
+                "Active grievances encrypted and access-restricted",
+              ],
+            },
+            {
+              heading: "Retention",
+              lines: [
+                "Permanent: minutes, bylaws, signed collective agreements",
+                "7 years: ledgers, receipts, tax slips",
+                "Grievances: ≥7 years after close (precedents: permanent summary)",
+              ],
+            },
+            {
+              heading: "Transition checklist",
+              lines: [
+                "Bank signing authorities updated immediately",
+                "Admin ownership of accounts (no SMS password sharing)",
+                "Password manager + 2FA everywhere",
+                "No employer devices or employer cloud drives",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-transition-checklist-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
+/** Day-1 orientation kit sheet (module 14). */
+export async function downloadOrientationKitPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Trousse d'orientation Jour 1 — 15 minutes",
+          sections: [
+            {
+              heading: "Avant la séance",
+              lines: [
+                "Bloc obligatoire négocié dans l'intégration employeur?",
+                "Trousse : lettre, convention, carte du délégué, carte de membre",
+                "Carte d'affinité prête — sans partager la liste",
+              ],
+            },
+            {
+              heading: "Pendant (15 minutes)",
+              lines: [
+                "Accueil chaleureux — pas un cours de grief",
+                "La convention garantit salaire et sécurité",
+                "Faire signer la carte de membre sur place",
+              ],
+            },
+            {
+              heading: "Après",
+              lines: [
+                "Inscrire le nouveau membre dans la base sécurisée",
+                "Présenter le délégué de secteur",
+                "Inviter à la prochaine AG / activité solidaire",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Day-1 orientation kit — 15 minutes",
+          sections: [
+            {
+              heading: "Before the session",
+              lines: [
+                "Mandatory block negotiated into employer onboarding?",
+                "Kit: welcome letter, CA, steward card, membership card",
+                "Affinity discount card ready — never share the list",
+              ],
+            },
+            {
+              heading: "During (15 minutes)",
+              lines: [
+                "Warm welcome — not a grievance lecture",
+                "The contract guarantees wages and safety",
+                "Have them sign the membership card on the spot",
+              ],
+            },
+            {
+              heading: "After",
+              lines: [
+                "Enter the new member in the secure database",
+                "Introduce their area steward",
+                "Invite to the next GMM / solidarity event",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-orientation-kit-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
 const BYLAWS_ADOPTION_COPY = {
   en: {
     title: "Local bylaws — adoption & amendment checklist",

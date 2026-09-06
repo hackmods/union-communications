@@ -48,7 +48,7 @@
     "steward101Guide": "Délégué 101",
     "officerLearningGuide": "Centre de formation des dirigeants",
     "officerLearningTopNav": "Formation des dirigeants",
-    "officerLearningFeatured": "Dix modules autogérés avec listes de contrôle et quiz.",
+    "officerLearningFeatured": "Quatorze modules autogérés avec listes de contrôle et quiz.",
     "workplaceMappingGuide": "Cartographie du lieu de travail",
     "grievanceProcessGuide": "Processus de grief",
     "dfrGuide": "Devoir de représentation équitable",
@@ -708,7 +708,7 @@
   "officerLearning": {
     "eyebrow": "Formation des dirigeants",
     "title": "Centre de formation des dirigeants",
-    "intro": "Dix modules autogérés pour délégués et dirigeants locaux — de l'application de la convention aux comités conjoints. La progression est enregistrée sur cet appareil seulement.",
+    "intro": "Quatorze modules autogérés pour délégués et dirigeants locaux — de l'application de la convention à la valeur syndicale quotidienne. La progression reste sur cet appareil seulement.",
     "disclaimer": "Formation pour le plancher — pas un avis juridique. Confirmez chaque délai, redressement et procédure dans votre convention collective et votre loi applicables.",
     "sourcesIntro": "Lectures complémentaires provenant de fédérations syndicales canadiennes, de manuels multi-syndicaux pour délégués et de guides publics sur les droits de la personne — sans privilégier une seule centrale. Confirmez chaque règle dans votre convention et votre loi applicables.",
     "moduleLabel": "Module {number}",
@@ -798,7 +798,13 @@
         "landAcknowledgement": "Guide de reconnaissance territoriale",
         "rulesOfOrder": "Aide-mémoire de procédure",
         "humanRightsModule": "Module 3 : Droits de la personne et accommodation",
-        "rightToRefuse": "Guide du droit de refuser"
+        "rightToRefuse": "Guide du droit de refuser",
+        "digitalSecurityModule": "Module 13 : Sécurité numérique et transitions",
+        "everydayValueModule": "Module 14 : Valeur syndicale quotidienne",
+        "financialHealthModule": "Module 5 : Santé financière et vérifications",
+        "membershipListsModule": "Module 11 : Listes de membres et confidentialité",
+        "democraticGovernanceModule": "Module 4 : Gouvernance démocratique",
+        "collectivePowerModule": "Module 6 : Bâtir le pouvoir collectif"
       }
     },
     "reference": {
@@ -838,7 +844,19 @@
       "privacyCta": "Télécharger la fiche confidentialité PDF",
       "caucusTitle": "Briefing de caucus uni",
       "caucusBody": "Rôles du pré-caucus, front uni et aiguillage multi-forums.",
-      "caucusCta": "Télécharger la fiche caucus PDF"
+      "caucusCta": "Télécharger la fiche caucus PDF",
+      "listTitle": "Fiche directive sur les listes",
+      "listBody": "Rand vs carte, rapprochement mensuel et règles de stockage sur une page.",
+      "listCta": "Télécharger la fiche listes",
+      "expenseTitle": "Fiche dépenses et détresse",
+      "expenseBody": "Limites de politique, notes fiscales sur les honoraires et double signature.",
+      "expenseCta": "Télécharger la fiche finances",
+      "transitionTitle": "Fiche transition et rétention",
+      "transitionBody": "Carte des dossiers, délais de conservation et liste de passation.",
+      "transitionCta": "Télécharger la fiche transition",
+      "orientationTitle": "Trousse d'orientation Jour 1",
+      "orientationBody": "Script de 15 minutes, contenu de la trousse et règles de carte d'affinité.",
+      "orientationCta": "Télécharger la fiche orientation"
     },
     "diagrams": {
       "filterTitle": "Filtre de grief en 5 points",
@@ -922,7 +940,31 @@
       "routeJhsc": "Danger JHSC",
       "routeLmc": "Politique LMC",
       "routeGrievance": "Grief collectif",
-      "routeCaption": "Un problème systémique peut voyager dans trois forums à la fois — caucus d'abord, puis front uni."
+      "routeCaption": "Un problème systémique peut voyager dans trois forums à la fois — caucus d'abord, puis front uni.",
+      "listTitle": "Cotisations → carte → stockage sûr",
+      "listAria": "Rapprocher les payeurs de cotisations vers des membres signés sur un système sécurisé",
+      "listDues": "Rapport de cotisations",
+      "listCard": "Carte signée",
+      "listSecure": "Stockage syndical chiffré",
+      "listCaption": "Les rangées de paie ne sont pas des membres votants tant que les cartes ne sont pas signées et hors systèmes employeur.",
+      "expenseTitle": "Politique → honoraires → détresse",
+      "expenseAria": "Politique de dépenses, honoraires imposables et gouvernance de détresse",
+      "expensePolicy": "Politique AG",
+      "expenseHonoraria": "Honoraires imposables",
+      "expenseHardship": "Comité de détresse à l'aveugle",
+      "expenseCaption": "Les remboursements exigent des reçus ; les honoraires, des feuillets ; la détresse, deux signatures.",
+      "archiveTitle": "Dossiers → rétention → passation",
+      "archiveAria": "Architecture, rétention et transition de dirigeants",
+      "archiveFolders": "Dossiers standards",
+      "archiveRetain": "Permanent vs 7 ans",
+      "archiveHandover": "Liste de transition",
+      "archiveCaption": "Ne détruisez jamais les procès-verbaux. Ne laissez pas les comptes sur des mots de passe personnels après une élection.",
+      "welcomeTitle": "Jour 1 → affinité → communauté",
+      "welcomeAria": "Orientation, avantages d'affinité et syndicalisme communautaire",
+      "welcomeDay1": "Accueil de 15 minutes",
+      "welcomeAffinity": "Carte de rabais (sans liste)",
+      "welcomeCommunity": "Alliances communautaires",
+      "welcomeCaption": "La valeur quotidienne commence le jour de l'embauche — sans donner les données membres aux fournisseurs."
     },
     "timelines": {
       "contract-enforcement": {
@@ -1170,6 +1212,98 @@
             "summary": "Dépôt collectif pour violations de convention pendant que les comités tournent en parallèle."
           }
         }
+      },
+      "membership-lists-privacy": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Hygiène des listes du dump de cotisations au stockage sécurisé",
+        "caption": "Rapprochez chaque mois. Ne stockez jamais la liste nettoyée sur le nuage employeur.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — dump de cotisations",
+            "summary": "Recevoir le CSV employeur. Ne pas l'éditer sur OneDrive au travail."
+          },
+          "d1": {
+            "label": "Jour 1 — rapprochement",
+            "summary": "Apparier les rangées aux cartes signées. Signaler les payeurs sans carte."
+          },
+          "d3": {
+            "label": "Jour 3 — liste de recrutement",
+            "summary": "Cibles internes pour le métier de /guide/membership-signup."
+          },
+          "d7": {
+            "label": "Jour 7 — stockage sûr",
+            "summary": "Mettre à jour la base syndicale chiffrée. Refuser toute demande de liste tierce."
+          }
+        }
+      },
+      "advanced-local-finance": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Contrôles de dépenses et de détresse de la demande à la double signature",
+        "caption": "La politique d'abord. Feuillets pour les honoraires. Deux signatures même en urgence.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — demande",
+            "summary": "Bon soumis ou demande de détresse reçue."
+          },
+          "d1": {
+            "label": "Jour 1 — classer",
+            "summary": "Remboursement vs honoraire vs détresse. Vérifier la politique AG."
+          },
+          "d3": {
+            "label": "Jour 3 — comité / fiscalité",
+            "summary": "Revue à l'aveugle ou seuil T4A pour les honoraires."
+          },
+          "d7": {
+            "label": "Jour 7 — double signature",
+            "summary": "Deux signatures autorisées. Note au grand livre pour les fiduciaires."
+          }
+        }
+      },
+      "digital-security-transitions": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Transition de dirigeants de l'élection à la propriété des comptes",
+        "caption": "Mettez à jour les autorités bancaires immédiatement. Transférez l'admin — ne textez jamais les mots de passe.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — résultat d'élection",
+            "summary": "Nouveaux dirigeants nommés. Gel du partage de comptes personnels."
+          },
+          "d1": {
+            "label": "Jour 1 — inventaire",
+            "summary": "Lister drives, domaines, listes d'envoi et signataires bancaires."
+          },
+          "d2": {
+            "label": "Jour 2 — banque + 2FA",
+            "summary": "Mettre à jour les cartes de signature. Imposer le MFA."
+          },
+          "d3": {
+            "label": "Jour 3 — gestionnaire de mots de passe",
+            "summary": "Réinitialiser le coffre partagé. Révoquer l'accès sortant."
+          }
+        }
+      },
+      "everyday-union-value": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Orientation Jour 1 de la trousse à la carte signée",
+        "caption": "Accueillir d'abord. Faire signer la carte. Ne jamais échanger des listes contre des rabais.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — trousse prête",
+            "summary": "Lettre, convention, carte du délégué, carte de membre, carte de rabais."
+          },
+          "d1": {
+            "label": "Jour 1 — 15 minutes",
+            "summary": "Pitch chaleureux sur la valeur de la convention. Signer la carte sur place."
+          },
+          "d3": {
+            "label": "Jour 3 — inscription sûre",
+            "summary": "Inscrire dans la base syndicale. Présenter le délégué de secteur."
+          },
+          "d7": {
+            "label": "Jour 7 — invitation communautaire",
+            "summary": "Inviter à l'AG ou à une action. Affinité sans partage de liste."
+          }
+        }
       }
     },
     "quiz": {
@@ -1227,6 +1361,22 @@
       "joint-workplace-committees": {
         "title": "Comités conjoints en milieu de travail",
         "summary": "Utiliser le JHSC et le LMC comme forums stratégiques avec discipline de caucus uni et escalade multi-voies."
+      },
+      "membership-lists-privacy": {
+        "title": "Listes de membres et confidentialité",
+        "summary": "Rapprocher cotisations et cartes signées, appliquer la directive sur les listes et tenir les bases hors systèmes employeur."
+      },
+      "advanced-local-finance": {
+        "title": "Finances locales avancées",
+        "summary": "Rédiger des politiques de dépenses AG, traiter les honoraires comme revenus imposables et gérer des fonds de détresse à l'aveugle."
+      },
+      "digital-security-transitions": {
+        "title": "Sécurité numérique et transitions",
+        "summary": "Structurer les dossiers, respecter la rétention et transmettre les comptes avec 2FA et une liste de transition."
+      },
+      "everyday-union-value": {
+        "title": "Valeur syndicale quotidienne",
+        "summary": "Animer des orientations Jour 1, offrir l'affinité sans partager les listes et bâtir des alliances communautaires."
       }
     },
     "certificate": {
@@ -1239,7 +1389,7 @@
       "downloading": "Préparation du PDF…",
       "success": "Certificat téléchargé.",
       "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés dans ce navigateur.",
-      "pathTitle": "Parcours complet de formation des dirigeants (dix modules)"
+      "pathTitle": "Parcours complet de formation des dirigeants (quatorze modules)"
     },
     "hubSync": {
       "signedOutTitle": "Optionnel : synchroniser avec le Hub",
@@ -3299,7 +3449,7 @@
       "blurb": {
         "stewardPlaybooks": "Commencez ici : Délégué 101, modules du Centre de formation des dirigeants avec autoévaluations, et tous les guides sur une page.",
         "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté — commencez ici.",
-        "officerLearning": "Dix modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
+        "officerLearning": "Quatorze modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
         "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable. Confirmez les étapes dans votre convention.",
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
@@ -4786,7 +4936,7 @@
     "backToGuide": "Retour au Plan directeur",
     "trainingPath": {
       "title": "Parcours recommandé",
-      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour ten modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
+      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour quatorze modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
       "steward101Cta": "Commencer Délégué 101",
       "officerLearningCta": "Ouvrir les modules de formation des dirigeants"
     },
@@ -4870,7 +5020,7 @@
     },
     "blurbs": {
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
-      "officerLearning": "Dix modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
+      "officerLearning": "Quatorze modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
       "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable.",
       "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
       "workplaceMapping": "Recensez les collègues, repérez les leaders organiques et cotez l'appui syndical de 1 à 5.",
@@ -6872,7 +7022,7 @@
       },
       "officer-learning-center": {
         "title": "Formation des dirigeants — parcours de plancher définitif",
-        "body": "Dix modules bilingues avec parcours en direct, diagrammes d'enseignement, listes de contrôle cochables, fiches FAR imprimables et liens vers les outils pour délégués et les guides connexes."
+        "body": "Six modules bilingues avec parcours en direct, diagrammes d'enseignement, listes de contrôle cochables, fiches FAR imprimables et liens vers les outils pour délégués et les guides connexes."
       },
       "steward-playbooks-hub": {
         "title": "Guides pratiques pour délégués",
@@ -7085,6 +7235,10 @@
       "logo-on-brand-fills": {
         "title": "Les logos restent lisibles sur les fonds aux couleurs de la marque",
         "body": "Les arrière-plans de réunion et les autres outils visuels gardent votre marque lisible sur les fonds corail, or ou autres couleurs de la Trousse de marque — les Looks officiels utilisent la signature de plaque correspondante ; votre logo téléversé repose sur une carte blanche pour que chaque couleur reste visible."
+      },
+      "officer-learning-modules-11-14": {
+        "title": "Modules 11 à 14 de la formation des dirigeants",
+        "body": "Quatre nouveaux modules autogérés : listes de membres et confidentialité, finances locales avancées, sécurité numérique et transitions, et orientation Jour 1 avec affinité et syndicalisme communautaire."
       }
     }
   },
@@ -7154,7 +7308,11 @@
       "portalSidebars": "Sidebars",
       "portalFeedback": "Envoyer une rétroaction",
       "hubDashboard": "Tableau de bord Hub",
-      "hubLogin": "Connexion Hub"
+      "hubLogin": "Connexion Hub",
+      "olLists": "Module Listes de membres et confidentialité",
+      "olAdvancedFinance": "Module Finances locales avancées",
+      "olDigitalSecurity": "Module Sécurité numérique et transitions",
+      "olEverydayValue": "Module Valeur syndicale quotidienne"
     }
   },
   "accessibility": {
@@ -9154,12 +9312,12 @@
     "subtitle": "Première semaine, manuels par canal, et guides pratiques pour le plancher et la section. La formation des dirigeants reste un lien en tête de page.",
     "hint": "Définissez d'abord les couleurs et le logo dans",
     "startHereTitle": "Par où commencer",
-    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte ten modules autogérés.",
+    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte quatorze modules autogérés.",
     "startHereRoadmap": "Ouvrir tous les guides pratiques",
     "startHereSteps": {
       "firstWeek": "Tableaux, impression, social et un site simple après la Trousse de marque.",
       "playbooks": "Formation de plancher, assemblées, griefs et manuels de campagne.",
-      "officerLearning": "Dix modules avec listes de contrôle et un quiz sur cet appareil."
+      "officerLearning": "Quatorze modules avec listes de contrôle et un quiz sur cet appareil."
     },
     "groups": {
       "commsPath": {
@@ -9202,7 +9360,7 @@
       "bargaining": "Du sondage à la signature pour les comités locaux, avec listes et Suivi des propositions.",
       "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail.",
       "crisis": "Gardez des messages locaux calmes pendant les grèves, la négociation, les mises à pied et les réactions de la direction.",
-      "officerLearning": "Dix modules avec scénarios, listes de contrôle, fiches imprimables et un quiz par module.",
+      "officerLearning": "Quatorze modules avec scénarios, listes de contrôle, fiches imprimables et un quiz par module.",
       "stewardPlaybooks": "Porte d'entrée pour la formation de plancher, les assemblées, les griefs et les manuels de campagne.",
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
       "unionHistory": "Deux voies, pas une échelle : famille syndicale et conseil du travail municipal.",
@@ -10016,7 +10174,11 @@
     "utilSnippets": "Extraits de convention",
     "utilGrievanceGuide": "Guide du processus de grief",
     "moduleHint": "À lire avec",
-    "workspacesIntro": "Les espaces de pratique enregistrent les notes sur cet appareil seulement."
+    "workspacesIntro": "Les espaces de pratique enregistrent les notes sur cet appareil seulement.",
+    "readModule11": "Module 11 : listes de membres et confidentialité",
+    "readModule12": "Module 12 : finances locales avancées",
+    "readModule13": "Module 13 : sécurité numérique et transitions",
+    "readModule14": "Module 14 : valeur syndicale quotidienne"
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Préparation du PDF…",

@@ -26,7 +26,11 @@ export type ReferenceSheetId =
   | "workplace-map"
   | "settlement-corners"
   | "medical-privacy"
-  | "caucus-briefing";
+  | "caucus-briefing"
+  | "list-directive"
+  | "expense-hardship"
+  | "transition-checklist"
+  | "orientation-kit";
 
 export type ModuleReferenceSheet = {
   id: ReferenceSheetId;
