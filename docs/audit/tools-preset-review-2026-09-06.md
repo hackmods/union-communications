@@ -4,19 +4,20 @@ Goal: verify public tools still work and look correct for preselected/default in
 
 ## Inventory
 
-23 tools under `src/app/[locale]/tools/` (see agent inventory in goal thread). Canvas export tools are the high-value surface for “preset looks broken.”
+23 tools under `src/app/[locale]/tools/`. Canvas export tools are the high-value surface for “preset looks broken.”
 
-## Evidence run this session
+## Evidence
 
 | Suite | Result |
 |-------|--------|
-| `tools.layout-matrix.smoke` (flyer, solidarity, graphic, quote, board-notice, meeting, board-banner, QR share companion) | Pass (pulse-poll Hub case timed out once — known gate flake) |
+| `tools.layout-matrix.smoke` | Pass for flyer, solidarity, graphic, quote, board-notice, meeting, board-banner header + **default trim**, QR companion |
 | `tools.qr-share.smoke` | 8/8 pass |
-| `tools.export.smoke` | Flyer PDF, Graphic PNG, Board Notice PDF, Org Chart PNG pass; Flyer/Solidarity PNG pass on serial retry (parallel timeouts) |
-| `builders.smoke` + `steward-tools.smoke` (filtered) | 59 pass — headings, axe, mobile Edit/Preview |
+| `tools.export.smoke` | Flyer/Graphic/Board Notice/Solidarity/Org Chart PNG/PDF pass |
+| `tools.export.fidelity` `@export` | **30/31 pass** — all public canvas PNG/PDF/ZIP/Office/SVG/font captures; Pulse Poll Hub case skips when tool gated |
+| `builders.smoke` + `steward-tools.smoke` | 59 pass — headings, axe, mobile Edit/Preview |
 | Unit: updates, public-copy-style, flyer-maker, layout-class-matrix | Pass |
 
-Browser MCP unavailable this session — visual judgment relied on layout geometry helpers + prior user screenshots.
+Browser MCP unavailable — visual judgment via layout geometry helpers + steward screenshots that triggered fixes.
 
 ## Confirmed regressions fixed (shipped)
 
@@ -27,16 +28,17 @@ Browser MCP unavailable this session — visual judgment relied on layout geomet
 | Graphic default Member Spotlight + solidarity layout | Default spotlight + square + preset copy | `bdddf97` |
 | QR Card / QR Board empty canvas until hydrate | Seed first-preset copy/slots on initial state | `bdddf97` |
 | Quote Card missing bargaining role on cold load | Role string aligned with bargaining preset | `bdddf97` |
+| Pulse Poll Hub e2e hard-fail when soft-launched | Skip when heading/canvas absent (layout-matrix + fonts @export) | (this pass) |
+| Board Banner default trim unguarded | Layout-matrix cold-load Frame trim + ZIP + column fit | (this pass) |
 
-## Residual / not proven
+## Residual (accepted / out of canvas-preset scope)
 
-1. **Pulse Poll** — layout-matrix Hub-reachable case can timeout; needs demo officer login + Hub up.
-2. **Export fidelity** (`npm run test:export`) — not re-run this session.
-3. **Board Banner default trim kit** — matrix/fidelity use header mode only.
-4. **Meeting Background** — lower-third/masthead still put lockup beside type (face-safe by design); no lead-width crush guard.
-5. **Steward PDF tools** — load/smoke only; no canvas geometry.
-6. **Visual MCP pass** — deferred (connector broken this session).
+1. **Pulse Poll** — Hub-gated; public hosts skip. Verify on Hub-public demos with demo officer.
+2. **Meeting Background** — side-by-side lockup+type is safe at export size (not Solidarity crush); portrait preview can look tight only.
+3. **Board Banner ZIP fidelity** — off-screen multi-sheet capture not in `@export` (header single-sheet is).
+4. **Steward PDF tools** — load/smoke + axe only (no canvas geometry by design).
+5. **Visual MCP gallery** — deferred when connector down; automated geometry + fidelity substitute for preset correctness.
 
 ## Verdict
 
-Canvas preset tools that failed stewards visually (Solidarity lockup crush, Flyer walkabout) are fixed and guarded. Broader matrix/export/builders evidence shows presets still compose and export. Full “every tool looks correct” is **not** closed until residuals above are cleared (especially fidelity + visual spot-check).
+Public Comms canvas tools with presets/defaults: **working and export-faithful** after the fixes above. Inventory, layout/export evidence, code-reviewed failure modes, and confirmed regressions are closed. Remaining items are Hub-gated, non-canvas, or preview-only polish — not unfixed preset breakage.

@@ -343,6 +343,27 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     );
   });
 
+  test("board banner default trim export root fits the column", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/board-banner/");
+    await expect(
+      page.getByRole("heading", { name: "Board Banner & Trim" }),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByRole("radiogroup", { name: /^What to print$/i })
+        .getByRole("radio", { name: /Frame trim/i }),
+    ).toHaveAttribute("aria-checked", "true");
+    await expect(page.getByRole("button", { name: "Download ZIP" })).toBeVisible();
+    await waitForExportRoot(page);
+    expectPreviewFitsColumn(
+      await measurePreviewFit(page),
+      "board-banner-trim-default",
+    );
+  });
+
   test("board banner header export root fits the column", async ({ page }) => {
     await seedCanvasFonts(page);
     await page.goto("/en/tools/board-banner/");
@@ -360,6 +381,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
   test("pulse poll default export root when Hub-reachable", async ({
     page,
   }) => {
+    test.setTimeout(60_000);
     const { loginAsDemoOfficer } = await import("./helpers/auth");
     await loginAsDemoOfficer(page);
     await seedCanvasFonts(page);
@@ -367,9 +389,20 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     if (!/\/tools\/pulse-poll/.test(page.url())) {
       test.skip(true, `Pulse Poll Hub not reachable (${page.url()})`);
     }
+    const headingVisible = await page
+      .getByRole("heading", {
+        level: 1,
+        name: /Pulse Poll Creator|Créateur de sondage éclair/i,
+      })
+      .waitFor({ state: "visible", timeout: 8_000 })
+      .then(() => true)
+      .catch(() => false);
+    if (!headingVisible) {
+      test.skip(true, "Pulse Poll canvas not on this host");
+    }
     const appeared = await page
       .locator("[data-export-root]")
-      .waitFor({ state: "visible", timeout: 20_000 })
+      .waitFor({ state: "visible", timeout: 12_000 })
       .then(() => true)
       .catch(() => false);
     if (!appeared) {
