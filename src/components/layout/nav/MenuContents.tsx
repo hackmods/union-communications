@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -131,6 +132,58 @@ function MegaSubgroupLinks({
   );
 }
 
+/**
+ * React's DetailsHTMLAttributes has `open` but not `defaultOpen`, so we
+ * mirror ToolFormDetails: controlled open seeded from the active route.
+ */
+function MegaSubgroupDetails({
+  subgroup,
+  pathname,
+  onNavigate,
+  initiallyOpen,
+}: {
+  subgroup: NavSubgroup;
+  pathname: string;
+  onNavigate: () => void;
+  initiallyOpen: boolean;
+}) {
+  const t = useTranslations("nav");
+  const [open, setOpen] = useState(initiallyOpen);
+
+  return (
+    <details
+      className="group/subgroup mt-1.5"
+      open={open}
+      onToggle={(e) => {
+        setOpen((e.currentTarget as HTMLDetailsElement).open);
+      }}
+    >
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-2.5 py-1.5 text-[0.7rem] font-semibold tracking-wide text-gray-500 outline-none marker:content-none hover:bg-opseu-blue/5 focus-visible:bg-opseu-blue/10 focus-visible:ring-2 focus-visible:ring-opseu-blue/40 [&::-webkit-details-marker]:hidden">
+        <span>{t(subgroup.labelKey)}</span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 12 12"
+          className="h-3 w-3 shrink-0 opacity-60 transition-transform duration-150 group-open/subgroup:rotate-180"
+        >
+          <path
+            d="M2.5 4.25 6 7.75l3.5-3.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </summary>
+      <MegaSubgroupLinks
+        subgroup={subgroup}
+        pathname={pathname}
+        onNavigate={onNavigate}
+      />
+    </details>
+  );
+}
+
 function MegaSubgroups({
   subgroups,
   pathname,
@@ -140,7 +193,6 @@ function MegaSubgroups({
   pathname: string;
   onNavigate: () => void;
 }) {
-  const t = useTranslations("nav");
   // Always collapse Floor / The local — expanded at 2xl made the flyout taller
   // than the viewport clamp and forced an awkward inner scroll.
   return (
@@ -150,34 +202,13 @@ function MegaSubgroups({
           linkActive(pathname, href),
         );
         return (
-          <details
+          <MegaSubgroupDetails
             key={subgroup.labelKey}
-            className="group/subgroup mt-1.5"
-            defaultOpen={hasActive}
-          >
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-2.5 py-1.5 text-[0.7rem] font-semibold tracking-wide text-gray-500 outline-none marker:content-none hover:bg-opseu-blue/5 focus-visible:bg-opseu-blue/10 focus-visible:ring-2 focus-visible:ring-opseu-blue/40 [&::-webkit-details-marker]:hidden">
-              <span>{t(subgroup.labelKey)}</span>
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 12 12"
-                className="h-3 w-3 shrink-0 opacity-60 transition-transform duration-150 group-open/subgroup:rotate-180"
-              >
-                <path
-                  d="M2.5 4.25 6 7.75l3.5-3.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </summary>
-            <MegaSubgroupLinks
-              subgroup={subgroup}
-              pathname={pathname}
-              onNavigate={onNavigate}
-            />
-          </details>
+            subgroup={subgroup}
+            pathname={pathname}
+            onNavigate={onNavigate}
+            initiallyOpen={hasActive}
+          />
         );
       })}
     </>
