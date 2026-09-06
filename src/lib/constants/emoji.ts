@@ -13,7 +13,10 @@ export type EmojiId =
   | "star"
   | "strength"
   | "clock"
-  | "chat";
+  | "chat"
+  | "note"
+  | "practice"
+  | "reflection";
 
 export interface EmojiDef {
   id: EmojiId;
@@ -86,6 +89,28 @@ export const EMOJIS: Record<EmojiId, EmojiDef> = {
     fallback: "🗨",
     label: "Discussion",
     preferFallback: false,
+  },
+  note: {
+    id: "note",
+    primary: "💡",
+    fallback: "📌",
+    label: "Note",
+    preferFallback: false,
+  },
+  practice: {
+    id: "practice",
+    primary: "📝",
+    fallback: "✏",
+    label: "Practice",
+    preferFallback: false,
+  },
+  reflection: {
+    id: "reflection",
+    primary: "🪞",
+    fallback: "💭",
+    label: "Reflection",
+    /** Unicode 15 — tofu on Windows 10 Segoe UI Emoji */
+    preferFallback: true,
   },
 };
 

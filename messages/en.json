@@ -755,10 +755,10 @@
     },
     "relatedNavLabel": "Related paths",
     "callouts": {
-      "note": "💡 Note",
-      "warning": "⚠️ Warning",
-      "practice": "📝 Practice",
-      "reflection": "🪞 Reflection"
+      "note": "Note",
+      "warning": "Warning",
+      "practice": "Practice",
+      "reflection": "Reflection"
     },
     "checklist": {
       "title": "Floor checklist",

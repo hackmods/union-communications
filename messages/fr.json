@@ -755,10 +755,10 @@
     },
     "relatedNavLabel": "Parcours connexes",
     "callouts": {
-      "note": "💡 Note",
-      "warning": "⚠️ Avertissement",
-      "practice": "📝 Exercice",
-      "reflection": "🪞 Réflexion"
+      "note": "Note",
+      "warning": "Avertissement",
+      "practice": "Exercice",
+      "reflection": "Réflexion"
     },
     "checklist": {
       "title": "Liste de contrôle du plancher",
