@@ -155,8 +155,8 @@ export default async function BargainingGuidePage({
       </Callout>
 
       <OfficerLearningModuleCallout
-        slug="building-collective-power"
-        moduleNumber={6}
+        slug="mobilizer-bargaining-partner"
+        moduleNumber={7}
       />
 
       <BargainingLifecycleDiagram

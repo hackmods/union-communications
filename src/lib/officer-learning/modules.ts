@@ -44,6 +44,34 @@ export const OFFICER_LEARNING_MODULES: ModuleMeta[] = [
     coverSrc: "/assets/officer-learning/module-6.webp",
     readingMinutes: 28,
   },
+  {
+    id: "module-7",
+    slug: "mobilizer-bargaining-partner",
+    number: 7,
+    coverSrc: "/assets/officer-learning/module-7.webp",
+    readingMinutes: 32,
+  },
+  {
+    id: "module-8",
+    slug: "advanced-grievance-settlement",
+    number: 8,
+    coverSrc: "/assets/officer-learning/module-8.webp",
+    readingMinutes: 32,
+  },
+  {
+    id: "module-9",
+    slug: "benefits-disability-claims",
+    number: 9,
+    coverSrc: "/assets/officer-learning/module-9.webp",
+    readingMinutes: 30,
+  },
+  {
+    id: "module-10",
+    slug: "joint-workplace-committees",
+    number: 10,
+    coverSrc: "/assets/officer-learning/module-10.webp",
+    readingMinutes: 28,
+  },
 ];
 
 export function getModuleBySlug(slug: string): ModuleMeta | undefined {

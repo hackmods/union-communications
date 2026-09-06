@@ -24,7 +24,7 @@ function assertParsedModule(
 }
 
 describe("parseOfficerLearningModule", () => {
-  it("parses all six English module markdown files with quiz questions", () => {
+  it("parses all English module markdown files with quiz questions", () => {
     for (const meta of OFFICER_LEARNING_MODULES) {
       const markdown = fs.readFileSync(
         path.join(process.cwd(), "src/content/officer-learning", `${meta.id}.md`),
@@ -34,7 +34,7 @@ describe("parseOfficerLearningModule", () => {
     }
   });
 
-  it("parses all six French module markdown files with quiz questions", () => {
+  it("parses all French module markdown files with quiz questions", () => {
     for (const meta of OFFICER_LEARNING_MODULES) {
       const markdown = fs.readFileSync(
         path.join(

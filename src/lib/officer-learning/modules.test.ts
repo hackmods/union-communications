@@ -13,13 +13,14 @@ describe("officer learning catalog", () => {
     expect(new Set(ids).size).toBe(ids.length);
     expect(new Set(slugs).size).toBe(slugs.length);
     expect(OFFICER_LEARNING_MODULES.map((m) => m.number)).toEqual([
-      1, 2, 3, 4, 5, 6,
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
     ]);
   });
 
   it("resolves modules by slug and id", () => {
     expect(getModuleBySlug("democratic-governance")?.id).toBe("module-4");
     expect(getModuleById("module-4")?.slug).toBe("democratic-governance");
+    expect(getModuleBySlug("mobilizer-bargaining-partner")?.id).toBe("module-7");
     expect(getModuleBySlug("missing")).toBeUndefined();
   });
 
@@ -30,7 +31,10 @@ describe("officer learning catalog", () => {
     expect(getNextModuleSlug("financial-health")).toBe(
       "building-collective-power",
     );
-    expect(getNextModuleSlug("building-collective-power")).toBeNull();
+    expect(getNextModuleSlug("building-collective-power")).toBe(
+      "mobilizer-bargaining-partner",
+    );
+    expect(getNextModuleSlug("joint-workplace-committees")).toBeNull();
     expect(getNextModuleSlug("not-a-module")).toBeNull();
   });
 });

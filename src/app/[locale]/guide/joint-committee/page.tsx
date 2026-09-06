@@ -118,7 +118,7 @@ export default async function JointCommitteeGuidePage({
         </p>
       </Callout>
 
-      <OfficerLearningModuleCallout slug="democratic-governance" moduleNumber={4} />
+      <OfficerLearningModuleCallout slug="joint-workplace-committees" moduleNumber={10} />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">

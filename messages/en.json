@@ -48,7 +48,7 @@
     "steward101Guide": "Steward 101",
     "officerLearningGuide": "Officer Learning Center",
     "officerLearningTopNav": "Officer Learning",
-    "officerLearningFeatured": "Six self-paced modules with floor checklists and quizzes.",
+    "officerLearningFeatured": "Ten self-paced modules with floor checklists and quizzes.",
     "workplaceMappingGuide": "Workplace mapping",
     "grievanceProcessGuide": "Grievance process",
     "dfrGuide": "Duty of Fair Representation",
@@ -708,7 +708,7 @@
   "officerLearning": {
     "eyebrow": "Officer training",
     "title": "Officer Learning Center",
-    "intro": "Six self-paced modules for stewards and local officers — contract enforcement, discipline, human rights, governance, finances, and collective power. Progress saves on this device only.",
+    "intro": "Ten self-paced modules for stewards and local officers — contract enforcement through joint committees. Progress saves on this device only.",
     "disclaimer": "Education for the floor — not legal advice. Confirm every deadline, remedy, and procedure against your own collective agreement and statute.",
     "sourcesIntro": "Further reading from Canadian labour federations, multi-union steward handbooks, and public human rights guidance — not tied to one national. Confirm every rule against your own collective agreement and statute.",
     "moduleLabel": "Module {number}",
@@ -796,7 +796,9 @@
         "runningMeetings": "Running meetings guide",
         "unionHistory": "How Canadian unions connect",
         "landAcknowledgement": "Land Acknowledgement Guide",
-        "rulesOfOrder": "Rules of Order cheat sheet"
+        "rulesOfOrder": "Rules of Order cheat sheet",
+        "humanRightsModule": "Module 3: Human Rights & Accommodation",
+        "rightToRefuse": "Right to refuse guide"
       }
     },
     "reference": {
@@ -824,7 +826,19 @@
       "checklistCta": "Download checklist PDF",
       "downloading": "Preparing PDF…",
       "success": "PDF downloaded.",
-      "error": "Could not create the PDF. Try again, or check that downloads are allowed."
+      "error": "Could not create the PDF. Try again, or check that downloads are allowed.",
+      "mapTitle": "Workplace map sheet",
+      "mapBody": "Grid shifts, classifications, leaders, and the next escalation rung on one page.",
+      "mapCta": "Download map PDF",
+      "settlementTitle": "Settlement & open-door sheet",
+      "settlementBody": "Four-corners checklist plus open-door grievance wording before you sign.",
+      "settlementCta": "Download settlement PDF",
+      "privacyTitle": "Medical privacy sheet",
+      "privacyBody": "Functional abilities only — what the employer may and may not demand.",
+      "privacyCta": "Download privacy PDF",
+      "caucusTitle": "United caucus briefing",
+      "caucusBody": "Pre-meeting caucus roles, united front, and multi-forum routing.",
+      "caucusCta": "Download caucus PDF"
     },
     "diagrams": {
       "filterTitle": "5-point grievance filter",
@@ -880,7 +894,35 @@
       "powerBarrier": "Name the pattern",
       "powerClause": "Propose language",
       "powerAccount": "Joint timeline / remedy",
-      "powerCaption": "Equity language without a mechanism stays symbolic — attach deadlines and joint review."
+      "powerCaption": "Equity language without a mechanism stays symbolic — attach deadlines and joint review.",
+      "escalateTitle": "Mobilization escalation ladder",
+      "escalateAria": "Five rungs from solidarity events to strike readiness",
+      "escalateShirt": "Solidarity events",
+      "escalateEnforce": "Rigid enforcement",
+      "escalateCampaign": "Mini-campaigns",
+      "escalateRule": "Work-to-rule",
+      "escalateStrike": "Strike readiness",
+      "escalateCaption": "Climb only as far as the map and legal advice support — overtime bans mid-term can be illegal strikes.",
+      "fileTitle": "Five-part grievance file",
+      "fileAria": "Form, chronology, witnesses, evidence, and policies",
+      "fileForm": "Open-door form",
+      "fileChrono": "Chronology",
+      "fileWitness": "Witnesses",
+      "fileEvidence": "Evidence",
+      "filePolicy": "CA & policy",
+      "fileCaption": "Arbitration readiness starts with the file architecture — not the meeting room argument.",
+      "privacyTitle": "Functional abilities boundary",
+      "privacyAria": "What employers may request versus medical privacy",
+      "privacyFunctional": "Functional limits",
+      "privacyShield": "No diagnosis",
+      "privacyAppeal": "Appeal / JIC",
+      "privacyCaption": "Employers need safe work design — not clinical notes. Route denials through joint benefit oversight.",
+      "routeTitle": "Multi-committee pressure",
+      "routeAria": "JHSC plus LMC plus grievance escalation",
+      "routeJhsc": "JHSC hazard",
+      "routeLmc": "LMC policy",
+      "routeGrievance": "Group grievance",
+      "routeCaption": "One systemic problem can travel three forums at once — caucus first, then present a united front."
     },
     "timelines": {
       "contract-enforcement": {
@@ -1032,6 +1074,102 @@
             "summary": "Convert survey top barrier into clause + accountability mechanism for bargaining."
           }
         }
+      },
+      "mobilizer-bargaining-partner": {
+        "title": "Worked file timeline",
+        "aria": "Organizing file from map through protected pressure",
+        "caption": "Map first. Escalate legally. Consult before work-to-rule.",
+        "phases": {
+          "d0": {
+            "label": "Week 0 — map built",
+            "summary": "Plot shifts, classifications, and unengaged pockets. Name organic leaders."
+          },
+          "d1": {
+            "label": "Week 1 — shirt day",
+            "summary": "Low-risk solidarity event with inclusive outreach across languages and shifts."
+          },
+          "d3": {
+            "label": "Week 3 — mini-campaign",
+            "summary": "Petition or group filing on a winnable health or facility issue."
+          },
+          "d7": {
+            "label": "Week 7 — legal check",
+            "summary": "Before work-to-rule, brief servicing/legal on overtime and pace boundaries."
+          }
+        }
+      },
+      "advanced-grievance-settlement": {
+        "title": "Worked file timeline",
+        "aria": "Settlement file from open-door draft through signed MOS",
+        "caption": "Write open-door. Build the five pillars. Put every promise in the four corners.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — open-door draft",
+            "summary": "Broad article citation and make-whole remedy on the form."
+          },
+          "d1": {
+            "label": "Day 1 — file pillars",
+            "summary": "Chronology, witnesses, evidence, and CA articles assembled."
+          },
+          "d2": {
+            "label": "Day 2 — step meeting",
+            "summary": "Argue as an equal. Note verbal offers for the MOS draft."
+          },
+          "d3": {
+            "label": "Day 3 — MOS draft",
+            "summary": "Without prejudice / precedent language chosen; four corners reviewed."
+          },
+          "d7": {
+            "label": "Day 7 — signed & calendared",
+            "summary": "Member copy secured. Verbal side-deals rejected if missing from text."
+          }
+        }
+      },
+      "benefits-disability-claims": {
+        "title": "Worked file timeline",
+        "aria": "Benefits file from diagnosis fishing through AMP challenge",
+        "caption": "Shield diagnosis. Appeal denials. Strip disability absences from punitive AMP counts.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — fishing blocked",
+            "summary": "Refuse full chart demand. Offer functional abilities only."
+          },
+          "d1": {
+            "label": "Day 1 — claim support",
+            "summary": "Guide LTD/WSIB forms without collecting clinical notes for HR."
+          },
+          "d3": {
+            "label": "Day 3 — denial appeal",
+            "summary": "Route to joint insurance oversight; demand carrier review."
+          },
+          "d7": {
+            "label": "Day 7 — AMP audit",
+            "summary": "Exclude disability-related days from mechanistic triggers; prepare grievance."
+          }
+        }
+      },
+      "joint-workplace-committees": {
+        "title": "Worked file timeline",
+        "aria": "Committee escalation from caucus through multi-forum pressure",
+        "caption": "Caucus first. Route smart. Never break ranks in front of management.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — caucus",
+            "summary": "Align objectives, roles, and forum choice behind closed doors."
+          },
+          "d1": {
+            "label": "Day 1 — JHSC",
+            "summary": "Table hazard for inspection and written recommendation response."
+          },
+          "d2": {
+            "label": "Day 2 — LMC",
+            "summary": "Put workload/scheduling friction on the consultative agenda."
+          },
+          "d3": {
+            "label": "Day 3 — grievance",
+            "summary": "Group file for contract breaches while committees run in parallel."
+          }
+        }
       }
     },
     "quiz": {
@@ -1073,6 +1211,22 @@
       "building-collective-power": {
         "title": "Building Collective Power",
         "summary": "Audit systemic barriers, negotiate equity-focused contract language, and design restorative dispute paths."
+      },
+      "mobilizer-bargaining-partner": {
+        "title": "Mobilizer & Bargaining Partner",
+        "summary": "Map the workplace, climb a legal escalation ladder, and keep work-to-rule inside protected bounds."
+      },
+      "advanced-grievance-settlement": {
+        "title": "Advanced Grievance & Settlement",
+        "summary": "Build trial-ready files, write open-door grievances, and lock settlements inside the four corners."
+      },
+      "benefits-disability-claims": {
+        "title": "Benefits & Disability Claims",
+        "summary": "Protect medical privacy, challenge benefit denials, and audit punitive attendance programs."
+      },
+      "joint-workplace-committees": {
+        "title": "Joint Workplace Committees",
+        "summary": "Use JHSC and LMC as strategic forums with united caucus discipline and multi-track escalation."
       }
     },
     "certificate": {
@@ -1085,7 +1239,7 @@
       "downloading": "Preparing PDF…",
       "success": "Certificate downloaded.",
       "error": "Could not create the PDF. Try again, or check that downloads are allowed in this browser.",
-      "pathTitle": "Full Officer Learning path (all six modules)"
+      "pathTitle": "Full Officer Learning path (all ten modules)"
     },
     "hubSync": {
       "signedOutTitle": "Optional: sync to Officer Hub",
@@ -3145,7 +3299,7 @@
       "blurb": {
         "stewardPlaybooks": "Start here: Steward 101, Officer Learning modules with self-tests, and every floor playbook in one list.",
         "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example — start here.",
-        "officerLearning": "Six self-paced modules with quizzes, floor checklists, and printable take-to-meeting sheets — progress saves on this device.",
+        "officerLearning": "Ten self-paced modules with quizzes, floor checklists, and printable take-to-meeting sheets — progress saves on this device.",
         "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet. Confirm steps in your agreement.",
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",
@@ -4684,7 +4838,7 @@
     "backToGuide": "Back to The Blueprint",
     "trainingPath": {
       "title": "Recommended training path",
-      "body": "Start with Steward 101 for role basics, then Officer Learning Center for six modules with self-tests. Open the other playbooks when a live file needs them.",
+      "body": "Start with Steward 101 for role basics, then Officer Learning Center for ten modules with self-tests. Open the other playbooks when a live file needs them.",
       "steward101Cta": "Start Steward 101",
       "officerLearningCta": "Open Officer Learning modules"
     },
@@ -4768,7 +4922,7 @@
     },
     "blurbs": {
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
-      "officerLearning": "Six modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
+      "officerLearning": "Ten modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
       "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet.",
       "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
       "workplaceMapping": "Chart coworkers, find organic leaders, and score union support 1 to 5.",
@@ -6672,6 +6826,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "officer-learning-modules-7-10": {
+        "title": "Four new Officer Learning modules",
+        "body": "Modules 7–10 cover mobilization and bargaining pressure, advanced grievance settlements, benefits and disability claims, and joint workplace committees — each with scenarios, a floor checklist, and a self-test."
+      },
       "guides-catalog-split": {
         "title": "Guides catalog: Steward craft, Floor, The local",
         "body": "All guides now splits steward handbooks into Steward craft, Floor, and The local, so the long list is easier to scan."
@@ -7038,6 +7196,10 @@
       "olDemocraticGovernance": "Democratic Governance module",
       "olFinancialHealth": "Financial Health module",
       "olCollectivePower": "Building Collective Power module",
+      "olMobilizer": "Mobilizer & Bargaining Partner module",
+      "olSettlement": "Advanced Grievance & Settlement module",
+      "olBenefits": "Benefits & Disability Claims module",
+      "olCommittees": "Joint Workplace Committees module",
       "portalHome": "Portal home",
       "portalFronts": "Fronts",
       "portalDispatch": "Dispatch",
@@ -8992,12 +9154,12 @@
     "subtitle": "First week, channel handbooks, and steward playbooks for the floor and the local. Officer Learning stays a top-level link.",
     "hint": "Set colours and logo first in",
     "startHereTitle": "Start here",
-    "startHereIntro": "Set the brand, then pick a comms path or a floor playbook. Officer Learning is six self-paced modules.",
+    "startHereIntro": "Set the brand, then pick a comms path or a floor playbook. Officer Learning is ten self-paced modules.",
     "startHereRoadmap": "Open all steward playbooks",
     "startHereSteps": {
       "firstWeek": "Boards, print, social, and a simple website after Brand Kit.",
       "playbooks": "Floor training, meetings, grievances, and campaign handbooks.",
-      "officerLearning": "Six modules with checklists and a quiz on this device."
+      "officerLearning": "Ten modules with checklists and a quiz on this device."
     },
     "groups": {
       "commsPath": {
@@ -9040,7 +9202,7 @@
       "bargaining": "Survey to signing for local bargaining committees, with checklists and the Proposal Tracker.",
       "strike": "Command, the picket line, member care, money, safety, and return to work.",
       "crisis": "Calm local messages during strikes, bargaining, layoffs, and management reactions.",
-      "officerLearning": "Six modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
+      "officerLearning": "Ten modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
       "stewardPlaybooks": "Front door for floor training, meetings, grievances, and campaign handbooks.",
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
       "unionHistory": "Two tracks, not one ladder: union family and the city labour council.",
@@ -9844,6 +10006,10 @@
     "readModule4": "Module 4: democratic governance",
     "readModule5": "Module 5: financial health",
     "readModule6": "Module 6: building collective power",
+    "readModule7": "Module 7: mobilizer & bargaining partner",
+    "readModule8": "Module 8: advanced grievance & settlement",
+    "readModule9": "Module 9: benefits & disability claims",
+    "readModule10": "Module 10: joint workplace committees",
     "utilStewardPlaybooks": "Steward playbooks hub",
     "utilDocGen": "Document Generator (grievance intake)",
     "utilSnippets": "CA snippets",

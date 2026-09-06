@@ -1,5 +1,12 @@
 # Progress Log
 
+## Officer Learning modules 7–10 (2026-09-06)
+
+- [x] Modules 7–10 EN+FR markdown (mobilizer/bargaining, advanced grievance settlement, benefits/disability, joint committees) with tables, callouts, worked scenarios, floor checklists, 6-question quizzes
+- [x] Covers `module-7.webp`…`module-10.webp`; catalog/SEO/sitemap/sources/related sheets/diagrams/timelines wired
+- [x] Progress stays on `unionops-officer-learning-progress` (`module-7`…`module-10`); What's new note
+- Verify: `npm run test:unit -- src/lib/officer-learning/modules.test.ts src/lib/officer-learning/parse-module.test.ts src/lib/officer-learning/related-resources.test.ts src/lib/officer-learning/module-timeline.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Guides catalog three-way steward split (2026-09-06)
 
 - [x] `/guides` replaces flat Steward craft (`labour`) with **Steward craft** / **Floor** / **The local** (`training` / `floor` / `local` in `GUIDE_REGISTRY`)

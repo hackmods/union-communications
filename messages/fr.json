@@ -48,7 +48,7 @@
     "steward101Guide": "Délégué 101",
     "officerLearningGuide": "Centre de formation des dirigeants",
     "officerLearningTopNav": "Formation des dirigeants",
-    "officerLearningFeatured": "Six modules autogérés avec listes de contrôle et quiz.",
+    "officerLearningFeatured": "Dix modules autogérés avec listes de contrôle et quiz.",
     "workplaceMappingGuide": "Cartographie du lieu de travail",
     "grievanceProcessGuide": "Processus de grief",
     "dfrGuide": "Devoir de représentation équitable",
@@ -708,7 +708,7 @@
   "officerLearning": {
     "eyebrow": "Formation des dirigeants",
     "title": "Centre de formation des dirigeants",
-    "intro": "Six modules autogérés pour délégués et dirigeants locaux — application de la convention, discipline, droits de la personne, gouvernance, finances et pouvoir collectif. La progression est enregistrée sur cet appareil seulement.",
+    "intro": "Dix modules autogérés pour délégués et dirigeants locaux — de l'application de la convention aux comités conjoints. La progression est enregistrée sur cet appareil seulement.",
     "disclaimer": "Formation pour le plancher — pas un avis juridique. Confirmez chaque délai, redressement et procédure dans votre convention collective et votre loi applicables.",
     "sourcesIntro": "Lectures complémentaires provenant de fédérations syndicales canadiennes, de manuels multi-syndicaux pour délégués et de guides publics sur les droits de la personne — sans privilégier une seule centrale. Confirmez chaque règle dans votre convention et votre loi applicables.",
     "moduleLabel": "Module {number}",
@@ -796,7 +796,9 @@
         "runningMeetings": "Guide Tenir une assemblée",
         "unionHistory": "Comment les syndicats se relient",
         "landAcknowledgement": "Guide de reconnaissance territoriale",
-        "rulesOfOrder": "Aide-mémoire de procédure"
+        "rulesOfOrder": "Aide-mémoire de procédure",
+        "humanRightsModule": "Module 3 : Droits de la personne et accommodation",
+        "rightToRefuse": "Guide du droit de refuser"
       }
     },
     "reference": {
@@ -824,7 +826,19 @@
       "checklistCta": "Télécharger la liste (PDF)",
       "downloading": "Préparation du PDF…",
       "success": "PDF téléchargé.",
-      "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés."
+      "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés.",
+      "mapTitle": "Fiche carte du milieu de travail",
+      "mapBody": "Tracer quarts, classifications, leaders et le prochain échelon d'escalade sur une page.",
+      "mapCta": "Télécharger la fiche carte PDF",
+      "settlementTitle": "Fiche règlement et porte ouverte",
+      "settlementBody": "Liste des quatre coins et libellé porte ouverte avant de signer.",
+      "settlementCta": "Télécharger la fiche règlement PDF",
+      "privacyTitle": "Fiche confidentialité médicale",
+      "privacyBody": "Capacités fonctionnelles seulement — ce que l'employeur peut et ne peut pas exiger.",
+      "privacyCta": "Télécharger la fiche confidentialité PDF",
+      "caucusTitle": "Briefing de caucus uni",
+      "caucusBody": "Rôles du pré-caucus, front uni et aiguillage multi-forums.",
+      "caucusCta": "Télécharger la fiche caucus PDF"
     },
     "diagrams": {
       "filterTitle": "Filtre de grief en 5 points",
@@ -880,7 +894,35 @@
       "powerBarrier": "Nommer le schéma",
       "powerClause": "Proposer le langage",
       "powerAccount": "Échéancier / redressement conjoint",
-      "powerCaption": "Un langage d'équité sans mécanisme reste symbolique — attachez des échéances et une revue conjointe."
+      "powerCaption": "Un langage d'équité sans mécanisme reste symbolique — attachez des échéances et une revue conjointe.",
+      "escalateTitle": "Échelle d'escalade de mobilisation",
+      "escalateAria": "Cinq échelons des événements de solidarité à la préparation de grève",
+      "escalateShirt": "Événements de solidarité",
+      "escalateEnforce": "Application stricte",
+      "escalateCampaign": "Mini-campagnes",
+      "escalateRule": "Work-to-rule",
+      "escalateStrike": "Préparation de grève",
+      "escalateCaption": "Montez seulement aussi loin que la carte et l'avis juridique le permettent — les interdictions d'heures supplémentaires en cours de convention peuvent être des grèves illégales.",
+      "fileTitle": "Dossier de grief en cinq piliers",
+      "fileAria": "Formulaire, chronologie, témoins, preuves et politiques",
+      "fileForm": "Formulaire porte ouverte",
+      "fileChrono": "Chronologie",
+      "fileWitness": "Témoins",
+      "fileEvidence": "Preuves",
+      "filePolicy": "CC et politiques",
+      "fileCaption": "La préparation à l'arbitrage commence par l'architecture du dossier — pas par l'argument en réunion.",
+      "privacyTitle": "Frontière des capacités fonctionnelles",
+      "privacyAria": "Ce que l'employeur peut demander versus la confidentialité médicale",
+      "privacyFunctional": "Limites fonctionnelles",
+      "privacyShield": "Pas de diagnostic",
+      "privacyAppeal": "Appel / comité d'assurance",
+      "privacyCaption": "L'employeur a besoin d'un design de travail sécuritaire — pas de notes cliniques. Aiguillez les refus vers la surveillance conjointe des avantages.",
+      "routeTitle": "Pression multi-comités",
+      "routeAria": "Escalade JHSC plus LMC plus grief",
+      "routeJhsc": "Danger JHSC",
+      "routeLmc": "Politique LMC",
+      "routeGrievance": "Grief collectif",
+      "routeCaption": "Un problème systémique peut voyager dans trois forums à la fois — caucus d'abord, puis front uni."
     },
     "timelines": {
       "contract-enforcement": {
@@ -1032,6 +1074,102 @@
             "summary": "Convertissez la barrière principale du sondage en clause plus mécanisme de responsabilité."
           }
         }
+      },
+      "mobilizer-bargaining-partner": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier d'organisation de la carte à la pression protégée",
+        "caption": "Cartographier d'abord. Escalader légalement. Consulter avant le work-to-rule.",
+        "phases": {
+          "d0": {
+            "label": "Semaine 0 — carte construite",
+            "summary": "Tracer quarts, classifications et poches non engagées. Nommer les leaders organiques."
+          },
+          "d1": {
+            "label": "Semaine 1 — journée chandails",
+            "summary": "Événement de solidarité à faible risque avec rayonnement inclusif entre langues et quarts."
+          },
+          "d3": {
+            "label": "Semaine 3 — mini-campagne",
+            "summary": "Pétition ou dépôt collectif sur un enjeu de santé ou d'installations gagnable."
+          },
+          "d7": {
+            "label": "Semaine 7 — vérification juridique",
+            "summary": "Avant le work-to-rule, briefer le service / juridique sur les limites des HS et du rythme."
+          }
+        }
+      },
+      "advanced-grievance-settlement": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier de règlement du brouillon porte ouverte au mémoire signé",
+        "caption": "Rédigez porte ouverte. Bâtissez les cinq piliers. Mettez chaque promesse dans les quatre coins.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — brouillon porte ouverte",
+            "summary": "Citation large d'articles et réparation intégrale sur le formulaire."
+          },
+          "d1": {
+            "label": "Jour 1 — piliers du dossier",
+            "summary": "Chronologie, témoins, preuves et articles de CC assemblés."
+          },
+          "d2": {
+            "label": "Jour 2 — rencontre d'étape",
+            "summary": "Argumenter en égal. Noter les offres verbales pour le brouillon de mémoire."
+          },
+          "d3": {
+            "label": "Jour 3 — brouillon de mémoire",
+            "summary": "Langage sans préjudice / précédent choisi ; quatre coins révisés."
+          },
+          "d7": {
+            "label": "Jour 7 — signé et calendré",
+            "summary": "Copie au membre sécurisée. Accords verbaux rejetés s'ils manquent au texte."
+          }
+        }
+      },
+      "benefits-disability-claims": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier de prestations de la pêche au diagnostic au défi du PAM",
+        "caption": "Protéger le diagnostic. Appeler les refus. Retirer les absences liées au handicap des comptes punitifs du PAM.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — pêche bloquée",
+            "summary": "Refuser l'exigence du dossier complet. Offrir seulement les capacités fonctionnelles."
+          },
+          "d1": {
+            "label": "Jour 1 — soutien à la demande",
+            "summary": "Guider les formulaires ILD/CSPAAT sans collecter de notes cliniques pour les RH."
+          },
+          "d3": {
+            "label": "Jour 3 — appel du refus",
+            "summary": "Aiguiller vers la surveillance conjointe des assurances ; exiger la révision du transporteur."
+          },
+          "d7": {
+            "label": "Jour 7 — audit PAM",
+            "summary": "Exclure les jours liés au handicap des déclencheurs mécaniques ; préparer un grief."
+          }
+        }
+      },
+      "joint-workplace-committees": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Escalade de comité du caucus à la pression multi-forums",
+        "caption": "Caucus d'abord. Aiguiller intelligemment. Ne jamais rompre les rangs devant la direction.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — caucus",
+            "summary": "Aligner objectifs, rôles et choix de forum derrière des portes fermées."
+          },
+          "d1": {
+            "label": "Jour 1 — JHSC",
+            "summary": "Déposer le danger pour inspection et réponse écrite à la recommandation."
+          },
+          "d2": {
+            "label": "Jour 2 — LMC",
+            "summary": "Mettre la charge de travail / friction d'horaire à l'ordre du jour consultatif."
+          },
+          "d3": {
+            "label": "Jour 3 — grief",
+            "summary": "Dépôt collectif pour violations de convention pendant que les comités tournent en parallèle."
+          }
+        }
       }
     },
     "quiz": {
@@ -1073,6 +1211,22 @@
       "building-collective-power": {
         "title": "Bâtir le pouvoir collectif",
         "summary": "Auditer les barrières systémiques, négocier des clauses axées sur l'équité et concevoir des voies de règlement des différends restauratrices."
+      },
+      "mobilizer-bargaining-partner": {
+        "title": "Mobilisateur et partenaire de négociation",
+        "summary": "Cartographier le milieu de travail, gravir une échelle d'escalade légale et garder le work-to-rule dans des bornes protégées."
+      },
+      "advanced-grievance-settlement": {
+        "title": "Grief avancé et règlement",
+        "summary": "Bâtir des dossiers prêts pour l'arbitrage, rédiger des griefs porte ouverte et verrouiller les règlements dans les quatre coins."
+      },
+      "benefits-disability-claims": {
+        "title": "Prestations et invalidité",
+        "summary": "Protéger la confidentialité médicale, contester les refus de prestations et auditer les programmes d'assiduité punitifs."
+      },
+      "joint-workplace-committees": {
+        "title": "Comités conjoints en milieu de travail",
+        "summary": "Utiliser le JHSC et le LMC comme forums stratégiques avec discipline de caucus uni et escalade multi-voies."
       }
     },
     "certificate": {
@@ -1085,7 +1239,7 @@
       "downloading": "Préparation du PDF…",
       "success": "Certificat téléchargé.",
       "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés dans ce navigateur.",
-      "pathTitle": "Parcours complet de formation des dirigeants (six modules)"
+      "pathTitle": "Parcours complet de formation des dirigeants (dix modules)"
     },
     "hubSync": {
       "signedOutTitle": "Optionnel : synchroniser avec le Hub",
@@ -3145,7 +3299,7 @@
       "blurb": {
         "stewardPlaybooks": "Commencez ici : Délégué 101, modules du Centre de formation des dirigeants avec autoévaluations, et tous les guides sur une page.",
         "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté — commencez ici.",
-        "officerLearning": "Six modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
+        "officerLearning": "Dix modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
         "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable. Confirmez les étapes dans votre convention.",
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
@@ -4632,7 +4786,7 @@
     "backToGuide": "Retour au Plan directeur",
     "trainingPath": {
       "title": "Parcours recommandé",
-      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour six modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
+      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour ten modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
       "steward101Cta": "Commencer Délégué 101",
       "officerLearningCta": "Ouvrir les modules de formation des dirigeants"
     },
@@ -4716,7 +4870,7 @@
     },
     "blurbs": {
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
-      "officerLearning": "Six modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
+      "officerLearning": "Dix modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
       "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable.",
       "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
       "workplaceMapping": "Recensez les collègues, repérez les leaders organiques et cotez l'appui syndical de 1 à 5.",
@@ -6620,6 +6774,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "officer-learning-modules-7-10": {
+        "title": "Quatre nouveaux modules de formation des dirigeants",
+        "body": "Les modules 7 à 10 couvrent la mobilisation et la pression en négociation, les règlements de grief avancés, les prestations et l'invalidité, et les comités conjoints en milieu de travail — chacun avec des scénarios, une liste de contrôle sur le terrain et une autoévaluation."
+      },
       "guides-catalog-split": {
         "title": "Catalogue des guides : Travail de délégué, Plancher, La section",
         "body": "Tous les guides sépare maintenant les manuels de délégué en Travail de délégué, Plancher et La section, pour que la longue liste soit plus facile à parcourir."
@@ -6714,7 +6872,7 @@
       },
       "officer-learning-center": {
         "title": "Formation des dirigeants — parcours de plancher définitif",
-        "body": "Six modules bilingues avec parcours en direct, diagrammes d'enseignement, listes de contrôle cochables, fiches FAR imprimables et liens vers les outils pour délégués et les guides connexes."
+        "body": "Dix modules bilingues avec parcours en direct, diagrammes d'enseignement, listes de contrôle cochables, fiches FAR imprimables et liens vers les outils pour délégués et les guides connexes."
       },
       "steward-playbooks-hub": {
         "title": "Guides pratiques pour délégués",
@@ -6986,6 +7144,10 @@
       "olDemocraticGovernance": "Module gouvernance démocratique",
       "olFinancialHealth": "Module santé financière",
       "olCollectivePower": "Module bâtir le pouvoir collectif",
+      "olMobilizer": "Module mobilisateur et partenaire de négociation",
+      "olSettlement": "Module grief avancé et règlement",
+      "olBenefits": "Module prestations et invalidité",
+      "olCommittees": "Module comités conjoints en milieu de travail",
       "portalHome": "Accueil du portail",
       "portalFronts": "Fronts",
       "portalDispatch": "Dispatch",
@@ -8992,12 +9154,12 @@
     "subtitle": "Première semaine, manuels par canal, et guides pratiques pour le plancher et la section. La formation des dirigeants reste un lien en tête de page.",
     "hint": "Définissez d'abord les couleurs et le logo dans",
     "startHereTitle": "Par où commencer",
-    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte six modules autogérés.",
+    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte ten modules autogérés.",
     "startHereRoadmap": "Ouvrir tous les guides pratiques",
     "startHereSteps": {
       "firstWeek": "Tableaux, impression, social et un site simple après la Trousse de marque.",
       "playbooks": "Formation de plancher, assemblées, griefs et manuels de campagne.",
-      "officerLearning": "Six modules avec listes de contrôle et un quiz sur cet appareil."
+      "officerLearning": "Dix modules avec listes de contrôle et un quiz sur cet appareil."
     },
     "groups": {
       "commsPath": {
@@ -9040,7 +9202,7 @@
       "bargaining": "Du sondage à la signature pour les comités locaux, avec listes et Suivi des propositions.",
       "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail.",
       "crisis": "Gardez des messages locaux calmes pendant les grèves, la négociation, les mises à pied et les réactions de la direction.",
-      "officerLearning": "Six modules avec scénarios, listes de contrôle, fiches imprimables et un quiz par module.",
+      "officerLearning": "Dix modules avec scénarios, listes de contrôle, fiches imprimables et un quiz par module.",
       "stewardPlaybooks": "Porte d'entrée pour la formation de plancher, les assemblées, les griefs et les manuels de campagne.",
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
       "unionHistory": "Deux voies, pas une échelle : famille syndicale et conseil du travail municipal.",
@@ -9842,6 +10004,10 @@
     "readModule4": "Module 4 : gouvernance démocratique",
     "readModule5": "Module 5 : santé financière",
     "readModule6": "Module 6 : pouvoir collectif",
+    "readModule7": "Module 7 : mobilisateur et partenaire de négociation",
+    "readModule8": "Module 8 : grief avancé et règlement",
+    "readModule9": "Module 9 : prestations et invalidité",
+    "readModule10": "Module 10 : comités conjoints en milieu de travail",
     "utilStewardPlaybooks": "Guides pratiques pour délégués",
     "readModule1": "Module 1 : application de la convention",
     "readModule2": "Module 2 : discipline progressive",

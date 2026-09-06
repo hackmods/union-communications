@@ -62,6 +62,41 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
     { href: "/guide/crisis", labelKey: "crisis", kind: "guide" },
     { href: "/tools/solidarity-poster", labelKey: "solidarityPoster", kind: "tool" },
   ],
+  "mobilizer-bargaining-partner": [
+    { href: "/guide/workplace-mapping", labelKey: "workplaceMapping", kind: "guide" },
+    { href: "/guide/bargaining", labelKey: "bargaining", kind: "guide" },
+    { href: "/guide/strike", labelKey: "strikeOps", kind: "guide" },
+    { href: "/guide/membership-signup", labelKey: "membershipSignup", kind: "guide" },
+    { href: "/tools/proposal-tracker", labelKey: "proposalTracker", kind: "tool" },
+    { href: "/tools/solidarity-poster", labelKey: "solidarityPoster", kind: "tool" },
+  ],
+  "advanced-grievance-settlement": [
+    { href: "/guide/grievance-process", labelKey: "grievanceProcess", kind: "guide" },
+    { href: "/tools/complaint-vs-grievance", labelKey: "complaintVsGrievance", kind: "tool" },
+    {
+      href: documentGeneratorPresetHref("grievance-intake"),
+      labelKey: "grievanceIntake",
+      kind: "tool",
+    },
+    { href: "/guide/steward-101", labelKey: "steward101", kind: "guide" },
+    {
+      href: "/tools/qr-card?preset=stewardRepresentation",
+      labelKey: "stewardPocketCard",
+      kind: "pocket",
+    },
+  ],
+  "benefits-disability-claims": [
+    { href: "/tools/rtw-accommodation", labelKey: "rtwAccommodation", kind: "tool" },
+    { href: "/guide/steward-101", labelKey: "steward101", kind: "guide" },
+    { href: "/guide/officer-learning/human-rights-accommodation", labelKey: "humanRightsModule", kind: "guide" },
+  ],
+  "joint-workplace-committees": [
+    { href: "/guide/joint-committee", labelKey: "jointCommittee", kind: "guide" },
+    { href: "/guide/right-to-refuse", labelKey: "rightToRefuse", kind: "guide" },
+    { href: "/tools/org-chart", labelKey: "orgChart", kind: "tool" },
+    { href: "/guide/running-meetings", labelKey: "runningMeetings", kind: "guide" },
+    { href: "/tools/board-notice", labelKey: "boardNotice", kind: "tool" },
+  ],
 };
 
 export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
@@ -141,6 +176,62 @@ export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
       titleKey: "equityTitle",
       bodyKey: "equityBody",
       ctaKey: "equityCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "mobilizer-bargaining-partner": [
+    {
+      id: "workplace-map",
+      titleKey: "mapTitle",
+      bodyKey: "mapBody",
+      ctaKey: "mapCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "advanced-grievance-settlement": [
+    {
+      id: "settlement-corners",
+      titleKey: "settlementTitle",
+      bodyKey: "settlementBody",
+      ctaKey: "settlementCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "benefits-disability-claims": [
+    {
+      id: "medical-privacy",
+      titleKey: "privacyTitle",
+      bodyKey: "privacyBody",
+      ctaKey: "privacyCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "joint-workplace-committees": [
+    {
+      id: "caucus-briefing",
+      titleKey: "caucusTitle",
+      bodyKey: "caucusBody",
+      ctaKey: "caucusCta",
     },
     {
       id: "floor-checklist",

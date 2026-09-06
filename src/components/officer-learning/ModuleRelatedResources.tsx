@@ -19,7 +19,11 @@ import {
   downloadFarSheetPdf,
   downloadFloorChecklistPdf,
   downloadMeiorinSheetPdf,
+  downloadMedicalPrivacyPdf,
   downloadQuorumMotionPdf,
+  downloadSettlementCornersPdf,
+  downloadWorkplaceMapPdf,
+  downloadCaucusBriefingPdf,
 } from "@/lib/officer-learning/reference-pdf";
 import type { ParsedModule } from "@/lib/officer-learning/types";
 import { useOlTheme } from "./OlThemeProvider";
@@ -80,6 +84,18 @@ export function ModuleRelatedResources({
           return;
         case "equity-clause":
           await downloadEquityClausePdf(ctx);
+          return;
+        case "workplace-map":
+          await downloadWorkplaceMapPdf(ctx);
+          return;
+        case "settlement-corners":
+          await downloadSettlementCornersPdf(ctx);
+          return;
+        case "medical-privacy":
+          await downloadMedicalPrivacyPdf(ctx);
+          return;
+        case "caucus-briefing":
+          await downloadCaucusBriefingPdf(ctx);
           return;
         case "floor-checklist":
           await downloadFloorChecklistPdf({

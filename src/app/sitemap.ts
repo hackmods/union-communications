@@ -59,6 +59,10 @@ export const PUBLIC_PATHS = [
   "/guide/officer-learning/democratic-governance",
   "/guide/officer-learning/financial-health",
   "/guide/officer-learning/building-collective-power",
+  "/guide/officer-learning/mobilizer-bargaining-partner",
+  "/guide/officer-learning/advanced-grievance-settlement",
+  "/guide/officer-learning/benefits-disability-claims",
+  "/guide/officer-learning/joint-workplace-committees",
   ...TOOL_SLUGS.filter((slug) => !NON_PUBLIC_TOOL_SLUGS.has(slug)).map(
     (slug) => `/tools/${slug}`,
   ),

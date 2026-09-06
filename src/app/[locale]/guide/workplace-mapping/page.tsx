@@ -132,7 +132,7 @@ export default async function WorkplaceMappingGuidePage({
         <p className="mt-2 leading-relaxed">{t.rich("sensitive.body", richMarks)}</p>
       </Callout>
 
-      <OfficerLearningModuleCallout slug="building-collective-power" moduleNumber={6} />
+      <OfficerLearningModuleCallout slug="mobilizer-bargaining-partner" moduleNumber={7} />
 
       <div className="mb-8">
         <div className="flex flex-wrap items-center gap-3">

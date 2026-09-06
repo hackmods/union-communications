@@ -58,6 +58,22 @@ const READ_FIRST = [
     href: "/guide/officer-learning/building-collective-power",
     titleKey: "readModule6" as const,
   },
+  {
+    href: "/guide/officer-learning/mobilizer-bargaining-partner",
+    titleKey: "readModule7" as const,
+  },
+  {
+    href: "/guide/officer-learning/advanced-grievance-settlement",
+    titleKey: "readModule8" as const,
+  },
+  {
+    href: "/guide/officer-learning/benefits-disability-claims",
+    titleKey: "readModule9" as const,
+  },
+  {
+    href: "/guide/officer-learning/joint-workplace-committees",
+    titleKey: "readModule10" as const,
+  },
 ] as const;
 
 const UTILITIES = [

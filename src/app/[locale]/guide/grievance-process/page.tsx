@@ -13,6 +13,7 @@ import {
 import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 
 export async function generateMetadata({
@@ -163,6 +164,11 @@ export default async function GrievanceProcessGuidePage({
           {t("disclaimer.body")}
         </p>
       </Callout>
+
+      <OfficerLearningModuleCallout
+        slug="advanced-grievance-settlement"
+        moduleNumber={8}
+      />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <ForumFlowFigure

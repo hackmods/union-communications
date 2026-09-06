@@ -5,6 +5,7 @@ import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { Callout } from "@/components/ui/Callout";
 import { guideCtaClass } from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
@@ -114,6 +115,11 @@ export default async function RightToRefuseGuidePage({
           {t("disclaimer.body")}
         </p>
       </Callout>
+
+      <OfficerLearningModuleCallout
+        slug="joint-workplace-committees"
+        moduleNumber={10}
+      />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">

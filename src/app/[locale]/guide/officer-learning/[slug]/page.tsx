@@ -16,6 +16,10 @@ const SOURCES_PAGE_BY_SLUG: Record<string, string> = {
   "democratic-governance": "officerLearningGovernance",
   "financial-health": "officerLearningFinancial",
   "building-collective-power": "officerLearningCollectivePower",
+  "mobilizer-bargaining-partner": "officerLearningMobilizer",
+  "advanced-grievance-settlement": "officerLearningSettlement",
+  "benefits-disability-claims": "officerLearningBenefits",
+  "joint-workplace-committees": "officerLearningCommittees",
 };
 
 export async function generateStaticParams() {

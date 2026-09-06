@@ -463,6 +463,302 @@ export async function downloadEquityClausePdf(opts: ModulePdfContext): Promise<v
   });
 }
 
+/** Workplace map worksheet (module 7). */
+export async function downloadWorkplaceMapPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Carte du milieu de travail — fiche d'organisation",
+          sections: [
+            {
+              heading: "Grille du site",
+              lines: [
+                "Départements / unités dessinés :",
+                "Quarts et classifications notés :",
+                "Statut d'emploi (temporaire vs permanent) :",
+                "Langues et îlots isolés :",
+              ],
+            },
+            {
+              heading: "Leaders et lacunes",
+              lines: [
+                "Leaders organiques (pas seulement les délégués titulaires) :",
+                "Poches non engagées à recruter :",
+                "Contacts de plancher assignés :",
+              ],
+            },
+            {
+              heading: "Prochaine escalade",
+              lines: [
+                "Échelon prévu (chandails → application → mini-campagne…) :",
+                "Avis juridique / service avant work-to-rule? :",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Workplace map — organizing worksheet",
+          sections: [
+            {
+              heading: "Site grid",
+              lines: [
+                "Departments / units drawn:",
+                "Shifts and classifications marked:",
+                "Employment status (temp vs permanent):",
+                "Languages and isolated islands:",
+              ],
+            },
+            {
+              heading: "Leaders and gaps",
+              lines: [
+                "Organic leaders (not only titled stewards):",
+                "Unengaged pockets to recruit:",
+                "Floor contacts assigned:",
+              ],
+            },
+            {
+              heading: "Next escalation",
+              lines: [
+                "Planned rung (shirts → enforcement → mini-campaign…):",
+                "Legal / servicing notice before work-to-rule?:",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-workplace-map-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
+/** Four corners settlement checklist (module 8). */
+export async function downloadSettlementCornersPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Règlement — quatre coins et porte ouverte",
+          sections: [
+            {
+              heading: "Avant de signer",
+              lines: [
+                "Chaque promesse verbale écrite dans le mémoire?",
+                "Sans préjudice / sans précédent cochés si voulus?",
+                "Réparation intégrale (paye, avantages, dossier) précise?",
+                "Délais et qui fait quoi nommé?",
+              ],
+            },
+            {
+              heading: "Grief — porte ouverte",
+              lines: [
+                "Article X et/ou tout autre article pertinent?",
+                "Remède : rendre le plaignant entier à tous égards?",
+                "Chronologie et preuves jointes?",
+              ],
+            },
+            {
+              heading: "Après la signature",
+              lines: [
+                "Copie au membre et au dossier sécurisé",
+                "Suivi des échéances du mémoire",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Settlement — four corners & open door",
+          sections: [
+            {
+              heading: "Before you sign",
+              lines: [
+                "Every verbal promise written into the MOS?",
+                "Without prejudice / without precedent checked if wanted?",
+                "Make-whole (pay, benefits, record) spelled out?",
+                "Deadlines and who does what named?",
+              ],
+            },
+            {
+              heading: "Grievance — open door",
+              lines: [
+                "Article X and/or any other relevant article?",
+                "Remedy: make the grievor whole in every aspect?",
+                "Chronology and evidence attached?",
+              ],
+            },
+            {
+              heading: "After signing",
+              lines: [
+                "Copy to member and secured file",
+                "Calendar MOS deadlines",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-settlement-corners-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
+/** Medical privacy boundary sheet (module 9). */
+export async function downloadMedicalPrivacyPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Confidentialité médicale — capacités fonctionnelles",
+          sections: [
+            {
+              heading: "L'employeur peut demander",
+              lines: [
+                "Limitations et restrictions (capacités fonctionnelles)",
+                "Durée prévue / date de révision",
+                "Aménagements nécessaires pour un travail sécuritaire",
+              ],
+            },
+            {
+              heading: "L'employeur n'a pas droit à",
+              lines: [
+                "Diagnostic, symptômes, médicaments",
+                "Notes cliniques ou de thérapie",
+                "Dossier médical complet",
+              ],
+            },
+            {
+              heading: "Prochaines étapes du délégué",
+              lines: [
+                "Refuser la pêche au diagnostic par écrit",
+                "Orienter vers le comité d'assurance conjoint si déni",
+                "Auditer le PAM pour absences liées au handicap",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Medical privacy — functional abilities only",
+          sections: [
+            {
+              heading: "Employer may request",
+              lines: [
+                "Limitations and restrictions (functional abilities)",
+                "Expected duration / review date",
+                "Accommodations needed for safe work",
+              ],
+            },
+            {
+              heading: "Employer has no right to",
+              lines: [
+                "Diagnosis, symptoms, medications",
+                "Clinical or therapy notes",
+                "Full medical file",
+              ],
+            },
+            {
+              heading: "Steward next steps",
+              lines: [
+                "Refuse diagnosis fishing in writing",
+                "Route denials to joint insurance oversight",
+                "Audit AMP for disability-related absences",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-medical-privacy-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
+/** United caucus briefing sheet (module 10). */
+export async function downloadCaucusBriefingPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Caucus uni — fiche de préparation du comité",
+          sections: [
+            {
+              heading: "Avant la rencontre conjointe",
+              lines: [
+                "Caucus syndical tenu (sans la direction)?",
+                "Objectif unique et rôles assignés?",
+                "Désaccords réglés derrière la porte?",
+                "Forum : JHSC, LMC, ou grief?",
+              ],
+            },
+            {
+              heading: "Pendant",
+              lines: [
+                "Front uni — pas de débat interne devant la direction",
+                "Demander réponses écrites (délai LSST pour le JHSC)",
+                "Noter engagements et échéances",
+              ],
+            },
+            {
+              heading: "Après",
+              lines: [
+                "Débrief caucus : qui suit quoi",
+                "Escalade multi-comités si blocage",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "United caucus — committee prep sheet",
+          sections: [
+            {
+              heading: "Before the joint meeting",
+              lines: [
+                "Union caucus held (no management)?",
+                "Single objective and roles assigned?",
+                "Disagreements settled behind closed doors?",
+                "Forum: JHSC, LMC, or grievance?",
+              ],
+            },
+            {
+              heading: "During",
+              lines: [
+                "United front — no internal debate in front of management",
+                "Demand written answers (OHSA timeline for JHSC)",
+                "Log commitments and deadlines",
+              ],
+            },
+            {
+              heading: "After",
+              lines: [
+                "Caucus debrief: who follows what",
+                "Multi-committee escalate if stalled",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-caucus-briefing-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
 const BYLAWS_ADOPTION_COPY = {
   en: {
     title: "Local bylaws — adoption & amendment checklist",

@@ -12,6 +12,10 @@ export const MODULE_TIMELINE_PHASES: Record<string, readonly string[]> = {
   "democratic-governance": ["d0", "d1", "d2", "d3"],
   "financial-health": ["d0", "d1", "d3", "d7"],
   "building-collective-power": ["d0", "d1", "d3", "d7"],
+  "mobilizer-bargaining-partner": ["d0", "d1", "d3", "d7"],
+  "advanced-grievance-settlement": ["d0", "d1", "d2", "d3", "d7"],
+  "benefits-disability-claims": ["d0", "d1", "d3", "d7"],
+  "joint-workplace-committees": ["d0", "d1", "d2", "d3"],
 };
 
 type Props = {

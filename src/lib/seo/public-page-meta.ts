@@ -205,7 +205,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/officer-learning": {
       title: "Officer Learning Center",
       description:
-        "Six expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
+        "Ten expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1: Contract Enforcement",
@@ -236,6 +236,26 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Module 6: Building Collective Power",
       description:
         "Systemic barriers, equity-focused bargaining, anti-racism contract language, and restorative dispute paths. Self-test quiz included.",
+    },
+    "/guide/officer-learning/mobilizer-bargaining-partner": {
+      title: "Module 7: Mobilizer & Bargaining Partner",
+      description:
+        "Workplace mapping, escalation ladder, work-to-rule boundaries, and strike readiness for stewards. Self-test quiz included.",
+    },
+    "/guide/officer-learning/advanced-grievance-settlement": {
+      title: "Module 8: Advanced Grievance & Settlement",
+      description:
+        "Open-door grievance wording, five-part evidence files, without prejudice, and four-corners settlements. Self-test quiz included.",
+    },
+    "/guide/officer-learning/benefits-disability-claims": {
+      title: "Module 9: Benefits & Disability Claims",
+      description:
+        "Functional abilities privacy, benefit denials, IME limits, and attendance program audits. Self-test quiz included.",
+    },
+    "/guide/officer-learning/joint-workplace-committees": {
+      title: "Module 10: Joint Workplace Committees",
+      description:
+        "JHSC versus LMC powers, united caucus discipline, and multi-committee escalation. Self-test quiz included.",
     },
   },
   fr: {
@@ -432,7 +452,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",
       description:
-        "Six modules approfondis avec scénarios, exercices et quiz. S'appuie sur la formation du CTC, de la SCFP, d'Unifor et de la CODP — progression sur votre appareil.",
+        "Dix modules approfondis avec scénarios, exercices et quiz. S'appuie sur la formation du CTC, de la SCFP, d'Unifor et de la CODP — progression sur votre appareil.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1 : Application de la convention",
@@ -463,6 +483,26 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Module 6 : Bâtir le pouvoir collectif",
       description:
         "Barrières systémiques, négociation axée sur l'équité, clauses antiracistes et voies de règlement restauratrices. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/mobilizer-bargaining-partner": {
+      title: "Module 7 : Mobilisateur et partenaire de négociation",
+      description:
+        "Cartographie du milieu de travail, échelle d'escalade, limites du work-to-rule et préparation à la grève. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/advanced-grievance-settlement": {
+      title: "Module 8 : Grief avancé et règlement",
+      description:
+        "Libellé porte ouverte, dossier en cinq piliers, sans préjudice et règlements aux quatre coins. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/benefits-disability-claims": {
+      title: "Module 9 : Prestations et invalidité",
+      description:
+        "Confidentialité des capacités fonctionnelles, refus d'assureur, limites des EIM et audit des programmes d'assiduité. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/joint-workplace-committees": {
+      title: "Module 10 : Comités conjoints en milieu de travail",
+      description:
+        "Pouvoirs du JHSC et du LMC, discipline de caucus uni et escalade multi-comités. Quiz d'autoévaluation inclus.",
     },
   },
 };

@@ -83,6 +83,10 @@ const OFFICER_LEARNING_MODULES: readonly { href: string; labelKey: string }[] = 
   { href: "/guide/officer-learning/democratic-governance", labelKey: "olDemocraticGovernance" },
   { href: "/guide/officer-learning/financial-health", labelKey: "olFinancialHealth" },
   { href: "/guide/officer-learning/building-collective-power", labelKey: "olCollectivePower" },
+  { href: "/guide/officer-learning/mobilizer-bargaining-partner", labelKey: "olMobilizer" },
+  { href: "/guide/officer-learning/advanced-grievance-settlement", labelKey: "olSettlement" },
+  { href: "/guide/officer-learning/benefits-disability-claims", labelKey: "olBenefits" },
+  { href: "/guide/officer-learning/joint-workplace-committees", labelKey: "olCommittees" },
 ];
 
 /** Pages where stewards download text or canvas PDFs (button on page). */
