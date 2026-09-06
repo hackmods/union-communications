@@ -48,7 +48,9 @@ const GUIDE_GROUP_LABEL: Record<GuideGroupId, string> = {
   commsPath: "learnGroupGuides",
   channels: "learnGroupChannels",
   bargaining: "learnGroupStewardTraining",
-  labour: "learnGroupStewardTraining",
+  training: "learnGroupStewardTraining",
+  floor: "learnSubgroupFloor",
+  local: "learnSubgroupLocal",
 };
 
 const SITE_SHELL_PATHS: readonly { href: string; navKey: string }[] = [

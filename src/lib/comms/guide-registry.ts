@@ -10,7 +10,9 @@ export type GuideGroupId =
   | "commsPath"
   | "channels"
   | "bargaining"
-  | "labour";
+  | "training"
+  | "floor"
+  | "local";
 
 /** Steward job groups — nav Floor/Local column + playbooks hub sections. */
 export type GuideJobGroupId = "training" | "floor" | "local" | "campaign";
@@ -133,7 +135,8 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
         navKey: "crisisCommsGuide",
       },
     ],
-    labour: [
+    /** Steward craft hubs — short catalog column; floor/local are separate. */
+    training: [
       {
         href: "/guide/officer-learning",
         key: "officerLearning",
@@ -153,12 +156,8 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
         tier: "playbook",
         navKey: "steward101Guide",
       },
-      {
-        href: "/guide/union-history",
-        key: "unionHistory",
-        tier: "gold",
-        navKey: "unionHistoryGuide",
-      },
+    ],
+    floor: [
       {
         href: "/guide/grievance-process",
         key: "grievance",
@@ -167,16 +166,16 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
       },
       { href: "/guide/dfr", key: "dfr", tier: "playbook", navKey: "dfrGuide" },
       {
-        href: "/guide/seniority-bumping",
-        key: "seniority",
-        tier: "playbook",
-        navKey: "seniorityGuide",
-      },
-      {
         href: "/guide/right-to-refuse",
         key: "rightToRefuse",
         tier: "playbook",
         navKey: "rightToRefuseGuide",
+      },
+      {
+        href: "/guide/seniority-bumping",
+        key: "seniority",
+        tier: "playbook",
+        navKey: "seniorityGuide",
       },
       {
         href: "/guide/joint-committee",
@@ -190,17 +189,26 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
         tier: "playbook",
         navKey: "workplaceMappingGuide",
       },
+    ],
+    /** Membership signup stays primary `channels`; playbooks hub still lists it. */
+    local: [
       {
-        href: "/guide/bylaws",
-        key: "bylaws",
-        tier: "playbook",
-        navKey: "bylawsGuide",
+        href: "/guide/union-history",
+        key: "unionHistory",
+        tier: "gold",
+        navKey: "unionHistoryGuide",
       },
       {
         href: "/guide/running-meetings",
         key: "runningMeetings",
         tier: "playbook",
         navKey: "runningMeetingsGuide",
+      },
+      {
+        href: "/guide/bylaws",
+        key: "bylaws",
+        tier: "playbook",
+        navKey: "bylawsGuide",
       },
       {
         href: "/guide/land-acknowledgement",
@@ -210,6 +218,15 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
       },
     ],
   };
+
+/** Flat steward discoverability strip (Blueprint labour Callout) — hubs + floor + local. */
+export function stewardDiscoverabilityLinks(): GuideRegistryEntry[] {
+  return [
+    ...GUIDE_REGISTRY.training,
+    ...GUIDE_REGISTRY.floor,
+    ...GUIDE_REGISTRY.local,
+  ];
+}
 
 export function registryEntryByHref(href: string): GuideRegistryEntry | undefined {
   for (const group of Object.values(GUIDE_REGISTRY)) {
@@ -380,7 +397,9 @@ export const GUIDE_CATALOG_GROUP_IDS: readonly GuideGroupId[] = [
   "commsPath",
   "channels",
   "bargaining",
-  "labour",
+  "training",
+  "floor",
+  "local",
 ];
 
 /** True for `/guide` and `/guide/…`, not `/guides`. */

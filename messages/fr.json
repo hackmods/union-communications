@@ -6620,6 +6620,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "guides-catalog-split": {
+        "title": "Catalogue des guides : Travail de délégué, Plancher, La section",
+        "body": "Tous les guides sépare maintenant les manuels de délégué en Travail de délégué, Plancher et La section, pour que la longue liste soit plus facile à parcourir."
+      },
       "guides-catalog": {
         "title": "Tous les guides, sur une liste",
         "body": "Parcourez tous les manuels publics depuis Tous les guides, y compris les guides de plancher, les assemblées et comment les syndicats se relient."
@@ -9008,9 +9012,17 @@
         "title": "Campagne",
         "intro": "Négociation, opérations de grève et communications de crise."
       },
-      "labour": {
+      "training": {
         "title": "Travail de délégué",
-        "intro": "Formation des dirigeants, guides de plancher, assemblées, et comment les syndicats se relient."
+        "intro": "Formation des dirigeants, le carrefour des guides pratiques, et Délégué 101."
+      },
+      "floor": {
+        "title": "Plancher",
+        "intro": "Griefs, représentation équitable, refus de travail dangereux, ancienneté, comités et cartographie du milieu."
+      },
+      "local": {
+        "title": "La section",
+        "intro": "Histoire syndicale, assemblées, règlements et reconnaissance territoriale."
       }
     },
     "blurbs": {

@@ -64,8 +64,8 @@ describe("guide-registry", () => {
     ).toBe(true);
   });
 
-  it("leads labour discoverability with Officer Learning", () => {
-    expect(GUIDE_REGISTRY.labour[0]?.href).toBe("/guide/officer-learning");
+  it("leads training discoverability with Officer Learning", () => {
+    expect(GUIDE_REGISTRY.training[0]?.href).toBe("/guide/officer-learning");
     expect(GUIDE_RESOURCES_LABOUR_LINKS[0]?.href).toBe(
       "/guide/officer-learning",
     );
@@ -118,7 +118,7 @@ describe("guide-registry", () => {
         ?.tier,
     ).toBe("gold");
     expect(
-      GUIDE_REGISTRY.labour.find((row) => row.href === "/guide/union-history")
+      GUIDE_REGISTRY.local.find((row) => row.href === "/guide/union-history")
         ?.tier,
     ).toBe("gold");
   });
@@ -189,12 +189,27 @@ describe("guide-registry", () => {
     ]);
   });
 
+  it("has EN/FR catalog titles and intros for every catalog group", () => {
+    for (const locale of [en, fr] as const) {
+      const groups = locale.guidesIndex.groups as Record<
+        string,
+        { title: string; intro: string }
+      >;
+      for (const id of GUIDE_CATALOG_GROUP_IDS) {
+        expect(groups[id]?.title, `missing guidesIndex.groups.${id}.title`).toBeTruthy();
+        expect(groups[id]?.intro, `missing guidesIndex.groups.${id}.intro`).toBeTruthy();
+      }
+    }
+  });
+
   it("lists the catalog groups in registry order and covers every registered href", () => {
     expect(GUIDE_CATALOG_GROUP_IDS).toEqual([
       "commsPath",
       "channels",
       "bargaining",
-      "labour",
+      "training",
+      "floor",
+      "local",
     ]);
     const catalogHrefs = new Set(
       GUIDE_CATALOG_GROUP_IDS.flatMap((id) =>

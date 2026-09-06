@@ -6672,6 +6672,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "guides-catalog-split": {
+        "title": "Guides catalog: Steward craft, Floor, The local",
+        "body": "All guides now splits steward handbooks into Steward craft, Floor, and The local, so the long list is easier to scan."
+      },
       "guides-catalog": {
         "title": "All guides, in one list",
         "body": "Browse every public handbook from All guides, including floor playbooks, running meetings, and how Canadian unions connect."
@@ -9008,9 +9012,17 @@
         "title": "Campaign",
         "intro": "Bargaining, strike operations, and crisis comms."
       },
-      "labour": {
+      "training": {
         "title": "Steward craft",
-        "intro": "Officer Learning, floor playbooks, meetings, and how unions connect."
+        "intro": "Officer Learning, the playbooks hub, and Steward 101."
+      },
+      "floor": {
+        "title": "Floor",
+        "intro": "Grievances, fair representation, safety refusals, seniority, committees, and workplace mapping."
+      },
+      "local": {
+        "title": "The local",
+        "intro": "Union history, meetings, bylaws, and land acknowledgement."
       }
     },
     "blurbs": {

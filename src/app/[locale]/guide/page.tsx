@@ -9,6 +9,7 @@ import {
   GUIDE_BLUEPRINT_PATH_LINKS,
   GUIDE_REGISTRY,
   GUIDE_STEWARD_PLAYBOOKS_HUB,
+  stewardDiscoverabilityLinks,
 } from "@/lib/comms/guide-registry";
 import {
   guideCtaClass,
@@ -258,7 +259,7 @@ export default async function GuidePage({
             className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
             aria-label={t("labourGuides.title")}
           >
-            {GUIDE_REGISTRY.labour
+            {stewardDiscoverabilityLinks()
               .filter((link) => link.href !== GUIDE_STEWARD_PLAYBOOKS_HUB)
               .map((link, i) => (
               <span key={link.href} className="inline-flex items-baseline gap-x-3">

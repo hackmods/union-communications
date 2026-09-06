@@ -1,5 +1,11 @@
 # Progress Log
 
+## Guides catalog three-way steward split (2026-09-06)
+
+- [x] `/guides` replaces flat Steward craft (`labour`) with **Steward craft** / **Floor** / **The local** (`training` / `floor` / `local` in `GUIDE_REGISTRY`)
+- [x] Catalog grid `sm:2` / `lg:3`; Blueprint labour strip uses `stewardDiscoverabilityLinks()`
+- Verify: `npm run test:unit -- src/lib/comms/guide-registry.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Guides catalog + Floor mega-menu (2026-09-05)
 
 - [x] Job groups (`floor` / `local` / `campaign` / `training`) on `guide-registry.ts`; nav and catalog derive from them

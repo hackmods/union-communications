@@ -178,7 +178,7 @@ export default async function GuidesCatalogPage({
         </div>
       </details>
 
-      <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:mt-10 lg:grid-cols-2 xl:grid-cols-4 xl:gap-8">
+      <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 xl:gap-8">
         {GUIDE_CATALOG_GROUP_IDS.map((groupId: GuideGroupId) => (
           <section
             key={groupId}
