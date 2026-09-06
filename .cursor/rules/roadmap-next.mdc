@@ -46,6 +46,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 | Running meetings + Rules of Order | **Shipped 2026-08-28** — `/guide/running-meetings` gold playbook + `/tools/rules-of-order` cheat sheet; [`session-knowledge-2026-08-28-running-meetings-rules-of-order.md`](../../docs/audit/session-knowledge-2026-08-28-running-meetings-rules-of-order.md) |
 | Officer Learning olTheme + Guides nav IA | **Shipped 2026-08-28** — platform orange tokens; guide registry; [`session-knowledge-2026-08-28-officer-learning-nav-guides.md`](../../docs/audit/session-knowledge-2026-08-28-officer-learning-nav-guides.md) |
 | Officer Learning modules 7–10 | **Shipped 2026-09-06** — mobilizer, settlement, benefits/disability, joint committees; [`session-knowledge-2026-09-06-officer-learning-modules-7-10.md`](../../docs/audit/session-knowledge-2026-09-06-officer-learning-modules-7-10.md) |
+| Officer Learning modules 11–14 | **Shipped 2026-09-06** — lists/privacy, advanced finance, digital security/transitions, everyday value; content review 7–14; [`session-knowledge-2026-09-06-officer-learning-modules-11-14.md`](../../docs/audit/session-knowledge-2026-09-06-officer-learning-modules-11-14.md) |
 | Public UX uplift (guides/tools/pages) | **Shipped 2026-08-27** — flexible `GuideLayout` presets, playbook TOC rails, tools catalog labour strip; [`public-space-composition-audit-2026-08.md`](../../docs/audit/public-space-composition-audit-2026-08.md) |
 
 ## Next planned work (in order)

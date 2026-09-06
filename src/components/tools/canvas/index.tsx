@@ -365,6 +365,178 @@ export function CanvasTypeBlock({
   );
 }
 
+/**
+ * Stacked Keep-Calm headline lines that shrink into the parent slot
+ * (width + height). Prefer over raw Tailwind text-* on fixed print canvases —
+ * Solidarity / Meeting-style posters used to paint over logos and footers.
+ */
+export function CanvasFitStackedHeadline({
+  lines,
+  ink,
+  tokens,
+  baseFontSizePx,
+  minFontSizePx = 14,
+  subtitle,
+  subtitleColor,
+  subtitleBaseFontSizePx,
+  className,
+  fit = true,
+  nowrap = true,
+}: {
+  lines: string[];
+  ink: string;
+  tokens: CanvasTokens;
+  /** Preferred size before fit (Brand Kit title × layout density). */
+  baseFontSizePx: number;
+  minFontSizePx?: number;
+  /** Optional closer under the stack — scales with the same fit factor. */
+  subtitle?: string;
+  subtitleColor?: string;
+  subtitleBaseFontSizePx?: number;
+  className?: string;
+  fit?: boolean;
+  /** Keep each line on one row (shrink instead of mid-word wrap). */
+  nowrap?: boolean;
+}) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  const align = textAlignFromBias(tokens.alignmentBias);
+  const items = flexAlignFromBias(tokens.alignmentBias);
+  const linesKey = lines.join("\n");
+  const subBase = subtitleBaseFontSizePx ?? Math.round(baseFontSizePx * 0.28);
+
+  useLayoutEffect(() => {
+    if (!fit) return;
+    const el = wrapRef.current;
+    if (!el) return;
+
+    let raf = 0;
+    const measure = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const parent = el.parentElement;
+        const budgetW = parent?.clientWidth || el.clientWidth;
+        const budgetH = parent?.clientHeight || el.clientHeight;
+        if (!(budgetW > 0) || !(budgetH > 0)) return;
+
+        let next = 1;
+        for (let i = 0; i < CANVAS_TYPE_FIT_MAX_ITERS; i++) {
+          el.dataset.canvasTypeFit = String(next);
+          const lineNodes = el.querySelectorAll<HTMLElement>(
+            "[data-canvas-headline-line]",
+          );
+          const subEl = el.querySelector<HTMLElement>("[data-canvas-subtitle]");
+          const size = fittedFontSizePx(baseFontSizePx, next, minFontSizePx);
+          for (const node of lineNodes) {
+            node.style.fontSize = `${size}px`;
+          }
+          if (subEl) {
+            subEl.style.fontSize = `${fittedFontSizePx(subBase, next, 10)}px`;
+            subEl.style.marginTop = `${Math.max(4, Math.round(size * 0.18))}px`;
+          }
+          // Measure lines directly — overflow:hidden on the wrap (and on
+          // nowrap lines) can make wrap.scrollWidth === clientWidth even when
+          // glyphs are clipped mid-word.
+          const lineOverflow = Array.from(lineNodes).some(
+            (line) => line.scrollWidth > budgetW + 0.5,
+          );
+          const boxOverflow = typeFitOverflows(
+            el.scrollWidth,
+            el.scrollHeight,
+            budgetW,
+            budgetH,
+          );
+          if ((!lineOverflow && !boxOverflow) || next <= CANVAS_TYPE_FIT_MIN_SCALE) {
+            break;
+          }
+          next = nextTypeFitScale(next, true);
+        }
+        setScale((prev) => (prev === next ? prev : next));
+      });
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    if (el.parentElement) ro.observe(el.parentElement);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, [
+    fit,
+    linesKey,
+    subtitle,
+    baseFontSizePx,
+    minFontSizePx,
+    subBase,
+    tokens.headlineFontFamily,
+    tokens.titleFontWeight,
+    tokens.titleLetterSpacing,
+    tokens.titleTextTransform,
+    tokens.alignmentBias,
+  ]);
+
+  const applied = fit ? scale : 1;
+  const titlePx = fittedFontSizePx(baseFontSizePx, applied, minFontSizePx);
+  const subPx = fittedFontSizePx(subBase, applied, 10);
+  const subGap = Math.max(4, Math.round(titlePx * 0.18));
+
+  return (
+    <div
+      ref={wrapRef}
+      data-canvas-type=""
+      data-canvas-stacked-headline=""
+      data-canvas-type-fit={fit ? scale.toFixed(3) : undefined}
+      className={cn(
+        "relative z-[2] flex w-full min-w-0 flex-col",
+        fit && "max-h-full min-h-0 overflow-hidden",
+        className,
+      )}
+      style={{ alignItems: items, textAlign: align }}
+    >
+      {lines.map((line, i) => (
+        <p
+          key={`${i}-${line}`}
+          data-canvas-headline-line=""
+          style={{
+            color: ink,
+            fontSize: titlePx,
+            fontWeight: tokens.titleFontWeight,
+            letterSpacing: tokens.titleLetterSpacing,
+            textTransform: tokens.titleTextTransform,
+            lineHeight: 0.95,
+            margin: 0,
+            fontFamily: tokens.headlineFontFamily,
+            whiteSpace: nowrap ? "nowrap" : undefined,
+            // Do not clip mid-word — fit loop shrinks until scrollWidth fits.
+            maxWidth: "100%",
+          }}
+        >
+          {line}
+        </p>
+      ))}
+      {subtitle ? (
+        <p
+          data-canvas-subtitle=""
+          style={{
+            color: subtitleColor ?? ink,
+            fontSize: subPx,
+            fontWeight: tokens.bodyFontWeight,
+            lineHeight: 1.25,
+            margin: 0,
+            marginTop: subGap,
+            letterSpacing: "0.02em",
+            fontFamily: tokens.bodyFontFamily,
+          }}
+        >
+          {subtitle}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
 export function CanvasQrPlate({
   tokens,
   qrSrc,
