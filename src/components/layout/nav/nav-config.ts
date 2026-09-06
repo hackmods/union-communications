@@ -112,8 +112,9 @@ function navLinksFromHrefs(hrefs: readonly string[]): NavLink[] {
 /**
  * Guides ▾ mega-menu — toolkit-first. Comms practice, channels, then
  * steward craft. Officer Learning is a top-level header link, not nested here.
- * Floor and local playbooks sit in a grouped column (collapsed below 2xl).
- * Resources (bibliography) sits in Libraries. About links stay in the footer.
+ * Floor and local playbooks sit in a grouped column (collapsed by default;
+ * the active subgroup opens). Resources (bibliography) sits in Libraries.
+ * About links stay in the footer.
  */
 export const learnGroups: readonly NavGroup[] = [
   {

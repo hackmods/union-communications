@@ -14,7 +14,7 @@ Brand Kit is the Comms home base (colours, logo, local number, links). First wee
 
 ## Header Guides menu (keep this shape)
 
-Five groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**). Job groups (floor / local / campaign) live in [`guide-registry.ts`](src/lib/comms/guide-registry.ts). **Officer Learning Center** is a **top-level header link** (between Guides and Brand Kit) — not nested under Steward craft. Five columns at 2xl. Floor and The local start **collapsed** below 2xl (`<details>`), expanded at 2xl.
+Five groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**). Job groups (floor / local / campaign) live in [`guide-registry.ts`](src/lib/comms/guide-registry.ts). **Officer Learning Center** is a **top-level header link** (between Guides and Brand Kit) — not nested under Steward craft. Five columns at 2xl. Floor and The local stay **collapsed** in `<details>` at every width (open the active subgroup when the current page is inside it) so the flyout fits the viewport clamp without an awkward scroll.
 
 1. **Comms** — First week (`/guide/social-media-plan`), The Blueprint (`/guide`), Workshop outline (`/guide/workshop`)
 2. **By channel** — Print Guide, Union Boards Guide, Website Guide, Email & outreach, Short-form video

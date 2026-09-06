@@ -69,7 +69,7 @@ function MegaFooterLink({
   onNavigate: () => void;
 }) {
   return (
-    <div className="border-t border-gray-100 bg-gray-50/80 px-3 py-2.5">
+    <div className="sticky bottom-0 border-t border-gray-100 bg-gray-50/95 px-3 py-2 backdrop-blur-sm">
       <Link
         href={href}
         role="menuitem"
@@ -115,7 +115,7 @@ function MegaSubgroupLinks({
 }) {
   const t = useTranslations("nav");
   return (
-    <ul className="mt-1 space-y-0.5">
+    <ul className="mt-0.5 space-y-0.5">
       {subgroup.links.map(({ href, key }) => (
         <li key={href}>
           <MenuItemLink
@@ -123,6 +123,7 @@ function MegaSubgroupLinks({
             label={t(key)}
             active={linkActive(pathname, href)}
             onNavigate={onNavigate}
+            dense
           />
         </li>
       ))}
@@ -140,27 +141,36 @@ function MegaSubgroups({
   onNavigate: () => void;
 }) {
   const t = useTranslations("nav");
+  // Always collapse Floor / The local — expanded at 2xl made the flyout taller
+  // than the viewport clamp and forced an awkward inner scroll.
   return (
     <>
-      <div className="hidden 2xl:block">
-        {subgroups.map((subgroup) => (
-          <div key={subgroup.labelKey} className="mt-3 first:mt-2">
-            <p className="px-2.5 pb-1 text-[0.65rem] font-semibold tracking-wide text-gray-500">
-              {t(subgroup.labelKey)}
-            </p>
-            <MegaSubgroupLinks
-              subgroup={subgroup}
-              pathname={pathname}
-              onNavigate={onNavigate}
-            />
-          </div>
-        ))}
-      </div>
-      <div className="2xl:hidden">
-        {subgroups.map((subgroup) => (
-          <details key={subgroup.labelKey} className="mt-2">
-            <summary className="cursor-pointer list-none rounded-lg px-2.5 py-1.5 text-[0.7rem] font-semibold tracking-wide text-gray-500 outline-none marker:content-none hover:bg-opseu-blue/5 focus-visible:bg-opseu-blue/10 focus-visible:ring-2 focus-visible:ring-opseu-blue/40 [&::-webkit-details-marker]:hidden">
-              {t(subgroup.labelKey)}
+      {subgroups.map((subgroup) => {
+        const hasActive = subgroup.links.some(({ href }) =>
+          linkActive(pathname, href),
+        );
+        return (
+          <details
+            key={subgroup.labelKey}
+            className="group/subgroup mt-1.5"
+            defaultOpen={hasActive}
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-2.5 py-1.5 text-[0.7rem] font-semibold tracking-wide text-gray-500 outline-none marker:content-none hover:bg-opseu-blue/5 focus-visible:bg-opseu-blue/10 focus-visible:ring-2 focus-visible:ring-opseu-blue/40 [&::-webkit-details-marker]:hidden">
+              <span>{t(subgroup.labelKey)}</span>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 12 12"
+                className="h-3 w-3 shrink-0 opacity-60 transition-transform duration-150 group-open/subgroup:rotate-180"
+              >
+                <path
+                  d="M2.5 4.25 6 7.75l3.5-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </summary>
             <MegaSubgroupLinks
               subgroup={subgroup}
@@ -168,8 +178,8 @@ function MegaSubgroups({
               onNavigate={onNavigate}
             />
           </details>
-        ))}
-      </div>
+        );
+      })}
     </>
   );
 }
@@ -191,7 +201,7 @@ export function MenuLinkGroups({
               {t(group.labelKey)}
             </p>
             {group.links.length > 0 ? (
-              <ul className="mt-2 space-y-0.5">
+              <ul className="mt-1.5 space-y-0.5">
                 {group.links.map(({ href, key }) => (
                   <li key={href}>
                     <MenuItemLink
@@ -199,6 +209,7 @@ export function MenuLinkGroups({
                       label={t(key)}
                       active={linkActive(pathname, href)}
                       onNavigate={onNavigate}
+                      dense
                     />
                   </li>
                 ))}
