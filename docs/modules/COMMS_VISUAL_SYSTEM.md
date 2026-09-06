@@ -41,9 +41,9 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 
 [`src/components/tools/canvas/`](../../src/components/tools/canvas/)
 
-- `CanvasBrandHeader` / `CanvasTypeBlock` / `CanvasQrPlate`
+- `CanvasBrandHeader` / `CanvasTypeBlock` / `CanvasFitStackedHeadline` / `CanvasQrPlate`
 - `CanvasGrainOverlay` / `CanvasDuotonePhoto`
-- `FitWidthFrame` (`src/components/tools/FitWidthFrame.tsx`) — uniform preview scale on a **parent** of `[data-export-root]`; used by QR Board, QR Card, Action Card. Export stays full design size (`capture.ts` zeros transform on the clone).
+- `FitWidthFrame` (`src/components/tools/FitWidthFrame.tsx`) — uniform preview scale on a **parent** of `[data-export-root]`; used by QR Board, QR Card, Action Card, Solidarity Poster (print), Org Chart. Export stays full design size (`capture.ts` zeros transform on the clone).
 
 ## Migration register
 
@@ -57,7 +57,7 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 | Pulse Poll | done |
 | Graphic Maker / `graphic-layouts` (+ duotone photos) | done |
 | QR Board (grain + surface + `CanvasQrPlate` slots) | done |
-| Solidarity Poster (surface + grain + QR plate) | done |
+| Solidarity Poster (surface + grain + QR plate + type-fit stack) | done |
 | Meeting Background (surface + grain on capture root) | done |
 | Document Generator `OfficePresetMock` type scale | done |
 | Quote Card (`stripe` / `centered` / `mark`) | done |
@@ -104,6 +104,11 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - `CanvasStackSlot` — `min-h-0 flex-1 overflow-hidden` host so fit has a real height budget on fixed print pages.
 - Board Notice + Flyer Maker stack/band/split opt in; long steward copy must not paint over `[data-canvas-meta]`.
 - Playwright: `measureTypeMetaOverlap` / `expectTypeMetaClear` (layout matrix). Do not treat column-fit alone as layout integrity.
+
+### Solidarity stacked headlines (2026-09-06)
+
+- `CanvasFitStackedHeadline` — Keep-Calm multi-line posters shrink (width + height) into `CanvasStackSlot`; Brand Kit title × layout density is preferred, not raw Tailwind `text-6xl`.
+- Solidarity Poster print sheets use `FitWidthFrame` (no `maxWidth: 100%` on the export root). Footer tagged `[data-canvas-meta]` / `[data-canvas-footer]` for overlap guards.
 
 ### Stop-gap pass 2 (2026-08-06)
 

@@ -60,19 +60,20 @@ import { inkWithAlpha, mutedInkOnBackground, pickContrastingInk } from "@/lib/ut
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import {
   contentPaddingPx,
-  flexAlignFromBias,
   printPageScaledTokens,
   resolveCanvasTokens,
-  textAlignFromBias,
   typeScaleFactor,
 } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import {
   CanvasEdgeClearanceFrame,
+  CanvasFitStackedHeadline,
   CanvasGrainOverlay,
   CanvasQrPlate,
   CanvasSafeZoneOverlay,
+  CanvasStackSlot,
 } from "@/components/tools/canvas";
+import { FitWidthFrame } from "@/components/tools/FitWidthFrame";
 import {
   defaultEdgeClearanceForMedium,
   insetsForProfile,
@@ -103,30 +104,22 @@ function headlineLines(headline: string): string[] {
     .filter(Boolean);
 }
 
-/** Spacing / type density keyed to print vs wallpaper aspect. */
+/**
+ * Spacing / type density keyed to print vs wallpaper aspect.
+ * Headline sizes are Brand Kit title × factor — CanvasFitStackedHeadline
+ * shrinks into the stack slot (never raw Tailwind text-6xl on a fixed page).
+ */
 function layoutChrome(format: SolidarityPosterFormat) {
   if (isLandscapeFormat(format)) {
     const ultraWide = format.id === "wide";
-    // 16:9 / 19.5:9 previews are short — keep type small so header + body + footer fit
     return {
-      padStack: ultraWide
-        ? "box-border px-6 py-3 md:px-8 md:py-3.5"
-        : "box-border px-8 py-4 md:px-10 md:py-4",
-      padSplitSide: ultraWide ? "p-3 md:p-4" : "p-4 md:p-5",
-      padSplitType: ultraWide ? "px-5 py-3 md:px-6" : "px-6 py-4 md:px-8",
-      padBannerBar: ultraWide ? "px-5 py-1.5" : "px-6 py-2",
-      padBannerBody: ultraWide ? "px-6 py-2 md:px-8" : "px-8 py-3 md:px-10",
       padFooterOuter: ultraWide
         ? "box-border px-6 pb-3 pt-1.5 md:px-8"
         : "box-border px-8 pb-3.5 pt-1.5 md:px-10",
-      headlineStack: ultraWide
-        ? "text-xl font-black uppercase leading-[0.95] tracking-tight md:text-2xl"
-        : "text-2xl font-black uppercase leading-[0.95] tracking-tight md:text-3xl",
-      headlineSplit: ultraWide
-        ? "text-lg font-black uppercase leading-[0.95] tracking-tight md:text-xl"
-        : "text-xl font-black uppercase leading-[0.95] tracking-tight md:text-2xl",
-      closerStack: "mt-1.5 text-xs font-medium tracking-wide md:text-sm",
-      closerBanner: "mt-1.5 text-xs font-medium",
+      headlineStackFactor: ultraWide ? 0.9 : 1.1,
+      headlineSplitFactor: ultraWide ? 0.8 : 1,
+      closerFactor: ultraWide ? 0.32 : 0.36,
+      minHeadlinePx: 12,
       qrPx: ultraWide ? 40 : 48,
       footerGap: "gap-2 pt-1.5",
       urlClass: "mt-0.5 break-all text-[10px] leading-tight",
@@ -137,18 +130,11 @@ function layoutChrome(format: SolidarityPosterFormat) {
 
   if (format.id === "vertical") {
     return {
-      padStack: "px-6 py-10 md:px-8 md:py-12",
-      padSplitSide: "p-5 md:p-6",
-      padSplitType: "px-5 py-8 md:px-6",
-      padBannerBar: "px-5 py-3.5",
-      padBannerBody: "px-6 py-8 md:px-8",
       padFooterOuter: "px-5 pb-6 md:px-6",
-      headlineStack:
-        "text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-5xl",
-      headlineSplit:
-        "text-3xl font-black uppercase leading-[0.95] tracking-tight md:text-4xl",
-      closerStack: "mt-5 text-base font-medium tracking-wide md:text-lg",
-      closerBanner: "mt-4 text-sm font-medium md:text-base",
+      headlineStackFactor: 1.55,
+      headlineSplitFactor: 1.35,
+      closerFactor: 0.42,
+      minHeadlinePx: 14,
       qrPx: 64,
       footerGap: "gap-3 pt-3",
       urlClass: "mt-0.5 break-all text-xs leading-snug",
@@ -158,18 +144,11 @@ function layoutChrome(format: SolidarityPosterFormat) {
   }
 
   return {
-    padStack: "p-8 md:p-10",
-    padSplitSide: "p-6",
-    padSplitType: "px-6 py-8",
-    padBannerBar: "px-6 py-4",
-    padBannerBody: "px-8 py-6",
     padFooterOuter: "px-6 pb-6",
-    headlineStack:
-      "text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-5xl lg:text-6xl",
-    headlineSplit:
-      "text-3xl font-black uppercase leading-[0.95] tracking-tight md:text-4xl lg:text-5xl",
-    closerStack: "mt-6 text-lg font-medium tracking-wide",
-    closerBanner: "mt-5 text-base font-medium",
+    headlineStackFactor: 1.7,
+    headlineSplitFactor: 1.45,
+    closerFactor: 0.45,
+    minHeadlinePx: 14,
     qrPx: 72,
     footerGap: "gap-3 pt-3",
     urlClass: "mt-0.5 break-all text-xs leading-snug",
@@ -323,14 +302,16 @@ export default function SolidarityPosterPage() {
   const qrPx = Math.round(
     chrome.qrPx * (tokens.density === "tight" ? 0.92 : 1) * typeScaleFactor(tokens),
   );
-  const stackAlign = textAlignFromBias(tokens.alignmentBias);
-  const stackItems = flexAlignFromBias(tokens.alignmentBias);
-  const titleChrome = {
-    fontWeight: tokens.titleFontWeight,
-    letterSpacing: tokens.titleLetterSpacing,
-    textTransform: tokens.titleTextTransform,
-    fontFamily: tokens.headlineFontFamily,
-  } as const;
+  const headlineStackPx = Math.round(
+    tokens.titleFontSizePx * chrome.headlineStackFactor,
+  );
+  const headlineSplitPx = Math.round(
+    tokens.titleFontSizePx * chrome.headlineSplitFactor,
+  );
+  const closerPx = Math.max(
+    10,
+    Math.round(tokens.titleFontSizePx * chrome.closerFactor),
+  );
   const displayUrl = state.supportUrl.trim() || SITE_URL;
   const showLocalInFooter =
     state.showLocalNumber &&
@@ -416,13 +397,15 @@ export default function SolidarityPosterPage() {
 
   const footer = showFooter ? (
     <div
+      data-canvas-footer=""
+      data-canvas-meta=""
       className={cn(
-        "flex shrink-0 items-center justify-between",
+        "relative z-[3] flex shrink-0 items-end justify-between",
         chrome.footerGap,
       )}
       style={{ borderTop: `1px solid ${mutedInk30}` }}
     >
-      <div className="min-w-0 flex-1 pr-2 text-left">
+      <div className="min-w-0 flex-1 overflow-hidden pr-3 text-left">
         {state.showCta ? (
           <>
             <p className={chrome.ctaClass} style={{ color: canvasInk }}>
@@ -444,8 +427,8 @@ export default function SolidarityPosterPage() {
       </div>
       {state.showQr && qrSrc ? (
         <div
-          className="shrink-0 self-center"
-          style={{ width: qrPx, maxWidth: "100%" }}
+          className="relative z-[1] shrink-0 self-end"
+          style={{ width: qrPx, maxWidth: "42%" }}
         >
           <CanvasQrPlate
             tokens={tokens}
@@ -457,6 +440,221 @@ export default function SolidarityPosterPage() {
       ) : null}
     </div>
   ) : null;
+
+  const showLocalUnderType =
+    showLogo && state.showLocalNumber && !isLandscape;
+
+  const posterCanvas = (
+    <div
+      ref={canvasRef}
+      data-export-root=""
+      className={cn(
+        "relative flex flex-col overflow-hidden",
+        isPrintCanvas ? "shrink-0" : "w-full",
+        !isPrintCanvas && format.aspect,
+      )}
+      style={{
+        ...surfaceStyle,
+        ...(isPrintCanvas && designWidthPx && designHeightPx
+          ? {
+              width: designWidthPx,
+              height: designHeightPx,
+              flexShrink: 0,
+            }
+          : undefined),
+        color: canvasInk,
+        fontFamily: tokens.bodyFontFamily,
+      }}
+    >
+      <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+      <CanvasEdgeClearanceFrame
+        insets={clearanceInsets}
+        className="z-[2] min-h-0 flex-1"
+      >
+        {state.layout === "stack" ? (
+          <div
+            className="relative z-[2] box-border flex h-full min-h-0 flex-col justify-between"
+            style={{ padding: stackPadPx }}
+          >
+            <div
+              data-canvas-lead=""
+              className="relative z-[3] flex shrink-0 items-start justify-between gap-2"
+            >
+              <p
+                className={cn(
+                  "min-w-0 font-semibold uppercase tracking-[0.2em]",
+                  isLandscape ? "text-xs" : "text-sm",
+                )}
+                style={{
+                  color: secondaryOnPrimary,
+                  letterSpacing: tokens.titleLetterSpacing || "0.2em",
+                  fontWeight: tokens.titleFontWeight,
+                }}
+              >
+                {state.leadIn}
+              </p>
+              {showLogo ? (
+                <BrandLogo
+                  size={isLandscape ? "sm" : "md"}
+                  variantOverride={logoVariant}
+                  backgroundColor={state.primaryColor}
+                  className="shrink-0"
+                />
+              ) : null}
+            </div>
+            <CanvasStackSlot className="justify-center py-1">
+              <CanvasFitStackedHeadline
+                fit
+                lines={lines}
+                ink={canvasInk}
+                tokens={tokens}
+                baseFontSizePx={headlineStackPx}
+                minFontSizePx={chrome.minHeadlinePx}
+                subtitle={state.closer}
+                subtitleColor={secondaryOnPrimary}
+                subtitleBaseFontSizePx={closerPx}
+              />
+              {showLocalUnderType ? (
+                <p
+                  className="mt-2 shrink-0 text-sm font-semibold"
+                  style={{ color: mutedInk90 }}
+                >
+                  {localLabel}
+                </p>
+              ) : null}
+            </CanvasStackSlot>
+            {footer}
+          </div>
+        ) : null}
+
+        {state.layout === "split" ? (
+          <div className="relative z-[2] flex h-full min-h-0 flex-col">
+            <div
+              className={cn(
+                "grid min-h-0 flex-1",
+                isLandscape ? "grid-cols-2" : "grid-cols-5",
+              )}
+            >
+              <div
+                data-canvas-lead=""
+                className={cn(
+                  "flex min-h-0 flex-col justify-between overflow-hidden",
+                  !isLandscape && "col-span-2",
+                )}
+                style={{
+                  backgroundColor: state.secondaryColor,
+                  color: splitSideInk,
+                  padding: splitSidePadPx,
+                }}
+              >
+                <p
+                  className="text-xs font-bold uppercase tracking-[0.25em]"
+                  style={{
+                    color: splitSideInk,
+                    letterSpacing: tokens.titleLetterSpacing || "0.25em",
+                    fontWeight: tokens.titleFontWeight,
+                  }}
+                >
+                  {state.leadIn}
+                </p>
+                <p
+                  className={cn(
+                    "font-semibold leading-snug",
+                    isLandscape ? "text-xs" : "text-sm",
+                  )}
+                  style={{ color: splitSideInk }}
+                >
+                  {state.closer}
+                </p>
+              </div>
+              <div
+                data-canvas-stack-slot=""
+                className={cn(
+                  "relative z-[2] flex min-h-0 min-w-0 flex-col justify-center overflow-hidden",
+                  !isLandscape && "col-span-3",
+                )}
+                style={{ padding: splitTypePadPx }}
+              >
+                <CanvasFitStackedHeadline
+                  fit
+                  lines={lines}
+                  ink={canvasInk}
+                  tokens={tokens}
+                  baseFontSizePx={headlineSplitPx}
+                  minFontSizePx={chrome.minHeadlinePx}
+                />
+              </div>
+            </div>
+            {footer ? (
+              <div className={cn("shrink-0", chrome.padFooterOuter)}>
+                {footer}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+
+        {state.layout === "banner" ? (
+          <div className="relative z-[2] flex h-full min-h-0 flex-col justify-between">
+            <div
+              data-canvas-lead=""
+              className="relative z-[3] flex shrink-0 items-center justify-between gap-3"
+              style={{
+                backgroundColor: bannerBarBg,
+                padding: `${bannerBarPadY}px ${bannerBodyPadPx}px`,
+              }}
+            >
+              {showLogo ? (
+                <BrandLogo
+                  size="sm"
+                  variantOverride={logoVariant}
+                  backgroundColor={bannerBarBg}
+                />
+              ) : (
+                <span />
+              )}
+              <p
+                className="text-xs font-bold uppercase tracking-[0.3em]"
+                style={{ color: bannerBarInk }}
+              >
+                {state.leadIn}
+              </p>
+            </div>
+            <CanvasStackSlot className="justify-center text-center">
+              <div
+                className="flex h-full min-h-0 w-full flex-col items-center justify-center"
+                style={{ padding: bannerBodyPadPx }}
+              >
+                <CanvasFitStackedHeadline
+                  fit
+                  lines={lines}
+                  ink={canvasInk}
+                  tokens={tokens}
+                  baseFontSizePx={headlineStackPx}
+                  minFontSizePx={chrome.minHeadlinePx}
+                  subtitle={state.closer}
+                  subtitleColor={mutedInk90}
+                  subtitleBaseFontSizePx={closerPx}
+                />
+                {showLocalUnderType ? (
+                  <p
+                    className="mt-2 shrink-0 text-sm font-semibold"
+                    style={{ color: mutedInk90 }}
+                  >
+                    {localLabel}
+                  </p>
+                ) : null}
+              </div>
+            </CanvasStackSlot>
+            {footer ? (
+              <div className={cn("shrink-0", chrome.padFooterOuter)}>
+                {footer}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </CanvasEdgeClearanceFrame>
+    </div>
+  );
 
   return (
     <ToolEditorLayout
@@ -723,225 +921,16 @@ export default function SolidarityPosterPage() {
       preview={
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
         <div className="relative shadow-lg">
-          <div
-            ref={canvasRef}
-            data-export-root=""
-            className={cn(
-              "relative flex flex-col overflow-hidden",
-              isPrintCanvas ? "shrink-0" : "w-full",
-              !isPrintCanvas && format.aspect,
-            )}
-            style={{
-              ...surfaceStyle,
-              ...(isPrintCanvas && designWidthPx && designHeightPx
-                ? {
-                    width: designWidthPx,
-                    height: designHeightPx,
-                    maxWidth: "100%",
-                    flexShrink: 0,
-                  }
-                : undefined),
-              color: canvasInk,
-              fontFamily: tokens.bodyFontFamily,
-            }}
-          >
-            <CanvasGrainOverlay opacity={tokens.grainOpacity} />
-            <CanvasEdgeClearanceFrame
-              insets={clearanceInsets}
-              className="z-[2] min-h-0 flex-1"
+          {isPrintCanvas && designWidthPx && designHeightPx ? (
+            <FitWidthFrame
+              designWidth={designWidthPx}
+              designHeight={designHeightPx}
             >
-            {state.layout === "stack" ? (
-              <div
-                className="relative z-[2] flex h-full min-h-0 flex-col justify-between box-border"
-                style={{ padding: stackPadPx }}
-              >
-                <div className="flex shrink-0 items-start justify-between gap-2">
-                  <p
-                    className={cn(
-                      "font-semibold uppercase tracking-[0.2em]",
-                      isLandscape ? "text-xs" : "text-sm",
-                    )}
-                    style={{
-                      color: secondaryOnPrimary,
-                      letterSpacing: tokens.titleLetterSpacing || "0.2em",
-                      fontWeight: tokens.titleFontWeight,
-                    }}
-                  >
-                    {state.leadIn}
-                  </p>
-                  {showLogo ? (
-                    <BrandLogo
-                      size={isLandscape ? "sm" : "md"}
-                      variantOverride={logoVariant}
-                      backgroundColor={state.primaryColor}
-                      className="shrink-0"
-                    />
-                  ) : null}
-                </div>
-                <div
-                  className="flex min-h-0 flex-1 flex-col justify-center py-1"
-                  style={{
-                    alignItems: stackItems,
-                    textAlign: stackAlign,
-                  }}
-                >
-                  {lines.map((line, i) => (
-                    <p
-                      key={`${i}-${line}`}
-                      className={chrome.headlineStack}
-                      style={{
-                        color: canvasInk,
-                        ...titleChrome,
-                      }}
-                    >
-                      {line}
-                    </p>
-                  ))}
-                  <p
-                    className={chrome.closerStack}
-                    style={{ color: secondaryOnPrimary }}
-                  >
-                    {state.closer}
-                  </p>
-                  {showLogo && state.showLocalNumber && !isLandscape ? (
-                    <p
-                      className="mt-2 text-sm font-semibold md:mt-3"
-                      style={{ color: mutedInk90 }}
-                    >
-                      {localLabel}
-                    </p>
-                  ) : null}
-                </div>
-                {footer}
-              </div>
-            ) : null}
-
-            {state.layout === "split" ? (
-              <div className="relative z-[2] flex h-full min-h-0 flex-col">
-                <div
-                  className={cn(
-                    "grid min-h-0 flex-1",
-                    isLandscape ? "grid-cols-2" : "grid-cols-5",
-                  )}
-                >
-                  <div
-                    className={cn(
-                      "flex min-h-0 flex-col justify-between",
-                      !isLandscape && "col-span-2",
-                    )}
-                    style={{
-                      backgroundColor: state.secondaryColor,
-                      color: splitSideInk,
-                      padding: splitSidePadPx,
-                    }}
-                  >
-                    <p
-                      className="text-xs font-bold uppercase tracking-[0.25em]"
-                      style={{
-                        color: splitSideInk,
-                        letterSpacing: tokens.titleLetterSpacing || "0.25em",
-                        fontWeight: tokens.titleFontWeight,
-                      }}
-                    >
-                      {state.leadIn}
-                    </p>
-                    <p
-                      className={cn(
-                        "font-semibold leading-snug",
-                        isLandscape ? "text-xs" : "text-sm",
-                      )}
-                      style={{ color: splitSideInk }}
-                    >
-                      {state.closer}
-                    </p>
-                  </div>
-                  <div
-                    className={cn(
-                      "flex min-h-0 flex-col justify-center",
-                      !isLandscape && "col-span-3",
-                    )}
-                    style={{ padding: splitTypePadPx }}
-                  >
-                    {lines.map((line, i) => (
-                      <p
-                        key={`${i}-${line}`}
-                        className={chrome.headlineSplit}
-                        style={{ color: canvasInk, ...titleChrome }}
-                      >
-                        {line}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-                {footer ? (
-                  <div className={cn("shrink-0", chrome.padFooterOuter)}>{footer}</div>
-                ) : null}
-              </div>
-            ) : null}
-
-            {state.layout === "banner" ? (
-              <div className="relative z-[2] flex h-full min-h-0 flex-col justify-between">
-                <div
-                  className="flex shrink-0 items-center justify-between gap-3"
-                  style={{
-                    backgroundColor: bannerBarBg,
-                    padding: `${bannerBarPadY}px ${bannerBodyPadPx}px`,
-                  }}
-                >
-                  {showLogo ? (
-                    <BrandLogo
-                      size="sm"
-                      variantOverride={logoVariant}
-                      backgroundColor={bannerBarBg}
-                    />
-                  ) : (
-                    <span />
-                  )}
-                  <p
-                    className="text-xs font-bold uppercase tracking-[0.3em]"
-                    style={{ color: bannerBarInk }}
-                  >
-                    {state.leadIn}
-                  </p>
-                </div>
-                <div
-                  className="flex min-h-0 flex-1 flex-col items-center justify-center text-center"
-                  style={{ padding: bannerBodyPadPx }}
-                >
-                  {lines.map((line, i) => (
-                    <p
-                      key={`${i}-${line}`}
-                      className={chrome.headlineStack}
-                      style={{
-                        color: canvasInk,
-                        ...titleChrome,
-                      }}
-                    >
-                      {line}
-                    </p>
-                  ))}
-                  <p
-                    className={chrome.closerBanner}
-                    style={{ color: mutedInk90 }}
-                  >
-                    {state.closer}
-                  </p>
-                  {showLogo && state.showLocalNumber && !isLandscape ? (
-                    <p
-                      className="mt-2 text-sm font-semibold"
-                      style={{ color: mutedInk90 }}
-                    >
-                      {localLabel}
-                    </p>
-                  ) : null}
-                </div>
-                {footer ? (
-                  <div className={cn("shrink-0", chrome.padFooterOuter)}>{footer}</div>
-                ) : null}
-              </div>
-            ) : null}
-            </CanvasEdgeClearanceFrame>
-          </div>
+              {posterCanvas}
+            </FitWidthFrame>
+          ) : (
+            posterCanvas
+          )}
           {state.edgeClearance ? (
             <CanvasSafeZoneOverlay insets={clearanceInsets} />
           ) : null}

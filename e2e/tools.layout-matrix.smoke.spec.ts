@@ -15,6 +15,7 @@ import {
   expectPreviewFitsColumn,
   expectTypeMetaClear,
   expectUrlLayout,
+  measureLeadTypeOverlap,
   measurePlateFill,
   measurePreviewFit,
   measureTypeMetaOverlap,
@@ -175,6 +176,21 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       slots: 1,
     });
     expectPreviewFitsColumn(await measurePreviewFit(page), "solidarity-16-9");
+
+    // Default stack + lockup: type must not paint over lead/logo or footer/QR.
+    await page.goto("/en/tools/solidarity-poster/?preset=solidarity-forever");
+    await expect(page.locator("#slogan-preset")).toHaveValue(
+      "solidarity-forever",
+    );
+    await waitForQrPreview(page);
+    expectTypeMetaClear(
+      await measureTypeMetaOverlap(page),
+      "solidarity-forever-type/footer",
+    );
+    expectTypeMetaClear(
+      await measureLeadTypeOverlap(page),
+      "solidarity-forever-lead/type",
+    );
   });
 
   test("meeting background bold then minimal", async ({ page }) => {

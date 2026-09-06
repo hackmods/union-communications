@@ -26,6 +26,7 @@ import {
   CanvasBrandHeader,
   CanvasGrainOverlay,
 } from "@/components/tools/canvas";
+import { FitWidthFrame } from "@/components/tools/FitWidthFrame";
 
 type OrgChartCanvasProps = {
   canvasRef: RefObject<HTMLDivElement | null>;
@@ -152,6 +153,7 @@ export function OrgChartCanvas({
 
   return (
     <div className="shadow-lg">
+      <FitWidthFrame designWidth={designWidthPx} designHeight={designHeightPx}>
       <div
         ref={canvasRef}
         data-export-root=""
@@ -160,7 +162,6 @@ export function OrgChartCanvas({
           ...surfaceStyle,
           width: designWidthPx,
           height: designHeightPx,
-          maxWidth: "100%",
           flexShrink: 0,
           color: ink,
           padding: scaledTokens.paddingPx,
@@ -396,6 +397,7 @@ export function OrgChartCanvas({
           )}
         </div>
       </div>
+      </FitWidthFrame>
     </div>
   );
 }
