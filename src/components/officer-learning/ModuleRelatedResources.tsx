@@ -28,6 +28,8 @@ import {
   downloadExpenseHardshipPdf,
   downloadTransitionChecklistPdf,
   downloadOrientationKitPdf,
+  downloadDfrDutyPdf,
+  downloadBumpingIntakePdf,
 } from "@/lib/officer-learning/reference-pdf";
 import type { ParsedModule } from "@/lib/officer-learning/types";
 import { useOlTheme } from "./OlThemeProvider";
@@ -112,6 +114,12 @@ export function ModuleRelatedResources({
           return;
         case "orientation-kit":
           await downloadOrientationKitPdf(ctx);
+          return;
+        case "dfr-duty":
+          await downloadDfrDutyPdf(ctx);
+          return;
+        case "bumping-intake":
+          await downloadBumpingIntakePdf(ctx);
           return;
         case "floor-checklist":
           await downloadFloorChecklistPdf({

@@ -1055,6 +1055,166 @@ export async function downloadOrientationKitPdf(opts: ModulePdfContext): Promise
   });
 }
 
+/** DFR duty pocket sheet (module 15). */
+export async function downloadDfrDutyPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "DRE — fiche de devoir de représentation équitable",
+          sections: [
+            {
+              heading: "Avant de décider",
+              lines: [
+                "Journal d'admission daté (membre, résumé, témoins)",
+                "Vérification de la convention et des délais de grief",
+                "Balayage des témoins et documents",
+                "Comparaison avec des dossiers similaires (traitement égal)",
+              ],
+            },
+            {
+              heading: "Communiquer avec le membre",
+              lines: [
+                "Accuser réception et donner un délai réaliste",
+                "Mettre à jour si retard — nommer la prochaine étape",
+                "Refus par écrit avec motifs et voie d'appel",
+                "Ne pas promettre l'arbitrage au jour 1",
+              ],
+            },
+            {
+              heading: "Respecter les délais",
+              lines: [
+                "Délais de grief de la convention notés au calendrier",
+                "Fenêtres statutaires (DRE) — escalader tôt au service",
+                "Documenter chaque prolongation acceptée",
+                "Appeler le service avant le silence ou le refus arbitraire",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "DFR — duty of fair representation pocket sheet",
+          sections: [
+            {
+              heading: "Before you decide",
+              lines: [
+                "Dated intake log (member, summary, witnesses)",
+                "Contract and grievance deadline check",
+                "Witness and document sweep",
+                "Comparator scan for equal treatment",
+              ],
+            },
+            {
+              heading: "Communicate with the member",
+              lines: [
+                "Acknowledge receipt and give a realistic timeline",
+                "Update on delays — name the next step",
+                "Written decline with reasons and appeal path",
+                "Do not promise arbitration on day one",
+              ],
+            },
+            {
+              heading: "Meet the clocks",
+              lines: [
+                "CA grievance deadlines on the calendar",
+                "Statutory DFR windows — escalate to servicing early",
+                "Document every agreed extension",
+                "Call servicing before silence or arbitrary refusal",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-dfr-duty-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
+/** Bumping intake pocket sheet (module 16). */
+export async function downloadBumpingIntakePdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Mise à pied et bumping — fiche d'admission",
+          sections: [
+            {
+              heading: "Lire la liste d'ancienneté",
+              lines: [
+                "Identifier le bassin (unité, classification, site)",
+                "Comparer les dates de service à la CC",
+                "Conserver la liste publiée (PDF avec horodatage)",
+                "Signaler les écarts avant d'accepter le classement",
+              ],
+            },
+            {
+              heading: "Tracer l'arbre de bumping",
+              lines: [
+                "Lire mise à pied + ancienneté + annexe bumping ensemble",
+                "Dessiner la cascade par classification",
+                "Marquer les seuils de qualification à chaque branche",
+                "Comparer à la carte RH — chaque écart est une question",
+              ],
+            },
+            {
+              heading: "Calendrier et accommodement",
+              lines: [
+                "Préavis de mise à pied et fenêtre de rappel au calendrier",
+                "Période d'essai / familiarisation si la CC le prévoit",
+                "Signaler les postes en accommodement (module 3)",
+                "Admission module 1 avant dépôt de grief",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Layoff & bumping — intake pocket sheet",
+          sections: [
+            {
+              heading: "Read the seniority list",
+              lines: [
+                "Identify the pool (unit, classification, site)",
+                "Match service dates to the CA",
+                "Preserve the published list (timestamped PDF)",
+                "Flag discrepancies before accepting rank",
+              ],
+            },
+            {
+              heading: "Trace the bumping tree",
+              lines: [
+                "Read layoff + seniority + bumping appendix together",
+                "Sketch the cascade by classification",
+                "Mark qualification gates at each branch",
+                "Compare to HR chart — every gap is a question",
+              ],
+            },
+            {
+              heading: "Clocks and accommodation",
+              lines: [
+                "Layoff notice and recall window on the calendar",
+                "Trial / familiarization period if the CA provides one",
+                "Flag accommodation holds (Module 3)",
+                "Module 1 intake before filing grievance",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-bumping-intake-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
 const BYLAWS_ADOPTION_COPY = {
   en: {
     title: "Local bylaws — adoption & amendment checklist",

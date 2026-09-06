@@ -8,6 +8,11 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
     { href: "/guide/steward-101", labelKey: "steward101", kind: "guide" },
     { href: "/guide/grievance-process", labelKey: "grievanceProcess", kind: "guide" },
     {
+      href: "/guide/officer-learning/duty-of-fair-representation",
+      labelKey: "dfrModule",
+      kind: "guide",
+    },
+    {
       href: "/guide/officer-learning/advanced-grievance-settlement",
       labelKey: "settlementModule",
       kind: "guide",
@@ -146,6 +151,40 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
     { href: "/guide/officer-learning/building-collective-power", labelKey: "collectivePowerModule", kind: "guide" },
     { href: "/guide/workplace-mapping", labelKey: "workplaceMapping", kind: "guide" },
     { href: "/tools/solidarity-poster", labelKey: "solidarityPoster", kind: "tool" },
+  ],
+  "duty-of-fair-representation": [
+    { href: "/guide/dfr", labelKey: "dfrGuide", kind: "guide" },
+    { href: "/guide/grievance-process", labelKey: "grievanceProcess", kind: "guide" },
+    { href: "/guide/steward-101", labelKey: "steward101", kind: "guide" },
+    {
+      href: "/guide/officer-learning/contract-enforcement",
+      labelKey: "contractEnforcementModule",
+      kind: "guide",
+    },
+    {
+      href: "/guide/officer-learning/advanced-grievance-settlement",
+      labelKey: "settlementModule",
+      kind: "guide",
+    },
+  ],
+  "seniority-bumping-layoff": [
+    { href: "/guide/seniority-bumping", labelKey: "seniorityBumpingGuide", kind: "guide" },
+    { href: "/guide/grievance-process", labelKey: "grievanceProcess", kind: "guide" },
+    {
+      href: "/guide/officer-learning/contract-enforcement",
+      labelKey: "contractEnforcementModule",
+      kind: "guide",
+    },
+    {
+      href: "/guide/officer-learning/human-rights-accommodation",
+      labelKey: "humanRightsModule",
+      kind: "guide",
+    },
+    {
+      href: "/guide/officer-learning/duty-of-fair-representation",
+      labelKey: "dfrModule",
+      kind: "guide",
+    },
   ],
 };
 
@@ -338,6 +377,34 @@ export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
       titleKey: "orientationTitle",
       bodyKey: "orientationBody",
       ctaKey: "orientationCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "duty-of-fair-representation": [
+    {
+      id: "dfr-duty",
+      titleKey: "dfrTitle",
+      bodyKey: "dfrBody",
+      ctaKey: "dfrCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "seniority-bumping-layoff": [
+    {
+      id: "bumping-intake",
+      titleKey: "bumpingTitle",
+      bodyKey: "bumpingBody",
+      ctaKey: "bumpingCta",
     },
     {
       id: "floor-checklist",

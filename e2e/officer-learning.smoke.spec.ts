@@ -62,7 +62,7 @@ test.describe("Officer Learning @smoke", () => {
     ).toHaveCount(0);
     await expect(
       main.getByRole("menuitem", {
-        name: /Fourteen self-paced modules with floor checklists/i,
+        name: /Sixteen self-paced modules with floor checklists/i,
       }),
     ).toHaveCount(0);
   });

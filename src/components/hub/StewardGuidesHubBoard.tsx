@@ -90,6 +90,14 @@ const READ_FIRST = [
     href: "/guide/officer-learning/everyday-union-value",
     titleKey: "readModule14" as const,
   },
+  {
+    href: "/guide/officer-learning/duty-of-fair-representation",
+    titleKey: "readModule15" as const,
+  },
+  {
+    href: "/guide/officer-learning/seniority-bumping-layoff",
+    titleKey: "readModule16" as const,
+  },
 ] as const;
 
 const UTILITIES = [

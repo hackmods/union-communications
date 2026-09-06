@@ -1,5 +1,13 @@
 # Progress Log
 
+## 2026-09-06 — Officer Learning knowledge expansion + dashboard tracks (modules 15–16)
+
+- [x] Modules 15–16 EN+FR (DFR; seniority/bumping/layoff) + covers, catalog, PDFs, diagrams, timelines, SEO, What's new
+- [x] M8 Without Prejudice quiz Q7; M7 strike steward day-1; jurisdiction hedges doc
+- [x] Dashboard: role tracks, denser hero/prefs+Hub sync, 2xl 4-col cards; guide callouts for photo-consent/union-boards/crisis/dfr/seniority
+- [x] Guards: Rand/T4A claim pairs + diagram-timeline i18n; count copy sixteen
+- Verify: `npm run test:unit -- src/lib/officer-learning/claim-chain-guards.test.ts src/lib/officer-learning/diagram-timeline-i18n.test.ts src/lib/officer-learning/modules.test.ts src/lib/officer-learning/parse-module.test.ts src/lib/officer-learning/related-resources.test.ts src/lib/officer-learning/module-timeline.test.ts`
+
 ## 2026-09-06 — Officer Learning system uplift (modules 1–14 + chrome)
 
 - [x] Inventory + overlap matrix vs peer modules/guides (complementary; no trim contradictions)

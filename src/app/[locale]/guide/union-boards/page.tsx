@@ -22,6 +22,7 @@ import {
 } from "@/lib/constants/board-materials";
 import { BoardReferenceSheetButton } from "@/components/comms/BoardReferenceSheetButton";
 import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
 export async function generateMetadata({
   params,
@@ -103,6 +104,8 @@ export default async function UnionBoardsGuidePage({
         <SourcesBlock pageId="unionBoards" title={ts("title")} intro={ts("intro")} />
       }
     >
+      <OfficerLearningModuleCallout slug="financial-health" moduleNumber={5} />
+
       <section aria-labelledby="bare-minimum-heading">
         <h2
           id="bare-minimum-heading"

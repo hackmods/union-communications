@@ -121,7 +121,7 @@ export default async function DfrGuidePage({
         </p>
       </Callout>
 
-      <OfficerLearningModuleCallout slug="contract-enforcement" moduleNumber={1} />
+      <OfficerLearningModuleCallout slug="duty-of-fair-representation" moduleNumber={15} />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">

@@ -88,6 +88,17 @@ Le **manuel des délégués du SCFP** et les matériaux d'organisation du **CTC*
 
 💡 Note : Refuser une faveur volontaire tout en faisant correctement son travail n'est pas une grève. Ralentir volontairement le travail requis avec des collègues l'est généralement.
 
+### Jour 1 du délégué en grève (fenêtre légale seulement)
+Quand une fenêtre de grève légale s'ouvre, `/guide/strike` possède les cahiers de commandement, de piquetage et de retour au travail. Les délégués possèdent encore la discipline du plancher le premier jour :
+
+1.  Confirmer le vote de grève et le calendrier statutaire avec votre comité de négociation — n'inventez pas une heure de départ à partir d'une rumeur.
+2.  Connaître votre capitaine de piquet, la carte du site et qui parle aux médias (habituellement pas le délégué seul).
+3.  Porter une liste de contacts membres qui suit les règles de confidentialité du module 11 — pas un dump Excel de l'employeur sur votre téléphone.
+4.  Documenter les menaces de l'employeur ou les remplacements illégaux pour les griefs ; n'escaladez pas en pression illégale en cours de convention après un vote échoué.
+5.  Planifier le briefing de retour au travail avant le dernier jour sur la ligne.
+
+⚠️ Avertissement : Traiter la préparation de grève comme une interdiction d'heures supplémentaires en cours de convention. **Conséquence :** risque de grève illégale sous le LRT. **Remède :** garder les comités de préparation chronométrés aux fenêtres légales ; clarifier les campagnes d'HS avec le service/juridique d'abord.
+
 ---
 
 ## Scénario commenté

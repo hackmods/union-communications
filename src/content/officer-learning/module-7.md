@@ -88,6 +88,17 @@ Mobilization without legal boundaries burns members. Keep these floor rules:
 
 💡 Note: Declining a voluntary favour while doing your job properly is not a strike. Slowing required work on purpose with coworkers usually is.
 
+### Strike steward day-1 (lawful window only)
+When a lawful strike window opens, `/guide/strike` owns command, picket, and return-to-work runbooks. Stewards still own floor discipline on day one:
+
+1.  Confirm the strike vote and statutory timing with your bargaining committee — do not invent a start time from rumour.
+2.  Know your picket captain, site map, and who speaks to media (usually not the steward alone).
+3.  Carry a member contact list that follows Module 11 privacy rules — not an employer Excel dump on your phone.
+4.  Document employer threats or illegal replacements for grievances; do not escalate into illegal mid-term pressure after a failed vote.
+5.  Plan the return-to-work briefing before the last day on the line.
+
+⚠️ Warning: Treating strike readiness as a mid-term overtime ban. **Consequence:** illegal strike risk under the LRA. **Remedy:** keep readiness committees timed to lawful windows; clear OT campaigns with servicing/legal first.
+
 ---
 
 ## Worked scenario

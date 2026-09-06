@@ -67,6 +67,8 @@ export const PUBLIC_PATHS = [
   "/guide/officer-learning/advanced-local-finance",
   "/guide/officer-learning/digital-security-transitions",
   "/guide/officer-learning/everyday-union-value",
+  "/guide/officer-learning/duty-of-fair-representation",
+  "/guide/officer-learning/seniority-bumping-layoff",
   ...TOOL_SLUGS.filter((slug) => !NON_PUBLIC_TOOL_SLUGS.has(slug)).map(
     (slug) => `/tools/${slug}`,
   ),

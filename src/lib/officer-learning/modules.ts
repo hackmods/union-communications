@@ -100,6 +100,20 @@ export const OFFICER_LEARNING_MODULES: ModuleMeta[] = [
     coverSrc: "/assets/officer-learning/module-14.webp",
     readingMinutes: 28,
   },
+  {
+    id: "module-15",
+    slug: "duty-of-fair-representation",
+    number: 15,
+    coverSrc: "/assets/officer-learning/module-15.webp",
+    readingMinutes: 32,
+  },
+  {
+    id: "module-16",
+    slug: "seniority-bumping-layoff",
+    number: 16,
+    coverSrc: "/assets/officer-learning/module-16.webp",
+    readingMinutes: 32,
+  },
 ];
 
 export function getModuleBySlug(slug: string): ModuleMeta | undefined {

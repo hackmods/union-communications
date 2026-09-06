@@ -388,5 +388,51 @@ export function ModuleTeachingDiagram({ slug, className }: Props) {
     );
   }
 
+  if (slug === "duty-of-fair-representation") {
+    return (
+      <DiagramShell title={t("dfrTitle")} className={className}>
+        <div
+          className="flex flex-col gap-2 sm:flex-row sm:items-center"
+          role="img"
+          aria-label={t("dfrAria")}
+        >
+          <StepPill index={1} label={t("dfrInvestigate")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={2} label={t("dfrCommunicate")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={3} label={t("dfrClocks")} />
+        </div>
+        <p className="mt-3 text-sm text-slate-300">{t("dfrCaption")}</p>
+      </DiagramShell>
+    );
+  }
+
+  if (slug === "seniority-bumping-layoff") {
+    return (
+      <DiagramShell title={t("bumpingTitle")} className={className}>
+        <div
+          className="flex flex-col gap-2 sm:flex-row sm:items-center"
+          role="img"
+          aria-label={t("bumpingAria")}
+        >
+          <StepPill index={1} label={t("bumpingList")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={2} label={t("bumpingTree")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={3} label={t("bumpingClocks")} />
+        </div>
+        <p className="mt-3 text-sm text-slate-300">{t("bumpingCaption")}</p>
+      </DiagramShell>
+    );
+  }
+
   return null;
 }

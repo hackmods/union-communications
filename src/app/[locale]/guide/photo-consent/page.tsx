@@ -11,6 +11,7 @@ import {
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
 export async function generateMetadata({
   params,
@@ -108,6 +109,8 @@ export default async function PhotoConsentGuidePage({
           {t("disclaimer.body")}
         </p>
       </Callout>
+
+      <OfficerLearningModuleCallout slug="human-rights-accommodation" moduleNumber={3} />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <ItemList section="gate" keys={gateKeys} t={t} />

@@ -205,3 +205,13 @@ HR offers a quick withdrawal deal but refuses to write a training-pay promise in
 
 **Correct Answer: C**
 *Explanation*: Labels do not replace operative terms. If the consideration is not written, Four Corners will not save it after withdrawal.
+
+### Question 7
+What does marking a settlement discussion **"Without Prejudice"** primarily protect?
+*   A) It permanently rewrites the collective agreement for every future grievance under the same article.
+*   B) It keeps exploratory offers and compromise positions from being waved later as admissions of liability.
+*   C) It forces the employer to concede that they were completely wrong on the merits.
+*   D) It replaces the need to write payment amounts and deadlines into the signed MOS.
+
+**Correct Answer: B**
+*Explanation*: "Without prejudice" marks settlement talks so exploratory offers are not treated as admissions. It is not the same as "without precedent," which limits how a signed deal binds future unrelated cases.

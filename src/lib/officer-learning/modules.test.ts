@@ -13,7 +13,7 @@ describe("officer learning catalog", () => {
     expect(new Set(ids).size).toBe(ids.length);
     expect(new Set(slugs).size).toBe(slugs.length);
     expect(OFFICER_LEARNING_MODULES.map((m) => m.number)).toEqual([
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
     ]);
   });
 
@@ -23,6 +23,8 @@ describe("officer learning catalog", () => {
     expect(getModuleBySlug("mobilizer-bargaining-partner")?.id).toBe("module-7");
     expect(getModuleBySlug("membership-lists-privacy")?.id).toBe("module-11");
     expect(getModuleBySlug("everyday-union-value")?.id).toBe("module-14");
+    expect(getModuleBySlug("duty-of-fair-representation")?.id).toBe("module-15");
+    expect(getModuleBySlug("seniority-bumping-layoff")?.id).toBe("module-16");
     expect(getModuleBySlug("missing")).toBeUndefined();
   });
 
@@ -39,7 +41,13 @@ describe("officer learning catalog", () => {
     expect(getNextModuleSlug("joint-workplace-committees")).toBe(
       "membership-lists-privacy",
     );
-    expect(getNextModuleSlug("everyday-union-value")).toBeNull();
+    expect(getNextModuleSlug("everyday-union-value")).toBe(
+      "duty-of-fair-representation",
+    );
+    expect(getNextModuleSlug("duty-of-fair-representation")).toBe(
+      "seniority-bumping-layoff",
+    );
+    expect(getNextModuleSlug("seniority-bumping-layoff")).toBeNull();
     expect(getNextModuleSlug("not-a-module")).toBeNull();
   });
 });

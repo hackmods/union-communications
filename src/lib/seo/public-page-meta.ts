@@ -205,7 +205,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/officer-learning": {
       title: "Officer Learning Center",
       description:
-        "Fourteen expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
+        "Sixteen expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1: Contract Enforcement",
@@ -276,6 +276,16 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Module 14: Everyday Union Value",
       description:
         "Day-1 orientations, affinity benefits without list sharing, and community unionism. Self-test quiz included.",
+    },
+    "/guide/officer-learning/duty-of-fair-representation": {
+      title: "Module 15: Duty of Fair Representation",
+      description:
+        "DFR habits for Ontario stewards: investigate before deciding, communicate in writing, and meet grievance and statutory clocks. Self-test quiz included.",
+    },
+    "/guide/officer-learning/seniority-bumping-layoff": {
+      title: "Module 16: Seniority, Bumping & Layoff",
+      description:
+        "Read seniority lists, trace CA-specific bumping trees, calendar layoff and recall clocks, and flag accommodation collisions. Self-test quiz included.",
     },
   },
   fr: {
@@ -472,7 +482,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",
       description:
-        "Quatorze modules avec scénarios, exercices et quiz (CTC, SCFP, Unifor, CODP). Progression sur votre appareil.",
+        "Seize modules avec scénarios, exercices et quiz (CTC, SCFP, Unifor, CODP). Progression sur votre appareil.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1 : Application de la convention",
@@ -543,6 +553,16 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Module 14 : Valeur syndicale quotidienne",
       description:
         "Orientations Jour 1, avantages d'affinité sans partage de listes et syndicalisme communautaire. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/duty-of-fair-representation": {
+      title: "Module 15 : Devoir de représentation équitable",
+      description:
+        "Habitudes DRE : enquêter avant de décider, communiquer par écrit et respecter les délais de grief et légaux. Quiz inclus.",
+    },
+    "/guide/officer-learning/seniority-bumping-layoff": {
+      title: "Module 16 : Ancienneté, bumping et mise à pied",
+      description:
+        "Lire les listes, tracer les arbres de bumping, calendrier des délais de mise à pied et de rappel. Quiz inclus.",
     },
   },
 };

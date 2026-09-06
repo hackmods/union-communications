@@ -6,6 +6,7 @@ import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { Callout } from "@/components/ui/Callout";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 
@@ -139,6 +140,11 @@ export default async function CrisisPage({
           {t("disclaimer.body")}
         </p>
       </Callout>
+
+      <OfficerLearningModuleCallout
+        slug="mobilizer-bargaining-partner"
+        moduleNumber={7}
+      />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">

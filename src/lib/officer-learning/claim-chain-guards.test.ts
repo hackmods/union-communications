@@ -27,6 +27,18 @@ const LEGAL_TERM_PAIRS: Array<{
     forbiddenInAnswer: /\bwithout\s+precedent\b|sans\s+précédent/i,
     allowedInAnswer: /\bwithout\s+prejudice\b|sans\s+préjudice|préjudice|prejudice/i,
   },
+  {
+    id: "rand-formula",
+    prompt: /\brand\b/i,
+    forbiddenInAnswer: /automatic\s+member|membre\s+automatique/i,
+    allowedInAnswer: /dues|cotisation|card|carte|voter|vote|rand/i,
+  },
+  {
+    id: "t4a-honoraria",
+    prompt: /\bt4a\b|honorari/i,
+    forbiddenInAnswer: /never\s+taxable|jamais\s+imposable|tax.?free\s+gift/i,
+    allowedInAnswer: /tax|impôt|t4a|cra|arc|report|déclar/i,
+  },
 ];
 
 function loadModule(id: string, locale: "en" | "fr"): string {

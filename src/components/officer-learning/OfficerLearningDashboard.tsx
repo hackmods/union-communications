@@ -16,6 +16,11 @@ import {
 import { CertificateDownload } from "./CertificateDownload";
 import { LearningHubSyncPanel } from "./LearningHubSyncPanel";
 import { LearningPathDiagram } from "./LearningPathDiagram";
+import {
+  LearningTrackPicker,
+  moduleInTrack,
+  type LearningTrackId,
+} from "./LearningTrackPicker";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { OlThemeProvider, useOlTheme } from "./OlThemeProvider";
 import clsx from "clsx";
@@ -52,10 +57,16 @@ function OfficerLearningDashboardInner({
   const olTheme = useOlTheme();
   const [progress, setProgress] = useState(getAllProgress);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [track, setTrack] = useState<LearningTrackId>("all");
 
   const completedCount = useMemo(
     () => modules.filter((m) => progress[m.id]?.status === "completed").length,
     [modules, progress],
+  );
+
+  const visibleModules = useMemo(
+    () => modules.filter((m) => moduleInTrack(m.number, track)),
+    [modules, track],
   );
 
   const handleProgressHydrated = (next: ReturnType<typeof getAllProgress>) => {
@@ -98,93 +109,116 @@ function OfficerLearningDashboardInner({
   return (
     <>
       <div className={olTheme.shell} data-ol-shell>
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-          <header className="mb-6 max-w-3xl">
-            <p className={olTheme.eyebrow}>{t("eyebrow")}</p>
-            <h1
-              className={cn(
-                "mt-3 text-4xl font-bold tracking-tight md:text-5xl",
-                olTheme.heading,
-              )}
-            >
-              {t("title")}
-            </h1>
-            <p className={cn("mt-4 text-lg leading-relaxed", olTheme.bodyMuted)}>
-              {t("intro")}
-            </p>
-            <p className={cn("mt-4", olTheme.progressSummary)}>
-              {t("progressSummary", { completed: completedCount, total: modules.length })}
-            </p>
-            <div className={cn("mt-4", olTheme.callout)}>
-              <p className={olTheme.calloutTitle}>{t("quizHint.title")}</p>
-              <p className={olTheme.calloutBody}>{t("quizHint.body")}</p>
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+          <header className="mb-8 grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-end">
+            <div>
+              <p className={olTheme.eyebrow}>{t("eyebrow")}</p>
+              <h1
+                className={cn(
+                  "mt-3 text-4xl font-bold tracking-tight md:text-5xl",
+                  olTheme.heading,
+                )}
+              >
+                {t("title")}
+              </h1>
+              <p className={cn("mt-4 text-lg leading-relaxed", olTheme.bodyMuted)}>
+                {t("intro")}
+              </p>
+              <p className={cn("mt-3", olTheme.progressSummary)}>
+                {t("progressSummary", {
+                  completed: completedCount,
+                  total: modules.length,
+                })}
+              </p>
+              <nav className="mt-4 text-sm" aria-label={t("relatedNavLabel")}>
+                <ul className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  {RELATED_LINKS.map((link, i) => (
+                    <li
+                      key={link.href}
+                      className="inline-flex items-baseline gap-x-3"
+                    >
+                      {i > 0 && (
+                        <span className={olTheme.relatedDot} aria-hidden="true">
+                          ·
+                        </span>
+                      )}
+                      <Link href={link.href} className={olTheme.link}>
+                        {t(link.key)}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </div>
-            <p className={cn("mt-3", olTheme.disclaimer)}>{t("disclaimer")}</p>
+            <div className="space-y-3">
+              <div className={olTheme.callout}>
+                <p className={olTheme.calloutTitle}>{t("quizHint.title")}</p>
+                <p className={olTheme.calloutBody}>{t("quizHint.body")}</p>
+              </div>
+              <p className={olTheme.disclaimer}>{t("disclaimer")}</p>
+            </div>
           </header>
 
-          <nav className="mb-10 text-sm" aria-label={t("relatedNavLabel")}>
-            <p className={cn("font-semibold", olTheme.bodySmall)}>{t("relatedNavLabel")}</p>
-            <ul className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              {RELATED_LINKS.map((link, i) => (
-                <li key={link.href} className="inline-flex items-baseline gap-x-3">
-                  {i > 0 && (
-                    <span className={olTheme.relatedDot} aria-hidden="true">
-                      ·
-                    </span>
-                  )}
-                  <Link href={link.href} className={olTheme.link}>
-                    {t(link.key)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <LearningTrackPicker active={track} onChange={setTrack} />
 
           <LearningPathDiagram
             className="mb-8"
             label={t("path.label")}
-            steps={modules.map((module) => {
-              const title = t(`modules.${module.slug}.title`);
-              return {
-                id: module.id,
-                number: module.number,
-                title,
-                ariaLabel: t("path.stepAria", { number: module.number, title }),
-                href: `/guide/officer-learning/${module.slug}`,
-                status: progress[module.id]?.status ?? "not_started",
-              };
-            })}
+            steps={modules
+              .filter((module) => moduleInTrack(module.number, track))
+              .map((module) => {
+                const title = t(`modules.${module.slug}.title`);
+                return {
+                  id: module.id,
+                  number: module.number,
+                  title,
+                  ariaLabel: t("path.stepAria", {
+                    number: module.number,
+                    title,
+                  }),
+                  href: `/guide/officer-learning/${module.slug}`,
+                  status: progress[module.id]?.status ?? "not_started",
+                };
+              })}
           />
 
           <section
-            className={olTheme.prefsPanel}
+            className={cn(olTheme.prefsPanel, "mb-8 grid gap-6 lg:grid-cols-2")}
             aria-labelledby="ol-progress-prefs-heading"
           >
+            <div className="space-y-4">
+              <div>
+                <h2
+                  id="ol-progress-prefs-heading"
+                  className={olTheme.prefsTitle}
+                >
+                  {t("progressPrefs.title")}
+                </h2>
+                <p className={olTheme.prefsBody}>{t("progressPrefs.body")}</p>
+              </div>
+              <div className={olTheme.resetPanel}>
+                <p className={olTheme.resetHint}>{t("settings.hint")}</p>
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className={clsx(
+                    confirmReset ? olTheme.resetBtnConfirm : olTheme.resetBtn,
+                  )}
+                >
+                  {confirmReset
+                    ? t("settings.confirmReset")
+                    : t("settings.reset")}
+                </button>
+              </div>
+            </div>
             <div>
-              <h2 id="ol-progress-prefs-heading" className={olTheme.prefsTitle}>
-                {t("progressPrefs.title")}
-              </h2>
-              <p className={olTheme.prefsBody}>{t("progressPrefs.body")}</p>
+              <p className={cn("mb-2 text-sm font-semibold", olTheme.bodySmall)}>
+                {t("hubSync.panelLabel")}
+              </p>
+              <LearningHubSyncPanel
+                onProgressHydrated={handleProgressHydrated}
+              />
             </div>
-
-            <div className={olTheme.resetPanel}>
-              <p className={olTheme.resetHint}>{t("settings.hint")}</p>
-              <button
-                type="button"
-                onClick={handleReset}
-                className={clsx(
-                  confirmReset ? olTheme.resetBtnConfirm : olTheme.resetBtn,
-                )}
-              >
-                {confirmReset
-                  ? t("settings.confirmReset")
-                  : t("settings.reset")}
-              </button>
-            </div>
-
-            <div className={olTheme.prefsDivider} />
-
-            <LearningHubSyncPanel onProgressHydrated={handleProgressHydrated} />
           </section>
 
           {completedCount === modules.length && modules.length > 0 && (
@@ -196,8 +230,8 @@ function OfficerLearningDashboardInner({
             </div>
           )}
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {modules.map((module) => {
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+            {visibleModules.map((module) => {
               const moduleProgress = progress[module.id];
               const status = moduleProgress?.status ?? "not_started";
               const summaryKey = `modules.${module.slug}.summary` as const;

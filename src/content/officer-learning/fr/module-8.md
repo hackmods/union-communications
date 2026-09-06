@@ -205,3 +205,13 @@ Les RH offrent un retrait rapide mais refusent d'écrire une promesse de paie de
 
 **Correct Answer: C**
 *Explication* : Les étiquettes ne remplacent pas les conditions opératoires. Si la contrepartie n'est pas écrite, les Quatre coins ne la sauveront pas après le retrait.
+
+### Question 7
+Que protège principalement le marquage d'une discussion de règlement **« sans préjudice »** ?
+*   A) Il réécrit de façon permanente la convention collective pour tout grief futur sous le même article.
+*   B) Il empêche que les offres exploratoires et positions de compromis soient agitées plus tard comme admissions de responsabilité.
+*   C) Il force l'employeur à concéder qu'il avait complètement tort sur le fond.
+*   D) Il remplace le besoin d'écrire les montants et échéances de paiement dans le PR signé.
+
+**Correct Answer: B**
+*Explication* : « Sans préjudice » marque les pourparlers de règlement pour que les offres exploratoires ne soient pas traitées comme des admissions. Ce n'est pas la même chose que « sans précédent », qui limite la façon dont une entente signée lie des dossiers futurs non liés.

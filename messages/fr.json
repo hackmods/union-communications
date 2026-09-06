@@ -48,7 +48,7 @@
     "steward101Guide": "Délégué 101",
     "officerLearningGuide": "Centre de formation des dirigeants",
     "officerLearningTopNav": "Formation des dirigeants",
-    "officerLearningFeatured": "Quatorze modules autogérés avec listes de contrôle et quiz.",
+    "officerLearningFeatured": "Seize modules autogérés avec listes de contrôle et quiz.",
     "workplaceMappingGuide": "Cartographie du lieu de travail",
     "grievanceProcessGuide": "Processus de grief",
     "dfrGuide": "Devoir de représentation équitable",
@@ -708,7 +708,7 @@
   "officerLearning": {
     "eyebrow": "Formation des dirigeants",
     "title": "Centre de formation des dirigeants",
-    "intro": "Quatorze modules autogérés pour délégués et dirigeants locaux — de l'application de la convention à la valeur syndicale quotidienne. La progression reste sur cet appareil seulement.",
+    "intro": "Seize modules autogérés pour délégués et dirigeants locaux — de l'application de la convention au déplacement et à la représentation équitable. La progression reste sur cet appareil seulement.",
     "disclaimer": "Formation pour le plancher — pas un avis juridique. Confirmez chaque délai, redressement et procédure dans votre convention collective et votre loi applicables.",
     "sourcesIntro": "Lectures complémentaires provenant de fédérations syndicales canadiennes, de manuels multi-syndicaux pour délégués et de guides publics sur les droits de la personne — sans privilégier une seule centrale. Confirmez chaque règle dans votre convention et votre loi applicables.",
     "moduleLabel": "Module {number}",
@@ -756,6 +756,26 @@
     "path": {
       "label": "Parcours de formation",
       "stepAria": "Module {number} : {title}"
+    },
+    "tracks": {
+      "label": "Choisir un parcours",
+      "intro": "Seize modules, c'est un programme complet. Commencez par un parcours selon le rôle pour resserrer le chemin et les cartes — changez quand vous voulez.",
+      "all": {
+        "title": "Parcours complet",
+        "blurb": "Les seize modules dans l'ordre du catalogue."
+      },
+      "steward": {
+        "title": "Métier de délégué",
+        "blurb": "Admission, discipline, droits, règlement, DRE, ancienneté."
+      },
+      "officer": {
+        "title": "Dirigeants locaux",
+        "blurb": "Assemblées, finances, listes, archives, valeur quotidienne."
+      },
+      "mobilize": {
+        "title": "Mobiliser",
+        "blurb": "Pouvoir d'équité, pression de négociation, comités, accueil."
+      }
     },
     "relatedNavLabel": "Parcours connexes",
     "callouts": {
@@ -812,7 +832,11 @@
         "settlementModule": "Module 8 : Grief avancé et règlement",
         "contractEnforcementModule": "Module 1 : Application de la convention",
         "advancedFinanceModule": "Module 12 : Finances locales avancées",
-        "mobilizerModule": "Module 7 : Mobilisateur et partenaire de négociation"
+        "mobilizerModule": "Module 7 : Mobilisateur et partenaire de négociation",
+        "dfrGuide": "Guide du devoir de représentation équitable",
+        "seniorityBumpingGuide": "Guide ancienneté et bumping",
+        "dfrModule": "Module 15 : Devoir de représentation équitable",
+        "seniorityModule": "Module 16 : Ancienneté, bumping et mise à pied"
       }
     },
     "reference": {
@@ -864,7 +888,13 @@
       "transitionCta": "Télécharger la fiche transition",
       "orientationTitle": "Trousse d'orientation Jour 1",
       "orientationBody": "Script de 15 minutes, contenu de la trousse et règles de carte d'affinité.",
-      "orientationCta": "Télécharger la fiche orientation"
+      "orientationCta": "Télécharger la fiche orientation",
+      "dfrTitle": "Fiche DRE",
+      "dfrBody": "Enquêter avant de décider, communiquer par écrit et respecter les délais de grief et légaux.",
+      "dfrCta": "Télécharger la fiche DRE (PDF)",
+      "bumpingTitle": "Fiche d'admission bumping",
+      "bumpingBody": "Lire la liste d'ancienneté, esquisser l'arbre de bumping et calendrier des délais de mise à pied et de rappel.",
+      "bumpingCta": "Télécharger la fiche bumping (PDF)"
     },
     "diagrams": {
       "filterTitle": "Filtre de grief en 5 points",
@@ -972,7 +1002,19 @@
       "welcomeDay1": "Accueil de 15 minutes",
       "welcomeAffinity": "Carte de rabais (sans liste)",
       "welcomeCommunity": "Alliances communautaires",
-      "welcomeCaption": "La valeur quotidienne commence le jour de l'embauche — sans donner les données membres aux fournisseurs."
+      "welcomeCaption": "La valeur quotidienne commence le jour de l'embauche — sans donner les données membres aux fournisseurs.",
+      "dfrTitle": "Enquêter → communiquer → délais",
+      "dfrAria": "Processus DRE de l'enquête à la communication et au respect des délais",
+      "dfrInvestigate": "Enquêter d'abord",
+      "dfrCommunicate": "Écrire au membre",
+      "dfrClocks": "Respecter les délais",
+      "dfrCaption": "Un processus équitable protège — pas des promesses vides ni le silence après l'admission.",
+      "bumpingTitle": "Liste → arbre → délais",
+      "bumpingAria": "Admission au déplacement : liste, arbre de bumping et délais de préavis",
+      "bumpingList": "Lire la liste",
+      "bumpingTree": "Tracer l'arbre",
+      "bumpingClocks": "Calendrier des délais",
+      "bumpingCaption": "La feuille de calcul RH est une affirmation jusqu'à vérification contre la convention collective."
     },
     "timelines": {
       "contract-enforcement": {
@@ -1312,6 +1354,52 @@
             "summary": "Inviter à l'AG ou à une action. Affinité sans partage de liste."
           }
         }
+      },
+      "duty-of-fair-representation": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier DRE de l'admission à la décision écrite et à l'escalade au service",
+        "caption": "Enquêter avant de refuser. Écrire les motifs. Escalader avant que le silence devienne un risque.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — admission",
+            "summary": "Le membre demande de l'aide sur un dossier faible. Noter date, enjeu et témoins."
+          },
+          "d1": {
+            "label": "Jour 1 — enquête",
+            "summary": "Appliquer le filtre en 5 points et les 6 W. Retirer les articles et dossiers comparables."
+          },
+          "d3": {
+            "label": "Jour 3 — décision écrite",
+            "summary": "Refus motivé avec voie d'appel — ou dépôt avec analyse documentée."
+          },
+          "d7": {
+            "label": "Jour 7 — escalade",
+            "summary": "Le membre menace une plainte DRE. Briefer le service avec le dossier complet."
+          }
+        }
+      },
+      "seniority-bumping-layoff": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier de mise à pied : préavis, vérification de liste et contestation de l'arbre",
+        "caption": "Conserver la liste publiée. Esquisser l'arbre à partir de la CC. Calendrier du rappel avant la fermeture de la fenêtre.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — préavis",
+            "summary": "L'employeur publie la liste de surplus. Sauvegarder le PDF horodaté. Admission module 1."
+          },
+          "d1": {
+            "label": "Jour 1 — vérifier la liste",
+            "summary": "Comparer dates de service et classifications à la CC. Signaler les erreurs par écrit."
+          },
+          "d3": {
+            "label": "Jour 3 — esquisse d'arbre",
+            "summary": "Dessiner la cascade de bumping selon la convention. Comparer au schéma RH."
+          },
+          "d7": {
+            "label": "Jour 7 — délai de rappel",
+            "summary": "Calendrier de la fenêtre de rappel. Déposer un grief si le bassin ou les qualifications sont erronés."
+          }
+        }
       }
     },
     "quiz": {
@@ -1385,6 +1473,14 @@
       "everyday-union-value": {
         "title": "Valeur syndicale quotidienne",
         "summary": "Animer des orientations Jour 1, offrir l'affinité sans partager les listes et bâtir des alliances communautaires."
+      },
+      "duty-of-fair-representation": {
+        "title": "Devoir de représentation équitable",
+        "summary": "Enquêter avant de refuser un dossier, communiquer les décisions par écrit, respecter les délais de grief et légaux, et escalader au service quand les enjeux sont élevés."
+      },
+      "seniority-bumping-layoff": {
+        "title": "Ancienneté, bumping et mise à pied",
+        "summary": "Lire les listes d'ancienneté selon la CC, tracer les arbres de bumping, faire respecter les délais de mise à pied et de rappel, et signaler les collisions avec l'accommodement."
       }
     },
     "certificate": {
@@ -1397,9 +1493,10 @@
       "downloading": "Préparation du PDF…",
       "success": "Certificat téléchargé.",
       "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés dans ce navigateur.",
-      "pathTitle": "Parcours complet de formation des dirigeants (quatorze modules)"
+      "pathTitle": "Parcours complet de formation des dirigeants (seize modules)"
     },
     "hubSync": {
+      "panelLabel": "Sauvegarde Hub et partage local",
       "signedOutTitle": "Voulez-vous une sauvegarde Hub ?",
       "signedOutBody": "Connectez-vous au Hub des dirigeants pour enregistrer vos réussites sur votre compte. Le partage avec votre section reste optionnel et exige votre consentement.",
       "signIn": "Se connecter au Hub des dirigeants",
@@ -3457,7 +3554,7 @@
       "blurb": {
         "stewardPlaybooks": "Commencez ici : Délégué 101, modules du Centre de formation des dirigeants avec autoévaluations, et tous les guides sur une page.",
         "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté — commencez ici.",
-        "officerLearning": "Quatorze modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
+        "officerLearning": "Seize modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
         "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable. Confirmez les étapes dans votre convention.",
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
@@ -4944,7 +5041,7 @@
     "backToGuide": "Retour au Plan directeur",
     "trainingPath": {
       "title": "Parcours recommandé",
-      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour quatorze modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
+      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour seize modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
       "steward101Cta": "Commencer Délégué 101",
       "officerLearningCta": "Ouvrir les modules de formation des dirigeants"
     },
@@ -5028,7 +5125,7 @@
     },
     "blurbs": {
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
-      "officerLearning": "Quatorze modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
+      "officerLearning": "Seize modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
       "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable.",
       "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
       "workplaceMapping": "Recensez les collègues, repérez les leaders organiques et cotez l'appui syndical de 1 à 5.",
@@ -7246,7 +7343,11 @@
       },
       "solidarity-poster-type-fit": {
         "title": "Les affiches de solidarité restent lisibles",
-        "body": "Le titre, le logo et le code QR ne se superposent plus — le texte s'adapte à la feuille dans le Créateur d'affiches solidarité."
+        "body": "Avec votre logo, l'amorce reste une ligne complète sous le logo, la phrase de clôture reste visible, et l'aperçu d'impression est centré — le texte s'adapte encore à la feuille."
+      },
+      "officer-learning-modules-15-16": {
+        "title": "Modules 15 et 16 de la formation des dirigeants",
+        "body": "Deux nouveaux modules autogérés : devoir de représentation équitable et ancienneté, bumping et mise à pied — avec listes de contrôle et fiches PDF pour la rencontre."
       },
       "officer-learning-modules-11-14": {
         "title": "Modules 11 à 14 de la formation des dirigeants",
@@ -7324,7 +7425,9 @@
       "olLists": "Module Listes de membres et confidentialité",
       "olAdvancedFinance": "Module Finances locales avancées",
       "olDigitalSecurity": "Module Sécurité numérique et transitions",
-      "olEverydayValue": "Module Valeur syndicale quotidienne"
+      "olEverydayValue": "Module Valeur syndicale quotidienne",
+      "olDfr": "Module Devoir de représentation équitable",
+      "olSeniorityBumping": "Module Ancienneté, bumping et mise à pied"
     }
   },
   "accessibility": {
@@ -9324,12 +9427,12 @@
     "subtitle": "Première semaine, manuels par canal, et guides pratiques pour le plancher et la section. La formation des dirigeants reste un lien en tête de page.",
     "hint": "Définissez d'abord les couleurs et le logo dans",
     "startHereTitle": "Par où commencer",
-    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte quatorze modules autogérés.",
+    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte seize modules autogérés.",
     "startHereRoadmap": "Ouvrir tous les guides pratiques",
     "startHereSteps": {
       "firstWeek": "Tableaux, impression, social et un site simple après la Trousse de marque.",
       "playbooks": "Formation de plancher, assemblées, griefs et manuels de campagne.",
-      "officerLearning": "Quatorze modules avec listes de contrôle et un quiz sur cet appareil."
+      "officerLearning": "Seize modules avec listes de contrôle et un quiz sur cet appareil."
     },
     "groups": {
       "commsPath": {
@@ -9372,7 +9475,7 @@
       "bargaining": "Du sondage à la signature pour les comités locaux, avec listes et Suivi des propositions.",
       "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail.",
       "crisis": "Gardez des messages locaux calmes pendant les grèves, la négociation, les mises à pied et les réactions de la direction.",
-      "officerLearning": "Quatorze modules avec scénarios, listes de contrôle, fiches imprimables et un quiz par module.",
+      "officerLearning": "Seize modules avec scénarios, listes de contrôle, fiches imprimables et un quiz par module.",
       "stewardPlaybooks": "Porte d'entrée pour la formation de plancher, les assemblées, les griefs et les manuels de campagne.",
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
       "unionHistory": "Deux voies, pas une échelle : famille syndicale et conseil du travail municipal.",
@@ -10190,7 +10293,9 @@
     "readModule11": "Module 11 : listes de membres et confidentialité",
     "readModule12": "Module 12 : finances locales avancées",
     "readModule13": "Module 13 : sécurité numérique et transitions",
-    "readModule14": "Module 14 : valeur syndicale quotidienne"
+    "readModule14": "Module 14 : valeur syndicale quotidienne",
+    "readModule15": "Module 15 : devoir de représentation équitable",
+    "readModule16": "Module 16 : ancienneté, bumping et mise à pied"
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Préparation du PDF…",

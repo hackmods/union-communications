@@ -20,6 +20,8 @@ export const MODULE_TIMELINE_PHASES: Record<string, readonly string[]> = {
   "advanced-local-finance": ["d0", "d1", "d3", "d7"],
   "digital-security-transitions": ["d0", "d1", "d2", "d3"],
   "everyday-union-value": ["d0", "d1", "d3", "d7"],
+  "duty-of-fair-representation": ["d0", "d1", "d3", "d7"],
+  "seniority-bumping-layoff": ["d0", "d1", "d3", "d7"],
 };
 
 type Props = {

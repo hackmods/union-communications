@@ -48,7 +48,7 @@
     "steward101Guide": "Steward 101",
     "officerLearningGuide": "Officer Learning Center",
     "officerLearningTopNav": "Officer Learning",
-    "officerLearningFeatured": "Fourteen self-paced modules with floor checklists and quizzes.",
+    "officerLearningFeatured": "Sixteen self-paced modules with floor checklists and quizzes.",
     "workplaceMappingGuide": "Workplace mapping",
     "grievanceProcessGuide": "Grievance process",
     "dfrGuide": "Duty of Fair Representation",
@@ -708,7 +708,7 @@
   "officerLearning": {
     "eyebrow": "Officer training",
     "title": "Officer Learning Center",
-    "intro": "Fourteen self-paced modules for stewards and local officers — contract enforcement through everyday union value. Progress saves on this device only.",
+    "intro": "Sixteen self-paced modules for stewards and local officers — contract enforcement through displacement and fair representation. Progress saves on this device only.",
     "disclaimer": "Education for the floor — not legal advice. Confirm every deadline, remedy, and procedure against your own collective agreement and statute.",
     "sourcesIntro": "Further reading from Canadian labour federations, multi-union steward handbooks, and public human rights guidance — not tied to one national. Confirm every rule against your own collective agreement and statute.",
     "moduleLabel": "Module {number}",
@@ -756,6 +756,26 @@
     "path": {
       "label": "Learning path",
       "stepAria": "Module {number}: {title}"
+    },
+    "tracks": {
+      "label": "Choose a track",
+      "intro": "Sixteen modules is a full syllabus. Start with a role track to tighten the path and cards — switch anytime.",
+      "all": {
+        "title": "Full path",
+        "blurb": "All sixteen modules in catalog order."
+      },
+      "steward": {
+        "title": "Steward craft",
+        "blurb": "Intake, discipline, rights, settlement, DFR, seniority."
+      },
+      "officer": {
+        "title": "Local officers",
+        "blurb": "Meetings, money, lists, archives, everyday value."
+      },
+      "mobilize": {
+        "title": "Mobilize",
+        "blurb": "Equity power, bargaining pressure, committees, welcome."
+      }
     },
     "relatedNavLabel": "Related paths",
     "callouts": {
@@ -812,7 +832,11 @@
         "settlementModule": "Module 8: Advanced Grievance & Settlement",
         "contractEnforcementModule": "Module 1: Contract Enforcement",
         "advancedFinanceModule": "Module 12: Advanced Local Finance",
-        "mobilizerModule": "Module 7: Mobilizer & Bargaining Partner"
+        "mobilizerModule": "Module 7: Mobilizer & Bargaining Partner",
+        "dfrGuide": "Duty of Fair Representation guide",
+        "seniorityBumpingGuide": "Seniority & bumping guide",
+        "dfrModule": "Module 15: Duty of Fair Representation",
+        "seniorityModule": "Module 16: Seniority, Bumping & Layoff"
       }
     },
     "reference": {
@@ -864,7 +888,13 @@
       "transitionCta": "Download transition PDF",
       "orientationTitle": "Day-1 orientation kit",
       "orientationBody": "Fifteen-minute welcome script, kit contents, and affinity card rules.",
-      "orientationCta": "Download orientation PDF"
+      "orientationCta": "Download orientation PDF",
+      "dfrTitle": "DFR duty sheet",
+      "dfrBody": "Investigate before deciding, communicate in writing, and meet grievance and statutory clocks.",
+      "dfrCta": "Download DFR PDF",
+      "bumpingTitle": "Bumping intake sheet",
+      "bumpingBody": "Read the seniority list, sketch the bumping tree, and calendar layoff and recall deadlines.",
+      "bumpingCta": "Download bumping PDF"
     },
     "diagrams": {
       "filterTitle": "5-point grievance filter",
@@ -972,7 +1002,19 @@
       "welcomeDay1": "15-minute welcome",
       "welcomeAffinity": "Discount card (no list share)",
       "welcomeCommunity": "Community alliances",
-      "welcomeCaption": "Everyday value starts on hire day — without handing membership data to vendors."
+      "welcomeCaption": "Everyday value starts on hire day — without handing membership data to vendors.",
+      "dfrTitle": "Investigate → communicate → clocks",
+      "dfrAria": "DFR process from investigation through member communication to deadline discipline",
+      "dfrInvestigate": "Investigate first",
+      "dfrCommunicate": "Write to member",
+      "dfrClocks": "Meet the clocks",
+      "dfrCaption": "Fair process is the shield — not empty promises or silence after intake.",
+      "bumpingTitle": "List → tree → clocks",
+      "bumpingAria": "Displacement intake from seniority list through bumping tree to notice deadlines",
+      "bumpingList": "Read the list",
+      "bumpingTree": "Trace the tree",
+      "bumpingClocks": "Calendar clocks",
+      "bumpingCaption": "HR's spreadsheet is a claim until you verify it against the collective agreement."
     },
     "timelines": {
       "contract-enforcement": {
@@ -1312,6 +1354,52 @@
             "summary": "Invite to GMM or community solidarity action. Affinity without list share."
           }
         }
+      },
+      "duty-of-fair-representation": {
+        "title": "Worked file timeline",
+        "aria": "DFR file from intake through written decision and servicing escalation",
+        "caption": "Investigate before you decline. Write the reasons. Escalate before silence becomes liability.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — intake",
+            "summary": "Member asks for help on a weak-looking file. Log date, issue, and witnesses."
+          },
+          "d1": {
+            "label": "Day 1 — investigation",
+            "summary": "Run 5-point filter and 6 W's. Pull contract articles and comparator files."
+          },
+          "d3": {
+            "label": "Day 3 — written decision",
+            "summary": "Decline with reasons and appeal path — or file with documented analysis."
+          },
+          "d7": {
+            "label": "Day 7 — escalate",
+            "summary": "Member threatens DFR application. Brief servicing with the full file."
+          }
+        }
+      },
+      "seniority-bumping-layoff": {
+        "title": "Worked file timeline",
+        "aria": "Layoff file from notice through list verification and bumping tree challenge",
+        "caption": "Preserve the published list. Sketch the tree from the CA. Calendar recall before the window closes.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — layoff notice",
+            "summary": "Employer posts surplus list. Save timestamped PDF. Run Module 1 intake."
+          },
+          "d1": {
+            "label": "Day 1 — list verify",
+            "summary": "Match service dates and classifications to the CA. Flag row errors in writing."
+          },
+          "d3": {
+            "label": "Day 3 — tree sketch",
+            "summary": "Draw bumping cascade from contract articles. Compare to HR chart."
+          },
+          "d7": {
+            "label": "Day 7 — recall clock",
+            "summary": "Calendar recall window. File grievance if pool or qualifications are wrong."
+          }
+        }
       }
     },
     "quiz": {
@@ -1385,6 +1473,14 @@
       "everyday-union-value": {
         "title": "Everyday Union Value",
         "summary": "Run Day-1 orientations, deliver affinity benefits without sharing lists, and build community unionism alliances."
+      },
+      "duty-of-fair-representation": {
+        "title": "Duty of Fair Representation",
+        "summary": "Investigate before declining files, communicate outcomes in writing, meet grievance and statutory clocks, and escalate to servicing when stakes are high."
+      },
+      "seniority-bumping-layoff": {
+        "title": "Seniority, Bumping & Layoff",
+        "summary": "Read seniority lists against the CA, trace bumping trees, enforce layoff and recall notice clocks, and flag accommodation collisions."
       }
     },
     "certificate": {
@@ -1397,7 +1493,7 @@
       "downloading": "Preparing PDF…",
       "success": "Certificate downloaded.",
       "error": "Could not create the PDF. Try again, or check that downloads are allowed in this browser.",
-      "pathTitle": "Full Officer Learning path (all fourteen modules)"
+      "pathTitle": "Full Officer Learning path (all sixteen modules)"
     },
     "hubSync": {
       "signedOutTitle": "Want a Hub backup?",
@@ -3457,7 +3553,7 @@
       "blurb": {
         "stewardPlaybooks": "Start here: Steward 101, Officer Learning modules with self-tests, and every floor playbook in one list.",
         "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example — start here.",
-        "officerLearning": "Fourteen self-paced modules with quizzes, floor checklists, and printable take-to-meeting sheets — progress saves on this device.",
+        "officerLearning": "Sixteen self-paced modules with quizzes, floor checklists, and printable take-to-meeting sheets — progress saves on this device.",
         "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet. Confirm steps in your agreement.",
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",
@@ -4996,7 +5092,7 @@
     "backToGuide": "Back to The Blueprint",
     "trainingPath": {
       "title": "Recommended training path",
-      "body": "Start with Steward 101 for role basics, then Officer Learning Center for fourteen modules with self-tests. Open the other playbooks when a live file needs them.",
+      "body": "Start with Steward 101 for role basics, then Officer Learning Center for sixteen modules with self-tests. Open the other playbooks when a live file needs them.",
       "steward101Cta": "Start Steward 101",
       "officerLearningCta": "Open Officer Learning modules"
     },
@@ -5080,7 +5176,7 @@
     },
     "blurbs": {
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
-      "officerLearning": "Fourteen modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
+      "officerLearning": "Sixteen modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
       "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet.",
       "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
       "workplaceMapping": "Chart coworkers, find organic leaders, and score union support 1 to 5.",
@@ -7298,7 +7394,11 @@
       },
       "solidarity-poster-type-fit": {
         "title": "Solidarity posters stay readable",
-        "body": "Headline, logo, and QR no longer stack on top of each other — type shrinks to fit the sheet on Solidarity Poster Maker."
+        "body": "With your lockup on, the lead-in stays a full line under the logo, the closer stays visible, and the print preview sits centered — type still shrinks to fit the sheet."
+      },
+      "officer-learning-modules-15-16": {
+        "title": "Officer Learning modules 15–16",
+        "body": "Two new self-paced modules: duty of fair representation and seniority, bumping, and layoff — with floor checklists and take-to-meeting PDFs."
       },
       "officer-learning-modules-11-14": {
         "title": "Officer Learning modules 11–14",
@@ -7376,7 +7476,9 @@
       "olLists": "Member Lists & Data Privacy module",
       "olAdvancedFinance": "Advanced Local Finance module",
       "olDigitalSecurity": "Digital Security & Transitions module",
-      "olEverydayValue": "Everyday Union Value module"
+      "olEverydayValue": "Everyday Union Value module",
+      "olDfr": "Duty of Fair Representation module",
+      "olSeniorityBumping": "Seniority, Bumping & Layoff module"
     }
   },
   "accessibility": {
@@ -9324,12 +9426,12 @@
     "subtitle": "First week, channel handbooks, and steward playbooks for the floor and the local. Officer Learning stays a top-level link.",
     "hint": "Set colours and logo first in",
     "startHereTitle": "Start here",
-    "startHereIntro": "Set the brand, then pick a comms path or a floor playbook. Officer Learning is ten self-paced modules.",
+    "startHereIntro": "Set the brand, then pick a comms path or a floor playbook. Officer Learning is sixteen self-paced modules.",
     "startHereRoadmap": "Open all steward playbooks",
     "startHereSteps": {
       "firstWeek": "Boards, print, social, and a simple website after Brand Kit.",
       "playbooks": "Floor training, meetings, grievances, and campaign handbooks.",
-      "officerLearning": "Fourteen modules with checklists and a quiz on this device."
+      "officerLearning": "Sixteen modules with checklists and a quiz on this device."
     },
     "groups": {
       "commsPath": {
@@ -9372,7 +9474,7 @@
       "bargaining": "Survey to signing for local bargaining committees, with checklists and the Proposal Tracker.",
       "strike": "Command, the picket line, member care, money, safety, and return to work.",
       "crisis": "Calm local messages during strikes, bargaining, layoffs, and management reactions.",
-      "officerLearning": "Fourteen modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
+      "officerLearning": "Sixteen modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
       "stewardPlaybooks": "Front door for floor training, meetings, grievances, and campaign handbooks.",
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
       "unionHistory": "Two tracks, not one ladder: union family and the city labour council.",
@@ -10190,7 +10292,9 @@
     "readModule11": "Module 11: member lists & data privacy",
     "readModule12": "Module 12: advanced local finance",
     "readModule13": "Module 13: digital security & transitions",
-    "readModule14": "Module 14: everyday union value"
+    "readModule14": "Module 14: everyday union value",
+    "readModule15": "Module 15: duty of fair representation",
+    "readModule16": "Module 16: seniority, bumping & layoff"
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Preparing PDF…",

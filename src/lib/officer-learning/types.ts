@@ -30,7 +30,9 @@ export type ReferenceSheetId =
   | "list-directive"
   | "expense-hardship"
   | "transition-checklist"
-  | "orientation-kit";
+  | "orientation-kit"
+  | "dfr-duty"
+  | "bumping-intake";
 
 export type ModuleReferenceSheet = {
   id: ReferenceSheetId;
