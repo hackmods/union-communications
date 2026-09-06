@@ -11,10 +11,12 @@ import {
 } from "../src/lib/comms/layout-class-matrix";
 import { seedCanvasFonts } from "./helpers/canvas-fonts";
 import {
+  expectLeadReadable,
   expectPlateGeometry,
   expectPreviewFitsColumn,
   expectTypeMetaClear,
   expectUrlLayout,
+  measureLeadReadable,
   measureLeadTypeOverlap,
   measurePlateFill,
   measurePreviewFit,
@@ -190,6 +192,10 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     expectTypeMetaClear(
       await measureLeadTypeOverlap(page),
       "solidarity-forever-lead/type",
+    );
+    expectLeadReadable(
+      await measureLeadReadable(page),
+      "solidarity-forever-lead-width",
     );
   });
 

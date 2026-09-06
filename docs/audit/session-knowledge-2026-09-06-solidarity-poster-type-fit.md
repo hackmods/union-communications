@@ -26,3 +26,18 @@ Solidarity Poster Maker preview showed Keep-Calm headlines painting through the 
 ## Rule for agents
 
 Column-fit ≠ layout integrity. Keep-Calm / stacked-headline tools must use `CanvasFitStackedHeadline` (or `CanvasTypeBlock fit`) inside a bounded slot — never fixed rem/Tailwind display sizes on fixed print pages.
+
+---
+
+## Follow-up — branding crush + preview chrome (same day)
+
+### Symptom
+
+With a wide bilingual lockup (College Faculty), stack layout put lead-in and logo in one flex row. Letter design width (~306px) vs lockup `md` (~220px) left a one-character column — “Keep calm and” painted as **K / C / A**. Closer fought a duplicate local label inside the type slot; print preview looked half-empty (left-aligned sheet in a full-width shadow card).
+
+### Fix
+
+- Stack: logo row (centered `sm`, `max-w-[55%]`) → full-width lead → fitted headline/closer; local **once** in the footer
+- Banner: truncating nowrap lead beside logo (never letter-wrap)
+- `FitWidthFrame` `align="center"` + `frameClassName="shadow-lg"`
+- Playwright: `measureLeadReadable` / `expectLeadReadable` (≥ ~3 glyphs)

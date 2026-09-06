@@ -441,8 +441,9 @@ export default function SolidarityPosterPage() {
     </div>
   ) : null;
 
-  const showLocalUnderType =
-    showLogo && state.showLocalNumber && !isLandscape;
+  /** Keep-Calm lead: modest tracking, never a squeezed flex sibling of the lockup. */
+  const leadLetterSpacing = "0.14em";
+  const stackLeadCentered = showLogo;
 
   const posterCanvas = (
     <div
@@ -476,31 +477,38 @@ export default function SolidarityPosterPage() {
             className="relative z-[2] box-border flex h-full min-h-0 flex-col justify-between"
             style={{ padding: stackPadPx }}
           >
-            <div
-              data-canvas-lead=""
-              className="relative z-[3] flex shrink-0 items-start justify-between gap-2"
-            >
-              <p
-                className={cn(
-                  "min-w-0 font-semibold uppercase tracking-[0.2em]",
-                  isLandscape ? "text-xs" : "text-sm",
-                )}
-                style={{
-                  color: secondaryOnPrimary,
-                  letterSpacing: tokens.titleLetterSpacing || "0.2em",
-                  fontWeight: tokens.titleFontWeight,
-                }}
-              >
-                {state.leadIn}
-              </p>
+            <div className="relative z-[3] flex shrink-0 flex-col gap-2">
               {showLogo ? (
-                <BrandLogo
-                  size={isLandscape ? "sm" : "md"}
-                  variantOverride={logoVariant}
-                  backgroundColor={state.primaryColor}
-                  className="shrink-0"
-                />
+                <div className="flex w-full justify-center">
+                  <BrandLogo
+                    size="sm"
+                    variantOverride={logoVariant}
+                    backgroundColor={state.primaryColor}
+                    className="max-w-[55%] shrink"
+                  />
+                </div>
               ) : null}
+              <div
+                data-canvas-lead=""
+                className={cn(
+                  "w-full min-w-0",
+                  stackLeadCentered && "text-center",
+                )}
+              >
+                <p
+                  className={cn(
+                    "w-full min-w-0 font-semibold uppercase tracking-[0.14em]",
+                    isLandscape ? "text-xs" : "text-sm",
+                  )}
+                  style={{
+                    color: secondaryOnPrimary,
+                    letterSpacing: leadLetterSpacing,
+                    fontWeight: tokens.titleFontWeight,
+                  }}
+                >
+                  {state.leadIn}
+                </p>
+              </div>
             </div>
             <CanvasStackSlot className="justify-center py-1">
               <CanvasFitStackedHeadline
@@ -514,14 +522,6 @@ export default function SolidarityPosterPage() {
                 subtitleColor={secondaryOnPrimary}
                 subtitleBaseFontSizePx={closerPx}
               />
-              {showLocalUnderType ? (
-                <p
-                  className="mt-2 shrink-0 text-sm font-semibold"
-                  style={{ color: mutedInk90 }}
-                >
-                  {localLabel}
-                </p>
-              ) : null}
             </CanvasStackSlot>
             {footer}
           </div>
@@ -548,10 +548,10 @@ export default function SolidarityPosterPage() {
                 }}
               >
                 <p
-                  className="text-xs font-bold uppercase tracking-[0.25em]"
+                  className="text-xs font-bold uppercase tracking-[0.14em]"
                   style={{
                     color: splitSideInk,
-                    letterSpacing: tokens.titleLetterSpacing || "0.25em",
+                    letterSpacing: leadLetterSpacing,
                     fontWeight: tokens.titleFontWeight,
                   }}
                 >
@@ -597,7 +597,7 @@ export default function SolidarityPosterPage() {
           <div className="relative z-[2] flex h-full min-h-0 flex-col justify-between">
             <div
               data-canvas-lead=""
-              className="relative z-[3] flex shrink-0 items-center justify-between gap-3"
+              className="relative z-[3] flex shrink-0 items-center gap-3"
               style={{
                 backgroundColor: bannerBarBg,
                 padding: `${bannerBarPadY}px ${bannerBodyPadPx}px`,
@@ -608,13 +608,18 @@ export default function SolidarityPosterPage() {
                   size="sm"
                   variantOverride={logoVariant}
                   backgroundColor={bannerBarBg}
+                  className="max-w-[40%] shrink"
                 />
-              ) : (
-                <span />
-              )}
+              ) : null}
               <p
-                className="text-xs font-bold uppercase tracking-[0.3em]"
-                style={{ color: bannerBarInk }}
+                className={cn(
+                  "min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold uppercase tracking-[0.14em]",
+                  showLogo ? "text-right" : "text-left",
+                )}
+                style={{
+                  color: bannerBarInk,
+                  letterSpacing: leadLetterSpacing,
+                }}
               >
                 {state.leadIn}
               </p>
@@ -635,14 +640,6 @@ export default function SolidarityPosterPage() {
                   subtitleColor={mutedInk90}
                   subtitleBaseFontSizePx={closerPx}
                 />
-                {showLocalUnderType ? (
-                  <p
-                    className="mt-2 shrink-0 text-sm font-semibold"
-                    style={{ color: mutedInk90 }}
-                  >
-                    {localLabel}
-                  </p>
-                ) : null}
               </div>
             </CanvasStackSlot>
             {footer ? (
@@ -675,7 +672,7 @@ export default function SolidarityPosterPage() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-5">
+        <Card density="compact" className="space-y-3">
           <div>
             <label htmlFor="slogan-preset" className="mb-1 block text-sm font-medium">
               {t("preset")}
@@ -852,7 +849,7 @@ export default function SolidarityPosterPage() {
             onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
           />
 
-          <div className="space-y-3 border-t border-gray-200 pt-5">
+          <div className="space-y-3 border-t border-gray-200 pt-3">
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
@@ -920,16 +917,20 @@ export default function SolidarityPosterPage() {
       }
       preview={
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
-        <div className="relative shadow-lg">
+        <div className="relative w-full max-w-full">
           {isPrintCanvas && designWidthPx && designHeightPx ? (
             <FitWidthFrame
               designWidth={designWidthPx}
               designHeight={designHeightPx}
+              align="center"
+              frameClassName="shadow-lg"
             >
               {posterCanvas}
             </FitWidthFrame>
           ) : (
-            posterCanvas
+            <div className="relative mx-auto w-full max-w-full shadow-lg">
+              {posterCanvas}
+            </div>
           )}
           {state.edgeClearance ? (
             <CanvasSafeZoneOverlay insets={clearanceInsets} />

@@ -11,10 +11,16 @@ import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 export function FitWidthFrame({
   designWidth,
   designHeight,
+  align = "start",
+  frameClassName,
   children,
 }: {
   designWidth: number;
   designHeight: number;
+  /** Horizontal placement of the scaled sheet in the preview column. */
+  align?: "start" | "center";
+  /** Classes on the scaled-height frame (e.g. shadow outside the export root). */
+  frameClassName?: string;
   children: ReactNode;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -34,6 +40,8 @@ export function FitWidthFrame({
     return () => ro.disconnect();
   }, [designWidth]);
 
+  const scaledWidth = designWidth * scale;
+
   return (
     <div
       ref={wrapRef}
@@ -42,9 +50,17 @@ export function FitWidthFrame({
       className="w-full min-w-0 max-w-full"
     >
       <div
+        className={[
+          align === "center" ? "mx-auto" : undefined,
+          frameClassName,
+        ]
+          .filter(Boolean)
+          .join(" ")}
         style={{
           position: "relative",
           height: designHeight * scale,
+          width: align === "center" ? scaledWidth : undefined,
+          maxWidth: "100%",
         }}
       >
         <div

@@ -447,6 +447,69 @@ export function expectTypeMetaClear(
   expect(report.overlaps, label).toBe(0);
 }
 
+export type LeadReadableReport = {
+  leadCount: number;
+  minLeadWidthPx: number;
+  minFontSizePx: number;
+  /** True when any lead text box is narrower than ~3 glyphs (K-C-A crush). */
+  crushed: boolean;
+};
+
+/**
+ * Keep-Calm lead must keep a real measure — wide lockups used to squeeze
+ * "Keep calm and" into a one-character column beside BrandLogo.
+ * Measures the lead paragraph (or the [data-canvas-lead] node itself).
+ */
+export async function measureLeadReadable(
+  page: Page,
+): Promise<LeadReadableReport> {
+  return page.evaluate((rootSel) => {
+    const root = document.querySelector(rootSel);
+    if (!root) {
+      return {
+        leadCount: 0,
+        minLeadWidthPx: 0,
+        minFontSizePx: 0,
+        crushed: true,
+      };
+    }
+
+    const leads = [...root.querySelectorAll("[data-canvas-lead]")];
+    let minW = Infinity;
+    let minFs = Infinity;
+    let crushed = false;
+    let measured = 0;
+
+    for (const lead of leads) {
+      const textEl =
+        lead.matches("p") ? lead : (lead.querySelector("p") ?? lead);
+      const r = textEl.getBoundingClientRect();
+      const fs = parseFloat(getComputedStyle(textEl).fontSize) || 12;
+      const w = r.width;
+      if (w < 2 || r.height < 2) continue;
+      measured += 1;
+      minW = Math.min(minW, w);
+      minFs = Math.min(minFs, fs);
+      if (w < fs * 3) crushed = true;
+    }
+
+    return {
+      leadCount: measured,
+      minLeadWidthPx: Number.isFinite(minW) ? minW : 0,
+      minFontSizePx: Number.isFinite(minFs) ? minFs : 0,
+      crushed: measured === 0 ? true : crushed,
+    };
+  }, EXPORT_ROOT_SELECTOR);
+}
+
+export function expectLeadReadable(
+  report: LeadReadableReport,
+  label = "lead",
+): void {
+  expect(report.leadCount, label).toBeGreaterThan(0);
+  expect(report.crushed, `${label} crushed to letter column`).toBe(false);
+}
+
 /**
  * Solidarity / Keep-Calm stack: headline must not paint over lead-in + logo.
  * Requires [data-canvas-type] + [data-canvas-lead].
