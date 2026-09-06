@@ -50,7 +50,7 @@ For each module:
 - Multi-union Ontario voice; no OPSEU-as-default; no placeholders
 
 PHASE 3 — Chrome & progressive disclosure
-- LearningPathDiagram at 14 (mobile stack, lg 7×2, mid-width)
+- LearningPathDiagram at 14 (mobile stack, lg 4-col / xl 5-col, mid-width readability)
 - Certificate pathTitle / nav / SEO / smoke count strings still “fourteen”
 - Related resources + guide OfficerLearningModuleCallout pointing at the right deepen module
 - Diagram/timeline i18n still match lesson tables
