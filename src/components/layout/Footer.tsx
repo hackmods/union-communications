@@ -62,6 +62,9 @@ export function Footer() {
           <Link href="/feedback" className={footerLinkClass}>
             {nav("feedback")}
           </Link>
+          <Link href="/install" className={footerLinkClass}>
+            {t("installApp")}
+          </Link>
         </nav>
       </div>
     </footer>

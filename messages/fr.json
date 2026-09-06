@@ -10213,9 +10213,9 @@
       "navLabel": "Ordre du jour type",
       "title": "L'ordre du jour type (ordre des travaux)",
       "intro": "La plupart des assemblées locales suivent ce déroulement :",
+      "landAckNote": "Plusieurs syndicats ontariens — dont OPSEU / SEFPO — ouvrent par une reconnaissance territoriale avant la déclaration de respect et tout autre point. Identifiez le territoire où vous êtes ; le guide ci-dessous explique les pratiques fédérales sans proposer de texte copié-collé.",
       "items": {
         "callToOrder": "Reconnaissance territoriale (si votre fédération ou section l'exige), puis ouverture de l'assemblée et lecture de la déclaration de respect et de solidarité",
-        "landAckNote": "Plusieurs syndicats ontariens — dont OPSEU / SEFPO — ouvrent par une reconnaissance territoriale avant la déclaration de respect et tout autre point. Identifiez le territoire où vous êtes ; le guide ci-dessous explique les pratiques fédérales sans proposer de texte copié-collé.",
         "adoptAgenda": "Adoption de l'ordre du jour",
         "minutes": "Adoption du procès-verbal de la dernière assemblée",
         "treasurer": "Rapport financier du trésorier ou de la trésorière",

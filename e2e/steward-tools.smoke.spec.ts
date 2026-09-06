@@ -158,7 +158,10 @@ test.describe("Steward meeting guides @smoke", () => {
         .getByRole("button", { name: /Download affiliation map/i }),
     ).toBeVisible();
     await expect(
-      page.locator("#tools").getByRole("link", { name: /Running meetings/i }),
+      page
+        .locator("#tools")
+        .getByRole("link", { name: /^Running meetings$/i })
+        .first(),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
