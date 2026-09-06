@@ -139,7 +139,10 @@ export function CanvasBrandHeader({
           size={logoSize}
           backgroundColor={backgroundColor}
           variantOverride={logoVariant}
-          className={showLocalLabel || badge ? "mb-3" : undefined}
+          className={cn(
+            "h-auto max-w-full",
+            showLocalLabel || badge ? "mb-3" : undefined,
+          )}
         />
       ) : null}
       {badge}

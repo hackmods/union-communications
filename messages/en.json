@@ -7392,6 +7392,10 @@
         "title": "Logos stay readable on brand-coloured backgrounds",
         "body": "Meeting backgrounds and other canvas tools keep your mark readable on coral, gold, or other Brand Kit fills — official Looks use the matching plate lockup; your uploaded logo sits on a white card so every colour stays visible."
       },
+      "flyer-walkabout-fit": {
+        "title": "Walkabout flyers stay readable",
+        "body": "On Flyer Maker, the walkabout handbill keeps the headline, details, and QR from stacking on each other, and opening the tool matches the Picket line starter."
+      },
       "solidarity-poster-type-fit": {
         "title": "Solidarity posters stay readable",
         "body": "With your lockup on, the lead-in stays a full line under the logo, the closer stays visible, and the print preview sits centered — type still shrinks to fit the sheet."

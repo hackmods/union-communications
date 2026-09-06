@@ -121,10 +121,10 @@ function GraphicMakerPageContent() {
   };
 
   const initial: GraphicState = {
-    layout: "solidarity",
-    aspect: "landscape",
-    headline: "Member Spotlight",
-    subheadline: "Celebrating our union family",
+    layout: "spotlight",
+    aspect: "square",
+    headline: TOOL_PRESETS.memberSpotlight.headline,
+    subheadline: TOOL_PRESETS.memberSpotlight.subheadline,
     detail: "",
     initials: "M",
     photoScale: 1,

@@ -90,7 +90,7 @@ function QuoteCardPageContent() {
   const initial: QuoteState = {
     quote: "We will not accept anything less than a fair deal for our members.",
     author: "Local President",
-    role: "",
+    role: "Bargaining committee",
     layout: DEFAULT_QUOTE_LAYOUT,
     aspect: "square",
     primaryColor: brandKit.primaryColor,

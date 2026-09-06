@@ -79,12 +79,15 @@ function MetaBlock({
   fontSize,
   gap,
   className,
+  /** When false, body is omitted (e.g. split layout puts body in fitted subtitle). */
+  includeBody = true,
 }: {
   copy: FlyerLayoutCopy;
   ink: string;
   fontSize: number;
   gap: number;
   className?: string;
+  includeBody?: boolean;
 }) {
   const rows: { label: string; value: string }[] = [];
   if (copy.date.trim()) rows.push({ label: copy.dateLabel, value: copy.date });
@@ -92,7 +95,7 @@ function MetaBlock({
   if (copy.location.trim())
     rows.push({ label: copy.locationLabel, value: copy.location });
 
-  const body = copy.body.trim();
+  const body = includeBody ? copy.body.trim() : "";
   const contact = copy.contact.trim();
 
   if (rows.length === 0 && !body && !contact) return null;
@@ -100,7 +103,7 @@ function MetaBlock({
   return (
     <div
       data-canvas-meta=""
-      className={cn("relative z-[2]", className)}
+      className={cn("relative z-[2] min-w-0", className)}
       style={{
         color: ink,
         fontSize,
@@ -379,6 +382,8 @@ export function FlyerLayoutCanvas({
   }
 
   if (layout === "split") {
+    // Half-letter / narrow sheets: sm lockup so bilingual marks fit the content width.
+    const narrowSheet = designWidthPx < referenceWidthPx * 0.85;
     return (
       <div
         ref={canvasRef}
@@ -392,7 +397,7 @@ export function FlyerLayoutCanvas({
       >
         <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
         <div
-          className="relative z-[2] flex min-h-0 flex-[1.2] flex-col"
+          className="relative z-[2] flex min-h-0 flex-[1.2] flex-col overflow-hidden"
           style={{ gap: scaledTokens.gapPx }}
         >
           <CanvasBrandHeader
@@ -402,25 +407,28 @@ export function FlyerLayoutCanvas({
             fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
+            logoSize={narrowSheet ? "sm" : "md"}
+            className="max-w-full shrink-0 overflow-hidden"
           />
           <CanvasStackSlot>
             <CanvasTypeBlock
               fit
               tokens={scaledTokens}
               title={copy.message}
+              subtitle={copy.body}
               ink={ink}
               accentColor={accent}
             />
           </CanvasStackSlot>
         </div>
         <div
-          className="relative z-[2] flex min-h-0 flex-1 flex-col justify-end"
+          className="relative z-[2] flex min-h-0 flex-1 flex-col justify-end overflow-hidden"
           style={{ gap: scaledTokens.gapPx }}
         >
           {photoUrl ? (
             <div
-              className="relative w-full overflow-hidden"
-              style={{ flex: "0 0 28%", minHeight: 64 }}
+              className="relative w-full shrink-0 overflow-hidden"
+              style={{ flex: "0 0 22%", minHeight: 48, maxHeight: "28%" }}
             >
               <CanvasDuotonePhoto
                 photoUrl={photoUrl}
@@ -431,26 +439,21 @@ export function FlyerLayoutCanvas({
               />
             </div>
           ) : null}
-          <div
-            className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
-            style={{ gap: scaledTokens.gapPx }}
-          >
-            <MetaBlock
-              copy={copy}
-              ink={ink}
-              fontSize={metaSize}
-              gap={Math.max(6, scaledTokens.gapPx - 4)}
-              className="min-w-0 flex-1"
+          <MetaBlock
+            copy={copy}
+            ink={ink}
+            fontSize={metaSize}
+            gap={Math.max(4, scaledTokens.gapPx - 4)}
+            includeBody={false}
+            className="min-h-0 min-w-0 shrink overflow-hidden"
+          />
+          {qrVisible && qrSrc ? (
+            <QrFooter
+              tokens={scaledTokens}
+              qrSrc={qrSrc}
+              accentColor={colours.accent}
             />
-            {qrVisible && qrSrc ? (
-              <QrFooter
-                tokens={scaledTokens}
-                qrSrc={qrSrc}
-                accentColor={colours.accent}
-                widthPercent={100}
-              />
-            ) : null}
-          </div>
+          ) : null}
         </div>
       </div>
     );

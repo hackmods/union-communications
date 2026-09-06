@@ -262,11 +262,21 @@ function FlyerMakerPageContent() {
       setActivePreset(fromDeep.id);
       return;
     }
+    // Match the default "Picket line" chip — not bare stack/letter defaults.
+    const picket = FLYER_PRESETS.picket;
     reset({
       ...buildInitial(colours),
+      ...flyerPresetCopy(picket.id),
+      layout: picket.layout,
+      format: picket.format,
+      fontStack: picket.fontStack,
+      headlineCase: picket.headlineCase,
+      typeScaleOverride: picket.typeScaleOverride,
+      showQr: picket.showQr,
       logoMode: defaultLogoMode(themeEstablished),
       showLocalNumber: defaultShowLocalNumber(),
     });
+    setActivePreset(picket.id);
   });
 
   const applyPreset = (key: FlyerPresetKey) => {

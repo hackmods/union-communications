@@ -89,13 +89,12 @@ export default function QrBoardPage() {
 
   const initial: QrBoardState = {
     presetId: first.id,
-    posterTitle: "",
-    posterSubtitle: "",
+    posterTitle: t(`presets.${first.titleKey}`),
+    posterSubtitle: t(`presets.${first.subtitleKey}`),
     formatId: DEFAULT_QR_BOARD_FORMAT,
-    slots: [
-      { id: "slot-a", title: "", destination: "" },
-      { id: "slot-b", title: "", destination: "" },
-    ],
+    slots: buildSlotsFromPreset(first, brandKit, "", (key) =>
+      t(`slotTitles.${key}`),
+    ),
     showUrl: true,
     logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),

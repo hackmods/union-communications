@@ -7341,6 +7341,10 @@
         "title": "Les logos restent lisibles sur les fonds aux couleurs de la marque",
         "body": "Les arrière-plans de réunion et les autres outils visuels gardent votre marque lisible sur les fonds corail, or ou autres couleurs de la Trousse de marque — les Looks officiels utilisent la signature de plaque correspondante ; votre logo téléversé repose sur une carte blanche pour que chaque couleur reste visible."
       },
+      "flyer-walkabout-fit": {
+        "title": "Les tracts de tournée restent lisibles",
+        "body": "Dans le Créateur de tracts, le tract de tournée garde le titre, les détails et le QR sans les superposer, et l'ouverture de l'outil correspond au départ Piquet."
+      },
       "solidarity-poster-type-fit": {
         "title": "Les affiches de solidarité restent lisibles",
         "body": "Avec votre logo, l'amorce reste une ligne complète sous le logo, la phrase de clôture reste visible, et l'aperçu d'impression est centré — le texte s'adapte encore à la feuille."

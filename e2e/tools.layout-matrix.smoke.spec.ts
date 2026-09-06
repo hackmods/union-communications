@@ -95,6 +95,24 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     }
   });
 
+  test("flyer walkabout split has no type/meta overlap", async ({ page }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/flyer-maker/?preset=walkabout");
+    await expect(
+      page.getByRole("heading", { name: "Picket / Rally Flyer Maker" }),
+    ).toBeVisible();
+    await expectLayoutRadio(page, FLYER_LAYOUT_RADIO.split);
+    await waitForQrPreview(page);
+    expectTypeMetaClear(
+      await measureTypeMetaOverlap(page),
+      "flyer-walkabout-type/meta",
+    );
+    expectPreviewFitsColumn(
+      await measurePreviewFit(page),
+      "flyer-walkabout",
+    );
+  });
+
   test("flyer letter stays uncropped at phone width", async ({ page }) => {
     await seedCanvasFonts(page);
     await page.setViewportSize({ width: 390, height: 844 });

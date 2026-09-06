@@ -122,10 +122,10 @@ function QrCardPageContent() {
 
   const initial: QrCardState = {
     presetId: first.id,
-    destination: "",
-    title: "",
-    description: "",
-    tagline: "",
+    destination: first.defaultUrl.trim(),
+    title: t(`presets.${first.titleKey}`),
+    description: t(`presets.${first.descriptionKey}`),
+    tagline: t(`presets.${first.taglineKey}`),
     bgMode: first.bgMode,
     sizeId: DEFAULT_QR_CARD_SIZE,
     showUrl: false,
