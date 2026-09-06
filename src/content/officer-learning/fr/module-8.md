@@ -157,14 +157,14 @@ Pourquoi un délégué devrait-il inclure la phrase « et/ou tout autre article 
 *Explanation* : Le libellé « à porte ouverte » empêche l'employeur de bloquer le grief en arbitrage sur une technicité si le syndicat découvre des violations d'articles supplémentaires durant l'enquête.
 
 ### Question 2
-Si un règlement est signé « sans préjudice », que signifie cela juridiquement pour les différends futurs ?
+Si un règlement est signé « sans précédent », que signifie cela juridiquement pour les différends futurs ?
 *   A) Le règlement ne peut pas être cité ou utilisé par l'une ou l'autre partie comme précédent contraignant dans tout grief ou arbitrage futur non lié.
 *   B) L'employeur convient qu'il avait complètement tort et paiera des dommages.
 *   C) Le syndicat ne peut plus déposer de griefs sous cet article précis de la convention.
 *   D) Le grief demeure ouvert jusqu'à ce qu'un arbitre endosse le règlement.
 
 **Correct Answer: A**
-*Explanation* : « Sans préjudice » assure que le compromis fait pour régler un différend précis n'établit pas une interprétation permanente de la convention qui peut être armaisée dans des dossiers futurs.
+*Explanation* : « Sans précédent » assure que le compromis fait pour régler un différend précis n'établit pas une interprétation permanente de la convention qui peut être armée dans des dossiers futurs.
 
 ### Question 3
 Durant une rencontre d'étape, les RH promettent verbalement de nettoyer l'arriéré d'horaire si le syndicat retire le grief. Le délégué signe un règlement « plein et final » qui ne mentionne pas cette promesse. Le syndicat peut-il faire respecter la promesse verbale plus tard ?

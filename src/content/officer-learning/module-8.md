@@ -157,7 +157,7 @@ Why should a steward include the phrase "and/or any other relevant article of th
 *Explanation*: "Open-door" phrasing prevents the employer from blocking the grievance at arbitration on a technicality if the union uncovers violations of additional articles during the investigation.
 
 ### Question 2
-If a settlement is signed "Without Prejudice," what does this legally mean for future disputes?
+If a settlement is signed "Without Precedent," what does this legally mean for future disputes?
 *   A) The settlement cannot be cited or used by either party as a binding precedent in any future, unrelated grievance or arbitration.
 *   B) The employer agrees that they were completely in the wrong and will pay damages.
 *   C) The union cannot file any more grievances under that specific article of the contract.
