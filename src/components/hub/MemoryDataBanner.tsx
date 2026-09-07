@@ -11,8 +11,8 @@ type Props = {
 };
 
 /**
- * Persistent warning while confidential case data still uses in-memory adapters
- * (SEC-003). Hidden only when all backends are postgres.
+ * Persistent warning while steward casework still uses in-memory adapters
+ * (SEC-003). Audit / feedback / Officer Learning memory does not show this.
  */
 export function MemoryDataBanner({ active }: Props) {
   const { authenticated } = useHubAuthenticated();

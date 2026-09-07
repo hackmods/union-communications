@@ -234,23 +234,32 @@ export function readEffectiveBackendFlags(
   };
 }
 
-/** True when every confidential module and auth users use Postgres. */
+/**
+ * True when every steward casework module, audit log, and auth users use Postgres.
+ * Audit is required here for ops durability, but does not trip the Hub
+ * “Memory only” case-data banner (see `isMemoryCaseDataActive`).
+ */
 export function isPostgresFlipComplete(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
 ): boolean {
   return (
-    !isMemoryCaseDataActive(env) && authUsersDbBackend(env) === "postgres"
+    !isMemoryCaseDataActive(env) &&
+    auditDbBackend(env) === "postgres" &&
+    authUsersDbBackend(env) === "postgres"
   );
 }
 
-/** True when any confidential module still uses the in-memory store. */
+/**
+ * True when any steward-facing casework module still uses the in-memory store.
+ * Audit, feedback, and Officer Learning are omitted — memory audit must not
+ * show the Hub “Memory only” banner when grievances/time/etc. are durable.
+ */
 export function isMemoryCaseDataActive(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
 ): boolean {
   return (
     grievanceDbBackend(env) === "memory" ||
     bumpingDbBackend(env) === "memory" ||
-    auditDbBackend(env) === "memory" ||
     timeDbBackend(env) === "memory" ||
     attachmentsDbBackend(env) === "memory" ||
     discussionsDbBackend(env) === "memory" ||
