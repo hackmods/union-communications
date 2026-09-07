@@ -428,7 +428,16 @@ export async function measureCanvasProportions(
       root.querySelector<HTMLImageElement>("[data-logo-container] img") ??
       root.querySelector<HTMLImageElement>("img");
     const ir = img?.getBoundingClientRect();
-    const pad = Number.parseFloat(getComputedStyle(root).paddingLeft) || 0;
+    // Pad often lives on an inner layout frame, not the export root.
+    let pad = Number.parseFloat(getComputedStyle(root).paddingLeft) || 0;
+    if (!(pad > 0)) {
+      const padded = root.querySelector<HTMLElement>(
+        "[style*='padding'], .box-border",
+      );
+      if (padded) {
+        pad = Number.parseFloat(getComputedStyle(padded).paddingLeft) || 0;
+      }
+    }
     const logoW = ir?.width ?? 0;
     return {
       canvasWidth: r.width,

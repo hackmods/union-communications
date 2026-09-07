@@ -158,11 +158,13 @@ used in those properties resolves live but is never flattened onto the capture c
 
 ## Export density policy
 
-Letter currently exports 1224x1584 (144 PPI) because `printPageExportPixelRatio` clamps
-the ratio at 4. Raising the clamp alone would magnify the 160px QR raster and raster
-logos, so density must be raised by **increasing design width** in step with the ratio —
-resolved through `targetWidthPx` in `ExportOptions` and validated against real exported
-artifact dimensions, not against the code comment.
+Letter previously exported 1224×1584 (~144 PPI) because design width was 306px and
+`printPageExportPixelRatio` clamped at 4.
+
+Canvas Core raises **design width** to 850px (`PRINT_PAGE_PX_PER_INCH = 100`) and targets
+**1700px** letter rasters (~200 PPI, ratio 2). Hitting 2550px (~300 PPI) OOMs Chromium
+`html-to-image` on letter sheets in practice — keep the browser ceiling at 1700 until a
+non-browser export path exists. Always validate against real PNG dimensions.
 
 ## Migration strategy
 
@@ -171,24 +173,25 @@ keeps shipping throughout.
 
 **Wave 0 — core.** Contracts, `CanvasWrapper`, `LogoContainer`, `safe-zone`,
 `useCanvasExport`, capture allowlist, SVG/blob export fixes. `FitWidthFrame` becomes a
-re-export. Capture before/after reference PNGs per layout class first (BLIND-016).
+re-export.
 
-**Wave 1 — flyer-maker.** Highest measured defect and the tool in the original report.
-Remove `maxWidth: 100%` / `flexShrink: 0` from the capture root, move padding and logo to
-`cqw`, adopt `CanvasWrapper` with `maxScale`.
+**Wave 1 — flyer-maker.** Highest measured defect. Remove `maxWidth: 100%` from the
+capture root, adopt `CanvasWrapper` with `maxScale`, denser design width.
 
 **Wave 2 — fixed-px print family.** board-notice, solidarity-poster, org-chart, qr-board,
-qr-card, action-card. Mostly mechanical; all already use design px.
+qr-card, action-card.
 
 **Wave 3 — aspect and intrinsic family.** graphic-maker, quote-card, meeting-background,
-resizer, pulse-poll, logo-builder, board-banner. pulse-poll and board-banner are the
-`intrinsic` mode cases.
+resizer, pulse-poll, logo-builder, board-banner.
 
 **Wave 4 — formats, rules, docs.** Format registry expansion, rule rewrites, migration
-register, What's new note.
+register, What's new note, proportion guards.
 
-`printPageScaledTokens` keeps a deprecation shim until Wave 3 completes — four tools
-depend on it (BLIND-008).
+### Migration register (shipped 2026-09-07)
+
+See [`docs/audit/session-knowledge-2026-09-07-canvas-core.md`](../audit/session-knowledge-2026-09-07-canvas-core.md)
+for the live tool table. `printPageScaledTokens` remains for tools that still scale type
+from the legacy 306px reference while authoring at denser design widths.
 
 ## Format registry
 

@@ -6,6 +6,7 @@
 - [x] Print density: design px/in 100 + target 1700 → letter ~200 PPI browser-safe (was ~144; ~300 OOM'd html-to-image); flyer/board-notice/org/qr/action/solidarity migrated
 - [x] Fluid/intrinsic: graphic, quote, meeting-background, resizer, logo-builder, board-banner, pulse-poll
 - [x] A4 + `CANVAS_ASPECTS`; layout-matrix logo proportion guards; What's new `canvas-core-print-fit`
+- [x] Flush: LogoContainer on qr-card/action-card/solidarity; Board Notice A4; session knowledge + AGENTS/spec rule updates
 - Verify: `npm run lint`; `npm run test:unit` (canvas-core / print / flyer / capture / updates); layout-matrix + export smokes `--workers=1`
 
 ## 2026-09-06 — Officer Learning knowledge expansion + dashboard tracks (modules 15–16)

@@ -18,38 +18,34 @@ measured defects that motivated this work.
 
 ## Read before touching any canvas tool
 
-Measured on the running app 2026-09-06. Do not re-derive these from search:
+Pre-fix measurements (2026-09-06) that motivated Canvas Core — **Waves 0–4 shipped**;
+treat these as historical defects, not current behaviour:
 
-1. **Logo sizing is not canvas-relative.** Same tool, three paper sizes: the logo is
-   **81% / 58% / 44%** of canvas width (half letter / letter / tabloid). `BrandLogo` uses
-   a fixed px map (`wideLockupSize.sm = 176x40`); `printPageScaledTokens` scales type and
-   padding but never the logo. This is the root of "inconsistent logo scaling".
-2. **Previews never scale up.** `FitWidthFrame` is `Math.min(1, w / designWidth)` — it
-   only scales down. A 306px sheet sits in a 732px column at 1920px. Migrating a tool to
-   `FitWidthFrame` does **not** fix this; it needs an explicit upscale cap.
-3. **Letter print exports are ~144 PPI, not ~300.** `printPageExportPixelRatio` clamps at
-   4, so 306px x 4 = 1224px across 8.5in. Verified against real exported PNGs
-   (`1224x1584` for flyer, org-chart and solidarity letter). The "~300dpi" code comment
-   is wrong.
+1. **Logo sizing was not canvas-relative** (81% / 58% / 44% across paper sizes). Fixed via
+   `LogoContainer` % caps inside `CanvasWrapper`.
+2. **Previews never scaled up** (`FitWidthFrame` was scale-down only). Use `CanvasWrapper`
+   with an explicit `maxScale` (default 2); legacy `FitWidthFrame` still caps at 1.
+3. **Letter print exports were ~144 PPI.** Design width is now 850px; target raster **1700px
+   (~200 PPI)**. Do **not** push to 2550/~300 PPI in-browser — Chromium `html-to-image` OOMs
+   on letter sheets (verified in export smoke). Check real PNG dimensions.
 4. **The export pipeline is already unified.** No tool imports `html-to-image` or `jspdf`
-   directly; everything runs `useExportHandler` → `exportNodeAsPng` / `nodeToPdf` →
-   `withUnscaledAncestors` → `buildHtmlToImageOptions`. Do not "consolidate" it again —
-   the decay is in geometry.
+   directly. Do not "consolidate" it again — remaining work is geometry and density policy.
+
+Session lessons: [`docs/audit/session-knowledge-2026-09-07-canvas-core.md`](../../docs/audit/session-knowledge-2026-09-07-canvas-core.md).
 
 ## Hard rules
 
 1. **Never `maxWidth: 100%` on `[data-export-root]`.** Fixed `width` + `height` +
    `maxWidth: 100%` desyncs paper aspect from type scale. Scale with a transform on a
-   **parent**; `capture.ts` zeroes `transform` on the clone. Still present in
-   `flyer-layouts.tsx` and `board-notice-layouts.tsx`.
+   **parent**; `capture.ts` zeroes `transform` on the clone. (Inner non-root wrappers,
+   e.g. a QR plate box, may still use `maxWidth: 100%`.)
 2. **`container-type: size` applies size containment in both axes.** Use it only where
    height is known. Content-driven canvases (pulse-poll, board-banner strips,
    logo-builder rectangle) must use `inline-size`, where **`cqh` is unavailable**.
    Getting this wrong collapses the canvas to zero height.
 3. **`cqw` resolves against the nearest container ancestor.** Declare a `container-name`
    on the canvas root and reference it, so a nested container cannot silently re-base the
-   scale. `LocalLogoPlate` (`size="fluid"`) already establishes a container **inside** the
-   resizer export root — nesting is real, not hypothetical.
+   scale. Prefer parent-% logo caps when a container may be missing.
 4. **Container queries do not improve export fidelity.** `inlineComputedStylesForCapture`
    flattens computed values to px on the clone, so `cqw` and design-px produce identical
    rasters. The win is authoring consistency — one proportional rule replacing three

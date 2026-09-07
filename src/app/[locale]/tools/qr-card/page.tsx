@@ -17,7 +17,7 @@ import {
   listSavedLinks,
   resolvePresetDestination,
 } from "@/lib/utils/local-links";
-import { CanvasWrapper } from "@/components/canvas-core";
+import { CanvasWrapper, LogoContainer } from "@/components/canvas-core";
 import {
   DEFAULT_QR_CARD_SIZE,
   QR_CARD_SIZE_ORDER,
@@ -32,7 +32,6 @@ import {
   getQrCardPreset,
   type QrCardBgMode,
 } from "@/lib/constants/qr-card-presets";
-import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -340,9 +339,13 @@ function QrCardPageContent() {
         : "flex-start";
   const useHeaderBranding = showCanvasLogo(state.logoMode) && isSquare;
   const autoMarkLogo = isCompact;
-  const logoVariant = resolveLogoVariant(state.logoMode, {
-    preferMark: autoMarkLogo,
-  });
+  const canvasLogoMode =
+    state.logoMode === "none"
+      ? "none"
+      : resolveLogoVariant(state.logoMode, { preferMark: autoMarkLogo }) ===
+          "mark"
+        ? "mark"
+        : "lockup";
   const compactLocalLabel =
     showCanvasLogo(state.logoMode) &&
     state.showUrl &&
@@ -591,10 +594,18 @@ function QrCardPageContent() {
                           className={cn("flex flex-col", isSquare ? "mb-1 gap-0.5" : "mb-2")}
                           style={{ alignItems: flexAlign, justifyContent: brandJustify }}
                         >
-                          <BrandLogo
-                            size="sm"
-                            variantOverride={logoVariant}
+                          <LogoContainer
                             backgroundColor={state.primaryColor}
+                            logoMode={canvasLogoMode}
+                            bounds={{
+                              maxWidthCqw: isCompact ? 36 : 42,
+                              align:
+                                tokens.alignmentBias === "center"
+                                  ? "center"
+                                  : tokens.alignmentBias === "asymmetric"
+                                    ? "end"
+                                    : "start",
+                            }}
                           />
                           {useHeaderBranding && state.showLocalNumber ? (
                             <p

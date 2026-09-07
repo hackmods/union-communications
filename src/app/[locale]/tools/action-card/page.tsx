@@ -14,7 +14,7 @@ import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { listSavedLinks } from "@/lib/utils/local-links";
-import { CanvasWrapper } from "@/components/canvas-core";
+import { CanvasWrapper, LogoContainer } from "@/components/canvas-core";
 import {
   DEFAULT_QR_CARD_SIZE,
   QR_CARD_SIZE_ORDER,
@@ -29,7 +29,6 @@ import {
 } from "@/lib/constants/action-card-presets";
 import type { QrCardBgMode } from "@/lib/constants/qr-card-presets";
 import { PageShell } from "@/components/layout/PageShell";
-import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -257,9 +256,13 @@ function ActionCardPageContent() {
     state.sizeId === "square4" ||
     state.sizeId === "square5" ||
     state.sizeId === "quarter";
-  const logoVariant = resolveLogoVariant(state.logoMode, {
-    preferMark: autoMarkLogo,
-  });
+  const canvasLogoMode =
+    state.logoMode === "none"
+      ? "none"
+      : resolveLogoVariant(state.logoMode, { preferMark: autoMarkLogo }) ===
+          "mark"
+        ? "mark"
+        : "lockup";
   const compactLocalLabel =
     showCanvasLogo(state.logoMode) &&
     state.showUrl &&
@@ -566,10 +569,18 @@ function ActionCardPageContent() {
                           className="mb-2 flex"
                           style={{ justifyContent: brandJustify }}
                         >
-                          <BrandLogo
-                            size="sm"
-                            variantOverride={logoVariant}
+                          <LogoContainer
                             backgroundColor={state.primaryColor}
+                            logoMode={canvasLogoMode}
+                            bounds={{
+                              maxWidthCqw: isCompact ? 36 : 42,
+                              align:
+                                tokens.alignmentBias === "center"
+                                  ? "center"
+                                  : tokens.alignmentBias === "asymmetric"
+                                    ? "end"
+                                    : "start",
+                            }}
                           />
                         </div>
                       ) : null}

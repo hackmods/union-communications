@@ -37,7 +37,7 @@ import {
   type PosterFormatId,
   type SolidarityPosterFormat,
 } from "@/lib/constants/solidarity-poster-formats";
-import { BrandLogo } from "@/components/brand/BrandLogo";
+import { LogoContainer } from "@/components/canvas-core";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -53,7 +53,6 @@ import {
   INITIAL_LOGO_MODE,
   defaultLogoMode,
   defaultShowLocalNumber,
-  resolveLogoVariant,
   showCanvasLogo,
 } from "@/lib/comms/canvas-logo-mode";
 import { inkWithAlpha, mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
@@ -254,7 +253,7 @@ export default function SolidarityPosterPage() {
   const showLogo =
     showCanvasLogo(state.logoMode) &&
     (state.layout === "stack" || state.layout === "banner");
-  const logoVariant = resolveLogoVariant(state.logoMode);
+  const canvasLogoMode = state.logoMode;
   const lines = headlineLines(state.headline);
   const chrome = layoutChrome(format);
   const isLandscape = chrome.isLandscape;
@@ -480,11 +479,10 @@ export default function SolidarityPosterPage() {
             <div className="relative z-[3] flex shrink-0 flex-col gap-2">
               {showLogo ? (
                 <div className="flex w-full justify-center">
-                  <BrandLogo
-                    size="sm"
-                    variantOverride={logoVariant}
+                  <LogoContainer
                     backgroundColor={state.primaryColor}
-                    className="max-w-[55%] shrink"
+                    logoMode={canvasLogoMode}
+                    bounds={{ maxWidthCqw: 55, align: "center" }}
                   />
                 </div>
               ) : null}
@@ -604,11 +602,11 @@ export default function SolidarityPosterPage() {
               }}
             >
               {showLogo ? (
-                <BrandLogo
-                  size="sm"
-                  variantOverride={logoVariant}
+                <LogoContainer
                   backgroundColor={bannerBarBg}
-                  className="max-w-[40%] shrink"
+                  logoMode={canvasLogoMode}
+                  bounds={{ maxWidthCqw: 40, align: "start" }}
+                  className="shrink"
                 />
               ) : null}
               <p

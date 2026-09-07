@@ -36,6 +36,7 @@ import {
 } from "@/lib/comms/canvas-logo-mode";
 import {
   BOARD_NOTICE_FORMATS,
+  BOARD_NOTICE_FORMAT_ORDER,
   boardNoticeExportPixelRatio,
   boardNoticePreviewHeightPx,
   type BoardNoticeFormatId,
@@ -241,10 +242,15 @@ export default function BoardNoticePage() {
               <SegControl
                 label={t("format")}
                 value={format}
-                options={[
-                  { value: "letter" as const, label: t("formatLetter") },
-                  { value: "tabloid" as const, label: t("formatTabloid") },
-                ]}
+                options={BOARD_NOTICE_FORMAT_ORDER.map((id) => ({
+                  value: id,
+                  label:
+                    id === "letter"
+                      ? t("formatLetter")
+                      : id === "tabloid"
+                        ? t("formatTabloid")
+                        : t("formatA4"),
+                }))}
                 onChange={setFormat}
               />
               <CanvasBrandingControls

@@ -7,6 +7,11 @@ import {
 import { PRINT_PAGE_TARGET_WIDTH_PX } from "@/lib/comms/print-page-formats";
 
 describe("board-notice-formats", () => {
+  it("registers A4 beside letter and tabloid", () => {
+    expect(BOARD_NOTICE_FORMATS.a4.previewWidthPx).toBeGreaterThan(700);
+    expect(BOARD_NOTICE_FORMATS.a4.widthInches).toBeCloseTo(210 / 25.4, 3);
+  });
+
   it("uses ~100 px/in letter design width for denser export", () => {
     expect(BOARD_NOTICE_FORMATS.letter.previewWidthPx).toBe(850);
     expect(boardNoticePreviewHeightPx(BOARD_NOTICE_FORMATS.letter)).toBe(1100);
