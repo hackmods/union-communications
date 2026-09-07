@@ -7396,7 +7396,7 @@
       },
       "canvas-core-print-fit": {
         "title": "Flyer and print sheets fill the preview",
-        "body": "Letter and tabloid flyers, board notices, and posters now scale to your screen, keep the logo in proportion across paper sizes, and export sharper print PNGs. Flyer Maker and Board Notice also offer A4."
+        "body": "Letter and tabloid flyers, board notices, and posters now scale to your screen, keep the logo in proportion across paper sizes, and export sharper print PNGs. Board Notice packs date, time, location, and contact without clipping, and Flyer Maker and Board Notice also offer A4."
       },
       "flyer-walkabout-fit": {
         "title": "Walkabout flyers stay readable",

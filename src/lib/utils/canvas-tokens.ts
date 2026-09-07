@@ -336,6 +336,44 @@ export function printPageScaledTokens(
 /** @deprecated Prefer printPageScaledTokens */
 export const boardNoticeScaledTokens = printPageScaledTokens;
 
+/**
+ * Date / time / location / contact on letter+ sheets.
+ * After denser design widths (~850px), `subtitleFontSizePx` tracks display scale
+ * and is far too large for meta — cap to ~2.6% of canvas width.
+ */
+export function printPageMetaFontSizePx(
+  designWidthPx: number,
+  scaledSubtitleFontSizePx: number,
+): number {
+  const widthCap = Math.round(designWidthPx * 0.026);
+  const subtitleCap = Math.round(scaledSubtitleFontSizePx * 0.5);
+  return Math.min(22, Math.max(13, Math.min(widthCap, subtitleCap)));
+}
+
+/** Content inset for print pages — keep ≤ ~7% of design width. */
+export function printPageInsetPx(
+  scaledPaddingPx: number,
+  designWidthPx: number,
+  maxShare = 0.07,
+): number {
+  return Math.max(
+    16,
+    Math.min(scaledPaddingPx, Math.round(designWidthPx * maxShare)),
+  );
+}
+
+/** Stack gap for print pages — keep ≤ ~3% of design width. */
+export function printPageGapPx(
+  scaledGapPx: number,
+  designWidthPx: number,
+  maxShare = 0.03,
+): number {
+  return Math.max(
+    8,
+    Math.min(scaledGapPx, Math.round(designWidthPx * maxShare)),
+  );
+}
+
 /** Content inset from Brand Kit density / padding tokens. */
 export function contentPaddingPx(
   tokens: CanvasTokens,

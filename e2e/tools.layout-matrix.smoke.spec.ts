@@ -560,6 +560,38 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       await measureTypeMetaOverlap(page),
       "board-notice-type-meta",
     );
+    const root = page.locator("[data-export-root]");
+    await expect(root.getByText(/GENERAL MEMBERSHIP MEETING/i)).toBeVisible();
+    await expect(
+      root.getByText(/All members are invited to attend/i),
+    ).toBeVisible();
+    await expect(root.getByText(/Union office, Room S206/i)).toBeVisible();
+    await expect(
+      root.getByText(/Questions\? Email your steward or local executive/i),
+    ).toBeVisible();
+
+    const contactInBounds = await page.evaluate(() => {
+      const exportRoot = document.querySelector("[data-export-root]");
+      const meta = exportRoot?.querySelector("[data-canvas-meta]");
+      if (!exportRoot || !meta) return { ok: false, reason: "missing nodes" };
+      const rootBox = exportRoot.getBoundingClientRect();
+      const metaBox = meta.getBoundingClientRect();
+      const pad = 1;
+      if (metaBox.bottom > rootBox.bottom + pad) {
+        return {
+          ok: false,
+          reason: `meta bottom ${metaBox.bottom} past root ${rootBox.bottom}`,
+        };
+      }
+      if (metaBox.left < rootBox.left - pad) {
+        return {
+          ok: false,
+          reason: `meta left ${metaBox.left} before root ${rootBox.left}`,
+        };
+      }
+      return { ok: true, reason: "" };
+    });
+    expect(contactInBounds.ok, contactInBounds.reason).toBe(true);
   });
 
   test("board notice stack survives long steward copy without type/meta overlap", async ({

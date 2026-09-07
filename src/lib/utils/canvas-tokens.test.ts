@@ -11,6 +11,9 @@ import {
   resolveCanvasTokens,
   boardNoticeScaledTokens,
   printPageScaledTokens,
+  printPageMetaFontSizePx,
+  printPageInsetPx,
+  printPageGapPx,
   typeScaleFactor,
   walletBodyFontSizePx,
   walletContentGapPx,
@@ -404,6 +407,20 @@ describe("officeMockPaddingPx", () => {
     );
     expect(scaled.paddingPx).toBeGreaterThanOrEqual(16);
     expect(boardNoticeScaledTokens(base, 850, 306)).toEqual(scaled);
+  });
+
+  it("printPage meta/inset stay supporting on denser letter canvases", () => {
+    const base = resolveCanvasTokens(normalizeBrandKit(DEFAULT_BRAND_KIT));
+    const scaled = printPageScaledTokens(base, 850, 306);
+    const meta = printPageMetaFontSizePx(850, scaled.subtitleFontSizePx);
+    expect(meta).toBeLessThanOrEqual(22);
+    expect(meta).toBeLessThan(scaled.subtitleFontSizePx);
+    expect(printPageInsetPx(scaled.paddingPx, 850)).toBeLessThanOrEqual(
+      Math.round(850 * 0.07),
+    );
+    expect(printPageGapPx(scaled.gapPx, 850)).toBeLessThanOrEqual(
+      Math.round(850 * 0.03),
+    );
   });
 });
 
