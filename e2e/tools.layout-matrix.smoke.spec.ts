@@ -111,6 +111,26 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       await measurePreviewFit(page),
       "flyer-walkabout",
     );
+    const root = page.locator("[data-export-root]");
+    await expect(root.getByText(/UNION WALKABOUT/i)).toBeVisible();
+    await expect(root.getByText(/Meet your stewards/i)).toBeVisible();
+    await expect(root.getByText(/Your department/i)).toBeVisible();
+  });
+
+  test("flyer meeting stack keeps supporting details readable", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/flyer-maker/?preset=meeting");
+    await expectLayoutRadio(page, FLYER_LAYOUT_RADIO.stack);
+    await waitForQrPreview(page);
+    expectTypeMetaClear(
+      await measureTypeMetaOverlap(page),
+      "flyer-meeting-type/meta",
+    );
+    const root = page.locator("[data-export-root]");
+    await expect(root.getByText(/General Membership Meeting/i)).toBeVisible();
+    await expect(root.getByText(/All members welcome/i)).toBeVisible();
   });
 
   test("flyer letter stays uncropped at phone width", async ({ page }) => {

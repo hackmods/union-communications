@@ -7394,7 +7394,7 @@
       },
       "flyer-walkabout-fit": {
         "title": "Walkabout flyers stay readable",
-        "body": "On Flyer Maker, the walkabout handbill keeps the headline, details, and QR from stacking on each other, and opening the tool matches the Picket line starter."
+        "body": "Walkabout handbills now keep the headline and supporting details on the page, and the full location line — not a clipped word beside the QR."
       },
       "solidarity-poster-type-fit": {
         "title": "Solidarity posters stay readable",

@@ -16,7 +16,7 @@ import { meetsWcagAA } from "@/lib/utils/contrast";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import { printPageScaledTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
-import { cn } from "@/lib/utils";
+import { cn, resolveLocalNumber } from "@/lib/utils";
 
 export interface FlyerLayoutCopy {
   message: string;
@@ -79,7 +79,7 @@ function MetaBlock({
   fontSize,
   gap,
   className,
-  /** When false, body is omitted (e.g. split layout puts body in fitted subtitle). */
+  /** When false, body is omitted (e.g. fitted into CanvasTypeBlock subtitle). */
   includeBody = true,
 }: {
   copy: FlyerLayoutCopy;
@@ -107,10 +107,13 @@ function MetaBlock({
       style={{
         color: ink,
         fontSize,
-        lineHeight: 1.45,
+        lineHeight: 1.35,
         display: "flex",
         flexDirection: "column",
         gap,
+        // Never clip mid-word — half-letter walkabout used to show "Your" alone.
+        overflowWrap: "anywhere",
+        wordBreak: "break-word",
       }}
     >
       {body ? <p style={{ margin: 0 }}>{body}</p> : null}
@@ -129,16 +132,18 @@ function QrFooter({
   qrSrc,
   accentColor,
   widthPercent = 28,
+  maxWidthPx = 140,
 }: {
   tokens: CanvasTokens;
   qrSrc: string;
   accentColor?: string;
   widthPercent?: number;
+  maxWidthPx?: number;
 }) {
   return (
     <div
       className="relative z-[2] shrink-0 self-center"
-      style={{ width: `${widthPercent}%`, maxWidth: 140 }}
+      style={{ width: `${widthPercent}%`, maxWidth: maxWidthPx }}
     >
       <CanvasQrPlate
         tokens={tokens}
@@ -194,6 +199,11 @@ export function FlyerLayoutCanvas({
   );
   const metaSize = scaledTokens.subtitleFontSizePx + 4;
   const qrVisible = Boolean(showQr && qrSrc);
+  const bodyText = copy.body.trim();
+  const resolvedLocal = resolveLocalNumber(localNumber);
+  const localLine = subText
+    ? `Local ${resolvedLocal} - ${subText}`
+    : `Local ${resolvedLocal}`;
 
   const canvasBoxStyle: CSSProperties = {
     width: designWidthPx,
@@ -245,13 +255,14 @@ export function FlyerLayoutCanvas({
       >
         <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
         <div
-          className="relative z-[2] flex shrink-0 flex-col"
+          className="relative z-[2] flex min-h-0 shrink-0 flex-col"
           style={{
             backgroundColor: colours.secondary,
             color: bandInk,
             fontFamily: scaledTokens.bodyFontFamily,
             padding: scaledTokens.paddingPx,
             gap: scaledTokens.gapPx,
+            maxHeight: "48%",
           }}
         >
           <CanvasBrandHeader
@@ -261,21 +272,24 @@ export function FlyerLayoutCanvas({
             fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
+            logoSize="sm"
+            className="max-w-full shrink-0 overflow-hidden"
           />
-          <div className="max-h-[42%] min-h-0 w-full overflow-hidden">
+          <div className="min-h-0 w-full flex-1 overflow-hidden">
             <CanvasTypeBlock
-            fit
-            tokens={{
-              ...scaledTokens,
-              alignmentBias: "center",
-            }}
-            title={copy.message}
-            ink={bandInk}
-            accentColor={
-              meetsWcagAA(colours.accent, colours.secondary, true)
-                ? colours.accent
-                : undefined
-            }
+              fit
+              tokens={{
+                ...scaledTokens,
+                alignmentBias: "center",
+              }}
+              title={copy.message}
+              subtitle={bodyText || undefined}
+              ink={bandInk}
+              accentColor={
+                meetsWcagAA(colours.accent, colours.secondary, true)
+                  ? colours.accent
+                  : undefined
+              }
             />
           </div>
         </div>
@@ -293,6 +307,7 @@ export function FlyerLayoutCanvas({
             ink={panelInk}
             fontSize={metaSize}
             gap={scaledTokens.gapPx}
+            includeBody={false}
           />
           {qrVisible && qrSrc ? (
             <QrFooter
@@ -343,7 +358,7 @@ export function FlyerLayoutCanvas({
           )}
         </div>
         <div
-          className="relative z-[2] flex min-h-0 flex-1 flex-col justify-between"
+          className="relative z-[2] flex min-h-0 flex-1 flex-col"
           style={{ gap: scaledTokens.gapPx }}
         >
           <CanvasBrandHeader
@@ -353,37 +368,51 @@ export function FlyerLayoutCanvas({
             fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
+            logoSize="sm"
+            className="max-w-full shrink-0 overflow-hidden"
           />
-          <CanvasStackSlot>
+          <CanvasStackSlot className="min-h-[32%]">
             <CanvasTypeBlock
               fit
               tokens={scaledTokens}
               title={copy.message}
+              subtitle={bodyText || undefined}
               ink={ink}
               accentColor={accent}
             />
           </CanvasStackSlot>
-          <MetaBlock
-            copy={copy}
-            ink={ink}
-            fontSize={metaSize}
-            gap={scaledTokens.gapPx}
-          />
-          {qrVisible && qrSrc ? (
-            <QrFooter
-              tokens={scaledTokens}
-              qrSrc={qrSrc}
-              accentColor={colours.accent}
+          <div
+            className="relative z-[2] flex shrink-0 flex-col"
+            style={{ gap: scaledTokens.gapPx }}
+          >
+            <MetaBlock
+              copy={copy}
+              ink={ink}
+              fontSize={metaSize}
+              gap={scaledTokens.gapPx}
+              includeBody={false}
             />
-          ) : null}
+            {qrVisible && qrSrc ? (
+              <QrFooter
+                tokens={scaledTokens}
+                qrSrc={qrSrc}
+                accentColor={colours.accent}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
     );
   }
 
   if (layout === "split") {
-    // Half-letter / narrow sheets: sm lockup so bilingual marks fit the content width.
+    // Half-letter walkabout: lockup + local label used to eat the type budget
+    // so the headline squashed and body/meta clipped ("Your"). Logo only in
+    // header; local line lives with meta; type slot gets the remaining height.
     const narrowSheet = designWidthPx < referenceWidthPx * 0.85;
+    const footerMetaSize = narrowSheet
+      ? Math.max(9, metaSize - 2)
+      : metaSize;
     return (
       <div
         ref={canvasRef}
@@ -397,7 +426,7 @@ export function FlyerLayoutCanvas({
       >
         <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
         <div
-          className="relative z-[2] flex min-h-0 flex-[1.2] flex-col overflow-hidden"
+          className="relative z-[2] flex min-h-0 flex-1 flex-col overflow-hidden"
           style={{ gap: scaledTokens.gapPx }}
         >
           <CanvasBrandHeader
@@ -406,52 +435,56 @@ export function FlyerLayoutCanvas({
             subText={subText}
             fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
-            showLocalLabel={showLocalLabel}
-            logoSize={narrowSheet ? "sm" : "md"}
-            className="max-w-full shrink-0 overflow-hidden"
+            showLocalLabel={false}
+            logoSize="sm"
+            className="max-w-[70%] shrink-0 overflow-hidden"
           />
-          <CanvasStackSlot>
+          <CanvasStackSlot className="min-h-[42%] justify-start">
             <CanvasTypeBlock
               fit
               tokens={scaledTokens}
               title={copy.message}
-              subtitle={copy.body}
+              subtitle={bodyText || undefined}
               ink={ink}
               accentColor={accent}
             />
           </CanvasStackSlot>
         </div>
         <div
-          className="relative z-[2] flex min-h-0 flex-1 flex-col justify-end overflow-hidden"
-          style={{ gap: scaledTokens.gapPx }}
+          className="relative z-[2] flex shrink-0 flex-col"
+          style={{ gap: Math.max(4, scaledTokens.gapPx - 2) }}
         >
-          {photoUrl ? (
-            <div
-              className="relative w-full shrink-0 overflow-hidden"
-              style={{ flex: "0 0 22%", minHeight: 48, maxHeight: "28%" }}
-            >
-              <CanvasDuotonePhoto
-                photoUrl={photoUrl}
-                shadowColor={colours.primary}
-                highlightColor={colours.accent}
-                highlightOpacity={scaledTokens.duotoneHighlightOpacity}
-                photoScale={photoScale}
-              />
-            </div>
-          ) : null}
           <MetaBlock
             copy={copy}
             ink={ink}
-            fontSize={metaSize}
-            gap={Math.max(4, scaledTokens.gapPx - 4)}
+            fontSize={footerMetaSize}
+            gap={Math.max(3, scaledTokens.gapPx - 4)}
             includeBody={false}
-            className="min-h-0 min-w-0 shrink overflow-hidden"
           />
+          {showLocalLabel ? (
+            <p
+              data-canvas-meta=""
+              className="font-bold uppercase tracking-wide"
+              style={{
+                color: ink,
+                fontSize: Math.max(8, footerMetaSize - 1),
+                lineHeight: 1.2,
+                margin: 0,
+                opacity: 0.85,
+                fontFamily: scaledTokens.bodyFontFamily,
+                overflowWrap: "anywhere",
+              }}
+            >
+              {localLine}
+            </p>
+          ) : null}
           {qrVisible && qrSrc ? (
             <QrFooter
               tokens={scaledTokens}
               qrSrc={qrSrc}
               accentColor={colours.accent}
+              widthPercent={narrowSheet ? 24 : 28}
+              maxWidthPx={narrowSheet ? 64 : 140}
             />
           ) : null}
         </div>
@@ -459,13 +492,13 @@ export function FlyerLayoutCanvas({
     );
   }
 
-  /* stack — legacy default */
+  /* stack — letter meeting / rally */
   return (
     <div
       ref={canvasRef}
-        data-export-root=""
+      data-export-root=""
       className={cn(
-        "relative flex shrink-0 flex-col justify-between overflow-hidden",
+        "relative flex shrink-0 flex-col overflow-hidden",
         aspectClass,
         className,
       )}
@@ -479,18 +512,21 @@ export function FlyerLayoutCanvas({
         fontFamily={scaledTokens.bodyFontFamily}
         logoMode={logoMode}
         showLocalLabel={showLocalLabel}
+        logoSize="sm"
+        className="max-w-full shrink-0 overflow-hidden"
       />
-      <CanvasStackSlot>
+      <CanvasStackSlot className="min-h-[36%]">
         <CanvasTypeBlock
           fit
           tokens={scaledTokens}
           title={copy.message}
+          subtitle={bodyText || undefined}
           ink={ink}
           accentColor={accent}
         />
       </CanvasStackSlot>
       <div
-        className="relative z-[2] shrink-0 flex flex-col"
+        className="relative z-[2] flex shrink-0 flex-col"
         style={{ gap: scaledTokens.gapPx }}
       >
         <MetaBlock
@@ -498,6 +534,7 @@ export function FlyerLayoutCanvas({
           ink={ink}
           fontSize={metaSize}
           gap={scaledTokens.gapPx}
+          includeBody={false}
         />
         {qrVisible && qrSrc ? (
           <QrFooter

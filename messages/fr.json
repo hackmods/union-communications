@@ -7343,7 +7343,7 @@
       },
       "flyer-walkabout-fit": {
         "title": "Les tracts de tournée restent lisibles",
-        "body": "Dans le Créateur de tracts, le tract de tournée garde le titre, les détails et le QR sans les superposer, et l'ouverture de l'outil correspond au départ Piquet."
+        "body": "Les tracts de tournée gardent maintenant le titre et les détails sur la page, ainsi que la ligne de lieu au complet — pas un mot coupé à côté du QR."
       },
       "solidarity-poster-type-fit": {
         "title": "Les affiches de solidarité restent lisibles",
