@@ -2,19 +2,23 @@
 
 import { useTranslations } from "next-intl";
 import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
-import { isMemoryCaseDataActive } from "@/lib/db/backend";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
+
+type Props = {
+  /** Server-computed — client bundles cannot read `*_DB_BACKEND` env. */
+  active: boolean;
+};
 
 /**
  * Persistent warning while confidential case data still uses in-memory adapters
  * (SEC-003). Hidden only when all backends are postgres.
  */
-export function MemoryDataBanner() {
+export function MemoryDataBanner({ active }: Props) {
   const { authenticated } = useHubAuthenticated();
   const t = useTranslations("hub");
 
-  if (!isMemoryCaseDataActive() || !authenticated) return null;
+  if (!active || !authenticated) return null;
 
   return (
     <div
