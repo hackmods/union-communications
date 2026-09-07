@@ -82,19 +82,29 @@ This repo includes [`captain-definition`](../../captain-definition) pointing at 
 | `AUTH_ALLOW_SHARED_MFA_IN_PROD` | `true` only for workshop/demo hosts using shared code |
 | `AUTH_MFA_CODE` | 6-digit code when using shared_code mode |
 
-Optional transactional SMTP (invites / officer reminders / RSVP confirm — ADR-016):
+Optional transactional email (invites / officer reminders / RSVP confirm — ADR-016):
 
 | Variable | Example |
 |----------|---------|
 | `EMAIL_ENABLED` | `true` (required to send; otherwise APIs return `not_configured`) |
 | `NEXT_PUBLIC_EMAIL_ENABLED` | `true` (Hub Invites “Send email” button; bake at **build** time) |
-| `SMTP_HOST` | `smtp.mailgun.org` (EU: `smtp.eu.mailgun.org`) |
-| `SMTP_PORT` | `587` (or `465`) |
-| `SMTP_USER` | Mailgun **SMTP** login (often `postmaster@mg.your-domain`) — not the HTTP API key |
-| `SMTP_PASS` | Mailgun **SMTP** password from Domain settings → SMTP credentials |
 | `EMAIL_FROM` | `UnionOps <noreply@your-verified-domain>` (must match a Mailgun-verified domain) |
+| `MAILGUN_API_KEY` | Mailgun **Private API key** (Sending → API Security) — **required on DigitalOcean** |
+| `MAILGUN_DOMAIN` | Verified sending domain (e.g. `unionops.org` or `mg.unionops.org`) |
+| `MAILGUN_API_REGION` | `us` (default) or `eu` |
 
-Mailgun’s HTTP Private API key is **not** used here — UnionOps sends via SMTP (`nodemailer`). If reset / magic-link hang then 504, CapRover cannot reach the SMTP host (wrong region host, outbound 587 blocked, or bad SMTP user/pass).
+**DigitalOcean CapRover:** outbound SMTP on **25 / 465 / 587 is blocked** (CONN `ETIMEDOUT`). Do **not** rely on `SMTP_*` there — set `MAILGUN_API_KEY` + `MAILGUN_DOMAIN` so UnionOps sends over HTTPS (`api.mailgun.net`). Confirm with `GET /api/auth/email-status/` → `smtp.preferredTransport: "mailgun_api"`.
+
+Optional SMTP (non-DO hosts, or Mailgun port **2525** if your network allows it):
+
+| Variable | Example |
+|----------|---------|
+| `SMTP_HOST` | `smtp.mailgun.org` (EU: `smtp.eu.mailgun.org`) |
+| `SMTP_PORT` | `2525` preferred when 465/587 are blocked; else `587` |
+| `SMTP_USER` | Mailgun SMTP login (often `postmaster@mg.your-domain`) |
+| `SMTP_PASS` | Mailgun SMTP password from Domain → SMTP credentials |
+
+When `MAILGUN_API_KEY` is set it takes priority over SMTP. On SMTP CONN timeout to 465/587 the app retries port 2525 once, then surfaces a DigitalOcean hint.
 
 Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_*` is inlined by Next.js). Prefer editing `config/host-brand.json` (or `npm run brand:set`) before `docker build` when you want a white-label host without env sprawl:
 
