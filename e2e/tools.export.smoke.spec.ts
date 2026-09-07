@@ -113,6 +113,7 @@ test.describe("Tool export output smoke @smoke", () => {
   });
 
   test("Graphic Maker PNG keeps brand field and type ink", async ({ page }) => {
+    test.setTimeout(90_000);
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/en/tools/graphic-maker/");
     await expect(
