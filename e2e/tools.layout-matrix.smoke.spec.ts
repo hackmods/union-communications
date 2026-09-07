@@ -11,11 +11,13 @@ import {
 } from "../src/lib/comms/layout-class-matrix";
 import { seedCanvasFonts } from "./helpers/canvas-fonts";
 import {
+  expectCanvasProportions,
   expectLeadReadable,
   expectPlateGeometry,
   expectPreviewFitsColumn,
   expectTypeMetaClear,
   expectUrlLayout,
+  measureCanvasProportions,
   measureLeadReadable,
   measureLeadTypeOverlap,
   measurePlateFill,
@@ -137,6 +139,13 @@ test.describe("Canvas layout-class matrix @smoke", () => {
         expect(fill.imgCount, id).toBe(0);
       }
       expectPreviewFitsColumn(await measurePreviewFit(page), id);
+      if (id === "picket" || id === "rally") {
+        const props = await measureCanvasProportions(page);
+        expectCanvasProportions(props, {
+          label: `flyer-${id}-logo`,
+          maxLogoPct: 42,
+        });
+      }
       await expectExportCopy(page, [copy.headline, copy.body], `flyer-${id}`);
       if (id === "picket" || id === "rally" || id === "walkabout") {
         expectTypeMetaClear(
@@ -145,6 +154,40 @@ test.describe("Canvas layout-class matrix @smoke", () => {
         );
       }
     }
+  });
+
+  test("flyer logo share stays stable across paper sizes", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/flyer-maker/?preset=rally");
+    await expect(
+      page.getByRole("heading", { name: "Picket / Rally Flyer Maker" }),
+    ).toBeVisible();
+    await waitForQrPreview(page);
+
+    const sizes = [
+      { name: "Letter (8.5×11)", id: "letter" },
+      { name: "Half letter (5.5×8.5)", id: "halfLetter" },
+      { name: "Tabloid (11×17)", id: "tabloid" },
+    ] as const;
+    const logoPcts: number[] = [];
+    for (const size of sizes) {
+      await openLayoutSection(page);
+      await page
+        .getByRole("radiogroup", { name: /^Paper size$/i })
+        .getByRole("radio", { name: size.name, exact: true })
+        .click();
+      await waitForQrPreview(page);
+      const props = await measureCanvasProportions(page);
+      expectCanvasProportions(props, {
+        label: `flyer-${size.id}`,
+        maxLogoPct: 42,
+      });
+      logoPcts.push(props.logoPct);
+    }
+    const spread = Math.max(...logoPcts) - Math.min(...logoPcts);
+    expect(spread, "logo% spread across paper sizes").toBeLessThanOrEqual(12);
   });
 
   test("flyer cold load matches Picket line starter", async ({ page }) => {

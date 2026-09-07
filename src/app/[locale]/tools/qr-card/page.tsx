@@ -17,7 +17,7 @@ import {
   listSavedLinks,
   resolvePresetDestination,
 } from "@/lib/utils/local-links";
-import { FitWidthFrame } from "@/components/tools/FitWidthFrame";
+import { CanvasWrapper } from "@/components/canvas-core";
 import {
   DEFAULT_QR_CARD_SIZE,
   QR_CARD_SIZE_ORDER,
@@ -543,9 +543,11 @@ function QrCardPageContent() {
           <div className="rounded-lg border border-gray-200 bg-gray-100/80 p-4 md:p-6">
             {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
             <div className="overflow-hidden rounded-lg shadow-lg">
-              <FitWidthFrame
+              <CanvasWrapper
                 designWidth={designWidth}
                 designHeight={designHeight}
+                mode="fixed"
+                maxScale={2}
               >
                 <div
                   ref={canvasRef}
@@ -743,7 +745,7 @@ function QrCardPageContent() {
                     ) : null}
                   </div>
                 </div>
-              </FitWidthFrame>
+              </CanvasWrapper>
             </div>
           </div>
           <p className="mt-3 text-center text-xs text-gray-500">

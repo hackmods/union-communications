@@ -105,7 +105,10 @@ describe("qr-board-formats", () => {
       logoMode: "none" as const,
     });
     expect(withBrand.useMarkLogo).toBe(true);
-    expect(withBrand.headerBudgetPx).toBeLessThan(100);
+    // Header stays a thin band relative to the denser design canvas (~100 px/in).
+    expect(withBrand.headerBudgetPx).toBeLessThan(
+      QR_BOARD_FORMATS.letter.previewWidthPx * 0.3,
+    );
     expect(withBrand.platePx).toBeGreaterThanOrEqual(80);
     expect(noBrand.platePx).toBeGreaterThanOrEqual(withBrand.platePx);
   });

@@ -1,32 +1,44 @@
 import { describe, expect, it } from "vitest";
 import {
+  PRINT_PAGE_LEGACY_REFERENCE_PX,
   PRINT_PAGE_PX_PER_INCH,
+  PRINT_PAGE_TARGET_WIDTH_PX,
   printPageExportPixelRatio,
   printPagePreviewHeightPx,
   printPagePreviewWidthPx,
 } from "./print-page-formats";
 
 describe("print-page-formats", () => {
-  it("uses ~36 px/in for letter preview width", () => {
-    expect(PRINT_PAGE_PX_PER_INCH).toBe(36);
-    expect(printPagePreviewWidthPx(8.5)).toBe(306);
+  it("uses ~100 px/in so letter design width supports dense export", () => {
+    expect(PRINT_PAGE_PX_PER_INCH).toBe(100);
+    expect(printPagePreviewWidthPx(8.5)).toBe(850);
+    expect(PRINT_PAGE_LEGACY_REFERENCE_PX).toBe(306);
   });
 
   it("derives preview height from aspect ratio", () => {
     const letter = {
-      previewWidthPx: 306,
+      previewWidthPx: 850,
       widthInches: 8.5,
       heightInches: 11,
     };
-    expect(printPagePreviewHeightPx(letter)).toBe(396);
+    expect(printPagePreviewHeightPx(letter)).toBe(1100);
   });
 
-  it("caps export pixel ratio between 2 and 4", () => {
+  it("hits ~200 DPI letter target without OOM-tier magnification", () => {
+    const ratio = printPageExportPixelRatio({
+      previewWidthPx: 850,
+      widthInches: 8.5,
+    });
+    expect(ratio).toBe(2);
+    expect(850 * ratio).toBe(PRINT_PAGE_TARGET_WIDTH_PX);
+  });
+
+  it("still caps extreme ratios", () => {
     expect(
       printPageExportPixelRatio({
-        previewWidthPx: 306,
+        previewWidthPx: 100,
         widthInches: 8.5,
       }),
-    ).toBe(4);
+    ).toBe(6);
   });
 });

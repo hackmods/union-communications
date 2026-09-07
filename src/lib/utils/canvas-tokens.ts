@@ -314,9 +314,11 @@ export function printPageScaledTokens(
   designWidthPx: number,
   referenceWidthPx: number,
 ): CanvasTokens {
+  // Cap raised above 1.12 so denser design canvases (~100 px/in) keep type
+  // proportional to the sheet (legacy letter was 306px).
   const ratio = Math.min(
-    1.12,
-    Math.max(0.62, designWidthPx / referenceWidthPx),
+    3,
+    Math.max(0.5, designWidthPx / Math.max(1, referenceWidthPx)),
   );
   const display = typeScaleFactor(tokens);
   return {

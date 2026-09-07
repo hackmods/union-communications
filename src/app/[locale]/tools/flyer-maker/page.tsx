@@ -65,6 +65,8 @@ import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { FlyerLayoutCanvas } from "@/components/tools/flyer-layouts";
+import { CanvasWrapper } from "@/components/canvas-core";
+import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import {
   INITIAL_LOGO_MODE,
@@ -186,7 +188,8 @@ function FlyerMakerPageContent() {
   const format = FLYER_FORMATS[state.format];
   const designWidth = format.previewWidthPx;
   const designHeight = flyerPreviewHeightPx(format);
-  const referenceWidth = FLYER_FORMATS.letter.previewWidthPx;
+  // Legacy 306px letter baseline so type scales with denser design canvases.
+  const referenceWidth = PRINT_PAGE_LEGACY_REFERENCE_PX;
   const exportPixelRatio = flyerExportPixelRatio(format);
   const showPhoto = flyerLayoutSupportsPhoto(state.layout);
   const { exportError, exportSuccess, exporting, runExport } =
@@ -198,7 +201,10 @@ function FlyerMakerPageContent() {
     let cancelled = false;
     const timer = window.setTimeout(() => {
       const task = state.showQr
-        ? qrDataUrl(qrTarget || "https://unionops.org", { width: 140 })
+        ? qrDataUrl(qrTarget || "https://unionops.org", {
+            // Scale QR source with design width (~280 on letter @ 850px).
+            width: Math.max(140, Math.round(designWidth * 0.33)),
+          })
         : Promise.resolve(null);
       void task.then((url) => {
         if (!cancelled) setQrSrc(url);
@@ -208,7 +214,7 @@ function FlyerMakerPageContent() {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [state.showQr, qrTarget]);
+  }, [state.showQr, qrTarget, designWidth]);
 
   useExamplePostSeed((exampleId) => {
     const post = getExamplePost(exampleId);
@@ -657,7 +663,14 @@ function FlyerMakerPageContent() {
         }
         preview={
           /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
-          <div className="mx-auto w-full max-w-full shadow-lg">
+          <CanvasWrapper
+            designWidth={designWidth}
+            designHeight={designHeight}
+            mode="fixed"
+            maxScale={2}
+            align="center"
+            frameClassName="shadow-lg"
+          >
             <FlyerLayoutCanvas
               canvasRef={canvasRef}
               layout={state.layout}
@@ -692,7 +705,7 @@ function FlyerMakerPageContent() {
               logoMode={state.logoMode}
               showLocalLabel={state.showLocalNumber}
             />
-          </div>
+          </CanvasWrapper>
         }
       />
       <ConsentModal

@@ -73,7 +73,8 @@ import {
   CanvasSafeZoneOverlay,
   CanvasStackSlot,
 } from "@/components/tools/canvas";
-import { FitWidthFrame } from "@/components/tools/FitWidthFrame";
+import { CanvasWrapper } from "@/components/canvas-core";
+import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
 import {
   defaultEdgeClearanceForMedium,
   insetsForProfile,
@@ -258,8 +259,7 @@ export default function SolidarityPosterPage() {
   const chrome = layoutChrome(format);
   const isLandscape = chrome.isLandscape;
   const baseTokens = resolveCanvasTokens(brandKit);
-  const printReferenceWidth =
-    SOLIDARITY_POSTER_FORMATS.letter.previewWidthPx ?? 306;
+  const printReferenceWidth = PRINT_PAGE_LEGACY_REFERENCE_PX;
   const isPrintCanvas =
     format.medium === "print" && typeof format.previewWidthPx === "number";
   const designWidthPx = isPrintCanvas ? format.previewWidthPx! : undefined;
@@ -919,14 +919,16 @@ export default function SolidarityPosterPage() {
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
         <div className="relative w-full max-w-full">
           {isPrintCanvas && designWidthPx && designHeightPx ? (
-            <FitWidthFrame
+            <CanvasWrapper
               designWidth={designWidthPx}
               designHeight={designHeightPx}
+              mode="fixed"
+              maxScale={2}
               align="center"
               frameClassName="shadow-lg"
             >
               {posterCanvas}
-            </FitWidthFrame>
+            </CanvasWrapper>
           ) : (
             <div className="relative mx-auto w-full max-w-full shadow-lg">
               {posterCanvas}

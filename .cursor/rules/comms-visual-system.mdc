@@ -24,9 +24,10 @@ Companion to [`comms-module.mdc`](comms-module.mdc). Spec: [`docs/modules/COMMS_
 
 - Invent one-off white `#FFFFFF` QR plates when `CanvasQrPlate` exists
 - Load webfonts from a CDN (ADR-014 — chrome stays system; canvas faces via `next/font/local` only)
-- Collapse all tools into one layout engine
+- Invent a second geometry engine beside [`canvas-core`](canvas-core.mdc) / `CanvasWrapper`
 - Brand-tint QR modules without an explicit product ticket
 - Hardcode Arial / Impact on export roots when Brand Kit tokens exist
+- Put `maxWidth: 100%` on `[data-export-root]` with fixed height (aspect desync)
 
 ## Canvas layout geometry (2026-08-17)
 
@@ -35,9 +36,9 @@ Session: [`session-knowledge-2026-08-17-qr-canvas-layout.md`](../../docs/audit/s
 1. **Multi-QR / dense posters:** cap Brand Kit display `typeScale` in chrome helpers (`qrBoardChrome`). Do not apply Flyer/Graphic display titles to a letter grid.
 2. **Square QR plates:** explicit square box (`width` + `aspect-ratio: 1` or equal px wrapper). Never the same `%` on width and height. Never `max-h-full` + `object-contain` on the img inside a non-square plate — `CanvasQrPlate` must not set `maxHeight: 100%`.
 3. **Reference vs link wallet cards:** explicit px square wrapper **only** for reference presets (`referencePlatePx`). Link presets render `CanvasQrPlate` directly — a shared `%`-width wrapper breaks flex shrink.
-4. **Preview vs export:** scale the sheet with `transform` on a **parent** of `[data-export-root]` (`FitWidthFrame` in `src/components/tools/FitWidthFrame.tsx`). `capture.ts` strips transform on the clone. Do not shrink `maxWidth: 100%` and keep design-px type without scaling. Wallet Letter (QR Card / Action Card) uses the same wrapper; keep `wallet*` helpers on design `previewWidthPx`.
+4. **Preview vs export:** scale the sheet with `transform` on a **parent** of `[data-export-root]` (`CanvasWrapper` in `src/components/canvas-core/`). `capture.ts` strips transform on the clone. Do not shrink `maxWidth: 100%` and keep design-px type without scaling. Wallet Letter (QR Card / Action Card) uses the same wrapper; keep `wallet*` helpers on design `previewWidthPx`.
 5. **`includeBranding` after onboarding:** on-purpose (`themeEstablished`). Keep compact (header / mark logo on dense layouts; one truncated local-label line on wallet Letter). No second full-width footer band on multi-QR canvases.
 6. **Layout overlap tests:** clip `getBoundingClientRect()` URL boxes to `[data-qr-cell]` before overlap checks; `overflow: hidden` is not enough. Keep Playwright `evaluate()` math in sync with `canvas-layout-geometry.ts`.
 7. **Playwright QR waits:** poll `offsetWidth` / `naturalWidth`, not visual `getBoundingClientRect()` — parent preview scale shrinks painted size without failed render.
-8. **Do not port Board FitWidth / header branding to every tool** — only when a layout-class smoke row fails. Flyer/Graphic display type staying loud is intentional. Do not copy `qrBoardChrome` onto Solidarity / Flyer / Graphic.
+8. **Prefer `CanvasWrapper` for fixed print sheets** — parent of `[data-export-root]` with optional `maxScale` so previews can grow. Do not copy `qrBoardChrome` density caps onto Flyer / Graphic / Solidarity display type.
 9. **Square wallet sheets:** explicit design height on export root + copy column `min-h-0 overflow-hidden`; never center the whole flex stack on square link cards (B13). Use `qrCardPreviewHeightPx`.

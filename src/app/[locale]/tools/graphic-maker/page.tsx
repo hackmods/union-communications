@@ -11,7 +11,7 @@ import { useExportHandler } from "@/hooks/use-export-handler";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { cn, formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
 import {
   EXAMPLE_ASPECTS,
@@ -26,6 +26,8 @@ import {
   GraphicLayoutCanvas,
   type GraphicLayoutId,
 } from "@/components/tools/graphic-layouts";
+import { CanvasWrapper } from "@/components/canvas-core";
+import { exampleAspectDesignSize } from "@/lib/comms/canvas-aspects";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -111,7 +113,6 @@ function GraphicMakerPageContent() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
-  const [canvasSize, setCanvasSize] = useState<"preview" | "export">("preview");
   const presetApplied = useRef(false);
 
   const brandColors = {
@@ -268,23 +269,17 @@ function GraphicMakerPageContent() {
     setConsentOpen(false);
   };
 
+  const designSize = exampleAspectDesignSize(state.aspect);
+
   const handleExport = async () => {
     if (!canvasRef.current) return;
-    setCanvasSize("export");
-    await new Promise<void>((resolve) => {
-      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    await runExport(async () => {
+      await exportNodeAsPng(
+        canvasRef.current!,
+        formatFilename("graphic", brandKit.local.localNumber, "png"),
+        { pixelRatio: 2, backgroundColor: state.primaryColor },
+      );
     });
-    try {
-      await runExport(async () => {
-        await exportNodeAsPng(
-          canvasRef.current!,
-          formatFilename("graphic", brandKit.local.localNumber, "png"),
-          { pixelRatio: 2, backgroundColor: state.primaryColor },
-        );
-      });
-    } finally {
-      setCanvasSize("preview");
-    }
   };
 
   const showPhoto = layoutSupportsPhoto(state.layout);
@@ -495,39 +490,48 @@ function GraphicMakerPageContent() {
           </Button>
         }
         preview={
-          <div
-            className={cn(
-              "overflow-hidden rounded-lg shadow-lg",
-              state.aspect === "portrait" &&
-                "mx-auto w-full max-w-[280px] sm:max-w-[320px]",
-            )}
-          >
-            <div ref={canvasRef} data-export-root="">
-              <GraphicLayoutCanvas
-                layout={state.layout}
-                aspect={state.aspect}
-                copy={{
-                  headline: state.headline,
-                  body: state.subheadline,
-                  detail: state.detail || undefined,
-                  initials: state.initials,
+          <div className="overflow-hidden rounded-lg shadow-lg">
+            <CanvasWrapper
+              designWidth={designSize.width}
+              designHeight={designSize.height}
+              mode="fixed"
+              maxScale={1.25}
+              align="center"
+            >
+              <div
+                ref={canvasRef}
+                data-export-root=""
+                style={{
+                  width: designSize.width,
+                  height: designSize.height,
                 }}
-                colors={{
-                  primary: state.primaryColor,
-                  accent: state.accentColor,
-                  secondary: state.secondaryColor,
-                }}
-                localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-                subText={brandKit.local.subText}
-                photoUrl={showPhoto ? state.photoUrl : undefined}
-                photoScale={state.photoScale}
-                size={canvasSize}
-                tokens={resolveCanvasTokens(brandKit)}
-                logoMode={state.logoMode}
-                showLocalNumber={state.showLocalNumber}
-                coalitionBadge={brandKit.campaignBadge?.trim() || undefined}
-              />
-            </div>
+              >
+                <GraphicLayoutCanvas
+                  layout={state.layout}
+                  aspect={state.aspect}
+                  copy={{
+                    headline: state.headline,
+                    body: state.subheadline,
+                    detail: state.detail || undefined,
+                    initials: state.initials,
+                  }}
+                  colors={{
+                    primary: state.primaryColor,
+                    accent: state.accentColor,
+                    secondary: state.secondaryColor,
+                  }}
+                  localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+                  subText={brandKit.local.subText}
+                  photoUrl={showPhoto ? state.photoUrl : undefined}
+                  photoScale={state.photoScale}
+                  size="export"
+                  tokens={resolveCanvasTokens(brandKit)}
+                  logoMode={state.logoMode}
+                  showLocalNumber={state.showLocalNumber}
+                  coalitionBadge={brandKit.campaignBadge?.trim() || undefined}
+                />
+              </div>
+            </CanvasWrapper>
           </div>
         }
         footer={

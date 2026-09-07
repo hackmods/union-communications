@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import { BrandLogo } from "@/components/brand/BrandLogo";
+import { LogoContainer } from "@/components/canvas-core/LogoContainer";
 import { CanvasGrainOverlay } from "@/components/tools/canvas";
 import type { BannerLayoutId } from "@/lib/constants/board-banner-layouts";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
@@ -32,7 +32,7 @@ export interface BoardBannerCanvasProps {
 
 /**
  * Fixed-aspect header strip. Parent sets width + height (or aspect box).
- * SVG slant keeps BrandLogo outside clipped ancestors for clean PNG capture.
+ * SVG slant keeps the logo outside clipped ancestors for clean PNG capture.
  * No chevron ornaments — dual-tone geometry + type/logo only.
  */
 export function BoardBannerCanvas({
@@ -56,7 +56,6 @@ export function BoardBannerCanvas({
   const calloutText = callout.trim() || "Did you know?";
   const bylineText = byline.trim();
   const showLogo = logoMode !== "none";
-  const logoVariant = logoMode === "mark" ? "mark" : "lockup";
   const padPct = bannerPadPercent(tokens);
   const titleType: CSSProperties = {
     fontWeight: tokens?.titleFontWeight ?? 900,
@@ -189,11 +188,11 @@ export function BoardBannerCanvas({
                   overflow: "hidden",
                 }}
               >
-                <BrandLogo
-                  size="md"
+                <LogoContainer
                   backgroundColor="#FFFFFF"
-                  variantOverride={logoVariant}
-                  className="max-h-full w-auto max-w-full object-contain object-left"
+                  logoMode={logoMode}
+                  bounds={{ maxWidthCqw: 100, align: "start" }}
+                  className="max-h-full"
                 />
               </div>
             ) : (
@@ -312,10 +311,10 @@ export function BoardBannerCanvas({
                 alignItems: "center",
               }}
             >
-              <BrandLogo
-                size="md"
+              <LogoContainer
                 backgroundColor={primaryColor}
-                variantOverride={logoVariant}
+                logoMode={logoMode}
+                bounds={{ maxWidthCqw: 100, align: "end" }}
               />
             </div>
           ) : null}
@@ -390,10 +389,10 @@ export function BoardBannerCanvas({
         <div style={{ position: "relative", zIndex: 2 }}>
           {showLogo ? (
             <div style={{ maxHeight: "75%", display: "flex", alignItems: "center" }}>
-              <BrandLogo
-                size="sm"
+              <LogoContainer
                 backgroundColor={primaryColor}
-                variantOverride={logoVariant}
+                logoMode={logoMode}
+                bounds={{ maxWidthCqw: 100, align: "start" }}
               />
             </div>
           ) : (

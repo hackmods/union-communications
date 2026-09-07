@@ -19,8 +19,8 @@ describe("org-chart-formats", () => {
       "tabloid",
       "tabloid-landscape",
     ]);
-    expect(ORG_CHART_FORMATS.letter.previewWidthPx).toBe(306);
-    expect(ORG_CHART_FORMATS["tabloid-landscape"].previewWidthPx).toBe(612);
+    expect(ORG_CHART_FORMATS.letter.previewWidthPx).toBe(850);
+    expect(ORG_CHART_FORMATS["tabloid-landscape"].previewWidthPx).toBe(1700);
     expect(ORG_CHART_FORMATS["letter-landscape"].widthInches).toBeGreaterThan(
       ORG_CHART_FORMATS["letter-landscape"].heightInches,
     );

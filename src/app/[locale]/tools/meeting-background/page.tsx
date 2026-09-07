@@ -27,6 +27,7 @@ import {
   CanvasGrainOverlay,
   CanvasSafeZoneOverlay,
 } from "@/components/tools/canvas";
+import { CanvasWrapper, LogoContainer } from "@/components/canvas-core";
 import type { CanvasTypeScale } from "@/types/entities";
 import {
   DEFAULT_MEETING_BACKGROUND_FORMAT,
@@ -48,7 +49,6 @@ import {
   type MeetingDesignSet,
   type MeetingLayout,
 } from "@/lib/constants/meeting-background-presets";
-import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -64,7 +64,6 @@ import {
   INITIAL_LOGO_MODE,
   defaultLogoMode,
   defaultShowLocalNumber,
-  resolveLogoVariant,
   showCanvasLogo,
 } from "@/lib/comms/canvas-logo-mode";
 
@@ -318,7 +317,8 @@ export default function MeetingBackgroundPage() {
   const showClose = state.showCloser && Boolean(state.closer.trim());
   const showCopy = showLead || showHead || showClose;
   const showLogo = showCanvasLogo(state.logoMode);
-  const logoVariant = resolveLogoVariant(state.logoMode);
+  const designWidth = isPortrait ? 1080 : 1920;
+  const designHeight = isPortrait ? 1920 : 1080;
   const clearanceInsets = insetsForProfile(
     profileForMeetingOrientation(orientation),
     state.edgeClearance,
@@ -469,12 +469,14 @@ export default function MeetingBackgroundPage() {
 
   const brandLockup = (bg: string, ink: string, size: "sm" | "md" = "sm") =>
     showLogo ? (
-      <div className="flex shrink-0 items-center gap-2">
-        <BrandLogo
-          size={size}
+      <div className="flex min-w-0 max-w-[42%] shrink-0 items-center gap-2">
+        <LogoContainer
           backgroundColor={bg}
-          variantOverride={logoVariant}
-          className="shrink-0"
+          logoMode={state.logoMode}
+          bounds={{
+            maxWidthCqw: size === "md" ? 100 : 100,
+            align: "start",
+          }}
         />
         {state.showLocalNumber ? (
           <p
@@ -600,10 +602,10 @@ export default function MeetingBackgroundPage() {
             </div>
             {showLogo ? (
               <div className="mt-4 min-w-0 max-w-full overflow-hidden">
-                <BrandLogo
-                  size="sm"
+                <LogoContainer
                   backgroundColor={secondary}
-                  variantOverride={logoVariant}
+                  logoMode={state.logoMode}
+                  bounds={{ maxWidthCqw: 100, align: "start" }}
                 />
                 {state.showLocalNumber ? (
                   <p
@@ -1084,23 +1086,31 @@ export default function MeetingBackgroundPage() {
           <p className="mb-2 text-sm font-medium text-gray-700">
             {t("preview")}
           </p>
-          <div
-            className={cn(
-              "relative overflow-hidden rounded-lg shadow-lg shadow-black/20",
-              isPortrait && "mx-auto max-w-[280px] sm:max-w-[320px]",
-            )}
-          >
-            <div
-              ref={canvasRef}
-                  data-export-root=""
-              className={cn("relative w-full overflow-hidden", format.aspect)}
-              style={{ ...surfaceStyle, color: canvasInk }}
+          <div className="relative overflow-hidden rounded-lg shadow-lg shadow-black/20">
+            <CanvasWrapper
+              designWidth={designWidth}
+              designHeight={designHeight}
+              mode="fixed"
+              maxScale={1.25}
+              align="center"
             >
-              <CanvasEdgeClearanceFrame insets={clearanceInsets}>
-                {canvasBody}
-              </CanvasEdgeClearanceFrame>
-              <CanvasGrainOverlay opacity={tokens.grainOpacity} />
-            </div>
+              <div
+                ref={canvasRef}
+                data-export-root=""
+                className="relative overflow-hidden"
+                style={{
+                  ...surfaceStyle,
+                  color: canvasInk,
+                  width: designWidth,
+                  height: designHeight,
+                }}
+              >
+                <CanvasEdgeClearanceFrame insets={clearanceInsets}>
+                  {canvasBody}
+                </CanvasEdgeClearanceFrame>
+                <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+              </div>
+            </CanvasWrapper>
             {state.edgeClearance ? (
               <CanvasSafeZoneOverlay insets={clearanceInsets} />
             ) : null}

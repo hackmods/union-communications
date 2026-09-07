@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "canvas-core-print-fit",
+    date: "2026-09-07",
+    kind: "improved",
+    href: "/tools/flyer-maker",
+  },
+  {
     id: "flyer-walkabout-fit",
     date: "2026-09-06",
     kind: "improved",

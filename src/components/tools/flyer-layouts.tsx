@@ -43,7 +43,7 @@ export interface FlyerLayoutCanvasProps {
   copy: FlyerLayoutCopy;
   localNumber: string;
   subText: string;
-  /** Fixed design width in CSS px (preview scales via MobilePreviewStage). */
+  /** Fixed design width in CSS px (preview scales via CanvasWrapper). */
   designWidthPx: number;
   /** Fixed design height in CSS px — must match format aspect. */
   designHeightPx: number;
@@ -208,8 +208,10 @@ export function FlyerLayoutCanvas({
   const canvasBoxStyle: CSSProperties = {
     width: designWidthPx,
     height: designHeightPx,
-    maxWidth: "100%",
+    // No maxWidth: 100% — parent CanvasWrapper scales uniformly (CANVAS-004).
     flexShrink: 0,
+    containerType: "size",
+    containerName: "unionops-canvas",
   };
 
   const rootStyle: CSSProperties = {

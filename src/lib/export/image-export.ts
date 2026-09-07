@@ -70,10 +70,17 @@ export async function exportNodeAsPng(
 export async function exportNodeAsSvg(
   node: HTMLElement,
   filename: string,
+  options: ExportOptions = {},
 ): Promise<void> {
-  const { toSvg } = await import("html-to-image");
-  const dataUrl = await toSvg(node, { cacheBust: true });
-  await saveBlob(dataUrlToBlob(dataUrl), filename);
+  await withUnscaledAncestors(node, async () => {
+    const { toSvg } = await import("html-to-image");
+    const opts = buildHtmlToImageOptions(node, {
+      ...options,
+      pixelRatio: options.pixelRatio ?? 1,
+    });
+    const dataUrl = await toSvg(node, opts);
+    await saveBlob(dataUrlToBlob(dataUrl), filename);
+  });
 }
 
 export async function exportNodeAsBlob(
@@ -84,7 +91,7 @@ export async function exportNodeAsBlob(
     const { toBlob, toPng } = await import("html-to-image");
     const opts = buildHtmlToImageOptions(node, {
       ...options,
-      pixelRatio: options.pixelRatio ?? 1,
+      pixelRatio: options.pixelRatio ?? 2,
     });
     const blob = await toBlob(node, opts);
     if (blob && blob.size > 0) return blob;

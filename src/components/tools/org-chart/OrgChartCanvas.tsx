@@ -18,6 +18,8 @@ import {
   rosterHasNamedPeople,
   type OrgChartBand,
 } from "@/lib/org-chart/layout";
+import { CanvasWrapper } from "@/components/canvas-core";
+import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
 import { printPageScaledTokens, resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
@@ -26,7 +28,6 @@ import {
   CanvasBrandHeader,
   CanvasGrainOverlay,
 } from "@/components/tools/canvas";
-import { FitWidthFrame } from "@/components/tools/FitWidthFrame";
 
 type OrgChartCanvasProps = {
   canvasRef: RefObject<HTMLDivElement | null>;
@@ -102,7 +103,7 @@ export function OrgChartCanvas({
   stewardsPositionLabel,
 }: OrgChartCanvasProps) {
   const format = ORG_CHART_FORMATS[formatId];
-  const referenceWidthPx = ORG_CHART_FORMATS.letter.previewWidthPx;
+  const referenceWidthPx = PRINT_PAGE_LEGACY_REFERENCE_PX;
   const designWidthPx = format.previewWidthPx;
   const designHeightPx = orgChartPreviewHeightPx(format);
   const tokens = resolveCanvasTokens(brandKit);
@@ -112,8 +113,8 @@ export function OrgChartCanvas({
     referenceWidthPx,
   );
   const typeRatio = Math.min(
-    1.12,
-    Math.max(0.62, designWidthPx / referenceWidthPx),
+    3,
+    Math.max(0.5, designWidthPx / referenceWidthPx),
   );
   const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
     primary: brandKit.primaryColor,
@@ -153,7 +154,13 @@ export function OrgChartCanvas({
 
   return (
     <div className="shadow-lg">
-      <FitWidthFrame designWidth={designWidthPx} designHeight={designHeightPx}>
+      <CanvasWrapper
+        designWidth={designWidthPx}
+        designHeight={designHeightPx}
+        mode="fixed"
+        maxScale={2}
+        align="center"
+      >
       <div
         ref={canvasRef}
         data-export-root=""
@@ -397,7 +404,7 @@ export function OrgChartCanvas({
           )}
         </div>
       </div>
-      </FitWidthFrame>
+      </CanvasWrapper>
     </div>
   );
 }

@@ -13,11 +13,11 @@ import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
-import {
-  LocalLogoPlate,
+import { LocalLogoPlate,
   LOGO_SHAPES,
   type LogoShape,
 } from "@/components/brand/LocalLogoPlate";
+import { CanvasWrapper } from "@/components/canvas-core";
 import { BrandContrastConfirmDialog } from "@/components/brand/BrandContrastConfirmDialog";
 import {
   LogoSettings,
@@ -273,23 +273,30 @@ export default function LogoBuilderPage() {
       }
       preview={
         <div className="flex items-center justify-center">
-          <div
-            className={cn(
-              "shadow-lg",
-              state.shape === "circle" && "rounded-full",
-            )}
+          <CanvasWrapper
+            designWidth={state.shape === "circle" ? 288 : 448}
+            mode="intrinsic"
+            maxScale={1.5}
+            align="center"
           >
-            <LocalLogoPlate
-              ref={canvasRef}
-              exportRoot
-              shape={state.shape}
-              primaryColor={state.primaryColor}
-              secondaryColor={state.secondaryColor}
-              localNumber={state.localNumber}
-              subText={state.subText}
-              tokens={tokens}
-            />
-          </div>
+            <div
+              className={cn(
+                "shadow-lg",
+                state.shape === "circle" && "rounded-full",
+              )}
+            >
+              <LocalLogoPlate
+                ref={canvasRef}
+                exportRoot
+                shape={state.shape}
+                primaryColor={state.primaryColor}
+                secondaryColor={state.secondaryColor}
+                localNumber={state.localNumber}
+                subText={state.subText}
+                tokens={tokens}
+              />
+            </div>
+          </CanvasWrapper>
         </div>
       }
     />

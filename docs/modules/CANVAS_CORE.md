@@ -7,7 +7,7 @@ QR sheets, wallpapers). Companion documents:
 - Working rule: [`.cursor/rules/canvas-core.mdc`](../../.cursor/rules/canvas-core.mdc)
 - Existing visual system: [`docs/modules/COMMS_VISUAL_SYSTEM.md`](COMMS_VISUAL_SYSTEM.md)
 
-**Status:** specification. Not yet implemented.
+**Status:** Wave 0–4 implemented 2026-09-07 (engine + denser print ~200 PPI browser-safe + print family + fluid/intrinsic tools + A4/aspect registry + proportion guards).
 
 ## Why
 

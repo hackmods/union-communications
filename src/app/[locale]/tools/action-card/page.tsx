@@ -14,7 +14,7 @@ import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { listSavedLinks } from "@/lib/utils/local-links";
-import { FitWidthFrame } from "@/components/tools/FitWidthFrame";
+import { CanvasWrapper } from "@/components/canvas-core";
 import {
   DEFAULT_QR_CARD_SIZE,
   QR_CARD_SIZE_ORDER,
@@ -528,9 +528,11 @@ function ActionCardPageContent() {
         <div className="mx-auto w-full min-w-0 max-w-full">
           <div className="rounded-lg border border-gray-200 bg-gray-100/80 p-4 md:p-6">
             <div className="overflow-hidden rounded-lg shadow-lg">
-              <FitWidthFrame
+              <CanvasWrapper
                 designWidth={designWidth}
                 designHeight={designHeight}
+                mode="fixed"
+                maxScale={2}
               >
                 <div
                   ref={canvasRef}
@@ -668,7 +670,7 @@ function ActionCardPageContent() {
                     )}
                   </div>
                 </div>
-              </FitWidthFrame>
+              </CanvasWrapper>
             </div>
           </div>
           <p className="mt-3 text-center text-xs text-gray-500">

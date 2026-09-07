@@ -12,7 +12,8 @@ import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
-import { BrandLogo } from "@/components/brand/BrandLogo";
+import { LogoContainer } from "@/components/canvas-core/LogoContainer";
+import { CanvasWrapper } from "@/components/canvas-core";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
@@ -23,7 +24,6 @@ import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControl
 import {
   defaultLogoMode,
   defaultShowLocalNumber,
-  resolveLogoVariant,
   showCanvasLogo,
 } from "@/lib/comms/canvas-logo-mode";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
@@ -362,41 +362,56 @@ export default function PulsePollPage() {
   const preview = (
     <div className="space-y-2">
       <p className="text-sm font-medium text-gray-700">{t("previewHeading")}</p>
-      <div
-        ref={canvasRef}
-                  data-export-root=""
-        className="relative mx-auto flex w-full max-w-md flex-col rounded-lg shadow-sm"
-        style={previewStyle}
+      <CanvasWrapper
+        designWidth={pollPreviewWidthPx}
+        mode="intrinsic"
+        maxScale={1.5}
+        align="center"
       >
-        <CanvasGrainOverlay opacity={tokens.grainOpacity} />
-        {showCanvasLogo(state.logoMode) && themeEstablished && (
-          <div className="relative z-[2] flex items-center gap-2">
-            <BrandLogo
-              className="h-10 w-auto"
-              variantOverride={resolveLogoVariant(state.logoMode)}
-            />
-            {state.showLocalNumber ? (
-              <span
-                className="font-semibold"
-                style={{ fontSize: bodyFontPx, fontFamily: tokens.bodyFontFamily }}
-              >
-                Local {resolveLocalNumber(brandKit.local.localNumber)}
-              </span>
-            ) : null}
-          </div>
-        )}
-        <h2
-          className="relative z-[2] font-bold leading-tight"
+        <div
+          ref={canvasRef}
+          data-export-root=""
+          className="relative flex flex-col rounded-lg shadow-sm"
           style={{
-            fontSize: titleFontPx,
-            fontWeight: tokens.titleFontWeight,
-            letterSpacing: tokens.titleLetterSpacing,
-            textTransform: tokens.titleTextTransform,
-            fontFamily: tokens.headlineFontFamily,
+            ...previewStyle,
+            width: pollPreviewWidthPx,
+            containerType: "inline-size",
+            containerName: "unionops-canvas",
           }}
         >
-          {state.title.trim() || t("title")}
-        </h2>
+          <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+          {showCanvasLogo(state.logoMode) && themeEstablished && (
+            <div className="relative z-[2] flex items-center gap-2">
+              <LogoContainer
+                backgroundColor={state.primaryColor}
+                logoMode={state.logoMode}
+                bounds={{ maxWidthCqw: 36, align: "start" }}
+              />
+              {state.showLocalNumber ? (
+                <span
+                  className="font-semibold"
+                  style={{
+                    fontSize: bodyFontPx,
+                    fontFamily: tokens.bodyFontFamily,
+                  }}
+                >
+                  Local {resolveLocalNumber(brandKit.local.localNumber)}
+                </span>
+              ) : null}
+            </div>
+          )}
+          <h2
+            className="relative z-[2] font-bold leading-tight"
+            style={{
+              fontSize: titleFontPx,
+              fontWeight: tokens.titleFontWeight,
+              letterSpacing: tokens.titleLetterSpacing,
+              textTransform: tokens.titleTextTransform,
+              fontFamily: tokens.headlineFontFamily,
+            }}
+          >
+            {state.title.trim() || t("title")}
+          </h2>
         {state.intro.trim() && (
           <p
             className="relative z-[2] opacity-90"
@@ -427,7 +442,8 @@ export default function PulsePollPage() {
             {t("qrHint")}
           </p>
         </div>
-      </div>
+        </div>
+      </CanvasWrapper>
     </div>
   );
 

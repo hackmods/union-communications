@@ -11,8 +11,10 @@ Shared geometry engine for the 14 visual canvas tools. Spec:
 inventory, external traps, QoL list and blind spots:
 [`docs/audit/canvas-core-audit-2026-09-06.md`](../../docs/audit/canvas-core-audit-2026-09-06.md).
 
-**Status 2026-09-06:** audited and specified, **not yet implemented**. Until Wave 0 lands,
-the findings below describe known-bad current behaviour, not shipped contracts.
+**Status 2026-09-07:** Waves 0–4 landed (CanvasWrapper, LogoContainer, denser print
+design widths for ~200 PPI browser-safe export, print-family + fluid/intrinsic tool
+migrations, A4 + aspect registry, layout-matrix proportion guards). Read the audit for
+measured defects that motivated this work.
 
 ## Read before touching any canvas tool
 

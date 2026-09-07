@@ -394,6 +394,89 @@ export function expectPreviewFitsColumn(
   expect(fit.visualWidth, label).toBeLessThanOrEqual(fit.columnWidth + 2);
 }
 
+export type CanvasProportionReport = {
+  canvasWidth: number;
+  canvasHeight: number;
+  logoWidth: number;
+  logoPct: number;
+  padPx: number;
+  padPct: number;
+  aspect: number;
+};
+
+/**
+ * Logo and padding as a share of canvas width — guards the measured
+ * 81/58/44% drift across paper sizes (CANVAS-001 / CANVAS-002).
+ */
+export async function measureCanvasProportions(
+  page: Page,
+): Promise<CanvasProportionReport> {
+  return page.evaluate((rootSel) => {
+    const empty: CanvasProportionReport = {
+      canvasWidth: 0,
+      canvasHeight: 0,
+      logoWidth: 0,
+      logoPct: 0,
+      padPx: 0,
+      padPct: 0,
+      aspect: 0,
+    };
+    const root = document.querySelector(rootSel) as HTMLElement | null;
+    if (!root) return empty;
+    const r = root.getBoundingClientRect();
+    const img =
+      root.querySelector<HTMLImageElement>("[data-logo-container] img") ??
+      root.querySelector<HTMLImageElement>("img");
+    const ir = img?.getBoundingClientRect();
+    const pad = Number.parseFloat(getComputedStyle(root).paddingLeft) || 0;
+    const logoW = ir?.width ?? 0;
+    return {
+      canvasWidth: r.width,
+      canvasHeight: r.height,
+      logoWidth: logoW,
+      logoPct: r.width > 0 ? (100 * logoW) / r.width : 0,
+      padPx: pad,
+      padPct: r.width > 0 ? (100 * pad) / r.width : 0,
+      aspect: r.height > 0 ? r.width / r.height : 0,
+    };
+  }, EXPORT_ROOT_SELECTOR);
+}
+
+export function expectCanvasProportions(
+  report: CanvasProportionReport,
+  opts: {
+    label?: string;
+    maxLogoPct?: number;
+    minPadPct?: number;
+    maxPadPct?: number;
+    expectedAspect?: number;
+    aspectTolerance?: number;
+  } = {},
+): void {
+  const label = opts.label ?? "proportions";
+  expect(report.canvasWidth, label).toBeGreaterThan(0);
+  if (opts.maxLogoPct != null && report.logoWidth > 0) {
+    expect(report.logoPct, `${label} logo%`).toBeLessThanOrEqual(
+      opts.maxLogoPct,
+    );
+  }
+  if (opts.minPadPct != null) {
+    expect(report.padPct, `${label} pad%`).toBeGreaterThanOrEqual(
+      opts.minPadPct,
+    );
+  }
+  if (opts.maxPadPct != null) {
+    expect(report.padPct, `${label} pad%`).toBeLessThanOrEqual(opts.maxPadPct);
+  }
+  if (opts.expectedAspect != null) {
+    const tol = opts.aspectTolerance ?? 0.04;
+    expect(
+      Math.abs(report.aspect - opts.expectedAspect),
+      `${label} aspect`,
+    ).toBeLessThanOrEqual(tol);
+  }
+}
+
 
 export type TypeMetaOverlapReport = {
   typeCount: number;

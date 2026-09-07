@@ -395,12 +395,15 @@ describe("officeMockPaddingPx", () => {
     expect(roomy).toBeGreaterThan(tight);
     expect(officeMockPaddingPx(undefined)).toBe(16);
   });
-  it("printPageScaledTokens shrinks display type for narrow design widths", () => {
+  it("printPageScaledTokens scales type with denser design widths", () => {
     const base = resolveCanvasTokens(normalizeBrandKit(DEFAULT_BRAND_KIT));
-    const scaled = printPageScaledTokens(base, 306, 306);
-    expect(scaled.titleFontSizePx).toBeLessThanOrEqual(base.titleFontSizePx * 1.12);
+    const scaled = printPageScaledTokens(base, 850, 306);
+    expect(scaled.titleFontSizePx).toBeGreaterThan(base.titleFontSizePx);
+    expect(scaled.titleFontSizePx).toBeLessThanOrEqual(
+      Math.round(base.titleFontSizePx * typeScaleFactor(base) * 3),
+    );
     expect(scaled.paddingPx).toBeGreaterThanOrEqual(16);
-    expect(boardNoticeScaledTokens(base, 306, 306)).toEqual(scaled);
+    expect(boardNoticeScaledTokens(base, 850, 306)).toEqual(scaled);
   });
 });
 

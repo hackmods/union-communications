@@ -4367,7 +4367,8 @@
     "formats": {
       "letter": "Letter (8.5×11)",
       "halfLetter": "Half letter (5.5×8.5)",
-      "tabloid": "Tabloid (11×17)"
+      "tabloid": "Tabloid (11×17)",
+      "a4": "A4 (210×297 mm)"
     },
     "fonts": {
       "inherit": "Brand Kit",
@@ -7391,6 +7392,10 @@
       "logo-on-brand-fills": {
         "title": "Logos stay readable on brand-coloured backgrounds",
         "body": "Meeting backgrounds and other canvas tools keep your mark readable on coral, gold, or other Brand Kit fills — official Looks use the matching plate lockup; your uploaded logo sits on a white card so every colour stays visible."
+      },
+      "canvas-core-print-fit": {
+        "title": "Flyer and print sheets fill the preview",
+        "body": "Letter and tabloid flyers, board notices, and posters now scale to your screen, keep the logo in proportion across paper sizes, and export sharper print PNGs. Flyer Maker also offers A4."
       },
       "flyer-walkabout-fit": {
         "title": "Walkabout flyers stay readable",

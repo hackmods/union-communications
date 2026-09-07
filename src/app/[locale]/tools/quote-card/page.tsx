@@ -10,14 +10,13 @@ import { useExportHandler } from "@/hooks/use-export-handler";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { cn, formatFilename, resolveLocalNumber } from "@/lib/utils";
 import {
   EXAMPLE_ASPECTS,
   aspectFromQuery,
   getExamplePost,
-  graphicAspectClass,
   type ExampleAspect,
 } from "@/lib/constants/examples";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import {
   DEFAULT_QUOTE_LAYOUT,
   QUOTE_LAYOUT_ORDER,
@@ -31,6 +30,8 @@ import {
   type QuotePresetKey,
 } from "@/lib/comms/quote-presets";
 import { QuoteLayout } from "@/components/tools/graphic-layouts";
+import { CanvasWrapper } from "@/components/canvas-core";
+import { exampleAspectDesignSize } from "@/lib/comms/canvas-aspects";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -197,6 +198,8 @@ function QuoteCardPageContent() {
     });
   };
 
+  const designSize = exampleAspectDesignSize(state.aspect);
+
   const exportActions = (
     <ToolExportActions
       exporting={exporting}
@@ -351,42 +354,45 @@ function QuoteCardPageContent() {
       previewActions={exportActions}
       preview={
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
-        <div
-          className={cn(
-            "shadow-lg",
-            state.aspect === "portrait" &&
-              "mx-auto w-full max-w-[280px] sm:max-w-[320px]",
-          )}
-        >
-          <div
-            ref={canvasRef}
-                  data-export-root=""
-            className={cn(
-              "relative w-full overflow-hidden",
-              graphicAspectClass(state.aspect),
-            )}
-            style={surfaceStyle}
+        <div className="overflow-hidden shadow-lg">
+          <CanvasWrapper
+            designWidth={designSize.width}
+            designHeight={designSize.height}
+            mode="fixed"
+            maxScale={1.25}
+            align="center"
           >
-            <QuoteLayout
-              primary={state.primaryColor}
-              accent={state.accentColor}
-              secondary={state.secondaryColor}
-              textColor={state.textColor}
-              copy={{
-                headline: state.author,
-                body: state.quote,
-                detail: state.role || undefined,
+            <div
+              ref={canvasRef}
+              data-export-root=""
+              className="relative overflow-hidden"
+              style={{
+                ...surfaceStyle,
+                width: designSize.width,
+                height: designSize.height,
               }}
-              localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-              subText={brandKit.local.subText}
-              size="export"
-              aspect={state.aspect}
-              layout={state.layout}
-              tokens={tokens}
-              logoMode={state.logoMode}
-              showLocalNumber={state.showLocalNumber}
-            />
-          </div>
+            >
+              <QuoteLayout
+                primary={state.primaryColor}
+                accent={state.accentColor}
+                secondary={state.secondaryColor}
+                textColor={state.textColor}
+                copy={{
+                  headline: state.author,
+                  body: state.quote,
+                  detail: state.role || undefined,
+                }}
+                localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+                subText={brandKit.local.subText}
+                size="export"
+                aspect={state.aspect}
+                layout={state.layout}
+                tokens={tokens}
+                logoMode={state.logoMode}
+                showLocalNumber={state.showLocalNumber}
+              />
+            </div>
+          </CanvasWrapper>
         </div>
       }
     />

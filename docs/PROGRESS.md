@@ -1,5 +1,13 @@
 # Progress Log
 
+## 2026-09-07 — Canvas Core engine (Waves 0–4)
+
+- [x] Shared geometry: `CanvasWrapper` / `LogoContainer` / `useCanvasExport` / safe-zone; `FitWidthFrame` re-export; capture allowlist + SVG/blob parity
+- [x] Print density: design px/in 100 + target 1700 → letter ~200 PPI browser-safe (was ~144; ~300 OOM'd html-to-image); flyer/board-notice/org/qr/action/solidarity migrated
+- [x] Fluid/intrinsic: graphic, quote, meeting-background, resizer, logo-builder, board-banner, pulse-poll
+- [x] A4 + `CANVAS_ASPECTS`; layout-matrix logo proportion guards; What's new `canvas-core-print-fit`
+- Verify: `npm run lint`; `npm run test:unit` (canvas-core / print / flyer / capture / updates); layout-matrix + export smokes `--workers=1`
+
 ## 2026-09-06 — Officer Learning knowledge expansion + dashboard tracks (modules 15–16)
 
 - [x] Modules 15–16 EN+FR (DFR; seniority/bumping/layoff) + covers, catalog, PDFs, diagrams, timelines, SEO, What's new

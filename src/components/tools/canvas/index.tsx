@@ -8,7 +8,7 @@ import {
   type CSSProperties,
   type ReactNode,
 } from "react";
-import { BrandLogo } from "@/components/brand/BrandLogo";
+import { LogoContainer } from "@/components/canvas-core/LogoContainer";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
   CANVAS_TYPE_FIT_MAX_ITERS,
@@ -128,21 +128,17 @@ export function CanvasBrandHeader({
     ? `Local ${resolveLocalNumber(localNumber)} - ${subText}`
     : `Local ${resolveLocalNumber(localNumber)}`;
   const showLogo = logoMode !== "none";
-  const logoVariant = logoMode === "mark" ? "mark" : "lockup";
 
   if (!showLogo && !showLocalLabel && !badge) return null;
 
   return (
     <div className={cn("relative z-[2]", className)}>
       {showLogo ? (
-        <BrandLogo
-          size={logoSize}
+        <LogoContainer
           backgroundColor={backgroundColor}
-          variantOverride={logoVariant}
-          className={cn(
-            "h-auto max-w-full",
-            showLocalLabel || badge ? "mb-3" : undefined,
-          )}
+          logoMode={logoMode}
+          wideLockup={logoSize === "lg"}
+          className={showLocalLabel || badge ? "mb-3" : undefined}
         />
       ) : null}
       {badge}

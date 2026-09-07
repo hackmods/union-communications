@@ -26,6 +26,8 @@ import { fieldsFromBoardNotice } from "@/lib/comms/event-email-from-notice";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { BoardNoticeLayoutCanvas } from "@/components/tools/board-notice-layouts";
+import { CanvasWrapper } from "@/components/canvas-core";
+import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import {
   INITIAL_LOGO_MODE,
@@ -101,7 +103,7 @@ export default function BoardNoticePage() {
   const formatSpec = BOARD_NOTICE_FORMATS[format];
   const designWidth = formatSpec.previewWidthPx;
   const designHeight = boardNoticePreviewHeightPx(formatSpec);
-  const referenceWidth = BOARD_NOTICE_FORMATS.letter.previewWidthPx;
+  const referenceWidth = PRINT_PAGE_LEGACY_REFERENCE_PX;
   const exportPixelRatio = boardNoticeExportPixelRatio(formatSpec);
   const tokens = resolveCanvasTokens(brandKit);
   const showInviteEmail =
@@ -283,7 +285,14 @@ export default function BoardNoticePage() {
           />
         }
         preview={
-          <div className="mx-auto w-full max-w-full">
+          <CanvasWrapper
+            designWidth={designWidth}
+            designHeight={designHeight}
+            mode="fixed"
+            maxScale={2}
+            align="center"
+            frameClassName="shadow-lg"
+          >
             <BoardNoticeLayoutCanvas
               canvasRef={canvasRef}
               layout={state.layout}
@@ -321,7 +330,7 @@ export default function BoardNoticePage() {
               logoMode={state.logoMode}
               showLocalLabel={state.showLocalNumber}
             />
-          </div>
+          </CanvasWrapper>
         }
         footer={
           <div className="space-y-6">

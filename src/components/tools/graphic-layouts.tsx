@@ -1,12 +1,9 @@
 "use client";
 
-import type { ComponentProps, CSSProperties } from "react";
-import { BrandLogo } from "@/components/brand/BrandLogo";
+import type { CSSProperties } from "react";
+import { LogoContainer } from "@/components/canvas-core/LogoContainer";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
-import {
-  resolveLogoVariant,
-  showCanvasLogo,
-} from "@/lib/comms/canvas-logo-mode";
+import { showCanvasLogo } from "@/lib/comms/canvas-logo-mode";
 import {
   CanvasDuotonePhoto,
   CanvasGrainOverlay,
@@ -194,11 +191,24 @@ function PhotoLayer({
 
 function LayoutBrandLogo({
   logoMode = "lockup",
-  ...props
-}: ComponentProps<typeof BrandLogo> & { logoMode?: BoardLogoMode }) {
+  backgroundColor,
+  className,
+  size: _size,
+}: {
+  logoMode?: BoardLogoMode;
+  backgroundColor?: string;
+  className?: string;
+  /** Ignored — LogoContainer sizes from the canvas parent. */
+  size?: string;
+}) {
+  void _size;
   if (!showCanvasLogo(logoMode)) return null;
   return (
-    <BrandLogo {...props} variantOverride={resolveLogoVariant(logoMode)} />
+    <LogoContainer
+      backgroundColor={backgroundColor ?? "#FFFFFF"}
+      logoMode={logoMode}
+      className={className}
+    />
   );
 }
 

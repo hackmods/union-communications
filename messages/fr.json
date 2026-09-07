@@ -4316,7 +4316,8 @@
     "formats": {
       "letter": "Lettre (8,5×11)",
       "halfLetter": "Demi-lettre (5,5×8,5)",
-      "tabloid": "Tabloïd (11×17)"
+      "tabloid": "Tabloïd (11×17)",
+      "a4": "A4 (210×297 mm)"
     },
     "fonts": {
       "inherit": "Brand Kit",
@@ -7340,6 +7341,10 @@
       "logo-on-brand-fills": {
         "title": "Les logos restent lisibles sur les fonds aux couleurs de la marque",
         "body": "Les arrière-plans de réunion et les autres outils visuels gardent votre marque lisible sur les fonds corail, or ou autres couleurs de la Trousse de marque — les Looks officiels utilisent la signature de plaque correspondante ; votre logo téléversé repose sur une carte blanche pour que chaque couleur reste visible."
+      },
+      "canvas-core-print-fit": {
+        "title": "Les tracts et feuilles d'impression remplissent l'aperçu",
+        "body": "Les tracts, avis de babillard et affiches en format lettre ou tabloïd s'adaptent maintenant à votre écran, gardent le logo proportionné d'un format de papier à l'autre, et exportent des PNG plus nets pour l'impression. Le Créateur de tracts offre aussi le format A4."
       },
       "flyer-walkabout-fit": {
         "title": "Les tracts de tournée restent lisibles",
