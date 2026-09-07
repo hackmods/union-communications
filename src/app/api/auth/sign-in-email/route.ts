@@ -7,7 +7,10 @@ import {
   buildSignInLinkEmail,
   emailAppBaseUrl,
 } from "@/lib/email/messages";
-import { sendTransactionalEmail } from "@/lib/email/send";
+import {
+  sendTransactionalEmail,
+  type SmtpConfigSnapshot,
+} from "@/lib/email/send";
 import { parseJsonBody } from "@/lib/validation/parse";
 
 const schema = z.object({
@@ -17,6 +20,7 @@ const schema = z.object({
 /**
  * POST /api/auth/sign-in-email
  * Always returns a generic success payload (no email enumeration).
+ * On send failure, includes non-secret SMTP diagnostics for operators.
  */
 export async function POST(req: Request) {
   let body: unknown;
@@ -38,6 +42,8 @@ export async function POST(req: Request) {
 
   let emailSent = false;
   let emailReason: string | undefined;
+  let emailError: string | undefined;
+  let smtp: SmtpConfigSnapshot | undefined;
 
   if (account) {
     const tokenRow = await createSignInToken({
@@ -58,7 +64,11 @@ export async function POST(req: Request) {
       text: copy.text,
     });
     emailSent = result.ok;
-    emailReason = result.ok ? undefined : result.reason;
+    if (!result.ok) {
+      emailReason = result.reason;
+      emailError = result.error;
+      smtp = result.smtp;
+    }
 
     await auditLog.log({
       userId: account.id,
@@ -69,6 +79,8 @@ export async function POST(req: Request) {
         email: account.email,
         source: account.source,
         ...(emailReason ? { reason: emailReason } : {}),
+        ...(emailError ? { error: emailError } : {}),
+        ...(smtp ? { smtp } : {}),
       },
     });
   }
@@ -78,5 +90,11 @@ export async function POST(req: Request) {
     message: "If an account exists for that email, a sign-in link was sent.",
     emailSent,
     emailReason: account ? emailReason : undefined,
+    ...(account && !emailSent
+      ? {
+          emailError,
+          smtp,
+        }
+      : {}),
   });
 }

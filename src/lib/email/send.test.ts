@@ -10,11 +10,17 @@ vi.mock("nodemailer", () => ({
 
 describe("sendTransactionalEmail", () => {
   const envBackup = { ...process.env };
+  const infoSpy = vi.spyOn(console, "info").mockImplementation(() => undefined);
+  const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+  const errorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
 
   beforeEach(async () => {
     vi.resetModules();
     sendMail.mockReset();
     sendMail.mockResolvedValue({ messageId: "msg-1" });
+    infoSpy.mockClear();
+    warnSpy.mockClear();
+    errorSpy.mockClear();
     process.env = { ...envBackup };
     delete process.env.EMAIL_ENABLED;
     delete process.env.SMTP_HOST;
@@ -38,7 +44,10 @@ describe("sendTransactionalEmail", () => {
       subject: "Hi",
       text: "Body",
     });
-    expect(result).toEqual({ ok: false, reason: "not_configured" });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.reason).toBe("not_configured");
+    }
     expect(sendMail).not.toHaveBeenCalled();
   });
 
@@ -52,7 +61,10 @@ describe("sendTransactionalEmail", () => {
       subject: "Hi",
       text: "Body",
     });
-    expect(result).toEqual({ ok: false, reason: "not_configured" });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.reason).toBe("not_configured");
+    }
     expect(sendMail).not.toHaveBeenCalled();
   });
 
@@ -92,6 +104,52 @@ describe("sendTransactionalEmail", () => {
       text: "Accept here",
       html: "<p>Accept here</p>",
     });
+    expect(infoSpy).toHaveBeenCalledWith(
+      "[email/smtp] attempt",
+      expect.objectContaining({
+        toDomain: "example.com",
+      }),
+    );
+  });
+
+  it("strips wrapping quotes from CapRover-style env values", async () => {
+    process.env.EMAIL_ENABLED = "true";
+    process.env.SMTP_HOST = '"smtp.mailgun.org"';
+    process.env.SMTP_PORT = '"587"';
+    process.env.SMTP_USER = '"postmaster@mg.example.com"';
+    process.env.SMTP_PASS = '"secret"';
+    process.env.EMAIL_FROM = '"UnionOps <noreply@example.com>"';
+
+    const nodemailer = await import("nodemailer");
+    const { sendTransactionalEmail, getSmtpConfigSnapshot } =
+      await import("./send");
+
+    expect(getSmtpConfigSnapshot()).toMatchObject({
+      host: "smtp.mailgun.org",
+      port: 587,
+      from: "UnionOps <noreply@example.com>",
+      authConfigured: true,
+      strippedQuotes: true,
+    });
+
+    await sendTransactionalEmail({
+      to: "officer@example.com",
+      subject: "Invite",
+      text: "Accept here",
+    });
+
+    expect(nodemailer.default.createTransport).toHaveBeenCalledWith(
+      expect.objectContaining({
+        host: "smtp.mailgun.org",
+        port: 587,
+        auth: { user: "postmaster@mg.example.com", pass: "secret" },
+      }),
+    );
+    expect(sendMail).toHaveBeenCalledWith(
+      expect.objectContaining({
+        from: "UnionOps <noreply@example.com>",
+      }),
+    );
   });
 
   it("returns send_failed when transport throws", async () => {
@@ -99,7 +157,11 @@ describe("sendTransactionalEmail", () => {
     process.env.SMTP_HOST = "smtp.example.com";
     process.env.SMTP_PORT = "465";
     process.env.EMAIL_FROM = "noreply@example.com";
-    sendMail.mockRejectedValueOnce(new Error("relay down"));
+    const err = Object.assign(new Error("relay down"), {
+      code: "ESOCKET",
+      command: "CONN",
+    });
+    sendMail.mockRejectedValueOnce(err);
 
     const { sendTransactionalEmail } = await import("./send");
     const result = await sendTransactionalEmail({
@@ -107,11 +169,20 @@ describe("sendTransactionalEmail", () => {
       subject: "Hi",
       text: "Body",
     });
-    expect(result).toEqual({
-      ok: false,
-      reason: "send_failed",
-      error: "relay down",
-    });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.reason).toBe("send_failed");
+      expect(result.error).toContain("relay down");
+      expect(result.error).toContain("code=ESOCKET");
+      expect(result.smtp?.host).toBe("smtp.example.com");
+      expect(result.smtp?.port).toBe(465);
+    }
+    expect(errorSpy).toHaveBeenCalledWith(
+      "[email/smtp] send_failed",
+      expect.objectContaining({
+        error: expect.stringContaining("relay down"),
+      }),
+    );
   });
 
   it("returns missing_recipient for empty to", async () => {
