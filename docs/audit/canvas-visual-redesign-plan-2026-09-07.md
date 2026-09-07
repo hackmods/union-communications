@@ -47,3 +47,15 @@ it prevents broken posters — not an unbounded art direction rewrite of every t
 | layout-matrix: solidarity / meeting / graphic / board-notice meta | Pass (6/6 targeted) |
 | brand-kit-stress: tight + wide lockup | Pass |
 | Within-reason visual | Flyer meta grid; Solidarity stack pack; Graphic notice pack; capped graphic metaPx |
+
+## Residuals (deferred — inventory still accurate)
+
+From [Audit canvas visual state](a319780e-eb8a-4502-8b22-2ff79a82a9b2) after ship `b6661c1` (inventory was partly pre-ship):
+
+1. Solidarity **split/banner** still use `justify-between` in places (stack packing fixed).
+2. Meeting bold layouts still use `justify-between` for intentional face-safe bands — not the print meta-clip class of bug.
+3. Solidarity/Meeting/Graphic still do **not** call `resolvePrintPageLayout` (print Solidarity uses capped `printPageScaledTokens`; digital Meeting/Graphic use tagged meta + chrome caps).
+4. `LogoContainer` `wideLockup` not wired through Meeting/Solidarity/Graphic yet — Brand Kit stress uses official lockup without that prop.
+5. No exhaustive Look × layout gallery.
+
+Earlier shell failures (stale Next PID / `ERR_CONNECTION_REFUSED`) were environment noise; targeted e2e later passed 6/6.
