@@ -64,6 +64,7 @@ describe("sendTransactionalEmail", () => {
     process.env.SMTP_PASS = "pass";
     process.env.EMAIL_FROM = "UnionOps <noreply@example.com>";
 
+    const nodemailer = await import("nodemailer");
     const { sendTransactionalEmail } = await import("./send");
     const result = await sendTransactionalEmail({
       to: "officer@example.com",
@@ -73,6 +74,17 @@ describe("sendTransactionalEmail", () => {
     });
 
     expect(result).toEqual({ ok: true, messageId: "msg-1" });
+    expect(nodemailer.default.createTransport).toHaveBeenCalledWith(
+      expect.objectContaining({
+        host: "smtp.example.com",
+        port: 587,
+        secure: false,
+        connectionTimeout: 12_000,
+        greetingTimeout: 12_000,
+        socketTimeout: 12_000,
+        auth: { user: "user", pass: "pass" },
+      }),
+    );
     expect(sendMail).toHaveBeenCalledWith({
       from: "UnionOps <noreply@example.com>",
       to: "officer@example.com",

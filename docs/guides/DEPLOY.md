@@ -88,11 +88,13 @@ Optional transactional SMTP (invites / officer reminders / RSVP confirm — ADR-
 |----------|---------|
 | `EMAIL_ENABLED` | `true` (required to send; otherwise APIs return `not_configured`) |
 | `NEXT_PUBLIC_EMAIL_ENABLED` | `true` (Hub Invites “Send email” button; bake at **build** time) |
-| `SMTP_HOST` | `smtp.example.com` |
-| `SMTP_PORT` | `587` |
-| `SMTP_USER` | SMTP username |
-| `SMTP_PASS` | SMTP password |
-| `EMAIL_FROM` | `UnionOps <noreply@your-domain>` |
+| `SMTP_HOST` | `smtp.mailgun.org` (EU: `smtp.eu.mailgun.org`) |
+| `SMTP_PORT` | `587` (or `465`) |
+| `SMTP_USER` | Mailgun **SMTP** login (often `postmaster@mg.your-domain`) — not the HTTP API key |
+| `SMTP_PASS` | Mailgun **SMTP** password from Domain settings → SMTP credentials |
+| `EMAIL_FROM` | `UnionOps <noreply@your-verified-domain>` (must match a Mailgun-verified domain) |
+
+Mailgun’s HTTP Private API key is **not** used here — UnionOps sends via SMTP (`nodemailer`). If reset / magic-link hang then 504, CapRover cannot reach the SMTP host (wrong region host, outbound 587 blocked, or bad SMTP user/pass).
 
 Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_*` is inlined by Next.js). Prefer editing `config/host-brand.json` (or `npm run brand:set`) before `docker build` when you want a white-label host without env sprawl:
 

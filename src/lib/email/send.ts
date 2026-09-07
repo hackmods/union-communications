@@ -52,10 +52,16 @@ export function getEmailTransport(): Transporter | null {
     return null;
   }
   const port = Number(process.env.SMTP_PORT);
+  // Fail fast on bad host / blocked outbound 587 — otherwise nginx returns 504
+  // and Hub forgot-password / magic-link UI sits on "Sending…" for ~60s.
+  const smtpTimeoutMs = 12_000;
   cachedTransport = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number.isFinite(port) ? port : 587,
     secure: port === 465,
+    connectionTimeout: smtpTimeoutMs,
+    greetingTimeout: smtpTimeoutMs,
+    socketTimeout: smtpTimeoutMs,
     auth:
       process.env.SMTP_USER?.trim() && process.env.SMTP_PASS != null
         ? {
