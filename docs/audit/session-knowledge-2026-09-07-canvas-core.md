@@ -36,7 +36,7 @@ Print density fix (CANVAS-005):
 | logo-builder | **intrinsic** | Plate wrap |
 | board-banner (+ trim) | fluid strip | LogoContainer |
 
-Formats: `src/lib/comms/canvas-aspects.ts` (A4, 1:1, 4:5, 16:9, …). Flyer UI surfaces A4.
+Formats: `src/lib/comms/canvas-aspects.ts` (A4, 1:1, 4:5, 16:9, …). Flyer Maker **and Board Notice** surface A4.
 
 Guards: `measureCanvasProportions` / `expectCanvasProportions` on flyer layout-matrix (max logo % + cross-size spread ≤12). Export-root `paddingLeft` is often 0 (pad lives on inner layout) — do not assert `minPadPct` on the root alone.
 
