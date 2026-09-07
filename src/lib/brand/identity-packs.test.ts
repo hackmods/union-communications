@@ -236,9 +236,12 @@ describe("identity-packs", () => {
     );
     expect(colour).toMatch(/<path[^>]*fill="#B22E2C"/);
     expect(oneColor).toMatch(/<path[^>]*fill="#B22E2C"/);
+    // Official mark stays a tiny embedded PNG; wordmarks are outlined paths
+    // (not the old full-lockup path-traces of soft faculty rasters).
     for (const svg of [colour, oneColor, knockout, coalition, reverse]) {
-      expect(svg).not.toMatch(/data:image\/png/);
+      expect(svg).toMatch(/<image[^>]+href="data:image\/png;base64,/);
       expect(svg).toMatch(/<path /);
+      expect(svg).not.toMatch(/font-family=/);
     }
 
     const knockBox = knockout.match(/viewBox="0 0 (\d+) (\d+)"/);

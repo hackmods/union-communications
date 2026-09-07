@@ -261,8 +261,8 @@ export function LogoSettings({
           src: onDarkPreview
             ? officialLogos.lockup.srcOnDark!
             : officialLogos.lockup.src,
-          width: isCaatS ? 220 : isCaatA ? 220 : 160,
-          height: isCaatS ? 72 : isCaatA ? 50 : 64,
+          width: isCaatS ? 220 : isCaatA ? 260 : 160,
+          height: isCaatS ? 72 : isCaatA ? 56 : 64,
           onDark: onDarkPreview,
           plateColor: onDarkPreview ? primaryColor : undefined,
         },
