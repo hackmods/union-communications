@@ -114,7 +114,10 @@ test.describe("Officer Learning @smoke", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.getByText("Officer Learning module")).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Duty of Fair Representation/i }),
+      page.getByRole("link", {
+        name: "Duty of Fair Representation →",
+        exact: true,
+      }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
