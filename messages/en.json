@@ -1496,6 +1496,7 @@
       "pathTitle": "Full Officer Learning path (all sixteen modules)"
     },
     "hubSync": {
+      "panelLabel": "Hub backup and local sharing",
       "signedOutTitle": "Want a Hub backup?",
       "signedOutBody": "Sign in to Officer Hub to save completions to your account. Sharing with your local stays optional and needs your consent.",
       "signIn": "Sign in to Officer Hub",
