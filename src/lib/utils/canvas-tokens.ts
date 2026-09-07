@@ -321,10 +321,14 @@ export function printPageScaledTokens(
     Math.max(0.5, designWidthPx / Math.max(1, referenceWidthPx)),
   );
   const display = typeScaleFactor(tokens);
+  const rawPadding = Math.max(16, Math.round(tokens.paddingPx * ratio));
+  const rawGap = Math.max(8, Math.round(tokens.gapPx * ratio));
   return {
     ...tokens,
-    paddingPx: Math.max(16, Math.round(tokens.paddingPx * ratio)),
-    gapPx: Math.max(8, Math.round(tokens.gapPx * ratio)),
+    // Inset/gap must not track display title scale on denser sheets — otherwise
+    // letter/tabloid posters grow empty bands and crush meta into overflow.
+    paddingPx: printPageInsetPx(rawPadding, designWidthPx),
+    gapPx: printPageGapPx(rawGap, designWidthPx),
     titleFontSizePx: Math.max(
       18,
       Math.round(tokens.titleFontSizePx * display * ratio),
@@ -333,8 +337,17 @@ export function printPageScaledTokens(
   };
 }
 
-/** @deprecated Prefer printPageScaledTokens */
+/** @deprecated Prefer printPageScaledTokens / resolvePrintPageLayout */
 export const boardNoticeScaledTokens = printPageScaledTokens;
+
+/** Max meta font size as a share of print design width (~22px on letter 850). */
+export const PRINT_PAGE_META_WIDTH_SHARE = 0.026;
+
+/** Max content inset as a share of print design width. */
+export const PRINT_PAGE_INSET_WIDTH_SHARE = 0.07;
+
+/** Max stack gap as a share of print design width. */
+export const PRINT_PAGE_GAP_WIDTH_SHARE = 0.03;
 
 /**
  * Date / time / location / contact on letter+ sheets.
@@ -345,7 +358,7 @@ export function printPageMetaFontSizePx(
   designWidthPx: number,
   scaledSubtitleFontSizePx: number,
 ): number {
-  const widthCap = Math.round(designWidthPx * 0.026);
+  const widthCap = Math.round(designWidthPx * PRINT_PAGE_META_WIDTH_SHARE);
   const subtitleCap = Math.round(scaledSubtitleFontSizePx * 0.5);
   return Math.min(22, Math.max(13, Math.min(widthCap, subtitleCap)));
 }
@@ -354,7 +367,7 @@ export function printPageMetaFontSizePx(
 export function printPageInsetPx(
   scaledPaddingPx: number,
   designWidthPx: number,
-  maxShare = 0.07,
+  maxShare = PRINT_PAGE_INSET_WIDTH_SHARE,
 ): number {
   return Math.max(
     16,
@@ -366,12 +379,40 @@ export function printPageInsetPx(
 export function printPageGapPx(
   scaledGapPx: number,
   designWidthPx: number,
-  maxShare = 0.03,
+  maxShare = PRINT_PAGE_GAP_WIDTH_SHARE,
 ): number {
   return Math.max(
     8,
     Math.min(scaledGapPx, Math.round(designWidthPx * maxShare)),
   );
+}
+
+/**
+ * Canonical print-sheet layout metrics for Flyer, Board Notice, Org Chart, etc.
+ * Prefer this over calling `printPageScaledTokens` + hand-tuned `subtitle + N`.
+ */
+export interface PrintPageLayout {
+  /** Tokens with inset/gap already capped for the design width. */
+  tokens: CanvasTokens;
+  designWidthPx: number;
+  /** Supporting meta type (date/time/location/contact) — never display-scale. */
+  metaFontSizePx: number;
+}
+
+export function resolvePrintPageLayout(
+  tokens: CanvasTokens,
+  designWidthPx: number,
+  referenceWidthPx: number,
+): PrintPageLayout {
+  const scaled = printPageScaledTokens(tokens, designWidthPx, referenceWidthPx);
+  return {
+    tokens: scaled,
+    designWidthPx,
+    metaFontSizePx: printPageMetaFontSizePx(
+      designWidthPx,
+      scaled.subtitleFontSizePx,
+    ),
+  };
 }
 
 /** Content inset from Brand Kit density / padding tokens. */

@@ -59,11 +59,17 @@ Session lessons: [`docs/audit/session-knowledge-2026-09-07-canvas-core.md`](../.
    to `getBoundingClientRect()` (transform-scaled) or read `window.devicePixelRatio`.
 7. **Verify export density against artifacts, not comments.** Check real PNG dimensions
    before claiming a DPI target is met.
-8. **Brand Kit stays the multi-union seam.** Proportions must not override
+9. **Brand Kit stays the multi-union seam.** Proportions must not override
    `resolveCanvasTokens` density, type scale, alignment bias or typefaces.
-9. **One logo aspect lock cannot fit all variants.** Wide lockups ~4.4:1, standard
+10. **One logo aspect lock cannot fit all variants.** Wide lockups ~4.4:1, standard
    lockups 2.5:1, marks 1:1. Resolve `AssetBounds` per variant off
    `resolveBrandLogoPresentation`.
+11. **Print supporting type is engine-owned.** Letter/tabloid tools use
+   `resolvePrintPageLayout` (or `printPageScaledTokens`, which caps inset/gap).
+   Never hand-tune `metaSize = subtitleFontSizePx + N`. Meta stays ≤ ~2.6% of
+   design width; pack fixed-height stacks with `justify-content: flex-start`
+   (QR/footer can use `mt-auto`) — do not `justify-between` meta into
+   `overflow: hidden`.
 
 ## External traps
 

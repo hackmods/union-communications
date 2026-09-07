@@ -545,6 +545,74 @@ export function expectTypeMetaClear(
   expect(report.overlaps, label).toBe(0);
 }
 
+export type MetaSupportReport = {
+  metaCount: number;
+  maxFontPx: number;
+  designWidthPx: number;
+  /** True when any meta box extends past the export root (contact clip). */
+  overflowsRoot: boolean;
+  /** True when meta font exceeds ~2.6% of design width (display-scale slop). */
+  oversized: boolean;
+};
+
+/**
+ * Supporting meta (date/time/location/contact) must stay readable supporting
+ * type and fully inside the sheet — the Board Notice crush after denser
+ * print canvases.
+ */
+export async function measureMetaSupport(
+  page: Page,
+): Promise<MetaSupportReport> {
+  return page.evaluate((rootSel) => {
+    const root = document.querySelector(rootSel) as HTMLElement | null;
+    if (!root) {
+      return {
+        metaCount: 0,
+        maxFontPx: 0,
+        designWidthPx: 0,
+        overflowsRoot: true,
+        oversized: true,
+      };
+    }
+    const designWidthPx = root.offsetWidth || 0;
+    const rootBox = root.getBoundingClientRect();
+    const metas = [
+      ...root.querySelectorAll<HTMLElement>("[data-canvas-meta]"),
+    ];
+    let maxFontPx = 0;
+    let overflowsRoot = false;
+    for (const el of metas) {
+      const cs = getComputedStyle(el);
+      const fontPx = parseFloat(cs.fontSize) || 0;
+      if (fontPx > maxFontPx) maxFontPx = fontPx;
+      const box = el.getBoundingClientRect();
+      if (box.bottom > rootBox.bottom + 1.5) overflowsRoot = true;
+      if (box.top < rootBox.top - 1.5) overflowsRoot = true;
+    }
+    const shareCap = Math.max(13, Math.round(designWidthPx * 0.026) + 1);
+    return {
+      metaCount: metas.length,
+      maxFontPx,
+      designWidthPx,
+      overflowsRoot,
+      oversized: maxFontPx > Math.min(23, shareCap),
+    };
+  }, EXPORT_ROOT_SELECTOR);
+}
+
+export function expectMetaSupport(
+  report: MetaSupportReport,
+  label = "meta-support",
+): void {
+  expect(report.metaCount, label).toBeGreaterThan(0);
+  expect(report.designWidthPx, label).toBeGreaterThan(200);
+  expect(report.overflowsRoot, `${label} in-bounds`).toBe(false);
+  expect(
+    report.oversized,
+    `${label} font ${report.maxFontPx}px on ${report.designWidthPx}px`,
+  ).toBe(false);
+}
+
 export type LeadReadableReport = {
   leadCount: number;
   minLeadWidthPx: number;

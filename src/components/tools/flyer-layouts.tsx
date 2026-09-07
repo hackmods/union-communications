@@ -14,7 +14,7 @@ import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
-import { printPageScaledTokens } from "@/lib/utils/canvas-tokens";
+import { resolvePrintPageLayout } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { cn, resolveLocalNumber } from "@/lib/utils";
 
@@ -181,11 +181,8 @@ export function FlyerLayoutCanvas({
   logoMode = "lockup",
   showLocalLabel = true,
 }: FlyerLayoutCanvasProps) {
-  const scaledTokens = printPageScaledTokens(
-    tokens,
-    designWidthPx,
-    referenceWidthPx,
-  );
+  const { tokens: scaledTokens, metaFontSizePx: metaSize } =
+    resolvePrintPageLayout(tokens, designWidthPx, referenceWidthPx);
   const ink = pickContrastingInk(colours.primary);
   const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
     primary: colours.primary,
@@ -197,7 +194,6 @@ export function FlyerLayoutCanvas({
     colours.accent,
     colours.secondary,
   );
-  const metaSize = scaledTokens.subtitleFontSizePx + 4;
   const qrVisible = Boolean(showQr && qrSrc);
   const bodyText = copy.body.trim();
   const resolvedLocal = resolveLocalNumber(localNumber);
@@ -222,6 +218,8 @@ export function FlyerLayoutCanvas({
     aspectRatio,
     display: "flex",
     flexDirection: "column",
+    // Pack from the top — justify-between opens a dead band and clips contact.
+    justifyContent: "flex-start",
     overflow: "hidden",
     boxSizing: "border-box",
     padding: scaledTokens.paddingPx,
@@ -296,7 +294,7 @@ export function FlyerLayoutCanvas({
           </div>
         </div>
         <div
-          className="relative z-[2] flex min-h-0 flex-1 flex-col justify-between"
+          className="relative z-[2] flex min-h-0 flex-1 flex-col"
           style={{
             padding: scaledTokens.paddingPx,
             gap: scaledTokens.gapPx,
@@ -308,15 +306,18 @@ export function FlyerLayoutCanvas({
             copy={copy}
             ink={panelInk}
             fontSize={metaSize}
-            gap={scaledTokens.gapPx}
+            gap={Math.max(6, Math.round(scaledTokens.gapPx * 0.65))}
             includeBody={false}
+            className="shrink-0"
           />
           {qrVisible && qrSrc ? (
-            <QrFooter
-              tokens={scaledTokens}
-              qrSrc={qrSrc}
-              accentColor={colours.accent}
-            />
+            <div className="mt-auto shrink-0">
+              <QrFooter
+                tokens={scaledTokens}
+                qrSrc={qrSrc}
+                accentColor={colours.accent}
+              />
+            </div>
           ) : null}
         </div>
       </div>

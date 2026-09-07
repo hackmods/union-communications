@@ -12,12 +12,7 @@ import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { pickContrastingInk, mutedInkOnBackground } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
-import {
-  boardNoticeScaledTokens,
-  printPageGapPx,
-  printPageInsetPx,
-  printPageMetaFontSizePx,
-} from "@/lib/utils/canvas-tokens";
+import { resolvePrintPageLayout } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { cn } from "@/lib/utils";
 
@@ -190,17 +185,10 @@ export function BoardNoticeLayoutCanvas({
   style,
   canvasRef,
 }: BoardNoticeLayoutCanvasProps) {
-  const scaledTokens = boardNoticeScaledTokens(
-    tokens,
-    designWidthPx,
-    referenceWidthPx,
-  );
-  const padPx = printPageInsetPx(scaledTokens.paddingPx, designWidthPx);
-  const gapPx = printPageGapPx(scaledTokens.gapPx, designWidthPx);
-  const metaSize = printPageMetaFontSizePx(
-    designWidthPx,
-    scaledTokens.subtitleFontSizePx,
-  );
+  const { tokens: scaledTokens, metaFontSizePx: metaSize } =
+    resolvePrintPageLayout(tokens, designWidthPx, referenceWidthPx);
+  const padPx = scaledTokens.paddingPx;
+  const gapPx = scaledTokens.gapPx;
   const ink = pickContrastingInk(colours.primary);
   const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
     primary: colours.primary,

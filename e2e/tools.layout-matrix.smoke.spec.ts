@@ -13,6 +13,7 @@ import { seedCanvasFonts } from "./helpers/canvas-fonts";
 import {
   expectCanvasProportions,
   expectLeadReadable,
+  expectMetaSupport,
   expectPlateGeometry,
   expectPreviewFitsColumn,
   expectTypeMetaClear,
@@ -20,6 +21,7 @@ import {
   measureCanvasProportions,
   measureLeadReadable,
   measureLeadTypeOverlap,
+  measureMetaSupport,
   measurePlateFill,
   measurePreviewFit,
   measureTypeMetaOverlap,
@@ -147,6 +149,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
         });
       }
       await expectExportCopy(page, [copy.headline, copy.body], `flyer-${id}`);
+      expectMetaSupport(await measureMetaSupport(page), `flyer-${id}-meta`);
       if (id === "picket" || id === "rally" || id === "walkabout") {
         expectTypeMetaClear(
           await measureTypeMetaOverlap(page),
@@ -592,6 +595,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       return { ok: true, reason: "" };
     });
     expect(contactInBounds.ok, contactInBounds.reason).toBe(true);
+    expectMetaSupport(await measureMetaSupport(page), "board-notice-meta");
   });
 
   test("board notice stack survives long steward copy without type/meta overlap", async ({

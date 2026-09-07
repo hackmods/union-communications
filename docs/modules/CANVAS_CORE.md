@@ -191,7 +191,10 @@ register, What's new note, proportion guards.
 
 See [`docs/audit/session-knowledge-2026-09-07-canvas-core.md`](../audit/session-knowledge-2026-09-07-canvas-core.md)
 for the live tool table. `printPageScaledTokens` remains for tools that still scale type
-from the legacy 306px reference while authoring at denser design widths.
+from the legacy 306px reference while authoring at denser design widths. **Supporting
+meta / inset / gap** are engine-capped: prefer `resolvePrintPageLayout` for Flyer and
+Board Notice (never `subtitleFontSizePx + N`). Layout-matrix `expectMetaSupport` asserts
+meta font share and in-bounds contact.
 
 ## Format registry
 
