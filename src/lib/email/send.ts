@@ -269,32 +269,6 @@ function isSmtpConnTimeout(err: unknown): boolean {
   );
 }
 
-// #region agent log
-function debugLog(
-  hypothesisId: string,
-  location: string,
-  message: string,
-  data: Record<string, unknown>,
-): void {
-  fetch("http://127.0.0.1:7911/ingest/3d68b2c0-ac88-4c57-b4e8-72926e068c79", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Debug-Session-Id": "7d0b74",
-    },
-    body: JSON.stringify({
-      sessionId: "7d0b74",
-      runId: "mailgun-api",
-      hypothesisId,
-      location,
-      message,
-      data,
-      timestamp: Date.now(),
-    }),
-  }).catch(() => {});
-}
-// #endregion
-
 async function sendViaMailgunApi(
   input: SendTransactionalEmailInput & { to: string },
   smtp: SmtpConfigSnapshot,
@@ -307,13 +281,6 @@ async function sendViaMailgunApi(
   }
 
   const url = `${base}/v3/${encodeURIComponent(domain)}/messages`;
-  // #region agent log
-  debugLog("H3", "send.ts:mailgunApi", "attempt Mailgun HTTP API", {
-    base,
-    domain,
-    toDomain: input.to.includes("@") ? input.to.split("@")[1] : null,
-  });
-  // #endregion
   console.info(`${LOG_PREFIX} attempt mailgun_api`, {
     toDomain: input.to.includes("@") ? input.to.split("@")[1] : null,
     subject: input.subject.slice(0, 80),
@@ -349,12 +316,6 @@ async function sendViaMailgunApi(
     if (!res.ok) {
       const error = `Mailgun API ${res.status}: ${parsed.message ?? raw.slice(0, 200)}`;
       console.error(`${LOG_PREFIX} send_failed mailgun_api`, { error, smtp });
-      // #region agent log
-      debugLog("H3", "send.ts:mailgunApi", "Mailgun API rejected", {
-        status: res.status,
-        error: parsed.message ?? raw.slice(0, 120),
-      });
-      // #endregion
       return { ok: false, reason: "send_failed", error, smtp };
     }
 
@@ -362,11 +323,6 @@ async function sendViaMailgunApi(
       messageId: parsed.id,
       smtp,
     });
-    // #region agent log
-    debugLog("H3", "send.ts:mailgunApi", "Mailgun API accepted", {
-      hasId: Boolean(parsed.id),
-    });
-    // #endregion
     return { ok: true, messageId: parsed.id, transport: "mailgun_api" };
   } catch (err) {
     const message = formatSendError(err);
@@ -374,11 +330,6 @@ async function sendViaMailgunApi(
       error: message,
       smtp,
     });
-    // #region agent log
-    debugLog("H3", "send.ts:mailgunApi", "Mailgun API threw", {
-      error: message.slice(0, 160),
-    });
-    // #endregion
     return { ok: false, reason: "send_failed", error: message, smtp };
   }
 }
@@ -399,12 +350,6 @@ async function sendViaSmtp(
     subject: input.subject.slice(0, 80),
     smtp,
   });
-  // #region agent log
-  debugLog("H1", "send.ts:smtp", `attempt ${label}`, {
-    port: smtp.port,
-    host: smtp.host,
-  });
-  // #endregion
 
   try {
     const info = await transport.sendMail({
@@ -429,12 +374,6 @@ async function sendViaSmtp(
     const message = formatSendError(err);
     const connTimeout = isSmtpConnTimeout(err);
     console.error(`${LOG_PREFIX} send_failed ${label}`, { error: message, smtp });
-    // #region agent log
-    debugLog("H1", "send.ts:smtp", `failed ${label}`, {
-      error: message.slice(0, 160),
-      connTimeout,
-    });
-    // #endregion
     return {
       result: { ok: false, reason: "send_failed", error: message, smtp },
       connTimeout,
