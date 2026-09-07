@@ -200,65 +200,39 @@ describe("identity-packs", () => {
     expect(color.plate).toBe("light");
     expect(knockout.plate).toBe("light");
     expect(knockout.labelKey).toBe("knockoutBurgundy");
-    expect(knockout.src).toBe("/assets/caat-a/logo-lockup-on-primary-knockout.svg");
-    expect(coalition.src).toBe("/assets/caat-a/logo-lockup-on-coalition.svg");
+    expect(knockout.src).toBe("/assets/caat-a/logo-lockup-on-primary.png");
+    expect(coalition.src).toBe("/assets/caat-a/logo-lockup-on-coalition.png");
     expect(reverse.plate).toBe("dark");
-    expect(reverse.src).toBe("/assets/caat-a/logo-lockup-reverse.svg");
+    expect(reverse.src).toBe("/assets/caat-a/logo-lockup-reverse.png");
     expect(identityAssetPlateColor(caatA, color)).toBe("#FFFFFF");
     expect(identityAssetPlateColor(caatA, reverse)).toBe("#1A1A1A");
   });
 
-  it("ships CAAT-A plated knockouts with full-bleed plates and a tight one-colour crop", () => {
+  it("ships CAAT-A official faculty PNG lockups (no reconstructed art)", () => {
     const caatA = getIdentityPack(OPSEU_CAAT_A_PACK_ID)!;
-    const read = (src: string) =>
-      readFileSync(join(process.cwd(), "public", src.replace(/^\//, "")), "utf8");
+    const publicPath = (src: string) =>
+      join(process.cwd(), "public", src.replace(/^\//, ""));
 
-    const knockout = read(
-      caatA.assetVariants.find((v) => v.id === "knockout")!.src,
-    );
-    const coalition = read(
-      caatA.assetVariants.find((v) => v.id === "on-coalition")!.src,
-    );
-    const reverse = read(
-      caatA.assetVariants.find((v) => v.id === "reverse")!.src,
-    );
-    const oneColor = read(caatA.logos.oneColor!);
+    const knockout = caatA.assetVariants.find((v) => v.id === "knockout")!.src;
+    const coalition = caatA.assetVariants.find((v) => v.id === "on-coalition")!.src;
+    const reverse = caatA.assetVariants.find((v) => v.id === "reverse")!.src;
+    const colour = caatA.assetVariants.find((v) => v.id === "color")!.src;
+    const oneColor = caatA.logos.oneColor!;
 
-    expect(knockout).toMatch(/<rect[^>]*fill="#B22E2C"/);
-    expect(coalition).toMatch(/<rect[^>]*fill="#003DA5"/);
-    expect(reverse).toMatch(/<rect[^>]*fill="#231F20"/);
-    expect(knockout).toMatch(/<path[^>]*fill="#FFFFFF"/);
-    expect(coalition).toMatch(/<path[^>]*fill="#FFFFFF"/);
-    expect(reverse).toMatch(/<path[^>]*fill="#FFFFFF"/);
-
-    const colour = read(
-      caatA.assetVariants.find((v) => v.id === "color")!.src,
-    );
-    expect(colour).toMatch(/<path[^>]*fill="#B22E2C"/);
-    expect(oneColor).toMatch(/<path[^>]*fill="#B22E2C"/);
-    // Official mark stays a tiny embedded PNG; wordmarks are outlined paths
-    // (not the old full-lockup path-traces of soft faculty rasters).
-    for (const svg of [colour, oneColor, knockout, coalition, reverse]) {
-      expect(svg).toMatch(/<image[^>]+href="data:image\/png;base64,/);
-      expect(svg).toMatch(/<path /);
-      expect(svg).not.toMatch(/font-family=/);
+    // Legal: only the supplied faculty rasters — never hand-traced / regenerated lockups.
+    for (const src of [colour, oneColor, knockout, coalition, reverse]) {
+      expect(src).toMatch(/\.png$/);
+      expect(existsSync(publicPath(src))).toBe(true);
+      expect(src).toContain("/assets/caat-a/");
     }
 
-    const knockBox = knockout.match(/viewBox="0 0 (\d+) (\d+)"/);
-    expect(knockBox).toBeTruthy();
-    expect(Number(knockBox![1])).toBe(200);
-    expect(Number(knockBox![2])).toBe(100);
-    expect(Number(knockBox![1]) / Number(knockBox![2])).toBeCloseTo(2, 1);
-
-    const coalBox = coalition.match(/viewBox="0 0 (\d+) (\d+)"/);
-    const revBox = reverse.match(/viewBox="0 0 (\d+) (\d+)"/);
-    expect(coalBox?.[1]).toBe(knockBox![1]);
-    expect(revBox?.[1]).toBe(knockBox![1]);
-
-    const oneBox = oneColor.match(/viewBox="0 0 (\d+) (\d+)"/);
-    expect(oneBox).toBeTruthy();
-    expect(Number(oneBox![1])).toBeGreaterThan(500);
-    expect(Number(oneBox![2])).toBeLessThan(120);
+    expect(knockout).toBe("/assets/caat-a/logo-lockup-on-primary.png");
+    expect(coalition).toBe("/assets/caat-a/logo-lockup-on-coalition.png");
+    expect(reverse).toBe("/assets/caat-a/logo-lockup-reverse.png");
+    expect(colour).toBe("/assets/caat-a/logo-lockup-color.png");
+    expect(caatA.logos.lockupOnDark).toBe(knockout);
+    expect(caatA.plates?.[0]?.lockupOnPlate).toBe(knockout);
+    expect(caatA.plates?.[1]?.lockupOnPlate).toBe(coalition);
   });
 
   it("applies explicit gold plate colours without an invert shortcut", () => {
@@ -355,7 +329,7 @@ describe("identity-packs", () => {
 
     const caatA = getIdentityPack(OPSEU_CAAT_A_PACK_ID)!;
     expect(lockupForCanvasBackground(caatA, CAAT_A_COLORS.primaryColor)).toContain(
-      "knockout",
+      "on-primary",
     );
     expect(
       lockupForCanvasBackground(caatA, CAAT_A_COALITION_COLORS.primaryColor),
