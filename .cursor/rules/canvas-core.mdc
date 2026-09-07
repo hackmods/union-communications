@@ -1,0 +1,115 @@
+---
+description: Canvas Core engine — geometry, logo scaling, safe zones and export density for all visual canvas tools
+globs: src/components/canvas-core/**,src/components/tools/canvas/**,src/components/tools/*layouts.tsx,src/components/tools/FitWidthFrame.tsx,src/components/tools/MobilePreviewStage.tsx,src/lib/export/capture.ts,src/lib/export/image-export.ts,src/lib/export/pdf-export.ts,src/lib/comms/print-page-formats.ts,src/lib/utils/canvas-tokens.ts,src/components/brand/BrandLogo.tsx,src/components/brand/LocalLogoPlate.tsx
+alwaysApply: false
+---
+
+# Canvas Core
+
+Shared geometry engine for the 14 visual canvas tools. Spec:
+[`docs/modules/CANVAS_CORE.md`](../../docs/modules/CANVAS_CORE.md). Measured defect
+inventory, external traps, QoL list and blind spots:
+[`docs/audit/canvas-core-audit-2026-09-06.md`](../../docs/audit/canvas-core-audit-2026-09-06.md).
+
+**Status 2026-09-06:** audited and specified, **not yet implemented**. Until Wave 0 lands,
+the findings below describe known-bad current behaviour, not shipped contracts.
+
+## Read before touching any canvas tool
+
+Measured on the running app 2026-09-06. Do not re-derive these from search:
+
+1. **Logo sizing is not canvas-relative.** Same tool, three paper sizes: the logo is
+   **81% / 58% / 44%** of canvas width (half letter / letter / tabloid). `BrandLogo` uses
+   a fixed px map (`wideLockupSize.sm = 176x40`); `printPageScaledTokens` scales type and
+   padding but never the logo. This is the root of "inconsistent logo scaling".
+2. **Previews never scale up.** `FitWidthFrame` is `Math.min(1, w / designWidth)` — it
+   only scales down. A 306px sheet sits in a 732px column at 1920px. Migrating a tool to
+   `FitWidthFrame` does **not** fix this; it needs an explicit upscale cap.
+3. **Letter print exports are ~144 PPI, not ~300.** `printPageExportPixelRatio` clamps at
+   4, so 306px x 4 = 1224px across 8.5in. Verified against real exported PNGs
+   (`1224x1584` for flyer, org-chart and solidarity letter). The "~300dpi" code comment
+   is wrong.
+4. **The export pipeline is already unified.** No tool imports `html-to-image` or `jspdf`
+   directly; everything runs `useExportHandler` → `exportNodeAsPng` / `nodeToPdf` →
+   `withUnscaledAncestors` → `buildHtmlToImageOptions`. Do not "consolidate" it again —
+   the decay is in geometry.
+
+## Hard rules
+
+1. **Never `maxWidth: 100%` on `[data-export-root]`.** Fixed `width` + `height` +
+   `maxWidth: 100%` desyncs paper aspect from type scale. Scale with a transform on a
+   **parent**; `capture.ts` zeroes `transform` on the clone. Still present in
+   `flyer-layouts.tsx` and `board-notice-layouts.tsx`.
+2. **`container-type: size` applies size containment in both axes.** Use it only where
+   height is known. Content-driven canvases (pulse-poll, board-banner strips,
+   logo-builder rectangle) must use `inline-size`, where **`cqh` is unavailable**.
+   Getting this wrong collapses the canvas to zero height.
+3. **`cqw` resolves against the nearest container ancestor.** Declare a `container-name`
+   on the canvas root and reference it, so a nested container cannot silently re-base the
+   scale. `LocalLogoPlate` (`size="fluid"`) already establishes a container **inside** the
+   resizer export root — nesting is real, not hypothetical.
+4. **Container queries do not improve export fidelity.** `inlineComputedStylesForCapture`
+   flattens computed values to px on the clone, so `cqw` and design-px produce identical
+   rasters. The win is authoring consistency — one proportional rule replacing three
+   scaling systems. Export **quality** is governed by pixel ratio and design width.
+5. **`CAPTURE_STYLE_PROPS` is an allowlist.** It does **not** include `borderWidth`,
+   `borderStyle`, `aspectRatio`, `flexBasis`, `flexGrow`, `flexShrink`, `backgroundSize`,
+   `backgroundPosition` or `boxShadow`. `cqw` in any of those will not survive capture.
+   Extend the allowlist before relying on them.
+6. **Size from layout px, never rects or DPR.** `buildHtmlToImageOptions` uses
+   `offsetWidth`/`offsetHeight`, so exports are identical on every display. Do not switch
+   to `getBoundingClientRect()` (transform-scaled) or read `window.devicePixelRatio`.
+7. **Verify export density against artifacts, not comments.** Check real PNG dimensions
+   before claiming a DPI target is met.
+8. **Brand Kit stays the multi-union seam.** Proportions must not override
+   `resolveCanvasTokens` density, type scale, alignment bias or typefaces.
+9. **One logo aspect lock cannot fit all variants.** Wide lockups ~4.4:1, standard
+   lockups 2.5:1, marks 1:1. Resolve `AssetBounds` per variant off
+   `resolveBrandLogoPresentation`.
+
+## External traps
+
+- **Canvas taint:** `duotone-photo.ts` loads photos without `crossOrigin` and swallows the
+  `SecurityError`, so a cross-origin photo silently exports without its duotone. Safe only
+  because photos are local uploads today.
+- **CDN assets:** logos render via plain `<img src="/assets/...">`. Serving `/assets` from
+  another origin without CORS makes exports lose the logo while the preview still looks
+  correct.
+- **Font race:** `awaitDocumentFontsReady` times out after 5s and proceeds silently with
+  fallback metrics. `document.fonts.ready` also resolves early for faces not yet
+  requested (`next/font/local` loads lazily).
+- **Silent brand substitution:** `SafeLogoImage` falls back to the UnionOps mark
+  `onError`, so a broken local logo exports the **platform** brand with no warning.
+- **No bleed or crop marks:** PDFs are generated at exact trim size.
+- **PDF is JPEG at 0.92, no CMYK** — flat brand fields can band at a commercial printer.
+
+## Testing
+
+- `expectPreviewFitsColumn` asserts **width only**, which is why the logo and fit defects
+  pass CI today. Add height, aspect, proportion and minimum-font assertions.
+- Run canvas suites with `--workers=1`. They are flaky in parallel on this machine and
+  pass serially.
+- `compareRasters` compares preview against export, **not** against an approved design.
+  Capture reference PNGs per layout class before a refactor or consistent drift passes
+  silently.
+- French copy runs 15–25% longer and auto-fits smaller — cover at least one FR row per
+  layout class.
+
+## Shipping obligations
+
+New sizes or canvas capabilities are steward-visible: add a `/updates` note
+([`whats-new.mdc`](whats-new.mdc)) and EN/FR labels whose **claims** match
+([`i18n-public-copy.mdc`](i18n-public-copy.mdc)).
+
+## Superseded rules
+
+Landing Canvas Core Wave 0 must rewrite, in the same change:
+
+- [`comms-visual-system.mdc`](comms-visual-system.mdc) — drop "Do not collapse all tools
+  into one layout engine" and "Do not port Board FitWidth to every tool"
+- [`solidarity-posters.mdc`](solidarity-posters.mdc) — `FitWidthFrame` becomes
+  `CanvasWrapper`
+- [`tool-editor-ux.mdc`](tool-editor-ux.mdc) — reset the migration register as tools land
+
+[`export-engine-parity.mdc`](export-engine-parity.mdc) is **not** superseded: raster PDF,
+text PDF and Office remain separate writers. `useCanvasExport` unifies the raster lane only.
