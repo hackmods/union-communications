@@ -8,12 +8,15 @@ export interface RlsSessionContext {
   crossLocal?: boolean;
 }
 
+/** Root client or transaction — both expose `execute` for SET LOCAL GUCs. */
+export type RlsDbClient = Pick<Db, "execute">;
+
 /**
  * Set Postgres session vars for RLS policies (SEC-003 / ADR-008).
  * Call inside a transaction after auth succeeds. No-ops if vars already empty.
  */
 export async function applyRlsContext(
-  db: Db,
+  db: RlsDbClient,
   ctx: RlsSessionContext,
 ): Promise<void> {
   await db.execute(

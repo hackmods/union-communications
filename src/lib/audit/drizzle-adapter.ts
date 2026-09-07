@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, type SQL } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import { applyRlsContext } from "@/lib/db/rls-context";
 import { auditLog as auditLogTable } from "@/lib/db/schema";
@@ -49,7 +49,7 @@ export class DrizzleAuditLogAdapter implements AuditLogAdapter {
     limit?: number;
   }): Promise<AuditEntry[]> {
     const db = getDb();
-    const conditions = [];
+    const conditions: SQL[] = [];
     if (filters.unionId) {
       conditions.push(eq(auditLogTable.unionId, filters.unionId));
     }
