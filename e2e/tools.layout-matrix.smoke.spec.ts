@@ -52,6 +52,38 @@ const SOLIDARITY_LAYOUT_RADIO: Record<string, RegExp> = {
   banner: /^Banner/i,
 };
 
+const FLYER_PRESET_COPY: Record<
+  (typeof LAYOUT_CLASS_FLYER)[number],
+  { headline: RegExp; body: RegExp }
+> = {
+  picket: {
+    headline: /PICKET LINE/i,
+    body: /Stand with your co-workers/i,
+  },
+  rally: {
+    headline: /RALLY FOR A FAIR CONTRACT/i,
+    body: /Hear updates from the bargaining team/i,
+  },
+  meeting: {
+    headline: /General Membership Meeting/i,
+    body: /All members welcome/i,
+  },
+  walkabout: {
+    headline: /UNION WALKABOUT/i,
+    body: /Meet your stewards/i,
+  },
+};
+
+const GRAPHIC_PRESET_HEADLINE: Record<
+  (typeof LAYOUT_CLASS_GRAPHIC)[number],
+  RegExp
+> = {
+  agmNotice: /Annual General Meeting/i,
+  bargainingUpdate: /Bargaining Update/i,
+  strikeAction: /Strike Action/i,
+  memberSpotlight: /Member Spotlight/i,
+};
+
 async function expectLayoutRadio(
   page: import("@playwright/test").Page,
   name: RegExp,
@@ -64,6 +96,18 @@ async function expectLayoutRadio(
   ).toBeChecked();
 }
 
+async function expectExportCopy(
+  page: import("@playwright/test").Page,
+  patterns: RegExp[],
+  label: string,
+): Promise<void> {
+  const root = page.locator("[data-export-root]").first();
+  await expect(root, label).toBeVisible();
+  for (const pattern of patterns) {
+    await expect(root.getByText(pattern), `${label} ${pattern}`).toBeVisible();
+  }
+}
+
 test.describe("Canvas layout-class matrix @smoke", () => {
   test("flyer presets apply unique layouts without cropping", async ({
     page,
@@ -73,6 +117,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
 
     for (const id of LAYOUT_CLASS_FLYER) {
       const preset = FLYER_PRESETS[id];
+      const copy = FLYER_PRESET_COPY[id];
       await page.goto(`/en/tools/flyer-maker/?preset=${id}`);
       await expect(
         page.getByRole("heading", { name: "Picket / Rally Flyer Maker" }),
@@ -92,7 +137,32 @@ test.describe("Canvas layout-class matrix @smoke", () => {
         expect(fill.imgCount, id).toBe(0);
       }
       expectPreviewFitsColumn(await measurePreviewFit(page), id);
+      await expectExportCopy(page, [copy.headline, copy.body], `flyer-${id}`);
+      if (id === "picket" || id === "rally" || id === "walkabout") {
+        expectTypeMetaClear(
+          await measureTypeMetaOverlap(page),
+          `flyer-${id}-type/meta`,
+        );
+      }
     }
+  });
+
+  test("flyer cold load matches Picket line starter", async ({ page }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/flyer-maker/");
+    await expect(
+      page.getByRole("heading", { name: "Picket / Rally Flyer Maker" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /Picket line/i }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expectLayoutRadio(page, FLYER_LAYOUT_RADIO.band);
+    await waitForExportRoot(page);
+    await expectExportCopy(
+      page,
+      [FLYER_PRESET_COPY.picket.headline, FLYER_PRESET_COPY.picket.body],
+      "flyer-cold-picket",
+    );
   });
 
   test("flyer walkabout split has no type/meta overlap", async ({ page }) => {
@@ -111,10 +181,15 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       await measurePreviewFit(page),
       "flyer-walkabout",
     );
-    const root = page.locator("[data-export-root]");
-    await expect(root.getByText(/UNION WALKABOUT/i)).toBeVisible();
-    await expect(root.getByText(/Meet your stewards/i)).toBeVisible();
-    await expect(root.getByText(/Your department/i)).toBeVisible();
+    await expectExportCopy(
+      page,
+      [
+        /UNION WALKABOUT/i,
+        /Meet your stewards/i,
+        /Your department/i,
+      ],
+      "flyer-walkabout",
+    );
   });
 
   test("flyer meeting stack keeps supporting details readable", async ({
@@ -128,9 +203,11 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       await measureTypeMetaOverlap(page),
       "flyer-meeting-type/meta",
     );
-    const root = page.locator("[data-export-root]");
-    await expect(root.getByText(/General Membership Meeting/i)).toBeVisible();
-    await expect(root.getByText(/All members welcome/i)).toBeVisible();
+    await expectExportCopy(
+      page,
+      [/General Membership Meeting/i, /All members welcome/i],
+      "flyer-meeting",
+    );
   });
 
   test("flyer letter stays uncropped at phone width", async ({ page }) => {
@@ -148,6 +225,45 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       slots: 1,
     });
     expectPreviewFitsColumn(await measurePreviewFit(page), "flyer-390-letter");
+    await expectExportCopy(
+      page,
+      [FLYER_PRESET_COPY.rally.headline, FLYER_PRESET_COPY.rally.body],
+      "flyer-390-rally",
+    );
+  });
+
+  test("flyer half-letter walkabout keeps full location line", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/flyer-maker/?preset=walkabout");
+    await expect(
+      page.getByRole("heading", { name: "Picket / Rally Flyer Maker" }),
+    ).toBeVisible();
+    await openLayoutSection(page);
+    await expect(
+      page
+        .getByRole("radiogroup", { name: /^Paper size$/i })
+        .getByRole("radio", { name: /Half letter/i }),
+    ).toHaveAttribute("aria-checked", "true");
+    await waitForQrPreview(page);
+    expectPreviewFitsColumn(
+      await measurePreviewFit(page),
+      "flyer-half-letter-walkabout",
+    );
+    expectTypeMetaClear(
+      await measureTypeMetaOverlap(page),
+      "flyer-half-letter-type/meta",
+    );
+    await expectExportCopy(
+      page,
+      [
+        /UNION WALKABOUT/i,
+        /Meet your stewards/i,
+        /Your department/i,
+      ],
+      "flyer-half-letter-walkabout",
+    );
   });
 
   test("graphic maker presets apply layout classes", async ({ page }) => {
@@ -163,6 +279,11 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       await expectLayoutRadio(page, GRAPHIC_LAYOUT_RADIO[layout]);
       await waitForExportRoot(page);
       expectPreviewFitsColumn(await measurePreviewFit(page), id);
+      await expectExportCopy(
+        page,
+        [GRAPHIC_PRESET_HEADLINE[id]],
+        `graphic-${id}`,
+      );
     }
 
     await page.goto(
@@ -184,6 +305,20 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     );
   });
 
+  test("graphic maker cold load is Member Spotlight", async ({ page }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/graphic-maker/");
+    await expect(
+      page.getByRole("heading", { name: "Graphic Maker" }),
+    ).toBeVisible();
+    await expectLayoutRadio(page, GRAPHIC_LAYOUT_RADIO.spotlight);
+    await waitForExportRoot(page);
+    await expectExportCopy(
+      page,
+      [/Member Spotlight/i],
+      "graphic-cold-spotlight",
+    );
+  });
   test("solidarity one slogan per layout plus 16:9", async ({ page }) => {
     test.setTimeout(90_000);
     await seedCanvasFonts(page);
@@ -235,6 +370,11 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       await measureLeadReadable(page),
       "solidarity-forever-lead-width",
     );
+    await expectExportCopy(
+      page,
+      [/Keep calm and/i, /SOLIDARITY/i, /Together we win/i],
+      "solidarity-forever-copy",
+    );
   });
 
   test("meeting background bold then minimal", async ({ page }) => {
@@ -266,6 +406,11 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     ).toBeChecked();
     await waitForExportRoot(page);
     expectPreviewFitsColumn(await measurePreviewFit(page), "meeting-bold");
+    await expectExportCopy(
+      page,
+      [/Keep calm and/i, /SOLIDARITY/i, /Together we win/i],
+      "meeting-bold-copy",
+    );
 
     await page
       .getByRole("radiogroup", { name: /^Design$/i })
@@ -281,6 +426,27 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       .toBe(true);
     await waitForExportRoot(page);
     expectPreviewFitsColumn(await measurePreviewFit(page), "meeting-minimal");
+    await expectExportCopy(
+      page,
+      [/Keep calm and/i, /SOLIDARITY/i, /Together we win/i],
+      "meeting-minimal-copy",
+    );
+  });
+
+  test("meeting background cold load shows default slogan copy", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/meeting-background/");
+    await expect(
+      page.getByRole("heading", { name: "Meeting Background Maker" }),
+    ).toBeVisible();
+    await waitForExportRoot(page);
+    await expectExportCopy(
+      page,
+      [/Keep calm and/i, /SOLIDARITY/i, /Together we win/i],
+      "meeting-cold",
+    );
   });
 
   test("quote card presets apply unique layouts without cropping", async ({
@@ -295,9 +461,14 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       await expect(
         page.getByRole("heading", { name: "Quote Card Generator" }),
       ).toBeVisible();
-      await expectLayoutRadio(page, QUOTE_LAYOUT_RADIO[preset.layout]);
       await waitForExportRoot(page);
       expectPreviewFitsColumn(await measurePreviewFit(page), `quote-${id}`);
+      const patterns = [new RegExp(preset.quote.slice(0, 24), "i")];
+      if (preset.role.trim()) {
+        patterns.push(new RegExp(preset.role, "i"));
+      }
+      await expectExportCopy(page, patterns, `quote-${id}`);
+      await expectLayoutRadio(page, QUOTE_LAYOUT_RADIO[preset.layout]);
     }
   });
 
@@ -309,6 +480,14 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     ).toBeVisible();
     await waitForExportRoot(page);
     expectPreviewFitsColumn(await measurePreviewFit(page), "quote-card");
+    await expectExportCopy(
+      page,
+      [
+        /We will not accept anything less/i,
+        /Bargaining committee/i,
+      ],
+      "quote-cold-bargaining",
+    );
   });
 
   test("quote card portrait export root fits the column", async ({ page }) => {

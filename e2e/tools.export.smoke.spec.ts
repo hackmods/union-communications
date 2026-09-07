@@ -45,9 +45,11 @@ async function sampleDownloadedPng(
 
 test.describe("Tool export output smoke @smoke", () => {
   test("Flyer Maker PNG keeps brand field and type ink", async ({ page }) => {
+    test.setTimeout(90_000);
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/en/tools/flyer-maker/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await page.locator("[data-export-root]").first().waitFor({ state: "visible" });
 
     const downloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: "Download PNG" }).click();
@@ -178,9 +180,11 @@ test.describe("Tool export output smoke @smoke", () => {
   test("Solidarity Poster PNG keeps brand field and type ink", async ({
     page,
   }) => {
+    test.setTimeout(90_000);
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/en/tools/solidarity-poster/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await page.locator("[data-export-root]").first().waitFor({ state: "visible" });
 
     const downloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: /Download PNG|PNG/i }).first().click();
@@ -245,5 +249,46 @@ test.describe("Tool export output smoke @smoke", () => {
       minInk: 8,
     });
     expect(check.ok, check.reason).toBe(true);
+  });
+
+  test("Board Banner default trim ZIP has three PNG sheets", async ({
+    page,
+  }) => {
+    test.setTimeout(90_000);
+    const JSZip = (await import("jszip")).default;
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/en/tools/board-banner/");
+    await expect(
+      page.getByRole("heading", { name: "Board Banner & Trim" }),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByRole("radiogroup", { name: /^What to print$/i })
+        .getByRole("radio", { name: /Frame trim/i }),
+    ).toHaveAttribute("aria-checked", "true");
+
+    const downloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Download ZIP" }).click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/\.zip$/i);
+
+    const outDir = path.join("test-results", "tool-export-smoke");
+    fs.mkdirSync(outDir, { recursive: true });
+    const filePath = path.join(outDir, download.suggestedFilename());
+    await download.saveAs(filePath);
+    expect(fs.statSync(filePath).size).toBeGreaterThan(20_000);
+
+    const zip = await JSZip.loadAsync(fs.readFileSync(filePath));
+    const pngNames = Object.keys(zip.files).filter((n) =>
+      /\.png$/i.test(n),
+    );
+    expect(pngNames.length, pngNames.join(", ")).toBe(3);
+
+    for (const name of pngNames) {
+      const entry = zip.file(name);
+      expect(entry, name).toBeTruthy();
+      const buf = await entry!.async("nodebuffer");
+      expect(buf.byteLength, name).toBeGreaterThan(5_000);
+    }
   });
 });

@@ -82,6 +82,12 @@ export async function openLayoutSection(page: Page): Promise<void> {
   if (!isOpen) {
     await first.locator("summary").click();
   }
+  await expect
+    .poll(
+      async () => first.evaluate((el) => (el as HTMLDetailsElement).open),
+      { timeout: 10_000 },
+    )
+    .toBe(true);
 }
 
 export async function selectPrintSize(
