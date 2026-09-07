@@ -139,6 +139,7 @@ function LocalFooter({
   if (!show) return null;
   return (
     <p
+      data-canvas-meta=""
       className={cn(
         size === "export" ? "mt-3 text-sm" : "mt-2 text-[10px] sm:text-xs",
       )}
@@ -684,11 +685,11 @@ function NoticeLayout({
         style={{ backgroundColor: accent }}
       />
       <div
-        className="absolute inset-0 z-[2] flex flex-col justify-between"
-        style={{ padding: chrome.pad, textAlign }}
+        className="absolute inset-0 z-[2] flex flex-col"
+        style={{ padding: chrome.pad, textAlign, gap: 12 }}
       >
         <div
-          className="flex items-start gap-2"
+          className="flex shrink-0 items-start gap-2"
           style={{ justifyContent: brandJustify }}
         >
           <LayoutBrandLogo
@@ -697,6 +698,7 @@ function NoticeLayout({
             backgroundColor={primary}
           />
           <span
+            data-canvas-meta=""
             className={cn(
               "rounded font-bold uppercase tracking-wide",
               exportMode ? "px-3 py-1" : "px-2 py-0.5",
@@ -713,7 +715,7 @@ function NoticeLayout({
             {copy.detail ?? "Notice"}
           </span>
         </div>
-        <div>
+        <div className="relative z-[2] min-h-0 flex-1 overflow-hidden">
           <h3
             className={cn("font-bold", !titlePx && (exportMode ? "text-4xl" : "text-base sm:text-xl"))}
             style={{
@@ -752,7 +754,7 @@ function NoticeLayout({
         </div>
         <div
           className={cn(
-            "absolute bottom-0 right-0",
+            "pointer-events-none absolute bottom-0 right-0",
             exportMode ? "h-24 w-24" : "h-16 w-16",
           )}
           style={{

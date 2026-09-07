@@ -103,26 +103,31 @@ function MetaBlock({
   return (
     <div
       data-canvas-meta=""
-      className={cn("relative z-[2] min-w-0", className)}
+      className={cn("relative z-[2] min-w-0 w-full", className)}
       style={{
         color: ink,
         fontSize,
         lineHeight: 1.35,
-        display: "flex",
-        flexDirection: "column",
-        gap,
-        // Never clip mid-word — half-letter walkabout used to show "Your" alone.
+        display: "grid",
+        gridTemplateColumns: "max-content minmax(0, 1fr)",
+        columnGap: "0.4em",
+        rowGap: gap,
         overflowWrap: "anywhere",
-        wordBreak: "break-word",
+        wordBreak: "normal",
       }}
     >
-      {body ? <p style={{ margin: 0 }}>{body}</p> : null}
+      {body ? (
+        <p style={{ margin: 0, gridColumn: "1 / -1" }}>{body}</p>
+      ) : null}
       {rows.map((row) => (
-        <p key={row.label} style={{ margin: 0 }}>
-          <strong>{row.label}:</strong> {row.value}
-        </p>
+        <div key={row.label} style={{ display: "contents" }}>
+          <strong style={{ fontWeight: 700 }}>{row.label}:</strong>
+          <span>{row.value}</span>
+        </div>
       ))}
-      {contact ? <p style={{ margin: 0 }}>{contact}</p> : null}
+      {contact ? (
+        <p style={{ margin: 0, gridColumn: "1 / -1" }}>{contact}</p>
+      ) : null}
     </div>
   );
 }

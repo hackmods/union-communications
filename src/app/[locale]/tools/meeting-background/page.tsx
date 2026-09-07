@@ -436,6 +436,8 @@ export default function MeetingBackgroundPage() {
     const align = meetingAlignFromBias(layoutDefault, tokens.alignmentBias);
     return showLead ? (
       <p
+        data-canvas-lead=""
+        data-canvas-meta=""
         className={cn(
           "min-w-0 max-w-full text-[10px] font-semibold uppercase tracking-[0.18em] md:text-xs",
           align === "center" && "text-center",
@@ -455,6 +457,7 @@ export default function MeetingBackgroundPage() {
     const align = meetingAlignFromBias(layoutDefault, tokens.alignmentBias);
     return showClose ? (
       <p
+        data-canvas-meta=""
         className={cn(
           "min-w-0 max-w-full text-[10px] font-medium tracking-wide md:text-xs",
           align === "center" && "text-center",

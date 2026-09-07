@@ -7345,7 +7345,7 @@
       },
       "canvas-core-print-fit": {
         "title": "Les tracts et feuilles d'impression remplissent l'aperçu",
-        "body": "Les tracts, avis de babillard et affiches en format lettre ou tabloïd s'adaptent maintenant à votre écran, gardent le logo proportionné d'un format de papier à l'autre, et exportent des PNG plus nets pour l'impression. Date, heure, lieu et contact restent en taille d'appui sur la feuille — sans écrasement ni coupure — et le Créateur de tracts et l'Avis de babillard offrent aussi le format A4."
+        "body": "Les tracts, avis de babillard et affiches en format lettre ou tabloïd s'adaptent maintenant à votre écran, gardent le logo proportionné d'un format de papier à l'autre, et exportent des PNG plus nets pour l'impression. Date, heure, lieu et contact restent en taille d'appui sur la feuille — et Affiche de solidarité, Arrière-plan de réunion et Créateur de graphiques reçoivent le même assemblage pour que l'accroche et la ligne locale restent lisibles sous un logo large ou une densité Brand Kit serrée."
       },
       "flyer-walkabout-fit": {
         "title": "Les tracts de tournée restent lisibles",

@@ -22,6 +22,13 @@ export type SeedCanvasFontsOpts = {
   primaryColor?: string;
   secondaryColor?: string;
   accentColor?: string;
+  /** Brand Kit canvas density — default roomy via style package solid. */
+  density?: "tight" | "roomy";
+  /** Prefer official lockup (wide) vs generated mark — stress for LogoContainer. */
+  useOfficialLogo?: boolean;
+  officialLogoVariant?: "lockup" | "mark";
+  subText?: string;
+  alignmentBias?: "start" | "center" | "asymmetric";
 };
 
 /**
@@ -37,6 +44,11 @@ export async function seedCanvasFonts(
   const primaryColor = opts.primaryColor ?? "#003DA5";
   const secondaryColor = opts.secondaryColor ?? "#002868";
   const accentColor = opts.accentColor ?? "#FFFFFF";
+  const density = opts.density;
+  const useOfficialLogo = opts.useOfficialLogo ?? false;
+  const officialLogoVariant = opts.officialLogoVariant ?? "lockup";
+  const subText = opts.subText ?? "Font e2e";
+  const alignmentBias = opts.alignmentBias;
 
   await page.addInitScript(
     ({ brandKey, onboardKey, kit }) => {
@@ -51,13 +63,13 @@ export async function seedCanvasFonts(
         local: {
           id: "local-e2e",
           localNumber: "243",
-          subText: "Font e2e",
+          subText,
         },
         primaryColor,
         secondaryColor,
         accentColor,
-        useOfficialLogo: false,
-        officialLogoVariant: "lockup",
+        useOfficialLogo,
+        officialLogoVariant,
         logoText: "UO",
         customLinks: [],
         membershipUrls: [],
@@ -66,6 +78,8 @@ export async function seedCanvasFonts(
           headlineFontId,
           bodyFontId,
           typeScale: "display",
+          ...(density ? { density } : {}),
+          ...(alignmentBias ? { alignmentBias } : {}),
         },
         updatedAt: new Date().toISOString(),
       },

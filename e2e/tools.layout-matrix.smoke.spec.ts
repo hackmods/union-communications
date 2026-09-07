@@ -364,6 +364,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       [/Member Spotlight/i],
       "graphic-cold-spotlight",
     );
+    expectMetaSupport(await measureMetaSupport(page), "graphic-cold-meta");
   });
   test("solidarity one slogan per layout plus 16:9", async ({ page }) => {
     test.setTimeout(90_000);
@@ -420,6 +421,10 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       page,
       [/Keep calm and/i, /SOLIDARITY/i, /Together we win/i],
       "solidarity-forever-copy",
+    );
+    expectMetaSupport(
+      await measureMetaSupport(page),
+      "solidarity-forever-meta",
     );
   });
 
@@ -493,6 +498,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       [/Keep calm and/i, /SOLIDARITY/i, /Together we win/i],
       "meeting-cold",
     );
+    expectMetaSupport(await measureMetaSupport(page), "meeting-cold-meta");
   });
 
   test("quote card presets apply unique layouts without cropping", async ({

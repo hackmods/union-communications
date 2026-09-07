@@ -473,8 +473,8 @@ export default function SolidarityPosterPage() {
       >
         {state.layout === "stack" ? (
           <div
-            className="relative z-[2] box-border flex h-full min-h-0 flex-col justify-between"
-            style={{ padding: stackPadPx }}
+            className="relative z-[2] box-border flex h-full min-h-0 flex-col"
+            style={{ padding: stackPadPx, gap: Math.max(8, Math.round(stackPadPx * 0.35)) }}
           >
             <div className="relative z-[3] flex shrink-0 flex-col gap-2">
               {showLogo ? (

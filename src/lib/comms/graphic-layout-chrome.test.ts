@@ -32,6 +32,12 @@ describe("graphicLayoutChrome", () => {
     );
   });
 
+  it("keeps supporting meta smaller than body type", () => {
+    const preview = graphicLayoutChrome(tokens, false);
+    expect(preview.metaPx).toBeLessThanOrEqual(18);
+    expect(preview.metaPx!).toBeLessThan(preview.bodyPx!);
+  });
+
   it("returns pad-only chrome when tokens are omitted", () => {
     expect(graphicLayoutChrome(undefined, false)).toEqual({ pad: 16 });
     expect(graphicLayoutChrome(undefined, true)).toEqual({ pad: 32 });
