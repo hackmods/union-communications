@@ -7528,6 +7528,16 @@
     "profileRemoveFailed": "Impossible de supprimer votre photo. Réessayez.",
     "profileAccountHeading": "Compte",
     "profileName": "Nom",
+    "platformOperator": {
+      "menu": "Plateforme",
+      "cardTitle": "Opérateur de la plateforme",
+      "cardBody": "Invitez des sections locales, consultez les commentaires du site et ouvrez les outils d'administration de l'hôte.",
+      "profileHeading": "Opérateur de la plateforme",
+      "invites": "Invitations",
+      "onboarding": "Configuration syndicale",
+      "feedback": "Commentaires du site",
+      "audit": "Journal d'audit"
+    },
     "signingIn": "Connexion...",
     "sessionLoading": "Chargement de votre Hub des dirigeants…",
     "login": "Connexion dirigeant",

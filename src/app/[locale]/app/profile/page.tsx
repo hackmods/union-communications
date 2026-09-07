@@ -7,11 +7,16 @@ import { useRouter } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { ProfilePhotoCapture } from "@/components/hub/ProfilePhotoCapture";
+import { PlatformOperatorCard } from "@/components/platform/PlatformOperatorCard";
+import { isPlatformOperator } from "@/lib/platform/operator-nav";
+import { usePathname } from "@/i18n/navigation";
+import type { UserRole } from "@/types/tenant";
 
 export default function ProfilePage() {
   const t = useTranslations("hub");
   const { data: session, status } = useSession();
   const router = useRouter();
+  const pathname = usePathname();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
 
@@ -55,6 +60,8 @@ export default function ProfilePage() {
     );
   }
 
+  const roles = (session.user.roles ?? []) as UserRole[];
+
   return (
     <PageShell size="nestedProfile" className="space-y-6 py-2 md:py-4">
       <div>
@@ -76,6 +83,10 @@ export default function ProfilePage() {
           />
         </div>
       </Card>
+
+      {isPlatformOperator(roles) && (
+        <PlatformOperatorCard pathname={pathname} variant="profile" />
+      )}
 
       <Card density="compact">
         <h2 className="text-sm font-medium text-gray-700">

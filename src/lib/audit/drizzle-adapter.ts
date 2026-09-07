@@ -1,5 +1,6 @@
 import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
+import { applyRlsContext } from "@/lib/db/rls-context";
 import { auditLog as auditLogTable } from "@/lib/db/schema";
 import type { AuditEntry, AuditLogAdapter } from "./adapter";
 
@@ -14,15 +15,25 @@ export class DrizzleAuditLogAdapter implements AuditLogAdapter {
     const db = getDb();
     const id = `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     const timestamp = new Date();
-    await db.insert(auditLogTable).values({
-      id,
-      userId: entry.userId,
-      action: entry.action,
-      resourceType: entry.resourceType,
-      resourceId: entry.resourceId,
-      unionId: entry.unionId,
-      localId: entry.localId,
-      timestamp,
+    // RLS on audit_log requires session GUCs when union_id is set (login, API writes).
+    await db.transaction(async (tx) => {
+      if (entry.unionId) {
+        await applyRlsContext(tx, {
+          unionId: entry.unionId,
+          localId: entry.localId,
+          crossLocal: true,
+        });
+      }
+      await tx.insert(auditLogTable).values({
+        id,
+        userId: entry.userId,
+        action: entry.action,
+        resourceType: entry.resourceType,
+        resourceId: entry.resourceId,
+        unionId: entry.unionId,
+        localId: entry.localId,
+        timestamp,
+      });
     });
     return {
       ...entry,
@@ -49,10 +60,22 @@ export class DrizzleAuditLogAdapter implements AuditLogAdapter {
       conditions.push(eq(auditLogTable.resourceType, filters.resourceType));
     }
 
-    const query = db.select().from(auditLogTable).orderBy(desc(auditLogTable.timestamp));
-    const rows = conditions.length
-      ? await query.where(and(...conditions)).limit(filters.limit ?? 50)
-      : await query.limit(filters.limit ?? 50);
+    const rows = await db.transaction(async (tx) => {
+      if (filters.unionId) {
+        await applyRlsContext(tx, {
+          unionId: filters.unionId,
+          localId: filters.localId,
+          crossLocal: true,
+        });
+      }
+      const query = tx
+        .select()
+        .from(auditLogTable)
+        .orderBy(desc(auditLogTable.timestamp));
+      return conditions.length
+        ? await query.where(and(...conditions)).limit(filters.limit ?? 50)
+        : await query.limit(filters.limit ?? 50);
+    });
 
     return rows.map((row) => ({
       id: row.id,

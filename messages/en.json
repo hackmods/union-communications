@@ -7579,6 +7579,16 @@
     "profileRemoveFailed": "Could not remove your photo. Try again.",
     "profileAccountHeading": "Account",
     "profileName": "Name",
+    "platformOperator": {
+      "menu": "Platform",
+      "cardTitle": "Platform operator",
+      "cardBody": "Invite locals, review site feedback, and open host-wide admin tools.",
+      "profileHeading": "Platform operator",
+      "invites": "Invites",
+      "onboarding": "Union setup",
+      "feedback": "Site feedback",
+      "audit": "Audit log"
+    },
     "signingIn": "Signing in...",
     "sessionLoading": "Loading your Officer Hub…",
     "login": "Officer login",

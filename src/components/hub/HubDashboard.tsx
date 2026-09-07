@@ -14,11 +14,15 @@ import { MyTasksWidget } from "@/components/hub/MyTasksWidget";
 import { MyCheckinsWidget } from "@/components/hub/MyCheckinsWidget";
 import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { PlatformOperatorCard } from "@/components/platform/PlatformOperatorCard";
+import { isPlatformOperator } from "@/lib/platform/operator-nav";
+import { usePathname } from "@/i18n/navigation";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 export function HubDashboard() {
   const { data: session } = useSession();
   const t = useTranslations("hub");
+  const pathname = usePathname();
   const mfaOk = useSessionMfaOk();
   const liveTenant = useLiveTenant();
 
@@ -63,6 +67,12 @@ export function HubDashboard() {
           {t("signOut")}
         </Button>
       </div>
+
+      {isPlatformOperator(roles) && (
+        <div className="mt-4">
+          <PlatformOperatorCard pathname={pathname} />
+        </div>
+      )}
 
       {showSetupCard && (
         <Card density="compact" className="mt-4 border-opseu-blue/30 bg-white">

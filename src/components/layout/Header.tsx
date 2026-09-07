@@ -26,6 +26,7 @@ import { NavDropdown } from "./nav/NavDropdown";
 import { LearnMenuContent, ToolsMegaMenuContent } from "./nav/MenuContents";
 import { MobileNavDrawer } from "./nav/MobileNavDrawer";
 import { AuthAccountControls } from "./AuthAccountControls";
+import { PlatformOperatorNavDropdown } from "@/components/platform/PlatformOperatorNavDropdown";
 
 type NavMenuId = "learn" | "tools";
 
@@ -191,6 +192,7 @@ export function Header() {
             <ToolsMegaMenuContent pathname={pathname} onNavigate={closeMenu} />
           </NavDropdown>
 
+          <PlatformOperatorNavDropdown />
           <AuthAccountControls layout="inline" className="ml-2" />
         </nav>
 

@@ -9,6 +9,7 @@ import { canAccessPortal } from "@/lib/portal/access";
 import { getTenantContext } from "@/lib/tenant/loader";
 import type { UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
+import { PlatformOperatorAccountLinks } from "@/components/platform/PlatformOperatorAccountLinks";
 
 type AuthAccountControlsProps = {
   /** Compact row for desktop header; stacked for mobile drawer. */
@@ -101,38 +102,50 @@ export function AuthAccountControls({
 
       {authenticated ? (
         <>
-          <Link
-            href="/app/profile"
-            onClick={onNavigate}
-            aria-current={profileActive ? "page" : undefined}
+          <div
             className={cn(
-              secondaryClass,
-              "inline-flex items-center gap-2",
-              profileActive && "bg-opseu-blue/10 font-semibold",
+              layout === "inline" ? "flex items-start gap-1" : "flex flex-col gap-1",
             )}
           >
-            {!avatarFailed ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src="/api/profile/avatar"
-                alt=""
-                width={28}
-                height={28}
-                className="h-7 w-7 rounded-full object-cover ring-1 ring-gray-200"
-                onError={() => setAvatarFailed(true)}
+            <Link
+              href="/app/profile"
+              onClick={onNavigate}
+              aria-current={profileActive ? "page" : undefined}
+              className={cn(
+                secondaryClass,
+                "inline-flex items-center gap-2",
+                profileActive && "bg-opseu-blue/10 font-semibold",
+              )}
+            >
+              {!avatarFailed ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src="/api/profile/avatar"
+                  alt=""
+                  width={28}
+                  height={28}
+                  className="h-7 w-7 rounded-full object-cover ring-1 ring-gray-200"
+                  onError={() => setAvatarFailed(true)}
+                />
+              ) : (
+                <span
+                  aria-hidden="true"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-opseu-blue/15 text-xs font-semibold text-opseu-dark"
+                >
+                  {(session?.user?.name ?? session?.user?.email ?? "?")
+                    .charAt(0)
+                    .toUpperCase()}
+                </span>
+              )}
+              <span>{t("profileLink")}</span>
+            </Link>
+            {layout === "stack" ? (
+              <PlatformOperatorAccountLinks
+                layout={layout}
+                onNavigate={onNavigate}
               />
-            ) : (
-              <span
-                aria-hidden="true"
-                className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-opseu-blue/15 text-xs font-semibold text-opseu-dark"
-              >
-                {(session?.user?.name ?? session?.user?.email ?? "?")
-                  .charAt(0)
-                  .toUpperCase()}
-              </span>
-            )}
-            <span>{t("profileLink")}</span>
-          </Link>
+            ) : null}
+          </div>
           <button
             type="button"
             className={secondaryClass}
