@@ -113,13 +113,15 @@ test.describe("Tool export output smoke @smoke", () => {
   });
 
   test("Graphic Maker PNG keeps brand field and type ink", async ({ page }) => {
+    // Dense Canvas Core capture + raster sample can exceed the default 30s in CI.
+    test.setTimeout(90_000);
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/en/tools/graphic-maker/");
     await expect(
       page.getByRole("heading", { name: /Graphic Maker/i }),
     ).toBeVisible();
 
-    const downloadPromise = page.waitForEvent("download");
+    const downloadPromise = page.waitForEvent("download", { timeout: 60_000 });
     await page.getByRole("button", { name: "Download PNG" }).click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toMatch(/\.png$/i);
