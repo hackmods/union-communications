@@ -81,7 +81,16 @@ export async function POST(req: Request) {
         source: account.source,
         ...(emailReason ? { reason: emailReason } : {}),
         ...(emailError ? { error: emailError } : {}),
-        ...(smtp ? { smtp } : {}),
+        // Audit metadata is Record<string, string> — flatten SMTP snapshot.
+        ...(smtp
+          ? {
+              smtpHost: smtp.host ?? "",
+              smtpPort: smtp.port != null ? String(smtp.port) : "",
+              smtpFrom: smtp.from ?? "",
+              smtpAuthConfigured: String(smtp.authConfigured),
+              smtpJson: JSON.stringify(smtp),
+            }
+          : {}),
       },
     });
   }
