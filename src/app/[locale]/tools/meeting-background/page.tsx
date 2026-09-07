@@ -617,9 +617,12 @@ export default function MeetingBackgroundPage() {
                       color: mutedSecondary,
                       overflowWrap: "anywhere",
                       wordBreak: "break-word",
-                      fontSize: Math.max(
-                        9,
-                        Math.round(tokens.subtitleFontSizePx * 0.72),
+                      fontSize: Math.min(
+                        14,
+                        Math.max(
+                          9,
+                          Math.round(tokens.subtitleFontSizePx * 0.55),
+                        ),
                       ),
                     }}
                   >
