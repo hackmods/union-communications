@@ -4,6 +4,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   guideCtaClass,
@@ -180,15 +181,15 @@ export default async function GrievanceProcessGuidePage({
             content: t(`gate.flowItems.${key}.content`),
           }))}
         />
-        <ul className="mt-6 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-6">
           {gateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`gate.items.${key}.label`)}
               content={t(`gate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <nav
           className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm"
           aria-label={t("gate.seeAlsoLabel")}
@@ -226,15 +227,15 @@ export default async function GrievanceProcessGuidePage({
         title={t("investigation.title")}
         intro={t("investigation.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {sixWKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`investigation.items.${key}.label`)}
               content={t(`investigation.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("investigation.tip")}</p>
@@ -266,15 +267,15 @@ export default async function GrievanceProcessGuidePage({
           </p>
           <p className="mt-1">{t("clocks.warning")}</p>
         </Callout>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {clockKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`clocks.items.${key}.label`)}
               content={t(`clocks.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection id="steps" title={t("steps.title")} intro={t("steps.intro")}>
@@ -321,15 +322,15 @@ export default async function GrievanceProcessGuidePage({
           </p>
           <p className="mt-1">{t("meeting.warning")}</p>
         </Callout>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {meetingKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`meeting.items.${key}.label`)}
               content={t(`meeting.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -337,15 +338,15 @@ export default async function GrievanceProcessGuidePage({
         title={t("workedFile.title")}
         intro={t("workedFile.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {workedFileKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`workedFile.items.${key}.label`)}
               content={t(`workedFile.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("workedFile.tip")}</p>
@@ -357,15 +358,15 @@ export default async function GrievanceProcessGuidePage({
         title={t("failureModes.title")}
         intro={t("failureModes.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {failureModeKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`failureModes.items.${key}.label`)}
               content={t(`failureModes.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -373,15 +374,15 @@ export default async function GrievanceProcessGuidePage({
         title={t("memberTalk.title")}
         intro={t("memberTalk.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {memberTalkKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`memberTalk.items.${key}.label`)}
               content={t(`memberTalk.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <p className="mt-5 text-sm">
           <Link
             href="/guide/dfr"
@@ -406,56 +407,46 @@ export default async function GrievanceProcessGuidePage({
         />
       </GuideSection>
 
-      <section
+      <GuideSection
         id="worksheet"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
+        title={t("worksheet.title")}
+        intro={t("worksheet.intro")}
       >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("worksheet.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("worksheet.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {worksheetKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`worksheet.items.${key}.label`)}
               content={t(`worksheet.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-lg">
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link
             href={documentGeneratorPresetHref("grievance-intake")}
             className={guideCtaClassBlock}
           >
             {t("worksheet.exportCta")}
           </Link>
-        </div>
+        </GuideActionRow>
         <p className="mt-3 text-sm text-gray-700">{t("worksheet.exportHint")}</p>
-      </section>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="tools"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        title={t("tools.title")}
+        intro={t("tools.intro")}
       >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("tools.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("tools.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {toolKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`tools.items.${key}.label`)}
               content={t(`tools.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-2xl">
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link
             href="/tools/complaint-vs-grievance"
             className={guideCtaOutlineClassBlock}
@@ -486,8 +477,8 @@ export default async function GrievanceProcessGuidePage({
           <Link href="/app/grievances" className={guideCtaOutlineClassBlock}>
             {t("hub.cta")}
           </Link>
-        </div>
-      </section>
+        </GuideActionRow>
+      </GuideSection>
 
       <Callout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
@@ -506,36 +497,7 @@ export default async function GrievanceProcessGuidePage({
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}
 
 function ForumFlowFigure({
   title,

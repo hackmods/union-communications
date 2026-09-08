@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 type GuideSectionProps = {
   id: string;
   title: string;
-  intro?: string;
+  intro?: ReactNode;
   children: ReactNode;
   className?: string;
 };
@@ -28,7 +28,9 @@ export function GuideSection({
         className,
       )}
     >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
+      <h2 className="text-[clamp(1.25rem,1.1rem+0.6vw,1.5rem)] font-bold text-opseu-dark">
+        {title}
+      </h2>
       {intro ? (
         <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
       ) : null}
@@ -47,7 +49,7 @@ export function GuideSubHeading({ children, className }: GuideSubHeadingProps) {
   return (
     <h3
       className={cn(
-        "text-base font-bold text-opseu-dark md:text-lg",
+        "text-[clamp(1rem,0.95rem+0.25vw,1.125rem)] font-bold text-opseu-dark",
         className,
       )}
     >
@@ -56,11 +58,44 @@ export function GuideSubHeading({ children, className }: GuideSubHeadingProps) {
   );
 }
 
+type GuideProseProps = {
+  children: ReactNode;
+  className?: string;
+  as?: "p" | "div";
+};
+
+/** Constrained reading measure for mid-section paragraphs. */
+export function GuideProse({
+  children,
+  className,
+  as: Tag = "p",
+}: GuideProseProps) {
+  return (
+    <Tag
+      className={cn("max-w-prose leading-relaxed text-gray-700", className)}
+    >
+      {children}
+    </Tag>
+  );
+}
+
+type GuideActionRowProps = {
+  children: ReactNode;
+  className?: string;
+};
+
+/** Full article-width CTA strip — avoid max-w-lg dead zones. */
+export function GuideActionRow({ children, className }: GuideActionRowProps) {
+  return <div className={cn("button-row mt-5", className)}>{children}</div>;
+}
+
 type GuideTipGridProps = {
   children: ReactNode;
   className?: string;
   /** Default 2 columns from `sm`; use 3 for denser clusters at `lg`. */
   columns?: 2 | 3;
+  /** Tighter gaps for very long tip pages (e.g. strike). */
+  dense?: boolean;
   as?: "ul" | "ol" | "div";
 };
 
@@ -72,12 +107,14 @@ export function GuideTipGrid({
   children,
   className,
   columns = 2,
+  dense = false,
   as: Tag = "ul",
 }: GuideTipGridProps) {
   return (
     <Tag
       className={cn(
-        "grid list-none gap-4 p-0 text-gray-700",
+        "grid list-none p-0 text-gray-700",
+        dense ? "gap-3" : "gap-4",
         columns === 2 && "sm:grid-cols-2",
         columns === 3 && "sm:grid-cols-2 lg:grid-cols-3",
         className,
@@ -106,5 +143,31 @@ export function GuideTipItem({
     <Tag className={cn("min-w-0 leading-relaxed", className)}>
       <span className="font-semibold text-opseu-dark">{label}.</span> {content}
     </Tag>
+  );
+}
+
+type GuideBulletListProps = {
+  children: ReactNode;
+  className?: string;
+  /** Short items may sit in two columns from `sm`. */
+  columns?: 1 | 2;
+};
+
+/** Label-less disc lists — readable stacks, optional two-column densify. */
+export function GuideBulletList({
+  children,
+  className,
+  columns = 1,
+}: GuideBulletListProps) {
+  return (
+    <ul
+      className={cn(
+        "list-disc space-y-3 pl-5 text-gray-700",
+        columns === 2 && "sm:grid sm:list-none sm:grid-cols-2 sm:gap-4 sm:space-y-0 sm:pl-0",
+        className,
+      )}
+    >
+      {children}
+    </ul>
   );
 }

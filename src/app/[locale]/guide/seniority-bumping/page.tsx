@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { Callout } from "@/components/ui/Callout";
@@ -108,15 +109,15 @@ export default async function SeniorityBumpingGuidePage({
       <OfficerLearningModuleCallout slug="seniority-bumping-layoff" moduleNumber={16} />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {gateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`gate.items.${key}.label`)}
               content={t(`gate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
@@ -128,15 +129,15 @@ export default async function SeniorityBumpingGuidePage({
         title={t("compare.title")}
         intro={t("compare.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {compareKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`compare.items.${key}.label`)}
               content={t(`compare.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("compare.tip")}</p>
@@ -148,15 +149,15 @@ export default async function SeniorityBumpingGuidePage({
         title={t("cascade1.title")}
         intro={t("cascade1.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {cascade1Keys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`cascade1.items.${key}.label`)}
               content={t(`cascade1.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -164,15 +165,15 @@ export default async function SeniorityBumpingGuidePage({
         title={t("cascade2.title")}
         intro={t("cascade2.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {cascade2Keys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`cascade2.items.${key}.label`)}
               content={t(`cascade2.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("cascade2.tip")}</p>
@@ -184,15 +185,15 @@ export default async function SeniorityBumpingGuidePage({
         title={t("meeting.title")}
         intro={t("meeting.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {meetingKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`meeting.items.${key}.label`)}
               content={t(`meeting.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("meeting.tip")}</p>
@@ -204,46 +205,41 @@ export default async function SeniorityBumpingGuidePage({
         title={t("pitfalls.title")}
         intro={t("pitfalls.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {pitfallsKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`pitfalls.items.${key}.label`)}
               content={t(`pitfalls.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
-      <section
+      <GuideSection
         id="worksheet"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
+        title={t("worksheet.title")}
+        intro={t("worksheet.intro")}
       >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("worksheet.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("worksheet.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {worksheetKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`worksheet.items.${key}.label`)}
               content={t(`worksheet.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-lg">
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link
             href={documentGeneratorPresetHref("seniority-worksheet")}
             className={guideCtaClass}
           >
             {t("worksheet.exportCta")}
           </Link>
-        </div>
+        </GuideActionRow>
         <p className="mt-3 text-sm text-gray-700">{t("worksheet.exportHint")}</p>
-      </section>
+      </GuideSection>
 
       <Callout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
@@ -253,33 +249,4 @@ export default async function SeniorityBumpingGuidePage({
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}

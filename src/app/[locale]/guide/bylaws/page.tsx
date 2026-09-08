@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   AmendmentFlowDiagram,
@@ -181,15 +182,15 @@ export default async function BylawsGuidePage({
           }}
           caption={t("diagrams.hierarchy.caption")}
         />
-        <ul className="mt-6 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-6">
           {gateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`gate.items.${key}.label`)}
               content={t(`gate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
@@ -201,15 +202,15 @@ export default async function BylawsGuidePage({
         title={t("mustHave.title")}
         intro={t("mustHave.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {mustHaveKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`mustHave.items.${key}.label`)}
               content={t(`mustHave.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <h3 className="mt-8 text-lg font-bold text-opseu-dark">
           {t("diagrams.quorum.title")}
         </h3>
@@ -278,7 +279,7 @@ export default async function BylawsGuidePage({
           </p>
           <p className="mt-1">{t("amend.warning")}</p>
         </Callout>
-        <div className="button-row mt-5 max-w-2xl">
+        <GuideActionRow>
           <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
             {t("amend.boardNoticeCta")}
           </Link>
@@ -291,7 +292,7 @@ export default async function BylawsGuidePage({
           >
             {t("amend.eventCta")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection
@@ -317,7 +318,7 @@ export default async function BylawsGuidePage({
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("scenario.tip")}</p>
         </Callout>
-        <div className="button-row mt-5 max-w-lg">
+        <GuideActionRow>
           <Link
             href="/tools/bylaw-builder?preset=opseuCaat"
             className={guideCtaClass}
@@ -330,7 +331,7 @@ export default async function BylawsGuidePage({
           >
             {t("scenario.committeeCta")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection
@@ -338,27 +339,27 @@ export default async function BylawsGuidePage({
         title={t("opseuPatterns.title")}
         intro={t("opseuPatterns.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {opseuPatternKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`opseuPatterns.items.${key}.label`)}
               content={t(`opseuPatterns.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("opseuPatterns.tip")}</p>
         </Callout>
-        <div className="button-row mt-5 max-w-lg">
+        <GuideActionRow>
           <Link
             href="/tools/bylaw-builder?preset=opseuCaat"
             className={guideCtaOutlineClass}
           >
             {t("opseuPatterns.builderCta")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection
@@ -377,7 +378,7 @@ export default async function BylawsGuidePage({
             </li>
           ))}
         </ol>
-        <div className="button-row mt-5 max-w-lg">
+        <GuideActionRow>
           <Link href="/portal" className={guideCtaOutlineClass}>
             {t("committee.portalCta")}
           </Link>
@@ -387,7 +388,7 @@ export default async function BylawsGuidePage({
           >
             {t("committee.builderCta")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection
@@ -412,15 +413,15 @@ export default async function BylawsGuidePage({
         title={t("examples.title")}
         intro={t("examples.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {exampleKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`examples.items.${key}.label`)}
               content={t(`examples.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("examples.tip")}</p>
@@ -432,15 +433,15 @@ export default async function BylawsGuidePage({
         title={t("failureModes.title")}
         intro={t("failureModes.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {failureKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`failureModes.items.${key}.label`)}
               content={t(`failureModes.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <section
@@ -483,26 +484,21 @@ export default async function BylawsGuidePage({
         </div>
       </section>
 
-      <section
+      <GuideSection
         id="tools"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        title={t("tools.title")}
+        intro={t("tools.intro")}
       >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("tools.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("tools.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {toolKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`tools.items.${key}.label`)}
               content={t(`tools.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-2xl">
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link href="/tools/bylaw-builder?preset=campus" className={guideCtaClass}>
             {nav("bylawBuilder")}
           </Link>
@@ -518,8 +514,8 @@ export default async function BylawsGuidePage({
           >
             {nav("documentGenerator")}
           </Link>
-        </div>
-      </section>
+        </GuideActionRow>
+      </GuideSection>
 
       <Callout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("example.title")}</p>
@@ -529,36 +525,7 @@ export default async function BylawsGuidePage({
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}
 
 function ChecklistFigure({
   caption,

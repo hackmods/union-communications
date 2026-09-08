@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { StrikeCommandDiagram, StrikeRhythmsDiagram, StrikeGatesDiagram } from "@/components/comms/StewardGuideDiagrams";
 import { StrikeStandingBriefButton } from "@/components/comms/StrikeStandingBriefButton";
@@ -211,15 +212,15 @@ export default async function StrikeOpsGuidePage({
       />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {gateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`gate.items.${key}.label`)}
               content={t(`gate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
@@ -227,15 +228,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="command" title={t("command.title")} intro={t("command.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {commandKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`command.items.${key}.label`)}
               content={t(`command.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <RolesTable
           caption={t("command.roles.caption")}
           headers={{
@@ -257,15 +258,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="readiness" title={t("readiness.title")} intro={t("readiness.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {readinessKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`readiness.items.${key}.label`)}
               content={t(`readiness.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("readiness.tip")}</p>
@@ -273,15 +274,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="kit" title={t("kit.title")} intro={t("kit.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {kitKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`kit.items.${key}.label`)}
               content={t(`kit.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("kit.tip")}</p>
@@ -298,15 +299,15 @@ export default async function StrikeOpsGuidePage({
           }}
           caption={t("coverage.diagram.caption")}
         />
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {coverageKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`coverage.items.${key}.label`)}
               content={t(`coverage.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <p className="mt-5 max-w-prose leading-relaxed text-gray-700">{t("coverage.worked")}</p>
         <CoverageTable
           caption={t("coverage.table.caption")}
@@ -329,15 +330,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="tactics" title={t("tactics.title")} intro={t("tactics.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {tacticKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`tactics.items.${key}.label`)}
               content={t(`tactics.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("tactics.warningTitle")}</p>
           <p className="mt-1">{t("tactics.warning")}</p>
@@ -345,15 +346,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="line" title={t("line.title")} intro={t("line.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {lineKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`line.items.${key}.label`)}
               content={t(`line.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("line.tip")}</p>
@@ -361,15 +362,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="captains" title={t("captains.title")} intro={t("captains.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {captainKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`captains.items.${key}.label`)}
               content={t(`captains.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <TalkTable
           caption={t("captains.talk.caption")}
           headers={{
@@ -398,7 +399,7 @@ export default async function StrikeOpsGuidePage({
         />
         <p className="mt-5 max-w-prose leading-relaxed text-gray-700">{t("captains.chants.technique")}</p>
         <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{t("captains.flyers.body")}</p>
-        <div className="button-row mt-5 max-w-2xl">
+        <GuideActionRow>
           <Link href="/tools/flyer-maker" className={guideCtaClass}>
             {nav("flyerMaker")}
           </Link>
@@ -408,7 +409,7 @@ export default async function StrikeOpsGuidePage({
           <Link href="/tools/website-template" className={guideCtaOutlineClass}>
             {nav("websiteTemplate")}
           </Link>
-        </div>
+        </GuideActionRow>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("captains.tip")}</p>
@@ -416,15 +417,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="membership" title={t("membership.title")} intro={t("membership.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {membershipKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`membership.items.${key}.label`)}
               content={t(`membership.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("membership.tip")}</p>
@@ -432,15 +433,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="money" title={t("money.title")} intro={t("money.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {moneyKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`money.items.${key}.label`)}
               content={t(`money.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("money.warningTitle")}</p>
           <p className="mt-1">{t("money.warning")}</p>
@@ -448,15 +449,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="safety" title={t("safety.title")} intro={t("safety.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {safetyKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`safety.items.${key}.label`)}
               content={t(`safety.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("safety.warningTitle")}</p>
           <p className="mt-1">{t("safety.warning")}</p>
@@ -464,15 +465,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="allies" title={t("allies.title")} intro={t("allies.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {allyKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`allies.items.${key}.label`)}
               content={t(`allies.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("allies.tip")}</p>
@@ -480,15 +481,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="visit" title={t("visit.title")} intro={t("visit.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {visitKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`visit.items.${key}.label`)}
               content={t(`visit.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("visit.tip")}</p>
@@ -505,24 +506,24 @@ export default async function StrikeOpsGuidePage({
           }}
           caption={t("rhythms.diagram.caption")}
         />
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {rhythmKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`rhythms.items.${key}.label`)}
               content={t(`rhythms.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("rhythms.tip")}</p>
         </Callout>
-        <div className="button-row mt-5 max-w-lg">
+        <GuideActionRow>
           <Link href="/guide/crisis" className={guideCtaOutlineClass}>
             {t("rhythms.crisisCta")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection id="checklist" title={t("checklist.title")} intro={t("checklist.intro")}>
@@ -540,15 +541,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="return" title={t("return.title")} intro={t("return.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {returnKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`return.items.${key}.label`)}
               content={t(`return.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("return.tip")}</p>
@@ -574,15 +575,15 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="failureModes" title={t("failureModes.title")} intro={t("failureModes.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {failureKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`failureModes.items.${key}.label`)}
               content={t(`failureModes.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("failureModes.tip")}</p>
@@ -590,41 +591,36 @@ export default async function StrikeOpsGuidePage({
       </GuideSection>
 
       <GuideSection id="notThis" title={t("notThis.title")} intro={t("notThis.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" dense>
           {notThisKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`notThis.items.${key}.label`)}
               content={t(`notThis.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-2xl">
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link href="/guide/crisis" className={guideCtaOutlineClass}>
             {nav("crisisCommsGuide")}
           </Link>
           <Link href="/guide/bargaining" className={guideCtaOutlineClass}>
             {nav("bargainingGuide")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
-      <section
-        id="tools"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-      >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{t("tools.title")}</h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{t("tools.intro")}</p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+      <GuideSection id="tools" title={t("tools.title")} intro={t("tools.intro")}>
+        <GuideTipGrid className="mt-4" dense>
           {toolKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`tools.items.${key}.label`)}
               content={t(`tools.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-2xl">
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link href="/guide/crisis" className={guideCtaClass}>
             {nav("crisisCommsGuide")}
           </Link>
@@ -653,42 +649,13 @@ export default async function StrikeOpsGuidePage({
           <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
             {nav("emailBroadcastGuide")}
           </Link>
-        </div>
-      </section>
+        </GuideActionRow>
+      </GuideSection>
     </GuideLayout>
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}
 
 function ChecklistFigure({
   items,

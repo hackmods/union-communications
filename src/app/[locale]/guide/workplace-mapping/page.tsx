@@ -4,6 +4,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   PhysicalShiftDiagram,
@@ -149,15 +150,15 @@ export default async function WorkplaceMappingGuidePage({
       </div>
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {gateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`gate.items.${key}.label`)}
               content={t(`gate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
@@ -261,15 +262,15 @@ export default async function WorkplaceMappingGuidePage({
         title={t("conversations.title")}
         intro={t("conversations.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {conversationKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`conversations.items.${key}.label`)}
               content={t(`conversations.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("conversations.tip")}</p>
@@ -321,15 +322,15 @@ export default async function WorkplaceMappingGuidePage({
       </GuideSection>
 
       <GuideSection id="keep" title={t("keep.title")} intro={t("keep.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {keepKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`keep.items.${key}.label`)}
               content={t(`keep.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("privacy.title")}</p>
           <p className="mt-1">{t("privacy.body")}</p>
@@ -399,36 +400,7 @@ export default async function WorkplaceMappingGuidePage({
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: ReactNode;
-  children: ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}
 
 function ReferenceBlock({
   title,

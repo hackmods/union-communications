@@ -4,6 +4,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { GuideExpandSection } from "@/components/comms/GuideExpandSection";
 import {
@@ -196,15 +197,15 @@ export default async function UnionHistoryGuidePage({
       />
 
       <GuideSection id="why" title={t("why.title")} intro={t("why.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {whyKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`why.items.${key}.label`)}
               content={t(`why.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -217,15 +218,15 @@ export default async function UnionHistoryGuidePage({
           summary={t("history.expandSummary")}
           className="mt-5 max-w-prose"
         >
-          <ul className="list-disc space-y-3 pl-5 text-gray-700">
+          <GuideTipGrid className="mt-3">
             {historyKeys.map((key) => (
-              <TipItem
+              <GuideTipItem
                 key={key}
                 label={t(`history.items.${key}.label`)}
                 content={t(`history.items.${key}.content`)}
               />
             ))}
-          </ul>
+          </GuideTipGrid>
         </GuideExpandSection>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
@@ -290,8 +291,8 @@ export default async function UnionHistoryGuidePage({
           clc={t("example.diagram.clc")}
           caption={t("example.diagram.caption")}
         />
-        <ul className="mt-5 list-disc space-y-3 pl-5 text-gray-700">
-          <TipItem
+        <GuideTipGrid className="mt-5">
+          <GuideTipItem
             label={t("example.items.local.label")}
             content={t("example.items.local.content")}
           />
@@ -305,11 +306,11 @@ export default async function UnionHistoryGuidePage({
             </RegistryLink>{" "}
             {t("example.items.council.after")}
           </li>
-          <TipItem
+          <GuideTipItem
             label={t("example.items.area.label")}
             content={t("example.items.area.content")}
           />
-          <TipItem
+          <GuideTipItem
             label={t("example.items.union.label")}
             content={t("example.items.union.content")}
           />
@@ -321,7 +322,7 @@ export default async function UnionHistoryGuidePage({
             <RegistryLink id="nupge">{t("example.items.nupge.link")}</RegistryLink>{" "}
             {t("example.items.nupge.after")}
           </li>
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("example.tip")}</p>
@@ -333,15 +334,15 @@ export default async function UnionHistoryGuidePage({
         title={t("layers.title")}
         intro={t("layers.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {layerKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`layers.items.${key}.label`)}
               content={t(`layers.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -351,7 +352,7 @@ export default async function UnionHistoryGuidePage({
       >
         <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
           {mapYoursKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`mapYours.items.${key}.label`)}
               content={t(`mapYours.items.${key}.content`)}
@@ -391,19 +392,19 @@ export default async function UnionHistoryGuidePage({
         title={t("notThis.title")}
         intro={t("notThis.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {notThisKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`notThis.items.${key}.label`)}
               content={t(`notThis.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection id="tools" title={t("tools.title")} intro={t("tools.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {toolRows.map(({ key, href }) => (
             <li key={key} className="max-w-prose leading-relaxed">
               <Link
@@ -416,9 +417,9 @@ export default async function UnionHistoryGuidePage({
               {t(`tools.items.${key}.content`)}
             </li>
           ))}
-        </ul>
+        </GuideTipGrid>
         <AffiliationMapWorksheetButton className="mt-5" />
-        <div className="button-row mt-5 max-w-2xl">
+        <GuideActionRow>
           <Link href="/tools/org-chart" className={guideCtaClass}>
             {nav("orgChart")}
           </Link>
@@ -437,39 +438,10 @@ export default async function UnionHistoryGuidePage({
           >
             {nav("runningMeetingsGuide")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
     </GuideLayout>
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}

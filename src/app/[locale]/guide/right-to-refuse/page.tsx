@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
@@ -122,15 +123,15 @@ export default async function RightToRefuseGuidePage({
       />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {gateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`gate.items.${key}.label`)}
               content={t(`gate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
@@ -142,15 +143,15 @@ export default async function RightToRefuseGuidePage({
         title={t("ontarioScope.title")}
         intro={t("ontarioScope.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {ontarioScopeKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`ontarioScope.items.${key}.label`)}
               content={t(`ontarioScope.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -158,15 +159,15 @@ export default async function RightToRefuseGuidePage({
         title={t("stageOne.title")}
         intro={t("stageOne.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {stageOneKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`stageOne.items.${key}.label`)}
               content={t(`stageOne.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("stageOne.tip")}</p>
@@ -178,15 +179,15 @@ export default async function RightToRefuseGuidePage({
         title={t("stageTwo.title")}
         intro={t("stageTwo.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {stageTwoKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`stageTwo.items.${key}.label`)}
               content={t(`stageTwo.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">
             {t("stageTwo.warningTitle")}
@@ -200,15 +201,15 @@ export default async function RightToRefuseGuidePage({
         title={t("reassignment.title")}
         intro={t("reassignment.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {reassignmentKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`reassignment.items.${key}.label`)}
               content={t(`reassignment.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -216,15 +217,15 @@ export default async function RightToRefuseGuidePage({
         title={t("reprisal.title")}
         intro={t("reprisal.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {reprisalKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`reprisal.items.${key}.label`)}
               content={t(`reprisal.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">
             {t("reprisal.warningTitle")}
@@ -260,15 +261,15 @@ export default async function RightToRefuseGuidePage({
         title={t("stewardChecklist.title")}
         intro={t("stewardChecklist.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {stewardChecklistKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`stewardChecklist.items.${key}.label`)}
               content={t(`stewardChecklist.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <section
@@ -281,47 +282,18 @@ export default async function RightToRefuseGuidePage({
         <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
           {t("boards.body")}
         </p>
-        <div className="button-row mt-5 max-w-lg">
+        <GuideActionRow>
           <Link
             href="/tools/qr-card?preset=rightToRefuse"
             className={guideCtaClass}
           >
             {t("boards.exportCta")}
           </Link>
-        </div>
+        </GuideActionRow>
         <p className="mt-3 text-sm text-gray-700">{t("boards.exportHint")}</p>
       </section>
     </GuideLayout>
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}

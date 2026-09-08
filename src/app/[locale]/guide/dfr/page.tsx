@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
@@ -124,15 +125,15 @@ export default async function DfrGuidePage({
       <OfficerLearningModuleCallout slug="duty-of-fair-representation" moduleNumber={15} />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {gateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`gate.items.${key}.label`)}
               content={t(`gate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
@@ -144,15 +145,15 @@ export default async function DfrGuidePage({
         title={t("scope.title")}
         intro={t("scope.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {scopeKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`scope.items.${key}.label`)}
               content={t(`scope.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -160,15 +161,15 @@ export default async function DfrGuidePage({
         title={t("legalTest.title")}
         intro={t("legalTest.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {legalTestKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`legalTest.items.${key}.label`)}
               content={t(`legalTest.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -176,15 +177,15 @@ export default async function DfrGuidePage({
         title={t("intake.title")}
         intro={t("intake.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {intakeKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`intake.items.${key}.label`)}
               content={t(`intake.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("intake.tip")}</p>
@@ -196,15 +197,15 @@ export default async function DfrGuidePage({
         title={t("investigate.title")}
         intro={t("investigate.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {investigateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`investigate.items.${key}.label`)}
               content={t(`investigate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -212,15 +213,15 @@ export default async function DfrGuidePage({
         title={t("clocks.title")}
         intro={t("clocks.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {clocksKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`clocks.items.${key}.label`)}
               content={t(`clocks.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">
             {t("clocks.warningTitle")}
@@ -234,15 +235,15 @@ export default async function DfrGuidePage({
         title={t("decline.title")}
         intro={t("decline.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {declineKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`decline.items.${key}.label`)}
               content={t(`decline.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("decline.tip")}</p>
@@ -276,15 +277,15 @@ export default async function DfrGuidePage({
         title={t("failureModes.title")}
         intro={t("failureModes.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {failureModeKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`failureModes.items.${key}.label`)}
               content={t(`failureModes.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -292,15 +293,15 @@ export default async function DfrGuidePage({
         title={t("memberTalk.title")}
         intro={t("memberTalk.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {memberTalkKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`memberTalk.items.${key}.label`)}
               content={t(`memberTalk.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <Callout tone="muted" className="mt-10">
@@ -316,33 +317,4 @@ export default async function DfrGuidePage({
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}

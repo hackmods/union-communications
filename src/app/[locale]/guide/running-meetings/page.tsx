@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { Callout } from "@/components/ui/Callout";
 import {
@@ -153,27 +154,27 @@ export default async function RunningMeetingsGuidePage({
         title={t("formality.title")}
         intro={t("formality.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {formalityKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`formality.items.${key}.label`)}
               content={t(`formality.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection id="chair" title={t("chair.title")} intro={t("chair.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {chairKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`chair.items.${key}.label`)}
               content={t(`chair.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("chair.tip")}</p>
@@ -185,15 +186,15 @@ export default async function RunningMeetingsGuidePage({
         title={t("quorum.title")}
         intro={t("quorum.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {quorumKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`quorum.items.${key}.label`)}
               content={t(`quorum.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <QuorumTiersDiagram
           className="mt-5 max-w-3xl"
           tiers={[
@@ -282,15 +283,15 @@ export default async function RunningMeetingsGuidePage({
         title={t("debate.title")}
         intro={t("debate.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {debateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`debate.items.${key}.label`)}
               content={t(`debate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -298,15 +299,15 @@ export default async function RunningMeetingsGuidePage({
         title={t("voting.title")}
         intro={t("voting.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {votingKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`voting.items.${key}.label`)}
               content={t(`voting.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -314,15 +315,15 @@ export default async function RunningMeetingsGuidePage({
         title={t("failures.title")}
         intro={t("failures.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {failureKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`failures.items.${key}.label`)}
               content={t(`failures.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -347,22 +348,17 @@ export default async function RunningMeetingsGuidePage({
         </Callout>
       </GuideSection>
 
-      <section
+      <GuideSection
         id="tool"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
+        title={t("tool.title")}
+        intro={t("tool.intro")}
       >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("tool.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("tool.intro")}
-        </p>
         <ul className="mt-4 list-disc space-y-2 pl-5 text-gray-700">
           <li>{t("tool.items.cheatSheet")}</li>
           <li>{t("tool.items.pocketPdf")}</li>
           <li>{t("tool.items.notice")}</li>
         </ul>
-        <div className="button-row mt-5 max-w-2xl">
+        <GuideActionRow>
           <Link href="/tools/rules-of-order" className={guideCtaClass}>
             {nav("rulesOfOrder")}
           </Link>
@@ -370,39 +366,10 @@ export default async function RunningMeetingsGuidePage({
           <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
             {nav("boardNotice")}
           </Link>
-        </div>
-      </section>
+        </GuideActionRow>
+      </GuideSection>
     </GuideLayout>
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}
