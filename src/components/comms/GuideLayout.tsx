@@ -170,7 +170,7 @@ export function GuideLayout({
       {headerBlock}
       {relatedBlock}
       {mobileToc}
-      <div className="mt-10">{children}</div>
+      <div className="mt-8 md:mt-10">{children}</div>
       {footer}
     </ComposedPageLayout>
   );
