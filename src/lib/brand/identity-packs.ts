@@ -19,6 +19,8 @@ import { isOpseuSectorId } from "@/lib/brand/opseu-sector-catalog";
 
 /** Paths mirror `OFFICIAL_LOGOS` in brand.ts — keep in sync. */
 const OPSEU_NATIONAL_LOCKUP = "/assets/caat-opseu/logo-primary.png";
+const OPSEU_NATIONAL_ONTARIO_UNION =
+  "/assets/caat-opseu/logo-lockup-ontario-union.png";
 const OPSEU_NATIONAL_MARK = "/assets/caat-opseu/logo-mark.png";
 const OPSEU_NATIONAL_MARK_ON_DARK = "/assets/caat-opseu/logo-mark-white.png";
 const OPSEU_SLIT_BLUE = "/assets/caat-opseu/opseu-mark-slit-blue.svg";
@@ -184,6 +186,13 @@ export const IDENTITY_PACKS: readonly IdentityPack[] = [
         plate: "light",
         downloadName: "opseu-logo-primary.png",
         labelKey: "lockup",
+      },
+      {
+        id: "ontario-union",
+        src: OPSEU_NATIONAL_ONTARIO_UNION,
+        plate: "light",
+        downloadName: "opseu-logo-lockup-ontario-union.png",
+        labelKey: "ontarioUnion",
       },
       {
         id: "mark",

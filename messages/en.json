@@ -4212,6 +4212,7 @@
     "lookPackHint": "Colour and plate variants for boards, social, and campaigns. Pick the treatment that matches your background — future event packs will appear here the same way.",
     "variantLabels": {
       "lockup": "Wordmark",
+      "ontarioUnion": "Ontario's union lockup",
       "mark": "Emblem",
       "markOnDark": "Emblem on dark",
       "color": "Full colour",
@@ -7418,6 +7419,10 @@
       "officer-learning-modules-11-14": {
         "title": "Officer Learning modules 11–14",
         "body": "Four new self-paced modules: member lists and privacy, advanced local finance, digital security and transitions, and Day-1 orientation with affinity and community unionism."
+      },
+      "opseu-ontario-union-lockup": {
+        "title": "Current OPSEU / SEFPO lockup on Brand Assets",
+        "body": "Download the Ontario's union / Le syndicat de l'Ontario wordmark with the other OPSEU / SEFPO blue files."
       },
       "land-ack-workshops-hub": {
         "title": "Land acknowledgement how-to + workshops hub",

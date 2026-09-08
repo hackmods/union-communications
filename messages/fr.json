@@ -7367,6 +7367,10 @@
         "title": "Modules 11 à 14 de la formation des dirigeants",
         "body": "Quatre nouveaux modules autogérés : listes de membres et confidentialité, finances locales avancées, sécurité numérique et transitions, et orientation Jour 1 avec affinité et syndicalisme communautaire."
       },
+      "opseu-ontario-union-lockup": {
+        "title": "Signature OPSEU / SEFPO actuelle dans Actifs de marque",
+        "body": "Téléchargez le mot-symbole Ontario's union / Le syndicat de l'Ontario avec les autres fichiers bleus OPSEU / SEFPO."
+      },
       "land-ack-workshops-hub": {
         "title": "Marche à suivre territoriale + hub d'ateliers",
         "body": "Le Guide de reconnaissance territoriale est une marche à suivre ciblée avec la feuille PDF et l'exemple de Niagara. Les plans animateur vivent sous Ateliers avec le plan Comms."
@@ -9344,6 +9348,7 @@
     "lookPackHint": "Variantes de couleur et de fond pour babillards, réseaux sociaux et campagnes. Choisissez le traitement qui convient à votre fond — les futures trousses d'événements apparaîtront ici de la même façon.",
     "variantLabels": {
       "lockup": "Mot-symbole",
+      "ontarioUnion": "Signature Le syndicat de l'Ontario",
       "mark": "Emblème",
       "markOnDark": "Emblème sur fond foncé",
       "color": "Couleurs complètes",
