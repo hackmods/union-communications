@@ -1,0 +1,54 @@
+---
+description: Guide chapter layout — prose measure vs article-column grids; anti-regression
+globs: src/app/**/guide/**/*.tsx,src/components/comms/Guide*.tsx,src/components/comms/*Guide*.tsx,src/components/comms/guide-ui.ts,src/components/comms/LandAcknowledgement*.tsx,src/components/comms/ResourcesSourcesList.tsx
+alwaysApply: false
+---
+
+# Guide layout standards
+
+Public guide **chapters** (playbooks, workshops, hub bodies). Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc) (shell tiers) and [`guide-pdfs.mdc`](guide-pdfs.mdc) (print). Out-of-scope growth notes: [`docs/audit/guide-layout-growth-backlog.md`](../../docs/audit/guide-layout-growth-backlog.md).
+
+Import from `@/components/comms/guide-ui` (or the named modules it re-exports).
+
+## Shell vs chapter
+
+| Layer | Use |
+|-------|-----|
+| `GuideLayout` + `preset` | Page frame: `narrow` / `playbook` / `hub` |
+| `GuideSection` + children | Chapter body inside the article column |
+| `GuideTrainingPhase` | Steward-101 numbered training modules only — not default playbook chrome |
+
+Playbooks: `preset="playbook"` → `readWide` + TOC rail. **Fill the article column** after the rail — do not leave a phone-width stack with empty right space.
+
+## Prose vs cluster
+
+| Content | Primitive / pattern |
+|---------|---------------------|
+| Title, continuous intro, mid-section paragraphs | `max-w-prose` via section intro or `GuideProse` |
+| Labeled tip / principle / checklist clusters | `GuideTipGrid` + `GuideTipItem` (`sm:grid-cols-2`; `columns={3}` only for short cards) |
+| Label-less disc lists | `GuideBulletList` (optional `columns={2}` when items are short) |
+| Diagrams / flow figures | `GuideWideFigure` — full article width; never `max-w-md` phone plates on desktop |
+| CTA / button rows | `GuideActionRow` — no `max-w-lg` dead zone |
+
+## Rhythm & human feel
+
+- Section spacing: `not-first:mt-10 lg:not-first:mt-12`; in-section `mt-3` / `mt-6` / `mt-8` + `gap-4` (or `dense` tip grids on very long pages).
+- Vary 2- vs 3-column; keep long narrative tips at 2-col.
+- Asymmetry is good (prose + wide figure). Avoid identical bordered cards on every tip.
+- Type: shared fluid headings on `GuideLayout` / `GuideSection` — clear steward voice, not marketing-hero display type.
+
+## Hard rejects
+
+- Page-local `function GuideSection` / `TipItem` / `ItemList` copies
+- Tip `<ul>` wrapped in or items locked to `max-w-prose` inside a playbook article column
+- Stretched mobile single column with growing empty half at `lg+`
+- Robotic equal card grids for every list
+- Blindly applying playbook grids to Officer Learning dark shell, narrow legal pages, tool panels, or PDF layout — see growth backlog
+
+## Checklist (new or refactored guide)
+
+- [ ] Imports shared guide-ui primitives (no local section/tip helpers)
+- [ ] Intros stay readable; clusters fill the column at `sm+`
+- [ ] Diagrams use `GuideWideFigure` when present
+- [ ] Spot-checked ~375 / 768 / 1280 / 1536
+- [ ] EN/FR untouched unless copy moves (then [`i18n-public-copy.mdc`](i18n-public-copy.mdc))

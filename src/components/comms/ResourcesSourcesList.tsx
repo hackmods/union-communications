@@ -51,7 +51,7 @@ export function ResourcesSourcesList() {
           return (
             <section
               key={category}
-              className="border-l-2 border-opseu-blue/30 pl-5"
+              className="min-w-0 border-l-2 border-opseu-blue/30 pl-5"
             >
               <h3 className="text-base font-bold text-opseu-dark">
                 {ts(`categories.${category}`)}

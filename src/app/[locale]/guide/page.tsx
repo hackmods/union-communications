@@ -4,6 +4,12 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import {
+  GuideActionRow,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   GUIDE_BLUEPRINT_PATH_LINKS,
@@ -98,23 +104,39 @@ export default async function GuidePage({
         title={t("startHere.title")}
         intro={t("startHere.intro")}
       >
-        <ItemList section="startHere" keys={startKeys} t={t} />
+        <GuideTipGrid className="mt-4">
+          {startKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`startHere.items.${key}.label`)}
+              content={t(`startHere.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("startHere.tip")}</p>
         </Callout>
-        <div className="button-row mt-5 max-w-lg">
+        <GuideActionRow>
           <Link href="/brand-kit" className={guideCtaOutlineClass}>
             {nav("brandKit")}
           </Link>
           <Link href="/guide/social-media-plan" className={guideCtaOutlineClass}>
             {nav("socialMediaPlan")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection id="channels" title={t("channels.title")} intro={t("channels.intro")}>
-        <ItemList section="channels" keys={channelKeys} t={t} />
+        <GuideTipGrid className="mt-4">
+          {channelKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`channels.items.${key}.label`)}
+              content={t(`channels.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">
             {t("channels.warningTitle")}
@@ -128,7 +150,15 @@ export default async function GuidePage({
         title={t("platforms.title")}
         intro={t("platforms.intro")}
       >
-        <ItemList section="platforms" keys={platformKeys} t={t} />
+        <GuideTipGrid className="mt-4">
+          {platformKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`platforms.items.${key}.label`)}
+              content={t(`platforms.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("platforms.tip")}</p>
@@ -136,7 +166,15 @@ export default async function GuidePage({
       </GuideSection>
 
       <GuideSection id="tone" title={t("tone.title")} intro={t("tone.intro")}>
-        <ItemList section="tone" keys={toneKeys} t={t} />
+        <GuideTipGrid className="mt-4">
+          {toneKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`tone.items.${key}.label`)}
+              content={t(`tone.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -144,7 +182,15 @@ export default async function GuidePage({
         title={t("frequency.title")}
         intro={t("frequency.intro")}
       >
-        <ItemList section="frequency" keys={frequencyKeys} t={t} />
+        <GuideTipGrid className="mt-4">
+          {frequencyKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`frequency.items.${key}.label`)}
+              content={t(`frequency.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("frequency.tip")}</p>
@@ -152,7 +198,15 @@ export default async function GuidePage({
       </GuideSection>
 
       <GuideSection id="trolls" title={t("trolls.title")} intro={t("trolls.intro")}>
-        <ItemList section="trolls" keys={trollKeys} t={t} />
+        <GuideTipGrid className="mt-4">
+          {trollKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`trolls.items.${key}.label`)}
+              content={t(`trolls.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("trolls.warningTitle")}</p>
           <p className="mt-1">{t("trolls.warning")}</p>
@@ -164,12 +218,20 @@ export default async function GuidePage({
         title={t("accessibility.title")}
         intro={t("accessibility.intro")}
       >
-        <ItemList section="accessibility" keys={a11yKeys} t={t} />
-        <div className="button-row mt-5 max-w-lg">
+        <GuideTipGrid className="mt-4">
+          {a11yKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`accessibility.items.${key}.label`)}
+              content={t(`accessibility.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link href="/tools/alt-text" className={guideCtaOutlineClass}>
             {nav("altText")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection
@@ -177,17 +239,15 @@ export default async function GuidePage({
         title={t("fullWeek.title")}
         intro={t("fullWeek.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4" as="ol">
           {weekKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`fullWeek.phases.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`fullWeek.phases.${key}.content`)}
-            </li>
+            <GuideTipItem
+              key={key}
+              label={t(`fullWeek.phases.${key}.label`)}
+              content={t(`fullWeek.phases.${key}.content`)}
+            />
           ))}
-        </ol>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("fullWeek.tip")}</p>
@@ -283,48 +343,4 @@ export default async function GuidePage({
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function ItemList({
-  section,
-  keys,
-  t,
-}: {
-  section: string;
-  keys: readonly string[];
-  t: Awaited<ReturnType<typeof getTranslations>>;
-}) {
-  return (
-    <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-      {keys.map((key) => (
-        <li key={key} className="max-w-prose leading-relaxed">
-          <span className="font-semibold text-opseu-dark">
-            {t(`${section}.items.${key}.label`)}.
-          </span>{" "}
-          {t(`${section}.items.${key}.content`)}
-        </li>
-      ))}
-    </ul>
-  );
-}

@@ -1,13 +1,13 @@
 import { getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import {
+  GuideLayout,
   GuideSection,
   GuideSubHeading,
   GuideTipGrid,
   GuideTipItem,
-} from "@/components/comms/GuideSection";
-import { GuideWideFigure } from "@/components/comms/GuideWideFigure";
+  GuideWideFigure,
+} from "@/components/comms/guide-ui";
 import { Callout } from "@/components/ui/Callout";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { Link } from "@/i18n/navigation";

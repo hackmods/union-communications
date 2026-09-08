@@ -82,7 +82,7 @@ export function GuideLayout({
 
   const headerBlock = (
     <header className={hub ? "max-w-3xl" : undefined}>
-      <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
+      <h1 className="text-[clamp(1.5rem,1.25rem+1vw,1.875rem)] font-bold tracking-tight text-opseu-dark">
         {title}
       </h1>
       {subtitle && (

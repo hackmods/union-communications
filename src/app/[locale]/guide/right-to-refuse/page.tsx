@@ -272,16 +272,11 @@ export default async function RightToRefuseGuidePage({
         </GuideTipGrid>
       </GuideSection>
 
-      <section
+      <GuideSection
         id="boards"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        title={t("boards.title")}
+        intro={t("boards.body")}
       >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("boards.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("boards.body")}
-        </p>
         <GuideActionRow>
           <Link
             href="/tools/qr-card?preset=rightToRefuse"
@@ -291,7 +286,7 @@ export default async function RightToRefuseGuidePage({
           </Link>
         </GuideActionRow>
         <p className="mt-3 text-sm text-gray-700">{t("boards.exportHint")}</p>
-      </section>
+      </GuideSection>
     </GuideLayout>
   );
 }

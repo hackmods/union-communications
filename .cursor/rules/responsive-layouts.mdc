@@ -51,7 +51,7 @@ Mobile TOC/details placement stays **in-page** (after header) — area-specific 
 ## Reference compositions
 
 - **Home** — see [`public-marketing-ux.mdc`](public-marketing-ux.mdc). Short form: at `lg+`, two-zone hero inside `wide` (message + secondary visual earning ≥~40% of content width); body keeps trust `Callout`, Brand Kit link row, denser channel lists. Full-bleed gradient alone is atmosphere, not a secondary zone. Docs saying “landing shipped” do **not** freeze a layout that fails the empty-half / unfinished-mock test.
-- **Guides** — `GuideLayout`: `preset="narrow"` | `playbook` | `hub`; related links as compact row on narrow presets; playbook lg+ TOC sidebar. Guide **index** uses `preset="hub"`.
+- **Guides** — `GuideLayout`: `preset="narrow"` | `playbook` | `hub`; related links as compact row on narrow presets; playbook lg+ TOC sidebar. Guide **index** uses `preset="hub"`. Chapter body standards (tip grids, prose vs cluster, anti-regression): [`guide-layout-standards.mdc`](guide-layout-standards.mdc); out-of-scope growth: [`docs/audit/guide-layout-growth-backlog.md`](../../docs/audit/guide-layout-growth-backlog.md).
 - **Tools** — canvas tools use [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) — see [`tool-editor-ux.mdc`](tool-editor-ux.mdc) for editor chrome + face uplift
 - **Brand Kit / workspaces** — `PageShell` **wide** with paired panels at `lg+`; utility actions near the heading
 - **Hub auth** — `nestedAuth` / `nestedFocus` inside app layout — never a second `focus` shell with its own `px-*`
