@@ -83,7 +83,7 @@ export const PUBLIC_PAGE_SEO: Record<
         "What to do after Brand Kit: boards, print, socials, and a simple website. One message, four channels, in order.",
     },
     "/guide/workshop": {
-      title: "Workshop outline",
+      title: "Comms workshop",
       description:
         "A beginner hour for volunteer executives: platforms and posting rhythm, a local logo, Social Examples, Graphic Maker, Quote Card, and a website ZIP.",
     },
@@ -370,7 +370,7 @@ export const PUBLIC_PAGE_SEO: Record<
         "Quoi faire après la Trousse de marque : tableaux, impression, médias sociaux et un site simple. Un message, quatre canaux, dans l'ordre.",
     },
     "/guide/workshop": {
-      title: "Plan d'atelier",
+      title: "Atelier Comms",
       description:
         "Une heure pour les cadres bénévoles : plateformes et rythme, un logo local, les Exemples sociaux, le Créateur de graphiques, la Carte de citation et un ZIP de site.",
     },

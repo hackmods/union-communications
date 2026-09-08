@@ -369,7 +369,6 @@ export const GUIDE_RESOURCES_COMMS_LINKS: readonly {
   { href: "/guide", key: "blueprint" },
   { href: "/guide/social-media-plan", key: "plan" },
   { href: "/guide/workshops", key: "workshopsHub" },
-  { href: "/guide/workshop", key: "workshop" },
   { href: "/guide/union-boards", key: "boards" },
   { href: "/guide/print", key: "print" },
   { href: "/guide/website", key: "website" },

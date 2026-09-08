@@ -85,7 +85,7 @@
     "mainNav": "Navigation du site",
     "footerNav": "Pied de page",
     "language": "Langue",
-    "workshopGuide": "Plan d'atelier",
+    "workshopGuide": "Atelier Comms",
     "rtwAccommodation": "Retour au travail et adaptation",
     "preDisciplinaryLog": "Journal prédisciplinaire",
     "complaintVsGrievance": "Plainte ou grief",
@@ -3493,8 +3493,8 @@
   },
   "resources": {
     "title": "Ressources de communication",
-    "subtitle": "Liste de pratique, trousse de démo et sources. L'heure d'atelier chronométrée est dans le plan d'atelier.",
-    "intro": "Utilisez la liste seul ou en groupe. Le plan d'atelier a l'heure ; cette page garde les sources et la trousse de démo.",
+    "subtitle": "Liste de pratique, trousse de démo et sources. L'heure Comms chronométrée est sous Ateliers.",
+    "intro": "Utilisez la liste seul ou en groupe. Ateliers a l'heure Comms ; cette page garde les sources et la trousse de démo.",
     "purpose": {
       "title": "À quoi servent les Comms UnionOps",
       "body": "Chaque section a besoin de communications claires sur quatre canaux : les réseaux sociaux, l'imprimé, les tableaux syndicaux et un site Web simple.",
@@ -3519,7 +3519,7 @@
         "shortForm": "Vidéo courte",
         "crisis": "Communications de crise",
         "photoConsent": "Consentement photo",
-        "workshop": "Plan d'atelier",
+        "workshop": "Atelier Comms"
         "workshopsHub": "Ateliers"
       },
       "blurb": {

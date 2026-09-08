@@ -125,7 +125,6 @@ export const learnGroups: readonly NavGroup[] = [
       "/guide/social-media-plan",
       "/guide",
       "/guide/workshops",
-      "/guide/workshop",
     ]),
   },
   {

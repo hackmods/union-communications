@@ -85,7 +85,7 @@
     "mainNav": "Site navigation",
     "footerNav": "Footer",
     "language": "Language",
-    "workshopGuide": "Workshop outline",
+    "workshopGuide": "Comms workshop",
     "rtwAccommodation": "RTW & accommodation",
     "preDisciplinaryLog": "Pre-disciplinary log",
     "complaintVsGrievance": "Complaint vs grievance",
@@ -3493,8 +3493,8 @@
   },
   "resources": {
     "title": "Comms Resources",
-    "subtitle": "Practice checklist, demo kit, and sources. The timed workshop hour lives on Workshop outline.",
-    "intro": "Use the checklist on your own or in a room. Workshop outline has the hour; this page keeps sources and the demo kit.",
+    "subtitle": "Practice checklist, demo kit, and sources. The timed Comms hour lives under Workshops.",
+    "intro": "Use the checklist on your own or in a room. Workshops has the Comms hour; this page keeps sources and the demo kit.",
     "purpose": {
       "title": "What UnionOps Comms is for",
       "body": "Every local needs clear communications on four channels: social media, print, workplace boards, and a simple website.",
@@ -3519,7 +3519,7 @@
         "shortForm": "Short-form video",
         "crisis": "Crisis comms",
         "photoConsent": "Photo Consent",
-        "workshop": "Workshop outline",
+        "workshop": "Atelier Comms",
         "workshopsHub": "Workshops"
       },
       "blurb": {
