@@ -32,7 +32,9 @@ export function GuideSection({
         {title}
       </h2>
       {intro ? (
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
+        <div className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {intro}
+        </div>
       ) : null}
       <div className="mt-4 min-w-0">{children}</div>
     </section>
