@@ -177,6 +177,29 @@ test.describe("Workshop demo path E2E @smoke", () => {
     ).toBeVisible();
   });
 
+  test("workshops hub + land-ack workshop outline render", async ({ page }) => {
+    await page.goto("/en/guide/workshops/");
+    await expect(
+      page.getByRole("heading", { name: /^Workshops$/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Land acknowledgement drafting/i }),
+    ).toBeVisible();
+
+    await page.goto("/en/guide/workshops/land-acknowledgement/");
+    await expect(
+      page.getByRole("heading", {
+        name: /Land acknowledgement workshop/i,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Suggested agenda/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /Download walkthrough worksheet/i }),
+    ).toBeVisible();
+  });
+
   test("first week shows calendar and demo path", async ({ page }) => {
     await page.goto("/en/guide/social-media-plan/");
     await expect(page.getByRole("heading", { name: "First week" })).toBeVisible();

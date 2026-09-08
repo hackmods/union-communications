@@ -51,6 +51,7 @@ const GUIDE_GROUP_LABEL: Record<GuideGroupId, string> = {
   training: "learnGroupStewardTraining",
   floor: "learnSubgroupFloor",
   local: "learnSubgroupLocal",
+  workshops: "workshopsHub",
 };
 
 const SITE_SHELL_PATHS: readonly { href: string; navKey: string }[] = [

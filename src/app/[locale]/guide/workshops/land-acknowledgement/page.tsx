@@ -4,13 +4,10 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
-import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { LandAcknowledgementWorksheetButton } from "@/components/comms/LandAcknowledgementWorksheetButton";
 import {
   guideCtaClassSm,
-  guideCtaGhostClassSm,
   guideCtaOutlineClassSm,
 } from "@/components/comms/guideCtaClasses";
 import { cn } from "@/lib/utils";
@@ -20,37 +17,31 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  return buildPublicPageMetadata("/guide/workshop", params);
+  return buildPublicPageMetadata(
+    "/guide/workshops/land-acknowledgement",
+    params,
+  );
 }
 
-const PREREQ_KEYS = ["device", "logo", "colours", "number", "prompt"] as const;
-const OUTLINE_KEYS = ["strategy", "identity", "inspiration", "media", "close"] as const;
+const PREP_KEYS = ["who", "materials", "room", "followUp"] as const;
+const OUTLINE_KEYS = ["open", "research", "draft", "close"] as const;
 const OUTLINE_TOC = [
-  ["outline-strategy", "strategy"],
-  ["outline-identity", "identity"],
-  ["outline-inspiration", "inspiration"],
-  ["outline-media", "media"],
+  ["outline-open", "open"],
+  ["outline-research", "research"],
+  ["outline-draft", "draft"],
   ["outline-close", "close"],
 ] as const;
-const WRAP_KEYS = ["bookmark", "logo", "post", "website", "checklist"] as const;
+const WRAP_KEYS = ["adopt", "reader", "action", "guide"] as const;
 
-const richMarks = {
-  strong: (chunks: ReactNode) => (
-    <strong className="font-semibold text-opseu-dark">{chunks}</strong>
-  ),
-};
-
-export default async function WorkshopGuidePage({
+export default async function LandAckWorkshopPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("workshopGuide");
-  const tg = await getTranslations("guideCommon");
+  const t = await getTranslations("landAckWorkshopGuide");
   const nav = await getTranslations("nav");
-  const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(OUTLINE_TOC, (key) =>
     t(`outlineItems.${key}.navLabel`),
@@ -64,39 +55,13 @@ export default async function WorkshopGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("outlineNavLabel")}
-      aside={
-        <GuideToolAside
-          title={tg("asideTitle")}
-          intro={tg("asideIntro")}
-          links={[
-            { href: "/brand-kit", label: nav("brandKit") },
-            {
-              href: "/tools/logo-builder",
-              label: nav("logoBuilder"),
-              variant: "outline",
-            },
-            {
-              href: "/guide/social-media-plan",
-              label: nav("socialMediaPlan"),
-              variant: "outline",
-            },
-          ]}
-        />
-      }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
+        { href: "/guide/land-acknowledgement", label: nav("landAcknowledgementGuide") },
+        { href: "/guide/running-meetings", label: nav("runningMeetingsGuide") },
         { href: "/guide/workshops", label: nav("workshopsHub") },
-        {
-          href: "/guide/workshops/land-acknowledgement",
-          label: nav("landAckWorkshopGuide"),
-        },
-        { href: "/guide/resources", label: t("resourcesCta") },
-        { href: "/guide/social-media-plan", label: t("roadmapCta") },
-        { href: "/tools", label: t("toolsCta") },
+        { href: "/guide/workshop", label: nav("workshopGuide") },
       ]}
-      footer={
-        <SourcesBlock pageId="workshop" title={ts("title")} intro={ts("intro")} />
-      }
     >
       <div className="grid gap-3 sm:grid-cols-2">
         <WorkshopNote tone="facilitator" label={t("audienceFacilitatorLabel")}>
@@ -109,10 +74,10 @@ export default async function WorkshopGuidePage({
 
       <section
         className="mt-10 scroll-mt-28"
-        aria-labelledby="workshop-prereq-heading"
+        aria-labelledby="land-ack-workshop-prereq-heading"
       >
         <h2
-          id="workshop-prereq-heading"
+          id="land-ack-workshop-prereq-heading"
           className="text-xl font-bold text-opseu-dark md:text-2xl"
         >
           {t("prereqTitle")}
@@ -120,45 +85,31 @@ export default async function WorkshopGuidePage({
         <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
           {t("prereqIntro")}
         </p>
-        <ul className="mt-4 list-disc space-y-2 pl-5 text-gray-700">
-          {PREREQ_KEYS.map((key) => (
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {PREP_KEYS.map((key) => (
             <li key={key} className="max-w-prose leading-relaxed">
-              {t.rich(`prereq.${key}`, richMarks)}
+              <span className="font-semibold text-opseu-dark">
+                {t(`prereq.${key}.label`)}
+              </span>
+              {" — "}
+              {t(`prereq.${key}.content`)}
             </li>
           ))}
         </ul>
       </section>
 
       <section
-        className="mt-10 scroll-mt-28 rounded-2xl border-2 border-opseu-blue/40 bg-opseu-blue/5 p-5 sm:p-6"
-        aria-label={t("demoKicker")}
-      >
-        <p className="text-xs font-bold uppercase tracking-wide text-opseu-blue">
-          {t("demoKicker")}
-        </p>
-        <p className="mt-1 max-w-prose text-sm leading-relaxed text-gray-700">
-          {t("demoLead")}
-        </p>
-        <div className="mt-4 rounded-xl border border-opseu-blue/20 bg-white p-4 sm:p-5">
-          <WorkshopDemoPath showRoadmapLink />
-        </div>
-        <p className="mt-4 max-w-prose text-sm leading-relaxed text-gray-700">
-          {t("demoNote")}
-        </p>
-      </section>
-
-      <section
         className="mt-10 scroll-mt-28"
-        aria-labelledby="workshop-outline-heading"
+        aria-labelledby="land-ack-workshop-outline-heading"
       >
         <h2
-          id="workshop-outline-heading"
+          id="land-ack-workshop-outline-heading"
           className="text-xl font-bold text-opseu-dark md:text-2xl"
         >
           {t("outlineTitle")}
         </h2>
         <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t.rich("outlineIntro", richMarks)}
+          {t("outlineIntro")}
         </p>
         <ol className="mt-8 space-y-8">
           {OUTLINE_KEYS.map((key, index) => (
@@ -183,14 +134,14 @@ export default async function WorkshopGuidePage({
                 tone="attendee"
                 label={t("audienceAttendeeLabel")}
               >
-                {t.rich(`outlineItems.${key}.do`, richMarks)}
+                {t(`outlineItems.${key}.do`)}
               </WorkshopNote>
               <WorkshopNote
                 className="mt-3"
                 tone="facilitator"
                 label={t("audienceFacilitatorLabel")}
               >
-                {t.rich(`outlineItems.${key}.facilitator`, richMarks)}
+                {t(`outlineItems.${key}.facilitator`)}
               </WorkshopNote>
             </li>
           ))}
@@ -199,10 +150,26 @@ export default async function WorkshopGuidePage({
 
       <section
         className="mt-10 scroll-mt-28"
-        aria-labelledby="workshop-wrap-heading"
+        aria-labelledby="land-ack-workshop-handout-heading"
       >
         <h2
-          id="workshop-wrap-heading"
+          id="land-ack-workshop-handout-heading"
+          className="text-xl font-bold text-opseu-dark md:text-2xl"
+        >
+          {t("handoutTitle")}
+        </h2>
+        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
+          {t("handoutIntro")}
+        </p>
+        <LandAcknowledgementWorksheetButton className="mt-4" />
+      </section>
+
+      <section
+        className="mt-10 scroll-mt-28"
+        aria-labelledby="land-ack-workshop-wrap-heading"
+      >
+        <h2
+          id="land-ack-workshop-wrap-heading"
           className="text-xl font-bold text-opseu-dark md:text-2xl"
         >
           {t("wrapTitle")}
@@ -213,7 +180,7 @@ export default async function WorkshopGuidePage({
         <ol className="mt-4 list-decimal space-y-3 pl-5 text-gray-700">
           {WRAP_KEYS.map((key) => (
             <li key={key} className="max-w-prose leading-relaxed">
-              {t.rich(`wrap.${key}`, richMarks)}
+              {t(`wrap.${key}`)}
             </li>
           ))}
         </ol>
@@ -227,14 +194,11 @@ export default async function WorkshopGuidePage({
       </section>
 
       <div className="button-row mt-10 max-w-xl">
-        <Link href="/guide/resources" className={guideCtaClassSm}>
-          {t("resourcesCta")}
+        <Link href="/guide/land-acknowledgement" className={guideCtaClassSm}>
+          {t("guideCta")}
         </Link>
-        <Link href="/guide/social-media-plan" className={guideCtaOutlineClassSm}>
-          {t("roadmapCta")}
-        </Link>
-        <Link href="/tools" className={guideCtaGhostClassSm}>
-          {t("toolsCta")}
+        <Link href="/guide/workshops" className={guideCtaOutlineClassSm}>
+          {t("hubCta")}
         </Link>
       </div>
     </GuideLayout>

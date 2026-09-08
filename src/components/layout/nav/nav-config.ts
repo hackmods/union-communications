@@ -11,6 +11,8 @@ export type NavLinkKey =
   | "stewardPlaybooksHub"
   | "firstWeek"
   | "workshopGuide"
+  | "workshopsHub"
+  | "landAckWorkshopGuide"
   | "strikeGuide"
   | "strikeOpsGuide"
   | "crisisCommsGuide"
@@ -122,6 +124,7 @@ export const learnGroups: readonly NavGroup[] = [
     links: navLinksFromHrefs([
       "/guide/social-media-plan",
       "/guide",
+      "/guide/workshops",
       "/guide/workshop",
     ]),
   },

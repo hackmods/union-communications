@@ -132,7 +132,7 @@ test.describe("Guide text PDF export smoke @smoke", () => {
 
     const landAckCta = page
       .locator("#howToWrite")
-      .getByRole("button", { name: /Download floor handout/i });
+      .getByRole("button", { name: /Download walkthrough worksheet/i });
     await landAckCta.scrollIntoViewIfNeeded();
     const landAckDownloadPromise = page.waitForEvent("download");
     await landAckCta.click();
@@ -145,7 +145,7 @@ test.describe("Guide text PDF export smoke @smoke", () => {
     await assertTextPdfWithMark({
       filePath: landAckPath,
       minBytes: 3_000,
-      titleNeedle: /Land acknowledgement — floor handout/i,
+      titleNeedle: /Land acknowledgement — walkthrough worksheet/i,
       footerNeedle: /UnionOps Comms/i,
     });
 

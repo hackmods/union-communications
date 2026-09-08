@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-08 — Land acknowledgement how-to + workshops hub
+
+- [x] `/guide/land-acknowledgement` refocused on how-to walkthrough + PDF worksheet; Niagara annotated example kept; embedded facilitator agenda removed
+- [x] `/guide/workshops` hub + `/guide/workshops/land-acknowledgement` outline (Comms workshop stays at `/guide/workshop`)
+- [x] Registry `workshops` group, sitemap/SEO, nav, What's new, facilitator doc `docs/workshop/land-acknowledgement.md`
+- Verify: unit (registry, SEO, PDF, updates, public-copy) + workshop/land-ack smokes
+
 ## 2026-09-07 — Canvas Core engine (Waves 0–4)
 
 - [x] Shared geometry: `CanvasWrapper` / `LogoContainer` / `useCanvasExport` / safe-zone; `FitWidthFrame` re-export; capture allowlist + SVG/blob parity

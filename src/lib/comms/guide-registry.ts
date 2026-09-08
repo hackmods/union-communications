@@ -12,7 +12,8 @@ export type GuideGroupId =
   | "bargaining"
   | "training"
   | "floor"
-  | "local";
+  | "local"
+  | "workshops";
 
 /** Steward job groups — nav Floor/Local column + playbooks hub sections. */
 export type GuideJobGroupId = "training" | "floor" | "local" | "campaign";
@@ -64,16 +65,30 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
         navKey: "resources",
       },
       {
+        href: "/guide/photo-consent",
+        key: "photoConsent",
+        tier: "playbook",
+        navKey: "photoConsent",
+      },
+    ],
+    workshops: [
+      {
+        href: "/guide/workshops",
+        key: "workshopsHub",
+        tier: "gold",
+        navKey: "workshopsHub",
+      },
+      {
         href: "/guide/workshop",
         key: "workshop",
         tier: "gold",
         navKey: "workshopGuide",
       },
       {
-        href: "/guide/photo-consent",
-        key: "photoConsent",
+        href: "/guide/workshops/land-acknowledgement",
+        key: "landAckWorkshop",
         tier: "playbook",
-        navKey: "photoConsent",
+        navKey: "landAckWorkshopGuide",
       },
     ],
     channels: [
@@ -353,6 +368,7 @@ export const GUIDE_RESOURCES_COMMS_LINKS: readonly {
 }[] = [
   { href: "/guide", key: "blueprint" },
   { href: "/guide/social-media-plan", key: "plan" },
+  { href: "/guide/workshops", key: "workshopsHub" },
   { href: "/guide/workshop", key: "workshop" },
   { href: "/guide/union-boards", key: "boards" },
   { href: "/guide/print", key: "print" },
@@ -400,6 +416,7 @@ export const GUIDE_CATALOG_GROUP_IDS: readonly GuideGroupId[] = [
   "training",
   "floor",
   "local",
+  "workshops",
 ];
 
 /** True for `/guide` and `/guide/…`, not `/guides`. */

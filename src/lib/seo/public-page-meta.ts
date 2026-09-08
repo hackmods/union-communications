@@ -87,6 +87,16 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "A beginner hour for volunteer executives: platforms and posting rhythm, a local logo, Social Examples, Graphic Maker, Quote Card, and a website ZIP.",
     },
+    "/guide/workshops": {
+      title: "Workshops",
+      description:
+        "Projectable workshop outlines for local executives — Comms lunch-and-learn and land acknowledgement drafting session.",
+    },
+    "/guide/workshops/land-acknowledgement": {
+      title: "Land acknowledgement workshop",
+      description:
+        "Facilitator outline (~60–90 min) to draft a local land acknowledgement together — prep, timed agenda, and PDF worksheet.",
+    },
     "/guide/union-boards": {
       title: "Union Boards Guide",
       description:
@@ -200,7 +210,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/land-acknowledgement": {
       title: "Land Acknowledgement Guide",
       description:
-        "Solo path, group workshop, and PDF worksheet to draft your local's acknowledgement — federation guides, meeting order, and action, not a script generator.",
+        "How-to walkthrough and PDF worksheet to draft your local's acknowledgement — federation guides, Niagara example, meeting order, not a script generator.",
     },
     "/guide/officer-learning": {
       title: "Officer Learning Center",
@@ -364,6 +374,16 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Une heure pour les cadres bénévoles : plateformes et rythme, un logo local, les Exemples sociaux, le Créateur de graphiques, la Carte de citation et un ZIP de site.",
     },
+    "/guide/workshops": {
+      title: "Ateliers",
+      description:
+        "Plans d'atelier projectables pour les cadres locaux — lunch-and-learn Comms et séance de rédaction de reconnaissance territoriale.",
+    },
+    "/guide/workshops/land-acknowledgement": {
+      title: "Atelier de reconnaissance territoriale",
+      description:
+        "Plan animateur (~60–90 min) pour rédiger ensemble la reconnaissance de votre section — préparation, ordre du jour chronométré et feuille PDF.",
+    },
     "/guide/union-boards": {
       title: "Guide des tableaux syndicaux",
       description:
@@ -477,7 +497,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/land-acknowledgement": {
       title: "Guide de reconnaissance territoriale",
       description:
-        "Voie solo, atelier de groupe et feuille PDF pour rédiger la reconnaissance de votre section — guides fédéraux, ordre du jour et action, sans générateur.",
+        "Marche à suivre et feuille PDF pour rédiger la reconnaissance de votre section — guides fédéraux, exemple de Niagara, ordre du jour, sans générateur.",
     },
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",

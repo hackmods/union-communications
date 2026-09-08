@@ -59,11 +59,12 @@ describe("path helpers", () => {
     expect(isToolsPath("/guide")).toBe(false);
   });
 
-  it("orders Comms as First week, Blueprint, Workshop", () => {
+  it("orders Comms as First week, Blueprint, Workshops hub, Workshop", () => {
     const guides = learnGroups.find((g) => g.labelKey === "learnGroupGuides");
     expect(guides?.links.map((l) => l.href)).toEqual([
       "/guide/social-media-plan",
       "/guide",
+      "/guide/workshops",
       "/guide/workshop",
     ]);
   });

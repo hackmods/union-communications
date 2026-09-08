@@ -210,6 +210,7 @@ describe("guide-registry", () => {
       "training",
       "floor",
       "local",
+      "workshops",
     ]);
     const catalogHrefs = new Set(
       GUIDE_CATALOG_GROUP_IDS.flatMap((id) =>

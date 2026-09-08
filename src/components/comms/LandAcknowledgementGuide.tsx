@@ -23,8 +23,6 @@ const groundRuleKeys = ["noGenerator", "noScript", "deferLeadership", "wholeLoca
 const whyKeys = ["presence", "treaties", "reconciliation", "labour"] as const;
 const principleKeys = ["reflection", "territory", "action", "relationship"] as const;
 const soloFlowStepKeys = ["research", "reflect", "draft", "review"] as const;
-const workshopPrepKeys = ["who", "materials", "room", "followUp"] as const;
-const workshopAgendaKeys = ["open", "research", "draft", "close"] as const;
 const worksheetFeatureKeys = ["print", "ruled", "checklist"] as const;
 const worksheetStepKeys = ["print", "research", "reflect", "draft", "review"] as const;
 const researchKeys = ["research", "accuracy", "context", "friendship"] as const;
@@ -63,6 +61,10 @@ export async function LandAcknowledgementGuide() {
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/running-meetings", label: nav("runningMeetingsGuide") },
+        {
+          href: "/guide/workshops/land-acknowledgement",
+          label: nav("landAckWorkshopGuide"),
+        },
         { href: "/guide/bargaining", label: nav("bargainingGuide") },
         { href: "/guide/resources", label: nav("resources") },
       ]}
@@ -135,35 +137,19 @@ export async function LandAcknowledgementGuide() {
           className="mt-4"
         />
 
-        <SubHeading className="mt-8">{t("howToWrite.workshopHeading")}</SubHeading>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("howToWrite.workshopIntro")}
-        </p>
-        <SubHeading className="mt-6">{t("howToWrite.workshopPrepHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
-          {workshopPrepKeys.map((key) => (
-            <TipItem
-              key={key}
-              label={t(`howToWrite.workshopPrep.${key}.label`)}
-              content={t(`howToWrite.workshopPrep.${key}.content`)}
-            />
-          ))}
-        </ul>
-        <SubHeading className="mt-6">{t("howToWrite.workshopAgendaHeading")}</SubHeading>
-        <ol className="mt-3 list-decimal space-y-4 pl-5 text-gray-700">
-          {workshopAgendaKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`howToWrite.workshopAgenda.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`howToWrite.workshopAgenda.${key}.content`)}
-            </li>
-          ))}
-        </ol>
-        <Callout className="mt-5 max-w-prose">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
-          <p className="mt-1">{t("howToWrite.workshopTip")}</p>
+        <Callout className="mt-8 max-w-prose">
+          <p className="font-semibold text-opseu-dark">
+            {t("howToWrite.workshopCtaHeading")}
+          </p>
+          <p className="mt-1">{t("howToWrite.workshopCtaBody")}</p>
+          <div className="button-row mt-4">
+            <Link
+              href="/guide/workshops/land-acknowledgement"
+              className={guideCtaOutlineClass}
+            >
+              {t("howToWrite.workshopCtaLabel")}
+            </Link>
+          </div>
         </Callout>
 
         <div className="mt-8 max-w-prose">
