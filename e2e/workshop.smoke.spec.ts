@@ -263,7 +263,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
       page.getByRole("heading", { name: /Comms Resources/i }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Workshop outline/i }),
+      page.getByRole("link", { name: /Workshops/i }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: /Practice checklist/i }),
