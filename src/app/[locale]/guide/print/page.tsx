@@ -6,6 +6,13 @@ import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
+import {
+  GuideSection,
+  GuideSubHeading,
+  GuideActionRow,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   guideCtaClass,
@@ -85,165 +92,128 @@ export default async function PrintGuidePage({
         <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <section
-        id="when"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="when-heading"
-      >
-        <h2 id="when-heading" className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("when.title")}
-        </h2>
-        <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-opseu-blue">
+      <GuideSection id="when" title={t("when.title")} intro={t("when.intro")}>
+        <p className="-mt-1 text-sm font-semibold uppercase tracking-wide text-opseu-blue">
           {t("when.whyTitle")}
         </p>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("when.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {whenItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`when.items.${key}.label`)}
               content={t(`when.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("when.tip")}</p>
         </Callout>
-      </section>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="flyers"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="flyers-heading"
+        title={t("flyers.title")}
+        intro={t("flyers.intro")}
       >
-        <h2 id="flyers-heading" className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("flyers.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("flyers.intro")}
-        </p>
-        <h3 className="mt-6 text-lg font-bold text-opseu-dark">
+        <GuideSubHeading className="mt-6">
           {t("flyers.practicesTitle")}
-        </h3>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        </GuideSubHeading>
+        <GuideTipGrid className="mt-3">
           {flyerItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`flyers.items.${key}.label`)}
               content={t(`flyers.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("flyers.tip")}</p>
         </Callout>
-        <div className="button-row mt-5 max-w-lg">
+        <GuideActionRow>
           <Link href="/tools/flyer-maker" className={guideCtaClass}>
             {nav("flyerMaker")}
           </Link>
           <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
             {nav("qrCard")}
           </Link>
-        </div>
-      </section>
+        </GuideActionRow>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="boards"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="boards-heading"
+        title={t("boards.title")}
+        intro={t("boards.intro")}
       >
-        <h2 id="boards-heading" className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("boards.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("boards.intro")}
-        </p>
-        <h3 className="mt-6 text-lg font-bold text-opseu-dark">
+        <GuideSubHeading className="mt-6">
           {t("boards.realitiesTitle")}
-        </h3>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        </GuideSubHeading>
+        <GuideTipGrid className="mt-3">
           {boardItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`boards.items.${key}.label`)}
               content={t(`boards.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">{t("boards.warningTitle")}</p>
           <p className="mt-1">{t("boards.warning")}</p>
         </Callout>
-        <div className="button-row mt-5 max-w-lg">
+        <GuideActionRow>
           <Link href="/tools/board-notice" className={guideCtaClass}>
             {nav("boardNotice")}
           </Link>
           <Link href="/guide/union-boards" className={guideCtaOutlineClass}>
             {nav("unionBoardsGuide")}
           </Link>
-        </div>
-      </section>
+        </GuideActionRow>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="logistics"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="logistics-heading"
+        title={t("logistics.title")}
+        intro={t("logistics.intro")}
       >
-        <h2
-          id="logistics-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("logistics.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("logistics.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {logisticsItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`logistics.items.${key}.label`)}
               content={t(`logistics.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("logistics.tip")}</p>
         </Callout>
-      </section>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="digital"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="digital-heading"
+        title={t("digital.title")}
+        intro={t("digital.intro")}
       >
-        <h2 id="digital-heading" className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("digital.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("digital.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {digitalItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`digital.items.${key}.label`)}
               content={t(`digital.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("digital.tip")}</p>
         </Callout>
-      </section>
+      </GuideSection>
 
-      <div className="button-row mt-10 max-w-2xl">
+      <GuideActionRow className="mt-10">
         <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
           {nav("flyerMaker")}
         </Link>
@@ -253,15 +223,7 @@ export default async function PrintGuidePage({
         <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
           {nav("qrCard")}
         </Link>
-      </div>
+      </GuideActionRow>
     </GuideLayout>
-  );
-}
-
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
   );
 }

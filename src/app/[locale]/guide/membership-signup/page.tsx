@@ -4,6 +4,13 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
+import {
+  GuideSection,
+  GuideActionRow,
+  GuideTipGrid,
+  GuideTipItem,
+  GuideBulletList,
+} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Callout } from "@/components/ui/Callout";
@@ -123,79 +130,44 @@ export default async function MembershipSignupGuidePage({
     >
       <OfficerLearningModuleCallout slug="membership-lists-privacy" moduleNumber={11} />
 
-      <section
-        id="why"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="why-heading"
-      >
-        <h2
-          id="why-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("why.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("why.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+      <GuideSection id="why" title={t("why.title")} intro={t("why.intro")}>
+        <GuideTipGrid>
           {whyItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`why.items.${key}.label`)}
               content={t(`why.items.${key}.content`)}
             />
           ))}
-        </ul>
-      </section>
+        </GuideTipGrid>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="conversation"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="conversation-heading"
+        title={t("conversation.title")}
+        intro={t("conversation.intro")}
       >
-        <h2
-          id="conversation-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("conversation.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("conversation.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {conversationItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`conversation.items.${key}.label`)}
               content={t(`conversation.items.${key}.content`)}
             />
           ))}
-        </ul>
-      </section>
+        </GuideTipGrid>
+      </GuideSection>
 
-      <section
-        id="paper"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="paper-heading"
-      >
-        <h2
-          id="paper-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("paper.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("paper.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+      <GuideSection id="paper" title={t("paper.title")} intro={t("paper.intro")}>
+        <GuideTipGrid>
           {paperItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`paper.items.${key}.label`)}
               content={t(`paper.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <p className="mt-5 max-w-prose leading-relaxed text-gray-700">
           <Link
             href="/guide/print"
@@ -204,50 +176,32 @@ export default async function MembershipSignupGuidePage({
             {nav("printGuide")}
           </Link>
         </p>
-      </section>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="digital"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="digital-heading"
+        title={t("digital.title")}
+        intro={t("digital.intro")}
       >
-        <h2
-          id="digital-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("digital.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("digital.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {digitalItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`digital.items.${key}.label`)}
               content={t(`digital.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <Callout className="mt-5 max-w-prose">
           <p className="mt-1">{t("digital.testTip")}</p>
         </Callout>
-      </section>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="privacy"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="privacy-heading"
+        title={t("privacy.title")}
+        intro={t("privacy.intro")}
       >
-        <h2
-          id="privacy-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("privacy.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("privacy.intro")}
-        </p>
         <Callout tone="warning" className="mt-5 max-w-prose">
           <p className="font-semibold text-amber-950">
             {t("privacy.employerDriveTitle")}
@@ -263,22 +217,13 @@ export default async function MembershipSignupGuidePage({
         <p className="mt-5 max-w-prose leading-relaxed text-gray-700">
           {t("privacy.cases")}
         </p>
-      </section>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="materials"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="materials-heading"
+        title={t("materials.title")}
+        intro={t("materials.intro")}
       >
-        <h2
-          id="materials-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("materials.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("materials.intro")}
-        </p>
         <ol className="mt-6 space-y-8">
           {materialSteps.map((key, i) => (
             <li key={key}>
@@ -341,32 +286,23 @@ export default async function MembershipSignupGuidePage({
             </li>
           ))}
         </ol>
-      </section>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="onboarding"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="onboarding-heading"
+        title={t("onboarding.title")}
+        intro={t("onboarding.intro")}
       >
-        <h2
-          id="onboarding-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("onboarding.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("onboarding.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {onboardingItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`onboarding.items.${key}.label`)}
               content={t(`onboarding.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="mt-5 flex flex-wrap gap-3">
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link
             href={documentGeneratorPresetHref("welcome-letter")}
             className={guideCtaOutlineClass}
@@ -376,33 +312,24 @@ export default async function MembershipSignupGuidePage({
           <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
             {nav("emailBroadcastGuide")}
           </Link>
-        </div>
-      </section>
+        </GuideActionRow>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="checklist"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="checklist-heading"
+        title={t("checklist.title")}
+        intro={t("checklist.intro")}
       >
-        <h2
-          id="checklist-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("checklist.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("checklist.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-2 pl-5 text-gray-700">
+        <GuideBulletList>
           {checklistItemKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
+            <li key={key} className="leading-relaxed">
               {t(`checklist.items.${key}`)}
             </li>
           ))}
-        </ul>
-      </section>
+        </GuideBulletList>
+      </GuideSection>
 
-      <div className="button-row mt-10 max-w-2xl">
+      <GuideActionRow className="mt-10">
         <Link href="/brand-kit" className={guideCtaClass}>
           {nav("brandKit")}
         </Link>
@@ -424,15 +351,7 @@ export default async function MembershipSignupGuidePage({
         >
           {nav("documentGenerator")}
         </Link>
-      </div>
+      </GuideActionRow>
     </GuideLayout>
-  );
-}
-
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
   );
 }

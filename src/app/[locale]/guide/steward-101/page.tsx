@@ -8,9 +8,12 @@ import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { GuideBrandExportNudge } from "@/components/comms/GuideBrandExportNudge";
 import { GuideExpandSection } from "@/components/comms/GuideExpandSection";
 import {
+  GuideActionRow,
   GuideSubsection,
   GuideTrainingPhase,
-} from "@/components/comms/GuideTrainingPhase";
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 import {
   RepresentationStepsDiagram,
   ThreeHatsDiagram,
@@ -210,15 +213,15 @@ export default async function Steward101GuidePage({
           title={t("whatIsSteward.title")}
           intro={t("whatIsSteward.intro")}
         >
-          <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          <GuideTipGrid className="mt-4">
             {whatIsStewardKeys.map((key) => (
-              <TipItem
+              <GuideTipItem
                 key={key}
                 label={t(`whatIsSteward.items.${key}.label`)}
                 content={t(`whatIsSteward.items.${key}.content`)}
               />
             ))}
-          </ul>
+          </GuideTipGrid>
           <Callout tone="muted" className="mt-5 max-w-prose">
             <p className="font-semibold text-opseu-dark">{t("unionBasics.title")}</p>
             <p className="mt-2 leading-relaxed text-gray-700">
@@ -238,15 +241,15 @@ export default async function Steward101GuidePage({
           title={t("first48Hours.title")}
           intro={t("first48Hours.intro")}
         >
-          <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          <GuideTipGrid className="mt-4">
             {first48HoursKeys.map((key) => (
-              <TipItem
+              <GuideTipItem
                 key={key}
                 label={t(`first48Hours.items.${key}.label`)}
                 content={t(`first48Hours.items.${key}.content`)}
               />
             ))}
-          </ul>
+          </GuideTipGrid>
           <Callout className="mt-5 max-w-prose">
             <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
             <p className="mt-1">{t("first48Hours.tip")}</p>
@@ -329,15 +332,15 @@ export default async function Steward101GuidePage({
             }}
             className="mt-5"
           />
-          <ul className="mt-5 list-disc space-y-3 pl-5 text-gray-700">
+          <GuideTipGrid className="mt-5">
             {whichHatKeys.map((key) => (
-              <TipItem
+              <GuideTipItem
                 key={key}
                 label={t(`whichHat.items.${key}.label`)}
                 content={t(`whichHat.items.${key}.content`)}
               />
             ))}
-          </ul>
+          </GuideTipGrid>
           <Callout tone="warning" className="mt-5 max-w-prose">
             <p className="font-semibold text-amber-950">{t("whichHat.warningTitle")}</p>
             <p className="mt-1">{t("whichHat.warning")}</p>
@@ -383,15 +386,15 @@ export default async function Steward101GuidePage({
             }}
             className="mt-5 max-w-2xl"
           />
-          <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          <GuideTipGrid className="mt-4">
             {representationStepKeys.map((key) => (
-              <TipItem
+              <GuideTipItem
                 key={key}
                 label={t(`representation.${key}.label`)}
                 content={t(`representation.${key}.content`)}
               />
             ))}
-          </ul>
+          </GuideTipGrid>
           <Callout tone="warning" className="mt-5 max-w-prose">
             <p className="font-semibold text-amber-950">
               {t("representation.denied.title")}
@@ -428,15 +431,15 @@ export default async function Steward101GuidePage({
           title={t("escalate.title")}
           intro={t("escalate.intro")}
         >
-          <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          <GuideTipGrid className="mt-4">
             {escalateKeys.map((key) => (
-              <TipItem
+              <GuideTipItem
                 key={key}
                 label={t(`escalate.items.${key}.label`)}
                 content={t(`escalate.items.${key}.content`)}
               />
             ))}
-          </ul>
+          </GuideTipGrid>
           <Callout tone="warning" className="mt-5 max-w-prose">
             <p className="font-semibold text-amber-950">{t("escalate.warningTitle")}</p>
             <p className="mt-1">{t("escalate.warning")}</p>
@@ -481,15 +484,15 @@ export default async function Steward101GuidePage({
           title={t("stewardChecklist.title")}
           intro={t("stewardChecklist.intro")}
         >
-          <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          <GuideTipGrid className="mt-4">
             {stewardChecklistKeys.map((key) => (
-              <TipItem
+              <GuideTipItem
                 key={key}
                 label={t(`stewardChecklist.items.${key}.label`)}
                 content={t(`stewardChecklist.items.${key}.content`)}
               />
             ))}
-          </ul>
+          </GuideTipGrid>
         </GuideSubsection>
 
         <GuideExpandSection title={t("modules.trainingPathTitle")} className="max-w-3xl">
@@ -559,7 +562,7 @@ export default async function Steward101GuidePage({
 
         <p className="mt-4 text-sm text-gray-700">{t("tools.exportHint")}</p>
 
-        <div className="button-row mt-5 max-w-2xl">
+        <GuideActionRow>
           <Link
               href="/tools/complaint-vs-grievance"
               className={guideCtaOutlineClass}
@@ -575,7 +578,7 @@ export default async function Steward101GuidePage({
             <Link href="/app/grievances" className={guideCtaOutlineClass}>
               {t("hub.cta")}
             </Link>
-          </div>
+          </GuideActionRow>
 
         <GuideExpandSection
           title={t("modules.moreReferenceTitle")}
@@ -672,10 +675,3 @@ function ReferenceBlock({
   );
 }
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}

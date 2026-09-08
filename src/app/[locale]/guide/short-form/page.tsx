@@ -7,6 +7,11 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
+import {
+  GuideSection,
+  GuideActionRow,
+  GuideBulletList,
+} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { SHORT_FORM_EDITORS } from "@/lib/constants/short-form-editors";
@@ -97,25 +102,16 @@ export default async function ShortFormGuidePage({
         />
       }
     >
-      <section
+      <GuideSection
         id="filming"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="filming-heading"
+        title={t("filming.title")}
+        intro={t("filming.content")}
       >
-        <h2
-          id="filming-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("filming.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("filming.content")}
-        </p>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+        <GuideBulletList className="mt-3">
           {filmingItemKeys.map((key) => (
             <li key={key}>{t(`filming.items.${key}`)}</li>
           ))}
-        </ul>
+        </GuideBulletList>
 
         <figure className="mt-6 max-w-md">
           <div className="flex items-end gap-4">
@@ -164,24 +160,14 @@ export default async function ShortFormGuidePage({
             {nav("photoConsent")} →
           </Link>
         </Callout>
-      </section>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="editing"
-        className="mt-10 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="editing-heading"
+        title={t("editing.title")}
+        intro={t("editing.content")}
       >
-        <h2
-          id="editing-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("editing.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("editing.content")}
-        </p>
-
-        <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+        <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2">
           {SHORT_FORM_EDITORS.map((editor) => (
             <li key={editor.id}>
               <Card density="compact" className="h-full">
@@ -215,51 +201,33 @@ export default async function ShortFormGuidePage({
           </p>
           <p className="mt-2 leading-relaxed">{t("editing.stillsBody")}</p>
         </Callout>
-      </section>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="strategy"
-        className="mt-10 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="strategy-heading"
+        title={t("strategy.title")}
+        intro={t("strategy.content")}
       >
-        <h2
-          id="strategy-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("strategy.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("strategy.content")}
-        </p>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+        <GuideBulletList className="mt-3">
           {strategyItemKeys.map((key) => (
             <li key={key}>{t(`strategy.items.${key}`)}</li>
           ))}
-        </ul>
-      </section>
+        </GuideBulletList>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="checklist"
-        className="mt-10 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="checklist-heading"
+        title={t("checklist.title")}
+        intro={t("checklist.intro")}
       >
-        <h2
-          id="checklist-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("checklist.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("checklist.intro")}
-        </p>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+        <GuideBulletList className="mt-3">
           {checklistItemKeys.map((key) => (
             <li key={key}>{t(`checklist.items.${key}`)}</li>
           ))}
-        </ul>
-      </section>
+        </GuideBulletList>
+      </GuideSection>
 
-      <div className="button-row mt-8 max-w-lg">
+      <GuideActionRow className="mt-8">
         <Link
           href="/tools/graphic-maker?aspect=portrait"
           className={guideCtaOutlineClass}
@@ -275,7 +243,7 @@ export default async function ShortFormGuidePage({
         <Link href="/guide/photo-consent" className={guideCtaOutlineClass}>
           {nav("photoConsent")}
         </Link>
-      </div>
+      </GuideActionRow>
     </GuideLayout>
   );
 }

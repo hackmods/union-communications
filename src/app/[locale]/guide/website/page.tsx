@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideActionRow } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
@@ -135,11 +136,11 @@ export default async function WebsiteGuidePage({
             cta={t("glance.part2.cta")}
           />
         </div>
-        <div className="button-row mt-5 max-w-lg">
+        <GuideActionRow>
           <Link href="/tools/website-template" className={guideCtaClass}>
             {t("glance.templateCta")}
           </Link>
-        </div>
+        </GuideActionRow>
       </section>
 
       <PartFrame

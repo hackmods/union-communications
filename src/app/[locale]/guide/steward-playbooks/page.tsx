@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideSection } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { TrainingPathDiagram } from "@/components/comms/StewardGuideDiagrams";
 import {
@@ -123,12 +124,7 @@ export default async function StewardPlaybooksPage({
         />
       }
     >
-      <section
-        id="playbooks"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-      >
-        <h2 className="text-xl font-bold text-opseu-dark">{t("playbooks.title")}</h2>
-        <p className="mt-2 max-w-prose text-gray-700">{t("playbooks.intro")}</p>
+      <GuideSection id="playbooks" title={t("playbooks.title")} intro={t("playbooks.intro")}>
         {playbookGroups.map((groupId) => (
           <div key={groupId} className="mt-6">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
@@ -165,7 +161,7 @@ export default async function StewardPlaybooksPage({
             </ul>
           </div>
         ))}
-      </section>
+      </GuideSection>
 
       <section id="trainingPath" className="mt-12 scroll-mt-28">
         <Callout className="mb-8 max-w-3xl">
