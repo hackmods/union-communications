@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
-import {
-  GuideSection,
-  GuideSubHeading,
-  GuideActionRow,
-  GuideTipGrid,
-  GuideTipItem,
-} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   guideCtaClass,
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideSection,
+  GuideSubHeading,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -105,10 +105,10 @@ export default async function PrintGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("when.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -128,10 +128,10 @@ export default async function PrintGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("flyers.tip")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link href="/tools/flyer-maker" className={guideCtaClass}>
             {nav("flyerMaker")}
@@ -159,10 +159,10 @@ export default async function PrintGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("boards.warningTitle")}</p>
           <p className="mt-1">{t("boards.warning")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link href="/tools/board-notice" className={guideCtaClass}>
             {nav("boardNotice")}
@@ -187,10 +187,10 @@ export default async function PrintGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("logistics.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -207,10 +207,10 @@ export default async function PrintGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("digital.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideActionRow className="mt-10">

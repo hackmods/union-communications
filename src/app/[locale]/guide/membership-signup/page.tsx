@@ -2,24 +2,24 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
-import {
-  GuideSection,
-  GuideActionRow,
-  GuideTipGrid,
-  GuideTipItem,
-  GuideBulletList,
-} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { Callout } from "@/components/ui/Callout";
 import {
   guideCtaClass,
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideBulletList,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -192,9 +192,9 @@ export default async function MembershipSignupGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="mt-1">{t("digital.testTip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -202,18 +202,18 @@ export default async function MembershipSignupGuidePage({
         title={t("privacy.title")}
         intro={t("privacy.intro")}
       >
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">
             {t("privacy.employerDriveTitle")}
           </p>
           <p className="mt-1">{t("privacy.employerDriveBody")}</p>
-        </Callout>
-        <Callout tone="warning" className="mt-4 max-w-prose">
+        </GuideCallout>
+        <GuideCallout tone="warning" className="mt-4">
           <p className="font-semibold text-amber-950">
             {t("privacy.personalContactTitle")}
           </p>
           <p className="mt-1">{t("privacy.personalContactBody")}</p>
-        </Callout>
+        </GuideCallout>
         <p className="mt-5 max-w-prose leading-relaxed text-gray-700">
           {t("privacy.cases")}
         </p>

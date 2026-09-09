@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { StrikeCommandDiagram, StrikeRhythmsDiagram, StrikeGatesDiagram } from "@/components/comms/StewardGuideDiagrams";
 import { StrikeStandingBriefButton } from "@/components/comms/StrikeStandingBriefButton";
-import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import {
@@ -16,6 +13,14 @@ import {
 } from "@/components/comms/guideCtaClasses";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { cn } from "@/lib/utils";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -190,10 +195,10 @@ export default async function StrikeOpsGuidePage({
         <SourcesBlock pageId="strike" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("disclaimer.body")}</p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout
         slug="mobilizer-bargaining-partner"
@@ -221,10 +226,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="command" title={t("command.title")} intro={t("command.intro")}>
@@ -251,10 +256,10 @@ export default async function StrikeOpsGuidePage({
             notThis: t(`command.roles.rows.${key}.notThis`),
           }))}
         />
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("command.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="readiness" title={t("readiness.title")} intro={t("readiness.intro")}>
@@ -267,10 +272,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("readiness.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="kit" title={t("kit.title")} intro={t("kit.intro")}>
@@ -283,10 +288,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("kit.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="coverage" title={t("coverage.title")} intro={t("coverage.intro")}>
@@ -323,10 +328,10 @@ export default async function StrikeOpsGuidePage({
             layout: t(`coverage.table.rows.${key}.layout`),
           }))}
         />
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("coverage.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="tactics" title={t("tactics.title")} intro={t("tactics.intro")}>
@@ -339,10 +344,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("tactics.warningTitle")}</p>
           <p className="mt-1">{t("tactics.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="line" title={t("line.title")} intro={t("line.intro")}>
@@ -355,10 +360,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("line.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="captains" title={t("captains.title")} intro={t("captains.intro")}>
@@ -410,10 +415,10 @@ export default async function StrikeOpsGuidePage({
             {nav("websiteTemplate")}
           </Link>
         </GuideActionRow>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("captains.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="membership" title={t("membership.title")} intro={t("membership.intro")}>
@@ -426,10 +431,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("membership.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="money" title={t("money.title")} intro={t("money.intro")}>
@@ -442,10 +447,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("money.warningTitle")}</p>
           <p className="mt-1">{t("money.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="safety" title={t("safety.title")} intro={t("safety.intro")}>
@@ -458,10 +463,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("safety.warningTitle")}</p>
           <p className="mt-1">{t("safety.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="allies" title={t("allies.title")} intro={t("allies.intro")}>
@@ -474,10 +479,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("allies.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="visit" title={t("visit.title")} intro={t("visit.intro")}>
@@ -490,10 +495,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("visit.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="rhythms" title={t("rhythms.title")} intro={t("rhythms.intro")}>
@@ -515,10 +520,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("rhythms.tip")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link href="/guide/crisis" className={guideCtaOutlineClass}>
             {t("rhythms.crisisCta")}
@@ -550,10 +555,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("return.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="fullScenario" title={t("fullScenario.title")} intro={t("fullScenario.intro")}>
@@ -568,10 +573,10 @@ export default async function StrikeOpsGuidePage({
             </li>
           ))}
         </ol>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("fullScenario.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="failureModes" title={t("failureModes.title")} intro={t("failureModes.intro")}>
@@ -584,10 +589,10 @@ export default async function StrikeOpsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("failureModes.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="notThis" title={t("notThis.title")} intro={t("notThis.intro")}>

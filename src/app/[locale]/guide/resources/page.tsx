@@ -2,19 +2,19 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import {
-  GuideLayout,
-  GuideSection,
-  GuideBulletList,
-  GuideRelatedLinkList,
-} from "@/components/comms/guide-ui";
 import { guideCtaClassSm } from "@/components/comms/guideCtaClasses";
-import { Callout } from "@/components/ui/Callout";
 import { ResourcesSourcesList } from "@/components/comms/ResourcesSourcesList";
 import {
   GUIDE_RESOURCES_COMMS_LINKS,
   GUIDE_RESOURCES_LABOUR_LINKS,
 } from "@/lib/comms/guide-registry";
+import {
+  GuideLayout,
+  GuideBulletList,
+  GuideCallout,
+  GuideRelatedLinkList,
+  GuideSection,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -54,7 +54,7 @@ export default async function ResourcesPage({
       intro={t("intro")}
       preset="hub"
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("purpose.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("purpose.body")}</p>
         <GuideBulletList className="mt-3 space-y-2" columns={2}>
@@ -65,7 +65,7 @@ export default async function ResourcesPage({
         <Link href="/brand-kit" className={`mt-4 ${guideCtaClassSm}`}>
           {t("purpose.cta")}
         </Link>
-      </Callout>
+      </GuideCallout>
 
       <GuideSection id="path" title={t("path.title")} intro={t("path.intro")}>
         <ul className="grid gap-4 sm:grid-cols-2 lg:gap-5">

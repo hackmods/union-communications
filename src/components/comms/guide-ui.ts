@@ -19,6 +19,11 @@ export {
   GuideAccentBlock,
   GuideWorkshopNote,
 } from "@/components/comms/GuideOutline";
+export {
+  GuideCallout,
+  GuideSpotlightBand,
+  GuideCatalogCard,
+} from "@/components/comms/GuideSurfaces";
 export { GuideWideFigure } from "@/components/comms/GuideWideFigure";
 export {
   GuideTrainingPhase,

@@ -2,14 +2,11 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   BargainingLifecycleDiagram,
   NoBoardCountdownDiagram,
 } from "@/components/comms/StewardGuideDiagrams";
-import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import {
@@ -17,6 +14,14 @@ import {
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
 import { cn } from "@/lib/utils";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -148,12 +153,12 @@ export default async function BargainingGuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout
         slug="mobilizer-bargaining-partner"
@@ -195,10 +200,10 @@ export default async function BargainingGuidePage({
             ccba: t(`gate.sectorRows.${key}.ccba`),
           }))}
         />
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="prep" title={t("prep.title")} intro={t("prep.intro")}>
@@ -211,10 +216,10 @@ export default async function BargainingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("prep.tip")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link href="/guide/workplace-mapping" className={guideCtaOutlineClass}>
             {nav("workplaceMappingGuide")}
@@ -235,10 +240,10 @@ export default async function BargainingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("table.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="comms" title={t("comms.title")} intro={t("comms.intro")}>
@@ -251,10 +256,10 @@ export default async function BargainingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("comms.tip")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
             {nav("emailBroadcastGuide")}
@@ -282,10 +287,10 @@ export default async function BargainingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tracker.calloutTitle")}</p>
           <p className="mt-1">{t("tracker.calloutBody")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link href="/tools/proposal-tracker" className={guideCtaClass}>
             {t("tracker.cta")}
@@ -308,12 +313,12 @@ export default async function BargainingGuidePage({
           }}
           caption={t("dispute.diagram.caption")}
         />
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">
             {t("dispute.ccbaTitle")}
           </p>
           <p className="mt-1">{t("dispute.ccbaBody")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideTipGrid className="mt-6">
           {disputeKeys.map((key) => (
             <GuideTipItem
@@ -323,12 +328,12 @@ export default async function BargainingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">
             {t("dispute.warningTitle")}
           </p>
           <p className="mt-1">{t("dispute.warning")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link href="/guide/strike" className={guideCtaOutlineClass}>
             {t("dispute.strikeOpsCta")}
@@ -353,16 +358,16 @@ export default async function BargainingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("ratify.tip")}</p>
-        </Callout>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        </GuideCallout>
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">
             {t("ratify.rejectTitle")}
           </p>
           <p className="mt-1">{t("ratify.rejectBody")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -395,10 +400,10 @@ export default async function BargainingGuidePage({
             </li>
           ))}
         </ol>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("fullScenario.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -415,10 +420,10 @@ export default async function BargainingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("failureModes.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection

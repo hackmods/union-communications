@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideSection } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { TrainingPathDiagram } from "@/components/comms/StewardGuideDiagrams";
 import {
@@ -11,8 +9,12 @@ import {
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { Callout } from "@/components/ui/Callout";
 import { GUIDE_STEWARD_PLAYBOOK_GROUPS } from "@/lib/comms/guide-registry";
+import {
+  GuideLayout,
+  GuideCallout,
+  GuideSection,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -164,7 +166,7 @@ export default async function StewardPlaybooksPage({
       </GuideSection>
 
       <section id="trainingPath" className="mt-12 scroll-mt-28">
-        <Callout className="mb-8 max-w-3xl">
+        <GuideCallout className="mb-8 max-w-3xl">
           <p className="font-semibold text-opseu-dark">{t("trainingPath.title")}</p>
           <p className="mt-2 leading-relaxed text-gray-700">{t("trainingPath.body")}</p>
           <TrainingPathDiagram steps={pathSteps} className="mt-4" />
@@ -176,11 +178,11 @@ export default async function StewardPlaybooksPage({
               {t("trainingPath.officerLearningCta")}
             </Link>
           </div>
-        </Callout>
+        </GuideCallout>
       </section>
 
       <section id="workspaces" className="scroll-mt-28">
-        <Callout tone="muted" className="mb-8 max-w-3xl">
+        <GuideCallout tone="muted" className="mb-8 max-w-3xl">
           <p className="font-semibold text-opseu-dark">{t("workspaces.title")}</p>
           <p className="mt-2 leading-relaxed text-gray-700">{t("workspaces.body")}</p>
           <ul className="mt-4 space-y-3">
@@ -204,14 +206,14 @@ export default async function StewardPlaybooksPage({
               {t("workspaces.hubCta")}
             </Link>
           </div>
-        </Callout>
+        </GuideCallout>
       </section>
 
       <section id="quiz" className="scroll-mt-28">
-        <Callout tone="muted" className="mb-8 max-w-3xl">
+        <GuideCallout tone="muted" className="mb-8 max-w-3xl">
           <p className="font-semibold text-opseu-dark">{t("quizCallout.title")}</p>
           <p className="mt-2 leading-relaxed text-gray-700">{t("quizCallout.body")}</p>
-        </Callout>
+        </GuideCallout>
       </section>
     </GuideLayout>
   );

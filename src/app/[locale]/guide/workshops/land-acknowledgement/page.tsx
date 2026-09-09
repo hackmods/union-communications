@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import {
-  GuideLayout,
-  GuideSection,
-  GuideTipGrid,
-  GuideTipItem,
-  GuideOutlineList,
-  GuideOutlineStep,
-  GuideWorkshopNote,
-  GuideActionRow,
-} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { LandAcknowledgementWorksheetButton } from "@/components/comms/LandAcknowledgementWorksheetButton";
 import {
   guideCtaClassSm,
   guideCtaOutlineClassSm,
 } from "@/components/comms/guideCtaClasses";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+  GuideWorkshopNote,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,

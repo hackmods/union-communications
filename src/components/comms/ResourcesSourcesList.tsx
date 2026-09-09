@@ -9,6 +9,7 @@ import {
   type CommsSourceCategory,
 } from "@/lib/constants/comms-sources";
 import { useBrandStore } from "@/store/brand-store";
+import { GuideAccentBlock } from "@/components/comms/GuideOutline";
 
 const categoryOrder: CommsSourceCategory[] = [
   "branding",
@@ -49,13 +50,11 @@ export function ResourcesSourcesList() {
           const sources = byCategory[category];
           if (sources.length === 0) return null;
           return (
-            <section
+            <GuideAccentBlock
               key={category}
-              className="min-w-0 border-l-2 border-opseu-blue/30 pl-5"
+              titleAs="h3"
+              title={ts(`categories.${category}`)}
             >
-              <h3 className="text-base font-bold text-opseu-dark">
-                {ts(`categories.${category}`)}
-              </h3>
               <ul className="mt-3 space-y-3">
                 {sources.map((source) => (
                   <li
@@ -74,7 +73,7 @@ export function ResourcesSourcesList() {
                   </li>
                 ))}
               </ul>
-            </section>
+            </GuideAccentBlock>
           );
         })}
       </div>

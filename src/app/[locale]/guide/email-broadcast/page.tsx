@@ -2,20 +2,20 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
-import {
-  GuideSection,
-  GuideProse,
-  GuideActionRow,
-  GuideTipGrid,
-  GuideTipItem,
-  GuideBulletList,
-} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideBulletList,
+  GuideCallout,
+  GuideProse,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -114,10 +114,10 @@ export default async function EmailBroadcastGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1 max-w-prose">{t("when.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -141,16 +141,16 @@ export default async function EmailBroadcastGuidePage({
         title={t("protect.title")}
         intro={t("protect.intro")}
       >
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("protect.bccTitle")}</p>
           <p className="mt-1">{t("protect.bccBody")}</p>
-        </Callout>
-        <Callout tone="warning" className="mt-4 max-w-prose">
+        </GuideCallout>
+        <GuideCallout tone="warning" className="mt-4">
           <p className="font-semibold text-amber-950">
             {t("protect.employerTitle")}
           </p>
           <p className="mt-1">{t("protect.employerBody")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideProse className="mt-5">{t("protect.cases")}</GuideProse>
       </GuideSection>
 
@@ -160,16 +160,16 @@ export default async function EmailBroadcastGuidePage({
         intro={t("toolkit.intro")}
       >
         <GuideProse className="mt-3">{t("toolkit.tools")}</GuideProse>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">
             {t("toolkit.privacyTitle")}
           </p>
           <p className="mt-1">{t("toolkit.privacyBody")}</p>
-        </Callout>
-        <Callout tone="muted" className="mt-4 max-w-prose">
+        </GuideCallout>
+        <GuideCallout tone="muted" className="mt-4">
           <p className="font-semibold text-opseu-dark">{t("toolkit.hubTitle")}</p>
           <p className="mt-1">{t("toolkit.hubBody")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection

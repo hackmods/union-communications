@@ -3,19 +3,24 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   guideCtaClass,
   guideCtaClassBlock,
   guideCtaOutlineClassBlock,
 } from "@/components/comms/guideCtaClasses";
-import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -159,12 +164,12 @@ export default async function GrievanceProcessGuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout
         slug="advanced-grievance-settlement"
@@ -236,16 +241,16 @@ export default async function GrievanceProcessGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("investigation.tip")}</p>
-        </Callout>
-        <Callout tone="warning" className="mt-4 max-w-prose">
+        </GuideCallout>
+        <GuideCallout tone="warning" className="mt-4">
           <p className="font-semibold text-amber-950">
             {t("investigation.leaveOutTitle")}
           </p>
           <p className="mt-1">{t("investigation.leaveOut")}</p>
-        </Callout>
+        </GuideCallout>
         <p className="mt-5 text-sm">
           <Link
             href="#worksheet"
@@ -261,12 +266,12 @@ export default async function GrievanceProcessGuidePage({
         title={t("clocks.title")}
         intro={t("clocks.intro")}
       >
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">
             {t("clocks.warningTitle")}
           </p>
           <p className="mt-1">{t("clocks.warning")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideTipGrid className="mt-4">
           {clockKeys.map((key) => (
             <GuideTipItem
@@ -279,12 +284,12 @@ export default async function GrievanceProcessGuidePage({
       </GuideSection>
 
       <GuideSection id="steps" title={t("steps.title")} intro={t("steps.intro")}>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">
             {t("steps.exampleTitle")}
           </p>
           <p className="mt-1">{t("steps.example")}</p>
-        </Callout>
+        </GuideCallout>
         <ExampleStepsTable
           caption={t("steps.exampleTable.caption")}
           headers={{
@@ -316,12 +321,12 @@ export default async function GrievanceProcessGuidePage({
         title={t("meeting.title")}
         intro={t("meeting.intro")}
       >
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">
             {t("meeting.warningTitle")}
           </p>
           <p className="mt-1">{t("meeting.warning")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideTipGrid className="mt-4">
           {meetingKeys.map((key) => (
             <GuideTipItem
@@ -347,10 +352,10 @@ export default async function GrievanceProcessGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("workedFile.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -480,7 +485,7 @@ export default async function GrievanceProcessGuidePage({
         </GuideActionRow>
       </GuideSection>
 
-      <Callout tone="muted" className="mt-10">
+      <GuideCallout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("hub.body")}</p>
         <div className="button-row mt-4">
@@ -488,7 +493,7 @@ export default async function GrievanceProcessGuidePage({
             {t("hub.cta")}
           </Link>
         </div>
-      </Callout>
+      </GuideCallout>
 
       <p className="mt-8 max-w-prose text-sm leading-relaxed text-gray-600">
         {t("sourcesNote")}

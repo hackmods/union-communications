@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   AmendmentFlowDiagram,
@@ -17,10 +15,17 @@ import {
   guideCtaOutlineClass,
   guideCtaOutlineClassBlock,
 } from "@/components/comms/guideCtaClasses";
-import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -159,12 +164,12 @@ export default async function BylawsGuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout
         slug="democratic-governance"
@@ -191,10 +196,10 @@ export default async function BylawsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -235,10 +240,10 @@ export default async function BylawsGuidePage({
           ]}
           caption={t("diagrams.quorum.caption")}
         />
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("mustHave.tip")}</p>
-        </Callout>
+        </GuideCallout>
         <p className="mt-4 max-w-prose text-sm text-gray-600">
           {t("mustHave.electionsDeepen")}{" "}
           <Link
@@ -273,12 +278,12 @@ export default async function BylawsGuidePage({
             </li>
           ))}
         </ol>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">
             {t("amend.warningTitle")}
           </p>
           <p className="mt-1">{t("amend.warning")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
             {t("amend.boardNoticeCta")}
@@ -314,10 +319,10 @@ export default async function BylawsGuidePage({
             artifact: t(`scenario.phases.${key}.artifact`),
           }))}
         />
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("scenario.tip")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link
             href="/tools/bylaw-builder?preset=opseuCaat"
@@ -348,10 +353,10 @@ export default async function BylawsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("opseuPatterns.tip")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link
             href="/tools/bylaw-builder?preset=opseuCaat"
@@ -422,10 +427,10 @@ export default async function BylawsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("examples.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -517,10 +522,10 @@ export default async function BylawsGuidePage({
         </GuideActionRow>
       </GuideSection>
 
-      <Callout tone="muted" className="mt-10">
+      <GuideCallout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("example.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("example.body")}</p>
-      </Callout>
+      </GuideCallout>
     </GuideLayout>
   );
 }

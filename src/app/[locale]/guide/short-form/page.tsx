@@ -2,19 +2,19 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Callout } from "@/components/ui/Callout";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
-import {
-  GuideSection,
-  GuideActionRow,
-  GuideBulletList,
-} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { SHORT_FORM_EDITORS } from "@/lib/constants/short-form-editors";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideBulletList,
+  GuideCallout,
+  GuideSection,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -148,7 +148,7 @@ export default async function ShortFormGuidePage({
           </figcaption>
         </figure>
 
-        <Callout className="mt-6">
+        <GuideCallout className="mt-6">
           <p className="font-semibold text-opseu-dark">
             {t("filming.consentTitle")}
           </p>
@@ -159,7 +159,7 @@ export default async function ShortFormGuidePage({
           >
             {nav("photoConsent")} →
           </Link>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -195,12 +195,12 @@ export default async function ShortFormGuidePage({
           ))}
         </ul>
 
-        <Callout tone="muted" className="mt-6">
+        <GuideCallout tone="muted" className="mt-6">
           <p className="font-semibold text-opseu-dark">
             {t("editing.stillsTitle")}
           </p>
           <p className="mt-2 leading-relaxed">{t("editing.stillsBody")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection

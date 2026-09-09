@@ -132,6 +132,8 @@ type GuideTipItemProps = {
   content: string;
   className?: string;
   as?: "li" | "div";
+  /** Trailing mark after the label. Default period. Use "" when copy is already punctuated. */
+  punctuation?: "." | ":" | "";
 };
 
 /** Label + body cell for GuideTipGrid (no nested max-w-prose). */
@@ -140,10 +142,15 @@ export function GuideTipItem({
   content,
   className,
   as: Tag = "li",
+  punctuation = ".",
 }: GuideTipItemProps) {
   return (
     <Tag className={cn("min-w-0 leading-relaxed", className)}>
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
+      <span className="font-semibold text-opseu-dark">
+        {label}
+        {punctuation}
+      </span>{" "}
+      {content}
     </Tag>
   );
 }

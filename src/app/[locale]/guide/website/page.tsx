@@ -3,10 +3,7 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideActionRow } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
@@ -15,6 +12,11 @@ import {
 } from "@/components/comms/guideCtaClasses";
 import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
 import { cn } from "@/lib/utils";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -176,9 +178,9 @@ export default async function WebsiteGuidePage({
               </li>
             ))}
           </ul>
-          <Callout tone="muted" className="mt-4">
+          <GuideCallout tone="muted" className="mt-4">
             {t("why.tip")}
-          </Callout>
+          </GuideCallout>
         </section>
 
         <section
@@ -254,7 +256,7 @@ export default async function WebsiteGuidePage({
               </li>
             ))}
           </ul>
-          <Callout className="mt-4">{t("before.tip")}</Callout>
+          <GuideCallout className="mt-4">{t("before.tip")}</GuideCallout>
         </section>
 
         <section
@@ -279,9 +281,9 @@ export default async function WebsiteGuidePage({
               </StepItem>
             ))}
           </StepList>
-          <Callout tone="success" className="mt-4">
+          <GuideCallout tone="success" className="mt-4">
             {t("build.done")}
-          </Callout>
+          </GuideCallout>
           <div className="button-row mt-6 max-w-lg">
             <Link href="/tools/website-template" className={guideCtaClass}>
               {t("build.cta")}
@@ -297,18 +299,18 @@ export default async function WebsiteGuidePage({
         intro={t("part2.intro")}
         className="mt-12 bg-gray-50"
       >
-        <Callout tone="warning" className="mt-5">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("part2.handoffTitle")}</p>
           <p className="mt-1">{t("part2.handoff")}</p>
-        </Callout>
-        <Callout tone="muted" className="mt-4">
+        </GuideCallout>
+        <GuideCallout tone="muted" className="mt-4">
           <p className="font-semibold text-opseu-dark">{t("wordpress.title")}</p>
           <p className="mt-1">{t("wordpress.body")}</p>
-        </Callout>
-        <Callout tone="muted" className="mt-4">
+        </GuideCallout>
+        <GuideCallout tone="muted" className="mt-4">
           <p className="font-semibold text-opseu-dark">{t("squarespace.title")}</p>
           <p className="mt-1">{t("squarespace.body")}</p>
-        </Callout>
+        </GuideCallout>
 
         <section
           className="mt-8 rounded-xl border border-gray-200 bg-white px-4 py-4 sm:px-5"
@@ -356,9 +358,9 @@ export default async function WebsiteGuidePage({
               </StepItem>
             ))}
           </StepList>
-          <Callout tone="muted" className="mt-4">
+          <GuideCallout tone="muted" className="mt-4">
             {t("deploy.tip")}
-          </Callout>
+          </GuideCallout>
           {githubPages ? (
             <p className="mt-4 text-sm text-gray-700">
               {t("deploy.docsLead")}{" "}
@@ -404,9 +406,9 @@ export default async function WebsiteGuidePage({
               </StepItem>
             ))}
           </StepList>
-          <Callout tone="muted" className="mt-4">
+          <GuideCallout tone="muted" className="mt-4">
             {t("domain.tip")}
-          </Callout>
+          </GuideCallout>
           {githubDomain ? (
             <p className="mt-4 text-sm text-gray-700">
               {t("domain.docsLead")}{" "}

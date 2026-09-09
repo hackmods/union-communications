@@ -3,18 +3,22 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   PhysicalShiftDiagram,
   SocialMapDiagram,
   SupportScaleDiagram,
 } from "@/components/comms/WorkplaceMappingDiagrams";
-import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
+import {
+  GuideLayout,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -128,10 +132,10 @@ export default async function WorkplaceMappingGuidePage({
         />
       }
     >
-      <Callout tone="warning" className="mb-8 max-w-prose">
+      <GuideCallout tone="warning" className="mb-8">
         <p className="font-semibold text-amber-950">{t("sensitive.title")}</p>
         <p className="mt-2 leading-relaxed">{t.rich("sensitive.body", richMarks)}</p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout slug="mobilizer-bargaining-partner" moduleNumber={7} />
 
@@ -159,7 +163,7 @@ export default async function WorkplaceMappingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
           <Link
@@ -168,7 +172,7 @@ export default async function WorkplaceMappingGuidePage({
           >
             {t("related.dfr")} →
           </Link>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -195,10 +199,10 @@ export default async function WorkplaceMappingGuidePage({
             </li>
           ))}
         </ul>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("physical.blindSpot")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -225,10 +229,10 @@ export default async function WorkplaceMappingGuidePage({
             </li>
           ))}
         </ul>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("social.goal")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="scale" title={t("scale.title")} intro={t("scale.intro")}>
@@ -251,10 +255,10 @@ export default async function WorkplaceMappingGuidePage({
             </li>
           ))}
         </ul>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("scale.spendTitle")}</p>
           <p className="mt-1">{t("scale.spend")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -271,10 +275,10 @@ export default async function WorkplaceMappingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("conversations.tip")}</p>
-        </Callout>
+        </GuideCallout>
         <p className="mt-4 max-w-prose text-gray-700">
           <Link
             href="/guide/membership-signup"
@@ -315,10 +319,10 @@ export default async function WorkplaceMappingGuidePage({
             notes: t(`worked.table.rows.${key}.notes`),
           }))}
         />
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("worked.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="keep" title={t("keep.title")} intro={t("keep.intro")}>
@@ -331,10 +335,10 @@ export default async function WorkplaceMappingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("privacy.title")}</p>
           <p className="mt-1">{t("privacy.body")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection

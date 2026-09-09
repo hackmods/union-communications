@@ -3,6 +3,11 @@ import { cn } from "@/lib/utils";
 type CalloutProps = React.HTMLAttributes<HTMLDivElement> & {
   /** Soft brand tint (default), quiet gray note, plain surface, success, or export/error alert */
   tone?: "brand" | "muted" | "plain" | "danger" | "success" | "warning";
+  /**
+   * Reading measure inside wide article columns.
+   * `prose` (~65ch) for notes; `fill` for full article-column callouts.
+   */
+  measure?: "prose" | "fill";
 };
 
 /**
@@ -12,6 +17,7 @@ type CalloutProps = React.HTMLAttributes<HTMLDivElement> & {
 export function Callout({
   className,
   tone = "brand",
+  measure = "fill",
   children,
   ...props
 }: CalloutProps) {
@@ -29,6 +35,7 @@ export function Callout({
       className={cn(
         "min-w-0 rounded-lg border px-4 py-3 text-sm text-gray-700",
         tones[tone],
+        measure === "prose" && "max-w-prose",
         className,
       )}
       {...props}

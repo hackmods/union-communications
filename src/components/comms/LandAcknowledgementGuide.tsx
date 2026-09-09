@@ -2,13 +2,13 @@ import { getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import {
   GuideLayout,
+  GuideCallout,
   GuideSection,
   GuideSubHeading,
   GuideTipGrid,
   GuideTipItem,
   GuideWideFigure,
 } from "@/components/comms/guide-ui";
-import { Callout } from "@/components/ui/Callout";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { Link } from "@/i18n/navigation";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
@@ -126,10 +126,10 @@ export async function LandAcknowledgementGuide() {
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1 max-w-prose">{t("whyPrinciples.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -145,7 +145,7 @@ export async function LandAcknowledgementGuide() {
           <LandAcknowledgementWritingFlowDiagram steps={soloFlowSteps} />
         </GuideWideFigure>
 
-        <Callout className="mt-8">
+        <GuideCallout className="mt-8">
           <p className="font-semibold text-opseu-dark">
             {t("howToWrite.workshopCtaHeading")}
           </p>
@@ -158,7 +158,7 @@ export async function LandAcknowledgementGuide() {
               {t("howToWrite.workshopCtaLabel")}
             </Link>
           </div>
-        </Callout>
+        </GuideCallout>
 
         <div className="mt-8">
           <GuideSubHeading>{t("howToWrite.worksheetHeading")}</GuideSubHeading>
@@ -184,10 +184,10 @@ export async function LandAcknowledgementGuide() {
               </li>
             ))}
           </ol>
-          <Callout className="mt-5">
+          <GuideCallout className="mt-5">
             <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
             <p className="mt-1 max-w-prose">{t("howToWrite.worksheetGoldTip")}</p>
-          </Callout>
+          </GuideCallout>
           <LandAcknowledgementWorksheetButton className="mt-4" />
           <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
             {t("howToWrite.worksheetHint")}
@@ -230,11 +230,11 @@ export async function LandAcknowledgementGuide() {
         <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
           {t("prepareWords.exampleIntro")}
         </p>
-        <Callout tone="warning" className="mt-4">
+        <GuideCallout tone="warning" className="mt-4">
           <p className="font-semibold text-amber-950">
             {t("prepareWords.exampleBadge")}
           </p>
-        </Callout>
+        </GuideCallout>
         <div className="mt-6 grid gap-6 lg:grid-cols-3 lg:gap-5">
           {workedExampleKeys.map((key) => (
             <figure key={key} className="min-w-0">

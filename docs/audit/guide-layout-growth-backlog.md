@@ -31,10 +31,13 @@ Public guide chapters and workshop outlines now use shared `GuideSection*` / out
 |---------|-----------|
 | Workshop outlines (`/guide/workshop`, `/guide/workshops/land-acknowledgement`) | `GuideOutlineStep` + `GuideWorkshopNote` + `GuideSection` |
 | First-week roadmap (`/guide/social-media-plan`) | `GuideOutlineStep` (`headingAs="h2"`, `indexStyle="padded"`) |
-| Resources hub | `GuideSection` + path grids |
+| Resources hub | `GuideSection` + path grids; sources categories → `GuideAccentBlock` |
 | Union boards nested accents | `GuideAccentBlock` |
+| Workshops hub catalog | `GuideCatalogCard` |
+| Comms workshop Demo Path | `GuideSpotlightBand` |
+| Playbook TOC | `GuidePlaybookToc` (scroll-spy + smooth + mobile details) |
 
-Catalog cards on `/guide/workshops` remain list/hub chrome (not chapters).
+See also closed in-scope items: [`docs/growth-backlog.md`](../growth-backlog.md) (GB-001–012).
 
 ## Suggested future passes (not scheduled)
 

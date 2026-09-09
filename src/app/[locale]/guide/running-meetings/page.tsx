@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
-import { Callout } from "@/components/ui/Callout";
 import {
   MotionPrecedenceDiagram,
   QuorumTiersDiagram,
@@ -17,6 +14,14 @@ import {
 } from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -140,12 +145,12 @@ export default async function RunningMeetingsGuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout slug="democratic-governance" moduleNumber={4} />
 
@@ -175,10 +180,10 @@ export default async function RunningMeetingsGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("chair.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -213,10 +218,10 @@ export default async function RunningMeetingsGuidePage({
           ]}
           caption={ol("quorumCaption")}
         />
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("quorum.warningTitle")}</p>
           <p className="mt-1">{t("quorum.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -231,14 +236,14 @@ export default async function RunningMeetingsGuidePage({
             </li>
           ))}
         </ol>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="leading-relaxed text-gray-700">{t("agenda.landAckNote")}</p>
           <p className="mt-3">
             <Link href="/guide/land-acknowledgement" className={guideCtaOutlineClass}>
               {nav("landAcknowledgementGuide")}
             </Link>
           </p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -272,10 +277,10 @@ export default async function RunningMeetingsGuidePage({
           }))}
           caption={t("precedence.caption")}
         />
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("precedence.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -342,10 +347,10 @@ export default async function RunningMeetingsGuidePage({
             </li>
           ))}
         </ol>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("scenario.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection

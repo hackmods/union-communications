@@ -8,7 +8,7 @@ alwaysApply: false
 
 Public guide **chapters** (playbooks, workshops, hub bodies). Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc) (shell tiers) and [`guide-pdfs.mdc`](guide-pdfs.mdc) (print). Out-of-scope growth notes: [`docs/audit/guide-layout-growth-backlog.md`](../../docs/audit/guide-layout-growth-backlog.md).
 
-Import from `@/components/comms/guide-ui` (or the named modules it re-exports).
+Import from `@/components/comms/guide-ui` only for public guide pages (no dual `@/components/comms/GuideLayout` + barrel; no raw `Callout` — use `GuideCallout`).
 
 ## Shell vs chapter
 
@@ -17,18 +17,26 @@ Import from `@/components/comms/guide-ui` (or the named modules it re-exports).
 | `GuideLayout` + `preset` | Page frame: `narrow` / `playbook` / `hub` |
 | `GuideSection` + children | Chapter body inside the article column |
 | `GuideOutlineStep` / `GuideOutlineList` | Numbered workshop / first-week roadmap steps (not anonymous `border-l` `<li>`s) |
+| `GuideCatalogCard` | Workshops hub (and similar) catalog rows |
+| `GuideSpotlightBand` | Demo / highlight bands (comms workshop Demo Path) |
 | `GuideAccentBlock` | Nested h3/h4 accent strips inside a chapter |
 | `GuideWorkshopNote` | Facilitator / attendee workshop callouts |
+| `GuideCallout` | Notes inside guides (`measure="prose"` default; `fill` for full column) |
 | `GuideTrainingPhase` | Steward-101 numbered training modules only — not default playbook chrome |
+| Playbook TOC | `GuidePlaybookToc` via GuideLayout — scroll-spy + smooth scroll + mobile details |
 
 Playbooks: `preset="playbook"` → `readWide` + TOC rail. **Fill the article column** after the rail — do not leave a phone-width stack with empty right space.
+
+## Accepted exceptions
+
+- **`/guide/website` `PartFrame` / glance cards** — intentional multi-part “site build” chrome (kicker + framed parts), not chapter densification. Do not force onto `GuideSection` without a product redesign. Keep importing the shell from `guide-ui`.
 
 ## Prose vs cluster
 
 | Content | Primitive / pattern |
 |---------|---------------------|
 | Title, continuous intro, mid-section paragraphs | `max-w-prose` via section intro or `GuideProse` |
-| Labeled tip / principle / checklist clusters | `GuideTipGrid` + `GuideTipItem` (`sm:grid-cols-2`; `columns={3}` only for short cards) |
+| Labeled tip / principle / checklist clusters | `GuideTipGrid` + `GuideTipItem` (`punctuation` default `"."`; `sm:grid-cols-2`; `columns={3}` only for short cards) |
 | Label-less disc lists | `GuideBulletList` (optional `columns={2}` when items are short) |
 | Diagrams / flow figures | `GuideWideFigure` — full article width; never `max-w-md` phone plates on desktop |
 | CTA / button rows | `GuideActionRow` — no `max-w-lg` dead zone |
@@ -47,10 +55,11 @@ Playbooks: `preset="playbook"` → `readWide` + TOC rail. **Fill the article col
 - Stretched mobile single column with growing empty half at `lg+`
 - Robotic equal card grids for every list
 - Blindly applying playbook grids to Officer Learning dark shell, narrow legal pages, tool panels, or PDF layout — see growth backlog
+- Ad-hoc `Callout … max-w-prose` in guide pages — use `GuideCallout`
 
 ## Checklist (new or refactored guide)
 
-- [ ] Imports shared guide-ui primitives (no local section/tip helpers)
+- [ ] Imports shared guide-ui primitives (no local section/tip helpers; barrel only)
 - [ ] Intros stay readable; clusters fill the column at `sm+`
 - [ ] Diagrams use `GuideWideFigure` when present
 - [ ] Spot-checked ~375 / 768 / 1280 / 1536

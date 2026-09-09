@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { GuideLayout } from "@/components/comms/GuideLayout";
+import {
+  GuideLayout,
+  GuideCatalogCard,
+} from "@/components/comms/guide-ui";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 
 export async function generateMetadata({
@@ -44,28 +47,17 @@ export default async function WorkshopsHubPage({
     >
       <ul className="mt-2 space-y-6">
         {OUTLINE_KEYS.map((key) => (
-          <li
+          <GuideCatalogCard
             key={key}
-            className="border-l-2 border-opseu-blue/30 pl-5"
-          >
-            <h2 className="text-lg font-bold text-opseu-dark md:text-xl">
-              {t(`outlines.${key}.title`)}
-            </h2>
-            <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-              {t(`outlines.${key}.body`)}
-            </p>
-            <p className="mt-1 text-sm text-gray-600">
-              {t(`outlines.${key}.time`)}
-            </p>
-            <div className="button-row mt-4">
-              <Link
-                href={OUTLINE_HREF[key]}
-                className={guideCtaOutlineClass}
-              >
+            title={t(`outlines.${key}.title`)}
+            body={t(`outlines.${key}.body`)}
+            meta={t(`outlines.${key}.time`)}
+            action={
+              <Link href={OUTLINE_HREF[key]} className={guideCtaOutlineClass}>
                 {t(`outlines.${key}.cta`)}
               </Link>
-            </div>
-          </li>
+            }
+          />
         ))}
       </ul>
     </GuideLayout>

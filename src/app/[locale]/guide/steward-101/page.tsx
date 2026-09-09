@@ -3,17 +3,9 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { GuideBrandExportNudge } from "@/components/comms/GuideBrandExportNudge";
 import { GuideExpandSection } from "@/components/comms/GuideExpandSection";
-import {
-  GuideActionRow,
-  GuideSubsection,
-  GuideTrainingPhase,
-  GuideTipGrid,
-  GuideTipItem,
-} from "@/components/comms/guide-ui";
 import {
   RepresentationStepsDiagram,
   ThreeHatsDiagram,
@@ -22,7 +14,6 @@ import {
 } from "@/components/comms/StewardGuideDiagrams";
 import { Steward101ModuleNav } from "@/components/comms/Steward101ModuleNav";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
-import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import {
   guideCtaClassBlock,
@@ -31,6 +22,16 @@ import {
 } from "@/components/comms/guideCtaClasses";
 import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
 import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideBulletList,
+  GuideCallout,
+  GuideSubsection,
+  GuideTipGrid,
+  GuideTipItem,
+  GuideTrainingPhase,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -185,12 +186,12 @@ export default async function Steward101GuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout slug="contract-enforcement" moduleNumber={1} />
 
@@ -222,7 +223,7 @@ export default async function Steward101GuidePage({
               />
             ))}
           </GuideTipGrid>
-          <Callout tone="muted" className="mt-5 max-w-prose">
+          <GuideCallout tone="muted" className="mt-5">
             <p className="font-semibold text-opseu-dark">{t("unionBasics.title")}</p>
             <p className="mt-2 leading-relaxed text-gray-700">
               {t.rich("unionBasics.body", richMarks)}
@@ -233,7 +234,7 @@ export default async function Steward101GuidePage({
             >
               {t("unionBasics.membershipLink")} →
             </Link>
-          </Callout>
+          </GuideCallout>
         </GuideSubsection>
 
         <GuideSubsection
@@ -250,10 +251,10 @@ export default async function Steward101GuidePage({
               />
             ))}
           </GuideTipGrid>
-          <Callout className="mt-5 max-w-prose">
+          <GuideCallout className="mt-5">
             <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
             <p className="mt-1">{t("first48Hours.tip")}</p>
-          </Callout>
+          </GuideCallout>
         </GuideSubsection>
       </GuideTrainingPhase>
 
@@ -341,10 +342,10 @@ export default async function Steward101GuidePage({
               />
             ))}
           </GuideTipGrid>
-          <Callout tone="warning" className="mt-5 max-w-prose">
+          <GuideCallout tone="warning" className="mt-5">
             <p className="font-semibold text-amber-950">{t("whichHat.warningTitle")}</p>
             <p className="mt-1">{t("whichHat.warning")}</p>
-          </Callout>
+          </GuideCallout>
         </GuideSubsection>
       </GuideTrainingPhase>
 
@@ -369,14 +370,14 @@ export default async function Steward101GuidePage({
                 {t("representation.trigger.body")}
               </p>
             </div>
-            <Callout className="max-w-prose">
+            <GuideCallout >
               <p className="font-semibold text-opseu-dark">
                 {t("representation.script.title")}
               </p>
               <p className="mt-2 leading-relaxed text-gray-700">
                 {t.rich("representation.script.body", richMarks)}
               </p>
-            </Callout>
+            </GuideCallout>
           </div>
           <RepresentationStepsDiagram
             labels={{
@@ -395,12 +396,12 @@ export default async function Steward101GuidePage({
               />
             ))}
           </GuideTipGrid>
-          <Callout tone="warning" className="mt-5 max-w-prose">
+          <GuideCallout tone="warning" className="mt-5">
             <p className="font-semibold text-amber-950">
               {t("representation.denied.title")}
             </p>
             <p className="mt-1">{t("representation.denied.body")}</p>
-          </Callout>
+          </GuideCallout>
         </GuideSubsection>
 
         <GuideExpandSection
@@ -420,10 +421,10 @@ export default async function Steward101GuidePage({
               </li>
             ))}
           </ol>
-          <Callout tone="muted" className="mt-5 max-w-prose">
+          <GuideCallout tone="muted" className="mt-5">
             <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
             <p className="mt-1">{t("scenario.tip")}</p>
-          </Callout>
+          </GuideCallout>
         </GuideExpandSection>
 
         <GuideSubsection
@@ -440,10 +441,10 @@ export default async function Steward101GuidePage({
               />
             ))}
           </GuideTipGrid>
-          <Callout tone="warning" className="mt-5 max-w-prose">
+          <GuideCallout tone="warning" className="mt-5">
             <p className="font-semibold text-amber-950">{t("escalate.warningTitle")}</p>
             <p className="mt-1">{t("escalate.warning")}</p>
-          </Callout>
+          </GuideCallout>
         </GuideSubsection>
       </GuideTrainingPhase>
 
@@ -455,19 +456,19 @@ export default async function Steward101GuidePage({
         intro={t("modules.equip.intro")}
       >
         <GuideSubsection id="dfr" title={t("dfr.title")} intro={t("dfr.intro")}>
-          <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          <GuideBulletList className="mt-4" columns={2}>
             {dfrKeys.map((key) => (
-              <li key={key} className="max-w-prose leading-relaxed">
+              <li key={key} className="leading-relaxed">
                 {t.rich(`dfr.items.${key}`, richMarks)}
               </li>
             ))}
-          </ul>
-          <Callout className="mt-5 max-w-prose">
+          </GuideBulletList>
+          <GuideCallout className="mt-5">
             <p className="font-semibold text-opseu-dark">{t("goldenRule.title")}</p>
             <p className="mt-2 leading-relaxed text-gray-700">
               {t("goldenRule.body")}
             </p>
-          </Callout>
+          </GuideCallout>
           <p className="mt-4 max-w-prose text-gray-700">
             {t("dfr.linkIntro")}{" "}
             <Link
@@ -620,12 +621,12 @@ export default async function Steward101GuidePage({
         </GuideExpandSection>
       </section>
 
-      <Callout tone="muted" className="mt-10">
+      <GuideCallout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("hub.body")}</p>
-      </Callout>
+      </GuideCallout>
 
-      <Callout tone="muted" className="mt-8">
+      <GuideCallout tone="muted" className="mt-8">
         <p className="font-semibold text-opseu-dark">{t("next.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("next.body")}</p>
         <nav
@@ -655,7 +656,7 @@ export default async function Steward101GuidePage({
             </span>
           ))}
         </nav>
-      </Callout>
+      </GuideCallout>
     </GuideLayout>
   );
 }

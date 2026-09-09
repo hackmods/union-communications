@@ -3,13 +3,6 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import {
-  GuideActionRow,
-  GuideSection,
-  GuideTipGrid,
-  GuideTipItem,
-} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   GUIDE_BLUEPRINT_PATH_LINKS,
@@ -21,7 +14,14 @@ import {
   guideCtaClass,
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
-import { Callout } from "@/components/ui/Callout";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -86,7 +86,7 @@ export default async function GuidePage({
         <SourcesBlock pageId="blueprint" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <Callout className="mb-8 max-w-3xl">
+      <GuideCallout className="mb-8 max-w-3xl">
         <p className="font-semibold text-opseu-dark">{strike("title")}</p>
         <p className="mt-1">{strike("subtitle")}</p>
         <div className="button-row mt-3 max-w-lg">
@@ -97,7 +97,7 @@ export default async function GuidePage({
             {nav("crisisCommsGuide")}
           </Link>
         </div>
-      </Callout>
+      </GuideCallout>
 
       <GuideSection
         id="startHere"
@@ -113,10 +113,10 @@ export default async function GuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("startHere.tip")}</p>
-        </Callout>
+        </GuideCallout>
         <GuideActionRow>
           <Link href="/brand-kit" className={guideCtaOutlineClass}>
             {nav("brandKit")}
@@ -137,12 +137,12 @@ export default async function GuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">
             {t("channels.warningTitle")}
           </p>
           <p className="mt-1">{t("channels.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -159,10 +159,10 @@ export default async function GuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("platforms.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="tone" title={t("tone.title")} intro={t("tone.intro")}>
@@ -191,10 +191,10 @@ export default async function GuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("frequency.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="trolls" title={t("trolls.title")} intro={t("trolls.intro")}>
@@ -207,10 +207,10 @@ export default async function GuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("trolls.warningTitle")}</p>
           <p className="mt-1">{t("trolls.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -248,14 +248,14 @@ export default async function GuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("fullWeek.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <div className="mt-10 grid gap-4 lg:grid-cols-2">
-        <Callout tone="muted">
+        <GuideCallout tone="muted">
           <p className="font-semibold text-opseu-dark">
             {t("bargainingGuides.title")}
           </p>
@@ -279,9 +279,9 @@ export default async function GuidePage({
               </span>
             ))}
           </nav>
-        </Callout>
+        </GuideCallout>
 
-        <Callout tone="muted">
+        <GuideCallout tone="muted">
           <p className="font-semibold text-opseu-dark">{t("channelGuides.title")}</p>
           <nav
             className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
@@ -303,9 +303,9 @@ export default async function GuidePage({
               </span>
             ))}
           </nav>
-        </Callout>
+        </GuideCallout>
 
-        <Callout tone="muted" className="lg:col-span-2">
+        <GuideCallout tone="muted" className="lg:col-span-2">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <p className="font-semibold text-opseu-dark">{t("labourGuides.title")}</p>
             <Link
@@ -337,7 +337,7 @@ export default async function GuidePage({
               </span>
             ))}
           </nav>
-        </Callout>
+        </GuideCallout>
       </div>
     </GuideLayout>
   );

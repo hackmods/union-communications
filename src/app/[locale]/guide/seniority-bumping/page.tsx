@@ -2,15 +2,20 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
-import { Callout } from "@/components/ui/Callout";
 import { guideCtaClass } from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -99,12 +104,12 @@ export default async function SeniorityBumpingGuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout slug="seniority-bumping-layoff" moduleNumber={16} />
 
@@ -118,10 +123,10 @@ export default async function SeniorityBumpingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -138,10 +143,10 @@ export default async function SeniorityBumpingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("compare.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -174,10 +179,10 @@ export default async function SeniorityBumpingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("cascade2.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -194,10 +199,10 @@ export default async function SeniorityBumpingGuidePage({
             />
           ))}
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("meeting.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -241,10 +246,10 @@ export default async function SeniorityBumpingGuidePage({
         <p className="mt-3 text-sm text-gray-700">{t("worksheet.exportHint")}</p>
       </GuideSection>
 
-      <Callout tone="muted" className="mt-10">
+      <GuideCallout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("hub.body")}</p>
-      </Callout>
+      </GuideCallout>
     </GuideLayout>
   );
 }

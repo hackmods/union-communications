@@ -3,15 +3,6 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import {
-  GuideLayout,
-  GuideSection,
-  GuideBulletList,
-  GuideOutlineList,
-  GuideOutlineStep,
-  GuideWorkshopNote,
-  GuideActionRow,
-} from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
@@ -21,6 +12,16 @@ import {
   guideCtaGhostClassSm,
   guideCtaOutlineClassSm,
 } from "@/components/comms/guideCtaClasses";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideBulletList,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideSection,
+  GuideSpotlightBand,
+  GuideWorkshopNote,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -124,23 +125,13 @@ export default async function WorkshopGuidePage({
         </GuideBulletList>
       </GuideSection>
 
-      <section
-        className="mt-10 scroll-mt-28 rounded-2xl border-2 border-opseu-blue/40 bg-opseu-blue/5 p-5 sm:p-6"
-        aria-label={t("demoKicker")}
+      <GuideSpotlightBand
+        kicker={t("demoKicker")}
+        lead={t("demoLead")}
+        note={t("demoNote")}
       >
-        <p className="text-xs font-bold uppercase tracking-wide text-opseu-blue">
-          {t("demoKicker")}
-        </p>
-        <p className="mt-1 max-w-prose text-sm leading-relaxed text-gray-700">
-          {t("demoLead")}
-        </p>
-        <div className="mt-4 rounded-xl border border-opseu-blue/20 bg-white p-4 sm:p-5">
-          <WorkshopDemoPath showRoadmapLink />
-        </div>
-        <p className="mt-4 max-w-prose text-sm leading-relaxed text-gray-700">
-          {t("demoNote")}
-        </p>
-      </section>
+        <WorkshopDemoPath showRoadmapLink />
+      </GuideSpotlightBand>
 
       <GuideSection
         id="outline"

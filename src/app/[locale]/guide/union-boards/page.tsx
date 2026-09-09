@@ -3,17 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import {
-  GuideLayout,
-  GuideSection,
-  GuideAccentBlock,
-  GuideTipGrid,
-  GuideTipItem,
-  GuideActionRow,
-  GuideWideFigure,
-} from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
@@ -31,6 +21,16 @@ import {
 import { BoardReferenceSheetButton } from "@/components/comms/BoardReferenceSheetButton";
 import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import {
+  GuideLayout,
+  GuideAccentBlock,
+  GuideActionRow,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+  GuideWideFigure,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -136,9 +136,9 @@ export default async function UnionBoardsGuidePage({
           ))}
         </ol>
 
-        <Callout tone="muted" className="mt-4">
+        <GuideCallout tone="muted" className="mt-4">
           {t("bareMinimum.tip")}
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection

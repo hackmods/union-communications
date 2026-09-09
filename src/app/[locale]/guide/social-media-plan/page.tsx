@@ -3,14 +3,6 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import {
-  GuideLayout,
-  GuideOutlineList,
-  GuideOutlineStep,
-  GuideActionRow,
-  GuideProse,
-  GuideSection,
-} from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
@@ -26,6 +18,14 @@ import {
   FIRST_WEEK_STEP_KEYS,
   FIRST_WEEK_STEP_LINKS,
 } from "@/lib/comms/first-week-roadmap";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideProse,
+  GuideSection,
+} from "@/components/comms/guide-ui";
 
 function RoadmapStepLink({
   href,

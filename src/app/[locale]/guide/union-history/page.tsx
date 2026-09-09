@@ -3,8 +3,6 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideActionRow, GuideSection, GuideTipGrid, GuideTipItem } from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { GuideExpandSection } from "@/components/comms/GuideExpandSection";
 import {
@@ -15,11 +13,18 @@ import {
   guideCtaClass,
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
-import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { AffiliationMapWorksheetButton } from "@/components/comms/AffiliationMapWorksheetButton";
 import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -184,12 +189,12 @@ export default async function UnionHistoryGuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout
         slug="democratic-governance"
@@ -228,10 +233,10 @@ export default async function UnionHistoryGuidePage({
             ))}
           </GuideTipGrid>
         </GuideExpandSection>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("history.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -269,10 +274,10 @@ export default async function UnionHistoryGuidePage({
           <RegistryLink id="clc-federations">{t("tracks.clcLink")}</RegistryLink>
           {t("tracks.clcTail")}
         </p>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("tracks.warningTitle")}</p>
           <p className="mt-2 leading-relaxed">{t("tracks.warningBody")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -323,10 +328,10 @@ export default async function UnionHistoryGuidePage({
             {t("example.items.nupge.after")}
           </li>
         </GuideTipGrid>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("example.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -359,7 +364,7 @@ export default async function UnionHistoryGuidePage({
             />
           ))}
         </ol>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">
             {t("mapYours.confirm.title")}
           </p>
@@ -368,7 +373,7 @@ export default async function UnionHistoryGuidePage({
               <li key={key}>{t(`mapYours.confirm.items.${key}`)}</li>
             ))}
           </ul>
-        </Callout>
+        </GuideCallout>
         <div className="mt-8 max-w-prose">
           <h3 className="text-base font-bold text-opseu-dark md:text-lg">
             {t("worksheet.heading")}
@@ -381,10 +386,10 @@ export default async function UnionHistoryGuidePage({
             {t("worksheet.hint")}
           </p>
         </div>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("mapYours.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
