@@ -4,7 +4,7 @@ Public outline (project this): `/guide/workshops/land-acknowledgement`
 
 Canonical how-to + Niagara annotated example + federation sources: `/guide/land-acknowledgement`
 
-PDF worksheet (same download on both pages): one-page walkthrough handout.
+PDF worksheet (same download on both pages): one-page ruled worksheet.
 
 ## Format
 
