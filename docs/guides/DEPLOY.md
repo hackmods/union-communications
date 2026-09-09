@@ -115,6 +115,10 @@ Optional **error sinks** (ADR-006 — ops only, not product analytics; defaults 
 | `SENTRY_DSN` | Optional runtime server DSN (CapRover App Configs OK) |
 | `ERROR_LOG_FILE_ENABLED` | `true` |
 | `ERROR_LOG_FILE_PATH` | `/data/logs/unionops-errors.jsonl` (mount a Persistent Directory) |
+| `ERROR_LOG_FILE_MAX_BYTES` | optional rotate threshold (default 10 MiB) |
+| `ERROR_LOG_FILE_KEEP` | optional rotated file count (default 3) |
+
+After deploy, `curl -sL https://<host>/api/health/` → check `observability` (and watch for `*Misconfigured` / `sentryClientServerMismatch`).
 
 Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_*` is inlined by Next.js). Prefer editing `config/host-brand.json` (or `npm run brand:set`) before `docker build` when you want a white-label host without env sprawl:
 

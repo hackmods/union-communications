@@ -58,8 +58,17 @@ if (!process.exitCode) {
           ([, value]) => value === "memory",
         );
         console.log(
-          `[health-check] ok commit=${body.commit ?? "unknown"} version=${body.version ?? "unknown"} email=${body.emailEnabled} cron=${body.cronConfigured} postgres=${body.postgresConfigured} durable=${body.postgresFlipComplete} demoAuth=${body.demoAuthEnabled}`,
+          `[health-check] ok commit=${body.commit ?? "unknown"} version=${body.version ?? "unknown"} email=${body.emailEnabled} cron=${body.cronConfigured} postgres=${body.postgresConfigured} durable=${body.postgresFlipComplete} demoAuth=${body.demoAuthEnabled} sentry=${body.observability?.sentryEnabled ?? "?"} fileLog=${body.observability?.errorLogFileEnabled ?? "?"}`,
         );
+        if (
+          body.observability?.sentryMisconfigured ||
+          body.observability?.errorLogFileMisconfigured ||
+          body.observability?.sentryClientServerMismatch
+        ) {
+          console.warn(
+            `[health-check] observability misconfig sentryMisconfigured=${body.observability.sentryMisconfigured} errorLogFileMisconfigured=${body.observability.errorLogFileMisconfigured} sentryClientServerMismatch=${body.observability.sentryClientServerMismatch}`,
+          );
+        }
         if (memoryBackends.length > 0) {
           console.log(
             `[health-check] memory backends (${memoryBackends.length}): ${memoryBackends.map(([k]) => k).join(", ")}`,

@@ -11,6 +11,7 @@ import {
   expenseExportFilename,
 } from "@/lib/expenses/export";
 import { expenseStore } from "@/lib/expenses/store";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 export async function GET(
   request: Request,
@@ -83,7 +84,8 @@ export async function GET(
         "Content-Disposition": `attachment; filename="${expenseExportFilename(submission, "xlsx")}"`,
       },
     });
-  } catch {
+  } catch (err) {
+    reportApiFailure(err, "/api/expenses/[id]/export");
     return NextResponse.json({ error: "Export failed" }, { status: 500 });
   }
 }

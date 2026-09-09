@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { PageShell } from "@/components/layout/PageShell";
 import { RouteStatusPanel } from "@/components/layout/RouteStatusPanel";
+import { captureClientRouteError } from "@/lib/observability/capture-client-route-error";
 
 /** Tool-scoped recovery when preview chunks fail after deploy or offline reload. */
 export default function DocumentGeneratorError({
@@ -19,7 +20,7 @@ export default function DocumentGeneratorError({
   const t = useTranslations("documentGenerator");
 
   useEffect(() => {
-    console.error("[document-generator]", error.digest ?? error.message);
+    captureClientRouteError(error, "document-generator");
   }, [error]);
 
   return (

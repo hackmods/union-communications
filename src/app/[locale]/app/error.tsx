@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { PageShell } from "@/components/layout/PageShell";
 import { RouteStatusPanel } from "@/components/layout/RouteStatusPanel";
 import { Button } from "@/components/ui/Button";
+import { captureClientRouteError } from "@/lib/observability/capture-client-route-error";
 
 export default function HubError({
   error,
@@ -17,7 +18,7 @@ export default function HubError({
   const t = useTranslations("routeUi");
 
   useEffect(() => {
-    console.error("[hub]", error.digest ?? error.message);
+    captureClientRouteError(error, "hub");
   }, [error]);
 
   return (

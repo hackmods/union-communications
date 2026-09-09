@@ -8,6 +8,10 @@ import {
 } from "@/lib/db/backend";
 import { isPostgresConfigured } from "@/lib/db/client";
 import { isDemoAuthEnabled } from "@/lib/auth/demo-auth-gate";
+import {
+  buildObservabilityHealth,
+  type ObservabilityHealth,
+} from "@/lib/observability/config";
 
 /** Non-secret runtime summary for `/api/health` (operators + smoke). */
 export type HealthStatus = {
@@ -24,6 +28,8 @@ export type HealthStatus = {
   cronConfigured: boolean;
   mfaEnabled: boolean;
   demoAuthEnabled: boolean;
+  /** Operator error sinks (Sentry / JSONL) — no secrets. */
+  observability: ObservabilityHealth;
 };
 
 let cachedVersion: string | undefined;
@@ -73,5 +79,6 @@ export function buildHealthStatus(): HealthStatus {
     cronConfigured: Boolean(process.env.CRON_SECRET?.trim()),
     mfaEnabled: process.env.AUTH_MFA_ENABLED === "true",
     demoAuthEnabled: isDemoAuthEnabled(),
+    observability: buildObservabilityHealth(),
   };
 }

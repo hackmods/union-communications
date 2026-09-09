@@ -1,10 +1,11 @@
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   appendServerErrorLog,
   resetErrorFileLogState,
+  rotateErrorLogIfNeeded,
 } from "@/lib/observability/file-log";
 
 let tmpDir: string;
@@ -48,12 +49,42 @@ describe("appendServerErrorLog", () => {
     expect(line.route).toBe("/api/health");
   });
 
-  it("warns once when enabled without path", async () => {
+  it("no-ops quietly when enabled without path", async () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-    const env = { ERROR_LOG_FILE_ENABLED: "true" };
-    await appendServerErrorLog(new Error("x"), undefined, env);
-    await appendServerErrorLog(new Error("y"), undefined, env);
-    expect(warn).toHaveBeenCalledTimes(1);
-    expect(String(warn.mock.calls[0]?.[0])).toContain("ERROR_LOG_FILE_PATH");
+    await appendServerErrorLog(new Error("x"), undefined, {
+      ERROR_LOG_FILE_ENABLED: "true",
+    });
+    expect(warn).not.toHaveBeenCalled();
+  });
+});
+
+describe("rotateErrorLogIfNeeded", () => {
+  it("rotates when over maxBytes and keeps numbered siblings", async () => {
+    const filePath = path.join(tmpDir, "errors.jsonl");
+    await writeFile(filePath, "old-content\n", "utf8");
+    await writeFile(`${filePath}.1`, "older\n", "utf8");
+
+    await rotateErrorLogIfNeeded(filePath, 1, 3);
+
+    await expect(readFile(`${filePath}.1`, "utf8")).resolves.toBe("old-content\n");
+    await expect(readFile(`${filePath}.2`, "utf8")).resolves.toBe("older\n");
+    await expect(readFile(filePath, "utf8")).rejects.toThrow();
+  });
+
+  it("append rotates then writes a fresh active file", async () => {
+    const filePath = path.join(tmpDir, "rotate-write.jsonl");
+    await writeFile(filePath, "x".repeat(50), "utf8");
+
+    await appendServerErrorLog(new Error("after-rotate"), undefined, {
+      ERROR_LOG_FILE_ENABLED: "true",
+      ERROR_LOG_FILE_PATH: filePath,
+      ERROR_LOG_FILE_MAX_BYTES: "10",
+      ERROR_LOG_FILE_KEEP: "2",
+    });
+
+    const active = await readFile(filePath, "utf8");
+    expect(active).toContain("after-rotate");
+    const rotated = await readFile(`${filePath}.1`, "utf8");
+    expect(rotated).toBe("x".repeat(50));
   });
 });

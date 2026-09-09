@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import type { Transporter } from "nodemailer";
+import { reportServerError } from "@/lib/observability/report-server-error";
 
 export type SendTransactionalEmailInput = {
   to: string;
@@ -316,6 +317,7 @@ async function sendViaMailgunApi(
     if (!res.ok) {
       const error = `Mailgun API ${res.status}: ${parsed.message ?? raw.slice(0, 200)}`;
       console.error(`${LOG_PREFIX} send_failed mailgun_api`, { error, smtp });
+      void reportServerError(new Error(error), { route: "email/mailgun_api" });
       return { ok: false, reason: "send_failed", error, smtp };
     }
 
@@ -330,6 +332,7 @@ async function sendViaMailgunApi(
       error: message,
       smtp,
     });
+    void reportServerError(err, { route: "email/mailgun_api" });
     return { ok: false, reason: "send_failed", error: message, smtp };
   }
 }
@@ -374,6 +377,7 @@ async function sendViaSmtp(
     const message = formatSendError(err);
     const connTimeout = isSmtpConnTimeout(err);
     console.error(`${LOG_PREFIX} send_failed ${label}`, { error: message, smtp });
+    void reportServerError(err, { route: `email/${label}` });
     return {
       result: { ok: false, reason: "send_failed", error: message, smtp },
       connTimeout,

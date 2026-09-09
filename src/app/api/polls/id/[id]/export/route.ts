@@ -9,6 +9,7 @@ import {
   buildPollResultsXlsx,
 } from "@/lib/polls/export";
 import { pollsStore } from "@/lib/polls/store";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 export async function GET(
   request: Request,
@@ -65,7 +66,8 @@ export async function GET(
         "Content-Disposition": `attachment; filename="poll-${safeSlug}-results.csv"`,
       },
     });
-  } catch {
+  } catch (err) {
+    reportApiFailure(err, "/api/polls/id/[id]/export");
     return NextResponse.json({ error: "Export failed" }, { status: 500 });
   }
 }

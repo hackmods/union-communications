@@ -14,6 +14,7 @@ import {
 } from "@/lib/export/brand-logo-bytes";
 import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import { resolveLocalNumber } from "@/lib/utils/local";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -83,7 +84,8 @@ export async function GET(_request: Request, context: RouteContext) {
         "Content-Disposition": `attachment; filename="ballot-${safeTitle}.docx"`,
       },
     });
-  } catch {
+  } catch (err) {
+    reportApiFailure(err, "/api/elections/[id]/ballot");
     return NextResponse.json(
       { error: "Ballot export failed" },
       { status: 500 },

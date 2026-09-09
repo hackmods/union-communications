@@ -7,6 +7,7 @@ import {
 } from "@/lib/auth/grievance-session";
 import { buildIcsEvent } from "@/lib/calendar/ics";
 import { grievanceStore } from "@/lib/grievance/store";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -71,6 +72,10 @@ export async function POST(request: Request, context: RouteContext) {
   );
 
   if (!meeting) {
+    reportApiFailure(
+      new Error("grievanceStore.addMeeting returned null"),
+      "/api/grievances/[id]/meetings",
+    );
     return NextResponse.json({ error: "Failed to create meeting" }, { status: 500 });
   }
 

@@ -1,9 +1,11 @@
 import * as Sentry from "@sentry/nextjs";
 import { resolveObservabilityConfig } from "@/lib/observability/config";
+import { warnObservabilityMisconfigOnce } from "@/lib/observability/boot-warn";
 
 export async function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {
     await import("./sentry.server.config");
+    warnObservabilityMisconfigOnce();
   }
 
   if (process.env.NEXT_RUNTIME === "edge") {

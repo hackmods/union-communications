@@ -11,6 +11,7 @@ import {
   travelExportFilename,
 } from "@/lib/travel/export";
 import { travelStore } from "@/lib/travel/store";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 export async function GET(
   request: Request,
@@ -105,7 +106,8 @@ export async function GET(
         "Content-Disposition": `attachment; filename="${travelExportFilename(authorization, "xlsx")}"`,
       },
     });
-  } catch {
+  } catch (err) {
+    reportApiFailure(err, "/api/travel/[id]/export");
     return NextResponse.json({ error: "Export failed" }, { status: 500 });
   }
 }

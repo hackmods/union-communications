@@ -1,5 +1,5 @@
-import { appendServerErrorLog } from "@/lib/observability/file-log";
 import { resolveObservabilityConfig } from "@/lib/observability/config";
+import { appendServerErrorLog } from "@/lib/observability/file-log";
 
 export type ReportServerErrorOptions = {
   route?: string;
@@ -34,4 +34,18 @@ export async function reportServerError(
   } catch {
     // SDK missing or init failed — do not break request path
   }
+}
+
+/**
+ * Fire-and-forget helper for API route 500 paths.
+ * Prefer `void reportApiFailure(err, "/api/…")` in catch blocks.
+ */
+export function reportApiFailure(
+  error: unknown,
+  route: string,
+): void {
+  void reportServerError(
+    error instanceof Error ? error : new Error(String(error)),
+    { route },
+  );
 }
