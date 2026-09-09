@@ -1,5 +1,14 @@
 # Progress Log
 
+## 2026-09-08 — Fluid UI migration (Batches 1–12) complete
+
+- [x] Complexity-grouped checklist + batch refactor of in-scope public guides/catalogs/onboarding/captions/brand-kit
+- [x] Shared tokens (`public-type`), `CatalogStartHerePanel`, playbook densify (`GuideWideFigure` / outline / catalog cards)
+- [x] Brand Kit → workspace `ComposedPageLayout` + hub panels; canvas panel left as tool chrome
+- [x] Out-of-scope held: OL dark shell, legal narrow, tool interiors, PDF, Hub/Portal
+- Session knowledge: [`session-knowledge-2026-09-08-fluid-ui-migration.md`](audit/session-knowledge-2026-09-08-fluid-ui-migration.md); checklist [`fluid-ui-migration-checklist.md`](audit/fluid-ui-migration-checklist.md)
+- Verify: `npm run test:unit -- src/lib/comms/guide-layout-guards.test.ts`
+
 ## 2026-09-08 — CapRover-togglable Sentry + server file error sinks
 
 - [x] `@sentry/nextjs` errors-only (no Session Replay); tunnel `/monitoring`; CSP `connect-src 'self'` unchanged; proxy matcher skips `monitoring`

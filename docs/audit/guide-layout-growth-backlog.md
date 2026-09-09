@@ -36,6 +36,12 @@ Public guide chapters and workshop outlines now use shared `GuideSection*` / out
 | Workshops hub catalog | `GuideCatalogCard` |
 | Comms workshop Demo Path | `GuideSpotlightBand` |
 | Playbook TOC | `GuidePlaybookToc` (scroll-spy + smooth + mobile details) |
+| Catalog start-here (`/tools`, `/guides`) | `CatalogStartHerePanel` + fluid titles |
+| Captions / onboarding | Catalog tiles; stepped hub panel |
+| Workplace-mapping / union-history / steward-101 / steward-playbooks | Tip grids, `GuideWideFigure`, outline steps, catalog cards |
+| Brand Kit | `ComposedPageLayout` workspace + hub panels (not GuideLayout) |
+
+Full tick list: [`fluid-ui-migration-checklist.md`](fluid-ui-migration-checklist.md). Lessons: [`session-knowledge-2026-09-08-fluid-ui-migration.md`](session-knowledge-2026-09-08-fluid-ui-migration.md).
 
 See also closed in-scope items: [`docs/growth-backlog.md`](../growth-backlog.md) (GB-001–012).
 
@@ -45,6 +51,8 @@ See also closed in-scope items: [`docs/growth-backlog.md`](../growth-backlog.md)
 - Legal trio: leave narrow unless product asks for TOC playbooks.
 - Asset packs / tool panels: audit `border-l-2` duplication only if packs grow into multi-column catalogs.
 - PDF: keep [`guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc); any “density” work stays in `pdf-layout` contracts.
+- **Fluid QOL (post-checklist):** `GuideTipItem` ReactNode content; `GuideCatalogCard` `titleAs` / linkable title; shared `PublicHubPanel`; guard against tip `li.max-w-prose`; optional Tools catalog densify; PartFrame fluid section titles; ToolEditor **chrome-only** fluid `h1` if product wants parity without touching canvas Cards.
+- **Hub / Portal composition:** deferred product decision — largest remaining density debt if scope expands.
 
 ## Related
 
