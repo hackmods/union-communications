@@ -13,6 +13,12 @@ export {
   GuideTipItem,
   GuideBulletList,
 } from "@/components/comms/GuideSection";
+export {
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideAccentBlock,
+  GuideWorkshopNote,
+} from "@/components/comms/GuideOutline";
 export { GuideWideFigure } from "@/components/comms/GuideWideFigure";
 export {
   GuideTrainingPhase,

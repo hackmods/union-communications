@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { GuideRelatedLinkList } from "@/components/comms/GuideRelatedLinkList";
+import {
+  GuideLayout,
+  GuideSection,
+  GuideBulletList,
+  GuideRelatedLinkList,
+} from "@/components/comms/guide-ui";
 import { guideCtaClassSm } from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
 import { ResourcesSourcesList } from "@/components/comms/ResourcesSourcesList";
@@ -53,22 +57,20 @@ export default async function ResourcesPage({
       <Callout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("purpose.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("purpose.body")}</p>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+        <GuideBulletList className="mt-3 space-y-2" columns={2}>
           {(t.raw("purpose.pillars") as string[]).map((item) => (
             <li key={item}>{item}</li>
           ))}
-        </ul>
+        </GuideBulletList>
         <Link href="/brand-kit" className={`mt-4 ${guideCtaClassSm}`}>
           {t("purpose.cta")}
         </Link>
       </Callout>
 
-      <section className="border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">{t("path.title")}</h2>
-        <p className="mt-2 text-gray-700">{t("path.intro")}</p>
-        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:gap-5">
+      <GuideSection id="path" title={t("path.title")} intro={t("path.intro")}>
+        <ul className="grid gap-4 sm:grid-cols-2 lg:gap-5">
           {commsPathLinks.map(({ href, key }) => (
-            <li key={href}>
+            <li key={href} className="min-w-0">
               <Link
                 href={href}
                 className="font-medium text-opseu-blue underline"
@@ -81,16 +83,17 @@ export default async function ResourcesPage({
             </li>
           ))}
         </ul>
-      </section>
+      </GuideSection>
 
-      <section className="mt-8 border-l-2 border-amber-500/40 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">
-          {t("labourPath.title")}
-        </h2>
-        <p className="mt-2 text-gray-700">{t("labourPath.intro")}</p>
-        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:gap-5">
+      <GuideSection
+        id="labourPath"
+        title={t("labourPath.title")}
+        intro={t("labourPath.intro")}
+        className="border-amber-500/40"
+      >
+        <ul className="grid gap-4 sm:grid-cols-2 lg:gap-5">
           {labourPathLinks.map(({ href, key }) => (
-            <li key={href}>
+            <li key={href} className="min-w-0">
               <Link
                 href={href}
                 className="font-medium text-opseu-blue underline"
@@ -103,35 +106,36 @@ export default async function ResourcesPage({
             </li>
           ))}
         </ul>
-      </section>
+      </GuideSection>
 
-      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">
-          {t("checklist.title")}
-        </h2>
-        <p className="mt-2 text-gray-700">{t("checklist.intro")}</p>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+      <GuideSection
+        id="checklist"
+        title={t("checklist.title")}
+        intro={t("checklist.intro")}
+      >
+        <GuideBulletList className="mt-0 space-y-2" columns={2}>
           {(t.raw("checklist.items") as string[]).map((item) => (
             <li key={item}>{item}</li>
           ))}
-        </ul>
-      </section>
+        </GuideBulletList>
+      </GuideSection>
 
-      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">{t("demoKit.title")}</h2>
-        <p className="mt-2 text-gray-700">{t("demoKit.description")}</p>
+      <GuideSection
+        id="demoKit"
+        title={t("demoKit.title")}
+        intro={t("demoKit.description")}
+      >
         <a
           href="/demo/brand-kit-local-243.json"
           download="brand-kit-local-243.json"
-          className="mt-3 inline-block text-sm font-medium text-opseu-blue underline"
+          className="inline-block text-sm font-medium text-opseu-blue underline"
         >
           {t("demoKit.download")}
         </a>
-      </section>
+      </GuideSection>
 
-      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">{t("explore.title")}</h2>
-        <nav className="mt-2 text-sm" aria-label={t("explore.title")}>
+      <GuideSection id="explore" title={t("explore.title")}>
+        <nav className="text-sm" aria-label={t("explore.title")}>
           <GuideRelatedLinkList
             links={exploreLinks.map(({ href, key }) => ({
               href,
@@ -139,27 +143,21 @@ export default async function ResourcesPage({
             }))}
           />
         </nav>
-      </section>
+      </GuideSection>
 
-      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">
-          {t("builtFrom.title")}
-        </h2>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+      <GuideSection id="builtFrom" title={t("builtFrom.title")}>
+        <GuideBulletList className="mt-0 space-y-2">
           {(t.raw("builtFrom.items") as string[]).map((item) => (
             <li key={item}>{item}</li>
           ))}
-        </ul>
-      </section>
+        </GuideBulletList>
+      </GuideSection>
 
-      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">
-          {t("federations.title")}
-        </h2>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("federations.body")}
-        </p>
-      </section>
+      <GuideSection
+        id="federations"
+        title={t("federations.title")}
+        intro={t("federations.body")}
+      />
 
       <ResourcesSourcesList />
     </GuideLayout>

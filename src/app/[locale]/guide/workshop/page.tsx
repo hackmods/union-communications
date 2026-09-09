@@ -3,7 +3,15 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { GuideLayout } from "@/components/comms/GuideLayout";
+import {
+  GuideLayout,
+  GuideSection,
+  GuideBulletList,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideWorkshopNote,
+  GuideActionRow,
+} from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
@@ -13,7 +21,6 @@ import {
   guideCtaGhostClassSm,
   guideCtaOutlineClassSm,
 } from "@/components/comms/guideCtaClasses";
-import { cn } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -99,35 +106,23 @@ export default async function WorkshopGuidePage({
       }
     >
       <div className="grid gap-3 sm:grid-cols-2">
-        <WorkshopNote tone="facilitator" label={t("audienceFacilitatorLabel")}>
+        <GuideWorkshopNote tone="facilitator" label={t("audienceFacilitatorLabel")}>
           {t("audienceFacilitator")}
-        </WorkshopNote>
-        <WorkshopNote tone="attendee" label={t("audienceAttendeeLabel")}>
+        </GuideWorkshopNote>
+        <GuideWorkshopNote tone="attendee" label={t("audienceAttendeeLabel")}>
           {t("audienceAttendee")}
-        </WorkshopNote>
+        </GuideWorkshopNote>
       </div>
 
-      <section
-        className="mt-10 scroll-mt-28"
-        aria-labelledby="workshop-prereq-heading"
-      >
-        <h2
-          id="workshop-prereq-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("prereqTitle")}
-        </h2>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("prereqIntro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-2 pl-5 text-gray-700">
+      <GuideSection id="prereq" title={t("prereqTitle")} intro={t("prereqIntro")}>
+        <GuideBulletList className="mt-0 space-y-2">
           {PREREQ_KEYS.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
+            <li key={key} className="leading-relaxed">
               {t.rich(`prereq.${key}`, richMarks)}
             </li>
           ))}
-        </ul>
-      </section>
+        </GuideBulletList>
+      </GuideSection>
 
       <section
         className="mt-10 scroll-mt-28 rounded-2xl border-2 border-opseu-blue/40 bg-opseu-blue/5 p-5 sm:p-6"
@@ -147,86 +142,57 @@ export default async function WorkshopGuidePage({
         </p>
       </section>
 
-      <section
-        className="mt-10 scroll-mt-28"
-        aria-labelledby="workshop-outline-heading"
+      <GuideSection
+        id="outline"
+        title={t("outlineTitle")}
+        intro={t.rich("outlineIntro", richMarks)}
       >
-        <h2
-          id="workshop-outline-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("outlineTitle")}
-        </h2>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t.rich("outlineIntro", richMarks)}
-        </p>
-        <ol className="mt-8 space-y-8">
+        <GuideOutlineList>
           {OUTLINE_KEYS.map((key, index) => (
-            <li
+            <GuideOutlineStep
               key={key}
               id={`outline-${key}`}
-              className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+              step={index + 1}
+              title={t(`outlineItems.${key}.title`)}
+              badge={t(`outlineItems.${key}.time`)}
             >
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="text-lg font-bold text-opseu-dark md:text-xl">
-                  <span className="mr-2 font-bold tabular-nums text-opseu-blue">
-                    {index + 1}.
-                  </span>
-                  {t(`outlineItems.${key}.title`)}
-                </h3>
-                <span className="inline-flex min-h-8 items-center rounded-full bg-opseu-blue px-3 text-xs font-bold uppercase tracking-wide text-white">
-                  {t(`outlineItems.${key}.time`)}
-                </span>
-              </div>
-              <WorkshopNote
+              <GuideWorkshopNote
                 className="mt-3"
                 tone="attendee"
                 label={t("audienceAttendeeLabel")}
               >
                 {t.rich(`outlineItems.${key}.do`, richMarks)}
-              </WorkshopNote>
-              <WorkshopNote
+              </GuideWorkshopNote>
+              <GuideWorkshopNote
                 className="mt-3"
                 tone="facilitator"
                 label={t("audienceFacilitatorLabel")}
               >
                 {t.rich(`outlineItems.${key}.facilitator`, richMarks)}
-              </WorkshopNote>
-            </li>
+              </GuideWorkshopNote>
+            </GuideOutlineStep>
           ))}
-        </ol>
-      </section>
+        </GuideOutlineList>
+      </GuideSection>
 
-      <section
-        className="mt-10 scroll-mt-28"
-        aria-labelledby="workshop-wrap-heading"
-      >
-        <h2
-          id="workshop-wrap-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("wrapTitle")}
-        </h2>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("wrapIntro")}
-        </p>
-        <ol className="mt-4 list-decimal space-y-3 pl-5 text-gray-700">
+      <GuideSection id="wrap" title={t("wrapTitle")} intro={t("wrapIntro")}>
+        <ol className="list-decimal space-y-3 pl-5 text-gray-700">
           {WRAP_KEYS.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
+            <li key={key} className="leading-relaxed">
               {t.rich(`wrap.${key}`, richMarks)}
             </li>
           ))}
         </ol>
-        <WorkshopNote
+        <GuideWorkshopNote
           className="mt-4"
           tone="facilitator"
           label={t("audienceFacilitatorLabel")}
         >
           {t("wrapFacilitator")}
-        </WorkshopNote>
-      </section>
+        </GuideWorkshopNote>
+      </GuideSection>
 
-      <div className="button-row mt-10 max-w-xl">
+      <GuideActionRow className="mt-10">
         <Link href="/guide/resources" className={guideCtaClassSm}>
           {t("resourcesCta")}
         </Link>
@@ -236,34 +202,7 @@ export default async function WorkshopGuidePage({
         <Link href="/tools" className={guideCtaGhostClassSm}>
           {t("toolsCta")}
         </Link>
-      </div>
+      </GuideActionRow>
     </GuideLayout>
-  );
-}
-
-function WorkshopNote({
-  tone,
-  label,
-  children,
-  className,
-}: {
-  tone: "facilitator" | "attendee";
-  label: string;
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <blockquote
-      className={cn(
-        "rounded-r-lg border-l-4 px-4 py-3",
-        tone === "facilitator"
-          ? "border-amber-500 bg-amber-50 text-amber-950"
-          : "border-opseu-blue bg-white text-gray-800 shadow-sm",
-        className,
-      )}
-    >
-      <p className="text-xs font-bold uppercase tracking-wide">{label}</p>
-      <p className="mt-1 max-w-prose text-sm leading-relaxed">{children}</p>
-    </blockquote>
   );
 }

@@ -1,14 +1,12 @@
 # Guide layout growth — out-of-scope review backlog
 
-**Status:** Living plan for surfaces **not** migrated in the 2026-09 playbook layout rollout.  
-**In-scope reference:** [`.cursor/rules/guide-layout-standards.mdc`](../../.cursor/rules/guide-layout-standards.mdc), shared primitives in [`src/components/comms/guide-ui.ts`](../../src/components/comms/guide-ui.ts), pilot [`LandAcknowledgementGuide.tsx`](../../src/components/comms/LandAcknowledgementGuide.tsx).  
+**Status:** Living plan for surfaces **not** covered by the playbook / workshop layout standards.  
+**In-scope reference:** [`.cursor/rules/guide-layout-standards.mdc`](../../.cursor/rules/guide-layout-standards.mdc), shared primitives in [`src/components/comms/guide-ui.ts`](../../src/components/comms/guide-ui.ts) (includes `GuideOutlineStep`, `GuideAccentBlock`, `GuideWorkshopNote`).  
 **Shell vs composition:** [`.cursor/rules/responsive-layouts.mdc`](../../.cursor/rules/responsive-layouts.mdc).
 
 ## Why this note exists
 
-The playbook rollout standardizes **public guide chapter chrome**: prose measure for reading, responsive tip grids for clusters, full-column diagrams, shared `GuideSection*` instead of page-local copies.
-
-Several related surfaces stay **out of scope** on purpose. They should **not** blindly copy playbook tip grids. When we grow them, review against the methodology below, reuse shared primitives where they fit, and invent **cool new** components when the shell or job is different.
+Public guide chapters and workshop outlines now use shared `GuideSection*` / outline primitives. Several related surfaces stay **out of scope** on purpose. They should **not** blindly copy playbook tip grids. When we grow them, review against the methodology below, reuse shared primitives where they fit, and invent **cool new** components when the shell or job is different.
 
 ## Out-of-scope surfaces
 
@@ -22,22 +20,21 @@ Several related surfaces stay **out of scope** on purpose. They should **not** b
 ## Methodology for growth (when you touch these)
 
 1. **Name the job** — reading pamphlet, training module, workspace panel, or print sheet. Pick shell + composition first (`PAGE_SHELL` / `GUIDE_COMPOSITION` / OL shell / ToolEditor).
-2. **Reuse before inventing** — If the job is “labeled tip cluster in a light reading column,” use `GuideTipGrid` / `GuideTipItem` (or a themed variant). If the job is different, **design a new named primitive** and document it in the matching rule — do not fork anonymous local helpers across pages.
+2. **Reuse before inventing** — If the job is “labeled tip cluster in a light reading column,” use `GuideTipGrid` / `GuideTipItem`. If “numbered workshop step,” use `GuideOutlineStep`. If the job is different, **design a new named primitive** and document it in the matching rule.
 3. **Cool new components welcome** — Asymmetry, diagrams, phase cards, dark rails, print sheets: invent them. Gate with: fills the shell at `lg+`, keeps readable measure for continuous prose, avoids robotic equal card grids for every list.
 4. **Anti-regression** — No left-pinned `max-w-prose` tip lists inside a wide shell; no page-local `function GuideSection` copies; no empty-half stretched mobile stacks.
 5. **Review checklist** — Spot ~375 / 768 / 1280 / 1536; EN/FR claim parity if copy moves; smoke if routes/names change; update this note when an out-of-scope item is intentionally brought in.
 
-## Deferred within public guides (intentional)
+## Brought in (2026-09 stretch)
 
-These stay on specialized chrome for now — not the same as the out-of-scope surfaces above:
+| Surface | Primitive |
+|---------|-----------|
+| Workshop outlines (`/guide/workshop`, `/guide/workshops/land-acknowledgement`) | `GuideOutlineStep` + `GuideWorkshopNote` + `GuideSection` |
+| First-week roadmap (`/guide/social-media-plan`) | `GuideOutlineStep` (`headingAs="h2"`, `indexStyle="padded"`) |
+| Resources hub | `GuideSection` + path grids |
+| Union boards nested accents | `GuideAccentBlock` |
 
-| Surface | Why |
-|---------|-----|
-| Workshop outline `<li>` steps (`/guide/workshop`, `/guide/workshops/**`) | Numbered outline + `WorkshopNote` badges — not chapter `GuideSection` |
-| Mapped phase cards (`social-media-plan`, nested `union-boards` accents) | Iterator-driven cards; forcing `GuideSection` breaks the map |
-| Resources hub category bands without `id` | Catalog sections, not TOC chapters — `min-w-0` accent only |
-
-When redesigning those, prefer a **new** named primitive (e.g. `GuideOutlineStep`) over anonymous local helpers.
+Catalog cards on `/guide/workshops` remain list/hub chrome (not chapters).
 
 ## Suggested future passes (not scheduled)
 
@@ -48,5 +45,5 @@ When redesigning those, prefer a **new** named primitive (e.g. `GuideOutlineStep
 
 ## Related
 
-- Playbook rollout plan (Cursor): guide layout standards + remaining `/guide/**` migrations.
+- Playbook rollout + stretch: shared `guide-ui` barrel and `.cursor/rules/guide-layout-standards.mdc`.
 - Session pilot: land-acknowledgement densification (`GuideSection` / tip grids / wide writing-flow diagram).

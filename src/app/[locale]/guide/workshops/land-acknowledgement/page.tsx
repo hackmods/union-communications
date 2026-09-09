@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { GuideLayout } from "@/components/comms/GuideLayout";
+import {
+  GuideLayout,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideWorkshopNote,
+  GuideActionRow,
+} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { LandAcknowledgementWorksheetButton } from "@/components/comms/LandAcknowledgementWorksheetButton";
 import {
   guideCtaClassSm,
   guideCtaOutlineClassSm,
 } from "@/components/comms/guideCtaClasses";
-import { cn } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -64,170 +71,92 @@ export default async function LandAckWorkshopPage({
       ]}
     >
       <div className="grid gap-3 sm:grid-cols-2">
-        <WorkshopNote tone="facilitator" label={t("audienceFacilitatorLabel")}>
+        <GuideWorkshopNote tone="facilitator" label={t("audienceFacilitatorLabel")}>
           {t("audienceFacilitator")}
-        </WorkshopNote>
-        <WorkshopNote tone="attendee" label={t("audienceAttendeeLabel")}>
+        </GuideWorkshopNote>
+        <GuideWorkshopNote tone="attendee" label={t("audienceAttendeeLabel")}>
           {t("audienceAttendee")}
-        </WorkshopNote>
+        </GuideWorkshopNote>
       </div>
 
-      <section
-        className="mt-10 scroll-mt-28"
-        aria-labelledby="land-ack-workshop-prereq-heading"
-      >
-        <h2
-          id="land-ack-workshop-prereq-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("prereqTitle")}
-        </h2>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("prereqIntro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+      <GuideSection id="prereq" title={t("prereqTitle")} intro={t("prereqIntro")}>
+        <GuideTipGrid>
           {PREP_KEYS.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`prereq.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`prereq.${key}.content`)}
-            </li>
+            <GuideTipItem
+              key={key}
+              label={t(`prereq.${key}.label`)}
+              content={t(`prereq.${key}.content`)}
+            />
           ))}
-        </ul>
-      </section>
+        </GuideTipGrid>
+      </GuideSection>
 
-      <section
-        className="mt-10 scroll-mt-28"
-        aria-labelledby="land-ack-workshop-outline-heading"
+      <GuideSection
+        id="outline"
+        title={t("outlineTitle")}
+        intro={t("outlineIntro")}
       >
-        <h2
-          id="land-ack-workshop-outline-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("outlineTitle")}
-        </h2>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("outlineIntro")}
-        </p>
-        <ol className="mt-8 space-y-8">
+        <GuideOutlineList>
           {OUTLINE_KEYS.map((key, index) => (
-            <li
+            <GuideOutlineStep
               key={key}
               id={`outline-${key}`}
-              className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+              step={index + 1}
+              title={t(`outlineItems.${key}.title`)}
+              badge={t(`outlineItems.${key}.time`)}
             >
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="text-lg font-bold text-opseu-dark md:text-xl">
-                  <span className="mr-2 font-bold tabular-nums text-opseu-blue">
-                    {index + 1}.
-                  </span>
-                  {t(`outlineItems.${key}.title`)}
-                </h3>
-                <span className="inline-flex min-h-8 items-center rounded-full bg-opseu-blue px-3 text-xs font-bold uppercase tracking-wide text-white">
-                  {t(`outlineItems.${key}.time`)}
-                </span>
-              </div>
-              <WorkshopNote
+              <GuideWorkshopNote
                 className="mt-3"
                 tone="attendee"
                 label={t("audienceAttendeeLabel")}
               >
                 {t(`outlineItems.${key}.do`)}
-              </WorkshopNote>
-              <WorkshopNote
+              </GuideWorkshopNote>
+              <GuideWorkshopNote
                 className="mt-3"
                 tone="facilitator"
                 label={t("audienceFacilitatorLabel")}
               >
                 {t(`outlineItems.${key}.facilitator`)}
-              </WorkshopNote>
-            </li>
+              </GuideWorkshopNote>
+            </GuideOutlineStep>
           ))}
-        </ol>
-      </section>
+        </GuideOutlineList>
+      </GuideSection>
 
-      <section
-        className="mt-10 scroll-mt-28"
-        aria-labelledby="land-ack-workshop-handout-heading"
+      <GuideSection
+        id="handout"
+        title={t("handoutTitle")}
+        intro={t("handoutIntro")}
       >
-        <h2
-          id="land-ack-workshop-handout-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("handoutTitle")}
-        </h2>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("handoutIntro")}
-        </p>
-        <LandAcknowledgementWorksheetButton className="mt-4" />
-      </section>
+        <LandAcknowledgementWorksheetButton className="mt-0" />
+      </GuideSection>
 
-      <section
-        className="mt-10 scroll-mt-28"
-        aria-labelledby="land-ack-workshop-wrap-heading"
-      >
-        <h2
-          id="land-ack-workshop-wrap-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("wrapTitle")}
-        </h2>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("wrapIntro")}
-        </p>
-        <ol className="mt-4 list-decimal space-y-3 pl-5 text-gray-700">
+      <GuideSection id="wrap" title={t("wrapTitle")} intro={t("wrapIntro")}>
+        <ol className="list-decimal space-y-3 pl-5 text-gray-700">
           {WRAP_KEYS.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
+            <li key={key} className="leading-relaxed">
               {t(`wrap.${key}`)}
             </li>
           ))}
         </ol>
-        <WorkshopNote
+        <GuideWorkshopNote
           className="mt-4"
           tone="facilitator"
           label={t("audienceFacilitatorLabel")}
         >
           {t("wrapFacilitator")}
-        </WorkshopNote>
-      </section>
+        </GuideWorkshopNote>
+      </GuideSection>
 
-      <div className="button-row mt-10 max-w-xl">
+      <GuideActionRow className="mt-10">
         <Link href="/guide/land-acknowledgement" className={guideCtaClassSm}>
           {t("guideCta")}
         </Link>
         <Link href="/guide/workshops" className={guideCtaOutlineClassSm}>
           {t("hubCta")}
         </Link>
-      </div>
+      </GuideActionRow>
     </GuideLayout>
-  );
-}
-
-function WorkshopNote({
-  tone,
-  label,
-  children,
-  className,
-}: {
-  tone: "facilitator" | "attendee";
-  label: string;
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <blockquote
-      className={cn(
-        "rounded-r-lg border-l-4 px-4 py-3",
-        tone === "facilitator"
-          ? "border-amber-500 bg-amber-50 text-amber-950"
-          : "border-opseu-blue bg-white text-gray-800 shadow-sm",
-        className,
-      )}
-    >
-      <p className="text-xs font-bold uppercase tracking-wide">{label}</p>
-      <p className="mt-1 max-w-prose text-sm leading-relaxed">{children}</p>
-    </blockquote>
   );
 }

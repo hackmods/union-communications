@@ -5,7 +5,7 @@ type GuideSectionProps = {
   id: string;
   title: string;
   intro?: ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
 };
 
@@ -24,7 +24,7 @@ export function GuideSection({
     <section
       id={id}
       className={cn(
-        "scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-10 lg:not-first:mt-12",
+        "scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first-of-type:mt-10 lg:not-first-of-type:mt-12",
         className,
       )}
     >
@@ -36,7 +36,7 @@ export function GuideSection({
           {intro}
         </div>
       ) : null}
-      <div className="mt-4 min-w-0">{children}</div>
+      {children != null ? <div className="mt-4 min-w-0">{children}</div> : null}
     </section>
   );
 }

@@ -3,7 +3,14 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { GuideLayout } from "@/components/comms/GuideLayout";
+import {
+  GuideLayout,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideActionRow,
+  GuideProse,
+  GuideSection,
+} from "@/components/comms/guide-ui";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
@@ -120,38 +127,30 @@ export default async function SocialMediaPlanPage({
         showRoadmapLink={false}
       />
 
-      <ol className="space-y-8">
+      <GuideOutlineList className="mt-0 space-y-8">
         {FIRST_WEEK_STEP_KEYS.map((key, index) => (
-          <li
+          <GuideOutlineStep
             key={key}
             id={`step-${key}`}
-            className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+            step={index + 1}
+            title={t(`steps.${key}.title`)}
+            headingAs="h2"
+            indexStyle="padded"
           >
-            <div className="flex items-baseline gap-3">
-              <span
-                className="text-sm font-bold tabular-nums text-opseu-blue"
-                aria-hidden="true"
-              >
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <h2 className="text-xl font-bold text-opseu-dark">
-                {t(`steps.${key}.title`)}
-              </h2>
-            </div>
-            <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-              {t(`steps.${key}.description`)}
-            </p>
+            <GuideProse className="mt-3">{t(`steps.${key}.description`)}</GuideProse>
             {t.has(`steps.${key}.demoNote`) ? (
-              <p className="mt-2 max-w-prose text-sm text-gray-600">
+              <GuideProse className="mt-2 text-sm text-gray-600">
                 {t(`steps.${key}.demoNote`)}
-              </p>
+              </GuideProse>
             ) : null}
-            <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-600">
+            <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-600 sm:columns-2 sm:gap-x-6">
               {(t.raw(`steps.${key}.checklist`) as string[]).map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item} className="break-inside-avoid">
+                  {item}
+                </li>
               ))}
             </ul>
-            <div className="button-row mt-4 max-w-lg">
+            <GuideActionRow className="mt-4">
               <RoadmapStepLink
                 href={FIRST_WEEK_STEP_LINKS[key].primary}
                 join
@@ -174,23 +173,18 @@ export default async function SocialMediaPlanPage({
                   {t(`steps.${key}.${link.labelKey}`)}
                 </RoadmapStepLink>
               ))}
-            </div>
-          </li>
+            </GuideActionRow>
+          </GuideOutlineStep>
         ))}
-      </ol>
+      </GuideOutlineList>
 
-      <section
-        className="mt-12 border-t border-gray-200 pt-8"
-        aria-labelledby="first-week-calendar"
+      <GuideSection
+        id="first-week-calendar"
+        title={t("calendar.title")}
+        intro={t("calendar.intro")}
+        className="mt-12 border-l-0 border-t border-gray-200 pl-0 pt-8"
       >
-        <h2
-          id="first-week-calendar"
-          className="text-xl font-bold text-opseu-dark"
-        >
-          {t("calendar.title")}
-        </h2>
-        <p className="mt-2 max-w-prose text-gray-700">{t("calendar.intro")}</p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2">
           {(
             t.raw("calendar.weeks") as {
               title: string;
@@ -210,7 +204,7 @@ export default async function SocialMediaPlanPage({
             </article>
           ))}
         </div>
-      </section>
+      </GuideSection>
     </GuideLayout>
   );
 }
