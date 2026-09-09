@@ -4,6 +4,8 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
+import { CatalogStartHerePanel } from "@/components/comms/CatalogStartHerePanel";
+import { GuideLinkList } from "@/components/comms/GuideSurfaces";
 import {
   learnGroups,
   visibleToolGroups,
@@ -15,6 +17,7 @@ import {
   type FirstWeekStepKey,
 } from "@/lib/comms/first-week-roadmap";
 import { TOOL_COMPOSITION } from "@/lib/constants/page-composition";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 
 export async function generateMetadata({
   params,
@@ -22,72 +25,6 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   return buildPublicPageMetadata("/tools", params);
-}
-
-function StartHerePanel({
-  title,
-  intro,
-  roadmapLabel,
-  stepLabels,
-  stepTitles,
-  stepLinks,
-  bare = false,
-}: {
-  title: string;
-  intro: string;
-  roadmapLabel: string;
-  stepLabels: string[];
-  stepTitles: string[];
-  stepLinks: string[];
-  bare?: boolean;
-}) {
-  return (
-    <div
-      className={
-        bare
-          ? undefined
-          : "rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.06] to-white p-5"
-      }
-    >
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-        {title}
-      </h2>
-      <p className="mt-2 text-sm leading-snug text-gray-700">{intro}</p>
-      <ol className="mt-4 space-y-2">
-        {stepLabels.map((label, index) => (
-          <li key={label}>
-            <Link
-              href={stepLinks[index]!}
-              className="group flex min-h-11 items-start gap-3 rounded-lg border border-transparent px-1 py-1 transition-colors hover:border-opseu-blue/20 hover:bg-white/80"
-            >
-              <span
-                className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-opseu-blue/10 text-xs font-bold text-opseu-blue"
-                aria-hidden
-              >
-                {index + 1}
-              </span>
-              <span>
-                <span className="block font-medium text-opseu-blue underline-offset-2 group-hover:underline">
-                  {label}
-                </span>
-                <span className="mt-0.5 block text-xs text-gray-600">
-                  {stepTitles[index]}
-                </span>
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ol>
-      <p className="mt-4 border-t border-opseu-blue/10 pt-4">
-        <Link
-          href="/guide/social-media-plan"
-          className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline-offset-2 hover:underline"
-        >
-          {roadmapLabel} →
-        </Link>
-      </p>
-    </div>
-  );
 }
 
 export default async function ToolsIndexPage({
@@ -109,24 +46,19 @@ export default async function ToolsIndexPage({
     (g) => g.labelKey === "learnGroupChannels",
   )?.links;
 
-  const stepLabels = FIRST_WEEK_STEP_KEYS.map((key: FirstWeekStepKey) =>
-    plan(`steps.${key}.navLabel`),
-  );
-  const stepTitles = FIRST_WEEK_STEP_KEYS.map((key: FirstWeekStepKey) =>
-    plan(`steps.${key}.title`),
-  );
-  const stepLinks = FIRST_WEEK_STEP_KEYS.map(
-    (key: FirstWeekStepKey) => FIRST_WEEK_STEP_LINKS[key].primary,
-  );
+  const steps = FIRST_WEEK_STEP_KEYS.map((key: FirstWeekStepKey) => ({
+    href: FIRST_WEEK_STEP_LINKS[key].primary,
+    label: plan(`steps.${key}.navLabel`),
+    title: plan(`steps.${key}.title`),
+  }));
 
   const startHerePanel = (
-    <StartHerePanel
+    <CatalogStartHerePanel
       title={t("startHereTitle")}
       intro={t("startHereIntro")}
       roadmapLabel={t("startHereRoadmap")}
-      stepLabels={stepLabels}
-      stepTitles={stepTitles}
-      stepLinks={stepLinks}
+      roadmapHref="/guide/social-media-plan"
+      steps={steps}
     />
   );
 
@@ -138,11 +70,9 @@ export default async function ToolsIndexPage({
       rail={startHerePanel}
     >
       <header>
-        <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
-          {t("title")}
-        </h1>
-        <p className="mt-2 max-w-3xl text-gray-600">{t("subtitle")}</p>
-        <p className="mt-2 max-w-3xl text-sm text-gray-600">
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
+        <p className="mt-2 max-w-prose text-gray-600">{t("subtitle")}</p>
+        <p className="mt-2 max-w-prose text-sm text-gray-600">
           {t("hint")}{" "}
           <Link
             href="/brand-kit"
@@ -155,7 +85,7 @@ export default async function ToolsIndexPage({
       </header>
 
       <details className="group mt-6 rounded-xl border border-opseu-blue/15 bg-opseu-blue/[0.04] lg:hidden">
-        <summary className="cursor-pointer list-none px-4 py-3 text-sm font-semibold text-opseu-dark marker:content-none [&::-webkit-details-marker]:hidden">
+        <summary className="cursor-pointer list-none px-4 py-3 text-sm font-semibold text-opseu-dark outline-none marker:content-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40 focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
           <span className="flex items-center justify-between gap-2">
             {t("startHereTitle")}
             <span
@@ -173,13 +103,12 @@ export default async function ToolsIndexPage({
           </span>
         </summary>
         <div className="border-t border-opseu-blue/10 px-4 pb-4 pt-2">
-          <StartHerePanel
+          <CatalogStartHerePanel
             title={t("startHereTitle")}
             intro={t("startHereIntro")}
             roadmapLabel={t("startHereRoadmap")}
-            stepLabels={stepLabels}
-            stepTitles={stepTitles}
-            stepLinks={stepLinks}
+            roadmapHref="/guide/social-media-plan"
+            steps={steps}
             bare
           />
         </div>
@@ -219,7 +148,7 @@ export default async function ToolsIndexPage({
       </div>
 
       <section
-        className="mt-10 hidden rounded-xl border border-amber-500/25 bg-gradient-to-r from-amber-500/[0.06] via-white to-opseu-blue/[0.04] p-5 xl:block"
+        className="mt-10 rounded-xl border border-amber-500/25 bg-gradient-to-r from-amber-500/[0.06] via-white to-opseu-blue/[0.04] p-5 sm:p-6"
         aria-labelledby="tools-labour-playbooks"
       >
         <h2
@@ -255,28 +184,13 @@ export default async function ToolsIndexPage({
           <p className="mt-2 max-w-prose text-sm text-gray-600">
             {t("channelGuidesIntro")}
           </p>
-          <nav
-            className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1"
-            aria-label={t("channelGuidesTitle")}
-          >
-            {channelGuides.map((link, i) => (
-              <span
-                key={link.href}
-                className="inline-flex items-baseline gap-x-3"
-              >
-                {i > 0 ? (
-                  <span className="text-gray-300" aria-hidden>
-                    ·
-                  </span>
-                ) : null}
-                <Link
-                  href={link.href}
-                  className="inline-flex min-h-11 items-center text-opseu-blue underline-offset-2 hover:underline"
-                >
-                  {nav(link.key)}
-                </Link>
-              </span>
-            ))}
+          <nav className="mt-3" aria-label={t("channelGuidesTitle")}>
+            <GuideLinkList
+              links={channelGuides.map((link) => ({
+                href: link.href,
+                label: nav(link.key),
+              }))}
+            />
           </nav>
         </section>
       ) : null}
