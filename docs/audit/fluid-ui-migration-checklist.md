@@ -32,10 +32,10 @@
 |----|---------|---------------|--------|
 | M1 | `/guide/bargaining` `fullScenario` | `li.max-w-prose` | `GuideOutlineList` / `GuideOutlineStep` | **Done** Batch 1 |
 | M2 | `/guide/crisis` `fullScenario` | same | same | **Done** Batch 1 |
-| M3 | `/guide/strike` `fullScenario` | same | same | |
-| M4 | `/guide/photo-consent` `fullScenario` | same | same | |
+| M3 | `/guide/strike` `fullScenario` | same | same | **Done** Batch 2 |
+| M4 | `/guide/photo-consent` `fullScenario` | same | same | **Done** Batch 2 |
 | M5 | `/guide/dfr` `fullScenario` | same | same | **Done** Batch 1 |
-| M6 | `/guide/right-to-refuse` `fullScenario` | same | same | |
+| M6 | `/guide/right-to-refuse` `fullScenario` | same | same | **Done** Batch 2 |
 | M7 | `/guide/joint-committee` `fullScenario` | same | same | |
 | M8 | `/guide/running-meetings` | Agenda/motion `li.max-w-prose`; narrow diagrams | Outline/bullet + `GuideWideFigure` |
 | M9 | `/guide/bylaws` | Committee steps + figure pins | Outline + `GuideWideFigure` |
