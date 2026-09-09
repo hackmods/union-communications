@@ -45,9 +45,9 @@ describe("land-acknowledgement-worksheet-pdf", () => {
       },
     });
 
-    expect(filename).toBe("unionops-land-acknowledgement-worksheet.pdf");
+    expect(filename).toBe("Territory_Acknowledgement_Worksheet.pdf");
     expect(parsed.numPages).toBe(1);
-    expect(parsed.joined).toMatch(/Land acknowledgement — worksheet/i);
+    expect(parsed.joined).toMatch(/Territory acknowledgement worksheet/i);
     expect(parsed.joined).toMatch(/Local 243/);
     expect(parsed.joined).toMatch(/UnionOps Comms/i);
     expect(parsed.joined).toMatch(/Floor tips/i);
@@ -89,9 +89,9 @@ describe("land-acknowledgement-worksheet-pdf", () => {
       locale: "fr",
     });
 
-    expect(filename).toBe("unionops-reconnaissance-territoriale-feuille.pdf");
+    expect(filename).toBe("Feuille_Reconnaissance_Territoriale.pdf");
     expect(parsed.numPages).toBe(1);
-    expect(parsed.joined).toMatch(/Reconnaissance territoriale — feuille de travail/i);
+    expect(parsed.joined).toMatch(/Feuille de reconnaissance territoriale/i);
     expect(parsed.joined).toMatch(/Section 243/);
     expect(parsed.joined).toMatch(/UnionOps Communications/i);
     expect(parsed.joined).toMatch(/Conseils sur le plancher/i);
@@ -222,7 +222,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
         heightPx: 96,
         src: "data:image/png;base64,AA==",
       },
-      title: "Land acknowledgement — worksheet",
+      title: "Territory acknowledgement worksheet",
       subtitle: "Local 243",
       sections: [
         {
@@ -254,7 +254,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
       locale: "en",
     });
 
-    const titleY = findTextY(parsed, "Land acknowledgement");
+    const titleY = findTextY(parsed, "Territory acknowledgement");
     const subtitleY = findTextY(parsed, "Research, write, commit");
     const reviewNotesY = findTextY(parsed, "Changes or open questions from this review");
     const tipsY = findTextY(parsed, "Floor tips");
@@ -327,7 +327,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
 
   it("passes layoutWorksheet one-page budget for EN template shape", () => {
     const budget = layoutWorksheet({
-      title: "Land acknowledgement — worksheet",
+      title: "Territory acknowledgement worksheet",
       subtitle: "Local 243",
       layoutMode: "flow",
       sections: [

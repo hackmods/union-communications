@@ -138,14 +138,14 @@ test.describe("Guide text PDF export smoke @smoke", () => {
     await landAckCta.click();
     const landAckDownload = await landAckDownloadPromise;
     expect(landAckDownload.suggestedFilename()).toMatch(
-      /unionops-land-acknowledgement-worksheet.*\.pdf$/i,
+      /Territory_Acknowledgement_Worksheet\.pdf$/i,
     );
     const landAckPath = path.join(outDir, landAckDownload.suggestedFilename());
     await landAckDownload.saveAs(landAckPath);
     await assertTextPdfWithMark({
       filePath: landAckPath,
       minBytes: 3_000,
-      titleNeedle: /Land acknowledgement — worksheet/i,
+      titleNeedle: /Territory acknowledgement worksheet/i,
       footerNeedle: /UnionOps Comms/i,
     });
 

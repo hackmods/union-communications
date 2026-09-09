@@ -18,7 +18,7 @@ export const LAND_ACK_REVIEW_ROW_HEIGHT = 10;
 
 const WORKSHEET_COPY = {
   en: {
-    title: "Land acknowledgement — worksheet",
+    title: "Territory acknowledgement worksheet",
     subtitle: "Research, write, commit — pen-and-paper how-to",
     instructions:
       "Pen in hand. Steps mirror the Land Acknowledgement Guide — confirm nation names before your next meeting.",
@@ -128,7 +128,7 @@ const WORKSHEET_COPY = {
     ] satisfies WorksheetSection[],
   },
   fr: {
-    title: "Reconnaissance territoriale — feuille de travail",
+    title: "Feuille de reconnaissance territoriale",
     subtitle: "Recherche, rédaction, engagement — à remplir à la main",
     instructions:
       "Remplir à la main. Les étapes reprennent le guide Reconnaissance territoriale — confirmez les noms de nations avant la prochaine réunion.",
@@ -261,8 +261,8 @@ export async function downloadLandAcknowledgementWorksheetPdf(opts: {
     reminder: copy.reminder,
     filename:
       locale === "fr"
-        ? "unionops-reconnaissance-territoriale-feuille.pdf"
-        : "unionops-land-acknowledgement-worksheet.pdf",
+        ? "Feuille_Reconnaissance_Territoriale.pdf"
+        : "Territory_Acknowledgement_Worksheet.pdf",
     footer: COMMS_GUIDE_FOOTER[locale],
     brand: opts.brand,
   });

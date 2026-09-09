@@ -247,7 +247,7 @@ describe("guide PDF golden layout contracts", () => {
 
     expect(parsed.numPages).toBe(1);
     expectBlockOrder(parsed, [
-      "Land acknowledgement",
+      "Territory acknowledgement",
       "Before you start",
       "Step 1",
       "Step 2",
@@ -262,7 +262,7 @@ describe("guide PDF golden layout contracts", () => {
       disclaimer: "UnionOps Comms",
     });
 
-    const titleY = findTextY(parsed, "Land acknowledgement");
+    const titleY = findTextY(parsed, "Territory acknowledgement");
     const step4Y = findTextY(parsed, "Step 4");
     expect(titleY).toBeDefined();
     expect(step4Y).toBeDefined();

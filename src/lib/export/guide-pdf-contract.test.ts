@@ -106,7 +106,7 @@ describe("guide PDF family contracts", () => {
 
     const parsed = await parseWorksheetPdfBlob(await lastPdfBlob());
     expect(parsed.numPages).toBe(1);
-    expect(parsed.joined).toMatch(/Land acknowledgement — worksheet/i);
+    expect(parsed.joined).toMatch(/Territory acknowledgement worksheet/i);
     expect(parsed.joined).toMatch(/Step 4 — Review and commit/i);
     expect(parsed.joined).toMatch(/One concrete local action we commit to/i);
     expect(parsed.joined).toMatch(/Changes or open questions from this review/i);
@@ -117,7 +117,7 @@ describe("guide PDF family contracts", () => {
     expect(tipsY).toBeDefined();
     expect(reviewNotesY! - tipsY!).toBeGreaterThan(20);
     expect(reviewNotesY! - tipsY!).toBeLessThan(90);
-    expectMinVerticalGap(parsed, "Land acknowledgement", "Research, write, commit", 10);
+    expectMinVerticalGap(parsed, "Territory acknowledgement", "Research, write, commit", 10);
     expectMinVerticalGap(parsed, "Changes or open questions from this review", "Floor tips", 20);
     expect(parsed.joined).toMatch(/without notes/i);
     expect(parsed.joined).toMatch(/National \/ federation territory guide/i);
