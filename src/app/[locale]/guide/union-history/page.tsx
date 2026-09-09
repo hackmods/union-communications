@@ -22,6 +22,7 @@ import {
   GuideActionRow,
   GuideBulletList,
   GuideCallout,
+  GuideCatalogCard,
   GuideOutlineList,
   GuideOutlineStep,
   GuideProse,
@@ -311,16 +312,18 @@ export default async function UnionHistoryGuidePage({
             label={t("example.items.local.label")}
             content={t("example.items.local.content")}
           />
-          <li className="min-w-0 leading-relaxed">
-            <span className="font-semibold text-opseu-dark">
-              {t("example.items.council.label")}.
-            </span>{" "}
-            {t("example.items.council.before")}{" "}
-            <RegistryLink id="nrlc-who-we-are">
-              {t("example.items.council.link")}
-            </RegistryLink>{" "}
-            {t("example.items.council.after")}
-          </li>
+          <GuideTipItem
+            label={t("example.items.council.label")}
+            content={
+              <>
+                {t("example.items.council.before")}{" "}
+                <RegistryLink id="nrlc-who-we-are">
+                  {t("example.items.council.link")}
+                </RegistryLink>{" "}
+                {t("example.items.council.after")}
+              </>
+            }
+          />
           <GuideTipItem
             label={t("example.items.area.label")}
             content={t("example.items.area.content")}
@@ -329,14 +332,18 @@ export default async function UnionHistoryGuidePage({
             label={t("example.items.union.label")}
             content={t("example.items.union.content")}
           />
-          <li className="min-w-0 leading-relaxed">
-            <span className="font-semibold text-opseu-dark">
-              {t("example.items.nupge.label")}.
-            </span>{" "}
-            {t("example.items.nupge.before")}{" "}
-            <RegistryLink id="nupge">{t("example.items.nupge.link")}</RegistryLink>{" "}
-            {t("example.items.nupge.after")}
-          </li>
+          <GuideTipItem
+            label={t("example.items.nupge.label")}
+            content={
+              <>
+                {t("example.items.nupge.before")}{" "}
+                <RegistryLink id="nupge">
+                  {t("example.items.nupge.link")}
+                </RegistryLink>{" "}
+                {t("example.items.nupge.after")}
+              </>
+            }
+          />
         </GuideTipGrid>
         <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
@@ -422,20 +429,17 @@ export default async function UnionHistoryGuidePage({
       </GuideSection>
 
       <GuideSection id="tools" title={t("tools.title")} intro={t("tools.intro")}>
-        <GuideTipGrid>
+        <ul className="mt-4 grid list-none gap-5 p-0 sm:grid-cols-2">
           {toolRows.map(({ key, href }) => (
-            <li key={key} className="min-w-0 leading-relaxed">
-              <Link
-                href={href}
-                className="font-semibold text-opseu-blue underline underline-offset-2"
-              >
-                {t(`tools.items.${key}.label`)}
-              </Link>
-              {". "}
-              {t(`tools.items.${key}.content`)}
-            </li>
+            <GuideCatalogCard
+              key={key}
+              titleAs="h3"
+              href={href}
+              title={t(`tools.items.${key}.label`)}
+              body={t(`tools.items.${key}.content`)}
+            />
           ))}
-        </GuideTipGrid>
+        </ul>
         <AffiliationMapWorksheetButton className="mt-5" />
         <GuideActionRow>
           <Link href="/tools/org-chart" className={guideCtaClass}>

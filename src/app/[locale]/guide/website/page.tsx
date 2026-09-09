@@ -11,6 +11,7 @@ import {
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
 import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
+import { PUBLIC_SECTION_TITLE_CLASS } from "@/lib/constants/public-type";
 import { cn } from "@/lib/utils";
 import {
   GuideLayout,
@@ -116,7 +117,7 @@ export default async function WebsiteGuidePage({
         className="scroll-mt-28"
         aria-labelledby="glance-heading"
       >
-        <h2 id="glance-heading" className="text-2xl font-bold text-opseu-dark">
+        <h2 id="glance-heading" className={PUBLIC_SECTION_TITLE_CLASS}>
           {t("glance.title")}
         </h2>
         <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
@@ -461,7 +462,7 @@ export default async function WebsiteGuidePage({
         className="mt-12 scroll-mt-28"
         aria-labelledby="pair-heading"
       >
-        <h2 id="pair-heading" className="text-2xl font-bold text-opseu-dark">
+        <h2 id="pair-heading" className={PUBLIC_SECTION_TITLE_CLASS}>
           {t("pair.title")}
         </h2>
         <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
@@ -556,7 +557,7 @@ function PartFrame({
       <p className="text-xs font-bold uppercase tracking-wide text-opseu-blue">
         {kicker}
       </p>
-      <h2 id={`${id}-heading`} className="mt-1 text-2xl font-bold text-opseu-dark">
+      <h2 id={`${id}-heading`} className={cn("mt-1", PUBLIC_SECTION_TITLE_CLASS)}>
         {title}
       </h2>
       <p className="mt-2 max-w-prose leading-relaxed text-gray-700">{intro}</p>

@@ -153,32 +153,34 @@ export function SocialMapDiagram({
   return (
     <div
       className={cn(
-        "rounded-lg border border-gray-200 bg-white p-4",
+        "rounded-lg border border-gray-200 bg-white p-4 sm:p-5",
         className,
       )}
       role="img"
       aria-label={ariaLabel}
     >
-      <div className="mx-auto grid w-full max-w-sm grid-cols-3 items-center justify-items-center gap-3 sm:max-w-md lg:max-w-lg lg:gap-4">
-        <span className="col-start-2">
-          <PersonChip label={top} tone="neutral" />
-        </span>
-        <span className="col-start-1 row-start-2">
-          <PersonChip label={left} tone="supporter" />
-        </span>
-        <span className="col-start-2 row-start-2">
-          <PersonChip label={leader} tone="leader" />
-        </span>
-        <span className="col-start-3 row-start-2">
-          <PersonChip label={right} tone="neutral" />
-        </span>
-        <span className="col-start-2 row-start-3">
-          <PersonChip label={bottom} tone="organizer" />
-        </span>
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(12rem,1fr)] lg:items-center lg:gap-6">
+        <div className="grid w-full grid-cols-3 items-center justify-items-center gap-3 sm:gap-4 lg:gap-6">
+          <span className="col-start-2">
+            <PersonChip label={top} tone="neutral" />
+          </span>
+          <span className="col-start-1 row-start-2">
+            <PersonChip label={left} tone="supporter" />
+          </span>
+          <span className="col-start-2 row-start-2">
+            <PersonChip label={leader} tone="leader" />
+          </span>
+          <span className="col-start-3 row-start-2">
+            <PersonChip label={right} tone="neutral" />
+          </span>
+          <span className="col-start-2 row-start-3">
+            <PersonChip label={bottom} tone="organizer" />
+          </span>
+        </div>
+        <p className="rounded-md border-2 border-dashed border-slate-400 bg-slate-50 px-3 py-3 text-center text-xs font-semibold leading-snug text-slate-700 sm:text-sm lg:text-left">
+          {blindSpot}
+        </p>
       </div>
-      <p className="mt-4 rounded-md border-2 border-dashed border-slate-400 bg-slate-50 px-3 py-2 text-center text-xs font-semibold text-slate-700 sm:text-sm">
-        {blindSpot}
-      </p>
     </div>
   );
 }

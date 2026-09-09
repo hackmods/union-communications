@@ -148,6 +148,8 @@ export default async function StewardPlaybooksPage({
                   return (
                     <GuideCatalogCard
                       key={href}
+                      titleAs="h3"
+                      href={href}
                       className={
                         featured
                           ? "rounded-r-lg border border-opseu-blue/25 border-l-opseu-blue bg-opseu-blue/[0.06] py-3 pr-4"
@@ -156,11 +158,6 @@ export default async function StewardPlaybooksPage({
                       title={t(`links.${key}`)}
                       body={t(`blurbs.${key}`)}
                       meta={featured ? t("quizBadge") : undefined}
-                      action={
-                        <Link href={href} className={guideCtaOutlineClass}>
-                          {t(`links.${key}`)} →
-                        </Link>
-                      }
                     />
                   );
                 },
@@ -197,13 +194,10 @@ export default async function StewardPlaybooksPage({
           {workspaceLinks.map(({ href, titleKey, blurbKey }) => (
             <GuideCatalogCard
               key={href}
+              titleAs="h3"
+              href={href}
               title={t(`workspaces.${titleKey}`)}
               body={t(`workspaces.${blurbKey}`)}
-              action={
-                <Link href={href} className={guideCtaOutlineClass}>
-                  {t(`workspaces.${titleKey}`)} →
-                </Link>
-              }
             />
           ))}
         </ul>

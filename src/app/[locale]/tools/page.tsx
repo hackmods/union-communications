@@ -5,7 +5,10 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { CatalogStartHerePanel } from "@/components/comms/CatalogStartHerePanel";
-import { GuideLinkList } from "@/components/comms/GuideSurfaces";
+import {
+  GuideCatalogCard,
+  GuideLinkList,
+} from "@/components/comms/GuideSurfaces";
 import {
   learnGroups,
   visibleToolGroups,
@@ -126,21 +129,15 @@ export default async function ToolsIndexPage({
             >
               {nav(group.labelKey)}
             </h2>
-            <ul className="mt-3 space-y-3">
+            <ul className="mt-3 grid list-none gap-4 p-0">
               {group.links.map(({ href, key }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    className="group block rounded-lg border border-transparent px-1 py-1 transition-colors hover:border-opseu-blue/15 hover:bg-opseu-blue/5"
-                  >
-                    <span className="inline-flex min-h-11 items-center font-medium text-opseu-blue underline-offset-2 group-hover:underline">
-                      {nav(key)}
-                    </span>
-                    <span className="mt-0.5 block text-sm text-gray-600">
-                      {t(`blurbs.${key}`)}
-                    </span>
-                  </Link>
-                </li>
+                <GuideCatalogCard
+                  key={href}
+                  titleAs="h3"
+                  href={href}
+                  title={nav(key)}
+                  body={t(`blurbs.${key}`)}
+                />
               ))}
             </ul>
           </section>

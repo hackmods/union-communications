@@ -60,11 +60,15 @@ export function GuideSpotlightBand({
 }
 
 type GuideCatalogCardProps = {
-  title: string;
+  title: ReactNode;
   body: ReactNode;
   meta?: ReactNode;
   action?: ReactNode;
   className?: string;
+  /** Default h2 for top-level hubs; use h3 under an existing chapter h2. */
+  titleAs?: "h2" | "h3";
+  /** When set, title becomes a link (prefer over duplicating the same label in `action`). */
+  href?: string;
 };
 
 /** Hub catalog row/card — workshops index and similar. */
@@ -74,7 +78,12 @@ export function GuideCatalogCard({
   meta,
   action,
   className,
+  titleAs = "h2",
+  href,
 }: GuideCatalogCardProps) {
+  const Title = titleAs;
+  const titleClass =
+    "text-[clamp(1.125rem,1.05rem+0.35vw,1.25rem)] font-bold text-opseu-dark";
   return (
     <li
       className={cn(
@@ -82,9 +91,18 @@ export function GuideCatalogCard({
         className,
       )}
     >
-      <h2 className="text-[clamp(1.125rem,1.05rem+0.35vw,1.25rem)] font-bold text-opseu-dark">
-        {title}
-      </h2>
+      <Title className={titleClass}>
+        {href ? (
+          <Link
+            href={href}
+            className="text-opseu-blue underline-offset-2 hover:text-opseu-dark hover:underline"
+          >
+            {title}
+          </Link>
+        ) : (
+          title
+        )}
+      </Title>
       <div className="mt-2 max-w-prose leading-relaxed text-gray-700">{body}</div>
       {meta ? <div className="mt-1 text-sm text-gray-600">{meta}</div> : null}
       {action ? <div className="button-row mt-4">{action}</div> : null}

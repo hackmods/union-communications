@@ -27,6 +27,7 @@ import {
 } from "@/lib/constants/unionPresets";
 import { PresetSloganPicker } from "@/components/brand/PresetSloganPicker";
 import { PageShell } from "@/components/layout/PageShell";
+import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import {
   PUBLIC_PAGE_TITLE_CLASS,
   PUBLIC_SECTION_TITLE_CLASS,
@@ -126,8 +127,8 @@ export default function OnboardingPage() {
         </ol>
       </nav>
 
-      <section
-        className="mt-6 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.05] to-white p-5 sm:p-6"
+      <PublicHubPanel
+        className="mt-6 p-5 sm:p-6"
         aria-labelledby={`onboarding-step-${step}`}
       >
         {step === 1 && (
@@ -277,7 +278,7 @@ export default function OnboardingPage() {
             {common("skip")}
           </Button>
         </div>
-      </section>
+      </PublicHubPanel>
     </PageShell>
   );
 }

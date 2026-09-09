@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
@@ -35,49 +35,20 @@ import {
 } from "@/lib/constants/unionPresets";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
-import { resolveLocalNumber, cn } from "@/lib/utils";
+import { resolveLocalNumber } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { TOOL_COMPOSITION } from "@/lib/constants/page-composition";
-import {
-  PUBLIC_CARD_TITLE_CLASS,
-  PUBLIC_PAGE_TITLE_CLASS,
-} from "@/lib/constants/public-type";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import {
   guideCtaClassSm,
   guideCtaOutlineClassSm,
 } from "@/components/comms/guideCtaClasses";
+import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import { PresetSloganPicker } from "@/components/brand/PresetSloganPicker";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { JointActionCard } from "@/components/comms/campaign/JointActionCard";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
-
-function BrandKitPanel({
-  title,
-  description,
-  children,
-  className,
-}: {
-  title?: string;
-  description?: string;
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <section
-      className={cn(
-        "min-w-0 space-y-3 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.04] to-white p-4 sm:p-5",
-        className,
-      )}
-    >
-      {title ? <h2 className={PUBLIC_CARD_TITLE_CLASS}>{title}</h2> : null}
-      {description ? (
-        <p className="text-sm text-gray-600">{description}</p>
-      ) : null}
-      {children}
-    </section>
-  );
-}
 
 export default function BrandKitPage() {
   const t = useTranslations("brandKit");
@@ -261,7 +232,7 @@ export default function BrandKitPage() {
       <BrandKitContextHint />
 
       <div className="mt-4 grid min-w-0 items-start gap-4 lg:grid-cols-2 xl:grid-cols-3">
-        <BrandKitPanel
+        <PublicHubPanel
           title={t("unionPreset.title")}
           description={t("unionPreset.description")}
           className="lg:col-start-1 lg:row-start-1"
@@ -345,9 +316,9 @@ export default function BrandKitPage() {
               </div>
             </div>
           ) : null}
-        </BrandKitPanel>
+        </PublicHubPanel>
 
-        <BrandKitPanel
+        <PublicHubPanel
           title={t("currentSettings")}
           className="lg:col-start-2 lg:row-start-1 lg:row-span-2 xl:row-span-1"
         >
@@ -384,9 +355,9 @@ export default function BrandKitPage() {
             primaryLabel={t("colors.primary")}
             secondaryLabel={t("colors.secondary")}
           />
-        </BrandKitPanel>
+        </PublicHubPanel>
 
-        <BrandKitPanel
+        <PublicHubPanel
           title={t("logo.title")}
           description={t("logo.description")}
           className="lg:col-start-1 lg:row-start-2 xl:col-start-3 xl:row-start-1"
@@ -418,12 +389,12 @@ export default function BrandKitPage() {
             onCustomLogoClear={() => setBrandKit({ customLogoDataUrl: "" })}
             onLogoTextChange={(text) => setBrandKit({ logoText: text })}
           />
-        </BrandKitPanel>
+        </PublicHubPanel>
       </div>
 
       <div className="mt-4">
         {themeEstablished && unionPresetId === "opseu" ? (
-          <BrandKitPanel
+          <PublicHubPanel
             title={t("coalitionPreview.title")}
             description={t("coalitionPreview.description")}
             className="mb-4"
@@ -439,13 +410,13 @@ export default function BrandKitPage() {
                 t("coalitionPreview.defaultBadge")
               }
             />
-          </BrandKitPanel>
+          </PublicHubPanel>
         ) : null}
         <BrandKitCanvasPanel />
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <BrandKitPanel>
+        <PublicHubPanel>
           <LocalLinksEditor
             websiteUrl={brandKit.websiteUrl ?? ""}
             facebookUrl={brandKit.facebookUrl ?? ""}
@@ -454,9 +425,9 @@ export default function BrandKitPage() {
             onFacebookChange={(url) => setBrandKit({ facebookUrl: url })}
             onCustomLinksChange={(links) => setBrandKit({ customLinks: links })}
           />
-        </BrandKitPanel>
+        </PublicHubPanel>
 
-        <BrandKitPanel>
+        <PublicHubPanel>
           <MembershipUrlsEditor
             membershipUrls={brandKit.membershipUrls ?? []}
             onChange={(urls) => setBrandKit({ membershipUrls: urls })}
@@ -465,7 +436,7 @@ export default function BrandKitPage() {
               brandKit.opseuSectorId,
             )}
           />
-        </BrandKitPanel>
+        </PublicHubPanel>
       </div>
     </ComposedPageLayout>
   );

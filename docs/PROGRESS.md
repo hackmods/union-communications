@@ -1,5 +1,14 @@
 # Progress Log
 
+## 2026-09-08 — Fluid UI Gaps / QOL pass
+
+- [x] `GuideTipItem` ReactNode; `GuideCatalogCard` `titleAs`/`href`; `PublicHubPanel` (Brand Kit + onboarding)
+- [x] Tip `li.max-w-prose` layout guard; social map lg split; captions inset highlight; Tools catalog cards; PartFrame fluid titles
+- [x] Steward-101 dual chrome documented (GuideTrainingPhase vs GuideSection)
+- Deferred untouched: tool editor Cards, OL dark shell, legal, PDF, Hub/Portal
+- Session: [`session-knowledge-2026-09-08-fluid-ui-migration.md`](audit/session-knowledge-2026-09-08-fluid-ui-migration.md)
+- Verify: `npm run test:unit -- src/lib/comms/guide-layout-guards.test.ts`
+
 ## 2026-09-08 — Fluid UI migration (Batches 1–12) complete
 
 - [x] Complexity-grouped checklist + batch refactor of in-scope public guides/catalogs/onboarding/captions/brand-kit

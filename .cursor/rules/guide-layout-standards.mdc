@@ -23,7 +23,7 @@ Import from `@/components/comms/guide-ui` only for public guide pages (no dual `
 | `GuideAccentBlock` | Nested h3/h4 accent strips inside a chapter |
 | `GuideWorkshopNote` | Facilitator / attendee workshop callouts |
 | `GuideCallout` | Notes inside guides (`measure="prose"` default; `fill` for full column) |
-| `GuideTrainingPhase` | Steward-101 numbered training modules only — not default playbook chrome |
+| `GuideTrainingPhase` | Steward-101 numbered training modules only — not default playbook chrome. **Dual system is intentional:** rounded phase cards for timed lessons vs border-l `GuideSection` for ordinary chapters. |
 | Playbook TOC | `GuidePlaybookToc` via GuideLayout — scroll-spy + smooth scroll + mobile details |
 
 Playbooks: `preset="playbook"` → `readWide` + TOC rail. **Fill the article column** after the rail — do not leave a phone-width stack with empty right space.

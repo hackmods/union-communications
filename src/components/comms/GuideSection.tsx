@@ -129,7 +129,8 @@ export function GuideTipGrid({
 
 type GuideTipItemProps = {
   label: string;
-  content: string;
+  /** Plain string or rich body (links, emphasis). */
+  content: ReactNode;
   className?: string;
   as?: "li" | "div";
   /** Trailing mark after the label. Default period. Use "" when copy is already punctuated. */

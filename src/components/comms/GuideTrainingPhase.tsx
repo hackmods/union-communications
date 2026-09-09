@@ -11,7 +11,13 @@ type GuideTrainingPhaseProps = {
   className?: string;
 };
 
-/** Numbered training module wrapper for long-form steward playbooks. */
+/** Numbered training module wrapper for long-form steward playbooks.
+ *
+ * Intentional dual chrome with `GuideSection`: Steward 101 (and similar
+ * multi-module trainings) use rounded phase cards so each timed module reads
+ * as a distinct lesson. Ordinary playbook chapters stay on border-l
+ * `GuideSection`. Do not invent a third pattern — pick one of these two.
+ */
 export function GuideTrainingPhase({
   id,
   number,

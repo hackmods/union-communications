@@ -53,24 +53,24 @@ Guards: `npm run test:unit -- src/lib/comms/guide-layout-guards.test.ts`.
 
 Not blockers for “checklist complete.” Prioritized for a future pass (or growth backlog).
 
-### High leverage (in-scope polish)
+### High leverage (in-scope polish) — **shipped 2026-09-08 QOL pass**
 
-| Gap | Why it matters | Suggested fix |
-|-----|----------------|---------------|
-| **`GuideTipItem` is string-only** | Union-history (and peers) still hand-roll `<li className="min-w-0">` for `RegistryLink` cells | Allow `content: ReactNode` (or `GuideTipRichItem`) so tip grids stay consistent |
-| **`GuideCatalogCard` always uses `<h2>`** | Nested under chapter `h2`s → heading-level noise; playbooks often duplicate title text + same-label CTA | Optional `titleAs` / linkable title; or `title` as Link when `href` provided |
-| **Page-local hub panel chrome** | Brand Kit `BrandKitPanel` and onboarding stepped panel share the same gradient/border language but are copy-pasted | Extract `PublicHubPanel` (or move BrandKitPanel under `components/brand/`) for Brand Kit + onboarding reuse |
-| **No structural guard for tip pins** | `guide-layout-guards` only bans local `GuideSection` / dual imports — cannot catch `li.max-w-prose` regressions | Extend guards: forbid `max-w-prose` on tip/list items inside `src/app/**/guide/**/page.tsx` (allow section intro / GuideProse) |
+| Gap | Status |
+|-----|--------|
+| **`GuideTipItem` ReactNode content** | Done — union-history rich registry cells migrated |
+| **`GuideCatalogCard` `titleAs` / `href`** | Done — h3 under chapters; linkable title drops duplicate CTAs |
+| **`PublicHubPanel`** | Done — Brand Kit + onboarding share chrome |
+| **Tip `li.max-w-prose` guard** | Done — `guide-layout-guards.test.ts` |
 
-### Medium (visual / steward feel)
+### Medium (visual / steward feel) — **shipped 2026-09-08 QOL pass**
 
-| Gap | Why it matters | Suggested fix |
-|-----|----------------|---------------|
-| **Social map diagram still “cluster in a box”** | Wider than `max-w-xs`, but not full-column like the scale diagram | Optional side-by-side legend + cluster, or soft fill of `GuideWideFigure` |
-| **Steward-101 dual chrome** | `GuideTrainingPhase` cards vs `GuideSection` border-l elsewhere | Keep intentional for training, or document as the only dual system; avoid inventing a third |
-| **Captions highlight ring on border-l tiles** | Deep-link `?caption=` ring may feel clipped vs old Card | Spot-check mobile; consider `rounded-r-lg` + inset ring only |
-| **Tools catalog group lists** | Still sparse title+blurb rows (not catalog cards) after start-here share | Optional densify to `GuideCatalogCard` per tool if Tools feels thin next to Guides |
-| **Website PartFrame headings** | Still fixed `text-2xl` while rest of public uses fluid tokens | Apply `PUBLIC_SECTION_TITLE_CLASS` inside PartFrame without changing layout |
+| Gap | Status |
+|-----|--------|
+| **Social map full-column** | Done — cluster + blind-spot side-by-side at `lg` |
+| **Steward-101 dual chrome** | Documented intentional — `GuideTrainingPhase` JSDoc + guide-layout-standards |
+| **Captions deep-link highlight** | Done — inset ring + rounded tile (mobile-safe) |
+| **Tools catalog densify** | Done — `GuideCatalogCard` per tool |
+| **Website PartFrame headings** | Done — `PUBLIC_SECTION_TITLE_CLASS` |
 
 ### Deferred / out-of-scope (do not “finish” under fluid checklist)
 

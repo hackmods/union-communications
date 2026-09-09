@@ -91,9 +91,9 @@ function CaptionsPageContent() {
               key={template.id}
               id={`caption-${template.id}`}
               className={cn(
-                "min-w-0 scroll-mt-24 border-l-2 border-opseu-blue/30 bg-white pl-4 pr-1 py-1 transition-shadow sm:pl-5",
+                "min-w-0 scroll-mt-24 rounded-r-lg border-l-2 border-opseu-blue/30 bg-white py-2 pl-4 pr-2 transition-[box-shadow,background-color] sm:pl-5",
                 highlighted &&
-                  "rounded-r-lg bg-opseu-blue/[0.04] ring-2 ring-opseu-blue shadow-sm",
+                  "bg-opseu-blue/[0.06] ring-2 ring-inset ring-opseu-blue",
               )}
             >
               <div className="flex items-start justify-between gap-3 sm:gap-4">

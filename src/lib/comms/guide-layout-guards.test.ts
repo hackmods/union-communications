@@ -59,4 +59,27 @@ describe("guide layout regression guards", () => {
     }
     expect(offenders).toEqual([]);
   });
+
+  it("forbids tip/list items pinned with max-w-prose", () => {
+    const offenders: string[] = [];
+    const tipPin =
+      /<(?:li|GuideTipItem)\b[^>]*className=\{?["'`][^"'`]*max-w-prose/;
+    const tipPinTemplate =
+      /<(?:li|GuideTipItem)\b[^>]*className=\{`[^`]*max-w-prose/;
+    for (const file of files) {
+      const src = fs.readFileSync(file, "utf8");
+      if (tipPin.test(src) || tipPinTemplate.test(src)) {
+        offenders.push(path.relative(process.cwd(), file));
+      }
+      // Also catch cn("…max-w-prose…") on list items in tip contexts
+      if (
+        /<li\b[^>]*className=\{cn\([^)]*max-w-prose/.test(src) ||
+        /<li\b[^>]*className=["'][^"']*max-w-prose/.test(src)
+      ) {
+        const rel = path.relative(process.cwd(), file);
+        if (!offenders.includes(rel)) offenders.push(rel);
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
 });

@@ -51,8 +51,9 @@ See also closed in-scope items: [`docs/growth-backlog.md`](../growth-backlog.md)
 - Legal trio: leave narrow unless product asks for TOC playbooks.
 - Asset packs / tool panels: audit `border-l-2` duplication only if packs grow into multi-column catalogs.
 - PDF: keep [`guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc); any “density” work stays in `pdf-layout` contracts.
-- **Fluid QOL (post-checklist):** `GuideTipItem` ReactNode content; `GuideCatalogCard` `titleAs` / linkable title; shared `PublicHubPanel`; guard against tip `li.max-w-prose`; optional Tools catalog densify; PartFrame fluid section titles; ToolEditor **chrome-only** fluid `h1` if product wants parity without touching canvas Cards.
+- **Fluid QOL (post-checklist) — shipped 2026-09-08:** `GuideTipItem` ReactNode; `GuideCatalogCard` `titleAs`/`href`; `PublicHubPanel`; tip-pin guards; social map lg split; Tools catalog cards; PartFrame fluid titles; Steward-101 dual chrome documented.
 - **Hub / Portal composition:** deferred product decision — largest remaining density debt if scope expands.
+- ToolEditor **chrome-only** fluid `h1` if product wants parity without touching canvas Cards (still deferred).
 
 ## Related
 
