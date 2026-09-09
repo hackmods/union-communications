@@ -106,7 +106,7 @@ describe("guide PDF family contracts", () => {
 
     const parsed = await parseWorksheetPdfBlob(await lastPdfBlob());
     expect(parsed.numPages).toBe(1);
-    expect(parsed.joined).toMatch(/Land acknowledgement — floor handout/i);
+    expect(parsed.joined).toMatch(/Land acknowledgement — walkthrough worksheet/i);
     expect(parsed.joined).toMatch(/Step 4 — Review and commit/i);
     expect(parsed.joined).toMatch(/One concrete local action we commit to/i);
     expect(parsed.joined).toMatch(/Changes or open questions from this review/i);
