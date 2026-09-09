@@ -12,8 +12,11 @@ import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GUIDE_STEWARD_PLAYBOOK_GROUPS } from "@/lib/comms/guide-registry";
 import {
   GuideLayout,
+  GuideActionRow,
   GuideCallout,
+  GuideCatalogCard,
   GuideSection,
+  GuideWideFigure,
 } from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
@@ -81,7 +84,9 @@ export default async function StewardPlaybooksPage({
   const t = await getTranslations("stewardPlaybooksHub");
   const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
-  const pathSteps = t.raw("pathSteps") as Parameters<typeof TrainingPathDiagram>[0]["steps"];
+  const pathSteps = t.raw("pathSteps") as Parameters<
+    typeof TrainingPathDiagram
+  >[0]["steps"];
 
   const tocItems = TOC.map(([id, key]) => ({
     id,
@@ -126,95 +131,94 @@ export default async function StewardPlaybooksPage({
         />
       }
     >
-      <GuideSection id="playbooks" title={t("playbooks.title")} intro={t("playbooks.intro")}>
+      <GuideSection
+        id="playbooks"
+        title={t("playbooks.title")}
+        intro={t("playbooks.intro")}
+      >
         {playbookGroups.map((groupId) => (
-          <div key={groupId} className="mt-6">
+          <div key={groupId} className="not-first:mt-8">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
               {t(`groups.${groupId}`)}
             </h3>
-            <ul className="mt-3 space-y-4">
+            <ul className="mt-4 grid list-none gap-5 p-0 sm:grid-cols-2">
               {GUIDE_STEWARD_PLAYBOOK_GROUPS[groupId].map(
-                ({ href, key, ...rest }) => (
-                  <li
-                    key={href}
-                    className={
-                      "featured" in rest && rest.featured
-                        ? "rounded-xl border border-opseu-blue/25 bg-opseu-blue/[0.06] p-4"
-                        : undefined
-                    }
-                  >
-                    <Link
-                      href={href}
-                      className="font-medium text-opseu-blue underline"
-                    >
-                      {t(`links.${key}`)}
-                    </Link>
-                    {"featured" in rest && rest.featured ? (
-                      <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-opseu-blue">
-                        {t("quizBadge")}
-                      </p>
-                    ) : null}
-                    <p className="mt-1 text-sm text-gray-600">
-                      {t(`blurbs.${key}`)}
-                    </p>
-                  </li>
-                ),
+                ({ href, key, ...rest }) => {
+                  const featured = "featured" in rest && rest.featured;
+                  return (
+                    <GuideCatalogCard
+                      key={href}
+                      className={
+                        featured
+                          ? "rounded-r-lg border border-opseu-blue/25 border-l-opseu-blue bg-opseu-blue/[0.06] py-3 pr-4"
+                          : undefined
+                      }
+                      title={t(`links.${key}`)}
+                      body={t(`blurbs.${key}`)}
+                      meta={featured ? t("quizBadge") : undefined}
+                      action={
+                        <Link href={href} className={guideCtaOutlineClass}>
+                          {t(`links.${key}`)} →
+                        </Link>
+                      }
+                    />
+                  );
+                },
               )}
             </ul>
           </div>
         ))}
       </GuideSection>
 
-      <section id="trainingPath" className="mt-12 scroll-mt-28">
-        <GuideCallout className="mb-8 max-w-3xl">
-          <p className="font-semibold text-opseu-dark">{t("trainingPath.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">{t("trainingPath.body")}</p>
-          <TrainingPathDiagram steps={pathSteps} className="mt-4" />
-          <div className="button-row mt-4">
-            <Link href="/guide/steward-101" className={guideCtaClass}>
-              {t("trainingPath.steward101Cta")}
-            </Link>
-            <Link href="/guide/officer-learning" className={guideCtaOutlineClass}>
-              {t("trainingPath.officerLearningCta")}
-            </Link>
-          </div>
-        </GuideCallout>
-      </section>
+      <GuideSection
+        id="trainingPath"
+        title={t("trainingPath.title")}
+        intro={t("trainingPath.body")}
+      >
+        <GuideWideFigure>
+          <TrainingPathDiagram steps={pathSteps} className="w-full" />
+        </GuideWideFigure>
+        <GuideActionRow>
+          <Link href="/guide/steward-101" className={guideCtaClass}>
+            {t("trainingPath.steward101Cta")}
+          </Link>
+          <Link href="/guide/officer-learning" className={guideCtaOutlineClass}>
+            {t("trainingPath.officerLearningCta")}
+          </Link>
+        </GuideActionRow>
+      </GuideSection>
 
-      <section id="workspaces" className="scroll-mt-28">
-        <GuideCallout tone="muted" className="mb-8 max-w-3xl">
-          <p className="font-semibold text-opseu-dark">{t("workspaces.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">{t("workspaces.body")}</p>
-          <ul className="mt-4 space-y-3">
-            {workspaceLinks.map(({ href, titleKey, blurbKey }) => (
-              <li
-                key={href}
-                className="rounded-lg border border-gray-200 border-l-2 border-l-opseu-blue/40 bg-white p-4"
-              >
-                <Link
-                  href={href}
-                  className="font-semibold text-opseu-blue underline underline-offset-2"
-                >
-                  {t(`workspaces.${titleKey}`)}
+      <GuideSection
+        id="workspaces"
+        title={t("workspaces.title")}
+        intro={t("workspaces.body")}
+      >
+        <ul className="grid list-none gap-5 p-0 sm:grid-cols-2">
+          {workspaceLinks.map(({ href, titleKey, blurbKey }) => (
+            <GuideCatalogCard
+              key={href}
+              title={t(`workspaces.${titleKey}`)}
+              body={t(`workspaces.${blurbKey}`)}
+              action={
+                <Link href={href} className={guideCtaOutlineClass}>
+                  {t(`workspaces.${titleKey}`)} →
                 </Link>
-                <p className="mt-1 text-sm text-gray-600">{t(`workspaces.${blurbKey}`)}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="button-row mt-4">
-            <Link href="/app/steward-guides" className={guideCtaOutlineClass}>
-              {t("workspaces.hubCta")}
-            </Link>
-          </div>
-        </GuideCallout>
-      </section>
+              }
+            />
+          ))}
+        </ul>
+        <GuideActionRow>
+          <Link href="/app/steward-guides" className={guideCtaOutlineClass}>
+            {t("workspaces.hubCta")}
+          </Link>
+        </GuideActionRow>
+      </GuideSection>
 
-      <section id="quiz" className="scroll-mt-28">
-        <GuideCallout tone="muted" className="mb-8 max-w-3xl">
-          <p className="font-semibold text-opseu-dark">{t("quizCallout.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">{t("quizCallout.body")}</p>
+      <GuideSection id="quiz" title={t("quizCallout.title")}>
+        <GuideCallout tone="muted" measure="fill" className="mt-0">
+          <p className="leading-relaxed text-gray-700">{t("quizCallout.body")}</p>
         </GuideCallout>
-      </section>
+      </GuideSection>
     </GuideLayout>
   );
 }

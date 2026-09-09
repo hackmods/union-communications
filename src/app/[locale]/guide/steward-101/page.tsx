@@ -27,10 +27,16 @@ import {
   GuideActionRow,
   GuideBulletList,
   GuideCallout,
+  GuideCatalogCard,
+  GuideLinkList,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideProse,
   GuideSubsection,
   GuideTipGrid,
   GuideTipItem,
   GuideTrainingPhase,
+  GuideWideFigure,
 } from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
@@ -270,52 +276,59 @@ export default async function Steward101GuidePage({
           title={t("threeHats.title")}
           intro={t("threeHats.intro")}
         >
-          <ThreeHatsDiagram
-            labels={{
-              enforcer: t("threeHats.items.enforcer.label"),
-              communicator: t("threeHats.items.communicator.label"),
-              organizer: t("threeHats.items.organizer.label"),
-            }}
-            className="mt-5 max-w-2xl"
-          />
+          <GuideWideFigure>
+            <ThreeHatsDiagram
+              labels={{
+                enforcer: t("threeHats.items.enforcer.label"),
+                communicator: t("threeHats.items.communicator.label"),
+                organizer: t("threeHats.items.organizer.label"),
+              }}
+              className="w-full max-w-3xl"
+            />
+          </GuideWideFigure>
           <GuideExpandSection
             title={t("threeHats.navLabel")}
             summary={t("threeHats.intro")}
-            className="mt-5 max-w-prose"
+            className="mt-5"
           >
-            <ol className="list-decimal space-y-6 pl-5 text-gray-700">
-              {hatKeys.map((key) => (
-                <li key={key} className="max-w-prose leading-relaxed">
-                  <span className="font-semibold text-opseu-dark">
-                    {t(`threeHats.items.${key}.label`)}
-                  </span>
-                  {" — "}
-                  {t(`threeHats.items.${key}.summary`)}
-                  <ul className="mt-2 list-disc space-y-1 pl-5 text-gray-700">
+            <GuideOutlineList className="mt-2 space-y-6">
+              {hatKeys.map((key, index) => (
+                <GuideOutlineStep
+                  key={key}
+                  id={`hat-${key}`}
+                  step={index + 1}
+                  title={t(`threeHats.items.${key}.label`)}
+                >
+                  <GuideProse className="mt-2">
+                    {t(`threeHats.items.${key}.summary`)}
+                  </GuideProse>
+                  <GuideBulletList className="mt-3">
                     {hatBulletKeys[key].map((bulletKey) => (
-                      <li key={bulletKey}>
+                      <li key={bulletKey} className="leading-relaxed">
                         {t(`threeHats.items.${key}.bullets.${bulletKey}`)}
                       </li>
                     ))}
-                  </ul>
-                </li>
+                  </GuideBulletList>
+                </GuideOutlineStep>
               ))}
-            </ol>
-            <p className="text-sm text-gray-600">
-              <Link
-                href="/guide/workplace-mapping"
-                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-              >
-                {t("related.workplaceMapping")}
-              </Link>
-              {" · "}
-              <Link
-                href="/guide/grievance-process"
-                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-              >
-                {t("related.grievance")}
-              </Link>
-            </p>
+            </GuideOutlineList>
+            <nav
+              className="mt-4"
+              aria-label={t("threeHats.navLabel")}
+            >
+              <GuideLinkList
+                links={[
+                  {
+                    href: "/guide/workplace-mapping",
+                    label: t("related.workplaceMapping"),
+                  },
+                  {
+                    href: "/guide/grievance-process",
+                    label: t("related.grievance"),
+                  },
+                ]}
+              />
+            </nav>
           </GuideExpandSection>
         </GuideSubsection>
 
@@ -324,15 +337,17 @@ export default async function Steward101GuidePage({
           title={t("whichHat.title")}
           intro={t("whichHat.intro")}
         >
-          <WhichHatFlowDiagram
-            labels={{
-              start: t("diagrams.whichHatStart"),
-              desk: t("diagrams.whichHatDesk"),
-              discipline: t("diagrams.whichHatDiscipline"),
-              mobilize: t("diagrams.whichHatMobilize"),
-            }}
-            className="mt-5"
-          />
+          <GuideWideFigure>
+            <WhichHatFlowDiagram
+              labels={{
+                start: t("diagrams.whichHatStart"),
+                desk: t("diagrams.whichHatDesk"),
+                discipline: t("diagrams.whichHatDiscipline"),
+                mobilize: t("diagrams.whichHatMobilize"),
+              }}
+              className="w-full"
+            />
+          </GuideWideFigure>
           <GuideTipGrid className="mt-5">
             {whichHatKeys.map((key) => (
               <GuideTipItem
@@ -361,16 +376,16 @@ export default async function Steward101GuidePage({
           title={t("representation.title")}
           intro={t("representation.intro")}
         >
-          <div className="mt-4 max-w-prose space-y-4">
+          <div className="mt-4 space-y-4">
             <div>
-              <h4 className="text-base font-bold text-opseu-dark">
+              <h4 className="text-[clamp(1rem,0.95rem+0.25vw,1.125rem)] font-bold text-opseu-dark">
                 {t("representation.trigger.title")}
               </h4>
-              <p className="mt-2 leading-relaxed text-gray-700">
+              <GuideProse className="mt-2">
                 {t("representation.trigger.body")}
-              </p>
+              </GuideProse>
             </div>
-            <GuideCallout >
+            <GuideCallout>
               <p className="font-semibold text-opseu-dark">
                 {t("representation.script.title")}
               </p>
@@ -379,14 +394,16 @@ export default async function Steward101GuidePage({
               </p>
             </GuideCallout>
           </div>
-          <RepresentationStepsDiagram
-            labels={{
-              before: t("diagrams.repBefore"),
-              during: t("diagrams.repDuring"),
-              after: t("diagrams.repAfter"),
-            }}
-            className="mt-5 max-w-2xl"
-          />
+          <GuideWideFigure>
+            <RepresentationStepsDiagram
+              labels={{
+                before: t("diagrams.repBefore"),
+                during: t("diagrams.repDuring"),
+                after: t("diagrams.repAfter"),
+              }}
+              className="w-full max-w-3xl"
+            />
+          </GuideWideFigure>
           <GuideTipGrid className="mt-4">
             {representationStepKeys.map((key) => (
               <GuideTipItem
@@ -408,19 +425,21 @@ export default async function Steward101GuidePage({
           id="scenario"
           title={t("scenario.title")}
           summary={t("scenario.intro")}
-          className="max-w-prose"
         >
-          <ol className="list-decimal space-y-4 pl-5 text-gray-700">
-            {scenarioKeys.map((key) => (
-              <li key={key} className="max-w-prose leading-relaxed">
-                <span className="font-semibold text-opseu-dark">
-                  {t(`scenario.phases.${key}.label`)}
-                </span>
-                {" — "}
-                {t(`scenario.phases.${key}.content`)}
-              </li>
+          <GuideOutlineList className="mt-2 space-y-6">
+            {scenarioKeys.map((key, index) => (
+              <GuideOutlineStep
+                key={key}
+                id={`scenario-${key}`}
+                step={index + 1}
+                title={t(`scenario.phases.${key}.label`)}
+              >
+                <GuideProse className="mt-2">
+                  {t(`scenario.phases.${key}.content`)}
+                </GuideProse>
+              </GuideOutlineStep>
             ))}
-          </ol>
+          </GuideOutlineList>
           <GuideCallout tone="muted" className="mt-5">
             <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
             <p className="mt-1">{t("scenario.tip")}</p>
@@ -469,7 +488,7 @@ export default async function Steward101GuidePage({
               {t("goldenRule.body")}
             </p>
           </GuideCallout>
-          <p className="mt-4 max-w-prose text-gray-700">
+          <GuideProse className="mt-4">
             {t("dfr.linkIntro")}{" "}
             <Link
               href="/guide/dfr"
@@ -477,7 +496,7 @@ export default async function Steward101GuidePage({
             >
               {t("related.dfr")} →
             </Link>
-          </p>
+          </GuideProse>
         </GuideSubsection>
 
         <GuideSubsection
@@ -496,11 +515,11 @@ export default async function Steward101GuidePage({
           </GuideTipGrid>
         </GuideSubsection>
 
-        <GuideExpandSection title={t("modules.trainingPathTitle")} className="max-w-3xl">
-          <p className="max-w-prose leading-relaxed text-gray-700">
-            {t("trainingPath.intro")}
-          </p>
-          <TrainingPathDiagram steps={trainingSteps} className="mt-4" />
+        <GuideExpandSection title={t("modules.trainingPathTitle")}>
+          <GuideProse>{t("trainingPath.intro")}</GuideProse>
+          <GuideWideFigure>
+            <TrainingPathDiagram steps={trainingSteps} className="w-full" />
+          </GuideWideFigure>
         </GuideExpandSection>
       </GuideTrainingPhase>
 
@@ -508,171 +527,162 @@ export default async function Steward101GuidePage({
         id="tools"
         className="mt-12 scroll-mt-28 rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-opseu-blue/[0.03] p-5 shadow-sm md:p-8"
       >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
+        <h2 className="text-[clamp(1.25rem,1.1rem+0.6vw,1.5rem)] font-bold text-opseu-dark">
           {t("tools.title")}
         </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("tools.intro")}
-        </p>
+        <GuideProse className="mt-3">{t("tools.intro")}</GuideProse>
 
         <GuideBrandExportNudge className="mt-5" />
 
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <ReferenceBlock title={t("referenceMaterials.pocketCard.title")}>
-            <p>{t("referenceMaterials.pocketCard.body")}</p>
-            <Link
-              href="/tools/qr-card?preset=stewardRepresentation"
-              className={`mt-3 inline-block w-full ${guideCtaClassBlock}`}
-            >
-              {t("referenceMaterials.pocketCard.cta")}
-            </Link>
-          </ReferenceBlock>
-
-          <ReferenceBlock title={t("referenceMaterials.intakeSheet.title")}>
-            <p>{t("referenceMaterials.intakeSheet.body")}</p>
-            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-              <a
-                href={INTAKE_TEMPLATE_HREF}
-                download={INTAKE_TEMPLATE_DOWNLOAD}
-                className={`inline-block w-full sm:flex-1 ${guideCtaOutlineClassBlock}`}
+        <ul className="mt-6 grid list-none gap-6 p-0 md:grid-cols-2">
+          <GuideCatalogCard
+            title={t("referenceMaterials.pocketCard.title")}
+            body={t("referenceMaterials.pocketCard.body")}
+            action={
+              <Link
+                href="/tools/qr-card?preset=stewardRepresentation"
+                className={guideCtaClassBlock}
               >
-                {t("referenceMaterials.intakeSheet.cta")}
-              </a>
-              <SpreadsheetXlsxButton
-                csvHref={INTAKE_TEMPLATE_HREF}
-                downloadBasename={INTAKE_TEMPLATE_DOWNLOAD}
-                className="w-full sm:flex-1"
-                buttonClassName="min-h-11 w-full"
-              />
-            </div>
-            <p className="mt-2 text-sm text-gray-600">
-              {t("referenceMaterials.intakeSheet.hint")}
-            </p>
-          </ReferenceBlock>
-
-          <ReferenceBlock title={t("referenceMaterials.grievanceWorksheet.title")}>
-            <p>{t("referenceMaterials.grievanceWorksheet.body")}</p>
-            <Link
-              href={documentGeneratorPresetHref("grievance-intake")}
-              className={`mt-3 inline-block w-full ${guideCtaOutlineClassBlock}`}
-            >
-              {t("referenceMaterials.grievanceWorksheet.cta")}
-            </Link>
-          </ReferenceBlock>
-        </div>
+                {t("referenceMaterials.pocketCard.cta")}
+              </Link>
+            }
+          />
+          <GuideCatalogCard
+            title={t("referenceMaterials.intakeSheet.title")}
+            body={t("referenceMaterials.intakeSheet.body")}
+            meta={t("referenceMaterials.intakeSheet.hint")}
+            action={
+              <>
+                <a
+                  href={INTAKE_TEMPLATE_HREF}
+                  download={INTAKE_TEMPLATE_DOWNLOAD}
+                  className={guideCtaOutlineClassBlock}
+                >
+                  {t("referenceMaterials.intakeSheet.cta")}
+                </a>
+                <SpreadsheetXlsxButton
+                  csvHref={INTAKE_TEMPLATE_HREF}
+                  downloadBasename={INTAKE_TEMPLATE_DOWNLOAD}
+                  className="w-full sm:flex-1"
+                  buttonClassName="min-h-11 w-full"
+                />
+              </>
+            }
+          />
+          <GuideCatalogCard
+            title={t("referenceMaterials.grievanceWorksheet.title")}
+            body={t("referenceMaterials.grievanceWorksheet.body")}
+            action={
+              <Link
+                href={documentGeneratorPresetHref("grievance-intake")}
+                className={guideCtaOutlineClassBlock}
+              >
+                {t("referenceMaterials.grievanceWorksheet.cta")}
+              </Link>
+            }
+          />
+        </ul>
 
         <p className="mt-4 text-sm text-gray-700">{t("tools.exportHint")}</p>
 
         <GuideActionRow>
           <Link
-              href="/tools/complaint-vs-grievance"
-              className={guideCtaOutlineClass}
-            >
-              {t("referenceMaterials.stewardGuides.diagnostic")}
-            </Link>
-            <Link href="/tools/pre-disciplinary-log" className={guideCtaOutlineClass}>
-              {t("referenceMaterials.stewardGuides.discipline")}
-            </Link>
-            <Link href="/tools/rtw-accommodation" className={guideCtaOutlineClass}>
-              {t("referenceMaterials.stewardGuides.rtw")}
-            </Link>
-            <Link href="/app/grievances" className={guideCtaOutlineClass}>
-              {t("hub.cta")}
-            </Link>
-          </GuideActionRow>
+            href="/tools/complaint-vs-grievance"
+            className={guideCtaOutlineClass}
+          >
+            {t("referenceMaterials.stewardGuides.diagnostic")}
+          </Link>
+          <Link href="/tools/pre-disciplinary-log" className={guideCtaOutlineClass}>
+            {t("referenceMaterials.stewardGuides.discipline")}
+          </Link>
+          <Link href="/tools/rtw-accommodation" className={guideCtaOutlineClass}>
+            {t("referenceMaterials.stewardGuides.rtw")}
+          </Link>
+          <Link href="/app/grievances" className={guideCtaOutlineClass}>
+            {t("hub.cta")}
+          </Link>
+        </GuideActionRow>
 
         <GuideExpandSection
           title={t("modules.moreReferenceTitle")}
           summary={t("modules.moreReferenceSummary")}
           className="mt-6"
         >
-          <div className="grid gap-4 md:grid-cols-2">
-            <ReferenceBlock title={t("referenceMaterials.board.title")}>
-              <p>{t("referenceMaterials.board.body")}</p>
-              <nav
-                className="mt-3 flex flex-col gap-2"
-                aria-label={t("referenceMaterials.board.title")}
-              >
+          <ul className="grid list-none gap-6 p-0 md:grid-cols-2">
+            <GuideCatalogCard
+              title={t("referenceMaterials.board.title")}
+              body={
+                <>
+                  <p>{t("referenceMaterials.board.body")}</p>
+                  <nav
+                    className="mt-3"
+                    aria-label={t("referenceMaterials.board.title")}
+                  >
+                    <GuideLinkList
+                      links={[
+                        {
+                          href: "/tools/org-chart",
+                          label: t("referenceMaterials.board.orgChart"),
+                        },
+                        {
+                          href: "/tools/board-notice",
+                          label: t("referenceMaterials.board.boardNotice"),
+                        },
+                      ]}
+                    />
+                  </nav>
+                </>
+              }
+            />
+            <GuideCatalogCard
+              title={t("referenceMaterials.followUp.title")}
+              body={t("referenceMaterials.followUp.body")}
+              action={
                 <Link
-                  href="/tools/org-chart"
-                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+                  href={documentGeneratorPresetHref("simple-letter")}
+                  className={guideCtaOutlineClass}
                 >
-                  {t("referenceMaterials.board.orgChart")}
+                  {t("referenceMaterials.followUp.cta")}
                 </Link>
-                <Link
-                  href="/tools/board-notice"
-                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                >
-                  {t("referenceMaterials.board.boardNotice")}
-                </Link>
-              </nav>
-            </ReferenceBlock>
-
-            <ReferenceBlock title={t("referenceMaterials.followUp.title")}>
-              <p>{t("referenceMaterials.followUp.body")}</p>
-              <Link
-                href={documentGeneratorPresetHref("simple-letter")}
-                className={`mt-3 inline-block ${guideCtaOutlineClass}`}
-              >
-                {t("referenceMaterials.followUp.cta")}
-              </Link>
-            </ReferenceBlock>
-          </div>
+              }
+            />
+          </ul>
         </GuideExpandSection>
       </section>
 
-      <GuideCallout tone="muted" className="mt-10">
+      <GuideCallout tone="muted" className="mt-10" measure="fill">
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
-        <p className="mt-2 leading-relaxed text-gray-700">{t("hub.body")}</p>
+        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
+          {t("hub.body")}
+        </p>
       </GuideCallout>
 
-      <GuideCallout tone="muted" className="mt-8">
+      <GuideCallout tone="muted" className="mt-8" measure="fill">
         <p className="font-semibold text-opseu-dark">{t("next.title")}</p>
-        <p className="mt-2 leading-relaxed text-gray-700">{t("next.body")}</p>
-        <nav
-          className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1"
-          aria-label={t("next.title")}
-        >
-          {(
-            [
-              { href: "/guide/workplace-mapping", label: t("related.workplaceMapping") },
-              { href: "/guide/grievance-process", label: t("related.grievance") },
+        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
+          {t("next.body")}
+        </p>
+        <nav className="mt-3" aria-label={t("next.title")}>
+          <GuideLinkList
+            links={[
+              {
+                href: "/guide/workplace-mapping",
+                label: t("related.workplaceMapping"),
+              },
+              {
+                href: "/guide/grievance-process",
+                label: t("related.grievance"),
+              },
               { href: "/guide/dfr", label: t("related.dfr") },
-              { href: "/guide/membership-signup", label: t("related.membership") },
-            ] as const
-          ).map((link, i) => (
-            <span key={link.href} className="inline-flex items-baseline gap-x-3">
-              {i > 0 && (
-                <span className="text-gray-300" aria-hidden="true">
-                  ·
-                </span>
-              )}
-              <Link
-                href={link.href}
-                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-              >
-                {link.label}
-              </Link>
-            </span>
-          ))}
+              {
+                href: "/guide/membership-signup",
+                label: t("related.membership"),
+              },
+            ]}
+          />
         </nav>
       </GuideCallout>
     </GuideLayout>
-  );
-}
-
-function ReferenceBlock({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="h-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-      <h3 className="font-semibold text-opseu-dark">{title}</h3>
-      <div className="mt-2 text-gray-700">{children}</div>
-    </div>
   );
 }
 
