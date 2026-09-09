@@ -159,7 +159,7 @@ export function SocialMapDiagram({
       role="img"
       aria-label={ariaLabel}
     >
-      <div className="mx-auto grid max-w-xs grid-cols-3 items-center justify-items-center gap-2">
+      <div className="mx-auto grid w-full max-w-sm grid-cols-3 items-center justify-items-center gap-3 sm:max-w-md lg:max-w-lg lg:gap-4">
         <span className="col-start-2">
           <PersonChip label={top} tone="neutral" />
         </span>
