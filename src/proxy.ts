@@ -73,6 +73,7 @@ export default auth((req) => {
 export const config = {
   // Skip static files (.*\\..*) and App Router OG/Twitter image routes (no extension).
   matcher: [
-    "/((?!api|_next|_vercel|opengraph-image|twitter-image|.*\\..*).*)",
+    // Skip Sentry tunnel (/monitoring) — next-intl must not locale-prefix it.
+    "/((?!api|monitoring|_next|_vercel|opengraph-image|twitter-image|.*\\..*).*)",
   ],
 };

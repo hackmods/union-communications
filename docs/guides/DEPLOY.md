@@ -106,6 +106,16 @@ Optional SMTP (non-DO hosts, or Mailgun port **2525** if your network allows it)
 
 When `MAILGUN_API_KEY` is set it takes priority over SMTP. On SMTP CONN timeout to 465/587 the app retries port 2525 once, then surfaces a DigitalOcean hint.
 
+Optional **error sinks** (ADR-006 — ops only, not product analytics; defaults off). Full matrix: [`HOSTED_SECURITY.md`](HOSTED_SECURITY.md).
+
+| Variable | Example |
+|----------|---------|
+| `SENTRY_ENABLED` | `true` (server/edge; needs DSN) |
+| `NEXT_PUBLIC_SENTRY_DSN` | Sentry client key — bake at **build** for browser errors |
+| `SENTRY_DSN` | Optional runtime server DSN (CapRover App Configs OK) |
+| `ERROR_LOG_FILE_ENABLED` | `true` |
+| `ERROR_LOG_FILE_PATH` | `/data/logs/unionops-errors.jsonl` (mount a Persistent Directory) |
+
 Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_*` is inlined by Next.js). Prefer editing `config/host-brand.json` (or `npm run brand:set`) before `docker build` when you want a white-label host without env sprawl:
 
 | Variable | Example |

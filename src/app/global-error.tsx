@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import * as Sentry from "@sentry/nextjs";
 import "./globals.css";
 import { RouteStatusStatic } from "@/components/layout/RouteStatusStatic";
 import { ROUTE_STATUS_FALLBACK } from "@/lib/constants/route-status-fallback";
@@ -23,6 +24,7 @@ export default function GlobalError({
 
   useEffect(() => {
     console.error("[global]", error.digest ?? error.message);
+    Sentry.captureException(error);
   }, [error]);
 
   const linkClass =

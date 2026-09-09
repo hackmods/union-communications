@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs/config";
 import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
@@ -92,4 +93,20 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+export default withSentryConfig(withNextIntl(nextConfig), {
+  org: process.env.SENTRY_ORG || "union-ops",
+  project: process.env.SENTRY_PROJECT || "javascript-nextjs",
+  silent: !process.env.CI,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  widenClientFileUpload: true,
+  tunnelRoute: "/monitoring",
+  webpack: {
+    treeshake: {
+      removeDebugLogging: true,
+    },
+  },
+  // Source maps are optional — never fail CapRover / local builds without a token.
+  errorHandler: (err) => {
+    console.warn("[sentry] build plugin:", err.message);
+  },
+});

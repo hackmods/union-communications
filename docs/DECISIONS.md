@@ -31,10 +31,11 @@
 **Consequences:** All new UI text must be added to both locale files.
 
 ## ADR-006: Privacy by design — zero data collection
-**Status:** Accepted  
+**Status:** Accepted (amended 2026-09-08)  
 **Context:** Member photos and local branding are sensitive. Ontario privacy law applies.  
 **Decision:** No analytics, cookies, third-party scripts, or network calls for user data.  
-**Consequences:** No usage metrics unless self-hosted opt-in analytics added in v2.
+**Consequences:** No usage metrics unless self-hosted opt-in analytics added in v2.  
+**Amendment:** Optional **operator error sinks** (Sentry and/or server JSONL file), toggled only via host env (`SENTRY_*`, `ERROR_LOG_FILE_*`), are out of scope of product analytics. No Session Replay, no usage metrics, no request bodies / cookies in error payloads. See [`HOSTED_SECURITY.md`](guides/HOSTED_SECURITY.md).
 
 ## ADR-007: Central multi-tenant hub with hybrid escape hatch
 **Status:** Accepted  
