@@ -28,5 +28,12 @@ Full narrative: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`]
 ## Verify
 
 - Live: `GET /api/health` → `.commit` matches expected SHA and `.builtAt` is a recent UTC timestamp.
+- Optional error sinks: `.observability` (`sentryEnabled`, `errorLogFileEnabled`, misconfig flags). Narrative: [`session-knowledge-2026-09-08-sentry-observability.md`](../../docs/audit/session-knowledge-2026-09-08-sentry-observability.md).
 - Public: `/build` (footer **Site build**) shows the same version, commit, and build time after deploy.
 - CI: `scripts/docker-migrate-smoke.sh` — assert migrate finished; `__drizzle_migrations` by **table name** (not `public` schema only).
+
+## Optional Sentry bake (CI / GHCR)
+
+- GitHub secrets (optional): `SENTRY_AUTH_TOKEN` (source maps), `NEXT_PUBLIC_SENTRY_DSN` (client SDK in image).
+- Runtime CapRover: `SENTRY_ENABLED` + `SENTRY_DSN` for server; file log via `ERROR_LOG_FILE_*` + Persistent Directory.
+- Do **not** treat missing secrets as a build failure — `next.config` Sentry `errorHandler` warns only.

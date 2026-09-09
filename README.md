@@ -137,7 +137,7 @@ Routes: `/en/app/login` · `/en/app` · `/en/app/mfa`
 
 - **Image:** `ghcr.io/hackmods/union-communications:main` (CI on `main`); `:vX.Y.Z` / `:latest` on tags
 - **CapRover:** container port **3000**; set `AUTH_SECRET` and `AUTH_URL`
-- **Health:** `GET /api/health` → `{"status":"ok"}`
+- **Health:** `GET /api/health` → `status`, `commit`, `backends`, optional `observability` (Sentry / file-log flags; defaults off — [`HOSTED_SECURITY.md`](docs/guides/HOSTED_SECURITY.md))
 
 Guide: [`docs/guides/DEPLOY.md`](docs/guides/DEPLOY.md)
 

@@ -1,5 +1,15 @@
 # Progress Log
 
+## 2026-09-08 — CapRover-togglable Sentry + server file error sinks
+
+- [x] `@sentry/nextjs` errors-only (no Session Replay); tunnel `/monitoring`; CSP `connect-src 'self'` unchanged; proxy matcher skips `monitoring`
+- [x] Independent env sinks: `SENTRY_*` + `ERROR_LOG_FILE_*` (rotation via `MAX_BYTES` / `KEEP`); defaults off
+- [x] `/api/health` → `observability` flags + boot misconfig warns; critical API/email + route `error.tsx` reporting
+- [x] CI/Docker optional `SENTRY_AUTH_TOKEN` + `NEXT_PUBLIC_SENTRY_DSN` for source maps / client bake
+- [x] ADR-006 amendment; module [`OBSERVABILITY.md`](modules/OBSERVABILITY.md); session knowledge [`session-knowledge-2026-09-08-sentry-observability.md`](audit/session-knowledge-2026-09-08-sentry-observability.md)
+- Verify: `npm run test:unit -- src/lib/observability/ src/lib/ops/health-status.test.ts src/lib/email/send.test.ts`; `npm run typecheck`; lint clean of new errors
+- Commits: `86d7a48`, `84d2287`
+
 ## 2026-09-08 — Land acknowledgement how-to + workshops hub
 
 - [x] `/guide/land-acknowledgement` refocused on how-to walkthrough + PDF worksheet; Niagara annotated example kept; embedded facilitator agenda removed
