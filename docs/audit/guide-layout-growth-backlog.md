@@ -45,5 +45,6 @@ Catalog cards on `/guide/workshops` remain list/hub chrome (not chapters).
 
 ## Related
 
+- Actionable public UI backlog (awaiting approval / implementation): [`docs/growth-backlog.md`](../growth-backlog.md).
 - Playbook rollout + stretch: shared `guide-ui` barrel and `.cursor/rules/guide-layout-standards.mdc`.
 - Session pilot: land-acknowledgement densification (`GuideSection` / tip grids / wide writing-flow diagram).
