@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
@@ -10,7 +10,6 @@ import {
   membershipAudienceOptions,
 } from "@/lib/brand/membership-primary";
 import { Button } from "@/components/ui/Button";
-import { Card, CardTitle } from "@/components/ui/Card";
 import { Callout } from "@/components/ui/Callout";
 import { Input } from "@/components/ui/Input";
 import { ThemePicker } from "@/components/tools/ThemePicker";
@@ -36,13 +35,49 @@ import {
 } from "@/lib/constants/unionPresets";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
-import { resolveLocalNumber } from "@/lib/utils";
+import { resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { PageShell } from "@/components/layout/PageShell";
+import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
+import { TOOL_COMPOSITION } from "@/lib/constants/page-composition";
+import {
+  PUBLIC_CARD_TITLE_CLASS,
+  PUBLIC_PAGE_TITLE_CLASS,
+} from "@/lib/constants/public-type";
+import {
+  guideCtaClassSm,
+  guideCtaOutlineClassSm,
+} from "@/components/comms/guideCtaClasses";
 import { PresetSloganPicker } from "@/components/brand/PresetSloganPicker";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { JointActionCard } from "@/components/comms/campaign/JointActionCard";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
+
+function BrandKitPanel({
+  title,
+  description,
+  children,
+  className,
+}: {
+  title?: string;
+  description?: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <section
+      className={cn(
+        "min-w-0 space-y-3 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.04] to-white p-4 sm:p-5",
+        className,
+      )}
+    >
+      {title ? <h2 className={PUBLIC_CARD_TITLE_CLASS}>{title}</h2> : null}
+      {description ? (
+        <p className="text-sm text-gray-600">{description}</p>
+      ) : null}
+      {children}
+    </section>
+  );
+}
 
 export default function BrandKitPage() {
   const t = useTranslations("brandKit");
@@ -124,15 +159,17 @@ export default function BrandKitPage() {
   };
 
   return (
-    <PageShell className="py-8 md:py-12">
+    <ComposedPageLayout
+      composition={TOOL_COMPOSITION.editor.composition}
+      size={TOOL_COMPOSITION.editor.shell}
+      className="py-8 md:py-12"
+    >
       {inDemo ? (
         <WorkshopDemoPath variant="trail" className="mb-4" />
       ) : null}
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
-        <header className="min-w-0 max-w-3xl">
-          <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
-            {t("title")}
-          </h1>
+        <header className="min-w-0">
+          <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
           <p className="mt-2 max-w-prose text-gray-600">{t("description")}</p>
         </header>
 
@@ -181,34 +218,34 @@ export default function BrandKitPage() {
         </Callout>
       ) : null}
 
-      <Callout tone="brand" className="mt-6">
+      <Callout tone="brand" className="mt-6" measure="fill">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
           <div className="grid min-w-0 flex-1 gap-4 sm:grid-cols-2 sm:gap-6">
-            <div className="max-w-xl">
+            <div className="max-w-prose">
               <p className="font-semibold text-opseu-dark">{t("purposeSets")}</p>
               <p className="mt-1">{t("purposeSetsBody")}</p>
             </div>
-            <div className="max-w-xl">
+            <div className="max-w-prose">
               <p className="font-semibold text-opseu-dark">
                 {t("purposeUnlocks")}
               </p>
               <p className="mt-1">{t("purposeUnlocksBody")}</p>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 lg:shrink-0">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 lg:shrink-0">
             {themeEstablished ? (
-              <Link href="/guide/social-media-plan" className="inline-flex">
-                <Button size="sm">{t("continueRoadmap")}</Button>
+              <Link
+                href="/guide/social-media-plan"
+                className={guideCtaClassSm}
+              >
+                {t("continueRoadmap")}
               </Link>
             ) : (
-              <Link href="/onboarding" className="inline-flex">
-                <Button size="sm">{t("startSetup")}</Button>
+              <Link href="/onboarding" className={guideCtaClassSm}>
+                {t("startSetup")}
               </Link>
             )}
-            <Link
-              href="/assets"
-              className="inline-flex min-h-11 items-center text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-            >
+            <Link href="/assets" className={guideCtaOutlineClassSm}>
               {t("assetsLink")}
             </Link>
             <Link
@@ -224,12 +261,11 @@ export default function BrandKitPage() {
       <BrandKitContextHint />
 
       <div className="mt-4 grid min-w-0 items-start gap-4 lg:grid-cols-2 xl:grid-cols-3">
-        <Card
-          density="compact"
-          className="space-y-3 lg:col-start-1 lg:row-start-1"
+        <BrandKitPanel
+          title={t("unionPreset.title")}
+          description={t("unionPreset.description")}
+          className="lg:col-start-1 lg:row-start-1"
         >
-          <CardTitle className="text-base">{t("unionPreset.title")}</CardTitle>
-          <p className="text-sm text-gray-600">{t("unionPreset.description")}</p>
           <UnionPresetSelect
             label={t("unionPreset.label")}
             value={unionPresetId}
@@ -237,12 +273,17 @@ export default function BrandKitPage() {
             onSelect={applyUnionPreset}
           />
           {showPresetCollectionsNote ? (
-            <p className="text-sm text-gray-600">{t("unionPreset.collectionsNote")}</p>
+            <p className="text-sm text-gray-600">
+              {t("unionPreset.collectionsNote")}
+            </p>
           ) : null}
           {unionPresetId === "opseu" ? <OpseuSectorSelect /> : null}
           {unionPresetId === "opseu" ? <IdentityPackPicker /> : null}
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-700" htmlFor="campaign-badge">
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="campaign-badge"
+            >
               {t("campaignBadge.label")}
             </label>
             <Input
@@ -290,7 +331,9 @@ export default function BrandKitPage() {
                 )}
               </div>
               <div className="space-y-2">
-                <p className="text-xs text-gray-500">{t("unionPreset.logoNote")}</p>
+                <p className="text-xs text-gray-500">
+                  {t("unionPreset.logoNote")}
+                </p>
                 <PresetSloganPicker
                   presetId={selectedPreset.id}
                   onApply={(slogan) =>
@@ -302,13 +345,12 @@ export default function BrandKitPage() {
               </div>
             </div>
           ) : null}
-        </Card>
+        </BrandKitPanel>
 
-        <Card
-          density="compact"
-          className="space-y-3 lg:col-start-2 lg:row-start-1 lg:row-span-2 xl:row-span-1"
+        <BrandKitPanel
+          title={t("currentSettings")}
+          className="lg:col-start-2 lg:row-start-1 lg:row-span-2 xl:row-span-1"
         >
-          <CardTitle className="text-base">{t("currentSettings")}</CardTitle>
           <CollectionProfilesEditor />
           <div className={`grid gap-3 ${multiProfile ? "" : "sm:grid-cols-2"}`}>
             <Input
@@ -342,14 +384,13 @@ export default function BrandKitPage() {
             primaryLabel={t("colors.primary")}
             secondaryLabel={t("colors.secondary")}
           />
-        </Card>
+        </BrandKitPanel>
 
-        <Card
-          density="compact"
-          className="space-y-3 lg:col-start-1 lg:row-start-2 xl:col-start-3 xl:row-start-1"
+        <BrandKitPanel
+          title={t("logo.title")}
+          description={t("logo.description")}
+          className="lg:col-start-1 lg:row-start-2 xl:col-start-3 xl:row-start-1"
         >
-          <CardTitle className="text-base">{t("logo.title")}</CardTitle>
-          <p className="text-sm text-gray-600">{t("logo.description")}</p>
           <LogoSettings
             useOfficialLogo={brandKit.useOfficialLogo}
             officialLogoVariant={brandKit.officialLogoVariant}
@@ -377,14 +418,16 @@ export default function BrandKitPage() {
             onCustomLogoClear={() => setBrandKit({ customLogoDataUrl: "" })}
             onLogoTextChange={(text) => setBrandKit({ logoText: text })}
           />
-        </Card>
+        </BrandKitPanel>
       </div>
 
       <div className="mt-4">
         {themeEstablished && unionPresetId === "opseu" ? (
-          <Card density="compact" className="mb-4 space-y-3">
-            <CardTitle className="text-base">{t("coalitionPreview.title")}</CardTitle>
-            <p className="text-sm text-gray-600">{t("coalitionPreview.description")}</p>
+          <BrandKitPanel
+            title={t("coalitionPreview.title")}
+            description={t("coalitionPreview.description")}
+            className="mb-4"
+          >
             <JointActionCard
               primaryColor={brandKit.primaryColor}
               accentColor={brandKit.accentColor}
@@ -392,16 +435,17 @@ export default function BrandKitPage() {
               body={t("coalitionPreview.sampleBody")}
               actionLabel={t("coalitionPreview.sampleAction")}
               coalitionBadge={
-                brandKit.campaignBadge?.trim() || t("coalitionPreview.defaultBadge")
+                brandKit.campaignBadge?.trim() ||
+                t("coalitionPreview.defaultBadge")
               }
             />
-          </Card>
+          </BrandKitPanel>
         ) : null}
         <BrandKitCanvasPanel />
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <Card density="compact" className="space-y-3">
+        <BrandKitPanel>
           <LocalLinksEditor
             websiteUrl={brandKit.websiteUrl ?? ""}
             facebookUrl={brandKit.facebookUrl ?? ""}
@@ -410,9 +454,9 @@ export default function BrandKitPage() {
             onFacebookChange={(url) => setBrandKit({ facebookUrl: url })}
             onCustomLinksChange={(links) => setBrandKit({ customLinks: links })}
           />
-        </Card>
+        </BrandKitPanel>
 
-        <Card density="compact" className="space-y-3">
+        <BrandKitPanel>
           <MembershipUrlsEditor
             membershipUrls={brandKit.membershipUrls ?? []}
             onChange={(urls) => setBrandKit({ membershipUrls: urls })}
@@ -421,8 +465,8 @@ export default function BrandKitPage() {
               brandKit.opseuSectorId,
             )}
           />
-        </Card>
+        </BrandKitPanel>
       </div>
-    </PageShell>
+    </ComposedPageLayout>
   );
 }
