@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { Link } from "@/i18n/navigation";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { Callout } from "@/components/ui/Callout";
+import {
+  GuideLayout,
+  GuideBulletList,
+  GuideCallout,
+  GuideProse,
+  GuideSection,
+} from "@/components/comms/guide-ui";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 export async function generateMetadata({
@@ -25,100 +30,126 @@ export default async function PrivacyPage({
   const hubPublic = isOfficerHubPublic();
 
   return (
-    <GuideLayout title={t("title")} subtitle={t("subtitle")}>
-      <div className="space-y-8">
-        <Callout>
+    <GuideLayout title={t("title")} subtitle={t("subtitle")} preset="narrow">
+      <div className="space-y-10">
+        <GuideCallout>
           <p className="font-semibold text-opseu-dark">
             {hubPublic ? t("leadTitleHub") : t("leadTitleCommsOnly")}
           </p>
-          <p className="mt-2 text-gray-700">
+          <GuideProse className="mt-2">
             {hubPublic ? t("leadBodyHub") : t("leadBodyCommsOnly")}
-          </p>
-        </Callout>
+          </GuideProse>
+        </GuideCallout>
 
-        <section className="border-l-2 border-opseu-blue/30 pl-5">
-          <h2 className="text-xl font-bold text-opseu-dark">{t("commsTitle")}</h2>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-            <li>{t("comms1")}</li>
-            <li>{t("comms2")}</li>
-            <li>{t("comms3")}</li>
-            <li>{t("comms4")}</li>
-          </ul>
-        </section>
+        <GuideSection
+          id="comms"
+          title={t("commsTitle")}
+          className="mt-0 not-first-of-type:mt-0"
+        >
+          <GuideBulletList>
+            <li className="leading-relaxed">{t("comms1")}</li>
+            <li className="leading-relaxed">{t("comms2")}</li>
+            <li className="leading-relaxed">{t("comms3")}</li>
+            <li className="leading-relaxed">{t("comms4")}</li>
+          </GuideBulletList>
+        </GuideSection>
 
         {hubPublic ? (
-          <section className="border-l-2 border-opseu-blue/30 pl-5">
-            <h2 className="text-xl font-bold text-opseu-dark">{t("hubTitle")}</h2>
-            <p className="mt-3 max-w-prose text-gray-700">{t("hubIntro")}</p>
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-              <li>{t("hubSelfHost")}</li>
-              <li>{t("hubHybrid")}</li>
-              <li>{t("hubDemo")}</li>
-            </ul>
-          </section>
+          <GuideSection
+            id="hub"
+            title={t("hubTitle")}
+            intro={t("hubIntro")}
+            className="mt-0 not-first-of-type:mt-0"
+          >
+            <GuideBulletList>
+              <li className="leading-relaxed">{t("hubSelfHost")}</li>
+              <li className="leading-relaxed">{t("hubHybrid")}</li>
+              <li className="leading-relaxed">{t("hubDemo")}</li>
+            </GuideBulletList>
+          </GuideSection>
         ) : null}
 
-        <section className="border-l-2 border-opseu-blue/30 pl-5">
-          <h2 className="text-xl font-bold text-opseu-dark">{t("ontarioTitle")}</h2>
-          <p className="mt-3 max-w-prose text-gray-700">
+        <GuideSection
+          id="ontario"
+          title={t("ontarioTitle")}
+          className="mt-0 not-first-of-type:mt-0"
+        >
+          <GuideProse>
             {hubPublic ? t("ontarioHub") : t("ontarioCommsOnly")}
-          </p>
-        </section>
+          </GuideProse>
+        </GuideSection>
 
-        <Callout tone="muted">
-          <p className="font-semibold text-opseu-dark">{t("responsibilitiesTitle")}</p>
-          <p className="mt-2 text-gray-700">
+        <GuideCallout tone="muted">
+          <p className="font-semibold text-opseu-dark">
+            {t("responsibilitiesTitle")}
+          </p>
+          <GuideProse className="mt-2">
             {t("responsibilitiesBody")}{" "}
-            <Link href="/guide/photo-consent" className="text-opseu-blue underline">
+            <Link
+              href="/guide/photo-consent"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
               {t("photoConsentLink")}
             </Link>
             .
-          </p>
-        </Callout>
+          </GuideProse>
+        </GuideCallout>
 
-        <Callout tone="muted">
+        <GuideCallout tone="muted">
           <p className="font-semibold text-opseu-dark">{t("installTitle")}</p>
-          <p className="mt-2 text-gray-700">
+          <GuideProse className="mt-2">
             {t("installBody")}{" "}
-            <Link href="/install" className="text-opseu-blue underline">
+            <Link
+              href="/install"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
               {t("installLink")}
             </Link>
             .
-          </p>
-        </Callout>
+          </GuideProse>
+        </GuideCallout>
 
-        <Callout tone="plain">
+        <GuideCallout tone="plain">
           <p className="font-semibold text-opseu-dark">{t("siteFeedbackTitle")}</p>
-          <p className="mt-2 text-gray-700">
+          <GuideProse className="mt-2">
             {t("siteFeedbackBody")}{" "}
-            <Link href="/feedback" className="text-opseu-blue underline">
+            <Link
+              href="/feedback"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
               {t("siteFeedbackLink")}
             </Link>
             .
-          </p>
-        </Callout>
+          </GuideProse>
+        </GuideCallout>
 
-        <Callout tone="plain">
+        <GuideCallout tone="plain">
           <p className="font-semibold text-opseu-dark">{t("contactTitle")}</p>
-          <p className="mt-2 text-gray-700">
+          <GuideProse className="mt-2">
             {t("contactBody")}{" "}
-            <Link href="/support" className="text-opseu-blue underline">
+            <Link
+              href="/support"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
               {t("supportLink")}
             </Link>
             .
-          </p>
-        </Callout>
+          </GuideProse>
+        </GuideCallout>
 
-        <Callout tone="plain">
+        <GuideCallout tone="plain">
           <p className="font-semibold text-opseu-dark">{t("securityTitle")}</p>
-          <p className="mt-2 text-gray-700">
+          <GuideProse className="mt-2">
             {t("securityBody")}{" "}
-            <Link href="/security" className="text-opseu-blue underline">
+            <Link
+              href="/security"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
               {t("securityLink")}
             </Link>
             .
-          </p>
-        </Callout>
+          </GuideProse>
+        </GuideCallout>
       </div>
     </GuideLayout>
   );

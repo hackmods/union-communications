@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { Link } from "@/i18n/navigation";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { Callout } from "@/components/ui/Callout";
+import {
+  GuideLayout,
+  GuideBulletList,
+  GuideCallout,
+  GuideProse,
+  GuideSection,
+} from "@/components/comms/guide-ui";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 export async function generateMetadata({
@@ -25,100 +30,115 @@ export default async function SecurityPage({
   const hubPublic = isOfficerHubPublic();
 
   return (
-    <GuideLayout title={t("title")} subtitle={t("subtitle")}>
-      <div className="space-y-8">
-        <Callout>
+    <GuideLayout title={t("title")} subtitle={t("subtitle")} preset="narrow">
+      <div className="space-y-10">
+        <GuideCallout>
           <p className="font-semibold text-opseu-dark">{t("leadTitle")}</p>
-          <p className="mt-2 text-gray-700">{t("leadBody")}</p>
-        </Callout>
+          <GuideProse className="mt-2">{t("leadBody")}</GuideProse>
+        </GuideCallout>
 
-        <section className="border-l-2 border-opseu-blue/30 pl-5">
-          <h2 className="text-xl font-bold text-opseu-dark">{t("commsTitle")}</h2>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-            <li>{t("comms1")}</li>
-            <li>{t("comms2")}</li>
-            <li>{t("comms3")}</li>
-          </ul>
-        </section>
+        <GuideSection
+          id="comms"
+          title={t("commsTitle")}
+          className="mt-0 not-first-of-type:mt-0"
+        >
+          <GuideBulletList>
+            <li className="leading-relaxed">{t("comms1")}</li>
+            <li className="leading-relaxed">{t("comms2")}</li>
+            <li className="leading-relaxed">{t("comms3")}</li>
+          </GuideBulletList>
+        </GuideSection>
 
         {hubPublic ? (
           <>
-            <section className="border-l-2 border-opseu-blue/30 pl-5">
-              <h2 className="text-xl font-bold text-opseu-dark">
-                {t("transitTitle")}
-              </h2>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-                <li>{t("transit1")}</li>
-                <li>{t("transit2")}</li>
-                <li>{t("transit3")}</li>
-              </ul>
-            </section>
+            <GuideSection
+              id="transit"
+              title={t("transitTitle")}
+              className="mt-0 not-first-of-type:mt-0"
+            >
+              <GuideBulletList>
+                <li className="leading-relaxed">{t("transit1")}</li>
+                <li className="leading-relaxed">{t("transit2")}</li>
+                <li className="leading-relaxed">{t("transit3")}</li>
+              </GuideBulletList>
+            </GuideSection>
 
-            <section className="border-l-2 border-opseu-blue/30 pl-5">
-              <h2 className="text-xl font-bold text-opseu-dark">{t("hubTitle")}</h2>
-              <p className="mt-3 max-w-prose text-gray-700">{t("hubIntro")}</p>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-                <li>{t("hub1")}</li>
-                <li>{t("hub2")}</li>
-                <li>{t("hub3")}</li>
-                <li>{t("hub4")}</li>
-                <li>{t("hub5")}</li>
-              </ul>
-            </section>
+            <GuideSection
+              id="hub"
+              title={t("hubTitle")}
+              intro={t("hubIntro")}
+              className="mt-0 not-first-of-type:mt-0"
+            >
+              <GuideBulletList>
+                <li className="leading-relaxed">{t("hub1")}</li>
+                <li className="leading-relaxed">{t("hub2")}</li>
+                <li className="leading-relaxed">{t("hub3")}</li>
+                <li className="leading-relaxed">{t("hub4")}</li>
+                <li className="leading-relaxed">{t("hub5")}</li>
+              </GuideBulletList>
+            </GuideSection>
 
-            <section className="border-l-2 border-opseu-blue/30 pl-5">
-              <h2 className="text-xl font-bold text-opseu-dark">
-                {t("portalTitle")}
-              </h2>
-              <p className="mt-3 max-w-prose text-gray-700">{t("portalIntro")}</p>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-                <li>{t("portal1")}</li>
-                <li>{t("portal2")}</li>
-                <li>{t("portal3")}</li>
-                <li>{t("portal4")}</li>
-              </ul>
-            </section>
+            <GuideSection
+              id="portal"
+              title={t("portalTitle")}
+              intro={t("portalIntro")}
+              className="mt-0 not-first-of-type:mt-0"
+            >
+              <GuideBulletList>
+                <li className="leading-relaxed">{t("portal1")}</li>
+                <li className="leading-relaxed">{t("portal2")}</li>
+                <li className="leading-relaxed">{t("portal3")}</li>
+                <li className="leading-relaxed">{t("portal4")}</li>
+              </GuideBulletList>
+            </GuideSection>
 
-            <Callout tone="muted">
+            <GuideCallout tone="muted">
               <p className="font-semibold text-opseu-dark">{t("honestTitle")}</p>
-              <p className="mt-2 text-gray-700">{t("honestBody")}</p>
-            </Callout>
+              <GuideProse className="mt-2">{t("honestBody")}</GuideProse>
+            </GuideCallout>
 
-            <section className="border-l-2 border-opseu-blue/30 pl-5">
-              <h2 className="text-xl font-bold text-opseu-dark">
-                {t("operatorTitle")}
-              </h2>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-                <li>{t("operator1")}</li>
-                <li>{t("operator2")}</li>
-                <li>{t("operator3")}</li>
-                <li>{t("operator4")}</li>
-              </ul>
-            </section>
+            <GuideSection
+              id="operator"
+              title={t("operatorTitle")}
+              className="mt-0 not-first-of-type:mt-0"
+            >
+              <GuideBulletList>
+                <li className="leading-relaxed">{t("operator1")}</li>
+                <li className="leading-relaxed">{t("operator2")}</li>
+                <li className="leading-relaxed">{t("operator3")}</li>
+                <li className="leading-relaxed">{t("operator4")}</li>
+              </GuideBulletList>
+            </GuideSection>
           </>
         ) : null}
 
-        <Callout tone="plain">
+        <GuideCallout tone="plain">
           <p className="font-semibold text-opseu-dark">{t("reportTitle")}</p>
-          <p className="mt-2 text-gray-700">
+          <GuideProse className="mt-2">
             {t("reportBody")}{" "}
-            <Link href="/support" className="text-opseu-blue underline">
+            <Link
+              href="/support"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
               {t("supportLink")}
             </Link>
             .
-          </p>
-        </Callout>
+          </GuideProse>
+        </GuideCallout>
 
-        <Callout tone="plain">
+        <GuideCallout tone="plain">
           <p className="font-semibold text-opseu-dark">{t("privacyTitle")}</p>
-          <p className="mt-2 text-gray-700">
+          <GuideProse className="mt-2">
             {t("privacyBody")}{" "}
-            <Link href="/privacy" className="text-opseu-blue underline">
+            <Link
+              href="/privacy"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
               {t("privacyLink")}
             </Link>
             .
-          </p>
-        </Callout>
+          </GuideProse>
+        </GuideCallout>
       </div>
     </GuideLayout>
   );

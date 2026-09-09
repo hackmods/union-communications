@@ -12,7 +12,6 @@ import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -160,7 +159,7 @@ export default function BoardNoticePage() {
         exportSuccess={exportSuccess}
         previewAccessibleName={t("previewAccessibleName")}
         form={
-          <Card density="compact" className="space-y-5">
+          <div className="space-y-5">
             <div>
               <label
                 htmlFor="notice-type"
@@ -281,7 +280,7 @@ export default function BoardNoticePage() {
               onPng={() => void handleExportPng()}
               onPdf={() => void handleExportPdf()}
             />
-          </Card>
+          </div>
         }
         previewActions={
           <ToolExportActions

@@ -52,7 +52,6 @@ import {
 import { fieldsFromFlyer } from "@/lib/comms/event-email-from-flyer";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
@@ -416,7 +415,7 @@ function FlyerMakerPageContent() {
                 })}
               </div>
             </div>
-          <Card density="compact" className="space-y-5">
+          <div className="space-y-5">
             <ToolFormDetails title={tf("sectionEventDetails")} defaultOpen>
               <Textarea
                 label={tf("message")}
@@ -644,7 +643,7 @@ function FlyerMakerPageContent() {
                   </Button>
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
         }
         previewActions={

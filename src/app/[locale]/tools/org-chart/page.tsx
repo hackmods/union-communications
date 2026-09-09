@@ -42,7 +42,6 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
-import { Card } from "@/components/ui/Card";
 import { Callout } from "@/components/ui/Callout";
 import { SegControl } from "@/components/tools/SegControl";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
@@ -335,7 +334,7 @@ export default function OrgChartPage() {
       exportSuccess={exportSuccess}
       previewAccessibleName={t("previewAccessibleName")}
       form={
-        <Card density="compact" className="space-y-3">
+        <div className="space-y-3">
           <Input
             label={t("posterTitle")}
             value={title}
@@ -485,7 +484,7 @@ export default function OrgChartPage() {
               </Link>
             </p>
           ) : null}
-        </Card>
+        </div>
       }
       previewActions={
         <ToolExportActions

@@ -30,7 +30,6 @@ import { CanvasWrapper } from "@/components/canvas-core";
 import { exampleAspectDesignSize } from "@/lib/comms/canvas-aspects";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ConsentModal } from "@/components/tools/ConsentModal";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
@@ -335,7 +334,7 @@ function GraphicMakerPageContent() {
           </div>
         }
         form={
-          <Card density="compact" className="space-y-5">
+          <div className="space-y-5">
             <section className="space-y-3">
             <Input
               label={tg("headline")}
@@ -482,7 +481,7 @@ function GraphicMakerPageContent() {
               {exporting ? t("exporting") : t("downloadPng")}
             </Button>
             </div>
-          </Card>
+          </div>
         }
         previewActions={
           <Button onClick={handleExport} disabled={exporting}>

@@ -31,7 +31,6 @@ import type { QrCardBgMode } from "@/lib/constants/qr-card-presets";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -344,7 +343,7 @@ function ActionCardPageContent() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <p className="text-sm leading-snug text-gray-600">{t("privacyHint")}</p>
 
           <section className="space-y-3">
@@ -511,7 +510,7 @@ function ActionCardPageContent() {
             </Button>
           </div>
           </div>
-        </Card>
+        </div>
       }
       previewActions={
         <>

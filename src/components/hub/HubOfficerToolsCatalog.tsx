@@ -8,6 +8,7 @@ import {
   listVisibleHubTools,
   resolveHubToolAccess,
 } from "@/components/hub/hub-tool-catalog";
+import { PUBLIC_SECTION_TITLE_CLASS } from "@/lib/constants/public-type";
 
 type HubOfficerToolsCatalogProps = {
   roles: UserRole[];
@@ -33,18 +34,17 @@ export function HubOfficerToolsCatalog({
   if (groups.length === 0) return null;
 
   return (
-    <section className="mt-6" aria-labelledby="officer-tools-heading">
-      <h2
-        id="officer-tools-heading"
-        className="text-lg font-bold text-opseu-dark sm:text-xl"
-      >
+    <section aria-labelledby="officer-tools-heading">
+      <h2 id="officer-tools-heading" className={PUBLIC_SECTION_TITLE_CLASS}>
         {t("qolCardTitle")}
       </h2>
-      <p className="mt-1 max-w-2xl text-sm text-gray-600">{t("qolCardDesc")}</p>
+      <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
+        {t("qolCardDesc")}
+      </p>
       {mfaOk ? (
         <div
           data-testid="hub-officer-tools"
-          className="mt-4 grid gap-6 sm:grid-cols-2 sm:gap-8 xl:grid-cols-4"
+          className="mt-5 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4"
         >
           {groups.map((group) => (
             <div key={group.id}>

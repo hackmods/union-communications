@@ -16,6 +16,10 @@ import {
   resolveHeaderStartYAfterMark,
   WORKSHEET_MARK_TITLE_GAP,
   CHECKLIST_MARK_TITLE_GAP,
+  WORKSHEET_MARGIN_DEFAULT,
+  GUIDE_PDF_MARGIN_DEFAULT,
+  WORKSHEET_MARGIN_SAFE_MIN,
+  GUIDE_PDF_MARGIN_SAFE_MIN,
 } from "@/lib/export/pdf-layout";
 import { transparentPngBytes } from "@/lib/export/brand-logo-bytes";
 import {
@@ -49,6 +53,11 @@ describe("pdf-layout engine", () => {
   it("lists remaining jsPDF exceptions (canvas + certificate)", () => {
     expect(PDF_ENGINE_STRAGGLERS.length).toBe(2);
     expect(PDF_ENGINE_STRAGGLERS.some((s) => s.path.includes("pdf-export"))).toBe(true);
+  });
+
+  it("keeps default margins at or above printer safe-zone floors", () => {
+    expect(WORKSHEET_MARGIN_DEFAULT).toBeGreaterThanOrEqual(WORKSHEET_MARGIN_SAFE_MIN);
+    expect(GUIDE_PDF_MARGIN_DEFAULT).toBeGreaterThanOrEqual(GUIDE_PDF_MARGIN_SAFE_MIN);
   });
 
   it("resolves layout modes from structure", () => {

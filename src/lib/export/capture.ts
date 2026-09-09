@@ -280,6 +280,17 @@ export function inlineComputedStylesForCapture(
   clonedRoot.style.height = `${Math.max(1, Math.round(liveRoot.offsetHeight))}px`;
 }
 
+/**
+ * Strip preview-only chrome and interactive controls from the capture clone
+ * so printable / PNG / PDF rasters never bake in buttons or safe-zone guides.
+ */
+export function stripExportChromeFromClone(clonedRoot: HTMLElement): void {
+  const chrome = clonedRoot.querySelectorAll(
+    "[data-export-chrome], button, [role='button']",
+  );
+  chrome.forEach((el) => el.remove());
+}
+
 export function buildHtmlToImageOptions(
   node: HTMLElement,
   options: CaptureOptions = {},
@@ -303,6 +314,7 @@ export function buildHtmlToImageOptions(
     },
     onclone: (clonedDoc: Document, clonedNode: HTMLElement) => {
       void clonedDoc;
+      stripExportChromeFromClone(clonedNode);
       inlineComputedStylesForCapture(node, clonedNode);
     },
   };

@@ -12,12 +12,17 @@ export const GUIDE_PDF_PALETTE = {
 
 export type PdfRgb = { r: number; g: number; b: number };
 
-/** Default side margins for fill-in worksheets (pt). */
+/** Default side margins for fill-in worksheets (pt) — ≥0.25″ printer safe zone. */
 export const WORKSHEET_MARGIN_DEFAULT = 18;
 /** Default ruled-row height when `rowHeight` is omitted (pt). */
 export const WORKSHEET_RULE_ROW_DEFAULT = 20;
-/** Standard checklist / notes margin (pt). */
+/** Standard checklist / notes margin (pt) — comfortable reading / binder edge. */
 export const GUIDE_PDF_MARGIN_DEFAULT = 48;
+
+/** Floor for worksheet side margins (pt). Do not ship writers below this. */
+export const WORKSHEET_MARGIN_SAFE_MIN = 18;
+/** Floor for checklist / notes side margins (pt). */
+export const GUIDE_PDF_MARGIN_SAFE_MIN = 36;
 
 /** Gap between closing block and footer band (pt). */
 export const WORKSHEET_CLOSING_GAP = 2;

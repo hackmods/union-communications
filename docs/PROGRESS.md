@@ -1,5 +1,14 @@
 # Progress Log
 
+## 2026-09-08 — Fluid UI final uplift (deferred surfaces)
+
+- [x] Legal pamphlets on guide-ui (`privacy` / `security` / `accessibility`) + DisplaySettings → PublicHubPanel
+- [x] HubDashboard + PortalStation fluid titles + responsive widget/circle grids
+- [x] ToolEditorLayout fluid H1 + shared form panel; tool form Cards unwrapped into panel chrome
+- [x] Officer Learning dark shell: contrast tokens, track grid, header breathe, sources `max-w-prose`
+- [x] PDF/capture: margin safe floors + `stripExportChromeFromClone` (buttons / `data-export-chrome`)
+- Checklist: [`fluid-ui-final-uplift-checklist.md`](audit/fluid-ui-final-uplift-checklist.md)
+
 ## 2026-09-08 — Fluid UI Gaps / QOL pass
 
 - [x] `GuideTipItem` ReactNode; `GuideCatalogCard` `titleAs`/`href`; `PublicHubPanel` (Brand Kit + onboarding)

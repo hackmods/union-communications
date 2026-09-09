@@ -34,7 +34,6 @@ import { CanvasWrapper } from "@/components/canvas-core";
 import { exampleAspectDesignSize } from "@/lib/comms/canvas-aspects";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ColorField } from "@/components/tools/ColorField";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
@@ -251,7 +250,7 @@ function QuoteCardPageContent() {
       }
       footer={<ToolRelatedFooter toolSlug="quote-card" />}
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <section className="space-y-3">
           <Textarea
             label={tq("quote")}
@@ -349,7 +348,7 @@ function QuoteCardPageContent() {
           />
           {exportActions}
           </div>
-        </Card>
+        </div>
       }
       previewActions={exportActions}
       preview={

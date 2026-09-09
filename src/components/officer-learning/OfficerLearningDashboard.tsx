@@ -109,28 +109,28 @@ function OfficerLearningDashboardInner({
   return (
     <>
       <div className={olTheme.shell} data-ol-shell>
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
-          <header className="mb-8 grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-end">
-            <div>
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
+          <header className="mb-10 grid gap-8 lg:mb-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-end lg:gap-10">
+            <div className="min-w-0 space-y-4">
               <p className={olTheme.eyebrow}>{t("eyebrow")}</p>
               <h1
                 className={cn(
-                  "mt-3 text-4xl font-bold tracking-tight md:text-5xl",
+                  "text-[clamp(2rem,1.5rem+2vw,3rem)] font-bold tracking-tight",
                   olTheme.heading,
                 )}
               >
                 {t("title")}
               </h1>
-              <p className={cn("mt-4 text-lg leading-relaxed", olTheme.bodyMuted)}>
+              <p className={cn("max-w-prose text-lg leading-relaxed", olTheme.bodyMuted)}>
                 {t("intro")}
               </p>
-              <p className={cn("mt-3", olTheme.progressSummary)}>
+              <p className={olTheme.progressSummary}>
                 {t("progressSummary", {
                   completed: completedCount,
                   total: modules.length,
                 })}
               </p>
-              <nav className="mt-4 text-sm" aria-label={t("relatedNavLabel")}>
+              <nav className="text-sm" aria-label={t("relatedNavLabel")}>
                 <ul className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   {RELATED_LINKS.map((link, i) => (
                     <li
@@ -150,7 +150,7 @@ function OfficerLearningDashboardInner({
                 </ul>
               </nav>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div className={olTheme.callout}>
                 <p className={olTheme.calloutTitle}>{t("quizHint.title")}</p>
                 <p className={olTheme.calloutBody}>{t("quizHint.body")}</p>
@@ -159,7 +159,7 @@ function OfficerLearningDashboardInner({
             </div>
           </header>
 
-          <LearningTrackPicker active={track} onChange={setTrack} />
+          <LearningTrackPicker active={track} onChange={setTrack} className="mb-8" />
 
           <LearningPathDiagram
             className="mb-8"
@@ -230,7 +230,7 @@ function OfficerLearningDashboardInner({
             </div>
           )}
 
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
             {visibleModules.map((module) => {
               const moduleProgress = progress[module.id];
               const status = moduleProgress?.status ?? "not_started";

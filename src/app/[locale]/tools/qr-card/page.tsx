@@ -34,7 +34,6 @@ import {
 } from "@/lib/constants/qr-card-presets";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { PageShell } from "@/components/layout/PageShell";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
@@ -369,7 +368,7 @@ function QrCardPageContent() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <section className="space-y-3">
           <div>
             <label htmlFor="qr-preset" className="mb-1.5 block text-sm font-medium text-gray-700">
@@ -525,7 +524,7 @@ function QrCardPageContent() {
             </Button>
           </div>
           </div>
-        </Card>
+        </div>
       }
       previewActions={
         <>

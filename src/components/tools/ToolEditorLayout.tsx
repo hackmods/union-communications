@@ -6,6 +6,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { ExportCaptureBridge } from "@/components/tools/ExportCaptureBridge";
 import { MobilePreviewStage } from "@/components/tools/MobilePreviewStage";
 import { Callout } from "@/components/ui/Callout";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import { cn } from "@/lib/utils";
 
 type ToolEditorLayoutProps = {
@@ -102,14 +103,16 @@ export function ToolEditorLayout({
     <PageShell className={cn("py-6 md:py-8 lg:py-10", className)}>
       <ExportCaptureBridge />
       {eyebrow ? <div className="mb-3">{eyebrow}</div> : null}
-      <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
-        {title}
-      </h1>
+      <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{title}</h1>
       {description ? (
-        <p className="mt-1 max-w-3xl text-gray-600">{description}</p>
+        <p className="mt-2 max-w-prose text-base leading-relaxed text-gray-600">
+          {description}
+        </p>
       ) : null}
       {purposeHint ? (
-        <p className="mt-2 max-w-2xl text-sm text-gray-500">{purposeHint}</p>
+        <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-500">
+          {purposeHint}
+        </p>
       ) : null}
 
       {exportError ? (
@@ -188,7 +191,9 @@ export function ToolEditorLayout({
             "lg:block",
           )}
         >
-          {form}
+          <div className="min-w-0 space-y-5 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.04] to-white p-4 md:p-6">
+            {form}
+          </div>
         </div>
 
         <div

@@ -17,6 +17,11 @@ import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { PlatformOperatorCard } from "@/components/platform/PlatformOperatorCard";
 import { isPlatformOperator } from "@/lib/platform/operator-nav";
 import { usePathname } from "@/i18n/navigation";
+import {
+  PUBLIC_CARD_TITLE_CLASS,
+  PUBLIC_PAGE_TITLE_CLASS,
+  PUBLIC_SECTION_TITLE_CLASS,
+} from "@/lib/constants/public-type";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 export function HubDashboard() {
@@ -47,13 +52,11 @@ export function HubDashboard() {
     roles.includes("local_president") && !isOfficerHubPublic();
 
   return (
-    <div>
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
-            {t("dashboard")}
-          </h1>
-          <p className="mt-1 text-sm text-gray-600 sm:text-base">
+    <div className="space-y-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("dashboard")}</h1>
+          <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600 sm:text-base">
             {t("welcome", {
               name: session.user.name ?? session.user.email ?? "",
             })}
@@ -61,71 +64,71 @@ export function HubDashboard() {
         </div>
         <Button
           variant="outline"
-          className="w-full sm:w-auto"
+          className="w-full shrink-0 sm:w-auto"
           onClick={() => signOut({ callbackUrl: "/" })}
         >
           {t("signOut")}
         </Button>
       </div>
 
-      {isPlatformOperator(roles) && (
-        <div className="mt-4">
-          <PlatformOperatorCard pathname={pathname} />
-        </div>
-      )}
+      {isPlatformOperator(roles) ? (
+        <PlatformOperatorCard pathname={pathname} />
+      ) : null}
 
-      {showSetupCard && (
-        <Card density="compact" className="mt-4 border-opseu-blue/30 bg-white">
-          <h2 className="text-lg font-semibold text-opseu-dark">
-            {t("setupCardTitle")}
-          </h2>
-          <p className="mt-1 text-sm text-gray-600">{t("setupCardBody")}</p>
-          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-            <Link
-              href="/app/onboarding"
-              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-4 text-sm font-medium text-white"
-            >
-              {t("setupCardOnboarding")}
-            </Link>
-            <Link
-              href="/app/invites"
-              className="inline-flex min-h-11 items-center justify-center rounded-lg border border-gray-300 px-4 text-sm font-medium text-opseu-dark"
-            >
-              {t("setupCardInvites")}
-            </Link>
-          </div>
-        </Card>
-      )}
+      <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+        {showSetupCard ? (
+          <Card density="compact" className="border-opseu-blue/30 bg-white md:col-span-2">
+            <h2 className={PUBLIC_CARD_TITLE_CLASS}>{t("setupCardTitle")}</h2>
+            <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
+              {t("setupCardBody")}
+            </p>
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+              <Link
+                href="/app/onboarding"
+                className="inline-flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-4 text-sm font-medium text-white"
+              >
+                {t("setupCardOnboarding")}
+              </Link>
+              <Link
+                href="/app/invites"
+                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-gray-300 px-4 text-sm font-medium text-opseu-dark"
+              >
+                {t("setupCardInvites")}
+              </Link>
+            </div>
+          </Card>
+        ) : null}
 
-      {tenant && (
-        <Card density="compact" className="mt-4">
-          <h2 className="text-sm font-medium text-gray-700">{t("tenantInfo")}</h2>
-          <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-sm sm:grid-cols-4">
-            <div>
-              <dt className="font-medium text-gray-500">{t("union")}</dt>
-              <dd>{tenant.union.name}</dd>
-            </div>
-            {tenant.division && (
+        {tenant ? (
+          <Card density="compact" className="md:col-span-2">
+            <h2 className="text-sm font-medium text-gray-700">{t("tenantInfo")}</h2>
+            <dl className="mt-3 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
               <div>
-                <dt className="font-medium text-gray-500">{t("division")}</dt>
-                <dd>{tenant.division.name}</dd>
+                <dt className="font-medium text-gray-500">{t("union")}</dt>
+                <dd className="mt-0.5 text-opseu-dark">{tenant.union.name}</dd>
               </div>
-            )}
-            {tenant.local && (
+              {tenant.division ? (
+                <div>
+                  <dt className="font-medium text-gray-500">{t("division")}</dt>
+                  <dd className="mt-0.5 text-opseu-dark">{tenant.division.name}</dd>
+                </div>
+              ) : null}
+              {tenant.local ? (
+                <div>
+                  <dt className="font-medium text-gray-500">{t("local")}</dt>
+                  <dd className="mt-0.5 text-opseu-dark">
+                    Local {tenant.local.localNumber} - {tenant.local.subText}
+                  </dd>
+                </div>
+              ) : null}
               <div>
-                <dt className="font-medium text-gray-500">{t("local")}</dt>
-                <dd>
-                  Local {tenant.local.localNumber} - {tenant.local.subText}
-                </dd>
+                <dt className="font-medium text-gray-500">{t("roles")}</dt>
+                <dd className="mt-0.5 text-opseu-dark">{roles.join(", ")}</dd>
               </div>
-            )}
-            <div>
-              <dt className="font-medium text-gray-500">{t("roles")}</dt>
-              <dd>{roles.join(", ")}</dd>
-            </div>
-          </dl>
-        </Card>
-      )}
+            </dl>
+          </Card>
+        ) : null}
+      </div>
 
       <HubOfficerToolsCatalog
         roles={roles}
@@ -133,47 +136,54 @@ export function HubDashboard() {
         mfaOk={mfaOk}
       />
 
-      <h2 className="mt-6 text-lg font-bold text-opseu-dark sm:text-xl">
-        {t("yourModules")}
-      </h2>
-      <div className="mt-3 grid gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 xl:grid-cols-4">
-        {modules.map((mod) => {
-          const locked = Boolean(mod.requiresMfa) && !mfaOk;
-          const href = mod.href;
-          return (
-            <Card
-              key={mod.id}
-              density="compact"
-              className={locked ? "opacity-60" : ""}
-            >
-              <CardTitle className="text-base">
-                <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
-              </CardTitle>
-              <p className="mt-1 text-xs text-gray-600 sm:text-sm">
-                {t(`modules.${mod.descriptionKey}`)}
-              </p>
-              {locked ? (
-                <Link
-                  href="/app/mfa"
-                  className="mt-2 inline-block text-sm text-opseu-blue underline"
-                >
-                  {t("mfaRequired")}
-                </Link>
-              ) : (
-                <Link
-                  href={href}
-                  className="mt-2 inline-block text-sm text-opseu-blue underline"
-                >
-                  {t("openModule")}
-                </Link>
-              )}
-            </Card>
-          );
-        })}
-      </div>
+      <section aria-labelledby="hub-modules-heading" className="space-y-4">
+        <h2 id="hub-modules-heading" className={PUBLIC_SECTION_TITLE_CLASS}>
+          {t("yourModules")}
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+          {modules.map((mod) => {
+            const locked = Boolean(mod.requiresMfa) && !mfaOk;
+            const href = mod.href;
+            return (
+              <Card
+                key={mod.id}
+                density="compact"
+                className={locked ? "opacity-60" : ""}
+              >
+                <CardTitle className={PUBLIC_CARD_TITLE_CLASS}>
+                  <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
+                </CardTitle>
+                <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                  {t(`modules.${mod.descriptionKey}`)}
+                </p>
+                {locked ? (
+                  <Link
+                    href="/app/mfa"
+                    className="mt-3 inline-block text-sm text-opseu-blue underline"
+                  >
+                    {t("mfaRequired")}
+                  </Link>
+                ) : (
+                  <Link
+                    href={href}
+                    className="mt-3 inline-block text-sm text-opseu-blue underline"
+                  >
+                    {t("openModule")}
+                  </Link>
+                )}
+              </Card>
+            );
+          })}
+        </div>
+      </section>
 
-      <MyTasksWidget />
-      <MyCheckinsWidget />
+      <section
+        aria-label={t("dashboard")}
+        className="grid gap-4 md:grid-cols-2 md:gap-5"
+      >
+        <MyTasksWidget />
+        <MyCheckinsWidget />
+      </section>
     </div>
   );
 }

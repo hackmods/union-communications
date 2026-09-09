@@ -62,6 +62,7 @@ export function CanvasSafeZoneOverlay({
   if (isZeroInsets(insets)) return null;
   return (
     <div
+      data-export-chrome=""
       className="pointer-events-none absolute border-2 border-dashed"
       style={{
         ...insetsToInsetStyle(insets),

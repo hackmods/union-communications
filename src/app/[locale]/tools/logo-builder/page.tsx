@@ -10,7 +10,6 @@ import { brandPaletteHasContrastRisk } from "@/lib/utils/ink";
 import { deriveAccentFromPrimary, getUnionPreset, resolvePresetLogos } from "@/lib/constants/unionPresets";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { LocalLogoPlate,
@@ -148,7 +147,7 @@ export default function LogoBuilderPage() {
       exportSuccess={exportSuccess}
       footer={<ToolRelatedFooter toolSlug="logo-builder" />}
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <section className="space-y-3">
           <Input
             label={tBuilder("localNumber")}
@@ -259,7 +258,7 @@ export default function LogoBuilderPage() {
             </Button>
           </div>
           </div>
-        </Card>
+        </div>
       }
       previewActions={
         <>

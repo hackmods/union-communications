@@ -61,7 +61,6 @@ import { BoardTrimCanvas } from "@/components/tools/board-banner/BoardTrimCanvas
 import { BoardBannerSheet } from "@/components/tools/board-banner/BoardBannerSheet";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
@@ -452,7 +451,7 @@ export default function BoardBannerPage() {
           ) : undefined
         }
         form={
-          <Card density="compact" className="space-y-5">
+          <div className="space-y-5">
             <section className="space-y-3">
               <SegControl
                 label={t("mode")}
@@ -709,7 +708,7 @@ export default function BoardBannerPage() {
                 </Button>
               </div>
             </div>
-          </Card>
+          </div>
         }
         previewActions={
           <>

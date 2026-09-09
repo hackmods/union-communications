@@ -51,9 +51,9 @@ export function MyCheckinsWidget() {
   if (!busy && pending.length === 0) return null;
 
   return (
-    <Card density="compact" className="mt-4">
+    <Card density="compact" className="h-full min-w-0">
       <div className="flex items-center justify-between gap-2">
-        <CardTitle className="text-base">{t("widgetTitle")}</CardTitle>
+        <CardTitle>{t("widgetTitle")}</CardTitle>
         <Link
           href="/app/checkins"
           className="text-sm text-opseu-blue underline"

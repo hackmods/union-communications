@@ -51,7 +51,6 @@ import {
 } from "@/lib/constants/meeting-background-presets";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -857,7 +856,7 @@ export default function MeetingBackgroundPage() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <section className="space-y-3">
             <div>
               <label
@@ -1076,7 +1075,7 @@ export default function MeetingBackgroundPage() {
               {exporting ? tc("exporting") : tc("downloadPng")}
             </Button>
           </div>
-        </Card>
+        </div>
       }
       previewActions={
         <Button

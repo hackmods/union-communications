@@ -10,6 +10,10 @@ import type { PortalSearchHit, StationPayload } from "@/types/portal";
 import { canCreateCircle } from "@/lib/portal/access";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 import type { UserRole } from "@/types/tenant";
+import {
+  PUBLIC_PAGE_TITLE_CLASS,
+  PUBLIC_SECTION_TITLE_CLASS,
+} from "@/lib/constants/public-type";
 
 export function PortalStation({ roles }: { roles: UserRole[] }) {
   const t = useTranslations("portal");
@@ -204,109 +208,124 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
-          {t("stationTitle")}
-        </h1>
-        <p className="mt-1 max-w-prose text-sm text-gray-600 sm:text-base">
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("stationTitle")}</h1>
+        <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600 sm:text-base">
           {t("stationSubtitle")}
         </p>
       </div>
 
       {hall ? (
-        <Card density="compact" className="flex flex-wrap items-center justify-between gap-3">
-          <p className="max-w-prose text-sm text-gray-700">
+        <Card
+          density="compact"
+          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <p className="max-w-prose text-sm leading-relaxed text-gray-700">
             {t("startHere", { hall: hall.name })}
           </p>
           <Link
             href={`/portal/circles/${hall.id}`}
-            className="inline-flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-4 text-sm font-semibold text-white hover:bg-opseu-dark"
+            className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-opseu-blue px-4 text-sm font-semibold text-white hover:bg-opseu-dark"
           >
             {t("openHall")}
           </Link>
         </Card>
       ) : null}
 
-      {digestBusy ? (
-        <Callout tone="muted">
-          {t("weekDigest", {
-            bulletin: station.weekDigest.bulletinPosts,
-            done: station.weekDigest.actionsCompleted,
-            floor: station.weekDigest.floorMessages,
-          })}
-        </Callout>
-      ) : null}
+      {(digestBusy || overdueTotal > 0 || station.dispatchUnread > 0) && (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {digestBusy ? (
+            <Callout tone="muted" className="sm:col-span-2 lg:col-span-1">
+              {t("weekDigest", {
+                bulletin: station.weekDigest.bulletinPosts,
+                done: station.weekDigest.actionsCompleted,
+                floor: station.weekDigest.floorMessages,
+              })}
+            </Callout>
+          ) : null}
 
-      {overdueTotal > 0 ? (
-        <Callout>{t("overdueBadge", { count: overdueTotal })}</Callout>
-      ) : null}
+          {overdueTotal > 0 ? (
+            <Callout>{t("overdueBadge", { count: overdueTotal })}</Callout>
+          ) : null}
 
-      {station.dispatchUnread > 0 ? (
-        <Callout>
-          <Link href="/portal/dispatch" className="font-medium text-opseu-dark hover:underline">
-            {t("dispatchUnread", { count: station.dispatchUnread })}
-          </Link>
-        </Callout>
-      ) : null}
+          {station.dispatchUnread > 0 ? (
+            <Callout>
+              <Link
+                href="/portal/dispatch"
+                className="font-medium text-opseu-dark hover:underline"
+              >
+                {t("dispatchUnread", { count: station.dispatchUnread })}
+              </Link>
+            </Callout>
+          ) : null}
+        </div>
+      )}
 
       <Card density="compact">
-        <h2 className="text-sm font-medium text-gray-700">{t("yourCircles")}</h2>
+        <h2 className={PUBLIC_SECTION_TITLE_CLASS}>{t("yourCircles")}</h2>
         {station.circles.length === 0 ? (
-          <p className="mt-3 text-sm text-gray-600">{t("emptyCircles")}</p>
+          <p className="mt-3 text-sm leading-relaxed text-gray-600">
+            {t("emptyCircles")}
+          </p>
         ) : (
-        <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-          {station.circles.map((c) => (
-            <li
-              key={c.id}
-              className="flex items-start justify-between gap-3 border-l-4 border-opseu-blue bg-white py-3 pl-4 pr-3 shadow-sm"
-            >
-              <div className="min-w-0">
-                <Link
-                  href={`/portal/circles/${c.id}`}
-                  className="font-semibold text-opseu-dark hover:underline"
-                >
-                  {c.name}
-                </Link>
-                <p className="text-sm text-gray-600">
-                  {t(`kind.${c.kind}`)}
-                  {!c.localId && c.kind !== "local_hall"
-                    ? ` · ${t("unionScopeBadge")}`
-                    : ""}
-                  {c.overdueActions > 0
-                    ? ` · ${t("overdueShort", { count: c.overdueActions })}`
-                    : ""}
-                  {c.dispatchUnread > 0
-                    ? ` · ${t("unreadShort", { count: c.dispatchUnread })}`
-                    : ""}
-                </p>
-                {c.description ? (
-                  <p className="mt-1 text-sm text-gray-500">{c.description}</p>
-                ) : null}
-              </div>
-              <button
-                type="button"
-                className="min-h-11 min-w-11 text-lg"
-                aria-label={
-                  c.membership.starred ? t("unstar") : t("star")
-                }
-                onClick={() => void toggleStar(c.id, c.membership.starred)}
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+            {station.circles.map((c) => (
+              <li
+                key={c.id}
+                className="flex items-start justify-between gap-3 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.03] to-white p-4"
               >
-                {c.membership.starred ? "★" : "☆"}
-              </button>
-            </li>
-          ))}
-        </ul>
+                <div className="min-w-0">
+                  <Link
+                    href={`/portal/circles/${c.id}`}
+                    className="font-semibold text-opseu-dark hover:underline"
+                  >
+                    {c.name}
+                  </Link>
+                  <p className="mt-1 text-sm text-gray-600">
+                    {t(`kind.${c.kind}`)}
+                    {!c.localId && c.kind !== "local_hall"
+                      ? ` · ${t("unionScopeBadge")}`
+                      : ""}
+                    {c.overdueActions > 0
+                      ? ` · ${t("overdueShort", { count: c.overdueActions })}`
+                      : ""}
+                    {c.dispatchUnread > 0
+                      ? ` · ${t("unreadShort", { count: c.dispatchUnread })}`
+                      : ""}
+                  </p>
+                  {c.description ? (
+                    <p className="mt-1 text-sm leading-relaxed text-gray-500">
+                      {c.description}
+                    </p>
+                  ) : null}
+                </div>
+                <button
+                  type="button"
+                  className="min-h-11 min-w-11 shrink-0 text-lg"
+                  aria-label={
+                    c.membership.starred ? t("unstar") : t("star")
+                  }
+                  onClick={() => void toggleStar(c.id, c.membership.starred)}
+                >
+                  {c.membership.starred ? "★" : "☆"}
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
       </Card>
 
       {allowCreate ? (
         <Card density="compact">
-          <form onSubmit={createCircle} className="flex flex-wrap items-end gap-2">
+          <form
+            onSubmit={createCircle}
+            className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end"
+          >
             <label className="text-sm">
               {t("templateLabel")}
               <select
-                className="mt-1 block min-h-11 rounded-lg border border-gray-300 px-2"
+                className="mt-1 block min-h-11 w-full rounded-lg border border-gray-300 px-2 sm:w-auto"
                 value={template}
                 onChange={(e) =>
                   setTemplate(e.target.value as typeof template)
@@ -322,7 +341,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t("newCirclePlaceholder")}
-              className="min-h-11 min-w-[12rem] flex-1 rounded-lg border border-gray-300 px-3"
+              className="min-h-11 min-w-0 flex-1 rounded-lg border border-gray-300 px-3 sm:min-w-[12rem]"
               aria-label={t("newCirclePlaceholder")}
             />
             <Button type="submit" disabled={creating || !name.trim()}>
@@ -338,7 +357,9 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
               {t("unionScopeLabel")}
             </label>
             {unionScope ? (
-              <p className="w-full text-sm text-gray-600">{t("unionScopeHint")}</p>
+              <p className="w-full text-sm leading-relaxed text-gray-600">
+                {t("unionScopeHint")}
+              </p>
             ) : null}
           </form>
           {createError ? (
@@ -349,15 +370,17 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
         </Card>
       ) : null}
 
-      <section className="grid gap-6 lg:grid-cols-3">
-        <Card density="compact">
-          <h2 className="text-sm font-medium text-gray-700">{t("upcomingTitle")}</h2>
-          <ul className="mt-2 space-y-2">
+      <section className="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
+        <Card density="compact" className="min-w-0">
+          <h2 className="text-sm font-medium text-gray-700">
+            {t("upcomingTitle")}
+          </h2>
+          <ul className="mt-3 space-y-2">
             {upcoming.length === 0 ? (
               <li className="text-sm text-gray-500">{t("upcomingEmpty")}</li>
             ) : (
               upcoming.map((ev) => (
-                <li key={ev.id} className="text-sm">
+                <li key={ev.id} className="text-sm leading-relaxed">
                   <Link
                     href={`/portal/circles/${ev.circleId}?tab=calendar`}
                     className="font-medium text-opseu-dark hover:underline"
@@ -372,14 +395,14 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
             )}
           </ul>
         </Card>
-        <Card density="compact">
+        <Card density="compact" className="min-w-0">
           <h2 className="text-sm font-medium text-gray-700">{t("myActions")}</h2>
-          <ul className="mt-2 space-y-2">
+          <ul className="mt-3 space-y-2">
             {station.myActions.length === 0 ? (
               <li className="text-sm text-gray-500">{t("emptyActions")}</li>
             ) : (
               station.myActions.map((a) => (
-                <li key={a.id} className="text-sm">
+                <li key={a.id} className="text-sm leading-relaxed">
                   <Link
                     href={`/portal/circles/${a.circleId}?tab=actions`}
                     className="font-medium text-opseu-dark hover:underline"
@@ -396,16 +419,16 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
             )}
           </ul>
         </Card>
-        <Card density="compact">
+        <Card density="compact" className="min-w-0 md:col-span-2 lg:col-span-1">
           <h2 className="text-sm font-medium text-gray-700">
             {t("recentBulletin")}
           </h2>
-          <ul className="mt-2 space-y-2">
+          <ul className="mt-3 space-y-2">
             {station.recentBulletin.length === 0 ? (
               <li className="text-sm text-gray-500">{t("emptyBulletin")}</li>
             ) : (
               station.recentBulletin.map((p) => (
-                <li key={p.id} className="text-sm">
+                <li key={p.id} className="text-sm leading-relaxed">
                   <Link
                     href={`/portal/circles/${p.circleId}?tab=bulletin`}
                     className="font-medium text-opseu-dark hover:underline"
