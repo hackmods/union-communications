@@ -7,6 +7,7 @@ import {
   type GuideCompositionPreset,
   type PageComposition,
 } from "@/lib/constants/page-composition";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import {
   GuideRelatedLinkList,
   type GuideRelatedLink,
@@ -84,7 +85,7 @@ export function GuideLayout({
 
   const headerBlock = (
     <header className={hub ? "max-w-3xl" : undefined}>
-      <h1 className="text-[clamp(1.5rem,1.25rem+1vw,1.875rem)] font-bold tracking-tight text-opseu-dark">
+      <h1 className={PUBLIC_PAGE_TITLE_CLASS}>
         {title}
       </h1>
       {subtitle && (

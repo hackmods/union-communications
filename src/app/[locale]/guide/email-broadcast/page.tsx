@@ -116,7 +116,7 @@ export default async function EmailBroadcastGuidePage({
         </GuideTipGrid>
         <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
-          <p className="mt-1 max-w-prose">{t("when.tip")}</p>
+          <p className="mt-1">{t("when.tip")}</p>
         </GuideCallout>
       </GuideSection>
 

@@ -10,6 +10,8 @@ import {
 } from "@/lib/constants/comms-sources";
 import { useBrandStore } from "@/store/brand-store";
 import { GuideAccentBlock } from "@/components/comms/GuideOutline";
+import { PUBLIC_SECTION_TITLE_CLASS } from "@/lib/constants/public-type";
+import { cn } from "@/lib/utils";
 
 const categoryOrder: CommsSourceCategory[] = [
   "branding",
@@ -34,8 +36,10 @@ export function ResourcesSourcesList() {
 
   return (
     <div className="mt-10">
-      <h2 className="text-xl font-bold text-opseu-dark">{t("allSources.title")}</h2>
-      <p className="mt-2 text-gray-600">{t("allSources.intro")}</p>
+      <h2 className={cn(PUBLIC_SECTION_TITLE_CLASS)}>
+        {t("allSources.title")}
+      </h2>
+      <p className="mt-2 max-w-prose text-gray-600">{t("allSources.intro")}</p>
       {showScopeNote && (
         <p className="mt-2 text-sm text-gray-600">
           {t("allSources.scopedNote")}{" "}
