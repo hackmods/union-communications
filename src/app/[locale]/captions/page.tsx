@@ -8,14 +8,23 @@ import {
   isCaptionTemplateId,
 } from "@/lib/constants/captions";
 import { copyToClipboard, cn } from "@/lib/utils";
-import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { PageShell } from "@/components/layout/PageShell";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
+import { GuideActionRow } from "@/components/comms/GuideSection";
+import { GuideCatalogCard } from "@/components/comms/GuideSurfaces";
+import {
+  guideCtaClassSm,
+  guideCtaOutlineClassSm,
+} from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
+import {
+  PUBLIC_CARD_TITLE_CLASS,
+  PUBLIC_PAGE_TITLE_CLASS,
+} from "@/lib/constants/public-type";
 
 function resolveCaptionId(searchParams: URLSearchParams): string | null {
   const id = searchParams.get("caption");
@@ -62,14 +71,12 @@ function CaptionsPageContent() {
       {inDemo ? (
         <WorkshopDemoPath variant="trail" className="mb-4" />
       ) : null}
-      <header className="max-w-3xl lg:max-w-none">
-        <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
-          {tc("title")}
-        </h1>
-        <p className="mt-2 max-w-prose text-gray-600 lg:max-w-3xl">{tc("subtitle")}</p>
+      <header>
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{tc("title")}</h1>
+        <p className="mt-2 max-w-prose text-gray-600">{tc("subtitle")}</p>
       </header>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {CAPTION_TEMPLATES.map((template) => {
           const category = tc(`templates.${template.id}.category`);
           const title = tc(`templates.${template.id}.title`);
@@ -80,21 +87,23 @@ function CaptionsPageContent() {
           const fullText = `${caption}\n\n${template.hashtags.join(" ")}`;
           const highlighted = highlightId === template.id;
           return (
-            <Card
+            <li
               key={template.id}
               id={`caption-${template.id}`}
-              density="compact"
               className={cn(
-                "scroll-mt-24 transition-shadow",
-                highlighted && "ring-2 ring-opseu-blue shadow-md",
+                "min-w-0 scroll-mt-24 border-l-2 border-opseu-blue/30 bg-white pl-4 pr-1 py-1 transition-shadow sm:pl-5",
+                highlighted &&
+                  "rounded-r-lg bg-opseu-blue/[0.04] ring-2 ring-opseu-blue shadow-sm",
               )}
             >
               <div className="flex items-start justify-between gap-3 sm:gap-4">
                 <div className="min-w-0">
-                  <span className="text-xs font-medium uppercase text-opseu-blue">
+                  <span className="text-xs font-medium uppercase tracking-wide text-opseu-blue">
                     {category}
                   </span>
-                  <CardTitle className="mt-0.5 text-base">{title}</CardTitle>
+                  <h2 className={cn(PUBLIC_CARD_TITLE_CLASS, "mt-0.5")}>
+                    {title}
+                  </h2>
                 </div>
                 <Button
                   size="sm"
@@ -105,51 +114,62 @@ function CaptionsPageContent() {
                   {copiedId === template.id ? t("copied") : t("copy")}
                 </Button>
               </div>
-              <pre className="mt-2 whitespace-pre-wrap font-sans text-sm text-gray-700">
+              <pre className="mt-2 max-w-prose whitespace-pre-wrap font-sans text-sm leading-relaxed text-gray-700">
                 {caption}
               </pre>
               <p className="mt-1.5 text-sm text-opseu-blue">
                 {template.hashtags.join(" ")}
               </p>
-            </Card>
+            </li>
           );
         })}
-      </div>
+      </ul>
 
-      <div className="mt-10 max-w-prose border-t border-gray-200 pt-6">
+      <div className="mt-10 border-t border-gray-200 pt-6">
         {inDemo ? (
           <>
-            <p className="text-sm text-gray-600">{td("done")}</p>
-            <p className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+            <p className="max-w-prose text-sm text-gray-600">{td("done")}</p>
+            <GuideActionRow>
               <Link
                 href="/guide/social-media-plan"
-                className="text-sm font-medium text-opseu-blue underline-offset-2 hover:underline"
+                className={guideCtaOutlineClassSm}
               >
-                {td("openRoadmap")}
+                {td("openRoadmap")} →
               </Link>
-            </p>
+            </GuideActionRow>
           </>
         ) : (
-          <>
-            <p className="text-sm text-gray-600">{tc("graphicMakerHint")}</p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              <Link href="/tools/graphic-maker">
-                <Button variant="outline">{tc("graphicMakerCta")}</Button>
-              </Link>
-              <Link href="/guide/short-form">
-                <Button variant="outline">{nav("shortFormGuide")}</Button>
-              </Link>
-            </div>
-            <p className="mt-4 text-sm text-gray-600">
-              {tc("examplesPrompt")}{" "}
-              <Link
-                href="/examples"
-                className="font-medium text-opseu-blue underline underline-offset-2 hover:underline"
-              >
-                {tc("examplesLink")}
-              </Link>
-            </p>
-          </>
+          <ul className="grid list-none gap-6 p-0 sm:grid-cols-2">
+            <GuideCatalogCard
+              title={tc("graphicMakerCta")}
+              body={tc("graphicMakerHint")}
+              action={
+                <>
+                  <Link
+                    href="/tools/graphic-maker"
+                    className={guideCtaClassSm}
+                  >
+                    {tc("graphicMakerCta")} →
+                  </Link>
+                  <Link
+                    href="/guide/short-form"
+                    className={guideCtaOutlineClassSm}
+                  >
+                    {nav("shortFormGuide")} →
+                  </Link>
+                </>
+              }
+            />
+            <GuideCatalogCard
+              title={tc("examplesLink")}
+              body={tc("examplesPrompt")}
+              action={
+                <Link href="/examples" className={guideCtaOutlineClassSm}>
+                  {tc("examplesLink")} →
+                </Link>
+              }
+            />
+          </ul>
         )}
       </div>
     </ComposedPageLayout>

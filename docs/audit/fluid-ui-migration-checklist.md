@@ -1,6 +1,6 @@
 # Fluid UI migration checklist (in-scope)
 
-**Status:** Active — Batches 1–8 shipped 2026-09-08; pause for approval before Batch 9.  
+**Status:** Active — Batches 1–9 shipped 2026-09-08; pause for approval before Batch 10 (complex).  
 **Standards:** [`.cursor/rules/guide-layout-standards.mdc`](../../.cursor/rules/guide-layout-standards.mdc), [`responsive-layouts.mdc`](../../.cursor/rules/responsive-layouts.mdc), [`public-marketing-ux.mdc`](../../.cursor/rules/public-marketing-ux.mdc).  
 **Shared type tokens:** [`src/lib/constants/public-type.ts`](../../src/lib/constants/public-type.ts).  
 **Shared catalog rail:** [`src/components/comms/CatalogStartHerePanel.tsx`](../../src/components/comms/CatalogStartHerePanel.tsx).  
@@ -12,6 +12,7 @@
 - [x] `/guide` Blueprint + playbook/hub densification (Batches 1–5)
 - [x] Public title tokens + examples/updates/manifesto family (Batches 6–7)
 - [x] `/guides` + `/tools` shared start-here + fluid titles (Batch 8)
+- [x] `/captions` + `/onboarding` fluid catalog / stepped hub (Batch 9)
 - [x] Most playbook shells on `guide-ui` barrel (GB-001/008)
 
 ---
@@ -28,8 +29,8 @@
 |----|---------|---------------|--------|--------|
 | M13 | `/guides` catalog | Local `StartHerePanel`; sparse lists | Shared catalog + fluid title | **Done** B8 |
 | M14 | `/tools` catalog | Duplicate start-here; sparse groups | Align with `/guides` | **Done** B8 |
-| M15 | `/captions` | Rigid h1; Card templates | Fluid title + catalog pattern | |
-| M16 | `/onboarding` | Sparse Card wizard | Stepped hub chrome + fluid title | |
+| M15 | `/captions` | Rigid h1; Card templates | Fluid title + catalog pattern | **Done** B9 |
+| M16 | `/onboarding` | Sparse Card wizard | Stepped hub chrome + fluid title | **Done** B9 |
 
 ## Complex remaining
 
@@ -43,8 +44,8 @@
 
 ## Batch plan
 
-1. ~~Batches 1–8~~  
-2. **Batch 9 (next):** M15 captions + M16 onboarding  
-3. **Batch 10+:** Complex C1–C5
+1. ~~Batches 1–9~~  
+2. **Batch 10 (next):** Complex C1 workplace-mapping + C2 union-history  
+3. **Batch 11+:** C3 steward-101, C4 steward-playbooks, C5 brand-kit
 
 Pause for approval between batches.

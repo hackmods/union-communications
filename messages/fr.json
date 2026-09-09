@@ -3651,6 +3651,8 @@
   "onboarding": {
     "title": "Configurer la marque de votre section",
     "subtitle": "Trois étapes rapides : détails de la section, couleurs et logo. Ensuite, chaque outil Comms exporte avec votre section.",
+    "progressLabel": "Progression de la configuration",
+    "stepOf": "Étape {step} sur {total}",
     "step1": "Détails de la section",
     "step2": "Couleurs",
     "step3": "Choisissez votre logo",
