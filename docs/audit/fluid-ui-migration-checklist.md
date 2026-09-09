@@ -4,7 +4,8 @@
 **Standards:** [`.cursor/rules/guide-layout-standards.mdc`](../../.cursor/rules/guide-layout-standards.mdc), [`responsive-layouts.mdc`](../../.cursor/rules/responsive-layouts.mdc), [`public-marketing-ux.mdc`](../../.cursor/rules/public-marketing-ux.mdc).  
 **Shared type tokens:** [`src/lib/constants/public-type.ts`](../../src/lib/constants/public-type.ts).  
 **Shared catalog rail:** [`src/components/comms/CatalogStartHerePanel.tsx`](../../src/components/comms/CatalogStartHerePanel.tsx).  
-**Out of scope (intentionally not migrated):** Officer Learning dark shell; `/privacy` `/security` `/accessibility`; canvas/`ToolEditorLayout` interiors and tool form Cards; PDF export; Hub `/app/**` + Portal `/portal/**` (deferred product decision). Website guide `PartFrame` remains an accepted exception per guide-layout-standards.
+**Out of scope (intentionally not migrated):** Officer Learning dark shell; `/privacy` `/security` `/accessibility`; canvas/`ToolEditorLayout` interiors and tool form Cards; PDF export; Hub `/app/**` + Portal `/portal/**` (deferred product decision). Website guide `PartFrame` remains an accepted exception per guide-layout-standards.  
+**Session lessons + QOL gaps:** [`session-knowledge-2026-09-08-fluid-ui-migration.md`](session-knowledge-2026-09-08-fluid-ui-migration.md).
 
 ## Done (reference)
 
