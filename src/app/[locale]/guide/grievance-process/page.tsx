@@ -20,6 +20,7 @@ import {
   GuideSection,
   GuideTipGrid,
   GuideTipItem,
+  GuideWideFigure,
 } from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
@@ -514,38 +515,38 @@ function ForumFlowFigure({
   items: { key: string; label: string; content: string }[];
 }) {
   return (
-    <figure className="mt-5 max-w-prose rounded-xl border border-gray-200 bg-gray-50/80 p-4 md:p-5">
-      <figcaption className="text-sm font-semibold text-opseu-dark">
-        {title}
-      </figcaption>
-      <p className="mt-1 text-sm text-gray-600">{caption}</p>
-      <ol className="mt-4 space-y-0">
-        {items.map((item, index) => (
-          <li key={item.key} className="relative flex gap-3 pb-4 last:pb-0">
-            <div className="flex shrink-0 flex-col items-center">
-              <span
-                className="flex size-7 items-center justify-center rounded-full bg-opseu-blue text-xs font-bold text-white"
-                aria-hidden="true"
-              >
-                {index + 1}
-              </span>
-              {index < items.length - 1 ? (
+    <GuideWideFigure>
+      <div className="rounded-xl border border-gray-200 bg-gray-50/80 p-4 md:p-5">
+        <p className="text-sm font-semibold text-opseu-dark">{title}</p>
+        <p className="mt-1 text-sm text-gray-600">{caption}</p>
+        <ol className="mt-4 space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0 lg:grid-cols-3">
+          {items.map((item, index) => (
+            <li key={item.key} className="relative flex gap-3 pb-4 last:pb-0 sm:pb-0">
+              <div className="flex shrink-0 flex-col items-center">
                 <span
-                  className="mt-1 w-px flex-1 bg-opseu-blue/25"
+                  className="flex size-7 items-center justify-center rounded-full bg-opseu-blue text-xs font-bold text-white"
                   aria-hidden="true"
-                />
-              ) : null}
-            </div>
-            <div className="min-w-0 pb-1">
-              <p className="font-semibold text-opseu-dark">{item.label}</p>
-              <p className="mt-1 text-sm leading-relaxed text-gray-700">
-                {item.content}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </figure>
+                >
+                  {index + 1}
+                </span>
+                {index < items.length - 1 ? (
+                  <span
+                    className="mt-1 w-px flex-1 bg-opseu-blue/25 sm:hidden"
+                    aria-hidden="true"
+                  />
+                ) : null}
+              </div>
+              <div className="min-w-0 pb-1">
+                <p className="font-semibold text-opseu-dark">{item.label}</p>
+                <p className="mt-1 text-sm leading-relaxed text-gray-700">
+                  {item.content}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </GuideWideFigure>
   );
 }
 
@@ -559,49 +560,51 @@ function ExampleStepsTable({
   rows: { key: string; step: string; ft: string; pt: string }[];
 }) {
   return (
-    <figure className="mt-5 max-w-2xl overflow-x-auto">
-      <table className="w-full min-w-[20rem] border-collapse text-sm">
-        <caption className="mb-3 caption-top text-left text-sm text-gray-600">
-          {caption}
-        </caption>
-        <thead>
-          <tr className="border-b border-gray-200 bg-gray-50">
-            <th
-              scope="col"
-              className="px-3 py-2 text-left font-semibold text-opseu-dark"
-            >
-              {headers.step}
-            </th>
-            <th
-              scope="col"
-              className="px-3 py-2 text-left font-semibold text-opseu-dark"
-            >
-              {headers.ft}
-            </th>
-            <th
-              scope="col"
-              className="px-3 py-2 text-left font-semibold text-opseu-dark"
-            >
-              {headers.pt}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.key} className="border-b border-gray-100">
+    <GuideWideFigure>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[20rem] border-collapse text-sm">
+          <caption className="mb-3 caption-top text-left text-sm text-gray-600">
+            {caption}
+          </caption>
+          <thead>
+            <tr className="border-b border-gray-200 bg-gray-50">
               <th
-                scope="row"
-                className="px-3 py-2 font-medium text-opseu-dark"
+                scope="col"
+                className="px-3 py-2 text-left font-semibold text-opseu-dark"
               >
-                {row.step}
+                {headers.step}
               </th>
-              <td className="px-3 py-2 text-gray-700">{row.ft}</td>
-              <td className="px-3 py-2 text-gray-700">{row.pt}</td>
+              <th
+                scope="col"
+                className="px-3 py-2 text-left font-semibold text-opseu-dark"
+              >
+                {headers.ft}
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-2 text-left font-semibold text-opseu-dark"
+              >
+                {headers.pt}
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </figure>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.key} className="border-b border-gray-100">
+                <th
+                  scope="row"
+                  className="px-3 py-2 font-medium text-opseu-dark"
+                >
+                  {row.step}
+                </th>
+                <td className="px-3 py-2 text-gray-700">{row.ft}</td>
+                <td className="px-3 py-2 text-gray-700">{row.pt}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </GuideWideFigure>
   );
 }
 
@@ -611,7 +614,7 @@ function ChecklistFigure({
   items: { key: string; label: string; content: string }[];
 }) {
   return (
-    <ul className="mt-4 divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white">
+    <ul className="mt-4 grid gap-0 divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white sm:grid-cols-2 sm:divide-x sm:divide-y-0">
       {items.map((item) => (
         <li key={item.key} className="flex gap-3 px-4 py-3">
           <span
@@ -620,7 +623,7 @@ function ChecklistFigure({
             )}
             aria-hidden="true"
           />
-          <div className="min-w-0 max-w-prose leading-relaxed">
+          <div className="min-w-0 leading-relaxed">
             <span className="font-semibold text-opseu-dark">{item.label}.</span>{" "}
             <span className="text-gray-700">{item.content}</span>
           </div>

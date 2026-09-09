@@ -1,6 +1,6 @@
 # Fluid UI migration checklist (in-scope)
 
-**Status:** Active — Batches 1–3 shipped 2026-09-08; pause for approval before Batch 4.  
+**Status:** Active — Batches 1–4 shipped 2026-09-08; pause for approval before Batch 5.  
 **Standards:** [`.cursor/rules/guide-layout-standards.mdc`](../../.cursor/rules/guide-layout-standards.mdc), [`responsive-layouts.mdc`](../../.cursor/rules/responsive-layouts.mdc), [`public-marketing-ux.mdc`](../../.cursor/rules/public-marketing-ux.mdc).  
 **Out of scope:** Officer Learning dark shell; `/privacy` `/security` `/accessibility`; canvas/`ToolEditorLayout` interiors; PDF export; Hub `/app/**` + Portal `/portal/**` (deferred product decision).
 
@@ -19,10 +19,10 @@
 
 | ID | Surface | Legacy signal | Target | Status |
 |----|---------|---------------|--------|--------|
-| S1 | `Steward101ModuleNav.tsx` | Raw `Callout` | `GuideCallout` | |
+| S1 | `Steward101ModuleNav.tsx` | Raw `Callout` | `GuideCallout` | Done B4 |
 | S2 | `/guide/email-broadcast` | Inner prose pins in callouts | Rely on `GuideCallout` measure | |
 | S3 | `/guide/union-boards` | `p.max-w-prose` inside accents | Drop redundant pins | |
-| S4 | `/guide/website` CTAs only | `button-row max-w-lg` | `GuideActionRow` (keep `PartFrame`) | |
+| S4 | `/guide/website` CTAs only | `button-row max-w-lg` | `GuideActionRow` (keep `PartFrame`) | Done B4 |
 | S5 | `ResourcesSourcesList` heading | Rigid `text-xl` | Fluid clamp token | |
 | S6 | `/examples` title + footer prompts | Rigid h1; prose link dump | Fluid title; `GuideLinkCluster` | |
 | S7 | `/updates` (`UpdatesContent`) | Rigid h1; raw Callout empty | Fluid title + marketing empty state | |
@@ -41,7 +41,7 @@
 | M7 | `/guide/joint-committee` `fullScenario` | same | same | Done B3 |
 | M8 | `/guide/running-meetings` | Agenda/motion pins; narrow diagrams | Outline/bullet + `GuideWideFigure` | Done B3 |
 | M9 | `/guide/bylaws` | Committee steps + figure pins | Outline + `GuideWideFigure` | Done B3 |
-| M10 | `/guide/grievance-process` | Local `ForumFlowFigure` `max-w-prose` | `GuideWideFigure` | |
+| M10 | `/guide/grievance-process` | Local `ForumFlowFigure` `max-w-prose` | `GuideWideFigure` | Done B4 |
 | M11 | `/guide/resources` | Hand-rolled link grids / middot explore | `GuideLinkCluster` / catalog | |
 | M12 | `/guide/short-form` | `Card` editor grid; `max-w-md` figure | Catalog cards + `GuideWideFigure` | |
 | M13 | `/guides` catalog | Local `StartHerePanel`; sparse lists | Shared catalog + fluid title | |
@@ -64,8 +64,8 @@
 1. ~~Batch 1~~ — M1/M2/M5 bargaining, crisis, dfr  
 2. ~~Batch 2~~ — M3/M4/M6 strike, photo-consent, right-to-refuse  
 3. ~~Batch 3~~ — M7/M8/M9 joint-committee, running-meetings, bylaws  
-4. **Batch 4 (next):** M10 grievance-process + S1 Steward101ModuleNav + S4 website CTA (or M10 + M11 + S2)  
-5. **Batch 5:** Guide hubs M11–M12, C4 + Simple S1–S5  
-6. **Batch 6+:** Catalog/marketing M13–M16, S6–S8, complex C1–C3, C5
+4. ~~Batch 4~~ — M10 grievance-process + S1 Steward101ModuleNav + S4 website CTA  
+5. **Batch 5 (next):** M11 resources + M12 short-form + S2/S3/S5 simple polish  
+6. **Batch 6+:** Catalog/marketing M13–M16, S6–S8, complex C1–C5
 
 Pause for approval between batches.

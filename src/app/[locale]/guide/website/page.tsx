@@ -284,11 +284,11 @@ export default async function WebsiteGuidePage({
           <GuideCallout tone="success" className="mt-4">
             {t("build.done")}
           </GuideCallout>
-          <div className="button-row mt-6 max-w-lg">
+          <GuideActionRow className="mt-6">
             <Link href="/tools/website-template" className={guideCtaClass}>
               {t("build.cta")}
             </Link>
-          </div>
+          </GuideActionRow>
         </section>
       </PartFrame>
 
@@ -484,7 +484,7 @@ export default async function WebsiteGuidePage({
         </ul>
       </section>
 
-      <div className="button-row mt-10 max-w-2xl">
+      <GuideActionRow className="mt-10">
         <Link href="/brand-kit" className={guideCtaOutlineClass}>
           {nav("brandKit")}
         </Link>
@@ -494,7 +494,7 @@ export default async function WebsiteGuidePage({
         <Link href="/guide/social-media-plan" className={guideCtaOutlineClass}>
           {nav("firstWeek")}
         </Link>
-      </div>
+      </GuideActionRow>
     </GuideLayout>
   );
 }

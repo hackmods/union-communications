@@ -1,4 +1,4 @@
-import { Callout } from "@/components/ui/Callout";
+import { GuideCallout } from "@/components/comms/GuideSurfaces";
 import { cn } from "@/lib/utils";
 
 export type Steward101ModuleNavItem = {
@@ -26,11 +26,13 @@ export function Steward101ModuleNav({
   className,
 }: Steward101ModuleNavProps) {
   return (
-    <div className={cn("mb-8 max-w-3xl", className)}>
-      <Callout tone="brand" className="mb-5">
+    <div className={cn("mb-8 min-w-0", className)}>
+      <GuideCallout tone="brand" className="mb-5" measure="fill">
         <p className="font-semibold text-opseu-dark">{timeBudgetTitle}</p>
-        <p className="mt-2 leading-relaxed text-gray-700">{timeBudgetBody}</p>
-      </Callout>
+        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
+          {timeBudgetBody}
+        </p>
+      </GuideCallout>
 
       <nav aria-label={ariaLabel}>
         <ol className="grid gap-3 sm:grid-cols-2">
@@ -38,7 +40,7 @@ export function Steward101ModuleNav({
             <li key={module.href}>
               <a
                 href={module.href}
-                className="flex h-full min-h-11 flex-col rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+                className="flex h-full min-h-11 flex-col border-l-2 border-opseu-blue/30 bg-white py-3 pl-4 transition-colors hover:border-opseu-blue hover:bg-opseu-blue/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
               >
                 <span className="flex items-center gap-2">
                   <span
@@ -47,8 +49,10 @@ export function Steward101ModuleNav({
                   >
                     {module.number}
                   </span>
-                  <span className="font-semibold text-opseu-dark">{module.title}</span>
-                  <span className="ml-auto rounded-full bg-gray-100 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-gray-600">
+                  <span className="font-semibold text-opseu-dark">
+                    {module.title}
+                  </span>
+                  <span className="ml-auto text-[0.65rem] font-semibold uppercase tracking-wide text-gray-600">
                     {module.time}
                   </span>
                 </span>
