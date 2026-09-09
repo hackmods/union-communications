@@ -908,3 +908,20 @@ Added 2026-07-23. Question posed: once the `SEC-`/`RBAC-`/`FEAT-`/`FUTURE-` item
 5. Export a submission-ready package for the officer to hand off to the parent union's actual expense system: an itemized report (PDF/XLSX via the existing `docx`/`docxtemplater`/`exceljs` stack, matching the pattern already used for Time CSV / RSVP XLSX exports) plus receipt attachments bundled into a ZIP (`jszip`, already a dependency — same pattern as the Hybrid export bundle and `src/lib/templates/website/generate-website-zip.ts`). ✅ PDF/XLSX + real receipt ZIP
 6. **Do not** attempt direct API integration with any parent union's expense/ERP system (SAP-family or otherwise) — that is squarely `ORG-007`'s Non-Goal territory ("replacing national union ERP/HR systems"). The scope here is strictly "organize what that system will need," never "talk to that system," consistent with `docs/VISION.md`'s "fills the gap without replacing national union systems" framing. ✅
 7. RBAC: claimant can create/edit their own `TravelAuthorization`/`ExpenseClaim` while in draft; approval, advance issuance, and marking-reconciled are elevated-role actions — reuse the same gating pattern as `canManageQolContent` (`src/lib/qol/access.ts`). ✅ (money actions use ledger/treasurer gate)
+
+---
+
+## OPS (OPS-) � post-audit additions
+
+### [OPS-001] ? CLOSED (2026-09-08)
+**Category:** Ops / observability
+**Severity/Priority:** Medium
+**Status:** Closed � CapRover-togglable Sentry (errors-only, tunnel `/monitoring`) + server JSONL with rotation; health `observability` flags; critical-path reporting; CI/Docker optional `SENTRY_AUTH_TOKEN` / `NEXT_PUBLIC_SENTRY_DSN`. ADR-006 amended. Spec: `docs/modules/OBSERVABILITY.md`; narrative: `docs/audit/session-knowledge-2026-09-08-sentry-observability.md`. Commits `86d7a48`, `84d2287`.
+**Problem/Gap Statement:** Production hosts had no structured error sink (neither cloud Issues nor durable on-host JSONL), and ADR-006 made ad-hoc analytics/Sentry easy to mis-add.
+**Affected Architecture/Files:** `src/lib/observability/**`, `src/instrumentation*.ts`, `src/sentry.*.config.ts`, `next.config.ts`, `src/proxy.ts`, `src/lib/ops/health-status.ts`, `.github/workflows/ci.yml`, `docker/Dockerfile`
+**Implementation Blueprint:**
+1. Env-gated Sentry + file sinks (defaults off); no Session Replay. ?
+2. Same-origin tunnel; proxy exclude `monitoring`. ?
+3. Health + boot misconfig warns; rotate JSONL. ?
+4. Wire critical Hub API/email + route error boundaries. ?
+5. Document operator + agent knowledge surfaces. ?
