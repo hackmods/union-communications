@@ -16,7 +16,7 @@ Standards: [`.cursor/rules/guide-layout-standards.mdc`](../.cursor/rules/guide-l
 | ID | Priority | Area | Status | Notes |
 |----|----------|------|--------|-------|
 | **GB-001** | P1 | Architecture | **Done** | Public guide pages + land-ack body import from `guide-ui` only. |
-| **GB-002** | P1 | Measure / rhythm | **Done** | `Callout` `measure` + `GuideCallout` (prose default); guide pages migrated off ad-hoc `max-w-prose` on callouts. |
+| **GB-002** | P1 | Measure / rhythm | **Done** | `Callout` `measure` + `GuideCallout` (prose default); guide pages migrated off ad-hoc `max-w-prose` on callouts. Follow-up 2026-09-08: Blueprint strike promo → `GuideSpotlightBand`; related guides → `GuideLinkCluster` / `GuideLinkList`. |
 | **GB-003** | P1 | Steward-101 | **Done** | DFR tips → `GuideBulletList`; callouts → `GuideCallout` inside training phases. |
 | **GB-004** | P1 | Workshops hub | **Done** | `/guide/workshops` → `GuideCatalogCard`. |
 | **GB-005** | P1 | A11y / TOC | **Done** | `useGuideTocActiveId` + `GuidePlaybookToc` wired from `GuideLayout`. |

@@ -1,5 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
 import { Callout } from "@/components/ui/Callout";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 type GuideCalloutProps = ComponentProps<typeof Callout>;
@@ -88,5 +89,71 @@ export function GuideCatalogCard({
       {meta ? <div className="mt-1 text-sm text-gray-600">{meta}</div> : null}
       <div className="button-row mt-4">{action}</div>
     </li>
+  );
+}
+
+type GuideLinkClusterProps = {
+  title: string;
+  children: ReactNode;
+  headerAction?: ReactNode;
+  className?: string;
+  titleAs?: "h2" | "h3";
+};
+
+/**
+ * Hub link cluster — related-guide groups and similar.
+ * Prefer over Callout + inline · separators for multi-link discovery.
+ */
+export function GuideLinkCluster({
+  title,
+  children,
+  headerAction,
+  className,
+  titleAs = "h2",
+}: GuideLinkClusterProps) {
+  const Title = titleAs;
+  return (
+    <li
+      className={cn(
+        "min-w-0 border-l-2 border-opseu-blue/30 pl-5",
+        className,
+      )}
+    >
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-2">
+        <Title className="text-[clamp(1.125rem,1.05rem+0.35vw,1.25rem)] font-bold text-opseu-dark">
+          {title}
+        </Title>
+        {headerAction}
+      </div>
+      <div className="mt-3">{children}</div>
+    </li>
+  );
+}
+
+type GuideLinkListProps = {
+  links: { href: string; label: string }[];
+  className?: string;
+};
+
+/** Stacked discovery links for GuideLinkCluster (fills the column at sm+). */
+export function GuideLinkList({ links, className }: GuideLinkListProps) {
+  return (
+    <ul
+      className={cn(
+        "grid gap-1 sm:grid-cols-2 sm:gap-x-4 sm:gap-y-1",
+        className,
+      )}
+    >
+      {links.map((link) => (
+        <li key={link.href}>
+          <Link
+            href={link.href}
+            className="inline-flex min-h-11 items-center font-medium text-opseu-blue underline-offset-2 hover:text-opseu-dark hover:underline"
+          >
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }

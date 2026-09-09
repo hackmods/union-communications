@@ -18,7 +18,8 @@ Import from `@/components/comms/guide-ui` only for public guide pages (no dual `
 | `GuideSection` + children | Chapter body inside the article column |
 | `GuideOutlineStep` / `GuideOutlineList` | Numbered workshop / first-week roadmap steps (not anonymous `border-l` `<li>`s) |
 | `GuideCatalogCard` | Workshops hub (and similar) catalog rows |
-| `GuideSpotlightBand` | Demo / highlight bands (comms workshop Demo Path) |
+| `GuideLinkCluster` / `GuideLinkList` | Related-guide discovery clusters (not Callout · middot rows) |
+| `GuideSpotlightBand` | Demo / highlight bands (comms workshop Demo Path; blueprint strike promo) |
 | `GuideAccentBlock` | Nested h3/h4 accent strips inside a chapter |
 | `GuideWorkshopNote` | Facilitator / attendee workshop callouts |
 | `GuideCallout` | Notes inside guides (`measure="prose"` default; `fill` for full column) |

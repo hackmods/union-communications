@@ -283,6 +283,7 @@
     "brandRailDesc": "Colours, logo, and key links for every graphic. Browse the reference asset pack when you need starter files.",
     "privacyNote": "Your Comms work never leaves your browser. Host an Officer Hub and you control who can see that data.",
     "privacyNoteCommsOnly": "Your Comms work never leaves your browser. Your graphics and Brand Kit stay on your device.",
+    "workshopBandLabel": "Workshop demo path",
     "trustBanner": "Private by design. Your Comms work never leaves your browser. If you host the Officer Hub, you control who can see that data.",
     "trustBannerCommsOnly": "Private by design. Your Comms work never leaves your browser. No ads, no tracking, and nobody harvesting your data.",
     "trustManifestoLink": "Our promise",
@@ -7423,6 +7424,10 @@
       "opseu-ontario-union-lockup": {
         "title": "Current OPSEU / SEFPO lockup on Brand Assets",
         "body": "Download the Ontario's union / Le syndicat de l'Ontario wordmark with the other OPSEU / SEFPO blue files."
+      },
+      "home-hub-layout": {
+        "title": "Home and Blueprint discovery refresh",
+        "body": "The home toolkit paths and channel lists read clearer, and The Blueprint now opens strike work and related guides in the same hub layout as workshops."
       },
       "land-ack-workshops-hub": {
         "title": "Land acknowledgement how-to + workshops hub",

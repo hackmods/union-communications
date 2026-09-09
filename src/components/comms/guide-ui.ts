@@ -23,6 +23,8 @@ export {
   GuideCallout,
   GuideSpotlightBand,
   GuideCatalogCard,
+  GuideLinkCluster,
+  GuideLinkList,
 } from "@/components/comms/GuideSurfaces";
 export { GuideWideFigure } from "@/components/comms/GuideWideFigure";
 export {

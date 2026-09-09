@@ -283,6 +283,7 @@
     "brandRailDesc": "Couleurs, logo et liens clés pour chaque graphique. Consultez le pack d'actifs de référence pour des fichiers de départ.",
     "privacyNote": "Votre travail Comms ne quitte jamais votre navigateur. Hébergez un Hub des dirigeants et c’est vous qui contrôlez qui peut voir ces données.",
     "privacyNoteCommsOnly": "Votre travail Comms ne quitte jamais votre navigateur. Vos graphiques et votre Trousse de marque restent sur votre appareil.",
+    "workshopBandLabel": "Parcours démo d’atelier",
     "trustBanner": "Privé dès le départ. Votre travail Comms ne quitte jamais votre navigateur. Si vous hébergez le Hub des dirigeants, c’est vous qui contrôlez qui peut voir ces données.",
     "trustBannerCommsOnly": "Privé dès le départ. Votre travail Comms ne quitte jamais votre navigateur. Pas de pubs, pas de pistage, et personne qui récolte vos données.",
     "trustManifestoLink": "Notre promesse",
@@ -7370,6 +7371,10 @@
       "opseu-ontario-union-lockup": {
         "title": "Signature OPSEU / SEFPO actuelle dans Actifs de marque",
         "body": "Téléchargez le mot-symbole Ontario's union / Le syndicat de l'Ontario avec les autres fichiers bleus OPSEU / SEFPO."
+      },
+      "home-hub-layout": {
+        "title": "Accueil et découverte du Plan directeur rafraîchis",
+        "body": "Les parcours et listes de canaux sur l'accueil se lisent mieux, et le Plan directeur ouvre maintenant le travail de grève et les guides liés dans la même mise en page hub que les ateliers."
       },
       "land-ack-workshops-hub": {
         "title": "Marche à suivre territoriale + hub d'ateliers",

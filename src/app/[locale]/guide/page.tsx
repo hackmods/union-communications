@@ -18,7 +18,10 @@ import {
   GuideLayout,
   GuideActionRow,
   GuideCallout,
+  GuideLinkCluster,
+  GuideLinkList,
   GuideSection,
+  GuideSpotlightBand,
   GuideTipGrid,
   GuideTipItem,
 } from "@/components/comms/guide-ui";
@@ -86,18 +89,20 @@ export default async function GuidePage({
         <SourcesBlock pageId="blueprint" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <GuideCallout className="mb-8 max-w-3xl">
-        <p className="font-semibold text-opseu-dark">{strike("title")}</p>
-        <p className="mt-1">{strike("subtitle")}</p>
-        <div className="button-row mt-3 max-w-lg">
+      <GuideSpotlightBand
+        className="mt-0 mb-10"
+        kicker={strike("title")}
+        lead={strike("subtitle")}
+      >
+        <GuideActionRow className="mt-0">
           <Link href="/guide/strike" className={guideCtaClass}>
             {nav("strikeOpsGuide")}
           </Link>
           <Link href="/guide/crisis" className={guideCtaOutlineClass}>
             {nav("crisisCommsGuide")}
           </Link>
-        </div>
-      </GuideCallout>
+        </GuideActionRow>
+      </GuideSpotlightBand>
 
       <GuideSection
         id="startHere"
@@ -254,91 +259,47 @@ export default async function GuidePage({
         </GuideCallout>
       </GuideSection>
 
-      <div className="mt-10 grid gap-4 lg:grid-cols-2">
-        <GuideCallout tone="muted">
-          <p className="font-semibold text-opseu-dark">
-            {t("bargainingGuides.title")}
-          </p>
-          <nav
-            className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
-            aria-label={t("bargainingGuides.title")}
-          >
-            {GUIDE_REGISTRY.bargaining.map((link, i) => (
-              <span key={link.href} className="inline-flex items-baseline gap-x-3">
-                {i > 0 && (
-                  <span className="text-gray-300" aria-hidden="true">
-                    ·
-                  </span>
-                )}
-                <Link
-                  href={link.href}
-                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                >
-                  {t(`bargainingGuides.${link.key}`)}
-                </Link>
-              </span>
-            ))}
-          </nav>
-        </GuideCallout>
+      <ul className="mt-10 grid list-none gap-8 p-0 sm:grid-cols-2">
+        <GuideLinkCluster title={t("bargainingGuides.title")}>
+          <GuideLinkList
+            links={GUIDE_REGISTRY.bargaining.map((link) => ({
+              href: link.href,
+              label: t(`bargainingGuides.${link.key}`),
+            }))}
+          />
+        </GuideLinkCluster>
 
-        <GuideCallout tone="muted">
-          <p className="font-semibold text-opseu-dark">{t("channelGuides.title")}</p>
-          <nav
-            className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
-            aria-label={t("channelGuides.title")}
-          >
-            {GUIDE_REGISTRY.channels.map((link, i) => (
-              <span key={link.href} className="inline-flex items-baseline gap-x-3">
-                {i > 0 && (
-                  <span className="text-gray-300" aria-hidden="true">
-                    ·
-                  </span>
-                )}
-                <Link
-                  href={link.href}
-                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                >
-                  {t(`channelGuides.${link.key}`)}
-                </Link>
-              </span>
-            ))}
-          </nav>
-        </GuideCallout>
+        <GuideLinkCluster title={t("channelGuides.title")}>
+          <GuideLinkList
+            links={GUIDE_REGISTRY.channels.map((link) => ({
+              href: link.href,
+              label: t(`channelGuides.${link.key}`),
+            }))}
+          />
+        </GuideLinkCluster>
 
-        <GuideCallout tone="muted" className="lg:col-span-2">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <p className="font-semibold text-opseu-dark">{t("labourGuides.title")}</p>
+        <GuideLinkCluster
+          className="sm:col-span-2"
+          title={t("labourGuides.title")}
+          headerAction={
             <Link
               href="/guide/steward-playbooks"
               className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
             >
               {t("labourGuides.seeAll")} →
             </Link>
-          </div>
-          <nav
-            className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
-            aria-label={t("labourGuides.title")}
-          >
-            {stewardDiscoverabilityLinks()
+          }
+        >
+          <GuideLinkList
+            links={stewardDiscoverabilityLinks()
               .filter((link) => link.href !== GUIDE_STEWARD_PLAYBOOKS_HUB)
-              .map((link, i) => (
-              <span key={link.href} className="inline-flex items-baseline gap-x-3">
-                {i > 0 && (
-                  <span className="text-gray-300" aria-hidden="true">
-                    ·
-                  </span>
-                )}
-                <Link
-                  href={link.href}
-                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                >
-                  {t(`labourGuides.${link.key}`)}
-                </Link>
-              </span>
-            ))}
-          </nav>
-        </GuideCallout>
-      </div>
+              .map((link) => ({
+                href: link.href,
+                label: t(`labourGuides.${link.key}`),
+              }))}
+          />
+        </GuideLinkCluster>
+      </ul>
     </GuideLayout>
   );
 }
