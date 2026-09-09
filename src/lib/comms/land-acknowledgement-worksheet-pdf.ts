@@ -18,7 +18,7 @@ export const LAND_ACK_REVIEW_ROW_HEIGHT = 10;
 
 const WORKSHEET_COPY = {
   en: {
-    title: "Land acknowledgement — walkthrough worksheet",
+    title: "Land acknowledgement — worksheet",
     subtitle: "Research, write, commit — pen-and-paper how-to",
     instructions:
       "Pen in hand. Steps mirror the Land Acknowledgement Guide — confirm nation names before your next meeting.",
@@ -128,8 +128,8 @@ const WORKSHEET_COPY = {
     ] satisfies WorksheetSection[],
   },
   fr: {
-    title: "Reconnaissance territoriale — feuille de marche à suivre",
-    subtitle: "Recherche, rédaction, engagement — marche à suivre à la main",
+    title: "Reconnaissance territoriale — feuille de travail",
+    subtitle: "Recherche, rédaction, engagement — à remplir à la main",
     instructions:
       "Remplir à la main. Les étapes reprennent le guide Reconnaissance territoriale — confirmez les noms de nations avant la prochaine réunion.",
     reminder:

@@ -14,7 +14,7 @@ PDF worksheet (same download on both pages): one-page walkthrough handout.
 
 ## Day-of checklist
 
-1. Print one worksheet per person (`Download floor handout` on the outline or guide).
+1. Print one worksheet per person (`Download worksheet` on the outline or guide).
 2. Have Native-Land.ca or Whose Land ready to project; open your federation territory PDF.
 3. Tables or circle; pairs for drafting — no one forced to read aloud.
 4. Close with: executive review date, who reads next meeting, one concrete action.

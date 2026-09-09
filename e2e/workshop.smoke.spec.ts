@@ -196,7 +196,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
       page.getByRole("heading", { name: /Suggested agenda/i }),
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: /Download walkthrough worksheet/i }),
+      page.getByRole("button", { name: /Download worksheet/i }),
     ).toBeVisible();
   });
 

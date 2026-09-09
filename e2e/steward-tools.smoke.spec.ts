@@ -125,7 +125,7 @@ test.describe("Steward meeting guides @smoke", () => {
     await expect(
       page
         .locator("#howToWrite")
-        .getByRole("button", { name: /Download walkthrough worksheet/i }),
+        .getByRole("button", { name: /Download worksheet/i }),
     ).toBeVisible();
     await expect(
       page.locator("#atMeeting").getByRole("link", { name: /Running meetings/i }),

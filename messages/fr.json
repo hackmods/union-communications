@@ -11024,7 +11024,7 @@
           "subtitle": "Liste avant de partager · ~10 min"
         }
       },
-      "worksheetHeading": "Feuille de marche à suivre (une page)",
+      "worksheetHeading": "Feuille de travail (une page)",
       "worksheetIntro": "Même profondeur qu'une fiche de délégué : porte d'entrée, étapes, bloc ligné pour l'ébauche et liste de révision — imprimez pour l'exécutif ou prenez des notes sur une tablette.",
       "worksheetFeatures": {
         "print": {
@@ -11055,7 +11055,7 @@
       "workshopCtaLabel": "Ouvrir l'atelier de reconnaissance territoriale"
     },
     "worksheet": {
-      "cta": "Télécharger la feuille de marche à suivre (PDF)",
+      "cta": "Télécharger la feuille de travail (PDF)",
       "downloading": "Préparation du PDF…"
     },
     "prepareWords": {
@@ -11276,7 +11276,7 @@
     "nextSteps": {
       "navLabel": "Prochaines étapes",
       "title": "Prochaines étapes",
-      "intro": "Commencez par le guide de votre fédération, rédigez avec la feuille de marche à suivre, et planifiez une révision à l'exécutif.",
+      "intro": "Commencez par le guide de votre fédération, rédigez avec la feuille de travail, et planifiez une révision à l'exécutif.",
       "items": {
         "read": {
           "label": "Lire le guide fédéral",

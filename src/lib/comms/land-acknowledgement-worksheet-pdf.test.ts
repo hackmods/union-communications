@@ -47,7 +47,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
 
     expect(filename).toBe("unionops-land-acknowledgement-worksheet.pdf");
     expect(parsed.numPages).toBe(1);
-    expect(parsed.joined).toMatch(/Land acknowledgement — walkthrough worksheet/i);
+    expect(parsed.joined).toMatch(/Land acknowledgement — worksheet/i);
     expect(parsed.joined).toMatch(/Local 243/);
     expect(parsed.joined).toMatch(/UnionOps Comms/i);
     expect(parsed.joined).toMatch(/Floor tips/i);
@@ -91,7 +91,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
 
     expect(filename).toBe("unionops-reconnaissance-territoriale-feuille.pdf");
     expect(parsed.numPages).toBe(1);
-    expect(parsed.joined).toMatch(/Reconnaissance territoriale — feuille de marche à suivre/i);
+    expect(parsed.joined).toMatch(/Reconnaissance territoriale — feuille de travail/i);
     expect(parsed.joined).toMatch(/Section 243/);
     expect(parsed.joined).toMatch(/UnionOps Communications/i);
     expect(parsed.joined).toMatch(/Conseils sur le plancher/i);
@@ -222,7 +222,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
         heightPx: 96,
         src: "data:image/png;base64,AA==",
       },
-      title: "Land acknowledgement — walkthrough worksheet",
+      title: "Land acknowledgement — worksheet",
       subtitle: "Local 243",
       sections: [
         {
@@ -327,7 +327,7 @@ describe("land-acknowledgement-worksheet-pdf", () => {
 
   it("passes layoutWorksheet one-page budget for EN template shape", () => {
     const budget = layoutWorksheet({
-      title: "Land acknowledgement — walkthrough worksheet",
+      title: "Land acknowledgement — worksheet",
       subtitle: "Local 243",
       layoutMode: "flow",
       sections: [

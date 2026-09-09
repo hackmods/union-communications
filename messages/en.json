@@ -11024,7 +11024,7 @@
           "subtitle": "Checklist before you share · ~10 min"
         }
       },
-      "worksheetHeading": "Walkthrough worksheet (one page)",
+      "worksheetHeading": "Worksheet (one page)",
       "worksheetIntro": "Same depth as a steward pocket sheet: gate, steps, ruled draft block, and review checklist — print for executive or take notes on a tablet.",
       "worksheetFeatures": {
         "print": {
@@ -11055,7 +11055,7 @@
       "workshopCtaLabel": "Open land acknowledgement workshop"
     },
     "worksheet": {
-      "cta": "Download walkthrough worksheet (PDF)",
+      "cta": "Download worksheet (PDF)",
       "downloading": "Preparing PDF…"
     },
     "prepareWords": {
@@ -11276,7 +11276,7 @@
     "nextSteps": {
       "navLabel": "Next steps",
       "title": "Next steps",
-      "intro": "Start with your federation guide, draft with the walkthrough worksheet, and schedule an executive review.",
+      "intro": "Start with your federation guide, draft with the worksheet, and schedule an executive review.",
       "items": {
         "read": {
           "label": "Read your federation guide",
