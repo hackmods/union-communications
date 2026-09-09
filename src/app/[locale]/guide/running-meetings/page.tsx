@@ -17,10 +17,15 @@ import { OfficerLearningModuleCallout } from "@/components/officer-learning/Offi
 import {
   GuideLayout,
   GuideActionRow,
+  GuideBulletList,
   GuideCallout,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideProse,
   GuideSection,
   GuideTipGrid,
   GuideTipItem,
+  GuideWideFigure,
 } from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
@@ -229,13 +234,13 @@ export default async function RunningMeetingsGuidePage({
         title={t("agenda.title")}
         intro={t("agenda.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-3 pl-5 text-gray-700">
+        <GuideBulletList className="mt-4" columns={2}>
           {agendaKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
+            <li key={key} className="leading-relaxed">
               {t(`agenda.items.${key}`)}
             </li>
           ))}
-        </ol>
+        </GuideBulletList>
         <GuideCallout className="mt-5">
           <p className="leading-relaxed text-gray-700">{t("agenda.landAckNote")}</p>
           <p className="mt-3">
@@ -251,17 +256,20 @@ export default async function RunningMeetingsGuidePage({
         title={t("motion.title")}
         intro={t("motion.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {motionKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`motion.steps.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`motion.steps.${key}.content`)}
-            </li>
+        <GuideOutlineList className="mt-4 space-y-6">
+          {motionKeys.map((key, index) => (
+            <GuideOutlineStep
+              key={key}
+              id={`motion-${key}`}
+              step={index + 1}
+              title={t(`motion.steps.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`motion.steps.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
+        </GuideOutlineList>
       </GuideSection>
 
       <GuideSection
@@ -269,14 +277,16 @@ export default async function RunningMeetingsGuidePage({
         title={t("precedence.title")}
         intro={t("precedence.intro")}
       >
-        <MotionPrecedenceDiagram
-          className="mt-4 max-w-2xl"
-          steps={precedenceKeys.map((key) => ({
-            label: t(`precedence.steps.${key}.label`),
-            body: t(`precedence.steps.${key}.body`),
-          }))}
-          caption={t("precedence.caption")}
-        />
+        <GuideWideFigure>
+          <MotionPrecedenceDiagram
+            className="w-full"
+            steps={precedenceKeys.map((key) => ({
+              label: t(`precedence.steps.${key}.label`),
+              body: t(`precedence.steps.${key}.body`),
+            }))}
+            caption={t("precedence.caption")}
+          />
+        </GuideWideFigure>
         <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("precedence.tip")}</p>
@@ -336,17 +346,20 @@ export default async function RunningMeetingsGuidePage({
         title={t("scenario.title")}
         intro={t("scenario.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {scenarioKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`scenario.phases.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`scenario.phases.${key}.content`)}
-            </li>
+        <GuideOutlineList className="mt-4 space-y-6">
+          {scenarioKeys.map((key, index) => (
+            <GuideOutlineStep
+              key={key}
+              id={`scenario-${key}`}
+              step={index + 1}
+              title={t(`scenario.phases.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`scenario.phases.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
+        </GuideOutlineList>
         <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("scenario.tip")}</p>

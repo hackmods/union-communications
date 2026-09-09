@@ -22,9 +22,13 @@ import {
   GuideLayout,
   GuideActionRow,
   GuideCallout,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideProse,
   GuideSection,
   GuideTipGrid,
   GuideTipItem,
+  GuideWideFigure,
 } from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
@@ -267,17 +271,20 @@ export default async function BylawsGuidePage({
           }}
           caption={t("diagrams.amendment.caption")}
         />
-        <ol className="mt-6 list-decimal space-y-4 pl-5 text-gray-700">
-          {amendKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`amend.items.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`amend.items.${key}.content`)}
-            </li>
+        <GuideOutlineList className="mt-6 space-y-6">
+          {amendKeys.map((key, index) => (
+            <GuideOutlineStep
+              key={key}
+              id={`amend-${key}`}
+              step={index + 1}
+              title={t(`amend.items.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`amend.items.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
+        </GuideOutlineList>
         <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">
             {t("amend.warningTitle")}
@@ -372,17 +379,20 @@ export default async function BylawsGuidePage({
         title={t("committee.title")}
         intro={t("committee.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {committeeStepKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`committee.steps.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`committee.steps.${key}.content`)}
-            </li>
+        <GuideOutlineList className="mt-4 space-y-6">
+          {committeeStepKeys.map((key, index) => (
+            <GuideOutlineStep
+              key={key}
+              id={`committee-${key}`}
+              step={index + 1}
+              title={t(`committee.steps.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`committee.steps.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
+        </GuideOutlineList>
         <GuideActionRow>
           <Link href="/portal" className={guideCtaOutlineClass}>
             {t("committee.portalCta")}
@@ -540,30 +550,30 @@ function ChecklistFigure({
   items: { label: string; content: string }[];
 }) {
   return (
-    <figure className="mt-5 max-w-prose rounded-lg border border-gray-200 bg-white p-4">
-      <figcaption className="text-sm font-semibold text-opseu-dark">
-        {caption}
-      </figcaption>
-      <ul className="mt-3 space-y-3">
-        {items.map((item) => (
-          <li
-            key={item.label}
-            className="flex gap-3 text-sm leading-relaxed text-gray-700"
-          >
-            <span
-              className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded border border-gray-300 bg-gray-50 text-xs text-gray-400"
-              aria-hidden="true"
+    <GuideWideFigure>
+      <div className="rounded-lg border border-gray-200 bg-white p-4">
+        <p className="text-sm font-semibold text-opseu-dark">{caption}</p>
+        <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+          {items.map((item) => (
+            <li
+              key={item.label}
+              className="flex gap-3 text-sm leading-relaxed text-gray-700"
             >
-              ☐
-            </span>
-            <span>
-              <span className="font-semibold text-opseu-dark">{item.label}.</span>{" "}
-              {item.content}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </figure>
+              <span
+                className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded border border-gray-300 bg-gray-50 text-xs text-gray-400"
+                aria-hidden="true"
+              >
+                ☐
+              </span>
+              <span>
+                <span className="font-semibold text-opseu-dark">{item.label}.</span>{" "}
+                {item.content}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </GuideWideFigure>
   );
 }
 
@@ -577,39 +587,41 @@ function ScenarioTable({
   rows: { key: string; day: string; action: string; artifact: string }[];
 }) {
   return (
-    <figure className="mt-5 max-w-3xl overflow-x-auto">
-      <table className="w-full min-w-[32rem] border-collapse text-sm">
-        <caption className="mb-3 caption-top text-left text-sm text-gray-600">
-          {caption}
-        </caption>
-        <thead>
-          <tr className="border-b border-gray-200 bg-gray-50">
-            {(
-              [headers.day, headers.action, headers.artifact] as const
-            ).map((header) => (
-              <th
-                key={header}
-                scope="col"
-                className="px-3 py-2 text-left font-semibold text-opseu-dark"
-              >
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.key} className="border-b border-gray-100 align-top">
-              <td className="px-3 py-2 font-medium text-opseu-dark whitespace-nowrap">
-                {row.day}
-              </td>
-              <td className="px-3 py-2 text-gray-700">{row.action}</td>
-              <td className="px-3 py-2 text-gray-700">{row.artifact}</td>
+    <GuideWideFigure>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[32rem] border-collapse text-sm">
+          <caption className="mb-3 caption-top text-left text-sm text-gray-600">
+            {caption}
+          </caption>
+          <thead>
+            <tr className="border-b border-gray-200 bg-gray-50">
+              {(
+                [headers.day, headers.action, headers.artifact] as const
+              ).map((header) => (
+                <th
+                  key={header}
+                  scope="col"
+                  className="px-3 py-2 text-left font-semibold text-opseu-dark"
+                >
+                  {header}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </figure>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.key} className="border-b border-gray-100 align-top">
+                <td className="px-3 py-2 font-medium text-opseu-dark whitespace-nowrap">
+                  {row.day}
+                </td>
+                <td className="px-3 py-2 text-gray-700">{row.action}</td>
+                <td className="px-3 py-2 text-gray-700">{row.artifact}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </GuideWideFigure>
   );
 }
 
