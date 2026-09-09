@@ -63,7 +63,7 @@ type GuideCatalogCardProps = {
   title: string;
   body: ReactNode;
   meta?: ReactNode;
-  action: ReactNode;
+  action?: ReactNode;
   className?: string;
 };
 
@@ -87,7 +87,7 @@ export function GuideCatalogCard({
       </h2>
       <div className="mt-2 max-w-prose leading-relaxed text-gray-700">{body}</div>
       {meta ? <div className="mt-1 text-sm text-gray-600">{meta}</div> : null}
-      <div className="button-row mt-4">{action}</div>
+      {action ? <div className="button-row mt-4">{action}</div> : null}
     </li>
   );
 }

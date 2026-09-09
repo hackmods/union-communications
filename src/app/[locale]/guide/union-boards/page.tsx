@@ -26,6 +26,7 @@ import {
   GuideAccentBlock,
   GuideActionRow,
   GuideCallout,
+  GuideProse,
   GuideSection,
   GuideTipGrid,
   GuideTipItem,
@@ -306,9 +307,9 @@ export default async function UnionBoardsGuidePage({
               titleAs="h4"
               title={t(`layouts.${layout.titleKey}`)}
             >
-              <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-700">
+              <GuideProse className="mt-2 text-sm">
                 {t(`layouts.${layout.descriptionKey}`)}
-              </p>
+              </GuideProse>
               <p className="mt-1 text-xs font-medium uppercase tracking-wide text-opseu-blue">
                 {t(`layouts.${layout.bestForKey}`)}
               </p>
@@ -330,9 +331,9 @@ export default async function UnionBoardsGuidePage({
               key={key}
               title={t(`sections.${key}.title`)}
             >
-              <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+              <GuideProse className="mt-3">
                 {t(`sections.${key}.content`)}
-              </p>
+              </GuideProse>
             </GuideAccentBlock>
           ))}
         </div>

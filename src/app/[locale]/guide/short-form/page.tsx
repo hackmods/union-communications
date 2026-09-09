@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Card, CardTitle } from "@/components/ui/Card";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
@@ -13,7 +12,9 @@ import {
   GuideActionRow,
   GuideBulletList,
   GuideCallout,
+  GuideCatalogCard,
   GuideSection,
+  GuideWideFigure,
 } from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
@@ -107,15 +108,15 @@ export default async function ShortFormGuidePage({
         title={t("filming.title")}
         intro={t("filming.content")}
       >
-        <GuideBulletList className="mt-3">
+        <GuideBulletList className="mt-3" columns={2}>
           {filmingItemKeys.map((key) => (
             <li key={key}>{t(`filming.items.${key}`)}</li>
           ))}
         </GuideBulletList>
 
-        <figure className="mt-6 max-w-md">
-          <div className="flex items-end gap-4">
-            <div className="flex w-16 flex-col items-center gap-2">
+        <GuideWideFigure className="mt-6" ariaLabel={t("aspect.caption")}>
+          <div className="flex flex-wrap items-end gap-6 sm:gap-8">
+            <div className="flex w-20 flex-col items-center gap-2 sm:w-24">
               <div
                 className="aspect-[9/16] w-full rounded-md border-2 border-opseu-blue bg-opseu-blue/10"
                 aria-hidden="true"
@@ -124,7 +125,7 @@ export default async function ShortFormGuidePage({
                 {t("aspect.portrait")}
               </span>
             </div>
-            <div className="flex w-16 flex-col items-center gap-2">
+            <div className="flex w-20 flex-col items-center gap-2 sm:w-24">
               <div
                 className="aspect-square w-full rounded-md border border-gray-300 bg-gray-50"
                 aria-hidden="true"
@@ -133,7 +134,7 @@ export default async function ShortFormGuidePage({
                 {t("aspect.square")}
               </span>
             </div>
-            <div className="flex w-28 flex-col items-center gap-2">
+            <div className="flex w-36 flex-col items-center gap-2 sm:w-44">
               <div
                 className="aspect-[16/9] w-full rounded-md border border-gray-300 bg-gray-50"
                 aria-hidden="true"
@@ -143,10 +144,10 @@ export default async function ShortFormGuidePage({
               </span>
             </div>
           </div>
-          <figcaption className="mt-3 max-w-prose text-sm text-gray-600">
+          <p className="mt-3 max-w-prose text-sm text-gray-600">
             {t("aspect.caption")}
-          </figcaption>
-        </figure>
+          </p>
+        </GuideWideFigure>
 
         <GuideCallout className="mt-6">
           <p className="font-semibold text-opseu-dark">
@@ -167,31 +168,32 @@ export default async function ShortFormGuidePage({
         title={t("editing.title")}
         intro={t("editing.content")}
       >
-        <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2">
+        <ul className="mt-6 grid list-none gap-6 p-0 sm:grid-cols-2">
           {SHORT_FORM_EDITORS.map((editor) => (
-            <li key={editor.id}>
-              <Card density="compact" className="h-full">
-                <CardTitle className="text-base">
-                  {t(`editors.${editor.id}.name`)}
-                </CardTitle>
-                <p className="mt-2 text-sm font-medium text-opseu-dark">
+            <GuideCatalogCard
+              key={editor.id}
+              title={t(`editors.${editor.id}.name`)}
+              meta={
+                <>
                   {t(`pricing.${editor.pricing}`)}
                   <span className="text-gray-400" aria-hidden="true">
                     {" "}
                     ·{" "}
                   </span>
                   {t(`privacy.${editor.privacy}`)}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-gray-700">
-                  {t(`editors.${editor.id}.when`)}
-                </p>
-                <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-600">
-                  {editor.useCaseIds.map((useCase) => (
-                    <li key={useCase}>{t(`useCases.${useCase}`)}</li>
-                  ))}
-                </ul>
-              </Card>
-            </li>
+                </>
+              }
+              body={
+                <>
+                  <p>{t(`editors.${editor.id}.when`)}</p>
+                  <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-600">
+                    {editor.useCaseIds.map((useCase) => (
+                      <li key={useCase}>{t(`useCases.${useCase}`)}</li>
+                    ))}
+                  </ul>
+                </>
+              }
+            />
           ))}
         </ul>
 

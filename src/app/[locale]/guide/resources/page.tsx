@@ -12,7 +12,8 @@ import {
   GuideLayout,
   GuideBulletList,
   GuideCallout,
-  GuideRelatedLinkList,
+  GuideCatalogCard,
+  GuideLinkList,
   GuideSection,
 } from "@/components/comms/guide-ui";
 
@@ -54,9 +55,11 @@ export default async function ResourcesPage({
       intro={t("intro")}
       preset="hub"
     >
-      <GuideCallout className="mb-8">
+      <GuideCallout className="mb-8" measure="fill">
         <p className="font-semibold text-opseu-dark">{t("purpose.title")}</p>
-        <p className="mt-2 leading-relaxed text-gray-700">{t("purpose.body")}</p>
+        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
+          {t("purpose.body")}
+        </p>
         <GuideBulletList className="mt-3 space-y-2" columns={2}>
           {(t.raw("purpose.pillars") as string[]).map((item) => (
             <li key={item}>{item}</li>
@@ -68,19 +71,18 @@ export default async function ResourcesPage({
       </GuideCallout>
 
       <GuideSection id="path" title={t("path.title")} intro={t("path.intro")}>
-        <ul className="grid gap-4 sm:grid-cols-2 lg:gap-5">
+        <ul className="mt-2 grid list-none gap-6 p-0 sm:grid-cols-2">
           {commsPathLinks.map(({ href, key }) => (
-            <li key={href} className="min-w-0">
-              <Link
-                href={href}
-                className="font-medium text-opseu-blue underline"
-              >
-                {t(`path.links.${key}`)}
-              </Link>
-              <p className="mt-0.5 text-sm text-gray-600">
-                {t(`path.blurb.${key}`)}
-              </p>
-            </li>
+            <GuideCatalogCard
+              key={href}
+              title={t(`path.links.${key}`)}
+              body={t(`path.blurb.${key}`)}
+              action={
+                <Link href={href} className={guideCtaClassSm}>
+                  {t(`path.links.${key}`)} →
+                </Link>
+              }
+            />
           ))}
         </ul>
       </GuideSection>
@@ -91,19 +93,18 @@ export default async function ResourcesPage({
         intro={t("labourPath.intro")}
         className="border-amber-500/40"
       >
-        <ul className="grid gap-4 sm:grid-cols-2 lg:gap-5">
+        <ul className="mt-2 grid list-none gap-6 p-0 sm:grid-cols-2">
           {labourPathLinks.map(({ href, key }) => (
-            <li key={href} className="min-w-0">
-              <Link
-                href={href}
-                className="font-medium text-opseu-blue underline"
-              >
-                {t(`labourPath.links.${key}`)}
-              </Link>
-              <p className="mt-0.5 text-sm text-gray-600">
-                {t(`labourPath.blurb.${key}`)}
-              </p>
-            </li>
+            <GuideCatalogCard
+              key={href}
+              title={t(`labourPath.links.${key}`)}
+              body={t(`labourPath.blurb.${key}`)}
+              action={
+                <Link href={href} className={guideCtaClassSm}>
+                  {t(`labourPath.links.${key}`)} →
+                </Link>
+              }
+            />
           ))}
         </ul>
       </GuideSection>
@@ -135,8 +136,8 @@ export default async function ResourcesPage({
       </GuideSection>
 
       <GuideSection id="explore" title={t("explore.title")}>
-        <nav className="text-sm" aria-label={t("explore.title")}>
-          <GuideRelatedLinkList
+        <nav aria-label={t("explore.title")}>
+          <GuideLinkList
             links={exploreLinks.map(({ href, key }) => ({
               href,
               label: t(`explore.${key}`),
