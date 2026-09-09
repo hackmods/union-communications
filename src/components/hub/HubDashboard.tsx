@@ -2,7 +2,7 @@
 
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { getVisibleModules } from "@/lib/modules/registry";
 import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
@@ -16,7 +16,6 @@ import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { PlatformOperatorCard } from "@/components/platform/PlatformOperatorCard";
 import { isPlatformOperator } from "@/lib/platform/operator-nav";
-import { usePathname } from "@/i18n/navigation";
 import {
   PUBLIC_CARD_TITLE_CLASS,
   PUBLIC_PAGE_TITLE_CLASS,

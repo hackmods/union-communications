@@ -31,6 +31,9 @@ Playbooks: `preset="playbook"` → `readWide` + TOC rail. **Fill the article col
 ## Accepted exceptions
 
 - **`/guide/website` `PartFrame` / glance cards** — intentional multi-part “site build” chrome (kicker + framed parts), not chapter densification. Do not force onto `GuideSection` without a product redesign. Keep importing the shell from `guide-ui`.
+- **Legal pamphlets** (`/privacy`, `/security`, `/accessibility`) — stay `GuideLayout preset="narrow"` + guide-ui (`GuideSection` / `GuideCallout` / `GuideProse` / `GuideBulletList`). Do not widen to playbook tip grids.
+- **Officer Learning** — dark `olTheme` shell; never GuideLayout. Module index uses fluid CSS grid; sources stay `max-w-prose`.
+- **Hub / Portal dashboards** — authenticated shells; fluid `PUBLIC_*` titles + widget grids; do not force GuideLayout.
 
 ## Prose vs cluster
 
@@ -55,8 +58,9 @@ Playbooks: `preset="playbook"` → `readWide` + TOC rail. **Fill the article col
 - Tip `<ul>` wrapped in or items locked to `max-w-prose` inside a playbook article column
 - Stretched mobile single column with growing empty half at `lg+`
 - Robotic equal card grids for every list
-- Blindly applying playbook grids to Officer Learning dark shell, narrow legal pages, tool panels, or PDF layout — see growth backlog
+- Blindly applying playbook grids to Officer Learning dark shell, tool canvas interiors, or PDF layout — see growth backlog (legal pamphlets use narrow guide-ui, not tip grids)
 - Ad-hoc `Callout … max-w-prose` in guide pages — use `GuideCallout`
+- Nesting a form-root `Card` inside `ToolEditorLayout`’s shared form panel (double chrome)
 
 ## Checklist (new or refactored guide)
 

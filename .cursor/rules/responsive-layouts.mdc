@@ -41,21 +41,22 @@ Shell width and **composition** are separate. Use [`page-composition.ts`](src/li
 | `narrow` | [`GuideLayout`](src/components/comms/GuideLayout.tsx) `preset="narrow"` | Channel guides, privacy, legal |
 | `sidebar-left` | `GuideLayout preset="playbook"` or [`ComposedPageLayout`](src/components/layout/ComposedPageLayout.tsx) | Playbook TOC rail; `/tools` start-here (custom page) |
 | `hub` | `GuideLayout preset="hub"` | `/guide` index, resources hub |
-| `workspace` | [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) | Canvas tools — **not** GuideLayout |
+| `workspace` | [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) | Canvas tools — form panel chrome; **not** GuideLayout |
 | `sidebar-right` | `ComposedPageLayout composition="sidebar-right"` | Escape hatch (help rail, notes) |
 
-**Guides:** default `preset="narrow"`. Playbooks opt into `preset="playbook"` + `toc`. **Tools:** catalog composes its own wide page; editors use ToolEditorLayout. **Officer Learning:** dark shell exception; shares [`GuideToc`](src/components/comms/GuideToc.tsx) via `ModuleToc`.
+**Guides:** default `preset="narrow"`. Playbooks opt into `preset="playbook"` + `toc`. **Tools:** catalog composes its own wide page; editors use ToolEditorLayout (+ `PUBLIC_PAGE_TITLE_CLASS`). **Officer Learning:** dark `olTheme` shell; shares [`GuideToc`](src/components/comms/GuideToc.tsx) via `ModuleToc`. **Hub/Portal dashboards:** fluid `PUBLIC_*` titles + CSS grids — not GuideLayout.
 
 Mobile TOC/details placement stays **in-page** (after header) — area-specific order varies; desktop rail is lg+ only via `ComposedPageLayout`.
 
 ## Reference compositions
 
 - **Home** — see [`public-marketing-ux.mdc`](public-marketing-ux.mdc). Short form: at `lg+`, two-zone hero inside `wide` (message + secondary visual earning ≥~40% of content width); body keeps trust `Callout`, Brand Kit link row, denser channel lists. Full-bleed gradient alone is atmosphere, not a secondary zone. Docs saying “landing shipped” do **not** freeze a layout that fails the empty-half / unfinished-mock test.
-- **Guides** — `GuideLayout`: `preset="narrow"` | `playbook` | `hub`; related links as compact row on narrow presets; playbook lg+ TOC sidebar. Guide **index** uses `preset="hub"`. Chapter body standards (tip grids, prose vs cluster, anti-regression): [`guide-layout-standards.mdc`](guide-layout-standards.mdc); out-of-scope growth: [`docs/audit/guide-layout-growth-backlog.md`](../../docs/audit/guide-layout-growth-backlog.md).
+- **Guides** — `GuideLayout`: `preset="narrow"` | `playbook` | `hub`; related links as compact row on narrow presets; playbook lg+ TOC sidebar. Guide **index** uses `preset="hub"`. Chapter body standards (tip grids, prose vs cluster, anti-regression): [`guide-layout-standards.mdc`](guide-layout-standards.mdc); growth / deferred edges: [`docs/audit/guide-layout-growth-backlog.md`](../../docs/audit/guide-layout-growth-backlog.md).
 - **Tools** — canvas tools use [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) — see [`tool-editor-ux.mdc`](tool-editor-ux.mdc) for editor chrome + face uplift
-- **Brand Kit / workspaces** — `PageShell` **wide** with paired panels at `lg+`; utility actions near the heading
+- **Brand Kit / Display settings / onboarding panels** — `PageShell` **wide** + [`PublicHubPanel`](src/components/comms/PublicHubPanel.tsx) at `lg+`; utility actions near the heading
+- **Hub / Portal home boards** — `HubDashboard` / `PortalStation` fluid titles + responsive grids
 - **Hub auth** — `nestedAuth` / `nestedFocus` inside app layout — never a second `focus` shell with its own `px-*`
-- **Short notes** — [`Callout`](src/components/ui/Callout.tsx), not default `Card`
+- **Short notes** — [`Callout`](src/components/ui/Callout.tsx) / guide `GuideCallout`, not default `Card`
 
 Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when needed — **constrain the text measure, not the whole hero band to that measure without a counterweight.**
 

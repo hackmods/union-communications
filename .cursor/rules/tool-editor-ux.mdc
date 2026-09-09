@@ -20,16 +20,17 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 
 | Kind | Contract |
 |------|----------|
-| Canvas tools | [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx): title `text-2xl md:text-3xl`, subtitle `mt-1`, form `Card density="compact"`, sticky preview `lg:sticky lg:top-4`, mobile Edit + **opaque sticky mini dock** (fixed ~96px centered thumbnail, tap to enlarge) → full Preview pane; tabs ≥44px; **all canvas tools pass `previewActions`** for export on full Preview |
+| Canvas tools | [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx): H1 via `PUBLIC_PAGE_TITLE_CLASS`; subtitle/purposeHint `max-w-prose` + `leading-relaxed`; **shared form panel** (`border-opseu-blue/15`, `p-4 md:p-6` gradient surface) wraps `form` — do **not** nest a second `Card` as the form root; sticky preview `lg:sticky lg:top-4`; mobile Edit + **opaque sticky mini dock** → full Preview pane; tabs ≥44px; **all canvas tools pass `previewActions`** for export on full Preview |
 | Dual preview | `preview` + `previewSecondary` (board-banner); mini dock shows primary only |
 | Galleries | `belowGrid` (resizer all-formats) |
 | Sources | `footer` slot — not a sibling ad-hoc PageShell |
 | Non-canvas tools | densify only; no fake Edit/Preview |
-| Guides | `GuideLayout` `py-8 md:py-12`; left-accent sections; Callout for notes; related-links row |
+| Guides | `GuideLayout` + [`guide-ui`](src/components/comms/guide-ui.ts); fluid titles via `PUBLIC_*` tokens; chapter body per [`guide-layout-standards.mdc`](guide-layout-standards.mdc) |
 | Focus prose | `PageShell focus` (manifesto, auth, install) — not multi-panel workspaces |
-| Brand Kit | `PageShell` **wide** with paired panels at `lg+`; utility row near heading |
-| Guide index | `GuideLayout size="wide"`; child guides stay `read` |
+| Brand Kit / Display settings | `PageShell` **wide** + [`PublicHubPanel`](src/components/comms/PublicHubPanel.tsx) for bordered workspace forms (not GuideLayout) |
+| Guide index | `GuideLayout preset="hub"`; child guides stay narrow/playbook as appropriate |
 | Hub nested forms | `PageShell nestedFocus` / `nestedAuth` (no double `px`) |
+| Hub / Portal dashboards | Fluid `PUBLIC_PAGE_TITLE_CLASS` / section titles; responsive widget grids — not GuideLayout |
 | Header | `<lg` drawer; `lg+` Guides/Tools dropdowns (keep groups — see `comms-public-nav.mdc`) |
 | Footer | wrap/stack; tap targets ≥44px |
 | Auth | centered `max-w-md`; dense form; calm shell |
@@ -39,7 +40,7 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 
 1. **Hierarchy** — one H1; section labels `text-sm font-medium text-gray-700`
 2. **Controls** — `SegControl` for pill groups (`min-h-11`); selects share Input border/`min-h-11`
-3. **Density** — Card `density="compact"`; form `space-y-3`; tool padding `py-6 md:py-8 lg:py-10`
+3. **Density** — Prefer ToolEditorLayout form panel (or `PublicHubPanel`) over nested Cards; form `space-y-3`–`space-y-5`; tool padding `py-6 md:py-8 lg:py-10`. Card `density="compact"` remains for Hub/Portal widgets.
 4. **Touch** — primary actions and tabs ≥44×44; icon-only → aria-label (or title)
 5. **Focus** — `focus-visible:ring-2 focus-visible:ring-opseu-blue/40`
 6. **Preview chrome** — screen `p-4 md:p-6` (not export `p-10`); sticky while editing; mobile mini dock is opaque (`bg-white/95`) under header, fixed `h-24` centered scale; full preview ≤~70vh
@@ -50,13 +51,16 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 
 ## Shared primitives
 
-- [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx)
+- [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) — owns H1 + form panel chrome
+- [`PublicHubPanel`](src/components/comms/PublicHubPanel.tsx) — Brand Kit / onboarding / Display settings surfaces
+- [`PUBLIC_PAGE_TITLE_CLASS` / `PUBLIC_SECTION_TITLE_CLASS` / `PUBLIC_CARD_TITLE_CLASS`](src/lib/constants/public-type.ts)
 - [`ToolFormDetails`](src/components/tools/ToolFormDetails.tsx) — collapse secondary Options / Colours / Advanced; keep primary copy + layout visible
 - [`ToolColourSection`](src/components/tools/ToolColourSection.tsx) — ThemePicker + ContrastChecker inside Colours collapse (ThemePicker tools)
 - [`ToolExportActions`](src/components/tools/ToolExportActions.tsx) — PNG/PDF/ZIP row for form + `previewActions`
 - [`MobilePreviewStage`](src/components/tools/MobilePreviewStage.tsx) — mobile mini (fixed viewport, centered) / full scale-to-fit; desktop passthrough
 - [`SegControl`](src/components/tools/SegControl.tsx)
-- Card `density="compact"` | `"default"`
+- Card `density="compact"` | `"default"` (`p-4 md:p-5` / `p-4 md:p-6`) — Hub widgets & bespoke exceptions (alt-text, rules-of-order), not canvas form roots
+- Capture: `data-export-root` only on printable canvas; preview guides use `data-export-chrome` + [`stripExportChromeFromClone`](src/lib/export/capture.ts)
 
 ## Shell checklist (every canvas tool)
 
@@ -95,7 +99,7 @@ Update when a surface ships.
 | pulse-poll | done (RelatedTools + exportSuccess; Hub publish in toolbar) |
 | share-kit | **folded 2026-08-18** — redirect to Graphic Maker; do not rebuild |
 
-Workshop polish (2026-08): canvas tools wire `exportSuccess`, `ToolRelatedFooter`, and `purposeHint`; alt-text stays a PageShell exception. Document Generator uses `ToolEditorLayout` without a canvas mini dock. Re-touch register rows when four-width check fails.
+Workshop polish (2026-08): canvas tools wire `exportSuccess`, `ToolRelatedFooter`, and `purposeHint`; alt-text stays a PageShell exception. Document Generator uses `ToolEditorLayout` without a canvas mini dock. **Fluid final uplift (2026-09-08):** shared form panel + `PUBLIC_PAGE_TITLE_CLASS`; form-root Cards unwrapped. Re-touch register rows when four-width check fails.
 
 ### Public secondary
 
@@ -115,10 +119,11 @@ Workshop polish (2026-08): canvas tools wire `exportSuccess`, `ToolRelatedFooter
 | examples | done |
 | captions | done |
 | assets | done |
-| brand-kit | done |
-| onboarding | done |
-| privacy | done |
-| accessibility | done |
+| brand-kit | done (`PublicHubPanel`) |
+| onboarding | done (`PublicHubPanel`) |
+| privacy / security / accessibility | done (narrow `guide-ui` pamphlets; DisplaySettings → `PublicHubPanel`) |
+| Officer Learning dark shell | done (stay dark; `olTheme` + fluid module/track grids; sources `max-w-prose`) |
+| Hub dashboard / Portal station | done (fluid titles + responsive grids; not GuideLayout) |
 | manifesto | done |
 | support | done |
 | app/login | done |

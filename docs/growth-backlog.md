@@ -1,13 +1,13 @@
 # Public UI growth backlog
 
-**Status:** Phase 3 complete 2026-09-08 — GB-001–012 shipped.  
+**Status:** Phase 3 complete 2026-09-08 — GB-001–012 shipped. Final deferred-surface uplift also shipped 2026-09-08 (Legal, Hub/Portal, ToolEditor chrome, OL dark shell, PDF capture) — see [`audit/fluid-ui-final-uplift-checklist.md`](audit/fluid-ui-final-uplift-checklist.md).  
 **Origin:** Gaps noticed during the guide layout standards rollout (`GuideSection` / tip grids / outline primitives).  
-**Quality bar:** reusable guide-ui primitives + Tailwind tokens; no `!important`, no one-off magic pixels, no copy-pasted section chrome, no inline styles.
+**Quality bar:** reusable guide-ui / `PublicHubPanel` / `ToolEditorLayout` primitives + Tailwind tokens; no `!important`, no one-off magic pixels, no copy-pasted section chrome, no inline styles.
 
-Related (out-of-scope shells — do not expand this list into them without a product decision):  
-[`docs/audit/guide-layout-growth-backlog.md`](audit/guide-layout-growth-backlog.md) (Officer Learning dark shell, legal narrow pages, tool panels, PDF).
+Related (distinct shells — do not expand playbook tip grids into them without a product decision):  
+[`docs/audit/guide-layout-growth-backlog.md`](audit/guide-layout-growth-backlog.md) (OL dark shell, legal narrow pamphlets, tool canvas interiors, Hub boards beyond dashboard, PDF).
 
-Standards: [`.cursor/rules/guide-layout-standards.mdc`](../.cursor/rules/guide-layout-standards.mdc) · barrel: [`src/components/comms/guide-ui.ts`](../src/components/comms/guide-ui.ts).
+Standards: [`.cursor/rules/guide-layout-standards.mdc`](../.cursor/rules/guide-layout-standards.mdc) · barrel: [`src/components/comms/guide-ui.ts`](../src/components/comms/guide-ui.ts) · type tokens: [`src/lib/constants/public-type.ts`](../src/lib/constants/public-type.ts).
 
 ---
 
@@ -30,11 +30,14 @@ Standards: [`.cursor/rules/guide-layout-standards.mdc`](../.cursor/rules/guide-l
 
 ---
 
-## Explicitly not in this backlog
+## Explicitly not in this backlog (edge cases remain)
 
-- Officer Learning dark tip grids / module viewer density  
-- `/privacy` `/security` `/accessibility` width changes  
-- `AssetPackPanel` / canvas tool chrome  
-- PDF spatial layout  
+These are **not** GB tickets. Final uplift closed the first pass; leftover edges live in the audit growth backlog:
 
-(See audit growth backlog for methodology when those are opened.)
+- OL **module viewer** body density at `xl` (index/dashboard already fluid)
+- Legal pamphlet **width** changes (stay narrow)
+- Canvas **preview** interiors / AssetPackPanel multi-column catalogs
+- Deeper Hub boards beyond `HubDashboard` / Portal station
+- PDF spatial “density” beyond `pdf-layout` contracts
+
+(See [`audit/guide-layout-growth-backlog.md`](audit/guide-layout-growth-backlog.md).)

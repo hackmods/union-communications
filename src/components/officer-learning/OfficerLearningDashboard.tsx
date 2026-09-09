@@ -23,7 +23,6 @@ import {
 } from "./LearningTrackPicker";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { OlThemeProvider, useOlTheme } from "./OlThemeProvider";
-import clsx from "clsx";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -159,7 +158,7 @@ function OfficerLearningDashboardInner({
             </div>
           </header>
 
-          <LearningTrackPicker active={track} onChange={setTrack} className="mb-8" />
+          <LearningTrackPicker active={track} onChange={setTrack} />
 
           <LearningPathDiagram
             className="mb-8"
@@ -201,7 +200,7 @@ function OfficerLearningDashboardInner({
                 <button
                   type="button"
                   onClick={handleReset}
-                  className={clsx(
+                  className={cn(
                     confirmReset ? olTheme.resetBtnConfirm : olTheme.resetBtn,
                   )}
                 >
@@ -266,7 +265,7 @@ function OfficerLearningDashboardInner({
                         {t(`modules.${module.slug}.title`)}
                       </h2>
                       <span
-                        className={clsx(
+                        className={cn(
                           status === "completed" && olTheme.statusPillCompleted,
                           status === "in_progress" && olTheme.statusPillInProgress,
                           status === "not_started" && olTheme.statusPillNotStarted,

@@ -1,62 +1,53 @@
-# Guide layout growth — out-of-scope review backlog
+# Guide layout growth — review backlog
 
-**Status:** Living plan for surfaces **not** covered by the playbook / workshop layout standards.  
-**In-scope reference:** [`.cursor/rules/guide-layout-standards.mdc`](../../.cursor/rules/guide-layout-standards.mdc), shared primitives in [`src/components/comms/guide-ui.ts`](../../src/components/comms/guide-ui.ts) (includes `GuideOutlineStep`, `GuideAccentBlock`, `GuideWorkshopNote`).  
-**Shell vs composition:** [`.cursor/rules/responsive-layouts.mdc`](../../.cursor/rules/responsive-layouts.mdc).
+**Status:** Living plan for shells that must **not** blindly copy playbook tip grids.  
+**In-scope reference:** [`.cursor/rules/guide-layout-standards.mdc`](../../.cursor/rules/guide-layout-standards.mdc), shared primitives in [`src/components/comms/guide-ui.ts`](../../src/components/comms/guide-ui.ts).  
+**Shell vs composition:** [`.cursor/rules/responsive-layouts.mdc`](../../.cursor/rules/responsive-layouts.mdc).  
+**Final deferred uplift:** [`fluid-ui-final-uplift-checklist.md`](fluid-ui-final-uplift-checklist.md) · [`session-knowledge-2026-09-08-fluid-ui-final-uplift.md`](session-knowledge-2026-09-08-fluid-ui-final-uplift.md).
 
 ## Why this note exists
 
-Public guide chapters and workshop outlines now use shared `GuideSection*` / outline primitives. Several related surfaces stay **out of scope** on purpose. They should **not** blindly copy playbook tip grids. When we grow them, review against the methodology below, reuse shared primitives where they fit, and invent **cool new** components when the shell or job is different.
+Public guide chapters and workshop outlines use shared `GuideSection*` / outline primitives. Adjacent surfaces keep distinct shells. When growing them, reuse shared primitives where they fit, invent named wrappers when the job differs, and record deferred edge cases here.
 
-## Out-of-scope surfaces
+## Surfaces (post–final uplift)
 
-| Surface | Why deferred | Review questions later |
-|---------|--------------|------------------------|
-| **Officer Learning** dark shell (`/guide/officer-learning/**`) | Training UX + dark tokens; already shares `GuideToc` / progress chrome. Playbook light `border-l` sections would clash. | Can OL reuse `GuideTipGrid` semantics with a `variant="dark"`? Keep module viewer density without empty-half at `xl`. Prefer new `Module*` wrappers over forcing `GuideSection`. |
-| **`/privacy`, `/security`, `/accessibility`** | Intentional `GuideLayout preset="narrow"` / legal pamphlet measure. Wide tip grids fight “read this carefully” UX. | Keep narrow shell. Only densify if a page gains non-legal tool lists — then hub-style grids inside `narrow` are wrong; stay single column or opt into `playbook` with TOC intentionally. |
-| **Tool panels** (e.g. [`AssetPackPanel`](../../src/components/comms/AssetPackPanel.tsx)) | Workspace / export chrome, not guide reading. Border accents here are pack sections, not chapters. | Prefer `ToolEditorLayout` / catalog patterns. If a panel grows tip-like lists, extract a **tool** list primitive — do not import playbook `GuideSection` into canvas tools. |
-| **PDF / guide sheet layout** ([`guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc), `src/lib/export/**`) | Print spatial contracts ≠ responsive Tailwind. | Keep PDF golden tests. Visual “density” on PDF is a separate engine; do not “fix” PDF by applying `GuideTipGrid` class names. |
+| Surface | Shell / wrappers | Still deferred / edge cases |
+|---------|------------------|------------------------------|
+| **Officer Learning** dark shell | `olTheme` + `OfficerLearningDashboard` / `ModuleViewer`; track picker CSS grid; module cards `sm:2 lg:3 xl:4`; sources `max-w-prose` via `olTheme.sourcesCard` + `SourcesBlock` | Optional dark tip-grid `variant`; four-width matrix on **module viewer** body (not the index); Hub light board (`/app/officer-learning`) stays Hub chrome |
+| **Legal pamphlets** | `GuideLayout preset="narrow"` + `GuideSection` / `GuideCallout` / `GuideProse` / `GuideBulletList`; DisplaySettings → `PublicHubPanel` | Do **not** widen to playbook tip grids or TOC rails unless product asks |
+| **Tool editor chrome** | `ToolEditorLayout`: `PUBLIC_PAGE_TITLE_CLASS` + shared form panel (`p-4 md:p-6`); form-root Cards unwrapped | Canvas **preview interiors** stay Canvas Core; bespoke PageShell exceptions: alt-text, rules-of-order, proposal-tracker; bylaw workspace delegate |
+| **Hub / Portal dashboards** | `HubDashboard` / `PortalStation` + `PUBLIC_*` titles; widget/circle CSS grids; Card for widgets only | Deeper Hub boards (TaskBoard, CircleWorkspace density) still product-scoped; do not force GuideLayout |
+| **PDF / capture** | `pdf-layout` margins + safe floors; `stripExportChromeFromClone`; `CanvasSafeZoneOverlay` = `data-export-chrome` outside export roots | No Tailwind tip grids on print; density work stays in golden spatial contracts |
 
 ## Methodology for growth (when you touch these)
 
-1. **Name the job** — reading pamphlet, training module, workspace panel, or print sheet. Pick shell + composition first (`PAGE_SHELL` / `GUIDE_COMPOSITION` / OL shell / ToolEditor).
-2. **Reuse before inventing** — If the job is “labeled tip cluster in a light reading column,” use `GuideTipGrid` / `GuideTipItem`. If “numbered workshop step,” use `GuideOutlineStep`. If the job is different, **design a new named primitive** and document it in the matching rule.
-3. **Cool new components welcome** — Asymmetry, diagrams, phase cards, dark rails, print sheets: invent them. Gate with: fills the shell at `lg+`, keeps readable measure for continuous prose, avoids robotic equal card grids for every list.
-4. **Anti-regression** — No left-pinned `max-w-prose` tip lists inside a wide shell; no page-local `function GuideSection` copies; no empty-half stretched mobile stacks.
-5. **Review checklist** — Spot ~375 / 768 / 1280 / 1536; EN/FR claim parity if copy moves; smoke if routes/names change; update this note when an out-of-scope item is intentionally brought in.
+1. **Name the job** — reading pamphlet, training module, workspace panel, authenticated dashboard, or print sheet.
+2. **Reuse before inventing** — guide reading → `guide-ui`; workspace forms → `PublicHubPanel`; canvas tools → `ToolEditorLayout` panel; OL → `olTheme` tokens.
+3. **Cool new components welcome** — invent named primitives; document in the matching `.cursor/rules` file.
+4. **Anti-regression** — no left-pinned `max-w-prose` tip lists in wide playbook columns; no form-root Card inside ToolEditor form panel; no GuideLayout on OL/Hub/Portal; no interactive chrome in export rasters.
+5. **Review checklist** — spot ~375 / 768 / 1280 / 1536; EN/FR claim parity if copy moves; update this note when scope changes.
 
-## Brought in (2026-09 stretch)
+## Brought in (cumulative)
 
-| Surface | Primitive |
-|---------|-----------|
-| Workshop outlines (`/guide/workshop`, `/guide/workshops/land-acknowledgement`) | `GuideOutlineStep` + `GuideWorkshopNote` + `GuideSection` |
-| First-week roadmap (`/guide/social-media-plan`) | `GuideOutlineStep` (`headingAs="h2"`, `indexStyle="padded"`) |
-| Resources hub | `GuideSection` + path grids; sources categories → `GuideAccentBlock` |
-| Union boards nested accents | `GuideAccentBlock` |
-| Workshops hub catalog | `GuideCatalogCard` |
-| Comms workshop Demo Path | `GuideSpotlightBand` |
-| Playbook TOC | `GuidePlaybookToc` (scroll-spy + smooth + mobile details) |
-| Catalog start-here (`/tools`, `/guides`) | `CatalogStartHerePanel` + fluid titles |
-| Captions / onboarding | Catalog tiles; stepped hub panel |
-| Workplace-mapping / union-history / steward-101 / steward-playbooks | Tip grids, `GuideWideFigure`, outline steps, catalog cards |
-| Brand Kit | `ComposedPageLayout` workspace + hub panels (not GuideLayout) |
+| Wave | Surface | Primitive / outcome |
+|------|---------|---------------------|
+| Playbook stretch | Workshops, first-week, resources, boards, Demo Path, TOC | `GuideOutlineStep`, `GuideCatalogCard`, `GuideSpotlightBand`, `GuidePlaybookToc`, … |
+| Fluid migration Batches 1–12 | Catalogs, captions, brand-kit, densify guides | `CatalogStartHerePanel`, `PUBLIC_*` type, `GuideWideFigure`, … |
+| Gaps / QOL | Tip ReactNode, catalog `href`/`titleAs`, tip-pin guards | `PublicHubPanel`, `GuideTipItem` content |
+| **Final uplift 2026-09-08** | Legal, Hub/Portal, ToolEditor chrome, OL index, PDF capture | guide-ui pamphlets; dashboard grids; form panel; `olTheme` contrast/grid; export chrome strip |
 
-Full tick list: [`fluid-ui-migration-checklist.md`](fluid-ui-migration-checklist.md). Lessons: [`session-knowledge-2026-09-08-fluid-ui-migration.md`](session-knowledge-2026-09-08-fluid-ui-migration.md).
+Full tick lists: [`fluid-ui-migration-checklist.md`](fluid-ui-migration-checklist.md), [`fluid-ui-final-uplift-checklist.md`](fluid-ui-final-uplift-checklist.md).
 
-See also closed in-scope items: [`docs/growth-backlog.md`](../growth-backlog.md) (GB-001–012).
+Closed public GB items: [`docs/growth-backlog.md`](../growth-backlog.md) (GB-001–012).
 
 ## Suggested future passes (not scheduled)
 
-- OL: optional dark tip-grid variant + four-width matrix on module viewer.
-- Legal trio: leave narrow unless product asks for TOC playbooks.
-- Asset packs / tool panels: audit `border-l-2` duplication only if packs grow into multi-column catalogs.
-- PDF: keep [`guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc); any “density” work stays in `pdf-layout` contracts.
-- **Fluid QOL (post-checklist) — shipped 2026-09-08:** `GuideTipItem` ReactNode; `GuideCatalogCard` `titleAs`/`href`; `PublicHubPanel`; tip-pin guards; social map lg split; Tools catalog cards; PartFrame fluid titles; Steward-101 dual chrome documented.
-- **Hub / Portal composition:** deferred product decision — largest remaining density debt if scope expands.
-- ToolEditor **chrome-only** fluid `h1` if product wants parity without touching canvas Cards (still deferred).
+- OL **module viewer** density (aside + prose) at `xl` — index/dashboard already fluid.
+- Hub TaskBoard / CircleWorkspace composition if product expands dashboard density.
+- Asset packs: audit `border-l-2` duplication only if packs grow into multi-column catalogs.
+- PDF: keep [`guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc); any density work stays in `pdf-layout` contracts.
 
 ## Related
 
-- Actionable public UI backlog (awaiting approval / implementation): [`docs/growth-backlog.md`](../growth-backlog.md).
-- Playbook rollout + stretch: shared `guide-ui` barrel and `.cursor/rules/guide-layout-standards.mdc`.
-- Session pilot: land-acknowledgement densification (`GuideSection` / tip grids / wide writing-flow diagram).
+- Actionable public UI backlog: [`docs/growth-backlog.md`](../growth-backlog.md).
+- Editor chrome contract: [`.cursor/rules/tool-editor-ux.mdc`](../../.cursor/rules/tool-editor-ux.mdc).
