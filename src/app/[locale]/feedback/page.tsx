@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { SiteFeedbackForm } from "@/components/feedback/SiteFeedbackForm";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import { isFeedbackMemoryBackend } from "@/lib/platform-feedback/durable";
 import {
   SITE_FEEDBACK_CATEGORIES,
@@ -47,9 +48,7 @@ export default async function FeedbackPage({
 
   return (
     <PageShell size="focus" className="py-8 md:py-12" as="article">
-      <h1 className="text-2xl font-bold leading-tight text-opseu-dark md:text-4xl">
-        {t("title")}
-      </h1>
+      <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
       <p className="mt-4 max-w-prose text-lg leading-relaxed text-gray-800">
         {t("lead")}
       </p>

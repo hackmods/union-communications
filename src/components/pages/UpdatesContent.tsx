@@ -15,6 +15,10 @@ import {
   groupUpdatesByMonth,
   visibleUpdates,
 } from "@/lib/constants/updates";
+import {
+  PUBLIC_PAGE_TITLE_CLASS,
+  PUBLIC_SECTION_TITLE_CLASS,
+} from "@/lib/constants/public-type";
 import { cn } from "@/lib/utils";
 
 type FilterKind = UpdateKind | "all";
@@ -35,9 +39,7 @@ export function UpdatesContent() {
   return (
     <PageShell size="read" className="py-8 md:py-12" as="article">
       <header>
-        <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
-          {t("title")}
-        </h1>
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
         <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
         <p className="mt-4 max-w-prose leading-relaxed text-gray-700">
           {t("intro")}
@@ -72,9 +74,11 @@ export function UpdatesContent() {
       </div>
 
       {groups.length === 0 ? (
-        <Callout className="mt-10" tone="muted">
+        <Callout className="mt-10" tone="muted" measure="fill">
           <p className="font-semibold text-opseu-dark">{t("emptyTitle")}</p>
-          <p className="mt-2">{t("emptyBody")}</p>
+          <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
+            {t("emptyBody")}
+          </p>
         </Callout>
       ) : (
         <div className="mt-10 space-y-12">
@@ -82,7 +86,7 @@ export function UpdatesContent() {
             <section key={group.month} aria-labelledby={`updates-${group.month}`}>
               <h2
                 id={`updates-${group.month}`}
-                className="text-xl font-bold text-opseu-dark"
+                className={PUBLIC_SECTION_TITLE_CLASS}
               >
                 {formatUpdateMonth(group.month, locale)}
               </h2>

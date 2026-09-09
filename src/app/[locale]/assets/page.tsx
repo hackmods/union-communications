@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { AssetPackPanel } from "@/components/comms/AssetPackPanel";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 
 export async function generateMetadata({
   params,
@@ -26,9 +27,7 @@ export default async function AssetsPage({
   return (
     <ComposedPageLayout composition="hub" size="wide" className="py-8 md:py-12">
       <header className="max-w-3xl lg:max-w-none">
-        <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
-          {t("title")}
-        </h1>
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
         <p className="mt-4 max-w-prose leading-relaxed text-gray-700 lg:max-w-3xl">
           {t("description")}
         </p>

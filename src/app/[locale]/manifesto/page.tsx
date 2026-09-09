@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { PageShell } from "@/components/layout/PageShell";
 import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 
 export async function generateMetadata({
   params,
@@ -40,9 +41,7 @@ export default async function ManifestoPage({
 
   return (
     <PageShell size="focus" className="py-8 md:py-12" as="article">
-      <h1 className="text-2xl font-bold leading-tight text-opseu-dark md:text-4xl">
-        {t("title")}
-      </h1>
+      <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
 
       <div className="mt-8 max-w-prose space-y-6 text-lg leading-relaxed text-gray-800">
         <p>{t("p1")}</p>
