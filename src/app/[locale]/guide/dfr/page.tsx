@@ -10,6 +10,9 @@ import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-
 import {
   GuideLayout,
   GuideCallout,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideProse,
   GuideSection,
   GuideTipGrid,
   GuideTipItem,
@@ -259,17 +262,20 @@ export default async function DfrGuidePage({
         title={t("fullScenario.title")}
         intro={t("fullScenario.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {fullScenarioKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`fullScenario.phases.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`fullScenario.phases.${key}.content`)}
-            </li>
+        <GuideOutlineList className="mt-4 space-y-6">
+          {fullScenarioKeys.map((key, index) => (
+            <GuideOutlineStep
+              key={key}
+              id={`fullScenario-${key}`}
+              step={index + 1}
+              title={t(`fullScenario.phases.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`fullScenario.phases.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
+        </GuideOutlineList>
         <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("fullScenario.tip")}</p>
