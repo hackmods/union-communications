@@ -301,5 +301,16 @@ export function assertAttachmentDownloadable(
   return isDownloadAllowed(attachment.scanStatus);
 }
 
+/** @internal test helper — attachment meta starts empty. */
+export function resetAttachmentMemoryForTests(): void {
+  store.splice(0, store.length);
+}
+
+/** @internal test helper — seed a row without going through upload/scan. */
+export function insertAttachmentForTests(row: AttachmentMeta): AttachmentMeta {
+  store.push(row);
+  return row;
+}
+
 /** @deprecated use attachmentStore from ./store — kept for transitional imports */
 export const memoryAttachmentStore = new MemoryAttachmentAdapter();
