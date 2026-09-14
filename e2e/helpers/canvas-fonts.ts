@@ -135,13 +135,7 @@ export async function brandKitPreviewHeadlineFontFamily(
   page: Page,
 ): Promise<string> {
   return page.evaluate(() => {
-    const preview = document.querySelector(
-      '[aria-hidden] h2, [class*="rounded"] h2',
-    );
-    // Prefer the canvas style card specimen — first h2 under Brand Kit main
-    const main = document.querySelector("main");
-    const h2 = main?.querySelector("h2");
-    const node = h2 ?? preview;
+    const node = document.querySelector("[data-canvas-title]");
     if (!node) throw new Error("No Brand Kit preview headline");
     return getComputedStyle(node).fontFamily;
   });

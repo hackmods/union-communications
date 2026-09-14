@@ -117,7 +117,7 @@ test.describe("Steward meeting guides @smoke", () => {
       page.getByRole("heading", { name: /Prepare your words/i }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: /Floor handout \(one page\)/i }),
+      page.getByRole("heading", { name: /Worksheet \(one page\)/i }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: /How major unions approach it/i }),

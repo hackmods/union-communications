@@ -260,7 +260,12 @@ test.describe("Smoke tests @smoke", () => {
   test("website template page renders with preview", async ({ page }) => {
     await page.goto("/en/tools/website-template/");
     await expect(page.getByRole("heading", { name: "Website Template" })).toBeVisible();
-    await expect(page.getByTitle("Live preview")).toBeVisible();
+    await expect(
+      page
+        .getByRole("tabpanel", { name: "Preview" })
+        .locator("iframe[title='Live preview']")
+        .first(),
+    ).toBeVisible();
     await expect(page.getByRole("button", { name: "Download site ZIP" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Download WordPress theme" })).toBeVisible();
   });

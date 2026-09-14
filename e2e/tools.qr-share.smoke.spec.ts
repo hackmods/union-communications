@@ -203,7 +203,7 @@ test.describe("QR share URL captions @smoke", () => {
       await expect(
         page.getByRole("heading", { name: "QR Board Poster Maker" }),
       ).toBeVisible();
-      await expect(page.getByLabel(/Board preset/i)).toHaveValue(preset.id);
+      await expectPresetSelected(page, preset.id);
       await enableShowUrl(page, /Show URL under each QR/i);
 
       const root = await waitForQrPreview(page);
