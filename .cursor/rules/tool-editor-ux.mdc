@@ -20,7 +20,7 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 
 | Kind | Contract |
 |------|----------|
-| Canvas tools | [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx): H1 via `PUBLIC_PAGE_TITLE_CLASS`; subtitle/purposeHint `max-w-prose` + `leading-relaxed`; **shared form panel** (`border-opseu-blue/15`, `p-4 md:p-6` gradient surface) wraps `form` — do **not** nest a second `Card` as the form root; sticky preview `lg:sticky lg:top-4`; mobile Edit + **opaque sticky mini dock** → full Preview pane; tabs ≥44px; **all canvas tools pass `previewActions`** for export on full Preview |
+| Canvas tools | [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx): H1 via `PUBLIC_PAGE_TITLE_CLASS`; subtitle/purposeHint `max-w-prose` + `leading-relaxed`; **shared form panel** (`rounded-xl border-gray-200 bg-white shadow-sm p-4 md:p-6` — elevated white, 2026-09-13) wraps `form` — do **not** nest a second `Card` as the form root; sticky preview `lg:sticky lg:top-4`; mobile Edit + **opaque sticky mini dock** → full Preview pane; tabs ≥44px; **all canvas tools pass `previewActions`** for export on full Preview |
 | Dual preview | `preview` + `previewSecondary` (board-banner); mini dock shows primary only |
 | Galleries | `belowGrid` (resizer all-formats) |
 | Sources | `footer` slot — not a sibling ad-hoc PageShell |
@@ -73,6 +73,20 @@ Before marking a canvas tool done, confirm:
 5. `ToolRelatedFooter` / `RELATED_BY_TOOL` entry
 6. Colours collapsed via `ToolColourSection` or `ToolFormDetails` when the tool has colour overrides
 7. **Form IA order:** content fields first → `ToolFormDetails` **`sectionLayout`** (layout, format/size, logo mode + show local number) → `sectionOptions` toggles → `sectionColours` → typography/QR/photo advanced blocks → undo/export
+
+## Poster family consistency (2026-09-13)
+
+Trigger: [design review](docs/audit/plan-2026-09-13-poster-tools-polish.md). Applies to all canvas/poster tools (meeting-background, flyer-maker, solidarity-poster, action-card, qr-card, qr-board, quote-card, graphic-maker, board-banner, logo-builder, org-chart). Audited inventory: [`session-knowledge-2026-09-13-poster-tools-consistency.md`](../../docs/audit/session-knowledge-2026-09-13-poster-tools-consistency.md).
+
+1. **Shared primitives only** — no raw `<select>` / `<textarea>` / `<input type="checkbox">` / hand-rolled `<label>` in tool forms. Use shared `Input`/`Textarea`/`Select`/`Checkbox` from `components/ui` (rounded-lg, min-h-11, focus ring, label wrapper). Raw controls reproduce the `rounded-md` split and dead focus states the family is migrating away from.
+2. **One radius** — `rounded-lg` everywhere in chrome. `rounded-md` on a control in a tool form is a bug.
+3. **Preset pickers** — visual chips via [`PresetChips`](src/components/tools/PresetChips.tsx) (grid, `aria-pressed`, `data-preset-value`), never `<select>`. Toolbar `Button` chips (`size="sm" variant="outline"`) remain for short lists (quote-card, graphic-maker). Deep-link/e2e preset hooks stay on `data-preset-value` + `aria-pressed`.
+4. **Colour sections** — one accent-exposed pattern: `ToolColourSection` + `ThemePicker` + an accent `ColorField` child when the tool renders an accent layer (lower-third/bands/rails etc.). Never silently seed an accent colour the user cannot edit. `BrandSwatchPicker` remains acceptable where already shipped (flyer-maker, graphic-maker) — do not mix both patterns inside one tool. Org Chart intentionally has **no** colour overrides (Brand Kit primary only).
+5. **Suspense parity** — every tool page wraps content in `Suspense` + the shared [`ToolLoadingFallback`](src/components/tools/ToolLoadingFallback.tsx). No bespoke fallback copies.
+6. **Preview plate** — use [`CanvasSheetPlate`](src/components/tools/CanvasSheetPlate.tsx) (grey mat + optional caption) for canvas previews. Intentional exceptions where a tool owns a bespoke preview: meeting-background & solidarity-poster (safe-zone overlay alignment), qr-board (`QrBoardCanvas` owns its `CanvasWrapper`), board-banner (dual print-sheet pane). `data-export-root` capture rules unchanged.
+7. **No hardcoded English** — Suspense fallbacks, defaults, preset detail strings, and local labels go through `messages/*.json`. Canvas-family local labels use [`localLabel()`](src/lib/utils/local.ts) (single source; `Local {n}` / `Local {n} - {sub}`). Do not re-inline `` `Local ${n} - ${sub}` ``.
+8. **Error contract** — use `exportError`/`exportSuccess` → `Callout` via `ToolEditorLayout`; never render a second inline green/red `<p>`.
+9. **Form IA order** — see shell checklist below; content fields → `sectionLayout` → options → colours → advanced → undo/export.
 
 ## Migration status register
 

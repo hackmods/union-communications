@@ -191,7 +191,7 @@ export function ToolEditorLayout({
             "lg:block",
           )}
         >
-          <div className="min-w-0 space-y-5 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.04] to-white p-4 md:p-6">
+          <div className="min-w-0 space-y-5 rounded-xl border border-gray-200 bg-white shadow-sm p-4 md:p-6">
             {form}
           </div>
         </div>
