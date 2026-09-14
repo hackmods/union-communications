@@ -3053,7 +3053,7 @@
     "preset": "Slogan preset",
     "leadIn": "Lead-in",
     "headline": "Headline",
-    "headlineHint": "Use a new line to stack words",
+    "headlineHint": "Long lines wrap at spaces. Use a new line only when you want a hard stack.",
     "closer": "Closer",
     "layout": "Layout",
     "layouts": {
@@ -7481,6 +7481,10 @@
       "opseu-ontario-union-lockup": {
         "title": "Current OPSEU / SEFPO lockup on Brand Assets",
         "body": "Download the Ontario's union / Le syndicat de l'Ontario wordmark with the other OPSEU / SEFPO blue files."
+      },
+      "solidarity-poster-wrap": {
+        "title": "Solidarity posters wrap the big line",
+        "body": "Long headlines wrap at spaces instead of clipping the last letter, and the lead-in, support line, and QR read larger on letter and tabloid prints."
       },
       "meeting-background-hd-type": {
         "title": "Meeting backgrounds look punchy again",

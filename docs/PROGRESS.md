@@ -1,5 +1,10 @@
 # Progress Log
 
+## 2026-09-13 — Solidarity Poster wrap + supporting type
+
+- [x] Headlines wrap at spaces (`nowrap={false}`) so `NOTHING ABOUT US` no longer clips
+- [x] Print lead / CTA / URL / local / QR from `solidarity-poster-chrome.ts` (Brand Kit type scale optional)
+
 ## 2026-09-13 — Meeting Background HD type restore
 
 - [x] Design-px headlines, pads, and lockups (`meeting-background-chrome.ts` + `CanvasFitStackedHeadline`) so 1920×1080 exports keep solidarity punch

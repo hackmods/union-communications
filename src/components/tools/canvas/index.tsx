@@ -497,6 +497,8 @@ export function CanvasFitStackedHeadline({
     };
 
     measure();
+    const fonts = document.fonts;
+    void fonts?.ready.then(() => measure());
     const ro = new ResizeObserver(measure);
     ro.observe(el);
     if (el.parentElement) ro.observe(el.parentElement);
@@ -507,6 +509,7 @@ export function CanvasFitStackedHeadline({
   }, [
     fit,
     fitHeight,
+    nowrap,
     linesKey,
     subtitle,
     baseFontSizePx,
@@ -552,8 +555,10 @@ export function CanvasFitStackedHeadline({
             lineHeight: 0.95,
             margin: 0,
             fontFamily: tokens.headlineFontFamily,
-            whiteSpace: nowrap ? "nowrap" : undefined,
-            // Do not clip mid-word — fit loop shrinks until scrollWidth fits.
+            whiteSpace: nowrap ? "nowrap" : "normal",
+            overflowWrap: "normal",
+            wordBreak: "normal",
+            // Do not clip mid-word — wrap at spaces, or shrink nowrap until scrollWidth fits.
             maxWidth: "100%",
           }}
         >

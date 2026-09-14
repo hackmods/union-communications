@@ -3053,7 +3053,7 @@
     "preset": "Slogan prédéfini",
     "leadIn": "Amorce",
     "headline": "Titre",
-    "headlineHint": "Utilisez une nouvelle ligne pour empiler les mots",
+    "headlineHint": "Les longues lignes se coupent aux espaces. Une nouvelle ligne sert seulement à forcer une pile.",
     "closer": "Clôture",
     "layout": "Mise en page",
     "layouts": {
@@ -7428,6 +7428,10 @@
       "opseu-ontario-union-lockup": {
         "title": "Signature OPSEU / SEFPO actuelle dans Actifs de marque",
         "body": "Téléchargez le mot-symbole Ontario's union / Le syndicat de l'Ontario avec les autres fichiers bleus OPSEU / SEFPO."
+      },
+      "solidarity-poster-wrap": {
+        "title": "Les affiches solidarité passent le grand titre à la ligne",
+        "body": "Les longs titres passent à la ligne aux espaces au lieu de rogner la dernière lettre, et l'amorce, la ligne de soutien et le QR se lisent plus grand sur lettre et tabloïd."
       },
       "meeting-background-hd-type": {
         "title": "Les fonds de réunion sont de nouveau percutants",

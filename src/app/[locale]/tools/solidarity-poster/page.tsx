@@ -77,6 +77,7 @@ import {
 } from "@/components/tools/canvas";
 import { CanvasWrapper } from "@/components/canvas-core";
 import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
+import { solidaritySupportChrome } from "@/lib/comms/solidarity-poster-chrome";
 import {
   defaultEdgeClearanceForMedium,
   insetsForProfile,
@@ -125,8 +126,6 @@ function layoutChrome(format: SolidarityPosterFormat) {
       minHeadlinePx: 12,
       qrPx: ultraWide ? 40 : 48,
       footerGap: "gap-2 pt-1.5",
-      urlClass: "mt-0.5 break-all text-[10px] leading-tight",
-      ctaClass: "text-xs font-bold uppercase tracking-wide",
       isLandscape: true as const,
     };
   }
@@ -140,8 +139,6 @@ function layoutChrome(format: SolidarityPosterFormat) {
       minHeadlinePx: 14,
       qrPx: 64,
       footerGap: "gap-3 pt-3",
-      urlClass: "mt-0.5 break-all text-xs leading-snug",
-      ctaClass: "text-sm font-bold uppercase tracking-wide",
       isLandscape: false as const,
     };
   }
@@ -154,8 +151,6 @@ function layoutChrome(format: SolidarityPosterFormat) {
     minHeadlinePx: 14,
     qrPx: 72,
     footerGap: "gap-3 pt-3",
-    urlClass: "mt-0.5 break-all text-xs leading-snug",
-    ctaClass: "text-sm font-bold uppercase tracking-wide",
     isLandscape: false as const,
   };
 }
@@ -309,9 +304,16 @@ function SolidarityPosterPageContent() {
   const bannerBodyPadPx = contentPaddingPx(tokens, {
     factor: isLandscape ? 0.55 : 0.75,
   });
-  const qrPx = Math.round(
-    chrome.qrPx * (tokens.density === "tight" ? 0.92 : 1) * typeScaleFactor(tokens),
-  );
+  const support = designWidthPx
+    ? solidaritySupportChrome(designWidthPx)
+    : null;
+  const qrPx = support
+    ? support.qrPx
+    : Math.round(
+        chrome.qrPx *
+          (tokens.density === "tight" ? 0.92 : 1) *
+          typeScaleFactor(tokens),
+      );
   const headlineStackPx = Math.round(
     tokens.titleFontSizePx * chrome.headlineStackFactor,
   );
@@ -319,9 +321,20 @@ function SolidarityPosterPageContent() {
     tokens.titleFontSizePx * chrome.headlineSplitFactor,
   );
   const closerPx = Math.max(
-    10,
+    support ? 22 : 14,
     Math.round(tokens.titleFontSizePx * chrome.closerFactor),
   );
+  const leadPx =
+    support?.leadPx ??
+    Math.max(14, Math.round(tokens.subtitleFontSizePx * (isLandscape ? 0.85 : 1)));
+  const ctaPx =
+    support?.ctaPx ?? Math.max(13, Math.round(tokens.subtitleFontSizePx * 0.9));
+  const urlPx =
+    support?.urlPx ?? Math.max(12, Math.round(tokens.subtitleFontSizePx * 0.78));
+  const localPx =
+    support?.localPx ?? Math.max(12, Math.round(tokens.subtitleFontSizePx * 0.75));
+  const minHeadlinePx = support?.minHeadlinePx ?? Math.max(22, chrome.minHeadlinePx);
+  const logoMaxHeightPx = support?.logoMaxHeightPx;
   const displayUrl = state.supportUrl.trim() || SITE_URL;
   const showLocalInFooter =
     state.showLocalNumber &&
@@ -418,18 +431,24 @@ function SolidarityPosterPageContent() {
       <div className="min-w-0 flex-1 overflow-hidden pr-3 text-left">
         {state.showCta ? (
           <>
-            <p className={chrome.ctaClass} style={{ color: canvasInk }}>
+            <p
+              className="font-bold uppercase tracking-wide"
+              style={{ color: canvasInk, fontSize: ctaPx, lineHeight: 1.2 }}
+            >
               {t("cta")}
             </p>
-            <p className={chrome.urlClass} style={{ color: mutedInk90 }}>
+            <p
+              className="mt-0.5 break-all leading-snug"
+              style={{ color: mutedInk90, fontSize: urlPx }}
+            >
               {displayUrl}
             </p>
           </>
         ) : null}
         {showLocalInFooter ? (
           <p
-            className={cn("text-[10px] md:text-xs", state.showCta && "mt-0.5")}
-            style={{ color: mutedInk80 }}
+            className={cn(state.showCta && "mt-0.5")}
+            style={{ color: mutedInk80, fontSize: localPx, lineHeight: 1.25 }}
           >
             {localLabel}
           </p>
@@ -494,6 +513,7 @@ function SolidarityPosterPageContent() {
                     backgroundColor={state.primaryColor}
                     logoMode={canvasLogoMode}
                     bounds={{ maxWidthCqw: 55, align: "center" }}
+                    maxHeightPx={logoMaxHeightPx}
                   />
                 </div>
               ) : null}
@@ -505,14 +525,13 @@ function SolidarityPosterPageContent() {
                 )}
               >
                 <p
-                  className={cn(
-                    "w-full min-w-0 font-semibold uppercase tracking-[0.14em]",
-                    isLandscape ? "text-xs" : "text-sm",
-                  )}
+                  className="w-full min-w-0 font-semibold uppercase tracking-[0.14em]"
                   style={{
                     color: secondaryOnPrimary,
                     letterSpacing: leadLetterSpacing,
                     fontWeight: tokens.titleFontWeight,
+                    fontSize: leadPx,
+                    lineHeight: 1.2,
                   }}
                 >
                   {state.leadIn}
@@ -522,11 +541,12 @@ function SolidarityPosterPageContent() {
             <CanvasStackSlot className="justify-center py-1">
               <CanvasFitStackedHeadline
                 fit
+                nowrap={false}
                 lines={lines}
                 ink={canvasInk}
                 tokens={tokens}
                 baseFontSizePx={headlineStackPx}
-                minFontSizePx={chrome.minHeadlinePx}
+                minFontSizePx={minHeadlinePx}
                 subtitle={state.closer}
                 subtitleColor={secondaryOnPrimary}
                 subtitleBaseFontSizePx={closerPx}
@@ -557,21 +577,20 @@ function SolidarityPosterPageContent() {
                 }}
               >
                 <p
-                  className="text-xs font-bold uppercase tracking-[0.14em]"
+                  className="font-bold uppercase tracking-[0.14em]"
                   style={{
                     color: splitSideInk,
                     letterSpacing: leadLetterSpacing,
                     fontWeight: tokens.titleFontWeight,
+                    fontSize: leadPx,
+                    lineHeight: 1.2,
                   }}
                 >
                   {state.leadIn}
                 </p>
                 <p
-                  className={cn(
-                    "font-semibold leading-snug",
-                    isLandscape ? "text-xs" : "text-sm",
-                  )}
-                  style={{ color: splitSideInk }}
+                  className="font-semibold leading-snug"
+                  style={{ color: splitSideInk, fontSize: closerPx }}
                 >
                   {state.closer}
                 </p>
@@ -586,11 +605,12 @@ function SolidarityPosterPageContent() {
               >
                 <CanvasFitStackedHeadline
                   fit
+                  nowrap={false}
                   lines={lines}
                   ink={canvasInk}
                   tokens={tokens}
                   baseFontSizePx={headlineSplitPx}
-                  minFontSizePx={chrome.minHeadlinePx}
+                  minFontSizePx={minHeadlinePx}
                 />
               </div>
             </div>
@@ -618,16 +638,22 @@ function SolidarityPosterPageContent() {
                   logoMode={canvasLogoMode}
                   bounds={{ maxWidthCqw: 40, align: "start" }}
                   className="shrink"
+                  maxHeightPx={
+                    logoMaxHeightPx != null
+                      ? Math.round(logoMaxHeightPx * 0.72)
+                      : undefined
+                  }
                 />
               ) : null}
               <p
                 className={cn(
-                  "min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold uppercase tracking-[0.14em]",
+                  "min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-bold uppercase tracking-[0.14em]",
                   showLogo ? "text-right" : "text-left",
                 )}
                 style={{
                   color: bannerBarInk,
                   letterSpacing: leadLetterSpacing,
+                  fontSize: leadPx,
                 }}
               >
                 {state.leadIn}
@@ -640,11 +666,12 @@ function SolidarityPosterPageContent() {
               >
                 <CanvasFitStackedHeadline
                   fit
+                  nowrap={false}
                   lines={lines}
                   ink={canvasInk}
                   tokens={tokens}
                   baseFontSizePx={headlineStackPx}
-                  minFontSizePx={chrome.minHeadlinePx}
+                  minFontSizePx={minHeadlinePx}
                   subtitle={state.closer}
                   subtitleColor={mutedInk90}
                   subtitleBaseFontSizePx={closerPx}
