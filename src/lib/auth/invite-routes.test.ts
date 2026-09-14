@@ -239,7 +239,7 @@ describe("invite API routes", () => {
         json: async () => {
           throw new SyntaxError("bad");
         },
-      } as Request);
+      } as unknown as Request);
       expect(badJson.status).toBe(400);
 
       const badBody = await createInviteRoute(
@@ -366,7 +366,7 @@ describe("invite API routes", () => {
       });
 
       const badJson = await acceptInviteRoute(
-        { json: async () => { throw new SyntaxError("bad"); } } as Request,
+        { json: async () => { throw new SyntaxError("bad"); } } as unknown as Request,
         params(invite.token),
       );
       expect(badJson.status).toBe(400);
