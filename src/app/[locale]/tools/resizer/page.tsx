@@ -39,7 +39,6 @@ import {
 import { CanvasWrapper } from "@/components/canvas-core";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ImageUpload } from "@/components/tools/ImageUpload";
@@ -465,7 +464,7 @@ export default function ResizerPage() {
           ) : null
         }
         form={
-          <Card density="compact" className="space-y-5">
+          <div className="space-y-5">
             <div className="space-y-2">
               <p className="text-sm font-medium text-opseu-dark">{t("source")}</p>
               <div
@@ -770,7 +769,7 @@ export default function ResizerPage() {
               </Button>
             </div>
             </div>
-          </Card>
+          </div>
         }
         previewActions={
           <>

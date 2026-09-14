@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   BargainingLifecycleDiagram,
   NoBoardCountdownDiagram,
 } from "@/components/comms/StewardGuideDiagrams";
-import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import {
@@ -16,6 +14,17 @@ import {
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
 import { cn } from "@/lib/utils";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideProse,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -147,12 +156,12 @@ export default async function BargainingGuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout
         slug="mobilizer-bargaining-partner"
@@ -171,15 +180,15 @@ export default async function BargainingGuidePage({
       />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {gateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`gate.items.${key}.label`)}
               content={t(`gate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <SectorForkTable
           caption={t("gate.sectorCaption")}
           headers={{
@@ -194,67 +203,67 @@ export default async function BargainingGuidePage({
             ccba: t(`gate.sectorRows.${key}.ccba`),
           }))}
         />
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="prep" title={t("prep.title")} intro={t("prep.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {prepKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`prep.items.${key}.label`)}
               content={t(`prep.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("prep.tip")}</p>
-        </Callout>
-        <div className="button-row mt-5 max-w-lg">
+        </GuideCallout>
+        <GuideActionRow>
           <Link href="/guide/workplace-mapping" className={guideCtaOutlineClass}>
             {nav("workplaceMappingGuide")}
           </Link>
           <Link href="/guide/membership-signup" className={guideCtaOutlineClass}>
             {nav("membershipSignupGuide")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection id="table" title={t("table.title")} intro={t("table.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {tableKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`table.items.${key}.label`)}
               content={t(`table.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("table.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="comms" title={t("comms.title")} intro={t("comms.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {commsKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`comms.items.${key}.label`)}
               content={t(`comms.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("comms.tip")}</p>
-        </Callout>
-        <div className="button-row mt-5 max-w-2xl">
+        </GuideCallout>
+        <GuideActionRow>
           <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
             {nav("emailBroadcastGuide")}
           </Link>
@@ -264,7 +273,7 @@ export default async function BargainingGuidePage({
           >
             {nav("graphicMaker")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection
@@ -272,24 +281,24 @@ export default async function BargainingGuidePage({
         title={t("tracker.title")}
         intro={t("tracker.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {trackerKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`tracker.items.${key}.label`)}
               content={t(`tracker.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tracker.calloutTitle")}</p>
           <p className="mt-1">{t("tracker.calloutBody")}</p>
-        </Callout>
-        <div className="button-row mt-5 max-w-lg">
+        </GuideCallout>
+        <GuideActionRow>
           <Link href="/tools/proposal-tracker" className={guideCtaClass}>
             {t("tracker.cta")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection
@@ -307,35 +316,35 @@ export default async function BargainingGuidePage({
           }}
           caption={t("dispute.diagram.caption")}
         />
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">
             {t("dispute.ccbaTitle")}
           </p>
           <p className="mt-1">{t("dispute.ccbaBody")}</p>
-        </Callout>
-        <ul className="mt-6 list-disc space-y-3 pl-5 text-gray-700">
+        </GuideCallout>
+        <GuideTipGrid className="mt-6">
           {disputeKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`dispute.items.${key}.label`)}
               content={t(`dispute.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">
             {t("dispute.warningTitle")}
           </p>
           <p className="mt-1">{t("dispute.warning")}</p>
-        </Callout>
-        <div className="button-row mt-5 max-w-2xl">
+        </GuideCallout>
+        <GuideActionRow>
           <Link href="/guide/strike" className={guideCtaOutlineClass}>
             {t("dispute.strikeOpsCta")}
           </Link>
           <Link href="/guide/crisis" className={guideCtaOutlineClass}>
             {t("dispute.crisisCta")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
       <GuideSection
@@ -343,25 +352,25 @@ export default async function BargainingGuidePage({
         title={t("ratify.title")}
         intro={t("ratify.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {ratifyKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`ratify.items.${key}.label`)}
               content={t(`ratify.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("ratify.tip")}</p>
-        </Callout>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        </GuideCallout>
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">
             {t("ratify.rejectTitle")}
           </p>
           <p className="mt-1">{t("ratify.rejectBody")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -383,21 +392,24 @@ export default async function BargainingGuidePage({
         title={t("fullScenario.title")}
         intro={t("fullScenario.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {scenarioKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`fullScenario.phases.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`fullScenario.phases.${key}.content`)}
-            </li>
+        <GuideOutlineList className="mt-4 space-y-6">
+          {scenarioKeys.map((key, index) => (
+            <GuideOutlineStep
+              key={key}
+              id={`fullScenario-${key}`}
+              step={index + 1}
+              title={t(`fullScenario.phases.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`fullScenario.phases.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        </GuideOutlineList>
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("fullScenario.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -405,19 +417,19 @@ export default async function BargainingGuidePage({
         title={t("failureModes.title")}
         intro={t("failureModes.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {failureKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`failureModes.items.${key}.label`)}
               content={t(`failureModes.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("failureModes.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -425,16 +437,16 @@ export default async function BargainingGuidePage({
         title={t("notThis.title")}
         intro={t("notThis.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {notThisKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`notThis.items.${key}.label`)}
               content={t(`notThis.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-2xl">
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link href="/guide/grievance-process" className={guideCtaOutlineClass}>
             {nav("grievanceProcessGuide")}
           </Link>
@@ -447,29 +459,24 @@ export default async function BargainingGuidePage({
           <Link href="/guide/crisis" className={guideCtaOutlineClass}>
             {nav("crisisCommsGuide")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
 
-      <section
+      <GuideSection
         id="tools"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        title={t("tools.title")}
+        intro={t("tools.intro")}
       >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("tools.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("tools.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {toolKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`tools.items.${key}.label`)}
               content={t(`tools.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-2xl">
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link href="/tools/proposal-tracker" className={guideCtaOutlineClass}>
             {nav("proposalTracker")}
           </Link>
@@ -482,42 +489,13 @@ export default async function BargainingGuidePage({
           <Link href="/guide/workplace-mapping" className={guideCtaOutlineClass}>
             {nav("workplaceMappingGuide")}
           </Link>
-        </div>
-      </section>
+        </GuideActionRow>
+      </GuideSection>
     </GuideLayout>
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}
 
 function ChecklistFigure({
   items,

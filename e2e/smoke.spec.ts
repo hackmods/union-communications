@@ -284,7 +284,7 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("heading", { name: "Full source bibliography" })).toBeVisible();
     await expect(page.getByRole("link", { name: "OPSEU / SEFPO graphics, logos & letterhead" })).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Workshop outline" }).first(),
+      page.getByRole("link", { name: "Workshops" }).first(),
     ).toBeVisible();
   });
 

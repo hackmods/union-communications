@@ -30,15 +30,14 @@ import {
   type QuotePresetKey,
 } from "@/lib/comms/quote-presets";
 import { QuoteLayout } from "@/components/tools/graphic-layouts";
-import { CanvasWrapper } from "@/components/canvas-core";
+import { CanvasSheetPlate } from "@/components/tools/CanvasSheetPlate";
 import { exampleAspectDesignSize } from "@/lib/comms/canvas-aspects";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ColorField } from "@/components/tools/ColorField";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
@@ -89,9 +88,9 @@ function QuoteCardPageContent() {
   const tokens = resolveCanvasTokens(brandKit);
 
   const initial: QuoteState = {
-    quote: "We will not accept anything less than a fair deal for our members.",
-    author: "Local President",
-    role: "Bargaining committee",
+    quote: tq("defaults.quote"),
+    author: tq("defaults.author"),
+    role: tq("defaults.role"),
     layout: DEFAULT_QUOTE_LAYOUT,
     aspect: "square",
     primaryColor: brandKit.primaryColor,
@@ -251,7 +250,7 @@ function QuoteCardPageContent() {
       }
       footer={<ToolRelatedFooter toolSlug="quote-card" />}
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <section className="space-y-3">
           <Textarea
             label={tq("quote")}
@@ -349,19 +348,17 @@ function QuoteCardPageContent() {
           />
           {exportActions}
           </div>
-        </Card>
+        </div>
       }
       previewActions={exportActions}
       preview={
-        /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
-        <div className="overflow-hidden shadow-lg">
-          <CanvasWrapper
-            designWidth={designSize.width}
-            designHeight={designSize.height}
-            mode="fixed"
-            maxScale={1.25}
-            align="center"
-          >
+        <CanvasSheetPlate
+          designWidth={designSize.width}
+          designHeight={designSize.height}
+          mode="fixed"
+          maxScale={1.25}
+          align="center"
+        >
             <div
               ref={canvasRef}
               data-export-root=""
@@ -392,27 +389,15 @@ function QuoteCardPageContent() {
                 showLocalNumber={state.showLocalNumber}
               />
             </div>
-          </CanvasWrapper>
-        </div>
+        </CanvasSheetPlate>
       }
     />
   );
 }
 
-function QuoteCardSuspenseFallback() {
-  const t = useTranslations("common");
-  return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <p className="text-gray-600" aria-busy="true">
-        {t("loading")}
-      </p>
-    </PageShell>
-  );
-}
-
 export default function QuoteCardPage() {
   return (
-    <Suspense fallback={<QuoteCardSuspenseFallback />}>
+    <Suspense fallback={<ToolLoadingFallback />}>
       <QuoteCardPageContent />
     </Suspense>
   );

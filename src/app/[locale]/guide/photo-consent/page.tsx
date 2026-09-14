@@ -3,15 +3,24 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   guideCtaClass,
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
-import { Callout } from "@/components/ui/Callout";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideProse,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -103,46 +112,54 @@ export default async function PhotoConsentGuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout slug="human-rights-accommodation" moduleNumber={3} />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
-        <ItemList section="gate" keys={gateKeys} t={t} />
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideTipGrid className="mt-4">
+          {gateKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`gate.items.${key}.label`)}
+              content={t(`gate.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="why" title={t("why.title")} intro={t("why.intro")}>
-        <Callout tone="warning" className="mt-4 max-w-prose">
+        <GuideCallout tone="warning" className="mt-4">
           <p className="font-semibold text-amber-950">
             {t("why.retaliationTitle")}
           </p>
           <p className="mt-1">{t("why.retaliationBody")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="tiers" title={t("tiers.title")} intro={t("tiers.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {tierKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`tiers.items.${key}.label`)}
               content={t(`tiers.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("tiers.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -150,7 +167,15 @@ export default async function PhotoConsentGuidePage({
         title={t("askScript.title")}
         intro={t("askScript.intro")}
       >
-        <ItemList section="askScript" keys={askKeys} t={t} />
+        <GuideTipGrid className="mt-4">
+          {askKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`askScript.items.${key}.label`)}
+              content={t(`askScript.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -158,11 +183,19 @@ export default async function PhotoConsentGuidePage({
         title={t("recordKeeping.title")}
         intro={t("recordKeeping.intro")}
       >
-        <ItemList section="recordKeeping" keys={recordKeys} t={t} />
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideTipGrid className="mt-4">
+          {recordKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`recordKeeping.items.${key}.label`)}
+              content={t(`recordKeeping.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("recordKeeping.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -170,23 +203,31 @@ export default async function PhotoConsentGuidePage({
         title={t("checklist.title")}
         intro={t("checklist.intro")}
       >
-        <ItemList section="checklist" keys={checklistKeys} t={t} />
+        <GuideTipGrid className="mt-4">
+          {checklistKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`checklist.items.${key}.label`)}
+              content={t(`checklist.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection id="takedown" title={t("takedown.title")} intro="">
-        <Callout className="max-w-prose">
+        <GuideCallout >
           <p className="font-semibold text-opseu-dark">{t("takedown.rule")}</p>
           <p className="mt-2 leading-relaxed text-gray-700">{t("takedown.who")}</p>
-        </Callout>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        </GuideCallout>
+        <GuideTipGrid className="mt-4">
           {takedownKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`takedown.items.${key}.label`)}
               content={t(`takedown.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -194,7 +235,15 @@ export default async function PhotoConsentGuidePage({
         title={t("privacy.title")}
         intro={t("privacy.intro")}
       >
-        <ItemList section="privacy" keys={privacyKeys} t={t} />
+        <GuideTipGrid className="mt-4">
+          {privacyKeys.map((key) => (
+            <GuideTipItem
+              key={key}
+              label={t(`privacy.items.${key}.label`)}
+              content={t(`privacy.items.${key}.content`)}
+            />
+          ))}
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -202,21 +251,24 @@ export default async function PhotoConsentGuidePage({
         title={t("fullScenario.title")}
         intro={t("fullScenario.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {scenarioKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`fullScenario.phases.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`fullScenario.phases.${key}.content`)}
-            </li>
+        <GuideOutlineList className="mt-4 space-y-6">
+          {scenarioKeys.map((key, index) => (
+            <GuideOutlineStep
+              key={key}
+              id={`fullScenario-${key}`}
+              step={index + 1}
+              title={t(`fullScenario.phases.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`fullScenario.phases.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
-        <Callout className="mt-5 max-w-prose">
+        </GuideOutlineList>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("fullScenario.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -229,26 +281,21 @@ export default async function PhotoConsentGuidePage({
         </p>
       </GuideSection>
 
-      <section
+      <GuideSection
         id="tools"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        title={t("tools.title")}
+        intro={t("tools.intro")}
       >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("tools.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("tools.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {toolKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`tools.items.${key}.label`)}
               content={t(`tools.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-2xl">
+        </GuideTipGrid>
+        <GuideActionRow>
           <Link href="/tools/graphic-maker" className={guideCtaClass}>
             {nav("graphicMaker")}
           </Link>
@@ -261,63 +308,11 @@ export default async function PhotoConsentGuidePage({
           <Link href="/guide/resources" className={guideCtaOutlineClass}>
             {nav("resources")}
           </Link>
-        </div>
-      </section>
+        </GuideActionRow>
+      </GuideSection>
     </GuideLayout>
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      {intro ? (
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      ) : null}
-      {children}
-    </section>
-  );
-}
 
-function ItemList({
-  section,
-  keys,
-  t,
-}: {
-  section: string;
-  keys: readonly string[];
-  t: Awaited<ReturnType<typeof getTranslations>>;
-}) {
-  return (
-    <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-      {keys.map((key) => (
-        <TipItem
-          key={key}
-          label={t(`${section}.items.${key}.label`)}
-          content={t(`${section}.items.${key}.content`)}
-        />
-      ))}
-    </ul>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}

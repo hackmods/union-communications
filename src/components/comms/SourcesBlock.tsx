@@ -39,10 +39,14 @@ export function SourcesBlock({ pageId, title, intro }: SourcesBlockProps) {
   if (sources.length === 0) return null;
 
   return (
-    <Card className="mt-10 border-gray-200 bg-gray-50">
+    <Card className="mt-10 max-w-prose border-gray-200 bg-gray-50">
       <CardTitle className="text-base">{title}</CardTitle>
-      {intro && <p className="mt-2 text-sm text-gray-600">{intro}</p>}
-      <ul className="mt-4 space-y-3">
+      {intro && (
+        <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
+          {intro}
+        </p>
+      )}
+      <ul className="mt-4 max-w-prose space-y-3">
         {sources.map((source) => (
           <SourceItem key={source.id} source={source} />
         ))}

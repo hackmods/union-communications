@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
@@ -21,6 +21,7 @@ import {
   isLightInk,
   pickContrastingInk,
 } from "@/lib/utils/ink";
+import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
 
 type ChannelId = "boards" | "print" | "social" | "website";
@@ -56,9 +57,49 @@ const channelItems: Record<
 /** Matches first-week roadmap emphasis: boards → print → social → website */
 const channelOrder: ChannelId[] = ["boards", "print", "social", "website"];
 
+function HomePathCard({
+  title,
+  description,
+  hint,
+  action,
+  testId,
+  emphasized = false,
+}: {
+  title: string;
+  description: string;
+  hint?: string;
+  action: ReactNode;
+  testId: string;
+  emphasized?: boolean;
+}) {
+  return (
+    <li
+      data-testid={testId}
+      className={cn(
+        "flex min-w-0 flex-col gap-4 border-l-2 pl-5",
+        emphasized ? "border-opseu-blue" : "border-opseu-blue/30",
+      )}
+    >
+      <div className="min-w-0">
+        <h3 className="text-[clamp(1.125rem,1.05rem+0.35vw,1.25rem)] font-bold text-opseu-dark">
+          {title}
+        </h3>
+        <p className="mt-2 text-sm leading-relaxed text-gray-600">
+          {description}
+        </p>
+        {hint ? (
+          <p className="mt-2 text-sm leading-relaxed text-gray-600">{hint}</p>
+        ) : null}
+      </div>
+      <div className="mt-auto">{action}</div>
+    </li>
+  );
+}
+
 export function HomeContent() {
   const t = useTranslations("home");
   const nav = useTranslations("nav");
+  const tools = useTranslations("tools");
   const hubPublic = isOfficerHubPublic();
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
@@ -70,11 +111,8 @@ export function HomeContent() {
   const primary = brandKit.primaryColor;
   const secondary = brandKit.secondaryColor;
   const accent = brandKit.accentColor;
-  // Primary-led band — gold-first + paper end bleach white type (long-standing).
   const heroMid = blendHex(accent, primary, 0.35);
   const heroEnd = softGradientEndColor(primary, secondary);
-  // One ink family for the whole hero copy. Mixing pickFieldInk (black) with
-  // mutedInkOnBackground(primary) (white on coral) looked accidental.
   const ink = pickContrastingInk(primary);
   const inkMuted = inkWithAlpha(ink, isLightInk(ink) ? 0.92 : 0.88);
   const inkSoft = inkWithAlpha(ink, isLightInk(ink) ? 0.84 : 0.78);
@@ -101,13 +139,17 @@ export function HomeContent() {
           }}
           aria-hidden
         />
-        <div className="relative mx-auto grid min-h-[min(72vh,40rem)] w-full max-w-[90rem] grid-cols-1 items-center gap-10 px-4 py-14 sm:px-6 md:min-h-[min(68vh,36rem)] md:gap-12 md:py-16 lg:grid-cols-2 lg:gap-14 xl:gap-16 xl:px-8">
+        <div
+          className={cn(
+            PAGE_SHELL.wide,
+            "relative grid min-h-[min(72vh,40rem)] grid-cols-1 items-center gap-10 py-14 md:min-h-[min(68vh,36rem)] md:gap-12 md:py-16 lg:grid-cols-2 lg:gap-14 xl:gap-16",
+          )}
+        >
           <div className="home-enter flex min-w-0 flex-col items-start gap-6 sm:gap-8">
             <div
               data-testid="home-hero-brand"
               className="shrink-0 rounded-[28%] bg-white/95 p-3 shadow-lg ring-1 ring-black/5"
             >
-              {/* Live interlocking mark — plate/glyph follow Brand Kit primary + secondary */}
               <UnionOpsMark
                 size="xl"
                 primaryColor={primary}
@@ -181,27 +223,21 @@ export function HomeContent() {
         >
           <h2
             id="home-jobs-heading"
-            className="text-2xl font-bold text-opseu-dark"
+            className="text-[clamp(1.5rem,1.25rem+1vw,1.875rem)] font-bold tracking-tight text-opseu-dark"
           >
             {t("jobsTitle")}
           </h2>
-          <p className="mt-2 max-w-2xl text-base text-gray-600">
+          <p className="mt-2 max-w-prose text-base leading-relaxed text-gray-600">
             {t("jobsIntro")}
           </p>
-          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <Callout
-              tone="brand"
-              data-testid="home-path-comms"
-              className="flex flex-col gap-3 p-5"
-            >
-              <div>
-                <h3 className="text-lg font-bold text-opseu-dark">
-                  {t("pathCommsTitle")}
-                </h3>
-                <p className="mt-2 text-sm text-gray-600">{t("pathCommsDesc")}</p>
-                <p className="mt-2 text-sm text-gray-600">{t("pathCommsHint")}</p>
-              </div>
-              <div>
+          <ul className="mt-8 grid list-none gap-8 p-0 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+            <HomePathCard
+              testId="home-path-comms"
+              emphasized
+              title={t("pathCommsTitle")}
+              description={t("pathCommsDesc")}
+              hint={t("pathCommsHint")}
+              action={
                 <Link href={commsHref} onClick={markWorkshopDemoSession}>
                   <Button size="md" className="min-h-11">
                     {themeEstablished
@@ -209,84 +245,80 @@ export function HomeContent() {
                       : t("brandSetupCta")}
                   </Button>
                 </Link>
-              </div>
-            </Callout>
-
-            <Callout
-              tone="plain"
-              data-testid="home-path-steward"
-              className="flex flex-col gap-3 p-5"
-            >
-              <div>
-                <h3 className="text-lg font-bold text-opseu-dark">
-                  {t("pathStewardTitle")}
-                </h3>
-                <p className="mt-2 text-sm text-gray-600">{t("pathStewardDesc")}</p>
-              </div>
-              <div>
+              }
+            />
+            <HomePathCard
+              testId="home-path-steward"
+              title={t("pathStewardTitle")}
+              description={t("pathStewardDesc")}
+              action={
                 <Link href="/guide/steward-playbooks">
                   <Button size="md" variant="outline" className="min-h-11">
                     {t("pathStewardCta")}
                   </Button>
                 </Link>
-              </div>
-            </Callout>
-            <Callout
-              tone="plain"
-              data-testid="home-path-officer"
-              className="flex flex-col gap-3 p-5 md:col-span-2 lg:col-span-1"
-            >
-              <div>
-                <h3 className="text-lg font-bold text-opseu-dark">
-                  {t("pathOfficerTitle")}
-                </h3>
-                <p className="mt-2 text-sm text-gray-600">
-                  {t(
-                    hubPublic
-                      ? "pathOfficerDesc"
-                      : "pathOfficerLearningDesc",
-                  )}
-                </p>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                {hubPublic ? (
-                  <Link href="/app">
-                    <Button size="md" className="min-h-11">
-                      {t("pathOfficerCta")}
-                    </Button>
-                  </Link>
-                ) : (
-                  <>
-                    <Link href="/guide/officer-learning">
-                      <Button size="md" variant="outline" className="min-h-11">
-                        {t("pathOfficerLearningCta")}
+              }
+            />
+            <HomePathCard
+              testId="home-path-officer"
+              title={t("pathOfficerTitle")}
+              description={t(
+                hubPublic ? "pathOfficerDesc" : "pathOfficerLearningDesc",
+              )}
+              action={
+                <div className="flex flex-wrap items-center gap-3">
+                  {hubPublic ? (
+                    <Link href="/app">
+                      <Button size="md" className="min-h-11">
+                        {t("pathOfficerCta")}
                       </Button>
                     </Link>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-700">
-                      {t("pathOfficerCtaComingSoon")}
-                    </p>
-                  </>
-                )}
-              </div>
-            </Callout>
+                  ) : (
+                    <>
+                      <Link href="/guide/officer-learning">
+                        <Button size="md" variant="outline" className="min-h-11">
+                          {t("pathOfficerLearningCta")}
+                        </Button>
+                      </Link>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-gray-700">
+                        {t("pathOfficerCtaComingSoon")}
+                      </p>
+                    </>
+                  )}
+                </div>
+              }
+            />
+          </ul>
+        </section>
+
+        <section
+          className="home-enter home-enter-delay-2 mb-12 rounded-2xl border-2 border-opseu-blue/40 bg-opseu-blue/5 p-5 sm:p-6"
+          aria-label={t("workshopBandLabel")}
+        >
+          <div className="rounded-xl border border-opseu-blue/20 bg-white p-4 sm:p-5">
+            <WorkshopDemoPath />
+          </div>
+          <p className="mt-4 max-w-prose text-sm leading-relaxed text-gray-700">
+            {t(hubPublic ? "privacyNote" : "privacyNoteCommsOnly")}
+          </p>
+          <div className="mt-4">
+            <ShareThisTool />
           </div>
         </section>
 
-        <section className="home-enter home-enter-delay-2 mb-12 space-y-4">
-          <WorkshopDemoPath className="rounded-xl border border-gray-200 bg-white p-4 sm:p-5" />
-          <p className="text-sm text-gray-600">
-            {t(hubPublic ? "privacyNote" : "privacyNoteCommsOnly")}
-          </p>
-          <ShareThisTool />
-        </section>
-
-        <section className="home-enter home-enter-delay-3">
+        <section
+          className="home-enter home-enter-delay-3"
+          aria-labelledby="home-channels-heading"
+        >
           <div className="flex flex-col gap-4 border-b border-gray-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-opseu-dark">
+              <h2
+                id="home-channels-heading"
+                className="text-[clamp(1.5rem,1.25rem+1vw,1.875rem)] font-bold tracking-tight text-opseu-dark"
+              >
                 {t("channelsTitle")}
               </h2>
-              <p className="mt-2 max-w-2xl text-base text-gray-600">
+              <p className="mt-2 max-w-prose text-base leading-relaxed text-gray-600">
                 {t("channelsIntro")}
               </p>
             </div>
@@ -312,16 +344,16 @@ export function HomeContent() {
             </nav>
           </div>
 
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-5 2xl:gap-7">
+          <ul className="mt-8 grid list-none gap-8 p-0 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6">
             {channelOrder.map((channel) => (
-              <div
+              <li
                 key={channel}
-                className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5"
+                className="min-w-0 border-l-2 border-opseu-blue/30 pl-5"
               >
-                <h3 className="text-lg font-semibold text-opseu-dark">
+                <h3 className="text-[clamp(1.125rem,1.05rem+0.35vw,1.25rem)] font-bold text-opseu-dark">
                   {t(`channels.${channel}.title`)}
                 </h3>
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="mt-2 text-sm leading-relaxed text-gray-600">
                   {t(`channels.${channel}.description`)}
                 </p>
                 <ul className="mt-3 space-y-1">
@@ -329,34 +361,47 @@ export function HomeContent() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="inline-flex min-h-10 items-center text-sm font-medium text-opseu-blue underline-offset-2 hover:underline"
+                        className="group block rounded-lg border border-transparent px-1 py-1 transition-colors hover:border-opseu-blue/15 hover:bg-opseu-blue/5"
                       >
-                        {nav(item.titleKey)}
+                        <span className="inline-flex min-h-10 items-center text-sm font-medium text-opseu-blue underline-offset-2 group-hover:underline">
+                          {nav(item.titleKey)}
+                        </span>
                       </Link>
                     </li>
                   ))}
                 </ul>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
 
-        <section className="mt-12 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
-          <Link
-            href="/guide/social-media-plan"
-            className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+        <section
+          className="mt-12 rounded-xl border border-amber-500/25 bg-gradient-to-r from-amber-500/[0.06] via-white to-opseu-blue/[0.04] p-5 sm:p-6"
+          aria-labelledby="home-labour-playbooks"
+        >
+          <h2
+            id="home-labour-playbooks"
+            className="text-sm font-semibold uppercase tracking-wide text-gray-500"
           >
-            {nav("firstWeek")}
-          </Link>
-          <span className="text-gray-300" aria-hidden="true">
-            ·
-          </span>
-          <Link
-            href="/guide/steward-playbooks"
-            className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-          >
-            {nav("stewardPlaybooksHub")}
-          </Link>
+            {tools("labourPlaybooksTitle")}
+          </h2>
+          <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
+            {tools("labourPlaybooksIntro")}
+          </p>
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Link
+              href="/guide/steward-playbooks"
+              className="inline-flex min-h-11 items-center font-semibold text-opseu-blue underline-offset-2 hover:underline"
+            >
+              {tools("labourPlaybooksCta")} →
+            </Link>
+            <Link
+              href="/guide/social-media-plan"
+              className="inline-flex min-h-11 items-center font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+            >
+              {nav("firstWeek")}
+            </Link>
+          </div>
         </section>
       </PageShell>
     </>

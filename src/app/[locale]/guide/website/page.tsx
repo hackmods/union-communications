@@ -3,9 +3,7 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
@@ -13,7 +11,13 @@ import {
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
 import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
+import { PUBLIC_SECTION_TITLE_CLASS } from "@/lib/constants/public-type";
 import { cn } from "@/lib/utils";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -113,7 +117,7 @@ export default async function WebsiteGuidePage({
         className="scroll-mt-28"
         aria-labelledby="glance-heading"
       >
-        <h2 id="glance-heading" className="text-2xl font-bold text-opseu-dark">
+        <h2 id="glance-heading" className={PUBLIC_SECTION_TITLE_CLASS}>
           {t("glance.title")}
         </h2>
         <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
@@ -135,11 +139,11 @@ export default async function WebsiteGuidePage({
             cta={t("glance.part2.cta")}
           />
         </div>
-        <div className="button-row mt-5 max-w-lg">
+        <GuideActionRow>
           <Link href="/tools/website-template" className={guideCtaClass}>
             {t("glance.templateCta")}
           </Link>
-        </div>
+        </GuideActionRow>
       </section>
 
       <PartFrame
@@ -175,9 +179,9 @@ export default async function WebsiteGuidePage({
               </li>
             ))}
           </ul>
-          <Callout tone="muted" className="mt-4">
+          <GuideCallout tone="muted" className="mt-4">
             {t("why.tip")}
-          </Callout>
+          </GuideCallout>
         </section>
 
         <section
@@ -253,7 +257,7 @@ export default async function WebsiteGuidePage({
               </li>
             ))}
           </ul>
-          <Callout className="mt-4">{t("before.tip")}</Callout>
+          <GuideCallout className="mt-4">{t("before.tip")}</GuideCallout>
         </section>
 
         <section
@@ -278,14 +282,14 @@ export default async function WebsiteGuidePage({
               </StepItem>
             ))}
           </StepList>
-          <Callout tone="success" className="mt-4">
+          <GuideCallout tone="success" className="mt-4">
             {t("build.done")}
-          </Callout>
-          <div className="button-row mt-6 max-w-lg">
+          </GuideCallout>
+          <GuideActionRow className="mt-6">
             <Link href="/tools/website-template" className={guideCtaClass}>
               {t("build.cta")}
             </Link>
-          </div>
+          </GuideActionRow>
         </section>
       </PartFrame>
 
@@ -296,18 +300,18 @@ export default async function WebsiteGuidePage({
         intro={t("part2.intro")}
         className="mt-12 bg-gray-50"
       >
-        <Callout tone="warning" className="mt-5">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("part2.handoffTitle")}</p>
           <p className="mt-1">{t("part2.handoff")}</p>
-        </Callout>
-        <Callout tone="muted" className="mt-4">
+        </GuideCallout>
+        <GuideCallout tone="muted" className="mt-4">
           <p className="font-semibold text-opseu-dark">{t("wordpress.title")}</p>
           <p className="mt-1">{t("wordpress.body")}</p>
-        </Callout>
-        <Callout tone="muted" className="mt-4">
+        </GuideCallout>
+        <GuideCallout tone="muted" className="mt-4">
           <p className="font-semibold text-opseu-dark">{t("squarespace.title")}</p>
           <p className="mt-1">{t("squarespace.body")}</p>
-        </Callout>
+        </GuideCallout>
 
         <section
           className="mt-8 rounded-xl border border-gray-200 bg-white px-4 py-4 sm:px-5"
@@ -355,9 +359,9 @@ export default async function WebsiteGuidePage({
               </StepItem>
             ))}
           </StepList>
-          <Callout tone="muted" className="mt-4">
+          <GuideCallout tone="muted" className="mt-4">
             {t("deploy.tip")}
-          </Callout>
+          </GuideCallout>
           {githubPages ? (
             <p className="mt-4 text-sm text-gray-700">
               {t("deploy.docsLead")}{" "}
@@ -403,9 +407,9 @@ export default async function WebsiteGuidePage({
               </StepItem>
             ))}
           </StepList>
-          <Callout tone="muted" className="mt-4">
+          <GuideCallout tone="muted" className="mt-4">
             {t("domain.tip")}
-          </Callout>
+          </GuideCallout>
           {githubDomain ? (
             <p className="mt-4 text-sm text-gray-700">
               {t("domain.docsLead")}{" "}
@@ -458,7 +462,7 @@ export default async function WebsiteGuidePage({
         className="mt-12 scroll-mt-28"
         aria-labelledby="pair-heading"
       >
-        <h2 id="pair-heading" className="text-2xl font-bold text-opseu-dark">
+        <h2 id="pair-heading" className={PUBLIC_SECTION_TITLE_CLASS}>
           {t("pair.title")}
         </h2>
         <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
@@ -481,7 +485,7 @@ export default async function WebsiteGuidePage({
         </ul>
       </section>
 
-      <div className="button-row mt-10 max-w-2xl">
+      <GuideActionRow className="mt-10">
         <Link href="/brand-kit" className={guideCtaOutlineClass}>
           {nav("brandKit")}
         </Link>
@@ -491,7 +495,7 @@ export default async function WebsiteGuidePage({
         <Link href="/guide/social-media-plan" className={guideCtaOutlineClass}>
           {nav("firstWeek")}
         </Link>
-      </div>
+      </GuideActionRow>
     </GuideLayout>
   );
 }
@@ -553,7 +557,7 @@ function PartFrame({
       <p className="text-xs font-bold uppercase tracking-wide text-opseu-blue">
         {kicker}
       </p>
-      <h2 id={`${id}-heading`} className="mt-1 text-2xl font-bold text-opseu-dark">
+      <h2 id={`${id}-heading`} className={cn("mt-1", PUBLIC_SECTION_TITLE_CLASS)}>
         {title}
       </h2>
       <p className="mt-2 max-w-prose leading-relaxed text-gray-700">{intro}</p>

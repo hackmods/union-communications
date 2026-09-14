@@ -3,6 +3,7 @@ import {
   buildHtmlToImageOptions,
   findScaledTransformAncestor,
   resolveCaptureBackground,
+  stripExportChromeFromClone,
   withUnscaledAncestors,
 } from "./capture";
 
@@ -78,6 +79,28 @@ describe("findScaledTransformAncestor / withUnscaledAncestors", () => {
     await expect(pending).resolves.toBe("ok");
     expect(run).toHaveBeenCalledTimes(1);
     root.remove();
+  });
+});
+
+describe("stripExportChromeFromClone", () => {
+  it("removes preview chrome and interactive controls from the clone", () => {
+    const root = document.createElement("div");
+    const keep = document.createElement("p");
+    keep.textContent = "Poster headline";
+    const chrome = document.createElement("div");
+    chrome.setAttribute("data-export-chrome", "");
+    const button = document.createElement("button");
+    button.textContent = "Download";
+    const roleBtn = document.createElement("div");
+    roleBtn.setAttribute("role", "button");
+    root.append(keep, chrome, button, roleBtn);
+
+    stripExportChromeFromClone(root);
+
+    expect(root.querySelector("[data-export-chrome]")).toBeNull();
+    expect(root.querySelector("button")).toBeNull();
+    expect(root.querySelector("[role='button']")).toBeNull();
+    expect(root.textContent).toContain("Poster headline");
   });
 });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
@@ -9,7 +9,7 @@ import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
-import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
+import { formatFilename, localLabel as formatLocalLabel, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import {
@@ -39,8 +39,11 @@ import {
 } from "@/lib/constants/solidarity-poster-formats";
 import { LogoContainer } from "@/components/canvas-core";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
+import { Input, Textarea } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { PresetChips } from "@/components/tools/PresetChips";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -158,6 +161,14 @@ function layoutChrome(format: SolidarityPosterFormat) {
 }
 
 export default function SolidarityPosterPage() {
+  return (
+    <Suspense fallback={<ToolLoadingFallback />}>
+      <SolidarityPosterPageContent />
+    </Suspense>
+  );
+}
+
+function SolidarityPosterPageContent() {
   const t = useTranslations("solidarityPoster");
   const tc = useTranslations("common");
   const brandKit = useBrandStore((s) => s.brandKit);
@@ -246,10 +257,10 @@ export default function SolidarityPosterPage() {
     };
   }, [state.showQr, supportUrlForQr]);
 
-  const localNum = resolveLocalNumber(brandKit.local.localNumber);
-  const localLabel = brandKit.local.subText
-    ? `Local ${localNum} - ${brandKit.local.subText}`
-    : `Local ${localNum}`;
+  const localLabel = formatLocalLabel(
+    brandKit.local.localNumber,
+    brandKit.local.subText,
+  );
   const showLogo =
     showCanvasLogo(state.logoMode) &&
     (state.layout === "stack" || state.layout === "banner");
@@ -670,43 +681,30 @@ export default function SolidarityPosterPage() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-3">
-          <div>
-            <label htmlFor="slogan-preset" className="mb-1 block text-sm font-medium">
-              {t("preset")}
-            </label>
-            <select
-              id="slogan-preset"
-              value={state.sloganId}
-              onChange={(e) => applyPreset(e.target.value)}
-              className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
-            >
-              {SOLIDARITY_SLOGANS.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.headline.replace(/\n/g, " ")}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="space-y-3">
+          <PresetChips
+            label={t("preset")}
+            value={state.sloganId}
+            options={SOLIDARITY_SLOGANS.map((s) => ({
+              value: s.id,
+              label: s.headline.replace(/\n/g, " "),
+            }))}
+            onChange={applyPreset}
+          />
 
           <Input
             label={t("leadIn")}
             value={state.leadIn}
             onChange={(e) => setState({ ...state, leadIn: e.target.value })}
           />
-          <div>
-            <label htmlFor="poster-headline" className="mb-1 block text-sm font-medium">
-              {t("headline")}
-            </label>
-            <textarea
-              id="poster-headline"
-              value={state.headline}
-              onChange={(e) => setState({ ...state, headline: e.target.value })}
-              rows={3}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 font-semibold uppercase"
-            />
-            <p className="mt-1 text-xs text-gray-500">{t("headlineHint")}</p>
-          </div>
+          <Textarea
+            label={t("headline")}
+            value={state.headline}
+            onChange={(e) => setState({ ...state, headline: e.target.value })}
+            rows={3}
+            className="font-semibold uppercase"
+          />
+          <p className="text-sm leading-snug text-gray-600">{t("headlineHint")}</p>
           <Input
             label={t("closer")}
             value={state.closer}
@@ -720,38 +718,29 @@ export default function SolidarityPosterPage() {
             placeholder={SITE_URL}
           />
           {listMembershipDestinations(brandKit).length > 0 ? (
-            <div>
-              <label
-                htmlFor="solidarity-membership-link"
-                className="mb-1 block text-sm font-medium text-gray-700"
-              >
-                {t("membershipLink")}
-              </label>
-              <select
-                id="solidarity-membership-link"
-                className="min-h-11 w-full rounded-md border border-gray-300 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
-                defaultValue=""
-                onChange={(e) => {
-                  const id = e.target.value;
-                  if (!id) return;
-                  const origin =
-                    typeof window !== "undefined" ? window.location.origin : "";
-                  const url =
-                    listMembershipDestinations(brandKit).find((d) => d.id === id)
-                      ?.url ||
-                    resolvePresetDestination("membership-primary", brandKit, origin);
-                  if (url) setState({ ...state, supportUrl: url });
-                  e.target.value = "";
-                }}
-              >
-                <option value="">{t("membershipLinkPlaceholder")}</option>
-                {listMembershipDestinations(brandKit).map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <Select
+              label={t("membershipLink")}
+              value=""
+              onChange={(e) => {
+                const id = e.target.value;
+                if (!id) return;
+                const origin =
+                  typeof window !== "undefined" ? window.location.origin : "";
+                const url =
+                  listMembershipDestinations(brandKit).find((d) => d.id === id)
+                    ?.url ||
+                  resolvePresetDestination("membership-primary", brandKit, origin);
+                if (url) setState({ ...state, supportUrl: url });
+                e.target.value = "";
+              }}
+            >
+              <option value="">{t("membershipLinkPlaceholder")}</option>
+              {listMembershipDestinations(brandKit).map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.label}
+                </option>
+              ))}
+            </Select>
           ) : null}
 
           <ToolFormDetails title={tc("sectionLayout")}>
@@ -800,39 +789,29 @@ export default function SolidarityPosterPage() {
           </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionOptions")}>
-            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-              <input
-                type="checkbox"
-                checked={state.showCta}
-                onChange={(e) => setState({ ...state, showCta: e.target.checked })}
-                className="size-4"
-              />
-              {t("showCta")}
-            </label>
+            <Checkbox
+              checked={state.showCta}
+              onChange={(e) => setState({ ...state, showCta: e.target.checked })}
+              label={t("showCta")}
+            />
 
-            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-              <input
-                type="checkbox"
-                checked={state.showQr}
-                onChange={(e) => setState({ ...state, showQr: e.target.checked })}
-                className="size-4"
-              />
-              {t("showQr")}
-            </label>
+            <Checkbox
+              checked={state.showQr}
+              onChange={(e) => setState({ ...state, showQr: e.target.checked })}
+              label={t("showQr")}
+            />
 
-            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-              <input
-                type="checkbox"
-                checked={state.edgeClearance}
-                onChange={(e) =>
-                  setState({ ...state, edgeClearance: e.target.checked })
-                }
-                className="size-4"
-              />
-              {medium === "digital"
-                ? t("edgeClearanceDigital")
-                : t("edgeClearancePrint")}
-            </label>
+            <Checkbox
+              checked={state.edgeClearance}
+              onChange={(e) =>
+                setState({ ...state, edgeClearance: e.target.checked })
+              }
+              label={
+                medium === "digital"
+                  ? t("edgeClearanceDigital")
+                  : t("edgeClearancePrint")
+              }
+            />
             <p className="text-xs leading-snug text-gray-500">
               {medium === "digital"
                 ? t("edgeClearanceDigitalHint")
@@ -843,8 +822,10 @@ export default function SolidarityPosterPage() {
           <ToolColourSection
             primaryColor={state.primaryColor}
             secondaryColor={state.secondaryColor}
+            accentColor={state.accentColor}
             onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
             onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
+            onAccentChange={(c) => setState({ ...state, accentColor: c })}
           />
 
           <div className="space-y-3 border-t border-gray-200 pt-3">
@@ -891,7 +872,7 @@ export default function SolidarityPosterPage() {
             ) : null}
           </div>
           </div>
-        </Card>
+        </div>
       }
       previewActions={
         <>

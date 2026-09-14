@@ -11,7 +11,13 @@ type GuideTrainingPhaseProps = {
   className?: string;
 };
 
-/** Numbered training module wrapper for long-form steward playbooks. */
+/** Numbered training module wrapper for long-form steward playbooks.
+ *
+ * Intentional dual chrome with `GuideSection`: Steward 101 (and similar
+ * multi-module trainings) use rounded phase cards so each timed module reads
+ * as a distinct lesson. Ordinary playbook chapters stay on border-l
+ * `GuideSection`. Do not invent a third pattern — pick one of these two.
+ */
 export function GuideTrainingPhase({
   id,
   number,
@@ -38,7 +44,9 @@ export function GuideTrainingPhase({
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
+            <h2 className="text-[clamp(1.25rem,1.1rem+0.6vw,1.5rem)] font-bold text-opseu-dark">
+              {title}
+            </h2>
             <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600">
               {timeEstimate}
             </span>
@@ -69,7 +77,9 @@ export function GuideSubsection({
 }: GuideSubsectionProps) {
   return (
     <div id={id} className={cn("scroll-mt-28", className)}>
-      <h3 className="text-lg font-bold text-opseu-dark md:text-xl">{title}</h3>
+      <h3 className="text-[clamp(1.125rem,1.05rem+0.35vw,1.25rem)] font-bold text-opseu-dark">
+        {title}
+      </h3>
       {intro ? (
         <p className="mt-2 max-w-prose leading-relaxed text-gray-700">{intro}</p>
       ) : null}

@@ -7,6 +7,7 @@ import { RouteStatusStatic } from "@/components/layout/RouteStatusStatic";
 import { ROUTE_STATUS_FALLBACK } from "@/lib/constants/route-status-fallback";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
+import { captureClientRouteError } from "@/lib/observability/capture-client-route-error";
 
 /**
  * Last-resort error UI — must define its own html/body (Next.js requirement).
@@ -22,7 +23,7 @@ export default function GlobalError({
   const f = ROUTE_STATUS_FALLBACK;
 
   useEffect(() => {
-    console.error("[global]", error.digest ?? error.message);
+    captureClientRouteError(error, "global");
   }, [error]);
 
   const linkClass =

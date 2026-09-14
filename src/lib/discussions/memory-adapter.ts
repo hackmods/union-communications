@@ -24,101 +24,112 @@ function emptyPostFields(ts: string) {
   };
 }
 
-const threads: DiscussionThread[] = [
-  {
-    id: "disc-thread-001",
-    unionId: "union-opseu",
-    localId: "local-243",
-    bargainingUnitId: "bu-243-ft",
-    title: "Local business — next membership meeting prep",
-    body: "Thread for officers to coordinate agenda items ahead of the next local meeting. Keep member PII out of posts.",
-    createdById: "user-president-243",
-    createdByName: "Local 243 President",
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    lastPostAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    postCount: 2,
-  },
-  {
-    id: "disc-thread-002",
-    unionId: "union-opseu",
-    localId: "local-243",
-    bargainingUnitId: "bu-243-ft",
-    title: "Grievance grev-001 — Step 1 strategy",
-    body: "Internal discussion linked to Member A grievance. Visible only to officers who can view that grievance.",
-    grievanceId: "grev-001",
-    createdById: "user-steward-243",
-    createdByName: "Local 243 Steward",
-    createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
-    lastPostAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
-    postCount: 1,
-  },
-  {
-    id: "disc-thread-003",
-    unionId: "union-opseu",
-    localId: "local-243",
-    bargainingUnitId: "bu-243-pt",
-    title: "Grievance grev-002 — Step 2 discipline (PT Support)",
-    body: "Internal discussion linked to Member B. PT Support CA timelines (7 / 14 / 21), not the full-time steps. Keep member PII out of posts.",
-    grievanceId: "grev-002",
-    createdById: "user-steward-243-pt",
-    createdByName: "Local 243 Steward (PT)",
-    createdAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-    lastPostAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-    postCount: 1,
-  },
-];
+function seedThreads(): DiscussionThread[] {
+  return [
+    {
+      id: "disc-thread-001",
+      unionId: "union-opseu",
+      localId: "local-243",
+      bargainingUnitId: "bu-243-ft",
+      title: "Local business — next membership meeting prep",
+      body: "Thread for officers to coordinate agenda items ahead of the next local meeting. Keep member PII out of posts.",
+      createdById: "user-president-243",
+      createdByName: "Local 243 President",
+      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+      lastPostAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+      postCount: 2,
+    },
+    {
+      id: "disc-thread-002",
+      unionId: "union-opseu",
+      localId: "local-243",
+      bargainingUnitId: "bu-243-ft",
+      title: "Grievance grev-001 — Step 1 strategy",
+      body: "Internal discussion linked to Member A grievance. Visible only to officers who can view that grievance.",
+      grievanceId: "grev-001",
+      createdById: "user-steward-243",
+      createdByName: "Local 243 Steward",
+      createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+      lastPostAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+      postCount: 1,
+    },
+    {
+      id: "disc-thread-003",
+      unionId: "union-opseu",
+      localId: "local-243",
+      bargainingUnitId: "bu-243-pt",
+      title: "Grievance grev-002 — Step 2 discipline (PT Support)",
+      body: "Internal discussion linked to Member B. PT Support CA timelines (7 / 14 / 21), not the full-time steps. Keep member PII out of posts.",
+      grievanceId: "grev-002",
+      createdById: "user-steward-243-pt",
+      createdByName: "Local 243 Steward (PT)",
+      createdAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+      lastPostAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+      postCount: 1,
+    },
+  ];
+}
 
-const posts: DiscussionPost[] = [
-  {
-    id: "disc-post-001",
-    threadId: "disc-thread-001",
-    unionId: "union-opseu",
-    localId: "local-243",
-    authorId: "user-president-243",
-    authorName: "Local 243 President",
-    body: "Please add any standing items by Friday. Treasurer update and grievance overview are already on the draft.",
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    ...emptyPostFields(new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()),
-  },
-  {
-    id: "disc-post-002",
-    threadId: "disc-thread-001",
-    unionId: "union-opseu",
-    localId: "local-243",
-    authorId: "user-steward-243",
-    authorName: "Local 243 Steward (FT)",
-    body: "Can we slot 10 minutes for duty-bank clarification? @Local 243 President — members have been asking at the board.",
-    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    mentionedUserIds: ["user-president-243"],
-    reactions: [{ kind: "solidarity", userId: "user-president-243" }],
-  },
-  {
-    id: "disc-post-003",
-    threadId: "disc-thread-002",
-    unionId: "union-opseu",
-    localId: "local-243",
-    authorId: "user-steward-243",
-    authorName: "Local 243 Steward",
-    body: "Management response is overdue — drafting escalation checklist next.",
-    createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
-    ...emptyPostFields(new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString()),
-  },
-  {
-    id: "disc-post-004",
-    threadId: "disc-thread-003",
-    unionId: "union-opseu",
-    localId: "local-243",
-    authorId: "user-steward-243-pt",
-    authorName: "Local 243 Steward (PT)",
-    body: "Step 1 used the 7-working-day PT clock. Employer denied. Escalating to Step 2 (14 working days). Member needs an evening slot — they were skipped on Saturday additional hours the same week.",
-    createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-    ...emptyPostFields(new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString()),
-  },
-];
+function seedPosts(): DiscussionPost[] {
+  const twoDaysAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString();
+  const oneDayAgo = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString();
+  const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString();
+  const threeHoursAgo = new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString();
+  return [
+    {
+      id: "disc-post-001",
+      threadId: "disc-thread-001",
+      unionId: "union-opseu",
+      localId: "local-243",
+      authorId: "user-president-243",
+      authorName: "Local 243 President",
+      body: "Please add any standing items by Friday. Treasurer update and grievance overview are already on the draft.",
+      createdAt: twoDaysAgo,
+      ...emptyPostFields(twoDaysAgo),
+    },
+    {
+      id: "disc-post-002",
+      threadId: "disc-thread-001",
+      unionId: "union-opseu",
+      localId: "local-243",
+      authorId: "user-steward-243",
+      authorName: "Local 243 Steward (FT)",
+      body: "Can we slot 10 minutes for duty-bank clarification? @Local 243 President — members have been asking at the board.",
+      createdAt: oneDayAgo,
+      updatedAt: oneDayAgo,
+      mentionedUserIds: ["user-president-243"],
+      reactions: [{ kind: "solidarity", userId: "user-president-243" }],
+    },
+    {
+      id: "disc-post-003",
+      threadId: "disc-thread-002",
+      unionId: "union-opseu",
+      localId: "local-243",
+      authorId: "user-steward-243",
+      authorName: "Local 243 Steward",
+      body: "Management response is overdue — drafting escalation checklist next.",
+      createdAt: sixHoursAgo,
+      ...emptyPostFields(sixHoursAgo),
+    },
+    {
+      id: "disc-post-004",
+      threadId: "disc-thread-003",
+      unionId: "union-opseu",
+      localId: "local-243",
+      authorId: "user-steward-243-pt",
+      authorName: "Local 243 Steward (PT)",
+      body: "Step 1 used the 7-working-day PT clock. Employer denied. Escalating to Step 2 (14 working days). Member needs an evening slot — they were skipped on Saturday additional hours the same week.",
+      createdAt: threeHoursAgo,
+      ...emptyPostFields(threeHoursAgo),
+    },
+  ];
+}
+
+const threads: DiscussionThread[] = seedThreads();
+const posts: DiscussionPost[] = seedPosts();
 
 function touchThread(thread: DiscussionThread, ts: string) {
   thread.updatedAt = ts;
@@ -273,8 +284,8 @@ export class MemoryDiscussionsAdapter implements DiscussionsAdapter {
 
 export const memoryDiscussionsStore = new MemoryDiscussionsAdapter();
 
-/** @internal test helper */
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
 export function resetMemoryDiscussions(): void {
-  threads.length = 3;
-  posts.length = 4;
+  threads.splice(0, threads.length, ...seedThreads());
+  posts.splice(0, posts.length, ...seedPosts());
 }

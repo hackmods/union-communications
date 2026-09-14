@@ -3,7 +3,9 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
+import { CatalogStartHerePanel } from "@/components/comms/CatalogStartHerePanel";
 import { TOOL_COMPOSITION } from "@/lib/constants/page-composition";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import type { NavLinkKey } from "@/components/layout/nav/nav-config";
 import {
   GUIDE_CATALOG_GROUP_IDS,
@@ -38,68 +40,6 @@ const START_HERE = [
   },
 ] as const;
 
-function StartHerePanel({
-  title,
-  intro,
-  roadmapLabel,
-  steps,
-  bare = false,
-}: {
-  title: string;
-  intro: string;
-  roadmapLabel: string;
-  steps: { href: string; label: string; title: string }[];
-  bare?: boolean;
-}) {
-  return (
-    <div
-      className={
-        bare
-          ? undefined
-          : "rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.06] to-white p-5"
-      }
-    >
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-        {title}
-      </h2>
-      <p className="mt-2 text-sm leading-snug text-gray-700">{intro}</p>
-      <ol className="mt-4 space-y-2">
-        {steps.map((step, index) => (
-          <li key={step.href}>
-            <Link
-              href={step.href}
-              className="group flex min-h-11 items-start gap-3 rounded-lg border border-transparent px-1 py-1 transition-colors hover:border-opseu-blue/20 hover:bg-white/80"
-            >
-              <span
-                className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-opseu-blue/10 text-xs font-bold text-opseu-blue"
-                aria-hidden
-              >
-                {index + 1}
-              </span>
-              <span>
-                <span className="block font-medium text-opseu-blue underline-offset-2 group-hover:underline">
-                  {step.label}
-                </span>
-                <span className="mt-0.5 block text-xs text-gray-600">
-                  {step.title}
-                </span>
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ol>
-      <p className="mt-4 border-t border-opseu-blue/10 pt-4">
-        <Link
-          href="/guide/steward-playbooks"
-          className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline-offset-2 hover:underline"
-        >
-          {roadmapLabel} →
-        </Link>
-      </p>
-    </div>
-  );
-}
-
 export default async function GuidesCatalogPage({
   params,
 }: {
@@ -117,10 +57,11 @@ export default async function GuidesCatalogPage({
   }));
 
   const startHerePanel = (
-    <StartHerePanel
+    <CatalogStartHerePanel
       title={t("startHereTitle")}
       intro={t("startHereIntro")}
       roadmapLabel={t("startHereRoadmap")}
+      roadmapHref="/guide/steward-playbooks"
       steps={steps}
     />
   );
@@ -133,11 +74,9 @@ export default async function GuidesCatalogPage({
       rail={startHerePanel}
     >
       <header>
-        <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
-          {t("title")}
-        </h1>
-        <p className="mt-2 max-w-3xl text-gray-600">{t("subtitle")}</p>
-        <p className="mt-2 max-w-3xl text-sm text-gray-600">
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
+        <p className="mt-2 max-w-prose text-gray-600">{t("subtitle")}</p>
+        <p className="mt-2 max-w-prose text-sm text-gray-600">
           {t("hint")}{" "}
           <Link
             href="/brand-kit"
@@ -150,7 +89,7 @@ export default async function GuidesCatalogPage({
       </header>
 
       <details className="group mt-6 rounded-xl border border-opseu-blue/15 bg-opseu-blue/[0.04] lg:hidden">
-        <summary className="cursor-pointer list-none px-4 py-3 text-sm font-semibold text-opseu-dark marker:content-none [&::-webkit-details-marker]:hidden">
+        <summary className="cursor-pointer list-none px-4 py-3 text-sm font-semibold text-opseu-dark outline-none marker:content-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40 focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
           <span className="flex items-center justify-between gap-2">
             {t("startHereTitle")}
             <span
@@ -168,10 +107,11 @@ export default async function GuidesCatalogPage({
           </span>
         </summary>
         <div className="border-t border-opseu-blue/10 px-4 pb-4 pt-2">
-          <StartHerePanel
+          <CatalogStartHerePanel
             title={t("startHereTitle")}
             intro={t("startHereIntro")}
             roadmapLabel={t("startHereRoadmap")}
+            roadmapHref="/guide/steward-playbooks"
             steps={steps}
             bare
           />
@@ -180,10 +120,7 @@ export default async function GuidesCatalogPage({
 
       <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 xl:gap-8">
         {GUIDE_CATALOG_GROUP_IDS.map((groupId: GuideGroupId) => (
-          <section
-            key={groupId}
-            aria-labelledby={`guides-${groupId}`}
-          >
+          <section key={groupId} aria-labelledby={`guides-${groupId}`}>
             <h2
               id={`guides-${groupId}`}
               className="text-sm font-semibold uppercase tracking-wide text-gray-500"

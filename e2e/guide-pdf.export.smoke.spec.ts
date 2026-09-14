@@ -132,20 +132,20 @@ test.describe("Guide text PDF export smoke @smoke", () => {
 
     const landAckCta = page
       .locator("#howToWrite")
-      .getByRole("button", { name: /Download floor handout/i });
+      .getByRole("button", { name: /Download worksheet/i });
     await landAckCta.scrollIntoViewIfNeeded();
     const landAckDownloadPromise = page.waitForEvent("download");
     await landAckCta.click();
     const landAckDownload = await landAckDownloadPromise;
     expect(landAckDownload.suggestedFilename()).toMatch(
-      /unionops-land-acknowledgement-worksheet.*\.pdf$/i,
+      /Territory_Acknowledgement_Worksheet\.pdf$/i,
     );
     const landAckPath = path.join(outDir, landAckDownload.suggestedFilename());
     await landAckDownload.saveAs(landAckPath);
     await assertTextPdfWithMark({
       filePath: landAckPath,
       minBytes: 3_000,
-      titleNeedle: /Land acknowledgement — floor handout/i,
+      titleNeedle: /Territory acknowledgement worksheet/i,
       footerNeedle: /UnionOps Comms/i,
     });
 

@@ -274,6 +274,22 @@ describe("identity-packs", () => {
     expect(applyIdentityPack(national).campaignPlate).toBeUndefined();
   });
 
+  it("ships the current Ontario's union lockup in national blue files", () => {
+    const national = getIdentityPack(OPSEU_NATIONAL_PACK_ID)!;
+    const ontarioUnion = national.assetVariants.find(
+      (v) => v.id === "ontario-union",
+    );
+    expect(ontarioUnion?.src).toBe(
+      "/assets/caat-opseu/logo-lockup-ontario-union.png",
+    );
+    expect(ontarioUnion?.labelKey).toBe("ontarioUnion");
+    expect(
+      existsSync(
+        join(process.cwd(), "public", ontarioUnion!.src.replace(/^\//, "")),
+      ),
+    ).toBe(true);
+  });
+
   it("resolves missing identityPackId to national for OPSEU official kits", () => {
     const kit = {
       ...DEFAULT_BRAND_KIT,

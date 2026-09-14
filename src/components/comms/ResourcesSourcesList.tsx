@@ -9,6 +9,9 @@ import {
   type CommsSourceCategory,
 } from "@/lib/constants/comms-sources";
 import { useBrandStore } from "@/store/brand-store";
+import { GuideAccentBlock } from "@/components/comms/GuideOutline";
+import { PUBLIC_SECTION_TITLE_CLASS } from "@/lib/constants/public-type";
+import { cn } from "@/lib/utils";
 
 const categoryOrder: CommsSourceCategory[] = [
   "branding",
@@ -33,8 +36,10 @@ export function ResourcesSourcesList() {
 
   return (
     <div className="mt-10">
-      <h2 className="text-xl font-bold text-opseu-dark">{t("allSources.title")}</h2>
-      <p className="mt-2 text-gray-600">{t("allSources.intro")}</p>
+      <h2 className={cn(PUBLIC_SECTION_TITLE_CLASS)}>
+        {t("allSources.title")}
+      </h2>
+      <p className="mt-2 max-w-prose text-gray-600">{t("allSources.intro")}</p>
       {showScopeNote && (
         <p className="mt-2 text-sm text-gray-600">
           {t("allSources.scopedNote")}{" "}
@@ -49,13 +54,11 @@ export function ResourcesSourcesList() {
           const sources = byCategory[category];
           if (sources.length === 0) return null;
           return (
-            <section
+            <GuideAccentBlock
               key={category}
-              className="border-l-2 border-opseu-blue/30 pl-5"
+              titleAs="h3"
+              title={ts(`categories.${category}`)}
             >
-              <h3 className="text-base font-bold text-opseu-dark">
-                {ts(`categories.${category}`)}
-              </h3>
               <ul className="mt-3 space-y-3">
                 {sources.map((source) => (
                   <li
@@ -74,7 +77,7 @@ export function ResourcesSourcesList() {
                   </li>
                 ))}
               </ul>
-            </section>
+            </GuideAccentBlock>
           );
         })}
       </div>

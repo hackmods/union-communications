@@ -1,5 +1,49 @@
 # Progress Log
 
+## 2026-09-08 — Fluid UI final uplift (deferred surfaces)
+
+- [x] Legal pamphlets on guide-ui (`privacy` / `security` / `accessibility`) + DisplaySettings → PublicHubPanel
+- [x] HubDashboard + PortalStation fluid titles + responsive widget/circle grids
+- [x] ToolEditorLayout fluid H1 + shared form panel; tool form Cards unwrapped into panel chrome
+- [x] Officer Learning dark shell: contrast tokens, track grid, header breathe, sources `max-w-prose`
+- [x] PDF/capture: margin safe floors + `stripExportChromeFromClone` (buttons / `data-export-chrome`)
+- Checklist: [`fluid-ui-final-uplift-checklist.md`](audit/fluid-ui-final-uplift-checklist.md)
+
+## 2026-09-08 — Fluid UI Gaps / QOL pass
+
+- [x] `GuideTipItem` ReactNode; `GuideCatalogCard` `titleAs`/`href`; `PublicHubPanel` (Brand Kit + onboarding)
+- [x] Tip `li.max-w-prose` layout guard; social map lg split; captions inset highlight; Tools catalog cards; PartFrame fluid titles
+- [x] Steward-101 dual chrome documented (GuideTrainingPhase vs GuideSection)
+- Deferred untouched: tool editor Cards, OL dark shell, legal, PDF, Hub/Portal
+- Session: [`session-knowledge-2026-09-08-fluid-ui-migration.md`](audit/session-knowledge-2026-09-08-fluid-ui-migration.md)
+- Verify: `npm run test:unit -- src/lib/comms/guide-layout-guards.test.ts`
+
+## 2026-09-08 — Fluid UI migration (Batches 1–12) complete
+
+- [x] Complexity-grouped checklist + batch refactor of in-scope public guides/catalogs/onboarding/captions/brand-kit
+- [x] Shared tokens (`public-type`), `CatalogStartHerePanel`, playbook densify (`GuideWideFigure` / outline / catalog cards)
+- [x] Brand Kit → workspace `ComposedPageLayout` + hub panels; canvas panel left as tool chrome
+- [x] Out-of-scope held: OL dark shell, legal narrow, tool interiors, PDF, Hub/Portal
+- Session knowledge: [`session-knowledge-2026-09-08-fluid-ui-migration.md`](audit/session-knowledge-2026-09-08-fluid-ui-migration.md); checklist [`fluid-ui-migration-checklist.md`](audit/fluid-ui-migration-checklist.md)
+- Verify: `npm run test:unit -- src/lib/comms/guide-layout-guards.test.ts`
+
+## 2026-09-08 — CapRover-togglable Sentry + server file error sinks
+
+- [x] `@sentry/nextjs` errors-only (no Session Replay); tunnel `/monitoring`; CSP `connect-src 'self'` unchanged; proxy matcher skips `monitoring`
+- [x] Independent env sinks: `SENTRY_*` + `ERROR_LOG_FILE_*` (rotation via `MAX_BYTES` / `KEEP`); defaults off
+- [x] `/api/health` → `observability` flags + boot misconfig warns; critical API/email + route `error.tsx` reporting
+- [x] CI/Docker optional `SENTRY_AUTH_TOKEN` + `NEXT_PUBLIC_SENTRY_DSN` for source maps / client bake
+- [x] ADR-006 amendment; module [`OBSERVABILITY.md`](modules/OBSERVABILITY.md); session knowledge [`session-knowledge-2026-09-08-sentry-observability.md`](audit/session-knowledge-2026-09-08-sentry-observability.md)
+- Verify: `npm run test:unit -- src/lib/observability/ src/lib/ops/health-status.test.ts src/lib/email/send.test.ts`; `npm run typecheck`; lint clean of new errors
+- Commits: `86d7a48`, `84d2287`
+
+## 2026-09-08 — Land acknowledgement how-to + workshops hub
+
+- [x] `/guide/land-acknowledgement` refocused on how-to walkthrough + PDF worksheet; Niagara annotated example kept; embedded facilitator agenda removed
+- [x] `/guide/workshops` hub + `/guide/workshops/land-acknowledgement` outline (Comms workshop stays at `/guide/workshop`)
+- [x] Registry `workshops` group, sitemap/SEO, nav, What's new, facilitator doc `docs/workshop/land-acknowledgement.md`
+- Verify: unit (registry, SEO, PDF, updates, public-copy) + workshop/land-ack smokes
+
 ## 2026-09-07 — Canvas Core engine (Waves 0–4)
 
 - [x] Shared geometry: `CanvasWrapper` / `LogoContainer` / `useCanvasExport` / safe-zone; `FitWidthFrame` re-export; capture allowlist + SVG/blob parity

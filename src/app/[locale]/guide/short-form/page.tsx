@@ -2,14 +2,20 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Callout } from "@/components/ui/Callout";
-import { Card, CardTitle } from "@/components/ui/Card";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { SHORT_FORM_EDITORS } from "@/lib/constants/short-form-editors";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideBulletList,
+  GuideCallout,
+  GuideCatalogCard,
+  GuideSection,
+  GuideWideFigure,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -97,29 +103,20 @@ export default async function ShortFormGuidePage({
         />
       }
     >
-      <section
+      <GuideSection
         id="filming"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="filming-heading"
+        title={t("filming.title")}
+        intro={t("filming.content")}
       >
-        <h2
-          id="filming-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("filming.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("filming.content")}
-        </p>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+        <GuideBulletList className="mt-3" columns={2}>
           {filmingItemKeys.map((key) => (
             <li key={key}>{t(`filming.items.${key}`)}</li>
           ))}
-        </ul>
+        </GuideBulletList>
 
-        <figure className="mt-6 max-w-md">
-          <div className="flex items-end gap-4">
-            <div className="flex w-16 flex-col items-center gap-2">
+        <GuideWideFigure className="mt-6" ariaLabel={t("aspect.caption")}>
+          <div className="flex flex-wrap items-end gap-6 sm:gap-8">
+            <div className="flex w-20 flex-col items-center gap-2 sm:w-24">
               <div
                 className="aspect-[9/16] w-full rounded-md border-2 border-opseu-blue bg-opseu-blue/10"
                 aria-hidden="true"
@@ -128,7 +125,7 @@ export default async function ShortFormGuidePage({
                 {t("aspect.portrait")}
               </span>
             </div>
-            <div className="flex w-16 flex-col items-center gap-2">
+            <div className="flex w-20 flex-col items-center gap-2 sm:w-24">
               <div
                 className="aspect-square w-full rounded-md border border-gray-300 bg-gray-50"
                 aria-hidden="true"
@@ -137,7 +134,7 @@ export default async function ShortFormGuidePage({
                 {t("aspect.square")}
               </span>
             </div>
-            <div className="flex w-28 flex-col items-center gap-2">
+            <div className="flex w-36 flex-col items-center gap-2 sm:w-44">
               <div
                 className="aspect-[16/9] w-full rounded-md border border-gray-300 bg-gray-50"
                 aria-hidden="true"
@@ -147,12 +144,12 @@ export default async function ShortFormGuidePage({
               </span>
             </div>
           </div>
-          <figcaption className="mt-3 max-w-prose text-sm text-gray-600">
+          <p className="mt-3 max-w-prose text-sm text-gray-600">
             {t("aspect.caption")}
-          </figcaption>
-        </figure>
+          </p>
+        </GuideWideFigure>
 
-        <Callout className="mt-6">
+        <GuideCallout className="mt-6">
           <p className="font-semibold text-opseu-dark">
             {t("filming.consentTitle")}
           </p>
@@ -163,103 +160,76 @@ export default async function ShortFormGuidePage({
           >
             {nav("photoConsent")} →
           </Link>
-        </Callout>
-      </section>
+        </GuideCallout>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="editing"
-        className="mt-10 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="editing-heading"
+        title={t("editing.title")}
+        intro={t("editing.content")}
       >
-        <h2
-          id="editing-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("editing.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("editing.content")}
-        </p>
-
-        <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+        <ul className="mt-6 grid list-none gap-6 p-0 sm:grid-cols-2">
           {SHORT_FORM_EDITORS.map((editor) => (
-            <li key={editor.id}>
-              <Card density="compact" className="h-full">
-                <CardTitle className="text-base">
-                  {t(`editors.${editor.id}.name`)}
-                </CardTitle>
-                <p className="mt-2 text-sm font-medium text-opseu-dark">
+            <GuideCatalogCard
+              key={editor.id}
+              title={t(`editors.${editor.id}.name`)}
+              meta={
+                <>
                   {t(`pricing.${editor.pricing}`)}
                   <span className="text-gray-400" aria-hidden="true">
                     {" "}
                     ·{" "}
                   </span>
                   {t(`privacy.${editor.privacy}`)}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-gray-700">
-                  {t(`editors.${editor.id}.when`)}
-                </p>
-                <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-600">
-                  {editor.useCaseIds.map((useCase) => (
-                    <li key={useCase}>{t(`useCases.${useCase}`)}</li>
-                  ))}
-                </ul>
-              </Card>
-            </li>
+                </>
+              }
+              body={
+                <>
+                  <p>{t(`editors.${editor.id}.when`)}</p>
+                  <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-600">
+                    {editor.useCaseIds.map((useCase) => (
+                      <li key={useCase}>{t(`useCases.${useCase}`)}</li>
+                    ))}
+                  </ul>
+                </>
+              }
+            />
           ))}
         </ul>
 
-        <Callout tone="muted" className="mt-6">
+        <GuideCallout tone="muted" className="mt-6">
           <p className="font-semibold text-opseu-dark">
             {t("editing.stillsTitle")}
           </p>
           <p className="mt-2 leading-relaxed">{t("editing.stillsBody")}</p>
-        </Callout>
-      </section>
+        </GuideCallout>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="strategy"
-        className="mt-10 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="strategy-heading"
+        title={t("strategy.title")}
+        intro={t("strategy.content")}
       >
-        <h2
-          id="strategy-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("strategy.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("strategy.content")}
-        </p>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+        <GuideBulletList className="mt-3">
           {strategyItemKeys.map((key) => (
             <li key={key}>{t(`strategy.items.${key}`)}</li>
           ))}
-        </ul>
-      </section>
+        </GuideBulletList>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="checklist"
-        className="mt-10 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="checklist-heading"
+        title={t("checklist.title")}
+        intro={t("checklist.intro")}
       >
-        <h2
-          id="checklist-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("checklist.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("checklist.intro")}
-        </p>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+        <GuideBulletList className="mt-3">
           {checklistItemKeys.map((key) => (
             <li key={key}>{t(`checklist.items.${key}`)}</li>
           ))}
-        </ul>
-      </section>
+        </GuideBulletList>
+      </GuideSection>
 
-      <div className="button-row mt-8 max-w-lg">
+      <GuideActionRow className="mt-8">
         <Link
           href="/tools/graphic-maker?aspect=portrait"
           className={guideCtaOutlineClass}
@@ -275,7 +245,7 @@ export default async function ShortFormGuidePage({
         <Link href="/guide/photo-consent" className={guideCtaOutlineClass}>
           {nav("photoConsent")}
         </Link>
-      </div>
+      </GuideActionRow>
     </GuideLayout>
   );
 }

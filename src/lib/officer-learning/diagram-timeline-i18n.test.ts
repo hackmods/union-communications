@@ -72,4 +72,13 @@ describe("officer learning diagram/timeline i18n", () => {
       ).toBe(true);
     }
   });
+
+  it("keeps EN/FR Hub sync panel labels so the dashboard cannot MISSING_MESSAGE", () => {
+    expect(
+      hasPath(en as Nested, ["officerLearning", "hubSync", "panelLabel"]),
+    ).toBe(true);
+    expect(
+      hasPath(fr as Nested, ["officerLearning", "hubSync", "panelLabel"]),
+    ).toBe(true);
+  });
 });

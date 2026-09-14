@@ -50,9 +50,9 @@ export function MyTasksWidget() {
   const busy = loading && !fetched;
 
   return (
-    <Card className="mt-8">
+    <Card density="compact" className="h-full min-w-0">
       <CardTitle>{t("widgetTitle")}</CardTitle>
-      <p className="mt-2 text-sm text-gray-600">{t("widgetDesc")}</p>
+      <p className="mt-2 text-sm leading-relaxed text-gray-600">{t("widgetDesc")}</p>
       {busy ? (
         <p className="mt-3 text-sm text-gray-500">{t("loading")}</p>
       ) : tasks.length === 0 ? (

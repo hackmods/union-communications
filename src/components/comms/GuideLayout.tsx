@@ -7,11 +7,13 @@ import {
   type GuideCompositionPreset,
   type PageComposition,
 } from "@/lib/constants/page-composition";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import {
   GuideRelatedLinkList,
   type GuideRelatedLink,
 } from "@/components/comms/GuideRelatedLinkList";
-import { GuideToc, type GuideTocItem } from "@/components/comms/GuideToc";
+import type { GuideTocItem } from "@/components/comms/GuideToc";
+import { GuidePlaybookToc } from "@/components/comms/GuidePlaybookToc";
 import { cn } from "@/lib/utils";
 
 export type { GuideRelatedLink, GuideTocItem };
@@ -79,10 +81,11 @@ export function GuideLayout({
   const hub = preset === "hub" || composition === "hub";
   const sidebar =
     composition === "sidebar-left" || composition === "sidebar-right";
+  const hasToc = Boolean(sidebar && toc && toc.length > 0 && tocLabel);
 
   const headerBlock = (
     <header className={hub ? "max-w-3xl" : undefined}>
-      <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
+      <h1 className={PUBLIC_PAGE_TITLE_CLASS}>
         {title}
       </h1>
       {subtitle && (
@@ -132,32 +135,22 @@ export function GuideLayout({
     ) : null;
 
   const mobileToc =
-    sidebar && toc && toc.length > 0 && tocLabel ? (
-      <div className="mt-6 border-b border-gray-200 pb-6 lg:hidden print:hidden">
-        <details className="rounded-xl border border-gray-200 bg-gray-50/80 open:pb-2">
-          <summary className="cursor-pointer list-none px-4 py-3 text-sm font-semibold text-opseu-dark marker:content-none [&::-webkit-details-marker]:hidden">
-            {tocLabel}
-          </summary>
-          <div className="max-h-64 overflow-y-auto px-2 pb-2">
-            <GuideToc items={toc} />
-          </div>
-        </details>
-      </div>
+    hasToc && toc && tocLabel ? (
+      <GuidePlaybookToc items={toc} label={tocLabel} variant="mobile" />
     ) : null;
 
   const railContent =
     sidebar && (toc?.length || aside) ? (
-      <>
-        {toc && toc.length > 0 && tocLabel && (
-          <div className="rounded-2xl border border-gray-200 bg-gray-50/80 p-4">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-opseu-blue">
-              {tocLabel}
-            </p>
-            <GuideToc items={toc} />
-          </div>
-        )}
-        {aside}
-      </>
+      hasToc && toc && tocLabel ? (
+        <GuidePlaybookToc
+          items={toc}
+          label={tocLabel}
+          variant="desktop"
+          aside={aside}
+        />
+      ) : (
+        aside
+      )
     ) : undefined;
 
   return (
@@ -170,7 +163,7 @@ export function GuideLayout({
       {headerBlock}
       {relatedBlock}
       {mobileToc}
-      <div className="mt-10">{children}</div>
+      <div className="mt-8 md:mt-10">{children}</div>
       {footer}
     </ComposedPageLayout>
   );

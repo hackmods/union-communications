@@ -32,6 +32,8 @@ Operator reference (encryption claims, Hub/Portal controls, production checklist
 
 **Honest default:** Comms stay on-device. Hosted Officer Hub and Local Portal use HTTPS and access control; **application-level encryption at rest is not shipped for Portal Circles** today. Postgres + operator disk encryption cover Hub durability when configured.
 
+Optional **operator error sinks** (Sentry / server JSONL) are env-gated and off by default — not product analytics. See [`docs/modules/OBSERVABILITY.md`](docs/modules/OBSERVABILITY.md) and [`docs/guides/HOSTED_SECURITY.md`](docs/guides/HOSTED_SECURITY.md).
+
 ## Known evaluation posture
 
 Demo Officer Hub credentials and stub MFA exist for local development and CI. They are **not** a production security model. Operators hosting a real instance must set a strong `AUTH_SECRET`, disable demo auth before storing real member casework, and follow [`docs/guides/DEPLOY.md`](docs/guides/DEPLOY.md) and [`docs/guides/HOSTED_SECURITY.md`](docs/guides/HOSTED_SECURITY.md).
