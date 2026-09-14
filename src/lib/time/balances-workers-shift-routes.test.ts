@@ -516,7 +516,7 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
         json: async () => {
           throw new Error("bad json");
         },
-      } as Request);
+      } as unknown as Request);
       expect(invalid.status).toBe(400);
 
       const granted = await consentGps(jsonRequest({ consent: true }));

@@ -81,7 +81,7 @@ describe("hub notification HTTP routes", () => {
       json: async () => {
         throw new Error("bad json");
       },
-    } as Request);
+    } as unknown as Request);
     expect(invalidJson.status).toBe(400);
     expect(await invalidJson.json()).toEqual({ error: "Invalid JSON" });
   });
