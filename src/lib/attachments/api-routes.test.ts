@@ -73,11 +73,14 @@ function jsonRequest(body: unknown): Request {
   } as Request;
 }
 
+function params(id: string): { params: Promise<{ id: string }> };
+function params(
+  id: string,
+  attachmentId: string,
+): { params: Promise<{ id: string; attachmentId: string }> };
 function params(id: string, attachmentId?: string) {
   return {
-    params: Promise.resolve(
-      attachmentId ? { id, attachmentId } : { id },
-    ),
+    params: Promise.resolve(attachmentId ? { id, attachmentId } : { id }),
   };
 }
 
