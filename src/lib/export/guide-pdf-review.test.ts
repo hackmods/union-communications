@@ -144,7 +144,7 @@ describe("guide PDF review samples", () => {
     // Reload last FR bylaws blob from saveBlob calls
     const bylawsFrCall = vi
       .mocked(saveBlob)
-      .mock.calls.find(([_, name]) =>
+      .mock.calls.find(([, name]) =>
         String(name).includes("bylaws-adoption-checklist-fr"),
       );
     expect(bylawsFrCall).toBeTruthy();

@@ -33,7 +33,6 @@ for (const url of unique) {
       headers: { "User-Agent": ua },
     });
     const final = res.url;
-    const host = new URL(final).hostname;
     const bucket =
       res.status === 404 || res.status === 410
         ? "FAIL"

@@ -7,7 +7,7 @@ export type FooterBandMeasurer = {
   wrappedLineCount: (text: string, size: number, maxW: number) => number;
 };
 
-export function createPdfFooterMeasurer(ctx: PdfFontContext, contentWidth: number): FooterBandMeasurer {
+export function createPdfFooterMeasurer(ctx: PdfFontContext): FooterBandMeasurer {
   const { pdf } = ctx;
   return {
     wrappedLineCount(text: string, size: number, maxW: number) {

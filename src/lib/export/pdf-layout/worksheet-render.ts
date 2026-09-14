@@ -294,7 +294,7 @@ export function renderWorksheetDocument(opts: WriteWorksheetBodyOpts): number {
   const contentRight = pageWidth - margin;
   const contentWidth = contentRight - margin;
 
-  const measurer = createPdfFooterMeasurer(fontCtx, contentWidth);
+  const measurer = createPdfFooterMeasurer(fontCtx);
   const footerBandHeight = measureFooterBandWithMeasurer(
     measurer,
     { footer: opts.footer, reminder: opts.reminder, tips: opts.tips },

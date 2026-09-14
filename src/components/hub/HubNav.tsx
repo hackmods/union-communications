@@ -30,7 +30,6 @@ import {
 import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { NavDropdown } from "@/components/layout/nav/NavDropdown";
 import { PlatformOperatorNavDropdown } from "@/components/platform/PlatformOperatorNavDropdown";
-import { PlatformOperatorAccountLinks } from "@/components/platform/PlatformOperatorAccountLinks";
 import { isPlatformOperator } from "@/lib/platform/operator-nav";
 
 export function HubNav() {

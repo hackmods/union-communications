@@ -45,7 +45,6 @@ export default function OpenGraphImage() {
             }}
           >
             {/* ImageResponse requires a plain img; next/image is unsupported here */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={MARK_SRC}
               width={72}

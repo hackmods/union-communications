@@ -1,4 +1,4 @@
-import type { JsPdfLike, PdfFontContext, VerticalFlowPageBreak } from "./types";
+import type { JsPdfLike, VerticalFlowPageBreak } from "./types";
 
 export type VerticalFlowOpts = {
   pdf: JsPdfLike;
