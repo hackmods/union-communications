@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type CSSProperties } from "react";
+import { Suspense, useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
@@ -12,7 +12,7 @@ import {
   exportNodeAsPng,
 } from "@/lib/export/image-export";
 import { nodesToPdf } from "@/lib/export/pdf-export";
-import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber, localLabel as formatLocalLabel, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
@@ -62,6 +62,7 @@ import { BoardBannerSheet } from "@/components/tools/board-banner/BoardBannerShe
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -118,6 +119,14 @@ function TogglePill({
 }
 
 export default function BoardBannerPage() {
+  return (
+    <Suspense fallback={<ToolLoadingFallback />}>
+      <BoardBannerPageContent />
+    </Suspense>
+  );
+}
+
+function BoardBannerPageContent() {
   const t = useTranslations("boardBanner");
   const tc = useTranslations("common");
   const ts = useTranslations("sources");
@@ -167,9 +176,10 @@ export default function BoardBannerPage() {
   });
 
   const localNum = resolveLocalNumber(brandKit.local.localNumber);
-  const localLabel = brandKit.local.subText
-    ? `Local ${localNum} - ${brandKit.local.subText}`
-    : `Local ${localNum}`;
+  const localLabel = formatLocalLabel(
+    brandKit.local.localNumber,
+    brandKit.local.subText,
+  );
   const tokens = resolveCanvasTokens(brandKit);
   const usesCallout = bannerLayoutUsesCallout(state.layout);
   const stripHeightInches =
@@ -665,25 +675,11 @@ export default function BoardBannerPage() {
             onSecondaryChange={(secondaryColor) =>
               setState({ ...state, secondaryColor })
             }
-          >
-            <div>
-              <label
-                htmlFor="banner-accent"
-                className="mb-1.5 block text-sm font-medium text-gray-700"
-              >
-                {t("accentColor")}
-              </label>
-              <input
-                id="banner-accent"
-                type="color"
-                value={state.accentColor}
-                  onChange={(e) =>
-                    setState({ ...state, accentColor: e.target.value })
-                  }
-                  className="h-11 w-full cursor-pointer rounded-md border border-gray-300"
-                />
-              </div>
-          </ToolColourSection>
+            onAccentChange={(accentColor) =>
+              setState({ ...state, accentColor })
+            }
+            accentLabel={t("accentColor")}
+          />
 
             <div className="space-y-3 border-t border-gray-200 pt-5">
               <UndoRedoBar

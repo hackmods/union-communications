@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
@@ -46,6 +46,7 @@ import { Callout } from "@/components/ui/Callout";
 import { SegControl } from "@/components/tools/SegControl";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
@@ -193,9 +194,20 @@ function PersonEditor({
 }
 
 export default function OrgChartPage() {
+  return (
+    <Suspense fallback={<ToolLoadingFallback />}>
+      <OrgChartPageContent />
+    </Suspense>
+  );
+}
+
+function OrgChartPageContent() {
   const t = useTranslations("orgChart");
   const tc = useTranslations("common");
   const brandKit = useBrandStore((s) => s.brandKit);
+  // Intentional: Org Chart has no colour overrides. It renders the public
+  // roster directly from Brand Kit (primary accent) so an exported chart
+  // always matches the local's saved look (2026-09-13 poster-family pass).
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const roster = usePublicRosterStore((s) => s.roster);

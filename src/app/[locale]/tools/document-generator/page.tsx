@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -75,20 +75,9 @@ function initialState(
   };
 }
 
-function DocumentGeneratorSuspenseFallback() {
-  const t = useTranslations("common");
-  return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <p className="text-gray-600" aria-busy="true">
-        {t("loading")}
-      </p>
-    </PageShell>
-  );
-}
-
 export default function DocumentGeneratorPage() {
   return (
-    <Suspense fallback={<DocumentGeneratorSuspenseFallback />}>
+    <Suspense fallback={<ToolLoadingFallback />}>
       <DocumentGeneratorPageContent />
     </Suspense>
   );

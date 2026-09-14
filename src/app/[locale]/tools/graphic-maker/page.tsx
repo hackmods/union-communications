@@ -26,7 +26,7 @@ import {
   GraphicLayoutCanvas,
   type GraphicLayoutId,
 } from "@/components/tools/graphic-layouts";
-import { CanvasWrapper } from "@/components/canvas-core";
+import { CanvasSheetPlate } from "@/components/tools/CanvasSheetPlate";
 import { exampleAspectDesignSize } from "@/lib/comms/canvas-aspects";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -49,7 +49,7 @@ import {
   defaultLogoMode,
   defaultShowLocalNumber,
 } from "@/lib/comms/canvas-logo-mode";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
@@ -74,11 +74,14 @@ function layoutForPreset(key: ToolPresetKey): GraphicLayoutId {
   return "solidarity";
 }
 
-function detailForPreset(key: ToolPresetKey): string {
-  if (key === "agmNotice") return "AGM";
-  if (key === "bargainingUpdate") return "Update";
-  if (key === "strikeAction") return "Strike";
-  if (key === "jointCoalition") return "Show up — details to follow";
+function detailForPreset(
+  key: ToolPresetKey,
+  t: (key: string) => string,
+): string {
+  if (key === "agmNotice") return t("presetDetails.agmNotice");
+  if (key === "bargainingUpdate") return t("presetDetails.bargainingUpdate");
+  if (key === "strikeAction") return t("presetDetails.strikeAction");
+  if (key === "jointCoalition") return t("presetDetails.jointCoalition");
   return "";
 }
 
@@ -148,7 +151,7 @@ function GraphicMakerPageContent() {
       aspect: defaultAspectForPreset(key),
       headline: preset.headline,
       subheadline: preset.subheadline,
-      detail: detailForPreset(key),
+      detail: detailForPreset(key, tg),
     });
   };
 
@@ -209,7 +212,7 @@ function GraphicMakerPageContent() {
         ),
         headline: preset.headline,
         subheadline: preset.subheadline,
-        detail: detailForPreset(presetRaw),
+        detail: detailForPreset(presetRaw, tg),
       });
       return;
     }
@@ -250,10 +253,10 @@ function GraphicMakerPageContent() {
         ),
         headline: preset.headline,
         subheadline: preset.subheadline,
-        detail: detailForPreset(presetRaw),
+        detail: detailForPreset(presetRaw, tg),
       }));
     }
-  }, [searchParams, setState, hydrated]);
+  }, [searchParams, setState, hydrated, tg]);
 
   const handlePhotoUpload = (url: string) => {
     setPendingPhoto(url);
@@ -489,14 +492,13 @@ function GraphicMakerPageContent() {
           </Button>
         }
         preview={
-          <div className="overflow-hidden rounded-lg shadow-lg">
-            <CanvasWrapper
-              designWidth={designSize.width}
-              designHeight={designSize.height}
-              mode="fixed"
-              maxScale={1.25}
-              align="center"
-            >
+          <CanvasSheetPlate
+            designWidth={designSize.width}
+            designHeight={designSize.height}
+            mode="fixed"
+            maxScale={1.25}
+            align="center"
+          >
               <div
                 ref={canvasRef}
                 data-export-root=""
@@ -530,8 +532,7 @@ function GraphicMakerPageContent() {
                   coalitionBadge={brandKit.campaignBadge?.trim() || undefined}
                 />
               </div>
-            </CanvasWrapper>
-          </div>
+          </CanvasSheetPlate>
         }
         footer={
           <div className="space-y-6">
@@ -564,20 +565,9 @@ function GraphicMakerPageContent() {
   );
 }
 
-function GraphicMakerSuspenseFallback() {
-  const t = useTranslations("common");
-  return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <p className="text-gray-600" aria-busy="true">
-        {t("loading")}
-      </p>
-    </PageShell>
-  );
-}
-
 export default function GraphicMakerPage() {
   return (
-    <Suspense fallback={<GraphicMakerSuspenseFallback />}>
+    <Suspense fallback={<ToolLoadingFallback />}>
       <GraphicMakerPageContent />
     </Suspense>
   );
