@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-09-13 — Meeting Background HD type restore
+
+- [x] Design-px headlines, pads, and lockups (`meeting-background-chrome.ts` + `CanvasFitStackedHeadline`) so 1920×1080 exports keep solidarity punch
+- [x] Local label no longer wraps in a crushed lockup column; face-safe cue restored (preview-only)
+- Session: [`session-knowledge-2026-09-13-meeting-background-hd-type.md`](audit/session-knowledge-2026-09-13-meeting-background-hd-type.md)
+
 ## 2026-09-13 — Officer Learning Module 17 (PDF & reclassification)
 
 - [x] Catalog `module-17` / slug `pdf-classification` at `/guide/officer-learning/pdf-classification`; short URL redirects

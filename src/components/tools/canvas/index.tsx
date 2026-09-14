@@ -53,6 +53,36 @@ export function CanvasGrainOverlay({
  * Preview-only dashed crop guide. Must stay outside capture nodes
  * (`canvasRef` / ZIP frames) — html-to-image would bake the yellow border.
  */
+/**
+ * Preview-only webcam silhouette. Must stay outside capture nodes — html-to-image
+ * would bake the cue into the Zoom/Teams PNG.
+ */
+export function CanvasFaceCueOverlay() {
+  return (
+    <div
+      data-export-chrome=""
+      className="pointer-events-none absolute inset-0 z-10 flex items-end justify-center"
+      aria-hidden
+    >
+      <svg
+        viewBox="0 0 200 220"
+        className="h-[72%] w-auto max-w-[42%]"
+        style={{ opacity: 0.28 }}
+      >
+        <ellipse cx="100" cy="72" rx="42" ry="48" fill="#1a1a1a" />
+        <path
+          d="M40 210 C40 150 70 128 100 128 C130 128 160 150 160 210 Z"
+          fill="#1a1a1a"
+        />
+      </svg>
+      <div
+        className="absolute inset-[8%] rounded-[50%] border-2 border-dashed"
+        style={{ borderColor: "#1a1a1a", opacity: 0.32 }}
+      />
+    </div>
+  );
+}
+
 export function CanvasSafeZoneOverlay({
   insets,
 }: {
@@ -378,7 +408,10 @@ export function CanvasFitStackedHeadline({
   subtitleBaseFontSizePx,
   className,
   fit = true,
+  /** When false, only width is fitted (auto-height meeting bars). */
+  fitHeight = true,
   nowrap = true,
+  align: alignOverride,
 }: {
   lines: string[];
   ink: string;
@@ -392,13 +425,22 @@ export function CanvasFitStackedHeadline({
   subtitleBaseFontSizePx?: number;
   className?: string;
   fit?: boolean;
+  /** When false, only width is fitted (auto-height meeting bars). */
+  fitHeight?: boolean;
   /** Keep each line on one row (shrink instead of mid-word wrap). */
   nowrap?: boolean;
+  /** Per-layout anchor (meeting corner/rails). Defaults to Brand Kit bias. */
+  align?: "left" | "right" | "center";
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
-  const align = textAlignFromBias(tokens.alignmentBias);
-  const items = flexAlignFromBias(tokens.alignmentBias);
+  const align = alignOverride ?? textAlignFromBias(tokens.alignmentBias);
+  const items =
+    align === "right"
+      ? "flex-end"
+      : align === "center"
+        ? "center"
+        : "flex-start";
   const linesKey = lines.join("\n");
   const subBase = subtitleBaseFontSizePx ?? Math.round(baseFontSizePx * 0.28);
 
@@ -437,12 +479,14 @@ export function CanvasFitStackedHeadline({
           const lineOverflow = Array.from(lineNodes).some(
             (line) => line.scrollWidth > budgetW + 0.5,
           );
-          const boxOverflow = typeFitOverflows(
-            el.scrollWidth,
-            el.scrollHeight,
-            budgetW,
-            budgetH,
-          );
+          const boxOverflow =
+            fitHeight &&
+            typeFitOverflows(
+              el.scrollWidth,
+              el.scrollHeight,
+              budgetW,
+              budgetH,
+            );
           if ((!lineOverflow && !boxOverflow) || next <= CANVAS_TYPE_FIT_MIN_SCALE) {
             break;
           }
@@ -462,6 +506,7 @@ export function CanvasFitStackedHeadline({
     };
   }, [
     fit,
+    fitHeight,
     linesKey,
     subtitle,
     baseFontSizePx,
@@ -472,6 +517,7 @@ export function CanvasFitStackedHeadline({
     tokens.titleLetterSpacing,
     tokens.titleTextTransform,
     tokens.alignmentBias,
+    alignOverride,
   ]);
 
   const applied = fit ? scale : 1;
@@ -487,7 +533,8 @@ export function CanvasFitStackedHeadline({
       data-canvas-type-fit={fit ? scale.toFixed(3) : undefined}
       className={cn(
         "relative z-[2] flex w-full min-w-0 flex-col",
-        fit && "max-h-full min-h-0 overflow-hidden",
+        fit && fitHeight && "max-h-full min-h-0 overflow-hidden",
+        fit && !fitHeight && "min-w-0 overflow-hidden",
         className,
       )}
       style={{ alignItems: items, textAlign: align }}

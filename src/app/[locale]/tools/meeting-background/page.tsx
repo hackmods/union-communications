@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState, type ReactElement } from "react";
+import { Suspense, useRef, useState, type ReactElement } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
@@ -13,9 +13,9 @@ import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import {
-  contentPaddingPx,
   meetingAlignFromBias,
   resolveCanvasTokens,
+  typeScaleFactor,
 } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import {
@@ -24,11 +24,24 @@ import {
 } from "@/lib/utils/edge-clearance";
 import {
   CanvasEdgeClearanceFrame,
+  CanvasFaceCueOverlay,
+  CanvasFitStackedHeadline,
   CanvasGrainOverlay,
   CanvasSafeZoneOverlay,
 } from "@/components/tools/canvas";
 import { CanvasWrapper, LogoContainer } from "@/components/canvas-core";
-import type { CanvasTypeScale } from "@/types/entities";
+import {
+  meetingBandPadPx,
+  meetingCloserPx,
+  meetingFieldPadPx,
+  meetingHeadlineMinPx,
+  meetingHeadlinePx,
+  meetingLeadPx,
+  meetingLocalLabelPx,
+  meetingLogoMaxHeightPx,
+  meetingLogoWidthPx,
+  type MeetingHeadlineDensity,
+} from "@/lib/comms/meeting-background-chrome";
 import {
   DEFAULT_MEETING_BACKGROUND_FORMAT,
   MEETING_BACKGROUND_FORMATS,
@@ -81,137 +94,10 @@ interface BackgroundState {
   logoMode: BoardLogoMode;
   showLocalNumber: boolean;
   edgeClearance: boolean;
+  showFaceCue: boolean;
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
-}
-
-type HeadlineDensity = "panel" | "bar" | "corner" | "readable";
-
-/** Starting rem before measure-to-fit shrinks to keep each line intact. */
-function headlineStartRem(
-  lines: string[],
-  density: HeadlineDensity,
-  scale = 1,
-): number {
-  const longest = lines.reduce((m, l) => Math.max(m, l.length), 0) || 1;
-  const caps =
-    density === "panel"
-      ? { min: 0.75, max: 1.35, fitAt: 8 }
-      : density === "bar"
-        ? { min: 0.95, max: 1.85, fitAt: 14 }
-        : density === "readable"
-          ? { min: 0.7, max: 1.25, fitAt: 12 }
-          : { min: 1.0, max: 2.0, fitAt: 10 };
-  const base = Math.max(
-    caps.min,
-    Math.min(caps.max, (caps.fitAt / longest) * caps.max),
-  );
-  return Math.max(caps.min * 0.85, base * scale);
-}
-
-function headlineMinRem(density: HeadlineDensity, scale = 1): number {
-  const min =
-    density === "panel"
-      ? 0.65
-      : density === "bar"
-        ? 0.85
-        : density === "readable"
-          ? 0.6
-          : 0.9;
-  return Math.max(0.5, min * Math.min(scale, 1));
-}
-
-/**
- * Stacked headline that never breaks mid-word — shrinks font until each
- * nowrap line fits the container width.
- */
-function FitStackedHeadline({
-  lines,
-  ink,
-  density,
-  align = "left",
-  typeScale = "compact",
-  fontFamily,
-}: {
-  lines: string[];
-  ink: string;
-  density: HeadlineDensity;
-  align?: "left" | "right" | "center";
-  typeScale?: CanvasTypeScale;
-  fontFamily?: string;
-}) {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const linesKey = lines.join("\n");
-  const scaleFactor =
-    typeScale === "display" ? 1.1 : typeScale === "dense" ? 0.88 : 1;
-  const [fontSizeRem, setFontSizeRem] = useState(() =>
-    headlineStartRem(lines, density, scaleFactor),
-  );
-
-  useEffect(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    const currentLines = linesKey.split("\n").filter(Boolean);
-
-    const fit = () => {
-      const min = headlineMinRem(density, scaleFactor);
-      let size = headlineStartRem(currentLines, density, scaleFactor);
-      const apply = (rem: number) => {
-        for (const node of el.querySelectorAll<HTMLElement>("[data-headline-line]")) {
-          node.style.fontSize = `${rem}rem`;
-        }
-      };
-      apply(size);
-      for (let i = 0; i < 48; i++) {
-        const overflowing = Array.from(
-          el.querySelectorAll<HTMLElement>("[data-headline-line]"),
-        ).some((line) => line.scrollWidth > el.clientWidth + 0.5);
-        if (!overflowing || size <= min) break;
-        size = Math.max(min, size - 0.05);
-        apply(size);
-      }
-      setFontSizeRem(size);
-    };
-
-    fit();
-    const ro = new ResizeObserver(() => fit());
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [linesKey, density, scaleFactor]);
-
-  return (
-    <div
-      ref={wrapRef}
-      className={cn(
-        "min-w-0 w-full max-w-full overflow-hidden",
-        align === "center" && "text-center",
-        align === "right" && "text-right",
-      )}
-    >
-      {lines.map((line, i) => (
-        <p
-          key={`${i}-${line}`}
-          data-headline-line
-          className={cn(
-            "uppercase leading-[0.95]",
-            density === "readable"
-              ? "font-bold tracking-wide"
-              : "font-black leading-[0.92] tracking-tight",
-          )}
-          style={{
-            color: ink,
-            fontSize: `${fontSizeRem}rem`,
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            fontFamily,
-          }}
-        >
-          {line}
-        </p>
-      ))}
-    </div>
-  );
 }
 
 export default function MeetingBackgroundPage() {
@@ -253,6 +139,7 @@ function MeetingBackgroundPageContent() {
     logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
     edgeClearance: false,
+    showFaceCue: true,
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
     accentColor: brandKit.accentColor,
@@ -423,19 +310,30 @@ function MeetingBackgroundPageContent() {
     });
   };
 
+  const headlineTokens = {
+    ...tokens,
+    titleTextTransform: "uppercase" as const,
+    titleFontWeight: 900,
+  };
+  const typeScale = typeScaleFactor(tokens);
+  const leadPx = meetingLeadPx(designWidth);
+  const closerPx = meetingCloserPx(designWidth);
+  const localPx = meetingLocalLabelPx(designWidth);
+
   const stackedHeadline = (
     ink: string,
-    density: HeadlineDensity,
+    density: MeetingHeadlineDensity,
     layoutDefault: "left" | "right" | "center" = "left",
   ) =>
     showHead ? (
-      <FitStackedHeadline
+      <CanvasFitStackedHeadline
         lines={lines}
         ink={ink}
-        density={density}
+        tokens={headlineTokens}
+        baseFontSizePx={meetingHeadlinePx(designWidth, density, typeScale)}
+        minFontSizePx={meetingHeadlineMinPx(designWidth, density)}
+        fitHeight={false}
         align={meetingAlignFromBias(layoutDefault, tokens.alignmentBias)}
-        typeScale={tokens.typeScale}
-        fontFamily={tokens.headlineFontFamily}
       />
     ) : null;
 
@@ -449,11 +347,16 @@ function MeetingBackgroundPageContent() {
         data-canvas-lead=""
         data-canvas-meta=""
         className={cn(
-          "min-w-0 max-w-full text-[10px] font-semibold uppercase tracking-[0.18em] md:text-xs",
+          "min-w-0 max-w-full font-semibold uppercase tracking-[0.18em]",
           align === "center" && "text-center",
           align === "right" && "text-right",
         )}
-        style={{ color: ink, fontFamily: tokens.bodyFontFamily }}
+        style={{
+          color: ink,
+          fontFamily: tokens.bodyFontFamily,
+          fontSize: leadPx,
+          lineHeight: 1.2,
+        }}
       >
         {state.leadIn}
       </p>
@@ -469,44 +372,57 @@ function MeetingBackgroundPageContent() {
       <p
         data-canvas-meta=""
         className={cn(
-          "min-w-0 max-w-full text-[10px] font-medium tracking-wide md:text-xs",
+          "min-w-0 max-w-full font-medium tracking-wide",
           align === "center" && "text-center",
           align === "right" && "text-right",
         )}
-        style={{ color: ink }}
+        style={{
+          color: ink,
+          fontSize: closerPx,
+          lineHeight: 1.25,
+          fontFamily: tokens.bodyFontFamily,
+        }}
       >
         {state.closer}
       </p>
     ) : null;
   };
 
-  const brandLockup = (bg: string, ink: string, size: "sm" | "md" = "sm") =>
-    showLogo ? (
-      <div className="flex min-w-0 max-w-[42%] shrink-0 items-center gap-2">
-        <LogoContainer
-          backgroundColor={bg}
-          logoMode={state.logoMode}
-          bounds={{
-            maxWidthCqw: size === "md" ? 100 : 100,
-            align: "start",
-          }}
-        />
+  const brandLockup = (bg: string, ink: string, size: "sm" | "md" = "sm") => {
+    if (!showLogo) return null;
+    const logoW = meetingLogoWidthPx(designWidth, size);
+    const logoH = meetingLogoMaxHeightPx(designHeight, size);
+    return (
+      <div className="flex max-w-[42%] shrink-0 items-center gap-3">
+        <div className="shrink-0" style={{ width: logoW, maxHeight: logoH }}>
+          <LogoContainer
+            backgroundColor={bg}
+            logoMode={state.logoMode}
+            bounds={{ maxWidthCqw: 100, align: "start" }}
+            maxHeightPx={logoH}
+          />
+        </div>
         {state.showLocalNumber ? (
           <p
-            className="text-[9px] font-medium tracking-wide md:text-[10px]"
-            style={{ color: ink }}
+            className="min-w-0 font-medium tracking-wide"
+            style={{
+              color: ink,
+              fontSize: localPx,
+              lineHeight: 1.25,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
           >
             {localLabel}
           </p>
         ) : null}
       </div>
-    ) : null;
+    );
+  };
 
-  const fieldPadPx = contentPaddingPx(tokens, { portrait: isPortrait });
-  const bandPadPx = Math.max(
-    10,
-    Math.round(contentPaddingPx(tokens, { portrait: isPortrait, factor: 0.55 })),
-  );
+  const fieldPadPx = meetingFieldPadPx(designWidth, isPortrait);
+  const bandPadPx = meetingBandPadPx(designWidth, isPortrait);
   /** When Brand Kit surface is textured/gradient, omit solid field fills so root surfaceStyle shows. */
   const fieldFill =
     tokens.surface === 'soft-gradient' ||
@@ -615,25 +531,29 @@ function MeetingBackgroundPageContent() {
             </div>
             {showLogo ? (
               <div className="mt-4 min-w-0 max-w-full overflow-hidden">
-                <LogoContainer
-                  backgroundColor={secondary}
-                  logoMode={state.logoMode}
-                  bounds={{ maxWidthCqw: 100, align: "start" }}
-                />
+                <div
+                  style={{
+                    width: meetingLogoWidthPx(designWidth, "md"),
+                    maxWidth: "100%",
+                    maxHeight: meetingLogoMaxHeightPx(designHeight, "md"),
+                  }}
+                >
+                  <LogoContainer
+                    backgroundColor={secondary}
+                    logoMode={state.logoMode}
+                    bounds={{ maxWidthCqw: 100, align: "start" }}
+                    maxHeightPx={meetingLogoMaxHeightPx(designHeight, "md")}
+                  />
+                </div>
                 {state.showLocalNumber ? (
                   <p
-                    className="mt-1.5 font-medium leading-tight md:text-[10px]"
+                    className="mt-1.5 font-medium leading-tight"
                     style={{
                       color: mutedSecondary,
-                      overflowWrap: "anywhere",
-                      wordBreak: "break-word",
-                      fontSize: Math.min(
-                        14,
-                        Math.max(
-                          9,
-                          Math.round(tokens.subtitleFontSizePx * 0.55),
-                        ),
-                      ),
+                      fontSize: localPx,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
                     }}
                   >
                     {localLabel}
@@ -916,6 +836,11 @@ function MeetingBackgroundPageContent() {
               ]}
               onChange={handleDesignChange}
             />
+            {isPortrait ? (
+              <p className="text-sm leading-snug text-gray-600">
+                {t("boldLandscapeOnly")}
+              </p>
+            ) : null}
 
             <SegControl
               label={t("orientation")}
@@ -982,9 +907,19 @@ function MeetingBackgroundPageContent() {
                 }
                 label={t("edgeClearance")}
               />
+              <Checkbox
+                checked={state.showFaceCue}
+                onChange={(e) =>
+                  setState({ ...state, showFaceCue: e.target.checked })
+                }
+                label={t("showFaceCue")}
+              />
             </div>
             <p className="text-sm leading-snug text-gray-600">
               {t("edgeClearanceHint")}
+            </p>
+            <p className="text-sm leading-snug text-gray-600">
+              {t("faceCueHint")}
             </p>
             <p className="text-sm leading-snug text-gray-600">
               {t("togglesHint")}
@@ -1086,6 +1021,7 @@ function MeetingBackgroundPageContent() {
                 <CanvasGrainOverlay opacity={tokens.grainOpacity} />
               </div>
             </CanvasWrapper>
+            {state.showFaceCue ? <CanvasFaceCueOverlay /> : null}
             {state.edgeClearance ? (
               <CanvasSafeZoneOverlay insets={clearanceInsets} />
             ) : null}

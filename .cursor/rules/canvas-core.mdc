@@ -70,6 +70,13 @@ Session lessons: [`docs/audit/session-knowledge-2026-09-07-canvas-core.md`](../.
    design width; pack fixed-height stacks with `justify-content: flex-start`
    (QR/footer can use `mt-auto`) — do not `justify-between` meta into
    `overflow: hidden`.
+12. **Digital HD sheets cannot use browser `rem`.** Meeting / social tools that
+    author at 1920×1080 (or 1080×1920) must size type, padding, and logos from
+    design px (`meeting-background-chrome.ts`, `CanvasFitStackedHeadline`).
+    `1.85rem` and `LogoContainer` `max-h-20` were correct on a fluid preview
+    that `pixelRatio`-scaled to HD; they are postage-stamp on a design-px
+    canvas. Do not reuse print `expectMetaSupport`’s 23px cap as a headline
+    budget.
 
 ## External traps
 

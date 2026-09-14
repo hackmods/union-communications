@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "meeting-background-hd-type",
+    date: "2026-09-13",
+    kind: "improved",
+    href: "/tools/meeting-background",
+  },
+  {
     id: "officer-learning-module-17",
     date: "2026-09-13",
     kind: "added",

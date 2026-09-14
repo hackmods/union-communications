@@ -35,7 +35,7 @@ The fluid-architecture refactor (`9fcfd9e`, 2026-09-08) replaced the elevated wh
 - Face-safe overlays (silhouette / safe zone) must stay **outside** `canvasRef` (capture bakes them into PNG) and off `[data-export-root]`.
 - Tool editor shell's flat panel is the fluid-architecture state — restore elevation (Priority 5) by adding shadow/solid white to the **shared** panel, not by re-nesting per-tool `Card` roots.
 - No new `<select>` preset pickers; chips only (rule now explicit).
-- `meeting-backgrounds.mdc` line "No face silhouette / camera oval overlay" must be updated in the same PR that restores the cue (Priority 2) — otherwise rules contradict the UI.
+- Face cue restored 2026-09-13 (`CanvasFaceCueOverlay`, default on, capture-safe). HD type/lockup restore: [`session-knowledge-2026-09-13-meeting-background-hd-type.md`](session-knowledge-2026-09-13-meeting-background-hd-type.md).
 - Capture-safe export colours remain inline hex/rgba inside export roots (no Tailwind colour utilities).
 
 ## Where knowledge lands

@@ -7482,6 +7482,10 @@
         "title": "Current OPSEU / SEFPO lockup on Brand Assets",
         "body": "Download the Ontario's union / Le syndicat de l'Ontario wordmark with the other OPSEU / SEFPO blue files."
       },
+      "meeting-background-hd-type": {
+        "title": "Meeting backgrounds look punchy again",
+        "body": "Headlines, logos, and the local name now scale with the HD size, so Zoom and Teams downloads keep the solidarity punch on camera."
+      },
       "officer-learning-module-17": {
         "title": "Officer Learning: Position Description Forms",
         "body": "A new self-paced module shows how to audit a Position Description Form, log actual duties, write Employee Comments, and start a reclassification file."

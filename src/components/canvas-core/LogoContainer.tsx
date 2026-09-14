@@ -20,6 +20,11 @@ export type LogoContainerProps = {
   bounds?: AssetBounds;
   /** Prefer when the lockup is a wide bilingual plate (CAAT faculty/support). */
   wideLockup?: boolean;
+  /**
+   * Drop the rem `max-h-20` cap and size the mark to this height. Required on
+   * HD digital sheets (meeting backgrounds) where 80px is postage-stamp.
+   */
+  maxHeightPx?: number;
   className?: string;
   children?: ReactNode;
 };
@@ -47,6 +52,7 @@ export function LogoContainer({
   logoMode = "lockup",
   bounds,
   wideLockup = false,
+  maxHeightPx,
   className,
   children,
 }: LogoContainerProps) {
@@ -71,12 +77,21 @@ export function LogoContainer({
     // proportion as cqw when the parent is the canvas/content column.
     width: `min(100%, ${resolved.maxWidthCqw}%)`,
     maxWidth: "100%",
+    ...(maxHeightPx != null ? { maxHeight: maxHeightPx } : {}),
   };
 
   const logoClass =
-    logoMode === "mark"
-      ? "h-auto w-full max-h-24"
-      : "h-auto w-full max-h-20";
+    maxHeightPx != null
+      ? "h-auto w-full max-h-full"
+      : logoMode === "mark"
+        ? "h-auto w-full max-h-24"
+        : "h-auto w-full max-h-20";
+  const logoSize =
+    maxHeightPx != null && maxHeightPx >= 72
+      ? "lg"
+      : logoMode === "mark"
+        ? "md"
+        : "sm";
 
   return (
     <div
@@ -85,7 +100,7 @@ export function LogoContainer({
       style={slotStyle}
     >
       <BrandLogo
-        size={logoMode === "mark" ? "md" : "sm"}
+        size={logoSize}
         backgroundColor={backgroundColor}
         variantOverride={logoMode === "mark" ? "mark" : "lockup"}
         className={logoClass}

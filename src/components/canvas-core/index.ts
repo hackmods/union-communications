@@ -40,6 +40,7 @@ export {
 export {
   CanvasGrainOverlay,
   CanvasSafeZoneOverlay,
+  CanvasFaceCueOverlay,
   CanvasEdgeClearanceFrame,
   CanvasBrandHeader,
   CanvasStackSlot,
