@@ -2,6 +2,7 @@
 
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { SolidarityBadge } from "@/components/comms/campaign/SolidarityBadge";
+import { canvasLogoImageFitStyle } from "@/lib/comms/canvas-logo-fit";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { cn } from "@/lib/utils";
 
@@ -49,7 +50,7 @@ export function JointActionCard({
         <div
           style={
             logoMaxHeightPx
-              ? { maxHeight: logoMaxHeightPx, maxWidth: logoMaxHeightPx * 2.4 }
+              ? { maxWidth: "55%", width: "auto" }
               : undefined
           }
         >
@@ -57,7 +58,12 @@ export function JointActionCard({
             backgroundColor={primaryColor}
             size={logoMaxHeightPx && logoMaxHeightPx >= 72 ? "lg" : "sm"}
             className={
-              logoMaxHeightPx ? "h-auto w-auto max-h-full" : "h-7 max-w-[8rem]"
+              logoMaxHeightPx ? "max-w-full object-contain" : "h-7 max-w-[8rem]"
+            }
+            style={
+              logoMaxHeightPx
+                ? canvasLogoImageFitStyle(logoMaxHeightPx)
+                : undefined
             }
           />
         </div>

@@ -29,6 +29,8 @@ interface BrandLogoProps {
   onDark?: boolean;
   backgroundColor?: string;
   variantOverride?: "lockup" | "mark";
+  /** Canvas lockups pass max-height here so `object-contain` can keep the full mark. */
+  style?: CSSProperties;
 }
 
 const lockupSize = {
@@ -153,6 +155,7 @@ export function BrandLogo({
   onDark = false,
   backgroundColor,
   variantOverride,
+  style,
 }: BrandLogoProps) {
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
@@ -176,6 +179,7 @@ export function BrandLogo({
       secondaryColor={chromeReady ? secondaryColor : "var(--brand-secondary)"}
       size={size}
       className={className}
+      style={style}
       ink={ink ?? undefined}
       onDark={onDark && !backgroundColor}
       title={alt || "UnionOps"}
@@ -220,7 +224,7 @@ export function BrandLogo({
         height={officialDims.height}
         className={className}
         onDark={ink ? isLightInk(ink) : onDark}
-        style={cssFilter ? { filter: cssFilter } : undefined}
+        style={cssFilter ? { ...style, filter: cssFilter } : style}
         plate={plate}
       />
     );
@@ -247,7 +251,7 @@ export function BrandLogo({
         height={officialDims.height}
         className={className}
         onDark={ink ? isLightInk(ink) : onDark}
-        style={cssFilter ? { filter: cssFilter } : undefined}
+        style={cssFilter ? { ...style, filter: cssFilter } : style}
         plate={plate}
       />
     );

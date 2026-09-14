@@ -10,6 +10,9 @@ import {
   type AssetBounds,
 } from "./types";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import { canvasLogoImageFitStyle } from "@/lib/comms/canvas-logo-fit";
+
+export { canvasLogoImageFitStyle };
 
 export type LogoContainerProps = {
   backgroundColor: string;
@@ -21,8 +24,9 @@ export type LogoContainerProps = {
   /** Prefer when the lockup is a wide bilingual plate (CAAT faculty/support). */
   wideLockup?: boolean;
   /**
-   * Drop the rem `max-h-20` cap and size the mark to this height. Required on
-   * HD digital sheets (meeting backgrounds) where 80px is postage-stamp.
+   * Size the mark to this height. Required on HD / letter design-px sheets
+   * where rem `max-h-20` is postage-stamp. Applied on the image so
+   * `object-contain` keeps the full lockup — never clip the slot.
    */
   maxHeightPx?: number;
   className?: string;
@@ -75,14 +79,13 @@ export function LogoContainer({
     // Parent-relative % — works without a container ancestor (CanvasBrandHeader
     // ships on tools that have not migrated to CanvasWrapper yet). Same
     // proportion as cqw when the parent is the canvas/content column.
-    width: `min(100%, ${resolved.maxWidthCqw}%)`,
-    maxWidth: "100%",
-    ...(maxHeightPx != null ? { maxHeight: maxHeightPx } : {}),
+    maxWidth: `min(100%, ${resolved.maxWidthCqw}%)`,
+    width: maxHeightPx != null ? "auto" : `min(100%, ${resolved.maxWidthCqw}%)`,
   };
 
   const logoClass =
     maxHeightPx != null
-      ? "h-auto w-full max-h-full"
+      ? "max-w-full object-contain"
       : logoMode === "mark"
         ? "h-auto w-full max-h-24"
         : "h-auto w-full max-h-20";
@@ -96,7 +99,7 @@ export function LogoContainer({
   return (
     <div
       data-logo-container=""
-      className={cn("relative shrink-0 overflow-hidden", className)}
+      className={cn("relative shrink-0", className)}
       style={slotStyle}
     >
       <BrandLogo
@@ -104,6 +107,9 @@ export function LogoContainer({
         backgroundColor={backgroundColor}
         variantOverride={logoMode === "mark" ? "mark" : "lockup"}
         className={logoClass}
+        style={
+          maxHeightPx != null ? canvasLogoImageFitStyle(maxHeightPx) : undefined
+        }
       />
       {children}
     </div>

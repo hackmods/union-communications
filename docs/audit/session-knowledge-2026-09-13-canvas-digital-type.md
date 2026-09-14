@@ -22,6 +22,13 @@ Canvas Core authors at fixed design px (social 1080 / 1920, print letter 850). P
 - **Board Banner** — fluid `vmin` strip (different class)
 - **Meeting Background / Solidarity Poster** — fixed earlier today
 
+## Follow-up — lockup clip (2026-09-14)
+
+`logoMaxHeightPx` on the **slot** + `w-full` + `overflow-hidden` cropped CAAT-A
+faculty lockups (PNG is **300×150**, 2:1). At 42% of letter the image wanted
+~166px height; the 85px slot clipped the mark. Cap height on the **image**
+(`canvasLogoImageFitStyle`) so width follows aspect.
+
 ## Do not regress
 
 - Pass `designWidthPx` into `graphicLayoutChrome` on every social sheet. Omitting it keeps the legacy letter-ish numbers for unit tests only.

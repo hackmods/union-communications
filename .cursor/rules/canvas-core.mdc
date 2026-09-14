@@ -78,7 +78,10 @@ Session lessons: [`docs/audit/session-knowledge-2026-09-07-canvas-core.md`](../.
     they are postage-stamp on a design-px canvas. Print headers use
     `printBrandHeaderChrome` — never leave `CanvasBrandHeader` on rem
     `0.875rem`. Do not reuse print `expectMetaSupport`’s 23px cap as a
-    headline budget.
+    headline budget. **Never** put `maxHeight` + `overflow-hidden` on the
+    logo slot while the image is `w-full` — CAAT faculty lockups are 2:1
+    PNGs and get cropped. Cap height on the image (`canvasLogoImageFitStyle`)
+    so `object-contain` keeps the full mark.
 
 ## External traps
 

@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { BRAND_COLORS } from "@/lib/constants/brand";
 import {
@@ -30,6 +31,7 @@ interface UnionOpsMarkProps {
   /** Auto/manual ink tone for export canvases */
   ink?: InkTone;
   title?: string;
+  style?: CSSProperties;
 }
 
 /**
@@ -44,8 +46,11 @@ export function UnionOpsMark({
   onDark = false,
   ink,
   title = "UnionOps",
+  style,
 }: UnionOpsMarkProps) {
   const px = sizePx[size];
+  const cap =
+    typeof style?.maxHeight === "number" ? Math.min(px, style.maxHeight) : px;
   const effectiveInk: InkTone | null =
     ink ?? (onDark ? INK_WHITE : null);
 
@@ -70,7 +75,7 @@ export function UnionOpsMark({
       aria-label={title}
       title={title}
       className={cn("inline-flex shrink-0 overflow-hidden rounded-[22%]", className)}
-      style={{ width: px, height: px }}
+      style={{ ...style, width: cap, height: cap }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

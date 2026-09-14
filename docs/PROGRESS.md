@@ -1,5 +1,9 @@
 # Progress Log
 
+## 2026-09-14 — Logo lockups no longer clipped
+
+- [x] `maxHeightPx` applies on the image (`canvasLogoImageFitStyle`) so 2:1 faculty lockups are not cropped by slot `overflow-hidden`
+
 ## 2026-09-13 — Canvas digital type family pass
 
 - [x] Graphic Maker / Quote Card: `graphicLayoutChrome(..., designWidthPx)` so 1080 / 1920 sheets are not postage-stamp
