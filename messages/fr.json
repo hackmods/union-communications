@@ -146,6 +146,7 @@
     "sectionOptions": "Options",
     "sectionLayout": "Mise en page et format",
     "sectionColours": "Couleurs",
+    "accentColour": "Couleur d'accent",
     "sectionAdvanced": "Avancé",
     "logoMode": "Logo",
     "logoNone": "Aucun",
@@ -234,6 +235,7 @@
     "description": "Couleurs, forme et tailles d’export. Enregistrez dans la Trousse de marque pour tous les outils.",
     "localNumber": "Numéro de section",
     "subText": "Sous-texte",
+    "defaultSubText": "Personnel de soutien",
     "shape": "Forme",
     "shapeCircle": "Cercle",
     "shapeSquare": "Carré",
@@ -4220,6 +4222,12 @@
     "headline": "Titre",
     "subheadline": "Sous-titre",
     "detail": "Ligne supplémentaire (date, section ou badge)",
+    "presetDetails": {
+      "agmNotice": "AGA",
+      "bargainingUpdate": "Mise à jour",
+      "strikeAction": "Grève",
+      "jointCoalition": "Soyez présents — détails à venir"
+    },
     "initials": "Initiales (sans photo)",
     "photo": "Photo",
     "photoZoom": "Zoom photo",
@@ -4266,6 +4274,11 @@
       "bargaining": "Négociation",
       "solidarity": "Solidarité",
       "member": "Membre"
+    },
+    "defaults": {
+      "quote": "Nous n'accepterons rien de moins qu'une entente équitable pour nos membres.",
+      "author": "Président de la section",
+      "role": "Comité de négociation"
     },
     "quote": "Citation",
     "author": "Attribution",

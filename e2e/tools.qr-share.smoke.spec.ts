@@ -4,6 +4,7 @@ import { seedCanvasFonts } from "./helpers/canvas-fonts";
 import {
   enableShowUrl,
   expectPlateGeometry,
+  expectPresetSelected,
   expectPreviewFitsColumn,
   expectUrlLayout,
   measurePlateFill,
@@ -24,7 +25,7 @@ test.describe("QR share URL captions @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "QR Link Card Maker" }),
     ).toBeVisible();
-    await expect(page.locator("#qr-preset")).toHaveValue("getSupport");
+    await expectPresetSelected(page, "getSupport");
     await waitForQrPreview(page);
     const root = page.locator("[data-export-root]");
     await expect(root.getByText(/Get support/i)).toBeVisible();
@@ -43,7 +44,7 @@ test.describe("QR share URL captions @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "QR Board Poster Maker" }),
     ).toBeVisible();
-    await expect(page.locator("#qr-board-preset")).toHaveValue("membershipFtPt");
+    await expectPresetSelected(page, "membershipFtPt");
     await waitForQrPreview(page);
     const root = page.locator("[data-export-root]");
     await expect(
@@ -65,7 +66,7 @@ test.describe("QR share URL captions @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "QR Link Card Maker" }),
     ).toBeVisible();
-    await expect(page.locator("#qr-preset")).toHaveValue("getSupport");
+    await expectPresetSelected(page, "getSupport");
 
     await enableShowUrl(page, /Show URL under tagline/i);
     await page.getByLabel(/Link or text to encode/i).fill(LONG_URL);
@@ -117,7 +118,7 @@ test.describe("QR share URL captions @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "QR Link Card Maker" }),
     ).toBeVisible();
-    await expect(page.locator("#qr-preset")).toHaveValue("rightToRefuse");
+    await expectPresetSelected(page, "rightToRefuse");
 
     await enableShowUrl(page, /Show URL under tagline/i);
     await waitForQrPreview(page);
@@ -148,7 +149,7 @@ test.describe("QR share URL captions @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "QR Link Card Maker" }),
     ).toBeVisible();
-    await expect(page.locator("#qr-preset")).toHaveValue("joinPartTime");
+    await expectPresetSelected(page, "joinPartTime");
 
     await selectPrintSize(page, /Square 5×5/i);
     await expect(page.getByText(/Preview at Square 5×5/i)).toBeVisible({
@@ -289,7 +290,7 @@ test.describe("QR share URL captions @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "Action Card Maker" }),
     ).toBeVisible();
-    await expect(page.locator("#action-preset")).toHaveValue("signPetition");
+    await expectPresetSelected(page, "signPetition");
 
     await enableShowUrl(page, /Show URL under the call to action/i);
     await page.getByLabel(/Petition \/ sign-on link/i).fill(LONG_URL);

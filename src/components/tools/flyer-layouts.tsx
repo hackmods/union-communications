@@ -16,7 +16,7 @@ import { meetsWcagAA } from "@/lib/utils/contrast";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import { resolvePrintPageLayout } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
-import { cn, resolveLocalNumber } from "@/lib/utils";
+import { cn, localLabel } from "@/lib/utils";
 
 export interface FlyerLayoutCopy {
   message: string;
@@ -201,10 +201,7 @@ export function FlyerLayoutCanvas({
   );
   const qrVisible = Boolean(showQr && qrSrc);
   const bodyText = copy.body.trim();
-  const resolvedLocal = resolveLocalNumber(localNumber);
-  const localLine = subText
-    ? `Local ${resolvedLocal} - ${subText}`
-    : `Local ${resolvedLocal}`;
+  const localLine = localLabel(localNumber, subText);
 
   const canvasBoxStyle: CSSProperties = {
     width: designWidthPx,

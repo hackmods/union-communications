@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import type { SavedLink } from "@/lib/utils/local-links";
 
 export interface QrBoardSlotEditorProps {
@@ -46,7 +47,6 @@ export function QrBoardSlotEditor({
 }: QrBoardSlotEditorProps) {
   const titleId = `qr-board-slot-title-${index}`;
   const destId = `qr-board-slot-dest-${index}`;
-  const savedId = `qr-board-slot-saved-${index}`;
 
   return (
     <fieldset className="space-y-3 rounded-md border border-gray-200 p-3">
@@ -69,27 +69,21 @@ export function QrBoardSlotEditor({
       />
 
       {savedLinks.length > 0 ? (
-        <div>
-          <label htmlFor={savedId} className="mb-1 block text-sm font-medium">
-            {labels.savedLinks}
-          </label>
-          <select
-            id={savedId}
-            value=""
-            onChange={(e) => {
-              const url = e.target.value;
-              if (url) onDestinationChange(url);
-            }}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-          >
-            <option value="">{labels.savedLinksPlaceholder}</option>
-            {savedLinks.map((link) => (
-              <option key={link.id} value={link.url}>
-                {link.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Select
+          label={labels.savedLinks}
+          value=""
+          onChange={(e) => {
+            const url = e.target.value;
+            if (url) onDestinationChange(url);
+          }}
+        >
+          <option value="">{labels.savedLinksPlaceholder}</option>
+          {savedLinks.map((link) => (
+            <option key={link.id} value={link.url}>
+              {link.label}
+            </option>
+          ))}
+        </Select>
       ) : null}
 
       <div className="flex flex-wrap gap-2">
