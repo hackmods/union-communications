@@ -1,12 +1,17 @@
 "use client";
 
-import type { CSSProperties, RefObject } from "react";
+import {
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type RefObject,
+} from "react";
 import type { BrandKit } from "@/types/entities";
 import type { PublicRosterPerson } from "@/types/public-roster";
 import {
   ORG_CHART_FORMATS,
   isOrgChartListLayout,
-  isPortraitOrgChartFormat,
   orgChartPreviewHeightPx,
   orgChartLayoutShowsLocation,
   type OrgChartFormatId,
@@ -18,6 +23,13 @@ import {
   rosterHasNamedPeople,
   type OrgChartBand,
 } from "@/lib/org-chart/layout";
+import {
+  orgChartChromeScale,
+  orgChartContentLoad,
+  orgChartHeaderLogoScale,
+  orgChartUsesCompactChrome,
+} from "@/lib/org-chart/fit";
+import { estimateTypeFitScale } from "@/lib/utils/canvas-type-fit";
 import { CanvasWrapper } from "@/components/canvas-core";
 import {
   PRINT_PAGE_LEGACY_REFERENCE_PX,
@@ -115,11 +127,27 @@ export function OrgChartCanvas({
     designWidthPx,
     referenceWidthPx,
   );
-  const typeRatio = Math.min(
-    3,
-    Math.max(0.5, designWidthPx / referenceWidthPx),
-  );
+  const listLayout = isOrgChartListLayout(layoutId);
+  const namedCount = people.filter(
+    (person) => person.name.trim() || person.role.trim(),
+  ).length;
+  const bands = groupOrgChartPeople(people);
+  const load = orgChartContentLoad({
+    namedCount,
+    bandCount: bands.length,
+    listLayout,
+  });
+  const typeRatio = orgChartChromeScale({
+    designWidthPx,
+    namedCount,
+    bandCount: bands.length,
+    listLayout,
+  });
+  const compact = orgChartUsesCompactChrome(load);
   const headerChrome = printBrandHeaderChrome(designWidthPx);
+  const logoMaxHeightPx = Math.round(
+    headerChrome.logoMaxHeightPx * orgChartHeaderLogoScale(load),
+  );
   const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
     primary: brandKit.primaryColor,
     secondary: brandKit.secondaryColor,
@@ -128,15 +156,8 @@ export function OrgChartCanvas({
   const ink = pickContrastingInk(brandKit.primaryColor);
   const plateInk = pickContrastingInk(brandKit.secondaryColor);
   const muted = mutedInkOnBackground(brandKit.primaryColor, 0.85);
-  const bands = groupOrgChartPeople(people);
   const directoryRows = directoryRowsFromPeople(people, stewardsPositionLabel);
-  const listLayout = isOrgChartListLayout(layoutId);
   const showLocation = orgChartLayoutShowsLocation(layoutId);
-  const namedCount = people.filter(
-    (person) => person.name.trim() || person.role.trim(),
-  ).length;
-  const compact =
-    namedCount > 12 || (isPortraitOrgChartFormat(formatId) && namedCount > 8);
   const hasPeople = rosterHasNamedPeople(people);
   const localLabel = [
     brandKit.local.localNumber?.trim()
@@ -155,6 +176,46 @@ export function OrgChartCanvas({
   const cellPad = compact
     ? `${Math.round(4 * typeRatio)}px ${Math.round(6 * typeRatio)}px`
     : `${Math.round(6 * typeRatio)}px ${Math.round(8 * typeRatio)}px`;
+
+  const slotRef = useRef<HTMLDivElement>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
+  const [fitScale, setFitScale] = useState(1);
+
+  useLayoutEffect(() => {
+    const stack = stackRef.current;
+    const slot = slotRef.current;
+    if (!stack || !slot || !hasPeople) {
+      setFitScale(1);
+      return;
+    }
+
+    const measure = () => {
+      const prevTransform = stack.style.transform;
+      const prevWidth = stack.style.width;
+      stack.style.transform = "none";
+      stack.style.width = "100%";
+      const next = estimateTypeFitScale(stack.scrollHeight, slot.clientHeight);
+      stack.style.transform = prevTransform;
+      stack.style.width = prevWidth;
+      setFitScale((prev) => (Math.abs(prev - next) < 0.015 ? prev : next));
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(slot);
+    return () => ro.disconnect();
+  }, [
+    hasPeople,
+    namedCount,
+    bands.length,
+    listLayout,
+    typeRatio,
+    compact,
+    title,
+    formatId,
+    layoutId,
+    designHeightPx,
+  ]);
 
   return (
     <div className="shadow-lg">
@@ -190,7 +251,7 @@ export function OrgChartCanvas({
           logoSize="sm"
           fontFamily={scaledTokens.bodyFontFamily}
           labelFontSizePx={headerChrome.labelPx}
-          logoMaxHeightPx={headerChrome.logoMaxHeightPx}
+          logoMaxHeightPx={logoMaxHeightPx}
         />
         <h2
           className="relative z-[2] shrink-0"
@@ -225,9 +286,21 @@ export function OrgChartCanvas({
           </p>
         ) : null}
         <div
-          className="relative z-[2] flex min-h-0 flex-1 flex-col"
-          style={{ gap: compact ? 8 : 12 }}
+          ref={slotRef}
+          className="relative z-[2] min-h-0 flex-1 overflow-hidden"
         >
+          <div
+            ref={stackRef}
+            className="flex flex-col"
+            style={{
+              gap: compact ? 8 : 12,
+              transform:
+                hasPeople && fitScale < 1 ? `scale(${fitScale})` : undefined,
+              transformOrigin: "top center",
+              width:
+                hasPeople && fitScale < 1 ? `${100 / fitScale}%` : "100%",
+            }}
+          >
           {!hasPeople ? (
             <p
               style={{
@@ -408,6 +481,7 @@ export function OrgChartCanvas({
               );
             })
           )}
+          </div>
         </div>
       </div>
       </CanvasWrapper>

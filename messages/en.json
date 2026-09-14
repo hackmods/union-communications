@@ -7482,6 +7482,10 @@
         "title": "Current OPSEU / SEFPO lockup on Brand Assets",
         "body": "Download the Ontario's union / Le syndicat de l'Ontario wordmark with the other OPSEU / SEFPO blue files."
       },
+      "org-chart-fit": {
+        "title": "Org Chart keeps every name on the page",
+        "body": "When you add officers, stewards, or committees, the poster shrinks the cards so the last row is not cut off on letter or tabloid."
+      },
       "quote-card-local-lockup": {
         "title": "Quote Card local name reads larger",
         "body": "The local logo and Local line now match the square and tall card sizes, so people can still see who posted the quote."

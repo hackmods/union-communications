@@ -1,5 +1,9 @@
 # Progress Log
 
+## 2026-09-14 — Org Chart fits extra people
+
+- [x] Density scale from roster load (not 850/306) + measure-and-fit so extra bands are not clipped
+
 ## 2026-09-14 — Quote Card local lockup scale
 
 - [x] Local name + logo use `quoteIdentityChrome` (not the 23px print meta cap)

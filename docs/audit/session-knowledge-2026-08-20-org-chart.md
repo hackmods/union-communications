@@ -18,6 +18,13 @@ Public Comms **Org Chart** at `/tools/org-chart`:
 - Editor label: **Officers and stewards** — never “member list.”
 - Default `showOnWebsite: true` for executive, `false` for stewards/committees.
 
+## 2026-09-14 — Fit extra people
+
+Letter is a fixed 850×1100 sheet with `overflow: hidden`. Card chrome used
+`designWidth / 306` (~2.8×) after Canvas Core, so a 7-person poster clipped
+committees. Density now comes from `orgChartChromeScale` (letter = 1.0 base)
+plus a measure-and-fit scale on the roster stack.
+
 ## Do not
 
 - Pipe Hub officer emails/phones into public Comms.
