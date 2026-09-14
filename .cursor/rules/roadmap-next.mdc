@@ -50,6 +50,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 | Officer Learning system uplift | **Shipped 2026-09-06** — claim audit 1–14, path md 2/lg 4/xl 5, claim-chain guards; [`session-knowledge-2026-09-06-officer-learning-system-uplift.md`](../../docs/audit/session-knowledge-2026-09-06-officer-learning-system-uplift.md) |
 | Officer Learning knowledge expansion | **Shipped 2026-09-06** — modules 15–16 (DFR, seniority), role tracks UX, jurisdiction hedges; [`session-knowledge-2026-09-06-officer-learning-knowledge-expansion.md`](../../docs/audit/session-knowledge-2026-09-06-officer-learning-knowledge-expansion.md) |
 | Public UX uplift (guides/tools/pages) | **Shipped 2026-08-27** — flexible `GuideLayout` presets, playbook TOC rails, tools catalog labour strip; [`public-space-composition-audit-2026-08.md`](../../docs/audit/public-space-composition-audit-2026-08.md) |
+| CapRover Sentry + JSONL sinks | **Shipped 2026-09-08** — env-gated errors-only Sentry (tunnel `/monitoring`) + server JSONL rotation; [`OBSERVABILITY.md`](../../docs/modules/OBSERVABILITY.md); [`session-knowledge-2026-09-08-sentry-observability.md`](../../docs/audit/session-knowledge-2026-09-08-sentry-observability.md) |
 
 ## Next planned work (in order)
 

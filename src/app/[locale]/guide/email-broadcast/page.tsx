@@ -2,12 +2,20 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideBulletList,
+  GuideCallout,
+  GuideProse,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -96,142 +104,89 @@ export default async function EmailBroadcastGuidePage({
         />
       }
     >
-      <section
-        id="when"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="when-heading"
-      >
-        <h2
-          id="when-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("when.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("when.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+      <GuideSection id="when" title={t("when.title")} intro={t("when.intro")}>
+        <GuideTipGrid>
           {whenItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`when.items.${key}.label`)}
               content={t(`when.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("when.tip")}</p>
-        </Callout>
-      </section>
+        </GuideCallout>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="anatomy"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="anatomy-heading"
+        title={t("anatomy.title")}
+        intro={t("anatomy.intro")}
       >
-        <h2
-          id="anatomy-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("anatomy.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("anatomy.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {anatomyItemKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`anatomy.items.${key}.label`)}
               content={t(`anatomy.items.${key}.content`)}
             />
           ))}
-        </ul>
-      </section>
+        </GuideTipGrid>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="protect"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="protect-heading"
+        title={t("protect.title")}
+        intro={t("protect.intro")}
       >
-        <h2
-          id="protect-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("protect.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("protect.intro")}
-        </p>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("protect.bccTitle")}</p>
           <p className="mt-1">{t("protect.bccBody")}</p>
-        </Callout>
-        <Callout tone="warning" className="mt-4 max-w-prose">
+        </GuideCallout>
+        <GuideCallout tone="warning" className="mt-4">
           <p className="font-semibold text-amber-950">
             {t("protect.employerTitle")}
           </p>
           <p className="mt-1">{t("protect.employerBody")}</p>
-        </Callout>
-        <p className="mt-5 max-w-prose leading-relaxed text-gray-700">
-          {t("protect.cases")}
-        </p>
-      </section>
+        </GuideCallout>
+        <GuideProse className="mt-5">{t("protect.cases")}</GuideProse>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="toolkit"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="toolkit-heading"
+        title={t("toolkit.title")}
+        intro={t("toolkit.intro")}
       >
-        <h2
-          id="toolkit-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("toolkit.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("toolkit.intro")}
-        </p>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("toolkit.tools")}
-        </p>
-        <Callout className="mt-5 max-w-prose">
+        <GuideProse className="mt-3">{t("toolkit.tools")}</GuideProse>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">
             {t("toolkit.privacyTitle")}
           </p>
           <p className="mt-1">{t("toolkit.privacyBody")}</p>
-        </Callout>
-        <Callout tone="muted" className="mt-4 max-w-prose">
+        </GuideCallout>
+        <GuideCallout tone="muted" className="mt-4">
           <p className="font-semibold text-opseu-dark">{t("toolkit.hubTitle")}</p>
           <p className="mt-1">{t("toolkit.hubBody")}</p>
-        </Callout>
-      </section>
+        </GuideCallout>
+      </GuideSection>
 
-      <section
+      <GuideSection
         id="checklist"
-        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
-        aria-labelledby="checklist-heading"
+        title={t("checklist.title")}
+        intro={t("checklist.intro")}
       >
-        <h2
-          id="checklist-heading"
-          className="text-xl font-bold text-opseu-dark md:text-2xl"
-        >
-          {t("checklist.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("checklist.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-2 pl-5 text-gray-700">
+        <GuideBulletList>
           {checklistItemKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
+            <li key={key} className="leading-relaxed">
               {t(`checklist.items.${key}`)}
             </li>
           ))}
-        </ul>
-      </section>
+        </GuideBulletList>
+      </GuideSection>
 
-      <div className="button-row mt-10 max-w-2xl">
+      <GuideActionRow className="mt-10">
         <Link href="/tools/document-generator" className={guideCtaOutlineClass}>
           {nav("documentGenerator")}
         </Link>
@@ -241,15 +196,7 @@ export default async function EmailBroadcastGuidePage({
         <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
           {nav("flyerMaker")}
         </Link>
-      </div>
+      </GuideActionRow>
     </GuideLayout>
-  );
-}
-
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
   );
 }

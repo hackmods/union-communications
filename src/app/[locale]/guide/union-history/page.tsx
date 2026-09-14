@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { GuideExpandSection } from "@/components/comms/GuideExpandSection";
 import {
@@ -14,11 +13,25 @@ import {
   guideCtaClass,
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
-import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { AffiliationMapWorksheetButton } from "@/components/comms/AffiliationMapWorksheetButton";
 import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideBulletList,
+  GuideCallout,
+  GuideCatalogCard,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideProse,
+  GuideSection,
+  GuideSubHeading,
+  GuideTipGrid,
+  GuideTipItem,
+  GuideWideFigure,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -183,12 +196,12 @@ export default async function UnionHistoryGuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout
         slug="democratic-governance"
@@ -196,15 +209,15 @@ export default async function UnionHistoryGuidePage({
       />
 
       <GuideSection id="why" title={t("why.title")} intro={t("why.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {whyKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`why.items.${key}.label`)}
               content={t(`why.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -215,22 +228,22 @@ export default async function UnionHistoryGuidePage({
         <GuideExpandSection
           title={t("history.expandTitle")}
           summary={t("history.expandSummary")}
-          className="mt-5 max-w-prose"
+          className="mt-5"
         >
-          <ul className="list-disc space-y-3 pl-5 text-gray-700">
+          <GuideTipGrid className="mt-3" columns={3} dense>
             {historyKeys.map((key) => (
-              <TipItem
+              <GuideTipItem
                 key={key}
                 label={t(`history.items.${key}.label`)}
                 content={t(`history.items.${key}.content`)}
               />
             ))}
-          </ul>
+          </GuideTipGrid>
         </GuideExpandSection>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("history.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -238,40 +251,42 @@ export default async function UnionHistoryGuidePage({
         title={t("tracks.title")}
         intro={t("tracks.intro")}
       >
-        <AffiliationTracksDiagram
-          className="mt-5 max-w-3xl"
-          familyTitle={t("tracks.diagram.familyTitle")}
-          geoTitle={t("tracks.diagram.geoTitle")}
-          family={[
-            t("tracks.diagram.familyLocal"),
-            t("tracks.diagram.familyUnion"),
-            t("tracks.diagram.familyNational"),
-            t("tracks.diagram.familyCongress"),
-          ]}
-          geo={[
-            t("tracks.diagram.geoLocal"),
-            t("tracks.diagram.geoCouncil"),
-            t("tracks.diagram.geoFed"),
-            t("tracks.diagram.geoCongress"),
-          ]}
-          caption={t("tracks.diagram.caption")}
-        />
-        <p className="mt-5 max-w-prose leading-relaxed text-gray-700">
+        <GuideWideFigure>
+          <AffiliationTracksDiagram
+            className="w-full max-w-3xl"
+            familyTitle={t("tracks.diagram.familyTitle")}
+            geoTitle={t("tracks.diagram.geoTitle")}
+            family={[
+              t("tracks.diagram.familyLocal"),
+              t("tracks.diagram.familyUnion"),
+              t("tracks.diagram.familyNational"),
+              t("tracks.diagram.familyCongress"),
+            ]}
+            geo={[
+              t("tracks.diagram.geoLocal"),
+              t("tracks.diagram.geoCouncil"),
+              t("tracks.diagram.geoFed"),
+              t("tracks.diagram.geoCongress"),
+            ]}
+            caption={t("tracks.diagram.caption")}
+          />
+        </GuideWideFigure>
+        <GuideProse className="mt-5">
           {t("tracks.nupgeLead")}{" "}
           <RegistryLink id="nupge-labour-map">
             {t("tracks.nupgeLink")}
           </RegistryLink>
           {t("tracks.nupgeTail")}
-        </p>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+        </GuideProse>
+        <GuideProse className="mt-3">
           {t("tracks.clcLead")}{" "}
           <RegistryLink id="clc-federations">{t("tracks.clcLink")}</RegistryLink>
           {t("tracks.clcTail")}
-        </p>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        </GuideProse>
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("tracks.warningTitle")}</p>
           <p className="mt-2 leading-relaxed">{t("tracks.warningBody")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -279,53 +294,61 @@ export default async function UnionHistoryGuidePage({
         title={t("example.title")}
         intro={t("example.intro")}
       >
-        <AffiliationExampleDiagram
-          className="mt-5"
-          local={t("example.diagram.local")}
-          area={t("example.diagram.area")}
-          council={t("example.diagram.council")}
-          union={t("example.diagram.union")}
-          ofl={t("example.diagram.ofl")}
-          nupge={t("example.diagram.nupge")}
-          clc={t("example.diagram.clc")}
-          caption={t("example.diagram.caption")}
-        />
-        <ul className="mt-5 list-disc space-y-3 pl-5 text-gray-700">
-          <TipItem
+        <GuideWideFigure>
+          <AffiliationExampleDiagram
+            className="w-full"
+            local={t("example.diagram.local")}
+            area={t("example.diagram.area")}
+            council={t("example.diagram.council")}
+            union={t("example.diagram.union")}
+            ofl={t("example.diagram.ofl")}
+            nupge={t("example.diagram.nupge")}
+            clc={t("example.diagram.clc")}
+            caption={t("example.diagram.caption")}
+          />
+        </GuideWideFigure>
+        <GuideTipGrid className="mt-5">
+          <GuideTipItem
             label={t("example.items.local.label")}
             content={t("example.items.local.content")}
           />
-          <li className="max-w-prose leading-relaxed">
-            <span className="font-semibold text-opseu-dark">
-              {t("example.items.council.label")}.
-            </span>{" "}
-            {t("example.items.council.before")}{" "}
-            <RegistryLink id="nrlc-who-we-are">
-              {t("example.items.council.link")}
-            </RegistryLink>{" "}
-            {t("example.items.council.after")}
-          </li>
-          <TipItem
+          <GuideTipItem
+            label={t("example.items.council.label")}
+            content={
+              <>
+                {t("example.items.council.before")}{" "}
+                <RegistryLink id="nrlc-who-we-are">
+                  {t("example.items.council.link")}
+                </RegistryLink>{" "}
+                {t("example.items.council.after")}
+              </>
+            }
+          />
+          <GuideTipItem
             label={t("example.items.area.label")}
             content={t("example.items.area.content")}
           />
-          <TipItem
+          <GuideTipItem
             label={t("example.items.union.label")}
             content={t("example.items.union.content")}
           />
-          <li className="max-w-prose leading-relaxed">
-            <span className="font-semibold text-opseu-dark">
-              {t("example.items.nupge.label")}.
-            </span>{" "}
-            {t("example.items.nupge.before")}{" "}
-            <RegistryLink id="nupge">{t("example.items.nupge.link")}</RegistryLink>{" "}
-            {t("example.items.nupge.after")}
-          </li>
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+          <GuideTipItem
+            label={t("example.items.nupge.label")}
+            content={
+              <>
+                {t("example.items.nupge.before")}{" "}
+                <RegistryLink id="nupge">
+                  {t("example.items.nupge.link")}
+                </RegistryLink>{" "}
+                {t("example.items.nupge.after")}
+              </>
+            }
+          />
+        </GuideTipGrid>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("example.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -333,15 +356,15 @@ export default async function UnionHistoryGuidePage({
         title={t("layers.title")}
         intro={t("layers.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid columns={3} dense>
           {layerKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`layers.items.${key}.label`)}
               content={t(`layers.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -349,41 +372,44 @@ export default async function UnionHistoryGuidePage({
         title={t("mapYours.title")}
         intro={t("mapYours.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {mapYoursKeys.map((key) => (
-            <TipItem
+        <GuideOutlineList className="mt-4 space-y-6">
+          {mapYoursKeys.map((key, index) => (
+            <GuideOutlineStep
               key={key}
-              label={t(`mapYours.items.${key}.label`)}
-              content={t(`mapYours.items.${key}.content`)}
-            />
+              id={`map-${key}`}
+              step={index + 1}
+              title={t(`mapYours.items.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`mapYours.items.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
-        <Callout className="mt-5 max-w-prose">
+        </GuideOutlineList>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">
             {t("mapYours.confirm.title")}
           </p>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+          <GuideBulletList className="mt-3" columns={2}>
             {confirmKeys.map((key) => (
-              <li key={key}>{t(`mapYours.confirm.items.${key}`)}</li>
+              <li key={key} className="leading-relaxed">
+                {t(`mapYours.confirm.items.${key}`)}
+              </li>
             ))}
-          </ul>
-        </Callout>
-        <div className="mt-8 max-w-prose">
-          <h3 className="text-base font-bold text-opseu-dark md:text-lg">
-            {t("worksheet.heading")}
-          </h3>
-          <p className="mt-2 leading-relaxed text-gray-700">
-            {t("worksheet.intro")}
-          </p>
+          </GuideBulletList>
+        </GuideCallout>
+        <div className="mt-8">
+          <GuideSubHeading>{t("worksheet.heading")}</GuideSubHeading>
+          <GuideProse className="mt-2">{t("worksheet.intro")}</GuideProse>
           <AffiliationMapWorksheetButton className="mt-4" />
-          <p className="mt-2 text-sm leading-relaxed text-gray-600">
+          <GuideProse className="mt-2 text-sm text-gray-600">
             {t("worksheet.hint")}
-          </p>
+          </GuideProse>
         </div>
-        <Callout className="mt-5 max-w-prose">
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("mapYours.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -391,41 +417,35 @@ export default async function UnionHistoryGuidePage({
         title={t("notThis.title")}
         intro={t("notThis.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {notThisKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`notThis.items.${key}.label`)}
               content={t(`notThis.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection id="tools" title={t("tools.title")} intro={t("tools.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <ul className="mt-4 grid list-none gap-5 p-0 sm:grid-cols-2">
           {toolRows.map(({ key, href }) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <Link
-                href={href}
-                className="font-semibold text-opseu-blue underline underline-offset-2"
-              >
-                {t(`tools.items.${key}.label`)}
-              </Link>
-              {". "}
-              {t(`tools.items.${key}.content`)}
-            </li>
+            <GuideCatalogCard
+              key={key}
+              titleAs="h3"
+              href={href}
+              title={t(`tools.items.${key}.label`)}
+              body={t(`tools.items.${key}.content`)}
+            />
           ))}
         </ul>
         <AffiliationMapWorksheetButton className="mt-5" />
-        <div className="button-row mt-5 max-w-2xl">
+        <GuideActionRow>
           <Link href="/tools/org-chart" className={guideCtaClass}>
             {nav("orgChart")}
           </Link>
-          <Link
-            href="/tools/website-template"
-            className={guideCtaOutlineClass}
-          >
+          <Link href="/tools/website-template" className={guideCtaOutlineClass}>
             {nav("websiteTemplate")}
           </Link>
           <Link href="/guide/bylaws" className={guideCtaOutlineClass}>
@@ -437,39 +457,8 @@ export default async function UnionHistoryGuidePage({
           >
             {nav("runningMeetingsGuide")}
           </Link>
-        </div>
+        </GuideActionRow>
       </GuideSection>
     </GuideLayout>
-  );
-}
-
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
-
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
   );
 }

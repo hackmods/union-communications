@@ -52,12 +52,11 @@ import {
 import { fieldsFromFlyer } from "@/lib/comms/event-email-from-flyer";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { pickContrastingInk } from "@/lib/utils/ink";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
@@ -65,7 +64,7 @@ import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { FlyerLayoutCanvas } from "@/components/tools/flyer-layouts";
-import { CanvasWrapper } from "@/components/canvas-core";
+import { CanvasSheetPlate } from "@/components/tools/CanvasSheetPlate";
 import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import {
@@ -416,7 +415,7 @@ function FlyerMakerPageContent() {
                 })}
               </div>
             </div>
-          <Card density="compact" className="space-y-5">
+          <div className="space-y-5">
             <ToolFormDetails title={tf("sectionEventDetails")} defaultOpen>
               <Textarea
                 label={tf("message")}
@@ -644,7 +643,7 @@ function FlyerMakerPageContent() {
                   </Button>
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
         }
         previewActions={
@@ -662,14 +661,12 @@ function FlyerMakerPageContent() {
           </>
         }
         preview={
-          /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
-          <CanvasWrapper
+          <CanvasSheetPlate
             designWidth={designWidth}
             designHeight={designHeight}
             mode="fixed"
             maxScale={2}
             align="center"
-            frameClassName="shadow-lg"
           >
             <FlyerLayoutCanvas
               canvasRef={canvasRef}
@@ -705,7 +702,7 @@ function FlyerMakerPageContent() {
               logoMode={state.logoMode}
               showLocalLabel={state.showLocalNumber}
             />
-          </CanvasWrapper>
+          </CanvasSheetPlate>
         }
       />
       <ConsentModal
@@ -720,20 +717,9 @@ function FlyerMakerPageContent() {
   );
 }
 
-function FlyerMakerSuspenseFallback() {
-  const t = useTranslations("common");
-  return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <p className="text-gray-600" aria-busy="true">
-        {t("loading")}
-      </p>
-    </PageShell>
-  );
-}
-
 export default function FlyerMakerPage() {
   return (
-    <Suspense fallback={<FlyerMakerSuspenseFallback />}>
+    <Suspense fallback={<ToolLoadingFallback />}>
       <FlyerMakerPageContent />
     </Suspense>
   );

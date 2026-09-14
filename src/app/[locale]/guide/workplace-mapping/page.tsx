@@ -3,17 +3,33 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   PhysicalShiftDiagram,
   SocialMapDiagram,
   SupportScaleDiagram,
 } from "@/components/comms/WorkplaceMappingDiagrams";
-import { Callout } from "@/components/ui/Callout";
+import {
+  guideCtaClass,
+  guideCtaOutlineClass,
+} from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideBulletList,
+  GuideCallout,
+  GuideCatalogCard,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideProse,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+  GuideWideFigure,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -63,12 +79,6 @@ const richMarks = {
     <strong className="font-semibold text-opseu-dark">{chunks}</strong>
   ),
 };
-
-const primaryDownloadClass =
-  "inline-flex items-center justify-center rounded-lg bg-opseu-blue px-6 py-3 text-lg font-semibold text-white transition-colors hover:bg-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40";
-
-const outlineDownloadClass =
-  "inline-flex items-center justify-center rounded-lg border-2 border-opseu-blue px-4 py-2 text-base font-semibold text-opseu-blue transition-colors hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40";
 
 export default async function WorkplaceMappingGuidePage({
   params,
@@ -127,38 +137,49 @@ export default async function WorkplaceMappingGuidePage({
         />
       }
     >
-      <Callout tone="warning" className="mb-8 max-w-prose">
+      <GuideCallout tone="warning" className="mb-8">
         <p className="font-semibold text-amber-950">{t("sensitive.title")}</p>
-        <p className="mt-2 leading-relaxed">{t.rich("sensitive.body", richMarks)}</p>
-      </Callout>
+        <p className="mt-2 leading-relaxed">
+          {t.rich("sensitive.body", richMarks)}
+        </p>
+      </GuideCallout>
 
-      <OfficerLearningModuleCallout slug="mobilizer-bargaining-partner" moduleNumber={7} />
+      <OfficerLearningModuleCallout
+        slug="mobilizer-bargaining-partner"
+        moduleNumber={7}
+      />
 
       <div className="mb-8">
-        <div className="flex flex-wrap items-center gap-3">
-          <a href={TEMPLATE_HREF} download={TEMPLATE_DOWNLOAD} className={primaryDownloadClass}>
+        <GuideActionRow className="mt-0">
+          <a
+            href={TEMPLATE_HREF}
+            download={TEMPLATE_DOWNLOAD}
+            className={guideCtaClass}
+          >
             {t("downloadCta")}
           </a>
           <SpreadsheetXlsxButton
             csvHref={TEMPLATE_HREF}
             downloadBasename={TEMPLATE_DOWNLOAD}
-            buttonClassName="min-h-[3.25rem] px-6 text-base font-semibold"
+            buttonClassName="min-h-11 px-4 text-base font-semibold"
           />
-        </div>
-        <p className="mt-2 max-w-prose text-sm text-gray-600">{t("downloadHint")}</p>
+        </GuideActionRow>
+        <GuideProse className="mt-2 text-sm text-gray-600">
+          {t("downloadHint")}
+        </GuideProse>
       </div>
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {gateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`gate.items.${key}.label`)}
               content={t(`gate.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
           <Link
@@ -167,7 +188,7 @@ export default async function WorkplaceMappingGuidePage({
           >
             {t("related.dfr")} →
           </Link>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -175,29 +196,31 @@ export default async function WorkplaceMappingGuidePage({
         title={t("physical.title")}
         intro={t("physical.intro")}
       >
-        <PhysicalShiftDiagram
-          className="mt-5 max-w-2xl"
-          ariaLabel={t("physical.diagramLabel")}
-          columns={physicalColumnKeys.map((key) => ({
-            id: key,
-            title: t(`physical.diagram.${key}.title`),
-            items: [
-              t(`physical.diagram.${key}.a`),
-              t(`physical.diagram.${key}.b`),
-            ],
-          }))}
-        />
-        <ul className="mt-5 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideWideFigure ariaLabel={t("physical.diagramLabel")}>
+          <PhysicalShiftDiagram
+            className="w-full"
+            ariaLabel={t("physical.diagramLabel")}
+            columns={physicalColumnKeys.map((key) => ({
+              id: key,
+              title: t(`physical.diagram.${key}.title`),
+              items: [
+                t(`physical.diagram.${key}.a`),
+                t(`physical.diagram.${key}.b`),
+              ],
+            }))}
+          />
+        </GuideWideFigure>
+        <GuideBulletList className="mt-5" columns={2}>
           {physicalKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
+            <li key={key} className="leading-relaxed">
               {t(`physical.items.${key}`)}
             </li>
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideBulletList>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("physical.blindSpot")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -205,55 +228,58 @@ export default async function WorkplaceMappingGuidePage({
         title={t("social.title")}
         intro={t.rich("social.intro", richMarks)}
       >
-        <SocialMapDiagram
-          className="mt-5 max-w-md"
-          ariaLabel={t("social.diagramLabel")}
-          leader={t("social.diagram.leader")}
-          around={[
-            t("social.diagram.alex"),
-            t("social.diagram.sam"),
-            t("social.diagram.casey"),
-            t("social.diagram.jordan"),
-          ]}
-          blindSpot={t("social.diagram.blindSpot")}
-        />
-        <ul className="mt-5 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideWideFigure ariaLabel={t("social.diagramLabel")}>
+          <SocialMapDiagram
+            className="w-full"
+            ariaLabel={t("social.diagramLabel")}
+            leader={t("social.diagram.leader")}
+            around={[
+              t("social.diagram.alex"),
+              t("social.diagram.sam"),
+              t("social.diagram.casey"),
+              t("social.diagram.jordan"),
+            ]}
+            blindSpot={t("social.diagram.blindSpot")}
+          />
+        </GuideWideFigure>
+        <GuideBulletList className="mt-5">
           {socialKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
+            <li key={key} className="leading-relaxed">
               {t(`social.items.${key}`)}
             </li>
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideBulletList>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("social.goal")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="scale" title={t("scale.title")} intro={t("scale.intro")}>
-        <SupportScaleDiagram
-          className="mt-5"
-          ariaLabel={t("scale.diagramLabel")}
-          items={scaleKeys.map((key, index) => ({
-            id: key,
-            number: String(index + 1),
-            label: t(`scale.diagram.${key}`),
-          }))}
-        />
-        <ul className="mt-5 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideWideFigure ariaLabel={t("scale.diagramLabel")}>
+          <SupportScaleDiagram
+            className="w-full"
+            ariaLabel={t("scale.diagramLabel")}
+            items={scaleKeys.map((key, index) => ({
+              id: key,
+              number: String(index + 1),
+              label: t(`scale.diagram.${key}`),
+            }))}
+          />
+        </GuideWideFigure>
+        <GuideTipGrid className="mt-5" columns={3} dense>
           {scaleKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`scale.items.${key}.label`)}
-              </span>{" "}
-              {t(`scale.items.${key}.content`)}
-            </li>
+            <GuideTipItem
+              key={key}
+              label={t(`scale.items.${key}.label`)}
+              content={t(`scale.items.${key}.content`)}
+            />
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("scale.spendTitle")}</p>
           <p className="mt-1">{t("scale.spend")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -261,41 +287,44 @@ export default async function WorkplaceMappingGuidePage({
         title={t("conversations.title")}
         intro={t("conversations.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {conversationKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`conversations.items.${key}.label`)}
               content={t(`conversations.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("conversations.tip")}</p>
-        </Callout>
-        <p className="mt-4 max-w-prose text-gray-700">
+        </GuideCallout>
+        <GuideProse className="mt-4">
           <Link
             href="/guide/membership-signup"
             className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
           >
             {t("related.membership")} →
           </Link>
-        </p>
+        </GuideProse>
       </GuideSection>
 
       <GuideSection id="worked" title={t("worked.title")} intro={t("worked.intro")}>
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {workedKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`worked.phases.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`worked.phases.${key}.content`)}
-            </li>
+        <GuideOutlineList className="mt-4 space-y-6">
+          {workedKeys.map((key, index) => (
+            <GuideOutlineStep
+              key={key}
+              id={`worked-${key}`}
+              step={index + 1}
+              title={t(`worked.phases.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`worked.phases.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
+        </GuideOutlineList>
         <SampleMapTable
           caption={t("worked.table.caption")}
           headers={{
@@ -314,26 +343,26 @@ export default async function WorkplaceMappingGuidePage({
             notes: t(`worked.table.rows.${key}.notes`),
           }))}
         />
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("worked.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection id="keep" title={t("keep.title")} intro={t("keep.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {keepKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`keep.items.${key}.label`)}
               content={t(`keep.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("privacy.title")}</p>
           <p className="mt-1">{t("privacy.body")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -341,107 +370,70 @@ export default async function WorkplaceMappingGuidePage({
         title={t("reference.title")}
         intro={t("reference.intro")}
       >
-        <div className="mt-5 space-y-6">
-          <ReferenceBlock title={t("reference.blank.title")}>
-            <p>{t("reference.blank.body")}</p>
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <a
-                href={TEMPLATE_HREF}
-                download={TEMPLATE_DOWNLOAD}
-                className={outlineDownloadClass}
+        <ul className="mt-5 grid list-none gap-6 p-0 sm:grid-cols-2">
+          <GuideCatalogCard
+            title={t("reference.blank.title")}
+            body={t("reference.blank.body")}
+            meta={t("downloadHint")}
+            action={
+              <>
+                <a
+                  href={TEMPLATE_HREF}
+                  download={TEMPLATE_DOWNLOAD}
+                  className={guideCtaOutlineClass}
+                >
+                  {t("downloadCta")}
+                </a>
+                <SpreadsheetXlsxButton
+                  csvHref={TEMPLATE_HREF}
+                  downloadBasename={TEMPLATE_DOWNLOAD}
+                />
+              </>
+            }
+          />
+          <GuideCatalogCard
+            title={t("reference.example.title")}
+            body={t("reference.example.body")}
+            action={
+              <>
+                <a
+                  href={EXAMPLE_HREF}
+                  download={EXAMPLE_DOWNLOAD}
+                  className={guideCtaOutlineClass}
+                >
+                  {t("reference.example.cta")}
+                </a>
+                <SpreadsheetXlsxButton
+                  csvHref={EXAMPLE_HREF}
+                  downloadBasename={EXAMPLE_DOWNLOAD}
+                />
+              </>
+            }
+          />
+          <GuideCatalogCard
+            title={t("reference.orgChart.title")}
+            body={t("reference.orgChart.body")}
+            action={
+              <Link href="/tools/org-chart" className={guideCtaOutlineClass}>
+                {t("related.orgChart")} →
+              </Link>
+            }
+          />
+          <GuideCatalogCard
+            title={t("reference.membership.title")}
+            body={t("reference.membership.body")}
+            action={
+              <Link
+                href="/guide/membership-signup"
+                className={guideCtaOutlineClass}
               >
-                {t("downloadCta")}
-              </a>
-              <SpreadsheetXlsxButton
-                csvHref={TEMPLATE_HREF}
-                downloadBasename={TEMPLATE_DOWNLOAD}
-              />
-            </div>
-            <p className="mt-2 text-sm text-gray-600">{t("downloadHint")}</p>
-          </ReferenceBlock>
-          <ReferenceBlock title={t("reference.example.title")}>
-            <p>{t("reference.example.body")}</p>
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <a
-                href={EXAMPLE_HREF}
-                download={EXAMPLE_DOWNLOAD}
-                className={outlineDownloadClass}
-              >
-                {t("reference.example.cta")}
-              </a>
-              <SpreadsheetXlsxButton
-                csvHref={EXAMPLE_HREF}
-                downloadBasename={EXAMPLE_DOWNLOAD}
-              />
-            </div>
-          </ReferenceBlock>
-          <ReferenceBlock title={t("reference.orgChart.title")}>
-            <p>{t("reference.orgChart.body")}</p>
-            <Link
-              href="/tools/org-chart"
-              className={`mt-3 ${outlineDownloadClass}`}
-            >
-              {t("related.orgChart")}
-            </Link>
-          </ReferenceBlock>
-          <ReferenceBlock title={t("reference.membership.title")}>
-            <p>{t("reference.membership.body")}</p>
-            <Link
-              href="/guide/membership-signup"
-              className={`mt-3 ${outlineDownloadClass}`}
-            >
-              {t("related.membership")}
-            </Link>
-          </ReferenceBlock>
-        </div>
+                {t("related.membership")} →
+              </Link>
+            }
+          />
+        </ul>
       </GuideSection>
     </GuideLayout>
-  );
-}
-
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: ReactNode;
-  children: ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
-
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}
-
-function ReferenceBlock({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="max-w-prose rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-      <h3 className="font-semibold text-opseu-dark">{title}</h3>
-      <div className="mt-2 text-gray-700">{children}</div>
-    </div>
   );
 }
 
@@ -468,7 +460,7 @@ function SampleMapTable({
   }[];
 }) {
   return (
-    <figure className="mt-5 max-w-3xl overflow-x-auto">
+    <GuideWideFigure className="mt-5 overflow-x-auto">
       <table className="w-full min-w-[28rem] border-collapse text-sm">
         <caption className="mb-3 caption-top text-left text-sm text-gray-600">
           {caption}
@@ -497,7 +489,9 @@ function SampleMapTable({
         <tbody>
           {rows.map((row) => (
             <tr key={row.key} className="border-b border-gray-100">
-              <td className="px-3 py-2 font-medium text-opseu-dark">{row.name}</td>
+              <td className="px-3 py-2 font-medium text-opseu-dark">
+                {row.name}
+              </td>
               <td className="px-3 py-2 text-gray-700">{row.shift}</td>
               <td className="px-3 py-2 text-gray-700">{row.leader}</td>
               <td className="px-3 py-2 text-gray-700">{row.score}</td>
@@ -506,6 +500,6 @@ function SampleMapTable({
           ))}
         </tbody>
       </table>
-    </figure>
+    </GuideWideFigure>
   );
 }

@@ -21,10 +21,12 @@ Layout engine spec: [`docs/modules/GUIDE_PDF_LAYOUT.md`](../../docs/modules/GUID
 8. **EN + FR** copy parity on claim (`i18n-public-copy.mdc`).
 9. **Canvas Comms PDFs** stay on `pdf-export.ts` — not text-PDF layout.
 10. **One `fill` block per worksheet** — always set `maxRows`. Prefer fixed `count` for floor handouts.
+11. **Safe margins** — defaults must stay ≥ `WORKSHEET_MARGIN_SAFE_MIN` (18pt) / `GUIDE_PDF_MARGIN_SAFE_MIN` (36pt) in [`pdf-layout/constants.ts`](../../src/lib/export/pdf-layout/constants.ts).
+12. **No interactive chrome in rasters** — canvas capture strips `[data-export-chrome]`, `button`, and `[role=button]` via `stripExportChromeFromClone`. Keep safe-zone overlays **outside** `[data-export-root]` and stamp them `data-export-chrome`.
 
 ## Tests
 
-- Unit: `pdf-layout.test.ts`, `text-pdf-layout.test.ts`, `land-acknowledgement-worksheet-pdf.test.ts`, `guide-pdf-contract.test.ts`
+- Unit: `pdf-layout.test.ts` (includes margin safe-floor), `capture.test.ts` (export chrome strip), `text-pdf-layout.test.ts`, `land-acknowledgement-worksheet-pdf.test.ts`, `guide-pdf-contract.test.ts`
 - Spatial: `expectBlockOrder`, `expectFooterBandOrder` in `worksheet-pdf-test-helpers.ts`
 - Smoke: `e2e/guide-pdf.export.smoke.spec.ts`
 - Preview: `npm run pdf:preview -- land-acknowledgement en` or `affiliation-map en`

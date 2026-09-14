@@ -1,6 +1,8 @@
-# Current ground truth (agents) — as of 2026-09-05
+# Current ground truth (agents) — as of 2026-09-08
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
+
+**Operator error sinks / Sentry (2026-09-08):** [`session-knowledge-2026-09-08-sentry-observability.md`](session-knowledge-2026-09-08-sentry-observability.md) + [`docs/modules/OBSERVABILITY.md`](../modules/OBSERVABILITY.md) — CapRover env toggles for Sentry (errors-only, tunnel `/monitoring`) and/or server JSONL with rotation. Not product analytics (ADR-006 amendment). Verify with `GET /api/health` → `observability`. Do not open CSP to ingest hosts or enable Session Replay.
 
 **How Canadian unions connect (2026-09-05):** `/guide/union-history` is a gold labour playbook (not mega-menu). Affiliation is two tracks, not one ladder: union family vs geographic house. OPSEU / SEFPO Local 243 is the worked example. Niagara Area Council is OPSEU-internal; NRLC is the multi-union labour council. Printable affiliation-map PDF on Map your local. External URLs live in `comms-sources.ts` only.
 
@@ -57,6 +59,7 @@
 | OPSEU EERC Hub module | **Not a gap to build** | Provincial joint committee. Use Comms + local UCC; see [`session-knowledge-2026-08-23-eerc-committees.md`](session-knowledge-2026-08-23-eerc-committees.md). Do not host official minutes or name a core module EERC. |
 | Running meetings playbook + cheat sheet | Shipped 2026-08-28 | `/guide/running-meetings` + `/tools/rules-of-order`; Robert's reference only — confirm local bylaws |
 | Guide discoverability registry | Shipped 2026-08-28 | `src/lib/comms/guide-registry.ts` — do not duplicate path arrays on Blueprint/Resources/playbooks |
+| CapRover Sentry + JSONL sinks | Shipped 2026-09-08 | Env-gated; tunnel `/monitoring`; see OBSERVABILITY module — not analytics |
 
 ## Three email/reminder surfaces (do not conflate)
 
@@ -89,6 +92,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | Cron | `CRON_SECRET` required; Bearer or `x-cron-secret`; `?dryRun=1` previews without send/audit |
 | React derived state | Do not sync `setState` in `useEffect` for consent flags — derive from roster |
 | Production typecheck | `npx tsc --noEmit` / Docker build — unit tests miss route type errors (`#12`, `#13`) |
+| Error sinks (Sentry / JSONL) | Defaults **off**. `GET /api/health` → `observability`. Client DSN is **build-time**. Tunnel `/monitoring` — do not open CSP. See [`OBSERVABILITY.md`](../modules/OBSERVABILITY.md) |
 
 ## Sensible next candidates
 

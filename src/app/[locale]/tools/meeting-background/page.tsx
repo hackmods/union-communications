@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactElement } from "react";
+import { Suspense, useEffect, useRef, useState, type ReactElement } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
+import { formatFilename, localLabel as formatLocalLabel, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
@@ -50,8 +50,10 @@ import {
   type MeetingLayout,
 } from "@/lib/constants/meeting-background-presets";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
+import { Input, Textarea } from "@/components/ui/Input";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { PresetChips } from "@/components/tools/PresetChips";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -213,6 +215,14 @@ function FitStackedHeadline({
 }
 
 export default function MeetingBackgroundPage() {
+  return (
+    <Suspense fallback={<ToolLoadingFallback />}>
+      <MeetingBackgroundPageContent />
+    </Suspense>
+  );
+}
+
+function MeetingBackgroundPageContent() {
   const t = useTranslations("meetingBackground");
   const tc = useTranslations("common");
   const brandKit = useBrandStore((s) => s.brandKit);
@@ -288,10 +298,10 @@ export default function MeetingBackgroundPage() {
     });
   });
 
-  const localNum = resolveLocalNumber(brandKit.local.localNumber);
-  const localLabel = brandKit.local.subText
-    ? `Local ${localNum}: ${brandKit.local.subText}`
-    : `Local ${localNum}`;
+  const localLabel = formatLocalLabel(
+    brandKit.local.localNumber,
+    brandKit.local.subText,
+  );
 
   const primary = state.primaryColor;
   const secondary = state.secondaryColor || primary;
@@ -857,49 +867,26 @@ export default function MeetingBackgroundPage() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <section className="space-y-3">
-            <div>
-              <label
-                htmlFor="meeting-preset"
-                className="mb-1.5 block text-sm font-medium text-gray-700"
-              >
-                {t("preset")}
-              </label>
-              <select
-                id="meeting-preset"
-                value={state.presetId}
-                onChange={(e) => applyPreset(e.target.value)}
-                className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
-              >
-                {MEETING_BACKGROUND_PRESETS.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <PresetChips
+              label={t("preset")}
+              value={state.presetId}
+              options={MEETING_BACKGROUND_PRESETS.map((p) => ({
+                value: p.id,
+                label: p.label,
+              }))}
+              onChange={applyPreset}
+            />
 
-            <div>
-              <label
-                htmlFor="meeting-headline"
-                className="mb-1.5 block text-sm font-medium text-gray-700"
-              >
-                {t("headline")}
-              </label>
-              <textarea
-                id="meeting-headline"
-                value={state.headline}
-                onChange={(e) =>
-                  setState({ ...state, headline: e.target.value })
-                }
-                rows={3}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 font-semibold uppercase"
-              />
-              <p className="mt-1.5 text-sm leading-snug text-gray-600">
-                {t("headlineHint")}
-              </p>
-            </div>
+            <Textarea
+              label={t("headline")}
+              value={state.headline}
+              onChange={(e) => setState({ ...state, headline: e.target.value })}
+              rows={3}
+              className="font-semibold uppercase"
+            />
+            <p className="text-sm leading-snug text-gray-600">{t("headlineHint")}</p>
 
             <ToolFormDetails title={t("sectionOptionalCopy")}>
               <Input
@@ -966,55 +953,35 @@ export default function MeetingBackgroundPage() {
           </ToolFormDetails>
 
           <ToolFormDetails title={t("toggles")}>
-            <div
-              className="space-y-1"
-              role="group"
-              aria-label={t("toggles")}
-            >
-              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-                <input
-                  type="checkbox"
-                  checked={state.showLeadIn}
-                  onChange={(e) =>
-                    setState({ ...state, showLeadIn: e.target.checked })
-                  }
-                  className="size-4"
-                />
-                {t("showLeadIn")}
-              </label>
-              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-                <input
-                  type="checkbox"
-                  checked={state.showHeadline}
-                  onChange={(e) =>
-                    setState({ ...state, showHeadline: e.target.checked })
-                  }
-                  className="size-4"
-                />
-                {t("showHeadline")}
-              </label>
-              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-                <input
-                  type="checkbox"
-                  checked={state.showCloser}
-                  onChange={(e) =>
-                    setState({ ...state, showCloser: e.target.checked })
-                  }
-                  className="size-4"
-                />
-                {t("showCloser")}
-              </label>
-              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-                <input
-                  type="checkbox"
-                  checked={state.edgeClearance}
-                  onChange={(e) =>
-                    setState({ ...state, edgeClearance: e.target.checked })
-                  }
-                  className="size-4"
-                />
-                {t("edgeClearance")}
-              </label>
+            <div className="space-y-3" role="group" aria-label={t("toggles")}>
+              <Checkbox
+                checked={state.showLeadIn}
+                onChange={(e) =>
+                  setState({ ...state, showLeadIn: e.target.checked })
+                }
+                label={t("showLeadIn")}
+              />
+              <Checkbox
+                checked={state.showHeadline}
+                onChange={(e) =>
+                  setState({ ...state, showHeadline: e.target.checked })
+                }
+                label={t("showHeadline")}
+              />
+              <Checkbox
+                checked={state.showCloser}
+                onChange={(e) =>
+                  setState({ ...state, showCloser: e.target.checked })
+                }
+                label={t("showCloser")}
+              />
+              <Checkbox
+                checked={state.edgeClearance}
+                onChange={(e) =>
+                  setState({ ...state, edgeClearance: e.target.checked })
+                }
+                label={t("edgeClearance")}
+              />
             </div>
             <p className="text-sm leading-snug text-gray-600">
               {t("edgeClearanceHint")}
@@ -1043,10 +1010,12 @@ export default function MeetingBackgroundPage() {
             title={t("sectionColours")}
             primaryColor={state.primaryColor}
             secondaryColor={state.secondaryColor}
+            accentColor={state.accentColor}
             onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
             onSecondaryChange={(c) =>
               setState({ ...state, secondaryColor: c })
             }
+            onAccentChange={(c) => setState({ ...state, accentColor: c })}
           />
 
           <div className="space-y-3 border-t border-gray-200 pt-5">
@@ -1076,7 +1045,7 @@ export default function MeetingBackgroundPage() {
               {exporting ? tc("exporting") : tc("downloadPng")}
             </Button>
           </div>
-        </Card>
+        </div>
       }
       previewActions={
         <Button

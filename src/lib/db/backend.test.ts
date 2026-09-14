@@ -408,6 +408,37 @@ describe("db backend flags", () => {
     expect(isMemoryCaseDataActive(env)).toBe(true);
   });
 
+  it("ignores audit memory for the Hub case-data banner gate", () => {
+    const env = {
+      DATABASE_URL: "postgres://localhost/unionops",
+      GRIEVANCE_DB_BACKEND: "postgres",
+      BUMPING_DB_BACKEND: "postgres",
+      AUDIT_DB_BACKEND: "memory",
+      TIME_DB_BACKEND: "postgres",
+      ATTACHMENTS_DB_BACKEND: "postgres",
+      DISCUSSIONS_DB_BACKEND: "postgres",
+      TASKS_DB_BACKEND: "postgres",
+      INFORMAL_LOG_DB_BACKEND: "postgres",
+      MINUTES_DB_BACKEND: "postgres",
+      LEDGER_DB_BACKEND: "postgres",
+      OFFICERS_DB_BACKEND: "postgres",
+      TRAVEL_DB_BACKEND: "postgres",
+      EXPENSES_DB_BACKEND: "postgres",
+      COMMITTEES_DB_BACKEND: "postgres",
+      ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
+      MEETINGS_DB_BACKEND: "postgres",
+      MEETINGS_RSVP_DB_BACKEND: "postgres",
+      CHECKINS_DB_BACKEND: "postgres",
+      AUTH_USERS_BACKEND: "postgres",
+    };
+    expect(isMemoryCaseDataActive(env)).toBe(false);
+    expect(isPostgresFlipComplete(env)).toBe(false);
+    expect(
+      isPostgresFlipComplete({ ...env, AUDIT_DB_BACKEND: "postgres" }),
+    ).toBe(true);
+  });
+
   it("reports postgres flip complete only when all modules and auth users are postgres", () => {
     const base = {
       DATABASE_URL: "postgres://localhost/unionops",

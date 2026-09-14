@@ -117,6 +117,16 @@ export async function openPreviewTab(page: Page): Promise<void> {
   await tab.click();
 }
 
+/** Preset chips carry `data-preset-value` + `aria-pressed` (no `<select>`). */
+export async function expectPresetSelected(
+  page: Page,
+  value: string,
+): Promise<void> {
+  await expect(
+    page.locator(`[data-preset-value="${value}"]`),
+  ).toHaveAttribute("aria-pressed", "true");
+}
+
 /**
  * Clip / overlap math is duplicated inside evaluate (Playwright cannot
  * pass functions). Keep in sync with `canvas-layout-geometry.ts`.

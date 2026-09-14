@@ -10,7 +10,7 @@ export const olThemeNavy = {
   eyebrow:
     "text-sm font-semibold uppercase tracking-[0.25em] text-orange-300/90",
   bodyMuted: "text-slate-300",
-  bodySmall: "text-sm text-slate-400",
+  bodySmall: "text-sm text-slate-300",
   link: "font-medium text-orange-200 underline underline-offset-2 hover:text-white",
   linkPlain: "text-orange-200 hover:text-white",
   surface: "rounded-xl border border-white/10 bg-white/5",
@@ -30,11 +30,11 @@ export const olThemeNavy = {
   disclaimer: "text-sm text-slate-400",
   sectionLabel:
     "text-xs font-semibold uppercase tracking-[0.2em] text-slate-400",
-  progressSummary: "text-sm text-slate-300",
+  progressSummary: "text-sm font-medium text-slate-200",
   progressBar: "bg-opseu-blue",
   statusCompleted: "border-emerald-400 bg-emerald-500 text-slate-950",
   statusInProgress: "border-orange-300 bg-orange-500/90 text-slate-950",
-  statusNotStarted: "border-white/30 bg-slate-900 text-slate-200",
+  statusNotStarted: "border-white/40 bg-slate-800 text-slate-100",
   chipPrimary:
     "border border-orange-400/30 bg-orange-500/10 text-orange-100 hover:bg-orange-500/20",
   chipSecondary:
@@ -113,21 +113,21 @@ export const olThemeNavy = {
   pathNav: "rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5",
   pathTitle: "block text-sm font-semibold text-white",
   pathArrow: "hidden shrink-0 self-center text-slate-500 lg:inline",
-  card: "group overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50 shadow-lg transition hover:-translate-y-1 hover:border-orange-400/30 hover:shadow-orange-500/5",
+  card: "group overflow-hidden rounded-2xl bg-slate-900/55 shadow-lg shadow-black/25 ring-1 ring-white/10 transition hover:-translate-y-1 hover:bg-slate-900/75 hover:ring-orange-400/35",
   cardCover: "relative aspect-[16/9] overflow-hidden bg-slate-950",
   coverFade:
     "absolute inset-0 bg-gradient-to-t from-[#0B132B] via-transparent to-transparent",
   heroFade:
     "absolute inset-0 bg-gradient-to-t from-[#0B132B] via-[#0B132B]/20 to-transparent",
   cardTitle: "text-xl font-bold text-white group-hover:text-orange-100",
-  cardSummary: "line-clamp-3 text-sm leading-relaxed text-slate-300",
-  cardMeta: "text-xs font-medium uppercase tracking-wide text-slate-400",
+  cardSummary: "line-clamp-3 text-sm leading-relaxed text-slate-200",
+  cardMeta: "text-xs font-medium uppercase tracking-wide text-slate-300",
   statusPillCompleted:
-    "rounded-full px-3 py-1 text-xs font-semibold bg-emerald-500/20 text-emerald-200",
+    "rounded-full px-3 py-1 text-xs font-semibold bg-emerald-500/25 text-emerald-100",
   statusPillInProgress:
-    "rounded-full px-3 py-1 text-xs font-semibold bg-orange-500/20 text-orange-100",
+    "rounded-full px-3 py-1 text-xs font-semibold bg-orange-500/25 text-orange-50",
   statusPillNotStarted:
-    "rounded-full px-3 py-1 text-xs font-semibold bg-white/10 text-slate-300",
+    "rounded-full px-3 py-1 text-xs font-semibold bg-white/15 text-slate-100",
   resetPanel:
     "flex flex-col gap-3 rounded-xl border border-white/10 bg-white/5 p-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4",
   resetHint: "min-w-0 flex-1 text-sm leading-snug text-slate-300",
@@ -142,8 +142,8 @@ export const olThemeNavy = {
   relatedDot: "text-slate-600",
   sourcesOuter: "bg-[#0B132B] px-4 pb-12 sm:px-6 lg:px-8",
   sourcesCard:
-    "mx-auto max-w-7xl rounded-2xl bg-white p-6 text-slate-900 shadow-lg md:p-8",
-  sourcesIntro: "mb-4 text-sm text-gray-600",
+    "mx-auto max-w-prose rounded-2xl bg-white p-6 text-slate-900 shadow-lg md:p-8",
+  sourcesIntro: "mb-4 max-w-prose text-sm leading-relaxed text-gray-600",
   input:
     "mt-1 w-full rounded-lg border border-white/15 bg-slate-950/40 px-3 py-2 text-white",
   successText: "text-sm text-emerald-200",
@@ -302,8 +302,8 @@ export const olThemeLight: OlTheme = {
   prefsDivider: "border-t border-gray-200",
   relatedDot: "text-gray-400",
   sourcesOuter: "bg-background px-4 pb-12 sm:px-6 lg:px-8",
-  sourcesCard: "mx-auto max-w-7xl rounded-2xl border border-gray-200 bg-white p-6 text-opseu-dark md:p-8",
-  sourcesIntro: "mb-4 text-sm text-gray-600",
+  sourcesCard: "mx-auto max-w-prose rounded-2xl border border-gray-200 bg-white p-6 text-opseu-dark md:p-8",
+  sourcesIntro: "mb-4 max-w-prose text-sm leading-relaxed text-gray-600",
   input: "mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-opseu-dark",
   successText: "text-sm text-emerald-700",
   errorText: "text-sm text-red-700",

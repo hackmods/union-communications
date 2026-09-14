@@ -3,8 +3,8 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
-import { Card, CardTitle } from "@/components/ui/Card";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
+import { CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Checkbox } from "@/components/ui/Checkbox";
@@ -75,20 +75,9 @@ function initialState(
   };
 }
 
-function DocumentGeneratorSuspenseFallback() {
-  const t = useTranslations("common");
-  return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <p className="text-gray-600" aria-busy="true">
-        {t("loading")}
-      </p>
-    </PageShell>
-  );
-}
-
 export default function DocumentGeneratorPage() {
   return (
-    <Suspense fallback={<DocumentGeneratorSuspenseFallback />}>
+    <Suspense fallback={<ToolLoadingFallback />}>
       <DocumentGeneratorPageContent />
     </Suspense>
   );
@@ -591,7 +580,7 @@ function DocumentGeneratorPageContent() {
         <p className="mb-2 text-sm font-medium text-gray-700">{t("examples")}</p>
         {presetPicker}
       </div>
-    <Card density="compact" className="space-y-5">
+    <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <CardTitle className="text-base">{t("settings")}</CardTitle>
         <UndoRedoBar
@@ -685,7 +674,7 @@ function DocumentGeneratorPageContent() {
       </ToolFormDetails>
 
       <div className="border-t border-gray-200 pt-5">{renderDownloadActions()}</div>
-    </Card>
+    </div>
     </div>
   );
 

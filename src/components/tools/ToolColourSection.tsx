@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { ThemePicker } from "@/components/tools/ThemePicker";
+import { ColorField } from "@/components/tools/ColorField";
 
 export interface ToolColourSectionProps {
   primaryColor: string;
@@ -13,7 +14,10 @@ export interface ToolColourSectionProps {
   primaryLabel?: string;
   secondaryLabel?: string;
   accentColor?: string;
-  /** Extra fields after ThemePicker (e.g. text colour, accent swatch). */
+  /** When provided, renders an editable accent ColorField after ThemePicker. */
+  onAccentChange?: (color: string) => void;
+  accentLabel?: string;
+  /** Extra fields after ThemePicker (e.g. text colour). */
   children?: ReactNode;
   /** Override the collapsed section title (defaults to common.sectionColours). */
   title?: string;
@@ -24,6 +28,9 @@ export interface ToolColourSectionProps {
  * Shared collapsed Colours section: ThemePicker (includes ContrastChecker)
  * inside ToolFormDetails. Prefer this for ThemePicker tools; Flyer Maker
  * keeps BrandSwatchPicker; Brand Kit–direct tools skip colour overrides.
+ *
+ * Pass `onAccentChange` (with `accentColor`) to surface the accent layer
+ * so layouts that render an accent band/rail stay editable (2026-09-13).
  */
 export function ToolColourSection({
   primaryColor,
@@ -33,6 +40,8 @@ export function ToolColourSection({
   primaryLabel,
   secondaryLabel,
   accentColor,
+  onAccentChange,
+  accentLabel,
   children,
   title,
   className,
@@ -49,6 +58,13 @@ export function ToolColourSection({
         primaryLabel={primaryLabel}
         secondaryLabel={secondaryLabel}
       />
+      {onAccentChange ? (
+        <ColorField
+          label={accentLabel ?? tc("accentColour")}
+          value={accentColor ?? secondaryColor}
+          onChange={onAccentChange}
+        />
+      ) : null}
       {children}
     </ToolFormDetails>
   );

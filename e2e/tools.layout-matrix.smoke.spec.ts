@@ -15,6 +15,7 @@ import {
   expectLeadReadable,
   expectMetaSupport,
   expectPlateGeometry,
+  expectPresetSelected,
   expectPreviewFitsColumn,
   expectTypeMetaClear,
   expectUrlLayout,
@@ -375,7 +376,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       await expect(
         page.getByRole("heading", { name: "Solidarity Poster Maker" }),
       ).toBeVisible();
-      await expect(page.locator("#slogan-preset")).toHaveValue(row.id);
+      await expectPresetSelected(page, row.id);
       await expectLayoutRadio(page, SOLIDARITY_LAYOUT_RADIO[row.layout]);
       await waitForQrPreview(page);
       expectPlateGeometry(await measurePlateFill(page), {
@@ -386,9 +387,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     }
 
     await page.goto("/en/tools/solidarity-poster/?preset=solidarity-forever");
-    await expect(page.locator("#slogan-preset")).toHaveValue(
-      "solidarity-forever",
-    );
+    await expectPresetSelected(page, "solidarity-forever");
     await openLayoutSection(page);
     await page.getByRole("radio", { name: /^Digital$/i }).click();
     await page.getByRole("radio", { name: /Desktop 16:9/i }).click();
@@ -401,9 +400,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
 
     // Default stack + lockup: type must not paint over lead/logo or footer/QR.
     await page.goto("/en/tools/solidarity-poster/?preset=solidarity-forever");
-    await expect(page.locator("#slogan-preset")).toHaveValue(
-      "solidarity-forever",
-    );
+    await expectPresetSelected(page, "solidarity-forever");
     await waitForQrPreview(page);
     expectTypeMetaClear(
       await measureTypeMetaOverlap(page),
@@ -436,9 +433,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "Meeting Background Maker" }),
     ).toBeVisible();
-    await expect(page.locator("#meeting-preset")).toHaveValue(
-      LAYOUT_CLASS_MEETING,
-    );
+    await expectPresetSelected(page, LAYOUT_CLASS_MEETING);
     // Design/Layout SegControls live in ToolFormDetails (collapsed by default).
     const layoutDetails = page
       .locator("details")

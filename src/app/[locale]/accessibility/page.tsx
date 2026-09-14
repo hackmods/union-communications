@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { Callout } from "@/components/ui/Callout";
+import {
+  GuideLayout,
+  GuideBulletList,
+  GuideCallout,
+  GuideProse,
+  GuideSection,
+} from "@/components/comms/guide-ui";
 import { DisplaySettings } from "@/components/accessibility/DisplaySettings";
 import { Link } from "@/i18n/navigation";
 
@@ -13,7 +18,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   return buildPublicPageMetadata("/accessibility", params);
 }
-
 
 export default async function AccessibilityPage({
   params,
@@ -38,43 +42,46 @@ export default async function AccessibilityPage({
   ];
 
   return (
-    <GuideLayout title={t("title")} subtitle={t("subtitle")}>
-      <div className="space-y-8">
+    <GuideLayout title={t("title")} subtitle={t("subtitle")} preset="narrow">
+      <div className="space-y-10">
         <DisplaySettings />
 
-        <Callout>
+        <GuideCallout>
           <p className="font-semibold text-opseu-dark">{t("commitment.title")}</p>
-          <p className="mt-2 text-gray-700">{t("commitment.body")}</p>
-        </Callout>
+          <GuideProse className="mt-2">{t("commitment.body")}</GuideProse>
+        </GuideCallout>
 
-        <section className="border-l-2 border-opseu-blue/30 pl-5">
-          <h2 className="text-xl font-bold text-opseu-dark">
-            {t("features.title")}
-          </h2>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+        <GuideSection
+          id="features"
+          title={t("features.title")}
+          className="mt-0 not-first-of-type:mt-0"
+        >
+          <GuideBulletList>
             {features.map((feature) => (
-              <li key={feature}>{feature}</li>
+              <li key={feature} className="leading-relaxed">
+                {feature}
+              </li>
             ))}
-          </ul>
-        </section>
+          </GuideBulletList>
+        </GuideSection>
 
-        <Callout tone="muted">
+        <GuideCallout tone="muted">
           <p className="font-semibold text-opseu-dark">{t("limitations.title")}</p>
-          <p className="mt-2 text-gray-700">{t("limitations.body")}</p>
-        </Callout>
+          <GuideProse className="mt-2">{t("limitations.body")}</GuideProse>
+        </GuideCallout>
 
-        <Callout tone="plain">
+        <GuideCallout tone="plain">
           <p className="font-semibold text-opseu-dark">{t("feedback.title")}</p>
-          <p className="mt-2 text-gray-700">{t("feedback.body")}</p>
+          <GuideProse className="mt-2">{t("feedback.body")}</GuideProse>
           <p className="mt-3">
             <Link
               href="/feedback?category=accessibility"
-              className="font-semibold text-opseu-blue underline"
+              className="font-semibold text-opseu-blue underline underline-offset-2"
             >
               {t("feedback.link")}
             </Link>
           </p>
-        </Callout>
+        </GuideCallout>
       </div>
     </GuideLayout>
   );

@@ -1,7 +1,14 @@
 import { getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
-import { Callout } from "@/components/ui/Callout";
+import {
+  GuideLayout,
+  GuideCallout,
+  GuideSection,
+  GuideSubHeading,
+  GuideTipGrid,
+  GuideTipItem,
+  GuideWideFigure,
+} from "@/components/comms/guide-ui";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { Link } from "@/i18n/navigation";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
@@ -23,8 +30,6 @@ const groundRuleKeys = ["noGenerator", "noScript", "deferLeadership", "wholeLoca
 const whyKeys = ["presence", "treaties", "reconciliation", "labour"] as const;
 const principleKeys = ["reflection", "territory", "action", "relationship"] as const;
 const soloFlowStepKeys = ["research", "reflect", "draft", "review"] as const;
-const workshopPrepKeys = ["who", "materials", "room", "followUp"] as const;
-const workshopAgendaKeys = ["open", "research", "draft", "close"] as const;
 const worksheetFeatureKeys = ["print", "ruled", "checklist"] as const;
 const worksheetStepKeys = ["print", "research", "reflect", "draft", "review"] as const;
 const researchKeys = ["research", "accuracy", "context", "friendship"] as const;
@@ -63,6 +68,10 @@ export async function LandAcknowledgementGuide() {
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/running-meetings", label: nav("runningMeetingsGuide") },
+        {
+          href: "/guide/workshops/land-acknowledgement",
+          label: nav("landAckWorkshopGuide"),
+        },
         { href: "/guide/bargaining", label: nav("bargainingGuide") },
         { href: "/guide/resources", label: nav("resources") },
       ]}
@@ -79,15 +88,15 @@ export async function LandAcknowledgementGuide() {
         title={t("groundRules.title")}
         intro={t("groundRules.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid>
           {groundRuleKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`groundRules.items.${key}.label`)}
               content={t(`groundRules.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -95,30 +104,32 @@ export async function LandAcknowledgementGuide() {
         title={t("whyPrinciples.title")}
         intro={t("whyPrinciples.intro")}
       >
-        <SubHeading>{t("whyPrinciples.whyHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideSubHeading>{t("whyPrinciples.whyHeading")}</GuideSubHeading>
+        <GuideTipGrid className="mt-3">
           {whyKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`whyPrinciples.why.${key}.label`)}
               content={t(`whyPrinciples.why.${key}.content`)}
             />
           ))}
-        </ul>
-        <SubHeading className="mt-8">{t("whyPrinciples.principlesHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        </GuideTipGrid>
+        <GuideSubHeading className="mt-8">
+          {t("whyPrinciples.principlesHeading")}
+        </GuideSubHeading>
+        <GuideTipGrid className="mt-3">
           {principleKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`whyPrinciples.principles.${key}.label`)}
               content={t(`whyPrinciples.principles.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
-          <p className="mt-1">{t("whyPrinciples.tip")}</p>
-        </Callout>
+          <p className="mt-1 max-w-prose">{t("whyPrinciples.tip")}</p>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -126,74 +137,59 @@ export async function LandAcknowledgementGuide() {
         title={t("howToWrite.title")}
         intro={t("howToWrite.intro")}
       >
-        <SubHeading>{t("howToWrite.soloHeading")}</SubHeading>
+        <GuideSubHeading>{t("howToWrite.soloHeading")}</GuideSubHeading>
         <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
           {t("howToWrite.soloIntro")}
         </p>
-        <LandAcknowledgementWritingFlowDiagram
-          steps={soloFlowSteps}
-          className="mt-4"
-        />
+        <GuideWideFigure className="mt-4">
+          <LandAcknowledgementWritingFlowDiagram steps={soloFlowSteps} />
+        </GuideWideFigure>
 
-        <SubHeading className="mt-8">{t("howToWrite.workshopHeading")}</SubHeading>
-        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
-          {t("howToWrite.workshopIntro")}
-        </p>
-        <SubHeading className="mt-6">{t("howToWrite.workshopPrepHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
-          {workshopPrepKeys.map((key) => (
-            <TipItem
-              key={key}
-              label={t(`howToWrite.workshopPrep.${key}.label`)}
-              content={t(`howToWrite.workshopPrep.${key}.content`)}
-            />
-          ))}
-        </ul>
-        <SubHeading className="mt-6">{t("howToWrite.workshopAgendaHeading")}</SubHeading>
-        <ol className="mt-3 list-decimal space-y-4 pl-5 text-gray-700">
-          {workshopAgendaKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`howToWrite.workshopAgenda.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`howToWrite.workshopAgenda.${key}.content`)}
-            </li>
-          ))}
-        </ol>
-        <Callout className="mt-5 max-w-prose">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
-          <p className="mt-1">{t("howToWrite.workshopTip")}</p>
-        </Callout>
+        <GuideCallout className="mt-8">
+          <p className="font-semibold text-opseu-dark">
+            {t("howToWrite.workshopCtaHeading")}
+          </p>
+          <p className="mt-1 max-w-prose">{t("howToWrite.workshopCtaBody")}</p>
+          <div className="button-row mt-4">
+            <Link
+              href="/guide/workshops/land-acknowledgement"
+              className={guideCtaOutlineClass}
+            >
+              {t("howToWrite.workshopCtaLabel")}
+            </Link>
+          </div>
+        </GuideCallout>
 
-        <div className="mt-8 max-w-prose">
-          <SubHeading>{t("howToWrite.worksheetHeading")}</SubHeading>
-          <p className="mt-2 text-sm leading-relaxed text-gray-600">
+        <div className="mt-8">
+          <GuideSubHeading>{t("howToWrite.worksheetHeading")}</GuideSubHeading>
+          <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
             {t("howToWrite.worksheetIntro")}
           </p>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-gray-700">
+          <GuideTipGrid className="mt-3" columns={3}>
             {worksheetFeatureKeys.map((key) => (
-              <li key={key}>
-                <span className="font-semibold text-opseu-dark">
-                  {t(`howToWrite.worksheetFeatures.${key}.label`)}
-                </span>
-                {" — "}
-                {t(`howToWrite.worksheetFeatures.${key}.content`)}
+              <GuideTipItem
+                key={key}
+                label={t(`howToWrite.worksheetFeatures.${key}.label`)}
+                content={t(`howToWrite.worksheetFeatures.${key}.content`)}
+              />
+            ))}
+          </GuideTipGrid>
+          <GuideSubHeading className="mt-6">
+            {t("howToWrite.worksheetStepsHeading")}
+          </GuideSubHeading>
+          <ol className="mt-3 grid list-decimal gap-2 pl-5 text-sm leading-relaxed text-gray-700 sm:grid-cols-2 lg:grid-cols-3 sm:gap-3">
+            {worksheetStepKeys.map((key) => (
+              <li key={key} className="min-w-0 pl-1">
+                {t(`howToWrite.worksheetSteps.${key}`)}
               </li>
             ))}
-          </ul>
-          <SubHeading className="mt-6">{t("howToWrite.worksheetStepsHeading")}</SubHeading>
-          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-gray-700">
-            {worksheetStepKeys.map((key) => (
-              <li key={key}>{t(`howToWrite.worksheetSteps.${key}`)}</li>
-            ))}
           </ol>
-          <Callout className="mt-5">
+          <GuideCallout className="mt-5">
             <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
-            <p className="mt-1">{t("howToWrite.worksheetGoldTip")}</p>
-          </Callout>
+            <p className="mt-1 max-w-prose">{t("howToWrite.worksheetGoldTip")}</p>
+          </GuideCallout>
           <LandAcknowledgementWorksheetButton className="mt-4" />
-          <p className="mt-2 text-sm leading-relaxed text-gray-600">
+          <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
             {t("howToWrite.worksheetHint")}
           </p>
         </div>
@@ -204,38 +200,44 @@ export async function LandAcknowledgementGuide() {
         title={t("prepareWords.title")}
         intro={t("prepareWords.intro")}
       >
-        <SubHeading>{t("prepareWords.researchHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideSubHeading>{t("prepareWords.researchHeading")}</GuideSubHeading>
+        <GuideTipGrid className="mt-3">
           {researchKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`prepareWords.research.${key}.label`)}
               content={t(`prepareWords.research.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
 
-        <SubHeading className="mt-8">{t("prepareWords.termsHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideSubHeading className="mt-8">
+          {t("prepareWords.termsHeading")}
+        </GuideSubHeading>
+        <GuideTipGrid className="mt-3" columns={3}>
           {termKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`prepareWords.terms.${key}.label`)}
               content={t(`prepareWords.terms.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
 
-        <SubHeading className="mt-8">{t("prepareWords.exampleHeading")}</SubHeading>
+        <GuideSubHeading className="mt-8">
+          {t("prepareWords.exampleHeading")}
+        </GuideSubHeading>
         <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
           {t("prepareWords.exampleIntro")}
         </p>
-        <Callout tone="warning" className="mt-4 max-w-prose">
-          <p className="font-semibold text-amber-950">{t("prepareWords.exampleBadge")}</p>
-        </Callout>
-        <div className="mt-6 space-y-8">
+        <GuideCallout tone="warning" className="mt-4">
+          <p className="font-semibold text-amber-950">
+            {t("prepareWords.exampleBadge")}
+          </p>
+        </GuideCallout>
+        <div className="mt-6 grid gap-6 lg:grid-cols-3 lg:gap-5">
           {workedExampleKeys.map((key) => (
-            <figure key={key} className="max-w-prose">
+            <figure key={key} className="min-w-0">
               <blockquote className="border-l-4 border-opseu-blue/35 pl-4 leading-relaxed text-gray-800">
                 {t(`prepareWords.exampleBlocks.${key}.text`)}
               </blockquote>
@@ -256,37 +258,39 @@ export async function LandAcknowledgementGuide() {
         title={t("atMeeting.title")}
         intro={t("atMeeting.intro")}
       >
-        <SubHeading>{t("atMeeting.whenHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideSubHeading>{t("atMeeting.whenHeading")}</GuideSubHeading>
+        <GuideTipGrid className="mt-3">
           {whenKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`atMeeting.when.${key}.label`)}
               content={t(`atMeeting.when.${key}.content`)}
             />
           ))}
-        </ul>
-        <SubHeading className="mt-8">{t("atMeeting.orderHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        </GuideTipGrid>
+        <GuideSubHeading className="mt-8">{t("atMeeting.orderHeading")}</GuideSubHeading>
+        <GuideTipGrid className="mt-3">
           {orderKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`atMeeting.order.${key}.label`)}
               content={t(`atMeeting.order.${key}.content`)}
             />
           ))}
-        </ul>
-        <SubHeading className="mt-8">{t("atMeeting.formatHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        </GuideTipGrid>
+        <GuideSubHeading className="mt-8">
+          {t("atMeeting.formatHeading")}
+        </GuideSubHeading>
+        <GuideTipGrid className="mt-3" columns={3}>
           {formatKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`atMeeting.formats.${key}.label`)}
               content={t(`atMeeting.formats.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-lg">
+        </GuideTipGrid>
+        <div className="button-row mt-5">
           <Link href="/guide/running-meetings" className={guideCtaOutlineClass}>
             {nav("runningMeetingsGuide")}
           </Link>
@@ -298,17 +302,15 @@ export async function LandAcknowledgementGuide() {
         title={t("unionPractice.title")}
         intro={t("unionPractice.intro")}
       >
-        <ul className="mt-4 list-disc space-y-4 pl-5 text-gray-700">
+        <GuideTipGrid columns={3}>
           {unionKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`unionPractice.items.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`unionPractice.items.${key}.content`)}
-            </li>
+            <GuideTipItem
+              key={key}
+              label={t(`unionPractice.items.${key}.label`)}
+              content={t(`unionPractice.items.${key}.content`)}
+            />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -316,40 +318,42 @@ export async function LandAcknowledgementGuide() {
         title={t("goFurther.title")}
         intro={t("goFurther.intro")}
       >
-        <SubHeading>{t("goFurther.eldersHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideSubHeading>{t("goFurther.eldersHeading")}</GuideSubHeading>
+        <GuideTipGrid className="mt-3">
           {elderKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`goFurther.elders.${key}.label`)}
               content={t(`goFurther.elders.${key}.content`)}
             />
           ))}
-        </ul>
-        <SubHeading className="mt-8">{t("goFurther.actionHeading")}</SubHeading>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        </GuideTipGrid>
+        <GuideSubHeading className="mt-8">{t("goFurther.actionHeading")}</GuideSubHeading>
+        <GuideTipGrid className="mt-3">
           {actionKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`goFurther.action.${key}.label`)}
               content={t(`goFurther.action.${key}.content`)}
             />
           ))}
-        </ul>
-        <SubHeading className="mt-8">{t("goFurther.bargainingHeading")}</SubHeading>
+        </GuideTipGrid>
+        <GuideSubHeading className="mt-8">
+          {t("goFurther.bargainingHeading")}
+        </GuideSubHeading>
         <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
           {t("goFurther.bargainingIntro")}
         </p>
-        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-3">
           {bargainingKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`goFurther.bargaining.${key}.label`)}
               content={t(`goFurther.bargaining.${key}.content`)}
             />
           ))}
-        </ul>
-        <div className="button-row mt-5 max-w-lg">
+        </GuideTipGrid>
+        <div className="button-row mt-5">
           <Link href="/guide/bargaining" className={guideCtaOutlineClass}>
             {nav("bargainingGuide")}
           </Link>
@@ -361,18 +365,18 @@ export async function LandAcknowledgementGuide() {
         title={t("nextSteps.title")}
         intro={t("nextSteps.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {nextStepKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
+        <GuideTipGrid as="ol" className="list-none">
+          {nextStepKeys.map((key, index) => (
+            <li key={key} className="min-w-0 leading-relaxed text-gray-700">
               <span className="font-semibold text-opseu-dark">
-                {t(`nextSteps.items.${key}.label`)}
+                {index + 1}. {t(`nextSteps.items.${key}.label`)}
               </span>
               {" — "}
               {t(`nextSteps.items.${key}.content`)}
             </li>
           ))}
-        </ol>
-        <div className="button-row mt-5 max-w-2xl">
+        </GuideTipGrid>
+        <div className="button-row mt-5">
           <Link href="/guide/resources" className={guideCtaOutlineClass}>
             {t("nextSteps.resourcesCta")}
           </Link>
@@ -380,52 +384,5 @@ export async function LandAcknowledgementGuide() {
         </div>
       </GuideSection>
     </GuideLayout>
-  );
-}
-
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
-
-function SubHeading({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <h3
-      className={`text-base font-bold text-opseu-dark md:text-lg ${className ?? ""}`}
-    >
-      {children}
-    </h3>
-  );
-}
-
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
   );
 }

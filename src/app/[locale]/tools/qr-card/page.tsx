@@ -10,14 +10,15 @@ import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
-import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
+import { formatFilename, localLabel as formatLocalLabel, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import {
   listSavedLinks,
   resolvePresetDestination,
 } from "@/lib/utils/local-links";
-import { CanvasWrapper, LogoContainer } from "@/components/canvas-core";
+import { LogoContainer } from "@/components/canvas-core";
+import { CanvasSheetPlate } from "@/components/tools/CanvasSheetPlate";
 import {
   DEFAULT_QR_CARD_SIZE,
   QR_CARD_SIZE_ORDER,
@@ -34,9 +35,11 @@ import {
 } from "@/lib/constants/qr-card-presets";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
+import { Select } from "@/components/ui/Select";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { PresetChips } from "@/components/tools/PresetChips";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
-import { PageShell } from "@/components/layout/PageShell";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
@@ -90,15 +93,7 @@ interface QrCardState {
 
 export default function QrCardPage() {
   return (
-    <Suspense
-      fallback={
-        <PageShell className="py-6 md:py-8 lg:py-10">
-          <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
-            QR Link Card Maker
-          </h1>
-        </PageShell>
-      }
-    >
+    <Suspense fallback={<ToolLoadingFallback />}>
       <QrCardPageContent />
     </Suspense>
   );
@@ -223,9 +218,10 @@ function QrCardPageContent() {
     };
   }, [state.destination, size.qrPixels]);
 
-  const localLabel = brandKit.local.subText
-    ? `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`
-    : `Local ${resolveLocalNumber(brandKit.local.localNumber)}`;
+  const localLabel = formatLocalLabel(
+    brandKit.local.localNumber,
+    brandKit.local.subText,
+  );
 
   const canvasStyle: CSSProperties = (() => {
     const box: CSSProperties = {
@@ -369,25 +365,17 @@ function QrCardPageContent() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <section className="space-y-3">
-          <div>
-            <label htmlFor="qr-preset" className="mb-1.5 block text-sm font-medium text-gray-700">
-              {t("preset")}
-            </label>
-            <select
-              id="qr-preset"
-              value={state.presetId}
-              onChange={(e) => applyPreset(e.target.value)}
-              className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
-            >
-              {QR_CARD_PRESETS.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {t(`presets.${p.titleKey}`)}
-                </option>
-              ))}
-            </select>
-          </div>
+          <PresetChips
+            label={t("preset")}
+            value={state.presetId}
+            options={QR_CARD_PRESETS.map((p) => ({
+              value: p.id,
+              label: t(`presets.${p.titleKey}`),
+            }))}
+            onChange={applyPreset}
+          />
 
           <Input
             label={t("destination")}
@@ -396,27 +384,21 @@ function QrCardPageContent() {
             placeholder="https://"
           />
           {savedLinks.length > 0 ? (
-            <div>
-              <label htmlFor="qr-saved-link" className="mb-1.5 block text-sm font-medium text-gray-700">
-                {t("savedLinks")}
-              </label>
-              <select
-                id="qr-saved-link"
-                value=""
-                onChange={(e) => {
-                  const url = e.target.value;
-                  if (url) setState({ ...state, destination: url });
-                }}
-                className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
-              >
-                <option value="">{t("savedLinksPlaceholder")}</option>
-                {savedLinks.map((link) => (
-                  <option key={link.id} value={link.url}>
-                    {link.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <Select
+              label={t("savedLinks")}
+              value=""
+              onChange={(e) => {
+                const url = e.target.value;
+                if (url) setState({ ...state, destination: url });
+              }}
+            >
+              <option value="">{t("savedLinksPlaceholder")}</option>
+              {savedLinks.map((link) => (
+                <option key={link.id} value={link.url}>
+                  {link.label}
+                </option>
+              ))}
+            </Select>
           ) : null}
           <Input
             label={t("cardTitle")}
@@ -472,15 +454,11 @@ function QrCardPageContent() {
           </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionOptions")}>
-            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-              <input
-                type="checkbox"
-                checked={state.showUrl}
-                onChange={(e) => setState({ ...state, showUrl: e.target.checked })}
-                className="size-4"
-              />
-              {t("showUrl")}
-            </label>
+            <Checkbox
+              checked={state.showUrl}
+              onChange={(e) => setState({ ...state, showUrl: e.target.checked })}
+              label={t("showUrl")}
+            />
           </ToolFormDetails>
 
           <ToolColourSection
@@ -525,7 +503,7 @@ function QrCardPageContent() {
             </Button>
           </div>
           </div>
-        </Card>
+        </div>
       }
       previewActions={
         <>
@@ -542,16 +520,17 @@ function QrCardPageContent() {
         </>
       }
       preview={
-        <div className="mx-auto w-full min-w-0 max-w-full">
-          <div className="rounded-lg border border-gray-200 bg-gray-100/80 p-4 md:p-6">
-            {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
-            <div className="overflow-hidden rounded-lg shadow-lg">
-              <CanvasWrapper
-                designWidth={designWidth}
-                designHeight={designHeight}
-                mode="fixed"
-                maxScale={2}
-              >
+        <CanvasSheetPlate
+          designWidth={designWidth}
+          designHeight={designHeight}
+          mode="fixed"
+          maxScale={2}
+          caption={t("previewSize", {
+            label: t(`sizes.${state.sizeId}`),
+            width: size.widthInches,
+            height: size.heightInches,
+          })}
+        >
                 <div
                   ref={canvasRef}
                   data-export-root=""
@@ -756,17 +735,7 @@ function QrCardPageContent() {
                     ) : null}
                   </div>
                 </div>
-              </CanvasWrapper>
-            </div>
-          </div>
-          <p className="mt-3 text-center text-xs text-gray-500">
-            {t("previewSize", {
-              label: t(`sizes.${state.sizeId}`),
-              width: size.widthInches,
-              height: size.heightInches,
-            })}
-          </p>
-        </div>
+        </CanvasSheetPlate>
       }
     />
   );

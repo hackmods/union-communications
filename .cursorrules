@@ -47,7 +47,7 @@ This file is a flat, tool-agnostic mirror of the most load-bearing rules already
 - New routes under `src/app/[locale]/app/**` should include a server-side `auth()` check; `loading.tsx`/`error.tsx`/`not-found.tsx` exist at locale + Hub + Portal, plus root `not-found` / `global-error` (**UX-001** + Local 404 solidarity pass — see [`docs/audit/session-knowledge-2026-08-09-local-404.md`](docs/audit/session-knowledge-2026-08-09-local-404.md)).
 - Add axe-core smoke coverage for new Hub pages (`UI-003` established authenticated axe patterns).
 - Never use `dangerouslySetInnerHTML`.
-- No analytics, cookies, or third-party tracking scripts (ADR-006) — this includes new dependencies that phone home by default.
+- No analytics, cookies, or third-party tracking scripts (ADR-006) — this includes new dependencies that phone home by default. **Exception (2026-09-08):** optional operator error sinks (Sentry / server JSONL) via env only — see [`docs/modules/OBSERVABILITY.md`](docs/modules/OBSERVABILITY.md); still no Session Replay or product metrics.
 - **Public SEO:** [`.cursor/rules/seo.mdc`](.cursor/rules/seo.mdc) — `AUTH_URL` = browser-facing HTTPS host (never CapRover FQDN); sitemap/canonicals via `buildPageMetadata` + `PUBLIC_PATHS`; keep `alternateLinks: false`; long-cache only static `/assets/*` trees.
 - **CapRover / Docker migrate:** slim `/app/db-migrate` via `docker/migrate-package.json` only — no cross-stage `node_modules` COPY (BuildKit `unknown parent image ID`). Prefer GHCR pull deploy. Rule: [`.cursor/rules/caprover-docker.mdc`](.cursor/rules/caprover-docker.mdc); lessons: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`](docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md).
 

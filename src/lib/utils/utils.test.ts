@@ -27,7 +27,7 @@ import {
   softGradientFillStyle,
 } from "@/lib/utils/canvas-surface";
 import { validateImageFile } from "@/lib/utils/validation";
-import { formatFilename, slugify, resolveLocalNumber } from "@/lib/utils";
+import { formatFilename, slugify, resolveLocalNumber, localLabel } from "@/lib/utils";
 
 describe("contrast utilities", () => {
   it("calculates contrast ratio between black and white", () => {
@@ -238,5 +238,14 @@ describe("format utilities", () => {
 
   it("formats filenames with 243 fallback", () => {
     expect(formatFilename("logo", "", "png")).toBe("logo-local-243.png");
+  });
+
+  it("builds the canonical local label", () => {
+    expect(localLabel("110", "Support Staff")).toBe(
+      "Local 110 - Support Staff",
+    );
+    expect(localLabel("110")).toBe("Local 110");
+    expect(localLabel("", "  ")).toBe("Local 243");
+    expect(localLabel(null, "Custodial")).toBe("Local 243 - Custodial");
   });
 });

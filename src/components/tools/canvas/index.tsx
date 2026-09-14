@@ -34,8 +34,7 @@ import {
 } from "@/lib/constants/brand";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { pickContrastingInk } from "@/lib/utils/ink";
-import { resolveLocalNumber } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { localLabel, cn } from "@/lib/utils";
 import { hexToRgba } from "@/lib/utils/contrast";
 import { composeDuotonePhotoDataUrl } from "@/lib/utils/duotone-photo";
 import { formatCanvasDisplayUrl } from "@/lib/utils/canvas-url";
@@ -62,6 +61,7 @@ export function CanvasSafeZoneOverlay({
   if (isZeroInsets(insets)) return null;
   return (
     <div
+      data-export-chrome=""
       className="pointer-events-none absolute border-2 border-dashed"
       style={{
         ...insetsToInsetStyle(insets),
@@ -124,9 +124,7 @@ export function CanvasBrandHeader({
   fontFamily?: string;
 }) {
   const ink = pickContrastingInk(backgroundColor);
-  const label = subText
-    ? `Local ${resolveLocalNumber(localNumber)} - ${subText}`
-    : `Local ${resolveLocalNumber(localNumber)}`;
+  const label = localLabel(localNumber, subText);
   const showLogo = logoMode !== "none";
 
   if (!showLogo && !showLocalLabel && !badge) return null;

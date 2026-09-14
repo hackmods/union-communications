@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
-import { Callout } from "@/components/ui/Callout";
 import {
   MotionPrecedenceDiagram,
   QuorumTiersDiagram,
@@ -16,6 +14,19 @@ import {
 } from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideBulletList,
+  GuideCallout,
+  GuideOutlineList,
+  GuideOutlineStep,
+  GuideProse,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+  GuideWideFigure,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -139,12 +150,12 @@ export default async function RunningMeetingsGuidePage({
         />
       }
     >
-      <Callout className="mb-8">
+      <GuideCallout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("disclaimer.body")}
         </p>
-      </Callout>
+      </GuideCallout>
 
       <OfficerLearningModuleCallout slug="democratic-governance" moduleNumber={4} />
 
@@ -153,31 +164,31 @@ export default async function RunningMeetingsGuidePage({
         title={t("formality.title")}
         intro={t("formality.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {formalityKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`formality.items.${key}.label`)}
               content={t(`formality.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection id="chair" title={t("chair.title")} intro={t("chair.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {chairKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`chair.items.${key}.label`)}
               content={t(`chair.items.${key}.content`)}
             />
           ))}
-        </ul>
-        <Callout className="mt-5 max-w-prose">
+        </GuideTipGrid>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("chair.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -185,15 +196,15 @@ export default async function RunningMeetingsGuidePage({
         title={t("quorum.title")}
         intro={t("quorum.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {quorumKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`quorum.items.${key}.label`)}
               content={t(`quorum.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
         <QuorumTiersDiagram
           className="mt-5 max-w-3xl"
           tiers={[
@@ -212,10 +223,10 @@ export default async function RunningMeetingsGuidePage({
           ]}
           caption={ol("quorumCaption")}
         />
-        <Callout tone="warning" className="mt-5 max-w-prose">
+        <GuideCallout tone="warning" className="mt-5">
           <p className="font-semibold text-amber-950">{t("quorum.warningTitle")}</p>
           <p className="mt-1">{t("quorum.warning")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -223,21 +234,21 @@ export default async function RunningMeetingsGuidePage({
         title={t("agenda.title")}
         intro={t("agenda.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-3 pl-5 text-gray-700">
+        <GuideBulletList className="mt-4" columns={2}>
           {agendaKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
+            <li key={key} className="leading-relaxed">
               {t(`agenda.items.${key}`)}
             </li>
           ))}
-        </ol>
-        <Callout className="mt-5 max-w-prose">
+        </GuideBulletList>
+        <GuideCallout className="mt-5">
           <p className="leading-relaxed text-gray-700">{t("agenda.landAckNote")}</p>
           <p className="mt-3">
             <Link href="/guide/land-acknowledgement" className={guideCtaOutlineClass}>
               {nav("landAcknowledgementGuide")}
             </Link>
           </p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -245,17 +256,20 @@ export default async function RunningMeetingsGuidePage({
         title={t("motion.title")}
         intro={t("motion.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {motionKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`motion.steps.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`motion.steps.${key}.content`)}
-            </li>
+        <GuideOutlineList className="mt-4 space-y-6">
+          {motionKeys.map((key, index) => (
+            <GuideOutlineStep
+              key={key}
+              id={`motion-${key}`}
+              step={index + 1}
+              title={t(`motion.steps.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`motion.steps.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
+        </GuideOutlineList>
       </GuideSection>
 
       <GuideSection
@@ -263,18 +277,20 @@ export default async function RunningMeetingsGuidePage({
         title={t("precedence.title")}
         intro={t("precedence.intro")}
       >
-        <MotionPrecedenceDiagram
-          className="mt-4 max-w-2xl"
-          steps={precedenceKeys.map((key) => ({
-            label: t(`precedence.steps.${key}.label`),
-            body: t(`precedence.steps.${key}.body`),
-          }))}
-          caption={t("precedence.caption")}
-        />
-        <Callout className="mt-5 max-w-prose">
+        <GuideWideFigure>
+          <MotionPrecedenceDiagram
+            className="w-full"
+            steps={precedenceKeys.map((key) => ({
+              label: t(`precedence.steps.${key}.label`),
+              body: t(`precedence.steps.${key}.body`),
+            }))}
+            caption={t("precedence.caption")}
+          />
+        </GuideWideFigure>
+        <GuideCallout className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("precedence.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
       <GuideSection
@@ -282,15 +298,15 @@ export default async function RunningMeetingsGuidePage({
         title={t("debate.title")}
         intro={t("debate.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {debateKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`debate.items.${key}.label`)}
               content={t(`debate.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -298,15 +314,15 @@ export default async function RunningMeetingsGuidePage({
         title={t("voting.title")}
         intro={t("voting.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {votingKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`voting.items.${key}.label`)}
               content={t(`voting.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -314,15 +330,15 @@ export default async function RunningMeetingsGuidePage({
         title={t("failures.title")}
         intro={t("failures.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <GuideTipGrid className="mt-4">
           {failureKeys.map((key) => (
-            <TipItem
+            <GuideTipItem
               key={key}
               label={t(`failures.items.${key}.label`)}
               content={t(`failures.items.${key}.content`)}
             />
           ))}
-        </ul>
+        </GuideTipGrid>
       </GuideSection>
 
       <GuideSection
@@ -330,39 +346,37 @@ export default async function RunningMeetingsGuidePage({
         title={t("scenario.title")}
         intro={t("scenario.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
-          {scenarioKeys.map((key) => (
-            <li key={key} className="max-w-prose leading-relaxed">
-              <span className="font-semibold text-opseu-dark">
-                {t(`scenario.phases.${key}.label`)}
-              </span>
-              {" — "}
-              {t(`scenario.phases.${key}.content`)}
-            </li>
+        <GuideOutlineList className="mt-4 space-y-6">
+          {scenarioKeys.map((key, index) => (
+            <GuideOutlineStep
+              key={key}
+              id={`scenario-${key}`}
+              step={index + 1}
+              title={t(`scenario.phases.${key}.label`)}
+            >
+              <GuideProse className="mt-2">
+                {t(`scenario.phases.${key}.content`)}
+              </GuideProse>
+            </GuideOutlineStep>
           ))}
-        </ol>
-        <Callout tone="muted" className="mt-5 max-w-prose">
+        </GuideOutlineList>
+        <GuideCallout tone="muted" className="mt-5">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("scenario.tip")}</p>
-        </Callout>
+        </GuideCallout>
       </GuideSection>
 
-      <section
+      <GuideSection
         id="tool"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
+        title={t("tool.title")}
+        intro={t("tool.intro")}
       >
-        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
-          {t("tool.title")}
-        </h2>
-        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-          {t("tool.intro")}
-        </p>
         <ul className="mt-4 list-disc space-y-2 pl-5 text-gray-700">
           <li>{t("tool.items.cheatSheet")}</li>
           <li>{t("tool.items.pocketPdf")}</li>
           <li>{t("tool.items.notice")}</li>
         </ul>
-        <div className="button-row mt-5 max-w-2xl">
+        <GuideActionRow>
           <Link href="/tools/rules-of-order" className={guideCtaClass}>
             {nav("rulesOfOrder")}
           </Link>
@@ -370,39 +384,10 @@ export default async function RunningMeetingsGuidePage({
           <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
             {nav("boardNotice")}
           </Link>
-        </div>
-      </section>
+        </GuideActionRow>
+      </GuideSection>
     </GuideLayout>
   );
 }
 
-function GuideSection({
-  id,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-    >
-      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
-      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
-      {children}
-    </section>
-  );
-}
 
-function TipItem({ label, content }: { label: string; content: string }) {
-  return (
-    <li className="max-w-prose leading-relaxed">
-      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
-    </li>
-  );
-}

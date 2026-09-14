@@ -33,13 +33,13 @@ export function LearningTrackPicker({ active, onChange, className }: Props) {
   const olTheme = useOlTheme();
 
   return (
-    <div className={cn("mb-6", className)}>
+    <div className={cn("mb-8", className)}>
       <p className={cn("mb-2", olTheme.sectionLabel)}>{t("label")}</p>
-      <p className={cn("mb-3 max-w-2xl text-sm leading-relaxed", olTheme.bodyMuted)}>
+      <p className={cn("mb-4 max-w-prose text-sm leading-relaxed", olTheme.bodyMuted)}>
         {t("intro")}
       </p>
       <div
-        className="flex flex-wrap gap-2"
+        className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
         role="tablist"
         aria-label={t("label")}
       >
@@ -53,14 +53,14 @@ export function LearningTrackPicker({ active, onChange, className }: Props) {
               aria-selected={selected}
               onClick={() => onChange(track)}
               className={cn(
-                "rounded-lg border px-3 py-2 text-left text-sm font-semibold transition",
+                "min-h-11 rounded-xl border px-3 py-3 text-left text-sm font-semibold transition",
                 selected ? olTheme.chipPrimary : olTheme.chipSecondary,
               )}
             >
               <span className="block">{t(`${track}.title`)}</span>
               <span
                 className={cn(
-                  "mt-0.5 block text-xs font-normal leading-snug opacity-90",
+                  "mt-1 block text-xs font-normal leading-snug opacity-90",
                   olTheme.bodySmall,
                 )}
               >

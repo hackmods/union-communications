@@ -85,7 +85,7 @@
     "mainNav": "Site navigation",
     "footerNav": "Footer",
     "language": "Language",
-    "workshopGuide": "Workshop outline",
+    "workshopGuide": "Comms workshop",
     "rtwAccommodation": "RTW & accommodation",
     "preDisciplinaryLog": "Pre-disciplinary log",
     "complaintVsGrievance": "Complaint vs grievance",
@@ -98,7 +98,9 @@
     "unionHistoryGuide": "How Canadian unions connect",
     "landAcknowledgementGuide": "Land acknowledgement",
     "strikeOpsGuide": "Strike operations",
-    "crisisCommsGuide": "Crisis comms"
+    "crisisCommsGuide": "Crisis comms",
+    "workshopsHub": "Workshops",
+    "landAckWorkshopGuide": "Land acknowledgement workshop"
   },
   "common": {
     "download": "Download",
@@ -144,6 +146,7 @@
     "sectionOptions": "Options",
     "sectionLayout": "Layout and size",
     "sectionColours": "Colours",
+    "accentColour": "Accent colour",
     "sectionAdvanced": "Advanced",
     "logoMode": "Logo",
     "logoNone": "None",
@@ -232,6 +235,7 @@
     "description": "Colours, shape, and export sizes. Save to Brand Kit to use across tools.",
     "localNumber": "Local number",
     "subText": "Sub-text",
+    "defaultSubText": "Support Staff",
     "shape": "Shape",
     "shapeCircle": "Circle",
     "shapeSquare": "Square",
@@ -281,6 +285,7 @@
     "brandRailDesc": "Colours, logo, and key links for every graphic. Browse the reference asset pack when you need starter files.",
     "privacyNote": "Your Comms work never leaves your browser. Host an Officer Hub and you control who can see that data.",
     "privacyNoteCommsOnly": "Your Comms work never leaves your browser. Your graphics and Brand Kit stay on your device.",
+    "workshopBandLabel": "Workshop demo path",
     "trustBanner": "Private by design. Your Comms work never leaves your browser. If you host the Officer Hub, you control who can see that data.",
     "trustBannerCommsOnly": "Private by design. Your Comms work never leaves your browser. No ads, no tracking, and nobody harvesting your data.",
     "trustManifestoLink": "Our promise",
@@ -1496,7 +1501,7 @@
       "pathTitle": "Full Officer Learning path (all sixteen modules)"
     },
     "hubSync": {
-      "panelLabel": "Hub backup and local sharing",
+      "panelLabel": "Hub backup and local share",
       "signedOutTitle": "Want a Hub backup?",
       "signedOutBody": "Sign in to Officer Hub to save completions to your account. Sharing with your local stays optional and needs your consent.",
       "signIn": "Sign in to Officer Hub",
@@ -3491,8 +3496,8 @@
   },
   "resources": {
     "title": "Comms Resources",
-    "subtitle": "Practice checklist, demo kit, and sources. The timed workshop hour lives on Workshop outline.",
-    "intro": "Use the checklist on your own or in a room. Workshop outline has the hour; this page keeps sources and the demo kit.",
+    "subtitle": "Practice checklist, demo kit, and sources. The timed Comms hour lives under Workshops.",
+    "intro": "Use the checklist on your own or in a room. Workshops has the Comms hour; this page keeps sources and the demo kit.",
     "purpose": {
       "title": "What UnionOps Comms is for",
       "body": "Every local needs clear communications on four channels: social media, print, workplace boards, and a simple website.",
@@ -3517,7 +3522,8 @@
         "shortForm": "Short-form video",
         "crisis": "Crisis comms",
         "photoConsent": "Photo Consent",
-        "workshop": "Workshop outline"
+        "workshop": "Comms workshop",
+        "workshopsHub": "Workshops"
       },
       "blurb": {
         "plan": "After Brand Kit: boards, print, socials, and website in order.",
@@ -3529,7 +3535,8 @@
         "shortForm": "Phone filming, member privacy, and pointing Reels or Shorts at a real ask.",
         "crisis": "Who may speak during a strike, lockout, or layoff.",
         "photoConsent": "Member photo checklist for stewards and workshops.",
-        "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path."
+        "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path.",
+        "workshopsHub": "Hub of projectable workshop outlines — Comms lunch-and-learn and land acknowledgement drafting."
       }
     },
     "labourPath": {
@@ -3567,7 +3574,7 @@
         "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote.",
         "runningMeetings": "Scale formality to the room, run a standard agenda, and use the cheat sheet during live debate.",
         "unionHistory": "Canadian labour history and a two-track map from one Niagara local to the CLC, so you can draw the same house.",
-        "landAcknowledgement": "Solo path or facilitator workshop, one-page ruled PDF worksheet, federation sources, and annotated example — write your own words, not a script."
+        "landAcknowledgement": "How-to walkthrough, one-page ruled PDF worksheet, federation sources, and annotated Niagara example — write your own words, not a script."
       }
     },
     "checklist": {
@@ -3646,6 +3653,8 @@
   "onboarding": {
     "title": "Set up your local brand",
     "subtitle": "Three quick steps: local details, colours, and logo. Then every Comms tool exports with your local on it.",
+    "progressLabel": "Setup progress",
+    "stepOf": "Step {step} of {total}",
     "step1": "Local details",
     "step2": "Colours",
     "step3": "Choose your logo",
@@ -4208,6 +4217,7 @@
     "lookPackHint": "Colour and plate variants for boards, social, and campaigns. Pick the treatment that matches your background — future event packs will appear here the same way.",
     "variantLabels": {
       "lockup": "Wordmark",
+      "ontarioUnion": "Ontario's union lockup",
       "mark": "Emblem",
       "markOnDark": "Emblem on dark",
       "color": "Full colour",
@@ -4265,6 +4275,12 @@
     "headline": "Headline",
     "subheadline": "Subheadline",
     "detail": "Extra line (date, local, or badge text)",
+    "presetDetails": {
+      "agmNotice": "AGM",
+      "bargainingUpdate": "Update",
+      "strikeAction": "Strike",
+      "jointCoalition": "Show up — details to follow"
+    },
     "initials": "Photo initials (if no photo)",
     "photo": "Photo",
     "photoZoom": "Photo zoom",
@@ -4311,6 +4327,11 @@
       "bargaining": "Bargaining",
       "solidarity": "Solidarity",
       "member": "Member"
+    },
+    "defaults": {
+      "quote": "We will not accept anything less than a fair deal for our members.",
+      "author": "Local President",
+      "role": "Bargaining committee"
     },
     "quote": "Quote",
     "author": "Attribution",
@@ -5193,7 +5214,7 @@
       "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval.",
       "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say when you move or raise a point.",
       "unionHistory": "Two tracks, not one ladder: union family and the city labour council, mapped from OPSEU / SEFPO Local 243.",
-      "landAcknowledgement": "Draft alone or lead a workshop with the one-page ruled PDF — research, reflect, and pair words with action. Federation guides linked; no copy-paste generator."
+      "landAcknowledgement": "Research, draft, and pair words with action using the how-to walkthrough and PDF worksheet. Federation guides linked; no copy-paste generator."
     },
     "workspaces": {
       "title": "Practice workspaces",
@@ -7414,6 +7435,18 @@
       "officer-learning-modules-11-14": {
         "title": "Officer Learning modules 11–14",
         "body": "Four new self-paced modules: member lists and privacy, advanced local finance, digital security and transitions, and Day-1 orientation with affinity and community unionism."
+      },
+      "opseu-ontario-union-lockup": {
+        "title": "Current OPSEU / SEFPO lockup on Brand Assets",
+        "body": "Download the Ontario's union / Le syndicat de l'Ontario wordmark with the other OPSEU / SEFPO blue files."
+      },
+      "home-hub-layout": {
+        "title": "Home and Blueprint discovery refresh",
+        "body": "The home toolkit paths and channel lists read clearer, and The Blueprint now opens strike work and related guides in the same hub layout as workshops."
+      },
+      "land-ack-workshops-hub": {
+        "title": "Land acknowledgement how-to + workshops hub",
+        "body": "The Land Acknowledgement Guide is a focused how-to with the PDF worksheet and Niagara example. Facilitator agendas live under Workshops with the Comms outline."
       }
     }
   },
@@ -9478,13 +9511,17 @@
       "local": {
         "title": "The local",
         "intro": "Union history, meetings, bylaws, and land acknowledgement."
+      },
+      "workshops": {
+        "title": "Workshops",
+        "intro": "Projectable outlines for lunch-and-learns and floor drafting sessions."
       }
     },
     "blurbs": {
       "plan": "What to do after Brand Kit: boards, print, socials, and a simple website.",
       "blueprint": "Ongoing local comms: platforms, tone, posting rhythm, and accessibility.",
       "resources": "Practice list and sources behind this toolkit, for solo work or a workshop.",
-      "workshop": "A one-hour facilitator outline: platforms, a local logo, examples, and a site ZIP.",
+      "workshop": "A one-hour Comms workshop: platforms, a local logo, examples, and a site ZIP.",
       "photoConsent": "Protect members before you publish a photo: three contexts and a takedown path.",
       "unionBoards": "Cork-board layout, what to print, notices, and solidarity posters.",
       "print": "Why print reaches members off social, and how to design a flyer people can read.",
@@ -9507,7 +9544,9 @@
       "workplaceMapping": "Chart coworkers, find organic leaders, and score union support 1 to 5.",
       "bylaws": "What must be in local bylaws and how to amend them with notice and quorum.",
       "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say.",
-      "landAcknowledgement": "Draft alone or lead a workshop with the one-page ruled PDF."
+      "landAcknowledgement": "How-to walkthrough and one-page PDF worksheet, with an annotated Niagara example — write your own words.",
+      "workshopsHub": "Choose a workshop outline: Comms tools hour or land acknowledgement drafting.",
+      "landAckWorkshop": "Facilitator outline (~60–90 min) with prep, timed agenda, and the PDF worksheet."
     }
   },
   "portal": {
@@ -10908,7 +10947,7 @@
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
-    "intro": "Land acknowledgements recognize that union meetings take place on lands with long Indigenous histories. This guide walks your local from research to a first draft — with a one-page floor handout, federation sources, solo and workshop paths, and an annotated example. UnionOps does not generate text for you.",
+    "intro": "Land acknowledgements recognize that union meetings take place on lands with long Indigenous histories. This guide walks your local from research to a first draft — with a one-page floor handout, federation sources, and an annotated Niagara example. UnionOps does not generate text for you.",
     "groundRules": {
       "navLabel": "Ground rules",
       "title": "Ground rules",
@@ -10979,8 +11018,8 @@
     "howToWrite": {
       "navLabel": "How to write",
       "title": "How to write your acknowledgement",
-      "intro": "Most locals start one of two ways: one officer researches and drafts alone, then brings it to executive — or the education committee runs a short workshop. Both paths use the same research → reflect → draft → review rhythm.",
-      "soloHeading": "On your own (~45 minutes)",
+      "intro": "Block time with a map and your federation PDF open. Follow the four steps below, mark up the one-page worksheet, then bring a draft to executive. Facilitating a group session? Use the workshop outline linked below.",
+      "soloHeading": "Walkthrough (~45 minutes)",
       "soloIntro": "Block an hour with Native-Land.ca or your federation PDF open. Print the one-page worksheet below — ruled rows are sized for pen notes. You are writing for your local, not performing for a room yet — focus on accuracy and words you can explain.",
       "soloFlow": {
         "research": {
@@ -11000,49 +11039,8 @@
           "subtitle": "Checklist before you share · ~10 min"
         }
       },
-      "workshopHeading": "Run a workshop (~60–90 minutes)",
-      "workshopIntro": "Use this when your executive or education committee wants to draft together. Aim for a working session, not a lecture — people leave with a draft and a review date, not homework they never finish.",
-      "workshopPrepHeading": "Before the room",
-      "workshopPrep": {
-        "who": {
-          "label": "Who to invite",
-          "content": "Executive, education committee, stewards who open meetings — the whole local owns this, not one Indigenous member asked to educate everyone."
-        },
-        "materials": {
-          "label": "What to bring",
-          "content": "Printed territory maps, your federation PDF, one worksheet per person (ruled draft block on a single page), and a way to project Native-Land.ca or Whose Land."
-        },
-        "room": {
-          "label": "How to set up the room",
-          "content": "Tables or a circle, low pressure. Pairs or small groups draft; no one has to read aloud unless they choose to."
-        },
-        "followUp": {
-          "label": "Close with a date",
-          "content": "Book executive adoption, name who reads at the next meeting, and one concrete follow-up action before people leave."
-        }
-      },
-      "workshopAgendaHeading": "Suggested agenda",
-      "workshopAgenda": {
-        "open": {
-          "label": "Opening (~10 min)",
-          "content": "Ground rules from this guide — no copy-paste scripts, defer to Indigenous leadership, words need action. One round: why does this matter to our local?"
-        },
-        "research": {
-          "label": "Research together (~25 min)",
-          "content": "Project a map; note nations, treaties, and spellings on the board. Compare your federation guide. List questions for Friendship Centres or band offices."
-        },
-        "draft": {
-          "label": "Draft in pairs (~25 min)",
-          "content": "Each pair writes a short draft on the worksheet ruled lines. Territory first, then one local action or historical thread — not copied from another city."
-        },
-        "close": {
-          "label": "Review and commit (~20 min)",
-          "content": "Optional read-backs, run the review checklist, pick one combined draft or two to merge later, assign executive review and first reader."
-        }
-      },
-      "workshopTip": "If the room is large, split into pairs for drafting — you do not need a fixed head count. If someone is unsure, pause and suggest consulting your union's Indigenous Circle before finalizing.",
-      "worksheetHeading": "Floor handout (one page)",
-      "worksheetIntro": "Same depth as a steward pocket sheet: gate, steps, ruled draft block, and review checklist — print for executive or workshop.",
+      "worksheetHeading": "Worksheet (one page)",
+      "worksheetIntro": "Same depth as a steward pocket sheet: gate, steps, ruled draft block, and review checklist — print for executive or take notes on a tablet.",
       "worksheetFeatures": {
         "print": {
           "label": "Print or PDF",
@@ -11066,10 +11064,13 @@
         "review": "Run Step 4 checks and book executive review before anyone reads it aloud at a meeting."
       },
       "worksheetGoldTip": "Treat the handout like a FAR sheet — mark it up in pen at executive, file the finished draft with minutes, and revisit when your meeting site changes.",
-      "worksheetHint": "The PDF includes step prompts and floor tips that mirror this guide. Education only — not a script to paste unchanged."
+      "worksheetHint": "The PDF includes step prompts and floor tips that mirror this guide. Education only — not a script to paste unchanged.",
+      "workshopCtaHeading": "Facilitating a group draft?",
+      "workshopCtaBody": "Education committees and executives that want to draft together use a separate ~60–90 minute workshop outline — prep, timed agenda, and the same PDF worksheet.",
+      "workshopCtaLabel": "Open land acknowledgement workshop"
     },
     "worksheet": {
-      "cta": "Download floor handout (PDF)",
+      "cta": "Download worksheet (PDF)",
       "downloading": "Preparing PDF…"
     },
     "prepareWords": {
@@ -11290,15 +11291,15 @@
     "nextSteps": {
       "navLabel": "Next steps",
       "title": "Next steps",
-      "intro": "Start with your federation guide, draft solo or run a workshop, and schedule an executive review.",
+      "intro": "Start with your federation guide, draft with the worksheet, and schedule an executive review.",
       "items": {
         "read": {
           "label": "Read your federation guide",
           "content": "OFL Ontario PDF if you are in Ontario, plus Native-Land.ca or Whose Land for your site."
         },
         "reflect": {
-          "label": "Write or workshop a draft",
-          "content": "Follow the handout steps on the PDF — solo flow or workshop agenda above — then check accuracy before the next meeting."
+          "label": "Write a draft",
+          "content": "Follow the handout steps on the PDF, then check accuracy before the next meeting. Use the workshop outline if your committee drafts together."
         },
         "followUp": {
           "label": "Follow up with your executive",
@@ -13191,5 +13192,101 @@
         }
       }
     }
+  },
+  "workshopsHub": {
+    "title": "Workshops",
+    "subtitle": "Projectable outlines for local executives and education committees",
+    "intro": "Pick the workshop that matches the room. Each outline is built to project — timed blocks, facilitator notes, and a clear close.",
+    "relatedLabel": "Related",
+    "outlines": {
+      "comms": {
+        "title": "From Scratch to Solidarity (Comms)",
+        "body": "A beginner hour: platforms and posting rhythm, a local logo, Social Examples, Graphic Maker, Quote Card, and a website ZIP — with a live Demo Path.",
+        "time": "~45–60 minutes",
+        "cta": "Open Comms workshop outline"
+      },
+      "landAcknowledgement": {
+        "title": "Land acknowledgement drafting",
+        "body": "A working session for executive or education committee: ground rules, research together, draft in pairs on the PDF worksheet, and leave with a review date.",
+        "time": "~60–90 minutes",
+        "cta": "Open land acknowledgement workshop"
+      }
+    }
+  },
+  "landAckWorkshopGuide": {
+    "title": "Land acknowledgement workshop",
+    "subtitle": "Draft together — research, reflect, write, and commit (~60–90 min)",
+    "intro": "Use this when executive or education committee wants a working session, not a lecture. People leave with a draft and a review date. Pair with the Land Acknowledgement Guide for ground rules, the Niagara annotated example, and federation practice.",
+    "outlineNavLabel": "Agenda",
+    "relatedLabel": "Related",
+    "audienceFacilitatorLabel": "Facilitator",
+    "audienceAttendeeLabel": "Do this",
+    "audienceFacilitator": "Keep the room low-pressure. Project a map, hand out worksheets, and close with named owners — do not ask one Indigenous member to educate everyone.",
+    "audienceAttendee": "Bring a pen. You will research territory for where your local meets, write a short draft in your own words, and help pick a review date.",
+    "prereqTitle": "Before the room",
+    "prereqIntro": "Prep once so the hour is drafting time, not hunting for maps.",
+    "prereq": {
+      "who": {
+        "label": "Who to invite",
+        "content": "Executive, education committee, stewards who open meetings — the whole local owns this, not one Indigenous member asked to educate everyone."
+      },
+      "materials": {
+        "label": "What to bring",
+        "content": "Printed territory maps, your federation PDF, one worksheet per person (download below), and a way to project Native-Land.ca or Whose Land."
+      },
+      "room": {
+        "label": "How to set up the room",
+        "content": "Tables or a circle, low pressure. Pairs or small groups draft; no one has to read aloud unless they choose to."
+      },
+      "followUp": {
+        "label": "Close with a date",
+        "content": "Book executive adoption, name who reads at the next meeting, and one concrete follow-up action before people leave."
+      }
+    },
+    "outlineTitle": "Suggested agenda",
+    "outlineIntro": "Four blocks share the same research → reflect → draft → review rhythm as the solo walkthrough in the guide.",
+    "outlineItems": {
+      "open": {
+        "navLabel": "Opening",
+        "title": "Opening",
+        "time": "~10 min",
+        "do": "Listen to ground rules: no copy-paste scripts, defer to Indigenous leadership, words need action. Share one reason this matters to your local.",
+        "facilitator": "Project the Land Acknowledgement Guide ground rules. One round of why — keep it short. If the room is large, note that pairs will draft later."
+      },
+      "research": {
+        "navLabel": "Research",
+        "title": "Research together",
+        "time": "~25 min",
+        "do": "Note nations, treaties, and spellings for where you meet. List questions for Friendship Centres or band offices.",
+        "facilitator": "Project Native-Land.ca or Whose Land. Compare your federation guide. Capture spellings on a board. Remind the room maps are introductions, not final authority."
+      },
+      "draft": {
+        "navLabel": "Draft",
+        "title": "Draft in pairs",
+        "time": "~25 min",
+        "do": "Write a short draft on the worksheet ruled lines — territory first, then one local action or historical thread.",
+        "facilitator": "Hand out PDFs. Split into pairs. Circulate; if someone is unsure, pause and suggest consulting your union's Indigenous Circle before finalizing."
+      },
+      "close": {
+        "navLabel": "Close",
+        "title": "Review and commit",
+        "time": "~20 min",
+        "do": "Optional read-backs. Run the review checklist. Help pick one draft path and name owners.",
+        "facilitator": "Optional share-outs only. Run checklist aloud. Assign executive review date, first reader, and one concrete action before people leave."
+      }
+    },
+    "handoutTitle": "Floor handout",
+    "handoutIntro": "Same one-page PDF as the guide — print one per person before you start.",
+    "wrapTitle": "Before people leave",
+    "wrapIntro": "Name owners so the draft does not die in a shared drive.",
+    "wrap": {
+      "adopt": "Confirm the executive review or adoption date.",
+      "reader": "Name who reads the acknowledgement at the next meeting.",
+      "action": "Pick one concrete local follow-up action.",
+      "guide": "Bookmark the Land Acknowledgement Guide for the Niagara example and federation sources."
+    },
+    "wrapFacilitator": "If no one volunteers to read, assign a settler officer — do not default to the only Indigenous member in the room.",
+    "guideCta": "Land Acknowledgement Guide",
+    "hubCta": "All workshops"
   }
 }
