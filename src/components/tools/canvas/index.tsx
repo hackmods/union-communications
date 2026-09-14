@@ -140,6 +140,8 @@ export function CanvasBrandHeader({
   showLocalLabel = true,
   className,
   fontFamily,
+  labelFontSizePx,
+  logoMaxHeightPx,
 }: {
   backgroundColor: string;
   localNumber: string;
@@ -152,6 +154,10 @@ export function CanvasBrandHeader({
   className?: string;
   /** Brand Kit body / meta face */
   fontFamily?: string;
+  /** Design-px local label — rem stays postage-stamp on 850px letter sheets. */
+  labelFontSizePx?: number;
+  /** Drop LogoContainer rem `max-h-20` on print / HD canvases. */
+  logoMaxHeightPx?: number;
 }) {
   const ink = pickContrastingInk(backgroundColor);
   const label = localLabel(localNumber, subText);
@@ -166,6 +172,7 @@ export function CanvasBrandHeader({
           backgroundColor={backgroundColor}
           logoMode={logoMode}
           wideLockup={logoSize === "lg"}
+          maxHeightPx={logoMaxHeightPx}
           className={showLocalLabel || badge ? "mb-3" : undefined}
         />
       ) : null}
@@ -176,10 +183,13 @@ export function CanvasBrandHeader({
           style={{
             color: ink,
             // Inline size — Tailwind text-* can resolve via oklch vars in some builds
-            fontSize: "0.875rem",
+            fontSize: labelFontSizePx ?? 14,
             lineHeight: 1.25,
             margin: 0,
             fontFamily,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
           {label}

@@ -19,7 +19,10 @@ import {
   type OrgChartBand,
 } from "@/lib/org-chart/layout";
 import { CanvasWrapper } from "@/components/canvas-core";
-import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
+import {
+  PRINT_PAGE_LEGACY_REFERENCE_PX,
+  printBrandHeaderChrome,
+} from "@/lib/comms/print-page-formats";
 import { printPageScaledTokens, resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
@@ -116,6 +119,7 @@ export function OrgChartCanvas({
     3,
     Math.max(0.5, designWidthPx / referenceWidthPx),
   );
+  const headerChrome = printBrandHeaderChrome(designWidthPx);
   const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
     primary: brandKit.primaryColor,
     secondary: brandKit.secondaryColor,
@@ -185,6 +189,8 @@ export function OrgChartCanvas({
           subText={brandKit.local.subText}
           logoSize="sm"
           fontFamily={scaledTokens.bodyFontFamily}
+          labelFontSizePx={headerChrome.labelPx}
+          logoMaxHeightPx={headerChrome.logoMaxHeightPx}
         />
         <h2
           className="relative z-[2] shrink-0"

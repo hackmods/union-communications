@@ -15,6 +15,7 @@ import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import { resolvePrintPageLayout } from "@/lib/utils/canvas-tokens";
+import { printBrandHeaderChrome } from "@/lib/comms/print-page-formats";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { cn, localLabel } from "@/lib/utils";
 
@@ -188,6 +189,7 @@ export function FlyerLayoutCanvas({
 }: FlyerLayoutCanvasProps) {
   const { tokens: scaledTokens, metaFontSizePx: metaSize } =
     resolvePrintPageLayout(tokens, designWidthPx, referenceWidthPx);
+  const headerChrome = printBrandHeaderChrome(designWidthPx);
   const ink = pickContrastingInk(colours.primary);
   const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
     primary: colours.primary,
@@ -275,6 +277,8 @@ export function FlyerLayoutCanvas({
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
             logoSize="sm"
+            labelFontSizePx={headerChrome.labelPx}
+            logoMaxHeightPx={headerChrome.logoMaxHeightPx}
             className="max-w-full shrink-0 overflow-hidden"
           />
           <div className="min-h-0 w-full flex-1 overflow-hidden">
@@ -374,6 +378,8 @@ export function FlyerLayoutCanvas({
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
             logoSize="sm"
+            labelFontSizePx={headerChrome.labelPx}
+            logoMaxHeightPx={headerChrome.logoMaxHeightPx}
             className="max-w-full shrink-0 overflow-hidden"
           />
           <CanvasStackSlot className="min-h-[32%]">
@@ -442,6 +448,8 @@ export function FlyerLayoutCanvas({
             logoMode={logoMode}
             showLocalLabel={false}
             logoSize="sm"
+            labelFontSizePx={headerChrome.labelPx}
+            logoMaxHeightPx={headerChrome.logoMaxHeightPx}
             className="max-w-[70%] shrink-0 overflow-hidden"
           />
           <CanvasStackSlot className="min-h-[42%] justify-start">
@@ -518,6 +526,8 @@ export function FlyerLayoutCanvas({
         logoMode={logoMode}
         showLocalLabel={showLocalLabel}
         logoSize="sm"
+        labelFontSizePx={headerChrome.labelPx}
+        logoMaxHeightPx={headerChrome.logoMaxHeightPx}
         className="max-w-full shrink-0 overflow-hidden"
       />
       <CanvasStackSlot className="min-h-[36%]">

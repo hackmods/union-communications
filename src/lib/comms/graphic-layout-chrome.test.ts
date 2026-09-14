@@ -42,4 +42,22 @@ describe("graphicLayoutChrome", () => {
     expect(graphicLayoutChrome(undefined, false)).toEqual({ pad: 16 });
     expect(graphicLayoutChrome(undefined, true)).toEqual({ pad: 32 });
   });
+
+  it("scales title with HD design width so social sheets are not postage-stamp", () => {
+    const square = graphicLayoutChrome(tokens, true, 1080);
+    const letterish = graphicLayoutChrome(tokens, true);
+    expect(square.titlePx!).toBeGreaterThan(letterish.titlePx! * 1.6);
+    expect(square.bodyPx!).toBeGreaterThan(letterish.bodyPx!);
+    expect(square.metaPx!).toBeLessThanOrEqual(22);
+    expect(square.metaPx!).toBeGreaterThanOrEqual(14);
+  });
+
+  it("still scales type when Brand Kit tokens are omitted on an HD sheet", () => {
+    const hd = graphicLayoutChrome(undefined, true, 1080);
+    const legacy = graphicLayoutChrome(undefined, true);
+    expect(legacy).toEqual({ pad: 32 });
+    expect(hd.titlePx!).toBeGreaterThan(50);
+    expect(hd.metaPx!).toBeLessThanOrEqual(22);
+    expect(hd.pad).toBeGreaterThan(legacy.pad);
+  });
 });

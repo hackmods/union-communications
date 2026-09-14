@@ -23,6 +23,7 @@ import {
 } from "@/lib/utils/ink";
 import type { QuoteLayoutId } from "@/lib/comms/quote-layouts";
 import { graphicLayoutChrome } from "@/lib/comms/graphic-layout-chrome";
+import { exampleAspectDesignSize } from "@/lib/comms/canvas-aspects";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
   brandFieldBottomLiftStyle,
@@ -32,6 +33,22 @@ import {
   softGradientEndColor,
 } from "@/lib/utils/canvas-surface";
 import { JointActionCard } from "@/components/comms/campaign/JointActionCard";
+
+function socialChrome(
+  tokens: CanvasTokens | undefined,
+  exportMode: boolean,
+  aspect: ExampleAspect = "square",
+) {
+  return graphicLayoutChrome(
+    tokens,
+    exportMode,
+    exampleAspectDesignSize(aspect).width,
+  );
+}
+
+function socialLogoMaxHeightPx(aspect: ExampleAspect = "square") {
+  return Math.round(exampleAspectDesignSize(aspect).height * 0.12);
+}
 
 export type GraphicLayoutId = Exclude<ExampleLayout, "quote">;
 
@@ -129,21 +146,25 @@ function LocalFooter({
   size,
   color,
   show = true,
+  fontSizePx,
 }: {
   localNumber: string;
   subText: string;
   size: "preview" | "export";
   color: string;
   show?: boolean;
+  fontSizePx?: number;
 }) {
   if (!show) return null;
   return (
     <p
       data-canvas-meta=""
-      className={cn(
-        size === "export" ? "mt-3 text-sm" : "mt-2 text-[10px] sm:text-xs",
-      )}
-      style={{ color }}
+      className={size === "export" ? "mt-3" : "mt-2"}
+      style={{
+        color,
+        fontSize: fontSizePx ?? (size === "export" ? 16 : 13),
+        whiteSpace: "nowrap",
+      }}
     >
       Local {localNumber}
       {subText ? ` - ${subText}` : ""}
@@ -195,12 +216,14 @@ function LayoutBrandLogo({
   backgroundColor,
   className,
   size: _size,
+  maxHeightPx,
 }: {
   logoMode?: BoardLogoMode;
   backgroundColor?: string;
   className?: string;
   /** Ignored — LogoContainer sizes from the canvas parent. */
   size?: string;
+  maxHeightPx?: number;
 }) {
   void _size;
   if (!showCanvasLogo(logoMode)) return null;
@@ -209,6 +232,7 @@ function LayoutBrandLogo({
       backgroundColor={backgroundColor ?? "#FFFFFF"}
       logoMode={logoMode}
       className={className}
+      maxHeightPx={maxHeightPx}
     />
   );
 }
@@ -262,6 +286,7 @@ export function GraphicLayoutCanvas({
           tokens={tokens}
           logoMode={logoMode}
           showLocalNumber={showLocalNumber}
+          aspect={aspect}
         />
       )}
       {layout === "quote" && (
@@ -290,6 +315,7 @@ export function GraphicLayoutCanvas({
           tokens={tokens}
           logoMode={logoMode}
           showLocalNumber={showLocalNumber}
+          aspect={aspect}
         />
       )}
       {layout === "notice" && (
@@ -304,6 +330,7 @@ export function GraphicLayoutCanvas({
           tokens={tokens}
           logoMode={logoMode}
           showLocalNumber={showLocalNumber}
+          aspect={aspect}
         />
       )}
       {(layout === "solidarity" || layout === "thanks") && (
@@ -323,6 +350,7 @@ export function GraphicLayoutCanvas({
           tokens={tokens}
           logoMode={logoMode}
           showLocalNumber={showLocalNumber}
+          aspect={aspect}
         />
       )}
       {layout === "jointAction" && (
@@ -335,6 +363,8 @@ export function GraphicLayoutCanvas({
           size={size}
           coalitionBadge={coalitionBadge}
           showLocalNumber={showLocalNumber}
+          tokens={tokens}
+          aspect={aspect}
         />
       )}
     </div>
@@ -350,6 +380,8 @@ function JointActionLayout({
   size,
   coalitionBadge,
   showLocalNumber,
+  tokens,
+  aspect = "square",
 }: {
   primary: string;
   accent: string;
@@ -359,8 +391,10 @@ function JointActionLayout({
   size: "preview" | "export";
   coalitionBadge?: string;
   showLocalNumber: boolean;
+  tokens?: CanvasTokens;
+  aspect?: ExampleAspect;
 }) {
-  const chrome = graphicLayoutChrome(undefined, size === "export");
+  const chrome = socialChrome(tokens, size === "export", aspect);
   const actionLabel = copy.detail?.trim() || "Show up — details to follow";
 
   return (
@@ -375,7 +409,9 @@ function JointActionLayout({
         body={copy.body}
         actionLabel={actionLabel}
         coalitionBadge={coalitionBadge}
-        className={size === "export" ? "text-base" : "text-sm"}
+        titleFontSizePx={chrome.titlePx}
+        bodyFontSizePx={chrome.bodyPx}
+        logoMaxHeightPx={socialLogoMaxHeightPx(aspect)}
       />
       <LocalFooter
         localNumber={localNumber}
@@ -383,6 +419,7 @@ function JointActionLayout({
         size={size}
         color={pickContrastingInk(primary)}
         show={showLocalNumber}
+        fontSizePx={chrome.metaPx}
       />
     </div>
   );
@@ -402,6 +439,7 @@ function SolidarityLayout({
   tokens,
   logoMode = "lockup",
   showLocalNumber = true,
+  aspect = "square",
 }: {
   primary: string;
   accent: string;
@@ -418,12 +456,13 @@ function SolidarityLayout({
   tokens?: CanvasTokens;
   logoMode?: BoardLogoMode;
   showLocalNumber?: boolean;
+  aspect?: ExampleAspect;
 }) {
   const exportMode = size === "export";
   // Bottom copy always sits on the dark lift scrim (with or without a photo).
   const footerBg = BOTTOM_SCRIM_INK_BG;
   const ink = inkPalette(footerBg);
-  const chrome = graphicLayoutChrome(tokens, exportMode);
+  const chrome = socialChrome(tokens, exportMode, aspect);
   return (
     <>
       <div className="absolute inset-0" style={brandFieldFillStyle(primary)} />
@@ -451,6 +490,7 @@ function SolidarityLayout({
           size={exportMode ? "md" : "sm"}
           backgroundColor={footerBg}
           className="mb-2"
+          maxHeightPx={socialLogoMaxHeightPx(aspect)}
         />
         <h3
           className={cn(
@@ -498,6 +538,7 @@ function SolidarityLayout({
           size={size}
           color={ink.a70}
           show={showLocalNumber}
+          fontSizePx={chrome.metaPx}
         />
       </div>
     </>
@@ -518,6 +559,7 @@ function SpotlightLayout({
   tokens,
   logoMode = "lockup",
   showLocalNumber = true,
+  aspect = "square",
 }: {
   primary: string;
   accent: string;
@@ -533,13 +575,14 @@ function SpotlightLayout({
   tokens?: CanvasTokens;
   logoMode?: BoardLogoMode;
   showLocalNumber?: boolean;
+  aspect?: ExampleAspect;
 }) {
   const initials = copy.initials ?? "M";
   const exportMode = size === "export";
   const footerBg = BOTTOM_SCRIM_INK_BG;
   const ink = inkPalette(footerBg);
   const badgeInk = pickContrastingInk(accent);
-  const chrome = graphicLayoutChrome(tokens, exportMode);
+  const chrome = socialChrome(tokens, exportMode, aspect);
   return (
     <>
       <div className="absolute inset-0" style={brandFieldFillStyle(primary)} />
@@ -583,6 +626,7 @@ function SpotlightLayout({
           size={exportMode ? "md" : "sm"}
           backgroundColor={footerBg}
           className="mb-2"
+          maxHeightPx={socialLogoMaxHeightPx(aspect)}
         />
         <h3
           className={cn(
@@ -617,6 +661,7 @@ function SpotlightLayout({
           size={size}
           color={ink.a70}
           show={showLocalNumber}
+          fontSizePx={chrome.metaPx}
         />
       </div>
     </>
@@ -634,6 +679,7 @@ function NoticeLayout({
   tokens,
   logoMode = "lockup",
   showLocalNumber = true,
+  aspect = "square",
 }: {
   primary: string;
   accent: string;
@@ -645,6 +691,7 @@ function NoticeLayout({
   tokens?: CanvasTokens;
   logoMode?: BoardLogoMode;
   showLocalNumber?: boolean;
+  aspect?: ExampleAspect;
 }) {
   const exportMode = size === "export";
   const fieldEnd = softGradientEndColor(primary, secondary);
@@ -660,7 +707,7 @@ function NoticeLayout({
         accent,
       })
     : { backgroundColor: primary };
-  const chrome = graphicLayoutChrome(tokens, exportMode);
+  const chrome = socialChrome(tokens, exportMode, aspect);
   const brandJustify =
     tokens?.alignmentBias === "center"
       ? "center"
@@ -696,6 +743,8 @@ function NoticeLayout({
             logoMode={logoMode}
             size={exportMode ? "md" : "sm"}
             backgroundColor={primary}
+            maxHeightPx={socialLogoMaxHeightPx(aspect)}
+            className="max-w-[55%]"
           />
           <span
             data-canvas-meta=""
@@ -750,6 +799,7 @@ function NoticeLayout({
             size={size}
             color={ink.a70}
             show={showLocalNumber}
+            fontSizePx={chrome.metaPx}
           />
         </div>
         <div
@@ -816,7 +866,13 @@ export function QuoteLayout({
         accent,
       })
     : { backgroundColor: primary };
-  const chrome = graphicLayoutChrome(tokens, exportMode);
+  const chrome = socialChrome(tokens, exportMode, aspect);
+  const design = exampleAspectDesignSize(aspect);
+  const quoteMarkPx = Math.round(design.height * (landscape ? 0.22 : 0.16));
+  const quoteMarkInlinePx = Math.round(design.height * (landscape ? 0.12 : 0.1));
+  const authorPx = chrome.titlePx
+    ? Math.round(chrome.titlePx * (landscape ? 0.42 : 0.48))
+    : undefined;
   const padScale = landscape
     ? exportMode
       ? 0.9
@@ -853,15 +909,9 @@ export function QuoteLayout({
         <p
           className={cn(
             "pointer-events-none absolute z-[2] font-bold leading-none",
-            landscape
-              ? exportMode
-                ? "left-4 top-0 text-[5.5rem]"
-                : "left-2 top-0 text-5xl"
-              : exportMode
-                ? "left-4 top-[-0.15em] text-[10rem]"
-                : "left-2 top-[-0.1em] text-7xl",
+            landscape ? "left-4 top-0" : "left-4 top-[-0.15em]",
           )}
-          style={{ color: quoteInk.a12 }}
+          style={{ color: quoteInk.a12, fontSize: quoteMarkPx }}
           aria-hidden
         >
           &ldquo;
@@ -877,17 +927,8 @@ export function QuoteLayout({
       >
         {mark ? null : (
           <p
-            className={cn(
-              "font-bold leading-none",
-              landscape
-                ? exportMode
-                  ? "text-4xl"
-                  : "text-2xl"
-                : exportMode
-                  ? "text-6xl"
-                  : "text-3xl",
-            )}
-            style={{ color: quoteInk.a30 }}
+            className="font-bold leading-none"
+            style={{ color: quoteInk.a30, fontSize: quoteMarkInlinePx }}
             aria-hidden
           >
             &ldquo;
@@ -925,9 +966,7 @@ export function QuoteLayout({
           )}
           style={{
             color: accentInk.full,
-            fontSize: chrome.metaPx
-              ? Math.round(chrome.metaPx * (landscape ? 1 : 1.15))
-              : undefined,
+            fontSize: authorPx,
             fontWeight: chrome.titleWeight,
             letterSpacing: chrome.titleTracking,
             fontFamily: chrome.headlineFontFamily,
@@ -957,6 +996,7 @@ export function QuoteLayout({
             logoMode={logoMode}
             size={exportMode ? "md" : "sm"}
             backgroundColor={primary}
+            maxHeightPx={socialLogoMaxHeightPx(aspect)}
           />
           <LocalFooter
             localNumber={localNumber}
@@ -964,6 +1004,7 @@ export function QuoteLayout({
             size={size}
             color={quoteInk.a90}
             show={showLocalNumber}
+            fontSizePx={chrome.metaPx}
           />
         </div>
       </div>
@@ -980,6 +1021,7 @@ function ResultsLayout({
   tokens,
   logoMode = "lockup",
   showLocalNumber = true,
+  aspect = "square",
 }: {
   primary: string;
   accent: string;
@@ -990,11 +1032,12 @@ function ResultsLayout({
   tokens?: CanvasTokens;
   logoMode?: BoardLogoMode;
   showLocalNumber?: boolean;
+  aspect?: ExampleAspect;
 }) {
   const exportMode = size === "export";
   const fieldEnd = brandFieldEndColor(primary, 0.22);
   const ink = inkPalette(primary, [primary, fieldEnd]);
-  const chrome = graphicLayoutChrome(tokens, exportMode);
+  const chrome = socialChrome(tokens, exportMode, aspect);
   const alignItems = chrome.alignItems ?? "center";
   const textAlign = chrome.textAlign ?? "center";
   return (
@@ -1016,6 +1059,7 @@ function ResultsLayout({
           size={exportMode ? "md" : "sm"}
           backgroundColor={primary}
           className={exportMode ? "mb-4" : "mb-3"}
+          maxHeightPx={socialLogoMaxHeightPx(aspect)}
         />
         <p
           className={cn(
@@ -1057,7 +1101,7 @@ function ResultsLayout({
             color: ink.a90,
             fontSize: chrome.bodyPx,
             marginTop: exportMode ? 12 : 8,
-            maxWidth: exportMode ? "28rem" : "14rem",
+            maxWidth: Math.round(exampleAspectDesignSize(aspect).width * 0.72),
             fontFamily: chrome.bodyFontFamily,
             fontWeight: chrome.bodyFontWeight,
             lineHeight: chrome.bodyLineHeight,
@@ -1071,6 +1115,7 @@ function ResultsLayout({
           size={size}
           color={ink.a70}
           show={showLocalNumber}
+          fontSizePx={chrome.metaPx}
         />
       </div>
     </>

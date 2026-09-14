@@ -13,6 +13,7 @@ import { pickContrastingInk, mutedInkOnBackground } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import { resolvePrintPageLayout } from "@/lib/utils/canvas-tokens";
+import { printBrandHeaderChrome } from "@/lib/comms/print-page-formats";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { cn } from "@/lib/utils";
 
@@ -187,6 +188,7 @@ export function BoardNoticeLayoutCanvas({
 }: BoardNoticeLayoutCanvasProps) {
   const { tokens: scaledTokens, metaFontSizePx: metaSize } =
     resolvePrintPageLayout(tokens, designWidthPx, referenceWidthPx);
+  const headerChrome = printBrandHeaderChrome(designWidthPx);
   const padPx = scaledTokens.paddingPx;
   const gapPx = scaledTokens.gapPx;
   const ink = pickContrastingInk(colours.primary);
@@ -272,6 +274,8 @@ export function BoardNoticeLayoutCanvas({
             fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
+            labelFontSizePx={headerChrome.labelPx}
+            logoMaxHeightPx={headerChrome.logoMaxHeightPx}
             badge={
               <NoticeTypeBadge
                 label={copy.noticeTypeLabel}
@@ -365,6 +369,8 @@ export function BoardNoticeLayoutCanvas({
             fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
+            labelFontSizePx={headerChrome.labelPx}
+            logoMaxHeightPx={headerChrome.logoMaxHeightPx}
             badge={
               <NoticeTypeBadge
                 label={copy.noticeTypeLabel}
@@ -430,6 +436,8 @@ export function BoardNoticeLayoutCanvas({
           fontFamily={scaledTokens.bodyFontFamily}
           logoMode={logoMode}
           showLocalLabel={showLocalLabel}
+          labelFontSizePx={headerChrome.labelPx}
+          logoMaxHeightPx={headerChrome.logoMaxHeightPx}
           badge={
             <NoticeTypeBadge
               label={copy.noticeTypeLabel}

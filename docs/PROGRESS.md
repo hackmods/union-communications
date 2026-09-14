@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-13 — Canvas digital type family pass
+
+- [x] Graphic Maker / Quote Card: `graphicLayoutChrome(..., designWidthPx)` so 1080 / 1920 sheets are not postage-stamp
+- [x] Quote marks + author sized in design px; `LocalFooter` / logos use `metaPx` + `maxHeightPx`
+- [x] Flyer / Board Notice / Org Chart headers: `printBrandHeaderChrome` (no rem label / `max-h-20`)
+- Session: [`session-knowledge-2026-09-13-canvas-digital-type.md`](audit/session-knowledge-2026-09-13-canvas-digital-type.md)
+
 ## 2026-09-13 — Solidarity Poster wrap + supporting type
 
 - [x] Headlines wrap at spaces (`nowrap={false}`) so `NOTHING ABOUT US` no longer clips

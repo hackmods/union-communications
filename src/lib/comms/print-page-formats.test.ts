@@ -3,6 +3,7 @@ import {
   PRINT_PAGE_LEGACY_REFERENCE_PX,
   PRINT_PAGE_PX_PER_INCH,
   PRINT_PAGE_TARGET_WIDTH_PX,
+  printBrandHeaderChrome,
   printPageExportPixelRatio,
   printPagePreviewHeightPx,
   printPagePreviewWidthPx,
@@ -31,6 +32,15 @@ describe("print-page-formats", () => {
     });
     expect(ratio).toBe(2);
     expect(850 * ratio).toBe(PRINT_PAGE_TARGET_WIDTH_PX);
+  });
+
+  it("sizes print header lockup from design width, not rem", () => {
+    const letter = printBrandHeaderChrome(850);
+    const half = printBrandHeaderChrome(550);
+    expect(letter.labelPx).toBeGreaterThanOrEqual(14);
+    expect(letter.labelPx).toBeLessThanOrEqual(20);
+    expect(letter.logoMaxHeightPx).toBeGreaterThan(half.logoMaxHeightPx);
+    expect(letter.logoMaxHeightPx).toBeGreaterThan(80);
   });
 
   it("still caps extreme ratios", () => {

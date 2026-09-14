@@ -26,6 +26,18 @@ export function printPagePreviewWidthPx(widthInches: number): number {
   return Math.round(widthInches * PRINT_PAGE_PX_PER_INCH);
 }
 
+/**
+ * Local label + lockup on letter/tabloid headers. Brand Kit type scale is
+ * optional — rem `0.875rem` / `max-h-20` stay postage-stamp on 850px sheets.
+ * Label stays under `expectMetaSupport` (≤23px).
+ */
+export function printBrandHeaderChrome(designWidthPx: number) {
+  return {
+    labelPx: Math.min(20, Math.max(14, Math.round(designWidthPx * 0.018))),
+    logoMaxHeightPx: Math.max(48, Math.round(designWidthPx * 0.1)),
+  };
+}
+
 export function printPagePreviewHeightPx(
   format: Pick<PrintPagePreviewSpec, "previewWidthPx" | "widthInches" | "heightInches">,
 ): number {

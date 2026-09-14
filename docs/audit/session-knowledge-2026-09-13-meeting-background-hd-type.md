@@ -26,4 +26,4 @@ Solidarity Poster already migrated to `CanvasFitStackedHeadline` + Brand Kit tit
 - Never size HD digital type with Tailwind `text-xs` / `rem` and hope `pixelRatio` saves it
 - Never put `LogoContainer` at 100% of a flex row that also holds the local label
 - Face cue stays outside `[data-export-root]`
-- Other social tools (Graphic Maker, Quote Card) still use letter-ish `titleFontSizePx` on ~1080 canvases — if they look empty, scale from design width the same way, do not copy print meta caps onto display type
+- Graphic Maker / Quote Card / print headers were the same rem-on-design-px family — fixed 2026-09-13 (`graphicLayoutChrome` + `printBrandHeaderChrome`). Do not copy print meta caps onto display type.

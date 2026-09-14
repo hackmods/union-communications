@@ -7429,6 +7429,10 @@
         "title": "Signature OPSEU / SEFPO actuelle dans Actifs de marque",
         "body": "Téléchargez le mot-symbole Ontario's union / Le syndicat de l'Ontario avec les autres fichiers bleus OPSEU / SEFPO."
       },
+      "canvas-digital-type": {
+        "title": "Le Créateur graphique et la Carte de citation remplissent le cadre",
+        "body": "Les titres, les citations et les logos s'ajustent maintenant aux formats carré et vertical, et l'en-tête des tracts garde un nom de section lisible sur les impressions lettre."
+      },
       "solidarity-poster-wrap": {
         "title": "Les affiches solidarité passent le grand titre à la ligne",
         "body": "Les longs titres passent à la ligne aux espaces au lieu de rogner la dernière lettre, et l'amorce, la ligne de soutien et le QR se lisent plus grand sur lettre et tabloïd."
