@@ -297,5 +297,28 @@ export class MemoryBumpingAdapter implements BumpingAdapter {
 
 export const memoryBumpingStore: BumpingAdapter = new MemoryBumpingAdapter();
 
+const bumpingMemorySeed = {
+  cases: structuredClone(cases),
+  sessions: structuredClone(sessions),
+  notes: structuredClone(notes),
+  decisions: structuredClone(decisions),
+};
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetBumpingMemoryForTests(): void {
+  cases.splice(0, cases.length, ...structuredClone(bumpingMemorySeed.cases));
+  sessions.splice(
+    0,
+    sessions.length,
+    ...structuredClone(bumpingMemorySeed.sessions),
+  );
+  notes.splice(0, notes.length, ...structuredClone(bumpingMemorySeed.notes));
+  decisions.splice(
+    0,
+    decisions.length,
+    ...structuredClone(bumpingMemorySeed.decisions),
+  );
+}
+
 /** @deprecated Prefer `@/lib/bumping/store` */
 export const bumpingStore = memoryBumpingStore;
