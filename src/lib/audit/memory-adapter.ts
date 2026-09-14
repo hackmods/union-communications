@@ -38,5 +38,10 @@ export class MemoryAuditLogAdapter implements AuditLogAdapter {
 
 export const memoryAuditLog: AuditLogAdapter = new MemoryAuditLogAdapter();
 
+/** @internal test helper — the memory adapter shares one process-level array. */
+export function resetMemoryAuditLogForTests(): void {
+  store.length = 0;
+}
+
 /** @deprecated Prefer `@/lib/audit/store` */
 export const auditLog = memoryAuditLog;
