@@ -23,6 +23,7 @@ import {
 } from "@/lib/utils/ink";
 import type { QuoteLayoutId } from "@/lib/comms/quote-layouts";
 import { graphicLayoutChrome } from "@/lib/comms/graphic-layout-chrome";
+import { quoteIdentityChrome } from "@/lib/comms/quote-card-chrome";
 import { exampleAspectDesignSize } from "@/lib/comms/canvas-aspects";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
@@ -147,6 +148,7 @@ function LocalFooter({
   color,
   show = true,
   fontSizePx,
+  asMeta = true,
 }: {
   localNumber: string;
   subText: string;
@@ -154,11 +156,13 @@ function LocalFooter({
   color: string;
   show?: boolean;
   fontSizePx?: number;
+  /** Print / Graphic Maker date-style meta. Off on Quote Card identity. */
+  asMeta?: boolean;
 }) {
   if (!show) return null;
   return (
     <p
-      data-canvas-meta=""
+      {...(asMeta ? { "data-canvas-meta": "" } : {})}
       className={size === "export" ? "mt-3" : "mt-2"}
       style={{
         color,
@@ -868,6 +872,7 @@ export function QuoteLayout({
     : { backgroundColor: primary };
   const chrome = socialChrome(tokens, exportMode, aspect);
   const design = exampleAspectDesignSize(aspect);
+  const identity = quoteIdentityChrome(design.width, design.height);
   const quoteMarkPx = Math.round(design.height * (landscape ? 0.22 : 0.16));
   const quoteMarkInlinePx = Math.round(design.height * (landscape ? 0.12 : 0.1));
   const authorPx = chrome.titlePx
@@ -996,7 +1001,7 @@ export function QuoteLayout({
             logoMode={logoMode}
             size={exportMode ? "md" : "sm"}
             backgroundColor={primary}
-            maxHeightPx={socialLogoMaxHeightPx(aspect)}
+            maxHeightPx={identity.logoMaxHeightPx}
           />
           <LocalFooter
             localNumber={localNumber}
@@ -1004,7 +1009,8 @@ export function QuoteLayout({
             size={size}
             color={quoteInk.a90}
             show={showLocalNumber}
-            fontSizePx={chrome.metaPx}
+            fontSizePx={identity.localPx}
+            asMeta={false}
           />
         </div>
       </div>

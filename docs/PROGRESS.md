@@ -1,5 +1,9 @@
 # Progress Log
 
+## 2026-09-14 — Quote Card local lockup scale
+
+- [x] Local name + logo use `quoteIdentityChrome` (not the 23px print meta cap)
+
 ## 2026-09-14 — Logo lockups no longer clipped
 
 - [x] `maxHeightPx` applies on the image (`canvasLogoImageFitStyle`) so 2:1 faculty lockups are not cropped by slot `overflow-hidden`
