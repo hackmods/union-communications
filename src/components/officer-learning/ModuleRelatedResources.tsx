@@ -30,6 +30,7 @@ import {
   downloadOrientationKitPdf,
   downloadDfrDutyPdf,
   downloadBumpingIntakePdf,
+  downloadPdfAuditSheetPdf,
 } from "@/lib/officer-learning/reference-pdf";
 import type { ParsedModule } from "@/lib/officer-learning/types";
 import { useOlTheme } from "./OlThemeProvider";
@@ -120,6 +121,9 @@ export function ModuleRelatedResources({
           return;
         case "bumping-intake":
           await downloadBumpingIntakePdf(ctx);
+          return;
+        case "pdf-audit":
+          await downloadPdfAuditSheetPdf(ctx);
           return;
         case "floor-checklist":
           await downloadFloorChecklistPdf({

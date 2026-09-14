@@ -98,6 +98,10 @@ const READ_FIRST = [
     href: "/guide/officer-learning/seniority-bumping-layoff",
     titleKey: "readModule16" as const,
   },
+  {
+    href: "/guide/officer-learning/pdf-classification",
+    titleKey: "readModule17" as const,
+  },
 ] as const;
 
 const UTILITIES = [

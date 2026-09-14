@@ -1215,6 +1215,86 @@ export async function downloadBumpingIntakePdf(opts: ModulePdfContext): Promise<
   });
 }
 
+/** PDF audit / duty-log pocket sheet (module 17). */
+export async function downloadPdfAuditSheetPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Audit de PDF et journal des tâches",
+          sections: [
+            {
+              heading: "Audit ancien vs nouveau",
+              lines: [
+                "Date de réception du brouillon",
+                "Article de révision dans la CC (nombre de jours)",
+                "Tâches ajoutées (chef d'équipe, autonomie, systèmes)",
+                "Bande salariale ancienne vs nouvelle",
+              ],
+            },
+            {
+              heading: "Journal de fréquence (10 à 14 jours)",
+              lines: [
+                "Tâche / minutes / fréquence",
+                "Outil et niveau de guidance",
+                "Qui a dirigé ou approuvé le travail",
+                "Pourcentage vs étiquette occasionnel du brouillon",
+              ],
+            },
+            {
+              heading: "Commentaires et escalade",
+              lines: [
+                "Commentaires de l'employé rédigés (case non vide)",
+                "Signé Reçu et contesté ; copie conservée",
+                "Admission module 1 (6 W et FAR) avant l'étape",
+                "Renvoi JJEC et/ou grief de classification selon la CC",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "PDF audit & duty-frequency log",
+          sections: [
+            {
+              heading: "Old vs new audit",
+              lines: [
+                "Date the member received the draft",
+                "CA review article (number of days)",
+                "Added duties (lead work, independence, systems)",
+                "Old pay band vs new pay band",
+              ],
+            },
+            {
+              heading: "Duty frequency log (10–14 days)",
+              lines: [
+                "Task / minutes / frequency",
+                "Tool and level of guidance",
+                "Who directed or signed off on the work",
+                "Percentage vs the draft's occasional label",
+              ],
+            },
+            {
+              heading: "Comments and escalation",
+              lines: [
+                "Employee Comments written (box not blank)",
+                "Signed Received & Contested; copy kept",
+                "Module 1 intake (6 W's and FAR) before the step",
+                "JJEC referral and/or classification grievance per the CA",
+              ],
+            },
+          ],
+        };
+
+  await writeBrandedChecklistPdf({
+    title: copy.title,
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: copy.sections,
+    filename: `unionops-pdf-audit-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
+  });
+}
+
 const BYLAWS_ADOPTION_COPY = {
   en: {
     title: "Local bylaws — adoption & amendment checklist",

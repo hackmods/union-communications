@@ -27,6 +27,12 @@ test.describe("Officer Learning @smoke", () => {
     await expect(
       page.getByRole("link", { name: "Everyday Union Value", exact: true }),
     ).toBeVisible();
+    await expect(
+      page.getByRole("link", {
+        name: "Position Description Forms & Reclassification",
+        exact: true,
+      }),
+    ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
 
@@ -62,7 +68,7 @@ test.describe("Officer Learning @smoke", () => {
     ).toHaveCount(0);
     await expect(
       main.getByRole("menuitem", {
-        name: /Sixteen self-paced modules with floor checklists/i,
+        name: /Seventeen self-paced modules with floor checklists/i,
       }),
     ).toHaveCount(0);
   });

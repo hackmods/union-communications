@@ -22,6 +22,7 @@ export const MODULE_TIMELINE_PHASES: Record<string, readonly string[]> = {
   "everyday-union-value": ["d0", "d1", "d3", "d7"],
   "duty-of-fair-representation": ["d0", "d1", "d3", "d7"],
   "seniority-bumping-layoff": ["d0", "d1", "d3", "d7"],
+  "pdf-classification": ["d0", "d1", "d3", "d7"],
 };
 
 type Props = {

@@ -114,6 +114,13 @@ export const OFFICER_LEARNING_MODULES: ModuleMeta[] = [
     coverSrc: "/assets/officer-learning/module-16.webp",
     readingMinutes: 32,
   },
+  {
+    id: "module-17",
+    slug: "pdf-classification",
+    number: 17,
+    coverSrc: "/assets/officer-learning/module-17.webp",
+    readingMinutes: 20,
+  },
 ];
 
 export function getModuleBySlug(slug: string): ModuleMeta | undefined {

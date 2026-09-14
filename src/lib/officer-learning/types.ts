@@ -32,7 +32,8 @@ export type ReferenceSheetId =
   | "transition-checklist"
   | "orientation-kit"
   | "dfr-duty"
-  | "bumping-intake";
+  | "bumping-intake"
+  | "pdf-audit";
 
 export type ModuleReferenceSheet = {
   id: ReferenceSheetId;

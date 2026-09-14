@@ -48,7 +48,7 @@
     "steward101Guide": "Délégué 101",
     "officerLearningGuide": "Centre de formation des dirigeants",
     "officerLearningTopNav": "Formation des dirigeants",
-    "officerLearningFeatured": "Seize modules autogérés avec listes de contrôle et quiz.",
+    "officerLearningFeatured": "Dix-sept modules autogérés avec listes de contrôle et quiz.",
     "workplaceMappingGuide": "Cartographie du lieu de travail",
     "grievanceProcessGuide": "Processus de grief",
     "dfrGuide": "Devoir de représentation équitable",
@@ -713,7 +713,7 @@
   "officerLearning": {
     "eyebrow": "Formation des dirigeants",
     "title": "Centre de formation des dirigeants",
-    "intro": "Seize modules autogérés pour délégués et dirigeants locaux — de l'application de la convention au déplacement et à la représentation équitable. La progression reste sur cet appareil seulement.",
+    "intro": "Dix-sept modules autogérés pour délégués et dirigeants locaux — de l'application de la convention au déplacement, à la représentation équitable et à la classification des emplois. La progression reste sur cet appareil seulement.",
     "disclaimer": "Formation pour le plancher — pas un avis juridique. Confirmez chaque délai, redressement et procédure dans votre convention collective et votre loi applicables.",
     "sourcesIntro": "Lectures complémentaires provenant de fédérations syndicales canadiennes, de manuels multi-syndicaux pour délégués et de guides publics sur les droits de la personne — sans privilégier une seule centrale. Confirmez chaque règle dans votre convention et votre loi applicables.",
     "moduleLabel": "Module {number}",
@@ -764,14 +764,14 @@
     },
     "tracks": {
       "label": "Choisir un parcours",
-      "intro": "Seize modules, c'est un programme complet. Commencez par un parcours selon le rôle pour resserrer le chemin et les cartes — changez quand vous voulez.",
+      "intro": "Dix-sept modules, c'est un programme complet. Commencez par un parcours selon le rôle pour resserrer le chemin et les cartes — changez quand vous voulez.",
       "all": {
         "title": "Parcours complet",
-        "blurb": "Les seize modules dans l'ordre du catalogue."
+        "blurb": "Les dix-sept modules dans l'ordre du catalogue."
       },
       "steward": {
         "title": "Métier de délégué",
-        "blurb": "Admission, discipline, droits, règlement, DRE, ancienneté."
+        "blurb": "Admission, discipline, droits, règlement, DRE, ancienneté, classification."
       },
       "officer": {
         "title": "Dirigeants locaux",
@@ -841,7 +841,8 @@
         "dfrGuide": "Guide du devoir de représentation équitable",
         "seniorityBumpingGuide": "Guide ancienneté et bumping",
         "dfrModule": "Module 15 : Devoir de représentation équitable",
-        "seniorityModule": "Module 16 : Ancienneté, bumping et mise à pied"
+        "seniorityModule": "Module 16 : Ancienneté, bumping et mise à pied",
+        "pdfClassificationModule": "Module 17 : Formulaires de description de poste et reclassification"
       }
     },
     "reference": {
@@ -899,7 +900,10 @@
       "dfrCta": "Télécharger la fiche DRE (PDF)",
       "bumpingTitle": "Fiche d'admission bumping",
       "bumpingBody": "Lire la liste d'ancienneté, esquisser l'arbre de bumping et calendrier des délais de mise à pied et de rappel.",
-      "bumpingCta": "Télécharger la fiche bumping (PDF)"
+      "bumpingCta": "Télécharger la fiche bumping (PDF)",
+      "pdfAuditTitle": "Fiche d'audit de PDF",
+      "pdfAuditBody": "Comparer l'ancien et le nouveau formulaire de description de poste, consigner le temps réel et rédiger les commentaires de l'employé.",
+      "pdfAuditCta": "Télécharger la fiche d'audit PDF"
     },
     "diagrams": {
       "filterTitle": "Filtre de grief en 5 points",
@@ -1019,7 +1023,14 @@
       "bumpingList": "Lire la liste",
       "bumpingTree": "Tracer l'arbre",
       "bumpingClocks": "Calendrier des délais",
-      "bumpingCaption": "La feuille de calcul RH est une affirmation jusqu'à vérification contre la convention collective."
+      "bumpingCaption": "La feuille de calcul RH est une affirmation jusqu'à vérification contre la convention collective.",
+      "pdfTitle": "Audit → journal → commentaires → escalade",
+      "pdfAria": "Dossier de classification : audit du PDF, journal des tâches, commentaires de l'employé, puis JJEC ou grief",
+      "pdfAudit": "Auditer les PDF",
+      "pdfLog": "Consigner les tâches",
+      "pdfComments": "Rédiger les commentaires",
+      "pdfEscalate": "JJEC ou grief",
+      "pdfCaption": "Un brouillon de PDF est une prétention sur l'emploi. Testez-la contre le travail réellement fait avant la fermeture du délai de révision."
     },
     "timelines": {
       "contract-enforcement": {
@@ -1405,6 +1416,29 @@
             "summary": "Calendrier de la fenêtre de rappel. Déposer un grief si le bassin ou les qualifications sont erronés."
           }
         }
+      },
+      "pdf-classification": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier de classification : réception du brouillon, journal des tâches et commentaires contestés",
+        "caption": "Inscrivez le délai de révision de la CC dès le premier jour. Consignez les tâches réelles. Signez Reçu et contesté avant la fermeture de l'horloge.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — brouillon reçu",
+            "summary": "Horodater le brouillon de PDF. Ouvrir l'article de révision de la CC. Ne pas signer encore."
+          },
+          "d1": {
+            "label": "Jour 1 — révision avec le délégué",
+            "summary": "Lire l'ancien PDF à côté du brouillon. Marquer le travail de chef, l'autonomie ou les systèmes ajoutés."
+          },
+          "d3": {
+            "label": "Jour 3 — journal des tâches",
+            "summary": "Le membre consigne les tâches, les minutes, les outils et qui a dirigé le travail."
+          },
+          "d7": {
+            "label": "Jour 7 — commentaires déposés",
+            "summary": "Joindre les commentaires de l'employé. Signer Reçu et contesté. Renvoyer au JJEC ou déposer si la CC le permet."
+          }
+        }
       }
     },
     "quiz": {
@@ -1486,6 +1520,10 @@
       "seniority-bumping-layoff": {
         "title": "Ancienneté, bumping et mise à pied",
         "summary": "Lire les listes d'ancienneté selon la CC, tracer les arbres de bumping, faire respecter les délais de mise à pied et de rappel, et signaler les collisions avec l'accommodement."
+      },
+      "pdf-classification": {
+        "title": "Formulaires de description de poste et reclassification",
+        "summary": "Auditer les mises à jour de PDF, consigner les tâches réelles, rédiger les commentaires de l'employé et ouvrir un dossier de classification ou de JJEC quand l'emploi dépasse la bande salariale."
       }
     },
     "certificate": {
@@ -1498,7 +1536,7 @@
       "downloading": "Préparation du PDF…",
       "success": "Certificat téléchargé.",
       "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés dans ce navigateur.",
-      "pathTitle": "Parcours complet de formation des dirigeants (seize modules)"
+      "pathTitle": "Parcours complet de formation des dirigeants (dix-sept modules)"
     },
     "hubSync": {
       "panelLabel": "Sauvegarde Hub et partage local",
@@ -3096,6 +3134,10 @@
     "includeBranding": "Inclure l'image de marque locale",
     "edgeClearance": "Garder le texte loin des bords de la vidéo",
     "edgeClearanceHint": "Zoom et Teams remplissent le cadre de la caméra et rognent la bande extérieure. L'espace supplémentaire dégage aussi une barre des tâches si vous réutilisez ce fichier comme fond d'écran.",
+    "boldLandscapeOnly": "Les mises en page Audacieux sont en format paysage seulement. Passez en Paysage pour les utiliser.",
+    "previewGuide": "Guide d'aperçu",
+    "showFaceCue": "Afficher la zone visage",
+    "faceCueHint": "Aperçu seulement. Gardez les titres à l'écart du centre où la caméra vous cadre.",
     "preview": "Aperçu",
     "whenToUse": "À utiliser pour des fonds Zoom ou Teams aux couleurs et à la signature de votre section."
   },
@@ -3562,7 +3604,7 @@
       "blurb": {
         "stewardPlaybooks": "Commencez ici : Délégué 101, modules du Centre de formation des dirigeants avec autoévaluations, et tous les guides sur une page.",
         "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté — commencez ici.",
-        "officerLearning": "Seize modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
+        "officerLearning": "Dix-sept modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
         "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable. Confirmez les étapes dans votre convention.",
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
@@ -5063,7 +5105,7 @@
     "backToGuide": "Retour au Plan directeur",
     "trainingPath": {
       "title": "Parcours recommandé",
-      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour seize modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
+      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour dix-sept modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
       "steward101Cta": "Commencer Délégué 101",
       "officerLearningCta": "Ouvrir les modules de formation des dirigeants"
     },
@@ -5147,7 +5189,7 @@
     },
     "blurbs": {
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
-      "officerLearning": "Seize modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
+      "officerLearning": "Dix-sept modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
       "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable.",
       "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
       "workplaceMapping": "Recensez les collègues, repérez les leaders organiques et cotez l'appui syndical de 1 à 5.",
@@ -7387,6 +7429,10 @@
         "title": "Signature OPSEU / SEFPO actuelle dans Actifs de marque",
         "body": "Téléchargez le mot-symbole Ontario's union / Le syndicat de l'Ontario avec les autres fichiers bleus OPSEU / SEFPO."
       },
+      "officer-learning-module-17": {
+        "title": "Formation des dirigeants : formulaires de description de poste",
+        "body": "Un nouveau module autogéré montre comment auditer un formulaire de description de poste, consigner les tâches réelles, rédiger les commentaires de l'employé et ouvrir un dossier de reclassification."
+      },
       "home-hub-layout": {
         "title": "Accueil et découverte du Plan directeur rafraîchis",
         "body": "Les parcours et listes de canaux sur l'accueil se lisent mieux, et le Plan directeur ouvre maintenant le travail de grève et les guides liés dans la même mise en page hub que les ateliers."
@@ -7469,7 +7515,8 @@
       "olDigitalSecurity": "Module Sécurité numérique et transitions",
       "olEverydayValue": "Module Valeur syndicale quotidienne",
       "olDfr": "Module Devoir de représentation équitable",
-      "olSeniorityBumping": "Module Ancienneté, bumping et mise à pied"
+      "olSeniorityBumping": "Module Ancienneté, bumping et mise à pied",
+      "olPdfClassification": "Module Formulaires de description de poste et reclassification"
     }
   },
   "accessibility": {
@@ -9480,12 +9527,12 @@
     "subtitle": "Première semaine, manuels par canal, et guides pratiques pour le plancher et la section. La formation des dirigeants reste un lien en tête de page.",
     "hint": "Définissez d'abord les couleurs et le logo dans",
     "startHereTitle": "Par où commencer",
-    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte seize modules autogérés.",
+    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte dix-sept modules autogérés.",
     "startHereRoadmap": "Ouvrir tous les guides pratiques",
     "startHereSteps": {
       "firstWeek": "Tableaux, impression, social et un site simple après la Trousse de marque.",
       "playbooks": "Formation de plancher, assemblées, griefs et manuels de campagne.",
-      "officerLearning": "Seize modules avec listes de contrôle et un quiz sur cet appareil."
+      "officerLearning": "Dix-sept modules avec listes de contrôle et un quiz sur cet appareil."
     },
     "groups": {
       "commsPath": {
@@ -9532,7 +9579,7 @@
       "bargaining": "Du sondage à la signature pour les comités locaux, avec listes et Suivi des propositions.",
       "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail.",
       "crisis": "Gardez des messages locaux calmes pendant les grèves, la négociation, les mises à pied et les réactions de la direction.",
-      "officerLearning": "Seize modules avec scénarios, listes de contrôle, fiches imprimables et un quiz par module.",
+      "officerLearning": "Dix-sept modules avec scénarios, listes de contrôle, fiches imprimables et un quiz par module.",
       "stewardPlaybooks": "Porte d'entrée pour la formation de plancher, les assemblées, les griefs et les manuels de campagne.",
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
       "unionHistory": "Deux voies, pas une échelle : famille syndicale et conseil du travail municipal.",
@@ -10354,7 +10401,8 @@
     "readModule13": "Module 13 : sécurité numérique et transitions",
     "readModule14": "Module 14 : valeur syndicale quotidienne",
     "readModule15": "Module 15 : devoir de représentation équitable",
-    "readModule16": "Module 16 : ancienneté, bumping et mise à pied"
+    "readModule16": "Module 16 : ancienneté, bumping et mise à pied",
+    "readModule17": "Module 17 : formulaires de description de poste et reclassification"
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Préparation du PDF…",

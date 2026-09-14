@@ -434,5 +434,32 @@ export function ModuleTeachingDiagram({ slug, className }: Props) {
     );
   }
 
+  if (slug === "pdf-classification") {
+    return (
+      <DiagramShell title={t("pdfTitle")} className={className}>
+        <div
+          className="flex flex-col gap-2 sm:flex-row sm:items-center"
+          role="img"
+          aria-label={t("pdfAria")}
+        >
+          <StepPill index={1} label={t("pdfAudit")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={2} label={t("pdfLog")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={3} label={t("pdfComments")} />
+          <span className="hidden text-slate-500 sm:inline" aria-hidden="true">
+            →
+          </span>
+          <StepPill index={4} label={t("pdfEscalate")} />
+        </div>
+        <p className="mt-3 text-sm text-slate-300">{t("pdfCaption")}</p>
+      </DiagramShell>
+    );
+  }
+
   return null;
 }

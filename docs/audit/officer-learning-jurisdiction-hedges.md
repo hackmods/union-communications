@@ -20,6 +20,7 @@ When you need precision that ages badly, **hedge and point to counsel / national
 | **Universal Quorum Scale (M4)** | Teaching default for practice quizzes | Claiming every local’s bylaws match 5%/10 tiers — always confirm governing documents |
 | **DFR (M15)** | Fair representation duty is real; stewards investigate, communicate, meet clocks | “Not a lawyer” as a free pass to ignore members; inventing OLRB filing windows |
 | **Seniority / bumping (M16)** | CA language + past practice + bargaining-unit scope control bumping | Hardcoding one college sector formula as Ontario-wide law |
+| **PDF / job evaluation (M17)** | PDF audit, duty-frequency evidence, Employee Comments, CA review windows, JJEC or classification grievance | Treating 10–15 working days or one point-factor grid as Ontario law; mixing pay-band rating with Module 16 seniority lists |
 
 ---
 

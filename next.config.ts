@@ -89,6 +89,11 @@ const nextConfig: NextConfig = {
         destination: "/:locale/tools/graphic-maker/",
         permanent: true,
       },
+      {
+        source: "/:locale/guide/pdf-classification/",
+        destination: "/:locale/guide/officer-learning/pdf-classification/",
+        permanent: true,
+      },
     ];
   },
 };

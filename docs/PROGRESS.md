@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-13 — Officer Learning Module 17 (PDF & reclassification)
+
+- [x] Catalog `module-17` / slug `pdf-classification` at `/guide/officer-learning/pdf-classification`; short URL redirects
+- [x] EN+FR lesson, 6-question quiz, floor checklist, diagram, timeline, `pdf-audit` pocket PDF
+- [x] Steward track + seventeen count copy; What's new on `/updates`
+- Session: [`session-knowledge-2026-09-13-officer-learning-module-17.md`](audit/session-knowledge-2026-09-13-officer-learning-module-17.md)
+
 ## 2026-09-08 — Fluid UI final uplift (deferred surfaces)
 
 - [x] Legal pamphlets on guide-ui (`privacy` / `security` / `accessibility`) + DisplaySettings → PublicHubPanel

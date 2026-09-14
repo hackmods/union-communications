@@ -11,7 +11,7 @@ export const LEARNING_TRACK_MODULES: Record<
   Exclude<LearningTrackId, "all">,
   readonly number[]
 > = {
-  steward: [1, 2, 3, 8, 9, 15, 16],
+  steward: [1, 2, 3, 8, 9, 15, 16, 17],
   officer: [4, 5, 11, 12, 13, 14],
   mobilize: [6, 7, 10, 14],
 };

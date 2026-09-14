@@ -215,7 +215,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/officer-learning": {
       title: "Officer Learning Center",
       description:
-        "Sixteen expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
+        "Seventeen expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1: Contract Enforcement",
@@ -296,6 +296,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Module 16: Seniority, Bumping & Layoff",
       description:
         "Read seniority lists, trace CA-specific bumping trees, calendar layoff and recall clocks, and flag accommodation collisions. Self-test quiz included.",
+    },
+    "/guide/officer-learning/pdf-classification": {
+      title: "Module 17: Position Description Forms & Reclassification",
+      description:
+        "Audit Position Description Forms, log actual duties, write Employee Comments, and start a classification or JJEC file. Self-test quiz included.",
     },
   },
   fr: {
@@ -502,7 +507,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",
       description:
-        "Seize modules avec scénarios, exercices et quiz (CTC, SCFP, Unifor, CODP). Progression sur votre appareil.",
+        "Dix-sept modules avec scénarios, exercices et quiz (CTC, SCFP, Unifor, CODP). Progression sur votre appareil.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1 : Application de la convention",
@@ -583,6 +588,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Module 16 : Ancienneté, bumping et mise à pied",
       description:
         "Lire les listes, tracer les arbres de bumping, calendrier des délais de mise à pied et de rappel. Quiz inclus.",
+    },
+    "/guide/officer-learning/pdf-classification": {
+      title: "Module 17 : Formulaires de description de poste et reclassification",
+      description:
+        "Auditer les formulaires de description de poste, consigner les tâches, rédiger les commentaires et ouvrir un dossier de classification. Quiz inclus.",
     },
   },
 };

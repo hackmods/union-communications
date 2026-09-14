@@ -8,7 +8,7 @@
 
 ## What shipped
 
-Catalog is now **sixteen** modules:
+Catalog was **sixteen** modules as of 2026-09-06 (Module 17 shipped 2026-09-13 — see [`session-knowledge-2026-09-13-officer-learning-module-17.md`](session-knowledge-2026-09-13-officer-learning-module-17.md)):
 
 | # | slug | Focus |
 |---|------|--------|

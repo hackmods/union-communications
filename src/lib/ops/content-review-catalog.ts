@@ -94,6 +94,7 @@ const OFFICER_LEARNING_MODULES: readonly { href: string; labelKey: string }[] = 
   { href: "/guide/officer-learning/everyday-union-value", labelKey: "olEverydayValue" },
   { href: "/guide/officer-learning/duty-of-fair-representation", labelKey: "olDfr" },
   { href: "/guide/officer-learning/seniority-bumping-layoff", labelKey: "olSeniorityBumping" },
+  { href: "/guide/officer-learning/pdf-classification", labelKey: "olPdfClassification" },
 ];
 
 /** Pages where stewards download text or canvas PDFs (button on page). */

@@ -185,6 +185,31 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
       labelKey: "dfrModule",
       kind: "guide",
     },
+    {
+      href: "/guide/officer-learning/pdf-classification",
+      labelKey: "pdfClassificationModule",
+      kind: "guide",
+    },
+  ],
+  "pdf-classification": [
+    { href: "/guide/grievance-process", labelKey: "grievanceProcess", kind: "guide" },
+    { href: "/guide/steward-101", labelKey: "steward101", kind: "guide" },
+    { href: "/guide/joint-committee", labelKey: "jointCommittee", kind: "guide" },
+    {
+      href: "/guide/officer-learning/contract-enforcement",
+      labelKey: "contractEnforcementModule",
+      kind: "guide",
+    },
+    {
+      href: "/guide/officer-learning/advanced-grievance-settlement",
+      labelKey: "settlementModule",
+      kind: "guide",
+    },
+    {
+      href: "/guide/officer-learning/seniority-bumping-layoff",
+      labelKey: "seniorityModule",
+      kind: "guide",
+    },
   ],
 };
 
@@ -405,6 +430,20 @@ export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
       titleKey: "bumpingTitle",
       bodyKey: "bumpingBody",
       ctaKey: "bumpingCta",
+    },
+    {
+      id: "floor-checklist",
+      titleKey: "checklistTitle",
+      bodyKey: "checklistBody",
+      ctaKey: "checklistCta",
+    },
+  ],
+  "pdf-classification": [
+    {
+      id: "pdf-audit",
+      titleKey: "pdfAuditTitle",
+      bodyKey: "pdfAuditBody",
+      ctaKey: "pdfAuditCta",
     },
     {
       id: "floor-checklist",
