@@ -99,7 +99,7 @@ function HomePathCard({
 export function HomeContent() {
   const t = useTranslations("home");
   const nav = useTranslations("nav");
-  const tools = useTranslations("tools");
+  const toolsIndex = useTranslations("toolsIndex");
   const hubPublic = isOfficerHubPublic();
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
@@ -383,17 +383,17 @@ export function HomeContent() {
             id="home-labour-playbooks"
             className="text-sm font-semibold uppercase tracking-wide text-gray-500"
           >
-            {tools("labourPlaybooksTitle")}
+            {toolsIndex("labourPlaybooksTitle")}
           </h2>
           <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
-            {tools("labourPlaybooksIntro")}
+            {toolsIndex("labourPlaybooksIntro")}
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
             <Link
               href="/guide/steward-playbooks"
               className="inline-flex min-h-11 items-center font-semibold text-opseu-blue underline-offset-2 hover:underline"
             >
-              {tools("labourPlaybooksCta")} →
+              {toolsIndex("labourPlaybooksCta")} →
             </Link>
             <Link
               href="/guide/social-media-plan"

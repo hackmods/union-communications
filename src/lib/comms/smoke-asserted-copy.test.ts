@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import en from "../../../messages/en.json";
@@ -60,5 +61,17 @@ describe("COPY-002 smoke-asserted copy vs messages/en.json", () => {
         ...missing,
       ].join("\n"),
     ).toEqual([]);
+  });
+
+  it("Home labour playbooks copy lives on toolsIndex (MISSING_MESSAGE: tools)", () => {
+    const home = readFileSync(
+      path.join(repoRoot, "src/components/pages/HomeContent.tsx"),
+      "utf8",
+    );
+    expect(home).toMatch(/useTranslations\("toolsIndex"\)/);
+    expect(home).not.toMatch(/useTranslations\("tools"\)/);
+    expect(en.toolsIndex.labourPlaybooksTitle).toBeTruthy();
+    expect(en.toolsIndex.labourPlaybooksIntro).toBeTruthy();
+    expect(en.toolsIndex.labourPlaybooksCta).toBeTruthy();
   });
 });
