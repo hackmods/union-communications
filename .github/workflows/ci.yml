@@ -59,7 +59,7 @@ jobs:
         env:
           CI: "true"
           AUTH_SECRET: ci-build-secret-not-for-production
-          # Production `next start` disables the demo roster unless opted in
+          # Production standalone start disables the demo roster unless opted in
           # (isDemoAuthEnabled). Without this, hub/portal @smoke spins on
           # CredentialsSignin until the job is cancelled.
           AUTH_ALLOW_DEMO_USERS: "true"

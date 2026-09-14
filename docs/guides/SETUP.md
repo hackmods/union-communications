@@ -50,7 +50,7 @@ Logo Builder (`/tools/logo-builder`) has **Save to Brand Kit** so colours, local
 
 ```bash
 npm run dev          # http://localhost:3000/en
-npm run build && npm start
+npm run build && npm start   # standalone server (not `next start`)
 ```
 
 ## Postgres (optional — Phase 6 / SEC-003)

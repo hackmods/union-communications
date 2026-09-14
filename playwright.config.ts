@@ -37,8 +37,9 @@ export default defineConfig({
     ? {}
     : {
         webServer: {
-          // CI already runs `npm run build`; start the prod server so minified
-          // hydration throws (#418) surface the same way users see them.
+          // CI already runs `npm run build`. `npm start` runs the standalone
+          // server (`output: "standalone"`) — `next start` is unsupported and
+          // can ECONNRESET mid-suite. Dev stays on `next dev` for local smokes.
           command: process.env.CI ? "npm run start" : "npm run dev",
           url: baseURL,
           reuseExistingServer: !process.env.CI,
