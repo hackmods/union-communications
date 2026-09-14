@@ -82,6 +82,12 @@ export async function openLayoutSection(page: Page): Promise<void> {
   if (!isOpen) {
     await first.locator("summary").click();
   }
+  await expect
+    .poll(
+      async () => first.evaluate((el) => (el as HTMLDetailsElement).open),
+      { timeout: 10_000 },
+    )
+    .toBe(true);
 }
 
 export async function selectPrintSize(
@@ -109,6 +115,16 @@ export async function openPreviewTab(page: Page): Promise<void> {
   const tab = page.getByRole("tab", { name: /^Preview$/i });
   if ((await tab.count()) === 0) return;
   await tab.click();
+}
+
+/** Preset chips carry `data-preset-value` + `aria-pressed` (no `<select>`). */
+export async function expectPresetSelected(
+  page: Page,
+  value: string,
+): Promise<void> {
+  await expect(
+    page.locator(`[data-preset-value="${value}"]`),
+  ).toHaveAttribute("aria-pressed", "true");
 }
 
 /**
@@ -388,6 +404,98 @@ export function expectPreviewFitsColumn(
   expect(fit.visualWidth, label).toBeLessThanOrEqual(fit.columnWidth + 2);
 }
 
+export type CanvasProportionReport = {
+  canvasWidth: number;
+  canvasHeight: number;
+  logoWidth: number;
+  logoPct: number;
+  padPx: number;
+  padPct: number;
+  aspect: number;
+};
+
+/**
+ * Logo and padding as a share of canvas width — guards the measured
+ * 81/58/44% drift across paper sizes (CANVAS-001 / CANVAS-002).
+ */
+export async function measureCanvasProportions(
+  page: Page,
+): Promise<CanvasProportionReport> {
+  return page.evaluate((rootSel) => {
+    const empty: CanvasProportionReport = {
+      canvasWidth: 0,
+      canvasHeight: 0,
+      logoWidth: 0,
+      logoPct: 0,
+      padPx: 0,
+      padPct: 0,
+      aspect: 0,
+    };
+    const root = document.querySelector(rootSel) as HTMLElement | null;
+    if (!root) return empty;
+    const r = root.getBoundingClientRect();
+    const img =
+      root.querySelector<HTMLImageElement>("[data-logo-container] img") ??
+      root.querySelector<HTMLImageElement>("img");
+    const ir = img?.getBoundingClientRect();
+    // Pad often lives on an inner layout frame, not the export root.
+    let pad = Number.parseFloat(getComputedStyle(root).paddingLeft) || 0;
+    if (!(pad > 0)) {
+      const padded = root.querySelector<HTMLElement>(
+        "[style*='padding'], .box-border",
+      );
+      if (padded) {
+        pad = Number.parseFloat(getComputedStyle(padded).paddingLeft) || 0;
+      }
+    }
+    const logoW = ir?.width ?? 0;
+    return {
+      canvasWidth: r.width,
+      canvasHeight: r.height,
+      logoWidth: logoW,
+      logoPct: r.width > 0 ? (100 * logoW) / r.width : 0,
+      padPx: pad,
+      padPct: r.width > 0 ? (100 * pad) / r.width : 0,
+      aspect: r.height > 0 ? r.width / r.height : 0,
+    };
+  }, EXPORT_ROOT_SELECTOR);
+}
+
+export function expectCanvasProportions(
+  report: CanvasProportionReport,
+  opts: {
+    label?: string;
+    maxLogoPct?: number;
+    minPadPct?: number;
+    maxPadPct?: number;
+    expectedAspect?: number;
+    aspectTolerance?: number;
+  } = {},
+): void {
+  const label = opts.label ?? "proportions";
+  expect(report.canvasWidth, label).toBeGreaterThan(0);
+  if (opts.maxLogoPct != null && report.logoWidth > 0) {
+    expect(report.logoPct, `${label} logo%`).toBeLessThanOrEqual(
+      opts.maxLogoPct,
+    );
+  }
+  if (opts.minPadPct != null) {
+    expect(report.padPct, `${label} pad%`).toBeGreaterThanOrEqual(
+      opts.minPadPct,
+    );
+  }
+  if (opts.maxPadPct != null) {
+    expect(report.padPct, `${label} pad%`).toBeLessThanOrEqual(opts.maxPadPct);
+  }
+  if (opts.expectedAspect != null) {
+    const tol = opts.aspectTolerance ?? 0.04;
+    expect(
+      Math.abs(report.aspect - opts.expectedAspect),
+      `${label} aspect`,
+    ).toBeLessThanOrEqual(tol);
+  }
+}
+
 
 export type TypeMetaOverlapReport = {
   typeCount: number;
@@ -445,4 +553,178 @@ export function expectTypeMetaClear(
   expect(report.typeCount, label).toBeGreaterThan(0);
   expect(report.metaCount, label).toBeGreaterThan(0);
   expect(report.overlaps, label).toBe(0);
+}
+
+export type MetaSupportReport = {
+  metaCount: number;
+  maxFontPx: number;
+  designWidthPx: number;
+  /** True when any meta box extends past the export root (contact clip). */
+  overflowsRoot: boolean;
+  /** True when meta font exceeds ~2.6% of design width (display-scale slop). */
+  oversized: boolean;
+};
+
+/**
+ * Supporting meta (date/time/location/contact) must stay readable supporting
+ * type and fully inside the sheet — the Board Notice crush after denser
+ * print canvases.
+ */
+export async function measureMetaSupport(
+  page: Page,
+): Promise<MetaSupportReport> {
+  return page.evaluate((rootSel) => {
+    const root = document.querySelector(rootSel) as HTMLElement | null;
+    if (!root) {
+      return {
+        metaCount: 0,
+        maxFontPx: 0,
+        designWidthPx: 0,
+        overflowsRoot: true,
+        oversized: true,
+      };
+    }
+    const designWidthPx = root.offsetWidth || 0;
+    const rootBox = root.getBoundingClientRect();
+    const metas = [
+      ...root.querySelectorAll<HTMLElement>("[data-canvas-meta]"),
+    ];
+    let maxFontPx = 0;
+    let overflowsRoot = false;
+    for (const el of metas) {
+      const cs = getComputedStyle(el);
+      const fontPx = parseFloat(cs.fontSize) || 0;
+      if (fontPx > maxFontPx) maxFontPx = fontPx;
+      const box = el.getBoundingClientRect();
+      if (box.bottom > rootBox.bottom + 1.5) overflowsRoot = true;
+      if (box.top < rootBox.top - 1.5) overflowsRoot = true;
+    }
+    const shareCap = Math.max(13, Math.round(designWidthPx * 0.026) + 1);
+    return {
+      metaCount: metas.length,
+      maxFontPx,
+      designWidthPx,
+      overflowsRoot,
+      oversized: maxFontPx > Math.min(23, shareCap),
+    };
+  }, EXPORT_ROOT_SELECTOR);
+}
+
+export function expectMetaSupport(
+  report: MetaSupportReport,
+  label = "meta-support",
+): void {
+  expect(report.metaCount, label).toBeGreaterThan(0);
+  expect(report.designWidthPx, label).toBeGreaterThan(200);
+  expect(report.overflowsRoot, `${label} in-bounds`).toBe(false);
+  expect(
+    report.oversized,
+    `${label} font ${report.maxFontPx}px on ${report.designWidthPx}px`,
+  ).toBe(false);
+}
+
+export type LeadReadableReport = {
+  leadCount: number;
+  minLeadWidthPx: number;
+  minFontSizePx: number;
+  /** True when any lead text box is narrower than ~3 glyphs (K-C-A crush). */
+  crushed: boolean;
+};
+
+/**
+ * Keep-Calm lead must keep a real measure — wide lockups used to squeeze
+ * "Keep calm and" into a one-character column beside BrandLogo.
+ * Measures the lead paragraph (or the [data-canvas-lead] node itself).
+ */
+export async function measureLeadReadable(
+  page: Page,
+): Promise<LeadReadableReport> {
+  return page.evaluate((rootSel) => {
+    const root = document.querySelector(rootSel);
+    if (!root) {
+      return {
+        leadCount: 0,
+        minLeadWidthPx: 0,
+        minFontSizePx: 0,
+        crushed: true,
+      };
+    }
+
+    const leads = [...root.querySelectorAll("[data-canvas-lead]")];
+    let minW = Infinity;
+    let minFs = Infinity;
+    let crushed = false;
+    let measured = 0;
+
+    for (const lead of leads) {
+      const textEl =
+        lead.matches("p") ? lead : (lead.querySelector("p") ?? lead);
+      const r = textEl.getBoundingClientRect();
+      const fs = parseFloat(getComputedStyle(textEl).fontSize) || 12;
+      const w = r.width;
+      if (w < 2 || r.height < 2) continue;
+      measured += 1;
+      minW = Math.min(minW, w);
+      minFs = Math.min(minFs, fs);
+      if (w < fs * 3) crushed = true;
+    }
+
+    return {
+      leadCount: measured,
+      minLeadWidthPx: Number.isFinite(minW) ? minW : 0,
+      minFontSizePx: Number.isFinite(minFs) ? minFs : 0,
+      crushed: measured === 0 ? true : crushed,
+    };
+  }, EXPORT_ROOT_SELECTOR);
+}
+
+export function expectLeadReadable(
+  report: LeadReadableReport,
+  label = "lead",
+): void {
+  expect(report.leadCount, label).toBeGreaterThan(0);
+  expect(report.crushed, `${label} crushed to letter column`).toBe(false);
+}
+
+/**
+ * Solidarity / Keep-Calm stack: headline must not paint over lead-in + logo.
+ * Requires [data-canvas-type] + [data-canvas-lead].
+ */
+export async function measureLeadTypeOverlap(
+  page: Page,
+): Promise<TypeMetaOverlapReport> {
+  return page.evaluate((rootSel) => {
+    const root = document.querySelector(rootSel);
+    if (!root) return { typeCount: 0, metaCount: 0, overlaps: 0 };
+
+    const toRect = (r: DOMRect) => ({
+      left: r.left,
+      top: r.top,
+      right: r.right,
+      bottom: r.bottom,
+    });
+    const overlaps = (
+      a: { left: number; top: number; right: number; bottom: number },
+      b: { left: number; top: number; right: number; bottom: number },
+      minPx = 1,
+    ) => {
+      const oy = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      const ox = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      return oy > minPx && ox > minPx;
+    };
+
+    const types = [...root.querySelectorAll("[data-canvas-type]")];
+    const leads = [...root.querySelectorAll("[data-canvas-lead]")];
+    let hit = 0;
+    for (const typeEl of types) {
+      const tr = toRect(typeEl.getBoundingClientRect());
+      if (tr.bottom - tr.top < 2 || tr.right - tr.left < 2) continue;
+      for (const leadEl of leads) {
+        const lr = toRect(leadEl.getBoundingClientRect());
+        if (lr.bottom - lr.top < 2 || lr.right - lr.left < 2) continue;
+        if (overlaps(tr, lr, 1)) hit += 1;
+      }
+    }
+    return { typeCount: types.length, metaCount: leads.length, overlaps: hit };
+  }, EXPORT_ROOT_SELECTOR);
 }

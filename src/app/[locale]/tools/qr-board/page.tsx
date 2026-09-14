@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
@@ -9,7 +9,7 @@ import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
-import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { formatFilename, localLabel as formatLocalLabel } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { listSavedLinks } from "@/lib/utils/local-links";
@@ -31,7 +31,9 @@ import {
 } from "@/lib/constants/qr-board-presets";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { PresetChips } from "@/components/tools/PresetChips";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -76,6 +78,14 @@ function swapSlots(
 }
 
 export default function QrBoardPage() {
+  return (
+    <Suspense fallback={<ToolLoadingFallback />}>
+      <QrBoardPageContent />
+    </Suspense>
+  );
+}
+
+function QrBoardPageContent() {
   const t = useTranslations("qrBoard");
   const tc = useTranslations("common");
   const brandKit = useBrandStore((s) => s.brandKit);
@@ -89,13 +99,12 @@ export default function QrBoardPage() {
 
   const initial: QrBoardState = {
     presetId: first.id,
-    posterTitle: "",
-    posterSubtitle: "",
+    posterTitle: t(`presets.${first.titleKey}`),
+    posterSubtitle: t(`presets.${first.subtitleKey}`),
     formatId: DEFAULT_QR_BOARD_FORMAT,
-    slots: [
-      { id: "slot-a", title: "", destination: "" },
-      { id: "slot-b", title: "", destination: "" },
-    ],
+    slots: buildSlotsFromPreset(first, brandKit, "", (key) =>
+      t(`slotTitles.${key}`),
+    ),
     showUrl: true,
     logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
@@ -178,9 +187,10 @@ export default function QrBoardPage() {
     };
   }, [state.slots, format.qrPixels]);
 
-  const localLabel = brandKit.local.subText
-    ? `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`
-    : `Local ${resolveLocalNumber(brandKit.local.localNumber)}`;
+  const localLabel = formatLocalLabel(
+    brandKit.local.localNumber,
+    brandKit.local.subText,
+  );
 
   const updateSlot = (index: number, patch: Partial<QrBoardSlotDraft>) => {
     const slots = state.slots.map((slot, i) =>
@@ -253,28 +263,17 @@ export default function QrBoardPage() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <section className="space-y-3">
-            <div>
-              <label
-                htmlFor="qr-board-preset"
-                className="mb-1.5 block text-sm font-medium text-gray-700"
-              >
-                {t("preset")}
-              </label>
-              <select
-                id="qr-board-preset"
-                value={state.presetId}
-                onChange={(e) => applyPreset(e.target.value)}
-                className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
-              >
-                {QR_BOARD_PRESETS.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {t(`presets.${p.labelKey}`)}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <PresetChips
+              label={t("preset")}
+              value={state.presetId}
+              options={QR_BOARD_PRESETS.map((p) => ({
+                value: p.id,
+                label: t(`presets.${p.labelKey}`),
+              }))}
+              onChange={applyPreset}
+            />
 
             <Input
               label={t("posterTitle")}
@@ -381,17 +380,13 @@ export default function QrBoardPage() {
           </ToolFormDetails>
 
           <ToolFormDetails title={t("sectionOptions")}>
-            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-              <input
-                type="checkbox"
-                checked={state.showUrl}
-                onChange={(e) =>
-                  setState({ ...state, showUrl: e.target.checked })
-                }
-                className="size-4"
-              />
-              {t("showUrl")}
-            </label>
+            <Checkbox
+              checked={state.showUrl}
+              onChange={(e) =>
+                setState({ ...state, showUrl: e.target.checked })
+              }
+              label={t("showUrl")}
+            />
           </ToolFormDetails>
 
           <ToolColourSection
@@ -450,7 +445,7 @@ export default function QrBoardPage() {
               </Button>
             </div>
           </div>
-        </Card>
+        </div>
       }
       previewActions={
         <>

@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { resolveLocalNumber } from "@/lib/utils";
 import {
   resolveBrandLogoBytes,
@@ -425,7 +424,7 @@ export default function WebsiteTemplatePage() {
         </div>
       }
       form={
-        <Card density="compact" className="space-y-3">
+        <div className="space-y-3">
           <Input
             label={t("unionName")}
             value={unionName}
@@ -706,7 +705,7 @@ export default function WebsiteTemplatePage() {
               {exportError}
             </p>
           ) : null}
-        </Card>
+        </div>
       }
       previewActions={
         <Button onClick={handleDownload} disabled={busy}>

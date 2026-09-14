@@ -1,10 +1,126 @@
 # Progress Log
 
+## 2026-09-08 — Fluid UI final uplift (deferred surfaces)
+
+- [x] Legal pamphlets on guide-ui (`privacy` / `security` / `accessibility`) + DisplaySettings → PublicHubPanel
+- [x] HubDashboard + PortalStation fluid titles + responsive widget/circle grids
+- [x] ToolEditorLayout fluid H1 + shared form panel; tool form Cards unwrapped into panel chrome
+- [x] Officer Learning dark shell: contrast tokens, track grid, header breathe, sources `max-w-prose`
+- [x] PDF/capture: margin safe floors + `stripExportChromeFromClone` (buttons / `data-export-chrome`)
+- Checklist: [`fluid-ui-final-uplift-checklist.md`](audit/fluid-ui-final-uplift-checklist.md)
+
+## 2026-09-08 — Fluid UI Gaps / QOL pass
+
+- [x] `GuideTipItem` ReactNode; `GuideCatalogCard` `titleAs`/`href`; `PublicHubPanel` (Brand Kit + onboarding)
+- [x] Tip `li.max-w-prose` layout guard; social map lg split; captions inset highlight; Tools catalog cards; PartFrame fluid titles
+- [x] Steward-101 dual chrome documented (GuideTrainingPhase vs GuideSection)
+- Deferred untouched: tool editor Cards, OL dark shell, legal, PDF, Hub/Portal
+- Session: [`session-knowledge-2026-09-08-fluid-ui-migration.md`](audit/session-knowledge-2026-09-08-fluid-ui-migration.md)
+- Verify: `npm run test:unit -- src/lib/comms/guide-layout-guards.test.ts`
+
+## 2026-09-08 — Fluid UI migration (Batches 1–12) complete
+
+- [x] Complexity-grouped checklist + batch refactor of in-scope public guides/catalogs/onboarding/captions/brand-kit
+- [x] Shared tokens (`public-type`), `CatalogStartHerePanel`, playbook densify (`GuideWideFigure` / outline / catalog cards)
+- [x] Brand Kit → workspace `ComposedPageLayout` + hub panels; canvas panel left as tool chrome
+- [x] Out-of-scope held: OL dark shell, legal narrow, tool interiors, PDF, Hub/Portal
+- Session knowledge: [`session-knowledge-2026-09-08-fluid-ui-migration.md`](audit/session-knowledge-2026-09-08-fluid-ui-migration.md); checklist [`fluid-ui-migration-checklist.md`](audit/fluid-ui-migration-checklist.md)
+- Verify: `npm run test:unit -- src/lib/comms/guide-layout-guards.test.ts`
+
+## 2026-09-08 — CapRover-togglable Sentry + server file error sinks
+
+- [x] `@sentry/nextjs` errors-only (no Session Replay); tunnel `/monitoring`; CSP `connect-src 'self'` unchanged; proxy matcher skips `monitoring`
+- [x] Independent env sinks: `SENTRY_*` + `ERROR_LOG_FILE_*` (rotation via `MAX_BYTES` / `KEEP`); defaults off
+- [x] `/api/health` → `observability` flags + boot misconfig warns; critical API/email + route `error.tsx` reporting
+- [x] CI/Docker optional `SENTRY_AUTH_TOKEN` + `NEXT_PUBLIC_SENTRY_DSN` for source maps / client bake
+- [x] ADR-006 amendment; module [`OBSERVABILITY.md`](modules/OBSERVABILITY.md); session knowledge [`session-knowledge-2026-09-08-sentry-observability.md`](audit/session-knowledge-2026-09-08-sentry-observability.md)
+- Verify: `npm run test:unit -- src/lib/observability/ src/lib/ops/health-status.test.ts src/lib/email/send.test.ts`; `npm run typecheck`; lint clean of new errors
+- Commits: `86d7a48`, `84d2287`
+
+## 2026-09-08 — Land acknowledgement how-to + workshops hub
+
+- [x] `/guide/land-acknowledgement` refocused on how-to walkthrough + PDF worksheet; Niagara annotated example kept; embedded facilitator agenda removed
+- [x] `/guide/workshops` hub + `/guide/workshops/land-acknowledgement` outline (Comms workshop stays at `/guide/workshop`)
+- [x] Registry `workshops` group, sitemap/SEO, nav, What's new, facilitator doc `docs/workshop/land-acknowledgement.md`
+- Verify: unit (registry, SEO, PDF, updates, public-copy) + workshop/land-ack smokes
+
+## 2026-09-07 — Canvas Core engine (Waves 0–4)
+
+- [x] Shared geometry: `CanvasWrapper` / `LogoContainer` / `useCanvasExport` / safe-zone; `FitWidthFrame` re-export; capture allowlist + SVG/blob parity
+- [x] Print density: design px/in 100 + target 1700 → letter ~200 PPI browser-safe (was ~144; ~300 OOM'd html-to-image); flyer/board-notice/org/qr/action/solidarity migrated
+- [x] Fluid/intrinsic: graphic, quote, meeting-background, resizer, logo-builder, board-banner, pulse-poll
+- [x] A4 + `CANVAS_ASPECTS`; layout-matrix logo proportion guards; What's new `canvas-core-print-fit`
+- [x] Flush: LogoContainer on qr-card/action-card/solidarity; Board Notice A4; session knowledge + AGENTS/spec rule updates
+- Verify: `npm run lint`; `npm run test:unit` (canvas-core / print / flyer / capture / updates); layout-matrix + export smokes `--workers=1`
+
+## 2026-09-06 — Officer Learning knowledge expansion + dashboard tracks (modules 15–16)
+
+- [x] Modules 15–16 EN+FR (DFR; seniority/bumping/layoff) + covers, catalog, PDFs, diagrams, timelines, SEO, What's new
+- [x] M8 Without Prejudice quiz Q7; M7 strike steward day-1; jurisdiction hedges doc
+- [x] Dashboard: role tracks, denser hero/prefs+Hub sync, 2xl 4-col cards; guide callouts for photo-consent/union-boards/crisis/dfr/seniority
+- [x] Guards: Rand/T4A claim pairs + diagram-timeline i18n; count copy sixteen
+- Verify: `npm run test:unit -- src/lib/officer-learning/claim-chain-guards.test.ts src/lib/officer-learning/diagram-timeline-i18n.test.ts src/lib/officer-learning/modules.test.ts src/lib/officer-learning/parse-module.test.ts src/lib/officer-learning/related-resources.test.ts src/lib/officer-learning/module-timeline.test.ts`
+
+## 2026-09-06 — Officer Learning system uplift (modules 1–14 + chrome)
+
+- [x] Inventory + overlap matrix vs peer modules/guides (complementary; no trim contradictions)
+- [x] EN+FR claim audit all 14; fixed M8 EN prejudice/precedent explanation, M1 FR `patron`→`schéma`, checklists ≥10 (M1/M2/M4), FR `*Explication*`, peer How-to/related wiring
+- [x] `LearningPathDiagram` mid-width: md 2-col / lg 4 / xl 5; related M1↔M8, M5→M12, M6↔M7
+- [x] Guard: `claim-chain-guards.test.ts` (legal-term pairs, FR labels, checklist ≥10)
+- [x] Session knowledge + this PROGRESS note; What’s new skipped (accuracy/chrome only)
+
+## 2026-09-06 — Officer Learning modules 11–14 + content review 7–14
+
+- [x] Modules 11–14 EN+FR (lists/privacy, advanced finance, digital security/transitions, everyday union value) with tables, callouts, worked scenarios, ≥10-item checklists, 6-question quizzes
+- [x] Covers `module-11.webp`…`module-14.webp` (watermark-free); catalog/SEO/sitemap/sources/related sheets/diagrams/timelines/What's new
+- [x] Progress keys `module-11`…`module-14`; dashboard path lg 4 / xl 5 (titles line-clamp); ten→fourteen copy
+- [x] Content review 7–14: Module 8 without-precedent quiz wording; Module 11 FR copy fixes
+- [x] Lessons + system uplift audit plan: `docs/audit/session-knowledge-2026-09-06-officer-learning-lessons.md`, `docs/audit/plan-2026-09-06-officer-learning-system-uplift.md`
+- Verify: `npm run test:unit -- src/lib/officer-learning/modules.test.ts src/lib/officer-learning/parse-module.test.ts src/lib/officer-learning/related-resources.test.ts src/lib/officer-learning/module-timeline.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`; smoke `e2e/officer-learning.smoke.spec.ts`
+
+## Officer Learning modules 7–10 polish (2026-09-06)
+
+- [x] Cover webps: remove Gemini Notebook watermarks
+- [x] Session knowledge + COMMS/AGENTS pointers for agents
+- [x] Smoke: Ten-module nav hygiene, dashboard cards 7/10, Module 8 spot-check
+- [x] Dashboard `LearningPathDiagram`: mobile stack + lg 5×2 grid for ten steps
+- Verify: `npm run test:unit -- src/lib/officer-learning/modules.test.ts src/lib/constants/updates.test.ts`; smoke `e2e/officer-learning.smoke.spec.ts`
+
+## Officer Learning modules 7–10 (2026-09-06)
+
+- [x] Modules 7–10 EN+FR markdown (mobilizer/bargaining, advanced grievance settlement, benefits/disability, joint committees) with tables, callouts, worked scenarios, floor checklists, 6-question quizzes
+- [x] Covers `module-7.webp`…`module-10.webp`; catalog/SEO/sitemap/sources/related sheets/diagrams/timelines wired
+- [x] Progress stays on `unionops-officer-learning-progress` (`module-7`…`module-10`); What's new note
+- Verify: `npm run test:unit -- src/lib/officer-learning/modules.test.ts src/lib/officer-learning/parse-module.test.ts src/lib/officer-learning/related-resources.test.ts src/lib/officer-learning/module-timeline.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
+## Guides catalog three-way steward split (2026-09-06)
+
+- [x] `/guides` replaces flat Steward craft (`labour`) with **Steward craft** / **Floor** / **The local** (`training` / `floor` / `local` in `GUIDE_REGISTRY`)
+- [x] Catalog grid `sm:2` / `lg:3`; Blueprint labour strip uses `stewardDiscoverabilityLinks()`
+- Verify: `npm run test:unit -- src/lib/comms/guide-registry.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
+## Guides catalog + Floor mega-menu (2026-09-05)
+
+- [x] Job groups (`floor` / `local` / `campaign` / `training`) on `guide-registry.ts`; nav and catalog derive from them
+- [x] Guides ▾: About column → Floor and the local (nested disclosures below 2xl); Steward craft adds crisis; All guides → `/guides`
+- [x] `/guides` catalog mirrors `/tools`; Blueprint stays `/guide`
+- [x] Steward playbooks hub lists grouped playbooks above the training path
+- Verify: `npm run test:unit -- src/lib/comms/guide-registry.test.ts src/components/layout/nav/nav-config.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts`
+
 ## Flyer Maker phone / tablet layout (2026-09-05)
 
 - [x] Compact 2-col (4-col from sm) flyer-type chips in the Edit pane; BrandSetup stays in `toolbar`
 - [x] `miniPreview={false}` so a letter-height canvas no longer clips to a 96px header peek on Edit
 - Verify: `npm run test:unit -- src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/components/tools/ToolEditorLayout.test.tsx`
+
+## CAAT-A logo knockouts and preview crop (2026-09-05)
+
+- [x] Coalition blue and reverse lockups are true white knockouts (OPSEU wordmark + faculty body)
+- [x] Faculty-red knockout: full-bleed `#B22E2C` plate (stacked-art field) + tight 2:1 artboard
+- [x] Plated lockups are vector art on a `200×100` plate rect; Look cards fill the tile (`aspect-[2/1]`) instead of a height-capped island
+- [x] Colour / one-colour path fills stay `#B22E2C`; coalition Look accent is white so canvas type is not leftover red
+- [x] Brand Assets catalog drops duplicate burgundy plate (`on-primary`) and one-colour strip (same burgundy art as colour) — keep knockout, coalition, reverse, colour
+- Verify: `npm run test:unit -- src/lib/brand/identity-packs.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
 
 ## Document Generator phone / tablet layout (2026-09-05)
 

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { TrainingPathDiagram } from "@/components/comms/StewardGuideDiagrams";
 import {
@@ -10,8 +9,15 @@ import {
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { Callout } from "@/components/ui/Callout";
-import { GUIDE_STEWARD_PLAYBOOK_LINKS } from "@/lib/comms/guide-registry";
+import { GUIDE_STEWARD_PLAYBOOK_GROUPS } from "@/lib/comms/guide-registry";
+import {
+  GuideLayout,
+  GuideActionRow,
+  GuideCallout,
+  GuideCatalogCard,
+  GuideSection,
+  GuideWideFigure,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -22,10 +28,10 @@ export async function generateMetadata({
 }
 
 const TOC = [
+  ["playbooks", "playbooks"],
   ["trainingPath", "trainingPath"],
   ["workspaces", "workspaces"],
   ["quiz", "quiz"],
-  ["playbooks", "playbooks"],
 ] as const;
 
 const workspaceLinks = [
@@ -61,7 +67,12 @@ const workspaceLinks = [
   },
 ] as const;
 
-const playbookLinks = GUIDE_STEWARD_PLAYBOOK_LINKS;
+const playbookGroups = [
+  "training",
+  "floor",
+  "local",
+  "campaign",
+] as const;
 
 export default async function StewardPlaybooksPage({
   params,
@@ -73,7 +84,9 @@ export default async function StewardPlaybooksPage({
   const t = await getTranslations("stewardPlaybooksHub");
   const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
-  const pathSteps = t.raw("pathSteps") as Parameters<typeof TrainingPathDiagram>[0]["steps"];
+  const pathSteps = t.raw("pathSteps") as Parameters<
+    typeof TrainingPathDiagram
+  >[0]["steps"];
 
   const tocItems = TOC.map(([id, key]) => ({
     id,
@@ -118,86 +131,88 @@ export default async function StewardPlaybooksPage({
         />
       }
     >
-      <section id="trainingPath" className="scroll-mt-28">
-        <Callout className="mb-8 max-w-3xl">
-          <p className="font-semibold text-opseu-dark">{t("trainingPath.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">{t("trainingPath.body")}</p>
-          <TrainingPathDiagram steps={pathSteps} className="mt-4" />
-          <div className="button-row mt-4">
-            <Link href="/guide/steward-101" className={guideCtaClass}>
-              {t("trainingPath.steward101Cta")}
-            </Link>
-            <Link href="/guide/officer-learning" className={guideCtaOutlineClass}>
-              {t("trainingPath.officerLearningCta")}
-            </Link>
-          </div>
-        </Callout>
-      </section>
-
-      <section id="workspaces" className="scroll-mt-28">
-        <Callout tone="muted" className="mb-8 max-w-3xl">
-          <p className="font-semibold text-opseu-dark">{t("workspaces.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">{t("workspaces.body")}</p>
-          <ul className="mt-4 space-y-3">
-            {workspaceLinks.map(({ href, titleKey, blurbKey }) => (
-              <li
-                key={href}
-                className="rounded-lg border border-gray-200 border-l-2 border-l-opseu-blue/40 bg-white p-4"
-              >
-                <Link
-                  href={href}
-                  className="font-semibold text-opseu-blue underline underline-offset-2"
-                >
-                  {t(`workspaces.${titleKey}`)}
-                </Link>
-                <p className="mt-1 text-sm text-gray-600">{t(`workspaces.${blurbKey}`)}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="button-row mt-4">
-            <Link href="/app/steward-guides" className={guideCtaOutlineClass}>
-              {t("workspaces.hubCta")}
-            </Link>
-          </div>
-        </Callout>
-      </section>
-
-      <section id="quiz" className="scroll-mt-28">
-        <Callout tone="muted" className="mb-8 max-w-3xl">
-          <p className="font-semibold text-opseu-dark">{t("quizCallout.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">{t("quizCallout.body")}</p>
-        </Callout>
-      </section>
-
-      <section
+      <GuideSection
         id="playbooks"
-        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        title={t("playbooks.title")}
+        intro={t("playbooks.intro")}
       >
-        <h2 className="text-xl font-bold text-opseu-dark">{t("playbooks.title")}</h2>
-        <p className="mt-2 max-w-prose text-gray-700">{t("playbooks.intro")}</p>
-        <ul className="mt-4 space-y-4">
-          {playbookLinks.map(({ href, key, ...rest }) => (
-            <li
+        {playbookGroups.map((groupId) => (
+          <div key={groupId} className="not-first:mt-8">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+              {t(`groups.${groupId}`)}
+            </h3>
+            <ul className="mt-4 grid list-none gap-5 p-0 sm:grid-cols-2">
+              {GUIDE_STEWARD_PLAYBOOK_GROUPS[groupId].map(
+                ({ href, key, ...rest }) => {
+                  const featured = "featured" in rest && rest.featured;
+                  return (
+                    <GuideCatalogCard
+                      key={href}
+                      titleAs="h3"
+                      href={href}
+                      className={
+                        featured
+                          ? "rounded-r-lg border border-opseu-blue/25 border-l-opseu-blue bg-opseu-blue/[0.06] py-3 pr-4"
+                          : undefined
+                      }
+                      title={t(`links.${key}`)}
+                      body={t(`blurbs.${key}`)}
+                      meta={featured ? t("quizBadge") : undefined}
+                    />
+                  );
+                },
+              )}
+            </ul>
+          </div>
+        ))}
+      </GuideSection>
+
+      <GuideSection
+        id="trainingPath"
+        title={t("trainingPath.title")}
+        intro={t("trainingPath.body")}
+      >
+        <GuideWideFigure>
+          <TrainingPathDiagram steps={pathSteps} className="w-full" />
+        </GuideWideFigure>
+        <GuideActionRow>
+          <Link href="/guide/steward-101" className={guideCtaClass}>
+            {t("trainingPath.steward101Cta")}
+          </Link>
+          <Link href="/guide/officer-learning" className={guideCtaOutlineClass}>
+            {t("trainingPath.officerLearningCta")}
+          </Link>
+        </GuideActionRow>
+      </GuideSection>
+
+      <GuideSection
+        id="workspaces"
+        title={t("workspaces.title")}
+        intro={t("workspaces.body")}
+      >
+        <ul className="grid list-none gap-5 p-0 sm:grid-cols-2">
+          {workspaceLinks.map(({ href, titleKey, blurbKey }) => (
+            <GuideCatalogCard
               key={href}
-              className={
-                "featured" in rest && rest.featured
-                  ? "rounded-xl border border-opseu-blue/25 bg-opseu-blue/[0.06] p-4"
-                  : undefined
-              }
-            >
-              <Link href={href} className="font-medium text-opseu-blue underline">
-                {t(`links.${key}`)}
-              </Link>
-              {"featured" in rest && rest.featured ? (
-                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-opseu-blue">
-                  {t("quizBadge")}
-                </p>
-              ) : null}
-              <p className="mt-1 text-sm text-gray-600">{t(`blurbs.${key}`)}</p>
-            </li>
+              titleAs="h3"
+              href={href}
+              title={t(`workspaces.${titleKey}`)}
+              body={t(`workspaces.${blurbKey}`)}
+            />
           ))}
         </ul>
-      </section>
+        <GuideActionRow>
+          <Link href="/app/steward-guides" className={guideCtaOutlineClass}>
+            {t("workspaces.hubCta")}
+          </Link>
+        </GuideActionRow>
+      </GuideSection>
+
+      <GuideSection id="quiz" title={t("quizCallout.title")}>
+        <GuideCallout tone="muted" measure="fill" className="mt-0">
+          <p className="leading-relaxed text-gray-700">{t("quizCallout.body")}</p>
+        </GuideCallout>
+      </GuideSection>
     </GuideLayout>
   );
 }

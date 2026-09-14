@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
@@ -9,15 +9,15 @@ import { formatFilename, cn } from "@/lib/utils";
 import { brandPaletteHasContrastRisk } from "@/lib/utils/ink";
 import { deriveAccentFromPrimary, getUnionPreset, resolvePresetLogos } from "@/lib/constants/unionPresets";
 import { Button } from "@/components/ui/Button";
+import { Callout } from "@/components/ui/Callout";
 import { Input } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
-import {
-  LocalLogoPlate,
+import { LocalLogoPlate,
   LOGO_SHAPES,
   type LogoShape,
 } from "@/components/brand/LocalLogoPlate";
+import { CanvasWrapper } from "@/components/canvas-core";
 import { BrandContrastConfirmDialog } from "@/components/brand/BrandContrastConfirmDialog";
 import {
   LogoSettings,
@@ -25,6 +25,7 @@ import {
 } from "@/components/brand/LogoSettings";
 import { useTranslations } from "next-intl";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
@@ -42,6 +43,14 @@ interface LogoState {
 }
 
 export default function LogoBuilderPage() {
+  return (
+    <Suspense fallback={<ToolLoadingFallback />}>
+      <LogoBuilderPageContent />
+    </Suspense>
+  );
+}
+
+function LogoBuilderPageContent() {
   const t = useTranslations("common");
   const tLogo = useTranslations("brandKit.logo");
   const tBuilder = useTranslations("logoBuilder");
@@ -60,7 +69,7 @@ export default function LogoBuilderPage() {
 
   const initial: LogoState = {
     localNumber: brandKit.local.localNumber,
-    subText: brandKit.local.subText || "Support Staff",
+    subText: brandKit.local.subText || tBuilder("defaultSubText"),
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
     shape: "circle",
@@ -72,7 +81,7 @@ export default function LogoBuilderPage() {
   useOneShotBrandSeed(hydrated, () => {
     reset({
       localNumber: brandKit.local.localNumber,
-      subText: brandKit.local.subText || "Support Staff",
+      subText: brandKit.local.subText || tBuilder("defaultSubText"),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
       shape: "circle",
@@ -148,7 +157,7 @@ export default function LogoBuilderPage() {
       exportSuccess={exportSuccess}
       footer={<ToolRelatedFooter toolSlug="logo-builder" />}
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <section className="space-y-3">
           <Input
             label={tBuilder("localNumber")}
@@ -240,14 +249,9 @@ export default function LogoBuilderPage() {
             onReset={() => reset(initial)}
           />
           {saveMessage ? (
-            <p className="text-sm text-green-700" role="status">
+            <Callout tone="success" role="status">
               {saveMessage}
-            </p>
-          ) : null}
-          {exportError ? (
-            <p className="text-sm text-red-700" role="alert">
-              {exportError}
-            </p>
+            </Callout>
           ) : null}
           <div className="flex flex-wrap gap-3">
             <Button onClick={handleSaveToBrandKit}>{tBuilder("save")}</Button>
@@ -259,7 +263,7 @@ export default function LogoBuilderPage() {
             </Button>
           </div>
           </div>
-        </Card>
+        </div>
       }
       previewActions={
         <>
@@ -273,23 +277,30 @@ export default function LogoBuilderPage() {
       }
       preview={
         <div className="flex items-center justify-center">
-          <div
-            className={cn(
-              "shadow-lg",
-              state.shape === "circle" && "rounded-full",
-            )}
+          <CanvasWrapper
+            designWidth={state.shape === "circle" ? 288 : 448}
+            mode="intrinsic"
+            maxScale={1.5}
+            align="center"
           >
-            <LocalLogoPlate
-              ref={canvasRef}
-              exportRoot
-              shape={state.shape}
-              primaryColor={state.primaryColor}
-              secondaryColor={state.secondaryColor}
-              localNumber={state.localNumber}
-              subText={state.subText}
-              tokens={tokens}
-            />
-          </div>
+            <div
+              className={cn(
+                "shadow-lg",
+                state.shape === "circle" && "rounded-full",
+              )}
+            >
+              <LocalLogoPlate
+                ref={canvasRef}
+                exportRoot
+                shape={state.shape}
+                primaryColor={state.primaryColor}
+                secondaryColor={state.secondaryColor}
+                localNumber={state.localNumber}
+                subText={state.subText}
+                tokens={tokens}
+              />
+            </div>
+          </CanvasWrapper>
         </div>
       }
     />

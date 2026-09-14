@@ -1,6 +1,8 @@
-# Current ground truth (agents) — as of 2026-09-05
+# Current ground truth (agents) — as of 2026-09-08
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
+
+**Operator error sinks / Sentry (2026-09-08):** [`session-knowledge-2026-09-08-sentry-observability.md`](session-knowledge-2026-09-08-sentry-observability.md) + [`docs/modules/OBSERVABILITY.md`](../modules/OBSERVABILITY.md) — CapRover env toggles for Sentry (errors-only, tunnel `/monitoring`) and/or server JSONL with rotation. Not product analytics (ADR-006 amendment). Verify with `GET /api/health` → `observability`. Do not open CSP to ingest hosts or enable Session Replay.
 
 **How Canadian unions connect (2026-09-05):** `/guide/union-history` is a gold labour playbook (not mega-menu). Affiliation is two tracks, not one ladder: union family vs geographic house. OPSEU / SEFPO Local 243 is the worked example. Niagara Area Council is OPSEU-internal; NRLC is the multi-union labour council. Printable affiliation-map PDF on Map your local. External URLs live in `comms-sources.ts` only.
 
@@ -8,7 +10,7 @@
 
 **Running meetings / Rules of Order (2026-08-28):** [`session-knowledge-2026-08-28-running-meetings-rules-of-order.md`](session-knowledge-2026-08-28-running-meetings-rules-of-order.md) — public `/guide/running-meetings` (quorum, precedence, debate, voting, worked GMM) + `/tools/rules-of-order` (14 actions, copy phrase). Not Hub `/app/meetings` (calendar/RSVP). Pocket PDF via OL module 4 helper. Discoverability: `guide-registry.ts` labour group + steward playbooks.
 
-**Officer Learning chrome + Guides nav (2026-08-28):** [`session-knowledge-2026-08-28-officer-learning-nav-guides.md`](session-knowledge-2026-08-28-officer-learning-nav-guides.md) — navy OL shell is the **default**; Display settings can switch training pages to a light platform palette (`officerLearningColour`); amber/teal → platform orange (`olThemeNavy` / `olThemeLight`); Guides ▾ five groups; `guide-registry.ts` single discoverability source.
+**Officer Learning chrome + Guides nav (2026-08-28):** [`session-knowledge-2026-08-28-officer-learning-nav-guides.md`](session-knowledge-2026-08-28-officer-learning-nav-guides.md) — navy OL shell is the **default**; Display settings can switch training pages to a light platform palette (`officerLearningColour`); amber/teal → platform orange (`olThemeNavy` / `olThemeLight`). **2026-09-05:** Guides ▾ five groups (Floor and the local replaces About); All guides → `/guides` catalog; `guide-registry.ts` job groups (`floor` / `local` / `campaign`) feed nav + catalog.
 
 **Grievance process guide (2026-08-26):** Public `/guide/grievance-process` is a how-to-run-a-file playbook (forum gate, teaching 6 W's, CA clocks, CA-named steps as jobs, worked file, failure modes) plus Document Generator `grievance-intake` worksheet. Not legal advice. Officer Hub `/app/grievances` is the tracker (there is no separate “Case Tracker” product). Discoverability is Blueprint labour strip + Resources labour playbooks, not the main Guides menu. **Next (not this pass):** structured 6 W's on Hub New Grievance — see [`docs/modules/GRIEVANCE.md`](../modules/GRIEVANCE.md).
 
@@ -57,6 +59,7 @@
 | OPSEU EERC Hub module | **Not a gap to build** | Provincial joint committee. Use Comms + local UCC; see [`session-knowledge-2026-08-23-eerc-committees.md`](session-knowledge-2026-08-23-eerc-committees.md). Do not host official minutes or name a core module EERC. |
 | Running meetings playbook + cheat sheet | Shipped 2026-08-28 | `/guide/running-meetings` + `/tools/rules-of-order`; Robert's reference only — confirm local bylaws |
 | Guide discoverability registry | Shipped 2026-08-28 | `src/lib/comms/guide-registry.ts` — do not duplicate path arrays on Blueprint/Resources/playbooks |
+| CapRover Sentry + JSONL sinks | Shipped 2026-09-08 | Env-gated; tunnel `/monitoring`; see OBSERVABILITY module — not analytics |
 
 ## Three email/reminder surfaces (do not conflate)
 
@@ -89,6 +92,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | Cron | `CRON_SECRET` required; Bearer or `x-cron-secret`; `?dryRun=1` previews without send/audit |
 | React derived state | Do not sync `setState` in `useEffect` for consent flags — derive from roster |
 | Production typecheck | `npx tsc --noEmit` / Docker build — unit tests miss route type errors (`#12`, `#13`) |
+| Error sinks (Sentry / JSONL) | Defaults **off**. `GET /api/health` → `observability`. Client DSN is **build-time**. Tunnel `/monitoring` — do not open CSP. See [`OBSERVABILITY.md`](../modules/OBSERVABILITY.md) |
 
 ## Sensible next candidates
 

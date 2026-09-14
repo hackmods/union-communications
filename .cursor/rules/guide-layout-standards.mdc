@@ -1,0 +1,71 @@
+---
+description: Guide chapter layout — prose measure vs article-column grids; anti-regression
+globs: src/app/**/guide/**/*.tsx,src/components/comms/Guide*.tsx,src/components/comms/*Guide*.tsx,src/components/comms/guide-ui.ts,src/components/comms/LandAcknowledgement*.tsx,src/components/comms/ResourcesSourcesList.tsx
+alwaysApply: false
+---
+
+# Guide layout standards
+
+Public guide **chapters** (playbooks, workshops, hub bodies). Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc) (shell tiers) and [`guide-pdfs.mdc`](guide-pdfs.mdc) (print). Out-of-scope growth notes: [`docs/audit/guide-layout-growth-backlog.md`](../../docs/audit/guide-layout-growth-backlog.md).
+
+Import from `@/components/comms/guide-ui` only for public guide pages (no dual `@/components/comms/GuideLayout` + barrel; no raw `Callout` — use `GuideCallout`).
+
+## Shell vs chapter
+
+| Layer | Use |
+|-------|-----|
+| `GuideLayout` + `preset` | Page frame: `narrow` / `playbook` / `hub` |
+| `GuideSection` + children | Chapter body inside the article column |
+| `GuideOutlineStep` / `GuideOutlineList` | Numbered workshop / first-week roadmap steps (not anonymous `border-l` `<li>`s) |
+| `GuideCatalogCard` | Workshops hub (and similar) catalog rows |
+| `GuideLinkCluster` / `GuideLinkList` | Related-guide discovery clusters (not Callout · middot rows) |
+| `GuideSpotlightBand` | Demo / highlight bands (comms workshop Demo Path; blueprint strike promo) |
+| `GuideAccentBlock` | Nested h3/h4 accent strips inside a chapter |
+| `GuideWorkshopNote` | Facilitator / attendee workshop callouts |
+| `GuideCallout` | Notes inside guides (`measure="prose"` default; `fill` for full column) |
+| `GuideTrainingPhase` | Steward-101 numbered training modules only — not default playbook chrome. **Dual system is intentional:** rounded phase cards for timed lessons vs border-l `GuideSection` for ordinary chapters. |
+| Playbook TOC | `GuidePlaybookToc` via GuideLayout — scroll-spy + smooth scroll + mobile details |
+
+Playbooks: `preset="playbook"` → `readWide` + TOC rail. **Fill the article column** after the rail — do not leave a phone-width stack with empty right space.
+
+## Accepted exceptions
+
+- **`/guide/website` `PartFrame` / glance cards** — intentional multi-part “site build” chrome (kicker + framed parts), not chapter densification. Do not force onto `GuideSection` without a product redesign. Keep importing the shell from `guide-ui`.
+- **Legal pamphlets** (`/privacy`, `/security`, `/accessibility`) — stay `GuideLayout preset="narrow"` + guide-ui (`GuideSection` / `GuideCallout` / `GuideProse` / `GuideBulletList`). Do not widen to playbook tip grids.
+- **Officer Learning** — dark `olTheme` shell; never GuideLayout. Module index uses fluid CSS grid; sources stay `max-w-prose`.
+- **Hub / Portal dashboards** — authenticated shells; fluid `PUBLIC_*` titles + widget grids; do not force GuideLayout.
+
+## Prose vs cluster
+
+| Content | Primitive / pattern |
+|---------|---------------------|
+| Title, continuous intro, mid-section paragraphs | `max-w-prose` via section intro or `GuideProse` |
+| Labeled tip / principle / checklist clusters | `GuideTipGrid` + `GuideTipItem` (`punctuation` default `"."`; `sm:grid-cols-2`; `columns={3}` only for short cards) |
+| Label-less disc lists | `GuideBulletList` (optional `columns={2}` when items are short) |
+| Diagrams / flow figures | `GuideWideFigure` — full article width; never `max-w-md` phone plates on desktop |
+| CTA / button rows | `GuideActionRow` — no `max-w-lg` dead zone |
+
+## Rhythm & human feel
+
+- Section spacing: `not-first:mt-10 lg:not-first:mt-12`; in-section `mt-3` / `mt-6` / `mt-8` + `gap-4` (or `dense` tip grids on very long pages).
+- Vary 2- vs 3-column; keep long narrative tips at 2-col.
+- Asymmetry is good (prose + wide figure). Avoid identical bordered cards on every tip.
+- Type: shared fluid headings on `GuideLayout` / `GuideSection` — clear steward voice, not marketing-hero display type.
+
+## Hard rejects
+
+- Page-local `function GuideSection` / `TipItem` / `ItemList` copies
+- Tip `<ul>` wrapped in or items locked to `max-w-prose` inside a playbook article column
+- Stretched mobile single column with growing empty half at `lg+`
+- Robotic equal card grids for every list
+- Blindly applying playbook grids to Officer Learning dark shell, tool canvas interiors, or PDF layout — see growth backlog (legal pamphlets use narrow guide-ui, not tip grids)
+- Ad-hoc `Callout … max-w-prose` in guide pages — use `GuideCallout`
+- Nesting a form-root `Card` inside `ToolEditorLayout`’s shared form panel (double chrome)
+
+## Checklist (new or refactored guide)
+
+- [ ] Imports shared guide-ui primitives (no local section/tip helpers; barrel only)
+- [ ] Intros stay readable; clusters fill the column at `sm+`
+- [ ] Diagrams use `GuideWideFigure` when present
+- [ ] Spot-checked ~375 / 768 / 1280 / 1536
+- [ ] EN/FR untouched unless copy moves (then [`i18n-public-copy.mdc`](i18n-public-copy.mdc))

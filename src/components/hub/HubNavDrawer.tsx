@@ -16,6 +16,7 @@ import {
 } from "@/components/hub/hub-nav-model";
 import { Emoji } from "@/components/ui/Emoji";
 import type { EmojiId } from "@/lib/constants/emoji";
+import { PlatformOperatorAccountLinks } from "@/components/platform/PlatformOperatorAccountLinks";
 
 export type HubDrawerModule = {
   id: string;
@@ -202,15 +203,22 @@ export function HubNavDrawer({
             {accountLinks.map((link) => {
               const active = hubModuleActive(pathname, link.href);
               return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={onCloseAfterNav}
-                  aria-current={active ? "page" : undefined}
-                  className={cn(linkClass(active), link.className)}
-                >
-                  {link.label}
-                </Link>
+                <div key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={onCloseAfterNav}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(linkClass(active), link.className)}
+                  >
+                    {link.label}
+                  </Link>
+                  {link.href === "/app/profile" ? (
+                    <PlatformOperatorAccountLinks
+                      layout="stack"
+                      onNavigate={onCloseAfterNav}
+                    />
+                  ) : null}
+                </div>
               );
             })}
             <button

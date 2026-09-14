@@ -48,7 +48,7 @@
     "steward101Guide": "Délégué 101",
     "officerLearningGuide": "Centre de formation des dirigeants",
     "officerLearningTopNav": "Formation des dirigeants",
-    "officerLearningFeatured": "Six modules autogérés avec listes de contrôle et quiz.",
+    "officerLearningFeatured": "Seize modules autogérés avec listes de contrôle et quiz.",
     "workplaceMappingGuide": "Cartographie du lieu de travail",
     "grievanceProcessGuide": "Processus de grief",
     "dfrGuide": "Devoir de représentation équitable",
@@ -60,7 +60,9 @@
     "learnGroupStewardTraining": "Travail de délégué",
     "learnGroupChannels": "Par canal",
     "learnGroupLibraries": "Bibliothèques",
-    "learnGroupAbout": "À propos",
+    "learnGroupFloorLocal": "Plancher et section",
+    "learnSubgroupFloor": "Plancher",
+    "learnSubgroupLocal": "La section",
     "install": "Installer comme appli",
     "toolsGroupBrand": "Marque",
     "toolsGroupBoards": "Tableaux syndicaux",
@@ -83,7 +85,7 @@
     "mainNav": "Navigation du site",
     "footerNav": "Pied de page",
     "language": "Langue",
-    "workshopGuide": "Plan d'atelier",
+    "workshopGuide": "Atelier Comms",
     "rtwAccommodation": "Retour au travail et adaptation",
     "preDisciplinaryLog": "Journal prédisciplinaire",
     "complaintVsGrievance": "Plainte ou grief",
@@ -96,7 +98,9 @@
     "unionHistoryGuide": "Comment les syndicats se relient",
     "landAcknowledgementGuide": "Reconnaissance territoriale",
     "strikeOpsGuide": "Opérations de grève",
-    "crisisCommsGuide": "Communications de crise"
+    "crisisCommsGuide": "Communications de crise",
+    "workshopsHub": "Ateliers",
+    "landAckWorkshopGuide": "Atelier de reconnaissance territoriale"
   },
   "common": {
     "download": "Télécharger",
@@ -142,6 +146,7 @@
     "sectionOptions": "Options",
     "sectionLayout": "Mise en page et format",
     "sectionColours": "Couleurs",
+    "accentColour": "Couleur d'accent",
     "sectionAdvanced": "Avancé",
     "logoMode": "Logo",
     "logoNone": "Aucun",
@@ -230,6 +235,7 @@
     "description": "Couleurs, forme et tailles d’export. Enregistrez dans la Trousse de marque pour tous les outils.",
     "localNumber": "Numéro de section",
     "subText": "Sous-texte",
+    "defaultSubText": "Personnel de soutien",
     "shape": "Forme",
     "shapeCircle": "Cercle",
     "shapeSquare": "Carré",
@@ -279,6 +285,7 @@
     "brandRailDesc": "Couleurs, logo et liens clés pour chaque graphique. Consultez le pack d'actifs de référence pour des fichiers de départ.",
     "privacyNote": "Votre travail Comms ne quitte jamais votre navigateur. Hébergez un Hub des dirigeants et c’est vous qui contrôlez qui peut voir ces données.",
     "privacyNoteCommsOnly": "Votre travail Comms ne quitte jamais votre navigateur. Vos graphiques et votre Trousse de marque restent sur votre appareil.",
+    "workshopBandLabel": "Parcours démo d’atelier",
     "trustBanner": "Privé dès le départ. Votre travail Comms ne quitte jamais votre navigateur. Si vous hébergez le Hub des dirigeants, c’est vous qui contrôlez qui peut voir ces données.",
     "trustBannerCommsOnly": "Privé dès le départ. Votre travail Comms ne quitte jamais votre navigateur. Pas de pubs, pas de pistage, et personne qui récolte vos données.",
     "trustManifestoLink": "Notre promesse",
@@ -706,7 +713,7 @@
   "officerLearning": {
     "eyebrow": "Formation des dirigeants",
     "title": "Centre de formation des dirigeants",
-    "intro": "Six modules autogérés pour délégués et dirigeants locaux — application de la convention, discipline, droits de la personne, gouvernance, finances et pouvoir collectif. La progression est enregistrée sur cet appareil seulement.",
+    "intro": "Seize modules autogérés pour délégués et dirigeants locaux — de l'application de la convention au déplacement et à la représentation équitable. La progression reste sur cet appareil seulement.",
     "disclaimer": "Formation pour le plancher — pas un avis juridique. Confirmez chaque délai, redressement et procédure dans votre convention collective et votre loi applicables.",
     "sourcesIntro": "Lectures complémentaires provenant de fédérations syndicales canadiennes, de manuels multi-syndicaux pour délégués et de guides publics sur les droits de la personne — sans privilégier une seule centrale. Confirmez chaque règle dans votre convention et votre loi applicables.",
     "moduleLabel": "Module {number}",
@@ -733,9 +740,13 @@
       "completedPercent": "Complété 100 %"
     },
     "settings": {
-      "hint": "La progression est stockée dans ce navigateur seulement — aucun compte requis.",
+      "hint": "Stockée dans ce navigateur seulement. La réinitialisation efface tous les modules sur cet appareil.",
       "reset": "Réinitialiser la progression",
       "confirmReset": "Confirmer la réinitialisation"
+    },
+    "progressPrefs": {
+      "title": "Votre progression",
+      "body": "Les quiz réussis et les coches de listes restent sur cet appareil par défaut, pour vous former sans compte. Connectez-vous seulement si vous voulez une sauvegarde Hub, ou partager vos réussites avec votre section lorsque vous et un président y consentez."
     },
     "viewer": {
       "back": "Tableau de bord",
@@ -751,12 +762,32 @@
       "label": "Parcours de formation",
       "stepAria": "Module {number} : {title}"
     },
+    "tracks": {
+      "label": "Choisir un parcours",
+      "intro": "Seize modules, c'est un programme complet. Commencez par un parcours selon le rôle pour resserrer le chemin et les cartes — changez quand vous voulez.",
+      "all": {
+        "title": "Parcours complet",
+        "blurb": "Les seize modules dans l'ordre du catalogue."
+      },
+      "steward": {
+        "title": "Métier de délégué",
+        "blurb": "Admission, discipline, droits, règlement, DRE, ancienneté."
+      },
+      "officer": {
+        "title": "Dirigeants locaux",
+        "blurb": "Assemblées, finances, listes, archives, valeur quotidienne."
+      },
+      "mobilize": {
+        "title": "Mobiliser",
+        "blurb": "Pouvoir d'équité, pression de négociation, comités, accueil."
+      }
+    },
     "relatedNavLabel": "Parcours connexes",
     "callouts": {
-      "note": "💡 Note",
-      "warning": "⚠️ Avertissement",
-      "practice": "📝 Exercice",
-      "reflection": "🪞 Réflexion"
+      "note": "Note",
+      "warning": "Avertissement",
+      "practice": "Exercice",
+      "reflection": "Réflexion"
     },
     "checklist": {
       "title": "Liste de contrôle du plancher",
@@ -794,7 +825,23 @@
         "runningMeetings": "Guide Tenir une assemblée",
         "unionHistory": "Comment les syndicats se relient",
         "landAcknowledgement": "Guide de reconnaissance territoriale",
-        "rulesOfOrder": "Aide-mémoire de procédure"
+        "rulesOfOrder": "Aide-mémoire de procédure",
+        "humanRightsModule": "Module 3 : Droits de la personne et accommodation",
+        "rightToRefuse": "Guide du droit de refuser",
+        "digitalSecurityModule": "Module 13 : Sécurité numérique et transitions",
+        "everydayValueModule": "Module 14 : Valeur syndicale quotidienne",
+        "financialHealthModule": "Module 5 : Santé financière et vérifications",
+        "membershipListsModule": "Module 11 : Listes de membres et confidentialité",
+        "democraticGovernanceModule": "Module 4 : Gouvernance démocratique",
+        "collectivePowerModule": "Module 6 : Bâtir le pouvoir collectif",
+        "settlementModule": "Module 8 : Grief avancé et règlement",
+        "contractEnforcementModule": "Module 1 : Application de la convention",
+        "advancedFinanceModule": "Module 12 : Finances locales avancées",
+        "mobilizerModule": "Module 7 : Mobilisateur et partenaire de négociation",
+        "dfrGuide": "Guide du devoir de représentation équitable",
+        "seniorityBumpingGuide": "Guide ancienneté et bumping",
+        "dfrModule": "Module 15 : Devoir de représentation équitable",
+        "seniorityModule": "Module 16 : Ancienneté, bumping et mise à pied"
       }
     },
     "reference": {
@@ -822,7 +869,37 @@
       "checklistCta": "Télécharger la liste (PDF)",
       "downloading": "Préparation du PDF…",
       "success": "PDF téléchargé.",
-      "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés."
+      "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés.",
+      "mapTitle": "Fiche carte du milieu de travail",
+      "mapBody": "Tracer quarts, classifications, leaders et le prochain échelon d'escalade sur une page.",
+      "mapCta": "Télécharger la fiche carte PDF",
+      "settlementTitle": "Fiche règlement et porte ouverte",
+      "settlementBody": "Liste des quatre coins et libellé porte ouverte avant de signer.",
+      "settlementCta": "Télécharger la fiche règlement PDF",
+      "privacyTitle": "Fiche confidentialité médicale",
+      "privacyBody": "Capacités fonctionnelles seulement — ce que l'employeur peut et ne peut pas exiger.",
+      "privacyCta": "Télécharger la fiche confidentialité PDF",
+      "caucusTitle": "Briefing de caucus uni",
+      "caucusBody": "Rôles du pré-caucus, front uni et aiguillage multi-forums.",
+      "caucusCta": "Télécharger la fiche caucus PDF",
+      "listTitle": "Fiche directive sur les listes",
+      "listBody": "Rand vs carte, rapprochement mensuel et règles de stockage sur une page.",
+      "listCta": "Télécharger la fiche listes",
+      "expenseTitle": "Fiche dépenses et détresse",
+      "expenseBody": "Limites de politique, notes fiscales sur les honoraires et double signature.",
+      "expenseCta": "Télécharger la fiche finances",
+      "transitionTitle": "Fiche transition et rétention",
+      "transitionBody": "Carte des dossiers, délais de conservation et liste de passation.",
+      "transitionCta": "Télécharger la fiche transition",
+      "orientationTitle": "Trousse d'orientation Jour 1",
+      "orientationBody": "Script de 15 minutes, contenu de la trousse et règles de carte d'affinité.",
+      "orientationCta": "Télécharger la fiche orientation",
+      "dfrTitle": "Fiche DRE",
+      "dfrBody": "Enquêter avant de décider, communiquer par écrit et respecter les délais de grief et légaux.",
+      "dfrCta": "Télécharger la fiche DRE (PDF)",
+      "bumpingTitle": "Fiche d'admission bumping",
+      "bumpingBody": "Lire la liste d'ancienneté, esquisser l'arbre de bumping et calendrier des délais de mise à pied et de rappel.",
+      "bumpingCta": "Télécharger la fiche bumping (PDF)"
     },
     "diagrams": {
       "filterTitle": "Filtre de grief en 5 points",
@@ -878,7 +955,71 @@
       "powerBarrier": "Nommer le schéma",
       "powerClause": "Proposer le langage",
       "powerAccount": "Échéancier / redressement conjoint",
-      "powerCaption": "Un langage d'équité sans mécanisme reste symbolique — attachez des échéances et une revue conjointe."
+      "powerCaption": "Un langage d'équité sans mécanisme reste symbolique — attachez des échéances et une revue conjointe.",
+      "escalateTitle": "Échelle d'escalade de mobilisation",
+      "escalateAria": "Cinq échelons des événements de solidarité à la préparation de grève",
+      "escalateShirt": "Événements de solidarité",
+      "escalateEnforce": "Application stricte",
+      "escalateCampaign": "Mini-campagnes",
+      "escalateRule": "Work-to-rule",
+      "escalateStrike": "Préparation de grève",
+      "escalateCaption": "Montez seulement aussi loin que la carte et l'avis juridique le permettent — les interdictions d'heures supplémentaires en cours de convention peuvent être des grèves illégales.",
+      "fileTitle": "Dossier de grief en cinq piliers",
+      "fileAria": "Formulaire, chronologie, témoins, preuves et politiques",
+      "fileForm": "Formulaire porte ouverte",
+      "fileChrono": "Chronologie",
+      "fileWitness": "Témoins",
+      "fileEvidence": "Preuves",
+      "filePolicy": "CC et politiques",
+      "fileCaption": "La préparation à l'arbitrage commence par l'architecture du dossier — pas par l'argument en réunion.",
+      "privacyTitle": "Frontière des capacités fonctionnelles",
+      "privacyAria": "Ce que l'employeur peut demander versus la confidentialité médicale",
+      "privacyFunctional": "Limites fonctionnelles",
+      "privacyShield": "Pas de diagnostic",
+      "privacyAppeal": "Appel / comité d'assurance",
+      "privacyCaption": "L'employeur a besoin d'un design de travail sécuritaire — pas de notes cliniques. Aiguillez les refus vers la surveillance conjointe des avantages.",
+      "routeTitle": "Pression multi-comités",
+      "routeAria": "Escalade JHSC plus LMC plus grief",
+      "routeJhsc": "Danger JHSC",
+      "routeLmc": "Politique LMC",
+      "routeGrievance": "Grief collectif",
+      "routeCaption": "Un problème systémique peut voyager dans trois forums à la fois — caucus d'abord, puis front uni.",
+      "listTitle": "Cotisations → carte → stockage sûr",
+      "listAria": "Rapprocher les payeurs de cotisations vers des membres signés sur un système sécurisé",
+      "listDues": "Rapport de cotisations",
+      "listCard": "Carte signée",
+      "listSecure": "Stockage syndical chiffré",
+      "listCaption": "Les rangées de paie ne sont pas des membres votants tant que les cartes ne sont pas signées et hors systèmes employeur.",
+      "expenseTitle": "Politique → honoraires → détresse",
+      "expenseAria": "Politique de dépenses, honoraires imposables et gouvernance de détresse",
+      "expensePolicy": "Politique AG",
+      "expenseHonoraria": "Honoraires imposables",
+      "expenseHardship": "Comité de détresse à l'aveugle",
+      "expenseCaption": "Les remboursements exigent des reçus ; les honoraires, des feuillets ; la détresse, deux signatures.",
+      "archiveTitle": "Dossiers → rétention → passation",
+      "archiveAria": "Architecture, rétention et transition de dirigeants",
+      "archiveFolders": "Dossiers standards",
+      "archiveRetain": "Permanent vs 7 ans",
+      "archiveHandover": "Liste de transition",
+      "archiveCaption": "Ne détruisez jamais les procès-verbaux. Ne laissez pas les comptes sur des mots de passe personnels après une élection.",
+      "welcomeTitle": "Jour 1 → affinité → communauté",
+      "welcomeAria": "Orientation, avantages d'affinité et syndicalisme communautaire",
+      "welcomeDay1": "Accueil de 15 minutes",
+      "welcomeAffinity": "Carte de rabais (sans liste)",
+      "welcomeCommunity": "Alliances communautaires",
+      "welcomeCaption": "La valeur quotidienne commence le jour de l'embauche — sans donner les données membres aux fournisseurs.",
+      "dfrTitle": "Enquêter → communiquer → délais",
+      "dfrAria": "Processus DRE de l'enquête à la communication et au respect des délais",
+      "dfrInvestigate": "Enquêter d'abord",
+      "dfrCommunicate": "Écrire au membre",
+      "dfrClocks": "Respecter les délais",
+      "dfrCaption": "Un processus équitable protège — pas des promesses vides ni le silence après l'admission.",
+      "bumpingTitle": "Liste → arbre → délais",
+      "bumpingAria": "Admission au déplacement : liste, arbre de bumping et délais de préavis",
+      "bumpingList": "Lire la liste",
+      "bumpingTree": "Tracer l'arbre",
+      "bumpingClocks": "Calendrier des délais",
+      "bumpingCaption": "La feuille de calcul RH est une affirmation jusqu'à vérification contre la convention collective."
     },
     "timelines": {
       "contract-enforcement": {
@@ -1030,6 +1171,240 @@
             "summary": "Convertissez la barrière principale du sondage en clause plus mécanisme de responsabilité."
           }
         }
+      },
+      "mobilizer-bargaining-partner": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier d'organisation de la carte à la pression protégée",
+        "caption": "Cartographier d'abord. Escalader légalement. Consulter avant le work-to-rule.",
+        "phases": {
+          "d0": {
+            "label": "Semaine 0 — carte construite",
+            "summary": "Tracer quarts, classifications et poches non engagées. Nommer les leaders organiques."
+          },
+          "d1": {
+            "label": "Semaine 1 — journée chandails",
+            "summary": "Événement de solidarité à faible risque avec rayonnement inclusif entre langues et quarts."
+          },
+          "d3": {
+            "label": "Semaine 3 — mini-campagne",
+            "summary": "Pétition ou dépôt collectif sur un enjeu de santé ou d'installations gagnable."
+          },
+          "d7": {
+            "label": "Semaine 7 — vérification juridique",
+            "summary": "Avant le work-to-rule, briefer le service / juridique sur les limites des HS et du rythme."
+          }
+        }
+      },
+      "advanced-grievance-settlement": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier de règlement du brouillon porte ouverte au mémoire signé",
+        "caption": "Rédigez porte ouverte. Bâtissez les cinq piliers. Mettez chaque promesse dans les quatre coins.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — brouillon porte ouverte",
+            "summary": "Citation large d'articles et réparation intégrale sur le formulaire."
+          },
+          "d1": {
+            "label": "Jour 1 — piliers du dossier",
+            "summary": "Chronologie, témoins, preuves et articles de CC assemblés."
+          },
+          "d2": {
+            "label": "Jour 2 — rencontre d'étape",
+            "summary": "Argumenter en égal. Noter les offres verbales pour le brouillon de mémoire."
+          },
+          "d3": {
+            "label": "Jour 3 — brouillon de mémoire",
+            "summary": "Langage sans préjudice / précédent choisi ; quatre coins révisés."
+          },
+          "d7": {
+            "label": "Jour 7 — signé et calendré",
+            "summary": "Copie au membre sécurisée. Accords verbaux rejetés s'ils manquent au texte."
+          }
+        }
+      },
+      "benefits-disability-claims": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier de prestations de la pêche au diagnostic au défi du PAM",
+        "caption": "Protéger le diagnostic. Appeler les refus. Retirer les absences liées au handicap des comptes punitifs du PAM.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — pêche bloquée",
+            "summary": "Refuser l'exigence du dossier complet. Offrir seulement les capacités fonctionnelles."
+          },
+          "d1": {
+            "label": "Jour 1 — soutien à la demande",
+            "summary": "Guider les formulaires ILD/CSPAAT sans collecter de notes cliniques pour les RH."
+          },
+          "d3": {
+            "label": "Jour 3 — appel du refus",
+            "summary": "Aiguiller vers la surveillance conjointe des assurances ; exiger la révision du transporteur."
+          },
+          "d7": {
+            "label": "Jour 7 — audit PAM",
+            "summary": "Exclure les jours liés au handicap des déclencheurs mécaniques ; préparer un grief."
+          }
+        }
+      },
+      "joint-workplace-committees": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Escalade de comité du caucus à la pression multi-forums",
+        "caption": "Caucus d'abord. Aiguiller intelligemment. Ne jamais rompre les rangs devant la direction.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — caucus",
+            "summary": "Aligner objectifs, rôles et choix de forum derrière des portes fermées."
+          },
+          "d1": {
+            "label": "Jour 1 — JHSC",
+            "summary": "Déposer le danger pour inspection et réponse écrite à la recommandation."
+          },
+          "d2": {
+            "label": "Jour 2 — LMC",
+            "summary": "Mettre la charge de travail / friction d'horaire à l'ordre du jour consultatif."
+          },
+          "d3": {
+            "label": "Jour 3 — grief",
+            "summary": "Dépôt collectif pour violations de convention pendant que les comités tournent en parallèle."
+          }
+        }
+      },
+      "membership-lists-privacy": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Hygiène des listes du dump de cotisations au stockage sécurisé",
+        "caption": "Rapprochez chaque mois. Ne stockez jamais la liste nettoyée sur le nuage employeur.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — dump de cotisations",
+            "summary": "Recevoir le CSV employeur. Ne pas l'éditer sur OneDrive au travail."
+          },
+          "d1": {
+            "label": "Jour 1 — rapprochement",
+            "summary": "Apparier les rangées aux cartes signées. Signaler les payeurs sans carte."
+          },
+          "d3": {
+            "label": "Jour 3 — liste de recrutement",
+            "summary": "Cibles internes pour le métier de /guide/membership-signup."
+          },
+          "d7": {
+            "label": "Jour 7 — stockage sûr",
+            "summary": "Mettre à jour la base syndicale chiffrée. Refuser toute demande de liste tierce."
+          }
+        }
+      },
+      "advanced-local-finance": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Contrôles de dépenses et de détresse de la demande à la double signature",
+        "caption": "La politique d'abord. Feuillets pour les honoraires. Deux signatures même en urgence.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — demande",
+            "summary": "Bon soumis ou demande de détresse reçue."
+          },
+          "d1": {
+            "label": "Jour 1 — classer",
+            "summary": "Remboursement vs honoraire vs détresse. Vérifier la politique AG."
+          },
+          "d3": {
+            "label": "Jour 3 — comité / fiscalité",
+            "summary": "Revue à l'aveugle ou seuil T4A pour les honoraires."
+          },
+          "d7": {
+            "label": "Jour 7 — double signature",
+            "summary": "Deux signatures autorisées. Note au grand livre pour les fiduciaires."
+          }
+        }
+      },
+      "digital-security-transitions": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Transition de dirigeants de l'élection à la propriété des comptes",
+        "caption": "Mettez à jour les autorités bancaires immédiatement. Transférez l'admin — ne textez jamais les mots de passe.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — résultat d'élection",
+            "summary": "Nouveaux dirigeants nommés. Gel du partage de comptes personnels."
+          },
+          "d1": {
+            "label": "Jour 1 — inventaire",
+            "summary": "Lister drives, domaines, listes d'envoi et signataires bancaires."
+          },
+          "d2": {
+            "label": "Jour 2 — banque + 2FA",
+            "summary": "Mettre à jour les cartes de signature. Imposer le MFA."
+          },
+          "d3": {
+            "label": "Jour 3 — gestionnaire de mots de passe",
+            "summary": "Réinitialiser le coffre partagé. Révoquer l'accès sortant."
+          }
+        }
+      },
+      "everyday-union-value": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Orientation Jour 1 de la trousse à la carte signée",
+        "caption": "Accueillir d'abord. Faire signer la carte. Ne jamais échanger des listes contre des rabais.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — trousse prête",
+            "summary": "Lettre, convention, carte du délégué, carte de membre, carte de rabais."
+          },
+          "d1": {
+            "label": "Jour 1 — 15 minutes",
+            "summary": "Pitch chaleureux sur la valeur de la convention. Signer la carte sur place."
+          },
+          "d3": {
+            "label": "Jour 3 — inscription sûre",
+            "summary": "Inscrire dans la base syndicale. Présenter le délégué de secteur."
+          },
+          "d7": {
+            "label": "Jour 7 — invitation communautaire",
+            "summary": "Inviter à l'AG ou à une action. Affinité sans partage de liste."
+          }
+        }
+      },
+      "duty-of-fair-representation": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier DRE de l'admission à la décision écrite et à l'escalade au service",
+        "caption": "Enquêter avant de refuser. Écrire les motifs. Escalader avant que le silence devienne un risque.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — admission",
+            "summary": "Le membre demande de l'aide sur un dossier faible. Noter date, enjeu et témoins."
+          },
+          "d1": {
+            "label": "Jour 1 — enquête",
+            "summary": "Appliquer le filtre en 5 points et les 6 W. Retirer les articles et dossiers comparables."
+          },
+          "d3": {
+            "label": "Jour 3 — décision écrite",
+            "summary": "Refus motivé avec voie d'appel — ou dépôt avec analyse documentée."
+          },
+          "d7": {
+            "label": "Jour 7 — escalade",
+            "summary": "Le membre menace une plainte DRE. Briefer le service avec le dossier complet."
+          }
+        }
+      },
+      "seniority-bumping-layoff": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier de mise à pied : préavis, vérification de liste et contestation de l'arbre",
+        "caption": "Conserver la liste publiée. Esquisser l'arbre à partir de la CC. Calendrier du rappel avant la fermeture de la fenêtre.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — préavis",
+            "summary": "L'employeur publie la liste de surplus. Sauvegarder le PDF horodaté. Admission module 1."
+          },
+          "d1": {
+            "label": "Jour 1 — vérifier la liste",
+            "summary": "Comparer dates de service et classifications à la CC. Signaler les erreurs par écrit."
+          },
+          "d3": {
+            "label": "Jour 3 — esquisse d'arbre",
+            "summary": "Dessiner la cascade de bumping selon la convention. Comparer au schéma RH."
+          },
+          "d7": {
+            "label": "Jour 7 — délai de rappel",
+            "summary": "Calendrier de la fenêtre de rappel. Déposer un grief si le bassin ou les qualifications sont erronés."
+          }
+        }
       }
     },
     "quiz": {
@@ -1071,6 +1446,46 @@
       "building-collective-power": {
         "title": "Bâtir le pouvoir collectif",
         "summary": "Auditer les barrières systémiques, négocier des clauses axées sur l'équité et concevoir des voies de règlement des différends restauratrices."
+      },
+      "mobilizer-bargaining-partner": {
+        "title": "Mobilisateur et partenaire de négociation",
+        "summary": "Cartographier le milieu de travail, gravir une échelle d'escalade légale et garder le work-to-rule dans des bornes protégées."
+      },
+      "advanced-grievance-settlement": {
+        "title": "Grief avancé et règlement",
+        "summary": "Bâtir des dossiers prêts pour l'arbitrage, rédiger des griefs porte ouverte et verrouiller les règlements dans les quatre coins."
+      },
+      "benefits-disability-claims": {
+        "title": "Prestations et invalidité",
+        "summary": "Protéger la confidentialité médicale, contester les refus de prestations et auditer les programmes d'assiduité punitifs."
+      },
+      "joint-workplace-committees": {
+        "title": "Comités conjoints en milieu de travail",
+        "summary": "Utiliser le JHSC et le LMC comme forums stratégiques avec discipline de caucus uni et escalade multi-voies."
+      },
+      "membership-lists-privacy": {
+        "title": "Listes de membres et confidentialité",
+        "summary": "Rapprocher cotisations et cartes signées, appliquer la directive sur les listes et tenir les bases hors systèmes employeur."
+      },
+      "advanced-local-finance": {
+        "title": "Finances locales avancées",
+        "summary": "Rédiger des politiques de dépenses AG, traiter les honoraires comme revenus imposables et gérer des fonds de détresse à l'aveugle."
+      },
+      "digital-security-transitions": {
+        "title": "Sécurité numérique et transitions",
+        "summary": "Structurer les dossiers, respecter la rétention et transmettre les comptes avec 2FA et une liste de transition."
+      },
+      "everyday-union-value": {
+        "title": "Valeur syndicale quotidienne",
+        "summary": "Animer des orientations Jour 1, offrir l'affinité sans partager les listes et bâtir des alliances communautaires."
+      },
+      "duty-of-fair-representation": {
+        "title": "Devoir de représentation équitable",
+        "summary": "Enquêter avant de refuser un dossier, communiquer les décisions par écrit, respecter les délais de grief et légaux, et escalader au service quand les enjeux sont élevés."
+      },
+      "seniority-bumping-layoff": {
+        "title": "Ancienneté, bumping et mise à pied",
+        "summary": "Lire les listes d'ancienneté selon la CC, tracer les arbres de bumping, faire respecter les délais de mise à pied et de rappel, et signaler les collisions avec l'accommodement."
       }
     },
     "certificate": {
@@ -1083,14 +1498,15 @@
       "downloading": "Préparation du PDF…",
       "success": "Certificat téléchargé.",
       "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés dans ce navigateur.",
-      "pathTitle": "Parcours complet de formation des dirigeants (six modules)"
+      "pathTitle": "Parcours complet de formation des dirigeants (seize modules)"
     },
     "hubSync": {
-      "signedOutTitle": "Optionnel : synchroniser avec le Hub",
-      "signedOutBody": "Connectez-vous pour enregistrer la progression sur votre compte Officer Hub et, si vous le souhaitez, partager les réussites avec votre section.",
+      "panelLabel": "Sauvegarde Hub et partage local",
+      "signedOutTitle": "Voulez-vous une sauvegarde Hub ?",
+      "signedOutBody": "Connectez-vous au Hub des dirigeants pour enregistrer vos réussites sur votre compte. Le partage avec votre section reste optionnel et exige votre consentement.",
       "signIn": "Se connecter au Hub des dirigeants",
-      "title": "Sync Hub et partage local",
-      "body": "Phases B/C : conservez la progression sur votre compte, et ne la partagez avec la section que si vous et la section y consentez.",
+      "title": "Sauvegarde Hub optionnelle",
+      "body": "Enregistrez les quiz réussis sur votre compte Hub des dirigeants. Le partage avec votre section exige votre consentement et un président qui active le rapport local.",
       "displayName": "Nom affiché à votre section",
       "syncLabel": "Synchroniser la progression avec mon compte Hub",
       "syncHint": "Envoie les quiz réussis de ce navigateur vers votre compte connecté.",
@@ -2297,6 +2713,7 @@
     "format": "Format d'impression",
     "formatLetter": "Lettre (8,5×11)",
     "formatTabloid": "Tabloïde (11×17)",
+    "formatA4": "A4 (210×297 mm)",
     "quorumNeeded": "Quorum requis (nombre)",
     "inviteEmail": {
       "title": "Courriel d'invitation RSVP",
@@ -3079,8 +3496,8 @@
   },
   "resources": {
     "title": "Ressources de communication",
-    "subtitle": "Liste de pratique, trousse de démo et sources. L'heure d'atelier chronométrée est dans le plan d'atelier.",
-    "intro": "Utilisez la liste seul ou en groupe. Le plan d'atelier a l'heure ; cette page garde les sources et la trousse de démo.",
+    "subtitle": "Liste de pratique, trousse de démo et sources. L'heure Comms chronométrée est sous Ateliers.",
+    "intro": "Utilisez la liste seul ou en groupe. Ateliers a l'heure Comms ; cette page garde les sources et la trousse de démo.",
     "purpose": {
       "title": "À quoi servent les Comms UnionOps",
       "body": "Chaque section a besoin de communications claires sur quatre canaux : les réseaux sociaux, l'imprimé, les tableaux syndicaux et un site Web simple.",
@@ -3105,7 +3522,8 @@
         "shortForm": "Vidéo courte",
         "crisis": "Communications de crise",
         "photoConsent": "Consentement photo",
-        "workshop": "Plan d'atelier"
+        "workshop": "Atelier Comms",
+        "workshopsHub": "Ateliers"
       },
       "blurb": {
         "plan": "Après la Trousse de marque : tableaux, impression, réseaux et site dans l'ordre.",
@@ -3117,7 +3535,8 @@
         "shortForm": "Filmer au téléphone, protéger les membres, et orienter Reels ou Shorts vers une vraie demande.",
         "crisis": "Qui peut parler pendant une grève, un lock-out ou des mises à pied.",
         "photoConsent": "Liste photo membre pour délégués et ateliers.",
-        "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo."
+        "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo.",
+        "workshopsHub": "Hub des plans d'atelier projectables — lunch-and-learn Comms et rédaction de reconnaissance territoriale."
       }
     },
     "labourPath": {
@@ -3143,7 +3562,7 @@
       "blurb": {
         "stewardPlaybooks": "Commencez ici : Délégué 101, modules du Centre de formation des dirigeants avec autoévaluations, et tous les guides sur une page.",
         "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté — commencez ici.",
-        "officerLearning": "Six modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
+        "officerLearning": "Seize modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
         "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable. Confirmez les étapes dans votre convention.",
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
@@ -3155,7 +3574,7 @@
         "bylaws": "Structure de l'exécutif, quorum, autorités de signature, élections, et comment modifier les règlements avec préavis et vote en assemblée.",
         "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire pendant le débat.",
         "unionHistory": "Histoire syndicale canadienne et carte à deux voies d'une section niagaraise jusqu'au CTC, pour tracer la même maison.",
-        "landAcknowledgement": "Voie solo ou atelier avec animateur·rice, feuille PDF lignée d'une page, sources fédérales et exemple commenté — vos propres mots, pas un texte copié."
+        "landAcknowledgement": "Marche à suivre, feuille PDF lignée d'une page, sources fédérales et exemple annoté de Niagara — vos propres mots, pas un script."
       }
     },
     "checklist": {
@@ -3234,6 +3653,8 @@
   "onboarding": {
     "title": "Configurer la marque de votre section",
     "subtitle": "Trois étapes rapides : détails de la section, couleurs et logo. Ensuite, chaque outil Comms exporte avec votre section.",
+    "progressLabel": "Progression de la configuration",
+    "stepOf": "Étape {step} sur {total}",
     "step1": "Détails de la section",
     "step2": "Couleurs",
     "step3": "Choisissez votre logo",
@@ -3801,6 +4222,12 @@
     "headline": "Titre",
     "subheadline": "Sous-titre",
     "detail": "Ligne supplémentaire (date, section ou badge)",
+    "presetDetails": {
+      "agmNotice": "AGA",
+      "bargainingUpdate": "Mise à jour",
+      "strikeAction": "Grève",
+      "jointCoalition": "Soyez présents — détails à venir"
+    },
     "initials": "Initiales (sans photo)",
     "photo": "Photo",
     "photoZoom": "Zoom photo",
@@ -3847,6 +4274,11 @@
       "bargaining": "Négociation",
       "solidarity": "Solidarité",
       "member": "Membre"
+    },
+    "defaults": {
+      "quote": "Nous n'accepterons rien de moins qu'une entente équitable pour nos membres.",
+      "author": "Président de la section",
+      "role": "Comité de négociation"
     },
     "quote": "Citation",
     "author": "Attribution",
@@ -3905,7 +4337,8 @@
     "formats": {
       "letter": "Lettre (8,5×11)",
       "halfLetter": "Demi-lettre (5,5×8,5)",
-      "tabloid": "Tabloïd (11×17)"
+      "tabloid": "Tabloïd (11×17)",
+      "a4": "A4 (210×297 mm)"
     },
     "fonts": {
       "inherit": "Brand Kit",
@@ -4630,7 +5063,7 @@
     "backToGuide": "Retour au Plan directeur",
     "trainingPath": {
       "title": "Parcours recommandé",
-      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour six modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
+      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour seize modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
       "steward101Cta": "Commencer Délégué 101",
       "officerLearningCta": "Ouvrir les modules de formation des dirigeants"
     },
@@ -4688,6 +5121,12 @@
       "title": "Tous les guides pratiques",
       "intro": "Même profondeur qu'une fiche de formation : seuil, étapes, exemple commenté et sources."
     },
+    "groups": {
+      "training": "Formation",
+      "floor": "Plancher",
+      "local": "La section",
+      "campaign": "Campagne"
+    },
     "links": {
       "steward101": "Délégué 101 : votre rôle et vos droits",
       "officerLearning": "Centre de formation des dirigeants",
@@ -4700,6 +5139,7 @@
       "jointCommittee": "Guide des comités conjoints",
       "bargaining": "Le cycle de négociation : du sondage à la signature",
       "strike": "Guide des opérations de grève",
+      "crisis": "Guide des communications de crise",
       "bylaws": "Règlements locaux : les règles de votre section",
       "runningMeetings": "Tenir une assemblée et règles de procédure",
       "unionHistory": "Comment les syndicats se relient",
@@ -4707,7 +5147,7 @@
     },
     "blurbs": {
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
-      "officerLearning": "Six modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
+      "officerLearning": "Seize modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
       "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable.",
       "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
       "workplaceMapping": "Recensez les collègues, repérez les leaders organiques et cotez l'appui syndical de 1 à 5.",
@@ -4717,10 +5157,11 @@
       "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
       "bargaining": "Du sondage à la signature pour les comités de négociation locaux — mises à jour de table, votes de grève, ratification, listes et Suivi des propositions sur appareil.",
       "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail. Pas un calendrier de publications.",
+      "crisis": "Gardez des messages locaux calmes pendant les grèves, la négociation, les mises à pied et les réactions de la direction.",
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale.",
       "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire pour une motion ou un rappel au règlement.",
       "unionHistory": "Deux voies, pas une échelle : famille syndicale et conseil du travail municipal, cartographiées depuis OPSEU / SEFPO section 243.",
-      "landAcknowledgement": "Rédigez seul·e ou animez un atelier avec la feuille PDF lignée d'une page — recherche, réflexion et mots liés à l'action. Guides fédéraux en bas de page ; sans générateur copier-coller."
+      "landAcknowledgement": "Recherchez, rédigez et liez les mots à l'action avec la marche à suivre et la feuille PDF. Guides fédéraux liés ; pas de générateur."
     },
     "workspaces": {
       "title": "Espaces de pratique",
@@ -6610,13 +7051,25 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "officer-learning-modules-7-10": {
+        "title": "Quatre nouveaux modules de formation des dirigeants",
+        "body": "Les modules 7 à 10 couvrent la mobilisation et la pression en négociation, les règlements de grief avancés, les prestations et l'invalidité, et les comités conjoints en milieu de travail — chacun avec des scénarios, une liste de contrôle sur le terrain et une autoévaluation."
+      },
+      "guides-catalog-split": {
+        "title": "Catalogue des guides : Travail de délégué, Plancher, La section",
+        "body": "Tous les guides sépare maintenant les manuels de délégué en Travail de délégué, Plancher et La section, pour que la longue liste soit plus facile à parcourir."
+      },
+      "guides-catalog": {
+        "title": "Tous les guides, sur une liste",
+        "body": "Parcourez tous les manuels publics depuis Tous les guides, y compris les guides de plancher, les assemblées et comment les syndicats se relient."
+      },
       "flyer-maker-phone": {
         "title": "Créateur de tracts sur téléphone",
         "body": "Choisissez piquetage, rassemblement, assemblée ou tournée, puis Modifier ou Aperçu. Les téléchargements sont sur l'onglet Aperçu pour que le formulaire tienne sur un téléphone."
       },
       "caat-a-logo-knockouts": {
         "title": "Logos du personnel enseignant dans les Actifs de marque",
-        "body": "Les fichiers du personnel enseignant utilisent maintenant un logo blanc sur la plaque bleu de coalition et en version blanche. Les cartes bourgogne et une seule couleur montrent la marque à une taille lisible."
+        "body": "Les téléchargements du personnel enseignant sont maintenant le logo couleur net, le blanc sur le rouge du logo, le bleu de coalition et la version blanche. La couleur et la version une seule couleur reprennent le rouge du logo. Sur le bleu de coalition, le texte reste blanc."
       },
       "document-generator-phone": {
         "title": "Générateur de documents sur téléphone",
@@ -6909,6 +7362,38 @@
       "logo-on-brand-fills": {
         "title": "Les logos restent lisibles sur les fonds aux couleurs de la marque",
         "body": "Les arrière-plans de réunion et les autres outils visuels gardent votre marque lisible sur les fonds corail, or ou autres couleurs de la Trousse de marque — les Looks officiels utilisent la signature de plaque correspondante ; votre logo téléversé repose sur une carte blanche pour que chaque couleur reste visible."
+      },
+      "canvas-core-print-fit": {
+        "title": "Les tracts et feuilles d'impression remplissent l'aperçu",
+        "body": "Les tracts, avis de babillard et affiches en format lettre ou tabloïd s'adaptent maintenant à votre écran, gardent le logo proportionné d'un format de papier à l'autre, et exportent des PNG plus nets pour l'impression. Date, heure, lieu et contact restent en taille d'appui sur la feuille — et Affiche de solidarité, Arrière-plan de réunion et Créateur de graphiques reçoivent le même assemblage pour que l'accroche et la ligne locale restent lisibles sous un logo large ou une densité Brand Kit serrée."
+      },
+      "flyer-walkabout-fit": {
+        "title": "Les tracts de tournée restent lisibles",
+        "body": "Les tracts de tournée gardent maintenant le titre et les détails sur la page, ainsi que la ligne de lieu au complet — pas un mot coupé à côté du QR."
+      },
+      "solidarity-poster-type-fit": {
+        "title": "Les affiches de solidarité restent lisibles",
+        "body": "Avec votre logo, l'amorce reste une ligne complète sous le logo, la phrase de clôture reste visible, et l'aperçu d'impression est centré — le texte s'adapte encore à la feuille."
+      },
+      "officer-learning-modules-15-16": {
+        "title": "Modules 15 et 16 de la formation des dirigeants",
+        "body": "Deux nouveaux modules autogérés : devoir de représentation équitable et ancienneté, bumping et mise à pied — avec listes de contrôle et fiches PDF pour la rencontre."
+      },
+      "officer-learning-modules-11-14": {
+        "title": "Modules 11 à 14 de la formation des dirigeants",
+        "body": "Quatre nouveaux modules autogérés : listes de membres et confidentialité, finances locales avancées, sécurité numérique et transitions, et orientation Jour 1 avec affinité et syndicalisme communautaire."
+      },
+      "opseu-ontario-union-lockup": {
+        "title": "Signature OPSEU / SEFPO actuelle dans Actifs de marque",
+        "body": "Téléchargez le mot-symbole Ontario's union / Le syndicat de l'Ontario avec les autres fichiers bleus OPSEU / SEFPO."
+      },
+      "home-hub-layout": {
+        "title": "Accueil et découverte du Plan directeur rafraîchis",
+        "body": "Les parcours et listes de canaux sur l'accueil se lisent mieux, et le Plan directeur ouvre maintenant le travail de grève et les guides liés dans la même mise en page hub que les ateliers."
+      },
+      "land-ack-workshops-hub": {
+        "title": "Marche à suivre territoriale + hub d'ateliers",
+        "body": "Le Guide de reconnaissance territoriale est une marche à suivre ciblée avec la feuille PDF et l'exemple de Niagara. Les plans animateur vivent sous Ateliers avec le plan Comms."
       }
     }
   },
@@ -6968,13 +7453,23 @@
       "olDemocraticGovernance": "Module gouvernance démocratique",
       "olFinancialHealth": "Module santé financière",
       "olCollectivePower": "Module bâtir le pouvoir collectif",
+      "olMobilizer": "Module mobilisateur et partenaire de négociation",
+      "olSettlement": "Module grief avancé et règlement",
+      "olBenefits": "Module prestations et invalidité",
+      "olCommittees": "Module comités conjoints en milieu de travail",
       "portalHome": "Accueil du portail",
       "portalFronts": "Fronts",
       "portalDispatch": "Dispatch",
       "portalSidebars": "Sidebars",
       "portalFeedback": "Envoyer une rétroaction",
       "hubDashboard": "Tableau de bord Hub",
-      "hubLogin": "Connexion Hub"
+      "hubLogin": "Connexion Hub",
+      "olLists": "Module Listes de membres et confidentialité",
+      "olAdvancedFinance": "Module Finances locales avancées",
+      "olDigitalSecurity": "Module Sécurité numérique et transitions",
+      "olEverydayValue": "Module Valeur syndicale quotidienne",
+      "olDfr": "Module Devoir de représentation équitable",
+      "olSeniorityBumping": "Module Ancienneté, bumping et mise à pied"
     }
   },
   "accessibility": {
@@ -7066,6 +7561,16 @@
     "profileRemoveFailed": "Impossible de supprimer votre photo. Réessayez.",
     "profileAccountHeading": "Compte",
     "profileName": "Nom",
+    "platformOperator": {
+      "menu": "Plateforme",
+      "cardTitle": "Opérateur de la plateforme",
+      "cardBody": "Invitez des sections locales, consultez les commentaires du site et ouvrez les outils d'administration de l'hôte.",
+      "profileHeading": "Opérateur de la plateforme",
+      "invites": "Invitations",
+      "onboarding": "Configuration syndicale",
+      "feedback": "Commentaires du site",
+      "audit": "Journal d'audit"
+    },
     "signingIn": "Connexion...",
     "sessionLoading": "Chargement de votre Hub des dirigeants…",
     "login": "Connexion dirigeant",
@@ -8863,6 +9368,7 @@
     "lookPackHint": "Variantes de couleur et de fond pour babillards, réseaux sociaux et campagnes. Choisissez le traitement qui convient à votre fond — les futures trousses d'événements apparaîtront ici de la même façon.",
     "variantLabels": {
       "lockup": "Mot-symbole",
+      "ontarioUnion": "Signature Le syndicat de l'Ontario",
       "mark": "Emblème",
       "markOnDark": "Emblème sur fond foncé",
       "color": "Couleurs complètes",
@@ -8870,7 +9376,6 @@
       "knockout": "Blanc et or (sans plaque)",
       "knockoutBurgundy": "Blanc sur plaque bourgogne",
       "onGold": "Sur plaque or",
-      "onBurgundy": "Sur plaque bourgogne",
       "onCoalition": "Sur plaque bleu de coalition",
       "oneColor": "Une seule couleur",
       "reverse": "Version blanche"
@@ -8968,6 +9473,80 @@
       "bylawBuilder": "Rédigez un modèle de règlements locaux à partir du quorum et de la structure de l'exécutif.",
       "proposalTracker": "Suivez les propositions et contre-propositions sur cet appareil, puis exportez en CSV pour sauvegarde.",
       "rulesOfOrder": "Quatorze actions parlementaires avec formulation exacte, notes pour le président et copie — conçu pour le téléphone en salle."
+    }
+  },
+  "guidesIndex": {
+    "title": "Guides",
+    "subtitle": "Première semaine, manuels par canal, et guides pratiques pour le plancher et la section. La formation des dirigeants reste un lien en tête de page.",
+    "hint": "Définissez d'abord les couleurs et le logo dans",
+    "startHereTitle": "Par où commencer",
+    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte seize modules autogérés.",
+    "startHereRoadmap": "Ouvrir tous les guides pratiques",
+    "startHereSteps": {
+      "firstWeek": "Tableaux, impression, social et un site simple après la Trousse de marque.",
+      "playbooks": "Formation de plancher, assemblées, griefs et manuels de campagne.",
+      "officerLearning": "Seize modules avec listes de contrôle et un quiz sur cet appareil."
+    },
+    "groups": {
+      "commsPath": {
+        "title": "Parcours Comms",
+        "intro": "Identité, le manuel de pratique hebdomadaire, et notes d'atelier."
+      },
+      "channels": {
+        "title": "Par canal",
+        "intro": "Tableaux, impression, web, courriel, vidéo courte et adhésion."
+      },
+      "bargaining": {
+        "title": "Campagne",
+        "intro": "Négociation, opérations de grève et communications de crise."
+      },
+      "training": {
+        "title": "Travail de délégué",
+        "intro": "Formation des dirigeants, le carrefour des guides pratiques, et Délégué 101."
+      },
+      "floor": {
+        "title": "Plancher",
+        "intro": "Griefs, représentation équitable, refus de travail dangereux, ancienneté, comités et cartographie du milieu."
+      },
+      "local": {
+        "title": "La section",
+        "intro": "Histoire syndicale, assemblées, règlements et reconnaissance territoriale."
+      },
+      "workshops": {
+        "title": "Ateliers",
+        "intro": "Plans projectables pour lunch-and-learns et séances de rédaction au plancher."
+      }
+    },
+    "blurbs": {
+      "plan": "Quoi faire après la Trousse de marque : tableaux, impression, réseaux sociaux et un site simple.",
+      "blueprint": "Pratique continue des comms locales : plateformes, ton, rythme de publication et accessibilité.",
+      "resources": "Liste de pratique et sources derrière cette boîte à outils, en solo ou en atelier.",
+      "workshop": "Atelier Comms d'une heure : plateformes, logo local, exemples et ZIP de site.",
+      "photoConsent": "Protégez les membres avant de publier une photo : trois contextes et un retrait.",
+      "unionBoards": "Mise en page du tableau, quoi imprimer, avis et affiches de solidarité.",
+      "print": "Pourquoi l'imprimé rejoint les membres hors réseaux, et comment concevoir un tract lisible.",
+      "website": "Rédigez un site local simple, téléchargez le ZIP, puis publiez-le sur GitHub Pages.",
+      "email": "Rédigez l'avis officiel de réunion ou de vote, puis collez-le dans votre boîte.",
+      "shortForm": "Filmez au téléphone, protégez la vie privée des membres, et orientez la vidéo vers une prochaine étape.",
+      "membershipSignup": "Recrutez et orientez les nouveaux membres avec un parcours d'adhésion reproductible.",
+      "bargaining": "Du sondage à la signature pour les comités locaux, avec listes et Suivi des propositions.",
+      "strike": "Commandement, piquetage, soins aux membres, argent, sécurité et retour au travail.",
+      "crisis": "Gardez des messages locaux calmes pendant les grèves, la négociation, les mises à pied et les réactions de la direction.",
+      "officerLearning": "Seize modules avec scénarios, listes de contrôle, fiches imprimables et un quiz par module.",
+      "stewardPlaybooks": "Porte d'entrée pour la formation de plancher, les assemblées, les griefs et les manuels de campagne.",
+      "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
+      "unionHistory": "Deux voies, pas une échelle : famille syndicale et conseil du travail municipal.",
+      "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable.",
+      "dfr": "Ce que la représentation équitable exige en pratique, et comment garder un dossier propre.",
+      "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
+      "rightToRefuse": "LSST art. 43, étapes 1 et 2 pour les délégués et les membres du CSS.",
+      "jointCommittee": "Campus, caucus, table, puis une note aux membres après procès-verbaux signés.",
+      "workplaceMapping": "Recensez les collègues, repérez les leaders organiques et cotez l'appui syndical de 1 à 5.",
+      "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis et quorum.",
+      "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire.",
+      "landAcknowledgement": "Marche à suivre et feuille PDF d'une page, avec un exemple annoté de Niagara — écrivez vos propres mots.",
+      "workshopsHub": "Choisissez un plan d'atelier : heure d'outils Comms ou rédaction de reconnaissance territoriale.",
+      "landAckWorkshop": "Plan animateur (~60–90 min) avec préparation, ordre du jour chronométré et feuille PDF."
     }
   },
   "portal": {
@@ -9757,6 +10336,10 @@
     "readModule4": "Module 4 : gouvernance démocratique",
     "readModule5": "Module 5 : santé financière",
     "readModule6": "Module 6 : pouvoir collectif",
+    "readModule7": "Module 7 : mobilisateur et partenaire de négociation",
+    "readModule8": "Module 8 : grief avancé et règlement",
+    "readModule9": "Module 9 : prestations et invalidité",
+    "readModule10": "Module 10 : comités conjoints en milieu de travail",
     "utilStewardPlaybooks": "Guides pratiques pour délégués",
     "readModule1": "Module 1 : application de la convention",
     "readModule2": "Module 2 : discipline progressive",
@@ -9765,7 +10348,13 @@
     "utilSnippets": "Extraits de convention",
     "utilGrievanceGuide": "Guide du processus de grief",
     "moduleHint": "À lire avec",
-    "workspacesIntro": "Les espaces de pratique enregistrent les notes sur cet appareil seulement."
+    "workspacesIntro": "Les espaces de pratique enregistrent les notes sur cet appareil seulement.",
+    "readModule11": "Module 11 : listes de membres et confidentialité",
+    "readModule12": "Module 12 : finances locales avancées",
+    "readModule13": "Module 13 : sécurité numérique et transitions",
+    "readModule14": "Module 14 : valeur syndicale quotidienne",
+    "readModule15": "Module 15 : devoir de représentation équitable",
+    "readModule16": "Module 16 : ancienneté, bumping et mise à pied"
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Préparation du PDF…",
@@ -10140,9 +10729,9 @@
       "navLabel": "Ordre du jour type",
       "title": "L'ordre du jour type (ordre des travaux)",
       "intro": "La plupart des assemblées locales suivent ce déroulement :",
+      "landAckNote": "Plusieurs syndicats ontariens — dont OPSEU / SEFPO — ouvrent par une reconnaissance territoriale avant la déclaration de respect et tout autre point. Identifiez le territoire où vous êtes ; le guide ci-dessous explique les pratiques fédérales sans proposer de texte copié-collé.",
       "items": {
         "callToOrder": "Reconnaissance territoriale (si votre fédération ou section l'exige), puis ouverture de l'assemblée et lecture de la déclaration de respect et de solidarité",
-        "landAckNote": "Plusieurs syndicats ontariens — dont OPSEU / SEFPO — ouvrent par une reconnaissance territoriale avant la déclaration de respect et tout autre point. Identifiez le territoire où vous êtes ; le guide ci-dessous explique les pratiques fédérales sans proposer de texte copié-collé.",
         "adoptAgenda": "Adoption de l'ordre du jour",
         "minutes": "Adoption du procès-verbal de la dernière assemblée",
         "treasurer": "Rapport financier du trésorier ou de la trésorière",
@@ -10358,7 +10947,7 @@
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
-    "intro": "La reconnaissance territoriale rappelle que les réunions syndicales ont lieu sur des terres au long passé autochtone. Ce guide accompagne votre section de la recherche à une première ébauche — feuille de terrain d'une page, sources fédérales, voies solo et atelier, et exemple commenté. UnionOps ne génère pas de texte pour vous.",
+    "intro": "Les reconnaissances territoriales rappellent que les réunions syndicales se tiennent sur des terres aux longues histoires autochtones. Ce guide mène votre section de la recherche à une première ébauche — avec une feuille d'une page, des sources fédérales et un exemple annoté de Niagara. UnionOps ne génère pas de texte pour vous.",
     "groundRules": {
       "navLabel": "Règles de base",
       "title": "Règles de base",
@@ -10429,8 +11018,8 @@
     "howToWrite": {
       "navLabel": "Comment rédiger",
       "title": "Comment rédiger votre reconnaissance",
-      "intro": "La plupart des sections commencent de deux façons : un·e responsable recherche et rédige seul·e, puis présente à l'exécutif — ou le comité éducation tient un court atelier. Les deux voies suivent le même rythme : recherche → réflexion → rédaction → révision.",
-      "soloHeading": "Seul·e (~45 minutes)",
+      "intro": "Bloquez du temps avec une carte et le PDF de votre fédération ouverts. Suivez les quatre étapes ci-dessous, annotez la feuille d'une page, puis apportez une ébauche à l'exécutif. Vous animez une séance de groupe? Utilisez le plan d'atelier lié plus bas.",
+      "soloHeading": "Marche à suivre (~45 minutes)",
       "soloIntro": "Bloquez une heure avec Native-Land.ca ou le PDF fédéral ouvert. Imprimez la feuille d'une page ci-dessous — les lignes sont prévues pour la prise de notes à la main. Vous rédigez pour votre section, pas encore pour la scène — privilégiez l'exactitude et des mots que vous pouvez expliquer.",
       "soloFlow": {
         "research": {
@@ -10450,49 +11039,8 @@
           "subtitle": "Liste avant de partager · ~10 min"
         }
       },
-      "workshopHeading": "Tenir un atelier (~60–90 minutes)",
-      "workshopIntro": "Utilisez ceci quand l'exécutif ou le comité éducation veut rédiger ensemble. Visez une séance de travail, pas un cours magistral — les gens repartent avec une ébauche et une date de revue.",
-      "workshopPrepHeading": "Avant la rencontre",
-      "workshopPrep": {
-        "who": {
-          "label": "Qui inviter",
-          "content": "Exécutif, comité éducation, délégué·es qui ouvrent les réunions — toute la section en est responsable, pas un·e seul·e membre autochtone invité·e à éduquer tout le monde."
-        },
-        "materials": {
-          "label": "Quoi apporter",
-          "content": "Cartes territoriales imprimées, PDF fédéral, une feuille par personne (bloc de rédaction ligné sur une page) et un moyen de projeter Native-Land.ca ou Whose Land."
-        },
-        "room": {
-          "label": "Disposition de la salle",
-          "content": "Tables ou cercle, sans pression. Les duos ou petits groupes rédigent ; personne n'a à lire à voix haute s'il·elle ne le choisit pas."
-        },
-        "followUp": {
-          "label": "Clore avec une date",
-          "content": "Fixez l'adoption exécutive, nommez qui lit à la prochaine réunion et une action concrète de suivi avant que les gens partent."
-        }
-      },
-      "workshopAgendaHeading": "Ordre du jour suggéré",
-      "workshopAgenda": {
-        "open": {
-          "label": "Ouverture (~10 min)",
-          "content": "Règles de base de ce guide — pas de texte copier-coller, suivre le leadership autochtone, les mots exigent une action. Un tour : pourquoi cela compte pour notre section?"
-        },
-        "research": {
-          "label": "Recherche ensemble (~25 min)",
-          "content": "Projeter une carte ; noter nations, traités et orthographes au tableau. Comparer le guide fédéral. Lister les questions pour centres d'amitié ou bureaux de bande."
-        },
-        "draft": {
-          "label": "Rédaction en duo (~25 min)",
-          "content": "Chaque duo rédige une courte ébauche sur les lignes de la feuille. Territoire d'abord, puis une action locale ou fil historique — pas copié d'une autre ville."
-        },
-        "close": {
-          "label": "Révision et engagement (~20 min)",
-          "content": "Lectures optionnelles, liste de révision, choisir une ébauche combinée ou deux à fusionner, assigner la revue exécutive et la première lectrice ou le premier lecteur."
-        }
-      },
-      "workshopTip": "Si la salle est grande, formez des duos pour la rédaction — pas de nombre fixe de participants. Si quelqu'un hésite, proposez de consulter le cercle autochtone du syndicat avant de finaliser.",
-      "worksheetHeading": "Feuille de terrain (une page)",
-      "worksheetIntro": "Même profondeur qu'une fiche de poche pour délégué·es : étapes, bloc de rédaction ligné et liste de révision — imprimez pour l'exécutif ou un atelier.",
+      "worksheetHeading": "Feuille de travail (une page)",
+      "worksheetIntro": "Même profondeur qu'une fiche de délégué : porte d'entrée, étapes, bloc ligné pour l'ébauche et liste de révision — imprimez pour l'exécutif ou prenez des notes sur une tablette.",
       "worksheetFeatures": {
         "print": {
           "label": "Imprimer ou PDF",
@@ -10516,10 +11064,13 @@
         "review": "Cochez l'étape 4 et fixez la revue exécutive avant toute lecture à voix haute en réunion."
       },
       "worksheetGoldTip": "Traitez la feuille comme une fiche FAR — annotez-la à la main à l'exécutif, archivez l'ébauche avec le procès-verbal, et revisitez si le lieu de réunion change.",
-      "worksheetHint": "Le PDF reprend les invites d'étapes et conseils de terrain de ce guide. Formation seulement — pas un texte à coller tel quel."
+      "worksheetHint": "Le PDF reprend les invites d'étapes et conseils de terrain de ce guide. Formation seulement — pas un texte à coller tel quel.",
+      "workshopCtaHeading": "Vous animez une rédaction en groupe?",
+      "workshopCtaBody": "Les comités d'éducation et les exécutifs qui veulent rédiger ensemble utilisent un plan d'atelier distinct (~60–90 min) — préparation, ordre du jour chronométré et la même feuille PDF.",
+      "workshopCtaLabel": "Ouvrir l'atelier de reconnaissance territoriale"
     },
     "worksheet": {
-      "cta": "Télécharger la feuille de terrain (PDF)",
+      "cta": "Télécharger la feuille de travail (PDF)",
       "downloading": "Préparation du PDF…"
     },
     "prepareWords": {
@@ -10740,15 +11291,15 @@
     "nextSteps": {
       "navLabel": "Prochaines étapes",
       "title": "Prochaines étapes",
-      "intro": "Commencez par le guide fédéral, rédigez seul·e ou tenez un atelier, et planifiez une revue exécutive.",
+      "intro": "Commencez par le guide de votre fédération, rédigez avec la feuille de travail, et planifiez une révision à l'exécutif.",
       "items": {
         "read": {
           "label": "Lire le guide fédéral",
           "content": "PDF ontarien FTO si vous êtes en Ontario, plus Native-Land.ca ou Whose Land pour votre site."
         },
         "reflect": {
-          "label": "Rédiger ou tenir un atelier",
-          "content": "Suivez les étapes de la feuille PDF — voie solo ou ordre du jour d'atelier ci-dessus — puis vérifiez l'exactitude avant la prochaine réunion."
+          "label": "Rédiger une ébauche",
+          "content": "Suivez les étapes de la feuille PDF, puis vérifiez l'exactitude avant la prochaine réunion. Utilisez le plan d'atelier si votre comité rédige ensemble."
         },
         "followUp": {
           "label": "Suivi avec l'exécutif",
@@ -12641,5 +13192,101 @@
         }
       }
     }
+  },
+  "workshopsHub": {
+    "title": "Ateliers",
+    "subtitle": "Plans projectables pour les cadres locaux et les comités d'éducation",
+    "intro": "Choisissez l'atelier qui convient à la salle. Chaque plan est conçu pour projection — blocs chronométrés, notes d'animateur et clôture claire.",
+    "relatedLabel": "Liens connexes",
+    "outlines": {
+      "comms": {
+        "title": "De zéro à la solidarité (Comms)",
+        "body": "Une heure pour débutants : plateformes et rythme, un logo local, les Exemples sociaux, le Créateur de graphiques, la Carte de citation et un ZIP de site — avec un parcours Démo en direct.",
+        "time": "~45–60 minutes",
+        "cta": "Ouvrir le plan d'atelier Comms"
+      },
+      "landAcknowledgement": {
+        "title": "Rédaction de reconnaissance territoriale",
+        "body": "Séance de travail pour l'exécutif ou le comité d'éducation : règles de base, recherche ensemble, rédaction en paires sur la feuille PDF, et départ avec une date de révision.",
+        "time": "~60–90 minutes",
+        "cta": "Ouvrir l'atelier de reconnaissance territoriale"
+      }
+    }
+  },
+  "landAckWorkshopGuide": {
+    "title": "Atelier de reconnaissance territoriale",
+    "subtitle": "Rédiger ensemble — rechercher, réfléchir, écrire et s'engager (~60–90 min)",
+    "intro": "Utilisez ceci quand l'exécutif ou le comité d'éducation veut une séance de travail, pas une conférence. Les gens partent avec une ébauche et une date de révision. Reliez le Guide de reconnaissance territoriale pour les règles de base, l'exemple annoté de Niagara et la pratique fédérale.",
+    "outlineNavLabel": "Ordre du jour",
+    "relatedLabel": "Liens connexes",
+    "audienceFacilitatorLabel": "Animateur",
+    "audienceAttendeeLabel": "À faire",
+    "audienceFacilitator": "Gardez la salle à basse pression. Projetez une carte, distribuez les feuilles et clôturez avec des responsables nommés — ne demandez pas à un seul membre autochtone d'éduquer tout le monde.",
+    "audienceAttendee": "Apportez un stylo. Vous rechercherez le territoire où se réunit votre section, rédigerez une courte ébauche dans vos propres mots, et aiderez à fixer une date de révision.",
+    "prereqTitle": "Avant la salle",
+    "prereqIntro": "Préparez une fois pour que l'heure soit de la rédaction, pas une chasse aux cartes.",
+    "prereq": {
+      "who": {
+        "label": "Qui inviter",
+        "content": "Exécutif, comité d'éducation, délégués qui ouvrent les réunions — toute la section porte ceci, pas un seul membre autochtone chargé d'éduquer tout le monde."
+      },
+      "materials": {
+        "label": "Quoi apporter",
+        "content": "Cartes territoriales imprimées, le PDF de votre fédération, une feuille par personne (téléchargement ci-dessous), et un moyen de projeter Native-Land.ca ou Whose Land."
+      },
+      "room": {
+        "label": "Comment disposer la salle",
+        "content": "Tables ou cercle, basse pression. Les paires ou petits groupes rédigent; personne n'est obligé de lire à voix haute."
+      },
+      "followUp": {
+        "label": "Clôturer avec une date",
+        "content": "Réservez l'adoption à l'exécutif, nommez qui lit à la prochaine réunion, et une action de suivi concrète avant le départ."
+      }
+    },
+    "outlineTitle": "Ordre du jour suggéré",
+    "outlineIntro": "Quatre blocs partagent le même rythme recherche → réflexion → ébauche → révision que la marche à suivre solo du guide.",
+    "outlineItems": {
+      "open": {
+        "navLabel": "Ouverture",
+        "title": "Ouverture",
+        "time": "~10 min",
+        "do": "Écoutez les règles de base : pas de scripts copiés-collés, déférer au leadership autochtone, les mots exigent de l'action. Partagez une raison pour laquelle cela compte pour votre section.",
+        "facilitator": "Projetez les règles de base du Guide de reconnaissance territoriale. Un tour de pourquoi — gardez-le court. Si la salle est grande, précisez que les paires rédigeront plus tard."
+      },
+      "research": {
+        "navLabel": "Recherche",
+        "title": "Rechercher ensemble",
+        "time": "~25 min",
+        "do": "Notez nations, traités et orthographes pour le lieu de réunion. Listez des questions pour les centres d'amitié ou bureaux de bande.",
+        "facilitator": "Projetez Native-Land.ca ou Whose Land. Comparez le guide de votre fédération. Capturez les orthographes au tableau. Rappelez que les cartes sont des introductions, pas l'autorité finale."
+      },
+      "draft": {
+        "navLabel": "Ébauche",
+        "title": "Rédiger en paires",
+        "time": "~25 min",
+        "do": "Écrivez une courte ébauche sur les lignes de la feuille — territoire d'abord, puis une action locale ou un fil historique.",
+        "facilitator": "Distribuez les PDF. Formez des paires. Circulez; si quelqu'un hésite, pausez et suggérez de consulter le Cercle autochtone de votre syndicat avant de finaliser."
+      },
+      "close": {
+        "navLabel": "Clôture",
+        "title": "Réviser et s'engager",
+        "time": "~20 min",
+        "do": "Lectures optionnelles. Passez la liste de révision. Aidez à choisir une voie d'ébauche et nommez des responsables.",
+        "facilitator": "Partages optionnels seulement. Lisez la liste à voix haute. Assignez la date de révision à l'exécutif, le premier lecteur, et une action concrète avant le départ."
+      }
+    },
+    "handoutTitle": "Feuille de plancher",
+    "handoutIntro": "Même PDF d'une page que le guide — imprimez-en une par personne avant de commencer.",
+    "wrapTitle": "Avant le départ",
+    "wrapIntro": "Nommez des responsables pour que l'ébauche ne meure pas dans un dossier partagé.",
+    "wrap": {
+      "adopt": "Confirmez la date de révision ou d'adoption à l'exécutif.",
+      "reader": "Nommez qui lit la reconnaissance à la prochaine réunion.",
+      "action": "Choisissez une action de suivi locale concrète.",
+      "guide": "Ajoutez le Guide de reconnaissance territoriale aux favoris pour l'exemple de Niagara et les sources fédérales."
+    },
+    "wrapFacilitator": "Si personne ne se porte volontaire pour lire, assignez un dirigeant colon — ne pas faire porter cela par défaut au seul membre autochtone de la salle.",
+    "guideCta": "Guide de reconnaissance territoriale",
+    "hubCta": "Tous les ateliers"
   }
 }

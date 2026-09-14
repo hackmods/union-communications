@@ -2,15 +2,15 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import { BoardTrimCanvas } from "./BoardTrimCanvas";
 
-vi.mock("@/components/brand/BrandLogo", () => ({
-  BrandLogo: ({
-    variantOverride,
+vi.mock("@/components/canvas-core/LogoContainer", () => ({
+  LogoContainer: ({
+    logoMode,
   }: {
-    variantOverride?: "lockup" | "mark";
+    logoMode?: "none" | "lockup" | "mark";
   }) => (
     <div
       data-testid="brand-logo"
-      data-variant={variantOverride ?? "default"}
+      data-variant={logoMode === "mark" ? "mark" : "lockup"}
     />
   ),
 }));

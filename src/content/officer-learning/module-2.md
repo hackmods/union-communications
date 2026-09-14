@@ -129,7 +129,9 @@ Practice in the tool: open Tools → Steward worksheets → Pre-disciplinary log
 - [ ] Prepare mitigating factors with dates and supporting notes
 - [ ] Advise member on obey-now-grieve-later vs. safety/legal exceptions before next shift
 - [ ] For off-duty conduct, preserve social posts and document workplace impact (or lack thereof)
+- [ ] Complete `/tools/pre-disciplinary-log` rights checklist before the meeting when possible
 - [ ] Draft specific remedy: removal from file, reduced penalty, reinstatement with back pay
+- [ ] Brief the member: admit only proven facts; do not invent dates or motives for the employer
 
 ---
 

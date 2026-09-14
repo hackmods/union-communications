@@ -41,7 +41,8 @@ export function graphicLayoutChrome(
     pad,
     titlePx: Math.round(tokens.titleFontSizePx * (exportMode ? 1.05 : 1)),
     bodyPx: Math.round(tokens.subtitleFontSizePx * (exportMode ? 1.25 : 1)),
-    metaPx: Math.max(11, Math.round(tokens.subtitleFontSizePx * 0.85)),
+    // Supporting chrome (badges, attribution) — never track display subtitle.
+    metaPx: Math.min(18, Math.max(10, Math.round(tokens.subtitleFontSizePx * 0.55))),
     textAlign: textAlignFromBias(tokens.alignmentBias),
     alignItems: flexAlignFromBias(tokens.alignmentBias),
     titleWeight: tokens.titleFontWeight,

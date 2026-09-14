@@ -116,6 +116,8 @@ Un employeur ne peut discipliner un employé pour une conduite hors service à m
 
 Exercice : Jouez un rôle de rencontre disciplinaire. Le gestionnaire présente une suspension d'un jour pour retards (trois incidents en deux mois). Le délégué doit demander la preuve de chaque date, les avertissements antérieurs donnés, et si d'autres travailleurs en retard ont été disciplinés. Le délégué conclut en offrant l'atténuation (documentation de rendez-vous médicaux, retards de transport) et en demandant une réduction à un avertissement écrit. Limite : 12 minutes. Débriefing : quelqu'un a-t-il accidentellement admis des faits que l'employeur n'avait pas prouvés ?
 
+Exercice dans l'outil : ouvrez Outils → Fiches délégué → Journal prédisciplinaire (/tools/pre-disciplinary-log) et complétez la liste des droits pour le même scénario.
+
 ---
 
 ## Liste de contrôle du plancher
@@ -127,7 +129,9 @@ Exercice : Jouez un rôle de rencontre disciplinaire. Le gestionnaire présente 
 - [ ] Préparer les facteurs atténuants avec dates et notes de soutien
 - [ ] Conseiller le membre sur obéir maintenant, plaider ensuite ou les exceptions de sécurité/légales avant le prochain quart
 - [ ] Pour la conduite hors service, conserver les publications sociales et documenter l'impact en milieu de travail (ou son absence)
+- [ ] Compléter la liste des droits de `/tools/pre-disciplinary-log` avant la rencontre lorsque possible
 - [ ] Rédiger un redressement précis : retrait du dossier, sanction réduite, réintégration avec salaire rétroactif
+- [ ] Briefer le membre : n'admettre que les faits prouvés ; ne pas inventer de dates ou de motifs pour l'employeur
 
 ---
 
@@ -162,7 +166,7 @@ Un employeur émet une « lettre d'encadrement » à un membre au sujet de sa po
 *   D) Conseiller au membre de l'ignorer et de mettre le syndicat en CCI sur tous les courriels.
 
 **Correct Answer: C**
-*Explanation* : Une véritable lettre d'encadrement ou de coaching doit être de soutien et non disciplinaire. Dès qu'elle contient une menace de discipline future (« entraînera une discipline progressive... »), elle franchit la limite de la discipline formelle et doit être traitée — et contestée — comme un avertissement disciplinaire.
+*Explication* : Une véritable lettre d'encadrement ou de coaching doit être de soutien et non disciplinaire. Dès qu'elle contient une menace de discipline future (« entraînera une discipline progressive... »), elle franchit la limite de la discipline formelle et doit être traitée — et contestée — comme un avertissement disciplinaire.
 
 ### Question 2
 Un superviseur ordonne à un travailleur de chaîne de montage de dégager immédiatement une presse industrielle bloquée. Le travailleur refuse parce que le superviseur n'a pas verrouillé la source d'énergie, ce qui viole les règlements locaux de sécurité industrielle. Le superviseur suspend le travailleur sur-le-champ pour insubordination. Cette suspension est-elle valide ?
@@ -172,7 +176,7 @@ Un superviseur ordonne à un travailleur de chaîne de montage de dégager immé
 *   D) Non, mais seulement si le travailleur a plus de 5 ans d'ancienneté.
 
 **Correct Answer: B**
-*Explanation* : Refuser un ordre constitue de l'insubordination *sauf* si une exception reconnue s'applique. Une menace objective pour la santé et la sécurité (dégager une presse industrielle active sans procédures appropriées de verrouillage-étiquetage) est une exception juridique fondamentale qui protège entièrement le travailleur de toute discipline.
+*Explication* : Refuser un ordre constitue de l'insubordination *sauf* si une exception reconnue s'applique. Une menace objective pour la santé et la sécurité (dégager une presse industrielle active sans procédures appropriées de verrouillage-étiquetage) est une exception juridique fondamentale qui protège entièrement le travailleur de toute discipline.
 
 ### Question 3
 Un employé publie un coup de gueule public sur Facebook un dimanche soir, qualifiant le service à la clientèle de son employeur de « farce absolue dirigée par des clowns ». Plusieurs clients voient la publication et se plaignent. L'employeur peut-il discipliner l'employé ?
@@ -182,7 +186,7 @@ Un employé publie un coup de gueule public sur Facebook un dimanche soir, quali
 *   D) Non, à moins que l'employé n'ait utilisé l'internet fourni par l'employeur pour faire la publication.
 
 **Correct Answer: C**
-*Explanation* : La conduite hors service peut faire l'objet d'une discipline si l'employeur peut prouver un « lien » avec le milieu de travail. Parce que la publication était publique, visait l'employeur et a entraîné de véritables plaintes de clients, un lien clair de préjudice réputationnel est établi.
+*Explication* : La conduite hors service peut faire l'objet d'une discipline si l'employeur peut prouver un « lien » avec le milieu de travail. Parce que la publication était publique, visait l'employeur et a entraîné de véritables plaintes de clients, un lien clair de préjudice réputationnel est établi.
 
 ### Question 4
 Un membre de longue date avec un dossier propre reçoit une suspension de cinq jours pour une seule dispute animée avec un collègue. Le collègue n'a pas été discipliné. Quel angle de défense est le plus fort en plus de contester la preuve de l'employeur ?
@@ -192,7 +196,7 @@ Un membre de longue date avec un dossier propre reçoit une suspension de cinq j
 *   D) Arguer que les disputes ne sont jamais disciplinables.
 
 **Correct Answer: B**
-*Explanation* : Les facteurs atténuants incluent un dossier propre, l'ancienneté et l'application incohérente. La proportionnalité conteste une suspension de cinq jours comme excessive pour un premier incident, surtout lorsque le pair n'a fait l'objet d'aucune sanction.
+*Explication* : Les facteurs atténuants incluent un dossier propre, l'ancienneté et l'application incohérente. La proportionnalité conteste une suspension de cinq jours comme excessive pour un premier incident, surtout lorsque le pair n'a fait l'objet d'aucune sanction.
 
 ### Question 5
 Avant une rencontre disciplinaire, les RH envoient au membre : « Apportez toutes les notes que vous avez sur l'incident. » Le membre demande s'il doit préparer une déclaration écrite. Que conseillez-vous ?
@@ -202,7 +206,7 @@ Avant une rencontre disciplinaire, les RH envoient au membre : « Apportez toute
 *   D) Envoyer la déclaration écrite directement au superviseur sans le délégué.
 
 **Correct Answer: B**
-*Explanation* : Les membres ne doivent pas remettre aux employeurs des aveux non revus. Les délégués assurent la divulgation, contrôlent le récit avec des faits vérifiés, et préservent l'atténuation — la coopération ne signifie pas l'auto-incrimination avant la preuve.
+*Explication* : Les membres ne doivent pas remettre aux employeurs des aveux non revus. Les délégués assurent la divulgation, contrôlent le récit avec des faits vérifiés, et préservent l'atténuation — la coopération ne signifie pas l'auto-incrimination avant la preuve.
 
 ### Question 6
 Un employeur passe directement à une suspension de trois jours pour un premier problème d'assiduité. Aucun avertissement verbal ou écrit antérieur n'apparaît au dossier. Quel est l'argument procédural le plus fort ?
@@ -212,4 +216,4 @@ Un employeur passe directement à une suspension de trois jours pour un premier 
 *   D) Le membre doit accepter la suspension et porter grief plus tard sans mentionner l'échelle.
 
 **Correct Answer: B**
-*Explanation* : La discipline progressive exige des étapes proportionnées. Passer à une suspension lors d'un premier incident sans étapes antérieures documentées est une défense centrale — exigez la preuve de chaque palier de l'échelle.
+*Explication* : La discipline progressive exige des étapes proportionnées. Passer à une suspension lors d'un premier incident sans étapes antérieures documentées est une défense centrale — exigez la preuve de chaque palier de l'échelle.

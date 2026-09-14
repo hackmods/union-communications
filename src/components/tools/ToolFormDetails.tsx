@@ -16,6 +16,10 @@ type ToolFormDetailsProps = {
  * Collapsible editor section for canvas tool side panels.
  * Secondary controls (ornaments, print size, colours) stay collapsed
  * so primary choices stay readable above the fold.
+ *
+ * Summary click is handled in React (preventDefault) so controlled
+ * `open` does not fight the browser toggle — Playwright and stewards
+ * both need a reliable open/close.
  */
 export function ToolFormDetails({
   title,
@@ -28,15 +32,18 @@ export function ToolFormDetails({
   return (
     <details
       open={open}
-      onToggle={(e) => {
-        setOpen((e.currentTarget as HTMLDetailsElement).open);
-      }}
       className={cn(
         "group rounded-lg border border-gray-200 bg-gray-50/60 open:bg-white",
         className,
       )}
     >
-      <summary className="cursor-pointer list-none px-3 py-3 text-sm font-semibold text-opseu-dark marker:content-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40 [&::-webkit-details-marker]:hidden">
+      <summary
+        className="cursor-pointer list-none px-3 py-3 text-sm font-semibold text-opseu-dark marker:content-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40 [&::-webkit-details-marker]:hidden"
+        onClick={(e) => {
+          e.preventDefault();
+          setOpen((prev) => !prev);
+        }}
+      >
         <span className="flex items-center justify-between gap-2">
           <span>{title}</span>
           <span

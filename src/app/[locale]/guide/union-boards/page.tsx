@@ -3,9 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
@@ -22,6 +20,18 @@ import {
 } from "@/lib/constants/board-materials";
 import { BoardReferenceSheetButton } from "@/components/comms/BoardReferenceSheetButton";
 import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import {
+  GuideLayout,
+  GuideAccentBlock,
+  GuideActionRow,
+  GuideCallout,
+  GuideProse,
+  GuideSection,
+  GuideTipGrid,
+  GuideTipItem,
+  GuideWideFigure,
+} from "@/components/comms/guide-ui";
 
 export async function generateMetadata({
   params,
@@ -41,11 +51,11 @@ const printItemKeys = [
 ] as const;
 
 const TOC = [
-  ["bare-minimum-heading", "bareMinimum"],
-  ["what-to-print-heading", "whatToPrint"],
-  ["materials-heading", "materials"],
-  ["layouts-heading", "layouts"],
-  ["practice-heading", "practice"],
+  ["bare-minimum", "bareMinimum"],
+  ["what-to-print", "whatToPrint"],
+  ["materials", "materials"],
+  ["layouts", "layouts"],
+  ["practice", "practice"],
 ] as const;
 
 export default async function UnionBoardsGuidePage({
@@ -103,22 +113,20 @@ export default async function UnionBoardsGuidePage({
         <SourcesBlock pageId="unionBoards" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <section aria-labelledby="bare-minimum-heading">
-        <h2
-          id="bare-minimum-heading"
-          className="text-2xl font-bold text-opseu-dark"
-        >
-          {t("bareMinimum.title")}
-        </h2>
-        <p className="mt-2 leading-relaxed text-gray-700">
-          {t("bareMinimum.intro")}
-        </p>
+      <OfficerLearningModuleCallout slug="financial-health" moduleNumber={5} />
 
-        <BareMinimumBoardDiagram labels={zoneLabels} className="mt-6" />
+      <GuideSection
+        id="bare-minimum"
+        title={t("bareMinimum.title")}
+        intro={t("bareMinimum.intro")}
+      >
+        <GuideWideFigure>
+          <BareMinimumBoardDiagram labels={zoneLabels} />
+        </GuideWideFigure>
 
-        <ol className="mt-6 list-decimal space-y-4 pl-5 text-gray-700">
+        <ol className="mt-6 list-decimal space-y-4 pl-5 text-gray-700 sm:columns-2 sm:gap-x-8">
           {printItemKeys.map((key) => (
-            <li key={key}>
+            <li key={key} className="break-inside-avoid">
               <p className="font-semibold text-opseu-dark">
                 {t(`bareMinimum.items.${key}.title`)}
               </p>
@@ -129,42 +137,33 @@ export default async function UnionBoardsGuidePage({
           ))}
         </ol>
 
-        <Callout tone="muted" className="mt-4">
+        <GuideCallout tone="muted" className="mt-4">
           {t("bareMinimum.tip")}
-        </Callout>
-      </section>
+        </GuideCallout>
+      </GuideSection>
 
-      <section className="mt-12" aria-labelledby="what-to-print-heading">
-        <h2
-          id="what-to-print-heading"
-          className="text-2xl font-bold text-opseu-dark"
-        >
-          {t("whatToPrint.title")}
-        </h2>
-        <p className="mt-2 leading-relaxed text-gray-700">
-          {t("whatToPrint.intro")}
-        </p>
-        <ul className="mt-4 list-disc space-y-2 pl-5 text-gray-700">
+      <GuideSection
+        id="what-to-print"
+        title={t("whatToPrint.title")}
+        intro={t("whatToPrint.intro")}
+      >
+        <GuideTipGrid>
           {(["always", "rotate", "optional", "sizes"] as const).map((key) => (
-            <li key={key}>
-              <span className="font-semibold text-opseu-dark">
-                {t(`whatToPrint.${key}.label`)}:
-              </span>{" "}
-              {t(`whatToPrint.${key}.content`)}
-            </li>
+            <GuideTipItem
+              key={key}
+              label={t(`whatToPrint.${key}.label`)}
+              content={t(`whatToPrint.${key}.content`)}
+            />
           ))}
-        </ul>
-      </section>
+        </GuideTipGrid>
+      </GuideSection>
 
-      <section className="mt-12" aria-labelledby="materials-heading">
-        <h2 id="materials-heading" className="text-2xl font-bold text-opseu-dark">
-          {t("materials.title")}
-        </h2>
-        <p className="mt-2 leading-relaxed text-gray-700">
-          {t("materials.intro")}
-        </p>
-
-        <h3 className="mt-6 text-lg font-bold text-opseu-dark">
+      <GuideSection
+        id="materials"
+        title={t("materials.title")}
+        intro={t("materials.intro")}
+      >
+        <h3 className="text-lg font-bold text-opseu-dark">
           {t("materials.ministryHeading")}
         </h3>
         <p className="mt-1 text-sm text-gray-600">{t("materials.ministryNote")}</p>
@@ -255,17 +254,14 @@ export default async function UnionBoardsGuidePage({
             </li>
           ))}
         </ul>
-      </section>
+      </GuideSection>
 
-      <section className="mt-12" aria-labelledby="layouts-heading">
-        <h2 id="layouts-heading" className="text-2xl font-bold text-opseu-dark">
-          {t("layouts.title")}
-        </h2>
-        <p className="mt-2 leading-relaxed text-gray-700">
-          {t("layouts.intro")}
-        </p>
-
-        <h3 className="mt-6 text-lg font-bold text-opseu-dark">
+      <GuideSection
+        id="layouts"
+        title={t("layouts.title")}
+        intro={t("layouts.intro")}
+      >
+        <h3 className="text-lg font-bold text-opseu-dark">
           {t("layouts.photosHeading")}
         </h3>
         <p className="mt-1 text-sm text-gray-600">{t("layouts.photosIntro")}</p>
@@ -306,16 +302,14 @@ export default async function UnionBoardsGuidePage({
         </h3>
         <div className="mt-4 space-y-8">
           {BOARD_LAYOUT_REFERENCES.map((layout) => (
-            <section
+            <GuideAccentBlock
               key={layout.id}
-              className="border-l-2 border-opseu-blue/30 pl-5"
+              titleAs="h4"
+              title={t(`layouts.${layout.titleKey}`)}
             >
-              <h4 className="text-lg font-bold text-opseu-dark">
-                {t(`layouts.${layout.titleKey}`)}
-              </h4>
-              <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-700">
+              <GuideProse className="mt-2 text-sm">
                 {t(`layouts.${layout.descriptionKey}`)}
-              </p>
+              </GuideProse>
               <p className="mt-1 text-xs font-medium uppercase tracking-wide text-opseu-blue">
                 {t(`layouts.${layout.bestForKey}`)}
               </p>
@@ -325,36 +319,27 @@ export default async function UnionBoardsGuidePage({
                 labels={zoneLabels}
                 className="mt-4"
               />
-            </section>
+            </GuideAccentBlock>
           ))}
         </div>
-      </section>
+      </GuideSection>
 
-      <section className="mt-12" aria-labelledby="practice-heading">
-        <h2
-          id="practice-heading"
-          className="text-2xl font-bold text-opseu-dark"
-        >
-          {t("practiceTitle")}
-        </h2>
-        <div className="mt-6 space-y-8">
+      <GuideSection id="practice" title={t("practiceTitle")}>
+        <div className="space-y-8">
           {practiceKeys.map((key) => (
-            <section
+            <GuideAccentBlock
               key={key}
-              className="border-l-2 border-opseu-blue/30 pl-5"
+              title={t(`sections.${key}.title`)}
             >
-              <h3 className="text-xl font-bold text-opseu-dark">
-                {t(`sections.${key}.title`)}
-              </h3>
-              <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+              <GuideProse className="mt-3">
                 {t(`sections.${key}.content`)}
-              </p>
-            </section>
+              </GuideProse>
+            </GuideAccentBlock>
           ))}
         </div>
-      </section>
+      </GuideSection>
 
-      <div className="button-row mt-8">
+      <GuideActionRow className="mt-8">
         <Link href="/tools/board-banner" className={guideCtaClass}>
           {nav("boardBanner")}
         </Link>
@@ -376,7 +361,7 @@ export default async function UnionBoardsGuidePage({
         <Link href="/guide/membership-signup" className={guideCtaOutlineClass}>
           {nav("membershipSignupGuide")}
         </Link>
-      </div>
+      </GuideActionRow>
     </GuideLayout>
   );
 }

@@ -29,6 +29,9 @@ import {
 } from "@/components/hub/MfaPolicyProvider";
 import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { NavDropdown } from "@/components/layout/nav/NavDropdown";
+import { PlatformOperatorNavDropdown } from "@/components/platform/PlatformOperatorNavDropdown";
+import { PlatformOperatorAccountLinks } from "@/components/platform/PlatformOperatorAccountLinks";
+import { isPlatformOperator } from "@/lib/platform/operator-nav";
 
 export function HubNav() {
   const { session, authenticated } = useHubAuthenticated();
@@ -147,6 +150,9 @@ export function HubNav() {
         </div>
 
         <div className="hidden min-w-0 flex-1 flex-wrap items-center justify-end gap-1 lg:flex">
+          {isPlatformOperator(roles) && (
+            <PlatformOperatorNavDropdown variant="hub" />
+          )}
           {toolGroups.length > 0 && (
             <NavDropdown
               label={t("toolsMenu")}

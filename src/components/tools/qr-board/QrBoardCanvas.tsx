@@ -7,7 +7,7 @@ import {
   resolveLogoVariant,
   showCanvasLogo,
 } from "@/lib/comms/canvas-logo-mode";
-import { FitWidthFrame } from "@/components/tools/FitWidthFrame";
+import { CanvasWrapper } from "@/components/canvas-core";
 import {
   QR_BOARD_FORMATS,
   qrBoardChrome,
@@ -107,7 +107,13 @@ export function QrBoardCanvas({
   };
 
   return (
-    <FitWidthFrame designWidth={designWidth} designHeight={designHeight}>
+    <CanvasWrapper
+      designWidth={designWidth}
+      designHeight={designHeight}
+      mode="fixed"
+      maxScale={2}
+      align="center"
+    >
       <div
         ref={canvasRef}
         data-export-root=""
@@ -304,6 +310,6 @@ export function QrBoardCanvas({
           </div>
         </div>
       </div>
-    </FitWidthFrame>
+    </CanvasWrapper>
   );
 }

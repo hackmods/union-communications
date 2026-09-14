@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
+  CAAT_A_COLORS,
+  CAAT_A_COALITION_COLORS,
+  CAAT_A_COALITION_PLATE_ID,
   CAAT_S_COLORS,
   CAAT_S_CORAL_PLATE_ID,
   CAAT_S_GOLD_COLORS,
@@ -148,6 +151,12 @@ describe("identity-packs", () => {
 
     const patch = applyIdentityPack(caatA);
     expect(patch.officialLogoVariant).toBe("mark");
+    expect(patch.primaryColor).toBe(CAAT_A_COLORS.primaryColor);
+    expect(patch.primaryColor).toBe("#B22E2C");
+
+    const coalition = applyIdentityPack(caatA, CAAT_A_COALITION_PLATE_ID);
+    expect(coalition.primaryColor).toBe(CAAT_A_COALITION_COLORS.primaryColor);
+    expect(coalition.accentColor).toBe("#FFFFFF");
 
     const logos = resolveOfficialLogos({
       ...DEFAULT_BRAND_KIT,
@@ -177,16 +186,53 @@ describe("identity-packs", () => {
 
   it("uses light preview plates and faculty knockout label for CAAT-A assets", () => {
     const caatA = getIdentityPack(OPSEU_CAAT_A_PACK_ID)!;
+    expect(caatA.assetVariants.map((v) => v.id)).toEqual([
+      "color",
+      "knockout",
+      "on-coalition",
+      "reverse",
+    ]);
     const color = caatA.assetVariants.find((v) => v.id === "color")!;
     const knockout = caatA.assetVariants.find((v) => v.id === "knockout")!;
+    const coalition = caatA.assetVariants.find((v) => v.id === "on-coalition")!;
     const reverse = caatA.assetVariants.find((v) => v.id === "reverse")!;
 
     expect(color.plate).toBe("light");
     expect(knockout.plate).toBe("light");
     expect(knockout.labelKey).toBe("knockoutBurgundy");
+    expect(knockout.src).toBe("/assets/caat-a/logo-lockup-on-primary.png");
+    expect(coalition.src).toBe("/assets/caat-a/logo-lockup-on-coalition.png");
     expect(reverse.plate).toBe("dark");
+    expect(reverse.src).toBe("/assets/caat-a/logo-lockup-reverse.png");
     expect(identityAssetPlateColor(caatA, color)).toBe("#FFFFFF");
     expect(identityAssetPlateColor(caatA, reverse)).toBe("#1A1A1A");
+  });
+
+  it("ships CAAT-A official faculty PNG lockups (no reconstructed art)", () => {
+    const caatA = getIdentityPack(OPSEU_CAAT_A_PACK_ID)!;
+    const publicPath = (src: string) =>
+      join(process.cwd(), "public", src.replace(/^\//, ""));
+
+    const knockout = caatA.assetVariants.find((v) => v.id === "knockout")!.src;
+    const coalition = caatA.assetVariants.find((v) => v.id === "on-coalition")!.src;
+    const reverse = caatA.assetVariants.find((v) => v.id === "reverse")!.src;
+    const colour = caatA.assetVariants.find((v) => v.id === "color")!.src;
+    const oneColor = caatA.logos.oneColor!;
+
+    // Legal: only the supplied faculty rasters — never hand-traced / regenerated lockups.
+    for (const src of [colour, oneColor, knockout, coalition, reverse]) {
+      expect(src).toMatch(/\.png$/);
+      expect(existsSync(publicPath(src))).toBe(true);
+      expect(src).toContain("/assets/caat-a/");
+    }
+
+    expect(knockout).toBe("/assets/caat-a/logo-lockup-on-primary.png");
+    expect(coalition).toBe("/assets/caat-a/logo-lockup-on-coalition.png");
+    expect(reverse).toBe("/assets/caat-a/logo-lockup-reverse.png");
+    expect(colour).toBe("/assets/caat-a/logo-lockup-color.png");
+    expect(caatA.logos.lockupOnDark).toBe(knockout);
+    expect(caatA.plates?.[0]?.lockupOnPlate).toBe(knockout);
+    expect(caatA.plates?.[1]?.lockupOnPlate).toBe(coalition);
   });
 
   it("applies explicit gold plate colours without an invert shortcut", () => {
@@ -226,6 +272,22 @@ describe("identity-packs", () => {
   it("clears campaignPlate when applying a single-palette Look", () => {
     const national = getIdentityPack(OPSEU_NATIONAL_PACK_ID)!;
     expect(applyIdentityPack(national).campaignPlate).toBeUndefined();
+  });
+
+  it("ships the current Ontario's union lockup in national blue files", () => {
+    const national = getIdentityPack(OPSEU_NATIONAL_PACK_ID)!;
+    const ontarioUnion = national.assetVariants.find(
+      (v) => v.id === "ontario-union",
+    );
+    expect(ontarioUnion?.src).toBe(
+      "/assets/caat-opseu/logo-lockup-ontario-union.png",
+    );
+    expect(ontarioUnion?.labelKey).toBe("ontarioUnion");
+    expect(
+      existsSync(
+        join(process.cwd(), "public", ontarioUnion!.src.replace(/^\//, "")),
+      ),
+    ).toBe(true);
   });
 
   it("resolves missing identityPackId to national for OPSEU official kits", () => {
@@ -280,6 +342,14 @@ describe("identity-packs", () => {
       lockupForCanvasBackground(pack, CAAT_S_GOLD_COLORS.primaryColor),
     ).toContain("on-gold");
     expect(lockupForCanvasBackground(pack, "#FFFFFF")).toBeUndefined();
+
+    const caatA = getIdentityPack(OPSEU_CAAT_A_PACK_ID)!;
+    expect(lockupForCanvasBackground(caatA, CAAT_A_COLORS.primaryColor)).toContain(
+      "on-primary",
+    );
+    expect(
+      lockupForCanvasBackground(caatA, CAAT_A_COALITION_COLORS.primaryColor),
+    ).toContain("on-coalition");
   });
 
   it("detects colour drift from the active pack", () => {

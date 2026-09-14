@@ -1,21 +1,19 @@
 # CAAT-A identity pack assets
 
 Source: OPSEU/SEFPO College Faculty bilingual lockups supplied for UnionOps
-(white-on-burgundy stacked plate + burgundy horizontal colour lockup).
+(white-on-red stacked plate + horizontal colour lockup).
 
 | File | Use |
 |------|-----|
-| `logo-lockup-color.svg` | Colour lockup (transparent) — Brand Kit Look + light plates |
-| `logo-lockup-on-primary-knockout.svg` | White lockup on burgundy plate |
-| `logo-lockup-reverse.svg` | White lockup on near-black plate (`#231F20`) |
-| `logo-lockup-one-color.svg` | Burgundy monochrome (same art as colour lockup) |
-| `logo-lockup-on-primary.svg` | Composed burgundy plate (download / reference) |
-| `logo-lockup-on-coalition.svg` | White lockup on OPSEU blue — joint bargaining plate |
+| `logo-lockup-color.png` | Colour lockup — Brand Kit Look + Brand Assets download |
+| `logo-lockup-on-primary.png` | White lockup on faculty red plate (`#B22E2C`) |
+| `logo-lockup-on-coalition.png` | White lockup on OPSEU blue (`#003DA5`) — joint bargaining plate |
+| `logo-lockup-reverse.png` | White lockup on near-black |
 
-Brand tokens from the art: primary `#7B1E3F` (burgundy field),
-accent `#003DA5` (OPSEU blue coalition tie-in).
+Brand tokens from the art: primary `#B22E2C` (stacked-plate field),
+accent `#003DA5` (OPSEU blue coalition tie-in). Coalition Look uses white
+accent so canvas type stays knockout-white.
 
-SVG files embed raster PNG exports from the official lockups so previews and
-downloads match faculty art. Colour lockup viewBox is `588×336`; plated
-white lockups use `300×150`. Replace with vector EPS exports when your local
-receives updated faculty art — keep viewBoxes tight so Look cards stay aligned.
+**Legal:** Brand Kit and downloads must use these supplied faculty rasters
+only. Do not replace them with reconstructed, traced, or regenerated lockups
+until official vector EPS/SVG art is received from faculty.

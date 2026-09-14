@@ -11,6 +11,11 @@ import {
   resolveCanvasTokens,
   boardNoticeScaledTokens,
   printPageScaledTokens,
+  printPageMetaFontSizePx,
+  printPageInsetPx,
+  printPageGapPx,
+  resolvePrintPageLayout,
+  PRINT_PAGE_META_WIDTH_SHARE,
   typeScaleFactor,
   walletBodyFontSizePx,
   walletContentGapPx,
@@ -395,12 +400,48 @@ describe("officeMockPaddingPx", () => {
     expect(roomy).toBeGreaterThan(tight);
     expect(officeMockPaddingPx(undefined)).toBe(16);
   });
-  it("printPageScaledTokens shrinks display type for narrow design widths", () => {
+  it("printPageScaledTokens scales type with denser design widths", () => {
     const base = resolveCanvasTokens(normalizeBrandKit(DEFAULT_BRAND_KIT));
-    const scaled = printPageScaledTokens(base, 306, 306);
-    expect(scaled.titleFontSizePx).toBeLessThanOrEqual(base.titleFontSizePx * 1.12);
+    const scaled = printPageScaledTokens(base, 850, 306);
+    expect(scaled.titleFontSizePx).toBeGreaterThan(base.titleFontSizePx);
+    expect(scaled.titleFontSizePx).toBeLessThanOrEqual(
+      Math.round(base.titleFontSizePx * typeScaleFactor(base) * 3),
+    );
     expect(scaled.paddingPx).toBeGreaterThanOrEqual(16);
-    expect(boardNoticeScaledTokens(base, 306, 306)).toEqual(scaled);
+    expect(scaled.paddingPx).toBeLessThanOrEqual(Math.round(850 * 0.07));
+    expect(scaled.gapPx).toBeLessThanOrEqual(Math.round(850 * 0.03));
+    expect(boardNoticeScaledTokens(base, 850, 306)).toEqual(scaled);
+  });
+
+  it("printPage meta/inset stay supporting on denser letter canvases", () => {
+    const base = resolveCanvasTokens(normalizeBrandKit(DEFAULT_BRAND_KIT));
+    const scaled = printPageScaledTokens(base, 850, 306);
+    const meta = printPageMetaFontSizePx(850, scaled.subtitleFontSizePx);
+    expect(meta).toBeLessThanOrEqual(22);
+    expect(meta).toBeLessThan(scaled.subtitleFontSizePx);
+    expect(printPageInsetPx(scaled.paddingPx, 850)).toBeLessThanOrEqual(
+      Math.round(850 * 0.07),
+    );
+    expect(printPageGapPx(scaled.gapPx, 850)).toBeLessThanOrEqual(
+      Math.round(850 * 0.03),
+    );
+  });
+
+  it("resolvePrintPageLayout is the canonical print meta + inset API", () => {
+    const base = resolveCanvasTokens(normalizeBrandKit(DEFAULT_BRAND_KIT));
+    const layout = resolvePrintPageLayout(base, 850, 306);
+    expect(layout.designWidthPx).toBe(850);
+    expect(layout.metaFontSizePx).toBe(
+      printPageMetaFontSizePx(850, layout.tokens.subtitleFontSizePx),
+    );
+    expect(layout.metaFontSizePx).toBeLessThanOrEqual(
+      Math.round(850 * PRINT_PAGE_META_WIDTH_SHARE),
+    );
+    // Never hand-tune subtitle + N — engine meta is always smaller than subtitle.
+    expect(layout.metaFontSizePx).toBeLessThan(
+      layout.tokens.subtitleFontSizePx + 4,
+    );
+    expect(layout.tokens.paddingPx).toBe(printPageScaledTokens(base, 850, 306).paddingPx);
   });
 });
 

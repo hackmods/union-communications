@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Callout } from "@/components/ui/Callout";
 import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 
 const richMarks = {
   strong: (chunks: ReactNode) => (
@@ -46,9 +47,7 @@ export default async function InstallPage({
 
   return (
     <PageShell size="focus" className="py-8 md:py-12" as="article">
-      <h1 className="text-2xl font-bold leading-tight text-opseu-dark md:text-4xl">
-        {t("title")}
-      </h1>
+      <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
 
       <div className="mt-8 max-w-prose space-y-8 text-lg leading-relaxed text-gray-800">
         <p>{t("intro")}</p>

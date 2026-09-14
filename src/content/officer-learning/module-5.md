@@ -157,7 +157,7 @@ Practice: **Part A — Trustee audit simulation.** Given a ledger with ten entri
 - **Canadian Labour Congress** labour education — local union financial administration
 - **CUPE Steward Handbook** — local finances overview for stewards who monitor executive accountability
 - **Ontario Federation of Labour** — local treasurer and trustee training materials
-- UnionOps: `/guide/union-boards`, `/guide/workshop`
+- UnionOps: `/guide/union-boards`, `/guide/officer-learning/advanced-local-finance`
 
 ---
 

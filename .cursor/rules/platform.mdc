@@ -48,7 +48,7 @@ Phases **0-7 near-complete** (Postgres adapters flag-gated; default memory). Tim
 
 ## Do Not
 - Cross-union data access
-- Analytics or third-party tracking
+- Analytics or third-party tracking (optional env-gated **error** sinks are ADR-006 ops amendment — see `docs/modules/OBSERVABILITY.md`; no Session Replay / product metrics)
 - `dangerouslySetInnerHTML`
 - Skip MFA/audit for confidential modules
 - Hardcode OPSEU/CAAT as default for new tenant signups

@@ -12,7 +12,7 @@ import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
+import { Select } from "@/components/ui/Select";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -26,6 +26,8 @@ import { fieldsFromBoardNotice } from "@/lib/comms/event-email-from-notice";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { BoardNoticeLayoutCanvas } from "@/components/tools/board-notice-layouts";
+import { CanvasWrapper } from "@/components/canvas-core";
+import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import {
   INITIAL_LOGO_MODE,
@@ -34,6 +36,7 @@ import {
 } from "@/lib/comms/canvas-logo-mode";
 import {
   BOARD_NOTICE_FORMATS,
+  BOARD_NOTICE_FORMAT_ORDER,
   boardNoticeExportPixelRatio,
   boardNoticePreviewHeightPx,
   type BoardNoticeFormatId,
@@ -101,7 +104,7 @@ export default function BoardNoticePage() {
   const formatSpec = BOARD_NOTICE_FORMATS[format];
   const designWidth = formatSpec.previewWidthPx;
   const designHeight = boardNoticePreviewHeightPx(formatSpec);
-  const referenceWidth = BOARD_NOTICE_FORMATS.letter.previewWidthPx;
+  const referenceWidth = PRINT_PAGE_LEGACY_REFERENCE_PX;
   const exportPixelRatio = boardNoticeExportPixelRatio(formatSpec);
   const tokens = resolveCanvasTokens(brandKit);
   const showInviteEmail =
@@ -157,34 +160,25 @@ export default function BoardNoticePage() {
         exportSuccess={exportSuccess}
         previewAccessibleName={t("previewAccessibleName")}
         form={
-          <Card density="compact" className="space-y-5">
-            <div>
-              <label
-                htmlFor="notice-type"
-                className="mb-1 block text-sm font-medium"
-              >
-                {t("noticeType")}
-              </label>
-              <select
-                id="notice-type"
-                value={state.noticeType}
-                onChange={(e) =>
-                  setState({
-                    ...state,
-                    noticeType: e.target.value as NoticeType,
-                  })
-                }
-                className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
-              >
-                {(
-                  ["meeting", "bargaining", "event", "general"] as const
-                ).map((type) => (
-                  <option key={type} value={type}>
-                    {t(`types.${type}`)}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="space-y-5">
+            <Select
+              label={t("noticeType")}
+              value={state.noticeType}
+              onChange={(e) =>
+                setState({
+                  ...state,
+                  noticeType: e.target.value as NoticeType,
+                })
+              }
+            >
+              {(
+                ["meeting", "bargaining", "event", "general"] as const
+              ).map((type) => (
+                <option key={type} value={type}>
+                  {t(`types.${type}`)}
+                </option>
+              ))}
+            </Select>
             <Input
               label={t("headline")}
               value={state.headline}
@@ -239,10 +233,15 @@ export default function BoardNoticePage() {
               <SegControl
                 label={t("format")}
                 value={format}
-                options={[
-                  { value: "letter" as const, label: t("formatLetter") },
-                  { value: "tabloid" as const, label: t("formatTabloid") },
-                ]}
+                options={BOARD_NOTICE_FORMAT_ORDER.map((id) => ({
+                  value: id,
+                  label:
+                    id === "letter"
+                      ? t("formatLetter")
+                      : id === "tabloid"
+                        ? t("formatTabloid")
+                        : t("formatA4"),
+                }))}
                 onChange={setFormat}
               />
               <CanvasBrandingControls
@@ -273,7 +272,7 @@ export default function BoardNoticePage() {
               onPng={() => void handleExportPng()}
               onPdf={() => void handleExportPdf()}
             />
-          </Card>
+          </div>
         }
         previewActions={
           <ToolExportActions
@@ -283,7 +282,14 @@ export default function BoardNoticePage() {
           />
         }
         preview={
-          <div className="mx-auto w-full max-w-full">
+          <CanvasWrapper
+            designWidth={designWidth}
+            designHeight={designHeight}
+            mode="fixed"
+            maxScale={2}
+            align="center"
+            frameClassName="shadow-lg"
+          >
             <BoardNoticeLayoutCanvas
               canvasRef={canvasRef}
               layout={state.layout}
@@ -321,7 +327,7 @@ export default function BoardNoticePage() {
               logoMode={state.logoMode}
               showLocalLabel={state.showLocalNumber}
             />
-          </div>
+          </CanvasWrapper>
         }
         footer={
           <div className="space-y-6">

@@ -2,7 +2,11 @@
 import { twMerge } from "tailwind-merge";
 import { resolveLocalNumber } from "./local";
 
-export { resolveLocalNumber, DEFAULT_LOCAL_NUMBER } from "./local";
+export {
+  resolveLocalNumber,
+  localLabel,
+  DEFAULT_LOCAL_NUMBER,
+} from "./local";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

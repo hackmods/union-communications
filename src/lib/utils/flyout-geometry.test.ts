@@ -187,6 +187,11 @@ describe("Nav mega-menu source stays clamped", () => {
     expect(source).not.toMatch(/w-\[min\(90vw/);
     expect(source).not.toMatch(/xl:w-\[min\(90vw/);
     expect(source).toContain("NAV_MEGA_MENU_GRID_CLASS");
+    // Floor / The local stay in <details> at every width (not expanded at 2xl).
+    // React types omit defaultOpen on <details>; seed via controlled initiallyOpen.
+    expect(source).not.toMatch(/hidden 2xl:block/);
+    expect(source).toMatch(/initiallyOpen=\{hasActive\}/);
+    expect(source).not.toMatch(/defaultOpen=\{hasActive\}/);
   });
 
   it("wires the header Guides and Tools flyouts through viewport clamp", () => {

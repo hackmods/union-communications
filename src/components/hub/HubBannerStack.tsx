@@ -6,12 +6,17 @@ import { SoftLaunchBanner } from "@/components/hub/SoftLaunchBanner";
 import { MemoryDataBanner } from "@/components/hub/MemoryDataBanner";
 import { MeetingReminderBanner } from "@/components/hub/MeetingReminderBanner";
 
+type Props = {
+  /** From server layout via `isMemoryCaseDataActive()` — not readable in the browser. */
+  memoryCaseDataActive: boolean;
+};
+
 /**
  * Sticky status banners below the public header. Publishes
  * `--hub-banner-stack-height` so HubNav can stick under the stack instead of
  * letting banners scroll away under the site header on mobile.
  */
-export function HubBannerStack() {
+export function HubBannerStack({ memoryCaseDataActive }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -43,7 +48,7 @@ export function HubBannerStack() {
     >
       <DemoSiteBanner />
       <SoftLaunchBanner />
-      <MemoryDataBanner />
+      <MemoryDataBanner active={memoryCaseDataActive} />
       <MeetingReminderBanner />
     </div>
   );

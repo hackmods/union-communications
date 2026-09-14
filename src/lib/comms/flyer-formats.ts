@@ -6,13 +6,15 @@ import {
   printPagePreviewWidthPx,
   type PrintPagePreviewSpec,
 } from "@/lib/comms/print-page-formats";
+import { CANVAS_ASPECTS } from "@/lib/comms/canvas-aspects";
 
-export type FlyerFormatId = "letter" | "halfLetter" | "tabloid";
+export type FlyerFormatId = "letter" | "halfLetter" | "tabloid" | "a4";
 
 export const FLYER_FORMAT_ORDER: readonly FlyerFormatId[] = [
   "letter",
   "halfLetter",
   "tabloid",
+  "a4",
 ] as const;
 
 export const DEFAULT_FLYER_FORMAT: FlyerFormatId = "letter";
@@ -27,6 +29,8 @@ export interface FlyerFormat extends PrintPagePreviewSpec {
    */
   aspectRatio: string;
 }
+
+const a4 = CANVAS_ASPECTS.a4;
 
 export const FLYER_FORMATS: Record<FlyerFormatId, FlyerFormat> = {
   letter: {
@@ -53,6 +57,14 @@ export const FLYER_FORMATS: Record<FlyerFormatId, FlyerFormat> = {
     heightInches: 17,
     previewWidthPx: printPagePreviewWidthPx(11),
   },
+  a4: {
+    id: "a4",
+    aspectClass: a4.aspectClass ?? "aspect-[210/297]",
+    aspectRatio: a4.aspectRatio,
+    widthInches: a4.widthInches!,
+    heightInches: a4.heightInches!,
+    previewWidthPx: a4.designWidthPx,
+  },
 };
 
 export const flyerPreviewHeightPx = printPagePreviewHeightPx;
@@ -61,6 +73,9 @@ export const flyerExportPixelRatio = printPageExportPixelRatio;
 
 export function isFlyerFormatId(value: unknown): value is FlyerFormatId {
   return (
-    value === "letter" || value === "halfLetter" || value === "tabloid"
+    value === "letter" ||
+    value === "halfLetter" ||
+    value === "tabloid" ||
+    value === "a4"
   );
 }

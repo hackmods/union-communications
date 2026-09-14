@@ -9,6 +9,7 @@ import { canMutatePolls } from "@/lib/polls/access";
 import { pollsStore } from "@/lib/polls/store";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { createPollSchema } from "@/lib/validation/polls";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 import type { PollStatus } from "@/types/polls";
 import type { UserRole } from "@/types/tenant";
 
@@ -94,6 +95,7 @@ export async function POST(request: Request) {
     if (message.includes("Slug already")) {
       return NextResponse.json({ error: message }, { status: 409 });
     }
+    reportApiFailure(err, "/api/polls");
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

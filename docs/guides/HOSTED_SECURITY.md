@@ -95,6 +95,29 @@ Before storing **real** member casework or collaboration:
 - **No raw IP** in site feedback — hashed for rate limit only (ADR-018).
 - Portal API routes do not log PII; Hub audit log stores action metadata for elevated officers.
 
+### Optional operator error sinks (not product analytics)
+
+Independently toggled on CapRover / Docker via env (defaults **off**):
+
+| Variable | Purpose |
+|----------|---------|
+| `SENTRY_ENABLED` | `true` to enable server/edge Sentry (also needs a DSN) |
+| `NEXT_PUBLIC_SENTRY_DSN` | Client DSN — **bake at image build** (Next.js inlines `NEXT_PUBLIC_*`) |
+| `SENTRY_DSN` | Optional server/edge DSN override (runtime CapRover OK) |
+| `SENTRY_AUTH_TOKEN` | Optional CI/build source maps only — never commit |
+| `ERROR_LOG_FILE_ENABLED` | `true` to append server errors as JSONL |
+| `ERROR_LOG_FILE_PATH` | Absolute path, e.g. `/data/logs/unionops-errors.jsonl` |
+| `ERROR_LOG_FILE_MAX_BYTES` | Rotate active file when larger (default `10485760` = 10 MiB) |
+| `ERROR_LOG_FILE_KEEP` | Rotated siblings to keep (`path.1`…`path.N`, default `3`) |
+
+Confirm effective sinks after deploy: `GET /api/health` → `observability` object (`sentryEnabled`, `sentryClientEnabled`, `errorLogFileEnabled`, plus `*Misconfigured` / `sentryClientServerMismatch` flags). `npm run health:check` prints the same summary.
+
+- Browser errors reach Sentry only when `NEXT_PUBLIC_SENTRY_DSN` was present at **build** time; client events use same-origin tunnel `/monitoring` (CSP `connect-src 'self'` stays closed).
+- File logging is **Node/server only**. CapRover: attach a **Persistent Directory** (e.g. host `logs` → `/data/logs`) or the file is lost on redeploy — same pattern as `ATTACHMENT_LOCAL_DIR`.
+- Do not log grievance bodies, cookies, or auth headers. SDK `beforeSend` strips request cookies/data/headers.
+- No Session Replay and no product usage metrics.
+- **Source maps (CI):** set GitHub Actions secret `SENTRY_AUTH_TOKEN` (org token with `project:releases` / `org:read`). CI `npm run build` and the Docker production image build upload maps when the secret is present; builds still succeed without it.
+
 ---
 
 ## Hybrid export (residual risk)

@@ -24,6 +24,72 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "home-hub-layout",
+    date: "2026-09-08",
+    kind: "improved",
+    href: "/",
+  },
+  {
+    id: "opseu-ontario-union-lockup",
+    date: "2026-09-08",
+    kind: "added",
+    href: "/assets",
+  },
+  {
+    id: "land-ack-workshops-hub",
+    date: "2026-09-08",
+    kind: "improved",
+    href: "/guide/land-acknowledgement",
+  },
+  {
+    id: "canvas-core-print-fit",
+    date: "2026-09-07",
+    kind: "improved",
+    href: "/tools/flyer-maker",
+  },
+  {
+    id: "flyer-walkabout-fit",
+    date: "2026-09-06",
+    kind: "improved",
+    href: "/tools/flyer-maker",
+  },
+  {
+    id: "officer-learning-modules-15-16",
+    date: "2026-09-06",
+    kind: "added",
+    href: "/guide/officer-learning",
+  },
+  {
+    id: "solidarity-poster-type-fit",
+    date: "2026-09-06",
+    kind: "improved",
+    href: "/tools/solidarity-poster",
+  },
+  {
+    id: "officer-learning-modules-11-14",
+    date: "2026-09-06",
+    kind: "added",
+    href: "/guide/officer-learning",
+  },
+  {
+    id: "officer-learning-modules-7-10",
+    date: "2026-09-06",
+    kind: "added",
+    href: "/guide/officer-learning",
+  },
+  {
+    id: "guides-catalog-split",
+    date: "2026-09-06",
+    kind: "improved",
+    href: "/guides",
+  },
+  {
+    id: "guides-catalog",
+    date: "2026-09-05",
+    kind: "added",
+    href: "/guides",
+  },
+  {
     id: "flyer-maker-phone",
     date: "2026-09-05",
     kind: "improved",

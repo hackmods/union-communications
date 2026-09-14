@@ -4,7 +4,7 @@
 
 Prévoyez **40 à 50 minutes** — ce module couvre du matériel dense. Lisez dans un cadre où vous pouvez faire pause et réfléchir. Apportez des brouillons de sondages de négociation si disponibles, le préambule et le langage de congé de votre **convention collective**, et un **carnet**. Discutez des protocoles culturels de la section 4 avec des membres autochtones ou le comité d'équité de votre section locale avant d'accueillir des cérémonies — ce module introduit les protocoles ; les relations communautaires guident la pratique.
 
-Les sections passent du biais systémique vs individuel à la négociation d'équité, au langage contractuel, et au RAD avec protocoles culturels. Associez `/guide/joint-committee` pour les structures de comités et `/guide/workshop` pour les événements d'éducation des membres. La formation antraciste du **CTC** et le guide **Arrêter le harcèlement** du SCFP approfondissent les sections 1 et 3.
+Les sections passent du biais systémique vs individuel à la négociation d'équité, au langage contractuel, et au RAD avec protocoles culturels. Associez `/guide/bargaining`, `/guide/strike` et `/guide/membership-signup` pour les cahiers de campagne. Le **module 7** approfondit les échelles de mobilisation et les limites de grève en cours de convention du LRT — ce module possède le langage d'équité et la RAD. La formation antraciste du **CTC** et le guide **Arrêter le harcèlement** du SCFP approfondissent les sections 1 et 3.
 
 🪞 Réflexion : Le changement systémique est plus lent que de dénoncer une blague raciste — mais c'est ainsi que le prochain membre évite le même obstacle.
 
@@ -164,7 +164,7 @@ Exercice : **Tour 1 — table de comité de négociation.** Étant donné une ca
 - Cours de traitement des griefs et de leadership en milieu de travail d'**Unifor** — comités représentatifs et cartographie du pouvoir
 - **Commission ontarienne des droits de la personne** — **Les droits de la personne au travail** (concepts de discrimination systémique)
 - **Fédération du travail de l'Ontario** — ressources d'équité et d'inclusion pour les sections locales
-- UnionOps : `/guide/joint-committee`, `/guide/workshop`, `/guide/steward-101`, `/guide/photo-consent`
+- UnionOps : `/guide/bargaining`, `/guide/strike`, `/guide/membership-signup`, `/guide/workplace-mapping`, `/guide/joint-committee`, `/guide/steward-101`, `/guide/officer-learning/mobilizer-bargaining-partner`
 
 ---
 
@@ -178,7 +178,7 @@ Lequel des éléments suivants est le meilleur exemple d'un « obstacle systémi
 *   D) Un trésorier perdant un reçu pour une dépense de rencontre.
 
 **Correct Answer: B**
-*Explanation* : Les obstacles systémiques sont des politiques ou montages apparemment neutres qui excluent ou désavantagent de façon disproportionnée un groupe précis. Tenir des rencontres dans une zone inaccessible par transport en commun exclut systématiquement les travailleurs à faible revenu, précaires ou racialisés qui sont moins susceptibles de posséder un véhicule personnel.
+*Explication* : Les obstacles systémiques sont des politiques ou montages apparemment neutres qui excluent ou désavantagent de façon disproportionnée un groupe précis. Tenir des rencontres dans une zone inaccessible par transport en commun exclut systématiquement les travailleurs à faible revenu, précaires ou racialisés qui sont moins susceptibles de posséder un véhicule personnel.
 
 ### Question 2
 Le comité de négociation veut proposer d'élargir le congé de deuil pour inclure la « famille choisie ». L'employeur s'y oppose, affirmant que la « famille » doit être strictement définie par le mariage légal et les liens de sang pour prévenir les abus. Comment le syndicat peut-il justifier cette proposition ?
@@ -188,7 +188,7 @@ Le comité de négociation veut proposer d'élargir le congé de deuil pour incl
 *   D) En abandonnant la proposition et en se concentrant seulement sur les augmentations salariales.
 
 **Correct Answer: A**
-*Explanation* : Élargir la définition de la famille pour inclure la « famille choisie » est une demande contractuelle clé d'équité. Elle reconnaît que les réseaux de parenté varient largement selon les communautés culturelles et marginalisées, et que les règles traditionnelles limitées aux liens de sang sont exclusives.
+*Explication* : Élargir la définition de la famille pour inclure la « famille choisie » est une demande contractuelle clé d'équité. Elle reconnaît que les réseaux de parenté varient largement selon les communautés culturelles et marginalisées, et que les règles traditionnelles limitées aux liens de sang sont exclusives.
 
 ### Question 3
 La section locale invite un Aîné autochtone à mener une cérémonie d'ouverture pour une école syndicale de fin de semaine. Pour suivre les protocoles traditionnels appropriés, que devrait préparer la section locale à offrir à l'Aîné lors de la demande ?
@@ -198,7 +198,7 @@ La section locale invite un Aîné autochtone à mener une cérémonie d'ouvertu
 *   D) Un paiement en espèces dans une enveloppe ouverte avant qu'ils ne parlent.
 
 **Correct Answer: B**
-*Explanation* : Offrir un lien de tabac traditionnel (tabac organique dans du drap coloré) avec la main gauche (représentant le cœur) est un protocole culturel fondamental lorsqu'on demande les conseils, enseignements ou présence cérémonielle d'un Aîné.
+*Explication* : Offrir un lien de tabac traditionnel (tabac organique dans du drap coloré) avec la main gauche (représentant le cœur) est un protocole culturel fondamental lorsqu'on demande les conseils, enseignements ou présence cérémonielle d'un Aîné.
 
 ### Question 4
 Un membre veut une RAD avec un Aîné plutôt qu'une rencontre de grief formelle avec la direction. Meilleure réponse du délégué ?
@@ -208,17 +208,17 @@ Un membre veut une RAD avec un Aîné plutôt qu'une rencontre de grief formelle
 *   D) Exiger que le membre divulgue son historique médical complet à l'Aîné.
 
 **Correct Answer: B**
-*Explanation* : La RAD volontaire complète, sans remplacer, les processus formels. Les membres peuvent essayer des voies restauratives tout en préservant le droit de revenir à la procédure de grief.
+*Explication* : La RAD volontaire complète, sans remplacer, les processus formels. Les membres peuvent essayer des voies restauratives tout en préservant le droit de revenir à la procédure de grief.
 
 ### Question 5
 Les données du sondage montrent que les membres racialisés à temps partiel ne peuvent pas assister aux réunions suburbaines à 18 h. L'exécutif dit que la participation prouve que « ces membres s'en fichent ». Meilleure réponse du délégué ?
 *   A) Accepter la faible participation comme apathie et ne viser que les membres engagés.
 *   B) Nommer la barrière systémique, proposer des heures/lieux accessibles ou des options hybrides, et lier les correctifs de participation aux propositions du sondage de négociation.
-*   C) Imposer la fumée à chaque réunion pour augmenter la participation.
+*   C) Imposer une cérémonie de purification à chaque réunion pour augmenter la participation.
 *   D) Retirer les membres à temps partiel de la liste pour améliorer le calcul du quorum.
 
 **Correct Answer: B**
-*Explanation* : La structure façonne la participation. Les délégués relient l'analyse des barrières à des correctifs locaux concrets et à des forfaits de négociation — le cadrage apathique masque l'exclusion.
+*Explication* : La structure façonne la participation. Les délégués relient l'analyse des barrières à des correctifs locaux concrets et à des forfaits de négociation — le cadrage apathique masque l'exclusion.
 
 ### Question 6
 Des microagressions répétées d'un superviseur sont actives pendant que l'équipe de négociation poursuit une nouvelle clause d'équité pour le prochain contrat. Que doit-il se passer maintenant ?
@@ -228,4 +228,4 @@ Des microagressions répétées d'un superviseur sont actives pendant que l'équ
 *   D) Échanger le grief contre un préambule seulement.
 
 **Correct Answer: B**
-*Explanation* : Le préjudice actif fait l'objet d'un grief maintenant. La négociation construit l'application systémique pour plus tard — les deux voies se complètent ; ne laissez pas les membres sans protection pendant la négociation du langage.
+*Explication* : Le préjudice actif fait l'objet d'un grief maintenant. La négociation construit l'application systémique pour plus tard — les deux voies se complètent ; ne laissez pas les membres sans protection pendant la négociation du langage.

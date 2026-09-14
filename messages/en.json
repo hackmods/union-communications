@@ -48,7 +48,7 @@
     "steward101Guide": "Steward 101",
     "officerLearningGuide": "Officer Learning Center",
     "officerLearningTopNav": "Officer Learning",
-    "officerLearningFeatured": "Six self-paced modules with floor checklists and quizzes.",
+    "officerLearningFeatured": "Sixteen self-paced modules with floor checklists and quizzes.",
     "workplaceMappingGuide": "Workplace mapping",
     "grievanceProcessGuide": "Grievance process",
     "dfrGuide": "Duty of Fair Representation",
@@ -60,7 +60,9 @@
     "learnGroupStewardTraining": "Steward craft",
     "learnGroupChannels": "By channel",
     "learnGroupLibraries": "Libraries",
-    "learnGroupAbout": "About",
+    "learnGroupFloorLocal": "Floor and the local",
+    "learnSubgroupFloor": "Floor",
+    "learnSubgroupLocal": "The local",
     "install": "Install as an app",
     "toolsGroupBrand": "Brand",
     "toolsGroupBoards": "Union boards",
@@ -83,7 +85,7 @@
     "mainNav": "Site navigation",
     "footerNav": "Footer",
     "language": "Language",
-    "workshopGuide": "Workshop outline",
+    "workshopGuide": "Comms workshop",
     "rtwAccommodation": "RTW & accommodation",
     "preDisciplinaryLog": "Pre-disciplinary log",
     "complaintVsGrievance": "Complaint vs grievance",
@@ -96,7 +98,9 @@
     "unionHistoryGuide": "How Canadian unions connect",
     "landAcknowledgementGuide": "Land acknowledgement",
     "strikeOpsGuide": "Strike operations",
-    "crisisCommsGuide": "Crisis comms"
+    "crisisCommsGuide": "Crisis comms",
+    "workshopsHub": "Workshops",
+    "landAckWorkshopGuide": "Land acknowledgement workshop"
   },
   "common": {
     "download": "Download",
@@ -142,6 +146,7 @@
     "sectionOptions": "Options",
     "sectionLayout": "Layout and size",
     "sectionColours": "Colours",
+    "accentColour": "Accent colour",
     "sectionAdvanced": "Advanced",
     "logoMode": "Logo",
     "logoNone": "None",
@@ -230,6 +235,7 @@
     "description": "Colours, shape, and export sizes. Save to Brand Kit to use across tools.",
     "localNumber": "Local number",
     "subText": "Sub-text",
+    "defaultSubText": "Support Staff",
     "shape": "Shape",
     "shapeCircle": "Circle",
     "shapeSquare": "Square",
@@ -279,6 +285,7 @@
     "brandRailDesc": "Colours, logo, and key links for every graphic. Browse the reference asset pack when you need starter files.",
     "privacyNote": "Your Comms work never leaves your browser. Host an Officer Hub and you control who can see that data.",
     "privacyNoteCommsOnly": "Your Comms work never leaves your browser. Your graphics and Brand Kit stay on your device.",
+    "workshopBandLabel": "Workshop demo path",
     "trustBanner": "Private by design. Your Comms work never leaves your browser. If you host the Officer Hub, you control who can see that data.",
     "trustBannerCommsOnly": "Private by design. Your Comms work never leaves your browser. No ads, no tracking, and nobody harvesting your data.",
     "trustManifestoLink": "Our promise",
@@ -706,7 +713,7 @@
   "officerLearning": {
     "eyebrow": "Officer training",
     "title": "Officer Learning Center",
-    "intro": "Six self-paced modules for stewards and local officers — contract enforcement, discipline, human rights, governance, finances, and collective power. Progress saves on this device only.",
+    "intro": "Sixteen self-paced modules for stewards and local officers — contract enforcement through displacement and fair representation. Progress saves on this device only.",
     "disclaimer": "Education for the floor — not legal advice. Confirm every deadline, remedy, and procedure against your own collective agreement and statute.",
     "sourcesIntro": "Further reading from Canadian labour federations, multi-union steward handbooks, and public human rights guidance — not tied to one national. Confirm every rule against your own collective agreement and statute.",
     "moduleLabel": "Module {number}",
@@ -733,9 +740,13 @@
       "completedPercent": "Completed 100%"
     },
     "settings": {
-      "hint": "Progress is stored in this browser only — no account required.",
+      "hint": "Stored in this browser only. Reset clears every module on this device.",
       "reset": "Reset progress",
       "confirmReset": "Confirm reset"
+    },
+    "progressPrefs": {
+      "title": "Your progress",
+      "body": "Quiz completions and checklist ticks stay on this device by default, so you can train without an account. Sign in only if you want a Hub backup, or to share completions with your local when both you and a president opt in."
     },
     "viewer": {
       "back": "Dashboard",
@@ -751,12 +762,32 @@
       "label": "Learning path",
       "stepAria": "Module {number}: {title}"
     },
+    "tracks": {
+      "label": "Choose a track",
+      "intro": "Sixteen modules is a full syllabus. Start with a role track to tighten the path and cards — switch anytime.",
+      "all": {
+        "title": "Full path",
+        "blurb": "All sixteen modules in catalog order."
+      },
+      "steward": {
+        "title": "Steward craft",
+        "blurb": "Intake, discipline, rights, settlement, DFR, seniority."
+      },
+      "officer": {
+        "title": "Local officers",
+        "blurb": "Meetings, money, lists, archives, everyday value."
+      },
+      "mobilize": {
+        "title": "Mobilize",
+        "blurb": "Equity power, bargaining pressure, committees, welcome."
+      }
+    },
     "relatedNavLabel": "Related paths",
     "callouts": {
-      "note": "💡 Note",
-      "warning": "⚠️ Warning",
-      "practice": "📝 Practice",
-      "reflection": "🪞 Reflection"
+      "note": "Note",
+      "warning": "Warning",
+      "practice": "Practice",
+      "reflection": "Reflection"
     },
     "checklist": {
       "title": "Floor checklist",
@@ -794,7 +825,23 @@
         "runningMeetings": "Running meetings guide",
         "unionHistory": "How Canadian unions connect",
         "landAcknowledgement": "Land Acknowledgement Guide",
-        "rulesOfOrder": "Rules of Order cheat sheet"
+        "rulesOfOrder": "Rules of Order cheat sheet",
+        "humanRightsModule": "Module 3: Human Rights & Accommodation",
+        "rightToRefuse": "Right to refuse guide",
+        "digitalSecurityModule": "Module 13: Digital Security & Transitions",
+        "everydayValueModule": "Module 14: Everyday Union Value",
+        "financialHealthModule": "Module 5: Financial Health & Audits",
+        "membershipListsModule": "Module 11: Member Lists & Data Privacy",
+        "democraticGovernanceModule": "Module 4: Democratic Governance",
+        "collectivePowerModule": "Module 6: Building Collective Power",
+        "settlementModule": "Module 8: Advanced Grievance & Settlement",
+        "contractEnforcementModule": "Module 1: Contract Enforcement",
+        "advancedFinanceModule": "Module 12: Advanced Local Finance",
+        "mobilizerModule": "Module 7: Mobilizer & Bargaining Partner",
+        "dfrGuide": "Duty of Fair Representation guide",
+        "seniorityBumpingGuide": "Seniority & bumping guide",
+        "dfrModule": "Module 15: Duty of Fair Representation",
+        "seniorityModule": "Module 16: Seniority, Bumping & Layoff"
       }
     },
     "reference": {
@@ -822,7 +869,37 @@
       "checklistCta": "Download checklist PDF",
       "downloading": "Preparing PDF…",
       "success": "PDF downloaded.",
-      "error": "Could not create the PDF. Try again, or check that downloads are allowed."
+      "error": "Could not create the PDF. Try again, or check that downloads are allowed.",
+      "mapTitle": "Workplace map sheet",
+      "mapBody": "Grid shifts, classifications, leaders, and the next escalation rung on one page.",
+      "mapCta": "Download map PDF",
+      "settlementTitle": "Settlement & open-door sheet",
+      "settlementBody": "Four-corners checklist plus open-door grievance wording before you sign.",
+      "settlementCta": "Download settlement PDF",
+      "privacyTitle": "Medical privacy sheet",
+      "privacyBody": "Functional abilities only — what the employer may and may not demand.",
+      "privacyCta": "Download privacy PDF",
+      "caucusTitle": "United caucus briefing",
+      "caucusBody": "Pre-meeting caucus roles, united front, and multi-forum routing.",
+      "caucusCta": "Download caucus PDF",
+      "listTitle": "List directive sheet",
+      "listBody": "Rand vs card, monthly reconciliation, and storage rules on one page.",
+      "listCta": "Download list PDF",
+      "expenseTitle": "Expense & hardship sheet",
+      "expenseBody": "Policy limits, honoraria tax notes, and dual-signature hardship controls.",
+      "expenseCta": "Download finance PDF",
+      "transitionTitle": "Transition & retention sheet",
+      "transitionBody": "Folder map, retention periods, and officer handover checklist.",
+      "transitionCta": "Download transition PDF",
+      "orientationTitle": "Day-1 orientation kit",
+      "orientationBody": "Fifteen-minute welcome script, kit contents, and affinity card rules.",
+      "orientationCta": "Download orientation PDF",
+      "dfrTitle": "DFR duty sheet",
+      "dfrBody": "Investigate before deciding, communicate in writing, and meet grievance and statutory clocks.",
+      "dfrCta": "Download DFR PDF",
+      "bumpingTitle": "Bumping intake sheet",
+      "bumpingBody": "Read the seniority list, sketch the bumping tree, and calendar layoff and recall deadlines.",
+      "bumpingCta": "Download bumping PDF"
     },
     "diagrams": {
       "filterTitle": "5-point grievance filter",
@@ -878,7 +955,71 @@
       "powerBarrier": "Name the pattern",
       "powerClause": "Propose language",
       "powerAccount": "Joint timeline / remedy",
-      "powerCaption": "Equity language without a mechanism stays symbolic — attach deadlines and joint review."
+      "powerCaption": "Equity language without a mechanism stays symbolic — attach deadlines and joint review.",
+      "escalateTitle": "Mobilization escalation ladder",
+      "escalateAria": "Five rungs from solidarity events to strike readiness",
+      "escalateShirt": "Solidarity events",
+      "escalateEnforce": "Rigid enforcement",
+      "escalateCampaign": "Mini-campaigns",
+      "escalateRule": "Work-to-rule",
+      "escalateStrike": "Strike readiness",
+      "escalateCaption": "Climb only as far as the map and legal advice support — overtime bans mid-term can be illegal strikes.",
+      "fileTitle": "Five-part grievance file",
+      "fileAria": "Form, chronology, witnesses, evidence, and policies",
+      "fileForm": "Open-door form",
+      "fileChrono": "Chronology",
+      "fileWitness": "Witnesses",
+      "fileEvidence": "Evidence",
+      "filePolicy": "CA & policy",
+      "fileCaption": "Arbitration readiness starts with the file architecture — not the meeting room argument.",
+      "privacyTitle": "Functional abilities boundary",
+      "privacyAria": "What employers may request versus medical privacy",
+      "privacyFunctional": "Functional limits",
+      "privacyShield": "No diagnosis",
+      "privacyAppeal": "Appeal / JIC",
+      "privacyCaption": "Employers need safe work design — not clinical notes. Route denials through joint benefit oversight.",
+      "routeTitle": "Multi-committee pressure",
+      "routeAria": "JHSC plus LMC plus grievance escalation",
+      "routeJhsc": "JHSC hazard",
+      "routeLmc": "LMC policy",
+      "routeGrievance": "Group grievance",
+      "routeCaption": "One systemic problem can travel three forums at once — caucus first, then present a united front.",
+      "listTitle": "Dues → card → secure store",
+      "listAria": "Reconcile dues payers into signed members on a secure system",
+      "listDues": "Dues report",
+      "listCard": "Signed card",
+      "listSecure": "Encrypted union store",
+      "listCaption": "Payroll rows are not voting members until cards are signed and stored off employer systems.",
+      "expenseTitle": "Policy → honoraria → hardship",
+      "expenseAria": "Expense policy, taxable honoraria, and hardship governance",
+      "expensePolicy": "GMM expense policy",
+      "expenseHonoraria": "Taxable honoraria",
+      "expenseHardship": "Blind hardship committee",
+      "expenseCaption": "Reimbursements need receipts; honoraria need slips; hardship needs two signatures.",
+      "archiveTitle": "Folders → retain → handover",
+      "archiveAria": "Information architecture, retention, and officer transition",
+      "archiveFolders": "Standard folders",
+      "archiveRetain": "Permanent vs 7-year",
+      "archiveHandover": "Transition checklist",
+      "archiveCaption": "Never shred minutes. Never leave accounts on personal passwords after an election.",
+      "welcomeTitle": "Day-1 → affinity → community",
+      "welcomeAria": "Orientation, affinity benefits, and community unionism",
+      "welcomeDay1": "15-minute welcome",
+      "welcomeAffinity": "Discount card (no list share)",
+      "welcomeCommunity": "Community alliances",
+      "welcomeCaption": "Everyday value starts on hire day — without handing membership data to vendors.",
+      "dfrTitle": "Investigate → communicate → clocks",
+      "dfrAria": "DFR process from investigation through member communication to deadline discipline",
+      "dfrInvestigate": "Investigate first",
+      "dfrCommunicate": "Write to member",
+      "dfrClocks": "Meet the clocks",
+      "dfrCaption": "Fair process is the shield — not empty promises or silence after intake.",
+      "bumpingTitle": "List → tree → clocks",
+      "bumpingAria": "Displacement intake from seniority list through bumping tree to notice deadlines",
+      "bumpingList": "Read the list",
+      "bumpingTree": "Trace the tree",
+      "bumpingClocks": "Calendar clocks",
+      "bumpingCaption": "HR's spreadsheet is a claim until you verify it against the collective agreement."
     },
     "timelines": {
       "contract-enforcement": {
@@ -1030,6 +1171,240 @@
             "summary": "Convert survey top barrier into clause + accountability mechanism for bargaining."
           }
         }
+      },
+      "mobilizer-bargaining-partner": {
+        "title": "Worked file timeline",
+        "aria": "Organizing file from map through protected pressure",
+        "caption": "Map first. Escalate legally. Consult before work-to-rule.",
+        "phases": {
+          "d0": {
+            "label": "Week 0 — map built",
+            "summary": "Plot shifts, classifications, and unengaged pockets. Name organic leaders."
+          },
+          "d1": {
+            "label": "Week 1 — shirt day",
+            "summary": "Low-risk solidarity event with inclusive outreach across languages and shifts."
+          },
+          "d3": {
+            "label": "Week 3 — mini-campaign",
+            "summary": "Petition or group filing on a winnable health or facility issue."
+          },
+          "d7": {
+            "label": "Week 7 — legal check",
+            "summary": "Before work-to-rule, brief servicing/legal on overtime and pace boundaries."
+          }
+        }
+      },
+      "advanced-grievance-settlement": {
+        "title": "Worked file timeline",
+        "aria": "Settlement file from open-door draft through signed MOS",
+        "caption": "Write open-door. Build the five pillars. Put every promise in the four corners.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — open-door draft",
+            "summary": "Broad article citation and make-whole remedy on the form."
+          },
+          "d1": {
+            "label": "Day 1 — file pillars",
+            "summary": "Chronology, witnesses, evidence, and CA articles assembled."
+          },
+          "d2": {
+            "label": "Day 2 — step meeting",
+            "summary": "Argue as an equal. Note verbal offers for the MOS draft."
+          },
+          "d3": {
+            "label": "Day 3 — MOS draft",
+            "summary": "Without prejudice / precedent language chosen; four corners reviewed."
+          },
+          "d7": {
+            "label": "Day 7 — signed & calendared",
+            "summary": "Member copy secured. Verbal side-deals rejected if missing from text."
+          }
+        }
+      },
+      "benefits-disability-claims": {
+        "title": "Worked file timeline",
+        "aria": "Benefits file from diagnosis fishing through AMP challenge",
+        "caption": "Shield diagnosis. Appeal denials. Strip disability absences from punitive AMP counts.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — fishing blocked",
+            "summary": "Refuse full chart demand. Offer functional abilities only."
+          },
+          "d1": {
+            "label": "Day 1 — claim support",
+            "summary": "Guide LTD/WSIB forms without collecting clinical notes for HR."
+          },
+          "d3": {
+            "label": "Day 3 — denial appeal",
+            "summary": "Route to joint insurance oversight; demand carrier review."
+          },
+          "d7": {
+            "label": "Day 7 — AMP audit",
+            "summary": "Exclude disability-related days from mechanistic triggers; prepare grievance."
+          }
+        }
+      },
+      "joint-workplace-committees": {
+        "title": "Worked file timeline",
+        "aria": "Committee escalation from caucus through multi-forum pressure",
+        "caption": "Caucus first. Route smart. Never break ranks in front of management.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — caucus",
+            "summary": "Align objectives, roles, and forum choice behind closed doors."
+          },
+          "d1": {
+            "label": "Day 1 — JHSC",
+            "summary": "Table hazard for inspection and written recommendation response."
+          },
+          "d2": {
+            "label": "Day 2 — LMC",
+            "summary": "Put workload/scheduling friction on the consultative agenda."
+          },
+          "d3": {
+            "label": "Day 3 — grievance",
+            "summary": "Group file for contract breaches while committees run in parallel."
+          }
+        }
+      },
+      "membership-lists-privacy": {
+        "title": "Worked file timeline",
+        "aria": "List hygiene from dues dump through secure store",
+        "caption": "Reconcile monthly. Never store the cleaned list on employer cloud.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — dues dump",
+            "summary": "Receive employer CSV. Do not edit it on work OneDrive."
+          },
+          "d1": {
+            "label": "Day 1 — reconcile",
+            "summary": "Match dues rows to signed cards. Flag payers without cards."
+          },
+          "d3": {
+            "label": "Day 3 — signup list",
+            "summary": "Build internal outreach targets for /guide/membership-signup craft."
+          },
+          "d7": {
+            "label": "Day 7 — secure store",
+            "summary": "Update encrypted union database. Refuse any third-party list ask."
+          }
+        }
+      },
+      "advanced-local-finance": {
+        "title": "Worked file timeline",
+        "aria": "Expense and hardship controls from request through dual signature",
+        "caption": "Policy first. Tax slips for honoraria. Two signatures even in emergencies.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — request",
+            "summary": "Officer submits voucher or hardship application lands."
+          },
+          "d1": {
+            "label": "Day 1 — classify",
+            "summary": "Reimbursement vs honorarium vs hardship. Check GMM policy."
+          },
+          "d3": {
+            "label": "Day 3 — committee / tax",
+            "summary": "Blind hardship review or flag T4A threshold for honoraria."
+          },
+          "d7": {
+            "label": "Day 7 — dual sign",
+            "summary": "Two authorized signatures. Ledger note for trustees."
+          }
+        }
+      },
+      "digital-security-transitions": {
+        "title": "Worked file timeline",
+        "aria": "Officer transition from election through account ownership",
+        "caption": "Update bank authorities immediately. Transfer admin ownership — never text passwords.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — election result",
+            "summary": "New officers named. Freeze personal account sharing."
+          },
+          "d1": {
+            "label": "Day 1 — inventory",
+            "summary": "List drives, domains, mailing lists, and bank signers."
+          },
+          "d2": {
+            "label": "Day 2 — bank + 2FA",
+            "summary": "Update signing cards. Enforce MFA on union accounts."
+          },
+          "d3": {
+            "label": "Day 3 — password manager",
+            "summary": "Reset shared vault. Revoke outgoing officer access."
+          }
+        }
+      },
+      "everyday-union-value": {
+        "title": "Worked file timeline",
+        "aria": "Day-1 orientation from kit prep through card signed",
+        "caption": "Welcome first. Sign the card. Never trade lists for discounts.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — kit ready",
+            "summary": "Welcome letter, CA, steward card, membership card, discount card."
+          },
+          "d1": {
+            "label": "Day 1 — 15 minutes",
+            "summary": "Warm pitch on contract value. Sign membership card on the spot."
+          },
+          "d3": {
+            "label": "Day 3 — secure entry",
+            "summary": "Enter new member in union database. Introduce area steward."
+          },
+          "d7": {
+            "label": "Day 7 — community invite",
+            "summary": "Invite to GMM or community solidarity action. Affinity without list share."
+          }
+        }
+      },
+      "duty-of-fair-representation": {
+        "title": "Worked file timeline",
+        "aria": "DFR file from intake through written decision and servicing escalation",
+        "caption": "Investigate before you decline. Write the reasons. Escalate before silence becomes liability.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — intake",
+            "summary": "Member asks for help on a weak-looking file. Log date, issue, and witnesses."
+          },
+          "d1": {
+            "label": "Day 1 — investigation",
+            "summary": "Run 5-point filter and 6 W's. Pull contract articles and comparator files."
+          },
+          "d3": {
+            "label": "Day 3 — written decision",
+            "summary": "Decline with reasons and appeal path — or file with documented analysis."
+          },
+          "d7": {
+            "label": "Day 7 — escalate",
+            "summary": "Member threatens DFR application. Brief servicing with the full file."
+          }
+        }
+      },
+      "seniority-bumping-layoff": {
+        "title": "Worked file timeline",
+        "aria": "Layoff file from notice through list verification and bumping tree challenge",
+        "caption": "Preserve the published list. Sketch the tree from the CA. Calendar recall before the window closes.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — layoff notice",
+            "summary": "Employer posts surplus list. Save timestamped PDF. Run Module 1 intake."
+          },
+          "d1": {
+            "label": "Day 1 — list verify",
+            "summary": "Match service dates and classifications to the CA. Flag row errors in writing."
+          },
+          "d3": {
+            "label": "Day 3 — tree sketch",
+            "summary": "Draw bumping cascade from contract articles. Compare to HR chart."
+          },
+          "d7": {
+            "label": "Day 7 — recall clock",
+            "summary": "Calendar recall window. File grievance if pool or qualifications are wrong."
+          }
+        }
       }
     },
     "quiz": {
@@ -1071,6 +1446,46 @@
       "building-collective-power": {
         "title": "Building Collective Power",
         "summary": "Audit systemic barriers, negotiate equity-focused contract language, and design restorative dispute paths."
+      },
+      "mobilizer-bargaining-partner": {
+        "title": "Mobilizer & Bargaining Partner",
+        "summary": "Map the workplace, climb a legal escalation ladder, and keep work-to-rule inside protected bounds."
+      },
+      "advanced-grievance-settlement": {
+        "title": "Advanced Grievance & Settlement",
+        "summary": "Build trial-ready files, write open-door grievances, and lock settlements inside the four corners."
+      },
+      "benefits-disability-claims": {
+        "title": "Benefits & Disability Claims",
+        "summary": "Protect medical privacy, challenge benefit denials, and audit punitive attendance programs."
+      },
+      "joint-workplace-committees": {
+        "title": "Joint Workplace Committees",
+        "summary": "Use JHSC and LMC as strategic forums with united caucus discipline and multi-track escalation."
+      },
+      "membership-lists-privacy": {
+        "title": "Member Lists & Data Privacy",
+        "summary": "Reconcile dues reports with signed cards, apply the membership list directive, and keep databases off employer systems."
+      },
+      "advanced-local-finance": {
+        "title": "Advanced Local Finance",
+        "summary": "Design GMM expense policies, treat honoraria as taxable income, and run blind hardship funds with dual signatures."
+      },
+      "digital-security-transitions": {
+        "title": "Digital Security & Transitions",
+        "summary": "Build folder architecture, follow retention schedules, and hand over accounts with 2FA and a transition checklist."
+      },
+      "everyday-union-value": {
+        "title": "Everyday Union Value",
+        "summary": "Run Day-1 orientations, deliver affinity benefits without sharing lists, and build community unionism alliances."
+      },
+      "duty-of-fair-representation": {
+        "title": "Duty of Fair Representation",
+        "summary": "Investigate before declining files, communicate outcomes in writing, meet grievance and statutory clocks, and escalate to servicing when stakes are high."
+      },
+      "seniority-bumping-layoff": {
+        "title": "Seniority, Bumping & Layoff",
+        "summary": "Read seniority lists against the CA, trace bumping trees, enforce layoff and recall notice clocks, and flag accommodation collisions."
       }
     },
     "certificate": {
@@ -1083,14 +1498,15 @@
       "downloading": "Preparing PDF…",
       "success": "Certificate downloaded.",
       "error": "Could not create the PDF. Try again, or check that downloads are allowed in this browser.",
-      "pathTitle": "Full Officer Learning path (all six modules)"
+      "pathTitle": "Full Officer Learning path (all sixteen modules)"
     },
     "hubSync": {
-      "signedOutTitle": "Optional: sync to Officer Hub",
-      "signedOutBody": "Sign in to save progress on your Officer Hub account and, if you choose, share completions with your local.",
+      "panelLabel": "Hub backup and local share",
+      "signedOutTitle": "Want a Hub backup?",
+      "signedOutBody": "Sign in to Officer Hub to save completions to your account. Sharing with your local stays optional and needs your consent.",
       "signIn": "Sign in to Officer Hub",
-      "title": "Hub sync & local sharing",
-      "body": "Phase B/C: keep progress on your account, and only share with the local when both you and the local opt in.",
+      "title": "Optional Hub backup",
+      "body": "Save quiz completions to your Officer Hub account. Sharing with your local needs your consent and a president who turns on local reporting.",
       "displayName": "Name shown to your local",
       "syncLabel": "Sync progress to my Officer Hub account",
       "syncHint": "Uploads quiz completions from this browser to your signed-in account.",
@@ -2297,6 +2713,7 @@
     "format": "Print size",
     "formatLetter": "Letter (8.5×11)",
     "formatTabloid": "Tabloid (11×17)",
+    "formatA4": "A4 (210×297 mm)",
     "quorumNeeded": "Quorum needed (number)",
     "inviteEmail": {
       "title": "RSVP invite email",
@@ -3079,8 +3496,8 @@
   },
   "resources": {
     "title": "Comms Resources",
-    "subtitle": "Practice checklist, demo kit, and sources. The timed workshop hour lives on Workshop outline.",
-    "intro": "Use the checklist on your own or in a room. Workshop outline has the hour; this page keeps sources and the demo kit.",
+    "subtitle": "Practice checklist, demo kit, and sources. The timed Comms hour lives under Workshops.",
+    "intro": "Use the checklist on your own or in a room. Workshops has the Comms hour; this page keeps sources and the demo kit.",
     "purpose": {
       "title": "What UnionOps Comms is for",
       "body": "Every local needs clear communications on four channels: social media, print, workplace boards, and a simple website.",
@@ -3105,7 +3522,8 @@
         "shortForm": "Short-form video",
         "crisis": "Crisis comms",
         "photoConsent": "Photo Consent",
-        "workshop": "Workshop outline"
+        "workshop": "Comms workshop",
+        "workshopsHub": "Workshops"
       },
       "blurb": {
         "plan": "After Brand Kit: boards, print, socials, and website in order.",
@@ -3117,7 +3535,8 @@
         "shortForm": "Phone filming, member privacy, and pointing Reels or Shorts at a real ask.",
         "crisis": "Who may speak during a strike, lockout, or layoff.",
         "photoConsent": "Member photo checklist for stewards and workshops.",
-        "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path."
+        "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path.",
+        "workshopsHub": "Hub of projectable workshop outlines — Comms lunch-and-learn and land acknowledgement drafting."
       }
     },
     "labourPath": {
@@ -3143,7 +3562,7 @@
       "blurb": {
         "stewardPlaybooks": "Start here: Steward 101, Officer Learning modules with self-tests, and every floor playbook in one list.",
         "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example — start here.",
-        "officerLearning": "Six self-paced modules with quizzes, floor checklists, and printable take-to-meeting sheets — progress saves on this device.",
+        "officerLearning": "Sixteen self-paced modules with quizzes, floor checklists, and printable take-to-meeting sheets — progress saves on this device.",
         "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet. Confirm steps in your agreement.",
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",
@@ -3155,7 +3574,7 @@
         "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote.",
         "runningMeetings": "Scale formality to the room, run a standard agenda, and use the cheat sheet during live debate.",
         "unionHistory": "Canadian labour history and a two-track map from one Niagara local to the CLC, so you can draw the same house.",
-        "landAcknowledgement": "Solo path or facilitator workshop, one-page ruled PDF worksheet, federation sources, and annotated example — write your own words, not a script."
+        "landAcknowledgement": "How-to walkthrough, one-page ruled PDF worksheet, federation sources, and annotated Niagara example — write your own words, not a script."
       }
     },
     "checklist": {
@@ -3234,6 +3653,8 @@
   "onboarding": {
     "title": "Set up your local brand",
     "subtitle": "Three quick steps: local details, colours, and logo. Then every Comms tool exports with your local on it.",
+    "progressLabel": "Setup progress",
+    "stepOf": "Step {step} of {total}",
     "step1": "Local details",
     "step2": "Colours",
     "step3": "Choose your logo",
@@ -3796,6 +4217,7 @@
     "lookPackHint": "Colour and plate variants for boards, social, and campaigns. Pick the treatment that matches your background — future event packs will appear here the same way.",
     "variantLabels": {
       "lockup": "Wordmark",
+      "ontarioUnion": "Ontario's union lockup",
       "mark": "Emblem",
       "markOnDark": "Emblem on dark",
       "color": "Full colour",
@@ -3803,7 +4225,6 @@
       "knockout": "White and gold (no plate)",
       "knockoutBurgundy": "White on burgundy plate",
       "onGold": "On gold plate",
-      "onBurgundy": "On burgundy plate",
       "onCoalition": "On coalition blue plate",
       "oneColor": "One colour",
       "reverse": "White reverse"
@@ -3854,6 +4275,12 @@
     "headline": "Headline",
     "subheadline": "Subheadline",
     "detail": "Extra line (date, local, or badge text)",
+    "presetDetails": {
+      "agmNotice": "AGM",
+      "bargainingUpdate": "Update",
+      "strikeAction": "Strike",
+      "jointCoalition": "Show up — details to follow"
+    },
     "initials": "Photo initials (if no photo)",
     "photo": "Photo",
     "photoZoom": "Photo zoom",
@@ -3900,6 +4327,11 @@
       "bargaining": "Bargaining",
       "solidarity": "Solidarity",
       "member": "Member"
+    },
+    "defaults": {
+      "quote": "We will not accept anything less than a fair deal for our members.",
+      "author": "Local President",
+      "role": "Bargaining committee"
     },
     "quote": "Quote",
     "author": "Attribution",
@@ -3958,7 +4390,8 @@
     "formats": {
       "letter": "Letter (8.5×11)",
       "halfLetter": "Half letter (5.5×8.5)",
-      "tabloid": "Tabloid (11×17)"
+      "tabloid": "Tabloid (11×17)",
+      "a4": "A4 (210×297 mm)"
     },
     "fonts": {
       "inherit": "Brand Kit",
@@ -4683,7 +5116,7 @@
     "backToGuide": "Back to The Blueprint",
     "trainingPath": {
       "title": "Recommended training path",
-      "body": "Start with Steward 101 for role basics, then Officer Learning Center for six modules with self-tests. Open the other playbooks when a live file needs them.",
+      "body": "Start with Steward 101 for role basics, then Officer Learning Center for sixteen modules with self-tests. Open the other playbooks when a live file needs them.",
       "steward101Cta": "Start Steward 101",
       "officerLearningCta": "Open Officer Learning modules"
     },
@@ -4741,6 +5174,12 @@
       "title": "All steward playbooks",
       "intro": "Same depth as a training handout: gate, steps, worked example, and sources."
     },
+    "groups": {
+      "training": "Training",
+      "floor": "Floor",
+      "local": "The local",
+      "campaign": "Campaign"
+    },
     "links": {
       "steward101": "Steward 101: Your Role and Rights",
       "officerLearning": "Officer Learning Center",
@@ -4753,6 +5192,7 @@
       "jointCommittee": "Joint committee playbook",
       "bargaining": "The Bargaining Lifecycle: From Survey to Signing",
       "strike": "Strike operations playbook",
+      "crisis": "Crisis comms playbook",
       "bylaws": "Local Bylaws: The Rules of Your Local",
       "runningMeetings": "Running a Meeting & Robert's Rules",
       "unionHistory": "How Canadian unions connect",
@@ -4760,7 +5200,7 @@
     },
     "blurbs": {
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
-      "officerLearning": "Six modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
+      "officerLearning": "Sixteen modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
       "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet.",
       "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
       "workplaceMapping": "Chart coworkers, find organic leaders, and score union support 1 to 5.",
@@ -4770,10 +5210,11 @@
       "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
       "bargaining": "Survey to signing for Local Bargaining Committees — table updates, strike votes, ratification, checklists, and the on-device Proposal Tracker.",
       "strike": "Command, the picket line, member care, money, safety, and return to work. Not a posting calendar.",
+      "crisis": "Calm local messages during strikes, bargaining, layoffs, and management reactions.",
       "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval.",
       "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say when you move or raise a point.",
       "unionHistory": "Two tracks, not one ladder: union family and the city labour council, mapped from OPSEU / SEFPO Local 243.",
-      "landAcknowledgement": "Draft alone or lead a workshop with the one-page ruled PDF — research, reflect, and pair words with action. Federation guides linked; no copy-paste generator."
+      "landAcknowledgement": "Research, draft, and pair words with action using the how-to walkthrough and PDF worksheet. Federation guides linked; no copy-paste generator."
     },
     "workspaces": {
       "title": "Practice workspaces",
@@ -6663,13 +7104,25 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "officer-learning-modules-7-10": {
+        "title": "Four new Officer Learning modules",
+        "body": "Modules 7–10 cover mobilization and bargaining pressure, advanced grievance settlements, benefits and disability claims, and joint workplace committees — each with scenarios, a floor checklist, and a self-test."
+      },
+      "guides-catalog-split": {
+        "title": "Guides catalog: Steward craft, Floor, The local",
+        "body": "All guides now splits steward handbooks into Steward craft, Floor, and The local, so the long list is easier to scan."
+      },
+      "guides-catalog": {
+        "title": "All guides, in one list",
+        "body": "Browse every public handbook from All guides, including floor playbooks, running meetings, and how Canadian unions connect."
+      },
       "flyer-maker-phone": {
         "title": "Flyer Maker on a phone",
         "body": "Pick picket, rally, meeting, or walkabout, then Edit or Preview. Downloads sit on the Preview tab so the form fits a phone."
       },
       "caat-a-logo-knockouts": {
         "title": "College Faculty logos on Brand Assets",
-        "body": "College Faculty downloads now use a white lockup on coalition blue and reverse plates. The burgundy and one-colour cards show the mark at a readable size."
+        "body": "College Faculty downloads are now sharp colour, white on faculty red, coalition blue, and reverse files. Colour and one-colour match the red in the lockup. On coalition blue, the type stays white."
       },
       "document-generator-phone": {
         "title": "Document Generator on a phone",
@@ -6962,6 +7415,38 @@
       "logo-on-brand-fills": {
         "title": "Logos stay readable on brand-coloured backgrounds",
         "body": "Meeting backgrounds and other canvas tools keep your mark readable on coral, gold, or other Brand Kit fills — official Looks use the matching plate lockup; your uploaded logo sits on a white card so every colour stays visible."
+      },
+      "canvas-core-print-fit": {
+        "title": "Flyer and print sheets fill the preview",
+        "body": "Letter and tabloid flyers, board notices, and posters now scale to your screen, keep the logo in proportion across paper sizes, and export sharper print PNGs. Date, time, location, and contact stay supporting size on the sheet — and Solidarity, Meeting Background, and Graphic Maker get the same packing so lead-in and local lines stay readable under a wide lockup or tight Brand Kit density."
+      },
+      "flyer-walkabout-fit": {
+        "title": "Walkabout flyers stay readable",
+        "body": "Walkabout handbills now keep the headline and supporting details on the page, and the full location line — not a clipped word beside the QR."
+      },
+      "solidarity-poster-type-fit": {
+        "title": "Solidarity posters stay readable",
+        "body": "With your lockup on, the lead-in stays a full line under the logo, the closer stays visible, and the print preview sits centered — type still shrinks to fit the sheet."
+      },
+      "officer-learning-modules-15-16": {
+        "title": "Officer Learning modules 15–16",
+        "body": "Two new self-paced modules: duty of fair representation and seniority, bumping, and layoff — with floor checklists and take-to-meeting PDFs."
+      },
+      "officer-learning-modules-11-14": {
+        "title": "Officer Learning modules 11–14",
+        "body": "Four new self-paced modules: member lists and privacy, advanced local finance, digital security and transitions, and Day-1 orientation with affinity and community unionism."
+      },
+      "opseu-ontario-union-lockup": {
+        "title": "Current OPSEU / SEFPO lockup on Brand Assets",
+        "body": "Download the Ontario's union / Le syndicat de l'Ontario wordmark with the other OPSEU / SEFPO blue files."
+      },
+      "home-hub-layout": {
+        "title": "Home and Blueprint discovery refresh",
+        "body": "The home toolkit paths and channel lists read clearer, and The Blueprint now opens strike work and related guides in the same hub layout as workshops."
+      },
+      "land-ack-workshops-hub": {
+        "title": "Land acknowledgement how-to + workshops hub",
+        "body": "The Land Acknowledgement Guide is a focused how-to with the PDF worksheet and Niagara example. Facilitator agendas live under Workshops with the Comms outline."
       }
     }
   },
@@ -7021,13 +7506,23 @@
       "olDemocraticGovernance": "Democratic Governance module",
       "olFinancialHealth": "Financial Health module",
       "olCollectivePower": "Building Collective Power module",
+      "olMobilizer": "Mobilizer & Bargaining Partner module",
+      "olSettlement": "Advanced Grievance & Settlement module",
+      "olBenefits": "Benefits & Disability Claims module",
+      "olCommittees": "Joint Workplace Committees module",
       "portalHome": "Portal home",
       "portalFronts": "Fronts",
       "portalDispatch": "Dispatch",
       "portalSidebars": "Sidebars",
       "portalFeedback": "Send feedback",
       "hubDashboard": "Hub dashboard",
-      "hubLogin": "Hub login"
+      "hubLogin": "Hub login",
+      "olLists": "Member Lists & Data Privacy module",
+      "olAdvancedFinance": "Advanced Local Finance module",
+      "olDigitalSecurity": "Digital Security & Transitions module",
+      "olEverydayValue": "Everyday Union Value module",
+      "olDfr": "Duty of Fair Representation module",
+      "olSeniorityBumping": "Seniority, Bumping & Layoff module"
     }
   },
   "accessibility": {
@@ -7119,6 +7614,16 @@
     "profileRemoveFailed": "Could not remove your photo. Try again.",
     "profileAccountHeading": "Account",
     "profileName": "Name",
+    "platformOperator": {
+      "menu": "Platform",
+      "cardTitle": "Platform operator",
+      "cardBody": "Invite locals, review site feedback, and open host-wide admin tools.",
+      "profileHeading": "Platform operator",
+      "invites": "Invites",
+      "onboarding": "Union setup",
+      "feedback": "Site feedback",
+      "audit": "Audit log"
+    },
     "signingIn": "Signing in...",
     "sessionLoading": "Loading your Officer Hub…",
     "login": "Officer login",
@@ -8970,6 +9475,80 @@
       "rulesOfOrder": "Fourteen parliamentary actions with exact wording, chair notes, and copy — built for phones in the meeting room."
     }
   },
+  "guidesIndex": {
+    "title": "Guides",
+    "subtitle": "First week, channel handbooks, and steward playbooks for the floor and the local. Officer Learning stays a top-level link.",
+    "hint": "Set colours and logo first in",
+    "startHereTitle": "Start here",
+    "startHereIntro": "Set the brand, then pick a comms path or a floor playbook. Officer Learning is sixteen self-paced modules.",
+    "startHereRoadmap": "Open all steward playbooks",
+    "startHereSteps": {
+      "firstWeek": "Boards, print, social, and a simple website after Brand Kit.",
+      "playbooks": "Floor training, meetings, grievances, and campaign handbooks.",
+      "officerLearning": "Sixteen modules with checklists and a quiz on this device."
+    },
+    "groups": {
+      "commsPath": {
+        "title": "Comms path",
+        "intro": "Identity, the weekly practice handbook, and workshop notes."
+      },
+      "channels": {
+        "title": "By channel",
+        "intro": "Boards, print, web, email, short-form video, and membership signup."
+      },
+      "bargaining": {
+        "title": "Campaign",
+        "intro": "Bargaining, strike operations, and crisis comms."
+      },
+      "training": {
+        "title": "Steward craft",
+        "intro": "Officer Learning, the playbooks hub, and Steward 101."
+      },
+      "floor": {
+        "title": "Floor",
+        "intro": "Grievances, fair representation, safety refusals, seniority, committees, and workplace mapping."
+      },
+      "local": {
+        "title": "The local",
+        "intro": "Union history, meetings, bylaws, and land acknowledgement."
+      },
+      "workshops": {
+        "title": "Workshops",
+        "intro": "Projectable outlines for lunch-and-learns and floor drafting sessions."
+      }
+    },
+    "blurbs": {
+      "plan": "What to do after Brand Kit: boards, print, socials, and a simple website.",
+      "blueprint": "Ongoing local comms: platforms, tone, posting rhythm, and accessibility.",
+      "resources": "Practice list and sources behind this toolkit, for solo work or a workshop.",
+      "workshop": "A one-hour Comms workshop: platforms, a local logo, examples, and a site ZIP.",
+      "photoConsent": "Protect members before you publish a photo: three contexts and a takedown path.",
+      "unionBoards": "Cork-board layout, what to print, notices, and solidarity posters.",
+      "print": "Why print reaches members off social, and how to design a flyer people can read.",
+      "website": "Write a simple local site, download the ZIP, and publish it on GitHub Pages.",
+      "email": "Write the official meeting or vote notice, then paste it into your own mailbox.",
+      "shortForm": "Film on a phone, protect member privacy, and point short videos at a next step.",
+      "membershipSignup": "Recruit and orient new members with a repeatable signup path.",
+      "bargaining": "Survey to signing for local bargaining committees, with checklists and the Proposal Tracker.",
+      "strike": "Command, the picket line, member care, money, safety, and return to work.",
+      "crisis": "Calm local messages during strikes, bargaining, layoffs, and management reactions.",
+      "officerLearning": "Sixteen modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
+      "stewardPlaybooks": "Front door for floor training, meetings, grievances, and campaign handbooks.",
+      "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
+      "unionHistory": "Two tracks, not one ladder: union family and the city labour council.",
+      "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet.",
+      "dfr": "What fair representation requires in practice, and how to keep a clean file.",
+      "seniority": "Two cascade examples and a printable seniority worksheet.",
+      "rightToRefuse": "Ontario OHSA s.43 stage 1 and 2 for stewards and JHSC members.",
+      "jointCommittee": "Campus to caucus to table, then a member note after signed minutes.",
+      "workplaceMapping": "Chart coworkers, find organic leaders, and score union support 1 to 5.",
+      "bylaws": "What must be in local bylaws and how to amend them with notice and quorum.",
+      "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say.",
+      "landAcknowledgement": "How-to walkthrough and one-page PDF worksheet, with an annotated Niagara example — write your own words.",
+      "workshopsHub": "Choose a workshop outline: Comms tools hour or land acknowledgement drafting.",
+      "landAckWorkshop": "Facilitator outline (~60–90 min) with prep, timed agenda, and the PDF worksheet."
+    }
+  },
   "portal": {
     "stationTitle": "Together",
     "stationSubtitle": "Home for your Circles — open Actions and the latest Bulletin, in one place.",
@@ -9759,13 +10338,23 @@
     "readModule4": "Module 4: democratic governance",
     "readModule5": "Module 5: financial health",
     "readModule6": "Module 6: building collective power",
+    "readModule7": "Module 7: mobilizer & bargaining partner",
+    "readModule8": "Module 8: advanced grievance & settlement",
+    "readModule9": "Module 9: benefits & disability claims",
+    "readModule10": "Module 10: joint workplace committees",
     "utilStewardPlaybooks": "Steward playbooks hub",
     "utilDocGen": "Document Generator (grievance intake)",
     "utilSnippets": "CA snippets",
     "utilGrievanceGuide": "Grievance process guide",
     "readModule3": "Module 3: human rights & accommodation",
     "moduleHint": "Pair with",
-    "workspacesIntro": "Practice workspaces save notes on this device only."
+    "workspacesIntro": "Practice workspaces save notes on this device only.",
+    "readModule11": "Module 11: member lists & data privacy",
+    "readModule12": "Module 12: advanced local finance",
+    "readModule13": "Module 13: digital security & transitions",
+    "readModule14": "Module 14: everyday union value",
+    "readModule15": "Module 15: duty of fair representation",
+    "readModule16": "Module 16: seniority, bumping & layoff"
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Preparing PDF…",
@@ -10140,9 +10729,9 @@
       "navLabel": "Standard agenda",
       "title": "The standard agenda (order of business)",
       "intro": "Most local meetings follow this flow:",
+      "landAckNote": "Many Ontario unions — including OPSEU / SEFPO — open with a land acknowledgement before the Statement of Respect and all other business. Research whose territory you are on; the guide below explains federation practice without offering a copy-paste script.",
       "items": {
         "callToOrder": "Land acknowledgement (when your federation or local requires it), then Call to Order & Reading of the Statement of Respect/Solidarity",
-        "landAckNote": "Many Ontario unions — including OPSEU / SEFPO — open with a land acknowledgement before the Statement of Respect and all other business. Research whose territory you are on; the guide below explains federation practice without offering a copy-paste script.",
         "adoptAgenda": "Adoption of the Agenda",
         "minutes": "Adoption of the Previous Meeting's Minutes",
         "treasurer": "Treasurer's Financial Report",
@@ -10358,7 +10947,7 @@
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
-    "intro": "Land acknowledgements recognize that union meetings take place on lands with long Indigenous histories. This guide walks your local from research to a first draft — with a one-page floor handout, federation sources, solo and workshop paths, and an annotated example. UnionOps does not generate text for you.",
+    "intro": "Land acknowledgements recognize that union meetings take place on lands with long Indigenous histories. This guide walks your local from research to a first draft — with a one-page floor handout, federation sources, and an annotated Niagara example. UnionOps does not generate text for you.",
     "groundRules": {
       "navLabel": "Ground rules",
       "title": "Ground rules",
@@ -10429,8 +11018,8 @@
     "howToWrite": {
       "navLabel": "How to write",
       "title": "How to write your acknowledgement",
-      "intro": "Most locals start one of two ways: one officer researches and drafts alone, then brings it to executive — or the education committee runs a short workshop. Both paths use the same research → reflect → draft → review rhythm.",
-      "soloHeading": "On your own (~45 minutes)",
+      "intro": "Block time with a map and your federation PDF open. Follow the four steps below, mark up the one-page worksheet, then bring a draft to executive. Facilitating a group session? Use the workshop outline linked below.",
+      "soloHeading": "Walkthrough (~45 minutes)",
       "soloIntro": "Block an hour with Native-Land.ca or your federation PDF open. Print the one-page worksheet below — ruled rows are sized for pen notes. You are writing for your local, not performing for a room yet — focus on accuracy and words you can explain.",
       "soloFlow": {
         "research": {
@@ -10450,49 +11039,8 @@
           "subtitle": "Checklist before you share · ~10 min"
         }
       },
-      "workshopHeading": "Run a workshop (~60–90 minutes)",
-      "workshopIntro": "Use this when your executive or education committee wants to draft together. Aim for a working session, not a lecture — people leave with a draft and a review date, not homework they never finish.",
-      "workshopPrepHeading": "Before the room",
-      "workshopPrep": {
-        "who": {
-          "label": "Who to invite",
-          "content": "Executive, education committee, stewards who open meetings — the whole local owns this, not one Indigenous member asked to educate everyone."
-        },
-        "materials": {
-          "label": "What to bring",
-          "content": "Printed territory maps, your federation PDF, one worksheet per person (ruled draft block on a single page), and a way to project Native-Land.ca or Whose Land."
-        },
-        "room": {
-          "label": "How to set up the room",
-          "content": "Tables or a circle, low pressure. Pairs or small groups draft; no one has to read aloud unless they choose to."
-        },
-        "followUp": {
-          "label": "Close with a date",
-          "content": "Book executive adoption, name who reads at the next meeting, and one concrete follow-up action before people leave."
-        }
-      },
-      "workshopAgendaHeading": "Suggested agenda",
-      "workshopAgenda": {
-        "open": {
-          "label": "Opening (~10 min)",
-          "content": "Ground rules from this guide — no copy-paste scripts, defer to Indigenous leadership, words need action. One round: why does this matter to our local?"
-        },
-        "research": {
-          "label": "Research together (~25 min)",
-          "content": "Project a map; note nations, treaties, and spellings on the board. Compare your federation guide. List questions for Friendship Centres or band offices."
-        },
-        "draft": {
-          "label": "Draft in pairs (~25 min)",
-          "content": "Each pair writes a short draft on the worksheet ruled lines. Territory first, then one local action or historical thread — not copied from another city."
-        },
-        "close": {
-          "label": "Review and commit (~20 min)",
-          "content": "Optional read-backs, run the review checklist, pick one combined draft or two to merge later, assign executive review and first reader."
-        }
-      },
-      "workshopTip": "If the room is large, split into pairs for drafting — you do not need a fixed head count. If someone is unsure, pause and suggest consulting your union's Indigenous Circle before finalizing.",
-      "worksheetHeading": "Floor handout (one page)",
-      "worksheetIntro": "Same depth as a steward pocket sheet: gate, steps, ruled draft block, and review checklist — print for executive or workshop.",
+      "worksheetHeading": "Worksheet (one page)",
+      "worksheetIntro": "Same depth as a steward pocket sheet: gate, steps, ruled draft block, and review checklist — print for executive or take notes on a tablet.",
       "worksheetFeatures": {
         "print": {
           "label": "Print or PDF",
@@ -10516,10 +11064,13 @@
         "review": "Run Step 4 checks and book executive review before anyone reads it aloud at a meeting."
       },
       "worksheetGoldTip": "Treat the handout like a FAR sheet — mark it up in pen at executive, file the finished draft with minutes, and revisit when your meeting site changes.",
-      "worksheetHint": "The PDF includes step prompts and floor tips that mirror this guide. Education only — not a script to paste unchanged."
+      "worksheetHint": "The PDF includes step prompts and floor tips that mirror this guide. Education only — not a script to paste unchanged.",
+      "workshopCtaHeading": "Facilitating a group draft?",
+      "workshopCtaBody": "Education committees and executives that want to draft together use a separate ~60–90 minute workshop outline — prep, timed agenda, and the same PDF worksheet.",
+      "workshopCtaLabel": "Open land acknowledgement workshop"
     },
     "worksheet": {
-      "cta": "Download floor handout (PDF)",
+      "cta": "Download worksheet (PDF)",
       "downloading": "Preparing PDF…"
     },
     "prepareWords": {
@@ -10740,15 +11291,15 @@
     "nextSteps": {
       "navLabel": "Next steps",
       "title": "Next steps",
-      "intro": "Start with your federation guide, draft solo or run a workshop, and schedule an executive review.",
+      "intro": "Start with your federation guide, draft with the worksheet, and schedule an executive review.",
       "items": {
         "read": {
           "label": "Read your federation guide",
           "content": "OFL Ontario PDF if you are in Ontario, plus Native-Land.ca or Whose Land for your site."
         },
         "reflect": {
-          "label": "Write or workshop a draft",
-          "content": "Follow the handout steps on the PDF — solo flow or workshop agenda above — then check accuracy before the next meeting."
+          "label": "Write a draft",
+          "content": "Follow the handout steps on the PDF, then check accuracy before the next meeting. Use the workshop outline if your committee drafts together."
         },
         "followUp": {
           "label": "Follow up with your executive",
@@ -12641,5 +13192,101 @@
         }
       }
     }
+  },
+  "workshopsHub": {
+    "title": "Workshops",
+    "subtitle": "Projectable outlines for local executives and education committees",
+    "intro": "Pick the workshop that matches the room. Each outline is built to project — timed blocks, facilitator notes, and a clear close.",
+    "relatedLabel": "Related",
+    "outlines": {
+      "comms": {
+        "title": "From Scratch to Solidarity (Comms)",
+        "body": "A beginner hour: platforms and posting rhythm, a local logo, Social Examples, Graphic Maker, Quote Card, and a website ZIP — with a live Demo Path.",
+        "time": "~45–60 minutes",
+        "cta": "Open Comms workshop outline"
+      },
+      "landAcknowledgement": {
+        "title": "Land acknowledgement drafting",
+        "body": "A working session for executive or education committee: ground rules, research together, draft in pairs on the PDF worksheet, and leave with a review date.",
+        "time": "~60–90 minutes",
+        "cta": "Open land acknowledgement workshop"
+      }
+    }
+  },
+  "landAckWorkshopGuide": {
+    "title": "Land acknowledgement workshop",
+    "subtitle": "Draft together — research, reflect, write, and commit (~60–90 min)",
+    "intro": "Use this when executive or education committee wants a working session, not a lecture. People leave with a draft and a review date. Pair with the Land Acknowledgement Guide for ground rules, the Niagara annotated example, and federation practice.",
+    "outlineNavLabel": "Agenda",
+    "relatedLabel": "Related",
+    "audienceFacilitatorLabel": "Facilitator",
+    "audienceAttendeeLabel": "Do this",
+    "audienceFacilitator": "Keep the room low-pressure. Project a map, hand out worksheets, and close with named owners — do not ask one Indigenous member to educate everyone.",
+    "audienceAttendee": "Bring a pen. You will research territory for where your local meets, write a short draft in your own words, and help pick a review date.",
+    "prereqTitle": "Before the room",
+    "prereqIntro": "Prep once so the hour is drafting time, not hunting for maps.",
+    "prereq": {
+      "who": {
+        "label": "Who to invite",
+        "content": "Executive, education committee, stewards who open meetings — the whole local owns this, not one Indigenous member asked to educate everyone."
+      },
+      "materials": {
+        "label": "What to bring",
+        "content": "Printed territory maps, your federation PDF, one worksheet per person (download below), and a way to project Native-Land.ca or Whose Land."
+      },
+      "room": {
+        "label": "How to set up the room",
+        "content": "Tables or a circle, low pressure. Pairs or small groups draft; no one has to read aloud unless they choose to."
+      },
+      "followUp": {
+        "label": "Close with a date",
+        "content": "Book executive adoption, name who reads at the next meeting, and one concrete follow-up action before people leave."
+      }
+    },
+    "outlineTitle": "Suggested agenda",
+    "outlineIntro": "Four blocks share the same research → reflect → draft → review rhythm as the solo walkthrough in the guide.",
+    "outlineItems": {
+      "open": {
+        "navLabel": "Opening",
+        "title": "Opening",
+        "time": "~10 min",
+        "do": "Listen to ground rules: no copy-paste scripts, defer to Indigenous leadership, words need action. Share one reason this matters to your local.",
+        "facilitator": "Project the Land Acknowledgement Guide ground rules. One round of why — keep it short. If the room is large, note that pairs will draft later."
+      },
+      "research": {
+        "navLabel": "Research",
+        "title": "Research together",
+        "time": "~25 min",
+        "do": "Note nations, treaties, and spellings for where you meet. List questions for Friendship Centres or band offices.",
+        "facilitator": "Project Native-Land.ca or Whose Land. Compare your federation guide. Capture spellings on a board. Remind the room maps are introductions, not final authority."
+      },
+      "draft": {
+        "navLabel": "Draft",
+        "title": "Draft in pairs",
+        "time": "~25 min",
+        "do": "Write a short draft on the worksheet ruled lines — territory first, then one local action or historical thread.",
+        "facilitator": "Hand out PDFs. Split into pairs. Circulate; if someone is unsure, pause and suggest consulting your union's Indigenous Circle before finalizing."
+      },
+      "close": {
+        "navLabel": "Close",
+        "title": "Review and commit",
+        "time": "~20 min",
+        "do": "Optional read-backs. Run the review checklist. Help pick one draft path and name owners.",
+        "facilitator": "Optional share-outs only. Run checklist aloud. Assign executive review date, first reader, and one concrete action before people leave."
+      }
+    },
+    "handoutTitle": "Floor handout",
+    "handoutIntro": "Same one-page PDF as the guide — print one per person before you start.",
+    "wrapTitle": "Before people leave",
+    "wrapIntro": "Name owners so the draft does not die in a shared drive.",
+    "wrap": {
+      "adopt": "Confirm the executive review or adoption date.",
+      "reader": "Name who reads the acknowledgement at the next meeting.",
+      "action": "Pick one concrete local follow-up action.",
+      "guide": "Bookmark the Land Acknowledgement Guide for the Niagara example and federation sources."
+    },
+    "wrapFacilitator": "If no one volunteers to read, assign a settler officer — do not default to the only Indigenous member in the room.",
+    "guideCta": "Land Acknowledgement Guide",
+    "hubCta": "All workshops"
   }
 }

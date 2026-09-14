@@ -57,7 +57,7 @@ describe("solidarity-poster-formats", () => {
 
   it("uses fixed print design width for letter export ratio", () => {
     const node = { offsetWidth: 480 } as HTMLElement;
-    expect(exportPixelRatio(node, SOLIDARITY_POSTER_FORMATS.letter)).toBe(4);
-    expect(SOLIDARITY_POSTER_FORMATS.letter.previewWidthPx).toBe(306);
+    expect(exportPixelRatio(node, SOLIDARITY_POSTER_FORMATS.letter)).toBe(2);
+    expect(SOLIDARITY_POSTER_FORMATS.letter.previewWidthPx).toBe(850);
   });
 });

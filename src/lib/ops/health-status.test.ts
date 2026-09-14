@@ -29,6 +29,14 @@ describe("buildHealthStatus", () => {
     expect(status.cronConfigured).toBe(false);
     expect(status.mfaEnabled).toBe(false);
     expect(typeof status.demoAuthEnabled).toBe("boolean");
+    expect(status.observability).toEqual({
+      sentryEnabled: false,
+      sentryClientEnabled: false,
+      errorLogFileEnabled: false,
+      sentryMisconfigured: false,
+      errorLogFileMisconfigured: false,
+      sentryClientServerMismatch: false,
+    });
   });
 
   it("reads app version from package.json", () => {
@@ -53,5 +61,18 @@ describe("buildHealthStatus", () => {
     expect(status.emailEnabled).toBe(true);
     expect(status.cronConfigured).toBe(true);
     expect(status.mfaEnabled).toBe(true);
+  });
+
+  it("reflects observability sink flags without leaking DSN", () => {
+    process.env.SENTRY_ENABLED = "true";
+    process.env.SENTRY_DSN = "https://leaked-secret@o0.ingest.sentry.io/9";
+    process.env.ERROR_LOG_FILE_ENABLED = "true";
+    process.env.ERROR_LOG_FILE_PATH = "/data/logs/unionops-errors.jsonl";
+    const status = buildHealthStatus();
+    expect(status.observability.sentryEnabled).toBe(true);
+    expect(status.observability.sentryClientEnabled).toBe(false);
+    expect(status.observability.sentryClientServerMismatch).toBe(true);
+    expect(status.observability.errorLogFileEnabled).toBe(true);
+    expect(JSON.stringify(status)).not.toContain("leaked-secret");
   });
 });

@@ -1,5 +1,6 @@
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { showCanvasLogo } from "@/lib/comms/canvas-logo-mode";
+import { PRINT_PAGE_PX_PER_INCH } from "@/lib/comms/print-page-formats";
 
 export type QrBoardFormatId = "letter" | "tabloid";
 
@@ -11,14 +12,14 @@ export interface QrBoardFormat {
   labelKey: QrBoardFormatLabelKey;
   widthInches: number;
   heightInches: number;
-  /** Preview width in CSS px (~36 px/in so tabloid fits the form column) */
+  /** Preview width in CSS px (aligned with print-page design density). */
   previewWidthPx: number;
   /** Target QR encode size; canvas scales plates down in the grid */
   qrPixels: number;
   filenameStem: string;
 }
 
-const PREVIEW_PX_PER_INCH = 36;
+const PREVIEW_PX_PER_INCH = PRINT_PAGE_PX_PER_INCH;
 
 export const DEFAULT_QR_BOARD_FORMAT: QrBoardFormatId = "letter";
 
@@ -126,6 +127,13 @@ export function qrBoardChrome(opts: {
   const isTabloid = opts.format.id === "tabloid";
   const scale = Math.min(1, opts.typeScale ?? 1);
   const showLogo = showCanvasLogo(opts.logoMode);
+  // Chrome was authored at ~36 px/in (letter 306). Scale absolute budgets with
+  // denser design canvases so roomy 2-up stays larger than regular 4-up.
+  const layoutScale = Math.max(
+    0.85,
+    Math.min(3, opts.format.previewWidthPx / 306),
+  );
+  const px = (n: number) => Math.max(1, Math.round(n * layoutScale));
 
   const titleFontPx = Math.round(
     (isTabloid
@@ -138,11 +146,14 @@ export function qrBoardChrome(opts: {
         ? 13
         : density === "regular"
           ? 15
-          : 17) * scale,
+          : 17) *
+      scale *
+      layoutScale,
   );
   const subtitleFontPx = Math.round(
     (isTabloid ? (density === "roomy" ? 12 : 11) : density === "roomy" ? 11 : 10) *
-      scale,
+      scale *
+      layoutScale,
   );
   const cellTitleFontPx = Math.round(
     (isTabloid
@@ -151,32 +162,58 @@ export function qrBoardChrome(opts: {
         : 12
       : density === "compact"
         ? 9
-        : 10) * scale,
+        : 10) *
+      scale *
+      layoutScale,
   );
   const urlFontPx = Math.max(
     9,
-    Math.round((isTabloid ? (density === "roomy" ? 11 : 10) : 9) * scale),
+    Math.round(
+      (isTabloid ? (density === "roomy" ? 11 : 10) : 9) * scale * layoutScale,
+    ),
   );
-  const localFontPx = isTabloid ? 10 : 9;
+  const localFontPx = Math.round((isTabloid ? 10 : 9) * layoutScale);
 
-  const stripPx = isTabloid ? 8 : 6;
-  const padPx =
-    density === "compact" ? (isTabloid ? 14 : 10) : density === "regular" ? (isTabloid ? 16 : 12) : isTabloid ? 18 : 14;
-  const stackGapPx = density === "roomy" ? 8 : 6;
-  const gridGapPx =
-    density === "compact" ? (isTabloid ? 10 : 8) : density === "regular" ? (isTabloid ? 12 : 10) : isTabloid ? 14 : 12;
-  const cellGapPx = 4;
+  const stripPx = px(isTabloid ? 8 : 6);
+  const padPx = px(
+    density === "compact"
+      ? isTabloid
+        ? 14
+        : 10
+      : density === "regular"
+        ? isTabloid
+          ? 16
+          : 12
+        : isTabloid
+          ? 18
+          : 14,
+  );
+  const stackGapPx = px(density === "roomy" ? 8 : 6);
+  const gridGapPx = px(
+    density === "compact"
+      ? isTabloid
+        ? 10
+        : 8
+      : density === "regular"
+        ? isTabloid
+          ? 12
+          : 10
+        : isTabloid
+          ? 14
+          : 12,
+  );
+  const cellGapPx = px(4);
   const urlMaxLines: 1 | 2 = density === "compact" ? 1 : 2;
   const urlMaxChars = density === "compact" ? 28 : density === "regular" ? 40 : 56;
 
-  const logoBand = showLogo ? (isTabloid ? 36 : 30) : 0;
-  const localBand = showLogo ? localFontPx + 4 : 0;
+  const logoBand = showLogo ? px(isTabloid ? 36 : 30) : 0;
+  const localBand = showLogo ? localFontPx + px(4) : 0;
   const headerBudgetPx =
     logoBand +
     titleFontPx +
     subtitleFontPx +
     localBand +
-    (showLogo ? 10 : 6);
+    (showLogo ? px(10) : px(6));
 
   const titleBandPx = cellTitleFontPx + cellGapPx;
   const urlBandPx = opts.showUrl

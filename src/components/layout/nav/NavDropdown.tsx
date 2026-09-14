@@ -212,13 +212,13 @@ export function NavDropdown({
           role="menu"
           onKeyDown={onPanelKeyDown}
           className={cn(
-            "z-50 overflow-hidden rounded-xl border border-gray-200/90 bg-white",
+            "z-50 rounded-xl border border-gray-200/90 bg-white",
             "shadow-[0_12px_40px_-16px_rgba(15,23,42,0.22),0_4px_12px_-4px_rgba(15,23,42,0.08)]",
             "origin-top transition duration-150 ease-out",
             clampToViewport
-              ? "fixed max-w-[calc(100vw-2rem)] overflow-y-auto"
+              ? "fixed max-w-[calc(100vw-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain"
               : cn(
-                  "absolute mt-1.5 py-1.5",
+                  "absolute mt-1.5 overflow-hidden py-1.5",
                   align === "right" ? "right-0" : "left-0",
                 ),
             panelClassName ?? (clampToViewport ? undefined : "min-w-[220px]"),

@@ -36,9 +36,9 @@ import {
   LOGO_SHAPES,
   type LogoShape,
 } from "@/components/brand/LocalLogoPlate";
+import { CanvasWrapper } from "@/components/canvas-core";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ImageUpload } from "@/components/tools/ImageUpload";
@@ -262,6 +262,7 @@ function FormatFrame({
   frameRef,
   className,
   tokens,
+  fixedDesign = false,
 }: {
   format: ResizerFormat;
   state: ResizerState;
@@ -273,15 +274,19 @@ function FormatFrame({
   frameRef?: Ref<HTMLDivElement>;
   className?: string;
   tokens: CanvasTokens;
+  /** When true, use catalog pixel size (CanvasWrapper scales the preview). */
+  fixedDesign?: boolean;
 }) {
   return (
     <div
       ref={frameRef}
       data-format={dataFormat}
       {...(frameRef ? { "data-export-root": "" } : {})}
-      className={cn("relative w-full overflow-hidden", className)}
+      className={cn("relative overflow-hidden", !fixedDesign && "w-full", className)}
       style={{
-        aspectRatio: `${format.width}/${format.height}`,
+        ...(fixedDesign
+          ? { width: format.width, height: format.height }
+          : { aspectRatio: `${format.width}/${format.height}` }),
         backgroundColor: state.primaryColor,
       }}
     >
@@ -459,7 +464,7 @@ export default function ResizerPage() {
           ) : null
         }
         form={
-          <Card density="compact" className="space-y-5">
+          <div className="space-y-5">
             <div className="space-y-2">
               <p className="text-sm font-medium text-opseu-dark">{t("source")}</p>
               <div
@@ -764,7 +769,7 @@ export default function ResizerPage() {
               </Button>
             </div>
             </div>
-          </Card>
+          </div>
         }
         previewActions={
           <>
@@ -790,11 +795,20 @@ export default function ResizerPage() {
             </p>
             {/* Shadow + safe-zone overlay outside capture node */}
             <div className="relative shadow-lg">
-              <FormatFrame
-                format={format}
-                frameRef={canvasRef}
-                {...sharedFrameProps}
-              />
+              <CanvasWrapper
+                designWidth={format.width}
+                designHeight={format.height}
+                mode="fixed"
+                maxScale={1.25}
+                align="center"
+              >
+                <FormatFrame
+                  format={format}
+                  frameRef={canvasRef}
+                  fixedDesign
+                  {...sharedFrameProps}
+                />
+              </CanvasWrapper>
               {state.showSafeZones ? (
                 <CanvasSafeZoneOverlay insets={SOCIAL_SAFE_ZONE_INSETS} />
               ) : null}

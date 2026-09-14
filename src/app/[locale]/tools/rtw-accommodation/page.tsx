@@ -8,7 +8,6 @@ import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SegControl } from "@/components/tools/SegControl";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
-import { Card } from "@/components/ui/Card";
 import { Dialog } from "@/components/ui/Dialog";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -215,7 +214,7 @@ export default function RtwAccommodationPage() {
   );
 
   const form = (
-    <Card density="compact" className="space-y-4">
+    <div className="space-y-4">
       {saveFailed ? (
         <Callout tone="warning" role="status">
           {t("saveFailed")}
@@ -431,7 +430,7 @@ export default function RtwAccommodationPage() {
           }
         />
       </fieldset>
-    </Card>
+    </div>
   );
 
   const preview = (

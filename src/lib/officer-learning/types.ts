@@ -22,7 +22,17 @@ export type ReferenceSheetId =
   | "meiorin-sheet"
   | "quorum-motion"
   | "audit-controls"
-  | "equity-clause";
+  | "equity-clause"
+  | "workplace-map"
+  | "settlement-corners"
+  | "medical-privacy"
+  | "caucus-briefing"
+  | "list-directive"
+  | "expense-hardship"
+  | "transition-checklist"
+  | "orientation-kit"
+  | "dfr-duty"
+  | "bumping-intake";
 
 export type ModuleReferenceSheet = {
   id: ReferenceSheetId;

@@ -6,7 +6,6 @@ import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { Callout } from "@/components/ui/Callout";
-import { Card } from "@/components/ui/Card";
 import { Input, Textarea } from "@/components/ui/Input";
 import { ChecklistToggle } from "@/components/tools/steward-guides/ChecklistToggle";
 import { StewardGuideExportBar } from "@/components/tools/steward-guides/StewardGuideExportBar";
@@ -177,7 +176,7 @@ export default function ComplaintVsGrievancePage() {
   );
 
   const form = (
-    <Card density="compact" className="space-y-4">
+    <div className="space-y-4">
       {saveFailed ? (
         <Callout tone="warning" role="status">
           {t("saveFailed")}
@@ -399,7 +398,7 @@ export default function ComplaintVsGrievancePage() {
           </fieldset>
         </div>
       )}
-    </Card>
+    </div>
   );
 
   const preview = (

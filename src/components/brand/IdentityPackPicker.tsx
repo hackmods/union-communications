@@ -148,15 +148,15 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
               }
             >
               <span
-                className="flex h-24 w-full min-w-0 items-center justify-center overflow-hidden px-2 py-2 sm:h-28 sm:px-3"
+                className="flex aspect-[2/1] w-full min-w-0 items-center justify-center overflow-hidden p-0"
                 style={{ backgroundColor: plateFill }}
               >
                 <SafeLogoImage
                   src={previewSrc}
                   alt=""
-                  width={220}
-                  height={72}
-                  className="h-[4.25rem] w-auto max-w-full object-contain sm:h-[4.75rem]"
+                  width={880}
+                  height={440}
+                  className="aspect-auto h-full w-full object-contain"
                   onDark={onDarkPreview}
                 />
               </span>

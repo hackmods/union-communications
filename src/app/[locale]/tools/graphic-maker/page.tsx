@@ -11,7 +11,7 @@ import { useExportHandler } from "@/hooks/use-export-handler";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { cn, formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
 import {
   EXAMPLE_ASPECTS,
@@ -26,9 +26,10 @@ import {
   GraphicLayoutCanvas,
   type GraphicLayoutId,
 } from "@/components/tools/graphic-layouts";
+import { CanvasSheetPlate } from "@/components/tools/CanvasSheetPlate";
+import { exampleAspectDesignSize } from "@/lib/comms/canvas-aspects";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ConsentModal } from "@/components/tools/ConsentModal";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
@@ -48,7 +49,7 @@ import {
   defaultLogoMode,
   defaultShowLocalNumber,
 } from "@/lib/comms/canvas-logo-mode";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
@@ -73,11 +74,14 @@ function layoutForPreset(key: ToolPresetKey): GraphicLayoutId {
   return "solidarity";
 }
 
-function detailForPreset(key: ToolPresetKey): string {
-  if (key === "agmNotice") return "AGM";
-  if (key === "bargainingUpdate") return "Update";
-  if (key === "strikeAction") return "Strike";
-  if (key === "jointCoalition") return "Show up — details to follow";
+function detailForPreset(
+  key: ToolPresetKey,
+  t: (key: string) => string,
+): string {
+  if (key === "agmNotice") return t("presetDetails.agmNotice");
+  if (key === "bargainingUpdate") return t("presetDetails.bargainingUpdate");
+  if (key === "strikeAction") return t("presetDetails.strikeAction");
+  if (key === "jointCoalition") return t("presetDetails.jointCoalition");
   return "";
 }
 
@@ -111,7 +115,6 @@ function GraphicMakerPageContent() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
-  const [canvasSize, setCanvasSize] = useState<"preview" | "export">("preview");
   const presetApplied = useRef(false);
 
   const brandColors = {
@@ -121,10 +124,10 @@ function GraphicMakerPageContent() {
   };
 
   const initial: GraphicState = {
-    layout: "solidarity",
-    aspect: "landscape",
-    headline: "Member Spotlight",
-    subheadline: "Celebrating our union family",
+    layout: "spotlight",
+    aspect: "square",
+    headline: TOOL_PRESETS.memberSpotlight.headline,
+    subheadline: TOOL_PRESETS.memberSpotlight.subheadline,
     detail: "",
     initials: "M",
     photoScale: 1,
@@ -148,7 +151,7 @@ function GraphicMakerPageContent() {
       aspect: defaultAspectForPreset(key),
       headline: preset.headline,
       subheadline: preset.subheadline,
-      detail: detailForPreset(key),
+      detail: detailForPreset(key, tg),
     });
   };
 
@@ -209,7 +212,7 @@ function GraphicMakerPageContent() {
         ),
         headline: preset.headline,
         subheadline: preset.subheadline,
-        detail: detailForPreset(presetRaw),
+        detail: detailForPreset(presetRaw, tg),
       });
       return;
     }
@@ -250,10 +253,10 @@ function GraphicMakerPageContent() {
         ),
         headline: preset.headline,
         subheadline: preset.subheadline,
-        detail: detailForPreset(presetRaw),
+        detail: detailForPreset(presetRaw, tg),
       }));
     }
-  }, [searchParams, setState, hydrated]);
+  }, [searchParams, setState, hydrated, tg]);
 
   const handlePhotoUpload = (url: string) => {
     setPendingPhoto(url);
@@ -268,23 +271,17 @@ function GraphicMakerPageContent() {
     setConsentOpen(false);
   };
 
+  const designSize = exampleAspectDesignSize(state.aspect);
+
   const handleExport = async () => {
     if (!canvasRef.current) return;
-    setCanvasSize("export");
-    await new Promise<void>((resolve) => {
-      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    await runExport(async () => {
+      await exportNodeAsPng(
+        canvasRef.current!,
+        formatFilename("graphic", brandKit.local.localNumber, "png"),
+        { pixelRatio: 2, backgroundColor: state.primaryColor },
+      );
     });
-    try {
-      await runExport(async () => {
-        await exportNodeAsPng(
-          canvasRef.current!,
-          formatFilename("graphic", brandKit.local.localNumber, "png"),
-          { pixelRatio: 2, backgroundColor: state.primaryColor },
-        );
-      });
-    } finally {
-      setCanvasSize("preview");
-    }
   };
 
   const showPhoto = layoutSupportsPhoto(state.layout);
@@ -340,7 +337,7 @@ function GraphicMakerPageContent() {
           </div>
         }
         form={
-          <Card density="compact" className="space-y-5">
+          <div className="space-y-5">
             <section className="space-y-3">
             <Input
               label={tg("headline")}
@@ -487,7 +484,7 @@ function GraphicMakerPageContent() {
               {exporting ? t("exporting") : t("downloadPng")}
             </Button>
             </div>
-          </Card>
+          </div>
         }
         previewActions={
           <Button onClick={handleExport} disabled={exporting}>
@@ -495,40 +492,47 @@ function GraphicMakerPageContent() {
           </Button>
         }
         preview={
-          <div
-            className={cn(
-              "overflow-hidden rounded-lg shadow-lg",
-              state.aspect === "portrait" &&
-                "mx-auto w-full max-w-[280px] sm:max-w-[320px]",
-            )}
+          <CanvasSheetPlate
+            designWidth={designSize.width}
+            designHeight={designSize.height}
+            mode="fixed"
+            maxScale={1.25}
+            align="center"
           >
-            <div ref={canvasRef} data-export-root="">
-              <GraphicLayoutCanvas
-                layout={state.layout}
-                aspect={state.aspect}
-                copy={{
-                  headline: state.headline,
-                  body: state.subheadline,
-                  detail: state.detail || undefined,
-                  initials: state.initials,
+              <div
+                ref={canvasRef}
+                data-export-root=""
+                style={{
+                  width: designSize.width,
+                  height: designSize.height,
                 }}
-                colors={{
-                  primary: state.primaryColor,
-                  accent: state.accentColor,
-                  secondary: state.secondaryColor,
-                }}
-                localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-                subText={brandKit.local.subText}
-                photoUrl={showPhoto ? state.photoUrl : undefined}
-                photoScale={state.photoScale}
-                size={canvasSize}
-                tokens={resolveCanvasTokens(brandKit)}
-                logoMode={state.logoMode}
-                showLocalNumber={state.showLocalNumber}
-                coalitionBadge={brandKit.campaignBadge?.trim() || undefined}
-              />
-            </div>
-          </div>
+              >
+                <GraphicLayoutCanvas
+                  layout={state.layout}
+                  aspect={state.aspect}
+                  copy={{
+                    headline: state.headline,
+                    body: state.subheadline,
+                    detail: state.detail || undefined,
+                    initials: state.initials,
+                  }}
+                  colors={{
+                    primary: state.primaryColor,
+                    accent: state.accentColor,
+                    secondary: state.secondaryColor,
+                  }}
+                  localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+                  subText={brandKit.local.subText}
+                  photoUrl={showPhoto ? state.photoUrl : undefined}
+                  photoScale={state.photoScale}
+                  size="export"
+                  tokens={resolveCanvasTokens(brandKit)}
+                  logoMode={state.logoMode}
+                  showLocalNumber={state.showLocalNumber}
+                  coalitionBadge={brandKit.campaignBadge?.trim() || undefined}
+                />
+              </div>
+          </CanvasSheetPlate>
         }
         footer={
           <div className="space-y-6">
@@ -561,20 +565,9 @@ function GraphicMakerPageContent() {
   );
 }
 
-function GraphicMakerSuspenseFallback() {
-  const t = useTranslations("common");
-  return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <p className="text-gray-600" aria-busy="true">
-        {t("loading")}
-      </p>
-    </PageShell>
-  );
-}
-
 export default function GraphicMakerPage() {
   return (
-    <Suspense fallback={<GraphicMakerSuspenseFallback />}>
+    <Suspense fallback={<ToolLoadingFallback />}>
       <GraphicMakerPageContent />
     </Suspense>
   );

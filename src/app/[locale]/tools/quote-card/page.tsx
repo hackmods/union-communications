@@ -10,14 +10,13 @@ import { useExportHandler } from "@/hooks/use-export-handler";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { cn, formatFilename, resolveLocalNumber } from "@/lib/utils";
 import {
   EXAMPLE_ASPECTS,
   aspectFromQuery,
   getExamplePost,
-  graphicAspectClass,
   type ExampleAspect,
 } from "@/lib/constants/examples";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import {
   DEFAULT_QUOTE_LAYOUT,
   QUOTE_LAYOUT_ORDER,
@@ -31,13 +30,14 @@ import {
   type QuotePresetKey,
 } from "@/lib/comms/quote-presets";
 import { QuoteLayout } from "@/components/tools/graphic-layouts";
+import { CanvasSheetPlate } from "@/components/tools/CanvasSheetPlate";
+import { exampleAspectDesignSize } from "@/lib/comms/canvas-aspects";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { ColorField } from "@/components/tools/ColorField";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
@@ -88,9 +88,9 @@ function QuoteCardPageContent() {
   const tokens = resolveCanvasTokens(brandKit);
 
   const initial: QuoteState = {
-    quote: "We will not accept anything less than a fair deal for our members.",
-    author: "Local President",
-    role: "",
+    quote: tq("defaults.quote"),
+    author: tq("defaults.author"),
+    role: tq("defaults.role"),
     layout: DEFAULT_QUOTE_LAYOUT,
     aspect: "square",
     primaryColor: brandKit.primaryColor,
@@ -197,6 +197,8 @@ function QuoteCardPageContent() {
     });
   };
 
+  const designSize = exampleAspectDesignSize(state.aspect);
+
   const exportActions = (
     <ToolExportActions
       exporting={exporting}
@@ -248,7 +250,7 @@ function QuoteCardPageContent() {
       }
       footer={<ToolRelatedFooter toolSlug="quote-card" />}
       form={
-        <Card density="compact" className="space-y-5">
+        <div className="space-y-5">
           <section className="space-y-3">
           <Textarea
             label={tq("quote")}
@@ -346,67 +348,56 @@ function QuoteCardPageContent() {
           />
           {exportActions}
           </div>
-        </Card>
+        </div>
       }
       previewActions={exportActions}
       preview={
-        /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
-        <div
-          className={cn(
-            "shadow-lg",
-            state.aspect === "portrait" &&
-              "mx-auto w-full max-w-[280px] sm:max-w-[320px]",
-          )}
+        <CanvasSheetPlate
+          designWidth={designSize.width}
+          designHeight={designSize.height}
+          mode="fixed"
+          maxScale={1.25}
+          align="center"
         >
-          <div
-            ref={canvasRef}
-                  data-export-root=""
-            className={cn(
-              "relative w-full overflow-hidden",
-              graphicAspectClass(state.aspect),
-            )}
-            style={surfaceStyle}
-          >
-            <QuoteLayout
-              primary={state.primaryColor}
-              accent={state.accentColor}
-              secondary={state.secondaryColor}
-              textColor={state.textColor}
-              copy={{
-                headline: state.author,
-                body: state.quote,
-                detail: state.role || undefined,
+            <div
+              ref={canvasRef}
+              data-export-root=""
+              className="relative overflow-hidden"
+              style={{
+                ...surfaceStyle,
+                width: designSize.width,
+                height: designSize.height,
               }}
-              localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-              subText={brandKit.local.subText}
-              size="export"
-              aspect={state.aspect}
-              layout={state.layout}
-              tokens={tokens}
-              logoMode={state.logoMode}
-              showLocalNumber={state.showLocalNumber}
-            />
-          </div>
-        </div>
+            >
+              <QuoteLayout
+                primary={state.primaryColor}
+                accent={state.accentColor}
+                secondary={state.secondaryColor}
+                textColor={state.textColor}
+                copy={{
+                  headline: state.author,
+                  body: state.quote,
+                  detail: state.role || undefined,
+                }}
+                localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+                subText={brandKit.local.subText}
+                size="export"
+                aspect={state.aspect}
+                layout={state.layout}
+                tokens={tokens}
+                logoMode={state.logoMode}
+                showLocalNumber={state.showLocalNumber}
+              />
+            </div>
+        </CanvasSheetPlate>
       }
     />
   );
 }
 
-function QuoteCardSuspenseFallback() {
-  const t = useTranslations("common");
-  return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <p className="text-gray-600" aria-busy="true">
-        {t("loading")}
-      </p>
-    </PageShell>
-  );
-}
-
 export default function QuoteCardPage() {
   return (
-    <Suspense fallback={<QuoteCardSuspenseFallback />}>
+    <Suspense fallback={<ToolLoadingFallback />}>
       <QuoteCardPageContent />
     </Suspense>
   );

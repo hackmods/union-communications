@@ -42,7 +42,8 @@ Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboard
 
 ## Tool chrome contracts
 
-- Canvas tools: [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) — sticky asymmetric preview at `lg`/`xl`; mobile Edit/Preview with **`aria-controls`** / panel ids; optional `purposeHint` (“when to use”); `exportError` + **`exportSuccess`** via [`useExportHandler`](src/hooks/use-export-handler.ts).
+- Canvas tools: [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) — `PUBLIC_PAGE_TITLE_CLASS`; shared form panel (`p-4 md:p-6`); sticky asymmetric preview at `lg`/`xl`; mobile Edit/Preview with **`aria-controls`** / panel ids; optional `purposeHint` (“when to use”); `exportError` + **`exportSuccess`** via [`useExportHandler`](src/hooks/use-export-handler.ts). Do not nest a form-root `Card` inside the panel.
+- Workspace forms (Brand Kit, onboarding, Display settings): [`PublicHubPanel`](src/components/comms/PublicHubPanel.tsx).
 - Cross-links: [`ToolRelatedFooter`](src/components/tools/ToolRelatedFooter.tsx) / `RELATED_BY_TOOL` — add entries when shipping a new public tool.
 - Tools index: one-line `toolsIndex.blurbs.*` per nav key; densify grids at `sm`/`lg`/`xl`.
 - Captions page chrome and template bodies are i18n (`captions.*` / `captions.templates.*`); keep `#LocalUnion` + `[Local Number]` placeholders — avoid hardcoded national-union hashtags (`#OPSEU`). Per-union caption packs remain future scope.

@@ -19,7 +19,17 @@ import {
   downloadFarSheetPdf,
   downloadFloorChecklistPdf,
   downloadMeiorinSheetPdf,
+  downloadMedicalPrivacyPdf,
   downloadQuorumMotionPdf,
+  downloadSettlementCornersPdf,
+  downloadWorkplaceMapPdf,
+  downloadCaucusBriefingPdf,
+  downloadListDirectivePdf,
+  downloadExpenseHardshipPdf,
+  downloadTransitionChecklistPdf,
+  downloadOrientationKitPdf,
+  downloadDfrDutyPdf,
+  downloadBumpingIntakePdf,
 } from "@/lib/officer-learning/reference-pdf";
 import type { ParsedModule } from "@/lib/officer-learning/types";
 import { useOlTheme } from "./OlThemeProvider";
@@ -80,6 +90,36 @@ export function ModuleRelatedResources({
           return;
         case "equity-clause":
           await downloadEquityClausePdf(ctx);
+          return;
+        case "workplace-map":
+          await downloadWorkplaceMapPdf(ctx);
+          return;
+        case "settlement-corners":
+          await downloadSettlementCornersPdf(ctx);
+          return;
+        case "medical-privacy":
+          await downloadMedicalPrivacyPdf(ctx);
+          return;
+        case "caucus-briefing":
+          await downloadCaucusBriefingPdf(ctx);
+          return;
+        case "list-directive":
+          await downloadListDirectivePdf(ctx);
+          return;
+        case "expense-hardship":
+          await downloadExpenseHardshipPdf(ctx);
+          return;
+        case "transition-checklist":
+          await downloadTransitionChecklistPdf(ctx);
+          return;
+        case "orientation-kit":
+          await downloadOrientationKitPdf(ctx);
+          return;
+        case "dfr-duty":
+          await downloadDfrDutyPdf(ctx);
+          return;
+        case "bumping-intake":
+          await downloadBumpingIntakePdf(ctx);
           return;
         case "floor-checklist":
           await downloadFloorChecklistPdf({

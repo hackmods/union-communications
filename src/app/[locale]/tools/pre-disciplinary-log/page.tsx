@@ -8,7 +8,6 @@ import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ProgressiveDisciplineLadderDiagram } from "@/components/comms/StewardGuideDiagrams";
 import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
 import { Callout } from "@/components/ui/Callout";
-import { Card } from "@/components/ui/Card";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { ChecklistToggle } from "@/components/tools/steward-guides/ChecklistToggle";
@@ -158,7 +157,7 @@ export default function PreDisciplinaryLogPage() {
   );
 
   const form = (
-    <Card density="compact" className="space-y-4">
+    <div className="space-y-4">
       {saveFailed ? (
         <Callout tone="warning" role="status">
           {t("saveFailed")}
@@ -317,7 +316,7 @@ export default function PreDisciplinaryLogPage() {
           />
         ))}
       </fieldset>
-    </Card>
+    </div>
   );
 
   const preview = (

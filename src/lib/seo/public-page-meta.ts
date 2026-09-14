@@ -67,6 +67,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Makers for your brand, union boards, print, social, and the web. They all run on your device, with no account needed.",
     },
+    "/guides": {
+      title: "Guides",
+      description:
+        "Every UnionOps handbook in one list: First week, channel guides, and steward playbooks for the shop floor and the local.",
+    },
     "/guide": {
       title: "The Blueprint",
       description:
@@ -78,9 +83,19 @@ export const PUBLIC_PAGE_SEO: Record<
         "What to do after Brand Kit: boards, print, socials, and a simple website. One message, four channels, in order.",
     },
     "/guide/workshop": {
-      title: "Workshop outline",
+      title: "Comms workshop",
       description:
         "A beginner hour for volunteer executives: platforms and posting rhythm, a local logo, Social Examples, Graphic Maker, Quote Card, and a website ZIP.",
+    },
+    "/guide/workshops": {
+      title: "Workshops",
+      description:
+        "Projectable workshop outlines for local executives — Comms lunch-and-learn and land acknowledgement drafting session.",
+    },
+    "/guide/workshops/land-acknowledgement": {
+      title: "Land acknowledgement workshop",
+      description:
+        "Facilitator outline (~60–90 min) to draft a local land acknowledgement together — prep, timed agenda, and PDF worksheet.",
     },
     "/guide/union-boards": {
       title: "Union Boards Guide",
@@ -195,12 +210,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/land-acknowledgement": {
       title: "Land Acknowledgement Guide",
       description:
-        "Solo path, group workshop, and PDF worksheet to draft your local's acknowledgement — federation guides, meeting order, and action, not a script generator.",
+        "How-to walkthrough and PDF worksheet to draft your local's acknowledgement — federation guides, Niagara example, meeting order, not a script generator.",
     },
     "/guide/officer-learning": {
       title: "Officer Learning Center",
       description:
-        "Six expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
+        "Sixteen expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1: Contract Enforcement",
@@ -231,6 +246,56 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Module 6: Building Collective Power",
       description:
         "Systemic barriers, equity-focused bargaining, anti-racism contract language, and restorative dispute paths. Self-test quiz included.",
+    },
+    "/guide/officer-learning/mobilizer-bargaining-partner": {
+      title: "Module 7: Mobilizer & Bargaining Partner",
+      description:
+        "Workplace mapping, escalation ladder, work-to-rule boundaries, and strike readiness for stewards. Self-test quiz included.",
+    },
+    "/guide/officer-learning/advanced-grievance-settlement": {
+      title: "Module 8: Advanced Grievance & Settlement",
+      description:
+        "Open-door grievance wording, five-part evidence files, without prejudice, and four-corners settlements. Self-test quiz included.",
+    },
+    "/guide/officer-learning/benefits-disability-claims": {
+      title: "Module 9: Benefits & Disability Claims",
+      description:
+        "Functional abilities privacy, benefit denials, IME limits, and attendance program audits. Self-test quiz included.",
+    },
+    "/guide/officer-learning/joint-workplace-committees": {
+      title: "Module 10: Joint Workplace Committees",
+      description:
+        "JHSC versus LMC powers, united caucus discipline, and multi-committee escalation. Self-test quiz included.",
+    },
+    "/guide/officer-learning/membership-lists-privacy": {
+      title: "Module 11: Member Lists & Data Privacy",
+      description:
+        "Rand versus signed cards, membership list directive, dues reconciliation, and secure storage. Self-test quiz included.",
+    },
+    "/guide/officer-learning/advanced-local-finance": {
+      title: "Module 12: Advanced Local Finance",
+      description:
+        "Expense policies, taxable honoraria, and hardship fund governance with dual-signature controls. Self-test quiz included.",
+    },
+    "/guide/officer-learning/digital-security-transitions": {
+      title: "Module 13: Digital Security & Transitions",
+      description:
+        "Folder architecture, retention schedules, cybersecurity, and officer transition checklists. Self-test quiz included.",
+    },
+    "/guide/officer-learning/everyday-union-value": {
+      title: "Module 14: Everyday Union Value",
+      description:
+        "Day-1 orientations, affinity benefits without list sharing, and community unionism. Self-test quiz included.",
+    },
+    "/guide/officer-learning/duty-of-fair-representation": {
+      title: "Module 15: Duty of Fair Representation",
+      description:
+        "DFR habits for Ontario stewards: investigate before deciding, communicate in writing, and meet grievance and statutory clocks. Self-test quiz included.",
+    },
+    "/guide/officer-learning/seniority-bumping-layoff": {
+      title: "Module 16: Seniority, Bumping & Layoff",
+      description:
+        "Read seniority lists, trace CA-specific bumping trees, calendar layoff and recall clocks, and flag accommodation collisions. Self-test quiz included.",
     },
   },
   fr: {
@@ -289,6 +354,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Des créateurs pour votre marque, les tableaux syndicaux, l'impression, le social et le web. Tout reste sur votre appareil, sans compte à créer.",
     },
+    "/guides": {
+      title: "Guides",
+      description:
+        "Tous les manuels UnionOps au même endroit : Première semaine, guides par canal, et guides pratiques pour le plancher et la section.",
+    },
     "/guide": {
       title: "Le Plan directeur",
       description:
@@ -300,9 +370,19 @@ export const PUBLIC_PAGE_SEO: Record<
         "Quoi faire après la Trousse de marque : tableaux, impression, médias sociaux et un site simple. Un message, quatre canaux, dans l'ordre.",
     },
     "/guide/workshop": {
-      title: "Plan d'atelier",
+      title: "Atelier Comms",
       description:
         "Une heure pour les cadres bénévoles : plateformes et rythme, un logo local, les Exemples sociaux, le Créateur de graphiques, la Carte de citation et un ZIP de site.",
+    },
+    "/guide/workshops": {
+      title: "Ateliers",
+      description:
+        "Plans d'atelier projectables pour les cadres locaux — lunch-and-learn Comms et séance de rédaction de reconnaissance territoriale.",
+    },
+    "/guide/workshops/land-acknowledgement": {
+      title: "Atelier de reconnaissance territoriale",
+      description:
+        "Plan animateur (~60–90 min) pour rédiger ensemble la reconnaissance de votre section — préparation, ordre du jour chronométré et feuille PDF.",
     },
     "/guide/union-boards": {
       title: "Guide des tableaux syndicaux",
@@ -417,12 +497,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/land-acknowledgement": {
       title: "Guide de reconnaissance territoriale",
       description:
-        "Voie solo, atelier de groupe et feuille PDF pour rédiger la reconnaissance de votre section — guides fédéraux, ordre du jour et action, sans générateur.",
+        "Marche à suivre et feuille PDF pour rédiger la reconnaissance de votre section — guides fédéraux, exemple de Niagara, ordre du jour, sans générateur.",
     },
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",
       description:
-        "Six modules approfondis avec scénarios, exercices et quiz. S'appuie sur la formation du CTC, de la SCFP, d'Unifor et de la CODP — progression sur votre appareil.",
+        "Seize modules avec scénarios, exercices et quiz (CTC, SCFP, Unifor, CODP). Progression sur votre appareil.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1 : Application de la convention",
@@ -453,6 +533,56 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Module 6 : Bâtir le pouvoir collectif",
       description:
         "Barrières systémiques, négociation axée sur l'équité, clauses antiracistes et voies de règlement restauratrices. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/mobilizer-bargaining-partner": {
+      title: "Module 7 : Mobilisateur et partenaire de négociation",
+      description:
+        "Cartographie du milieu de travail, échelle d'escalade, limites du work-to-rule et préparation à la grève. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/advanced-grievance-settlement": {
+      title: "Module 8 : Grief avancé et règlement",
+      description:
+        "Libellé porte ouverte, dossier en cinq piliers, sans préjudice et règlements aux quatre coins. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/benefits-disability-claims": {
+      title: "Module 9 : Prestations et invalidité",
+      description:
+        "Confidentialité des capacités fonctionnelles, refus d'assureur, limites des EIM et audit des programmes d'assiduité. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/joint-workplace-committees": {
+      title: "Module 10 : Comités conjoints en milieu de travail",
+      description:
+        "Pouvoirs du JHSC et du LMC, discipline de caucus uni et escalade multi-comités. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/membership-lists-privacy": {
+      title: "Module 11 : Listes de membres et confidentialité",
+      description:
+        "Formule Rand vs cartes signées, directive sur les listes, rapprochement des cotisations et stockage sécurisé. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/advanced-local-finance": {
+      title: "Module 12 : Finances locales avancées",
+      description:
+        "Politiques de dépenses, honoraires imposables et gouvernance des fonds de détresse avec double signature. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/digital-security-transitions": {
+      title: "Module 13 : Sécurité numérique et transitions",
+      description:
+        "Architecture des dossiers, calendriers de rétention, cybersécurité et listes de transition. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/everyday-union-value": {
+      title: "Module 14 : Valeur syndicale quotidienne",
+      description:
+        "Orientations Jour 1, avantages d'affinité sans partage de listes et syndicalisme communautaire. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/duty-of-fair-representation": {
+      title: "Module 15 : Devoir de représentation équitable",
+      description:
+        "Habitudes DRE : enquêter avant de décider, communiquer par écrit et respecter les délais de grief et légaux. Quiz inclus.",
+    },
+    "/guide/officer-learning/seniority-bumping-layoff": {
+      title: "Module 16 : Ancienneté, bumping et mise à pied",
+      description:
+        "Lire les listes, tracer les arbres de bumping, calendrier des délais de mise à pied et de rappel. Quiz inclus.",
     },
   },
 };

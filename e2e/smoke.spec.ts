@@ -42,7 +42,7 @@ test.describe("Smoke tests @smoke", () => {
     ]);
   });
 
-  test("guides about links include assets manifesto install", async ({
+  test("guides menu lists brand assets; about links stay in the footer", async ({
     page,
   }) => {
     await page.goto("/en/");
@@ -55,12 +55,10 @@ test.describe("Smoke tests @smoke", () => {
     ).toBeVisible();
     await expect(
       main.getByRole("menuitem", { name: "Built in solidarity" }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await expect(
       main.getByRole("menuitem", { name: "Install as an app" }),
-    ).toBeVisible();
-    // About sits near the bottom of a tall, viewport-clamped Guides panel —
-    // scroll the menuitem into the panel before Playwright's click action.
+    ).toHaveCount(0);
     const assets = main.getByRole("menuitem", { name: "Brand Assets" });
     await assets.evaluate((el) => {
       el.scrollIntoView({ block: "nearest", inline: "nearest" });
@@ -168,6 +166,20 @@ test.describe("Smoke tests @smoke", () => {
     ).toBeVisible();
   });
 
+  test("guides menu all guides opens the catalog", async ({ page }) => {
+    await page.goto("/en/");
+    const main = page.getByRole("navigation", {
+      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
+    });
+    await main.getByRole("button", { name: /Guides/ }).click();
+    await main.getByRole("menuitem", { name: "All guides" }).click();
+    await expect(page).toHaveURL(/\/en\/guides\/?$/);
+    await expect(page.getByRole("heading", { name: "Guides", exact: true })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "How Canadian unions connect" }),
+    ).toBeVisible();
+  });
+
   test("guides menu lists email outreach under by channel", async ({ page }) => {
     await page.goto("/en/");
     const main = page.getByRole("navigation", {
@@ -268,14 +280,12 @@ test.describe("Smoke tests @smoke", () => {
   test("comms resources page renders with sources", async ({ page }) => {
     await page.goto("/en/guide/resources/");
     await expect(page.getByRole("heading", { name: "Comms Resources" })).toBeVisible();
-    await expect(
-      page.getByRole("heading", {
-        name: "From Scratch to Solidarity: Launching Your Local's Social Media",
-      }),
-    ).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Running a workshop" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Practice checklist" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Full source bibliography" })).toBeVisible();
     await expect(page.getByRole("link", { name: "OPSEU / SEFPO graphics, logos & letterhead" })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Workshops" }).first(),
+    ).toBeVisible();
   });
 
   test("photo consent guide renders", async ({ page }) => {

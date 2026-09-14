@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { PageShell } from "@/components/layout/PageShell";
 import { RouteStatusPanel } from "@/components/layout/RouteStatusPanel";
+import { captureClientRouteError } from "@/lib/observability/capture-client-route-error";
 
 export default function LocaleError({
   error,
@@ -17,7 +18,7 @@ export default function LocaleError({
   const t = useTranslations("routeUi");
 
   useEffect(() => {
-    console.error("[locale]", error.digest ?? error.message);
+    captureClientRouteError(error, "locale");
   }, [error]);
 
   return (

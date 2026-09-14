@@ -9,7 +9,7 @@ import {
   cornerLPolygons,
   type CornerPosition,
 } from "@/lib/constants/board-banner-layouts";
-import { BrandLogo } from "@/components/brand/BrandLogo";
+import { LogoContainer } from "@/components/canvas-core/LogoContainer";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import { clampTypeRem } from "@/lib/utils/canvas-tokens";
 import { pickContrastingInk } from "@/lib/utils/ink";
@@ -122,7 +122,6 @@ export function BoardTrimCanvas({
   const localDisplay = `LOCAL ${localNumber}`;
   const bylineText = byline.trim();
   const showLogo = logoMode !== "none";
-  const logoVariant = logoMode === "mark" ? "mark" : "lockup";
   const localCapType = {
     fontWeight: (tokens?.titleFontWeight ?? 900) as number,
     letterSpacing: tokens?.titleLetterSpacing ?? "0.08em",
@@ -233,10 +232,10 @@ export function BoardTrimCanvas({
             ) : null}
             {showLogo ? (
               <div style={{ maxWidth: "80%", maxHeight: "28%" }}>
-                <BrandLogo
-                  size="sm"
+                <LogoContainer
                   backgroundColor={primaryColor}
-                  variantOverride={logoVariant}
+                  logoMode={logoMode}
+                  bounds={{ maxWidthCqw: 100, align: "center" }}
                 />
               </div>
             ) : null}
@@ -391,10 +390,10 @@ export function BoardTrimCanvas({
             ) : null}
             {showLogo ? (
               <div style={{ maxHeight: "85%", display: "flex", alignItems: "center" }}>
-                <BrandLogo
-                  size="sm"
+                <LogoContainer
                   backgroundColor={primaryColor}
-                  variantOverride={logoVariant}
+                  logoMode={logoMode}
+                  bounds={{ maxWidthCqw: 100, align: "center" }}
                 />
               </div>
             ) : null}
@@ -502,10 +501,10 @@ export function BoardTrimCanvas({
       ) : null}
       {showLogo ? (
         <div style={ornaments.logo}>
-          <BrandLogo
-            size="sm"
+          <LogoContainer
             backgroundColor="#FFFFFF"
-            variantOverride={logoVariant}
+            logoMode={logoMode}
+            bounds={{ maxWidthCqw: 100, align: "center" }}
           />
         </div>
       ) : null}

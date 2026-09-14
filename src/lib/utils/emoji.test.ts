@@ -16,15 +16,23 @@ describe("emoji registry", () => {
     expect(emojiChar("warning")).not.toBe("⚠️");
   });
 
+  it("uses fallback for Unicode-15 reflection mirror in copy", () => {
+    expect(emojiChar("reflection")).toBe("💭");
+    expect(emojiChar("reflection")).not.toBe("🪞");
+  });
+
   it("uses primary for well-supported emojis in copy", () => {
     expect(emojiChar("megaphone")).toBe("📢");
     expect(emojiChar("clipboard")).toBe("📋");
     expect(emojiChar("document")).toBe("📄");
     expect(emojiChar("star")).toBe("🌟");
     expect(emojiChar("strength")).toBe("💪");
+    expect(emojiChar("note")).toBe("💡");
+    expect(emojiChar("practice")).toBe("📝");
   });
 
   it("resolves preferFallback emojis without probing", () => {
     expect(resolveEmoji(EMOJIS.warning)).toBe("❗");
+    expect(resolveEmoji(EMOJIS.reflection)).toBe("💭");
   });
 });

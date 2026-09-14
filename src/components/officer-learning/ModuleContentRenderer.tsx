@@ -3,11 +3,22 @@
 import { useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Emoji } from "@/components/ui/Emoji";
+import type { EmojiId } from "@/lib/constants/emoji";
 import type { ContentBlock, ModuleSection } from "@/lib/officer-learning/types";
 import type { OlTheme } from "@/lib/officer-learning/theme";
 import { useOlTheme } from "./OlThemeProvider";
 import clsx from "clsx";
 import { WorkedScenarioSection } from "./WorkedScenarioSection";
+
+type CalloutVariant = Extract<ContentBlock, { type: "callout" }>["variant"];
+
+const CALLOUT_EMOJI: Record<CalloutVariant, EmojiId> = {
+  note: "note",
+  warning: "warning",
+  practice: "practice",
+  reflection: "reflection",
+};
 
 function renderInline(text: string, olTheme: OlTheme): ReactNode[] {
   const parts: ReactNode[] = [];
@@ -224,7 +235,9 @@ function BlockRenderer({
               : olTheme.calloutDefault;
       return (
         <div className={styles}>
-          <p className="font-semibold">{t(block.variant)}</p>
+          <p className="font-semibold">
+            <Emoji id={CALLOUT_EMOJI[block.variant]} /> {t(block.variant)}
+          </p>
           <p className="mt-2 leading-relaxed">{renderInline(block.text, olTheme)}</p>
         </div>
       );

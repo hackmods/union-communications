@@ -18,6 +18,15 @@ test.describe("Officer Learning @smoke", () => {
     await expect(
       page.getByRole("link", { name: "Module 1: Contract Enforcement", exact: true }),
     ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Mobilizer & Bargaining Partner", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Member Lists & Data Privacy", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Everyday Union Value", exact: true }),
+    ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
 
@@ -53,7 +62,7 @@ test.describe("Officer Learning @smoke", () => {
     ).toHaveCount(0);
     await expect(
       main.getByRole("menuitem", {
-        name: /Six self-paced modules with floor checklists/i,
+        name: /Sixteen self-paced modules with floor checklists/i,
       }),
     ).toHaveCount(0);
   });
@@ -68,6 +77,23 @@ test.describe("Officer Learning @smoke", () => {
     await expect(
       main.getByRole("link", { name: "Officer Learning" }),
     ).toHaveAttribute("aria-current", "page");
+  });
+
+  test("module 8 page has jump to quiz and axe-clean", async ({ page }) => {
+    await page.goto("/en/guide/officer-learning/advanced-grievance-settlement/");
+    await expect(
+      page.getByRole("heading", { name: "Advanced Grievance & Settlement" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /Jump to Quiz/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Worked scenario", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Worked file timeline", exact: true }),
+    ).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
   });
 
   test("steward playbooks hub is axe-clean with training path", async ({ page }) => {
@@ -88,7 +114,10 @@ test.describe("Officer Learning @smoke", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.getByText("Officer Learning module")).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Contract Enforcement/i }),
+      page.getByRole("link", {
+        name: "Duty of Fair Representation →",
+        exact: true,
+      }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });

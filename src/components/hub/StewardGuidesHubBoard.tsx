@@ -58,6 +58,46 @@ const READ_FIRST = [
     href: "/guide/officer-learning/building-collective-power",
     titleKey: "readModule6" as const,
   },
+  {
+    href: "/guide/officer-learning/mobilizer-bargaining-partner",
+    titleKey: "readModule7" as const,
+  },
+  {
+    href: "/guide/officer-learning/advanced-grievance-settlement",
+    titleKey: "readModule8" as const,
+  },
+  {
+    href: "/guide/officer-learning/benefits-disability-claims",
+    titleKey: "readModule9" as const,
+  },
+  {
+    href: "/guide/officer-learning/joint-workplace-committees",
+    titleKey: "readModule10" as const,
+  },
+  {
+    href: "/guide/officer-learning/membership-lists-privacy",
+    titleKey: "readModule11" as const,
+  },
+  {
+    href: "/guide/officer-learning/advanced-local-finance",
+    titleKey: "readModule12" as const,
+  },
+  {
+    href: "/guide/officer-learning/digital-security-transitions",
+    titleKey: "readModule13" as const,
+  },
+  {
+    href: "/guide/officer-learning/everyday-union-value",
+    titleKey: "readModule14" as const,
+  },
+  {
+    href: "/guide/officer-learning/duty-of-fair-representation",
+    titleKey: "readModule15" as const,
+  },
+  {
+    href: "/guide/officer-learning/seniority-bumping-layoff",
+    titleKey: "readModule16" as const,
+  },
 ] as const;
 
 const UTILITIES = [

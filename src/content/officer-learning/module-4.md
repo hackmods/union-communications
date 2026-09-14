@@ -117,14 +117,16 @@ Practice: Mock GMM with paper headcount cards. Secretary tracks quorum for a fic
 
 ## Floor checklist
 
+- [ ] Confirm quorum rules against local bylaws (Universal Quorum Scale is a teaching default)
 - [ ] Calculate quorum before the meeting using current signed-up membership
 - [ ] Sign-in sheet: members in good standing only
 - [ ] Announce quorum status at opening and after any headcount change
-- [ ] Record lost quorum with time and count in minutes
+- [ ] Record lost quorum with time and count in minutes — recess, regain quorum, or reschedule the vote
 - [ ] Motions recorded verbatim with mover, seconder, result
 - [ ] Elections: three nomination calls, stand/decline, tile doors
 - [ ] Scrutineers appointed before ballot count
 - [ ] Majority = more than 50% of valid ballots; eliminate low candidate and reballot if needed
+- [ ] Pair with `/guide/running-meetings` and `/tools/rules-of-order` for chair wording on the floor
 
 ---
 
@@ -143,7 +145,7 @@ Practice: Mock GMM with paper headcount cards. Secretary tracks quorum for a fic
 - **Canadian Labour Congress** labour education — local union governance and democracy
 - **CUPE Steward Handbook** — meeting procedure and member rights basics
 - **Ontario Federation of Labour** — local leadership development resources
-- UnionOps: `/guide/union-boards`, `/guide/membership-signup`, `/guide/workshop`
+- UnionOps: `/guide/running-meetings`, `/guide/bylaws`, `/tools/rules-of-order`, `/guide/union-boards`, `/guide/membership-signup`
 
 ---
 
@@ -157,7 +159,7 @@ A local has 300 signed-up members. According to the Universal Quorum Scale, how 
 *   D) 50 members.
 
 **Correct Answer: B**
-*Explanation*: For locals with 201 or more members, quorum is 5% of the signed-up membership. 5% of 300 is 15. Therefore, a minimum of 15 members must be present to conduct legal voting.
+*Explanation*: For locals with 201 or more members, the teaching Universal Quorum Scale uses 5% of the signed-up membership. 5% of 300 is 15. Confirm your local bylaws — this scale is a default for practice, not every constitution.
 
 ### Question 2
 During a heated General Membership Meeting, 4 members leave the hall to catch a bus, leaving only 12 members in a local that requires 15 for quorum. A motion is immediately introduced and passed to spend $1,000 on a local charity. What is the status of this vote?

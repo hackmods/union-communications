@@ -11,7 +11,12 @@ import {
 import { ExampleCard } from "@/components/examples/ExampleCard";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import {
+  GuideCatalogCard,
+} from "@/components/comms/GuideSurfaces";
+import { guideCtaClassSm } from "@/components/comms/guideCtaClasses";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import { cn } from "@/lib/utils";
 
 function ExampleFilters({
@@ -97,9 +102,7 @@ export default function ExamplesPage() {
         <WorkshopDemoPath variant="trail" className="mb-4" />
       ) : null}
       <header className="max-w-3xl">
-        <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
-          {t("title")}
-        </h1>
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
         <p className="mt-2 text-gray-600">{t("subtitle")}</p>
       </header>
 
@@ -113,24 +116,26 @@ export default function ExamplesPage() {
             ))}
           </div>
 
-          <p className="mt-10 max-w-prose text-sm text-gray-600">
-            {t("planPrompt")}{" "}
-            <Link
-              href="/guide/social-media-plan"
-              className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-            >
-              {t("planLink")}
-            </Link>
-          </p>
-          <p className="mt-3 max-w-prose text-sm text-gray-600">
-            {t("captionsPrompt")}{" "}
-            <Link
-              href="/captions"
-              className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-            >
-              {t("captionsLink")}
-            </Link>
-          </p>
+          <ul className="mt-10 grid list-none gap-6 p-0 sm:grid-cols-2">
+            <GuideCatalogCard
+              title={t("planLink")}
+              body={t("planPrompt")}
+              action={
+                <Link href="/guide/social-media-plan" className={guideCtaClassSm}>
+                  {t("planLink")} →
+                </Link>
+              }
+            />
+            <GuideCatalogCard
+              title={t("captionsLink")}
+              body={t("captionsPrompt")}
+              action={
+                <Link href="/captions" className={guideCtaClassSm}>
+                  {t("captionsLink")} →
+                </Link>
+              }
+            />
+          </ul>
         </div>
 
         <aside className="hidden lg:block print:hidden">
