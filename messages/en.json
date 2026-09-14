@@ -146,6 +146,7 @@
     "sectionOptions": "Options",
     "sectionLayout": "Layout and size",
     "sectionColours": "Colours",
+    "accentColour": "Accent colour",
     "sectionAdvanced": "Advanced",
     "logoMode": "Logo",
     "logoNone": "None",
@@ -234,6 +235,7 @@
     "description": "Colours, shape, and export sizes. Save to Brand Kit to use across tools.",
     "localNumber": "Local number",
     "subText": "Sub-text",
+    "defaultSubText": "Support Staff",
     "shape": "Shape",
     "shapeCircle": "Circle",
     "shapeSquare": "Square",
@@ -4273,6 +4275,12 @@
     "headline": "Headline",
     "subheadline": "Subheadline",
     "detail": "Extra line (date, local, or badge text)",
+    "presetDetails": {
+      "agmNotice": "AGM",
+      "bargainingUpdate": "Update",
+      "strikeAction": "Strike",
+      "jointCoalition": "Show up — details to follow"
+    },
     "initials": "Photo initials (if no photo)",
     "photo": "Photo",
     "photoZoom": "Photo zoom",
@@ -4319,6 +4327,11 @@
       "bargaining": "Bargaining",
       "solidarity": "Solidarity",
       "member": "Member"
+    },
+    "defaults": {
+      "quote": "We will not accept anything less than a fair deal for our members.",
+      "author": "Local President",
+      "role": "Bargaining committee"
     },
     "quote": "Quote",
     "author": "Attribution",

@@ -12,6 +12,7 @@ import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { Input, Textarea } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -160,33 +161,24 @@ export default function BoardNoticePage() {
         previewAccessibleName={t("previewAccessibleName")}
         form={
           <div className="space-y-5">
-            <div>
-              <label
-                htmlFor="notice-type"
-                className="mb-1 block text-sm font-medium"
-              >
-                {t("noticeType")}
-              </label>
-              <select
-                id="notice-type"
-                value={state.noticeType}
-                onChange={(e) =>
-                  setState({
-                    ...state,
-                    noticeType: e.target.value as NoticeType,
-                  })
-                }
-                className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
-              >
-                {(
-                  ["meeting", "bargaining", "event", "general"] as const
-                ).map((type) => (
-                  <option key={type} value={type}>
-                    {t(`types.${type}`)}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <Select
+              label={t("noticeType")}
+              value={state.noticeType}
+              onChange={(e) =>
+                setState({
+                  ...state,
+                  noticeType: e.target.value as NoticeType,
+                })
+              }
+            >
+              {(
+                ["meeting", "bargaining", "event", "general"] as const
+              ).map((type) => (
+                <option key={type} value={type}>
+                  {t(`types.${type}`)}
+                </option>
+              ))}
+            </Select>
             <Input
               label={t("headline")}
               value={state.headline}
