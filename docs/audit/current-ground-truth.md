@@ -2,6 +2,8 @@
 
 **Site design system uplift (2026-09-16):** [`session-knowledge-2026-09-16-design-uplift.md`](session-knowledge-2026-09-16-design-uplift.md) — public site pages now share one grammar (Card variants / Eyebrow / SectionHeading / IconChip / ButtonLink). Read `.cursor/rules/site-design-system.mdc` before editing any `src/app/[locale]/**/page.tsx`.
 
+**Schema-aware db maintainer (2026-09-16):** [`session-knowledge-2026-09-16-db-maintain-drizzle-schema.md`](session-knowledge-2026-09-16-db-maintain-drizzle-schema.md) — `docker-migrate-smoke` failed because `__drizzle_migrations` lives in a `drizzle` schema (Drizzle v0.36+ default). `appliedMigrationCount(sql)` now probes `information_schema.tables` and uses schema-qualified counts. Tested with 3 new stubs. Don't ship a bare-name `SELECT FROM "__drizzle_migrations"` — it breaks on a fresh DB the moment Drizzle writes to the `drizzle` schema.
+
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 
 **Operator error sinks / Sentry (2026-09-08):** [`session-knowledge-2026-09-08-sentry-observability.md`](session-knowledge-2026-09-08-sentry-observability.md) + [`docs/modules/OBSERVABILITY.md`](../modules/OBSERVABILITY.md) — CapRover env toggles for Sentry (errors-only, tunnel `/monitoring`) and/or server JSONL with rotation. Not product analytics (ADR-006 amendment). Verify with `GET /api/health` → `observability`. Do not open CSP to ingest hosts or enable Session Replay.

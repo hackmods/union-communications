@@ -1,9 +1,10 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   ADVISORY_LOCK_KEY,
   BASELINE_SQL,
+  appliedMigrationCount,
   appVersion,
   gateDecision,
   parseJournal,
@@ -91,3 +92,81 @@ describe("db-maintain pure helpers", () => {
     expect(appVersion()).toBe("0.1.0");
   });
 });
+
+describe("db-maintain appliedMigrationCount — schema-aware (drizzle v0.36+ bookkeeping)", () => {
+  it("returns 0 when the bookkeeping table does not exist (fresh DB)", async () => {
+    const sql = makeSqlStub({
+      // information_schema lookup returns no rows for __drizzle_migrations.
+      information: [],
+    });
+    expect(await appliedMigrationCount(sql as Parameters<typeof appliedMigrationCount>[0])).toBe(0);
+    expect(sql.unsafe).not.toHaveBeenCalled();
+  });
+
+  it("schema-qualifies the count when Drizzle writes into the dedicated 'drizzle' schema", async () => {
+    // Round 2 in pg-core/dialect.cjs creates drizzle.__drizzle_migrations by
+    // default; this is the path the docker-migrate smoke test exercises on a
+    // fresh compose stack.
+    const sql = makeSqlStub({
+      information: [{ schema: "drizzle" }],
+      drizzleCount: [{ n: 35 }],
+    });
+    expect(await appliedMigrationCount(sql as Parameters<typeof appliedMigrationCount>[0])).toBe(35);
+    expect(sql.unsafe).toHaveBeenCalledWith(
+      expect.stringContaining('"drizzle"."__drizzle_migrations"'),
+    );
+    // MUST NOT emit a bare-name count — that path is what fires the schema
+    // mismatch on the smoke host.
+    expect(sql.bareCount).not.toHaveBeenCalled();
+  });
+
+  it("falls back to the role's main schema when the table lives in public (legacy / lean configs)", async () => {
+    const sql = makeSqlStub({
+      information: [{ schema: "public" }],
+      publicCount: [{ n: 12 }],
+    });
+    expect(await appliedMigrationCount(sql as Parameters<typeof appliedMigrationCount>[0])).toBe(12);
+    expect(sql.unsafe).toHaveBeenCalledWith(
+      expect.stringContaining('"public"."__drizzle_migrations"'),
+    );
+  });
+});
+
+/**
+ * Build a postgres-shaped stub with the two query surfaces appliedMigrationCount
+ * touches: the safe template-tag call (information_schema lookup) and the
+ * `sql.unsafe(...)` schema-qualified count.
+ */
+function makeSqlStub({
+  information,
+  drizzleCount,
+  publicCount,
+}: {
+  information: Array<{ schema: string }>;
+  drizzleCount?: Array<{ n: number }>;
+  publicCount?: Array<{ n: number }>;
+}) {
+  // The bare-name SELECT path is forbidden because it is the failure mode
+  // this fix removes. Stub it out so a test that calls it fails loudly.
+  const bareCount = vi.fn(async () => {
+    throw new Error("bareName count must not be used (DBMAIN-001 regression)");
+  });
+  const stub = vi.fn(async () => information) as unknown as {
+    (...args: unknown[]): Promise<unknown>;
+    unsafe: ReturnType<typeof vi.fn>;
+    bareCount: ReturnType<typeof vi.fn>;
+  };
+  stub.unsafe = vi.fn((query: string) => {
+    // Match what the production code reads from the query, just enough to
+    // route the result deterministically.
+    if (query.includes('"drizzle"."__drizzle_migrations"')) {
+      return Promise.resolve(drizzleCount ?? []);
+    }
+    if (query.includes('"public"."__drizzle_migrations"')) {
+      return Promise.resolve(publicCount ?? []);
+    }
+    return Promise.resolve([]);
+  });
+  stub.bareCount = bareCount;
+  return stub;
+}

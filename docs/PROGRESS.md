@@ -1,5 +1,25 @@
 # Progress Log
 
+## 2026-09-16 — `docker-migrate-smoke` schema-aware bookkeeping fix
+
+The CI job failed with `relation __drizzle_migrations does not exist` right
+after Drizzle created the bookkeeping table. Root cause: Drizzle v0.36+
+writes `__drizzle_migrations` into a dedicated `drizzle` schema (see
+`pg-core/dialect.cjs` `migrationsSchema ?? "drizzle"`); the maintainer's
+bare-name `SELECT FROM "__drizzle_migrations"` raised because the non-owner
+role's `search_path` did not include it.
+
+- [x] **Schema-aware `appliedMigrationCount`** — `docker/db-maintain.mjs` now
+  probes `information_schema.tables` for the host schema, then issues a
+  schema-qualified count. Function exported so it can be unit-tested.
+- [x] **Tests** — `src/lib/db/db-maintain.test.ts` adds three stub-driven
+  cases: fresh DB returns `0`, `drizzle`-schema path counts, legacy
+  `public`-schema path counts. The stub throws on a bare-name regression.
+- [x] **Documentation** — [`session-knowledge-2026-09-16-db-maintain-drizzle-schema.md`](audit/session-knowledge-2026-09-16-db-maintain-drizzle-schema.md) records the cause + 6 lessons + the rule "never
+  ship a bare-name `SELECT FROM __drizzle_migrations`".
+- Verification: `npx tsc --noEmit` clean, `npm run lint` clean,
+  `npm run test:unit` 1977 passed (3 new), 1 skipped, 0 failed.
+
 ## 2026-09-16 — Site design-system primitives + page uplift
 
 One Card primitive, four variants. Six inline chrome dialects → one grammar.

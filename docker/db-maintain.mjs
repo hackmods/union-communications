@@ -180,17 +180,48 @@ async function runBaseline(sql) {
   log("baseline ok (platform_meta ensured)");
 }
 
-async function appliedMigrationCount(sql) {
-  // Journal table by NAME across schemas (Drizzle v7 may not use `public`).
-  const found = await sql`
-    SELECT EXISTS (
-      SELECT 1 FROM pg_catalog.pg_class c
-      JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-      WHERE c.relname = '__drizzle_migrations' AND c.relkind = 'r'
-    ) AS ok
+/**
+ * Round the count of applied Drizzle migrations for the gate decision.
+ *
+ * Round 2 (Drizzle v0.36+) stores its bookkeeping table inside a dedicated
+ * `drizzle` schema — see `drizzle-orm/pg-core/dialect.cjs` line ~48
+ * (`migrationsSchema ?? "drizzle"`). Older builds and lean configs which pass
+ * `migrationsSchema: "public"` keep the table in the role's main schema —
+ * typically `public`.
+ *
+ * Round 3 must read the table **schema-qualified**: a bare-name
+ * `SELECT FROM "__drizzle_migrations"` raises
+ * `relation "__drizzle_migrations" does not exist` whenever the role's
+ * `search_path` does not include the schema Drizzle picked (`drizzle` for the
+ * default config). Without schema qualification the maintainer fails on a
+ * fresh DB right after Drizzle creates the bookkeeping table — the smoke
+ * gate misfires before the boot can complete.
+ *
+ * `information_schema.tables` is server-controlled Postgres metadata, so the
+ * schema lookup is robust across hosts and search_path configurations.
+ *
+ * Exported for unit tests in `src/lib/db/db-maintain.test.ts`.
+ *
+ * @param {{ unsafe?: (q: string) => Promise<unknown[]> }} sql postgres.js tagged-template handle
+ *        (structurally typed so unit tests can pass a loose stub)
+ * @returns {Promise<number>} 0 when no migrations table exists in any schema
+ */
+export async function appliedMigrationCount(sql) {
+  const located = await sql`
+    SELECT "table_schema" AS schema
+    FROM information_schema.tables
+    WHERE "table_name" = '__drizzle_migrations'
+      AND "table_type" = 'BASE TABLE'
+    ORDER BY "table_schema"
+    LIMIT 1
   `;
-  if (!found.length || !found[0].ok) return 0;
-  const rows = await sql`SELECT count(*)::int AS n FROM "__drizzle_migrations"`;
+  if (!located.length) return 0;
+  // `table_schema` comes from the server catalog, not user input, so it is
+  // safe to inline as a quoted identifier.
+  const schema = located[0].schema;
+  const rows = await sql.unsafe(
+    `SELECT count(*)::int AS n FROM "${schema}"."__drizzle_migrations"`,
+  );
   return rows.length ? rows[0].n : 0;
 }
 
