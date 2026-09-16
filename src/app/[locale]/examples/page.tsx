@@ -15,6 +15,7 @@ import {
   GuideCatalogCard,
 } from "@/components/comms/GuideSurfaces";
 import { guideCtaClassSm } from "@/components/comms/guideCtaClasses";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import { cn } from "@/lib/utils";
@@ -35,7 +36,11 @@ function ExampleFilters({
   categoryLabels: Record<ExampleCategory, string>;
 }) {
   return (
-    <div className="flex flex-wrap gap-2" role="tablist" aria-label={label}>
+    <div
+      className="flex flex-wrap gap-2"
+      role="tablist"
+      aria-label={label}
+    >
       <button
         type="button"
         role="tab"
@@ -44,8 +49,8 @@ function ExampleFilters({
         className={cn(
           "inline-flex min-h-11 items-center rounded-lg border px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
           filter === "all"
-            ? "border-opseu-blue bg-opseu-blue/5 text-opseu-dark"
-            : "border-gray-200 bg-white text-gray-600 hover:border-opseu-blue/40 hover:text-opseu-dark",
+            ? "border-opseu-blue bg-opseu-blue/10 text-opseu-blue"
+            : "border-slate-200 bg-white text-slate-700 hover:border-opseu-blue/40 hover:text-opseu-dark",
         )}
       >
         {allLabel}
@@ -60,8 +65,8 @@ function ExampleFilters({
           className={cn(
             "inline-flex min-h-11 items-center rounded-lg border px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
             filter === cat
-              ? "border-opseu-blue bg-opseu-blue/5 text-opseu-dark"
-              : "border-gray-200 bg-white text-gray-600 hover:border-opseu-blue/40 hover:text-opseu-dark",
+              ? "border-opseu-blue bg-opseu-blue/10 text-opseu-blue"
+              : "border-slate-200 bg-white text-slate-700 hover:border-opseu-blue/40 hover:text-opseu-dark",
           )}
         >
           {categoryLabels[cat]}
@@ -102,8 +107,11 @@ export default function ExamplesPage() {
         <WorkshopDemoPath variant="trail" className="mb-4" />
       ) : null}
       <header className="max-w-3xl">
-        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
-        <p className="mt-2 text-gray-600">{t("subtitle")}</p>
+        <Eyebrow tone="brand">{t("title")}</Eyebrow>
+        <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{t("title")}</h1>
+        <p className="mt-4 max-w-prose text-base leading-relaxed text-slate-700">
+          {t("subtitle")}
+        </p>
       </header>
 
       <div className="mt-6 lg:hidden">{filters}</div>
@@ -140,9 +148,7 @@ export default function ExamplesPage() {
 
         <aside className="hidden lg:block print:hidden">
           <div className="sticky top-28 space-y-4">
-            <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-              {t("filterLabel")}
-            </p>
+            <Eyebrow tone="muted">{t("filterLabel")}</Eyebrow>
             {filters}
           </div>
         </aside>

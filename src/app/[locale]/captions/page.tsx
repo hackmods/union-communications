@@ -9,6 +9,8 @@ import {
 } from "@/lib/constants/captions";
 import { copyToClipboard, cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PageShell } from "@/components/layout/PageShell";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { GuideActionRow } from "@/components/comms/GuideSection";
@@ -72,11 +74,14 @@ function CaptionsPageContent() {
         <WorkshopDemoPath variant="trail" className="mb-4" />
       ) : null}
       <header>
-        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{tc("title")}</h1>
-        <p className="mt-2 max-w-prose text-gray-600">{tc("subtitle")}</p>
+        <Eyebrow tone="brand">{tc("title")}</Eyebrow>
+        <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{tc("title")}</h1>
+        <p className="mt-4 max-w-prose text-base leading-relaxed text-slate-700">
+          {tc("subtitle")}
+        </p>
       </header>
 
-      <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      <ul className="mt-8 grid list-none gap-4 p-0 sm:gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {CAPTION_TEMPLATES.map((template) => {
           const category = tc(`templates.${template.id}.category`);
           const title = tc(`templates.${template.id}.title`);
@@ -90,45 +95,50 @@ function CaptionsPageContent() {
             <li
               key={template.id}
               id={`caption-${template.id}`}
-              className={cn(
-                "min-w-0 scroll-mt-24 rounded-r-lg border-l-2 border-opseu-blue/30 bg-white py-2 pl-4 pr-2 transition-[box-shadow,background-color] sm:pl-5",
-                highlighted &&
-                  "bg-opseu-blue/[0.06] ring-2 ring-inset ring-opseu-blue",
-              )}
+              className="min-w-0 scroll-mt-24"
             >
-              <div className="flex items-start justify-between gap-3 sm:gap-4">
-                <div className="min-w-0">
-                  <span className="text-xs font-medium uppercase tracking-wide text-opseu-blue">
-                    {category}
-                  </span>
-                  <h2 className={cn(PUBLIC_CARD_TITLE_CLASS, "mt-0.5")}>
-                    {title}
-                  </h2>
+              <Card
+                density="compact"
+                className={cn(
+                  "flex h-full min-w-0 flex-col gap-2 transition-colors",
+                  highlighted &&
+                    "border-opseu-blue bg-opseu-blue/[0.06] ring-2 ring-inset ring-opseu-blue",
+                )}
+              >
+                <div className="flex items-start justify-between gap-3 sm:gap-4">
+                  <div className="min-w-0">
+                    <Eyebrow tone="brand" className="text-[0.65rem]">
+                      {category}
+                    </Eyebrow>
+                    <h2 className={cn(PUBLIC_CARD_TITLE_CLASS, "mt-0.5")}>
+                      {title}
+                    </h2>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="min-h-11 shrink-0"
+                    onClick={() => handleCopy(template.id, fullText)}
+                  >
+                    {copiedId === template.id ? t("copied") : t("copy")}
+                  </Button>
                 </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="min-h-11 shrink-0"
-                  onClick={() => handleCopy(template.id, fullText)}
-                >
-                  {copiedId === template.id ? t("copied") : t("copy")}
-                </Button>
-              </div>
-              <pre className="mt-2 max-w-prose whitespace-pre-wrap font-sans text-sm leading-relaxed text-gray-700">
-                {caption}
-              </pre>
-              <p className="mt-1.5 text-sm text-opseu-blue">
-                {template.hashtags.join(" ")}
-              </p>
+                <pre className="mt-1 max-w-prose whitespace-pre-wrap font-sans text-[0.875rem] leading-relaxed text-slate-700">
+                  {caption}
+                </pre>
+                <p className="text-sm text-opseu-blue">
+                  {template.hashtags.join(" ")}
+                </p>
+              </Card>
             </li>
           );
         })}
       </ul>
 
-      <div className="mt-10 border-t border-gray-200 pt-6">
+      <div className="mt-10 border-t border-slate-200 pt-6">
         {inDemo ? (
           <>
-            <p className="max-w-prose text-sm text-gray-600">{td("done")}</p>
+            <p className="max-w-prose text-sm text-slate-700">{td("done")}</p>
             <GuideActionRow>
               <Link
                 href="/guide/social-media-plan"
@@ -182,7 +192,7 @@ export default function CaptionsPage() {
     <Suspense
       fallback={
         <PageShell className="py-8 md:py-12">
-          <p className="text-gray-600" aria-busy="true">
+          <p className="text-slate-600" aria-busy="true">
             {t("loading")}
           </p>
         </PageShell>

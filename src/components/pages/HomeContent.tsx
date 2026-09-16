@@ -3,9 +3,13 @@
 import { useEffect, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Callout } from "@/components/ui/Callout";
+import { Card } from "@/components/ui/Card";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { IconChip } from "@/components/ui/IconChip";
 import { PageShell } from "@/components/layout/PageShell";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ShareThisTool } from "@/components/share/ShareThisTool";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
@@ -57,12 +61,171 @@ const channelItems: Record<
 /** Matches first-week roadmap emphasis: boards → print → social → website */
 const channelOrder: ChannelId[] = ["boards", "print", "social", "website"];
 
+/* -------------------------------------------------------------------------- */
+/*  Visual primitives                                                         */
+/* -------------------------------------------------------------------------- */
+
+type IconName =
+  | "megaphone"
+  | "shield"
+  | "gear"
+  | "board"
+  | "print"
+  | "share"
+  | "globe"
+  | "spark";
+
+function Icon({ name, className }: { name: IconName; className?: string }) {
+  const common = cn(
+    "h-5 w-5 shrink-0",
+    className,
+  );
+  switch (name) {
+    case "megaphone":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+          className={common}
+        >
+          <path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1Z" />
+          <path d="M14 8a4 4 0 0 1 0 8" />
+          <path d="M17 5a8 8 0 0 1 0 14" />
+        </svg>
+      );
+    case "shield":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+          className={common}
+        >
+          <path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z" />
+          <path d="m9 12 2 2 4-4" />
+        </svg>
+      );
+    case "gear":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+          className={common}
+        >
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z" />
+        </svg>
+      );
+    case "board":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+          className={common}
+        >
+          <rect x="4" y="4" width="16" height="18" rx="2" />
+          <path d="M8 9h8M8 13h8M8 17h5" />
+        </svg>
+      );
+    case "print":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+          className={common}
+        >
+          <path d="M6 9V3h12v6" />
+          <rect x="4" y="9" width="16" height="8" rx="2" />
+          <path d="M8 17h8v4H8z" />
+        </svg>
+      );
+    case "share":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+          className={common}
+        >
+          <rect x="6" y="3" width="12" height="18" rx="2" />
+          <path d="M12 17h.01" />
+        </svg>
+      );
+    case "globe":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+          className={common}
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+        </svg>
+      );
+    case "spark":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+          className={common}
+        >
+          <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      );
+  }
+}
+
+/**
+ * Interactive home surface = the elevated Card variant. Local override only
+ * adds the emphasized hairline gradient for the Comms card.
+ */
 function HomePathCard({
   title,
   description,
   hint,
   action,
   testId,
+  icon,
+  eyebrow,
   emphasized = false,
 }: {
   title: string;
@@ -70,31 +233,120 @@ function HomePathCard({
   hint?: string;
   action: ReactNode;
   testId: string;
+  icon: IconName;
+  eyebrow: string;
   emphasized?: boolean;
 }) {
   return (
     <li
       data-testid={testId}
-      className={cn(
-        "flex min-w-0 flex-col gap-4 border-l-2 pl-5",
-        emphasized ? "border-opseu-blue" : "border-opseu-blue/30",
-      )}
+      className="min-w-0 list-none"
     >
-      <div className="min-w-0">
-        <h3 className="text-[clamp(1.125rem,1.05rem+0.35vw,1.25rem)] font-bold text-opseu-dark">
-          {title}
-        </h3>
-        <p className="mt-2 text-sm leading-relaxed text-gray-600">
-          {description}
-        </p>
-        {hint ? (
-          <p className="mt-2 text-sm leading-relaxed text-gray-600">{hint}</p>
-        ) : null}
-      </div>
-      <div className="mt-auto">{action}</div>
+      <Card
+        variant="elevated"
+        interactive
+        className={cn(
+          "relative flex h-full min-w-0 flex-col gap-4 sm:p-6",
+          emphasized &&
+            "ring-1 ring-opseu-blue/30 bg-gradient-to-br from-white via-white to-opseu-blue/[0.04]",
+        )}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <IconChip tone={emphasized ? "brand" : "amber"}>
+            <Icon name={icon} />
+          </IconChip>
+          <span
+            className={cn(
+              "shrink-0 rounded-full px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-wider",
+              emphasized ? "bg-opseu-blue/10 text-opseu-blue" : "bg-slate-100 text-slate-700",
+            )}
+          >
+            {eyebrow}
+          </span>
+        </div>
+
+        <div className="min-w-0">
+          <h3 className="text-xl font-bold tracking-tight text-slate-900 sm:text-[1.375rem]">
+            {title}
+          </h3>
+          <p className="mt-2 text-[0.95rem] leading-relaxed text-slate-600">
+            {description}
+          </p>
+          {hint ? (
+            <p className="mt-3 rounded-md border-l-4 border-amber-400 bg-amber-50 px-3 py-2 text-[0.85rem] leading-relaxed text-amber-900">
+              {hint}
+            </p>
+          ) : null}
+        </div>
+
+        <div className="mt-auto pt-2">{action}</div>
+      </Card>
     </li>
   );
 }
+
+function ChannelTile({
+  id,
+  icon,
+  title,
+  description,
+  itemLinks,
+  itemLabel,
+}: {
+  id: ChannelId;
+  icon: IconName;
+  title: string;
+  description: string;
+  itemLinks: { href: string; titleKey: string }[];
+  itemLabel: (key: string) => string;
+}) {
+  return (
+    <li className="min-w-0 list-none">
+      <Card
+        variant="elevated"
+        interactive
+        data-testid={`home-channel-${id}`}
+        className="flex h-full min-w-0 flex-col gap-4 sm:p-6"
+      >
+        <div className="flex items-center gap-3">
+          <IconChip tone="brand">
+            <Icon name={icon} />
+          </IconChip>
+          <h3 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+            {title}
+          </h3>
+        </div>
+        <p className="text-[0.9rem] leading-relaxed text-slate-600">
+          {description}
+        </p>
+        <ul className="mt-1 flex flex-col gap-1.5 border-t border-slate-100 pt-4">
+          {itemLinks.map((item) => (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                className={cn(
+                  "flex min-h-10 items-center justify-between gap-2 rounded-md px-2 py-1.5",
+                  "text-[0.9rem] font-medium text-opseu-blue",
+                  "transition-colors duration-150 ease-out",
+                  "hover:bg-opseu-blue/5 hover:text-opseu-dark hover:underline hover:underline-offset-2",
+                )}
+              >
+                <span className="truncate">{itemLabel(item.titleKey)}</span>
+                <span aria-hidden className="text-xs opacity-60">
+                  →
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Card>
+    </li>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Page                                                                      */
+/* -------------------------------------------------------------------------- */
 
 export function HomeContent() {
   const t = useTranslations("home");
@@ -125,6 +377,7 @@ export function HomeContent() {
 
   return (
     <>
+      {/* ---------- Hero ---------- */}
       <section
         className="home-hero relative w-full overflow-hidden"
         style={{
@@ -166,19 +419,19 @@ export function HomeContent() {
               </p>
               <h1
                 id="home-hero-heading"
-                className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl md:leading-tight"
+                className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-[3.25rem] md:leading-[1.05]"
                 style={{ color: ink }}
               >
                 {t("headline")}
               </h1>
               <p
-                className="mt-3 text-xl font-semibold tracking-wide md:text-2xl"
+                className="mt-3 text-2xl font-semibold tracking-wide md:text-3xl"
                 style={{ color: inkMuted }}
               >
                 {t("slogan")}
               </p>
               <p
-                className="mt-4 text-base sm:text-lg"
+                className="mt-4 max-w-lg text-base sm:text-lg"
                 style={{ color: inkSoft }}
               >
                 {t(hubPublic ? "subtitle" : "subtitleCommsOnly")}
@@ -187,7 +440,7 @@ export function HomeContent() {
                 <a
                   href="#toolkit"
                   className={cn(
-                    "inline-flex min-h-11 items-center justify-center rounded-lg px-6 py-3 text-lg font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+                    "inline-flex min-h-11 items-center justify-center rounded-lg px-6 py-3 text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40 sm:text-lg",
                     lightInk
                       ? "bg-white text-opseu-dark hover:bg-white/90"
                       : "bg-opseu-dark text-white hover:bg-opseu-dark/90",
@@ -203,84 +456,110 @@ export function HomeContent() {
         </div>
       </section>
 
-      <PageShell className="py-8 md:py-12">
-        <section className="home-enter home-enter-delay-1 mb-10">
-          <Callout tone="plain" className="bg-opseu-blue/5" role="note">
-            {t(hubPublic ? "trustBanner" : "trustBannerCommsOnly")}{" "}
-            <Link
-              href="/manifesto"
-              className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-            >
-              {t("trustManifestoLink")}
-            </Link>
+      <PageShell className="py-10 md:py-14">
+        {/* ---------- Trust banner ---------- */}
+        <section className="home-enter home-enter-delay-1 mb-12">
+          <Callout
+            tone="plain"
+            className="rounded-xl border border-amber-200 bg-amber-50/80 p-5 shadow-sm sm:p-6"
+            role="note"
+          >
+            <div className="flex items-start gap-3">
+              <span
+                className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-800"
+                aria-hidden
+              >
+                <Icon name="shield" className="h-5 w-5" />
+              </span>
+              <p className="min-w-0 text-[0.95rem] leading-relaxed text-amber-950">
+                {t(hubPublic ? "trustBanner" : "trustBannerCommsOnly")}{" "}
+                <Link
+                  href="/manifesto"
+                  className="font-semibold text-amber-900 underline underline-offset-2 hover:text-opseu-dark"
+                >
+                  {t("trustManifestoLink")} →
+                </Link>
+              </p>
+            </div>
           </Callout>
         </section>
 
+        {/* ---------- Where to start ---------- */}
         <section
           id="toolkit"
-          className="home-enter home-enter-delay-2 mb-12 scroll-mt-28"
+          className="home-enter home-enter-delay-2 mb-16"
           aria-labelledby="home-jobs-heading"
         >
-          <h2
-            id="home-jobs-heading"
-            className="text-[clamp(1.5rem,1.25rem+1vw,1.875rem)] font-bold tracking-tight text-opseu-dark"
-          >
-            {t("jobsTitle")}
-          </h2>
-          <p className="mt-2 max-w-prose text-base leading-relaxed text-gray-600">
-            {t("jobsIntro")}
-          </p>
-          <ul className="mt-8 grid list-none gap-8 p-0 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+          <div className="border-b border-slate-200 pb-6">
+            <SectionHeading
+              id="home-jobs-heading"
+              eyebrow={t("jobsTitle")}
+              eyebrowTone="brand"
+              title={t("jobsTitle")}
+              intro={t("jobsIntro")}
+            />
+          </div>
+          <ul className="mt-8 grid list-none gap-5 p-0 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
             <HomePathCard
               testId="home-path-comms"
               emphasized
+              icon="megaphone"
+              eyebrow="Comms"
               title={t("pathCommsTitle")}
               description={t("pathCommsDesc")}
               hint={t("pathCommsHint")}
               action={
-                <Link href={commsHref} onClick={markWorkshopDemoSession}>
-                  <Button size="md" className="min-h-11">
-                    {themeEstablished
-                      ? t("openFirstWeekCta")
-                      : t("brandSetupCta")}
-                  </Button>
-                </Link>
+                <ButtonLink
+                  href={commsHref}
+                  onClick={markWorkshopDemoSession}
+                  className="w-full sm:w-auto"
+                >
+                  {themeEstablished
+                    ? t("openFirstWeekCta")
+                    : t("brandSetupCta")}
+                </ButtonLink>
               }
             />
             <HomePathCard
               testId="home-path-steward"
+              icon="shield"
+              eyebrow="Steward"
               title={t("pathStewardTitle")}
               description={t("pathStewardDesc")}
               action={
-                <Link href="/guide/steward-playbooks">
-                  <Button size="md" variant="outline" className="min-h-11">
-                    {t("pathStewardCta")}
-                  </Button>
-                </Link>
+                <ButtonLink
+                  href="/guide/steward-playbooks"
+                  variant="outline"
+                  className="w-full sm:w-auto"
+                >
+                  {t("pathStewardCta")}
+                </ButtonLink>
               }
             />
             <HomePathCard
               testId="home-path-officer"
+              icon="gear"
+              eyebrow="Officer"
               title={t("pathOfficerTitle")}
               description={t(
                 hubPublic ? "pathOfficerDesc" : "pathOfficerLearningDesc",
               )}
               action={
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
                   {hubPublic ? (
-                    <Link href="/app">
-                      <Button size="md" className="min-h-11">
-                        {t("pathOfficerCta")}
-                      </Button>
-                    </Link>
+                    <ButtonLink href="/app" className="w-full sm:w-auto">
+                      {t("pathOfficerCta")}
+                    </ButtonLink>
                   ) : (
                     <>
-                      <Link href="/guide/officer-learning">
-                        <Button size="md" variant="outline" className="min-h-11">
-                          {t("pathOfficerLearningCta")}
-                        </Button>
-                      </Link>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-gray-700">
+                      <ButtonLink
+                        href="/guide/officer-learning"
+                        variant="outline"
+                        className="w-full sm:w-auto"
+                      >
+                        {t("pathOfficerLearningCta")}
+                      </ButtonLink>
+                      <p className="rounded-md bg-slate-100 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-slate-700">
                         {t("pathOfficerCtaComingSoon")}
                       </p>
                     </>
@@ -291,117 +570,123 @@ export function HomeContent() {
           </ul>
         </section>
 
+        {/* ---------- Workshop demo band ---------- */}
         <section
-          className="home-enter home-enter-delay-2 mb-12 rounded-2xl border-2 border-opseu-blue/40 bg-opseu-blue/5 p-5 sm:p-6"
+          className="home-enter home-enter-delay-2 mb-16"
           aria-label={t("workshopBandLabel")}
         >
-          <div className="rounded-xl border border-opseu-blue/20 bg-white p-4 sm:p-5">
-            <WorkshopDemoPath />
-          </div>
-          <p className="mt-4 max-w-prose text-sm leading-relaxed text-gray-700">
-            {t(hubPublic ? "privacyNote" : "privacyNoteCommsOnly")}
-          </p>
-          <div className="mt-4">
-            <ShareThisTool />
-          </div>
+          <Card
+            variant="ghost"
+            className="border-opseu-blue/30 bg-gradient-to-br from-opseu-blue/[0.06] via-white to-amber-50/70 sm:p-7"
+          >
+            <Eyebrow tone="brand">{t("workshopBandLabel")}</Eyebrow>
+            <div className="mt-4">
+              <WorkshopDemoPath />
+            </div>
+            <p className="mt-5 max-w-2xl border-t border-slate-200 pt-4 text-[0.9rem] leading-relaxed text-slate-700">
+              {t(hubPublic ? "privacyNote" : "privacyNoteCommsOnly")}
+            </p>
+            <div className="mt-4">
+              <ShareThisTool />
+            </div>
+          </Card>
         </section>
 
+        {/* ---------- Channels grid ---------- */}
         <section
           className="home-enter home-enter-delay-3"
           aria-labelledby="home-channels-heading"
         >
-          <div className="flex flex-col gap-4 border-b border-gray-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h2
-                id="home-channels-heading"
-                className="text-[clamp(1.5rem,1.25rem+1vw,1.875rem)] font-bold tracking-tight text-opseu-dark"
-              >
-                {t("channelsTitle")}
-              </h2>
-              <p className="mt-2 max-w-prose text-base leading-relaxed text-gray-600">
-                {t("channelsIntro")}
-              </p>
-            </div>
+          <div className="border-b border-slate-200 pb-6">
+            <SectionHeading
+              id="home-channels-heading"
+              eyebrow={t("channelsTitle")}
+              title={t("channelsTitle")}
+              intro={t("channelsIntro")}
+            />
+          </div>
+          <div className="mt-4 flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-sm">
             <nav
-              className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm"
+              className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm"
               aria-label={nav("brandKit")}
             >
-              <Link
-                href="/brand-kit"
-                className="font-semibold text-opseu-dark underline underline-offset-2 hover:text-opseu-blue"
-              >
+              <ButtonLink href="/brand-kit" variant="ghost" size="sm">
                 {nav("brandKit")}
-              </Link>
-              <span className="text-gray-300" aria-hidden="true">
+              </ButtonLink>
+              <span className="text-slate-300" aria-hidden>
                 ·
               </span>
-              <Link
-                href="/tools/logo-builder"
-                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-              >
+              <ButtonLink href="/tools/logo-builder" variant="ghost" size="sm">
                 {nav("logoBuilder")}
-              </Link>
+                <span aria-hidden className="ml-1">→</span>
+              </ButtonLink>
             </nav>
           </div>
 
-          <ul className="mt-8 grid list-none gap-8 p-0 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6">
+          <ul className="mt-6 grid list-none gap-5 p-0 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {channelOrder.map((channel) => (
-              <li
+              <ChannelTile
                 key={channel}
-                className="min-w-0 border-l-2 border-opseu-blue/30 pl-5"
-              >
-                <h3 className="text-[clamp(1.125rem,1.05rem+0.35vw,1.25rem)] font-bold text-opseu-dark">
-                  {t(`channels.${channel}.title`)}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                  {t(`channels.${channel}.description`)}
-                </p>
-                <ul className="mt-3 space-y-1">
-                  {channelItems[channel].map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className="group block rounded-lg border border-transparent px-1 py-1 transition-colors hover:border-opseu-blue/15 hover:bg-opseu-blue/5"
-                      >
-                        <span className="inline-flex min-h-10 items-center text-sm font-medium text-opseu-blue underline-offset-2 group-hover:underline">
-                          {nav(item.titleKey)}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
+                id={channel}
+                icon={
+                  channel === "boards"
+                    ? "board"
+                    : channel === "print"
+                      ? "print"
+                      : channel === "social"
+                        ? "share"
+                        : "globe"
+                }
+                title={t(`channels.${channel}.title`)}
+                description={t(`channels.${channel}.description`)}
+                itemLinks={channelItems[channel]}
+                itemLabel={(k) => nav(k)}
+              />
             ))}
           </ul>
         </section>
 
+        {/* ---------- Labour playbooks band ---------- */}
         <section
-          className="mt-12 rounded-xl border border-amber-500/25 bg-gradient-to-r from-amber-500/[0.06] via-white to-opseu-blue/[0.04] p-5 sm:p-6"
+          className="home-enter home-enter-delay-3 mt-16"
           aria-labelledby="home-labour-playbooks"
         >
-          <h2
-            id="home-labour-playbooks"
-            className="text-sm font-semibold uppercase tracking-wide text-gray-500"
+          <Card
+            variant="default"
+            className="overflow-hidden border-amber-300/70 bg-gradient-to-r from-amber-50 via-white to-opseu-blue/[0.06]"
           >
-            {toolsIndex("labourPlaybooksTitle")}
-          </h2>
-          <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
-            {toolsIndex("labourPlaybooksIntro")}
-          </p>
-          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
-            <Link
-              href="/guide/steward-playbooks"
-              className="inline-flex min-h-11 items-center font-semibold text-opseu-blue underline-offset-2 hover:underline"
-            >
-              {toolsIndex("labourPlaybooksCta")} →
-            </Link>
-            <Link
-              href="/guide/social-media-plan"
-              className="inline-flex min-h-11 items-center font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-            >
-              {nav("firstWeek")}
-            </Link>
-          </div>
+            <div className="p-6 sm:p-7">
+              <div className="flex items-start gap-3">
+                <IconChip tone="amber" size="sm" className="bg-amber-200">
+                  <Icon name="spark" />
+                </IconChip>
+                <div className="min-w-0">
+                  <h2
+                    id="home-labour-playbooks"
+                    className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-amber-800"
+                  >
+                    {toolsIndex("labourPlaybooksTitle")}
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-[0.95rem] leading-relaxed text-slate-700">
+                    {toolsIndex("labourPlaybooksIntro")}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-amber-200/60 pt-4">
+                <ButtonLink
+                  href="/guide/steward-playbooks"
+                  variant="ghost"
+                  trailingArrow
+                  className="font-semibold"
+                >
+                  {toolsIndex("labourPlaybooksCta")}
+                </ButtonLink>
+                <ButtonLink href="/guide/social-media-plan" variant="ghost" size="sm">
+                  {nav("firstWeek")}
+                </ButtonLink>
+              </div>
+            </div>
+          </Card>
         </section>
       </PageShell>
     </>

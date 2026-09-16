@@ -1,4 +1,6 @@
-# Current ground truth (agents) — as of 2026-09-08
+# Current ground truth (agents) — as of 2026-09-16
+
+**Site design system uplift (2026-09-16):** [`session-knowledge-2026-09-16-design-uplift.md`](session-knowledge-2026-09-16-design-uplift.md) — public site pages now share one grammar (Card variants / Eyebrow / SectionHeading / IconChip / ButtonLink). Read `.cursor/rules/site-design-system.mdc` before editing any `src/app/[locale]/**/page.tsx`.
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 

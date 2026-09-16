@@ -7,6 +7,10 @@ import {
   GITHUB_ISSUES_URL,
 } from "@/lib/constants/support";
 import { PageShell } from "@/components/layout/PageShell";
+import { Card } from "@/components/ui/Card";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { IconChip } from "@/components/ui/IconChip";
 import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
 import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 
@@ -39,71 +43,94 @@ export default async function SupportPage({
   const t = await getTranslations("supportPage");
 
   return (
-    <PageShell size="focus" className="py-8 md:py-12" as="article">
-      <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
+    <PageShell size="focus" className="py-10 md:py-14" as="article">
+      <header className="max-w-prose">
+        <Eyebrow tone="brand">{t("title")}</Eyebrow>
+        <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{t("title")}</h1>
+        <div className="mt-6 space-y-5 text-lg leading-relaxed text-slate-700">
+          <p>
+            {t("p1Lead")}{" "}
+            <Link
+              href="/manifesto"
+              className="font-semibold text-opseu-blue underline-offset-2 hover:underline"
+            >
+              {t("p1ManifestoLink")}
+            </Link>
+            {t("p1End")}
+          </p>
+          <p>{t("p2")}</p>
+          <p>{t("p3")}</p>
+        </div>
+      </header>
 
-      <div className="mt-8 max-w-prose space-y-6 text-lg leading-relaxed text-gray-800">
-        <p>
-          {t("p1Lead")}{" "}
-          <Link href="/manifesto" className="font-semibold text-opseu-blue hover:underline">
-            {t("p1ManifestoLink")}
-          </Link>
-          {t("p1End")}
-        </p>
-        <p>{t("p2")}</p>
-        <p>{t("p3")}</p>
-      </div>
+      <section className="mt-12 grid gap-6 md:grid-cols-2">
+        <Card className="flex h-full min-w-0 flex-col gap-4 sm:p-6">
+          <Eyebrow tone="amber">{t("cta")}</Eyebrow>
+          <div className="flex items-start gap-3">
+            <IconChip tone="brand">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+                className="h-5 w-5"
+              >
+                <path d="M6 7h12v5a4 4 0 01-4 4h-4a4 4 0 01-4-4V7Z" />
+                <path d="M9 7V5a3 3 0 116 0v2" />
+                <path d="M10 16v3M14 16v3" />
+              </svg>
+            </IconChip>
+          </div>
+          <p className="text-[0.95rem] leading-relaxed text-slate-600">
+            {t("ctaHint")}
+          </p>
+          <div className="mt-auto pt-2">
+            <ButtonLink href={BUY_ME_A_COFFEE_URL} variant="primary" block>
+              {t("cta")}
+            </ButtonLink>
+          </div>
+        </Card>
 
-      <p className="mt-10">
-        <a
-          href={BUY_ME_A_COFFEE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-11 items-center justify-center rounded-md bg-opseu-blue px-5 py-3 text-base font-semibold text-white hover:bg-opseu-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-opseu-blue"
-        >
-          {t("cta")}
-        </a>
-      </p>
-      <p className="mt-3 max-w-prose text-sm text-gray-500">{t("ctaHint")}</p>
+        <Card variant="ghost" className="flex h-full min-w-0 flex-col gap-4 sm:p-6">
+          <Eyebrow tone="brand">{t("contactTitle")}</Eyebrow>
+          <p className="text-[0.95rem] leading-relaxed text-slate-700">
+            {t("contactBody")}
+          </p>
+          <div className="mt-auto pt-2">
+            <ButtonLink
+              href={GITHUB_ISSUES_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline"
+              block
+            >
+              {t("contactCta")}
+            </ButtonLink>
+            <p className="mt-2 text-[0.8rem] text-slate-500">{t("contactHint")}</p>
+          </div>
+        </Card>
 
-      <div className="mt-12 max-w-prose border-t border-gray-200 pt-10">
-        <h2 className="text-lg font-semibold text-opseu-dark">{t("contactTitle")}</h2>
-        <p className="mt-3 text-base leading-relaxed text-gray-800">
-          {t("contactBody")}
-        </p>
-        <p className="mt-6">
-          <a
-            href={GITHUB_ISSUES_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center justify-center rounded-md border border-opseu-blue px-5 py-3 text-base font-semibold text-opseu-blue hover:bg-opseu-blue/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-opseu-blue"
-          >
-            {t("contactCta")}
-          </a>
-        </p>
-        <p className="mt-3 text-sm text-gray-500">{t("contactHint")}</p>
-      </div>
+        <Card variant="ghost" className="flex h-full min-w-0 flex-col gap-4 md:col-span-2 sm:p-6">
+          <Eyebrow tone="muted">{t("feedbackTitle")}</Eyebrow>
+          <p className="text-[0.95rem] leading-relaxed text-slate-700">
+            {t("feedbackBody")}
+          </p>
+          <div className="mt-auto pt-2">
+            <ButtonLink href="/feedback" variant="outline" block>
+              {t("feedbackCta")}
+            </ButtonLink>
+          </div>
+        </Card>
+      </section>
 
-      <div className="mt-12 max-w-prose border-t border-gray-200 pt-10">
-        <h2 className="text-lg font-semibold text-opseu-dark">{t("feedbackTitle")}</h2>
-        <p className="mt-3 text-base leading-relaxed text-gray-800">
-          {t("feedbackBody")}
-        </p>
-        <p className="mt-6">
-          <Link
-            href="/feedback"
-            className="inline-flex min-h-11 items-center justify-center rounded-md border border-opseu-blue px-5 py-3 text-base font-semibold text-opseu-blue hover:bg-opseu-blue/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-opseu-blue"
-          >
-            {t("feedbackCta")}
-          </Link>
-        </p>
-      </div>
-
-      <p className="mt-12">
-        <Link href="/" className="font-semibold text-opseu-blue hover:underline">
+      <div className="mt-12">
+        <ButtonLink href="/" variant="ghost" trailingArrow>
           {t("backHome")}
-        </Link>
-      </p>
+        </ButtonLink>
+      </div>
     </PageShell>
   );
 }

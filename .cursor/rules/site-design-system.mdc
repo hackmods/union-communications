@@ -1,0 +1,109 @@
+---
+description: Public site design-system primitives (Card variants, Eyebrow, SectionHeading, IconChip, ButtonLink) and typography/color tokens.
+globs:
+  - "src/components/ui/**"
+  - "src/components/pages/**"
+  - "src/components/comms/**"
+  - "src/app/[locale]/**/page.tsx"
+  - "src/app/[locale]/**/layout.tsx"
+alwaysApply: false
+---
+
+# Site design system — primitives + token rules
+
+The public site shares **one** design-system grammar. Use the primitives in
+`src/components/ui/`. Do not invent sibling components or paste raw class
+strings.
+
+Pre-read [`docs/audit/session-knowledge-2026-09-16-design-uplift.md`](../docs/audit/session-knowledge-2026-09-16-design-uplift.md)
+for the audit that produced these primitives.
+
+## Primitives (import from `@/components/ui/...`)
+
+| Primitive | When | Don't |
+|---|---|---|
+| `<Card variant="default">` | default surface — articles, form blocks, empty sections | raw `<div className="rounded-xl border border-gray-200 bg-white shadow-sm">` |
+| `<Card variant="elevated" interactive>` | clickable nav tile / path / channel — adds hover-lift + brand accent border + focus parity + motion-reduce fallback | raw `<div className="rounded-xl border border-slate-200 …hover:-translate-y-1…">` |
+| `<Card variant="outline">` | the historical `border-l-2 border-opseu-blue/30 pl-5` ridge used by captions, complaint-vs-grievance, pre-disciplinary-log | raw `<li className="min-w-0 border-l-2 border-opseu-blue/30 pl-5">` |
+| `<Card variant="ghost">` | soft brand-tinted band (Catalyst hubs, demo bands, regional nav) | raw `<div className="rounded-xl border border-opseu-blue/15 bg-opseu-blue/[0.04]">` |
+| `<Eyebrow tone="brand\|amber\|muted\|danger\|success">` | tracked uppercase micro-label | raw `<p className="text-xs font-semibold uppercase tracking-wide text-gray-500">`; raw `<p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em]">` |
+| `<SectionHeading id eyebrow title intro align as>` | in-section heading block with eyebrow → h2 → constrained intro; `scroll-mt-28` baked in | rebuild the eyebrow+h2+intro stack inline; hand-roll `<section className="scroll-mt-28">` blocks |
+| `<IconChip tone size>` | round square hosting an inline SVG affordance | raw `<span className="inline-flex h-10 w-10 … rounded-lg bg-opseu-blue/10">` |
+| `<ButtonLink variant="primary\|outline\|ghost" size="md\|sm\|lg" block trailingArrow>` | navigation CTA styled as a button | raw `<a className="inline-flex min-h-11 items-center justify-center rounded-md bg-opseu-blue px-5 py-3 text-base font-semibold text-white …">` |
+| `<Button>` | form submit, in-page interaction | don't wrap `<Button>` inside `<Link>` — use `<ButtonLink>` |
+
+## Typography tokens (import from `@/lib/constants/public-type`)
+
+- `PUBLIC_PAGE_TITLE_CLASS` — page h1. Already used by home, captions,
+  examples, install, manifesto, support, guides, tools.
+- `PUBLIC_SECTION_TITLE_CLASS` — h2 inside `<SectionHeading>`.
+- `PUBLIC_CARD_TITLE_CLASS` — h3 on a card face.
+
+Never re-roll these as inline clamps (`text-[clamp(…)]`). If a size is wrong
+for your context, fix it in `public-type.ts` and the cascade updates all
+chapters.
+
+## Color tokens — banned/required
+
+| Role | Use | Never |
+|---|---|---|
+| Body copy (public pages) | `text-slate-700` | `text-gray-700/800/900`, `text-black` |
+| Body copy variant | `text-slate-600` | `text-gray-500/600` |
+| Heading chrome | `text-opseu-dark` (existing) | `text-black` |
+| Brand CTA | `bg-opseu-blue` (existing) | `bg-orange-*`, `bg-red-*` |
+| Brand CTA hover | `bg-opseu-dark` (existing) | re-define hover state |
+| Card surface | `bg-white` | `bg-gray-50` for default surface |
+
+Exceptions ("always OK"):
+- `text-gray-500` is allowed **only** on `<Eyebrow tone="muted">` (eyebrow
+  chrome) and on `disabled` chips.
+- `text-amber-700/800/900` for amber-tone eyebrows, hint callouts,
+  labour-playbook bands.
+- `text-red-*` for danger/destructive banners only.
+
+## Layout / card grid rules
+
+- Cards in a grid: `gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3` (or the
+  variant you need) **must** match the dataset count. Don't ship
+  `grid-cols-3` with two children.
+- Channel / Comms tiles: `gap-4 sm:gap-5 sm:grid-cols-2 xl:grid-cols-4`.
+- Path tile cluster: `gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3`.
+- Pin the CTA to the bottom of the card with `mt-auto pt-2` inside the
+  Card, **not** the grid parent.
+- Internal anchors get `scroll-mt-28` (the global header height). `<SectionHeading>`
+  bakes it in; otherwise apply manually on `<section id>`.
+
+## Anti-patterns — do not ship
+
+1. `border-l-2 border-opseu-blue/30 pl-5` as a raw `<li>` chrome — use
+   `<Card variant="outline">` or `<GuideCatalogCard>`.
+2. `rounded-xl border border-gray-200 bg-white` flat without `shadow-sm`
+   — that is **sub-elevation** and reads as unfinished. Use
+   `<Card variant="default">` instead.
+3. `inline-flex min-h-11 items-center justify-center rounded-md bg-opseu-blue …`
+   raw `<a>` for a CTA — use `<ButtonLink variant="primary">`.
+4. Inline uppercase `text-gray-500` eyebrow labels — use `<Eyebrow>`.
+5. `not-first-of-type:mt-0` margin-doubling hack — fold into the parent
+   `space-y-N` + drop the section's own self-margin instead.
+6. Hand-rolling a hover-lift surface outside `<Card variant="elevated">`.
+7. New CTA class strings — extend `guideCtaClasses.ts` or use
+   `<ButtonLink>`. Do not invent a 7th dialect.
+
+## When introducing a new pattern
+
+Add it to the **table at the top of this file** before merging. Prefer
+extending an existing primitive (a new `variant`, `tone`, or `size`) before
+authoring a sibling component. The audit at
+`docs/audit/session-knowledge-2026-09-16-design-uplift.md` §2 tracks the
+inventory; if your new primitive appears there as a "still inline" item,
+prefer fixing that line instead of duplicating.
+
+## Locale tokens (do not rename)
+
+`--opseu-blue` and `--opseu-dark` are CSS variables set in
+`src/app/globals.css` as **brand orange / brand dark** (orange `#c2410c`)
+despite the legacy name. **Never** rename them within one PR — the canvas
+capture pipeline, the homepage hero gradient, and the per-tenant Brand Kit
+all read these variables. Existing literal references to
+`text-opseu-blue`/`bg-opseu-blue`/`hover:bg-opseu-dark` are intentional and
+must continue to map to the orange brand color.
