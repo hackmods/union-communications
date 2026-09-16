@@ -26,6 +26,7 @@ Full narrative: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`]
 1. **Preferred:** pull `ghcr.io/hackmods/union-communications:main` (Method 3 / CLI). CI job `docker-image` publishes independently of E2E.
 2. **Git webhook** rebuilds `next build` on the droplet — not just slow: on small hosts the build OOM-SIGKILLs (2048 heap ≥ 2 GB cgroup, or Turbopack workers exceed 1–2 GB). `deploy` job refuses to fall back to the webhook when `CAPROVER_SERVER/PASSWORD/APP` are unset (fails loud instead — see `ci.yml`).
 3. Required secrets for image deploy: `CAPROVER_SERVER`, `CAPROVER_PASSWORD`, `CAPROVER_APP`. `CAPROVER_WEBHOOK_URL` is legacy/unused by the deploy job.
+4. **Manual deploy from the GH UI** — `workflow_dispatch` on `ci.yml` with inputs `image_tag` (default `main`; pass `:production`, `:sha-<7>`, etc.) and `skip_smoke` (default `false`). On dispatch the docker-image job is skipped (5+ min saved) and the deploy step validates the chosen GHCR tag before invoking `caprover-cli`. Useful when the on-droplet webhook rebuild still refuses to flip to Method 3. After dispatch, `unionops.org/api/health` `.commit` should match the dispatched SHA.
 
 ## Host hygiene
 

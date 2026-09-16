@@ -1,5 +1,37 @@
 # Progress Log
 
+## 2026-09-16 — Workflow dispatch + post-deploy /api/health smoke
+
+The push-to-main deploy path worked but left two operator-side gaps:
+(a) when the on-droplet CapRover webhook is still on Method 1, the
+operator can't ship a fix without waiting on a webhook rebuild that
+OOMs, and (b) the deploy job had no feedback loop — a clean GHCR pull
+could still leave the cluster reporting an older SHA if the image
+swap raced.
+
+- [x] **`workflow_dispatch`** on `.github/workflows/ci.yml` with two
+  inputs: `image_tag` (string, default `main`; pass `:production`,
+  `:sha-abc1234`, etc.) and `skip_smoke` (boolean, default `false`).
+  Fires the deploy job on a chosen pre-published GHCR tag from the GH
+  UI or GitHub Mobile — useful when on-droplet builds still OOM.
+- [x] **`docker-image` skips on dispatch** (`if: github.event_name !=
+  'workflow_dispatch'`) — saves the 5+ min build/push cycle when the
+  operator just wants to ship an already-built image.
+- [x] **Deploy step "Resolve target GHCR tag"** picks the right tag
+  (`github.event.inputs.image_tag` for dispatch, `main` for push).
+- [x] **Deploy step "Validate target image exists in GHCR"** fails
+  loud with `::error::` on a typo'd tag instead of returning the
+  caprover-cli's verbose, less diagnostic error.
+- [x] **Deploy step "Post-deploy /api/health smoke"** polls
+  `https://unionops.org/api/health` for ~100 s and verifies `.commit`
+  matches the just-deployed SHA (accepts both full and short SHA
+  because the build stamp shape varies). Skipped when the dispatch
+  input `skip_smoke` is set true (e.g. deploying to a staging host).
+- [x] **Cursor rule** — `.cursor/rules/caprover-docker.mdc` §"CapRover
+  deploy preference" picked up a 4th bullet covering `workflow_dispatch`.
+- Verification: `python yaml.safe_load` parses the file correctly
+  (3 jobs, docker-image gated, deploy 4 steps, 3 triggers, 2 inputs).
+
 ## 2026-09-16 — Cover the on-droplet rebuild path that PR #88 didn't reach
 
 Production deploy fell off because the unionops CapRover app's

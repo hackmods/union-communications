@@ -1,9 +1,29 @@
 name: CI
 
+# Two independent paths trigger this workflow:
+#   - automatic: push to `main` (CI belt — build, publish, deploy).
+#   - manual: workflow_dispatch from the GH UI / GitHub Mobile so an operator
+#     can ship a pre-published GHCR tag without waiting for a webhook rebuild
+#     (see audit/session-knowledge-2026-09-16-caprover-app-config-drift.md).
+# On dispatch the docker-image job is skipped — the tag the operator chose
+# is expected to exist in GHCR already; the deploy step validates it and
+# the post-deploy /api/health smoke closes the loop.
 on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'GHCR tag to deploy (e.g. "main", "production", "sha-abc1234"). Default: main.'
+        required: false
+        type: string
+        default: 'main'
+      skip_smoke:
+        description: 'Skip the post-deploy /api/health smoke check (e.g. when deploying to a non-production host).'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -74,6 +94,10 @@ jobs:
   # Docker build + GHCR publish run independently of E2E so CapRover can pull a
   # pre-built image instead of rebuilding on a small droplet (BuildKit export failures).
   docker-image:
+    # Skip on workflow_dispatch — the operator chose a pre-published GHCR tag
+    # and the build/push cycle would waste ~5 min. The deploy step validates
+    # the chosen tag exists before invoking caprover.
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -168,16 +192,48 @@ jobs:
 
   deploy:
     needs: docker-image
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Trigger on push to main (auto-deploy from CI image) OR on
+    # workflow_dispatch (operator chose a pre-published GHCR tag via the
+    # GH UI — see the workflow_dispatch inputs above this file).
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
+      - name: Resolve target GHCR tag
+        id: image
+        env:
+          INPUT_TAG: ${{ github.event.inputs.image_tag }}
+        run: |
+          # workflow_dispatch inputs are populated only for the dispatch event,
+          # so for push this falls back to "main". The expression is also
+          # safe in either case because `inputs.image_tag` is `null` outside
+          # dispatch.
+          if [ -n "$INPUT_TAG" ]; then
+            TAG="$INPUT_TAG"
+          else
+            TAG="main"
+          fi
+          echo "Deploying ghcr.io/${{ github.repository }}:${TAG}"
+          echo "TAG=${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate target image exists in GHCR
+        env:
+          IMAGE: ghcr.io/${{ github.repository }}:${{ steps.image.outputs.TAG }}
+        run: |
+          # Pre-flight the registry before invoking caprover-cli — the CLI
+          # would otherwise yield a less diagnostic error than "tag not found".
+          if ! docker buildx imagetools inspect "$IMAGE" --raw | jq -e '.[0]' > /dev/null 2>&1; then
+            echo "::error::Image ${IMAGE} not found in GHCR. Confirm the image was published (the docker-image job only runs on push to main — workflow_dispatch with a custom tag requires the tag to already exist)."
+            exit 1
+          fi
+          echo "Image ${IMAGE} found in GHCR."
+
       - name: Deploy pre-built GHCR image to CapRover
         env:
           CAPROVER_SERVER: ${{ secrets.CAPROVER_SERVER }}
           CAPROVER_PASSWORD: ${{ secrets.CAPROVER_PASSWORD }}
           CAPROVER_APP: ${{ secrets.CAPROVER_APP }}
           CAPROVER_WEBHOOK_URL: ${{ secrets.CAPROVER_WEBHOOK_URL }}
-          IMAGE: ghcr.io/${{ github.repository }}:main
+          IMAGE: ghcr.io/${{ github.repository }}:${{ steps.image.outputs.TAG }}
         run: |
           if [ -n "$CAPROVER_SERVER" ] && [ -n "$CAPROVER_PASSWORD" ] && [ -n "$CAPROVER_APP" ]; then
             echo "Deploying ${IMAGE} to CapRover app ${CAPROVER_APP} (pull only — no on-host build)."
@@ -187,6 +243,7 @@ jobs:
               --caproverApp "$CAPROVER_APP" \
               --imageName "$IMAGE"
             echo "CapRover image deploy triggered."
+            echo "DEPLOYED_IMAGE=${IMAGE}" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           if [ -n "$CAPROVER_WEBHOOK_URL" ]; then
@@ -199,3 +256,38 @@ jobs:
             exit 1
           fi
           echo "::error::No CapRover deploy secrets — skipping deploy. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for image deploy."
+
+      # Post-deploy /api/health smoke. Polls unionops.org for the new live
+      # commit SHA and fails loud when the deployment is stale (image pulled
+      # but CapRover didn't restart cleanly, or it restarted with the prior
+      # image). Gated by the skip_smoke input so dispatch to non-prod hosts
+      # (e.g. a staging URL) can opt out.
+      - name: Post-deploy /api/health smoke
+        if: ${{ github.event.inputs.skip_smoke != true }}
+        env:
+          EXPECTED_COMMIT: ${{ github.sha }}
+          DEPLOYED_IMAGE: ${{ steps.deploy.outputs.DEPLOYED_IMAGE }}
+        run: |
+          set -euo pipefail
+          SHORT_COMMIT=${EXPECTED_COMMIT::7}
+          TARGET="https://unionops.org"
+          echo "smoking ${TARGET}/api/health — expecting commit ${EXPECTED_COMMIT} (short=${SHORT_COMMIT}) from image ${DEPLOYED_IMAGE}"
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            # CapRover lets container healthchecks cycle; ten 10s slots cover
+            # roughly the typical 30-90s restart window for a Node image.
+            sleep 10
+            body="$(curl -fsSL --max-time 30 "${TARGET}/api/health" 2>/dev/null || true)"
+            if [ -n "$body" ]; then
+              reported="$(echo "$body" | jq -r '.commit // empty')"
+              built="$(echo "$body" | jq -r '.builtAt // empty')"
+              # .commit may be reported as either full SHA or short SHA
+              # depending on the build stamp; accept both.
+              if [ "$reported" = "$EXPECTED_COMMIT" ] || [ "$reported" = "$SHORT_COMMIT" ]; then
+                echo "smoke OK: ${TARGET}/api/health reports commit=${reported} builtAt=${built}"
+                exit 0
+              fi
+            fi
+            echo "  retry $i/10 — ${TARGET}/api/health did not yet report ${EXPECTED_COMMIT}; current body: ${body:-<unreachable>}"
+          done
+          echo "::error::post-deploy smoke failed: ${TARGET}/api/health did not report ${EXPECTED_COMMIT} within ~100s. CapRover likely restarted with a previous image — investigate with 'docker ps' on the droplet and /api/health directly."
+          exit 1
