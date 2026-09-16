@@ -161,9 +161,12 @@ jobs:
             exit 0
           fi
           if [ -n "$CAPROVER_WEBHOOK_URL" ]; then
-            echo "::warning::CAPROVER_SERVER/PASSWORD/APP not set — falling back to git webhook (rebuilds on CapRover; may fail on small hosts)."
-            curl -fsS -X POST "$CAPROVER_WEBHOOK_URL"
-            echo "CapRover git build webhook triggered."
-            exit 0
+            # A git webhook rebuilds `next build` on the droplet, which OOM-SIGKILLs
+            # on small hosts (session-knowledge-2026-09-16-build-oom.md). Never fall
+            # back to it silently — surface it as the failure it is so the operator
+            # sets the CLI-secret image deploy instead.
+            echo "::error::CAPROVER_SERVER/PASSWORD/APP not set — refusing to fall back to the OOM-prone git webhook rebuild. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for a pull-only GHCR image deploy."
+            echo "::warning::CAPROVER_WEBHOOK_URL is set but unused (image deploy requires CAPROVER_SERVER/PASSWORD/APP)."
+            exit 1
           fi
-          echo "::warning::No CapRover deploy secrets — skipping deploy. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for image deploy."
+          echo "::error::No CapRover deploy secrets — skipping deploy. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for image deploy."

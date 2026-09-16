@@ -1,5 +1,37 @@
 # Progress Log
 
+## 2026-09-16 — `docker-migrate-smoke` schema-aware bookkeeping fix
+
+The CI job failed with `relation __drizzle_migrations does not exist` right
+after Drizzle created the bookkeeping table. Root cause: Drizzle v0.36+
+writes `__drizzle_migrations` into a dedicated `drizzle` schema (see
+`pg-core/dialect.cjs` `migrationsSchema ?? "drizzle"`); the maintainer's
+bare-name `SELECT FROM "__drizzle_migrations"` raised because the non-owner
+role's `search_path` did not include it.
+
+- [x] **Schema-aware `appliedMigrationCount`** — `docker/db-maintain.mjs` now
+  probes `information_schema.tables` for the host schema, then issues a
+  schema-qualified count. Function exported so it can be unit-tested.
+- [x] **Tests** — `src/lib/db/db-maintain.test.ts` adds three stub-driven
+  cases: fresh DB returns `0`, `drizzle`-schema path counts, legacy
+  `public`-schema path counts. The stub throws on a bare-name regression.
+- [x] **Documentation** — [`session-knowledge-2026-09-16-db-maintain-drizzle-schema.md`](audit/session-knowledge-2026-09-16-db-maintain-drizzle-schema.md) records the cause + 6 lessons + the rule "never
+  ship a bare-name `SELECT FROM __drizzle_migrations`".
+- Verification: `npx tsc --noEmit` clean, `npm run lint` clean,
+  `npm run test:unit` 1977 passed (3 new), 1 skipped, 0 failed.
+
+## 2026-09-16 — Site design-system primitives + page uplift
+
+One Card primitive, four variants. Six inline chrome dialects → one grammar.
+
+- [x] **Design-system primitives** — `<Card variant="default|elevated|outline|ghost">`, `<Eyebrow tone="brand|amber|muted|danger|success">`, `<SectionHeading id eyebrow title intro>`, `<IconChip tone size>`, `<ButtonLink variant size block trailingArrow>`. All in `src/components/ui/`, Tailwind-merged safe via `cn`.
+- [x] **Home page adopted the primitives** — `HomeContent.tsx` no longer hand-rolls `cardSurfaceClass`, `SectionEyebrow`, `SectionIntro`, or its `Icon` helper; the elevated card surface is now `<Card variant="elevated" interactive>` (no behaviour change to Brand Kit / hero gradient / hash scroll / test IDs).
+- [x] **High-reach page uplifts** — `/manifesto` (4-row disc list → 2×2 Card grid), `/support` (raw `<a>` CTAs → `<ButtonLink>`), `/install` (parallel `<section>` blocks → `<Card>` step grid), `/feedback` (color drift tokens), `/captions` (worst border-l-2 anti-pattern → `<Card density="compact">` tile), `/examples` (filter chips + sidebar rail), `/guides` + `/tools` catalogs (per-group `<Eyebrow>` + elevated link rows + amber labour-playbook band).
+- [x] **Page-level color drift normalized** — `GuideProse`, `GuideBulletList`, `GuideTipGrid`, `GuideSection` intro body text now `text-slate-700` (was `text-gray-700`); cascades to all 28 guide chapters + `privacy` + `accessibility` + `security`.
+- [x] **Cursor rule** — [`.cursor/rules/site-design-system.mdc`](../.cursor/rules/site-design-system.mdc) encodes the primitive table, color ban list (`text-gray-N` banned for body copy), and the 7 ship-blockers.
+- Session: [`session-knowledge-2026-09-16-design-uplift.md`](audit/session-knowledge-2026-09-16-design-uplift.md)
+- Verification: `npx tsc --noEmit` clean, `npm run lint` clean, `npm run test:unit` 1974 passed (310 files, 1 skipped).
+
 ## 2026-09-15 — Core setup table + data-migration runner (db maintainer)
 
 DB updates now deploy automatically with a tracked baseline and versioned data upgrades.

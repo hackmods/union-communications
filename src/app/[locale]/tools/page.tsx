@@ -13,6 +13,8 @@ import {
   learnGroups,
   visibleToolGroups,
 } from "@/components/layout/nav/nav-config";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Card } from "@/components/ui/Card";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import {
   FIRST_WEEK_STEP_KEYS,
@@ -73,9 +75,12 @@ export default async function ToolsIndexPage({
       rail={startHerePanel}
     >
       <header>
-        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
-        <p className="mt-2 max-w-prose text-gray-600">{t("subtitle")}</p>
-        <p className="mt-2 max-w-prose text-sm text-gray-600">
+        <Eyebrow tone="brand">{t("title")}</Eyebrow>
+        <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{t("title")}</h1>
+        <p className="mt-4 max-w-prose text-base leading-relaxed text-slate-700">
+          {t("subtitle")}
+        </p>
+        <p className="mt-3 max-w-prose text-sm text-slate-600">
           {t("hint")}{" "}
           <Link
             href="/brand-kit"
@@ -117,19 +122,15 @@ export default async function ToolsIndexPage({
         </div>
       </details>
 
-      <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 xl:grid-cols-5 xl:gap-8">
+      <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-10">
         {groups.map((group) => (
           <section
             key={group.labelKey}
             aria-labelledby={`tools-${group.labelKey}`}
+            className="min-w-0"
           >
-            <h2
-              id={`tools-${group.labelKey}`}
-              className="text-sm font-semibold uppercase tracking-wide text-gray-500"
-            >
-              {nav(group.labelKey)}
-            </h2>
-            <ul className="mt-3 grid list-none gap-4 p-0">
+            <Eyebrow tone="muted">{nav(group.labelKey)}</Eyebrow>
+            <ul className="mt-4 grid list-none gap-3 p-0">
               {group.links.map(({ href, key }) => (
                 <GuideCatalogCard
                   key={href}
@@ -144,28 +145,33 @@ export default async function ToolsIndexPage({
         ))}
       </div>
 
-      <section
-        className="mt-10 rounded-xl border border-amber-500/25 bg-gradient-to-r from-amber-500/[0.06] via-white to-opseu-blue/[0.04] p-5 sm:p-6"
-        aria-labelledby="tools-labour-playbooks"
+      <Card
+        variant="ghost"
+        className="mt-12 border-amber-300/70 bg-gradient-to-r from-amber-50 via-white to-opseu-blue/[0.06] sm:p-7"
       >
-        <h2
-          id="tools-labour-playbooks"
-          className="text-sm font-semibold uppercase tracking-wide text-gray-500"
-        >
-          {t("labourPlaybooksTitle")}
-        </h2>
-        <p className="mt-2 max-w-prose text-sm text-gray-600">
-          {t("labourPlaybooksIntro")}
-        </p>
-        <p className="mt-4">
-          <Link
-            href="/guide/steward-playbooks"
-            className="inline-flex min-h-11 items-center font-semibold text-opseu-blue underline-offset-2 hover:underline"
+        <section aria-labelledby="tools-labour-playbooks">
+          <Eyebrow tone="amber" tracking="wide">
+            {t("labourPlaybooksTitle")}
+          </Eyebrow>
+          <h2
+            id="tools-labour-playbooks"
+            className="mt-2 text-xl font-bold text-opseu-dark"
           >
-            {t("labourPlaybooksCta")} →
-          </Link>
-        </p>
-      </section>
+            {t("labourPlaybooksTitle")}
+          </h2>
+          <p className="mt-3 max-w-prose text-[0.95rem] leading-relaxed text-slate-700">
+            {t("labourPlaybooksIntro")}
+          </p>
+          <p className="mt-4">
+            <Link
+              href="/guide/steward-playbooks"
+              className="inline-flex min-h-11 items-center font-semibold text-opseu-blue underline-offset-2 hover:underline"
+            >
+              {t("labourPlaybooksCta")} →
+            </Link>
+          </p>
+        </section>
+      </Card>
 
       {channelGuides ? (
         <section

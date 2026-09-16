@@ -16,8 +16,13 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NPM_CONFIG_UPDATE_NOTIFIER=false
-# CapRover often builds on 1 GB droplets; override with BUILD_NODE_HEAP_MB on larger hosts.
-ARG BUILD_NODE_HEAP_MB=2048
+# CapRover droplets are typically 1-2 GB. Measured 2026-09-16: 1536 MB per
+# process is the smallest passing cap for `next build` (Turbopack). 1024 makes a
+# build worker abort (SIGABRT); 2048 lets the process set blow a 2 GB cgroup
+# (SIGKILL). Override with BUILD_NODE_HEAP_MB on larger hosts. Note: NODE_OPTIONS
+# propagates to every build worker, so the cap must fit the worst single process
+# while the sum still fits host RAM — add ~2-4 GB swap on 2 GB droplets.
+ARG BUILD_NODE_HEAP_MB=1536
 ENV NODE_OPTIONS="--max-old-space-size=${BUILD_NODE_HEAP_MB}"
 # AUTH_SECRET is only needed at runtime; a build-time placeholder keeps
 # Auth.js route collection happy during `next build`.
@@ -38,6 +43,9 @@ ARG SENTRY_PROJECT=javascript-nextjs
 ENV SENTRY_PROJECT=$SENTRY_PROJECT
 ARG NEXT_PUBLIC_SENTRY_DSN=
 ENV NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN
+# Turbopack build — webpack was measured and rejected: it needs >2 GB V8 heap
+# for this app (OOMs at 1024 and 2048 caps). On a 2 GB droplet, add ~2-4 GB
+# swap or deploy the GHCR image (built in CI) instead of rebuilding on-host.
 RUN npm run build
 
 # ---- runner: minimal production image ----
