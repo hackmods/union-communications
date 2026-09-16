@@ -64,6 +64,8 @@ COPY docker/entrypoint.sh /entrypoint.sh
 COPY docker/migrate-package.json ./db-migrate/package.json
 COPY drizzle.migrate.config.ts ./db-migrate/drizzle.migrate.config.ts
 COPY src/lib/db/migrations ./db-migrate/src/lib/db/migrations
+COPY src/lib/db/data-migrations ./db-migrate/src/lib/db/data-migrations
+COPY docker/db-maintain.mjs ./scripts/db-maintain.mjs
 COPY scripts/sync-app-role-password.mjs ./scripts/sync-app-role-password.mjs
 
 # UTC timestamp stamped at image build — read by /api/health and /build.

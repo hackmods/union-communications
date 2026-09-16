@@ -97,11 +97,16 @@ Every authenticated row includes:
 | `commit` | `BUILD_COMMIT_SHA` env (Docker build arg) or `"unknown"` |
 | `builtAt` | UTC timestamp from `/app/.build-time` (Docker runner stage) or `BUILD_TIME` env or `"unknown"` |
 | `backends` | Map of `*_DB_BACKEND` flags (`memory` default) |
+| `schemaVersion` / `dataVersion` | From `platform_meta` (max applied Drizzle idx / applied data-migration pointer); `null` when Postgres is off or baseline hasn't run |
 | `emailEnabled` | `EMAIL_ENABLED=true` |
 | `cronConfigured` | `CRON_SECRET` is set (does not expose the secret) |
 | `mfaEnabled` | `AUTH_MFA_ENABLED=true` |
 
 CLI preflight: `npm run health:check` (optional `HEALTH_URL` or `PLAYWRIGHT_BASE_URL`). Sandbox smoke runs this before Playwright (`npm run test:smoke:sandbox`). `HEAD /api/health` is supported for load balancers.
+
+## Db maintainer + `platform_meta`
+
+DB updates deploy automatically on boot via [`docker/db-maintain.mjs`](../../docker/db-maintain.mjs) (wired from `docker/entrypoint.sh`): idempotent **baseline** of the single-row `platform_meta` core setup table (outside the Drizzle journal — hosts on any schema age converge), DDL `migrate()`, a **version gate** (image older than the DB schema refuses to boot), and **data migrations** (`src/lib/db/data-migrations/NNNN_*.sql`, keyed by `platform_meta.data_version`, each transactional + resumable). An advisory lock serializes concurrent replicas. Local equivalent: `npm run db:maintain`.
 
 ## Union Configuration
 

@@ -1,0 +1,374 @@
+#!/usr/bin/env node
+/**
+ * db-maintain — UnionOps boot-time database maintainer (baseline + DDL + data).
+ *
+ * Runs on container boot (docker/entrypoint.sh) and locally (npm run db:maintain).
+ * Extends the existing Drizzle migration pipeline with:
+ *
+ *   1. BASELINE  — idempotent create/alter of the `platform_meta` core setup table
+ *                  (single row, id = 1). Lives OUTSIDE the Drizzle journal on purpose:
+ *                  hosts on any schema age get a tracked baseline without re-running
+ *                  0000–0034, and later column additions self-heal via ADD COLUMN IF NOT EXISTS.
+ *   2. MIGRATE   — DDL via drizzle-orm migrate() (same journal + __drizzle_migrations
+ *                  as drizzle-kit, no extra binary in the image).
+ *   3. GATE      — refuses to boot an image against a schema that is AHEAD of it
+ *                  (downgrade protection): "deploy a newer image".
+ *   4. META      — upserts platform_meta (schema_version, app_version, applied_migrations,
+ *                  migrated_at) so the DB records the app that last touched it.
+ *   5. DATA      — applies pending data migrations (src/lib/db/data-migrations/NNNN_*.sql)
+ *                  keyed by platform_meta.data_version. Each runs in its own transaction
+ *                  and only advances data_version on success → resumable.
+ *
+ * Env:
+ *   MIGRATE_DATABASE_URL  owner URL (DDL/data migrations); falls back to DATABASE_URL
+ *   DATABASE_URL          fallback only — must be a role with DDL rights for migrate
+ *   MIGRATE_DIR           dir containing node_modules with drizzle-orm + postgres
+ *                         (default: /app/db-migrate, else process.cwd() for local runs)
+ *   MIGRATIONS_DIR        Drizzle journal folder (default src/lib/db/migrations)
+ *   DATA_MIGRATIONS_DIR   data migration folder (default src/lib/db/data-migrations)
+ *   APP_VERSION           optional override for platform_meta.app_version
+ *   MIGRATE_CONTINUE_ON_ERROR=true  warn instead of refusing on gate/data failure (debug only)
+ *
+ * Commands:
+ *   maintain     baseline + migrate + gate + meta + data (default)
+ *   baseline     ensure platform_meta table + row only
+ *   migrate      baseline + DDL migrate + gate + meta upsert (no data)
+ *   data-migrate baseline (ensures row) + pending data migrations (no DDL)
+ *
+ * Pure helpers (parseJournal, sortDataMigrations, pendingDataMigrations, gateDecision,
+ * appVersion, BASELINE_SQL, ADVISORY_LOCK_KEY) are exported for unit tests under
+ * src/lib/db/db-maintain.test.ts.
+ */
+import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { createRequire } from "node:module";
+import { join, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+
+/** Fixed Postgres advisory lock key so concurrent replicas serialize (session-scoped). */
+export const ADVISORY_LOCK_KEY = 74201234;
+
+const CONTINUE_ON_ERROR = process.env.MIGRATE_CONTINUE_ON_ERROR === "true";
+
+function migrateDir() {
+  const fromEnv = process.env.MIGRATE_DIR?.trim();
+  if (fromEnv) return fromEnv;
+  if (existsSync("/app/db-migrate/package.json")) return "/app/db-migrate";
+  return process.cwd();
+}
+
+function loadDep(name) {
+  return createRequire(join(migrateDir(), "package.json"))(name);
+}
+
+function log(...args) {
+  console.log(`[db-maintain] ${args.join(" ")}`);
+}
+
+function fail(message) {
+  console.error(`[db-maintain] ERROR: ${message}`);
+  console.error(
+    "[db-maintain] set MIGRATE_CONTINUE_ON_ERROR=true to boot anyway (debug only)",
+  );
+  process.exit(1);
+}
+
+function warn(message) {
+  console.warn(`[db-maintain] WARN: ${message}`);
+}
+
+let cachedAppVersion;
+export function appVersion() {
+  if (cachedAppVersion) return cachedAppVersion;
+  const candidates = [
+    process.env.APP_VERSION?.trim(),
+    readVersion(join("/app", "package.json")),
+    readVersion(join(process.cwd(), "package.json")),
+  ];
+  cachedAppVersion = candidates.find((v) => v && v !== "unknown") || "unknown";
+  return cachedAppVersion;
+}
+
+function readVersion(file) {
+  try {
+    const raw = JSON.parse(readFileSync(file, "utf8"));
+    return typeof raw.version === "string" ? raw.version : "unknown";
+  } catch {
+    return "unknown";
+  }
+}
+
+/**
+ * Parse the Drizzle journal. Returns { count, lastIdx } where count is the number of
+ * journal entries the image knows about and lastIdx is the max migration idx.
+ * @param {unknown} journal - parsed meta/_journal.json
+ */
+export function parseJournal(journal) {
+  const entries = journal?.entries;
+  if (!Array.isArray(entries) || entries.length === 0) {
+    throw new Error("journal missing entries");
+  }
+  const lastIdx = entries[entries.length - 1].idx;
+  if (typeof lastIdx !== "number") {
+    throw new Error("journal last entry missing idx");
+  }
+  return { count: entries.length, lastIdx };
+}
+
+/**
+ * Parse data-migration file basenames ("NNNN_description.sql") into
+ * [{ version, file }] sorted ascending. Non-matching files are skipped.
+ * @param {string[]} files
+ */
+export function sortDataMigrations(files) {
+  const entries = [];
+  for (const file of files) {
+    const match = /^(\d+)_/.exec(file);
+    if (!match) {
+      warn(`ignoring non-data-migration file in data-migrations dir: ${file}`);
+      continue;
+    }
+    entries.push({ version: Number(match[1]), file });
+  }
+  entries.sort((a, b) => a.version - b.version);
+  for (let i = 1; i < entries.length; i++) {
+    if (entries[i].version === entries[i - 1].version) {
+      throw new Error(`duplicate data migration version ${entries[i].version}`);
+    }
+  }
+  return entries;
+}
+
+/**
+ * Migrations still pending for a given data_version (strictly greater).
+ * @param {{version:number;file:string}[]} entries
+ * @param {number} dataVersion
+ */
+export function pendingDataMigrations(entries, dataVersion) {
+  return entries.filter((e) => e.version > dataVersion);
+}
+
+/**
+ * Drizzle journal sync decision.
+ * @param {{appliedBefore:number; expectedCount:number}} input
+ * @returns {"ahead"|"behind"|"in-sync"}
+ */
+export function gateDecision({ appliedBefore, expectedCount }) {
+  if (appliedBefore > expectedCount) return "ahead";
+  if (appliedBefore < expectedCount) return "behind";
+  return "in-sync";
+}
+
+/** Idempotent create/alter of the platform_meta core setup table (baseline). */
+export const BASELINE_SQL = `
+CREATE TABLE IF NOT EXISTS "platform_meta" (
+  "id" smallint PRIMARY KEY DEFAULT 1 CHECK ("id" = 1)
+);
+ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "schema_version" integer NOT NULL DEFAULT 0;
+ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "app_version" text NOT NULL DEFAULT '';
+ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "data_version" integer NOT NULL DEFAULT 0;
+ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "applied_migrations" integer NOT NULL DEFAULT 0;
+ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "min_app_version" text;
+ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "migrated_at" timestamp with time zone NOT NULL DEFAULT now();
+ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "updated_at" timestamp with time zone NOT NULL DEFAULT now();
+INSERT INTO "platform_meta" ("id") VALUES (1) ON CONFLICT DO NOTHING;
+`;
+
+async function runBaseline(sql) {
+  await sql.begin(async (tx) => {
+    await tx.unsafe(BASELINE_SQL);
+  });
+  log("baseline ok (platform_meta ensured)");
+}
+
+async function appliedMigrationCount(sql) {
+  // Journal table by NAME across schemas (Drizzle v7 may not use `public`).
+  const found = await sql`
+    SELECT EXISTS (
+      SELECT 1 FROM pg_catalog.pg_class c
+      JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+      WHERE c.relname = '__drizzle_migrations' AND c.relkind = 'r'
+    ) AS ok
+  `;
+  if (!found.length || !found[0].ok) return 0;
+  const rows = await sql`SELECT count(*)::int AS n FROM "__drizzle_migrations"`;
+  return rows.length ? rows[0].n : 0;
+}
+
+async function runMigrate(sql, migrationsDir, expectedCount) {
+  const appliedBefore = await appliedMigrationCount(sql);
+  const decision = gateDecision({ appliedBefore, expectedCount });
+
+  if (decision === "ahead") {
+    const message = `database schema is ahead of this image (applied ${appliedBefore} > journal ${expectedCount}) — deploy a newer image`;
+    if (CONTINUE_ON_ERROR) {
+      warn(`${message} — continuing (MIGRATE_CONTINUE_ON_ERROR=true)`);
+      return { decision, schemaVersion: null, applied: appliedBefore };
+    }
+    fail(message);
+  }
+
+  if (decision === "behind") {
+    const { migrate } = loadDep("drizzle-orm/postgres-js/migrator");
+    const { drizzle } = loadDep("drizzle-orm/postgres-js");
+    const db = drizzle(sql, {});
+    await migrate(db, { migrationsFolder: migrationsDir });
+    const appliedAfter = await appliedMigrationCount(sql);
+    if (appliedAfter !== expectedCount) {
+      const message = `migrate finished but applied count ${appliedAfter} != journal ${expectedCount}`;
+      if (CONTINUE_ON_ERROR) {
+        warn(`${message} — continuing (MIGRATE_CONTINUE_ON_ERROR=true)`);
+      } else {
+        fail(message);
+      }
+    }
+    log(`migrate ok (applied ${appliedAfter}/${expectedCount})`);
+    return { decision, schemaVersion: expectedCount - 1, applied: appliedAfter };
+  }
+
+  // in-sync — journal tail is the current max idx
+  log(`migrate ok (in-sync, ${appliedBefore} applied)`);
+  return { decision, schemaVersion: expectedCount - 1, applied: appliedBefore };
+}
+
+async function upsertMeta(sql, { schemaVersion, applied, dataVersion = 0 }) {
+  const version = appVersion();
+  const rows = await sql`SELECT data_version FROM "platform_meta" WHERE id = 1`;
+  const currentDataVersion = rows.length ? rows[0].data_version : dataVersion;
+  await sql`
+    INSERT INTO "platform_meta" (id, schema_version, app_version, data_version, applied_migrations, migrated_at, updated_at)
+    VALUES (1, ${schemaVersion}, ${version}, ${currentDataVersion}, ${applied}, now(), now())
+    ON CONFLICT (id) DO UPDATE SET
+      schema_version = EXCLUDED.schema_version,
+      app_version = EXCLUDED.app_version,
+      applied_migrations = EXCLUDED.applied_migrations,
+      migrated_at = EXCLUDED.migrated_at,
+      updated_at = now()
+  `;
+  log(`meta upserted (schema v${schemaVersion}, app ${version}, migrations ${applied})`);
+  return currentDataVersion;
+}
+
+async function runDataMigrations(sql, dataMigrationsDir, currentDataVersion) {
+  if (!existsSync(dataMigrationsDir)) {
+    log(`data-migrate ok (no data-migrations dir at ${dataMigrationsDir})`);
+    return { applied: 0, at: currentDataVersion };
+  }
+  const files = readdirSync(dataMigrationsDir).filter((f) => f.endsWith(".sql"));
+  const sorted = sortDataMigrations(files);
+  const pending = pendingDataMigrations(sorted, currentDataVersion);
+  if (pending.length === 0) {
+    log(`data-migrate ok (data v${currentDataVersion}, nothing pending)`);
+    return { applied: 0, at: currentDataVersion };
+  }
+  for (const m of pending) {
+    try {
+      const fileContent = readFileSync(join(dataMigrationsDir, m.file), "utf8");
+      await sql.begin(async (tx) => {
+        await tx.unsafe(fileContent);
+        await tx`
+          UPDATE "platform_meta" SET data_version = ${m.version}, updated_at = now() WHERE id = 1
+        `;
+      });
+      log(`data migration ${m.version} (${m.file}) applied`);
+    } catch (err) {
+      const message = `data migration ${m.version} (${m.file}) failed: ${
+        err instanceof Error ? err.message : err
+      }`;
+      if (CONTINUE_ON_ERROR) {
+        warn(`${message} — continuing (MIGRATE_CONTINUE_ON_ERROR=true)`);
+        break;
+      }
+      fail(message);
+    }
+  }
+  return { applied: pending.length, at: currentDataVersion + pending.length };
+}
+
+export async function runMaintain(opts = {}) {
+  const command = opts.command ?? "maintain";
+  const migrationsDir = resolve(
+    opts.cwd ?? process.cwd(),
+    opts.migrationsDir ?? process.env.MIGRATIONS_DIR?.trim() ?? "src/lib/db/migrations",
+  );
+  const dataMigrationsDir = resolve(
+    opts.cwd ?? process.cwd(),
+    opts.dataMigrationsDir ??
+      process.env.DATA_MIGRATIONS_DIR?.trim() ??
+      "src/lib/db/data-migrations",
+  );
+  const url =
+    process.env.MIGRATE_DATABASE_URL?.trim() || process.env.DATABASE_URL?.trim();
+
+  if (!url) {
+    log("no MIGRATE_DATABASE_URL / DATABASE_URL — skipping (memory adapters)");
+    return { skipped: true };
+  }
+  if (!existsSync(join(migrationsDir, "meta", "_journal.json"))) {
+    fail(`migrations folder missing at ${migrationsDir}`);
+  }
+
+  const postgres = loadDep("postgres");
+  const sql = postgres(url, { max: 1, connect_timeout: 15 });
+  log(`connecting as owner role (${command})`);
+
+  try {
+    await sql`SELECT pg_advisory_lock(${ADVISORY_LOCK_KEY})`;
+
+    await runBaseline(sql);
+
+    if (command === "baseline") {
+      log("baseline finished");
+      return { baseline: true };
+    }
+
+    if (command === "migrate" || command === "maintain") {
+      const journal = JSON.parse(
+        readFileSync(join(migrationsDir, "meta", "_journal.json"), "utf8"),
+      );
+      const { count } = parseJournal(journal);
+      const migrateResult = await runMigrate(sql, migrationsDir, count);
+      if (migrateResult.decision === "ahead") {
+        // Refused or continue-on-error; nothing else to do safely with an older image.
+        return migrateResult;
+      }
+      const dataVersion = await upsertMeta(sql, migrateResult);
+      if (command === "maintain") {
+        const dataResult = await runDataMigrations(sql, dataMigrationsDir, dataVersion);
+        log(
+          `maintain finished (schema v${migrateResult.schemaVersion}, data v${dataResult.at})`,
+        );
+        return { ...migrateResult, ...dataResult };
+      }
+      log(`migrate command finished (schema v${migrateResult.schemaVersion})`);
+      return migrateResult;
+    }
+
+    if (command === "data-migrate") {
+      const rows = await sql`SELECT data_version FROM "platform_meta" WHERE id = 1`;
+      const dataVersion = rows.length ? rows[0].data_version : 0;
+      const dataResult = await runDataMigrations(sql, dataMigrationsDir, dataVersion);
+      log(`data-migrate finished (data v${dataResult.at})`);
+      return dataResult;
+    }
+
+    fail(`unknown command: ${command}`);
+  } finally {
+    await sql`SELECT pg_advisory_unlock(${ADVISORY_LOCK_KEY})`.catch(() => {});
+    await sql.end({ timeout: 5 }).catch(() => {});
+  }
+}
+
+// Run only when executed directly (not when imported by tests).
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(resolve(process.argv[1])).href
+) {
+  const command = process.argv[2] ?? "maintain";
+  runMaintain({ command }).catch((err) => {
+    console.error(
+      "[db-maintain] ERROR:",
+      err instanceof Error ? err.stack ?? err.message : err,
+    );
+    process.exit(1);
+  });
+}

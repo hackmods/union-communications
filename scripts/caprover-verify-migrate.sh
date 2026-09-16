@@ -30,7 +30,10 @@ SELECT
   (SELECT count(*) FROM information_schema.tables
      WHERE table_name = '__drizzle_migrations') AS drizzle_table,
   (SELECT count(*) FROM __drizzle_migrations) AS migration_rows,
-  (SELECT count(*) FROM pg_roles WHERE rolname = 'unionops_app') AS app_role;
+  (SELECT count(*) FROM pg_roles WHERE rolname = 'unionops_app') AS app_role,
+  (SELECT count(*) FROM information_schema.tables
+     WHERE table_name = 'platform_meta') AS meta_table,
+  (SELECT schema_version FROM platform_meta WHERE id = 1) AS schema_version;
 "
 
-echo "[caprover-verify-migrate] ok if drizzle_table=1, migration_rows>0, app_role=1"
+echo "[caprover-verify-migrate] ok if drizzle_table=1, migration_rows>0, app_role=1, meta_table=1, schema_version>0"

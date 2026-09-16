@@ -16,22 +16,21 @@ fi
 # should be unionops_app so RLS binds (see migration 0008_app_role.sql).
 MIGRATE_URL="${MIGRATE_DATABASE_URL:-${DATABASE_URL:-}}"
 MIGRATE_DIR="/app/db-migrate"
-DRIZZLE_KIT="${MIGRATE_DIR}/node_modules/drizzle-kit/bin.cjs"
 
 if [ -n "${MIGRATE_URL}" ] && [ -d "${MIGRATE_DIR}/src/lib/db/migrations" ]; then
-  echo "[entrypoint] running drizzle-kit migrate (owner/migrate URL)"
+  echo "[entrypoint] running db maintain (baseline + migrate + data) owner/migrate URL"
   if ! (
     cd "${MIGRATE_DIR}" &&
-    DATABASE_URL="${MIGRATE_URL}" node "${DRIZZLE_KIT}" migrate --config drizzle.migrate.config.ts
+    MIGRATE_DIR="${MIGRATE_DIR}" node /app/scripts/db-maintain.mjs maintain
   ); then
     if [ "${MIGRATE_CONTINUE_ON_ERROR:-}" = "true" ]; then
-      echo "[entrypoint] WARN: migrate failed — MIGRATE_CONTINUE_ON_ERROR=true, continuing" >&2
+      echo "[entrypoint] WARN: db maintain failed — MIGRATE_CONTINUE_ON_ERROR=true, continuing" >&2
     else
-      echo "[entrypoint] ERROR: migrate failed — refusing to start (set MIGRATE_CONTINUE_ON_ERROR=true to override)" >&2
+      echo "[entrypoint] ERROR: db maintain failed — refusing to start (set MIGRATE_CONTINUE_ON_ERROR=true to override)" >&2
       exit 1
     fi
   else
-    echo "[entrypoint] migrate finished"
+    echo "[entrypoint] db maintain finished"
     if [ -n "${POSTGRES_APP_PASSWORD:-}" ]; then
       echo "[entrypoint] syncing unionops_app password"
       MIGRATE_DIR="${MIGRATE_DIR}" node /app/scripts/sync-app-role-password.mjs

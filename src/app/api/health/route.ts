@@ -1,14 +1,21 @@
 import { NextResponse } from "next/server";
 import { buildHealthStatus } from "@/lib/ops/health-status";
+import { readPlatformMeta } from "@/lib/db/platform-meta";
 
-function healthResponse() {
-  return NextResponse.json(buildHealthStatus());
+async function healthResponse() {
+  const status = buildHealthStatus();
+  const meta = await readPlatformMeta();
+  if (meta) {
+    status.schemaVersion = meta.schemaVersion;
+    status.dataVersion = meta.dataVersion;
+  }
+  return NextResponse.json(status);
 }
 
-export function GET() {
+export async function GET() {
   return healthResponse();
 }
 
-export function HEAD() {
+export async function HEAD() {
   return healthResponse();
 }

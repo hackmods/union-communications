@@ -14,6 +14,13 @@ Full narrative: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`]
 - Use [`docker/migrate-package.json`](../../docker/migrate-package.json) (**only** `drizzle-kit`, `drizzle-orm`, `postgres`). Never copy root `package.json` into `db-migrate` — `drizzle-kit` is a root `devDependency` and disappears under `--omit=dev`, while the rest of the prod tree balloons (~628MB).
 - Install with `npm install --omit=dev` **in the runner stage**. Do **not** `COPY --from=… node_modules` for migrate (BuildKit `unknown parent image ID` on small CapRover hosts).
 
+## Db maintainer (baseline + gate + data migrations)
+
+- `docker/db-maintain.mjs` replaces the raw `drizzle-kit migrate` call in `entrypoint.sh`: **baseline** `platform_meta` (single-row core setup table, idempotent create/alter, lives outside the Drizzle journal) → DDL `migrate()` → **version gate** (image older than DB schema refuses to boot — downgrade protection) → **data migrations** (`src/lib/db/data-migrations/NNNN_*.sql` keyed by `platform_meta.data_version`, transactional + resumable). Advisory lock serializes concurrent replicas.
+- Load `postgres`/`drizzle-orm` via `createRequire` against `MIGRATE_DIR` (standalone image has no root `node_modules`). Run with cwd `/app/db-migrate` so journal/data-migration folders resolve.
+- Never import `src/lib/db/schema/platform.ts` from the schema `index.ts` — drizzle-kit would emit a journal migration for the bootstrapped table. Runtime reads it directly.
+- Local full pipeline: `npm run db:maintain`; data only: `npm run db:data-migrate`; baseline only: `npm run db:baseline`.
+
 ## CapRover deploy preference
 
 1. **Preferred:** pull `ghcr.io/hackmods/union-communications:main` (Method 3 / CLI). CI job `docker-image` publishes independently of E2E.
@@ -30,7 +37,7 @@ Full narrative: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`]
 - Live: `GET /api/health` → `.commit` matches expected SHA and `.builtAt` is a recent UTC timestamp.
 - Optional error sinks: `.observability` (`sentryEnabled`, `errorLogFileEnabled`, misconfig flags). Narrative: [`session-knowledge-2026-09-08-sentry-observability.md`](../../docs/audit/session-knowledge-2026-09-08-sentry-observability.md).
 - Public: `/build` (footer **Site build**) shows the same version, commit, and build time after deploy.
-- CI: `scripts/docker-migrate-smoke.sh` — assert migrate finished; `__drizzle_migrations` by **table name** (not `public` schema only).
+- CI: `scripts/docker-migrate-smoke.sh` — assert maintain finished; `__drizzle_migrations` by **table name** (not `public` schema only) + `platform_meta` baseline row (`schema_version > 0`, `app_version` set).
 
 ## Optional Sentry bake (CI / GHCR)
 

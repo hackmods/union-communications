@@ -24,6 +24,10 @@ export type HealthStatus = {
   postgresConfigured: boolean;
   memoryCaseDataActive: boolean;
   postgresFlipComplete: boolean;
+  /** Max applied Drizzle migration idx from `platform_meta` (null when Postgres off / pre-baseline). */
+  schemaVersion: number | null;
+  /** Applied data-migration pointer from `platform_meta` (null when Postgres off / pre-baseline). */
+  dataVersion: number | null;
   emailEnabled: boolean;
   cronConfigured: boolean;
   mfaEnabled: boolean;
@@ -75,6 +79,8 @@ export function buildHealthStatus(): HealthStatus {
     postgresConfigured: isPostgresConfigured(),
     memoryCaseDataActive: isMemoryCaseDataActive(),
     postgresFlipComplete: isPostgresFlipComplete(),
+    schemaVersion: null,
+    dataVersion: null,
     emailEnabled: process.env.EMAIL_ENABLED === "true",
     cronConfigured: Boolean(process.env.CRON_SECRET?.trim()),
     mfaEnabled: process.env.AUTH_MFA_ENABLED === "true",

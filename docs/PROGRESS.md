@@ -1,5 +1,15 @@
 # Progress Log
 
+## 2026-09-15 — Core setup table + data-migration runner (db maintainer)
+
+DB updates now deploy automatically with a tracked baseline and versioned data upgrades.
+
+- [x] **`platform_meta` core setup table** — single row (`id = 1`, `CHECK` enforced), outside the Drizzle journal: `schema_version`, `app_version`, `data_version`, `applied_migrations`, `min_app_version`, `migrated_at`/`updated_at`. Idempotent baseline via `docker/db-maintain.mjs` (create/alter) so hosts on any schema age converge without replaying 0000–0034.
+- [x] **`docker/db-maintain.mjs` maintainer** — advisory-locked: baseline → DDL `migrate()` → **version gate** (image older than DB schema refuses to boot: "deploy a newer image") → meta upsert → **data migrations** (`src/lib/db/data-migrations/NNNN_*.sql`, `data_version` pointer, per-file transaction, resumable). Wired into `docker/entrypoint.sh` (fail-closed, `MIGRATE_CONTINUE_ON_ERROR` escape preserved).
+- [x] **Data-migration contract** — `N:N:N:_description.sql`, ordered, no `DOWN`; README at `src/lib/db/data-migrations/README.md` (EF `HasData` analog).
+- [x] **Ops surface** — `/api/health` now reports `schemaVersion` / `dataVersion` (from `platform_meta`); `npm run db:maintain` / `db:data-migrate` / `db:baseline`; `ops:verify-durable` runs the maintainer + `platform_meta` role check; `docker-migrate-smoke.sh` + `caprover-verify-migrate.sh` assert the baseline row.
+- [x] Unit tests: `src/lib/db/db-maintain.test.ts` (journal parse, gate, data-migration selection, baseline SQL) + health fields green.
+
 ## 2026-09-16 — Postgres ops: migration journal repair + RLS session context
 
 Production Postgres logs showed recurring `column notes does not exist` (tasks) and `new row violates row-level security policy for table grievances`.

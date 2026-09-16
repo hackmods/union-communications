@@ -50,7 +50,7 @@ fi
 OWNER_URL="postgres://${POSTGRES_USER:-unionops}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-unionops}"
 APP_URL="postgres://unionops_app:${POSTGRES_APP_PASSWORD}@db:5432/${POSTGRES_DB:-unionops}"
 
-echo "[docker-migrate-smoke] running entrypoint migrate against ${NET}…"
+echo "[docker-migrate-smoke] running entrypoint db maintain against ${NET}…"
 LOG_FILE="$(mktemp)"
 trap 'rm -f "${LOG_FILE}"' EXIT
 
@@ -69,8 +69,8 @@ if [[ "${RUN_EXIT}" -ne 0 ]]; then
   exit 1
 fi
 
-if ! grep -q "running drizzle-kit migrate" "${LOG_FILE}"; then
-  echo "[docker-migrate-smoke] missing migrate log line" >&2
+if ! grep -q "running db maintain" "${LOG_FILE}"; then
+  echo "[docker-migrate-smoke] missing db maintain log line" >&2
   exit 1
 fi
 
@@ -79,17 +79,38 @@ if grep -q "migrations folder missing" "${LOG_FILE}"; then
   exit 1
 fi
 
-if ! grep -q "migrate finished" "${LOG_FILE}"; then
+if ! grep -q "migrate ok" "${LOG_FILE}"; then
   echo "[docker-migrate-smoke] migrate did not finish successfully" >&2
   exit 1
 fi
 
-TABLE_COUNT="$(${COMPOSE} exec -T db psql -U "${POSTGRES_USER:-unionops}" -d "${POSTGRES_DB:-unionops}" -tAc \
-  "SELECT count(*) FROM information_schema.tables WHERE table_name = '__drizzle_migrations'")"
-
-if [[ "${TABLE_COUNT}" != "1" ]]; then
-  echo "[docker-migrate-smoke] __drizzle_migrations table missing (got: ${TABLE_COUNT})" >&2
+if ! grep -q "maintain finished" "${LOG_FILE}"; then
+  echo "[docker-migrate-smoke] maintain step did not finish successfully" >&2
   exit 1
 fi
 
-echo "[docker-migrate-smoke] ok — migrations applied via entrypoint"
+JOURNAL_TABLE="$(${COMPOSE} exec -T db psql -U "${POSTGRES_USER:-unionops}" -d "${POSTGRES_DB:-unionops}" -tAc \
+  "SELECT count(*) FROM information_schema.tables WHERE table_name = '__drizzle_migrations'")"
+
+if [[ "${JOURNAL_TABLE}" != "1" ]]; then
+  echo "[docker-migrate-smoke] __drizzle_migrations table missing (got: ${JOURNAL_TABLE})" >&2
+  exit 1
+fi
+
+TABLE_COUNT="$(${COMPOSE} exec -T db psql -U "${POSTGRES_USER:-unionops}" -d "${POSTGRES_DB:-unionops}" -tAc \
+  "SELECT count(*) FROM information_schema.tables WHERE table_name = 'platform_meta'")"
+
+if [[ "${TABLE_COUNT}" != "1" ]]; then
+  echo "[docker-migrate-smoke] platform_meta table missing (got: ${TABLE_COUNT})" >&2
+  exit 1
+fi
+
+META_ROW="$(${COMPOSE} exec -T db psql -U "${POSTGRES_USER:-unionops}" -d "${POSTGRES_DB:-unionops}" -tAc \
+  "SELECT count(*) FROM platform_meta WHERE id = 1 AND schema_version > 0 AND app_version <> ''")"
+
+if [[ "${META_ROW}" != "1" ]]; then
+  echo "[docker-migrate-smoke] platform_meta baseline row missing (got: ${META_ROW})" >&2
+  exit 1
+fi
+
+echo "[docker-migrate-smoke] ok — baseline + migrations applied via entrypoint"

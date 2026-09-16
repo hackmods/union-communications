@@ -67,8 +67,9 @@ function main() {
 
   const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 
-  // drizzle-kit reads DATABASE_URL (owner for DDL)
-  run("db:migrate", npm, ["run", "db:migrate"], {
+  // Full pipeline: baseline (platform_meta) → DDL migrate → version gate → data migration.
+  // db:maintain reads MIGRATE_DATABASE_URL (owner) like the container entrypoint.
+  run("db:maintain", npm, ["run", "db:maintain"], {
     DATABASE_URL: ownerUrl,
     MIGRATE_DATABASE_URL: ownerUrl,
   });
@@ -89,7 +90,30 @@ function main() {
     DATABASE_URL: appUrl,
   });
 
-  console.log("\n[verify-durable] ok — migrate, seed, durability, and RLS smokes passed");
+  // platform_meta must be readable by the runtime app role (unionops_app).
+  const metaCheck = `
+    const { join } = require("node:path");
+    const { createRequire } = require("node:module");
+    const postgres = createRequire(join(process.cwd(), "package.json"))("postgres");
+    (async () => {
+      const sql = postgres(process.env.DATABASE_URL, { max: 1 });
+      try {
+        const rows = await sql\`SELECT schema_version, data_version, app_version FROM platform_meta WHERE id = 1\`;
+        if (!rows.length) throw new Error("platform_meta row missing");
+        const r = rows[0];
+        if (r.schema_version < 1) throw new Error("schema_version not set: " + r.schema_version);
+        if (!r.app_version) throw new Error("app_version not set");
+        console.log("[meta-check] schema_version=" + r.schema_version + " data_version=" + r.data_version + " app_version=" + r.app_version);
+      } finally {
+        await sql.end({ timeout: 5 });
+      }
+    })().catch((e) => { console.error("[meta-check] failed: " + e.message); process.exit(1); });
+  `;
+  run("db:meta-check", process.execPath, ["-e", metaCheck], {
+    DATABASE_URL: appUrl,
+  });
+
+  console.log("\n[verify-durable] ok — baseline, migrate, seed, meta, durability, and RLS smokes passed");
   console.log(
     "[verify-durable] Next: docker compose -f docker-compose.yml -f docker-compose.durable.yml up -d web",
   );

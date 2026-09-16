@@ -23,6 +23,8 @@ describe("buildHealthStatus", () => {
     expect(status.builtAt).toBe("unknown");
     expect(status.backends.GRIEVANCE_DB_BACKEND).toBe("memory");
     expect(status.postgresConfigured).toBe(false);
+    expect(status.schemaVersion).toBeNull();
+    expect(status.dataVersion).toBeNull();
     expect(status.memoryCaseDataActive).toBe(true);
     expect(status.postgresFlipComplete).toBe(false);
     expect(status.emailEnabled).toBe(false);

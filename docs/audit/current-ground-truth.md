@@ -96,7 +96,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 
 ## Sensible next candidates
 
-1. Ops: production hosts still choose Postgres flips + real scanner — see [`docs/guides/POSTGRES_OPS.md`](../guides/POSTGRES_OPS.md). Local verify path shipped: `npm run ops:verify-durable` (migrate → seed → durability → RLS). Overlay: `docker-compose.durable.yml` + `HEALTH_REQUIRE_DURABLE`
+1. Ops: production hosts still choose Postgres flips + real scanner — see [`docs/guides/POSTGRES_OPS.md`](../guides/POSTGRES_OPS.md). Local verify path shipped: `npm run ops:verify-durable` (maintain → seed → durability → RLS → `platform_meta` role check). Overlay: `docker-compose.durable.yml` + `HEALTH_REQUIRE_DURABLE`. DB updates deploy via `docker/db-maintain.mjs` (baseline `platform_meta` → DDL migrate → version gate → data migrations; `db:maintain` locally) — [`session-knowledge-2026-09-15-db-maintain.md`](session-knowledge-2026-09-15-db-maintain.md)
 2. ~~COMMS email/broadcast guide (fifth-channel)~~ — **shipped 2026-07-26** (`/guide/email-broadcast`); train #2 wired home, footer, First week, tools index; **how-to expansion 2026-08-19**
 3. ~~Time **8f** hybrid slice / punch photos~~ — **shipped 2026-07-26** (slice v1.1 + migration `0029_time_8f`)
 4. ~~Optional: canvas tool axe color-contrast on brand-orange previews (6 smoke failures noted 2026-07-25)~~ — **shipped 2026-07-25** (`mutedInkOnBackground`)
