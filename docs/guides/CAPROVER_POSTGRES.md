@@ -59,7 +59,7 @@ Do **not** expose Postgres to the public internet.
 | Setting | Value |
 |---------|-------|
 | **Container HTTP Port** | `3000` (not 80 — wrong port causes NGINX 502) |
-| **Deploy method** | **Prefer** pull `ghcr.io/hackmods/union-communications:main` (avoids BuildKit `unknown parent` on small hosts). Git push / webhook rebuilds on-droplet — see [session-knowledge-2026-08-25-caprover-buildkit.md](../audit/session-knowledge-2026-08-25-caprover-buildkit.md). |
+| **Deploy method** | **Method 3: Use Docker Image** with image `ghcr.io/hackmods/union-communications:main` (avoids BuildKit `unknown parent` and on-droplet next-build OOMs on small hosts). **Do not** leave this on **Method 1: Deploy from GitHub** — even with PR #88 hardening on the **CI `deploy:` job**, the CapRover app-level git webhook fires independently on every push to `main` and runs `docker build` on the droplet, OOM-SIGKILLing at `RUN npm run build`. Switch to Method 3 once and the webhook path is gone. See [session-knowledge-2026-08-25-caprover-buildkit.md](../audit/session-knowledge-2026-08-25-caprover-buildkit.md) and [session-knowledge-2026-09-16-caprover-app-config-drift.md](../audit/session-knowledge-2026-09-16-caprover-app-config-drift.md). |
 
 Paste-ready env template: [`docker/.env.production.example`](../../docker/.env.production.example).
 

@@ -118,6 +118,35 @@ jobs:
           docker tag union-communications:ci "${IMAGE}:sha-${GITHUB_SHA::7}"
           docker push "${IMAGE}:main"
           docker push "${IMAGE}:sha-${GITHUB_SHA::7}"
+      # Verify the GHCR publish ships what we just built. PR #88 only
+      # fails loud on the deploy job when secrets are missing; this
+      # catches stale :main tags (expired token, registry republish
+      # race) before the deploy job rolls them out.
+      - name: Verify GHCR :main tag matches this push
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          SHORT_SHA=${EXPECTED_SHA::7}
+          REPO="${{ github.repository }}"
+          echo "verifying ghcr.io/${REPO}:main points at sha-${SHORT_SHA}"
+          # docker buildx imagetools inspect reads the OCI manifest from
+          # the registry without a full pull and returns the digest under
+          # .[0].digest for single-platform images (UnionOps ships amd64
+          # only). Two image lookups are cheap and a drift here means a
+          # sha tag and the :main tag were pushed from different runs.
+          main_digest="$(docker buildx imagetools inspect "ghcr.io/${REPO}:main" --raw | jq -r '.[0].digest')"
+          sha_digest="$(docker buildx imagetools inspect "ghcr.io/${REPO}:sha-${SHORT_SHA}" --raw | jq -r '.[0].digest')"
+          if [ -z "$main_digest" ] || [ "$main_digest" = "null" ]; then
+            echo "::error::ghcr.io/${REPO}:main returned no digest — publish may have failed silently."
+            exit 1
+          fi
+          if [ "$main_digest" != "$sha_digest" ]; then
+            echo "::error::GHCR drift: :main digest ($main_digest) != :sha-${SHORT_SHA} digest ($sha_digest). Re-run the docker-image job or check GHCR auth."
+            exit 1
+          fi
+          echo "GHCR :main === :sha-${SHORT_SHA} === ${main_digest}"
 
       - name: Build and push production hardened image
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

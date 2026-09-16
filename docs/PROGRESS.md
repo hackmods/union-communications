@@ -1,5 +1,38 @@
 # Progress Log
 
+## 2026-09-16 — Cover the on-droplet rebuild path that PR #88 didn't reach
+
+Production deploy fell off because the unionops CapRover app's
+Deployment Method was on **Method 1: Deploy from GitHub** — every push
+to `main` triggered the CapRover-managed webhook, which ran `docker
+build` on the droplet and OOM-SIGKILLed at `RUN npm run build`. PR #88
+hardens the **CI `deploy:` job** (\`caprover deploy --imageName ...\`),
+which runs in parallel, but could not restrict the independent CapRover
+webhook handler.
+
+- [x] **CI hardening** — `.github/workflows/ci.yml` gained a post-publish
+  verification step ("Verify GHCR :main tag matches this push") that
+  inspects `:main` and `:sha-<7-char>` via `docker buildx imagetools`,
+  fails loud with `::error::` on drift (expired GHCR token, registry
+  republish race, etc.). Catches the case where the image upload silently
+  missed.
+- [x] **Operator docs** — `docs/guides/CAPROVER_POSTGRES.md` row in the
+  UnionOps web-app table now reads `**Method 3: Use Docker Image**`,
+  not just "prefer"; it explains why Method 1 risks OOM-SIGKILL even with
+  PR #88 on the CI side.
+- [x] **Sibling README** — `captain-definition.README.md` (new file,
+  aims at the next person editing `captain-definition`) explains that
+  the file is consulted only on Method 1 and recommends Method 3 with
+  GHCR pull.
+- [x] **Audit** — [`session-knowledge-2026-09-16-caprover-app-config-drift.md`](audit/session-knowledge-2026-09-16-caprover-app-config-drift.md)
+  with 4 lessons (L-α: two independent deploy paths; L-β: operator
+  config is invisible in CI; L-γ: verify registry state BEFORE deploy;
+  L-δ: Method 1 + Dockerfile path is the OOM default).
+- Action items (operator): CapRover UI → `unionops` app → Deployment →
+  Method 3 `Use Docker Image` with image
+  `ghcr.io/hackmods/union-communications:main`. Once flipped, the
+  webhook path is dead and CI's pull path rules.
+
 ## 2026-09-16 — NOTICE noise suppression on db-maintain connection
 
 Production was reporting `severity: 'NOTICE'` lines from Drizzle's
