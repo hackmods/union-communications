@@ -60,6 +60,42 @@ function loadDep(name) {
   return createRequire(join(migrateDir(), "package.json"))(name);
 }
 
+/**
+ * Open a postgres.js connection that does not pollute production logs with
+ * NOTICE severity lines. The most common offender on a re-boot is Drizzle's
+ * bookkeeping CREATE TABLE IF NOT EXISTS — Postgres emits code 42P07
+ * (`duplicate_table`) as a NOTICE with the message
+ * `relation "__drizzle_migrations" already exists, skipping`. Log aggregators
+ * tend to conflate the JSON notice payload with errors; the maintainer
+ * routes around that by silencing the onnotice callback in production and
+ * surfacing notices via console.warn in debug mode.
+ *
+ * @param {Function} postgres `require("postgres")` callable
+ * @param {string} url owner URL
+ * @returns {{ sql: ReturnType<typeof postgres> }}
+ */
+function openSqlWithQuietNotices(postgres, url) {
+  if (CONTINUE_ON_ERROR) {
+    // Debug runs: surface every notice via console.warn so the operator sees it.
+    return postgres(url, {
+      max: 1,
+      connect_timeout: 15,
+      onnotice: (notice) => {
+        warn(`notice: ${notice.message ?? JSON.stringify(notice)}`);
+      },
+    });
+  }
+  // Production-safe path: postgres.js `onnotice: false` per
+  // node_modules/postgres/README.md:998 ("Default console.log, set false
+  // to silence NOTICE"). Boot keeps going — these notices never block —
+  // we just stop letting them fan out to stdout.
+  return postgres(url, {
+    max: 1,
+    connect_timeout: 15,
+    onnotice: false,
+  });
+}
+
 function log(...args) {
   console.log(`[db-maintain] ${args.join(" ")}`);
 }
@@ -339,7 +375,15 @@ export async function runMaintain(opts = {}) {
   }
 
   const postgres = loadDep("postgres");
-  const sql = postgres(url, { max: 1, connect_timeout: 15 });
+  // postgres.js defaults to `console.log` for NOTICE severities (see
+  // node_modules/postgres/README.md:998). That surfaces `CREATE TABLE IF
+  // NOT EXISTS drizzle.__drizzle_migrations already exists, skipping` as a
+  // JSON notice on every boot after the first successful migrate. Boot
+  // keeps going — the message is informational, code 42P07 — but log
+  // aggregators tend to alarm on severity "NOTICE" when collectors
+  // conflate JSON notice lines with errors. See openSqlWithQuietNotices
+  // for the suppression policy.
+  const sql = openSqlWithQuietNotices(postgres, url);
   log(`connecting as owner role (${command})`);
 
   try {

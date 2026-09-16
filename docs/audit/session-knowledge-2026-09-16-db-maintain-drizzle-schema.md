@@ -134,14 +134,67 @@ This guards the next change from re-introducing the same bug.
   stack — see `.github/workflows/ci*.yml` for `docker-migrate-smoke` job
   wiring.
 
-## 7. Hand-off
+## 7. Follow-up — NOTICE fanout on re-boot (2026-09-16 evening)
+
+Production logs are showing:
+
+```
+severity_local: 'NOTICE'
+severity: 'NOTICE'
+code: '42P07'
+message: 'relation "__drizzle_migrations" already exists, skipping'
+file: 'parse_utilcmd.c'
+line: '207'
+routine: 'transformCreateStmt'
+```
+
+**Diagnosis.** This is the same NOTICE Postgres emits when `CREATE TABLE IF
+NOT EXISTS` finds an existing table. It is **not** an error — boot continues.
+The most common offender on a re-boot is Drizzle's bookkeeping CREATE
+(`drizzle-orm/pg-core/dialect.cjs` line 50: `CREATE TABLE IF NOT EXISTS
+drizzle.__drizzle_migrations`). Postgres echoes it as a NOTICE on every
+boot where the bookkeeping table already exists; postgres.js then propagates
+the notice via `console.log` because the default `onnotice` handler is
+`console.log`. JSON collectors that key off severity non-empty fields then
+flag it as an "error".
+
+**Fix.** `docker/db-maintain.mjs` now opens the postgres.js connection via
+`openSqlWithQuietNotices(postgres, url)`:
+
+- Production (default): passes `onnotice: false` per postgres.js README
+  ("Default console.log, set false to silence NOTICE"). Notices never
+  reach stdout; boot log stays clean.
+- Debug (`MIGRATE_CONTINUE_ON_ERROR=true`): maps `onnotice` to a
+  `console.warn` so dev captures still observe every notice. Useful when
+  investigating a slow migration path without committing to full debug.
+
+**Lessons (L7 + L8)**
+
+- **L7 — `severity: 'NOTICE'` is not an error.** Postgres severities are
+  hierarchical: DEBUG < INFO < NOTICE < LOG < WARNING < ERROR < FATAL
+  < PANIC. Treating NOTICE as an error masks the genuine
+  WARNING/ERROR levels. Configure log aggregators to filter below NOTICE,
+  or filter at the source via the postgres.js `onnotice` option.
+- **L8 — Suppress notice fanout at the producer, not the consumer.**
+  Sentry, JSONL, and stderr all pick up everything postgres.js surfaces,
+  including `CREATE TABLE IF NOT EXISTS already exists, skipping` noise
+  that exists only because Drizzle's bookkeeping statement runs on every
+  boot. Setting `onnotice: false` once in the maintainer is cleaner than
+  asking every downstream collector to learn that single filter.
+
+## 8. Hand-off
 
 - Anyone editing `docker/db-maintain.mjs` after this: keep the
-  `information_schema` probe + schema-qualified count. The stub test fails
-  loudly on the bare-name regression.
+  `information_schema` probe + schema-qualified count **and** the
+  `openSqlWithQuietNotices` policy. The stub test fails loudly on the
+  bare-name regression; the onnotice suppression is task-of-record.
 - Anyone bumping `drizzle-orm` past 0.45.x: re-run the smoke locally
   before pushing. `pg-core/dialect.cjs` `migrationsSchema` default is the
   blast radius.
 - Anyone migrating to a different Drizzle driver (e.g. neon-http): the
   bookkeeping schema may again differ. Add a new test variant for that
   driver before merging.
+- Operators of alerting/observability tooling: NOTICE-level Postgres
+  messages are not actionable; configure severity thresholders to ignore
+  them on ingest (see [`docs/modules/OBSERVABILITY.md`](../modules/OBSERVABILITY.md)).
+  The maintainer now also drops them at source so this is belt + braces.

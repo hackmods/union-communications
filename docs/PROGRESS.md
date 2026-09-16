@@ -1,5 +1,24 @@
 # Progress Log
 
+## 2026-09-16 — NOTICE noise suppression on db-maintain connection
+
+Production was reporting `severity: 'NOTICE'` lines from Drizzle's
+bookkeeping `CREATE TABLE IF NOT EXISTS drizzle.__drizzle_migrations ...`
+running on every re-boot. postgres.js defaults `onnotice` to `console.log`,
+so the JSON notice fanned out to stdout. Severity `NOTICE` is **not** an
+error — Postgres ordering is DEBUG < INFO < NOTICE < LOG < WARNING <
+ERROR < FATAL < PANIC — but log aggregators treated it as actionable.
+
+- [x] **`openSqlWithQuietNotices(postgres, url)`** in `docker/db-maintain.mjs`.
+  Production passes `onnotice: false` (postgres.js README: "set false to
+  silence NOTICE"). Debug mode (`MIGRATE_CONTINUE_ON_ERROR=true`) maps
+  `onnotice` to a `console.warn` so dev still sees the notice stream.
+- [x] **Doctor notes** — `docs/audit/session-knowledge-2026-09-16-db-maintain-drizzle-schema.md`
+  extended with §7 follow-up (L7 NOTICE severity isn't actionable;
+  L8 suppress at producer, not consumer).
+- Verification: `npx tsc --noEmit` clean, `npm run lint` clean,
+  `npm run test:unit` 1977 passed, 1 skipped, 0 failed across 310 files.
+
 ## 2026-09-16 — `docker-migrate-smoke` schema-aware bookkeeping fix
 
 The CI job failed with `relation __drizzle_migrations does not exist` right
