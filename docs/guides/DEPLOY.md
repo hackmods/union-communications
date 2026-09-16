@@ -132,11 +132,11 @@ Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_
 | `NEXT_PUBLIC_OFFICER_HUB_PUBLIC` | `true` (Docker soft-launch default) |
 | `NEXT_PUBLIC_DEMO_SITE` | `true` on demo hosts; `false` for live tenants. Bake at **build** time (login hint). The runner image also sets `AUTH_ALLOW_DEMO_USERS` to the same value so production `authorize()` matches the hint. |
 
-3. Deploy via CapRover git push / webhook, or pull the GHCR tag if your CapRover setup uses a registry image.
+3. Deploy via a **pre-built GHCR image pull** (CapRover Method 3, or set `CAPROVER_SERVER`/`CAPROVER_PASSWORD`/`CAPROVER_APP` so CI pushes it). On-host git push/webhook rebuilds `next build` on the droplet and OOM-SIGKILL on small hosts — avoid them.
 4. Health check: `GET /api/health`.
 5. **Public `unionops.org` host:** point the installable origin at apex `https://unionops.org`. Set `AUTH_URL=https://unionops.org` (same origin). Until `www` serves this app (or 301s to apex) with a trusted certificate, leave `www` off the PWA service-worker allowlist (`src/lib/pwa/hosts.ts`). After deploy, spot-check `curl -sI https://unionops.org/examples/` — `Location` must stay on `unionops.org`, not the CapRover hostname.
 
-CI on `main` can POST `CAPROVER_WEBHOOK_URL` (GitHub Actions secret) after tests pass.
+CI on `main` deploys the pre-built image when `CAPROVER_SERVER`/`CAPROVER_PASSWORD`/`CAPROVER_APP` (GitHub Actions secrets) are set; otherwise the `deploy` job fails loud rather than triggering the OOM-prone `CAPROVER_WEBHOOK_URL` git rebuild.
 
 ## Hybrid backups
 
