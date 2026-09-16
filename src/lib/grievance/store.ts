@@ -1,4 +1,5 @@
 import { grievanceDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { GrievanceAdapter } from "./adapter";
 import { DrizzleGrievanceAdapter } from "./drizzle-adapter";
 import { MemoryGrievanceAdapter } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getGrievanceStore(): GrievanceAdapter {
   if (!store) {
     store =
       grievanceDbBackend() === "postgres"
-        ? new DrizzleGrievanceAdapter()
+        ? withTenantRlsScope(new DrizzleGrievanceAdapter())
         : new MemoryGrievanceAdapter();
   }
   return store;

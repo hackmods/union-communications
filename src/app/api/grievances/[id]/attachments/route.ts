@@ -5,6 +5,8 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
+import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { attachmentStore } from "@/lib/attachments/store";
 import { grievanceStore } from "@/lib/grievance/store";
 
@@ -18,12 +20,16 @@ export async function GET(_request: Request, { params }: Params) {
       { status: authResult.status },
     );
   }
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await params;
-  const data = await grievanceStore.getById(id);
-  if (!data || !assertGrievanceView(authResult.session, data.grievance)) {
+  const data = await withRlsContext(rls, () => grievanceStore.getById(id));
+  if (!data || !assertGrievanceView(session, data.grievance)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  const attachments = await attachmentStore.listForGrievance(id);
+  const attachments = await withRlsContext(rls, () =>
+    attachmentStore.listForGrievance(id),
+  );
   return NextResponse.json({ attachments });
 }
 
@@ -35,9 +41,11 @@ export async function POST(request: Request, { params }: Params) {
       { status: authResult.status },
     );
   }
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await params;
-  const data = await grievanceStore.getById(id);
-  if (!data || !assertGrievanceEdit(authResult.session, data.grievance)) {
+  const data = await withRlsContext(rls, () => grievanceStore.getById(id));
+  if (!data || !assertGrievanceEdit(session, data.grievance)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
@@ -60,20 +68,24 @@ export async function POST(request: Request, { params }: Params) {
     );
   }
 
-  const result = await attachmentStore.createForGrievance(
-    id,
-    {
-      fileName: body.fileName,
-      mimeType: body.mimeType,
-      sizeBytes: body.sizeBytes,
-      contentBase64: body.contentBase64,
-    },
-    {
-      unionId: data.grievance.unionId,
-      localId: data.grievance.localId,
-      bargainingUnitId: data.grievance.bargainingUnitId,
-      uploadedById: authResult.session.user.id,
-    },
+  const { fileName, mimeType, sizeBytes, contentBase64 } = body;
+
+  const result = await withRlsContext(rls, () =>
+    attachmentStore.createForGrievance(
+      id,
+      {
+        fileName,
+        mimeType,
+        sizeBytes,
+        contentBase64,
+      },
+      {
+        unionId: data.grievance.unionId,
+        localId: data.grievance.localId,
+        bargainingUnitId: data.grievance.bargainingUnitId,
+        uploadedById: session.user.id,
+      },
+    ),
   );
 
   if (result.error || !result.attachment) {
@@ -84,7 +96,7 @@ export async function POST(request: Request, { params }: Params) {
   }
 
   await auditLog.log({
-    userId: authResult.session.user.id,
+    userId: session.user.id,
     action: "grievance.attachment_upload",
     resourceType: "attachment",
     resourceId: result.attachment.id,

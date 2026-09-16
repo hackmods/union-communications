@@ -1,5 +1,15 @@
 # Progress Log
 
+## 2026-09-16 — Postgres ops: migration journal repair + RLS session context
+
+Production Postgres logs showed recurring `column notes does not exist` (tasks) and `new row violates row-level security policy for table grievances`.
+
+- [x] **Migration journal repair** — `meta/_journal.json` was missing entries `0027_hub_social`, `0028_time_full8`, `0029_time_8f` (idx 27–29 were overwritten by later commits); restored so `drizzle-kit migrate` applies them (`tasks.notes`/mentions/reactions/`updated_at`, Phase 8 time tables, punch-photo columns). Run `npm run db:migrate` (owner URL) or redeploy so the entrypoint migrates.
+- [x] **RLS session context helper** — `withRlsContext(ctx, fn)` in `src/lib/db/rls-context.ts` runs a tenant-scoped op in a transaction with `SET LOCAL app.current_*`; `getDb()` returns that transaction via `AsyncLocalStorage` (`src/lib/db/client.ts`), so nested adapter queries share one tenant-scoped connection. Memory mode is a pass-through.
+- [x] **Store-level auto-scope** — `withTenantRlsScope` (`src/lib/db/rls-store.ts`) wraps every Postgres-backed store so `list(filters)` / `create(input, meta)` / `importLocalSlice(...)` run under the derived tenant scope (grievance, tasks, bumping, time, discussions, attachments, documents, informal-log, minutes, ledger, officers, travel, expenses, committees, elections, polls, meetings, check-ins, officer-learning, platform-feedback).
+- [x] **By-id routes** for grievances + tasks wrap store calls in `withRlsContext(rlsContextForSession(session), ...)`; new `src/lib/auth/rls-scope.ts` derives union/local/cross-local scope from the session (cross-local for union/division/platform admins).
+- [x] Unit tests: `rls-scope.test.ts`, `rls-store.test.ts` (pass-through memory mode). Full `test:unit` green (306/307 files; the failure is a pre-existing network-dependent `csv-to-xlsx` fetch test).
+
 ## 2026-09-14 — Org Chart fits extra people
 
 - [x] Density scale from roster load (not 850/306) + measure-and-fit so extra bands are not clipped

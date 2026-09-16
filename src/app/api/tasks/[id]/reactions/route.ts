@@ -4,6 +4,8 @@ import {
   assertTaskView,
   requireTaskSession,
 } from "@/lib/auth/task-session";
+import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { taskStore } from "@/lib/tasks/store";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { toggleHubReactionSchema } from "@/lib/validation/discussions";
@@ -19,12 +21,14 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const existing = await taskStore.getById(id);
+  const existing = await withRlsContext(rls, () => taskStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  if (!assertTaskView(authResult.session, existing)) {
+  if (!assertTaskView(session, existing)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -43,17 +47,15 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
 
-  const task = await taskStore.toggleReaction(
-    id,
-    parsed.data.kind,
-    authResult.session.user.id,
+  const task = await withRlsContext(rls, () =>
+    taskStore.toggleReaction(id, parsed.data.kind, session.user.id),
   );
   if (!task) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   await auditLog.log({
-    userId: authResult.session.user.id,
+    userId: session.user.id,
     action: "task.reaction",
     resourceType: "task",
     resourceId: id,

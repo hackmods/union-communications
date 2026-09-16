@@ -1,4 +1,5 @@
 import { checkinsDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { CheckinsAdapter } from "./adapter";
 import { DrizzleCheckinsAdapter } from "./drizzle-adapter";
 import { memoryCheckinsStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getCheckinsStore(): CheckinsAdapter {
   if (!store) {
     store =
       checkinsDbBackend() === "postgres"
-        ? new DrizzleCheckinsAdapter()
+        ? withTenantRlsScope(new DrizzleCheckinsAdapter())
         : memoryCheckinsStore;
   }
   return store;

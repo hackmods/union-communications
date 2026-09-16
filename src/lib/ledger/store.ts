@@ -1,4 +1,5 @@
 import { ledgerDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { LedgerAdapter } from "./adapter";
 import { DrizzleLedgerAdapter } from "./drizzle-adapter";
 import { memoryLedgerStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getLedgerStore(): LedgerAdapter {
   if (!store) {
     store =
       ledgerDbBackend() === "postgres"
-        ? new DrizzleLedgerAdapter()
+        ? withTenantRlsScope(new DrizzleLedgerAdapter())
         : memoryLedgerStore;
   }
   return store;

@@ -1,4 +1,5 @@
 import { electionsDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { ElectionsAdapter } from "./adapter";
 import { DrizzleElectionsAdapter } from "./drizzle-adapter";
 import { memoryElectionsStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getElectionsStore(): ElectionsAdapter {
   if (!store) {
     store =
       electionsDbBackend() === "postgres"
-        ? new DrizzleElectionsAdapter()
+        ? withTenantRlsScope(new DrizzleElectionsAdapter())
         : memoryElectionsStore;
   }
   return store;

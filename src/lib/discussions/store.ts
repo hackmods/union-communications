@@ -1,4 +1,5 @@
 import { discussionsDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { DiscussionsAdapter } from "./adapter";
 import { DrizzleDiscussionsAdapter } from "./drizzle-adapter";
 import { memoryDiscussionsStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getDiscussionsStore(): DiscussionsAdapter {
   if (!store) {
     store =
       discussionsDbBackend() === "postgres"
-        ? new DrizzleDiscussionsAdapter()
+        ? withTenantRlsScope(new DrizzleDiscussionsAdapter())
         : memoryDiscussionsStore;
   }
   return store;

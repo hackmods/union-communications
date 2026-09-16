@@ -4,6 +4,8 @@ import {
   assertGrievanceEdit,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
+import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { grievanceStore } from "@/lib/grievance/store";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -17,13 +19,14 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const existing = await grievanceStore.getById(id);
+  const existing = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const { session } = authResult;
   if (!assertGrievanceEdit(session, existing.grievance)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -33,13 +36,15 @@ export async function POST(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "body is required" }, { status: 400 });
   }
 
-  const note = await grievanceStore.addNote(
-    id,
-    { body: body.body.trim() },
-    {
-      authorId: session.user.id,
-      authorName: session.user.name ?? session.user.email ?? "Officer",
-    },
+  const note = await withRlsContext(rls, () =>
+    grievanceStore.addNote(
+      id,
+      { body: body.body.trim() },
+      {
+        authorId: session.user.id,
+        authorName: session.user.name ?? session.user.email ?? "Officer",
+      },
+    ),
   );
 
   if (!note) {

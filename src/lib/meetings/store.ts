@@ -1,4 +1,5 @@
 import { meetingsDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { MeetingsAdapter } from "./adapter";
 import { DrizzleMeetingsAdapter } from "./drizzle-adapter";
 import { MemoryMeetingsAdapter } from "./memory-adapter";
@@ -9,7 +10,7 @@ export function getMeetingsStore(): MeetingsAdapter {
   if (!store) {
     store =
       meetingsDbBackend() === "postgres"
-        ? new DrizzleMeetingsAdapter()
+        ? withTenantRlsScope(new DrizzleMeetingsAdapter())
         : new MemoryMeetingsAdapter();
   }
   return store;

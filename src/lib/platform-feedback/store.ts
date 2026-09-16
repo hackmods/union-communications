@@ -1,4 +1,5 @@
 import { feedbackDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { PlatformFeedbackAdapter } from "./adapter";
 import { DrizzlePlatformFeedbackAdapter } from "./drizzle-adapter";
 import { memoryPlatformFeedbackStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getPlatformFeedbackStore(): PlatformFeedbackAdapter {
   if (!store) {
     store =
       feedbackDbBackend() === "postgres"
-        ? new DrizzlePlatformFeedbackAdapter()
+        ? withTenantRlsScope(new DrizzlePlatformFeedbackAdapter())
         : memoryPlatformFeedbackStore;
   }
   return store;

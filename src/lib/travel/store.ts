@@ -1,4 +1,5 @@
 import { travelDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { TravelAdapter } from "./adapter";
 import { DrizzleTravelAdapter } from "./drizzle-adapter";
 import { memoryTravelStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getTravelStore(): TravelAdapter {
   if (!store) {
     store =
       travelDbBackend() === "postgres"
-        ? new DrizzleTravelAdapter()
+        ? withTenantRlsScope(new DrizzleTravelAdapter())
         : memoryTravelStore;
   }
   return store;

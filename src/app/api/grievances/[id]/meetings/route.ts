@@ -5,6 +5,8 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
+import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { buildIcsEvent } from "@/lib/calendar/ics";
 import { grievanceStore } from "@/lib/grievance/store";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
@@ -20,16 +22,18 @@ export async function GET(_request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const data = await grievanceStore.getById(id);
+  const data = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!data) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  if (!assertGrievanceView(authResult.session, data.grievance)) {
+  if (!assertGrievanceView(session, data.grievance)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const meetings = await grievanceStore.listMeetings(id);
+  const meetings = await withRlsContext(rls, () => grievanceStore.listMeetings(id));
   return NextResponse.json({ meetings });
 }
 
@@ -42,12 +46,14 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const data = await grievanceStore.getById(id);
+  const data = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!data) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  if (!assertGrievanceEdit(authResult.session, data.grievance)) {
+  if (!assertGrievanceEdit(session, data.grievance)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -60,15 +66,16 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
 
-  const { session } = authResult;
-  const meeting = await grievanceStore.addMeeting(
-    id,
-    { title, startsAt, endsAt, location, description },
-    {
-      unionId: data.grievance.unionId,
-      localId: data.grievance.localId,
-      createdById: session.user.id,
-    },
+  const meeting = await withRlsContext(rls, () =>
+    grievanceStore.addMeeting(
+      id,
+      { title, startsAt, endsAt, location, description },
+      {
+        unionId: data.grievance.unionId,
+        localId: data.grievance.localId,
+        createdById: session.user.id,
+      },
+    ),
   );
 
   if (!meeting) {

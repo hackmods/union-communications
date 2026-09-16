@@ -1,4 +1,5 @@
 import { minutesDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { MinutesAdapter } from "./adapter";
 import { DrizzleMinutesAdapter } from "./drizzle-adapter";
 import { memoryMinutesStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getMinutesStore(): MinutesAdapter {
   if (!store) {
     store =
       minutesDbBackend() === "postgres"
-        ? new DrizzleMinutesAdapter()
+        ? withTenantRlsScope(new DrizzleMinutesAdapter())
         : memoryMinutesStore;
   }
   return store;

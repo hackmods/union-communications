@@ -7,6 +7,8 @@ import {
   assertTaskView,
   requireTaskSession,
 } from "@/lib/auth/task-session";
+import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { taskStore } from "@/lib/tasks/store";
 import { notifyMentionedUsers, resolveMentionedUserIds } from "@/lib/hub/mention-notify";
 import { parseJsonBody } from "@/lib/validation/parse";
@@ -23,12 +25,14 @@ export async function GET(_request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const task = await taskStore.getById(id);
+  const task = await withRlsContext(rls, () => taskStore.getById(id));
   if (!task) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  if (!assertTaskView(authResult.session, task)) {
+  if (!assertTaskView(session, task)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -44,12 +48,14 @@ export async function PATCH(request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const existing = await taskStore.getById(id);
+  const existing = await withRlsContext(rls, () => taskStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  if (!assertTaskView(authResult.session, existing)) {
+  if (!assertTaskView(session, existing)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -72,44 +78,46 @@ export async function PATCH(request: Request, context: RouteContext) {
     input.relatedGrievanceId !== undefined ||
     input.relatedBumpingCaseId !== undefined;
 
-  if (touchesAssignment && !assertTaskMutateAssignment(authResult.session, existing)) {
+  if (touchesAssignment && !assertTaskMutateAssignment(session, existing)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
-  if (touchesFields && !assertTaskEditFields(authResult.session, existing)) {
+  if (touchesFields && !assertTaskEditFields(session, existing)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const updated = await taskStore.update(id, {
-    ...input,
-    ...(input.notes !== undefined
-      ? {
-          mentionedUserIds: await resolveMentionedUserIds(
-            [existing.title, input.notes ?? ""].join("\n"),
-            {
-              unionId: existing.unionId,
-              localId: existing.localId,
-              accessibleLocalIds:
-                authResult.session.user.accessibleLocalIds ?? undefined,
-            },
-          ),
-        }
-      : {}),
-  });
+  const updated = await withRlsContext(rls, async () =>
+    taskStore.update(id, {
+      ...input,
+      ...(input.notes !== undefined
+        ? {
+            mentionedUserIds: await resolveMentionedUserIds(
+              [existing.title, input.notes ?? ""].join("\n"),
+              {
+                unionId: existing.unionId,
+                localId: existing.localId,
+                accessibleLocalIds:
+                  session.user.accessibleLocalIds ?? undefined,
+              },
+            ),
+          }
+        : {}),
+    }),
+  );
 
   if (input.notes && updated) {
     await notifyMentionedUsers({
       body: input.notes,
-      authorId: authResult.session.user.id,
+      authorId: session.user.id,
       unionId: existing.unionId,
       localId: existing.localId,
       accessibleLocalIds:
-        authResult.session.user.accessibleLocalIds ?? undefined,
+        session.user.accessibleLocalIds ?? undefined,
       source: "task",
       sourceId: id,
     });
   }
   await auditLog.log({
-    userId: authResult.session.user.id,
+    userId: session.user.id,
     action: "task.update",
     resourceType: "task",
     resourceId: id,
@@ -129,18 +137,20 @@ export async function DELETE(_request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const existing = await taskStore.getById(id);
+  const existing = await withRlsContext(rls, () => taskStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  if (!assertTaskDelete(authResult.session, existing)) {
+  if (!assertTaskDelete(session, existing)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  await taskStore.remove(id);
+  await withRlsContext(rls, () => taskStore.remove(id));
   await auditLog.log({
-    userId: authResult.session.user.id,
+    userId: session.user.id,
     action: "task.delete",
     resourceType: "task",
     resourceId: id,

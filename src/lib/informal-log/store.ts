@@ -1,4 +1,5 @@
 import { informalLogDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { InformalLogAdapter } from "./adapter";
 import { DrizzleInformalLogAdapter } from "./drizzle-adapter";
 import { memoryInformalLogStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getInformalLogStore(): InformalLogAdapter {
   if (!store) {
     store =
       informalLogDbBackend() === "postgres"
-        ? new DrizzleInformalLogAdapter()
+        ? withTenantRlsScope(new DrizzleInformalLogAdapter())
         : memoryInformalLogStore;
   }
   return store;

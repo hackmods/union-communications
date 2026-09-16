@@ -4,6 +4,8 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
+import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { isDownloadAllowed } from "@/lib/attachments/scan";
 import { attachmentStore } from "@/lib/attachments/store";
 import { grievanceStore } from "@/lib/grievance/store";
@@ -19,13 +21,17 @@ export async function GET(_request: Request, { params }: Params) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id, attachmentId } = await params;
-  const data = await grievanceStore.getById(id);
-  if (!data || !assertGrievanceView(authResult.session, data.grievance)) {
+  const data = await withRlsContext(rls, () => grievanceStore.getById(id));
+  if (!data || !assertGrievanceView(session, data.grievance)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const attachment = await attachmentStore.getById(attachmentId);
+  const attachment = await withRlsContext(rls, () =>
+    attachmentStore.getById(attachmentId),
+  );
   if (!attachment || attachment.grievanceId !== id) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -46,7 +52,7 @@ export async function GET(_request: Request, { params }: Params) {
   }
 
   await auditLog.log({
-    userId: authResult.session.user.id,
+    userId: session.user.id,
     action: "grievance.attachment_download",
     resourceType: "attachment",
     resourceId: attachment.id,

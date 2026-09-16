@@ -5,6 +5,8 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
+import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { grievanceStore } from "@/lib/grievance/store";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { createGrievanceOutcomeSchema } from "@/lib/validation/grievance";
@@ -20,18 +22,19 @@ export async function GET(_request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const existing = await grievanceStore.getById(id);
+  const existing = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const { session } = authResult;
   if (!assertGrievanceView(session, existing.grievance)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const outcome = await grievanceStore.getOutcome(id);
+  const outcome = await withRlsContext(rls, () => grievanceStore.getOutcome(id));
   return NextResponse.json({ outcome });
 }
 
@@ -44,13 +47,14 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const existing = await grievanceStore.getById(id);
+  const existing = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const { session } = authResult;
   if (!assertGrievanceEdit(session, existing.grievance)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -64,9 +68,11 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
 
-  const outcome = await grievanceStore.recordOutcome(id, parsed.data, {
-    recordedById: session.user.id,
-  });
+  const outcome = await withRlsContext(rls, () =>
+    grievanceStore.recordOutcome(id, parsed.data, {
+      recordedById: session.user.id,
+    }),
+  );
   if (!outcome) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }

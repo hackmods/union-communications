@@ -1,4 +1,5 @@
 import { attachmentsDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { AttachmentAdapter } from "./adapter";
 import { DrizzleAttachmentAdapter } from "./drizzle-adapter";
 import { MemoryAttachmentAdapter } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getAttachmentStore(): AttachmentAdapter {
   if (!store) {
     store =
       attachmentsDbBackend() === "postgres"
-        ? new DrizzleAttachmentAdapter()
+        ? withTenantRlsScope(new DrizzleAttachmentAdapter())
         : new MemoryAttachmentAdapter();
   }
   return store;

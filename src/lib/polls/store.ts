@@ -1,4 +1,5 @@
 import { pollsDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { PollsAdapter } from "./adapter";
 import { DrizzlePollsAdapter } from "./drizzle-adapter";
 import { memoryPollsStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getPollsStore(): PollsAdapter {
   if (!store) {
     store =
       pollsDbBackend() === "postgres"
-        ? new DrizzlePollsAdapter()
+        ? withTenantRlsScope(new DrizzlePollsAdapter())
         : memoryPollsStore;
   }
   return store;

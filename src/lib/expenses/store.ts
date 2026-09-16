@@ -1,4 +1,5 @@
 import { expensesDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { ExpenseAdapter } from "./adapter";
 import { DrizzleExpenseAdapter } from "./drizzle-adapter";
 import { memoryExpenseStore } from "./memory-adapter";
@@ -9,7 +10,7 @@ export function getExpenseStore(): ExpenseAdapter {
   if (!store) {
     store =
       expensesDbBackend() === "postgres"
-        ? new DrizzleExpenseAdapter()
+        ? withTenantRlsScope(new DrizzleExpenseAdapter())
         : memoryExpenseStore;
   }
   return store;

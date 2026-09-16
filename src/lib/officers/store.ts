@@ -1,4 +1,5 @@
 import { officersDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { OfficerRosterAdapter } from "./adapter";
 import { DrizzleOfficerRosterAdapter } from "./drizzle-adapter";
 import { memoryOfficerRosterStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getOfficerRosterStore(): OfficerRosterAdapter {
   if (!store) {
     store =
       officersDbBackend() === "postgres"
-        ? new DrizzleOfficerRosterAdapter()
+        ? withTenantRlsScope(new DrizzleOfficerRosterAdapter())
         : memoryOfficerRosterStore;
   }
   return store;

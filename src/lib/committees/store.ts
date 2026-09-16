@@ -1,4 +1,5 @@
 import { committeesDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { CommitteesAdapter } from "./adapter";
 import { DrizzleCommitteesAdapter } from "./drizzle-adapter";
 import { memoryCommitteesStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getCommitteesStore(): CommitteesAdapter {
   if (!store) {
     store =
       committeesDbBackend() === "postgres"
-        ? new DrizzleCommitteesAdapter()
+        ? withTenantRlsScope(new DrizzleCommitteesAdapter())
         : memoryCommitteesStore;
   }
   return store;

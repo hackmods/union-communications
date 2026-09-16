@@ -5,6 +5,8 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
+import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { grievanceStore } from "@/lib/grievance/store";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -18,16 +20,20 @@ export async function GET(_request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const data = await grievanceStore.getById(id);
+  const data = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!data) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  if (!assertGrievanceView(authResult.session, data.grievance)) {
+  if (!assertGrievanceView(session, data.grievance)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const communications = await grievanceStore.listCommunications(id);
+  const communications = await withRlsContext(rls, () =>
+    grievanceStore.listCommunications(id),
+  );
   return NextResponse.json({ communications });
 }
 
@@ -40,12 +46,14 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const data = await grievanceStore.getById(id);
+  const data = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!data) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  if (!assertGrievanceEdit(authResult.session, data.grievance)) {
+  if (!assertGrievanceEdit(session, data.grievance)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -58,16 +66,17 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
 
-  const { session } = authResult;
-  const entry = await grievanceStore.addCommunication(
-    id,
-    { channel, direction, summary, occurredAt },
-    {
-      unionId: data.grievance.unionId,
-      localId: data.grievance.localId,
-      loggedById: session.user.id,
-      loggedByName: session.user.name ?? session.user.email ?? "Officer",
-    },
+  const entry = await withRlsContext(rls, () =>
+    grievanceStore.addCommunication(
+      id,
+      { channel, direction, summary, occurredAt },
+      {
+        unionId: data.grievance.unionId,
+        localId: data.grievance.localId,
+        loggedById: session.user.id,
+        loggedByName: session.user.name ?? session.user.email ?? "Officer",
+      },
+    ),
   );
 
   await auditLog.log({

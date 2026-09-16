@@ -1,4 +1,5 @@
 import { tasksDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { TaskAdapter } from "./adapter";
 import { DrizzleTaskAdapter } from "./drizzle-adapter";
 import { memoryTaskStore } from "./memory-adapter";
@@ -10,7 +11,7 @@ export function getTaskStore(): TaskAdapter {
   if (!store) {
     store =
       tasksDbBackend() === "postgres"
-        ? new DrizzleTaskAdapter()
+        ? withTenantRlsScope(new DrizzleTaskAdapter())
         : memoryTaskStore;
   }
   return store;

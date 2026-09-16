@@ -5,6 +5,8 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
+import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { grievanceStore } from "@/lib/grievance/store";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { getCurrentStepDueDate, isOverdue } from "@/lib/grievance/deadlines";
@@ -23,13 +25,13 @@ export async function GET(_request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const data = await grievanceStore.getById(id);
+  const data = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!data) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-
-  const { session } = authResult;
   if (!assertGrievanceView(session, data.grievance)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -74,13 +76,14 @@ export async function PATCH(request: Request, context: RouteContext) {
     );
   }
 
+  const { session } = authResult;
+  const rls = rlsContextForSession(session) ?? {};
   const { id } = await context.params;
-  const existing = await grievanceStore.getById(id);
+  const existing = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const { session } = authResult;
   if (!assertGrievanceEdit(session, existing.grievance)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -94,7 +97,9 @@ export async function PATCH(request: Request, context: RouteContext) {
     );
   }
 
-  const updated = await grievanceStore.update(id, parsed.data);
+  const updated = await withRlsContext(rls, () =>
+    grievanceStore.update(id, parsed.data),
+  );
   if (!updated) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -103,20 +108,24 @@ export async function PATCH(request: Request, context: RouteContext) {
     parsed.data.currentStep &&
     parsed.data.currentStep !== existing.grievance.currentStep
   ) {
-    await grievanceStore.addEvent(id, {
-      type: "escalation",
-      stepNumber: parsed.data.currentStep,
-    });
+    await withRlsContext(rls, () =>
+      grievanceStore.addEvent(id, {
+        type: "escalation",
+        stepNumber: parsed.data.currentStep,
+      }),
+    );
   }
 
   if (
     parsed.data.status === "resolved" &&
     existing.grievance.status !== "resolved"
   ) {
-    await grievanceStore.addEvent(id, {
-      type: "resolution",
-      completedAt: new Date().toISOString(),
-    });
+    await withRlsContext(rls, () =>
+      grievanceStore.addEvent(id, {
+        type: "resolution",
+        completedAt: new Date().toISOString(),
+      }),
+    );
   }
 
   await auditLog.log({

@@ -1,4 +1,5 @@
 import { bumpingDbBackend } from "@/lib/db/backend";
+import { withTenantRlsScope } from "@/lib/db/rls-store";
 import type { BumpingAdapter } from "./adapter";
 import { DrizzleBumpingAdapter } from "./drizzle-adapter";
 import { MemoryBumpingAdapter } from "./memory-adapter";
@@ -9,7 +10,7 @@ export function getBumpingStore(): BumpingAdapter {
   if (!store) {
     store =
       bumpingDbBackend() === "postgres"
-        ? new DrizzleBumpingAdapter()
+        ? withTenantRlsScope(new DrizzleBumpingAdapter())
         : new MemoryBumpingAdapter();
   }
   return store;

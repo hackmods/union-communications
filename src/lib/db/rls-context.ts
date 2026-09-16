@@ -1,5 +1,10 @@
 import { sql } from "drizzle-orm";
-import type { Db } from "@/lib/db/client";
+import {
+  getDb,
+  isPostgresConfigured,
+  runWithDbTx,
+  type Db,
+} from "@/lib/db/client";
 
 export interface RlsSessionContext {
   unionId?: string;
@@ -28,4 +33,29 @@ export async function applyRlsContext(
   await db.execute(
     sql`select set_config('app.current_cross_local', ${ctx.crossLocal ? "true" : "false"}, true)`,
   );
+}
+
+/**
+ * Run a tenant-scoped operation with the RLS session GUCs applied.
+ *
+ * - Postgres mode: opens a transaction, applies `SET LOCAL app.*` vars, and
+ *   arranges for `getDb()` to return that transaction so nested adapter queries
+ *   are tenant-scoped on one connection (ADR-008).
+ * - Memory mode (no `DATABASE_URL`): transparent pass-through so local dev and
+ *   tests that use memory adapters are unaffected.
+ *
+ * Every tenant-scoped store/route call that knows the user's union/local scope
+ * should go through this so RLS binds under the non-owner `unionops_app` role.
+ */
+export async function withRlsContext<T>(
+  ctx: RlsSessionContext,
+  fn: () => Promise<T>,
+): Promise<T> {
+  if (!isPostgresConfigured()) {
+    return fn();
+  }
+  return getDb().transaction(async (tx) => {
+    await applyRlsContext(tx, ctx);
+    return runWithDbTx(tx, () => fn());
+  });
 }
