@@ -19,6 +19,11 @@ on:
         required: false
         type: string
         default: 'main'
+      target_url:
+        description: 'Full URL to /api/health used by the post-deploy smoke (default: https://unionops.org/api/health). Set this when deploying to a staging URL or non-prod host.'
+        required: false
+        type: string
+        default: 'https://unionops.org/api/health'
       skip_smoke:
         description: 'Skip the post-deploy /api/health smoke check (e.g. when deploying to a non-production host).'
         required: false
@@ -253,41 +258,45 @@ jobs:
             # sets the CLI-secret image deploy instead.
             echo "::error::CAPROVER_SERVER/PASSWORD/APP not set — refusing to fall back to the OOM-prone git webhook rebuild. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for a pull-only GHCR image deploy."
             echo "::warning::CAPROVER_WEBHOOK_URL is set but unused (image deploy requires CAPROVER_SERVER/PASSWORD/APP)."
+            echo "::notice::Manual escape hatch: use the workflow_dispatch trigger on this workflow with no secrets (the deploy step still runs the secrets check, but the manual path bypasses the push webhook). See docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md."
             exit 1
           fi
-          echo "::error::No CapRover deploy secrets — skipping deploy. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for image deploy."
+          echo "::error::No CapRover deploy secrets — skipping deploy. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for image deploy. Manual escape hatch: workflow_dispatch on this workflow lets the operator ship a pre-published GHCR tag once they set the three secrets — docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md."
 
       # Post-deploy /api/health smoke. Polls unionops.org for the new live
       # commit SHA and fails loud when the deployment is stale (image pulled
       # but CapRover didn't restart cleanly, or it restarted with the prior
-      # image). Gated by the skip_smoke input so dispatch to non-prod hosts
-      # (e.g. a staging URL) can opt out.
+      # image). The endpoint URL is configurable via the workflow_dispatch
+      # `target_url` input so non-prod hosts (staging, demo instances) can
+      # smoke their own /api/health instead of unionops.org. Push runs use
+      # the default URL.
       - name: Post-deploy /api/health smoke
         if: ${{ github.event.inputs.skip_smoke != true }}
         env:
           EXPECTED_COMMIT: ${{ github.sha }}
           DEPLOYED_IMAGE: ${{ steps.deploy.outputs.DEPLOYED_IMAGE }}
+          TARGET_HEALTH: ${{ github.event.inputs.target_url || 'https://unionops.org/api/health' }}
         run: |
           set -euo pipefail
           SHORT_COMMIT=${EXPECTED_COMMIT::7}
-          TARGET="https://unionops.org"
-          echo "smoking ${TARGET}/api/health — expecting commit ${EXPECTED_COMMIT} (short=${SHORT_COMMIT}) from image ${DEPLOYED_IMAGE}"
+          TARGET="${TARGET_HEALTH}"
+          echo "smoking ${TARGET} — expecting commit ${EXPECTED_COMMIT} (short=${SHORT_COMMIT}) from image ${DEPLOYED_IMAGE}"
           for i in 1 2 3 4 5 6 7 8 9 10; do
             # CapRover lets container healthchecks cycle; ten 10s slots cover
             # roughly the typical 30-90s restart window for a Node image.
             sleep 10
-            body="$(curl -fsSL --max-time 30 "${TARGET}/api/health" 2>/dev/null || true)"
+            body="$(curl -fsSL --max-time 30 "${TARGET}" 2>/dev/null || true)"
             if [ -n "$body" ]; then
               reported="$(echo "$body" | jq -r '.commit // empty')"
               built="$(echo "$body" | jq -r '.builtAt // empty')"
               # .commit may be reported as either full SHA or short SHA
               # depending on the build stamp; accept both.
               if [ "$reported" = "$EXPECTED_COMMIT" ] || [ "$reported" = "$SHORT_COMMIT" ]; then
-                echo "smoke OK: ${TARGET}/api/health reports commit=${reported} builtAt=${built}"
+                echo "smoke OK: ${TARGET} reports commit=${reported} builtAt=${built}"
                 exit 0
               fi
             fi
-            echo "  retry $i/10 — ${TARGET}/api/health did not yet report ${EXPECTED_COMMIT}; current body: ${body:-<unreachable>}"
+            echo "  retry $i/10 — ${TARGET} did not yet report ${EXPECTED_COMMIT}; current body: ${body:-<unreachable>}"
           done
-          echo "::error::post-deploy smoke failed: ${TARGET}/api/health did not report ${EXPECTED_COMMIT} within ~100s. CapRover likely restarted with a previous image — investigate with 'docker ps' on the droplet and /api/health directly."
+          echo "::error::post-deploy smoke failed: ${TARGET} did not report ${EXPECTED_COMMIT} within ~100s. CapRover likely restarted with a previous image or never picked up the new tag. See docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md (L-α/L-β) for the diagnostic path."
           exit 1
