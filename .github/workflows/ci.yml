@@ -286,13 +286,60 @@ jobs:
           fi
           echo "::error::No CapRover deploy secrets — skipping deploy. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for image deploy. Manual escape hatch: workflow_dispatch on this workflow lets the operator ship a pre-published GHCR tag once they set the three secrets — docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md."
 
-      # Post-deploy /api/health smoke. Polls unionops.org for the new live
-      # commit SHA and fails loud when the deployment is stale (image pulled
-      # but CapRover didn't restart cleanly, or it restarted with the prior
-      # image). The endpoint URL is configurable via the workflow_dispatch
-      # `target_url` input so non-prod hosts (staging, demo instances) can
-      # smoke their own /api/health instead of unionops.org. Push runs use
-      # the default URL.
+      # Probe CapRover for the app's reported state. caprover-cli exits 0
+      # once the deploy request is accepted but CapRover's restart cycle
+      # can lag — and the worst case is that the app's webhook Method 1
+      # fired an on-droplet rebuild that OOM'd, leaving the previous
+      # container running. Querying the captain API right after the
+      # deploy tells us what /api/health WILL say in 30 seconds and
+      # whether the smoke step is going to be a transient retry or a real
+      # alarm. If the caprover API call fails (older captain versions
+      # without /appData, or auth glitch), the step warns and continues.
+      - name: Probe CapRover app state after deploy
+        if: ${{ steps.deploy.outputs.DEPLOYED_IMAGE != '' }}
+        env:
+          CAPROVER_SERVER: ${{ secrets.CAPROVER_SERVER }}
+          CAPROVER_PASSWORD: ${{ secrets.CAPROVER_PASSWORD }}
+          CAPROVER_APP: ${{ secrets.CAPROVER_APP }}
+          DEPLOYED_IMAGE: ${{ steps.deploy.outputs.DEPLOYED_IMAGE }}
+        run: |
+          # Brief settling window so CapRover's admin API has the post-deploy
+          # view of the world. 5s is empirically enough.
+          sleep 5
+          resp="$(curl -fsS -u "captain:${CAPROVER_PASSWORD}" \
+            "${CAPROVER_SERVER}/api/v2/user/apps/appData/${CAPROVER_APP}" 2>/dev/null || true)"
+          if [ -z "$resp" ]; then
+            echo "::warning::could not query CapRover /appData (older captain version or transient auth glitch); smoke step will rely on /api/health alone."
+            exit 0
+          fi
+          echo "CapRover appData response (relevant fields):"
+          echo "$resp" | jq '{appName, imageName, isAppBuilding, deploymentMethod, appContainerInfo: .appContainerInfo // null}'
+          running="$(echo "$resp" | jq -r '.imageName // .appContainerInfo.imageName // "(unknown)")"
+          echo "running imageName: ${running}"
+          expected="$DEPLOYED_IMAGE"
+          echo "expected imageName: ${expected}"
+          # CapRover strips the registry hostname from appContainerInfo.imageName
+          # in some captain versions; compare on the trailing path.
+          short_running="$(echo "$running" | awk -F'/' '{print $NF}')"
+          short_expected="$(echo "$expected" | awk -F'/' '{print $NF}')"
+          if [ -n "$running" ] && [ "$running" != "(unknown)" ] && [ "$short_running" != "$short_expected" ]; then
+            echo "::warning::CapRover app reported imageName (${running}) does not match the deployed tag (${expected}). The next /api/health smoke will almost certainly fail until CapRover restarts the container with the new image."
+            echo "::notice::Common cause: the CapRover app is still on Method 1 (git webhook) and the webhook rebuild OOM'd. docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md has the operator fix (flip the app's Deployment Method to Method 3: Use Docker Image)."
+          fi
+
+      # Post-deploy /api/health smoke. Polls the target host for the new
+      # live commit SHA and fails loud when the deployment is stale (image
+      # pulled but CapRover didn't restart cleanly, or it restarted with
+      # the prior image). The endpoint URL is configurable via the
+      # workflow_dispatch `target_url` input so non-prod hosts (staging,
+      # demo instances) can smoke their own /api/health instead of
+      # unionops.org. Push runs use the default URL.
+      #
+      # Bumped from 100s → 5min in 2026-09-17: the prior 10×10s budget was
+      # tuned for fast GH-only restarts and underestimates CapRover's
+      # restart+healthcheck cycle on a small droplet. 20×15s covers the
+      # 4-5 min worst case where the captain proxy has to rebuild its
+      # view-of-the-world after a webhook-driven or image-driven rollout.
       - name: Post-deploy /api/health smoke
         if: ${{ github.event.inputs.skip_smoke != true }}
         env:
@@ -304,10 +351,8 @@ jobs:
           SHORT_COMMIT=${EXPECTED_COMMIT::7}
           TARGET="${TARGET_HEALTH}"
           echo "smoking ${TARGET} — expecting commit ${EXPECTED_COMMIT} (short=${SHORT_COMMIT}) from image ${DEPLOYED_IMAGE}"
-          for i in 1 2 3 4 5 6 7 8 9 10; do
-            # CapRover lets container healthchecks cycle; ten 10s slots cover
-            # roughly the typical 30-90s restart window for a Node image.
-            sleep 10
+          for i in $(seq 1 20); do
+            sleep 15
             body="$(curl -fsSL --max-time 30 "${TARGET}" 2>/dev/null || true)"
             if [ -n "$body" ]; then
               reported="$(echo "$body" | jq -r '.commit // empty')"
@@ -319,7 +364,12 @@ jobs:
                 exit 0
               fi
             fi
-            echo "  retry $i/10 — ${TARGET} did not yet report ${EXPECTED_COMMIT}; current body: ${body:-<unreachable>}"
+            echo "  retry ${i}/20 — ${TARGET} did not yet report ${EXPECTED_COMMIT}; current body: ${body:-<unreachable>}"
           done
-          echo "::error::post-deploy smoke failed: ${TARGET} did not report ${EXPECTED_COMMIT} within ~100s. CapRover likely restarted with a previous image or never picked up the new tag. See docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md (L-α/L-β) for the diagnostic path."
+          echo "::error::post-deploy smoke failed: ${TARGET} did not report ${EXPECTED_COMMIT} within ~5min."
+          echo "::error::Three tests in order:"
+          echo "::error::  (1) Is the CapRover app's Deployment Method set to 'Use Docker Image' (Method 3) instead of 'Deploy from GitHub' (Method 1)? The webhook rebuild OOMs on small droplets."
+          echo "::error::  (2) Did caprover-cli actually accept the deploy? Grep the prior 'Deploy pre-built GHCR image to CapRover' step output for the captain API response — if it returned a 4xx the deploy was rejected."
+          echo "::error::  (3) Is the running container's network or image-pull policy blocking CapRover from re-tagging the image? Force a redeploy from the CapRover UI's 'Restart' button on the app's Deployment tab."
+          echo "::error::Docs: docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md (L-α, L-β)."
           exit 1
