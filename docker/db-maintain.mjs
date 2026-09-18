@@ -60,6 +60,42 @@ function loadDep(name) {
   return createRequire(join(migrateDir(), "package.json"))(name);
 }
 
+/**
+ * Open a postgres.js connection that does not pollute production logs with
+ * NOTICE severity lines. The most common offender on a re-boot is Drizzle's
+ * bookkeeping CREATE TABLE IF NOT EXISTS — Postgres emits code 42P07
+ * (`duplicate_table`) as a NOTICE with the message
+ * `relation "__drizzle_migrations" already exists, skipping`. Log aggregators
+ * tend to conflate the JSON notice payload with errors; the maintainer
+ * routes around that by silencing the onnotice callback in production and
+ * surfacing notices via console.warn in debug mode.
+ *
+ * @param {Function} postgres `require("postgres")` callable
+ * @param {string} url owner URL
+ * @returns {{ sql: ReturnType<typeof postgres> }}
+ */
+function openSqlWithQuietNotices(postgres, url) {
+  if (CONTINUE_ON_ERROR) {
+    // Debug runs: surface every notice via console.warn so the operator sees it.
+    return postgres(url, {
+      max: 1,
+      connect_timeout: 15,
+      onnotice: (notice) => {
+        warn(`notice: ${notice.message ?? JSON.stringify(notice)}`);
+      },
+    });
+  }
+  // Production-safe path: postgres.js `onnotice: false` per
+  // node_modules/postgres/README.md:998 ("Default console.log, set false
+  // to silence NOTICE"). Boot keeps going — these notices never block —
+  // we just stop letting them fan out to stdout.
+  return postgres(url, {
+    max: 1,
+    connect_timeout: 15,
+    onnotice: false,
+  });
+}
+
 function log(...args) {
   console.log(`[db-maintain] ${args.join(" ")}`);
 }
@@ -180,17 +216,48 @@ async function runBaseline(sql) {
   log("baseline ok (platform_meta ensured)");
 }
 
-async function appliedMigrationCount(sql) {
-  // Journal table by NAME across schemas (Drizzle v7 may not use `public`).
-  const found = await sql`
-    SELECT EXISTS (
-      SELECT 1 FROM pg_catalog.pg_class c
-      JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-      WHERE c.relname = '__drizzle_migrations' AND c.relkind = 'r'
-    ) AS ok
+/**
+ * Round the count of applied Drizzle migrations for the gate decision.
+ *
+ * Round 2 (Drizzle v0.36+) stores its bookkeeping table inside a dedicated
+ * `drizzle` schema — see `drizzle-orm/pg-core/dialect.cjs` line ~48
+ * (`migrationsSchema ?? "drizzle"`). Older builds and lean configs which pass
+ * `migrationsSchema: "public"` keep the table in the role's main schema —
+ * typically `public`.
+ *
+ * Round 3 must read the table **schema-qualified**: a bare-name
+ * `SELECT FROM "__drizzle_migrations"` raises
+ * `relation "__drizzle_migrations" does not exist` whenever the role's
+ * `search_path` does not include the schema Drizzle picked (`drizzle` for the
+ * default config). Without schema qualification the maintainer fails on a
+ * fresh DB right after Drizzle creates the bookkeeping table — the smoke
+ * gate misfires before the boot can complete.
+ *
+ * `information_schema.tables` is server-controlled Postgres metadata, so the
+ * schema lookup is robust across hosts and search_path configurations.
+ *
+ * Exported for unit tests in `src/lib/db/db-maintain.test.ts`.
+ *
+ * @param {{ unsafe?: (q: string) => Promise<unknown[]> }} sql postgres.js tagged-template handle
+ *        (structurally typed so unit tests can pass a loose stub)
+ * @returns {Promise<number>} 0 when no migrations table exists in any schema
+ */
+export async function appliedMigrationCount(sql) {
+  const located = await sql`
+    SELECT "table_schema" AS schema
+    FROM information_schema.tables
+    WHERE "table_name" = '__drizzle_migrations'
+      AND "table_type" = 'BASE TABLE'
+    ORDER BY "table_schema"
+    LIMIT 1
   `;
-  if (!found.length || !found[0].ok) return 0;
-  const rows = await sql`SELECT count(*)::int AS n FROM "__drizzle_migrations"`;
+  if (!located.length) return 0;
+  // `table_schema` comes from the server catalog, not user input, so it is
+  // safe to inline as a quoted identifier.
+  const schema = located[0].schema;
+  const rows = await sql.unsafe(
+    `SELECT count(*)::int AS n FROM "${schema}"."__drizzle_migrations"`,
+  );
   return rows.length ? rows[0].n : 0;
 }
 
@@ -308,7 +375,15 @@ export async function runMaintain(opts = {}) {
   }
 
   const postgres = loadDep("postgres");
-  const sql = postgres(url, { max: 1, connect_timeout: 15 });
+  // postgres.js defaults to `console.log` for NOTICE severities (see
+  // node_modules/postgres/README.md:998). That surfaces `CREATE TABLE IF
+  // NOT EXISTS drizzle.__drizzle_migrations already exists, skipping` as a
+  // JSON notice on every boot after the first successful migrate. Boot
+  // keeps going — the message is informational, code 42P07 — but log
+  // aggregators tend to alarm on severity "NOTICE" when collectors
+  // conflate JSON notice lines with errors. See openSqlWithQuietNotices
+  // for the suppression policy.
+  const sql = openSqlWithQuietNotices(postgres, url);
   log(`connecting as owner role (${command})`);
 
   try {

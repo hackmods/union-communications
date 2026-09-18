@@ -1,5 +1,6 @@
 import {
   boolean,
+  integer,
   jsonb,
   pgTable,
   text,
@@ -15,6 +16,14 @@ export const unions = pgTable("unions", {
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
+  archivedAt: timestamp("archived_at", { withTimezone: true }),
+  archivedById: text("archived_by_id"),
+  /**
+   * Demo-shape flag — set by the 0001 data migration. Lets platform operators
+   * surface the demo roster / reference tenant in `/app/site-admin/demo-cleanup`
+   * without relying on fragile regexes. Idempotent; never flipped back to false.
+   */
+  isDemo: boolean("is_demo").notNull().default(false),
 });
 
 export const divisions = pgTable("divisions", {
@@ -25,6 +34,9 @@ export const divisions = pgTable("divisions", {
   name: text("name").notNull(),
   code: text("code").notNull(),
   enabledModules: jsonb("enabled_modules").notNull().$type<string[]>(),
+  archivedAt: timestamp("archived_at", { withTimezone: true }),
+  archivedById: text("archived_by_id"),
+  isDemo: boolean("is_demo").notNull().default(false),
 });
 
 export const locals = pgTable("locals", {
@@ -37,6 +49,9 @@ export const locals = pgTable("locals", {
   }),
   localNumber: text("local_number").notNull(),
   subText: text("sub_text").notNull().default(""),
+  archivedAt: timestamp("archived_at", { withTimezone: true }),
+  archivedById: text("archived_by_id"),
+  isDemo: boolean("is_demo").notNull().default(false),
 });
 
 export const bargainingUnits = pgTable("bargaining_units", {
@@ -60,7 +75,7 @@ export const users = pgTable("users", {
   name: text("name").notNull(),
   passwordHash: text("password_hash").notNull(),
   unionId: text("union_id").references(() => unions.id, {
-    onDelete: "restrict",
+    onDelete: "set null",
   }),
   divisionId: text("division_id").references(() => divisions.id, {
     onDelete: "set null",
@@ -76,9 +91,22 @@ export const users = pgTable("users", {
   roles: jsonb("roles").notNull().$type<string[]>(),
   totpSecret: text("totp_secret"),
   mfaEnabled: boolean("mfa_enabled").notNull().default(false),
+  /**
+   * Bumps on `signout-everywhere` and email change. Reserved for v2
+   * server-side session invalidation (the JWT callback will reject tokens
+   * whose `sessionVersion` lag); v1 stores / bumps but does not yet check.
+   * `0` is the genesis value.
+   */
+  sessionVersion: integer("session_version").notNull().default(0),
   /** Optional profile photo as a data URL (JPEG/PNG/WebP). */
   image: text("image"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
+  archivedAt: timestamp("archived_at", { withTimezone: true }),
+  archivedById: text("archived_by_id"),
+  lockedAt: timestamp("locked_at", { withTimezone: true }),
+  lockedReason: text("locked_reason"),
+  lockedById: text("locked_by_id"),
+  isDemo: boolean("is_demo").notNull().default(false),
 });

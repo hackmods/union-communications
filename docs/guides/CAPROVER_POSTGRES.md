@@ -59,7 +59,7 @@ Do **not** expose Postgres to the public internet.
 | Setting | Value |
 |---------|-------|
 | **Container HTTP Port** | `3000` (not 80 — wrong port causes NGINX 502) |
-| **Deploy method** | **Prefer** pull `ghcr.io/hackmods/union-communications:main` (avoids BuildKit `unknown parent` on small hosts). Git push / webhook rebuilds on-droplet — see [session-knowledge-2026-08-25-caprover-buildkit.md](../audit/session-knowledge-2026-08-25-caprover-buildkit.md). |
+| **Deploy method** | **Method 3: Use Docker Image** with image `ghcr.io/hackmods/union-communications:main` (avoids BuildKit `unknown parent` and on-droplet next-build OOMs on small hosts). **Do not** leave this on **Method 1: Deploy from GitHub** — even with PR #88 hardening on the **CI `deploy:` job**, the CapRover app-level git webhook fires independently on every push to `main` and runs `docker build` on the droplet, OOM-SIGKILLing at `RUN npm run build`. Switch to Method 3 once and the webhook path is gone. See [session-knowledge-2026-08-25-caprover-buildkit.md](../audit/session-knowledge-2026-08-25-caprover-buildkit.md) and [session-knowledge-2026-09-16-caprover-app-config-drift.md](../audit/session-knowledge-2026-09-16-caprover-app-config-drift.md). |
 
 Paste-ready env template: [`docker/.env.production.example`](../../docker/.env.production.example).
 
@@ -273,6 +273,7 @@ Set all `*_DB_BACKEND=memory` and restart — Postgres data is **not read** unti
 | Symptom | Fix |
 |---------|-----|
 | Build fails `unknown parent image ID` on `COPY --from=…` | CapRover droplet BuildKit/disk issue — **prefer GHCR pull deploy** (`ghcr.io/hackmods/union-communications:main`) via CapRover **Method 3: Deploy via ImageName**, or set GitHub secrets `CAPROVER_SERVER`, `CAPROVER_PASSWORD`, `CAPROVER_APP` so CI deploys the pre-built image. On the host: `df -h`, `docker builder prune -af`, ensure no cron runs `docker system prune` during builds. |
+| Build dies `npm error signal SIGKILL` during `next build` | On-droplet build OOM-killed by the memory cgroup (Next 16 Turbopack, not a code error). Do **not** rebuild on-host — pull the GHCR image instead, or add ~2–4 GB swap first. See [`session-knowledge-2026-09-16-build-oom.md`](../audit/session-knowledge-2026-09-16-build-oom.md). |
 | CapRover NGINX **502** | Web app Container HTTP Port = **3000** |
 | Redirects to `*.captain…` / wrong cookies | `AUTH_URL=https://unionops.org` (browser-facing HTTPS, no trailing slash) |
 | `db maintain failed — refusing to start` | Check owner URL, network reachability to `srv-captain--…`, Postgres logs; use `MIGRATE_CONTINUE_ON_ERROR=true` only to debug |

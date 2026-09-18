@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { SiteFeedbackForm } from "@/components/feedback/SiteFeedbackForm";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import { isFeedbackMemoryBackend } from "@/lib/platform-feedback/durable";
@@ -47,14 +48,17 @@ export default async function FeedbackPage({
   const t = await getTranslations("feedbackPage");
 
   return (
-    <PageShell size="focus" className="py-8 md:py-12" as="article">
-      <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
-      <p className="mt-4 max-w-prose text-lg leading-relaxed text-gray-800">
-        {t("lead")}
-      </p>
-      <p className="mt-3 max-w-prose text-base leading-relaxed text-gray-700">
-        {t("notLocal")}
-      </p>
+    <PageShell size="focus" className="py-10 md:py-14" as="article">
+      <header className="max-w-prose">
+        <Eyebrow tone="brand">{t("title")}</Eyebrow>
+        <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{t("title")}</h1>
+        <p className="mt-6 text-lg leading-relaxed text-slate-700">
+          {t("lead")}
+        </p>
+        <p className="mt-3 max-w-prose text-base leading-relaxed text-slate-700">
+          {t("notLocal")}
+        </p>
+      </header>
 
       <div className="mt-8">
         <SiteFeedbackForm
@@ -65,9 +69,12 @@ export default async function FeedbackPage({
         />
       </div>
 
-      <p className="mt-10 text-sm text-gray-600">
+      <p className="mt-10 max-w-prose text-sm text-slate-600">
         {t("githubLead")}{" "}
-        <Link href="/support" className="font-semibold text-opseu-blue hover:underline">
+        <Link
+          href="/support"
+          className="font-semibold text-opseu-blue underline-offset-2 hover:underline"
+        >
           {t("githubLink")}
         </Link>
       </p>

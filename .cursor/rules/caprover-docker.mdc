@@ -24,13 +24,21 @@ Full narrative: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`]
 ## CapRover deploy preference
 
 1. **Preferred:** pull `ghcr.io/hackmods/union-communications:main` (Method 3 / CLI). CI job `docker-image` publishes independently of E2E.
-2. **Git webhook** rebuilds on the droplet — fine when disk/cache healthy; fails with `failed to set parent … unknown parent image ID` under pressure.
-3. Optional secrets for image deploy: `CAPROVER_SERVER`, `CAPROVER_PASSWORD`, `CAPROVER_APP`. Webhook-only is a fallback.
+2. **Git webhook** rebuilds `next build` on the droplet — not just slow: on small hosts the build OOM-SIGKILLs (2048 heap ≥ 2 GB cgroup, or Turbopack workers exceed 1–2 GB). `deploy` job refuses to fall back to the webhook when `CAPROVER_SERVER/PASSWORD/APP` are unset (fails loud instead — see `ci.yml`).
+3. Required secrets for image deploy: `CAPROVER_SERVER`, `CAPROVER_PASSWORD`, `CAPROVER_APP`. `CAPROVER_WEBHOOK_URL` is legacy/unused by the deploy job.
+4. **Manual deploy from the GH UI** — `workflow_dispatch` on `ci.yml` with inputs `image_tag` (default `main`; pass `:production`, `:sha-<7>`, etc.) and `skip_smoke` (default `false`). On dispatch the docker-image job is skipped (5+ min saved) and the deploy step validates the chosen GHCR tag before invoking `caprover-cli`. Useful when the on-droplet webhook rebuild still refuses to flip to Method 3. After dispatch, `unionops.org/api/health` `.commit` should match the dispatched SHA.
 
 ## Host hygiene
 
 - `df -h` / `docker builder prune -af` when export fails mid-COPY.
 - No cron `docker system prune` during builds (deletes intermediate layers).
+
+## Memory-safe `next build` (small droplets)
+
+- Heap cap default is **`BUILD_NODE_HEAP_MB=1536`** — the smallest passing cap (measured 2026-09-16). 1024 aborts a build worker; 2048 blows a 2 GB cgroup (SIGKILL).
+- **Do not** build with webpack (`next build --webpack`) — this app needs > 2 GB V8 heap; OOMs at 1024 and 2048.
+- On 2 GB droplets: add ~2–4 GB **swap** (`fallocate -l 4G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile`), or rely on the GHCR image pull; on-host rebuilds are the fallback.
+- Narrative: [`session-knowledge-2026-09-16-build-oom.md`](../../docs/audit/session-knowledge-2026-09-16-build-oom.md).
 
 ## Verify
 

@@ -70,3 +70,32 @@ Immutable log on every grievance/bumping access; query UI at `/app/audit` for el
 ```
 
 No deletes. Retained per `docs/COMPLIANCE.md` retention policy.
+
+## Site Admin / Platform Operator (cross-tenant break-glass)
+
+The `/app/site-admin/*` surface is the canonical example of a **cross-tenant
+read** for `platform_admin`. The Hard Rules above treat site-admin's
+business actions as a typed exception: every action takes an explicit
+`requireSiteAdminSession()` gate AND emits an `audit_log` entry with:
+
+- `resourceType: "site_admin"`
+- `action: "site_admin.<noun>.<verb>"` — e.g. `site_admin.user.cross_tenant_read`,
+  `site_admin.user.force_password_reset`, `site_admin.local.archive`,
+  `site_admin.demo.preview_purge`, `site_admin.user.list`
+- `resourceId`: the affected row id (or the route slug for collection reads)
+- `metadata`: free-form, flat string keys, persisted as JSONB
+  (`audit_log.metadata jsonb`, populated since 2026-09-17)
+- `userId`: the operator's account id (`platform_admin` role, not the
+  target — that's `metadata.targetEmail` etc.)
+
+The surface is **strictly role-gated to `platform_admin` + MFA**. There
+is no `union_admin` / `local_president` fallback: even if the same data
+is reachable through a tenant-scoped page, the site-admin route returns
+403 for non-platform-admin roles. The RBAC contract is the same as any
+audited break-glass: the operator's session is authenticated, their
+action is logged, and the diff is reversible (`archived_at`/`restored_at`
+instead of hard delete for v1).
+
+See [`docs/audit/session-knowledge-2026-09-17-site-admin.md`](audit/session-knowledge-2026-09-17-site-admin.md)
+for the schema and the foot-guns around `users.union_id` FK / `is_demo` /
+`email_change_tokens` / `session_version`.

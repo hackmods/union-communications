@@ -1,5 +1,121 @@
 # Progress Log
 
+## 2026-09-16 — Workflow dispatch + post-deploy /api/health smoke
+
+The push-to-main deploy path worked but left two operator-side gaps:
+(a) when the on-droplet CapRover webhook is still on Method 1, the
+operator can't ship a fix without waiting on a webhook rebuild that
+OOMs, and (b) the deploy job had no feedback loop — a clean GHCR pull
+could still leave the cluster reporting an older SHA if the image
+swap raced.
+
+- [x] **`workflow_dispatch`** on `.github/workflows/ci.yml` with two
+  inputs: `image_tag` (string, default `main`; pass `:production`,
+  `:sha-abc1234`, etc.) and `skip_smoke` (boolean, default `false`).
+  Fires the deploy job on a chosen pre-published GHCR tag from the GH
+  UI or GitHub Mobile — useful when on-droplet builds still OOM.
+- [x] **`docker-image` skips on dispatch** (`if: github.event_name !=
+  'workflow_dispatch'`) — saves the 5+ min build/push cycle when the
+  operator just wants to ship an already-built image.
+- [x] **Deploy step "Resolve target GHCR tag"** picks the right tag
+  (`github.event.inputs.image_tag` for dispatch, `main` for push).
+- [x] **Deploy step "Validate target image exists in GHCR"** fails
+  loud with `::error::` on a typo'd tag instead of returning the
+  caprover-cli's verbose, less diagnostic error.
+- [x] **Deploy step "Post-deploy /api/health smoke"** polls
+  `https://unionops.org/api/health` for ~100 s and verifies `.commit`
+  matches the just-deployed SHA (accepts both full and short SHA
+  because the build stamp shape varies). Skipped when the dispatch
+  input `skip_smoke` is set true (e.g. deploying to a staging host).
+- [x] **Cursor rule** — `.cursor/rules/caprover-docker.mdc` §"CapRover
+  deploy preference" picked up a 4th bullet covering `workflow_dispatch`.
+- Verification: `python yaml.safe_load` parses the file correctly
+  (3 jobs, docker-image gated, deploy 4 steps, 3 triggers, 2 inputs).
+
+## 2026-09-16 — Cover the on-droplet rebuild path that PR #88 didn't reach
+
+Production deploy fell off because the unionops CapRover app's
+Deployment Method was on **Method 1: Deploy from GitHub** — every push
+to `main` triggered the CapRover-managed webhook, which ran `docker
+build` on the droplet and OOM-SIGKILLed at `RUN npm run build`. PR #88
+hardens the **CI `deploy:` job** (\`caprover deploy --imageName ...\`),
+which runs in parallel, but could not restrict the independent CapRover
+webhook handler.
+
+- [x] **CI hardening** — `.github/workflows/ci.yml` gained a post-publish
+  verification step ("Verify GHCR :main tag matches this push") that
+  inspects `:main` and `:sha-<7-char>` via `docker buildx imagetools`,
+  fails loud with `::error::` on drift (expired GHCR token, registry
+  republish race, etc.). Catches the case where the image upload silently
+  missed.
+- [x] **Operator docs** — `docs/guides/CAPROVER_POSTGRES.md` row in the
+  UnionOps web-app table now reads `**Method 3: Use Docker Image**`,
+  not just "prefer"; it explains why Method 1 risks OOM-SIGKILL even with
+  PR #88 on the CI side.
+- [x] **Sibling README** — `captain-definition.README.md` (new file,
+  aims at the next person editing `captain-definition`) explains that
+  the file is consulted only on Method 1 and recommends Method 3 with
+  GHCR pull.
+- [x] **Audit** — [`session-knowledge-2026-09-16-caprover-app-config-drift.md`](audit/session-knowledge-2026-09-16-caprover-app-config-drift.md)
+  with 4 lessons (L-α: two independent deploy paths; L-β: operator
+  config is invisible in CI; L-γ: verify registry state BEFORE deploy;
+  L-δ: Method 1 + Dockerfile path is the OOM default).
+- Action items (operator): CapRover UI → `unionops` app → Deployment →
+  Method 3 `Use Docker Image` with image
+  `ghcr.io/hackmods/union-communications:main`. Once flipped, the
+  webhook path is dead and CI's pull path rules.
+
+## 2026-09-16 — NOTICE noise suppression on db-maintain connection
+
+Production was reporting `severity: 'NOTICE'` lines from Drizzle's
+bookkeeping `CREATE TABLE IF NOT EXISTS drizzle.__drizzle_migrations ...`
+running on every re-boot. postgres.js defaults `onnotice` to `console.log`,
+so the JSON notice fanned out to stdout. Severity `NOTICE` is **not** an
+error — Postgres ordering is DEBUG < INFO < NOTICE < LOG < WARNING <
+ERROR < FATAL < PANIC — but log aggregators treated it as actionable.
+
+- [x] **`openSqlWithQuietNotices(postgres, url)`** in `docker/db-maintain.mjs`.
+  Production passes `onnotice: false` (postgres.js README: "set false to
+  silence NOTICE"). Debug mode (`MIGRATE_CONTINUE_ON_ERROR=true`) maps
+  `onnotice` to a `console.warn` so dev still sees the notice stream.
+- [x] **Doctor notes** — `docs/audit/session-knowledge-2026-09-16-db-maintain-drizzle-schema.md`
+  extended with §7 follow-up (L7 NOTICE severity isn't actionable;
+  L8 suppress at producer, not consumer).
+- Verification: `npx tsc --noEmit` clean, `npm run lint` clean,
+  `npm run test:unit` 1977 passed, 1 skipped, 0 failed across 310 files.
+
+## 2026-09-16 — `docker-migrate-smoke` schema-aware bookkeeping fix
+
+The CI job failed with `relation __drizzle_migrations does not exist` right
+after Drizzle created the bookkeeping table. Root cause: Drizzle v0.36+
+writes `__drizzle_migrations` into a dedicated `drizzle` schema (see
+`pg-core/dialect.cjs` `migrationsSchema ?? "drizzle"`); the maintainer's
+bare-name `SELECT FROM "__drizzle_migrations"` raised because the non-owner
+role's `search_path` did not include it.
+
+- [x] **Schema-aware `appliedMigrationCount`** — `docker/db-maintain.mjs` now
+  probes `information_schema.tables` for the host schema, then issues a
+  schema-qualified count. Function exported so it can be unit-tested.
+- [x] **Tests** — `src/lib/db/db-maintain.test.ts` adds three stub-driven
+  cases: fresh DB returns `0`, `drizzle`-schema path counts, legacy
+  `public`-schema path counts. The stub throws on a bare-name regression.
+- [x] **Documentation** — [`session-knowledge-2026-09-16-db-maintain-drizzle-schema.md`](audit/session-knowledge-2026-09-16-db-maintain-drizzle-schema.md) records the cause + 6 lessons + the rule "never
+  ship a bare-name `SELECT FROM __drizzle_migrations`".
+- Verification: `npx tsc --noEmit` clean, `npm run lint` clean,
+  `npm run test:unit` 1977 passed (3 new), 1 skipped, 0 failed.
+
+## 2026-09-16 — Site design-system primitives + page uplift
+
+One Card primitive, four variants. Six inline chrome dialects → one grammar.
+
+- [x] **Design-system primitives** — `<Card variant="default|elevated|outline|ghost">`, `<Eyebrow tone="brand|amber|muted|danger|success">`, `<SectionHeading id eyebrow title intro>`, `<IconChip tone size>`, `<ButtonLink variant size block trailingArrow>`. All in `src/components/ui/`, Tailwind-merged safe via `cn`.
+- [x] **Home page adopted the primitives** — `HomeContent.tsx` no longer hand-rolls `cardSurfaceClass`, `SectionEyebrow`, `SectionIntro`, or its `Icon` helper; the elevated card surface is now `<Card variant="elevated" interactive>` (no behaviour change to Brand Kit / hero gradient / hash scroll / test IDs).
+- [x] **High-reach page uplifts** — `/manifesto` (4-row disc list → 2×2 Card grid), `/support` (raw `<a>` CTAs → `<ButtonLink>`), `/install` (parallel `<section>` blocks → `<Card>` step grid), `/feedback` (color drift tokens), `/captions` (worst border-l-2 anti-pattern → `<Card density="compact">` tile), `/examples` (filter chips + sidebar rail), `/guides` + `/tools` catalogs (per-group `<Eyebrow>` + elevated link rows + amber labour-playbook band).
+- [x] **Page-level color drift normalized** — `GuideProse`, `GuideBulletList`, `GuideTipGrid`, `GuideSection` intro body text now `text-slate-700` (was `text-gray-700`); cascades to all 28 guide chapters + `privacy` + `accessibility` + `security`.
+- [x] **Cursor rule** — [`.cursor/rules/site-design-system.mdc`](../.cursor/rules/site-design-system.mdc) encodes the primitive table, color ban list (`text-gray-N` banned for body copy), and the 7 ship-blockers.
+- Session: [`session-knowledge-2026-09-16-design-uplift.md`](audit/session-knowledge-2026-09-16-design-uplift.md)
+- Verification: `npx tsc --noEmit` clean, `npm run lint` clean, `npm run test:unit` 1974 passed (310 files, 1 skipped).
+
 ## 2026-09-15 — Core setup table + data-migration runner (db maintainer)
 
 DB updates now deploy automatically with a tracked baseline and versioned data upgrades.

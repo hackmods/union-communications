@@ -32,7 +32,7 @@ export function GuideSection({
         {title}
       </h2>
       {intro ? (
-        <div className="mt-3 max-w-prose leading-relaxed text-gray-700">
+        <div className="mt-3 max-w-prose leading-relaxed text-slate-700">
           {intro}
         </div>
       ) : null}
@@ -74,7 +74,7 @@ export function GuideProse({
 }: GuideProseProps) {
   return (
     <Tag
-      className={cn("max-w-prose leading-relaxed text-gray-700", className)}
+      className={cn("max-w-prose leading-relaxed text-slate-700", className)}
     >
       {children}
     </Tag>
@@ -115,7 +115,7 @@ export function GuideTipGrid({
   return (
     <Tag
       className={cn(
-        "grid list-none p-0 text-gray-700",
+        "grid list-none p-0 text-slate-700",
         dense ? "gap-3" : "gap-4",
         columns === 2 && "sm:grid-cols-2",
         columns === 3 && "sm:grid-cols-2 lg:grid-cols-3",
@@ -172,7 +172,7 @@ export function GuideBulletList({
   return (
     <ul
       className={cn(
-        "list-disc space-y-3 pl-5 text-gray-700",
+        "list-disc space-y-3 pl-5 text-slate-700",
         columns === 2 && "sm:grid sm:list-none sm:grid-cols-2 sm:gap-4 sm:space-y-0 sm:pl-0",
         className,
       )}
