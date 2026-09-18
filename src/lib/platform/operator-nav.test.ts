@@ -8,6 +8,7 @@ import {
 describe("platform operator nav", () => {
   it("lists stable operator destinations", () => {
     expect(PLATFORM_OPERATOR_NAV.map((item) => item.href)).toEqual([
+      "/app/site-admin",
       "/app/invites",
       "/app/onboarding",
       "/app/feedback",

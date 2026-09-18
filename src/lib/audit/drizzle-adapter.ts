@@ -32,6 +32,7 @@ export class DrizzleAuditLogAdapter implements AuditLogAdapter {
         resourceId: entry.resourceId,
         unionId: entry.unionId,
         localId: entry.localId,
+        metadata: entry.metadata ?? null,
         timestamp,
       });
     });
@@ -85,6 +86,7 @@ export class DrizzleAuditLogAdapter implements AuditLogAdapter {
       resourceId: row.resourceId,
       unionId: row.unionId ?? undefined,
       localId: row.localId ?? undefined,
+      metadata: row.metadata ?? undefined,
       timestamp: toIso(row.timestamp),
     }));
   }

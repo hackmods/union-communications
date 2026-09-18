@@ -1,4 +1,4 @@
-import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { index, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { locals, unions } from "./tenant";
 
 export const auditLog = pgTable(
@@ -15,6 +15,12 @@ export const auditLog = pgTable(
     localId: text("local_id").references(() => locals.id, {
       onDelete: "set null",
     }),
+    /**
+     * Optional free-form operator metadata. Persisted as JSONB so callers
+     * may read it back as a structured object; v1 stores `Record<string, string>`
+     * per `AuditEntry.metadata`.
+     */
+    metadata: jsonb("metadata").$type<Record<string, string>>(),
     timestamp: timestamp("timestamp", { withTimezone: true })
       .notNull()
       .defaultNow(),

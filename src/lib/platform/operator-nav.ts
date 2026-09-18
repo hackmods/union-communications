@@ -2,6 +2,7 @@ import type { UserRole } from "@/types/tenant";
 
 /** Platform operator destinations — `platform_admin` only. */
 export type PlatformOperatorNavKey =
+  | "siteAdmin"
   | "invites"
   | "onboarding"
   | "feedback"
@@ -13,6 +14,8 @@ export type PlatformOperatorNavItem = {
 };
 
 export const PLATFORM_OPERATOR_NAV: readonly PlatformOperatorNavItem[] = [
+  // Landing page first — a single tile that lists every operator surface.
+  { href: "/app/site-admin", labelKey: "siteAdmin" },
   { href: "/app/invites", labelKey: "invites" },
   { href: "/app/onboarding", labelKey: "onboarding" },
   { href: "/app/feedback", labelKey: "feedback" },
