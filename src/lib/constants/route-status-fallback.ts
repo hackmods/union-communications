@@ -17,6 +17,12 @@ export const ROUTE_STATUS_FALLBACK = {
   backHomeFr: "Accueil (FR)",
   backToToolsEn: "Browse tools (EN)",
   local243Footnote: "P.S. Empty local previews still land on 243.",
+  staleBuildTitle: "UnionOps just updated",
+  staleBuildBody:
+    "Your page was open during a deploy — please refresh to keep going. Your changes here are safe.",
+  staleBuildRefresh: "Refresh this page",
+  staleBuildContinue: "Continue without refresh",
+  staleBuildBuildLabel: "Latest build",
 } as const;
 
 export const SNOWMOBILE_EGG_SRC =

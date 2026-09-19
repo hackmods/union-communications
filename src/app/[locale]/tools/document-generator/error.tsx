@@ -6,7 +6,11 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { PageShell } from "@/components/layout/PageShell";
 import { RouteStatusPanel } from "@/components/layout/RouteStatusPanel";
-import { captureClientRouteError } from "@/lib/observability/capture-client-route-error";
+import { StaleBuildPanel } from "@/components/layout/StaleBuildPanel";
+import {
+  captureClientRouteError,
+  isClientActionDrift,
+} from "@/lib/observability/capture-client-route-error";
 
 /** Tool-scoped recovery when preview chunks fail after deploy or offline reload. */
 export default function DocumentGeneratorError({
@@ -22,6 +26,17 @@ export default function DocumentGeneratorError({
   useEffect(() => {
     captureClientRouteError(error, "document-generator");
   }, [error]);
+
+  // Document generation has heavy RSC output that frequently stays open across
+  // deploys while the user is composing a worksheet — show the soft-reload
+  // panel so the user's edits aren't blown away with a hard reload.
+  if (isClientActionDrift(error)) {
+    return (
+      <PageShell size="focus" className="py-8 md:py-12" as="section">
+        <StaleBuildPanel onContinue={reset} />
+      </PageShell>
+    );
+  }
 
   return (
     <PageShell size="focus" className="py-8 md:py-12" as="section">

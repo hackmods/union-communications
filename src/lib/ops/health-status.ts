@@ -12,10 +12,14 @@ import {
   buildObservabilityHealth,
   type ObservabilityHealth,
 } from "@/lib/observability/config";
+import {
+  probeSchema,
+  type SchemaProbeView,
+} from "@/lib/ops/schema-probe";
 
 /** Non-secret runtime summary for `/api/health` (operators + smoke). */
 export type HealthStatus = {
-  status: "ok";
+  status: "ok" | "degraded";
   version: string;
   commit: string;
   /** ISO-8601 UTC image build time (Docker runner stage) or "unknown". */
@@ -34,6 +38,8 @@ export type HealthStatus = {
   demoAuthEnabled: boolean;
   /** Operator error sinks (Sentry / JSONL) — no secrets. */
   observability: ObservabilityHealth;
+  /** Schema drift probe: applied count + critical columns + boot-commit divergence. */
+  schemaProbe: SchemaProbeView;
 };
 
 let cachedVersion: string | undefined;
@@ -86,5 +92,49 @@ export function buildHealthStatus(): HealthStatus {
     mfaEnabled: process.env.AUTH_MFA_ENABLED === "true",
     demoAuthEnabled: isDemoAuthEnabled(),
     observability: buildObservabilityHealth(),
+    schemaProbe: EMPTY_SCHEMA_PROBE,
   };
 }
+
+/**
+ * Probe Postgres for column / journal drift and merge the result into a
+ * `HealthStatus` snapshot. `platform_meta` is the only reliable source from
+ * the runtime role. Returns a status with `status: "degraded"` whenever a
+ * critical column is missing — operators see one glance whether the next
+ * deploy needs a forced maintain / re-migrate.
+ *
+ * The probe is safe-by-default: never throws, returns `EMPTY_SCHEMA_PROBE`
+ * on any DB error so /api/health stays 200.
+ */
+export async function buildHealthStatusWithProbe(): Promise<HealthStatus> {
+  const base = buildHealthStatus();
+  const buildCommit = process.env.BUILD_COMMIT_SHA?.trim() || "unknown";
+  try {
+    const probe = await probeSchema({ buildCommit });
+    base.schemaProbe = probe;
+    if (probe.platformMeta) {
+      // Backwards-compat: the original /api/health surface exposed
+      // schemaVersion / dataVersion at the top level. Keep that contract.
+      base.schemaVersion = probe.platformMeta.schemaVersion;
+      base.dataVersion = probe.platformMeta.dataVersion;
+    }
+    if (probe.postgresConfigured && !probe.journalInSync) {
+      base.status = "degraded";
+    }
+  } catch {
+    // Probe must never break the health route — keep EMPTY_SCHEMA_PROBE shape.
+    base.schemaProbe = EMPTY_SCHEMA_PROBE;
+  }
+  return base;
+}
+
+const EMPTY_SCHEMA_PROBE: SchemaProbeView = {
+  postgresConfigured: false,
+  applied: { count: null, source: "unknown" },
+  expectedJournalCount: 0,
+  expectedJournalTags: [],
+  journalInSync: true,
+  platformMeta: null,
+  criticalColumns: { tasks: { expected: [], present: [], missing: [] } },
+  bootCommitMismatch: false,
+};

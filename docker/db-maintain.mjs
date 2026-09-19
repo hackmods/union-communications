@@ -134,8 +134,9 @@ function readVersion(file) {
 }
 
 /**
- * Parse the Drizzle journal. Returns { count, lastIdx } where count is the number of
- * journal entries the image knows about and lastIdx is the max migration idx.
+ * Parse the Drizzle journal. Returns { count, lastIdx, tags } where count is the
+ * number of journal entries the image knows about, lastIdx is the max migration
+ * idx, and tags is the on-disk tag list (`NNNN_description.sql`) for diagnostics.
  * @param {unknown} journal - parsed meta/_journal.json
  */
 export function parseJournal(journal) {
@@ -147,7 +148,10 @@ export function parseJournal(journal) {
   if (typeof lastIdx !== "number") {
     throw new Error("journal last entry missing idx");
   }
-  return { count: entries.length, lastIdx };
+  const tags = entries
+    .map((e) => (e && typeof e === "object" && typeof e.tag === "string" ? e.tag : null))
+    .filter((t) => t !== null);
+  return { count: entries.length, lastIdx, tags };
 }
 
 /**
@@ -206,6 +210,7 @@ ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "applied_migrations" intege
 ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "min_app_version" text;
 ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "migrated_at" timestamp with time zone NOT NULL DEFAULT now();
 ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "updated_at" timestamp with time zone NOT NULL DEFAULT now();
+ALTER TABLE "platform_meta" ADD COLUMN IF NOT EXISTS "boot_commit_accepted" text NOT NULL DEFAULT 'unknown';
 INSERT INTO "platform_meta" ("id") VALUES (1) ON CONFLICT DO NOTHING;
 `;
 
@@ -267,6 +272,7 @@ async function runMigrate(sql, migrationsDir, expectedCount) {
 
   if (decision === "ahead") {
     const message = `database schema is ahead of this image (applied ${appliedBefore} > journal ${expectedCount}) — deploy a newer image`;
+    warn(`schema_ahead applied=${appliedBefore} journal=${expectedCount}`);
     if (CONTINUE_ON_ERROR) {
       warn(`${message} — continuing (MIGRATE_CONTINUE_ON_ERROR=true)`);
       return { decision, schemaVersion: null, applied: appliedBefore };
@@ -289,6 +295,10 @@ async function runMigrate(sql, migrationsDir, expectedCount) {
       }
     }
     log(`migrate ok (applied ${appliedAfter}/${expectedCount})`);
+    const nowApplied = expectedCount - appliedBefore;
+    if (nowApplied > 0) {
+      log(`migrations applied this boot: ${nowApplied} (count ${appliedBefore} -> ${appliedAfter})`);
+    }
     return { decision, schemaVersion: expectedCount - 1, applied: appliedAfter };
   }
 
@@ -299,19 +309,21 @@ async function runMigrate(sql, migrationsDir, expectedCount) {
 
 async function upsertMeta(sql, { schemaVersion, applied, dataVersion = 0 }) {
   const version = appVersion();
+  const buildCommit = process.env.BUILD_COMMIT_SHA?.trim() || "unknown";
   const rows = await sql`SELECT data_version FROM "platform_meta" WHERE id = 1`;
   const currentDataVersion = rows.length ? rows[0].data_version : dataVersion;
   await sql`
-    INSERT INTO "platform_meta" (id, schema_version, app_version, data_version, applied_migrations, migrated_at, updated_at)
-    VALUES (1, ${schemaVersion}, ${version}, ${currentDataVersion}, ${applied}, now(), now())
+    INSERT INTO "platform_meta" (id, schema_version, app_version, data_version, applied_migrations, migrated_at, updated_at, boot_commit_accepted)
+    VALUES (1, ${schemaVersion}, ${version}, ${currentDataVersion}, ${applied}, now(), now(), ${buildCommit})
     ON CONFLICT (id) DO UPDATE SET
       schema_version = EXCLUDED.schema_version,
       app_version = EXCLUDED.app_version,
       applied_migrations = EXCLUDED.applied_migrations,
       migrated_at = EXCLUDED.migrated_at,
-      updated_at = now()
+      updated_at = now(),
+      boot_commit_accepted = EXCLUDED.boot_commit_accepted
   `;
-  log(`meta upserted (schema v${schemaVersion}, app ${version}, migrations ${applied})`);
+  log(`meta upserted (schema v${schemaVersion}, app ${version}, migrations ${applied}, boot_commit ${buildCommit})`);
   return currentDataVersion;
 }
 

@@ -6,7 +6,11 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { PageShell } from "@/components/layout/PageShell";
 import { RouteStatusPanel } from "@/components/layout/RouteStatusPanel";
-import { captureClientRouteError } from "@/lib/observability/capture-client-route-error";
+import { StaleBuildPanel } from "@/components/layout/StaleBuildPanel";
+import {
+  captureClientRouteError,
+  isClientActionDrift,
+} from "@/lib/observability/capture-client-route-error";
 
 export default function LocaleError({
   error,
@@ -20,6 +24,16 @@ export default function LocaleError({
   useEffect(() => {
     captureClientRouteError(error, "locale");
   }, [error]);
+
+  // Soft-reload for server-action drift across a deploy window; everything
+  // else keeps the heavy error UI for full operator diagnostics.
+  if (isClientActionDrift(error)) {
+    return (
+      <PageShell size="focus" className="py-8 md:py-12" as="section">
+        <StaleBuildPanel onContinue={reset} />
+      </PageShell>
+    );
+  }
 
   return (
     <PageShell size="focus" className="py-8 md:py-12" as="section">

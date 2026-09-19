@@ -10,6 +10,8 @@ export type PlatformMetaView = {
   appliedMigrations: number;
   minAppVersion: string | null;
   migratedAt: Date | null;
+  /** BUILD_COMMIT_SHA of the image that last completed a maintain. */
+  bootCommitAccepted: string;
 };
 
 /**
@@ -34,6 +36,7 @@ export async function readPlatformMeta(): Promise<PlatformMetaView | null> {
       appliedMigrations: r.appliedMigrations,
       minAppVersion: r.minAppVersion,
       migratedAt: r.migratedAt,
+      bootCommitAccepted: r.bootCommitAccepted ?? "unknown",
     };
   } catch (err) {
     // Table not created yet (baseline never ran) or DB unreachable — not fatal for health.

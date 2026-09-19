@@ -4,10 +4,14 @@ import { useEffect } from "react";
 import Link from "next/link";
 import "./globals.css";
 import { RouteStatusStatic } from "@/components/layout/RouteStatusStatic";
+import { StaleBuildStatic } from "@/components/layout/StaleBuildStatic";
 import { ROUTE_STATUS_FALLBACK } from "@/lib/constants/route-status-fallback";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
-import { captureClientRouteError } from "@/lib/observability/capture-client-route-error";
+import {
+  captureClientRouteError,
+  isClientActionDrift,
+} from "@/lib/observability/capture-client-route-error";
 
 /**
  * Last-resort error UI — must define its own html/body (Next.js requirement).
@@ -28,6 +32,31 @@ export default function GlobalError({
 
   const linkClass =
     "inline-flex min-h-11 items-center justify-center rounded-lg px-4 py-2 font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40";
+
+  // Drift path — even at the global boundary, prefer the soft-reload chrome
+  // so a deploy-time staleness event doesn't strand the user in a 500 page.
+  if (isClientActionDrift(error)) {
+    return (
+      <html lang="en">
+        <body className="min-h-screen bg-[var(--background,#f8fafc)] text-[var(--foreground,#1a1a1a)] antialiased">
+          <div className={cn(PAGE_SHELL.focus, "py-10 md:py-14")}>
+            <StaleBuildStatic onContinue={reset} />
+            <p className="mt-6 text-center">
+              <Link
+                href="/en"
+                className={cn(
+                  linkClass,
+                  "text-opseu-blue underline-offset-2 hover:underline",
+                )}
+              >
+                {f.backHomeEn}
+              </Link>
+            </p>
+          </div>
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en">

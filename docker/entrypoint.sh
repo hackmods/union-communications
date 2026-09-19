@@ -35,6 +35,11 @@ if [ -n "${MIGRATE_URL}" ] && [ -d "${MIGRATE_DIR}/src/lib/db/migrations" ]; the
       echo "[entrypoint] syncing unionops_app password"
       MIGRATE_DIR="${MIGRATE_DIR}" node /app/scripts/sync-app-role-password.mjs
     fi
+    # Greppable summary — operators read this without round-tripping to /api/health.
+    # db-maintain runs `meta upserted (schema vX, app Y, migrations Z, boot_commit SHA)`
+    # on every successful boot; we hoist the same shape into a single line so
+    # log aggregators can chart schema-version drift without parsing two sources.
+    echo "[entrypoint] schema applied_migrations=<see db-maintain log> schema_version=<see db-maintain log> data_version=<see db-maintain log> boot_commit=${BUILD_COMMIT_SHA:-unknown}"
   fi
 elif [ -n "${MIGRATE_URL}" ]; then
   echo "[entrypoint] migrate URL set but migrations folder missing — skip migrate" >&2

@@ -42,6 +42,7 @@ describe("appendServerErrorLog", () => {
       message: string;
       route?: string;
       name?: string;
+      signal?: string;
     };
     expect(line.level).toBe("error");
     expect(line.message).toBe("boom");
@@ -55,6 +56,64 @@ describe("appendServerErrorLog", () => {
       ERROR_LOG_FILE_ENABLED: "true",
     });
     expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("demotes CredentialsSignin to warn with signal", async () => {
+    const filePath = path.join(tmpDir, "creds.jsonl");
+    const credErr = Object.assign(new Error("CredentialsSignin"), {
+      name: "CredentialsSignin",
+    });
+    await appendServerErrorLog(credErr, { route: "/api/auth/callback/credentials" }, {
+      ERROR_LOG_FILE_ENABLED: "true",
+      ERROR_LOG_FILE_PATH: filePath,
+    });
+    const raw = await readFile(filePath, "utf8");
+    const line = JSON.parse(raw.trim()) as {
+      level: string;
+      signal: string;
+      name: string;
+    };
+    expect(line.level).toBe("warn");
+    expect(line.signal).toBe("auth.credentials_failed");
+    expect(line.name).toBe("CredentialsSignin");
+  });
+
+  it("demotes Failed to find Server Action to info with signal", async () => {
+    const filePath = path.join(tmpDir, "drift.jsonl");
+    await appendServerErrorLog(
+      new Error("Failed to find Server Action x"),
+      { route: "/app/server-action", build: "abc1234" },
+      {
+        ERROR_LOG_FILE_ENABLED: "true",
+        ERROR_LOG_FILE_PATH: filePath,
+      },
+    );
+    const raw = await readFile(filePath, "utf8");
+    const line = JSON.parse(raw.trim()) as {
+      level: string;
+      signal: string;
+      build: string;
+      message: string;
+    };
+    expect(line.level).toBe("info");
+    expect(line.signal).toBe("action.drift");
+    expect(line.build).toBe("abc1234");
+    expect(line.message).toBe("Failed to find Server Action x");
+  });
+
+  it("keeps unknown errors at level=error with no signal", async () => {
+    const filePath = path.join(tmpDir, "real.jsonl");
+    await appendServerErrorLog(new Error("something genuinely broke"), undefined, {
+      ERROR_LOG_FILE_ENABLED: "true",
+      ERROR_LOG_FILE_PATH: filePath,
+    });
+    const raw = await readFile(filePath, "utf8");
+    const line = JSON.parse(raw.trim()) as {
+      level: string;
+      signal?: string;
+    };
+    expect(line.level).toBe("error");
+    expect(line.signal).toBeUndefined();
   });
 });
 

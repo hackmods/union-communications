@@ -1,5 +1,9 @@
 import { describe, expect, it, beforeEach, afterEach } from "vitest";
-import { buildHealthStatus, readAppVersion } from "@/lib/ops/health-status";
+import {
+  buildHealthStatus,
+  buildHealthStatusWithProbe,
+  readAppVersion,
+} from "@/lib/ops/health-status";
 
 describe("buildHealthStatus", () => {
   const env = { ...process.env };
@@ -39,6 +43,13 @@ describe("buildHealthStatus", () => {
       errorLogFileMisconfigured: false,
       sentryClientServerMismatch: false,
     });
+    // schemaProbe reflects pre-DB state cleanly.
+    expect(status.schemaProbe).toMatchObject({
+      postgresConfigured: false,
+      applied: { count: null, source: "unknown" },
+      journalInSync: true,
+      platformMeta: null,
+    });
   });
 
   it("reads app version from package.json", () => {
@@ -76,5 +87,34 @@ describe("buildHealthStatus", () => {
     expect(status.observability.sentryClientServerMismatch).toBe(true);
     expect(status.observability.errorLogFileEnabled).toBe(true);
     expect(JSON.stringify(status)).not.toContain("leaked-secret");
+  });
+});
+
+describe("buildHealthStatusWithProbe", () => {
+  const env = { ...process.env };
+
+  beforeEach(() => {
+    process.env = { ...env };
+  });
+
+  afterEach(() => {
+    process.env = env;
+  });
+
+  it("renders the schemaProbe with empty platformMeta when Postgres is off", async () => {
+    delete process.env.DATABASE_URL;
+    const status = await buildHealthStatusWithProbe();
+    expect(status.schemaProbe.postgresConfigured).toBe(false);
+    expect(status.schemaProbe.applied.count).toBeNull();
+    expect(status.schemaProbe.applied.source).toBe("unknown");
+    expect(status.schemaProbe.expectedJournalCount).toBeGreaterThan(0);
+    expect(status.schemaProbe.expectedJournalTags.length).toBe(
+      status.schemaProbe.expectedJournalCount,
+    );
+    // 0027 must be among the expected tags — that's the schema line the smoke
+    // asserts against and the live regression we caught.
+    expect(status.schemaProbe.expectedJournalTags).toContain("0027_hub_social");
+    expect(status.schemaProbe.criticalColumns.tasks.expected).toContain("notes");
+    expect(status.status).toBe("ok");
   });
 });

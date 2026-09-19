@@ -113,4 +113,27 @@ if [[ "${META_ROW}" != "1" ]]; then
   exit 1
 fi
 
-echo "[docker-migrate-smoke] ok — baseline + migrations applied via entrypoint"
+# 0027_hub_social adds four columns to the public.tasks table
+# (notes, mentioned_user_ids, reactions, updated_at). The 17:05 production
+# error class regressed because a host skipped the migration; we assert the
+# four columns exist after a fresh boot so the smoke catches the same gap
+# before shipping it again.
+TASKS_0027_COUNT="$(${COMPOSE} exec -T db psql -U "${POSTGRES_USER:-unionops}" -d "${POSTGRES_DB:-unionops}" -tAc \
+  "SELECT count(*) FROM information_schema.columns WHERE table_schema = current_schema() AND table_name = 'tasks' AND column_name IN ('notes','mentioned_user_ids','reactions','updated_at')")"
+
+if [[ "${TASKS_0027_COUNT}" != "4" ]]; then
+  echo "[docker-migrate-smoke] tasks missing 0027_hub_social columns (got ${TASKS_0027_COUNT}/4)" >&2
+  exit 1
+fi
+
+# boot_commit_accepted is the BASELINE_SQL-added column tracked so /api/health
+# can detect when the running image's commit diverges from the last maintain.
+META_BOOT_COL="$(${COMPOSE} exec -T db psql -U "${POSTGRES_USER:-unionops}" -d "${POSTGRES_DB:-unionops}" -tAc \
+  "SELECT count(*) FROM information_schema.columns WHERE table_schema = current_schema() AND table_name = 'platform_meta' AND column_name = 'boot_commit_accepted'")"
+
+if [[ "${META_BOOT_COL}" != "1" ]]; then
+  echo "[docker-migrate-smoke] platform_meta.boot_commit_accepted missing (got ${META_BOOT_COL})" >&2
+  exit 1
+fi
+
+echo "[docker-migrate-smoke] ok — baseline + 0027 column-set + boot_commit_accepted present via entrypoint"

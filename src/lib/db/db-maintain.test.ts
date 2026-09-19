@@ -18,9 +18,32 @@ describe("db-maintain pure helpers", () => {
     expect(Number.isInteger(ADVISORY_LOCK_KEY)).toBe(true);
   });
 
-  it("parses the Drizzle journal into count and last idx", () => {
-    const journal = { entries: [{ idx: 0 }, { idx: 1 }, { idx: 2 }] };
-    expect(parseJournal(journal)).toEqual({ count: 3, lastIdx: 2 });
+  it("parses the Drizzle journal into count, last idx, and tags", () => {
+    const journal = {
+      entries: [
+        { idx: 0, tag: "0000_init" },
+        { idx: 1, tag: "0001_qol_tables" },
+        { idx: 2, tag: "0002_rls_policies" },
+      ],
+    };
+    expect(parseJournal(journal)).toEqual({
+      count: 3,
+      lastIdx: 2,
+      tags: ["0000_init", "0001_qol_tables", "0002_rls_policies"],
+    });
+  });
+
+  it("drops journal entries without a tag string", () => {
+    const journal = {
+      entries: [
+        { idx: 0, tag: "0000_init" },
+        { idx: 1 }, // missing tag — tolerated, dropped from tags list
+      ],
+    };
+    const { count, lastIdx, tags } = parseJournal(journal);
+    expect(count).toBe(2);
+    expect(lastIdx).toBe(1);
+    expect(tags).toEqual(["0000_init"]);
   });
 
   it("parses the shipped journal (0..N are contiguous)", () => {
@@ -30,9 +53,14 @@ describe("db-maintain pure helpers", () => {
         "utf8",
       ),
     );
-    const { count, lastIdx } = parseJournal(journal);
+    const { count, lastIdx, tags } = parseJournal(journal);
     expect(count).toBeGreaterThanOrEqual(1);
     expect(lastIdx).toBe(count - 1);
+    expect(tags.length).toBe(count);
+    // every shipped tag matches the NNNN_description.sql convention
+    for (const tag of tags) {
+      expect(tag).toMatch(/^\d{4}_[a-z0-9_]+$/);
+    }
   });
 
   it("throws when the journal has no entries", () => {
@@ -86,6 +114,9 @@ describe("db-maintain pure helpers", () => {
     expect(BASELINE_SQL).toContain("ON CONFLICT DO NOTHING");
     expect(BASELINE_SQL).toMatch(/ADD COLUMN IF NOT EXISTS "schema_version"/);
     expect(BASELINE_SQL).toMatch(/ADD COLUMN IF NOT EXISTS "data_version"/);
+    expect(BASELINE_SQL).toMatch(
+      /ADD COLUMN IF NOT EXISTS "boot_commit_accepted"/,
+    );
   });
 
   it("reads the repo package.json version", () => {

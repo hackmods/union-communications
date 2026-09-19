@@ -7,11 +7,14 @@
  * exists so the runtime app can read it (e.g. /api/health) via drizzle-orm.
  *
  * Key fields:
- *  - schema_version     max applied Drizzle migration idx (journal tail after migrate)
- *  - app_version        package.json version of the app that last ran a maintain
- *  - data_version       pointer into src/lib/db/data-migrations (resumable data upgrades)
- *  - applied_migrations number of applied Drizzle journal entries
- *  - min_app_version    optional downgrade guard hint (not enforced)
+ *  - schema_version        max applied Drizzle migration idx (journal tail after migrate)
+ *  - app_version           package.json version of the app that last ran a maintain
+ *  - data_version          pointer into src/lib/db/data-migrations (resumable data upgrades)
+ *  - applied_migrations    number of applied Drizzle journal entries
+ *  - min_app_version       optional downgrade guard hint (not enforced)
+ *  - boot_commit_accepted  BUILD_COMMIT_SHA of the image that last completed a
+ *                          maintain; lets /api/health detect "we deployed but last
+ *                          maintain was an older image" without polling CI.
  */
 import { integer, pgTable, smallint, text, timestamp } from "drizzle-orm/pg-core";
 
@@ -28,4 +31,5 @@ export const platformMeta = pgTable("platform_meta", {
   updatedAt: timestamp("updated_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
+  bootCommitAccepted: text("boot_commit_accepted").notNull().default("unknown"),
 });

@@ -5,8 +5,12 @@ import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { PageShell } from "@/components/layout/PageShell";
 import { RouteStatusPanel } from "@/components/layout/RouteStatusPanel";
+import { StaleBuildPanel } from "@/components/layout/StaleBuildPanel";
 import { Button } from "@/components/ui/Button";
-import { captureClientRouteError } from "@/lib/observability/capture-client-route-error";
+import {
+  captureClientRouteError,
+  isClientActionDrift,
+} from "@/lib/observability/capture-client-route-error";
 
 export default function HubError({
   error,
@@ -20,6 +24,17 @@ export default function HubError({
   useEffect(() => {
     captureClientRouteError(error, "hub");
   }, [error]);
+
+  // Hub most often hits drift forms (grievances / tasks / committees create
+  // from a stale tab). Soft-reload first; sign-out stays as a fallback only
+  // when the boundary catches a non-drift failure.
+  if (isClientActionDrift(error)) {
+    return (
+      <PageShell size="nestedFocus" className="py-4" as="section">
+        <StaleBuildPanel onContinue={reset} />
+      </PageShell>
+    );
+  }
 
   return (
     <PageShell size="nestedFocus" className="py-4" as="section">

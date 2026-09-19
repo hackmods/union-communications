@@ -4,6 +4,41 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
+/**
+ * Build the `experimental.serverActions.allowedOrigins` allow-list.
+ *
+ * Server actions in Next.js 16 reject POSTs from origins not in this list —
+ * it's the framework-level defence against cross-origin action replay. We
+ * derive the list from `AUTH_URL` (canonical deployment origin) plus an
+ * optional `NEXT_PUBLIC_BASE_URL` (the public-facing reverse-proxy origin
+ * used by CapRover / multi-host setups). Duplicates and empty values are
+ * dropped so the list stays tight.
+ */
+function resolveAllowedOrigins(): string[] {
+  const candidates = [
+    process.env.AUTH_URL,
+    process.env.NEXT_PUBLIC_BASE_URL,
+    process.env.NEXTAUTH_URL,
+    "http://localhost:3000",
+  ];
+  const seen = new Set<string>();
+  const allowed: string[] = [];
+  for (const raw of candidates) {
+    if (!raw) continue;
+    try {
+      const host = new URL(raw).origin;
+      if (!seen.has(host)) {
+        seen.add(host);
+        allowed.push(host);
+      }
+    } catch {
+      // Bad URL in env — skip silently; entrypoint sanity check is on the
+      // operator, not on the bundler.
+    }
+  }
+  return allowed;
+}
+
 /** Security headers applied on every host (Vercel, CapRover, Docker) — SEC-008. */
 const SECURITY_HEADERS = [
   { key: "X-Frame-Options", value: "DENY" },
@@ -41,6 +76,20 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
+  experimental: {
+    /**
+     * Restrict server-action POSTs to origins we actually deploy on. Locks
+     * down the "Failed to find Server Action …" surface (which can be probed
+     * cross-origin in older Next versions) to the canonical hosts. Set
+     * `SERVER_ACTIONS_ALLOW_ALL_ORIGINS=true` only in test environments.
+     */
+    serverActions: {
+      allowedOrigins: process.env.SERVER_ACTIONS_ALLOW_ALL_ORIGINS === "true"
+        ? undefined
+        : resolveAllowedOrigins(),
+      bodySizeLimit: "2mb",
+    },
+  },
   async headers() {
     const longCache = [
       {

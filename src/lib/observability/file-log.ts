@@ -10,15 +10,33 @@ import {
   resolveObservabilityConfig,
   type EnvBag,
 } from "@/lib/observability/config";
+import {
+  classifyServerError,
+  type Classification,
+} from "@/lib/observability/signal-classify";
 
+/**
+ * Server error JSONL record. `level` is the fan-out sink level (error / warn
+ * / info) and `signal` is the recognised-benign tag (or null). Both fields
+ * exist on every record for stable dashboard / grep shape.
+ */
 export type ErrorLogRecord = {
   ts: string;
-  level: "error";
+  level: "error" | "warn" | "info";
   message: string;
   name?: string;
   stack?: string;
   digest?: string;
   route?: string;
+  /**
+   * BUILD_COMMIT_SHA from the image at the time the record was written. Lets
+   * dashboards group `action.drift` and other deploy-time events by SHA.
+   */
+  build?: string;
+  /** Recognised-benign tag (e.g. `auth.credentials_failed`, `action.drift`). */
+  signal?: string | null;
+  /** Free-form classifier metadata, e.g. extracted action ID. */
+  meta?: Record<string, string | number | boolean | null>;
 };
 
 let warnedFsError = false;
@@ -90,10 +108,14 @@ export async function rotateErrorLogIfNeeded(
 /**
  * Append one JSONL line when ERROR_LOG_FILE_ENABLED + path are set.
  * Rotates when over ERROR_LOG_FILE_MAX_BYTES. Never throws.
+ *
+ * The record level is determined by `classifyServerError` so callers don't
+ * have to know about benign signals (auth.credentials_failed, action.drift).
+ * Build commit + classifier signal ride along so dashboards can group.
  */
 export async function appendServerErrorLog(
   error: unknown,
-  meta?: { route?: string },
+  meta?: { route?: string; build?: string },
   env: EnvBag = process.env,
 ): Promise<void> {
   const cfg = resolveObservabilityConfig(env);
@@ -121,11 +143,17 @@ export async function appendServerErrorLog(
     );
 
     const parts = serializeError(error);
+    const classification: Classification = classifyServerError(error);
+    const envBuild = process.env.BUILD_COMMIT_SHA?.trim();
+    const build =
+      meta?.build ?? (envBuild && envBuild.length > 0 ? envBuild : undefined);
     const record: ErrorLogRecord = {
       ts: new Date().toISOString(),
-      level: "error",
+      level: classification.level,
       ...parts,
       ...(meta?.route ? { route: meta.route } : {}),
+      ...(build ? { build } : {}),
+      ...(classification.signal ? { signal: classification.signal } : {}),
     };
 
     await appendFile(filePath, `${JSON.stringify(record)}\n`, "utf8");

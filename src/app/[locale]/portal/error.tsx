@@ -6,7 +6,11 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { PageShell } from "@/components/layout/PageShell";
 import { RouteStatusPanel } from "@/components/layout/RouteStatusPanel";
-import { captureClientRouteError } from "@/lib/observability/capture-client-route-error";
+import { StaleBuildPanel } from "@/components/layout/StaleBuildPanel";
+import {
+  captureClientRouteError,
+  isClientActionDrift,
+} from "@/lib/observability/capture-client-route-error";
 
 export default function PortalError({
   error,
@@ -20,6 +24,14 @@ export default function PortalError({
   useEffect(() => {
     captureClientRouteError(error, "portal");
   }, [error]);
+
+  if (isClientActionDrift(error)) {
+    return (
+      <PageShell size="nestedFocus" className="py-4" as="section">
+        <StaleBuildPanel onContinue={reset} />
+      </PageShell>
+    );
+  }
 
   return (
     <PageShell size="nestedFocus" className="py-4" as="section">

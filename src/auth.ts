@@ -9,6 +9,7 @@ import { consumeSignInGrant } from "@/lib/auth/sign-in-grants";
 import { loadAuthAccountById } from "@/lib/auth/sign-inable-account";
 import { auditLog } from "@/lib/audit/store";
 import { isMfaEnabled } from "@/lib/auth/mfa-policy";
+import { reportServerError } from "@/lib/observability/report-server-error";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -68,7 +69,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           (await findDbUser(email, password)) ??
           (await findInvitedUser(email, password)) ??
           (await findDemoUser(email, password));
-        if (!account) return null;
+        if (!account) {
+          // Fire a single signal-classified warning per failed attempt so the
+          // JSONL/Sentry sinks can group under `signal=auth.credentials_failed`
+          // without converting the codebase into a noisy auth-failure logger.
+          await reportServerError(new Error("CredentialsSignin"), {
+            route: "/api/auth/callback/credentials",
+          });
+          return null;
+        }
 
         await auditLog.log({
           userId: account.id,
