@@ -14,6 +14,7 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 | Project B1 — Hub minutes/ballot Brand Kit DOCX | **Shipped** (2026-08-27) |
 | B2 presets (seniority/grievance DOCX) | **Shipped** (2026-08-27) |
 | B3 OOXML binary font embed (DOCX/PPTX) | **Shipped** (2026-08-27) |
+| **B4 Office package integrity + DOTX** | **Shipped 2026-09-20** — format-aware finalizers, pre-download validator, semantic design tokens, per-preset Word templates, fixture generator, Windows Office smoke; see [`session-knowledge-2026-09-20-office-engine-uplift.md`](session-knowledge-2026-09-20-office-engine-uplift.md) |
 | Worksheet fill-in PDF engine (`writeBrandedWorksheetPdf`) | **Shipped** (2026-09-03) — `fieldPair`, `checkPair`, `ruled` + `fill`, `closingSections`; see [`guide-pdf-quality-2026-08.md`](guide-pdf-quality-2026-08.md) |
 | **Project A2 — PDF layout engine refactor (phases 0–6)** | **Shipped** (2026-09-03) — `pdf-layout/` modules, layout modes, `layoutWorksheet()`, builder DSL, table/column/pageBreak primitives, golden spatial tests, `npm run pdf:preview`; see [`GUIDE_PDF_LAYOUT.md`](../modules/GUIDE_PDF_LAYOUT.md) |
 
@@ -104,6 +105,18 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 - [x] Unit/smoke asserts font files present in the ZIP/OOXML, not only face name strings
 - [x] Lift “OOXML binary font embed” from parked non-goals when this tranche starts
 
+**B4 — package integrity + reusable Word templates**
+
+- [x] Split Word and PowerPoint finalization; correct Word obfuscation/targets and PowerPoint raw-font relationships
+- [x] Add portable ZIP/XML/content-type/relationship/font validation before download
+- [x] Add semantic `OfficeDesignTokens` adapters for Word, Excel, and PowerPoint
+- [x] Add per-preset DOTX API, direct download, and ZIP inclusion
+- [x] Add production-renderer fixtures plus installed Windows Office smoke
+- [ ] Add full Open XML schema validation in Windows CI
+- [ ] Expand fixture matrix to both locales and add visual page/sheet/slide regression review
+- [ ] Move Hub minutes/ballots from shared finalization only onto semantic Word styles
+- [ ] Define reusable PowerPoint slide masters and locale-aware presentation language metadata
+
 ### Shared with Project A
 
 - Single OFL → embeddable-binary pipeline (woff2 today → TTF/OTF for PDF + Office)
@@ -120,6 +133,7 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 4. **Project B3** — OOXML binary font embed — **done** (DOCX/PPTX presets 2026-08-27; Hub minutes/ballot 2026-09-05)
 5. **Project B2** — new presets as guides/Hub demand them
 6. **Residual QOL** — logo-resolve failures when `includeLogo` is on; any remaining error-only export buttons; optional XLSX body fonts
+7. **Office B4 follow-through** — schema-validator CI, EN/FR fixture manifest, visual regression review, Hub semantic-style migration, PowerPoint masters — tracked in [`session-knowledge-2026-09-20-office-engine-uplift.md`](session-knowledge-2026-09-20-office-engine-uplift.md)
 
 **Do not** merge canvas raster PDF + text PDF into one engine — share font/download helpers only (session knowledge 2026-09-05).
 

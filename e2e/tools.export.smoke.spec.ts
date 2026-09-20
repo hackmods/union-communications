@@ -293,4 +293,27 @@ test.describe("Tool export output smoke @smoke", () => {
       expect(buf.byteLength, name).toBeGreaterThan(5_000);
     }
   });
+
+  test("Document Generator Word template has resolved package parts", async ({ page }) => {
+    test.setTimeout(90_000);
+    const JSZip = (await import("jszip")).default;
+    await page.goto("/en/tools/document-generator/");
+    await expect(page.getByRole("heading", { name: "Document & Slide Generator" })).toBeVisible();
+    const downloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Download Word template (.dotx)" }).first().click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/\.dotx$/i);
+    const outDir = path.join("test-results", "tool-export-smoke");
+    fs.mkdirSync(outDir, { recursive: true });
+    const filePath = path.join(outDir, download.suggestedFilename());
+    await download.saveAs(filePath);
+    const zip = await JSZip.loadAsync(fs.readFileSync(filePath), { checkCRC32: true });
+    expect(zip.file("word/document.xml")).toBeTruthy();
+    const contentTypes = await zip.file("[Content_Types].xml")!.async("string");
+    expect(contentTypes).toContain("wordprocessingml.template.main+xml");
+    expect(zip.file("word/fonts/NOTICE.txt")).toBeTruthy();
+    const fontRels = await zip.file("word/_rels/fontTable.xml.rels")!.async("string");
+    expect(fontRels).toContain('Target="fonts/');
+    expect(fontRels).not.toContain('Target="../fonts/');
+  });
 });

@@ -22,6 +22,11 @@ import {
   withOfficeXlsxFont,
   type OfficeBrandFontOpts,
 } from "@/lib/export/office-brand-styles";
+import {
+  applyExcelDesignTokens,
+  createOfficeDesignTokens,
+  createPowerPointTheme,
+} from "@/lib/export/office-design-tokens";
 
 export type DocxData = Record<string, unknown>;
 
@@ -36,6 +41,17 @@ const XLSX_MIME =
 
 const PPTX_MIME =
   "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+const DOTX_MIME =
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.template";
+
+async function validatedOfficeBlob(
+  blob: Blob,
+  kind: import("@/lib/export/office-package-validator").OfficePackageKind,
+): Promise<Blob> {
+  const { validateOfficePackage } = await import("@/lib/export/office-package-validator");
+  await validateOfficePackage(blob, kind);
+  return blob;
+}
 
 /** Fetch/cache static templates (sample fixtures / legacy). */
 export async function loadTemplateBuffer(
@@ -150,6 +166,30 @@ export async function exportDocxFromPreset(
 ): Promise<void> {
   const { filename, ...rest } = opts;
   await downloadBlob(await renderDocxFromPreset(rest), filename);
+}
+
+/** Build a Word template with the same preset structure and Brand Kit styles. */
+export async function renderDotxFromPreset(opts: DocxPresetOpts): Promise<Blob> {
+  const docx = await renderDocxFromPreset(opts);
+  const JSZip = (await import("jszip")).default;
+  const zip = await JSZip.loadAsync(await docx.arrayBuffer());
+  const contentTypes = await zip.file("[Content_Types].xml")!.async("string");
+  zip.file(
+    "[Content_Types].xml",
+    contentTypes.replace(
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.template.main+xml",
+    ),
+  );
+  const template = new Blob([Buffer.from(await zip.generateAsync({ type: "uint8array" }))], { type: DOTX_MIME });
+  return validatedOfficeBlob(template, "dotx");
+}
+
+export async function exportDotxFromPreset(
+  opts: DocxPresetOpts & { filename: string },
+): Promise<void> {
+  const { filename, ...rest } = opts;
+  await downloadBlob(await renderDotxFromPreset(rest), filename);
 }
 
 /** Legacy templated DOCX (unit tests / sample-letter only). */
@@ -474,8 +514,9 @@ export async function renderEventRsvpXlsx(opts: {
   ws.getColumn(9).width = 18;
   ws.getColumn(10).width = 22;
 
+  applyExcelDesignTokens(workbook, createOfficeDesignTokens({ palette: opts.palette, headlineFont: headFace, bodyFont: bodyFace }));
   const out = await workbook.xlsx.writeBuffer();
-  return new Blob([new Uint8Array(out)], { type: XLSX_MIME });
+  return validatedOfficeBlob(new Blob([new Uint8Array(out)], { type: XLSX_MIME }), "xlsx");
 }
 
 export async function exportEventRsvpXlsx(
@@ -605,8 +646,9 @@ export async function renderSeniorityWorksheetXlsx(opts: {
   ws.getColumn(6).width = 12;
   ws.getColumn(7).width = 28;
 
+  applyExcelDesignTokens(workbook, createOfficeDesignTokens({ palette: opts.palette, headlineFont: headFace, bodyFont: fonts.bodyFont }));
   const out = await workbook.xlsx.writeBuffer();
-  return new Blob([new Uint8Array(out)], { type: XLSX_MIME });
+  return validatedOfficeBlob(new Blob([new Uint8Array(out)], { type: XLSX_MIME }), "xlsx");
 }
 
 export async function exportSeniorityWorksheetXlsx(
@@ -746,8 +788,9 @@ export async function renderGrievanceIntakeXlsx(opts: {
   ws.getColumn(1).width = 22;
   ws.getColumn(2).width = 72;
 
+  applyExcelDesignTokens(workbook, createOfficeDesignTokens({ palette: opts.palette, headlineFont: headFace, bodyFont: fonts.bodyFont }));
   const out = await workbook.xlsx.writeBuffer();
-  return new Blob([new Uint8Array(out)], { type: XLSX_MIME });
+  return validatedOfficeBlob(new Blob([new Uint8Array(out)], { type: XLSX_MIME }), "xlsx");
 }
 
 export async function exportGrievanceIntakeXlsx(
@@ -855,8 +898,9 @@ export async function renderLecDirectoryXlsx(opts: {
   ws.getColumn(2).width = 28;
   ws.getColumn(3).width = 24;
 
+  applyExcelDesignTokens(workbook, createOfficeDesignTokens({ palette: opts.palette, headlineFont: headFace, bodyFont: fonts.bodyFont }));
   const out = await workbook.xlsx.writeBuffer();
-  return new Blob([new Uint8Array(out)], { type: XLSX_MIME });
+  return validatedOfficeBlob(new Blob([new Uint8Array(out)], { type: XLSX_MIME }), "xlsx");
 }
 
 export async function exportLecDirectoryXlsx(opts: {
@@ -882,7 +926,7 @@ export async function renderXlsx(opts: {
   await workbook.xlsx.load(new Uint8Array(buffer) as never);
   await opts.fill(workbook);
   const out = await workbook.xlsx.writeBuffer();
-  return new Blob([new Uint8Array(out)], { type: XLSX_MIME });
+  return validatedOfficeBlob(new Blob([new Uint8Array(out)], { type: XLSX_MIME }), "xlsx");
 }
 
 export async function exportXlsx(opts: {
@@ -1189,6 +1233,7 @@ export async function renderPptx(opts: PptxDemoOpts): Promise<Blob> {
     author: string;
     title: string;
     subject: string;
+    theme: { headFontFace: string; bodyFontFace: string; lang: string };
     write: (o: { outputType: string }) => Promise<unknown>;
   };
   pptx.defineLayout({ name: "LAYOUT_16x9", width: 13.333, height: 7.5 });
@@ -1196,6 +1241,8 @@ export async function renderPptx(opts: PptxDemoOpts): Promise<Blob> {
   pptx.author = "UnionOps";
   pptx.title = opts.title || "UnionOps deck";
   pptx.subject = "Branded local presentation";
+  const presentationFonts = resolveOfficeBrandFonts(opts);
+  pptx.theme = createPowerPointTheme(createOfficeDesignTokens({ palette: opts.palette, headlineFont: presentationFonts.headlineFont, bodyFont: presentationFonts.bodyFont }));
 
   const primary = stripHash(opts.palette.primary);
   const secondary = stripHash(opts.palette.secondary);

@@ -2925,6 +2925,7 @@
     "outputPptx": "PowerPoint (.pptx)",
     "fieldsHeading": "Texte",
     "downloadZip": "Télécharger en ZIP",
+    "downloadDotx": "Télécharger le modèle Word (.dotx)",
     "downloadIcs": "Télécharger le calendrier (.ics)",
     "icsNeedsCalendar": "Indiquez le début du calendrier (et éventuellement la fin) pour que le fichier .ics ait une vraie date/heure.",
     "selectOutput": "Sélectionnez au moins un format.",
@@ -7176,6 +7177,10 @@
       "office-export-brand-fonts": {
         "title": "Word et Excel gardent la typo de votre Trousse de marque",
         "body": "Les procès-verbaux, bulletins de vote et classeurs du Générateur de documents portent maintenant les polices de votre Trousse de marque dans Word et Excel — y compris les feuilles RSVP en français — pour des téléchargements fidèles hors ligne."
+      },
+      "office-templates-integrity": {
+        "title": "Les fichiers Office s’ouvrent sans réparation et incluent des modèles Word",
+        "body": "Le Générateur de documents vérifie maintenant les fichiers Word, Excel et PowerPoint avant le téléchargement. Chaque exemple Word comprend aussi un modèle réutilisable avec les mêmes styles de la Trousse de marque."
       },
       "union-toolkit-home": {
         "title": "Accueil — Comms, travail de délégué, ou faire tourner la section",

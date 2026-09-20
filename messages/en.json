@@ -2925,6 +2925,7 @@
     "outputPptx": "PowerPoint (.pptx)",
     "fieldsHeading": "Text",
     "downloadZip": "Download as ZIP",
+    "downloadDotx": "Download Word template (.dotx)",
     "downloadIcs": "Download calendar (.ics)",
     "icsNeedsCalendar": "Set Calendar start (and optionally Calendar end) so the .ics file has a real date/time.",
     "selectOutput": "Select at least one output format.",
@@ -7229,6 +7230,10 @@
       "office-export-brand-fonts": {
         "title": "Word and Excel keep your Brand Kit type",
         "body": "Minutes, ballots, and Document Generator worksheets now carry your Brand Kit fonts into Word and Excel—including French RSVP sheets—so downloads look on-brand offline."
+      },
+      "office-templates-integrity": {
+        "title": "Office downloads open cleanly and include Word templates",
+        "body": "Document Generator now checks Word, Excel, and PowerPoint files before download. Each Word example also includes a reusable template with the same Brand Kit styles."
       },
       "union-toolkit-home": {
         "title": "Home — pick Comms, steward craft, or running the local",

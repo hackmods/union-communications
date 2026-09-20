@@ -15,6 +15,7 @@ import {
   exportXlsx,
   loadTemplateBuffer,
   renderDocxFromPreset,
+  renderDotxFromPreset,
   renderEventRsvpXlsx,
   EVENT_RSVP_XLSX_LABELS,
   renderSeniorityWorksheetXlsx,
@@ -107,6 +108,20 @@ describe("office-export", () => {
       },
     });
     expect(blob.size).toBeGreaterThan(8000);
+  });
+
+  it("renders a validated DOTX with a template main part", async () => {
+    const blob = await renderDotxFromPreset({
+      presetId: "simple-letter",
+      palette: { primary: "#9E1B32", secondary: "#5C0A1A", accent: "#C45C26" },
+      localLabel: "Local 110",
+      fields: { body: "Template body" },
+    });
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const contentTypes = await zip.file("[Content_Types].xml")!.async("string");
+    expect(blob.type).toBe("application/vnd.openxmlformats-officedocument.wordprocessingml.template");
+    expect(contentTypes).toContain("wordprocessingml.template.main+xml");
   });
 
   it("renderDocxFromPreset seniority-worksheet succeeds", async () => {

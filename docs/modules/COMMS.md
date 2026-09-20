@@ -1,5 +1,11 @@
 # Comms Module
 
+## Office export engine (2026-09-20)
+
+Document Generator and Hub Word consumers use the shared Office export foundation. DOCX/DOTX font finalization follows Word's reversed-GUID obfuscation rules and merges the generated font table; PPTX stores raw TTF bytes and schema-valid regular/bold relationships. Every Office package is checked for ZIP integrity, required parts, content-type coverage, relationship resolution, and font signatures before download. DOCX-capable presets also expose a matching `.dotx`, which is included in the preset ZIP.
+
+Shared interfaces live in `office-design-tokens.ts`, `office-package-validator.ts`, and `ooxml-font-embed.ts`. System fonts remain an unembedded no-op. Licensed catalog fonts retain their OFL notice.
+
 ## Status: v1.2 — Four-Channel Toolbox + Fifth-Channel Email Guide
 
 Public-facing communications toolbox covering social media, print, union boards, and local websites. Client-side image generation and static site export.
