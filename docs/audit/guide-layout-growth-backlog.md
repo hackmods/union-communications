@@ -13,7 +13,7 @@ Public guide chapters and workshop outlines use shared `GuideSection*` / outline
 
 | Surface | Shell / wrappers | Still deferred / edge cases |
 |---------|------------------|------------------------------|
-| **Officer Learning** dark shell | `olTheme` + `OfficerLearningDashboard` / `ModuleViewer`; track picker CSS grid; module cards `sm:2 lg:3 xl:4`; sources `max-w-prose` via `olTheme.sourcesCard` + `SourcesBlock` | Optional dark tip-grid `variant`; four-width matrix on **module viewer** body (not the index); Hub light board (`/app/officer-learning`) stays Hub chrome |
+| **Officer Learning** ModuleViewer (platform light `olTheme`) | `olTheme` + `OfficerLearningDashboard` / `ModuleViewer`; track picker CSS grid; module cards `sm:2 lg:3 xl:4`; sources `max-w-prose` via `olTheme.sourcesCard` + `SourcesBlock` | Four-width matrix on **module viewer** body (not the index); Hub board (`/app/officer-learning`) stays Hub chrome. Do not reintroduce a navy dual theme. |
 | **Legal pamphlets** | `GuideLayout preset="narrow"` + `GuideSection` / `GuideCallout` / `GuideProse` / `GuideBulletList`; DisplaySettings → `PublicHubPanel` | Do **not** widen to playbook tip grids or TOC rails unless product asks |
 | **Tool editor chrome** | `ToolEditorLayout`: `PUBLIC_PAGE_TITLE_CLASS` + shared form panel (`p-4 md:p-6`); form-root Cards unwrapped | Canvas **preview interiors** stay Canvas Core; bespoke PageShell exceptions: alt-text, rules-of-order, proposal-tracker; bylaw workspace delegate |
 | **Hub / Portal dashboards** | `HubDashboard` / `PortalStation` + `PUBLIC_*` titles; widget/circle CSS grids; Card for widgets only | Deeper Hub boards (TaskBoard, CircleWorkspace density) still product-scoped; do not force GuideLayout |

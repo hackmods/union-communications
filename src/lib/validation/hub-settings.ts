@@ -28,14 +28,13 @@ export const brandKitPutSchema = z
     message: "brandKit or onboardingComplete is required",
   });
 
-export const userPreferencesSchema = z
-  .object({
-    fontSize: z.enum(["default", "large", "larger", "maximum"]),
-    highContrast: z.boolean(),
-    reducedMotion: z.boolean(),
-    stewardMobileMode: z.boolean(),
-  })
-  .strict();
+/** Known preference fields. Unknown keys (e.g. retired officerLearningColour) are stripped. */
+export const userPreferencesSchema = z.object({
+  fontSize: z.enum(["default", "large", "larger", "maximum"]),
+  highContrast: z.boolean(),
+  reducedMotion: z.boolean(),
+  stewardMobileMode: z.boolean(),
+});
 
 export const preferencesPutSchema = z
   .object({

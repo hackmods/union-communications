@@ -5,6 +5,7 @@
 - [x] Retired navy focus shell (`#0B132B`); sole `olTheme` = platform light chrome (`bg-background` + `opseu-blue` / `opseu-dark`).
 - [x] Removed `officerLearningColour` Display setting + `data-ol-colour` plumbing; ModuleToc always light `GuideToc`.
 - [x] ModuleViewer training chrome kept (not GuideLayout). Certificate PDF palette unchanged.
+- [x] QOL follow-up: smoke asserts light chrome; retired `GuideToc` dark variant; prefs schema strips unknown keys; stronger cover/hero fades; agent docs no longer say “stay dark.”
 - Narrative: [`session-knowledge-2026-09-20-officer-learning-site-colours.md`](audit/session-knowledge-2026-09-20-officer-learning-site-colours.md).
 
 ## 2026-09-20 — B7P demo roster (no OPSEU local-number overlap)

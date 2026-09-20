@@ -41,7 +41,7 @@ Guards: `npm run test:unit -- src/lib/comms/guide-layout-guards.test.ts`.
 
 ## Decisions that must stick
 
-1. **Do not force GuideLayout onto Brand Kit, tools, or Officer Learning.** Brand Kit = workspace composition + local hub panels; tools stay `ToolEditorLayout`; OL stays dark shell.
+1. **Do not force GuideLayout onto Brand Kit, tools, or Officer Learning.** Brand Kit = workspace composition + local hub panels; tools stay `ToolEditorLayout`; OL keeps ModuleViewer on platform light `olTheme` (navy dual-theme retired 2026-09-20).
 2. **Prose measure stays for continuous reading** (section intros, `GuideProse`, callout body). Tip/list clusters must **not** wrap items in `max-w-prose` inside a playbook article column.
 3. **`GuideExpandSection`:** never pin the outer shell with `max-w-prose` / `max-w-3xl` — summary inside already uses prose; children should fill the column (tip grids / outlines).
 4. **Website `/guide/website` `PartFrame`** remains an accepted exception (multi-part site-build chrome). Do not “fix” by converting to `GuideSection` without a product redesign.
@@ -77,7 +77,7 @@ Not blockers for “checklist complete.” Prioritized for a future pass (or gro
 | Surface | Note |
 |---------|------|
 | **Tool editor pages** (`/tools/*` Cards, rigid `h1`) | Explicit exception — canvas/workspace chrome. Separate QOL if product wants fluid titles on ToolEditorLayout chrome only |
-| **Officer Learning dark shell** | See growth backlog — dark tip-grid variant, not GuideLayout |
+| **Officer Learning ModuleViewer** | Platform light `olTheme` — not GuideLayout; see [`session-knowledge-2026-09-20-officer-learning-site-colours.md`](session-knowledge-2026-09-20-officer-learning-site-colours.md) |
 | **Legal trio** | Stay narrow pamphlet |
 | **Hub `/app/**` + Portal** | Largest remaining density debt if scope expands; needs product decision |
 | **PDF / guide sheets** | Separate engine — do not apply Tailwind tip grids |

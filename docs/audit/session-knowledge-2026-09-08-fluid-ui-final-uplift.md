@@ -18,7 +18,7 @@
 
 ## Do not regress
 
-- OL stays on dark shell — never `GuideLayout`.
+- OL keeps ModuleViewer on platform light chrome — never `GuideLayout`. Do not reintroduce a navy dual theme.
 - Text PDFs stay on `pdf-layout` / `text-pdf-layout` — no Tailwind tip grids on print.
 - Safe-zone overlays stay **outside** `[data-export-root]`; capture still strips chrome if nested.
 - Hub/Portal do not inherit public GuideLayout chrome.

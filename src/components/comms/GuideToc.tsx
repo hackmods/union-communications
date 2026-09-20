@@ -12,8 +12,6 @@ export type GuideTocItem = {
 type GuideTocProps = {
   items: GuideTocItem[];
   activeId?: string;
-  /** Light theme for public guides; dark matches Officer Learning shell */
-  variant?: "light" | "dark";
   /** Smooth scroll to section instead of instant hash jump */
   smoothScroll?: boolean;
   className?: string;
@@ -25,12 +23,9 @@ type GuideTocProps = {
 export function GuideToc({
   items,
   activeId,
-  variant = "light",
   smoothScroll = false,
   className,
 }: GuideTocProps) {
-  const dark = variant === "dark";
-
   const handleClick = (id: string, event: MouseEvent<HTMLAnchorElement>) => {
     if (!smoothScroll) return;
     event.preventDefault();
@@ -55,12 +50,8 @@ export function GuideToc({
             "block rounded-lg px-3 py-2 text-sm transition-colors",
             item.level === 3 && "pl-5",
             activeId === item.id
-              ? dark
-                ? "bg-orange-500/20 font-semibold text-orange-100"
-                : "bg-opseu-blue/10 font-semibold text-opseu-dark"
-              : dark
-                ? "text-slate-300 hover:bg-white/5 hover:text-white"
-                : "text-gray-600 hover:bg-gray-50 hover:text-opseu-dark",
+              ? "bg-opseu-blue/10 font-semibold text-opseu-dark"
+              : "text-gray-600 hover:bg-gray-50 hover:text-opseu-dark",
           )}
         >
           {item.label}

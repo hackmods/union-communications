@@ -445,7 +445,7 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 ### [UI-011] ✅ CLOSED (2026-08-27)
 **Category:** UI/Media
 **Severity/Priority:** Low
-**Status:** Closed — Officer Learning `ModuleToc` delegates to shared `GuideToc` (`variant="dark"`); dark classroom shell unchanged.
+**Status:** Closed — Officer Learning `ModuleToc` delegates to shared `GuideToc` (light platform chrome; dark variant retired with navy shell 2026-09-20).
 **Affected Architecture/Files:** `src/components/officer-learning/ModuleToc.tsx`, `src/components/comms/GuideToc.tsx`
 
 ---

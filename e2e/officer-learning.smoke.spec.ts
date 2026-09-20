@@ -36,20 +36,20 @@ test.describe("Officer Learning @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
-  test("Display can switch Officer Learning to the light colour", async ({
-    page,
-  }) => {
+  test("Officer Learning uses platform light chrome", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/en/guide/officer-learning/");
+    await expect(
+      page.getByRole("heading", { name: "Officer Learning Center" }),
+    ).toBeVisible();
     const shell = page.locator("[data-ol-shell]").first();
-    await expect(shell).toHaveCSS("background-color", "rgb(11, 19, 43)");
+    // Site --background #f8fafc
+    await expect(shell).toHaveCSS("background-color", "rgb(248, 250, 252)");
 
     await page.getByRole("button", { name: "Display" }).click();
-    await page.getByRole("radio", { name: "Light" }).click();
-    await expect(shell).not.toHaveCSS("background-color", "rgb(11, 19, 43)");
-
-    await page.getByRole("radio", { name: "Navy (default)" }).click();
-    await expect(shell).toHaveCSS("background-color", "rgb(11, 19, 43)");
+    await expect(
+      page.getByRole("radio", { name: /Navy|Light/i }),
+    ).toHaveCount(0);
   });
 
   test("officer learning is top-level nav, not inside Guides flyout", async ({

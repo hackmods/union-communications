@@ -40,4 +40,7 @@
 
 ```bash
 npm run test:unit -- src/lib/officer-learning/theme.test.ts src/store/preferences-store.test.ts src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts
+npm run test:smoke -- e2e/officer-learning.smoke.spec.ts --grep "platform light"
 ```
+
+Smoke asserts `[data-ol-shell]` background is site `--background` (`rgb(248, 250, 252)`) and Display has no Navy/Light radios.
