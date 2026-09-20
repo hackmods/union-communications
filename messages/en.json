@@ -7931,8 +7931,9 @@
     "toolsGroupFunds": "Funds",
     "toolsGroupAdmin": "Administration",
     "toolsGroupOther": "More",
+    "qolCardEyebrow": "This local",
     "qolCardTitle": "Officer tools",
-    "qolCardDesc": "Records, funds, templates, and handoff for this local. Same tools as the Officer tools menu, listed here so they are easy to find.",
+    "qolCardDesc": "Casework helpers, meeting records, funds, and local admin — grouped so you can open the right tool fast.",
     "toolBlurbs": {
       "calendar": "See grievance deadlines and membership meetings on one board.",
       "overdue": "Open grievances that have passed their collective-agreement step date.",

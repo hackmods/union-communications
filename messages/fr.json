@@ -7878,8 +7878,9 @@
     "toolsGroupFunds": "Fonds",
     "toolsGroupAdmin": "Administration",
     "toolsGroupOther": "Plus",
+    "qolCardEyebrow": "Cette section",
     "qolCardTitle": "Outils dirigeants",
-    "qolCardDesc": "Registres, fonds, modèles et passation pour cette section. Les mêmes outils que le menu Outils dirigeants, listés ici pour les trouver facilement.",
+    "qolCardDesc": "Aides aux dossiers, registres de réunion, fonds et administration locale — regroupés pour ouvrir le bon outil rapidement.",
     "toolBlurbs": {
       "calendar": "Voir les échéances de griefs et les assemblées générales sur un même tableau.",
       "overdue": "Griefs ouverts dont la date d’étape prévue à la convention est dépassée.",
