@@ -31,6 +31,12 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/portal",
   },
   {
+    id: "officer-learning-site-colours",
+    date: "2026-09-20",
+    kind: "improved",
+    href: "/guide/officer-learning",
+  },
+  {
     id: "b7p-demo-roster",
     date: "2026-09-20",
     kind: "improved",

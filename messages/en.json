@@ -7155,6 +7155,10 @@
         "title": "Local Portal pages are easier to scan",
         "body": "Together, Dispatch, Hold the line, Sidebars, and Circle headers now use the same clear panels and tiles as the Officer Hub, so Circles and pings are faster to find."
       },
+      "officer-learning-site-colours": {
+        "title": "Officer Learning matches the rest of UnionOps",
+        "body": "Training modules now use the same light pages and orange accents as the other guides, so the classroom no longer feels like a different site."
+      },
       "b7p-demo-roster": {
         "title": "Sample Hub accounts are Behind 7 Proxies now",
         "body": "Workshop logins use Local 7, 404, 502, and 1337 under Behind 7 Proxies (B7P), so they no longer look like real OPSEU / SEFPO local numbers. Shared password is still demo123 when demo auth is on."
@@ -7655,12 +7659,6 @@
       "highContrastDescription": "Stronger text and border contrast for easier reading.",
       "reducedMotionLabel": "Reduce motion",
       "reducedMotionDescription": "Minimize animations and transitions, regardless of system settings.",
-      "officerLearningColourLabel": "Officer Learning colour",
-      "officerLearningColourDescription": "This only changes the Officer Learning training pages. Other guides stay as they are.",
-      "officerLearningColour": {
-        "navy": "Navy (default)",
-        "light": "Light"
-      },
       "previewLabel": "Preview",
       "previewText": "The quick brown fox jumps over the lazy dog. Your local union deserves tools that work for everyone."
     }

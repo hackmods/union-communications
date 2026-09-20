@@ -7102,6 +7102,10 @@
         "title": "Les pages du Portail local sont plus faciles à parcourir",
         "body": "Ensemble, Relais, Tenir la ligne, Coulisses et les en-têtes de Cercle utilisent maintenant les mêmes panneaux et tuiles clairs que le Hub des dirigeants, pour trouver plus vite les Cercles et les avis."
       },
+      "officer-learning-site-colours": {
+        "title": "La formation des dirigeants s'aligne sur le reste d'UnionOps",
+        "body": "Les modules de formation utilisent maintenant les mêmes pages claires et accents orange que les autres guides, pour que la salle de classe ne semble plus un autre site."
+      },
       "b7p-demo-roster": {
         "title": "Les comptes Hub d'exemple sont Behind 7 Proxies",
         "body": "Les connexions d'atelier utilisent les sections 7, 404, 502 et 1337 sous Behind 7 Proxies (B7P), pour ne plus ressembler aux vrais numéros de section OPSEU / SEFPO. Le mot de passe commun reste demo123 quand l'auth démo est active."
@@ -7602,12 +7606,6 @@
       "highContrastDescription": "Contraste renforcé du texte et des bordures pour une lecture plus facile.",
       "reducedMotionLabel": "Réduire les animations",
       "reducedMotionDescription": "Minimiser les animations et transitions, indépendamment des paramètres système.",
-      "officerLearningColourLabel": "Couleur du Centre de formation des dirigeants",
-      "officerLearningColourDescription": "Ceci ne change que les pages de formation des dirigeants. Les autres guides restent tels quels.",
-      "officerLearningColour": {
-        "navy": "Marine (par défaut)",
-        "light": "Clair"
-      },
       "previewLabel": "Aperçu",
       "previewText": "Voix ambiguë d'un cœur qui au zéphyr préfère les jattes de kiwis. Votre section syndicale mérite des outils accessibles à tous."
     }
