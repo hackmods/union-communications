@@ -105,6 +105,66 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
     migration: "0034_officer_learning.sql",
   },
   {
+    table: "local_meeting_schedules",
+    policy: "local_meeting_schedules_tenant_isolation",
+    migration: "0018_local_meeting_schedule.sql",
+  },
+  {
+    table: "union_meetings",
+    policy: "union_meetings_tenant_isolation",
+    migration: "0019_union_meetings_rsvp.sql",
+  },
+  {
+    table: "rsvp_tokens",
+    policy: "rsvp_tokens_tenant_isolation",
+    migration: "0019_union_meetings_rsvp.sql",
+  },
+  {
+    table: "rsvp_responses",
+    policy: "rsvp_responses_tenant_isolation",
+    migration: "0019_union_meetings_rsvp.sql",
+  },
+  {
+    table: "pto_requests",
+    policy: "pto_requests_tenant_isolation",
+    migration: "0020_pto_requests.sql",
+  },
+  {
+    table: "time_shifts",
+    policy: "time_shifts_tenant_isolation",
+    migration: "0021_time_shifts.sql",
+  },
+  {
+    table: "pto_balances",
+    policy: "pto_balances_tenant_isolation",
+    migration: "0022_pto_balances.sql",
+  },
+  {
+    table: "time_worker_groups",
+    policy: "time_worker_groups_tenant_isolation",
+    migration: "0028_time_full8.sql",
+  },
+  {
+    table: "time_ot_policies",
+    policy: "time_ot_policies_tenant_isolation",
+    migration: "0028_time_full8.sql",
+  },
+  {
+    table: "time_shift_series",
+    policy: "time_shift_series_tenant_isolation",
+    migration: "0028_time_full8.sql",
+  },
+  {
+    table: "pto_accrual_policies",
+    policy: "pto_accrual_policies_tenant_isolation",
+    migration: "0028_time_full8.sql",
+  },
+  {
+    table: "payroll_export_profiles",
+    policy: "payroll_export_profiles_tenant_isolation",
+    migration: "0028_time_full8.sql",
+  },
+  {
     table: "tasks",
     policy: "tasks_tenant_isolation",
     migration: "0009_tasks.sql",

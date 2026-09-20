@@ -147,3 +147,9 @@
 - **If UnionOps hosts Officer Hub or Local Portal** for a local, ask enough to cover that hosting — not a lock-in subscription, not a public `/pricing` page until product sets a number.
 - Do **not** tell volunteers the whole platform is free forever. Public copy: `/manifesto` (nav: “Built in solidarity”), Support, Home metadata, README.
 **Consequences:** Coffee tips on `/support` cover the public Comms site only. They are not Hub hosting. Inventing a price or a `/pricing` route still needs an explicit product cut.
+
+## ADR-020: Verified, forward-only database deployments
+**Status:** Accepted
+**Context:** The Drizzle journal, `platform_meta`, and a separate data-version runner could disagree while production still served with missing critical columns.
+**Decision:** Use the append-only Drizzle journal as the sole upgrade ledger. Container boot validates it, serializes replicas, migrates as owner, proves the exact schema-qualified image tail, and verifies generated schema/RLS shape before serving. Data massage ships in forward idempotent migrations.
+**Consequences:** Production fails closed; no automatic destructive downgrade. The old metadata/data runner and health-only probe are retired. Existing applied entries and production data are preserved through reconciliation migration 0036. See [`docs/audit/adr-020-database-deployment-contract.md`](audit/adr-020-database-deployment-contract.md).

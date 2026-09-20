@@ -1,7 +1,6 @@
 import { describe, expect, it, beforeEach, afterEach } from "vitest";
 import {
   buildHealthStatus,
-  buildHealthStatusWithProbe,
   readAppVersion,
 } from "@/lib/ops/health-status";
 
@@ -10,6 +9,7 @@ describe("buildHealthStatus", () => {
 
   beforeEach(() => {
     process.env = { ...env };
+    process.env.DB_BOOT_ATTESTATION_PATH = `${process.cwd()}/.missing-db-boot-test.json`;
   });
 
   afterEach(() => {
@@ -27,8 +27,6 @@ describe("buildHealthStatus", () => {
     expect(status.builtAt).toBe("unknown");
     expect(status.backends.GRIEVANCE_DB_BACKEND).toBe("memory");
     expect(status.postgresConfigured).toBe(false);
-    expect(status.schemaVersion).toBeNull();
-    expect(status.dataVersion).toBeNull();
     expect(status.memoryCaseDataActive).toBe(true);
     expect(status.postgresFlipComplete).toBe(false);
     expect(status.emailEnabled).toBe(false);
@@ -43,12 +41,9 @@ describe("buildHealthStatus", () => {
       errorLogFileMisconfigured: false,
       sentryClientServerMismatch: false,
     });
-    // schemaProbe reflects pre-DB state cleanly.
-    expect(status.schemaProbe).toMatchObject({
-      postgresConfigured: false,
-      applied: { count: null, source: "unknown" },
-      journalInSync: true,
-      platformMeta: null,
+    expect(status.databaseDeployment).toMatchObject({
+      mode: "memory",
+      verified: false,
     });
   });
 
@@ -69,6 +64,11 @@ describe("buildHealthStatus", () => {
     expect(status.builtAt).toBe("2026-08-27T12:00:00Z");
     expect(status.backends.GRIEVANCE_DB_BACKEND).toBe("postgres");
     expect(status.postgresConfigured).toBe(true);
+    expect(status.status).toBe("degraded");
+    expect(status.databaseDeployment).toMatchObject({
+      mode: "unknown",
+      verified: false,
+    });
     expect(status.memoryCaseDataActive).toBe(true);
     expect(status.postgresFlipComplete).toBe(false);
     expect(status.emailEnabled).toBe(true);
@@ -87,34 +87,5 @@ describe("buildHealthStatus", () => {
     expect(status.observability.sentryClientServerMismatch).toBe(true);
     expect(status.observability.errorLogFileEnabled).toBe(true);
     expect(JSON.stringify(status)).not.toContain("leaked-secret");
-  });
-});
-
-describe("buildHealthStatusWithProbe", () => {
-  const env = { ...process.env };
-
-  beforeEach(() => {
-    process.env = { ...env };
-  });
-
-  afterEach(() => {
-    process.env = env;
-  });
-
-  it("renders the schemaProbe with empty platformMeta when Postgres is off", async () => {
-    delete process.env.DATABASE_URL;
-    const status = await buildHealthStatusWithProbe();
-    expect(status.schemaProbe.postgresConfigured).toBe(false);
-    expect(status.schemaProbe.applied.count).toBeNull();
-    expect(status.schemaProbe.applied.source).toBe("unknown");
-    expect(status.schemaProbe.expectedJournalCount).toBeGreaterThan(0);
-    expect(status.schemaProbe.expectedJournalTags.length).toBe(
-      status.schemaProbe.expectedJournalCount,
-    );
-    // 0027 must be among the expected tags — that's the schema line the smoke
-    // asserts against and the live regression we caught.
-    expect(status.schemaProbe.expectedJournalTags).toContain("0027_hub_social");
-    expect(status.schemaProbe.criticalColumns.tasks.expected).toContain("notes");
-    expect(status.status).toBe("ok");
   });
 });

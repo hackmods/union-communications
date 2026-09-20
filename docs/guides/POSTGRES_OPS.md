@@ -6,7 +6,7 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
 
 - PostgreSQL 16+ (see `docker/docker-compose.yml` for a reference stack)
 - Unique `AUTH_SECRET` and `POSTGRES_PASSWORD` (never commit)
-- Migrations applied via `MIGRATE_DATABASE_URL` (table owner) on **container boot** — `docker/entrypoint.sh` runs the **db maintainer** ([`docker/db-maintain.mjs`](../../docker/db-maintain.mjs)): idempotent `platform_meta` baseline → DDL migrate → version gate → data migrations. Local: `npm run db:maintain`.
+- Migrations applied via `MIGRATE_DATABASE_URL` (table owner) on **container boot** — `docker/entrypoint.sh` runs the verified gate ([`docker/db-deploy.mjs`](../../docker/db-deploy.mjs)): validate journal → lock → migrate → exact-tail proof → required-shape verification. Local: `npm run db:deploy`.
 
 ## Flip checklist
 
@@ -15,7 +15,7 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
    - `MIGRATE_DATABASE_URL` — owner role (DDL + migrations)
    - `DATABASE_URL` — `unionops_app` when `POSTGRES_APP_PASSWORD` is set (RLS binds at runtime)
    - **URL-encode passwords** in connection strings (`encodeURIComponent` / `[uri]::EscapeDataString`). A raw `+` or `/` in the password will break migrate/seed.
-3. **Run maintain + seed once:** Production Docker images run the db maintainer on boot when `MIGRATE_DATABASE_URL` is set (baseline `platform_meta` → DDL migrate → version gate → data migrations; syncs `unionops_app` when `POSTGRES_APP_PASSWORD` is set). Run **`npm run db:seed` once** after first maintain — seed is not automatic on boot. CapRover walkthrough: [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md). Local/manual: `npm run db:maintain` then `npm run db:seed`.
+3. **Run deploy gate + seed once:** Production images run the database gate on every boot and sync `unionops_app` when `POSTGRES_APP_PASSWORD` is set. Run **`npm run db:seed` once** after the first successful gate — seed is not automatic. CapRover walkthrough: [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md). Local/manual: `npm run db:deploy` then `npm run db:seed`.
 
    **One-shot local verify** (db already healthy, `docker/.env` filled):
 
@@ -64,7 +64,7 @@ cp .env.example .env   # fill AUTH_SECRET, POSTGRES_PASSWORD, POSTGRES_APP_PASSW
 docker compose -f docker-compose.yml -f docker-compose.durable.yml up -d
 ```
 
-6. **Verify health:** `GET /api/health` returns `version`, `commit`, `backends` (effective per module), `schemaVersion` + `dataVersion` (from `platform_meta`), `postgresConfigured`, `memoryCaseDataActive`, and `postgresFlipComplete`. Or run:
+6. **Verify health:** `GET /api/health` returns `version`, `commit`, effective `backends`, `databaseDeployment` (verified journal tail + shape counts), `postgresConfigured`, `memoryCaseDataActive`, and `postgresFlipComplete`. With Postgres configured, missing boot evidence makes health degraded/HTTP 503. Or run:
 
 ```bash
 npm run health:check

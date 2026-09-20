@@ -1,6 +1,6 @@
 # CapRover + Postgres — durable deploy walkthrough
 
-UnionOps ships Drizzle migrations **inside the production Docker image**. On each deploy, [`docker/entrypoint.sh`](../../docker/entrypoint.sh) runs the **db maintainer** ([`docker/db-maintain.mjs`](../../docker/db-maintain.mjs)) when `MIGRATE_DATABASE_URL` is set — idempotent baseline of the `platform_meta` core setup table, DDL migrations, a version gate (image never boots against a schema it doesn't know), and pending data migrations — then syncs the `unionops_app` password when `POSTGRES_APP_PASSWORD` is set.
+UnionOps ships the Drizzle journal and a generated required-shape contract **inside the production Docker image**. On every deploy, [`docker/entrypoint.sh`](../../docker/entrypoint.sh) runs [`docker/db-deploy.mjs`](../../docker/db-deploy.mjs): validate journal → advisory lock → apply pending migrations with the owner URL → prove the exact image tail → verify tables, columns, role safety, RLS, and policies. Only then may the web process start. The runtime password is synced afterward when `POSTGRES_APP_PASSWORD` is set.
 
 This guide covers a **two-app CapRover setup**: Postgres (official image) + UnionOps web (`captain-definition` → port **3000**).
 
@@ -95,17 +95,16 @@ POSTGRES_APP_PASSWORD=<app-role-password>
 You can leave `*_DB_BACKEND` unset (memory) for this step — the goal is to confirm **migrate + app-role sync** in container logs:
 
 ```text
-[entrypoint] running db maintain (baseline + migrate + data) owner/migrate URL
-[db-maintain] baseline ok (platform_meta ensured)
-[db-maintain] migrate ok (applied 35/35)
-[db-maintain] meta upserted (schema v34, app 0.1.0, migrations 35)
-[db-maintain] maintain finished (schema v34, data v0)
-[entrypoint] db maintain finished
+[entrypoint] running database deploy gate (migrate + verify)
+[db-deploy] connecting with owner migration role
+[db-deploy] journal schema=drizzle; applying pending migrations
+[db-deploy] verified tail=0036_verified_boot_reconcile schema=public tables=60 columns=697 policies=43
+[entrypoint] database deploy gate passed
 [entrypoint] syncing unionops_app password
 [sync-app-role] unionops_app password synced from POSTGRES_APP_PASSWORD
 ```
 
-If the maintainer fails, the container **refuses to start** unless `MIGRATE_CONTINUE_ON_ERROR=true` (debug only). Failures include a **version gate**: deploying an image older than the database schema refuses with `database schema is ahead of this image … deploy a newer image`.
+If migration, exact-tail proof, or required-shape verification fails, the container **refuses to start**. `MIGRATE_CONTINUE_ON_ERROR=true` is a local/debug escape only and is deliberately ignored when `NODE_ENV=production`. Multiple replicas serialize through the advisory lock (`MIGRATE_LOCK_TIMEOUT_MS`, default 120000).
 
 **Droplet check** (optional — if App Logs are noisy):
 
@@ -114,7 +113,7 @@ export MIGRATE_DATABASE_URL='postgres://postgres:OWNER_PASSWORD@srv-captain--pos
 bash scripts/caprover-verify-migrate.sh
 ```
 
-Expect `drizzle_table=1`, `migration_rows>0`, `app_role=1`, `meta_table=1`, `schema_version>0`.
+Expect one schema-qualified Drizzle table, `migration_rows>0`, the current tail timestamp/hash, `app_role=1`, all four 0027 task columns, and `obsolete_meta_tables=0`.
 
 ### Step C — One-shot seed (reference tenant + platform admin)
 
@@ -245,7 +244,7 @@ Log in as platform admin, create an invite at `/app/invites`, **restart the web 
 After the first bootstrap:
 
 1. Deploy a new image tag (CI on `main` or a release tag).
-2. The boot maintainer applies **pending DDL migrations**, then **pending data migrations** (`src/lib/db/data-migrations/*.sql`, tracked by `platform_meta.data_version`).
+2. The boot gate applies pending journal migrations, proves this image's exact tail, and verifies required shape before serving. Data massage belongs in forward, idempotent Drizzle migrations.
 3. No repo checkout required for schema or data upgrades.
 4. Run `db:seed` again only when release notes say so (rare — usually migrate-only).
 
@@ -276,8 +275,8 @@ Set all `*_DB_BACKEND=memory` and restart — Postgres data is **not read** unti
 | Build dies `npm error signal SIGKILL` during `next build` | On-droplet build OOM-killed by the memory cgroup (Next 16 Turbopack, not a code error). Do **not** rebuild on-host — pull the GHCR image instead, or add ~2–4 GB swap first. See [`session-knowledge-2026-09-16-build-oom.md`](../audit/session-knowledge-2026-09-16-build-oom.md). |
 | CapRover NGINX **502** | Web app Container HTTP Port = **3000** |
 | Redirects to `*.captain…` / wrong cookies | `AUTH_URL=https://unionops.org` (browser-facing HTTPS, no trailing slash) |
-| `db maintain failed — refusing to start` | Check owner URL, network reachability to `srv-captain--…`, Postgres logs; use `MIGRATE_CONTINUE_ON_ERROR=true` only to debug |
-| `database schema is ahead of this image` | You deployed an **older** image than the last one that touched this DB — deploy a newer image tag (downgrade protection, no override). |
+| `database deploy gate failed — refusing to start` | Read the preceding `[db-deploy] ERROR`; check owner URL/network, the journal-tail proof, and named missing shape. Production has no continue-on-error override. |
+| `ambiguous __drizzle_migrations tables` | Remove the accidental duplicate only after identifying the authoritative ledger and backing up the database. The gate never guesses through `search_path`. |
 | `data migration N failed` | Data migrations roll back per-file (`data_version` only advances on success); fix the file, release, redeploy — the runner resumes where it stopped |
 | `migrations folder missing` | Old image — redeploy a build that includes the migrate stage ([`docker/Dockerfile`](../../docker/Dockerfile)) |
 | `unionops_app` auth / RLS errors | Runtime `DATABASE_URL` must use `unionops_app`, not `postgres` owner |

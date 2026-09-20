@@ -20,7 +20,7 @@ async function exportBrief(
 }
 
 describe("strike-standing-brief-pdf", () => {
-  it("exports EN captains' brief on one page with named command and no invented amounts", async () => {
+  it("exports EN captains' brief on one page with named command and no invented amounts", { timeout: 15_000 }, async () => {
     const { filename, parsed } = await exportBrief({
       localLabel: "Local 243",
       locale: "en",

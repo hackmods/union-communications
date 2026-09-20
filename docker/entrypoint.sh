@@ -11,41 +11,29 @@ if [ ! -f /app/server.js ]; then
   exit 1
 fi
 
-# Apply Drizzle migrations when Postgres is configured (SEC-003).
-# Prefer MIGRATE_DATABASE_URL (table owner) so DDL succeeds; runtime DATABASE_URL
-# should be unionops_app so RLS binds (see migration 0008_app_role.sql).
-MIGRATE_URL="${MIGRATE_DATABASE_URL:-${DATABASE_URL:-}}"
+# Apply and verify the shipped Drizzle journal before the server can start.
+# MIGRATE_DATABASE_URL is the owner/DDL credential. DATABASE_URL is runtime-only
+# and must remain the limited unionops_app role so RLS binds.
 MIGRATE_DIR="/app/db-migrate"
 
-if [ -n "${MIGRATE_URL}" ] && [ -d "${MIGRATE_DIR}/src/lib/db/migrations" ]; then
-  echo "[entrypoint] running db maintain (baseline + migrate + data) owner/migrate URL"
-  if ! (
-    cd "${MIGRATE_DIR}" &&
-    MIGRATE_DIR="${MIGRATE_DIR}" node /app/scripts/db-maintain.mjs maintain
-  ); then
-    if [ "${MIGRATE_CONTINUE_ON_ERROR:-}" = "true" ]; then
-      echo "[entrypoint] WARN: db maintain failed — MIGRATE_CONTINUE_ON_ERROR=true, continuing" >&2
-    else
-      echo "[entrypoint] ERROR: db maintain failed — refusing to start (set MIGRATE_CONTINUE_ON_ERROR=true to override)" >&2
-      exit 1
-    fi
-  else
-    echo "[entrypoint] db maintain finished"
-    if [ -n "${POSTGRES_APP_PASSWORD:-}" ]; then
-      echo "[entrypoint] syncing unionops_app password"
-      MIGRATE_DIR="${MIGRATE_DIR}" node /app/scripts/sync-app-role-password.mjs
-    fi
-    # Greppable summary — operators read this without round-tripping to /api/health.
-    # db-maintain runs `meta upserted (schema vX, app Y, migrations Z, boot_commit SHA)`
-    # on every successful boot; we hoist the same shape into a single line so
-    # log aggregators can chart schema-version drift without parsing two sources.
-    echo "[entrypoint] schema applied_migrations=<see db-maintain log> schema_version=<see db-maintain log> data_version=<see db-maintain log> boot_commit=${BUILD_COMMIT_SHA:-unknown}"
-  fi
-elif [ -n "${MIGRATE_URL}" ]; then
-  echo "[entrypoint] migrate URL set but migrations folder missing — skip migrate" >&2
+if [ ! -d "${MIGRATE_DIR}/src/lib/db/migrations" ]; then
+  echo "[entrypoint] ERROR: shipped migrations folder missing" >&2
   exit 1
-else
-  echo "[entrypoint] no DATABASE_URL / MIGRATE_DATABASE_URL — memory adapters (case data is not durable)"
+fi
+
+echo "[entrypoint] running database deploy gate (migrate + verify)"
+if ! (
+  cd "${MIGRATE_DIR}" &&
+  MIGRATE_DIR="${MIGRATE_DIR}" node /app/scripts/db-deploy.mjs
+); then
+  echo "[entrypoint] ERROR: database deploy gate failed — refusing to start" >&2
+  exit 1
+fi
+echo "[entrypoint] database deploy gate passed"
+
+if [ -n "${MIGRATE_DATABASE_URL:-}" ] && [ -n "${POSTGRES_APP_PASSWORD:-}" ]; then
+  echo "[entrypoint] syncing unionops_app password"
+  MIGRATE_DIR="${MIGRATE_DIR}" node /app/scripts/sync-app-role-password.mjs
 fi
 
 exec "$@"

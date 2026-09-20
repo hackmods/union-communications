@@ -59,6 +59,11 @@ if (process.exitCode) {
 
     ok = gate(body.status === "ok", "status=ok") && ok;
     ok = gate(body.postgresConfigured === true, "postgresConfigured=true") && ok;
+    ok =
+      gate(
+        body.databaseDeployment?.verified === true,
+        `databaseDeployment.verified=true (tail=${body.databaseDeployment?.tailTag ?? "unknown"})`,
+      ) && ok;
     ok = gate(body.postgresFlipComplete === true, "postgresFlipComplete=true") && ok;
     ok = gate(body.memoryCaseDataActive === false, "memoryCaseDataActive=false") && ok;
     ok = gate(body.demoAuthEnabled === false, "demoAuthEnabled=false") && ok;

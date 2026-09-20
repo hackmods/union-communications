@@ -1,5 +1,7 @@
 # Session knowledge — docker migrate smoke failure (2026-09-16)
 
+> **Superseded 2026-09-20:** retain the schema-qualification lesson, but use [`session-knowledge-2026-09-20-verified-db-deploy.md`](session-knowledge-2026-09-20-verified-db-deploy.md) and [ADR-020](adr-020-database-deployment-contract.md). The runner documented below was removed.
+
 **Severity.** CI job `docker-migrate-smoke` failed at the entrypoint with:
 
 ```

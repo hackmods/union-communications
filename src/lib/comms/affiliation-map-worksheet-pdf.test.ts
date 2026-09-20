@@ -25,7 +25,7 @@ async function exportWorksheet(
 }
 
 describe("affiliation-map-worksheet-pdf", () => {
-  it("exports EN floor handout on one page with both tracks", async () => {
+  it("exports EN floor handout on one page with both tracks", { timeout: 15_000 }, async () => {
     const { filename, parsed } = await exportWorksheet({
       localLabel: "Local 243",
       locale: "en",

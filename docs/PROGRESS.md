@@ -1,5 +1,15 @@
 # Progress Log
 
+## 2026-09-20 — Verified, forward-only database deployments (ADR-020)
+
+- [x] Replaced the parallel `db-maintain` / `platform_meta` / data-version stack with one fail-closed boot gate: validate journal → lock → migrate as owner → prove exact image tail → verify generated schema/RLS contract → serve.
+- [x] Preserved immutable migrations `0000`–`0035`; added idempotent `0036_verified_boot_reconcile` to repair the live 0027–0029 journal hole, carry forward the site-admin backfill, and retire `platform_meta` without losing production data.
+- [x] Added CI append-only journal checks and a build-generated contract (60 tables, 697 columns, 43 RLS policies); health now exposes the successful boot attestation instead of parallel schema/data counters.
+- [x] Deleted the obsolete maintainer, `platform_meta` schema/runtime path, separate data-migration runner, boot-commit acceptance state, and health-only schema probe.
+- [x] Expanded Docker smoke coverage: fresh volume + 0027 columns, journal-hole reconciliation/data preservation, concurrent replica serialization, quiet NOTICE handling, and damaged critical DDL refusing startup even with the debug flag set in production.
+- [x] Verification: Docker migration smoke, `npm run build`, typecheck, lint, migration integrity, and the complete unit suite passed (313 files; 1,990 passed / 1 skipped). Five CPU-heavy PDF cases now have targeted 15 s budgets so full-suite concurrency is stable.
+- Narrative: [`session-knowledge-2026-09-20-verified-db-deploy.md`](audit/session-knowledge-2026-09-20-verified-db-deploy.md).
+
 ## 2026-09-16 — Workflow dispatch + post-deploy /api/health smoke
 
 The push-to-main deploy path worked but left two operator-side gaps:

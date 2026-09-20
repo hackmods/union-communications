@@ -253,6 +253,13 @@
       "when": 1784887000000,
       "tag": "0035_site_admin",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1789875000000,
+      "tag": "0036_verified_boot_reconcile",
+      "breakpoints": true
     }
   ]
 }

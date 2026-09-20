@@ -43,6 +43,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          # Migration history is append-only; the PR gate compares every
+          # released journal entry and SQL file with the target branch.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v5
         with:
@@ -51,6 +55,17 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Database migration contract
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            npm run db:check -- --base "origin/$BASE_REF"
+          else
+            npm run db:check
+          fi
 
       - name: Lint
         run: npm run lint

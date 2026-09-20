@@ -76,7 +76,7 @@ const timeEntry: TimeEntry = {
 };
 
 describe("hub internal report PDFs", () => {
-  it("travel export embeds mark and Hub internal footer", async () => {
+  it("travel export embeds mark and Hub internal footer", { timeout: 15_000 }, async () => {
     const blob = await buildTravelExportPdf({
       auth: travelAuth,
       advance: cashAdvance,

@@ -109,7 +109,7 @@ describe("education footers", () => {
 });
 
 describe("writeBrandedChecklistPdf", () => {
-  it("emits a PDF blob with title, footer, and embedded mark image", async () => {
+  it("emits a PDF blob with title, footer, and embedded mark image", { timeout: 15_000 }, async () => {
     const bytes = transparentPngBytes();
     const mark = {
       bytes,

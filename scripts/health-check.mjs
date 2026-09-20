@@ -58,7 +58,7 @@ if (!process.exitCode) {
           ([, value]) => value === "memory",
         );
         console.log(
-          `[health-check] ok commit=${body.commit ?? "unknown"} version=${body.version ?? "unknown"} email=${body.emailEnabled} cron=${body.cronConfigured} postgres=${body.postgresConfigured} durable=${body.postgresFlipComplete} demoAuth=${body.demoAuthEnabled} sentry=${body.observability?.sentryEnabled ?? "?"} fileLog=${body.observability?.errorLogFileEnabled ?? "?"}`,
+          `[health-check] ok commit=${body.commit ?? "unknown"} version=${body.version ?? "unknown"} email=${body.emailEnabled} cron=${body.cronConfigured} postgres=${body.postgresConfigured} dbVerified=${body.databaseDeployment?.verified ?? false} dbTail=${body.databaseDeployment?.tailTag ?? "memory"} durable=${body.postgresFlipComplete} demoAuth=${body.demoAuthEnabled} sentry=${body.observability?.sentryEnabled ?? "?"} fileLog=${body.observability?.errorLogFileEnabled ?? "?"}`,
         );
         if (
           body.observability?.sentryMisconfigured ||

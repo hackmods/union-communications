@@ -1,0 +1,4016 @@
+{
+  "version": 1,
+  "generatedFrom": "src/lib/db/schema/index.ts + src/lib/db/rls-contract.ts",
+  "schema": "public",
+  "tables": [
+    {
+      "name": "attachment_meta",
+      "columns": [
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "bumping_case_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "expense_claim_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "expense_submission_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "file_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "mime_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "punch_kind",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "scan_status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "size_bytes",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "storage_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "time_entry_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "uploaded_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "audit_log",
+      "columns": [
+        {
+          "name": "action",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "metadata",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "resource_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "timestamp",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "bargaining_units",
+      "columns": [
+        {
+          "name": "code",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "grievance_config",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "bumping_cases",
+      "columns": [
+        {
+          "name": "bumping_position",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "checklist",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "current_position",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "incumbent_position",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "member_ref",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scenario",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "seniority_date",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "target_position",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "cash_advances",
+      "columns": [
+        {
+          "name": "amount",
+          "dataType": "double precision",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "issued_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "issued_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ledger_entry_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "travel_authorization_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "checkin_answers",
+      "columns": [
+        {
+          "name": "author_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "author_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "period_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "schedule_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "checkin_schedules",
+      "columns": [
+        {
+          "name": "active",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "cadence",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_by_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "question",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "weekday",
+          "dataType": "integer",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "committee_notes",
+      "columns": [
+        {
+          "name": "author_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "author_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "bumping_case_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "session_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "committee_sessions",
+      "columns": [
+        {
+          "name": "agenda",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "attendees",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "bumping_case_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "date",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "committees",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "description",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "member_officer_ids",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "decision_records",
+      "columns": [
+        {
+          "name": "bumping_case_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "dissent_notes",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "outcome",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "rationale",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "recorded_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "recorded_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "discussion_posts",
+      "columns": [
+        {
+          "name": "author_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "author_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "mentioned_user_ids",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "reactions",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "thread_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "discussion_threads",
+      "columns": [
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "bumping_case_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_by_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "last_post_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "post_count",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "divisions",
+      "columns": [
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "archived_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "code",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "enabled_modules",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "is_demo",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "documents",
+      "columns": [
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "category",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "description",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "file_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "mime_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scan_status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "size_bytes",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "storage_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "uploaded_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "election_cycles",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "nominations",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "positions",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "tallies",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "term_start",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "email_change_tokens",
+      "columns": [
+        {
+          "name": "consumed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "invited_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "new_email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "token",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "expense_claims",
+      "columns": [
+        {
+          "name": "advance_amount",
+          "dataType": "double precision",
+          "notNull": true
+        },
+        {
+          "name": "claimant_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "difference",
+          "dataType": "double precision",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "line_items",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "reconcile_ledger_entry_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "reconciled_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "reconciled_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "travel_authorization_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "expense_submissions",
+      "columns": [
+        {
+          "name": "approved_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "approved_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "denied_reason",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ledger_entry_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "line_items",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "purpose",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "submitted_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "submitted_by_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "total_amount",
+          "dataType": "double precision",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "grievance_events",
+      "columns": [
+        {
+          "name": "completed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "due_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "note",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "step_number",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "type",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "grievance_notes",
+      "columns": [
+        {
+          "name": "author_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "author_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "grievance_outcomes",
+      "columns": [
+        {
+          "name": "arbitrator_name",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "decided_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "hearing_date",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "outcome_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "recorded_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "remedy",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "settlement_terms",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "grievances",
+      "columns": [
+        {
+          "name": "assigned_steward_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "category",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "current_step",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "filed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "member_pseudonym",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "resolved_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "informal_log_entries",
+      "columns": [
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "channel",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "converted_to_grievance_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "logged_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "logged_by_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "member_pseudonym",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "occurred_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "summary",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "topic",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "job_codes",
+      "columns": [
+        {
+          "name": "active",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "category",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "code",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "label",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "ledger_entries",
+      "columns": [
+        {
+          "name": "amount",
+          "dataType": "double precision",
+          "notNull": true
+        },
+        {
+          "name": "category",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "description",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "entry_date",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "entry_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "recorded_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "local_meeting_schedules",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "custom_dates",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "day_of_month",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "duration_minutes",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "location",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "nth_week_of_month",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "public_blurb",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "public_slug",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "recurrence",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "time",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "timezone",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "weekday",
+          "dataType": "integer",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "locals",
+      "columns": [
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "archived_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "division_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "is_demo",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "local_number",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "sub_text",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "meeting_minutes",
+      "columns": [
+        {
+          "name": "approved_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "attendees",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "meeting_date",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "meeting_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "motions",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "notes",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "recorded_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "recorded_by_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "member_communications",
+      "columns": [
+        {
+          "name": "channel",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "direction",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "logged_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "logged_by_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "occurred_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "summary",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "member_seniority_records",
+      "columns": [
+        {
+          "name": "active",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "classification",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "member_ref",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "seniority_date",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "officer_learning_local_settings",
+      "columns": [
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "reporting_enabled",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "officer_learning_users",
+      "columns": [
+        {
+          "name": "display_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "hub_sync_enabled",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "modules",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "share_with_local",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "officer_roster",
+      "columns": [
+        {
+          "name": "committees",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "phone",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "role",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "term_end",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "term_start",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "password_reset_tokens",
+      "columns": [
+        {
+          "name": "consumed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "token",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "payroll_export_profiles",
+      "columns": [
+        {
+          "name": "active",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "field_mapping",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "include_ot_breakdown",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "vendor",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "webhook_url",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "platform_feedback_submissions",
+      "columns": [
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "category",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "consent_accepted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "contact_email",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "contact_name",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ip_hash",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "locale",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "page_path",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "source",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "steward_note",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "submitter_user_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "poll_definitions",
+      "columns": [
+        {
+          "name": "consent_required",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "intro",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "questions",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "slug",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "poll_responses",
+      "columns": [
+        {
+          "name": "answers",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "consent_accepted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ip_hash",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "poll_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "submitted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "pto_accrual_policies",
+      "columns": [
+        {
+          "name": "active",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "eligible_categories",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "fixed_hours_per_period",
+          "dataType": "real",
+          "notNull": false
+        },
+        {
+          "name": "formula_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "hours_worked_rate",
+          "dataType": "real",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "period_days",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "pto_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "tenure_tiers",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "pto_balances",
+      "columns": [
+        {
+          "name": "hours_balance",
+          "dataType": "real",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "pto_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "worker_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "pto_requests",
+      "columns": [
+        {
+          "name": "approved_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "approved_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "ends_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "hours_requested",
+          "dataType": "real",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "notes",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "pto_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "requested_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "starts_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "worker_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "worker_name",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "rsvp_responses",
+      "columns": [
+        {
+          "name": "accessibility_note",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "attending",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "consent_accepted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "dietary_note",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "display_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "guests_on_site",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ip_hash",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "join_mode",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "meeting_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "phone",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "role_or_office",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "source",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "rsvp_tokens",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "meeting_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revoked_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "token",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "scheduled_meetings",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "description",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "ends_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "location",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "starts_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "sign_in_tokens",
+      "columns": [
+        {
+          "name": "consumed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "token",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "tasks",
+      "columns": [
+        {
+          "name": "assignee_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "due_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "mentioned_user_ids",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "notes",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "reactions",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "related_bumping_case_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "related_grievance_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "time_entries",
+      "columns": [
+        {
+          "name": "approved_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "approved_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "category",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "clock_in_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "clock_in_gps",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "clock_in_photo_attachment_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "clock_out_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "clock_out_gps",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "clock_out_photo_attachment_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "entry_source",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "event_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "event_label",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "geofence_result",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "job_code_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "job_code_label",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "notes",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "shift_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "worker_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "worker_name",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "time_expected_windows",
+      "columns": [
+        {
+          "name": "attendee_worker_ids",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "category",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ends_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "job_code_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "label",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "starts_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "time_ot_policies",
+      "columns": [
+        {
+          "name": "active",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "category_ot_eligible",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "daily_double_threshold",
+          "dataType": "real",
+          "notNull": false
+        },
+        {
+          "name": "daily_ot_threshold",
+          "dataType": "real",
+          "notNull": true
+        },
+        {
+          "name": "daily_regular_hours",
+          "dataType": "real",
+          "notNull": true
+        },
+        {
+          "name": "double_time_multiplier",
+          "dataType": "real",
+          "notNull": true
+        },
+        {
+          "name": "holiday_dates",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "holiday_multiplier",
+          "dataType": "real",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ot_multiplier",
+          "dataType": "real",
+          "notNull": true
+        },
+        {
+          "name": "pay_period_anchor",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "pay_period_days",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "pay_period_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "weekly_regular_hours",
+          "dataType": "real",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "time_shift_series",
+      "columns": [
+        {
+          "name": "assigned_worker_ids",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "category",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "duration_minutes",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "job_code_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "label",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "recurrence",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "site_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "start_time",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "time_shifts",
+      "columns": [
+        {
+          "name": "assigned_worker_ids",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "category",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ends_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "job_code_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "label",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "series_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "series_occurrence_date",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "site_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "starts_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "time_worker_groups",
+      "columns": [
+        {
+          "name": "active",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "description",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "member_worker_ids",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "time_workers",
+      "columns": [
+        {
+          "name": "active",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "default_job_code_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "department",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "display_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "employee_number",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "employment_type",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "gps_consent_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "group_ids",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "hire_date",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "job_title",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "notes",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "phone",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "supervisor_worker_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "track_gaps",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "travel_authorizations",
+      "columns": [
+        {
+          "name": "approved_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "approved_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "denied_reason",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "estimated_costs",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "event_end_date",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "event_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "event_start_date",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "purpose",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "requested_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "requested_by_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "union_meetings",
+      "columns": [
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ends_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "hybrid",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "location",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "public_blurb",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "quorum_needed",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "starts_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "unions",
+      "columns": [
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "archived_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "default_locale",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "enabled_modules",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "is_demo",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "slug",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "user_invites",
+      "columns": [
+        {
+          "name": "accepted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "division_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "invited_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "roles",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "token",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "columns": [
+        {
+          "name": "accessible_local_ids",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "archived_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "division_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "image",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "is_demo",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "locked_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "locked_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "locked_reason",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "mfa_enabled",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "password_hash",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "roles",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "session_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "totp_secret",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "work_sites",
+      "columns": [
+        {
+          "name": "active",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "geofence_mode",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "geofence_radius_m",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "lat",
+          "dataType": "real",
+          "notNull": true
+        },
+        {
+          "name": "lng",
+          "dataType": "real",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "name": "unionops_app",
+      "superuser": false,
+      "bypassRls": false
+    }
+  ],
+  "policies": [
+    {
+      "schema": "public",
+      "table": "attachment_meta",
+      "name": "attachment_meta_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "audit_log",
+      "name": "audit_log_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "bumping_cases",
+      "name": "bumping_cases_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "cash_advances",
+      "name": "cash_advances_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "checkin_answers",
+      "name": "checkin_answers_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "checkin_schedules",
+      "name": "checkin_schedules_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "committees",
+      "name": "committees_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "discussion_posts",
+      "name": "discussion_posts_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "discussion_threads",
+      "name": "discussion_threads_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "documents",
+      "name": "documents_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "election_cycles",
+      "name": "election_cycles_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "expense_claims",
+      "name": "expense_claims_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "expense_submissions",
+      "name": "expense_submissions_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "grievances",
+      "name": "grievances_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "informal_log_entries",
+      "name": "informal_log_entries_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "job_codes",
+      "name": "job_codes_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "ledger_entries",
+      "name": "ledger_entries_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "local_meeting_schedules",
+      "name": "local_meeting_schedules_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "meeting_minutes",
+      "name": "meeting_minutes_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "member_communications",
+      "name": "member_communications_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "officer_learning_local_settings",
+      "name": "officer_learning_local_settings_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "officer_learning_users",
+      "name": "officer_learning_users_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "officer_roster",
+      "name": "officer_roster_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "payroll_export_profiles",
+      "name": "payroll_export_profiles_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "poll_definitions",
+      "name": "poll_definitions_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "poll_responses",
+      "name": "poll_responses_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "pto_accrual_policies",
+      "name": "pto_accrual_policies_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "pto_balances",
+      "name": "pto_balances_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "pto_requests",
+      "name": "pto_requests_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "rsvp_responses",
+      "name": "rsvp_responses_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "rsvp_tokens",
+      "name": "rsvp_tokens_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "scheduled_meetings",
+      "name": "scheduled_meetings_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "tasks",
+      "name": "tasks_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "time_entries",
+      "name": "time_entries_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "time_expected_windows",
+      "name": "time_expected_windows_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "time_ot_policies",
+      "name": "time_ot_policies_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "time_shift_series",
+      "name": "time_shift_series_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "time_shifts",
+      "name": "time_shifts_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "time_worker_groups",
+      "name": "time_worker_groups_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "time_workers",
+      "name": "time_workers_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "travel_authorizations",
+      "name": "travel_authorizations_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "union_meetings",
+      "name": "union_meetings_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "work_sites",
+      "name": "work_sites_tenant_isolation"
+    }
+  ]
+}

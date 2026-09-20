@@ -92,21 +92,21 @@ Every authenticated row includes:
 
 | Field | Meaning |
 |-------|---------|
-| `status` | Always `"ok"` when the app is serving |
+| `status` | `"ok"`, or `"degraded"` when Postgres is configured without a valid boot attestation |
 | `version` | `package.json` version |
 | `commit` | `BUILD_COMMIT_SHA` env (Docker build arg) or `"unknown"` |
 | `builtAt` | UTC timestamp from `/app/.build-time` (Docker runner stage) or `BUILD_TIME` env or `"unknown"` |
 | `backends` | Map of `*_DB_BACKEND` flags (`memory` default) |
-| `schemaVersion` / `dataVersion` | From `platform_meta` (max applied Drizzle idx / applied data-migration pointer); `null` when Postgres is off or baseline hasn't run |
+| `databaseDeployment` | Boot-gate attestation: mode, verified flag, schema-qualified journal location, exact image tail, contract version, and verified object counts |
 | `emailEnabled` | `EMAIL_ENABLED=true` |
 | `cronConfigured` | `CRON_SECRET` is set (does not expose the secret) |
 | `mfaEnabled` | `AUTH_MFA_ENABLED=true` |
 
 CLI preflight: `npm run health:check` (optional `HEALTH_URL` or `PLAYWRIGHT_BASE_URL`). Sandbox smoke runs this before Playwright (`npm run test:smoke:sandbox`). `HEAD /api/health` is supported for load balancers.
 
-## Db maintainer + `platform_meta`
+## Verified database deployment gate
 
-DB updates deploy automatically on boot via [`docker/db-maintain.mjs`](../../docker/db-maintain.mjs) (wired from `docker/entrypoint.sh`): idempotent **baseline** of the single-row `platform_meta` core setup table (outside the Drizzle journal — hosts on any schema age converge), DDL `migrate()`, a **version gate** (image older than the DB schema refuses to boot), and **data migrations** (`src/lib/db/data-migrations/NNNN_*.sql`, keyed by `platform_meta.data_version`, each transactional + resumable). An advisory lock serializes concurrent replicas. Local equivalent: `npm run db:maintain`.
+DB updates deploy automatically on boot via [`docker/db-deploy.mjs`](../docker/db-deploy.mjs), wired from `docker/entrypoint.sh`. The image validates its immutable Drizzle journal, takes a PostgreSQL advisory lock, applies pending migrations as the owner, proves the exact image tail in the schema-qualified `__drizzle_migrations` ledger, and verifies the generated table/column/RLS contract before the web process starts. A failure exits 1. `platform_meta`, a second data-migration ledger, and health-only drift detection are not part of the contract. Local equivalent: `npm run db:deploy`; CI integrity check: `npm run db:check`. See [ADR-020](audit/adr-020-database-deployment-contract.md).
 
 ## Union Configuration
 

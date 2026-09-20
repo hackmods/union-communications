@@ -43,6 +43,10 @@ ARG SENTRY_PROJECT=javascript-nextjs
 ENV SENTRY_PROJECT=$SENTRY_PROJECT
 ARG NEXT_PUBLIC_SENTRY_DSN=
 ENV NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN
+# Derive the boot verifier contract from the exact Drizzle schema compiled into
+# this image. The checked-in copy is CI-reviewed; this build copy is authoritative
+# for the running image.
+RUN ./node_modules/.bin/tsx scripts/generate-db-contract.ts --out /app/db-required-shape.json
 # Turbopack build — webpack was measured and rejected: it needs >2 GB V8 heap
 # for this app (OOMs at 1024 and 2048 caps). On a 2 GB droplet, add ~2-4 GB
 # swap or deploy the GHCR image (built in CI) instead of rebuilding on-host.
@@ -67,13 +71,11 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY docker/entrypoint.sh /entrypoint.sh
-# Minimal manifest — full package.json lists drizzle-kit under devDependencies and
-# pulls the entire Next.js tree when copied here.
+# Minimal manifest — the runner needs only drizzle-orm + postgres.
 COPY docker/migrate-package.json ./db-migrate/package.json
-COPY drizzle.migrate.config.ts ./db-migrate/drizzle.migrate.config.ts
 COPY src/lib/db/migrations ./db-migrate/src/lib/db/migrations
-COPY src/lib/db/data-migrations ./db-migrate/src/lib/db/data-migrations
-COPY docker/db-maintain.mjs ./scripts/db-maintain.mjs
+COPY --from=builder /app/db-required-shape.json ./db-migrate/db-required-shape.json
+COPY docker/db-deploy.mjs ./scripts/db-deploy.mjs
 COPY scripts/sync-app-role-password.mjs ./scripts/sync-app-role-password.mjs
 
 # UTC timestamp stamped at image build — read by /api/health and /build.

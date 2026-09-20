@@ -27,13 +27,14 @@ echo "[caprover-verify-migrate] checking on network ${NET}…"
 docker run --rm --network "${NET}" postgres:16-alpine \
   psql "${MIGRATE_URL}" -v ON_ERROR_STOP=1 -c "
 SELECT
-  (SELECT count(*) FROM information_schema.tables
-     WHERE table_name = '__drizzle_migrations') AS drizzle_table,
-  (SELECT count(*) FROM __drizzle_migrations) AS migration_rows,
+  (SELECT string_agg(table_schema, ',') FROM information_schema.tables
+     WHERE table_name = '__drizzle_migrations') AS journal_schema,
   (SELECT count(*) FROM pg_roles WHERE rolname = 'unionops_app') AS app_role,
+  (SELECT count(*) FROM information_schema.columns
+     WHERE table_schema = 'public' AND table_name = 'tasks'
+       AND column_name IN ('notes','mentioned_user_ids','reactions','updated_at')) AS tasks_0027_columns,
   (SELECT count(*) FROM information_schema.tables
-     WHERE table_name = 'platform_meta') AS meta_table,
-  (SELECT schema_version FROM platform_meta WHERE id = 1) AS schema_version;
+     WHERE table_schema = 'public' AND table_name = 'platform_meta') AS obsolete_meta_tables;
 "
 
-echo "[caprover-verify-migrate] ok if drizzle_table=1, migration_rows>0, app_role=1, meta_table=1, schema_version>0"
+echo "[caprover-verify-migrate] ok if journal_schema is one schema, app_role=1, tasks_0027_columns=4, obsolete_meta_tables=0"

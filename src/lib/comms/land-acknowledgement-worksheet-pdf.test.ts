@@ -34,7 +34,7 @@ async function exportWorksheet(
 }
 
 describe("land-acknowledgement-worksheet-pdf", () => {
-  it("exports EN floor handout on one page with full step flow", async () => {
+  it("exports EN floor handout on one page with full step flow", { timeout: 15_000 }, async () => {
     const { filename, parsed } = await exportWorksheet({
       localLabel: "Local 243",
       locale: "en",

@@ -1,5 +1,7 @@
 # Session knowledge — 2026-09-15 — db maintainer / platform_meta + data migrations
 
+> **Superseded 2026-09-20:** historical record only. Use [`session-knowledge-2026-09-20-verified-db-deploy.md`](session-knowledge-2026-09-20-verified-db-deploy.md) and [ADR-020](adr-020-database-deployment-contract.md). The maintainer, `platform_meta`, and separate data-migration ledger described below were removed.
+
 **What shipped:** a boot-time **db maintainer** (`docker/db-maintain.mjs`, wired from
 `docker/entrypoint.sh`) that runs baseline → DDL migrate → version gate → meta upsert →
 data migrations, plus a `platform_meta` core setup table and a versioned data-migration
