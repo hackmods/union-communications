@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { PageShell } from "@/components/layout/PageShell";
+import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
+import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import { buildHealthStatus } from "@/lib/ops/health-status";
 import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
+import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 
 export async function generateMetadata({
   params,
@@ -39,26 +41,43 @@ export default async function BuildInfoPage({
   ] as const;
 
   return (
-    <PageShell size="focus" className="py-8 md:py-12" as="article">
-      <h1 className="text-2xl font-bold leading-tight text-opseu-dark md:text-3xl">
-        {t("title")}
-      </h1>
-      <p className="mt-4 max-w-prose text-base text-gray-600">{t("description")}</p>
+    <ComposedPageLayout composition="hub" size="wide" className="py-8 md:py-12">
+      <header className="max-w-3xl">
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
+        <p className="mt-4 max-w-prose text-base leading-relaxed text-gray-600">
+          {t("description")}
+        </p>
+      </header>
 
-      <dl className="mt-8 max-w-lg space-y-4 rounded-lg border border-gray-200 bg-white p-6 font-mono text-sm">
-        {rows.map(({ label, value }) => (
-          <div key={label} className="grid gap-1 sm:grid-cols-[8rem_1fr] sm:gap-4">
-            <dt className="text-gray-500">{label}</dt>
-            <dd className="break-all text-gray-900">{value}</dd>
-          </div>
-        ))}
-      </dl>
-      <p className="mt-6 max-w-prose text-sm text-gray-600">
-        <Link href="/build/review" className="text-opseu-blue underline">
-          {t("reviewLink")}
-        </Link>
-      </p>
-      <p className="mt-4 max-w-prose text-sm text-gray-600">{t("apiHint")}</p>
-    </PageShell>
+      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+        <PublicHubPanel>
+          <dl className="space-y-4 font-mono text-sm">
+            {rows.map(({ label, value }) => (
+              <div
+                key={label}
+                className="grid gap-1 border-b border-gray-100 pb-3 last:border-0 last:pb-0 sm:grid-cols-[8rem_1fr] sm:gap-4"
+              >
+                <dt className="text-gray-500">{label}</dt>
+                <dd className="break-all text-gray-900">{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </PublicHubPanel>
+
+        <PublicHubPanel>
+          <p className="text-sm leading-relaxed text-gray-700">
+            <Link
+              href="/build/review"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
+              {t("reviewLink")}
+            </Link>
+          </p>
+          <p className="mt-4 text-sm leading-relaxed text-gray-600">
+            {t("apiHint")}
+          </p>
+        </PublicHubPanel>
+      </div>
+    </ComposedPageLayout>
   );
 }

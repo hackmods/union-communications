@@ -78,7 +78,7 @@
 - `src/app/[locale]/accessibility/page.tsx`
 - `src/components/accessibility/DisplaySettings.tsx` → `PublicHubPanel`
 
-**Uplift approach:** Keep **narrow pamphlet** shell. Use `guide-ui` (`GuideCallout`, `GuideSection`, `GuideProse`, `GuideBulletList`). Enforce `max-w-prose` + `leading-relaxed` + consistent `space-y-*`.
+**Uplift approach:** Hub `wide` shell with lead prose measure + `PublicHubPanel` / callout grids (2026-09-20). Keep `guide-ui` primitives; do **not** leave these on `GuideLayout preset="narrow"`.
 
 ---
 

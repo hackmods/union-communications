@@ -5,6 +5,8 @@
 - [x] Public `/onboarding` moved off `focus` onto Brand Kit workspace (`wide`) with form + sticky tip rail and step-1 two-column fields.
 - [x] `/install`, `/support`, and `/manifesto` leave `focus` for hub `wide` so multi-column cards breathe.
 - [x] Hub `/app/onboarding` (`TenantOnboardingWizard`) drops `nestedFocus`; checklist/forms use `PublicHubPanel` grid filling the Hub wide shell.
+- [x] Trust/legal leaves: `/privacy`, `/security`, `/accessibility` off `GuideLayout narrow` onto hub `wide` + panel grids; Display settings beside commitment on accessibility.
+- [x] `/updates`, `/feedback`, `/build`, `/guide/workshops`, Hub `/app/send-feedback` same pattern (wide shell, constrained lead, panel grids).
 
 ## 2026-09-20 — Sources & references responsive layout
 

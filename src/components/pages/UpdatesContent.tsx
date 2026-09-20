@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { PageShell } from "@/components/layout/PageShell";
+import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { Callout } from "@/components/ui/Callout";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import {
@@ -37,8 +37,8 @@ export function UpdatesContent() {
   }, [filter, hubPublic]);
 
   return (
-    <PageShell size="read" className="py-8 md:py-12" as="article">
-      <header>
+    <ComposedPageLayout composition="hub" size="wide" className="py-8 md:py-12">
+      <header className="max-w-3xl">
         <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
         <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
         <p className="mt-4 max-w-prose leading-relaxed text-gray-700">
@@ -74,7 +74,7 @@ export function UpdatesContent() {
       </div>
 
       {groups.length === 0 ? (
-        <Callout className="mt-10" tone="muted" measure="fill">
+        <Callout className="mt-10 max-w-3xl" tone="muted" measure="fill">
           <p className="font-semibold text-opseu-dark">{t("emptyTitle")}</p>
           <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
             {t("emptyBody")}
@@ -90,11 +90,11 @@ export function UpdatesContent() {
               >
                 {formatUpdateMonth(group.month, locale)}
               </h2>
-              <ol className="mt-6 space-y-8">
+              <ol className="mt-6 grid list-none gap-5 p-0 sm:grid-cols-2 xl:grid-cols-3">
                 {group.entries.map((entry) => (
                   <li
                     key={entry.id}
-                    className="border-l-2 border-opseu-blue/30 pl-5"
+                    className="min-w-0 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.04] to-white p-5"
                   >
                     <p className="text-sm font-medium text-gray-500">
                       <span className="font-semibold uppercase tracking-wide text-opseu-blue">
@@ -108,7 +108,7 @@ export function UpdatesContent() {
                     <h3 className="mt-2 text-lg font-semibold text-opseu-dark">
                       {t(`items.${entry.id}.title`)}
                     </h3>
-                    <p className="mt-2 leading-relaxed text-gray-700">
+                    <p className="mt-2 text-sm leading-relaxed text-gray-700">
                       {t(`items.${entry.id}.body`)}
                     </p>
                     {entry.href ? (
@@ -141,6 +141,6 @@ export function UpdatesContent() {
           {t("feedbackLink")}
         </Link>
       </p>
-    </PageShell>
+    </ComposedPageLayout>
   );
 }

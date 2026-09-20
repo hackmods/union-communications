@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { PageShell } from "@/components/layout/PageShell";
+import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { SiteFeedbackForm } from "@/components/feedback/SiteFeedbackForm";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import { isFeedbackMemoryBackend } from "@/lib/platform-feedback/durable";
@@ -48,11 +49,11 @@ export default async function FeedbackPage({
   const t = await getTranslations("feedbackPage");
 
   return (
-    <PageShell size="focus" className="py-10 md:py-14" as="article">
-      <header className="max-w-prose">
+    <ComposedPageLayout composition="hub" size="wide" className="py-10 md:py-14">
+      <header className="max-w-3xl">
         <Eyebrow tone="brand">{t("title")}</Eyebrow>
         <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{t("title")}</h1>
-        <p className="mt-6 text-lg leading-relaxed text-slate-700">
+        <p className="mt-6 max-w-prose text-lg leading-relaxed text-slate-700">
           {t("lead")}
         </p>
         <p className="mt-3 max-w-prose text-base leading-relaxed text-slate-700">
@@ -60,24 +61,30 @@ export default async function FeedbackPage({
         </p>
       </header>
 
-      <div className="mt-8">
-        <SiteFeedbackForm
-          variant="public"
-          defaultCategory={asCategory(query.category)}
-          defaultPagePath={asPagePath(query.from)}
-          memoryBackend={isFeedbackMemoryBackend()}
-        />
-      </div>
+      <div className="mt-8 grid items-start gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(16rem,0.65fr)] lg:gap-8">
+        <PublicHubPanel className="p-5 sm:p-6 md:p-8">
+          <SiteFeedbackForm
+            variant="public"
+            defaultCategory={asCategory(query.category)}
+            defaultPagePath={asPagePath(query.from)}
+            memoryBackend={isFeedbackMemoryBackend()}
+          />
+        </PublicHubPanel>
 
-      <p className="mt-10 max-w-prose text-sm text-slate-600">
-        {t("githubLead")}{" "}
-        <Link
-          href="/support"
-          className="font-semibold text-opseu-blue underline-offset-2 hover:underline"
-        >
-          {t("githubLink")}
-        </Link>
-      </p>
-    </PageShell>
+        <aside className="min-w-0 space-y-4 lg:sticky lg:top-24">
+          <PublicHubPanel>
+            <p className="text-sm leading-relaxed text-slate-700">
+              {t("githubLead")}{" "}
+              <Link
+                href="/support"
+                className="font-semibold text-opseu-blue underline-offset-2 hover:underline"
+              >
+                {t("githubLink")}
+              </Link>
+            </p>
+          </PublicHubPanel>
+        </aside>
+      </div>
+    </ComposedPageLayout>
   );
 }

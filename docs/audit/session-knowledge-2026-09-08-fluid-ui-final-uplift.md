@@ -6,7 +6,7 @@
 
 | Phase | What shipped |
 |-------|----------------|
-| Legal | `privacy` / `security` / `accessibility` → `GuideSection` / `GuideCallout` / `GuideProse` / `GuideBulletList`; `DisplaySettings` on `PublicHubPanel` |
+| Legal | `privacy` / `security` / `accessibility` → hub `wide` + panel/callout grids (2026-09-20; superseded narrow pamphlet) |
 | Hub/Portal | `HubDashboard`, tools catalog, task/check-in widgets, `PortalStation` — `PUBLIC_*` titles + denser CSS grids |
 | Tools | `ToolEditorLayout` fluid H1 + brand form panel (`p-4 md:p-6`); form `Card` wrappers unwrapped into the panel |
 | OL | `olTheme` contrast (progress / cards / status pills); track picker grid; header space; sources `max-w-prose` |

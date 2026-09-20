@@ -21,7 +21,7 @@ export const PAGE_SHELL = {
   read: "mx-auto max-w-3xl px-4 sm:px-6",
   /** Guide chapters with lg+ TOC sidebar — wide frame, constrained prose inside */
   readWide: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
-  /** Focused single-column forms (feedback, RSVP tokens) — not multi-panel hubs */
+  /** Auth-adjacent single forms and RSVP/token screens — not multi-panel hubs */
   focus: "mx-auto max-w-2xl px-4 sm:px-6",
   /** Hub forms inside `wide` layout — no extra horizontal padding */
   nestedFocus: "mx-auto w-full max-w-2xl",

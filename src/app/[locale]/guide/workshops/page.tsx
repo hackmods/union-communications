@@ -38,6 +38,7 @@ export default async function WorkshopsHubPage({
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="hub"
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide", label: nav("guide") },
@@ -45,7 +46,7 @@ export default async function WorkshopsHubPage({
         { href: "/guides", label: nav("allGuides") },
       ]}
     >
-      <ul className="mt-2 space-y-6">
+      <ul className="mt-2 grid list-none gap-6 p-0 sm:grid-cols-2">
         {OUTLINE_KEYS.map((key) => (
           <GuideCatalogCard
             key={key}
