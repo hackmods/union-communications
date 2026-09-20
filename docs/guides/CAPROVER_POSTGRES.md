@@ -172,11 +172,14 @@ MEETINGS_DB_BACKEND=postgres
 MEETINGS_RSVP_DB_BACKEND=postgres
 CHECKINS_DB_BACKEND=postgres
 AUTH_USERS_BACKEND=postgres
+OFFICER_LEARNING_DB_BACKEND=postgres
 
 AUTH_ALLOW_DEMO_USERS=false
 AUTH_MFA_ENABLED=true
 AUTH_MFA_MODE=totp
 ```
+
+**Unconsumed build-args warning:** CapRover injects *every* App Config as a Docker `--build-arg`. The Dockerfile only declares bake-time ARGs (`NEXT_PUBLIC_*`, Sentry, commit SHA). Runtime secrets and `*_DB_BACKEND` flags correctly appear as “were not consumed” — that is expected. Do **not** add `ARG DATABASE_URL` / `ARG SMTP_PASS` / etc. to silence the warning; unused ARGs still embed into image layer history.
 
 **Build args** (rebuild image — not runtime env):
 
@@ -186,13 +189,14 @@ AUTH_MFA_MODE=totp
 ghcr.io/hackmods/union-communications:production
 ```
 
-CI publishes `:production` on every `main` push with demo UI off. Keep `:main` for workshop hosts.
+CI publishes `:production` on every `main` push with demo UI off (`NEXT_PUBLIC_EMAIL_ENABLED=true` baked). Keep `:main` for workshop hosts.
 
 **Option B — git deploy build args** in CapRover App Configs:
 
 ```env
 NEXT_PUBLIC_DEMO_SITE=false
 NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true
+NEXT_PUBLIC_EMAIL_ENABLED=true
 ```
 
 Save and **redeploy**.

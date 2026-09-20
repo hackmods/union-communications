@@ -140,6 +140,7 @@ jobs:
             --build-arg CAPROVER_GIT_COMMIT_SHA=${{ github.sha }} \
             --build-arg NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true \
             --build-arg NEXT_PUBLIC_DEMO_SITE=true \
+            --build-arg NEXT_PUBLIC_EMAIL_ENABLED=true \
             $EXTRA_ARGS \
             .
 
@@ -221,6 +222,7 @@ jobs:
             CAPROVER_GIT_COMMIT_SHA=${{ github.sha }}
             NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true
             NEXT_PUBLIC_DEMO_SITE=false
+            NEXT_PUBLIC_EMAIL_ENABLED=true
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             SENTRY_ORG=union-ops
             SENTRY_PROJECT=javascript-nextjs

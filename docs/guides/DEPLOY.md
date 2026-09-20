@@ -110,6 +110,8 @@ This repo includes [`captain-definition`](../../captain-definition) pointing at 
 
 **Durable Postgres on CapRover:** step-by-step walkthrough in [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md) (two-app setup, env template, bootstrap seed, verify). Paste-ready env: [`docker/.env.production.example`](../../docker/.env.production.example).
 
+**“Build-args were not consumed”:** CapRover passes all App Configs as build-args. Only `NEXT_PUBLIC_*` (and optional Sentry) need Dockerfile `ARG`/`ENV` — they are inlined into the client bundle at `next build`. `DATABASE_URL`, `*_DB_BACKEND`, SMTP/Mailgun, and migrate URLs are runtime-only; the warning for those is harmless. Never declare secret env vars as `ARG` just to silence it.
+
 **Image pull vs git rebuild:** large `COPY --from` / `node_modules` layers can fail with BuildKit `unknown parent image ID`, and on small droplets `next build` OOM-SIGKILLs.
 
 - Lessons: [`session-knowledge-2026-08-25-caprover-buildkit.md`](../audit/session-knowledge-2026-08-25-caprover-buildkit.md), [`session-knowledge-2026-09-16-caprover-app-config-drift.md`](../audit/session-knowledge-2026-09-16-caprover-app-config-drift.md)
