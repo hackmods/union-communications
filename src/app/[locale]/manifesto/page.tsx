@@ -3,7 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
-import { PageShell } from "@/components/layout/PageShell";
+import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { Card } from "@/components/ui/Card";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -78,11 +78,11 @@ export default async function ManifestoPage({
   const hubPublic = isOfficerHubPublic();
 
   return (
-    <PageShell size="focus" className="py-10 md:py-14" as="article">
-      <header className="max-w-prose">
+    <ComposedPageLayout composition="hub" size="wide" className="py-10 md:py-14">
+      <header className="max-w-3xl">
         <Eyebrow tone="brand">{t("title")}</Eyebrow>
         <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{t("title")}</h1>
-        <div className="mt-6 space-y-5 text-lg leading-relaxed text-slate-700">
+        <div className="mt-6 max-w-prose space-y-5 text-lg leading-relaxed text-slate-700">
           <p>{t("p1")}</p>
           <p>{t("p2")}</p>
         </div>
@@ -92,9 +92,8 @@ export default async function ManifestoPage({
         <SectionHeading
           eyebrow={t("promiseLead")}
           title={t("promiseIntro")}
-          intro={t("promiseIntro")}
         />
-        <ul className="mt-8 grid list-none gap-5 p-0 sm:gap-6 md:grid-cols-2">
+        <ul className="mt-8 grid list-none gap-5 p-0 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4">
           {PROMISES.map((promise) => (
             <li key={promise.titleKey} className="min-w-0">
               <Card className="flex h-full min-w-0 flex-col gap-3 sm:p-6">
@@ -130,9 +129,11 @@ export default async function ManifestoPage({
         </ul>
       </section>
 
-      <div className="mt-12 max-w-prose space-y-6 leading-relaxed text-slate-700">
-        <p className="text-2xl font-bold text-opseu-blue">{t("slogan")}</p>
-        <p>{t("closing")}</p>
+      <div className="mt-12 max-w-3xl space-y-6 leading-relaxed text-slate-700">
+        <p className="text-2xl font-bold text-opseu-blue sm:text-3xl">
+          {t("slogan")}
+        </p>
+        <p className="max-w-prose text-base sm:text-lg">{t("closing")}</p>
       </div>
 
       <Card
@@ -158,6 +159,6 @@ export default async function ManifestoPage({
           {t("backHome")}
         </ButtonLink>
       </div>
-    </PageShell>
+    </ComposedPageLayout>
   );
 }
