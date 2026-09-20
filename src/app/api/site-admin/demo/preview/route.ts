@@ -14,9 +14,10 @@ import { auditLog } from "@/lib/audit/store";
  * GET /api/site-admin/demo/preview
  *
  * Returns counts and examples of any row in the canonical tenant/user
- * tables that is flagged `is_demo = true` by the data migration
- * `0001_site_admin_backfill.sql`. Read-only — no purge action is offered
- * from the UI in v1 (purge lands in v2 with a typed-confirm action).
+ * tables that is flagged `is_demo = true` (backfilled in
+ * `0036_verified_boot_reconcile.sql`). Read-only — destructive purge is
+ * `POST /api/site-admin/demo/purge` (typed confirm + password re-auth) or
+ * `npm run db:demo-purge`.
  */
 export async function GET() {
   const gate = await requireSiteAdminSession();
@@ -64,6 +65,6 @@ export async function GET() {
       locals: localCount?.n ?? 0,
     },
     hint:
-      "Purge ships in v2. The `is_demo` registry is the durable source — any row flagged here was set by the 0001 data migration or by direct insert.",
+      "Purge via POST /api/site-admin/demo/purge (typed `DELETE demo` + password) or `npm run db:demo-purge`. The `is_demo` registry is the durable source.",
   });
 }

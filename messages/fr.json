@@ -7098,6 +7098,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "demo-cleanup-purge": {
+        "title": "Le nettoyage démo peut supprimer les comptes exemples",
+        "body": "Les opérateurs de la plateforme peuvent prévisualiser et supprimer définitivement les rangées marquées démo, avec une confirmation saisie et une vérification du mot de passe. Les données d'atelier n'ont plus à rester sur un hôte en production."
+      },
       "officer-learning-modules-7-10": {
         "title": "Quatre nouveaux modules de formation des dirigeants",
         "body": "Les modules 7 à 10 couvrent la mobilisation et la pression en négociation, les règlements de grief avancés, les prestations et l'invalidité, et les comités conjoints en milieu de travail — chacun avec des scénarios, une liste de contrôle sur le terrain et une autoévaluation."
@@ -7635,24 +7639,30 @@
     "profileName": "Nom",
     "platformOperator": {
       "menu": "Plateforme",
+      "cardEyebrow": "À l’échelle de l’hôte",
       "cardTitle": "Opérateur de la plateforme",
-      "cardBody": "Invitez des sections locales, consultez les commentaires du site et ouvrez les outils d'administration de l'hôte.",
+      "cardBody": "Invitez des sections locales, consultez les commentaires du site et ouvrez les outils d’administration de l’hôte.",
       "profileHeading": "Opérateur de la plateforme",
+      "openSiteAdmin": "Ouvrir l’admin du site",
       "siteAdmin": "Admin du site",
       "siteAdminTitle": "Admin du site",
       "siteAdminBody": "Outils qui couvrent toutes les sections : assistance compte, annuaire utilisateurs, gestion des sections et nettoyage démo.",
       "accountSupport": "Assistance compte",
       "accountSupportBody": "Recherchez un compte par courriel. Réinitialisez le mot de passe, faites tourner la MFA ou corrigez les champs pour les personnes en difficulté.",
       "users": "Utilisateurs",
-      "usersBody": "Parcourez tous les comptes de toutes les sections. Archivez ou restaurez les comptes dont vous n'avez plus besoin.",
+      "usersBody": "Parcourez tous les comptes de toutes les sections. Archivez ou restaurez les comptes dont vous n’avez plus besoin.",
       "locals": "Sections locales",
       "localsBody": "Vérifiez les sections locales de chaque syndicat. Archivez-en une pour la retirer des listes actives tout en conservant ses données.",
       "demoCleanup": "Nettoyage démo",
-      "demoCleanupBody": "Prévisualisez et (dans la v2) purgez les comptes démo résiduels en production. Idempotent.",
+      "demoCleanupBody": "Prévisualisez et purgez les comptes démo résiduels (is_demo) en production. Confirmation textuelle et ressaisie du mot de passe.",
       "invites": "Invitations",
+      "invitesBody": "Envoyez des liens d’acceptation aux dirigeants et membres de toute section locale sur cet hôte.",
       "onboarding": "Configuration syndicale",
+      "onboardingBody": "Accompagnez un syndicat dans la configuration du Hall, le numéro de section et les premières invitations.",
       "feedback": "Commentaires du site",
-      "audit": "Journal d'audit"
+      "feedbackBody": "Lisez les notes sur le site laissées par les visiteurs et les personnes connectées.",
+      "audit": "Journal d’audit",
+      "auditBody": "Voyez qui a modifié quoi sur l’hôte, et quand."
     },
     "signingIn": "Connexion...",
     "sessionLoading": "Chargement de votre Hub des dirigeants…",

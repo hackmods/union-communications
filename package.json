@@ -42,6 +42,7 @@
     "db:studio": "drizzle-kit studio",
     "db:rls-smoke": "tsx scripts/rls-smoke.ts",
     "db:durability-smoke": "tsx scripts/durability-smoke.ts",
+    "db:demo-purge": "tsx scripts/demo-purge.ts",
     "ops:verify-durable": "node scripts/verify-durable-local.mjs",
     "copy:readability": "tsx scripts/copy-readability.ts",
     "fonts:sync-ttf": "node scripts/sync-canvas-font-ttf.mjs",

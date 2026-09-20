@@ -77,13 +77,13 @@ inserts must set `is_demo = true` themselves.
 
 | Item | Status |
 |---|---|
-| In-app **purge** button on `/app/site-admin/demo-cleanup` | TODO. v1 is preview-only; ops path is the CLI `scripts/demo-purge.ts` (also TODO) |
+| In-app **purge** on `/app/site-admin/demo-cleanup` | **Shipped 2026-09-20** — typed `DELETE demo` + password re-auth; owner role via `MIGRATE_DATABASE_URL` |
+| CLI `scripts/demo-purge.ts` (`db:demo-purge`) | **Shipped 2026-09-20** — same counts + confirm phrase; `--dry-run` |
 | Email change grant/confirm routes (`/api/site-admin/users/[id]/change-email` + `/change-email/[token]`) | TODO. Schema is ready. |
 | MFA rotate (`/api/site-admin/users/[id]/rotate-mfa`) | TODO. |
 | Lock / unlock (`/api/site-admin/users/[id]/lock` + `/unlock`) | TODO. |
 | Signout-everywhere (`/api/site-admin/users/[id]/signout-everywhere`) | TODO; v2 wires the JWT callback to compare sessionVersion. |
-| Hard delete with typed-confirm + actor re-auth | TODO. The two-step archive-then-delete pattern is mandatory; v1 has archive only. |
-| CLI `scripts/demo-purge.ts` (`db:demo-purge`) | TODO. |
+| Hard delete (per-user) with typed-confirm + actor re-auth | TODO. The two-step archive-then-delete pattern is mandatory; v1 has archive only. Demo bulk purge is separate. |
 | Right-to-be-forgotten path (PIPEDA / Ontario PHIPA) | TODO. Stretch to a separate runbook; audit_log is the proximate resolution evidence. |
 
 ## Kickoff prompt for future agents

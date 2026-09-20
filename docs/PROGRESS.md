@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-20 — Demo cleanup purge (CLI + site-admin UI)
+
+- [x] Shared `is_demo` count/purge library; owner-role deletes via `MIGRATE_DATABASE_URL` so RLS cannot leave restrict orphans.
+- [x] CLI `npm run db:demo-purge` (`scripts/demo-purge.ts`) — same preview counts as the UI; exact phrase `DELETE demo`; `--dry-run`.
+- [x] `POST /api/site-admin/demo/purge` + typed-confirm form on `/app/site-admin/demo-cleanup` with password re-auth and audit (`site_admin.demo.purge`).
+- Narrative: [`session-knowledge-2026-09-17-site-admin.md`](audit/session-knowledge-2026-09-17-site-admin.md) (TODO rows closed).
+
 ## 2026-09-20 — Verified, forward-only database deployments (ADR-020)
 
 - [x] Replaced the parallel `db-maintain` / `platform_meta` / data-version stack with one fail-closed boot gate: validate journal → lock → migrate as owner → prove exact image tail → verify generated schema/RLS contract → serve.

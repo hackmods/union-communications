@@ -7151,6 +7151,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "demo-cleanup-purge": {
+        "title": "Demo cleanup can purge leftover sample accounts",
+        "body": "Platform operators can preview and permanently remove rows flagged as demo, with a typed confirmation and password check. Workshop sample data no longer has to linger on a live host."
+      },
       "officer-learning-modules-7-10": {
         "title": "Four new Officer Learning modules",
         "body": "Modules 7–10 cover mobilization and bargaining pressure, advanced grievance settlements, benefits and disability claims, and joint workplace committees — each with scenarios, a floor checklist, and a self-test."
@@ -7688,9 +7692,11 @@
     "profileName": "Name",
     "platformOperator": {
       "menu": "Platform",
+      "cardEyebrow": "Host-wide",
       "cardTitle": "Platform operator",
       "cardBody": "Invite locals, review site feedback, and open host-wide admin tools.",
       "profileHeading": "Platform operator",
+      "openSiteAdmin": "Open site admin",
       "siteAdmin": "Site admin",
       "siteAdminTitle": "Site admin",
       "siteAdminBody": "Tools that span every union: account support, user directory, local management, and demo cleanup.",
@@ -7701,11 +7707,15 @@
       "locals": "Locals",
       "localsBody": "Audit each union's locals. Archive a local to remove it from active rosters while preserving its data.",
       "demoCleanup": "Demo cleanup",
-      "demoCleanupBody": "Preview and (in v2) purge leftover demo roster rows in production. Idempotent.",
+      "demoCleanupBody": "Preview and purge leftover demo roster rows (is_demo) in production. Typed confirmation + password re-auth.",
       "invites": "Invites",
+      "invitesBody": "Send accept links to officers and members for any local on this host.",
       "onboarding": "Union setup",
+      "onboardingBody": "Walk a union through Hall setup, local number, and first invites.",
       "feedback": "Site feedback",
-      "audit": "Audit log"
+      "feedbackBody": "Read website notes from visitors and signed-in users.",
+      "audit": "Audit log",
+      "auditBody": "See who changed what across the host, and when."
     },
     "signingIn": "Signing in...",
     "sessionLoading": "Loading your Officer Hub…",

@@ -209,6 +209,12 @@ Save and **redeploy**.
 | `CRON_SECRET` | `/api/cron/meeting-reminders` |
 | `ATTACHMENT_LOCAL_DIR=/app/data/attachments` | Persist uploaded files (mount a volume) |
 
+**Demo cleanup purge** (after durable flip, when sample `is_demo` rows must leave a live host):
+
+- UI: `/app/site-admin/demo-cleanup` — typed `DELETE demo` + operator password
+- CLI: `MIGRATE_DATABASE_URL=… DATABASE_URL=… npm run db:demo-purge` (`--dry-run` for counts only)
+- Requires `MIGRATE_DATABASE_URL` (owner) so RLS cannot leave restrict orphans under demo unions
+
 ---
 
 ## 4. Verify
