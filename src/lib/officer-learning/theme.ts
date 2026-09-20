@@ -119,10 +119,9 @@ export const olTheme = {
   prefsBody: "mt-2 max-w-3xl text-sm leading-relaxed text-gray-600",
   prefsDivider: "border-t border-gray-200",
   relatedDot: "text-gray-400",
-  sourcesOuter: "bg-background px-4 pb-12 sm:px-6 lg:px-8",
-  sourcesCard:
-    "mx-auto max-w-prose rounded-2xl border border-gray-200 bg-white p-6 text-opseu-dark md:p-8",
-  sourcesIntro: "mb-4 max-w-prose text-sm leading-relaxed text-gray-600",
+  /** Bibliography band — shares the dashboard / module max-w-7xl shell */
+  sourcesSection: "mt-12 border-t border-gray-200 pt-10",
+  sourcesIntro: "mb-4 max-w-3xl text-sm leading-relaxed text-gray-600",
   input: "mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-opseu-dark",
   successText: "text-sm text-emerald-700",
   errorText: "text-sm text-red-700",

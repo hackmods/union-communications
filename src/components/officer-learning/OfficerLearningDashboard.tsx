@@ -290,16 +290,19 @@ function OfficerLearningDashboardInner({
               );
             })}
           </div>
-        </div>
-      </div>
-      <div className={olTheme.sourcesOuter} data-ol-shell>
-        <div className={olTheme.sourcesCard}>
-          <p className={olTheme.sourcesIntro}>{sourcesIntro}</p>
-          <SourcesBlock
-            pageId="officerLearning"
-            title={sourcesTitle}
-            intro={sourcesCatalogIntro}
-          />
+
+          <section
+            className={olTheme.sourcesSection}
+            aria-label={sourcesTitle}
+          >
+            <p className={olTheme.sourcesIntro}>{sourcesIntro}</p>
+            <SourcesBlock
+              pageId="officerLearning"
+              title={sourcesTitle}
+              intro={sourcesCatalogIntro}
+              className="mt-0"
+            />
+          </section>
         </div>
       </div>
     </>

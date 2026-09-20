@@ -59,21 +59,20 @@ export function ResourcesSourcesList() {
               titleAs="h3"
               title={ts(`categories.${category}`)}
             >
-              <ul className="mt-3 space-y-3">
+              <ul className="mt-3 grid grid-cols-[repeat(auto-fit,minmax(min(100%,17.5rem),1fr))] gap-x-6 gap-y-4">
                 {sources.map((source) => (
-                  <li
-                    key={source.id}
-                    className="border-b border-gray-100 pb-3 last:border-0 last:pb-0"
-                  >
+                  <li key={source.id} className="min-w-0">
                     <a
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-medium text-opseu-blue underline"
+                      className="font-medium text-opseu-blue underline underline-offset-2"
                     >
                       {source.label}
                     </a>
-                    <p className="mt-1 text-sm text-gray-600">{source.note}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-gray-600">
+                      {source.note}
+                    </p>
                   </li>
                 ))}
               </ul>

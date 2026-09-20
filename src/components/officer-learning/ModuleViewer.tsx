@@ -274,10 +274,17 @@ function ModuleViewerInner({
             onCompleted={() => setProgress(getModuleProgress(meta.id))}
           />
 
-          <div className={cn(olTheme.sourcesCard, "print:break-before-page")}>
+          <section
+            className={cn(olTheme.sourcesSection, "print:break-before-page")}
+            aria-label={sourcesTitle}
+          >
             <p className={olTheme.sourcesIntro}>{sourcesIntro}</p>
-            <SourcesBlock pageId={sourcesPageId} title={sourcesTitle} />
-          </div>
+            <SourcesBlock
+              pageId={sourcesPageId}
+              title={sourcesTitle}
+              className="mt-0"
+            />
+          </section>
         </article>
       </div>
     </div>

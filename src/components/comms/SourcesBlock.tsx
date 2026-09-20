@@ -6,30 +6,41 @@ import {
   type CommsSource,
 } from "@/lib/constants/comms-sources";
 import { useBrandStore } from "@/store/brand-store";
+import { cn } from "@/lib/utils";
 
 interface SourcesBlockProps {
   pageId: string;
   title: string;
   intro?: string;
+  className?: string;
 }
 
 function SourceItem({ source }: { source: CommsSource }) {
   return (
-    <li className="border-b border-gray-100 pb-3 last:border-0 last:pb-0">
+    <li className="min-w-0">
       <a
         href={source.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-medium text-opseu-blue underline"
+        className="font-medium text-opseu-blue underline underline-offset-2"
       >
         {source.label}
       </a>
-      <p className="mt-1 text-sm text-gray-600">{source.note}</p>
+      <p className="mt-1 text-sm leading-relaxed text-gray-600">{source.note}</p>
     </li>
   );
 }
 
-export function SourcesBlock({ pageId, title, intro }: SourcesBlockProps) {
+/**
+ * Per-page bibliography footer. Fills the parent shell width; source notes stay
+ * readable via auto-fit columns (1 → N as the viewport / shell widens).
+ */
+export function SourcesBlock({
+  pageId,
+  title,
+  intro,
+  className,
+}: SourcesBlockProps) {
   const unionPresetId = useBrandStore((s) => s.brandKit.unionPresetId);
   const hydrated = useBrandStore((s) => s.hydrated);
   const sources = getSourcesForPage(
@@ -39,14 +50,24 @@ export function SourcesBlock({ pageId, title, intro }: SourcesBlockProps) {
   if (sources.length === 0) return null;
 
   return (
-    <Card className="mt-10 max-w-prose border-gray-200 bg-gray-50">
-      <CardTitle className="text-base">{title}</CardTitle>
-      {intro && (
+    <Card
+      className={cn(
+        "mt-10 w-full min-w-0 border-gray-200 bg-gray-50",
+        className,
+      )}
+    >
+      <CardTitle className="text-base sm:text-lg">{title}</CardTitle>
+      {intro ? (
         <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
           {intro}
         </p>
-      )}
-      <ul className="mt-4 max-w-prose space-y-3">
+      ) : null}
+      <ul
+        className={cn(
+          "mt-4 grid gap-x-6 gap-y-4",
+          "grid-cols-[repeat(auto-fit,minmax(min(100%,17.5rem),1fr))]",
+        )}
+      >
         {sources.map((source) => (
           <SourceItem key={source.id} source={source} />
         ))}

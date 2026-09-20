@@ -59,14 +59,14 @@
 - Module: `src/components/officer-learning/ModuleViewer.tsx`  
 - Theme: `src/lib/officer-learning/theme.ts`
 - Tracks: `src/components/officer-learning/LearningTrackPicker.tsx`
-- Sources: `src/components/comms/SourcesBlock.tsx` (+ `olTheme.sourcesCard` → `max-w-prose`)
+- Sources: `src/components/comms/SourcesBlock.tsx` (+ `olTheme.sourcesSection` — shares dashboard/module shell; auto-fit source grid)
 
 ### Routes
 - `src/app/[locale]/guide/officer-learning/page.tsx`
 - `src/app/[locale]/guide/officer-learning/[slug]/page.tsx`
 - `src/app/[locale]/app/officer-learning/page.tsx` (Hub light board — treated with Hub phase)
 
-**Uplift approach:** Stay on dark shell (no GuideLayout). WCAG contrast on cards/progress; fluid module grid `sm:2 lg:3 xl:4`; breathe track + header; sources `max-w-prose`. Prefer `olTheme` token tweaks over ad-hoc hex.
+**Uplift approach:** Stay on platform light shell (no GuideLayout). WCAG contrast on cards/progress; fluid module grid `sm:2 lg:3 xl:4`; breathe track + header; sources share shell width with auto-fit grid. Prefer `olTheme` token tweaks over ad-hoc hex.
 
 ---
 

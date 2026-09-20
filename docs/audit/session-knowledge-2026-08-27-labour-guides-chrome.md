@@ -21,7 +21,7 @@ Do **not** redo the earlier 2026-08-27 pass (shared `guideCtaClasses` on bargain
 |---|---|
 | **Platform light chrome** (`olTheme`; site background + orange) | Training layout stays ModuleViewer; colours match public guides — see [`session-knowledge-2026-09-20-officer-learning-site-colours.md`](session-knowledge-2026-09-20-officer-learning-site-colours.md). Not Brand Kit. |
 | **Sticky module chrome** (progress bar, Jump to Quiz, print) | Training UX; not part of public GuideLayout |
-| **SourcesBlock in a bordered white card** | Readable bibliography; `olTheme.sourcesCard` keeps prose measure |
+| **SourcesBlock shares dashboard/module shell** | Bibliography fills `max-w-7xl` via `olTheme.sourcesSection` + responsive auto-fit grid in `SourcesBlock` (2026-09-20); no nested `max-w-prose` island |
 | **ModuleRelatedResources mid-article** (after content, before quiz) | Practice tools belong next to the lesson; GuideLayout related strip is navigation-only |
 | **Not wrapping dashboard/viewer in `GuideLayout`** | `GuideLayout` assumes light `PageShell` + opseu-blue text links; OL keeps its own ModuleViewer shell on the same platform palette and mirrors *placement* (related after intro, Sources in footer region) |
 

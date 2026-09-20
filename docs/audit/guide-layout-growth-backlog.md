@@ -13,7 +13,7 @@ Public guide chapters and workshop outlines use shared `GuideSection*` / outline
 
 | Surface | Shell / wrappers | Still deferred / edge cases |
 |---------|------------------|------------------------------|
-| **Officer Learning** ModuleViewer (platform light `olTheme`) | `olTheme` + `OfficerLearningDashboard` / `ModuleViewer`; track picker CSS grid; module cards `sm:2 lg:3 xl:4`; sources `max-w-prose` via `olTheme.sourcesCard` + `SourcesBlock` | Four-width matrix on **module viewer** body (not the index); Hub board (`/app/officer-learning`) stays Hub chrome. Do not reintroduce a navy dual theme. |
+| **Officer Learning** ModuleViewer (platform light `olTheme`) | `olTheme` + `OfficerLearningDashboard` / `ModuleViewer`; track picker CSS grid; module cards `sm:2 lg:3 xl:4`; sources share `max-w-7xl` shell via `olTheme.sourcesSection` + responsive `SourcesBlock` auto-fit grid | Four-width matrix on **module viewer** body (not the index); Hub board (`/app/officer-learning`) stays Hub chrome. Do not reintroduce a navy dual theme. |
 | **Legal pamphlets** | `GuideLayout preset="narrow"` + `GuideSection` / `GuideCallout` / `GuideProse` / `GuideBulletList`; DisplaySettings → `PublicHubPanel` | Do **not** widen to playbook tip grids or TOC rails unless product asks |
 | **Tool editor chrome** | `ToolEditorLayout`: `PUBLIC_PAGE_TITLE_CLASS` + shared form panel (`p-4 md:p-6`); form-root Cards unwrapped | Canvas **preview interiors** stay Canvas Core; bespoke PageShell exceptions: alt-text, rules-of-order, proposal-tracker; bylaw workspace delegate |
 | **Hub / Portal dashboards** | `HubDashboard` / `PortalStation` + `PUBLIC_*` titles; widget/circle CSS grids; Card for widgets only | Deeper Hub boards (TaskBoard, CircleWorkspace density) still product-scoped; do not force GuideLayout |
@@ -42,7 +42,7 @@ Closed public GB items: [`docs/growth-backlog.md`](../growth-backlog.md) (GB-001
 
 ## Suggested future passes (not scheduled)
 
-- OL **module viewer** density (aside + prose) at `xl` — index/dashboard already fluid.
+- OL **module viewer** density (aside + prose) at `xl` — index/dashboard already fluid; sources band responsive as of 2026-09-20.
 - Hub TaskBoard / CircleWorkspace composition if product expands dashboard density.
 - Asset packs: audit `border-l-2` duplication only if packs grow into multi-column catalogs.
 - PDF: keep [`guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc); any density work stays in `pdf-layout` contracts.

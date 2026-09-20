@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-20 — Sources & references responsive layout
+
+- [x] `SourcesBlock` fills parent shell width; source list uses auto-fit columns (`minmax(17.5rem, 1fr)`).
+- [x] Officer Learning dashboard + ModuleViewer drop nested `max-w-prose` white card; sources sit in `olTheme.sourcesSection` inside the shared `max-w-7xl` shell.
+- [x] `/guide/resources` bibliography lists use the same auto-fit grid.
+- Guides/tools footers inherit the shared `SourcesBlock` layout.
+
 ## 2026-09-20 — Officer Learning site colour align
 
 - [x] Retired navy focus shell (`#0B132B`); sole `olTheme` = platform light chrome (`bg-background` + `opseu-blue` / `opseu-dark`).
