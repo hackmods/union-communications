@@ -70,11 +70,13 @@ export function HubDashboard() {
         </Button>
       </div>
 
-      {isPlatformOperator(roles) ? (
-        <PlatformOperatorCard pathname={pathname} />
-      ) : null}
-
       <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+        {isPlatformOperator(roles) ? (
+          <div className="md:col-span-2">
+            <PlatformOperatorCard pathname={pathname} />
+          </div>
+        ) : null}
+
         {showSetupCard ? (
           <Card density="compact" className="border-opseu-blue/30 bg-white md:col-span-2">
             <h2 className={PUBLIC_CARD_TITLE_CLASS}>{t("setupCardTitle")}</h2>
