@@ -7098,6 +7098,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "hub-role-labels": {
+        "title": "Noms de rôles lisibles dans le Hub des dirigeants",
+        "body": "Vos rôles sur l’accueil du Hub des dirigeants, les invitations et les listes de comptes opérateur affichent maintenant des noms clairs comme Président local au lieu de codes comme local_president."
+      },
       "portal-ui-polish": {
         "title": "Les pages du Portail local sont plus faciles à parcourir",
         "body": "Ensemble, Relais, Tenir la ligne, Coulisses et les en-têtes de Cercle utilisent maintenant des panneaux et tuiles clairs — avec des états de chargement et d’erreur plus calmes — pour trouver plus vite les Cercles et les avis."
@@ -7829,6 +7833,17 @@
     "division": "Division",
     "local": "Section",
     "roles": "Rôles",
+    "roleLabels": {
+      "platform_admin": "Admin plateforme",
+      "union_admin": "Admin syndicat",
+      "division_admin": "Admin division",
+      "local_president": "Président local",
+      "local_steward": "Délégué local",
+      "local_exec": "Exécutif local",
+      "stability_member": "Comité de stabilité",
+      "local_member": "Membre de la section (Salle)",
+      "solo_account": "Compte solo"
+    },
     "yourModules": "Vos modules",
     "openModule": "Ouvrir le module",
     "mfaTitle": "Vérifiez votre identité",
@@ -8027,15 +8042,6 @@
       "accepted": "Acceptée",
       "revoked": "Révoquée",
       "expired": "Expirée"
-    },
-    "role": {
-      "local_steward": "Délégué local",
-      "local_exec": "Exécutif local",
-      "local_president": "Président local",
-      "stability_member": "Comité de stabilité",
-      "local_member": "Membre de la section (Salle)",
-      "union_admin": "Admin syndicat",
-      "division_admin": "Admin division"
     }
   },
   "inviteAccept": {

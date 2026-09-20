@@ -21,11 +21,13 @@ import {
   PUBLIC_PAGE_TITLE_CLASS,
   PUBLIC_SECTION_TITLE_CLASS,
 } from "@/lib/constants/public-type";
+import { formatRoleList } from "@/lib/auth/role-labels";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 export function HubDashboard() {
   const { data: session } = useSession();
   const t = useTranslations("hub");
+  const tRoles = useTranslations("hub.roleLabels");
   const pathname = usePathname();
   const mfaOk = useSessionMfaOk();
   const liveTenant = useLiveTenant();
@@ -124,7 +126,9 @@ export function HubDashboard() {
               ) : null}
               <div>
                 <dt className="font-medium text-gray-500">{t("roles")}</dt>
-                <dd className="mt-0.5 text-opseu-dark">{roles.join(", ")}</dd>
+                <dd className="mt-0.5 text-opseu-dark">
+                  {formatRoleList(roles, tRoles) || "—"}
+                </dd>
               </div>
             </dl>
           </Card>

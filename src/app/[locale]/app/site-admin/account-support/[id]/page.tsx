@@ -10,6 +10,7 @@ import {
   locals,
 } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { formatRoleList } from "@/lib/auth/role-labels";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +30,7 @@ export default async function AccountSupportDetailPage({
     redirect(`/${locale}/app/login`);
   }
   await getTranslations({ locale, namespace: "hub.platformOperator" });
+  const tRoles = await getTranslations({ locale, namespace: "hub.roleLabels" });
 
   let profile: {
     id: string;
@@ -147,7 +149,10 @@ export default async function AccountSupportDetailPage({
               : "—"
           }
         />
-        <Row label="Roles" value={profile.roles.join(", ") || "—"} />
+        <Row
+          label="Roles"
+          value={formatRoleList(profile.roles, tRoles) || "—"}
+        />
         <Row
           label="MFA"
           value={profile.mfaEnabled ? "Enrolled" : "Not enrolled"}

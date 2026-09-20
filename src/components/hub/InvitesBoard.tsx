@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/Select";
 import { Callout } from "@/components/ui/Callout";
 import { Checkbox } from "@/components/ui/Checkbox";
 import type { InviteRoleOption } from "@/lib/tenant/access";
+import { formatRoleLabel, formatRoleList } from "@/lib/auth/role-labels";
 import type { UserRole } from "@/types/tenant";
 
 type CreateInviteResponse = {
@@ -51,6 +52,7 @@ const emailUiEnabled = process.env.NEXT_PUBLIC_EMAIL_ENABLED === "true";
 
 export function InvitesBoard() {
   const t = useTranslations("invites");
+  const tRoles = useTranslations("hub.roleLabels");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [roles, setRoles] = useState<InviteRoleOption[]>(["local_steward"]);
@@ -459,7 +461,7 @@ export function InvitesBoard() {
                   key={role}
                   checked={roles.includes(role)}
                   onChange={() => toggleRole(role)}
-                  label={t(`role.${role}`)}
+                  label={formatRoleLabel(role, tRoles)}
                 />
               ))}
             </div>
@@ -554,9 +556,7 @@ export function InvitesBoard() {
                       {row.name} · {row.email}
                     </p>
                     <p className="text-gray-600">
-                      {row.roles
-                        .map((role) => t(`role.${role}` as "role.local_steward"))
-                        .join(", ")}{" "}
+                      {formatRoleList(row.roles, tRoles)}{" "}
                       · {localLabel(row.localId)} · {t(`status.${row.status}`)}
                     </p>
                     <p className="text-xs text-gray-500">

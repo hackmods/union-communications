@@ -7151,6 +7151,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "hub-role-labels": {
+        "title": "Readable role names in Officer Hub",
+        "body": "Your roles on Officer Hub home, invites, and operator account lists now show plain names like Local president instead of codes like local_president."
+      },
       "portal-ui-polish": {
         "title": "Local Portal pages are easier to scan",
         "body": "Together, Dispatch, Hold the line, Sidebars, and Circle headers now use clear panels and tiles — with calmer loading and error states — so Circles and pings are faster to find."
@@ -7882,6 +7886,17 @@
     "division": "Division",
     "local": "Local",
     "roles": "Roles",
+    "roleLabels": {
+      "platform_admin": "Platform admin",
+      "union_admin": "Union admin",
+      "division_admin": "Division admin",
+      "local_president": "Local president",
+      "local_steward": "Local steward",
+      "local_exec": "Local executive",
+      "stability_member": "Stability committee",
+      "local_member": "Local member (Hall)",
+      "solo_account": "Solo account"
+    },
     "yourModules": "Your modules",
     "openModule": "Open module",
     "mfaTitle": "Verify your identity",
@@ -8080,15 +8095,6 @@
       "accepted": "Accepted",
       "revoked": "Revoked",
       "expired": "Expired"
-    },
-    "role": {
-      "local_steward": "Local steward",
-      "local_exec": "Local executive",
-      "local_president": "Local president",
-      "stability_member": "Stability committee",
-      "local_member": "Local member (Hall)",
-      "union_admin": "Union admin",
-      "division_admin": "Division admin"
     }
   },
   "inviteAccept": {

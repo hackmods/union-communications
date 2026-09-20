@@ -7,6 +7,7 @@ import { getDb } from "@/lib/db/client";
 import { users } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
+import { formatRoleList } from "@/lib/auth/role-labels";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +29,7 @@ export default async function SiteAdminUsersPage({
     redirect(`/${locale}/app/login`);
   }
   await getTranslations({ locale, namespace: "hub.platformOperator" });
+  const tRoles = await getTranslations({ locale, namespace: "hub.roleLabels" });
 
   let rows: Array<{
     id: string;
@@ -110,7 +112,7 @@ export default async function SiteAdminUsersPage({
                   {r.email}
                 </td>
                 <td className="px-3 py-2 text-xs text-opseu-gray-dark">
-                  {r.roles.join(", ") || "—"}
+                  {formatRoleList(r.roles, tRoles) || "—"}
                 </td>
                 <td className="px-3 py-2 text-xs">
                   {r.isDemo ? (
