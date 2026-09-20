@@ -20,6 +20,14 @@ trap cleanup EXIT
 
 cd "${ROOT}"
 
+EXPECTED_TAIL="$(node -e 'const journal = require("./src/lib/db/migrations/meta/_journal.json"); process.stdout.write(journal.entries.at(-1).tag)')"
+JOURNAL_ENTRY_COUNT="$(node -e 'const journal = require("./src/lib/db/migrations/meta/_journal.json"); process.stdout.write(String(journal.entries.length))')"
+RECONCILE_START_INDEX="$(node -e 'const journal = require("./src/lib/db/migrations/meta/_journal.json"); const index = journal.entries.findIndex((entry) => entry.tag === "0036_verified_boot_reconcile"); if (index < 0) throw new Error("reconciliation migration missing"); process.stdout.write(String(index))')"
+RECONCILE_WHEN="$(node -e 'const journal = require("./src/lib/db/migrations/meta/_journal.json"); const entry = journal.entries.find((item) => item.tag === "0036_verified_boot_reconcile"); if (!entry) throw new Error("reconciliation migration missing"); process.stdout.write(String(entry.when))')"
+RECONCILE_TAIL_COUNT="$((JOURNAL_ENTRY_COUNT - RECONCILE_START_INDEX))"
+HOLE_EXPECTED_COUNT="$((JOURNAL_ENTRY_COUNT - 3 - RECONCILE_TAIL_COUNT))"
+REPAIRED_EXPECTED_COUNT="$((JOURNAL_ENTRY_COUNT - 3))"
+
 if [[ "${IMAGE_WAS_SUPPLIED}" == "false" ]]; then
   echo "[docker-migrate-smoke] building ${IMAGE}…"
   docker build -f docker/Dockerfile -t "${IMAGE}" .
@@ -83,7 +91,7 @@ run_gate "${FRESH_LOG}"
 cat "${FRESH_LOG}"
 
 grep -q "running database deploy gate" "${FRESH_LOG}"
-grep -q "verified tail=0037_b7p_demo_tenant" "${FRESH_LOG}"
+grep -Fq "verified tail=${EXPECTED_TAIL}" "${FRESH_LOG}"
 grep -q "database deploy gate passed" "${FRESH_LOG}"
 if grep -q "severity.*NOTICE" "${FRESH_LOG}"; then
   echo "[docker-migrate-smoke] postgres NOTICE leaked into deploy logs" >&2
@@ -102,17 +110,32 @@ META_TABLES="$(psql_scalar "SELECT count(*) FROM information_schema.tables WHERE
 # Reproduce the live journal-hole state: later migrations exist, 0027-0029 do
 # not, and the obsolete metadata table claims success. The new reconciliation
 # tail must repair shape without rewriting history or losing the sentinel row.
-# Counts: journal has 38 entries (0000–0037). Deleting 0027/0028/0029/0036
-# leaves 34 rows; re-applying 0036 restores one → 35. (Pre-0037 these were
-# 33 → 34; bump both when appending another migration after 0037.)
-echo "[docker-migrate-smoke] reproducing historical 34/38 journal-hole upgrade…"
-"${COMPOSE[@]}" exec -T db psql -U "${POSTGRES_USER}" -d "${POSTGRES_DB}" -v ON_ERROR_STOP=1 <<'SQL'
+# The expected tail/count assertions derive from the immutable journal. Remove
+# the three historical holes plus the reconciliation migration and every later
+# entry: that models the production state before 0036 shipped and lets Drizzle
+# apply the entire new tail.
+echo "[docker-migrate-smoke] reproducing historical ${HOLE_EXPECTED_COUNT}/${JOURNAL_ENTRY_COUNT} journal-hole upgrade…"
+"${COMPOSE[@]}" exec -T db psql -U "${POSTGRES_USER}" -d "${POSTGRES_DB}" \
+  -v ON_ERROR_STOP=1 -v reconcile_when="${RECONCILE_WHEN}" <<'SQL'
 INSERT INTO unions (id, name, slug, enabled_modules, is_demo)
 VALUES ('union-opseu', 'Preserve Me', 'preserve-me', '[]'::jsonb, false)
 ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, is_demo = false;
 
 DELETE FROM drizzle.__drizzle_migrations
-WHERE created_at IN (1784877000000, 1784878000000, 1784879000000, 1789875000000);
+WHERE created_at IN (1784877000000, 1784878000000, 1784879000000)
+   OR created_at >= :reconcile_when;
+
+-- Rewind schema objects introduced after the historical state. The fixture is
+-- created from a fresh current database, so removing only journal entries would
+-- make 0038/0039 collide with their already-created foreign-key constraints.
+DROP TABLE IF EXISTS proposal_events CASCADE;
+DROP TABLE IF EXISTS proposal_publications CASCADE;
+DROP TABLE IF EXISTS proposal_rows CASCADE;
+DROP TABLE IF EXISTS proposal_packages CASCADE;
+DROP TABLE IF EXISTS bylaw_drafts CASCADE;
+DROP TABLE IF EXISTS local_public_tool_settings CASCADE;
+DROP TABLE IF EXISTS union_public_tool_settings CASCADE;
+DROP TABLE IF EXISTS platform_public_tool_settings CASCADE;
 
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS mentioned_user_ids;
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS reactions;
@@ -158,18 +181,21 @@ INSERT INTO platform_meta VALUES (1, 35, 1, 33, 'misleading-old-state');
 SQL
 
 HOLE_COUNT="$(psql_scalar "SELECT count(*) FROM drizzle.__drizzle_migrations")"
-[[ "${HOLE_COUNT}" == "34" ]] || {
-  echo "[docker-migrate-smoke] journal-hole count=${HOLE_COUNT}; expected 34 (38 total minus 0027/0028/0029/0036)" >&2
+[[ "${HOLE_COUNT}" == "${HOLE_EXPECTED_COUNT}" ]] || {
+  echo "[docker-migrate-smoke] journal-hole count=${HOLE_COUNT}; expected ${HOLE_EXPECTED_COUNT} (${JOURNAL_ENTRY_COUNT} total minus 0027/0028/0029 and the ${RECONCILE_TAIL_COUNT}-entry reconciliation tail)" >&2
   exit 1
 }
 REPAIR_LOG="${LOG_DIR}/repair.log"
-run_gate "${REPAIR_LOG}"
+if ! run_gate "${REPAIR_LOG}"; then
+  cat "${REPAIR_LOG}" >&2
+  exit 1
+fi
 cat "${REPAIR_LOG}"
-grep -q "verified tail=0037_b7p_demo_tenant" "${REPAIR_LOG}"
+grep -Fq "verified tail=${EXPECTED_TAIL}" "${REPAIR_LOG}"
 
 REPAIRED_COUNT="$(psql_scalar "SELECT count(*) FROM drizzle.__drizzle_migrations")"
-[[ "${REPAIRED_COUNT}" == "35" ]] || {
-  echo "[docker-migrate-smoke] post-repair journal count=${REPAIRED_COUNT}; expected 35 (hole + reapplied 0036)" >&2
+[[ "${REPAIRED_COUNT}" == "${REPAIRED_EXPECTED_COUNT}" ]] || {
+  echo "[docker-migrate-smoke] post-repair journal count=${REPAIRED_COUNT}; expected ${REPAIRED_EXPECTED_COUNT} (hole + replayed reconciliation tail)" >&2
   exit 1
 }
 TASKS_AFTER="$(psql_scalar "SELECT count(*) FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'tasks' AND column_name IN ('notes','mentioned_user_ids','reactions','updated_at')")"

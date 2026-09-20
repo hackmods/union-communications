@@ -8,6 +8,7 @@
 - [x] **API + persistence** — `/api/bylaws*`, `/api/proposals*`, `GET /api/portal/proposals`; Drizzle adapters behind `BYLAWS_DB_BACKEND=postgres` / `PROPOSALS_DB_BACKEND=postgres` (memory default), RLS route wrapping via `withRlsContext`.
 - [x] **Proposal Tracker uplift** — eyebrow, per-status summary chips, status badges in rows, privacy note, sync panel; Bylaw Builder gains the sync panel too.
 - [x] **Platform-wide** — `hub` module labels + registry, B7P seed enables both modules, What's new `hub-bylaws-proposals` (EN/FR), copy-style guards for the new Hub namespaces, module spec `docs/modules/BYLAWS_PROPOSALS.md` + session note.
+- [x] **Database deploy closeout** — regenerated the required-shape artifact for migrations `0038`/`0039`; the Docker migration smoke now derives its expected journal tail/counts and correctly rewinds post-reconciliation schema objects in the historical-hole fixture.
 - Verify: typecheck clean, lint clean, full unit suite 2004 passed / 1 skipped, production build green, new `e2e/hub.governance.smoke.spec.ts` 3/3 passing.
 
 ## 2026-09-20 — Onboarding + peer workspace shell uplift

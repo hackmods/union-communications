@@ -47,6 +47,13 @@ a "Send to Hub" sync path from the on-device tools.
   enable/disable, `0038_public_tool_settings`, nav/sitemap filtering). It was
   already wired; a lint error in the settings form (`setState` in effect) was
   the only repair.
+- **L6 — schema migrations must ship the generated boot contract.** Migrations
+  `0038`/`0039` initially landed without a refreshed
+  `docker/db-required-shape.json`, so CI stopped before lint/typecheck and the
+  production image could not publish. The Docker historical-hole fixture also
+  has to rewind every migration from `0036` onward before replaying that tail;
+  deleting a middle journal row while leaving later rows cannot make Drizzle
+  reapply it. The smoke now derives tail/count expectations from the journal.
 
 ## Residual / next
 
@@ -66,4 +73,6 @@ a "Send to Hub" sync path from the on-device tools.
 passed / 1 skipped; `npm run build` green; new e2e
 `e2e/hub.governance.smoke.spec.ts` 3/3 passing against the local dev server
 (president creates bylaws draft + proposal package, publishes, member sees the
-Portal snapshot).
+Portal snapshot). Follow-up deploy verification: `npm run db:check` clean and
+`scripts/docker-migrate-smoke.sh union-communications:ci` passes fresh-volume,
+historical-hole repair, concurrent boot, and fail-closed shape checks.

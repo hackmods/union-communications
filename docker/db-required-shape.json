@@ -259,6 +259,61 @@
       ]
     },
     {
+      "name": "bylaw_drafts",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "form",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "mode",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "cash_advances",
       "columns": [
         {
@@ -1564,6 +1619,41 @@
       ]
     },
     {
+      "name": "local_public_tool_settings",
+      "columns": [
+        {
+          "name": "disabled_tool_slugs",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "locals",
       "columns": [
         {
@@ -2109,6 +2199,31 @@
       ]
     },
     {
+      "name": "platform_public_tool_settings",
+      "columns": [
+        {
+          "name": "disabled_tool_slugs",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "poll_definitions",
       "columns": [
         {
@@ -2214,6 +2329,261 @@
         {
           "name": "union_id",
           "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "proposal_events",
+      "columns": [
+        {
+          "name": "author_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "author_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "kind",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "package_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "row_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "proposal_packages",
+      "columns": [
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "caucus_note",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "published_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "published_summary",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "round_label",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "proposal_publications",
+      "columns": [
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "bullets",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "guide_href",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "headline",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "package_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "published_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "published_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "proposal_rows",
+      "columns": [
+        {
+          "name": "article",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "assignee_ids",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "current_language",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "employer_counter",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "notes",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "package_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "sort_order",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_proposal",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
           "notNull": true
         }
       ]
@@ -3504,6 +3874,36 @@
       ]
     },
     {
+      "name": "union_public_tool_settings",
+      "columns": [
+        {
+          "name": "disabled_tool_slugs",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "unions",
       "columns": [
         {
@@ -3814,6 +4214,11 @@
     },
     {
       "schema": "public",
+      "table": "bylaw_drafts",
+      "name": "bylaw_drafts_tenant_isolation"
+    },
+    {
+      "schema": "public",
       "table": "cash_advances",
       "name": "cash_advances_tenant_isolation"
     },
@@ -3889,6 +4294,11 @@
     },
     {
       "schema": "public",
+      "table": "local_public_tool_settings",
+      "name": "local_public_tool_settings_tenant_isolation"
+    },
+    {
+      "schema": "public",
       "table": "meeting_minutes",
       "name": "meeting_minutes_tenant_isolation"
     },
@@ -3926,6 +4336,26 @@
       "schema": "public",
       "table": "poll_responses",
       "name": "poll_responses_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "proposal_events",
+      "name": "proposal_events_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "proposal_packages",
+      "name": "proposal_packages_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "proposal_publications",
+      "name": "proposal_publications_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "proposal_rows",
+      "name": "proposal_rows_tenant_isolation"
     },
     {
       "schema": "public",
@@ -4006,6 +4436,11 @@
       "schema": "public",
       "table": "union_meetings",
       "name": "union_meetings_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "union_public_tool_settings",
+      "name": "union_public_tool_settings_tenant_isolation"
     },
     {
       "schema": "public",
