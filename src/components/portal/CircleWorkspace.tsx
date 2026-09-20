@@ -345,8 +345,10 @@ export function CircleWorkspace({
                   const a = document.createElement("a");
                   a.href = url;
                   a.download = `${detail.circle.name.replace(/\s+/g, "-").toLowerCase()}-activity-pack.json`;
+                  document.body.appendChild(a);
                   a.click();
-                  URL.revokeObjectURL(url);
+                  a.remove();
+                  window.setTimeout(() => URL.revokeObjectURL(url), 0);
                 })();
               }}
             >

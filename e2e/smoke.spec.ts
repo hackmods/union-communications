@@ -449,7 +449,7 @@ test.describe("Smoke tests @smoke", () => {
       page.getByRole("heading", { name: "Sample accounts" }),
     ).toBeVisible();
     await page
-      .getByRole("button", { name: /Fill Local 243 president/i })
+      .getByRole("button", { name: /Fill Local 7 president/i })
       .click();
     await expect(page.getByLabel(/^Email$/i)).toHaveValue(
       "president.7@unionops.test",
