@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-20 — Officer Learning site colour align
+
+- [x] Retired navy focus shell (`#0B132B`); sole `olTheme` = platform light chrome (`bg-background` + `opseu-blue` / `opseu-dark`).
+- [x] Removed `officerLearningColour` Display setting + `data-ol-colour` plumbing; ModuleToc always light `GuideToc`.
+- [x] ModuleViewer training chrome kept (not GuideLayout). Certificate PDF palette unchanged.
+- Narrative: [`session-knowledge-2026-09-20-officer-learning-site-colours.md`](audit/session-knowledge-2026-09-20-officer-learning-site-colours.md).
+
 ## 2026-09-20 — B7P demo roster (no OPSEU local-number overlap)
 
 - [x] Hub demo tenant renamed to **Behind 7 Proxies** (`union-b7p`) with meme locals **7 / 404 / 502 / 1337**.

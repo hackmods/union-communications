@@ -136,7 +136,7 @@ Workshop polish (2026-08): canvas tools wire `exportSuccess`, `ToolRelatedFooter
 | brand-kit | done (`PublicHubPanel`) |
 | onboarding | done (`PublicHubPanel`) |
 | privacy / security / accessibility | done (narrow `guide-ui` pamphlets; DisplaySettings → `PublicHubPanel`) |
-| Officer Learning dark shell | done (stay dark; `olTheme` + fluid module/track grids; sources `max-w-prose`) |
+| Officer Learning ModuleViewer | done (platform light `olTheme` + fluid module/track grids; sources `max-w-prose`) |
 | Hub dashboard / Portal station | done (fluid titles + responsive grids; not GuideLayout) |
 | manifesto | done |
 | support | done |

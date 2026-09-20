@@ -126,7 +126,7 @@ export function ModuleQuiz({
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className={olTheme.eyebrow}>{t("quiz.label")}</p>
-          <h2 className="mt-1 text-2xl font-bold text-white md:text-3xl">{t("quiz.title")}</h2>
+          <h2 className={olTheme.quizTitle}>{t("quiz.title")}</h2>
         </div>
         <div
           className={clsx(
@@ -135,15 +135,15 @@ export function ModuleQuiz({
           )}
           aria-hidden={!showResults || isExiting}
         >
-          <p className="rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-white">
+          <p className={olTheme.quizScore}>
             {t("quiz.score", { score, total: questions.length })}
           </p>
         </div>
       </div>
 
       {quizPassed && !submitted && !isExiting && (
-        <div className="mb-6 space-y-3 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3">
-          <p className="font-semibold text-emerald-100">{t("quiz.alreadyPassed")}</p>
+        <div className={olTheme.quizAlreadyPassed}>
+          <p className="font-semibold">{t("quiz.alreadyPassed")}</p>
           <CertificateDownload
             kind="module"
             achievementTitle={moduleTitle}
@@ -173,7 +173,7 @@ export function ModuleQuiz({
 
           return (
             <fieldset key={question.id} className="space-y-3">
-              <legend className="text-lg font-semibold text-white">
+              <legend className={olTheme.quizLegend}>
                 {index + 1}. {question.prompt}
               </legend>
               <div className="space-y-2">
@@ -207,7 +207,7 @@ export function ModuleQuiz({
                         }
                         className={clsx("mt-1 h-4 w-4", olTheme.inputAccent)}
                       />
-                      <span className="text-slate-100">
+                      <span className={olTheme.quizOptionText}>
                         <span className={olTheme.optionLabel}>{option.id})</span>
                         {option.label.replace(/<\/?[^>]+(>|$)/g, "")}
                       </span>
@@ -226,9 +226,8 @@ export function ModuleQuiz({
                 <div className="overflow-hidden">
                   <p
                     className={clsx(
-                      "rounded-lg px-4 py-3 text-sm leading-relaxed",
-                      isCorrect && "bg-emerald-500/10 text-emerald-100",
-                      isIncorrect && "bg-red-500/10 text-red-100",
+                      isCorrect && olTheme.quizExplainPass,
+                      isIncorrect && olTheme.quizExplainFail,
                     )}
                   >
                     {question.explanation.replace(/<\/?[^>]+(>|$)/g, "")}
@@ -257,7 +256,7 @@ export function ModuleQuiz({
               {t("quiz.submit")}
             </button>
             {!allAnswered && (
-              <p className="text-sm text-slate-400" aria-live="polite">
+              <p className={olTheme.quizProgress} aria-live="polite">
                 {t("quiz.answerProgress", {
                   answered: answeredCount,
                   total: questions.length,
@@ -267,7 +266,7 @@ export function ModuleQuiz({
           </div>
         ) : passed ? (
           <div className="space-y-4">
-            <p className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 font-semibold text-emerald-100">
+            <p className={olTheme.quizPassedBanner}>
               {t("quiz.passed")}
             </p>
             {!quizPassed && (

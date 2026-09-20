@@ -34,7 +34,6 @@ export const userPreferencesSchema = z
     highContrast: z.boolean(),
     reducedMotion: z.boolean(),
     stewardMobileMode: z.boolean(),
-    officerLearningColour: z.enum(["navy", "light"]).default("navy"),
   })
   .strict();
 

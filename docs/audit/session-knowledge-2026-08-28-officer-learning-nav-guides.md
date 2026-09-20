@@ -4,19 +4,19 @@
 
 ---
 
-## Officer Learning dark shell — product decision
+## Officer Learning dark shell — superseded 2026-09-20
 
-| Decision | Rationale |
+**Superseded.** Navy is no longer the default. See [`session-knowledge-2026-09-20-officer-learning-site-colours.md`](session-knowledge-2026-09-20-officer-learning-site-colours.md): single platform light `olTheme`; `officerLearningColour` removed.
+
+Historical row (do not reintroduce):
+
+| Decision | Rationale (historical) |
 |---|---|
-| **Navy focus shell is the default** (`#0B132B`) | Signals self-paced training vs light Comms guides |
-| **Light colour is opt-in** | Display settings `officerLearningColour` (`navy` \| `light`); not Brand Kit; not site-wide dark mode. Header/footer stay light. |
-| **Replace amber/teal with platform orange** | `olThemeNavy` / `olThemeLight` in `src/lib/officer-learning/theme.ts` — `useOlTheme()` |
+| ~~Navy focus shell is the default~~ (`#0B132B`) | ~~Signals self-paced training vs light Comms guides~~ |
+| ~~Light colour is opt-in~~ | ~~Display settings `officerLearningColour`~~ |
+| **Replace amber/teal with platform orange** | Still true — accents stay platform orange via `olTheme` |
 
-**Sweep shipped:** dashboard, module viewer, quiz, content renderer, checklists, diagrams, timelines, worked scenarios, sync panel, certificates, `GuideToc` dark variant, certificate PDF palette (`GUIDE_PDF_PALETTE.brand`).
-
-**Still semantic (not decorative):** emerald/red quiz pass-fail; sky/violet practice/reflection callouts.
-
-**2026-09-05:** Light palette is a Display setting. Certificate PDFs stay navy. Do not wrap OL in `GuideLayout`.
+**Still true:** Do not wrap OL in `GuideLayout`. Certificate PDFs use `GUIDE_PDF_PALETTE` (not the retired web navy shell). Not Brand Kit. Not site-wide dark mode.
 
 ---
 
@@ -61,6 +61,7 @@ Rule: `.cursor/rules/comms-public-nav.mdc` + `nav-config.test.ts`.
 - Wrap OL in `GuideLayout` light chrome  
 - Wire Brand Kit colours into Officer Learning pages  
 - Add site-wide dark mode  
+- Reintroduce a navy / dark dual theme or `data-ol-colour`  
 - Reintroduce amber/teal gamification accents in `src/components/officer-learning/`  
 - Add topic playbooks to Guides mega-menu — use steward-playbooks hub + registry labour group  
 - Duplicate guide path arrays outside `guide-registry.ts`

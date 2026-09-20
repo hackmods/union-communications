@@ -2,7 +2,6 @@
 
 import type { ModuleSection } from "@/lib/officer-learning/types";
 import { GuideToc, type GuideTocItem } from "@/components/comms/GuideToc";
-import { useOlColour } from "./OlThemeProvider";
 
 function flattenSections(sections: ModuleSection[]): GuideTocItem[] {
   const items: GuideTocItem[] = [];
@@ -28,18 +27,12 @@ export function ModuleToc({
   quizLabel: string;
   activeId?: string;
 }) {
-  const colour = useOlColour();
   const items: GuideTocItem[] = [
     ...flattenSections(sections),
     { id: "module-quiz", label: quizLabel, level: 2 },
   ];
 
   return (
-    <GuideToc
-      items={items}
-      activeId={activeId}
-      variant={colour === "light" ? "light" : "dark"}
-      smoothScroll
-    />
+    <GuideToc items={items} activeId={activeId} variant="light" smoothScroll />
   );
 }

@@ -47,14 +47,10 @@ export function ModuleWorkedTimeline({ slug, className }: Props) {
       >
         {phases.map((key, index) => (
           <li key={key} className="flex min-w-0 flex-1 items-stretch gap-2 sm:flex-col">
-            <div className="flex min-w-0 flex-1 flex-col rounded-xl border border-white/10 bg-white/5 px-3 py-3">
+            <div className={olTheme.timelineCard}>
               <span className={olTheme.phaseLabel}>{key.toUpperCase()}</span>
-              <p className="mt-1 text-sm font-semibold leading-snug text-white">
-                {t(`phases.${key}.label`)}
-              </p>
-              <p className="mt-1 text-xs leading-relaxed text-slate-300">
-                {t(`phases.${key}.summary`)}
-              </p>
+              <p className={olTheme.timelineLabel}>{t(`phases.${key}.label`)}</p>
+              <p className={olTheme.timelineSummary}>{t(`phases.${key}.summary`)}</p>
             </div>
             {index < phases.length - 1 ? (
               <span className={olTheme.phaseArrow} aria-hidden="true">
@@ -64,7 +60,7 @@ export function ModuleWorkedTimeline({ slug, className }: Props) {
           </li>
         ))}
       </ol>
-      <p className="mt-4 text-xs leading-relaxed text-slate-400">{t("caption")}</p>
+      <p className={olTheme.timelineCaption}>{t("caption")}</p>
     </figure>
   );
 }

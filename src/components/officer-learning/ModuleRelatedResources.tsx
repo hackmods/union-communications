@@ -143,8 +143,8 @@ export function ModuleRelatedResources({
     <aside
       className={clsx(olTheme.callout, "p-5 md:p-6", className)}
     >
-      <h2 className="text-xl font-bold text-white">{t("related.title")}</h2>
-      <p className="mt-2 text-sm text-slate-200">{t("related.intro")}</p>
+      <h2 className={olTheme.relatedTitle}>{t("related.title")}</h2>
+      <p className={olTheme.relatedIntro}>{t("related.intro")}</p>
 
       {links.length > 0 && (
         <ul className="mt-4 flex flex-wrap gap-2">
@@ -167,21 +167,21 @@ export function ModuleRelatedResources({
       )}
 
       {sheets.length > 0 && (
-        <div className="mt-5 space-y-3 border-t border-white/10 pt-4">
-          <p className="text-sm font-semibold text-orange-100">
+        <div className={olTheme.relatedRule}>
+          <p className={olTheme.relatedSheetTitle}>
             {t("reference.title")}
           </p>
           {sheets.map((sheet) => (
-            <div key={sheet.id} className="rounded-xl border border-white/10 bg-slate-950/40 p-3">
-              <p className="font-semibold text-white">{t(`reference.${sheet.titleKey}`)}</p>
-              <p className="mt-1 text-sm text-slate-300">
+            <div key={sheet.id} className={olTheme.relatedSheet}>
+              <p className={olTheme.relatedSheetHeading}>{t(`reference.${sheet.titleKey}`)}</p>
+              <p className={olTheme.relatedSheetBody}>
                 {t(`reference.${sheet.bodyKey}`)}
               </p>
               <button
                 type="button"
                 disabled={exporting}
                 onClick={() => handleSheet(sheet.id)}
-                className="mt-3 inline-flex rounded-lg bg-opseu-blue px-3 py-2 text-sm font-semibold text-white transition hover:bg-opseu-dark disabled:opacity-60"
+                className={clsx(olTheme.btnPrimarySm, "mt-3")}
               >
                 {exporting
                   ? t("reference.downloading")
@@ -190,12 +190,12 @@ export function ModuleRelatedResources({
             </div>
           ))}
           {exportSuccess && (
-            <p className="text-sm text-emerald-200" role="status">
+            <p className={olTheme.successText} role="status">
               {t("reference.success")}
             </p>
           )}
           {exportError && (
-            <p className="text-sm text-red-200" role="alert">
+            <p className={olTheme.errorText} role="alert">
               {t("reference.error")}
             </p>
           )}

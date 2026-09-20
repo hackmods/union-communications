@@ -35,7 +35,7 @@ function renderInline(text: string, olTheme: OlTheme): ReactNode[] {
     const token = match[0];
     if (token.startsWith("**")) {
       parts.push(
-        <strong key={`strong-${key++}`} className="font-semibold text-white">
+        <strong key={`strong-${key++}`} className={olTheme.proseStrong}>
           {token.slice(2, -2)}
         </strong>,
       );
@@ -136,7 +136,7 @@ function ChecklistBlock({
                 />
                 <span
                   className={clsx(
-                    "leading-relaxed text-slate-100",
+                    olTheme.checklistText,
                     isOn && "line-through opacity-80",
                   )}
                 >
@@ -147,7 +147,7 @@ function ChecklistBlock({
           );
         })}
       </ul>
-      <p className="mt-3 text-xs text-slate-400">{t("hint")}</p>
+      <p className={olTheme.checklistHint}>{t("hint")}</p>
     </div>
   );
 }
@@ -168,7 +168,7 @@ function BlockRenderer({
     case "list":
       if (block.ordered) {
         return (
-          <ol className="list-decimal space-y-2 pl-5 text-slate-200/90">
+          <ol className={clsx("list-decimal space-y-2 pl-5", olTheme.prose)}>
             {block.items.map((item, index) => (
               <li key={`${item}-${index}`} className="leading-relaxed">
                 {renderInline(item, olTheme)}
@@ -178,7 +178,7 @@ function BlockRenderer({
         );
       }
       return (
-        <ul className="list-disc space-y-2 pl-5 text-slate-200/90">
+        <ul className={clsx("list-disc space-y-2 pl-5", olTheme.prose)}>
           {block.items.map((item, index) => (
             <li key={`${item}-${index}`} className="leading-relaxed">
               {renderInline(item, olTheme)}
@@ -203,11 +203,11 @@ function BlockRenderer({
             </thead>
             <tbody>
               {block.rows.map((row, rowIndex) => (
-                <tr key={`row-${rowIndex}`} className="border-t border-white/10">
+                <tr key={`row-${rowIndex}`} className={olTheme.tableRule}>
                   {row.map((cell, cellIndex) => (
                     <td
                       key={`cell-${rowIndex}-${cellIndex}`}
-                      className="px-4 py-3 align-top text-slate-200/90"
+                      className={olTheme.tableCell}
                     >
                       {renderInline(cell, olTheme)}
                     </td>
@@ -270,7 +270,7 @@ export function ModuleContentRenderer({ sections, moduleId, moduleSlug }: Props)
           />
         ) : (
           <section key={section.id} id={section.id} className="scroll-mt-32 space-y-4">
-            <h2 className="text-2xl font-bold text-white md:text-3xl">{section.title}</h2>
+            <h2 className={olTheme.sectionH2}>{section.title}</h2>
             <div className="space-y-4">
               {section.blocks.map((block, index) => (
                 <BlockRenderer

@@ -18,7 +18,6 @@ const preferences: UserPreferences = {
   highContrast: false,
   reducedMotion: false,
   stewardMobileMode: false,
-  officerLearningColour: "navy",
 };
 
 function jsonResponse(body: unknown, ok = true, status = ok ? 200 : 500) {

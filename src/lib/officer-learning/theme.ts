@@ -1,205 +1,9 @@
 /**
- * Officer Learning colour tokens. Navy is the default training shell.
- * Light is an opt-in Display setting — not Brand Kit, not site-wide dark mode.
- * Do not wrap these pages in GuideLayout.
+ * Officer Learning colour tokens — platform light chrome (same as public guides).
+ * Not Brand Kit, not a separate training palette. Do not wrap these pages in GuideLayout.
  */
-import type { OfficerLearningColour } from "@/types/preferences";
 
-export const olThemeNavy = {
-  shell: "min-h-screen bg-[#0B132B] text-white",
-  eyebrow:
-    "text-sm font-semibold uppercase tracking-[0.25em] text-orange-300/90",
-  bodyMuted: "text-slate-300",
-  bodySmall: "text-sm text-slate-300",
-  link: "font-medium text-orange-200 underline underline-offset-2 hover:text-white",
-  linkPlain: "text-orange-200 hover:text-white",
-  surface: "rounded-xl border border-white/10 bg-white/5",
-  surfaceHover:
-    "border-white/10 bg-slate-950/40 hover:border-orange-400/30 hover:bg-slate-900/80",
-  callout: "rounded-xl border border-orange-400/25 bg-orange-500/10 px-4 py-3",
-  calloutTitle: "font-semibold text-orange-100",
-  calloutBody: "mt-1 text-sm leading-relaxed text-slate-200/90",
-  calloutWarning:
-    "rounded-xl border border-orange-400/30 bg-orange-500/10 p-4 text-orange-50",
-  calloutPractice:
-    "rounded-xl border border-sky-400/30 bg-sky-500/10 p-4 text-sky-50",
-  calloutReflection:
-    "rounded-xl border border-violet-400/30 bg-violet-500/10 p-4 text-violet-50",
-  calloutDefault:
-    "rounded-xl border border-orange-400/25 bg-orange-500/10 p-4 text-slate-100",
-  disclaimer: "text-sm text-slate-400",
-  sectionLabel:
-    "text-xs font-semibold uppercase tracking-[0.2em] text-slate-400",
-  progressSummary: "text-sm font-medium text-slate-200",
-  progressBar: "bg-opseu-blue",
-  statusCompleted: "border-emerald-400 bg-emerald-500 text-slate-950",
-  statusInProgress: "border-orange-300 bg-orange-500/90 text-slate-950",
-  statusNotStarted: "border-white/40 bg-slate-800 text-slate-100",
-  chipPrimary:
-    "border border-orange-400/30 bg-orange-500/10 text-orange-100 hover:bg-orange-500/20",
-  chipSecondary:
-    "border border-white/15 bg-white/5 text-slate-200 hover:border-orange-400/30",
-  panelQuiz:
-    "scroll-mt-32 rounded-2xl border border-orange-400/20 bg-slate-900/70 p-6 shadow-xl transition-[transform,box-shadow] duration-300 md:p-8",
-  diagramShell:
-    "overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50 p-4 sm:p-5",
-  timelineShell:
-    "mb-6 overflow-hidden rounded-xl border border-orange-400/20 bg-slate-950/60 p-4 md:p-5",
-  scenarioShell:
-    "scroll-mt-32 overflow-hidden rounded-2xl border-2 border-orange-400/30 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-900 p-6 shadow-lg md:p-8",
-  btnPrimary:
-    "inline-flex items-center justify-center rounded-xl bg-opseu-blue px-6 py-3 font-semibold text-white transition hover:bg-opseu-dark disabled:cursor-not-allowed disabled:opacity-50",
-  btnPrimarySm:
-    "inline-flex items-center justify-center rounded-xl bg-opseu-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-opseu-dark disabled:opacity-60",
-  btnOutline:
-    "inline-flex items-center justify-center rounded-xl border border-white/20 bg-transparent px-6 py-3 font-semibold text-slate-100 transition hover:border-orange-400/40 hover:bg-white/5",
-  btnOutlineRetry:
-    "inline-flex items-center justify-center rounded-xl border border-orange-400/40 bg-transparent px-6 py-3 font-semibold text-orange-100 transition hover:bg-orange-500/15 disabled:opacity-50",
-  inputAccent: "accent-orange-500",
-  optionSelected: "border-orange-400 bg-orange-500/15",
-  optionHover: "border-white/10 bg-white/5 hover:border-orange-400/40",
-  optionLabel: "mr-2 font-semibold text-orange-300",
-  subsectionTitle: "text-xl font-semibold text-orange-200",
-  codeBlock:
-    "overflow-x-auto rounded-xl border border-orange-400/20 bg-slate-950/70 p-4 font-mono text-sm text-orange-100",
-  checklistPanel: "rounded-xl border border-orange-400/20 bg-orange-500/5 p-4",
-  checklistTitle: "text-sm font-semibold text-orange-100",
-  checklistProgress: "text-xs text-slate-400",
-  checklistItemOn: "border-orange-400/40 bg-orange-500/15",
-  checklistItemOff: "border-white/10 bg-white/5 hover:border-orange-400/30",
-  tableWrap: "overflow-x-auto rounded-xl border border-white/10",
-  tableHead: "bg-orange-500/10 text-orange-100",
-  stepBadge:
-    "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-opseu-blue text-xs font-bold text-white",
-  ladderRung:
-    "flex-1 rounded-xl border border-orange-400/30 bg-orange-500/10 px-3 py-3 text-center text-sm font-semibold text-orange-50",
-  dontApplyBox:
-    "rounded-xl border border-orange-400/30 bg-orange-500/10 px-4 py-3 text-orange-50",
-  syncPanel: "space-y-4 rounded-xl border border-orange-400/20 bg-orange-500/10 p-4",
-  syncTitle: "font-semibold text-white",
-  syncBody: "mt-1 text-sm text-slate-300",
-  syncLabel: "text-sm text-slate-200",
-  syncHint: "mt-1 block text-slate-400",
-  certificatePanel:
-    "space-y-3 rounded-xl border border-orange-400/25 bg-orange-500/10 p-4",
-  certificateTitle: "font-semibold text-orange-100",
-  certificateHint: "text-sm text-slate-200",
-  certificateLabel: "block text-sm text-slate-300",
-  hintPanel:
-    "mb-6 rounded-lg border border-orange-400/20 bg-orange-500/10 px-4 py-3 text-sm text-slate-200",
-  retryPanel:
-    "rounded-xl border border-orange-400/30 bg-orange-500/10 px-4 py-3 text-orange-100",
-  phaseLabel: "text-[10px] font-bold uppercase tracking-[0.22em] text-orange-400",
-  phaseArrow: "hidden shrink-0 self-center text-lg text-orange-400/70 sm:inline",
-  heading: "text-white",
-  prose: "leading-relaxed text-slate-200/90",
-  proseStrong: "font-semibold text-white",
-  inset: "rounded-lg border border-white/10 bg-white/5",
-  insetMuted: "text-slate-300",
-  hairline: "border-t border-white/10",
-  progressTrack: "mt-2 h-1.5 overflow-hidden rounded-full bg-white/10",
-  applyBox:
-    "rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-emerald-50",
-  stickyChrome:
-    "sticky top-0 z-40 border-b border-white/10 bg-[#0B132B]/95 backdrop-blur print:hidden",
-  stickyNavBtn:
-    "shrink-0 rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-orange-400/40 hover:text-white",
-  stickyMeta: "truncate text-sm text-orange-300/90",
-  stickyTitle: "truncate font-semibold text-white",
-  tocMobile:
-    "border-b border-white/10 bg-[#0B132B] px-4 py-2 lg:hidden sm:px-6 print:hidden",
-  tocDetails: "rounded-xl border border-white/10 bg-slate-900/60 open:pb-2",
-  tocAside: "sticky top-28 rounded-2xl border border-white/10 bg-slate-900/60 p-4",
-  pathNav: "rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5",
-  pathTitle: "block text-sm font-semibold text-white",
-  pathArrow: "hidden shrink-0 self-center text-slate-500 lg:inline",
-  card: "group overflow-hidden rounded-2xl bg-slate-900/55 shadow-lg shadow-black/25 ring-1 ring-white/10 transition hover:-translate-y-1 hover:bg-slate-900/75 hover:ring-orange-400/35",
-  cardCover: "relative aspect-[16/9] overflow-hidden bg-slate-950",
-  coverFade:
-    "absolute inset-0 bg-gradient-to-t from-[#0B132B] via-transparent to-transparent",
-  heroFade:
-    "absolute inset-0 bg-gradient-to-t from-[#0B132B] via-[#0B132B]/20 to-transparent",
-  cardTitle: "text-xl font-bold text-white group-hover:text-orange-100",
-  cardSummary: "line-clamp-3 text-sm leading-relaxed text-slate-200",
-  cardMeta: "text-xs font-medium uppercase tracking-wide text-slate-300",
-  statusPillCompleted:
-    "rounded-full px-3 py-1 text-xs font-semibold bg-emerald-500/25 text-emerald-100",
-  statusPillInProgress:
-    "rounded-full px-3 py-1 text-xs font-semibold bg-orange-500/25 text-orange-50",
-  statusPillNotStarted:
-    "rounded-full px-3 py-1 text-xs font-semibold bg-white/15 text-slate-100",
-  resetPanel:
-    "flex flex-col gap-3 rounded-xl border border-white/10 bg-white/5 p-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4",
-  resetHint: "min-w-0 flex-1 text-sm leading-snug text-slate-300",
-  resetBtn:
-    "shrink-0 rounded-lg border border-white/15 bg-transparent px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-orange-400/40",
-  resetBtnConfirm:
-    "shrink-0 rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-400",
-  prefsPanel: "mb-8 space-y-5 rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5",
-  prefsTitle: "text-lg font-semibold text-white",
-  prefsBody: "mt-2 max-w-3xl text-sm leading-relaxed text-slate-300",
-  prefsDivider: "border-t border-white/10",
-  relatedDot: "text-slate-600",
-  sourcesOuter: "bg-[#0B132B] px-4 pb-12 sm:px-6 lg:px-8",
-  sourcesCard:
-    "mx-auto max-w-prose rounded-2xl bg-white p-6 text-slate-900 shadow-lg md:p-8",
-  sourcesIntro: "mb-4 max-w-prose text-sm leading-relaxed text-gray-600",
-  input:
-    "mt-1 w-full rounded-lg border border-white/15 bg-slate-950/40 px-3 py-2 text-white",
-  successText: "text-sm text-emerald-200",
-  errorText: "text-sm text-red-200",
-  caption: "mt-3 text-sm text-slate-300",
-  pill: "flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-3",
-  pillLabel: "text-sm font-medium leading-snug text-slate-100",
-  diagramArrow: "hidden text-slate-500 sm:inline",
-  quorumCell:
-    "rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-center",
-  quorumValue: "mt-2 text-sm font-semibold text-white",
-  timelineCard:
-    "flex min-w-0 flex-1 flex-col rounded-xl border border-white/10 bg-white/5 px-3 py-3",
-  timelineLabel: "mt-1 text-sm font-semibold leading-snug text-white",
-  timelineSummary: "mt-1 text-xs leading-relaxed text-slate-300",
-  timelineCaption: "mt-4 text-xs leading-relaxed text-slate-400",
-  quizTitle: "mt-1 text-2xl font-bold text-white md:text-3xl",
-  quizScore: "rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-white",
-  quizLegend: "text-lg font-semibold text-white",
-  quizOptionText: "text-slate-100",
-  quizExplainPass:
-    "rounded-lg bg-emerald-500/10 px-4 py-3 text-sm leading-relaxed text-emerald-100",
-  quizExplainFail:
-    "rounded-lg bg-red-500/10 px-4 py-3 text-sm leading-relaxed text-red-100",
-  quizAlreadyPassed:
-    "mb-6 space-y-3 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-emerald-100",
-  quizPassedBanner:
-    "rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 font-semibold text-emerald-100",
-  quizProgress: "text-sm text-slate-400",
-  checklistText: "leading-relaxed text-slate-100",
-  checklistHint: "mt-3 text-xs text-slate-400",
-  tableRule: "border-t border-white/10",
-  tableCell: "px-4 py-3 align-top text-slate-200/90",
-  sectionH2: "text-2xl font-bold text-white md:text-3xl",
-  sectionRule: "scroll-mt-32 space-y-3 pt-2",
-  relatedTitle: "text-xl font-bold text-white",
-  relatedIntro: "mt-2 text-sm text-slate-200",
-  relatedRule: "mt-5 space-y-3 border-t border-white/10 pt-4",
-  relatedSheetTitle: "text-sm font-semibold text-orange-100",
-  relatedSheet: "rounded-xl border border-white/10 bg-slate-950/40 p-3",
-  relatedSheetHeading: "font-semibold text-white",
-  relatedSheetBody: "mt-1 text-sm text-slate-300",
-  syncSignedOutTitle: "font-semibold text-white",
-  syncSignedOutBody: "mt-2 text-slate-300",
-  heroFrame: "overflow-hidden rounded-2xl border border-white/10",
-  heroBody: "space-y-4 p-6 md:p-8",
-  purpose: "max-w-3xl leading-relaxed text-slate-200",
-  objective:
-    "rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200",
-  jumpToQuiz:
-    "inline-flex shrink-0 rounded-lg bg-opseu-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-opseu-dark",
-} as const;
-
-export type OlTheme = { readonly [K in keyof typeof olThemeNavy]: string };
-
-export const olThemeLight: OlTheme = {
+export const olTheme = {
   shell: "min-h-screen bg-background text-opseu-dark",
   eyebrow: "text-sm font-semibold uppercase tracking-[0.25em] text-opseu-blue",
   bodyMuted: "text-gray-700",
@@ -224,20 +28,27 @@ export const olThemeLight: OlTheme = {
   statusNotStarted: "border-gray-300 bg-gray-100 text-gray-700",
   chipPrimary: "border border-orange-300 bg-orange-50 text-opseu-dark hover:bg-orange-100",
   chipSecondary: "border border-gray-200 bg-white text-gray-700 hover:border-opseu-blue/40",
-  panelQuiz: "scroll-mt-32 rounded-2xl border border-orange-200 bg-white p-6 shadow-xl transition-[transform,box-shadow] duration-300 md:p-8",
+  panelQuiz:
+    "scroll-mt-32 rounded-2xl border border-orange-200 bg-white p-6 shadow-xl transition-[transform,box-shadow] duration-300 md:p-8",
   diagramShell: "overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 p-4 sm:p-5",
   timelineShell: "mb-6 overflow-hidden rounded-xl border border-orange-200 bg-white p-4 md:p-5",
-  scenarioShell: "scroll-mt-32 overflow-hidden rounded-2xl border-2 border-orange-200 bg-white p-6 shadow-lg md:p-8",
-  btnPrimary: "inline-flex items-center justify-center rounded-xl bg-opseu-blue px-6 py-3 font-semibold text-white transition hover:bg-opseu-dark disabled:cursor-not-allowed disabled:opacity-50",
-  btnPrimarySm: "inline-flex items-center justify-center rounded-xl bg-opseu-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-opseu-dark disabled:opacity-60",
-  btnOutline: "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-transparent px-6 py-3 font-semibold text-opseu-dark transition hover:border-opseu-blue/40 hover:bg-gray-50",
-  btnOutlineRetry: "inline-flex items-center justify-center rounded-xl border border-orange-300 bg-transparent px-6 py-3 font-semibold text-opseu-dark transition hover:bg-orange-50 disabled:opacity-50",
+  scenarioShell:
+    "scroll-mt-32 overflow-hidden rounded-2xl border-2 border-orange-200 bg-white p-6 shadow-lg md:p-8",
+  btnPrimary:
+    "inline-flex items-center justify-center rounded-xl bg-opseu-blue px-6 py-3 font-semibold text-white transition hover:bg-opseu-dark disabled:cursor-not-allowed disabled:opacity-50",
+  btnPrimarySm:
+    "inline-flex items-center justify-center rounded-xl bg-opseu-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-opseu-dark disabled:opacity-60",
+  btnOutline:
+    "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-transparent px-6 py-3 font-semibold text-opseu-dark transition hover:border-opseu-blue/40 hover:bg-gray-50",
+  btnOutlineRetry:
+    "inline-flex items-center justify-center rounded-xl border border-orange-300 bg-transparent px-6 py-3 font-semibold text-opseu-dark transition hover:bg-orange-50 disabled:opacity-50",
   inputAccent: "accent-opseu-blue",
   optionSelected: "border-opseu-blue bg-orange-50",
   optionHover: "border-gray-200 bg-white hover:border-opseu-blue/40",
   optionLabel: "mr-2 font-semibold text-opseu-blue",
   subsectionTitle: "text-xl font-semibold text-opseu-blue",
-  codeBlock: "overflow-x-auto rounded-xl border border-orange-200 bg-gray-50 p-4 font-mono text-sm text-opseu-dark",
+  codeBlock:
+    "overflow-x-auto rounded-xl border border-orange-200 bg-gray-50 p-4 font-mono text-sm text-opseu-dark",
   checklistPanel: "rounded-xl border border-orange-200 bg-orange-50 p-4",
   checklistTitle: "text-sm font-semibold text-opseu-dark",
   checklistProgress: "text-xs text-gray-500",
@@ -245,8 +56,10 @@ export const olThemeLight: OlTheme = {
   checklistItemOff: "border-gray-200 bg-white hover:border-opseu-blue/40",
   tableWrap: "overflow-x-auto rounded-xl border border-gray-200",
   tableHead: "bg-orange-50 text-opseu-dark",
-  stepBadge: "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-opseu-blue text-xs font-bold text-white",
-  ladderRung: "flex-1 rounded-xl border border-orange-200 bg-orange-50 px-3 py-3 text-center text-sm font-semibold text-opseu-dark",
+  stepBadge:
+    "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-opseu-blue text-xs font-bold text-white",
+  ladderRung:
+    "flex-1 rounded-xl border border-orange-200 bg-orange-50 px-3 py-3 text-center text-sm font-semibold text-opseu-dark",
   dontApplyBox: "rounded-xl border border-orange-300 bg-orange-50 px-4 py-3 text-opseu-dark",
   syncPanel: "space-y-4 rounded-xl border border-orange-200 bg-orange-50 p-4",
   syncTitle: "font-semibold text-opseu-dark",
@@ -269,8 +82,10 @@ export const olThemeLight: OlTheme = {
   hairline: "border-t border-gray-200",
   progressTrack: "mt-2 h-1.5 overflow-hidden rounded-full bg-gray-200",
   applyBox: "rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-900",
-  stickyChrome: "sticky top-0 z-40 border-b border-gray-200 bg-background/95 backdrop-blur print:hidden",
-  stickyNavBtn: "shrink-0 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-opseu-dark transition hover:border-opseu-blue/40 hover:bg-gray-50",
+  stickyChrome:
+    "sticky top-0 z-40 border-b border-gray-200 bg-background/95 backdrop-blur print:hidden",
+  stickyNavBtn:
+    "shrink-0 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-opseu-dark transition hover:border-opseu-blue/40 hover:bg-gray-50",
   stickyMeta: "truncate text-sm text-opseu-blue",
   stickyTitle: "truncate font-semibold text-opseu-dark",
   tocMobile: "border-b border-gray-200 bg-background px-4 py-2 lg:hidden sm:px-6 print:hidden",
@@ -286,9 +101,12 @@ export const olThemeLight: OlTheme = {
   cardTitle: "text-xl font-bold text-opseu-dark group-hover:text-opseu-blue",
   cardSummary: "line-clamp-3 text-sm leading-relaxed text-gray-600",
   cardMeta: "text-xs font-medium uppercase tracking-wide text-gray-500",
-  statusPillCompleted: "rounded-full px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800",
-  statusPillInProgress: "rounded-full px-3 py-1 text-xs font-semibold bg-orange-100 text-orange-800",
-  statusPillNotStarted: "rounded-full px-3 py-1 text-xs font-semibold bg-gray-100 text-gray-600",
+  statusPillCompleted:
+    "rounded-full px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800",
+  statusPillInProgress:
+    "rounded-full px-3 py-1 text-xs font-semibold bg-orange-100 text-orange-800",
+  statusPillNotStarted:
+    "rounded-full px-3 py-1 text-xs font-semibold bg-gray-100 text-gray-600",
   resetPanel:
     "flex flex-col gap-3 rounded-xl border border-gray-200 bg-gray-50 p-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4",
   resetHint: "min-w-0 flex-1 text-sm leading-snug text-gray-600",
@@ -302,7 +120,8 @@ export const olThemeLight: OlTheme = {
   prefsDivider: "border-t border-gray-200",
   relatedDot: "text-gray-400",
   sourcesOuter: "bg-background px-4 pb-12 sm:px-6 lg:px-8",
-  sourcesCard: "mx-auto max-w-prose rounded-2xl border border-gray-200 bg-white p-6 text-opseu-dark md:p-8",
+  sourcesCard:
+    "mx-auto max-w-prose rounded-2xl border border-gray-200 bg-white p-6 text-opseu-dark md:p-8",
   sourcesIntro: "mb-4 max-w-prose text-sm leading-relaxed text-gray-600",
   input: "mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-opseu-dark",
   successText: "text-sm text-emerald-700",
@@ -313,7 +132,8 @@ export const olThemeLight: OlTheme = {
   diagramArrow: "hidden text-gray-400 sm:inline",
   quorumCell: "rounded-xl border border-gray-200 bg-white px-3 py-3 text-center",
   quorumValue: "mt-2 text-sm font-semibold text-opseu-dark",
-  timelineCard: "flex min-w-0 flex-1 flex-col rounded-xl border border-gray-200 bg-gray-50 px-3 py-3",
+  timelineCard:
+    "flex min-w-0 flex-1 flex-col rounded-xl border border-gray-200 bg-gray-50 px-3 py-3",
   timelineLabel: "mt-1 text-sm font-semibold leading-snug text-opseu-dark",
   timelineSummary: "mt-1 text-xs leading-relaxed text-gray-600",
   timelineCaption: "mt-4 text-xs leading-relaxed text-gray-500",
@@ -321,10 +141,13 @@ export const olThemeLight: OlTheme = {
   quizScore: "rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-opseu-dark",
   quizLegend: "text-lg font-semibold text-opseu-dark",
   quizOptionText: "text-opseu-dark",
-  quizExplainPass: "rounded-lg bg-emerald-50 px-4 py-3 text-sm leading-relaxed text-emerald-800",
+  quizExplainPass:
+    "rounded-lg bg-emerald-50 px-4 py-3 text-sm leading-relaxed text-emerald-800",
   quizExplainFail: "rounded-lg bg-red-50 px-4 py-3 text-sm leading-relaxed text-red-800",
-  quizAlreadyPassed: "mb-6 space-y-3 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-800",
-  quizPassedBanner: "rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 font-semibold text-emerald-800",
+  quizAlreadyPassed:
+    "mb-6 space-y-3 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-800",
+  quizPassedBanner:
+    "rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 font-semibold text-emerald-800",
   quizProgress: "text-sm text-gray-500",
   checklistText: "leading-relaxed text-opseu-dark",
   checklistHint: "mt-3 text-xs text-gray-500",
@@ -345,12 +168,8 @@ export const olThemeLight: OlTheme = {
   heroBody: "space-y-4 p-6 md:p-8",
   purpose: "max-w-3xl leading-relaxed text-gray-700",
   objective: "rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800",
-  jumpToQuiz: "inline-flex shrink-0 rounded-lg bg-opseu-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-opseu-dark",
-};
+  jumpToQuiz:
+    "inline-flex shrink-0 rounded-lg bg-opseu-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-opseu-dark",
+} as const;
 
-export const olTheme: OlTheme = olThemeNavy;
-
-export function getOlTheme(colour: OfficerLearningColour): OlTheme {
-  return colour === "light" ? olThemeLight : olThemeNavy;
-}
-
+export type OlTheme = { readonly [K in keyof typeof olTheme]: string };

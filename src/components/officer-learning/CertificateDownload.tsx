@@ -43,7 +43,7 @@ export function CertificateDownload({
       try {
         logo = await resolveConfiguredBrandLogoBytes(brandKit, {
           includeLogo: true,
-          backgroundColor: "#0B132B",
+          backgroundColor: "#f8fafc",
         });
       } catch (err) {
         if (err instanceof BrandLogoResolveError) {

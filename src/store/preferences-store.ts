@@ -5,9 +5,7 @@ import { dataAdapter } from "@/lib/data/local-storage-adapter";
 import { applyPreferencesToDocument } from "@/lib/preferences/apply-preferences";
 import {
   DEFAULT_USER_PREFERENCES,
-  resolveOfficerLearningColour,
   type FontSize,
-  type OfficerLearningColour,
   type UserPreferences,
 } from "@/types/preferences";
 
@@ -18,7 +16,6 @@ interface PreferencesState {
   setHighContrast: (highContrast: boolean) => void;
   setReducedMotion: (reducedMotion: boolean) => void;
   setStewardMobileMode: (stewardMobileMode: boolean) => void;
-  setOfficerLearningColour: (officerLearningColour: OfficerLearningColour) => void;
   setPreferences: (partial: Partial<UserPreferences>) => void;
   hydrate: () => Promise<void>;
 }
@@ -26,6 +23,19 @@ interface PreferencesState {
 function persistAndApply(prefs: UserPreferences) {
   applyPreferencesToDocument(prefs);
   void dataAdapter.saveUserPreferences(prefs);
+}
+
+/** Drop retired fields (e.g. officerLearningColour) from stored prefs. */
+function normalizePreferences(
+  stored: Partial<UserPreferences> | null | undefined,
+): UserPreferences {
+  const {
+    fontSize,
+    highContrast,
+    reducedMotion,
+    stewardMobileMode,
+  } = { ...DEFAULT_USER_PREFERENCES, ...(stored ?? {}) };
+  return { fontSize, highContrast, reducedMotion, stewardMobileMode };
 }
 
 export const usePreferencesStore = create<PreferencesState>()((set, get) => ({
@@ -56,36 +66,15 @@ export const usePreferencesStore = create<PreferencesState>()((set, get) => ({
     persistAndApply(updated);
   },
 
-  setOfficerLearningColour: (officerLearningColour) => {
-    const updated = {
-      ...get().preferences,
-      officerLearningColour: resolveOfficerLearningColour(officerLearningColour),
-    };
-    set({ preferences: updated });
-    persistAndApply(updated);
-  },
-
   setPreferences: (partial) => {
-    const updated = {
-      ...get().preferences,
-      ...partial,
-      officerLearningColour: resolveOfficerLearningColour(
-        partial.officerLearningColour ?? get().preferences.officerLearningColour,
-      ),
-    };
+    const updated = normalizePreferences({ ...get().preferences, ...partial });
     set({ preferences: updated });
     persistAndApply(updated);
   },
 
   hydrate: async () => {
     const stored = await dataAdapter.getUserPreferences();
-    const preferences: UserPreferences = {
-      ...DEFAULT_USER_PREFERENCES,
-      ...(stored ?? {}),
-      officerLearningColour: resolveOfficerLearningColour(
-        stored?.officerLearningColour,
-      ),
-    };
+    const preferences = normalizePreferences(stored);
     set({ preferences, hydrated: true });
     applyPreferencesToDocument(preferences);
   },
