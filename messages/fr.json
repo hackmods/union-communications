@@ -7100,7 +7100,7 @@
     "items": {
       "portal-ui-polish": {
         "title": "Les pages du Portail local sont plus faciles à parcourir",
-        "body": "Ensemble, Relais, Tenir la ligne, Coulisses et les en-têtes de Cercle utilisent maintenant les mêmes panneaux et tuiles clairs que le Hub des dirigeants, pour trouver plus vite les Cercles et les avis."
+        "body": "Ensemble, Relais, Tenir la ligne, Coulisses et les en-têtes de Cercle utilisent maintenant des panneaux et tuiles clairs — avec des états de chargement et d’erreur plus calmes — pour trouver plus vite les Cercles et les avis."
       },
       "officer-learning-site-colours": {
         "title": "La formation des dirigeants s'aligne sur le reste d'UnionOps",
@@ -9670,6 +9670,8 @@
     "hubLink": "Hub des dirigeants",
     "loading": "Chargement…",
     "loadError": "Impossible de charger le Portail. Vérifiez votre connexion, puis réessayez.",
+    "loadErrorTitle": "Chargement impossible",
+    "loadErrorLead": "Le Portail n’a pas répondu. Vérifiez votre connexion, puis réessayez.",
     "writeError": "Impossible d’enregistrer. Vérifiez votre connexion, puis réessayez.",
     "retry": "Réessayer",
     "searchEmpty": "Aucune correspondance. Essayez un mot plus court, ou ouvrez un Cercle dans la liste ci-dessous.",
@@ -9689,7 +9691,9 @@
     "yourCircles": "Vos Cercles",
     "createCircleHeading": "Démarrer un Cercle",
     "createCircleLead": "Les comités et les campagnes commencent ici. La Salle reste celle de toute la section.",
-    "startHere": "Commencez dans {hall} — c’est toute la section. Les comités sont des Cercles sur invitation.",
+    "activityGlance": "En un coup d’œil",
+    "activityGlanceLead": "Calendrier à venir, vos Actions ouvertes et le babillard récent dans vos Cercles.",
+    "startHere": "Commencez dans {hall}. C’est toute la section. Les comités sont des Cercles sur invitation.",
     "openHall": "Ouvrir la Salle",
     "upcomingTitle": "À venir",
     "upcomingEmpty": "Aucun événement au calendrier. Ouvrez un Cercle pour en ajouter un.",

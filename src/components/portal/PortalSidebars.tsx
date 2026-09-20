@@ -9,6 +9,7 @@ import { DEMO_USERS } from "@/lib/auth/demo-users";
 import { useSession } from "next-auth/react";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 import { PortalPanel } from "@/components/portal/PortalPanel";
+import { PortalPageLoading } from "@/components/portal/PortalPageLoading";
 import { cn } from "@/lib/utils";
 
 export function PortalSidebars() {
@@ -124,7 +125,7 @@ export function PortalSidebars() {
       <PortalRetryCallout message={error} onRetry={() => void loadThreads()} />
     );
   }
-  if (!threads) return <p className="text-gray-600">{t("loading")}</p>;
+  if (!threads) return <PortalPageLoading />;
 
   return (
     <PortalPanel

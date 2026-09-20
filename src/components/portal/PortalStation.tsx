@@ -9,8 +9,8 @@ import type { PortalSearchHit, StationPayload } from "@/types/portal";
 import { canCreateCircle } from "@/lib/portal/access";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 import { PortalPanel } from "@/components/portal/PortalPanel";
+import { PortalPageLoading } from "@/components/portal/PortalPageLoading";
 import type { UserRole } from "@/types/tenant";
-import { PUBLIC_CARD_TITLE_CLASS } from "@/lib/constants/public-type";
 import { cn } from "@/lib/utils";
 
 export function PortalStation({ roles }: { roles: UserRole[] }) {
@@ -145,7 +145,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
   }
 
   if (!station) {
-    return <p className="text-gray-600">{t("loading")}</p>;
+    return <PortalPageLoading columns={3} />;
   }
 
   const overdueTotal = station.circles.reduce(
@@ -351,40 +351,47 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
         </PortalPanel>
       ) : null}
 
-      <section className="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
-        <ActivityColumn
-          title={t("upcomingTitle")}
-          empty={t("upcomingEmpty")}
-          items={upcoming.map((ev) => ({
-            id: ev.id,
-            href: `/portal/circles/${ev.circleId}?tab=calendar`,
-            label: ev.title,
-            meta: `${new Date(ev.startsAt).toLocaleString()} · ${ev.circleName}`,
-          }))}
-        />
-        <ActivityColumn
-          title={t("myActions")}
-          empty={t("emptyActions")}
-          items={station.myActions.map((a) => ({
-            id: a.id,
-            href: `/portal/circles/${a.circleId}?tab=actions`,
-            label: a.title,
-            meta: a.dueAt
-              ? new Date(a.dueAt).toLocaleDateString()
-              : undefined,
-          }))}
-        />
-        <ActivityColumn
-          title={t("recentBulletin")}
-          empty={t("emptyBulletin")}
-          className="md:col-span-2 lg:col-span-1"
-          items={station.recentBulletin.map((p) => ({
-            id: p.id,
-            href: `/portal/circles/${p.circleId}?tab=bulletin`,
-            label: p.title,
-          }))}
-        />
-      </section>
+      <PortalPanel
+        title={t("activityGlance")}
+        titleId="portal-activity-heading"
+        titleLevel="section"
+        lead={t("activityGlanceLead")}
+      >
+        <div className="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
+          <ActivityColumn
+            title={t("upcomingTitle")}
+            empty={t("upcomingEmpty")}
+            items={upcoming.map((ev) => ({
+              id: ev.id,
+              href: `/portal/circles/${ev.circleId}?tab=calendar`,
+              label: ev.title,
+              meta: `${new Date(ev.startsAt).toLocaleString()} · ${ev.circleName}`,
+            }))}
+          />
+          <ActivityColumn
+            title={t("myActions")}
+            empty={t("emptyActions")}
+            items={station.myActions.map((a) => ({
+              id: a.id,
+              href: `/portal/circles/${a.circleId}?tab=actions`,
+              label: a.title,
+              meta: a.dueAt
+                ? new Date(a.dueAt).toLocaleDateString()
+                : undefined,
+            }))}
+          />
+          <ActivityColumn
+            title={t("recentBulletin")}
+            empty={t("emptyBulletin")}
+            className="md:col-span-2 lg:col-span-1"
+            items={station.recentBulletin.map((p) => ({
+              id: p.id,
+              href: `/portal/circles/${p.circleId}?tab=bulletin`,
+              label: p.title,
+            }))}
+          />
+        </div>
+      </PortalPanel>
 
       <PortalPanel
         title={t("searchLabel")}
@@ -464,13 +471,15 @@ function ActivityColumn({
   return (
     <div
       className={cn(
-        "min-w-0 rounded-xl border border-slate-200/90 bg-white p-4 shadow-sm sm:p-4",
+        "min-w-0 rounded-xl border border-slate-200/90 bg-white/90 p-3.5 shadow-sm",
         className,
       )}
     >
-      <h2 className={PUBLIC_CARD_TITLE_CLASS}>{title}</h2>
+      <h3 className="text-xs font-semibold uppercase tracking-[0.08em] text-gray-500">
+        {title}
+      </h3>
       {items.length === 0 ? (
-        <p className="mt-3 text-sm text-gray-500">{empty}</p>
+        <p className="mt-3 text-sm leading-relaxed text-gray-500">{empty}</p>
       ) : (
         <ul className="mt-3 space-y-1.5">
           {items.map((item) => (

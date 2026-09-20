@@ -8,6 +8,7 @@ import type { DispatchItem } from "@/types/portal";
 import { circleHrefForDispatch } from "@/components/portal/portal-nav-model";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 import { PortalPanel } from "@/components/portal/PortalPanel";
+import { PortalPageLoading } from "@/components/portal/PortalPageLoading";
 import { cn } from "@/lib/utils";
 
 export function PortalDispatch() {
@@ -62,7 +63,7 @@ export function PortalDispatch() {
   if (error) {
     return <PortalRetryCallout message={error} onRetry={() => void load()} />;
   }
-  if (!items) return <p className="text-gray-600">{t("loading")}</p>;
+  if (!items) return <PortalPageLoading />;
 
   return (
     <PortalPanel

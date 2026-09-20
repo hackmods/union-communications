@@ -7153,7 +7153,7 @@
     "items": {
       "portal-ui-polish": {
         "title": "Local Portal pages are easier to scan",
-        "body": "Together, Dispatch, Hold the line, Sidebars, and Circle headers now use the same clear panels and tiles as the Officer Hub, so Circles and pings are faster to find."
+        "body": "Together, Dispatch, Hold the line, Sidebars, and Circle headers now use clear panels and tiles — with calmer loading and error states — so Circles and pings are faster to find."
       },
       "officer-learning-site-colours": {
         "title": "Officer Learning matches the rest of UnionOps",
@@ -9670,6 +9670,8 @@
     "hubLink": "Officer Hub",
     "loading": "Loading…",
     "loadError": "Could not load Portal data. Check your connection, then try again.",
+    "loadErrorTitle": "Could not load",
+    "loadErrorLead": "The Portal did not respond. Check your connection, then try again.",
     "writeError": "Could not save that. Check your connection, then try again.",
     "retry": "Try again",
     "searchEmpty": "No matches. Try a shorter word, or open a Circle from the list below.",
@@ -9689,7 +9691,9 @@
     "yourCircles": "Your Circles",
     "createCircleHeading": "Start a Circle",
     "createCircleLead": "Committees and campaigns begin here. Hall stays with the whole local.",
-    "startHere": "Start in {hall} — that is the whole local. Committees are invited Circles.",
+    "activityGlance": "At a glance",
+    "activityGlanceLead": "Upcoming Calendar, your open Actions, and recent Bulletin posts across Circles.",
+    "startHere": "Start in {hall}. That is the whole local; committees are invited Circles.",
     "openHall": "Open Hall",
     "upcomingTitle": "Coming up",
     "upcomingEmpty": "No upcoming Calendar events. Open a Circle to add one.",

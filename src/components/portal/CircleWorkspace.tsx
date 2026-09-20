@@ -22,6 +22,7 @@ import type { UserRole } from "@/types/tenant";
 import { buildIcsEvent, downloadIcs } from "@/lib/calendar/ics";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 import { PortalPanel } from "@/components/portal/PortalPanel";
+import { PortalPageLoading } from "@/components/portal/PortalPageLoading";
 import { cn } from "@/lib/utils";
 
 type Tab = CircleWorkspaceTab;
@@ -284,7 +285,7 @@ export function CircleWorkspace({
   if (error) {
     return <PortalRetryCallout message={error} onRetry={() => void load()} />;
   }
-  if (!detail) return <p className="text-gray-600">{t("loading")}</p>;
+  if (!detail) return <PortalPageLoading />;
 
   return (
     <div className="space-y-6">
@@ -537,7 +538,7 @@ export function CircleWorkspace({
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
           placeholder={t("filterPlaceholder")}
-          className="min-h-11 w-full max-w-md rounded-lg border border-gray-300 px-3"
+          className="min-h-11 w-full max-w-md rounded-lg border border-gray-300 bg-white px-3"
           aria-label={t("filterPlaceholder")}
         />
       )}

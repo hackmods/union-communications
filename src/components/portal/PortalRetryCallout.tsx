@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
+import { PortalPanel } from "@/components/portal/PortalPanel";
 
 export function PortalRetryCallout({
   message,
@@ -13,16 +14,24 @@ export function PortalRetryCallout({
 }) {
   const t = useTranslations("portal");
   return (
-    <Callout tone="danger">
-      <p>{message}</p>
-      <Button
-        className="mt-3"
-        type="button"
-        variant="outline"
-        onClick={onRetry}
-      >
-        {t("retry")}
-      </Button>
-    </Callout>
+    <PortalPanel
+      eyebrow={t("portalEyebrow")}
+      title={t("loadErrorTitle")}
+      titleId="portal-retry-heading"
+      titleLevel="page"
+      lead={t("loadErrorLead")}
+    >
+      <Callout tone="danger">
+        <p className="text-sm leading-relaxed">{message}</p>
+        <Button
+          className="mt-3"
+          type="button"
+          variant="outline"
+          onClick={onRetry}
+        >
+          {t("retry")}
+        </Button>
+      </Callout>
+    </PortalPanel>
   );
 }

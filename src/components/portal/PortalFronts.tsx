@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import type { Circle } from "@/types/portal";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 import { PortalPanel } from "@/components/portal/PortalPanel";
+import { PortalPageLoading } from "@/components/portal/PortalPageLoading";
 
 export function PortalFronts() {
   const t = useTranslations("portal");
@@ -51,7 +52,7 @@ export function PortalFronts() {
   if (error) {
     return <PortalRetryCallout message={error} onRetry={() => void load()} />;
   }
-  if (!fronts) return <p className="text-gray-600">{t("loading")}</p>;
+  if (!fronts) return <PortalPageLoading />;
 
   const min = fronts.reduce(
     (earliest, c) => {
