@@ -3718,7 +3718,18 @@
     "useOfficialLogo": "Use OPSEU / SEFPO logo",
     "uploadCustomLogo": "Upload custom logo",
     "complete": "Finish setup",
-    "step3Description": "Pick how your local appears in the header and on graphics. The header updates as you choose."
+    "step3Description": "Pick how your local appears in the header and on graphics. The header updates as you choose.",
+    "aside": {
+      "title": "What this unlocks",
+      "body": "Your Brand Kit follows you into every Comms export — boards, flyers, graphics, and the website template.",
+      "item1": "Colours and logo land on posters and social graphics automatically.",
+      "item2": "Local number and links fill QR cards and the website ZIP.",
+      "item3": "You can refine everything later in Brand Kit — this is the fast start.",
+      "tipHeading": "This step",
+      "tip1": "Pick your union preset first when you can — it seeds colours, logo options, and collections.",
+      "tip2": "Check contrast before you finish. Low-contrast pairs are hard to read on phone screens.",
+      "tip3": "Prefer an official lockup when your union provides one; upload a custom mark only when you must."
+    }
   },
   "localLinks": {
     "title": "Website & key links",

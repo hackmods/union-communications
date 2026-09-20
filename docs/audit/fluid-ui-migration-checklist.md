@@ -34,7 +34,7 @@
 | M13 | `/guides` catalog | Local `StartHerePanel`; sparse lists | Shared catalog + fluid title | **Done** B8 |
 | M14 | `/tools` catalog | Duplicate start-here; sparse groups | Align with `/guides` | **Done** B8 |
 | M15 | `/captions` | Rigid h1; Card templates | Fluid title + catalog pattern | **Done** B9 |
-| M16 | `/onboarding` | Sparse Card wizard | Stepped hub chrome + fluid title | **Done** B9 |
+| M16 | `/onboarding` | Sparse Card wizard; later stuck on `focus` | Stepped hub chrome + fluid title; **2026-09-20** wide workspace + tip rail | **Done** B9 + shell fix |
 
 ## Complex
 

@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { PageShell } from "@/components/layout/PageShell";
+import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { Callout } from "@/components/ui/Callout";
 import { Card } from "@/components/ui/Card";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -90,11 +90,11 @@ export default async function InstallPage({
   const t = await getTranslations("installPage");
 
   return (
-    <PageShell size="focus" className="py-10 md:py-14" as="article">
-      <header className="max-w-prose">
+    <ComposedPageLayout composition="hub" size="wide" className="py-10 md:py-14">
+      <header className="max-w-3xl">
         <Eyebrow tone="brand">{t("title")}</Eyebrow>
         <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{t("title")}</h1>
-        <p className="mt-6 text-lg leading-relaxed text-slate-700">
+        <p className="mt-6 max-w-prose text-lg leading-relaxed text-slate-700">
           {t("intro")}
         </p>
       </header>
@@ -104,7 +104,7 @@ export default async function InstallPage({
           eyebrow={t("whyTitle")}
           title={t("whyTitle")}
         />
-        <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-3">
+        <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
           <li className="min-w-0">
             <Card className="flex h-full min-w-0 flex-col gap-2 sm:p-5">
               <h3 className="text-base font-bold text-opseu-dark">
@@ -119,7 +119,7 @@ export default async function InstallPage({
               </h3>
             </Card>
           </li>
-          <li className="min-w-0">
+          <li className="min-w-0 sm:col-span-2 lg:col-span-1">
             <Card className="flex h-full min-w-0 flex-col gap-2 sm:p-5">
               <h3 className="text-base font-bold text-opseu-dark">
                 {t("whyStore")}
@@ -129,7 +129,7 @@ export default async function InstallPage({
         </ul>
       </section>
 
-      <div className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-12 grid gap-6 sm:gap-8 md:grid-cols-2 xl:grid-cols-3">
         {SECTIONS.map((section, idx) => (
           <Card key={section.id} className="flex h-full min-w-0 flex-col gap-4 sm:p-6">
             <div className="flex items-center gap-3">
@@ -194,7 +194,7 @@ export default async function InstallPage({
         </Callout>
       </div>
 
-      <section className="mt-12">
+      <section className="mt-12 max-w-3xl">
         <SectionHeading
           eyebrow={t("limitsTitle")}
           title={t("limitsTitle")}
@@ -203,7 +203,7 @@ export default async function InstallPage({
       </section>
 
       <Card variant="ghost" className="mt-12 flex flex-col gap-4 sm:p-6">
-        <p className="max-w-2xl text-base leading-relaxed text-slate-700">
+        <p className="max-w-3xl text-base leading-relaxed text-slate-700">
           {t("relatedLead")}{" "}
           <Link
             href="/privacy"
@@ -226,6 +226,6 @@ export default async function InstallPage({
           </ButtonLink>
         </div>
       </Card>
-    </PageShell>
+    </ComposedPageLayout>
   );
 }

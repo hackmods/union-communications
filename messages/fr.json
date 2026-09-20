@@ -3718,7 +3718,18 @@
     "useOfficialLogo": "Utiliser le logo OPSEU / SEFPO",
     "uploadCustomLogo": "Téléverser un logo personnalisé",
     "complete": "Terminer la configuration",
-    "step3Description": "Choisissez comment votre section apparaît dans l'en-tête et sur les graphiques. L'en-tête se met à jour au fur et à mesure."
+    "step3Description": "Choisissez comment votre section apparaît dans l'en-tête et sur les graphiques. L'en-tête se met à jour au fur et à mesure.",
+    "aside": {
+      "title": "Ce que cela débloque",
+      "body": "Votre Trousse de marque vous suit dans chaque export Comms — tableaux, tracts, graphiques et modèle de site.",
+      "item1": "Les couleurs et le logo s'appliquent automatiquement aux affiches et graphiques sociaux.",
+      "item2": "Le numéro de section et les liens remplissent les cartes QR et le ZIP du site.",
+      "item3": "Vous pourrez tout peaufiner plus tard dans la Trousse de marque — ici, c'est le démarrage rapide.",
+      "tipHeading": "Cette étape",
+      "tip1": "Choisissez d'abord le préréglage syndical quand c'est possible — il amorce couleurs, logos et collections.",
+      "tip2": "Vérifiez le contraste avant de terminer. Les paires à faible contraste se lisent mal sur téléphone.",
+      "tip3": "Préférez un logo officiel lorsque votre syndicat en fournit un ; téléversez une marque personnalisée seulement si nécessaire."
+    }
   },
   "localLinks": {
     "title": "Site Web et liens clés",

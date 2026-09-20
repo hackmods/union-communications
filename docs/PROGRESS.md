@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-09-20 — Onboarding + peer workspace shell uplift
+
+- [x] Public `/onboarding` moved off `focus` onto Brand Kit workspace (`wide`) with form + sticky tip rail and step-1 two-column fields.
+- [x] `/install` and `/support` leave `focus` for hub `wide` so multi-column cards breathe.
+- [x] Hub `/app/onboarding` (`TenantOnboardingWizard`) drops `nestedFocus`; checklist/forms use `PublicHubPanel` grid filling the Hub wide shell.
+
 ## 2026-09-20 — Sources & references responsive layout
 
 - [x] `SourcesBlock` fills parent shell width; source list uses auto-fit columns (`minmax(17.5rem, 1fr)`).

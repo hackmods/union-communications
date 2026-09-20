@@ -6,7 +6,7 @@ import {
   BUY_ME_A_COFFEE_URL,
   GITHUB_ISSUES_URL,
 } from "@/lib/constants/support";
-import { PageShell } from "@/components/layout/PageShell";
+import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { Card } from "@/components/ui/Card";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -43,11 +43,11 @@ export default async function SupportPage({
   const t = await getTranslations("supportPage");
 
   return (
-    <PageShell size="focus" className="py-10 md:py-14" as="article">
-      <header className="max-w-prose">
+    <ComposedPageLayout composition="hub" size="wide" className="py-10 md:py-14">
+      <header className="max-w-3xl">
         <Eyebrow tone="brand">{t("title")}</Eyebrow>
         <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{t("title")}</h1>
-        <div className="mt-6 space-y-5 text-lg leading-relaxed text-slate-700">
+        <div className="mt-6 max-w-prose space-y-5 text-lg leading-relaxed text-slate-700">
           <p>
             {t("p1Lead")}{" "}
             <Link
@@ -63,7 +63,7 @@ export default async function SupportPage({
         </div>
       </header>
 
-      <section className="mt-12 grid gap-6 md:grid-cols-2">
+      <section className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         <Card className="flex h-full min-w-0 flex-col gap-4 sm:p-6">
           <Eyebrow tone="amber">{t("cta")}</Eyebrow>
           <div className="flex items-start gap-3">
@@ -113,7 +113,10 @@ export default async function SupportPage({
           </div>
         </Card>
 
-        <Card variant="ghost" className="flex h-full min-w-0 flex-col gap-4 md:col-span-2 sm:p-6">
+        <Card
+          variant="ghost"
+          className="flex h-full min-w-0 flex-col gap-4 sm:col-span-2 sm:p-6 xl:col-span-1"
+        >
           <Eyebrow tone="muted">{t("feedbackTitle")}</Eyebrow>
           <p className="text-[0.95rem] leading-relaxed text-slate-700">
             {t("feedbackBody")}
@@ -131,6 +134,6 @@ export default async function SupportPage({
           {t("backHome")}
         </ButtonLink>
       </div>
-    </PageShell>
+    </ComposedPageLayout>
   );
 }
