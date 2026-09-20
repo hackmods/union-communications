@@ -42,15 +42,16 @@ async function loadThemeZip(
 }
 
 function themePath(name: string): string {
-  return `unionops-local-7/${name}`;
+  return `unionops-local-243/${name}`;
 }
 
 describe("wordpress theme slug and name", () => {
   it("builds a safe folder slug from the local number", () => {
-    expect(wordpressThemeSlug("243")).toBe("unionops-local-7");
-    expect(wordpressThemeSlug(" 243-FT ")).toBe("unionops-local-7-ft");
+    expect(wordpressThemeSlug("243")).toBe("unionops-local-243");
+    expect(wordpressThemeSlug(" 243-FT ")).toBe("unionops-local-243-ft");
     expect(wordpressThemeSlug("../Evil Theme")).toBe("unionops-local-evil-theme");
     expect(wordpressThemeSlug("")).toBe("unionops-local");
+    expect(wordpressThemeSlug("7")).toBe("unionops-local-7");
   });
 
   it("strips CSS-comment breakers from the theme name", () => {
@@ -135,7 +136,7 @@ describe("generateWordpressThemeZip", () => {
     const css = buildWordpressStyleCss(sampleData);
     expect(css.startsWith("/*")).toBe(true);
     expect(css).toContain("Theme Name: OPSEU SEFPO Local 243");
-    expect(css).toContain("Text Domain: unionops-local-7");
+    expect(css).toContain("Text Domain: unionops-local-243");
     expect(css).toContain("does not host, update, or support WordPress");
     expect(css).toContain("--color-primary: #003DA5");
     expect(css).toContain("url(\"assets/fonts/");

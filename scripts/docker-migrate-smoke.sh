@@ -102,7 +102,10 @@ META_TABLES="$(psql_scalar "SELECT count(*) FROM information_schema.tables WHERE
 # Reproduce the live journal-hole state: later migrations exist, 0027-0029 do
 # not, and the obsolete metadata table claims success. The new reconciliation
 # tail must repair shape without rewriting history or losing the sentinel row.
-echo "[docker-migrate-smoke] reproducing historical 33/36 journal-hole upgrade…"
+# Counts: journal has 38 entries (0000–0037). Deleting 0027/0028/0029/0036
+# leaves 34 rows; re-applying 0036 restores one → 35. (Pre-0037 these were
+# 33 → 34; bump both when appending another migration after 0037.)
+echo "[docker-migrate-smoke] reproducing historical 34/38 journal-hole upgrade…"
 "${COMPOSE[@]}" exec -T db psql -U "${POSTGRES_USER}" -d "${POSTGRES_DB}" -v ON_ERROR_STOP=1 <<'SQL'
 INSERT INTO unions (id, name, slug, enabled_modules, is_demo)
 VALUES ('union-opseu', 'Preserve Me', 'preserve-me', '[]'::jsonb, false)
@@ -154,17 +157,41 @@ CREATE TABLE platform_meta (
 INSERT INTO platform_meta VALUES (1, 35, 1, 33, 'misleading-old-state');
 SQL
 
-[[ "$(psql_scalar "SELECT count(*) FROM drizzle.__drizzle_migrations")" == "33" ]]
+HOLE_COUNT="$(psql_scalar "SELECT count(*) FROM drizzle.__drizzle_migrations")"
+[[ "${HOLE_COUNT}" == "34" ]] || {
+  echo "[docker-migrate-smoke] journal-hole count=${HOLE_COUNT}; expected 34 (38 total minus 0027/0028/0029/0036)" >&2
+  exit 1
+}
 REPAIR_LOG="${LOG_DIR}/repair.log"
 run_gate "${REPAIR_LOG}"
 cat "${REPAIR_LOG}"
 grep -q "verified tail=0037_b7p_demo_tenant" "${REPAIR_LOG}"
 
-[[ "$(psql_scalar "SELECT count(*) FROM drizzle.__drizzle_migrations")" == "34" ]]
-[[ "$(psql_scalar "SELECT count(*) FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'tasks' AND column_name IN ('notes','mentioned_user_ids','reactions','updated_at')")" == "4" ]]
-[[ "$(psql_scalar "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name IN ('time_worker_groups','time_ot_policies','time_shift_series','pto_accrual_policies','payroll_export_profiles')")" == "5" ]]
-[[ "$(psql_scalar "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'platform_meta'")" == "0" ]]
-[[ "$(psql_scalar "SELECT count(*) FROM unions WHERE id = 'union-opseu' AND name = 'Preserve Me' AND is_demo = true")" == "1" ]]
+REPAIRED_COUNT="$(psql_scalar "SELECT count(*) FROM drizzle.__drizzle_migrations")"
+[[ "${REPAIRED_COUNT}" == "35" ]] || {
+  echo "[docker-migrate-smoke] post-repair journal count=${REPAIRED_COUNT}; expected 35 (hole + reapplied 0036)" >&2
+  exit 1
+}
+TASKS_AFTER="$(psql_scalar "SELECT count(*) FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'tasks' AND column_name IN ('notes','mentioned_user_ids','reactions','updated_at')")"
+[[ "${TASKS_AFTER}" == "4" ]] || {
+  echo "[docker-migrate-smoke] tasks columns after repair=${TASKS_AFTER}/4" >&2
+  exit 1
+}
+TIME_TABLES="$(psql_scalar "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name IN ('time_worker_groups','time_ot_policies','time_shift_series','pto_accrual_policies','payroll_export_profiles')")"
+[[ "${TIME_TABLES}" == "5" ]] || {
+  echo "[docker-migrate-smoke] time tables after repair=${TIME_TABLES}/5" >&2
+  exit 1
+}
+META_AFTER="$(psql_scalar "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'platform_meta'")"
+[[ "${META_AFTER}" == "0" ]] || {
+  echo "[docker-migrate-smoke] platform_meta still present after repair" >&2
+  exit 1
+}
+PRESERVED="$(psql_scalar "SELECT count(*) FROM unions WHERE id = 'union-opseu' AND name = 'Preserve Me' AND is_demo = true")"
+[[ "${PRESERVED}" == "1" ]] || {
+  echo "[docker-migrate-smoke] sentinel union-opseu not preserved/demo-flagged (count=${PRESERVED})" >&2
+  exit 1
+}
 
 echo "[docker-migrate-smoke] concurrent no-op boots serialize…"
 set +e

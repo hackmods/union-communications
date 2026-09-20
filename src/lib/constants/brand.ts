@@ -22,9 +22,9 @@ export const BRAND_COLORS = {
 } as const;
 
 /**
- * Colours for the bundled OPSEU/SEFPO reference section on `/assets`.
- * From seed `brandDefaults` — not host chrome (`BRAND_COLORS`), which may be
- * platform orange, and not the steward’s live Brand Kit (shown separately).
+ * Colours for the bundled reference Brand Asset Pack defaults on `/assets`.
+ * From the first static seed (`brandDefaults`) — currently B7P workshop orange.
+ * Not host chrome (`BRAND_COLORS`), and not the steward’s live Brand Kit.
  */
 export const ASSET_PACK_COLORS = {
   primary: assetDefaults.primaryColor,

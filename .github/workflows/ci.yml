@@ -233,7 +233,18 @@ jobs:
     # Trigger on push to main (auto-deploy from CI image) OR on
     # workflow_dispatch (operator chose a pre-published GHCR tag via the
     # GH UI — see the workflow_dispatch inputs above this file).
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    # `always()` is required so workflow_dispatch still runs when the
+    # docker-image job is intentionally skipped (pre-published tag).
+    if: |
+      always() &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        (
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/main' &&
+          needs.docker-image.result == 'success'
+        )
+      )
     runs-on: ubuntu-latest
     steps:
       - name: Resolve target GHCR tag
@@ -273,6 +284,7 @@ jobs:
           echo "Image ${IMAGE} found in GHCR (digest=${digest})."
 
       - name: Deploy pre-built GHCR image to CapRover
+        id: deploy
         env:
           CAPROVER_SERVER: ${{ secrets.CAPROVER_SERVER }}
           CAPROVER_PASSWORD: ${{ secrets.CAPROVER_PASSWORD }}
@@ -302,6 +314,7 @@ jobs:
             exit 1
           fi
           echo "::error::No CapRover deploy secrets — skipping deploy. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for image deploy. Manual escape hatch: workflow_dispatch on this workflow lets the operator ship a pre-published GHCR tag once they set the three secrets — docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md."
+          exit 1
 
       # Probe CapRover for the app's reported state. caprover-cli exits 0
       # once the deploy request is accepted but CapRover's restart cycle
@@ -331,7 +344,7 @@ jobs:
           fi
           echo "CapRover appData response (relevant fields):"
           echo "$resp" | jq '{appName, imageName, isAppBuilding, deploymentMethod, appContainerInfo: .appContainerInfo // null}'
-          running="$(echo "$resp" | jq -r '.imageName // .appContainerInfo.imageName // "(unknown)")"
+          running="$(echo "$resp" | jq -r '.imageName // .appContainerInfo.imageName // "(unknown)"')"
           echo "running imageName: ${running}"
           expected="$DEPLOYED_IMAGE"
           echo "expected imageName: ${expected}"
@@ -357,8 +370,10 @@ jobs:
       # restart+healthcheck cycle on a small droplet. 20×15s covers the
       # 4-5 min worst case where the captain proxy has to rebuild its
       # view-of-the-world after a webhook-driven or image-driven rollout.
+      # Only smoke when CapRover actually accepted an image deploy —
+      # otherwise we burn ~5min polling a commit that was never shipped.
       - name: Post-deploy /api/health smoke
-        if: ${{ github.event.inputs.skip_smoke != true }}
+        if: ${{ steps.deploy.outputs.DEPLOYED_IMAGE != '' && github.event.inputs.skip_smoke != true }}
         env:
           EXPECTED_COMMIT: ${{ github.sha }}
           DEPLOYED_IMAGE: ${{ steps.deploy.outputs.DEPLOYED_IMAGE }}
