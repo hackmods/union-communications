@@ -9,9 +9,9 @@ import type { UserRole } from "@/types/tenant";
 
 const DEFAULT_EMAIL = "ryan@ryanmorris.ca";
 const DEFAULT_NAME = "Ryan Morris";
-const DEFAULT_UNION = "union-opseu";
-const DEFAULT_LOCAL = "local-243";
-const DEFAULT_DIVISION = "division-caat";
+const DEFAULT_UNION = "union-b7p";
+const DEFAULT_LOCAL = "local-7";
+const DEFAULT_DIVISION = "division-b7p";
 const DEFAULT_ROLES: UserRole[] = ["platform_admin", "union_admin"];
 
 export type SeedPlatformAdminResult = {

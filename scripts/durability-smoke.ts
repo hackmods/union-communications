@@ -25,7 +25,7 @@ async function ensureReferenceTenant(): Promise<void> {
   const existing = await db
     .select({ id: unions.id })
     .from(unions)
-    .where(eq(unions.id, "union-opseu"))
+    .where(eq(unions.id, "union-b7p"))
     .limit(1);
   if (existing.length === 0) {
     await seedReferenceTenant();
@@ -48,12 +48,12 @@ async function main(): Promise<void> {
       memberPseudonym: "Durability Smoke",
       category: "durability-smoke",
       filedAt: new Date().toISOString(),
-      bargainingUnitId: "bu-243-ft",
+      bargainingUnitId: "bu-7-ft",
     },
     {
-      unionId: "union-opseu",
-      localId: "local-243",
-      bargainingUnitId: "bu-243-ft",
+      unionId: "union-b7p",
+      localId: "local-7",
+      bargainingUnitId: "bu-7-ft",
       createdById: "user-durability-smoke",
       assignedStewardId: "user-durability-smoke",
     },

@@ -1,0 +1,167 @@
+{
+  "version": "2.0",
+  "description": "Demo Hub reference tenant — Behind 7 Proxies (B7P). Fictional CapRover-flavoured locals (7 / 404 / 502 / 1337) so sample accounts never collide with real OPSEU/CAAT local numbers. Not a product default for new signups.",
+  "union": {
+    "id": "union-b7p",
+    "name": "Behind 7 Proxies",
+    "slug": "b7p",
+    "defaultLocale": "en",
+    "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks", "informalLog", "checkins", "portal"]
+  },
+  "division": {
+    "id": "division-b7p",
+    "unionId": "union-b7p",
+    "name": "Seven Proxies",
+    "code": "b7p",
+    "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks", "informalLog", "checkins", "portal"]
+  },
+  "locals": [
+    {
+      "id": "local-7",
+      "unionId": "union-b7p",
+      "divisionId": "division-b7p",
+      "localNumber": "7",
+      "subText": "Primary Proxy"
+    },
+    {
+      "id": "local-404",
+      "unionId": "union-b7p",
+      "divisionId": "division-b7p",
+      "localNumber": "404",
+      "subText": "Not Found"
+    },
+    {
+      "id": "local-502",
+      "unionId": "union-b7p",
+      "divisionId": "division-b7p",
+      "localNumber": "502",
+      "subText": "Bad Gateway"
+    },
+    {
+      "id": "local-1337",
+      "unionId": "union-b7p",
+      "divisionId": "division-b7p",
+      "localNumber": "1337",
+      "subText": "Elite"
+    }
+  ],
+  "bargainingUnits": [
+    {
+      "id": "bu-7-ft",
+      "unionId": "union-b7p",
+      "localId": "local-7",
+      "code": "ft",
+      "name": "Full-time Proxy Staff",
+      "grievanceConfig": {
+        "steps": [
+          { "number": 1, "name": "Step 1", "responseDays": 5 },
+          { "number": 2, "name": "Step 2", "responseDays": 10 },
+          { "number": 3, "name": "Step 3", "responseDays": 15 },
+          { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
+        ]
+      }
+    },
+    {
+      "id": "bu-7-pt",
+      "unionId": "union-b7p",
+      "localId": "local-7",
+      "code": "pt",
+      "name": "Part-time Proxy Staff",
+      "grievanceConfig": {
+        "steps": [
+          { "number": 1, "name": "Step 1", "responseDays": 7 },
+          { "number": 2, "name": "Step 2", "responseDays": 14 },
+          { "number": 3, "name": "Step 3", "responseDays": 21 },
+          { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
+        ]
+      }
+    },
+    {
+      "id": "bu-404-ft",
+      "unionId": "union-b7p",
+      "localId": "local-404",
+      "code": "ft",
+      "name": "Full-time Proxy Staff",
+      "grievanceConfig": {
+        "steps": [
+          { "number": 1, "name": "Step 1", "responseDays": 5 },
+          { "number": 2, "name": "Step 2", "responseDays": 10 },
+          { "number": 3, "name": "Step 3", "responseDays": 15 },
+          { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
+        ]
+      }
+    },
+    {
+      "id": "bu-404-pt",
+      "unionId": "union-b7p",
+      "localId": "local-404",
+      "code": "pt",
+      "name": "Part-time Proxy Staff",
+      "grievanceConfig": {
+        "steps": [
+          { "number": 1, "name": "Step 1", "responseDays": 7 },
+          { "number": 2, "name": "Step 2", "responseDays": 14 },
+          { "number": 3, "name": "Step 3", "responseDays": 21 },
+          { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
+        ]
+      }
+    },
+    {
+      "id": "bu-502-ft",
+      "unionId": "union-b7p",
+      "localId": "local-502",
+      "code": "ft",
+      "name": "Full-time Proxy Staff",
+      "grievanceConfig": {
+        "steps": [
+          { "number": 1, "name": "Step 1", "responseDays": 5 },
+          { "number": 2, "name": "Step 2", "responseDays": 10 },
+          { "number": 3, "name": "Step 3", "responseDays": 15 },
+          { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
+        ]
+      }
+    },
+    {
+      "id": "bu-1337-ft",
+      "unionId": "union-b7p",
+      "localId": "local-1337",
+      "code": "ft",
+      "name": "Full-time Proxy Staff",
+      "grievanceConfig": {
+        "steps": [
+          { "number": 1, "name": "Step 1", "responseDays": 5 },
+          { "number": 2, "name": "Step 2", "responseDays": 10 },
+          { "number": 3, "name": "Step 3", "responseDays": 15 },
+          { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
+        ]
+      }
+    }
+  ],
+  "brandDefaults": {
+    "primaryColor": "#E87722",
+    "secondaryColor": "#FFFFFF",
+    "accentColor": "#1A1A1A",
+    "useOfficialLogo": false,
+    "assetPackPath": "",
+    "membershipUrls": []
+  },
+  "grievanceConfig": {
+    "steps": [
+      { "number": 1, "name": "Step 1", "responseDays": 5 },
+      { "number": 2, "name": "Step 2", "responseDays": 10 },
+      { "number": 3, "name": "Step 3", "responseDays": 15 },
+      { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
+    ]
+  },
+  "moduleConfig": {
+    "bumping": {
+      "enabled": true,
+      "label": "Bumping / Stability Committee"
+    },
+    "time": {
+      "enabled": true,
+      "label": "Workforce Time",
+      "gpsPolicy": "tag_optional"
+    }
+  }
+}

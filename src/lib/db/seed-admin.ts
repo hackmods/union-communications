@@ -6,8 +6,8 @@
  *     --email president@example.ca \
  *     --name "Local President" \
  *     --password 'change-me-8+' \
- *     --union-id union-opseu \
- *     --local-id local-243 \
+ *     --union-id union-b7p \
+ *     --local-id local-7 \
  *     --roles local_president,union_admin
  *
  * Run `npm run db:seed` first so union/local FKs exist.

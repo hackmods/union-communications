@@ -56,12 +56,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: input?.name ?? "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: input?.name ?? "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -103,8 +103,8 @@ function seedAttachment(input: {
   storageKey?: string;
 }): AttachmentMeta {
   const id = input.id;
-  const unionId = input.unionId ?? "union-opseu";
-  const localId = input.localId ?? "local-243";
+  const unionId = input.unionId ?? "union-b7p";
+  const localId = input.localId ?? "local-7";
   const fileName = input.fileName ?? pdfUpload.fileName;
   const storageKey =
     input.storageKey ??
@@ -120,7 +120,7 @@ function seedAttachment(input: {
     sizeBytes: pdfBytes.length,
     storageKey,
     scanStatus: input.scanStatus ?? "skipped_dev",
-    uploadedById: "user-steward-243",
+    uploadedById: "user-steward-7",
     createdAt: "2026-09-01T00:00:00.000Z",
   });
 }
@@ -187,8 +187,8 @@ describe("grievance and bumping attachment HTTP routes", () => {
       seedAttachment({ id: "att-own", grievanceId: "grev-001" });
       authMock.mockResolvedValue(
         session({
-          id: "user-steward-243",
-          name: "Local 243 Steward",
+          id: "user-steward-7",
+          name: "Local 7 Steward",
           roles: ["local_steward"],
         }),
       );
@@ -263,8 +263,8 @@ describe("grievance and bumping attachment HTTP routes", () => {
     it("rejects incomplete uploads then stamps case tenant and session uploader", async () => {
       authMock.mockResolvedValue(
         session({
-          id: "user-steward-243",
-          name: "Local 243 Steward",
+          id: "user-steward-7",
+          name: "Local 7 Steward",
           roles: ["local_steward"],
         }),
       );
@@ -305,17 +305,17 @@ describe("grievance and bumping attachment HTTP routes", () => {
           scanStatus: string;
         };
       };
-      expect(body.attachment.unionId).toBe("union-opseu");
-      expect(body.attachment.localId).toBe("local-243");
+      expect(body.attachment.unionId).toBe("union-b7p");
+      expect(body.attachment.localId).toBe("local-7");
       expect(body.attachment.grievanceId).toBe("grev-001");
-      expect(body.attachment.uploadedById).toBe("user-steward-243");
+      expect(body.attachment.uploadedById).toBe("user-steward-7");
       expect(body.attachment.scanStatus).toBe("skipped_dev");
     });
 
     it("404s a steward upload on an unassigned case and a local_exec write", async () => {
       authMock.mockResolvedValue(
         session({
-          id: "user-steward-243",
+          id: "user-steward-7",
           roles: ["local_steward"],
         }),
       );
@@ -392,7 +392,7 @@ describe("grievance and bumping attachment HTTP routes", () => {
       await getObjectStorage().put(row.storageKey, pdfBytes, row.mimeType);
       authMock.mockResolvedValue(
         session({
-          id: "user-steward-243",
+          id: "user-steward-7",
           roles: ["local_steward"],
         }),
       );
@@ -436,7 +436,7 @@ describe("grievance and bumping attachment HTTP routes", () => {
       seedAttachment({ id: "att-bump", bumpingCaseId: "bump-001" });
       authMock.mockResolvedValue(
         session({
-          id: "user-steward-243",
+          id: "user-steward-7",
           roles: ["local_steward"],
         }),
       );
@@ -456,7 +456,7 @@ describe("grievance and bumping attachment HTTP routes", () => {
 
       authMock.mockResolvedValue(
         session({
-          id: "user-stability-243",
+          id: "user-stability-7",
           roles: ["stability_member"],
         }),
       );
@@ -468,9 +468,9 @@ describe("grievance and bumping attachment HTTP routes", () => {
       const body = (await created.json()) as {
         attachment: { unionId: string; localId: string; uploadedById: string };
       };
-      expect(body.attachment.unionId).toBe("union-opseu");
-      expect(body.attachment.localId).toBe("local-243");
-      expect(body.attachment.uploadedById).toBe("user-stability-243");
+      expect(body.attachment.unionId).toBe("union-b7p");
+      expect(body.attachment.localId).toBe("local-7");
+      expect(body.attachment.uploadedById).toBe("user-stability-7");
     });
 
     it("returns 404 for another union even as platform_admin and 403 when bumping is off", async () => {
@@ -534,8 +534,8 @@ describe("grievance and bumping attachment HTTP routes", () => {
 
       authMock.mockResolvedValue(
         session({
-          id: "user-president-560",
-          localId: "local-560",
+          id: "user-president-1337",
+          localId: "local-1337",
           roles: ["local_president"],
         }),
       );

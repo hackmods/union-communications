@@ -8,8 +8,8 @@ function record(
     Pick<MemberSeniorityRecord, "id" | "seniorityDate" | "classification">,
 ): MemberSeniorityRecord {
   return {
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     memberRef: partial.id,
     active: true,
     ...partial,
@@ -94,7 +94,7 @@ describe("rankEligibleBumpers", () => {
     const ranked = rankEligibleBumpers(
       "Administrative Assistant I",
       SEED_SENIORITY_ROSTER.filter(
-        (r) => r.unionId === "union-opseu" && r.localId === "local-243",
+        (r) => r.unionId === "union-b7p" && r.localId === "local-7",
       ),
     );
     // Active AA I only: A (2015), E (2016), B (2017) — D inactive

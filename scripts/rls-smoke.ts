@@ -49,8 +49,8 @@ async function main(): Promise<void> {
     }
 
     // Insert fixture under the reference tenant session.
-    await sql`select set_config('app.current_union_id', 'union-opseu', false)`;
-    await sql`select set_config('app.current_local_id', 'local-243', false)`;
+    await sql`select set_config('app.current_union_id', 'union-b7p', false)`;
+    await sql`select set_config('app.current_local_id', 'local-7', false)`;
     await sql`select set_config('app.current_cross_local', 'false', false)`;
 
     await sql`
@@ -59,7 +59,7 @@ async function main(): Promise<void> {
         category, status, current_step, filed_at, assigned_steward_id,
         created_by_id, updated_at
       ) values (
-        ${FIXTURE_ID}, 'union-opseu', 'local-243', 'bu-243-ft', 'RLS Smoke',
+        ${FIXTURE_ID}, 'union-b7p', 'local-7', 'bu-7-ft', 'RLS Smoke',
         'rls-smoke', 'open', 1, now(), 'user-rls-smoke',
         'user-rls-smoke', now()
       )
@@ -83,8 +83,8 @@ async function main(): Promise<void> {
     }
 
     // Matching union — should see it.
-    await sql`select set_config('app.current_union_id', 'union-opseu', false)`;
-    await sql`select set_config('app.current_local_id', 'local-243', false)`;
+    await sql`select set_config('app.current_union_id', 'union-b7p', false)`;
+    await sql`select set_config('app.current_local_id', 'local-7', false)`;
 
     const same = await sql<{ id: string }[]>`
       select id from grievances where id = ${FIXTURE_ID}

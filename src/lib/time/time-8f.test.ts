@@ -7,9 +7,9 @@ import type { TimeEntry } from "@/types/time";
 
 const sampleEntry: TimeEntry = {
   id: "time-hybrid-1",
-  unionId: "union-opseu",
-  localId: "local-243",
-  workerId: "user-steward-243",
+  unionId: "union-b7p",
+  localId: "local-7",
+  workerId: "user-steward-7",
   workerName: "Steward",
   category: "release",
   jobCodeId: "code-release-grievance",
@@ -25,8 +25,8 @@ const sampleEntry: TimeEntry = {
 describe("Time 8f — hybrid slice", () => {
   it("builds slice v1.1 with time entries", () => {
     const slice = buildHybridSlice({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       grievances: [],
       bumpingCases: [],
       timeEntries: [sampleEntry],
@@ -40,8 +40,8 @@ describe("Time 8f — hybrid slice", () => {
     const legacy = {
       version: "1.0",
       exportedAt: "2030-01-01T00:00:00.000Z",
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       grievances: [],
       bumpingCases: [],
     };
@@ -69,15 +69,15 @@ describe("Time 8f — importLocalSlice", () => {
 
   it("merges hybrid time entries", async () => {
     const result = await memoryTimeStore.importLocalSlice(
-      "union-opseu",
-      "local-243",
+      "union-b7p",
+      "local-7",
       [sampleEntry],
       "merge",
     );
     expect(result.imported).toBe(1);
     const listed = await memoryTimeStore.listEntries({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
     });
     expect(listed.some((e) => e.id === sampleEntry.id)).toBe(true);
   });

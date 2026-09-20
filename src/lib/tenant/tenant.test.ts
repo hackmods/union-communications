@@ -3,17 +3,17 @@ import { getTenantByUnionSlug, getTenantContext } from "@/lib/tenant/loader";
 import { getVisibleModules, getHubNavModules, canAccessModule } from "@/lib/modules/registry";
 
 describe("tenant loader", () => {
-  it("loads reference tenant by slug", () => {
-    const tenant = getTenantByUnionSlug("opseu");
-    expect(tenant?.union.name).toBe("OPSEU / SEFPO");
-    expect(tenant?.locals?.[0]?.localNumber).toBe("243");
+  it("loads B7P demo tenant by slug", () => {
+    const tenant = getTenantByUnionSlug("b7p");
+    expect(tenant?.union.name).toBe("Behind 7 Proxies");
+    expect(tenant?.locals?.[0]?.localNumber).toBe("7");
     expect(tenant?.locals).toHaveLength(4);
     expect(tenant?.bargainingUnits?.length).toBeGreaterThanOrEqual(2);
   });
 
   it("returns tenant context with brand defaults", () => {
-    const ctx = getTenantContext("union-opseu");
-    expect(ctx?.brandDefaults.primaryColor).toBe("#003DA5");
+    const ctx = getTenantContext("union-b7p");
+    expect(ctx?.brandDefaults.primaryColor).toBe("#E87722");
     expect(ctx?.union.enabledModules).toContain("grievance");
   });
 });

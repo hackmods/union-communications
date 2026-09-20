@@ -56,14 +56,14 @@ describe("ICS calendar", () => {
 describe("handoff package", () => {
   const sample: Grievance = {
     id: "grev-test",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     category: "Discipline",
     status: "open",
     currentStep: 1,
     filedAt: "2026-01-01T00:00:00.000Z",
-    assignedStewardId: "user-steward-243",
-    createdById: "user-president-243",
+    assignedStewardId: "user-steward-7",
+    createdById: "user-president-7",
     updatedAt: "2026-01-01T00:00:00.000Z",
   };
 
@@ -74,12 +74,12 @@ describe("handoff package", () => {
 
   it("builds a handoff package with checklist", () => {
     const pkg = buildHandoffPackage({
-      unionId: "union-opseu",
-      localId: "local-243",
-      fromOfficerId: "user-president-243",
+      unionId: "union-b7p",
+      localId: "local-7",
+      fromOfficerId: "user-president-7",
       request: {
-        toStewardId: "user-steward-243",
-        toStewardName: "Local 243 Steward",
+        toStewardId: "user-steward-7",
+        toStewardName: "Local 7 Steward",
         grievanceIds: ["grev-test"],
         notes: "Good luck",
       },
@@ -88,6 +88,6 @@ describe("handoff package", () => {
     expect(pkg.version).toBe("1.0");
     expect(pkg.grievanceIds).toEqual(["grev-test"]);
     expect(pkg.checklist).toEqual([...HANDOFF_CHECKLIST]);
-    expect(pkg.toStewardName).toBe("Local 243 Steward");
+    expect(pkg.toStewardName).toBe("Local 7 Steward");
   });
 });

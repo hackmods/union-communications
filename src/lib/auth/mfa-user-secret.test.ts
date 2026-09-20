@@ -11,7 +11,7 @@ describe("mfa-user-secret (demo roster path)", () => {
   });
 
   it("falls back to the demo roster's static secret", async () => {
-    const secret = await getTotpSecretForUser("user-president-243");
+    const secret = await getTotpSecretForUser("user-president-7");
     expect(secret).toBe("JBSWY3DPEHPK3PXP");
   });
 
@@ -21,8 +21,8 @@ describe("mfa-user-secret (demo roster path)", () => {
   });
 
   it("prefers a confirmed override once enrolled", async () => {
-    await persistTotpSecretForUser("user-president-243", "AAAABBBBCCCCDDDD");
-    const secret = await getTotpSecretForUser("user-president-243");
+    await persistTotpSecretForUser("user-president-7", "AAAABBBBCCCCDDDD");
+    const secret = await getTotpSecretForUser("user-president-7");
     expect(secret).toBe("AAAABBBBCCCCDDDD");
   });
 

@@ -41,12 +41,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-steward-243",
-      name: input?.name ?? "Local 243 Steward",
+      id: input?.id ?? "user-steward-7",
+      name: input?.name ?? "Local 7 Steward",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
     },
   };
@@ -77,9 +77,9 @@ async function seedBalance(input: {
       mode: "set",
     },
     {
-      unionId: input.unionId ?? "union-opseu",
-      localId: input.localId ?? "local-243",
-      updatedById: "user-president-243",
+      unionId: input.unionId ?? "union-b7p",
+      localId: input.localId ?? "local-7",
+      updatedById: "user-president-7",
     },
   );
 }
@@ -108,14 +108,14 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
     });
 
     it("lets a steward list only their own balances and never another union", async () => {
-      const own = await seedBalance({ workerId: "user-steward-243", hours: 16 });
+      const own = await seedBalance({ workerId: "user-steward-7", hours: 16 });
       const coworker = await seedBalance({
         workerId: "user-other-worker",
         hours: 40,
       });
       const foreign = await seedBalance({
         unionId: "union-other",
-        workerId: "user-steward-243",
+        workerId: "user-steward-7",
         hours: 99,
       });
 
@@ -135,7 +135,7 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
         hours: 8,
       });
       const sister = await seedBalance({
-        localId: "local-560",
+        localId: "local-1337",
         workerId: "user-560",
         hours: 32,
       });
@@ -146,7 +146,7 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       });
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const res = await listBalances();
       expect(res.status).toBe(200);
@@ -157,10 +157,10 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       expect(ids).toContain(coworker.id);
       expect(ids).not.toContain(sister.id);
       expect(ids).not.toContain(foreign.id);
-      expect(body.balances.every((row) => row.unionId === "union-opseu")).toBe(
+      expect(body.balances.every((row) => row.unionId === "union-b7p")).toBe(
         true,
       );
-      expect(body.balances.every((row) => row.localId === "local-243")).toBe(
+      expect(body.balances.every((row) => row.localId === "local-7")).toBe(
         true,
       );
     });
@@ -171,7 +171,7 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
         (
           await upsertBalance(
             jsonRequest({
-              workerId: "user-steward-243",
+              workerId: "user-steward-7",
               ptoType: "vacation",
               hours: 8,
               mode: "set",
@@ -181,7 +181,7 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       ).toBe(403);
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       expect((await upsertBalance(jsonRequest({}))).status).toBe(400);
       expect(
@@ -209,11 +209,11 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       );
       expect(created.status).toBe(201);
       const body = (await created.json()) as { balance: PtoBalance };
-      expect(body.balance.unionId).toBe("union-opseu");
-      expect(body.balance.localId).toBe("local-243");
+      expect(body.balance.unionId).toBe("union-b7p");
+      expect(body.balance.localId).toBe("local-7");
       expect(body.balance.workerId).toBe("user-bal-http");
       expect(body.balance.hoursBalance).toBe(10);
-      expect(body.balance.updatedById).toBe("user-president-243");
+      expect(body.balance.updatedById).toBe("user-president-7");
 
       const adjusted = await upsertBalance(
         jsonRequest({
@@ -273,7 +273,7 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
           fixedHoursPerPeriod: 4,
           periodDays: 14,
         },
-        { unionId: "union-opseu", localId: "local-560" },
+        { unionId: "union-b7p", localId: "local-1337" },
       );
       const foreign = await memoryTimeStore.upsertAccrualPolicy(
         {
@@ -287,7 +287,7 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       );
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const created = await upsertAccrual(
         jsonRequest({
@@ -302,8 +302,8 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       );
       expect(created.status).toBe(201);
       const body = (await created.json()) as { policy: PtoAccrualPolicy };
-      expect(body.policy.unionId).toBe("union-opseu");
-      expect(body.policy.localId).toBe("local-243");
+      expect(body.policy.unionId).toBe("union-b7p");
+      expect(body.policy.localId).toBe("local-7");
       expect(body.policy.name).toBe("Home vacation");
 
       const listed = await listAccrual();
@@ -316,9 +316,9 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       expect(ids).not.toContain(sister.id);
       expect(ids).not.toContain(foreign.id);
       expect(
-        listBody.policies.every((row) => row.unionId === "union-opseu"),
+        listBody.policies.every((row) => row.unionId === "union-b7p"),
       ).toBe(true);
-      expect(listBody.policies.every((row) => row.localId === "local-243")).toBe(
+      expect(listBody.policies.every((row) => row.localId === "local-7")).toBe(
         true,
       );
     });
@@ -326,7 +326,7 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
     it("requires from/to then accrues only against the session local", async () => {
       const worker = await memoryTimeStore.upsertWorker(
         { displayName: "Accrual HTTP worker", userId: "user-accrual-http" },
-        { unionId: "union-opseu", localId: "local-243" },
+        { unionId: "union-b7p", localId: "local-7" },
       );
       const homeEntry = await memoryTimeStore.createManualEntry(
         {
@@ -340,8 +340,8 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
           entrySource: "manual_range",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-243",
+          unionId: "union-b7p",
+          localId: "local-7",
           jobCodeLabel: "Office / admin",
         },
       );
@@ -354,11 +354,11 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
           hoursWorkedRate: 0.05,
           eligibleCategories: ["staff"],
         },
-        { unionId: "union-opseu", localId: "local-243" },
+        { unionId: "union-b7p", localId: "local-7" },
       );
       const sisterWorker = await memoryTimeStore.upsertWorker(
         { displayName: "Sister accrual", userId: "user-560-accrual" },
-        { unionId: "union-opseu", localId: "local-560" },
+        { unionId: "union-b7p", localId: "local-1337" },
       );
       const sisterEntry = await memoryTimeStore.createManualEntry(
         {
@@ -372,8 +372,8 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
           entrySource: "manual_range",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           jobCodeLabel: "Office / admin",
         },
       );
@@ -386,11 +386,11 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
           hoursWorkedRate: 0.05,
           eligibleCategories: ["staff"],
         },
-        { unionId: "union-opseu", localId: "local-560" },
+        { unionId: "union-b7p", localId: "local-1337" },
       );
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       expect((await runAccrual(jsonRequest({}))).status).toBe(400);
 
@@ -414,8 +414,8 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       expect(home?.hoursAccrued).toBe(0.5);
 
       const balances = await memoryTimeStore.listPtoBalances({
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         workerId: worker.id,
         ptoType: "personal",
       });
@@ -427,11 +427,11 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
     it("does not list another union or sister local, and forbids a steward upsert", async () => {
       const home = await memoryTimeStore.upsertWorker(
         { displayName: "Home extra", userId: "user-home-extra" },
-        { unionId: "union-opseu", localId: "local-243" },
+        { unionId: "union-b7p", localId: "local-7" },
       );
       const sister = await memoryTimeStore.upsertWorker(
         { displayName: "Sister roster", userId: "user-560-roster" },
-        { unionId: "union-opseu", localId: "local-560" },
+        { unionId: "union-b7p", localId: "local-1337" },
       );
       const foreign = await memoryTimeStore.upsertWorker(
         { displayName: "Foreign roster", userId: "user-other-roster" },
@@ -450,10 +450,10 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       expect(ids).toContain(home.id);
       expect(ids).not.toContain(sister.id);
       expect(ids).not.toContain(foreign.id);
-      expect(body.workers.every((row) => row.unionId === "union-opseu")).toBe(
+      expect(body.workers.every((row) => row.unionId === "union-b7p")).toBe(
         true,
       );
-      expect(body.workers.every((row) => row.localId === "local-243")).toBe(true);
+      expect(body.workers.every((row) => row.localId === "local-7")).toBe(true);
 
       expect(
         (
@@ -466,7 +466,7 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
 
     it("lets a president stamp session tenant and 403s when time is off", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       expect((await upsertWorker(jsonRequest({}))).status).toBe(400);
 
@@ -480,8 +480,8 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       );
       expect(created.status).toBe(201);
       const body = (await created.json()) as { worker: TimeWorker };
-      expect(body.worker.unionId).toBe("union-opseu");
-      expect(body.worker.localId).toBe("local-243");
+      expect(body.worker.unionId).toBe("union-b7p");
+      expect(body.worker.localId).toBe("local-7");
       expect(body.worker.displayName).toBe("New roster worker");
       expect(body.worker.userId).toBe("user-new-roster");
 
@@ -522,9 +522,9 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       const granted = await consentGps(jsonRequest({ consent: true }));
       expect(granted.status).toBe(200);
       const body = (await granted.json()) as { worker: TimeWorker };
-      expect(body.worker.unionId).toBe("union-opseu");
-      expect(body.worker.localId).toBe("local-243");
-      expect(body.worker.userId).toBe("user-steward-243");
+      expect(body.worker.unionId).toBe("union-b7p");
+      expect(body.worker.localId).toBe("local-7");
+      expect(body.worker.userId).toBe("user-steward-7");
       expect(body.worker.gpsConsentAt).toBeTruthy();
 
       const revoked = await consentGps(jsonRequest({ consent: false }));
@@ -543,13 +543,13 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
           startsAt: "2034-09-01T09:00:00.000Z",
           endsAt: "2034-09-01T13:00:00.000Z",
           category: "action",
-          assignedWorkerIds: ["user-steward-243"],
+          assignedWorkerIds: ["user-steward-7"],
           status: "published",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-243",
-          createdById: "user-president-243",
+          unionId: "union-b7p",
+          localId: "local-7",
+          createdById: "user-president-7",
         },
       );
       const foreign = await memoryTimeStore.createShift(
@@ -596,13 +596,13 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
           startsAt: "2034-09-03T09:00:00.000Z",
           endsAt: "2034-09-03T17:00:00.000Z",
           category: "staff",
-          assignedWorkerIds: ["user-steward-243"],
+          assignedWorkerIds: ["user-steward-7"],
           status: "draft",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-243",
-          createdById: "user-president-243",
+          unionId: "union-b7p",
+          localId: "local-7",
+          createdById: "user-president-7",
         },
       );
       const sister = await memoryTimeStore.createShift(
@@ -615,14 +615,14 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
           status: "draft",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           createdById: "user-560",
         },
       );
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       expect(
         (
@@ -648,13 +648,13 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
           startsAt: "2034-09-05T09:00:00.000Z",
           endsAt: "2034-09-05T17:00:00.000Z",
           category: "staff",
-          assignedWorkerIds: ["user-steward-243"],
+          assignedWorkerIds: ["user-steward-7"],
           status: "draft",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-243",
-          createdById: "user-president-243",
+          unionId: "union-b7p",
+          localId: "local-7",
+          createdById: "user-president-7",
         },
       );
 
@@ -673,8 +673,8 @@ describe("time PTO balances, accrual, workers, and shift PATCH HTTP", () => {
       );
       expect(patched.status).toBe(200);
       const body = (await patched.json()) as { shift: TimeShift };
-      expect(body.shift.unionId).toBe("union-opseu");
-      expect(body.shift.localId).toBe("local-243");
+      expect(body.shift.unionId).toBe("union-b7p");
+      expect(body.shift.localId).toBe("local-7");
       expect(body.shift.label).toBe("Published desk");
       expect(body.shift.status).toBe("published");
     });

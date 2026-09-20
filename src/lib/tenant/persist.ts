@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import referenceTenant from "../../../seed/reference-tenant-opseu-caat.json";
+import referenceTenant from "../../../seed/reference-tenant-b7p.json";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import {
   bargainingUnits,

@@ -29,12 +29,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -61,10 +61,10 @@ async function seedGrievance(input: {
       filedAt: "2026-02-01T12:00:00.000Z",
     },
     {
-      unionId: input.unionId ?? "union-opseu",
-      localId: input.localId ?? "local-243",
-      createdById: "user-president-243",
-      assignedStewardId: "user-steward-243",
+      unionId: input.unionId ?? "union-b7p",
+      localId: input.localId ?? "local-7",
+      createdById: "user-president-7",
+      assignedStewardId: "user-steward-7",
     },
   );
 }
@@ -93,7 +93,7 @@ describe("GET /api/reports/summary", () => {
     expect((await getSummary(new Request(RANGE))).status).toBe(403);
 
     authMock.mockResolvedValue(
-      session({ id: "user-steward-243", roles: ["local_steward"] }),
+      session({ id: "user-steward-7", roles: ["local_steward"] }),
     );
     const forbidden = await getSummary(new Request(RANGE));
     expect(forbidden.status).toBe(403);
@@ -115,7 +115,7 @@ describe("GET /api/reports/summary", () => {
       category: "Foreign discipline",
     });
     await seedGrievance({
-      localId: "local-560",
+      localId: "local-1337",
       category: "Sister scheduling",
     });
     await memoryBumpingStore.create(
@@ -145,8 +145,8 @@ describe("GET /api/reports/summary", () => {
         bumpingPosition: position,
       },
       {
-        unionId: "union-opseu",
-        localId: "local-560",
+        unionId: "union-b7p",
+        localId: "local-1337",
         createdById: "user-560",
       },
     );
@@ -179,8 +179,8 @@ describe("GET /api/reports/summary", () => {
         entrySource: "manual_range",
       },
       {
-        unionId: "union-opseu",
-        localId: "local-560",
+        unionId: "union-b7p",
+        localId: "local-1337",
         jobCodeLabel: "Grievance handling",
       },
     );
@@ -199,18 +199,18 @@ describe("GET /api/reports/summary", () => {
         jobCodeId: "code-release-grievance",
         clockInAt: "2026-02-12T09:00:00.000Z",
         clockOutAt: "2026-02-12T17:00:00.000Z",
-        workerId: "user-steward-243",
-        workerName: "Local 243 Steward",
+        workerId: "user-steward-7",
+        workerName: "Local 7 Steward",
         status: "submitted",
         entrySource: "manual_range",
       },
       {
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         jobCodeLabel: "Grievance handling",
       },
     );
-    expect(homeTime.unionId).toBe("union-opseu");
+    expect(homeTime.unionId).toBe("union-b7p");
 
     const afterHome = (await (
       await getSummary(new Request(RANGE))

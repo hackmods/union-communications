@@ -21,24 +21,24 @@ function sessionFor(overrides: {
 
 describe("rlsContextForSession", () => {
   it("returns undefined when there is no union scope", () => {
-    expect(rlsContextForSession(sessionFor({ localId: "local-243" }))).toBeUndefined();
+    expect(rlsContextForSession(sessionFor({ localId: "local-7" }))).toBeUndefined();
   });
 
   it("maps union + local scope for a steward (not cross-local)", () => {
     expect(
       rlsContextForSession(
-        sessionFor({ unionId: "union-opseu", localId: "local-243", roles: ["local_steward"] }),
+        sessionFor({ unionId: "union-b7p", localId: "local-7", roles: ["local_steward"] }),
       ),
-    ).toEqual({ unionId: "union-opseu", localId: "local-243", crossLocal: false });
+    ).toEqual({ unionId: "union-b7p", localId: "local-7", crossLocal: false });
   });
 
   it("sets crossLocal for union/division/platform admins", () => {
     for (const role of ["union_admin", "division_admin", "platform_admin"]) {
       expect(
         rlsContextForSession(
-          sessionFor({ unionId: "union-opseu", roles: [role] }),
+          sessionFor({ unionId: "union-b7p", roles: [role] }),
         ),
-      ).toMatchObject({ unionId: "union-opseu", crossLocal: true });
+      ).toMatchObject({ unionId: "union-b7p", crossLocal: true });
     }
   });
 
@@ -46,14 +46,14 @@ describe("rlsContextForSession", () => {
     expect(
       rlsContextForSession(
         sessionFor({
-          unionId: "union-opseu",
-          localId: "local-243",
+          unionId: "union-b7p",
+          localId: "local-7",
           roles: ["local_president", "local_exec"],
         }),
       ),
     ).toEqual({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       crossLocal: false,
     });
   });

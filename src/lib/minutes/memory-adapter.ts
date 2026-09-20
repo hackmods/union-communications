@@ -10,8 +10,8 @@ function seedMinutes(): MeetingMinutes[] {
   return [
     {
       id: "minutes-001",
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       meetingDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
       meetingType: "exec",
       attendees: ["President", "Vice-President", "Chief Steward", "Treasurer"],
@@ -26,8 +26,8 @@ function seedMinutes(): MeetingMinutes[] {
       ],
       notes:
         "Treasurer reported bank balance. Next membership meeting set for September.",
-      recordedById: "user-president-243",
-      recordedByName: "Local 243 President",
+      recordedById: "user-president-7",
+      recordedByName: "Local 7 President",
       status: "draft",
       createdAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),
       updatedAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),

@@ -37,12 +37,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: input?.name ?? "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: input?.name ?? "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -141,9 +141,9 @@ describe("bumping API routes", () => {
           bumpingPosition: emptyPosition,
         },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
-          createdById: "user-president-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
+          createdById: "user-president-1337",
         },
       );
 
@@ -153,8 +153,8 @@ describe("bumping API routes", () => {
       const body = (await res.json()) as {
         cases: Array<{ memberRef: string; unionId: string; localId: string }>;
       };
-      expect(body.cases.every((c) => c.unionId === "union-opseu")).toBe(true);
-      expect(body.cases.every((c) => c.localId === "local-243")).toBe(true);
+      expect(body.cases.every((c) => c.unionId === "union-b7p")).toBe(true);
+      expect(body.cases.every((c) => c.localId === "local-7")).toBe(true);
       expect(body.cases.map((c) => c.memberRef)).not.toContain("Foreign member");
       expect(body.cases.map((c) => c.memberRef)).not.toContain(
         "Sister local member",
@@ -171,9 +171,9 @@ describe("bumping API routes", () => {
           bumpingPosition: emptyPosition,
         },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
-          createdById: "user-president-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
+          createdById: "user-president-1337",
         },
       );
 
@@ -189,7 +189,7 @@ describe("bumping API routes", () => {
       const body = (await res.json()) as {
         cases: Array<{ memberRef: string; unionId: string; localId: string }>;
       };
-      expect(body.cases.every((c) => c.unionId === "union-opseu")).toBe(true);
+      expect(body.cases.every((c) => c.unionId === "union-b7p")).toBe(true);
       expect(body.cases.map((c) => c.memberRef)).toContain("Sister local member");
       expect(body.cases.map((c) => c.memberRef)).toContain("Member C");
       expect(body.cases.map((c) => c.memberRef)).not.toContain("Foreign member");
@@ -220,9 +220,9 @@ describe("bumping API routes", () => {
           status: string;
         };
       };
-      expect(body.bumpingCase.unionId).toBe("union-opseu");
-      expect(body.bumpingCase.localId).toBe("local-243");
-      expect(body.bumpingCase.createdById).toBe("user-president-243");
+      expect(body.bumpingCase.unionId).toBe("union-b7p");
+      expect(body.bumpingCase.localId).toBe("local-7");
+      expect(body.bumpingCase.createdById).toBe("user-president-7");
       expect(body.bumpingCase.memberRef).toBe("Member Test");
       expect(body.bumpingCase.status).toBe("open");
     });
@@ -249,7 +249,7 @@ describe("bumping API routes", () => {
     it("lets a stability_member create a case", async () => {
       authMock.mockResolvedValue(
         session({
-          id: "user-stability-243",
+          id: "user-stability-7",
           name: "Stability Rep",
           roles: ["stability_member"],
         }),
@@ -259,7 +259,7 @@ describe("bumping API routes", () => {
       const body = (await created.json()) as {
         bumpingCase: { createdById: string };
       };
-      expect(body.bumpingCase.createdById).toBe("user-stability-243");
+      expect(body.bumpingCase.createdById).toBe("user-stability-7");
     });
   });
 
@@ -298,7 +298,7 @@ describe("bumping API routes", () => {
 
     it("lets a steward and local_exec read a local case but not patch it", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       const viewed = await getCase(
         new Request("http://localhost"),
@@ -344,8 +344,8 @@ describe("bumping API routes", () => {
         bumpingCase: { status: string; unionId: string; localId: string };
       };
       expect(body.bumpingCase.status).toBe("closed");
-      expect(body.bumpingCase.unionId).toBe("union-opseu");
-      expect(body.bumpingCase.localId).toBe("local-243");
+      expect(body.bumpingCase.unionId).toBe("union-b7p");
+      expect(body.bumpingCase.localId).toBe("local-7");
     });
   });
 
@@ -371,8 +371,8 @@ describe("bumping API routes", () => {
       const body = (await created.json()) as {
         note: { authorId: string; authorName: string; body: string };
       };
-      expect(body.note.authorId).toBe("user-president-243");
-      expect(body.note.authorName).toBe("Local 243 President");
+      expect(body.note.authorId).toBe("user-president-7");
+      expect(body.note.authorName).toBe("Local 7 President");
       expect(body.note.body).toBe(
         "Need HR clarification on supervisory duties.",
       );
@@ -401,7 +401,7 @@ describe("bumping API routes", () => {
       const body = (await created.json()) as {
         decision: { recordedById: string; outcome: string };
       };
-      expect(body.decision.recordedById).toBe("user-president-243");
+      expect(body.decision.recordedById).toBe("user-president-7");
       expect(body.decision.outcome).toBe("Proceed with bump");
       expect(
         (await memoryBumpingStore.getById("bump-001"))?.bumpingCase.status,
@@ -432,13 +432,13 @@ describe("bumping API routes", () => {
       const body = (await created.json()) as {
         session: { createdById: string; agenda: string };
       };
-      expect(body.session.createdById).toBe("user-president-243");
+      expect(body.session.createdById).toBe("user-president-7");
       expect(body.session.agenda).toBe("Review position descriptions");
     });
 
     it("returns 403 when a steward writes notes, decisions, or sessions", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       expect(
         (await addNote(jsonRequest({ body: "Nope" }), params("bump-001")))
@@ -531,7 +531,7 @@ describe("bumping API routes", () => {
         "Member E",
         "Member B",
       ]);
-      expect(body.ranked.every((r) => r.localId === "local-243")).toBe(true);
+      expect(body.ranked.every((r) => r.localId === "local-7")).toBe(true);
       expect(body.ranked.every((r) => r.active)).toBe(true);
       expect(body.ranked.map((r) => r.memberRef)).not.toContain(
         "Member Other Local",

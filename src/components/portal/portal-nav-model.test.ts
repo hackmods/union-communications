@@ -130,8 +130,8 @@ describe("circleHrefForDispatch", () => {
     expect(circleHrefForDispatch("circle-jhsc-243", "roll_call")).toBe(
       "/portal/circles/circle-jhsc-243?tab=rollCall",
     );
-    expect(circleHrefForDispatch("circle-lec-243", "pipeline")).toBe(
-      "/portal/circles/circle-lec-243?tab=pipeline",
+    expect(circleHrefForDispatch("circle-lec-7", "pipeline")).toBe(
+      "/portal/circles/circle-lec-7?tab=pipeline",
     );
     expect(circleHrefForDispatch("circle-hall-243", "mention")).toBe(
       "/portal/circles/circle-hall-243?tab=bulletin",

@@ -37,12 +37,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -93,7 +93,7 @@ describe("checkins API routes", () => {
         { question: "Other union", cadence: "daily" },
         {
           unionId: "union-other",
-          localId: "local-243",
+          localId: "local-7",
           createdById: "user-x",
           createdByName: "X",
         },
@@ -101,8 +101,8 @@ describe("checkins API routes", () => {
       await memoryCheckinsStore.createSchedule(
         { question: "Other local", cadence: "daily" },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           createdById: "user-y",
           createdByName: "Y",
         },
@@ -114,17 +114,17 @@ describe("checkins API routes", () => {
       const body = (await res.json()) as {
         schedules: Array<{ question: string; unionId: string; localId: string }>;
       };
-      expect(body.schedules.every((s) => s.unionId === "union-opseu")).toBe(
+      expect(body.schedules.every((s) => s.unionId === "union-b7p")).toBe(
         true,
       );
-      expect(body.schedules.every((s) => s.localId === "local-243")).toBe(true);
+      expect(body.schedules.every((s) => s.localId === "local-7")).toBe(true);
       expect(body.schedules.map((s) => s.question)).not.toContain("Other union");
       expect(body.schedules.map((s) => s.question)).not.toContain("Other local");
     });
 
     it("forbids a steward from creating a schedule", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       const res = await createCheckin(jsonRequest(validCreate));
       expect(res.status).toBe(403);
@@ -154,9 +154,9 @@ describe("checkins API routes", () => {
           active: boolean;
         };
       };
-      expect(body.schedule.unionId).toBe("union-opseu");
-      expect(body.schedule.localId).toBe("local-243");
-      expect(body.schedule.createdById).toBe("user-president-243");
+      expect(body.schedule.unionId).toBe("union-b7p");
+      expect(body.schedule.localId).toBe("local-7");
+      expect(body.schedule.createdById).toBe("user-president-7");
       expect(body.schedule.cadence).toBe("daily");
       expect(body.schedule.active).toBe(true);
     });
@@ -226,7 +226,7 @@ describe("checkins API routes", () => {
         .schedule;
 
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       const wrongPeriod = await postAnswer(
         jsonRequest({ body: "Too old", periodKey: "1999-01-01" }),
@@ -251,9 +251,9 @@ describe("checkins API routes", () => {
           periodKey: string;
         };
       };
-      expect(body.answer.authorId).toBe("user-steward-243");
-      expect(body.answer.unionId).toBe("union-opseu");
-      expect(body.answer.localId).toBe("local-243");
+      expect(body.answer.authorId).toBe("user-steward-7");
+      expect(body.answer.unionId).toBe("union-b7p");
+      expect(body.answer.localId).toBe("local-7");
       expect(body.answer.body).toBe("Filed two Step 1s.");
       expect(body.answer.periodKey).toBe(formatUtcDateKey(new Date()));
 
@@ -279,7 +279,7 @@ describe("checkins API routes", () => {
       expect(patched.status).toBe(200);
 
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       const res = await postAnswer(
         jsonRequest({ body: "Still working" }),

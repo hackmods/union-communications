@@ -98,7 +98,7 @@ You can leave `*_DB_BACKEND` unset (memory) for this step — the goal is to con
 [entrypoint] running database deploy gate (migrate + verify)
 [db-deploy] connecting with owner migration role
 [db-deploy] journal schema=drizzle; applying pending migrations
-[db-deploy] verified tail=0036_verified_boot_reconcile schema=public tables=60 columns=697 policies=43
+[db-deploy] verified tail=0037_b7p_demo_tenant schema=public tables=60 columns=697 policies=43
 [entrypoint] database deploy gate passed
 [entrypoint] syncing unionops_app password
 [sync-app-role] unionops_app password synced from POSTGRES_APP_PASSWORD

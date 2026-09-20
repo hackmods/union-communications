@@ -6,34 +6,34 @@ import { informalLogStore } from "@/lib/informal-log/store";
 import { snippetStore } from "@/lib/snippets/memory-adapter";
 import { taskStore } from "@/lib/tasks/store";
 
-const unionId = "union-opseu";
-const localId = "local-243";
+const unionId = "union-b7p";
+const localId = "local-7";
 
 describe("demo collection seeds (FT vs PT)", () => {
   it("keeps PT-only casework off the FT collection filter", async () => {
     const [grievances, tasks, logs, snippets, threads, checkins] =
       await Promise.all([
-        grievanceStore.list({ unionId, localId, bargainingUnitId: "bu-243-ft" }),
-        taskStore.list({ unionId, localId, bargainingUnitId: "bu-243-ft" }),
+        grievanceStore.list({ unionId, localId, bargainingUnitId: "bu-7-ft" }),
+        taskStore.list({ unionId, localId, bargainingUnitId: "bu-7-ft" }),
         informalLogStore.list({
           unionId,
           localId,
-          bargainingUnitId: "bu-243-ft",
+          bargainingUnitId: "bu-7-ft",
         }),
         snippetStore.list({
           unionId,
           localId,
-          bargainingUnitId: "bu-243-ft",
+          bargainingUnitId: "bu-7-ft",
         }),
         discussionsStore.listThreads({
           unionId,
           localId,
-          bargainingUnitId: "bu-243-ft",
+          bargainingUnitId: "bu-7-ft",
         }),
         checkinsStore.listSchedules({
           unionId,
           localId,
-          bargainingUnitId: "bu-243-ft",
+          bargainingUnitId: "bu-7-ft",
         }),
       ]);
 
@@ -55,27 +55,27 @@ describe("demo collection seeds (FT vs PT)", () => {
   it("shows distinct PT Support examples when the PT collection is active", async () => {
     const [grievances, tasks, logs, snippets, threads, checkins, grev] =
       await Promise.all([
-        grievanceStore.list({ unionId, localId, bargainingUnitId: "bu-243-pt" }),
-        taskStore.list({ unionId, localId, bargainingUnitId: "bu-243-pt" }),
+        grievanceStore.list({ unionId, localId, bargainingUnitId: "bu-7-pt" }),
+        taskStore.list({ unionId, localId, bargainingUnitId: "bu-7-pt" }),
         informalLogStore.list({
           unionId,
           localId,
-          bargainingUnitId: "bu-243-pt",
+          bargainingUnitId: "bu-7-pt",
         }),
         snippetStore.list({
           unionId,
           localId,
-          bargainingUnitId: "bu-243-pt",
+          bargainingUnitId: "bu-7-pt",
         }),
         discussionsStore.listThreads({
           unionId,
           localId,
-          bargainingUnitId: "bu-243-pt",
+          bargainingUnitId: "bu-7-pt",
         }),
         checkinsStore.listSchedules({
           unionId,
           localId,
-          bargainingUnitId: "bu-243-pt",
+          bargainingUnitId: "bu-7-pt",
         }),
         grievanceStore.getById("grev-002"),
       ]);
@@ -98,7 +98,7 @@ describe("demo collection seeds (FT vs PT)", () => {
 
     const ptTask = tasks.find((t) => t.id === "task-004");
     expect(ptTask?.relatedGrievanceId).toBe("grev-002");
-    expect(ptTask?.assigneeId).toBe("user-steward-243-pt");
+    expect(ptTask?.assigneeId).toBe("user-steward-7-pt");
 
     const hoursLog = logs.find((e) => e.id === "ilog-003");
     expect(hoursLog?.topic).toMatch(/additional hours/i);
@@ -112,8 +112,8 @@ describe("demo collection seeds (FT vs PT)", () => {
 
   it("keeps local-wide rows visible in both collections", async () => {
     const [ftTasks, ptTasks] = await Promise.all([
-      taskStore.list({ unionId, localId, bargainingUnitId: "bu-243-ft" }),
-      taskStore.list({ unionId, localId, bargainingUnitId: "bu-243-pt" }),
+      taskStore.list({ unionId, localId, bargainingUnitId: "bu-7-ft" }),
+      taskStore.list({ unionId, localId, bargainingUnitId: "bu-7-pt" }),
     ]);
     expect(ftTasks.map((t) => t.id)).toContain("task-002");
     expect(ptTasks.map((t) => t.id)).toContain("task-002");

@@ -32,12 +32,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -91,11 +91,11 @@ describe("committees API routes", () => {
     it("does not list another union or another local for a president", async () => {
       await memoryCommitteesStore.create(
         { name: "Other union H&S" },
-        { unionId: "union-other", localId: "local-243" },
+        { unionId: "union-other", localId: "local-7" },
       );
       await memoryCommitteesStore.create(
         { name: "Other local social" },
-        { unionId: "union-opseu", localId: "local-560" },
+        { unionId: "union-b7p", localId: "local-1337" },
       );
 
       authMock.mockResolvedValue(session());
@@ -104,8 +104,8 @@ describe("committees API routes", () => {
       const body = (await res.json()) as {
         committees: Array<{ name: string; unionId: string; localId: string }>;
       };
-      expect(body.committees.every((c) => c.unionId === "union-opseu")).toBe(true);
-      expect(body.committees.every((c) => c.localId === "local-243")).toBe(true);
+      expect(body.committees.every((c) => c.unionId === "union-b7p")).toBe(true);
+      expect(body.committees.every((c) => c.localId === "local-7")).toBe(true);
       expect(body.committees.map((c) => c.name)).not.toContain("Other union H&S");
       expect(body.committees.map((c) => c.name)).not.toContain("Other local social");
     });
@@ -133,8 +133,8 @@ describe("committees API routes", () => {
           memberOfficerIds: string[];
         };
       };
-      expect(body.committee.unionId).toBe("union-opseu");
-      expect(body.committee.localId).toBe("local-243");
+      expect(body.committee.unionId).toBe("union-b7p");
+      expect(body.committee.localId).toBe("local-7");
       expect(body.committee.name).toBe("Grievance");
       expect(body.committee.memberOfficerIds).toEqual(["off-003"]);
     });
@@ -190,7 +190,7 @@ describe("committees API routes", () => {
     it("lets a union_admin read another local in the same union, but a president cannot", async () => {
       const otherLocal = await memoryCommitteesStore.create(
         { name: "Local 560 H&S" },
-        { unionId: "union-opseu", localId: "local-560" },
+        { unionId: "union-b7p", localId: "local-1337" },
       );
 
       authMock.mockResolvedValue(session());
@@ -210,7 +210,7 @@ describe("committees API routes", () => {
       );
       expect(admin.status).toBe(200);
       const body = (await admin.json()) as { committee: { localId: string } };
-      expect(body.committee.localId).toBe("local-560");
+      expect(body.committee.localId).toBe("local-1337");
     });
 
     it("clears description on PATCH and deletes a same-local committee", async () => {

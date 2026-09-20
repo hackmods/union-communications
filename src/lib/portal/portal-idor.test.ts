@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { portalStore } from "@/lib/portal/memory-adapter";
 
-const UNION = "union-opseu";
-const HALL = "circle-hall-243";
-const LEC = "circle-lec-243";
+const UNION = "union-b7p";
+const HALL = "circle-hall-7";
+const LEC = "circle-lec-7";
 
 describe("portal circle-scoped mutations (IDOR guards)", () => {
   it("rejects comments on bulletin posts in another Circle", () => {
     const post = portalStore.addBulletin({
       circleId: LEC,
       unionId: UNION,
-      authorId: "user-president-243",
+      authorId: "user-president-7",
       authorName: "President",
       title: "LEC only",
       body: "Private to LEC",
@@ -20,7 +20,7 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
       circleId: HALL,
       unionId: UNION,
       postId: post.id,
-      authorId: "user-member-243",
+      authorId: "user-member-7",
       authorName: "Member",
       body: "Cross-circle comment",
     });
@@ -34,7 +34,7 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
       unionId: UNION,
       listName: "Actions",
       title: "LEC task",
-      createdById: "user-president-243",
+      createdById: "user-president-7",
     });
 
     expect(
@@ -47,7 +47,7 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
     const post = portalStore.addBulletin({
       circleId: LEC,
       unionId: UNION,
-      authorId: "user-president-243",
+      authorId: "user-president-7",
       authorName: "President",
       title: "Do not delete from Hall",
       body: "Still here",
@@ -59,7 +59,7 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
         post.id,
         HALL,
         UNION,
-        "user-member-243",
+        "user-member-7",
       ),
     ).toBe(false);
 
@@ -69,7 +69,7 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
         post.id,
         LEC,
         UNION,
-        "user-president-243",
+        "user-president-7",
       ),
     ).toBe(true);
   });
@@ -82,7 +82,7 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
     expect(board).not.toBeNull();
     const detail = portalStore.getCircleDetail(
       UNION,
-      "user-president-243",
+      "user-president-7",
       LEC,
     );
     const columnId = detail?.pipelineColumns[0]?.id;
@@ -111,7 +111,7 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
       portalStore.addRollCallAnswer({
         questionId: question.id,
         circleId: HALL,
-        authorId: "user-member-243",
+        authorId: "user-member-7",
         authorName: "Member",
         body: "Wrong circle",
       }),
@@ -122,7 +122,7 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
     const post = portalStore.addBulletin({
       circleId: LEC,
       unionId: UNION,
-      authorId: "user-president-243",
+      authorId: "user-president-7",
       authorName: "President",
       title: "Pin target",
       body: "Body",
@@ -138,7 +138,7 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
       unionId: UNION,
       title: "LEC progress",
       progress: 10,
-      updatedById: "user-president-243",
+      updatedById: "user-president-7",
       updatedByName: "President",
     });
     expect(item).not.toBeNull();
@@ -150,14 +150,14 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
       unionId: UNION,
       title: "Hijacked",
       progress: 99,
-      updatedById: "user-member-243",
+      updatedById: "user-member-7",
       updatedByName: "Member",
     });
 
     expect(cross).toBeNull();
     const detail = portalStore.getCircleDetail(
       UNION,
-      "user-president-243",
+      "user-president-7",
       LEC,
     );
     expect(detail?.momentum.find((m) => m.id === item.id)?.progress).toBe(10);

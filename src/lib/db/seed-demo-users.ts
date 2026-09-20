@@ -1,6 +1,6 @@
 /**
  * Upsert DEMO_USERS into Postgres so durable hosts match the login Callout
- * (president.243@unionops.test / demo123, etc.). Skip with SEED_DEMO_USERS=false.
+ * (president.7@unionops.test / demo123, etc.). Skip with SEED_DEMO_USERS=false.
  */
 import { DEMO_SHARED_PASSWORD } from "@/lib/auth/demo-login-accounts";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
@@ -24,6 +24,7 @@ export async function seedDemoUsersToPostgres(): Promise<{
   let upserted = 0;
   for (const user of DEMO_USERS) {
     await upsertPostgresUser({
+      userId: user.id,
       email: user.email,
       name: user.name,
       password: DEMO_ROSTER_PASSWORD,
@@ -35,6 +36,7 @@ export async function seedDemoUsersToPostgres(): Promise<{
       roles: user.roles as UserRole[],
       totpSecret: user.totpSecret ?? null,
       mfaEnabled: Boolean(user.totpSecret),
+      isDemo: true,
     });
     upserted += 1;
   }

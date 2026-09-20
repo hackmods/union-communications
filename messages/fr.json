@@ -187,7 +187,7 @@
     "loading": "Chargement…",
     "statusCode": "404",
     "slogan": "Solidarity.",
-    "local243Footnote": "P.-S. Les aperçus sans numéro de section atterrissent encore sur 243.",
+    "local243Footnote": "P.-S. Les aperçus sans numéro de section atterrissent encore sur la section 7 (B7P).",
     "markAria": "Marque UnionOps",
     "easterEggTitle": "JUST BE LOVED",
     "easterEggBody": "Vous avez trouvé la motoneige. Respirez. Puis continuez de bâtir Solidarity.",
@@ -198,7 +198,7 @@
         "Cette page n’a jamais joint l’unité de négociation.",
         "Hors service — et hors carte.",
         "Nous avons déposé un grief contre l’URL. Aucune réponse.",
-        "Vous cherchez la section 243? Mauvaise porte — mais vous avez trouvé le clin d’œil.",
+        "Vous cherchez la section 7? Mauvaise porte — mais vous avez trouvé le clin d’œil B7P.",
         "Cette URL a quitté la ligne de piquetage.",
         "Disparue en solidarité — essayez un chemin connu."
       ],
@@ -7098,6 +7098,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "b7p-demo-roster": {
+        "title": "Les comptes Hub d'exemple sont Behind 7 Proxies",
+        "body": "Les connexions d'atelier utilisent les sections 7, 404, 502 et 1337 sous Behind 7 Proxies (B7P), pour ne plus ressembler aux vrais numéros de section OPSEU / SEFPO. Le mot de passe commun reste demo123 quand l'auth démo est active."
+      },
       "demo-cleanup-purge": {
         "title": "Le nettoyage démo peut supprimer les comptes exemples",
         "body": "Les opérateurs de la plateforme peuvent prévisualiser et supprimer définitivement les rangées marquées démo, avec une confirmation saisie et une vérification du mot de passe. Les données d'atelier n'ont plus à rester sur un hôte en production."
@@ -7677,15 +7681,15 @@
       "password": "Mot de passe commun : {password}",
       "fill": "Remplir {role}",
       "roles": {
-        "president243": "Président de la section 243",
-        "steward243": "Délégué de la section 243 (temps plein)",
-        "stewardPt243": "Délégué de la section 243 (temps partiel)",
-        "jointLead145": "Responsable de comité conjoint, section 145",
-        "divisionAdmin": "Administrateur de division (plusieurs sections)",
-        "president415": "Président de la section 415",
-        "president560": "Président de la section 560",
-        "stability243": "Comité de stabilité, section 243",
-        "member243": "Membre de la section 243",
+        "president7": "Président de la section 7 (B7P)",
+        "steward7": "Délégué de la section 7 (temps plein)",
+        "stewardPt7": "Délégué de la section 7 (temps partiel)",
+        "jointLead404": "Responsable de comité conjoint, section 404",
+        "divisionAdmin": "Administrateur de division B7P (plusieurs sections)",
+        "president502": "Président de la section 502",
+        "president1337": "Président de la section 1337",
+        "stability7": "Comité de stabilité, section 7",
+        "member7": "Membre de la section 7",
         "solo": "Délégué sans section"
       }
     },
@@ -8673,7 +8677,7 @@
     "backToList": "Retour aux discussions",
     "reply": "Répondre",
     "postReply": "Publier la réponse",
-    "mentionHint": "Tapez @ suivi du nom d’un dirigeant pour le mentionner (p. ex. @Local 243 President).",
+    "mentionHint": "Tapez @ suivi du nom d’un dirigeant pour le mentionner (p. ex. @Local 7 President).",
     "mentionedCount": "{count, plural, one {# personne citée} other {# personnes citées}}",
     "livePollHint": "Mise à jour toutes les 15 secondes tant que cet onglet est ouvert."
   },

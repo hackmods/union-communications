@@ -24,8 +24,8 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-1",
-      unionId: input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
-      localId: input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+      unionId: input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
+      localId: input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       bargainingUnitId: input?.bargainingUnitId,
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
     },
@@ -36,7 +36,7 @@ function session(input?: {
 const otherUnionEntry: InformalLogEntry = {
   id: "log-other",
   unionId: "union-other",
-  localId: "local-243",
+  localId: "local-7",
   topic: "Hours",
   channel: "phone",
   summary: "Other union",
@@ -65,19 +65,19 @@ describe("informal log session helpers", () => {
   it("pins stewards to session local and collection; solo accounts list the whole union", () => {
     expect(
       listFiltersForInformalLogSession(
-        session({ bargainingUnitId: "bu-243-ft" }),
+        session({ bargainingUnitId: "bu-7-ft" }),
       ),
     ).toEqual({
-      unionId: "union-opseu",
-      localId: "local-243",
-      bargainingUnitId: "bu-243-ft",
+      unionId: "union-b7p",
+      localId: "local-7",
+      bargainingUnitId: "bu-7-ft",
     });
 
     expect(
       listFiltersForInformalLogSession(
-        session({ roles: ["solo_account"], localId: "local-243" }),
+        session({ roles: ["solo_account"], localId: "local-7" }),
       ),
-    ).toEqual({ unionId: "union-opseu" });
+    ).toEqual({ unionId: "union-b7p" });
   });
 
   it("lets cross-local admins drop local/collection filters only when localId is empty", () => {
@@ -85,14 +85,14 @@ describe("informal log session helpers", () => {
       listFiltersForInformalLogSession(
         session({
           roles: ["union_admin"],
-          localId: "local-243",
-          bargainingUnitId: "bu-243-ft",
+          localId: "local-7",
+          bargainingUnitId: "bu-7-ft",
         }),
       ),
     ).toEqual({
-      unionId: "union-opseu",
-      localId: "local-243",
-      bargainingUnitId: "bu-243-ft",
+      unionId: "union-b7p",
+      localId: "local-7",
+      bargainingUnitId: "bu-7-ft",
     });
 
     expect(
@@ -100,11 +100,11 @@ describe("informal log session helpers", () => {
         session({
           roles: ["union_admin"],
           localId: null,
-          bargainingUnitId: "bu-243-ft",
+          bargainingUnitId: "bu-7-ft",
         }),
       ),
     ).toEqual({
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       localId: undefined,
       bargainingUnitId: undefined,
     });
@@ -112,8 +112,8 @@ describe("informal log session helpers", () => {
 
   it("stamps creates from the session, with solo fallbacks when tenant ids are missing", () => {
     expect(tenantIdsForInformalLogSession(session())).toEqual({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       bargainingUnitId: undefined,
     });
     expect(

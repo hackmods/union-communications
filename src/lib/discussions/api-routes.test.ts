@@ -36,12 +36,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -100,7 +100,7 @@ describe("discussions API routes", () => {
         { title: "Other union", body: "Must never appear" },
         {
           unionId: "union-other",
-          localId: "local-243",
+          localId: "local-7",
           createdById: "user-x",
           createdByName: "X",
         },
@@ -108,8 +108,8 @@ describe("discussions API routes", () => {
       await memoryDiscussionsStore.createThread(
         { title: "Other local", body: "Same union, other local" },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           createdById: "user-y",
           createdByName: "Y",
         },
@@ -121,8 +121,8 @@ describe("discussions API routes", () => {
       const body = (await res.json()) as {
         threads: Array<{ title: string; unionId: string; localId: string }>;
       };
-      expect(body.threads.every((t) => t.unionId === "union-opseu")).toBe(true);
-      expect(body.threads.every((t) => t.localId === "local-243")).toBe(true);
+      expect(body.threads.every((t) => t.unionId === "union-b7p")).toBe(true);
+      expect(body.threads.every((t) => t.localId === "local-7")).toBe(true);
       expect(body.threads.map((t) => t.title)).not.toContain("Other union");
       expect(body.threads.map((t) => t.title)).not.toContain("Other local");
     });
@@ -150,10 +150,10 @@ describe("discussions API routes", () => {
           postCount: number;
         };
       };
-      expect(body.thread.unionId).toBe("union-opseu");
-      expect(body.thread.localId).toBe("local-243");
+      expect(body.thread.unionId).toBe("union-b7p");
+      expect(body.thread.localId).toBe("local-7");
       expect(body.thread.title).toBe("Board duty rotation");
-      expect(body.thread.createdById).toBe("user-president-243");
+      expect(body.thread.createdById).toBe("user-president-7");
       expect(body.thread.postCount).toBe(1);
     });
 
@@ -238,7 +238,7 @@ describe("discussions API routes", () => {
 
     it("lets a steward post on a standalone thread and toggle a reaction", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       const posted = await createPost(
         jsonRequest({ body: "I can cover Thursday." }),
@@ -248,8 +248,8 @@ describe("discussions API routes", () => {
       const body = (await posted.json()) as {
         post: { authorId: string; unionId: string; body: string };
       };
-      expect(body.post.authorId).toBe("user-steward-243");
-      expect(body.post.unionId).toBe("union-opseu");
+      expect(body.post.authorId).toBe("user-steward-7");
+      expect(body.post.unionId).toBe("union-b7p");
       expect(body.post.body).toBe("I can cover Thursday.");
 
       const extraKeys = await toggleReaction(
@@ -268,7 +268,7 @@ describe("discussions API routes", () => {
       };
       expect(reactionBody.post.reactions).toEqual(
         expect.arrayContaining([
-          { kind: "ack", userId: "user-steward-243" },
+          { kind: "ack", userId: "user-steward-7" },
         ]),
       );
 

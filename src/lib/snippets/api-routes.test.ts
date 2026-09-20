@@ -30,12 +30,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: input?.name ?? "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: input?.name ?? "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       bargainingUnitId: input?.bargainingUnitId,
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
@@ -90,7 +90,7 @@ describe("snippets API routes", () => {
           title: "Other union clause",
           clauseRef: "Art. 1",
           body: "Must never appear",
-          localId: "local-243",
+          localId: "local-7",
         },
         {
           unionId: "union-other",
@@ -103,10 +103,10 @@ describe("snippets API routes", () => {
           title: "Other local clause",
           clauseRef: "Art. 2",
           body: "Same union, other local",
-          localId: "local-560",
+          localId: "local-1337",
         },
         {
-          unionId: "union-opseu",
+          unionId: "union-b7p",
           createdById: "user-y",
           createdByName: "Y",
         },
@@ -118,9 +118,9 @@ describe("snippets API routes", () => {
       const body = (await res.json()) as {
         snippets: Array<{ title: string; unionId: string; localId?: string }>;
       };
-      expect(body.snippets.every((s) => s.unionId === "union-opseu")).toBe(true);
+      expect(body.snippets.every((s) => s.unionId === "union-b7p")).toBe(true);
       expect(
-        body.snippets.every((s) => !s.localId || s.localId === "local-243"),
+        body.snippets.every((s) => !s.localId || s.localId === "local-7"),
       ).toBe(true);
       expect(body.snippets.map((s) => s.title)).not.toContain(
         "Other union clause",
@@ -148,8 +148,8 @@ describe("snippets API routes", () => {
     it("rejects a missing body and stamps the session union/creator", async () => {
       authMock.mockResolvedValue(
         session({
-          id: "user-steward-243",
-          name: "Local 243 Steward",
+          id: "user-steward-7",
+          name: "Local 7 Steward",
           roles: ["local_steward"],
         }),
       );
@@ -174,9 +174,9 @@ describe("snippets API routes", () => {
           title: string;
         };
       };
-      expect(body.snippet.unionId).toBe("union-opseu");
-      expect(body.snippet.localId).toBe("local-243");
-      expect(body.snippet.createdById).toBe("user-steward-243");
+      expect(body.snippet.unionId).toBe("union-b7p");
+      expect(body.snippet.localId).toBe("local-7");
+      expect(body.snippet.createdById).toBe("user-steward-7");
       expect(body.snippet.title).toBe(validCreate.title);
     });
 
@@ -225,7 +225,7 @@ describe("snippets API routes", () => {
       expect(await viewed.json()).toEqual({ error: "Forbidden" });
 
       const patched = await patchSnippet(
-        jsonRequest({ title: "Hijacked", unionId: "union-opseu" }),
+        jsonRequest({ title: "Hijacked", unionId: "union-b7p" }),
         params(foreign.id),
       );
       expect(patched.status).toBe(403);
@@ -244,7 +244,7 @@ describe("snippets API routes", () => {
     it("ignores forged tenant keys on PATCH of an owned snippet", async () => {
       authMock.mockResolvedValue(
         session({
-          id: "user-steward-243-pt",
+          id: "user-steward-7-pt",
           roles: ["local_steward"],
         }),
       );
@@ -267,14 +267,14 @@ describe("snippets API routes", () => {
         };
       };
       expect(body.snippet.title).toBe("Updated additional hours");
-      expect(body.snippet.unionId).toBe("union-opseu");
-      expect(body.snippet.localId).toBe("local-243");
-      expect(body.snippet.createdById).toBe("user-steward-243-pt");
+      expect(body.snippet.unionId).toBe("union-b7p");
+      expect(body.snippet.localId).toBe("local-7");
+      expect(body.snippet.createdById).toBe("user-steward-7-pt");
     });
 
     it("lets the author delete and forbids another steward", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       expect(
         (await deleteSnippet(new Request("http://localhost"), params("snip-004")))
@@ -283,7 +283,7 @@ describe("snippets API routes", () => {
       expect(await snippetStore.getById("snip-004")).not.toBeNull();
 
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243-pt", roles: ["local_steward"] }),
+        session({ id: "user-steward-7-pt", roles: ["local_steward"] }),
       );
       const deleted = await deleteSnippet(
         new Request("http://localhost"),

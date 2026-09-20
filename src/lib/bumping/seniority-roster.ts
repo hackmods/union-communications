@@ -7,8 +7,8 @@ import type { MemberSeniorityRecord } from "@/types/bumping";
 export const SEED_SENIORITY_ROSTER: MemberSeniorityRecord[] = [
   {
     id: "snr-001",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     memberRef: "Member A",
     seniorityDate: "2015-03-01",
     classification: "Administrative Assistant I",
@@ -16,8 +16,8 @@ export const SEED_SENIORITY_ROSTER: MemberSeniorityRecord[] = [
   },
   {
     id: "snr-002",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     memberRef: "Member B",
     seniorityDate: "2017-06-15",
     classification: "Administrative Assistant I",
@@ -25,8 +25,8 @@ export const SEED_SENIORITY_ROSTER: MemberSeniorityRecord[] = [
   },
   {
     id: "snr-003",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     memberRef: "Member C",
     seniorityDate: "2018-09-01",
     classification: "Administrative Assistant II",
@@ -34,8 +34,8 @@ export const SEED_SENIORITY_ROSTER: MemberSeniorityRecord[] = [
   },
   {
     id: "snr-004",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     memberRef: "Member D",
     seniorityDate: "2012-01-10",
     classification: "Administrative Assistant I",
@@ -43,8 +43,8 @@ export const SEED_SENIORITY_ROSTER: MemberSeniorityRecord[] = [
   },
   {
     id: "snr-005",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     memberRef: "Member E",
     seniorityDate: "2016-11-20",
     classification: "Administrative Assistant I",
@@ -52,7 +52,7 @@ export const SEED_SENIORITY_ROSTER: MemberSeniorityRecord[] = [
   },
   {
     id: "snr-006",
-    unionId: "union-opseu",
+    unionId: "union-b7p",
     localId: "local-999",
     memberRef: "Member Other Local",
     seniorityDate: "2010-01-01",

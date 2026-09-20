@@ -22,12 +22,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: input?.name ?? "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: input?.name ?? "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -78,12 +78,12 @@ describe("handoff API routes", () => {
         grievances: Array<{ id: string; unionId: string; localId: string; status: string }>;
         stewards: Array<{ id: string }>;
       };
-      expect(body.grievances.every((g) => g.unionId === "union-opseu")).toBe(true);
-      expect(body.grievances.every((g) => g.localId === "local-243")).toBe(true);
+      expect(body.grievances.every((g) => g.unionId === "union-b7p")).toBe(true);
+      expect(body.grievances.every((g) => g.localId === "local-7")).toBe(true);
       expect(body.grievances.every((g) => g.status !== "resolved")).toBe(true);
       expect(body.grievances.map((g) => g.id)).not.toContain("grev-003");
       expect(body.stewards.map((s) => s.id)).toEqual(
-        expect.arrayContaining(["user-steward-243", "user-steward-243-pt"]),
+        expect.arrayContaining(["user-steward-7", "user-steward-7-pt"]),
       );
     });
   });
@@ -95,8 +95,8 @@ describe("handoff API routes", () => {
         (
           await completeHandoff(
             jsonRequest({
-              toStewardId: "user-steward-243",
-              toStewardName: "Local 243 Steward (FT)",
+              toStewardId: "user-steward-7",
+              toStewardName: "Local 7 Steward (FT)",
               grievanceIds: ["grev-001"],
             }),
           )
@@ -112,8 +112,8 @@ describe("handoff API routes", () => {
       authMock.mockResolvedValue(session({ unionId: null, localId: null }));
       const res = await completeHandoff(
         jsonRequest({
-          toStewardId: "user-steward-243",
-          toStewardName: "Local 243 Steward (FT)",
+          toStewardId: "user-steward-7",
+          toStewardName: "Local 7 Steward (FT)",
           grievanceIds: ["grev-001"],
         }),
       );
@@ -142,8 +142,8 @@ describe("handoff API routes", () => {
       authMock.mockResolvedValue(session());
       const res = await completeHandoff(
         jsonRequest({
-          toStewardId: "user-steward-243-pt",
-          toStewardName: "Local 243 Steward (PT)",
+          toStewardId: "user-steward-7-pt",
+          toStewardName: "Local 7 Steward (PT)",
           grievanceIds: ["grev-001", foreign.grievance.id, "grev-003"],
           notes: "Coverage while I am away",
         }),
@@ -155,10 +155,10 @@ describe("handoff API routes", () => {
       };
       expect(body.reassigned).toBe(1);
       expect(body.package.grievanceIds).toEqual(["grev-001"]);
-      expect(body.package.toStewardId).toBe("user-steward-243-pt");
+      expect(body.package.toStewardId).toBe("user-steward-7-pt");
 
       const updated = await grievanceStore.getById("grev-001");
-      expect(updated?.grievance.assignedStewardId).toBe("user-steward-243-pt");
+      expect(updated?.grievance.assignedStewardId).toBe("user-steward-7-pt");
       expect(updated?.notes.some((n) => n.body.includes("Officer handoff"))).toBe(
         true,
       );

@@ -187,7 +187,7 @@
     "loading": "Loading…",
     "statusCode": "404",
     "slogan": "Solidarity.",
-    "local243Footnote": "P.S. Empty local previews still land on 243.",
+    "local243Footnote": "P.S. Empty local previews still land on Local 7 (B7P).",
     "markAria": "UnionOps mark",
     "easterEggTitle": "JUST BE LOVED",
     "easterEggBody": "You found the snowmobile. Take a breath. Then keep shipping Solidarity.",
@@ -198,7 +198,7 @@
         "This page never joined the bargaining unit.",
         "Off the clock — and off the map.",
         "We filed a grievance with the URL. No response.",
-        "Looking for Local 243? Wrong door — but you found the wink.",
+        "Looking for Local 7? Wrong door — but you found the B7P wink.",
         "This URL walked off the picket line.",
         "Missing in solidarity — try a known path."
       ],
@@ -7151,6 +7151,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "b7p-demo-roster": {
+        "title": "Sample Hub accounts are Behind 7 Proxies now",
+        "body": "Workshop logins use Local 7, 404, 502, and 1337 under Behind 7 Proxies (B7P), so they no longer look like real OPSEU / SEFPO local numbers. Shared password is still demo123 when demo auth is on."
+      },
       "demo-cleanup-purge": {
         "title": "Demo cleanup can purge leftover sample accounts",
         "body": "Platform operators can preview and permanently remove rows flagged as demo, with a typed confirmation and password check. Workshop sample data no longer has to linger on a live host."
@@ -7730,15 +7734,15 @@
       "password": "Shared password: {password}",
       "fill": "Fill {role}",
       "roles": {
-        "president243": "Local 243 president",
-        "steward243": "Local 243 steward (full-time)",
-        "stewardPt243": "Local 243 steward (part-time)",
-        "jointLead145": "Local 145 joint-committee lead",
-        "divisionAdmin": "Division administrator (several locals)",
-        "president415": "Local 415 president",
-        "president560": "Local 560 president",
-        "stability243": "Local 243 stability committee",
-        "member243": "Local 243 member",
+        "president7": "Local 7 president (B7P)",
+        "steward7": "Local 7 steward (full-time)",
+        "stewardPt7": "Local 7 steward (part-time)",
+        "jointLead404": "Local 404 joint-committee lead",
+        "divisionAdmin": "B7P division admin (several locals)",
+        "president502": "Local 502 president",
+        "president1337": "Local 1337 president",
+        "stability7": "Local 7 stability committee",
+        "member7": "Local 7 member",
         "solo": "Solo steward (no local)"
       }
     },
@@ -8726,7 +8730,7 @@
     "backToList": "Back to discussions",
     "reply": "Reply",
     "postReply": "Post reply",
-    "mentionHint": "Type @ followed by an officer name to mention them (e.g. @Local 243 President).",
+    "mentionHint": "Type @ followed by an officer name to mention them (e.g. @Local 7 President).",
     "mentionedCount": "{count, plural, one {# mention} other {# mentions}}",
     "livePollHint": "Updates every 15 seconds while this tab is open."
   },

@@ -26,11 +26,11 @@ describe("withTenantRlsScope", () => {
     const wrapped = withTenantRlsScope({ list } as never);
     const result = await (wrapped as unknown as {
       list(f: { unionId: string; localId?: string }): Promise<unknown[]>;
-    }).list({ unionId: "union-opseu", localId: "local-243" });
+    }).list({ unionId: "union-b7p", localId: "local-7" });
     expect(result).toEqual(["a"]);
     expect(list).toHaveBeenCalledTimes(1);
     // Args passed through untouched.
-    expect(list).toHaveBeenCalledWith({ unionId: "union-opseu", localId: "local-243" });
+    expect(list).toHaveBeenCalledWith({ unionId: "union-b7p", localId: "local-7" });
   });
 
   it("wraps create() with the tenant context from meta", async () => {
@@ -38,9 +38,9 @@ describe("withTenantRlsScope", () => {
     const wrapped = withTenantRlsScope({ create } as never);
     const result = await (wrapped as unknown as {
       create(i: object, m: { unionId: string }): Promise<object>;
-    }).create({ title: "x" }, { unionId: "union-opseu" });
+    }).create({ title: "x" }, { unionId: "union-b7p" });
     expect(result).toEqual({ id: "task-1" });
-    expect(create).toHaveBeenCalledWith({ title: "x" }, { unionId: "union-opseu" });
+    expect(create).toHaveBeenCalledWith({ title: "x" }, { unionId: "union-b7p" });
   });
 
   it("passes methods without a derivable scope through unchanged", async () => {

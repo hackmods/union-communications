@@ -27,14 +27,14 @@ import type { GrievanceWithRelations } from "@/types/grievance";
 const sampleGrievance: GrievanceWithRelations = {
   grievance: {
     id: "grev-test",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     category: "Discipline",
     status: "open",
     currentStep: 1,
     filedAt: "2026-01-01T00:00:00.000Z",
-    assignedStewardId: "user-steward-243",
-    createdById: "user-president-243",
+    assignedStewardId: "user-steward-7",
+    createdById: "user-president-7",
     updatedAt: "2026-01-01T00:00:00.000Z",
   },
   events: [
@@ -93,8 +93,8 @@ describe("hybrid live-local session", () => {
 
   it("switches to local mode only while unlocked session exists", async () => {
     const slice = buildHybridSlice({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       grievances: [sampleGrievance],
       bumpingCases: [],
     });
@@ -113,8 +113,8 @@ describe("hybrid live-local session", () => {
 
   it("clears live session when switching back to central", async () => {
     const slice = buildHybridSlice({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       grievances: [sampleGrievance],
       bumpingCases: [],
     });
@@ -129,8 +129,8 @@ describe("hybrid live-local session", () => {
 
   it("mutates slice CRUD and re-encrypts to localStorage", async () => {
     const slice = buildHybridSlice({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       grievances: [sampleGrievance],
       bumpingCases: [],
     });
@@ -146,8 +146,8 @@ describe("hybrid live-local session", () => {
           memberPseudonym: "Member Z",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-243",
+          unionId: "union-b7p",
+          localId: "local-7",
           userId: "user-1",
           authorName: "Officer",
         },
@@ -177,8 +177,8 @@ describe("hybrid live-local session", () => {
 
   it("clearEncryptedSlice also clears the live session", async () => {
     const slice = buildHybridSlice({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       grievances: [sampleGrievance],
       bumpingCases: [],
     });
@@ -192,8 +192,8 @@ describe("hybrid live-local session", () => {
 
   it("clearLiveHybridSession leaves encrypted blob and mode intact", async () => {
     const slice = buildHybridSlice({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       grievances: [sampleGrievance],
       bumpingCases: [],
     });

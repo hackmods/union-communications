@@ -23,9 +23,9 @@ function session(input?: {
     user: {
       id: input?.id ?? "user-1",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
     expires: "2099-01-01T00:00:00.000Z",
@@ -55,34 +55,34 @@ describe("elections session helpers", () => {
 
   it("pins presidents to session local", () => {
     expect(listFiltersForElectionsSession(session())).toEqual({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
     });
   });
 
   it("lets cross-local admins drop the local filter only when localId is empty", () => {
     expect(
       listFiltersForElectionsSession(
-        session({ roles: ["union_admin"], localId: "local-243" }),
+        session({ roles: ["union_admin"], localId: "local-7" }),
       ),
     ).toEqual({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
     });
     expect(
       listFiltersForElectionsSession(
         session({ roles: ["union_admin"], localId: null }),
       ),
     ).toEqual({
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       localId: undefined,
     });
   });
 
   it("stamps creates from the session, with solo fallbacks when tenant ids are missing", () => {
     expect(tenantIdsForElectionsSession(session())).toEqual({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
     });
     expect(
       tenantIdsForElectionsSession(

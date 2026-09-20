@@ -170,7 +170,7 @@ See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/PROGRESS.md`](docs/PROGRESS.
 | [Roadmap](docs/ROADMAP.md) / [Progress](docs/PROGRESS.md) | Phase status |
 | [Contributing](CONTRIBUTING.md) | Source-available contribution rules |
 | [Security](SECURITY.md) | Vulnerability reporting |
-| [Reference tenant](seed/reference-tenant-opseu-caat.json) | OPSEU/CAAT first adopter seed |
+| [Reference tenant](seed/reference-tenant-b7p.json) | B7P Hub demo seed (meme locals; not OPSEU) |
 
 Agent entry point: [`AGENTS.md`](AGENTS.md)
 

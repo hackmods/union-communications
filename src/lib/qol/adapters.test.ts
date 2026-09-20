@@ -10,12 +10,12 @@ import {
 
 describe("snippet adapter", () => {
   it("lists only same-union snippets and supports search", async () => {
-    const all = await snippetStore.list({ unionId: "union-opseu" });
+    const all = await snippetStore.list({ unionId: "union-b7p" });
     expect(all.length).toBeGreaterThan(0);
-    expect(all.every((s) => s.unionId === "union-opseu")).toBe(true);
+    expect(all.every((s) => s.unionId === "union-b7p")).toBe(true);
 
     const filtered = await snippetStore.list({
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       query: "just cause",
     });
     expect(filtered.some((s) => s.id === "snip-001")).toBe(true);
@@ -28,11 +28,11 @@ describe("snippet adapter", () => {
         clauseRef: "Art. 99",
         body: "Test body",
         tags: ["test"],
-        localId: "local-243",
+        localId: "local-7",
       },
       {
-        unionId: "union-opseu",
-        createdById: "user-president-243",
+        unionId: "union-b7p",
+        createdById: "user-president-7",
         createdByName: "President",
       },
     );
@@ -48,11 +48,11 @@ describe("snippet adapter", () => {
 
 describe("marketplace adapter", () => {
   it("isolates by unionId and filters by kind", async () => {
-    const all = await marketplaceStore.list({ unionId: "union-opseu" });
-    expect(all.every((t) => t.unionId === "union-opseu")).toBe(true);
+    const all = await marketplaceStore.list({ unionId: "union-b7p" });
+    expect(all.every((t) => t.unionId === "union-b7p")).toBe(true);
 
     const emails = await marketplaceStore.list({
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       kind: "email",
     });
     expect(emails.every((t) => t.kind === "email")).toBe(true);
@@ -68,13 +68,13 @@ describe("marketplace adapter", () => {
         body: "body",
       },
       {
-        unionId: "union-opseu",
-        localId: "local-243",
-        sharedById: "user-steward-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        sharedById: "user-steward-7",
         sharedByName: "Steward",
       },
     );
-    expect(created.unionId).toBe("union-opseu");
+    expect(created.unionId).toBe("union-b7p");
     await marketplaceStore.remove(created.id);
   });
 });
@@ -90,9 +90,9 @@ describe("grievance communications and meetings", () => {
         occurredAt: new Date().toISOString(),
       },
       {
-        unionId: "union-opseu",
-        localId: "local-243",
-        loggedById: "user-steward-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        loggedById: "user-steward-7",
         loggedByName: "Steward",
       },
     );
@@ -113,9 +113,9 @@ describe("grievance communications and meetings", () => {
         location: "HR office",
       },
       {
-        unionId: "union-opseu",
-        localId: "local-243",
-        createdById: "user-steward-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        createdById: "user-steward-7",
       },
     );
     expect(meeting?.title).toBe("Step 1 meeting");

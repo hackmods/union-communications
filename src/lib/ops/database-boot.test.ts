@@ -37,7 +37,7 @@ describe("database boot attestation", () => {
         verified: true,
         verifiedAt: "2026-09-20T00:00:00.000Z",
         journalSchema: "drizzle",
-        tailTag: "0036_verified_boot_reconcile",
+        tailTag: "0037_b7p_demo_tenant",
         tailIdx: 36,
         tailCreatedAt: 1789875000000,
         contractVersion: 1,
@@ -50,7 +50,7 @@ describe("database boot attestation", () => {
       mode: "postgres",
       verified: true,
       journalSchema: "drizzle",
-      tailTag: "0036_verified_boot_reconcile",
+      tailTag: "0037_b7p_demo_tenant",
       tailIdx: 36,
     });
   });

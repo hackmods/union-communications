@@ -40,12 +40,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-steward-243",
-      name: input?.name ?? "Local 243 Steward",
+      id: input?.id ?? "user-steward-7",
+      name: input?.name ?? "Local 7 Steward",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
     },
   };
@@ -87,8 +87,8 @@ async function seedPto(input: {
       status: input.status ?? "submitted",
     },
     {
-      unionId: input.unionId ?? "union-opseu",
-      localId: input.localId ?? "local-243",
+      unionId: input.unionId ?? "union-b7p",
+      localId: input.localId ?? "local-7",
       requestedById: input.workerId,
     },
   );
@@ -123,7 +123,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
 
     it("lets a steward list only their own requests and never another union", async () => {
       const own = await seedPto({
-        workerId: "user-steward-243",
+        workerId: "user-steward-7",
         startsAt: "2033-01-01T09:00:00.000Z",
         endsAt: "2033-01-02T17:00:00.000Z",
       });
@@ -134,7 +134,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       });
       const foreign = await seedPto({
         unionId: "union-other",
-        workerId: "user-steward-243",
+        workerId: "user-steward-7",
         startsAt: "2033-01-05T09:00:00.000Z",
         endsAt: "2033-01-06T17:00:00.000Z",
       });
@@ -156,7 +156,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
         endsAt: "2033-02-02T17:00:00.000Z",
       });
       const sister = await seedPto({
-        localId: "local-560",
+        localId: "local-1337",
         workerId: "user-560",
         startsAt: "2033-02-03T09:00:00.000Z",
         endsAt: "2033-02-04T17:00:00.000Z",
@@ -169,7 +169,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       });
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const res = await listPto(new Request("http://localhost/api/time/pto"));
       expect(res.status).toBe(200);
@@ -180,8 +180,8 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       expect(ids).toContain(coworker.id);
       expect(ids).not.toContain(sister.id);
       expect(ids).not.toContain(foreign.id);
-      expect(body.requests.every((r) => r.unionId === "union-opseu")).toBe(true);
-      expect(body.requests.every((r) => r.localId === "local-243")).toBe(true);
+      expect(body.requests.every((r) => r.unionId === "union-b7p")).toBe(true);
+      expect(body.requests.every((r) => r.localId === "local-7")).toBe(true);
     });
 
     it("rejects invalid bodies then stamps session worker, ignoring a forged workerId", async () => {
@@ -220,10 +220,10 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       );
       expect(created.status).toBe(201);
       const body = (await created.json()) as { request: PtoRequest };
-      expect(body.request.unionId).toBe("union-opseu");
-      expect(body.request.localId).toBe("local-243");
+      expect(body.request.unionId).toBe("union-b7p");
+      expect(body.request.localId).toBe("local-7");
       expect(body.request.workerId).toBe("user-pto-create");
-      expect(body.request.workerName).toBe("Local 243 Steward");
+      expect(body.request.workerName).toBe("Local 7 Steward");
       expect(body.request.requestedById).toBe("user-pto-create");
     });
   });
@@ -237,7 +237,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
         endsAt: "2033-03-02T17:00:00.000Z",
       });
       const own = await seedPto({
-        workerId: "user-steward-243",
+        workerId: "user-steward-7",
         startsAt: "2033-03-03T09:00:00.000Z",
         endsAt: "2033-03-04T17:00:00.000Z",
       });
@@ -260,7 +260,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
 
     it("lets a steward cancel their own request and a president approve it", async () => {
       const own = await seedPto({
-        workerId: "user-steward-243",
+        workerId: "user-steward-7",
         startsAt: "2033-04-01T09:00:00.000Z",
         endsAt: "2033-04-02T17:00:00.000Z",
       });
@@ -275,12 +275,12 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       );
 
       const submitted = await seedPto({
-        workerId: "user-steward-243",
+        workerId: "user-steward-7",
         startsAt: "2033-04-05T09:00:00.000Z",
         endsAt: "2033-04-06T17:00:00.000Z",
       });
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const approved = await patchPto(
         jsonRequest({ status: "approved" }),
@@ -289,7 +289,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       expect(approved.status).toBe(200);
       const body = (await approved.json()) as { request: PtoRequest };
       expect(body.request.status).toBe("approved");
-      expect(body.request.approvedById).toBe("user-president-243");
+      expect(body.request.approvedById).toBe("user-president-7");
     });
   });
 
@@ -311,7 +311,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       expect((await upsertSite(jsonRequest(siteBody))).status).toBe(403);
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       expect((await upsertSite(jsonRequest({ name: "Hall" }))).status).toBe(400);
       expect(
@@ -331,8 +331,8 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       );
       expect(created.status).toBe(201);
       const body = (await created.json()) as { site: WorkSite };
-      expect(body.site.unionId).toBe("union-opseu");
-      expect(body.site.localId).toBe("local-243");
+      expect(body.site.unionId).toBe("union-b7p");
+      expect(body.site.localId).toBe("local-7");
       expect(body.site.name).toBe("Hall");
       expect(body.site.geofenceMode).toBe("warn");
     });
@@ -346,7 +346,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
           geofenceRadiusM: 100,
           geofenceMode: "off",
         },
-        { unionId: "union-opseu", localId: "local-243" },
+        { unionId: "union-b7p", localId: "local-7" },
       );
       await memoryTimeStore.upsertSite(
         {
@@ -356,7 +356,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
           geofenceRadiusM: 100,
           geofenceMode: "off",
         },
-        { unionId: "union-opseu", localId: "local-560" },
+        { unionId: "union-b7p", localId: "local-1337" },
       );
       await memoryTimeStore.upsertSite(
         {
@@ -366,11 +366,11 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
           geofenceRadiusM: 100,
           geofenceMode: "block",
         },
-        { unionId: "union-other", localId: "local-243" },
+        { unionId: "union-other", localId: "local-7" },
       );
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const res = await listSites();
       expect(res.status).toBe(200);
@@ -391,13 +391,13 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
           startsAt: "2033-05-01T09:00:00.000Z",
           endsAt: "2033-05-01T17:00:00.000Z",
           category: "staff",
-          assignedWorkerIds: ["user-steward-243"],
+          assignedWorkerIds: ["user-steward-7"],
           status: "draft",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-243",
-          createdById: "user-president-243",
+          unionId: "union-b7p",
+          localId: "local-7",
+          createdById: "user-president-7",
         },
       );
       const published = await memoryTimeStore.createShift(
@@ -406,13 +406,13 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
           startsAt: "2033-05-02T09:00:00.000Z",
           endsAt: "2033-05-02T17:00:00.000Z",
           category: "action",
-          assignedWorkerIds: ["user-steward-243"],
+          assignedWorkerIds: ["user-steward-7"],
           status: "published",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-243",
-          createdById: "user-president-243",
+          unionId: "union-b7p",
+          localId: "local-7",
+          createdById: "user-president-7",
         },
       );
       const foreign = await memoryTimeStore.createShift(
@@ -421,12 +421,12 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
           startsAt: "2033-05-03T09:00:00.000Z",
           endsAt: "2033-05-03T17:00:00.000Z",
           category: "staff",
-          assignedWorkerIds: ["user-steward-243"],
+          assignedWorkerIds: ["user-steward-7"],
           status: "published",
         },
         {
           unionId: "union-other",
-          localId: "local-243",
+          localId: "local-7",
           createdById: "user-x",
         },
       );
@@ -456,7 +456,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       ).toBe(403);
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const created = await createShift(
         jsonRequest({
@@ -465,13 +465,13 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
           endsAt: "2033-05-11T21:00:00.000Z",
           category: "volunteer",
           unionId: "union-other",
-          assignedWorkerIds: ["user-steward-243"],
+          assignedWorkerIds: ["user-steward-7"],
         }),
       );
       expect(created.status).toBe(201);
       const createdBody = (await created.json()) as { shift: TimeShift };
-      expect(createdBody.shift.unionId).toBe("union-opseu");
-      expect(createdBody.shift.localId).toBe("local-243");
+      expect(createdBody.shift.unionId).toBe("union-b7p");
+      expect(createdBody.shift.localId).toBe("local-7");
       expect(createdBody.shift.status).toBe("draft");
     });
   });
@@ -490,8 +490,8 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
           entrySource: "manual_range",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-243",
+          unionId: "union-b7p",
+          localId: "local-7",
           jobCodeLabel: "Grievance handling",
         },
       );
@@ -507,8 +507,8 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
           entrySource: "manual_range",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           jobCodeLabel: "Grievance handling",
         },
       );
@@ -525,7 +525,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
         },
         {
           unionId: "union-other",
-          localId: "local-243",
+          localId: "local-7",
           jobCodeLabel: "Grievance handling",
         },
       );
@@ -536,7 +536,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       ).toBe(403);
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const res = await exportTime(
         new Request("http://localhost/api/time/export?format=csv"),

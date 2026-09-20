@@ -30,12 +30,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -99,25 +99,25 @@ describe("invite API routes", () => {
         email: "foreign@example.test",
         name: "Foreign",
         unionId: "union-other",
-        localId: "local-243",
+        localId: "local-7",
         roles: ["local_steward"],
         invitedById: "user-x",
       });
       await createInvite({
         email: "sister@example.test",
         name: "Sister local",
-        unionId: "union-opseu",
-        localId: "local-560",
+        unionId: "union-b7p",
+        localId: "local-1337",
         roles: ["local_member"],
         invitedById: "user-y",
       });
       const mine = await createInvite({
         email: "mine@example.test",
         name: "Mine",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         roles: ["local_steward"],
-        invitedById: "user-president-243",
+        invitedById: "user-president-7",
       });
 
       authMock.mockResolvedValue(session());
@@ -135,15 +135,15 @@ describe("invite API routes", () => {
         email: "foreign@example.test",
         name: "Foreign",
         unionId: "union-other",
-        localId: "local-243",
+        localId: "local-7",
         roles: ["local_steward"],
         invitedById: "user-x",
       });
       await createInvite({
         email: "sister@example.test",
         name: "Sister local",
-        unionId: "union-opseu",
-        localId: "local-560",
+        unionId: "union-b7p",
+        localId: "local-1337",
         roles: ["local_member"],
         invitedById: "user-y",
       });
@@ -165,10 +165,10 @@ describe("invite API routes", () => {
       const invite = await createInvite({
         email: "accepted@example.test",
         name: "Accepted",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         roles: ["local_steward"],
-        invitedById: "user-president-243",
+        invitedById: "user-president-7",
       });
       await acceptInvite(invite.token, "securepass1");
 
@@ -190,7 +190,7 @@ describe("invite API routes", () => {
         jsonRequest({
           ...validCreate,
           unionId: "union-other",
-          localId: "local-560",
+          localId: "local-1337",
         }),
       );
       expect(created.status).toBe(200);
@@ -200,7 +200,7 @@ describe("invite API routes", () => {
         token: string;
       };
       expect(body.email).toBe("new.steward@example.test");
-      expect(body.localId).toBe("local-243");
+      expect(body.localId).toBe("local-7");
       expect(body.token).toBeTruthy();
 
       authMock.mockResolvedValue(session({ roles: ["union_admin"] }));
@@ -282,10 +282,10 @@ describe("invite API routes", () => {
       const invite = await createInvite({
         email: "preview@example.test",
         name: "Preview",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         roles: ["local_steward"],
-        invitedById: "user-president-243",
+        invitedById: "user-president-7",
       });
 
       authMock.mockResolvedValue(null);
@@ -310,10 +310,10 @@ describe("invite API routes", () => {
       const invite = await createInvite({
         email: "late@example.test",
         name: "Late",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         roles: ["local_member"],
-        invitedById: "user-president-243",
+        invitedById: "user-president-7",
         ttlHours: -1,
       });
 
@@ -329,10 +329,10 @@ describe("invite API routes", () => {
       const invite = await createInvite({
         email: "once@example.test",
         name: "Once",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         roles: ["local_steward"],
-        invitedById: "user-president-243",
+        invitedById: "user-president-7",
       });
 
       const first = await acceptInviteRoute(
@@ -359,10 +359,10 @@ describe("invite API routes", () => {
       const invite = await createInvite({
         email: "pwd@example.test",
         name: "Pwd",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         roles: ["local_member"],
-        invitedById: "user-president-243",
+        invitedById: "user-president-7",
       });
 
       const badJson = await acceptInviteRoute(
@@ -385,7 +385,7 @@ describe("invite API routes", () => {
         email: "foreign@example.test",
         name: "Foreign",
         unionId: "union-other",
-        localId: "local-243",
+        localId: "local-7",
         roles: ["local_steward"],
         invitedById: "user-x",
       });
@@ -413,10 +413,10 @@ describe("invite API routes", () => {
       const pending = await createInvite({
         email: "mail@example.test",
         name: "Mail",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         roles: ["local_steward"],
-        invitedById: "user-president-243",
+        invitedById: "user-president-7",
       });
       const req = new Request("http://localhost/api/invites/token/email", {
         method: "POST",

@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 
 /** Demo officer used by Hub smoke / mobile coverage. */
 export const DEMO_OFFICER = {
-  email: "president.243@unionops.test",
+  email: "president.7@unionops.test",
   password: "demo123",
   mfaCode: "000000",
 } as const;
@@ -82,16 +82,16 @@ export async function completeMfaIfNeeded(page: Page) {
 
 /** Rank-and-file Local Portal demo account — no MFA. */
 export async function loginAsMember(page: Page) {
-  await hubLogin(page, "member.243@unionops.test");
+  await hubLogin(page, "member.7@unionops.test");
   await expect(page).toHaveURL(/\/en\/portal\/?(?:\?.*)?$/);
 }
 
 export async function loginAsPresident(page: Page) {
-  await hubLogin(page, "president.243@unionops.test");
+  await hubLogin(page, "president.7@unionops.test");
   await completeMfaIfNeeded(page);
 }
 
 export async function loginAsSteward(page: Page) {
-  await hubLogin(page, "steward.243@unionops.test");
+  await hubLogin(page, "steward.7@unionops.test");
   await completeMfaIfNeeded(page);
 }

@@ -10,8 +10,8 @@ import type { BumpingCase } from "@/types/bumping";
 
 const sampleCase: BumpingCase = {
   id: "bump-test",
-  unionId: "union-opseu",
-  localId: "local-243",
+  unionId: "union-b7p",
+  localId: "local-7",
   memberRef: "Member X",
   seniorityDate: "2019-01-01",
   currentPosition: "Pos A",
@@ -31,7 +31,7 @@ const sampleCase: BumpingCase = {
     seniorityNotes: "",
   },
   checklist: emptyChecklistState(),
-  createdById: "user-president-243",
+  createdById: "user-president-7",
   createdAt: "2026-01-01T00:00:00.000Z",
   updatedAt: "2026-01-01T00:00:00.000Z",
 };
@@ -41,8 +41,8 @@ describe("bumping access", () => {
     expect(
       canViewBumpingCase(
         sampleCase,
-        "union-opseu",
-        "local-243",
+        "union-b7p",
+        "local-7",
         ["local_president"],
       ),
     ).toBe(true);
@@ -52,8 +52,8 @@ describe("bumping access", () => {
     expect(
       canViewBumpingCase(
         sampleCase,
-        "union-opseu",
-        "local-243",
+        "union-b7p",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(true);
@@ -65,8 +65,8 @@ describe("bumping access", () => {
     expect(
       canEditBumpingCase(
         sampleCase,
-        "union-opseu",
-        "local-243",
+        "union-b7p",
+        "local-7",
         ["stability_member"],
       ),
     ).toBe(true);
@@ -76,7 +76,7 @@ describe("bumping access", () => {
     expect(
       canViewBumpingCase(
         sampleCase,
-        "union-opseu",
+        "union-b7p",
         "local-999",
         ["local_president"],
       ),

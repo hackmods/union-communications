@@ -3,19 +3,19 @@ import { resolveCircleCreate } from "./circle-create";
 
 describe("resolveCircleCreate", () => {
   it("stamps the session local by default", () => {
-    const result = resolveCircleCreate({ sessionLocalId: "local-243" });
+    const result = resolveCircleCreate({ sessionLocalId: "local-7" });
     expect(result).toEqual({
       ok: true,
       kind: "committee",
       visibility: "invited",
-      localId: "local-243",
+      localId: "local-7",
     });
   });
 
   it("omits localId for a union-scoped invited committee", () => {
     const result = resolveCircleCreate({
       scope: "union",
-      sessionLocalId: "local-243",
+      sessionLocalId: "local-7",
       template: "blank",
     });
     expect(result.ok).toBe(true);
@@ -28,7 +28,7 @@ describe("resolveCircleCreate", () => {
   it("rejects Hall creates on the committee route", () => {
     const result = resolveCircleCreate({
       kind: "local_hall",
-      sessionLocalId: "local-243",
+      sessionLocalId: "local-7",
     });
     expect(result.ok).toBe(false);
   });
@@ -37,7 +37,7 @@ describe("resolveCircleCreate", () => {
     const result = resolveCircleCreate({
       scope: "union",
       visibility: "local_members",
-      sessionLocalId: "local-243",
+      sessionLocalId: "local-7",
     });
     expect(result.ok).toBe(false);
   });

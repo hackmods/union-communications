@@ -25,13 +25,13 @@ describe("parseBasecampCsv", () => {
 describe("resolveMentions", () => {
   it("matches roster display names", () => {
     const hits = resolveMentions(
-      "Ping @Local 243 Member please",
+      "Ping @Local 7 Member please",
       [
-        { userId: "u1", userName: "Local 243 Member" },
-        { userId: "u2", userName: "Local 243 President" },
+        { userId: "u1", userName: "Local 7 Member" },
+        { userId: "u2", userName: "Local 7 President" },
       ],
       "u2",
     );
-    expect(hits).toEqual([{ userId: "u1", userName: "Local 243 Member" }]);
+    expect(hits).toEqual([{ userId: "u1", userName: "Local 7 Member" }]);
   });
 });

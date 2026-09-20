@@ -83,7 +83,7 @@ run_gate "${FRESH_LOG}"
 cat "${FRESH_LOG}"
 
 grep -q "running database deploy gate" "${FRESH_LOG}"
-grep -q "verified tail=0036_verified_boot_reconcile" "${FRESH_LOG}"
+grep -q "verified tail=0037_b7p_demo_tenant" "${FRESH_LOG}"
 grep -q "database deploy gate passed" "${FRESH_LOG}"
 if grep -q "severity.*NOTICE" "${FRESH_LOG}"; then
   echo "[docker-migrate-smoke] postgres NOTICE leaked into deploy logs" >&2
@@ -158,7 +158,7 @@ SQL
 REPAIR_LOG="${LOG_DIR}/repair.log"
 run_gate "${REPAIR_LOG}"
 cat "${REPAIR_LOG}"
-grep -q "verified tail=0036_verified_boot_reconcile" "${REPAIR_LOG}"
+grep -q "verified tail=0037_b7p_demo_tenant" "${REPAIR_LOG}"
 
 [[ "$(psql_scalar "SELECT count(*) FROM drizzle.__drizzle_migrations")" == "34" ]]
 [[ "$(psql_scalar "SELECT count(*) FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'tasks' AND column_name IN ('notes','mentioned_user_ids','reactions','updated_at')")" == "4" ]]

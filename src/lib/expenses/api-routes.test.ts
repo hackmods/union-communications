@@ -32,12 +32,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -90,10 +90,10 @@ async function seedSubmitted(input?: {
       ],
     },
     {
-      unionId: input?.unionId ?? "union-opseu",
-      localId: input?.localId ?? "local-243",
-      submittedById: input?.submittedById ?? "user-steward-243",
-      submittedByName: "Local 243 Steward",
+      unionId: input?.unionId ?? "union-b7p",
+      localId: input?.localId ?? "local-7",
+      submittedById: input?.submittedById ?? "user-steward-7",
+      submittedByName: "Local 7 Steward",
     },
   );
   if (input?.status === "draft") return row;
@@ -138,7 +138,7 @@ describe("expense approve/deny API", () => {
   it("forbids a steward from approving or denying", async () => {
     const row = await seedSubmitted();
     authMock.mockResolvedValue(
-      session({ id: "user-steward-243", roles: ["local_steward"] }),
+      session({ id: "user-steward-7", roles: ["local_steward"] }),
     );
     expect(
       (await approveExpense(new Request("http://localhost"), params(row.id)))
@@ -208,17 +208,17 @@ describe("expense approve/deny API", () => {
     };
     expect(body.submission.id).toBe(row.id);
     expect(body.submission.status).toBe("approved");
-    expect(body.submission.approvedById).toBe("user-president-243");
+    expect(body.submission.approvedById).toBe("user-president-7");
     expect(body.ledgerEntryId).toBeTruthy();
 
     const ledger = await memoryLedgerStore.getById(body.ledgerEntryId);
     expect(ledger).toMatchObject({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       type: "expense",
       category: "union_business",
       amount: 45.5,
-      recordedById: "user-president-243",
+      recordedById: "user-president-7",
     });
 
     const retry = await approveExpense(
@@ -287,23 +287,23 @@ describe("expense list/create/submit API", () => {
   it("does not list another union or another local for a president", async () => {
     await memoryExpenseStore.create(validCreate, {
       unionId: "union-other",
-      localId: "local-243",
+      localId: "local-7",
       submittedById: "user-x",
       submittedByName: "X",
     });
     await memoryExpenseStore.create(validCreate, {
-      unionId: "union-opseu",
-      localId: "local-560",
+      unionId: "union-b7p",
+      localId: "local-1337",
       submittedById: "user-y",
       submittedByName: "Y",
     });
     const mine = await memoryExpenseStore.create(
       { ...validCreate, title: "Local 243 toner" },
       {
-        unionId: "union-opseu",
-        localId: "local-243",
-        submittedById: "user-president-243",
-        submittedByName: "Local 243 President",
+        unionId: "union-b7p",
+        localId: "local-7",
+        submittedById: "user-president-7",
+        submittedByName: "Local 7 President",
       },
     );
 
@@ -313,26 +313,26 @@ describe("expense list/create/submit API", () => {
     const body = (await res.json()) as {
       items: Array<{ id: string; title: string; unionId: string; localId: string }>;
     };
-    expect(body.items.every((row) => row.unionId === "union-opseu")).toBe(true);
-    expect(body.items.every((row) => row.localId === "local-243")).toBe(true);
+    expect(body.items.every((row) => row.unionId === "union-b7p")).toBe(true);
+    expect(body.items.every((row) => row.localId === "local-7")).toBe(true);
     expect(body.items.map((row) => row.id)).toEqual([mine.id]);
     expect(body.items.map((row) => row.title)).not.toContain("Printer paper");
   });
 
   it("honours mine=1 and ignores an unknown status filter", async () => {
     await memoryExpenseStore.create(validCreate, {
-      unionId: "union-opseu",
-      localId: "local-243",
-      submittedById: "user-steward-243",
-      submittedByName: "Local 243 Steward",
+      unionId: "union-b7p",
+      localId: "local-7",
+      submittedById: "user-steward-7",
+      submittedByName: "Local 7 Steward",
     });
     const mine = await memoryExpenseStore.create(
       { ...validCreate, title: "President mileage" },
       {
-        unionId: "union-opseu",
-        localId: "local-243",
-        submittedById: "user-president-243",
-        submittedByName: "Local 243 President",
+        unionId: "union-b7p",
+        localId: "local-7",
+        submittedById: "user-president-7",
+        submittedByName: "Local 7 President",
       },
     );
 
@@ -343,7 +343,7 @@ describe("expense list/create/submit API", () => {
     };
     expect(mineBody.items).toHaveLength(1);
     expect(mineBody.items[0]?.id).toBe(mine.id);
-    expect(mineBody.items[0]?.submittedById).toBe("user-president-243");
+    expect(mineBody.items[0]?.submittedById).toBe("user-president-7");
 
     const junkStatus = await listExpenses(listRequest("?status=hacked"));
     const junkBody = (await junkStatus.json()) as { items: Array<{ id: string }> };
@@ -373,9 +373,9 @@ describe("expense list/create/submit API", () => {
         totalAmount: number;
       };
     };
-    expect(body.submission.unionId).toBe("union-opseu");
-    expect(body.submission.localId).toBe("local-243");
-    expect(body.submission.submittedById).toBe("user-president-243");
+    expect(body.submission.unionId).toBe("union-b7p");
+    expect(body.submission.localId).toBe("local-7");
+    expect(body.submission.submittedById).toBe("user-president-7");
     expect(body.submission.status).toBe("draft");
     expect(body.submission.totalAmount).toBe(45.5);
   });
@@ -397,10 +397,10 @@ describe("expense list/create/submit API", () => {
       submittedByName: "Other",
     });
     const draft = await memoryExpenseStore.create(validCreate, {
-      unionId: "union-opseu",
-      localId: "local-243",
-      submittedById: "user-steward-243",
-      submittedByName: "Local 243 Steward",
+      unionId: "union-b7p",
+      localId: "local-7",
+      submittedById: "user-steward-7",
+      submittedByName: "Local 7 Steward",
     });
 
     authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
@@ -422,7 +422,7 @@ describe("expense list/create/submit API", () => {
     ).toBe(403);
 
     authMock.mockResolvedValue(
-      session({ id: "user-steward-243", roles: ["local_steward"] }),
+      session({ id: "user-steward-7", roles: ["local_steward"] }),
     );
     const submitted = await submitExpense(
       new Request("http://localhost"),

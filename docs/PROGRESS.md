@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-20 — B7P demo roster (no OPSEU local-number overlap)
+
+- [x] Hub demo tenant renamed to **Behind 7 Proxies** (`union-b7p`) with meme locals **7 / 404 / 502 / 1337**.
+- [x] Sample emails `president.7@unionops.test` etc.; empty `resolveLocalNumber()` wink → `7`.
+- [x] Migration `0037_b7p_demo_tenant` expands `is_demo` registry; legacy `union-opseu` rows remain purgeable.
+- OPSEU/CAAT Brand Kit presets and Local 243 guide examples stay as real-world Comms references.
+
 ## 2026-09-20 — Demo cleanup purge (CLI + site-admin UI)
 
 - [x] Shared `is_demo` count/purge library; owner-role deletes via `MIGRATE_DATABASE_URL` so RLS cannot leave restrict orphans.

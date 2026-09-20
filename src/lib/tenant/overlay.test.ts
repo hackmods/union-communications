@@ -19,13 +19,13 @@ describe("tenant overlay", () => {
 
   it("merges a new local onto the reference union without replacing seed locals", () => {
     const local = createOverlayLocal({
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       localNumber: "999",
       subText: "Test Local",
     });
-    const ctx = getTenantContext("union-opseu");
+    const ctx = getTenantContext("union-b7p");
     expect(ctx).not.toBeNull();
-    expect(ctx!.locals.map((l) => l.localNumber)).toContain("243");
+    expect(ctx!.locals.map((l) => l.localNumber)).toContain("7");
     expect(ctx!.locals.map((l) => l.localNumber)).toContain("999");
     expect(ctx!.locals.find((l) => l.id === local.id)?.subText).toBe(
       "Test Local",
@@ -34,12 +34,12 @@ describe("tenant overlay", () => {
 
   it("adds a collection under an existing local", () => {
     createOverlayCollection({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       code: "casual",
       name: "Casual Support Staff",
     });
-    const units = listBargainingUnitsForLocal("union-opseu", "local-243");
+    const units = listBargainingUnitsForLocal("union-b7p", "local-7");
     expect(units.map((u) => u.code)).toContain("casual");
     expect(units.map((u) => u.code)).toContain("ft");
   });

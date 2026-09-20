@@ -41,11 +41,14 @@ Flags demo-shaped rows directly so demo cleanup stops relying on regex:
 | Heuristic | Tagged table |
 |---|---|
 | `users.email LIKE '%unionops.test%'` | `users.is_demo = true` |
-| `unions.id IN ('union-opseu')` | `unions.is_demo = true` |
+| `unions.id IN ('union-b7p', 'union-opseu')` | `unions.is_demo = true` (B7P current; OPSEU legacy until purged) |
 | Row chain via union FK | `locals.is_demo`, `divisions.is_demo` |
 
 Idempotent — every UPDATE is guarded with `is_demo = false`. Subsequent seed
-inserts must set `is_demo = true` themselves.
+inserts must set `is_demo = true` themselves. Hub demo roster (2026-09-20+):
+**Behind 7 Proxies (B7P)** with locals **7 / 404 / 502 / 1337** — see
+`seed/reference-tenant-b7p.json`. Migration `0037_b7p_demo_tenant` expands the
+registry; purge still clears legacy `union-opseu` rows.
 
 ## Foot-guns (do not regress)
 

@@ -78,8 +78,8 @@ describe("persist password for invitees", () => {
     const invite = await createInvite({
       email: "new.officer@example.ca",
       name: "New Officer",
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       roles: ["local_steward"],
       invitedById: "admin-1",
     });
@@ -106,7 +106,7 @@ describe("persist password for invitees", () => {
 
   it("does not treat demo roster as resettable", async () => {
     await expect(
-      findResettableAccountByEmail("president.243@unionops.test"),
+      findResettableAccountByEmail("president.7@unionops.test"),
     ).resolves.toBeNull();
   });
 });

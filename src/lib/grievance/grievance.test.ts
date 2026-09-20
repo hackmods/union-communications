@@ -34,14 +34,14 @@ const config = {
 
 const sampleGrievance: Grievance = {
   id: "grev-test",
-  unionId: "union-opseu",
-  localId: "local-243",
+  unionId: "union-b7p",
+  localId: "local-7",
   category: "Discipline",
   status: "open",
   currentStep: 1,
   filedAt: "2026-01-01T00:00:00.000Z",
-  assignedStewardId: "user-steward-243",
-  createdById: "user-president-243",
+  assignedStewardId: "user-steward-7",
+  createdById: "user-president-7",
   updatedAt: "2026-01-01T00:00:00.000Z",
 };
 
@@ -51,7 +51,7 @@ const sampleOutcome: GrievanceOutcome = {
   outcomeType: "upheld",
   remedy: "Reinstatement",
   decidedAt: "2026-06-01T00:00:00.000Z",
-  recordedById: "user-president-243",
+  recordedById: "user-president-7",
 };
 
 describe("deadline calculator", () => {
@@ -141,9 +141,9 @@ describe("grievance access control", () => {
     expect(
       canViewGrievance(
         sampleGrievance,
-        "user-president-243",
-        "union-opseu",
-        "local-243",
+        "user-president-7",
+        "union-b7p",
+        "local-7",
         ["local_president"],
       ),
     ).toBe(true);
@@ -154,8 +154,8 @@ describe("grievance access control", () => {
       canViewGrievance(
         sampleGrievance,
         "user-other-steward",
-        "union-opseu",
-        "local-243",
+        "union-b7p",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(false);
@@ -165,9 +165,9 @@ describe("grievance access control", () => {
     expect(
       canEditGrievance(
         sampleGrievance,
-        "user-steward-243",
-        "union-opseu",
-        "local-243",
+        "user-steward-7",
+        "union-b7p",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(true);
@@ -176,10 +176,10 @@ describe("grievance access control", () => {
   it("allows division_admin to view another local grievance", () => {
     expect(
       canViewGrievance(
-        { ...sampleGrievance, localId: "local-560" },
+        { ...sampleGrievance, localId: "local-1337" },
         "user-division-admin",
-        "union-opseu",
-        "local-243",
+        "union-b7p",
+        "local-7",
         ["division_admin"],
       ),
     ).toBe(true);
@@ -188,10 +188,10 @@ describe("grievance access control", () => {
   it("blocks local_president from another local without switch", () => {
     expect(
       canViewGrievance(
-        { ...sampleGrievance, localId: "local-560" },
-        "user-president-243",
-        "union-opseu",
-        "local-243",
+        { ...sampleGrievance, localId: "local-1337" },
+        "user-president-7",
+        "union-b7p",
+        "local-7",
         ["local_president"],
       ),
     ).toBe(false);

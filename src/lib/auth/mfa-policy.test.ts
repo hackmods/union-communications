@@ -120,7 +120,7 @@ describe("needsTotpEnrollment", () => {
 
   it("is false for demo president who has a seeded secret", async () => {
     expect(
-      await needsTotpEnrollment("user-president-243", {
+      await needsTotpEnrollment("user-president-7", {
         NODE_ENV: "production",
         AUTH_MFA_ENABLED: "true",
         AUTH_MFA_MODE: "totp",
@@ -132,7 +132,7 @@ describe("needsTotpEnrollment", () => {
 describe("verifyMfaCode", () => {
   it("refuses when MFA is disabled", async () => {
     const result = await verifyMfaCode({
-      userId: "user-president-243",
+      userId: "user-president-7",
       code: "000000",
       env: { NODE_ENV: "development" },
     });

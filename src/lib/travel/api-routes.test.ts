@@ -38,12 +38,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-steward-243",
-      name: "Local 243 Steward (FT)",
+      id: input?.id ?? "user-steward-7",
+      name: "Local 7 Steward (FT)",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
     },
   };
@@ -89,16 +89,16 @@ async function seedAuthorization(input?: {
       },
     },
     {
-      unionId: input?.unionId ?? "union-opseu",
-      localId: input?.localId ?? "local-243",
-      requestedById: input?.requestedById ?? "user-steward-243",
-      requestedByName: "Local 243 Steward (FT)",
+      unionId: input?.unionId ?? "union-b7p",
+      localId: input?.localId ?? "local-7",
+      requestedById: input?.requestedById ?? "user-steward-7",
+      requestedByName: "Local 7 Steward (FT)",
     },
   );
   if (input?.status === "approved") {
     const approved = await memoryTravelStore.approveAuthorization(
       auth.id,
-      "user-president-243",
+      "user-president-7",
     );
     if (!approved) throw new Error("failed to approve test authorization");
     return approved;
@@ -161,7 +161,7 @@ describe("travel claim API", () => {
   it("lets a same-local steward view another officer's claim but not create one", async () => {
     const auth = await seedAuthorization({ status: "approved" });
     authMock.mockResolvedValue(
-      session({ id: "user-steward-243-pt", roles: ["local_steward"] }),
+      session({ id: "user-steward-7-pt", roles: ["local_steward"] }),
     );
     const viewed = await getClaim(new Request("http://localhost"), params(auth.id));
     expect(viewed.status).toBe(200);
@@ -200,9 +200,9 @@ describe("travel claim API", () => {
         status: string;
       };
     };
-    expect(body.claim.unionId).toBe("union-opseu");
-    expect(body.claim.localId).toBe("local-243");
-    expect(body.claim.claimantId).toBe("user-steward-243");
+    expect(body.claim.unionId).toBe("union-b7p");
+    expect(body.claim.localId).toBe("local-7");
+    expect(body.claim.claimantId).toBe("user-steward-7");
     expect(body.claim.travelAuthorizationId).toBe(auth.id);
     expect(body.claim.status).toBe("draft");
 
@@ -218,7 +218,7 @@ describe("travel claim API", () => {
     expect(created.status).toBe(201);
 
     authMock.mockResolvedValue(
-      session({ id: "user-steward-243-pt", roles: ["local_steward"] }),
+      session({ id: "user-steward-7-pt", roles: ["local_steward"] }),
     );
     const forbidden = await patchClaim(
       jsonRequest({
@@ -278,7 +278,7 @@ describe("travel list/create and elevate HTTP routes", () => {
     it("does not list another union or sister local for a president", async () => {
       const home = await seedAuthorization();
       const sister = await seedAuthorization({
-        localId: "local-560",
+        localId: "local-1337",
         requestedById: "user-560",
       });
       const foreign = await seedAuthorization({
@@ -288,7 +288,7 @@ describe("travel list/create and elevate HTTP routes", () => {
       });
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const res = await listTravel(new Request("http://localhost/api/travel"));
       expect(res.status).toBe(200);
@@ -302,16 +302,16 @@ describe("travel list/create and elevate HTTP routes", () => {
       expect(ids).not.toContain(sister.id);
       expect(ids).not.toContain(foreign.id);
       expect(
-        body.items.every((row) => row.authorization.unionId === "union-opseu"),
+        body.items.every((row) => row.authorization.unionId === "union-b7p"),
       ).toBe(true);
       expect(
-        body.items.every((row) => row.authorization.localId === "local-243"),
+        body.items.every((row) => row.authorization.localId === "local-7"),
       ).toBe(true);
     });
 
     it("rejects forged tenant keys then stamps the session union/local", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const payload = {
         purpose: "Convention",
@@ -346,9 +346,9 @@ describe("travel list/create and elevate HTTP routes", () => {
           status: string;
         };
       };
-      expect(body.authorization.unionId).toBe("union-opseu");
-      expect(body.authorization.localId).toBe("local-243");
-      expect(body.authorization.requestedById).toBe("user-president-243");
+      expect(body.authorization.unionId).toBe("union-b7p");
+      expect(body.authorization.localId).toBe("local-7");
+      expect(body.authorization.requestedById).toBe("user-president-7");
       expect(body.authorization.status).toBe("requested");
     });
   });
@@ -407,7 +407,7 @@ describe("travel list/create and elevate HTTP routes", () => {
     it("lets a president approve, then 409s a second approve and a deny", async () => {
       const auth = await seedAuthorization();
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const approved = await approveTravel(
         new Request("http://localhost"),
@@ -418,7 +418,7 @@ describe("travel list/create and elevate HTTP routes", () => {
         authorization: { status: string; approvedById: string };
       };
       expect(body.authorization.status).toBe("approved");
-      expect(body.authorization.approvedById).toBe("user-president-243");
+      expect(body.authorization.approvedById).toBe("user-president-7");
 
       const again = await approveTravel(
         new Request("http://localhost"),
@@ -439,7 +439,7 @@ describe("travel list/create and elevate HTTP routes", () => {
     it("rejects extra deny keys then records the president's reason", async () => {
       const auth = await seedAuthorization();
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const extra = await denyTravel(
         jsonRequest({ reason: "Budget", unionId: "union-other" }),
@@ -477,7 +477,7 @@ describe("travel list/create and elevate HTTP routes", () => {
       ).toBe(403);
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const tooSoon = await issueAdvance(
         jsonRequest({ amount: 50 }),
@@ -499,7 +499,7 @@ describe("travel list/create and elevate HTTP routes", () => {
     it("rejects invalid amounts then stamps the authorization tenant on the ledger", async () => {
       const auth = await seedAuthorization({ status: "approved" });
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
 
       expect(
@@ -537,20 +537,20 @@ describe("travel list/create and elevate HTTP routes", () => {
           category: string;
         };
       };
-      expect(body.advance.unionId).toBe("union-opseu");
-      expect(body.advance.localId).toBe("local-243");
+      expect(body.advance.unionId).toBe("union-b7p");
+      expect(body.advance.localId).toBe("local-7");
       expect(body.advance.amount).toBe(80);
-      expect(body.advance.issuedById).toBe("user-president-243");
+      expect(body.advance.issuedById).toBe("user-president-7");
       expect(body.advance.travelAuthorizationId).toBe(auth.id);
-      expect(body.ledgerEntry.unionId).toBe("union-opseu");
-      expect(body.ledgerEntry.localId).toBe("local-243");
+      expect(body.ledgerEntry.unionId).toBe("union-b7p");
+      expect(body.ledgerEntry.localId).toBe("local-7");
       expect(body.ledgerEntry.amount).toBe(80);
       expect(body.ledgerEntry.type).toBe("expense");
       expect(body.ledgerEntry.category).toBe("travel_advance");
 
       const stored = await memoryLedgerStore.getById(body.advance.ledgerEntryId);
-      expect(stored?.unionId).toBe("union-opseu");
-      expect(stored?.localId).toBe("local-243");
+      expect(stored?.unionId).toBe("union-b7p");
+      expect(stored?.localId).toBe("local-7");
 
       const duplicate = await issueAdvance(
         jsonRequest({ amount: 10 }),
@@ -565,7 +565,7 @@ describe("travel list/create and elevate HTTP routes", () => {
     it("404s a missing claim, forbids a steward, then reconciles with a local ledger row", async () => {
       const auth = await seedAuthorization({ status: "approved" });
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const missing = await reconcileTravel(
         new Request("http://localhost"),
@@ -620,7 +620,7 @@ describe("travel list/create and elevate HTTP routes", () => {
       ).toBe(404);
 
       authMock.mockResolvedValue(
-        session({ id: "user-president-243", roles: ["local_president"] }),
+        session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const reconciled = await reconcileTravel(
         new Request("http://localhost"),
@@ -639,17 +639,17 @@ describe("travel list/create and elevate HTTP routes", () => {
         difference: number;
       };
       expect(body.claim.status).toBe("reconciled");
-      expect(body.claim.unionId).toBe("union-opseu");
-      expect(body.claim.localId).toBe("local-243");
+      expect(body.claim.unionId).toBe("union-b7p");
+      expect(body.claim.localId).toBe("local-7");
       expect(body.difference).toBe(70);
       expect(body.claim.difference).toBe(70);
-      expect(body.claim.reconciledById).toBe("user-president-243");
+      expect(body.claim.reconciledById).toBe("user-president-7");
 
       const ledger = await memoryLedgerStore.getById(
         body.claim.reconcileLedgerEntryId ?? "",
       );
-      expect(ledger?.unionId).toBe("union-opseu");
-      expect(ledger?.localId).toBe("local-243");
+      expect(ledger?.unionId).toBe("union-b7p");
+      expect(ledger?.localId).toBe("local-7");
       expect(ledger?.type).toBe("expense");
       expect(ledger?.category).toBe("travel_reconcile");
       expect(ledger?.amount).toBe(70);

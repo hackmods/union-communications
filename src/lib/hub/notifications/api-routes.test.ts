@@ -27,12 +27,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-steward-243",
-      name: "Local 243 Steward",
+      id: input?.id ?? "user-steward-7",
+      name: "Local 7 Steward",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
     },
   };
@@ -89,15 +89,15 @@ describe("hub notification HTTP routes", () => {
   it("lists only the session user's rows in the session union", async () => {
     const [own, otherUnion, otherUser] = await hubNotificationStore.createMany([
       {
-        userId: "user-steward-243",
-        unionId: "union-opseu",
-        localId: "local-243",
+        userId: "user-steward-7",
+        unionId: "union-b7p",
+        localId: "local-7",
         source: "task",
         sourceId: "task-home",
         preview: "Home mention",
       },
       {
-        userId: "user-steward-243",
+        userId: "user-steward-7",
         unionId: "union-other",
         localId: "local-1",
         source: "task",
@@ -105,9 +105,9 @@ describe("hub notification HTTP routes", () => {
         preview: "Other union mention",
       },
       {
-        userId: "user-president-243",
-        unionId: "union-opseu",
-        localId: "local-243",
+        userId: "user-president-7",
+        unionId: "union-b7p",
+        localId: "local-7",
         source: "discussion_post",
         sourceId: "post-1",
         preview: "Someone else's mention",
@@ -126,10 +126,10 @@ describe("hub notification HTTP routes", () => {
     expect(ids).toContain(own.id);
     expect(ids).not.toContain(otherUnion.id);
     expect(ids).not.toContain(otherUser.id);
-    expect(body.notifications.every((row) => row.unionId === "union-opseu")).toBe(
+    expect(body.notifications.every((row) => row.unionId === "union-b7p")).toBe(
       true,
     );
-    expect(body.notifications.every((row) => row.userId === "user-steward-243")).toBe(
+    expect(body.notifications.every((row) => row.userId === "user-steward-7")).toBe(
       true,
     );
   });
@@ -137,17 +137,17 @@ describe("hub notification HTTP routes", () => {
   it("marks only the caller's unread ids and ignores another user's row", async () => {
     const [own, otherUser] = await hubNotificationStore.createMany([
       {
-        userId: "user-steward-243",
-        unionId: "union-opseu",
-        localId: "local-243",
+        userId: "user-steward-7",
+        unionId: "union-b7p",
+        localId: "local-7",
         source: "task",
         sourceId: "task-own",
         preview: "Own unread",
       },
       {
-        userId: "user-president-243",
-        unionId: "union-opseu",
-        localId: "local-243",
+        userId: "user-president-7",
+        unionId: "union-b7p",
+        localId: "local-7",
         source: "task",
         sourceId: "task-other",
         preview: "Other unread",
@@ -171,7 +171,7 @@ describe("hub notification HTTP routes", () => {
     expect(unreadBody.notifications.map((row) => row.id)).not.toContain(own.id);
 
     authMock.mockResolvedValue(
-      session({ id: "user-president-243", roles: ["local_president"] }),
+      session({ id: "user-president-7", roles: ["local_president"] }),
     );
     const stillUnread = await listNotifications(
       new Request("http://localhost/api/hub/notifications?unread=1"),

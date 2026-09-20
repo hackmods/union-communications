@@ -22,12 +22,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -47,8 +47,8 @@ function validSlice(overrides?: {
   return {
     version: HYBRID_SLICE_VERSION,
     exportedAt: "2026-08-01T00:00:00.000Z",
-    unionId: overrides?.unionId ?? "union-opseu",
-    localId: overrides?.localId ?? "local-243",
+    unionId: overrides?.unionId ?? "union-b7p",
+    localId: overrides?.localId ?? "local-7",
     grievances: overrides?.grievances ?? [],
     bumpingCases: [],
     timeEntries: [],
@@ -97,12 +97,12 @@ describe("hybrid slice API", () => {
         localId: string;
         grievances: Array<{ grievance: { id: string; unionId: string; localId: string } }>;
       };
-      expect(body.unionId).toBe("union-opseu");
-      expect(body.localId).toBe("local-243");
-      expect(body.grievances.every((g) => g.grievance.unionId === "union-opseu")).toBe(
+      expect(body.unionId).toBe("union-b7p");
+      expect(body.localId).toBe("local-7");
+      expect(body.grievances.every((g) => g.grievance.unionId === "union-b7p")).toBe(
         true,
       );
-      expect(body.grievances.every((g) => g.grievance.localId === "local-243")).toBe(
+      expect(body.grievances.every((g) => g.grievance.localId === "local-7")).toBe(
         true,
       );
       expect(body.grievances.map((g) => g.grievance.id)).not.toContain("grev-003");
@@ -166,7 +166,7 @@ describe("hybrid slice API", () => {
                 grievance: {
                   id: "grev-poison",
                   unionId: "union-other",
-                  localId: "local-243",
+                  localId: "local-7",
                   category: "Discipline",
                   status: "open",
                   currentStep: 1,

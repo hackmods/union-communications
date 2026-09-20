@@ -22,14 +22,14 @@ import type { GrievanceWithRelations } from "@/types/grievance";
 const sampleGrievance: GrievanceWithRelations = {
   grievance: {
     id: "grev-test",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     category: "Discipline",
     status: "open",
     currentStep: 1,
     filedAt: "2026-01-01T00:00:00.000Z",
-    assignedStewardId: "user-steward-243",
-    createdById: "user-president-243",
+    assignedStewardId: "user-steward-7",
+    createdById: "user-president-7",
     updatedAt: "2026-01-01T00:00:00.000Z",
   },
   events: [
@@ -70,8 +70,8 @@ describe("passphrase encryption", () => {
 describe("hybrid slice", () => {
   it("builds and validates a slice", () => {
     const slice = buildHybridSlice({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       grievances: [sampleGrievance],
       bumpingCases: [],
     });
@@ -79,14 +79,14 @@ describe("hybrid slice", () => {
     expect(slice.grievances).toHaveLength(1);
     expect(slice.timeEntries).toEqual([]);
     expect(() =>
-      assertSliceTenantScope(slice, "union-opseu", "local-243"),
+      assertSliceTenantScope(slice, "union-b7p", "local-7"),
     ).not.toThrow();
   });
 
   it("rejects cross-tenant rows", () => {
     const slice = buildHybridSlice({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       grievances: [
         {
           ...sampleGrievance,
@@ -99,14 +99,14 @@ describe("hybrid slice", () => {
       bumpingCases: [],
     });
     expect(() =>
-      assertSliceTenantScope(slice, "union-opseu", "local-243"),
+      assertSliceTenantScope(slice, "union-b7p", "local-7"),
     ).toThrow(/another tenant/i);
   });
 
   it("encrypts and decrypts a hybrid file", async () => {
     const slice = buildHybridSlice({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       grievances: [sampleGrievance],
       bumpingCases: [],
     });
@@ -115,6 +115,6 @@ describe("hybrid slice", () => {
     expect(file.format).toBe("lunion-hybrid-v1");
     const restored = await decryptHybridFile(file, "hybrid-pass-123");
     expect(restored.grievances[0].grievance.id).toBe("grev-test");
-    expect(restored.unionId).toBe("union-opseu");
+    expect(restored.unionId).toBe("union-b7p");
   });
 });

@@ -67,7 +67,7 @@ const DEMO_GRIEVANCE_ID = "grev-seed-demo-001";
 const DEMO_EVENT_ID = "evt-seed-demo-001";
 
 function loadReferenceTenant(): ReferenceTenantSeed {
-  const path = resolve(process.cwd(), "seed/reference-tenant-opseu-caat.json");
+  const path = resolve(process.cwd(), "seed/reference-tenant-b7p.json");
   return JSON.parse(readFileSync(path, "utf8")) as ReferenceTenantSeed;
 }
 
@@ -84,6 +84,7 @@ export async function seedReferenceTenant(): Promise<ReferenceTenantSeed> {
       slug: seed.union.slug,
       defaultLocale: seed.union.defaultLocale ?? "en",
       enabledModules: seed.union.enabledModules,
+      isDemo: true,
     })
     .onConflictDoUpdate({
       target: unions.id,
@@ -92,6 +93,7 @@ export async function seedReferenceTenant(): Promise<ReferenceTenantSeed> {
         slug: seed.union.slug,
         defaultLocale: seed.union.defaultLocale ?? "en",
         enabledModules: seed.union.enabledModules,
+        isDemo: true,
       },
     });
 
@@ -103,6 +105,7 @@ export async function seedReferenceTenant(): Promise<ReferenceTenantSeed> {
       name: seed.division.name,
       code: seed.division.code,
       enabledModules: seed.division.enabledModules,
+      isDemo: true,
     })
     .onConflictDoUpdate({
       target: divisions.id,
@@ -111,6 +114,7 @@ export async function seedReferenceTenant(): Promise<ReferenceTenantSeed> {
         name: seed.division.name,
         code: seed.division.code,
         enabledModules: seed.division.enabledModules,
+        isDemo: true,
       },
     });
 
@@ -123,6 +127,7 @@ export async function seedReferenceTenant(): Promise<ReferenceTenantSeed> {
         divisionId: local.divisionId ?? null,
         localNumber: local.localNumber,
         subText: local.subText ?? "",
+        isDemo: true,
       })
       .onConflictDoUpdate({
         target: locals.id,
@@ -131,6 +136,7 @@ export async function seedReferenceTenant(): Promise<ReferenceTenantSeed> {
           divisionId: local.divisionId ?? null,
           localNumber: local.localNumber,
           subText: local.subText ?? "",
+          isDemo: true,
         },
       });
   }

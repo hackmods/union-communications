@@ -24,6 +24,13 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "b7p-demo-roster",
+    date: "2026-09-20",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/login",
+  },
+  {
     id: "demo-cleanup-purge",
     date: "2026-09-20",
     kind: "added",

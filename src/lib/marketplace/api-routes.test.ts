@@ -31,12 +31,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: input?.name ?? "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: input?.name ?? "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -101,7 +101,7 @@ describe("marketplace API routes", () => {
         },
         {
           unionId: "union-other",
-          localId: "local-243",
+          localId: "local-7",
           sharedById: "user-x",
           sharedByName: "Other",
         },
@@ -114,8 +114,8 @@ describe("marketplace API routes", () => {
           body: "Share within the union.",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           sharedById: "user-y",
           sharedByName: "560 President",
         },
@@ -127,7 +127,7 @@ describe("marketplace API routes", () => {
       const body = (await res.json()) as {
         templates: Array<{ id: string; unionId: string; localId: string; title: string }>;
       };
-      expect(body.templates.every((t) => t.unionId === "union-opseu")).toBe(true);
+      expect(body.templates.every((t) => t.unionId === "union-b7p")).toBe(true);
       expect(body.templates.map((t) => t.title)).not.toContain("Other union leak");
       expect(body.templates.some((t) => t.id === otherLocal.id)).toBe(true);
     });
@@ -185,18 +185,18 @@ describe("marketplace API routes", () => {
           title: string;
         };
       };
-      expect(body.template.unionId).toBe("union-opseu");
-      expect(body.template.localId).toBe("local-243");
-      expect(body.template.sharedById).toBe("user-president-243");
-      expect(body.template.sharedByName).toBe("Local 243 President");
+      expect(body.template.unionId).toBe("union-b7p");
+      expect(body.template.localId).toBe("local-7");
+      expect(body.template.sharedById).toBe("user-president-7");
+      expect(body.template.sharedByName).toBe("Local 7 President");
       expect(body.template.title).toBe("Step 2 follow-up");
     });
 
     it("lets a steward publish and forbids local_exec and members", async () => {
       authMock.mockResolvedValue(
         session({
-          id: "user-steward-243",
-          name: "Local 243 Steward",
+          id: "user-steward-7",
+          name: "Local 7 Steward",
           roles: ["local_steward"],
         }),
       );
@@ -205,7 +205,7 @@ describe("marketplace API routes", () => {
       const body = (await created.json()) as {
         template: { sharedById: string };
       };
-      expect(body.template.sharedById).toBe("user-steward-243");
+      expect(body.template.sharedById).toBe("user-steward-7");
 
       authMock.mockResolvedValue(session({ roles: ["local_exec"] }));
       expect((await createTemplate(jsonRequest(validCreate))).status).toBe(403);
@@ -263,8 +263,8 @@ describe("marketplace API routes", () => {
           body: "Hello",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           sharedById: "user-y",
           sharedByName: "560",
         },
@@ -280,7 +280,7 @@ describe("marketplace API routes", () => {
         template: { id: string; localId: string };
       };
       expect(body.template.id).toBe(sister.id);
-      expect(body.template.localId).toBe("local-560");
+      expect(body.template.localId).toBe("local-1337");
     });
   });
 
@@ -308,8 +308,8 @@ describe("marketplace API routes", () => {
     it("lets a steward delete their own template but not another officer's", async () => {
       authMock.mockResolvedValue(
         session({
-          id: "user-steward-243",
-          name: "Local 243 Steward",
+          id: "user-steward-7",
+          name: "Local 7 Steward",
           roles: ["local_steward"],
         }),
       );

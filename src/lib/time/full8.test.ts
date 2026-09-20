@@ -12,8 +12,8 @@ import type { TimeEntry, TimeOtPolicy } from "@/types/time";
 
 const basePolicy: TimeOtPolicy = {
   id: "pol-1",
-  unionId: "union-opseu",
-  localId: "local-243",
+  unionId: "union-b7p",
+  localId: "local-7",
   name: "Standard",
   payPeriodType: "biweekly",
   payPeriodDays: 14,
@@ -41,8 +41,8 @@ function entry(
   const end = new Date(start.getTime() + hours * 3_600_000);
   return {
     id,
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     workerId,
     workerName: "Worker",
     category: "staff",
@@ -109,13 +109,13 @@ describe("Time Phase 8 full — memory adapter", () => {
   it("creates worker groups and OT policies", async () => {
     const group = await memoryTimeStore.upsertWorkerGroup(
       { name: "Board", memberWorkerIds: ["tw-president-243"] },
-      { unionId: "union-opseu", localId: "local-243" },
+      { unionId: "union-b7p", localId: "local-7" },
     );
     expect(group.name).toBe("Board");
 
     const policy = await memoryTimeStore.upsertOtPolicy(
       { name: "Local OT", weeklyRegularHours: 44 },
-      { unionId: "union-opseu", localId: "local-243" },
+      { unionId: "union-b7p", localId: "local-7" },
     );
     expect(policy.weeklyRegularHours).toBe(44);
   });
@@ -136,9 +136,9 @@ describe("Time Phase 8 full — memory adapter", () => {
         status: "published",
       },
       {
-        unionId: "union-opseu",
-        localId: "local-243",
-        createdById: "user-president-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        createdById: "user-president-7",
       },
     );
 
@@ -147,9 +147,9 @@ describe("Time Phase 8 full — memory adapter", () => {
       "2030-09-01T00:00:00.000Z",
       "2030-09-30T23:59:59.000Z",
       {
-        unionId: "union-opseu",
-        localId: "local-243",
-        createdById: "user-president-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        createdById: "user-president-7",
       },
     );
     expect(created.length).toBeGreaterThan(0);
@@ -165,15 +165,15 @@ describe("Time Phase 8 full — memory adapter", () => {
         hoursWorkedRate: 0.05,
         eligibleCategories: ["staff"],
       },
-      { unionId: "union-opseu", localId: "local-243" },
+      { unionId: "union-b7p", localId: "local-7" },
     );
     const workers = await memoryTimeStore.listWorkers({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
     });
     const policies = await memoryTimeStore.listAccrualPolicies(
-      "union-opseu",
-      "local-243",
+      "union-b7p",
+      "local-7",
     );
     const results = runAccrualPolicies({
       policies,

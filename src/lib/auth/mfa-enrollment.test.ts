@@ -24,12 +24,12 @@ describe("generateTotpSecret", () => {
 
 describe("buildOtpauthUri", () => {
   it("builds a scannable otpauth URI with issuer + account label", () => {
-    const uri = buildOtpauthUri("JBSWY3DPEHPK3PXP", "president.243@unionops.test");
+    const uri = buildOtpauthUri("JBSWY3DPEHPK3PXP", "president.7@unionops.test");
     expect(uri).toMatch(/^otpauth:\/\/totp\//);
     expect(uri).toContain("secret=JBSWY3DPEHPK3PXP");
     expect(uri).toContain("issuer=UnionOps");
     expect(decodeURIComponent(uri)).toContain(
-      "UnionOps:president.243@unionops.test",
+      "UnionOps:president.7@unionops.test",
     );
   });
 });

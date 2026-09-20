@@ -25,12 +25,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -95,7 +95,7 @@ describe("ledger API routes", () => {
         },
         {
           unionId: "union-other",
-          localId: "local-243",
+          localId: "local-7",
           recordedById: "user-x",
         },
       );
@@ -108,8 +108,8 @@ describe("ledger API routes", () => {
           category: "social",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           recordedById: "user-y",
         },
       );
@@ -120,8 +120,8 @@ describe("ledger API routes", () => {
       const body = (await res.json()) as {
         entries: Array<{ unionId: string; localId: string; description: string }>;
       };
-      expect(body.entries.every((e) => e.unionId === "union-opseu")).toBe(true);
-      expect(body.entries.every((e) => e.localId === "local-243")).toBe(true);
+      expect(body.entries.every((e) => e.unionId === "union-b7p")).toBe(true);
+      expect(body.entries.every((e) => e.localId === "local-7")).toBe(true);
       expect(body.entries.map((e) => e.description)).not.toContain("Other union");
       expect(body.entries.map((e) => e.description)).not.toContain("Other local");
     });
@@ -150,9 +150,9 @@ describe("ledger API routes", () => {
           amount: number;
         };
       };
-      expect(body.entry.unionId).toBe("union-opseu");
-      expect(body.entry.localId).toBe("local-243");
-      expect(body.entry.recordedById).toBe("user-president-243");
+      expect(body.entry.unionId).toBe("union-b7p");
+      expect(body.entry.localId).toBe("local-7");
+      expect(body.entry.recordedById).toBe("user-president-7");
       expect(body.entry.amount).toBe(40);
     });
 

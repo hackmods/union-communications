@@ -95,12 +95,12 @@ describe("FEAT-004 grievance outcome", () => {
         settlementTerms: "Without prejudice resolution",
         decidedAt,
       },
-      { recordedById: "user-president-243" },
+      { recordedById: "user-president-7" },
     );
     expect(recorded).not.toBeNull();
     expect(recorded?.grievanceId).toBe("grev-001");
     expect(recorded?.outcomeType).toBe("settled");
-    expect(recorded?.recordedById).toBe("user-president-243");
+    expect(recorded?.recordedById).toBe("user-president-7");
     expect(recorded?.decidedAt).toBe(decidedAt);
 
     const fetched = await grievanceStore.getOutcome("grev-001");
@@ -115,7 +115,7 @@ describe("FEAT-004 grievance outcome", () => {
         outcomeType: "denied",
         decidedAt: "2026-05-01T00:00:00.000Z",
       },
-      { recordedById: "user-president-243" },
+      { recordedById: "user-president-7" },
     );
     const second = await grievanceStore.recordOutcome(
       "grev-002",
@@ -123,11 +123,11 @@ describe("FEAT-004 grievance outcome", () => {
         outcomeType: "withdrawn",
         decidedAt: "2026-06-01T00:00:00.000Z",
       },
-      { recordedById: "user-steward-243" },
+      { recordedById: "user-steward-7" },
     );
     expect(second?.id).toBe(first?.id);
     expect(second?.outcomeType).toBe("withdrawn");
-    expect(second?.recordedById).toBe("user-steward-243");
+    expect(second?.recordedById).toBe("user-steward-7");
   });
 
   it("returns null when recording outcome for unknown grievance", async () => {
@@ -137,7 +137,7 @@ describe("FEAT-004 grievance outcome", () => {
         outcomeType: "upheld",
         decidedAt: "2026-07-01T00:00:00.000Z",
       },
-      { recordedById: "user-president-243" },
+      { recordedById: "user-president-7" },
     );
     expect(result).toBeNull();
   });

@@ -28,8 +28,8 @@ async function seedInvitee() {
   const invite = await createInvite({
     email: "reset.officer@example.ca",
     name: "Reset Officer",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     roles: ["local_steward"],
     invitedById: "admin-1",
   });
@@ -132,7 +132,7 @@ describe("auth email and password-reset routes", () => {
 
       const demo = await forgotPassword(
         jsonPost("http://localhost/api/auth/forgot-password", {
-          email: "president.243@unionops.test",
+          email: "president.7@unionops.test",
         }),
       );
       expect(demo.status).toBe(200);
@@ -223,7 +223,7 @@ describe("auth email and password-reset routes", () => {
 
       const res = await signInEmail(
         jsonPost("http://localhost/api/auth/sign-in-email", {
-          email: "president.243@unionops.test",
+          email: "president.7@unionops.test",
         }),
       );
       expect(res.status).toBe(200);
@@ -243,7 +243,7 @@ describe("auth email and password-reset routes", () => {
       const logged = (await auditLog.query({ resourceType: "auth", limit: 50 })).find(
         (entry) =>
           entry.action === "email.sign_in_link_skipped" &&
-          entry.metadata?.email === "president.243@unionops.test",
+          entry.metadata?.email === "president.7@unionops.test",
       );
       expect(logged?.metadata).toMatchObject({
         smtpHost: "smtp.example.com",

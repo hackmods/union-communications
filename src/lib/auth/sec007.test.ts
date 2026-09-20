@@ -75,24 +75,24 @@ describe("demo auth gate", () => {
 
 describe("findDemoUser", () => {
   it("authenticates with bcrypt, not plaintext equality", async () => {
-    const user = await findDemoUser("president.243@unionops.test", "demo123", {
+    const user = await findDemoUser("president.7@unionops.test", "demo123", {
       NODE_ENV: "test",
     });
-    expect(user?.id).toBe("user-president-243");
+    expect(user?.id).toBe("user-president-7");
     expect(
       (user as { password?: string } | null)?.password,
     ).toBeUndefined();
     await expect(
-      findDemoUser("president.243@unionops.test", "Demo123", { NODE_ENV: "test" }),
-    ).resolves.toMatchObject({ id: "user-president-243" });
+      findDemoUser("president.7@unionops.test", "Demo123", { NODE_ENV: "test" }),
+    ).resolves.toMatchObject({ id: "user-president-7" });
     await expect(
-      findDemoUser("president.243@unionops.test", "nope", { NODE_ENV: "test" }),
+      findDemoUser("president.7@unionops.test", "nope", { NODE_ENV: "test" }),
     ).resolves.toBeNull();
   });
 
   it("refuses demo login when production gate is closed", async () => {
     await expect(
-      findDemoUser("president.243@unionops.test", "demo123", {
+      findDemoUser("president.7@unionops.test", "demo123", {
         NODE_ENV: "production",
       }),
     ).resolves.toBeNull();
@@ -108,10 +108,10 @@ describe("invite accept flow", () => {
     const invite = await createInvite({
       email: "new.steward@example.ca",
       name: "New Steward",
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       roles: ["local_steward"],
-      invitedById: "user-president-243",
+      invitedById: "user-president-7",
     });
     const accepted = await acceptInvite(invite.token, "securepass1");
     expect(accepted.user?.email).toBe("new.steward@example.ca");

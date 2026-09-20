@@ -30,12 +30,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-steward-243",
-      name: input?.name ?? "Local 243 Steward",
+      id: input?.id ?? "user-steward-7",
+      name: input?.name ?? "Local 7 Steward",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
     },
   };
@@ -66,8 +66,8 @@ async function seedSubmitted(input: {
       entrySource: "manual_range",
     },
     {
-      unionId: input.unionId ?? "union-opseu",
-      localId: input.localId ?? "local-243",
+      unionId: input.unionId ?? "union-b7p",
+      localId: input.localId ?? "local-7",
       jobCodeLabel: "Grievance handling",
     },
   );
@@ -98,7 +98,7 @@ describe("time entry HTTP routes", () => {
 
     it("lets a steward list only their own local entries and never another union", async () => {
       const own = await seedSubmitted({
-        workerId: "user-steward-243",
+        workerId: "user-steward-7",
         clockInAt: "2031-01-01T10:00:00.000Z",
         clockOutAt: "2031-01-01T12:00:00.000Z",
       });
@@ -109,8 +109,8 @@ describe("time entry HTTP routes", () => {
       });
       const foreign = await seedSubmitted({
         unionId: "union-other",
-        localId: "local-243",
-        workerId: "user-steward-243",
+        localId: "local-7",
+        workerId: "user-steward-7",
         clockInAt: "2031-01-03T10:00:00.000Z",
         clockOutAt: "2031-01-03T12:00:00.000Z",
       });
@@ -132,7 +132,7 @@ describe("time entry HTTP routes", () => {
         clockOutAt: "2031-02-01T12:00:00.000Z",
       });
       const sister = await seedSubmitted({
-        localId: "local-560",
+        localId: "local-1337",
         workerId: "user-560",
         clockInAt: "2031-02-02T10:00:00.000Z",
         clockOutAt: "2031-02-02T12:00:00.000Z",
@@ -146,7 +146,7 @@ describe("time entry HTTP routes", () => {
 
       authMock.mockResolvedValue(
         session({
-          id: "user-president-243",
+          id: "user-president-7",
           roles: ["local_president"],
         }),
       );
@@ -159,8 +159,8 @@ describe("time entry HTTP routes", () => {
       expect(ids).toContain(coworker.id);
       expect(ids).not.toContain(sister.id);
       expect(ids).not.toContain(foreign.id);
-      expect(body.entries.every((e) => e.unionId === "union-opseu")).toBe(true);
-      expect(body.entries.every((e) => e.localId === "local-243")).toBe(true);
+      expect(body.entries.every((e) => e.unionId === "union-b7p")).toBe(true);
+      expect(body.entries.every((e) => e.localId === "local-7")).toBe(true);
     });
   });
 
@@ -202,8 +202,8 @@ describe("time entry HTTP routes", () => {
       );
       expect(res.status).toBe(201);
       const body = (await res.json()) as { entry: TimeEntry };
-      expect(body.entry.unionId).toBe("union-opseu");
-      expect(body.entry.localId).toBe("local-243");
+      expect(body.entry.unionId).toBe("union-b7p");
+      expect(body.entry.localId).toBe("local-7");
       expect(body.entry.workerId).toBe("user-clock-in-http");
       expect(body.entry.status).toBe("active");
     });
@@ -304,7 +304,7 @@ describe("time entry HTTP routes", () => {
           geofenceMode: "block",
           active: true,
         },
-        { unionId: "union-opseu", localId: "local-243" },
+        { unionId: "union-b7p", localId: "local-7" },
       );
       authMock.mockResolvedValue(session({ id: "user-geo-clock" }));
       const res = await clockIn(
@@ -343,7 +343,7 @@ describe("time entry HTTP routes", () => {
         { category: "staff", jobCodeId: "code-staff-office" },
         {
           unionId: "union-other",
-          localId: "local-243",
+          localId: "local-7",
           workerId: "user-clock-out-own",
           workerName: "Same person other union",
           jobCodeLabel: "Office / admin",
@@ -358,7 +358,7 @@ describe("time entry HTTP routes", () => {
 
       authMock.mockResolvedValue(
         session({
-          id: "user-president-243",
+          id: "user-president-7",
           roles: ["local_president"],
         }),
       );
@@ -384,7 +384,7 @@ describe("time entry HTTP routes", () => {
 
       authMock.mockResolvedValue(
         session({
-          id: "user-president-243",
+          id: "user-president-7",
           roles: ["local_president"],
         }),
       );
@@ -403,7 +403,7 @@ describe("time entry HTTP routes", () => {
         clockOutAt: "2031-04-02T12:00:00.000Z",
       });
       const sister = await seedSubmitted({
-        localId: "local-560",
+        localId: "local-1337",
         workerId: "user-bulk-560",
         clockInAt: "2031-04-03T10:00:00.000Z",
         clockOutAt: "2031-04-03T12:00:00.000Z",

@@ -19,21 +19,21 @@ describe("Time 8c.2 shifts memory adapter", () => {
         startsAt: "2030-09-01T09:00:00.000Z",
         endsAt: "2030-09-01T13:00:00.000Z",
         category: "action",
-        assignedWorkerIds: ["user-steward-243"],
+        assignedWorkerIds: ["user-steward-7"],
         status: "draft",
       },
       {
-        unionId: "union-opseu",
-        localId: "local-243",
-        createdById: "user-president-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        createdById: "user-president-7",
       },
     );
     expect(created.status).toBe("draft");
 
     const listed = await memoryTimeStore.listShifts({
-      unionId: "union-opseu",
-      localId: "local-243",
-      workerId: "user-steward-243",
+      unionId: "union-b7p",
+      localId: "local-7",
+      workerId: "user-steward-7",
     });
     expect(listed.some((s) => s.id === created.id)).toBe(true);
 
@@ -55,13 +55,13 @@ describe("Time 8c.2 shifts memory adapter", () => {
         startsAt: "2030-09-02T09:00:00.000Z",
         endsAt: "2030-09-02T17:00:00.000Z",
         category: "staff",
-        assignedWorkerIds: ["user-steward-243"],
+        assignedWorkerIds: ["user-steward-7"],
         status: "published",
       },
       {
-        unionId: "union-opseu",
-        localId: "local-243",
-        createdById: "user-president-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        createdById: "user-president-7",
       },
     );
 
@@ -72,9 +72,9 @@ describe("Time 8c.2 shifts memory adapter", () => {
         shiftId: shift.id,
       },
       {
-        unionId: "union-opseu",
-        localId: "local-243",
-        workerId: "user-steward-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        workerId: "user-steward-7",
         workerName: "Steward",
         jobCodeLabel: "Office / admin",
       },
@@ -86,15 +86,15 @@ describe("Time 8c.2 shifts memory adapter", () => {
 describe("Shift access", () => {
   const sample: TimeShift = {
     id: "shift-1",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     label: "Desk",
     startsAt: "2030-01-01T09:00:00.000Z",
     endsAt: "2030-01-01T17:00:00.000Z",
     category: "staff",
-    assignedWorkerIds: ["user-steward-243"],
+    assignedWorkerIds: ["user-steward-7"],
     status: "published",
-    createdById: "user-president-243",
+    createdById: "user-president-7",
     createdAt: "2030-01-01T00:00:00.000Z",
     updatedAt: "2030-01-01T00:00:00.000Z",
   };
@@ -103,36 +103,36 @@ describe("Shift access", () => {
     expect(
       canViewTimeShift(
         sample,
-        "user-steward-243",
-        "union-opseu",
-        "local-243",
+        "user-steward-7",
+        "union-b7p",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(true);
     expect(
       canViewTimeShift(
         { ...sample, status: "draft" },
-        "user-steward-243",
-        "union-opseu",
-        "local-243",
+        "user-steward-7",
+        "union-b7p",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(false);
     expect(
       canMutateTimeShift(
         sample,
-        "user-steward-243",
-        "union-opseu",
-        "local-243",
+        "user-steward-7",
+        "union-b7p",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(false);
     expect(
       canMutateTimeShift(
         sample,
-        "user-president-243",
-        "union-opseu",
-        "local-243",
+        "user-president-7",
+        "union-b7p",
+        "local-7",
         ["local_president"],
       ),
     ).toBe(true);

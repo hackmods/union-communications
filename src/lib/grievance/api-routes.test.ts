@@ -37,12 +37,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: input?.name ?? "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: input?.name ?? "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -60,8 +60,8 @@ function params(id: string) {
 
 const stewardSession = () =>
   session({
-    id: "user-steward-243",
-    name: "Local 243 Steward",
+    id: "user-steward-7",
+    name: "Local 7 Steward",
     roles: ["local_steward"],
   });
 
@@ -198,9 +198,9 @@ describe("grievance communications / meetings / notes / outcome API", () => {
           summary: string;
         };
       };
-      expect(body.communication.unionId).toBe("union-opseu");
-      expect(body.communication.localId).toBe("local-243");
-      expect(body.communication.loggedById).toBe("user-steward-243");
+      expect(body.communication.unionId).toBe("union-b7p");
+      expect(body.communication.localId).toBe("local-7");
+      expect(body.communication.loggedById).toBe("user-steward-7");
       expect(body.communication.summary).toBe("Sent Step 1 update");
     });
 
@@ -288,9 +288,9 @@ describe("grievance communications / meetings / notes / outcome API", () => {
         };
         ics: string;
       };
-      expect(body.meeting.unionId).toBe("union-opseu");
-      expect(body.meeting.localId).toBe("local-243");
-      expect(body.meeting.createdById).toBe("user-steward-243");
+      expect(body.meeting.unionId).toBe("union-b7p");
+      expect(body.meeting.localId).toBe("local-7");
+      expect(body.meeting.createdById).toBe("user-steward-7");
       expect(body.ics).toContain("BEGIN:VEVENT");
       expect(body.ics).toContain("SUMMARY:Step 1 follow-up");
       expect(body.ics).toContain("LOCATION:HR office");
@@ -328,8 +328,8 @@ describe("grievance communications / meetings / notes / outcome API", () => {
       const body = (await created.json()) as {
         note: { authorId: string; authorName: string; body: string };
       };
-      expect(body.note.authorId).toBe("user-steward-243");
-      expect(body.note.authorName).toBe("Local 243 Steward");
+      expect(body.note.authorId).toBe("user-steward-7");
+      expect(body.note.authorName).toBe("Local 7 Steward");
       expect(body.note.body).toBe("Member confirmed the timeline.");
     });
 
@@ -391,7 +391,7 @@ describe("grievance communications / meetings / notes / outcome API", () => {
       };
       expect(body.outcome.grievanceId).toBe("grev-001");
       expect(body.outcome.outcomeType).toBe("settled");
-      expect(body.outcome.recordedById).toBe("user-president-243");
+      expect(body.outcome.recordedById).toBe("user-president-7");
     });
 
     it("forbids a steward from recording an outcome on an unassigned case", async () => {

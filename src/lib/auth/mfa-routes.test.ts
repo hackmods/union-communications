@@ -26,11 +26,11 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      email: input?.email ?? "president.243@unionops.test",
-      name: "Local 243 President",
-      unionId: "union-opseu",
-      localId: "local-243",
+      id: input?.id ?? "user-president-7",
+      email: input?.email ?? "president.7@unionops.test",
+      name: "Local 7 President",
+      unionId: "union-b7p",
+      localId: "local-7",
       roles: input?.roles ?? (["local_president"] as UserRole[]),
       mfaVerified: input?.mfaVerified,
     },
@@ -102,14 +102,14 @@ describe("MFA API routes", () => {
       process.env.AUTH_MFA_MODE = "totp";
       authMock.mockResolvedValue(session());
 
-      const before = await getTotpSecretForUser("user-president-243");
+      const before = await getTotpSecretForUser("user-president-7");
       const res = await enrollMfa();
       expect(res.status).toBe(200);
       const body = (await res.json()) as { secret: string; otpauthUri: string };
       expect(body.secret).toMatch(/^[A-Z2-7]+$/);
       expect(body.otpauthUri).toContain("otpauth://totp/");
       expect(body.otpauthUri).toContain(`secret=${body.secret}`);
-      expect(await getTotpSecretForUser("user-president-243")).toBe(before);
+      expect(await getTotpSecretForUser("user-president-7")).toBe(before);
     });
   });
 
@@ -139,7 +139,7 @@ describe("MFA API routes", () => {
       const { secret } = (await enrolled.json()) as { secret: string };
       const wrong = await confirmEnroll(jsonRequest({ code: "000000" }));
       expect(wrong.status).toBe(400);
-      expect(await getTotpSecretForUser("user-president-243")).not.toBe(secret);
+      expect(await getTotpSecretForUser("user-president-7")).not.toBe(secret);
     });
 
     it("persists the pending secret only after a valid TOTP", async () => {
@@ -153,7 +153,7 @@ describe("MFA API routes", () => {
       const confirmed = await confirmEnroll(jsonRequest({ code }));
       expect(confirmed.status).toBe(200);
       expect(await confirmed.json()).toEqual({ success: true });
-      expect(await getTotpSecretForUser("user-president-243")).toBe(secret);
+      expect(await getTotpSecretForUser("user-president-7")).toBe(secret);
     });
   });
 

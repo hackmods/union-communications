@@ -35,12 +35,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -174,8 +174,8 @@ describe("elections promote API", () => {
     expect(body.cycle.id).toBe("elec-001");
     expect(body.officer.name).toBe("Alex Rivera");
     expect(body.officer.role).toBe("President");
-    expect(body.officer.unionId).toBe("union-opseu");
-    expect(body.officer.localId).toBe("local-243");
+    expect(body.officer.unionId).toBe("union-b7p");
+    expect(body.officer.localId).toBe("local-7");
     expect(body.officer.termStart).toBe("2026-09-01");
   });
 });
@@ -221,11 +221,11 @@ describe("elections list/create/nominations/tallies API", () => {
   it("does not list another union or another local for a president", async () => {
     await memoryElectionsStore.create(
       { title: "Other union exec", positions: ["President"] },
-      { unionId: "union-other", localId: "local-243" },
+      { unionId: "union-other", localId: "local-7" },
     );
     await memoryElectionsStore.create(
       { title: "Other local exec", positions: ["President"] },
-      { unionId: "union-opseu", localId: "local-560" },
+      { unionId: "union-b7p", localId: "local-1337" },
     );
 
     authMock.mockResolvedValue(session());
@@ -234,8 +234,8 @@ describe("elections list/create/nominations/tallies API", () => {
     const body = (await res.json()) as {
       cycles: Array<{ title: string; unionId: string; localId: string }>;
     };
-    expect(body.cycles.every((c) => c.unionId === "union-opseu")).toBe(true);
-    expect(body.cycles.every((c) => c.localId === "local-243")).toBe(true);
+    expect(body.cycles.every((c) => c.unionId === "union-b7p")).toBe(true);
+    expect(body.cycles.every((c) => c.localId === "local-7")).toBe(true);
     expect(body.cycles.map((c) => c.title)).not.toContain("Other union exec");
     expect(body.cycles.map((c) => c.title)).not.toContain("Other local exec");
     expect(body.cycles.map((c) => c.title)).toContain("2026 Executive election");
@@ -266,8 +266,8 @@ describe("elections list/create/nominations/tallies API", () => {
       };
     };
     expect(body.cycle.title).toBe("Special election");
-    expect(body.cycle.unionId).toBe("union-opseu");
-    expect(body.cycle.localId).toBe("local-243");
+    expect(body.cycle.unionId).toBe("union-b7p");
+    expect(body.cycle.localId).toBe("local-7");
     expect(body.cycle.status).toBe("open");
   });
 

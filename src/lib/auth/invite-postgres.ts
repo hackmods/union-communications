@@ -39,6 +39,8 @@ export type UpsertPostgresUserInput = {
   mfaEnabled?: boolean;
   /** When set, update this user id instead of upserting by email. */
   userId?: string;
+  /** Demo roster flag — site-admin purge registry. */
+  isDemo?: boolean;
 };
 
 /** Create or update a durable Hub user (bootstrap + invite accept). */
@@ -60,14 +62,37 @@ export async function upsertPostgresUser(
     roles: input.roles,
     totpSecret: input.totpSecret ?? null,
     mfaEnabled: input.mfaEnabled ?? false,
+    ...(input.isDemo !== undefined ? { isDemo: input.isDemo } : {}),
   };
 
   if (input.userId) {
-    await db
-      .update(users)
-      .set(values)
-      .where(eq(users.id, input.userId));
-    return { id: input.userId, created: false };
+    const byId = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.id, input.userId))
+      .limit(1);
+    if (byId[0]) {
+      await db
+        .update(users)
+        .set(values)
+        .where(eq(users.id, input.userId));
+      return { id: input.userId, created: false };
+    }
+    const byEmail = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+    if (byEmail[0]) {
+      // Stable demo ids win: retarget the email row when the preferred id is free.
+      await db
+        .update(users)
+        .set(values)
+        .where(eq(users.id, byEmail[0].id));
+      return { id: byEmail[0].id, created: false };
+    }
+    await db.insert(users).values({ id: input.userId, ...values });
+    return { id: input.userId, created: true };
   }
 
   const existing = await db

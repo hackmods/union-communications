@@ -225,7 +225,7 @@ test.describe("Local Portal smoke @smoke", () => {
       {
         data: {
           tool: "roster_invite",
-          userId: "user-president-560",
+          userId: "user-president-1337",
         },
       },
     );
@@ -237,7 +237,7 @@ test.describe("Local Portal smoke @smoke", () => {
   });
 
   test("French Together uses solidarity labels", async ({ page }) => {
-    await hubLogin(page, "member.243@unionops.test");
+    await hubLogin(page, "member.7@unionops.test");
     await expect(page).toHaveURL(/\/en\/portal\/?$/);
     await page.goto("/fr/portal");
     await expect(page.getByRole("heading", { name: "Ensemble" })).toBeVisible();
@@ -277,7 +277,7 @@ test.describe("Local Portal smoke @smoke", () => {
 
   test("steward sees One fight on LEC", async ({ page }) => {
     await loginAsSteward(page);
-    await page.goto("/en/portal/circles/circle-lec-243");
+    await page.goto("/en/portal/circles/circle-lec-7");
     await page.getByRole("tab", { name: "One fight" }).click();
     await expect(
       page.getByText("Membership meeting turnout plan"),

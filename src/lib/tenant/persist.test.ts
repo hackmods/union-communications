@@ -27,9 +27,9 @@ describe("applyPersistedSnapshotToOverlay", () => {
     applyPersistedSnapshotToOverlay({
       unions: [
         {
-          id: "union-opseu",
-          name: "OPSEU",
-          slug: "opseu",
+          id: "union-b7p",
+          name: "Behind 7 Proxies",
+          slug: "b7p",
           defaultLocale: "en",
           enabledModules: ["comms", "portal"],
         },
@@ -38,7 +38,7 @@ describe("applyPersistedSnapshotToOverlay", () => {
       locals: [
         {
           id: "local-777",
-          unionId: "union-opseu",
+          unionId: "union-b7p",
           localNumber: "777",
           subText: "Pilot local",
         },
@@ -46,18 +46,18 @@ describe("applyPersistedSnapshotToOverlay", () => {
       bargainingUnits: [
         {
           id: "bu-777-ft",
-          unionId: "union-opseu",
+          unionId: "union-b7p",
           localId: "local-777",
           code: "ft",
           name: "Full-time",
         },
       ],
     });
-    expect(findLocalByNumber("union-opseu", "243")?.id).toBe("local-243");
-    expect(findLocalByNumber("union-opseu", "777")?.subText).toBe("Pilot local");
-    const ctx = getTenantByUnionId("union-opseu");
+    expect(findLocalByNumber("union-b7p", "7")?.id).toBe("local-7");
+    expect(findLocalByNumber("union-b7p", "777")?.subText).toBe("Pilot local");
+    const ctx = getTenantByUnionId("union-b7p");
     expect(ctx?.bargainingUnits?.some((u) => u.id === "bu-777-ft")).toBe(true);
-    expect(ctx?.brandDefaults.assetPackPath).toContain("caat-opseu");
+    expect(ctx?.brandDefaults.assetPackPath ?? "").not.toContain("caat-opseu");
   });
 
   it("imports a new union with host brand defaults, not OPSEU assets", () => {
@@ -91,7 +91,7 @@ describe("applyPersistedSnapshotToOverlay", () => {
   it("is idempotent when the same local is applied twice", () => {
     const local = {
       id: "local-888",
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       localNumber: "888",
       subText: "Once",
     };
@@ -108,7 +108,7 @@ describe("applyPersistedSnapshotToOverlay", () => {
       bargainingUnits: [],
     });
     const matches =
-      getTenantByUnionId("union-opseu")?.locals?.filter(
+      getTenantByUnionId("union-b7p")?.locals?.filter(
         (row) => row.id === "local-888",
       ) ?? [];
     expect(matches).toHaveLength(1);

@@ -27,12 +27,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-steward-243",
-      name: "Local 243 Steward",
+      id: input?.id ?? "user-steward-7",
+      name: "Local 7 Steward",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       bargainingUnitId: input?.bargainingUnitId,
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
     },
@@ -84,8 +84,8 @@ describe("GET /api/calendar", () => {
     const { status, body } = await listEvents();
     expect(status).toBe(200);
     const events = body.events ?? [];
-    expect(events.every((e) => e.unionId === "union-opseu")).toBe(true);
-    expect(events.every((e) => e.localId === "local-243")).toBe(true);
+    expect(events.every((e) => e.unionId === "union-b7p")).toBe(true);
+    expect(events.every((e) => e.localId === "local-7")).toBe(true);
     expect(events.map((e) => e.id)).toContain("meet-001");
     expect(events.map((e) => e.id)).not.toContain("meet-002");
     expect(events.map((e) => e.id)).toContain("sess-001");
@@ -134,7 +134,7 @@ describe("GET /api/calendar", () => {
     expect(status).toBe(200);
     const events = body.events ?? [];
     expect(events.map((e) => e.id)).not.toContain(meeting!.id);
-    expect(events.every((e) => e.unionId === "union-opseu")).toBe(true);
+    expect(events.every((e) => e.unionId === "union-b7p")).toBe(true);
   });
 
   it("keeps a local president on their local; union_admin without localId sees sister locals", async () => {
@@ -146,21 +146,21 @@ describe("GET /api/calendar", () => {
         endsAt: "2026-09-12T15:00:00.000Z",
       },
       {
-        unionId: "union-opseu",
-        localId: "local-560",
+        unionId: "union-b7p",
+        localId: "local-1337",
         createdById: "user-division-admin",
       },
     );
 
     authMock.mockResolvedValue(
       session({
-        id: "user-president-243",
+        id: "user-president-7",
         roles: ["local_president"],
       }),
     );
     const president = await listEvents();
     expect(president.status).toBe(200);
-    expect(president.body.events?.every((e) => e.localId === "local-243")).toBe(
+    expect(president.body.events?.every((e) => e.localId === "local-7")).toBe(
       true,
     );
     expect(
@@ -179,7 +179,7 @@ describe("GET /api/calendar", () => {
     expect(
       admin.body.events?.some((e) => e.title === "Local 560 step meeting"),
     ).toBe(true);
-    expect(admin.body.events?.every((e) => e.unionId === "union-opseu")).toBe(
+    expect(admin.body.events?.every((e) => e.unionId === "union-b7p")).toBe(
       true,
     );
   });

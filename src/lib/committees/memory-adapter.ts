@@ -12,8 +12,8 @@ function seedCommittees(): Committee[] {
   return [
     {
       id: "com-001",
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       name: "Health & Safety",
       description: "Workplace health and safety representatives.",
       memberOfficerIds: ["off-002"],
@@ -22,8 +22,8 @@ function seedCommittees(): Committee[] {
     },
     {
       id: "com-002",
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       name: "Social",
       description: "Member events and solidarity fundraising.",
       memberOfficerIds: ["off-001"],

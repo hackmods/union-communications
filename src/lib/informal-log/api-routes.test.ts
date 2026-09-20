@@ -34,10 +34,10 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-steward-243",
-      name: input?.name ?? "Local 243 Steward",
-      unionId: input?.unionId ?? "union-opseu",
-      localId: input?.localId ?? "local-243",
+      id: input?.id ?? "user-steward-7",
+      name: input?.name ?? "Local 7 Steward",
+      unionId: input?.unionId ?? "union-b7p",
+      localId: input?.localId ?? "local-7",
       bargainingUnitId: input?.bargainingUnitId,
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
     },
@@ -101,7 +101,7 @@ describe("informal log API routes", () => {
         },
         {
           unionId: "union-other",
-          localId: "local-243",
+          localId: "local-7",
           loggedById: "user-x",
           loggedByName: "X",
         },
@@ -114,8 +114,8 @@ describe("informal log API routes", () => {
           occurredAt: "2026-08-21T13:00:00.000Z",
         },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           loggedById: "user-y",
           loggedByName: "Y",
         },
@@ -132,8 +132,8 @@ describe("informal log API routes", () => {
           topic: string;
         }>;
       };
-      expect(body.entries.every((e) => e.unionId === "union-opseu")).toBe(true);
-      expect(body.entries.every((e) => e.localId === "local-243")).toBe(true);
+      expect(body.entries.every((e) => e.unionId === "union-b7p")).toBe(true);
+      expect(body.entries.every((e) => e.localId === "local-7")).toBe(true);
       expect(body.entries.map((e) => e.topic)).not.toContain("Other union");
       expect(body.entries.map((e) => e.topic)).not.toContain("Other local");
     });
@@ -169,9 +169,9 @@ describe("informal log API routes", () => {
       const body = (await created.json()) as {
         entry: { unionId: string; localId: string; loggedById: string };
       };
-      expect(body.entry.unionId).toBe("union-opseu");
-      expect(body.entry.localId).toBe("local-243");
-      expect(body.entry.loggedById).toBe("user-steward-243");
+      expect(body.entry.unionId).toBe("union-b7p");
+      expect(body.entry.localId).toBe("local-7");
+      expect(body.entry.loggedById).toBe("user-steward-7");
     });
 
     it("returns 403 when a member tries to create a log", async () => {
@@ -230,7 +230,7 @@ describe("informal log API routes", () => {
         403,
       );
 
-      authMock.mockResolvedValue(session({ id: "user-steward-243" }));
+      authMock.mockResolvedValue(session({ id: "user-steward-7" }));
       const deleted = await deleteLog(listRequest(), params("ilog-001"));
       expect(deleted.status).toBe(200);
       expect(await memoryInformalLogStore.getById("ilog-001")).toBeNull();
@@ -267,13 +267,13 @@ describe("informal log API routes", () => {
         };
       };
       expect(body.entry.convertedToGrievanceId).toBe(body.grievance.id);
-      expect(body.grievance.unionId).toBe("union-opseu");
-      expect(body.grievance.localId).toBe("local-243");
+      expect(body.grievance.unionId).toBe("union-b7p");
+      expect(body.grievance.localId).toBe("local-7");
       expect(body.grievance.category).toBe("Scheduling / overtime assignment");
-      expect(body.grievance.assignedStewardId).toBe("user-steward-243");
+      expect(body.grievance.assignedStewardId).toBe("user-steward-7");
 
       const stored = await grievanceStore.getById(body.grievance.id);
-      expect(stored?.grievance.unionId).toBe("union-opseu");
+      expect(stored?.grievance.unionId).toBe("union-b7p");
       expect(stored?.notes[0]?.body).toContain("Converted from informal log");
 
       const again = await convertLog(listRequest(), params("ilog-001"));

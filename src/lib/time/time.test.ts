@@ -21,9 +21,9 @@ import type {
 
 const sampleEntry: TimeEntry = {
   id: "time-0001",
-  unionId: "union-opseu",
-  localId: "local-243",
-  workerId: "user-steward-243",
+  unionId: "union-b7p",
+  localId: "local-7",
+  workerId: "user-steward-7",
   workerName: "Steward",
   category: "release",
   jobCodeId: "code-release-grievance",
@@ -41,9 +41,9 @@ describe("time access", () => {
     expect(
       canViewTimeEntry(
         sampleEntry,
-        "user-steward-243",
-        "union-opseu",
-        "local-243",
+        "user-steward-7",
+        "union-b7p",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(true);
@@ -54,8 +54,8 @@ describe("time access", () => {
       canViewTimeEntry(
         sampleEntry,
         "user-other",
-        "union-opseu",
-        "local-243",
+        "union-b7p",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(false);
@@ -67,9 +67,9 @@ describe("time access", () => {
     expect(
       canApproveTimeEntry(
         submitted,
-        "user-president-243",
-        "union-opseu",
-        "local-243",
+        "user-president-7",
+        "union-b7p",
+        "local-7",
         ["local_president"],
       ),
     ).toBe(true);
@@ -79,9 +79,9 @@ describe("time access", () => {
     expect(
       canSubmitTimeEntry(
         sampleEntry,
-        "user-steward-243",
-        "union-opseu",
-        "local-243",
+        "user-steward-7",
+        "union-b7p",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(true);
@@ -92,8 +92,8 @@ describe("time access", () => {
     expect(
       canViewTimeEntry(
         sampleEntry,
-        "user-president-243",
-        "union-opseu",
+        "user-president-7",
+        "union-b7p",
         "local-999",
         ["local_president"],
       ),
@@ -104,8 +104,8 @@ describe("time access", () => {
 describe("geofence", () => {
   const site: WorkSite = {
     id: "site-1",
-    unionId: "union-opseu",
-    localId: "local-243",
+    unionId: "union-b7p",
+    localId: "local-7",
     name: "Office",
     lat: 43.6532,
     lng: -79.3832,
@@ -162,7 +162,7 @@ describe("time ranges and needed", () => {
     expect(
       hasOverlappingEntry(
         [sampleEntry],
-        "user-steward-243",
+        "user-steward-7",
         "2026-07-12T11:30:00.000Z",
         "2026-07-12T13:00:00.000Z",
       ),
@@ -170,7 +170,7 @@ describe("time ranges and needed", () => {
     expect(
       hasOverlappingEntry(
         [sampleEntry],
-        "user-steward-243",
+        "user-steward-7",
         "2026-07-12T13:00:00.000Z",
         "2026-07-12T14:00:00.000Z",
       ),
@@ -181,10 +181,10 @@ describe("time ranges and needed", () => {
     const workers: TimeWorker[] = [
       {
         id: "tw-steward-243",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         displayName: "Steward",
-        userId: "user-steward-243",
+        userId: "user-steward-7",
         trackGaps: false,
         active: true,
       },
@@ -192,14 +192,14 @@ describe("time ranges and needed", () => {
     const windows: TimeExpectedWindow[] = [
       {
         id: "twin-1",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         label: "Exec meeting",
         startsAt: "2026-07-15T14:00:00.000Z",
         endsAt: "2026-07-15T16:00:00.000Z",
         category: "release",
         attendeeWorkerIds: ["tw-steward-243"],
-        createdById: "user-president-243",
+        createdById: "user-president-7",
         createdAt: "2026-07-01T00:00:00.000Z",
       },
     ];
@@ -219,8 +219,8 @@ describe("time ranges and needed", () => {
     const workers: TimeWorker[] = [
       {
         id: "tw-staff",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         displayName: "Staff",
         userId: "user-staff",
         trackGaps: true,
@@ -243,8 +243,8 @@ describe("time ranges and needed", () => {
     const workers: TimeWorker[] = [
       {
         id: "tw-staff",
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         displayName: "Staff",
         userId: "user-staff",
         trackGaps: true,

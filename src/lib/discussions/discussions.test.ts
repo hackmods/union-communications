@@ -8,11 +8,11 @@ import type { DiscussionThread } from "@/types/discussions";
 
 const baseThread: DiscussionThread = {
   id: "t1",
-  unionId: "union-opseu",
-  localId: "local-243",
+  unionId: "union-b7p",
+  localId: "local-7",
   title: "Test",
   body: "Body",
-  createdById: "user-steward-243",
+  createdById: "user-steward-7",
   createdByName: "Steward",
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
@@ -31,9 +31,9 @@ describe("discussions access", () => {
     expect(
       canViewDiscussionThreadBase(
         baseThread,
-        "user-steward-243",
-        "union-opseu",
-        "local-243",
+        "user-steward-7",
+        "union-b7p",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(true);
@@ -41,9 +41,9 @@ describe("discussions access", () => {
     expect(
       canViewDiscussionThreadBase(
         baseThread,
-        "user-steward-243",
+        "user-steward-7",
         "union-other",
-        "local-243",
+        "local-7",
         ["local_steward"],
       ),
     ).toBe(false);
@@ -51,9 +51,9 @@ describe("discussions access", () => {
     expect(
       canViewDiscussionThreadBase(
         baseThread,
-        "user-steward-243",
-        "union-opseu",
-        "local-560",
+        "user-steward-7",
+        "union-b7p",
+        "local-1337",
         ["local_steward"],
       ),
     ).toBe(false);
@@ -65,8 +65,8 @@ describe("discussions access", () => {
       canViewDiscussionThreadBase(
         baseThread,
         "user-admin",
-        "union-opseu",
-        "local-560",
+        "union-b7p",
+        "local-1337",
         ["union_admin"],
       ),
     ).toBe(true);
@@ -76,9 +76,9 @@ describe("discussions access", () => {
     expect(
       canViewDiscussionThreadBase(
         baseThread,
-        "user-steward-243",
-        "union-opseu",
-        "local-243",
+        "user-steward-7",
+        "union-b7p",
+        "local-7",
         ["solo_account"],
       ),
     ).toBe(true);
@@ -86,8 +86,8 @@ describe("discussions access", () => {
       canViewDiscussionThreadBase(
         baseThread,
         "someone-else",
-        "union-opseu",
-        "local-243",
+        "union-b7p",
+        "local-7",
         ["solo_account"],
       ),
     ).toBe(false);

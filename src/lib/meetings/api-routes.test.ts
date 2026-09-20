@@ -47,12 +47,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -125,23 +125,23 @@ describe("meetings API routes", () => {
     it("lets members list their local but never another union or sister local", async () => {
       await memoryMeetingsRsvpStore.createMeeting(validCreate, {
         unionId: "union-other",
-        localId: "local-243",
+        localId: "local-7",
         createdById: "user-x",
       });
       await memoryMeetingsRsvpStore.createMeeting(
         { ...validCreate, title: "Sister LEC" },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           createdById: "user-y",
         },
       );
       await memoryMeetingsRsvpStore.createMeeting(
         { ...validCreate, title: "Ours" },
         {
-          unionId: "union-opseu",
-          localId: "local-243",
-          createdById: "user-president-243",
+          unionId: "union-b7p",
+          localId: "local-7",
+          createdById: "user-president-7",
         },
       );
 
@@ -152,8 +152,8 @@ describe("meetings API routes", () => {
         meetings: Array<{ title: string; unionId: string; localId: string }>;
       };
       expect(body.meetings.map((m) => m.title)).toEqual(["Ours"]);
-      expect(body.meetings[0]?.unionId).toBe("union-opseu");
-      expect(body.meetings[0]?.localId).toBe("local-243");
+      expect(body.meetings[0]?.unionId).toBe("union-b7p");
+      expect(body.meetings[0]?.localId).toBe("local-7");
     });
 
     it("forbids stewards from creating events and rejects forged tenant keys", async () => {
@@ -180,9 +180,9 @@ describe("meetings API routes", () => {
           title: string;
         };
       };
-      expect(body.meeting.unionId).toBe("union-opseu");
-      expect(body.meeting.localId).toBe("local-243");
-      expect(body.meeting.createdById).toBe("user-president-243");
+      expect(body.meeting.unionId).toBe("union-b7p");
+      expect(body.meeting.localId).toBe("local-7");
+      expect(body.meeting.createdById).toBe("user-president-7");
       expect(body.meeting.title).toBe("LEC");
     });
 
@@ -237,14 +237,14 @@ describe("meetings API routes", () => {
       const sister = await memoryMeetingsRsvpStore.createMeeting(
         { ...validCreate, title: "Sister LEC" },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           createdById: "user-y",
         },
       );
 
       authMock.mockResolvedValue(
-        session({ roles: ["union_admin"], localId: "local-243" }),
+        session({ roles: ["union_admin"], localId: "local-7" }),
       );
       const viewed = await getEvent(
         new Request("http://localhost"),
@@ -281,9 +281,9 @@ describe("meetings API routes", () => {
   describe("RSVP tokens and public submit", () => {
     it("forbids stewards from minting tokens and 404s another union", async () => {
       const ours = await memoryMeetingsRsvpStore.createMeeting(validCreate, {
-        unionId: "union-opseu",
-        localId: "local-243",
-        createdById: "user-president-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        createdById: "user-president-7",
       });
       const foreign = await memoryMeetingsRsvpStore.createMeeting(validCreate, {
         unionId: "union-other",
@@ -307,9 +307,9 @@ describe("meetings API routes", () => {
 
     it("mints a token stamped with the session user and accepts one public RSVP", async () => {
       const meeting = await memoryMeetingsRsvpStore.createMeeting(validCreate, {
-        unionId: "union-opseu",
-        localId: "local-243",
-        createdById: "user-president-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        createdById: "user-president-7",
       });
 
       authMock.mockResolvedValue(session());
@@ -321,7 +321,7 @@ describe("meetings API routes", () => {
       const { token } = (await minted.json()) as {
         token: { id: string; token: string; createdById: string };
       };
-      expect(token.createdById).toBe("user-president-243");
+      expect(token.createdById).toBe("user-president-7");
 
       authMock.mockResolvedValue(null);
       const submitted = await submitPublicRsvp(
@@ -348,12 +348,12 @@ describe("meetings API routes", () => {
 
     it("rejects public submit without consent, without joinMode, and after revoke", async () => {
       const meeting = await memoryMeetingsRsvpStore.createMeeting(validCreate, {
-        unionId: "union-opseu",
-        localId: "local-243",
-        createdById: "user-president-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        createdById: "user-president-7",
       });
       const token = await memoryMeetingsRsvpStore.createToken(meeting.id, {
-        createdById: "user-president-243",
+        createdById: "user-president-7",
       });
 
       const missingConsent = await submitPublicRsvp(
@@ -421,9 +421,9 @@ describe("meetings API routes", () => {
 
     it("lets officers enter a walk-in and forbids stewards", async () => {
       const meeting = await memoryMeetingsRsvpStore.createMeeting(validCreate, {
-        unionId: "union-opseu",
-        localId: "local-243",
-        createdById: "user-president-243",
+        unionId: "union-b7p",
+        localId: "local-7",
+        createdById: "user-president-7",
       });
 
       authMock.mockResolvedValue(session({ roles: ["local_steward"] }));
@@ -503,9 +503,9 @@ describe("meetings API routes", () => {
           updatedById: string;
         };
       };
-      expect(body.schedule.unionId).toBe("union-opseu");
-      expect(body.schedule.localId).toBe("local-243");
-      expect(body.schedule.updatedById).toBe("user-president-243");
+      expect(body.schedule.unionId).toBe("union-b7p");
+      expect(body.schedule.localId).toBe("local-7");
+      expect(body.schedule.updatedById).toBe("user-president-7");
 
       authMock.mockResolvedValue(null);
       const publicRes = await getPublicSchedule(new Request("http://localhost"), {
@@ -513,8 +513,8 @@ describe("meetings API routes", () => {
       });
       expect(publicRes.status).toBe(200);
       const publicBody = (await publicRes.json()) as Record<string, unknown>;
-      expect(JSON.stringify(publicBody)).not.toContain("union-opseu");
-      expect(JSON.stringify(publicBody)).not.toContain("local-243");
+      expect(JSON.stringify(publicBody)).not.toContain("union-b7p");
+      expect(JSON.stringify(publicBody)).not.toContain("local-7");
       expect(publicBody.unionId).toBeUndefined();
       expect(publicBody.localId).toBeUndefined();
 

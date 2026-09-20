@@ -18,15 +18,15 @@ afterEach(() => {
 describe("sign-in link tokens (memory)", () => {
   it("creates and consumes a one-time token", async () => {
     const row = await createSignInToken({
-      email: "president.243@unionops.test",
-      userId: "user-president-243",
+      email: "president.7@unionops.test",
+      userId: "user-president-7",
     });
     expect(row.token.length).toBeGreaterThan(10);
 
     const first = await consumeSignInToken(row.token);
     expect(first.ok).toBe(true);
     if (first.ok) {
-      expect(first.row.userId).toBe("user-president-243");
+      expect(first.row.userId).toBe("user-president-7");
     }
 
     const second = await consumeSignInToken(row.token);

@@ -123,7 +123,7 @@ DB updates deploy automatically on boot via [`docker/db-deploy.mjs`](../docker/d
 }
 ```
 
-Reference seed: [`seed/reference-tenant-opseu-caat.json`](../seed/reference-tenant-opseu-caat.json) — OPSEU/CAAT example for dev/demo, not runtime default for new signups.
+Reference seed: [`seed/reference-tenant-b7p.json`](../seed/reference-tenant-b7p.json) — Behind 7 Proxies (B7P) Hub demo tenant with meme locals (7/404/502/1337). OPSEU/CAAT remains Brand Kit / guide reference material, not the demo login roster. Not a runtime default for new signups.
 
 ## Module Registry
 

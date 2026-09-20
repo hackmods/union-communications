@@ -21,12 +21,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -82,7 +82,7 @@ describe("GET /api/audit", () => {
     expect(await member.json()).toEqual({ error: "Forbidden" });
 
     authMock.mockResolvedValue(
-      session({ id: "user-steward-243", roles: ["local_steward"] }),
+      session({ id: "user-steward-7", roles: ["local_steward"] }),
     );
     const steward = await listAudit(listRequest());
     expect(steward.status).toBe(403);
@@ -92,40 +92,40 @@ describe("GET /api/audit", () => {
   it("never returns another union's entries, even when the client forges query tenant keys", async () => {
     await seed({
       action: "grievance.view",
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       resourceId: "own",
     });
     await seed({
       action: "grievance.view",
       unionId: "union-other",
-      localId: "local-243",
+      localId: "local-7",
       resourceId: "foreign",
     });
     await seed({
       action: "grievance.view",
-      unionId: "union-opseu",
-      localId: "local-560",
+      unionId: "union-b7p",
+      localId: "local-1337",
       resourceId: "sister",
     });
 
     authMock.mockResolvedValue(session());
     const res = await listAudit(
-      listRequest("?unionId=union-other&localId=local-560&limit=200"),
+      listRequest("?unionId=union-other&localId=local-1337&limit=200"),
     );
     expect(res.status).toBe(200);
     const body = (await res.json()) as { entries: AuditRow[] };
     expect(body.entries.map((e) => e.resourceId)).toEqual(["own"]);
-    expect(body.entries.every((e) => e.unionId === "union-opseu")).toBe(true);
-    expect(body.entries.every((e) => e.localId === "local-243")).toBe(true);
+    expect(body.entries.every((e) => e.unionId === "union-b7p")).toBe(true);
+    expect(body.entries.every((e) => e.localId === "local-7")).toBe(true);
   });
 
   it("caps limit at 200 and treats a missing/invalid limit as 50", async () => {
     for (let i = 0; i < 3; i += 1) {
       await seed({
         action: `seed.${i}`,
-        unionId: "union-opseu",
-        localId: "local-243",
+        unionId: "union-b7p",
+        localId: "local-7",
         resourceId: `row-${i}`,
       });
     }
@@ -145,8 +145,8 @@ describe("GET /api/audit", () => {
   it("lets union_admin without a localId read every local in the union still excluding other unions", async () => {
     await seed({
       action: "handoff.start",
-      unionId: "union-opseu",
-      localId: "local-560",
+      unionId: "union-b7p",
+      localId: "local-1337",
       resourceId: "sister",
     });
     await seed({

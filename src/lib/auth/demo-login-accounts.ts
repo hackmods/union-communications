@@ -2,6 +2,8 @@
  * Client-safe demo login catalog. Keep password hashes and bcrypt out of this
  * module so the Officer login page can list sample accounts without bundling
  * server auth code.
+ *
+ * Roster is Behind 7 Proxies (B7P) with meme locals — never real OPSEU numbers.
  */
 
 /** Reserved RFC 2606 `.test` domain — not a real union or local mailbox. */
@@ -15,15 +17,15 @@ export function demoEmail(localPart: string): string {
 export const DEMO_SHARED_PASSWORD = "demo123";
 
 export const DEMO_LOGIN_ROLE_KEYS = [
-  "president243",
-  "steward243",
-  "stewardPt243",
-  "jointLead145",
+  "president7",
+  "steward7",
+  "stewardPt7",
+  "jointLead404",
   "divisionAdmin",
-  "president415",
-  "president560",
-  "stability243",
-  "member243",
+  "president502",
+  "president1337",
+  "stability7",
+  "member7",
   "solo",
 ] as const;
 
@@ -38,49 +40,49 @@ export type DemoLoginAccount = {
 /** Display order for the login Callout — workshop roles first. */
 export const DEMO_LOGIN_ACCOUNTS: readonly DemoLoginAccount[] = [
   {
-    userId: "user-president-243",
-    roleKey: "president243",
-    email: demoEmail("president.243"),
+    userId: "user-president-7",
+    roleKey: "president7",
+    email: demoEmail("president.7"),
   },
   {
-    userId: "user-steward-243",
-    roleKey: "steward243",
-    email: demoEmail("steward.243"),
+    userId: "user-steward-7",
+    roleKey: "steward7",
+    email: demoEmail("steward.7"),
   },
   {
-    userId: "user-steward-243-pt",
-    roleKey: "stewardPt243",
-    email: demoEmail("steward-pt.243"),
+    userId: "user-steward-7-pt",
+    roleKey: "stewardPt7",
+    email: demoEmail("steward-pt.7"),
   },
   {
-    userId: "user-eerc-145",
-    roleKey: "jointLead145",
-    email: demoEmail("eerc.145"),
+    userId: "user-joint-404",
+    roleKey: "jointLead404",
+    email: demoEmail("joint.404"),
   },
   {
     userId: "user-division-admin",
     roleKey: "divisionAdmin",
-    email: demoEmail("caat-admin"),
+    email: demoEmail("b7p-admin"),
   },
   {
-    userId: "user-president-415",
-    roleKey: "president415",
-    email: demoEmail("president.415"),
+    userId: "user-president-502",
+    roleKey: "president502",
+    email: demoEmail("president.502"),
   },
   {
-    userId: "user-president-560",
-    roleKey: "president560",
-    email: demoEmail("president.560"),
+    userId: "user-president-1337",
+    roleKey: "president1337",
+    email: demoEmail("president.1337"),
   },
   {
-    userId: "user-stability-243",
-    roleKey: "stability243",
-    email: demoEmail("stability.243"),
+    userId: "user-stability-7",
+    roleKey: "stability7",
+    email: demoEmail("stability.7"),
   },
   {
-    userId: "user-member-243",
-    roleKey: "member243",
-    email: demoEmail("member.243"),
+    userId: "user-member-7",
+    roleKey: "member7",
+    email: demoEmail("member.7"),
   },
   {
     userId: "user-solo",

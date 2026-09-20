@@ -32,12 +32,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       bargainingUnitId: input?.bargainingUnitId,
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
@@ -92,7 +92,7 @@ describe("tasks API routes", () => {
         { title: "Other union file" },
         {
           unionId: "union-other",
-          localId: "local-243",
+          localId: "local-7",
           createdById: "user-x",
           assigneeId: "user-x",
         },
@@ -100,8 +100,8 @@ describe("tasks API routes", () => {
       await memoryTaskStore.create(
         { title: "Other local file" },
         {
-          unionId: "union-opseu",
-          localId: "local-560",
+          unionId: "union-b7p",
+          localId: "local-1337",
           createdById: "user-y",
           assigneeId: "user-y",
         },
@@ -113,10 +113,10 @@ describe("tasks API routes", () => {
       const body = (await res.json()) as {
         tasks: Array<{ title: string; unionId: string; localId: string }>;
       };
-      expect(body.tasks.every((task) => task.unionId === "union-opseu")).toBe(
+      expect(body.tasks.every((task) => task.unionId === "union-b7p")).toBe(
         true,
       );
-      expect(body.tasks.every((task) => task.localId === "local-243")).toBe(
+      expect(body.tasks.every((task) => task.localId === "local-7")).toBe(
         true,
       );
       expect(body.tasks.map((task) => task.title)).not.toContain(
@@ -129,7 +129,7 @@ describe("tasks API routes", () => {
 
     it("ignores an unknown status and returns only the caller's tasks for mine=1", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       const ignored = await listTasks(listRequest("?status=archived"));
       expect(ignored.status).toBe(200);
@@ -149,7 +149,7 @@ describe("tasks API routes", () => {
       };
       expect(mineBody.tasks.length).toBeGreaterThan(0);
       expect(
-        mineBody.tasks.every((task) => task.assigneeId === "user-steward-243"),
+        mineBody.tasks.every((task) => task.assigneeId === "user-steward-7"),
       ).toBe(true);
     });
 
@@ -165,7 +165,7 @@ describe("tasks API routes", () => {
   describe("POST /api/tasks", () => {
     it("rejects forged tenant keys and stamps the session union/local/creator", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       const forged = await createTask(
         jsonRequest({
@@ -188,21 +188,21 @@ describe("tasks API routes", () => {
           status: string;
         };
       };
-      expect(body.task.unionId).toBe("union-opseu");
-      expect(body.task.localId).toBe("local-243");
-      expect(body.task.createdById).toBe("user-steward-243");
-      expect(body.task.assigneeId).toBe("user-steward-243");
+      expect(body.task.unionId).toBe("union-b7p");
+      expect(body.task.localId).toBe("local-7");
+      expect(body.task.createdById).toBe("user-steward-7");
+      expect(body.task.assigneeId).toBe("user-steward-7");
       expect(body.task.status).toBe("open");
     });
 
     it("lets a steward create for themselves but not assign others", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       const forbidden = await createTask(
         jsonRequest({
           title: "Assign the president",
-          assigneeId: "user-president-243",
+          assigneeId: "user-president-7",
         }),
       );
       expect(forbidden.status).toBe(403);
@@ -216,15 +216,15 @@ describe("tasks API routes", () => {
       const created = await createTask(
         jsonRequest({
           title: "Follow up with steward",
-          assigneeId: "user-steward-243",
+          assigneeId: "user-steward-7",
         }),
       );
       expect(created.status).toBe(201);
       const body = (await created.json()) as {
         task: { assigneeId: string; createdById: string };
       };
-      expect(body.task.assigneeId).toBe("user-steward-243");
-      expect(body.task.createdById).toBe("user-president-243");
+      expect(body.task.assigneeId).toBe("user-steward-7");
+      expect(body.task.createdById).toBe("user-president-7");
     });
 
     it("returns 403 when the tasks module is off for that tenant", async () => {
@@ -292,7 +292,7 @@ describe("tasks API routes", () => {
 
     it("lets the assignee mark done but not edit or delete another officer's task", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
 
       const done = await patchTask(
@@ -332,7 +332,7 @@ describe("tasks API routes", () => {
       );
       expect(forged.status).toBe(400);
       expect((await memoryTaskStore.getById("task-002"))?.unionId).toBe(
-        "union-opseu",
+        "union-b7p",
       );
 
       const deleted = await deleteTask(
@@ -372,7 +372,7 @@ describe("tasks API routes", () => {
 
     it("lets a steward toggle a reaction and rejects extra keys", async () => {
       authMock.mockResolvedValue(
-        session({ id: "user-steward-243", roles: ["local_steward"] }),
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       const extra = await toggleTaskReaction(
         jsonRequest({ kind: "solidarity", userId: "attacker" }),
@@ -390,7 +390,7 @@ describe("tasks API routes", () => {
       };
       expect(body.task.reactions).toEqual(
         expect.arrayContaining([
-          { kind: "solidarity", userId: "user-steward-243" },
+          { kind: "solidarity", userId: "user-steward-7" },
         ]),
       );
     });

@@ -18,8 +18,8 @@ function seedCycles(): ElectionCycle[] {
   return [
     {
       id: "elec-001",
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
       title: "2026 Executive election",
       positions: ["President", "Vice-President", "Secretary"],
       status: "open",

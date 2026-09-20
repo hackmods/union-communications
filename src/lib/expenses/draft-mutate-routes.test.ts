@@ -28,12 +28,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-steward-243",
-      name: "Local 243 Steward",
+      id: input?.id ?? "user-steward-7",
+      name: "Local 7 Steward",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
     },
   };
@@ -69,10 +69,10 @@ async function seedDraft(input?: {
       ],
     },
     {
-      unionId: input?.unionId ?? "union-opseu",
-      localId: input?.localId ?? "local-243",
-      submittedById: input?.submittedById ?? "user-steward-243",
-      submittedByName: "Local 243 Steward",
+      unionId: input?.unionId ?? "union-b7p",
+      localId: input?.localId ?? "local-7",
+      submittedById: input?.submittedById ?? "user-steward-7",
+      submittedByName: "Local 7 Steward",
     },
   );
   if (input?.status === "submitted") {
@@ -163,7 +163,7 @@ describe("expense GET/PATCH/DELETE /api/expenses/[id]", () => {
       submission: { title: string; unionId: string; status: string };
     };
     expect(body.submission.title).toBe("Renamed supplies");
-    expect(body.submission.unionId).toBe("union-opseu");
+    expect(body.submission.unionId).toBe("union-b7p");
     expect(body.submission.status).toBe("draft");
 
     const submitted = await seedDraft({ status: "submitted" });
@@ -196,11 +196,11 @@ describe("expense GET/PATCH/DELETE /api/expenses/[id]", () => {
 
   it("lets a president delete a submitted claim but not after approval", async () => {
     const submitted = await seedDraft({
-      submittedById: "user-steward-243",
+      submittedById: "user-steward-7",
       status: "submitted",
     });
     authMock.mockResolvedValue(
-      session({ id: "user-president-243", roles: ["local_president"] }),
+      session({ id: "user-president-7", roles: ["local_president"] }),
     );
     const removed = await deleteExpense(
       new Request("http://localhost"),
@@ -210,7 +210,7 @@ describe("expense GET/PATCH/DELETE /api/expenses/[id]", () => {
 
     const approved = await seedDraft({ status: "submitted" });
     await memoryExpenseStore.approve(approved.id, {
-      approvedById: "user-president-243",
+      approvedById: "user-president-7",
       ledgerEntryId: "led-test",
     });
     const locked = await deleteExpense(

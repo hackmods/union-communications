@@ -41,7 +41,7 @@ validate → advisory lock → migrate as owner → prove exact tail → verify 
 Successful logs end with:
 
 ```text
-[db-deploy] verified tail=0036_verified_boot_reconcile schema=public tables=60 columns=697 policies=43
+[db-deploy] verified tail=0037_b7p_demo_tenant schema=public tables=60 columns=697 policies=43
 [entrypoint] database deploy gate passed
 ```
 

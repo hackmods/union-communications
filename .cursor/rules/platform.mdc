@@ -8,7 +8,7 @@ alwaysApply: true
 ## Product
 Multi-union by design. Read `AGENTS.md` and `docs/VISION.md` before any work.
 Public brand: **UnionOps** (https://unionops.org). Slogan: **Solidarity.**
-OPSEU/CAAT is reference tenant #1 (`seed/reference-tenant-opseu-caat.json`), not a code default.
+OPSEU/CAAT is Comms Brand Kit reference #1; Hub demo seed is Behind 7 Proxies (`seed/reference-tenant-b7p.json`), not a code default.
 
 ## Current status
 Phases **0-7 near-complete** (Postgres adapters flag-gated; default memory). Time **8b** + Calendar R0-R3 shipped. First week Print step shipped. **Phase 9 shipped** — Comms export integrity (`capture.ts` + tool-output smoke). Next: ops Postgres flip or copy residuals — see `.cursor/rules/roadmap-next.mdc` and `docs/audit/current-ground-truth.md`.

@@ -29,12 +29,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -90,11 +90,11 @@ describe("officer roster API routes", () => {
     it("does not list another union or another local for a president", async () => {
       await memoryOfficerRosterStore.create(
         { name: "Other union", role: "President", termStart: "2026-01-01" },
-        { unionId: "union-other", localId: "local-243" },
+        { unionId: "union-other", localId: "local-7" },
       );
       await memoryOfficerRosterStore.create(
         { name: "Other local", role: "President", termStart: "2026-01-01" },
-        { unionId: "union-opseu", localId: "local-560" },
+        { unionId: "union-b7p", localId: "local-1337" },
       );
 
       authMock.mockResolvedValue(session());
@@ -103,8 +103,8 @@ describe("officer roster API routes", () => {
       const body = (await res.json()) as {
         officers: Array<{ name: string; unionId: string; localId: string }>;
       };
-      expect(body.officers.every((o) => o.unionId === "union-opseu")).toBe(true);
-      expect(body.officers.every((o) => o.localId === "local-243")).toBe(true);
+      expect(body.officers.every((o) => o.unionId === "union-b7p")).toBe(true);
+      expect(body.officers.every((o) => o.localId === "local-7")).toBe(true);
       expect(body.officers.map((o) => o.name)).not.toContain("Other union");
       expect(body.officers.map((o) => o.name)).not.toContain("Other local");
     });
@@ -127,8 +127,8 @@ describe("officer roster API routes", () => {
       const body = (await created.json()) as {
         officer: { unionId: string; localId: string; name: string; role: string };
       };
-      expect(body.officer.unionId).toBe("union-opseu");
-      expect(body.officer.localId).toBe("local-243");
+      expect(body.officer.unionId).toBe("union-b7p");
+      expect(body.officer.localId).toBe("local-7");
       expect(body.officer.name).toBe("Sam Okonkwo");
       expect(body.officer.role).toBe("Secretary");
     });
@@ -188,7 +188,7 @@ describe("officer roster API routes", () => {
     it("lets a union_admin read another local in the same union, but a president cannot", async () => {
       const otherLocal = await memoryOfficerRosterStore.create(
         { name: "Local 560 chair", role: "President", termStart: "2026-01-01" },
-        { unionId: "union-opseu", localId: "local-560" },
+        { unionId: "union-b7p", localId: "local-1337" },
       );
 
       authMock.mockResolvedValue(session());
@@ -205,7 +205,7 @@ describe("officer roster API routes", () => {
       );
       expect(admin.status).toBe(200);
       const body = (await admin.json()) as { officer: { localId: string } };
-      expect(body.officer.localId).toBe("local-560");
+      expect(body.officer.localId).toBe("local-1337");
     });
 
     it("clears optional fields on PATCH and deletes a same-local row", async () => {

@@ -16,8 +16,8 @@ describe("database deploy journal contract", () => {
   it("accepts the shipped one-to-one contiguous journal", () => {
     const { entries } = readAndValidateJournal(migrationsDir);
     expect(entries.at(-1)).toMatchObject({
-      idx: 36,
-      tag: "0036_verified_boot_reconcile",
+      idx: 37,
+      tag: "0037_b7p_demo_tenant",
     });
     expect(entries).toHaveLength(
       readdirSync(migrationsDir).filter((file) => /^\d{4}_.+\.sql$/.test(file)).length,

@@ -46,7 +46,7 @@ describe("resolveAuthSecret (SEC-004)", () => {
 describe("verifyMfaCode (SEC-002)", () => {
   it("refuses when AUTH_MFA_ENABLED is unset (default off)", async () => {
     const result = await verifyMfaCode({
-      userId: "user-president-243",
+      userId: "user-president-7",
       code: "000000",
       env: { NODE_ENV: "development" },
     });
@@ -56,7 +56,7 @@ describe("verifyMfaCode (SEC-002)", () => {
 
   it("fails closed in production when MFA enabled but AUTH_MFA_MODE is unset", async () => {
     const result = await verifyMfaCode({
-      userId: "user-president-243",
+      userId: "user-president-7",
       code: "000000",
       env: { NODE_ENV: "production", ...mfaOn },
     });
@@ -66,7 +66,7 @@ describe("verifyMfaCode (SEC-002)", () => {
 
   it("rejects shared_code in production without break-glass", async () => {
     const result = await verifyMfaCode({
-      userId: "user-president-243",
+      userId: "user-president-7",
       code: "000000",
       env: {
         NODE_ENV: "production",
@@ -84,7 +84,7 @@ describe("verifyMfaCode (SEC-002)", () => {
 
   it("accepts shared_code in production only with AUTH_ALLOW_SHARED_MFA_IN_PROD", async () => {
     const result = await verifyMfaCode({
-      userId: "user-president-243",
+      userId: "user-president-7",
       code: "424242",
       env: {
         NODE_ENV: "production",
@@ -99,7 +99,7 @@ describe("verifyMfaCode (SEC-002)", () => {
 
   it("defaults to shared_code_insecure in non-production when MFA enabled", async () => {
     const result = await verifyMfaCode({
-      userId: "user-president-243",
+      userId: "user-president-7",
       code: "000000",
       env: { NODE_ENV: "development", ...mfaOn },
     });
@@ -109,7 +109,7 @@ describe("verifyMfaCode (SEC-002)", () => {
   it("verifies TOTP against the demo user secret", async () => {
     const code = generateTotp("JBSWY3DPEHPK3PXP");
     const result = await verifyMfaCode({
-      userId: "user-president-243",
+      userId: "user-president-7",
       code,
       env: { NODE_ENV: "production", ...mfaOn, AUTH_MFA_MODE: "totp" },
     });
@@ -118,7 +118,7 @@ describe("verifyMfaCode (SEC-002)", () => {
 
   it("rejects wrong TOTP codes", async () => {
     const result = await verifyMfaCode({
-      userId: "user-president-243",
+      userId: "user-president-7",
       code: "999999",
       env: { NODE_ENV: "production", ...mfaOn, AUTH_MFA_MODE: "totp" },
     });

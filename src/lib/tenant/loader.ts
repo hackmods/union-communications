@@ -1,4 +1,4 @@
-import referenceTenant from "../../../seed/reference-tenant-opseu-caat.json";
+import referenceTenant from "../../../seed/reference-tenant-b7p.json";
 import {
   getLocalPatches,
   getOverlaySeeds,
@@ -82,7 +82,7 @@ export function normalizeBargainingUnits(seed: TenantSeed): BargainingUnit[] {
   return seed.bargainingUnits ?? [];
 }
 
-/** Prefer the session local over `locals[0]` (seed Local 243). */
+/** Prefer the session local over `locals[0]` (seed Local 7). */
 export function withActiveLocal(
   ctx: TenantContext | null,
   localId?: string | null,
@@ -190,11 +190,11 @@ export function getDefaultBrandDefaults() {
   const seed = STATIC_SEEDS[0];
   return (
     seed?.brandDefaults ?? {
-      primaryColor: "#C2410C",
+      primaryColor: "#E87722",
       secondaryColor: "#FFFFFF",
-      accentColor: "#9A3412",
+      accentColor: "#1A1A1A",
       useOfficialLogo: false,
-      assetPackPath: "/assets/caat-opseu/",
+      assetPackPath: "",
     }
   );
 }

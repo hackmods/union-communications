@@ -34,12 +34,12 @@ function session(input?: {
 }) {
   return {
     user: {
-      id: input?.id ?? "user-president-243",
-      name: "Local 243 President",
+      id: input?.id ?? "user-president-7",
+      name: "Local 7 President",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_president"] as UserRole[]),
     },
   };
@@ -101,9 +101,9 @@ async function seedPoll(input?: {
       status: input?.status ?? "open",
     },
     {
-      unionId: input?.unionId ?? "union-opseu",
-      localId: input?.localId ?? "local-243",
-      createdById: input?.createdById ?? "user-president-243",
+      unionId: input?.unionId ?? "union-b7p",
+      localId: input?.localId ?? "local-7",
+      createdById: input?.createdById ?? "user-president-7",
     },
   );
 }
@@ -137,16 +137,16 @@ describe("polls API routes", () => {
     });
 
     it("does not list another union or another local for a president", async () => {
-      await seedPoll({ slug: "same-local", unionId: "union-opseu", localId: "local-243" });
+      await seedPoll({ slug: "same-local", unionId: "union-b7p", localId: "local-7" });
       await seedPoll({
         slug: "other-union",
         unionId: "union-other",
-        localId: "local-243",
+        localId: "local-7",
       });
       await seedPoll({
         slug: "other-local",
-        unionId: "union-opseu",
-        localId: "local-560",
+        unionId: "union-b7p",
+        localId: "local-1337",
       });
 
       authMock.mockResolvedValue(session());
@@ -155,8 +155,8 @@ describe("polls API routes", () => {
       const body = (await res.json()) as {
         polls: Array<{ slug: string; unionId: string; localId: string }>;
       };
-      expect(body.polls.every((p) => p.unionId === "union-opseu")).toBe(true);
-      expect(body.polls.every((p) => p.localId === "local-243")).toBe(true);
+      expect(body.polls.every((p) => p.unionId === "union-b7p")).toBe(true);
+      expect(body.polls.every((p) => p.localId === "local-7")).toBe(true);
       expect(body.polls.map((p) => p.slug)).toEqual(["same-local"]);
     });
 
@@ -196,10 +196,10 @@ describe("polls API routes", () => {
           status: string;
         };
       };
-      expect(body.poll.unionId).toBe("union-opseu");
-      expect(body.poll.localId).toBe("local-243");
+      expect(body.poll.unionId).toBe("union-b7p");
+      expect(body.poll.localId).toBe("local-7");
       expect(body.poll.slug).toBe("meeting-rsvp");
-      expect(body.poll.createdById).toBe("user-president-243");
+      expect(body.poll.createdById).toBe("user-president-7");
       expect(body.poll.status).toBe("open");
     });
 

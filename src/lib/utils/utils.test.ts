@@ -231,13 +231,13 @@ describe("format utilities", () => {
   });
 
   it("defaults empty local number to 243", () => {
-    expect(resolveLocalNumber("")).toBe("243");
-    expect(resolveLocalNumber("  ")).toBe("243");
+    expect(resolveLocalNumber("")).toBe("7");
+    expect(resolveLocalNumber("  ")).toBe("7");
     expect(resolveLocalNumber("110")).toBe("110");
   });
 
   it("formats filenames with 243 fallback", () => {
-    expect(formatFilename("logo", "", "png")).toBe("logo-local-243.png");
+    expect(formatFilename("logo", "", "png")).toBe("logo-local-7.png");
   });
 
   it("builds the canonical local label", () => {
@@ -245,7 +245,7 @@ describe("format utilities", () => {
       "Local 110 - Support Staff",
     );
     expect(localLabel("110")).toBe("Local 110");
-    expect(localLabel("", "  ")).toBe("Local 243");
-    expect(localLabel(null, "Custodial")).toBe("Local 243 - Custodial");
+    expect(localLabel("", "  ")).toBe("Local 7");
+    expect(localLabel(null, "Custodial")).toBe("Local 7 - Custodial");
   });
 });

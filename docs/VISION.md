@@ -10,7 +10,7 @@
 
 ## Multi-Union by Design
 
-The platform is **not** built for one union. OPSEU/CAAT is the **first adopter and reference tenant** (see [`seed/reference-tenant-opseu-caat.json`](../seed/reference-tenant-opseu-caat.json)). Any union can onboard with their own:
+The platform is **not** built for one union. OPSEU/CAAT remains the **first Comms / Brand Kit adopter** (guides and asset packs). The **Hub demo login roster** is the fictional Behind 7 Proxies (B7P) tenant — see [`seed/reference-tenant-b7p.json`](../seed/reference-tenant-b7p.json) — so sample accounts never collide with real OPSEU local numbers. Any union can onboard with their own:
 
 - Branding (colours, logo, local number)
 - Collective agreement grievance step configuration
@@ -23,7 +23,7 @@ The platform is **not** built for one union. OPSEU/CAAT is the **first adopter a
 Platform (you host)
   └── Union (e.g. OPSEU, CUPE, UNIFOR)
         └── Division / Sector (optional - e.g. CAAT, colleges)
-              └── Local (e.g. Local 243)
+              └── Local (e.g. Local 7 in the B7P demo; real locals keep their own numbers)
                     └── Collection / BargainingUnit (optional - e.g. FT / PT Support Staff)
                           └── Users (officers, stewards, solo accounts)
 ```

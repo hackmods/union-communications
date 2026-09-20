@@ -23,9 +23,9 @@ function session(input?: {
     user: {
       id: input?.id ?? "user-1",
       unionId:
-        input?.unionId === null ? undefined : (input?.unionId ?? "union-opseu"),
+        input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
-        input?.localId === null ? undefined : (input?.localId ?? "local-243"),
+        input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
     },
     expires: "2099-01-01T00:00:00.000Z",
@@ -35,7 +35,7 @@ function session(input?: {
 const otherUnion: ExpenseSubmission = {
   id: "es-other",
   unionId: "union-other",
-  localId: "local-243",
+  localId: "local-7",
   submittedById: "user-x",
   submittedByName: "X",
   title: "Printer",
@@ -57,39 +57,39 @@ describe("expense session helpers", () => {
 
   it("pins stewards to session local; solo accounts list the whole union", () => {
     expect(listFiltersForExpenseSession(session())).toEqual({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
     });
     expect(
       listFiltersForExpenseSession(
-        session({ roles: ["solo_account"], localId: "local-243" }),
+        session({ roles: ["solo_account"], localId: "local-7" }),
       ),
-    ).toEqual({ unionId: "union-opseu" });
+    ).toEqual({ unionId: "union-b7p" });
   });
 
   it("lets cross-local admins drop the local filter only when localId is empty", () => {
     expect(
       listFiltersForExpenseSession(
-        session({ roles: ["union_admin"], localId: "local-243" }),
+        session({ roles: ["union_admin"], localId: "local-7" }),
       ),
     ).toEqual({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
     });
     expect(
       listFiltersForExpenseSession(
         session({ roles: ["union_admin"], localId: null }),
       ),
     ).toEqual({
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       localId: undefined,
     });
   });
 
   it("stamps creates from the session, with solo fallbacks when tenant ids are missing", () => {
     expect(tenantIdsForExpenseSession(session())).toEqual({
-      unionId: "union-opseu",
-      localId: "local-243",
+      unionId: "union-b7p",
+      localId: "local-7",
     });
     expect(
       tenantIdsForExpenseSession(

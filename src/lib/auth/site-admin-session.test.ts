@@ -22,7 +22,7 @@ function makeSession(roles: string[]) {
     user: {
       id: "ua-1",
       name: "Operator",
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       roles,
     },
     expires: new Date(Date.now() + 60_000).toISOString(),

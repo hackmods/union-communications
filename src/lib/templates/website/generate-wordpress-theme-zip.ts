@@ -29,7 +29,7 @@ function escapePhpSingleQuoted(value: string): string {
   return value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
 
-/** Folder name + text domain: `unionops-local-243`. */
+/** Folder name + text domain: `unionops-local-{n}`. */
 export function wordpressThemeSlug(localNumber: string): string {
   const slug = localNumber
     .trim()

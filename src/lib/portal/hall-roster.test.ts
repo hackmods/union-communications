@@ -17,43 +17,43 @@ describe("listLocalHallPeople", () => {
   });
 
   it("includes the demo roster for Local 243", async () => {
-    const people = await listLocalHallPeople("union-opseu", "local-243");
-    expect(people.some((p) => p.userId === "user-president-243")).toBe(true);
-    expect(people.some((p) => p.userId === "user-member-243" && !p.admin)).toBe(
+    const people = await listLocalHallPeople("union-b7p", "local-7");
+    expect(people.some((p) => p.userId === "user-president-7")).toBe(true);
+    expect(people.some((p) => p.userId === "user-member-7" && !p.admin)).toBe(
       true,
     );
   });
 
   it("includes accepted invitees for a new local", async () => {
     const local = createOverlayLocal({
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       localNumber: "418",
       subText: "Hall roster",
     });
     const invite = await createInvite({
       email: "member418@example.test",
       name: "Member 418",
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       localId: local.id,
       roles: ["local_member"],
       invitedById: "user-1",
     });
     const result = await acceptInvite(invite.token, "password1");
     expect(result.user?.id).toBeTruthy();
-    const people = await listLocalHallPeople("union-opseu", local.id);
+    const people = await listLocalHallPeople("union-b7p", local.id);
     expect(people.some((p) => p.userName === "Member 418")).toBe(true);
   });
 
   it("joins the visitor and known invitees onto Hall", async () => {
     const local = createOverlayLocal({
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       localNumber: "419",
       subText: "Hydrate",
     });
     const invite = await createInvite({
       email: "steward419@example.test",
       name: "Steward 419",
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       localId: local.id,
       roles: ["local_steward"],
       invitedById: "user-1",
@@ -61,7 +61,7 @@ describe("listLocalHallPeople", () => {
     await acceptInvite(invite.token, "password1");
 
     const { circle } = await hydrateLocalHall({
-      unionId: "union-opseu",
+      unionId: "union-b7p",
       localId: local.id,
       localNumber: "419",
       currentUser: {
@@ -72,7 +72,7 @@ describe("listLocalHallPeople", () => {
     });
 
     const forPresident = portalStore.listStation(
-      "union-opseu",
+      "union-b7p",
       "user-pres-419",
     );
     expect(forPresident.circles.some((c) => c.id === circle.id)).toBe(true);

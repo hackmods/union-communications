@@ -132,17 +132,17 @@ describe("ZIP path helpers", () => {
     );
     expect(
       findWebsiteConfigPath([
-        "unionops-local-243/style.css",
-        "unionops-local-243/unionops-website.json",
+        "unionops-local-7/style.css",
+        "unionops-local-7/unionops-website.json",
       ]),
-    ).toBe("unionops-local-243/unionops-website.json");
+    ).toBe("unionops-local-7/unionops-website.json");
     expect(findWebsiteConfigPath(["../unionops-website.json"])).toBeNull();
   });
 
   it("allows only assets/{logo|hero}.* paths", () => {
     expect(isSafeWebsiteZipAssetPath("assets/hero.jpg", "hero.jpg")).toBe(true);
     expect(
-      isSafeWebsiteZipAssetPath("unionops-local-243/assets/logo.png", "logo.png"),
+      isSafeWebsiteZipAssetPath("unionops-local-7/assets/logo.png", "logo.png"),
     ).toBe(true);
     expect(isSafeWebsiteZipAssetPath("assets/../secret.png", "secret.png")).toBe(
       false,
@@ -157,11 +157,11 @@ describe("parseWebsiteConfigZip", () => {
     const zip = new JSZip();
     const envelope = serializeWebsiteConfig(sample, "2026-08-20T12:00:00.000Z");
     zip.file(
-      "unionops-local-243/unionops-website.json",
+      "unionops-local-7/unionops-website.json",
       JSON.stringify(envelope, null, 2),
     );
     const heroBytes = new Uint8Array([0xff, 0xd8, 0xff, 0xd9]);
-    zip.file("unionops-local-243/assets/hero.jpg", heroBytes);
+    zip.file("unionops-local-7/assets/hero.jpg", heroBytes);
     const blob = await zip.generateAsync({ type: "arraybuffer" });
     const imported = await parseWebsiteConfigZip(blob);
     expect(imported.envelope.data.unionName).toBe("Local 243");
