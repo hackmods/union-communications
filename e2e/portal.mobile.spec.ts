@@ -18,15 +18,15 @@ test.describe("Portal mobile @smoke @mobile", () => {
 
   test("Hall circle workspace has no horizontal overflow", async ({ page }) => {
     await page.goto("/en/portal");
-    await page.getByRole("link", { name: "Local 243 Hall" }).click();
+    await page.getByRole("link", { name: "Local 7 Hall" }).first().click();
     await expect(
-      page.getByRole("heading", { name: "Local 243 Hall" }),
+      page.getByRole("heading", { name: "Local 7 Hall" }),
     ).toBeVisible();
     await assertNoHorizontalOverflow(page);
   });
 
   test("Bulletin writer tab has no horizontal overflow", async ({ page }) => {
-    await page.goto("/en/portal/circles/circle-hall-243");
+    await page.goto("/en/portal/circles/circle-hall-7");
     await page.getByRole("tab", { name: "Bulletin" }).click();
     await expect(page.getByPlaceholder("Bulletin title")).toBeVisible();
     await assertNoHorizontalOverflow(page);

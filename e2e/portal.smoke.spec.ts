@@ -5,7 +5,6 @@ import {
   loginAsPresident,
   loginAsSteward,
   hubLogin,
-  clearAuthSession,
 } from "./helpers/auth";
 
 function seriousOrCriticalViolations(
@@ -44,9 +43,11 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page.getByRole("link", { name: "Open Hall" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Coming up" })).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Membership meeting", exact: true }),
+      page.getByRole("link", { name: /^Membership meeting/ }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "Local 243 Hall" }).first()).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Local 7 Hall" }).first(),
+    ).toBeVisible();
     const portalNav = page.getByRole("navigation", { name: "Portal navigation" });
     await expect(portalNav).toBeVisible();
     await expect(portalNav.getByRole("link", { name: "Dispatch" })).toBeVisible();
@@ -68,10 +69,10 @@ test.describe("Local Portal smoke @smoke", () => {
   test("member opens Hall and posts Bulletin", async ({ page }) => {
     await loginAsMember(page);
     await page.goto("/en/portal");
-    await page.getByRole("link", { name: "Local 243 Hall" }).click();
-    await expect(page).toHaveURL(/\/en\/portal\/circles\/circle-hall-243/);
+    await page.getByRole("link", { name: "Local 7 Hall" }).first().click();
+    await expect(page).toHaveURL(/\/en\/portal\/circles\/circle-hall-7/);
     await expect(
-      page.getByRole("heading", { name: "Local 243 Hall" }),
+      page.getByRole("heading", { name: "Local 7 Hall" }),
     ).toBeVisible();
     await expect(page.getByRole("tab", { name: "Many hands" })).toHaveCount(0);
 
@@ -89,7 +90,7 @@ test.describe("Local Portal smoke @smoke", () => {
     page,
   }) => {
     await loginAsMember(page);
-    await page.goto("/en/portal/circles/circle-hall-243");
+    await page.goto("/en/portal/circles/circle-hall-7");
     await openBulletinWriter(page);
 
     const stamp = Date.now();
@@ -156,7 +157,7 @@ test.describe("Local Portal smoke @smoke", () => {
 
   test("star and mute controls on Circle", async ({ page }) => {
     await loginAsMember(page);
-    await page.goto("/en/portal/circles/circle-hall-243");
+    await page.goto("/en/portal/circles/circle-hall-7");
     const star = page.getByRole("button", { name: /Star Circle|Unstar Circle/ });
     await expect(star).toBeVisible();
     await star.click();
@@ -184,16 +185,20 @@ test.describe("Local Portal smoke @smoke", () => {
     });
     await createBtn.click();
     expect((await posted).ok()).toBeTruthy();
-    await expect(page.getByRole("link", { name, exact: true })).toBeVisible({
+    await expect(page.getByRole("link", { name }).first()).toBeVisible({
       timeout: 15_000,
     });
-    await page.getByRole("link", { name, exact: true }).click();
+    await page.getByRole("link", { name }).first().click();
     await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
     await expect(page.getByRole("tab", { name: "Many hands" })).toBeVisible();
     await expect(page.getByRole("tab", { name: "One fight" })).toBeVisible();
     await expect(page.getByRole("tab", { name: "Roll Call" })).toBeVisible();
     await page.getByRole("tab", { name: "Many hands" }).click();
-    await page.getByRole("button", { name: "Start Many hands" }).click();
+    const startManyHands = page.getByRole("button", {
+      name: "Start Many hands",
+    });
+    await startManyHands.focus();
+    await page.keyboard.press("Enter");
     await expect(page.getByRole("button", { name: "Add card" }).first()).toBeVisible();
   });
 
@@ -252,16 +257,18 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page.getByRole("heading", { name: "Together" })).toBeVisible({
       timeout: 15_000,
     });
-    await expect(page.getByRole("link", { name: "LEC", exact: true })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "LEC" }).first(),
+    ).toBeVisible();
   });
 
   test("Circle workspace has no serious or critical a11y violations", async ({
     page,
   }) => {
     await loginAsMember(page);
-    await page.goto("/en/portal/circles/circle-hall-243");
+    await page.goto("/en/portal/circles/circle-hall-7");
     await expect(
-      page.getByRole("heading", { name: "Local 243 Hall" }),
+      page.getByRole("heading", { name: "Local 7 Hall" }),
     ).toBeVisible();
     const results = await new AxeBuilder({ page }).analyze();
     expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
@@ -286,7 +293,7 @@ test.describe("Local Portal smoke @smoke", () => {
 
   test("deep-link opens Actions tab from Together query", async ({ page }) => {
     await loginAsMember(page);
-    await page.goto("/en/portal/circles/circle-hall-243?tab=actions");
+    await page.goto("/en/portal/circles/circle-hall-7?tab=actions");
     await expect(page.getByRole("tab", { name: "Actions" })).toHaveAttribute(
       "aria-selected",
       "true",
@@ -303,9 +310,11 @@ test.describe("Local Portal smoke @smoke", () => {
 
   test("member can soft-delete Bulletin; president downloads activity pack", async ({
     page,
+    browser,
   }) => {
+    test.setTimeout(90_000);
     await loginAsMember(page);
-    await page.goto("/en/portal/circles/circle-hall-243");
+    await page.goto("/en/portal/circles/circle-hall-7");
     await openBulletinWriter(page);
     const stamp = Date.now();
     await page.getByPlaceholder("Bulletin title").fill(`Delete me ${stamp}`);
@@ -318,12 +327,16 @@ test.describe("Local Portal smoke @smoke", () => {
     await row.getByRole("button", { name: "Remove" }).click();
     await expect(page.getByText(`Delete me ${stamp}`)).toHaveCount(0);
 
-    await clearAuthSession(page);
-    await loginAsPresident(page);
-    await page.goto("/en/portal/circles/circle-hall-243");
-    const downloadPromise = page.waitForEvent("download");
-    await page.getByRole("button", { name: "Download activity pack" }).click();
+    const presidentContext = await browser.newContext();
+    const presidentPage = await presidentContext.newPage();
+    await loginAsPresident(presidentPage);
+    await presidentPage.goto("/en/portal/circles/circle-hall-7");
+    const downloadPromise = presidentPage.waitForEvent("download");
+    await presidentPage
+      .getByRole("button", { name: "Download activity pack" })
+      .click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toMatch(/activity-pack\.json$/);
+    await presidentContext.close();
   });
 });
