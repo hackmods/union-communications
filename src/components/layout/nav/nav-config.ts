@@ -234,14 +234,21 @@ export const toolGroups: readonly NavGroup[] = [
 export function visibleToolGroups(options: {
   officerHubPublic: boolean;
   authenticated: boolean;
+  /** Tool slugs disabled by platform/union/local gates. */
+  disabledToolSlugs?: readonly string[];
 }): NavGroup[] {
   const showPulsePoll = options.officerHubPublic && options.authenticated;
-  if (showPulsePoll) return [...toolGroups];
+  const disabled = new Set(options.disabledToolSlugs ?? []);
 
   return toolGroups
     .map((group) => ({
       ...group,
-      links: group.links.filter((link) => link.href !== PULSE_POLL_HREF),
+      links: group.links.filter((link) => {
+        if (!showPulsePoll && link.href === PULSE_POLL_HREF) return false;
+        const slug = link.href.replace(/^\/tools\//, "");
+        if (disabled.has(slug)) return false;
+        return true;
+      }),
     }))
     .filter((group) => group.links.length > 0);
 }

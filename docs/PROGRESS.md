@@ -1,5 +1,15 @@
 # Progress Log
 
+## 2026-09-20 — Hub bylaws + bargaining proposals casework (finished)
+
+- [x] **Hub `/app/bylaws`** — draft list + create, status workflow (draft → committee → pending GMM → adopted / archived), generated preview from the synced form. `HubDraftSyncPanel` pushes the on-device Bylaw Builder draft into the Hub (tools stay local-first).
+- [x] **Hub `/app/proposals` + `/app/proposals/[id]`** — shared proposal packages: rows (article / current language / union proposal / employer counter / status / notes), confidential caucus note, activity timeline (comments + server status events), publish/unpublish member-safe snapshots.
+- [x] **Portal `/portal/proposals`** — member-safe published feed (headline + bullets + optional guide link; never counters or caucus notes). Portal nav link shows only when the union enables the proposals module.
+- [x] **API + persistence** — `/api/bylaws*`, `/api/proposals*`, `GET /api/portal/proposals`; Drizzle adapters behind `BYLAWS_DB_BACKEND=postgres` / `PROPOSALS_DB_BACKEND=postgres` (memory default), RLS route wrapping via `withRlsContext`.
+- [x] **Proposal Tracker uplift** — eyebrow, per-status summary chips, status badges in rows, privacy note, sync panel; Bylaw Builder gains the sync panel too.
+- [x] **Platform-wide** — `hub` module labels + registry, B7P seed enables both modules, What's new `hub-bylaws-proposals` (EN/FR), copy-style guards for the new Hub namespaces, module spec `docs/modules/BYLAWS_PROPOSALS.md` + session note.
+- Verify: typecheck clean, lint clean, full unit suite 2004 passed / 1 skipped, production build green, new `e2e/hub.governance.smoke.spec.ts` 3/3 passing.
+
 ## 2026-09-20 — Onboarding + peer workspace shell uplift
 
 - [x] Public `/onboarding` moved off `focus` onto Brand Kit workspace (`wide`) with form + sticky tip rail and step-1 two-column fields.

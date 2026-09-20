@@ -7,7 +7,9 @@ export type HubModule =
   | "tasks"
   | "informalLog"
   | "checkins"
-  | "portal";
+  | "portal"
+  | "bylaws"
+  | "proposals";
 
 export type UserRole =
   | "platform_admin"

@@ -65,6 +65,11 @@ function SiteAdminLanding() {
           body={t("demoCleanupBody")}
           tone="warn"
         />
+        <SiteAdminCard
+          href="/app/site-admin/public-tools"
+          title={t("publicTools")}
+          body={t("publicToolsCardBody")}
+        />
 
         {/* Existing operator surfaces, still reachable here for muscle memory. */}
         <SiteAdminCard

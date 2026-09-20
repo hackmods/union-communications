@@ -10,6 +10,7 @@ export type PortalNavLinkId =
   | "dispatch"
   | "fronts"
   | "sidebars"
+  | "proposals"
   | "feedback";
 
 export type PortalNavLink = {
@@ -20,6 +21,7 @@ export type PortalNavLink = {
     | "dispatchLink"
     | "frontsLink"
     | "sidebarsLink"
+    | "proposalsLink"
     | "sendFeedbackLink";
 };
 
@@ -28,6 +30,11 @@ export const PORTAL_NAV_LINKS: readonly PortalNavLink[] = [
   { id: "dispatch", href: "/portal/dispatch", labelKey: "dispatchLink" },
   { id: "fronts", href: "/portal/fronts", labelKey: "frontsLink" },
   { id: "sidebars", href: "/portal/sidebars", labelKey: "sidebarsLink" },
+  {
+    id: "proposals",
+    href: "/portal/proposals",
+    labelKey: "proposalsLink",
+  },
   {
     id: "feedback",
     href: "/portal/send-feedback",

@@ -1,0 +1,44 @@
+---
+description: Hub bylaws + bargaining proposals casework
+globs: ["src/lib/hub-governance/**", "src/app/api/bylaws/**", "src/app/api/proposals/**", "src/app/api/portal/proposals/**", "src/components/hub/bylaws/**", "src/components/hub/proposals/**", "src/components/tools/HubDraftSyncPanel.tsx", "src/components/portal/PortalProposals.tsx"]
+---
+
+# Hub governance: bylaws + proposals
+
+Spec: `docs/modules/BYLAWS_PROPOSALS.md`. Read before touching these paths.
+
+## Model
+
+- **Public tools stay on-device.** `HubDraftSyncPanel` appears only for a
+  signed-in officer (module enabled, write role, has a local). Sync POSTs the
+  current draft as a new Hub record — never a live two-way bind.
+- Bylaw drafts: `bylaw_drafts` with `form` jsonb (builder values). Status
+  lifecycle `draft → committee → pending_gmm → adopted / archived`. Preview is
+  regenerated from the stored form with the same builder lib (`build-template`).
+- Proposal packages: rows (article / current language / union proposal /
+  employer counter / status / notes / assignees), confidential `caucus_note`,
+  `proposal_events` timeline, `proposal_publications` member-safe snapshots.
+
+## Tenancy
+
+- Every table carries `union_id`/`local_id` + RLS (migration 0039).
+- **RLS is route-wrapped, not auto-scoped.** Adapter method names
+  (`listPackages`, `createPackage`, `upsertRow`, …) do not match the rls-store
+  `list`/`create` keys, so every route wraps store calls in
+  `withRlsContext(rlsContextForSession(session) ?? {}, ...)`. `withTenantRlsScope`
+  would pass through silently.
+- Cross-local (union/division/platform admin) lists union-wide when no local.
+
+## Portal safety
+
+- `/portal/proposals` returns publications only — never counters, caucus notes,
+  or employer language. The route returns `{ publications: [] }` (or the page
+  `notFound()`) when the union lacks the `proposals` module.
+- Publish writes the publication first; `published_summary` on the package is a
+  mirror. Archiving a publication hides it from the Portal.
+
+## Copy guard
+
+`hubBylaws`, `hubProposals`, `hubDraftSync`, `portalProposals` are Hub
+namespaces (HUB_NS). No national union names; error strings carry a remedy.
+EN/FR value parity, not just key parity.

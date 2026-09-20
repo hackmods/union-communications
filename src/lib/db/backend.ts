@@ -29,6 +29,9 @@ export const DB_BACKEND_ENV_KEYS = [
   "AUTH_USERS_BACKEND",
   "FEEDBACK_DB_BACKEND",
   "OFFICER_LEARNING_DB_BACKEND",
+  "PLATFORM_SETTINGS_DB_BACKEND",
+  "BYLAWS_DB_BACKEND",
+  "PROPOSALS_DB_BACKEND",
 ] as const;
 
 export type DbBackendEnvKey = (typeof DB_BACKEND_ENV_KEYS)[number];
@@ -197,6 +200,27 @@ export function officerLearningDbBackend(
   return resolveBackend("OFFICER_LEARNING_DB_BACKEND", env);
 }
 
+/** Platform UI settings (public tool gates). Default memory for demos. */
+export function platformSettingsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("PLATFORM_SETTINGS_DB_BACKEND", env);
+}
+
+/** Hub Bylaw drafts. Default memory for demos. */
+export function bylawsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("BYLAWS_DB_BACKEND", env);
+}
+
+/** Hub Proposal packages / Portal publications. Default memory for demos. */
+export function proposalsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("PROPOSALS_DB_BACKEND", env);
+}
+
 /** Durable Hub users + password-reset tokens (SEC-007). */
 export function authUsersDbBackend(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -231,6 +255,9 @@ export function readEffectiveBackendFlags(
     AUTH_USERS_BACKEND: authUsersDbBackend(env),
     FEEDBACK_DB_BACKEND: feedbackDbBackend(env),
     OFFICER_LEARNING_DB_BACKEND: officerLearningDbBackend(env),
+    PLATFORM_SETTINGS_DB_BACKEND: platformSettingsDbBackend(env),
+    BYLAWS_DB_BACKEND: bylawsDbBackend(env),
+    PROPOSALS_DB_BACKEND: proposalsDbBackend(env),
   };
 }
 

@@ -7109,6 +7109,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "hub-bylaws-proposals": {
+        "title": "Les brouillons de règlements et les propositions se synchronisent avec le Hub des dirigeants",
+        "body": "Les dirigeants qui ont accès aux modules Règlements locaux et Propositions de négociation peuvent pousser les brouillons de ces outils vers le Hub des dirigeants. Suivez le statut des règlements en comité et à l'AGM, travaillez les lignes de propositions avec une note de caucus et une ligne de temps d'activité, puis publiez un aperçu sécurisé pour les membres sur le Portail local."
+      },
       "hub-role-labels": {
         "title": "Noms de rôles lisibles dans le Hub des dirigeants",
         "body": "Vos rôles sur l’accueil du Hub des dirigeants, les invitations et les listes de comptes opérateur affichent maintenant des noms clairs comme Président local au lieu de codes comme local_president."
@@ -7952,7 +7956,11 @@
       "checkins": "Points de suivi",
       "checkinsDesc": "Questions récurrentes pour les dirigeants locaux (style Basecamp)",
       "portal": "Portail local",
-      "portalDesc": "Cercles pour les membres, délégués et comités"
+      "portalDesc": "Cercles pour les membres, délégués et comités",
+      "bylaws": "Règlements locaux",
+      "bylawsDesc": "Suivre les brouillons de règlement en comité et jusqu'à l'adoption",
+      "proposals": "Propositions de négociation",
+      "proposalsDesc": "Lignes de propositions, contre-propositions et mises à jour aux membres"
     },
     "stewardGuidesLink": "Guides de rencontre",
     "reportsExportSuccess": "Rapport téléchargé."
@@ -9679,6 +9687,7 @@
     "memoryBannerLabel": "Données de session",
     "memoryBannerBody": "Les publications et Actions de ce Portail durent seulement jusqu’au redémarrage du serveur. Demandez à la personne qui gère ce site d’activer le stockage durable avant de vous y fier.",
     "dispatchLink": "Relais",
+    "proposalsLink": "Propositions",
     "dispatchTitle": "Relais",
     "dispatchSubtitle": "Assignations, babillards et avis d’échéance. Les Cercles en sourdine restent calmes.",
     "dispatchEmpty": "Rien dans le Relais. Les Cercles en sourdine restent calmes — ouvrez un Cercle depuis Ensemble si vous attendiez un avis.",
@@ -11836,12 +11845,140 @@
       }
     }
   },
+  "hubDraftSync": {
+    "title": "Envoyer ce brouillon au Hub des dirigeants",
+    "body": "Votre brouillon reste sur cet appareil. Cette action crée une copie partagée que les dirigeants autorisés peuvent voir et modifier.",
+    "sync": "Envoyer au Hub",
+    "saving": "Envoi en cours…",
+    "done": "Enregistré sur le Hub des dirigeants : {label}",
+    "error": "Impossible d'envoyer ce brouillon. Réessayez.",
+    "empty": "Rien à envoyer pour l'instant. Ajoutez d'abord un nom de section locale ou au moins une proposition.",
+    "mfaFirst": "Vérifier le MFA d'abord"
+  },
+  "hubBylaws": {
+    "title": "Règlements locaux",
+    "subtitle": "Brouillons de règlements synchronisés depuis le Créateur de règlements, suivis en comité, à l'AGM et jusqu'à l'adoption.",
+    "newDraft": "Nouveau brouillon",
+    "cancel": "Annuler",
+    "created": "Brouillon créé.",
+    "updated": "Brouillon mis à jour.",
+    "deleted": "Brouillon supprimé.",
+    "loadError": "Impossible de charger les brouillons. Actualisez la page et réessayez.",
+    "createError": "Impossible de créer ce brouillon. Réessayez.",
+    "updateError": "Impossible de mettre à jour ce brouillon. Réessayez.",
+    "deleteError": "Impossible de supprimer ce brouillon. Réessayez.",
+    "loading": "Chargement des brouillons…",
+    "empty": "Aucun brouillon de règlements pour l'instant. Ouvrez le Créateur de règlements et envoyez un brouillon ici, ou commencez-en un ci-dessus.",
+    "colTitle": "Titre",
+    "colMode": "Espace de travail",
+    "modeTemplate": "Modèle rapide",
+    "modeCommittee": "Ébauche en comité",
+    "colStatus": "Statut",
+    "status": {
+      "draft": "Brouillon",
+      "committee": "En comité",
+      "pending_gmm": "En attente d'AGM",
+      "adopted": "Adopté",
+      "archived": "Archivé"
+    },
+    "preview": "Aperçu",
+    "hidePreview": "Masquer l'aperçu",
+    "hint": "Cet aperçu est généré à partir du brouillon que vous avez synchronisé. Modifiez sur l'appareil et renvoyez pour le rafraîchir.",
+    "updatedLabel": "Mis à jour le {date}",
+    "save": "Enregistrer le brouillon"
+  },
+  "hubProposals": {
+    "title": "Propositions de négociation",
+    "subtitle": "Paquets de propositions partagés pour votre comité de négociation : lignes, contre-propositions, notes de caucus et ce que les membres ont vu.",
+    "newPackage": "Nouveau paquet",
+    "cancel": "Annuler",
+    "created": "Paquet créé.",
+    "deleted": "Paquet supprimé.",
+    "loadError": "Impossible de charger les propositions. Actualisez la page et réessayez.",
+    "createError": "Impossible de créer ce paquet. Réessayez.",
+    "saveError": "Impossible d'enregistrer. Réessayez.",
+    "loading": "Chargement des propositions…",
+    "empty": "Aucun paquet de propositions pour l'instant. Créez-en un, puis ajoutez des lignes pour chaque article.",
+    "colName": "Nom du paquet",
+    "colRound": "Étiquette de ronde",
+    "roundPlaceholder": "p. ex. ronde 2026",
+    "colStatus": "Statut",
+    "packageStatus": {
+      "active": "Actif",
+      "closed": "Clos",
+      "archived": "Archivé"
+    },
+    "colCaucusNote": "Note de caucus",
+    "caucusPlaceholder": "Note privée pour votre comité ; jamais publiée",
+    "save": "Enregistrer",
+    "updatedLabel": "Mis à jour le {date}",
+    "liveOnPortal": "Publié sur le Portail local",
+    "openPackage": "Ouvrir",
+    "deletePackage": "Supprimer le paquet",
+    "backToList": "Toutes les propositions",
+    "rowsTitle": "Lignes de propositions",
+    "rowsEmpty": "Aucune ligne pour l'instant. Ajoutez le premier article ou reprenez les lignes de l'outil Suivi des propositions.",
+    "addRow": "Ajouter une ligne",
+    "removeRow": "Retirer",
+    "rowCols": {
+      "article": "Article / numéro de section",
+      "currentLanguage": "Libellé actuel",
+      "unionProposal": "Proposition syndicale",
+      "employerCounter": "Contre-proposition patronale",
+      "status": "Statut",
+      "notes": "Notes / Justification",
+      "actions": "Actions"
+    },
+    "rowStatus": {
+      "open": "Ouverte",
+      "tentativelyAgreed": "Accord de principe",
+      "unionWithdrew": "Retirée par le syndicat",
+      "employerWithdrew": "Retirée par l'employeur",
+      "impasse": "Impasse"
+    },
+    "timelineTitle": "Activité",
+    "timelineEmpty": "Aucune activité pour l'instant. Les changements de statut et les commentaires apparaîtront ici.",
+    "eventKind": {
+      "comment": "Commentaire",
+      "status": "Statut",
+      "system": "Système"
+    },
+    "eventRowPrefix": "Proposition :",
+    "eventRowUnnamed": "ligne sans nom",
+    "commentLabel": "Ajouter un commentaire",
+    "commentPlaceholder": "Note pour le comité ; jamais montrée aux membres.",
+    "postComment": "Publier le commentaire",
+    "publishTitle": "Mise à jour aux membres",
+    "publishNote": "La publication crée un aperçu sécurisé pour les membres sur le Portail local, avec un titre et des puces. Les lignes, les contre-propositions et les notes de caucus ne sont jamais incluses.",
+    "published": "Publié sur le Portail local.",
+    "unpublished": "Retiré du Portail local.",
+    "unpublish": "Retirer du portail",
+    "pubHeadline": "Titre",
+    "pubBullets": "Points clés",
+    "pubBulletsPlaceholder": "Une puce par ligne",
+    "pubGuideHref": "Lien vers un guide (optionnel)",
+    "pubGuidePlaceholder": "p. ex. /guide/négociation",
+    "publish": "Publier",
+    "saved": "Enregistré.",
+    "rowAdded": "Ligne ajoutée.",
+    "rowRemoved": "Ligne retirée."
+  },
+  "portalProposals": {
+    "eyebrow": "Négociation",
+    "title": "Propositions de négociation",
+    "subtitle": "Ce que votre comité de négociation a publié pour les membres.",
+    "loadError": "Impossible de charger les propositions. Vérifiez votre connexion, puis réessayez.",
+    "empty": "Aucune proposition publiée pour l'instant. Quand votre comité partage une mise à jour, elle apparaît ici.",
+    "cardEyebrow": "De votre comité de négociation",
+    "publishedLabel": "Dernière mise à jour le {date}"
+  },
   "bylawBuilder": {
     "title": "Créateur de règlements",
     "subtitle": "Rédigez un modèle de règlements locaux à partir de la structure de votre section",
     "whenToUse": "Utilisez cet outil lorsque vous rédigez ou mettez à jour les règlements locaux et avez besoin d'un modèle de base avant une révision juridique ou nationale.",
     "guideLink": "Lire le guide des règlements locaux",
     "governanceLink": "Module sur la gouvernance démocratique",
+    "hubSyncLabel": "Brouillon de règlements locaux pour {local}",
     "privacyNote": "Les brouillons s'enregistrent sur cet appareil seulement. Rien n'est envoyé à un serveur.",
     "saveFailed": "Impossible d'enregistrer le brouillon sur cet appareil. Copiez ou téléchargez maintenant pour ne pas perdre le texte, puis libérez de l'espace du navigateur et réessayez.",
     "copy": "Copier dans le presse-papiers",
@@ -12361,6 +12498,10 @@
     "subtitle": "Suivez les articles, propositions syndicales et contre-propositions patronales pour votre comité de négociation",
     "whenToUse": "Utilisez cet outil à la table et en caucus pour consigner chaque proposition et contre-proposition sans mettre la stratégie sur les serveurs de l'employeur.",
     "guideLink": "Lire le guide du cycle de négociation",
+    "eyebrow": "Comité de négociation",
+    "summaryLabel": "Sommaire des statuts de proposition",
+    "draftName": "Suivi des propositions",
+    "privacyNote": "Les lignes sont enregistrées sur cet appareil seulement. Envoyez une copie au Hub des dirigeants quand le comité veut une version partagée.",
     "trust": {
       "title": "La stratégie de négociation est confidentielle",
       "body": "Ce suivi enregistre tout directement sur votre appareil. Aucune donnée n'est envoyée dans le nuage. Exportez en CSV pour sauvegarder vos notes."

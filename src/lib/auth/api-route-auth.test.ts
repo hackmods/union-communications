@@ -21,6 +21,8 @@ const PUBLIC_API_ROUTES = new Set([
   "meetings/public/[slug]/route.ts",
   // Calendar R1 — public tokenized RSVP submit; rate-limited; no auth (ADR-015).
   "rsvp/[token]/route.ts",
+  // Public tool visibility — no union data, only the disabled-slug lists.
+  "public-tools/visibility/route.ts",
 ]);
 
 function walkRouteFiles(dir: string): string[] {
@@ -58,6 +60,8 @@ const AUTH_MARKERS = [
   "requirePortalSession",
   "requireSiteFeedbackInboxSession",
   "requireSiteAdminSession",
+  "requireBylawsSession",
+  "requireProposalsSession",
 ];
 
 /** Routes that gate with shared secrets or tokens instead of Hub session. */

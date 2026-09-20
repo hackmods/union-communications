@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
@@ -18,9 +19,12 @@ import {
 import { PageShell } from "@/components/layout/PageShell";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
+import { HubDraftSyncPanel } from "@/components/tools/HubDraftSyncPanel";
 
 function downloadText(filename: string, text: string, mime: string) {
   const blob = new Blob([text], { type: mime });
@@ -32,6 +36,17 @@ function downloadText(filename: string, text: string, mime: string) {
   URL.revokeObjectURL(url);
 }
 
+const STATUS_BADGE: Record<
+  ProposalStatus,
+  "default" | "success" | "warning" | "danger" | "muted"
+> = {
+  open: "default",
+  tentativelyAgreed: "success",
+  unionWithdrew: "warning",
+  employerWithdrew: "warning",
+  impasse: "danger",
+};
+
 export default function ProposalTrackerPage() {
   const t = useTranslations("proposalTracker");
   const { draft, setDraft, saveFailed, clear } = useStewardGuideDraft({
@@ -42,6 +57,18 @@ export default function ProposalTrackerPage() {
   });
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
+
+  const summary = useMemo(() => {
+    const counts: Record<ProposalStatus, number> = {
+      open: 0,
+      tentativelyAgreed: 0,
+      unionWithdrew: 0,
+      employerWithdrew: 0,
+      impasse: 0,
+    };
+    for (const row of draft.rows) counts[row.status] += 1;
+    return counts;
+  }, [draft.rows]);
 
   const updateRow = (id: string, patch: Partial<ProposalRow>) => {
     setDraft((prev) => ({
@@ -76,14 +103,19 @@ export default function ProposalTrackerPage() {
     });
   };
 
+  const nonEmptyRows = draft.rows.filter(
+    (row) => row.article.trim() || row.unionProposal.trim(),
+  ).length;
+
   return (
     <PageShell className="py-6 md:py-8 lg:py-10">
       <header className="max-w-3xl">
-        <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+        <Eyebrow tone="brand">{t("eyebrow")}</Eyebrow>
+        <h1 className="mt-2 text-2xl font-bold text-opseu-dark md:text-3xl">
           {t("title")}
         </h1>
-        <p className="mt-1 max-w-prose text-gray-600">{t("subtitle")}</p>
-        <p className="mt-2 max-w-2xl text-sm text-gray-500">{t("whenToUse")}</p>
+        <p className="mt-1 max-w-prose text-gray-700">{t("subtitle")}</p>
+        <p className="mt-2 max-w-2xl text-sm text-gray-600">{t("whenToUse")}</p>
         <p className="mt-3">
           <Link
             href="/guide/bargaining"
@@ -98,6 +130,45 @@ export default function ProposalTrackerPage() {
         <p className="font-medium text-gray-900">{t("trust.title")}</p>
         <p className="mt-1">{t("trust.body")}</p>
       </Callout>
+
+      {nonEmptyRows > 0 ? (
+        <div
+          className="mt-4 flex flex-wrap gap-2 rounded-lg border border-gray-200 bg-white p-3"
+          aria-label={t("summaryLabel")}
+        >
+          {PROPOSAL_STATUSES.map((status) => (
+            <Badge key={status} variant={STATUS_BADGE[status]}>
+              {t(`status.${status}`)} · {summary[status]}
+            </Badge>
+          ))}
+        </div>
+      ) : null}
+
+      <HubDraftSyncPanel
+        kind="proposals"
+        syncLabel={`${t("draftName")} ${new Date().toLocaleDateString()}`}
+        getPayload={() => {
+          if (nonEmptyRows === 0) return null;
+          return {
+            name: `${t("draftName")} ${new Date().toLocaleDateString()}`,
+            rows: draft.rows
+              .filter(
+                (row) =>
+                  row.article.trim() || row.unionProposal.trim(),
+              )
+              .map((row) => ({
+                id: row.id,
+                article: row.article,
+                currentLanguage: row.currentLanguage,
+                unionProposal: row.unionProposal,
+                employerCounter: row.employerCounter,
+                status: row.status,
+                notes: row.notes,
+              })),
+          };
+        }}
+        className="mt-4 max-w-3xl"
+      />
 
       {saveFailed && (
         <Callout tone="warning" className="mt-4 max-w-3xl">
@@ -115,7 +186,7 @@ export default function ProposalTrackerPage() {
         </Callout>
       )}
 
-      <div className="button-row mt-6">
+      <div className="button-row mt-6 flex flex-wrap gap-2">
         <Button type="button" onClick={addRow}>
           {t("addProposal")}
         </Button>
@@ -125,14 +196,14 @@ export default function ProposalTrackerPage() {
           onClick={handleExportCsv}
           disabled={exporting}
         >
-          {t("exportCsv")}
+          {t("exportCsv")} (CSV)
         </Button>
         <Button type="button" variant="ghost" onClick={clear}>
           {t("clearDraft")}
         </Button>
       </div>
 
-      <div className="mt-4 overflow-x-auto rounded-lg border border-gray-200 bg-white">
+      <div className="mt-4 overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
         <table className="min-w-[72rem] w-full border-collapse text-left text-sm">
           <thead className="bg-gray-50 text-opseu-dark">
             <tr>
@@ -203,21 +274,26 @@ export default function ProposalTrackerPage() {
                   />
                 </td>
                 <td className="px-2 py-2">
-                  <Select
-                    aria-label={`${t("columns.status")} ${index + 1}`}
-                    value={row.status}
-                    onChange={(e) =>
-                      updateRow(row.id, {
-                        status: e.target.value as ProposalStatus,
-                      })
-                    }
-                  >
-                    {PROPOSAL_STATUSES.map((status) => (
-                      <option key={status} value={status}>
-                        {t(`status.${status}`)}
-                      </option>
-                    ))}
-                  </Select>
+                  <div className="space-y-1">
+                    <Badge variant={STATUS_BADGE[row.status]}>
+                      {t(`status.${row.status}`)}
+                    </Badge>
+                    <Select
+                      aria-label={`${t("columns.status")} ${index + 1}`}
+                      value={row.status}
+                      onChange={(e) =>
+                        updateRow(row.id, {
+                          status: e.target.value as ProposalStatus,
+                        })
+                      }
+                    >
+                      {PROPOSAL_STATUSES.map((status) => (
+                        <option key={status} value={status}>
+                          {t(`status.${status}`)}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
                 </td>
                 <td className="px-2 py-2">
                   <Textarea
@@ -244,6 +320,8 @@ export default function ProposalTrackerPage() {
           </tbody>
         </table>
       </div>
+
+      <p className="mt-3 text-xs text-gray-500">{t("privacyNote")}</p>
 
       <ToolRelatedFooter toolSlug="proposal-tracker" className="mt-10" />
     </PageShell>

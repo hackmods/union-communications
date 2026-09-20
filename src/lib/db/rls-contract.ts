@@ -229,6 +229,41 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
     policy: "poll_responses_tenant_isolation",
     migration: "0017_polls.sql",
   },
+  {
+    table: "union_public_tool_settings",
+    policy: "union_public_tool_settings_tenant_isolation",
+    migration: "0038_public_tool_settings.sql",
+  },
+  {
+    table: "local_public_tool_settings",
+    policy: "local_public_tool_settings_tenant_isolation",
+    migration: "0038_public_tool_settings.sql",
+  },
+  {
+    table: "bylaw_drafts",
+    policy: "bylaw_drafts_tenant_isolation",
+    migration: "0039_hub_bylaws_proposals.sql",
+  },
+  {
+    table: "proposal_packages",
+    policy: "proposal_packages_tenant_isolation",
+    migration: "0039_hub_bylaws_proposals.sql",
+  },
+  {
+    table: "proposal_rows",
+    policy: "proposal_rows_tenant_isolation",
+    migration: "0039_hub_bylaws_proposals.sql",
+  },
+  {
+    table: "proposal_events",
+    policy: "proposal_events_tenant_isolation",
+    migration: "0039_hub_bylaws_proposals.sql",
+  },
+  {
+    table: "proposal_publications",
+    policy: "proposal_publications_tenant_isolation",
+    migration: "0039_hub_bylaws_proposals.sql",
+  },
 ] as const;
 
 /** App role that must not own tables / must not bypass RLS. */

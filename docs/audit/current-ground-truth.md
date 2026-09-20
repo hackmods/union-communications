@@ -1,5 +1,7 @@
 # Current ground truth (agents) — as of 2026-09-20
 
+**Hub governance casework (2026-09-20):** [`session-knowledge-2026-09-20-hub-bylaws-proposals.md`](session-knowledge-2026-09-20-hub-bylaws-proposals.md) + [`docs/modules/BYLAWS_PROPOSALS.md`](../modules/BYLAWS_PROPOSALS.md) — `/app/bylaws` (draft lifecycle + generated preview), `/app/proposals` casework (rows, caucus note, activity timeline, publish), `/portal/proposals` member-safe published feed, Drizzle adapters behind `BYLAWS_DB_BACKEND`/`PROPOSALS_DB_BACKEND`. Public tools stay on-device; `HubDraftSyncPanel` pushes a copy when signed in. Member-safe rule: publications never carry counters, caucus notes, or employer language.
+
 **Verified DB deployment gate (2026-09-20):** [`session-knowledge-2026-09-20-verified-db-deploy.md`](session-knowledge-2026-09-20-verified-db-deploy.md) + [ADR-020](adr-020-database-deployment-contract.md) supersede the 2026-09-15/16 maintainer design. There is one authority: the append-only Drizzle journal. Boot validates it, serializes replicas, migrates with the owner URL, proves the exact schema-qualified tail, verifies generated table/column/role/RLS/policy shape, then serves; otherwise exit 1. `platform_meta`, the separate data-migration pointer, boot-commit DDL state, and health-only schema probe are retired. CapRover Method 3 + GHCR is the production contract.
 
 **Site design system uplift (2026-09-16):** [`session-knowledge-2026-09-16-design-uplift.md`](session-knowledge-2026-09-16-design-uplift.md) — public site pages now share one grammar (Card variants / Eyebrow / SectionHeading / IconChip / ButtonLink). Read `.cursor/rules/site-design-system.mdc` before editing any `src/app/[locale]/**/page.tsx`.
@@ -68,6 +70,7 @@
 | Running meetings playbook + cheat sheet | Shipped 2026-08-28 | `/guide/running-meetings` + `/tools/rules-of-order`; Robert's reference only — confirm local bylaws |
 | Guide discoverability registry | Shipped 2026-08-28 | `src/lib/comms/guide-registry.ts` — do not duplicate path arrays on Blueprint/Resources/playbooks |
 | CapRover Sentry + JSONL sinks | Shipped 2026-09-08 | Env-gated; tunnel `/monitoring`; see OBSERVABILITY module — not analytics |
+| Hub bylaws + proposals casework | Shipped 2026-09-20 | `/app/bylaws`, `/app/proposals`, `/portal/proposals`; on-device tools stay first; see `BYLAWS_PROPOSALS.md` |
 
 ## Three email/reminder surfaces (do not conflate)
 

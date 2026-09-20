@@ -26,8 +26,8 @@ describe("sitemap", () => {
     expect(PUBLIC_PATHS).not.toContain("/build/review");
   });
 
-  it("includes every top-level /guide route from the filesystem (en + fr)", () => {
-    const entries = sitemap();
+  it("includes every top-level /guide route from the filesystem (en + fr)", async () => {
+    const entries = await sitemap();
     const urls = new Set(entries.map((e) => e.url));
     const guidePaths = guidePathsFromFilesystem();
 

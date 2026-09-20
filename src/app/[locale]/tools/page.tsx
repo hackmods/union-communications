@@ -16,6 +16,7 @@ import {
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { getPlatformDisabledToolSlugs } from "@/lib/public-tools/store";
 import {
   FIRST_WEEK_STEP_KEYS,
   FIRST_WEEK_STEP_LINKS,
@@ -43,9 +44,11 @@ export default async function ToolsIndexPage({
   const nav = await getTranslations("nav");
   const plan = await getTranslations("socialMediaPlan");
   const session = await auth();
+  const disabledToolSlugs = await getPlatformDisabledToolSlugs();
   const groups = visibleToolGroups({
     officerHubPublic: isOfficerHubPublic(),
     authenticated: Boolean(session?.user),
+    disabledToolSlugs,
   });
   const channelGuides = learnGroups.find(
     (g) => g.labelKey === "learnGroupChannels",

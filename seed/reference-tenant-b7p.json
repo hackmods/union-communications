@@ -6,14 +6,14 @@
     "name": "Behind 7 Proxies",
     "slug": "b7p",
     "defaultLocale": "en",
-    "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks", "informalLog", "checkins", "portal"]
+    "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks", "informalLog", "checkins", "portal", "bylaws", "proposals"]
   },
   "division": {
     "id": "division-b7p",
     "unionId": "union-b7p",
     "name": "Seven Proxies",
     "code": "b7p",
-    "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks", "informalLog", "checkins", "portal"]
+    "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks", "informalLog", "checkins", "portal", "bylaws", "proposals"]
   },
   "locals": [
     {

@@ -9,6 +9,7 @@ import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { BylawsReferenceSheetButton } from "@/components/comms/BylawsReferenceSheetButton";
 import { SegControl } from "@/components/tools/SegControl";
+import { HubDraftSyncPanel } from "@/components/tools/HubDraftSyncPanel";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -488,6 +489,35 @@ export function BylawBuilderWorkspace() {
             </Link>
           </p>
           {exportBar}
+          <HubDraftSyncPanel
+            kind="bylaws"
+            syncLabel={t("hubSyncLabel", {
+              local: draft.localName.trim() || t("placeholders.localName"),
+            })}
+            getPayload={() => {
+              const {
+                mode,
+                articleSet,
+                articleOverrides,
+                committeeNotes,
+                existingBylaws,
+                ...form
+              } = draft;
+              return {
+                title: t("hubSyncLabel", {
+                  local: draft.localName.trim() || t("placeholders.localName"),
+                }),
+                mode,
+                form: {
+                  ...form,
+                  articleSet,
+                  articleOverrides,
+                  committeeNotes,
+                  existingBylaws,
+                },
+              };
+            }}
+          />
         </div>
       }
       form={draft.mode === "committee" ? committeePane : templatePane}

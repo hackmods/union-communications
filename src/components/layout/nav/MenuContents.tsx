@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { useDisabledPublicTools } from "@/hooks/use-disabled-public-tools";
 import { NAV_MEGA_MENU_GRID_CLASS } from "@/lib/utils/flyout-geometry";
 import {
   learnGroups,
@@ -341,9 +342,14 @@ export function ToolsMegaMenuContent({
   const { data: session, status } = useSession();
   const authenticated =
     status === "authenticated" && Boolean(session?.user);
+  const disabledToolSlugs = useDisabledPublicTools({
+    unionId: session?.user?.unionId,
+    localId: session?.user?.localId,
+  });
   const groups = visibleToolGroups({
     officerHubPublic: isOfficerHubPublic(),
     authenticated,
+    disabledToolSlugs,
   });
   const allActive = pathname === "/tools";
 

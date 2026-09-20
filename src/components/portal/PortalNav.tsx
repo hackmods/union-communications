@@ -108,6 +108,11 @@ export function PortalNav() {
   const currentCircleId = circleIdFromPath(pathname);
   const currentCircle = circles.find((c) => c.id === currentCircleId);
   const circlesLabel = currentCircle?.name ?? t("circlesMenu");
+  const proposalsEnabled =
+    Boolean(tenant?.union.enabledModules.includes("proposals")) || false;
+  const portalLinks = PORTAL_NAV_LINKS.filter(
+    (link) => link.id === "proposals" ? proposalsEnabled : true,
+  );
 
   const linkClass = (extra?: string) =>
     cn(
@@ -186,7 +191,7 @@ export function PortalNav() {
               })
             )}
           </NavDropdown>
-          {PORTAL_NAV_LINKS.filter((link) => link.id !== "station").map(
+          {portalLinks.filter((link) => link.id !== "station").map(
             (link) => {
               const active = portalNavLinkActive(pathname, link.href);
               return (
@@ -246,7 +251,7 @@ export function PortalNav() {
         <PortalNavDrawer
           drawerTop={drawerTop}
           pathname={pathname}
-          links={PORTAL_NAV_LINKS}
+          links={portalLinks}
           circles={circles}
           circlesActive={circlesActive}
           circlesLabel={circlesLabel}

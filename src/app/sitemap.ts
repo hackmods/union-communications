@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo/site";
 import { TOOL_SLUGS } from "@/lib/seo/tool-meta";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { getPlatformDisabledToolSlugs } from "@/lib/public-tools/store";
 
 const LOCALES = ["en", "fr"] as const;
 
@@ -82,10 +83,14 @@ function localeUrl(locale: string, path: string): string {
   return `${SITE_URL}/${locale}${path}/`;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
+  const disabled = new Set(await getPlatformDisabledToolSlugs());
 
   for (const path of PUBLIC_PATHS) {
+    const toolMatch = path.match(/^\/tools\/(.+)$/);
+    if (toolMatch && disabled.has(toolMatch[1])) continue;
+
     for (const locale of LOCALES) {
       entries.push({
         url: localeUrl(locale, path),

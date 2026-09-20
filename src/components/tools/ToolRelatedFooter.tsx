@@ -5,6 +5,8 @@ import {
   RELATED_BY_TOOL,
   RelatedToolsStrip,
 } from "@/components/tools/RelatedToolsStrip";
+import { useDisabledPublicTools } from "@/hooks/use-disabled-public-tools";
+import { slugFromToolHref } from "@/lib/public-tools/visibility";
 
 /**
  * Resolve RELATED_BY_TOOL entries to localized RelatedToolsStrip for a tool slug.
@@ -17,7 +19,13 @@ export function ToolRelatedFooter({
   className?: string;
 }) {
   const nav = useTranslations("nav");
-  const entries = RELATED_BY_TOOL[toolSlug] ?? [];
+  const disabled = useDisabledPublicTools();
+  const disabledSet = new Set(disabled);
+  const entries = (RELATED_BY_TOOL[toolSlug] ?? []).filter((e) => {
+    const slug = slugFromToolHref(e.href);
+    if (slug && disabledSet.has(slug)) return false;
+    return true;
+  });
   if (!entries.length) return null;
 
   return (

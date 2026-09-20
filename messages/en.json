@@ -7162,6 +7162,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "hub-bylaws-proposals": {
+        "title": "Bylaw drafts and bargaining proposals sync to Officer Hub",
+        "body": "Officers with the Local Bylaws and Bargaining proposals modules can push drafts from these tools into Officer Hub casework: track bylaw status through committee and GMM, work proposal rows with a caucus note and activity timeline, and publish a member-safe snapshot to Local Portal."
+      },
       "hub-role-labels": {
         "title": "Readable role names in Officer Hub",
         "body": "Your roles on Officer Hub home, invites, and operator account lists now show plain names like Local president instead of codes like local_president."
@@ -8005,7 +8009,11 @@
       "checkins": "Check-ins",
       "checkinsDesc": "Recurring questions for local officers (Basecamp-style)",
       "portal": "Local Portal",
-      "portalDesc": "Circles for members, stewards, and committees"
+      "portalDesc": "Circles for members, stewards, and committees",
+      "bylaws": "Local Bylaws",
+      "bylawsDesc": "Track bylaw revision drafts through committee and adoption",
+      "proposals": "Bargaining proposals",
+      "proposalsDesc": "Shared proposal rows, counters, and member updates"
     },
     "stewardGuidesLink": "Steward meeting guides",
     "reportsExportSuccess": "Report downloaded."
@@ -9679,6 +9687,7 @@
     "memoryBannerLabel": "Session data",
     "memoryBannerBody": "Circle posts and Actions on this Portal last only until the server restarts. Ask whoever runs this site to turn on lasting storage before you rely on them.",
     "dispatchLink": "Dispatch",
+    "proposalsLink": "Proposals",
     "dispatchTitle": "Dispatch",
     "dispatchSubtitle": "Assignments, Bulletin posts, and due-soon pings. Muted Circles stay quiet.",
     "dispatchEmpty": "Nothing in Dispatch. Muted Circles stay quiet — open a Circle from Together if you expected a ping.",
@@ -11836,12 +11845,140 @@
       }
     }
   },
+  "hubDraftSync": {
+    "title": "Send this draft to your Officer Hub",
+    "body": "Your draft stays on this device. This creates a shared copy that officers with access can see and edit.",
+    "sync": "Send to Hub",
+    "saving": "Sending…",
+    "done": "Saved on your Officer Hub: {label}",
+    "error": "Could not send this draft. Try again.",
+    "empty": "Nothing to send yet. Add a local name or at least one proposal first.",
+    "mfaFirst": "Verify MFA first"
+  },
+  "hubBylaws": {
+    "title": "Local bylaws",
+    "subtitle": "Bylaw drafts synced from the public Bylaw Builder, tracked through committee, GMM, and adoption.",
+    "newDraft": "New draft",
+    "cancel": "Cancel",
+    "created": "Draft created.",
+    "updated": "Draft updated.",
+    "deleted": "Draft deleted.",
+    "loadError": "Could not load drafts. Refresh and try again.",
+    "createError": "Could not create this draft. Try again.",
+    "updateError": "Could not update this draft. Try again.",
+    "deleteError": "Could not delete this draft. Try again.",
+    "loading": "Loading bylaws drafts…",
+    "empty": "No bylaws drafts yet. Open the Bylaw Builder and send a draft here, or start one above.",
+    "colTitle": "Title",
+    "colMode": "Workspace",
+    "modeTemplate": "Quick template",
+    "modeCommittee": "Committee draft",
+    "colStatus": "Status",
+    "status": {
+      "draft": "Draft",
+      "committee": "In committee",
+      "pending_gmm": "Pending GMM",
+      "adopted": "Adopted",
+      "archived": "Archived"
+    },
+    "preview": "Preview",
+    "hidePreview": "Hide preview",
+    "hint": "This preview is generated from the draft you synced. Edit on-device and send again to refresh it.",
+    "updatedLabel": "Updated {date}",
+    "save": "Save draft"
+  },
+  "hubProposals": {
+    "title": "Bargaining proposals",
+    "subtitle": "Shared proposal packages for your bargaining committee: rows, counters, caucus notes, and what members have seen.",
+    "newPackage": "New package",
+    "cancel": "Cancel",
+    "created": "Package created.",
+    "deleted": "Package deleted.",
+    "loadError": "Could not load proposals. Refresh and try again.",
+    "createError": "Could not create this package. Try again.",
+    "saveError": "Could not save. Try again.",
+    "loading": "Loading proposals…",
+    "empty": "No proposal packages yet. Create one, then add rows for each article.",
+    "colName": "Package name",
+    "colRound": "Round label",
+    "roundPlaceholder": "e.g. 2026 round",
+    "colStatus": "Status",
+    "packageStatus": {
+      "active": "Active",
+      "closed": "Closed",
+      "archived": "Archived"
+    },
+    "colCaucusNote": "Caucus note",
+    "caucusPlaceholder": "Private note for your committee; never published",
+    "save": "Save",
+    "updatedLabel": "Updated {date}",
+    "liveOnPortal": "Published to Local Portal",
+    "openPackage": "Open",
+    "deletePackage": "Delete package",
+    "backToList": "All proposals",
+    "rowsTitle": "Proposal rows",
+    "rowsEmpty": "No rows yet. Add the first article or pull from the Proposal Tracker tool.",
+    "addRow": "Add row",
+    "removeRow": "Remove",
+    "rowCols": {
+      "article": "Article / Section #",
+      "currentLanguage": "Current language",
+      "unionProposal": "Union proposal",
+      "employerCounter": "Employer counter",
+      "status": "Status",
+      "notes": "Notes / Rationale",
+      "actions": "Actions"
+    },
+    "rowStatus": {
+      "open": "Open",
+      "tentativelyAgreed": "Tentatively agreed",
+      "unionWithdrew": "Union withdrew",
+      "employerWithdrew": "Employer withdrew",
+      "impasse": "Impasse"
+    },
+    "timelineTitle": "Activity",
+    "timelineEmpty": "No activity yet. Status changes and comments appear here.",
+    "eventKind": {
+      "comment": "Comment",
+      "status": "Status",
+      "system": "System"
+    },
+    "eventRowPrefix": "Proposal:",
+    "eventRowUnnamed": "unnamed row",
+    "commentLabel": "Add a comment",
+    "commentPlaceholder": "Note for the committee; never shown to members.",
+    "postComment": "Post comment",
+    "publishTitle": "Member update",
+    "publishNote": "Publishing creates a member-safe snapshot on Local Portal with a headline and bullets. Rows, counters, and caucus notes are never included.",
+    "published": "Published to Local Portal.",
+    "unpublished": "Removed from Local Portal.",
+    "unpublish": "Remove from portal",
+    "pubHeadline": "Headline",
+    "pubBullets": "Key points",
+    "pubBulletsPlaceholder": "One bullet per line",
+    "pubGuideHref": "Link to a guide (optional)",
+    "pubGuidePlaceholder": "e.g. /guide/bargaining",
+    "publish": "Publish",
+    "saved": "Saved.",
+    "rowAdded": "Row added.",
+    "rowRemoved": "Row removed."
+  },
+  "portalProposals": {
+    "eyebrow": "Bargaining",
+    "title": "Bargaining proposals",
+    "subtitle": "What your bargaining committee has published for members.",
+    "loadError": "Could not load proposals. Check your connection, then try again.",
+    "empty": "No published proposals right now. When your committee shares an update, it shows up here.",
+    "cardEyebrow": "From your bargaining committee",
+    "publishedLabel": "Last updated {date}"
+  },
   "bylawBuilder": {
     "title": "Bylaw Builder",
     "subtitle": "Draft a standard local bylaws template from your local's structure",
     "whenToUse": "Use this when you are writing or updating local bylaws and need a baseline template before legal or national review.",
     "guideLink": "Read the Local Bylaws guide",
     "governanceLink": "Democratic governance module",
+    "hubSyncLabel": "Local bylaws draft for {local}",
     "privacyNote": "Drafts save on this device only. Nothing is sent to a server.",
     "saveFailed": "Could not save the draft on this device. Copy or download now so you do not lose the text, then free browser storage and try again.",
     "copy": "Copy to clipboard",
@@ -12361,6 +12498,10 @@
     "subtitle": "Track articles, union proposals, and employer counters for your bargaining committee",
     "whenToUse": "Use this at the table and in caucus to log every proposal and counter without putting strategy on employer servers.",
     "guideLink": "Read the Bargaining Lifecycle guide",
+    "eyebrow": "Bargaining committee",
+    "summaryLabel": "Proposal status summary",
+    "draftName": "Proposal tracker",
+    "privacyNote": "Rows save on this device only. Send a copy to your Officer Hub when the committee wants a shared version.",
     "trust": {
       "title": "Bargaining strategy is confidential",
       "body": "This tracker saves everything directly to your device. No data is sent to the cloud. Export to CSV to back up your notes."

@@ -126,6 +126,10 @@ export const HUB_NS = [
   "bumping",
   "time",
   "portal",
+  "hubDraftSync",
+  "hubBylaws",
+  "hubProposals",
+  "portalProposals",
 ] as const;
 
 export type CopyLeaf = readonly [path: string, value: string];

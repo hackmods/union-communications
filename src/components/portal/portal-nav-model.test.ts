@@ -160,6 +160,7 @@ describe("PORTAL_NAV_LINKS catalog", () => {
       "dispatch",
       "fronts",
       "sidebars",
+      "proposals",
       "feedback",
     ]);
     const hrefs = PORTAL_NAV_LINKS.map((l) => l.href);

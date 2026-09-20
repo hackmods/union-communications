@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { getFocusable } from "./focusables";
 import { useSession } from "next-auth/react";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { useDisabledPublicTools } from "@/hooks/use-disabled-public-tools";
 import {
   learnGroups,
   linkActive,
@@ -59,9 +60,14 @@ export function MobileNavDrawer({
   const { data: session, status } = useSession();
   const authenticated =
     status === "authenticated" && Boolean(session?.user);
+  const disabledToolSlugs = useDisabledPublicTools({
+    unionId: session?.user?.unionId,
+    localId: session?.user?.localId,
+  });
   const tools = visibleToolGroups({
     officerHubPublic: isOfficerHubPublic(),
     authenticated,
+    disabledToolSlugs,
   });
 
   const [accordion, setAccordion] = useState<AccordionId | null>(() => {

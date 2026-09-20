@@ -267,6 +267,20 @@
       "when": 1789876000000,
       "tag": "0037_b7p_demo_tenant",
       "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1789877000000,
+      "tag": "0038_public_tool_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1789878000000,
+      "tag": "0039_hub_bylaws_proposals",
+      "breakpoints": true
     }
   ]
 }

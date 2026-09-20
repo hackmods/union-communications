@@ -23,3 +23,5 @@ export * from "./checkins";
 export * from "./platform-feedback";
 export * from "./officer-learning";
 export * from "./site-admin";
+export * from "./public-tool-settings";
+export * from "./hub-bylaws-proposals";
