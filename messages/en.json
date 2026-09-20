@@ -7151,6 +7151,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "portal-ui-polish": {
+        "title": "Local Portal pages are easier to scan",
+        "body": "Together, Dispatch, Hold the line, Sidebars, and Circle headers now use the same clear panels and tiles as the Officer Hub, so Circles and pings are faster to find."
+      },
       "b7p-demo-roster": {
         "title": "Sample Hub accounts are Behind 7 Proxies now",
         "body": "Workshop logins use Local 7, 404, 502, and 1337 under Behind 7 Proxies (B7P), so they no longer look like real OPSEU / SEFPO local numbers. Shared password is still demo123 when demo auth is on."
@@ -9648,8 +9652,9 @@
     }
   },
   "portal": {
+    "portalEyebrow": "Local Portal",
     "stationTitle": "Together",
-    "stationSubtitle": "Home for your Circles — open Actions and the latest Bulletin, in one place.",
+    "stationSubtitle": "Open your Circles, Actions, and the latest Bulletin from one home.",
     "navLabel": "Portal navigation",
     "openPortalMenu": "Open portal menu",
     "closePortalMenu": "Close portal menu",
@@ -9660,7 +9665,7 @@
     "memoryBannerBody": "Circle posts and Actions on this Portal last only until the server restarts. Ask whoever runs this site to turn on lasting storage before you rely on them.",
     "dispatchLink": "Dispatch",
     "dispatchTitle": "Dispatch",
-    "dispatchSubtitle": "Assignments, Bulletin, and due soon — muted Circles stay quiet.",
+    "dispatchSubtitle": "Assignments, Bulletin posts, and due-soon pings. Muted Circles stay quiet.",
     "dispatchEmpty": "Nothing in Dispatch. Muted Circles stay quiet — open a Circle from Together if you expected a ping.",
     "dispatchUnread": "You have {count} unread Dispatch item(s). Open Dispatch to catch up.",
     "markAllRead": "Mark all read",
@@ -9684,6 +9689,8 @@
     "sendFeedbackTitle": "Send site feedback home",
     "sendFeedbackLead": "This note goes to the UnionOps operator who runs this site, not to your local officers. It is about the website, not a Circle or a grievance.",
     "yourCircles": "Your Circles",
+    "createCircleHeading": "Start a Circle",
+    "createCircleLead": "Committees and campaigns begin here. Hall stays with the whole local.",
     "startHere": "Start in {hall} — that is the whole local. Committees are invited Circles.",
     "openHall": "Open Hall",
     "upcomingTitle": "Coming up",
@@ -9775,12 +9782,12 @@
     },
     "frontsLink": "Hold the line",
     "frontsTitle": "Hold the line",
-    "frontsSubtitle": "Which Circles are holding the line — who is live, and for how long.",
+    "frontsSubtitle": "See which Circles are live, and how long they are holding the line.",
     "frontsEmpty": "No Circles are holding the line yet. Create one with a template, or open a Circle and set live dates.",
     "backToStation": "Back to Together",
     "sidebarsLink": "Sidebars",
     "sidebarsTitle": "Sidebars",
-    "sidebarsSubtitle": "Private one-to-one messages — not tied to a Circle Floor.",
+    "sidebarsSubtitle": "Private one-to-one messages, separate from any Circle Floor.",
     "sidebarsThreads": "Threads",
     "sidebarsNew": "Message someone",
     "sidebarsPick": "Choose a person",

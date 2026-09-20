@@ -7098,6 +7098,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "portal-ui-polish": {
+        "title": "Les pages du Portail local sont plus faciles à parcourir",
+        "body": "Ensemble, Relais, Tenir la ligne, Coulisses et les en-têtes de Cercle utilisent maintenant les mêmes panneaux et tuiles clairs que le Hub des dirigeants, pour trouver plus vite les Cercles et les avis."
+      },
       "b7p-demo-roster": {
         "title": "Les comptes Hub d'exemple sont Behind 7 Proxies",
         "body": "Les connexions d'atelier utilisent les sections 7, 404, 502 et 1337 sous Behind 7 Proxies (B7P), pour ne plus ressembler aux vrais numéros de section OPSEU / SEFPO. Le mot de passe commun reste demo123 quand l'auth démo est active."
@@ -9648,8 +9652,9 @@
     }
   },
   "portal": {
+    "portalEyebrow": "Portail local",
     "stationTitle": "Ensemble",
-    "stationSubtitle": "L’accueil de vos Cercles — Actions ouvertes et babillard récent, au même endroit.",
+    "stationSubtitle": "Ouvrez vos Cercles, vos Actions et le babillard récent depuis un même accueil.",
     "navLabel": "Navigation du Portail",
     "openPortalMenu": "Ouvrir le menu du Portail",
     "closePortalMenu": "Fermer le menu du Portail",
@@ -9660,7 +9665,7 @@
     "memoryBannerBody": "Les publications et Actions de ce Portail durent seulement jusqu’au redémarrage du serveur. Demandez à la personne qui gère ce site d’activer le stockage durable avant de vous y fier.",
     "dispatchLink": "Relais",
     "dispatchTitle": "Relais",
-    "dispatchSubtitle": "Assignations, babillard et échéances — les Cercles en sourdine restent calmes.",
+    "dispatchSubtitle": "Assignations, babillards et avis d’échéance. Les Cercles en sourdine restent calmes.",
     "dispatchEmpty": "Rien dans le Relais. Les Cercles en sourdine restent calmes — ouvrez un Cercle depuis Ensemble si vous attendiez un avis.",
     "dispatchUnread": "Vous avez {count} élément(s) non lu(s) dans le Relais. Ouvrez le Relais pour rattraper.",
     "markAllRead": "Tout marquer lu",
@@ -9684,6 +9689,8 @@
     "sendFeedbackTitle": "Envoyer un commentaire à UnionOps",
     "sendFeedbackLead": "Cette note va à l'opérateur UnionOps qui gère ce site, pas aux dirigeants de votre section. Elle concerne le site, pas un Cercle ni un grief.",
     "yourCircles": "Vos Cercles",
+    "createCircleHeading": "Démarrer un Cercle",
+    "createCircleLead": "Les comités et les campagnes commencent ici. La Salle reste celle de toute la section.",
     "startHere": "Commencez dans {hall} — c’est toute la section. Les comités sont des Cercles sur invitation.",
     "openHall": "Ouvrir la Salle",
     "upcomingTitle": "À venir",
@@ -9775,12 +9782,12 @@
     },
     "frontsLink": "Tenir la ligne",
     "frontsTitle": "Tenir la ligne",
-    "frontsSubtitle": "Quels Cercles tiennent la ligne — lesquels sont actifs, et jusqu’à quand.",
+    "frontsSubtitle": "Voyez quels Cercles sont actifs, et jusqu’à quand ils tiennent la ligne.",
     "frontsEmpty": "Aucun Cercle ne tient encore la ligne. Créez-en un avec un modèle, ou ouvrez un Cercle pour définir les dates actives.",
     "backToStation": "Retour à Ensemble",
     "sidebarsLink": "Coulisses",
     "sidebarsTitle": "Coulisses",
-    "sidebarsSubtitle": "Messages privés un-à-un — pas liés au Plancher d’un Cercle.",
+    "sidebarsSubtitle": "Messages privés un-à-un, séparés du Plancher d’un Cercle.",
     "sidebarsThreads": "Fils",
     "sidebarsNew": "Écrire à quelqu’un",
     "sidebarsPick": "Choisir une personne",

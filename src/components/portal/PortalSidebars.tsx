@@ -4,11 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
 import type { SidebarMessage, SidebarThread } from "@/types/portal";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import { useSession } from "next-auth/react";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
+import { PortalPanel } from "@/components/portal/PortalPanel";
+import { cn } from "@/lib/utils";
 
 export function PortalSidebars() {
   const t = useTranslations("portal");
@@ -58,12 +59,13 @@ export function PortalSidebars() {
   useEffect(() => {
     if (!activeId) return;
     let cancelled = false;
-    void fetch(`/api/portal/sidebars?threadId=${activeId}`)
-      .then(async (res) => {
+    void fetch(`/api/portal/sidebars?threadId=${activeId}`).then(
+      async (res) => {
         if (cancelled || !res.ok) return;
         const data = (await res.json()) as { messages: SidebarMessage[] };
         setMessages(data.messages);
-      });
+      },
+    );
     return () => {
       cancelled = true;
     };
@@ -125,57 +127,59 @@ export function PortalSidebars() {
   if (!threads) return <p className="text-gray-600">{t("loading")}</p>;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <p className="text-sm">
-          <Link href="/portal" className="text-opseu-blue hover:underline">
-            {t("stationTitle")}
-          </Link>
-        </p>
-        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
-          {t("sidebarsTitle")}
-        </h1>
-        <p className="mt-1 max-w-prose text-gray-600">{t("sidebarsSubtitle")}</p>
-      </div>
-
-      <Card density="compact">
-      <div className="grid gap-6 md:grid-cols-[14rem_1fr]">
-        <div>
-          <h2 className="text-sm font-medium text-gray-700">
+    <PortalPanel
+      eyebrow={t("portalEyebrow")}
+      title={t("sidebarsTitle")}
+      titleId="portal-sidebars-heading"
+      titleLevel="page"
+      lead={t("sidebarsSubtitle")}
+      breadcrumb={
+        <Link
+          href="/portal"
+          className="font-medium text-opseu-blue underline-offset-2 hover:underline"
+        >
+          {t("stationTitle")}
+        </Link>
+      }
+    >
+      <div className="grid gap-4 md:grid-cols-[15rem_1fr] md:gap-5">
+        <div className="rounded-xl border border-slate-200/90 bg-white p-3 shadow-sm sm:p-3.5">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.08em] text-gray-500">
             {t("sidebarsThreads")}
           </h2>
           {threads.length === 0 ? (
-            <p className="mt-2 text-sm text-gray-600">{t("sidebarsEmpty")}</p>
+            <p className="mt-3 text-sm text-gray-600">{t("sidebarsEmpty")}</p>
           ) : (
-          <ul className="mt-2 space-y-1">
-            {threads.map((th) => {
-              const other =
-                th.participantNames.find(
-                  (_, i) => th.participantIds[i] !== session?.user?.id,
-                ) ?? th.participantNames[0];
-              return (
-                <li key={th.id}>
-                  <button
-                    type="button"
-                    className={`min-h-11 w-full rounded-lg px-3 text-left text-sm font-medium ${
-                      activeId === th.id
-                        ? "bg-opseu-blue text-white"
-                        : "hover:bg-opseu-blue/5"
-                    }`}
-                    onClick={() => setActiveId(th.id)}
-                  >
-                    {other}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+            <ul className="mt-3 space-y-1.5">
+              {threads.map((th) => {
+                const other =
+                  th.participantNames.find(
+                    (_, i) => th.participantIds[i] !== session?.user?.id,
+                  ) ?? th.participantNames[0];
+                return (
+                  <li key={th.id}>
+                    <button
+                      type="button"
+                      className={cn(
+                        "min-h-11 w-full rounded-lg border px-3 text-left text-sm font-medium transition-colors",
+                        activeId === th.id
+                          ? "border-opseu-blue/40 bg-opseu-blue text-white"
+                          : "border-transparent text-opseu-dark hover:border-opseu-blue/20 hover:bg-opseu-blue/5",
+                      )}
+                      onClick={() => setActiveId(th.id)}
+                    >
+                      {other}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
           )}
-          <form onSubmit={startThread} className="mt-4 space-y-2">
+          <form onSubmit={startThread} className="mt-4 space-y-2 border-t border-gray-100 pt-4">
             <label className="block text-xs font-medium text-gray-600">
               {t("sidebarsNew")}
               <select
-                className="mt-1 min-h-11 w-full rounded-lg border border-gray-300 px-2"
+                className="mt-1 min-h-11 w-full rounded-lg border border-gray-300 bg-white px-2"
                 value={toId}
                 onChange={(e) => setToId(e.target.value)}
               >
@@ -193,18 +197,20 @@ export function PortalSidebars() {
           </form>
         </div>
 
-        <div>
+        <div className="rounded-xl border border-slate-200/90 bg-white p-3 shadow-sm sm:p-4">
           {activeId ? (
             <>
-              <ul className="max-h-80 space-y-2 overflow-y-auto rounded-lg border border-gray-200 p-3">
+              <ul className="max-h-80 space-y-2 overflow-y-auto rounded-lg border border-gray-100 bg-opseu-blue/[0.02] p-3">
                 {shownMessages.map((m) => (
-                  <li key={m.id} className="text-sm">
-                    <span className="font-medium">{m.authorName}</span>
+                  <li key={m.id} className="text-sm leading-relaxed">
+                    <span className="font-semibold text-opseu-dark">
+                      {m.authorName}
+                    </span>
                     <span className="text-gray-500">
                       {" "}
                       · {new Date(m.createdAt).toLocaleString()}
                     </span>
-                    <p>{m.body}</p>
+                    <p className="mt-0.5 text-gray-700">{m.body}</p>
                   </li>
                 ))}
               </ul>
@@ -223,7 +229,6 @@ export function PortalSidebars() {
           )}
         </div>
       </div>
-      </Card>
-    </div>
+    </PortalPanel>
   );
 }

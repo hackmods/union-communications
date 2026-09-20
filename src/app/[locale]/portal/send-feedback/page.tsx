@@ -1,8 +1,9 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { requirePortalPage } from "@/lib/portal/portal-session";
-import { PageShell } from "@/components/layout/PageShell";
 import { SiteFeedbackForm } from "@/components/feedback/SiteFeedbackForm";
+import { PortalPanel } from "@/components/portal/PortalPanel";
 import { isFeedbackMemoryBackend } from "@/lib/platform-feedback/durable";
+import { Link } from "@/i18n/navigation";
 
 export default async function PortalSendFeedbackPage({
   params,
@@ -16,12 +17,22 @@ export default async function PortalSendFeedbackPage({
   const t = await getTranslations("portal");
 
   return (
-    <PageShell size="nestedFocus" as="article">
-      <h1 className="text-2xl font-bold text-opseu-dark">
-        {t("sendFeedbackTitle")}
-      </h1>
-      <p className="mt-3 max-w-prose text-gray-700">{t("sendFeedbackLead")}</p>
-      <div className="mt-8">
+    <PortalPanel
+      eyebrow={t("portalEyebrow")}
+      title={t("sendFeedbackTitle")}
+      titleId="portal-feedback-heading"
+      titleLevel="page"
+      lead={t("sendFeedbackLead")}
+      breadcrumb={
+        <Link
+          href="/portal"
+          className="font-medium text-opseu-blue underline-offset-2 hover:underline"
+        >
+          {t("stationTitle")}
+        </Link>
+      }
+    >
+      <div className="rounded-xl border border-slate-200/90 bg-white p-4 shadow-sm sm:p-5">
         <SiteFeedbackForm
           variant="portal"
           defaultEmail={session.user.email ?? undefined}
@@ -29,6 +40,6 @@ export default async function PortalSendFeedbackPage({
           memoryBackend={isFeedbackMemoryBackend()}
         />
       </div>
-    </PageShell>
+    </PortalPanel>
   );
 }

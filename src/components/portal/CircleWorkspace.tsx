@@ -21,6 +21,8 @@ import {
 import type { UserRole } from "@/types/tenant";
 import { buildIcsEvent, downloadIcs } from "@/lib/calendar/ics";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
+import { PortalPanel } from "@/components/portal/PortalPanel";
+import { cn } from "@/lib/utils";
 
 type Tab = CircleWorkspaceTab;
 
@@ -286,123 +288,122 @@ export function CircleWorkspace({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="text-sm text-gray-600">
-            <Link href="/portal" className="text-opseu-blue hover:underline">
-              {t("stationTitle")}
-            </Link>
-            {" / "}
-            {t(`kind.${detail.circle.kind}`)}
-          </p>
-          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
-            {detail.circle.name}
-          </h1>
-          {isGuest ? (
-            <Callout className="mt-2 max-w-prose" tone="warning">
-              {t("guestBanner")}
-            </Callout>
-          ) : null}
-          {detail.circle.description ? (
-            <p className="mt-1 max-w-prose text-gray-600">
-              {detail.circle.description}
-            </p>
-          ) : null}
-          {!detail.circle.localId && detail.circle.kind !== "local_hall" ? (
-            <p className="mt-1 text-sm text-gray-600">{t("unionScopeBadge")}</p>
-          ) : null}
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() =>
-              void patchCircle({ starred: !detail.membership.starred })
-            }
+      <PortalPanel
+        eyebrow={t(`kind.${detail.circle.kind}`)}
+        title={detail.circle.name}
+        titleId="portal-circle-heading"
+        titleLevel="page"
+        lead={detail.circle.description || undefined}
+        breadcrumb={
+          <Link
+            href="/portal"
+            className="font-medium text-opseu-blue underline-offset-2 hover:underline"
           >
-            {detail.membership.starred ? t("unstar") : t("star")}
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() =>
-              void patchCircle({ muted: !detail.membership.muted })
-            }
-          >
-            {detail.membership.muted ? t("unmute") : t("mute")}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              void (async () => {
-                const res = await fetch(`/api/portal/circles/${circleId}`, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ tool: "activity_pack" }),
-                });
-                if (!res.ok) return;
-                const data = (await res.json()) as { pack: unknown };
-                const blob = new Blob([JSON.stringify(data.pack, null, 2)], {
-                  type: "application/json",
-                });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = `${detail.circle.name.replace(/\s+/g, "-").toLowerCase()}-activity-pack.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-              })();
-            }}
-          >
-            {t("downloadActivityPack")}
-          </Button>
-          {canAdmin ? (
+            {t("stationTitle")}
+          </Link>
+        }
+        actions={
+          <>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                void patchCircle({ starred: !detail.membership.starred })
+              }
+            >
+              {detail.membership.starred ? t("unstar") : t("star")}
+            </Button>
             <Button
               type="button"
               variant="ghost"
               size="sm"
-              onClick={() => void patchCircle({ archive: true })}
+              onClick={() =>
+                void patchCircle({ muted: !detail.membership.muted })
+              }
             >
-              {t("archive")}
+              {detail.membership.muted ? t("unmute") : t("mute")}
             </Button>
-          ) : null}
-        </div>
-      </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                void (async () => {
+                  const res = await fetch(`/api/portal/circles/${circleId}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ tool: "activity_pack" }),
+                  });
+                  if (!res.ok) return;
+                  const data = (await res.json()) as { pack: unknown };
+                  const blob = new Blob([JSON.stringify(data.pack, null, 2)], {
+                    type: "application/json",
+                  });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = `${detail.circle.name.replace(/\s+/g, "-").toLowerCase()}-activity-pack.json`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                })();
+              }}
+            >
+              {t("downloadActivityPack")}
+            </Button>
+            {canAdmin ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => void patchCircle({ archive: true })}
+              >
+                {t("archive")}
+              </Button>
+            ) : null}
+          </>
+        }
+      >
+        {isGuest ? (
+          <Callout className="mb-3 max-w-prose" tone="warning">
+            {t("guestBanner")}
+          </Callout>
+        ) : null}
+        {!detail.circle.localId && detail.circle.kind !== "local_hall" ? (
+          <p className="mb-3 text-sm text-gray-600">{t("unionScopeBadge")}</p>
+        ) : null}
 
-      <details className="rounded-lg border border-gray-200 p-3 text-sm">
-        <summary className="cursor-pointer font-medium text-opseu-dark">
-          {t("muteToolsTitle")}
-        </summary>
-        <p className="mt-1 text-gray-600">{t("muteToolsHint")}</p>
-        <div className="mt-2 flex flex-wrap gap-3">
-          {PORTAL_TOOL_MUTES.map((tool) => {
-            const on = (detail.membership.mutedTools ?? []).includes(tool);
-            return (
-              <label key={tool} className="inline-flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={on}
-                  onChange={() => {
-                    const current = detail.membership.mutedTools ?? [];
-                    const next: PortalToolMute[] = on
-                      ? current.filter((x) => x !== tool)
-                      : [...current, tool];
-                    void patchCircle({ mutedTools: next });
-                  }}
-                />
-                {t(`muteTool.${tool}`)}
-              </label>
-            );
-          })}
-        </div>
-      </details>
+        <details className="rounded-xl border border-slate-200/90 bg-white p-3 text-sm shadow-sm">
+          <summary className="cursor-pointer font-medium text-opseu-dark">
+            {t("muteToolsTitle")}
+          </summary>
+          <p className="mt-1 text-gray-600">{t("muteToolsHint")}</p>
+          <div className="mt-2 flex flex-wrap gap-3">
+            {PORTAL_TOOL_MUTES.map((tool) => {
+              const on = (detail.membership.mutedTools ?? []).includes(tool);
+              return (
+                <label key={tool} className="inline-flex min-h-11 items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={on}
+                    onChange={() => {
+                      const current = detail.membership.mutedTools ?? [];
+                      const next: PortalToolMute[] = on
+                        ? current.filter((x) => x !== tool)
+                        : [...current, tool];
+                      void patchCircle({ mutedTools: next });
+                    }}
+                  />
+                  {t(`muteTool.${tool}`)}
+                </label>
+              );
+            })}
+          </div>
+        </details>
+      </PortalPanel>
 
       {canAdmin ? (
-        <details className="rounded-lg border border-gray-200 p-3 text-sm">
+        <details className="rounded-xl border border-slate-200/90 bg-white p-3 text-sm shadow-sm">
           <summary className="cursor-pointer font-medium text-opseu-dark">
             {t("frontsSettings")}
           </summary>
@@ -468,7 +469,7 @@ export function CircleWorkspace({
       ) : null}
 
       {canAdmin ? (
-        <details className="rounded-lg border border-gray-200 p-3 text-sm">
+        <details className="rounded-xl border border-slate-200/90 bg-white p-3 text-sm shadow-sm">
           <summary className="cursor-pointer font-medium text-opseu-dark">
             {t("importTitle")}
           </summary>
@@ -504,11 +505,11 @@ export function CircleWorkspace({
         </Callout>
       ) : null}
 
-      <Card density="compact" className="space-y-4">
+      <Card density="compact" className="space-y-4 overflow-hidden border-opseu-blue/15">
       <div
         role="tablist"
         aria-label={t("toolsNav")}
-        className="sticky z-30 top-[calc(var(--site-header-height,3.5rem)+3.25rem)] flex flex-nowrap gap-1 overflow-x-auto overscroll-x-contain border-b border-gray-200 bg-white pb-2"
+        className="sticky z-30 top-[calc(var(--site-header-height,3.5rem)+3.25rem)] -mx-1 flex flex-nowrap gap-1 overflow-x-auto overscroll-x-contain border-b border-opseu-blue/10 bg-white/95 px-1 pb-2 backdrop-blur-sm"
       >
         {visibleTabs.map((key) => (
           <button
@@ -516,11 +517,13 @@ export function CircleWorkspace({
             type="button"
             role="tab"
             aria-selected={activeTab === key}
-            className={`min-h-11 shrink-0 rounded-lg px-3 text-sm font-semibold ${
+            className={cn(
+              "min-h-11 shrink-0 rounded-lg px-3 text-sm font-semibold transition-colors",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-offset-2",
               activeTab === key
-                ? "bg-opseu-blue text-white"
-                : "text-opseu-blue hover:bg-opseu-blue/5"
-            }`}
+                ? "bg-opseu-blue text-white shadow-sm"
+                : "text-opseu-dark hover:bg-opseu-blue/5",
+            )}
             onClick={() => selectTab(key)}
           >
             {t(`tabs.${key}`)}

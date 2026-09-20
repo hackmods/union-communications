@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Card } from "@/components/ui/Card";
 import type { Circle } from "@/types/portal";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
+import { PortalPanel } from "@/components/portal/PortalPanel";
 
 export function PortalFronts() {
   const t = useTranslations("portal");
@@ -70,25 +70,25 @@ export function PortalFronts() {
   const span = Math.max(1, new Date(max).getTime() - new Date(min).getTime());
 
   return (
-    <div className="space-y-6">
-      <div>
-        <p className="text-sm">
-          <Link href="/portal" className="text-opseu-blue hover:underline">
-            {t("stationTitle")}
-          </Link>
-        </p>
-        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
-          {t("frontsTitle")}
-        </h1>
-        <p className="mt-1 max-w-prose text-gray-600">{t("frontsSubtitle")}</p>
-      </div>
+    <PortalPanel
+      eyebrow={t("portalEyebrow")}
+      title={t("frontsTitle")}
+      titleId="portal-fronts-heading"
+      titleLevel="page"
+      lead={t("frontsSubtitle")}
+      breadcrumb={
+        <Link
+          href="/portal"
+          className="font-medium text-opseu-blue underline-offset-2 hover:underline"
+        >
+          {t("stationTitle")}
+        </Link>
+      }
+    >
       {fronts.length === 0 ? (
-        <Card density="compact">
-          <p className="text-sm text-gray-500">{t("frontsEmpty")}</p>
-        </Card>
+        <p className="text-sm text-gray-500">{t("frontsEmpty")}</p>
       ) : (
-        <Card density="compact">
-        <ul className="space-y-4">
+        <ul className="space-y-3">
           {fronts.map((c) => {
             const start = new Date(c.frontStartsAt ?? c.createdAt).getTime();
             const end = new Date(
@@ -98,38 +98,47 @@ export function PortalFronts() {
             const width = Math.max(8, ((end - start) / span) * 100);
             return (
               <li key={c.id}>
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <Link
-                    href={`/portal/circles/${c.id}`}
-                    className="font-semibold text-opseu-dark hover:underline"
-                  >
-                    {c.name}
-                  </Link>
-                  <span className="text-xs text-gray-500">
-                    {t(`kind.${c.kind}`)}
-                  </span>
-                </div>
-                <div className="mt-2 h-8 rounded bg-gray-100">
-                  <div
-                    className="flex h-8 items-center rounded bg-opseu-blue/80 px-2 text-xs font-medium text-white"
-                    style={{
-                      marginLeft: `${left}%`,
-                      width: `${width}%`,
-                    }}
-                  >
-                    {new Date(c.frontStartsAt ?? c.createdAt).toLocaleDateString()}
-                    {" – "}
-                    {c.frontEndsAt
-                      ? new Date(c.frontEndsAt).toLocaleDateString()
-                      : "…"}
+                <div className="group rounded-xl border border-slate-200/90 bg-white p-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-opseu-blue/40 hover:shadow-md motion-reduce:hover:translate-y-0">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <Link
+                      href={`/portal/circles/${c.id}`}
+                      className="inline-flex min-h-11 items-center gap-2 font-semibold text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-offset-2"
+                    >
+                      {c.name}
+                      <span
+                        className="text-sm font-medium text-opseu-blue transition-transform group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0"
+                        aria-hidden
+                      >
+                        →
+                      </span>
+                    </Link>
+                    <span className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                      {t(`kind.${c.kind}`)}
+                    </span>
+                  </div>
+                  <div className="mt-3 h-8 overflow-hidden rounded-lg bg-gray-100">
+                    <div
+                      className="flex h-8 items-center rounded-lg bg-opseu-blue/80 px-2 text-xs font-medium text-white"
+                      style={{
+                        marginLeft: `${left}%`,
+                        width: `${width}%`,
+                      }}
+                    >
+                      {new Date(
+                        c.frontStartsAt ?? c.createdAt,
+                      ).toLocaleDateString()}
+                      {" – "}
+                      {c.frontEndsAt
+                        ? new Date(c.frontEndsAt).toLocaleDateString()
+                        : "…"}
+                    </div>
                   </div>
                 </div>
               </li>
             );
           })}
         </ul>
-        </Card>
       )}
-    </div>
+    </PortalPanel>
   );
 }

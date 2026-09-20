@@ -5,15 +5,13 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
-import { Card } from "@/components/ui/Card";
 import type { PortalSearchHit, StationPayload } from "@/types/portal";
 import { canCreateCircle } from "@/lib/portal/access";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
+import { PortalPanel } from "@/components/portal/PortalPanel";
 import type { UserRole } from "@/types/tenant";
-import {
-  PUBLIC_PAGE_TITLE_CLASS,
-  PUBLIC_SECTION_TITLE_CLASS,
-} from "@/lib/constants/public-type";
+import { PUBLIC_CARD_TITLE_CLASS } from "@/lib/constants/public-type";
+import { cn } from "@/lib/utils";
 
 export function PortalStation({ roles }: { roles: UserRole[] }) {
   const t = useTranslations("portal");
@@ -162,170 +160,153 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
       station.weekDigest.floorMessages >
     0;
 
-  const searchCard = (
-    <Card density="compact">
-      <details>
-        <summary className="cursor-pointer text-sm font-medium text-gray-700">
-          {t("searchLabel")}
-        </summary>
-        <label className="mt-2 block text-sm text-gray-600">
-          <span className="sr-only">{t("searchLabel")}</span>
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={t("searchPlaceholder")}
-            className="mt-1 min-h-11 w-full max-w-xl rounded-lg border border-gray-300 px-3"
-          />
-        </label>
-        {query.trim().length >= 2 && displayHits.length === 0 ? (
-          <p className="mt-2 text-sm text-gray-600">{t("searchEmpty")}</p>
+  return (
+    <div className="space-y-6">
+      <PortalPanel
+        eyebrow={t("portalEyebrow")}
+        title={t("stationTitle")}
+        titleId="portal-together-heading"
+        titleLevel="page"
+        lead={t("stationSubtitle")}
+      >
+        {hall ? (
+          <div className="flex flex-col gap-4 rounded-xl border border-opseu-blue/25 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5">
+            <p className="max-w-prose text-sm leading-relaxed text-gray-700">
+              {t("startHere", { hall: hall.name })}
+            </p>
+            <Link
+              href={`/portal/circles/${hall.id}`}
+              className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-opseu-blue px-4 text-sm font-semibold text-white transition-colors hover:bg-opseu-blue/90"
+            >
+              {t("openHall")}
+              <span className="ml-1.5" aria-hidden>
+                →
+              </span>
+            </Link>
+          </div>
         ) : null}
-        {displayHits.length > 0 ? (
-          <ul className="mt-2 max-w-xl space-y-1 border-l-4 border-opseu-blue pl-3">
-            {displayHits.map((h) => {
-              const tab =
-                h.kind === "action"
-                  ? "actions"
-                  : h.kind === "binder"
-                    ? "binder"
-                    : "bulletin";
+
+        {(digestBusy || overdueTotal > 0 || station.dispatchUnread > 0) && (
+          <div
+            className={cn(
+              "grid gap-3 sm:grid-cols-2 lg:grid-cols-3",
+              hall && "mt-4",
+            )}
+          >
+            {digestBusy ? (
+              <Callout tone="muted" className="sm:col-span-2 lg:col-span-1">
+                {t("weekDigest", {
+                  bulletin: station.weekDigest.bulletinPosts,
+                  done: station.weekDigest.actionsCompleted,
+                  floor: station.weekDigest.floorMessages,
+                })}
+              </Callout>
+            ) : null}
+            {overdueTotal > 0 ? (
+              <Callout>{t("overdueBadge", { count: overdueTotal })}</Callout>
+            ) : null}
+            {station.dispatchUnread > 0 ? (
+              <Callout>
+                <Link
+                  href="/portal/dispatch"
+                  className="font-medium text-opseu-dark underline-offset-2 hover:underline"
+                >
+                  {t("dispatchUnread", { count: station.dispatchUnread })}
+                </Link>
+              </Callout>
+            ) : null}
+          </div>
+        )}
+      </PortalPanel>
+
+      <PortalPanel
+        title={t("yourCircles")}
+        titleId="portal-circles-heading"
+        titleLevel="section"
+      >
+        {station.circles.length === 0 ? (
+          <p className="text-sm leading-relaxed text-gray-600">
+            {t("emptyCircles")}
+          </p>
+        ) : (
+          <ul className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+            {station.circles.map((c) => {
+              const meta = [
+                t(`kind.${c.kind}`),
+                !c.localId && c.kind !== "local_hall"
+                  ? t("unionScopeBadge")
+                  : null,
+                c.overdueActions > 0
+                  ? t("overdueShort", { count: c.overdueActions })
+                  : null,
+                c.dispatchUnread > 0
+                  ? t("unreadShort", { count: c.dispatchUnread })
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(" · ");
               return (
-                <li key={`${h.kind}-${h.id}`} className="text-sm">
-                  <Link
-                    href={`/portal/circles/${h.circleId}?tab=${tab}`}
-                    className="font-medium text-opseu-dark hover:underline"
-                  >
-                    [{t(`searchKind.${h.kind}`)}] {h.title}
-                  </Link>
-                  <span className="text-gray-500"> · {h.circleName}</span>
+                <li key={c.id} className="min-w-0">
+                  <div className="group relative flex h-full min-h-11 flex-col rounded-xl border border-slate-200/90 bg-white p-3.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-opseu-blue/40 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <Link
+                        href={`/portal/circles/${c.id}`}
+                        className="min-w-0 flex-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-offset-2"
+                      >
+                        <span className="flex items-start justify-between gap-2">
+                          <span className="font-semibold text-opseu-dark">
+                            {c.name}
+                          </span>
+                          <span
+                            className="mt-0.5 shrink-0 text-sm font-medium text-opseu-blue transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0"
+                            aria-hidden
+                          >
+                            →
+                          </span>
+                        </span>
+                        <span className="mt-1 block text-sm text-gray-600">
+                          {meta}
+                        </span>
+                        {c.description ? (
+                          <span className="mt-1 block text-sm leading-relaxed text-gray-500">
+                            {c.description}
+                          </span>
+                        ) : null}
+                      </Link>
+                      <button
+                        type="button"
+                        className="min-h-11 min-w-11 shrink-0 rounded-lg text-lg hover:bg-opseu-blue/5"
+                        aria-label={
+                          c.membership.starred ? t("unstar") : t("star")
+                        }
+                        onClick={() => void toggleStar(c.id, c.membership.starred)}
+                      >
+                        {c.membership.starred ? "★" : "☆"}
+                      </button>
+                    </div>
+                  </div>
                 </li>
               );
             })}
           </ul>
-        ) : null}
-      </details>
-    </Card>
-  );
-
-  return (
-    <div className="space-y-8">
-      <div>
-        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("stationTitle")}</h1>
-        <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600 sm:text-base">
-          {t("stationSubtitle")}
-        </p>
-      </div>
-
-      {hall ? (
-        <Card
-          density="compact"
-          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
-        >
-          <p className="max-w-prose text-sm leading-relaxed text-gray-700">
-            {t("startHere", { hall: hall.name })}
-          </p>
-          <Link
-            href={`/portal/circles/${hall.id}`}
-            className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-opseu-blue px-4 text-sm font-semibold text-white hover:bg-opseu-dark"
-          >
-            {t("openHall")}
-          </Link>
-        </Card>
-      ) : null}
-
-      {(digestBusy || overdueTotal > 0 || station.dispatchUnread > 0) && (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {digestBusy ? (
-            <Callout tone="muted" className="sm:col-span-2 lg:col-span-1">
-              {t("weekDigest", {
-                bulletin: station.weekDigest.bulletinPosts,
-                done: station.weekDigest.actionsCompleted,
-                floor: station.weekDigest.floorMessages,
-              })}
-            </Callout>
-          ) : null}
-
-          {overdueTotal > 0 ? (
-            <Callout>{t("overdueBadge", { count: overdueTotal })}</Callout>
-          ) : null}
-
-          {station.dispatchUnread > 0 ? (
-            <Callout>
-              <Link
-                href="/portal/dispatch"
-                className="font-medium text-opseu-dark hover:underline"
-              >
-                {t("dispatchUnread", { count: station.dispatchUnread })}
-              </Link>
-            </Callout>
-          ) : null}
-        </div>
-      )}
-
-      <Card density="compact">
-        <h2 className={PUBLIC_SECTION_TITLE_CLASS}>{t("yourCircles")}</h2>
-        {station.circles.length === 0 ? (
-          <p className="mt-3 text-sm leading-relaxed text-gray-600">
-            {t("emptyCircles")}
-          </p>
-        ) : (
-          <ul className="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
-            {station.circles.map((c) => (
-              <li
-                key={c.id}
-                className="flex items-start justify-between gap-3 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.03] to-white p-4"
-              >
-                <div className="min-w-0">
-                  <Link
-                    href={`/portal/circles/${c.id}`}
-                    className="font-semibold text-opseu-dark hover:underline"
-                  >
-                    {c.name}
-                  </Link>
-                  <p className="mt-1 text-sm text-gray-600">
-                    {t(`kind.${c.kind}`)}
-                    {!c.localId && c.kind !== "local_hall"
-                      ? ` · ${t("unionScopeBadge")}`
-                      : ""}
-                    {c.overdueActions > 0
-                      ? ` · ${t("overdueShort", { count: c.overdueActions })}`
-                      : ""}
-                    {c.dispatchUnread > 0
-                      ? ` · ${t("unreadShort", { count: c.dispatchUnread })}`
-                      : ""}
-                  </p>
-                  {c.description ? (
-                    <p className="mt-1 text-sm leading-relaxed text-gray-500">
-                      {c.description}
-                    </p>
-                  ) : null}
-                </div>
-                <button
-                  type="button"
-                  className="min-h-11 min-w-11 shrink-0 text-lg"
-                  aria-label={
-                    c.membership.starred ? t("unstar") : t("star")
-                  }
-                  onClick={() => void toggleStar(c.id, c.membership.starred)}
-                >
-                  {c.membership.starred ? "★" : "☆"}
-                </button>
-              </li>
-            ))}
-          </ul>
         )}
-      </Card>
+      </PortalPanel>
 
       {allowCreate ? (
-        <Card density="compact">
+        <PortalPanel
+          title={t("createCircleHeading")}
+          titleId="portal-create-heading"
+          titleLevel="section"
+          lead={t("createCircleLead")}
+        >
           <form
             onSubmit={createCircle}
             className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end"
           >
-            <label className="text-sm">
+            <label className="text-sm text-gray-700">
               {t("templateLabel")}
               <select
-                className="mt-1 block min-h-11 w-full rounded-lg border border-gray-300 px-2 sm:w-auto"
+                className="mt-1 block min-h-11 w-full rounded-lg border border-gray-300 bg-white px-2 sm:w-auto"
                 value={template}
                 onChange={(e) =>
                   setTemplate(e.target.value as typeof template)
@@ -341,7 +322,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t("newCirclePlaceholder")}
-              className="min-h-11 min-w-0 flex-1 rounded-lg border border-gray-300 px-3 sm:min-w-[12rem]"
+              className="min-h-11 min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 sm:min-w-[12rem]"
               aria-label={t("newCirclePlaceholder")}
             />
             <Button type="submit" disabled={creating || !name.trim()}>
@@ -367,82 +348,156 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
               {createError}
             </Callout>
           ) : null}
-        </Card>
+        </PortalPanel>
       ) : null}
 
       <section className="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
-        <Card density="compact" className="min-w-0">
-          <h2 className="text-sm font-medium text-gray-700">
-            {t("upcomingTitle")}
-          </h2>
-          <ul className="mt-3 space-y-2">
-            {upcoming.length === 0 ? (
-              <li className="text-sm text-gray-500">{t("upcomingEmpty")}</li>
-            ) : (
-              upcoming.map((ev) => (
-                <li key={ev.id} className="text-sm leading-relaxed">
-                  <Link
-                    href={`/portal/circles/${ev.circleId}?tab=calendar`}
-                    className="font-medium text-opseu-dark hover:underline"
-                  >
-                    {ev.title}
-                  </Link>
-                  <span className="ml-2 text-gray-500">
-                    {new Date(ev.startsAt).toLocaleString()} · {ev.circleName}
-                  </span>
-                </li>
-              ))
-            )}
-          </ul>
-        </Card>
-        <Card density="compact" className="min-w-0">
-          <h2 className="text-sm font-medium text-gray-700">{t("myActions")}</h2>
-          <ul className="mt-3 space-y-2">
-            {station.myActions.length === 0 ? (
-              <li className="text-sm text-gray-500">{t("emptyActions")}</li>
-            ) : (
-              station.myActions.map((a) => (
-                <li key={a.id} className="text-sm leading-relaxed">
-                  <Link
-                    href={`/portal/circles/${a.circleId}?tab=actions`}
-                    className="font-medium text-opseu-dark hover:underline"
-                  >
-                    {a.title}
-                  </Link>
-                  {a.dueAt ? (
-                    <span className="ml-2 text-gray-500">
-                      {new Date(a.dueAt).toLocaleDateString()}
-                    </span>
-                  ) : null}
-                </li>
-              ))
-            )}
-          </ul>
-        </Card>
-        <Card density="compact" className="min-w-0 md:col-span-2 lg:col-span-1">
-          <h2 className="text-sm font-medium text-gray-700">
-            {t("recentBulletin")}
-          </h2>
-          <ul className="mt-3 space-y-2">
-            {station.recentBulletin.length === 0 ? (
-              <li className="text-sm text-gray-500">{t("emptyBulletin")}</li>
-            ) : (
-              station.recentBulletin.map((p) => (
-                <li key={p.id} className="text-sm leading-relaxed">
-                  <Link
-                    href={`/portal/circles/${p.circleId}?tab=bulletin`}
-                    className="font-medium text-opseu-dark hover:underline"
-                  >
-                    {p.title}
-                  </Link>
-                </li>
-              ))
-            )}
-          </ul>
-        </Card>
+        <ActivityColumn
+          title={t("upcomingTitle")}
+          empty={t("upcomingEmpty")}
+          items={upcoming.map((ev) => ({
+            id: ev.id,
+            href: `/portal/circles/${ev.circleId}?tab=calendar`,
+            label: ev.title,
+            meta: `${new Date(ev.startsAt).toLocaleString()} · ${ev.circleName}`,
+          }))}
+        />
+        <ActivityColumn
+          title={t("myActions")}
+          empty={t("emptyActions")}
+          items={station.myActions.map((a) => ({
+            id: a.id,
+            href: `/portal/circles/${a.circleId}?tab=actions`,
+            label: a.title,
+            meta: a.dueAt
+              ? new Date(a.dueAt).toLocaleDateString()
+              : undefined,
+          }))}
+        />
+        <ActivityColumn
+          title={t("recentBulletin")}
+          empty={t("emptyBulletin")}
+          className="md:col-span-2 lg:col-span-1"
+          items={station.recentBulletin.map((p) => ({
+            id: p.id,
+            href: `/portal/circles/${p.circleId}?tab=bulletin`,
+            label: p.title,
+          }))}
+        />
       </section>
 
-      {searchCard}
+      <PortalPanel
+        title={t("searchLabel")}
+        titleId="portal-search-heading"
+        titleLevel="section"
+      >
+        <label className="block text-sm text-gray-600">
+          <span className="sr-only">{t("searchLabel")}</span>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("searchPlaceholder")}
+            className="min-h-11 w-full max-w-xl rounded-lg border border-gray-300 bg-white px-3"
+          />
+        </label>
+        {query.trim().length >= 2 && displayHits.length === 0 ? (
+          <p className="mt-3 text-sm text-gray-600">{t("searchEmpty")}</p>
+        ) : null}
+        {displayHits.length > 0 ? (
+          <ul className="mt-3 max-w-xl space-y-2">
+            {displayHits.map((h) => {
+              const tab =
+                h.kind === "action"
+                  ? "actions"
+                  : h.kind === "binder"
+                    ? "binder"
+                    : "bulletin";
+              return (
+                <li key={`${h.kind}-${h.id}`}>
+                  <Link
+                    href={`/portal/circles/${h.circleId}?tab=${tab}`}
+                    className="group flex min-h-11 flex-col rounded-lg border border-transparent px-2.5 py-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-opseu-blue/25 hover:bg-white hover:shadow-sm motion-reduce:hover:translate-y-0"
+                  >
+                    <span className="flex items-start justify-between gap-2">
+                      <span className="text-sm font-semibold text-opseu-dark">
+                        [{t(`searchKind.${h.kind}`)}] {h.title}
+                      </span>
+                      <span
+                        className="shrink-0 text-sm font-medium text-opseu-blue transition-transform group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0"
+                        aria-hidden
+                      >
+                        →
+                      </span>
+                    </span>
+                    <span className="mt-0.5 text-sm text-gray-500">
+                      {h.circleName}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        ) : null}
+      </PortalPanel>
+    </div>
+  );
+}
+
+type ActivityItem = {
+  id: string;
+  href: string;
+  label: string;
+  meta?: string;
+};
+
+function ActivityColumn({
+  title,
+  empty,
+  items,
+  className,
+}: {
+  title: string;
+  empty: string;
+  items: ActivityItem[];
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "min-w-0 rounded-xl border border-slate-200/90 bg-white p-4 shadow-sm sm:p-4",
+        className,
+      )}
+    >
+      <h2 className={PUBLIC_CARD_TITLE_CLASS}>{title}</h2>
+      {items.length === 0 ? (
+        <p className="mt-3 text-sm text-gray-500">{empty}</p>
+      ) : (
+        <ul className="mt-3 space-y-1.5">
+          {items.map((item) => (
+            <li key={item.id}>
+              <Link
+                href={item.href}
+                className="group flex min-h-11 flex-col rounded-lg border border-transparent px-2 py-1.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-opseu-blue/20 hover:bg-opseu-blue/[0.04] hover:shadow-sm motion-reduce:hover:translate-y-0"
+              >
+                <span className="flex items-start justify-between gap-2">
+                  <span className="text-sm font-semibold text-opseu-dark">
+                    {item.label}
+                  </span>
+                  <span
+                    className="shrink-0 text-sm font-medium text-opseu-blue transition-transform group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0"
+                    aria-hidden
+                  >
+                    →
+                  </span>
+                </span>
+                {item.meta ? (
+                  <span className="mt-0.5 text-sm text-gray-500">{item.meta}</span>
+                ) : null}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
