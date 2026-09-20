@@ -46,6 +46,8 @@
     "ops:verify-durable": "node scripts/verify-durable-local.mjs",
     "copy:readability": "tsx scripts/copy-readability.ts",
     "fonts:sync-ttf": "node scripts/sync-canvas-font-ttf.mjs",
+    "office:verify:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-office-windows.ps1",
+    "office:fixtures": "tsx scripts/generate-office-smoke.ts",
     "pdf:preview": "node scripts/pdf-preview.mjs"
   },
   "dependencies": {

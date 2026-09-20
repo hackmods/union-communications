@@ -297,6 +297,27 @@ function DocumentGeneratorPageContent() {
     });
   }
 
+  function handleDownloadDotx() {
+    if (!preset.outputs.docx) return;
+    void run(async () => {
+      const { exportDotxFromPreset } = await import("@/lib/export/office-export");
+      const logo = await resolveLogo().catch((e) => {
+        if (state.includeLogo) throw e;
+        return null;
+      });
+      await exportDotxFromPreset({
+        presetId: state.presetId,
+        palette,
+        localLabel,
+        fields,
+        logo,
+        ...officeFontOpts(),
+        ...worksheetDocxExtras(),
+        filename: formatFilename(preset.fileStem, localNumber, "dotx"),
+      });
+    });
+  }
+
   function handleDownloadXlsx() {
     if (!preset.outputs.xlsx) return;
     const filename = formatFilename(preset.fileStem, localNumber, "xlsx");
@@ -392,6 +413,7 @@ function DocumentGeneratorPageContent() {
       const {
         exportOfficeBundle,
         renderDocxFromPreset,
+        renderDotxFromPreset,
         renderEventRsvpXlsx,
         renderPptx,
         renderSeniorityWorksheetXlsx,
@@ -419,6 +441,18 @@ function DocumentGeneratorPageContent() {
         files.push({
           name: formatFilename(preset.fileStem, localNumber, "docx"),
           blob: renderDocxFromPreset({
+            presetId: state.presetId,
+            palette,
+            localLabel,
+            fields,
+            logo,
+            ...officeFontOpts(),
+            ...worksheetDocxExtras(),
+          }),
+        });
+        files.push({
+          name: formatFilename(preset.fileStem, localNumber, "dotx"),
+          blob: renderDotxFromPreset({
             presetId: state.presetId,
             palette,
             localLabel,
@@ -507,6 +541,17 @@ function DocumentGeneratorPageContent() {
           onClick={handleDownloadDocx}
         >
           {tc("downloadDocx")}
+        </Button>
+      ) : null}
+      {preset.outputs.docx ? (
+        <Button
+          type="button"
+          variant="outline"
+          className="min-h-11 w-full sm:w-auto"
+          disabled={busy}
+          onClick={handleDownloadDotx}
+        >
+          {t("downloadDotx")}
         </Button>
       ) : null}
       {preset.outputs.xlsx ? (

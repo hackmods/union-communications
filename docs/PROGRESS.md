@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-20 — Office document generator engine uplift
+
+- Replaced generic OOXML font patching with format-aware DOCX/DOTX and PPTX finalizers; corrected Word obfuscation and relative targets, preserved existing font tables, and emitted raw PowerPoint font parts with regular/bold relationship markup.
+- Added portable pre-download package validation for DOCX, DOTX, XLSX, and PPTX plus shared Office design tokens.
+- Added Brand Kit-aware Word template downloads for every Word preset and included each `.dotx` in its Office ZIP.
+- Strengthened font-vector, relationship, content-type, signature, and schema-shape coverage.
+
 ## 2026-09-20 — Hub bylaws + bargaining proposals casework (finished)
 
 - [x] **Hub `/app/bylaws`** — draft list + create, status workflow (draft → committee → pending GMM → adopted / archived), generated preview from the synced form. `HubDraftSyncPanel` pushes the on-device Bylaw Builder draft into the Hub (tools stay local-first).

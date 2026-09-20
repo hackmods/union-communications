@@ -18,6 +18,7 @@ import {
   TextRun,
   WidthType,
 } from "docx";
+import { createOfficeDesignTokens, createWordStyles } from "@/lib/export/office-design-tokens";
 import type { BrandPalette } from "@/lib/constants/office-templates";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { logoDisplaySizePx } from "@/lib/export/brand-logo-bytes";
@@ -192,17 +193,24 @@ function baseDocument(
   opts: DocxBuildInput,
   children: (Paragraph | Table)[],
 ): Document {
+  const tokens = createOfficeDesignTokens({
+    palette: opts.palette,
+    headlineFont: headlineFace(opts),
+    bodyFont: bodyFace(opts),
+  });
   return new Document({
+    styles: createWordStyles(tokens),
     sections: [
       {
         properties: {
           page: {
             margin: {
               top: 720,
-              right: 1008,
-              bottom: 1008,
-              left: 1008,
+              right: tokens.word.marginTwips,
+              bottom: tokens.word.marginTwips,
+              left: tokens.word.marginTwips,
             },
+            size: { width: tokens.word.pageWidthTwips, height: tokens.word.pageHeightTwips },
           },
         },
         headers: {

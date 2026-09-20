@@ -32,6 +32,15 @@ describe("ooxml-font-embed", () => {
     expect(out[0]).not.toBe(raw[0]);
   });
 
+  it("matches the reversed-GUID Word obfuscation vector and de-obfuscates", () => {
+    const raw = Uint8Array.from({ length: 40 }, (_, index) => index);
+    const key = "{00112233-4455-6677-8899-AABBCCDDEEFF}";
+    const out = obfuscateOoxmlFont(raw, key);
+    expect([...out.slice(0, 8)]).toEqual([255, 239, 223, 207, 191, 175, 159, 143]);
+    expect([...out.slice(32)]).toEqual([...raw.slice(32)]);
+    expect([...obfuscateOoxmlFont(out, key)]).toEqual([...raw]);
+  });
+
   it(
     "embedDocxBrandFonts adds obfuscated fonts and NOTICE to DOCX",
     async () => {
@@ -63,6 +72,9 @@ describe("ooxml-font-embed", () => {
       const fontTable = await zip.file("word/fontTable.xml")?.async("string");
       expect(fontTable).toContain("Montserrat");
       expect(fontTable).toContain("Source Sans 3");
+      const rels = await zip.file("word/_rels/fontTable.xml.rels")?.async("string");
+      expect(rels).toContain('Target="fonts/font1.odttf"');
+      expect(rels).not.toContain('Target="../fonts/');
     },
     30_000,
   );
@@ -88,6 +100,13 @@ describe("ooxml-font-embed", () => {
       });
       const embedded = await listEmbeddedOoxmlFonts(base);
       expect(embedded.some((p) => p.endsWith(".fntdata"))).toBe(true);
+      const JSZip = (await import("jszip")).default;
+      const zip = await JSZip.loadAsync(await base.arrayBuffer());
+      const font = await zip.file(embedded[0])!.async("uint8array");
+      expect([...font.slice(0, 4)]).toEqual([0, 1, 0, 0]);
+      const presentation = await zip.file("ppt/presentation.xml")!.async("string");
+      expect(presentation).toContain("<p:regular r:id=");
+      expect(presentation).toContain("<p:bold r:id=");
     },
     30_000,
   );
