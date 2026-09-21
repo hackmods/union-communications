@@ -5,6 +5,7 @@
 - [x] Restore the preferred Start, Create, Learn shell and add Brand Kit as its own direct primary-navigation destination; the UnionOps wordmark links Home. Brand Kit does not compete with Create for the active state. Officer Hub remains conditional on availability/session state.
 - [x] Replace the home-page role-card row with an explicit 01 Brand Kit → 02 Create → 03 Learn sequence, a task-specific primary action, and a separate role-based Guided setup link.
 - [x] Use plain, task-oriented English/French labels, make the responsive menu visibly say “Menu,” and keep Search/account/display/language controls separate from the primary destinations.
+- [x] Align the Data Workbench API routes with async RLS actor/context resolution from the latest `main` merge; resolve session context before entering the RLS transaction wrapper.
 - [x] Verify no horizontal overflow at 375 / 768 / 1280 / 1536 px and assert direct Brand Kit visibility in desktop navigation and in the labeled responsive menu at tablet width.
 - [x] Run focused navigation/catalog/copy/update tests (47 passed), typecheck, lint, and public-discovery/site-smoke browser checks (all 61 cases passed after correcting one stale breadcrumb assertion); 3 additional focused Home/header/nav browser checks passed.
 - Lesson: a discovery architecture is not successful if the most important action is hidden behind a broad category; name Brand Kit in the global navigation and explain the next steps in sequence.
