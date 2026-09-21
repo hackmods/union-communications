@@ -96,18 +96,18 @@ test.describe("Smoke tests @smoke", () => {
   test("French footer exposes localized utility links", async ({ page }) => {
     await page.goto("/fr/");
     const footer = page.getByRole("contentinfo");
-    await expect(footer.getByRole("link", { name: "Confidentialité" })).toBeVisible();
-    await expect(footer.getByRole("link", { name: "Accessibilité" })).toBeVisible();
-    await expect(footer.getByRole("link", { name: "Commentaires" })).toBeVisible();
+    await expect(footer.getByRole("link", { name: /Confidentialité/ })).toBeVisible();
+    await expect(footer.getByRole("link", { name: /Accessibilité/ })).toBeVisible();
+    await expect(footer.getByRole("link", { name: /Commentaires/ })).toBeVisible();
   });
 
   test("French Learn catalog exposes localized audience paths", async ({ page }) => {
     await page.goto("/fr/learn/");
-    await expect(page.getByRole("heading", { name: "Trouvez le prochain guide utile" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Trouvez le prochain guide utile/ })).toBeVisible();
     await expect(
       page.locator('a[href="/fr/learn/officer/"]').first(),
     ).toHaveAttribute("href", "/fr/learn/officer/");
-    await expect(page.getByRole("searchbox", { name: "Rechercher" })).toBeVisible();
+    await expect(page.getByRole("searchbox", { name: /Rechercher/ })).toBeVisible();
   });
 
   test("print guide lists email outreach in related links", async ({
