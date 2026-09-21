@@ -121,3 +121,17 @@ Residual: optional CI job for `@export` if smoke runtime budget is tight; tighte
 OPSEU/CAAT launches first. Seed: `seed/reference-tenant-opseu-caat.json`.
 
 Agent guidance: `.cursor/rules/roadmap-next.mdc`, `.cursor/rules/hybrid-qol.mdc`.
+
+## UnionOps Data — import and lifecycle foundation
+
+UnionOps Data is an opt-in Officer Hub module for general typed datasets and the member/employment lifecycle pack. It extends the existing Next.js, Drizzle, and PostgreSQL architecture and does not replace a union's national membership or payroll system.
+
+| Milestone | Status |
+|-----------|--------|
+| A — Dataset setup, scanned CSV/XLSX upload, local-scoped staging, mapping, review, typed-table publication | First release foundation shipped; upload processing is request-bound |
+| B — Member identity, provenance, membership/employment history, supervisor graph, reviewed partial publication | Initial officer-only lifecycle workflow shipped; trust automation, correction/merge/split tools, and full effective-date reconciliation remain |
+| C — Saved table reports and reproducible authorized exports | Planned next |
+| D — Time-worker and grievance links, member-safe Portal views, specialized dues/dispatch packs | Deferred; separate specs required |
+| E — Custom entities, relationships, and constrained joins | Deferred |
+
+The first release accepts one CSV table or the first worksheet of an XLSX file per import. It has no durable queue worker, source-profile trust settings, retention purge job, or saved-report engine. Do not enable this module for a real-data pilot until private file storage, malware scanning, and operator retention controls are configured. See [`docs/modules/DATA_WORKBENCH.md`](modules/DATA_WORKBENCH.md) for the as-built route and deployment contract.

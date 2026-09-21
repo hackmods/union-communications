@@ -1,6 +1,7 @@
 import referenceTenant from "../../../seed/reference-tenant-b7p.json";
 import {
   getLocalPatches,
+  getDataModulePatch,
   getOverlaySeeds,
   getUnitPatches,
 } from "@/lib/tenant/overlay";
@@ -19,7 +20,8 @@ function mergeSeed(base: TenantSeed): TenantSeed {
   const unionId = base.union.id;
   const patchLocals = getLocalPatches(unionId);
   const patchUnits = getUnitPatches(unionId);
-  if (patchLocals.length === 0 && patchUnits.length === 0) return base;
+  const dataModulePatch = getDataModulePatch(unionId);
+  if (patchLocals.length === 0 && patchUnits.length === 0 && dataModulePatch === undefined) return base;
 
   const locals = [
     ...(base.locals && base.locals.length > 0
@@ -52,6 +54,14 @@ function mergeSeed(base: TenantSeed): TenantSeed {
 
   return {
     ...base,
+    union: {
+      ...base.union,
+      ...(dataModulePatch === undefined ? {} : {
+        enabledModules: dataModulePatch
+          ? [...new Set([...base.union.enabledModules, "data" as const])]
+          : base.union.enabledModules.filter((module) => module !== "data"),
+      }),
+    },
     locals: dedupedLocals,
     bargainingUnits: dedupedUnits,
   };

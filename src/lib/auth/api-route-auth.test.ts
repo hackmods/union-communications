@@ -62,6 +62,7 @@ const AUTH_MARKERS = [
   "requireSiteAdminSession",
   "requireBylawsSession",
   "requireProposalsSession",
+  "requireDataAccess",
 ];
 
 /** Routes that gate with shared secrets or tokens instead of Hub session. */

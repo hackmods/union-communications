@@ -9,6 +9,8 @@
 | Confidential | Grievance notes | Assigned officers |
 | Highly Confidential | Attachments, bumping PDFs | Need-to-know + MFA |
 
+UnionOps Data imports, raw staging values, member assertions, and employment histories are confidential personal information. The first release keeps them officer-only, scopes every API and database query to the active union/local, requires MFA, and requires PostgreSQL. Uploaded source files use the configured private attachment store and malware scanner; production imports fail closed when scanning is unavailable. Raw-file and staging retention/purge jobs are not yet implemented, so operators must include the configured attachment volume or bucket in their retention controls before using real member data.
+
 ## Ontario & Canadian Privacy
 
 - **PIPEDA** — consent, breach notification (72h), access rights
@@ -33,7 +35,7 @@ See also: [`docs/guides/HOSTED_SECURITY.md`](guides/HOSTED_SECURITY.md) (operato
 | Control | Comms | Officer Hub |
 |---------|-------|-------------|
 | CSP headers | Yes (`next.config.ts`) | Yes (`next.config.ts`) |
-| File upload validation | Type + size limits | + virus scan (ClamAV via `ATTACHMENT_SCANNER_URL`, or `skipped_dev`) |
+| File upload validation | Type + size limits | + CSV/XLSX content checks, 25 MiB upload / 50,000 row / 200 column limits, formulas rejected, virus scan (ClamAV via `ATTACHMENT_SCANNER_URL`; production fails closed) |
 | Attachment encryption at rest | N/A (on-device) | Local disk: encrypt the host/volume. S3: SSE-S3 AES256 on PutObject (`ATTACHMENT_S3_SSE`). CMEK optional/stretch. |
 | Auth | None (public comms) | Auth.js + MFA (grant-hardened; TOTP preferred in prod) |
 | RLS | N/A | Postgres policies in migrations; runtime must use `unionops_app` (not table owner). Contract: `src/lib/db/rls-contract.ts`; live: `npm run db:rls-smoke` |

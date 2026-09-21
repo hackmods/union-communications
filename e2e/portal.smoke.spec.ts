@@ -113,24 +113,28 @@ test.describe("Local Portal smoke @smoke", () => {
   });
 
   test("member uses Calendar, Binder, and Floor on JHSC", async ({ page }) => {
+    const suffix = Date.now();
+    const calendarTitle = `Smoke walkthrough ${suffix}`;
+    const binderTitle = `Smoke note ${suffix}`;
+    const floorMessage = `Floor smoke ping ${suffix}`;
     await loginAsMember(page);
     await page.goto("/en/portal/circles/circle-jhsc-243");
 
     await page.getByRole("tab", { name: "Calendar" }).click();
-    await page.getByPlaceholder("Event title").fill("Smoke walkthrough");
+    await page.getByPlaceholder("Event title").fill(calendarTitle);
     await page.getByRole("button", { name: "Add to Calendar" }).click();
-    await expect(page.getByText("Smoke walkthrough")).toBeVisible();
+    await expect(page.getByText(calendarTitle)).toBeVisible();
 
     await page.getByRole("tab", { name: "Binder" }).click();
-    await page.getByPlaceholder("Binder item title").fill("Smoke note");
+    await page.getByPlaceholder("Binder item title").fill(binderTitle);
     await page.getByPlaceholder("Note or link…").fill("Binder memory note.");
     await page.getByRole("button", { name: "Add to Binder" }).click();
-    await expect(page.getByText("Smoke note")).toBeVisible();
+    await expect(page.getByText(binderTitle)).toBeVisible();
 
     await page.getByRole("tab", { name: "Floor" }).click();
-    await page.getByPlaceholder("Message the Floor…").fill("Floor smoke ping");
+    await page.getByPlaceholder("Message the Floor…").fill(floorMessage);
     await page.getByRole("button", { name: "Send" }).click();
-    await expect(page.getByText("Floor smoke ping")).toBeVisible();
+    await expect(page.getByText(floorMessage)).toBeVisible();
   });
 
   test("member sees Many hands and Oversight on JHSC", async ({ page }) => {

@@ -17,6 +17,7 @@ const overlaySeeds = new Map<string, TenantSeed>();
 /** Locals / collections patched onto an existing seed (by unionId). */
 const localPatches = new Map<string, TenantLocal[]>();
 const unitPatches = new Map<string, BargainingUnit[]>();
+const dataModulePatches = new Map<string, boolean>();
 /** True after Postgres tenant rows were merged into this process overlay. */
 let hydratedFromDb = false;
 
@@ -80,6 +81,20 @@ export function getLocalPatches(unionId: string): TenantLocal[] {
 
 export function getUnitPatches(unionId: string): BargainingUnit[] {
   return unitPatches.get(unionId) ?? [];
+}
+
+export function setDataModulePatch(unionId: string, enabled: boolean): void {
+  dataModulePatches.set(unionId, enabled);
+  const seed = overlaySeeds.get(unionId);
+  if (seed) {
+    const modules = new Set(seed.union.enabledModules);
+    if (enabled) modules.add("data"); else modules.delete("data");
+    seed.union.enabledModules = [...modules];
+  }
+}
+
+export function getDataModulePatch(unionId: string): boolean | undefined {
+  return dataModulePatches.get(unionId);
 }
 
 export function createOverlayLocal(input: {

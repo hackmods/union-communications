@@ -19,6 +19,7 @@ import {
   isOverlayHydratedFromDb,
   markOverlayHydratedFromDb,
   neutralBrandDefaultsForNewTenant,
+  setDataModulePatch,
 } from "@/lib/tenant/overlay";
 import type {
   BargainingUnit,
@@ -46,6 +47,9 @@ const HUB_MODULES: HubModule[] = [
   "informalLog",
   "checkins",
   "portal",
+  "bylaws",
+  "proposals",
+  "data",
 ];
 
 function asHubModules(raw: string[] | null | undefined): HubModule[] {
@@ -96,6 +100,7 @@ export function applyPersistedSnapshotToOverlay(
   }
 
   for (const row of snapshot.unions) {
+    setDataModulePatch(row.id, row.enabledModules.includes("data"));
     if (STATIC_UNION_IDS.has(row.id)) continue;
     const division = snapshot.divisions.find((d) => d.unionId === row.id);
     importOverlayUnion({
@@ -323,6 +328,17 @@ export async function createUnionDurable(
   }
   await persistUnionSeed(seed);
   return seed;
+}
+
+export async function setUnionDataModule(unionId: string, enabled: boolean): Promise<void> {
+  if (!tenantsPostgresEnabled()) throw new Error("Durable tenant settings require PostgreSQL.");
+  const db = getDb();
+  const [row] = await db.select({ enabledModules: unions.enabledModules }).from(unions).where(eq(unions.id, unionId)).limit(1);
+  if (!row) throw new Error("Union not found.");
+  const modules = new Set(row.enabledModules as HubModule[]);
+  if (enabled) modules.add("data"); else modules.delete("data");
+  await db.update(unions).set({ enabledModules: [...modules] }).where(eq(unions.id, unionId));
+  setDataModulePatch(unionId, enabled);
 }
 
 export async function findOrCreateLocal(input: {

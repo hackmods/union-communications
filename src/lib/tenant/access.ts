@@ -12,6 +12,10 @@ export function canCreateUnionTenant(roles: string[]): boolean {
   return roles.includes("platform_admin");
 }
 
+export function canManageUnionModules(roles: string[]): boolean {
+  return roles.some((role) => ["platform_admin", "union_admin"].includes(role));
+}
+
 export function canManageInvites(roles: string[]): boolean {
   return roles.some((r) =>
     [
