@@ -31,8 +31,11 @@ export function Footer() {
           className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-0 lg:flex-1 lg:justify-end"
           aria-label={nav("footerNav")}
         >
-          <Link href="/start" className={footerLinkClass}>
-            {nav("start")}
+          <Link href="/" className={footerLinkClass}>
+            {nav("home")}
+          </Link>
+          <Link href="/create/brand-kit" className={footerLinkClass}>
+            {nav("brandKit")}
           </Link>
           <Link href="/create" className={footerLinkClass}>
             {nav("create")}

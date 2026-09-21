@@ -1,4 +1,4 @@
-# Session knowledge — task-first public site (2026-09-20)
+# Session knowledge — public-site discovery and navigation (2026-09-20; clarity follow-up 2026-09-21)
 
 **Audience:** future agents + Ryan.
 **Related:** [public navigation rule](../../.cursor/rules/comms-public-nav.mdc), [public catalog](../../src/lib/comms/public-catalog.ts), [route migration map](../../src/lib/seo/public-routes.ts), [progress entry](../PROGRESS.md).
@@ -7,9 +7,9 @@
 
 ## What shipped
 
-The public discovery shell now leads with **Start**, **Create**, **Learn**, and a session-aware **Officer Hub**. Search is a separate utility action. The shared registry feeds Create/Learn/Search, breadcrumbs, related links, and sitemap paths. Legacy public URLs permanently redirect to locale-aware canonical URLs; old TSX pages and `next-intl` remain the content implementation. Hub, Portal, APIs, and editor behavior were intentionally left alone.
+The initial refactor introduced **Start**, **Create**, and **Learn** as broad public labels. Ryan's follow-up feedback found that Brand Kit still needed a direct primary-navigation link and Home needed a more obvious sequence. The current primary navigation is **Start**, **Brand Kit**, **Create**, **Learn**, and the session-aware **Officer Hub**; the UnionOps wordmark returns Home, and Search remains a separate utility action. Brand Kit is a direct route at `/create/brand-kit`, not only a catalog entry. The shared registry still feeds Create, Learn, Search, breadcrumbs, related links, and sitemap paths. Legacy public URLs permanently redirect to locale-aware canonical URLs; old TSX pages and `next-intl` remain the content implementation. Hub, Portal, APIs, and editor behavior were intentionally left alone.
 
-Home has one Start action, a product preview, and a compact audience chooser. Start offers communications lead, steward, and local officer entry paths; it recommends Brand Kit when the local Brand Kit state is not yet established. Catalog filtering and text search are client-local; no analytics or external search service was added.
+Home now uses a plain three-step workflow: set up Brand Kit, create materials, then follow a guide. It retains a product preview, a direct Brand Kit action, a plain privacy note, and a separate Guided setup link. `/start` offers communications lead, steward, and local officer checklists; local Brand Kit completion is inferred from browser state and is not a shared union profile. The mobile menu shows its Menu label, and tablet widths use the drawer instead of squeezing five destinations into the header. Catalog filtering and text search are client-local; no analytics or external search service was added.
 
 The follow-up UX implementation adds per-item deliverable descriptions, more precise privacy labels for optional Hub copies, curated task collections, related next steps, bilingual alias search with accent normalization, removable URL-backed filters, and browser-only checklists for the three Start journeys. Verified locally: production build, typecheck, lint (one pre-existing warning in `demo-purge.ts`), 13 public-discovery production browser checks (plus 11 focused regression checks from the initial shell pass). The 2026-09-21 integrated CI unit run passed 2,030 tests / 1 skipped; typecheck, lint, production build, Docker build, and migration smoke passed. The full CI browser smoke (run 35561187193) was still in progress when PR #92 was merged at the owner's direction; do not report that run as fully green. Automated checks still do not substitute for user research or full assistive-technology testing.
 
@@ -17,11 +17,21 @@ The follow-up UX implementation adds per-item deliverable descriptions, more pre
 
 The `COPY-002` unit guard extracts literal Playwright accessible-name assertions and checks that they appear in the English message catalog. Literal French labels in the shared smoke file therefore produced false failures even though the French catalog was correct. For locale-specific assertions, use a localized-name regular expression or make the checker locale-aware; do not add translated copy to an English-only allowlist. The targeted copy-integrity test passed after the French assertions were changed to regex names.
 
+### Follow-up correction — explicit navigation and sequence (2026-09-21)
+
+- Do not treat abstract verbs as automatically user-centered. In this product, **Start / Create / Learn** hid a high-frequency destination and made people translate labels into product structure.
+- Keep the user's preferred **Start / Create / Learn** shell and add **Brand Kit** as a direct primary-nav destination; retain the standard UnionOps wordmark as the Home link.
+- Make the Home sequence explicit and ordered: **01 Brand Kit → 02 Create → 03 Learn**. Role-specific checklists remain available from Guided setup instead of competing with this default sequence.
+- Use a visible Menu label on compact layouts, and switch to the mobile drawer before five direct destinations and utilities become cramped.
+- Preserve canonical routes and catalog ownership: navigation labels change; `/create`, `/learn`, `/start`, and all migrated content paths remain the same.
+
+Automated checks can assert labels, routes, order, and responsive behavior. They still cannot prove that a first-time steward or officer understands the wording; retain the human validation items below.
+
 ---
 
 ## Lessons to retain
 
-1. **Organize around what visitors came to do, not the codebase’s old nouns.** “Start / Create / Learn” gives people a useful first decision; `Tools` and `Guides` reflected implementation silos and encouraged circular cross-linking. Keep the Officer Hub distinct because it is an authenticated/hosted product, not another public content category.
+1. **A direct path to setup matters more than forcing every destination into a short nav.** Start / Create / Learn are the product's task-first shell; Brand Kit must appear beside them because it is the setup dependency for most creation tasks. Show the recommended order on Home, use descriptive page headings, and keep Officer Hub distinct because it is an authenticated/hosted product, not another public content category.
 
 2. **Treat route migration as a system, not a page rename.** Redirects, rewrites, locale prefixes, query strings, internal `Link` canonicalization, canonical/hreflang metadata, sitemap paths, breadcrumbs, and workshop/demo links all participate. Keep one tested route map and retain redirects indefinitely. New public links should use canonical destinations even while legacy pages remain the rendering source.
 

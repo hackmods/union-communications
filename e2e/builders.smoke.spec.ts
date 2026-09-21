@@ -40,23 +40,27 @@ const TOOL_A11Y_PAGES = [
 ] as const;
 
 test.describe("Home hero & builders smoke @smoke", () => {
-  test("home hero shows brand mark, slogan, preview, and CTAs", async ({ page }) => {
+  test("home shows a direct setup action, product preview, and ordered workflow", async ({ page }) => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-brand")).toBeVisible();
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
-    await expect(page.getByText("Solidarity.")).toBeVisible();
     await expect(
       page
-        .getByRole("region", { name: /one toolkit for a local or a union/i })
-        .getByRole("link", { name: "Choose a path" }),
+        .getByRole("region", { name: /tools and guidance for your union local/i })
+        .getByRole("link", { name: "Set up Brand Kit" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Start with the work in front of you" }),
+      page.getByRole("heading", { name: "Follow these three steps" }),
     ).toBeVisible();
-    const pathComms = page.getByTestId("home-path-comms");
-    await expect(pathComms.getByRole("link")).toHaveAttribute("href", /\/create\/brand-kit\/$/);
-    await expect(page.getByRole("link", { name: "Choose a path" })).toHaveAttribute("href", /\/start\/$/);
-    await expect(page.getByText(/never leaves your browser/i).first()).toBeVisible();
+    await expect(page.getByTestId("home-step-brand-kit").getByRole("link", { name: "Brand Kit" }))
+      .toHaveAttribute("href", /\/create\/brand-kit\/$/);
+    await expect(page.getByTestId("home-step-create").getByRole("link", { name: "Create" }))
+      .toHaveAttribute("href", /\/create\/$/);
+    await expect(page.getByTestId("home-step-learn").getByRole("link", { name: "Learn" }))
+      .toHaveAttribute("href", /\/learn\/$/);
+    await expect(page.getByRole("link", { name: "Open guided setup" }).first())
+      .toHaveAttribute("href", /\/start\/$/);
+    await expect(page.getByText(/drafts stay in this browser/i).first()).toBeVisible();
   });
 
   test("home has no horizontal overflow on a small laptop", async ({
@@ -255,8 +259,8 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/steward-playbooks/",
       heading: "Steward playbooks",
     },
-    { path: "/en/create/", heading: "Make something your local can use" },
-    { path: "/en/learn/", heading: "Find the next useful guide" },
+    { path: "/en/create/", heading: "Create materials for your union local" },
+    { path: "/en/learn/", heading: "Guides and training" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },
     { path: "/en/support/", heading: "Support the builder" },
@@ -371,12 +375,15 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
     await assertNoHorizontalOverflow(page);
   });
 
-  test("mobile nav drawer opens and navigates", async ({ page }) => {
+  test("mobile nav drawer opens and navigates @mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/en/");
     await page.getByTestId("mobile-nav-toggle").click();
     const drawer = page.getByTestId("mobile-nav-drawer");
     await expect(drawer).toBeVisible();
-    await expect(drawer.getByRole("img", { name: "UnionOps" })).toBeVisible();
+    await expect(drawer.getByRole("link", { name: "Start", exact: true })).toBeVisible();
+    await expect(drawer.getByRole("link", { name: "Brand Kit", exact: true }))
+      .toHaveAttribute("href", "/en/create/brand-kit/");
     await drawer.getByRole("link", { name: "Create" }).click();
     await page.getByRole("link", { name: /Logo Builder/i }).click();
     await expect(page).toHaveURL(/\/en\/create\/logo-builder/);
