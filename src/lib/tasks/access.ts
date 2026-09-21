@@ -53,9 +53,9 @@ export function canViewTask(
     return task.assigneeId === userId || task.createdById === userId;
   }
 
-  if (localId && task.localId !== localId) {
-    if (!canCrossLocalTasks(roles)) return false;
-  }
+  if (task.assigneeId === userId || task.createdById === userId) return true;
+  if (!localId) return false;
+  if (task.localId !== localId && !canCrossLocalTasks(roles)) return false;
 
   return true;
 }

@@ -1,5 +1,6 @@
 import { requirePortalSession } from "@/lib/portal/portal-session";
-import { portalStore } from "@/lib/portal/memory-adapter";
+import { getPortalAdapter } from "@/lib/portal/adapter";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
 import { canAdminCircle } from "@/lib/portal/access";
 import { listCircleInviteCandidates } from "@/lib/portal/circle-invitees";
 import { portalJson } from "@/lib/portal/portal-json";
@@ -16,9 +17,10 @@ export async function GET(_request: Request, ctx: Ctx) {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
+  const { session, actor } = authResult;
   const unionId = session.user.unionId!;
-  const detail = portalStore.getCircleDetail(unionId, session.user.id, id);
+  const portal = await getPortalAdapter(rlsContextForActor(session, actor));
+  const detail = await portal.getCircleDetail(unionId, session.user.id, id);
   if (!detail) {
     return portalJson({ error: "Not found" }, { status: 404 });
   }
@@ -27,7 +29,7 @@ export async function GET(_request: Request, ctx: Ctx) {
     return portalJson({ error: "Forbidden" }, { status: 403 });
   }
   const rosterIds = new Set(detail.roster.map((row) => row.userId));
-  const invitees = (await listCircleInviteCandidates(unionId)).filter(
+  const invitees = (await listCircleInviteCandidates(unionId, rlsContextForActor(session, actor))).filter(
     (user) => !rosterIds.has(user.id),
   );
   return portalJson({ invitees });

@@ -1,5 +1,5 @@
 import type { UserRole } from "@/types/tenant";
-import { isElevatedGrievanceRole } from "@/lib/grievance/access";
+import { isElevatedGrievanceRole } from "@/lib/authorization/legacy-role-compat";
 import { canInitiateHandoff as canHandoff } from "@/lib/handoff/package";
 
 /** Roles that may write CA snippets / marketplace templates */

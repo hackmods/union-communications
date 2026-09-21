@@ -1,7 +1,10 @@
 import type { InformalLogEntry } from "@/types/informal-log";
 import type { UserRole } from "@/types/tenant";
 import { canManageQolContent } from "@/lib/qol/access";
-import { isElevatedGrievanceRole } from "@/lib/grievance/access";
+import {
+  canCrossLocalGrievance,
+  isElevatedGrievanceRole,
+} from "@/lib/authorization/legacy-role-compat";
 
 /** Module access mirrors CA snippet writers (steward / president / elevated). */
 export function canAccessInformalLogModule(roles: UserRole[]): boolean {
@@ -33,8 +36,8 @@ export function canViewInformalLogEntry(
 ): boolean {
   if (!unionId || entry.unionId !== unionId) return false;
   if (!canManageQolContent(roles)) return false;
-  if (isElevatedGrievanceRole(roles) || roles.includes("solo_account")) {
+  if (canCrossLocalGrievance(roles) || roles.includes("solo_account")) {
     return true;
   }
-  return !localId || entry.localId === localId;
+  return Boolean(localId && entry.localId === localId);
 }

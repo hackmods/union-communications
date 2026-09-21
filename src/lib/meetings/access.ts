@@ -1,6 +1,6 @@
 import type { UserRole } from "@/types/tenant";
 import type { LocalMeetingSchedule, UnionMeeting } from "@/types/meetings";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 
 const MEETINGS_WRITE_ROLES: UserRole[] = [
   "platform_admin",
@@ -32,7 +32,7 @@ export function canViewMeetingSchedule(
 ): boolean {
   if (!canAccessMeetingsModule(roles)) return false;
   if (!unionId || schedule.unionId !== unionId) return false;
-  if (localId && schedule.localId !== localId) return false;
+  if (!localId || schedule.localId !== localId) return false;
   return true;
 }
 
@@ -45,5 +45,5 @@ export function canViewUnionMeeting(
   if (!canAccessMeetingsModule(roles)) return false;
   if (!unionId || meeting.unionId !== unionId) return false;
   if (canCrossLocalGrievance(roles)) return true;
-  return !localId || meeting.localId === localId;
+  return Boolean(localId && meeting.localId === localId);
 }

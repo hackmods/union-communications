@@ -61,11 +61,10 @@ export function canCreateCircle(roles: UserRole[]): boolean {
 }
 
 export function canAdminCircle(
-  roles: UserRole[],
+  _roles: UserRole[],
   membershipRole?: CircleMemberRole,
 ): boolean {
-  if (membershipRole === "admin") return true;
-  return canCreateCircle(roles);
+  return membershipRole === "admin";
 }
 
 export function canWriteCircle(membershipRole?: CircleMemberRole): boolean {

@@ -59,6 +59,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             accessibleLocalIds: account.accessibleLocalIds,
             roles: account.roles,
             mfaVerified,
+            sessionVersion: account.sessionVersion ?? 0,
           };
         }
 
@@ -105,6 +106,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               : undefined,
           roles: account.roles,
           mfaVerified,
+          sessionVersion: "sessionVersion" in account ? account.sessionVersion ?? 0 : 0,
         };
       },
     }),

@@ -35,10 +35,8 @@ export function canViewLedgerEntry(
 ): boolean {
   if (!canAccessLedgerModule(roles)) return false;
   if (!unionId || entry.unionId !== unionId) return false;
-  if (localId && entry.localId !== localId) {
-    if (!canCrossLocalLedger(roles)) return false;
-  }
-  return true;
+  if (canCrossLocalLedger(roles)) return true;
+  return Boolean(localId && entry.localId === localId);
 }
 
 export function canMutateLedger(roles: UserRole[]): boolean {

@@ -102,6 +102,11 @@
           "notNull": true
         },
         {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "id",
           "dataType": "text",
           "notNull": true
@@ -144,6 +149,71 @@
       ]
     },
     {
+      "name": "authority_delegations",
+      "columns": [
+        {
+          "name": "capability",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "delegate_user_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ends_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "grantor_user_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "reason",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revoked_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "revoked_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "starts_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "bargaining_units",
       "columns": [
         {
@@ -173,6 +243,56 @@
         },
         {
           "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "break_glass_grants",
+      "columns": [
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "granted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "reason",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revoked_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
           "dataType": "text",
           "notNull": true
         }
@@ -470,6 +590,46 @@
           "name": "weekday",
           "dataType": "integer",
           "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "committee_memberships",
+      "columns": [
+        {
+          "name": "committee_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "role",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
         }
       ]
     },
@@ -1764,6 +1924,41 @@
       ]
     },
     {
+      "name": "grievance_attachment_shares",
+      "columns": [
+        {
+          "name": "attachment_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revoked_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "shared_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "shared_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "grievance_events",
       "columns": [
         {
@@ -1805,6 +2000,41 @@
           "name": "type",
           "dataType": "text",
           "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "grievance_member_updates",
+      "columns": [
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "published_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "published_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "withdrawn_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
         }
       ]
     },
@@ -1894,6 +2124,51 @@
       ]
     },
     {
+      "name": "grievance_participants",
+      "columns": [
+        {
+          "name": "access_level",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "added_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "grievance_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "relationship",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revoked_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "grievances",
       "columns": [
         {
@@ -1940,6 +2215,16 @@
           "name": "member_pseudonym",
           "dataType": "text",
           "notNull": false
+        },
+        {
+          "name": "member_user_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "privacy_mode",
+          "dataType": "text",
+          "notNull": true
         },
         {
           "name": "resolved_at",
@@ -2219,6 +2504,66 @@
       ]
     },
     {
+      "name": "local_memberships",
+      "columns": [
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ended_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "is_primary",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "started_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "local_public_tool_settings",
       "columns": [
         {
@@ -2474,6 +2819,66 @@
       ]
     },
     {
+      "name": "officer_assignments",
+      "columns": [
+        {
+          "name": "assigned_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "ends_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "officer_roster_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "position",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revoked_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "starts_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "officer_learning_local_settings",
       "columns": [
         {
@@ -2562,6 +2967,11 @@
       "name": "officer_roster",
       "columns": [
         {
+          "name": "canonical_position",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "committees",
           "dataType": "jsonb",
           "notNull": false
@@ -2620,6 +3030,11 @@
           "name": "updated_at",
           "dataType": "timestamp with time zone",
           "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": false
         }
       ]
     },
@@ -2929,6 +3344,841 @@
         {
           "name": "union_id",
           "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_actions",
+      "columns": [
+        {
+          "name": "assignee_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "assignee_name",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "completed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "deleted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "due_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "list_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "notes",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "source_bulletin_post_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_binder_items",
+      "columns": [
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "content",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "content_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_by_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "deleted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "folder",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_bulletin_comments",
+      "columns": [
+        {
+          "name": "author_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "author_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "post_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_bulletin_posts",
+      "columns": [
+        {
+          "name": "author_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "author_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "deleted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "pinned",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_calendar_events",
+      "columns": [
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "description",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "ends_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "external_url",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "location",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "starts_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_circle_memberships",
+      "columns": [
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "joined_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "muted",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "muted_tools",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "role",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "starred",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_name",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_circles",
+      "columns": [
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "description",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "front_ends_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "front_starts_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "kind",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "visibility",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_dispatch_items",
+      "columns": [
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "circle_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "kind",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "read_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_floor_messages",
+      "columns": [
+        {
+          "name": "author_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "author_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_momentum_items",
+      "columns": [
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "notes",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "progress",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_name",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_pipeline_boards",
+      "columns": [
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_pipeline_cards",
+      "columns": [
+        {
+          "name": "board_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "column_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "position",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_pipeline_columns",
+      "columns": [
+        {
+          "name": "board_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "position",
+          "dataType": "integer",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_roll_call_answers",
+      "columns": [
+        {
+          "name": "author_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "author_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "question_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_roll_call_questions",
+      "columns": [
+        {
+          "name": "active",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "cadence",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "circle_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "question",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_sidebar_messages",
+      "columns": [
+        {
+          "name": "author_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "author_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "thread_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_sidebar_participants",
+      "columns": [
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "position",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "thread_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_name",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "portal_sidebar_threads",
+      "columns": [
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "participant_pair_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
           "notNull": true
         }
       ]
@@ -4809,6 +6059,16 @@
     },
     {
       "schema": "public",
+      "table": "authority_delegations",
+      "name": "authority_delegations_self_or_scope"
+    },
+    {
+      "schema": "public",
+      "table": "break_glass_grants",
+      "name": "break_glass_grants_actor_read"
+    },
+    {
+      "schema": "public",
       "table": "bumping_cases",
       "name": "bumping_cases_tenant_isolation"
     },
@@ -4831,6 +6091,16 @@
       "schema": "public",
       "table": "checkin_schedules",
       "name": "checkin_schedules_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "committee_memberships",
+      "name": "committee_memberships_manage_insert"
+    },
+    {
+      "schema": "public",
+      "table": "committee_memberships",
+      "name": "committee_memberships_manage_update"
     },
     {
       "schema": "public",
@@ -4919,6 +6189,46 @@
     },
     {
       "schema": "public",
+      "table": "grievance_attachment_shares",
+      "name": "grievance_attachment_shares_case_team_read"
+    },
+    {
+      "schema": "public",
+      "table": "grievance_attachment_shares",
+      "name": "grievance_attachment_shares_member_safe_read"
+    },
+    {
+      "schema": "public",
+      "table": "grievance_events",
+      "name": "grievance_events_parent_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "grievance_member_updates",
+      "name": "grievance_member_updates_case_team_read"
+    },
+    {
+      "schema": "public",
+      "table": "grievance_member_updates",
+      "name": "grievance_member_updates_member_safe_read"
+    },
+    {
+      "schema": "public",
+      "table": "grievance_notes",
+      "name": "grievance_notes_parent_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "grievance_outcomes",
+      "name": "grievance_outcomes_parent_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "grievance_participants",
+      "name": "grievance_participants_parent_isolation"
+    },
+    {
+      "schema": "public",
       "table": "grievances",
       "name": "grievances_tenant_isolation"
     },
@@ -4944,6 +6254,11 @@
     },
     {
       "schema": "public",
+      "table": "local_memberships",
+      "name": "local_memberships_self_or_scope"
+    },
+    {
+      "schema": "public",
       "table": "local_public_tool_settings",
       "name": "local_public_tool_settings_tenant_isolation"
     },
@@ -4959,6 +6274,11 @@
     },
     {
       "schema": "public",
+      "table": "officer_assignments",
+      "name": "officer_assignments_self_or_scope"
+    },
+    {
+      "schema": "public",
       "table": "officer_learning_local_settings",
       "name": "officer_learning_local_settings_tenant_isolation"
     },
@@ -4970,7 +6290,7 @@
     {
       "schema": "public",
       "table": "officer_roster",
-      "name": "officer_roster_tenant_isolation"
+      "name": "officer_roster_member_scope"
     },
     {
       "schema": "public",
@@ -4986,6 +6306,126 @@
       "schema": "public",
       "table": "poll_responses",
       "name": "poll_responses_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "portal_actions",
+      "name": "portal_actions_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_binder_items",
+      "name": "portal_binder_items_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_bulletin_comments",
+      "name": "portal_bulletin_comments_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_bulletin_posts",
+      "name": "portal_bulletin_posts_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_calendar_events",
+      "name": "portal_calendar_events_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_circle_memberships",
+      "name": "portal_circle_memberships_admin_delete"
+    },
+    {
+      "schema": "public",
+      "table": "portal_circle_memberships",
+      "name": "portal_circle_memberships_admin_update"
+    },
+    {
+      "schema": "public",
+      "table": "portal_circle_memberships",
+      "name": "portal_circle_memberships_creator_insert"
+    },
+    {
+      "schema": "public",
+      "table": "portal_circle_memberships",
+      "name": "portal_circle_memberships_member_scope"
+    },
+    {
+      "schema": "public",
+      "table": "portal_circle_memberships",
+      "name": "portal_circle_memberships_self_preferences_update"
+    },
+    {
+      "schema": "public",
+      "table": "portal_circles",
+      "name": "portal_circles_member_scope"
+    },
+    {
+      "schema": "public",
+      "table": "portal_dispatch_items",
+      "name": "portal_dispatch_self_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_floor_messages",
+      "name": "portal_floor_messages_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_momentum_items",
+      "name": "portal_momentum_items_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_pipeline_boards",
+      "name": "portal_pipeline_boards_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_pipeline_cards",
+      "name": "portal_pipeline_cards_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_pipeline_columns",
+      "name": "portal_pipeline_columns_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_roll_call_answers",
+      "name": "portal_roll_call_answers_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_roll_call_questions",
+      "name": "portal_roll_call_questions_circle_member"
+    },
+    {
+      "schema": "public",
+      "table": "portal_sidebar_messages",
+      "name": "portal_sidebar_messages_participant_insert"
+    },
+    {
+      "schema": "public",
+      "table": "portal_sidebar_messages",
+      "name": "portal_sidebar_messages_participant_read"
+    },
+    {
+      "schema": "public",
+      "table": "portal_sidebar_participants",
+      "name": "portal_sidebar_participants_creator_insert"
+    },
+    {
+      "schema": "public",
+      "table": "portal_sidebar_participants",
+      "name": "portal_sidebar_participants_participant"
+    },
+    {
+      "schema": "public",
+      "table": "portal_sidebar_threads",
+      "name": "portal_sidebar_participant"
     },
     {
       "schema": "public",

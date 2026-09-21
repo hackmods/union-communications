@@ -4,7 +4,7 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
-import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { isDownloadAllowed } from "@/lib/attachments/scan";
 import { attachmentStore } from "@/lib/attachments/store";
@@ -21,11 +21,11 @@ export async function GET(_request: Request, { params }: Params) {
     );
   }
 
-  const { session } = authResult;
-  const rls = rlsContextForSession(session) ?? {};
+  const { session, actor } = authResult;
+  const rls = rlsContextForActor(session, actor) ?? {};
   const { id, attachmentId } = await params;
   const data = await withRlsContext(rls, () => grievanceStore.getById(id));
-  if (!data || !assertGrievanceView(session, data.grievance)) {
+  if (!data || !await assertGrievanceView(actor, data.grievance)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 

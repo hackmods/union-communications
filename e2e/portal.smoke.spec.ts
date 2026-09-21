@@ -45,9 +45,7 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(
       page.getByRole("link", { name: /^Membership meeting/ }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Local 7 Hall" }).first(),
-    ).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Local 7 Hall/ }).first()).toBeVisible();
     const portalNav = page.getByRole("navigation", { name: "Portal navigation" });
     await expect(portalNav).toBeVisible();
     await expect(portalNav.getByRole("link", { name: "Dispatch" })).toBeVisible();
@@ -69,7 +67,7 @@ test.describe("Local Portal smoke @smoke", () => {
   test("member opens Hall and posts Bulletin", async ({ page }) => {
     await loginAsMember(page);
     await page.goto("/en/portal");
-    await page.getByRole("link", { name: "Local 7 Hall" }).first().click();
+    await page.getByRole("link", { name: /^Local 7 Hall/ }).first().click();
     await expect(page).toHaveURL(/\/en\/portal\/circles\/circle-hall-7/);
     await expect(
       page.getByRole("heading", { name: "Local 7 Hall" }),
@@ -188,11 +186,18 @@ test.describe("Local Portal smoke @smoke", () => {
       );
     });
     await createBtn.click();
-    expect((await posted).ok()).toBeTruthy();
-    await expect(page.getByRole("link", { name }).first()).toBeVisible({
+    const postedResponse = await posted;
+    expect(postedResponse.ok()).toBeTruthy();
+    const stationResponse = await page.request.get("/api/portal/station/");
+    expect(stationResponse.ok()).toBeTruthy();
+    const refreshedStation = (await stationResponse.json()) as {
+      station: { circles: { name: string }[] };
+    };
+    expect(refreshedStation.station.circles.some((circle) => circle.name === name)).toBe(true);
+    await expect(page.getByRole("link", { name, exact: true })).toBeVisible({
       timeout: 15_000,
     });
-    await page.getByRole("link", { name }).first().click();
+    await page.getByRole("link", { name, exact: true }).click();
     await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
     await expect(page.getByRole("tab", { name: "Many hands" })).toBeVisible();
     await expect(page.getByRole("tab", { name: "One fight" })).toBeVisible();
@@ -206,14 +211,13 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page.getByRole("button", { name: "Add card" }).first()).toBeVisible();
   });
 
-  test("president can create a Circle for more than one local", async ({
+  test("local president cannot create a Circle for other locals by switching scope", async ({
     page,
   }) => {
     await loginAsPresident(page);
     await page.goto("/en/portal");
-    await expect(
-      page.getByRole("checkbox", { name: "Members from more than one local" }),
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Start a Circle" })).toBeVisible();
+    await expect(page.getByRole("checkbox", { name: "Members from more than one local" })).toHaveCount(0);
     const name = `Union Caucus ${Date.now()}`;
     const posted = await page.request.post("/api/portal/circles/", {
       data: {
@@ -222,27 +226,7 @@ test.describe("Local Portal smoke @smoke", () => {
         scope: "union",
       },
     });
-    expect(posted.status()).toBe(201);
-    const body = (await posted.json()) as {
-      circle: { id: string; localId?: string; name: string };
-    };
-    expect(body.circle.localId).toBeFalsy();
-    expect(body.circle.name).toBe(name);
-
-    const invited = await page.request.post(
-      `/api/portal/circles/${body.circle.id}`,
-      {
-        data: {
-          tool: "roster_invite",
-          userId: "user-president-1337",
-        },
-      },
-    );
-    expect(invited.status()).toBe(201);
-
-    await page.goto(`/en/portal/circles/${body.circle.id}`);
-    await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
-    await expect(page.getByText("More than one local")).toBeVisible();
+    expect(posted.status()).toBe(403);
   });
 
   test("French Together uses solidarity labels", async ({ page }) => {
@@ -261,9 +245,7 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page.getByRole("heading", { name: "Together" })).toBeVisible({
       timeout: 15_000,
     });
-    await expect(
-      page.getByRole("link", { name: "LEC" }).first(),
-    ).toBeVisible();
+    await expect(page.getByRole("link", { name: /^LEC/ }).first()).toBeVisible();
   });
 
   test("Circle workspace has no serious or critical a11y violations", async ({

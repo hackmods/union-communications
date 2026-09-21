@@ -184,6 +184,9 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     if (filters.localId) {
       results = results.filter((g) => g.localId === filters.localId);
     }
+    if (filters.memberUserId) {
+      results = results.filter((g) => g.memberUserId === filters.memberUserId);
+    }
     if (filters.bargainingUnitId) {
       results = results.filter(
         (g) =>
@@ -253,6 +256,8 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
       localId: meta.localId,
       bargainingUnitId: input.bargainingUnitId ?? meta.bargainingUnitId,
       memberPseudonym: input.memberPseudonym,
+      memberUserId: input.memberUserId,
+      privacyMode: input.privacyMode ?? "standard",
       category: input.category,
       status: "open",
       currentStep: 1,
@@ -300,6 +305,7 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
         ? { memberPseudonym: input.memberPseudonym }
         : {}),
       ...(input.category !== undefined ? { category: input.category } : {}),
+      ...(input.privacyMode !== undefined ? { privacyMode: input.privacyMode } : {}),
       ...(input.assignedStewardId !== undefined
         ? { assignedStewardId: input.assignedStewardId }
         : {}),
@@ -472,36 +478,11 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     items: GrievanceWithRelations[],
     mode: "merge" | "replace",
   ): Promise<{ imported: number; removed: number }> {
-    let removed = 0;
+    const removed = 0;
 
-    if (mode === "replace") {
-      const removeIds = new Set(
-        grievances
-          .filter((g) => g.unionId === unionId && g.localId === localId)
-          .map((g) => g.id),
-      );
-      removed = removeIds.size;
-      for (let i = grievances.length - 1; i >= 0; i--) {
-        if (removeIds.has(grievances[i].id)) grievances.splice(i, 1);
-      }
-      for (let i = events.length - 1; i >= 0; i--) {
-        if (removeIds.has(events[i].grievanceId)) events.splice(i, 1);
-      }
-      for (let i = notes.length - 1; i >= 0; i--) {
-        if (removeIds.has(notes[i].grievanceId)) notes.splice(i, 1);
-      }
-      for (let i = communications.length - 1; i >= 0; i--) {
-        if (removeIds.has(communications[i].grievanceId)) {
-          communications.splice(i, 1);
-        }
-      }
-      for (let i = meetings.length - 1; i >= 0; i--) {
-        if (removeIds.has(meetings[i].grievanceId)) meetings.splice(i, 1);
-      }
-      for (let i = outcomes.length - 1; i >= 0; i--) {
-        if (removeIds.has(outcomes[i].grievanceId)) outcomes.splice(i, 1);
-      }
-    }
+    // Keep absent local cases and server-managed case authority intact even
+    // for legacy replace-mode imports.
+    void mode;
 
     let imported = 0;
     for (const item of items) {
@@ -510,7 +491,14 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
 
       const idx = grievances.findIndex((x) => x.id === g.id);
       if (idx >= 0) {
-        grievances[idx] = { ...g };
+        const current = grievances[idx];
+        grievances[idx] = {
+          ...g,
+          memberUserId: current.memberUserId,
+          privacyMode: current.privacyMode ?? "standard",
+          assignedStewardId: current.assignedStewardId,
+          createdById: current.createdById,
+        };
         for (let i = events.length - 1; i >= 0; i--) {
           if (events[i].grievanceId === g.id) events.splice(i, 1);
         }
@@ -529,7 +517,7 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
           if (outcomes[i].grievanceId === g.id) outcomes.splice(i, 1);
         }
       } else {
-        grievances.push({ ...g });
+        grievances.push({ ...g, memberUserId: undefined, privacyMode: "standard" });
       }
       events.push(...item.events.map((e) => ({ ...e })));
       notes.push(...item.notes.map((n) => ({ ...n })));

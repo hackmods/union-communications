@@ -142,6 +142,13 @@ describe("snippets API routes", () => {
         true,
       );
     });
+
+    it("requires an active local before listing scoped snippets", async () => {
+      authMock.mockResolvedValue(session({ localId: null }));
+      const res = await listSnippets(listRequest());
+      expect(res.status).toBe(403);
+      expect(await res.json()).toEqual({ error: "Local membership required" });
+    });
   });
 
   describe("POST /api/snippets", () => {
@@ -193,9 +200,45 @@ describe("snippets API routes", () => {
       expect(res.status).toBe(400);
       expect(await res.json()).toEqual({ error: "Union required" });
     });
+
+    it("does not let a local officer create a snippet for another local", async () => {
+      authMock.mockResolvedValue(session({ roles: ["local_steward"] }));
+      const res = await createSnippet(
+        jsonRequest({ ...validCreate, localId: "local-1337" }),
+      );
+      expect(res.status).toBe(403);
+      expect(await res.json()).toEqual({ error: "Forbidden" });
+    });
   });
 
   describe("GET/PATCH/DELETE /api/snippets/[id]", () => {
+    it("hides same-union snippets outside the actor's active local", async () => {
+      const foreignLocal = await snippetStore.create(
+        {
+          title: "Other local clause",
+          clauseRef: "Art. 7",
+          body: "Local confidential guidance",
+          localId: "local-1337",
+        },
+        {
+          unionId: "union-b7p",
+          createdById: "user-other",
+          createdByName: "Other local officer",
+        },
+      );
+
+      authMock.mockResolvedValue(session());
+      const viewed = await getSnippet(new Request("http://localhost"), params(foreignLocal.id));
+      expect(viewed.status).toBe(404);
+
+      const patched = await patchSnippet(
+        jsonRequest({ title: "Unauthorized update" }),
+        params(foreignLocal.id),
+      );
+      expect(patched.status).toBe(404);
+      expect((await snippetStore.getById(foreignLocal.id))?.title).toBe("Other local clause");
+    });
+
     it("returns 404 for a missing id and 403 for another union, including platform_admin", async () => {
       const foreign = await snippetStore.create(
         {

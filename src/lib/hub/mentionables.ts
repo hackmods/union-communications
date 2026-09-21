@@ -1,6 +1,7 @@
 import { and, eq, inArray, isNull, or } from "drizzle-orm";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import { getDb } from "@/lib/db/client";
+import { withRlsContext, type RlsSessionContext } from "@/lib/db/rls-context";
 import { users } from "@/lib/db/schema";
 import type { MentionableUser } from "@/types/hub-social";
 
@@ -27,6 +28,7 @@ function usersFromDemoRoster(scope: MentionableScope): MentionableUser[] {
 export async function listMentionableHubUsers(
   scope: MentionableScope,
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+  rls?: RlsSessionContext,
 ): Promise<MentionableUser[]> {
   const postgres =
     env.AUTH_USERS_BACKEND?.trim().toLowerCase() === "postgres" &&
@@ -34,33 +36,31 @@ export async function listMentionableHubUsers(
 
   if (postgres) {
     try {
-      const db = getDb();
-      const localIds = scope.localId
-        ? [scope.localId, ...(scope.accessibleLocalIds ?? [])]
-        : (scope.accessibleLocalIds ?? []);
-
-      const conditions = [eq(users.unionId, scope.unionId)];
-      if (localIds.length > 0) {
-        conditions.push(
-          or(
-            inArray(users.localId, localIds),
-            isNull(users.localId),
-          )!,
-        );
-      }
-
-      const rows = await db
-        .select({ id: users.id, name: users.name })
-        .from(users)
-        .where(and(...conditions));
+      if (!rls?.unionId || !rls.userId || rls.unionId !== scope.unionId) return [];
+      const rows = await withRlsContext(rls, async () => {
+        const db = getDb();
+        const localIds = scope.localId ? [scope.localId] : [];
+        const conditions = [
+          eq(users.unionId, scope.unionId),
+          isNull(users.archivedAt),
+          isNull(users.lockedAt),
+        ];
+        if (localIds.length > 0) {
+          conditions.push(or(inArray(users.localId, localIds), isNull(users.localId))!);
+        }
+        return db.select({ id: users.id, name: users.name }).from(users).where(and(...conditions));
+      });
 
       if (rows.length > 0) {
         return rows.map((row) => ({ id: row.id, name: row.name }));
       }
     } catch {
-      // Fall through to demo roster when Postgres is unavailable in dev.
+      // Fail closed for durable accounts when the identity store is unavailable.
+      return [];
     }
   }
 
-  return usersFromDemoRoster(scope);
+  return env.AUTH_USERS_BACKEND?.trim().toLowerCase() === "postgres"
+    ? []
+    : usersFromDemoRoster(scope);
 }

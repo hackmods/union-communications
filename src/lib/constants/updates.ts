@@ -43,6 +43,13 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/app/data",
   },
   {
+    id: "member-case-access-controls",
+    date: "2026-09-20",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/grievances",
+  },
+  {
     id: "hub-bylaws-proposals",
     date: "2026-09-20",
     kind: "added",

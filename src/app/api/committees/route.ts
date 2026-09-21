@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
+import { committeesDbBackend } from "@/lib/db/backend";
 import {
   listFiltersForCommitteesSession,
   requireCommitteesSession,
   tenantIdsForCommitteesSession,
+  withCommitteesRls,
 } from "@/lib/auth/committees-session";
 import { canMutateCommittees } from "@/lib/committees/access";
 import { committeesStore } from "@/lib/committees/store";
@@ -22,7 +24,7 @@ export async function GET() {
 
   const { session } = authResult;
   const filters = listFiltersForCommitteesSession(session);
-  const committees = await committeesStore.list(filters);
+  const committees = await withCommitteesRls(session, () => committeesStore.list(filters), filters.localId);
 
   await auditLog.log({
     userId: session.user.id,
@@ -63,12 +65,26 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+  if (parsed.data.memberUserIds !== undefined && committeesDbBackend() !== "postgres") {
+    return NextResponse.json(
+      { error: "Account-linked committee membership requires Postgres" },
+      { status: 503 },
+    );
+  }
 
   const tenant = tenantIdsForCommitteesSession(session);
-  const committee = await committeesStore.create(parsed.data, {
-    unionId: tenant.unionId,
-    localId: tenant.localId,
-  });
+  let committee;
+  try {
+    committee = await withCommitteesRls(session, () => committeesStore.create(parsed.data, {
+      unionId: tenant.unionId,
+      localId: tenant.localId,
+    }), tenant.localId);
+  } catch (error) {
+    if (error instanceof Error && error.name === "InvalidCommitteeMembersError") {
+      return NextResponse.json({ error: "Committee members must be active members of this local" }, { status: 400 });
+    }
+    throw error;
+  }
 
   await auditLog.log({
     userId: session.user.id,

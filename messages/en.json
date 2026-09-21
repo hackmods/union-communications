@@ -7192,6 +7192,10 @@
         "title": "Review union data imports in Officer Hub",
         "body": "Officers can create local datasets, map CSV or Excel columns, review rows, and publish member and workplace records with their source and change history. Saved reports will build on this reviewed data."
       },
+      "member-case-access-controls": {
+        "title": "Clearer privacy and access controls for grievance files",
+        "body": "Officer Hub now distinguishes standard and restricted files, assigned case teams, executive summaries, and member-safe updates. Access is checked against current local membership and office assignments, and members have a separate safe view of cases linked to them."
+      },
       "hub-bylaws-proposals": {
         "title": "Bylaw drafts and bargaining proposals sync to Officer Hub",
         "body": "Officers with the Local Bylaws and Bargaining proposals modules can push drafts from these tools into Officer Hub casework: track bylaw status through committee and GMM, work proposal rows with a caucus note and activity timeline, and publish a member-safe snapshot to Local Portal."
@@ -8670,7 +8674,7 @@
   "committees": {
     "title": "Committees",
     "subtitle": "Internal committee roster — Health & Safety, Social, Equity, and other local groups.",
-    "disclaimer": "Member IDs reference the officer roster. Meeting motions belong in Meeting minutes, not here.",
+    "disclaimer": "Committee membership records who serves on each local committee. Meeting motions belong in Meeting minutes, not here.",
     "jointCommitteeHint": "This page is this local only — Health & Safety, Social, and other standing groups. A joint union-employer table with people from more than one local is a different job.",
     "jointCommitteeLink": "Joint committee playbook",
     "loading": "Loading committees…",
@@ -8690,8 +8694,13 @@
     "empty": "No committees for this local yet. Add one when you form a standing committee.",
     "colName": "Name",
     "colDescription": "Description",
-    "colMembers": "Member officer IDs",
+    "colMembers": "Local members",
     "membersHint": "Comma-separated officer roster IDs (e.g. off-001, off-002)",
+    "membersSelectHint": "Choose active members of this local. Only selected accounts are linked to the committee.",
+    "noEligibleMembers": "No active local members are available to select.",
+    "inactiveMember": "inactive membership",
+    "legacyMemberIds": "Legacy officer roster references",
+    "legacyMemberHint": "Optional display references for older officer roster records. These references do not grant account access.",
     "noMembers": "No members assigned",
     "memberCount": "{count, plural, one {# member} other {# members}}"
   },
@@ -9260,6 +9269,66 @@
     "due": "Due {date}",
     "backToList": "Back to list",
     "notFound": "Grievance not found",
+    "access": {
+      "member_safe": "Member-safe view",
+      "summary": "Summary access",
+      "case_read": "Case read access",
+      "case_write": "Case work access",
+      "reason": {
+        "explicit_participant": "You were explicitly added to the case",
+        "assigned_case_worker": "You are the assigned case worker",
+        "grievance_officer": "Granted by your grievance officer assignment",
+        "local_leadership": "Granted by your president or vice-president assignment",
+        "executive_summary": "Granted by your executive assignment",
+        "active_delegation": "Granted by an active delegation",
+        "break_glass": "Temporary audited emergency access",
+        "involved_member": "This grievance involves you"
+      }
+    },
+    "accessPanel": {
+      "title": "Access and privacy",
+      "standardHint": "In standard cases, the grievance officer and local president or vice-president have default access. Executive members receive a summary. Explicit case participants receive the access level shown here.",
+      "restrictedHint": "Restricted cases are hidden from the president, vice-president, and executive by default. The grievance officer and explicitly assigned case participants retain only their assigned access.",
+      "participants": "Explicit case participants",
+      "noParticipants": "No additional participants are assigned.",
+      "privacyLabel": "Privacy level",
+      "standard": "Standard",
+      "restricted": "Restricted",
+      "savePrivacy": "Save privacy level",
+      "personLabel": "Add a local member",
+      "choosePerson": "Choose a member",
+      "relationshipLabel": "Relationship",
+      "levelLabel": "Access level",
+      "addParticipant": "Add participant",
+      "remove": "Remove access",
+      "shareAttachment": "Share with member",
+      "unshareAttachment": "Withdraw member access",
+      "sharedBadge": "Shared in member portal",
+      "durableStorageRequired": "Participant access, member updates, and file sharing require durable database storage. Privacy settings remain available in this demo.",
+      "saveError": "Could not save the access change.",
+      "relationship": {
+        "member": "Involved member",
+        "case_worker": "Case worker",
+        "representative": "Representative",
+        "observer": "Observer"
+      },
+      "level": {
+        "member_safe": "Member-safe view",
+        "summary": "Summary only",
+        "case_read": "Read case content",
+        "case_write": "Work on the case"
+      }
+    },
+    "memberUpdates": {
+      "title": "Member-facing updates",
+      "hint": "Only text published here and files explicitly shared below appear in the member portal. Keep internal strategy and settlement terms out.",
+      "empty": "No member-facing updates have been published.",
+      "composeLabel": "Update for the involved member",
+      "publish": "Publish update",
+      "withdraw": "Withdraw update",
+      "saveError": "Could not save the member update.",
+      "durableStorageRequired": "Member-facing updates require durable database storage."
+    },
     "currentStep": "Current step",
     "stepChecklist": "CA step checklist",
     "timeline": "Timeline",
@@ -9815,9 +9884,10 @@
     "circlesMenu": "Circles",
     "circlesEmpty": "No Circles yet. Open Together to join or create one.",
     "memoryBannerLabel": "Session data",
-    "memoryBannerBody": "Circle posts and Actions on this Portal last only until the server restarts. Ask whoever runs this site to turn on lasting storage before you rely on them.",
+    "memoryBannerBody": "Portal Circles and their content last only until the server restarts. Ask whoever runs this site to turn on lasting storage before you rely on them.",
     "dispatchLink": "Dispatch",
     "proposalsLink": "Proposals",
+    "myCasesLink": "My grievances",
     "dispatchTitle": "Dispatch",
     "dispatchSubtitle": "Assignments, Bulletin posts, and due-soon pings. Muted Circles stay quiet.",
     "dispatchEmpty": "Nothing in Dispatch. Muted Circles stay quiet — open a Circle from Together if you expected a ping.",
@@ -10006,7 +10076,120 @@
     "importPlaceholder": "type,title,body\nbulletin,Welcome,Hello Hall\naction,Book room,",
     "importSubmit": "Import rows",
     "eventExternalUrl": "RSVP / meeting link (optional)",
-    "rsvpLink": "Open RSVP"
+    "rsvpLink": "Open RSVP",
+    "myCases": {
+      "title": "My grievances",
+      "intro": "See the updates your union has chosen to share about grievances that involve you.",
+      "loading": "Loading your grievances…",
+      "error": "Could not load your grievances. Try again later.",
+      "empty": "There are no grievances available in your member portal.",
+      "filed": "Filed {date}",
+      "step": "Current step {step}",
+      "due": "Next date: {date}",
+      "updatesHeading": "Updates shared with you",
+      "noUpdates": "No updates have been shared yet.",
+      "attachment": "Shared file {number}",
+      "status": {
+        "open": "Open",
+        "in_progress": "In progress",
+        "escalated": "Escalated",
+        "resolved": "Resolved",
+        "withdrawn": "Withdrawn"
+      }
+    }
+  },
+  "organization": {
+    "manageTitle": "Manage responsibilities",
+    "manageHint": "Manage local memberships, officer assignments, and delegated authority.",
+    "manageLink": "Open organization management",
+    "yourAccessTitle": "Your access in this local",
+    "yourAccessHint": "These capabilities come from your active local relationships and current assignments.",
+    "effectiveOffices": "Active offices",
+    "effectiveCapabilities": "Available capabilities",
+    "none": "None",
+    "eyebrow": "Local administration",
+    "title": "Membership and authority",
+    "intro": "Manage who belongs to this local, which offices they hold, and when a responsibility has been delegated. Changes take effect immediately.",
+    "loading": "Loading organization records…",
+    "loadError": "Could not load organization records.",
+    "saveError": "Could not save that change.",
+    "saved": "Change saved.",
+    "membersTitle": "Local memberships",
+    "membersHint": "Only active members of this local are available for office assignments and local delegations.",
+    "addMemberLabel": "Add an existing union account",
+    "chooseMember": "Choose a person",
+    "addMember": "Add membership",
+    "person": "Person",
+    "statusLabel": "Membership",
+    "accountStatus": "Account",
+    "account": {
+      "active": "Active",
+      "locked": "Locked",
+      "archived": "Archived"
+    },
+    "primaryLocal": "Primary local",
+    "actions": "Actions",
+    "active": "Active",
+    "inactive": "Ended",
+    "yes": "Yes",
+    "no": "No",
+    "endMembership": "End membership",
+    "setPrimary": "Set primary",
+    "officesTitle": "Officer assignments",
+    "officesHint": "A display-only roster entry does not grant account access. Link authority to an active member account here.",
+    "officeLabel": "Office",
+    "officeStartsLabel": "Office term starts",
+    "officeEndsLabel": "Office term ends",
+    "assignOffice": "Assign office",
+    "rosterLinkLabel": "Link roster entry (optional)",
+    "noRosterLink": "No roster entry",
+    "rosterLinkHint": "Display-only roster entries do not grant access. Linking a roster entry connects it to this account and office assignment.",
+    "noRosterEntries": "No legacy roster entries need linking.",
+    "linked": "Linked to account",
+    "displayOnly": "Display only",
+    "linkedRoster": "Roster entry",
+    "noEndDate": "No end date",
+    "revoke": "Revoke",
+    "noOffices": "No active office assignments.",
+    "delegationsTitle": "Delegated authority",
+    "delegationsHint": "Delegations are local scoped, must end within 90 days, and cannot override restricted grievance access.",
+    "delegateLabel": "Delegate to",
+    "capabilityLabel": "Responsibility",
+    "startsLabel": "Starts",
+    "expiresLabel": "Expires",
+    "reasonLabel": "Reason",
+    "createDelegation": "Create delegation",
+    "noDelegations": "No active delegations.",
+    "position": {
+      "president": "President",
+      "vice_president": "Vice-president",
+      "grievance_officer": "Grievance officer",
+      "steward": "Steward",
+      "executive_member": "Executive member"
+    },
+    "capability": {
+      "memberships": { "manage": "Manage local memberships" },
+      "officers": { "manage": "Manage officer assignments" },
+      "delegations": { "manage": "Manage delegated authority" },
+      "circles": { "create": "Create Circles", "admin": "Administer assigned Circles" },
+      "grievances": {
+        "case": {
+          "read": "Read grievance cases",
+          "write": "Work on assigned grievances"
+        },
+        "member_updates": {
+          "publish": "Publish member updates"
+        }
+      },
+      "tenant": { "configure": "Configure the union workspace" }
+    },
+    "accessReason": {
+      "administrative_role": "Union administration",
+      "active_officer_assignment": "Granted by office",
+      "active_delegation": "Delegated responsibility",
+      "capability_not_granted": "No active grant",
+      "active_local_membership_required": "Active local membership required"
+    }
   },
   "captions": {
     "title": "Caption & Hashtag Library",

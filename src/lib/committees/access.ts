@@ -1,6 +1,6 @@
 import type { Committee } from "@/types/committees";
 import type { UserRole } from "@/types/tenant";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { canInitiateHandoff } from "@/lib/handoff/package";
 
 /** Elevated / president gate — same bar as officer roster (ORG-002). */
@@ -21,5 +21,6 @@ export function canViewCommittee(
   if (!unionId || committee.unionId !== unionId) return false;
   if (!canAccessCommitteesModule(roles)) return false;
   if (canCrossLocalGrievance(roles)) return true;
-  return !localId || committee.localId === localId;
+  // A local role without an active local must not inherit union-wide visibility.
+  return Boolean(localId && committee.localId === localId);
 }

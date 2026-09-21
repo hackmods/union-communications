@@ -12,6 +12,11 @@ const ORG_PAGES: { path: string; heading: RegExp; label: string }[] = [
     heading: /Officer roster|Liste des dirigeants/i,
   },
   {
+    label: "membership and authority",
+    path: "/en/app/organization",
+    heading: /Membership and authority/i,
+  },
+  {
     label: "committees",
     path: "/en/app/committees",
     heading: /Committees|Comit/i,

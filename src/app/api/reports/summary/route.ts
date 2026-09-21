@@ -13,7 +13,7 @@ import {
 } from "@/lib/auth/time-session";
 import { canAccessBumpingModule } from "@/lib/bumping/access";
 import { bumpingStore } from "@/lib/bumping/store";
-import { isElevatedGrievanceRole } from "@/lib/grievance/access";
+import { isElevatedGrievanceRole } from "@/lib/authorization/legacy-role-compat";
 import { grievanceStore } from "@/lib/grievance/store";
 import {
   buildReportsSummary,

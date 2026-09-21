@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
+import { committeesDbBackend } from "@/lib/db/backend";
 import {
   assertCommitteeView,
   requireCommitteesSession,
+  withCommitteesRls,
 } from "@/lib/auth/committees-session";
 import { canMutateCommittees } from "@/lib/committees/access";
 import { committeesStore } from "@/lib/committees/store";
@@ -22,7 +24,7 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const committee = await committeesStore.getById(id);
+  const committee = await withCommitteesRls(authResult.session, () => committeesStore.getById(id));
   if (!committee) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -48,7 +50,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const existing = await committeesStore.getById(id);
+  const existing = await withCommitteesRls(authResult.session, () => committeesStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -64,8 +66,22 @@ export async function PATCH(request: Request, context: RouteContext) {
       { status: 400 },
     );
   }
+  if (parsed.data.memberUserIds !== undefined && committeesDbBackend() !== "postgres") {
+    return NextResponse.json(
+      { error: "Account-linked committee membership requires Postgres" },
+      { status: 503 },
+    );
+  }
 
-  const updated = await committeesStore.update(id, parsed.data);
+  let updated;
+  try {
+    updated = await withCommitteesRls(authResult.session, () => committeesStore.update(id, parsed.data));
+  } catch (error) {
+    if (error instanceof Error && error.name === "InvalidCommitteeMembersError") {
+      return NextResponse.json({ error: "Committee members must be active members of this local" }, { status: 400 });
+    }
+    throw error;
+  }
   await auditLog.log({
     userId: authResult.session.user.id,
     action: "committees.update",
@@ -93,7 +109,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const existing = await committeesStore.getById(id);
+  const existing = await withCommitteesRls(authResult.session, () => committeesStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -101,7 +117,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  await committeesStore.remove(id);
+  await withCommitteesRls(authResult.session, () => committeesStore.remove(id));
   await auditLog.log({
     userId: authResult.session.user.id,
     action: "committees.delete",

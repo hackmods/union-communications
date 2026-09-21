@@ -15,6 +15,7 @@ export const auditLog = pgTable(
     localId: text("local_id").references(() => locals.id, {
       onDelete: "set null",
     }),
+    circleId: text("circle_id"),
     /**
      * Optional free-form operator metadata. Persisted as JSONB so callers
      * may read it back as a structured object; v1 stores `Record<string, string>`
@@ -28,5 +29,6 @@ export const auditLog = pgTable(
   (t) => [
     index("audit_log_union_idx").on(t.unionId),
     index("audit_log_resource_idx").on(t.resourceType, t.resourceId),
+    index("audit_log_circle_idx").on(t.unionId, t.circleId, t.timestamp),
   ],
 );

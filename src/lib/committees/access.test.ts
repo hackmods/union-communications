@@ -12,6 +12,7 @@ const sample: Committee = {
   localId: "local-1",
   name: "Health & Safety",
   memberOfficerIds: ["off-1"],
+  memberUserIds: [],
   createdAt: "2026-01-01T00:00:00.000Z",
   updatedAt: "2026-01-01T00:00:00.000Z",
 };

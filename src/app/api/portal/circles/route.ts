@@ -1,12 +1,12 @@
 import { requirePortalSession } from "@/lib/portal/portal-session";
-import { portalStore } from "@/lib/portal/memory-adapter";
-import { canCreateCircle } from "@/lib/portal/access";
+import { getPortalAdapter } from "@/lib/portal/adapter";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
+import { decideCapability } from "@/lib/authorization/model";
 import {
   resolveCircleCreate,
   type CircleCreateScope,
 } from "@/lib/portal/circle-create";
 import { portalJson } from "@/lib/portal/portal-json";
-import type { UserRole } from "@/types/tenant";
 import type { CircleKind, CircleVisibility } from "@/types/portal";
 
 export async function POST(request: Request) {
@@ -17,11 +17,7 @@ export async function POST(request: Request) {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
-  const roles = (session.user.roles ?? []) as UserRole[];
-  if (!canCreateCircle(roles)) {
-    return portalJson({ error: "Forbidden" }, { status: 403 });
-  }
+  const { session, actor } = authResult;
   const body = (await request.json()) as {
     name?: string;
     description?: string;
@@ -45,7 +41,11 @@ export async function POST(request: Request) {
   if (!resolved.ok) {
     return portalJson({ error: resolved.error }, { status: 400 });
   }
-  const circle = portalStore.createCircle({
+  if (!decideCapability(actor, "circles.create", { unionId: session.user.unionId!, localId: resolved.localId }).allowed) {
+    return portalJson({ error: "Forbidden" }, { status: 403 });
+  }
+  const portal = await getPortalAdapter(rlsContextForActor(session, actor));
+  const circle = await portal.createCircle({
     unionId: session.user.unionId!,
     localId: resolved.localId,
     kind: resolved.kind,

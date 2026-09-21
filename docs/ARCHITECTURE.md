@@ -86,8 +86,32 @@ Every authenticated row includes:
 
 **RLS policies** enforce:
 - No cross-union reads
-- No cross-local reads except roles with local-wide scope
-- `platform_admin` break-glass requires audit log entry
+- Missing local context does not mean all locals
+- Local memberships, office/delegation authority, ownership, and participant relationships scope resource access
+- `platform_admin` does not gain grievance content by rank; exact-case break-glass requires MFA, a reason, expiry, and audit
+
+## Current authorization actor
+
+Server routes can resolve an actor from current account state, active local
+memberships, canonical officer assignments, and unexpired delegations. Typed
+capability decisions explain the granting relationship. Domain policies still
+apply case ownership, participant, and privacy rules; the actor/capability
+layer does not replace them. `accessibleLocalIds` is a compatibility
+context-switch value, not an authorization source.
+
+Migration `0043` adds the current user and MFA values to the RLS context and
+removes local-scoped wildcard access when the local is absent. Grievance child
+rows inherit parent case-team/member-safe RLS. The cross-feature conversion is
+still in progress: some non-grievance routes retain legacy role checks.
+
+Portal APIs resolve through an async adapter. The memory implementation stays
+the default; `PORTAL_DB_BACKEND=postgres` selects the Postgres adapter when
+`DATABASE_URL` is configured. Migrations `0042`–`0049` define normalized data
+and RLS boundaries, including creator-only visibility during Circle and
+Sidebar bootstrap `INSERT ... RETURNING` operations. The live durability smoke
+passes against an isolated database as `unionops_app`; production still needs
+an operator-led data preservation and staged cutover. See
+[`LOCAL_PORTAL.md`](modules/LOCAL_PORTAL.md).
 
 ## Ops health endpoint
 

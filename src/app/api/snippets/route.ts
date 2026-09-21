@@ -3,6 +3,8 @@ import { auditLog } from "@/lib/audit/store";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
 import { canManageQolContent } from "@/lib/qol/access";
 import { snippetStore } from "@/lib/snippets/memory-adapter";
+import { canAccessSnippetLocalScope, canCreateSnippetInScope } from "@/lib/snippets/access";
+import { isCrossLocalAdministrator } from "@/lib/authorization/model";
 import type { UserRole } from "@/types/tenant";
 
 export async function GET(request: Request) {
@@ -14,10 +16,13 @@ export async function GET(request: Request) {
     );
   }
 
-  const { session } = authResult;
+  const { session, actor } = authResult;
   const unionId = session.user.unionId;
   if (!unionId) {
     return NextResponse.json({ error: "Union required" }, { status: 400 });
+  }
+  if (!canAccessSnippetLocalScope(actor, actor.activeLocalId)) {
+    return NextResponse.json({ error: "Local membership required" }, { status: 403 });
   }
 
   const url = new URL(request.url);
@@ -25,8 +30,8 @@ export async function GET(request: Request) {
 
   const snippets = await snippetStore.list({
     unionId,
-    localId: session.user.localId,
-    bargainingUnitId: session.user.bargainingUnitId,
+    localId: isCrossLocalAdministrator(actor) ? undefined : actor.activeLocalId,
+    bargainingUnitId: isCrossLocalAdministrator(actor) ? undefined : actor.bargainingUnitId,
     query,
   });
 
@@ -51,8 +56,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const { session } = authResult;
-  const roles = (session.user.roles ?? []) as UserRole[];
+  const { session, actor } = authResult;
+  const roles = actor.roles as UserRole[];
   if (!canManageQolContent(roles)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -78,14 +83,20 @@ export async function POST(request: Request) {
     );
   }
 
+  const requestedLocalId = localId ?? actor.activeLocalId;
+  const requestedBargainingUnitId = bargainingUnitId ?? actor.bargainingUnitId;
+  if (!canCreateSnippetInScope(actor, requestedLocalId, requestedBargainingUnitId)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const snippet = await snippetStore.create(
     {
       title,
       clauseRef,
       body: snippetBody,
       tags: Array.isArray(tags) ? tags : [],
-      localId: localId ?? session.user.localId,
-      bargainingUnitId: bargainingUnitId ?? session.user.bargainingUnitId,
+      localId: requestedLocalId,
+      bargainingUnitId: requestedBargainingUnitId,
     },
     {
       unionId,

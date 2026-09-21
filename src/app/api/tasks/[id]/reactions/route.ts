@@ -22,7 +22,7 @@ export async function POST(request: Request, context: RouteContext) {
   }
 
   const { session } = authResult;
-  const rls = rlsContextForSession(session) ?? {};
+  const rls = await rlsContextForSession(session) ?? {};
   const { id } = await context.params;
   const existing = await withRlsContext(rls, () => taskStore.getById(id));
   if (!existing) {

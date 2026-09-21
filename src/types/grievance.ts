@@ -25,6 +25,8 @@ export interface Grievance {
   /** Optional CA collection (FT/PT Support Staff, etc.) */
   bargainingUnitId?: string;
   memberPseudonym?: string;
+  memberUserId?: string;
+  privacyMode?: "standard" | "restricted";
   category: string;
   status: GrievanceStatus;
   currentStep: number;
@@ -84,6 +86,8 @@ export interface GrievanceWithRelations {
 
 export interface CreateGrievanceInput {
   memberPseudonym?: string;
+  memberUserId?: string;
+  privacyMode?: "standard" | "restricted";
   category: string;
   filedAt: string;
   assignedStewardId?: string;
@@ -94,6 +98,7 @@ export interface UpdateGrievanceInput {
   status?: GrievanceStatus;
   currentStep?: number;
   memberPseudonym?: string;
+  privacyMode?: "standard" | "restricted";
   category?: string;
   assignedStewardId?: string;
   bargainingUnitId?: string | null;
@@ -126,6 +131,8 @@ export interface GrievanceListFilters {
   localId?: string;
   bargainingUnitId?: string;
   assignedStewardId?: string;
+  participantUserId?: string;
+  memberUserId?: string;
   status?: GrievanceStatus;
 }
 

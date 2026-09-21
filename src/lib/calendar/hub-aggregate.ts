@@ -8,6 +8,8 @@ import type { BumpingListFilters } from "@/types/bumping";
 import type { GrievanceListFilters } from "@/types/grievance";
 import { bumpingStore } from "@/lib/bumping/store";
 import { grievanceStore } from "@/lib/grievance/store";
+import type { AuthorizationActor } from "@/lib/authorization/model";
+import { authorizeGrievance } from "@/lib/grievance/authorization";
 import {
   sessionDateToWindow,
   type HubCalendarEvent,
@@ -26,6 +28,7 @@ export interface AggregateHubCalendarOptions {
   includeGrievance: boolean;
   includeBumping: boolean;
   grievanceFilters?: GrievanceListFilters;
+  grievanceActor?: AuthorizationActor;
   bumpingFilters?: BumpingListFilters;
 }
 
@@ -35,8 +38,11 @@ export async function aggregateHubCalendarEvents(
   const events: HubCalendarEvent[] = [];
 
   if (opts.includeGrievance && opts.grievanceFilters) {
+    if (!opts.grievanceActor) throw new Error("A resolved actor is required for grievance calendar events");
     const grievances = await grievanceStore.list(opts.grievanceFilters);
     for (const g of grievances) {
+      const access = await authorizeGrievance(opts.grievanceActor, g);
+      if (!access.allowed || !["case_read", "case_write"].includes(access.level)) continue;
       const meetings = await grievanceStore.listMeetings(g.id);
       for (const m of meetings) {
         events.push({

@@ -38,6 +38,7 @@ const otherUnionCommittee: Committee = {
   localId: "local-7",
   name: "Other union H&S",
   memberOfficerIds: [],
+  memberUserIds: [],
   createdAt: "2026-01-01T00:00:00.000Z",
   updatedAt: "2026-01-01T00:00:00.000Z",
 };

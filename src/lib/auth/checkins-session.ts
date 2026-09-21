@@ -8,6 +8,7 @@ import {
   canViewCheckinSchedule,
 } from "@/lib/checkins/access";
 import { getTenantContext } from "@/lib/tenant/loader";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 import type { CheckinSchedule } from "@/types/checkins";
 import type { UserRole } from "@/types/tenant";
 
@@ -49,10 +50,10 @@ export function listFiltersForCheckinsSession(session: Session) {
   const crossLocal = canCrossLocalCheckins(roles);
   return {
     unionId,
-    localId: session.user.localId,
+    localId: localScopeFilter(session.user.localId, crossLocal),
     bargainingUnitId: session.user.bargainingUnitId,
     ...(crossLocal && !session.user.localId
-      ? { localId: undefined, bargainingUnitId: undefined }
+      ? { bargainingUnitId: undefined }
       : {}),
   };
 }

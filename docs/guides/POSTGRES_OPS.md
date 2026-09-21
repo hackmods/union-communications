@@ -47,6 +47,7 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
 | `MEETINGS_DB_BACKEND` | `memory` \| `postgres` | Local meeting schedule |
 | `MEETINGS_RSVP_DB_BACKEND` | `memory` \| `postgres` | Hub events / RSVP |
 | `CHECKINS_DB_BACKEND` | `memory` \| `postgres` | Automatic check-ins |
+| `PORTAL_DB_BACKEND` | `memory` \| `postgres` | Local Portal Circles and tools; leave on memory until Portal RLS/durability gates pass |
 | `AUTH_USERS_BACKEND` | `memory` \| `postgres` | Users + password-reset tokens |
 | `FEEDBACK_DB_BACKEND` | `memory` \| `postgres` | Site feedback (ADR-018; no tenant RLS) |
 

@@ -1,6 +1,6 @@
 import type { ElectionCycle } from "@/types/elections";
 import type { UserRole } from "@/types/tenant";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { canInitiateHandoff } from "@/lib/handoff/package";
 
 /** Elevated / president gate — same bar as officer roster (ORG-002). */
@@ -21,5 +21,5 @@ export function canViewElectionCycle(
   if (!unionId || cycle.unionId !== unionId) return false;
   if (!canAccessElectionsModule(roles)) return false;
   if (canCrossLocalGrievance(roles)) return true;
-  return !localId || cycle.localId === localId;
+  return Boolean(localId && cycle.localId === localId);
 }

@@ -5,7 +5,7 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
-import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { attachmentStore } from "@/lib/attachments/store";
 import { grievanceStore } from "@/lib/grievance/store";
@@ -20,11 +20,11 @@ export async function GET(_request: Request, { params }: Params) {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
-  const rls = rlsContextForSession(session) ?? {};
+  const { session, actor } = authResult;
+  const rls = rlsContextForActor(session, actor) ?? {};
   const { id } = await params;
   const data = await withRlsContext(rls, () => grievanceStore.getById(id));
-  if (!data || !assertGrievanceView(session, data.grievance)) {
+  if (!data || !await assertGrievanceView(actor, data.grievance)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
   const attachments = await withRlsContext(rls, () =>
@@ -41,11 +41,11 @@ export async function POST(request: Request, { params }: Params) {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
-  const rls = rlsContextForSession(session) ?? {};
+  const { session, actor } = authResult;
+  const rls = rlsContextForActor(session, actor) ?? {};
   const { id } = await params;
   const data = await withRlsContext(rls, () => grievanceStore.getById(id));
-  if (!data || !assertGrievanceEdit(session, data.grievance)) {
+  if (!data || !await assertGrievanceEdit(actor, data.grievance)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 

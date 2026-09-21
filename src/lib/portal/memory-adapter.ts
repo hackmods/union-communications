@@ -1135,7 +1135,7 @@ export class MemoryPortalAdapter {
     const circle = circles.find(
       (c) => c.id === circleId && c.unionId === unionId,
     );
-    if (!circle) return null;
+    if (!circle || circle.archivedAt) return null;
     const membership = membershipFor(userId, circleId);
     if (!membership) return null;
 
@@ -1851,7 +1851,7 @@ export class MemoryPortalAdapter {
     if (membershipFor(input.userId, input.circleId)) {
       return membershipFor(input.userId, input.circleId)!;
     }
-    if (!circles.some((c) => c.id === input.circleId)) return null;
+    if (!circles.some((c) => c.id === input.circleId && !c.archivedAt)) return null;
     const m: CircleMembership = {
       id: id("cm"),
       circleId: input.circleId,

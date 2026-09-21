@@ -157,6 +157,7 @@ describe("PORTAL_NAV_LINKS catalog", () => {
   it("keeps Together first and lists every chrome surface once", () => {
     expect(PORTAL_NAV_LINKS.map((l) => l.id)).toEqual([
       "station",
+      "myCases",
       "dispatch",
       "fronts",
       "sidebars",

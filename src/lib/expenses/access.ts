@@ -1,7 +1,10 @@
 import type { ExpenseSubmission } from "@/types/expenses";
 import type { UserRole } from "@/types/tenant";
 import { canManageQolContent } from "@/lib/qol/access";
-import { isElevatedGrievanceRole } from "@/lib/grievance/access";
+import {
+  canCrossLocalGrievance,
+  isElevatedGrievanceRole,
+} from "@/lib/authorization/legacy-role-compat";
 import { canAccessLedgerModule } from "@/lib/ledger/access";
 
 /** Hub module access — officers who submit or review local purchases. */
@@ -39,14 +42,14 @@ export function canViewExpenseSubmission(
 ): boolean {
   if (!unionId || submission.unionId !== unionId) return false;
   if (!canAccessExpensesModule(roles)) return false;
-  if (isElevatedGrievanceRole(roles) || roles.includes("solo_account")) {
+  if (roles.includes("solo_account") || canCrossLocalGrievance(roles)) {
     return true;
   }
-  if (canElevateExpenses(roles)) {
-    return !localId || submission.localId === localId;
-  }
   if (submission.submittedById === userId) return true;
-  return !localId || submission.localId === localId;
+  if (canElevateExpenses(roles)) {
+    return Boolean(localId && submission.localId === localId);
+  }
+  return Boolean(localId && submission.localId === localId);
 }
 
 export function canDeleteExpenseSubmission(

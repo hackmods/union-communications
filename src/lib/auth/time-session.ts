@@ -15,6 +15,7 @@ import {
 import { getTenantContext } from "@/lib/tenant/loader";
 import type { PtoRequest, TimeEntry, TimeShift } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 
 export type TimeSessionResult =
   | { ok: true; session: Session }
@@ -117,10 +118,16 @@ export function assertShiftMutate(session: Session, shift: TimeShift): boolean {
 export function listFiltersForTimeSession(session: Session) {
   const roles = (session.user.roles ?? []) as UserRole[];
   const elevated = isElevatedTimeRole(roles);
+  const admin = canAdminTimeSession(session);
   return {
     unionId: session.user.unionId ?? "__none__",
-    localId: elevated ? undefined : session.user.localId,
-    workerId: canAdminTimeSession(session) ? undefined : session.user.id,
+    // Staff without a local can still query only their own records. A local
+    // administrator without context gets a deny-all local filter.
+    localId: localScopeFilter(
+      session.user.localId,
+      elevated || (!session.user.localId && !admin),
+    ),
+    workerId: admin ? undefined : session.user.id,
   };
 }
 

@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import type { Session } from "next-auth";
 import type { UserRole } from "@/types/tenant";
 import type { OfficerRosterEntry } from "@/types/officer-roster";
+import { actorFromSession } from "@/lib/authorization/model";
 
 vi.mock("@/auth", () => ({
   auth: vi.fn(),
@@ -44,15 +45,19 @@ const otherUnionEntry: OfficerRosterEntry = {
 };
 
 describe("officer roster session helpers", () => {
+  const actorFor = (value: Session) => actorFromSession(value);
+
   it("never lists another union when the session has no unionId", () => {
-    expect(listFiltersForOfficerRosterSession(session({ unionId: null }))).toEqual({
+    const value = session({ unionId: null });
+    expect(listFiltersForOfficerRosterSession(value, actorFor(value))).toEqual({
       unionId: "__none__",
       localId: undefined,
     });
   });
 
   it("pins presidents to the session local; solo whole-union listing is not a roster path", () => {
-    expect(listFiltersForOfficerRosterSession(session())).toEqual({
+    const value = session();
+    expect(listFiltersForOfficerRosterSession(value, actorFor(value))).toEqual({
       unionId: "union-b7p",
       localId: "local-7",
     });
@@ -62,6 +67,7 @@ describe("officer roster session helpers", () => {
     expect(
       listFiltersForOfficerRosterSession(
         session({ roles: ["union_admin"], localId: "local-7" }),
+        actorFor(session({ roles: ["union_admin"], localId: "local-7" })),
       ),
     ).toEqual({
       unionId: "union-b7p",
@@ -71,6 +77,7 @@ describe("officer roster session helpers", () => {
     expect(
       listFiltersForOfficerRosterSession(
         session({ roles: ["union_admin"], localId: null }),
+        actorFor(session({ roles: ["union_admin"], localId: null })),
       ),
     ).toEqual({
       unionId: "union-b7p",
@@ -94,9 +101,9 @@ describe("officer roster session helpers", () => {
   });
 
   it("refuses a view when the entry belongs to another union, including platform_admin", () => {
-    expect(assertOfficerRosterView(session(), otherUnionEntry)).toBe(false);
+    expect(assertOfficerRosterView(actorFor(session()), otherUnionEntry)).toBe(false);
     expect(
-      assertOfficerRosterView(session({ roles: ["platform_admin"] }), otherUnionEntry),
+      assertOfficerRosterView(actorFor(session({ roles: ["platform_admin"] })), otherUnionEntry),
     ).toBe(false);
   });
 });

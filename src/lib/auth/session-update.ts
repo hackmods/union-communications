@@ -6,7 +6,7 @@
 
 import type { JWT } from "next-auth/jwt";
 import { consumeMfaGrant } from "@/lib/auth/mfa-grants";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { listBargainingUnitsForLocal } from "@/lib/tenant/loader";
 import type { UserRole } from "@/types/tenant";
 

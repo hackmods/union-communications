@@ -1,5 +1,6 @@
 import type { UserRole } from "@/types/tenant";
 import type { BumpingCase } from "@/types/bumping";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 
 const BUMPING_READ_ROLES: UserRole[] = [
   "platform_admin",
@@ -35,8 +36,8 @@ export function canViewBumpingCase(
 ): boolean {
   if (!canAccessBumpingModule(roles)) return false;
   if (!unionId || bumpingCase.unionId !== unionId) return false;
-  if (localId && bumpingCase.localId !== localId) return false;
-  return true;
+  if (canCrossLocalGrievance(roles)) return true;
+  return Boolean(localId && bumpingCase.localId === localId);
 }
 
 export function canEditBumpingCase(

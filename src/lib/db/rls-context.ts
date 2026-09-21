@@ -9,6 +9,8 @@ import {
 export interface RlsSessionContext {
   unionId?: string;
   localId?: string;
+  userId?: string;
+  mfaVerified?: boolean;
   /** Elevated cross-local roles: union_admin / division_admin / platform_admin */
   crossLocal?: boolean;
 }
@@ -31,7 +33,13 @@ export async function applyRlsContext(
     sql`select set_config('app.current_local_id', ${ctx.localId ?? ""}, true)`,
   );
   await db.execute(
+    sql`select set_config('app.current_user_id', ${ctx.userId ?? ""}, true)`,
+  );
+  await db.execute(
     sql`select set_config('app.current_cross_local', ${ctx.crossLocal ? "true" : "false"}, true)`,
+  );
+  await db.execute(
+    sql`select set_config('app.current_mfa_verified', ${ctx.mfaVerified ? "true" : "false"}, true)`,
   );
 }
 

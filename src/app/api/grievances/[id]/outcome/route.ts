@@ -5,7 +5,7 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
-import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { grievanceStore } from "@/lib/grievance/store";
 import { parseJsonBody } from "@/lib/validation/parse";
@@ -22,16 +22,16 @@ export async function GET(_request: Request, context: RouteContext) {
     );
   }
 
-  const { session } = authResult;
-  const rls = rlsContextForSession(session) ?? {};
+  const { session, actor } = authResult;
+  const rls = rlsContextForActor(session, actor) ?? {};
   const { id } = await context.params;
   const existing = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  if (!assertGrievanceView(session, existing.grievance)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!await assertGrievanceView(actor, existing.grievance)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const outcome = await withRlsContext(rls, () => grievanceStore.getOutcome(id));
@@ -47,16 +47,16 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
 
-  const { session } = authResult;
-  const rls = rlsContextForSession(session) ?? {};
+  const { session, actor } = authResult;
+  const rls = rlsContextForActor(session, actor) ?? {};
   const { id } = await context.params;
   const existing = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  if (!assertGrievanceEdit(session, existing.grievance)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!await assertGrievanceEdit(actor, existing.grievance)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const body = await request.json();

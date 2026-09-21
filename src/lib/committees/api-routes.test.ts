@@ -109,6 +109,25 @@ describe("committees API routes", () => {
       expect(body.committees.map((c) => c.name)).not.toContain("Other union H&S");
       expect(body.committees.map((c) => c.name)).not.toContain("Other local social");
     });
+
+    it("fails closed when a local president has no active local context", async () => {
+      await memoryCommitteesStore.create(
+        { name: "Other local confidential committee" },
+        { unionId: "union-b7p", localId: "local-1337" },
+      );
+
+      authMock.mockResolvedValue(session({ localId: null }));
+      const res = await listCommittees();
+      expect(res.status).toBe(403);
+      expect(await res.json()).toEqual({ error: "Local context required" });
+
+      const detail = await getCommittee(
+        new Request("http://localhost"),
+        params("com-001"),
+      );
+      expect(detail.status).toBe(403);
+      expect(await detail.json()).toEqual({ error: "Local context required" });
+    });
   });
 
   describe("POST /api/committees", () => {
@@ -131,12 +150,21 @@ describe("committees API routes", () => {
           localId: string;
           name: string;
           memberOfficerIds: string[];
+          memberUserIds: string[];
         };
       };
       expect(body.committee.unionId).toBe("union-b7p");
       expect(body.committee.localId).toBe("local-7");
       expect(body.committee.name).toBe("Grievance");
       expect(body.committee.memberOfficerIds).toEqual(["off-003"]);
+      expect(body.committee.memberUserIds).toEqual([]);
+    });
+
+    it("does not accept account-linked committee members in memory mode", async () => {
+      authMock.mockResolvedValue(session());
+      const res = await createCommittee(jsonRequest({ ...validCreate, memberUserIds: ["member-123"] }));
+      expect(res.status).toBe(503);
+      expect(await res.json()).toEqual({ error: "Account-linked committee membership requires Postgres" });
     });
 
     it("returns 400 when the session has no local", async () => {
@@ -221,10 +249,11 @@ describe("committees API routes", () => {
       );
       expect(cleared.status).toBe(200);
       const body = (await cleared.json()) as {
-        committee: { description?: string; memberOfficerIds: string[] };
+        committee: { description?: string; memberOfficerIds: string[]; memberUserIds: string[] };
       };
       expect(body.committee.description).toBeUndefined();
       expect(body.committee.memberOfficerIds).toEqual(["off-001", "off-002"]);
+      expect(body.committee.memberUserIds).toEqual([]);
 
       const deleted = await deleteCommittee(
         new Request("http://localhost"),
@@ -242,6 +271,16 @@ describe("committees API routes", () => {
       );
       expect(res.status).toBe(400);
       expect((await memoryCommitteesStore.getById("com-002"))?.name).toBe("Social");
+    });
+
+    it("does not accept account-linked committee edits in memory mode", async () => {
+      authMock.mockResolvedValue(session());
+      const res = await patchCommittee(
+        jsonRequest({ memberUserIds: ["member-123"] }),
+        params("com-001"),
+      );
+      expect(res.status).toBe(503);
+      expect((await memoryCommitteesStore.getById("com-001"))?.memberUserIds).toEqual([]);
     });
   });
 });
