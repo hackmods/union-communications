@@ -1053,7 +1053,15 @@ export function CircleWorkspace({
                   setDraft((d) => ({ ...d, body: e.target.value }))
                 }
               />
-              <Button type="submit">{t("sendFloor")}</Button>
+              <Button
+                type="submit"
+                // Keep browser focus/scroll-to-control below the sticky tool tabs.
+                style={{
+                  scrollMarginTop: "calc(var(--site-header-height, 3.5rem) + 7rem)",
+                }}
+              >
+                {t("sendFloor")}
+              </Button>
             </form>
           ) : null}
         </div>
