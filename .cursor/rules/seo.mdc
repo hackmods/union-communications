@@ -17,8 +17,8 @@ Prevent GSC “Page with redirect” / bad canonical noise from **leaking the Ca
 
 - Page metadata via [`buildPageMetadata`](../../src/lib/seo/build-page-metadata.ts) — self-canonical, en/fr, **`x-default` = EN prefixed path**.
 - Keep [`routing.ts`](../../src/i18n/routing.ts) **`alternateLinks: false`**. Middleware Link headers otherwise advertise unprefixed `x-default` (then 307), fighting HTML hreflang.
-- Sitemap [`PUBLIC_PATHS`](../../src/app/sitemap.ts): only final **HTTPS + `/{en|fr}/…/`** URLs. Hub/`/app` stays noindex and out of the sitemap.
-- New public indexable routes: add to `PUBLIC_PATHS` (or tool SEO registry) + EN/FR copy; guide routes are coverage-tested against the filesystem.
+- Sitemap [`PUBLIC_PATHS`](../../src/app/sitemap.ts): only canonical **HTTPS + `/{en|fr}/…/`** URLs. Public discovery paths come from [`PUBLIC_CATALOG`](../../src/lib/comms/public-catalog.ts); Hub/`/app` stays noindex and out of the sitemap.
+- New public indexable discovery routes: add to the shared catalog with EN/FR titles and summaries; non-catalog utility pages belong in the sitemap shell list. Retired paths stay out of sitemap, canonical, and hreflang output.
 
 ## Cache headers
 
@@ -30,4 +30,4 @@ Prevent GSC “Page with redirect” / bad canonical noise from **leaking the Ca
 - **Expected exclusions:** http→https, missing trailing slash, missing locale prefix. Do not “validate fix” those away.
 - **Bug:** `Location` or Auth `callback-url` on an internal proxy host, or sitemap entries that 307/308.
 
-Spot-check after deploy: `curl -sI https://unionops.org/examples/` → `Location: https://unionops.org/en/examples/`.
+Spot-check after deploy: `curl -sI https://unionops.org/en/examples/` → permanent `Location: https://unionops.org/en/learn/library/examples/`.

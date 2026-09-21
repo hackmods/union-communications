@@ -8,7 +8,7 @@ type WorkshopDemoJoinLinkProps = ComponentProps<typeof Link>;
 
 /**
  * Locale Link that marks the tab as a 20-minute Demo Path session.
- * Use for First week chips, First week step CTAs on the demo tools, and the home hero Brand Kit button.
+ * Use for First week chips, workshop steps, and First week CTAs on demo tools.
  */
 export function WorkshopDemoJoinLink({
   onClick,

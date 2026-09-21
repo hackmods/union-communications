@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { PUBLIC_PATHS } from "@/app/sitemap";
 import { allRegisteredGuidePaths } from "@/lib/comms/guide-registry";
+import { canonicalPublicPath } from "@/lib/seo/public-routes";
 import {
   allContentReviewHrefs,
   buildContentReviewCatalog,
@@ -22,7 +23,9 @@ describe("content-review-catalog", () => {
 
   it("includes every registered guide path", () => {
     const hrefs = new Set(allContentReviewHrefs());
-    const missing = allRegisteredGuidePaths().filter((path) => !hrefs.has(path));
+    const missing = allRegisteredGuidePaths()
+      .map(canonicalPublicPath)
+      .filter((path) => !hrefs.has(path));
     expect(missing).toEqual([]);
   });
 

@@ -17,6 +17,7 @@ export const PUBLIC_NS = [
   "workshopGuide",
   "toolsIndex",
   "guidesIndex",
+  "publicCatalog",
   "guide",
   "boardNotice",
   "boardBanner",

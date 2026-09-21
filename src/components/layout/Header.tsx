@@ -8,86 +8,50 @@ import { DisplaySettingsMenu } from "./DisplaySettingsMenu";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
-import {
-  preferredGuidesMenuWidth,
-  preferredToolsMegaMenuWidth,
-} from "@/lib/utils/flyout-geometry";
 import { useBrandStore } from "@/store/brand-store";
 import { resolveSiteChromeLogoVariant } from "@/lib/brand/identity-packs";
-import {
-  GET_STARTED_HREF,
-  isLearnPath,
-  isOfficerLearningPath,
-  isToolsPath,
-  linkActive,
-  OFFICER_LEARNING_HREF,
-} from "./nav/nav-config";
-import { NavDropdown } from "./nav/NavDropdown";
-import { LearnMenuContent, ToolsMegaMenuContent } from "./nav/MenuContents";
-import { MobileNavDrawer } from "./nav/MobileNavDrawer";
 import { AuthAccountControls } from "./AuthAccountControls";
+import { OfficerHubNavLink } from "./OfficerHubNavLink";
 import { PlatformOperatorNavDropdown } from "@/components/platform/PlatformOperatorNavDropdown";
-
-type NavMenuId = "learn" | "tools";
+import { MobileNavDrawer } from "./nav/MobileNavDrawer";
 
 export function Header() {
   const t = useTranslations("nav");
   const th = useTranslations("hub");
   const pathname = usePathname();
-  const [menu, setMenu] = useState<{ id: NavMenuId; path: string } | null>(
-    null,
-  );
   const [drawer, setDrawer] = useState<{ path: string } | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const drawerId = useId();
   const [headerHeight, setHeaderHeight] = useState(0);
-
-  const openMenu = menu?.path === pathname ? menu.id : null;
   const drawerOpen = drawer?.path === pathname;
-
-  const brandKit = useBrandStore((s) => s.brandKit);
+  const brandKit = useBrandStore((state) => state.brandKit);
   const siteChromeLogoVariant = resolveSiteChromeLogoVariant(brandKit);
-  const startedHref = GET_STARTED_HREF;
-  const learnActive = isLearnPath(pathname);
-  const officerLearningActive = isOfficerLearningPath(pathname);
-  const toolsActive = isToolsPath(pathname);
 
-  const goToToolkit = useCallback(() => {
-    if (pathname !== "/") return;
-    document.getElementById("toolkit")?.scrollIntoView({ behavior: "smooth" });
-  }, [pathname]);
+  const isActive = (base: string) => pathname === base || pathname.startsWith(`${base}/`);
+  const linkClass = (active: boolean) =>
+    cn(
+      "inline-flex min-h-10 items-center rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-opseu-blue/5 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+      active && "bg-opseu-blue/10 font-semibold text-opseu-dark",
+    );
 
   useLayoutEffect(() => {
-    const el = headerRef.current;
-    if (!el) return;
-
-    const update = () => {
-      const height = Math.ceil(el.getBoundingClientRect().height);
+    const element = headerRef.current;
+    if (!element) return;
+    const updateHeight = () => {
+      const height = Math.ceil(element.getBoundingClientRect().height);
       setHeaderHeight(height);
-      document.documentElement.style.setProperty(
-        "--site-header-height",
-        `${height}px`,
-      );
+      document.documentElement.style.setProperty("--site-header-height", `${height}px`);
     };
-    update();
+    updateHeight();
     if (typeof ResizeObserver === "undefined") return;
-    const observer = new ResizeObserver(update);
-    observer.observe(el);
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(element);
     return () => {
       observer.disconnect();
       document.documentElement.style.removeProperty("--site-header-height");
     };
   }, [drawerOpen]);
-
-  const closeMenu = useCallback(() => setMenu(null), []);
-  const toggleMenu = (id: NavMenuId) => {
-    setMenu((prev) =>
-      prev?.id === id && prev.path === pathname
-        ? null
-        : { id, path: pathname },
-    );
-  };
 
   const closeDrawer = useCallback(() => {
     setDrawer(null);
@@ -97,30 +61,17 @@ export function Header() {
     requestAnimationFrame(() => setDrawer(null));
   }, []);
   const toggleDrawer = () =>
-    setDrawer((prev) => (prev?.path === pathname ? null : { path: pathname }));
-
-  const navLinkClass = (active: boolean) =>
-    cn(
-      "rounded-md px-2 py-1 transition-colors duration-150 hover:bg-opseu-blue/5",
-      active && "bg-opseu-blue/10 font-semibold text-opseu-dark",
-    );
-
-  const getStartedActive = pathname === "/";
+    setDrawer((current) => current?.path === pathname ? null : { path: pathname });
 
   return (
     <header
       ref={headerRef}
       className={cn(
-        "sticky top-0 min-w-0 border-b border-gray-200 bg-white/95 backdrop-blur",
+        "sticky top-0 min-w-0 border-b border-slate-200 bg-white/95 backdrop-blur",
         drawerOpen ? "z-[80]" : "z-50",
       )}
     >
-      <div
-        className={cn(
-          PAGE_SHELL.chrome,
-          "flex items-center justify-between gap-4 py-3",
-        )}
-      >
+      <div className={cn(PAGE_SHELL.chrome, "flex items-center justify-between gap-3 py-2.5 sm:gap-4 sm:py-3")}>
         <Link
           href="/"
           className="flex min-w-0 items-center gap-2 font-bold text-opseu-blue"
@@ -129,74 +80,30 @@ export function Header() {
           <BrandLogo
             size="sm"
             variantOverride={siteChromeLogoVariant}
-            className="h-10 w-auto max-w-[11rem] shrink-0 object-contain"
+            className="h-9 w-auto max-w-[10rem] shrink-0 object-contain sm:h-10"
           />
           <span className="truncate">{th("platformName")}</span>
         </Link>
 
-        <nav
-          className="hidden flex-wrap items-center gap-1 text-base lg:flex"
-          aria-label={t("mainNav")}
-        >
-          <Link
-            href={startedHref}
-            aria-current={getStartedActive ? "page" : undefined}
-            onClick={goToToolkit}
-            className={cn(
-              "rounded-md border border-opseu-blue/40 px-2.5 py-1 font-semibold text-opseu-blue transition-colors duration-150 hover:bg-opseu-blue/5",
-              getStartedActive &&
-                "border-opseu-blue bg-opseu-blue/10 text-opseu-dark",
-            )}
-          >
-            {t("getStarted")}
+        <nav className="hidden flex-wrap items-center gap-1 lg:flex" aria-label={t("mainNav")}>
+          <Link href="/start" aria-current={isActive("/start") ? "page" : undefined} className={linkClass(isActive("/start"))}>
+            {t("start")}
           </Link>
-
-          <NavDropdown
-            label={t("guides")}
-            open={openMenu === "learn"}
-            active={learnActive}
-            onToggle={() => toggleMenu("learn")}
-            onClose={closeMenu}
-            preferredPanelWidth={preferredGuidesMenuWidth}
-          >
-            <LearnMenuContent pathname={pathname} onNavigate={closeMenu} />
-          </NavDropdown>
-
-          <Link
-            href={OFFICER_LEARNING_HREF}
-            aria-current={officerLearningActive ? "page" : undefined}
-            className={navLinkClass(officerLearningActive)}
-          >
-            {t("officerLearningTopNav")}
+          <Link href="/create" aria-current={isActive("/create") ? "page" : undefined} className={linkClass(isActive("/create"))}>
+            {t("create")}
           </Link>
-
-          <Link
-            href="/brand-kit"
-            aria-current={
-              linkActive(pathname, "/brand-kit") ? "page" : undefined
-            }
-            className={navLinkClass(linkActive(pathname, "/brand-kit"))}
-          >
-            {t("brandKit")}
+          <Link href="/learn" aria-current={isActive("/learn") ? "page" : undefined} className={linkClass(isActive("/learn"))}>
+            {t("learn")}
           </Link>
-
-          <NavDropdown
-            label={t("tools")}
-            open={openMenu === "tools"}
-            active={toolsActive}
-            onToggle={() => toggleMenu("tools")}
-            onClose={closeMenu}
-            align="right"
-            preferredPanelWidth={preferredToolsMegaMenuWidth}
-          >
-            <ToolsMegaMenuContent pathname={pathname} onNavigate={closeMenu} />
-          </NavDropdown>
-
-          <PlatformOperatorNavDropdown />
-          <AuthAccountControls layout="inline" className="ml-2" />
+          <OfficerHubNavLink />
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden flex-wrap items-center justify-end gap-2 lg:flex">
+          <Link href="/search" aria-current={isActive("/search") ? "page" : undefined} className={linkClass(isActive("/search"))}>
+            <span aria-hidden="true" className="mr-1.5">⌕</span>{t("search")}
+          </Link>
+          <PlatformOperatorNavDropdown />
+          <AuthAccountControls layout="inline" showHubLink={false} />
           <DisplaySettingsMenu />
           <LanguageToggle />
         </div>
@@ -204,7 +111,7 @@ export function Header() {
         <button
           ref={toggleRef}
           type="button"
-          className="relative z-[80] inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-gray-200 text-opseu-dark hover:bg-opseu-blue/5 lg:hidden"
+          className="relative z-[80] inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-slate-200 text-opseu-dark hover:bg-opseu-blue/5 lg:hidden"
           aria-expanded={drawerOpen}
           aria-controls={drawerId}
           aria-label={drawerOpen ? t("closeMenu") : t("openMenu")}
@@ -212,9 +119,7 @@ export function Header() {
           onClick={toggleDrawer}
         >
           {drawerOpen ? (
-            <span aria-hidden="true" className="text-xl leading-none">
-              ×
-            </span>
+            <span aria-hidden="true" className="text-xl leading-none">×</span>
           ) : (
             <span aria-hidden="true" className="flex flex-col gap-1.5">
               <span className="block h-0.5 w-5 bg-current" />
@@ -229,10 +134,6 @@ export function Header() {
         <MobileNavDrawer
           headerHeight={headerHeight}
           pathname={pathname}
-          getStartedHref={startedHref}
-          learnActive={learnActive}
-          officerLearningActive={isOfficerLearningPath(pathname)}
-          toolsActive={toolsActive}
           onClose={closeDrawer}
           onCloseAfterNav={closeDrawerAfterNav}
           drawerId={drawerId}

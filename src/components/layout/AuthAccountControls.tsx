@@ -14,12 +14,15 @@ import { PlatformOperatorAccountLinks } from "@/components/platform/PlatformOper
 type AuthAccountControlsProps = {
   /** Compact row for desktop header; stacked for mobile drawer. */
   layout?: "inline" | "stack";
+  /** Officer Hub is rendered as a first-class destination in the public shell. */
+  showHubLink?: boolean;
   onNavigate?: () => void;
   className?: string;
 };
 
 export function AuthAccountControls({
   layout = "inline",
+  showHubLink = true,
   onNavigate,
   className,
 }: AuthAccountControlsProps) {
@@ -42,7 +45,7 @@ export function AuthAccountControls({
   const hubCurrent = pathname.startsWith("/app");
   const profileActive = pathname.startsWith("/app/profile");
 
-  if (!showHub && !showPortal && !authenticated) return null;
+  if ((!showHub || !showHubLink) && !showPortal && !authenticated) return null;
 
   /** Officer Hub stays primary; Local Portal stays outline — order never swaps. */
   const hubPrimaryClass = (current: boolean) =>
@@ -66,7 +69,7 @@ export function AuthAccountControls({
       ? "rounded-md px-2 py-1 text-sm font-medium text-opseu-dark transition-colors hover:bg-opseu-blue/5"
       : "flex min-h-11 items-center rounded-md px-3 py-2 text-sm font-medium text-opseu-dark hover:bg-opseu-blue/5";
 
-  const hubLink = showHub ? (
+  const hubLink = showHub && showHubLink ? (
     <Link
       href="/app"
       onClick={onNavigate}

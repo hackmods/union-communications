@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
-import { OFFICER_LEARNING_HREF } from "@/components/layout/nav/nav-config";
 import { cn } from "@/lib/utils";
 
 const footerLinkClass =
@@ -32,23 +31,23 @@ export function Footer() {
           className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-0 lg:flex-1 lg:justify-end"
           aria-label={nav("footerNav")}
         >
-          <Link href="/tools" className={footerLinkClass}>
-            {nav("tools")}
+          <Link href="/start" className={footerLinkClass}>
+            {nav("start")}
           </Link>
-          <Link href="/guide/steward-playbooks" className={footerLinkClass}>
-            {nav("stewardPlaybooksHub")}
+          <Link href="/create" className={footerLinkClass}>
+            {nav("create")}
           </Link>
-          <Link href={OFFICER_LEARNING_HREF} className={footerLinkClass}>
-            {nav("officerLearningTopNav")}
-          </Link>
-          <Link href="/brand-kit" className={footerLinkClass}>
-            {nav("brandKit")}
+          <Link href="/learn" className={footerLinkClass}>
+            {nav("learn")}
           </Link>
           <Link href="/updates" className={footerLinkClass}>
             {nav("whatsNew")}
           </Link>
           <Link href="/manifesto" className={footerLinkClass}>
             {nav("manifesto")}
+          </Link>
+          <Link href="/support" className={footerLinkClass}>
+            {nav("support")}
           </Link>
           <Link href="/privacy" className={footerLinkClass}>
             {nav("privacy")}

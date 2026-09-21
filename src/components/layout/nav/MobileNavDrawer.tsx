@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -10,101 +10,52 @@ import { useBrandStore } from "@/store/brand-store";
 import { DisplaySettingsMenu } from "@/components/layout/DisplaySettingsMenu";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { AuthAccountControls } from "@/components/layout/AuthAccountControls";
-import { cn } from "@/lib/utils";
+import { OfficerHubNavLink } from "@/components/layout/OfficerHubNavLink";
 import { getFocusable } from "./focusables";
-import { useSession } from "next-auth/react";
-import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
-import { useDisabledPublicTools } from "@/hooks/use-disabled-public-tools";
-import {
-  learnGroups,
-  linkActive,
-  OFFICER_LEARNING_HREF,
-  visibleToolGroups,
-  type NavGroup,
-  type NavLinkKey,
-  type NavSubgroupLabelKey,
-} from "./nav-config";
-import { GUIDE_CATALOG_PATH } from "@/lib/comms/guide-registry";
+import { cn } from "@/lib/utils";
 
-type AccordionId = "learn" | "tools";
-
-type MobileNavDrawerProps = {
-  headerHeight: number;
-  pathname: string;
-  getStartedHref: string;
-  learnActive: boolean;
-  officerLearningActive: boolean;
-  toolsActive: boolean;
-  onClose: () => void;
-  onCloseAfterNav: () => void;
-  drawerId: string;
-};
-
-/** Mount only while open (parent should conditional-render). */
 export function MobileNavDrawer({
   headerHeight,
   pathname,
-  getStartedHref: startedHref,
-  learnActive,
-  officerLearningActive,
-  toolsActive,
   onClose,
   onCloseAfterNav,
   drawerId,
-}: MobileNavDrawerProps) {
+}: {
+  headerHeight: number;
+  pathname: string;
+  onClose: () => void;
+  onCloseAfterNav: () => void;
+  drawerId: string;
+}) {
   const t = useTranslations("nav");
   const th = useTranslations("hub");
-  const brandKit = useBrandStore((s) => s.brandKit);
+  const brandKit = useBrandStore((state) => state.brandKit);
   const siteChromeLogoVariant = resolveSiteChromeLogoVariant(brandKit);
   const drawerRef = useRef<HTMLDivElement>(null);
-  const { data: session, status } = useSession();
-  const authenticated =
-    status === "authenticated" && Boolean(session?.user);
-  const disabledToolSlugs = useDisabledPublicTools({
-    unionId: session?.user?.unionId,
-    localId: session?.user?.localId,
-  });
-  const tools = visibleToolGroups({
-    officerHubPublic: isOfficerHubPublic(),
-    authenticated,
-    disabledToolSlugs,
-  });
-
-  const [accordion, setAccordion] = useState<AccordionId | null>(() => {
-    if (toolsActive) return "tools";
-    if (learnActive) return "learn";
-    return null;
-  });
-
-  const learnPanelId = useId();
-  const toolsPanelId = useId();
 
   useEffect(() => {
     const scrollY = window.scrollY;
-    const { body } = document;
-    const prev = {
+    const body = document.body;
+    const previous = {
       overflow: body.style.overflow,
       position: body.style.position,
       top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
       paddingRight: body.style.paddingRight,
     };
-    const scrollbarGap =
-      window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarGap = window.innerWidth - document.documentElement.clientWidth;
     body.style.overflow = "hidden";
     body.style.position = "fixed";
     body.style.top = `-${scrollY}px`;
     body.style.left = "0";
     body.style.right = "0";
-    if (scrollbarGap > 0) {
-      body.style.paddingRight = `${scrollbarGap}px`;
-    }
+    if (scrollbarGap > 0) body.style.paddingRight = `${scrollbarGap}px`;
 
     const panel = drawerRef.current;
     const focusTimer = window.setTimeout(() => {
-      const focusable = panel ? getFocusable(panel) : [];
-      focusable[0]?.focus();
+      if (panel) getFocusable(panel)[0]?.focus();
     }, 0);
-
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
@@ -113,43 +64,32 @@ export function MobileNavDrawer({
       }
       if (event.key !== "Tab" || !panel) return;
       const items = getFocusable(panel);
-      if (items.length === 0) return;
-      const firstItem = items[0];
-      const lastItem = items[items.length - 1];
-      const active = document.activeElement as HTMLElement | null;
-      if (event.shiftKey) {
-        if (active === firstItem || !panel.contains(active)) {
-          event.preventDefault();
-          lastItem.focus();
-        }
-      } else if (active === lastItem) {
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !panel.contains(document.activeElement))) {
         event.preventDefault();
-        firstItem.focus();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
-
     document.addEventListener("keydown", onKeyDown);
     return () => {
       window.clearTimeout(focusTimer);
-      body.style.overflow = prev.overflow;
-      body.style.position = prev.position;
-      body.style.top = prev.top;
-      body.style.left = "";
-      body.style.right = "";
-      body.style.paddingRight = prev.paddingRight;
+      Object.assign(body.style, previous);
       window.scrollTo(0, scrollY);
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [onClose]);
 
-  const drawerLinkClass = (active: boolean) =>
-    cn(
-      "flex min-h-11 items-center rounded-md px-3 py-2 hover:bg-opseu-blue/5",
+  const linkClass = (href: string) => {
+    const active = pathname === href || pathname.startsWith(`${href}/`);
+    return cn(
+      "flex min-h-12 items-center rounded-lg px-3 py-2 font-medium text-slate-700 hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50",
       active && "bg-opseu-blue/10 font-semibold text-opseu-dark",
     );
-
-  const toggleAccordion = (id: AccordionId) => {
-    setAccordion((prev) => (prev === id ? null : id));
   };
 
   return createPortal(
@@ -166,262 +106,52 @@ export function MobileNavDrawer({
         id={drawerId}
         role="dialog"
         aria-modal="true"
-        aria-label={t("mobileNav")}
+        aria-label={t("mainNav")}
         data-testid="mobile-nav-drawer"
         style={{ top: headerHeight }}
-        className="fixed bottom-0 right-0 z-[70] flex w-[min(100vw,20rem)] max-w-full flex-col border-l border-gray-200 bg-white shadow-xl pb-[env(safe-area-inset-bottom)]"
+        className="fixed bottom-0 right-0 z-[70] flex w-[min(100vw,23rem)] max-w-full flex-col border-l border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-xl"
       >
-        <nav
-          className="min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-3 py-3 text-base"
-          aria-label={t("mobileNav")}
-        >
+        <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [-webkit-overflow-scrolling:touch]" aria-label={t("mainNav")}>
           <Link
             href="/"
             onClick={onCloseAfterNav}
-            className="mb-4 flex min-w-0 items-center gap-2 rounded-md px-3 py-2 font-bold text-opseu-blue hover:bg-opseu-blue/5"
+            className="mb-5 flex min-w-0 items-center gap-2 rounded-lg px-3 py-2 font-bold text-opseu-blue"
           >
-            <BrandLogo
-              size="sm"
-              variantOverride={siteChromeLogoVariant}
-              className="h-10 w-auto max-w-[11rem] shrink-0 object-contain"
-            />
-            <span>{th("platformName")}</span>
+            <BrandLogo size="sm" variantOverride={siteChromeLogoVariant} className="h-10 w-auto max-w-[11rem] shrink-0 object-contain" />
+            <span className="truncate">{th("platformName")}</span>
           </Link>
-
-          <Link
-            href={startedHref}
-            onClick={() => {
-              if (pathname === "/") {
-                document.getElementById("toolkit")?.scrollIntoView({
-                  behavior: "smooth",
-                });
-              }
-              onCloseAfterNav();
-            }}
-            aria-current={pathname === "/" ? "page" : undefined}
-            className={cn(
-              drawerLinkClass(pathname === "/"),
-              "border border-opseu-blue/30 font-semibold text-opseu-blue",
-            )}
-          >
-            {t("getStarted")}
-          </Link>
-
-          <AccordionSection
-            label={t("guides")}
-            open={accordion === "learn"}
-            panelId={learnPanelId}
-            active={learnActive}
-            onToggle={() => toggleAccordion("learn")}
-          >
-            {learnGroups.map((group) => (
-              <MobileGroup
-                key={group.labelKey}
-                group={group}
-                pathname={pathname}
-                onNavigate={onCloseAfterNav}
-                linkClass={drawerLinkClass}
-                label={t(group.labelKey)}
-                linkLabel={(key) => t(key)}
-                subgroupLabel={(key) => t(key)}
-              />
-            ))}
-            <Link
-              href={GUIDE_CATALOG_PATH}
-              onClick={onCloseAfterNav}
-              aria-current={
-                pathname === GUIDE_CATALOG_PATH ? "page" : undefined
-              }
-              className={cn(
-                "mt-1 font-semibold text-opseu-blue",
-                drawerLinkClass(pathname === GUIDE_CATALOG_PATH),
-              )}
-            >
-              {t("allGuides")}
-            </Link>
-          </AccordionSection>
-
-          <Link
-            href={OFFICER_LEARNING_HREF}
-            onClick={onCloseAfterNav}
-            aria-current={officerLearningActive ? "page" : undefined}
-            className={cn(
-              "mt-2",
-              drawerLinkClass(officerLearningActive),
-            )}
-          >
-            {t("officerLearningTopNav")}
-          </Link>
-
-          <Link
-            href="/brand-kit"
-            onClick={onCloseAfterNav}
-            aria-current={
-              linkActive(pathname, "/brand-kit") ? "page" : undefined
-            }
-            className={cn(
-              "mt-2",
-              drawerLinkClass(linkActive(pathname, "/brand-kit")),
-            )}
-          >
-            {t("brandKit")}
-          </Link>
-
-          <AccordionSection
-            label={t("tools")}
-            open={accordion === "tools"}
-            panelId={toolsPanelId}
-            active={toolsActive}
-            onToggle={() => toggleAccordion("tools")}
-          >
-            {tools.map((group) => (
-              <MobileGroup
-                key={group.labelKey}
-                group={group}
-                pathname={pathname}
-                onNavigate={onCloseAfterNav}
-                linkClass={drawerLinkClass}
-                label={t(group.labelKey)}
-                linkLabel={(key) => t(key)}
-              />
-            ))}
-            <Link
-              href="/tools"
-              onClick={onCloseAfterNav}
-              aria-current={pathname === "/tools" ? "page" : undefined}
-              className={cn(
-                "mt-1 font-semibold text-opseu-blue",
-                drawerLinkClass(pathname === "/tools"),
-              )}
-            >
-              {t("allTools")}
-            </Link>
-          </AccordionSection>
-
-          <AuthAccountControls
-            layout="stack"
-            onNavigate={onCloseAfterNav}
-          />
-
-          <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-gray-100 px-1 pt-4">
-            <DisplaySettingsMenu />
-            <LanguageToggle />
+          <div className="space-y-1">
+            <Link href="/start" onClick={onCloseAfterNav} aria-current={pathname.startsWith("/start") ? "page" : undefined} className={linkClass("/start")}>{t("start")}</Link>
+            <Link href="/create" onClick={onCloseAfterNav} aria-current={pathname.startsWith("/create") ? "page" : undefined} className={linkClass("/create")}>{t("create")}</Link>
+            <Link href="/learn" onClick={onCloseAfterNav} aria-current={pathname.startsWith("/learn") ? "page" : undefined} className={linkClass("/learn")}>{t("learn")}</Link>
+            <OfficerHubNavLink layout="mobile" onNavigate={onCloseAfterNav} />
           </div>
         </nav>
+
+        <nav
+          aria-label={t("utilityNav")}
+          className="shrink-0 border-t border-slate-200 px-4 pt-3"
+        >
+            <Link
+              href="/search"
+              onClick={onCloseAfterNav}
+              aria-current={pathname.startsWith("/search") ? "page" : undefined}
+              className="flex min-h-11 items-center rounded-lg px-3 py-2 font-medium text-slate-700 hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+            >
+              <span aria-hidden="true" className="mr-2">⌕</span>{t("search")}
+            </Link>
+        </nav>
+
+        <div className="shrink-0 border-t border-slate-200 px-4 pt-3">
+          <AuthAccountControls layout="stack" showHubLink={false} onNavigate={onCloseAfterNav} />
+        </div>
+
+        <div className="shrink-0 flex flex-wrap items-center gap-3 border-t border-slate-200 px-5 py-4">
+          <DisplaySettingsMenu />
+          <LanguageToggle />
+        </div>
       </div>
     </div>,
     document.body,
-  );
-}
-
-function AccordionSection({
-  label,
-  open,
-  panelId,
-  active,
-  onToggle,
-  children,
-}: {
-  label: string;
-  open: boolean;
-  panelId: string;
-  active: boolean;
-  onToggle: () => void;
-  children: ReactNode;
-}) {
-  return (
-    <div className="mt-2">
-      <button
-        type="button"
-        className={cn(
-          "flex min-h-11 w-full items-center justify-between rounded-md px-3 py-2 text-left hover:bg-opseu-blue/5",
-          (open || active) && "font-semibold text-opseu-dark",
-        )}
-        aria-expanded={open}
-        aria-controls={panelId}
-        onClick={onToggle}
-      >
-        <span>{label}</span>
-        <span
-          aria-hidden="true"
-          className={cn(
-            "text-[0.65em] transition-transform duration-150",
-            open && "rotate-180",
-          )}
-        >
-          ▾
-        </span>
-      </button>
-      {open ? (
-        <div id={panelId} className="pb-1 pl-1">
-          {children}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function MobileGroup({
-  group,
-  pathname,
-  onNavigate,
-  linkClass,
-  label,
-  linkLabel,
-  subgroupLabel,
-}: {
-  group: NavGroup;
-  pathname: string;
-  onNavigate: () => void;
-  linkClass: (active: boolean) => string;
-  label: string;
-  linkLabel: (key: NavLinkKey) => string;
-  subgroupLabel?: (key: NavSubgroupLabelKey) => string;
-}) {
-  return (
-    <div className="mt-2 first:mt-1">
-      <p className="mx-3 mb-1 border-b border-gray-100 pb-1.5 text-[0.7rem] font-semibold tracking-wide text-gray-500">
-        {label}
-      </p>
-      <div className="space-y-0.5">
-        {group.links.map(({ href, key }) => {
-          const active = linkActive(pathname, href);
-          return (
-            <Link
-              key={href}
-              href={href}
-              onClick={onNavigate}
-              aria-current={active ? "page" : undefined}
-              className={linkClass(active)}
-            >
-              {linkLabel(key)}
-            </Link>
-          );
-        })}
-        {group.subgroups?.map((subgroup) => (
-          <details key={subgroup.labelKey} className="px-1">
-            <summary className="cursor-pointer list-none rounded-md px-3 py-2 text-[0.7rem] font-semibold tracking-wide text-gray-500 marker:content-none hover:bg-opseu-blue/5 [&::-webkit-details-marker]:hidden">
-              {subgroupLabel?.(subgroup.labelKey) ?? subgroup.labelKey}
-            </summary>
-            <div className="space-y-0.5 pb-1">
-              {subgroup.links.map(({ href, key }) => {
-                const active = linkActive(pathname, href);
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    onClick={onNavigate}
-                    aria-current={active ? "page" : undefined}
-                    className={linkClass(active)}
-                  >
-                    {linkLabel(key)}
-                  </Link>
-                );
-              })}
-            </div>
-          </details>
-        ))}
-      </div>
-    </div>
   );
 }

@@ -2,20 +2,21 @@
  * Tab-scoped flag: the visitor started the 20-minute Demo Path.
  * sessionStorage only (not Brand Kit / prefs) — try/catch for private browsing.
  */
+import { canonicalPublicPath } from "@/lib/seo/public-routes";
 
 export const WORKSHOP_DEMO_SESSION_KEY = "unionops-workshop-demo";
 export const WORKSHOP_DEMO_VISITS_KEY = "unionops-workshop-demo-visits";
 
-export const WORKSHOP_DEMO_LOGO_HREF = "/tools/logo-builder";
-export const WORKSHOP_DEMO_EXAMPLES_HREF = "/examples";
-export const WORKSHOP_DEMO_GRAPHIC_HREF = "/tools/graphic-maker";
-export const WORKSHOP_DEMO_QUOTE_HREF = "/tools/quote-card";
-export const WORKSHOP_DEMO_WEBSITE_HREF = "/tools/website-template";
+export const WORKSHOP_DEMO_LOGO_HREF = "/create/logo-builder";
+export const WORKSHOP_DEMO_EXAMPLES_HREF = "/learn/library/examples";
+export const WORKSHOP_DEMO_GRAPHIC_HREF = "/create/graphic-maker";
+export const WORKSHOP_DEMO_QUOTE_HREF = "/create/quote-card";
+export const WORKSHOP_DEMO_WEBSITE_HREF = "/create/website-template";
 
 /** Destinations that mean the visitor started the 20-minute path. */
 export const WORKSHOP_DEMO_JOIN_HREFS = [
-  "/brand-kit",
-  "/onboarding",
+  "/create/brand-kit",
+  "/start",
   WORKSHOP_DEMO_LOGO_HREF,
   WORKSHOP_DEMO_EXAMPLES_HREF,
   WORKSHOP_DEMO_GRAPHIC_HREF,
@@ -43,7 +44,9 @@ function notifyWorkshopDemoSession(): void {
 }
 
 export function isWorkshopDemoJoinHref(href: string): boolean {
-  return (WORKSHOP_DEMO_JOIN_HREFS as readonly string[]).includes(href);
+  return (WORKSHOP_DEMO_JOIN_HREFS as readonly string[]).includes(
+    canonicalPublicPath(href),
+  );
 }
 
 export function markWorkshopDemoSession(): void {
@@ -78,17 +81,13 @@ function readVisited(): string[] {
 }
 
 export function canonicalWorkshopDemoHref(pathname: string): string | null {
-  if (
-    pathname === "/onboarding" ||
-    pathname.startsWith("/onboarding/") ||
-    pathname === "/brand-kit" ||
-    pathname.startsWith("/brand-kit/")
-  ) {
+  const canonicalPath = canonicalPublicPath(pathname);
+  if (canonicalPath === "/start" || canonicalPath === "/create/brand-kit") {
     return WORKSHOP_DEMO_LOGO_HREF;
   }
   return (
     WORKSHOP_DEMO_CORE_HREFS.find(
-      (href) => pathname === href || pathname.startsWith(`${href}/`),
+      (href) => canonicalPath === href || canonicalPath.startsWith(`${href}/`),
     ) ?? null
   );
 }

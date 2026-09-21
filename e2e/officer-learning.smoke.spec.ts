@@ -52,28 +52,18 @@ test.describe("Officer Learning @smoke", () => {
     ).toHaveCount(0);
   });
 
-  test("officer learning is top-level nav, not inside Guides flyout", async ({
+  test("officer learning is discoverable in the Learn catalog", async ({
     page,
   }) => {
-    await page.goto("/en/");
-    const main = page.getByRole("navigation", {
-      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
-    });
-    await expect(
-      main.getByRole("link", { name: "Officer Learning" }),
-    ).toBeVisible();
-    await main.getByRole("button", { name: /Guides/ }).click();
-    await expect(
-      main.getByRole("menuitem", { name: "Officer Learning Center" }),
-    ).toHaveCount(0);
-    await expect(
-      main.getByRole("menuitem", {
-        name: /Seventeen self-paced modules with floor checklists/i,
-      }),
-    ).toHaveCount(0);
+    await page.goto("/en/learn/");
+    await expect(page.locator('a[href="/en/learn/officer/"]').first())
+      .toHaveAttribute("href", "/en/learn/officer/");
+    await page.getByRole("searchbox", { name: "Search" }).fill("Contract Enforcement");
+    await expect(page.locator('a[href="/en/learn/officer/contract-enforcement/"]').first())
+      .toBeVisible();
   });
 
-  test("officer learning top nav is active on module routes", async ({
+  test("Learn navigation is active on Officer Learning module routes", async ({
     page,
   }) => {
     await page.goto("/en/guide/officer-learning/contract-enforcement/");
@@ -81,7 +71,7 @@ test.describe("Officer Learning @smoke", () => {
       name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
     await expect(
-      main.getByRole("link", { name: "Officer Learning" }),
+      main.getByRole("link", { name: "Learn", exact: true }),
     ).toHaveAttribute("aria-current", "page");
   });
 

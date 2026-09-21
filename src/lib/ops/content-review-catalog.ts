@@ -1,18 +1,13 @@
 /**
  * Operator content review catalog — aggregates existing registries for /build/review.
- * Do not hand-maintain duplicate href lists; derive from PUBLIC_PATHS, nav, guides, hub.
+ * Do not hand-maintain duplicate href lists; derive from tool, guide, catalog, and Hub registries.
  */
-import { GUIDE_REGISTRY, type GuideGroupId } from "@/lib/comms/guide-registry";
-import {
-  toolGroups,
-  learnGroups,
-  flatNavLinks,
-} from "@/components/layout/nav/nav-config";
+import { GUIDE_REGISTRY } from "@/lib/comms/guide-registry";
+import { PUBLIC_CATALOG } from "@/lib/comms/public-catalog";
 import { HUB_TOOL_CATALOG } from "@/components/hub/hub-tool-catalog";
 import { HUB_TOOL_GROUPS } from "@/components/hub/hub-nav-model";
 import { MODULE_REGISTRY } from "@/lib/modules/registry";
-import { PUBLIC_PATHS } from "@/app/sitemap";
-import { TOOL_SLUGS } from "@/lib/seo/tool-meta";
+import { canonicalPublicPath } from "@/lib/seo/public-routes";
 
 export type ContentReviewTag = "pdf" | "canvas" | "hub" | "portal";
 
@@ -44,16 +39,6 @@ const GUIDE_KEY_TO_NAV: Record<string, string> = Object.fromEntries(
   ),
 );
 
-const GUIDE_GROUP_LABEL: Record<GuideGroupId, string> = {
-  commsPath: "learnGroupGuides",
-  channels: "learnGroupChannels",
-  bargaining: "learnGroupStewardTraining",
-  training: "learnGroupStewardTraining",
-  floor: "learnSubgroupFloor",
-  local: "learnSubgroupLocal",
-  workshops: "workshopsHub",
-};
-
 const SITE_SHELL_PATHS: readonly { href: string; navKey: string }[] = [
   { href: "/", navKey: "home" },
   { href: "/manifesto", navKey: "manifesto" },
@@ -64,17 +49,15 @@ const SITE_SHELL_PATHS: readonly { href: string; navKey: string }[] = [
   { href: "/security", navKey: "security" },
   { href: "/accessibility", navKey: "accessibility" },
   { href: "/feedback", navKey: "feedback" },
-  { href: "/onboarding", navKey: "getStarted" },
-  { href: "/brand-kit", navKey: "brandKit" },
-  { href: "/tools", navKey: "tools" },
-  { href: "/guides", navKey: "allGuides" },
-  { href: "/guide", navKey: "guides" },
+  { href: "/start", navKey: "start" },
+  { href: "/create", navKey: "create" },
+  { href: "/learn", navKey: "learn" },
 ];
 
 const LIBRARY_PATHS: readonly { href: string; navKey: string }[] = [
-  { href: "/examples", navKey: "socialExamples" },
-  { href: "/captions", navKey: "captions" },
-  { href: "/assets", navKey: "assets" },
+  { href: "/learn/library/examples", navKey: "socialExamples" },
+  { href: "/learn/library/captions", navKey: "captions" },
+  { href: "/learn/library/brand-assets", navKey: "assets" },
 ];
 
 const OFFICER_LEARNING_MODULES: readonly { href: string; labelKey: string }[] = [
@@ -138,42 +121,13 @@ function guideEntriesFromRegistry(): ContentReviewEntry[] {
   const seen = new Set<string>();
   const entries: ContentReviewEntry[] = [];
 
-  for (const [groupId, groupEntries] of Object.entries(GUIDE_REGISTRY) as [
-    GuideGroupId,
-    (typeof GUIDE_REGISTRY)[GuideGroupId],
-  ][]) {
-    void groupId;
+  for (const groupEntries of Object.values(GUIDE_REGISTRY)) {
     for (const entry of groupEntries) {
       if (seen.has(entry.href)) continue;
       seen.add(entry.href);
       entries.push({
-        href: entry.href,
+        href: canonicalPublicPath(entry.href),
         navKey: entry.navKey,
-      });
-    }
-  }
-
-  const extraGuidePaths = PUBLIC_PATHS.filter(
-    (p) =>
-      p.startsWith("/guide/") &&
-      p !== "/guide" &&
-      !seen.has(p) &&
-      !p.startsWith("/guide/officer-learning/"),
-  );
-  const EXTRA_GUIDE_NAV: Record<string, string> = {
-    "/guide/steward-playbooks": "stewardPlaybooksHub",
-    "/guide/membership-signup": "membershipSignupGuide",
-  };
-  for (const href of extraGuidePaths) {
-    seen.add(href);
-    const navKey = EXTRA_GUIDE_NAV[href];
-    if (navKey) {
-      entries.push({ href, navKey });
-    } else {
-      const slug = href.replace("/guide/", "");
-      entries.push({
-        href,
-        labelKey: `guideExtra_${slug.replace(/-/g, "_")}`,
       });
     }
   }
@@ -216,28 +170,17 @@ function hubEntries(): ContentReviewEntry[] {
 export function buildContentReviewCatalog(): ContentReviewSection[] {
   const guideEntries = guideEntriesFromRegistry();
 
-  const toolEntries: ContentReviewEntry[] = toolGroups.flatMap((group) =>
-    group.links.map((link) => ({
-      href: link.href,
-      navKey: link.key,
-      tags: PDF_EXPORT_SURFACES.some((p) => p.href === link.href && p.tags?.includes("canvas"))
+  const toolEntries: ContentReviewEntry[] = PUBLIC_CATALOG
+    .filter((item) => item.kind === "tool")
+    .map((item) => ({
+      href: item.canonicalPath,
+      navKey: item.titleKey,
+      tags: PDF_EXPORT_SURFACES.some(
+        (entry) => canonicalPublicPath(entry.href) === item.canonicalPath && entry.tags?.includes("canvas"),
+      )
         ? (["canvas"] as const)
         : undefined,
-    })),
-  );
-
-  const learnExtraEntries: ContentReviewEntry[] = flatNavLinks(learnGroups)
-    .filter((link) => !guideEntries.some((e) => e.href === link.href))
-    .filter((link) => !LIBRARY_PATHS.some((l) => l.href === link.href))
-    .filter((link) => link.href !== "/guide" && link.href !== "/tools")
-    .map((link) => ({ href: link.href, navKey: link.key }));
-
-  const mergedGuides = [...guideEntries];
-  for (const extra of learnExtraEntries) {
-    if (!mergedGuides.some((e) => e.href === extra.href)) {
-      mergedGuides.push(extra);
-    }
-  }
+    }));
 
   return [
     {
@@ -255,15 +198,15 @@ export function buildContentReviewCatalog(): ContentReviewSection[] {
       id: "guides",
       labelKey: "guides",
       hintKey: "guides",
-      entries: mergedGuides.sort((a, b) => a.href.localeCompare(b.href)),
+      entries: guideEntries.sort((a, b) => a.href.localeCompare(b.href)),
     },
     {
       id: "officerLearning",
       labelKey: "officerLearning",
       hintKey: "pdfText",
       entries: [
-        { href: "/guide/officer-learning", navKey: "officerLearningGuide" },
-        ...OFFICER_LEARNING_MODULES.map((m) => ({ href: m.href, labelKey: m.labelKey, tags: ["pdf"] as const })),
+        { href: "/learn/officer", navKey: "officerLearningGuide" },
+        ...OFFICER_LEARNING_MODULES.map((m) => ({ href: canonicalPublicPath(m.href), labelKey: m.labelKey, tags: ["pdf"] as const })),
       ],
     },
     {
@@ -275,7 +218,10 @@ export function buildContentReviewCatalog(): ContentReviewSection[] {
       id: "pdfExports",
       labelKey: "pdfExports",
       hintKey: "pdfText",
-      entries: PDF_EXPORT_SURFACES,
+      entries: PDF_EXPORT_SURFACES.map((entry) => ({
+        ...entry,
+        href: canonicalPublicPath(entry.href),
+      })),
     },
     {
       id: "hub",
@@ -310,11 +256,12 @@ export function allContentReviewHrefs(catalog = buildContentReviewCatalog()): st
 }
 
 /** Guide group nav label keys for subsection display (optional). */
-export { GUIDE_GROUP_LABEL, GUIDE_KEY_TO_NAV };
+export { GUIDE_KEY_TO_NAV };
 
 /** Exported for tests — public tool paths from SEO registry. */
 export function publicToolPaths(): string[] {
-  return TOOL_SLUGS.filter((slug) => slug !== "pulse-poll").map((slug) => `/tools/${slug}`);
+  return PUBLIC_CATALOG.filter((item) => item.kind === "tool" && item.authRequirement === "public")
+    .map((item) => item.canonicalPath);
 }
 
 /** Hub tool group order for display hints. */

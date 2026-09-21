@@ -63,15 +63,16 @@ describe("COPY-002 smoke-asserted copy vs messages/en.json", () => {
     ).toEqual([]);
   });
 
-  it("Home labour playbooks copy lives on toolsIndex (MISSING_MESSAGE: tools)", () => {
+  it("Home routes task choices through the shared public discovery copy", () => {
     const home = readFileSync(
       path.join(repoRoot, "src/components/pages/HomeContent.tsx"),
       "utf8",
     );
-    expect(home).toMatch(/useTranslations\("toolsIndex"\)/);
-    expect(home).not.toMatch(/useTranslations\("tools"\)/);
-    expect(en.toolsIndex.labourPlaybooksTitle).toBeTruthy();
-    expect(en.toolsIndex.labourPlaybooksIntro).toBeTruthy();
-    expect(en.toolsIndex.labourPlaybooksCta).toBeTruthy();
+    expect(home).toMatch(/useTranslations\("publicCatalog"\)/);
+    expect(home).toContain('href="/start"');
+    expect(home).not.toContain("WorkshopDemoPath");
+    expect(en.publicCatalog.startPaths.commsTitle).toBeTruthy();
+    expect(en.publicCatalog.startPaths.stewardTitle).toBeTruthy();
+    expect(en.publicCatalog.startPaths.officerTitle).toBeTruthy();
   });
 });
