@@ -6,12 +6,14 @@ import {
   requireTenantOnboardingSession,
   sessionCanCreateUnion,
 } from "@/lib/auth/tenant-session";
-import { canManageTenantOnboarding } from "@/lib/tenant/access";
+import { canManageTenantOnboarding, canManageUnionModules } from "@/lib/tenant/access";
+import { dataDbBackend } from "@/lib/db/backend";
 import { getTenantContext } from "@/lib/tenant/loader";
 import {
   createCollectionDurable,
   createLocalDurable,
   createUnionDurable,
+  setUnionDataModule,
   hydrateTenantOverlayFromPostgres,
   tenantsPostgresEnabled,
 } from "@/lib/tenant/persist";
@@ -28,6 +30,9 @@ const hubModuleSchema = z.enum([
   "informalLog",
   "checkins",
   "portal",
+  "bylaws",
+  "proposals",
+  "data",
 ]);
 
 const createLocalSchema = z.object({
@@ -58,10 +63,13 @@ const createUnionSchema = z.object({
   collectionName: z.string().min(1).max(200).optional(),
 });
 
+const setDataModuleSchema = z.object({ action: z.literal("set_data_module"), enabled: z.boolean() });
+
 const bodySchema = z.discriminatedUnion("action", [
   createLocalSchema,
   createCollectionSchema,
   createUnionSchema,
+  setDataModuleSchema,
 ]);
 
 /** Any MFA-verified hub user — powers HubContextSwitcher with overlay merges. */
@@ -86,6 +94,7 @@ export async function GET() {
   return NextResponse.json({
     context: ctx,
     canManageOnboarding: canManageTenantOnboarding(roles),
+    canManageUnionModules: canManageUnionModules(roles),
     canCreateUnion: sessionCanCreateUnion(session),
     durableTenants: tenantsPostgresEnabled(),
   });
@@ -118,6 +127,18 @@ export async function POST(req: Request) {
 
   const data = parsed.data;
   const unionId = authResult.session.user.unionId;
+
+  if (data.action === "set_data_module") {
+    const roles = (authResult.session.user.roles ?? []) as UserRole[];
+    if (!unionId || !canManageUnionModules(roles)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    if (data.enabled && dataDbBackend() !== "postgres") return NextResponse.json({ error: "Set DATA_DB_BACKEND=postgres before enabling member data." }, { status: 503 });
+    try {
+      await setUnionDataModule(unionId, data.enabled);
+      return NextResponse.json({ enabled: data.enabled });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : "Could not update this module." }, { status: 503 });
+    }
+  }
 
   if (data.action === "create_union") {
     if (!sessionCanCreateUnion(authResult.session)) {

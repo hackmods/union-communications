@@ -25,3 +25,4 @@ export * from "./officer-learning";
 export * from "./site-admin";
 export * from "./public-tool-settings";
 export * from "./hub-bylaws-proposals";
+export * from "./data-workbench";

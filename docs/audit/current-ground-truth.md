@@ -4,6 +4,8 @@
 
 **Verified DB deployment gate (2026-09-20):** [`session-knowledge-2026-09-20-verified-db-deploy.md`](session-knowledge-2026-09-20-verified-db-deploy.md) + [ADR-020](adr-020-database-deployment-contract.md) supersede the 2026-09-15/16 maintainer design. There is one authority: the append-only Drizzle journal. Boot validates it, serializes replicas, migrates with the owner URL, proves the exact schema-qualified tail, verifies generated table/column/role/RLS/policy shape, then serves; otherwise exit 1. `platform_meta`, the separate data-migration pointer, boot-commit DDL state, and health-only schema probe are retired. CapRover Method 3 + GHCR is the production contract.
 
+**UnionOps Data import/lifecycle foundation (2026-09-20):** [`session-knowledge-2026-09-20-unionops-data.md`](session-knowledge-2026-09-20-unionops-data.md) + [`docs/modules/DATA_WORKBENCH.md`](../modules/DATA_WORKBENCH.md) — local-scoped, officer-only CSV/XLSX staging and member/employment history foundation. Upload processing is synchronous, Records still exposes raw JSON, and Reports is a placeholder; the note records lessons, ranked UX gaps, and a synthetic pilot walkthrough. Do not enable real member-data imports until the listed processing, retention, and review UX gaps are closed.
+
 **Site design system uplift (2026-09-16):** [`session-knowledge-2026-09-16-design-uplift.md`](session-knowledge-2026-09-16-design-uplift.md) — public site pages now share one grammar (Card variants / Eyebrow / SectionHeading / IconChip / ButtonLink). Read `.cursor/rules/site-design-system.mdc` before editing any `src/app/[locale]/**/page.tsx`.
 
 **Historical schema lesson (2026-09-16):** [`session-knowledge-2026-09-16-db-maintain-drizzle-schema.md`](session-knowledge-2026-09-16-db-maintain-drizzle-schema.md) records why bare `__drizzle_migrations` queries fail. ADR-020 retains the lesson but replaces that runner: discover through `information_schema`, reject ambiguity, and explicitly schema-qualify all ledger access. postgres.js 3.4 requires a no-op `onnotice` callback for actual silence despite documenting `false`.
@@ -172,6 +174,6 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 - National citation URLs: edit `comms-sources.ts` only; follow `LINK-001` replace-vs-remove policy
 - Bounded PRs; EN/FR + module spec + PROGRESS + rules in same milestone
 - Grep access-helper call sites when signatures change
-- Skip VISION non-goals (dues, member lists); skip Basecamp **Campfire / hill charts** greenfield — check-ins shipped
+- UnionOps Data now opts into local-scoped operational imports and lifecycle history; it does not replace national membership or payroll systems. Dues reconciliation remains deferred. Skip Basecamp **Campfire / hill charts** greenfield — check-ins shipped
 - Route status UX: extend `RouteStatusPanel` + `routeUi` — do not invent parallel 404 chrome
 - Public workshop talk: follow Demo Path + `comms-public-ux.mdc`; Hub/Portal out of live demo; do not recreate `feat/comms-workshop-ux`

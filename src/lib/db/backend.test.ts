@@ -7,6 +7,7 @@ import {
   committeesDbBackend,
   DB_BACKEND_ENV_KEYS,
   discussionsDbBackend,
+  dataDbBackend,
   electionsDbBackend,
   expensesDbBackend,
   feedbackDbBackend,
@@ -49,6 +50,7 @@ describe("db backend flags", () => {
     expect(checkinsDbBackend({})).toBe("memory");
     expect(feedbackDbBackend({})).toBe("memory");
     expect(officerLearningDbBackend({})).toBe("memory");
+    expect(dataDbBackend({})).toBe("memory");
     expect(isMemoryCaseDataActive({})).toBe(true);
   });
 
@@ -57,6 +59,8 @@ describe("db backend flags", () => {
       grievanceDbBackend({ GRIEVANCE_DB_BACKEND: "postgres" }),
     ).toBe("memory");
     expect(timeDbBackend({ TIME_DB_BACKEND: "postgres" })).toBe("memory");
+    expect(dataDbBackend({ DATA_DB_BACKEND: "postgres" })).toBe("memory");
+    expect(dataDbBackend({ DATA_DB_BACKEND: "postgres", DATABASE_URL: "postgres://localhost/unionops" })).toBe("postgres");
     expect(
       attachmentsDbBackend({ ATTACHMENTS_DB_BACKEND: "postgres" }),
     ).toBe("memory");
@@ -472,6 +476,6 @@ describe("db backend flags", () => {
     });
     expect(flags.GRIEVANCE_DB_BACKEND).toBe("postgres");
     expect(flags.AUTH_USERS_BACKEND).toBe("postgres");
-    expect(DB_BACKEND_ENV_KEYS).toHaveLength(25);
+    expect(DB_BACKEND_ENV_KEYS).toHaveLength(26);
   });
 });

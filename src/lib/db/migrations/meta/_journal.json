@@ -281,6 +281,13 @@
       "when": 1789878000000,
       "tag": "0039_hub_bylaws_proposals",
       "breakpoints": true
+    },
+    {
+      "when": 1789954133949,
+      "breakpoints": true,
+      "tag": "0040_data_workbench",
+      "idx": 40,
+      "version": "7"
     }
   ]
 }

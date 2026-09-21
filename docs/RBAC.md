@@ -24,6 +24,10 @@ solo_account (parallel — no local required)
 | `stability_member` | Committee | — | — | R/W committee |
 | `solo_account` | User | R/W | Own cases | Own workspace |
 
+### UnionOps Data
+
+The Data workbench is local-scoped and requires MFA plus PostgreSQL. Platform, union, and division admins may manage the active local's datasets and imports; the local president may manage their own active local. Local executives, stewards, members, and Portal accounts have no Data access in the first release. Person records created from imports are data records only: they do not create login accounts, invitations, roles, or Portal access.
+
 ## Hard Rules
 
 1. **No cross-union reads** — ever, including `platform_admin` viewing content (requires audited break-glass)
