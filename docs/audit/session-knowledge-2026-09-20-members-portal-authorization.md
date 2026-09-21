@@ -148,6 +148,22 @@ This authorization and persistence pass accumulated a broad uncommitted change s
 
 This branch was based on a `main` revision where the journal ended at `0039`. While the branch was being prepared, upstream `main` added `0040_data_workbench`; this feature had independently added `0040_org_membership_authority`. Rebasing exposed the collision. Preserve the upstream migration, move the feature chain forward to `0041`–`0052`, merge both journal histories by index, and update every RLS-contract, test, schema-shape, and documentation reference. The existing disposable database evidence came from the pre-rebase chain, so it does not verify the new combined chain or its added Data Workbench tables. Before creating append-only migrations, refresh `main` and inspect its journal; rebase early, reserve unique tags, then rerun the fresh-chain DB gates in CI before calling the combined schema verified.
 
+### L36 — A successful generated contract is not a live combined-chain upgrade
+
+After rebasing over Data Workbench `0040`, run both a fresh deploy and a representative pre-tail upgrade against an isolated database using separate migration-owner and restricted runtime roles. Keep the upgrade fixture executable and assert deterministic membership/office backfills, safe committee linking, preserved grievance compatibility, rejection of cross-union links, and the runtime role’s non-owner/non-`BYPASSRLS` boundary. This follow-up passed through `0052` with 104 tables, 1,103 columns, and 98 policies; preserve it in CI and refresh the fixture when the migration tail changes.
+
+### L37 — RLS context helpers may be asynchronous even when route wrappers are not
+
+When a helper returns `Promise<RlsSessionContext>`, await and resolve it before passing its value to `withRlsContext`; do not let an un-awaited promise become the apparent actor context. The merged Data Workbench routes exposed seven such call sites during typecheck. Fix each route at the context boundary, keep the wrapper explicit, and rerun typecheck plus scoped database checks.
+
+### L38 — Explicit case assignment is a grant made by an authorized manager
+
+The grievance participant model permits a case-access manager to explicitly grant case-work access to an active same-local member, even when that member has no canonical officer assignment. Do not narrow the candidate list to officeholders unless product policy changes. Instead, require `grievances.access.manage` for assignment and qualify candidates against current union/local membership and active account state, including archive and lock status. Treat explicit participant access and default office access as separate grants in the decision explanation.
+
+### L39 — Isolate browser smokes from both the application and the dev origin
+
+Do not point Playwright at an unverified port or reuse a port owned by another workspace. For a manual smoke, start the app explicitly on a dedicated port and match the base URL host to the dev server origin; Next dev may block HMR resources when `127.0.0.1` and `localhost` are mixed. Include optional trailing slashes in route assertions, since localized app routes can normalize to a slash. A failed harness setup or overly strict URL regex is not evidence of an authorization regression; inspect the redirect, actual route, and API response before changing product code.
+
 ## Shipped in this session
 
 - Forward-only schema and RLS changes in migrations `0041`–`0052` after preserving upstream migration `0040_data_workbench`.
@@ -180,9 +196,10 @@ Use the [remaining-work plan](plan-members-portal-authorization-remaining-2026-0
 
 ## Verification update — 2026-09-21
 
-- The merged journal now has 53 entries and ends at `0052_portal_archive_access`. The generated contract includes 104 tables and 98 policies after preserving upstream Data Workbench migration `0040`; those combined migration/RLS counts are not live-verified yet. Before rebase, the feature-only database had 94 tables and 88 policies. The archive-access migration ensures archived Circles and their child content are no longer visible to members.
-- `db:portal-durability-smoke` now forces failures during Circle setup, mention/Dispatch, and imports and confirms the transaction leaves no partial rows.
-- The standalone process-restart smoke now passes after correcting its trailing-slash login predicate and adding session verification. It confirms the seeded Circle tool records, membership, member Dispatch assignment, and Sidebar message remain available after an actual Next process restart.
-- Remaining local engineering blockers are the representative `0039` upgrade fixture, complete Postgres-versus-memory adapter parity, broader API/RLS coverage, and the organization/grievance browser lifecycle flows. Cross-feature capability migration also remains.
-- Production cutover remains an external operator/data-preservation gate. The process-restart result uses a disposable database and does not authorize changing the production backend.
-- The Playwright browser run that was still in progress was stopped at the user's request. Do not report its incomplete result as passing; CI should provide fresh merge-gate evidence after the resolved rebase.
+- The merged journal has 53 entries and ends at `0052_portal_archive_access`. The combined chain is live-verified on isolated Postgres: 104 tables, 1,103 columns, 98 policies; fresh deploy, `0039`-era upgrade fixture, seed, restricted-role RLS, and Portal durability smoke pass. The process-restart smoke was rerun after build against the combined chain and preserved Circle tools, membership, Dispatch, and Sidebar messages.
+- The `db:portal-upgrade-smoke` fixture exercises membership and office backfills, same-union roster linking, cross-union rejection, normalized and unresolved committee relationships, grievance assigned-case-worker compatibility, attachment metadata, and runtime-role ownership/BYPASSRLS constraints.
+- The grievance intake UI now exposes server-authorized registered-member, privacy, and initial case-worker options when durable membership data is available. Member choices and participant validation share one query that excludes inactive, ended, future, wrong-union, archived, and locked accounts. A manager may explicitly assign any active same-local member; requiring an officer position here would conflict with the case participant model.
+- Typecheck and lint pass (one pre-existing unused-variable warning), production build passes (the existing Edge Runtime `crypto` warning remains), and the full unit suite passes 2,075 tests across 331 files with 1 skipped. A focused browser smoke passes for restricted pseudonym-only creation and its access panel. The generic full browser suite was not run to completion.
+- A `/new/` route can satisfy an overly broad grievance ID regex; require a non-`new` detail segment and assert the POST status before checking the detail UI. For manual Playwright on Next dev, use a dedicated port and consistent `localhost` origin to avoid blocked HMR resources.
+- Remaining engineering work: full adapter parity; broader API/RLS and revocation matrices; Postgres-backed membership, office, delegation, participant, update, and attachment lifecycle browser coverage; richer access explanation; and bounded cross-feature capability/admin narrowing. Production cutover is still gated on preserving runtime-only memory activity and operator approval of staging and rollback.
+- No production data was migrated and the backend remains opt-in. The isolated smoke evidence does not authorize changing a production host.

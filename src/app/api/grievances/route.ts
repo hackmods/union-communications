@@ -1,4 +1,3 @@
-import { and, eq, isNull, lte } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
@@ -7,8 +6,9 @@ import { rlsContextForActor } from "@/lib/auth/rls-scope";
 import { decideCapability } from "@/lib/authorization/model";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
-import { grievanceParticipants, localMemberships } from "@/lib/db/schema";
+import { grievanceParticipants } from "@/lib/db/schema";
 import { grievanceStore } from "@/lib/grievance/store";
+import { listActiveGrievanceLocalMembers } from "@/lib/grievance/local-members";
 import { authorizeGrievance, grievanceSummary } from "@/lib/grievance/authorization";
 import { resolveGrievanceConfig } from "@/lib/tenant/loader";
 import { getCurrentStepDueDate } from "@/lib/grievance/deadlines";
@@ -93,6 +93,9 @@ export async function POST(request: Request) {
   const assignedStewardId = assignmentAuthority && input.assignedStewardId
     ? input.assignedStewardId
     : session.user.id;
+  if (input.assignedStewardId && !assignmentAuthority) {
+    return NextResponse.json({ error: "Grievance access authority is required to assign a case worker" }, { status: 403 });
+  }
   const collectionId = input.bargainingUnitId || session.user.bargainingUnitId;
   const targetMembershipUserIds = [input.memberUserId, assignedStewardId].filter((id): id is string => Boolean(id));
   if (targetMembershipUserIds.length && !isSolo) {
@@ -102,16 +105,8 @@ export async function POST(request: Request) {
       }
     }
     if (isPostgresConfigured() && actor.source === "database") {
-      const memberRows = await withRlsContext(rls, () => getDb().select({ userId: localMemberships.userId })
-        .from(localMemberships)
-        .where(and(
-          eq(localMemberships.unionId, unionId),
-          eq(localMemberships.localId, localId),
-          eq(localMemberships.status, "active"),
-          isNull(localMemberships.endedAt),
-          lte(localMemberships.startedAt, new Date()),
-        )));
-      const activeUserIds = new Set(memberRows.map((row) => row.userId));
+      const memberRows = await listActiveGrievanceLocalMembers({ unionId, localId, rls });
+      const activeUserIds = new Set(memberRows.map((row) => row.id));
       if (targetMembershipUserIds.some((userId) => !activeUserIds.has(userId))) {
         return NextResponse.json({ error: "The selected member or case worker is not active in this local" }, { status: 400 });
       }

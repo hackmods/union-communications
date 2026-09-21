@@ -10,7 +10,8 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
   if (!access.ok) return NextResponse.json({ error: access.error }, { status: access.status });
   const { id } = await params;
   try {
-    const publication = await withRlsContext(rlsContextForSession(access.session) ?? {}, () => publishImport(access, id));
+    const rlsContext = await rlsContextForSession(access.session) ?? {};
+    const publication = await withRlsContext(rlsContext, () => publishImport(access, id));
     if (!publication) return NextResponse.json({ error: "Import not found or already published." }, { status: 404 });
     await auditLog.log({ userId: access.session.user.id, action: "data.import.publish", resourceType: "data_publication", resourceId: publication.publicationId, unionId: access.unionId, localId: access.localId, metadata: { acceptedCount: String(publication.acceptedCount), heldCount: String(publication.heldCount) } });
     return NextResponse.json({ publication }, { status: 201 });

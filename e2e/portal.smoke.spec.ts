@@ -194,10 +194,11 @@ test.describe("Local Portal smoke @smoke", () => {
       station: { circles: { name: string }[] };
     };
     expect(refreshedStation.station.circles.some((circle) => circle.name === name)).toBe(true);
-    await expect(page.getByRole("link", { name, exact: true })).toBeVisible({
+    const createdCircleLink = page.getByRole("link", { name: new RegExp(`^${name}\\s`) });
+    await expect(createdCircleLink).toBeVisible({
       timeout: 15_000,
     });
-    await page.getByRole("link", { name, exact: true }).click();
+    await createdCircleLink.click();
     await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
     await expect(page.getByRole("tab", { name: "Many hands" })).toBeVisible();
     await expect(page.getByRole("tab", { name: "One fight" })).toBeVisible();

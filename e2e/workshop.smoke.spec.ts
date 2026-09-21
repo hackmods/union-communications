@@ -77,12 +77,12 @@ test.describe("Workshop demo path E2E @smoke", () => {
     ).toHaveCount(0);
   });
 
-  test("Home Start CTA leads to the communications-first Start path", async ({ page }) => {
+  test("Home exposes the role-based guided setup separately from the main workflow", async ({ page }) => {
     await page.goto("/en/");
-    await page.getByRole("link", { name: "Choose a path" }).click();
+    await page.getByRole("link", { name: "Open guided setup" }).first().click();
     await expect(page).toHaveURL(/\/en\/start\//);
-    await expect(page.getByRole("heading", { name: /Start with the work in front of you/i })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /Choose a path/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Choose a role to see the steps/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Choose your role/i })).toBeVisible();
     await expect(page.getByTestId("start-path-comms").getByRole("link")).toHaveAttribute("href", /\/create\/brand-kit\/$/);
   });
 

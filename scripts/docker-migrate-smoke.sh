@@ -183,6 +183,67 @@ DROP TABLE IF EXISTS data_records CASCADE;
 DROP TABLE IF EXISTS data_staged_rows CASCADE;
 DROP TABLE IF EXISTS data_union_memberships CASCADE;
 
+-- Rewind the Members Portal authorization/Portal tail as well. The journal-hole
+-- fixture replays every migration after the reconciliation point; retaining
+-- these current objects would make otherwise-forward-only migrations collide
+-- with their own tables, columns, constraints, or RLS policies.
+DROP POLICY IF EXISTS grievances_case_insert ON grievances;
+DROP POLICY IF EXISTS grievances_case_update ON grievances;
+DROP POLICY IF EXISTS grievances_case_delete ON grievances;
+DROP POLICY IF EXISTS officer_roster_member_scope ON officer_roster;
+DROP POLICY IF EXISTS officer_roster_manage_insert ON officer_roster;
+DROP POLICY IF EXISTS officer_roster_manage_update ON officer_roster;
+DROP POLICY IF EXISTS officer_roster_manage_delete ON officer_roster;
+DROP POLICY IF EXISTS grievance_events_parent_isolation ON grievance_events;
+DROP POLICY IF EXISTS grievance_events_parent_write ON grievance_events;
+DROP POLICY IF EXISTS grievance_events_parent_write_update ON grievance_events;
+DROP POLICY IF EXISTS grievance_events_parent_write_delete ON grievance_events;
+DROP POLICY IF EXISTS grievance_notes_parent_isolation ON grievance_notes;
+DROP POLICY IF EXISTS grievance_notes_parent_write ON grievance_notes;
+DROP POLICY IF EXISTS grievance_notes_parent_write_update ON grievance_notes;
+DROP POLICY IF EXISTS grievance_notes_parent_write_delete ON grievance_notes;
+DROP POLICY IF EXISTS grievance_outcomes_parent_isolation ON grievance_outcomes;
+DROP POLICY IF EXISTS grievance_outcomes_parent_write ON grievance_outcomes;
+DROP POLICY IF EXISTS grievance_outcomes_parent_write_update ON grievance_outcomes;
+DROP POLICY IF EXISTS grievance_outcomes_parent_write_delete ON grievance_outcomes;
+
+DROP TABLE IF EXISTS grievance_attachment_shares CASCADE;
+DROP TABLE IF EXISTS grievance_member_updates CASCADE;
+DROP TABLE IF EXISTS grievance_participants CASCADE;
+DROP TABLE IF EXISTS break_glass_grants CASCADE;
+DROP TABLE IF EXISTS committee_memberships CASCADE;
+DROP TABLE IF EXISTS authority_delegations CASCADE;
+DROP TABLE IF EXISTS officer_assignments CASCADE;
+DROP TABLE IF EXISTS local_memberships CASCADE;
+
+DROP TABLE IF EXISTS portal_bulletin_comments CASCADE;
+DROP TABLE IF EXISTS portal_roll_call_answers CASCADE;
+DROP TABLE IF EXISTS portal_pipeline_cards CASCADE;
+DROP TABLE IF EXISTS portal_pipeline_columns CASCADE;
+DROP TABLE IF EXISTS portal_bulletin_posts CASCADE;
+DROP TABLE IF EXISTS portal_actions CASCADE;
+DROP TABLE IF EXISTS portal_calendar_events CASCADE;
+DROP TABLE IF EXISTS portal_binder_items CASCADE;
+DROP TABLE IF EXISTS portal_floor_messages CASCADE;
+DROP TABLE IF EXISTS portal_roll_call_questions CASCADE;
+DROP TABLE IF EXISTS portal_pipeline_boards CASCADE;
+DROP TABLE IF EXISTS portal_dispatch_items CASCADE;
+DROP TABLE IF EXISTS portal_momentum_items CASCADE;
+DROP TABLE IF EXISTS portal_sidebar_messages CASCADE;
+DROP TABLE IF EXISTS portal_sidebar_participants CASCADE;
+DROP TABLE IF EXISTS portal_sidebar_threads CASCADE;
+DROP TABLE IF EXISTS portal_circle_memberships CASCADE;
+DROP TABLE IF EXISTS portal_circles CASCADE;
+
+DROP INDEX IF EXISTS committees_scope_fk_uidx;
+DROP POLICY IF EXISTS audit_log_tenant_isolation ON audit_log;
+ALTER TABLE officer_roster DROP COLUMN IF EXISTS user_id;
+ALTER TABLE officer_roster DROP COLUMN IF EXISTS canonical_position;
+ALTER TABLE grievances DROP CONSTRAINT IF EXISTS grievances_privacy_mode_check;
+ALTER TABLE grievances DROP COLUMN IF EXISTS member_user_id;
+ALTER TABLE grievances DROP COLUMN IF EXISTS privacy_mode;
+ALTER TABLE audit_log DROP COLUMN IF EXISTS circle_id;
+
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS mentioned_user_ids;
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS reactions;
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS updated_at;

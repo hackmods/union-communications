@@ -10,6 +10,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   if (!access.ok) return NextResponse.json({ error: access.error }, { status: access.status });
   const { id } = await params;
   const page = parsePage(new URL(request.url).searchParams, { limit: 200, maxLimit: 500 });
-  const result = await withRlsContext(rlsContextForSession(access.session) ?? {}, () => listGenericRecords(access, id, page));
+  const rlsContext = await rlsContextForSession(access.session) ?? {};
+  const result = await withRlsContext(rlsContext, () => listGenericRecords(access, id, page));
   return result ? NextResponse.json(result) : NextResponse.json({ error: "Dataset not found." }, { status: 404 });
 }

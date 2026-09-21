@@ -131,15 +131,16 @@ Do not lose remaining design ideas — see:
 Portal APIs use an asynchronous adapter contract with memory and Postgres
 implementations. Memory remains the default; set `PORTAL_DB_BACKEND=postgres`
 alongside the restricted runtime `DATABASE_URL` to select durable storage.
-Migrations `0043`–`0050` persist Circle records, roster/preferences, tool
-content, Sidebars, Dispatch, and central audit references with RLS. A live
-smoke on the pre-rebase feature-only migration chain passed as `unionops_app`,
-including Circle/template setup, tools, imports, Sidebars, access denials,
-audit, reconnect, and process-restart persistence. The combined migration
-chain after upstream `0040_data_workbench` was preserved still needs fresh
-database CI verification. Before a cutover, preserve any activity held only by
-a running memory instance and stage/verify the operator configuration. Binder
-file bytes and virus scanning remain separate work.
+Migrations `0043`–`0052` persist Circle records, roster/preferences, tool
+content, Sidebars, Dispatch, archive access, and central audit references with
+RLS. The combined migration chain, including upstream `0040_data_workbench`,
+passed fresh deploy, a representative `0039`-era upgrade fixture, seed, and
+restricted-role RLS and Portal durability smokes on an isolated database.
+Standalone app process-restart verification passed on the earlier feature-only
+chain; repeat it on the combined chain and preserve that check in CI. Before a
+production cutover, preserve any activity held only by a running memory
+instance and stage/verify the operator configuration. Binder file bytes and
+virus scanning remain separate work.
 
 ## Related
 

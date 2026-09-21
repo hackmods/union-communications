@@ -1,5 +1,17 @@
 # Progress Log
 
+## 2026-09-21 — Public navigation clarity follow-up
+
+- [x] Restore the preferred Start, Create, Learn shell and add Brand Kit as its own direct primary-navigation destination; the UnionOps wordmark links Home. Brand Kit does not compete with Create for the active state. Officer Hub remains conditional on availability/session state.
+- [x] Replace the home-page role-card row with an explicit 01 Brand Kit → 02 Create → 03 Learn sequence, a task-specific primary action, and a separate role-based Guided setup link.
+- [x] Use plain, task-oriented English/French labels, make the responsive menu visibly say “Menu,” and keep Search/account/display/language controls separate from the primary destinations.
+- [x] Align the Data Workbench API routes with async RLS actor/context resolution from the latest `main` merge; resolve session context before entering the RLS transaction wrapper.
+- [x] Update CI regression assertions to read public destinations from the nav registry and include the current backend-flag count; complete the historical migration fixture rewind for grievance privacy objects and post-checkpoint RLS policies. Focused tests (21) and local Docker migration smoke through `0052_portal_archive_access` pass.
+- [x] Align the broad public smoke with the current Start headline and `/onboarding` → `/start?step=brand` redirect. The preceding full CI browser run had 314 passes and 3 failures: two assertions targeted retired public-page shapes; the Portal Circle persistence failure is recorded in the task-first public-site lessons for separate follow-up.
+- [x] Verify no horizontal overflow at 375 / 768 / 1280 / 1536 px and assert direct Brand Kit visibility in desktop navigation and in the labeled responsive menu at tablet width.
+- [x] Run focused navigation/catalog/copy/update tests (47 passed), typecheck, lint, and public-discovery/site-smoke browser checks (all 61 cases passed after correcting one stale breadcrumb assertion); 3 additional focused Home/header/nav browser checks passed.
+- Lesson: a discovery architecture is not successful if the most important action is hidden behind a broad category; name Brand Kit in the global navigation and explain the next steps in sequence.
+
 ## 2026-09-20 — Office document generator engine uplift
 
 - Replaced generic OOXML font patching with format-aware DOCX/DOTX and PPTX finalizers; corrected Word obfuscation and relative targets, preserved existing font tables, and emitted raw PowerPoint font parts with regular/bold relationship markup.
@@ -37,10 +49,13 @@
 - [x] Committee accounts now link through normalized `committee_memberships`; legacy officer roster IDs remain display references. The Postgres adapter validates and writes member links transactionally, and the UI selects active local members by name.
 - [x] Added the async Portal adapter contract, Postgres implementation, Portal API/Hall selector conversion, `PORTAL_DB_BACKEND` health signal, and memory-only warning behavior.
 - [x] Aligned Portal desktop/mobile browser fixtures with seeded Local 7, fixed the Circle workspace sticky-tab overlap that blocked the Many hands start button, and added organization-management page smoke coverage.
-- [x] Pre-rebase live verification against a fresh isolated Postgres database reached the then-current archive migration, seeded successfully, and passed RLS and Portal durability smoke as `unionops_app`, including cross-union, missing-local, unrelated-Circle, and nonparticipant checks plus adapter reconnect and process-restart persistence.
-- [ ] **Not complete:** production cutover still needs operator-led memory-data preservation and staged configuration. The combined post-rebase migration chain, representative legacy-upgrade fixture, cross-feature capability adoption, complete grievance/member UX, database-backed organization-management write flows, and end-to-end delegation/revocation checks remain.
-- Before rebasing, the feature migration chain had a 94-table/88-policy database shape and was live-verified through its archive-access migration. Upstream `main` had independently claimed migration `0040` for Data Workbench; this branch now preserves that migration and numbers the authorization chain `0041`–`0052`. The regenerated shape declares 104 tables and 98 policies. The combined 53-entry chain still needs fresh-database verification. The unit, typecheck, lint, build, and focused browser results listed in the implementation record predate this rebase; the full browser run was stopped at the user's request.
-- The first browser run targeted an unrelated app already on port 3000 and is discarded. Earlier browser results used a dedicated UnionOps server. The Portal management page currently has a load smoke only; organization APIs require Postgres, so full membership/office/delegation write flows still need a seeded Postgres browser fixture.
+- [x] Combined-chain verification on isolated disposable Postgres 16: 53 journal entries, migrations through `0052`, 104 tables / 1,103 columns / 98 policies; seed, restricted-runtime RLS smoke, Portal durability smoke, and representative `0039`-era upgrade fixture pass as `unionops_app`.
+- [x] Added repeatable `db:portal-upgrade-smoke` covering membership and office backfills, same-union officer links, cross-union rejection, resolved/unresolved committee links, grievance participant defaults, attachment preservation, and runtime-role boundaries.
+- [x] Grievance intake now exposes server-capability-gated registered-member, privacy, and primary case-worker options when durable membership data is available, while preserving pseudonym-only intake. The options/assignment endpoints filter active same-local, same-union accounts and reject archived or locked candidates. A focused browser test passes for restricted pseudonym intake and its access panel.
+- [x] Data Workbench RLS routes now await the resolved session context required by `withRlsContext`, restoring application typecheck after the merged schema work.
+- [x] Follow-up verification: focused grievance/auth/Portal/copy suites pass (65 tests before the scoped-member refinement; focused rerun passes 38 tests), grievance intake restricted pseudonym browser smoke passes, and the full unit suite passes 2,075 tests across 331 files (1 skipped). Typecheck passes after the shared active-member query refactor.
+- [ ] **Not complete:** production cutover still needs operator-led memory-data preservation and staged configuration. Cross-feature capability adoption, method-by-method Postgres adapter parity, broader API/RLS and revocation coverage, and full member/officer lifecycle UI/browser flows remain.
+- The first browser run targeted an unrelated app already on port 3000 and is discarded. The new focused intake smoke ran against UnionOps on a dedicated localhost port; it is not a pass for the generic full browser smoke suite. Database-backed membership/office/delegation writes still need browser lifecycle coverage.
 
 ## 2026-09-20 — Hub bylaws + bargaining proposals casework (finished)
 
