@@ -3,6 +3,7 @@ import { z } from "zod";
 import { rlsContextForSession } from "@/lib/auth/rls-scope";
 import {
   canWriteProposalsForSession,
+  loadProposalPackageScoped,
   requireProposalsSession,
 } from "@/lib/auth/proposals-session";
 import { withRlsContext } from "@/lib/db/rls-context";
@@ -37,6 +38,10 @@ export async function PATCH(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   const { id, rowId } = await params;
+  const pkg = await loadProposalPackageScoped(id, session);
+  if (!pkg) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 
   const raw = await request.json().catch(() => null);
   const parsed = parseJsonBody(patchSchema, raw);
@@ -100,6 +105,10 @@ export async function DELETE(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   const { id, rowId } = await params;
+  const pkg = await loadProposalPackageScoped(id, session);
+  if (!pkg) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 
   const rlsCtx = await rlsContextForSession(session) ?? {};
   const rows = await withRlsContext(rlsCtx, () => proposalsStore.listRows(id));
