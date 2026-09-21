@@ -22,7 +22,7 @@ const schema = z.object({
 export async function GET() {
   const access = await requireDataAccess();
   if (!access.ok) return NextResponse.json({ error: access.error }, { status: access.status });
-  const datasets = await withRlsContext(rlsContextForSession(access.session) ?? {}, () => listDatasets(access));
+  const datasets = await withRlsContext((await rlsContextForSession(access.session)) ?? {}, () => listDatasets(access));
   return NextResponse.json({ datasets });
 }
 
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
   if (!access.ok) return NextResponse.json({ error: access.error }, { status: access.status });
   const parsed = parseJsonBody(schema, await request.json().catch(() => null));
   if (!parsed.ok) return NextResponse.json({ error: "Validation failed", issues: parsed.issues }, { status: 400 });
-  const dataset = await withRlsContext(rlsContextForSession(access.session) ?? {}, () => createDataset(access, parsed.data));
+  const dataset = await withRlsContext((await rlsContextForSession(access.session)) ?? {}, () => createDataset(access, parsed.data));
   await auditLog.log({ userId: access.session.user.id, action: "data.dataset.create", resourceType: "data_dataset", resourceId: dataset.id, unionId: access.unionId, localId: access.localId });
   return NextResponse.json({ dataset }, { status: 201 });
 }

@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   const personId = new URL(request.url).searchParams.get("personId");
   if (!personId) return NextResponse.json({ error: "personId is required." }, { status: 400 });
   const page = parsePage(new URL(request.url).searchParams);
-  const data = await withRlsContext(rlsContextForSession(access.session) ?? {}, async () => {
+  const data = await withRlsContext((await rlsContextForSession(access.session)) ?? {}, async () => {
     const [chain, reports] = await Promise.all([
       getReportingChain(access, personId),
       getDirectReports(access, personId, page),

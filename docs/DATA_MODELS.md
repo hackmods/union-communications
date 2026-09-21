@@ -114,11 +114,11 @@ Carry `unionId` + `localId`; snippets and marketplace may include optional `barg
 - `localId` required for local-scoped entities; absent local context fails closed
 - Postgres actor resolution reloads current membership/office/delegation rows
 - Portal records use the async memory/Postgres adapter contract. Postgres
-  persistence and RLS are covered by migrations `0043`–`0050`; backend choice
-  remains opt-in through `PORTAL_DB_BACKEND`. The isolated live migration,
-  RLS, durability, and process-restart smokes passed on the feature-only chain
-  as the restricted application role. The post-rebase combined chain still
-  needs fresh-database CI verification; production cutover requires preserving
-  any runtime-only memory data.
+  persistence and RLS are covered by migrations `0043`–`0052`; backend choice
+  remains opt-in through `PORTAL_DB_BACKEND`. The combined chain, a
+  `0039`-era upgrade fixture, restricted-role RLS and durability smokes, and a
+  standalone process-restart smoke passed on an isolated database. Keep these
+  checks in CI; production cutover requires preserving runtime-only memory
+  data, full adapter parity, and staged operator approval.
 - OPSEU/CAAT maps to reference seed only — not schema defaults
 - Active Hub context (JWT): `localId` + `bargainingUnitId` drive list filters

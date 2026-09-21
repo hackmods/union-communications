@@ -18,7 +18,7 @@ const mimeFor = (name: string) => /\.csv$/i.test(name) ? "text/csv" : "applicati
 export async function GET() {
   const access = await requireDataAccess();
   if (!access.ok) return NextResponse.json({ error: access.error }, { status: access.status });
-  const imports = await withRlsContext(rlsContextForSession(access.session) ?? {}, () => listImports(access));
+  const imports = await withRlsContext((await rlsContextForSession(access.session)) ?? {}, () => listImports(access));
   return NextResponse.json({ imports });
 }
 
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "A file scanner must be configured before importing member data." }, { status: 503 });
   }
 
-  const ctx = rlsContextForSession(access.session) ?? {};
+  const ctx = (await rlsContextForSession(access.session)) ?? {};
   const dataset = await withRlsContext(ctx, () => getDataset(access, parsed.data.datasetId));
   if (!dataset) return NextResponse.json({ error: "Dataset not found in this local." }, { status: 404 });
   const hash = createHash("sha256").update(bytes).digest("hex");

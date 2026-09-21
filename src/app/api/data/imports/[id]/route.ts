@@ -16,7 +16,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const { id } = await params;
   const url = new URL(request.url);
   const page = parsePage(url.searchParams);
-  const result = await withRlsContext(rlsContextForSession(access.session) ?? {}, () => getImport(access, id, page));
+  const result = await withRlsContext((await rlsContextForSession(access.session)) ?? {}, () => getImport(access, id, page));
   return result ? NextResponse.json(result) : NextResponse.json({ error: "Import not found." }, { status: 404 });
 }
 
@@ -29,7 +29,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const decisions = decisionsSchema.safeParse(body);
   if (!parsed.success && !decisions.success) return NextResponse.json({ error: "Invalid import update." }, { status: 400 });
   try {
-    const result = await withRlsContext(rlsContextForSession(access.session) ?? {}, () => {
+    const result = await withRlsContext((await rlsContextForSession(access.session)) ?? {}, () => {
       if (parsed.success) return saveImportMapping(access, id, parsed.data.mapping);
       if (decisions.success) return setImportDecisions(access, id, decisions.data);
       return Promise.resolve(null);

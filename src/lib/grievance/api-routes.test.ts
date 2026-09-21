@@ -18,6 +18,7 @@ import {
   POST as createMeeting,
 } from "@/app/api/grievances/[id]/meetings/route";
 import { POST as createNote } from "@/app/api/grievances/[id]/notes/route";
+import { GET as getCreateOptions } from "@/app/api/grievances/options/route";
 import {
   GET as getOutcome,
   POST as recordOutcome,
@@ -90,6 +91,25 @@ describe("grievance communications / meetings / notes / outcome API", () => {
   afterEach(() => {
     resetGrievanceMemoryForTests();
     resetGrievanceStore();
+  });
+
+  describe("case creation options", () => {
+    it("exposes restricted privacy only to local access managers", async () => {
+      authMock.mockResolvedValue(session());
+      const authorized = await getCreateOptions();
+      expect(authorized.status).toBe(200);
+      expect(await authorized.json()).toMatchObject({
+        members: [],
+        caseWorkers: [],
+        canCreate: true,
+        canManageAccess: true,
+        allowRestricted: true,
+      });
+
+      authMock.mockResolvedValue(session({ roles: ["local_member"] }));
+      const forbidden = await getCreateOptions();
+      expect(forbidden.status).toBe(403);
+    });
   });
 
   describe("communications", () => {

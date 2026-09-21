@@ -7176,8 +7176,8 @@
         "body": "Officers can create local datasets, map CSV or Excel columns, review rows, and publish member and workplace records with their source and change history. Saved reports will build on this reviewed data."
       },
       "member-case-access-controls": {
-        "title": "Clearer privacy and access controls for grievance files",
-        "body": "Officer Hub now distinguishes standard and restricted files, assigned case teams, executive summaries, and member-safe updates. Access is checked against current local membership and office assignments, and members have a separate safe view of cases linked to them."
+        "title": "Safer grievance intake and clearer case access",
+        "body": "Officers can link a grievance to a registered member, choose an active local case worker, and mark a case restricted when needed. Access follows current local membership and office assignments, while members see only updates and files shared with them."
       },
       "hub-bylaws-proposals": {
         "title": "Bylaw drafts and bargaining proposals sync to Officer Hub",
@@ -9330,6 +9330,16 @@
     "markResolved": "Mark resolved",
     "memberPseudonym": "Member pseudonym",
     "memberPseudonymHint": "Optional - use a pseudonym instead of real name",
+    "registeredMember": "Registered member",
+    "registeredMemberHint": "Selecting a member links the case to their safe member portal view. Leave this blank for a pseudonym-only case.",
+    "pseudonymOnly": "Pseudonym only",
+    "privacyLabel": "Privacy level",
+    "standardPrivacy": "Standard",
+    "restrictedPrivacy": "Restricted",
+    "restrictedPrivacyHint": "Restricted cases are hidden from presidents, vice-presidents, and executive members unless they are assigned to the case.",
+    "primaryCaseWorker": "Primary case worker",
+    "primaryCaseWorkerHint": "Only active local members are listed. Selecting someone grants them case-work access.",
+    "assignToMe": "Assign to me",
     "category": "Category",
     "filedAt": "Date filed",
     "create": "Create grievance",
