@@ -61,8 +61,13 @@ function jsonRequest(body: unknown): Request {
   } as Request;
 }
 
-function params(id: string, extra?: Record<string, string>) {
-  return { params: Promise.resolve({ id, ...extra }) };
+function params<E extends Record<string, string> = Record<string, never>>(
+  id: string,
+  extra?: E,
+): { params: Promise<{ id: string } & E> } {
+  return {
+    params: Promise.resolve({ id, ...(extra ?? ({} as E)) } as { id: string } & E),
+  };
 }
 
 async function seedForeignGrievance() {

@@ -39,6 +39,7 @@ import {
 } from "@/app/api/proposals/[id]/publications/route";
 import { PATCH as archivePublication } from "@/app/api/proposals/publications/[id]/route";
 import { GET as listPortalPublications } from "@/app/api/portal/proposals/route";
+import { createEmptyBylawForm } from "@/lib/bylaws/build-template";
 import { memoryBylawsStore } from "./bylaws-memory-adapter";
 import { memoryProposalsStore } from "./proposals-memory-adapter";
 import { resetGovernanceStores } from "./store";
@@ -69,8 +70,13 @@ function jsonRequest(body: unknown): Request {
   } as Request;
 }
 
-function params(id: string, extra?: Record<string, string>) {
-  return { params: Promise.resolve({ id, ...extra }) };
+function params<E extends Record<string, string> = Record<string, never>>(
+  id: string,
+  extra?: E,
+): { params: Promise<{ id: string } & E> } {
+  return {
+    params: Promise.resolve({ id, ...(extra ?? ({} as E)) } as { id: string } & E),
+  };
 }
 
 const stewardSession = () =>
@@ -90,7 +96,7 @@ async function seedBylaw(input?: {
     localId: input?.localId ?? "local-7",
     title: input?.title ?? "Local 7 revision",
     mode: "template",
-    form: { localName: "Local 7" },
+    form: { ...createEmptyBylawForm(), localName: "Local 7" },
     updatedById: "user-president-7",
   });
 }
