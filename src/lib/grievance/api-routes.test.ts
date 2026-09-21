@@ -18,6 +18,7 @@ import {
   POST as createMeeting,
 } from "@/app/api/grievances/[id]/meetings/route";
 import { POST as createNote } from "@/app/api/grievances/[id]/notes/route";
+import { POST as addParticipant } from "@/app/api/grievances/[id]/participants/route";
 import { GET as getCreateOptions } from "@/app/api/grievances/options/route";
 import {
   GET as getOutcome,
@@ -253,6 +254,22 @@ describe("grievance communications / meetings / notes / outcome API", () => {
           )
         ).status,
       ).toBe(404);
+    });
+  });
+
+  describe("participant access management", () => {
+    it("does not let an assigned steward add staff to a grievance", async () => {
+      authMock.mockResolvedValue(stewardSession());
+      const response = await addParticipant(
+        jsonRequest({
+          userId: "user-member-7",
+          relationship: "observer",
+          accessLevel: "case_read",
+        }),
+        params("grev-001"),
+      );
+
+      expect(response.status).toBe(404);
     });
   });
 
