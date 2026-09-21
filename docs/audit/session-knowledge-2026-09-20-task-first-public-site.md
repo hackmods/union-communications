@@ -113,8 +113,10 @@ Observe completion, wrong turns, questions, and terminology in notes; do not int
 - Brand Kit is a distinct first task, not just a category inside Create. Give it a direct, text-labeled primary-nav destination and make the homepage spell out the order: Brand Kit → Create → Learn. Keep the logo's Home destination separate from the task flow.
 - Keep the primary destinations in `PUBLIC_PRIMARY_NAV`; tests should assert the registry and that desktop/mobile shells render it, not search the header component for hard-coded `href` strings after navigation is data-driven.
 - Full CI caught assumptions that focused catalog tests missed: when adding a backend flag, update the authoritative flag-count test; when removing flyouts, move structural tests to the new navigation registry.
+- Keep broad smoke tests aligned to the migration contract: `/start` initially shows “Choose a role to see the steps,” and `/onboarding` now permanently redirects to `/start?step=brand`; it no longer renders the old Brand Kit editor/gallery. Test the canonical behavior instead of asserting the retired page shape.
 - A migration-hole test must rewind every post-checkpoint object it plans to replay. The Docker fixture now removes grievance access/privacy objects and clears post-checkpoint RLS policies before replaying migrations 0036 onward. Validate this against the complete migration tail, not just the fresh-volume path.
 - The brand/navigation follow-up's localized/browser checks do not replace a real first-use task session. Keep the remaining EN/FR moderated usability and assistive-technology validation listed above.
+- Latest broad CI smoke also has an outstanding Portal-only failure: circle creation returns HTTP 201, but a subsequent station read does not include the new Circle. No Portal implementation was changed by this public-navigation work; investigate the Portal adapter/session boundary separately before calling that smoke suite green.
 
 ## Verification for the next UX pass
 

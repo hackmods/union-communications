@@ -177,7 +177,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
 
 test.describe("Public secondary pages smoke @smoke", () => {
   const pages: { path: string; heading: string | RegExp }[] = [
-    { path: "/en/start/", heading: "Start with the work in front of you" },
+    { path: "/en/start/", heading: "Choose a role to see the steps" },
     { path: "/en/assets/", heading: "Brand Assets" },
     { path: "/en/manifesto/", heading: /Built in solidarity/i },
     { path: "/en/updates/", heading: "What's new" },
