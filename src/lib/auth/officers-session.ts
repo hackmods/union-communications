@@ -1,16 +1,13 @@
 import { auth } from "@/auth";
 import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import type { Session } from "next-auth";
-import {
-  canAccessOfficerRoster,
-  canViewOfficerRosterEntry,
-} from "@/lib/officers/access";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
+import { decideCapability, isCrossLocalAdministrator, type AuthorizationActor } from "@/lib/authorization/model";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 import type { OfficerRosterEntry } from "@/types/officer-roster";
-import type { UserRole } from "@/types/tenant";
 
 export type OfficerRosterSessionResult =
-  | { ok: true; session: Session }
+  | { ok: true; session: Session; actor: AuthorizationActor }
   | { ok: false; status: number; error: string };
 
 export async function requireOfficerRosterSession(): Promise<OfficerRosterSessionResult> {
@@ -21,37 +18,35 @@ export async function requireOfficerRosterSession(): Promise<OfficerRosterSessio
   if (!sessionMfaOk(session)) {
     return { ok: false, status: 403, error: "MFA required" };
   }
-  const roles = (session.user.roles ?? []) as UserRole[];
-  if (!canAccessOfficerRoster(roles)) {
+  const actor = await resolveAuthorizationActor(session);
+  if (!actor.accountActive) return { ok: false, status: 401, error: "Session expired" };
+  const capability = decideCapability(actor, "officers.manage", {
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+  });
+  if (!capability.allowed) {
     return { ok: false, status: 403, error: "Forbidden" };
   }
-  return { ok: true, session };
+  return { ok: true, session, actor };
 }
 
 export function assertOfficerRosterView(
-  session: Session,
+  actor: AuthorizationActor,
   entry: OfficerRosterEntry,
 ): boolean {
-  return canViewOfficerRosterEntry(
-    entry,
-    session.user.unionId,
-    session.user.localId,
-    (session.user.roles ?? []) as UserRole[],
-  );
+  return decideCapability(actor, "officers.manage", { unionId: entry.unionId, localId: entry.localId }).allowed;
 }
 
-export function listFiltersForOfficerRosterSession(session: Session) {
-  const roles = (session.user.roles ?? []) as UserRole[];
+export function listFiltersForOfficerRosterSession(session: Session, actor: AuthorizationActor) {
   const unionId = session.user.unionId;
   if (!unionId) {
     return { unionId: "__none__", localId: undefined as string | undefined };
   }
 
-  const crossLocal = canCrossLocalGrievance(roles);
+  const crossLocal = isCrossLocalAdministrator(actor);
   return {
     unionId,
-    localId: session.user.localId,
-    ...(crossLocal && !session.user.localId ? { localId: undefined } : {}),
+    localId: localScopeFilter(session.user.localId, crossLocal),
   };
 }
 

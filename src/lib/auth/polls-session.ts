@@ -5,7 +5,8 @@ import {
   canAccessPollsModule,
   canViewPoll,
 } from "@/lib/polls/access";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 import type { PollDefinition } from "@/types/polls";
 import type { UserRole } from "@/types/tenant";
 
@@ -50,8 +51,7 @@ export function listFiltersForPollsSession(session: Session) {
   const crossLocal = canCrossLocalGrievance(roles);
   return {
     unionId,
-    localId: session.user.localId,
-    ...(crossLocal && !session.user.localId ? { localId: undefined } : {}),
+    localId: localScopeFilter(session.user.localId, crossLocal),
   };
 }
 

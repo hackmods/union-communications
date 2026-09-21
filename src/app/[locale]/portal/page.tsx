@@ -9,6 +9,6 @@ export default async function PortalStationPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { roles } = await requirePortalPage(locale);
-  return <PortalStation roles={roles} />;
+  await requirePortalPage(locale);
+  return <PortalStation />;
 }

@@ -1,6 +1,6 @@
 import type { OfficerRosterEntry } from "@/types/officer-roster";
 import type { UserRole } from "@/types/tenant";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { canInitiateHandoff } from "@/lib/handoff/package";
 
 /** President / admin gate — stricter than canManageQolContent (ORG-002). */
@@ -21,5 +21,5 @@ export function canViewOfficerRosterEntry(
   if (!unionId || entry.unionId !== unionId) return false;
   if (!canAccessOfficerRoster(roles)) return false;
   if (canCrossLocalGrievance(roles)) return true;
-  return !localId || entry.localId === localId;
+  return Boolean(localId && entry.localId === localId);
 }

@@ -3,15 +3,15 @@ import { z } from "zod";
 import { auth } from "@/auth";
 import { auditLog } from "@/lib/audit/store";
 import { createInvite, listInvitesForUnion } from "@/lib/auth/invites";
+import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
+import { decideCapability } from "@/lib/authorization/model";
 import {
   buildInviteAcceptEmail,
   emailAppBaseUrl,
 } from "@/lib/email/messages";
 import { sendTransactionalEmail } from "@/lib/email/send";
 import {
-  canInvitePresidents,
   canInviteRoles,
-  canManageInvites,
   inviteRolesForActor,
 } from "@/lib/tenant/access";
 import { getTenantContext } from "@/lib/tenant/loader";
@@ -51,12 +51,19 @@ export async function GET() {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const roles = session.user.roles ?? [];
-  if (!canManageInvites(roles)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
   if (!session.user.unionId) {
     return NextResponse.json({ error: "Missing union context" }, { status: 400 });
+  }
+  const actor = await resolveAuthorizationActor(session);
+  if (!actor.accountActive) return NextResponse.json({ error: "Session expired" }, { status: 401 });
+  const roles = actor.roles;
+  const canInvitePresident = decideCapability(actor, "tenant.configure", { unionId: session.user.unionId }).allowed;
+  const canManageLocal = Boolean(session.user.localId && decideCapability(actor, "memberships.manage", {
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+  }).allowed);
+  if (!canInvitePresident && !canManageLocal) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   await hydrateTenantOverlayFromPostgres();
@@ -65,7 +72,7 @@ export async function GET() {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
 
-  const scopeLocalId = canInvitePresidents(roles)
+  const scopeLocalId = canInvitePresident
     ? undefined
     : session.user.localId;
   const invites = await listInvitesForUnion({
@@ -96,7 +103,7 @@ export async function GET() {
       subText: local.subText,
     })),
     inviteRoles: inviteRolesForActor(roles),
-    canInvitePresident: canInvitePresidents(roles),
+    canInvitePresident,
     sessionLocalId: session.user.localId ?? null,
   });
 }
@@ -106,12 +113,20 @@ export async function POST(req: Request) {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const roles = session.user.roles ?? [];
-  if (!canManageInvites(roles)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
   if (!session.user.unionId) {
     return NextResponse.json({ error: "Missing union context" }, { status: 400 });
+  }
+  const actor = await resolveAuthorizationActor(session);
+  if (!actor.accountActive) return NextResponse.json({ error: "Session expired" }, { status: 401 });
+  const roles = actor.roles;
+  const canInvitePresident = decideCapability(actor, "tenant.configure", { unionId: session.user.unionId }).allowed;
+  const canManageLocal = Boolean(session.user.localId && decideCapability(actor, "memberships.manage", {
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+  }).allowed);
+  if (!canInvitePresident && !canManageLocal) {
+    if (!session.user.localId) return NextResponse.json({ error: "Missing local context" }, { status: 400 });
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   let body: unknown;
@@ -139,7 +154,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
 
-  const elevated = canInvitePresidents(roles);
+  const elevated = canInvitePresident;
   let localId = parsed.data.localId;
 
   if (!elevated) {

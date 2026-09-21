@@ -35,7 +35,7 @@ export async function PATCH(
     );
   }
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const ok = await withRlsContext(rlsCtx, () =>
     proposalsStore.archivePublication(id),
   );

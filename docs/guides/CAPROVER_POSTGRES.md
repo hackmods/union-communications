@@ -269,6 +269,14 @@ Invite local presidents before advertising Officer Hub nationally:
 3. Flip remaining `*_DB_BACKEND=postgres` before real grievance/time data
 4. See [`session-knowledge-2026-08-19-president-soft-launch.md`](../audit/session-knowledge-2026-08-19-president-soft-launch.md)
 
+Local Portal persistence is separately controlled by `PORTAL_DB_BACKEND`. Keep
+it on `memory` until any activity that exists only in the running memory
+adapter has been exported and a staged migration/restart/rollback check passes.
+Then set `PORTAL_DB_BACKEND=postgres` and confirm that `/api/health` reports the
+effective backend before relying on durable Circle data. The current Portal
+durability smoke has passed against an isolated database; it does not migrate
+runtime memory contents.
+
 ---
 
 ## 7. Rollback

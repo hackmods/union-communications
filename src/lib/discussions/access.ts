@@ -1,6 +1,6 @@
 import type { DiscussionThread } from "@/types/discussions";
 import type { UserRole } from "@/types/tenant";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 
 const DISCUSSIONS_ROLES: UserRole[] = [
   "platform_admin",
@@ -51,9 +51,8 @@ export function canViewDiscussionThreadBase(
     return thread.createdById === userId;
   }
 
-  if (localId && thread.localId !== localId) {
-    if (!canCrossLocalDiscussions(roles)) return false;
-  }
+  if (!localId) return false;
+  if (thread.localId !== localId && !canCrossLocalDiscussions(roles)) return false;
 
   return true;
 }

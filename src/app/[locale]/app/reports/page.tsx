@@ -3,7 +3,7 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { ReportsClient } from "@/components/hub/ReportsClient";
-import { isElevatedGrievanceRole } from "@/lib/grievance/access";
+import { isElevatedGrievanceRole } from "@/lib/authorization/legacy-role-compat";
 import type { UserRole } from "@/types/tenant";
 
 export default async function ReportsPage({

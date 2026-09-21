@@ -62,12 +62,11 @@ export function canViewTimeEntry(
   if (!unionId || entry.unionId !== unionId) return false;
 
   if (isElevatedTimeRole(roles)) return true;
-
-  if (localId && entry.localId !== localId) return false;
+  if (entry.workerId === userId) return true;
+  if (!localId || entry.localId !== localId) return false;
 
   if (canAdminTime(roles)) return true;
-
-  return entry.workerId === userId;
+  return false;
 }
 
 export function canApproveTimeEntry(
@@ -102,9 +101,10 @@ export function canViewPtoRequest(
   if (!canAccessTimeModule(roles)) return false;
   if (!unionId || req.unionId !== unionId) return false;
   if (isElevatedTimeRole(roles)) return true;
-  if (localId && req.localId !== localId) return false;
+  if (req.workerId === userId || req.requestedById === userId) return true;
+  if (!localId || req.localId !== localId) return false;
   if (canAdminTime(roles)) return true;
-  return req.workerId === userId || req.requestedById === userId;
+  return false;
 }
 
 export function canApprovePtoRequest(
@@ -144,11 +144,10 @@ export function canViewTimeShift(
   if (!canAccessTimeModule(roles)) return false;
   if (!unionId || shift.unionId !== unionId) return false;
   if (isElevatedTimeRole(roles)) return true;
-  if (localId && shift.localId !== localId) return false;
+  if (shift.assignedWorkerIds.includes(userId) && shift.status === "published") return true;
+  if (!localId || shift.localId !== localId) return false;
   if (canAdminTime(roles)) return true;
-  return (
-    shift.status === "published" && shift.assignedWorkerIds.includes(userId)
-  );
+  return false;
 }
 
 export function canMutateTimeShift(

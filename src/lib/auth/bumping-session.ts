@@ -7,6 +7,8 @@ import {
   canViewBumpingCase,
 } from "@/lib/bumping/access";
 import { getTenantContext } from "@/lib/tenant/loader";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 import type { BumpingCase } from "@/types/bumping";
 import type { UserRole } from "@/types/tenant";
 
@@ -63,8 +65,12 @@ export function assertBumpingEdit(
 }
 
 export function listFiltersForBumpingSession(session: Session) {
+  const roles = (session.user.roles ?? []) as UserRole[];
   return {
     unionId: session.user.unionId ?? "__none__",
-    localId: session.user.localId,
+    localId: localScopeFilter(
+      session.user.localId,
+      canCrossLocalGrievance(roles),
+    ),
   };
 }

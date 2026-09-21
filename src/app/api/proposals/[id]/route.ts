@@ -35,7 +35,7 @@ export async function GET(
   if (!pkg) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const [rows, events, publications] = await withRlsContext(rlsCtx, () =>
     Promise.all([
       proposalsStore.listRows(id),
@@ -84,7 +84,7 @@ export async function PATCH(
   const statusChanged =
     parsed.data.status !== undefined && parsed.data.status !== pkg.status;
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const updated = await withRlsContext(rlsCtx, () =>
     proposalsStore.updatePackage(id, {
       ...parsed.data,
@@ -141,7 +141,7 @@ export async function DELETE(
   if (!pkg) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   await withRlsContext(rlsCtx, () => proposalsStore.removePackage(id));
 
   await auditLog.log({

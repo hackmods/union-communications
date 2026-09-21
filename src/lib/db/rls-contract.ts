@@ -10,6 +10,8 @@ export interface RlsPolicyContract {
   policy: string;
   /** Migration file that ENABLE + CREATE POLICY this row */
   migration: string;
+  /** The migration creates this policy from a table array in a dynamic loop. */
+  dynamic?: boolean;
 }
 
 /** Every tenant isolation policy expected in shipped migrations. */
@@ -27,7 +29,7 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   {
     table: "audit_log",
     policy: "audit_log_tenant_isolation",
-    migration: "0002_rls_policies.sql",
+    migration: "0044_authorization_rls_hardening.sql",
   },
   {
     table: "member_communications",
@@ -77,12 +79,14 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   {
     table: "discussion_threads",
     policy: "discussion_threads_tenant_isolation",
-    migration: "0007_discussions.sql",
+    migration: "0044_authorization_rls_hardening.sql",
+    dynamic: true,
   },
   {
     table: "discussion_posts",
     policy: "discussion_posts_tenant_isolation",
-    migration: "0007_discussions.sql",
+    migration: "0044_authorization_rls_hardening.sql",
+    dynamic: true,
   },
   {
     table: "checkin_schedules",
@@ -97,12 +101,14 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   {
     table: "officer_learning_users",
     policy: "officer_learning_users_tenant_isolation",
-    migration: "0034_officer_learning.sql",
+    migration: "0044_authorization_rls_hardening.sql",
+    dynamic: true,
   },
   {
     table: "officer_learning_local_settings",
     policy: "officer_learning_local_settings_tenant_isolation",
-    migration: "0034_officer_learning.sql",
+    migration: "0044_authorization_rls_hardening.sql",
+    dynamic: true,
   },
   {
     table: "local_meeting_schedules",
@@ -112,17 +118,19 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   {
     table: "union_meetings",
     policy: "union_meetings_tenant_isolation",
-    migration: "0019_union_meetings_rsvp.sql",
+    migration: "0044_authorization_rls_hardening.sql",
+    dynamic: true,
   },
   {
     table: "rsvp_tokens",
     policy: "rsvp_tokens_tenant_isolation",
-    migration: "0019_union_meetings_rsvp.sql",
+    migration: "0044_authorization_rls_hardening.sql",
   },
   {
     table: "rsvp_responses",
     policy: "rsvp_responses_tenant_isolation",
-    migration: "0019_union_meetings_rsvp.sql",
+    migration: "0044_authorization_rls_hardening.sql",
+    dynamic: true,
   },
   {
     table: "pto_requests",
@@ -175,11 +183,6 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
     migration: "0010_informal_log.sql",
   },
   {
-    table: "officer_roster",
-    policy: "officer_roster_tenant_isolation",
-    migration: "0011_officer_roster.sql",
-  },
-  {
     table: "meeting_minutes",
     policy: "meeting_minutes_tenant_isolation",
     migration: "0012_meeting_minutes.sql",
@@ -192,7 +195,8 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   {
     table: "committees",
     policy: "committees_tenant_isolation",
-    migration: "0014_committees.sql",
+    migration: "0044_authorization_rls_hardening.sql",
+    dynamic: true,
   },
   {
     table: "election_cycles",
@@ -274,6 +278,46 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   { table: "data_assertions", policy: "data_assertions_tenant_isolation", migration: "0040_data_workbench.sql" },
   { table: "data_employment_assignments", policy: "data_employment_assignments_tenant_isolation", migration: "0040_data_workbench.sql" },
   { table: "data_union_memberships", policy: "data_union_memberships_tenant_isolation", migration: "0040_data_workbench.sql" },
+
+  ...(["grievance_events", "grievance_notes", "grievance_outcomes", "grievance_participants"] as const).map((table) => ({
+    table,
+    policy: `${table}_parent_isolation`,
+    migration: "0044_authorization_rls_hardening.sql",
+    dynamic: true,
+  })),
+  { table: "local_memberships", policy: "local_memberships_self_or_scope", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "officer_assignments", policy: "officer_assignments_self_or_scope", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "authority_delegations", policy: "authority_delegations_self_or_scope", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "committee_memberships", policy: "committee_memberships_manage_insert", migration: "0051_committee_membership_scope.sql" },
+  { table: "committee_memberships", policy: "committee_memberships_manage_update", migration: "0051_committee_membership_scope.sql" },
+  { table: "break_glass_grants", policy: "break_glass_grants_actor_read", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "officer_roster", policy: "officer_roster_member_scope", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "grievance_member_updates", policy: "grievance_member_updates_member_safe_read", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "grievance_member_updates", policy: "grievance_member_updates_case_team_read", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "grievance_attachment_shares", policy: "grievance_attachment_shares_member_safe_read", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "grievance_attachment_shares", policy: "grievance_attachment_shares_case_team_read", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "portal_circles", policy: "portal_circles_member_scope", migration: "0052_portal_archive_access.sql" },
+  { table: "portal_circle_memberships", policy: "portal_circle_memberships_member_scope", migration: "0052_portal_archive_access.sql" },
+  { table: "portal_circle_memberships", policy: "portal_circle_memberships_self_preferences_update", migration: "0052_portal_archive_access.sql" },
+  { table: "portal_circle_memberships", policy: "portal_circle_memberships_creator_insert", migration: "0052_portal_archive_access.sql" },
+  { table: "portal_circle_memberships", policy: "portal_circle_memberships_admin_update", migration: "0052_portal_archive_access.sql" },
+  { table: "portal_circle_memberships", policy: "portal_circle_memberships_admin_delete", migration: "0052_portal_archive_access.sql" },
+  ...(["portal_bulletin_posts", "portal_actions", "portal_calendar_events", "portal_binder_items", "portal_floor_messages", "portal_roll_call_questions", "portal_pipeline_boards", "portal_momentum_items"] as const).map((table) => ({
+    table,
+    policy: `${table}_circle_member`,
+    migration: "0044_authorization_rls_hardening.sql",
+    dynamic: true,
+  })),
+  { table: "portal_roll_call_answers", policy: "portal_roll_call_answers_circle_member", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "portal_bulletin_comments", policy: "portal_bulletin_comments_circle_member", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "portal_pipeline_columns", policy: "portal_pipeline_columns_circle_member", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "portal_pipeline_cards", policy: "portal_pipeline_cards_circle_member", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "portal_dispatch_items", policy: "portal_dispatch_self_member", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "portal_sidebar_threads", policy: "portal_sidebar_participant", migration: "0050_portal_sidebar_creator_returning.sql" },
+  { table: "portal_sidebar_participants", policy: "portal_sidebar_participants_participant", migration: "0044_authorization_rls_hardening.sql" },
+  { table: "portal_sidebar_participants", policy: "portal_sidebar_participants_creator_insert", migration: "0046_portal_membership_integrity.sql" },
+  { table: "portal_sidebar_messages", policy: "portal_sidebar_messages_participant_read", migration: "0045_portal_write_policy_completion.sql" },
+  { table: "portal_sidebar_messages", policy: "portal_sidebar_messages_participant_insert", migration: "0045_portal_write_policy_completion.sql" },
 ] as const;
 
 /** App role that must not own tables / must not bypass RLS. */
@@ -285,5 +329,7 @@ export const APP_ROLE_MIGRATION = "0008_app_role.sql";
 export const RLS_SESSION_VARS = [
   "app.current_union_id",
   "app.current_local_id",
+  "app.current_user_id",
   "app.current_cross_local",
+  "app.current_mfa_verified",
 ] as const;

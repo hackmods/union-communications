@@ -13,6 +13,7 @@ import { enabledModulesForSession } from "@/lib/auth/bylaws-session";
 import { rlsContextForSession } from "@/lib/auth/rls-scope";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { proposalsStore } from "@/lib/hub-governance/store";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 
 export type ProposalsSessionResult =
   | { ok: true; session: Session }
@@ -67,9 +68,7 @@ export function proposalsListScope(session: Session): {
   const crossLocal = roles.some((r) => CROSS_LOCAL_ROLES.includes(r));
   return {
     unionId: session.user.unionId ?? "__none__",
-    ...(!crossLocal && session.user.localId
-      ? { localId: session.user.localId }
-      : {}),
+    localId: localScopeFilter(session.user.localId, crossLocal),
   };
 }
 
@@ -79,10 +78,9 @@ export function proposalScopedForSession(
   pkg: HubProposalPackage,
 ): boolean {
   if (pkg.unionId !== session.user.unionId) return false;
-  if (!session.user.localId) return true;
   const roles = (session.user.roles ?? []) as UserRole[];
   if (roles.some((r) => CROSS_LOCAL_ROLES.includes(r))) return true;
-  return pkg.localId === session.user.localId;
+  return Boolean(session.user.localId && pkg.localId === session.user.localId);
 }
 
 /**
@@ -93,7 +91,7 @@ export async function loadProposalPackageScoped(
   id: string,
   session: Session,
 ): Promise<HubProposalPackage | null> {
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const pkg = await withRlsContext(rlsCtx, () =>
     proposalsStore.getPackage(id),
   );

@@ -29,7 +29,7 @@ export async function GET(
   }
   const { session } = authResult;
   const { id } = await params;
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const pkg = await withRlsContext(rlsCtx, () => proposalsStore.getPackage(id));
   if (!pkg) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -68,7 +68,7 @@ export async function POST(
     );
   }
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const pkg = await withRlsContext(rlsCtx, () => proposalsStore.getPackage(id));
   if (!pkg) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });

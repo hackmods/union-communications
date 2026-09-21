@@ -33,6 +33,7 @@ export const DB_BACKEND_ENV_KEYS = [
   "BYLAWS_DB_BACKEND",
   "PROPOSALS_DB_BACKEND",
   "DATA_DB_BACKEND",
+  "PORTAL_DB_BACKEND",
 ] as const;
 
 export type DbBackendEnvKey = (typeof DB_BACKEND_ENV_KEYS)[number];
@@ -229,6 +230,13 @@ export function dataDbBackend(
   return resolveBackend("DATA_DB_BACKEND", env);
 }
 
+/** Local Portal Circles and tools; memory remains the default until durable rollout. */
+export function portalDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("PORTAL_DB_BACKEND", env);
+}
+
 /** Durable Hub users + password-reset tokens (SEC-007). */
 export function authUsersDbBackend(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -267,6 +275,7 @@ export function readEffectiveBackendFlags(
     BYLAWS_DB_BACKEND: bylawsDbBackend(env),
     PROPOSALS_DB_BACKEND: proposalsDbBackend(env),
     DATA_DB_BACKEND: dataDbBackend(env),
+    PORTAL_DB_BACKEND: portalDbBackend(env),
   };
 }
 
@@ -281,7 +290,8 @@ export function isPostgresFlipComplete(
   return (
     !isMemoryCaseDataActive(env) &&
     auditDbBackend(env) === "postgres" &&
-    authUsersDbBackend(env) === "postgres"
+    authUsersDbBackend(env) === "postgres" &&
+    portalDbBackend(env) === "postgres"
   );
 }
 
@@ -297,6 +307,7 @@ export function isMemoryCaseDataActive(
 ): boolean {
   return (
     grievanceDbBackend(env) === "memory" ||
+    portalDbBackend(env) === "memory" ||
     bumpingDbBackend(env) === "memory" ||
     timeDbBackend(env) === "memory" ||
     attachmentsDbBackend(env) === "memory" ||

@@ -85,6 +85,13 @@ describe("invite API routes", () => {
       expect(await forbidden.json()).toEqual({ error: "Forbidden" });
     });
 
+    it("does not widen a local president's invite list when local context is missing", async () => {
+      authMock.mockResolvedValue(session({ roles: ["local_president"], localId: null }));
+      const res = await listInvites();
+      expect(res.status).toBe(403);
+      expect(await res.json()).toEqual({ error: "Forbidden" });
+    });
+
     it("returns 400 when the session has no union", async () => {
       authMock.mockResolvedValue(
         session({ unionId: null, roles: ["union_admin"] }),

@@ -4,6 +4,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { locals, unions } from "./tenant";
 
@@ -31,5 +32,6 @@ export const committees = pgTable(
   (t) => [
     index("committees_union_local_idx").on(t.unionId, t.localId),
     index("committees_name_idx").on(t.name),
+    uniqueIndex("committees_scope_fk_uidx").on(t.id, t.unionId, t.localId),
   ],
 );

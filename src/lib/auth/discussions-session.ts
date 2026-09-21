@@ -11,6 +11,7 @@ import {
   assertGrievanceView,
 } from "@/lib/auth/grievance-session";
 import { canEditBumpingCase, canViewBumpingCase } from "@/lib/bumping/access";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { grievanceStore } from "@/lib/grievance/store";
 import { bumpingStore } from "@/lib/bumping/store";
@@ -55,10 +56,10 @@ export function listFiltersForDiscussionsSession(session: Session) {
   const crossLocal = canCrossLocalDiscussions(roles);
   return {
     unionId,
-    localId: session.user.localId,
+    localId: localScopeFilter(session.user.localId, crossLocal),
     bargainingUnitId: session.user.bargainingUnitId,
     ...(crossLocal && !session.user.localId
-      ? { localId: undefined, bargainingUnitId: undefined }
+      ? { bargainingUnitId: undefined }
       : {}),
   };
 }

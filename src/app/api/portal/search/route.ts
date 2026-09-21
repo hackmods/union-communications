@@ -1,5 +1,6 @@
 import { requirePortalSession } from "@/lib/portal/portal-session";
-import { portalStore } from "@/lib/portal/memory-adapter";
+import { getPortalAdapter } from "@/lib/portal/adapter";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
 import { portalJson } from "@/lib/portal/portal-json";
 
 export async function GET(request: Request) {
@@ -10,9 +11,10 @@ export async function GET(request: Request) {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
+  const { session, actor } = authResult;
   const q = new URL(request.url).searchParams.get("q") ?? "";
-  const hits = portalStore.search(
+  const portal = await getPortalAdapter(rlsContextForActor(session, actor));
+  const hits = await portal.search(
     session.user.unionId!,
     session.user.id,
     q,

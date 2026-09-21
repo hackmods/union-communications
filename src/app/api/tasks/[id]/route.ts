@@ -26,7 +26,7 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   const { session } = authResult;
-  const rls = rlsContextForSession(session) ?? {};
+  const rls = await rlsContextForSession(session) ?? {};
   const { id } = await context.params;
   const task = await withRlsContext(rls, () => taskStore.getById(id));
   if (!task) {
@@ -49,7 +49,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const { session } = authResult;
-  const rls = rlsContextForSession(session) ?? {};
+  const rls = await rlsContextForSession(session) ?? {};
   const { id } = await context.params;
   const existing = await withRlsContext(rls, () => taskStore.getById(id));
   if (!existing) {
@@ -138,7 +138,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
   }
 
   const { session } = authResult;
-  const rls = rlsContextForSession(session) ?? {};
+  const rls = await rlsContextForSession(session) ?? {};
   const { id } = await context.params;
   const existing = await withRlsContext(rls, () => taskStore.getById(id));
   if (!existing) {

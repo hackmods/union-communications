@@ -30,7 +30,7 @@ export async function GET() {
   }
   const { session } = authResult;
   const scope = bylawsListScope(session);
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const drafts = await withRlsContext(rlsCtx, () =>
     bylawsStore.list(scope.unionId, scope.localId),
   );
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const draft = await withRlsContext(rlsCtx, () =>
     bylawsStore.create({
       unionId: session.user.unionId!,

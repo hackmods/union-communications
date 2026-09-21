@@ -22,6 +22,8 @@ export const grievanceEventTypeSchema = z.enum([
 export const createGrievanceSchema = z
   .object({
     memberPseudonym: z.string().max(200).optional(),
+    memberUserId: z.string().min(1).optional(),
+    privacyMode: z.enum(["standard", "restricted"]).optional(),
     category: z.string().min(1).max(200),
     filedAt: isoDateTimeSchema,
     assignedStewardId: z.string().min(1).optional(),
@@ -35,6 +37,7 @@ export const updateGrievanceSchema = z
     status: grievanceStatusSchema,
     currentStep: z.number().int().min(1).max(10),
     memberPseudonym: z.string().max(200),
+    privacyMode: z.enum(["standard", "restricted"]),
     category: z.string().min(1).max(200),
     assignedStewardId: z.string().min(1),
     bargainingUnitId: z.string().min(1).nullable(),

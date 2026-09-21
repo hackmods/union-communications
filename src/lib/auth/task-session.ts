@@ -13,6 +13,7 @@ import {
 import { getTenantContext } from "@/lib/tenant/loader";
 import type { Task } from "@/types/task";
 import type { UserRole } from "@/types/tenant";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 
 export type TaskSessionResult =
   | { ok: true; session: Session }
@@ -102,10 +103,10 @@ export function listFiltersForTaskSession(session: Session) {
   const crossLocal = canCrossLocalTasks(roles);
   return {
     unionId,
-    localId: session.user.localId,
+    localId: localScopeFilter(session.user.localId, crossLocal),
     bargainingUnitId: session.user.bargainingUnitId,
     ...(crossLocal && !session.user.localId
-      ? { localId: undefined, bargainingUnitId: undefined }
+      ? { bargainingUnitId: undefined }
       : {}),
   };
 }

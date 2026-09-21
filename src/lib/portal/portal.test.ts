@@ -114,6 +114,12 @@ describe("portalStore", () => {
       createdByName: "President",
     });
     expect(portalStore.archiveCircle(created.id, "union-b7p")).toBe(true);
+    expect(portalStore.getCircleDetail("union-b7p", "user-president-7", created.id)).toBeNull();
+    expect(portalStore.inviteToRoster({
+      circleId: created.id,
+      userId: "user-member-7",
+      userName: "Local 7 Member",
+    })).toBeNull();
     const oversight = portalStore.oversight("circle-lec-7", "union-b7p");
     expect(oversight.openCount).toBeGreaterThanOrEqual(0);
     expect(Array.isArray(oversight.overdue)).toBe(true);

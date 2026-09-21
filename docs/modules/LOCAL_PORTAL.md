@@ -128,7 +128,18 @@ Do not lose remaining design ideas — see:
 
 ## Persistence
 
-Memory adapter until Postgres + RLS (`unionId` / `localId` / `circleId`). Binder production path needs object storage + virus scan (Phase 7).
+Portal APIs use an asynchronous adapter contract with memory and Postgres
+implementations. Memory remains the default; set `PORTAL_DB_BACKEND=postgres`
+alongside the restricted runtime `DATABASE_URL` to select durable storage.
+Migrations `0043`–`0050` persist Circle records, roster/preferences, tool
+content, Sidebars, Dispatch, and central audit references with RLS. A live
+smoke on the pre-rebase feature-only migration chain passed as `unionops_app`,
+including Circle/template setup, tools, imports, Sidebars, access denials,
+audit, reconnect, and process-restart persistence. The combined migration
+chain after upstream `0040_data_workbench` was preserved still needs fresh
+database CI verification. Before a cutover, preserve any activity held only by
+a running memory instance and stage/verify the operator configuration. Binder
+file bytes and virus scanning remain separate work.
 
 ## Related
 

@@ -92,12 +92,12 @@ export async function loadAuthAccountById(
   if (usersBackendEnabled(env)) {
     const db = getDb();
     const rows = await db
-      .select()
+    .select()
       .from(users)
       .where(eq(users.id, userId))
       .limit(1);
     const row = rows[0];
-    if (row) {
+    if (row && !row.archivedAt && !row.lockedAt) {
       return {
         id: row.id,
         email: row.email,
@@ -109,6 +109,7 @@ export async function loadAuthAccountById(
         accessibleLocalIds: row.accessibleLocalIds ?? undefined,
         roles: row.roles as UserRole[],
         requiresMfa: row.mfaEnabled || Boolean(row.totpSecret),
+        sessionVersion: row.sessionVersion,
         totpSecret: row.totpSecret,
       };
     }

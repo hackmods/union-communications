@@ -1,5 +1,6 @@
 import { requirePortalSession } from "@/lib/portal/portal-session";
-import { portalStore } from "@/lib/portal/memory-adapter";
+import { getPortalAdapter } from "@/lib/portal/adapter";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
 import { portalJson } from "@/lib/portal/portal-json";
 
 export async function GET() {
@@ -10,8 +11,9 @@ export async function GET() {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
-  const fronts = portalStore.listFronts(
+  const { session, actor } = authResult;
+  const portal = await getPortalAdapter(rlsContextForActor(session, actor));
+  const fronts = await portal.listFronts(
     session.user.unionId!,
     session.user.id,
   );

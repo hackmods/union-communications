@@ -1,26 +1,25 @@
 # RBAC & Tenancy
 
-## Role Hierarchy
+## Roles and scoped relationships
 
-```
-platform_admin
-  └── union_admin
-        └── division_admin (optional)
-              └── local_president
-                    └── local_exec / local_steward / stability_member
-solo_account (parallel — no local required)
-```
+Account roles are not an authority hierarchy. Effective authority is resolved
+from the active account and union, active local memberships, term-bounded
+officer assignments, scoped delegations, resource ownership/participation, and
+the feature's policy. `accessibleLocalIds` remains a context-switch hint; it is
+not a membership or permission grant.
 
 ## Permissions Matrix
 
 | Role | Scope | Comms | Grievance | Bumping |
 |------|-------|-------|-----------|---------|
-| `platform_admin` | Platform | R/W audit | R/W audit | R/W audit |
-| `union_admin` | Union | R/W templates | Configure divisions | Enable modules |
-| `division_admin` | Division | R/W templates | Configure locals | Configure committee |
-| `local_president` | Local | R/W brand | Full local | Full local |
-| `local_steward` | Local | R | Assigned R/W | Read committee |
-| `local_exec` | Local | R/W | Read summary | Read |
+| `platform_admin` | Platform operations | R/W audit | Operational metadata; exact-case audited break-glass | Feature-specific admin |
+| `union_admin` | Union configuration | R/W templates | Aggregate metadata/configuration | Feature-specific admin |
+| `division_admin` | Division configuration | R/W templates | Aggregate metadata/configuration | Feature-specific admin |
+| `local_president` | Active local assignment | R/W brand | Standard local cases; restricted cases by assignment | Local authority |
+| `vice_president` | Active local assignment | R/W brand | Same normal local authority as president | Local authority |
+| `grievance_officer` | Active local assignment | — | Full local casework, including restricted files | — |
+| `local_steward` | Active local assignment or case assignment | R | Assigned R/W | Read committee |
+| `local_exec` | Active local assignment | R/W | Non-identifying summary; restricted cases by assignment | Read |
 | `stability_member` | Committee | — | — | R/W committee |
 | `solo_account` | User | R/W | Own cases | Own workspace |
 
@@ -31,10 +30,10 @@ The Data workbench is local-scoped and requires MFA plus PostgreSQL. Platform, u
 ## Hard Rules
 
 1. **No cross-union reads** — ever, including `platform_admin` viewing content (requires audited break-glass)
-2. **Cross-local reads** — only `union_admin`, `division_admin`, and `platform_admin` may read other locals without switching. `local_president` / `local_exec` stay pinned to **active** `session.localId` (Hub context switcher). Stewards stay on their local + optional collection.
+2. **Cross-local access** — administrative roles receive only the configuration or aggregate capabilities documented by each feature. They do not inherit confidential case content access from rank. Local roles require an active local membership and scoped office assignment. Missing local context denies local-scoped access.
 3. **Collection filter** — optional `bargainingUnitId` on session filters lists (grievances, snippets). Missing collection on a row still matches when filtering.
-4. **Grievance assignment** — stewards see and edit only assigned cases unless elevated; they may create new cases (assigned to themselves)
-5. **Module visibility** — College Bumping only when `modules.bumping = true` in union/division config
+4. **Grievance access** — the involved member gets a member-safe projection; case workers and explicit participants get only their assigned access level; grievance officers have local casework access; presidents and vice-presidents have standard local case access; executives get a non-identifying summary. Restricted cases suppress leadership/executive defaults.
+5. **Module visibility** — a feature must be enabled for the tenant; College Bumping requires `modules.bumping = true`. Durable Officer Hub casework requires configured MFA.
 6. **Server-side enforcement** on every route; UI hiding is secondary
 7. **MFA required** for grievance and bumping modules (Phase 2+)
 8. **Site feedback inbox** is operator product mail (`platform_admin` only). It is not tenant content and is not a cross-union read. Any signed-in Hub or Portal user may *send* home; they cannot list other people’s notes.
@@ -47,7 +46,9 @@ JWT / session may carry:
 - `bargainingUnitId` — active Collection (FT/PT)
 - `accessibleLocalIds` — locals the user may switch into
 
-Clearing `localId` for cross-local admins means “all locals in union.”
+Clearing `localId` means there is no active local context. Local-scoped features
+deny access until a valid local is selected; administrative capabilities that
+cross locals must be checked separately by each feature.
 
 ## Solo Accounts
 
@@ -59,9 +60,9 @@ Small one-off accounts for individual stewards without full local setup:
 
 ## Invitation Flow (Phase 6 onboarding)
 
-1. `platform_admin` (or `union_admin`) creates or finds a local, then invites `local_president` by email
-2. Local president confirms the local, opens Hall, and invites stewards, exec, and `local_member` (Portal)
-3. Users accept → role assigned → MFA setup for confidential Hub modules
+1. An authorized administrator creates or finds a local and invites a user.
+2. Invite acceptance creates a local membership; office authority is represented by a separate canonical assignment.
+3. Confidential Hub access requires MFA. Revoking a membership or office invalidates the user's session version.
 
 Hub stays invite-only. There is no public `/app/register`.
 
@@ -75,11 +76,13 @@ Immutable log on every grievance/bumping access; query UI at `/app/audit` for el
 
 No deletes. Retained per `docs/COMPLIANCE.md` retention policy.
 
-## Site Admin / Platform Operator (cross-tenant break-glass)
+## Site Admin / Platform Operator (operational access and break-glass)
 
-The `/app/site-admin/*` surface is the canonical example of a **cross-tenant
-read** for `platform_admin`. The Hard Rules above treat site-admin's
-business actions as a typed exception: every action takes an explicit
+The `/app/site-admin/*` surface manages platform operations; that role does
+not grant grievance content access. Grievance break-glass is separate: an
+MFA-verified platform administrator must name one exact grievance, provide a
+reason, and receives a 30-minute audited grant. It does not allow search or
+grievance list access. Other site-admin actions take an explicit
 `requireSiteAdminSession()` gate AND emits an `audit_log` entry with:
 
 - `resourceType: "site_admin"`
@@ -92,7 +95,7 @@ business actions as a typed exception: every action takes an explicit
 - `userId`: the operator's account id (`platform_admin` role, not the
   target — that's `metadata.targetEmail` etc.)
 
-The surface is **strictly role-gated to `platform_admin` + MFA**. There
+The site-admin surface is **strictly role-gated to `platform_admin` + MFA**. There
 is no `union_admin` / `local_president` fallback: even if the same data
 is reachable through a tenant-scoped page, the site-admin route returns
 403 for non-platform-admin roles. The RBAC contract is the same as any

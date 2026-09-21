@@ -7122,6 +7122,10 @@
         "title": "Réviser les imports de données syndicales dans le Hub des dirigeants",
         "body": "Les dirigeants peuvent créer des jeux de données locaux, associer les colonnes CSV ou Excel, réviser les lignes et publier les dossiers des membres et des lieux de travail avec leurs sources et leur historique. Les rapports enregistrés s’appuieront sur ces données révisées."
       },
+      "member-case-access-controls": {
+        "title": "Contrôles plus clairs pour la confidentialité et l’accès aux griefs",
+        "body": "Le Hub des dirigeants distingue maintenant les dossiers standards et restreints, les équipes assignées, les résumés pour le comité exécutif et les nouvelles destinées aux membres. L’accès tient compte de l’adhésion locale et des fonctions en vigueur. Les membres disposent d’une vue distincte et sécurisée des dossiers qui les concernent."
+      },
       "hub-bylaws-proposals": {
         "title": "Les brouillons de règlements et les propositions se synchronisent avec le Hub des dirigeants",
         "body": "Les dirigeants qui ont accès aux modules Règlements locaux et Propositions de négociation peuvent pousser les brouillons de ces outils vers le Hub des dirigeants. Suivez le statut des règlements en comité et à l'AGM, travaillez les lignes de propositions avec une note de caucus et une ligne de temps d'activité, puis publiez un aperçu sécurisé pour les membres sur le Portail local."
@@ -8600,7 +8604,7 @@
   "committees": {
     "title": "Comités",
     "subtitle": "Registre des comités internes — Santé et sécurité, Social, Équité et autres groupes locaux.",
-    "disclaimer": "Les identifiants de membres renvoient à la liste des dirigeants. Les motions de réunion appartiennent aux procès-verbaux.",
+    "disclaimer": "Le registre indique qui siège à chaque comité local. Les motions de réunion appartiennent aux procès-verbaux.",
     "jointCommitteeHint": "Cette page est limitée à cette section — Santé et sécurité, Social et autres groupes permanents. Une table conjointe syndicat-employeur avec des gens de plus d'une section est un autre travail.",
     "jointCommitteeLink": "Guide des comités conjoints",
     "loading": "Chargement des comités…",
@@ -8620,8 +8624,13 @@
     "empty": "Aucun comité pour cette section. Ajoutez-en un lorsque vous formez un comité permanent.",
     "colName": "Nom",
     "colDescription": "Description",
-    "colMembers": "Identifiants des dirigeants membres",
-    "membersHint": "Identifiants séparés par des virgules (p. ex. off-001, off-002)",
+    "colMembers": "Membres de la section locale",
+    "membersHint": "Identifiants de la liste des dirigeants séparés par des virgules (p. ex. off-001, off-002)",
+    "membersSelectHint": "Choisissez les membres actifs de cette section locale. Seuls les comptes sélectionnés sont liés au comité.",
+    "noEligibleMembers": "Aucun membre actif de la section locale n'est disponible.",
+    "inactiveMember": "adhésion inactive",
+    "legacyMemberIds": "Anciennes références à la liste des dirigeants",
+    "legacyMemberHint": "Références d'affichage facultatives aux anciennes fiches de dirigeants. Elles ne donnent aucun accès au compte.",
     "noMembers": "Aucun membre assigné",
     "memberCount": "{count, plural, one {# membre} other {# membres}}"
   },
@@ -9190,6 +9199,66 @@
     "due": "Échéance {date}",
     "backToList": "Retour à la liste",
     "notFound": "Grief introuvable",
+    "access": {
+      "member_safe": "Vue réservée au membre",
+      "summary": "Accès au résumé",
+      "case_read": "Lecture du dossier",
+      "case_write": "Traitement du dossier",
+      "reason": {
+        "explicit_participant": "Vous avez été ajouté explicitement au dossier",
+        "assigned_case_worker": "Vous êtes responsable du dossier",
+        "grievance_officer": "Autorisé par votre poste de responsable des griefs",
+        "local_leadership": "Autorisé par votre poste de présidence ou vice-présidence",
+        "executive_summary": "Autorisé par votre poste à l’exécutif",
+        "active_delegation": "Autorisé par une délégation active",
+        "break_glass": "Accès d’urgence temporaire consigné",
+        "involved_member": "Ce grief vous concerne"
+      }
+    },
+    "accessPanel": {
+      "title": "Accès et confidentialité",
+      "standardHint": "Dans un dossier standard, la personne responsable des griefs et la présidence ou vice-présidence de la section ont un accès par défaut. L’exécutif reçoit un résumé. Les personnes assignées au dossier ont le niveau indiqué ici.",
+      "restrictedHint": "Les dossiers restreints sont masqués par défaut à la présidence, à la vice-présidence et à l’exécutif. La personne responsable des griefs et les personnes explicitement assignées conservent uniquement leur accès attribué.",
+      "participants": "Personnes explicitement assignées",
+      "noParticipants": "Aucune autre personne n’est assignée.",
+      "privacyLabel": "Niveau de confidentialité",
+      "standard": "Standard",
+      "restricted": "Restreint",
+      "savePrivacy": "Enregistrer le niveau",
+      "personLabel": "Ajouter un membre de la section",
+      "choosePerson": "Choisir un membre",
+      "relationshipLabel": "Lien avec le dossier",
+      "levelLabel": "Niveau d’accès",
+      "addParticipant": "Ajouter la personne",
+      "remove": "Retirer l’accès",
+      "shareAttachment": "Partager avec le membre",
+      "unshareAttachment": "Retirer l’accès du membre",
+      "sharedBadge": "Partagé dans le portail membre",
+      "durableStorageRequired": "L’accès des personnes assignées, les nouvelles aux membres et le partage de fichiers nécessitent une base de données durable. Le niveau de confidentialité reste modifiable dans cette démo.",
+      "saveError": "Impossible d’enregistrer ce changement d’accès.",
+      "relationship": {
+        "member": "Membre concerné",
+        "case_worker": "Responsable du dossier",
+        "representative": "Représentant",
+        "observer": "Observateur"
+      },
+      "level": {
+        "member_safe": "Vue réservée au membre",
+        "summary": "Résumé seulement",
+        "case_read": "Lire le contenu du dossier",
+        "case_write": "Traiter le dossier"
+      }
+    },
+    "memberUpdates": {
+      "title": "Nouvelles destinées au membre",
+      "hint": "Seuls le texte publié ici et les fichiers explicitement partagés apparaissent dans le portail membre. Gardez la stratégie interne et les conditions de règlement à l’écart.",
+      "empty": "Aucune nouvelle n’a été publiée pour le membre.",
+      "composeLabel": "Nouvelle pour le membre concerné",
+      "publish": "Publier la nouvelle",
+      "withdraw": "Retirer la nouvelle",
+      "saveError": "Impossible d’enregistrer la nouvelle destinée au membre.",
+      "durableStorageRequired": "Les nouvelles destinées aux membres nécessitent une base de données durable."
+    },
     "currentStep": "Étape actuelle",
     "stepChecklist": "Liste des étapes de la convention",
     "timeline": "Chronologie",
@@ -9798,9 +9867,10 @@
     "circlesMenu": "Cercles",
     "circlesEmpty": "Aucun Cercle pour l’instant. Ouvrez Ensemble pour en rejoindre ou en créer un.",
     "memoryBannerLabel": "Données de session",
-    "memoryBannerBody": "Les publications et Actions de ce Portail durent seulement jusqu’au redémarrage du serveur. Demandez à la personne qui gère ce site d’activer le stockage durable avant de vous y fier.",
+    "memoryBannerBody": "Les Cercles du Portail et leur contenu durent seulement jusqu’au redémarrage du serveur. Demandez à la personne qui gère ce site d’activer le stockage durable avant de vous y fier.",
     "dispatchLink": "Relais",
     "proposalsLink": "Propositions",
+    "myCasesLink": "Mes griefs",
     "dispatchTitle": "Relais",
     "dispatchSubtitle": "Assignations, babillards et avis d’échéance. Les Cercles en sourdine restent calmes.",
     "dispatchEmpty": "Rien dans le Relais. Les Cercles en sourdine restent calmes — ouvrez un Cercle depuis Ensemble si vous attendiez un avis.",
@@ -9989,7 +10059,120 @@
     "importPlaceholder": "type,title,body\nbulletin,Bienvenue,Bonjour Salle\naction,Réserver la salle,",
     "importSubmit": "Importer les lignes",
     "eventExternalUrl": "Lien RSVP / réunion (optionnel)",
-    "rsvpLink": "Ouvrir le RSVP"
+    "rsvpLink": "Ouvrir le RSVP",
+    "myCases": {
+      "title": "Mes griefs",
+      "intro": "Consultez les nouvelles que votre syndicat a choisi de partager au sujet des griefs qui vous concernent.",
+      "loading": "Chargement de vos griefs…",
+      "error": "Impossible de charger vos griefs. Réessayez plus tard.",
+      "empty": "Aucun grief n’est disponible dans votre portail membre.",
+      "filed": "Déposé le {date}",
+      "step": "Étape actuelle : {step}",
+      "due": "Prochaine date : {date}",
+      "updatesHeading": "Nouvelles partagées avec vous",
+      "noUpdates": "Aucune nouvelle n’a encore été partagée.",
+      "attachment": "Fichier partagé {number}",
+      "status": {
+        "open": "Ouvert",
+        "in_progress": "En cours",
+        "escalated": "Porté à l’étape suivante",
+        "resolved": "Réglé",
+        "withdrawn": "Retiré"
+      }
+    }
+  },
+  "organization": {
+    "manageTitle": "Gérer les responsabilités",
+    "manageHint": "Gérez les adhésions, les postes et les délégations de votre section.",
+    "manageLink": "Ouvrir la gestion de l’organisation",
+    "yourAccessTitle": "Vos accès dans cette section",
+    "yourAccessHint": "Ces capacités découlent de vos liens actifs avec la section et de vos postes actuels.",
+    "effectiveOffices": "Postes actifs",
+    "effectiveCapabilities": "Capacités disponibles",
+    "none": "Aucune",
+    "eyebrow": "Administration locale",
+    "title": "Adhésion et autorité",
+    "intro": "Gérez les personnes membres de cette section, leurs postes et la durée des responsabilités déléguées. Les changements prennent effet immédiatement.",
+    "loading": "Chargement des dossiers de l’organisation…",
+    "loadError": "Impossible de charger les dossiers de l’organisation.",
+    "saveError": "Impossible d’enregistrer ce changement.",
+    "saved": "Changement enregistré.",
+    "membersTitle": "Adhésions à la section",
+    "membersHint": "Seules les personnes ayant une adhésion active à cette section peuvent recevoir un poste ou une délégation locale.",
+    "addMemberLabel": "Ajouter un compte syndical existant",
+    "chooseMember": "Choisir une personne",
+    "addMember": "Ajouter l’adhésion",
+    "person": "Personne",
+    "statusLabel": "Adhésion",
+    "accountStatus": "Compte",
+    "account": {
+      "active": "Actif",
+      "locked": "Verrouillé",
+      "archived": "Archivé"
+    },
+    "primaryLocal": "Section principale",
+    "actions": "Actions",
+    "active": "Active",
+    "inactive": "Terminée",
+    "yes": "Oui",
+    "no": "Non",
+    "endMembership": "Terminer l’adhésion",
+    "setPrimary": "Définir comme principale",
+    "officesTitle": "Postes de dirigeance",
+    "officesHint": "Une entrée d’effectif à titre indicatif ne donne aucun accès au compte. Associez l’autorité à un compte membre actif ici.",
+    "officeLabel": "Poste",
+    "officeStartsLabel": "Début du mandat",
+    "officeEndsLabel": "Fin du mandat",
+    "assignOffice": "Attribuer le poste",
+    "rosterLinkLabel": "Lier une entrée d’effectif (facultatif)",
+    "noRosterLink": "Aucune entrée d’effectif",
+    "rosterLinkHint": "Les entrées indicatives ne donnent aucun accès. Liez une entrée pour l’associer à ce compte et au poste attribué.",
+    "noRosterEntries": "Aucune ancienne entrée d’effectif à lier.",
+    "linked": "Liée au compte",
+    "displayOnly": "Indicative seulement",
+    "linkedRoster": "Entrée d’effectif",
+    "noEndDate": "Aucune date de fin",
+    "revoke": "Révoquer",
+    "noOffices": "Aucun poste actif.",
+    "delegationsTitle": "Autorité déléguée",
+    "delegationsHint": "Les délégations sont limitées à une section, doivent prendre fin dans les 90 jours et ne peuvent pas outrepasser l’accès restreint aux griefs.",
+    "delegateLabel": "Déléguer à",
+    "capabilityLabel": "Responsabilité",
+    "startsLabel": "Début",
+    "expiresLabel": "Expiration",
+    "reasonLabel": "Motif",
+    "createDelegation": "Créer la délégation",
+    "noDelegations": "Aucune délégation active.",
+    "position": {
+      "president": "Présidence",
+      "vice_president": "Vice-présidence",
+      "grievance_officer": "Responsable des griefs",
+      "steward": "Délégué syndical",
+      "executive_member": "Membre de l’exécutif"
+    },
+    "capability": {
+      "memberships": { "manage": "Gérer les adhésions locales" },
+      "officers": { "manage": "Gérer les postes de dirigeance" },
+      "delegations": { "manage": "Gérer l’autorité déléguée" },
+      "circles": { "create": "Créer des Cercles", "admin": "Administrer les Cercles assignés" },
+      "grievances": {
+        "case": {
+          "read": "Lire les dossiers de grief",
+          "write": "Traiter les griefs assignés"
+        },
+        "member_updates": {
+          "publish": "Publier des nouvelles aux membres"
+        }
+      },
+      "tenant": { "configure": "Configurer l’espace du syndicat" }
+    },
+    "accessReason": {
+      "administrative_role": "Administration syndicale",
+      "active_officer_assignment": "Autorisé par le poste",
+      "active_delegation": "Responsabilité déléguée",
+      "capability_not_granted": "Aucune autorisation active",
+      "active_local_membership_required": "Adhésion active à la section requise"
+    }
   },
   "captions": {
     "title": "Bibliothèque de légendes et de mot-clics",
