@@ -13,7 +13,7 @@
 - [x] Added the localized Start chooser with three browser-saved guided checklists, responsive Create catalog with explicit deliverable/privacy disclosures, and searchable Learn catalog with task collections, removable URL-backed filters, accent-insensitive bilingual aliases, registry-derived breadcrumbs, and curated next steps.
 - [x] Centralized public items, visibility rules, legacy route redirects, canonical metadata, and sitemap paths; kept Hub, Portal, APIs, and editors on their existing implementations.
 - [x] Simplified Home to the value proposition, one Start action, product preview, and three task paths. Added a dated What's New note in English and French.
-- [x] Added registry, query-state, path-progress, route, SEO, breadcrumb, and keyboard-navigation coverage. Verified production build, typecheck, lint (one existing warning in `demo-purge.ts`), 2,017 unit tests (one skipped), and 24 focused production browser checks across the discovery refactor and UX follow-up.
+- [x] Added registry, query-state, path-progress, route, SEO, breadcrumb, and keyboard-navigation coverage. Verified production build, typecheck, lint (one existing warning in `demo-purge.ts`), 2,030 unit tests (one skipped), and 24 focused production browser checks across the discovery refactor and UX follow-up. The 2026-09-21 full CI browser smoke was still running at merge; see the session note for the exact handoff state.
 - Lessons and follow-up UX gaps: [task-first public-site session knowledge](audit/session-knowledge-2026-09-20-task-first-public-site.md) — item-level deliverables/privacy/estimates, guided-path continuity, Learn/search wayfinding, and task-based accessibility + bilingual research.
 
 ## 2026-09-20 — UnionOps Data import and lifecycle foundation
