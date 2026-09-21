@@ -38,7 +38,7 @@ Union locals and unions need an operating toolkit they can run themselves — co
 2. **Steward craft** - floor playbooks and Officer Learning on the public site
 3. **Officer casework** - grievance tracking, sector workflows, handoffs (Officer Hub)
 
-This toolkit fills the gap without replacing national union ERP or membership systems.
+This toolkit fills the gap without replacing national union ERP, membership, or payroll systems. The optional **UnionOps Data** module gives authorized local officers a scoped workbench for recurring operational imports and member/employment history; it does not become the authoritative national roster or payroll ledger.
 
 ## Modules
 
@@ -47,6 +47,7 @@ This toolkit fills the gap without replacing national union ERP or membership sy
 | **Comms** | All unions | v1 shipped (static) |
 | **Grievance** | All unions (CA-configurable) | Phase 2 |
 | **College Bumping** | Sector-optional (post-secondary) | Phase 3 |
+| **UnionOps Data** | Opt-in Officer Hub officers | Import and review foundation shipped; reporting follows |
 
 ## Deployment Models
 

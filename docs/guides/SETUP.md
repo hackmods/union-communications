@@ -68,7 +68,7 @@ Default Hub modules still use in-memory stores. To use Postgres locally:
    SEED_DEMO_CASES=true npm run db:seed
    ```
 
-4. Flip backends per module (`GRIEVANCE_DB_BACKEND=postgres`, etc.).
+4. Flip backends per module (`GRIEVANCE_DB_BACKEND=postgres`, etc.). UnionOps Data requires `DATA_DB_BACKEND=postgres` before an admin can enable it; configure durable private attachment storage and `ATTACHMENT_SCANNER_URL` before accepting uploads.
 
 Live checks (require a running DB + app role credentials on `DATABASE_URL`):
 

@@ -18,6 +18,7 @@ type TenantGetResponse = {
   context: TenantContext;
   canManageOnboarding: boolean;
   canCreateUnion: boolean;
+  canManageUnionModules: boolean;
   durableTenants?: boolean;
 };
 
@@ -28,6 +29,7 @@ export function TenantOnboardingWizard() {
   const [message, setMessage] = useState<string | null>(null);
   const [ctx, setCtx] = useState<TenantContext | null>(null);
   const [canCreateUnion, setCanCreateUnion] = useState(false);
+  const [canManageModules, setCanManageModules] = useState(false);
   const [durableTenants, setDurableTenants] = useState(false);
   const [hallStatus, setHallStatus] = useState<string | null>(null);
   const [hallBusy, setHallBusy] = useState(false);
@@ -53,6 +55,7 @@ export function TenantOnboardingWizard() {
     const data = (await res.json()) as TenantGetResponse;
     setCtx(data.context);
     setCanCreateUnion(data.canCreateUnion);
+    setCanManageModules(data.canManageUnionModules);
     setDurableTenants(data.durableTenants === true);
     if (!addUnitLocalId && data.context.locals[0]) {
       setAddUnitLocalId(data.context.locals[0].id);
@@ -183,6 +186,24 @@ export function TenantOnboardingWizard() {
     }
   }
 
+  async function handleDataModuleToggle(enabled: boolean) {
+    setError(null);
+    setMessage(null);
+    const res = await fetch("/api/tenant", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "set_data_module", enabled }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      setError(body.error ?? t("saveError"));
+      return;
+    }
+    await refresh();
+    setMessage(enabled ? t("dataModuleEnabled") : t("dataModuleDisabled"));
+    window.dispatchEvent(new Event("unionops:tenant-updated"));
+  }
+
   if (loading) {
     return (
       <div className="space-y-4">
@@ -278,6 +299,17 @@ export function TenantOnboardingWizard() {
             </li>
           </ol>
         </PublicHubPanel>
+
+        {ctx && (
+          canManageModules && <PublicHubPanel title={t("dataModuleTitle")} description={t("dataModuleBody")}>
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-sm text-gray-700">{ctx.union.enabledModules.includes("data") ? t("dataModuleOn") : t("dataModuleOff")}</span>
+              <Button type="button" variant="outline" onClick={() => void handleDataModuleToggle(!ctx.union.enabledModules.includes("data"))}>
+                {ctx.union.enabledModules.includes("data") ? t("dataModuleDisable") : t("dataModuleEnable")}
+              </Button>
+            </div>
+          </PublicHubPanel>
+        )}
 
         {ctx && (
           <PublicHubPanel title={t("currentTenant")}>

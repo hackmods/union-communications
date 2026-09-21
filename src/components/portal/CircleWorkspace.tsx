@@ -512,7 +512,7 @@ export function CircleWorkspace({
       <div
         role="tablist"
         aria-label={t("toolsNav")}
-        className="sticky z-30 top-[calc(var(--site-header-height,3.5rem)+3.25rem)] -mx-1 flex flex-nowrap gap-1 overflow-x-auto overscroll-x-contain border-b border-opseu-blue/10 bg-white/95 px-1 pb-2 backdrop-blur-sm"
+        className="pointer-events-none sticky z-30 top-[calc(var(--site-header-height,3.5rem)+3.25rem)] -mx-1 flex flex-nowrap gap-1 overflow-x-auto overscroll-x-contain border-b border-opseu-blue/10 bg-white/95 px-1 pb-2 backdrop-blur-sm"
       >
         {visibleTabs.map((key) => (
           <button
@@ -521,7 +521,7 @@ export function CircleWorkspace({
             role="tab"
             aria-selected={activeTab === key}
             className={cn(
-              "min-h-11 shrink-0 rounded-lg px-3 text-sm font-semibold transition-colors",
+              "pointer-events-auto min-h-11 shrink-0 rounded-lg px-3 text-sm font-semibold transition-colors",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-offset-2",
               activeTab === key
                 ? "bg-opseu-blue text-white shadow-sm"
@@ -1053,7 +1053,15 @@ export function CircleWorkspace({
                   setDraft((d) => ({ ...d, body: e.target.value }))
                 }
               />
-              <Button type="submit">{t("sendFloor")}</Button>
+              <Button
+                type="submit"
+                // Keep browser focus/scroll-to-control below the sticky tool tabs.
+                style={{
+                  scrollMarginTop: "calc(var(--site-header-height, 3.5rem) + 7rem)",
+                }}
+              >
+                {t("sendFloor")}
+              </Button>
             </form>
           ) : null}
         </div>

@@ -16,6 +16,15 @@
 - [x] Added registry, query-state, path-progress, route, SEO, breadcrumb, and keyboard-navigation coverage. Verified production build, typecheck, lint (one existing warning in `demo-purge.ts`), 2,017 unit tests (one skipped), and 24 focused production browser checks across the discovery refactor and UX follow-up.
 - Lessons and follow-up UX gaps: [task-first public-site session knowledge](audit/session-knowledge-2026-09-20-task-first-public-site.md) — item-level deliverables/privacy/estimates, guided-path continuity, Learn/search wayfinding, and task-based accessibility + bilingual research.
 
+## 2026-09-20 — UnionOps Data import and lifecycle foundation
+
+- [x] Added optional, local-scoped Officer Hub module with EN/FR Datasets, Imports, Records, and Reports areas. Enabling it requires `DATA_DB_BACKEND=postgres`; all reads/writes require MFA, an approved officer role, active local scope, explicit tenant filters, and RLS.
+- [x] Added migration `0040_data_workbench` for datasets, staged imports, publications, generic records, people, stable identifiers, assertions, memberships, and employment assignments. The generated database shape contract now includes all 10 tables and their isolation policies.
+- [x] Added scanned, private CSV/XLSX intake, bounded parser limits, formula/encryption/macro/external-link checks, stable-string IDs, suggested EN/FR member mapping, typed custom fields, review decisions, provenance, replay protection, partial publication, and lifecycle/history APIs.
+- [x] Added parser and stable-identity tests; updated the module, privacy, RBAC, vision, roadmap, and operator setup docs plus What's new.
+- [ ] Saved reports, durable worker queue, multi-sheet/header selection, transformations/source profiles, trust automation, full merge/split correction, and retention purging remain follow-on work; see [`modules/DATA_WORKBENCH.md`](modules/DATA_WORKBENCH.md).
+- [x] Captured implementation lessons and prioritized import/review/records/reporting UX gaps in [`session-knowledge-2026-09-20-unionops-data.md`](audit/session-knowledge-2026-09-20-unionops-data.md); do not treat the current JSON history view or Reports placeholder as pilot-ready UX.
+
 ## 2026-09-20 — Hub bylaws + bargaining proposals casework (finished)
 
 - [x] **Hub `/app/bylaws`** — draft list + create, status workflow (draft → committee → pending GMM → adopted / archived), generated preview from the synced form. `HubDraftSyncPanel` pushes the on-device Bylaw Builder draft into the Hub (tools stay local-first).

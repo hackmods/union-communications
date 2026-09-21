@@ -32,6 +32,7 @@ export const DB_BACKEND_ENV_KEYS = [
   "PLATFORM_SETTINGS_DB_BACKEND",
   "BYLAWS_DB_BACKEND",
   "PROPOSALS_DB_BACKEND",
+  "DATA_DB_BACKEND",
 ] as const;
 
 export type DbBackendEnvKey = (typeof DB_BACKEND_ENV_KEYS)[number];
@@ -221,6 +222,13 @@ export function proposalsDbBackend(
   return resolveBackend("PROPOSALS_DB_BACKEND", env);
 }
 
+/** UnionOps Data contains bulk member information and requires durable PostgreSQL in production. */
+export function dataDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("DATA_DB_BACKEND", env);
+}
+
 /** Durable Hub users + password-reset tokens (SEC-007). */
 export function authUsersDbBackend(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -258,6 +266,7 @@ export function readEffectiveBackendFlags(
     PLATFORM_SETTINGS_DB_BACKEND: platformSettingsDbBackend(env),
     BYLAWS_DB_BACKEND: bylawsDbBackend(env),
     PROPOSALS_DB_BACKEND: proposalsDbBackend(env),
+    DATA_DB_BACKEND: dataDbBackend(env),
   };
 }
 
@@ -280,6 +289,8 @@ export function isPostgresFlipComplete(
  * True when any steward-facing casework module still uses the in-memory store.
  * Audit, feedback, and Officer Learning are omitted — memory audit must not
  * show the Hub “Memory only” banner when grievances/time/etc. are durable.
+ * UnionOps Data is also omitted because its access gate makes the module
+ * unavailable unless its dedicated backend is already PostgreSQL.
  */
 export function isMemoryCaseDataActive(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,

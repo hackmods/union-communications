@@ -85,6 +85,15 @@ psql_scalar() {
     -U "${POSTGRES_USER}" -d "${POSTGRES_DB}" -tAc "$1"
 }
 
+app_psql() {
+  "${COMPOSE[@]}" exec -T -e "PGPASSWORD=${POSTGRES_APP_PASSWORD}" db psql \
+    -h 127.0.0.1 -U unionops_app -d "${POSTGRES_DB}" -v ON_ERROR_STOP=1 "$@"
+}
+
+app_scalar() {
+  app_psql -tAc "$1" | tail -1
+}
+
 FRESH_LOG="${LOG_DIR}/fresh.log"
 echo "[docker-migrate-smoke] fresh-volume migrate + verify…"
 run_gate "${FRESH_LOG}"
@@ -106,6 +115,33 @@ TASKS_0027_COUNT="$(psql_scalar "SELECT count(*) FROM information_schema.columns
 
 META_TABLES="$(psql_scalar "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'platform_meta'")"
 [[ "${META_TABLES}" == "0" ]] || { echo "platform_meta still exists" >&2; exit 1; }
+
+echo "[docker-migrate-smoke] runtime-role UnionOps Data local RLS…"
+"${COMPOSE[@]}" exec -T db psql -U "${POSTGRES_USER}" -d "${POSTGRES_DB}" -v ON_ERROR_STOP=1 <<'SQL'
+INSERT INTO unions (id, name, slug, enabled_modules)
+VALUES ('data-rls-union', 'Data RLS Smoke', 'data-rls-smoke', '[]'::jsonb);
+INSERT INTO locals (id, union_id, local_number)
+VALUES ('data-rls-local', 'data-rls-union', 'RLS');
+SQL
+app_psql <<'SQL'
+SELECT set_config('app.current_union_id', 'data-rls-union', false);
+SELECT set_config('app.current_local_id', 'data-rls-local', false);
+SELECT set_config('app.current_cross_local', 'false', false);
+INSERT INTO data_datasets (id, union_id, local_id, name, kind, fields, created_by_id)
+VALUES ('data-rls-fixture', 'data-rls-union', 'data-rls-local', 'RLS fixture', 'table', '[]'::jsonb, 'smoke-user');
+SQL
+DATA_CROSS_UNION="$(app_scalar "SELECT set_config('app.current_union_id', 'data-other-union', false); SELECT set_config('app.current_local_id', 'data-other-local', false); SELECT count(*) FROM data_datasets WHERE id = 'data-rls-fixture'")"
+[[ "${DATA_CROSS_UNION}" == "0" ]] || { echo "Data RLS cross-union read=${DATA_CROSS_UNION}; expected 0" >&2; exit 1; }
+DATA_CROSS_LOCAL="$(app_scalar "SELECT set_config('app.current_union_id', 'data-rls-union', false); SELECT set_config('app.current_local_id', 'data-other-local', false); SELECT count(*) FROM data_datasets WHERE id = 'data-rls-fixture'")"
+[[ "${DATA_CROSS_LOCAL}" == "0" ]] || { echo "Data RLS cross-local read=${DATA_CROSS_LOCAL}; expected 0" >&2; exit 1; }
+DATA_SAME_LOCAL="$(app_scalar "SELECT set_config('app.current_union_id', 'data-rls-union', false); SELECT set_config('app.current_local_id', 'data-rls-local', false); SELECT count(*) FROM data_datasets WHERE id = 'data-rls-fixture'")"
+[[ "${DATA_SAME_LOCAL}" == "1" ]] || { echo "Data RLS same-local read=${DATA_SAME_LOCAL}; expected 1" >&2; exit 1; }
+app_psql <<'SQL'
+SELECT set_config('app.current_union_id', 'data-rls-union', false);
+SELECT set_config('app.current_local_id', 'data-rls-local', false);
+DELETE FROM data_datasets WHERE id = 'data-rls-fixture';
+SQL
+echo "[docker-migrate-smoke] UnionOps Data RLS cross-union=0 cross-local=0 same-local=1"
 
 # Reproduce the live journal-hole state: later migrations exist, 0027-0029 do
 # not, and the obsolete metadata table claims success. The new reconciliation
@@ -136,6 +172,16 @@ DROP TABLE IF EXISTS bylaw_drafts CASCADE;
 DROP TABLE IF EXISTS local_public_tool_settings CASCADE;
 DROP TABLE IF EXISTS union_public_tool_settings CASCADE;
 DROP TABLE IF EXISTS platform_public_tool_settings CASCADE;
+DROP TABLE IF EXISTS data_assertions CASCADE;
+DROP TABLE IF EXISTS data_datasets CASCADE;
+DROP TABLE IF EXISTS data_employment_assignments CASCADE;
+DROP TABLE IF EXISTS data_identifiers CASCADE;
+DROP TABLE IF EXISTS data_import_runs CASCADE;
+DROP TABLE IF EXISTS data_people CASCADE;
+DROP TABLE IF EXISTS data_publications CASCADE;
+DROP TABLE IF EXISTS data_records CASCADE;
+DROP TABLE IF EXISTS data_staged_rows CASCADE;
+DROP TABLE IF EXISTS data_union_memberships CASCADE;
 
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS mentioned_user_ids;
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS reactions;

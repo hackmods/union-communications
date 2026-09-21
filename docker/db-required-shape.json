@@ -599,6 +599,606 @@
       ]
     },
     {
+      "name": "data_assertions",
+      "columns": [
+        {
+          "name": "decision",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "effective_from",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "effective_to",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "field_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "observed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "person_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "row_index",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "run_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "value",
+          "dataType": "jsonb",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "data_datasets",
+      "columns": [
+        {
+          "name": "active_revision",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "description",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "fields",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "kind",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "mapping",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "mapping_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "trusted_source",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "data_employment_assignments",
+      "columns": [
+        {
+          "name": "department",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "effective_from",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "effective_to",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "employer",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "job_title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "observed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "person_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "position_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "row_index",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "run_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "supervisor_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "supervisor_person_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "worksite",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "data_identifiers",
+      "columns": [
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "namespace",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "person_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "source_run_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "value",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "data_import_runs",
+      "columns": [
+        {
+          "name": "accepted_count",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "content_hash",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "dataset_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "file_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "held_count",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "mapping",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "mapping_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "published_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "row_count",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "scan_status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "sheet_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "storage_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "data_people",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "display_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "data_publications",
+      "columns": [
+        {
+          "name": "accepted_count",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "dataset_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "published_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revision",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "run_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "data_records",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "dataset_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "publication_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "row_index",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "values",
+          "dataType": "jsonb",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "data_staged_rows",
+      "columns": [
+        {
+          "name": "decision",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "errors",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "mapped_values",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "match_person_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "match_reason",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "raw_values",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "row_index",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "run_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "data_union_memberships",
+      "columns": [
+        {
+          "name": "effective_from",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "effective_to",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "member_number",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "observed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "person_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "run_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "decision_records",
       "columns": [
         {
@@ -4236,6 +4836,56 @@
       "schema": "public",
       "table": "committees",
       "name": "committees_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "data_assertions",
+      "name": "data_assertions_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "data_datasets",
+      "name": "data_datasets_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "data_employment_assignments",
+      "name": "data_employment_assignments_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "data_identifiers",
+      "name": "data_identifiers_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "data_import_runs",
+      "name": "data_import_runs_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "data_people",
+      "name": "data_people_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "data_publications",
+      "name": "data_publications_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "data_records",
+      "name": "data_records_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "data_staged_rows",
+      "name": "data_staged_rows_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "data_union_memberships",
+      "name": "data_union_memberships_tenant_isolation"
     },
     {
       "schema": "public",

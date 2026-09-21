@@ -9,7 +9,8 @@ export type HubModule =
   | "checkins"
   | "portal"
   | "bylaws"
-  | "proposals";
+  | "proposals"
+  | "data";
 
 export type UserRole =
   | "platform_admin"

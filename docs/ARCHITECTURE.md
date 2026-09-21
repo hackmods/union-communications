@@ -11,8 +11,10 @@ flowchart LR
     NextApp --> AuthGate[proxy.ts + per-route auth]
     AuthGate --> GrievanceAPI[Grievance API]
     AuthGate --> BumpingAPI[Bumping API]
+    AuthGate --> DataAPI[UnionOps Data API]
     GrievanceAPI --> Postgres[(Postgres RLS)]
     BumpingAPI --> Postgres
+    DataAPI --> Postgres
     GrievanceAPI --> ObjectStore[Object Storage]
 ```
 
@@ -24,6 +26,7 @@ flowchart LR
 | `(app)` | `/[locale]/app/*` | Required | Hub shell |
 | `(app)/grievances` | Grievance module | MFA recommended | Highly confidential |
 | `(app)/bumping` | College bumping | MFA recommended | Sector-optional |
+| `(app)/data` | UnionOps Data | MFA + Postgres required | Local-scoped officer imports and records |
 
 ## Route protection (as-built)
 
