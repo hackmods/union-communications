@@ -10,6 +10,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   if (!access.ok) return NextResponse.json({ error: access.error }, { status: access.status });
   const { id } = await params;
   const page = parsePage(new URL(request.url).searchParams);
-  const history = await withRlsContext((await rlsContextForSession(access.session)) ?? {}, () => getPersonHistory(access, id, page));
+  const rlsContext = await rlsContextForSession(access.session) ?? {};
+  const history = await withRlsContext(rlsContext, () => getPersonHistory(access, id, page));
   return history ? NextResponse.json({ history }) : NextResponse.json({ error: "Person not found." }, { status: 404 });
 }

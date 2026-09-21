@@ -225,7 +225,7 @@ export function getVisibleModules(
 
 /**
  * HubNav omits `comms` — those tools already live in the public Header
- * (Tools / Guides / Brand Kit / home mark). Listing them again next to
+ * (Create / Learn / Brand Kit / Start / home mark). Listing them again next to
  * Grievances was redundant and marked every `/app` route as current
  * because href `/` prefixes every path.
  */

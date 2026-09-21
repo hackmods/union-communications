@@ -68,6 +68,34 @@ export type NavGroupLabelKey =
 export type NavLink = { href: string; key: NavLinkKey };
 export type NavGroup = { labelKey: NavGroupLabelKey; links: readonly NavLink[] };
 
+export type PublicPrimaryNavKey = "start" | "brandKit" | "create" | "learn";
+export type PublicPrimaryNavHref = "/start" | "/create/brand-kit" | "/create" | "/learn";
+export type PublicPrimaryNavItem = {
+  href: PublicPrimaryNavHref;
+  key: PublicPrimaryNavKey;
+};
+
+/** Direct, task-labeled destinations in the public shell. */
+export const PUBLIC_PRIMARY_NAV: readonly PublicPrimaryNavItem[] = [
+  { href: "/start", key: "start" },
+  { href: "/create/brand-kit", key: "brandKit" },
+  { href: "/create", key: "create" },
+  { href: "/learn", key: "learn" },
+] as const;
+
+export function isPublicPrimaryNavActive(
+  pathname: string,
+  href: PublicPrimaryNavHref,
+): boolean {
+  if (href === "/start") return pathname === href || pathname.startsWith(`${href}/`);
+  if (href === "/create/brand-kit") return pathname === href;
+  if (href === "/create") {
+    return pathname === href ||
+      (pathname.startsWith(`${href}/`) && !pathname.startsWith("/create/brand-kit"));
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export const PULSE_POLL_HREF = "/tools/pulse-poll" as const;
 
 /** Job-grouped tools registry, consumed by the shared public catalog. */

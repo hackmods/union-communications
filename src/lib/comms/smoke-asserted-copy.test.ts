@@ -63,16 +63,16 @@ describe("COPY-002 smoke-asserted copy vs messages/en.json", () => {
     ).toEqual([]);
   });
 
-  it("Home routes task choices through the shared public discovery copy", () => {
+  it("Home uses dedicated task-sequence copy and links to Guided setup", () => {
     const home = readFileSync(
       path.join(repoRoot, "src/components/pages/HomeContent.tsx"),
       "utf8",
     );
-    expect(home).toMatch(/useTranslations\("publicCatalog"\)/);
+    expect(home).toMatch(/useTranslations\("home"\)/);
     expect(home).toContain('href="/start"');
     expect(home).not.toContain("WorkshopDemoPath");
-    expect(en.publicCatalog.startPaths.commsTitle).toBeTruthy();
-    expect(en.publicCatalog.startPaths.stewardTitle).toBeTruthy();
-    expect(en.publicCatalog.startPaths.officerTitle).toBeTruthy();
+    expect(en.home.workflowBrandKitTitle).toBeTruthy();
+    expect(en.home.workflowCreateTitle).toBeTruthy();
+    expect(en.home.workflowLearnTitle).toBeTruthy();
   });
 });

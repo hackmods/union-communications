@@ -31,16 +31,16 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/app/grievances/new",
   },
   {
+    id: "public-task-first-navigation",
+    date: "2026-09-21",
+    kind: "improved",
+    href: "/create/brand-kit",
+  },
+  {
     id: "office-templates-integrity",
     date: "2026-09-20",
     kind: "improved",
     href: "/tools/document-generator",
-  },
-  {
-    id: "public-task-first-navigation",
-    date: "2026-09-20",
-    kind: "improved",
-    href: "/start",
   },
   {
     id: "unionops-data-imports",

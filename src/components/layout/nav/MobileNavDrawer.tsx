@@ -4,15 +4,13 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { BrandLogo } from "@/components/brand/BrandLogo";
-import { resolveSiteChromeLogoVariant } from "@/lib/brand/identity-packs";
-import { useBrandStore } from "@/store/brand-store";
 import { DisplaySettingsMenu } from "@/components/layout/DisplaySettingsMenu";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { AuthAccountControls } from "@/components/layout/AuthAccountControls";
 import { OfficerHubNavLink } from "@/components/layout/OfficerHubNavLink";
 import { getFocusable } from "./focusables";
 import { cn } from "@/lib/utils";
+import { isPublicPrimaryNavActive, PUBLIC_PRIMARY_NAV } from "./nav-config";
 
 export function MobileNavDrawer({
   headerHeight,
@@ -28,9 +26,6 @@ export function MobileNavDrawer({
   drawerId: string;
 }) {
   const t = useTranslations("nav");
-  const th = useTranslations("hub");
-  const brandKit = useBrandStore((state) => state.brandKit);
-  const siteChromeLogoVariant = resolveSiteChromeLogoVariant(brandKit);
   const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -84,8 +79,7 @@ export function MobileNavDrawer({
     };
   }, [onClose]);
 
-  const linkClass = (href: string) => {
-    const active = pathname === href || pathname.startsWith(`${href}/`);
+  const linkClass = (active: boolean) => {
     return cn(
       "flex min-h-12 items-center rounded-lg px-3 py-2 font-medium text-slate-700 hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50",
       active && "bg-opseu-blue/10 font-semibold text-opseu-dark",
@@ -93,7 +87,7 @@ export function MobileNavDrawer({
   };
 
   return createPortal(
-    <div className="lg:hidden" role="presentation">
+    <div className="xl:hidden" role="presentation">
       <button
         type="button"
         className="fixed inset-x-0 bottom-0 z-[60] bg-black/40"
@@ -112,18 +106,21 @@ export function MobileNavDrawer({
         className="fixed bottom-0 right-0 z-[70] flex w-[min(100vw,23rem)] max-w-full flex-col border-l border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-xl"
       >
         <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [-webkit-overflow-scrolling:touch]" aria-label={t("mainNav")}>
-          <Link
-            href="/"
-            onClick={onCloseAfterNav}
-            className="mb-5 flex min-w-0 items-center gap-2 rounded-lg px-3 py-2 font-bold text-opseu-blue"
-          >
-            <BrandLogo size="sm" variantOverride={siteChromeLogoVariant} className="h-10 w-auto max-w-[11rem] shrink-0 object-contain" />
-            <span className="truncate">{th("platformName")}</span>
-          </Link>
           <div className="space-y-1">
-            <Link href="/start" onClick={onCloseAfterNav} aria-current={pathname.startsWith("/start") ? "page" : undefined} className={linkClass("/start")}>{t("start")}</Link>
-            <Link href="/create" onClick={onCloseAfterNav} aria-current={pathname.startsWith("/create") ? "page" : undefined} className={linkClass("/create")}>{t("create")}</Link>
-            <Link href="/learn" onClick={onCloseAfterNav} aria-current={pathname.startsWith("/learn") ? "page" : undefined} className={linkClass("/learn")}>{t("learn")}</Link>
+            {PUBLIC_PRIMARY_NAV.map((item) => {
+              const active = isPublicPrimaryNavActive(pathname, item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onCloseAfterNav}
+                  aria-current={active ? "page" : undefined}
+                  className={linkClass(active)}
+                >
+                  {t(item.key)}
+                </Link>
+              );
+            })}
             <OfficerHubNavLink layout="mobile" onNavigate={onCloseAfterNav} />
           </div>
         </nav>

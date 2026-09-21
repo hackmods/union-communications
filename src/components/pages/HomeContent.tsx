@@ -18,7 +18,6 @@ import { cn } from "@/lib/utils";
 
 export function HomeContent() {
   const t = useTranslations("home");
-  const catalog = useTranslations("publicCatalog");
   const nav = useTranslations("nav");
   const brandKit = useBrandStore((state) => state.brandKit);
   const onboardingComplete = useBrandStore((state) => state.onboardingComplete);
@@ -28,27 +27,32 @@ export function HomeContent() {
   const hubAvailable =
     (status === "authenticated" && Boolean(session?.user)) || isOfficerHubPublic();
 
-  const paths = [
+  const primaryHref = brandReady ? "/create" : "/create/brand-kit";
+  const primaryCta = brandReady ? t("openToolsCta") : t("primaryCta");
+  const steps = [
     {
-      key: "comms",
-      title: catalog("startPaths.commsTitle"),
-      body: catalog("startPaths.commsBody"),
-      href: brandReady ? "/learn/first-week" : "/create/brand-kit",
-      cta: brandReady ? catalog("startPaths.commsCta") : nav("brandKit"),
+      id: "brand-kit",
+      number: "01",
+      title: t("workflowBrandKitTitle"),
+      body: t("workflowBrandKitBody"),
+      href: "/create/brand-kit",
+      cta: nav("brandKit"),
     },
     {
-      key: "steward",
-      title: catalog("startPaths.stewardTitle"),
-      body: catalog("startPaths.stewardBody"),
-      href: "/learn/steward",
-      cta: catalog("startPaths.stewardCta"),
+      id: "create",
+      number: "02",
+      title: t("workflowCreateTitle"),
+      body: t("workflowCreateBody"),
+      href: "/create",
+      cta: nav("create"),
     },
     {
-      key: "officer",
-      title: catalog("startPaths.officerTitle"),
-      body: catalog("startPaths.officerBody"),
-      href: "/learn/officer",
-      cta: catalog("startPaths.officerCta"),
+      id: "learn",
+      number: "03",
+      title: t("workflowLearnTitle"),
+      body: t("workflowLearnBody"),
+      href: "/learn",
+      cta: nav("learn"),
     },
   ];
 
@@ -64,15 +68,12 @@ export function HomeContent() {
             <h1 id="home-hero-heading" className="mt-3 max-w-2xl text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
               {t("headline")}
             </h1>
-            <p className="mt-4 text-2xl font-semibold tracking-wide text-white sm:text-3xl">
-              {t("slogan")}
-            </p>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
               {t(hubAvailable ? "subtitle" : "subtitleCommsOnly")}
             </p>
             <div className="mt-7">
-              <ButtonLink href="/start" variant="outline" className="border-white bg-white text-opseu-dark hover:bg-white/90">
-                {catalog("startCta")}
+              <ButtonLink href={primaryHref} variant="outline" className="border-white bg-white text-opseu-dark hover:bg-white/90">
+                {primaryCta}
               </ButtonLink>
             </div>
           </div>
@@ -81,11 +82,11 @@ export function HomeContent() {
       </section>
 
       <PageShell className="py-8 md:py-12">
-        <Callout tone="plain" className="border border-amber-200 bg-amber-50/80 p-4 sm:p-5" role="note">
-          <p className="text-sm leading-relaxed text-amber-950 sm:text-base">
-            {t(hubAvailable ? "trustBanner" : "trustBannerCommsOnly")} {" "}
-            <Link href="/manifesto" className="font-semibold underline underline-offset-2">
-              {t("trustManifestoLink")}
+        <Callout tone="plain" className="border border-slate-200 bg-slate-50 p-4 sm:p-5" role="note">
+          <p className="text-sm leading-relaxed text-slate-800 sm:text-base">
+            {t(hubAvailable ? "privacySummary" : "privacySummaryCommsOnly")} {" "}
+            <Link href="/privacy" className="font-semibold underline underline-offset-2">
+              {t("privacyLink")}
             </Link>
           </p>
         </Callout>
@@ -93,33 +94,40 @@ export function HomeContent() {
         <section className="mt-10" aria-labelledby="home-task-heading">
           <SectionHeading
             id="home-task-heading"
-            eyebrow={catalog("startEyebrow")}
-            title={catalog("startTitle")}
-            intro={catalog("startIntro")}
+            eyebrow={t("workflowEyebrow")}
+            title={t("workflowTitle")}
+            intro={t("workflowIntro")}
           />
-          <ul className="mt-6 grid list-none gap-4 p-0 md:grid-cols-2 xl:grid-cols-3">
-            {paths.map((path, index) => (
-            <li key={path.key} className="min-w-0" data-testid={`home-path-${path.key}`}>
-                <Card variant="elevated" interactive className="h-full p-0">
-                  <Link
-                    href={path.href}
-                    className="block h-full rounded-xl p-5 outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50 focus-visible:ring-inset sm:p-6"
-                  >
-                    <Eyebrow tone={index === 0 ? "brand" : "muted"}>
-                      {catalog(`audiences.${path.key}` as never)}
-                    </Eyebrow>
-                    <h3 className="mt-3 text-xl font-bold text-opseu-dark group-hover/card:text-opseu-blue">
-                      {path.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-700">{path.body}</p>
-                    <span className="mt-5 inline-flex min-h-10 items-center font-semibold text-opseu-blue underline-offset-2 group-hover/card:underline">
-                      {path.cta}<span aria-hidden="true" className="ml-2">→</span>
+          <ol className="mt-6 grid list-none gap-4 p-0 md:grid-cols-2 xl:grid-cols-3">
+            {steps.map((step) => (
+              <li key={step.id} className="min-w-0" data-testid={`home-step-${step.id}`}>
+                <Card variant="ghost" className="h-full border border-slate-200 bg-white p-5 sm:p-6">
+                  <div className="flex items-start gap-4">
+                    <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-md bg-opseu-blue text-sm font-bold text-white">
+                      {step.number}
                     </span>
+                    <div>
+                      <h3 className="text-lg font-bold text-opseu-dark">{step.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-700">{step.body}</p>
+                    </div>
+                  </div>
+                  <Link href={step.href} className="mt-5 inline-flex min-h-10 items-center font-semibold text-opseu-blue underline underline-offset-2 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50">
+                    {step.cta}<span aria-hidden="true" className="ml-2">→</span>
                   </Link>
                 </Card>
               </li>
             ))}
-          </ul>
+          </ol>
+        </section>
+
+        <section className="mt-8 flex flex-col gap-4 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between" aria-labelledby="home-guided-setup-heading">
+          <div>
+            <h2 id="home-guided-setup-heading" className="text-lg font-bold text-opseu-dark">{t("guidedSetupTitle")}</h2>
+            <p className="mt-1 max-w-2xl text-sm leading-relaxed text-slate-700">{t("guidedSetupBody")}</p>
+          </div>
+          <ButtonLink href="/start" variant="outline" className="shrink-0">
+            {t("guidedSetupCta")}
+          </ButtonLink>
         </section>
       </PageShell>
     </>
