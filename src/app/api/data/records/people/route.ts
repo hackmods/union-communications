@@ -10,6 +10,7 @@ export async function GET(request: Request) {
   if (!access.ok) return NextResponse.json({ error: access.error }, { status: access.status });
   const url = new URL(request.url);
   const page = parsePage(url.searchParams);
-  const result = await withRlsContext(rlsContextForSession(access.session) ?? {}, () => listPeople(access, page));
+  const rlsContext = await rlsContextForSession(access.session) ?? {};
+  const result = await withRlsContext(rlsContext, () => listPeople(access, page));
   return NextResponse.json(result);
 }

@@ -14,6 +14,7 @@ import { AuthAccountControls } from "./AuthAccountControls";
 import { OfficerHubNavLink } from "./OfficerHubNavLink";
 import { PlatformOperatorNavDropdown } from "@/components/platform/PlatformOperatorNavDropdown";
 import { MobileNavDrawer } from "./nav/MobileNavDrawer";
+import { isPublicPrimaryNavActive, PUBLIC_PRIMARY_NAV } from "./nav/nav-config";
 
 export function Header() {
   const t = useTranslations("nav");
@@ -85,20 +86,19 @@ export function Header() {
           <span className="truncate">{th("platformName")}</span>
         </Link>
 
-        <nav className="hidden flex-wrap items-center gap-1 lg:flex" aria-label={t("mainNav")}>
-          <Link href="/start" aria-current={isActive("/start") ? "page" : undefined} className={linkClass(isActive("/start"))}>
-            {t("start")}
-          </Link>
-          <Link href="/create" aria-current={isActive("/create") ? "page" : undefined} className={linkClass(isActive("/create"))}>
-            {t("create")}
-          </Link>
-          <Link href="/learn" aria-current={isActive("/learn") ? "page" : undefined} className={linkClass(isActive("/learn"))}>
-            {t("learn")}
-          </Link>
+        <nav className="hidden flex-wrap items-center gap-1 xl:flex" aria-label={t("mainNav")}>
+          {PUBLIC_PRIMARY_NAV.map((item) => {
+            const active = isPublicPrimaryNavActive(pathname, item.href);
+            return (
+              <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={linkClass(active)}>
+                {t(item.key)}
+              </Link>
+            );
+          })}
           <OfficerHubNavLink />
         </nav>
 
-        <div className="hidden flex-wrap items-center justify-end gap-2 lg:flex">
+        <div className="hidden flex-wrap items-center justify-end gap-2 xl:flex">
           <Link href="/search" aria-current={isActive("/search") ? "page" : undefined} className={linkClass(isActive("/search"))}>
             <span aria-hidden="true" className="mr-1.5">⌕</span>{t("search")}
           </Link>
@@ -111,7 +111,7 @@ export function Header() {
         <button
           ref={toggleRef}
           type="button"
-          className="relative z-[80] inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-slate-200 text-opseu-dark hover:bg-opseu-blue/5 lg:hidden"
+          className="relative z-[80] inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 px-3 font-semibold text-opseu-dark hover:bg-opseu-blue/5 xl:hidden"
           aria-expanded={drawerOpen}
           aria-controls={drawerId}
           aria-label={drawerOpen ? t("closeMenu") : t("openMenu")}
@@ -127,6 +127,7 @@ export function Header() {
               <span className="block h-0.5 w-5 bg-current" />
             </span>
           )}
+          <span>{drawerOpen ? t("closeMenu") : t("menu")}</span>
         </button>
       </div>
 

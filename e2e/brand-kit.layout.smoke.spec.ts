@@ -159,7 +159,7 @@ test.describe("Brand Kit layout — OPSEU CAAT-S Look @smoke @mobile", () => {
     await assertCaatSLookFits(page);
   });
 
-  test("onboarding Look gallery stays inside a phone viewport", async ({
+  test("legacy onboarding route directs new members to Brand Kit setup", async ({
     page,
   }, testInfo) => {
     test.skip(
@@ -167,9 +167,13 @@ test.describe("Brand Kit layout — OPSEU CAAT-S Look @smoke @mobile", () => {
       "chromium-mobile project only",
     );
     await page.goto("/en/onboarding/");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await selectOpseuCaatSLook(page);
-    await assertCaatSLookFits(page);
+    await expect(page).toHaveURL(/\/en\/start\/?\?step=brand$/);
+    await expect(
+      page.getByRole("heading", { name: "Choose a role to see the steps" }),
+    ).toBeVisible();
+    const brandKitLink = page.getByRole("main").getByRole("link", { name: "Brand Kit" });
+    await expect(brandKitLink).toHaveAttribute("href", /\/en\/create\/brand-kit\/?$/);
+    await assertNoHorizontalOverflow(page);
   });
 });
 

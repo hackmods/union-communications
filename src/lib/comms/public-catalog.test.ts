@@ -31,6 +31,13 @@ describe("public-catalog", () => {
     }
   });
 
+  it("places Brand Kit first in the Tools catalog as the recommended setup", () => {
+    expect(PUBLIC_CATALOG[0]).toMatchObject({
+      id: "create-brand-kit",
+      canonicalPath: "/create/brand-kit",
+    });
+  });
+
   it("has a localized title and summary for every catalog item", () => {
     for (const locale of locales) {
       const nav = locale.nav as Record<string, unknown>;

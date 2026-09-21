@@ -23,17 +23,19 @@ test.describe("Smoke tests @smoke", () => {
     const main = page.getByRole("navigation", {
       name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
-    await main.getByRole("link", { name: "Start", exact: true }).click();
-    await expect(page).toHaveURL(/\/en\/start\//);
-    await expect(page.getByRole("heading", { name: "Start with the work in front of you" })).toBeVisible();
+    await expect(main.getByRole("link", { name: "Start", exact: true })).toHaveAttribute("href", "/en/start/");
+    await expect(page.locator("header").getByRole("link", { name: /UnionOps/ })).toHaveAttribute("href", "/en/");
+    await main.getByRole("link", { name: "Brand Kit", exact: true }).click();
+    await expect(page).toHaveURL(/\/en\/create\/brand-kit\//);
+    await expect(page.getByRole("heading", { name: /Brand Kit/ })).toBeVisible();
 
     await main.getByRole("link", { name: "Create", exact: true }).click();
     await expect(page).toHaveURL(/\/en\/create\//);
-    await expect(page.getByRole("heading", { name: "Make something your local can use" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Create materials for your union local" })).toBeVisible();
 
     await main.getByRole("link", { name: "Learn", exact: true }).click();
     await expect(page).toHaveURL(/\/en\/learn\//);
-    await expect(page.getByRole("heading", { name: "Find the next useful guide" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Guides and training" })).toBeVisible();
     const hubLink = main.getByRole("link", { name: "Officer Hub", exact: true });
     if (await hubLink.count()) {
       await expect(hubLink).toHaveAttribute("href", "/en/app/");
@@ -49,6 +51,8 @@ test.describe("Smoke tests @smoke", () => {
     const main = page.getByRole("navigation", {
       name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
+    await expect(main.getByRole("link", { name: "Brand Kit", exact: true }))
+      .toHaveAttribute("href", "/en/create/brand-kit/");
     await main.getByRole("link", { name: "Create", exact: true }).click();
     await expect(page.locator('a[href="/en/create/brand-kit/"]').first())
       .toHaveAttribute("href", "/en/create/brand-kit/");
@@ -56,7 +60,7 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.locator('a[href="/en/learn/library/brand-assets/"]').first())
       .toHaveAttribute("href", "/en/learn/library/brand-assets/");
     const footer = page.getByRole("contentinfo");
-    await expect(footer.getByRole("link", { name: "Built in solidarity" })).toBeVisible();
+    await expect(footer.getByRole("link", { name: "About UnionOps" })).toBeVisible();
     await expect(footer.getByRole("link", { name: "Install as an app" })).toBeVisible();
     await expect(footer.getByRole("link", { name: "Support" })).toBeVisible();
   });
@@ -101,9 +105,9 @@ test.describe("Smoke tests @smoke", () => {
     await expect(footer.getByRole("link", { name: /Commentaires/ })).toBeVisible();
   });
 
-  test("French Learn catalog exposes localized audience paths", async ({ page }) => {
+  test("French Guides catalog exposes localized audience paths", async ({ page }) => {
     await page.goto("/fr/learn/");
-    await expect(page.getByRole("heading", { name: /Trouvez le prochain guide utile/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Guides et formation/ })).toBeVisible();
     await expect(
       page.locator('a[href="/fr/learn/officer/"]').first(),
     ).toHaveAttribute("href", "/fr/learn/officer/");
@@ -121,15 +125,17 @@ test.describe("Smoke tests @smoke", () => {
 
   test("Create catalog shows useful tools without a channel-guide column", async ({ page }) => {
     await page.goto("/en/create/");
-    await expect(page.getByRole("heading", { name: "Make something your local can use" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Create materials for your union local" })).toBeVisible();
+    await expect(page.locator('a[href="/en/create/brand-kit/"]').first()).toBeVisible();
     await expect(page.locator('a[href="/en/create/graphic-maker/"]').first()).toBeVisible();
     await expect(page.getByRole("navigation", { name: "Channel guides" })).toHaveCount(0);
   });
 
-  test("footer links to task-first destinations and utilities", async ({ page }) => {
+  test("footer links to direct destinations and utilities", async ({ page }) => {
     await page.goto("/en/");
     const footer = page.getByRole("contentinfo");
-    await expect(footer.getByRole("link", { name: "Start", exact: true })).toHaveAttribute("href", "/en/start/");
+    await expect(footer.getByRole("link", { name: "Home", exact: true })).toHaveAttribute("href", "/en/");
+    await expect(footer.getByRole("link", { name: "Brand Kit", exact: true })).toHaveAttribute("href", "/en/create/brand-kit/");
     await expect(footer.getByRole("link", { name: "Create", exact: true })).toHaveAttribute("href", "/en/create/");
     await expect(footer.getByRole("link", { name: "Learn", exact: true })).toHaveAttribute("href", "/en/learn/");
     await expect(footer.getByRole("link", { name: "Support" })).toBeVisible();
@@ -146,15 +152,16 @@ test.describe("Smoke tests @smoke", () => {
     ).toBeVisible();
   });
 
-  test("task-first navigation removes the old Guides and Tools mega-menus", async ({ page }) => {
+  test("primary navigation uses direct destinations, including Brand Kit", async ({ page }) => {
     await page.goto("/en/");
     const main = page.getByRole("navigation", {
       name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
     await expect(main.getByRole("link", { name: "Start", exact: true })).toBeVisible();
+    await expect(main.getByRole("link", { name: "Brand Kit", exact: true })).toHaveAttribute("href", "/en/create/brand-kit/");
     await expect(main.getByRole("link", { name: "Create", exact: true })).toBeVisible();
     await expect(main.getByRole("link", { name: "Learn", exact: true })).toBeVisible();
-    await expect(main.getByRole("button", { name: /Guides|Tools/i })).toHaveCount(0);
+    await expect(main.getByRole("button", { name: /Learn|Create/i })).toHaveCount(0);
   });
 
   test("social examples page renders with tool handoff", async ({ page }) => {

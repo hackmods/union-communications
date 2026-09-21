@@ -224,7 +224,7 @@ function toolItems(): PublicCatalogItem[] {
     }),
   );
 
-  items.push({
+  items.unshift({
     id: "create-brand-kit",
     kind: "tool",
     canonicalPath: "/create/brand-kit",

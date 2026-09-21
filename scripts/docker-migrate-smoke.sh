@@ -183,6 +183,15 @@ DROP TABLE IF EXISTS data_records CASCADE;
 DROP TABLE IF EXISTS data_staged_rows CASCADE;
 DROP TABLE IF EXISTS data_union_memberships CASCADE;
 
+-- Rewind the grievance privacy/access migration too. Replaying migration 0042
+-- against its already-added check constraint is not a historical upgrade.
+DROP TABLE IF EXISTS grievance_participants CASCADE;
+DROP TABLE IF EXISTS grievance_member_updates CASCADE;
+DROP TABLE IF EXISTS grievance_attachment_shares CASCADE;
+DROP TABLE IF EXISTS break_glass_grants CASCADE;
+ALTER TABLE grievances DROP COLUMN IF EXISTS member_user_id;
+ALTER TABLE grievances DROP COLUMN IF EXISTS privacy_mode;
+
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS mentioned_user_ids;
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS reactions;
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS updated_at;
@@ -209,6 +218,21 @@ ALTER TABLE time_workers DROP COLUMN IF EXISTS notes;
 ALTER TABLE time_workers DROP COLUMN IF EXISTS group_ids;
 ALTER TABLE time_shifts DROP COLUMN IF EXISTS series_id;
 ALTER TABLE time_shifts DROP COLUMN IF EXISTS series_occurrence_date;
+
+-- Migration 0044 creates several named policies without DROP IF EXISTS. The
+-- rewind must remove the policies introduced after the historical checkpoint
+-- before replaying the hardening migration.
+DO $$
+DECLARE policy_row record;
+BEGIN
+  FOR policy_row IN
+    SELECT schemaname, tablename, policyname
+    FROM pg_policies
+    WHERE schemaname = 'public'
+  LOOP
+    EXECUTE format('DROP POLICY %I ON %I.%I', policy_row.policyname, policy_row.schemaname, policy_row.tablename);
+  END LOOP;
+END $$;
 
 DROP INDEX IF EXISTS attachment_meta_time_entry_idx;
 ALTER TABLE time_entries DROP COLUMN IF EXISTS clock_in_photo_attachment_id;
