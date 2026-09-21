@@ -55,15 +55,12 @@ test.describe("Officer Learning @smoke", () => {
   test("officer learning is discoverable in the Learn catalog", async ({
     page,
   }) => {
-    await page.goto("/en/");
-    const main = page.getByRole("navigation", {
-      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
-    });
-    await expect(main.getByRole("link", { name: "Learn", exact: true })).toBeVisible();
-    await expect(main.getByRole("link", { name: "Officer Learning", exact: true })).toHaveCount(0);
     await page.goto("/en/learn/");
-    await expect(page.getByRole("link", { name: "Officer Learning Center", exact: true }))
+    await expect(page.locator('a[href="/en/learn/officer/"]').first())
       .toHaveAttribute("href", "/en/learn/officer/");
+    await page.getByRole("searchbox", { name: "Search" }).fill("Contract Enforcement");
+    await expect(page.locator('a[href="/en/learn/officer/contract-enforcement/"]').first())
+      .toBeVisible();
   });
 
   test("Learn navigation is active on Officer Learning module routes", async ({

@@ -26,19 +26,19 @@ test.describe("SEO smoke @smoke", () => {
   test("graphic-maker EN and FR have locale-correct OG urls", async ({
     page,
   }) => {
-    await page.goto("/en/tools/graphic-maker/");
+    await page.goto("/en/create/graphic-maker/");
     await assertSeoBasics(page, {
       titleIncludes: /Graphic Maker|UnionOps/i,
-      canonicalPath: "/en/tools/graphic-maker/",
-      ogUrlIncludes: "/en/tools/graphic-maker/",
+      canonicalPath: "/en/create/graphic-maker/",
+      ogUrlIncludes: "/en/create/graphic-maker/",
       hreflang: true,
     });
 
-    await page.goto("/fr/tools/graphic-maker/");
+    await page.goto("/fr/create/graphic-maker/");
     await assertSeoBasics(page, {
       titleIncludes: /Créateur de graphiques|UnionOps/i,
-      canonicalPath: "/fr/tools/graphic-maker/",
-      ogUrlIncludes: "/fr/tools/graphic-maker/",
+      canonicalPath: "/fr/create/graphic-maker/",
+      ogUrlIncludes: "/fr/create/graphic-maker/",
       hreflang: true,
     });
   });
@@ -80,11 +80,11 @@ test.describe("SEO smoke @smoke", () => {
   });
 
   test("guide and privacy self-canonicalize (not home)", async ({ page }) => {
-    await page.goto("/en/guide/print/");
+    await page.goto("/en/learn/print/");
     await assertSeoBasics(page, {
       titleIncludes: /Print|UnionOps/i,
-      canonicalPath: "/en/guide/print/",
-      ogUrlIncludes: "/en/guide/print/",
+      canonicalPath: "/en/learn/print/",
+      ogUrlIncludes: "/en/learn/print/",
       hreflang: true,
     });
 
@@ -100,19 +100,19 @@ test.describe("SEO smoke @smoke", () => {
   test("tools index and union-boards guide self-canonicalize", async ({
     page,
   }) => {
-    await page.goto("/en/tools/");
+    await page.goto("/en/create/");
     await assertSeoBasics(page, {
-      titleIncludes: /Tools|Toolbox|UnionOps/i,
-      canonicalPath: "/en/tools/",
-      ogUrlIncludes: "/en/tools/",
+      titleIncludes: /Create|UnionOps/i,
+      canonicalPath: "/en/create/",
+      ogUrlIncludes: "/en/create/",
       hreflang: true,
     });
 
-    await page.goto("/fr/guide/union-boards/");
+    await page.goto("/fr/learn/union-boards/");
     await assertSeoBasics(page, {
       titleIncludes: /tableau|board|UnionOps/i,
-      canonicalPath: "/fr/guide/union-boards/",
-      ogUrlIncludes: "/fr/guide/union-boards/",
+      canonicalPath: "/fr/learn/union-boards/",
+      ogUrlIncludes: "/fr/learn/union-boards/",
       hreflang: true,
     });
   });

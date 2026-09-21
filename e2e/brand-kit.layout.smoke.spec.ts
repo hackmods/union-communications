@@ -114,17 +114,15 @@ test.describe("Brand Kit layout — OPSEU CAAT-S Look @smoke", () => {
     }
   });
 
-  test("onboarding Look gallery stays inside the page at tablet and desktop widths", async ({
+  test("onboarding recommends the canonical Brand Kit before the first communications task", async ({
     page,
   }) => {
     await page.goto("/en/onboarding/");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await selectOpseuCaatSLook(page);
-
-    for (const size of DESKTOP_VIEWPORTS) {
-      await page.setViewportSize(size);
-      await assertCaatSLookFits(page);
-    }
+    await expect(page).toHaveURL(/\/en\/start\/?\?step=brand/);
+    const brandKitLink = page.locator('a[href="/en/create/brand-kit/"]').first();
+    await expect(brandKitLink).toHaveAttribute("href", "/en/create/brand-kit/");
+    await brandKitLink.click();
+    await expect(page).toHaveURL(/\/en\/create\/brand-kit\//);
   });
 });
 
