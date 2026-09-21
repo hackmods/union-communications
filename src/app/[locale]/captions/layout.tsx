@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
+import { PublicCatalogItemLayout } from "@/components/comms/PublicCatalogItemLayout";
 
 export async function generateMetadata({
   params,
@@ -9,10 +10,6 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/captions", params);
 }
 
-export default function CaptionsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return children;
+export default function CaptionsRouteLayout({ children }: { children: React.ReactNode }) {
+  return <PublicCatalogItemLayout>{children}</PublicCatalogItemLayout>;
 }

@@ -37,18 +37,19 @@ describe("workshop demo session", () => {
 
   it("completes after logo, examples, graphic, quote, and website", () => {
     expect(hasCompletedWorkshopDemoQuartet()).toBe(false);
-    markWorkshopDemoStep("/tools/logo-builder");
+    markWorkshopDemoStep("/create/logo-builder");
     markWorkshopDemoStep("/examples");
-    markWorkshopDemoStep("/tools/graphic-maker");
-    markWorkshopDemoStep("/tools/quote-card");
+    markWorkshopDemoStep("/create/graphic-maker");
+    markWorkshopDemoStep("/create/quote-card");
     expect(hasCompletedWorkshopDemoQuartet()).toBe(false);
-    markWorkshopDemoStep("/tools/website-template");
+    markWorkshopDemoStep("/create/website-template");
     expect(hasCompletedWorkshopDemoQuartet()).toBe(true);
   });
 
   it("counts onboarding and Brand Kit as the Logo Builder stop", () => {
-    expect(canonicalWorkshopDemoHref("/onboarding")).toBe("/tools/logo-builder");
-    expect(canonicalWorkshopDemoHref("/brand-kit")).toBe("/tools/logo-builder");
+    expect(canonicalWorkshopDemoHref("/onboarding")).toBe("/create/logo-builder");
+    expect(canonicalWorkshopDemoHref("/brand-kit")).toBe("/create/logo-builder");
+    expect(canonicalWorkshopDemoHref("/create/brand-kit")).toBe("/create/logo-builder");
     markWorkshopDemoStep("/onboarding");
     markWorkshopDemoStep("/examples");
     markWorkshopDemoStep("/tools/graphic-maker");

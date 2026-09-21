@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { PUBLIC_PATHS } from "@/app/sitemap";
-import { TOOL_SEO, TOOL_SLUGS } from "@/lib/seo/tool-meta";
+import { TOOL_SEO } from "@/lib/seo/tool-meta";
+import { PUBLIC_CATALOG } from "@/lib/comms/public-catalog";
 import {
   PUBLIC_PAGE_SEO,
   PUBLIC_PAGE_SEO_PATHS,
@@ -21,6 +22,7 @@ const INLINE_META_PATHS = new Set([
   "/manifesto",
   "/support",
   "/install",
+  "/start",
 ]);
 
 describe("public-page-meta", () => {
@@ -31,13 +33,17 @@ describe("public-page-meta", () => {
   });
 
   it("covers every non-inline, non-tool PUBLIC_PATHS entry", () => {
-    const toolPaths = new Set(TOOL_SLUGS.map((slug) => `/tools/${slug}`));
+    const toolPaths = new Set(
+      PUBLIC_CATALOG.filter((item) => item.kind === "tool").map(
+        (item) => item.canonicalPath,
+      ),
+    );
     const missing: string[] = [];
 
     for (const path of PUBLIC_PATHS) {
       if (INLINE_META_PATHS.has(path)) continue;
       if (toolPaths.has(path)) continue;
-      if (!PUBLIC_PAGE_SEO.en[path]) missing.push(path);
+      if (!getPublicPageSeo("en", path)) missing.push(path);
     }
 
     expect(missing, `missing PUBLIC_PAGE_SEO for: ${missing.join(", ")}`).toEqual(

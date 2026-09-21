@@ -15,10 +15,10 @@ test.describe("Workshop demo path E2E @smoke", () => {
     });
   });
 
-  test("home WorkshopDemoPath links Logo Builder → Social Examples → Graphic Maker → Quote Card → Website Template", async ({
+  test("Learn workshop path links Logo Builder → Social Examples → Graphic Maker → Quote Card → Website Template", async ({
     page,
   }) => {
-    await page.goto("/en/");
+    await page.goto("/en/learn/workshops/comms/");
     const heading = page.getByRole("heading", {
       name: /Demo this in about 20 minutes/i,
     });
@@ -37,16 +37,16 @@ test.describe("Workshop demo path E2E @smoke", () => {
       name: /Website Template/i,
     });
 
-    await expect(stepLogo).toHaveAttribute("href", /\/tools\/logo-builder\/?$/);
-    await expect(stepExamples).toHaveAttribute("href", /\/examples\/?$/);
+    await expect(stepLogo).toHaveAttribute("href", /\/create\/logo-builder\/?$/);
+    await expect(stepExamples).toHaveAttribute("href", /\/learn\/library\/examples\/?$/);
     await expect(stepGraphic).toHaveAttribute(
       "href",
-      /\/tools\/graphic-maker\/?$/,
+      /\/create\/graphic-maker\/?$/,
     );
-    await expect(stepQuote).toHaveAttribute("href", /\/tools\/quote-card\/?$/);
+    await expect(stepQuote).toHaveAttribute("href", /\/create\/quote-card\/?$/);
     await expect(stepWebsite).toHaveAttribute(
       "href",
-      /\/tools\/website-template\/?$/,
+      /\/create\/website-template\/?$/,
     );
 
     await stepGraphic.click();
@@ -60,7 +60,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
       page.getByRole("heading", { name: /Website Template/i }),
     ).toBeVisible();
 
-    await page.goto("/en/brand-kit/");
+    await page.goto("/en/create/brand-kit/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(
       page.getByRole("navigation", { name: /20-minute demo path/i }),
@@ -77,16 +77,13 @@ test.describe("Workshop demo path E2E @smoke", () => {
     ).toHaveCount(0);
   });
 
-  test("home Comms path Brand Kit CTA joins the demo trail", async ({ page }) => {
+  test("Home Start CTA leads to the communications-first Start path", async ({ page }) => {
     await page.goto("/en/");
-    await page
-      .getByTestId("home-path-comms")
-      .getByRole("link", { name: /Set up your local brand|Open First week|Open Brand Kit/i })
-      .click();
-    await page.goto("/en/tools/graphic-maker/");
-    await expect(
-      page.getByRole("navigation", { name: /20-minute demo path/i }),
-    ).toBeVisible();
+    await page.getByRole("link", { name: "Choose a path" }).click();
+    await expect(page).toHaveURL(/\/en\/start\//);
+    await expect(page.getByRole("heading", { name: /Start with the work in front of you/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Choose a path/i })).toBeVisible();
+    await expect(page.getByTestId("start-path-comms").getByRole("link")).toHaveAttribute("href", /\/create\/brand-kit\/$/);
   });
 
   test("First week demo chips join the trail", async ({ page }) => {

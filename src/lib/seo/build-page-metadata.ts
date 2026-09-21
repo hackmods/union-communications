@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { canonicalPublicPath } from "@/lib/seo/public-routes";
 import {
   APPLE_TOUCH_ICON_PATH,
   FAVICON_ICO_PATH,
@@ -41,10 +42,11 @@ export function buildPageMetadata({
   noIndex = false,
 }: BuildPageMetadataOptions): Metadata {
   const loc = (locale === "fr" ? "fr" : "en") as AppLocale;
-  const pagePath = localePath(loc, path);
+  const canonicalPath = canonicalPublicPath(path);
+  const pagePath = localePath(loc, canonicalPath);
   const url = absoluteUrl(pagePath);
-  const enUrl = absoluteUrl(localePath("en", path));
-  const frUrl = absoluteUrl(localePath("fr", path));
+  const enUrl = absoluteUrl(localePath("en", canonicalPath));
+  const frUrl = absoluteUrl(localePath("fr", canonicalPath));
   const ogTitle = absoluteTitle ? title : `${title} | ${SITE_NAME}`;
 
   return {

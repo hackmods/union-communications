@@ -136,7 +136,7 @@ describe("public Comms copy style", () => {
    * in fresh copy. Add a namespace here when you ship it, rather than
    * stripping the older catalog.
    */
-  const ZERO_EM_DASH_NS = ["unionHistoryGuide"] as const;
+  const ZERO_EM_DASH_NS = ["unionHistoryGuide", "publicCatalog"] as const;
 
   it("keeps listed new namespaces off the em dash", () => {
     const listed = ZERO_EM_DASH_NS.filter((ns) =>

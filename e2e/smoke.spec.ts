@@ -20,53 +20,45 @@ test.describe("Smoke tests @smoke", () => {
 
   test("navigation links work", async ({ page }) => {
     await page.goto("/en/");
-    await page
-      .getByRole("navigation", { name: /Site navigation|Navigation du site|Main|Navigation principale/i })
-      .getByRole("link", { name: "Get started" })
-      .click();
-    await expect(page).toHaveURL(/\/en\/(?:#toolkit)?\/?$/);
-    await expect(
-      page.getByRole("heading", { name: "Where to start" }),
-    ).toBeVisible();
-    await page.goto("/en/");
     const main = page.getByRole("navigation", {
       name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
-    await main.getByRole("button", { name: /Guides/ }).click();
-    // Dropdown anchors use role="menuitem" (not link) while the menu is open.
-    const blueprint = main.getByRole("menuitem", { name: "The Blueprint" });
-    await expect(blueprint).toBeVisible();
-    await Promise.all([
-      page.waitForURL(/\/en\/guide\/?$/),
-      blueprint.click(),
-    ]);
+    await main.getByRole("link", { name: "Start", exact: true }).click();
+    await expect(page).toHaveURL(/\/en\/start\//);
+    await expect(page.getByRole("heading", { name: "Start with the work in front of you" })).toBeVisible();
+
+    await main.getByRole("link", { name: "Create", exact: true }).click();
+    await expect(page).toHaveURL(/\/en\/create\//);
+    await expect(page.getByRole("heading", { name: "Make something your local can use" })).toBeVisible();
+
+    await main.getByRole("link", { name: "Learn", exact: true }).click();
+    await expect(page).toHaveURL(/\/en\/learn\//);
+    await expect(page.getByRole("heading", { name: "Find the next useful guide" })).toBeVisible();
+    const hubLink = main.getByRole("link", { name: "Officer Hub", exact: true });
+    if (await hubLink.count()) {
+      await expect(hubLink).toHaveAttribute("href", "/en/app/");
+    }
+    await expect(main.getByRole("link", { name: "Search", exact: true })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "Search", exact: true })).toHaveAttribute("href", "/en/search/");
   });
 
-  test("guides menu lists brand assets; about links stay in the footer", async ({
+  test("catalog destinations and about links stay in the right places", async ({
     page,
   }) => {
     await page.goto("/en/");
     const main = page.getByRole("navigation", {
       name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
-    await main.getByRole("button", { name: /Guides/ }).click();
-    await expect(
-      main.getByRole("menuitem", { name: "Brand Assets" }),
-    ).toBeVisible();
-    await expect(
-      main.getByRole("menuitem", { name: "Built in solidarity" }),
-    ).toHaveCount(0);
-    await expect(
-      main.getByRole("menuitem", { name: "Install as an app" }),
-    ).toHaveCount(0);
-    const assets = main.getByRole("menuitem", { name: "Brand Assets" });
-    await assets.evaluate((el) => {
-      el.scrollIntoView({ block: "nearest", inline: "nearest" });
-    });
-    await Promise.all([
-      page.waitForURL(/\/en\/assets\/?/),
-      assets.click(),
-    ]);
+    await main.getByRole("link", { name: "Create", exact: true }).click();
+    await expect(page.locator('a[href="/en/create/brand-kit/"]'))
+      .toHaveAttribute("href", "/en/create/brand-kit/");
+    await main.getByRole("link", { name: "Learn", exact: true }).click();
+    await expect(page.locator('a[href="/en/learn/library/brand-assets/"]'))
+      .toHaveAttribute("href", "/en/learn/library/brand-assets/");
+    const footer = page.getByRole("contentinfo");
+    await expect(footer.getByRole("link", { name: "Built in solidarity" })).toBeVisible();
+    await expect(footer.getByRole("link", { name: "Install as an app" })).toBeVisible();
+    await expect(footer.getByRole("link", { name: "Support" })).toBeVisible();
   });
 
   test("social media plan page renders", async ({ page }) => {

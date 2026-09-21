@@ -7,6 +7,15 @@
 - Added Brand Kit-aware Word template downloads for every Word preset and included each `.dotx` in its Office ZIP.
 - Strengthened font-vector, relationship, content-type, signature, and schema-shape coverage.
 
+## 2026-09-20 — Task-first public site navigation
+
+- [x] Replaced overlapping public Guides/Tools flyouts with a task-first Start, Create, Learn, and session-aware Officer Hub shell; Search is a separate utility action, with account, display, and language controls kept apart from primary navigation.
+- [x] Added the localized Start chooser with three browser-saved guided checklists, responsive Create catalog with explicit deliverable/privacy disclosures, and searchable Learn catalog with task collections, removable URL-backed filters, accent-insensitive bilingual aliases, registry-derived breadcrumbs, and curated next steps.
+- [x] Centralized public items, visibility rules, legacy route redirects, canonical metadata, and sitemap paths; kept Hub, Portal, APIs, and editors on their existing implementations.
+- [x] Simplified Home to the value proposition, one Start action, product preview, and three task paths. Added a dated What's New note in English and French.
+- [x] Added registry, query-state, path-progress, route, SEO, breadcrumb, and keyboard-navigation coverage. Verified production build, typecheck, lint (one existing warning in `demo-purge.ts`), 2,017 unit tests (one skipped), and 24 focused production browser checks across the discovery refactor and UX follow-up.
+- Lessons and follow-up UX gaps: [task-first public-site session knowledge](audit/session-knowledge-2026-09-20-task-first-public-site.md) — item-level deliverables/privacy/estimates, guided-path continuity, Learn/search wayfinding, and task-based accessibility + bilingual research.
+
 ## 2026-09-20 — Hub bylaws + bargaining proposals casework (finished)
 
 - [x] **Hub `/app/bylaws`** — draft list + create, status workflow (draft → committee → pending GMM → adopted / archived), generated preview from the synced form. `HubDraftSyncPanel` pushes the on-device Bylaw Builder draft into the Hub (tools stay local-first).

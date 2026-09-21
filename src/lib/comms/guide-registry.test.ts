@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { PUBLIC_PATHS } from "@/app/sitemap";
+import { PUBLIC_CATALOG } from "@/lib/comms/public-catalog";
 import en from "../../../messages/en.json";
 import fr from "../../../messages/fr.json";
 import {
@@ -24,9 +25,10 @@ import {
 const OFFICER_LEARNING_MODULE = /^\/guide\/officer-learning\/.+/;
 
 function publicGuidePaths(): string[] {
-  return PUBLIC_PATHS.filter(
-    (path) => isGuideContentPath(path) && !OFFICER_LEARNING_MODULE.test(path),
-  );
+  return PUBLIC_CATALOG
+    .filter((item) => ["guide", "playbook", "course", "workshop"].includes(item.kind))
+    .flatMap((item) => item.legacyPaths)
+    .filter((path) => isGuideContentPath(path) && !OFFICER_LEARNING_MODULE.test(path));
 }
 
 describe("guide-registry", () => {
@@ -159,7 +161,7 @@ describe("guide-registry", () => {
     expect(isGuideContentPath(GUIDE_CATALOG_PATH)).toBe(false);
     expect(isGuideContentPath("/guide")).toBe(true);
     expect(isGuideContentPath("/guide/print")).toBe(true);
-    expect(PUBLIC_PATHS).toContain(GUIDE_CATALOG_PATH);
+    expect(PUBLIC_PATHS).toContain("/learn");
   });
 
   it("gives every GUIDE_REGISTRY row a navKey", () => {

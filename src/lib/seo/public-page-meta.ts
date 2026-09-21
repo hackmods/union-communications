@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
+import { canonicalPublicPath } from "@/lib/seo/public-routes";
 
 type PageSeoEntry = { title: string; description: string };
 
@@ -607,7 +608,14 @@ export function getPublicPageSeo(
   path: string,
 ): PageSeoEntry | undefined {
   const loc = locale === "fr" ? "fr" : "en";
-  return PUBLIC_PAGE_SEO[loc][path];
+  const pages = PUBLIC_PAGE_SEO[loc];
+  const direct = pages[path];
+  if (direct) return direct;
+
+  const canonicalPath = canonicalPublicPath(path);
+  return pages[canonicalPath] ?? Object.entries(pages).find(
+    ([legacyPath]) => canonicalPublicPath(legacyPath) === canonicalPath,
+  )?.[1];
 }
 
 export async function buildPublicPageMetadata(

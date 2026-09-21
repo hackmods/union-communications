@@ -30,6 +30,12 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/tools/document-generator",
   },
   {
+    id: "public-task-first-navigation",
+    date: "2026-09-20",
+    kind: "improved",
+    href: "/start",
+  },
+  {
     id: "hub-bylaws-proposals",
     date: "2026-09-20",
     kind: "added",

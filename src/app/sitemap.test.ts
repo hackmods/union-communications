@@ -4,8 +4,9 @@ import { describe, expect, it } from "vitest";
 import { PUBLIC_PATHS } from "./sitemap";
 import { SITE_URL } from "@/lib/seo/site";
 import sitemap from "./sitemap";
+import { canonicalPublicPath } from "@/lib/seo/public-routes";
 
-/** Top-level guide routes from `src/app/[locale]/guide/` (index + immediate children). */
+/** Top-level legacy guide routes from `src/app/[locale]/guide/`. */
 function guidePathsFromFilesystem(): string[] {
   const guideDir = path.resolve(__dirname, "[locale]", "guide");
   const paths = ["/guide"];
@@ -34,8 +35,9 @@ describe("sitemap", () => {
     expect(guidePaths).toContain("/guide");
 
     for (const guidePath of guidePaths) {
+      const canonicalPath = canonicalPublicPath(guidePath);
       for (const locale of ["en", "fr"] as const) {
-        const url = `${SITE_URL}/${locale}${guidePath}/`;
+        const url = `${SITE_URL}/${locale}${canonicalPath}/`;
         expect(urls.has(url), `missing sitemap entry ${url}`).toBe(true);
       }
     }

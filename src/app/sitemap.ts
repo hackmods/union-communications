@@ -1,81 +1,44 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo/site";
-import { TOOL_SLUGS } from "@/lib/seo/tool-meta";
-import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import {
+  PUBLIC_CATALOG,
+  catalogPaths,
+} from "@/lib/comms/public-catalog";
+import { OFFICER_LEARNING_MODULES } from "@/lib/officer-learning/modules";
+import { canonicalPublicPath } from "@/lib/seo/public-routes";
 import { getPlatformDisabledToolSlugs } from "@/lib/public-tools/store";
 
 const LOCALES = ["en", "fr"] as const;
 
-/** Hub-gated authoring — requires login; omit from public sitemap. */
-const NON_PUBLIC_TOOL_SLUGS = new Set(["pulse-poll"]);
-
-/** Public indexable paths (no locale prefix). Exported for SEO coverage tests. */
-export const PUBLIC_PATHS = [
+/** Non-catalog public leaves with their own indexable pages. */
+const SHELL_PATHS = [
   "/",
+  "/start",
+  "/create",
+  "/learn",
   "/manifesto",
   "/updates",
   "/support",
   "/install",
-    "/privacy",
-    "/security",
-    "/accessibility",
+  "/privacy",
+  "/security",
+  "/accessibility",
   "/feedback",
-  "/onboarding",
-  "/brand-kit",
-  "/examples",
-  "/captions",
-  "/assets",
-  "/tools",
-  "/guides",
-  "/guide",
-  "/guide/social-media-plan",
-  "/guide/workshops",
-  "/guide/workshop",
-  "/guide/workshops/land-acknowledgement",
-  "/guide/union-boards",
-  "/guide/print",
-  "/guide/website",
-  "/guide/email-broadcast",
-  "/guide/short-form",
-  "/guide/resources",
-  "/guide/photo-consent",
-  "/guide/crisis",
-  "/guide/strike",
-  "/guide/membership-signup",
-  "/guide/dfr",
-  "/guide/steward-101",
-  "/guide/steward-playbooks",
-  "/guide/grievance-process",
-  "/guide/seniority-bumping",
-  "/guide/right-to-refuse",
-  "/guide/joint-committee",
-  "/guide/bargaining",
-  "/guide/workplace-mapping",
-  "/guide/bylaws",
-  "/guide/running-meetings",
-  "/guide/union-history",
-  "/guide/land-acknowledgement",
-  "/guide/officer-learning",
-  "/guide/officer-learning/contract-enforcement",
-  "/guide/officer-learning/progressive-discipline",
-  "/guide/officer-learning/human-rights-accommodation",
-  "/guide/officer-learning/democratic-governance",
-  "/guide/officer-learning/financial-health",
-  "/guide/officer-learning/building-collective-power",
-  "/guide/officer-learning/mobilizer-bargaining-partner",
-  "/guide/officer-learning/advanced-grievance-settlement",
-  "/guide/officer-learning/benefits-disability-claims",
-  "/guide/officer-learning/joint-workplace-committees",
-  "/guide/officer-learning/membership-lists-privacy",
-  "/guide/officer-learning/advanced-local-finance",
-  "/guide/officer-learning/digital-security-transitions",
-  "/guide/officer-learning/everyday-union-value",
-  "/guide/officer-learning/duty-of-fair-representation",
-  "/guide/officer-learning/seniority-bumping-layoff",
-  "/guide/officer-learning/pdf-classification",
-  ...TOOL_SLUGS.filter((slug) => !NON_PUBLIC_TOOL_SLUGS.has(slug)).map(
-    (slug) => `/tools/${slug}`,
-  ),
+] as const;
+
+/** Public indexable paths (no locale prefix), derived from canonical registries. */
+export const PUBLIC_PATHS = [
+  ...new Set([
+    ...SHELL_PATHS,
+    ...catalogPaths().filter((path) => {
+      const item = PUBLIC_CATALOG.find((candidate) => candidate.canonicalPath === path);
+      // Signed-in Hub publishing tools are not public discovery pages.
+      return item?.authRequirement !== "signed-in";
+    }),
+    ...OFFICER_LEARNING_MODULES.map(({ slug }) =>
+      canonicalPublicPath(`/guide/officer-learning/${slug}`),
+    ),
+  ]),
 ];
 
 function localeUrl(locale: string, path: string): string {
@@ -88,8 +51,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const disabled = new Set(await getPlatformDisabledToolSlugs());
 
   for (const path of PUBLIC_PATHS) {
-    const toolMatch = path.match(/^\/tools\/(.+)$/);
-    if (toolMatch && disabled.has(toolMatch[1])) continue;
+    const tool = PUBLIC_CATALOG.find(
+      (item) => item.kind === "tool" && item.canonicalPath === path,
+    );
+    const legacySlug = tool?.legacyPaths
+      .find((legacyPath) => legacyPath.startsWith("/tools/"))
+      ?.slice("/tools/".length);
+    if (legacySlug && disabled.has(legacySlug)) continue;
 
     for (const locale of LOCALES) {
       entries.push({
@@ -103,10 +71,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
       });
     }
-  }
-
-  if (isOfficerHubPublic()) {
-    // Hub is noindex; omit from sitemap intentionally.
   }
 
   return entries;

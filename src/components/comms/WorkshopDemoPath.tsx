@@ -25,7 +25,7 @@ type WorkshopDemoPathProps = {
   className?: string;
   showRoadmapLink?: boolean;
   /**
-   * `card` is the First week / home pitch.
+   * `card` is the First week / Learn workshop path.
    * `trail` is the quiet continuation on the demo tools.
    */
   variant?: "card" | "trail";
@@ -33,15 +33,15 @@ type WorkshopDemoPathProps = {
 
 function isIdentitySetupPath(pathname: string): boolean {
   return (
-    pathname === "/brand-kit" ||
-    pathname.startsWith("/brand-kit/") ||
-    pathname === "/onboarding" ||
-    pathname.startsWith("/onboarding/")
+    pathname === "/create/brand-kit" ||
+    pathname.startsWith("/create/brand-kit/") ||
+    pathname === "/start" ||
+    pathname.startsWith("/start/")
   );
 }
 
 /**
- * Compact “demo in ~20 minutes” path for home + First week, plus a quiet
+ * Compact “demo in ~20 minutes” path for Learn workshops + First week, plus a quiet
  * in-tool trail. Matches From Scratch to Solidarity: logo, examples, graphic, quote, website.
  */
 export function WorkshopDemoPath({

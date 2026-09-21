@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs/config";
 import createNextIntlPlugin from "next-intl/plugin";
+import { PUBLIC_ROUTE_REDIRECTS } from "./src/lib/seo/public-routes";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -127,21 +128,73 @@ const nextConfig: NextConfig = {
     ];
   },
   async redirects() {
+    return [...PUBLIC_ROUTE_REDIRECTS];
+  },
+  async rewrites() {
     return [
       {
-        source: "/:locale/guide/materials/",
-        destination: "/:locale/guide/resources/",
-        permanent: true,
+        source: "/:locale(en|fr)/create/brand-kit/",
+        destination: "/:locale/brand-kit/",
       },
       {
-        source: "/:locale/tools/share-kit/",
-        destination: "/:locale/tools/graphic-maker/",
-        permanent: true,
+        source: "/:locale(en|fr)/create/",
+        destination: "/:locale/tools/",
       },
       {
-        source: "/:locale/guide/pdf-classification/",
-        destination: "/:locale/guide/officer-learning/pdf-classification/",
-        permanent: true,
+        source: "/:locale(en|fr)/create/:slug/",
+        destination: "/:locale/tools/:slug/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/communications-blueprint/",
+        destination: "/:locale/guide/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/first-week/",
+        destination: "/:locale/guide/social-media-plan/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/steward/",
+        destination: "/:locale/guide/steward-playbooks/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/officer/:slug/",
+        destination: "/:locale/guide/officer-learning/:slug/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/officer/",
+        destination: "/:locale/guide/officer-learning/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/workshops/comms/",
+        destination: "/:locale/guide/workshop/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/workshops/:slug/",
+        destination: "/:locale/guide/workshops/:slug/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/workshops/",
+        destination: "/:locale/guide/workshops/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/library/examples/",
+        destination: "/:locale/examples/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/library/captions/",
+        destination: "/:locale/captions/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/library/brand-assets/",
+        destination: "/:locale/assets/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/",
+        destination: "/:locale/guides/",
+      },
+      {
+        source: "/:locale(en|fr)/learn/:slug/",
+        destination: "/:locale/guide/:slug/",
       },
     ];
   },

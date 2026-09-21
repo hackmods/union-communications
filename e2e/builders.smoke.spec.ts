@@ -45,20 +45,17 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(page.getByTestId("home-hero-brand")).toBeVisible();
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
     await expect(page.getByText("Solidarity.")).toBeVisible();
-    // Hero points at the toolkit chooser; Comms path owns Brand Kit / First week — COPY-001.
     await expect(
       page
         .getByRole("region", { name: /one toolkit for a local or a union/i })
-        .getByRole("link", { name: "See the toolkit" }),
+        .getByRole("link", { name: "Choose a path" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Where to start" }),
+      page.getByRole("heading", { name: "Start with the work in front of you" }),
     ).toBeVisible();
     const pathComms = page.getByTestId("home-path-comms");
-    await expect(pathComms.getByRole("link", { name: "Set up your local brand" })).toBeVisible();
-    await expect(
-      pathComms.getByRole("link", { name: "See the toolkit" }),
-    ).toHaveCount(0);
+    await expect(pathComms.getByRole("link")).toHaveAttribute("href", /\/create\/brand-kit\/$/);
+    await expect(page.getByRole("link", { name: "Choose a path" })).toHaveAttribute("href", /\/start\/$/);
     await expect(page.getByText(/never leaves your browser/i).first()).toBeVisible();
   });
 
@@ -115,12 +112,10 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible({
       timeout: 60_000,
     });
-    await page
-      .getByRole("link", { name: "Open grievance intake worksheet" })
-      .click();
-    await expect(page).toHaveURL(
-      /\/en\/tools\/document-generator\/\?preset=grievance-intake/,
-    );
+    await Promise.all([
+      page.waitForURL(/\/en\/create\/document-generator\/\?preset=grievance-intake/),
+      page.getByRole("link", { name: "Open grievance intake worksheet", exact: true }).click(),
+    ]);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.getByText("Needs a steward")).toHaveCount(0);
     await expect(
@@ -178,7 +173,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
 
 test.describe("Public secondary pages smoke @smoke", () => {
   const pages: { path: string; heading: string | RegExp }[] = [
-    { path: "/en/onboarding/", heading: "Set up your local brand" },
+    { path: "/en/start/", heading: "Start with the work in front of you" },
     { path: "/en/assets/", heading: "Brand Assets" },
     { path: "/en/manifesto/", heading: /Built in solidarity/i },
     { path: "/en/updates/", heading: "What's new" },
@@ -260,8 +255,8 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/steward-playbooks/",
       heading: "Steward playbooks",
     },
-    { path: "/en/tools/", heading: "Tools" },
-    { path: "/en/guides/", heading: "Guides" },
+    { path: "/en/create/", heading: "Make something your local can use" },
+    { path: "/en/learn/", heading: "Find the next useful guide" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },
     { path: "/en/support/", heading: "Support the builder" },
@@ -382,11 +377,9 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
     const drawer = page.getByTestId("mobile-nav-drawer");
     await expect(drawer).toBeVisible();
     await expect(drawer.getByRole("img", { name: "UnionOps" })).toBeVisible();
-    await drawer.getByRole("button", { name: /Tools|Outils/i }).click();
-    await drawer
-      .getByRole("link", { name: /Logo Builder|Créateur de logo/i })
-      .click();
-    await expect(page).toHaveURL(/\/en\/tools\/logo-builder/);
+    await drawer.getByRole("link", { name: "Create" }).click();
+    await page.getByRole("link", { name: /Logo Builder/i }).click();
+    await expect(page).toHaveURL(/\/en\/create\/logo-builder/);
     await expect(page.getByTestId("mobile-nav-drawer")).toHaveCount(0);
     await assertNoHorizontalOverflow(page);
   });

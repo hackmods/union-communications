@@ -1,6 +1,7 @@
 import { createNavigation } from "next-intl/navigation";
 import { forwardRef, type ComponentProps } from "react";
 import { withTrailingSlash } from "@/lib/utils/internal-href";
+import { canonicalizePublicHref } from "@/lib/seo/public-routes";
 import { routing } from "./routing";
 
 const {
@@ -19,7 +20,9 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function LocaleLink
   ref,
 ) {
   const normalizedHref =
-    typeof href === "string" ? withTrailingSlash(href) : href;
+    typeof href === "string"
+      ? withTrailingSlash(canonicalizePublicHref(href))
+      : href;
   return <BaseLink ref={ref} href={normalizedHref} {...props} />;
 });
 export { redirect, usePathname, useRouter, getPathname };
