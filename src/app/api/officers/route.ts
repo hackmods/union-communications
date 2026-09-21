@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
+import { decideCapability } from "@/lib/authorization/model";
 import {
   listFiltersForOfficerRosterSession,
   requireOfficerRosterSession,
   tenantIdsForOfficerRosterSession,
 } from "@/lib/auth/officers-session";
-import { canManageOfficerRoster } from "@/lib/officers/access";
 import { filterExpiringSoon } from "@/lib/officers/term";
 import { officerRosterStore } from "@/lib/officers/store";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { createOfficerRosterSchema } from "@/lib/validation/officers";
-import type { UserRole } from "@/types/tenant";
+import { withRlsContext } from "@/lib/db/rls-context";
 
 export async function GET() {
   const authResult = await requireOfficerRosterSession();
@@ -21,9 +22,9 @@ export async function GET() {
     );
   }
 
-  const { session } = authResult;
-  const filters = listFiltersForOfficerRosterSession(session);
-  const officers = await officerRosterStore.list(filters);
+  const { session, actor } = authResult;
+  const filters = listFiltersForOfficerRosterSession(session, actor);
+  const officers = await withRlsContext(rlsContextForActor(session, actor) ?? {}, () => officerRosterStore.list(filters));
   const expiringSoon = filterExpiringSoon(officers);
 
   await auditLog.log({
@@ -47,9 +48,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const { session } = authResult;
-  const roles = (session.user.roles ?? []) as UserRole[];
-  if (!canManageOfficerRoster(roles)) {
+  const { session, actor } = authResult;
+  if (!decideCapability(actor, "officers.manage", { unionId: session.user.unionId, localId: session.user.localId }).allowed) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -67,10 +67,10 @@ export async function POST(request: Request) {
   }
 
   const tenant = tenantIdsForOfficerRosterSession(session);
-  const officer = await officerRosterStore.create(parsed.data, {
+  const officer = await withRlsContext(rlsContextForActor(session, actor) ?? {}, () => officerRosterStore.create(parsed.data, {
     unionId: tenant.unionId,
     localId: tenant.localId,
-  });
+  }));
 
   await auditLog.log({
     userId: session.user.id,

@@ -1,10 +1,14 @@
 import { randomBytes } from "crypto";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull, sql } from "drizzle-orm";
 import type { UserRole } from "@/types/tenant";
 import { hashPassword } from "@/lib/auth/password";
 import { getDb } from "@/lib/db/client";
+import { applyRlsContext } from "@/lib/db/rls-context";
 import { userInvites } from "@/lib/db/schema/auth";
 import { users } from "@/lib/db/schema/tenant";
+import { localMemberships, officerAssignments } from "@/lib/db/schema/organization-access";
+import { locals } from "@/lib/db/schema/tenant";
+import { verifyPassword } from "@/lib/auth/password";
 
 export function invitesPostgresEnabled(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -232,25 +236,94 @@ export async function acceptInvitePostgres(
     return { error: "Password must be at least 8 characters" };
   }
 
-  const { id: userId } = await upsertPostgresUser({
-    email: invite.email,
-    name: invite.name,
-    password,
-    unionId: invite.unionId,
-    localId: invite.localId,
-    divisionId: invite.divisionId,
-    bargainingUnitId: invite.bargainingUnitId,
-    roles: invite.roles,
-  });
-
   const db = getDb();
-  await db
-    .update(userInvites)
-    .set({
-      status: "accepted",
-      acceptedAt: new Date(),
-    })
-    .where(eq(userInvites.id, invite.id));
+  return db.transaction(async (tx) => {
+    const [lockedInvite] = await tx.select().from(userInvites)
+      .where(eq(userInvites.id, invite.id)).for("update").limit(1);
+    if (!lockedInvite || lockedInvite.status !== "pending") return { error: "Invite is no longer pending" };
+    if (invite.localId) {
+      const [local] = await tx.select({ id: locals.id }).from(locals).where(and(
+        eq(locals.id, invite.localId), eq(locals.unionId, invite.unionId),
+      )).limit(1);
+      if (!local) return { error: "Invite local does not belong to this union" };
+    }
 
-  return { userId };
+    const [existing] = await tx.select().from(users)
+      .where(eq(users.email, invite.email.toLowerCase())).for("update").limit(1);
+    let userId: string;
+    if (existing) {
+      if (existing.unionId !== invite.unionId) return { error: "This account belongs to another union" };
+      if (existing.archivedAt || existing.lockedAt) return { error: "This account is not active" };
+      if (!(await verifyPassword(password, existing.passwordHash))) return { error: "The existing account password is incorrect" };
+      userId = existing.id;
+      const mergedRoles = [...new Set([...(existing.roles as UserRole[]), ...invite.roles])];
+      const accessibleLocalIds = [...new Set([...(existing.accessibleLocalIds ?? []), ...(invite.localId ? [invite.localId] : [])])];
+      await tx.update(users).set({
+        roles: mergedRoles,
+        accessibleLocalIds,
+        localId: existing.localId ?? invite.localId ?? null,
+        divisionId: existing.divisionId ?? invite.divisionId ?? null,
+        bargainingUnitId: existing.bargainingUnitId ?? invite.bargainingUnitId ?? null,
+        sessionVersion: existing.sessionVersion + 1,
+      }).where(eq(users.id, existing.id));
+    } else {
+      userId = newId("user");
+      await tx.insert(users).values({
+        id: userId,
+        email: invite.email.toLowerCase(),
+        name: invite.name,
+        passwordHash: await hashPassword(password),
+        unionId: invite.unionId,
+        localId: invite.localId ?? null,
+        divisionId: invite.divisionId ?? null,
+        bargainingUnitId: invite.bargainingUnitId ?? null,
+        accessibleLocalIds: invite.localId ? [invite.localId] : [],
+        roles: invite.roles,
+        mfaEnabled: false,
+        sessionVersion: 0,
+      });
+    }
+
+    if (invite.localId) {
+      // The invitation creator is the authorized grantor for membership and
+      // pending office assignments. Keep that identity in RLS while recording
+      // the new user's membership; the userId is still linked in every row.
+      await applyRlsContext(tx, { unionId: invite.unionId, localId: invite.localId, userId: invite.invitedById });
+      const [existingMembership] = await tx.select({ id: localMemberships.id, isPrimary: localMemberships.isPrimary }).from(localMemberships).where(and(
+        eq(localMemberships.unionId, invite.unionId), eq(localMemberships.localId, invite.localId),
+        eq(localMemberships.userId, userId),
+      )).limit(1);
+      const primary = !existing || !existing.localId || existing.localId === invite.localId;
+      if (existingMembership) {
+        await tx.update(localMemberships).set({
+          status: "active", endedAt: null, startedAt: new Date(),
+          bargainingUnitId: invite.bargainingUnitId ?? null,
+          isPrimary: primary || existingMembership.isPrimary,
+        }).where(eq(localMemberships.id, existingMembership.id));
+      } else {
+        await tx.insert(localMemberships).values({
+          id: newId("lm"), unionId: invite.unionId, localId: invite.localId, userId,
+          bargainingUnitId: invite.bargainingUnitId ?? null, status: "active", isPrimary: primary,
+          createdById: invite.invitedById,
+        });
+      }
+      const positions: Array<[UserRole, "president" | "steward" | "executive_member"]> = [
+        ["local_president", "president"], ["local_steward", "steward"], ["local_exec", "executive_member"],
+      ];
+      for (const [role, position] of positions) {
+        if (!invite.roles.includes(role)) continue;
+        const [activeAssignment] = await tx.select({ id: officerAssignments.id }).from(officerAssignments).where(and(
+          eq(officerAssignments.unionId, invite.unionId), eq(officerAssignments.localId, invite.localId),
+          eq(officerAssignments.userId, userId), eq(officerAssignments.position, position), isNull(officerAssignments.revokedAt),
+        )).limit(1);
+        if (!activeAssignment) await tx.insert(officerAssignments).values({
+          id: newId("oa"), unionId: invite.unionId, localId: invite.localId, userId,
+          position, assignedById: invite.invitedById,
+        });
+      }
+      await tx.execute(sql`SELECT app_sync_local_portal_membership(${invite.unionId}, ${invite.localId}, ${userId})`);
+    }
+    await tx.update(userInvites).set({ status: "accepted", acceptedAt: new Date() }).where(eq(userInvites.id, invite.id));
+    return { userId };
+  });
 }

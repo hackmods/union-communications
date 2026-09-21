@@ -1,11 +1,10 @@
-import { and, eq } from "drizzle-orm";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import { isDemoAuthEnabled } from "@/lib/auth/demo-auth-gate";
 import { listInvitedUsersForLocal } from "@/lib/auth/invites";
-import { getDb, isPostgresConfigured } from "@/lib/db/client";
-import { users } from "@/lib/db/schema";
+import type { RlsSessionContext } from "@/lib/db/rls-context";
+import { portalDbBackend } from "@/lib/db/backend";
 import { canCreateCircle } from "@/lib/portal/access";
-import { portalStore } from "@/lib/portal/memory-adapter";
+import { getPortalAdapter } from "@/lib/portal/adapter";
 import type { Circle } from "@/types/portal";
 import type { UserRole } from "@/types/tenant";
 
@@ -39,8 +38,8 @@ function addPerson(
 }
 
 /**
- * People who belong on this local's Hall: demo roster (when enabled),
- * in-process invitees, and durable `users` rows when Postgres is configured.
+ * Demo/invited roster used only by memory mode. Durable Hall enrollment is
+ * materialized from normalized local memberships by the database function.
  */
 export async function listLocalHallPeople(
   unionId: string,
@@ -60,25 +59,6 @@ export async function listLocalHallPeople(
     addPerson(byId, personFrom(user));
   }
 
-  if (isPostgresConfigured()) {
-    try {
-      const db = getDb();
-      const rows = await db
-        .select({
-          id: users.id,
-          name: users.name,
-          roles: users.roles,
-        })
-        .from(users)
-        .where(and(eq(users.unionId, unionId), eq(users.localId, localId)));
-      for (const row of rows) {
-        addPerson(byId, personFrom(row));
-      }
-    } catch {
-      /* Memory Hall still works if the users table is unreachable. */
-    }
-  }
-
   return [...byId.values()];
 }
 
@@ -88,15 +68,28 @@ export async function hydrateLocalHall(input: {
   localId: string;
   localNumber?: string;
   currentUser: HallRosterPerson;
+  rls?: RlsSessionContext;
 }): Promise<{ circle: Circle }> {
-  portalStore.ensureHall({
+  const portal = await getPortalAdapter(input.rls);
+  if (portalDbBackend() === "postgres") {
+    const { circle } = await portal.ensureHallAndJoin({
+      unionId: input.unionId,
+      localId: input.localId,
+      localNumber: input.localNumber,
+      userId: input.currentUser.userId,
+      userName: input.currentUser.userName,
+      admin: input.currentUser.admin,
+    });
+    return { circle };
+  }
+  await portal.ensureHall({
     unionId: input.unionId,
     localId: input.localId,
     localNumber: input.localNumber,
   });
   const people = await listLocalHallPeople(input.unionId, input.localId);
   for (const person of people) {
-    portalStore.ensureHallAndJoin({
+    await portal.ensureHallAndJoin({
       unionId: input.unionId,
       localId: input.localId,
       localNumber: input.localNumber,
@@ -105,7 +98,7 @@ export async function hydrateLocalHall(input: {
       admin: person.admin,
     });
   }
-  return portalStore.ensureHallAndJoin({
+  return portal.ensureHallAndJoin({
     unionId: input.unionId,
     localId: input.localId,
     localNumber: input.localNumber,

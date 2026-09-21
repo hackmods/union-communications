@@ -12,6 +12,7 @@ declare module "next-auth" {
     accessibleLocalIds?: string[];
     roles: UserRole[];
     mfaVerified: boolean;
+    sessionVersion?: number;
   }
 
   interface Session {
@@ -27,6 +28,7 @@ declare module "next-auth" {
       accessibleLocalIds?: string[];
       roles: UserRole[];
       mfaVerified: boolean;
+      sessionVersion?: number;
     };
   }
 }
@@ -40,6 +42,7 @@ declare module "next-auth/jwt" {
     accessibleLocalIds?: string[];
     roles?: UserRole[];
     mfaVerified?: boolean;
+    sessionVersion?: number;
   }
 }
 

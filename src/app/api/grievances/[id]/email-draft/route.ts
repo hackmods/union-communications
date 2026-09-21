@@ -4,7 +4,7 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
-import { rlsContextForSession } from "@/lib/auth/rls-scope";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { buildEmailDraft } from "@/lib/grievance/email-templates";
 import { grievanceStore } from "@/lib/grievance/store";
@@ -22,16 +22,16 @@ export async function GET(request: Request, context: RouteContext) {
     );
   }
 
-  const { session } = authResult;
-  const rls = rlsContextForSession(session) ?? {};
+  const { session, actor } = authResult;
+  const rls = rlsContextForActor(session, actor) ?? {};
   const { id } = await context.params;
   const data = await withRlsContext(rls, () => grievanceStore.getById(id));
   if (!data) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  if (!assertGrievanceView(session, data.grievance)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!await assertGrievanceView(actor, data.grievance)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const url = new URL(request.url);

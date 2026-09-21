@@ -6,7 +6,9 @@ import {
   isBumpingModuleEnabled,
   listFiltersForBumpingSession,
 } from "@/lib/auth/bumping-session";
-import { listFiltersForSession } from "@/lib/auth/grievance-session";
+import { listFiltersForSession, requireGrievanceSession } from "@/lib/auth/grievance-session";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
+import { withRlsContext } from "@/lib/db/rls-context";
 import {
   aggregateHubCalendarEvents,
 } from "@/lib/calendar/hub-aggregate";
@@ -29,7 +31,9 @@ export async function GET() {
   }
 
   const roles = (session.user.roles ?? []) as UserRole[];
-  const includeGrievance = canAccessGrievanceModule(roles);
+  let includeGrievance = canAccessGrievanceModule(roles);
+  const grievanceAuth = includeGrievance ? await requireGrievanceSession() : null;
+  if (includeGrievance && !grievanceAuth?.ok) includeGrievance = false;
   const includeBumping =
     canAccessBumpingModule(roles) && isBumpingModuleEnabled(session);
 
@@ -37,16 +41,22 @@ export async function GET() {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const events = await aggregateHubCalendarEvents({
+  const grievanceActor = grievanceAuth?.ok ? grievanceAuth.actor : undefined;
+  const filters = includeGrievance && grievanceAuth?.ok
+    ? listFiltersForSession(session, grievanceAuth.actor)
+    : undefined;
+  const aggregate = () => aggregateHubCalendarEvents({
     includeGrievance,
     includeBumping,
-    grievanceFilters: includeGrievance
-      ? listFiltersForSession(session)
-      : undefined,
+    grievanceFilters: filters,
+    grievanceActor,
     bumpingFilters: includeBumping
       ? listFiltersForBumpingSession(session)
       : undefined,
   });
+  const events = grievanceAuth?.ok
+    ? await withRlsContext(rlsContextForActor(session, grievanceAuth.actor) ?? {}, aggregate)
+    : await aggregate();
 
   await auditLog.log({
     userId: session.user.id,

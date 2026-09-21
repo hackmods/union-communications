@@ -137,7 +137,7 @@ describe("GET /api/calendar", () => {
     expect(events.every((e) => e.unionId === "union-b7p")).toBe(true);
   });
 
-  it("keeps a local president on their local; union_admin without localId sees sister locals", async () => {
+  it("keeps local casework scoped even for union_admin without localId", async () => {
     await grievanceStore.addMeeting(
       "grev-003",
       {
@@ -178,7 +178,7 @@ describe("GET /api/calendar", () => {
     expect(admin.status).toBe(200);
     expect(
       admin.body.events?.some((e) => e.title === "Local 560 step meeting"),
-    ).toBe(true);
+    ).toBe(false);
     expect(admin.body.events?.every((e) => e.unionId === "union-b7p")).toBe(
       true,
     );

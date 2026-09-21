@@ -508,7 +508,7 @@ export function CircleWorkspace({
         </Callout>
       ) : null}
 
-      <Card density="compact" className="space-y-4 overflow-hidden border-opseu-blue/15">
+      <Card density="compact" className="space-y-4 border-opseu-blue/15">
       <div
         role="tablist"
         aria-label={t("toolsNav")}

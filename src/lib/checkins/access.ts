@@ -1,6 +1,6 @@
 import type { CheckinSchedule } from "@/types/checkins";
 import type { UserRole } from "@/types/tenant";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 
 const CHECKINS_ROLES: UserRole[] = [
   "platform_admin",
@@ -48,9 +48,8 @@ export function canViewCheckinSchedule(
     return schedule.createdById === userId;
   }
 
-  if (localId && schedule.localId !== localId) {
-    if (!canCrossLocalCheckins(roles)) return false;
-  }
+  if (!localId) return false;
+  if (schedule.localId !== localId && !canCrossLocalCheckins(roles)) return false;
 
   return true;
 }

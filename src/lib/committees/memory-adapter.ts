@@ -17,6 +17,7 @@ function seedCommittees(): Committee[] {
       name: "Health & Safety",
       description: "Workplace health and safety representatives.",
       memberOfficerIds: ["off-002"],
+      memberUserIds: [],
       createdAt: "2025-01-15T12:00:00.000Z",
       updatedAt: "2025-01-15T12:00:00.000Z",
     },
@@ -27,6 +28,7 @@ function seedCommittees(): Committee[] {
       name: "Social",
       description: "Member events and solidarity fundraising.",
       memberOfficerIds: ["off-001"],
+      memberUserIds: [],
       createdAt: "2025-02-01T12:00:00.000Z",
       updatedAt: "2025-02-01T12:00:00.000Z",
     },
@@ -68,6 +70,7 @@ export class MemoryCommitteesAdapter implements CommitteesAdapter {
       name: input.name.trim(),
       description: input.description?.trim() || undefined,
       memberOfficerIds: [...(input.memberOfficerIds ?? [])],
+      memberUserIds: [...(input.memberUserIds ?? [])],
       createdAt: ts,
       updatedAt: ts,
     };
@@ -92,6 +95,9 @@ export class MemoryCommitteesAdapter implements CommitteesAdapter {
     }
     if (input.memberOfficerIds !== undefined) {
       next.memberOfficerIds = [...input.memberOfficerIds];
+    }
+    if (input.memberUserIds !== undefined) {
+      next.memberUserIds = [...new Set(input.memberUserIds)];
     }
     committees[idx] = next;
     return next;

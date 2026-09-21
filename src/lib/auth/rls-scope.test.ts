@@ -20,31 +20,31 @@ function sessionFor(overrides: {
 }
 
 describe("rlsContextForSession", () => {
-  it("returns undefined when there is no union scope", () => {
-    expect(rlsContextForSession(sessionFor({ localId: "local-7" }))).toBeUndefined();
+  it("returns undefined when there is no union scope", async () => {
+    expect(await rlsContextForSession(sessionFor({ localId: "local-7" }))).toBeUndefined();
   });
 
-  it("maps union + local scope for a steward (not cross-local)", () => {
+  it("maps union + local + user scope for a steward (not cross-local)", async () => {
     expect(
-      rlsContextForSession(
+      await rlsContextForSession(
         sessionFor({ unionId: "union-b7p", localId: "local-7", roles: ["local_steward"] }),
       ),
-    ).toEqual({ unionId: "union-b7p", localId: "local-7", crossLocal: false });
+    ).toEqual({ unionId: "union-b7p", localId: "local-7", userId: "user-1", crossLocal: false, mfaVerified: false });
   });
 
-  it("sets crossLocal for union/division/platform admins", () => {
+  it("sets crossLocal for union/division/platform admins", async () => {
     for (const role of ["union_admin", "division_admin", "platform_admin"]) {
       expect(
-        rlsContextForSession(
+        await rlsContextForSession(
           sessionFor({ unionId: "union-b7p", roles: [role] }),
         ),
       ).toMatchObject({ unionId: "union-b7p", crossLocal: true });
     }
   });
 
-  it("keeps crossLocal false for local officers", () => {
+  it("keeps crossLocal false for local officers", async () => {
     expect(
-      rlsContextForSession(
+      await rlsContextForSession(
         sessionFor({
           unionId: "union-b7p",
           localId: "local-7",
@@ -54,7 +54,9 @@ describe("rlsContextForSession", () => {
     ).toEqual({
       unionId: "union-b7p",
       localId: "local-7",
+      userId: "user-1",
       crossLocal: false,
+      mfaVerified: false,
     });
   });
 });

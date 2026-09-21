@@ -21,7 +21,7 @@ export async function GET() {
     return portalJson({ publications: [] });
   }
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const publications = await withRlsContext(rlsCtx, () =>
     proposalsStore.listPublications(
       session.user.unionId!,

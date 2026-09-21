@@ -47,7 +47,7 @@ export async function PATCH(
     );
   }
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const existing = await withRlsContext(rlsCtx, () =>
     proposalsStore.listRows(id).then((rows) => rows.find((r) => r.id === rowId)),
   );
@@ -101,7 +101,7 @@ export async function DELETE(
   }
   const { id, rowId } = await params;
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const rows = await withRlsContext(rlsCtx, () => proposalsStore.listRows(id));
   const existing = rows.find((r) => r.id === rowId);
   if (!existing) {

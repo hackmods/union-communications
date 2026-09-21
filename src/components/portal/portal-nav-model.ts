@@ -7,6 +7,7 @@ import type { CircleKind } from "@/types/portal";
 
 export type PortalNavLinkId =
   | "station"
+  | "myCases"
   | "dispatch"
   | "fronts"
   | "sidebars"
@@ -18,6 +19,7 @@ export type PortalNavLink = {
   href: string;
   labelKey:
     | "stationTitle"
+    | "myCasesLink"
     | "dispatchLink"
     | "frontsLink"
     | "sidebarsLink"
@@ -27,6 +29,7 @@ export type PortalNavLink = {
 
 export const PORTAL_NAV_LINKS: readonly PortalNavLink[] = [
   { id: "station", href: "/portal", labelKey: "stationTitle" },
+  { id: "myCases", href: "/portal/my-cases", labelKey: "myCasesLink" },
   { id: "dispatch", href: "/portal/dispatch", labelKey: "dispatchLink" },
   { id: "fronts", href: "/portal/fronts", labelKey: "frontsLink" },
   { id: "sidebars", href: "/portal/sidebars", labelKey: "sidebarsLink" },

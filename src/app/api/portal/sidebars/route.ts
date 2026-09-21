@@ -1,5 +1,6 @@
 import { requirePortalSession } from "@/lib/portal/portal-session";
-import { portalStore } from "@/lib/portal/memory-adapter";
+import { getPortalAdapter } from "@/lib/portal/adapter";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
 import { listCircleInviteCandidates } from "@/lib/portal/circle-invitees";
 import { portalJson } from "@/lib/portal/portal-json";
 
@@ -11,10 +12,11 @@ export async function GET(request: Request) {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
+  const { session, actor } = authResult;
+  const portal = await getPortalAdapter(rlsContextForActor(session, actor));
   const threadId = new URL(request.url).searchParams.get("threadId");
   if (threadId) {
-    const messages = portalStore.getSidebarMessages(
+    const messages = await portal.getSidebarMessages(
       session.user.unionId!,
       session.user.id,
       threadId,
@@ -24,7 +26,7 @@ export async function GET(request: Request) {
     }
     return portalJson({ messages });
   }
-  const threads = portalStore.listSidebarThreads(
+  const threads = await portal.listSidebarThreads(
     session.user.unionId!,
     session.user.id,
   );
@@ -39,7 +41,8 @@ export async function POST(request: Request) {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
+  const { session, actor } = authResult;
+  const portal = await getPortalAdapter(rlsContextForActor(session, actor));
   const body = (await request.json()) as {
     toId?: string;
     toName?: string;
@@ -48,7 +51,7 @@ export async function POST(request: Request) {
   };
 
   if (body.message?.trim() && body.threadId) {
-    const msg = portalStore.sendSidebarMessage({
+    const msg = await portal.sendSidebarMessage({
       unionId: session.user.unionId!,
       threadId: body.threadId,
       authorId: session.user.id,
@@ -69,7 +72,7 @@ export async function POST(request: Request) {
   }
 
   const unionId = session.user.unionId!;
-  const peer = (await listCircleInviteCandidates(unionId)).find(
+  const peer = (await listCircleInviteCandidates(unionId, rlsContextForActor(session, actor))).find(
     (user) => user.id === body.toId,
   );
   if (!peer) {
@@ -79,7 +82,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const thread = portalStore.ensureSidebarThread({
+  const thread = await portal.ensureSidebarThread({
     unionId,
     fromId: session.user.id,
     fromName: session.user.name ?? "Member",
@@ -88,7 +91,7 @@ export async function POST(request: Request) {
   });
 
   if (body.message?.trim()) {
-    portalStore.sendSidebarMessage({
+    await portal.sendSidebarMessage({
       unionId,
       threadId: thread.id,
       authorId: session.user.id,

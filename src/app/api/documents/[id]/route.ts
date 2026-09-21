@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { canDeleteSharedContent } from "@/lib/qol/access";
 import { documentStore } from "@/lib/documents/store";
 import type { UserRole } from "@/types/tenant";

@@ -125,10 +125,10 @@ describe("grievance communications / meetings / notes / outcome API", () => {
         new Request("http://localhost"),
         params("grev-002"),
       );
-      expect(other.status).toBe(403);
+      expect(other.status).toBe(404);
     });
 
-    it("returns 404 for a missing id and 403 for another union, including platform_admin", async () => {
+    it("returns 404 for a missing id or another union, including platform_admin", async () => {
       const foreign = await seedForeignGrievance();
       authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
 
@@ -145,8 +145,7 @@ describe("grievance communications / meetings / notes / outcome API", () => {
         new Request("http://localhost"),
         params(foreign.grievance.id),
       );
-      expect(crossUnion.status).toBe(403);
-      expect(await crossUnion.json()).toEqual({ error: "Forbidden" });
+      expect(crossUnion.status).toBe(404);
     });
 
     it("lets a president read the local case and not another local", async () => {
@@ -166,7 +165,7 @@ describe("grievance communications / meetings / notes / outcome API", () => {
             params("grev-003"),
           )
         ).status,
-      ).toBe(403);
+      ).toBe(404);
     });
 
     it("rejects incomplete posts then stamps session author and case tenant, ignoring forged keys", async () => {
@@ -218,7 +217,7 @@ describe("grievance communications / meetings / notes / outcome API", () => {
             params("grev-002"),
           )
         ).status,
-      ).toBe(403);
+      ).toBe(404);
 
       authMock.mockResolvedValue(session({ roles: ["local_exec"] }));
       expect(
@@ -233,7 +232,7 @@ describe("grievance communications / meetings / notes / outcome API", () => {
             params("grev-001"),
           )
         ).status,
-      ).toBe(403);
+      ).toBe(404);
     });
   });
 
@@ -256,7 +255,7 @@ describe("grievance communications / meetings / notes / outcome API", () => {
         new Request("http://localhost"),
         params(foreign.grievance.id),
       );
-      expect(crossUnion.status).toBe(403);
+      expect(crossUnion.status).toBe(404);
     });
 
     it("rejects incomplete posts then returns an ICS stamped to the case, not the body tenant", async () => {
@@ -306,7 +305,7 @@ describe("grievance communications / meetings / notes / outcome API", () => {
         }),
         params("grev-002"),
       );
-      expect(res.status).toBe(403);
+      expect(res.status).toBe(404);
     });
   });
 
@@ -337,7 +336,7 @@ describe("grievance communications / meetings / notes / outcome API", () => {
       authMock.mockResolvedValue(stewardSession());
       expect(
         (await createNote(jsonRequest({ body: "Nope" }), params("grev-002"))).status,
-      ).toBe(403);
+      ).toBe(404);
     });
   });
 
@@ -357,7 +356,7 @@ describe("grievance communications / meetings / notes / outcome API", () => {
         new Request("http://localhost"),
         params(foreign.grievance.id),
       );
-      expect(crossUnion.status).toBe(403);
+      expect(crossUnion.status).toBe(404);
     });
 
     it("rejects extra tenant keys then records the session officer, not the body", async () => {
@@ -403,7 +402,7 @@ describe("grievance communications / meetings / notes / outcome API", () => {
         }),
         params("grev-002"),
       );
-      expect(res.status).toBe(403);
+      expect(res.status).toBe(404);
     });
   });
 });

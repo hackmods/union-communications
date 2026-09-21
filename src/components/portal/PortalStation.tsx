@@ -6,14 +6,12 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import type { PortalSearchHit, StationPayload } from "@/types/portal";
-import { canCreateCircle } from "@/lib/portal/access";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 import { PortalPanel } from "@/components/portal/PortalPanel";
 import { PortalPageLoading } from "@/components/portal/PortalPageLoading";
-import type { UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
 
-export function PortalStation({ roles }: { roles: UserRole[] }) {
+export function PortalStation() {
   const t = useTranslations("portal");
   const [station, setStation] = useState<StationPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -22,11 +20,12 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
     "blank",
   );
   const [unionScope, setUnionScope] = useState(false);
+  const [canCreateCircle, setCanCreateCircle] = useState(false);
+  const [canCreateUnionCircle, setCanCreateUnionCircle] = useState(false);
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [hits, setHits] = useState<PortalSearchHit[]>([]);
-  const allowCreate = canCreateCircle(roles);
   const loadGen = useRef(0);
 
   const load = useCallback(async () => {
@@ -38,8 +37,10 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
         setError(t("loadError"));
         return;
       }
-      const data = (await res.json()) as { station: StationPayload };
+      const data = (await res.json()) as { station: StationPayload; authorization?: { canCreateCircle: boolean; canCreateUnionCircle: boolean } };
       setStation(data.station);
+      setCanCreateCircle(data.authorization?.canCreateCircle === true);
+      setCanCreateUnionCircle(data.authorization?.canCreateUnionCircle === true);
       setError(null);
     } catch {
       if (gen !== loadGen.current) return;
@@ -57,9 +58,11 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
           setError(t("loadError"));
           return;
         }
-        const data = (await res.json()) as { station: StationPayload };
+        const data = (await res.json()) as { station: StationPayload; authorization?: { canCreateCircle: boolean; canCreateUnionCircle: boolean } };
         if (cancelled || gen !== loadGen.current) return;
         setStation(data.station);
+        setCanCreateCircle(data.authorization?.canCreateCircle === true);
+        setCanCreateUnionCircle(data.authorization?.canCreateUnionCircle === true);
         setError(null);
       })
       .catch(() => {
@@ -292,7 +295,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
         )}
       </PortalPanel>
 
-      {allowCreate ? (
+      {canCreateCircle ? (
         <PortalPanel
           title={t("createCircleHeading")}
           titleId="portal-create-heading"
@@ -328,7 +331,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
             <Button type="submit" disabled={creating || !name.trim()}>
               {t("createCircle")}
             </Button>
-            <label className="flex min-h-11 w-full items-center gap-2 text-sm text-gray-700">
+            {canCreateUnionCircle ? <label className="flex min-h-11 w-full items-center gap-2 text-sm text-gray-700">
               <input
                 type="checkbox"
                 className="size-4 rounded border-gray-300"
@@ -336,8 +339,8 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
                 onChange={(e) => setUnionScope(e.target.checked)}
               />
               {t("unionScopeLabel")}
-            </label>
-            {unionScope ? (
+            </label> : null}
+            {unionScope && canCreateUnionCircle ? (
               <p className="w-full text-sm leading-relaxed text-gray-600">
                 {t("unionScopeHint")}
               </p>

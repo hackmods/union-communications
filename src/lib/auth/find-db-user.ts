@@ -15,6 +15,7 @@ export type AuthAccount = {
   accessibleLocalIds?: string[];
   roles: UserRole[];
   requiresMfa: boolean;
+  sessionVersion?: number;
   totpSecret?: string | null;
 };
 
@@ -40,7 +41,7 @@ export async function findDbUser(
     .where(eq(users.email, email.toLowerCase()))
     .limit(1);
   const row = rows[0];
-  if (!row) return null;
+  if (!row || row.archivedAt || row.lockedAt) return null;
   const ok = await verifyPassword(password, row.passwordHash);
   if (!ok) return null;
   return {
@@ -54,6 +55,7 @@ export async function findDbUser(
     accessibleLocalIds: row.accessibleLocalIds ?? undefined,
     roles: row.roles as UserRole[],
     requiresMfa: row.mfaEnabled || Boolean(row.totpSecret),
+    sessionVersion: row.sessionVersion,
     totpSecret: row.totpSecret,
   };
 }

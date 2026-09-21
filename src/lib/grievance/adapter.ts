@@ -29,6 +29,8 @@ export interface GrievanceAdapter {
       bargainingUnitId?: string;
       createdById: string;
       assignedStewardId: string;
+      memberUserId?: string;
+      privacyMode?: "standard" | "restricted";
     },
   ): Promise<GrievanceWithRelations>;
   update(id: string, input: UpdateGrievanceInput): Promise<Grievance | null>;

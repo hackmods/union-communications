@@ -6,8 +6,16 @@
 |-------|----------|--------|
 | Public | Guides, templates | Anyone |
 | Internal | Brand kits, captions | Local members |
-| Confidential | Grievance notes | Assigned officers |
-| Highly Confidential | Attachments, bumping PDFs | Need-to-know + MFA |
+| Confidential | Standard grievance casework, internal notes | Assigned case team, grievance officer, local president/vice-president |
+| Highly Confidential | Restricted grievances, attachments, bumping PDFs | Explicit case team / grievance officer; MFA for officer casework |
+
+Grievance executives receive non-identifying summaries only. Union/division
+administrators receive aggregate metadata and configuration access; platform
+administrators receive operational metadata. Platform grievance break-glass
+requires MFA, a reason, one exact case, and expires after 30 minutes. A
+member-facing grievance projection is allowlisted and never includes internal
+notes, events, strategy, settlement terms, other participants, or unshared
+attachments.
 
 UnionOps Data imports, raw staging values, member assertions, and employment histories are confidential personal information. The first release keeps them officer-only, scopes every API and database query to the active union/local, requires MFA, and requires PostgreSQL. Uploaded source files use the configured private attachment store and malware scanner; production imports fail closed when scanning is unavailable. Raw-file and staging retention/purge jobs are not yet implemented, so operators must include the configured attachment volume or bucket in their retention controls before using real member data.
 
@@ -60,6 +68,13 @@ Hybrid backup export (`GET /api/hybrid/slice`) returns **plaintext JSON** over t
 ## Postgres durability (SEC-003)
 
 With `DATABASE_URL` + `GRIEVANCE_DB_BACKEND=postgres` (and peer flags for other modules), case rows survive process restart. Verify with `npm run db:durability-smoke` after `npm run db:migrate` and `npm run db:seed`. Compose demo defaults remain `memory` until an operator flips backends. See [`docs/guides/SETUP.md`](guides/SETUP.md).
+
+Local Portal has an asynchronous adapter with memory and Postgres backends.
+Postgres persistence uses the restricted runtime role and RLS; the effective
+backend is selected with `PORTAL_DB_BACKEND`. Memory remains the default, so
+activity written to a memory-backed instance can disappear on restart. The
+combined post-rebase migration chain still needs fresh-database CI verification,
+and operators must preserve any runtime-only memory activity before cutover.
 
 ## Attachment storage & scanning (FEAT-001)
 

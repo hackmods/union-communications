@@ -110,7 +110,7 @@ describe("hybrid slice API", () => {
   });
 
   describe("POST /api/hybrid/slice", () => {
-    it("blocks stewards, local_exec, and dual president+exec from import", async () => {
+    it("blocks stewards and local_exec while preserving president authority for dual-role users", async () => {
       authMock.mockResolvedValue(session({ roles: ["local_steward"] }));
       expect((await importSlice(jsonRequest({ slice: validSlice() }))).status).toBe(
         403,
@@ -125,10 +125,7 @@ describe("hybrid slice API", () => {
         session({ roles: ["local_president", "local_exec"] }),
       );
       const dual = await importSlice(jsonRequest({ slice: validSlice() }));
-      expect(dual.status).toBe(403);
-      expect(await dual.json()).toEqual({
-        error: "Only local officers may import a data slice",
-      });
+      expect(dual.status).toBe(200);
     });
 
     it("rejects invalid JSON and invalid slices", async () => {

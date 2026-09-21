@@ -9,6 +9,16 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import type { Committee } from "@/types/committees";
 
+type LocalMemberOption = {
+  userId: string;
+  name: string;
+  email: string;
+  status: string;
+  accountStatus: string;
+  startedAt: string;
+  endedAt: string | null;
+};
+
 export function CommitteesBoard() {
   const t = useTranslations("committees");
   const [committees, setCommittees] = useState<Committee[]>([]);
@@ -20,6 +30,11 @@ export function CommitteesBoard() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [memberIds, setMemberIds] = useState("");
+  const [memberUserIds, setMemberUserIds] = useState<string[]>([]);
+  const [memberSelectionDirty, setMemberSelectionDirty] = useState(false);
+  const [localMembers, setLocalMembers] = useState<LocalMemberOption[]>([]);
+  const [eligibleLocalMembers, setEligibleLocalMembers] = useState<LocalMemberOption[]>([]);
+  const [memberPickerAvailable, setMemberPickerAvailable] = useState(false);
 
   async function refresh() {
     const res = await fetch("/api/committees");
@@ -46,6 +61,20 @@ export function CommitteesBoard() {
         if (!cancelled) setLoading(false);
       }
     })();
+    void fetch("/api/organization/memberships")
+      .then(async (res) => {
+        if (!res.ok) return;
+        const data = (await res.json()) as { memberships?: LocalMemberOption[] };
+        const memberships = data.memberships ?? [];
+        const now = Date.now();
+        setLocalMembers(memberships);
+        setEligibleLocalMembers(memberships.filter((membership) =>
+          membership.status === "active" && membership.accountStatus === "active" &&
+          !membership.endedAt && Date.parse(membership.startedAt) <= now,
+        ));
+        setMemberPickerAvailable(true);
+      })
+      .catch(() => undefined);
     return () => {
       cancelled = true;
     };
@@ -55,6 +84,8 @@ export function CommitteesBoard() {
     setName("");
     setDescription("");
     setMemberIds("");
+    setMemberUserIds([]);
+    setMemberSelectionDirty(false);
     setEditingId(null);
     setShowForm(false);
   }
@@ -64,6 +95,8 @@ export function CommitteesBoard() {
     setName(c.name);
     setDescription(c.description ?? "");
     setMemberIds(c.memberOfficerIds.join(", "));
+    setMemberUserIds(c.memberUserIds ?? []);
+    setMemberSelectionDirty(false);
     setShowForm(true);
   }
 
@@ -75,11 +108,19 @@ export function CommitteesBoard() {
       .split(/[,;\s]+/)
       .map((s) => s.trim())
       .filter(Boolean);
-    const body = {
+    const body: {
+      name: string;
+      description: string | undefined;
+      memberOfficerIds: string[];
+      memberUserIds?: string[];
+    } = {
       name: name.trim(),
       description: description.trim() || undefined,
       memberOfficerIds,
     };
+    if (memberPickerAvailable && (!editingId || memberSelectionDirty)) {
+      body.memberUserIds = memberUserIds;
+    }
 
     const res = editingId
       ? await fetch(`/api/committees/${editingId}`, {
@@ -144,6 +185,8 @@ export function CommitteesBoard() {
               setName("");
               setDescription("");
               setMemberIds("");
+              setMemberUserIds([]);
+              setMemberSelectionDirty(false);
               setShowForm(true);
             }
           }}
@@ -187,15 +230,49 @@ export function CommitteesBoard() {
               onChange={(e) => setDescription(e.target.value)}
             />
           </label>
+          {memberPickerAvailable && (
+            <label className="block text-sm sm:col-span-2">
+              <span className="mb-1 block font-medium text-gray-700">
+                {t("colMembers")}
+              </span>
+              <select
+                multiple
+                size={Math.min(8, Math.max(4, localMembers.length))}
+                value={memberUserIds}
+                onChange={(event) => {
+                  setMemberUserIds(Array.from(event.currentTarget.selectedOptions, (option) => option.value));
+                  setMemberSelectionDirty(true);
+                }}
+                aria-describedby="committee-members-help"
+                className="min-h-28 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue"
+              >
+                {eligibleLocalMembers.map((member) => (
+                  <option key={member.userId} value={member.userId}>
+                    {member.name} ({member.email})
+                  </option>
+                ))}
+              </select>
+              <span id="committee-members-help" className="mt-1 block text-xs text-gray-500">
+                {t("membersSelectHint")}
+              </span>
+              {eligibleLocalMembers.length === 0 && (
+                <span className="mt-1 block text-xs text-gray-500">{t("noEligibleMembers")}</span>
+              )}
+            </label>
+          )}
           <label className="block text-sm sm:col-span-2">
             <span className="mb-1 block font-medium text-gray-700">
-              {t("colMembers")}
+              {memberPickerAvailable ? t("legacyMemberIds") : t("colMembers")}
             </span>
             <Input
               value={memberIds}
               onChange={(e) => setMemberIds(e.target.value)}
               placeholder={t("membersHint")}
+              aria-describedby="committee-legacy-members-help"
             />
+            <span id="committee-legacy-members-help" className="mt-1 block text-xs text-gray-500">
+              {memberPickerAvailable ? t("legacyMemberHint") : t("membersHint")}
+            </span>
           </label>
           <div className="sm:col-span-2 flex flex-wrap gap-2">
             <Button type="submit">
@@ -241,14 +318,27 @@ export function CommitteesBoard() {
                   {c.description && (
                     <p className="mt-1 text-sm text-gray-600">{c.description}</p>
                   )}
-                  <p className="mt-2 text-xs text-gray-500">
-                    {c.memberOfficerIds.length === 0
-                      ? t("noMembers")
-                      : t("memberCount", { count: c.memberOfficerIds.length })}
-                    {c.memberOfficerIds.length > 0
-                      ? ` · ${c.memberOfficerIds.join(", ")}`
-                      : ""}
-                  </p>
+                  <div className="mt-2 text-xs text-gray-600">
+                    {(c.memberUserIds?.length ?? 0) > 0 ? (
+                      <p>
+                        <span className="font-medium">{t("colMembers")}:</span>{" "}
+                        {c.memberUserIds.map((userId) => {
+                          const member = localMembers.find((option) => option.userId === userId);
+                          if (!member) return userId;
+                          const inactive = member.status !== "active" || member.accountStatus !== "active" || Boolean(member.endedAt);
+                          return inactive ? `${member.name} (${t("inactiveMember")})` : member.name;
+                        }).join(", ")}
+                      </p>
+                    ) : c.memberOfficerIds.length === 0 ? (
+                      <p>{t("noMembers")}</p>
+                    ) : null}
+                    {c.memberOfficerIds.length > 0 && (
+                      <p className={(c.memberUserIds?.length ?? 0) > 0 ? "mt-1" : ""}>
+                        <span className="font-medium">{t("legacyMemberIds")}:</span>{" "}
+                        {c.memberOfficerIds.join(", ")}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <Button

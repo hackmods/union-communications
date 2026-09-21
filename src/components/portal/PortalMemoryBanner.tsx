@@ -5,15 +5,11 @@ import { useTranslations } from "next-intl";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
 
-/**
- * Circles still use the memory adapter — Hub's case-data banner would be
- * the wrong claim here (grievance/bumping, not Together).
- */
-export function PortalMemoryBanner() {
+export function PortalMemoryBanner({ active }: { active: boolean }) {
   const { status } = useSession();
   const t = useTranslations("portal");
 
-  if (status !== "authenticated") return null;
+  if (status !== "authenticated" || !active) return null;
 
   return (
     <div

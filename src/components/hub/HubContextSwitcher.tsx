@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { getTenantContext } from "@/lib/tenant/loader";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { cn } from "@/lib/utils";
 import type { UserRole } from "@/types/tenant";
 

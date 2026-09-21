@@ -5,8 +5,9 @@ import {
   canAccessInformalLogModule,
   canViewInformalLogEntry,
 } from "@/lib/informal-log/access";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { getTenantContext } from "@/lib/tenant/loader";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 import type { InformalLogEntry } from "@/types/informal-log";
 import type { UserRole } from "@/types/tenant";
 
@@ -64,10 +65,10 @@ export function listFiltersForInformalLogSession(session: Session) {
   const crossLocal = canCrossLocalGrievance(roles);
   return {
     unionId,
-    localId: session.user.localId,
+    localId: localScopeFilter(session.user.localId, crossLocal),
     bargainingUnitId: session.user.bargainingUnitId,
     ...(crossLocal && !session.user.localId
-      ? { localId: undefined, bargainingUnitId: undefined }
+      ? { bargainingUnitId: undefined }
       : {}),
   };
 }

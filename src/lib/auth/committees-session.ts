@@ -5,7 +5,9 @@ import {
   canAccessCommitteesModule,
   canViewCommittee,
 } from "@/lib/committees/access";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
+import { withRlsContext, type RlsSessionContext } from "@/lib/db/rls-context";
 import type { Committee } from "@/types/committees";
 import type { UserRole } from "@/types/tenant";
 
@@ -24,6 +26,9 @@ export async function requireCommitteesSession(): Promise<CommitteesSessionResul
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canAccessCommitteesModule(roles)) {
     return { ok: false, status: 403, error: "Forbidden" };
+  }
+  if (!session.user.localId && !canCrossLocalGrievance(roles)) {
+    return { ok: false, status: 403, error: "Local context required" };
   }
   return { ok: true, session };
 }
@@ -50,8 +55,9 @@ export function listFiltersForCommitteesSession(session: Session) {
   const crossLocal = canCrossLocalGrievance(roles);
   return {
     unionId,
-    localId: session.user.localId,
-    ...(crossLocal && !session.user.localId ? { localId: undefined } : {}),
+    // Local actors with missing context never turn an omitted filter into a
+    // union-wide query. Cross-local administrators may intentionally omit it.
+    localId: localScopeFilter(session.user.localId, crossLocal),
   };
 }
 
@@ -61,4 +67,24 @@ export function tenantIdsForCommitteesSession(session: Session) {
   const localId =
     session.user.localId ?? `solo-local-${session.user.id}`;
   return { unionId, localId };
+}
+
+/**
+ * Committee routes carry the authenticated actor into RLS explicitly. The
+ * store adapter intentionally does not create a second, incomplete context.
+ */
+export function withCommitteesRls<T>(
+  session: Session,
+  fn: () => Promise<T>,
+  localId: string | undefined = session.user.localId ?? undefined,
+): Promise<T> {
+  const roles = (session.user.roles ?? []) as UserRole[];
+  const context: RlsSessionContext = {
+    unionId: session.user.unionId ?? undefined,
+    localId,
+    userId: session.user.id,
+    crossLocal: canCrossLocalGrievance(roles),
+    mfaVerified: sessionMfaOk(session),
+  };
+  return withRlsContext(context, fn);
 }

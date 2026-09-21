@@ -1,5 +1,6 @@
 import { requirePortalSession } from "@/lib/portal/portal-session";
-import { portalStore } from "@/lib/portal/memory-adapter";
+import { getPortalAdapter } from "@/lib/portal/adapter";
+import { rlsContextForActor } from "@/lib/auth/rls-scope";
 import { canAdminCircle, canWriteCircle } from "@/lib/portal/access";
 import { listCircleInviteCandidates } from "@/lib/portal/circle-invitees";
 import { portalJson } from "@/lib/portal/portal-json";
@@ -16,8 +17,9 @@ export async function GET(_request: Request, ctx: Ctx) {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
-  const detail = portalStore.getCircleDetail(
+  const { session, actor } = authResult;
+  const portal = await getPortalAdapter(rlsContextForActor(session, actor));
+  const detail = await portal.getCircleDetail(
     session.user.unionId!,
     session.user.id,
     id,
@@ -25,7 +27,7 @@ export async function GET(_request: Request, ctx: Ctx) {
   if (!detail) {
     return portalJson({ error: "Not found" }, { status: 404 });
   }
-  const oversight = portalStore.oversight(id, session.user.unionId!);
+  const oversight = await portal.oversight(id, session.user.unionId!);
   return portalJson({ detail, oversight });
 }
 
@@ -38,8 +40,9 @@ export async function PATCH(request: Request, ctx: Ctx) {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
-  const detail = portalStore.getCircleDetail(
+  const { session, actor } = authResult;
+  const portal = await getPortalAdapter(rlsContextForActor(session, actor));
+  const detail = await portal.getCircleDetail(
     session.user.unionId!,
     session.user.id,
     id,
@@ -59,7 +62,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (!canAdminCircle(roles, detail.membership.role)) {
       return portalJson({ error: "Forbidden" }, { status: 403 });
     }
-    portalStore.archiveCircle(id, session.user.unionId!);
+    await portal.archiveCircle(id, session.user.unionId!);
     return portalJson({ ok: true });
   }
 
@@ -68,7 +71,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
     body.muted !== undefined ||
     body.mutedTools !== undefined
   ) {
-    const membership = portalStore.updateMembership(session.user.id, id, {
+    const membership = await portal.updateMembership(session.user.id, id, {
       ...(body.starred !== undefined ? { starred: body.starred } : {}),
       ...(body.muted !== undefined ? { muted: body.muted } : {}),
       ...(body.mutedTools !== undefined
@@ -90,8 +93,9 @@ export async function POST(request: Request, ctx: Ctx) {
       { status: authResult.status },
     );
   }
-  const { session } = authResult;
-  const detail = portalStore.getCircleDetail(
+  const { session, actor } = authResult;
+  const portal = await getPortalAdapter(rlsContextForActor(session, actor));
+  const detail = await portal.getCircleDetail(
     session.user.unionId!,
     session.user.id,
     id,
@@ -164,7 +168,7 @@ export async function POST(request: Request, ctx: Ctx) {
     if (!canAdminCircle(roles, detail.membership.role)) {
       return portalJson({ error: "Forbidden" }, { status: 403 });
     }
-    const pack = portalStore.exportActivityPack(id, unionId);
+    const pack = await portal.exportActivityPack(id, unionId);
     if (!pack) {
       return portalJson({ error: "Not found" }, { status: 404 });
     }
@@ -178,7 +182,7 @@ export async function POST(request: Request, ctx: Ctx) {
     if (!body.csv?.trim()) {
       return portalJson({ error: "Missing csv" }, { status: 400 });
     }
-    const result = portalStore.importBasecampCsv(
+    const result = await portal.importBasecampCsv(
       id,
       unionId,
       authorId,
@@ -197,7 +201,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.title?.trim() || !body.body?.trim()) {
         return portalJson({ error: "Missing fields" }, { status: 400 });
       }
-      const post = portalStore.addBulletin({
+      const post = await portal.addBulletin({
         circleId: id,
         unionId,
         authorId,
@@ -211,7 +215,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.postId || !body.body?.trim()) {
         return portalJson({ error: "Missing fields" }, { status: 400 });
       }
-      const comment = portalStore.addComment({
+      const comment = await portal.addComment({
         circleId: id,
         unionId,
         postId: body.postId,
@@ -228,7 +232,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.title?.trim()) {
         return portalJson({ error: "Missing title" }, { status: 400 });
       }
-      const action = portalStore.addAction({
+      const action = await portal.addAction({
         circleId: id,
         unionId,
         listName: body.listName?.trim() || "Actions",
@@ -246,7 +250,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.actionId) {
         return portalJson({ error: "Missing actionId" }, { status: 400 });
       }
-      const action = portalStore.completeAction(body.actionId, id, unionId);
+      const action = await portal.completeAction(body.actionId, id, unionId);
       if (!action) {
         return portalJson({ error: "Not found" }, { status: 404 });
       }
@@ -256,7 +260,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.title?.trim() || !body.startsAt) {
         return portalJson({ error: "Missing fields" }, { status: 400 });
       }
-      const event = portalStore.addCalendarEvent({
+      const event = await portal.addCalendarEvent({
         circleId: id,
         unionId,
         title: body.title.trim(),
@@ -273,7 +277,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.title?.trim() || !body.content?.trim()) {
         return portalJson({ error: "Missing fields" }, { status: 400 });
       }
-      const item = portalStore.addBinderItem({
+      const item = await portal.addBinderItem({
         circleId: id,
         unionId,
         title: body.title.trim(),
@@ -289,7 +293,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.body?.trim()) {
         return portalJson({ error: "Missing body" }, { status: 400 });
       }
-      const message = portalStore.addFloorMessage({
+      const message = await portal.addFloorMessage({
         circleId: id,
         unionId,
         authorId,
@@ -302,7 +306,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.questionId || !body.body?.trim()) {
         return portalJson({ error: "Missing fields" }, { status: 400 });
       }
-      const answer = portalStore.addRollCallAnswer({
+      const answer = await portal.addRollCallAnswer({
         questionId: body.questionId,
         circleId: id,
         authorId,
@@ -318,7 +322,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!canAdminCircle(roles, detail.membership.role)) {
         return portalJson({ error: "Forbidden" }, { status: 403 });
       }
-      const board = portalStore.ensurePipelineBoard({
+      const board = await portal.ensurePipelineBoard({
         circleId: id,
         unionId,
       });
@@ -331,7 +335,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.boardId || !body.columnId || !body.title?.trim()) {
         return portalJson({ error: "Missing fields" }, { status: 400 });
       }
-      const card = portalStore.addPipelineCard({
+      const card = await portal.addPipelineCard({
         circleId: id,
         unionId,
         boardId: body.boardId,
@@ -348,7 +352,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.cardId || !body.columnId) {
         return portalJson({ error: "Missing fields" }, { status: 400 });
       }
-      const card = portalStore.movePipelineCard(
+      const card = await portal.movePipelineCard(
         body.cardId,
         body.columnId,
         id,
@@ -366,7 +370,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!canAdminCircle(roles, detail.membership.role)) {
         return portalJson({ error: "Forbidden" }, { status: 403 });
       }
-      const post = portalStore.pinBulletin(
+      const post = await portal.pinBulletin(
         body.postId,
         id,
         unionId,
@@ -381,7 +385,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.title?.trim() || body.progress === undefined) {
         return portalJson({ error: "Missing fields" }, { status: 400 });
       }
-      const item = portalStore.upsertMomentum({
+      const item = await portal.upsertMomentum({
         id: body.momentumId,
         circleId: id,
         unionId,
@@ -403,7 +407,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.userId) {
         return portalJson({ error: "Missing fields" }, { status: 400 });
       }
-      const peer = (await listCircleInviteCandidates(unionId)).find(
+      const peer = (await listCircleInviteCandidates(unionId, rlsContextForActor(session, actor))).find(
         (user) => user.id === body.userId,
       );
       if (!peer) {
@@ -412,7 +416,7 @@ export async function POST(request: Request, ctx: Ctx) {
           { status: 400 },
         );
       }
-      const membership = portalStore.inviteToRoster({
+      const membership = await portal.inviteToRoster({
         circleId: id,
         userId: peer.id,
         userName: peer.name,
@@ -426,7 +430,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.title?.trim()) {
         return portalJson({ error: "Missing question" }, { status: 400 });
       }
-      const question = portalStore.addRollCallQuestion({
+      const question = await portal.addRollCallQuestion({
         circleId: id,
         unionId,
         question: body.title.trim(),
@@ -438,7 +442,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!canAdminCircle(roles, detail.membership.role)) {
         return portalJson({ error: "Forbidden" }, { status: 403 });
       }
-      const circle = portalStore.setFrontDates(
+      const circle = await portal.setFrontDates(
         id,
         unionId,
         body.frontStartsAt,
@@ -453,7 +457,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.resourceType || !body.resourceId) {
         return portalJson({ error: "Missing fields" }, { status: 400 });
       }
-      const ok = portalStore.softDelete(
+      const ok = await portal.softDelete(
         body.resourceType,
         body.resourceId,
         id,

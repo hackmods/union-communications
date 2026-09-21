@@ -22,6 +22,7 @@ import {
   officerLearningDbBackend,
   officersDbBackend,
   pollsDbBackend,
+  portalDbBackend,
   readEffectiveBackendFlags,
   tasksDbBackend,
   timeDbBackend,
@@ -48,6 +49,7 @@ describe("db backend flags", () => {
     expect(meetingsDbBackend({})).toBe("memory");
     expect(meetingsRsvpDbBackend({})).toBe("memory");
     expect(checkinsDbBackend({})).toBe("memory");
+    expect(portalDbBackend({})).toBe("memory");
     expect(feedbackDbBackend({})).toBe("memory");
     expect(officerLearningDbBackend({})).toBe("memory");
     expect(dataDbBackend({})).toBe("memory");
@@ -81,6 +83,7 @@ describe("db backend flags", () => {
       "memory",
     );
     expect(pollsDbBackend({ POLLS_DB_BACKEND: "postgres" })).toBe("memory");
+    expect(portalDbBackend({ PORTAL_DB_BACKEND: "postgres" })).toBe("memory");
     expect(
       grievanceDbBackend({
         GRIEVANCE_DB_BACKEND: "postgres",
@@ -153,6 +156,10 @@ describe("db backend flags", () => {
         DATABASE_URL: "postgres://localhost/unionops",
       }),
     ).toBe("postgres");
+    expect(portalDbBackend({
+      PORTAL_DB_BACKEND: "postgres",
+      DATABASE_URL: "postgres://localhost/unionops",
+    })).toBe("postgres");
   });
 
   it("reports memory inactive only when all backends are postgres", () => {
@@ -177,6 +184,7 @@ describe("db backend flags", () => {
       MEETINGS_RSVP_DB_BACKEND: "postgres",
       CHECKINS_DB_BACKEND: "postgres",
       EXPENSES_DB_BACKEND: "postgres",
+      PORTAL_DB_BACKEND: "postgres",
     };
     expect(auditDbBackend(env)).toBe("postgres");
     expect(timeDbBackend(env)).toBe("postgres");
@@ -435,6 +443,7 @@ describe("db backend flags", () => {
       MEETINGS_RSVP_DB_BACKEND: "postgres",
       CHECKINS_DB_BACKEND: "postgres",
       AUTH_USERS_BACKEND: "postgres",
+      PORTAL_DB_BACKEND: "postgres",
     };
     expect(isMemoryCaseDataActive(env)).toBe(false);
     expect(isPostgresFlipComplete(env)).toBe(false);
@@ -465,6 +474,7 @@ describe("db backend flags", () => {
       MEETINGS_DB_BACKEND: "postgres",
       MEETINGS_RSVP_DB_BACKEND: "postgres",
       CHECKINS_DB_BACKEND: "postgres",
+      PORTAL_DB_BACKEND: "postgres",
     };
     expect(isPostgresFlipComplete(base)).toBe(false);
     expect(

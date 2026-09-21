@@ -80,6 +80,7 @@ services:
       MEETINGS_DB_BACKEND: ${MEETINGS_DB_BACKEND:-memory}
       MEETINGS_RSVP_DB_BACKEND: ${MEETINGS_RSVP_DB_BACKEND:-memory}
       CHECKINS_DB_BACKEND: ${CHECKINS_DB_BACKEND:-memory}
+      PORTAL_DB_BACKEND: ${PORTAL_DB_BACKEND:-memory}
       AUTH_USERS_BACKEND: ${AUTH_USERS_BACKEND:-memory}
 
   # Optional ClamAV REST sidecar for attachment scanning (FEAT-001).

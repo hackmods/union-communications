@@ -53,7 +53,7 @@ export async function POST(
     );
   }
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const row = await withRlsContext(rlsCtx, () =>
     proposalsStore.upsertRow({
       id:

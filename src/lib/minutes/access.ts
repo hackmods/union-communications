@@ -1,7 +1,8 @@
 import type { MeetingMinutes } from "@/types/minutes";
 import type { UserRole } from "@/types/tenant";
 import { canManageQolContent } from "@/lib/qol/access";
-import { isElevatedGrievanceRole } from "@/lib/grievance/access";
+import { isElevatedGrievanceRole } from "@/lib/authorization/legacy-role-compat";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 
 /** Read/write: elevated, president, steward (and solo). */
 export function canAccessMinutesModule(roles: UserRole[]): boolean {
@@ -34,8 +35,8 @@ export function canViewMinutes(
 ): boolean {
   if (!unionId || minutes.unionId !== unionId) return false;
   if (!canAccessMinutesModule(roles)) return false;
-  if (isElevatedGrievanceRole(roles) || roles.includes("solo_account")) {
+  if (canCrossLocalGrievance(roles) || roles.includes("solo_account")) {
     return true;
   }
-  return !localId || minutes.localId === localId;
+  return Boolean(localId && minutes.localId === localId);
 }

@@ -34,7 +34,7 @@ export async function GET(
   const { session } = authResult;
   const { id } = await params;
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const draft = await withRlsContext(rlsCtx, () => bylawsStore.get(id));
   if (!draft) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -71,7 +71,7 @@ export async function PATCH(
     );
   }
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const draft = await withRlsContext(rlsCtx, () =>
     bylawsStore.update(id, {
       ...parsed.data,
@@ -117,7 +117,7 @@ export async function DELETE(
   }
   const { id } = await params;
 
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const existing = await withRlsContext(rlsCtx, () => bylawsStore.get(id));
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });

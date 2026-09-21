@@ -6,6 +6,7 @@ import {
   canCrossLocalLedger,
   canViewLedgerEntry,
 } from "@/lib/ledger/access";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 import type { LedgerEntry } from "@/types/ledger";
 import type { UserRole } from "@/types/tenant";
 
@@ -50,8 +51,7 @@ export function listFiltersForLedgerSession(session: Session) {
   const crossLocal = canCrossLocalLedger(roles);
   return {
     unionId,
-    localId: session.user.localId,
-    ...(crossLocal && !session.user.localId ? { localId: undefined } : {}),
+    localId: localScopeFilter(session.user.localId, crossLocal),
   };
 }
 

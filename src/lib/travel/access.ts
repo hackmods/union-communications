@@ -4,7 +4,10 @@ import type {
 } from "@/types/travel";
 import type { UserRole } from "@/types/tenant";
 import { canManageQolContent } from "@/lib/qol/access";
-import { isElevatedGrievanceRole } from "@/lib/grievance/access";
+import {
+  canCrossLocalGrievance,
+  isElevatedGrievanceRole,
+} from "@/lib/authorization/legacy-role-compat";
 import { canAccessLedgerModule } from "@/lib/ledger/access";
 
 /** Hub module access — stewards/officers who travel or approve. */
@@ -57,14 +60,14 @@ export function canViewTravelAuth(
 ): boolean {
   if (!unionId || auth.unionId !== unionId) return false;
   if (!canAccessTravelModule(roles)) return false;
-  if (isElevatedGrievanceRole(roles) || roles.includes("solo_account")) {
+  if (roles.includes("solo_account") || canCrossLocalGrievance(roles)) {
     return true;
   }
-  if (canElevateTravel(roles)) {
-    return !localId || auth.localId === localId;
-  }
   if (auth.requestedById === userId) return true;
-  return !localId || auth.localId === localId;
+  if (canElevateTravel(roles)) {
+    return Boolean(localId && auth.localId === localId);
+  }
+  return Boolean(localId && auth.localId === localId);
 }
 
 export function canDeleteTravelAuth(

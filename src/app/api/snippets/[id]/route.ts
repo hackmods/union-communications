@@ -5,6 +5,7 @@ import { canDeleteSharedContent, canManageQolContent } from "@/lib/qol/access";
 import { snippetStore } from "@/lib/snippets/memory-adapter";
 import type { UpdateCaSnippetInput } from "@/types/qol";
 import type { UserRole } from "@/types/tenant";
+import { canManageSnippet, canViewSnippet } from "@/lib/snippets/access";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -24,6 +25,9 @@ export async function GET(_request: Request, context: RouteContext) {
   }
   if (snippet.unionId !== authResult.session.user.unionId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+  if (!canViewSnippet(authResult.actor, snippet)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   return NextResponse.json({ snippet });
@@ -50,6 +54,9 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
   if (existing.unionId !== authResult.session.user.unionId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+  if (!canManageSnippet(authResult.actor, existing)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const raw = await request.json();
@@ -101,6 +108,9 @@ export async function DELETE(_request: Request, context: RouteContext) {
   }
   if (existing.unionId !== authResult.session.user.unionId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+  if (!canManageSnippet(authResult.actor, existing)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
   if (
     !canDeleteSharedContent(

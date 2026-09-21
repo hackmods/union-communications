@@ -1,19 +1,8 @@
 import type { Grievance } from "@/types/grievance";
 import type { UserRole } from "@/types/tenant";
+import { canCrossLocalGrievance, isElevatedGrievanceRole } from "@/lib/authorization/legacy-role-compat";
 
-const ELEVATED_ROLES: UserRole[] = [
-  "platform_admin",
-  "union_admin",
-  "division_admin",
-  "local_president",
-  "local_exec",
-];
-
-const CROSS_LOCAL_ROLES: UserRole[] = [
-  "platform_admin",
-  "union_admin",
-  "division_admin",
-];
+export { canCrossLocalGrievance, isElevatedGrievanceRole } from "@/lib/authorization/legacy-role-compat";
 
 const GRIEVANCE_ROLES: UserRole[] = [
   "platform_admin",
@@ -27,14 +16,6 @@ const GRIEVANCE_ROLES: UserRole[] = [
 
 export function canAccessGrievanceModule(roles: UserRole[]): boolean {
   return roles.some((r) => GRIEVANCE_ROLES.includes(r));
-}
-
-export function isElevatedGrievanceRole(roles: UserRole[]): boolean {
-  return roles.some((r) => ELEVATED_ROLES.includes(r));
-}
-
-export function canCrossLocalGrievance(roles: UserRole[]): boolean {
-  return roles.some((r) => CROSS_LOCAL_ROLES.includes(r));
 }
 
 export function canViewGrievance(

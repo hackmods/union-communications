@@ -1,9 +1,10 @@
-import { and, desc, eq, inArray } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, or } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import {
   grievanceEvents,
   grievanceNotes,
   grievanceOutcomes,
+  grievanceParticipants,
   grievances,
   memberCommunications,
   scheduledMeetings,
@@ -48,6 +49,8 @@ function mapGrievance(row: typeof grievances.$inferSelect): Grievance {
     localId: row.localId,
     bargainingUnitId: row.bargainingUnitId ?? undefined,
     memberPseudonym: row.memberPseudonym ?? undefined,
+    memberUserId: row.memberUserId ?? undefined,
+    privacyMode: row.privacyMode as Grievance["privacyMode"],
     category: row.category,
     status: row.status as GrievanceStatus,
     currentStep: row.currentStep,
@@ -142,10 +145,22 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
     if (filters.localId) {
       conditions.push(eq(grievances.localId, filters.localId));
     }
-    if (filters.assignedStewardId) {
-      conditions.push(
-        eq(grievances.assignedStewardId, filters.assignedStewardId),
-      );
+    if (filters.memberUserId) {
+      conditions.push(eq(grievances.memberUserId, filters.memberUserId));
+    }
+    if (filters.assignedStewardId || filters.participantUserId) {
+      const alternatives = [];
+      if (filters.assignedStewardId) alternatives.push(eq(grievances.assignedStewardId, filters.assignedStewardId));
+      if (filters.participantUserId) {
+        const participantRows = await db.select({ grievanceId: grievanceParticipants.grievanceId })
+          .from(grievanceParticipants)
+          .where(and(
+            eq(grievanceParticipants.userId, filters.participantUserId),
+            isNull(grievanceParticipants.revokedAt),
+          ));
+        if (participantRows.length) alternatives.push(inArray(grievances.id, participantRows.map((row) => row.grievanceId)));
+      }
+      conditions.push(alternatives.length ? or(...alternatives)! : eq(grievances.id, "__no_grievance_access__"));
     }
     if (filters.status) {
       conditions.push(eq(grievances.status, filters.status));
@@ -217,6 +232,8 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
       bargainingUnitId?: string;
       createdById: string;
       assignedStewardId: string;
+      memberUserId?: string;
+      privacyMode?: "standard" | "restricted";
     },
   ): Promise<GrievanceWithRelations> {
     const db = getDb();
@@ -231,6 +248,8 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
       localId: meta.localId,
       bargainingUnitId: input.bargainingUnitId ?? meta.bargainingUnitId,
       memberPseudonym: input.memberPseudonym,
+      memberUserId: input.memberUserId,
+      privacyMode: input.privacyMode ?? "standard",
       category: input.category,
       status: "open",
       currentStep: 1,
@@ -270,6 +289,7 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
       patch.memberPseudonym = input.memberPseudonym;
     }
     if (input.category !== undefined) patch.category = input.category;
+    if (input.privacyMode !== undefined) patch.privacyMode = input.privacyMode;
     if (input.assignedStewardId !== undefined) {
       patch.assignedStewardId = input.assignedStewardId;
     }
@@ -539,47 +559,56 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
     mode: "merge" | "replace",
   ): Promise<{ imported: number; removed: number }> {
     const db = getDb();
-    let removed = 0;
+    const removed = 0;
 
-    if (mode === "replace") {
-      const existing = await db
-        .select({ id: grievances.id })
-        .from(grievances)
-        .where(
-          and(eq(grievances.unionId, unionId), eq(grievances.localId, localId)),
-        );
-      const ids = existing.map((r) => r.id);
-      removed = ids.length;
-      if (ids.length > 0) {
-        await db.delete(grievances).where(inArray(grievances.id, ids));
-      }
-    }
+    // Hybrid files are not authoritative for server-managed privacy, member
+    // ownership, participants, outcomes, attachments, or access grants. A
+    // legacy "replace" import therefore merges its slice without deleting
+    // cases absent from that device's snapshot.
+    void mode;
 
     let imported = 0;
     for (const item of items) {
       const g = item.grievance;
       if (g.unionId !== unionId || g.localId !== localId) continue;
 
-      await db
-        .delete(grievances)
-        .where(eq(grievances.id, g.id))
-        .catch(() => undefined);
+      const [existing] = await db.select({ id: grievances.id }).from(grievances)
+        .where(and(eq(grievances.id, g.id), eq(grievances.unionId, unionId), eq(grievances.localId, localId))).limit(1);
+      if (existing) {
+        await db.update(grievances).set({
+          bargainingUnitId: g.bargainingUnitId,
+          memberPseudonym: g.memberPseudonym,
+          category: g.category,
+          status: g.status,
+          currentStep: g.currentStep,
+          filedAt: new Date(g.filedAt),
+          resolvedAt: g.resolvedAt ? new Date(g.resolvedAt) : null,
+          updatedAt: new Date(g.updatedAt),
+        }).where(eq(grievances.id, g.id));
+      } else {
+        await db.insert(grievances).values({
+          id: g.id,
+          unionId: g.unionId,
+          localId: g.localId,
+          bargainingUnitId: g.bargainingUnitId,
+          memberPseudonym: g.memberPseudonym,
+          memberUserId: null,
+          privacyMode: "standard",
+          category: g.category,
+          status: g.status,
+          currentStep: g.currentStep,
+          filedAt: new Date(g.filedAt),
+          resolvedAt: g.resolvedAt ? new Date(g.resolvedAt) : null,
+          assignedStewardId: g.assignedStewardId,
+          createdById: g.createdById,
+          updatedAt: new Date(g.updatedAt),
+        });
+      }
 
-      await db.insert(grievances).values({
-        id: g.id,
-        unionId: g.unionId,
-        localId: g.localId,
-        bargainingUnitId: g.bargainingUnitId,
-        memberPseudonym: g.memberPseudonym,
-        category: g.category,
-        status: g.status,
-        currentStep: g.currentStep,
-        filedAt: new Date(g.filedAt),
-        resolvedAt: g.resolvedAt ? new Date(g.resolvedAt) : null,
-        assignedStewardId: g.assignedStewardId,
-        createdById: g.createdById,
-        updatedAt: new Date(g.updatedAt),
-      });
+      await db.delete(grievanceEvents).where(eq(grievanceEvents.grievanceId, g.id));
+      await db.delete(grievanceNotes).where(eq(grievanceNotes.grievanceId, g.id));
+      await db.delete(memberCommunications).where(eq(memberCommunications.grievanceId, g.id));
+      await db.delete(scheduledMeetings).where(eq(scheduledMeetings.grievanceId, g.id));
 
       if (item.events.length) {
         await db.insert(grievanceEvents).values(

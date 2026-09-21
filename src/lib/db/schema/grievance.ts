@@ -5,7 +5,7 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { bargainingUnits, locals, unions } from "./tenant";
+import { bargainingUnits, locals, unions, users } from "./tenant";
 
 export const grievances = pgTable(
   "grievances",
@@ -22,6 +22,8 @@ export const grievances = pgTable(
       { onDelete: "set null" },
     ),
     memberPseudonym: text("member_pseudonym"),
+    memberUserId: text("member_user_id").references(() => users.id, { onDelete: "set null" }),
+    privacyMode: text("privacy_mode").notNull().default("standard").$type<"standard" | "restricted">(),
     category: text("category").notNull(),
     status: text("status").notNull(),
     currentStep: integer("current_step").notNull().default(1),

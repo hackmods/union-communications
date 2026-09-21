@@ -5,7 +5,7 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { locals, unions } from "./tenant";
+import { locals, unions, users } from "./tenant";
 
 /** ORG-002 — local officer roster with term dates (governance, not Comms letterhead). */
 export const officerRoster = pgTable(
@@ -19,6 +19,8 @@ export const officerRoster = pgTable(
       .notNull()
       .references(() => locals.id, { onDelete: "restrict" }),
     name: text("name").notNull(),
+    userId: text("user_id").references(() => users.id, { onDelete: "set null" }),
+    canonicalPosition: text("canonical_position"),
     role: text("role").notNull(),
     /** ISO date or datetime string (YYYY-MM-DD…). */
     termStart: text("term_start").notNull(),

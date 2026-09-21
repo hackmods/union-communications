@@ -6,6 +6,7 @@ import type { Session } from "next-auth";
 import { canAccessBylawsModule, canWriteBylaws } from "@/lib/hub-governance/access";
 import type { HubBylawDraft } from "@/types/hub-bylaws";
 import type { UserRole } from "@/types/tenant";
+import { localScopeFilter } from "@/lib/authorization/scope-filter";
 
 export type BylawsSessionResult =
   | { ok: true; session: Session }
@@ -63,9 +64,7 @@ export function bylawsListScope(session: Session): {
   const crossLocal = roles.some((r) => CROSS_LOCAL_ROLES.includes(r));
   return {
     unionId: session.user.unionId ?? "__none__",
-    ...(!crossLocal && session.user.localId
-      ? { localId: session.user.localId }
-      : {}),
+    localId: localScopeFilter(session.user.localId, crossLocal),
   };
 }
 
@@ -75,8 +74,7 @@ export function bylawsScopedForSession(
   draft: HubBylawDraft,
 ): boolean {
   if (draft.unionId !== session.user.unionId) return false;
-  if (!session.user.localId) return true;
   const roles = (session.user.roles ?? []) as UserRole[];
   if (roles.some((r) => CROSS_LOCAL_ROLES.includes(r))) return true;
-  return draft.localId === session.user.localId;
+  return Boolean(session.user.localId && draft.localId === session.user.localId);
 }

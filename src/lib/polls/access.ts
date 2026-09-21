@@ -1,6 +1,6 @@
 import type { PollDefinition } from "@/types/polls";
 import type { UserRole } from "@/types/tenant";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { canManageQolContent } from "@/lib/qol/access";
 
 /** Officer access — same tier as CA snippets (FUTURE-006 blueprint). */
@@ -21,5 +21,5 @@ export function canViewPoll(
   if (!unionId || poll.unionId !== unionId) return false;
   if (!canAccessPollsModule(roles)) return false;
   if (canCrossLocalGrievance(roles)) return true;
-  return !localId || poll.localId === localId;
+  return Boolean(localId && poll.localId === localId);
 }

@@ -40,6 +40,7 @@ import type {
 } from "@/types/qol";
 import type { AttachmentMeta } from "@/types/attachments";
 import { RelatedTasksPanel } from "@/components/hub/RelatedTasksPanel";
+import { GrievanceAccessPanel, GrievanceAttachmentShareToggle, GrievanceMemberUpdatesPanel } from "@/components/grievance/GrievanceAccessPanel";
 
 const OUTCOME_TYPES: GrievanceOutcomeType[] = [
   "upheld",
@@ -72,6 +73,8 @@ interface GrievanceDetailData {
   isOverdue: boolean;
   grievanceConfig: GrievanceConfig | null;
   localNumber?: string;
+  summaryOnly?: boolean;
+  authorization?: { level: "member_safe" | "summary" | "case_read" | "case_write"; reason: string; canManageAccess: boolean; canPublishMemberUpdates: boolean };
 }
 
 const CHANNELS: CommunicationChannel[] = [
@@ -87,7 +90,7 @@ export function GrievanceDetail({ id }: { id: string }) {
   const tq = useTranslations("qol");
   const th = useTranslations("hybrid");
   const locale = useLocale() as "en" | "fr";
-  const { readOnly } = useStewardReadOnly();
+  const { readOnly: mobileReadOnly } = useStewardReadOnly();
   const {
     getGrievance,
     updateGrievance,
@@ -468,6 +471,7 @@ export function GrievanceDetail({ id }: { id: string }) {
     isOverdue,
     grievanceConfig,
   } = data;
+  const readOnly = mobileReadOnly || Boolean(data.authorization && data.authorization.level !== "case_write");
 
   return (
     <div className={readOnly ? "max-w-3xl" : undefined}>
@@ -487,7 +491,7 @@ export function GrievanceDetail({ id }: { id: string }) {
         </p>
       )}
 
-      {readOnly && (
+      {mobileReadOnly && (
         <p
           className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
           role="status"
@@ -495,6 +499,23 @@ export function GrievanceDetail({ id }: { id: string }) {
           {tq("mobile.readOnlyBanner")}
         </p>
       )}
+
+      {data.authorization ? (
+        <p role="status" className="mt-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700">
+          {t(`access.${data.authorization.level}`)} · {t(`access.reason.${data.authorization.reason}`)}
+        </p>
+      ) : null}
+
+      {data.authorization && ["case_read", "case_write"].includes(data.authorization.level) ? (
+        <>
+          <GrievanceAccessPanel
+            id={id}
+            initialPrivacyMode={grievance.privacyMode ?? "standard"}
+            canManage={data.authorization.canManageAccess}
+          />
+          <GrievanceMemberUpdatesPanel id={id} canPublish={data.authorization.canPublishMemberUpdates} />
+        </>
+      ) : null}
 
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>
@@ -927,6 +948,7 @@ export function GrievanceDetail({ id }: { id: string }) {
                     {t("attachments.download")}
                   </a>
                 )}
+                {data.authorization && ["case_read", "case_write"].includes(data.authorization.level) ? <GrievanceAttachmentShareToggle id={id} attachmentId={a.id} /> : null}
               </li>
             ))}
           </ul>

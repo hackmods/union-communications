@@ -31,6 +31,9 @@ services:
       MEETINGS_DB_BACKEND: postgres
       MEETINGS_RSVP_DB_BACKEND: postgres
       CHECKINS_DB_BACKEND: postgres
+      # Portal defaults to memory until operators export any runtime-only
+      # activity and explicitly opt into the verified durable adapter.
+      PORTAL_DB_BACKEND: ${PORTAL_DB_BACKEND:-memory}
       AUTH_USERS_BACKEND: postgres
       AUTH_ALLOW_DEMO_USERS: "false"
       AUTH_MFA_ENABLED: "true"

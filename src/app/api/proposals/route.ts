@@ -45,7 +45,7 @@ export async function GET() {
   }
   const { session } = authResult;
   const scope = proposalsListScope(session);
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const packages = await withRlsContext(rlsCtx, () =>
     proposalsStore.listPackages(scope.unionId, scope.localId),
   );
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
 
   const unionId = session.user.unionId!;
   const localId = session.user.localId!;
-  const rlsCtx = rlsContextForSession(session) ?? {};
+  const rlsCtx = await rlsContextForSession(session) ?? {};
 
   const pkg = await withRlsContext(rlsCtx, () =>
     proposalsStore.createPackage({
