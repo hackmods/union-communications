@@ -4,6 +4,7 @@ import { auditLog } from "@/lib/audit/store";
 import { rlsContextForSession } from "@/lib/auth/rls-scope";
 import {
   canPublishProposalsForSession,
+  loadProposalPackageScoped,
   requireProposalsSession,
 } from "@/lib/auth/proposals-session";
 import { withRlsContext } from "@/lib/db/rls-context";
@@ -29,11 +30,11 @@ export async function GET(
   }
   const { session } = authResult;
   const { id } = await params;
-  const rlsCtx = await rlsContextForSession(session) ?? {};
-  const pkg = await withRlsContext(rlsCtx, () => proposalsStore.getPackage(id));
+  const pkg = await loadProposalPackageScoped(id, session);
   if (!pkg) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+  const rlsCtx = await rlsContextForSession(session) ?? {};
   const publications = await withRlsContext(rlsCtx, () =>
     proposalsStore.listPublications(pkg.unionId, pkg.localId),
   );
@@ -68,11 +69,11 @@ export async function POST(
     );
   }
 
-  const rlsCtx = await rlsContextForSession(session) ?? {};
-  const pkg = await withRlsContext(rlsCtx, () => proposalsStore.getPackage(id));
+  const pkg = await loadProposalPackageScoped(id, session);
   if (!pkg) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+  const rlsCtx = await rlsContextForSession(session) ?? {};
 
   const publication = await withRlsContext(rlsCtx, () =>
     proposalsStore.publish({

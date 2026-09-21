@@ -72,6 +72,14 @@ export async function PATCH(
   }
 
   const rlsCtx = await rlsContextForSession(session) ?? {};
+  const existing = await withRlsContext(rlsCtx, () => bylawsStore.get(id));
+  if (!existing) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+  if (!bylawsScopedForSession(session, existing)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const draft = await withRlsContext(rlsCtx, () =>
     bylawsStore.update(id, {
       ...parsed.data,
@@ -83,9 +91,6 @@ export async function PATCH(
   );
   if (!draft) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
-  if (!bylawsScopedForSession(session, draft)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   await auditLog.log({

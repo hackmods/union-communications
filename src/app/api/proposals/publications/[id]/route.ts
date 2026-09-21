@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auditLog } from "@/lib/audit/store";
 import { rlsContextForSession } from "@/lib/auth/rls-scope";
-import { requireProposalsSession } from "@/lib/auth/proposals-session";
+import {
+  canPublishProposalsForSession,
+  proposalsListScope,
+  requireProposalsSession,
+} from "@/lib/auth/proposals-session";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { proposalsStore } from "@/lib/hub-governance/store";
 import { parseJsonBody } from "@/lib/validation/parse";
@@ -24,6 +28,9 @@ export async function PATCH(
     );
   }
   const { session } = authResult;
+  if (!canPublishProposalsForSession(session)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
   const { id } = await params;
 
   const raw = await request.json().catch(() => null);
@@ -35,7 +42,16 @@ export async function PATCH(
     );
   }
 
+  const scope = proposalsListScope(session);
   const rlsCtx = await rlsContextForSession(session) ?? {};
+  const inScope = await withRlsContext(rlsCtx, () =>
+    proposalsStore
+      .listPublications(scope.unionId, scope.localId)
+      .then((publications) => publications.some((publication) => publication.id === id)),
+  );
+  if (!inScope) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
   const ok = await withRlsContext(rlsCtx, () =>
     proposalsStore.archivePublication(id),
   );
