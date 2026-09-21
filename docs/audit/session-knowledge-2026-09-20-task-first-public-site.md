@@ -108,6 +108,14 @@ Observe completion, wrong turns, questions, and terminology in notes; do not int
 - No analytics, external search, or third-party marketing scripts.
 - Keep Hub, Portal, API authorization, editors, and storage behavior out of public-navigation changes unless separately scoped and reviewed.
 
+## 2026-09-21 follow-up lessons
+
+- Brand Kit is a distinct first task, not just a category inside Create. Give it a direct, text-labeled primary-nav destination and make the homepage spell out the order: Brand Kit → Create → Learn. Keep the logo's Home destination separate from the task flow.
+- Keep the primary destinations in `PUBLIC_PRIMARY_NAV`; tests should assert the registry and that desktop/mobile shells render it, not search the header component for hard-coded `href` strings after navigation is data-driven.
+- Full CI caught assumptions that focused catalog tests missed: when adding a backend flag, update the authoritative flag-count test; when removing flyouts, move structural tests to the new navigation registry.
+- A migration-hole test must rewind every post-checkpoint object it plans to replay. The Docker fixture now removes grievance access/privacy objects and clears post-checkpoint RLS policies before replaying migrations 0036 onward. Validate this against the complete migration tail, not just the fresh-volume path.
+- The brand/navigation follow-up's localized/browser checks do not replace a real first-use task session. Keep the remaining EN/FR moderated usability and assistive-technology validation listed above.
+
 ## Verification for the next UX pass
 
 - Validate rough time estimates item-by-item with a content owner.

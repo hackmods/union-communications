@@ -75,13 +75,16 @@ describe("clampFlyoutToViewport", () => {
 
 describe("public header uses task-first direct navigation", () => {
   it("links to focused destinations without public flyouts", () => {
-    const source = readFileSync(join(srcRoot, "components/layout/Header.tsx"), "utf8");
-    expect(source).toContain('href="/start"');
-    expect(source).toContain('href="/create"');
-    expect(source).toContain('href="/learn"');
-    expect(source).toContain('href="/search"');
-    expect(source).not.toContain("MenuContents");
-    expect(source).not.toContain('from "./nav/NavDropdown"');
+    const header = readFileSync(join(srcRoot, "components/layout/Header.tsx"), "utf8");
+    const navConfig = readFileSync(join(srcRoot, "components/layout/nav/nav-config.ts"), "utf8");
+    expect(navConfig).toContain('{ href: "/start", key: "start" }');
+    expect(navConfig).toContain('{ href: "/create/brand-kit", key: "brandKit" }');
+    expect(navConfig).toContain('{ href: "/create", key: "create" }');
+    expect(navConfig).toContain('{ href: "/learn", key: "learn" }');
+    expect(header).toContain('href="/search"');
+    expect(header).toContain("PUBLIC_PRIMARY_NAV.map");
+    expect(header).not.toContain("MenuContents");
+    expect(header).not.toContain('from "./nav/NavDropdown"');
   });
 
   it("uses a responsive three-column maximum for the Create catalog", () => {

@@ -486,6 +486,6 @@ describe("db backend flags", () => {
     });
     expect(flags.GRIEVANCE_DB_BACKEND).toBe("postgres");
     expect(flags.AUTH_USERS_BACKEND).toBe("postgres");
-    expect(DB_BACKEND_ENV_KEYS).toHaveLength(26);
+    expect(DB_BACKEND_ENV_KEYS).toHaveLength(27);
   });
 });
