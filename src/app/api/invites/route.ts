@@ -21,6 +21,8 @@ import {
   createCollectionDurable,
 } from "@/lib/tenant/persist";
 import { parseJsonBody } from "@/lib/validation/parse";
+import { accessRequestStore } from "@/lib/access-requests/store";
+import { withRlsContext } from "@/lib/db/rls-context";
 import type { UserRole } from "@/types/tenant";
 
 const createSchema = z.object({
@@ -36,6 +38,8 @@ const createSchema = z.object({
   bargainingUnitId: z.string().optional(),
   /** When true, attempt transactional invite email after create (R3). */
   sendEmail: z.boolean().optional(),
+  /** Optional reviewed beta request being fulfilled by this invitation. */
+  requestId: z.string().min(1).optional(),
 });
 
 function inviteEmailKind(
@@ -212,6 +216,26 @@ export async function POST(req: Request) {
     roles: parsed.data.roles as UserRole[],
     invitedById: session.user.id,
   });
+
+  if (parsed.data.requestId && localId) {
+    await withRlsContext(
+      {
+        userId: session.user.id,
+        unionId,
+        localId,
+        mfaVerified: true,
+        crossLocal: canInvitePresident,
+      },
+      () =>
+        accessRequestStore.update(parsed.data.requestId!, {
+          inviteId: invite.id,
+          status: "invited",
+          unionId,
+          localId,
+          reviewedById: session.user.id,
+        }),
+    );
+  }
 
   const acceptPath = `/app/invite/${invite.token}`;
   let emailSent: boolean | undefined;

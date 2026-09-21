@@ -24,6 +24,8 @@ const SHELL_PATHS = [
   "/security",
   "/accessibility",
   "/feedback",
+  "/join",
+  "/request-access",
 ] as const;
 
 /** Public indexable paths (no locale prefix), derived from canonical registries. */

@@ -224,6 +224,14 @@ export default function LoginPage() {
       </div>
 
       <p className="mt-4 text-center text-sm">
+        <span className="block text-gray-700">{t("betaAccessPrompt")}</span>
+        <span className="mt-2 block">
+          <Link href="/join" className="font-semibold text-opseu-blue underline">{t("bringLocal")}</Link>
+          <span className="mx-2 text-gray-400">·</span>
+          <Link href="/request-access" className="font-semibold text-opseu-blue underline">{t("memberAccess")}</Link>
+        </span>
+      </p>
+      <p className="mt-4 text-center text-sm">
         <Link href="/" className="text-opseu-blue underline">
           {t("backToPublic")}
         </Link>

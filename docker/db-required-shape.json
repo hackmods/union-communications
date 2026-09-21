@@ -4,6 +4,126 @@
   "schema": "public",
   "tables": [
     {
+      "name": "access_requests",
+      "columns": [
+        {
+          "name": "consent_accepted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "invite_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "kind",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "local_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "locale",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "message",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "notification_error",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "notify_sent_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "offerings",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "private_note",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "receipt_sent_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "review_history",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "reviewed_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "role",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "submission_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "union_name",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "attachment_meta",
       "columns": [
         {
@@ -6047,6 +6167,26 @@
     }
   ],
   "policies": [
+    {
+      "schema": "public",
+      "table": "access_requests",
+      "name": "access_requests_local_select"
+    },
+    {
+      "schema": "public",
+      "table": "access_requests",
+      "name": "access_requests_local_update"
+    },
+    {
+      "schema": "public",
+      "table": "access_requests",
+      "name": "access_requests_operator_all"
+    },
+    {
+      "schema": "public",
+      "table": "access_requests",
+      "name": "access_requests_public_submit"
+    },
     {
       "schema": "public",
       "table": "attachment_meta",

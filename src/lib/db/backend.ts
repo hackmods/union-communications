@@ -33,6 +33,7 @@ export const DB_BACKEND_ENV_KEYS = [
   "BYLAWS_DB_BACKEND",
   "PROPOSALS_DB_BACKEND",
   "DATA_DB_BACKEND",
+  "ACCESS_REQUEST_DB_BACKEND",
   "PORTAL_DB_BACKEND",
 ] as const;
 
@@ -275,6 +276,7 @@ export function readEffectiveBackendFlags(
     BYLAWS_DB_BACKEND: bylawsDbBackend(env),
     PROPOSALS_DB_BACKEND: proposalsDbBackend(env),
     DATA_DB_BACKEND: dataDbBackend(env),
+    ACCESS_REQUEST_DB_BACKEND: resolveBackend("ACCESS_REQUEST_DB_BACKEND", env),
     PORTAL_DB_BACKEND: portalDbBackend(env),
   };
 }

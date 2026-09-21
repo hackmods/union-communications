@@ -3,6 +3,7 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { InvitesBoard } from "@/components/hub/InvitesBoard";
+import { MemberAccessRequests } from "@/components/hub/MemberAccessRequests";
 import { canManageInvites } from "@/lib/tenant/access";
 import type { UserRole } from "@/types/tenant";
 
@@ -20,5 +21,5 @@ export default async function InvitesPage({
   if (!canManageInvites(roles)) {
     redirect(`/${locale}/app`);
   }
-  return <InvitesBoard />;
+  return <><InvitesBoard /><MemberAccessRequests /></>;
 }
