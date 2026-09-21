@@ -24,6 +24,13 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "member-case-access-controls",
+    date: "2026-09-21",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/grievances/new",
+  },
+  {
     id: "public-task-first-navigation",
     date: "2026-09-21",
     kind: "improved",
@@ -41,13 +48,6 @@ export const UPDATES: readonly UpdateEntry[] = [
     kind: "added",
     audience: "hub",
     href: "/app/data",
-  },
-  {
-    id: "member-case-access-controls",
-    date: "2026-09-20",
-    kind: "improved",
-    audience: "hub",
-    href: "/app/grievances",
   },
   {
     id: "hub-bylaws-proposals",

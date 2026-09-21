@@ -1,4 +1,4 @@
-import { and, asc, eq, isNull, lte } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
@@ -8,8 +8,9 @@ import { decideCapability } from "@/lib/authorization/model";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { grievanceStore } from "@/lib/grievance/store";
-import { grievanceParticipants as participantRows, localMemberships, users } from "@/lib/db/schema";
+import { grievanceParticipants as participantRows, users } from "@/lib/db/schema";
 import { authorizeGrievance, isValidGrievanceParticipant } from "@/lib/grievance/authorization";
+import { hasActiveGrievanceLocalMember, listActiveGrievanceLocalMembers } from "@/lib/grievance/local-members";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -59,16 +60,13 @@ export async function GET(_request: Request, { params }: Params) {
   const primaryCaseWorker = !listed && context.data.grievance.assignedStewardId
     ? [{ id: "legacy-primary-case-worker", userId: context.data.grievance.assignedStewardId, name: null, relationship: "case_worker", accessLevel: "case_write", legacy: true }]
     : [];
-  const availableMembers = context.canManage ? await withRlsContext(context.rls, () => getDb().select({
-    userId: users.id,
-    name: users.name,
-    email: users.email,
-  }).from(localMemberships).innerJoin(users, eq(users.id, localMemberships.userId)).where(and(
-    eq(localMemberships.unionId, context.data.grievance.unionId),
-    eq(localMemberships.localId, context.data.grievance.localId),
-    eq(localMemberships.status, "active"), isNull(localMemberships.endedAt),
-    lte(localMemberships.startedAt, new Date()),
-  )).orderBy(asc(users.name))) : [];
+  const availableMembers = context.canManage
+    ? (await listActiveGrievanceLocalMembers({
+        unionId: context.data.grievance.unionId,
+        localId: context.data.grievance.localId,
+        rls: context.rls,
+      })).map(({ id: userId, name, email }) => ({ userId, name, email }))
+    : [];
   return NextResponse.json({
     privacyMode: context.data.grievance.privacyMode ?? "standard",
     participants: [...primaryCaseWorker, ...participants],
@@ -90,13 +88,13 @@ export async function POST(request: Request, { params }: Params) {
   if (!isValidGrievanceParticipant({ userId: body.userId, relationship: body.relationship!, accessLevel: body.accessLevel! }, context.data.grievance)) {
     return NextResponse.json({ error: "The participant relationship and access level are not valid for this grievance" }, { status: 400 });
   }
-  const [membership] = await withRlsContext(context.rls, () => getDb().select({ id: localMemberships.id }).from(localMemberships).where(and(
-    eq(localMemberships.unionId, context.data.grievance.unionId),
-    eq(localMemberships.localId, context.data.grievance.localId),
-    eq(localMemberships.userId, body.userId!),
-    eq(localMemberships.status, "active"), isNull(localMemberships.endedAt), lte(localMemberships.startedAt, new Date()),
-  )).limit(1));
-  if (!membership) return NextResponse.json({ error: "Participant must be an active member of this local" }, { status: 400 });
+  const isActiveMember = await hasActiveGrievanceLocalMember({
+    unionId: context.data.grievance.unionId,
+    localId: context.data.grievance.localId,
+    userId: body.userId,
+    rls: context.rls,
+  });
+  if (!isActiveMember) return NextResponse.json({ error: "Participant must be an active member of this local" }, { status: 400 });
   const [existing] = await withRlsContext(context.rls, () => getDb().select({ id: participantRows.id }).from(participantRows).where(and(
     eq(participantRows.grievanceId, id), eq(participantRows.userId, body.userId!),
   )).limit(1));

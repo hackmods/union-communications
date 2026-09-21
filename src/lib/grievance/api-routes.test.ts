@@ -18,6 +18,8 @@ import {
   POST as createMeeting,
 } from "@/app/api/grievances/[id]/meetings/route";
 import { POST as createNote } from "@/app/api/grievances/[id]/notes/route";
+import { POST as addParticipant } from "@/app/api/grievances/[id]/participants/route";
+import { GET as getCreateOptions } from "@/app/api/grievances/options/route";
 import {
   GET as getOutcome,
   POST as recordOutcome,
@@ -90,6 +92,25 @@ describe("grievance communications / meetings / notes / outcome API", () => {
   afterEach(() => {
     resetGrievanceMemoryForTests();
     resetGrievanceStore();
+  });
+
+  describe("case creation options", () => {
+    it("exposes restricted privacy only to local access managers", async () => {
+      authMock.mockResolvedValue(session());
+      const authorized = await getCreateOptions();
+      expect(authorized.status).toBe(200);
+      expect(await authorized.json()).toMatchObject({
+        members: [],
+        caseWorkers: [],
+        canCreate: true,
+        canManageAccess: true,
+        allowRestricted: true,
+      });
+
+      authMock.mockResolvedValue(session({ roles: ["local_member"] }));
+      const forbidden = await getCreateOptions();
+      expect(forbidden.status).toBe(403);
+    });
   });
 
   describe("communications", () => {
@@ -233,6 +254,22 @@ describe("grievance communications / meetings / notes / outcome API", () => {
           )
         ).status,
       ).toBe(404);
+    });
+  });
+
+  describe("participant access management", () => {
+    it("does not let an assigned steward add staff to a grievance", async () => {
+      authMock.mockResolvedValue(stewardSession());
+      const response = await addParticipant(
+        jsonRequest({
+          userId: "user-member-7",
+          relationship: "observer",
+          accessLevel: "case_read",
+        }),
+        params("grev-001"),
+      );
+
+      expect(response.status).toBe(404);
     });
   });
 

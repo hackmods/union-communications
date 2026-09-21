@@ -11,18 +11,18 @@ Finish the remaining work needed for consistent server-authoritative membership,
 
 ## Current verified state
 
-**Rebase note (2026-09-21):** Upstream `main` had already claimed `0040` for Data Workbench. The authorization migrations are now `0041`–`0052`, the merged journal contains 53 entries, and the generated contract declares 104 tables and 98 policies. Earlier live database results used the feature-only chain; verify the combined chain in CI before treating the new generated counts as live evidence.
+**Rebase and verification note (2026-09-21):** Upstream `main` had already claimed `0040` for Data Workbench. The authorization migrations are `0041`–`0052`, the merged journal contains 53 entries, and the combined chain has now passed a fresh disposable Postgres deploy and a representative `0039`-era upgrade through `0052`.
 
-- The final journal preserves upstream `0040_data_workbench` and appends the authorization/Portal chain as `0041`–`0052`; the merged journal contains 53 indexed entries. The generated contract declares 104 tables and 98 policies. Re-run `db:check` and fresh database gates in CI. Pre-rebase disposable PostgreSQL verification exercised the feature chain through its archive-access migration (then tagged `0051`) at 94 tables and 88 policies; the combined post-rebase chain still needs fresh-database/CI verification.
+- The final journal preserves upstream `0040_data_workbench` and appends the authorization/Portal chain as `0041`–`0052`; the merged journal contains 53 indexed entries. `db:check` passes; a fresh combined deploy reports 104 tables, 1,103 columns, and 98 policies. The combined chain also passes seed, restricted-role RLS smoke, Portal durability smoke, and an automated upgrade fixture built from a `0039`-era schema. Do not substitute the older feature-only counts (94 tables / 88 policies) for current evidence.
 - Shared actor/capability scaffolding and the Grievance access matrix are implemented, including member-safe case projection and server-owned privacy/participant records.
 - Organization APIs/UI exist for membership, office assignment, delegation, and effective access. The UI shows account state, can switch the primary local, captures office terms, and links canonical assignments to existing roster entries. Invitations use effective capabilities. Committee user-link management is implemented; migration `0051` (the pre-rebase `0050`) was live-verified for same-local linking, wrong-local denial, and missing-local denial. Postgres-backed browser lifecycle coverage remains.
-- Portal schemas/RLS, async `PortalAdapter`, Postgres adapter, scoped API call sites, `PORTAL_DB_BACKEND` health flag, conditional memory warning, and Hall self-enrollment path are implemented. The feature-only migration chain, seed, `db:rls-smoke`, expanded Portal durability smoke, and process-restart smoke passed as restricted `unionops_app` before rebasing. The final combined chain—including upstream Data Workbench—has not yet passed a fresh deploy/RLS/durability run.
+- Portal schemas/RLS, async `PortalAdapter`, Postgres adapter, scoped API call sites, `PORTAL_DB_BACKEND` health flag, conditional memory warning, and Hall self-enrollment path are implemented. On the combined chain, seed, `db:rls-smoke`, and Portal durability smoke pass as restricted `unionops_app` on the isolated verification database. Standalone Next process-restart persistence passed on the pre-rebase feature chain; repeat it on the combined chain after the production build.
 - Cross-feature role checks remain in several modules. A compatibility layer was added, but this is not the full actor/capability migration.
 - Missing-local fail-open behavior was closed for list and direct-ID scope in elections, check-ins, discussions, informal logs, expenses, polls, ledger, minutes, travel, tasks, committees, officer records, meetings, bumping, time records, bylaws, and proposals. Explicit cross-local admin paths remain; local owner/assignee/requester paths are preserved where the feature has them. This is a bounded scope fix, not completion of the actor/capability migration (see L23–L24 in the companion lessons file).
 - A follow-up CA snippet review found same-union direct-ID reads and writes did not check local ownership. List/detail/mutation now use the resolved actor's current membership and local scope; local officers cannot write another local's snippet. This remains a legacy in-memory feature and will need the same actor/capability migration as adjacent grievance support surfaces.
 - Durable actor resolution now derives the selected local and bargaining unit from the current active membership row, clearing stale session scope after transfer or revocation. Additional database-backed actor-resolution coverage remains part of the revocation test work.
 - A shared `localScopeFilter` now represents absent local context with a nonmatching sentinel unless an explicit cross-local capability or owner-only query applies. New paired regressions cover query filters and direct record policies.
-- Earlier unit suite passed: 2,033 tests across 322 files, 1 skipped. Typecheck, build, lint, and DB shape checks passed at that checkpoint; lint has one pre-existing unused-variable warning and the build retains the existing Edge `crypto` warning.
+- The follow-up full unit suite passes: 2,075 tests across 331 files, with 1 skipped. Typecheck and the focused restricted-intake browser smoke also pass; lint/build and the combined-chain process-restart smoke are the remaining local verification gates.
 - Latest focused missing-local scope run passed 16 suites / 92 tests, including the new cross-feature and Hub governance scope regressions. `npm run typecheck` passed after these changes.
 - The latest full unit run passed 2,047 tests across 325 files, with 1 skipped, using two workers after PDF layout timeout noise under higher parallelism; the discussion local-scope compatibility check passes after removing an unintended creator exception, and the new snippet and committee-link tests pass.
 - `src/lib/snippets/api-routes.test.ts` passes 13 tests including no-local denial and wrong-local detail/write coverage; typecheck passed after the snippet changes.
@@ -30,14 +30,16 @@ Finish the remaining work needed for consistent server-authoritative membership,
 - Portal desktop/mobile browser verification against UnionOps on a dedicated port passed all 22 checks. The Portal smoke fixtures now target the Local 7 Hall used by memory/demo seed. A sticky-tab overlap that blocked the Many hands start button was fixed and verified.
 - Hub organization browser verification passed all 12 existing surface checks plus a new membership/authority page-load check. Full membership, office, delegation, and revocation browser flows still need a seeded Postgres app fixture because these APIs require Postgres.
 - An earlier broad smoke run reused port 3000, which belonged to an unrelated app; discard those results. A first corrected-port run exposed the Local 243/Local 7 fixture mismatch, which is now fixed for Portal desktop/mobile specs.
-- Pre-rebase verification used an isolated disposable Postgres 16 container, not a production database. The feature-only chain reached its archive-access migration (then tagged `0051`; now `0052`) with 94 tables / 993 columns / 88 policies; seed, RLS, Portal durability, and a standalone Next process restart passed as `unionops_app`. This does not verify the combined journal after adding upstream `0040_data_workbench`. A representative `0039`-era upgrade fixture, full adapter parity, broader RLS/API matrix, member/officer browser flows, and production cutover remain open.
+- Verification uses an isolated disposable Postgres 16 container, not a production database. The upgrade smoke backfills primary and eligible additional memberships, officer assignments, same-union roster links, resolvable committee links while retaining unresolved legacy references, assigned-steward participants, and preserves attachment metadata; it rejects cross-union roster links and proves the runtime role is not owner or `BYPASSRLS`. The fixture is repeatable from an empty database and passed through `0052`.
+- Still open: method-by-method Postgres adapter parity; broader independent API/RLS allow-deny coverage; database-backed browser flows for membership, office, delegation, and revocation; complete member updates/attachment sharing/access-explanation UX coverage; the bounded cross-feature capability migration; and production cutover.
+- Grievance intake now exposes registered-member selection, restricted privacy, and initial case-worker assignment when server-provided capabilities and durable membership data permit it; pseudonym-only intake remains available. A focused browser smoke passes for restricted pseudonym intake and its access panel. Case-worker/member candidates are filtered to active, same-union, same-local, non-archived and non-locked accounts. The access panel does not yet fully enumerate office, delegation expiry, and break-glass sources.
 - Never use the visible Docker database attached to the saved base-project Compose stack as a disposable migration target. The successful smoke fixture was separately provisioned and disposable. No production export, production migration, or cutover was performed.
 
 ## Remaining blockers and recommended order
 
 | Order | Work | Dependency | Done when |
 |---|---|---|---|
-| 1 | Build a representative `0039`-era upgrade fixture and migrate it through current tail `0052`, after fresh verification of the combined migration chain. Full standalone process restart was verified against the pre-rebase feature chain. | Local fixture engineering | Backfilled users, roles, committees, grievances, attachments, demo Circles, and legacy Portal rows retain intended access/content after upgrade; RLS and smoke gates pass at the current tail. |
+| 1 | ~~Build a representative `0039`-era upgrade fixture and migrate it through current tail `0052`.~~ Completed locally; preserve the script and rerun it in CI. | Local fixture engineering | Backfills, cross-union rejection, legacy committee retention, grievance compatibility, current journal, and restricted runtime-role boundaries pass through `0052`. |
 | 2 | Complete method-by-method Postgres adapter parity and broaden independent API/RLS allow-deny coverage, especially remaining child-table writes, roster invitations, ordering, and membership/Hall revocation. | Local engineering and disposable Postgres | A shared operation inventory is fully checked off or differences documented; sensitive operations have both API and restricted-role SQL tests; forced failures leave no partial rows. |
 | 3 | Finish member/officer browser flows and remaining grievance creation UX: registered member selection, privacy, initial case worker, access explanation, member updates, safe attachment sharing, revocation, and expiry. | Local UI/API work; Postgres-backed browser fixture | Browser, mobile, keyboard, and accessibility flows prove the member-safe DTO boundary and immediate removal of revoked/unpublished content. |
 | 4 | Continue the bounded shared-capability migration and administrator narrowing across Members Portal features. Start with organization surfaces/committees, then casework/collaboration, operations, and records. | Local policy decisions per feature | Each feature documents ownership/participants, module gating, admin scope, and has wrong-union/local/missing-local/revocation tests; legacy role helpers are no longer final grants. |
@@ -59,14 +61,17 @@ The production cutover is the only explicitly operator-blocked item here. It mus
 ### Work
 
 - [x] Provision an isolated Postgres 16 database with separate migration-owner and restricted runtime credentials.
-- [x] Record the pre-rebase verified feature-chain tail (`0051_portal_archive_access`, now `0052`) and isolated runtime role; the combined generated contract now declares 104 tables / 98 policies but has not yet been live-verified.
+- [x] Verify the combined journal tail `0052`, 104 tables, 1,103 columns, and 98 policies on a fresh isolated Postgres database using separate owner and runtime roles.
+- [x] Apply the combined migration chain to a representative `0039`-era upgrade fixture, including normalized membership/office/committee and grievance compatibility checks.
+- [x] Run the combined-chain seed, RLS smoke, and Portal durability smoke as the restricted runtime role.
+- [ ] Repeat the standalone app process-restart smoke after build against the combined journal tail.
 - [x] Resolve the stale Portal Local 243 smoke assumptions by aligning desktop/mobile checks with the current Local 7 Hall; keep other fixture identities explicit and consistent.
 - Keep the existing cross-local president denial test; add a separate union/division administrator case only if that capability is intended and explicitly documented.
 
 ### Exit checks
 
 - Tests use one declared fixture model and do not pass by skipping local membership checks.
-- A fresh database fixture verified the pre-rebase feature chain through its archive-access migration; the combined 53-entry chain and a representative existing-upgrade fixture remain to be verified.
+- The combined 53-entry chain and representative upgrade fixture pass locally; preserve these gates in CI and repeat them after future migration changes.
 
 ## Phase 1 — Complete the authorization foundation
 
@@ -223,7 +228,7 @@ Do not invent one polymorphic participant table. Record resources needing a firs
 
 ### Work
 
-- Add a registered-member selector to grievance creation while retaining pseudonym-only cases; expose privacy mode and initial case-worker selection in that flow. The API already accepts member and privacy fields, but `NewGrievanceForm` does not expose them.
+- [x] Add capability-gated registered-member, privacy-mode, and initial case-worker selection to grievance creation when durable active-membership data is available; retain pseudonym-only intake. API tests and a dedicated-browser smoke cover restricted pseudonym creation and the access panel. Add database-backed selection coverage as part of the remaining organization fixture.
 - Keep the existing grievance access panel and `/portal/my-cases`; verify the panel explains the granting relationship, access level, office/assignment/delegation source, expiry, and restricted indicator without disclosing a restriction reason to unauthorized users.
 - Verify end-to-end publishing/withdrawal of member updates and sharing/withdrawal of member-safe attachments. The APIs and controls exist; cover current persistence behavior and ensure withdrawn material disappears immediately.
 - Add exhaustive standard/restricted access matrix tests, member DTO allowlist tests, withdrawn content tests, attachment scan/share tests, break-glass MFA/reason/expiry/audit tests, and immediate revocation tests.
@@ -237,16 +242,16 @@ Do not invent one polymorphic participant table. Record resources needing a firs
 
 ## Phase 7 — Final verification and documentation
 
-Run the following in order against the completed branch:
+Run the following in order against the completed branch and record the result in this plan:
 
-1. `npm run db:check` and generated shape verification.
-2. Fresh migration and representative `0039` upgrade-fixture migration through the current journal tail.
-3. `npm run db:rls-smoke`, Portal durability smoke, and standalone process-restart smoke using the restricted runtime role.
-4. Adapter contract suites for memory and Postgres.
-5. Authorization/privacy unit and route suites.
-6. `npm run typecheck`, `npm run lint`, `npm run test:unit`, `npm run test:smoke`, and `npm run build`.
-7. Review every smoke failure against the declared seed/locale/module fixture before classifying it as a regression or fixture drift.
-8. Update RBAC, Compliance, DATA_MODELS, LOCAL_PORTAL, deployment guidance, Progress, and the bilingual What's New entry.
+1. [x] `npm run db:check` and generated shape verification — 53 journal entries; 104 tables / 1,103 columns / 98 policies.
+2. [x] Fresh migration and representative `0039` upgrade-fixture migration through `0052`.
+3. [x] `npm run db:rls-smoke`, Portal durability smoke, and standalone process-restart smoke using the restricted runtime role on the isolated verification database.
+4. [ ] Complete method-by-method adapter contract parity for both backends.
+5. [x] Focused authorization/privacy unit and route suites; full unit suite passes 2,075 tests across 331 files, 1 skipped.
+6. [x] `npm run typecheck`, `npm run lint` (0 errors; one existing warning), focused grievance intake browser smoke, and `npm run build` (existing Edge `crypto` warning). The generic full browser smoke suite was not run to completion.
+7. [x] Investigated and corrected the focused smoke’s dedicated-server setup and trailing-slash/`new` route assertions; the final focused browser run passed. Generic browser smoke coverage remains a CI/next-pass gate.
+8. [x] Refreshed RBAC, Compliance, DATA_MODELS, LOCAL_PORTAL, deployment, Progress, and bilingual What's New documentation to reflect combined-chain verification and remaining cutover/coverage gaps.
 
 ## Open policy questions for the next implementation pass
 

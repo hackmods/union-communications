@@ -73,8 +73,11 @@ Local Portal has an asynchronous adapter with memory and Postgres backends.
 Postgres persistence uses the restricted runtime role and RLS; the effective
 backend is selected with `PORTAL_DB_BACKEND`. Memory remains the default, so
 activity written to a memory-backed instance can disappear on restart. The
-combined post-rebase migration chain still needs fresh-database CI verification,
-and operators must preserve any runtime-only memory activity before cutover.
+combined 53-entry migration chain through `0052` has passed fresh and
+`0039`-era upgrade verification on an isolated Postgres database, along with
+restricted-role RLS, Portal durability, and process-restart smokes. Preserve
+these gates in CI. Operators must still preserve any runtime-only memory
+activity and authorize a staged rollout before cutover.
 
 ## Attachment storage & scanning (FEAT-001)
 

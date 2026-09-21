@@ -7140,8 +7140,8 @@
         "body": "Les dirigeants peuvent créer des jeux de données locaux, associer les colonnes CSV ou Excel, réviser les lignes et publier les dossiers des membres et des lieux de travail avec leurs sources et leur historique. Les rapports enregistrés s’appuieront sur ces données révisées."
       },
       "member-case-access-controls": {
-        "title": "Contrôles plus clairs pour la confidentialité et l’accès aux griefs",
-        "body": "Le Hub des dirigeants distingue maintenant les dossiers standards et restreints, les équipes assignées, les résumés pour le comité exécutif et les nouvelles destinées aux membres. L’accès tient compte de l’adhésion locale et des fonctions en vigueur. Les membres disposent d’une vue distincte et sécurisée des dossiers qui les concernent."
+        "title": "Accueil plus sûr des griefs et accès plus clair aux dossiers",
+        "body": "Les dirigeants peuvent lier un grief au dossier d’un membre inscrit, choisir une personne active de la section pour le traiter et le marquer comme restreint au besoin. L’accès suit l’adhésion locale et les fonctions en vigueur ; les membres ne voient que les nouvelles et les fichiers partagés avec eux."
       },
       "hub-bylaws-proposals": {
         "title": "Les brouillons de règlements et les propositions se synchronisent avec le Hub des dirigeants",
@@ -9294,6 +9294,16 @@
     "markResolved": "Marquer résolu",
     "memberPseudonym": "Pseudonyme du membre",
     "memberPseudonymHint": "Optionnel - utiliser un pseudonyme",
+    "registeredMember": "Membre inscrit",
+    "registeredMemberHint": "Le choix d’un membre lie le dossier à sa vue sécurisée dans le portail membre. Laissez ce champ vide pour un dossier sous pseudonyme seulement.",
+    "pseudonymOnly": "Pseudonyme seulement",
+    "privacyLabel": "Niveau de confidentialité",
+    "standardPrivacy": "Standard",
+    "restrictedPrivacy": "Restreint",
+    "restrictedPrivacyHint": "Les dossiers restreints sont masqués par défaut aux présidences, vice-présidences et membres de l’exécutif qui ne sont pas assignés au dossier.",
+    "primaryCaseWorker": "Responsable principal du dossier",
+    "primaryCaseWorkerHint": "Seuls les membres actifs de la section sont affichés. Le choix d’une personne lui donne accès au traitement du dossier.",
+    "assignToMe": "M’attribuer le dossier",
     "category": "Catégorie",
     "filedAt": "Date de dépôt",
     "create": "Créer le grief",
