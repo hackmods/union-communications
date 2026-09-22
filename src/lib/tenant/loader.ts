@@ -2,6 +2,7 @@ import referenceTenant from "../../../seed/reference-tenant-b7p.json";
 import {
   getLocalPatches,
   getDataModulePatch,
+  getEnabledModulesPatch,
   getOverlaySeeds,
   getUnitPatches,
 } from "@/lib/tenant/overlay";
@@ -21,7 +22,15 @@ function mergeSeed(base: TenantSeed): TenantSeed {
   const patchLocals = getLocalPatches(unionId);
   const patchUnits = getUnitPatches(unionId);
   const dataModulePatch = getDataModulePatch(unionId);
-  if (patchLocals.length === 0 && patchUnits.length === 0 && dataModulePatch === undefined) return base;
+  const enabledModulesPatch = getEnabledModulesPatch(unionId);
+  if (
+    patchLocals.length === 0 &&
+    patchUnits.length === 0 &&
+    dataModulePatch === undefined &&
+    enabledModulesPatch === undefined
+  ) {
+    return base;
+  }
 
   const locals = [
     ...(base.locals && base.locals.length > 0
@@ -52,15 +61,20 @@ function mergeSeed(base: TenantSeed): TenantSeed {
     return true;
   });
 
+  let enabledModules = base.union.enabledModules;
+  if (enabledModulesPatch !== undefined) {
+    enabledModules = enabledModulesPatch;
+  } else if (dataModulePatch !== undefined) {
+    enabledModules = dataModulePatch
+      ? [...new Set([...base.union.enabledModules, "data" as const])]
+      : base.union.enabledModules.filter((module) => module !== "data");
+  }
+
   return {
     ...base,
     union: {
       ...base.union,
-      ...(dataModulePatch === undefined ? {} : {
-        enabledModules: dataModulePatch
-          ? [...new Set([...base.union.enabledModules, "data" as const])]
-          : base.union.enabledModules.filter((module) => module !== "data"),
-      }),
+      enabledModules,
     },
     locals: dedupedLocals,
     bargainingUnits: dedupedUnits,

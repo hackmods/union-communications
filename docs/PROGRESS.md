@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-22 — President configuration & dual-shell nav
+
+- [x] Elevated Local Portal to a top-level peer of Officer Hub in the public header and mobile menu (`LocalPortalNavLink`).
+- [x] Added `/app/configuration` with intelligent Hub defaults (executive on / operational off, Workforce Time deferred) and a dedicated Local Portal surface list.
+- [x] Extended tenant API (`set_modules`, `set_portal_surfaces`) + overlay patches; new overlay unions inherit president Hub defaults.
+- [x] Documented navigation map + Hub vs Portal matrix in `docs/modules/PRESIDENT_CONFIGURATION.md`; What's new note for Hub audience.
+
 ## 2026-09-21 — Beta access requests
 
 - [x] Added bilingual local beta interest and member access pages linked from the shared login page.

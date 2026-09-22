@@ -1,5 +1,7 @@
 import { randomBytes } from "crypto";
 import { resolveHostBrandDefaults } from "@/lib/constants/host-brand";
+import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
+import type { PortalSurfaceId } from "@/lib/president/module-catalog";
 import type {
   BargainingUnit,
   BrandDefaults,
@@ -18,13 +20,15 @@ const overlaySeeds = new Map<string, TenantSeed>();
 const localPatches = new Map<string, TenantLocal[]>();
 const unitPatches = new Map<string, BargainingUnit[]>();
 const dataModulePatches = new Map<string, boolean>();
+/** Full enabledModules replace for static or overlay unions (president config). */
+const enabledModulesPatches = new Map<string, HubModule[]>();
+/** Local Portal surface toggles (member nav). Unset → intelligent defaults. */
+const portalSurfacesPatches = new Map<string, PortalSurfaceId[]>();
 /** True after Postgres tenant rows were merged into this process overlay. */
 let hydratedFromDb = false;
 
 export const DEFAULT_OVERLAY_MODULES: HubModule[] = [
-  "comms",
-  "grievance",
-  "portal",
+  ...PRESIDENT_OVERLAY_MODULES,
 ];
 
 export const DEFAULT_OVERLAY_GRIEVANCE = {
@@ -91,10 +95,47 @@ export function setDataModulePatch(unionId: string, enabled: boolean): void {
     if (enabled) modules.add("data"); else modules.delete("data");
     seed.union.enabledModules = [...modules];
   }
+  const full = enabledModulesPatches.get(unionId);
+  if (full) {
+    const modules = new Set(full);
+    if (enabled) modules.add("data"); else modules.delete("data");
+    enabledModulesPatches.set(unionId, [...modules]);
+  }
 }
 
 export function getDataModulePatch(unionId: string): boolean | undefined {
   return dataModulePatches.get(unionId);
+}
+
+export function setEnabledModulesPatch(
+  unionId: string,
+  modules: HubModule[],
+): void {
+  const next = [...new Set(modules)];
+  enabledModulesPatches.set(unionId, next);
+  const seed = overlaySeeds.get(unionId);
+  if (seed) {
+    seed.union.enabledModules = next;
+  }
+}
+
+export function getEnabledModulesPatch(
+  unionId: string,
+): HubModule[] | undefined {
+  return enabledModulesPatches.get(unionId);
+}
+
+export function setPortalSurfacesPatch(
+  unionId: string,
+  surfaces: PortalSurfaceId[],
+): void {
+  portalSurfacesPatches.set(unionId, [...new Set(surfaces)]);
+}
+
+export function getPortalSurfacesPatch(
+  unionId: string,
+): PortalSurfaceId[] | undefined {
+  return portalSurfacesPatches.get(unionId);
 }
 
 export function createOverlayLocal(input: {
@@ -263,5 +304,7 @@ export function resetTenantOverlayForTests(): void {
   localPatches.clear();
   unitPatches.clear();
   dataModulePatches.clear();
+  enabledModulesPatches.clear();
+  portalSurfacesPatches.clear();
   hydratedFromDb = false;
 }

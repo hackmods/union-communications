@@ -20,6 +20,7 @@ import {
   markOverlayHydratedFromDb,
   neutralBrandDefaultsForNewTenant,
   setDataModulePatch,
+  setEnabledModulesPatch,
 } from "@/lib/tenant/overlay";
 import type {
   BargainingUnit,
@@ -339,6 +340,35 @@ export async function setUnionDataModule(unionId: string, enabled: boolean): Pro
   if (enabled) modules.add("data"); else modules.delete("data");
   await db.update(unions).set({ enabledModules: [...modules] }).where(eq(unions.id, unionId));
   setDataModulePatch(unionId, enabled);
+}
+
+/**
+ * Replace union enabledModules (president / local module config).
+ * Memory overlay always updates; Postgres when tenants backend is on.
+ */
+export async function setUnionEnabledModules(
+  unionId: string,
+  modules: HubModule[],
+): Promise<HubModule[]> {
+  const next = asHubModules(modules);
+  if (next.length === 0) next.push("comms");
+  if (tenantsPostgresEnabled()) {
+    const db = getDb();
+    const [row] = await db
+      .select({ id: unions.id })
+      .from(unions)
+      .where(eq(unions.id, unionId))
+      .limit(1);
+    if (row) {
+      await db
+        .update(unions)
+        .set({ enabledModules: next })
+        .where(eq(unions.id, unionId));
+    }
+  }
+  setEnabledModulesPatch(unionId, next);
+  setDataModulePatch(unionId, next.includes("data"));
+  return next;
 }
 
 export async function findOrCreateLocal(input: {

@@ -45,6 +45,7 @@ describe("resolveHubToolAccess", () => {
     expect(hrefs).toContain("/app/ledger");
     expect(hrefs).toContain("/app/handoff");
     expect(hrefs).toContain("/app/officer-learning");
+    expect(hrefs).toContain("/app/configuration");
     expect(hrefs).not.toContain("/app/feedback");
   });
 

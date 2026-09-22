@@ -16,6 +16,8 @@ type AuthAccountControlsProps = {
   layout?: "inline" | "stack";
   /** Officer Hub is rendered as a first-class destination in the public shell. */
   showHubLink?: boolean;
+  /** Local Portal is rendered beside Officer Hub in the public shell. */
+  showPortalLink?: boolean;
   onNavigate?: () => void;
   className?: string;
 };
@@ -23,6 +25,7 @@ type AuthAccountControlsProps = {
 export function AuthAccountControls({
   layout = "inline",
   showHubLink = true,
+  showPortalLink = true,
   onNavigate,
   className,
 }: AuthAccountControlsProps) {
@@ -39,7 +42,10 @@ export function AuthAccountControls({
     : null;
   const portalEnabled = Boolean(tenant?.union.enabledModules.includes("portal"));
   const showPortal =
-    authenticated && portalEnabled && canAccessPortal(roles);
+    showPortalLink &&
+    authenticated &&
+    portalEnabled &&
+    canAccessPortal(roles);
 
   const portalCurrent = pathname.startsWith("/portal");
   const hubCurrent = pathname.startsWith("/app");
@@ -47,7 +53,7 @@ export function AuthAccountControls({
 
   if ((!showHub || !showHubLink) && !showPortal && !authenticated) return null;
 
-  /** Officer Hub stays primary; Local Portal stays outline — order never swaps. */
+  /** When Hub/Portal live in the main nav, account cluster keeps profile/sign-out only. */
   const hubPrimaryClass = (current: boolean) =>
     cn(
       layout === "inline"

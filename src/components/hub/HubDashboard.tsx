@@ -87,8 +87,14 @@ export function HubDashboard() {
             </p>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row">
               <Link
-                href="/app/onboarding"
+                href="/app/configuration"
                 className="inline-flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-4 text-sm font-medium text-white"
+              >
+                {t("setupCardConfiguration")}
+              </Link>
+              <Link
+                href="/app/onboarding"
+                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-gray-300 px-4 text-sm font-medium text-opseu-dark"
               >
                 {t("setupCardOnboarding")}
               </Link>

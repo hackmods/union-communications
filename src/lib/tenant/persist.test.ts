@@ -120,8 +120,18 @@ describe("overlay union defaults", () => {
     resetTenantOverlayForTests();
   });
 
-  it("enables portal on a newly provisioned union", () => {
+  it("enables president executive modules and leaves Workforce Time off", () => {
     const seed = createOverlayUnion({ name: "Example Workers Union" });
-    expect(seed.union.enabledModules).toContain("portal");
+    expect(seed.union.enabledModules).toEqual(
+      expect.arrayContaining([
+        "comms",
+        "grievance",
+        "discussions",
+        "bylaws",
+        "proposals",
+        "portal",
+      ]),
+    );
+    expect(seed.union.enabledModules).not.toContain("time");
   });
 });

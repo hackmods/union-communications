@@ -16,6 +16,17 @@ export function canManageUnionModules(roles: string[]): boolean {
   return roles.some((role) => ["platform_admin", "union_admin"].includes(role));
 }
 
+/**
+ * Local presidents (and elevated admins) may toggle Hub modules + Portal
+ * surfaces for their union — except UnionOps Data, which stays
+ * `canManageUnionModules` + Postgres.
+ */
+export function canManageLocalModules(roles: string[]): boolean {
+  return roles.some((role) =>
+    ["local_president", "union_admin", "platform_admin"].includes(role),
+  );
+}
+
 export function canManageInvites(roles: string[]): boolean {
   return roles.some((r) =>
     [

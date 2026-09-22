@@ -54,6 +54,7 @@ export const HUB_TOOL_GROUPS: readonly HubToolGroupDef[] = [
       "/app/handoff",
       "/app/invites",
       "/app/onboarding",
+      "/app/configuration",
       "/app/reports",
       "/app/audit",
       "/app/feedback",
