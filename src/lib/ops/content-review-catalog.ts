@@ -39,7 +39,11 @@ const GUIDE_KEY_TO_NAV: Record<string, string> = Object.fromEntries(
   ),
 );
 
-const SITE_SHELL_PATHS: readonly { href: string; navKey: string }[] = [
+const SITE_SHELL_PATHS: readonly {
+  href: string;
+  navKey?: string;
+  labelKey?: string;
+}[] = [
   { href: "/", navKey: "home" },
   { href: "/manifesto", navKey: "manifesto" },
   { href: "/updates", navKey: "whatsNew" },
@@ -52,6 +56,8 @@ const SITE_SHELL_PATHS: readonly { href: string; navKey: string }[] = [
   { href: "/start", navKey: "start" },
   { href: "/create", navKey: "create" },
   { href: "/learn", navKey: "learn" },
+  { href: "/join", labelKey: "join" },
+  { href: "/request-access", labelKey: "requestAccess" },
 ];
 
 const LIBRARY_PATHS: readonly { href: string; navKey: string }[] = [
@@ -186,7 +192,11 @@ export function buildContentReviewCatalog(): ContentReviewSection[] {
     {
       id: "siteShell",
       labelKey: "siteShell",
-      entries: SITE_SHELL_PATHS.map(({ href, navKey }) => ({ href, navKey })),
+      entries: SITE_SHELL_PATHS.map(({ href, navKey, labelKey }) => ({
+        href,
+        navKey,
+        labelKey,
+      })),
     },
     {
       id: "tools",
