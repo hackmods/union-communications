@@ -190,19 +190,28 @@ Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_
 If `deploy` runs and fails:
 
 ```
-::error::CAPROVER_SERVER/PASSWORD/APP not set — refusing to fall back to the OOM-prone git webhook rebuild.
-::notice::Manual escape hatch: use the workflow_dispatch trigger on this workflow with no secrets ...
+::error::No CapRover deploy secrets and https://unionops.org/api/health did not report <sha> within ~5min.
 ```
 
-Three options to restore a working deploy:
+When CLI secrets are unset, the job first **polls `/api/health` for ~5 min**. If CapRover's independent path (Method 1 webhook or a manual Method 3 force) already rolled this SHA, the job exits 0 with a `::warning::` that secrets are still missing. It only fails when tip of `main` never reaches the host.
+
+Three options to restore a working **Method 3** pull deploy:
 
 1. Add the three secrets to the GH repo (Settings → Secrets → Actions). Subsequent pushes will auto-deploy.
-2. Run the workflow via `workflow_dispatch` *and the secrets stay missing* — fails too, and you don't get free teleports.
+2. Run the workflow via `workflow_dispatch` *and the secrets stay missing* — the health-poll soft path still applies; if the host is stale, it fails.
 3. Use the `workflow_dispatch` with secrets **present on the GH repo**: the deploy step passes the secrets check, picks `:main` (or your `image_tag`), runs `caprover-cli`, polls `/api/health` smoke, done.
+
+Suggested secret values for this host:
+
+| Secret | Typical value |
+|--------|----------------|
+| `CAPROVER_SERVER` | `https://captain.behind7proxies.com` |
+| `CAPROVER_APP` | CapRover app name (FQDN prefix, e.g. `union-communications`) |
+| `CAPROVER_PASSWORD` | Captain password |
 
 The third option is the cleanest when you're still toggling between webhook rebuilds and Method 3 in the CapRover UI — it lets you ship without waiting on the rebuild to OOM again.
 
-CI on `main` deploys the pre-built image when `CAPROVER_SERVER`/`CAPROVER_PASSWORD`/`CAPROVER_APP` (GitHub Actions secrets) are set; otherwise the `deploy` job fails loud and **never** falls through to `CAPROVER_WEBHOOK_URL` (per [`.github/workflows/ci.yml:deploy`](../../.github/workflows/ci.yml)). The `workflow_dispatch` inputs above are the operator-side escape hatch for when the webhook OOMs.
+CI on `main` deploys the pre-built image when `CAPROVER_SERVER`/`CAPROVER_PASSWORD`/`CAPROVER_APP` (GitHub Actions secrets) are set; otherwise it polls `/api/health` and **never** falls through to `CAPROVER_WEBHOOK_URL` (per [`.github/workflows/ci.yml:deploy`](../../.github/workflows/ci.yml)). The `workflow_dispatch` inputs above are the operator-side escape hatch for when the webhook OOMs.
 
 ## Hybrid backups
 

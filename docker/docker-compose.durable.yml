@@ -31,6 +31,13 @@ services:
       MEETINGS_DB_BACKEND: postgres
       MEETINGS_RSVP_DB_BACKEND: postgres
       CHECKINS_DB_BACKEND: postgres
+      OFFICER_LEARNING_DB_BACKEND: postgres
+      PLATFORM_SETTINGS_DB_BACKEND: postgres
+      BYLAWS_DB_BACKEND: postgres
+      PROPOSALS_DB_BACKEND: postgres
+      ACCESS_REQUEST_DB_BACKEND: postgres
+      # Data workbench stays memory until import/review UX is pilot-ready.
+      DATA_DB_BACKEND: ${DATA_DB_BACKEND:-memory}
       # Portal defaults to memory until operators export any runtime-only
       # activity and explicitly opt into the verified durable adapter.
       PORTAL_DB_BACKEND: ${PORTAL_DB_BACKEND:-memory}

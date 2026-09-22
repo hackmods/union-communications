@@ -291,6 +291,8 @@ jobs:
           CAPROVER_APP: ${{ secrets.CAPROVER_APP }}
           CAPROVER_WEBHOOK_URL: ${{ secrets.CAPROVER_WEBHOOK_URL }}
           IMAGE: ghcr.io/${{ github.repository }}:${{ steps.image.outputs.TAG }}
+          EXPECTED_COMMIT: ${{ github.sha }}
+          TARGET_HEALTH: ${{ github.event.inputs.target_url || 'https://unionops.org/api/health' }}
         run: |
           if [ -n "$CAPROVER_SERVER" ] && [ -n "$CAPROVER_PASSWORD" ] && [ -n "$CAPROVER_APP" ]; then
             echo "Deploying ${IMAGE} to CapRover app ${CAPROVER_APP} (pull only — no on-host build)."
@@ -313,7 +315,33 @@ jobs:
             echo "::notice::Manual escape hatch: use the workflow_dispatch trigger on this workflow with no secrets (the deploy step still runs the secrets check, but the manual path bypasses the push webhook). See docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md."
             exit 1
           fi
-          echo "::error::No CapRover deploy secrets — skipping deploy. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for image deploy. Manual escape hatch: workflow_dispatch on this workflow lets the operator ship a pre-published GHCR tag once they set the three secrets — docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md."
+          # CLI secrets unset. CapRover may still roll :main via Method 1 (git
+          # webhook) or a Method 3 force from the captain UI — both are
+          # independent of this job. Poll /api/health for this SHA before
+          # failing; if the host already reports tip, warn and continue so
+          # main CI stays green while still loud about the missing secrets.
+          # Prefer restoring CAPROVER_SERVER/PASSWORD/APP so CI can Method-3
+          # pull without an on-droplet rebuild (OOM risk on small hosts).
+          set -euo pipefail
+          SHORT_COMMIT=${EXPECTED_COMMIT::7}
+          TARGET="${TARGET_HEALTH}"
+          echo "::warning::No CapRover CLI secrets (CAPROVER_SERVER/PASSWORD/APP). Cannot pull-deploy ${IMAGE} from CI."
+          echo "::notice::Polling ${TARGET} for commit ${EXPECTED_COMMIT} in case CapRover's independent deploy path already rolled this SHA (docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md)."
+          for i in $(seq 1 20); do
+            sleep 15
+            body="$(curl -fsSL --max-time 30 "${TARGET}" 2>/dev/null || true)"
+            if [ -n "$body" ]; then
+              reported="$(echo "$body" | jq -r '.commit // empty')"
+              built="$(echo "$body" | jq -r '.builtAt // empty')"
+              if [ "$reported" = "$EXPECTED_COMMIT" ] || [ "$reported" = "$SHORT_COMMIT" ]; then
+                echo "::warning::Production already reports commit=${reported} builtAt=${built} without CI CapRover CLI secrets. Restore CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP so the next push uses Method 3 image pull (no on-droplet next build)."
+                echo "EXTERNAL_DEPLOY_CONFIRMED=1" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
+            fi
+            echo "  retry ${i}/20 — ${TARGET} did not yet report ${EXPECTED_COMMIT}; current body: ${body:-<unreachable>}"
+          done
+          echo "::error::No CapRover deploy secrets and ${TARGET} did not report ${EXPECTED_COMMIT} within ~5min. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP (captain URL + app name + password) for pull-only GHCR image deploy, or force Method 3 redeploy in CapRover UI. Docs: docs/guides/DEPLOY.md §When deploy job fails loud."
           exit 1
 
       # Probe CapRover for the app's reported state. caprover-cli exits 0
