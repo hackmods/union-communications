@@ -7131,6 +7131,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "beta-access-requests": {
+        "title": "Accès bêta pour les locaux et les membres",
+        "body": "Les locaux peuvent demander le Hub des dirigeants ou le Portail local pendant la bêta, et les membres peuvent demander de l’aide pour trouver leur local. L’accès est examiné puis envoyé par invitation."
+      },
       "public-task-first-navigation": {
         "title": "La Trousse de marque, Créer et Apprendre sont plus faciles à trouver",
         "body": "La navigation principale mène directement à Commencer, à la Trousse de marque, à Créer et à Apprendre. La page d’accueil présente l’ordre recommandé : configurer la trousse, créer des documents, puis suivre un guide. Les listes d’étapes selon le rôle restent accessibles dans Commencer. Les anciens liens redirigent toujours."
@@ -8003,7 +8007,10 @@
       "dataDesc": "Réviser les imports locaux, les dossiers des membres et l’historique d’emploi"
     },
     "stewardGuidesLink": "Guides de rencontre",
-    "reportsExportSuccess": "Rapport téléchargé."
+    "reportsExportSuccess": "Rapport téléchargé.",
+    "betaAccessPrompt": "Vous n’avez pas encore accès?",
+    "bringLocal": "Amener votre local",
+    "memberAccess": "Demander l’accès membre"
   },
   "dataWorkbench": {
     "eyebrow": "Hub des dirigeants",

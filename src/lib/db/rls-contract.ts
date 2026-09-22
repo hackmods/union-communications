@@ -16,6 +16,10 @@ export interface RlsPolicyContract {
 
 /** Every tenant isolation policy expected in shipped migrations. */
 export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
+  { table: "access_requests", policy: "access_requests_public_submit", migration: "0053_access_requests.sql" },
+  { table: "access_requests", policy: "access_requests_operator_all", migration: "0053_access_requests.sql" },
+  { table: "access_requests", policy: "access_requests_local_select", migration: "0053_access_requests.sql" },
+  { table: "access_requests", policy: "access_requests_local_update", migration: "0053_access_requests.sql" },
   {
     table: "grievances",
     policy: "grievances_tenant_isolation",

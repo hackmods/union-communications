@@ -7184,6 +7184,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "beta-access-requests": {
+        "title": "Beta access for locals and members",
+        "body": "Locals can ask about Officer Hub or Local Portal during beta, and members can request help finding their local. Access is reviewed and sent by invitation."
+      },
       "public-task-first-navigation": {
         "title": "Brand Kit, Create, and Learn are easier to find",
         "body": "The main navigation now links directly to Start, Brand Kit, Create, and Learn. The home page shows the recommended order: set up Brand Kit, create materials, then follow a guide. Role-based checklists remain available from Start, and old links still redirect."
@@ -8056,7 +8060,10 @@
       "dataDesc": "Review local data imports, member records, and employment history"
     },
     "stewardGuidesLink": "Steward meeting guides",
-    "reportsExportSuccess": "Report downloaded."
+    "reportsExportSuccess": "Report downloaded.",
+    "betaAccessPrompt": "Do you need access or want to bring your local?",
+    "bringLocal": "Bring your local",
+    "memberAccess": "Request member access"
   },
   "dataWorkbench": {
     "eyebrow": "Officer Hub",

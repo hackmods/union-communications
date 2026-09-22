@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-09-21 — Beta access requests
+
+- [x] Added bilingual local beta interest and member access pages linked from the shared login page.
+- [x] Added rate-limited, duplicate-safe access request intake with a durable PostgreSQL schema, migration, operator MFA inbox, and local-scoped member request review.
+- [x] Kept account creation invitation-based; request records never grant roles or tenant scope.
+
 ## 2026-09-21 — Public navigation clarity follow-up
 
 - [x] Restore the preferred Start, Create, Learn shell and add Brand Kit as its own direct primary-navigation destination; the UnionOps wordmark links Home. Brand Kit does not compete with Create for the active state. Officer Hub remains conditional on availability/session state.
