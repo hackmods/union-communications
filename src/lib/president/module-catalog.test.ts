@@ -6,6 +6,8 @@ import {
   PRESIDENT_OVERLAY_MODULES,
   applyHubModuleToggle,
   applyPortalSurfaceToggle,
+  getPresidentPreset,
+  isDestructiveHubOff,
   portalNavLinkAllowed,
   resolvePortalSurfaces,
 } from "./module-catalog";
@@ -77,5 +79,12 @@ describe("president module catalog", () => {
     expect(
       applyPortalSurfaceToggle(["discussions"], "discussions", false),
     ).toEqual(["discussions"]);
+  });
+
+  it("exposes calm / bargaining / campaign presets without Workforce Time", () => {
+    expect(getPresidentPreset("calmStart").modules).not.toContain("time");
+    expect(getPresidentPreset("campaign").modules).not.toContain("time");
+    expect(getPresidentPreset("bargainingSeason").modules).toContain("tasks");
+    expect(isDestructiveHubOff("portal", false)).toBe(true);
   });
 });

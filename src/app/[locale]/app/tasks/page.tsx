@@ -3,6 +3,7 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { TaskBoard } from "@/components/hub/TaskBoard";
+import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canAccessTasksModule } from "@/lib/tasks/access";
 import type { UserRole } from "@/types/tenant";
@@ -25,7 +26,7 @@ export default async function TasksPage({
     ? getTenantContext(session.user.unionId)
     : null;
   if (!tenant?.union.enabledModules.includes("tasks")) {
-    redirect(`/${locale}/app`);
+    return <ModuleDisabledPanel moduleId="tasks" roles={roles} />;
   }
 
   return <TaskBoard />;

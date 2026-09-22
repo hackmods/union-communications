@@ -284,3 +284,114 @@ export function applyPortalSurfaceToggle(
   if (!next.has("discussions")) next.add("discussions");
   return [...next];
 }
+
+/** Modules that need an explicit confirm before turning off. */
+export const DESTRUCTIVE_HUB_MODULES: readonly HubModule[] = [
+  "grievance",
+  "portal",
+] as const;
+
+export function isDestructiveHubOff(
+  id: HubModule,
+  nextEnabled: boolean,
+): boolean {
+  return !nextEnabled && (DESTRUCTIVE_HUB_MODULES as readonly string[]).includes(id);
+}
+
+export type PresidentPresetId = "calmStart" | "bargainingSeason" | "campaign";
+
+export type PresidentPreset = {
+  id: PresidentPresetId;
+  modules: HubModule[];
+  surfaces: PortalSurfaceId[];
+};
+
+export const PRESIDENT_PRESETS: readonly PresidentPreset[] = [
+  {
+    id: "calmStart",
+    modules: [...PRESIDENT_HUB_DEFAULT_ON],
+    surfaces: [...DEFAULT_PORTAL_SURFACES],
+  },
+  {
+    id: "bargainingSeason",
+    modules: [
+      ...PRESIDENT_HUB_DEFAULT_ON,
+      "tasks",
+      "informalLog",
+    ],
+    surfaces: [...DEFAULT_PORTAL_SURFACES],
+  },
+  {
+    id: "campaign",
+    modules: [
+      "comms",
+      "grievance",
+      "discussions",
+      "proposals",
+      "portal",
+      "checkins",
+    ],
+    surfaces: [
+      "announcements",
+      "news",
+      "elections",
+      "discussions",
+      "sidebars",
+      "feedback",
+    ],
+  },
+] as const;
+
+export function getPresidentPreset(id: PresidentPresetId): PresidentPreset {
+  const preset = PRESIDENT_PRESETS.find((row) => row.id === id);
+  if (!preset) return PRESIDENT_PRESETS[0]!;
+  return preset;
+}
+
+/** Solidarity product names for Portal surfaces (i18n under portalSurfaces.*.product). */
+export function portalSurfaceProductKey(id: PortalSurfaceId): string {
+  return id;
+}
+
+export function sameModuleSet(
+  a: readonly HubModule[],
+  b: readonly HubModule[],
+): boolean {
+  if (a.length !== b.length) return false;
+  const left = [...a].sort();
+  const right = [...b].sort();
+  return left.every((id, i) => id === right[i]);
+}
+
+export function sameSurfaceSet(
+  a: readonly PortalSurfaceId[],
+  b: readonly PortalSurfaceId[],
+): boolean {
+  if (a.length !== b.length) return false;
+  const left = [...a].sort();
+  const right = [...b].sort();
+  return left.every((id, i) => id === right[i]);
+}
+
+/** Intersect union-enabled modules with an optional local presentation filter. */
+export function resolveLocalHubModules(
+  unionModules: readonly HubModule[],
+  localFilter: readonly HubModule[] | null | undefined,
+): HubModule[] {
+  if (!localFilter || localFilter.length === 0) return [...unionModules];
+  const allowed = new Set(unionModules);
+  const filtered = localFilter.filter((id) => allowed.has(id));
+  return filtered.length > 0 ? filtered : [...unionModules];
+}
+
+export function resolveLocalPortalSurfaces(
+  unionSurfaces: readonly PortalSurfaceId[],
+  localFilter: readonly PortalSurfaceId[] | null | undefined,
+): PortalSurfaceId[] {
+  const base = resolvePortalSurfaces(unionSurfaces);
+  if (!localFilter || localFilter.length === 0) return base;
+  const allowed = new Set(base);
+  const filtered = localFilter.filter((id) => allowed.has(id));
+  return filtered.length > 0 ? resolvePortalSurfaces(filtered) : base;
+}
+

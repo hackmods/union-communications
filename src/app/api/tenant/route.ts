@@ -18,6 +18,11 @@ import {
   setPortalSurfacesForUnion,
 } from "@/lib/tenant/portal-surfaces";
 import {
+  clearLocalPresentationPrefs,
+  getLocalPresentationPrefs,
+  setLocalPresentationPrefs,
+} from "@/lib/president/local-prefs";
+import {
   createCollectionDurable,
   createLocalDurable,
   createUnionDurable,
@@ -99,6 +104,15 @@ const setPortalSurfacesSchema = z.object({
   portalSurfaces: z.array(portalSurfaceSchema).max(16),
 });
 
+const setLocalPrefsSchema = z.object({
+  action: z.literal("set_local_prefs"),
+  localId: z.string().min(1),
+  hubModules: z.array(hubModuleSchema).max(24),
+  portalSurfaces: z.array(portalSurfaceSchema).max(16),
+  /** When true, clear the local filter (fall back to union). */
+  clear: z.boolean().optional(),
+});
+
 const bodySchema = z.discriminatedUnion("action", [
   createLocalSchema,
   createCollectionSchema,
@@ -106,6 +120,7 @@ const bodySchema = z.discriminatedUnion("action", [
   setDataModuleSchema,
   setModulesSchema,
   setPortalSurfacesSchema,
+  setLocalPrefsSchema,
 ]);
 
 /** Any MFA-verified hub user — powers HubContextSwitcher with overlay merges. */
@@ -127,6 +142,7 @@ export async function GET() {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
   const roles = (session.user.roles ?? []) as UserRole[];
+  const localId = session.user.localId ?? null;
   return NextResponse.json({
     context: ctx,
     canManageOnboarding: canManageTenantOnboarding(roles),
@@ -135,6 +151,10 @@ export async function GET() {
     canCreateUnion: sessionCanCreateUnion(session),
     durableTenants: tenantsPostgresEnabled(),
     portalSurfaces: getPortalSurfacesForUnion(unionId),
+    localPrefs: localId
+      ? getLocalPresentationPrefs(unionId, localId)
+      : null,
+    sessionLocalId: localId,
   });
 }
 
@@ -258,6 +278,28 @@ export async function POST(req: Request) {
       data.portalSurfaces as PortalSurfaceId[],
     );
     return NextResponse.json({ portalSurfaces });
+  }
+
+  if (data.action === "set_local_prefs") {
+    if (!unionId || !canManageLocalModules(roles)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    const ctx = getTenantContext(unionId);
+    if (!ctx) {
+      return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
+    }
+    if (!ctx.locals.some((local) => local.id === data.localId)) {
+      return NextResponse.json({ error: "Local not found" }, { status: 404 });
+    }
+    if (data.clear) {
+      clearLocalPresentationPrefs(unionId, data.localId);
+      return NextResponse.json({ localPrefs: null, cleared: true });
+    }
+    const localPrefs = setLocalPresentationPrefs(unionId, data.localId, {
+      hubModules: data.hubModules as HubModule[],
+      portalSurfaces: data.portalSurfaces as PortalSurfaceId[],
+    });
+    return NextResponse.json({ localPrefs });
   }
 
   if (data.action === "create_union") {

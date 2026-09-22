@@ -16,8 +16,16 @@ export default async function PresidentConfigurationPage({
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  // Stewards may open the page read-only; writers use canManageLocalModules in UI.
   const roles = (session.user.roles ?? []) as UserRole[];
-  if (!canManageLocalModules(roles)) {
+  const canView =
+    canManageLocalModules(roles) ||
+    roles.some((r) =>
+      ["local_steward", "local_exec", "union_admin", "platform_admin"].includes(
+        r,
+      ),
+    );
+  if (!canView) {
     redirect(`/${locale}/app`);
   }
   return <PresidentConfiguration />;

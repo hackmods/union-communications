@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-09-22 — President UX phases (presets, preview, Today, polish)
+
+- [x] Phase 1–5 on president configuration: live preview, presets + undo, destructive-off confirm, local presentation prefs, batched Apply, solidarity product labels, Circle starter kit, steward read-only, first-run coach.
+- [x] Dashboard Today strip + soft-launch checklist; module-off panels with Configuration deep links for Time / Tasks / Check-ins / Discussions.
+- [x] Axe coverage for `/app/configuration`; EN/FR copy + What's new update.
+
 ## 2026-09-22 — President configuration & dual-shell nav
 
 - [x] Elevated Local Portal to a top-level peer of Officer Hub in the public header and mobile menu (`LocalPortalNavLink`).
@@ -61,7 +67,7 @@
 - [x] Durable actor resolution now derives active local and bargaining-unit scope from current normalized memberships, so ended or transferred membership cannot persist through stale session scope.
 - [x] Committee accounts now link through normalized `committee_memberships`; legacy officer roster IDs remain display references. The Postgres adapter validates and writes member links transactionally, and the UI selects active local members by name.
 - [x] Added the async Portal adapter contract, Postgres implementation, Portal API/Hall selector conversion, `PORTAL_DB_BACKEND` health signal, and memory-only warning behavior.
-- [x] Aligned Portal desktop/mobile browser fixtures with seeded Local 7, fixed the Circle workspace sticky-tab overlap that blocked the Many hands start button, and added organization-management page smoke coverage.
+- [x] Aligned Portal desktop/mobile browser fixtures with seeded Local 777, fixed the Circle workspace sticky-tab overlap that blocked the Many hands start button, and added organization-management page smoke coverage.
 - [x] Combined-chain verification on isolated disposable Postgres 16: 53 journal entries, migrations through `0052`, 104 tables / 1,103 columns / 98 policies; seed, restricted-runtime RLS smoke, Portal durability smoke, and representative `0039`-era upgrade fixture pass as `unionops_app`.
 - [x] Added repeatable `db:portal-upgrade-smoke` covering membership and office backfills, same-union officer links, cross-union rejection, resolved/unresolved committee links, grievance participant defaults, attachment preservation, and runtime-role boundaries.
 - [x] Grievance intake now exposes server-capability-gated registered-member, privacy, and primary case-worker options when durable membership data is available, while preserving pseudonym-only intake. The options/assignment endpoints filter active same-local, same-union accounts and reject archived or locked candidates. A focused browser test passes for restricted pseudonym intake and its access panel.
@@ -106,8 +112,8 @@
 
 ## 2026-09-20 — B7P demo roster (no OPSEU local-number overlap)
 
-- [x] Hub demo tenant renamed to **Behind 7 Proxies** (`union-b7p`) with meme locals **7 / 404 / 502 / 1337**.
-- [x] Sample emails `president.7@unionops.test` etc.; empty `resolveLocalNumber()` wink → `7`.
+- [x] Hub demo tenant renamed to **Behind 7 Proxies** (`union-b7p`) with meme locals **777 / 404 / 502 / 1337**.
+- [x] Sample emails `president.7@unionops.test` etc.; empty `resolveLocalNumber()` wink → `777`.
 - [x] Migration `0037_b7p_demo_tenant` expands `is_demo` registry; legacy `union-opseu` rows remain purgeable.
 - OPSEU/CAAT Brand Kit presets and Local 243 guide examples stay as real-world Comms references.
 
@@ -1739,7 +1745,7 @@ Scaffold through testing/CI — all complete.
 - [x] `.cursor/rules/platform.mdc` — hub-wide rules
 - [x] `.cursor/rules/comms-module.mdc`, `grievance-module.mdc`, `bumping-module.mdc`
 - [x] `.cursor/rules/project.mdc` — deprecated pointer to platform.mdc
-- [x] Local 243 easter egg — `resolveLocalNumber()` in `src/lib/utils/local.ts`
+- [x] Local 777 easter egg — `resolveLocalNumber()` in `src/lib/utils/local.ts`
 
 ## Phase 1 — Platform Shell (2026-07-08) — COMPLETE
 

@@ -29,6 +29,7 @@ import {
   portalNavLinkAllowed,
 } from "@/lib/president/module-catalog";
 import { getPortalSurfacesForUnion } from "@/lib/tenant/portal-surfaces";
+import { resolvePortalSurfacesForLocal } from "@/lib/president/local-prefs";
 
 export function PortalNav() {
   const { data: session, status } = useSession();
@@ -116,8 +117,12 @@ export function PortalNav() {
   const proposalsEnabled =
     Boolean(tenant?.union.enabledModules.includes("proposals")) || false;
   const portalSurfaces = tenant?.union.id
-    ? getPortalSurfacesForUnion(tenant.union.id)
-    : DEFAULT_PORTAL_SURFACES;
+    ? resolvePortalSurfacesForLocal(
+        tenant.union.id,
+        session.user.localId,
+        getPortalSurfacesForUnion(tenant.union.id),
+      )
+    : [...DEFAULT_PORTAL_SURFACES];
   const enabledModules = tenant?.union.enabledModules ?? [];
   const portalLinks = PORTAL_NAV_LINKS.filter((link) => {
     if (link.id === "proposals" && !proposalsEnabled) return false;

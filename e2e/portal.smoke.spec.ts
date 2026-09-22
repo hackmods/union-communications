@@ -45,13 +45,34 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(
       page.getByRole("link", { name: /^Membership meeting/ }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: /^Local 7 Hall/ }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Local 777 Hall/ }).first()).toBeVisible();
     const portalNav = page.getByRole("navigation", { name: "Portal navigation" });
     await expect(portalNav).toBeVisible();
     await expect(portalNav.getByRole("link", { name: "Dispatch" })).toBeVisible();
+    const banner = page.getByRole("banner");
     await expect(
-      page.getByRole("banner").getByRole("link", { name: "Local Portal" }),
+      banner.getByRole("link", { name: "Local Portal" }),
     ).toHaveAttribute("aria-current", "page");
+    // Peer destinations in the public shell (not buried in account chrome).
+    await expect(
+      banner.getByRole("navigation", { name: /Site navigation|Main|Navigation/i }).getByRole("link", { name: "Local Portal" }),
+    ).toBeVisible();
+  });
+
+  test("president header shows Officer Hub and Local Portal as peers", async ({
+    page,
+  }) => {
+    await loginAsPresident(page);
+    await page.goto("/en/app");
+    const primary = page
+      .getByRole("banner")
+      .getByRole("navigation", { name: /Site navigation|Main|Navigation/i });
+    await expect(
+      primary.getByRole("link", { name: "Officer Hub", exact: true }),
+    ).toHaveAttribute("href", /\/en\/app\/?/);
+    await expect(
+      primary.getByRole("link", { name: "Local Portal", exact: true }),
+    ).toHaveAttribute("href", /\/en\/portal\/?/);
   });
 
   test("Together has no serious or critical a11y violations", async ({
@@ -67,10 +88,10 @@ test.describe("Local Portal smoke @smoke", () => {
   test("member opens Hall and posts Bulletin", async ({ page }) => {
     await loginAsMember(page);
     await page.goto("/en/portal");
-    await page.getByRole("link", { name: /^Local 7 Hall/ }).first().click();
+    await page.getByRole("link", { name: /^Local 777 Hall/ }).first().click();
     await expect(page).toHaveURL(/\/en\/portal\/circles\/circle-hall-7/);
     await expect(
-      page.getByRole("heading", { name: "Local 7 Hall" }),
+      page.getByRole("heading", { name: "Local 777 Hall" }),
     ).toBeVisible();
     await expect(page.getByRole("tab", { name: "Many hands" })).toHaveCount(0);
 
@@ -255,7 +276,7 @@ test.describe("Local Portal smoke @smoke", () => {
     await loginAsMember(page);
     await page.goto("/en/portal/circles/circle-hall-7");
     await expect(
-      page.getByRole("heading", { name: "Local 7 Hall" }),
+      page.getByRole("heading", { name: "Local 777 Hall" }),
     ).toBeVisible();
     const results = await new AxeBuilder({ page }).analyze();
     expect(seriousOrCriticalViolations(results.violations)).toEqual([]);

@@ -192,7 +192,7 @@
     "loading": "Chargement…",
     "statusCode": "404",
     "slogan": "Solidarity.",
-    "local243Footnote": "P.-S. Les aperçus sans numéro de section atterrissent encore sur la section 7 (B7P).",
+    "local243Footnote": "P.-S. Les aperçus sans numéro de section atterrissent encore sur la section 777 (B7P).",
     "markAria": "Marque UnionOps",
     "easterEggTitle": "JUST BE LOVED",
     "easterEggBody": "Vous avez trouvé la motoneige. Respirez. Puis continuez de bâtir Solidarity.",
@@ -203,7 +203,7 @@
         "Cette page n’a jamais joint l’unité de négociation.",
         "Hors service — et hors carte.",
         "Nous avons déposé un grief contre l’URL. Aucune réponse.",
-        "Vous cherchez la section 7? Mauvaise porte — mais vous avez trouvé le clin d’œil B7P.",
+        "Vous cherchez la section 777? Mauvaise porte — mais vous avez trouvé le clin d’œil B7P.",
         "Cette URL a quitté la ligne de piquetage.",
         "Disparue en solidarité — essayez un chemin connu."
       ],
@@ -7131,13 +7131,17 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "default-local-777": {
+        "title": "Les aperçus sans numéro de section utilisent la section 777",
+        "body": "Quand aucun numéro de section n’est saisi, les outils Comms et les clin d’œil des pages d’état affichent maintenant la section 777 au lieu de la section 7. Les connexions d’atelier sous Behind 7 Proxies utilisent le même numéro."
+      },
       "beta-access-requests": {
         "title": "Accès bêta pour les locaux et les membres",
         "body": "Les locaux peuvent demander le Hub des dirigeants ou le Portail local pendant la bêta, et les membres peuvent demander de l’aide pour trouver leur local. L’accès est examiné puis envoyé par invitation."
       },
       "president-configuration": {
-        "title": "Configuration présidence pour le Hub et le Portail",
-        "body": "Les présidentes et présidents locaux peuvent choisir les modules du Hub des dirigeants et du Portail local sur une seule page, avec des réglages calmes qui laissent le Temps de travail désactivé jusqu’à ce que vous en ayez besoin. Le Portail local figure maintenant à côté du Hub des dirigeants dans le menu principal."
+        "title": "Configuration présidence : préréglages, aperçu et liste de démarrage",
+        "body": "Les présidentes et présidents peuvent choisir des préréglages, prévisualiser Hub et Portail, appliquer en lot, et suivre une courte liste de mise en route. Le Portail local reste à côté du Hub des dirigeants dans le menu."
       },
       "public-task-first-navigation": {
         "title": "La Trousse de marque, Créer et Apprendre sont plus faciles à trouver",
@@ -7169,7 +7173,7 @@
       },
       "b7p-demo-roster": {
         "title": "Les comptes Hub d'exemple sont Behind 7 Proxies",
-        "body": "Les connexions d'atelier utilisent les sections 7, 404, 502 et 1337 sous Behind 7 Proxies (B7P), pour ne plus ressembler aux vrais numéros de section OPSEU / SEFPO. Le mot de passe commun reste demo123 quand l'auth démo est active."
+        "body": "Les connexions d'atelier utilisent les sections 777, 404, 502 et 1337 sous Behind 7 Proxies (B7P), pour ne plus ressembler aux vrais numéros de section OPSEU / SEFPO. Le mot de passe commun reste demo123 quand l'auth démo est active."
       },
       "demo-cleanup-purge": {
         "title": "Le nettoyage démo peut supprimer les comptes exemples",
@@ -7750,15 +7754,15 @@
       "password": "Mot de passe commun : {password}",
       "fill": "Remplir {role}",
       "roles": {
-        "president7": "Président de la section 7 (B7P)",
-        "steward7": "Délégué de la section 7 (temps plein)",
-        "stewardPt7": "Délégué de la section 7 (temps partiel)",
+        "president7": "Président de la section 777 (B7P)",
+        "steward7": "Délégué de la section 777 (temps plein)",
+        "stewardPt7": "Délégué de la section 777 (temps partiel)",
         "jointLead404": "Responsable de comité conjoint, section 404",
         "divisionAdmin": "Administrateur de division B7P (plusieurs sections)",
         "president502": "Président de la section 502",
         "president1337": "Président de la section 1337",
-        "stability7": "Comité de stabilité, section 7",
-        "member7": "Membre de la section 7",
+        "stability7": "Comité de stabilité, section 777",
+        "member7": "Membre de la section 777",
         "solo": "Délégué sans section"
       }
     },
@@ -8090,7 +8094,108 @@
         "sidebars": "Coulisses",
         "sidebarsBlurb": "Fils privés un à un entre membres et dirigeantes ou dirigeants.",
         "feedback": "Envoyer un commentaire",
-        "feedbackBlurb": "Permettre aux membres d’envoyer des notes à la section sans quitter le Portail."
+        "feedbackBlurb": "Permettre aux membres d’envoyer des notes à la section sans quitter le Portail.",
+        "announcementsProduct": "Relais",
+        "newsProduct": "Tenir la ligne",
+        "electionsProduct": "Propositions",
+        "discussionsProduct": "Ensemble / Cercles",
+        "myCasesProduct": "Mes dossiers",
+        "sidebarsProduct": "Coulisses",
+        "feedbackProduct": "Envoyer un commentaire"
+      },
+      "previewTitle": "Aperçu en direct",
+      "previewBody": "Ce que les dirigeantes, dirigeants et membres verront après enregistrer.",
+      "previewHub": "Hub des dirigeants",
+      "previewPortal": "Portail local",
+      "previewEmpty": "Rien d’activé dans ce brouillon.",
+      "previewPortalOff": "Portail local désactivé dans ce brouillon.",
+      "presetsLabel": "Préréglages",
+      "undo": "Annuler le dernier changement",
+      "undoSuccess": "Dernier changement annulé.",
+      "presetApplied": "Préréglage « {name} » appliqué au brouillon.",
+      "scopeLabel": "Portée",
+      "scopeUnion": "Tout le syndicat",
+      "scopeLocal": "Cette section seulement",
+      "scopeLocalHint": "Filtre l’affichage pour votre section sans changer les modules syndicaux (les API restent basées sur le syndicat).",
+      "localScopeMissing": "Aucune section active dans la session.",
+      "localSaveSuccess": "Filtre local enregistré.",
+      "localCleared": "Filtre local retiré — retour aux réglages syndicaux.",
+      "clearLocalFilter": "Retirer le filtre local",
+      "applyChanges": "Appliquer",
+      "applying": "Application…",
+      "unsavedChanges": "Modifications non enregistrées dans le brouillon.",
+      "stewardReadOnly": "Seules les présidentes et présidents locaux peuvent changer ces modules. Demandez à la présidence si quelque chose manque.",
+      "backToDashboard": "Retour au tableau de bord",
+      "coachBody": "Deux espaces : Hub des dirigeants pour le travail confidentiel, Portail local pour les membres. Choisissez un préréglage, ajustez, puis appliquez.",
+      "coachDismiss": "Compris",
+      "destructiveTitle": "Confirmer la désactivation",
+      "destructiveConfirm": "Oui, désactiver",
+      "destructiveCancel": "Garder activé",
+      "destructive": {
+        "grievance": "Les délégués perdent l’accès à la liste des griefs dans le Hub. Les dossiers déjà enregistrés restent sur le serveur.",
+        "portal": "Les membres perdent le Portail local (Salle et Cercles). Les données de Cercles restent, mais le menu disparaît."
+      },
+      "presets": {
+        "calmStart": {
+          "label": "Départ calme"
+        },
+        "bargainingSeason": {
+          "label": "Saison de négociation"
+        },
+        "campaign": {
+          "label": "Campagne / mobilisation"
+        }
+      },
+      "starterTitle": "Trousse de démarrage des Cercles",
+      "starterBody": "Ouvre la Salle et crée un Cercle de comité (modèle LEC) pour que Ensemble ne soit pas vide.",
+      "starterCta": "Créer Salle + comité",
+      "starterBusy": "Création…",
+      "starterSuccess": "Salle et Cercle de comité prêts.",
+      "starterError": "Impossible de créer la Salle ou le comité. Vérifiez que le Portail est activé, puis réessayez.",
+      "starterCommitteeName": "Comité exécutif local",
+      "starterCommitteeDesc": "Cercle de démarrage pour le travail du conseil."
+    },
+    "presidentToday": {
+      "title": "Aujourd’hui",
+      "body": "Raccourcis pour le travail quotidien de la présidence.",
+      "overdue": "Échéances CA",
+      "overdueBlurb": "Griefs et délais à surveiller.",
+      "ledger": "Sommaire financier",
+      "ledgerBlurb": "Grand livre de la section.",
+      "portal": "Portail local",
+      "portalBlurb": "Voir ce que les membres voient.",
+      "meetings": "Réunions",
+      "meetingsBlurb": "Horaire et confirmations de présence."
+    },
+    "presidentChecklist": {
+      "title": "Mise en route de la section",
+      "body": "Quatre étapes pour ouvrir le Hub et le Portail sans surcharge.",
+      "steps": {
+        "modules": "Choisir les modules",
+        "hall": "Ouvrir la Salle",
+        "invites": "Inviter des gens",
+        "config": "Revoir la configuration présidence"
+      }
+    },
+    "moduleDisabled": {
+      "openConfiguration": "Ouvrir la configuration présidence",
+      "askPresident": "Demandez à la présidence d’activer ce module.",
+      "backDashboard": "Retour au tableau de bord",
+      "time": {
+        "title": "Temps de travail désactivé",
+        "body": "Le pointage, les horaires et les quarts restent hors jusqu’à ce que vous les activiez."
+      },
+      "tasks": {
+        "title": "Tâches désactivées",
+        "body": "Le tableau des tâches n’apparaît pas tant que le module n’est pas activé."
+      },
+      "checkins": {
+        "title": "Prises de nouvelles désactivées",
+        "body": "Les questions récurrentes restent hors jusqu’à activation."
+      },
+      "discussions": {
+        "title": "Discussions désactivées",
+        "body": "Les fils exécutifs du Hub restent hors jusqu’à activation."
       }
     }
   },
@@ -8161,8 +8266,18 @@
     "personHistory": "Historique et sources de la personne",
     "close": "Fermer",
     "reportsComing": "Les rapports enregistrés suivront. Les jeux de données publiés et l’historique des fonctions sont accessibles dès maintenant.",
-    "status": { "review": "À réviser", "partially_published": "Partiellement publié", "published": "Publié", "failed": "Échec" },
-    "decision": { "pending": "À réviser", "accept": "Acceptée", "exclude": "Exclue", "published": "Publiée" },
+    "status": {
+      "review": "À réviser",
+      "partially_published": "Partiellement publié",
+      "published": "Publié",
+      "failed": "Échec"
+    },
+    "decision": {
+      "pending": "À réviser",
+      "accept": "Acceptée",
+      "exclude": "Exclue",
+      "published": "Publiée"
+    },
     "fields": {
       "memberNumber": "Numéro de membre",
       "fullName": "Nom complet",
@@ -8933,7 +9048,7 @@
     "backToList": "Retour aux discussions",
     "reply": "Répondre",
     "postReply": "Publier la réponse",
-    "mentionHint": "Tapez @ suivi du nom d’un dirigeant pour le mentionner (p. ex. @Local 7 President).",
+    "mentionHint": "Tapez @ suivi du nom d’un dirigeant pour le mentionner (p. ex. @Local 777 President).",
     "mentionedCount": "{count, plural, one {# personne citée} other {# personnes citées}}",
     "livePollHint": "Mise à jour toutes les 15 secondes tant que cet onglet est ouvert."
   },
@@ -10267,10 +10382,19 @@
       "executive_member": "Membre de l’exécutif"
     },
     "capability": {
-      "memberships": { "manage": "Gérer les adhésions locales" },
-      "officers": { "manage": "Gérer les postes de dirigeance" },
-      "delegations": { "manage": "Gérer l’autorité déléguée" },
-      "circles": { "create": "Créer des Cercles", "admin": "Administrer les Cercles assignés" },
+      "memberships": {
+        "manage": "Gérer les adhésions locales"
+      },
+      "officers": {
+        "manage": "Gérer les postes de dirigeance"
+      },
+      "delegations": {
+        "manage": "Gérer l’autorité déléguée"
+      },
+      "circles": {
+        "create": "Créer des Cercles",
+        "admin": "Administrer les Cercles assignés"
+      },
       "grievances": {
         "case": {
           "read": "Lire les dossiers de grief",
@@ -10280,7 +10404,9 @@
           "publish": "Publier des nouvelles aux membres"
         }
       },
-      "tenant": { "configure": "Configurer l’espace du syndicat" }
+      "tenant": {
+        "configure": "Configurer l’espace du syndicat"
+      }
     },
     "accessReason": {
       "administrative_role": "Administration syndicale",
@@ -14041,22 +14167,58 @@
     },
     "startJourneys": {
       "comms": {
-        "brand": { "title": "Configurer l'identité de votre section", "body": "Enregistrez les couleurs, le logo, le numéro et les liens à intégrer à vos documents." },
-        "blueprint": { "title": "Choisir les priorités de communication", "body": "Utilisez le plan pour choisir vos publics, vos messages, vos canaux et un rythme réaliste." },
-        "firstWeek": { "title": "Planifier la première semaine", "body": "Transformez ces priorités en un plan de première semaine que votre section peut réaliser." },
-        "asset": { "title": "Créer votre première publication sociale", "body": "Préparez un visuel réutilisable pour les membres avec l'identité de votre section." }
+        "brand": {
+          "title": "Configurer l'identité de votre section",
+          "body": "Enregistrez les couleurs, le logo, le numéro et les liens à intégrer à vos documents."
+        },
+        "blueprint": {
+          "title": "Choisir les priorités de communication",
+          "body": "Utilisez le plan pour choisir vos publics, vos messages, vos canaux et un rythme réaliste."
+        },
+        "firstWeek": {
+          "title": "Planifier la première semaine",
+          "body": "Transformez ces priorités en un plan de première semaine que votre section peut réaliser."
+        },
+        "asset": {
+          "title": "Créer votre première publication sociale",
+          "body": "Préparez un visuel réutilisable pour les membres avec l'identité de votre section."
+        }
       },
       "steward": {
-        "orientation": { "title": "Commencer par le rôle de délégué", "body": "Découvrez la représentation, la prise de notes et les situations où demander du soutien." },
-        "grievance": { "title": "Apprendre à traiter un grief", "body": "Suivez un problème depuis les premiers faits jusqu'à la convention et aux prochaines étapes." },
-        "safety": { "title": "Réagir à un problème de santé-sécurité", "body": "Utilisez le guide du droit de refus pour comprendre une situation urgente au travail." },
-        "meetings": { "title": "Préparer une réunion locale", "body": "Passez en revue le quorum, les motions, les débats et des formulations pratiques." }
+        "orientation": {
+          "title": "Commencer par le rôle de délégué",
+          "body": "Découvrez la représentation, la prise de notes et les situations où demander du soutien."
+        },
+        "grievance": {
+          "title": "Apprendre à traiter un grief",
+          "body": "Suivez un problème depuis les premiers faits jusqu'à la convention et aux prochaines étapes."
+        },
+        "safety": {
+          "title": "Réagir à un problème de santé-sécurité",
+          "body": "Utilisez le guide du droit de refus pour comprendre une situation urgente au travail."
+        },
+        "meetings": {
+          "title": "Préparer une réunion locale",
+          "body": "Passez en revue le quorum, les motions, les débats et des formulations pratiques."
+        }
       },
       "officer": {
-        "learning": { "title": "Développer les compétences de base d'un dirigeant", "body": "Choisissez des modules autonomes sur la gouvernance, les finances, la négociation et le soutien aux membres." },
-        "governance": { "title": "Examiner les statuts et la gouvernance locale", "body": "Découvrez les structures et les décisions qui assurent une gouvernance responsable." },
-        "bylawDraft": { "title": "Préparer un projet de modification aux statuts", "body": "Organisez les changements proposés dans l'outil sur cet appareil avant l'examen." },
-        "meeting": { "title": "Animer une réunion des membres", "body": "Utilisez le guide et l'aide-mémoire pour préparer le prochain ordre du jour." }
+        "learning": {
+          "title": "Développer les compétences de base d'un dirigeant",
+          "body": "Choisissez des modules autonomes sur la gouvernance, les finances, la négociation et le soutien aux membres."
+        },
+        "governance": {
+          "title": "Examiner les statuts et la gouvernance locale",
+          "body": "Découvrez les structures et les décisions qui assurent une gouvernance responsable."
+        },
+        "bylawDraft": {
+          "title": "Préparer un projet de modification aux statuts",
+          "body": "Organisez les changements proposés dans l'outil sur cet appareil avant l'examen."
+        },
+        "meeting": {
+          "title": "Animer une réunion des membres",
+          "body": "Utilisez le guide et l'aide-mémoire pour préparer le prochain ordre du jour."
+        }
       }
     },
     "audiences": {

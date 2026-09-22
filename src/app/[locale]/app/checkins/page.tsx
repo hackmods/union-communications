@@ -3,6 +3,7 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { CheckinsBoard } from "@/components/checkins/CheckinsBoard";
+import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canAccessCheckinsModule } from "@/lib/checkins/access";
 import type { UserRole } from "@/types/tenant";
@@ -32,7 +33,7 @@ export default async function CheckinsPage({
     ? getTenantContext(session.user.unionId)
     : null;
   if (!tenant?.union.enabledModules.includes("checkins")) {
-    redirect(`/${locale}/app`);
+    return <ModuleDisabledPanel moduleId="checkins" roles={roles} />;
   }
 
   return <CheckinsBoard />;

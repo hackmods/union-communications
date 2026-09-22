@@ -102,6 +102,11 @@ const HUB_A11Y_PAGES: {
     heading: /Dashboard|Tableau de bord/i,
   },
   {
+    label: "configuration",
+    path: "/en/app/configuration",
+    heading: /President configuration|Configuration présidence/i,
+  },
+  {
     label: "profile",
     path: "/en/app/profile",
     heading: /Your profile|Votre profil/i,

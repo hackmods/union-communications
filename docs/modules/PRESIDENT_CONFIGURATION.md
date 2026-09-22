@@ -78,8 +78,14 @@ reason Comms is omitted — the site header already elevates it).
 2. **Grouped toggles** on `/app/configuration` — executive (default on) vs operational (default off) with clear badges.
 3. **Separate Portal list** so member chrome is not mixed into confidential Hub modules.
 4. **Workflow tip** on the page: modules → union setup → invites; soft-launch setup card links Configuration first.
-5. **Instant save** per toggle with consequence + remedy copy on failure.
-6. **Data stays locked** for presidents — elevates only with union/platform admin after durable Postgres.
+5. **Batched Apply** with draft edits, presets (Calm / Bargaining / Campaign), undo, and a live preview panel.
+6. **Destructive-off confirm** for Grievances and Local Portal.
+7. **Local-only presentation filter** (optional) without changing union API gates.
+8. **Circle starter kit** — ensure Hall + LEC committee Circle from Configuration.
+9. **Today strip + launch checklist** on the Hub dashboard for presidents.
+10. **Module-off panels** with Configuration deep links (Time, Tasks, Check-ins, Discussions).
+11. **Steward read-only** note; first-run coach; axe smoke on `/app/configuration`.
+12. **Data stays locked** for presidents — elevates only with union/platform admin after durable Postgres.
 
 ## Implementation map
 
