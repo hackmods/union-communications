@@ -262,5 +262,6 @@ export function resetTenantOverlayForTests(): void {
   overlaySeeds.clear();
   localPatches.clear();
   unitPatches.clear();
+  dataModulePatches.clear();
   hydratedFromDb = false;
 }

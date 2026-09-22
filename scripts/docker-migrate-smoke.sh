@@ -252,6 +252,8 @@ ALTER TABLE tasks DROP COLUMN IF EXISTS mentioned_user_ids;
 ALTER TABLE tasks DROP COLUMN IF EXISTS reactions;
 ALTER TABLE tasks DROP COLUMN IF EXISTS updated_at;
 
+DROP TABLE IF EXISTS access_requests CASCADE;
+
 DROP TABLE IF EXISTS time_worker_groups CASCADE;
 DROP TABLE IF EXISTS time_ot_policies CASCADE;
 DROP TABLE IF EXISTS time_shift_series CASCADE;

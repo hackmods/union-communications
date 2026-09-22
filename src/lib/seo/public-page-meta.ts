@@ -53,6 +53,16 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "New tools, guides, and improvements as UnionOps grows. Newest first, with links into the makers and handbooks they mention.",
     },
+    "/join": {
+      title: "Bring your local to UnionOps",
+      description:
+        "Apply for beta access to Officer Hub and Local Portal. Comms tools stay free on your device; Hub access is reviewed and sent by invitation.",
+    },
+    "/request-access": {
+      title: "Request member access",
+      description:
+        "Ask for access to your local's Officer Hub or Local Portal. We review each request and follow up by invitation — this does not create an account.",
+    },
     "/captions": {
       title: "Caption & Hashtag Library",
       description:
@@ -344,6 +354,16 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Nouveautés",
       description:
         "Nouveaux outils, guides et améliorations à mesure qu'UnionOps grandit. Du plus récent au plus ancien, avec des liens vers les créateurs et les manuels.",
+    },
+    "/join": {
+      title: "Amenez votre local à UnionOps",
+      description:
+        "Demandez l'accès bêta au Hub et au Portail. Les Comms restent gratuits sur votre appareil; l'accès Hub est examiné puis envoyé par invitation.",
+    },
+    "/request-access": {
+      title: "Demander l'accès membre",
+      description:
+        "Demandez l'accès au Hub des dirigeants ou au Portail local de votre section. Chaque demande est examinée, puis suivie d'une invitation — cela ne crée pas de compte.",
     },
     "/captions": {
       title: "Bibliothèque de légendes et de mot-clics",
