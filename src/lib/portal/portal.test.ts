@@ -118,7 +118,7 @@ describe("portalStore", () => {
     expect(portalStore.inviteToRoster({
       circleId: created.id,
       userId: "user-member-7",
-      userName: "Local 7 Member",
+      userName: "Local 777 Member",
     })).toBeNull();
     const oversight = portalStore.oversight("circle-lec-7", "union-b7p");
     expect(oversight.openCount).toBeGreaterThanOrEqual(0);
@@ -132,7 +132,7 @@ describe("portalStore", () => {
       name: "Provincial caucus",
       visibility: "invited",
       createdById: "user-president-7",
-      createdByName: "Local 7 President",
+      createdByName: "Local 777 President",
     });
     expect(caucus.localId).toBeUndefined();
     portalStore.inviteToRoster({
@@ -308,7 +308,7 @@ describe("portalStore", () => {
       authorId: "user-president-7",
       authorName: "President",
       title: "Ping",
-      body: "Please see @Local 7 Member about the flyer.",
+      body: "Please see @Local 777 Member about the flyer.",
     });
     const after = portalStore.listDispatch("union-b7p", "user-member-7");
     expect(after.length).toBeGreaterThan(before);
@@ -380,7 +380,7 @@ describe("portalStore", () => {
     const existing = portalStore.ensureHall({
       unionId: "union-b7p",
       localId: "local-7",
-      localNumber: "7",
+      localNumber: "777",
     });
     expect(existing.id).toBe("circle-hall-7");
 

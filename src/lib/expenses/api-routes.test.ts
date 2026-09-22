@@ -51,7 +51,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-president-7",
-      name: "Local 7 President",
+      name: "Local 777 President",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
@@ -111,7 +111,7 @@ async function seedSubmitted(input?: {
       unionId: input?.unionId ?? "union-b7p",
       localId: input?.localId ?? "local-7",
       submittedById: input?.submittedById ?? "user-steward-7",
-      submittedByName: "Local 7 Steward",
+      submittedByName: "Local 777 Steward",
     },
   );
   if (input?.status === "draft") return row;
@@ -321,7 +321,7 @@ describe("expense list/create/submit API", () => {
         unionId: "union-b7p",
         localId: "local-7",
         submittedById: "user-president-7",
-        submittedByName: "Local 7 President",
+        submittedByName: "Local 777 President",
       },
     );
 
@@ -342,7 +342,7 @@ describe("expense list/create/submit API", () => {
       unionId: "union-b7p",
       localId: "local-7",
       submittedById: "user-steward-7",
-      submittedByName: "Local 7 Steward",
+      submittedByName: "Local 777 Steward",
     });
     const mine = await memoryExpenseStore.create(
       { ...validCreate, title: "President mileage" },
@@ -350,7 +350,7 @@ describe("expense list/create/submit API", () => {
         unionId: "union-b7p",
         localId: "local-7",
         submittedById: "user-president-7",
-        submittedByName: "Local 7 President",
+        submittedByName: "Local 777 President",
       },
     );
 
@@ -418,7 +418,7 @@ describe("expense list/create/submit API", () => {
       unionId: "union-b7p",
       localId: "local-7",
       submittedById: "user-steward-7",
-      submittedByName: "Local 7 Steward",
+      submittedByName: "Local 777 Steward",
     });
 
     authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));

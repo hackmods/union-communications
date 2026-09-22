@@ -1,7 +1,7 @@
 /**
  * Live RLS smoke (SEC-003) against the non-owner application role.
  *
- * Requires migrations through the current tail, seeded Local 7 demo membership,
+ * Requires migrations through the current tail, seeded Local 777 demo membership,
  * and DATABASE_URL=postgres://unionops_app:... (not the table owner).
  * Run: npm run db:rls-smoke
  */

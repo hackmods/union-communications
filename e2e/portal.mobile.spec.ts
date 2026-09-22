@@ -18,9 +18,9 @@ test.describe("Portal mobile @smoke @mobile", () => {
 
   test("Hall circle workspace has no horizontal overflow", async ({ page }) => {
     await page.goto("/en/portal");
-    await page.getByRole("link", { name: /^Local 7 Hall/ }).first().click();
+    await page.getByRole("link", { name: /^Local 777 Hall/ }).first().click();
     await expect(
-      page.getByRole("heading", { name: "Local 7 Hall" }),
+      page.getByRole("heading", { name: "Local 777 Hall" }),
     ).toBeVisible();
     await assertNoHorizontalOverflow(page);
   });

@@ -115,32 +115,32 @@ async function main(): Promise<void> {
     const circle = await president.createCircle({
       unionId: UNION, localId: LOCAL, kind: "committee", name: `Portal persistence ${suffix}`,
       description: "Temporary database smoke fixture", visibility: "invited",
-      createdById: PRESIDENT, createdByName: "Local 7 President", template: "lec",
+      createdById: PRESIDENT, createdByName: "Local 777 President", template: "lec",
     });
     createdCircleIds.push(circle.id);
 
     const memberRow = await president.inviteToRoster({
-      circleId: circle.id, userId: MEMBER, userName: "Local 7 Member",
+      circleId: circle.id, userId: MEMBER, userName: "Local 777 Member",
     });
     assert(memberRow?.userId === MEMBER, "same-union active member could not be invited");
-    const hall = await member.ensureHall({ unionId: UNION, localId: LOCAL, localNumber: "7" });
+    const hall = await member.ensureHall({ unionId: UNION, localId: LOCAL, localNumber: "777" });
     assert(hall.kind === "local_hall" && hall.localId === LOCAL, "active local member could not resolve their Hall");
     const joinedHall = await member.ensureHallAndJoin({
-      unionId: UNION, localId: LOCAL, localNumber: "7", userId: MEMBER, userName: "Local 7 Member",
+      unionId: UNION, localId: LOCAL, localNumber: "777", userId: MEMBER, userName: "Local 777 Member",
     });
     assert(joinedHall.circle.id === hall.id && joinedHall.membership.userId === MEMBER, "Hall enrollment did not materialize for an active member");
 
     await expectDenied("ordinary member Circle creation", async () => {
       const deniedCircle = await member.createCircle({
         unionId: UNION, localId: LOCAL, kind: "ad_hoc", name: `Denied member ${suffix}`,
-        visibility: "invited", createdById: MEMBER, createdByName: "Local 7 Member",
+        visibility: "invited", createdById: MEMBER, createdByName: "Local 777 Member",
       });
       createdCircleIds.push(deniedCircle.id);
     });
     await expectDenied("local president union-wide Circle creation", async () => {
       const deniedCircle = await president.createCircle({
         unionId: UNION, kind: "ad_hoc", name: `Denied union ${suffix}`,
-        visibility: "invited", createdById: PRESIDENT, createdByName: "Local 7 President",
+        visibility: "invited", createdById: PRESIDENT, createdByName: "Local 777 President",
       });
       createdCircleIds.push(deniedCircle.id);
     });
@@ -148,7 +148,7 @@ async function main(): Promise<void> {
       const noLocal = new PostgresPortalAdapter({ unionId: UNION, userId: PRESIDENT, mfaVerified: true });
       const deniedCircle = await noLocal.createCircle({
         unionId: UNION, localId: LOCAL, kind: "ad_hoc", name: `Denied missing local ${suffix}`,
-        visibility: "invited", createdById: PRESIDENT, createdByName: "Local 7 President",
+        visibility: "invited", createdById: PRESIDENT, createdByName: "Local 777 President",
       });
       createdCircleIds.push(deniedCircle.id);
     });
@@ -157,20 +157,20 @@ async function main(): Promise<void> {
       circleId: circle.id, unionId: UNION, listName: "Smoke", title: `Assigned ${suffix}`,
       assigneeId: MEMBER, assigneeName: "Caller supplied name", createdById: PRESIDENT,
     });
-    assert(action.assigneeName === "Local 7 Member", "assignee display name was not resolved from Circle membership");
+    assert(action.assigneeName === "Local 777 Member", "assignee display name was not resolved from Circle membership");
     const dispatched = await member.listDispatch(UNION, MEMBER);
     assert(dispatched.some((item) => item.kind === "assignment" && item.circleId === circle.id), "assigned action did not create a visible Dispatch item");
     const readCount = await member.markDispatchRead(UNION, MEMBER, dispatched.map((item) => item.id));
     assert(readCount > 0, "Dispatch read state did not persist");
     const completedAction = await president.addAction({
       circleId: circle.id, unionId: UNION, listName: "Smoke", title: `Completed ${suffix}`,
-      assigneeId: MEMBER, assigneeName: "Local 7 Member", createdById: PRESIDENT,
+      assigneeId: MEMBER, assigneeName: "Local 777 Member", createdById: PRESIDENT,
     });
     const completed = await president.completeAction(completedAction.id, circle.id, UNION);
     assert(completed?.completedAt, "action completion did not persist");
     const mentionPost = await president.addBulletin({
-      circleId: circle.id, unionId: UNION, authorId: PRESIDENT, authorName: "Local 7 President",
-      title: `Mention ${suffix}`, body: "@Local 7 Member please review this update",
+      circleId: circle.id, unionId: UNION, authorId: PRESIDENT, authorName: "Local 777 President",
+      title: `Mention ${suffix}`, body: "@Local 777 Member please review this update",
     });
     assert(mentionPost, "mention Bulletin post did not persist");
     const mentionDispatch = await member.listDispatch(UNION, MEMBER);
@@ -183,8 +183,8 @@ async function main(): Promise<void> {
       "portal_smoke_mention_rollback",
     );
     await expectDenied("Bulletin mention transaction rollback", () => president.addBulletin({
-      circleId: circle.id, unionId: UNION, authorId: PRESIDENT, authorName: "Local 7 President",
-      title: mentionRollbackTitle, body: "@Local 7 Member this should roll back",
+      circleId: circle.id, unionId: UNION, authorId: PRESIDENT, authorName: "Local 777 President",
+      title: mentionRollbackTitle, body: "@Local 777 Member this should roll back",
     }));
     const rolledBackMentionPost = await owner<{ id: string }[]>`
       SELECT id FROM portal_bulletin_posts WHERE circle_id = ${circle.id} AND title = ${mentionRollbackTitle}
@@ -196,14 +196,14 @@ async function main(): Promise<void> {
     assert(rolledBackMentionPost.length === 0 && rolledBackMentionDispatch.length === 0, "failed mention transaction left a post or Dispatch row");
     await removeFailureTrigger(dispatchFailure);
     const post = await president.addBulletin({
-      circleId: circle.id, unionId: UNION, authorId: PRESIDENT, authorName: "Local 7 President",
+      circleId: circle.id, unionId: UNION, authorId: PRESIDENT, authorName: "Local 777 President",
       title: `Search needle ${suffix}`, body: `Visible to the invited Circle ${suffix}`,
     });
     const pinned = await president.pinBulletin(post.id, circle.id, UNION, true);
     assert(pinned?.pinned, "Bulletin pin state did not persist");
     const comment = await member.addComment({
       circleId: circle.id, unionId: UNION, postId: post.id, authorId: MEMBER,
-      authorName: "Local 7 Member", body: `Comment ${suffix}`,
+      authorName: "Local 777 Member", body: `Comment ${suffix}`,
     });
     assert(comment?.postId === post.id, "Circle member comment did not persist");
 
@@ -213,10 +213,10 @@ async function main(): Promise<void> {
     });
     const binderItem = await member.addBinderItem({
       circleId: circle.id, unionId: UNION, title: `Binder ${suffix}`, content: `Notes ${suffix}`,
-      contentType: "note", createdById: MEMBER, createdByName: "Local 7 Member",
+      contentType: "note", createdById: MEMBER, createdByName: "Local 777 Member",
     });
     await member.addFloorMessage({
-      circleId: circle.id, unionId: UNION, authorId: MEMBER, authorName: "Local 7 Member", body: `Floor ${suffix}`,
+      circleId: circle.id, unionId: UNION, authorId: MEMBER, authorName: "Local 777 Member", body: `Floor ${suffix}`,
     });
     const question = (await president.getCircleDetail(UNION, PRESIDENT, circle.id))?.rollCallQuestions[0];
     assert(question, "Circle template question did not persist atomically");
@@ -226,7 +226,7 @@ async function main(): Promise<void> {
     assert(addedQuestion.cadence === "monthly", "custom Roll Call question did not persist");
     const answer = await member.addRollCallAnswer({
       questionId: addedQuestion.id, circleId: circle.id, authorId: MEMBER,
-      authorName: "Local 7 Member", body: `Roll call ${suffix}`,
+      authorName: "Local 777 Member", body: `Roll call ${suffix}`,
     });
     assert(answer, "Roll Call answer did not persist");
 
@@ -242,10 +242,10 @@ async function main(): Promise<void> {
     assert(await member.movePipelineCard(card.id, column.id, circle.id, UNION), "Many hands card move failed");
     assert(await member.upsertMomentum({
       circleId: circle.id, unionId: UNION, title: `One fight ${suffix}`, progress: 25,
-      updatedById: MEMBER, updatedByName: "Local 7 Member",
+      updatedById: MEMBER, updatedByName: "Local 777 Member",
     }), "One fight item did not persist");
 
-    const imported = await member.importBasecampRows(circle.id, UNION, MEMBER, "Local 7 Member", [
+    const imported = await member.importBasecampRows(circle.id, UNION, MEMBER, "Local 777 Member", [
       { kind: "bulletin", title: `Imported post ${suffix}`, body: "imported" },
       { kind: "action", title: `Imported action ${suffix}`, body: "imported" },
       { kind: "binder", title: `Imported binder ${suffix}`, body: "imported" },
@@ -258,7 +258,7 @@ async function main(): Promise<void> {
       "portal_smoke_import_rollback",
     );
     await expectDenied("Basecamp import transaction rollback", () => member.importBasecampRows(
-      circle.id, UNION, MEMBER, "Local 7 Member", [
+      circle.id, UNION, MEMBER, "Local 777 Member", [
         { kind: "bulletin", title: importRollbackTitle, body: "must roll back" },
         { kind: "binder", title: "UNIONOPS_SMOKE_FORCE_ROLLBACK_IMPORT", body: "force failure" },
       ],
@@ -269,21 +269,21 @@ async function main(): Promise<void> {
     assert(partialImport.length === 0, "failed Basecamp import left a partial Bulletin row");
     await removeFailureTrigger(importFailure);
     const csvImport = await member.importBasecampCsv(
-      circle.id, UNION, MEMBER, "Local 7 Member",
+      circle.id, UNION, MEMBER, "Local 777 Member",
       'type,title,body\nbulletin,"CSV post",hello\nbinder,"CSV note","a comma, in the body"',
     );
     assert(csvImport.created === 2 && csvImport.rows === 2, "CSV import did not preserve its row count and records");
 
     const [threadA, threadB] = await Promise.all([
-      president.ensureSidebarThread({ unionId: UNION, fromId: PRESIDENT, fromName: "Local 7 President", toId: MEMBER, toName: "Local 7 Member" }),
-      member.ensureSidebarThread({ unionId: UNION, fromId: MEMBER, fromName: "Local 7 Member", toId: PRESIDENT, toName: "Local 7 President" }),
+      president.ensureSidebarThread({ unionId: UNION, fromId: PRESIDENT, fromName: "Local 777 President", toId: MEMBER, toName: "Local 777 Member" }),
+      member.ensureSidebarThread({ unionId: UNION, fromId: MEMBER, fromName: "Local 777 Member", toId: PRESIDENT, toName: "Local 777 President" }),
     ]);
     assert(threadA.id === threadB.id, "concurrent Sidebar creation produced duplicate participant threads");
     sidebarThreadIds.push(threadA.id);
     assert((await member.listSidebarThreads(UNION, MEMBER)).some((thread) => thread.id === threadA.id), "Sidebar participant could not list their conversation");
     const message = await president.sendSidebarMessage({
       unionId: UNION, threadId: threadA.id, authorId: PRESIDENT,
-      authorName: "Local 7 President", body: `Sidebar ${suffix}`,
+      authorName: "Local 777 President", body: `Sidebar ${suffix}`,
     });
     assert(message, "Sidebar message did not persist");
     assert((await member.getSidebarMessages(UNION, MEMBER, threadA.id))?.length === 1, "Sidebar participant could not read messages");
@@ -328,7 +328,7 @@ async function main(): Promise<void> {
       .from(portalBulletinPosts).where(eq(portalBulletinPosts.circleId, circle.id)));
     assert(archivedContent.length === 0, "RLS exposed archived Circle content to a regular member");
     await expectDenied("write to archived Circle", () => member.addFloorMessage({
-      circleId: circle.id, unionId: UNION, authorId: MEMBER, authorName: "Local 7 Member", body: "must be denied",
+      circleId: circle.id, unionId: UNION, authorId: MEMBER, authorName: "Local 777 Member", body: "must be denied",
     }));
 
     console.log("[portal-durability-smoke] ok — Portal operation coverage, transaction rollback, archive RLS, Sidebar access, audit, and reconnect persistence passed as unionops_app");

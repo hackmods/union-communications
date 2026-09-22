@@ -54,7 +54,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-president-7",
-      name: input?.name ?? "Local 7 President",
+      name: input?.name ?? "Local 777 President",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
@@ -82,7 +82,7 @@ function params<E extends Record<string, string> = Record<string, never>>(
 const stewardSession = () =>
   session({
     id: "user-steward-7",
-    name: "Local 7 Steward",
+    name: "Local 777 Steward",
     roles: ["local_steward"],
   });
 
@@ -94,9 +94,9 @@ async function seedBylaw(input?: {
   return memoryBylawsStore.create({
     unionId: input?.unionId ?? "union-b7p",
     localId: input?.localId ?? "local-7",
-    title: input?.title ?? "Local 7 revision",
+    title: input?.title ?? "Local 777 revision",
     mode: "template",
-    form: { ...createEmptyBylawForm(), localName: "Local 7" },
+    form: { ...createEmptyBylawForm(), localName: "Local 777" },
     updatedById: "user-president-7",
   });
 }
@@ -405,7 +405,7 @@ describe("bylaws / proposals HTTP tenancy", () => {
       authMock.mockResolvedValue(
         session({
           id: "user-member-7",
-          name: "Local 7 Member",
+          name: "Local 777 Member",
           roles: ["local_member"],
         }),
       );

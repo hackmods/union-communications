@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from "node:fs/promises";
+﻿import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { OFFICE_PRESETS, defaultFieldsForPreset } from "../src/lib/constants/office-templates";
 import {
@@ -34,7 +34,7 @@ async function main(): Promise<void> {
 await mkdir(outputDir, { recursive: true });
 for (const preset of OFFICE_PRESETS) {
   const fields = defaultFieldsForPreset(preset);
-  const common = { presetId: preset.id, palette, localLabel: "Local 7", localNumber: "7", fields, ...fontOptions,
+  const common = { presetId: preset.id, palette, localLabel: "Local 777", localNumber: "777", fields, ...fontOptions,
     seniorityLabels: preset.id === "seniority-worksheet" ? seniorityLabels : undefined,
     grievanceLabels: preset.id === "grievance-intake" ? grievanceLabels : undefined };
   if (preset.outputs.docx) {
@@ -44,12 +44,12 @@ for (const preset of OFFICE_PRESETS) {
   if (preset.outputs.pptx) await save(`${preset.id}.pptx`, await renderPptx({ ...common, title: fields.title ?? preset.id }));
   if (preset.outputs.xlsx) {
     const blob = preset.id === "seniority-worksheet"
-      ? await renderSeniorityWorksheetXlsx({ palette, localNumber: "7", fields, labels: seniorityLabels, ...fontOptions })
+      ? await renderSeniorityWorksheetXlsx({ palette, localNumber: "777", fields, labels: seniorityLabels, ...fontOptions })
       : preset.id === "grievance-intake"
-        ? await renderGrievanceIntakeXlsx({ palette, localNumber: "7", fields, labels: grievanceLabels, ...fontOptions })
+        ? await renderGrievanceIntakeXlsx({ palette, localNumber: "777", fields, labels: grievanceLabels, ...fontOptions })
         : preset.id === "lec-directory"
-          ? await renderLecDirectoryXlsx({ palette, localNumber: "7", fields, ...fontOptions })
-          : await renderEventRsvpXlsx({ palette, localNumber: "7", fields, labels: EVENT_RSVP_XLSX_LABELS.en, ...fontOptions });
+          ? await renderLecDirectoryXlsx({ palette, localNumber: "777", fields, ...fontOptions })
+          : await renderEventRsvpXlsx({ palette, localNumber: "777", fields, labels: EVENT_RSVP_XLSX_LABELS.en, ...fontOptions });
     await save(`${preset.id}.xlsx`, blob);
   }
 }
@@ -57,3 +57,4 @@ console.log(`Generated Office smoke files in ${outputDir}`);
 }
 
 void main();
+

@@ -25,7 +25,7 @@ describe("Hub bylaws adapter (memory)", () => {
       title: "Bylaw revision 2026",
       mode: "committee",
       form: form({
-        localName: "Behind 7 Proxies Local 7",
+        localName: "Behind 7 Proxies Local 777",
         vicePresidents: "2",
         stewards: "One steward per unit",
         articleOverrides: { name: "Article 1 — Name override" },
@@ -60,7 +60,7 @@ describe("Hub bylaws adapter (memory)", () => {
     });
     expect(updated?.status).toBe("pending_gmm");
     const updatedForm = updated?.form as { localName: string };
-    expect(updatedForm.localName).toBe("Behind 7 Proxies Local 7");
+    expect(updatedForm.localName).toBe("Behind 7 Proxies Local 777");
 
     expect(await memoryBylawsStore.remove(draft.id)).toBe(true);
     expect(await memoryBylawsStore.get(draft.id)).toBeNull();

@@ -6,7 +6,7 @@ describe("tenant loader", () => {
   it("loads B7P demo tenant by slug", () => {
     const tenant = getTenantByUnionSlug("b7p");
     expect(tenant?.union.name).toBe("Behind 7 Proxies");
-    expect(tenant?.locals?.[0]?.localNumber).toBe("7");
+    expect(tenant?.locals?.[0]?.localNumber).toBe("777");
     expect(tenant?.locals).toHaveLength(4);
     expect(tenant?.bargainingUnits?.length).toBeGreaterThanOrEqual(2);
   });

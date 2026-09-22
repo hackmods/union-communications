@@ -106,7 +106,7 @@ export function normalizeBargainingUnits(seed: TenantSeed): BargainingUnit[] {
   return seed.bargainingUnits ?? [];
 }
 
-/** Prefer the session local over `locals[0]` (seed Local 7). */
+/** Prefer the session local over `locals[0]` (seed Local 777). */
 export function withActiveLocal(
   ctx: TenantContext | null,
   localId?: string | null,

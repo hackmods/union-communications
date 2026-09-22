@@ -29,7 +29,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-steward-7",
-      name: "Local 7 Steward",
+      name: "Local 777 Steward",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
@@ -72,7 +72,7 @@ async function seedDraft(input?: {
       unionId: input?.unionId ?? "union-b7p",
       localId: input?.localId ?? "local-7",
       submittedById: input?.submittedById ?? "user-steward-7",
-      submittedByName: "Local 7 Steward",
+      submittedByName: "Local 777 Steward",
     },
   );
   if (input?.status === "submitted") {

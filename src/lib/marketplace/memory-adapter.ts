@@ -15,7 +15,7 @@ function seedTemplates(): SharedTemplate[] {
       description: "Reusable email opener for scheduling Step 1",
       body: "Subject: Request for Step 1 grievance meeting\n\nDear [Manager],\n\nI am writing to request a Step 1 meeting regarding grievance [ID] filed on [DATE]. Please propose two available times within the next five working days.\n\nIn solidarity,\n[Steward name]",
       sharedById: "user-president-7",
-      sharedByName: "Local 7 President",
+      sharedByName: "Local 777 President",
       createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
     },
     {
@@ -27,7 +27,7 @@ function seedTemplates(): SharedTemplate[] {
       description: "Handoff checklist for incoming stewards",
       body: "1. Review open grievances assigned to you\n2. Confirm MFA access to the hub\n3. Download hybrid encrypted backup\n4. Meet with outgoing officer\n5. Introduce yourself to members on your list",
       sharedById: "user-president-7",
-      sharedByName: "Local 7 President",
+      sharedByName: "Local 777 President",
       createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
     },
     {
@@ -39,7 +39,7 @@ function seedTemplates(): SharedTemplate[] {
       description: "Within-union shared social caption",
       body: "Bargaining update: Your bargaining team met today. We are fighting for fair wages, job security, and respect at work. Stay tuned - and talk to your steward if you have questions. #Solidarity",
       sharedById: "user-steward-7",
-      sharedByName: "Local 7 Steward",
+      sharedByName: "Local 777 Steward",
       createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
     },
   ];

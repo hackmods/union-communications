@@ -44,7 +44,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-steward-7",
-      name: "Local 7 Steward (FT)",
+      name: "Local 777 Steward (FT)",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
@@ -97,7 +97,7 @@ async function seedAuthorization(input?: {
       unionId: input?.unionId ?? "union-b7p",
       localId: input?.localId ?? "local-7",
       requestedById: input?.requestedById ?? "user-steward-7",
-      requestedByName: "Local 7 Steward (FT)",
+      requestedByName: "Local 777 Steward (FT)",
     },
   );
   if (input?.status === "approved") {

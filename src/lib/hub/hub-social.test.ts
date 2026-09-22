@@ -3,8 +3,8 @@ import { extractMentionedUserIds, segmentMentionText } from "@/lib/hub/mentions"
 import { toggleHubReaction } from "@/lib/hub/reactions";
 
 const roster = [
-  { id: "user-president-7", name: "Local 7 President" },
-  { id: "user-steward-7", name: "Local 7 Steward (FT)" },
+  { id: "user-president-7", name: "Local 777 President" },
+  { id: "user-steward-7", name: "Local 777 Steward (FT)" },
 ];
 
 describe("hub mentions", () => {
@@ -20,7 +20,7 @@ describe("hub mentions", () => {
   it("extracts display-name mentions", () => {
     expect(
       extractMentionedUserIds(
-        "Thanks @Local 7 President for the update.",
+        "Thanks @Local 777 President for the update.",
         roster,
       ),
     ).toEqual(["user-president-7"]);
@@ -28,12 +28,12 @@ describe("hub mentions", () => {
 
   it("segments mention text safely", () => {
     expect(
-      segmentMentionText("Hi @Local 7 President — done.", roster),
+      segmentMentionText("Hi @Local 777 President — done.", roster),
     ).toEqual([
       { type: "text", value: "Hi " },
       {
         type: "mention",
-        value: "@Local 7 President",
+        value: "@Local 777 President",
         userId: "user-president-7",
       },
       { type: "text", value: " — done." },

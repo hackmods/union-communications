@@ -27,7 +27,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-member-7",
-      name: "Local 7 Member",
+      name: "Local 777 Member",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:

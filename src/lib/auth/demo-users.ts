@@ -1,6 +1,6 @@
 /**
  * Demo Hub roster — Behind 7 Proxies (B7P).
- * Meme locals (7 / 404 / 502 / 1337) avoid IRL OPSEU/CAAT number collisions.
+ * Meme locals (777 / 404 / 502 / 1337) avoid IRL OPSEU/CAAT number collisions.
  * Passwords are bcrypt hashes only (SEC-007).
  */
 import type { DemoUser } from "@/types/auth";
@@ -26,7 +26,7 @@ export const DEMO_USERS: DemoUser[] = [
     id: "user-president-7",
     email: demoEmail("president.7"),
     passwordHash: DEMO_PASSWORD_HASH,
-    name: "Local 7 President",
+    name: "Local 777 President",
     unionId: "union-b7p",
     divisionId: "division-b7p",
     localId: "local-7",
@@ -40,7 +40,7 @@ export const DEMO_USERS: DemoUser[] = [
     id: "user-steward-7",
     email: demoEmail("steward.7"),
     passwordHash: DEMO_PASSWORD_HASH,
-    name: "Local 7 Steward (FT)",
+    name: "Local 777 Steward (FT)",
     unionId: "union-b7p",
     divisionId: "division-b7p",
     localId: "local-7",
@@ -54,7 +54,7 @@ export const DEMO_USERS: DemoUser[] = [
     id: "user-steward-7-pt",
     email: demoEmail("steward-pt.7"),
     passwordHash: DEMO_PASSWORD_HASH,
-    name: "Local 7 Steward (PT)",
+    name: "Local 777 Steward (PT)",
     unionId: "union-b7p",
     divisionId: "division-b7p",
     localId: "local-7",
@@ -137,7 +137,7 @@ export const DEMO_USERS: DemoUser[] = [
     id: "user-member-7",
     email: demoEmail("member.7"),
     passwordHash: DEMO_PASSWORD_HASH,
-    name: "Local 7 Member",
+    name: "Local 777 Member",
     unionId: "union-b7p",
     divisionId: "division-b7p",
     localId: "local-7",
