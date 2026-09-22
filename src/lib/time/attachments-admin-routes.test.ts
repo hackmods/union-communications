@@ -69,9 +69,16 @@ function jsonRequest(body: unknown): Request {
   } as Request;
 }
 
+function params(id: string): { params: Promise<{ id: string }> };
+function params(
+  id: string,
+  attachmentId: string,
+): { params: Promise<{ id: string; attachmentId: string }> };
 function params(id: string, attachmentId?: string) {
   return {
-    params: Promise.resolve(attachmentId ? { id, attachmentId } : { id }),
+    params: Promise.resolve(
+      attachmentId ? { id, attachmentId } : { id },
+    ),
   };
 }
 
@@ -95,7 +102,7 @@ async function seedEntry(input: {
       clockOutAt: input.clockOutAt ?? `2031-05-${day}T12:00:00.000Z`,
       workerId: input.workerId,
       workerName: input.workerId,
-      status: input.status ?? "submitted",
+      status: "submitted",
       entrySource: "manual_range",
     },
     {
@@ -104,6 +111,17 @@ async function seedEntry(input: {
       jobCodeLabel: "Grievance handling",
     },
   );
+  if (input.status === "approved") {
+    const approved = await memoryTimeStore.updateEntryStatus(
+      entry.id,
+      "approved",
+      { approvedById: "user-president-7" },
+    );
+    if (!approved) {
+      throw new Error(`Failed to approve seeded entry ${entry.id}`);
+    }
+    return approved;
+  }
   return entry;
 }
 
