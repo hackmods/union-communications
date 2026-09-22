@@ -10,6 +10,7 @@ vi.mock("@/auth", () => ({
 }));
 
 import { GET as listMyCases } from "@/app/api/portal/my-cases/route";
+import { GET as downloadMyCaseAttachment } from "@/app/api/portal/my-cases/[id]/attachments/[attachmentId]/route";
 import {
   memoryGrievanceStore,
   resetGrievanceMemoryForTests,
@@ -142,5 +143,42 @@ describe("Portal my-cases HTTP", () => {
     expect(body.cases[0]).not.toHaveProperty("memberUserId");
     expect(body.cases[0]?.updates).toEqual([]);
     expect(body.cases[0]?.attachments).toEqual([]);
+  });
+
+  it("returns 401 without a session and 404s member attachment download without Postgres", async () => {
+    authMock.mockResolvedValue(null);
+    expect(
+      (
+        await downloadMyCaseAttachment(new Request("http://localhost"), {
+          params: Promise.resolve({
+            id: "grev-001",
+            attachmentId: "att-001",
+          }),
+        })
+      ).status,
+    ).toBe(401);
+
+    const mine = await memoryGrievanceStore.create(
+      {
+        category: "Hours of work",
+        filedAt: "2026-09-01T00:00:00.000Z",
+        memberUserId: "user-member-7",
+      },
+      {
+        unionId: "union-b7p",
+        localId: "local-7",
+        createdById: "user-president-7",
+        assignedStewardId: "user-steward-7",
+      },
+    );
+    authMock.mockResolvedValue(session());
+    const res = await downloadMyCaseAttachment(new Request("http://localhost"), {
+      params: Promise.resolve({
+        id: mine.grievance.id,
+        attachmentId: "att-shared",
+      }),
+    });
+    expect(res.status).toBe(404);
+    expect(await res.json()).toEqual({ error: "Not found" });
   });
 });

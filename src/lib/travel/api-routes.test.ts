@@ -13,6 +13,11 @@ import {
   GET as listTravel,
   POST as createAuthorization,
 } from "@/app/api/travel/route";
+import {
+  DELETE as deleteTravel,
+  GET as getTravel,
+  PATCH as patchTravel,
+} from "@/app/api/travel/[id]/route";
 import { POST as approveTravel } from "@/app/api/travel/[id]/approve/route";
 import { POST as denyTravel } from "@/app/api/travel/[id]/deny/route";
 import { POST as issueAdvance } from "@/app/api/travel/[id]/advance/route";
@@ -660,6 +665,137 @@ describe("travel list/create and elevate HTTP routes", () => {
       );
       expect(again.status).toBe(409);
       expect(await again.json()).toEqual({ error: "Already reconciled" });
+    });
+  });
+
+  describe("GET/PATCH/DELETE /api/travel/[id]", () => {
+    it("returns 401 without a session and 403 for members", async () => {
+      const auth = await seedAuthorization();
+      authMock.mockResolvedValue(null);
+      expect(
+        (await getTravel(new Request("http://localhost"), params(auth.id))).status,
+      ).toBe(401);
+
+      authMock.mockResolvedValue(session({ roles: ["local_member"] }));
+      const forbidden = await patchTravel(
+        jsonRequest({ purpose: "Hijack" }),
+        params(auth.id),
+      );
+      expect(forbidden.status).toBe(403);
+      expect(await forbidden.json()).toEqual({ error: "Forbidden" });
+    });
+
+    it("returns 404 for another union, including platform_admin, without mutating", async () => {
+      const foreign = await seedAuthorization({
+        unionId: "union-other",
+        localId: "local-1",
+        requestedById: "user-other",
+      });
+      authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
+
+      const hidden = await getTravel(
+        new Request("http://localhost"),
+        params(foreign.id),
+      );
+      expect(hidden.status).toBe(404);
+      expect(await hidden.json()).toEqual({ error: "Not found" });
+
+      const patched = await patchTravel(
+        jsonRequest({ purpose: "Cross-union rewrite" }),
+        params(foreign.id),
+      );
+      expect(patched.status).toBe(404);
+      expect((await memoryTravelStore.getAuthorization(foreign.id))?.purpose).toBe(
+        "Convention",
+      );
+
+      const removed = await deleteTravel(
+        new Request("http://localhost"),
+        params(foreign.id),
+      );
+      expect(removed.status).toBe(404);
+      expect(await memoryTravelStore.getAuthorization(foreign.id)).not.toBeNull();
+    });
+
+    it("hides a sister local from the home president", async () => {
+      const sister = await seedAuthorization({
+        localId: "local-1337",
+        requestedById: "user-560",
+      });
+      authMock.mockResolvedValue(
+        session({ id: "user-president-7", roles: ["local_president"] }),
+      );
+      const res = await getTravel(
+        new Request("http://localhost"),
+        params(sister.id),
+      );
+      expect(res.status).toBe(404);
+    });
+
+    it("lets the requester patch a draft, rejects extra keys, and forbids another steward", async () => {
+      const auth = await seedAuthorization();
+      authMock.mockResolvedValue(
+        session({ id: "user-steward-7-pt", roles: ["local_steward"] }),
+      );
+      const forbidden = await patchTravel(
+        jsonRequest({ purpose: "Not yours" }),
+        params(auth.id),
+      );
+      expect(forbidden.status).toBe(403);
+
+      authMock.mockResolvedValue(session());
+      const extra = await patchTravel(
+        jsonRequest({
+          purpose: "Convention desk",
+          unionId: "union-other",
+        }),
+        params(auth.id),
+      );
+      expect(extra.status).toBe(400);
+
+      const patched = await patchTravel(
+        jsonRequest({ purpose: "Convention desk" }),
+        params(auth.id),
+      );
+      expect(patched.status).toBe(200);
+      const body = (await patched.json()) as {
+        authorization: { purpose: string; unionId: string; localId: string };
+      };
+      expect(body.authorization.purpose).toBe("Convention desk");
+      expect(body.authorization.unionId).toBe("union-b7p");
+      expect(body.authorization.localId).toBe("local-7");
+    });
+
+    it("lets the requester delete a draft, then 403s delete after approval", async () => {
+      const draft = await seedAuthorization();
+      authMock.mockResolvedValue(
+        session({ id: "user-steward-7-pt", roles: ["local_steward"] }),
+      );
+      expect(
+        (
+          await deleteTravel(
+            new Request("http://localhost"),
+            params(draft.id),
+          )
+        ).status,
+      ).toBe(403);
+      expect(await memoryTravelStore.getAuthorization(draft.id)).not.toBeNull();
+
+      authMock.mockResolvedValue(session());
+      const removed = await deleteTravel(
+        new Request("http://localhost"),
+        params(draft.id),
+      );
+      expect(removed.status).toBe(200);
+      expect(await memoryTravelStore.getAuthorization(draft.id)).toBeNull();
+
+      const approved = await seedAuthorization({ status: "approved" });
+      const blocked = await deleteTravel(
+        new Request("http://localhost"),
+        params(approved.id),
+      );
+      expect(blocked.status).toBe(403);
+      expect(await memoryTravelStore.getAuthorization(approved.id)).not.toBeNull();
     });
   });
 });

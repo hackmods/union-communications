@@ -1,3 +1,6 @@
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { UserRole } from "@/types/tenant";
 
@@ -13,6 +16,15 @@ import {
   GET as listExpenses,
   POST as createExpense,
 } from "@/app/api/expenses/route";
+import {
+  DELETE as deleteExpense,
+  GET as getExpense,
+  PATCH as patchExpense,
+} from "@/app/api/expenses/[id]/route";
+import {
+  GET as listExpenseAttachments,
+  POST as uploadExpenseAttachment,
+} from "@/app/api/expenses/[id]/attachments/route";
 import { POST as submitExpense } from "@/app/api/expenses/[id]/submit/route";
 import { POST as approveExpense } from "@/app/api/expenses/[id]/approve/route";
 import { POST as denyExpense } from "@/app/api/expenses/[id]/deny/route";
@@ -23,6 +35,12 @@ import {
 import { resetExpenseStore } from "./store";
 import { memoryLedgerStore, resetLedgerMemoryForTests } from "@/lib/ledger/memory-adapter";
 import { resetLedgerStore } from "@/lib/ledger/store";
+import {
+  insertAttachmentForTests,
+  resetAttachmentMemoryForTests,
+} from "@/lib/attachments/memory-adapter";
+import { resetAttachmentStore } from "@/lib/attachments/store";
+import { resetObjectStorageCache } from "@/lib/attachments/storage";
 
 function session(input?: {
   id?: string;
@@ -439,5 +457,281 @@ describe("expense list/create/submit API", () => {
       params(draft.id),
     );
     expect(retry.status).toBe(403);
+  });
+});
+
+describe("expense GET/PATCH/DELETE /api/expenses/[id]", () => {
+  beforeEach(() => {
+    resetExpenseMemoryForTests();
+    resetExpenseStore();
+    resetLedgerMemoryForTests();
+    resetLedgerStore();
+    authMock.mockReset();
+  });
+
+  afterEach(() => {
+    resetExpenseMemoryForTests();
+    resetExpenseStore();
+    resetLedgerMemoryForTests();
+    resetLedgerStore();
+  });
+
+  it("returns 401 without a session and 403 for members", async () => {
+    const draft = await seedSubmitted({ status: "draft" });
+    authMock.mockResolvedValue(null);
+    expect(
+      (await getExpense(new Request("http://localhost"), params(draft.id))).status,
+    ).toBe(401);
+
+    authMock.mockResolvedValue(session({ roles: ["local_member"] }));
+    const forbidden = await patchExpense(
+      jsonRequest({ title: "Hijack" }),
+      params(draft.id),
+    );
+    expect(forbidden.status).toBe(403);
+    expect(await forbidden.json()).toEqual({ error: "Forbidden" });
+  });
+
+  it("returns 404 for another union, including platform_admin, without mutating", async () => {
+    const foreign = await seedSubmitted({
+      unionId: "union-other",
+      localId: "local-1",
+      submittedById: "user-other",
+      status: "draft",
+    });
+    authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
+
+    const hidden = await getExpense(
+      new Request("http://localhost"),
+      params(foreign.id),
+    );
+    expect(hidden.status).toBe(404);
+
+    const patched = await patchExpense(
+      jsonRequest({ title: "Cross-union rewrite" }),
+      params(foreign.id),
+    );
+    expect(patched.status).toBe(404);
+    expect((await memoryExpenseStore.getById(foreign.id))?.title).toBe(
+      "Printer paper",
+    );
+
+    const removed = await deleteExpense(
+      new Request("http://localhost"),
+      params(foreign.id),
+    );
+    expect(removed.status).toBe(404);
+    expect(await memoryExpenseStore.getById(foreign.id)).not.toBeNull();
+  });
+
+  it("lets the owner patch a draft, rejects extra keys, and forbids another steward", async () => {
+    const draft = await seedSubmitted({ status: "draft" });
+    authMock.mockResolvedValue(
+      session({ id: "user-other-steward", roles: ["local_steward"] }),
+    );
+    expect(
+      (await patchExpense(jsonRequest({ title: "Not yours" }), params(draft.id)))
+        .status,
+    ).toBe(403);
+
+    authMock.mockResolvedValue(
+      session({ id: "user-steward-7", roles: ["local_steward"] }),
+    );
+    const extra = await patchExpense(
+      jsonRequest({ title: "Toner", unionId: "union-other" }),
+      params(draft.id),
+    );
+    expect(extra.status).toBe(400);
+
+    const patched = await patchExpense(
+      jsonRequest({ title: "Toner" }),
+      params(draft.id),
+    );
+    expect(patched.status).toBe(200);
+    const body = (await patched.json()) as {
+      submission: { title: string; unionId: string; localId: string };
+    };
+    expect(body.submission.title).toBe("Toner");
+    expect(body.submission.unionId).toBe("union-b7p");
+    expect(body.submission.localId).toBe("local-7");
+  });
+
+  it("lets the owner delete a draft and forbids delete after submit", async () => {
+    const draft = await seedSubmitted({ status: "draft" });
+    authMock.mockResolvedValue(
+      session({ id: "user-other-steward", roles: ["local_steward"] }),
+    );
+    expect(
+      (
+        await deleteExpense(new Request("http://localhost"), params(draft.id))
+      ).status,
+    ).toBe(403);
+    expect(await memoryExpenseStore.getById(draft.id)).not.toBeNull();
+
+    authMock.mockResolvedValue(
+      session({ id: "user-steward-7", roles: ["local_steward"] }),
+    );
+    const removed = await deleteExpense(
+      new Request("http://localhost"),
+      params(draft.id),
+    );
+    expect(removed.status).toBe(200);
+    expect(await memoryExpenseStore.getById(draft.id)).toBeNull();
+
+    const submitted = await seedSubmitted();
+    const blocked = await deleteExpense(
+      new Request("http://localhost"),
+      params(submitted.id),
+    );
+    expect(blocked.status).toBe(403);
+    expect(await memoryExpenseStore.getById(submitted.id)).not.toBeNull();
+  });
+});
+
+describe("expense attachment HTTP", () => {
+  let dir: string;
+  const previousLocalDir = process.env.ATTACHMENT_LOCAL_DIR;
+  const receiptBytes = Buffer.from("%PDF-1.4 receipt");
+  const receiptUpload = {
+    fileName: 'receipt "desk".pdf',
+    mimeType: "application/pdf",
+    sizeBytes: receiptBytes.length,
+    contentBase64: receiptBytes.toString("base64"),
+  };
+
+  beforeEach(async () => {
+    dir = await mkdtemp(path.join(tmpdir(), "uo-exp-att-"));
+    process.env.ATTACHMENT_LOCAL_DIR = dir;
+    resetExpenseMemoryForTests();
+    resetExpenseStore();
+    resetAttachmentMemoryForTests();
+    resetAttachmentStore();
+    resetObjectStorageCache();
+    authMock.mockReset();
+  });
+
+  afterEach(async () => {
+    resetExpenseMemoryForTests();
+    resetExpenseStore();
+    resetAttachmentMemoryForTests();
+    resetAttachmentStore();
+    resetObjectStorageCache();
+    if (previousLocalDir === undefined) {
+      delete process.env.ATTACHMENT_LOCAL_DIR;
+    } else {
+      process.env.ATTACHMENT_LOCAL_DIR = previousLocalDir;
+    }
+    if (dir) {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("returns 401 without a session and 403 for members", async () => {
+    const draft = await seedSubmitted({ status: "draft" });
+    authMock.mockResolvedValue(null);
+    expect(
+      (
+        await listExpenseAttachments(
+          new Request("http://localhost"),
+          params(draft.id),
+        )
+      ).status,
+    ).toBe(401);
+
+    authMock.mockResolvedValue(session({ roles: ["local_member"] }));
+    const forbidden = await uploadExpenseAttachment(
+      jsonRequest(receiptUpload),
+      params(draft.id),
+    );
+    expect(forbidden.status).toBe(403);
+  });
+
+  it("returns 404 for another union, including platform_admin", async () => {
+    const foreign = await seedSubmitted({
+      unionId: "union-other",
+      localId: "local-1",
+      submittedById: "user-other",
+      status: "draft",
+    });
+    insertAttachmentForTests({
+      id: "att-foreign-exp",
+      unionId: "union-other",
+      localId: "local-1",
+      expenseSubmissionId: foreign.id,
+      fileName: "hidden.pdf",
+      mimeType: "application/pdf",
+      sizeBytes: 12,
+      storageKey: "union-other/local-1/expense/hidden.pdf",
+      scanStatus: "skipped_dev",
+      uploadedById: "user-other",
+      createdAt: "2026-09-01T00:00:00.000Z",
+    });
+    authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
+    const listed = await listExpenseAttachments(
+      new Request("http://localhost"),
+      params(foreign.id),
+    );
+    expect(listed.status).toBe(404);
+
+    const uploaded = await uploadExpenseAttachment(
+      jsonRequest(receiptUpload),
+      params(foreign.id),
+    );
+    expect(uploaded.status).toBe(404);
+  });
+
+  it("lets the owner upload on a draft, then 403s after submit and forbids another steward", async () => {
+    const draft = await seedSubmitted({ status: "draft" });
+    authMock.mockResolvedValue(
+      session({ id: "user-other-steward", roles: ["local_steward"] }),
+    );
+    expect(
+      (await uploadExpenseAttachment(jsonRequest(receiptUpload), params(draft.id)))
+        .status,
+    ).toBe(403);
+
+    authMock.mockResolvedValue(
+      session({ id: "user-steward-7", roles: ["local_steward"] }),
+    );
+    const missing = await uploadExpenseAttachment(
+      jsonRequest({ fileName: "x.pdf" }),
+      params(draft.id),
+    );
+    expect(missing.status).toBe(400);
+
+    const created = await uploadExpenseAttachment(
+      jsonRequest(receiptUpload),
+      params(draft.id),
+    );
+    expect(created.status).toBe(201);
+    const body = (await created.json()) as {
+      attachment: {
+        unionId: string;
+        localId: string;
+        expenseSubmissionId: string;
+        uploadedById: string;
+      };
+    };
+    expect(body.attachment.unionId).toBe("union-b7p");
+    expect(body.attachment.localId).toBe("local-7");
+    expect(body.attachment.expenseSubmissionId).toBe(draft.id);
+    expect(body.attachment.uploadedById).toBe("user-steward-7");
+
+    const listed = await listExpenseAttachments(
+      new Request("http://localhost"),
+      params(draft.id),
+    );
+    expect(listed.status).toBe(200);
+    const listBody = (await listed.json()) as {
+      attachments: Array<{ id: string }>;
+    };
+    expect(listBody.attachments).toHaveLength(1);
+
+    await memoryExpenseStore.submit(draft.id);
+    const afterSubmit = await uploadExpenseAttachment(
+      jsonRequest(receiptUpload),
+      params(draft.id),
+    );
+    expect(afterSubmit.status).toBe(403);
   });
 });

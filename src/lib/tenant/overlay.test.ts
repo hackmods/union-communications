@@ -10,6 +10,7 @@ import {
   createOverlayUnion,
   neutralBrandDefaultsForNewTenant,
   resetTenantOverlayForTests,
+  setDataModulePatch,
 } from "@/lib/tenant/overlay";
 
 describe("tenant overlay", () => {
@@ -63,5 +64,15 @@ describe("tenant overlay", () => {
     const loaded = getTenantByUnionId(seed.union.id);
     expect(loaded?.union.name).toBe("Example Workers Union");
     expect(loaded?.locals?.[0]?.localNumber).toBe("1");
+  });
+
+  it("clears Data module patches so later tests cannot inherit an enabled flag", () => {
+    setDataModulePatch("union-b7p", true);
+    expect(getTenantContext("union-b7p")?.union.enabledModules).toContain("data");
+
+    resetTenantOverlayForTests();
+    expect(getTenantContext("union-b7p")?.union.enabledModules).not.toContain(
+      "data",
+    );
   });
 });
