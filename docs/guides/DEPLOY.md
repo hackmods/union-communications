@@ -193,7 +193,7 @@ If `deploy` runs and fails:
 ::error::No CapRover deploy secrets and https://unionops.org/api/health did not report <sha> within ~5min.
 ```
 
-When CLI secrets are unset, the job first **polls `/api/health` for ~5 min**. If CapRover's independent path (Method 1 webhook or a manual Method 3 force) already rolled this SHA, the job exits 0 with a `::warning::` that secrets are still missing. It only fails when tip of `main` never reaches the host.
+When CLI secrets are unset, the job first **polls `/api/health` for ~10 min**. If CapRover's independent path (Method 1 webhook or a manual Method 3 force) already rolled this SHA, the job exits 0 with a `::warning::` that secrets are still missing. It only fails when tip of `main` never reaches the host. Method 1 rebuilds often finish just after the GHCR publish window, so the longer budget avoids false reds.
 
 Three options to restore a working **Method 3** pull deploy:
 

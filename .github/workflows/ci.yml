@@ -327,7 +327,10 @@ jobs:
           TARGET="${TARGET_HEALTH}"
           echo "::warning::No CapRover CLI secrets (CAPROVER_SERVER/PASSWORD/APP). Cannot pull-deploy ${IMAGE} from CI."
           echo "::notice::Polling ${TARGET} for commit ${EXPECTED_COMMIT} in case CapRover's independent deploy path already rolled this SHA (docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md)."
-          for i in $(seq 1 20); do
+          # CapRover Method 1 rebuilds often finish ~10–12 min after the push
+          # (docker-image already burned ~5 min). Budget 40×15s ≈ 10 min here
+          # so tip can land a few minutes after GHCR publish without failing CI.
+          for i in $(seq 1 40); do
             sleep 15
             body="$(curl -fsSL --max-time 30 "${TARGET}" 2>/dev/null || true)"
             if [ -n "$body" ]; then
@@ -339,9 +342,9 @@ jobs:
                 exit 0
               fi
             fi
-            echo "  retry ${i}/20 — ${TARGET} did not yet report ${EXPECTED_COMMIT}; current body: ${body:-<unreachable>}"
+            echo "  retry ${i}/40 — ${TARGET} did not yet report ${EXPECTED_COMMIT}; current body: ${body:-<unreachable>}"
           done
-          echo "::error::No CapRover deploy secrets and ${TARGET} did not report ${EXPECTED_COMMIT} within ~5min. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP (captain URL + app name + password) for pull-only GHCR image deploy, or force Method 3 redeploy in CapRover UI. Docs: docs/guides/DEPLOY.md §When deploy job fails loud."
+          echo "::error::No CapRover deploy secrets and ${TARGET} did not report ${EXPECTED_COMMIT} within ~10min. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP (captain URL + app name + password) for pull-only GHCR image deploy, or force Method 3 redeploy in CapRover UI. Docs: docs/guides/DEPLOY.md §When deploy job fails loud."
           exit 1
 
       # Probe CapRover for the app's reported state. caprover-cli exits 0
