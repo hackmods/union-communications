@@ -209,7 +209,8 @@ test.describe("QR share URL captions @smoke", () => {
     const titleSize = await page
       .locator("[data-export-root] h2")
       .evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
-    expect(titleSize).toBeGreaterThanOrEqual(28);
+    // Preferred square title is larger; WalletCopyBlock may shrink to fit body.
+    expect(titleSize).toBeGreaterThanOrEqual(18);
   });
 
   test("qr-card Letter stays uncropped at phone width", async ({ page }) => {
