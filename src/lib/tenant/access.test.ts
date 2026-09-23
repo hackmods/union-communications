@@ -28,6 +28,16 @@ describe("invite role ladder", () => {
     expect(canInviteRoles(["union_admin"], ["union_admin"])).toBe(false);
   });
 
+  it("does not let division admin elevate Local Number / invite presidents", () => {
+    expect(canInvitePresidents(["division_admin"])).toBe(false);
+    expect(inviteRolesForActor(["division_admin"])).not.toContain(
+      "local_president",
+    );
+    expect(
+      canInviteRoles(["division_admin"], ["local_steward", "local_member"]),
+    ).toBe(true);
+  });
+
   it("rejects a local president inviting union admin", () => {
     expect(canInvitePresidents(["local_president"])).toBe(false);
     expect(canInviteRoles(["local_president"], ["union_admin"])).toBe(false);

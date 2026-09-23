@@ -19,8 +19,13 @@ erDiagram
 
 ### Union
 ```typescript
-{ id, name, slug, defaultLocale, enabledModules, brandDefaults, createdAt }
+{ id, name, slug, defaultLocale, enabledModules, membershipPolicy, brandDefaults, createdAt }
 ```
+
+`membershipPolicy` is `multi_local` (default — many active locals per member) or
+`single_local` (at most one active `LocalMembership` per user in the union).
+Write paths (assign-local, invites find-or-create, org memberships POST) enforce
+`single_local`; the integrity report flags violations.
 
 ### Division (optional)
 ```typescript
@@ -31,6 +36,9 @@ erDiagram
 ```typescript
 { id, unionId, divisionId?, localNumber, subText, brandKitId }
 ```
+
+Active (non-archived) local numbers are unique per union
+(`locals_union_number_active_uidx`).
 
 ### BargainingUnit (optional Collection under Local)
 ```typescript
@@ -52,6 +60,9 @@ LocalMembership { unionId, localId, userId, status, isPrimary, bargainingUnitId?
 OfficerAssignment { unionId, localId, userId, position, startsAt, endsAt?, revokedAt? }
 AuthorityDelegation { unionId, localId, grantorUserId, delegateUserId, capability, startsAt, endsAt, reason, revokedAt? }
 ```
+
+Uniqueness: one row per `(userId, localId)`; at most one active primary per
+`(unionId, userId)` (`local_memberships_primary_active_uidx`).
 
 Canonical positions are president, vice-president, grievance officer,
 steward, and executive member. Assignments and delegations are term bounded

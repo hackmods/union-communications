@@ -1,8 +1,10 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
-import { useTranslations } from "next-intl";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
+import { countHighMembershipIntegrityIssues } from "@/lib/site-admin/membership-integrity";
+import { isPostgresConfigured } from "@/lib/db/client";
 import { SiteAdminCard } from "@/components/site-admin/SiteAdminCard";
 
 export const dynamic = "force-dynamic";
@@ -23,16 +25,10 @@ export default async function SiteAdminLandingPage({
     redirect(`/${locale}/app/login`);
   }
 
-  return <SiteAdminLanding />;
-}
-
-/**
- * Client of:
- *   useTranslations("hub.platformOperator") (titles/bodies)
- *   the same `siteAdmin.*` keys already added to en.json / fr.json.
- */
-function SiteAdminLanding() {
-  const t = useTranslations("hub.platformOperator");
+  const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
+  const demoPurgeOn = isDemoPurgeEnabled();
+  const highIntegrity =
+    isPostgresConfigured() ? await countHighMembershipIntegrityIssues() : 0;
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 lg:py-12">
@@ -60,32 +56,48 @@ function SiteAdminLanding() {
           body={t("localsBody")}
         />
         <SiteAdminCard
-          href="/app/site-admin/demo-cleanup"
-          title={t("demoCleanup")}
-          body={t("demoCleanupBody")}
-          tone="warn"
+          href="/app/site-admin/membership-integrity"
+          title={
+            highIntegrity > 0
+              ? t("membershipIntegrityWithCount", { count: highIntegrity })
+              : t("membershipIntegrity")
+          }
+          body={t("membershipIntegrityBody")}
+          tone={highIntegrity > 0 ? "warn" : "default"}
         />
+        <SiteAdminCard
+          href="/app/site-admin/access-requests"
+          title={t("accessRequestsTitle")}
+          body={t("accessRequestsBody")}
+        />
+        {demoPurgeOn ? (
+          <SiteAdminCard
+            href="/app/site-admin/demo-cleanup"
+            title={t("demoCleanup")}
+            body={t("demoCleanupBody")}
+            tone="warn"
+          />
+        ) : null}
         <SiteAdminCard
           href="/app/site-admin/public-tools"
           title={t("publicTools")}
           body={t("publicToolsCardBody")}
         />
 
-        {/* Existing operator surfaces, still reachable here for muscle memory. */}
         <SiteAdminCard
           href="/app/invites"
           title={t("invites")}
-          body={t("siteAdminBody")}
+          body={t("invitesBody")}
         />
         <SiteAdminCard
           href="/app/feedback"
           title={t("feedback")}
-          body={t("siteAdminBody")}
+          body={t("feedbackBody")}
         />
         <SiteAdminCard
           href="/app/audit"
           title={t("audit")}
-          body={t("siteAdminBody")}
+          body={t("auditBody")}
         />
       </div>
     </main>

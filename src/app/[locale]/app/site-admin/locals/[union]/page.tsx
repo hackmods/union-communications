@@ -7,6 +7,8 @@ import { getDb } from "@/lib/db/client";
 import { locals, unions } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
+import { CreateLocalForm } from "@/components/site-admin/CreateLocalForm";
+import { LocalArchiveButton } from "@/components/site-admin/LocalArchiveButton";
 
 export const dynamic = "force-dynamic";
 
@@ -25,9 +27,10 @@ export default async function SiteAdminUnionLocalsPage({
     if (gate.status === 403) redirect(`/${locale}/app`);
     redirect(`/${locale}/app/login`);
   }
-  await getTranslations({ locale, namespace: "hub.platformOperator" });
+  const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
 
   let unionName: string | null = null;
+  let membershipPolicy: "multi_local" | "single_local" = "multi_local";
   let rows: Array<{
     id: string;
     localNumber: string;
@@ -39,11 +42,16 @@ export default async function SiteAdminUnionLocalsPage({
   try {
     const db = getDb();
     const u = await db
-      .select({ id: unions.id, name: unions.name })
+      .select({
+        id: unions.id,
+        name: unions.name,
+        membershipPolicy: unions.membershipPolicy,
+      })
       .from(unions)
       .where(eq(unions.id, unionId))
       .limit(1);
     unionName = u[0]?.name ?? null;
+    membershipPolicy = u[0]?.membershipPolicy ?? "multi_local";
 
     const conditions: SQL[] = [eq(locals.unionId, unionId)];
     rows = await db
@@ -77,10 +85,10 @@ export default async function SiteAdminUnionLocalsPage({
           href="/app/site-admin/locals"
           className="text-sm text-opseu-blue hover:underline"
         >
-          ← Locals
+          ← {t("locals")}
         </Link>
         <h1 className="mt-4 text-2xl font-bold text-opseu-dark">
-          Union not found
+          {t("unionNotFound")}
         </h1>
       </main>
     );
@@ -92,17 +100,15 @@ export default async function SiteAdminUnionLocalsPage({
         href="/app/site-admin/locals"
         className="text-sm text-opseu-blue hover:underline"
       >
-        ← Locals
+        ← {t("locals")}
       </Link>
 
       <header className="mt-4">
         <h1 className="text-2xl font-bold text-opseu-dark lg:text-3xl">
-          {unionName} locals
+          {t("unionLocalsTitle", { name: unionName })}
         </h1>
         <p className="mt-1 text-sm text-opseu-gray-dark">
-          Archive a local to remove it from active rosters while preserving
-          its data. Hard delete lands in v2; today, archive is the recommended
-          action.
+          {t("unionLocalsBody")}
         </p>
       </header>
 
@@ -110,10 +116,10 @@ export default async function SiteAdminUnionLocalsPage({
         <table className="min-w-full divide-y divide-opseu-gray/15 text-sm">
           <thead className="bg-opseu-gray/5 text-left text-xs uppercase text-opseu-gray-dark">
             <tr>
-              <th className="px-3 py-2">Local</th>
-              <th className="px-3 py-2">Sub-line</th>
-              <th className="px-3 py-2">Demo</th>
-              <th className="px-3 py-2">Archived</th>
+              <th className="px-3 py-2">{t("localsColNumber")}</th>
+              <th className="px-3 py-2">{t("localsColSubline")}</th>
+              <th className="px-3 py-2">{t("localsColDemo")}</th>
+              <th className="px-3 py-2">{t("localsColArchived")}</th>
               <th className="px-3 py-2" />
             </tr>
           </thead>
@@ -129,7 +135,7 @@ export default async function SiteAdminUnionLocalsPage({
                 <td className="px-3 py-2 text-xs">
                   {r.isDemo ? (
                     <span className="rounded bg-opseu-orange/20 px-2 py-0.5 text-opseu-orange-dark">
-                      demo
+                      {t("usersDemoBadge")}
                     </span>
                   ) : (
                     "—"
@@ -141,31 +147,28 @@ export default async function SiteAdminUnionLocalsPage({
                     : "—"}
                 </td>
                 <td className="px-3 py-2 text-right">
-                  <form
-                    method="POST"
-                    action={`/api/site-admin/locals/${encodeURIComponent(r.id)}/${r.archivedAt ? "restore" : "archive"}`}
-                    className="inline"
-                  >
-                    <button
-                      type="submit"
-                      className="rounded-md border border-opseu-gray/30 bg-white px-2 py-1 text-xs font-semibold text-opseu-dark shadow-sm transition hover:border-opseu-blue/40 hover:text-opseu-blue"
-                    >
-                      {r.archivedAt ? "Restore" : "Archive"}
-                    </button>
-                  </form>
+                  <LocalArchiveButton
+                    localId={r.id}
+                    archived={Boolean(r.archivedAt)}
+                  />
                 </td>
               </tr>
             ))}
             {rows.filter((r) => !r.archivedAt).length === 0 && (
               <tr>
                 <td colSpan={5} className="px-3 py-4 text-center text-sm text-opseu-gray-dark">
-                  No active locals.
+                  {t("localsNoneActive")}
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
+      <CreateLocalForm
+        unionId={unionId}
+        membershipPolicy={membershipPolicy}
+      />
     </main>
   );
 }

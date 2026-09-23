@@ -18,7 +18,6 @@ import {
 import {
   passwordResetTokens,
   signInTokens,
-  userInvites,
 } from "@/lib/db/schema/auth";
 import { emailChangeTokens } from "@/lib/db/schema/site-admin";
 
