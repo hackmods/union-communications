@@ -1,5 +1,16 @@
 # Progress Log
 
+## 2026-09-22 — Customization C09–C15 phase completion
+
+- **C09:** Audience controls in Root panel; public discovery sanitizer (`discovery.ts`) with teasers default off; custom guides remain noindex.
+- **C10:** Asset upload validation (PNG/JPEG/WebP only, size/content guards) + Root upload and authorized asset GET routes; adversarial unit coverage for spoofed SVG/HTML.
+- **C11:** Operator runbook at [`docs/guides/CUSTOMIZATION_OPERATOR.md`](guides/CUSTOMIZATION_OPERATOR.md).
+- **C12:** Flag-gated workflow snapshot helper; existing case snapshots are never rewritten by a newer publish.
+- **C13:** Maintenance grant decision branch behind `CUSTOMIZATION_DELEGATION_ENABLED`; Root grants API.
+- **C14:** Local parameter allowlist with steward-readonly and field-injection denial.
+- **C15:** Entitlement provider interface; maintenance entitlement gates hosted edits only after operator configures rows; free public Comms stay free.
+- Validation: focused customization suites + typecheck/lint in this commit. GitHub Actions E2E remains deferred.
+
 ## 2026-09-22 — Customization C07 panel + C08 pilot consumers
 
 - Completed Root panel actions: private preview, publish, withdraw, rollback, inherit-again, and publication history, with EN/FR labels and role-denial API tests (`union_admin` / local roles cannot publish or withdraw).

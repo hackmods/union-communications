@@ -7801,7 +7801,16 @@
         "applyBaseline": "Appliquer la base de marque publiée",
         "undoBaseline": "Annuler l'application de la base",
         "customGuideSubtitle": "Publié pour {union}",
-        "customGuideToc": "Sur cette page"
+        "customGuideToc": "Sur cette page",
+        "audienceLabel": "Public cible",
+        "audienceHint": "Les aperçus publics restent désactivés jusqu'à ce que vous activiez la découverte séparément. Les descendants ne peuvent que resserrer ce réglage.",
+        "setAudience": "Mettre à jour le public cible",
+        "audienceUpdated": "Public cible défini sur {audience}",
+        "audience": {
+          "public": "Public",
+          "verified_member": "Membre vérifié",
+          "local_officer": "Dirigeant local"
+        }
       },
       "usersListLead": "Derniers {count} comptes actifs dans toutes les sections. {demoCount} marqués démo",
       "usersOrphanLead": "{count} comptes ont un syndicat mais pas de section principale — examinez",

@@ -1,6 +1,6 @@
 # Union customization: implementation handoff
 
-**Status:** C01–C08 implemented; C09–C15 pending. Verification is recorded in PROGRESS.md.
+**Status:** C01–C15 implemented on the foundation branch. Verification is recorded in PROGRESS.md. Operator runbook: [CUSTOMIZATION_OPERATOR.md](../guides/CUSTOMIZATION_OPERATOR.md).
 
 **Design authority:** [UNION_CUSTOMIZATION.md](../modules/UNION_CUSTOMIZATION.md).
 **Baseline reviewed:** `1f68490`, 2026-09-22. Recheck the checkout before implementing.

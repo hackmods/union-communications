@@ -7854,7 +7854,16 @@
         "applyBaseline": "Apply published brand baseline",
         "undoBaseline": "Undo baseline application",
         "customGuideSubtitle": "Published for {union}",
-        "customGuideToc": "On this page"
+        "customGuideToc": "On this page",
+        "audienceLabel": "Audience",
+        "audienceHint": "Public teasers stay off until you enable discovery separately. Descendants may only tighten this setting.",
+        "setAudience": "Update audience",
+        "audienceUpdated": "Audience set to {audience}",
+        "audience": {
+          "public": "Public",
+          "verified_member": "Verified member",
+          "local_officer": "Local officer"
+        }
       },
       "usersListLead": "Latest {count} active accounts across all unions. {demoCount} marked demo",
       "usersOrphanLead": "{count} accounts have a union but no primary local — review",

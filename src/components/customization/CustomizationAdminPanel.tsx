@@ -38,6 +38,7 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
   const [previewTitle, setPreviewTitle] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryPayload | null>(null);
   const [kind, setKind] = useState<"guide" | "brand" | "source">("guide");
+  const [audience, setAudience] = useState<"public" | "verified_member" | "local_officer">("public");
 
   useEffect(() => {
     if (error) errorRef.current?.focus();
@@ -347,6 +348,29 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
     }
   }
 
+  async function setResourceAudience() {
+    if (!resourceId || !selectedUnionId) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const target = currentTarget();
+      const result = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/policy`, {
+        target,
+        resourceId,
+        reason: `Set audience to ${audience}`,
+        expectedPolicyVersion: policyVersion,
+        audience,
+      });
+      setPolicyVersion(result.policyVersion ?? policyVersion + 1);
+      setStatus(t("audienceUpdated", { audience: t(`audience.${audience}`) }));
+      await loadHistory();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("requestFailed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function loadHistory() {
     if (!resourceId || !selectedUnionId) return;
     const target = currentTarget();
@@ -466,10 +490,26 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
             />
           </label>
         </div>
+        <label className="mt-4 block text-sm font-medium text-opseu-dark" htmlFor="customization-audience">
+          {t("audienceLabel")}
+          <select
+            id="customization-audience"
+            className="mt-1 w-full max-w-md rounded border border-opseu-gray/30 px-3 py-2 text-sm"
+            value={audience}
+            onChange={(event) => setAudience(event.target.value as typeof audience)}
+            disabled={busy || !resourceId}
+          >
+            <option value="public">{t("audience.public")}</option>
+            <option value="verified_member">{t("audience.verified_member")}</option>
+            <option value="local_officer">{t("audience.local_officer")}</option>
+          </select>
+        </label>
+        <p className="mt-1 text-xs text-opseu-gray-dark">{t("audienceHint")}</p>
         <div className="mt-4 flex flex-wrap gap-2">
           <button type="button" className="rounded bg-opseu-blue px-3 py-2 text-sm font-medium text-white disabled:opacity-50" onClick={() => void createDraft()} disabled={busy || !selectedUnionId}>{t("saveDraft")}</button>
           <button type="button" className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50" onClick={() => void previewDraft()} disabled={busy || !resourceId}>{t("preview")}</button>
           <button type="button" className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50" onClick={() => void publishDraft()} disabled={busy || !resourceId}>{t("publish")}</button>
+          <button type="button" className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50" onClick={() => void setResourceAudience()} disabled={busy || !resourceId}>{t("setAudience")}</button>
           <button type="button" className="rounded border border-opseu-orange px-3 py-2 text-sm font-medium text-opseu-orange disabled:opacity-50" onClick={() => void withdrawResource()} disabled={busy || !resourceId}>{t("withdraw")}</button>
           <button type="button" className="rounded border border-opseu-gray/40 px-3 py-2 text-sm font-medium disabled:opacity-50" onClick={() => void rollbackResource()} disabled={busy || !resourceId || !lastRevisionId}>{t("rollback")}</button>
           <button type="button" className="rounded border border-opseu-gray/40 px-3 py-2 text-sm font-medium disabled:opacity-50" onClick={() => void inheritResource()} disabled={busy || !resourceId}>{t("inherit")}</button>

@@ -1,11 +1,12 @@
 # Union and sub-collective customization layer
 
-**Status: accepted design; C01–C06 foundation implemented, not connected to production consumers. C07–C15 remain pending.**
+**Status: accepted design; C01–C15 foundation implemented on the customization branch. Operator content seeding remains a post-deploy Root workflow.**
 
 **Prepared:** 2026-09-22 against checkout `1f68490`.
 **Execution companion:** [implementation handoff](../audit/plan-2026-09-22-union-customization.md).
+**Operator runbook:** [CUSTOMIZATION_OPERATOR.md](../guides/CUSTOMIZATION_OPERATOR.md).
 
-Implementation boundary: `src/lib/customization/` provides strict Zod payload/scope contracts, a code-owned tool configuration registry, versioned manifest validation, a pure authoring resolver, authorization decisions, C04 persistence adapters, and C05 compile/read/cache services. Migration 0054 stores scopes, immutable releases and audience filtered fragments under RLS. Resolver output and raw authoring rows are internal data, not an authorized reader DTO; ordinary delivery must use `readerTransaction` via `readPublishedContent`. Existing pages/Brand Kits are not connected. C06–C15 remain future work. See the [module README](../../src/lib/customization/README.md).
+Implementation boundary: `src/lib/customization/` provides strict Zod payload/scope contracts, a code-owned tool configuration registry, versioned manifest validation, a pure authoring resolver, authorization decisions, C04 persistence adapters, C05 compile/read/cache services, C06 publication, C07 Root panel, C08 pilot consumers, C09 discovery sanitization, C10 asset serving, C12 workflow snapshots, C13 grant decisions (flag-gated), C14 local parameter allowlists, and C15 entitlement gates. Migration 0054 stores scopes, immutable releases and audience filtered fragments under RLS. Resolver output and raw authoring rows are internal data, not an authorized reader DTO; ordinary delivery must use `readerTransaction` via `readPublishedContent` / `loadCustomizationContent`. See the [module README](../../src/lib/customization/README.md).
 
 ## 1. Recommendation and review of the requirements
 
