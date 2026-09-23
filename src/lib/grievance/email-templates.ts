@@ -27,6 +27,7 @@ function dueDateLine(ctx: TemplateContext): string {
     ctx.grievance.filedAt,
     ctx.grievance.currentStep,
     ctx.config,
+    ctx.grievance.workflowStage,
   );
   if (!due) return "";
   const formatted = due.toLocaleDateString(

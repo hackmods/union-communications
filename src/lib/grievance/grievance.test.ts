@@ -43,6 +43,7 @@ const sampleGrievance: Grievance = {
   assignedStewardId: "user-steward-7",
   createdById: "user-president-7",
   updatedAt: "2026-01-01T00:00:00.000Z",
+  workflowStage: "formal",
 };
 
 const sampleOutcome: GrievanceOutcome = {
@@ -70,6 +71,26 @@ describe("deadline calculator", () => {
       config,
     );
     expect(due).toBeNull();
+  });
+
+  it("returns null for intake-stage cases", () => {
+    const due = getCurrentStepDueDate(
+      sampleGrievance.filedAt,
+      1,
+      config,
+      "intake",
+    );
+    expect(due).toBeNull();
+  });
+
+  it("applies deadlines for formal-stage cases", () => {
+    const due = getCurrentStepDueDate(
+      sampleGrievance.filedAt,
+      1,
+      config,
+      "formal",
+    );
+    expect(due?.toISOString().slice(0, 10)).toBe("2026-01-06");
   });
 
   it("computes appeal deadline from decidedAt + appealDays", () => {

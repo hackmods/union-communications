@@ -4,6 +4,7 @@
 
 import { emptyChecklistState } from "@/lib/bumping/checklist";
 import { getCurrentStepDueDate, isOverdue } from "@/lib/grievance/deadlines";
+import { nextGrievanceFileNumber } from "@/lib/grievance/file-number";
 import {
   getLocalById,
   getTenantContext,
@@ -61,7 +62,7 @@ function enrichGrievance(g: Grievance): EnrichedGrievanceListItem {
     localId: g.localId,
   });
   const due =
-    config && getCurrentStepDueDate(g.filedAt, g.currentStep, config);
+    config && getCurrentStepDueDate(g.filedAt, g.currentStep, config, g.workflowStage);
   return {
     ...g,
     dueAt: due?.toISOString() ?? null,
@@ -97,6 +98,7 @@ export function getGrievanceFromSlice(
       item.grievance.filedAt,
       item.grievance.currentStep,
       config,
+      item.grievance.workflowStage,
     );
   return {
     ...item,
@@ -117,6 +119,20 @@ export function createGrievanceInSlice(
   actor: HybridActorContext,
 ): { slice: HybridDataSlice; grievance: Grievance } {
   const now = new Date().toISOString();
+  const workflowStage = input.workflowStage ?? "intake";
+  const year = new Date(input.filedAt).getFullYear() || new Date().getFullYear();
+  const fileNumber =
+    input.fileNumber ??
+    nextGrievanceFileNumber(
+      slice.grievances
+        .filter(
+          (row) =>
+            row.grievance.unionId === actor.unionId &&
+            row.grievance.localId === actor.localId,
+        )
+        .map((row) => row.grievance.fileNumber),
+      year,
+    );
   const grievance: Grievance = {
     id: newId("grev-local"),
     unionId: actor.unionId,
@@ -130,6 +146,15 @@ export function createGrievanceInSlice(
     assignedStewardId: input.assignedStewardId ?? actor.userId,
     createdById: actor.userId,
     updatedAt: now,
+    workflowStage,
+    fileNumber,
+    grievanceType: input.grievanceType,
+    memberNames: input.memberNames,
+    summary: input.summary,
+    intake: input.intake,
+    linkedSnippets: input.linkedSnippets,
+    localLabel: input.localLabel,
+    unitLabel: input.unitLabel,
   };
   const row: GrievanceWithRelations = {
     grievance,
@@ -194,6 +219,44 @@ export function updateGrievanceInSlice(
           resolvedAt:
             input.resolvedAt === null ? undefined : input.resolvedAt,
         }
+      : {}),
+    ...("workflowStage" in input && input.workflowStage !== undefined
+      ? { workflowStage: input.workflowStage }
+      : {}),
+    ...("fileNumber" in input && input.fileNumber !== undefined
+      ? { fileNumber: input.fileNumber }
+      : {}),
+    ...("grievanceType" in input
+      ? {
+          grievanceType:
+            input.grievanceType === null ? undefined : input.grievanceType,
+        }
+      : {}),
+    ...("memberNames" in input
+      ? {
+          memberNames:
+            input.memberNames === null ? undefined : input.memberNames,
+        }
+      : {}),
+    ...("summary" in input
+      ? { summary: input.summary === null ? undefined : input.summary }
+      : {}),
+    ...("intake" in input
+      ? { intake: input.intake === null ? undefined : input.intake }
+      : {}),
+    ...("linkedSnippets" in input
+      ? {
+          linkedSnippets:
+            input.linkedSnippets === null ? undefined : input.linkedSnippets,
+        }
+      : {}),
+    ...("localLabel" in input
+      ? {
+          localLabel: input.localLabel === null ? undefined : input.localLabel,
+        }
+      : {}),
+    ...("unitLabel" in input
+      ? { unitLabel: input.unitLabel === null ? undefined : input.unitLabel }
       : {}),
     updatedAt: now,
   };

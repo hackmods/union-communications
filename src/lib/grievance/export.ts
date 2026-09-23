@@ -26,6 +26,7 @@ export function buildGrievanceBundle(
     data.grievance.filedAt,
     data.grievance.currentStep,
     config,
+    data.grievance.workflowStage,
   );
   const outcome = data.outcome ?? null;
   const appealDue = outcome
@@ -60,7 +61,11 @@ export function bundleToPdfLines(
     "GRIEVANCE SUMMARY",
     "=================",
     `ID: ${g.id}`,
-    `Local: ${localNumber ?? g.localId}`,
+    g.fileNumber ? `File number: ${g.fileNumber}` : "",
+    `Workflow stage: ${g.workflowStage}`,
+    g.grievanceType ? `Type: ${g.grievanceType}` : "",
+    `Local: ${g.localLabel ?? localNumber ?? g.localId}`,
+    g.unitLabel ? `Unit: ${g.unitLabel}` : "",
     `Category: ${g.category}`,
     `Status: ${g.status}`,
     `Current step: ${step?.name ?? g.currentStep}`,
@@ -69,10 +74,36 @@ export function bundleToPdfLines(
       ? `Step deadline: ${bundle.currentStepDueDate}`
       : "Step deadline: N/A",
     g.memberPseudonym ? `Member: ${g.memberPseudonym}` : "",
+    g.memberNames?.length ? `Members: ${g.memberNames.join(", ")}` : "",
+    g.summary ? `Summary: ${g.summary}` : "",
     "",
-    "TIMELINE",
-    "--------",
   ];
+
+  if (g.intake) {
+    const intake = g.intake;
+    lines.push("INTAKE (5W+H)", "-------------");
+    if (intake.who) lines.push(`Who: ${intake.who}`);
+    if (intake.what) lines.push(`What: ${intake.what}`);
+    if (intake.when) lines.push(`When: ${intake.when}`);
+    if (intake.where) lines.push(`Where: ${intake.where}`);
+    if (intake.why) lines.push(`Why: ${intake.why}`);
+    if (intake.how) lines.push(`How: ${intake.how}`);
+    if (intake.remedy) lines.push(`Remedy sought: ${intake.remedy}`);
+    lines.push("");
+  }
+
+  if (g.linkedSnippets?.length) {
+    lines.push("LINKED CLAUSES", "--------------");
+    for (const snip of g.linkedSnippets) {
+      lines.push(
+        `- ${snip.clauseRef}: ${snip.title}`,
+        snip.bodySnapshot,
+      );
+    }
+    lines.push("");
+  }
+
+  lines.push("TIMELINE", "--------");
   for (const evt of [...bundle.events].reverse()) {
     lines.push(
       `- ${evt.type}${evt.stepNumber ? ` (step ${evt.stepNumber})` : ""} - ${evt.createdAt}${evt.note ? `: ${evt.note}` : ""}`,
@@ -89,6 +120,12 @@ export function bundleToPdfLines(
     lines.push(`Decided: ${o.decidedAt}`);
     if (o.hearingDate) lines.push(`Hearing: ${o.hearingDate}`);
     if (o.arbitratorName) lines.push(`Arbitrator: ${o.arbitratorName}`);
+    if (o.mediatorName) lines.push(`Mediator: ${o.mediatorName}`);
+    if (o.sentToArbitration) {
+      lines.push(
+        `Sent to arbitration: yes${o.sentToArbitrationAt ? ` (${o.sentToArbitrationAt})` : ""}`,
+      );
+    }
     if (o.remedy) lines.push(`Remedy: ${o.remedy}`);
     if (o.settlementTerms) lines.push(`Settlement terms: ${o.settlementTerms}`);
     if (bundle.appealDueDate) {

@@ -48,6 +48,7 @@ export async function GET(_request: Request, context: RouteContext) {
       data.grievance.filedAt,
       data.grievance.currentStep,
       config as GrievanceConfig,
+      data.grievance.workflowStage,
     );
 
   await withRlsContext(rls, () => auditLog.log({

@@ -63,6 +63,7 @@ const validCreate = {
   channel: "in_person" as const,
   summary: "Supervisor used the wrong list.",
   occurredAt: "2026-08-20T14:00:00.000Z",
+  visibility: "local_executive" as const,
 };
 
 describe("informal log API routes", () => {
@@ -98,6 +99,7 @@ describe("informal log API routes", () => {
           channel: "email",
           summary: "Must never appear",
           occurredAt: "2026-08-21T12:00:00.000Z",
+          visibility: "local_executive",
         },
         {
           unionId: "union-other",
@@ -112,6 +114,7 @@ describe("informal log API routes", () => {
           channel: "phone",
           summary: "Same union, other local",
           occurredAt: "2026-08-21T13:00:00.000Z",
+          visibility: "local_executive",
         },
         {
           unionId: "union-b7p",
@@ -188,6 +191,7 @@ describe("informal log API routes", () => {
           channel: "letter",
           summary: "Other union casework",
           occurredAt: "2026-08-19T09:00:00.000Z",
+          visibility: "local_executive",
         },
         {
           unionId: "union-other",
@@ -252,7 +256,7 @@ describe("informal log API routes", () => {
       );
     });
 
-    it("promotes a log into a Step 1 grievance in the entry tenant and then 409s", async () => {
+    it("promotes a log into an intake-stage grievance in the entry tenant and then 409s", async () => {
       authMock.mockResolvedValue(session());
       const res = await convertLog(listRequest(), params("ilog-001"));
       expect(res.status).toBe(201);
@@ -264,6 +268,9 @@ describe("informal log API routes", () => {
           localId: string;
           category: string;
           assignedStewardId: string;
+          workflowStage: string;
+          summary?: string;
+          fileNumber?: string;
         };
       };
       expect(body.entry.convertedToGrievanceId).toBe(body.grievance.id);
@@ -271,9 +278,13 @@ describe("informal log API routes", () => {
       expect(body.grievance.localId).toBe("local-7");
       expect(body.grievance.category).toBe("Scheduling / overtime assignment");
       expect(body.grievance.assignedStewardId).toBe("user-steward-7");
+      expect(body.grievance.workflowStage).toBe("intake");
+      expect(body.grievance.summary).toBeTruthy();
+      expect(body.grievance.fileNumber).toMatch(/^GRV-\d{4}-\d{4}$/);
 
       const stored = await grievanceStore.getById(body.grievance.id);
       expect(stored?.grievance.unionId).toBe("union-b7p");
+      expect(stored?.grievance.workflowStage).toBe("intake");
       expect(stored?.notes[0]?.body).toContain("Converted from informal log");
 
       const again = await convertLog(listRequest(), params("ilog-001"));
@@ -296,6 +307,7 @@ describe("informal log API routes", () => {
           channel: "email",
           summary: "No grievance module",
           occurredAt: "2026-08-18T10:00:00.000Z",
+          visibility: "local_executive",
         },
         {
           unionId: tenant.union.id,
@@ -324,6 +336,7 @@ describe("informal log API routes", () => {
           channel: "phone",
           summary: "Must 404",
           occurredAt: "2026-08-17T10:00:00.000Z",
+          visibility: "local_executive",
         },
         {
           unionId: "union-other",

@@ -1,4 +1,5 @@
 import type { GrievanceAdapter } from "./adapter";
+import { nextGrievanceFileNumber } from "./file-number";
 import type {
   CreateEventInput,
   CreateGrievanceInput,
@@ -33,6 +34,7 @@ const grievances: Grievance[] = [
     assignedStewardId: "user-steward-7",
     createdById: "user-president-7",
     updatedAt: new Date().toISOString(),
+    workflowStage: "formal",
   },
   {
     id: "grev-002",
@@ -47,6 +49,7 @@ const grievances: Grievance[] = [
     assignedStewardId: "user-steward-7-pt",
     createdById: "user-president-7",
     updatedAt: new Date().toISOString(),
+    workflowStage: "formal",
   },
   {
     id: "grev-003",
@@ -61,6 +64,7 @@ const grievances: Grievance[] = [
     assignedStewardId: "user-division-admin",
     createdById: "user-division-admin",
     updatedAt: new Date().toISOString(),
+    workflowStage: "formal",
   },
 ];
 
@@ -250,6 +254,16 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     },
   ): Promise<GrievanceWithRelations> {
     const now = new Date().toISOString();
+    const workflowStage = input.workflowStage ?? "intake";
+    const year = new Date(input.filedAt).getFullYear() || new Date().getFullYear();
+    const fileNumber =
+      input.fileNumber ??
+      nextGrievanceFileNumber(
+        grievances
+          .filter((g) => g.unionId === meta.unionId && g.localId === meta.localId)
+          .map((g) => g.fileNumber),
+        year,
+      );
     const grievance: Grievance = {
       id: id("grev"),
       unionId: meta.unionId,
@@ -265,6 +279,15 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
       assignedStewardId: meta.assignedStewardId,
       createdById: meta.createdById,
       updatedAt: now,
+      workflowStage,
+      fileNumber,
+      grievanceType: input.grievanceType,
+      memberNames: input.memberNames,
+      summary: input.summary,
+      intake: input.intake,
+      linkedSnippets: input.linkedSnippets,
+      localLabel: input.localLabel,
+      unitLabel: input.unitLabel,
     };
     grievances.push(grievance);
 
@@ -309,6 +332,16 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
       ...(input.assignedStewardId !== undefined
         ? { assignedStewardId: input.assignedStewardId }
         : {}),
+      ...(input.workflowStage !== undefined
+        ? { workflowStage: input.workflowStage }
+        : {}),
+      ...(input.fileNumber !== undefined ? { fileNumber: input.fileNumber } : {}),
+      ...(input.localLabel !== undefined
+        ? { localLabel: input.localLabel === null ? undefined : input.localLabel }
+        : {}),
+      ...(input.unitLabel !== undefined
+        ? { unitLabel: input.unitLabel === null ? undefined : input.unitLabel }
+        : {}),
       bargainingUnitId:
         input.bargainingUnitId === null
           ? undefined
@@ -317,6 +350,26 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
         input.resolvedAt === null
           ? undefined
           : (input.resolvedAt ?? existing.resolvedAt),
+      grievanceType:
+        input.grievanceType === null
+          ? undefined
+          : (input.grievanceType ?? existing.grievanceType),
+      memberNames:
+        input.memberNames === null
+          ? undefined
+          : (input.memberNames ?? existing.memberNames),
+      summary:
+        input.summary === null
+          ? undefined
+          : (input.summary ?? existing.summary),
+      intake:
+        input.intake === null
+          ? undefined
+          : (input.intake ?? existing.intake),
+      linkedSnippets:
+        input.linkedSnippets === null
+          ? undefined
+          : (input.linkedSnippets ?? existing.linkedSnippets),
       updatedAt: new Date().toISOString(),
     };
     grievances[idx] = updated;
@@ -379,9 +432,12 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
       remedy: input.remedy,
       settlementTerms: input.settlementTerms,
       arbitratorName: input.arbitratorName,
+      mediatorName: input.mediatorName,
       hearingDate: input.hearingDate,
       decidedAt: input.decidedAt,
       recordedById: meta.recordedById,
+      sentToArbitration: input.sentToArbitration,
+      sentToArbitrationAt: input.sentToArbitrationAt,
     };
 
     if (existingIdx >= 0) {

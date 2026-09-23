@@ -38,7 +38,12 @@ export async function GET() {
         bargainingUnitId: grievance.bargainingUnitId,
       });
       const dueAt = dueConfig
-        ? getCurrentStepDueDate(grievance.filedAt, grievance.currentStep, dueConfig)?.toISOString() ?? null
+        ? getCurrentStepDueDate(
+            grievance.filedAt,
+            grievance.currentStep,
+            dueConfig,
+            grievance.workflowStage,
+          )?.toISOString() ?? null
         : null;
       let updates: Array<{ id: string; body: string; publishedAt: string }> = [];
       let attachments: Array<{ id: string }> = [];

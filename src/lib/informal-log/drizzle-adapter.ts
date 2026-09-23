@@ -6,6 +6,7 @@ import type {
   CreateInformalLogInput,
   InformalLogEntry,
   InformalLogListFilters,
+  InformalLogVisibility,
   UpdateInformalLogInput,
 } from "@/types/informal-log";
 import type { CommunicationChannel } from "@/types/qol";
@@ -35,6 +36,7 @@ function mapEntry(
     occurredAt: toIso(row.occurredAt)!,
     loggedById: row.loggedById,
     loggedByName: row.loggedByName,
+    visibility: (row.visibility ?? "local_executive") as InformalLogVisibility,
     convertedToGrievanceId: row.convertedToGrievanceId ?? undefined,
     createdAt: toIso(row.createdAt)!,
   };
@@ -105,6 +107,7 @@ export class DrizzleInformalLogAdapter implements InformalLogAdapter {
       occurredAt: new Date(input.occurredAt),
       loggedById: meta.loggedById,
       loggedByName: meta.loggedByName,
+      visibility: input.visibility,
       createdAt: ts,
     });
     const created = await this.getById(id);
@@ -139,6 +142,9 @@ export class DrizzleInformalLogAdapter implements InformalLogAdapter {
         input.convertedToGrievanceId === null
           ? null
           : input.convertedToGrievanceId;
+    }
+    if (input.visibility !== undefined) {
+      patch.visibility = input.visibility;
     }
 
     const db = getDb();

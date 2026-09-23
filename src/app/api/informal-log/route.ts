@@ -7,6 +7,7 @@ import {
 } from "@/lib/auth/informal-log-session";
 import {
   canCreateInformalLog,
+  canViewInformalLogEntry,
 } from "@/lib/informal-log/access";
 import { informalLogStore } from "@/lib/informal-log/store";
 import { parseJsonBody } from "@/lib/validation/parse";
@@ -23,14 +24,24 @@ export async function GET(request: Request) {
   }
 
   const { session } = authResult;
+  const roles = (session.user.roles ?? []) as UserRole[];
   const url = new URL(request.url);
   const filters = listFiltersForInformalLogSession(session);
   const unconvertedOnly = url.searchParams.get("unconverted") === "1";
 
-  const entries = await informalLogStore.list({
+  const listed = await informalLogStore.list({
     ...filters,
     unconvertedOnly: unconvertedOnly || undefined,
   });
+  const entries = listed.filter((entry) =>
+    canViewInformalLogEntry(
+      entry,
+      session.user.unionId,
+      session.user.localId,
+      roles,
+      session.user.id,
+    ),
+  );
 
   await auditLog.log({
     userId: session.user.id,

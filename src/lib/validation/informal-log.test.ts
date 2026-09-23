@@ -10,6 +10,7 @@ const validCreate = {
   channel: "in_person" as const,
   summary: "Supervisor used the wrong list.",
   occurredAt: "2026-08-20T14:00:00.000Z",
+  visibility: "local_executive" as const,
 };
 
 describe("informal log request schemas", () => {
@@ -54,5 +55,22 @@ describe("informal log request schemas", () => {
         convertedToGrievanceId: "grev-forged",
       }).ok,
     ).toBe(false);
+  });
+
+  it("requires visibility on create and accepts private", () => {
+    expect(
+      parseJsonBody(createInformalLogSchema, {
+        topic: "x",
+        channel: "email",
+        summary: "y",
+        occurredAt: "2026-08-20T14:00:00.000Z",
+      }).ok,
+    ).toBe(false);
+    expect(
+      parseJsonBody(createInformalLogSchema, {
+        ...validCreate,
+        visibility: "private",
+      }).ok,
+    ).toBe(true);
   });
 });

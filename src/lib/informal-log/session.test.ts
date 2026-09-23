@@ -43,6 +43,7 @@ const otherUnionEntry: InformalLogEntry = {
   occurredAt: "2026-08-01T12:00:00.000Z",
   loggedById: "user-x",
   loggedByName: "X",
+  visibility: "local_executive",
   createdAt: "2026-08-01T12:00:00.000Z",
 };
 

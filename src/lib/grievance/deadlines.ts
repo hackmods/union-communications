@@ -1,3 +1,4 @@
+import type { GrievanceWorkflowStage } from "@/types/grievance";
 import type { GrievanceConfig, GrievanceStep } from "@/types/tenant";
 
 export function getStepConfig(
@@ -18,11 +19,17 @@ export function calculateStepDueDate(
   return due;
 }
 
+/**
+ * CA step response deadline. Intake-stage cases have no formal deadlines —
+ * pass `workflowStage: "intake"` (or omit for legacy callers treated as formal).
+ */
 export function getCurrentStepDueDate(
   filedAt: string,
   currentStep: number,
   config: GrievanceConfig,
+  workflowStage?: GrievanceWorkflowStage,
 ): Date | null {
+  if (workflowStage === "intake") return null;
   const step = getStepConfig(config, currentStep);
   if (!step) return null;
   return calculateStepDueDate(filedAt, step);

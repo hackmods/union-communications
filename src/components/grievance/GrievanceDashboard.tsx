@@ -249,12 +249,16 @@ function GrievanceRow({
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
           <div className="min-w-0">
             <CardTitle className="text-base break-words">
+              {grievance.fileNumber ? `${grievance.fileNumber} · ` : ""}
               {grievance.memberPseudonym ?? t("anonymousMember")} -{" "}
               {grievance.category}
             </CardTitle>
             <p className="mt-1 text-sm text-gray-600">
-              {t("step", { step: grievance.currentStep })} ·{" "}
-              {t(`status.${grievance.status}`)}
+              {t(`workflowStage.${grievance.workflowStage ?? "formal"}`)}
+              {(grievance.workflowStage ?? "formal") === "formal"
+                ? ` · ${t("step", { step: grievance.currentStep })}`
+                : ""}{" "}
+              · {t(`status.${grievance.status}`)}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2 text-sm sm:shrink-0 sm:justify-end sm:text-right">

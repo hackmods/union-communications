@@ -18,6 +18,7 @@ describe("member-safe grievance projection", () => {
         assignedStewardId: "worker-1",
         createdById: "president-1",
         updatedAt: "2026-09-02T00:00:00.000Z",
+        workflowStage: "formal",
       },
       dueAt: "2026-09-30T00:00:00.000Z",
       updates: [{ id: "update-1", body: "A member-safe update", publishedAt: "2026-09-03T00:00:00.000Z" }],

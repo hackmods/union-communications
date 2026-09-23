@@ -41,6 +41,8 @@ import type {
 import type { AttachmentMeta } from "@/types/attachments";
 import { RelatedTasksPanel } from "@/components/hub/RelatedTasksPanel";
 import { GrievanceAccessPanel, GrievanceAttachmentShareToggle, GrievanceMemberUpdatesPanel } from "@/components/grievance/GrievanceAccessPanel";
+import { useBrandStore } from "@/store/brand-store";
+import { resolveLocalNumber } from "@/lib/utils/local";
 
 const OUTCOME_TYPES: GrievanceOutcomeType[] = [
   "upheld",
@@ -136,12 +138,21 @@ export function GrievanceDetail({ id }: { id: string }) {
   const [outcomeRemedy, setOutcomeRemedy] = useState("");
   const [outcomeSettlement, setOutcomeSettlement] = useState("");
   const [outcomeArbitrator, setOutcomeArbitrator] = useState("");
+  const [outcomeMediator, setOutcomeMediator] = useState("");
+  const [sentToArbitration, setSentToArbitration] = useState(false);
+  const [sentToArbitrationAt, setSentToArbitrationAt] = useState("");
   const [outcomeHearing, setOutcomeHearing] = useState("");
   const [outcomeDecidedAt, setOutcomeDecidedAt] = useState(
     () => new Date().toISOString().slice(0, 16),
   );
   const [savingOutcome, setSavingOutcome] = useState(false);
   const [outcomeError, setOutcomeError] = useState<string | null>(null);
+  const brandKit = useBrandStore((s) => s.brandKit);
+  const hydrateBrand = useBrandStore((s) => s.hydrate);
+
+  useEffect(() => {
+    void hydrateBrand();
+  }, [hydrateBrand]);
 
   const applyDetailData = useCallback((json: GrievanceDetailData) => {
     setData(json);
@@ -188,6 +199,13 @@ export function GrievanceDetail({ id }: { id: string }) {
           setOutcomeRemedy(next.remedy ?? "");
           setOutcomeSettlement(next.settlementTerms ?? "");
           setOutcomeArbitrator(next.arbitratorName ?? "");
+          setOutcomeMediator(next.mediatorName ?? "");
+          setSentToArbitration(Boolean(next.sentToArbitration));
+          setSentToArbitrationAt(
+            next.sentToArbitrationAt
+              ? new Date(next.sentToArbitrationAt).toISOString().slice(0, 16)
+              : "",
+          );
           setOutcomeHearing(
             next.hearingDate
               ? new Date(next.hearingDate).toISOString().slice(0, 16)
@@ -214,6 +232,13 @@ export function GrievanceDetail({ id }: { id: string }) {
       setOutcomeRemedy(next.remedy ?? "");
       setOutcomeSettlement(next.settlementTerms ?? "");
       setOutcomeArbitrator(next.arbitratorName ?? "");
+      setOutcomeMediator(next.mediatorName ?? "");
+      setSentToArbitration(Boolean(next.sentToArbitration));
+      setSentToArbitrationAt(
+        next.sentToArbitrationAt
+          ? new Date(next.sentToArbitrationAt).toISOString().slice(0, 16)
+          : "",
+      );
       setOutcomeHearing(
         next.hearingDate
           ? new Date(next.hearingDate).toISOString().slice(0, 16)
@@ -237,10 +262,16 @@ export function GrievanceDetail({ id }: { id: string }) {
           remedy: outcomeRemedy.trim() || undefined,
           settlementTerms: outcomeSettlement.trim() || undefined,
           arbitratorName: outcomeArbitrator.trim() || undefined,
+          mediatorName: outcomeMediator.trim() || undefined,
           hearingDate: outcomeHearing
             ? new Date(outcomeHearing).toISOString()
             : undefined,
           decidedAt: new Date(outcomeDecidedAt).toISOString(),
+          sentToArbitration,
+          sentToArbitrationAt:
+            sentToArbitration && sentToArbitrationAt
+              ? new Date(sentToArbitrationAt).toISOString()
+              : undefined,
         }),
       });
       if (!res.ok) {
@@ -340,7 +371,18 @@ export function GrievanceDetail({ id }: { id: string }) {
 
   async function escalateStep(step: number) {
     if (readOnly) return;
+    if (data?.grievance.workflowStage !== "formal") return;
     await updateGrievance(id, { currentStep: step, status: "escalated" });
+    await reload();
+  }
+
+  async function advanceToFormal() {
+    if (readOnly) return;
+    await updateGrievance(id, {
+      workflowStage: "formal",
+      currentStep: Math.max(1, data?.grievance.currentStep ?? 1),
+      status: "in_progress",
+    });
     await reload();
   }
 
@@ -362,9 +404,22 @@ export function GrievanceDetail({ id }: { id: string }) {
 
     const { jsPDF } = await import("jspdf");
     const pdf = new jsPDF();
-    const lines = bundleToPdfLines(bundle, data.localNumber);
-    let y = 20;
-    for (const line of lines) {
+    const brandLocal = resolveLocalNumber(brandKit.local.localNumber);
+    const lines = bundleToPdfLines(
+      bundle,
+      data.grievance.localLabel ?? data.localNumber ?? brandLocal,
+    );
+    const primary = brandKit.primaryColor?.replace("#", "") ?? "003366";
+    const r = parseInt(primary.slice(0, 2), 16) || 0;
+    const g = parseInt(primary.slice(2, 4), 16) || 51;
+    const b = parseInt(primary.slice(4, 6), 16) || 102;
+    pdf.setTextColor(r, g, b);
+    pdf.setFontSize(16);
+    pdf.text("GRIEVANCE SUMMARY", 14, 16);
+    pdf.setTextColor(0, 0, 0);
+    pdf.setFontSize(11);
+    let y = 26;
+    for (const line of lines.slice(1)) {
       if (y > 270) {
         pdf.addPage();
         y = 20;
@@ -377,7 +432,10 @@ export function GrievanceDetail({ id }: { id: string }) {
 
     const blob = await zip.generateAsync({ type: "blob" });
     const { saveAs } = await import("file-saver");
-    saveAs(blob, `grievance-${data.grievance.id}.zip`);
+    const fileName = data.grievance.fileNumber
+      ? `${data.grievance.fileNumber}.zip`
+      : `grievance-${data.grievance.id}.zip`;
+    saveAs(blob, fileName);
   }
 
   async function logCommunication(e: React.FormEvent) {
@@ -520,13 +578,26 @@ export function GrievanceDetail({ id }: { id: string }) {
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-opseu-dark">
-            {grievance.memberPseudonym ?? t("anonymousMember")}
+            {grievance.fileNumber
+              ? `${grievance.fileNumber} · ${grievance.memberPseudonym ?? t("anonymousMember")}`
+              : (grievance.memberPseudonym ?? t("anonymousMember"))}
           </h1>
           <p className="mt-1 text-gray-600">
-            {grievance.category} · {t(`status.${grievance.status}`)}
+            {t(`workflowStage.${grievance.workflowStage}`)} · {grievance.category}{" "}
+            · {t(`status.${grievance.status}`)}
+            {grievance.localLabel ? ` · ${grievance.localLabel}` : ""}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          {!readOnly && grievance.workflowStage === "intake" && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => void advanceToFormal()}
+            >
+              {t("advanceToFormal")}
+            </Button>
+          )}
           {!readOnly && grievance.status !== "resolved" && (
             <Button
               variant="outline"
@@ -554,51 +625,68 @@ export function GrievanceDetail({ id }: { id: string }) {
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <Card>
           <CardTitle>{t("currentStep")}</CardTitle>
-          <p className="mt-2 text-3xl font-bold text-opseu-blue">
-            {t("step", { step: grievance.currentStep })}
-          </p>
-          {dueAt && (
-            <p
-              className={`mt-2 text-sm ${isOverdue ? "font-semibold text-red-600" : "text-gray-600"}`}
-            >
-              {isOverdue
-                ? t("overdue")
-                : t("due", { date: new Date(dueAt).toLocaleDateString() })}
-            </p>
-          )}
-          {grievanceConfig && (
-            <div className="mt-4 space-y-2">
-              <p className="text-sm font-medium text-gray-500">
-                {t("stepChecklist")}
-              </p>
-              {grievanceConfig.steps.map((step) => (
-                <button
-                  key={step.number}
+          {grievance.workflowStage === "intake" ? (
+            <div className="mt-2 space-y-2">
+              <p className="text-sm text-amber-900">{t("intakeStageHint")}</p>
+              {!readOnly && (
+                <Button
                   type="button"
-                  disabled={readOnly || step.number === grievance.currentStep}
-                  onClick={() => escalateStep(step.number)}
-                  className={`block w-full rounded-lg border px-3 py-2 text-left text-sm ${
-                    step.number === grievance.currentStep
-                      ? "border-opseu-blue bg-opseu-blue/5 font-semibold"
-                      : step.number < grievance.currentStep
-                        ? "border-gray-200 text-gray-400 line-through"
-                        : "border-gray-200 hover:border-opseu-blue/40"
-                  }`}
+                  size="sm"
+                  onClick={() => void advanceToFormal()}
                 >
-                  {step.name}
-                  {step.responseDays != null && (
-                    <span className="ml-2 text-gray-500">
-                      ({step.responseDays}d)
-                    </span>
-                  )}
-                  {step.appealDays != null && (
-                    <span className="ml-2 text-gray-500">
-                      ({t("appealDaysLabel", { days: step.appealDays })})
-                    </span>
-                  )}
-                </button>
-              ))}
+                  {t("advanceToFormal")}
+                </Button>
+              )}
             </div>
+          ) : (
+            <>
+              <p className="mt-2 text-3xl font-bold text-opseu-blue">
+                {t("step", { step: grievance.currentStep })}
+              </p>
+              {dueAt && (
+                <p
+                  className={`mt-2 text-sm ${isOverdue ? "font-semibold text-red-600" : "text-gray-600"}`}
+                >
+                  {isOverdue
+                    ? t("overdue")
+                    : t("due", { date: new Date(dueAt).toLocaleDateString() })}
+                </p>
+              )}
+              {grievanceConfig && (
+                <div className="mt-4 space-y-2">
+                  <p className="text-sm font-medium text-gray-500">
+                    {t("stepChecklist")}
+                  </p>
+                  {grievanceConfig.steps.map((step) => (
+                    <button
+                      key={step.number}
+                      type="button"
+                      disabled={readOnly || step.number === grievance.currentStep}
+                      onClick={() => escalateStep(step.number)}
+                      className={`block w-full rounded-lg border px-3 py-2 text-left text-sm ${
+                        step.number === grievance.currentStep
+                          ? "border-opseu-blue bg-opseu-blue/5 font-semibold"
+                          : step.number < grievance.currentStep
+                            ? "border-gray-200 text-gray-400 line-through"
+                            : "border-gray-200 hover:border-opseu-blue/40"
+                      }`}
+                    >
+                      {step.name}
+                      {step.responseDays != null && (
+                        <span className="ml-2 text-gray-500">
+                          ({step.responseDays}d)
+                        </span>
+                      )}
+                      {step.appealDays != null && (
+                        <span className="ml-2 text-gray-500">
+                          ({t("appealDaysLabel", { days: step.appealDays })})
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </Card>
 
@@ -806,6 +894,19 @@ export function GrievanceDetail({ id }: { id: string }) {
                 {t("outcome.arbitratorName")}: {outcome.arbitratorName}
               </p>
             )}
+            {outcome.mediatorName && (
+              <p className="mt-1 text-sm">
+                {t("outcome.mediatorName")}: {outcome.mediatorName}
+              </p>
+            )}
+            {outcome.sentToArbitration && (
+              <p className="mt-1 text-sm">
+                {t("outcome.sentToArbitrationYes")}
+                {outcome.sentToArbitrationAt
+                  ? ` · ${new Date(outcome.sentToArbitrationAt).toLocaleDateString()}`
+                  : ""}
+              </p>
+            )}
             {outcome.hearingDate && (
               <p className="mt-1 text-sm">
                 {t("outcome.hearingDate")}:{" "}
@@ -882,17 +983,40 @@ export function GrievanceDetail({ id }: { id: string }) {
               onChange={(e) => setOutcomeDecidedAt(e.target.value)}
               required
             />
-            <Input
-              label={t("outcome.hearingDate")}
-              type="datetime-local"
-              value={outcomeHearing}
-              onChange={(e) => setOutcomeHearing(e.target.value)}
-            />
-            <Input
-              label={t("outcome.arbitratorName")}
-              value={outcomeArbitrator}
-              onChange={(e) => setOutcomeArbitrator(e.target.value)}
-            />
+            <label className="flex items-center gap-2 text-sm text-gray-800">
+              <input
+                type="checkbox"
+                checked={sentToArbitration}
+                onChange={(e) => setSentToArbitration(e.target.checked)}
+              />
+              {t("outcome.sentToArbitration")}
+            </label>
+            {sentToArbitration && (
+              <>
+                <Input
+                  label={t("outcome.sentToArbitrationAt")}
+                  type="datetime-local"
+                  value={sentToArbitrationAt}
+                  onChange={(e) => setSentToArbitrationAt(e.target.value)}
+                />
+                <Input
+                  label={t("outcome.hearingDate")}
+                  type="datetime-local"
+                  value={outcomeHearing}
+                  onChange={(e) => setOutcomeHearing(e.target.value)}
+                />
+                <Input
+                  label={t("outcome.arbitratorName")}
+                  value={outcomeArbitrator}
+                  onChange={(e) => setOutcomeArbitrator(e.target.value)}
+                />
+                <Input
+                  label={t("outcome.mediatorName")}
+                  value={outcomeMediator}
+                  onChange={(e) => setOutcomeMediator(e.target.value)}
+                />
+              </>
+            )}
             <Textarea
               label={t("outcome.remedy")}
               value={outcomeRemedy}

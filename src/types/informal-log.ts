@@ -2,6 +2,12 @@
 
 import type { CommunicationChannel } from "@/types/qol";
 
+/** Who may read this Quick-Log entry (server-enforced). */
+export type InformalLogVisibility =
+  | "private"
+  | "local_executive"
+  | "area_officer";
+
 export interface InformalLogEntry {
   id: string;
   unionId: string;
@@ -14,6 +20,8 @@ export interface InformalLogEntry {
   occurredAt: string;
   loggedById: string;
   loggedByName: string;
+  /** Defaults to local_executive for legacy rows. */
+  visibility: InformalLogVisibility;
   convertedToGrievanceId?: string;
   createdAt: string;
 }
@@ -25,6 +33,7 @@ export interface CreateInformalLogInput {
   summary: string;
   occurredAt: string;
   bargainingUnitId?: string;
+  visibility: InformalLogVisibility;
 }
 
 export interface UpdateInformalLogInput {
@@ -35,6 +44,7 @@ export interface UpdateInformalLogInput {
   occurredAt?: string;
   bargainingUnitId?: string | null;
   convertedToGrievanceId?: string | null;
+  visibility?: InformalLogVisibility;
 }
 
 export interface InformalLogListFilters {

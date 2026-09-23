@@ -3032,6 +3032,11 @@
           "notNull": true
         },
         {
+          "name": "mediator_name",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "outcome_type",
           "dataType": "text",
           "notNull": true
@@ -3044,6 +3049,16 @@
         {
           "name": "remedy",
           "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "sent_to_arbitration",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "sent_to_arbitration_at",
+          "dataType": "timestamp with time zone",
           "notNull": false
         },
         {
@@ -3127,9 +3142,19 @@
           "notNull": true
         },
         {
+          "name": "file_number",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "filed_at",
           "dataType": "timestamp with time zone",
           "notNull": true
+        },
+        {
+          "name": "grievance_type",
+          "dataType": "text",
+          "notNull": false
         },
         {
           "name": "id",
@@ -3137,9 +3162,29 @@
           "notNull": true
         },
         {
+          "name": "intake",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "linked_snippets",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
           "name": "local_id",
           "dataType": "text",
           "notNull": true
+        },
+        {
+          "name": "local_label",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "member_names",
+          "dataType": "jsonb",
+          "notNull": false
         },
         {
           "name": "member_pseudonym",
@@ -3167,13 +3212,28 @@
           "notNull": true
         },
         {
+          "name": "summary",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "union_id",
           "dataType": "text",
           "notNull": true
         },
         {
+          "name": "unit_label",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "updated_at",
           "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "workflow_stage",
+          "dataType": "text",
           "notNull": true
         }
       ]
@@ -3243,6 +3303,11 @@
         },
         {
           "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "visibility",
           "dataType": "text",
           "notNull": true
         }

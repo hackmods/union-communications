@@ -194,6 +194,8 @@ export async function seedDemoGrievance(
       assignedStewardId: "user-seed-demo",
       createdById: "user-seed-demo",
       updatedAt: now,
+      workflowStage: "formal",
+      fileNumber: "GRV-SEED-0001",
     })
     .onConflictDoUpdate({
       target: grievances.id,
@@ -207,6 +209,7 @@ export async function seedDemoGrievance(
         currentStep: 1,
         assignedStewardId: "user-seed-demo",
         updatedAt: now,
+        workflowStage: "formal",
       },
     });
 
