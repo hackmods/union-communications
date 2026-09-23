@@ -49,7 +49,7 @@ Other Brand Kit presets still see the full bargaining guide.
 
 ## Suggested first publications (high level)
 
-Use `opseuPilotChecklist()` as the checklist; publish through the Root UI (no SQL seed of OPSEU prose):
+Use `opseuPilotChecklist()` as the checklist; in Site Admin → Customization, pick the OPSEU union row to reveal **OPSEU / SEFPO starter** buttons that fill brand/source draft fields from the preset and registry (still no auto-publish):
 
 1. `brand:baseline` — colours/fonts only.
 2. Reviewed `source:*` rows for national About / contact / member portal (from registry URLs after browser verify).

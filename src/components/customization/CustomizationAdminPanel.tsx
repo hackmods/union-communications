@@ -3,6 +3,11 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
+import {
+  opseuBrandBaselineSuggestion,
+  opseuRecommendedSourceIds,
+} from "@/lib/customization/opseu-pilot";
 import type { CustomizationScope } from "@/lib/customization/types";
 
 type Props = {
@@ -72,6 +77,40 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
   function mutationReason(fallback: string) {
     const trimmed = reason.trim();
     return trimmed || fallback;
+  }
+
+  const selectedSlug = selectedUnion()?.slug?.toLowerCase() ?? "";
+  const showOpseuStarter = selectedSlug === "opseu";
+
+  function applyOpseuBrandStarter() {
+    const brand = opseuBrandBaselineSuggestion();
+    if (!brand) {
+      setError(t("opseuStarterMissing"));
+      return;
+    }
+    setKind("brand");
+    setTitleEn(brand.label.en);
+    setTitleFr(brand.label.fr);
+    setPrimaryColor(brand.primaryColor);
+    setReason("Apply Brand Kit colours as a reviewed draft starter");
+    setStatus(t("opseuBrandApplied"));
+    setError(null);
+  }
+
+  function applyOpseuSourceStarter() {
+    const sourceId = opseuRecommendedSourceIds()[0];
+    const source = sourceId ? COMMS_SOURCES[sourceId] : null;
+    if (!source) {
+      setError(t("opseuStarterMissing"));
+      return;
+    }
+    setKind("source");
+    setTitleEn(source.label);
+    setTitleFr(source.label);
+    setSourceUrl(source.url);
+    setReason("Link first reviewed registry source (do not scrape national HTML)");
+    setStatus(t("opseuSourceApplied"));
+    setError(null);
   }
 
   async function postJson(url: string, body: unknown) {
@@ -457,6 +496,30 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
             {t("createScope")}
           </button>
         </div>
+        {showOpseuStarter ? (
+          <div className="mt-4 rounded border border-dashed border-opseu-blue/40 bg-opseu-blue/5 p-3">
+            <p className="text-sm font-medium text-opseu-dark">{t("opseuStarterTitle")}</p>
+            <p className="mt-1 text-sm text-opseu-gray-dark">{t("opseuStarterBody")}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50"
+                onClick={applyOpseuBrandStarter}
+                disabled={busy}
+              >
+                {t("opseuFillBrand")}
+              </button>
+              <button
+                type="button"
+                className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50"
+                onClick={applyOpseuSourceStarter}
+                disabled={busy}
+              >
+                {t("opseuFillSource")}
+              </button>
+            </div>
+          </div>
+        ) : null}
         {scopes.length > 0 ? (
           <p className="mt-3 text-sm text-opseu-gray-dark" aria-live="polite">
             {t("scopeCount", { count: scopes.length })}

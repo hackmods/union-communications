@@ -3,6 +3,10 @@
 ## 2026-09-23 — Audit follow-up: union-scoped pilot delivery
 
 - Presentation context maps Brand Kit preset / tenant slug → trusted system→union scope chain (`presentation-context.ts`).
+- Print / Brand Kit / Rules of Order content fetches pass locale + optional `presetId` so Root union publishes reach readers.
+- Journal-hole Docker smoke now drops `customization_*` tables/functions before replaying 0036+.
+- Root Customization panel shows OPSEU / SEFPO starter fill actions when the selected union slug is `opseu`.
+- Bargaining guide remains hidden for Brand Kit preset `opseu`; operator path: [`docs/guides/OPSEU_CUSTOMIZATION.md`](guides/OPSEU_CUSTOMIZATION.md).
 - Content API accepts `presetId` (not forged union ids); Brand Kit baseline, Rules of Order, and Print overlay fetch locale + preset scope.
 - Grants/entitlements were already wired in the prior polish pass; module/plan status text corrected for remaining C07–C15 gaps.
 - Validation: presentation + customization suites; typecheck/lint before push.
