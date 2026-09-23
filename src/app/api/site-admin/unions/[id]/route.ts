@@ -68,8 +68,8 @@ export async function PATCH(req: Request, { params }: Params) {
         ) AS multi
       `);
       const rows = Array.isArray(result)
-        ? (result as Array<{ n: number }>)
-        : ((result as { rows?: Array<{ n: number }> }).rows ?? []);
+        ? (result as unknown as Array<{ n: number }>)
+        : ((result as unknown as { rows?: Array<{ n: number }> }).rows ?? []);
       multiLocalMemberCount = Number(rows[0]?.n ?? 0);
     }
 
