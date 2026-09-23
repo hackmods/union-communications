@@ -27,6 +27,9 @@ import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesE
 import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
 import { resolveIdentityPackForKit } from "@/lib/brand/identity-packs";
 import { BrandKitCanvasPanel } from "@/components/brand/BrandKitCanvasPanel";
+import { BrandKitCompletenessBar } from "@/components/brand/BrandKitCompletenessBar";
+import { BrandKitSaveBanner } from "@/components/brand/BrandKitSaveBanner";
+import { DisplaySettingsControls } from "@/components/accessibility/DisplaySettingsControls";
 import {
   brandFieldsFromUnionPreset,
   getUnionPreset,
@@ -134,10 +137,11 @@ export default function BrandKitPage() {
     <ComposedPageLayout
       composition={TOOL_COMPOSITION.editor.composition}
       size={TOOL_COMPOSITION.editor.shell}
-      className="py-8 md:py-12"
+      className="py-10 md:py-14"
     >
+      <BrandKitSaveBanner />
       {inDemo ? (
-        <WorkshopDemoPath variant="trail" className="mb-4" />
+        <WorkshopDemoPath variant="trail" className="mb-6" />
       ) : null}
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
         <header className="min-w-0">
@@ -206,11 +210,8 @@ export default function BrandKitPage() {
           </div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 lg:shrink-0">
             {themeEstablished ? (
-              <Link
-                href="/guide/social-media-plan"
-                className={guideCtaClassSm}
-              >
-                {t("continueRoadmap")}
+              <Link href="/create" className={guideCtaClassSm}>
+                {t("openCreate")}
               </Link>
             ) : (
               <Link href="/onboarding" className={guideCtaClassSm}>
@@ -230,9 +231,16 @@ export default function BrandKitPage() {
         </div>
       </Callout>
 
+      <div className="mt-6">
+        <BrandKitCompletenessBar
+          brandKit={brandKit}
+          onboardingComplete={onboardingComplete}
+        />
+      </div>
+
       <BrandKitContextHint />
 
-      <div className="mt-4 grid min-w-0 items-start gap-4 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-6 grid min-w-0 items-start gap-6 lg:grid-cols-2 xl:grid-cols-3">
         <PublicHubPanel
           title={t("unionPreset.title")}
           description={t("unionPreset.description")}
@@ -357,6 +365,17 @@ export default function BrandKitPage() {
             primaryLabel={t("colors.primary")}
             secondaryLabel={t("colors.secondary")}
           />
+          <Input
+            label={t("signatureName")}
+            value={brandKit.signatureName ?? ""}
+            placeholder={t("signatureNamePlaceholder")}
+            onChange={(e) =>
+              setBrandKit({
+                signatureName: e.target.value.trim() || undefined,
+              })
+            }
+          />
+          <p className="text-xs text-gray-600">{t("signatureNameHint")}</p>
         </PublicHubPanel>
 
         <PublicHubPanel
@@ -394,12 +413,12 @@ export default function BrandKitPage() {
         </PublicHubPanel>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-6">
         {themeEstablished && unionPresetId === "opseu" ? (
           <PublicHubPanel
             title={t("coalitionPreview.title")}
             description={t("coalitionPreview.description")}
-            className="mb-4"
+            className="mb-6"
           >
             <JointActionCard
               primaryColor={brandKit.primaryColor}
@@ -417,7 +436,7 @@ export default function BrandKitPage() {
         <BrandKitCanvasPanel />
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+      <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <PublicHubPanel>
           <LocalLinksEditor
             websiteUrl={brandKit.websiteUrl ?? ""}
@@ -440,6 +459,14 @@ export default function BrandKitPage() {
           />
         </PublicHubPanel>
       </div>
+
+      <PublicHubPanel
+        title={t("displayPreferences")}
+        description={t("displayPreferencesBody")}
+        className="mt-6"
+      >
+        <DisplaySettingsControls variant="compact" />
+      </PublicHubPanel>
     </ComposedPageLayout>
   );
 }

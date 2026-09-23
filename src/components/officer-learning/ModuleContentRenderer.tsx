@@ -137,7 +137,7 @@ function ChecklistBlock({
                 <span
                   className={clsx(
                     olTheme.checklistText,
-                    isOn && "line-through opacity-80",
+                    isOn && "opacity-80",
                   )}
                 >
                   {renderInline(item, olTheme)}

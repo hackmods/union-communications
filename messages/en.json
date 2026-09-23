@@ -68,6 +68,8 @@
     "learnSubgroupLocal": "The local",
     "install": "Install as an app",
     "toolsGroupBrand": "Brand",
+    "toolsGroupCreation": "Creation tools",
+    "toolsGroupUtility": "Utility tools",
     "toolsGroupBoards": "Union boards",
     "toolsGroupPrint": "Print & cards",
     "toolsGroupSocialWeb": "Social & web",
@@ -2934,7 +2936,40 @@
     "settings": "Edit & download",
     "designPreset": "Example",
     "includeLogo": "Include Brand Kit logo",
+    "showQr": "Include QR code",
+    "qrLink": "QR destination",
+    "qrNeedsLinks": "Add a website, Facebook, or custom link in Brand Kit to enable a letter QR.",
     "sectionBranding": "Branding",
+    "sectionSalutation": "Salutation",
+    "sectionPrint": "Print spacing",
+    "salutationPreset": "Greeting",
+    "salutationCustomPlaceholder": "Dear New Member!",
+    "salutationPresets": {
+      "dearMember": "Dear {name}",
+      "dearNewMember": "Dear New Member!",
+      "dearColleague": "Dear Colleague",
+      "toWhom": "To whom it may concern",
+      "custom": "Custom"
+    },
+    "topMargin": "Top margin",
+    "topMarginOpts": {
+      "tight": "Tight",
+      "standard": "Standard",
+      "roomy": "Roomy"
+    },
+    "letterSpacing": "Letter spacing",
+    "letterSpacingOpts": {
+      "tight": "Tight",
+      "normal": "Normal",
+      "loose": "Loose"
+    },
+    "headerSize": "Header size",
+    "headerSizeOpts": {
+      "compact": "Compact",
+      "standard": "Standard",
+      "display": "Display"
+    },
+    "draftSaveFailed": "Could not save this draft in browser storage. Check private browsing or free up space, then try again.",
     "sectionStructure": "Document structure",
     "logoResolveFailed": "Could not load your Brand Kit logo as PNG. Try a PNG upload in Brand Kit, or turn off the logo.",
     "setupBrandPrompt": "Set up Brand Kit so letterhead can use your local logo.",
@@ -3040,6 +3075,7 @@
       "subtitle": "Subtitle",
       "headline": "Headline",
       "memberName": "Member name",
+      "salutation": "Salutation / recipient",
       "date": "Date (printed)",
       "time": "Time (printed)",
       "calendarStart": "Calendar start (for .ics)",
@@ -3969,14 +4005,43 @@
     "purposeUnlocks": "What it unlocks",
     "purposeUnlocksBody": "Every Comms tool picks up these colours, logo, and links automatically, so you only set them once.",
     "startSetup": "Start setup",
+    "openCreate": "Open Create tools",
     "continueRoadmap": "Continue the first-week roadmap",
     "assetsLink": "Browse Brand Assets",
     "export": "Export Brand Kit",
     "import": "Import Brand Kit",
     "importSuccess": "Brand Kit imported. Your colours, logo, and links are now in place.",
     "importError": "That file is not a Brand Kit export. Pick the .json file you downloaded from Brand Kit and try again.",
+    "changesSaved": "Changes saved successfully",
     "storageBlocked": "Browser storage is blocked. Brand Kit cannot save until storage is allowed.",
     "storageBlockedDismiss": "Dismiss",
+    "displayPreferences": "Display preferences",
+    "displayPreferencesBody": "Turn off pulse animations and adjust reading size for this browser. These settings stay on your device.",
+    "signatureName": "Default signature name",
+    "signatureNamePlaceholder": "e.g. Alex Steward",
+    "signatureNameHint": "Optional. Letters and worksheets can use this as the closing name so you do not retype it each time.",
+    "completeness": {
+      "label": "Brand Kit {percent}% complete",
+      "missingHint": "Still missing: {items}",
+      "complete": "Ready for Create tools",
+      "items": {
+        "localNumber": "local number",
+        "colours": "colours",
+        "logo": "logo",
+        "links": "links",
+        "canvas": "canvas style",
+        "signature": "signature name"
+      }
+    },
+    "toolOverrides": {
+      "title": "Layout (Advanced tokens)",
+      "description": "Try text size, density, and alignment on this layout only. This does not change your Brand Kit or collection profiles.",
+      "typeScale": "Text size (this layout)",
+      "inherit": "Brand Kit ({hint})",
+      "inheritBrand": "Brand Kit",
+      "activeSummary": "Active: {type} · {density} · {align}",
+      "reset": "Reset to Brand Kit"
+    },
     "currentSettings": "Current settings",
     "localNumber": "Local number",
     "subText": "Sub-text",
@@ -4169,6 +4234,7 @@
         "display": "Display",
         "dense": "Dense"
       },
+      "typeScaleSizes": "Headline about {title}px · body about {body}px · tracking {tracking}",
       "qrPlate": "QR plate",
       "qrPlateOpts": {
         "white-card": "Card",
@@ -7190,6 +7256,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "steward-ux-brand-letters": {
+        "title": "Brand Kit completion, letter salutations, and layout tokens",
+        "body": "Brand Kit shows how complete your kit is and confirms when changes save. Letters keep a flexible salutation, optional QR, and print spacing. Graphic Maker can try Advanced token layouts without changing your Brand Kit."
+      },
       "host-readiness": {
         "title": "Host readiness in Site admin",
         "body": "Platform operators can open Host readiness to see the database journal tip, which CapRover backend toggles are still on memory, and other production settings that are missing — without showing secrets."

@@ -85,6 +85,13 @@ export type DocxPresetOpts = {
   localNumber?: string;
   seniorityLabels?: SeniorityWorksheetLabels;
   grievanceLabels?: GrievanceIntakeLabels;
+  salutationLine?: string;
+  headerLocalSize?: number;
+  headerContactSize?: number;
+  topMarginTwips?: number;
+  letterSpacingTwentieths?: number;
+  qr?: BrandLogoBytes | null;
+  qrCaption?: string;
 };
 
 async function finalizeDocxBlob(
@@ -119,6 +126,13 @@ export async function renderDocxFromPreset(
     logo: opts.logo,
     headlineFont: opts.headlineFont,
     bodyFont: opts.bodyFont,
+    salutationLine: opts.salutationLine,
+    headerLocalSize: opts.headerLocalSize,
+    headerContactSize: opts.headerContactSize,
+    topMarginTwips: opts.topMarginTwips,
+    letterSpacingTwentieths: opts.letterSpacingTwentieths,
+    qr: opts.qr,
+    qrCaption: opts.qrCaption,
   };
   let blob: Blob;
   switch (opts.presetId) {

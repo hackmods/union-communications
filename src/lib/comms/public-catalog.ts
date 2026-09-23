@@ -108,6 +108,8 @@ export type PublicCatalogItem = {
 };
 
 const TOOL_TOPIC: Record<string, PublicCatalogTopic> = {
+  toolsGroupCreation: "brand",
+  toolsGroupUtility: "workplace",
   toolsGroupBrand: "brand",
   toolsGroupBoards: "boards",
   toolsGroupPrint: "print",
@@ -116,6 +118,8 @@ const TOOL_TOPIC: Record<string, PublicCatalogTopic> = {
 };
 
 const TOOL_AUDIENCE: Record<string, readonly PublicCatalogAudience[]> = {
+  toolsGroupCreation: ["comms", "steward", "officer"],
+  toolsGroupUtility: ["steward", "officer"],
   toolsGroupBrand: ["comms", "officer"],
   toolsGroupBoards: ["comms", "steward"],
   toolsGroupPrint: ["comms", "steward"],

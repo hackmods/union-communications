@@ -68,6 +68,8 @@
     "learnSubgroupLocal": "La section",
     "install": "Installer comme appli",
     "toolsGroupBrand": "Marque",
+    "toolsGroupCreation": "Outils de création",
+    "toolsGroupUtility": "Outils utilitaires",
     "toolsGroupBoards": "Tableaux syndicaux",
     "toolsGroupPrint": "Impression et cartes",
     "toolsGroupSocialWeb": "Social et web",
@@ -2934,7 +2936,40 @@
     "settings": "Modifier et télécharger",
     "designPreset": "Exemple",
     "includeLogo": "Inclure le logo de la Trousse de marque",
+    "showQr": "Inclure un code QR",
+    "qrLink": "Destination du QR",
+    "qrNeedsLinks": "Ajoutez un site, Facebook ou un lien personnalisé dans la Trousse de marque pour activer un QR sur la lettre.",
     "sectionBranding": "Image de marque",
+    "sectionSalutation": "Salutation",
+    "sectionPrint": "Espacement d’impression",
+    "salutationPreset": "Formule d’appel",
+    "salutationCustomPlaceholder": "Chère nouvelle membre!",
+    "salutationPresets": {
+      "dearMember": "Cher/Chère {name}",
+      "dearNewMember": "Chère nouvelle membre!",
+      "dearColleague": "Cher/Chère collègue",
+      "toWhom": "À qui de droit",
+      "custom": "Personnalisé"
+    },
+    "topMargin": "Marge supérieure",
+    "topMarginOpts": {
+      "tight": "Serrée",
+      "standard": "Standard",
+      "roomy": "Généreuse"
+    },
+    "letterSpacing": "Interlettrage",
+    "letterSpacingOpts": {
+      "tight": "Serré",
+      "normal": "Normal",
+      "loose": "Large"
+    },
+    "headerSize": "Taille de l’en-tête",
+    "headerSizeOpts": {
+      "compact": "Compacte",
+      "standard": "Standard",
+      "display": "Display"
+    },
+    "draftSaveFailed": "Impossible d’enregistrer ce brouillon dans le stockage du navigateur. Vérifiez la navigation privée ou libérez de l’espace, puis réessayez.",
     "sectionStructure": "Structure du document",
     "logoResolveFailed": "Impossible de charger le logo en PNG. Essayez un PNG dans la Trousse de marque, ou désactivez le logo.",
     "setupBrandPrompt": "Configurez la Trousse de marque pour que l’en-tête utilise votre logo.",
@@ -3040,6 +3075,7 @@
       "subtitle": "Sous-titre",
       "headline": "Manchette",
       "memberName": "Nom du membre",
+      "salutation": "Salutation / destinataire",
       "date": "Date (imprimée)",
       "time": "Heure (imprimée)",
       "calendarStart": "Début calendrier (pour .ics)",
@@ -3969,14 +4005,43 @@
     "purposeUnlocks": "Ce que cela débloque",
     "purposeUnlocksBody": "Chaque outil Comms reprend automatiquement ces couleurs, ce logo et ces liens : vous ne les réglez qu’une seule fois.",
     "startSetup": "Commencer la configuration",
+    "openCreate": "Ouvrir les outils Créer",
     "continueRoadmap": "Continuer la feuille de route de la première semaine",
     "assetsLink": "Voir les actifs de marque",
     "export": "Exporter la Trousse de marque",
     "import": "Importer la Trousse de marque",
     "importSuccess": "Trousse de marque importée. Vos couleurs, votre logo et vos liens sont en place.",
     "importError": "Ce fichier n’est pas un export de Trousse de marque. Choisissez le fichier .json téléchargé depuis la Trousse de marque, puis réessayez.",
+    "changesSaved": "Modifications enregistrées avec succès",
     "storageBlocked": "Le stockage du navigateur est bloqué. La Trousse ne peut pas enregistrer tant qu’il n’est pas autorisé.",
     "storageBlockedDismiss": "Fermer",
+    "displayPreferences": "Préférences d’affichage",
+    "displayPreferencesBody": "Désactivez les animations pulsées et ajustez la taille de lecture pour ce navigateur. Ces réglages restent sur votre appareil.",
+    "signatureName": "Nom de signature par défaut",
+    "signatureNamePlaceholder": "p. ex. Alex Steward",
+    "signatureNameHint": "Facultatif. Les lettres et fiches peuvent utiliser ce nom de clôture pour éviter de le retaper chaque fois.",
+    "completeness": {
+      "label": "Trousse de marque complète à {percent} %",
+      "missingHint": "Il manque encore : {items}",
+      "complete": "Prête pour les outils Créer",
+      "items": {
+        "localNumber": "numéro de section locale",
+        "colours": "couleurs",
+        "logo": "logo",
+        "links": "liens",
+        "canvas": "style de canevas",
+        "signature": "nom de signature"
+      }
+    },
+    "toolOverrides": {
+      "title": "Disposition (jetons avancés)",
+      "description": "Essayez la taille, la densité et l’alignement sur cette mise en page seulement. Cela ne modifie pas votre Trousse de marque ni vos profils de collection.",
+      "typeScale": "Taille du texte (cette mise en page)",
+      "inherit": "Trousse ({hint})",
+      "inheritBrand": "Trousse de marque",
+      "activeSummary": "Actif : {type} · {density} · {align}",
+      "reset": "Revenir à la Trousse"
+    },
     "currentSettings": "Paramètres actuels",
     "localNumber": "Numéro de section",
     "subText": "Sous-texte",
@@ -4169,6 +4234,7 @@
         "display": "Display",
         "dense": "Dense"
       },
+      "typeScaleSizes": "Titre environ {title} px · corps environ {body} px · interlettrage {tracking}",
       "qrPlate": "Plaque QR",
       "qrPlateOpts": {
         "white-card": "Carte",
@@ -7137,6 +7203,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "steward-ux-brand-letters": {
+        "title": "Complétion de la Trousse, salutations et jetons de disposition",
+        "body": "La Trousse de marque indique à quel point elle est complète et confirme l’enregistrement. Les lettres gardent une salutation souple, un QR facultatif et l’espacement d’impression. Le Créateur graphique peut essayer les dispositions des jetons avancés sans changer votre Trousse."
+      },
       "host-readiness": {
         "title": "Préparation de l’hôte dans Admin du site",
         "body": "Les opérateurs de plateforme peuvent ouvrir Préparation de l’hôte pour voir la pointe du journal de base de données, quelles bascules CapRover sont encore en mémoire, et d’autres réglages de production manquants — sans afficher de secrets."

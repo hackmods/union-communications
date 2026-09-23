@@ -8,7 +8,7 @@ export type QrBoardPresetId =
   | "coreLinks"
   | "fullBoard";
 
-export const QR_BOARD_MIN_SLOTS = 2;
+export const QR_BOARD_MIN_SLOTS = 1;
 export const QR_BOARD_MAX_SLOTS = 8;
 
 /** Slot template: destination from qr-card preset id or a fixed URL. */

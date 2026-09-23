@@ -5,6 +5,7 @@
 
 import type { HubModule } from "@/types/tenant";
 import type { PortalNavLinkId } from "@/components/portal/portal-nav-model";
+import { isWorkforceTimeEnabled } from "@/lib/features/workforce-time";
 
 /** Hub modules pre-enabled for new locals / president soft-launch. */
 export const PRESIDENT_HUB_DEFAULT_ON: readonly HubModule[] = [
@@ -143,6 +144,20 @@ export const HUB_CONFIG_ROWS: readonly HubConfigRow[] = [
     tier: "operational",
   },
 ] as const;
+
+/**
+ * Hub Configuration rows shown to presidents. Workforce Time stays in
+ * `HUB_CONFIG_ROWS` / MODULE_REGISTRY for future refactor — this filter only
+ * hides discovery when `NEXT_PUBLIC_WORKFORCE_TIME_ENABLED` is off.
+ */
+export function visibleHubConfigRows(
+  env?: Partial<NodeJS.ProcessEnv>,
+): HubConfigRow[] {
+  return HUB_CONFIG_ROWS.filter((row) => {
+    if (row.id === "time" && !isWorkforceTimeEnabled(env)) return false;
+    return true;
+  });
+}
 
 /**
  * Local Portal surfaces — separate from HubModule ids so presidents can shape

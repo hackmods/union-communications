@@ -251,6 +251,10 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
     customLinks: normalizeCustomLinks(input.customLinks),
     membershipUrls,
     canvas: normalizeBrandKitCanvas(input.canvas),
+    signatureName:
+      typeof input.signatureName === "string"
+        ? input.signatureName.trim().slice(0, 120) || undefined
+        : base.signatureName,
     updatedAt:
       typeof input.updatedAt === "string"
         ? input.updatedAt

@@ -150,6 +150,25 @@ export function BrandKitCanvasPanel() {
       />
       <p className="text-xs text-gray-500">{t("bodyFontHint")}</p>
 
+      <SegControl
+        label={t("typeScale")}
+        value={tokens.typeScale}
+        options={(["compact", "display", "dense"] as const).map((v) => ({
+          value: v,
+          label: t(`typeScaleOpts.${v}`),
+        }))}
+        onChange={(typeScale) =>
+          setToken("typeScale", typeScale as CanvasTypeScale)
+        }
+      />
+      <p className="text-xs text-gray-500">
+        {t("typeScaleSizes", {
+          title: tokens.titleFontSizePx,
+          body: tokens.subtitleFontSizePx,
+          tracking: tokens.titleLetterSpacing,
+        })}
+      </p>
+
       <div
         className="relative overflow-hidden rounded-md"
         style={{
@@ -228,17 +247,6 @@ export function BrandKitCanvasPanel() {
               label: t(`densityOpts.${v}`),
             }))}
             onChange={(density) => setToken("density", density as CanvasDensity)}
-          />
-          <SegControl
-            label={t("typeScale")}
-            value={tokens.typeScale}
-            options={(["compact", "display", "dense"] as const).map((v) => ({
-              value: v,
-              label: t(`typeScaleOpts.${v}`),
-            }))}
-            onChange={(typeScale) =>
-              setToken("typeScale", typeScale as CanvasTypeScale)
-            }
           />
           <SegControl
             label={t("qrPlate")}

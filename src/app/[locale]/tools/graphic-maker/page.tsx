@@ -43,6 +43,7 @@ import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
+import { CanvasTokenOverridesControls } from "@/components/tools/CanvasTokenOverridesControls";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import {
   INITIAL_LOGO_MODE,
@@ -53,6 +54,11 @@ import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  EMPTY_CANVAS_TOKEN_OVERRIDES,
+  resolveCanvasTokensWithOverrides,
+  type CanvasTokenOverrides,
+} from "@/lib/comms/canvas-token-overrides";
 import type { EventEmailFields } from "@/lib/comms/event-email";
 
 function isToolPresetKey(value: string): value is ToolPresetKey {
@@ -99,6 +105,8 @@ interface GraphicState {
   secondaryColor: string;
   logoMode: BoardLogoMode;
   showLocalNumber: boolean;
+  /** Ephemeral Advanced Brand Token overrides — does not write Brand Kit. */
+  canvasOverrides: CanvasTokenOverrides;
 }
 
 function GraphicMakerPageContent() {
@@ -136,12 +144,18 @@ function GraphicMakerPageContent() {
     secondaryColor: brandKit.secondaryColor,
     logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
+    canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<GraphicState>(initial);
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
+  const brandCanvasTokens = resolveCanvasTokens(brandKit);
+  const canvasTokens = resolveCanvasTokensWithOverrides(
+    brandKit,
+    state.canvasOverrides,
+  );
 
   const applyPreset = (key: ToolPresetKey) => {
     const preset = TOOL_PRESETS[key];
@@ -438,6 +452,19 @@ function GraphicMakerPageContent() {
               setState({ ...state, showLocalNumber })
             }
           />
+          <CanvasTokenOverridesControls
+            brandDefaults={{
+              typeScale: brandCanvasTokens.typeScale,
+              density: brandCanvasTokens.density,
+              alignmentBias: brandCanvasTokens.alignmentBias,
+              qrPlate: brandCanvasTokens.qrPlate,
+              surface: brandCanvasTokens.surface,
+            }}
+            overrides={state.canvasOverrides}
+            onChange={(canvasOverrides) =>
+              setState({ ...state, canvasOverrides })
+            }
+          />
             </ToolFormDetails>
 
             <ToolFormDetails title={t("sectionColours")}>
@@ -526,7 +553,7 @@ function GraphicMakerPageContent() {
                   photoUrl={showPhoto ? state.photoUrl : undefined}
                   photoScale={state.photoScale}
                   size="export"
-                  tokens={resolveCanvasTokens(brandKit)}
+                  tokens={canvasTokens}
                   logoMode={state.logoMode}
                   showLocalNumber={state.showLocalNumber}
                   coalitionBadge={brandKit.campaignBadge?.trim() || undefined}

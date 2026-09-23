@@ -31,7 +31,7 @@ import {
   hydrateTenantOverlayFromPostgres,
   tenantsPostgresEnabled,
 } from "@/lib/tenant/persist";
-import { HUB_CONFIG_ROWS } from "@/lib/president/module-catalog";
+import { visibleHubConfigRows } from "@/lib/president/module-catalog";
 import type { PortalSurfaceId } from "@/lib/president/module-catalog";
 import { parseJsonBody } from "@/lib/validation/parse";
 import type { HubModule, UserRole } from "@/types/tenant";
@@ -237,11 +237,18 @@ export async function POST(req: Request) {
       );
     }
     const presidentToggleable = new Set(
-      HUB_CONFIG_ROWS.filter((row) => row.presidentToggle).map((row) => row.id),
+      visibleHubConfigRows()
+        .filter((row) => row.presidentToggle)
+        .map((row) => row.id),
     );
+    const hadTime = ctx.union.enabledModules.includes("time");
     let next = requested.filter(
       (id) => presidentToggleable.has(id) || id === "data",
     );
+    // Platform-gated Time: keep existing enable if already on; do not advertise.
+    if (hadTime && !presidentToggleable.has("time") && !next.includes("time")) {
+      next = [...next, "time"];
+    }
     if (hadData && canManageUnionModules(roles) && wantsData) {
       if (!next.includes("data")) next = [...next, "data"];
     } else if (hadData && !canManageUnionModules(roles)) {
