@@ -10,16 +10,16 @@ describe("tenant loader multi-scope", () => {
     const ctx = getTenantContext("union-b7p");
     expect(ctx).not.toBeNull();
     expect(ctx!.locals.map((l) => l.localNumber)).toEqual([
-      "7",
+      "777",
       "404",
       "502",
       "1337",
     ]);
-    expect(ctx!.local?.localNumber).toBe("7");
+    expect(ctx!.local?.localNumber).toBe("777");
     expect(ctx!.division?.code).toBe("b7p");
   });
 
-  it("lists FT and PT collections for Local 7", () => {
+  it("lists FT and PT collections for Local 777", () => {
     const units = listBargainingUnitsForLocal("union-b7p", "local-7");
     expect(units.map((u) => u.code).sort()).toEqual(["ft", "pt"]);
   });
@@ -47,11 +47,11 @@ describe("tenant loader multi-scope", () => {
 
   it("selects the session local instead of locals[0]", () => {
     const seeded = getTenantContext("union-b7p");
-    expect(seeded?.local?.localNumber).toBe("7");
+    expect(seeded?.local?.localNumber).toBe("777");
     const other = getTenantContext("union-b7p", "local-1337");
     expect(other?.local?.localNumber).toBe("1337");
     expect(other?.locals.map((l) => l.localNumber)).toEqual([
-      "7",
+      "777",
       "404",
       "502",
       "1337",

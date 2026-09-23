@@ -12,6 +12,7 @@ import { useBrandStore } from "@/store/brand-store";
 import { resolveSiteChromeLogoVariant } from "@/lib/brand/identity-packs";
 import { AuthAccountControls } from "./AuthAccountControls";
 import { OfficerHubNavLink } from "./OfficerHubNavLink";
+import { LocalPortalNavLink } from "./LocalPortalNavLink";
 import { PlatformOperatorNavDropdown } from "@/components/platform/PlatformOperatorNavDropdown";
 import { MobileNavDrawer } from "./nav/MobileNavDrawer";
 import { isPublicPrimaryNavActive, PUBLIC_PRIMARY_NAV } from "./nav/nav-config";
@@ -96,6 +97,7 @@ export function Header() {
             );
           })}
           <OfficerHubNavLink />
+          <LocalPortalNavLink />
         </nav>
 
         <div className="hidden flex-wrap items-center justify-end gap-2 xl:flex">
@@ -103,7 +105,7 @@ export function Header() {
             <span aria-hidden="true" className="mr-1.5">⌕</span>{t("search")}
           </Link>
           <PlatformOperatorNavDropdown />
-          <AuthAccountControls layout="inline" showHubLink={false} />
+          <AuthAccountControls layout="inline" showHubLink={false} showPortalLink={false} />
           <DisplaySettingsMenu />
           <LanguageToggle />
         </div>

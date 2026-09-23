@@ -230,14 +230,14 @@ describe("format utilities", () => {
     expect(formatFilename("logo", "110", "png")).toBe("logo-local-110.png");
   });
 
-  it("defaults empty local number to 243", () => {
-    expect(resolveLocalNumber("")).toBe("7");
-    expect(resolveLocalNumber("  ")).toBe("7");
+  it("defaults empty local number to 777", () => {
+    expect(resolveLocalNumber("")).toBe("777");
+    expect(resolveLocalNumber("  ")).toBe("777");
     expect(resolveLocalNumber("110")).toBe("110");
   });
 
-  it("formats filenames with 243 fallback", () => {
-    expect(formatFilename("logo", "", "png")).toBe("logo-local-7.png");
+  it("formats filenames with 777 fallback", () => {
+    expect(formatFilename("logo", "", "png")).toBe("logo-local-777.png");
   });
 
   it("builds the canonical local label", () => {
@@ -245,7 +245,7 @@ describe("format utilities", () => {
       "Local 110 - Support Staff",
     );
     expect(localLabel("110")).toBe("Local 110");
-    expect(localLabel("", "  ")).toBe("Local 7");
-    expect(localLabel(null, "Custodial")).toBe("Local 7 - Custodial");
+    expect(localLabel("", "  ")).toBe("Local 777");
+    expect(localLabel(null, "Custodial")).toBe("Local 777 - Custodial");
   });
 });

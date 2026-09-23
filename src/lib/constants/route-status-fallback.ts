@@ -16,7 +16,7 @@ export const ROUTE_STATUS_FALLBACK = {
   backHomeEn: "Home (EN)",
   backHomeFr: "Accueil (FR)",
   backToToolsEn: "Browse tools (EN)",
-  local243Footnote: "P.S. Empty local previews still land on Local 7 (B7P).",
+  local243Footnote: "P.S. Empty local previews still land on Local 777 (B7P).",
   staleBuildTitle: "UnionOps just updated",
   staleBuildBody:
     "Your page was open during a deploy — please refresh to keep going. Your changes here are safe.",

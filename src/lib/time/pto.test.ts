@@ -17,7 +17,7 @@ describe("PTO 8c.1 memory adapter", () => {
     const created = await memoryTimeStore.createPtoRequest(
       {
         workerId: "user-steward-7",
-        workerName: "Local 7 Steward",
+        workerName: "Local 777 Steward",
         ptoType: "vacation",
         startsAt: "2030-08-01T09:00:00.000Z",
         endsAt: "2030-08-05T17:00:00.000Z",

@@ -73,7 +73,7 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 
 ## Easter Egg
 
-When local number is empty, `resolveLocalNumber()` returns `"7"` for previews and exports (B7P wink). Status pages (Local 404) wink at Local 7 in a quiet footnote and one rotating quip — still not a tenant default.
+When local number is empty, `resolveLocalNumber()` returns `"777"` for previews and exports (B7P wink). Status pages (Local 404) wink at Local 777 in a quiet footnote and one rotating quip — still not a tenant default.
 
 Product deepen-egg: tap the UnionOps mark **5 times** on a status panel to open the JUST BE LOVED snowmobile (`public/easter-eggs/just-be-loved-snowmobile.png`; source also under `.cursor/easter-eggs/`).
 

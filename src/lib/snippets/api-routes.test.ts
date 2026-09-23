@@ -31,7 +31,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-president-7",
-      name: input?.name ?? "Local 7 President",
+      name: input?.name ?? "Local 777 President",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
@@ -156,7 +156,7 @@ describe("snippets API routes", () => {
       authMock.mockResolvedValue(
         session({
           id: "user-steward-7",
-          name: "Local 7 Steward",
+          name: "Local 777 Steward",
           roles: ["local_steward"],
         }),
       );

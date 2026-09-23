@@ -20,7 +20,7 @@ function seedEntries(): InformalLogEntry[] {
         "Discussed with supervisor whether OT was offered by seniority. Supervisor said they would check and follow up next week.",
       occurredAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
       loggedById: "user-steward-7",
-      loggedByName: "Local 7 Steward",
+      loggedByName: "Local 777 Steward",
       createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
     },
     {
@@ -34,7 +34,7 @@ function seedEntries(): InformalLogEntry[] {
         "Member emailed about delayed response on accommodation request. Steward confirmed receipt with HR and asked for timeline.",
       occurredAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
       loggedById: "user-steward-7",
-      loggedByName: "Local 7 Steward",
+      loggedByName: "Local 777 Steward",
       createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     },
     {
@@ -49,7 +49,7 @@ function seedEntries(): InformalLogEntry[] {
         "Member asked why they were skipped for Saturday coverage. Supervisor used the full-time overtime list instead of the part-time additional-hours list.",
       occurredAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
       loggedById: "user-steward-7-pt",
-      loggedByName: "Local 7 Steward (PT)",
+      loggedByName: "Local 777 Steward (PT)",
       createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
     },
   ];

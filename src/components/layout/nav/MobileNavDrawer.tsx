@@ -8,6 +8,7 @@ import { DisplaySettingsMenu } from "@/components/layout/DisplaySettingsMenu";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { AuthAccountControls } from "@/components/layout/AuthAccountControls";
 import { OfficerHubNavLink } from "@/components/layout/OfficerHubNavLink";
+import { LocalPortalNavLink } from "@/components/layout/LocalPortalNavLink";
 import { getFocusable } from "./focusables";
 import { cn } from "@/lib/utils";
 import { isPublicPrimaryNavActive, PUBLIC_PRIMARY_NAV } from "./nav-config";
@@ -122,6 +123,7 @@ export function MobileNavDrawer({
               );
             })}
             <OfficerHubNavLink layout="mobile" onNavigate={onCloseAfterNav} />
+            <LocalPortalNavLink layout="mobile" onNavigate={onCloseAfterNav} />
           </div>
         </nav>
 
@@ -140,7 +142,12 @@ export function MobileNavDrawer({
         </nav>
 
         <div className="shrink-0 border-t border-slate-200 px-4 pt-3">
-          <AuthAccountControls layout="stack" showHubLink={false} onNavigate={onCloseAfterNav} />
+          <AuthAccountControls
+            layout="stack"
+            showHubLink={false}
+            showPortalLink={false}
+            onNavigate={onCloseAfterNav}
+          />
         </div>
 
         <div className="shrink-0 flex flex-wrap items-center gap-3 border-t border-slate-200 px-5 py-4">

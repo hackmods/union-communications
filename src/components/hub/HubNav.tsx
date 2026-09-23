@@ -6,6 +6,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { getHubNavModules } from "@/lib/modules/registry";
 import { getTenantContext } from "@/lib/tenant/loader";
+import { resolveHubModulesForLocal } from "@/lib/president/local-prefs";
 import {
   listHubToolLinks,
   resolveHubToolAccess,
@@ -83,8 +84,15 @@ export function HubNav() {
       : null);
   const enabledModules: HubModule[] =
     tenant?.union.enabledModules ?? ["comms"];
+  const visibleModules = tenant?.union.id
+    ? resolveHubModulesForLocal(
+        tenant.union.id,
+        session.user.localId,
+        enabledModules,
+      )
+    : enabledModules;
   const roles = (session.user.roles ?? []) as UserRole[];
-  const modules = getHubNavModules(enabledModules, roles);
+  const modules = getHubNavModules(visibleModules, roles);
   const toolAccess = resolveHubToolAccess(roles, enabledModules);
   const toolLinks = listHubToolLinks(toolAccess, (key) => t(key));
   const toolGroups = groupHubToolLinks(toolLinks);

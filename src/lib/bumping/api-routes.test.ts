@@ -38,7 +38,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-president-7",
-      name: input?.name ?? "Local 7 President",
+      name: input?.name ?? "Local 777 President",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
@@ -372,7 +372,7 @@ describe("bumping API routes", () => {
         note: { authorId: string; authorName: string; body: string };
       };
       expect(body.note.authorId).toBe("user-president-7");
-      expect(body.note.authorName).toBe("Local 7 President");
+      expect(body.note.authorName).toBe("Local 777 President");
       expect(body.note.body).toBe(
         "Need HR clarification on supervisory duties.",
       );

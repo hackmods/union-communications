@@ -79,7 +79,7 @@ describe("handoff package", () => {
       fromOfficerId: "user-president-7",
       request: {
         toStewardId: "user-steward-7",
-        toStewardName: "Local 7 Steward",
+        toStewardName: "Local 777 Steward",
         grievanceIds: ["grev-test"],
         notes: "Good luck",
       },
@@ -88,6 +88,6 @@ describe("handoff package", () => {
     expect(pkg.version).toBe("1.0");
     expect(pkg.grievanceIds).toEqual(["grev-test"]);
     expect(pkg.checklist).toEqual([...HANDOFF_CHECKLIST]);
-    expect(pkg.toStewardName).toBe("Local 7 Steward");
+    expect(pkg.toStewardName).toBe("Local 777 Steward");
   });
 });

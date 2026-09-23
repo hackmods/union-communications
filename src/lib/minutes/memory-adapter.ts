@@ -27,7 +27,7 @@ function seedMinutes(): MeetingMinutes[] {
       notes:
         "Treasurer reported bank balance. Next membership meeting set for September.",
       recordedById: "user-president-7",
-      recordedByName: "Local 7 President",
+      recordedByName: "Local 777 President",
       status: "draft",
       createdAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),
       updatedAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),

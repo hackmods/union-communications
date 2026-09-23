@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "description": "Demo Hub reference tenant — Behind 7 Proxies (B7P). Fictional CapRover-flavoured locals (7 / 404 / 502 / 1337) so sample accounts never collide with real OPSEU/CAAT local numbers. Not a product default for new signups.",
+  "description": "Demo Hub reference tenant — Behind 7 Proxies (B7P). Fictional CapRover-flavoured locals (777 / 404 / 502 / 1337) so sample accounts never collide with real OPSEU/CAAT local numbers. Not a product default for new signups.",
   "union": {
     "id": "union-b7p",
     "name": "Behind 7 Proxies",
@@ -20,7 +20,7 @@
       "id": "local-7",
       "unionId": "union-b7p",
       "divisionId": "division-b7p",
-      "localNumber": "7",
+      "localNumber": "777",
       "subText": "Primary Proxy"
     },
     {

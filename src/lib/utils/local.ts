@@ -1,5 +1,5 @@
-﻿/** Fallback local number when none entered — B7P wink (Local 7), not a real OPSEU local. */
-export const DEFAULT_LOCAL_NUMBER = "7";
+/** Fallback local number when none entered — B7P wink (Local 777), not a real OPSEU local. */
+export const DEFAULT_LOCAL_NUMBER = "777";
 
 export function resolveLocalNumber(localNumber?: string | null): string {
   const trimmed = localNumber?.trim();

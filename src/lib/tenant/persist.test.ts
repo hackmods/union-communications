@@ -37,26 +37,26 @@ describe("applyPersistedSnapshotToOverlay", () => {
       divisions: [],
       locals: [
         {
-          id: "local-777",
+          id: "local-778",
           unionId: "union-b7p",
-          localNumber: "777",
+          localNumber: "778",
           subText: "Pilot local",
         },
       ],
       bargainingUnits: [
         {
-          id: "bu-777-ft",
+          id: "bu-778-ft",
           unionId: "union-b7p",
-          localId: "local-777",
+          localId: "local-778",
           code: "ft",
           name: "Full-time",
         },
       ],
     });
-    expect(findLocalByNumber("union-b7p", "7")?.id).toBe("local-7");
-    expect(findLocalByNumber("union-b7p", "777")?.subText).toBe("Pilot local");
+    expect(findLocalByNumber("union-b7p", "777")?.id).toBe("local-7");
+    expect(findLocalByNumber("union-b7p", "778")?.subText).toBe("Pilot local");
     const ctx = getTenantByUnionId("union-b7p");
-    expect(ctx?.bargainingUnits?.some((u) => u.id === "bu-777-ft")).toBe(true);
+    expect(ctx?.bargainingUnits?.some((u) => u.id === "bu-778-ft")).toBe(true);
     expect(ctx?.brandDefaults.assetPackPath ?? "").not.toContain("caat-opseu");
   });
 
@@ -120,8 +120,18 @@ describe("overlay union defaults", () => {
     resetTenantOverlayForTests();
   });
 
-  it("enables portal on a newly provisioned union", () => {
+  it("enables president executive modules and leaves Workforce Time off", () => {
     const seed = createOverlayUnion({ name: "Example Workers Union" });
-    expect(seed.union.enabledModules).toContain("portal");
+    expect(seed.union.enabledModules).toEqual(
+      expect.arrayContaining([
+        "comms",
+        "grievance",
+        "discussions",
+        "bylaws",
+        "proposals",
+        "portal",
+      ]),
+    );
+    expect(seed.union.enabledModules).not.toContain("time");
   });
 });

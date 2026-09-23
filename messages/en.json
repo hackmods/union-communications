@@ -192,7 +192,7 @@
     "loading": "Loading…",
     "statusCode": "404",
     "slogan": "Solidarity.",
-    "local243Footnote": "P.S. Empty local previews still land on Local 7 (B7P).",
+    "local243Footnote": "P.S. Empty local previews still land on Local 777 (B7P).",
     "markAria": "UnionOps mark",
     "easterEggTitle": "JUST BE LOVED",
     "easterEggBody": "You found the snowmobile. Take a breath. Then keep shipping Solidarity.",
@@ -203,7 +203,7 @@
         "This page never joined the bargaining unit.",
         "Off the clock — and off the map.",
         "We filed a grievance with the URL. No response.",
-        "Looking for Local 7? Wrong door — but you found the B7P wink.",
+        "Looking for Local 777? Wrong door — but you found the B7P wink.",
         "This URL walked off the picket line.",
         "Missing in solidarity — try a known path."
       ],
@@ -7184,9 +7184,17 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "default-local-777": {
+        "title": "Empty Brand Kit previews use Local 777",
+        "body": "When no local number is set, Comms tools and status-page winks now show Local 777 instead of Local 7. Workshop demo logins under Behind 7 Proxies use the same number."
+      },
       "beta-access-requests": {
         "title": "Beta access for locals and members",
         "body": "Locals can ask about Officer Hub or Local Portal during beta, and members can request help finding their local. Access is reviewed and sent by invitation."
+      },
+      "president-configuration": {
+        "title": "President configuration: presets, preview, and launch checklist",
+        "body": "Presidents can pick presets, preview Hub and Portal, apply changes in a batch, and follow a short launch checklist. Local Portal still sits beside Officer Hub in the main menu."
       },
       "public-task-first-navigation": {
         "title": "Brand Kit, Create, and Learn are easier to find",
@@ -7218,7 +7226,7 @@
       },
       "b7p-demo-roster": {
         "title": "Sample Hub accounts are Behind 7 Proxies now",
-        "body": "Workshop logins use Local 7, 404, 502, and 1337 under Behind 7 Proxies (B7P), so they no longer look like real OPSEU / SEFPO local numbers. Shared password is still demo123 when demo auth is on."
+        "body": "Workshop logins use Local 777, 404, 502, and 1337 under Behind 7 Proxies (B7P), so they no longer look like real OPSEU / SEFPO local numbers. Shared password is still demo123 when demo auth is on."
       },
       "demo-cleanup-purge": {
         "title": "Demo cleanup can purge leftover sample accounts",
@@ -7799,15 +7807,15 @@
       "password": "Shared password: {password}",
       "fill": "Fill {role}",
       "roles": {
-        "president7": "Local 7 president (B7P)",
-        "steward7": "Local 7 steward (full-time)",
-        "stewardPt7": "Local 7 steward (part-time)",
+        "president7": "Local 777 president (B7P)",
+        "steward7": "Local 777 steward (full-time)",
+        "stewardPt7": "Local 777 steward (part-time)",
         "jointLead404": "Local 404 joint-committee lead",
         "divisionAdmin": "B7P division admin (several locals)",
         "president502": "Local 502 president",
         "president1337": "Local 1337 president",
-        "stability7": "Local 7 stability committee",
-        "member7": "Local 7 member",
+        "stability7": "Local 777 stability committee",
+        "member7": "Local 777 member",
         "solo": "Solo steward (no local)"
       }
     },
@@ -7939,6 +7947,7 @@
     "tenantInfo": "Your organization",
     "setupCardTitle": "Set up your local",
     "setupCardBody": "Confirm your local number, open Hall, and invite officers and members. The public site still shows Comms tools only.",
+    "setupCardConfiguration": "Choose modules",
     "setupCardOnboarding": "Open union setup",
     "setupCardInvites": "Invite people",
     "union": "Union",
@@ -7998,6 +8007,7 @@
     "handoffLink": "Handoff",
     "invitesLink": "Invites",
     "tenantOnboardingLink": "Union setup",
+    "presidentConfigLink": "President configuration",
     "toolsMenu": "Officer tools",
     "openHubMenu": "Open hub menu",
     "closeHubMenu": "Close hub menu",
@@ -8030,6 +8040,7 @@
       "handoff": "Pass casework to the next officer when a term ends.",
       "invites": "Invite a steward, officer, or member and email the accept link.",
       "onboarding": "Set up your local, open Hall, and invite your people.",
+      "configuration": "Turn Hub and Local Portal modules on or off with president defaults.",
       "reports": "Counts for membership updates — no member names.",
       "audit": "See who changed what, and when.",
       "feedback": "Website notes from visitors and signed-in users.",
@@ -8065,7 +8076,181 @@
     "reportsExportSuccess": "Report downloaded.",
     "betaAccessPrompt": "Do you need access or want to bring your local?",
     "bringLocal": "Bring your local",
-    "memberAccess": "Request member access"
+    "memberAccess": "Request member access",
+    "presidentConfig": {
+      "title": "President configuration",
+      "intro": "Pick what {union} needs first. Start with the executive set — add operational tools only when your local is ready.",
+      "yourUnion": "your local",
+      "workflowTip": "Recommended path: choose modules here → confirm local setup → invite officers and members. You can change these toggles later without losing casework.",
+      "loading": "Loading your module settings…",
+      "loadError": "Could not load module settings. Refresh the page, or open Union setup and try again.",
+      "saveError": "Could not save that change. Check your connection and try again.",
+      "saveSuccess": "Saved. Nav menus update on the next page load.",
+      "forbidden": "Only local presidents and union admins can change these modules.",
+      "alwaysOnTitle": "Always ready for presidents",
+      "alwaysOnBody": "These Officer tools stay available by role — they are not separate module switches.",
+      "alwaysOn": {
+        "financialSummaries": "Local financial summaries (Ledger)",
+        "invites": "Invites",
+        "meetings": "Meetings & RSVP"
+      },
+      "hubExecutiveTitle": "Officer Hub — executive modules",
+      "hubExecutiveBody": "High-value overview surfaces for daily president work. On by default for new locals.",
+      "hubOperationalTitle": "Officer Hub — operational modules",
+      "hubOperationalBody": "Granular scheduling and shop-floor ops. Off by default so Officer Hub stays calm until you need them.",
+      "recommendedOn": "Default on",
+      "recommendedOff": "Default off",
+      "portalTitle": "Local Portal — member surfaces",
+      "portalBody": "A dedicated list for the member-facing Portal. Toggle what members see without cluttering Officer Hub.",
+      "portalDisabledHint": "Turn on Local Portal in the executive list above to configure member surfaces.",
+      "nextSteps": "Next: finish local setup, then invite your board and Hall.",
+      "openOnboarding": "Open union setup",
+      "openInvites": "Invite people",
+      "hubModules": {
+        "grievance": "Grievance overview",
+        "grievanceBlurb": "Case list, deadlines, and notes for officers and stewards.",
+        "discussions": "Executive communications",
+        "discussionsBlurb": "Local threads for board business and case coordination.",
+        "bylaws": "Local bylaws",
+        "bylawsBlurb": "Track revision drafts through committee and adoption.",
+        "proposals": "Bargaining proposals",
+        "proposalsBlurb": "Shared proposal rows, counters, and member-safe updates.",
+        "portal": "Local Portal",
+        "portalBlurb": "Member Circles, Hall, and the Local Portal home.",
+        "comms": "Comms toolbox",
+        "commsBlurb": "Public Brand Kit and on-device social tools (always free).",
+        "time": "Workforce Time",
+        "timeBlurb": "Clock, sites, scheduling, and shift tracking — leave off until you run paid or release time.",
+        "bumping": "Stability Committee",
+        "bumpingBlurb": "PDF comparison for college bumping scenarios.",
+        "tasks": "Tasks",
+        "tasksBlurb": "Assign and track officer to-dos across the local.",
+        "informalLog": "Steward Quick-Log",
+        "informalLogBlurb": "Log informal discussions before a grievance is filed.",
+        "checkins": "Check-ins",
+        "checkinsBlurb": "Recurring questions for officers.",
+        "data": "UnionOps Data",
+        "dataBlurb": "Member data imports and employment history (needs durable Postgres).",
+        "dataLockedBlurb": "Only a union or platform admin can enable UnionOps Data after Postgres is ready."
+      },
+      "portalSurfaces": {
+        "announcements": "Member announcements",
+        "announcementsBlurb": "Dispatch — pings and bulletins for people in Circles.",
+        "news": "Local news & campaigns",
+        "newsBlurb": "Hold the line — live Circles and campaign momentum.",
+        "elections": "Voting & elections feed",
+        "electionsBlurb": "Member-safe proposals and voting updates in the Portal.",
+        "discussions": "Community discussions",
+        "discussionsBlurb": "Together and Circles — the member home. Stays on while Portal is on.",
+        "myCases": "My cases",
+        "myCasesBlurb": "Members see their own grievance status when Grievances are enabled.",
+        "sidebars": "Sidebars",
+        "sidebarsBlurb": "Private one-to-one threads between members and officers.",
+        "feedback": "Send feedback",
+        "feedbackBlurb": "Let members send notes to the local without leaving the Portal.",
+        "announcementsProduct": "Dispatch",
+        "newsProduct": "Hold the line",
+        "electionsProduct": "Proposals",
+        "discussionsProduct": "Together / Circles",
+        "myCasesProduct": "My cases",
+        "sidebarsProduct": "Sidebars",
+        "feedbackProduct": "Send feedback"
+      },
+      "previewTitle": "Live preview",
+      "previewBody": "What officers and members will see after you apply changes.",
+      "previewHub": "Officer Hub",
+      "previewPortal": "Local Portal",
+      "previewEmpty": "Nothing enabled in this draft.",
+      "previewPortalOff": "Local Portal is off in this draft.",
+      "presetsLabel": "Presets",
+      "undo": "Undo last change",
+      "undoSuccess": "Last change undone.",
+      "presetApplied": "Preset “{name}” applied to the draft.",
+      "scopeLabel": "Scope",
+      "scopeUnion": "Whole union",
+      "scopeLocal": "This local only",
+      "scopeLocalHint": "Filters chrome for your local without changing union modules (APIs still use the union list).",
+      "localScopeMissing": "No active local in this session.",
+      "localSaveSuccess": "Local filter saved.",
+      "localCleared": "Local filter cleared — back to union settings.",
+      "clearLocalFilter": "Clear local filter",
+      "applyChanges": "Apply changes",
+      "applying": "Applying…",
+      "unsavedChanges": "Unsaved draft changes.",
+      "stewardReadOnly": "Only local presidents can change these modules. Ask your president if something is missing.",
+      "backToDashboard": "Back to dashboard",
+      "coachBody": "Two shells: Officer Hub for confidential work, Local Portal for members. Pick a preset, tweak, then apply.",
+      "coachDismiss": "Got it",
+      "destructiveTitle": "Confirm turning this off",
+      "destructiveConfirm": "Yes, turn off",
+      "destructiveCancel": "Keep enabled",
+      "destructive": {
+        "grievance": "Stewards lose Hub access to the grievance list. Existing case records stay on the server.",
+        "portal": "Members lose Local Portal (Hall and Circles). Circle data remains, but the menu disappears."
+      },
+      "presets": {
+        "calmStart": {
+          "label": "Calm start"
+        },
+        "bargainingSeason": {
+          "label": "Bargaining season"
+        },
+        "campaign": {
+          "label": "Campaign / strike"
+        }
+      },
+      "starterTitle": "Circle starter kit",
+      "starterBody": "Open Hall and create a committee Circle (LEC template) so Together is not empty.",
+      "starterCta": "Create Hall + committee",
+      "starterBusy": "Creating…",
+      "starterSuccess": "Hall and committee Circle are ready.",
+      "starterError": "Could not create Hall or the committee. Confirm Local Portal is on, then try again.",
+      "starterCommitteeName": "Local executive committee",
+      "starterCommitteeDesc": "Starter Circle for board work."
+    },
+    "presidentToday": {
+      "title": "Today",
+      "body": "Shortcuts for daily president work.",
+      "overdue": "CA deadlines",
+      "overdueBlurb": "Grievances and deadlines to watch.",
+      "ledger": "Financial summary",
+      "ledgerBlurb": "Local discretionary ledger.",
+      "portal": "Local Portal",
+      "portalBlurb": "See what members see.",
+      "meetings": "Meetings",
+      "meetingsBlurb": "Schedule and RSVPs."
+    },
+    "presidentChecklist": {
+      "title": "Local launch checklist",
+      "body": "Four steps to open Officer Hub and Local Portal without overload.",
+      "steps": {
+        "modules": "Choose modules",
+        "hall": "Open Hall",
+        "invites": "Invite people",
+        "config": "Review president configuration"
+      }
+    },
+    "moduleDisabled": {
+      "openConfiguration": "Open president configuration",
+      "askPresident": "Ask your president to turn this module on.",
+      "backDashboard": "Back to dashboard",
+      "time": {
+        "title": "Workforce Time is off",
+        "body": "Clock, scheduling, and shift tracking stay off until you enable them."
+      },
+      "tasks": {
+        "title": "Tasks is off",
+        "body": "The task board stays hidden until this module is enabled."
+      },
+      "checkins": {
+        "title": "Check-ins is off",
+        "body": "Recurring officer questions stay off until enabled."
+      },
+      "discussions": {
+        "title": "Discussions is off",
+        "body": "Officer Hub threads stay off until enabled."
+      }
+    }
   },
   "dataWorkbench": {
     "eyebrow": "Officer Hub",
@@ -8134,8 +8319,18 @@
     "personHistory": "Person history and evidence",
     "close": "Close",
     "reportsComing": "Saved reports will follow. Published datasets and lifecycle history are available now.",
-    "status": { "review": "In review", "partially_published": "Partially published", "published": "Published", "failed": "Failed" },
-    "decision": { "pending": "Needs review", "accept": "Accepted", "exclude": "Excluded", "published": "Published" },
+    "status": {
+      "review": "In review",
+      "partially_published": "Partially published",
+      "published": "Published",
+      "failed": "Failed"
+    },
+    "decision": {
+      "pending": "Needs review",
+      "accept": "Accepted",
+      "exclude": "Excluded",
+      "published": "Published"
+    },
     "fields": {
       "memberNumber": "Member number",
       "fullName": "Full name",
@@ -8906,7 +9101,7 @@
     "backToList": "Back to discussions",
     "reply": "Reply",
     "postReply": "Post reply",
-    "mentionHint": "Type @ followed by an officer name to mention them (e.g. @Local 7 President).",
+    "mentionHint": "Type @ followed by an officer name to mention them (e.g. @Local 777 President).",
     "mentionedCount": "{count, plural, one {# mention} other {# mentions}}",
     "livePollHint": "Updates every 15 seconds while this tab is open."
   },
@@ -10187,10 +10382,19 @@
       "executive_member": "Executive member"
     },
     "capability": {
-      "memberships": { "manage": "Manage local memberships" },
-      "officers": { "manage": "Manage officer assignments" },
-      "delegations": { "manage": "Manage delegated authority" },
-      "circles": { "create": "Create Circles", "admin": "Administer assigned Circles" },
+      "memberships": {
+        "manage": "Manage local memberships"
+      },
+      "officers": {
+        "manage": "Manage officer assignments"
+      },
+      "delegations": {
+        "manage": "Manage delegated authority"
+      },
+      "circles": {
+        "create": "Create Circles",
+        "admin": "Administer assigned Circles"
+      },
       "grievances": {
         "case": {
           "read": "Read grievance cases",
@@ -10200,7 +10404,9 @@
           "publish": "Publish member updates"
         }
       },
-      "tenant": { "configure": "Configure the union workspace" }
+      "tenant": {
+        "configure": "Configure the union workspace"
+      }
     },
     "accessReason": {
       "administrative_role": "Union administration",
@@ -13961,22 +14167,58 @@
     },
     "startJourneys": {
       "comms": {
-        "brand": { "title": "Set up your local identity", "body": "Save the colours, logo, local number, and links you want in your materials." },
-        "blueprint": { "title": "Choose your communications priorities", "body": "Use the blueprint to pick audiences, messages, channels, and a realistic rhythm." },
-        "firstWeek": { "title": "Plan the first week", "body": "Turn those priorities into a first-week plan your local can act on." },
-        "asset": { "title": "Make your first social graphic", "body": "Create a reusable member-facing graphic with your local identity." }
+        "brand": {
+          "title": "Set up your local identity",
+          "body": "Save the colours, logo, local number, and links you want in your materials."
+        },
+        "blueprint": {
+          "title": "Choose your communications priorities",
+          "body": "Use the blueprint to pick audiences, messages, channels, and a realistic rhythm."
+        },
+        "firstWeek": {
+          "title": "Plan the first week",
+          "body": "Turn those priorities into a first-week plan your local can act on."
+        },
+        "asset": {
+          "title": "Make your first social graphic",
+          "body": "Create a reusable member-facing graphic with your local identity."
+        }
       },
       "steward": {
-        "orientation": { "title": "Start with the steward role", "body": "Get oriented to representation, documentation, and when to ask for support." },
-        "grievance": { "title": "Learn how to work a grievance", "body": "Follow the issue from the first facts through the agreement and the next steps." },
-        "safety": { "title": "Respond to a safety concern", "body": "Use the right-to-refuse guide to understand an urgent workplace safety issue." },
-        "meetings": { "title": "Prepare for a local meeting", "body": "Review quorum, motions, debate, and practical meeting language." }
+        "orientation": {
+          "title": "Start with the steward role",
+          "body": "Get oriented to representation, documentation, and when to ask for support."
+        },
+        "grievance": {
+          "title": "Learn how to work a grievance",
+          "body": "Follow the issue from the first facts through the agreement and the next steps."
+        },
+        "safety": {
+          "title": "Respond to a safety concern",
+          "body": "Use the right-to-refuse guide to understand an urgent workplace safety issue."
+        },
+        "meetings": {
+          "title": "Prepare for a local meeting",
+          "body": "Review quorum, motions, debate, and practical meeting language."
+        }
       },
       "officer": {
-        "learning": { "title": "Build core officer skills", "body": "Choose self-paced modules on governance, finance, bargaining, and member support." },
-        "governance": { "title": "Review local bylaws and governance", "body": "Learn the structures and decisions that keep local governance accountable." },
-        "bylawDraft": { "title": "Prepare a bylaw draft", "body": "Use the on-device builder to organize proposed changes before review." },
-        "meeting": { "title": "Run a clear membership meeting", "body": "Use the meeting guide and phrase sheet to prepare the next agenda." }
+        "learning": {
+          "title": "Build core officer skills",
+          "body": "Choose self-paced modules on governance, finance, bargaining, and member support."
+        },
+        "governance": {
+          "title": "Review local bylaws and governance",
+          "body": "Learn the structures and decisions that keep local governance accountable."
+        },
+        "bylawDraft": {
+          "title": "Prepare a bylaw draft",
+          "body": "Use the on-device builder to organize proposed changes before review."
+        },
+        "meeting": {
+          "title": "Run a clear membership meeting",
+          "body": "Use the meeting guide and phrase sheet to prepare the next agenda."
+        }
       }
     },
     "audiences": {

@@ -18,6 +18,7 @@ import { canAccessOfficerRoster } from "@/lib/officers/access";
 import { canAccessPollsModule } from "@/lib/polls/access";
 import {
   canManageInvites,
+  canManageLocalModules,
   canManageTenantOnboarding,
 } from "@/lib/tenant/access";
 import { canManageOfficerLearningReport } from "@/lib/officer-learning/access";
@@ -45,6 +46,7 @@ export type HubToolLabelKey =
   | "handoffLink"
   | "invitesLink"
   | "tenantOnboardingLink"
+  | "presidentConfigLink"
   | "reportsLink"
   | "officerLearningLink"
   | "auditLink"
@@ -70,6 +72,7 @@ export type HubToolBlurbKey =
   | "handoff"
   | "invites"
   | "onboarding"
+  | "configuration"
   | "reports"
   | "officerLearning"
   | "audit"
@@ -90,6 +93,7 @@ export type HubToolAccess = {
   handoff: boolean;
   invites: boolean;
   tenantOnboarding: boolean;
+  presidentConfig: boolean;
   reports: boolean;
   officerLearning: boolean;
   audit: boolean;
@@ -225,6 +229,12 @@ export const HUB_TOOL_CATALOG: readonly HubToolDef[] = [
     visible: (a) => a.tenantOnboarding,
   },
   {
+    href: "/app/configuration",
+    labelKey: "presidentConfigLink",
+    blurbKey: "configuration",
+    visible: (a) => a.presidentConfig,
+  },
+  {
     href: "/app/reports",
     labelKey: "reportsLink",
     blurbKey: "reports",
@@ -269,6 +279,7 @@ export function resolveHubToolAccess(
     handoff: canInitiateHandoff(roles),
     invites: canManageInvites(roles),
     tenantOnboarding: canManageTenantOnboarding(roles),
+    presidentConfig: canManageLocalModules(roles),
     reports: isElevatedGrievanceRole(roles),
     officerLearning: canManageOfficerLearningReport(roles),
     audit:

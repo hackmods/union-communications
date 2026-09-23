@@ -224,17 +224,16 @@ export function getVisibleModules(
 }
 
 /**
- * HubNav omits `comms` — those tools already live in the public Header
- * (Create / Learn / Brand Kit / Start / home mark). Listing them again next to
- * Grievances was redundant and marked every `/app` route as current
- * because href `/` prefixes every path.
+ * HubNav omits `comms` (public shell) and `portal` (top-level Local Portal
+ * peer in the site header). Listing Portal again under Officer Hub and marking
+ * every `/portal` visit from Hub chrome was redundant.
  */
 export function getHubNavModules(
   enabledModules: HubModule[],
   roles: UserRole[],
 ): HubModuleDefinition[] {
   return getVisibleModules(enabledModules, roles).filter(
-    (mod) => mod.id !== "comms",
+    (mod) => mod.id !== "comms" && mod.id !== "portal",
   );
 }
 

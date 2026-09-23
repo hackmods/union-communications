@@ -71,18 +71,18 @@ async function createFixture(): Promise<Fixture> {
   const circle = await president.createCircle({
     unionId: UNION, localId: LOCAL, kind: "committee", name: `Restart ${marker}`,
     description: "Process restart smoke fixture", visibility: "invited",
-    createdById: PRESIDENT, createdByName: "Local 7 President", template: "jhsc",
+    createdById: PRESIDENT, createdByName: "Local 777 President", template: "jhsc",
   });
   createdCircleIds.push(circle.id);
-  await president.inviteToRoster({ circleId: circle.id, userId: MEMBER, userName: "Local 7 Member" });
+  await president.inviteToRoster({ circleId: circle.id, userId: MEMBER, userName: "Local 777 Member" });
 
   const post = await president.addBulletin({
-    circleId: circle.id, unionId: UNION, authorId: PRESIDENT, authorName: "Local 7 President",
-    title: `Bulletin ${marker}`, body: `@Local 7 Member ${marker}`,
+    circleId: circle.id, unionId: UNION, authorId: PRESIDENT, authorName: "Local 777 President",
+    title: `Bulletin ${marker}`, body: `@Local 777 Member ${marker}`,
   });
   await member.addComment({
     circleId: circle.id, unionId: UNION, postId: post.id,
-    authorId: MEMBER, authorName: "Local 7 Member", body: `Comment ${marker}`,
+    authorId: MEMBER, authorName: "Local 777 Member", body: `Comment ${marker}`,
   });
   await president.addAction({
     circleId: circle.id, unionId: UNION, listName: "Restart", title: `Action ${marker}`,
@@ -94,18 +94,18 @@ async function createFixture(): Promise<Fixture> {
   });
   await member.addBinderItem({
     circleId: circle.id, unionId: UNION, title: `Binder ${marker}`, content: marker,
-    contentType: "note", createdById: MEMBER, createdByName: "Local 7 Member",
+    contentType: "note", createdById: MEMBER, createdByName: "Local 777 Member",
   });
   await member.addFloorMessage({
     circleId: circle.id, unionId: UNION, authorId: MEMBER,
-    authorName: "Local 7 Member", body: `Floor ${marker}`,
+    authorName: "Local 777 Member", body: `Floor ${marker}`,
   });
   const question = await president.addRollCallQuestion({
     circleId: circle.id, unionId: UNION, question: `Question ${marker}`, cadence: "monthly",
   });
   await member.addRollCallAnswer({
     questionId: question.id, circleId: circle.id, authorId: MEMBER,
-    authorName: "Local 7 Member", body: `Answer ${marker}`,
+    authorName: "Local 777 Member", body: `Answer ${marker}`,
   });
   const board = await president.ensurePipelineBoard({ circleId: circle.id, unionId: UNION });
   assert(board, "Many hands board was not created");
@@ -118,16 +118,16 @@ async function createFixture(): Promise<Fixture> {
   });
   await president.upsertMomentum({
     circleId: circle.id, unionId: UNION, title: `One fight ${marker}`, progress: 41,
-    updatedById: PRESIDENT, updatedByName: "Local 7 President",
+    updatedById: PRESIDENT, updatedByName: "Local 777 President",
   });
   const sidebar = await president.ensureSidebarThread({
-    unionId: UNION, fromId: PRESIDENT, fromName: "Local 7 President",
-    toId: MEMBER, toName: "Local 7 Member",
+    unionId: UNION, fromId: PRESIDENT, fromName: "Local 777 President",
+    toId: MEMBER, toName: "Local 777 Member",
   });
   sidebarIds.push(sidebar.id);
   await president.sendSidebarMessage({
     unionId: UNION, threadId: sidebar.id, authorId: PRESIDENT,
-    authorName: "Local 7 President", body: `Sidebar ${marker}`,
+    authorName: "Local 777 President", body: `Sidebar ${marker}`,
   });
 
   return { circleId: circle.id, sidebarId: sidebar.id, marker, createdCircleIds, sidebarIds };

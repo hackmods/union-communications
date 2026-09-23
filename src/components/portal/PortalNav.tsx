@@ -24,6 +24,12 @@ import {
   sortCirclesForNav,
   type PortalNavCircle,
 } from "@/components/portal/portal-nav-model";
+import {
+  DEFAULT_PORTAL_SURFACES,
+  portalNavLinkAllowed,
+} from "@/lib/president/module-catalog";
+import { getPortalSurfacesForUnion } from "@/lib/tenant/portal-surfaces";
+import { resolvePortalSurfacesForLocal } from "@/lib/president/local-prefs";
 
 export function PortalNav() {
   const { data: session, status } = useSession();
@@ -110,9 +116,18 @@ export function PortalNav() {
   const circlesLabel = currentCircle?.name ?? t("circlesMenu");
   const proposalsEnabled =
     Boolean(tenant?.union.enabledModules.includes("proposals")) || false;
-  const portalLinks = PORTAL_NAV_LINKS.filter(
-    (link) => link.id === "proposals" ? proposalsEnabled : true,
-  );
+  const portalSurfaces = tenant?.union.id
+    ? resolvePortalSurfacesForLocal(
+        tenant.union.id,
+        session.user.localId,
+        getPortalSurfacesForUnion(tenant.union.id),
+      )
+    : [...DEFAULT_PORTAL_SURFACES];
+  const enabledModules = tenant?.union.enabledModules ?? [];
+  const portalLinks = PORTAL_NAV_LINKS.filter((link) => {
+    if (link.id === "proposals" && !proposalsEnabled) return false;
+    return portalNavLinkAllowed(link.id, portalSurfaces, enabledModules);
+  });
 
   const linkClass = (extra?: string) =>
     cn(

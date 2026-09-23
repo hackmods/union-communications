@@ -32,7 +32,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-president-7",
-      name: input?.name ?? "Local 7 President",
+      name: input?.name ?? "Local 777 President",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
@@ -188,7 +188,7 @@ describe("marketplace API routes", () => {
       expect(body.template.unionId).toBe("union-b7p");
       expect(body.template.localId).toBe("local-7");
       expect(body.template.sharedById).toBe("user-president-7");
-      expect(body.template.sharedByName).toBe("Local 7 President");
+      expect(body.template.sharedByName).toBe("Local 777 President");
       expect(body.template.title).toBe("Step 2 follow-up");
     });
 
@@ -196,7 +196,7 @@ describe("marketplace API routes", () => {
       authMock.mockResolvedValue(
         session({
           id: "user-steward-7",
-          name: "Local 7 Steward",
+          name: "Local 777 Steward",
           roles: ["local_steward"],
         }),
       );
@@ -309,7 +309,7 @@ describe("marketplace API routes", () => {
       authMock.mockResolvedValue(
         session({
           id: "user-steward-7",
-          name: "Local 7 Steward",
+          name: "Local 777 Steward",
           roles: ["local_steward"],
         }),
       );

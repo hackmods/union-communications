@@ -76,7 +76,7 @@ const notes: CommitteeNote[] = [
     bumpingCaseId: "bump-001",
     sessionId: "sess-001",
     authorId: "user-president-7",
-    authorName: "Local 7 President",
+    authorName: "Local 777 President",
     body: "Committee reviewed PDF position descriptions. Duties differ on budget/supervisory tasks - need HR clarification.",
     createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
   },

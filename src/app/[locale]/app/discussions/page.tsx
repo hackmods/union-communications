@@ -3,6 +3,7 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { DiscussionsList } from "@/components/discussions/DiscussionsList";
+import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canAccessDiscussionsModule } from "@/lib/discussions/access";
 import type { UserRole } from "@/types/tenant";
@@ -32,7 +33,7 @@ export default async function DiscussionsPage({
     ? getTenantContext(session.user.unionId)
     : null;
   if (!tenant?.union.enabledModules.includes("discussions")) {
-    redirect(`/${locale}/app`);
+    return <ModuleDisabledPanel moduleId="discussions" roles={roles} />;
   }
 
   return <DiscussionsList />;

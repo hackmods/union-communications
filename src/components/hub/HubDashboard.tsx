@@ -13,6 +13,8 @@ import { HubOfficerToolsCatalog } from "@/components/hub/HubOfficerToolsCatalog"
 import { MyTasksWidget } from "@/components/hub/MyTasksWidget";
 import { MyCheckinsWidget } from "@/components/hub/MyCheckinsWidget";
 import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
+import { PresidentSetupChecklist } from "@/components/hub/PresidentSetupChecklist";
+import { PresidentTodayStrip } from "@/components/hub/PresidentTodayStrip";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { PlatformOperatorCard } from "@/components/platform/PlatformOperatorCard";
 import { isPlatformOperator } from "@/lib/platform/operator-nav";
@@ -49,8 +51,8 @@ export function HubDashboard() {
     tenant?.union.enabledModules ?? ["comms"];
   const roles = (session.user.roles ?? []) as UserRole[];
   const modules = getVisibleModules(enabledModules, roles);
-  const showSetupCard =
-    roles.includes("local_president") && !isOfficerHubPublic();
+  const isPresident = roles.includes("local_president");
+  const showSetupCard = isPresident && !isOfficerHubPublic();
 
   return (
     <div className="space-y-8">
@@ -79,6 +81,13 @@ export function HubDashboard() {
           </div>
         ) : null}
 
+        <PresidentTodayStrip enabledModules={enabledModules} show={isPresident} />
+
+        <PresidentSetupChecklist
+          enabledModules={enabledModules}
+          show={showSetupCard}
+        />
+
         {showSetupCard ? (
           <Card density="compact" className="border-opseu-blue/30 bg-white md:col-span-2">
             <h2 className={PUBLIC_CARD_TITLE_CLASS}>{t("setupCardTitle")}</h2>
@@ -87,8 +96,14 @@ export function HubDashboard() {
             </p>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row">
               <Link
-                href="/app/onboarding"
+                href="/app/configuration"
                 className="inline-flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-4 text-sm font-medium text-white"
+              >
+                {t("setupCardConfiguration")}
+              </Link>
+              <Link
+                href="/app/onboarding"
+                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-gray-300 px-4 text-sm font-medium text-opseu-dark"
               >
                 {t("setupCardOnboarding")}
               </Link>

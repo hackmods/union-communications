@@ -23,7 +23,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-president-7",
-      name: input?.name ?? "Local 7 President",
+      name: input?.name ?? "Local 777 President",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
@@ -96,7 +96,7 @@ describe("handoff API routes", () => {
           await completeHandoff(
             jsonRequest({
               toStewardId: "user-steward-7",
-              toStewardName: "Local 7 Steward (FT)",
+              toStewardName: "Local 777 Steward (FT)",
               grievanceIds: ["grev-001"],
             }),
           )
@@ -113,7 +113,7 @@ describe("handoff API routes", () => {
       const res = await completeHandoff(
         jsonRequest({
           toStewardId: "user-steward-7",
-          toStewardName: "Local 7 Steward (FT)",
+          toStewardName: "Local 777 Steward (FT)",
           grievanceIds: ["grev-001"],
         }),
       );
@@ -143,7 +143,7 @@ describe("handoff API routes", () => {
       const res = await completeHandoff(
         jsonRequest({
           toStewardId: "user-steward-7-pt",
-          toStewardName: "Local 7 Steward (PT)",
+          toStewardName: "Local 777 Steward (PT)",
           grievanceIds: ["grev-001", foreign.grievance.id, "grev-003"],
           notes: "Coverage while I am away",
         }),

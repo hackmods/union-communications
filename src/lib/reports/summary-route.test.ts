@@ -30,7 +30,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-president-7",
-      name: "Local 7 President",
+      name: "Local 777 President",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
@@ -200,7 +200,7 @@ describe("GET /api/reports/summary", () => {
         clockInAt: "2026-02-12T09:00:00.000Z",
         clockOutAt: "2026-02-12T17:00:00.000Z",
         workerId: "user-steward-7",
-        workerName: "Local 7 Steward",
+        workerName: "Local 777 Steward",
         status: "submitted",
         entrySource: "manual_range",
       },

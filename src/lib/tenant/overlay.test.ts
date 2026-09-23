@@ -26,7 +26,7 @@ describe("tenant overlay", () => {
     });
     const ctx = getTenantContext("union-b7p");
     expect(ctx).not.toBeNull();
-    expect(ctx!.locals.map((l) => l.localNumber)).toContain("7");
+    expect(ctx!.locals.map((l) => l.localNumber)).toContain("777");
     expect(ctx!.locals.map((l) => l.localNumber)).toContain("999");
     expect(ctx!.locals.find((l) => l.id === local.id)?.subText).toBe(
       "Test Local",

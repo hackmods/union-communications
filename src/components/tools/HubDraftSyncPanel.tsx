@@ -32,7 +32,7 @@ export function HubDraftSyncPanel({
   className,
 }: {
   kind: SyncKind;
-  /** Human label for the record saved on the Hub (e.g. "Bylaw draft — Local 7"). */
+  /** Human label for the record saved on the Hub (e.g. "Bylaw draft — Local 777"). */
   syncLabel: string;
   /** Builds the API body from the current on-device draft; null when empty. */
   getPayload: () => Record<string, unknown> | null;

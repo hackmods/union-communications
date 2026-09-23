@@ -6,17 +6,33 @@ import {
   requireTenantOnboardingSession,
   sessionCanCreateUnion,
 } from "@/lib/auth/tenant-session";
-import { canManageTenantOnboarding, canManageUnionModules } from "@/lib/tenant/access";
+import {
+  canManageLocalModules,
+  canManageTenantOnboarding,
+  canManageUnionModules,
+} from "@/lib/tenant/access";
 import { dataDbBackend } from "@/lib/db/backend";
 import { getTenantContext } from "@/lib/tenant/loader";
+import {
+  getPortalSurfacesForUnion,
+  setPortalSurfacesForUnion,
+} from "@/lib/tenant/portal-surfaces";
+import {
+  clearLocalPresentationPrefs,
+  getLocalPresentationPrefs,
+  setLocalPresentationPrefs,
+} from "@/lib/president/local-prefs";
 import {
   createCollectionDurable,
   createLocalDurable,
   createUnionDurable,
   setUnionDataModule,
+  setUnionEnabledModules,
   hydrateTenantOverlayFromPostgres,
   tenantsPostgresEnabled,
 } from "@/lib/tenant/persist";
+import { HUB_CONFIG_ROWS } from "@/lib/president/module-catalog";
+import type { PortalSurfaceId } from "@/lib/president/module-catalog";
 import { parseJsonBody } from "@/lib/validation/parse";
 import type { HubModule, UserRole } from "@/types/tenant";
 
@@ -33,6 +49,16 @@ const hubModuleSchema = z.enum([
   "bylaws",
   "proposals",
   "data",
+]);
+
+const portalSurfaceSchema = z.enum([
+  "announcements",
+  "news",
+  "elections",
+  "discussions",
+  "myCases",
+  "sidebars",
+  "feedback",
 ]);
 
 const createLocalSchema = z.object({
@@ -63,13 +89,38 @@ const createUnionSchema = z.object({
   collectionName: z.string().min(1).max(200).optional(),
 });
 
-const setDataModuleSchema = z.object({ action: z.literal("set_data_module"), enabled: z.boolean() });
+const setDataModuleSchema = z.object({
+  action: z.literal("set_data_module"),
+  enabled: z.boolean(),
+});
+
+const setModulesSchema = z.object({
+  action: z.literal("set_modules"),
+  enabledModules: z.array(hubModuleSchema).min(1).max(24),
+});
+
+const setPortalSurfacesSchema = z.object({
+  action: z.literal("set_portal_surfaces"),
+  portalSurfaces: z.array(portalSurfaceSchema).max(16),
+});
+
+const setLocalPrefsSchema = z.object({
+  action: z.literal("set_local_prefs"),
+  localId: z.string().min(1),
+  hubModules: z.array(hubModuleSchema).max(24),
+  portalSurfaces: z.array(portalSurfaceSchema).max(16),
+  /** When true, clear the local filter (fall back to union). */
+  clear: z.boolean().optional(),
+});
 
 const bodySchema = z.discriminatedUnion("action", [
   createLocalSchema,
   createCollectionSchema,
   createUnionSchema,
   setDataModuleSchema,
+  setModulesSchema,
+  setPortalSurfacesSchema,
+  setLocalPrefsSchema,
 ]);
 
 /** Any MFA-verified hub user — powers HubContextSwitcher with overlay merges. */
@@ -91,12 +142,19 @@ export async function GET() {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
   const roles = (session.user.roles ?? []) as UserRole[];
+  const localId = session.user.localId ?? null;
   return NextResponse.json({
     context: ctx,
     canManageOnboarding: canManageTenantOnboarding(roles),
     canManageUnionModules: canManageUnionModules(roles),
+    canManageLocalModules: canManageLocalModules(roles),
     canCreateUnion: sessionCanCreateUnion(session),
     durableTenants: tenantsPostgresEnabled(),
+    portalSurfaces: getPortalSurfacesForUnion(unionId),
+    localPrefs: localId
+      ? getLocalPresentationPrefs(unionId, localId)
+      : null,
+    sessionLocalId: localId,
   });
 }
 
@@ -127,17 +185,121 @@ export async function POST(req: Request) {
 
   const data = parsed.data;
   const unionId = authResult.session.user.unionId;
+  const roles = (authResult.session.user.roles ?? []) as UserRole[];
 
   if (data.action === "set_data_module") {
-    const roles = (authResult.session.user.roles ?? []) as UserRole[];
-    if (!unionId || !canManageUnionModules(roles)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    if (data.enabled && dataDbBackend() !== "postgres") return NextResponse.json({ error: "Set DATA_DB_BACKEND=postgres before enabling member data." }, { status: 503 });
+    if (!unionId || !canManageUnionModules(roles)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    if (data.enabled && dataDbBackend() !== "postgres") {
+      return NextResponse.json(
+        { error: "Set DATA_DB_BACKEND=postgres before enabling member data." },
+        { status: 503 },
+      );
+    }
     try {
       await setUnionDataModule(unionId, data.enabled);
       return NextResponse.json({ enabled: data.enabled });
     } catch (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : "Could not update this module." }, { status: 503 });
+      return NextResponse.json(
+        {
+          error:
+            error instanceof Error
+              ? error.message
+              : "Could not update this module.",
+        },
+        { status: 503 },
+      );
     }
+  }
+
+  if (data.action === "set_modules") {
+    if (!unionId || !canManageLocalModules(roles)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    const ctx = getTenantContext(unionId);
+    if (!ctx) {
+      return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
+    }
+    const requested = data.enabledModules as HubModule[];
+    const hadData = ctx.union.enabledModules.includes("data");
+    const wantsData = requested.includes("data");
+    if (wantsData && !canManageUnionModules(roles)) {
+      return NextResponse.json(
+        { error: "UnionOps Data requires a union or platform admin." },
+        { status: 403 },
+      );
+    }
+    if (wantsData && dataDbBackend() !== "postgres") {
+      return NextResponse.json(
+        { error: "Set DATA_DB_BACKEND=postgres before enabling member data." },
+        { status: 503 },
+      );
+    }
+    const presidentToggleable = new Set(
+      HUB_CONFIG_ROWS.filter((row) => row.presidentToggle).map((row) => row.id),
+    );
+    let next = requested.filter(
+      (id) => presidentToggleable.has(id) || id === "data",
+    );
+    if (hadData && canManageUnionModules(roles) && wantsData) {
+      if (!next.includes("data")) next = [...next, "data"];
+    } else if (hadData && !canManageUnionModules(roles)) {
+      // Presidents cannot strip Data once an admin enabled it.
+      if (!next.includes("data")) next = [...next, "data"];
+    } else if (!wantsData) {
+      next = next.filter((id) => id !== "data");
+    }
+    try {
+      const enabledModules = await setUnionEnabledModules(unionId, next);
+      return NextResponse.json({
+        enabledModules,
+        context: getTenantContext(unionId, authResult.session.user.localId),
+      });
+    } catch (error) {
+      return NextResponse.json(
+        {
+          error:
+            error instanceof Error
+              ? error.message
+              : "Could not update modules.",
+        },
+        { status: 503 },
+      );
+    }
+  }
+
+  if (data.action === "set_portal_surfaces") {
+    if (!unionId || !canManageLocalModules(roles)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    const portalSurfaces = setPortalSurfacesForUnion(
+      unionId,
+      data.portalSurfaces as PortalSurfaceId[],
+    );
+    return NextResponse.json({ portalSurfaces });
+  }
+
+  if (data.action === "set_local_prefs") {
+    if (!unionId || !canManageLocalModules(roles)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    const ctx = getTenantContext(unionId);
+    if (!ctx) {
+      return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
+    }
+    if (!ctx.locals.some((local) => local.id === data.localId)) {
+      return NextResponse.json({ error: "Local not found" }, { status: 404 });
+    }
+    if (data.clear) {
+      clearLocalPresentationPrefs(unionId, data.localId);
+      return NextResponse.json({ localPrefs: null, cleared: true });
+    }
+    const localPrefs = setLocalPresentationPrefs(unionId, data.localId, {
+      hubModules: data.hubModules as HubModule[],
+      portalSurfaces: data.portalSurfaces as PortalSurfaceId[],
+    });
+    return NextResponse.json({ localPrefs });
   }
 
   if (data.action === "create_union") {

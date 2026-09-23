@@ -28,7 +28,7 @@ function session(input?: {
     user: {
       id: input?.id ?? "user-president-7",
       email: input?.email ?? "president.7@unionops.test",
-      name: "Local 7 President",
+      name: "Local 777 President",
       unionId: "union-b7p",
       localId: "local-7",
       roles: input?.roles ?? (["local_president"] as UserRole[]),

@@ -6,7 +6,7 @@ describe("tenant loader", () => {
   it("loads B7P demo tenant by slug", () => {
     const tenant = getTenantByUnionSlug("b7p");
     expect(tenant?.union.name).toBe("Behind 7 Proxies");
-    expect(tenant?.locals?.[0]?.localNumber).toBe("7");
+    expect(tenant?.locals?.[0]?.localNumber).toBe("777");
     expect(tenant?.locals).toHaveLength(4);
     expect(tenant?.bargainingUnits?.length).toBeGreaterThanOrEqual(2);
   });
@@ -25,16 +25,14 @@ describe("module registry", () => {
     expect(mods.map((m) => m.id)).toContain("grievance");
   });
 
-  it("omits comms from HubNav because public Header already hosts those tools", () => {
+  it("omits comms and portal from HubNav (public header peers)", () => {
     const nav = getHubNavModules(
       ["comms", "grievance", "portal"],
       ["local_president"],
     );
     expect(nav.map((m) => m.id)).not.toContain("comms");
-    expect(nav.map((m) => m.id)).toEqual(
-      expect.arrayContaining(["grievance", "portal"]),
-    );
-    expect(nav.find((m) => m.id === "portal")?.href).toBe("/portal");
+    expect(nav.map((m) => m.id)).not.toContain("portal");
+    expect(nav.map((m) => m.id)).toEqual(expect.arrayContaining(["grievance"]));
   });
 
   it("hides bumping when not enabled", () => {

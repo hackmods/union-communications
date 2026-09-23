@@ -23,7 +23,7 @@ The platform is **not** built for one union. OPSEU/CAAT remains the **first Comm
 Platform (you host)
   └── Union (e.g. OPSEU, CUPE, UNIFOR)
         └── Division / Sector (optional - e.g. CAAT, colleges)
-              └── Local (e.g. Local 7 in the B7P demo; real locals keep their own numbers)
+              └── Local (e.g. Local 777 in the B7P demo; real locals keep their own numbers)
                     └── Collection / BargainingUnit (optional - e.g. FT / PT Support Staff)
                           └── Users (officers, stewards, solo accounts)
 ```

@@ -16,7 +16,7 @@ function seedTasks(): Task[] {
     localId: "local-7",
     bargainingUnitId: "bu-7-ft",
     title: "Prepare Step 1 meeting notes for hours grievance",
-    notes: "Coordinate with @Local 7 President before the meeting.",
+    notes: "Coordinate with @Local 777 President before the meeting.",
     assigneeId: "user-steward-7",
     dueAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
     status: "open",
@@ -62,7 +62,7 @@ function seedTasks(): Task[] {
     bargainingUnitId: "bu-7-pt",
     title: "Draft Step 2 letter for Member B discipline (PT 14-day response)",
     notes:
-      "Use the part-time Support timelines, not the full-time 10-day step. Coordinate with @Local 7 President on the evening meeting slot.",
+      "Use the part-time Support timelines, not the full-time 10-day step. Coordinate with @Local 777 President on the evening meeting slot.",
     assigneeId: "user-steward-7-pt",
     dueAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
     status: "open",

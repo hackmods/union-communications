@@ -41,7 +41,7 @@ function session(input?: {
   return {
     user: {
       id: input?.id ?? "user-steward-7",
-      name: input?.name ?? "Local 7 Steward",
+      name: input?.name ?? "Local 777 Steward",
       unionId:
         input?.unionId === null ? undefined : (input?.unionId ?? "union-b7p"),
       localId:
@@ -223,7 +223,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
       expect(body.request.unionId).toBe("union-b7p");
       expect(body.request.localId).toBe("local-7");
       expect(body.request.workerId).toBe("user-pto-create");
-      expect(body.request.workerName).toBe("Local 7 Steward");
+      expect(body.request.workerName).toBe("Local 777 Steward");
       expect(body.request.requestedById).toBe("user-pto-create");
     });
   });
