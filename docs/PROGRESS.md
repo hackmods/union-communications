@@ -1,5 +1,56 @@
 # Progress Log
 
+## 2026-09-22 — Customization C04 database foundation complete
+
+- Added the 15-table PostgreSQL model for scopes, resources, drafts, immutable revisions/releases, active heads, audience/section policy, reader fragments/projections, grants, preset bindings, assets, audit and idempotent operations. Appended forward-only migration `0054_customization_foundation`; generated the required shape and runtime RLS contract. No union content is seeded.
+- Added tenant/scope integrity checks, parent-chain guards, immutable publication/audit history, payload and asset bounds, metadata-only public projections, fixed-search-path security-definer helpers, Root+MFA authoring RLS, and current-policy filtered reader access. Delivery is fragment based; officer-only bytes stay unavailable to verified members.
+- Added typed transaction-bound Drizzle and serialized test/demo memory adapters with rollback, optimistic predicates, bounded updates, no database-error memory fallback, and a `readerTransaction` entry that forces ordinary-reader RLS even for Root. Memory mode requires tests or explicit nonproduction demo setup.
+- Added isolated PostgreSQL checks for all 15 tables, Root-only authoring, cross-union and unauthorized same-union writes, current head, membership/local/officer audience, section tightening, withdrawal, definer ACL/search path, and integrity triggers. Added populated `0053 → 0054` upgrade/shape-contract test and durable adapter rollback, concurrent compare-and-swap and independent-process persistence check.
+- Validation passed: 10 focused suites / 157 tests; `npm run typecheck`; `npm run lint` (existing `demo-purge.ts` unused-import warning only); `npm run db:check` (55 migrations, 120 schema tables); fresh deploy verified 120 tables / 1,273 columns / 134 policies; restricted-role PostgreSQL smoke passed 99 assertions; populated upgrade preserved tenant records, rejected a missing reader policy, then passed after restoration; durable adapter smoke passed rollback, single-winner concurrency and process restart.
+- A full repository unit run and browser smoke were started after these checks but interrupted by the user due to compute exhaustion. They are not claimed as passed. GitHub Actions E2E remains deferred as requested.
+- **Next: C05 resolution service and dependency compiler.** Keep raw resolver/compiler results internal. Build batch-pinned dependency compilation, RLS-safe reader DTO projection and current-policy cache checks before connecting routes or consumers.
+
+## 2026-09-22 — Customization C03 authorization contract complete
+
+## 2026-09-22 — Customization C03 authorization contract complete
+
+- Added Root-only customization capability decisions using fresh account state and explicit target context, without changing existing grievance or generic union-mismatch decisions. Production management requires durable auth and configured TOTP MFA; optional memory demo access is non-production only.
+- Added ordinary-reader audience checks for active union/division/local/unit memberships and officer assignments. Tenant relationships are separate from customization scope existence, so members do not need a local override to read their union's private guide. Presets, role labels and commercial entitlements grant no membership.
+- Added a validated future maintenance-grant contract; delegation remains disabled in launch management decisions. No routes expose private compiler output.
+- Validation: 8 focused suites / 121 tests passed, including grievance and Site Admin regression tests; typecheck passed; lint passed with the existing demo-purge unused-import warning.
+- **Next: C04** durable tables, strict scope integrity, restricted-role RLS and adapter parity/upgrade/restart tests. No GitHub Actions E2E or push initiated.
+
+## 2026-09-22 — Customization reset handoff saved
+
+- Saved [session knowledge](audit/session-knowledge-2026-09-22-union-customization.md) with completed commits, test evidence, compiler security boundaries, isolated checkout location and exact C03 resume instructions.
+- C01–C02 complete; C03–C15 pending. Continue on `feat/union-customization-foundation` in the isolated worktree; do not switch the original checkout used by another task. No push or GitHub Actions E2E initiated.
+
+## 2026-09-22 — Customization C02 typed schemas and resolution foundation complete
+
+- Added strict Zod contracts for guides/blocks, sources, branding, registered tool defaults, whole workflow configurations, scope descriptors, layered patches and versioned compiled manifests under `src/lib/customization/`.
+- Implemented deterministic system → union → optional division → local → optional bargaining-unit resolution, cross-scope rejection, stable-ID add/replace/remove/order operations, per-field provenance, nullable clear, restrictive audiences/field allowlists, pinned-source validation, and distinct missing/inherit/withdrawn behavior. Invalid input fails rather than falling back silently.
+- Added 60 focused tests with two fictional unions, sibling divisions/units, neutral fallback, orphan conflicts, source revisions, schema limits and whole workflow replacement. Existing pages, saved Brand Kits, case deadlines and authentication behavior remain unchanged. The compiled manifest remains empty until C08 consumer conversion; resolver output is internal compiler data, not an authorized reader DTO.
+- Validation: `npm run typecheck` passed; `npm run lint` passed with the existing `demo-purge.ts` unused-import warning. `npm run test:unit -- --maxWorkers=2` passed **343 suites / 2,201 tests, 1 skipped**. An initial unrestricted-worker run had one CSV-to-XLSX timeout; that test passed with the 60 foundation tests and then in the complete bounded-worker run. No timeout threshold was weakened.
+- Atomic local commits: C01 inventory/design; separate pre-existing president fixture type correction; C02 engine and tracking. GitHub Actions E2E/push deferred per execution directive. No SQL migration, production publication or real union seeding performed.
+- **Resume at C03:** Root-only policy/authorization and actor checks, then C04 durable SQL/RLS adapters. C03–C15 remain pending. See [implementation plan](audit/plan-2026-09-22-union-customization.md) and [foundation calling contract](../src/lib/customization/README.md).
+
+## 2026-09-22 — President module comparison fixture type correction
+
+- Replaced fictional module IDs in the existing `sameModuleSet` test with valid Hub module IDs, preserving its order-independent assertion. This removes two pre-existing TypeScript errors encountered during customization foundation validation.
+- Runtime behavior unchanged. Customization work continues at C02; full E2E CI remains deferred.
+
+## 2026-09-22 — Customization C01 inventory complete
+
+- Recorded pilot resource ownership, Print guide block identity, tool/brand integration boundaries, workflow call sites, cache behavior and current migration tail in [conversion inventory](audit/union-customization-conversion-inventory.md).
+- Validation: 7 local regression suites / 69 tests passed. Runtime behavior unchanged; GitHub Actions E2E deferred as requested.
+- Next: C02 typed payload/scope schemas and pure resolution engine. SQL/RLS and production publication follow C03–C04; the feature is not yet live.
+
+## 2026-09-22 — Union customization architecture handoff (documentation only)
+
+- Documented the proposed union/division/local/bargaining-unit customization layer, Root-only initial governance, versioned publication, server-enforced visibility, and future maintenance grants.
+- Added a dependency-ordered implementation handoff with acceptance tests, integration boundaries, and a Root-operated post-deployment content seeding runbook. No runtime functionality or real union content was added.
+- Design: [UNION_CUSTOMIZATION.md](modules/UNION_CUSTOMIZATION.md). Execution: [implementation handoff](audit/plan-2026-09-22-union-customization.md).
+
 ## 2026-09-22 — President UX phases (presets, preview, Today, polish)
 
 - [x] Phase 1–5 on president configuration: live preview, presets + undo, destructive-off confirm, local presentation prefs, batched Apply, solidarity product labels, Circle starter kit, steward read-only, first-run coach.
