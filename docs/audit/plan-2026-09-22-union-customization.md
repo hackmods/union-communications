@@ -1,6 +1,6 @@
 # Union customization: implementation handoff
 
-**Status:** C01–C03 implemented; C04 next. C04–C15 pending. Verification is recorded in PROGRESS.md.
+**Status:** C01–C04 implemented; C05 next. C05–C15 pending. Verification is recorded in PROGRESS.md.
 
 **Design authority:** [UNION_CUSTOMIZATION.md](../modules/UNION_CUSTOMIZATION.md).  
 **Baseline reviewed:** `1f68490`, 2026-09-22. Recheck the checkout before implementing.
@@ -277,10 +277,10 @@ The defaults in the design allow infrastructure implementation without another d
 
 ## 8. Copyable handoff prompt
 
-> Implement task C03 from `docs/audit/plan-2026-09-22-union-customization.md`, following `docs/modules/UNION_CUSTOMIZATION.md` and AGENTS.md. C01–C02 are implemented; read `src/lib/customization/README.md` and the latest PROGRESS.md entry first. Verify current code before editing because the original plan was written against commit 1f68490. Complete only the selected task and its acceptance checks; do not mark later tasks done. Preserve Root-only shared editing, free public Comms, current tenant isolation, and explicit RLS transactions. Make an atomic local commit and defer GitHub Actions E2E until modular implementation is complete. Report concrete changes, checks and outstanding risks. For subsequent turns, replace C03 with the next incomplete dependency-ready task.
+> Continue the UnionOps Union & Sub-Collective Customization Layer from C05 in `docs/audit/plan-2026-09-22-union-customization.md`. Read the accepted design, AGENTS.md, current ground truth, latest `docs/PROGRESS.md`, and `src/lib/customization/README.md`. C01–C04 are implemented on `feat/union-customization-foundation` in the isolated worktree `C:\Users\Ryan\.codex\worktrees\union-customization-foundation\union-communications`; check status and recent commits first. C04 added migration 0054 and typed persistence adapters; do not renumber or edit earlier migrations. Continue C05–C15 sequentially with progress notes and an atomic local commit per component. Keep Root-only shared editing through C12, free public Comms, tenant isolation, and explicit RLS transactions. Run local modular tests; defer full GitHub Actions E2E until all modular components are implemented. Do not push, publish real union content, or expand casework authority as collateral work. Report actual validation and remaining gaps.
 
 ## 9. Documentation delivery verification
 
 The original preparation task changed documentation only and did not claim application tests, production deployment, runtime RLS tests, content seeding or security certification. Its Markdown links and whitespace were checked. Execute the implementation test gates as the corresponding code is built.
 
-Implementation follow-up: C01–C02 have now been implemented locally. C02 validation covers the pure engine and repository unit/type/lint checks; it does not prove the future RLS, auth or live publication gates. Continue at C03, then C04. Do not activate the feature based on foundation tests alone.
+Implementation follow-up (historical): C01–C02 were implemented first, then C03 authorization and C04 database/RLS. Do not activate the feature based on foundation tests alone.

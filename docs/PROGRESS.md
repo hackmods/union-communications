@@ -1,5 +1,17 @@
 # Progress Log
 
+## 2026-09-22 — Customization C04 database foundation complete
+
+- Added the 15-table PostgreSQL model for scopes, resources, drafts, immutable revisions/releases, active heads, audience/section policy, reader fragments/projections, grants, preset bindings, assets, audit and idempotent operations. Appended forward-only migration `0054_customization_foundation`; generated the required shape and runtime RLS contract. No union content is seeded.
+- Added tenant/scope integrity checks, parent-chain guards, immutable publication/audit history, payload and asset bounds, metadata-only public projections, fixed-search-path security-definer helpers, Root+MFA authoring RLS, and current-policy filtered reader access. Delivery is fragment based; officer-only bytes stay unavailable to verified members.
+- Added typed transaction-bound Drizzle and serialized test/demo memory adapters with rollback, optimistic predicates, bounded updates, no database-error memory fallback, and a `readerTransaction` entry that forces ordinary-reader RLS even for Root. Memory mode requires tests or explicit nonproduction demo setup.
+- Added isolated PostgreSQL checks for all 15 tables, Root-only authoring, cross-union and unauthorized same-union writes, current head, membership/local/officer audience, section tightening, withdrawal, definer ACL/search path, and integrity triggers. Added populated `0053 → 0054` upgrade/shape-contract test and durable adapter rollback, concurrent compare-and-swap and independent-process persistence check.
+- Validation passed: 10 focused suites / 157 tests; `npm run typecheck`; `npm run lint` (existing `demo-purge.ts` unused-import warning only); `npm run db:check` (55 migrations, 120 schema tables); fresh deploy verified 120 tables / 1,273 columns / 134 policies; restricted-role PostgreSQL smoke passed 99 assertions; populated upgrade preserved tenant records, rejected a missing reader policy, then passed after restoration; durable adapter smoke passed rollback, single-winner concurrency and process restart.
+- A full repository unit run and browser smoke were started after these checks but interrupted by the user due to compute exhaustion. They are not claimed as passed. GitHub Actions E2E remains deferred as requested.
+- **Next: C05 resolution service and dependency compiler.** Keep raw resolver/compiler results internal. Build batch-pinned dependency compilation, RLS-safe reader DTO projection and current-policy cache checks before connecting routes or consumers.
+
+## 2026-09-22 — Customization C03 authorization contract complete
+
 ## 2026-09-22 — Customization C03 authorization contract complete
 
 - Added Root-only customization capability decisions using fresh account state and explicit target context, without changing existing grievance or generic union-mismatch decisions. Production management requires durable auth and configured TOTP MFA; optional memory demo access is non-production only.

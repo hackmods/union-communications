@@ -1,11 +1,11 @@
 # Union and sub-collective customization layer
 
-**Status: accepted design; C01–C02 foundation implemented, not connected to production consumers. C03–C15 remain pending.**
+**Status: accepted design; C01–C04 foundation implemented, not connected to production consumers. C05–C15 remain pending.**
 
 **Prepared:** 2026-09-22 against checkout `1f68490`.  
 **Execution companion:** [implementation handoff](../audit/plan-2026-09-22-union-customization.md).
 
-Implementation boundary: `src/lib/customization/` now provides strict Zod payload/scope contracts, the code-owned tool configuration registry, versioned manifest validation and the pure authoring resolver. Its result is internal compiler data, not an authorized reader DTO. Existing pages/Brand Kits remain unchanged; SQL tables, RLS, authorization, publication, admin UI and consumer conversion below are still future work. See the [module README](../../src/lib/customization/README.md).
+Implementation boundary: `src/lib/customization/` provides strict Zod payload/scope contracts, a code-owned tool configuration registry, versioned manifest validation, a pure authoring resolver, authorization decisions and C04 persistence adapters. Migration 0054 stores scopes, immutable releases and audience filtered fragments under RLS. Resolver output and raw authoring rows are internal data, not an authorized reader DTO; ordinary delivery must use `readerTransaction` followed by C05's current-policy projection. Existing pages/Brand Kits are not connected. C05–C15 remain future work. See the [module README](../../src/lib/customization/README.md).
 
 ## 1. Recommendation and review of the requirements
 

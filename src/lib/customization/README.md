@@ -1,6 +1,6 @@
-# Customization foundation (C02)
+# Customization foundation (C02–C04)
 
-This directory implements the pure **authoring/compiler** contracts. It has no routes, database connection, authentication, shared cache or renderer. `resolveCustomization` returns internal content that can include private sections; it must never be serialized directly to a reader. C03 supplies authorization and C04–C06 supply durable publication and safe delivery.
+This directory contains schemas/pure compiler contracts, authorization decisions and the C04 persistence boundary. `resolveCustomization` returns internal content that can include private sections; it must never be serialized directly to a reader. PostgreSQL operations run in `CustomizationAdapter.transaction`, which owns an explicit RLS transaction; use its transaction handle for every read/write in an atomic operation. Ordinary pages use `readerTransaction`, which forces the non-operator RLS path even for Root. `getCustomizationAdapter()` fails when PostgreSQL is unavailable; memory is constructed explicitly for tests or labeled nonproduction demos. C05 supplies the batch resolver, dependency compiler, safe reader DTO and cache contract; C06 supplies publication workflows.
 
 ## Boundaries
 

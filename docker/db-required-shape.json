@@ -879,6 +879,816 @@
       ]
     },
     {
+      "name": "customization_assets",
+      "columns": [
+        {
+          "name": "alt_text",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "bytes",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "hash",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "mime",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "rights_note",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scan_status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "storage_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "customization_audit",
+      "columns": [
+        {
+          "name": "action",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "actor_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "metadata",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "reason",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "customization_delivery_fragments",
+      "columns": [
+        {
+          "name": "control_resource_ids",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "fragment_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "kind",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "locale",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "minimum_audience",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "ordinal",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "payload",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "release_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "customization_drafts",
+      "columns": [
+        {
+          "name": "ancestor_heads",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "base_release_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "lock_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "payload",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "reviews",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "schema_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "customization_heads",
+      "columns": [
+        {
+          "name": "active_release_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "generation",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "customization_maintenance_grants",
+      "columns": [
+        {
+          "name": "capabilities",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "ends_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "granted_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "reason",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "resource_kinds",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "revoked_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "revoked_by",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "starts_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "customization_operations",
+      "columns": [
+        {
+          "name": "actor_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "operation_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "request_hash",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "result",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "customization_policy",
+      "columns": [
+        {
+          "name": "audience",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "editable_fields",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "enabled",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "entitlement_key",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "policy_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "public_listing",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "public_teaser",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "updated_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "withdrawn_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "customization_preset_bindings",
+      "columns": [
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "preset_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "published_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "sector_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "updated_by",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "customization_public_projections",
+      "columns": [
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "locale",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "policy_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "public_dto",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "release_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "customization_releases",
+      "columns": [
+        {
+          "name": "compiled_default_version",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "dependency_manifest",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "published_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "replaces_release_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "resolved",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revision_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "customization_resources",
+      "columns": [
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "kind",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "slug",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "customization_revisions",
+      "columns": [
+        {
+          "name": "change_reason",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "content_hash",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "payload",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revision_no",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "schema_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "customization_scopes",
+      "columns": [
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "division_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "kind",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "parent_scope_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "customization_section_controls",
+      "columns": [
+        {
+          "name": "block_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "minimum_audience",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "policy_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scope_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "updated_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "withdrawn_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        }
+      ]
+    },
+    {
       "name": "data_assertions",
       "columns": [
         {
@@ -6246,6 +7056,166 @@
       "schema": "public",
       "table": "committees",
       "name": "committees_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "customization_assets",
+      "name": "customization_assets_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_assets",
+      "name": "customization_assets_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_audit",
+      "name": "customization_audit_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_audit",
+      "name": "customization_audit_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_delivery_fragments",
+      "name": "customization_delivery_fragments_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_delivery_fragments",
+      "name": "customization_delivery_fragments_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_delivery_fragments",
+      "name": "customization_fragments_reader"
+    },
+    {
+      "schema": "public",
+      "table": "customization_drafts",
+      "name": "customization_drafts_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_drafts",
+      "name": "customization_drafts_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_heads",
+      "name": "customization_heads_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_heads",
+      "name": "customization_heads_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_maintenance_grants",
+      "name": "customization_maintenance_grants_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_maintenance_grants",
+      "name": "customization_maintenance_grants_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_operations",
+      "name": "customization_operations_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_operations",
+      "name": "customization_operations_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_policy",
+      "name": "customization_policy_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_policy",
+      "name": "customization_policy_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_preset_bindings",
+      "name": "customization_preset_bindings_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_preset_bindings",
+      "name": "customization_preset_bindings_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_public_projections",
+      "name": "customization_projections_reader"
+    },
+    {
+      "schema": "public",
+      "table": "customization_public_projections",
+      "name": "customization_public_projections_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_public_projections",
+      "name": "customization_public_projections_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_releases",
+      "name": "customization_releases_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_releases",
+      "name": "customization_releases_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_resources",
+      "name": "customization_resources_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_resources",
+      "name": "customization_resources_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_revisions",
+      "name": "customization_revisions_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_revisions",
+      "name": "customization_revisions_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_scopes",
+      "name": "customization_scopes_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_scopes",
+      "name": "customization_scopes_operator_write"
+    },
+    {
+      "schema": "public",
+      "table": "customization_section_controls",
+      "name": "customization_section_controls_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "customization_section_controls",
+      "name": "customization_section_controls_operator_write"
     },
     {
       "schema": "public",

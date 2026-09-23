@@ -374,6 +374,7 @@
       "breakpoints": true
     },
     { "idx": 53, "version": "7", "when": 1789970000000, "tag": "0053_access_requests", "breakpoints": true
-    }
+    },
+    { "idx": 54, "version": "7", "when": 1790120000000, "tag": "0054_customization_foundation", "breakpoints": true }
   ]
 }
