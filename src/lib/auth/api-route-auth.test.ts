@@ -23,6 +23,8 @@ const PUBLIC_API_ROUTES = new Set([
   "rsvp/[token]/route.ts",
   // Public tool visibility — no union data, only the disabled-slug lists.
   "public-tools/visibility/route.ts",
+  // Customization published DTO — audience-gated in delivery; no Hub session.
+  "customization/content/[key]/route.ts",
 ]);
 
 function walkRouteFiles(dir: string): string[] {
@@ -60,6 +62,8 @@ const AUTH_MARKERS = [
   "requirePortalSession",
   "requireSiteFeedbackInboxSession",
   "requireSiteAdminSession",
+  "requireCustomizationSession",
+  "withCustomizationMutation",
   "requireBylawsSession",
   "requireProposalsSession",
   "requireDataAccess",

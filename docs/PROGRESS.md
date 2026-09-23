@@ -1,5 +1,71 @@
 # Progress Log
 
+## 2026-09-23 — Audit follow-up: union-scoped pilot delivery
+
+- Presentation context maps Brand Kit preset / tenant slug → trusted system→union scope chain (`presentation-context.ts`).
+- Print / Brand Kit / Rules of Order content fetches pass locale + optional `presetId` so Root union publishes reach readers.
+- Journal-hole Docker smoke now drops `customization_*` tables/functions before replaying 0036+.
+- Root Customization panel shows OPSEU / SEFPO starter fill actions when the selected union slug is `opseu`.
+- Bargaining guide remains hidden for Brand Kit preset `opseu`; operator path: [`docs/guides/OPSEU_CUSTOMIZATION.md`](guides/OPSEU_CUSTOMIZATION.md).
+- Content API accepts `presetId` (not forged union ids); Brand Kit baseline, Rules of Order, and Print overlay fetch locale + preset scope.
+- Grants/entitlements were already wired in the prior polish pass; module/plan status text corrected for remaining C07–C15 gaps.
+- Validation: presentation + customization suites; typecheck/lint before push.
+
+## 2026-09-23 — OPSEU customization use case + bargaining hide
+
+- When Brand Kit preset is `opseu`, the Bargaining lifecycle playbook is removed from Learn/Create catalogs and `/guide/bargaining` shows an OPSEU-specific notice (national/staff-led negotiations).
+- Added high-level OPSEU pilot helpers (`opseu-pilot.ts`) from Brand Kit colours + registry sources, and operator follow-up [`docs/guides/OPSEU_CUSTOMIZATION.md`](guides/OPSEU_CUSTOMIZATION.md).
+- Validation: preset visibility + OPSEU pilot + catalog suites; typecheck/lint; push arms CI.
+
+## 2026-09-23 — Customization polish (fit-gaps / QOL)
+
+- Brand Kit baseline apply/undo uses public `brandKit.baseline` EN/FR copy (no longer Site Admin strings on a steward page).
+- Authorized guide renderer: humanized section titles, callout/list support, localized sources label; custom-guide metadata uses published title and stays noindex.
+- Root panel: body/colour/URL fields, audit reason, public-listing teaser toggle, destructive confirm dialogs, published-guide link, busy feedback.
+- Wired maintenance grants into `requireCustomizationSession` when `CUSTOMIZATION_DELEGATION_ENABLED` is on; wired hosted maintenance entitlements into write mutations.
+- SEO guard test: `/learn/custom` never enters `PUBLIC_PATHS`; What's new note for baseline apply.
+- Validation: customization + updates suites, typecheck, lint in this commit.
+
+## 2026-09-22 — Customization C09–C15 phase completion
+
+- **C09:** Audience controls in Root panel; public discovery sanitizer (`discovery.ts`) with teasers default off; custom guides remain noindex.
+- **C10:** Asset upload validation (PNG/JPEG/WebP only, size/content guards) + Root upload and authorized asset GET routes; adversarial unit coverage for spoofed SVG/HTML.
+- **C11:** Operator runbook at [`docs/guides/CUSTOMIZATION_OPERATOR.md`](guides/CUSTOMIZATION_OPERATOR.md).
+- **C12:** Flag-gated workflow snapshot helper; existing case snapshots are never rewritten by a newer publish.
+- **C13:** Maintenance grant decision branch behind `CUSTOMIZATION_DELEGATION_ENABLED`; Root grants API.
+- **C14:** Local parameter allowlist with steward-readonly and field-injection denial.
+- **C15:** Entitlement provider interface; maintenance entitlement gates hosted edits only after operator configures rows; free public Comms stay free.
+- Validation: focused customization suites + typecheck/lint in this commit. GitHub Actions E2E remains deferred.
+
+## 2026-09-22 — Customization C07 panel + C08 pilot consumers
+
+- Completed Root panel actions: private preview, publish, withdraw, rollback, inherit-again, and publication history, with EN/FR labels and role-denial API tests (`union_admin` / local roles cannot publish or withdraw).
+- Wired pilot consumers: Print guide overlay for `guide:learn-print`, custom guide route `/learn/custom/[unionSlug]/[guideSlug]`, content GET `/api/customization/content/[key]`, Rules of Order tool configuration fetch, and explicit Brand Kit baseline apply/undo (`BrandBaselineOffer`).
+- Validation: customization suites **132 tests**; `npm run typecheck`; `npm run lint`. GitHub Actions E2E remains deferred. **Next: C09** audience/discovery UI.
+
+## 2026-09-22 — Customization C07 Root panel scaffold
+
+- Added `/app/site-admin/customization` with empty-state copy, union scope creation, bilingual guide draft/publish form, and a Site Admin landing card. Panel stays disabled until `CUSTOMIZATION_ENABLED` + durable auth/MFA configuration checks pass.
+- Added admin helpers and APIs for scopes list/create and resource create; draft PATCH can `markReviewed` with a server-side content hash so publish bilingual attestation stays consistent.
+- EN/FR UI strings added under `hub.platformOperator.customization*`. Full browser/axe journey, history/rollback UI chrome, and withdraw/impact panels remain follow-ups on this page before calling C07 fully closed for release UX.
+- Validation: customization suites + typecheck passed. **Next: finish C07 UX depth or proceed to C08 pilot consumer wiring.**
+
+## 2026-09-22 — Customization C06 drafts/preview/publication complete
+
+- Added draft optimistic saves (`drafts.ts`), authenticated private preview (`preview.ts`), atomic publish/rollback/policy/inherit (`publish.ts`), and audit writes that share the publication transaction (`audit.ts`).
+- Publication writes revisions, releases, fragments and projections before advancing the head; concurrent CAS has one winner; idempotent retries reuse the stored operation result; orphan descendant overrides return 422 instead of silently dropping; withdrawal is independent of editorial rollback (restrictive policy preserved).
+- Added thin Root API routes under `/api/site-admin/customization/resources/[id]/{draft,preview,publish,policy,rollback}` with `private, no-store` responses and `requireCustomizationSession` gates. No GET publishing.
+- Validation: customization + session suites passed; `npm run typecheck` passed; lint in same commit check. GitHub Actions E2E remains deferred. **Next: C07** Root control panel UI.
+
+## 2026-09-22 — Customization C05 resolution/compile/cache complete
+
+- Added `dependencies.ts` (stable revision/source pin ordering, dependency-manifest digests, 500-release impact budget and deterministic block conflict reports), `compile.ts` (publication fragment/discovery materialization plus `readPublishedContent` reader DTO service), and `cache.ts` (bounded immutable content cache keyed by resource, full scope chain, locale, schema, dependency digest and release).
+- Reader delivery batches fragment + projection reads through `readerTransaction`, rechecks membership outside the cache, falls back to compiled defaults only when nothing was published, treats DB errors as `service_error`, and treats warmed-then-empty results as withdrawal (never a private-cache bypass).
+- Public discovery DTOs stay on the SQL allowlist (`key`, `title`, `summary`, `canonicalPath`). Authorized guide DTOs omit unauthorized section/source bytes.
+- Also fixed pre-existing main typecheck breakages from the local-assign merge: optional `seed.locals` access, SQL row cast via `unknown`, `InvitesBoard` `setRequestId` setter, and invite GET tests passing a `Request`.
+- Validation: focused customization + invite/site-admin suites **133 tests passed**; `npm run typecheck` passed; lint pending in same commit check. No guide routes wired (C08). GitHub Actions E2E remains deferred.
+- **Next: C06** drafts, preview, atomic publication and rollback.
+
 ## 2026-09-22 — Customization C04 database foundation complete
 
 - Added the 15-table PostgreSQL model for scopes, resources, drafts, immutable revisions/releases, active heads, audience/section policy, reader fragments/projections, grants, preset bindings, assets, audit and idempotent operations. Appended forward-only migration `0054_customization_foundation`; generated the required shape and runtime RLS contract. No union content is seeded.

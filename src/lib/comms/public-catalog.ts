@@ -7,6 +7,7 @@ import {
 } from "@/lib/comms/guide-registry";
 import { OFFICER_LEARNING_MODULES } from "@/lib/officer-learning/modules";
 import { canonicalPublicPath } from "@/lib/seo/public-routes";
+import { hiddenGuidePathsForPreset } from "@/lib/comms/preset-guide-visibility";
 
 export type PublicCatalogKind =
   | "tool"
@@ -461,14 +462,23 @@ export function visiblePublicCatalog(options: {
   authenticated: boolean;
   officerHubPublic: boolean;
   disabledToolSlugs?: readonly string[];
+  /** Brand Kit preset — hides union-specific guides (e.g. OPSEU bargaining). */
+  unionPresetId?: string | null;
+  hiddenGuidePaths?: readonly string[];
 }): PublicCatalogItem[] {
   const disabled = new Set(options.disabledToolSlugs ?? []);
+  const hiddenGuides = new Set(
+    options.hiddenGuidePaths
+      ?? hiddenGuidePathsForPreset(options.unionPresetId),
+  );
   return PUBLIC_CATALOG.filter((item) => {
     if (options.audience && !item.audiences.includes(options.audience)) return false;
     if (item.authRequirement === "signed-in" && !options.authenticated) return false;
     if (item.featureGate === "officerHubPublic" && !options.officerHubPublic) return false;
     const oldToolPath = item.legacyPaths.find((path) => path.startsWith("/tools/"));
     if (oldToolPath && disabled.has(oldToolPath.slice("/tools/".length))) return false;
+    if (hiddenGuides.has(item.canonicalPath)) return false;
+    if ([...hiddenGuides].some((path) => item.legacyPaths.includes(path))) return false;
     return true;
   });
 }

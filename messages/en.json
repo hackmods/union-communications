@@ -4194,6 +4194,12 @@
       "logoNote": "UnionOps mark is the default until you attach a local wordmark.",
       "collectionsNote": "This preset includes a sector picker and starter collections you can rename or trim in Current settings below."
     },
+    "baseline": {
+      "title": "Published brand baseline",
+      "body": "Your local can apply colours and type from a baseline Root published for your union. This never overwrites your Brand Kit until you choose Apply. Undo restores the kit you had just before.",
+      "apply": "Apply published brand baseline",
+      "undo": "Undo baseline application"
+    },
     "presetSlogans": {
       "opseu": {
         "items": [
@@ -7184,6 +7190,14 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "opseu-bargaining-hide": {
+        "title": "OPSEU / SEFPO Brand Kit hides the generic bargaining guide",
+        "body": "When your Brand Kit is set to OPSEU / SEFPO, the Bargaining lifecycle playbook leaves Learn catalogs and shows an OPSEU / SEFPO-specific notice instead — national and staff-led negotiations stay the source of truth."
+      },
+      "brand-baseline-apply": {
+        "title": "Apply a published brand baseline",
+        "body": "When Root publishes a brand baseline for your union, Brand Kit can apply those colours and typefaces with one tap — and undo restores the kit you had just before."
+      },
       "invite-local-select": {
         "title": "Clearer union and local on invites",
         "body": "When you invite officers, the form now uses the same union, local number, and optional sub-group fields. Presidents stay on their own local; union admins can still create a local by number."
@@ -7804,6 +7818,100 @@
       "publicToolsCardBody": "Choose which public tools this union or local surfaces to members.",
       "publicToolsTitle": "Public tools",
       "publicToolsBody": "Control visibility of public tools for a union or local.",
+      "customizationCard": "Customization",
+      "customizationCardBody": "Publish shared guides, sources and brand baselines for a real union without redeploying the app.",
+      "customizationTitle": "Union customization",
+      "customizationBody": "Publish shared guides, sources and brand baselines for a real union without redeploying the app.",
+      "customization": {
+        "disabledTitle": "Customization is not configured on this host",
+        "disabledBody": "Turn on CUSTOMIZATION_ENABLED with durable auth and MFA before Root can edit shared content.",
+        "emptyTitle": "Generic defaults are active",
+        "emptyBody": "No shared customization is required until you select a real union and create its scope. Scope creation does not invite members.",
+        "unionLabel": "Union",
+        "noUnions": "No unions available",
+        "pickUnion": "Choose a union first",
+        "createScope": "Create union scope",
+        "opseuStarterTitle": "Starter for this union",
+        "opseuStarterBody": "Fill the draft form from this union's Brand Kit preset and reviewed registry links. Still preview and publish yourself — nothing auto-publishes.",
+        "opseuFillBrand": "Fill brand baseline",
+        "opseuFillSource": "Fill first registry source",
+        "opseuBrandApplied": "Brand draft fields filled from this union's Brand Kit colours. Save draft when ready.",
+        "opseuSourceApplied": "Source draft fields filled from the first matching registry entry. Verify the URL in a browser before publish.",
+        "opseuStarterMissing": "Starter data for this union is unavailable on this build.",
+        "scopeReady": "Scope ready for {unionId}",
+        "scopeCount": "{count} active scopes visible for this target",
+        "editorTitle": "Draft shared content",
+        "editorBody": "Create a brand baseline, source, or custom guide through forms. Preview, publish, withdraw, rollback, and inherit again are separate actions.",
+        "kindLabel": "Resource kind",
+        "kind": {
+          "guide": "Custom guide",
+          "brand": "Brand baseline",
+          "source": "Source"
+        },
+        "localeTabs": "Language tabs",
+        "titleEn": "Title (English)",
+        "titleFr": "Title (French)",
+        "saveDraft": "Save draft",
+        "preview": "Preview",
+        "publish": "Publish",
+        "withdraw": "Withdraw",
+        "rollback": "Rollback",
+        "inherit": "Inherit again",
+        "draftSaved": "Draft saved. Review both languages, then preview or publish.",
+        "previewReady": "Private preview ready (no-store).",
+        "previewLabel": "Private preview title",
+        "previewPrivate": "This preview is authenticated and never a public share link.",
+        "published": "Published release {releaseId}",
+        "withdrawn": "Resource withdrawn for new readers.",
+        "rolledBack": "Rolled back to a new release {releaseId}. Restrictive policy is unchanged.",
+        "inherited": "Override set to inherit again.",
+        "historyTitle": "Publication history",
+        "historyRelease": "Release {id} by {by}",
+        "historyAudit": "{action}: {reason}",
+        "scopeHeading": "Editing scope: {scope}",
+        "noScope": "none selected",
+        "resourceId": "Resource {id} · draft v{lockVersion} · head gen {generation}",
+        "requestFailed": "Request failed. Check your session and try again.",
+        "applyBaseline": "Apply published brand baseline",
+        "undoBaseline": "Undo baseline application",
+        "customGuideSubtitle": "Published for {union}",
+        "customGuideToc": "On this page",
+        "audienceLabel": "Audience",
+        "audienceHint": "Public teasers stay off until you enable discovery separately. Descendants may only tighten this setting.",
+        "setAudience": "Update audience",
+        "audienceUpdated": "Audience set to {audience}",
+        "audience": {
+          "public": "Public",
+          "verified_member": "Verified member",
+          "local_officer": "Local officer"
+        },
+        "bodyEn": "Body (English)",
+        "bodyFr": "Body (French)",
+        "primaryColor": "Primary colour",
+        "sourceUrl": "Source URL",
+        "reasonLabel": "Change reason",
+        "reasonPlaceholder": "Why this change (audit trail)",
+        "publicListing": "Allow public catalog teaser (off by default)",
+        "impactHint": "Publish creates a new release. Withdraw hides content for new readers. Rollback restores text under the current restrictive audience. Inherit removes this scope's override.",
+        "working": "Working…",
+        "openPublished": "Open published custom guide",
+        "confirm": {
+          "proceed": "Confirm",
+          "cancel": "Cancel",
+          "withdraw": {
+            "title": "Withdraw this resource?",
+            "body": "New readers will not see published content until you publish again. Existing restrictive audience settings stay in place."
+          },
+          "rollback": {
+            "title": "Rollback to the last revision?",
+            "body": "This creates a new release from the previous revision. Current audience and withdrawal policy are preserved."
+          },
+          "inherit": {
+            "title": "Inherit again from ancestors?",
+            "body": "This scope's override will stop contributing. Descendant conflicts are checked before the change is saved."
+          }
+        }
+      },
       "usersListLead": "Latest {count} active accounts across all unions. {demoCount} marked demo",
       "usersOrphanLead": "{count} accounts have a union but no primary local — review",
       "usersSearchLink": "Search by email in account support",
@@ -12805,6 +12913,15 @@
     "title": "The Bargaining Lifecycle: From Survey to Signing",
     "subtitle": "How Local Bargaining Committees manage membership from demand setting through ratification",
     "intro": "Negotiating a Collective Bargaining Agreement (CBA) is the most important thing your local will do. Even if your National or Provincial union sends a Staff Representative to lead the negotiations, the Local Bargaining Committee must manage the membership. Here is the standard lifecycle of contract negotiations in Canada/Ontario — plus the comms, tracking, and mandate work that keep members with you.",
+    "opseuHidden": {
+      "title": "Bargaining for OPSEU / SEFPO locals",
+      "subtitle": "National and staff-led negotiations — use OPSEU / SEFPO channels first",
+      "intro": "Your Brand Kit is set to OPSEU / SEFPO. UnionOps hides the generic contract-negotiation playbook so it is not mistaken for OPSEU / SEFPO's bargaining system of record.",
+      "whyTitle": "Why this guide is hidden",
+      "whyBody": "OPSEU / SEFPO contract negotiations are typically led with national and staff support. Use your Staff Representative, member portal, and local mandate work instead of this Ontario-generic lifecycle. Strike operations and Proposal Tracker stay available for local support around the table.",
+      "opseuHome": "OPSEU / SEFPO home",
+      "memberPortal": "Member portal"
+    },
     "backToGuide": "Back to The Blueprint",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",

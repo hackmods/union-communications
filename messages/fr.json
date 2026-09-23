@@ -4194,6 +4194,12 @@
       "logoNote": "Le symbole UnionOps est utilisé par défaut jusqu’à ce que vous joigniez un mot-symbole local.",
       "collectionsNote": "Ce préréglage inclut un sélecteur de secteur et des collections de départ que vous pouvez renommer ou retirer dans Paramètres actuels ci-dessous."
     },
+    "baseline": {
+      "title": "Base de marque publiée",
+      "body": "Votre section locale peut appliquer les couleurs et la typographie d'une base publiée par Root pour votre syndicat. Cela n'écrase jamais votre Trousse de marque tant que vous ne choisissez pas Appliquer. Annuler restaure la Trousse de marque que vous aviez juste avant.",
+      "apply": "Appliquer la base de marque publiée",
+      "undo": "Annuler l'application de la base"
+    },
     "presetSlogans": {
       "opseu": {
         "items": [
@@ -7131,6 +7137,14 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "opseu-bargaining-hide": {
+        "title": "La Trousse de marque OPSEU / SEFPO masque le guide de négociation générique",
+        "body": "Quand votre Trousse de marque est réglée sur OPSEU / SEFPO, le guide du cycle de négociation quitte les catalogues Apprendre et affiche plutôt un avis propre à OPSEU / SEFPO — les négociations nationales et menées par le personnel restent la référence."
+      },
+      "brand-baseline-apply": {
+        "title": "Appliquer une base de marque publiée",
+        "body": "Quand Root publie une base de marque pour votre syndicat, la Trousse de marque peut appliquer ces couleurs et polices en un tap — et Annuler restaure la Trousse de marque que vous aviez juste avant."
+      },
       "invite-local-select": {
         "title": "Syndicat et section plus clairs sur les invitations",
         "body": "Quand vous invitez des dirigeants, le formulaire utilise les mêmes champs syndicat, numéro de section et sous-groupe facultatif. Les présidents restent sur leur propre section ; les admins de syndicat peuvent encore créer une section par numéro."
@@ -7751,6 +7765,100 @@
       "publicToolsCardBody": "Choisissez quels outils publics cette section ou ce syndicat présente aux membres.",
       "publicToolsTitle": "Outils publics",
       "publicToolsBody": "Contrôlez la visibilité des outils publics pour un syndicat ou une section locale.",
+      "customizationCard": "Personnalisation",
+      "customizationCardBody": "Publiez des guides, sources et bases de marque partagés pour un vrai syndicat sans redéployer l'application.",
+      "customizationTitle": "Personnalisation syndicale",
+      "customizationBody": "Publiez des guides, sources et bases de marque partagés pour un vrai syndicat sans redéployer l'application.",
+      "customization": {
+        "disabledTitle": "La personnalisation n'est pas configurée sur cet hôte",
+        "disabledBody": "Activez CUSTOMIZATION_ENABLED avec une authentification durable et la MFA avant que Root puisse modifier le contenu partagé.",
+        "emptyTitle": "Les valeurs génériques sont actives",
+        "emptyBody": "Aucune personnalisation partagée n'est requise tant que vous n'avez pas choisi un vrai syndicat et créé sa portée. La création de portée n'invite personne.",
+        "unionLabel": "Syndicat",
+        "noUnions": "Aucun syndicat disponible",
+        "pickUnion": "Choisissez d'abord un syndicat",
+        "createScope": "Créer la portée du syndicat",
+        "opseuStarterTitle": "Départ pour ce syndicat",
+        "opseuStarterBody": "Remplit le brouillon à partir du préréglage Trousse de marque de ce syndicat et des liens du registre déjà vérifiés. L'aperçu et la publication restent manuels — rien n'est publié automatiquement.",
+        "opseuFillBrand": "Remplir la base de marque",
+        "opseuFillSource": "Remplir la première source du registre",
+        "opseuBrandApplied": "Champs de marque remplis avec les couleurs Trousse de marque de ce syndicat. Enregistrez le brouillon quand c'est prêt.",
+        "opseuSourceApplied": "Champs de source remplis avec la première entrée correspondante du registre. Vérifiez l'URL dans un navigateur avant de publier.",
+        "opseuStarterMissing": "Les données de départ pour ce syndicat ne sont pas disponibles sur cette version.",
+        "scopeReady": "Portée prête pour {unionId}",
+        "scopeCount": "{count} portées actives visibles pour cette cible",
+        "editorTitle": "Rédiger du contenu partagé",
+        "editorBody": "Créez une base de marque, une source ou un guide personnalisé par formulaires. L'aperçu, la publication, le retrait, le retour arrière et la ré-héritage sont des actions distinctes.",
+        "kindLabel": "Type de ressource",
+        "kind": {
+          "guide": "Guide personnalisé",
+          "brand": "Base de marque",
+          "source": "Source"
+        },
+        "localeTabs": "Onglets de langue",
+        "titleEn": "Titre (anglais)",
+        "titleFr": "Titre (français)",
+        "saveDraft": "Enregistrer le brouillon",
+        "preview": "Aperçu",
+        "publish": "Publier",
+        "withdraw": "Retirer",
+        "rollback": "Revenir en arrière",
+        "inherit": "Hériter à nouveau",
+        "draftSaved": "Brouillon enregistré. Relisez les deux langues, puis prévisualisez ou publiez.",
+        "previewReady": "Aperçu privé prêt (no-store).",
+        "previewLabel": "Titre de l'aperçu privé",
+        "previewPrivate": "Cet aperçu est authentifié et n'est jamais un lien public permanent.",
+        "published": "Publication {releaseId} diffusée",
+        "withdrawn": "Ressource retirée pour les nouveaux lecteurs.",
+        "rolledBack": "Retour à une nouvelle publication {releaseId}. La politique restrictive est inchangée.",
+        "inherited": "La surcharge est de nouveau en héritage.",
+        "historyTitle": "Historique de publication",
+        "historyRelease": "Publication {id} par {by}",
+        "historyAudit": "{action} : {reason}",
+        "scopeHeading": "Portée en cours : {scope}",
+        "noScope": "aucune sélection",
+        "resourceId": "Ressource {id} · brouillon v{lockVersion} · tête gen {generation}",
+        "requestFailed": "La requête a échoué. Vérifiez votre session et réessayez.",
+        "applyBaseline": "Appliquer la base de marque publiée",
+        "undoBaseline": "Annuler l'application de la base",
+        "customGuideSubtitle": "Publié pour {union}",
+        "customGuideToc": "Sur cette page",
+        "audienceLabel": "Public cible",
+        "audienceHint": "Les aperçus publics restent désactivés jusqu'à ce que vous activiez la découverte séparément. Les descendants ne peuvent que resserrer ce réglage.",
+        "setAudience": "Mettre à jour le public cible",
+        "audienceUpdated": "Public cible défini sur {audience}",
+        "audience": {
+          "public": "Public",
+          "verified_member": "Membre vérifié",
+          "local_officer": "Dirigeant local"
+        },
+        "bodyEn": "Corps (anglais)",
+        "bodyFr": "Corps (français)",
+        "primaryColor": "Couleur principale",
+        "sourceUrl": "URL de la source",
+        "reasonLabel": "Motif du changement",
+        "reasonPlaceholder": "Pourquoi ce changement (piste d'audit)",
+        "publicListing": "Autoriser un aperçu dans le catalogue public (désactivé par défaut)",
+        "impactHint": "Publier crée une nouvelle version. Retirer masque le contenu pour les nouveaux lecteurs. Revenir en arrière restaure le texte sous le public cible restrictif actuel. Hériter retire la surcharge de cette portée.",
+        "working": "En cours…",
+        "openPublished": "Ouvrir le guide personnalisé publié",
+        "confirm": {
+          "proceed": "Confirmer",
+          "cancel": "Annuler",
+          "withdraw": {
+            "title": "Retirer cette ressource ?",
+            "body": "Les nouveaux lecteurs ne verront plus le contenu publié tant que vous n'aurez pas publié à nouveau. Les réglages de public cible restrictifs restent en place."
+          },
+          "rollback": {
+            "title": "Revenir à la dernière révision ?",
+            "body": "Cela crée une nouvelle version à partir de la révision précédente. Le public cible et le retrait actuels sont conservés."
+          },
+          "inherit": {
+            "title": "Hériter à nouveau des ancêtres ?",
+            "body": "La surcharge de cette portée cessera de contribuer. Les conflits descendants sont vérifiés avant l'enregistrement."
+          }
+        }
+      },
       "usersListLead": "Derniers {count} comptes actifs dans toutes les sections. {demoCount} marqués démo",
       "usersOrphanLead": "{count} comptes ont un syndicat mais pas de section principale — examinez",
       "usersSearchLink": "Chercher par courriel dans l’assistance compte",
@@ -12805,6 +12913,15 @@
     "title": "Le cycle de négociation : du sondage à la signature",
     "subtitle": "Comment les comités de négociation locaux gèrent les membres, de l'établissement des demandes à la ratification",
     "intro": "Négocier une convention collective (CC) est la chose la plus importante que fera votre section. Même si votre syndicat national ou provincial envoie un représentant du personnel pour mener les négociations, le comité de négociation local doit gérer les membres. Voici le cycle habituel des négociations contractuelles au Canada et en Ontario — plus les communications, le suivi et le travail de mandat qui gardent les membres avec vous.",
+    "opseuHidden": {
+      "title": "Négociation pour les sections OPSEU / SEFPO",
+      "subtitle": "Négociations nationales et menées par le personnel — utilisez d'abord les canaux OPSEU / SEFPO",
+      "intro": "Votre Trousse de marque est réglée sur OPSEU / SEFPO. UnionOps masque le guide générique de négociation contractuelle pour qu'il ne soit pas pris pour le système de négociation officiel d'OPSEU / SEFPO.",
+      "whyTitle": "Pourquoi ce guide est masqué",
+      "whyBody": "Les négociations contractuelles d'OPSEU / SEFPO sont en général menées avec l'appui national et du personnel. Utilisez votre représentant du personnel, le portail des membres et le travail de mandat local plutôt que ce cycle générique ontarien. Les opérations de grève et le Suivi des propositions restent disponibles pour le soutien local autour de la table.",
+      "opseuHome": "Accueil OPSEU / SEFPO",
+      "memberPortal": "Portail des membres"
+    },
     "backToGuide": "Retour au Plan directeur",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",

@@ -183,6 +183,32 @@ DROP TABLE IF EXISTS data_records CASCADE;
 DROP TABLE IF EXISTS data_staged_rows CASCADE;
 DROP TABLE IF EXISTS data_union_memberships CASCADE;
 
+-- Union customization foundation (0054). Replay creates these tables; leaving
+-- them in place after deleting journal rows from 0036+ collides on CREATE.
+DROP TABLE IF EXISTS customization_delivery_fragments CASCADE;
+DROP TABLE IF EXISTS customization_public_projections CASCADE;
+DROP TABLE IF EXISTS customization_section_controls CASCADE;
+DROP TABLE IF EXISTS customization_preset_bindings CASCADE;
+DROP TABLE IF EXISTS customization_maintenance_grants CASCADE;
+DROP TABLE IF EXISTS customization_operations CASCADE;
+DROP TABLE IF EXISTS customization_assets CASCADE;
+DROP TABLE IF EXISTS customization_audit CASCADE;
+DROP TABLE IF EXISTS customization_policy CASCADE;
+DROP TABLE IF EXISTS customization_heads CASCADE;
+DROP TABLE IF EXISTS customization_releases CASCADE;
+DROP TABLE IF EXISTS customization_revisions CASCADE;
+DROP TABLE IF EXISTS customization_drafts CASCADE;
+DROP TABLE IF EXISTS customization_resources CASCADE;
+DROP TABLE IF EXISTS customization_scopes CASCADE;
+DROP FUNCTION IF EXISTS public.customization_fragment_access(text, text, text, text, jsonb);
+DROP FUNCTION IF EXISTS public.customization_current_access(text, text, text, text);
+DROP FUNCTION IF EXISTS public.customization_audience(text, text);
+DROP FUNCTION IF EXISTS public.customization_scope_live(text);
+DROP FUNCTION IF EXISTS public.customization_root(text, boolean);
+DROP FUNCTION IF EXISTS public.customization_immutable();
+DROP FUNCTION IF EXISTS public.customization_row_guard();
+DROP FUNCTION IF EXISTS public.customization_scope_guard();
+
 -- Rewind the Members Portal authorization/Portal tail as well. The journal-hole
 -- fixture replays every migration after the reconciliation point; retaining
 -- these current objects would make otherwise-forward-only migrations collide
