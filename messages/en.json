@@ -4121,7 +4121,7 @@
       }
     },
     "toolOverrides": {
-      "title": "Layout (Advanced tokens)",
+      "title": "Advanced tokens (this layout)",
       "description": "Try text size, density, and alignment on this layout only. This does not change your Brand Kit or collection profiles.",
       "typeScale": "Text size (this layout)",
       "inherit": "Brand Kit ({hint})",

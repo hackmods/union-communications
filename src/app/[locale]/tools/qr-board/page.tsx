@@ -391,6 +391,7 @@ function QrBoardPageContent() {
                 setState({ ...state, showLocalNumber })
               }
             />
+          </ToolFormDetails>
             <CanvasTokenOverridesControls
               brandDefaults={{
                 typeScale: brandCanvasTokens.typeScale,
@@ -404,7 +405,6 @@ function QrBoardPageContent() {
                 setState({ ...state, canvasOverrides })
               }
             />
-          </ToolFormDetails>
 
           <ToolFormDetails title={t("sectionOptions")}>
             <Checkbox

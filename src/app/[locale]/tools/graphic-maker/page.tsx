@@ -452,6 +452,7 @@ function GraphicMakerPageContent() {
               setState({ ...state, showLocalNumber })
             }
           />
+            </ToolFormDetails>
           <CanvasTokenOverridesControls
             brandDefaults={{
               typeScale: brandCanvasTokens.typeScale,
@@ -465,7 +466,6 @@ function GraphicMakerPageContent() {
               setState({ ...state, canvasOverrides })
             }
           />
-            </ToolFormDetails>
 
             <ToolFormDetails title={t("sectionColours")}>
               <BrandSwatchPicker

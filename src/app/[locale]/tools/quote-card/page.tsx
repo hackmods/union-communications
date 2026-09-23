@@ -309,6 +309,7 @@ function QuoteCardPageContent() {
               setState({ ...state, showLocalNumber })
             }
           />
+          </ToolFormDetails>
           <CanvasTokenOverridesControls
             brandDefaults={{
               typeScale: brandCanvasTokens.typeScale,
@@ -322,7 +323,6 @@ function QuoteCardPageContent() {
               setState({ ...state, canvasOverrides })
             }
           />
-          </ToolFormDetails>
           <ToolColourSection
             primaryColor={state.primaryColor}
             secondaryColor={state.secondaryColor}

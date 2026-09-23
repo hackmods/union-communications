@@ -264,6 +264,7 @@ export default function BoardNoticePage() {
                   setState({ ...state, showLocalNumber })
                 }
               />
+            </ToolFormDetails>
               <CanvasTokenOverridesControls
                 brandDefaults={{
                   typeScale: brandCanvasTokens.typeScale,
@@ -277,7 +278,6 @@ export default function BoardNoticePage() {
                   setState({ ...state, canvasOverrides })
                 }
               />
-            </ToolFormDetails>
 
             <UndoRedoBar
               canUndo={canUndo}

@@ -445,6 +445,7 @@ function ActionCardPageContent() {
                 setState({ ...state, showLocalNumber })
               }
             />
+          </ToolFormDetails>
             <CanvasTokenOverridesControls
               brandDefaults={{
                 typeScale: brandCanvasTokens.typeScale,
@@ -458,7 +459,6 @@ function ActionCardPageContent() {
                 setState({ ...state, canvasOverrides })
               }
             />
-          </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionOptions")}>
             <Checkbox

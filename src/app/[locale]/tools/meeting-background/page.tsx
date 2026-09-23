@@ -887,6 +887,7 @@ function MeetingBackgroundPageContent() {
                 setState({ ...state, showLocalNumber })
               }
             />
+          </ToolFormDetails>
             <CanvasTokenOverridesControls
               brandDefaults={{
                 typeScale: brandCanvasTokens.typeScale,
@@ -900,7 +901,6 @@ function MeetingBackgroundPageContent() {
                 setState({ ...state, canvasOverrides })
               }
             />
-          </ToolFormDetails>
 
           <ToolFormDetails title={t("toggles")}>
             <div className="space-y-3" role="group" aria-label={t("toggles")}>

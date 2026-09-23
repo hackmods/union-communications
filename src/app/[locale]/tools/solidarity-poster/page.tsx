@@ -826,6 +826,7 @@ function SolidarityPosterPageContent() {
                 setState({ ...state, showLocalNumber })
               }
             />
+          </ToolFormDetails>
             <CanvasTokenOverridesControls
               brandDefaults={{
                 typeScale: brandCanvasTokens.typeScale,
@@ -839,7 +840,6 @@ function SolidarityPosterPageContent() {
                 setState({ ...state, canvasOverrides })
               }
             />
-          </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionOptions")}>
             <Checkbox

@@ -4121,7 +4121,7 @@
       }
     },
     "toolOverrides": {
-      "title": "Disposition (jetons avancés)",
+      "title": "Jetons avancés (cette mise en page)",
       "description": "Essayez la taille, la densité et l’alignement sur cette mise en page seulement. Cela ne modifie pas votre Trousse de marque ni vos profils de collection.",
       "typeScale": "Taille du texte (cette mise en page)",
       "inherit": "Trousse ({hint})",
