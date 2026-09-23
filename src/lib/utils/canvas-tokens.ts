@@ -438,7 +438,8 @@ export type WalletFontOpts = {
 };
 
 function walletWidthRatio(previewWidthPx: number): number {
-  return Math.min(1.15, Math.max(0.45, previewWidthPx / WALLET_LETTER_PREVIEW_PX));
+  // Floor at 0.55 so Quarter (~0.5 letter width) does not collapse to the absolute min.
+  return Math.min(1.15, Math.max(0.55, previewWidthPx / WALLET_LETTER_PREVIEW_PX));
 }
 
 /** Square cards scale from 4″ baseline so 5×5 print stays readable. */
@@ -456,6 +457,14 @@ function walletTypeScale(tokens: CanvasTokens, square?: boolean): number {
   return square ? Math.min(1, scale) : scale;
 }
 
+/**
+ * Wallet design-px floors (~48 px/in). Prefer readable pocket type over
+ * postage-stamp body while titles dominate — see COMMS_VISUAL_SYSTEM wallet contract.
+ */
+export const WALLET_TITLE_MIN_PX = 14;
+export const WALLET_BODY_MIN_PX = 13;
+export const WALLET_META_MIN_PX = 10;
+
 /** QR / Action card title size from Brand Kit + preview width. */
 export function walletTitleFontSizePx(
   tokens: CanvasTokens,
@@ -467,7 +476,7 @@ export function walletTitleFontSizePx(
     walletTypeScale(tokens, opts?.square) *
     walletPreviewRatio(previewWidthPx, opts?.square);
   const ref = opts?.reference ? 0.85 : 1;
-  return Math.max(12, Math.round(base * ref));
+  return Math.max(WALLET_TITLE_MIN_PX, Math.round(base * ref));
 }
 
 /** QR / Action card body / description size. */
@@ -477,7 +486,7 @@ export function walletBodyFontSizePx(
   opts?: Pick<WalletFontOpts, "square">,
 ): number {
   return Math.max(
-    11,
+    WALLET_BODY_MIN_PX,
     Math.round(
       tokens.subtitleFontSizePx *
         walletTypeScale(tokens, opts?.square) *
@@ -497,7 +506,7 @@ export function walletMetaFontSizePx(
       ? walletPreviewRatio(previewWidthPx, opts?.square)
       : 1;
   return Math.max(
-    10,
+    WALLET_META_MIN_PX,
     Math.round(
       tokens.subtitleFontSizePx *
         0.78 *

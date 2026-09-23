@@ -141,6 +141,50 @@ test.describe("QR share URL captions @smoke", () => {
     expectPreviewFitsColumn(await measurePreviewFit(page), "reference-letter");
   });
 
+  test("qr-card rightToRefuse quarter packs readable description without dead clamp", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/qr-card/?preset=rightToRefuse");
+    await expect(
+      page.getByRole("heading", { name: "QR Link Card Maker" }),
+    ).toBeVisible();
+    await expectPresetSelected(page, "rightToRefuse");
+    const root = await waitForQrPreview(page);
+
+    const body = root.locator("[data-wallet-body]");
+    await expect(body).toBeVisible();
+    await expect(body).toContainText(/OHSA/i);
+    await expect(body).toContainText(/Not legal advice/i);
+    await expect(body).not.toHaveCSS("display", "-webkit-box");
+
+    const report = await root.evaluate((el) => {
+      const bodyEl = el.querySelector("[data-wallet-body]") as HTMLElement | null;
+      const plateEl = el.querySelector("[data-qr-plate]") as HTMLElement | null;
+      const copyEl = el.querySelector("[data-wallet-copy]") as HTMLElement | null;
+      if (!bodyEl || !plateEl || !copyEl) return null;
+      const bodyRect = bodyEl.getBoundingClientRect();
+      const plateRect = plateEl.getBoundingClientRect();
+      const rootRect = el.getBoundingClientRect();
+      const scale = rootRect.height / Math.max(1, (el as HTMLElement).offsetHeight);
+      return {
+        bodyFontPx: parseFloat(getComputedStyle(bodyEl).fontSize),
+        designGapPx: (plateRect.top - bodyRect.bottom) / scale,
+        clamped: copyEl.getAttribute("data-wallet-copy-clamped") === "true",
+        text: (bodyEl.textContent ?? "").trim(),
+      };
+    });
+
+    expect(report).not.toBeNull();
+    expect(report!.bodyFontPx).toBeGreaterThanOrEqual(13);
+    expect(report!.clamped).toBe(false);
+    expect(report!.text.endsWith("…") || report!.text.endsWith("...")).toBe(
+      false,
+    );
+    // Content gap is small; do not leave a large unused band while copy fits.
+    expect(report!.designGapPx).toBeLessThan(48);
+  });
+
   test("qr-card square 5×5 keeps plate geometry and readable type", async ({
     page,
   }) => {

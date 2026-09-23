@@ -75,6 +75,7 @@ import {
   CanvasGrainOverlay,
   CanvasQrPlate,
   CanvasUrlCaption,
+  WalletCopyBlock,
 } from "@/components/tools/canvas";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 
@@ -138,6 +139,7 @@ function ActionCardPageContent() {
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<ActionCardState>(initial);
   const { exportError, exportSuccess, exporting, runExport } = useExportHandler();
+  const [copyClamped, setCopyClamped] = useState(false);
 
   useOneShotBrandSeed(hydrated, () => {
     const deepPreset = searchParams.get("preset");
@@ -401,6 +403,11 @@ function ActionCardPageContent() {
             onChange={(e) => setState({ ...state, ask: e.target.value })}
             rows={3}
           />
+          {copyClamped ? (
+            <p className="text-sm leading-snug text-amber-800" role="status">
+              {t("copyClampedHint")}
+            </p>
+          ) : null}
           <Input
             label={t("deadline")}
             value={state.deadline}
@@ -554,7 +561,7 @@ function ActionCardPageContent() {
                   ) : null}
 
                   <div
-                    className="relative z-[2] flex min-h-0 min-w-0 flex-1 flex-col justify-between"
+                    className="relative z-[2] flex min-h-0 min-w-0 flex-1 flex-col justify-start"
                     style={{
                       alignItems: flexAlign,
                       textAlign,
@@ -562,10 +569,13 @@ function ActionCardPageContent() {
                       gap: contentGapPx,
                     }}
                   >
-                    <div className="w-full min-w-0 shrink-0">
+                    <div
+                      className="flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden"
+                      style={{ gap: Math.max(4, Math.round(contentGapPx * 0.5)) }}
+                    >
                       {showCanvasLogo(state.logoMode) ? (
                         <div
-                          className="mb-2 flex"
+                          className="flex shrink-0"
                           style={{ justifyContent: brandJustify }}
                         >
                           <LogoContainer
@@ -583,49 +593,42 @@ function ActionCardPageContent() {
                           />
                         </div>
                       ) : null}
-                      <h2
-                        className="font-black uppercase leading-tight"
-                        style={{
-                          color: canvasInk,
-                          fontSize: titleFontPx,
-                          fontWeight: tokens.titleFontWeight,
-                          letterSpacing: tokens.titleLetterSpacing,
-                          textTransform: tokens.titleTextTransform,
-                          fontFamily: tokens.headlineFontFamily,
-                        }}
-                      >
-                        {state.headline}
-                      </h2>
-                      {state.ask.trim() ? (
-                        <p
-                          className="mt-1.5 leading-snug"
-                          style={{
-                            color: mutedInk,
-                            fontSize: bodyFontPx,
-                            textAlign,
-                            fontFamily: tokens.bodyFontFamily,
-                          }}
-                        >
-                          {state.ask}
-                        </p>
-                      ) : null}
-                      {state.deadline.trim() ? (
-                        <p
-                          className="mt-1.5 font-bold uppercase tracking-wide"
-                          style={{
-                            color: ctaColor,
-                            fontSize: metaFontPx,
-                            textAlign,
-                            fontFamily: tokens.bodyFontFamily,
-                          }}
-                        >
-                          {state.deadline}
-                        </p>
-                      ) : null}
+                      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+                        <WalletCopyBlock
+                          className="min-h-0 flex-1"
+                          title={state.headline}
+                          body={state.ask}
+                          titleFontPx={titleFontPx}
+                          bodyFontPx={bodyFontPx}
+                          titleColor={canvasInk}
+                          bodyColor={mutedInk}
+                          headlineFontFamily={tokens.headlineFontFamily}
+                          bodyFontFamily={tokens.bodyFontFamily}
+                          titleFontWeight={tokens.titleFontWeight}
+                          titleLetterSpacing={tokens.titleLetterSpacing}
+                          titleTextTransform={tokens.titleTextTransform}
+                          textAlign={textAlign}
+                          fit
+                          onFitStateChange={({ clamped }) => setCopyClamped(clamped)}
+                        />
+                        {state.deadline.trim() ? (
+                          <p
+                            className="mt-1.5 shrink-0 font-bold uppercase tracking-wide"
+                            style={{
+                              color: ctaColor,
+                              fontSize: metaFontPx,
+                              textAlign,
+                              fontFamily: tokens.bodyFontFamily,
+                            }}
+                          >
+                            {state.deadline}
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
 
                     <div
-                      className="flex min-h-0 w-full min-w-0 flex-col justify-center"
+                      className="flex min-h-0 w-full min-w-0 shrink-0 flex-col justify-center"
                       style={{ alignItems: "center" }}
                     >
                       <CanvasQrPlate

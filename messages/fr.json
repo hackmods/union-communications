@@ -3305,6 +3305,7 @@
     "savedFacebook": "Facebook",
     "cardTitle": "Titre",
     "description": "Description (optionnelle)",
+    "copyClampedHint": "Ce format d'impression ne peut pas afficher toute la description. Raccourcissez le texte, ou choisissez un plus grand format.",
     "tagline": "Slogan sous le QR",
     "bgMode": "Arrière-plan",
     "bgModes": {
@@ -3349,7 +3350,7 @@
       "healthSafetyDesc": "Contacts du comité et comment signaler un danger.",
       "healthSafetyTagline": "Scannez pour les contacts S&S",
       "rightToRefuseTitle": "Droit de refuser",
-      "rightToRefuseDesc": "Carte de poche LSST art. 43 (refus). Pas un avis juridique. Étapes : signaler le danger, refuser le travail dangereux, rester disponible, joindre CSS/superviseur, documenter, escalader si non résolu.",
+      "rightToRefuseDesc": "LSST art. 43 — vous pouvez refuser un travail dangereux. Pas un avis juridique. Scannez pour les étapes complètes.",
       "rightToRefuseTagline": "Scannez le guide complet →",
       "stewardRepresentationTitle": "Demandez votre délégué",
       "stewardRepresentationDesc": "Script pour les rencontres à risque disciplinaire. Dites : si cela peut mener à une mesure disciplinaire, je demande mon délégué syndical. Scannez pour le guide Délégué 101. Pas un avis juridique.",
@@ -3377,6 +3378,7 @@
     "savedFacebook": "Facebook",
     "headline": "Titre",
     "ask": "La demande",
+    "copyClampedHint": "Ce format d'impression ne peut pas afficher toute la demande. Raccourcissez le texte, ou choisissez un plus grand format.",
     "deadline": "Échéance (optionnelle)",
     "deadlinePlaceholder": "p. ex. Signez avant le vendredi 14 mars",
     "cta": "Appel à l'action sous le QR",
@@ -7292,6 +7294,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "qr-card-pocket-type": {
+        "title": "Texte plus lisible sur les cartes QR de poche",
+        "body": "Les cartes lien QR et les cartes d’action utilisent l’espace au-dessus du code pour la description, pour que les préréglages de poche comme Droit de refuser restent lisibles au lieu d’être coupés dans du rouge vide."
+      },
       "ca-snippets-bulk-durable": {
         "title": "Bibliothèque d’extraits : import en lot et stockage durable",
         "body": "Les dirigeants peuvent importer des clauses en lot depuis un CSV ou un texte, remplacer ou réinitialiser la bibliothèque syndicale avec autorisation, et conserver la bibliothèque sur un stockage durable lorsque l’hôte active cette option."

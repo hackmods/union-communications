@@ -45,6 +45,7 @@ export {
   CanvasBrandHeader,
   CanvasStackSlot,
   CanvasTypeBlock,
+  WalletCopyBlock,
   CanvasFitStackedHeadline,
   CanvasQrPlate,
   CanvasUrlCaption,

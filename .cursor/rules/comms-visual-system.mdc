@@ -28,6 +28,22 @@ Companion to [`comms-module.mdc`](comms-module.mdc). Spec: [`docs/modules/COMMS_
 - Brand-tint QR modules without an explicit product ticket
 - Hardcode Arial / Impact on export roots when Brand Kit tokens exist
 - Put `maxWidth: 100%` on `[data-export-root]` with fixed height (aspect desync)
+- Put `rem` / Tailwind `text-*` on HD or print `[data-export-root]` sheets (preview scale does not fix export)
+- Hard-clamp wallet body (`-webkit-line-clamp: 2`) while unused vertical slack remains above the QR
+
+## Layout-class type (2026-09-23)
+
+One fit strategy per class — see `COMMS_VISUAL_SYSTEM.md` “Layout-class type contract”.
+
+| Class | Use |
+|-------|-----|
+| Print stack | `CanvasTypeBlock fit` + `CanvasStackSlot` |
+| HD / social | design-width chrome + `CanvasFitStackedHeadline` |
+| Dense QR grid | `qrBoardChrome` tabulated px |
+| Wallet | `wallet*` + `WalletCopyBlock` (pack → fit → clamp last) |
+| Fluid strip | `clampTypeRem` only (Board Banner) |
+
+Wallet: copy column `flex-1 min-h-0`; QR `shrink-0`; never `mt-auto` empty band + 2-line clamp. Floors: `WALLET_TITLE_MIN_PX` / `WALLET_BODY_MIN_PX` / `WALLET_META_MIN_PX`.
 
 ## Canvas layout geometry (2026-08-17)
 
@@ -41,4 +57,5 @@ Session: [`session-knowledge-2026-08-17-qr-canvas-layout.md`](../../docs/audit/s
 6. **Layout overlap tests:** clip `getBoundingClientRect()` URL boxes to `[data-qr-cell]` before overlap checks; `overflow: hidden` is not enough. Keep Playwright `evaluate()` math in sync with `canvas-layout-geometry.ts`.
 7. **Playwright QR waits:** poll `offsetWidth` / `naturalWidth`, not visual `getBoundingClientRect()` — parent preview scale shrinks painted size without failed render.
 8. **Prefer `CanvasWrapper` for fixed print sheets** — parent of `[data-export-root]` with optional `maxScale` so previews can grow. Do not copy `qrBoardChrome` density caps onto Flyer / Graphic / Solidarity display type.
-9. **Square wallet sheets:** explicit design height on export root + copy column `min-h-0 overflow-hidden`; never center the whole flex stack on square link cards (B13). Use `qrCardPreviewHeightPx`.
+9. **Square wallet sheets:** explicit design height on export root + copy column `min-h-0 overflow-hidden`; never center the whole flex stack on square link cards (B13). Use `qrCardPreviewHeightPx`. Prefer `WalletCopyBlock` over hard description line-clamp.
+10. **Wallet dead space:** if body is truncated and slack remains above the QR, fix pack/fit — do not enlarge empty flex gaps.

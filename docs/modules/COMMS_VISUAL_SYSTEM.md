@@ -63,6 +63,7 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 | Quote Card (`stripe` / `centered` / `mark`) | done |
 | Phase 3 — layout matrix tokenization (`typeScale` / `density` / `asymmetric`) | done |
 | Phase 4 — wallet family + Notice + Pulse type chrome | done |
+| Wallet pack + fit contract (`WalletCopyBlock`, raised floors) | done 2026-09-23 |
 | Phase 5 — remaining tools + QR plate chrome | done |
 | Board Banner / Trim | done |
 | Logo Builder (`LocalLogoPlate`) | done |
@@ -104,6 +105,27 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - `CanvasStackSlot` — `min-h-0 flex-1 overflow-hidden` host so fit has a real height budget on fixed print pages.
 - Board Notice + Flyer Maker stack/band/split opt in; long steward copy must not paint over `[data-canvas-meta]`.
 - Playwright: `measureTypeMetaOverlap` / `expectTypeMetaClear` (layout matrix). Do not treat column-fit alone as layout integrity.
+
+### Layout-class type contract (2026-09-23)
+
+Pick **one** fit strategy per geometry class — do not invent a fourth scaling system. Editor chrome stays rem/Tailwind; canvas `[data-export-root]` stays **design px** with parent `CanvasWrapper` / `CanvasSheetPlate` preview scale.
+
+| Layout class | Tools | Strategy |
+|--------------|-------|----------|
+| **Fixed-height print stack** | Flyer, Board Notice, Brand Kit canvas panel | `CanvasStackSlot` + `CanvasTypeBlock fit` |
+| **HD / social display** | Meeting Background, Solidarity Poster, Graphic Maker headlines | Design-width chrome (`meeting*Px`, `graphicLayoutChrome`) + `CanvasFitStackedHeadline` when height is tight |
+| **Dense multi-cell** | QR Board | Tabulated px + `typeScale` cap (`qrBoardChrome`) — never Brand Kit display titles |
+| **Wallet / pocket** | QR Card, Action Card, Pulse Poll | `wallet*` helpers + `WalletCopyBlock` (vertical pack, fit before clamp) |
+| **Fluid strip** | Board Banner | `clampTypeRem` / `vmin` only in this class |
+
+**Wallet contract**
+
+1. Reserve QR / footer budget first; copy uses remaining height (`flex-1 min-h-0`).
+2. Wrap at readable `walletBodyFontSizePx` (floors: title ≥14px, body ≥13px, meta ≥10px at ~48 px/in design).
+3. If still overflowing, uniform shrink via `canvas-type-fit` down to the floor.
+4. Clamp / clip only after the fit floor — never hard `-webkit-line-clamp: 2` as the first step on reference layouts.
+5. **Defect:** truncated body (`line-clamp` / ellipsis) **and** unused vertical slack between copy and QR/footer. Prefer shortening preset punch lines over shrinking the QR below scannability.
+6. Preset pocket copy stays short (≈1–2 sentences); procedure lists live on the linked guide.
 
 ### Solidarity stacked headlines (2026-09-06)
 
