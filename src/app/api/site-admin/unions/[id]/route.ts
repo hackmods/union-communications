@@ -67,9 +67,12 @@ export async function PATCH(req: Request, { params }: Params) {
           HAVING count(*) > 1
         ) AS multi
       `);
-      const rows = Array.isArray(result)
-        ? (result as Array<{ n: number }>)
-        : ((result as { rows?: Array<{ n: number }> }).rows ?? []);
+      // postgres-js RowList is Array-like but not assignable to { n }[] directly.
+      const rows = (
+        Array.isArray(result)
+          ? result
+          : ((result as { rows?: unknown }).rows ?? [])
+      ) as unknown as Array<{ n: number }>;
       multiLocalMemberCount = Number(rows[0]?.n ?? 0);
     }
 

@@ -6722,6 +6722,11 @@
           "notNull": true
         },
         {
+          "name": "membership_policy",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
           "name": "name",
           "dataType": "text",
           "notNull": true

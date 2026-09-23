@@ -60,13 +60,13 @@ export async function POST(req: Request) {
       unionId: seed.union.id,
       metadata: {
         name: seed.union.name,
-        firstLocalId: seed.locals[0]?.id ?? "",
+        firstLocalId: seed.locals?.[0]?.id ?? "",
       },
     });
     return NextResponse.json({
       ok: true,
       union: { id: seed.union.id, name: seed.union.name, slug: seed.union.slug },
-      local: seed.locals[0]
+      local: seed.locals?.[0]
         ? {
             id: seed.locals[0].id,
             localNumber: seed.locals[0].localNumber,
