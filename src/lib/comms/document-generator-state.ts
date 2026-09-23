@@ -157,6 +157,7 @@ export async function buildLetterQrBytes(
   if (!dest) return null;
   const { qrDataUrl } = await import("@/lib/export/qr");
   const dataUrl = await qrDataUrl(dest.url, { width: 192 });
+  if (!dataUrl) return null;
   const res = await fetch(dataUrl);
   const buf = await res.arrayBuffer();
   return {

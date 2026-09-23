@@ -81,6 +81,12 @@ import {
   defaultShowLocalNumber,
   showCanvasLogo,
 } from "@/lib/comms/canvas-logo-mode";
+import { CanvasTokenOverridesControls } from "@/components/tools/CanvasTokenOverridesControls";
+import {
+  EMPTY_CANVAS_TOKEN_OVERRIDES,
+  resolveCanvasTokensWithOverrides,
+  type CanvasTokenOverrides,
+} from "@/lib/comms/canvas-token-overrides";
 
 interface BackgroundState {
   presetId: string;
@@ -98,6 +104,7 @@ interface BackgroundState {
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
+  canvasOverrides: CanvasTokenOverrides;
 }
 
 export default function MeetingBackgroundPage() {
@@ -143,6 +150,7 @@ function MeetingBackgroundPageContent() {
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
     accentColor: brandKit.accentColor,
+    canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -194,7 +202,11 @@ function MeetingBackgroundPageContent() {
   const secondary = state.secondaryColor || primary;
   const accent = state.accentColor || secondary;
   const canvasInk = pickContrastingInk(primary);
-  const tokens = resolveCanvasTokens(brandKit);
+  const brandCanvasTokens = resolveCanvasTokens(brandKit);
+  const tokens = resolveCanvasTokensWithOverrides(
+    brandKit,
+    state.canvasOverrides,
+  );
   const surfaceStyle = canvasSurfaceStyle(tokens, {
     primary,
     secondary,
@@ -873,6 +885,19 @@ function MeetingBackgroundPageContent() {
               showLocalNumber={state.showLocalNumber}
               onShowLocalNumberChange={(showLocalNumber) =>
                 setState({ ...state, showLocalNumber })
+              }
+            />
+            <CanvasTokenOverridesControls
+              brandDefaults={{
+                typeScale: brandCanvasTokens.typeScale,
+                density: brandCanvasTokens.density,
+                alignmentBias: brandCanvasTokens.alignmentBias,
+                qrPlate: brandCanvasTokens.qrPlate,
+                surface: brandCanvasTokens.surface,
+              }}
+              overrides={state.canvasOverrides}
+              onChange={(canvasOverrides) =>
+                setState({ ...state, canvasOverrides })
               }
             />
           </ToolFormDetails>

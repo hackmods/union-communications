@@ -7292,7 +7292,7 @@
     "items": {
       "steward-ux-brand-letters": {
         "title": "Générateur de lettres, catalogue Création et confirmations de la Trousse",
-        "body": "Le générateur de lettres, le constructeur de formulaires de grief, les extraits de convention et le journal rapide du délégué sont dans Création et Utilitaire. La Trousse indique la complétion et confirme l'enregistrement ; les lettres gardent salutations, QR facultatif et espacement d'impression."
+        "body": "Le générateur de lettres, le constructeur de formulaires de grief, les extraits de convention et le journal rapide du délégué sont dans Création et Utilitaire. La Trousse indique la complétion et confirme l'enregistrement. Les lettres gardent salutations, QR facultatif et espacement d'impression. Les outils graphiques et d'affichage peuvent essayer les dispositions des jetons avancés sans changer votre Trousse."
       },
       "host-readiness": {
         "title": "Préparation de l’hôte dans Admin du site",

@@ -7345,7 +7345,7 @@
     "items": {
       "steward-ux-brand-letters": {
         "title": "Letter Generator, Creation catalog, and Brand Kit save cues",
-        "body": "Letter Generator, Grievance Form Builder, CA Snippets, and Steward Quick-Log sit in Creation and Utility. Brand Kit shows completion and save confirmation; letters keep salutations, optional QR, and print spacing."
+        "body": "Letter Generator, Grievance Form Builder, CA Snippets, and Steward Quick-Log sit in Creation and Utility. Brand Kit shows completion and save confirmation. Letters keep salutations, optional QR, and print spacing. Graphic and board tools can try Advanced token layouts without changing your Brand Kit."
       },
       "host-readiness": {
         "title": "Host readiness in Site admin",

@@ -416,6 +416,8 @@ export function alignIdentityPackToSector<
     | "useOfficialLogo"
     | "officialLogoVariant"
     | "profiles"
+    | "signatureName"
+    | "canvas"
   >,
 >(kit: T): T {
   if (kit.unionPresetId !== "opseu") return kit;

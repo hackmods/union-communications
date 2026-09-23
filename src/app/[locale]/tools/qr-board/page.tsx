@@ -50,6 +50,12 @@ import {
 } from "@/lib/comms/canvas-logo-mode";
 import { QrBoardSlotEditor } from "@/components/tools/qr-board/QrBoardSlotEditor";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { CanvasTokenOverridesControls } from "@/components/tools/CanvasTokenOverridesControls";
+import {
+  EMPTY_CANVAS_TOKEN_OVERRIDES,
+  resolveCanvasTokensWithOverrides,
+  type CanvasTokenOverrides,
+} from "@/lib/comms/canvas-token-overrides";
 
 interface QrBoardState {
   presetId: string;
@@ -62,6 +68,7 @@ interface QrBoardState {
   showLocalNumber: boolean;
   primaryColor: string;
   secondaryColor: string;
+  canvasOverrides: CanvasTokenOverrides;
 }
 
 function swapSlots(
@@ -110,11 +117,17 @@ function QrBoardPageContent() {
     showLocalNumber: defaultShowLocalNumber(),
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
+    canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<QrBoardState>(initial);
   const { exportError, exportSuccess, exporting, runExport } = useExportHandler();
+  const brandCanvasTokens = resolveCanvasTokens(brandKit);
+  const canvasTokens = resolveCanvasTokensWithOverrides(
+    brandKit,
+    state.canvasOverrides,
+  );
 
   const applyPreset = (id: string) => {
     const preset = getQrBoardPreset(id);
@@ -154,6 +167,7 @@ function QrBoardPageContent() {
       showLocalNumber: defaultShowLocalNumber(),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
+      canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
     });
   });
 
@@ -377,6 +391,19 @@ function QrBoardPageContent() {
                 setState({ ...state, showLocalNumber })
               }
             />
+            <CanvasTokenOverridesControls
+              brandDefaults={{
+                typeScale: brandCanvasTokens.typeScale,
+                density: brandCanvasTokens.density,
+                alignmentBias: brandCanvasTokens.alignmentBias,
+                qrPlate: brandCanvasTokens.qrPlate,
+                surface: brandCanvasTokens.surface,
+              }}
+              overrides={state.canvasOverrides}
+              onChange={(canvasOverrides) =>
+                setState({ ...state, canvasOverrides })
+              }
+            />
           </ToolFormDetails>
 
           <ToolFormDetails title={t("sectionOptions")}>
@@ -423,6 +450,7 @@ function QrBoardPageContent() {
                   showLocalNumber: defaultShowLocalNumber(),
                   primaryColor: brandKit.primaryColor,
                   secondaryColor: brandKit.secondaryColor,
+                  canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
                 });
               }}
             />
@@ -483,7 +511,7 @@ function QrBoardPageContent() {
                 secondaryColor={state.secondaryColor}
                 localLabel={localLabel}
                 qrPlaceholder={t("qrPlaceholder")}
-                tokens={resolveCanvasTokens(brandKit)}
+                tokens={canvasTokens}
               />
             </div>
           </div>

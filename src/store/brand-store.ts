@@ -82,7 +82,9 @@ function clearSaveTimer() {
 }
 
 if (typeof window !== "undefined") {
-  window.addEventListener("pagehide", flushPendingBrandKitSave);
+  window.addEventListener("pagehide", () => {
+    flushPendingBrandKitSave();
+  });
 }
 
 function applyBrandKitPatch(current: BrandKit, partial: BrandKitPatch): BrandKit {

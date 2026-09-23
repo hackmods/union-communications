@@ -65,6 +65,12 @@ import {
   canvasSurfaceStyle,
   softGradientFillStyle,
 } from "@/lib/utils/canvas-surface";
+import { CanvasTokenOverridesControls } from "@/components/tools/CanvasTokenOverridesControls";
+import {
+  EMPTY_CANVAS_TOKEN_OVERRIDES,
+  resolveCanvasTokensWithOverrides,
+  type CanvasTokenOverrides,
+} from "@/lib/comms/canvas-token-overrides";
 import {
   CanvasGrainOverlay,
   CanvasQrPlate,
@@ -86,6 +92,7 @@ interface ActionCardState {
   showLocalNumber: boolean;
   primaryColor: string;
   secondaryColor: string;
+  canvasOverrides: CanvasTokenOverrides;
 }
 
 export default function ActionCardPage() {
@@ -125,6 +132,7 @@ function ActionCardPageContent() {
     showLocalNumber: defaultShowLocalNumber(),
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
+    canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -154,6 +162,7 @@ function ActionCardPageContent() {
       showLocalNumber: defaultShowLocalNumber(),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
+      canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
     });
     brandSeedComplete.current = true;
   });
@@ -184,7 +193,11 @@ function ActionCardPageContent() {
   const size = QR_CARD_SIZES[state.sizeId];
   const designWidth = size.previewWidthPx;
   const designHeight = qrCardPreviewHeightPx(size);
-  const tokens = resolveCanvasTokens(brandKit);
+  const brandCanvasTokens = resolveCanvasTokens(brandKit);
+  const tokens = resolveCanvasTokensWithOverrides(
+    brandKit,
+    state.canvasOverrides,
+  );
   const exportPixelRatio = qrCardExportPixelRatio(size);
   const savedLinks = listSavedLinks(brandKit, {
     website: t("savedWebsite"),
@@ -430,6 +443,19 @@ function ActionCardPageContent() {
               showLocalNumber={state.showLocalNumber}
               onShowLocalNumberChange={(showLocalNumber) =>
                 setState({ ...state, showLocalNumber })
+              }
+            />
+            <CanvasTokenOverridesControls
+              brandDefaults={{
+                typeScale: brandCanvasTokens.typeScale,
+                density: brandCanvasTokens.density,
+                alignmentBias: brandCanvasTokens.alignmentBias,
+                qrPlate: brandCanvasTokens.qrPlate,
+                surface: brandCanvasTokens.surface,
+              }}
+              overrides={state.canvasOverrides}
+              onChange={(canvasOverrides) =>
+                setState({ ...state, canvasOverrides })
               }
             />
           </ToolFormDetails>
