@@ -183,6 +183,32 @@ DROP TABLE IF EXISTS data_records CASCADE;
 DROP TABLE IF EXISTS data_staged_rows CASCADE;
 DROP TABLE IF EXISTS data_union_memberships CASCADE;
 
+-- Union customization foundation (0054). Replay creates these tables; leaving
+-- them in place after deleting journal rows from 0036+ collides on CREATE.
+DROP TABLE IF EXISTS customization_delivery_fragments CASCADE;
+DROP TABLE IF EXISTS customization_public_projections CASCADE;
+DROP TABLE IF EXISTS customization_section_controls CASCADE;
+DROP TABLE IF EXISTS customization_preset_bindings CASCADE;
+DROP TABLE IF EXISTS customization_maintenance_grants CASCADE;
+DROP TABLE IF EXISTS customization_operations CASCADE;
+DROP TABLE IF EXISTS customization_assets CASCADE;
+DROP TABLE IF EXISTS customization_audit CASCADE;
+DROP TABLE IF EXISTS customization_policy CASCADE;
+DROP TABLE IF EXISTS customization_heads CASCADE;
+DROP TABLE IF EXISTS customization_releases CASCADE;
+DROP TABLE IF EXISTS customization_revisions CASCADE;
+DROP TABLE IF EXISTS customization_drafts CASCADE;
+DROP TABLE IF EXISTS customization_resources CASCADE;
+DROP TABLE IF EXISTS customization_scopes CASCADE;
+DROP FUNCTION IF EXISTS public.customization_fragment_access(text, text, text, text, jsonb);
+DROP FUNCTION IF EXISTS public.customization_current_access(text, text, text, text);
+DROP FUNCTION IF EXISTS public.customization_audience(text, text);
+DROP FUNCTION IF EXISTS public.customization_scope_live(text);
+DROP FUNCTION IF EXISTS public.customization_root(text, boolean);
+DROP FUNCTION IF EXISTS public.customization_immutable();
+DROP FUNCTION IF EXISTS public.customization_row_guard();
+DROP FUNCTION IF EXISTS public.customization_scope_guard();
+
 -- Rewind the Members Portal authorization/Portal tail as well. The journal-hole
 -- fixture replays every migration after the reconciliation point; retaining
 -- these current objects would make otherwise-forward-only migrations collide
@@ -253,6 +279,37 @@ ALTER TABLE tasks DROP COLUMN IF EXISTS reactions;
 ALTER TABLE tasks DROP COLUMN IF EXISTS updated_at;
 
 DROP TABLE IF EXISTS access_requests CASCADE;
+
+-- Rewind customization foundation (0054) + membership policy uniqueness (0055).
+-- Forward-only CREATE TABLE / ALTER would collide with objects left from the
+-- fresh-volume migrate that precedes this journal-hole fixture.
+DROP TABLE IF EXISTS customization_delivery_fragments CASCADE;
+DROP TABLE IF EXISTS customization_public_projections CASCADE;
+DROP TABLE IF EXISTS customization_section_controls CASCADE;
+DROP TABLE IF EXISTS customization_preset_bindings CASCADE;
+DROP TABLE IF EXISTS customization_maintenance_grants CASCADE;
+DROP TABLE IF EXISTS customization_operations CASCADE;
+DROP TABLE IF EXISTS customization_revisions CASCADE;
+DROP TABLE IF EXISTS customization_releases CASCADE;
+DROP TABLE IF EXISTS customization_drafts CASCADE;
+DROP TABLE IF EXISTS customization_heads CASCADE;
+DROP TABLE IF EXISTS customization_resources CASCADE;
+DROP TABLE IF EXISTS customization_assets CASCADE;
+DROP TABLE IF EXISTS customization_audit CASCADE;
+DROP TABLE IF EXISTS customization_policy CASCADE;
+DROP TABLE IF EXISTS customization_scopes CASCADE;
+DROP INDEX IF EXISTS locals_union_number_active_uidx;
+DROP INDEX IF EXISTS local_memberships_primary_active_uidx;
+ALTER TABLE unions DROP CONSTRAINT IF EXISTS unions_membership_policy_check;
+ALTER TABLE unions DROP COLUMN IF EXISTS membership_policy;
+DROP FUNCTION IF EXISTS public.customization_fragment_access(text, text, text, text, jsonb) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_current_access(text, text, text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_audience(text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_scope_live(text) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_root(text, boolean) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_immutable() CASCADE;
+DROP FUNCTION IF EXISTS public.customization_row_guard() CASCADE;
+DROP FUNCTION IF EXISTS public.customization_scope_guard() CASCADE;
 
 DROP TABLE IF EXISTS time_worker_groups CASCADE;
 DROP TABLE IF EXISTS time_ot_policies CASCADE;

@@ -9,6 +9,8 @@ import { MeetingReminderBanner } from "@/components/hub/MeetingReminderBanner";
 type Props = {
   /** From server layout via `isMemoryCaseDataActive()` — not readable in the browser. */
   memoryCaseDataActive: boolean;
+  /** Env keys still on memory (for an honest banner body). */
+  memoryBackendKeys?: string[];
 };
 
 /**
@@ -16,7 +18,10 @@ type Props = {
  * `--hub-banner-stack-height` so HubNav can stick under the stack instead of
  * letting banners scroll away under the site header on mobile.
  */
-export function HubBannerStack({ memoryCaseDataActive }: Props) {
+export function HubBannerStack({
+  memoryCaseDataActive,
+  memoryBackendKeys = [],
+}: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -48,7 +53,10 @@ export function HubBannerStack({ memoryCaseDataActive }: Props) {
     >
       <DemoSiteBanner />
       <SoftLaunchBanner />
-      <MemoryDataBanner active={memoryCaseDataActive} />
+      <MemoryDataBanner
+        active={memoryCaseDataActive}
+        memoryModules={memoryBackendKeys}
+      />
       <MeetingReminderBanner />
     </div>
   );

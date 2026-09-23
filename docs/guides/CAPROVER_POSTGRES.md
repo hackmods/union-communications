@@ -256,9 +256,32 @@ Log in as platform admin, create an invite at `/app/invites`, **restart the web 
 After the first bootstrap:
 
 1. Deploy a new image tag (CI on `main` or a release tag).
-2. The boot gate applies pending journal migrations, proves this image's exact tail, and verifies required shape before serving. Data massage belongs in forward, idempotent Drizzle migrations.
+2. The boot gate applies pending journal migrations, proves this image's exact tip, and verifies required shape before serving. Data massage belongs in forward, idempotent Drizzle migrations.
 3. No repo checkout required for schema or data upgrades.
 4. Run `db:seed` again only when release notes say so (rare — usually migrate-only).
+5. Confirm tip + missing CapRover toggles in **Site admin → Host readiness** (`/app/site-admin/host`), or via `GET /api/health` (`databaseDeployment.tailTag`, `backends`, `memoryCaseDataActive`).
+
+### Portal + access-request flip (clears Hub “Memory only”)
+
+When most Hub modules are already `postgres` but the Hub still shows a Memory banner, check Host readiness. Live hosts often still have:
+
+```bash
+PORTAL_DB_BACKEND=postgres
+ACCESS_REQUEST_DB_BACKEND=postgres
+```
+
+Set those in CapRover App Configs, restart or Method-3 redeploy, then confirm:
+
+- `/api/health` → `backends.PORTAL_DB_BACKEND` / `ACCESS_REQUEST_DB_BACKEND` = `"postgres"`
+- `memoryCaseDataActive` = `false`
+- `postgresFlipComplete` = `true` (with audit + auth users already on postgres)
+
+Leave `DATA_DB_BACKEND=memory` until the UnionOps Data workbench flip is deliberate. Do **not** re-seed for this flip.
+
+Local Portal persistence is separately controlled by `PORTAL_DB_BACKEND`. Keep
+it on `memory` only while Circles data that exists solely in the running memory
+adapter still needs export. If Portal was never relied on for real Circles on
+this host, flipping to `postgres` is the usual path to clear the Hub banner.
 
 ---
 
@@ -271,11 +294,7 @@ Invite local presidents before advertising Officer Hub nationally:
 3. Flip remaining `*_DB_BACKEND=postgres` before real grievance/time data
 4. See [`session-knowledge-2026-08-19-president-soft-launch.md`](../audit/session-knowledge-2026-08-19-president-soft-launch.md)
 
-Local Portal persistence is separately controlled by `PORTAL_DB_BACKEND`. Keep
-it on `memory` until any activity that exists only in the running memory
-adapter has been exported and a staged migration/restart/rollback check passes.
-Then set `PORTAL_DB_BACKEND=postgres` and confirm that `/api/health` reports the
-effective backend before relying on durable Circle data. The current Portal
+Confirm durable posture on Host readiness after flips. The Portal
 durability smoke has passed against an isolated database; it does not migrate
 runtime memory contents.
 
@@ -302,7 +321,7 @@ Set all `*_DB_BACKEND=memory` and restart — Postgres data is **not read** unti
 | `unionops_app` auth / RLS errors | Runtime `DATABASE_URL` must use `unionops_app`, not `postgres` owner |
 | Password connection errors | URL-encode special characters in connection strings |
 | Demo login still advertised | Rebuild with `NEXT_PUBLIC_DEMO_SITE=false` **and** set `AUTH_ALLOW_DEMO_USERS=false` |
-| Health shows memory backends | Missing `*_DB_BACKEND=postgres` env vars on web app |
+| Health shows memory backends / Hub Memory banner | Open **Site admin → Host readiness** or `/api/health` `backends`. Often `PORTAL_DB_BACKEND` or `ACCESS_REQUEST_DB_BACKEND` still `memory` while grievances/time are already `postgres`. Set the missing keys to `postgres` and restart. |
 
 ---
 

@@ -1,6 +1,6 @@
 # Union customization: implementation handoff
 
-**Status:** C01–C04 implemented; C05 next. C05–C15 pending. Verification is recorded in PROGRESS.md.
+**Status:** C01–C15 foundation on branch with known gaps documented in UNION_CUSTOMIZATION.md. Operator runbooks: [CUSTOMIZATION_OPERATOR.md](../guides/CUSTOMIZATION_OPERATOR.md), [OPSEU_CUSTOMIZATION.md](../guides/OPSEU_CUSTOMIZATION.md).
 
 **Design authority:** [UNION_CUSTOMIZATION.md](../modules/UNION_CUSTOMIZATION.md).
 **Baseline reviewed:** `1f68490`, 2026-09-22. Recheck the checkout before implementing.
@@ -277,7 +277,7 @@ The defaults in the design allow infrastructure implementation without another d
 
 ## 8. Copyable handoff prompt
 
-> Continue the UnionOps Union & Sub-Collective Customization Layer from C05 in `docs/audit/plan-2026-09-22-union-customization.md`. Read the accepted design, AGENTS.md, current ground truth, latest `docs/PROGRESS.md`, and `src/lib/customization/README.md`. C01–C04 are implemented on `feat/union-customization-foundation` in the isolated worktree `C:\Users\Ryan\.codex\worktrees\union-customization-foundation\union-communications`; check status and recent commits first. C04 added migration 0054 and typed persistence adapters; do not renumber or edit earlier migrations. Continue C05–C15 sequentially with progress notes and an atomic local commit per component. Keep Root-only shared editing through C12, free public Comms, tenant isolation, and explicit RLS transactions. Run local modular tests; defer full GitHub Actions E2E until all modular components are implemented. Do not push, publish real union content, or expand casework authority as collateral work. Report actual validation and remaining gaps.
+> Continue the UnionOps Union & Sub-Collective Customization Layer from C06 in `docs/audit/plan-2026-09-22-union-customization.md`. Read the accepted design, AGENTS.md, current ground truth, latest `docs/PROGRESS.md`, and `src/lib/customization/README.md`. C01–C05 are implemented on `feat/union-customization-foundation` in the isolated worktree `C:\Users\Ryan\.codex\worktrees\union-customization-foundation\union-communications`; check status and recent commits first. C04 added migration 0054 and typed persistence adapters; C05 added compile/read/cache. Do not renumber or edit earlier migrations. Continue C06–C15 sequentially with progress notes and an atomic local commit per component. Keep Root-only shared editing through C12, free public Comms, tenant isolation, and explicit RLS transactions. Run local modular tests; defer full GitHub Actions E2E until all modular components are implemented. Do not push, publish real union content, or expand casework authority as collateral work. Report actual validation and remaining gaps.
 
 ## 9. Documentation delivery verification
 

@@ -25,6 +25,8 @@ import {
   GuideTipGrid,
   GuideTipItem,
 } from "@/components/comms/guide-ui";
+import { PresetGuideVisibility } from "@/components/comms/PresetGuideVisibility";
+import { OpseuBargainingGuideNotice } from "@/components/comms/OpseuBargainingGuideNotice";
 
 export async function generateMetadata({
   params,
@@ -109,6 +111,10 @@ export default async function BargainingGuidePage({
   }));
 
   return (
+    <PresetGuideVisibility
+      path="/guide/bargaining"
+      fallback={<OpseuBargainingGuideNotice />}
+    >
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
@@ -492,6 +498,7 @@ export default async function BargainingGuidePage({
         </GuideActionRow>
       </GuideSection>
     </GuideLayout>
+    </PresetGuideVisibility>
   );
 }
 

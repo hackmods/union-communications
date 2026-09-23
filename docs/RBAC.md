@@ -103,6 +103,13 @@ audited break-glass: the operator's session is authenticated, their
 action is logged, and the diff is reversible (`archived_at`/`restored_at`
 instead of hard delete for v1).
 
+### Union customization (content)
+
+- Root (`platform_admin` + configured MFA + durable auth) authors shared customization under an explicit target union context. That path does **not** grant grievance, roster, or Portal rights.
+- Maintenance grants (`CUSTOMIZATION_DELEGATION_ENABLED`) may allow draft/edit/publish only for listed kinds/scopes; they never escalate Hub roles.
+- Ordinary readers receive authorized DTOs only (`loadCustomizationContent` / `/api/customization/content`). Brand Kit preset → tenant slug maps presentation scope; forged scope IDs are ignored.
+- Hosted maintenance entitlements may block new edits when configured; they never paywall free public Comms or grant membership.
+
 See [`docs/audit/session-knowledge-2026-09-17-site-admin.md`](audit/session-knowledge-2026-09-17-site-admin.md)
 for the schema and the foot-guns around `users.union_id` FK / `is_demo` /
 `email_change_tokens` / `session_version`.
