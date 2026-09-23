@@ -1,5 +1,10 @@
 # Progress Log
 
+## 2026-09-22 — President module comparison fixture type correction
+
+- Replaced fictional module IDs in the existing `sameModuleSet` test with valid Hub module IDs, preserving its order-independent assertion. This removes two pre-existing TypeScript errors encountered during customization foundation validation.
+- Runtime behavior unchanged. Customization work continues at C02; full E2E CI remains deferred.
+
 ## 2026-09-22 — Customization C01 inventory complete
 
 - Recorded pilot resource ownership, Print guide block identity, tool/brand integration boundaries, workflow call sites, cache behavior and current migration tail in [conversion inventory](audit/union-customization-conversion-inventory.md).
