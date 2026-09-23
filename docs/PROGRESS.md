@@ -1,5 +1,13 @@
 # Progress Log
 
+## 2026-09-22 — Customization C03 authorization contract complete
+
+- Added Root-only customization capability decisions using fresh account state and explicit target context, without changing existing grievance or generic union-mismatch decisions. Production management requires durable auth and configured TOTP MFA; optional memory demo access is non-production only.
+- Added ordinary-reader audience checks for active union/division/local/unit memberships and officer assignments. Tenant relationships are separate from customization scope existence, so members do not need a local override to read their union's private guide. Presets, role labels and commercial entitlements grant no membership.
+- Added a validated future maintenance-grant contract; delegation remains disabled in launch management decisions. No routes expose private compiler output.
+- Validation: 8 focused suites / 121 tests passed, including grievance and Site Admin regression tests; typecheck passed; lint passed with the existing demo-purge unused-import warning.
+- **Next: C04** durable tables, strict scope integrity, restricted-role RLS and adapter parity/upgrade/restart tests. No GitHub Actions E2E or push initiated.
+
 ## 2026-09-22 — Customization reset handoff saved
 
 - Saved [session knowledge](audit/session-knowledge-2026-09-22-union-customization.md) with completed commits, test evidence, compiler security boundaries, isolated checkout location and exact C03 resume instructions.

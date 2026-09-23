@@ -13,7 +13,13 @@ export type Capability =
   | "grievances.case.write"
   | "grievances.access.manage"
   | "grievances.member_updates.publish"
-  | "tenant.configure";
+  | "tenant.configure"
+  | "customization.readDraft"
+  | "customization.edit"
+  | "customization.publish"
+  | "customization.policy.manage"
+  | "customization.localParameters.edit"
+  | "customization.grants.manage";
 
 export type EffectiveMembership = {
   unionId: string;
