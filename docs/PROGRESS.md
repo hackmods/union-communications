@@ -1,5 +1,17 @@
 # Progress Log
 
+## 2026-09-22 — Customization C01 inventory complete
+
+- Recorded pilot resource ownership, Print guide block identity, tool/brand integration boundaries, workflow call sites, cache behavior and current migration tail in [conversion inventory](audit/union-customization-conversion-inventory.md).
+- Validation: 7 local regression suites / 69 tests passed. Runtime behavior unchanged; GitHub Actions E2E deferred as requested.
+- Next: C02 typed payload/scope schemas and pure resolution engine. SQL/RLS and production publication follow C03–C04; the feature is not yet live.
+
+## 2026-09-22 — Union customization architecture handoff (documentation only)
+
+- Documented the proposed union/division/local/bargaining-unit customization layer, Root-only initial governance, versioned publication, server-enforced visibility, and future maintenance grants.
+- Added a dependency-ordered implementation handoff with acceptance tests, integration boundaries, and a Root-operated post-deployment content seeding runbook. No runtime functionality or real union content was added.
+- Design: [UNION_CUSTOMIZATION.md](modules/UNION_CUSTOMIZATION.md). Execution: [implementation handoff](audit/plan-2026-09-22-union-customization.md).
+
 ## 2026-09-22 — President UX phases (presets, preview, Today, polish)
 
 - [x] Phase 1–5 on president configuration: live preview, presets + undo, destructive-off confirm, local presentation prefs, batched Apply, solidarity product labels, Circle starter kit, steward read-only, first-run coach.
