@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Checkbox } from "@/components/ui/Checkbox";
@@ -30,6 +31,7 @@ export function AssignLocalForm({
   initialLocalId,
 }: Props) {
   const t = useTranslations("hub.platformOperator");
+  const router = useRouter();
   const [unions, setUnions] = useState<UnionOption[]>([]);
   const [locals, setLocals] = useState<LocalOption[]>([]);
   const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
@@ -39,6 +41,7 @@ export function AssignLocalForm({
     localId: initialLocalId ?? "",
   }));
   const [replaceActive, setReplaceActive] = useState(false);
+  const [needsReplace, setNeedsReplace] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -67,15 +70,15 @@ export function AssignLocalForm({
     };
   }, []);
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  async function submitAssign(options?: { replace?: boolean }) {
+    const replace = options?.replace ?? replaceActive;
     setBusy(true);
     setError(null);
     setSuccess(null);
     try {
       const body: Record<string, unknown> = {
         setPrimary: true,
-        replaceActiveMembership: replaceActive,
+        replaceActiveMembership: replace,
       };
       if (value.unionId === UNION_LOCAL_SELECT_OTHER) {
         body.newUnionName = value.newUnionName.trim();
@@ -107,18 +110,27 @@ export function AssignLocalForm({
       };
       if (!res.ok) {
         if (data.code === "single_local_conflict") {
+          setNeedsReplace(true);
+          setReplaceActive(true);
           setError(t("assignLocalSingleConflict"));
         } else {
           setError(data.error ?? t("assignLocalFailed"));
         }
         return;
       }
+      setNeedsReplace(false);
       setSuccess(t("assignLocalSuccess"));
+      router.refresh();
     } catch {
       setError(t("assignLocalFailed"));
     } finally {
       setBusy(false);
     }
+  }
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    await submitAssign();
   }
 
   return (
@@ -137,7 +149,10 @@ export function AssignLocalForm({
         locals={locals}
         subGroups={subGroups}
         value={value}
-        onChange={setValue}
+        onChange={(next) => {
+          setNeedsReplace(false);
+          setValue(next);
+        }}
         disabled={busy}
         allowCreateLocal
       />
@@ -153,6 +168,17 @@ export function AssignLocalForm({
         <Callout tone="danger">
           <p className="font-semibold">{t("assignLocalErrorTitle")}</p>
           <p className="mt-1">{error}</p>
+          {needsReplace ? (
+            <div className="mt-3">
+              <Button
+                type="button"
+                disabled={busy}
+                onClick={() => void submitAssign({ replace: true })}
+              >
+                {busy ? t("assignLocalSaving") : t("assignLocalReplaceSubmit")}
+              </Button>
+            </div>
+          ) : null}
         </Callout>
       ) : null}
       {success ? (

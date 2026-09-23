@@ -10,11 +10,13 @@ import type { InviteRoleOption } from "@/lib/tenant/access";
 import { formatRoleLabel, formatRoleList } from "@/lib/auth/role-labels";
 import type { UserRole } from "@/types/tenant";
 import {
+  UNION_LOCAL_SELECT_OTHER,
   UnionLocalSelect,
   emptyUnionLocalSelectValue,
   type LocalOption,
   type SubGroupOption,
   type UnionLocalSelectValue,
+  type UnionOption,
 } from "@/components/tenant/UnionLocalSelect";
 
 type CreateInviteResponse = {
@@ -44,19 +46,28 @@ type InvitesGetResponse = {
   invites: PendingInvite[];
   locals: LocalOption[];
   subGroups?: SubGroupOption[];
+  unions?: UnionOption[];
   inviteRoles: InviteRoleOption[];
   canInvitePresident: boolean;
   canElevateLocalNumber?: boolean;
+  isPlatformAdmin?: boolean;
   sessionLocalId: string | null;
-  sessionUnionId?: string;
-  unionName?: string;
+  sessionUnionId?: string | null;
+  selectedUnionId?: string | null;
+  unionName?: string | null;
 };
 
 const emailUiEnabled = process.env.NEXT_PUBLIC_EMAIL_ENABLED === "true";
 
+function readRequestId(): string | null {
+  if (typeof window === "undefined") return null;
+  return new URLSearchParams(window.location.search).get("requestId");
+}
+
 export function InvitesBoard() {
   const t = useTranslations("invites");
   const tRoles = useTranslations("hub.roleLabels");
+  const [requestId] = useState<string | null>(() => readRequestId());
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [roles, setRoles] = useState<InviteRoleOption[]>(["local_steward"]);
@@ -73,6 +84,8 @@ export function InvitesBoard() {
   ]);
   const [canInvitePresident, setCanInvitePresident] = useState(false);
   const [canElevate, setCanElevate] = useState(false);
+  const [isPlatformAdmin, setIsPlatformAdmin] = useState(false);
+  const [unions, setUnions] = useState<UnionOption[]>([]);
   const [locals, setLocals] = useState<LocalOption[]>([]);
   const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
   const [sessionUnionId, setSessionUnionId] = useState<string | null>(null);
@@ -99,13 +112,23 @@ export function InvitesBoard() {
     Record<string, string>
   >({});
 
-  async function refresh() {
-    const res = await fetch("/api/invites");
+  async function refresh(selectedUnion?: string) {
+    const unionQuery =
+      selectedUnion ||
+      (teamLocal.unionId && teamLocal.unionId !== UNION_LOCAL_SELECT_OTHER
+        ? teamLocal.unionId
+        : "");
+    const qs = unionQuery
+      ? `?unionId=${encodeURIComponent(unionQuery)}`
+      : "";
+    const res = await fetch(`/api/invites${qs}`);
     if (!res.ok) throw new Error("fail");
     const data = (await res.json()) as InvitesGetResponse;
     setInviteRoles(data.inviteRoles);
     setCanInvitePresident(data.canInvitePresident);
     setCanElevate(Boolean(data.canElevateLocalNumber ?? data.canInvitePresident));
+    setIsPlatformAdmin(Boolean(data.isPlatformAdmin));
+    setUnions(data.unions ?? []);
     setLocals(data.locals);
     setSubGroups(data.subGroups ?? []);
     setPending(data.invites);
@@ -120,7 +143,26 @@ export function InvitesBoard() {
       return data.inviteRoles[0] ? [data.inviteRoles[0]] : [];
     });
     const lockedLocal = data.locals.find((l) => l.id === data.sessionLocalId);
+    const defaultUnion =
+      data.selectedUnionId ??
+      data.sessionUnionId ??
+      data.unions?.[0]?.id ??
+      "";
     setTeamLocal((prev) => {
+      if (data.isPlatformAdmin) {
+        if (
+          prev.unionId === UNION_LOCAL_SELECT_OTHER ||
+          (prev.unionId &&
+            (data.unions ?? []).some((u) => u.id === prev.unionId))
+        ) {
+          return prev;
+        }
+        return {
+          ...emptyUnionLocalSelectValue(),
+          unionId: defaultUnion,
+          localId: data.sessionLocalId ?? "",
+        };
+      }
       if (data.canElevateLocalNumber || data.canInvitePresident) {
         if (prev.localId && data.locals.some((l) => l.id === prev.localId)) {
           return prev;
@@ -152,7 +194,30 @@ export function InvitesBoard() {
     return () => {
       cancelled = true;
     };
+    // Initial load only — refresh() closes over form state and would loop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [t]);
+
+  function scopePayload(scope: UnionLocalSelectValue): Record<string, unknown> {
+    const payload: Record<string, unknown> = {};
+    if (scope.unionId === UNION_LOCAL_SELECT_OTHER) {
+      payload.newUnionName = scope.newUnionName.trim();
+    } else if (scope.unionId) {
+      payload.unionId = scope.unionId;
+    }
+    if (scope.localId) payload.localId = scope.localId;
+    if (scope.localNumber.trim()) {
+      payload.localNumber = scope.localNumber.trim();
+      if (scope.localSubText.trim()) {
+        payload.localSubText = scope.localSubText.trim();
+      }
+    }
+    if (scope.bargainingUnitId) {
+      payload.bargainingUnitId = scope.bargainingUnitId;
+    }
+    if (requestId) payload.requestId = requestId;
+    return payload;
+  }
 
   function toggleRole(role: InviteRoleOption) {
     setRoles((prev) =>
@@ -194,18 +259,7 @@ export function InvitesBoard() {
           email,
           name,
           roles,
-          ...(canElevate && teamLocal.localId
-            ? { localId: teamLocal.localId }
-            : {}),
-          ...(canElevate && teamLocal.localNumber.trim()
-            ? {
-                localNumber: teamLocal.localNumber.trim(),
-                localSubText: teamLocal.localSubText.trim() || undefined,
-              }
-            : {}),
-          ...(teamLocal.bargainingUnitId
-            ? { bargainingUnitId: teamLocal.bargainingUnitId }
-            : {}),
+          ...scopePayload(teamLocal),
           ...(emailUiEnabled && sendEmailOnCreate ? { sendEmail: true } : {}),
         }),
       });
@@ -217,7 +271,17 @@ export function InvitesBoard() {
       applyEmailResult(data);
       setEmail("");
       setName("");
-      await refresh();
+      setRequestId(null);
+      if (typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("requestId");
+        window.history.replaceState({}, "", url.pathname + url.search);
+      }
+      await refresh(
+        teamLocal.unionId !== UNION_LOCAL_SELECT_OTHER
+          ? teamLocal.unionId
+          : undefined,
+      );
     } catch {
       setError(t("createError"));
     } finally {
@@ -240,13 +304,7 @@ export function InvitesBoard() {
           email: presidentEmail,
           name: presidentName,
           roles: ["local_president"],
-          localNumber: presidentLocal.localNumber,
-          ...(presidentLocal.localSubText.trim()
-            ? { localSubText: presidentLocal.localSubText.trim() }
-            : {}),
-          ...(presidentLocal.localId
-            ? { localId: presidentLocal.localId }
-            : {}),
+          ...scopePayload(presidentLocal),
           ...(presidentCollectionCode.trim() && presidentCollectionName.trim()
             ? {
                 collectionCode: presidentCollectionCode.trim(),
@@ -267,7 +325,12 @@ export function InvitesBoard() {
       setPresidentLocal(emptyUnionLocalSelectValue());
       setPresidentCollectionCode("");
       setPresidentCollectionName("");
-      await refresh();
+      setRequestId(null);
+      await refresh(
+        presidentLocal.unionId !== UNION_LOCAL_SELECT_OTHER
+          ? presidentLocal.unionId
+          : undefined,
+      );
     } catch {
       setPresidentError(t("presidentCreateError"));
     } finally {
@@ -418,12 +481,23 @@ export function InvitesBoard() {
               autoComplete="email"
             />
             <UnionLocalSelect
-              mode="elevate"
+              mode={isPlatformAdmin ? "platform" : "elevate"}
+              unions={unions}
               locals={locals}
               subGroups={subGroups}
               lockedUnionId={sessionUnionId}
               value={presidentLocal}
-              onChange={setPresidentLocal}
+              onChange={(next) => {
+                setPresidentLocal(next);
+                if (
+                  isPlatformAdmin &&
+                  next.unionId &&
+                  next.unionId !== UNION_LOCAL_SELECT_OTHER &&
+                  next.unionId !== presidentLocal.unionId
+                ) {
+                  void refresh(next.unionId);
+                }
+              }}
               disabled={presidentBusy}
               allowCreateLocal
             />
@@ -474,12 +548,23 @@ export function InvitesBoard() {
           />
           {canElevate ? (
             <UnionLocalSelect
-              mode="elevate"
+              mode={isPlatformAdmin ? "platform" : "elevate"}
+              unions={unions}
               locals={locals}
               subGroups={subGroups}
               lockedUnionId={sessionUnionId}
               value={teamLocal}
-              onChange={setTeamLocal}
+              onChange={(next) => {
+                setTeamLocal(next);
+                if (
+                  isPlatformAdmin &&
+                  next.unionId &&
+                  next.unionId !== UNION_LOCAL_SELECT_OTHER &&
+                  next.unionId !== teamLocal.unionId
+                ) {
+                  void refresh(next.unionId);
+                }
+              }}
               disabled={loading}
               allowCreateLocal
             />
@@ -499,6 +584,11 @@ export function InvitesBoard() {
               disabled={loading}
             />
           )}
+          {requestId ? (
+            <Callout tone="muted">
+              <p>{t("fulfillingRequest", { id: requestId })}</p>
+            </Callout>
+          ) : null}
           <fieldset className="space-y-2">
             <legend className="text-sm font-medium text-gray-700">
               {t("roles")}

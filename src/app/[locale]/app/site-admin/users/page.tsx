@@ -123,6 +123,13 @@ export default async function SiteAdminUsersPage({
               </Link>
             </>
           ) : null}
+          {" · "}
+          <Link
+            href="/app/site-admin/account-support"
+            className="text-opseu-blue hover:underline"
+          >
+            {t("usersSearchLink")}
+          </Link>
         </p>
         {orphanCount > 0 ? (
           <p className="mt-2 text-sm text-opseu-orange-dark">

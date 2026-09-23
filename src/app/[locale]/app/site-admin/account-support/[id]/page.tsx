@@ -30,7 +30,7 @@ export default async function AccountSupportDetailPage({
     if (gate.status === 403) redirect(`/${locale}/app`);
     redirect(`/${locale}/app/login`);
   }
-  await getTranslations({ locale, namespace: "hub.platformOperator" });
+  const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
   const tRoles = await getTranslations({ locale, namespace: "hub.roleLabels" });
 
   let profile: {
@@ -107,10 +107,10 @@ export default async function AccountSupportDetailPage({
           href="/app/site-admin/account-support"
           className="text-sm text-opseu-blue hover:underline"
         >
-          ← Account support
+          ← {t("accountSupportBack")}
         </Link>
         <h1 className="mt-4 text-2xl font-bold text-opseu-dark">
-          User not found
+          {t("accountSupportUserNotFound")}
         </h1>
       </main>
     );
@@ -122,7 +122,7 @@ export default async function AccountSupportDetailPage({
         href="/app/site-admin/account-support"
         className="text-sm text-opseu-blue hover:underline"
       >
-        ← Account support
+        ← {t("accountSupportBack")}
       </Link>
 
       <header className="mt-4">
@@ -133,9 +133,9 @@ export default async function AccountSupportDetailPage({
       </header>
 
       <dl className="mt-6 grid grid-cols-1 gap-x-6 gap-y-2 rounded-md border border-opseu-gray/15 bg-white p-4 text-sm sm:grid-cols-2">
-        <Row label="ID" value={profile.id} />
+        <Row label={t("accountSupportLabelId")} value={profile.id} />
         <Row
-          label="Union"
+          label={t("accountSupportLabelUnion")}
           value={
             profile.unionId
               ? `${profile.unionName ?? profile.unionId}`
@@ -143,44 +143,53 @@ export default async function AccountSupportDetailPage({
           }
         />
         <Row
-          label="Local"
+          label={t("accountSupportLabelLocal")}
           value={
             profile.localId
-              ? `Local ${profile.localNumber ?? profile.localId}`
+              ? t("accountSupportLocalValue", {
+                  number: profile.localNumber ?? profile.localId,
+                })
               : "—"
           }
         />
         <Row
-          label="Roles"
+          label={t("accountSupportLabelRoles")}
           value={formatRoleList(profile.roles, tRoles) || "—"}
         />
         <Row
-          label="MFA"
-          value={profile.mfaEnabled ? "Enrolled" : "Not enrolled"}
+          label={t("accountSupportLabelMfa")}
+          value={
+            profile.mfaEnabled
+              ? t("accountSupportMfaEnrolled")
+              : t("accountSupportMfaNotEnrolled")
+          }
         />
-        <Row label="Session version" value={String(profile.sessionVersion)} />
         <Row
-          label="Demo"
-          value={profile.isDemo ? "Yes" : "No"}
+          label={t("accountSupportLabelSession")}
+          value={String(profile.sessionVersion)}
         />
         <Row
-          label="Archived"
+          label={t("accountSupportLabelDemo")}
+          value={profile.isDemo ? t("accountSupportYes") : t("accountSupportNo")}
+        />
+        <Row
+          label={t("accountSupportLabelArchived")}
           value={
             profile.archivedAt
               ? profile.archivedAt.toISOString().slice(0, 19).replace("T", " ")
-              : "No"
+              : t("accountSupportNo")
           }
         />
         <Row
-          label="Locked"
+          label={t("accountSupportLabelLocked")}
           value={
             profile.lockedAt
-              ? `${profile.lockedReason ?? "no reason given"}`
-              : "No"
+              ? `${profile.lockedReason ?? t("accountSupportNoLockReason")}`
+              : t("accountSupportNo")
           }
         />
         <Row
-          label="Created"
+          label={t("accountSupportLabelCreated")}
           value={profile.createdAt
             .toISOString()
             .slice(0, 19)
@@ -205,25 +214,24 @@ export default async function AccountSupportDetailPage({
           disabled={profile.archivedAt !== null}
           className="rounded-md bg-opseu-blue px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-opseu-blue/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Force password reset
+          {t("accountSupportForcePassword")}
         </button>
         {profile.archivedAt && (
           <span className="text-xs text-opseu-gray-dark">
-            cannot reset archived account
+            {t("accountSupportCannotResetArchived")}
           </span>
         )}
       </form>
 
       <p className="mt-6 text-xs text-opseu-gray-dark">
-        Other actions (rotate MFA, lock account, change email) ship in v2.
-        See{" "}
+        {t("accountSupportOtherActionsLead")}{" "}
         <Link
           href="/app/site-admin/users"
           className="text-opseu-blue hover:underline"
         >
-          Users
+          {t("users")}
         </Link>{" "}
-        for the cross-tenant directory.
+        {t("accountSupportOtherActionsTail")}
       </p>
     </main>
   );

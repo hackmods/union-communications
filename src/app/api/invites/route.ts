@@ -17,7 +17,7 @@ import {
 import {
   canElevateLocalNumber,
 } from "@/lib/tenant/local-number-access";
-import { getTenantContext } from "@/lib/tenant/loader";
+import { getTenantContext, getAllTenantSeeds } from "@/lib/tenant/loader";
 import {
   findOrCreateLocal,
   hydrateTenantOverlayFromPostgres,
@@ -33,6 +33,8 @@ const createSchema = z.object({
   email: z.string().email(),
   name: z.string().min(1).max(200),
   roles: z.array(z.string()).min(1),
+  /** Target union — required when platform_admin has no session union. */
+  unionId: z.string().min(1).optional(),
   localId: z.string().optional(),
   localNumber: z.string().min(1).max(32).optional(),
   localSubText: z.string().max(200).optional(),
@@ -56,22 +58,27 @@ function inviteEmailKind(
   return "officer";
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  if (!session.user.unionId) {
-    return NextResponse.json({ error: "Missing union context" }, { status: 400 });
-  }
   const actor = await resolveAuthorizationActor(session);
   if (!actor.accountActive) return NextResponse.json({ error: "Session expired" }, { status: 401 });
   const roles = actor.roles;
+  const isPlatform = roles.includes("platform_admin");
   const elevateLocal = canElevateLocalNumber(roles);
+  const sessionUnionId = session.user.unionId ?? null;
+
+  if (!sessionUnionId && !isPlatform) {
+    return NextResponse.json({ error: "Missing union context" }, { status: 400 });
+  }
+
   const canManageLocal = Boolean(
-    session.user.localId &&
+    sessionUnionId &&
+      session.user.localId &&
       decideCapability(actor, "memberships.manage", {
-        unionId: session.user.unionId,
+        unionId: sessionUnionId,
         localId: session.user.localId,
       }).allowed,
   );
@@ -80,16 +87,83 @@ export async function GET() {
   }
 
   await hydrateTenantOverlayFromPostgres();
-  const ctx = getTenantContext(session.user.unionId);
+
+  const url = new URL(req.url);
+  const queryUnionId = url.searchParams.get("unionId");
+  const effectiveUnionId =
+    isPlatform && queryUnionId
+      ? queryUnionId
+      : sessionUnionId;
+
+  const seeds = getAllTenantSeeds();
+  const unionsList = isPlatform
+    ? seeds.map((s) => ({ id: s.union.id, name: s.union.name }))
+    : [];
+
+  if (!effectiveUnionId) {
+    return NextResponse.json({
+      invites: [],
+      locals: [],
+      subGroups: [],
+      unions: unionsList,
+      inviteRoles: inviteRolesForActor(roles),
+      canInvitePresident: elevateLocal,
+      canElevateLocalNumber: elevateLocal,
+      isPlatformAdmin: isPlatform,
+      sessionLocalId: session.user.localId ?? null,
+      sessionUnionId: null,
+      unionName: null,
+    });
+  }
+
+  const ctx = getTenantContext(effectiveUnionId);
   if (!ctx) {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
 
-  const scopeLocalId = elevateLocal ? undefined : session.user.localId;
+  const scopeLocalId =
+    elevateLocal || isPlatform ? undefined : session.user.localId;
   const invites = await listInvitesForUnion({
-    unionId: session.user.unionId,
+    unionId: effectiveUnionId,
     localId: scopeLocalId,
   });
+
+  const allLocals = isPlatform
+    ? seeds.flatMap((s) =>
+        (s.locals?.length
+          ? s.locals
+          : s.local
+            ? [s.local]
+            : []
+        ).map((local) => ({
+          id: local.id,
+          localNumber: local.localNumber,
+          subText: local.subText,
+          unionId: s.union.id,
+        })),
+      )
+    : ctx.locals.map((local) => ({
+        id: local.id,
+        localNumber: local.localNumber,
+        subText: local.subText,
+        unionId: effectiveUnionId,
+      }));
+
+  const allSubGroups = isPlatform
+    ? seeds.flatMap((s) =>
+        (s.bargainingUnits ?? []).map((bu) => ({
+          id: bu.id,
+          code: bu.code,
+          name: bu.name,
+          localId: bu.localId,
+        })),
+      )
+    : ctx.bargainingUnits.map((bu) => ({
+        id: bu.id,
+        code: bu.code,
+        name: bu.name,
+        localId: bu.localId,
+      }));
 
   return NextResponse.json({
     invites: invites.map((row) => ({
@@ -108,23 +182,16 @@ export async function GET() {
           }
         : {}),
     })),
-    locals: ctx.locals.map((local) => ({
-      id: local.id,
-      localNumber: local.localNumber,
-      subText: local.subText,
-      unionId: session.user.unionId,
-    })),
-    subGroups: ctx.bargainingUnits.map((bu) => ({
-      id: bu.id,
-      code: bu.code,
-      name: bu.name,
-      localId: bu.localId,
-    })),
+    locals: allLocals,
+    subGroups: allSubGroups,
+    unions: unionsList,
     inviteRoles: inviteRolesForActor(roles),
     canInvitePresident: elevateLocal,
     canElevateLocalNumber: elevateLocal,
+    isPlatformAdmin: isPlatform,
     sessionLocalId: session.user.localId ?? null,
-    sessionUnionId: session.user.unionId,
+    sessionUnionId: sessionUnionId,
+    selectedUnionId: effectiveUnionId,
     unionName: ctx.union.name,
   });
 }
@@ -134,17 +201,22 @@ export async function POST(req: Request) {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  if (!session.user.unionId) {
-    return NextResponse.json({ error: "Missing union context" }, { status: 400 });
-  }
   const actor = await resolveAuthorizationActor(session);
   if (!actor.accountActive) return NextResponse.json({ error: "Session expired" }, { status: 401 });
   const roles = actor.roles;
+  const isPlatform = roles.includes("platform_admin");
   const elevateLocal = canElevateLocalNumber(roles);
+  const sessionUnionId = session.user.unionId ?? null;
+
+  if (!sessionUnionId && !isPlatform) {
+    return NextResponse.json({ error: "Missing union context" }, { status: 400 });
+  }
+
   const canManageLocal = Boolean(
-    session.user.localId &&
+    sessionUnionId &&
+      session.user.localId &&
       decideCapability(actor, "memberships.manage", {
-        unionId: session.user.unionId,
+        unionId: sessionUnionId,
         localId: session.user.localId,
       }).allowed,
   );
@@ -178,9 +250,9 @@ export async function POST(req: Request) {
 
   await hydrateTenantOverlayFromPostgres();
 
-  let unionId = session.user.unionId;
+  let unionId = sessionUnionId ?? "";
   if (parsed.data.newUnionName?.trim()) {
-    if (!roles.includes("platform_admin")) {
+    if (!isPlatform) {
       return NextResponse.json(
         { error: "Only platform admins can create a union" },
         { status: 403 },
@@ -188,12 +260,17 @@ export async function POST(req: Request) {
     }
     const seed = await createUnionDurable({
       name: parsed.data.newUnionName.trim(),
-      localNumber:
-        parsed.data.localNumber?.trim() ||
-        undefined,
+      localNumber: parsed.data.localNumber?.trim() || undefined,
       localSubText: parsed.data.localSubText,
     });
     unionId = seed.union.id;
+  } else if (isPlatform && parsed.data.unionId) {
+    unionId = parsed.data.unionId;
+  } else if (!unionId) {
+    return NextResponse.json(
+      { error: "Choose a union or enter a new union name" },
+      { status: 400 },
+    );
   }
 
   const ctx = getTenantContext(unionId);
@@ -266,7 +343,7 @@ export async function POST(req: Request) {
         unionId,
         localId,
         mfaVerified: true,
-        crossLocal: elevateLocal,
+        crossLocal: elevateLocal || isPlatform,
       },
       () =>
         accessRequestStore.update(parsed.data.requestId!, {

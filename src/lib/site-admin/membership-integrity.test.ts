@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { MembershipIntegrityIssue } from "./membership-integrity";
+import { countHighMembershipIntegrityIssues } from "./membership-integrity";
 
 describe("membership integrity issue shape", () => {
   it("documents severity codes used by the site-admin scan", () => {
@@ -12,5 +13,11 @@ describe("membership integrity issue shape", () => {
     };
     expect(sample.code).toBe("orphan_no_local");
     expect(["high", "medium", "low"]).toContain(sample.severity);
+  });
+});
+
+describe("countHighMembershipIntegrityIssues", () => {
+  it("returns 0 when Postgres is not configured", async () => {
+    expect(await countHighMembershipIntegrityIssues()).toBe(0);
   });
 });

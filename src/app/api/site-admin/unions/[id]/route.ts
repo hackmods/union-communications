@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { sql } from "drizzle-orm";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
-import { isPostgresConfigured } from "@/lib/db/client";
+import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { updateUnionMembershipPolicy } from "@/lib/tenant/assign-local";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
@@ -17,6 +18,8 @@ type Params = { params: Promise<{ id: string }> };
  * PATCH /api/site-admin/unions/[id]
  *
  * Update union membership policy (platform_admin).
+ * When switching to single_local, returns how many members already have
+ * multiple active locals so the UI can warn.
  */
 export async function PATCH(req: Request, { params }: Params) {
   const gate = await requireSiteAdminSession();
@@ -50,6 +53,26 @@ export async function PATCH(req: Request, { params }: Params) {
   }
 
   try {
+    let multiLocalMemberCount = 0;
+    if (parsed.data.membershipPolicy === "single_local") {
+      const db = getDb();
+      const result = await db.execute(sql`
+        SELECT count(*)::int AS n FROM (
+          SELECT user_id
+          FROM local_memberships
+          WHERE union_id = ${unionId}
+            AND status = 'active'
+            AND ended_at IS NULL
+          GROUP BY user_id
+          HAVING count(*) > 1
+        ) AS multi
+      `);
+      const rows = Array.isArray(result)
+        ? (result as Array<{ n: number }>)
+        : ((result as { rows?: Array<{ n: number }> }).rows ?? []);
+      multiLocalMemberCount = Number(rows[0]?.n ?? 0);
+    }
+
     const result = await updateUnionMembershipPolicy(
       unionId,
       parsed.data.membershipPolicy,
@@ -67,12 +90,16 @@ export async function PATCH(req: Request, { params }: Params) {
       resourceType: "site_admin",
       resourceId: unionId,
       unionId,
-      metadata: { membershipPolicy: parsed.data.membershipPolicy },
+      metadata: {
+        membershipPolicy: parsed.data.membershipPolicy,
+        multiLocalMemberCount: String(multiLocalMemberCount),
+      },
     });
 
     return NextResponse.json({
       ok: true,
       membershipPolicy: parsed.data.membershipPolicy,
+      multiLocalMemberCount,
     });
   } catch (err) {
     reportApiFailure(err, "/api/site-admin/unions/[id]");

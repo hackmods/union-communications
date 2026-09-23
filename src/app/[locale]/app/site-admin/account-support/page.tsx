@@ -27,7 +27,7 @@ export default async function AccountSupportSearchPage({
     if (gate.status === 403) redirect(`/${locale}/app`);
     redirect(`/${locale}/app/login`);
   }
-  await getTranslations({ locale, namespace: "hub.platformOperator" });
+  const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
 
   const { q: rawQ } = await searchParams;
   const q = (rawQ ?? "").trim();
@@ -79,10 +79,10 @@ export default async function AccountSupportSearchPage({
   return (
     <main className="mx-auto max-w-3xl px-4 py-8 lg:py-12">
       <h1 className="text-2xl font-bold text-opseu-dark lg:text-3xl">
-        Account support
+        {t("accountSupport")}
       </h1>
       <p className="mt-1 text-sm text-opseu-gray-dark">
-        Search any user by email or name. Cross-tenant — every account visible.
+        {t("accountSupportSearchBody")}
       </p>
 
       <form
@@ -93,7 +93,7 @@ export default async function AccountSupportSearchPage({
           type="text"
           name="q"
           defaultValue={q}
-          placeholder="email or name substring"
+          placeholder={t("accountSupportSearchPlaceholder")}
           autoFocus
           className="flex-1 rounded-md border border-opseu-gray/30 bg-white px-3 py-2 text-sm shadow-sm focus:border-opseu-blue focus:outline-none focus:ring-2 focus:ring-opseu-blue/30"
         />
@@ -101,13 +101,13 @@ export default async function AccountSupportSearchPage({
           type="submit"
           className="rounded-md bg-opseu-blue px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-opseu-blue/90 focus:outline-none focus:ring-2 focus:ring-opseu-blue/50"
         >
-          Search
+          {t("accountSupportSearch")}
         </button>
       </form>
 
       {q && results.length === 0 && (
         <p className="mt-6 text-sm text-opseu-gray-dark">
-          No matches for <strong>{q}</strong>.
+          {t("accountSupportNoMatches", { q })}
         </p>
       )}
 

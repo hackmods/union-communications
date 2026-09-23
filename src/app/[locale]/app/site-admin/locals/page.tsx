@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
-import { eq, isNull, sql } from "drizzle-orm";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import { and, eq, isNull, sql } from "drizzle-orm";
 import { Link } from "@/i18n/navigation";
 import { getDb } from "@/lib/db/client";
 import { locals, unions } from "@/lib/db/schema/tenant";
@@ -25,6 +25,7 @@ export default async function SiteAdminLocalsIndexPage({
     if (gate.status === 403) redirect(`/${locale}/app`);
     redirect(`/${locale}/app/login`);
   }
+  const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
 
   let buckets: Array<{
     unionId: string;
@@ -57,7 +58,7 @@ export default async function SiteAdminLocalsIndexPage({
           .select({ n: sql<number>`count(*)::int` })
           .from(locals)
           .where(
-            sql`${eq(locals.unionId, u.unionId)} AND ${isNull(locals.archivedAt)}`,
+            and(eq(locals.unionId, u.unionId), isNull(locals.archivedAt)),
           );
         return {
           ...u,
@@ -81,21 +82,20 @@ export default async function SiteAdminLocalsIndexPage({
   return (
     <main className="mx-auto max-w-4xl px-4 py-8 lg:py-12">
       <h1 className="text-2xl font-bold text-opseu-dark lg:text-3xl">
-        Locals — pick a union
+        {t("localsIndexTitle")}
       </h1>
       <p className="mt-1 text-sm text-opseu-gray-dark">
-        Each row drills into the union&rsquo;s locals. Archived locals remain
-        in the database for compliance but are hidden from active rosters.
+        {t("localsIndexBody")}
       </p>
 
       <div className="mt-6 overflow-x-auto rounded-md border border-opseu-gray/15 bg-white">
         <table className="min-w-full divide-y divide-opseu-gray/15 text-sm">
           <thead className="bg-opseu-gray/5 text-left text-xs uppercase text-opseu-gray-dark">
             <tr>
-              <th className="px-3 py-2">Union</th>
-              <th className="px-3 py-2 text-right">Locals</th>
-              <th className="px-3 py-2 text-right">Active</th>
-              <th className="px-3 py-2">Demo</th>
+              <th className="px-3 py-2">{t("localsColUnion")}</th>
+              <th className="px-3 py-2 text-right">{t("localsColCount")}</th>
+              <th className="px-3 py-2 text-right">{t("localsColActive")}</th>
+              <th className="px-3 py-2">{t("localsColDemo")}</th>
               <th className="px-3 py-2" />
             </tr>
           </thead>
@@ -114,7 +114,7 @@ export default async function SiteAdminLocalsIndexPage({
                 <td className="px-3 py-2 text-xs">
                   {b.isDemo ? (
                     <span className="rounded bg-opseu-orange/20 px-2 py-0.5 text-opseu-orange-dark">
-                      demo
+                      {t("usersDemoBadge")}
                     </span>
                   ) : (
                     "—"
@@ -125,7 +125,7 @@ export default async function SiteAdminLocalsIndexPage({
                     href={`/app/site-admin/locals/${encodeURIComponent(b.unionId)}`}
                     className="text-opseu-blue hover:underline"
                   >
-                    Open
+                    {t("usersOpen")}
                   </Link>
                 </td>
               </tr>

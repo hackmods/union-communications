@@ -96,7 +96,7 @@ export function AccessRequestsInbox() {
         <option value="">{t("accessRequestsAll")}</option>
         {statuses.map((s) => (
           <option key={s} value={s}>
-            {s}
+            {t(`accessRequestStatus.${s}`)}
           </option>
         ))}
       </Select>
@@ -136,41 +136,118 @@ function RequestCard({
     unionId: row.unionId ?? "",
     localId: row.localId ?? "",
   }));
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function loadOptions() {
+    const res = await fetch("/api/site-admin/tenant-options");
+    if (!res.ok) return;
+    const data = (await res.json()) as {
+      unions: UnionOption[];
+      locals: LocalOption[];
+      subGroups: SubGroupOption[];
+    };
+    setUnions(data.unions);
+    setLocals(data.locals);
+    setSubGroups(data.subGroups);
+  }
 
   useEffect(() => {
-    let cancelled = false;
-    void (async () => {
-      try {
-        const res = await fetch("/api/site-admin/tenant-options");
-        if (!res.ok) return;
-        const data = (await res.json()) as {
-          unions: UnionOption[];
-          locals: LocalOption[];
-          subGroups: SubGroupOption[];
-        };
-        if (cancelled) return;
-        setUnions(data.unions);
-        setLocals(data.locals);
-        setSubGroups(data.subGroups);
-      } catch {
-        // keep raw ids if options fail
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
+    void loadOptions();
   }, []);
 
   function applyScope(next: UnionLocalSelectValue) {
     setScope(next);
+    if (next.unionId === UNION_LOCAL_SELECT_OTHER) {
+      setDraft((d) => ({
+        ...d,
+        unionId: undefined,
+        localId: next.localId || undefined,
+      }));
+      return;
+    }
     setDraft((d) => ({
       ...d,
-      unionId:
-        next.unionId === UNION_LOCAL_SELECT_OTHER
-          ? d.unionId
-          : next.unionId || undefined,
+      unionId: next.unionId || undefined,
       localId: next.localId || undefined,
     }));
+  }
+
+  async function saveReview() {
+    setBusy(true);
+    setError(null);
+    try {
+      let unionId = draft.unionId;
+      let localId = draft.localId;
+
+      if (scope.unionId === UNION_LOCAL_SELECT_OTHER) {
+        const name = scope.newUnionName.trim();
+        if (!name) {
+          setError(t("accessRequestsUnionRequired"));
+          return;
+        }
+        const createRes = await fetch("/api/site-admin/unions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            ...(scope.localNumber.trim()
+              ? {
+                  localNumber: scope.localNumber.trim(),
+                  localSubText: scope.localSubText.trim() || undefined,
+                }
+              : {}),
+          }),
+        });
+        const created = (await createRes.json().catch(() => ({}))) as {
+          error?: string;
+          union?: { id: string };
+          local?: { id: string } | null;
+        };
+        if (!createRes.ok || !created.union) {
+          setError(created.error ?? t("accessRequestsSaveFailed"));
+          return;
+        }
+        unionId = created.union.id;
+        localId = created.local?.id ?? localId;
+        await loadOptions();
+      } else if (scope.localNumber.trim() && unionId && !localId) {
+        const localRes = await fetch("/api/site-admin/locals", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            unionId,
+            localNumber: scope.localNumber.trim(),
+            localSubText: scope.localSubText.trim() || undefined,
+          }),
+        });
+        const localData = (await localRes.json().catch(() => ({}))) as {
+          error?: string;
+          local?: { id: string };
+        };
+        if (!localRes.ok || !localData.local) {
+          setError(localData.error ?? t("accessRequestsSaveFailed"));
+          return;
+        }
+        localId = localData.local.id;
+        await loadOptions();
+      }
+
+      const next = { ...draft, unionId, localId };
+      setDraft(next);
+      setScope((s) => ({
+        ...s,
+        unionId: unionId ?? "",
+        localId: localId ?? "",
+        newUnionName: "",
+        localNumber: "",
+      }));
+      await onSave(next);
+    } catch {
+      setError(t("accessRequestsSaveFailed"));
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -199,7 +276,7 @@ function RequestCard({
         >
           {statuses.map((s) => (
             <option key={s} value={s}>
-              {s}
+              {t(`accessRequestStatus.${s}`)}
             </option>
           ))}
         </Select>
@@ -210,7 +287,8 @@ function RequestCard({
           subGroups={subGroups}
           value={scope}
           onChange={applyScope}
-          allowCreateLocal={false}
+          allowCreateLocal
+          disabled={busy}
         />
         <Textarea
           label={t("accessRequestsNote")}
@@ -221,9 +299,14 @@ function RequestCard({
           }
         />
       </div>
+      {error ? (
+        <p role="alert" className="mt-2 text-sm text-red-700">
+          {error}
+        </p>
+      ) : null}
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <Button onClick={() => void onSave(draft)}>
-          {t("accessRequestsSave")}
+        <Button disabled={busy} onClick={() => void saveReview()}>
+          {busy ? t("accessRequestsSaving") : t("accessRequestsSave")}
         </Button>
         <Link
           href={`/app/invites?requestId=${draft.id}`}

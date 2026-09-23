@@ -39,14 +39,26 @@ export function CreateLocalForm({ unionId, membershipPolicy }: Props) {
           body: JSON.stringify({ membershipPolicy: policy }),
         },
       );
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        multiLocalMemberCount?: number;
+      };
       if (!res.ok) {
-        const data = (await res.json().catch(() => ({}))) as {
-          error?: string;
-        };
         setError(data.error ?? t("createLocalFailed"));
         return;
       }
-      setMessage(t("membershipPolicySaved"));
+      if (
+        policy === "single_local" &&
+        (data.multiLocalMemberCount ?? 0) > 0
+      ) {
+        setMessage(
+          t("membershipPolicySavedWithWarning", {
+            count: data.multiLocalMemberCount ?? 0,
+          }),
+        );
+      } else {
+        setMessage(t("membershipPolicySaved"));
+      }
       router.refresh();
     } catch {
       setError(t("createLocalFailed"));
