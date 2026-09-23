@@ -1,18 +1,19 @@
-# Customization foundation (C02–C06)
+# Customization foundation (C02–C08)
 
-This directory contains schemas/pure compiler contracts, authorization decisions, C04 persistence adapters, C05 compile/read/cache services, and C06 draft/preview/publication workflows. `resolveCustomization` returns internal content that can include private sections; it must never be serialized directly to a reader. Use `compilePublication` for authoring-side fragment materialization and `readPublishedContent` for ordinary delivery. Mutations go through `saveDraft`, `previewDraftContent`, `publishAtomically`, `setPolicyAtomically`, `rollbackToRevision` and `inheritAgain`. PostgreSQL operations run in `CustomizationAdapter.transaction`. Ordinary pages use `readerTransaction`. `getCustomizationAdapter()` fails when PostgreSQL is unavailable; memory is constructed explicitly for tests or labeled nonproduction demos. C07 supplies the Root control panel UI.
+This directory contains schemas/pure compiler contracts, authorization decisions, C04 persistence adapters, C05 compile/read/cache services, C06 draft/preview/publication workflows, and C08 delivery helpers (`deliver-server.ts`, `brand-baseline.ts`). `resolveCustomization` returns internal content that can include private sections; it must never be serialized directly to a reader. Use `compilePublication` for authoring-side fragment materialization and `readPublishedContent` for ordinary delivery. Mutations go through `saveDraft`, `previewDraftContent`, `publishAtomically`, `setPolicyAtomically`, `rollbackToRevision` and `inheritAgain`. PostgreSQL operations run in `CustomizationAdapter.transaction`. Ordinary pages use `readerTransaction` / `loadCustomizationContent`. `getCustomizationAdapter()` fails when PostgreSQL is unavailable; memory is constructed explicitly for tests or labeled nonproduction demos. C07 supplies the Root control panel UI (preview, withdraw, rollback, inherit, history).
 
 ## Boundaries
 
 - `schemas.ts`: strict Zod payloads, patches, policy, source dependencies and scope descriptors. Unsupported fields/block types/schema versions fail validation; JSON has a 256 KiB per-document limit. Plain text is data, not HTML to execute.
 - `scope.ts`: exact parent chain from trusted tenant descriptors, at most five levels, no guessed tenant. Missing target means system only; an invalid explicit target throws. The adapter must derive descriptors from actual tenant relationships, not accept them from a client request.
-- `registry.ts`: code-owned supported tool parameters. Only Rules of Order initial category/action are registered now; consumer integration is C08.
+- `registry.ts`: code-owned supported tool parameters. Rules of Order initial category/action are registered; the public tool page may load published configuration via `/api/customization/content`.
 - `defaults.ts`: validates versioned compiled manifests. The shipped manifest is intentionally empty until a guide/tool consumer is converted; existing TSX and Brand Kit defaults remain authoritative today.
 - `merge.ts`: stable-ID block/source operations, whole source/workflow replacements, typed brand field operations, restrictive policy intersection and semantic invariants.
 - `resolve.ts`: resolves one resource from its compiled manifest and active layers, recording field/block/policy provenance. Inputs are parsed/cloned; callers' manifests and overrides are not mutated.
 - `dependencies.ts`: stable revision/source pin ordering, dependency-manifest digests, and the 500-release impact budget with deterministic block conflict reports.
 - `compile.ts`: publication compiler (fragments + discovery DTO) and `readPublishedContent` reader service. Reader responses never include unauthorized section/source bytes.
 - `cache.ts`: bounded immutable content cache keyed by resource, full scope chain, locale, schema version, dependency digest and release ID. Actor decisions and current withdrawal stay outside the cache.
+- `deliver-server.ts` / `brand-baseline.ts`: page/API delivery with compiled fallback, and explicit Brand Kit baseline apply/undo (never auto-apply).
 
 ## Calling contract
 
@@ -30,6 +31,6 @@ An explicit block replacement cannot lower that block's audience. Removal follow
 
 ## Local verification
 
-`npm run test:unit -- --maxWorkers=2 src/lib/customization` covers synthetic independent tenants, no-context fallback, sibling/unit isolation, stable-ID conflicts, source revisions, whole workflow replacement, audience restrictions, provenance, schema limits, dependency pins, impact budget, reader DTO projection, cache isolation and withdrawal-after-warmup. `npm run typecheck` and `npm run lint` validate integration with repository tooling. No E2E or production content is required for this module.
+`npm run test:unit -- --maxWorkers=2 src/lib/customization` covers synthetic independent tenants, no-context fallback, sibling/unit isolation, stable-ID conflicts, source revisions, whole workflow replacement, audience restrictions, provenance, schema limits, dependency pins, impact budget, reader DTO projection, cache isolation, withdrawal-after-warmup, role-denial API gates and C08 consumer helpers. `npm run typecheck` and `npm run lint` validate integration with repository tooling. No E2E or production content is required for this module.
 
-Resume from [C07 in the execution plan](../../../docs/audit/plan-2026-09-22-union-customization.md). Full design: [UNION_CUSTOMIZATION.md](../../../docs/modules/UNION_CUSTOMIZATION.md).
+Resume from [C09 in the execution plan](../../../docs/audit/plan-2026-09-22-union-customization.md). Full design: [UNION_CUSTOMIZATION.md](../../../docs/modules/UNION_CUSTOMIZATION.md).

@@ -18,6 +18,8 @@ import {
   GuideTipGrid,
   GuideTipItem,
 } from "@/components/comms/guide-ui";
+import { loadCustomizationContent } from "@/lib/customization/deliver-server";
+import { AuthorizedGuideView } from "@/components/customization/AuthorizedGuideView";
 
 export async function generateMetadata({
   params,
@@ -53,6 +55,50 @@ export default async function PrintGuidePage({
   const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
+  const customized = await loadCustomizationContent({
+    key: "guide:learn-print",
+    locale: locale === "fr" ? "fr" : "en",
+  });
+  const aside = (
+    <GuideToolAside
+      title={tg("asideTitle")}
+      intro={tg("asideIntro")}
+      links={[
+        { href: "/tools/flyer-maker", label: nav("flyerMaker") },
+        {
+          href: "/tools/board-notice",
+          label: nav("boardNotice"),
+          variant: "outline",
+        },
+        {
+          href: "/tools/solidarity-poster",
+          label: nav("solidarityPoster"),
+          variant: "outline",
+        },
+      ]}
+    />
+  );
+  const relatedLinks = [
+    { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
+    { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
+    { href: "/guide/union-boards", label: nav("unionBoardsGuide") },
+  ];
+  const footer = <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />;
+
+  if (customized.status === "resolved" && "blocks" in customized.content && customized.content.blocks.length > 0) {
+    return (
+      <AuthorizedGuideView
+        content={customized.content}
+        subtitle={t("subtitle")}
+        tocLabel={t("tocLabel")}
+        aside={aside}
+        relatedLabel={t("relatedLabel")}
+        relatedLinks={relatedLinks}
+        footer={footer}
+      />
+    );
+  }
+
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
 
   return (
@@ -63,34 +109,10 @@ export default async function PrintGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
-      aside={
-        <GuideToolAside
-          title={tg("asideTitle")}
-          intro={tg("asideIntro")}
-          links={[
-            { href: "/tools/flyer-maker", label: nav("flyerMaker") },
-            {
-              href: "/tools/board-notice",
-              label: nav("boardNotice"),
-              variant: "outline",
-            },
-            {
-              href: "/tools/solidarity-poster",
-              label: nav("solidarityPoster"),
-              variant: "outline",
-            },
-          ]}
-        />
-      }
+      aside={aside}
       relatedLabel={t("relatedLabel")}
-      relatedLinks={[
-        { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
-        { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
-        { href: "/guide/union-boards", label: nav("unionBoardsGuide") },
-      ]}
-      footer={
-        <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />
-      }
+      relatedLinks={relatedLinks}
+      footer={footer}
     >
       <GuideSection id="when" title={t("when.title")} intro={t("when.intro")}>
         <p className="-mt-1 text-sm font-semibold uppercase tracking-wide text-opseu-blue">

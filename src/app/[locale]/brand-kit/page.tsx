@@ -49,6 +49,7 @@ import { PresetSloganPicker } from "@/components/brand/PresetSloganPicker";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { JointActionCard } from "@/components/comms/campaign/JointActionCard";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
+import { BrandBaselineOffer } from "@/components/customization/BrandBaselineOffer";
 
 export default function BrandKitPage() {
   const t = useTranslations("brandKit");
@@ -250,6 +251,7 @@ export default function BrandKitPage() {
           ) : null}
           {unionPresetId === "opseu" ? <OpseuSectorSelect /> : null}
           {unionPresetId === "opseu" ? <IdentityPackPicker /> : null}
+          <BrandBaselineOffer />
           <div className="space-y-1">
             <label
               className="block text-sm font-medium text-gray-700"

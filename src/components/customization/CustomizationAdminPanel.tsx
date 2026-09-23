@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { CustomizationScope } from "@/lib/customization/types";
 
@@ -10,24 +10,63 @@ type Props = {
   configurationError: string | null;
 };
 
+type HistoryPayload = {
+  releases: Array<{ id: string; revisionId: string; publishedBy: string; createdAt: string }>;
+  audits: Array<{ id: string; action: string; reason: string; actorId: string; createdAt: string }>;
+};
+
 const systemTarget: CustomizationScope = { id: "system", kind: "system", archived: false };
 
 export function CustomizationAdminPanel({ unions, enabled, configurationError }: Props) {
   const t = useTranslations("hub.platformOperator.customization");
+  const errorRef = useRef<HTMLParagraphElement>(null);
+  const errorId = useId();
   const [scopes, setScopes] = useState<CustomizationScope[]>([]);
   const [selectedUnionId, setSelectedUnionId] = useState(unions[0]?.id ?? "");
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [resourceId, setResourceId] = useState<string | null>(null);
+  const [resourceKey, setResourceKey] = useState("guide:custom-meeting");
   const [lockVersion, setLockVersion] = useState(0);
   const [generation, setGeneration] = useState(1);
+  const [policyVersion, setPolicyVersion] = useState(1);
+  const [lastRevisionId, setLastRevisionId] = useState<string | null>(null);
   const [titleEn, setTitleEn] = useState("");
   const [titleFr, setTitleFr] = useState("");
+  const [localeTab, setLocaleTab] = useState<"en" | "fr">("en");
+  const [previewTitle, setPreviewTitle] = useState<string | null>(null);
+  const [history, setHistory] = useState<HistoryPayload | null>(null);
+  const [kind, setKind] = useState<"guide" | "brand" | "source">("guide");
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus();
+  }, [error]);
+
+  function currentTarget(): CustomizationScope {
+    return {
+      id: `union-${selectedUnionId}`,
+      kind: "union",
+      unionId: selectedUnionId,
+      parentScopeId: "system",
+      archived: false,
+    };
+  }
 
   async function postJson(url: string, body: unknown) {
     const res = await fetch(url, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(typeof data.error === "string" ? data.error : t("requestFailed"));
+    return data;
+  }
+
+  async function patchDraft(url: string, body: unknown) {
+    const res = await fetch(url, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
@@ -47,13 +86,7 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
     setStatus(null);
     try {
       if (!selectedUnionId) throw new Error(t("pickUnion"));
-      const unionTarget: CustomizationScope = {
-        id: `union-${selectedUnionId}`,
-        kind: "union",
-        unionId: selectedUnionId,
-        parentScopeId: "system",
-        archived: false,
-      };
+      const unionTarget = currentTarget();
       await postJson("/api/site-admin/customization/scopes", {
         action: "create",
         target: systemTarget,
@@ -73,70 +106,139 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
     }
   }
 
-  async function createGuideDraft() {
-    setBusy(true);
-    setError(null);
-    setStatus(null);
-    try {
-      if (!selectedUnionId) throw new Error(t("pickUnion"));
-      const target: CustomizationScope = {
-        id: `union-${selectedUnionId}`,
-        kind: "union",
-        unionId: selectedUnionId,
-        parentScopeId: "system",
-        archived: false,
-      };
-      const created = await postJson("/api/site-admin/customization/resources", {
-        target,
-        key: "guide:custom-meeting",
-        kind: "guide",
-        slug: "custom-meeting",
-      });
-      const payload = {
+  function buildPayload(target: CustomizationScope, key: string) {
+    if (kind === "brand") {
+      return {
         schemaVersion: 1,
-        key: "guide:custom-meeting",
+        key,
         scopeId: target.id,
         revisionId: "draft-1",
         mode: "define",
         resource: {
           schemaVersion: 1,
-          key: "guide:custom-meeting",
-          policy: { audience: "public", enabled: true, editableFields: ["title", "blocks", "sources"] },
+          key,
+          policy: { audience: "public", enabled: true, editableFields: ["label", "logoAssetId"] },
           payload: {
-            kind: "guide",
-            title: { en: titleEn.trim() || "Custom meeting guide", fr: titleFr.trim() || "Guide de réunion personnalisé" },
-            blocks: [{
-              id: "prepare",
-              type: "paragraph",
-              audience: "public",
-              sourceIds: [],
-              content: {
-                en: [{ type: "text", text: "Prepare with your local." }],
-                fr: [{ type: "text", text: "Préparez-vous avec votre section locale." }],
-              },
-            }],
-            sources: [],
+            kind: "brand",
+            label: { en: titleEn.trim() || "Union brand", fr: titleFr.trim() || "Marque syndicale" },
+            primaryColor: "#112233",
+            secondaryColor: "#445566",
+            accentColor: "#778899",
+            headlineFontId: "montserrat",
+            bodyFontId: "sourceSans",
+            logoAssetId: null,
           },
         },
       };
-      const hashRes = await fetch("/api/site-admin/customization/resources/" + encodeURIComponent(created.resourceId) + "/draft", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json", "If-Match": "0" },
-        body: JSON.stringify({
-          target,
-          resourceId: created.resourceId,
-          expectedLockVersion: 0,
-          payload,
-          reason: "Root empty-state draft",
-          markReviewed: true,
-        }),
+    }
+    if (kind === "source") {
+      return {
+        schemaVersion: 1,
+        key,
+        scopeId: target.id,
+        revisionId: "draft-1",
+        mode: "define",
+        resource: {
+          schemaVersion: 1,
+          key,
+          policy: { audience: "public", enabled: true, editableFields: ["label"] },
+          payload: {
+            kind: "source",
+            label: { en: titleEn.trim() || "Reference source", fr: titleFr.trim() || "Source de référence" },
+            note: { en: "Reviewed by Root", fr: "Relu par Root" },
+            url: "https://example.org/reference",
+            publisher: "Example",
+            jurisdiction: "Example",
+            applicability: { en: "Example only", fr: "Exemple seulement" },
+            checkedAt: "2026-09-22",
+            reviewDueAt: "2027-09-22",
+            rightsNote: null,
+          },
+        },
+      };
+    }
+    return {
+      schemaVersion: 1,
+      key,
+      scopeId: target.id,
+      revisionId: "draft-1",
+      mode: "define",
+      resource: {
+        schemaVersion: 1,
+        key,
+        policy: { audience: "public", enabled: true, editableFields: ["title", "blocks", "sources"] },
+        payload: {
+          kind: "guide",
+          title: { en: titleEn.trim() || "Custom meeting guide", fr: titleFr.trim() || "Guide de réunion personnalisé" },
+          blocks: [{
+            id: "prepare",
+            type: "paragraph",
+            audience: "public",
+            sourceIds: [],
+            content: {
+              en: [{ type: "text", text: "Prepare with your local." }],
+              fr: [{ type: "text", text: "Préparez-vous avec votre section locale." }],
+            },
+          }],
+          sources: [],
+        },
+      },
+    };
+  }
+
+  async function createDraft() {
+    setBusy(true);
+    setError(null);
+    setStatus(null);
+    try {
+      if (!selectedUnionId) throw new Error(t("pickUnion"));
+      const target = currentTarget();
+      const key = kind === "guide" ? "guide:custom-meeting" : kind === "brand" ? "brand:baseline" : `source:root-${selectedUnionId}`;
+      const created = await postJson("/api/site-admin/customization/resources", {
+        target,
+        key,
+        kind,
+        slug: kind === "guide" ? "custom-meeting" : undefined,
       });
-      const draft = await hashRes.json();
-      if (!hashRes.ok) throw new Error(typeof draft.error === "string" ? draft.error : t("requestFailed"));
+      const payload = buildPayload(target, key);
+      const draft = await patchDraft(`/api/site-admin/customization/resources/${encodeURIComponent(created.resourceId)}/draft`, {
+        target,
+        resourceId: created.resourceId,
+        expectedLockVersion: 0,
+        payload,
+        reason: "Root empty-state draft",
+        markReviewed: true,
+      });
       setResourceId(created.resourceId);
+      setResourceKey(key);
       setLockVersion(draft.lockVersion ?? 1);
       setGeneration(1);
+      setPolicyVersion(1);
+      setLastRevisionId(null);
+      setPreviewTitle(null);
       setStatus(t("draftSaved"));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("requestFailed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function previewDraft() {
+    if (!resourceId || !selectedUnionId) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const target = currentTarget();
+      const preview = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/preview`, {
+        target,
+        resourceId,
+        locale: localeTab,
+        scopes: [systemTarget, target],
+        reason: "Root private preview",
+      });
+      setPreviewTitle(String(preview.discovery?.title ?? preview.fragments?.[0]?.payload?.title ?? ""));
+      setStatus(t("previewReady"));
     } catch (err) {
       setError(err instanceof Error ? err.message : t("requestFailed"));
     } finally {
@@ -149,13 +251,7 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
     setBusy(true);
     setError(null);
     try {
-      const target: CustomizationScope = {
-        id: `union-${selectedUnionId}`,
-        kind: "union",
-        unionId: selectedUnionId,
-        parentScopeId: "system",
-        archived: false,
-      };
+      const target = currentTarget();
       const result = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/publish`, {
         target,
         resourceId,
@@ -166,7 +262,9 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
         scopes: [systemTarget, target],
       });
       setGeneration(result.generation ?? generation + 1);
+      setLastRevisionId(result.revisionId ?? null);
       setStatus(t("published", { releaseId: result.releaseId }));
+      await loadHistory();
     } catch (err) {
       setError(err instanceof Error ? err.message : t("requestFailed"));
     } finally {
@@ -174,19 +272,109 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
     }
   }
 
+  async function withdrawResource() {
+    if (!resourceId || !selectedUnionId) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const target = currentTarget();
+      const result = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/policy`, {
+        target,
+        resourceId,
+        reason: "Emergency withdrawal",
+        expectedPolicyVersion: policyVersion,
+        withdrawn: true,
+      });
+      setPolicyVersion(result.policyVersion ?? policyVersion + 1);
+      setStatus(t("withdrawn"));
+      await loadHistory();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("requestFailed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function rollbackResource() {
+    if (!resourceId || !selectedUnionId || !lastRevisionId) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const target = currentTarget();
+      const result = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/rollback`, {
+        target,
+        resourceId,
+        historicalRevisionId: lastRevisionId,
+        reason: "Rollback to last published revision",
+        idempotencyKey: `ui-rollback-${resourceId}-${generation}`,
+        expectedDraftLockVersion: lockVersion,
+        expectedGeneration: generation,
+        scopes: [systemTarget, target],
+      });
+      setGeneration(result.generation ?? generation + 1);
+      setLockVersion(lockVersion + 1);
+      setLastRevisionId(result.revisionId ?? lastRevisionId);
+      setStatus(t("rolledBack", { releaseId: result.releaseId }));
+      await loadHistory();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("requestFailed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function inheritResource() {
+    if (!resourceId || !selectedUnionId) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const target = currentTarget();
+      const result = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/inherit`, {
+        target,
+        resourceId,
+        key: resourceKey,
+        reason: "Inherit again from ancestors",
+        expectedLockVersion: lockVersion,
+        scopes: [systemTarget, target],
+      });
+      setLockVersion(result.lockVersion ?? lockVersion + 1);
+      setStatus(t("inherited"));
+      await loadHistory();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("requestFailed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function loadHistory() {
+    if (!resourceId || !selectedUnionId) return;
+    const target = currentTarget();
+    const data = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/history`, {
+      target,
+      resourceId,
+      limit: 10,
+    });
+    setHistory(data as HistoryPayload);
+  }
+
   if (!enabled) {
     return (
       <div className="rounded-lg border border-opseu-orange/30 bg-white px-4 py-5" role="status">
         <h2 className="text-lg font-semibold text-opseu-dark">{t("disabledTitle")}</h2>
-        <p className="mt-2 text-sm text-opseu-gray-dark">
-          {configurationError ?? t("disabledBody")}
-        </p>
+        <p className="mt-2 text-sm text-opseu-gray-dark">{configurationError ?? t("disabledBody")}</p>
       </div>
     );
   }
 
+  const scopeLabel = selectedUnionId ? `union-${selectedUnionId}` : t("noScope");
+
   return (
     <div className="space-y-6">
+      <p className="text-sm font-medium text-opseu-dark" aria-live="polite">
+        {t("scopeHeading", { scope: scopeLabel })}
+      </p>
+
       <section className="rounded-lg border border-opseu-gray/15 bg-white px-4 py-5 shadow-sm">
         <h2 className="text-lg font-semibold text-opseu-dark">{t("emptyTitle")}</h2>
         <p className="mt-2 text-sm text-opseu-gray-dark">{t("emptyBody")}</p>
@@ -225,6 +413,37 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
       <section className="rounded-lg border border-opseu-gray/15 bg-white px-4 py-5 shadow-sm">
         <h2 className="text-lg font-semibold text-opseu-dark">{t("editorTitle")}</h2>
         <p className="mt-2 text-sm text-opseu-gray-dark">{t("editorBody")}</p>
+        <fieldset className="mt-4">
+          <legend className="text-sm font-medium text-opseu-dark">{t("kindLabel")}</legend>
+          <div className="mt-2 flex flex-wrap gap-3 text-sm">
+            {(["guide", "brand", "source"] as const).map((value) => (
+              <label key={value} className="inline-flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="customization-kind"
+                  checked={kind === value}
+                  onChange={() => setKind(value)}
+                  disabled={busy}
+                />
+                {t(`kind.${value}`)}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <div className="mt-4 flex gap-2" role="tablist" aria-label={t("localeTabs")}>
+          {(["en", "fr"] as const).map((locale) => (
+            <button
+              key={locale}
+              type="button"
+              role="tab"
+              aria-selected={localeTab === locale}
+              className={`rounded px-3 py-1.5 text-sm ${localeTab === locale ? "bg-opseu-blue text-white" : "border border-opseu-gray/30"}`}
+              onClick={() => setLocaleTab(locale)}
+            >
+              {locale.toUpperCase()}
+            </button>
+          ))}
+        </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <label className="block text-sm font-medium text-opseu-dark">
             {t("titleEn")}
@@ -233,6 +452,8 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
               value={titleEn}
               onChange={(event) => setTitleEn(event.target.value)}
               disabled={busy}
+              aria-invalid={Boolean(error)}
+              aria-describedby={error ? errorId : undefined}
             />
           </label>
           <label className="block text-sm font-medium text-opseu-dark">
@@ -246,30 +467,51 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
           </label>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          <button
-            type="button"
-            className="rounded bg-opseu-blue px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
-            onClick={() => void createGuideDraft()}
-            disabled={busy || !selectedUnionId}
-          >
-            {t("saveDraft")}
-          </button>
-          <button
-            type="button"
-            className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50"
-            onClick={() => void publishDraft()}
-            disabled={busy || !resourceId}
-          >
-            {t("publish")}
-          </button>
+          <button type="button" className="rounded bg-opseu-blue px-3 py-2 text-sm font-medium text-white disabled:opacity-50" onClick={() => void createDraft()} disabled={busy || !selectedUnionId}>{t("saveDraft")}</button>
+          <button type="button" className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50" onClick={() => void previewDraft()} disabled={busy || !resourceId}>{t("preview")}</button>
+          <button type="button" className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50" onClick={() => void publishDraft()} disabled={busy || !resourceId}>{t("publish")}</button>
+          <button type="button" className="rounded border border-opseu-orange px-3 py-2 text-sm font-medium text-opseu-orange disabled:opacity-50" onClick={() => void withdrawResource()} disabled={busy || !resourceId}>{t("withdraw")}</button>
+          <button type="button" className="rounded border border-opseu-gray/40 px-3 py-2 text-sm font-medium disabled:opacity-50" onClick={() => void rollbackResource()} disabled={busy || !resourceId || !lastRevisionId}>{t("rollback")}</button>
+          <button type="button" className="rounded border border-opseu-gray/40 px-3 py-2 text-sm font-medium disabled:opacity-50" onClick={() => void inheritResource()} disabled={busy || !resourceId}>{t("inherit")}</button>
         </div>
         {resourceId ? (
           <p className="mt-3 text-xs text-opseu-gray-dark">{t("resourceId", { id: resourceId, lockVersion, generation })}</p>
         ) : null}
+        {previewTitle ? (
+          <div className="mt-4 rounded border border-dashed border-opseu-gray/30 p-3" aria-live="polite">
+            <p className="text-xs font-semibold uppercase tracking-wide text-opseu-gray-dark">{t("previewLabel")}</p>
+            <p className="mt-1 text-sm text-opseu-dark">{previewTitle}</p>
+            <p className="mt-1 text-xs text-opseu-gray-dark">{t("previewPrivate")}</p>
+          </div>
+        ) : null}
       </section>
 
+      {history ? (
+        <section className="rounded-lg border border-opseu-gray/15 bg-white px-4 py-5 shadow-sm">
+          <h2 className="text-lg font-semibold text-opseu-dark">{t("historyTitle")}</h2>
+          <ul className="mt-3 space-y-2 text-sm text-opseu-gray-dark">
+            {history.releases.map((release) => (
+              <li key={release.id}>{t("historyRelease", { id: release.id, by: release.publishedBy })}</li>
+            ))}
+            {history.audits.map((entry) => (
+              <li key={entry.id}>{t("historyAudit", { action: entry.action, reason: entry.reason })}</li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       {status ? <p className="text-sm text-opseu-dark" role="status">{status}</p> : null}
-      {error ? <p className="text-sm text-red-700" role="alert">{error}</p> : null}
+      {error ? (
+        <p
+          id={errorId}
+          ref={errorRef}
+          tabIndex={-1}
+          className="text-sm text-red-700 outline-none"
+          role="alert"
+        >
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

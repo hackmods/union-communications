@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
@@ -17,6 +17,7 @@ import {
   type RulesOfOrderActionId,
   type RulesOfOrderCategoryId,
 } from "@/lib/rules-of-order/actions";
+import { DEFAULT_RULES_OF_ORDER_CONFIGURATION } from "@/lib/customization/registry";
 
 export default function RulesOfOrderPage() {
   const t = useTranslations("rulesOfOrder");
@@ -24,10 +25,36 @@ export default function RulesOfOrderPage() {
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<
     RulesOfOrderCategoryId | "all"
-  >("all");
-  const [activeId, setActiveId] = useState<RulesOfOrderActionId>("mainMotion");
+  >(DEFAULT_RULES_OF_ORDER_CONFIGURATION.initialCategory);
+  const [activeId, setActiveId] = useState<RulesOfOrderActionId>(
+    DEFAULT_RULES_OF_ORDER_CONFIGURATION.initialAction,
+  );
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch("/api/customization/content/tool%3Arules-of-order?locale=en", {
+          headers: { Accept: "application/json" },
+          cache: "no-store",
+        });
+        if (!res.ok || cancelled) return;
+        const data = await res.json() as {
+          status?: string;
+          content?: { payload?: { configuration?: { initialCategory?: RulesOfOrderCategoryId | "all"; initialAction?: RulesOfOrderActionId } } };
+        };
+        const configuration = data.content?.payload?.configuration;
+        if (!configuration || cancelled) return;
+        if (configuration.initialCategory) setCategoryFilter(configuration.initialCategory);
+        if (configuration.initialAction) setActiveId(configuration.initialAction);
+      } catch {
+        // Compiled defaults remain active when customization is unavailable.
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const normalizedQuery = query.trim().toLowerCase();
 

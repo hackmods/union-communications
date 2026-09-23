@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-09-22 — Customization C07 panel + C08 pilot consumers
+
+- Completed Root panel actions: private preview, publish, withdraw, rollback, inherit-again, and publication history, with EN/FR labels and role-denial API tests (`union_admin` / local roles cannot publish or withdraw).
+- Wired pilot consumers: Print guide overlay for `guide:learn-print`, custom guide route `/learn/custom/[unionSlug]/[guideSlug]`, content GET `/api/customization/content/[key]`, Rules of Order tool configuration fetch, and explicit Brand Kit baseline apply/undo (`BrandBaselineOffer`).
+- Validation: customization suites **132 tests**; `npm run typecheck`; `npm run lint`. GitHub Actions E2E remains deferred. **Next: C09** audience/discovery UI.
+
 ## 2026-09-22 — Customization C07 Root panel scaffold
 
 - Added `/app/site-admin/customization` with empty-state copy, union scope creation, bilingual guide draft/publish form, and a Site Admin landing card. Panel stays disabled until `CUSTOMIZATION_ENABLED` + durable auth/MFA configuration checks pass.
