@@ -38,6 +38,11 @@
     "orgChart": "Org Chart",
     "websiteTemplate": "Website Template",
     "documentGenerator": "Document & Slide Generator",
+    "letterGenerator": "Letter Generator",
+    "grievanceFormBuilder": "Grievance Form Builder",
+    "caSnippets": "CA Snippets",
+    "stewardQuickLog": "Steward Quick-Log",
+    "keepLearning": "Keep Learning",
     "socialMediaPlan": "First week",
     "socialExamples": "Social Examples",
     "unionBoardsGuide": "Union Boards Guide",
@@ -3109,6 +3114,88 @@
       "officePhone": "Office phone",
       "officeAddress": "Office address"
     }
+  },
+  "letterGenerator": {
+    "title": "Letter Generator",
+    "subtitle": "Start a branded solidarity, welcome, or letterhead letter — then finish in Document Generator.",
+    "whenToUse": "Use when you need a member or employer letter with your Brand Kit colours and lockup.",
+    "chooserHint": "Pick a starting letter. Document Generator keeps the live preview, salutations, and optional QR.",
+    "presets": {
+      "simple-letter": "Solidarity letter",
+      "welcome-letter": "Welcome letter",
+      "letterhead": "Blank letterhead"
+    },
+    "blurbs": {
+      "simple-letter": "A short solidarity letter with your local identity.",
+      "welcome-letter": "Welcome a new member with branded letterhead.",
+      "letterhead": "Empty letterhead for any correspondence."
+    },
+    "openFull": "Open full Document Generator",
+    "previewHint": "Choose a preset on the left. The full editor opens with live preview and download."
+  },
+  "grievanceFormBuilder": {
+    "title": "Grievance Form Builder",
+    "subtitle": "Choose intake, early-resolution scripts, or Hub filing — private until you decide to share.",
+    "whenToUse": "Use when a member brings a workplace issue and you need the right first form or path.",
+    "chooserHint": "Start with triage, a printable intake sheet, draft scripts, or Officer Hub filing when your local is signed in.",
+    "complaintFirst": "Complaint vs grievance check",
+    "complaintFirstBlurb": "Score five eligibility points before you draft or escalate.",
+    "intakeSheet": "6 W's grievance intake sheet",
+    "intakeSheetBlurb": "Printable facts worksheet from Document Generator.",
+    "draftScripts": "Early-resolution / grievance draft scripts",
+    "draftScriptsBlurb": "Open the modular email and script engine (RTW & accommodation tool) in grievance-draft mode.",
+    "hubFile": "File in Officer Hub",
+    "hubFileBlurb": "Opens Hub grievance intake when you are signed in. Requires Officer Hub access.",
+    "previewHint": "Pick a path on the left. Each link opens the matching tool or Hub form."
+  },
+  "caSnippets": {
+    "title": "CA Snippets",
+    "subtitle": "Keep personal collective-agreement clause notes on this device.",
+    "whenToUse": "Use when you need quick clause language for letters and notes without opening the full agreement PDF.",
+    "hubHint": "Your local may also share a Hub snippets library. Open it when you need shared clauses.",
+    "openHub": "Open Hub snippets",
+    "draftSaveFailed": "Notes may not have saved on this browser. Copy important clauses before you leave.",
+    "add": "Add snippet",
+    "empty": "No snippets yet. Add a title and clause text to keep them on this device.",
+    "remove": "Remove",
+    "clearAll": "Clear all snippets",
+    "fields": {
+      "title": "Title / article",
+      "body": "Clause text",
+      "tags": "Tags (optional)"
+    },
+    "previewTitle": "Saved on this device",
+    "previewBody": "{count, plural, =0 {No snippets yet.} one {# snippet saved.} other {# snippets saved.}}"
+  },
+  "stewardQuickLog": {
+    "title": "Steward Quick-Log",
+    "subtitle": "Jot who, what, and next step after a floor conversation — notes stay on this device.",
+    "whenToUse": "Use right after an informal discussion so facts are fresh before a grievance is filed.",
+    "hubHint": "Officer Hub Informal Log can hold shared local files when your local turns it on.",
+    "openHub": "Open Hub Informal Log",
+    "draftSaveFailed": "Notes may not have saved on this browser. Export or copy before you leave.",
+    "add": "Add entry",
+    "empty": "No entries yet. Add who you spoke with and the next step.",
+    "remove": "Remove",
+    "clearAll": "Clear all entries",
+    "fields": {
+      "when": "Date",
+      "who": "Who",
+      "what": "What happened",
+      "nextStep": "Next step"
+    },
+    "previewTitle": "Saved on this device",
+    "previewBody": "{count, plural, =0 {No entries yet.} one {# entry saved.} other {# entries saved.}}"
+  },
+  "keepLearning": {
+    "title": "Keep Learning",
+    "subtitle": "Jump into Learn catalogs, steward playbooks, and Officer Learning.",
+    "whenToUse": "Use when you want the next guide or module without hunting through the site menu.",
+    "chooserHint": "Open the full Learn catalog, the steward path, or Officer Learning modules.",
+    "openLearn": "Open Learn",
+    "stewardPath": "Steward playbooks",
+    "officerPath": "Officer Learning",
+    "previewHint": "Links open learning surfaces. Progress for Officer Learning stays on this device."
   },
   "solidarityPoster": {
     "title": "Solidarity Poster Maker",
@@ -7257,8 +7344,8 @@
     "feedbackLink": "Send site feedback",
     "items": {
       "steward-ux-brand-letters": {
-        "title": "Brand Kit completion, letter salutations, and layout tokens",
-        "body": "Brand Kit shows how complete your kit is and confirms when changes save. Letters keep a flexible salutation, optional QR, and print spacing. Graphic Maker can try Advanced token layouts without changing your Brand Kit."
+        "title": "Letter Generator, Creation catalog, and Brand Kit save cues",
+        "body": "Letter Generator, Grievance Form Builder, CA Snippets, and Steward Quick-Log sit in Creation and Utility. Brand Kit shows completion and save confirmation; letters keep salutations, optional QR, and print spacing."
       },
       "host-readiness": {
         "title": "Host readiness in Site admin",
@@ -10358,8 +10445,8 @@
     "channelGuidesIntro": "Guides by channel when you need more depth.",
     "hint": "Set colours and logo first in",
     "startHereTitle": "Start here",
-    "startHereIntro": "Follow the first-week channel order after Brand Kit, or open the full roadmap.",
-    "startHereRoadmap": "Open First week roadmap",
+    "startHereIntro": "After Brand Kit, write a letter or open the Creation catalog — First week remains under Learn if you want a channel plan.",
+    "startHereRoadmap": "Open Creation tools",
     "labourPlaybooksTitle": "Steward craft",
     "labourPlaybooksIntro": "Floor playbooks, Officer Learning, and worksheets share one front door.",
     "labourPlaybooksCta": "Open steward playbooks",
@@ -10367,6 +10454,11 @@
       "logoBuilder": "Build a circular, square, or rectangle local logo plate.",
       "resizer": "Crop logos and images to Facebook, Instagram, and YouTube sizes.",
       "documentGenerator": "Branded Word, Excel, PowerPoint, and invite packs.",
+      "letterGenerator": "Solidarity, welcome, and letterhead letters with Brand Kit.",
+      "grievanceFormBuilder": "Triage, intake sheet, draft scripts, or Hub filing.",
+      "caSnippets": "Personal collective-agreement clause notes on this device.",
+      "stewardQuickLog": "Who, what, and next step after a floor conversation.",
+      "keepLearning": "Jump into Learn, steward playbooks, and Officer Learning.",
       "boardBanner": "Print header strips and trim for cork boards.",
       "boardNotice": "Workplace bulletin notices with date, time, and location.",
       "solidarityPoster": "Bold solidarity posters and optional wallpapers.",
@@ -11079,7 +11171,8 @@
     },
     "mode": {
       "rtw": "Return-to-work from absence",
-      "accommodation": "Active accommodation request"
+      "accommodation": "Active accommodation request",
+      "grievanceDraft": "Grievance / early-resolution draft"
     },
     "fields": {
       "mode": "What kind of request is this?",
@@ -11095,7 +11188,9 @@
       "requestedModifications": "Requested modifications",
       "functionalLimitations": "Prescribed functional limitations",
       "functionalLimitationsHint": "What can or cannot the member safely do?",
-      "measures": "Proposed accommodation measures"
+      "measures": "Proposed accommodation measures",
+      "grievanceIssue": "Issue summary",
+      "caArticle": "CA article / policy cite"
     },
     "grounds": {
       "placeholder": "Select a ground",
@@ -14560,9 +14655,9 @@
           "title": "Choose your communications priorities",
           "body": "Use the blueprint to pick audiences, messages, channels, and a realistic rhythm."
         },
-        "firstWeek": {
-          "title": "Plan the first week",
-          "body": "Turn those priorities into a first-week plan your local can act on."
+        "letter": {
+          "title": "Write your first branded letter",
+          "body": "Open Letter Generator for a solidarity, welcome, or letterhead pack with your Brand Kit."
         },
         "asset": {
           "title": "Make your first social graphic",
@@ -14578,9 +14673,9 @@
           "title": "Learn how to work a grievance",
           "body": "Follow the issue from the first facts through the agreement and the next steps."
         },
-        "safety": {
-          "title": "Respond to a safety concern",
-          "body": "Use the right-to-refuse guide to understand an urgent workplace safety issue."
+        "builder": {
+          "title": "Build the right grievance path",
+          "body": "Use the Grievance Form Builder to choose intake, scripts, or Hub filing."
         },
         "meetings": {
           "title": "Prepare for a local meeting",
@@ -14666,6 +14761,11 @@
       "bylaw-draft": "An on-device bylaw draft for committee review",
       "proposal-package": "An on-device bargaining proposal tracker and export",
       "meeting-phrases": "A quick-reference sheet of meeting phrases and steps",
+      "ca-snippet-notes": "Personal collective-agreement clause notes on this device",
+      "steward-quick-notes": "Private who / what / next-step notes after a floor conversation",
+      "learning-hub": "Shortcuts into Learn catalogs and Officer Learning",
+      "letter-pack": "A branded solidarity, welcome, or letterhead letter pack",
+      "grievance-builder-pack": "A grievance triage path, intake sheet, or draft scripts",
       "guide-checklists": "Practical steps, examples, and checklists",
       "learning-module": "A self-paced lesson with practice and on-device progress",
       "facilitator-run-sheet": "A facilitator-ready workshop run sheet",
@@ -14691,6 +14791,11 @@
       "tool-bylaw-builder": "constitution bylaws rules constitution statuts règlements",
       "tool-proposal-tracker": "bargaining negotiations proposals counter offer négociation propositions offre",
       "tool-rules-of-order": "meeting motion quorum chair agm gmm parliamentary meeting réunion assemblée motion quorum",
+      "tool-letter-generator": "letter solidarity welcome letterhead lettre solidarité bienvenue en-tête",
+      "tool-grievance-form-builder": "grievance intake complaint form builder grief accueil plainte formulaire",
+      "tool-ca-snippets": "collective agreement clause snippet article convention extraits",
+      "tool-steward-quick-log": "steward informal log notes quick log délégué journal notes",
+      "tool-keep-learning": "learn steward officer learning formation apprendre",
       "brand-kit": "brand identity local colours colors logo number marque identité couleurs logo numéro",
       "first-week": "communications plan campaign kickoff première semaine plan communication campagne lancement",
       "steward-path": "steward playbooks representation steward délégué déléguée représentation",

@@ -38,6 +38,11 @@
     "orgChart": "Organigramme",
     "websiteTemplate": "Modèle de site Web",
     "documentGenerator": "Documents et diapositives",
+    "letterGenerator": "Générateur de lettres",
+    "grievanceFormBuilder": "Constructeur de formulaires de grief",
+    "caSnippets": "Extraits de convention",
+    "stewardQuickLog": "Journal rapide du délégué",
+    "keepLearning": "Continuer à apprendre",
     "socialMediaPlan": "Première semaine",
     "socialExamples": "Exemples sociaux",
     "unionBoardsGuide": "Guide tableaux syndicaux",
@@ -3109,6 +3114,88 @@
       "officePhone": "Téléphone du bureau",
       "officeAddress": "Adresse du bureau"
     }
+  },
+  "letterGenerator": {
+    "title": "Générateur de lettres",
+    "subtitle": "Commencez une lettre de solidarité, de bienvenue ou un en-tête à l'image de la section — puis terminez dans Documents et diapositives.",
+    "whenToUse": "Utilisez-le quand vous avez besoin d'une lettre aux membres ou à l'employeur avec les couleurs et le logo de votre Trousse de marque.",
+    "chooserHint": "Choisissez une lettre de départ. Documents et diapositives conserve l'aperçu en direct, les salutations et le QR optionnel.",
+    "presets": {
+      "simple-letter": "Lettre de solidarité",
+      "welcome-letter": "Lettre de bienvenue",
+      "letterhead": "En-tête vierge"
+    },
+    "blurbs": {
+      "simple-letter": "Une courte lettre de solidarité avec l'identité de votre section.",
+      "welcome-letter": "Accueillez un nouveau membre avec un en-tête à votre image.",
+      "letterhead": "En-tête vide pour toute correspondance."
+    },
+    "openFull": "Ouvrir Documents et diapositives au complet",
+    "previewHint": "Choisissez un modèle à gauche. L'éditeur complet s'ouvre avec aperçu en direct et téléchargement."
+  },
+  "grievanceFormBuilder": {
+    "title": "Constructeur de formulaires de grief",
+    "subtitle": "Choisissez l'accueil, des scripts de règlement précoce ou le dépôt au Hub — privé jusqu'à ce que vous partagiez.",
+    "whenToUse": "Utilisez-le quand un membre apporte un problème au travail et que vous devez choisir le bon premier formulaire ou parcours.",
+    "chooserHint": "Commencez par le triage, une fiche d'accueil imprimable, des scripts, ou le dépôt au Hub des dirigeants si vous êtes connecté.",
+    "complaintFirst": "Vérification plainte ou grief",
+    "complaintFirstBlurb": "Notez cinq points d'admissibilité avant de rédiger ou d'escalader.",
+    "intakeSheet": "Fiche d'accueil des 6 W",
+    "intakeSheetBlurb": "Feuille de faits imprimable depuis Documents et diapositives.",
+    "draftScripts": "Scripts de règlement précoce / brouillon de grief",
+    "draftScriptsBlurb": "Ouvrez le moteur de courriels et de scripts (outil retour au travail et adaptation) en mode brouillon de grief.",
+    "hubFile": "Déposer dans le Hub des dirigeants",
+    "hubFileBlurb": "Ouvre l'accueil des griefs du Hub si vous êtes connecté. Nécessite l'accès au Hub.",
+    "previewHint": "Choisissez un parcours à gauche. Chaque lien ouvre l'outil ou le formulaire Hub correspondant."
+  },
+  "caSnippets": {
+    "title": "Extraits de convention",
+    "subtitle": "Gardez des notes personnelles de clauses de convention collective sur cet appareil.",
+    "whenToUse": "Utilisez-le quand vous avez besoin d'un libellé de clause rapide pour lettres et notes sans ouvrir le PDF complet.",
+    "hubHint": "Votre section peut aussi partager une bibliothèque d'extraits au Hub. Ouvrez-la pour les clauses partagées.",
+    "openHub": "Ouvrir les extraits du Hub",
+    "draftSaveFailed": "Les notes n'ont peut-être pas été enregistrées dans ce navigateur. Copiez les clauses importantes avant de partir.",
+    "add": "Ajouter un extrait",
+    "empty": "Aucun extrait pour l'instant. Ajoutez un titre et le texte de la clause pour les garder sur cet appareil.",
+    "remove": "Retirer",
+    "clearAll": "Effacer tous les extraits",
+    "fields": {
+      "title": "Titre / article",
+      "body": "Texte de la clause",
+      "tags": "Balises (facultatif)"
+    },
+    "previewTitle": "Enregistré sur cet appareil",
+    "previewBody": "{count, plural, =0 {Aucun extrait pour l'instant.} one {# extrait enregistré.} other {# extraits enregistrés.}}"
+  },
+  "stewardQuickLog": {
+    "title": "Journal rapide du délégué",
+    "subtitle": "Notez qui, quoi et la prochaine étape après une conversation de plancher — les notes restent sur cet appareil.",
+    "whenToUse": "Utilisez-le juste après une discussion informelle pour que les faits restent frais avant un grief.",
+    "hubHint": "Le journal informel du Hub peut contenir des dossiers locaux partagés si votre section l'active.",
+    "openHub": "Ouvrir le journal informel du Hub",
+    "draftSaveFailed": "Les notes n'ont peut-être pas été enregistrées dans ce navigateur. Exportez ou copiez avant de partir.",
+    "add": "Ajouter une entrée",
+    "empty": "Aucune entrée pour l'instant. Ajoutez avec qui vous avez parlé et la prochaine étape.",
+    "remove": "Retirer",
+    "clearAll": "Effacer toutes les entrées",
+    "fields": {
+      "when": "Date",
+      "who": "Qui",
+      "what": "Ce qui s'est passé",
+      "nextStep": "Prochaine étape"
+    },
+    "previewTitle": "Enregistré sur cet appareil",
+    "previewBody": "{count, plural, =0 {Aucune entrée pour l'instant.} one {# entrée enregistrée.} other {# entrées enregistrées.}}"
+  },
+  "keepLearning": {
+    "title": "Continuer à apprendre",
+    "subtitle": "Accédez aux catalogues Apprendre, aux guides pratiques et à la formation des dirigeants.",
+    "whenToUse": "Utilisez-le quand vous voulez le prochain guide ou module sans fouiller le menu du site.",
+    "chooserHint": "Ouvrez le catalogue Apprendre au complet, le parcours délégué ou les modules de formation des dirigeants.",
+    "openLearn": "Ouvrir Apprendre",
+    "stewardPath": "Guides pratiques des délégués",
+    "officerPath": "Formation des dirigeants",
+    "previewHint": "Les liens ouvrent les espaces d'apprentissage. La progression de la formation des dirigeants reste sur cet appareil."
   },
   "solidarityPoster": {
     "title": "Créateur d'affiches solidarité",
@@ -7204,8 +7291,8 @@
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
       "steward-ux-brand-letters": {
-        "title": "Complétion de la Trousse, salutations et jetons de disposition",
-        "body": "La Trousse de marque indique à quel point elle est complète et confirme l’enregistrement. Les lettres gardent une salutation souple, un QR facultatif et l’espacement d’impression. Le Créateur graphique peut essayer les dispositions des jetons avancés sans changer votre Trousse."
+        "title": "Générateur de lettres, catalogue Création et confirmations de la Trousse",
+        "body": "Le générateur de lettres, le constructeur de formulaires de grief, les extraits de convention et le journal rapide du délégué sont dans Création et Utilitaire. La Trousse indique la complétion et confirme l'enregistrement ; les lettres gardent salutations, QR facultatif et espacement d'impression."
       },
       "host-readiness": {
         "title": "Préparation de l’hôte dans Admin du site",
@@ -10358,8 +10445,8 @@
     "channelGuidesIntro": "Guides par canal pour aller plus loin.",
     "hint": "Définissez d'abord les couleurs et le logo dans",
     "startHereTitle": "Par où commencer",
-    "startHereIntro": "Suivez l'ordre des canaux de la première semaine après la Trousse de marque, ou ouvrez la feuille de route complète.",
-    "startHereRoadmap": "Ouvrir la feuille de route Première semaine",
+    "startHereIntro": "Après la Trousse de marque, rédigez une lettre ou ouvrez le catalogue Création — Première semaine reste sous Apprendre si vous voulez un plan par canal.",
+    "startHereRoadmap": "Ouvrir les outils de création",
     "labourPlaybooksTitle": "Travail de délégué",
     "labourPlaybooksIntro": "Les guides de terrain, la formation des dirigeants et les fiches partagent une même porte d'entrée.",
     "labourPlaybooksCta": "Ouvrir les guides pratiques",
@@ -10367,6 +10454,11 @@
       "logoBuilder": "Créez une plaque logo circulaire, carrée ou rectangulaire.",
       "resizer": "Recadrez logos et images aux formats Facebook, Instagram et YouTube.",
       "documentGenerator": "Packs Word, Excel, PowerPoint et invitations à l'image de marque.",
+      "letterGenerator": "Lettres de solidarité, de bienvenue et en-têtes avec la Trousse de marque.",
+      "grievanceFormBuilder": "Triage, fiche d'accueil, scripts ou dépôt au Hub.",
+      "caSnippets": "Notes personnelles de clauses de convention sur cet appareil.",
+      "stewardQuickLog": "Qui, quoi et prochaine étape après une conversation de plancher.",
+      "keepLearning": "Accédez à Apprendre, aux guides pratiques et à la formation des dirigeants.",
       "boardBanner": "Bandeaux et découpes pour tableaux de liège.",
       "boardNotice": "Avis d'affichage avec date, heure et lieu.",
       "solidarityPoster": "Affiches de solidarité et fonds d'écran optionnels.",
@@ -11053,7 +11145,8 @@
     },
     "mode": {
       "rtw": "Retour au travail après une absence",
-      "accommodation": "Demande d'adaptation active"
+      "accommodation": "Demande d'adaptation active",
+      "grievanceDraft": "Brouillon de grief / règlement précoce"
     },
     "fields": {
       "mode": "De quel type de demande s'agit-il?",
@@ -11069,7 +11162,9 @@
       "requestedModifications": "Modifications demandées",
       "functionalLimitations": "Limites fonctionnelles prescrites",
       "functionalLimitationsHint": "Que peut ou ne peut pas faire le membre en toute sécurité?",
-      "measures": "Mesures d'adaptation proposées"
+      "measures": "Mesures d'adaptation proposées",
+      "grievanceIssue": "Résumé du problème",
+      "caArticle": "Article de convention / politique"
     },
     "grounds": {
       "placeholder": "Choisir un motif",
@@ -14560,9 +14655,9 @@
           "title": "Choisir les priorités de communication",
           "body": "Utilisez le plan pour choisir vos publics, vos messages, vos canaux et un rythme réaliste."
         },
-        "firstWeek": {
-          "title": "Planifier la première semaine",
-          "body": "Transformez ces priorités en un plan de première semaine que votre section peut réaliser."
+        "letter": {
+          "title": "Rédiger votre première lettre à l'image de la section",
+          "body": "Ouvrez le générateur de lettres pour un en-tête, une lettre de bienvenue ou un dossier de solidarité avec votre trousse d'image."
         },
         "asset": {
           "title": "Créer votre première publication sociale",
@@ -14578,9 +14673,9 @@
           "title": "Apprendre à traiter un grief",
           "body": "Suivez un problème depuis les premiers faits jusqu'à la convention et aux prochaines étapes."
         },
-        "safety": {
-          "title": "Réagir à un problème de santé-sécurité",
-          "body": "Utilisez le guide du droit de refus pour comprendre une situation urgente au travail."
+        "builder": {
+          "title": "Choisir le bon parcours de grief",
+          "body": "Utilisez le constructeur de formulaires de grief pour l'accueil, les scripts ou le dépôt au Hub."
         },
         "meetings": {
           "title": "Préparer une réunion locale",
@@ -14666,6 +14761,11 @@
       "bylaw-draft": "Projet de statuts sur cet appareil pour examen en comité",
       "proposal-package": "Suivi et exportation des propositions de négociation sur cet appareil",
       "meeting-phrases": "Aide-mémoire des étapes et formulations de réunion",
+      "ca-snippet-notes": "Notes personnelles de clauses de convention collective sur cet appareil",
+      "steward-quick-notes": "Notes privées qui / quoi / prochaine étape après une conversation de plancher",
+      "learning-hub": "Raccourcis vers les catalogues Apprendre et la formation des dirigeants",
+      "letter-pack": "Pack de lettre de solidarité, de bienvenue ou d'en-tête à l'image de la section",
+      "grievance-builder-pack": "Parcours de triage de grief, fiche d'accueil ou scripts",
       "guide-checklists": "Étapes pratiques, exemples et listes de vérification",
       "learning-module": "Leçon autonome avec exercices et progression sur cet appareil",
       "facilitator-run-sheet": "Plan d'atelier prêt à animer",
@@ -14691,6 +14791,11 @@
       "tool-bylaw-builder": "constitution statuts règlements règles",
       "tool-proposal-tracker": "négociation propositions offre contre-proposition convention collective",
       "tool-rules-of-order": "réunion assemblée générale quorum motion présidence procédure",
+      "tool-letter-generator": "lettre solidarité bienvenue en-tête letter solidarity",
+      "tool-grievance-form-builder": "grief accueil plainte formulaire triage grievance intake",
+      "tool-ca-snippets": "convention collective clauses extraits article snippets",
+      "tool-steward-quick-log": "délégué journal notes conversation informelle steward log",
+      "tool-keep-learning": "apprendre formation dirigeants délégué learn officer",
       "brand-kit": "marque identité section couleurs logo numéro identité",
       "first-week": "plan communication campagne lancement première semaine",
       "steward-path": "délégué déléguée griefs représentation syndicale délégués",

@@ -27,7 +27,7 @@ export const UPDATES: readonly UpdateEntry[] = [
     id: "steward-ux-brand-letters",
     date: "2026-09-23",
     kind: "improved",
-    href: "/create/brand-kit",
+    href: "/create/letter-generator",
   },
   {
     id: "host-readiness",

@@ -67,6 +67,11 @@ export type PublicCatalogDeliverable =
   | "bylaw-draft"
   | "proposal-package"
   | "meeting-phrases"
+  | "ca-snippet-notes"
+  | "steward-quick-notes"
+  | "learning-hub"
+  | "letter-pack"
+  | "grievance-builder-pack"
   | "guide-checklists"
   | "learning-module"
   | "facilitator-run-sheet"
@@ -134,12 +139,19 @@ const TOOL_KIND: Record<string, PublicCatalogFormat> = {
   "bylaw-builder": "worksheet",
   "proposal-tracker": "worksheet",
   "rules-of-order": "worksheet",
+  "ca-snippets": "worksheet",
+  "steward-quick-log": "worksheet",
+  "letter-generator": "maker",
+  "grievance-form-builder": "worksheet",
+  "keep-learning": "library",
 };
 
 const TOOL_DELIVERABLE: Record<string, PublicCatalogDeliverable> = {
   "logo-builder": "logo-files",
   resizer: "resized-image-files",
   "document-generator": "office-document-files",
+  "letter-generator": "letter-pack",
+  "grievance-form-builder": "grievance-builder-pack",
   "board-banner": "banner-files",
   "board-notice": "board-notice-files",
   "solidarity-poster": "poster-files",
@@ -160,6 +172,9 @@ const TOOL_DELIVERABLE: Record<string, PublicCatalogDeliverable> = {
   "bylaw-builder": "bylaw-draft",
   "proposal-tracker": "proposal-package",
   "rules-of-order": "meeting-phrases",
+  "ca-snippets": "ca-snippet-notes",
+  "steward-quick-log": "steward-quick-notes",
+  "keep-learning": "learning-hub",
 };
 
 const TOOL_SEARCH_TERMS: Readonly<Record<string, string>> = {
@@ -181,6 +196,11 @@ const TOOL_SEARCH_TERMS: Readonly<Record<string, string>> = {
   "bylaw-builder": "tool-bylaw-builder",
   "proposal-tracker": "tool-proposal-tracker",
   "rules-of-order": "tool-rules-of-order",
+  "letter-generator": "tool-letter-generator",
+  "grievance-form-builder": "tool-grievance-form-builder",
+  "ca-snippets": "tool-ca-snippets",
+  "steward-quick-log": "tool-steward-quick-log",
+  "keep-learning": "tool-keep-learning",
 };
 
 function catalogId(path: string): string {

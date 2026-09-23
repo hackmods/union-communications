@@ -37,6 +37,11 @@ export type NavLinkKey =
   | "logoBuilder"
   | "resizer"
   | "documentGenerator"
+  | "letterGenerator"
+  | "grievanceFormBuilder"
+  | "caSnippets"
+  | "stewardQuickLog"
+  | "keepLearning"
   | "boardBanner"
   | "boardNotice"
   | "solidarityPoster"
@@ -105,6 +110,9 @@ export const toolGroups: readonly NavGroup[] = [
   {
     labelKey: "toolsGroupCreation",
     links: [
+      { href: "/tools/letter-generator", key: "letterGenerator" },
+      { href: "/tools/rtw-accommodation", key: "rtwAccommodation" },
+      { href: "/tools/grievance-form-builder", key: "grievanceFormBuilder" },
       { href: "/tools/document-generator", key: "documentGenerator" },
       { href: "/tools/graphic-maker", key: "graphicMaker" },
       { href: "/tools/flyer-maker", key: "flyerMaker" },
@@ -125,7 +133,9 @@ export const toolGroups: readonly NavGroup[] = [
   {
     labelKey: "toolsGroupUtility",
     links: [
-      { href: "/tools/rtw-accommodation", key: "rtwAccommodation" },
+      { href: "/tools/ca-snippets", key: "caSnippets" },
+      { href: "/tools/steward-quick-log", key: "stewardQuickLog" },
+      { href: "/tools/keep-learning", key: "keepLearning" },
       { href: "/tools/pre-disciplinary-log", key: "preDisciplinaryLog" },
       { href: "/tools/complaint-vs-grievance", key: "complaintVsGrievance" },
       { href: "/tools/bylaw-builder", key: "bylawBuilder" },
