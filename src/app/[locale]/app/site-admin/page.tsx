@@ -5,6 +5,8 @@ import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
 import { countHighMembershipIntegrityIssues } from "@/lib/site-admin/membership-integrity";
 import { isPostgresConfigured } from "@/lib/db/client";
+import { buildHealthStatus } from "@/lib/ops/health-status";
+import { buildHostReadiness } from "@/lib/ops/host-readiness";
 import { SiteAdminCard } from "@/components/site-admin/SiteAdminCard";
 
 export const dynamic = "force-dynamic";
@@ -29,6 +31,10 @@ export default async function SiteAdminLandingPage({
   const demoPurgeOn = isDemoPurgeEnabled();
   const highIntegrity =
     isPostgresConfigured() ? await countHighMembershipIntegrityIssues() : 0;
+  const hostReadiness = buildHostReadiness(buildHealthStatus());
+  const missingHostCount =
+    hostReadiness.missingBackendFlips.length +
+    hostReadiness.missingPresence.length;
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 lg:py-12">
@@ -40,6 +46,16 @@ export default async function SiteAdminLandingPage({
       </header>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        <SiteAdminCard
+          href="/app/site-admin/host"
+          title={t("hostCardTitle")}
+          body={
+            missingHostCount > 0
+              ? t("hostCardBodyWarn", { count: missingHostCount })
+              : t("hostCardBody")
+          }
+          tone={missingHostCount > 0 ? "warn" : "default"}
+        />
         <SiteAdminCard
           href="/app/site-admin/account-support"
           title={t("accountSupport")}

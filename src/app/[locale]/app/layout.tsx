@@ -6,7 +6,7 @@ import { HubNav } from "@/components/hub/HubNav";
 import { TenantLiveProvider } from "@/components/hub/TenantLiveProvider";
 import { isMfaEnabled } from "@/lib/auth/mfa-policy";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
-import { isMemoryCaseDataActive } from "@/lib/db/backend";
+import { isMemoryCaseDataActive, listMemoryCaseDataBackendKeys } from "@/lib/db/backend";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
 import { cn } from "@/lib/utils";
 
@@ -22,11 +22,15 @@ export default async function AppLayout({
   await hydrateTenantOverlayFromPostgres();
   const mfaEnabled = isMfaEnabled();
   const memoryCaseDataActive = isMemoryCaseDataActive();
+  const memoryBackendKeys = listMemoryCaseDataBackendKeys();
   return (
     <MfaPolicyProvider mfaEnabled={mfaEnabled}>
       <TotpEnrollmentGate>
         <TenantLiveProvider>
-          <HubBannerStack memoryCaseDataActive={memoryCaseDataActive} />
+          <HubBannerStack
+            memoryCaseDataActive={memoryCaseDataActive}
+            memoryBackendKeys={memoryBackendKeys}
+          />
           <HubNav />
           {/* Body uses `wide` (not chrome): avoid stretched empty margins on phone/tablet. */}
           <div className={cn(PAGE_SHELL.wide, "py-4 sm:py-6 md:py-8")}>
