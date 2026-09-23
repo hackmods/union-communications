@@ -17,7 +17,8 @@ import {
   canDeleteInformalLog,
 } from "@/lib/informal-log/access";
 import type { InformalLogEntry, InformalLogVisibility } from "@/types/informal-log";
-import type { CommunicationChannel } from "@/types/qol";
+import type { CommunicationChannel, CaSnippet } from "@/types/qol";
+import type { GrievanceType, GrievanceLinkedSnippet } from "@/types/grievance";
 import type { UserRole } from "@/types/tenant";
 
 const CHANNELS: CommunicationChannel[] = [
@@ -33,6 +34,8 @@ const VISIBILITY_OPTIONS: InformalLogVisibility[] = [
   "local_executive",
   "area_officer",
 ];
+
+const GRIEVANCE_TYPES: GrievanceType[] = ["individual", "group", "policy"];
 
 function toLocalInputValue(iso: string): string {
   const d = new Date(iso);
@@ -58,6 +61,10 @@ export function InformalLogBoard() {
   const [showForm, setShowForm] = useState(false);
   const [unconvertedOnly, setUnconvertedOnly] = useState(false);
   const [convertingId, setConvertingId] = useState<string | null>(null);
+  const [convertEntry, setConvertEntry] = useState<InformalLogEntry | null>(null);
+  const [convertType, setConvertType] = useState<GrievanceType>("individual");
+  const [snippets, setSnippets] = useState<CaSnippet[]>([]);
+  const [selectedSnippetIds, setSelectedSnippetIds] = useState<string[]>([]);
 
   const [topic, setTopic] = useState("");
   const [summary, setSummary] = useState("");
@@ -96,6 +103,19 @@ export function InformalLogBoard() {
       .finally(() => setLoading(false));
   }, [unconvertedOnly, t]);
 
+  useEffect(() => {
+    let active = true;
+    void fetch("/api/snippets")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (active && json?.snippets) setSnippets(json.snippets as CaSnippet[]);
+      })
+      .catch(() => undefined);
+    return () => {
+      active = false;
+    };
+  }, []);
+
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
     if (!canWrite) return;
@@ -129,12 +149,35 @@ export function InformalLogBoard() {
     }
   }
 
-  async function handleConvert(entry: InformalLogEntry) {
+  function openConvert(entry: InformalLogEntry) {
     if (!canConvert || entry.convertedToGrievanceId) return;
-    setConvertingId(entry.id);
+    setConvertEntry(entry);
+    setConvertType("individual");
+    setSelectedSnippetIds([]);
     setError(null);
-    const res = await fetch(`/api/informal-log/${entry.id}/convert`, {
+  }
+
+  async function handleConvertConfirm() {
+    if (!convertEntry || !canConvert) return;
+    setConvertingId(convertEntry.id);
+    setError(null);
+    const linkedSnippets: GrievanceLinkedSnippet[] = selectedSnippetIds
+      .map((id) => snippets.find((s) => s.id === id))
+      .filter((s): s is CaSnippet => Boolean(s))
+      .map((s) => ({
+        snippetId: s.id,
+        clauseRef: s.clauseRef,
+        title: s.title,
+        bodySnapshot: s.body,
+      }));
+    const res = await fetch(`/api/informal-log/${convertEntry.id}/convert`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        grievanceType: convertType,
+        intake: { what: convertEntry.summary },
+        ...(linkedSnippets.length ? { linkedSnippets } : {}),
+      }),
     });
     setConvertingId(null);
     if (res.ok) {
@@ -142,9 +185,11 @@ export function InformalLogBoard() {
         grievance: { id: string };
       };
       setMessage(t("converted", { id: data.grievance.id }));
+      setConvertEntry(null);
       await refresh();
     } else if (res.status === 409) {
       setError(t("alreadyConverted"));
+      setConvertEntry(null);
       await refresh();
     } else {
       setError(t("convertError"));
@@ -309,6 +354,74 @@ export function InformalLogBoard() {
         </Card>
       )}
 
+      {convertEntry && canConvert && (
+        <Card className="mt-6 space-y-3">
+          <CardTitle>{t("convertEnrichTitle")}</CardTitle>
+          <p className="text-sm text-gray-600">
+            {t("convertEnrichHint", { topic: convertEntry.topic })}
+          </p>
+          <Select
+            label={t("convertType")}
+            value={convertType}
+            onChange={(e) => setConvertType(e.target.value as GrievanceType)}
+          >
+            {GRIEVANCE_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {t(`grievanceTypes.${type}`)}
+              </option>
+            ))}
+          </Select>
+          {snippets.length > 0 && (
+            <fieldset className="space-y-2 rounded-lg border border-gray-200 p-3">
+              <legend className="px-1 text-sm font-semibold text-opseu-dark">
+                {t("convertSnippets")}
+              </legend>
+              <ul className="max-h-40 space-y-2 overflow-y-auto">
+                {snippets.map((snip) => (
+                  <li key={snip.id}>
+                    <label className="flex cursor-pointer items-start gap-2 text-sm">
+                      <input
+                        type="checkbox"
+                        className="mt-1"
+                        checked={selectedSnippetIds.includes(snip.id)}
+                        onChange={() =>
+                          setSelectedSnippetIds((prev) =>
+                            prev.includes(snip.id)
+                              ? prev.filter((x) => x !== snip.id)
+                              : [...prev, snip.id],
+                          )
+                        }
+                      />
+                      <span>
+                        {snip.clauseRef} — {snip.title}
+                      </span>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </fieldset>
+          )}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              disabled={convertingId === convertEntry.id}
+              onClick={() => void handleConvertConfirm()}
+            >
+              {convertingId === convertEntry.id
+                ? t("converting")
+                : t("convertConfirm")}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setConvertEntry(null)}
+            >
+              {t("cancel")}
+            </Button>
+          </div>
+        </Card>
+      )}
+
       {entries.length === 0 ? (
         <div className="mt-6">
           <EmptyState title={t("empty")} />
@@ -366,11 +479,9 @@ export function InformalLogBoard() {
                         type="button"
                         variant="outline"
                         disabled={convertingId === entry.id}
-                        onClick={() => void handleConvert(entry)}
+                        onClick={() => openConvert(entry)}
                       >
-                        {convertingId === entry.id
-                          ? t("converting")
-                          : t("convert")}
+                        {t("convert")}
                       </Button>
                     )}
                     {canRemove && !readOnly && (

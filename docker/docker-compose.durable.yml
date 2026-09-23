@@ -19,6 +19,7 @@ services:
       DISCUSSIONS_DB_BACKEND: postgres
       TASKS_DB_BACKEND: postgres
       INFORMAL_LOG_DB_BACKEND: postgres
+      SNIPPETS_DB_BACKEND: postgres
       MINUTES_DB_BACKEND: postgres
       LEDGER_DB_BACKEND: postgres
       OFFICERS_DB_BACKEND: postgres

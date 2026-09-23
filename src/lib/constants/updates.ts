@@ -24,6 +24,26 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "ca-snippets-bulk-durable",
+    date: "2026-09-23",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/snippets",
+  },
+  {
+    id: "grievance-intake-detail-formal",
+    date: "2026-09-23",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/grievances",
+  },
+  {
+    id: "quick-log-hub-sync",
+    date: "2026-09-23",
+    kind: "added",
+    href: "/tools/steward-quick-log",
+  },
+  {
     id: "grievance-workflow-uplift",
     date: "2026-09-23",
     kind: "improved",

@@ -15,6 +15,7 @@ export const DB_BACKEND_ENV_KEYS = [
   "DISCUSSIONS_DB_BACKEND",
   "TASKS_DB_BACKEND",
   "INFORMAL_LOG_DB_BACKEND",
+  "SNIPPETS_DB_BACKEND",
   "MINUTES_DB_BACKEND",
   "LEDGER_DB_BACKEND",
   "OFFICERS_DB_BACKEND",
@@ -102,6 +103,12 @@ export function informalLogDbBackend(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
 ): DbBackend {
   return resolveBackend("INFORMAL_LOG_DB_BACKEND", env);
+}
+
+export function snippetsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("SNIPPETS_DB_BACKEND", env);
 }
 
 export function minutesDbBackend(
@@ -258,6 +265,7 @@ export function readEffectiveBackendFlags(
     DISCUSSIONS_DB_BACKEND: discussionsDbBackend(env),
     TASKS_DB_BACKEND: tasksDbBackend(env),
     INFORMAL_LOG_DB_BACKEND: informalLogDbBackend(env),
+    SNIPPETS_DB_BACKEND: snippetsDbBackend(env),
     MINUTES_DB_BACKEND: minutesDbBackend(env),
     LEDGER_DB_BACKEND: ledgerDbBackend(env),
     OFFICERS_DB_BACKEND: officersDbBackend(env),
@@ -313,6 +321,7 @@ export const MEMORY_CASE_DATA_ENV_KEYS = [
   "DISCUSSIONS_DB_BACKEND",
   "TASKS_DB_BACKEND",
   "INFORMAL_LOG_DB_BACKEND",
+  "SNIPPETS_DB_BACKEND",
   "MINUTES_DB_BACKEND",
   "LEDGER_DB_BACKEND",
   "OFFICERS_DB_BACKEND",

@@ -13,6 +13,7 @@ import {
   feedbackDbBackend,
   grievanceDbBackend,
   informalLogDbBackend,
+  snippetsDbBackend,
   isMemoryCaseDataActive,
   isPostgresFlipComplete,
   ledgerDbBackend,
@@ -39,6 +40,7 @@ describe("db backend flags", () => {
     expect(discussionsDbBackend({})).toBe("memory");
     expect(tasksDbBackend({})).toBe("memory");
     expect(informalLogDbBackend({})).toBe("memory");
+    expect(snippetsDbBackend({})).toBe("memory");
     expect(minutesDbBackend({})).toBe("memory");
     expect(ledgerDbBackend({})).toBe("memory");
     expect(officersDbBackend({})).toBe("memory");
@@ -69,6 +71,9 @@ describe("db backend flags", () => {
     expect(tasksDbBackend({ TASKS_DB_BACKEND: "postgres" })).toBe("memory");
     expect(
       informalLogDbBackend({ INFORMAL_LOG_DB_BACKEND: "postgres" }),
+    ).toBe("memory");
+    expect(
+      snippetsDbBackend({ SNIPPETS_DB_BACKEND: "postgres" }),
     ).toBe("memory");
     expect(minutesDbBackend({ MINUTES_DB_BACKEND: "postgres" })).toBe("memory");
     expect(ledgerDbBackend({ LEDGER_DB_BACKEND: "postgres" })).toBe("memory");
@@ -111,6 +116,12 @@ describe("db backend flags", () => {
     expect(
       informalLogDbBackend({
         INFORMAL_LOG_DB_BACKEND: "postgres",
+        DATABASE_URL: "postgres://localhost/unionops",
+      }),
+    ).toBe("postgres");
+    expect(
+      snippetsDbBackend({
+        SNIPPETS_DB_BACKEND: "postgres",
         DATABASE_URL: "postgres://localhost/unionops",
       }),
     ).toBe("postgres");
@@ -173,6 +184,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "postgres",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "postgres",
       OFFICERS_DB_BACKEND: "postgres",
@@ -217,6 +229,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "postgres",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "postgres",
       OFFICERS_DB_BACKEND: "postgres",
@@ -239,6 +252,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "postgres",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "postgres",
       OFFICERS_DB_BACKEND: "postgres",
@@ -260,6 +274,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "memory",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "postgres",
       OFFICERS_DB_BACKEND: "postgres",
@@ -323,6 +338,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "postgres",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "memory",
       OFFICERS_DB_BACKEND: "postgres",
@@ -344,6 +360,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "postgres",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "postgres",
       OFFICERS_DB_BACKEND: "memory",
@@ -365,6 +382,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "postgres",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "postgres",
       OFFICERS_DB_BACKEND: "postgres",
@@ -387,6 +405,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "postgres",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "postgres",
       OFFICERS_DB_BACKEND: "postgres",
@@ -409,6 +428,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "postgres",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "postgres",
       OFFICERS_DB_BACKEND: "postgres",
@@ -431,6 +451,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "postgres",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "postgres",
       OFFICERS_DB_BACKEND: "postgres",
@@ -463,6 +484,7 @@ describe("db backend flags", () => {
       DISCUSSIONS_DB_BACKEND: "postgres",
       TASKS_DB_BACKEND: "postgres",
       INFORMAL_LOG_DB_BACKEND: "postgres",
+      SNIPPETS_DB_BACKEND: "postgres",
       MINUTES_DB_BACKEND: "postgres",
       LEDGER_DB_BACKEND: "postgres",
       OFFICERS_DB_BACKEND: "postgres",
@@ -486,8 +508,9 @@ describe("db backend flags", () => {
     });
     expect(flags.GRIEVANCE_DB_BACKEND).toBe("postgres");
     expect(flags.AUTH_USERS_BACKEND).toBe("postgres");
-    expect(DB_BACKEND_ENV_KEYS).toHaveLength(28);
+    expect(DB_BACKEND_ENV_KEYS).toHaveLength(29);
     expect(DB_BACKEND_ENV_KEYS).toContain("DATA_DB_BACKEND");
     expect(DB_BACKEND_ENV_KEYS).toContain("ACCESS_REQUEST_DB_BACKEND");
+    expect(DB_BACKEND_ENV_KEYS).toContain("SNIPPETS_DB_BACKEND");
   });
 });

@@ -12,6 +12,7 @@ export * from "./discussions";
 export * from "./attachments";
 export * from "./tasks";
 export * from "./informal-log";
+export * from "./snippets";
 export * from "./officers";
 export * from "./ledger";
 export * from "./minutes";

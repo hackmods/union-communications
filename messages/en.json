@@ -3186,7 +3186,8 @@
       "nextStep": "Next step"
     },
     "previewTitle": "Saved on this device",
-    "previewBody": "{count, plural, =0 {No entries yet.} one {# entry saved.} other {# entries saved.}}"
+    "previewBody": "{count, plural, =0 {No entries yet.} one {# entry saved.} other {# entries saved.}}",
+    "syncLabel": "{count, plural, =0 {Quick-Log entries} one {# Quick-Log entry} other {# Quick-Log entries}}"
   },
   "keepLearning": {
     "title": "Keep Learning",
@@ -7344,6 +7345,18 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "ca-snippets-bulk-durable": {
+        "title": "CA snippet library: bulk import and durable storage",
+        "body": "Officers can bulk-import clauses from CSV or text, replace or reset a union library when authorized, and keep the library on durable storage when the host turns that option on."
+      },
+      "grievance-intake-detail-formal": {
+        "title": "Edit intake facts and download a formal grievance form",
+        "body": "Grievance detail now lets you edit 6 W’s, type, members, and linked clauses after create, convert from Quick-Log with enrichment, and download a Brand Kit–headed formal form DOCX."
+      },
+      "quick-log-hub-sync": {
+        "title": "Push Steward Quick-Log notes into Officer Hub",
+        "body": "Signed-in officers can sync on-device Steward Quick-Log entries into the Officer Hub Informal Log in one step — notes still start on your device."
+      },
       "grievance-workflow-uplift": {
         "title": "Grievance intake and formal stages",
         "body": "Officer Hub grievances now start as Stage 1 intake (6 W’s, CA clause links, Brand Kit local labels) and advance to Stage 2 formal files with CA step clocks, file numbers, and Brand Kit–coloured export summaries."
@@ -9486,6 +9499,16 @@
     "memberLabel": "Member: {name}",
     "convert": "Convert to grievance",
     "converting": "Converting…",
+    "convertConfirm": "Create intake file",
+    "convertEnrichTitle": "Convert to intake grievance",
+    "convertEnrichHint": "Opening an intake file from “{topic}”. Pick a type and optional CA clauses — you can finish the 6 W’s on the grievance.",
+    "convertType": "Grievance type",
+    "convertSnippets": "Link CA articles (optional)",
+    "grievanceTypes": {
+      "individual": "Individual",
+      "group": "Group",
+      "policy": "Union / policy"
+    },
     "viewGrievance": "Open grievance",
     "delete": "Delete",
     "readOnlyBanner": "Steward mobile read-only mode is on — you can view the log but not add or convert entries.",
@@ -9850,7 +9873,28 @@
       "delete": "Delete",
       "created": "Snippet saved.",
       "createError": "Could not save snippet. Check the fields and try again.",
-      "insert": "Insert CA snippet into note"
+      "insert": "Insert CA snippet into note",
+      "bulkTitle": "Bulk import",
+      "bulkHint": "Paste CSV (clauseRef,title,body,tags) or text blocks (Article X.Y | Title, then body until a blank line). Tags use | or ;.",
+      "bulkFormat": "Format",
+      "bulkFormatCsv": "CSV",
+      "bulkFormatText": "Plain text",
+      "bulkMode": "Import mode",
+      "bulkModeAppend": "Append (skip duplicates)",
+      "bulkModeReplace": "Replace entire union library",
+      "bulkFile": "Or choose a .csv / .txt file",
+      "bulkContent": "Paste content",
+      "bulkImport": "Import snippets",
+      "bulkWorking": "Importing…",
+      "bulkSuccess": "Imported {created} snippet(s); skipped {skipped}.",
+      "bulkError": "Could not import snippets. Check the format and try again.",
+      "resetTitle": "Reset union library",
+      "resetHint": "Deletes every CA snippet for this union. Presidents use Replace on bulk import; only union or platform admins can hard-reset here.",
+      "resetButton": "Reset library",
+      "resetWorking": "Resetting…",
+      "resetConfirm": "Delete all CA snippets for this union? Type confirmation is enforced on the server.",
+      "resetSuccess": "Removed {removed} snippet(s).",
+      "resetError": "Could not reset the snippet library. Refresh and try again."
     },
     "marketplace": {
       "title": "Union template marketplace",
@@ -9947,6 +9991,14 @@
     "subtitle": "Track cases, deadlines, and officer notes for your local.",
     "loading": "Loading grievances...",
     "loadError": "Could not load grievances. Refresh and try again.",
+    "intakePanelTitle": "Intake facts",
+    "intakePanelHint": "6 W’s, type, members, and linked CA clauses for this file. Edit anytime — export picks up the latest.",
+    "intakeEmpty": "No intake facts yet. Add them before advancing to a formal file.",
+    "addIntake": "Add intake facts",
+    "editIntake": "Edit intake",
+    "saveIntake": "Save intake",
+    "intakeSaveError": "Could not save intake facts. Check the fields and try again.",
+    "grievanceTypeUnset": "Not set",
     "newGrievance": "New grievance",
     "newGrievanceHint": "Start as intake to capture facts, or open a formal file when Step 1 clocks should run. Local and unit labels prefill from your Brand Kit — edit before saving.",
     "workflowStageLabel": "Workflow stage",
@@ -10064,6 +10116,20 @@
     "copyDraft": "Copy to clipboard",
     "copied": "Copied!",
     "exportBundle": "Export bundle (ZIP)",
+    "formalForm": {
+      "download": "Download formal form",
+      "exporting": "Building formal form…",
+      "exportError": "Could not build the formal form. Check Brand Kit, then try again.",
+      "title": "Formal grievance",
+      "fileNumber": "File number",
+      "local": "Local",
+      "filedAt": "Date filed",
+      "members": "Member name(s)",
+      "summary": "Summary",
+      "intakeHeading": "Intake (6 W's)",
+      "snippetsHeading": "Linked CA clauses",
+      "brandNote": "Colours and logo come from your Brand Kit. This pack is a working draft — confirm against your local's official form before filing."
+    },
     "markResolved": "Mark resolved",
     "memberPseudonym": "Member pseudonym",
     "memberPseudonymHint": "Optional - use a pseudonym instead of real name",
@@ -12914,11 +12980,15 @@
   "hubDraftSync": {
     "title": "Send this draft to your Officer Hub",
     "body": "Your draft stays on this device. This creates a shared copy that officers with access can see and edit.",
+    "titleInformalLog": "Send Quick-Log entries to Informal Log",
+    "bodyInformalLog": "Notes stay on this device until you send them. Each filled entry becomes a shared Informal Log row your local can see.",
     "sync": "Send to Hub",
+    "syncInformalLog": "Send entries to Hub",
     "saving": "Sending…",
     "done": "Saved on your Officer Hub: {label}",
     "error": "Could not send this draft. Try again.",
     "empty": "Nothing to send yet. Add a local name or at least one proposal first.",
+    "emptyInformalLog": "Nothing to send yet. Add what happened on at least one entry first.",
     "mfaFirst": "Verify MFA first"
   },
   "hubBylaws": {

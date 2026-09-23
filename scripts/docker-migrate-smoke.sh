@@ -169,6 +169,7 @@ DROP TABLE IF EXISTS proposal_publications CASCADE;
 DROP TABLE IF EXISTS proposal_rows CASCADE;
 DROP TABLE IF EXISTS proposal_packages CASCADE;
 DROP TABLE IF EXISTS bylaw_drafts CASCADE;
+DROP TABLE IF EXISTS ca_snippets CASCADE;
 DROP TABLE IF EXISTS local_public_tool_settings CASCADE;
 DROP TABLE IF EXISTS union_public_tool_settings CASCADE;
 DROP TABLE IF EXISTS platform_public_tool_settings CASCADE;

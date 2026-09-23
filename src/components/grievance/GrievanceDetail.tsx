@@ -41,8 +41,17 @@ import type {
 import type { AttachmentMeta } from "@/types/attachments";
 import { RelatedTasksPanel } from "@/components/hub/RelatedTasksPanel";
 import { GrievanceAccessPanel, GrievanceAttachmentShareToggle, GrievanceMemberUpdatesPanel } from "@/components/grievance/GrievanceAccessPanel";
+import { GrievanceIntakePanel } from "@/components/grievance/GrievanceIntakePanel";
 import { useBrandStore } from "@/store/brand-store";
 import { resolveLocalNumber } from "@/lib/utils/local";
+import { canvasFontOfficeName } from "@/lib/comms/canvas-fonts";
+import { brandPalette } from "@/lib/constants/office-templates";
+import {
+  BrandLogoResolveError,
+  resolveConfiguredBrandLogoBytes,
+} from "@/lib/export/brand-logo-bytes";
+import { downloadBlob } from "@/lib/export/image-export";
+import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 
 const OUTCOME_TYPES: GrievanceOutcomeType[] = [
   "upheld",
@@ -91,6 +100,7 @@ export function GrievanceDetail({ id }: { id: string }) {
   const t = useTranslations("grievance");
   const tq = useTranslations("qol");
   const th = useTranslations("hybrid");
+  const tCommon = useTranslations("common");
   const locale = useLocale() as "en" | "fr";
   const { readOnly: mobileReadOnly } = useStewardReadOnly();
   const {
@@ -106,6 +116,10 @@ export function GrievanceDetail({ id }: { id: string }) {
   const [loading, setLoading] = useState(true);
   const [noteBody, setNoteBody] = useState("");
   const [savingNote, setSavingNote] = useState(false);
+  const [formalExportBusy, setFormalExportBusy] = useState(false);
+  const [formalExportError, setFormalExportError] = useState<string | null>(
+    null,
+  );
   const [emailDraft, setEmailDraft] = useState<EmailDraft | null>(null);
   const [selectedTemplate, setSelectedTemplate] =
     useState<EmailTemplateId>("step1_meeting");
@@ -438,6 +452,88 @@ export function GrievanceDetail({ id }: { id: string }) {
     saveAs(blob, fileName);
   }
 
+  async function downloadFormalForm() {
+    if (!data?.grievance) return;
+    setFormalExportBusy(true);
+    setFormalExportError(null);
+    try {
+      const { buildFormalGrievanceDocx } = await import(
+        "@/lib/export/office-docx-builders"
+      );
+      const brand = guidePdfBrandFromKit(brandKit);
+      let logo;
+      try {
+        logo = await resolveConfiguredBrandLogoBytes(brandKit, {
+          includeLogo: true,
+          backgroundColor: brandKit.primaryColor,
+        });
+      } catch (err) {
+        if (err instanceof BrandLogoResolveError) {
+          throw new Error(tCommon("logoResolveFailed"));
+        }
+        throw err;
+      }
+      const brandLocal = resolveLocalNumber(brandKit.local.localNumber);
+      const localLabel =
+        data.grievance.localLabel ??
+        data.localNumber ??
+        `Local ${brandLocal}`;
+      const filedAt = data.grievance.filedAt
+        ? new Date(data.grievance.filedAt).toLocaleDateString(
+            locale === "fr" ? "fr-CA" : "en-CA",
+            { year: "numeric", month: "long", day: "numeric" },
+          )
+        : "";
+      const blob = await buildFormalGrievanceDocx({
+        palette: brandPalette(brandKit),
+        localLabel,
+        logo,
+        headlineFont: canvasFontOfficeName(brand.headlineFontId),
+        bodyFont: canvasFontOfficeName(brand.bodyFontId),
+        fields: {},
+        labels: {
+          title: t("formalForm.title"),
+          fileNumber: t("formalForm.fileNumber"),
+          local: t("formalForm.local"),
+          filedAt: t("formalForm.filedAt"),
+          members: t("formalForm.members"),
+          summary: t("formalForm.summary"),
+          intakeHeading: t("formalForm.intakeHeading"),
+          who: t("intakeWho"),
+          what: t("intakeWhat"),
+          when: t("intakeWhen"),
+          where: t("intakeWhere"),
+          why: t("intakeWhy"),
+          how: t("intakeHow"),
+          remedy: t("intakeRemedy"),
+          snippetsHeading: t("formalForm.snippetsHeading"),
+          brandNote: t("formalForm.brandNote"),
+        },
+        data: {
+          fileNumber: data.grievance.fileNumber,
+          localLabel,
+          memberNames: data.grievance.memberNames,
+          summary: data.grievance.summary,
+          filedAt,
+          intake: data.grievance.intake,
+          linkedSnippets: data.grievance.linkedSnippets,
+        },
+      });
+      const stem = data.grievance.fileNumber
+        ? data.grievance.fileNumber.replace(/[^\w.-]+/g, "_")
+        : `grievance-${data.grievance.id}`;
+      await downloadBlob(blob, `${stem}-formal.docx`);
+    } catch (err) {
+      setFormalExportError(
+        err instanceof Error && err.message.trim()
+          ? err.message
+          : t("formalForm.exportError"),
+      );
+    } finally {
+      setFormalExportBusy(false);
+    }
+  }
+
   async function logCommunication(e: React.FormEvent) {
     e.preventDefault();
     if (readOnly || !commSummary.trim()) return;
@@ -619,8 +715,33 @@ export function GrievanceDetail({ id }: { id: string }) {
           <Button variant="secondary" size="sm" onClick={() => exportBundle()}>
             {t("exportBundle")}
           </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={formalExportBusy}
+            onClick={() => void downloadFormalForm()}
+          >
+            {formalExportBusy
+              ? t("formalForm.exporting")
+              : t("formalForm.download")}
+          </Button>
         </div>
       </div>
+      {formalExportError ? (
+        <p className="text-sm text-red-700" role="alert">
+          {formalExportError}
+        </p>
+      ) : null}
+
+      <GrievanceIntakePanel
+        grievance={grievance}
+        readOnly={readOnly}
+        onSave={async (input) => {
+          const ok = await updateGrievance(id, input);
+          if (ok) await reload();
+          return ok;
+        }}
+      />
 
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <Card>

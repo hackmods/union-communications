@@ -3,7 +3,7 @@ import { checkinsStore } from "@/lib/checkins/store";
 import { discussionsStore } from "@/lib/discussions/store";
 import { grievanceStore } from "@/lib/grievance/store";
 import { informalLogStore } from "@/lib/informal-log/store";
-import { snippetStore } from "@/lib/snippets/memory-adapter";
+import { snippetStore } from "@/lib/snippets/store";
 import { taskStore } from "@/lib/tasks/store";
 
 const unionId = "union-b7p";
