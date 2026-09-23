@@ -25,6 +25,7 @@ import {
   GET as listExpenseAttachments,
   POST as uploadExpenseAttachment,
 } from "@/app/api/expenses/[id]/attachments/route";
+import { GET as exportExpense } from "@/app/api/expenses/[id]/export/route";
 import { POST as submitExpense } from "@/app/api/expenses/[id]/submit/route";
 import { POST as approveExpense } from "@/app/api/expenses/[id]/approve/route";
 import { POST as denyExpense } from "@/app/api/expenses/[id]/deny/route";
@@ -586,6 +587,96 @@ describe("expense GET/PATCH/DELETE /api/expenses/[id]", () => {
     expect(blocked.status).toBe(403);
     expect(await memoryExpenseStore.getById(submitted.id)).not.toBeNull();
   });
+});
+
+describe("GET /api/expenses/[id]/export", () => {
+  beforeEach(() => {
+    resetExpenseMemoryForTests();
+    resetExpenseStore();
+    authMock.mockReset();
+  });
+
+  afterEach(() => {
+    resetExpenseMemoryForTests();
+    resetExpenseStore();
+  });
+
+  it("returns 401 without a session and 403 for members", async () => {
+    const draft = await seedSubmitted({ status: "draft" });
+    authMock.mockResolvedValue(null);
+    expect(
+      (
+        await exportExpense(
+          new Request("http://localhost/api/expenses/x/export"),
+          params(draft.id),
+        )
+      ).status,
+    ).toBe(401);
+
+    authMock.mockResolvedValue(session({ roles: ["local_member"] }));
+    const forbidden = await exportExpense(
+      new Request("http://localhost/api/expenses/x/export"),
+      params(draft.id),
+    );
+    expect(forbidden.status).toBe(403);
+    expect(await forbidden.json()).toEqual({ error: "Forbidden" });
+  });
+
+  it("returns 404 for another union, including platform_admin", async () => {
+    const foreign = await seedSubmitted({
+      unionId: "union-other",
+      localId: "local-1",
+      submittedById: "user-other",
+      status: "draft",
+    });
+    authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
+    const res = await exportExpense(
+      new Request("http://localhost/api/expenses/x/export"),
+      params(foreign.id),
+    );
+    expect(res.status).toBe(404);
+    expect(await res.json()).toEqual({ error: "Not found" });
+  });
+
+  it("hides a sister local from the home president", async () => {
+    const sister = await seedSubmitted({
+      localId: "local-1337",
+      submittedById: "user-560",
+      status: "draft",
+    });
+    authMock.mockResolvedValue(
+      session({ id: "user-president-7", roles: ["local_president"] }),
+    );
+    const res = await exportExpense(
+      new Request("http://localhost/api/expenses/x/export"),
+      params(sister.id),
+    );
+    expect(res.status).toBe(404);
+  });
+
+  it(
+    "exports xlsx for a same-local officer with a spreadsheet attachment",
+    { timeout: 15_000 },
+    async () => {
+      const draft = await seedSubmitted({
+        submittedById: "user-steward-7",
+        status: "draft",
+      });
+      authMock.mockResolvedValue(
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
+      );
+      const res = await exportExpense(
+        new Request("http://localhost/api/expenses/x/export?format=xlsx"),
+        params(draft.id),
+      );
+      expect(res.status).toBe(200);
+      expect(res.headers.get("Content-Type")).toContain(
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      );
+      expect(res.headers.get("Content-Disposition")).toContain("attachment");
+      expect((await res.arrayBuffer()).byteLength).toBeGreaterThan(0);
+    },
+  );
 });
 
 describe("expense attachment HTTP", () => {
