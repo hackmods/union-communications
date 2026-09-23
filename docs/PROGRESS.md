@@ -1,5 +1,14 @@
 # Progress Log
 
+## 2026-09-22 — Customization C05 resolution/compile/cache complete
+
+- Added `dependencies.ts` (stable revision/source pin ordering, dependency-manifest digests, 500-release impact budget and deterministic block conflict reports), `compile.ts` (publication fragment/discovery materialization plus `readPublishedContent` reader DTO service), and `cache.ts` (bounded immutable content cache keyed by resource, full scope chain, locale, schema, dependency digest and release).
+- Reader delivery batches fragment + projection reads through `readerTransaction`, rechecks membership outside the cache, falls back to compiled defaults only when nothing was published, treats DB errors as `service_error`, and treats warmed-then-empty results as withdrawal (never a private-cache bypass).
+- Public discovery DTOs stay on the SQL allowlist (`key`, `title`, `summary`, `canonicalPath`). Authorized guide DTOs omit unauthorized section/source bytes.
+- Also fixed pre-existing main typecheck breakages from the local-assign merge: optional `seed.locals` access, SQL row cast via `unknown`, `InvitesBoard` `setRequestId` setter, and invite GET tests passing a `Request`.
+- Validation: focused customization + invite/site-admin suites **133 tests passed**; `npm run typecheck` passed; lint pending in same commit check. No guide routes wired (C08). GitHub Actions E2E remains deferred.
+- **Next: C06** drafts, preview, atomic publication and rollback.
+
 ## 2026-09-22 — Customization C04 database foundation complete
 
 - Added the 15-table PostgreSQL model for scopes, resources, drafts, immutable revisions/releases, active heads, audience/section policy, reader fragments/projections, grants, preset bindings, assets, audit and idempotent operations. Appended forward-only migration `0054_customization_foundation`; generated the required shape and runtime RLS contract. No union content is seeded.
