@@ -1,14 +1,15 @@
 # Union customization: implementation handoff
 
-**Status:** implementation started; C01 complete, C02 next. C03–C15 pending.  
+**Status:** C01–C02 implemented; C03 next. C03–C15 pending. Final C02 verification is recorded in PROGRESS.md.
+
 **Design authority:** [UNION_CUSTOMIZATION.md](../modules/UNION_CUSTOMIZATION.md).  
 **Baseline reviewed:** `1f68490`, 2026-09-22. Recheck the checkout before implementing.
 
 ## 1. Instructions for the implementing model
 
-Execution record: C01 inventory and local regression baseline are in [conversion inventory](union-customization-conversion-inventory.md). The foundation milestone implements C02's typed schemas and pure resolver; production authorization, SQL/RLS, publishing and UI remain later tasks. Per the execution directive, make local atomic commits and defer GitHub Actions E2E until modular implementation is complete.
+Execution record: C01 inventory and local regression baseline are in [conversion inventory](union-customization-conversion-inventory.md). C02's typed schemas and pure resolver are implemented in `src/lib/customization/`; its [README](../../src/lib/customization/README.md) documents safe calling boundaries. Production authorization, SQL/RLS, publishing and UI remain later tasks. Per the execution directive, make local atomic commits and defer GitHub Actions E2E until modular implementation is complete.
 
-Implement one task below at a time, in dependency order. Read the design before editing. All routes, tables, feature flags and files labeled proposed are to be created; they are not existing APIs. Keep each change reviewable. Do not implement billing, scrape OPSEU, rewrite all guides, merge Brand Kit identities into Hub tenancy, or broaden casework permissions as collateral work.
+Implement one task below at a time, in dependency order. Read the design before editing. For pending tasks, routes, tables, feature flags and files labeled proposed are to be created; inspect the current code before re-creating anything from completed C01–C02. Keep each change reviewable. Do not implement billing, scrape OPSEU, rewrite all guides, merge Brand Kit identities into Hub tenancy, or broaden casework permissions as collateral work.
 
 Read `AGENTS.md`, VISION, ARCHITECTURE, RBAC, COMPLIANCE, current-ground-truth, then the specific sources listed for the task. Read ADR-020 and verified-db-deploy lessons before schema work; task-first-public-site lessons and public navigation/SEO/i18n rules before route/catalog work. Read Canvas Core documentation before any actual canvas integration; this plan does not authorize a capture engine redesign. Read the grievance module and hybrid contract before workflow integration. Existing source code outranks stale phase status tables.
 
@@ -276,8 +277,10 @@ The defaults in the design allow infrastructure implementation without another d
 
 ## 8. Copyable handoff prompt
 
-> Implement task C01 from `docs/audit/plan-2026-09-22-union-customization.md`, following `docs/modules/UNION_CUSTOMIZATION.md` and AGENTS.md. Verify current code before editing because the plan was written against commit 1f68490. Complete only the selected task and its acceptance checks; do not mark later tasks done. Preserve Root-only shared editing, free public Comms, current tenant isolation, and explicit RLS transactions. Distinguish new proposed interfaces from existing ones. Report the concrete changes, checks run and outstanding risks, and update the task status only when its acceptance gate passes. For the next turn, replace C01 with the next incomplete dependency-ready task.
+> Implement task C03 from `docs/audit/plan-2026-09-22-union-customization.md`, following `docs/modules/UNION_CUSTOMIZATION.md` and AGENTS.md. C01–C02 are implemented; read `src/lib/customization/README.md` and the latest PROGRESS.md entry first. Verify current code before editing because the original plan was written against commit 1f68490. Complete only the selected task and its acceptance checks; do not mark later tasks done. Preserve Root-only shared editing, free public Comms, current tenant isolation, and explicit RLS transactions. Make an atomic local commit and defer GitHub Actions E2E until modular implementation is complete. Report concrete changes, checks and outstanding risks. For subsequent turns, replace C03 with the next incomplete dependency-ready task.
 
 ## 9. Documentation delivery verification
 
-This handoff and the companion design describe future work. The preparation task changes documentation only and does not claim application tests, production deployment, runtime RLS tests, content seeding or security certification. Validate Markdown links and whitespace for this delivery; execute the implementation test gates when the corresponding code exists.
+The original preparation task changed documentation only and did not claim application tests, production deployment, runtime RLS tests, content seeding or security certification. Its Markdown links and whitespace were checked. Execute the implementation test gates as the corresponding code is built.
+
+Implementation follow-up: C01–C02 have now been implemented locally. C02 validation covers the pure engine and repository unit/type/lint checks; it does not prove the future RLS, auth or live publication gates. Continue at C03, then C04. Do not activate the feature based on foundation tests alone.

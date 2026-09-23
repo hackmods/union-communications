@@ -1,8 +1,11 @@
 # Union and sub-collective customization layer
 
-**Status: proposed technical design; not implemented.**  
+**Status: accepted design; C01–C02 foundation implemented, not connected to production consumers. C03–C15 remain pending.**
+
 **Prepared:** 2026-09-22 against checkout `1f68490`.  
 **Execution companion:** [implementation handoff](../audit/plan-2026-09-22-union-customization.md).
+
+Implementation boundary: `src/lib/customization/` now provides strict Zod payload/scope contracts, the code-owned tool configuration registry, versioned manifest validation and the pure authoring resolver. Its result is internal compiler data, not an authorized reader DTO. Existing pages/Brand Kits remain unchanged; SQL tables, RLS, authorization, publication, admin UI and consumer conversion below are still future work. See the [module README](../../src/lib/customization/README.md).
 
 ## 1. Recommendation and review of the requirements
 

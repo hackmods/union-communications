@@ -1,5 +1,14 @@
 # Progress Log
 
+## 2026-09-22 — Customization C02 typed schemas and resolution foundation complete
+
+- Added strict Zod contracts for guides/blocks, sources, branding, registered tool defaults, whole workflow configurations, scope descriptors, layered patches and versioned compiled manifests under `src/lib/customization/`.
+- Implemented deterministic system → union → optional division → local → optional bargaining-unit resolution, cross-scope rejection, stable-ID add/replace/remove/order operations, per-field provenance, nullable clear, restrictive audiences/field allowlists, pinned-source validation, and distinct missing/inherit/withdrawn behavior. Invalid input fails rather than falling back silently.
+- Added 60 focused tests with two fictional unions, sibling divisions/units, neutral fallback, orphan conflicts, source revisions, schema limits and whole workflow replacement. Existing pages, saved Brand Kits, case deadlines and authentication behavior remain unchanged. The compiled manifest remains empty until C08 consumer conversion; resolver output is internal compiler data, not an authorized reader DTO.
+- Validation: `npm run typecheck` passed; `npm run lint` passed with the existing `demo-purge.ts` unused-import warning. `npm run test:unit -- --maxWorkers=2` passed **343 suites / 2,201 tests, 1 skipped**. An initial unrestricted-worker run had one CSV-to-XLSX timeout; that test passed with the 60 foundation tests and then in the complete bounded-worker run. No timeout threshold was weakened.
+- Atomic local commits: C01 inventory/design; separate pre-existing president fixture type correction; C02 engine and tracking. GitHub Actions E2E/push deferred per execution directive. No SQL migration, production publication or real union seeding performed.
+- **Resume at C03:** Root-only policy/authorization and actor checks, then C04 durable SQL/RLS adapters. C03–C15 remain pending. See [implementation plan](audit/plan-2026-09-22-union-customization.md) and [foundation calling contract](../src/lib/customization/README.md).
+
 ## 2026-09-22 — President module comparison fixture type correction
 
 - Replaced fictional module IDs in the existing `sameModuleSet` test with valid Hub module IDs, preserving its order-independent assertion. This removes two pre-existing TypeScript errors encountered during customization foundation validation.

@@ -42,4 +42,4 @@ C12 must re-search before converting these consumers and trace downstream export
 
 Local baseline passed: 7 suites / 69 tests covering tenant loader/tenant, public-tool visibility, public catalog, source registry, brand registry and canonical route mapping. Command: `npm run test:unit -- src/lib/tenant/loader.test.ts src/lib/tenant/tenant.test.ts src/lib/public-tools/visibility.test.ts src/lib/comms/public-catalog.test.ts src/lib/constants/comms-sources.test.ts src/lib/brand/brand-registry.test.ts src/lib/seo/public-routes.test.ts`.
 
-C01 complete. Next: C02 typed contracts, scope validation and pure resolution tests. No E2E GitHub Actions run triggered.
+C01 and C02 complete. C02 implements typed contracts, scope validation and pure resolution tests under `src/lib/customization/`; the pilot consumers remain unconverted. Next: C03 authorization before C04 SQL/RLS. No E2E GitHub Actions run triggered.
