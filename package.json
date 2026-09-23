@@ -2,9 +2,9 @@
   "name": "local-union-hub",
   "version": "0.1.0",
   "private": true,
-  "description": "UnionOps — multi-union steward tools. Comms stay free on-device; hosted Officer Hub / Local Portal may recover hosting costs. Self-host stays an option. Stewarded by Ryan Morris. Solidarity.",
+  "description": "UnionOps: Practical, privacy-focused management tools built for labour unions and locals. Comms stay free on-device; hosted Officer Hub / Local Portal may recover hosting costs. Stewarded by Ryan Morris. Solidarity.",
   "author": "Ryan Morris",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "UNLICENSED",
   "engines": {
     "node": ">=24.0.0"
   },

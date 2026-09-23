@@ -93,7 +93,7 @@ export default function OpenGraphImage() {
             opacity: 0.95,
           }}
         >
-          <span>Free tools for union locals</span>
+          <span>Built for labour unions</span>
           <span>unionops.org</span>
         </div>
       </div>

@@ -17,7 +17,7 @@ Authenticated collaboration surface for **rank-and-file members**, **stewards**,
 
 Grievance notes, bumping strategy, and confidential Hub casework are **never** shown in the Portal.
 
-**Cost (ADR-019):** Public Comms stay free. If UnionOps hosts Local Portal or Officer Hub for a local, that hosting has a cost. Self-host remains an option.
+**Cost (ADR-019):** Public Comms stay free. If UnionOps hosts Local Portal or Officer Hub for a local, that hosting has a cost.
 
 ## Solidarity naming (required)
 

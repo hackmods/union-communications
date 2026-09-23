@@ -46,8 +46,13 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
     await expect(
       page
-        .getByRole("region", { name: /tools and guidance for your union local/i })
+        .getByRole("region", { name: /built for unions\. shaped by local feedback/i })
         .getByRole("link", { name: "Set up Brand Kit" }),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByRole("region", { name: /built for unions\. shaped by local feedback/i })
+        .getByRole("link", { name: "Explore Platform Features" }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "Follow these three steps" }),

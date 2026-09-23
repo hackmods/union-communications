@@ -143,9 +143,9 @@
 **Context:** `/manifesto` and Support SEO promised UnionOps was “free (and always will be)” with “no premium tiers.” That was true for on-device Comms. Officer Hub and Local Portal hold real case files; hosting them for other locals has compute, backup, email, support, and data-controller cost. Demand made the absolute promise unsafe.  
 **Decision:**
 - **Comms toolbox stays free** — on-device, no ads, no tracking, no paywall on a poster.
-- **Self-host stays an option** under `LICENSE` (the local pays its own server).
+- **Source on `main` is proprietary** (see `LICENSE`). A future source-available / self-host grant track is documented in `docs/guides/LICENSING.md` — do not advertise self-host while the proprietary LICENSE applies.
 - **If UnionOps hosts Officer Hub or Local Portal** for a local, ask enough to cover that hosting — not a lock-in subscription, not a public `/pricing` page until product sets a number.
-- Do **not** tell volunteers the whole platform is free forever. Public copy: `/manifesto` (nav: “Built in solidarity”), Support, Home metadata, README.
+- Do **not** tell volunteers the whole platform is free forever. Public copy: `/manifesto` (nav: “About UnionOps”), Support, Home metadata, README.
 **Consequences:** Coffee tips on `/support` cover the public Comms site only. They are not Hub hosting. Inventing a price or a `/pricing` route still needs an explicit product cut.
 
 ## ADR-020: Verified, forward-only database deployments

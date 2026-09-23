@@ -35,9 +35,9 @@ Phases **0-7 near-complete** (Postgres adapters flag-gated; default memory). Tim
 - i18n: both `messages/en.json` and `messages/fr.json`
 - Public SEO: `.cursor/rules/seo.mdc` — `AUTH_URL` is the browser host; sitemap/canonicals via `buildPageMetadata` + `PUBLIC_PATHS`
 - Commit at milestone end; update `docs/PROGRESS.md`; steward-facing changes also get a What's new note (`/updates`, `.cursor/rules/whats-new.mdc`)
-- Source-available (`LICENSE`); stewarded by Ryan Morris
+- Proprietary (`LICENSE`); stewarded by Ryan Morris
 - Privacy copy: Comms on-device; hosted Officer Hub ? operator is data controller
-- **Comms stay free**; hosted Officer Hub / Local Portal may recover hosting costs; self-host remains an option. Do not promise the whole platform is free forever (`/manifesto`, ADR-019).
+- **Comms stay free**; hosted Officer Hub / Local Portal may recover hosting costs. Do not promise the whole platform is free forever (`/manifesto`, ADR-019). Future source-available track: `docs/guides/LICENSING.md`.
 - Operator guides: `docs/guides/SETUP.md`, `docs/guides/DEPLOY.md`
 
 ## Testing

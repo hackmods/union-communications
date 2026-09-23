@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "UnionOps | Toolkit for locals and unions",
-    "titleCommsOnly": "UnionOps | Toolkit for union locals",
-    "description": "Communications, steward training, and officer playbooks. Comms stay free on your device. Hosted Officer Hub has a hosting cost.",
-    "descriptionCommsOnly": "Communications, steward training, and officer playbooks for union locals. They stay on your device: no ads, nobody harvesting your data."
+    "title": "UnionOps | Built for unions",
+    "titleCommsOnly": "UnionOps | Built for union locals",
+    "description": "Practical, privacy-focused tools for membership, steward workflows, and union communications. Comms stay free on your device. Hosted Officer Hub has a hosting cost.",
+    "descriptionCommsOnly": "Practical, privacy-focused tools for membership, steward workflows, and union communications. They stay on your device: no ads, nobody harvesting your data."
   },
   "nav": {
     "home": "Home",
@@ -267,12 +267,13 @@
     "whenToUse": "Use first to build a local logo plate, then Save to Brand Kit so every tool matches."
   },
   "home": {
-    "title": "UnionOps: toolkit for locals and unions",
-    "headline": "Tools and guidance for your union local",
-    "subtitle": "Set up your local Brand Kit, create member communications, and find guidance for steward and officer work.",
-    "subtitleCommsOnly": "Set up your local Brand Kit, create member communications, and use practical guides. Communications drafts stay in your browser.",
+    "title": "UnionOps: dedicated software for labour unions and locals",
+    "headline": "Built for Unions. Shaped by Local Feedback.",
+    "subtitle": "Practical, privacy-focused union management tools designed specifically for local officers, shop stewards, and bargaining committees.",
+    "subtitleCommsOnly": "Practical, privacy-focused union management tools designed specifically for local officers, shop stewards, and bargaining committees. Communications drafts stay in your browser.",
     "primaryCta": "Set up Brand Kit",
     "openToolsCta": "Create materials",
+    "exploreFeaturesCta": "Explore Platform Features",
     "guidedSetupCta": "Open guided setup",
     "workflowEyebrow": "Recommended order",
     "workflowTitle": "Follow these three steps",
@@ -7296,13 +7297,13 @@
     "noSubsTitle": "Comms stay free:",
     "noSubsBody": "Guides, flyers, Brand Kit, and the other public tools stay free. They run on your device. No ads, no tracking, no paywall on a poster.",
     "hostingTitle": "Hosting has a cost:",
-    "hostingBody": "Officer Hub and Local Portal hold real case files. If we host those for a local, we need to cover that hosting. We will ask enough to keep the service online, not to lock you in. You can also run the software on your own server.",
+    "hostingBody": "Officer Hub and Local Portal hold real case files. If we host those for a local, we need to cover that hosting. We will ask enough to keep the service online, not to lock you in.",
     "noDataTitle": "No data harvesting:",
     "noDataBody": "Comms graphics and Brand Kit stay on your device. If you host an Officer Hub, that host holds hub records and is the data controller.",
     "noDataBodyCommsOnly": "We don’t harvest data or sell ads. Comms stay in your browser. No venture landlords, no surveillance business model.",
     "noAdsTitle": "No ads, no tracking:",
     "noAdsBody": "We aren't selling your attention.",
-    "closing": "UnionOps is built by union volunteers who wanted a solid toolkit for a local — or a whole union — doing the hard work on the ground.",
+    "closing": "UnionOps is built for unions and shaped continuously by steward and local officer feedback — dedicated software for membership, steward workflows, and union communications.",
     "slogan": "Solidarity.",
     "supportLead": "If the public tools helped and you want to chip in for coffee or the public site,",
     "supportLink": "there’s a quiet Support page.",
@@ -7343,6 +7344,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "branding-local-feedback": {
+        "title": "Home headline and Explore Platform Features",
+        "body": "The home page now leads with “Built for Unions. Shaped by Local Feedback.” and adds Explore Platform Features beside Set up Brand Kit, so you can open the Create catalog in one tap."
+      },
       "steward-ux-brand-letters": {
         "title": "Letter Generator, Creation catalog, and Brand Kit save cues",
         "body": "Letter Generator, Grievance Form Builder, CA Snippets, and Steward Quick-Log sit in Creation and Utility. Brand Kit shows completion and save confirmation. Letters keep salutations, optional QR, and print spacing. Graphic and board tools can try Advanced token layouts without changing your Brand Kit."
@@ -7786,7 +7791,7 @@
     }
   },
   "footer": {
-    "madeBy": "UnionOps. Built by union volunteers for local unions.",
+    "madeBy": "© UnionOps. Built for labour unions and refined through local feedback.",
     "privacy": "Comms on-device; you control your Officer Hub",
     "privacyCommsOnly": "Comms stay on your device. No ads or tracking.",
     "installApp": "Install as an app"
@@ -11072,12 +11077,12 @@
     "comms4": "Member photos used in graphics are not uploaded to UnionOps servers by the Comms tools",
     "hubTitle": "Officer Hub (hosted instance)",
     "hubIntro": "When you sign in, that Hub stores your session and case records. Demo setups may lose data on restart; a real deployment keeps each union's records secure and separate.",
-    "hubSelfHost": "If you self-host (CapRover / Docker), you are the data controller. Prefer Canadian hosting for confidential modules. Set a unique AUTH_SECRET. Never use demo passwords for real casework.",
+    "hubSelfHost": "If you operate a hosted Officer Hub instance, you are the data controller. Use role-based access control, set a unique AUTH_SECRET, and never use demo passwords for real casework.",
     "hubHybrid": "Hybrid export passphrases stay in the browser. They are not sent to the server in the encrypt flow.",
     "hubDemo": "Demo accounts exist for workshops and CI only, not for live confidential files.",
     "ontarioTitle": "Ontario privacy legislation",
-    "ontarioHub": "Designed around PIPEDA and, where applicable, FIPPA. Comms stay on-device. Hub hosts must apply access control, retention, and breach practices for labour records.",
-    "ontarioCommsOnly": "UnionOps follows Canada privacy principles, including PIPEDA and, where applicable, FIPPA. Comms tools minimize collection by keeping work on-device.",
+    "ontarioHub": "Privacy-focused data handling with role-based permission controls. Hosts should account for Canadian privacy frameworks such as PIPEDA and, where applicable, FIPPA — including access control, retention, and breach practices for labour records. Comms stay on-device.",
+    "ontarioCommsOnly": "Privacy-focused data handling with role-based permission controls. Comms tools minimize collection by keeping work on-device. Canadian privacy frameworks such as PIPEDA and, where applicable, FIPPA describe those expectations.",
     "contactTitle": "Contact",
     "contactBody": "UnionOps is stewarded by Ryan Morris. For questions about this policy, contact your local communications chair or see Support.",
     "supportLink": "Support",
@@ -11125,7 +11130,7 @@
     "operatorTitle": "If you operate this host",
     "operator1": "Set a unique AUTH_SECRET; turn off demo logins before real casework",
     "operator2": "Flip Postgres backends and verify with /api/health before trusting durability",
-    "operator3": "Prefer Canadian hosting for labour records; follow the breach playbook in our operator docs",
+    "operator3": "Apply role-based access control and retention practices for labour records; follow the breach playbook in our operator docs",
     "operator4": "Report suspected vulnerabilities privately via Support — not public GitHub issues",
     "reportTitle": "Report a vulnerability",
     "reportBody": "If you found an auth bypass, data leak, or injection issue, contact the steward privately via",

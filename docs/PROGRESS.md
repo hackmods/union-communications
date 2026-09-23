@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-23 — Truthful branding copy + proprietary LICENSE
+
+- Home hero: “Built for Unions. Shaped by Local Feedback.” + secondary CTA “Explore Platform Features” → `/create`
+- Footer / SEO / manifesto closing softened (no volunteer toolkit / self-host grant claims); Privacy/Security lead with RBAC language
+- `LICENSE` proprietary; README/package/AGENTS/CONTRIBUTING aligned; future source-available branch recipe in `docs/guides/LICENSING.md`
+- What’s new: `branding-local-feedback`
+
 ## 2026-09-23 — Steward UX review (Brand Kit, letters, Creation/Utility, Time gate)
 
 - Document Generator letters: sticky drafts, salutation presets, optional single QR with Brand Kit link picker, top-margin / letter-spacing / header size presets.
