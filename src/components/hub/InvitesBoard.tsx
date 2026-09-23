@@ -4,12 +4,18 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
 import { Callout } from "@/components/ui/Callout";
 import { Checkbox } from "@/components/ui/Checkbox";
 import type { InviteRoleOption } from "@/lib/tenant/access";
 import { formatRoleLabel, formatRoleList } from "@/lib/auth/role-labels";
 import type { UserRole } from "@/types/tenant";
+import {
+  UnionLocalSelect,
+  emptyUnionLocalSelectValue,
+  type LocalOption,
+  type SubGroupOption,
+  type UnionLocalSelectValue,
+} from "@/components/tenant/UnionLocalSelect";
 
 type CreateInviteResponse = {
   id: string;
@@ -34,18 +40,16 @@ type PendingInvite = {
   acceptPath?: string;
 };
 
-type InviteLocal = {
-  id: string;
-  localNumber: string;
-  subText: string;
-};
-
 type InvitesGetResponse = {
   invites: PendingInvite[];
-  locals: InviteLocal[];
+  locals: LocalOption[];
+  subGroups?: SubGroupOption[];
   inviteRoles: InviteRoleOption[];
   canInvitePresident: boolean;
+  canElevateLocalNumber?: boolean;
   sessionLocalId: string | null;
+  sessionUnionId?: string;
+  unionName?: string;
 };
 
 const emailUiEnabled = process.env.NEXT_PUBLIC_EMAIL_ENABLED === "true";
@@ -56,7 +60,6 @@ export function InvitesBoard() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [roles, setRoles] = useState<InviteRoleOption[]>(["local_steward"]);
-  const [localId, setLocalId] = useState("");
   const [sendEmailOnCreate, setSendEmailOnCreate] = useState(emailUiEnabled);
   const [error, setError] = useState<string | null>(null);
   const [created, setCreated] = useState<CreateInviteResponse | null>(null);
@@ -69,14 +72,23 @@ export function InvitesBoard() {
     "local_steward",
   ]);
   const [canInvitePresident, setCanInvitePresident] = useState(false);
-  const [locals, setLocals] = useState<InviteLocal[]>([]);
+  const [canElevate, setCanElevate] = useState(false);
+  const [locals, setLocals] = useState<LocalOption[]>([]);
+  const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
+  const [sessionUnionId, setSessionUnionId] = useState<string | null>(null);
+  const [unionName, setUnionName] = useState<string | null>(null);
+  const [sessionLocalId, setSessionLocalId] = useState<string | null>(null);
+  const [teamLocal, setTeamLocal] = useState<UnionLocalSelectValue>(() =>
+    emptyUnionLocalSelectValue(),
+  );
+  const [presidentLocal, setPresidentLocal] = useState<UnionLocalSelectValue>(
+    () => emptyUnionLocalSelectValue(),
+  );
   const [pending, setPending] = useState<PendingInvite[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
 
   const [presidentName, setPresidentName] = useState("");
   const [presidentEmail, setPresidentEmail] = useState("");
-  const [presidentLocalNumber, setPresidentLocalNumber] = useState("");
-  const [presidentSubText, setPresidentSubText] = useState("");
   const [presidentCollectionCode, setPresidentCollectionCode] = useState("");
   const [presidentCollectionName, setPresidentCollectionName] = useState("");
   const [presidentBusy, setPresidentBusy] = useState(false);
@@ -93,8 +105,13 @@ export function InvitesBoard() {
     const data = (await res.json()) as InvitesGetResponse;
     setInviteRoles(data.inviteRoles);
     setCanInvitePresident(data.canInvitePresident);
+    setCanElevate(Boolean(data.canElevateLocalNumber ?? data.canInvitePresident));
     setLocals(data.locals);
+    setSubGroups(data.subGroups ?? []);
     setPending(data.invites);
+    setSessionUnionId(data.sessionUnionId ?? null);
+    setUnionName(data.unionName ?? null);
+    setSessionLocalId(data.sessionLocalId);
     setRoles((prev) => {
       const allowed = new Set(data.inviteRoles);
       const next = prev.filter((r) => allowed.has(r));
@@ -102,15 +119,24 @@ export function InvitesBoard() {
       if (data.inviteRoles.includes("local_steward")) return ["local_steward"];
       return data.inviteRoles[0] ? [data.inviteRoles[0]] : [];
     });
-    setLocalId((prev) => {
-      if (prev && data.locals.some((l) => l.id === prev)) return prev;
-      if (
-        data.sessionLocalId &&
-        data.locals.some((l) => l.id === data.sessionLocalId)
-      ) {
-        return data.sessionLocalId;
+    const lockedLocal = data.locals.find((l) => l.id === data.sessionLocalId);
+    setTeamLocal((prev) => {
+      if (data.canElevateLocalNumber || data.canInvitePresident) {
+        if (prev.localId && data.locals.some((l) => l.id === prev.localId)) {
+          return prev;
+        }
+        return {
+          ...emptyUnionLocalSelectValue(),
+          unionId: data.sessionUnionId ?? "",
+          localId: data.sessionLocalId ?? data.locals[0]?.id ?? "",
+        };
       }
-      return data.locals[0]?.id ?? "";
+      return {
+        ...emptyUnionLocalSelectValue(),
+        unionId: data.sessionUnionId ?? "",
+        localId: data.sessionLocalId ?? "",
+        localNumber: lockedLocal?.localNumber ?? "",
+      };
     });
   }
 
@@ -168,7 +194,18 @@ export function InvitesBoard() {
           email,
           name,
           roles,
-          ...(canInvitePresident && localId ? { localId } : {}),
+          ...(canElevate && teamLocal.localId
+            ? { localId: teamLocal.localId }
+            : {}),
+          ...(canElevate && teamLocal.localNumber.trim()
+            ? {
+                localNumber: teamLocal.localNumber.trim(),
+                localSubText: teamLocal.localSubText.trim() || undefined,
+              }
+            : {}),
+          ...(teamLocal.bargainingUnitId
+            ? { bargainingUnitId: teamLocal.bargainingUnitId }
+            : {}),
           ...(emailUiEnabled && sendEmailOnCreate ? { sendEmail: true } : {}),
         }),
       });
@@ -203,9 +240,12 @@ export function InvitesBoard() {
           email: presidentEmail,
           name: presidentName,
           roles: ["local_president"],
-          localNumber: presidentLocalNumber,
-          ...(presidentSubText.trim()
-            ? { localSubText: presidentSubText.trim() }
+          localNumber: presidentLocal.localNumber,
+          ...(presidentLocal.localSubText.trim()
+            ? { localSubText: presidentLocal.localSubText.trim() }
+            : {}),
+          ...(presidentLocal.localId
+            ? { localId: presidentLocal.localId }
             : {}),
           ...(presidentCollectionCode.trim() && presidentCollectionName.trim()
             ? {
@@ -224,8 +264,7 @@ export function InvitesBoard() {
       applyEmailResult(data);
       setPresidentEmail("");
       setPresidentName("");
-      setPresidentLocalNumber("");
-      setPresidentSubText("");
+      setPresidentLocal(emptyUnionLocalSelectValue());
       setPresidentCollectionCode("");
       setPresidentCollectionName("");
       await refresh();
@@ -378,18 +417,15 @@ export function InvitesBoard() {
               required
               autoComplete="email"
             />
-            <Input
-              label={t("localNumber")}
-              value={presidentLocalNumber}
-              onChange={(e) => setPresidentLocalNumber(e.target.value)}
-              required
-              autoComplete="off"
-            />
-            <Input
-              label={t("localSubText")}
-              value={presidentSubText}
-              onChange={(e) => setPresidentSubText(e.target.value)}
-              autoComplete="off"
+            <UnionLocalSelect
+              mode="elevate"
+              locals={locals}
+              subGroups={subGroups}
+              lockedUnionId={sessionUnionId}
+              value={presidentLocal}
+              onChange={setPresidentLocal}
+              disabled={presidentBusy}
+              allowCreateLocal
             />
             <p className="text-sm text-gray-600">{t("presidentCollectionHint")}</p>
             <Input
@@ -436,20 +472,32 @@ export function InvitesBoard() {
             required
             autoComplete="email"
           />
-          {canInvitePresident && locals.length > 0 && (
-            <Select
-              label={t("forLocal")}
-              value={localId}
-              onChange={(e) => setLocalId(e.target.value)}
-              required
-            >
-              {locals.map((local) => (
-                <option key={local.id} value={local.id}>
-                  {t("localLabel", { number: local.localNumber })}
-                  {local.subText ? ` — ${local.subText}` : ""}
-                </option>
-              ))}
-            </Select>
+          {canElevate ? (
+            <UnionLocalSelect
+              mode="elevate"
+              locals={locals}
+              subGroups={subGroups}
+              lockedUnionId={sessionUnionId}
+              value={teamLocal}
+              onChange={setTeamLocal}
+              disabled={loading}
+              allowCreateLocal
+            />
+          ) : (
+            <UnionLocalSelect
+              mode="president"
+              locals={locals}
+              subGroups={subGroups}
+              lockedUnionId={sessionUnionId}
+              lockedUnionName={unionName}
+              lockedLocalId={sessionLocalId}
+              lockedLocalNumber={
+                locals.find((l) => l.id === sessionLocalId)?.localNumber ?? null
+              }
+              value={teamLocal}
+              onChange={setTeamLocal}
+              disabled={loading}
+            />
           )}
           <fieldset className="space-y-2">
             <legend className="text-sm font-medium text-gray-700">

@@ -9,6 +9,7 @@ import {
 } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
+import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
 
 /**
  * GET /api/site-admin/demo/preview
@@ -18,11 +19,15 @@ import { auditLog } from "@/lib/audit/store";
  * `0036_verified_boot_reconcile.sql`). Read-only — destructive purge is
  * `POST /api/site-admin/demo/purge` (typed confirm + password re-auth) or
  * `npm run db:demo-purge`.
+ * Requires `SITE_ADMIN_DEMO_PURGE_ENABLED=true` on the host.
  */
 export async function GET() {
   const gate = await requireSiteAdminSession();
   if (!gate.ok) {
     return NextResponse.json({ error: gate.error }, { status: gate.status });
+  }
+  if (!isDemoPurgeEnabled()) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const db = getDb();

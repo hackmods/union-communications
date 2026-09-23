@@ -209,11 +209,13 @@ Save and **redeploy**.
 | `CRON_SECRET` | `/api/cron/meeting-reminders` |
 | `ATTACHMENT_LOCAL_DIR=/app/data/attachments` | Persist uploaded files (mount a volume) |
 
-**Demo cleanup purge** (after durable flip, when sample `is_demo` rows must leave a live host):
+**Demo cleanup purge** (after durable flip, when sample `is_demo` rows must leave a **demo** host):
 
-- UI: `/app/site-admin/demo-cleanup` — typed `DELETE demo` + operator password
+- **Gate:** set CapRover App Config `SITE_ADMIN_DEMO_PURGE_ENABLED=true` to show `/app/site-admin/demo-cleanup` and enable the preview/purge APIs. Leave unset/`false` on live production — the UI card and Users page link stay hidden, and the APIs return 404.
+- UI: `/app/site-admin/demo-cleanup` — typed `DELETE demo` + operator password (only when the gate is on)
 - CLI: `MIGRATE_DATABASE_URL=… DATABASE_URL=… npm run db:demo-purge` (`--dry-run` for counts only)
 - Requires `MIGRATE_DATABASE_URL` (owner) so RLS cannot leave restrict orphans under demo unions
+- **After purge:** demo locals use `ON DELETE SET NULL` on `users.local_id` and cascade `local_memberships`. Check `/app/site-admin/membership-integrity` for orphaned primary locals before reassigning.
 
 ---
 

@@ -14,11 +14,15 @@ import {
   canInviteRoles,
   inviteRolesForActor,
 } from "@/lib/tenant/access";
+import {
+  canElevateLocalNumber,
+} from "@/lib/tenant/local-number-access";
 import { getTenantContext } from "@/lib/tenant/loader";
 import {
   findOrCreateLocal,
   hydrateTenantOverlayFromPostgres,
   createCollectionDurable,
+  createUnionDurable,
 } from "@/lib/tenant/persist";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { accessRequestStore } from "@/lib/access-requests/store";
@@ -36,6 +40,8 @@ const createSchema = z.object({
   collectionName: z.string().min(1).max(200).optional(),
   divisionId: z.string().optional(),
   bargainingUnitId: z.string().optional(),
+  /** platform_admin may create a new union (“Other / Enter Union”). */
+  newUnionName: z.string().min(1).max(200).optional(),
   /** When true, attempt transactional invite email after create (R3). */
   sendEmail: z.boolean().optional(),
   /** Optional reviewed beta request being fulfilled by this invitation. */
@@ -61,12 +67,15 @@ export async function GET() {
   const actor = await resolveAuthorizationActor(session);
   if (!actor.accountActive) return NextResponse.json({ error: "Session expired" }, { status: 401 });
   const roles = actor.roles;
-  const canInvitePresident = decideCapability(actor, "tenant.configure", { unionId: session.user.unionId }).allowed;
-  const canManageLocal = Boolean(session.user.localId && decideCapability(actor, "memberships.manage", {
-    unionId: session.user.unionId,
-    localId: session.user.localId,
-  }).allowed);
-  if (!canInvitePresident && !canManageLocal) {
+  const elevateLocal = canElevateLocalNumber(roles);
+  const canManageLocal = Boolean(
+    session.user.localId &&
+      decideCapability(actor, "memberships.manage", {
+        unionId: session.user.unionId,
+        localId: session.user.localId,
+      }).allowed,
+  );
+  if (!elevateLocal && !canManageLocal) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -76,9 +85,7 @@ export async function GET() {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
 
-  const scopeLocalId = canInvitePresident
-    ? undefined
-    : session.user.localId;
+  const scopeLocalId = elevateLocal ? undefined : session.user.localId;
   const invites = await listInvitesForUnion({
     unionId: session.user.unionId,
     localId: scopeLocalId,
@@ -105,10 +112,20 @@ export async function GET() {
       id: local.id,
       localNumber: local.localNumber,
       subText: local.subText,
+      unionId: session.user.unionId,
+    })),
+    subGroups: ctx.bargainingUnits.map((bu) => ({
+      id: bu.id,
+      code: bu.code,
+      name: bu.name,
+      localId: bu.localId,
     })),
     inviteRoles: inviteRolesForActor(roles),
-    canInvitePresident,
+    canInvitePresident: elevateLocal,
+    canElevateLocalNumber: elevateLocal,
     sessionLocalId: session.user.localId ?? null,
+    sessionUnionId: session.user.unionId,
+    unionName: ctx.union.name,
   });
 }
 
@@ -123,13 +140,21 @@ export async function POST(req: Request) {
   const actor = await resolveAuthorizationActor(session);
   if (!actor.accountActive) return NextResponse.json({ error: "Session expired" }, { status: 401 });
   const roles = actor.roles;
-  const canInvitePresident = decideCapability(actor, "tenant.configure", { unionId: session.user.unionId }).allowed;
-  const canManageLocal = Boolean(session.user.localId && decideCapability(actor, "memberships.manage", {
-    unionId: session.user.unionId,
-    localId: session.user.localId,
-  }).allowed);
-  if (!canInvitePresident && !canManageLocal) {
-    if (!session.user.localId) return NextResponse.json({ error: "Missing local context" }, { status: 400 });
+  const elevateLocal = canElevateLocalNumber(roles);
+  const canManageLocal = Boolean(
+    session.user.localId &&
+      decideCapability(actor, "memberships.manage", {
+        unionId: session.user.unionId,
+        localId: session.user.localId,
+      }).allowed,
+  );
+  if (!elevateLocal && !canManageLocal) {
+    if (!session.user.localId) {
+      return NextResponse.json(
+        { error: "Missing local context" },
+        { status: 400 },
+      );
+    }
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -152,16 +177,33 @@ export async function POST(req: Request) {
   }
 
   await hydrateTenantOverlayFromPostgres();
-  const unionId = session.user.unionId;
+
+  let unionId = session.user.unionId;
+  if (parsed.data.newUnionName?.trim()) {
+    if (!roles.includes("platform_admin")) {
+      return NextResponse.json(
+        { error: "Only platform admins can create a union" },
+        { status: 403 },
+      );
+    }
+    const seed = await createUnionDurable({
+      name: parsed.data.newUnionName.trim(),
+      localNumber:
+        parsed.data.localNumber?.trim() ||
+        undefined,
+      localSubText: parsed.data.localSubText,
+    });
+    unionId = seed.union.id;
+  }
+
   const ctx = getTenantContext(unionId);
   if (!ctx) {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
 
-  const elevated = canInvitePresident;
   let localId = parsed.data.localId;
 
-  if (!elevated) {
+  if (!elevateLocal) {
     localId = session.user.localId;
     if (!localId) {
       return NextResponse.json(
@@ -224,7 +266,7 @@ export async function POST(req: Request) {
         unionId,
         localId,
         mfaVerified: true,
-        crossLocal: canInvitePresident,
+        crossLocal: elevateLocal,
       },
       () =>
         accessRequestStore.update(parsed.data.requestId!, {

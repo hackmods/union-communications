@@ -41,7 +41,7 @@ export function canManageInvites(roles: string[]): boolean {
 /** Operator path: invite a local president onto a (possibly new) local. */
 export function canInvitePresidents(roles: string[]): boolean {
   return roles.some((r) =>
-    ["platform_admin", "union_admin", "division_admin"].includes(r),
+    ["platform_admin", "union_admin"].includes(r),
   );
 }
 
@@ -79,10 +79,12 @@ export const INVITE_ROLE_OPTIONS: InviteRoleOption[] = PLATFORM_INVITE_ROLES;
 
 export function inviteRolesForActor(roles: string[]): InviteRoleOption[] {
   if (roles.includes("platform_admin")) return [...PLATFORM_INVITE_ROLES];
-  if (roles.includes("union_admin") || roles.includes("division_admin")) {
+  if (roles.includes("union_admin")) {
     return [...ELEVATED_INVITE_ROLES];
   }
-  if (roles.includes("local_president")) return [...PRESIDENT_INVITE_ROLES];
+  if (roles.includes("local_president") || roles.includes("division_admin")) {
+    return [...PRESIDENT_INVITE_ROLES];
+  }
   return [];
 }
 

@@ -9,6 +9,7 @@ import { users } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { verifyPassword } from "@/lib/auth/password";
 import { auditLog } from "@/lib/audit/store";
+import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
 import {
   DEMO_PURGE_CONFIRM_PHRASE,
@@ -26,11 +27,15 @@ import {
  *
  * Typed confirmation + password re-auth. Uses MIGRATE_DATABASE_URL for the
  * destructive transaction so RLS cannot leave restrict orphans.
+ * Requires `SITE_ADMIN_DEMO_PURGE_ENABLED=true` on the host.
  */
 export async function POST(req: Request) {
   const gate = await requireSiteAdminSession();
   if (!gate.ok) {
     return NextResponse.json({ error: gate.error }, { status: gate.status });
+  }
+  if (!isDemoPurgeEnabled()) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   if (!isPostgresConfigured()) {

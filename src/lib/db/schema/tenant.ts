@@ -5,7 +5,11 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+
+export type MembershipPolicy = "multi_local" | "single_local";
 
 export const unions = pgTable("unions", {
   id: text("id").primaryKey(),
@@ -13,6 +17,14 @@ export const unions = pgTable("unions", {
   slug: text("slug").notNull().unique(),
   defaultLocale: text("default_locale").notNull().default("en"),
   enabledModules: jsonb("enabled_modules").notNull().$type<string[]>(),
+  /**
+   * multi_local (default): many active locals per user in this union.
+   * single_local: at most one active local_memberships row per user.
+   */
+  membershipPolicy: text("membership_policy")
+    .notNull()
+    .$type<MembershipPolicy>()
+    .default("multi_local"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -39,20 +51,28 @@ export const divisions = pgTable("divisions", {
   isDemo: boolean("is_demo").notNull().default(false),
 });
 
-export const locals = pgTable("locals", {
-  id: text("id").primaryKey(),
-  unionId: text("union_id")
-    .notNull()
-    .references(() => unions.id, { onDelete: "cascade" }),
-  divisionId: text("division_id").references(() => divisions.id, {
-    onDelete: "set null",
-  }),
-  localNumber: text("local_number").notNull(),
-  subText: text("sub_text").notNull().default(""),
-  archivedAt: timestamp("archived_at", { withTimezone: true }),
-  archivedById: text("archived_by_id"),
-  isDemo: boolean("is_demo").notNull().default(false),
-});
+export const locals = pgTable(
+  "locals",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "cascade" }),
+    divisionId: text("division_id").references(() => divisions.id, {
+      onDelete: "set null",
+    }),
+    localNumber: text("local_number").notNull(),
+    subText: text("sub_text").notNull().default(""),
+    archivedAt: timestamp("archived_at", { withTimezone: true }),
+    archivedById: text("archived_by_id"),
+    isDemo: boolean("is_demo").notNull().default(false),
+  },
+  (t) => [
+    uniqueIndex("locals_union_number_active_uidx")
+      .on(t.unionId, t.localNumber)
+      .where(sql`${t.archivedAt} IS NULL`),
+  ],
+);
 
 export const bargainingUnits = pgTable("bargaining_units", {
   id: text("id").primaryKey(),

@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
-import { useTranslations } from "next-intl";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
 import { SiteAdminCard } from "@/components/site-admin/SiteAdminCard";
 
 export const dynamic = "force-dynamic";
@@ -23,16 +23,8 @@ export default async function SiteAdminLandingPage({
     redirect(`/${locale}/app/login`);
   }
 
-  return <SiteAdminLanding />;
-}
-
-/**
- * Client of:
- *   useTranslations("hub.platformOperator") (titles/bodies)
- *   the same `siteAdmin.*` keys already added to en.json / fr.json.
- */
-function SiteAdminLanding() {
-  const t = useTranslations("hub.platformOperator");
+  const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
+  const demoPurgeOn = isDemoPurgeEnabled();
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 lg:py-12">
@@ -60,18 +52,24 @@ function SiteAdminLanding() {
           body={t("localsBody")}
         />
         <SiteAdminCard
-          href="/app/site-admin/demo-cleanup"
-          title={t("demoCleanup")}
-          body={t("demoCleanupBody")}
-          tone="warn"
+          href="/app/site-admin/membership-integrity"
+          title={t("membershipIntegrity")}
+          body={t("membershipIntegrityBody")}
         />
+        {demoPurgeOn ? (
+          <SiteAdminCard
+            href="/app/site-admin/demo-cleanup"
+            title={t("demoCleanup")}
+            body={t("demoCleanupBody")}
+            tone="warn"
+          />
+        ) : null}
         <SiteAdminCard
           href="/app/site-admin/public-tools"
           title={t("publicTools")}
           body={t("publicToolsCardBody")}
         />
 
-        {/* Existing operator surfaces, still reachable here for muscle memory. */}
         <SiteAdminCard
           href="/app/invites"
           title={t("invites")}

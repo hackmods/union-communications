@@ -7,6 +7,7 @@ import {
   timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 import { bargainingUnits, locals, unions, users } from "./tenant";
 import { committees } from "./committees";
 
@@ -27,6 +28,11 @@ export const localMemberships = pgTable(
   },
   (t) => [
     uniqueIndex("local_memberships_user_local_uidx").on(t.userId, t.localId),
+    uniqueIndex("local_memberships_primary_active_uidx")
+      .on(t.unionId, t.userId)
+      .where(
+        sql`${t.isPrimary} = true AND ${t.status} = 'active' AND ${t.endedAt} IS NULL`,
+      ),
     index("local_memberships_union_local_idx").on(t.unionId, t.localId),
     index("local_memberships_user_status_idx").on(t.userId, t.status),
   ],

@@ -7,6 +7,7 @@ import { getDb } from "@/lib/db/client";
 import { locals, unions } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
+import { CreateLocalForm } from "@/components/site-admin/CreateLocalForm";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +29,7 @@ export default async function SiteAdminUnionLocalsPage({
   await getTranslations({ locale, namespace: "hub.platformOperator" });
 
   let unionName: string | null = null;
+  let membershipPolicy: "multi_local" | "single_local" = "multi_local";
   let rows: Array<{
     id: string;
     localNumber: string;
@@ -39,11 +41,16 @@ export default async function SiteAdminUnionLocalsPage({
   try {
     const db = getDb();
     const u = await db
-      .select({ id: unions.id, name: unions.name })
+      .select({
+        id: unions.id,
+        name: unions.name,
+        membershipPolicy: unions.membershipPolicy,
+      })
       .from(unions)
       .where(eq(unions.id, unionId))
       .limit(1);
     unionName = u[0]?.name ?? null;
+    membershipPolicy = u[0]?.membershipPolicy ?? "multi_local";
 
     const conditions: SQL[] = [eq(locals.unionId, unionId)];
     rows = await db
@@ -166,6 +173,11 @@ export default async function SiteAdminUnionLocalsPage({
           </tbody>
         </table>
       </div>
+
+      <CreateLocalForm
+        unionId={unionId}
+        membershipPolicy={membershipPolicy}
+      />
     </main>
   );
 }

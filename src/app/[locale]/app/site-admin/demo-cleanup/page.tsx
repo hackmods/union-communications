@@ -4,6 +4,7 @@ import { setRequestLocale } from "next-intl/server";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
+import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
 import {
   DEMO_PURGE_CONFIRM_PHRASE,
   countDemoRows,
@@ -27,6 +28,9 @@ export default async function SiteAdminDemoCleanupPage({
   if (!gate.ok) {
     if (gate.status === 403) redirect(`/${locale}/app`);
     redirect(`/${locale}/app/login`);
+  }
+  if (!isDemoPurgeEnabled()) {
+    redirect(`/${locale}/app/site-admin`);
   }
 
   const counts = {

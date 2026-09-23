@@ -11,6 +11,7 @@ import {
 } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { formatRoleList } from "@/lib/auth/role-labels";
+import { AssignLocalForm } from "@/components/site-admin/AssignLocalForm";
 
 export const dynamic = "force-dynamic";
 
@@ -186,6 +187,12 @@ export default async function AccountSupportDetailPage({
             .replace("T", " ")}
         />
       </dl>
+
+      <AssignLocalForm
+        userId={profile.id}
+        initialUnionId={profile.unionId}
+        initialLocalId={profile.localId}
+      />
 
       <form
         action={`/api/site-admin/users/${profile.id}/force-password-reset`}
