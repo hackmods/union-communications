@@ -30,11 +30,12 @@ test.describe("Hub governance (bylaws + proposals) @smoke", () => {
     await page.getByLabel(/Title|Titre/i).fill("Smoke bylaw revision");
     await page.getByRole("button", { name: /Save draft|Enregistrer le brouillon/i }).click();
 
+    // Title can appear in the list row and the open editor — assert any one.
     await expect(
-      page.getByText(/Smoke bylaw revision/, { exact: true }),
+      page.getByText(/Smoke bylaw revision/, { exact: true }).first(),
     ).toBeVisible();
     await page.getByRole("button", { name: /Preview|Aperçu/i }).first().click();
-    await expect(page.getByText(/Draft created|Brouillon créé/i)).toBeVisible();
+    await expect(page.getByText(/Draft created|Brouillon créé/i).first()).toBeVisible();
   });
 
   test("proposals board creates a package and opens casework", async ({
@@ -89,9 +90,12 @@ test.describe("Hub governance (bylaws + proposals) @smoke", () => {
         name: /Bargaining proposals|Propositions de négociation/i,
       }),
     ).toBeVisible();
+    // Headline / key points can render in the card chrome and body.
     await expect(
-      page.getByText("Smoke round: what we are asking for", { exact: true }),
+      page.getByText("Smoke round: what we are asking for", { exact: true }).first(),
     ).toBeVisible();
-    await expect(page.getByText("Wage grid protection", { exact: true })).toBeVisible();
+    await expect(
+      page.getByText("Wage grid protection", { exact: true }).first(),
+    ).toBeVisible();
   });
 });

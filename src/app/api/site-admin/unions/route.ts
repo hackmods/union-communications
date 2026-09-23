@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       union: { id: seed.union.id, name: seed.union.name, slug: seed.union.slug },
-      local: firstLocal
+      local: seed.locals?.[0]
         ? {
             id: firstLocal.id,
             localNumber: firstLocal.localNumber,

@@ -49,6 +49,10 @@ function jsonRequest(body: unknown, url = "http://localhost/api/invites"): Reque
   });
 }
 
+function getRequest(url = "http://localhost/api/invites"): Request {
+  return new Request(url);
+}
+
 function params(token: string) {
   return { params: Promise.resolve({ token }) };
 }
@@ -74,20 +78,20 @@ describe("invite API routes", () => {
   describe("GET /api/invites", () => {
     it("returns 401 without a session and 403 for members and stewards", async () => {
       authMock.mockResolvedValue(null);
-      expect((await listInvites(new Request("http://localhost/api/invites"))).status).toBe(401);
+      expect((await listInvites(getRequest())).status).toBe(401);
 
       authMock.mockResolvedValue(session({ roles: ["local_member"] }));
-      expect((await listInvites(new Request("http://localhost/api/invites"))).status).toBe(403);
+      expect((await listInvites(getRequest())).status).toBe(403);
 
       authMock.mockResolvedValue(session({ roles: ["local_steward"] }));
-      const forbidden = await listInvites(new Request("http://localhost/api/invites"));
+      const forbidden = await listInvites(getRequest());
       expect(forbidden.status).toBe(403);
       expect(await forbidden.json()).toEqual({ error: "Forbidden" });
     });
 
     it("does not widen a local president's invite list when local context is missing", async () => {
       authMock.mockResolvedValue(session({ roles: ["local_president"], localId: null }));
-      const res = await listInvites(new Request("http://localhost/api/invites"));
+      const res = await listInvites(getRequest());
       expect(res.status).toBe(403);
       expect(await res.json()).toEqual({ error: "Forbidden" });
     });
@@ -96,7 +100,7 @@ describe("invite API routes", () => {
       authMock.mockResolvedValue(
         session({ unionId: null, roles: ["union_admin"] }),
       );
-      const res = await listInvites(new Request("http://localhost/api/invites"));
+      const res = await listInvites(getRequest());
       expect(res.status).toBe(400);
       expect(await res.json()).toEqual({ error: "Missing union context" });
     });
@@ -128,7 +132,7 @@ describe("invite API routes", () => {
       });
 
       authMock.mockResolvedValue(session());
-      const res = await listInvites(new Request("http://localhost/api/invites"));
+      const res = await listInvites(getRequest());
       expect(res.status).toBe(200);
       const body = (await res.json()) as {
         invites: Array<{ email: string; token?: string; status: string }>;
@@ -158,7 +162,7 @@ describe("invite API routes", () => {
       authMock.mockResolvedValue(
         session({ roles: ["union_admin"], localId: null }),
       );
-      const res = await listInvites(new Request("http://localhost/api/invites"));
+      const res = await listInvites(getRequest());
       expect(res.status).toBe(200);
       const body = (await res.json()) as {
         invites: Array<{ email: string }>;
@@ -180,7 +184,7 @@ describe("invite API routes", () => {
       await acceptInvite(invite.token, "securepass1");
 
       authMock.mockResolvedValue(session());
-      const res = await listInvites(new Request("http://localhost/api/invites"));
+      const res = await listInvites(getRequest());
       const body = (await res.json()) as {
         invites: Array<{ email: string; token?: string; status: string }>;
       };
@@ -211,7 +215,7 @@ describe("invite API routes", () => {
       expect(body.token).toBeTruthy();
 
       authMock.mockResolvedValue(session({ roles: ["union_admin"] }));
-      const listed = await listInvites(new Request("http://localhost/api/invites"));
+      const listed = await listInvites(getRequest());
       const listBody = (await listed.json()) as {
         invites: Array<{ unionId?: string; localId: string; email: string }>;
       };
