@@ -67,7 +67,7 @@ function readRequestId(): string | null {
 export function InvitesBoard() {
   const t = useTranslations("invites");
   const tRoles = useTranslations("hub.roleLabels");
-  const [requestId] = useState<string | null>(() => readRequestId());
+  const [requestId, setRequestId] = useState<string | null>(() => readRequestId());
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [roles, setRoles] = useState<InviteRoleOption[]>(["local_steward"]);

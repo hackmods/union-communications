@@ -168,7 +168,8 @@ jobs:
       # catches stale :main tags (expired token, registry republish
       # race) before the deploy job rolls them out.
       - name: Verify GHCR :main tag matches this push
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+        # Parentheses document left-to-right &&/|| grouping: push+main, or dispatch.
+        if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
         env:
           EXPECTED_SHA: ${{ github.sha }}
         run: |
