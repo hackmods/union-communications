@@ -1,6 +1,6 @@
-# Customization foundation (C02–C05)
+# Customization foundation (C02–C06)
 
-This directory contains schemas/pure compiler contracts, authorization decisions, C04 persistence adapters, and the C05 resolution/read/cache services. `resolveCustomization` returns internal content that can include private sections; it must never be serialized directly to a reader. Use `compilePublication` for authoring-side fragment materialization and `readPublishedContent` for ordinary delivery. PostgreSQL operations run in `CustomizationAdapter.transaction`, which owns an explicit RLS transaction; use its transaction handle for every read/write in an atomic operation. Ordinary pages use `readerTransaction`, which forces the non-operator RLS path even for Root. `getCustomizationAdapter()` fails when PostgreSQL is unavailable; memory is constructed explicitly for tests or labeled nonproduction demos. C06 supplies publication workflows.
+This directory contains schemas/pure compiler contracts, authorization decisions, C04 persistence adapters, C05 compile/read/cache services, and C06 draft/preview/publication workflows. `resolveCustomization` returns internal content that can include private sections; it must never be serialized directly to a reader. Use `compilePublication` for authoring-side fragment materialization and `readPublishedContent` for ordinary delivery. Mutations go through `saveDraft`, `previewDraftContent`, `publishAtomically`, `setPolicyAtomically`, `rollbackToRevision` and `inheritAgain`. PostgreSQL operations run in `CustomizationAdapter.transaction`. Ordinary pages use `readerTransaction`. `getCustomizationAdapter()` fails when PostgreSQL is unavailable; memory is constructed explicitly for tests or labeled nonproduction demos. C07 supplies the Root control panel UI.
 
 ## Boundaries
 
@@ -32,4 +32,4 @@ An explicit block replacement cannot lower that block's audience. Removal follow
 
 `npm run test:unit -- --maxWorkers=2 src/lib/customization` covers synthetic independent tenants, no-context fallback, sibling/unit isolation, stable-ID conflicts, source revisions, whole workflow replacement, audience restrictions, provenance, schema limits, dependency pins, impact budget, reader DTO projection, cache isolation and withdrawal-after-warmup. `npm run typecheck` and `npm run lint` validate integration with repository tooling. No E2E or production content is required for this module.
 
-Resume from [C06 in the execution plan](../../../docs/audit/plan-2026-09-22-union-customization.md). Full design: [UNION_CUSTOMIZATION.md](../../../docs/modules/UNION_CUSTOMIZATION.md).
+Resume from [C07 in the execution plan](../../../docs/audit/plan-2026-09-22-union-customization.md). Full design: [UNION_CUSTOMIZATION.md](../../../docs/modules/UNION_CUSTOMIZATION.md).

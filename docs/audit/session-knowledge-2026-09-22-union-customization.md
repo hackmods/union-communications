@@ -1,6 +1,6 @@
 # Session knowledge — union customization foundation
 
-Saved across context/compute limits. C01–C05 are complete; resume at **C06**. Earlier notes remain historical; use the C05 section as current ground truth.
+Saved across context/compute limits. C01–C06 are complete; resume at **C07**. Earlier notes remain historical; use the C06 section as current ground truth.
 
 ## Checkout and commits
 
@@ -18,37 +18,30 @@ Saved across context/compute limits. C01–C05 are complete; resume at **C06**. 
 4. [Conversion inventory](union-customization-conversion-inventory.md) — pilot ownership, cache behavior and workflow call sites.
 5. [Progress](../PROGRESS.md) and repository AGENTS.md.
 
-## C05 current handoff (2026-09-22)
+## C06 current handoff (2026-09-22)
 
 ### Implemented
 
-- `dependencies.ts` — stable revision/source pin ordering, dependency-manifest digests, `MAX_AFFECTED_RELEASES = 500`, deterministic block impact reports (`changed` / `deleted` / `orphan`).
-- `compile.ts` — `compilePublication` materializes per-locale delivery fragments + public discovery DTOs; `readPublishedContent` is the ordinary reader service (readerTransaction only, authorized DTO, no raw resolver bytes).
-- `cache.ts` — `ImmutableContentCache` with 32 MiB budget; keys include resource, full scope chain, locale, schema, dependency digest, release. `hasWarm` detects withdrawal after cache warmup. Actor decisions stay outside the cache.
-- Reader rules: missing publication → compiled fallback; DB exception → `service_error`; warmed cache + empty RLS fragments → `withdrawn` (not fallback); membership rechecked via `decideCustomizationRead`.
-
-### Collateral typecheck fixes (main breakages from #102)
-
-- `site-admin/unions/[id]/route.ts` — cast SQL rows through `unknown`.
-- `site-admin/unions/route.ts` — optional `seed.locals?.[0]`.
-- `InvitesBoard.tsx` — restore `setRequestId` setter (was destructured away).
-- `invite-routes.test.ts` — pass `Request` into `GET` listInvites.
+- `drafts.ts` — optimistic draft save/get with lockVersion compare-and-swap.
+- `preview.ts` — authenticated private preview (`private, no-store`) plus dependency impact preview helpers.
+- `publish.ts` — atomic publish (fragments/projections before head), idempotent operations, orphan 422, policy withdraw, rollback preserving restrictive policy, inherit-again.
+- `audit.ts` — audit rows in the same transaction as mutations.
+- API routes: draft PATCH, preview/publish/policy/rollback POST under `/api/site-admin/customization/resources/[id]/*`.
 
 ### Validation
 
-- `npx vitest run --maxWorkers=2 src/lib/customization src/lib/auth/invite-routes.test.ts src/lib/site-admin/api-routes.test.ts` — 133 passed.
-- `npm run typecheck` — passed after the collateral fixes.
-- Full repo unit / Playwright / GitHub Actions E2E still deferred per plan until modular tasks finish.
+- Customization + session suites: 123 tests passed.
+- `npm run typecheck` and `npm run lint` passed.
+- Full repo unit / Playwright / GitHub Actions E2E still deferred.
 
-### Immediate next task: C06
+### Immediate next task: C07
 
-Drafts, preview, atomic publication and rollback (`drafts`, `publish`, `preview`, `audit` + API routes). Optimistic draft saves, authenticated preview, bilingual validation, dependency impact preview, atomic revision/release/head/projection/audit, idempotency, 409 on moved ancestors, compatible descendant rebase, withdrawal independent of editorial conflicts. No GET publishing. Preview private/no-store.
+Root control panel at `/[locale]/app/site-admin/customization` with empty state, scope creation, resource editor, history and preview. Reuse SiteAdminCard. EN/FR UI, axe, role denial tests.
 
 ## Remaining plan / stop points
 
-- C06 drafts/preview/atomic publication → C07 Root panel → C08 pilot consumer.
-- C09 public discovery/policy UI → C10 adversarial asset serving → C11 Root content workflow docs → C12 versioned grievance/hybrid snapshots.
-- C13 grants (flag off until explicitly implemented) → C14 parameter-only local edits → C15 entitlements/ops. Keep public Comms free; no billing processor.
+- C07 Root panel → C08 pilot consumer.
+- C09–C12 Phase 2; C13–C15 Phase 3. Keep public Comms free; no billing processor.
 
 ## Security lessons (still binding)
 

@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-22 — Customization C06 drafts/preview/publication complete
+
+- Added draft optimistic saves (`drafts.ts`), authenticated private preview (`preview.ts`), atomic publish/rollback/policy/inherit (`publish.ts`), and audit writes that share the publication transaction (`audit.ts`).
+- Publication writes revisions, releases, fragments and projections before advancing the head; concurrent CAS has one winner; idempotent retries reuse the stored operation result; orphan descendant overrides return 422 instead of silently dropping; withdrawal is independent of editorial rollback (restrictive policy preserved).
+- Added thin Root API routes under `/api/site-admin/customization/resources/[id]/{draft,preview,publish,policy,rollback}` with `private, no-store` responses and `requireCustomizationSession` gates. No GET publishing.
+- Validation: customization + session suites passed; `npm run typecheck` passed; lint in same commit check. GitHub Actions E2E remains deferred. **Next: C07** Root control panel UI.
+
 ## 2026-09-22 — Customization C05 resolution/compile/cache complete
 
 - Added `dependencies.ts` (stable revision/source pin ordering, dependency-manifest digests, 500-release impact budget and deterministic block conflict reports), `compile.ts` (publication fragment/discovery materialization plus `readPublishedContent` reader DTO service), and `cache.ts` (bounded immutable content cache keyed by resource, full scope chain, locale, schema, dependency digest and release).

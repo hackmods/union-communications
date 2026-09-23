@@ -1,6 +1,6 @@
 # Union and sub-collective customization layer
 
-**Status: accepted design; C01–C05 foundation implemented, not connected to production consumers. C06–C15 remain pending.**
+**Status: accepted design; C01–C06 foundation implemented, not connected to production consumers. C07–C15 remain pending.**
 
 **Prepared:** 2026-09-22 against checkout `1f68490`.
 **Execution companion:** [implementation handoff](../audit/plan-2026-09-22-union-customization.md).
