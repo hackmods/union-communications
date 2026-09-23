@@ -31,6 +31,10 @@ import {
 import { POST as expandShiftSeries } from "@/app/api/time/shift-series/[id]/expand/route";
 import { POST as payrollExport } from "@/app/api/time/payroll-export/route";
 import {
+  GET as listPayrollProfiles,
+  POST as upsertPayrollProfile,
+} from "@/app/api/time/payroll-profiles/route";
+import {
   insertAttachmentForTests,
   resetAttachmentMemoryForTests,
 } from "@/lib/attachments/memory-adapter";
@@ -574,5 +578,97 @@ describe("time OT, groups, shift-series, and payroll-export HTTP", () => {
     const csv = await exported.text();
     expect(csv).toContain("user-payroll-home");
     expect(csv).not.toContain("user-payroll-sister");
+  });
+});
+
+describe("GET/POST /api/time/payroll-profiles", () => {
+  beforeEach(() => {
+    resetTimeStore();
+    resetTenantOverlayForTests();
+    authMock.mockReset();
+  });
+
+  afterEach(() => {
+    resetTimeStore();
+    resetTenantOverlayForTests();
+  });
+
+  it("returns 401 without a session and 403 for members and stewards", async () => {
+    authMock.mockResolvedValue(null);
+    expect((await listPayrollProfiles()).status).toBe(401);
+
+    authMock.mockResolvedValue(session({ roles: ["local_member"] }));
+    expect((await listPayrollProfiles()).status).toBe(403);
+    expect(
+      (
+        await upsertPayrollProfile(
+          jsonRequest({ name: "Hijack", vendor: "generic_csv" }),
+        )
+      ).status,
+    ).toBe(403);
+
+    authMock.mockResolvedValue(session());
+    expect((await listPayrollProfiles()).status).toBe(403);
+    expect(
+      (
+        await upsertPayrollProfile(
+          jsonRequest({ name: "Hijack", vendor: "generic_csv" }),
+        )
+      ).status,
+    ).toBe(403);
+  });
+
+  it("lists only the session local and stamps tenant ids on create", async () => {
+    const home = await memoryTimeStore.upsertPayrollProfile(
+      { name: "Home payroll HTTP", vendor: "generic_csv" },
+      { unionId: "union-b7p", localId: "local-7" },
+    );
+    const sister = await memoryTimeStore.upsertPayrollProfile(
+      { name: "Sister payroll HTTP", vendor: "generic_csv" },
+      { unionId: "union-b7p", localId: "local-1337" },
+    );
+    const foreign = await memoryTimeStore.upsertPayrollProfile(
+      { name: "Foreign payroll HTTP", vendor: "generic_csv" },
+      { unionId: "union-other", localId: "local-1" },
+    );
+
+    authMock.mockResolvedValue(
+      session({ id: "user-president-7", roles: ["local_president"] }),
+    );
+    const listed = await listPayrollProfiles();
+    expect(listed.status).toBe(200);
+    const listBody = (await listed.json()) as {
+      profiles: Array<{ id: string; unionId: string; localId: string }>;
+    };
+    const ids = listBody.profiles.map((row) => row.id);
+    expect(ids).toContain(home.id);
+    expect(ids).not.toContain(sister.id);
+    expect(ids).not.toContain(foreign.id);
+    expect(
+      listBody.profiles.every(
+        (row) => row.unionId === "union-b7p" && row.localId === "local-7",
+      ),
+    ).toBe(true);
+
+    const invalid = await upsertPayrollProfile(
+      jsonRequest({ name: "Broken", vendor: "not-a-vendor" }),
+    );
+    expect(invalid.status).toBe(400);
+
+    const created = await upsertPayrollProfile(
+      jsonRequest({
+        name: "Desk payroll",
+        vendor: "generic_csv",
+        unionId: "union-other",
+        localId: "local-evil",
+      }),
+    );
+    expect(created.status).toBe(201);
+    const body = (await created.json()) as {
+      profile: { name: string; unionId: string; localId: string };
+    };
+    expect(body.profile.name).toBe("Desk payroll");
+    expect(body.profile.unionId).toBe("union-b7p");
+    expect(body.profile.localId).toBe("local-7");
   });
 });

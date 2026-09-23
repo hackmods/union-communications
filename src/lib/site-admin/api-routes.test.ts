@@ -13,6 +13,12 @@ import { POST as purgeDemo } from "@/app/api/site-admin/demo/purge/route";
 import { GET as previewDemo } from "@/app/api/site-admin/demo/preview/route";
 import { POST as createUnion } from "@/app/api/site-admin/unions/route";
 import { PATCH as patchUnion } from "@/app/api/site-admin/unions/[id]/route";
+import { POST as createLocal } from "@/app/api/site-admin/locals/route";
+import { POST as archiveLocal } from "@/app/api/site-admin/locals/[id]/archive/route";
+import { POST as restoreLocal } from "@/app/api/site-admin/locals/[id]/restore/route";
+import { POST as assignLocal } from "@/app/api/site-admin/users/[id]/assign-local/route";
+import { GET as scanMembershipIntegrity } from "@/app/api/site-admin/membership-integrity/route";
+import { GET as tenantOptions } from "@/app/api/site-admin/tenant-options/route";
 import { DEMO_PURGE_CONFIRM_PHRASE } from "./demo-purge";
 
 function session(roles: UserRole[] = ["platform_admin"]) {
@@ -103,5 +109,107 @@ describe("site-admin unions HTTP", () => {
     authMock.mockResolvedValue(session(["local_president"]));
     const res = await createUnion(jsonRequest({ name: "New Union" }));
     expect(res.status).toBe(403);
+  });
+});
+
+describe("site-admin locals, assign-local, and integrity HTTP", () => {
+  beforeEach(() => {
+    authMock.mockReset();
+    vi.stubEnv("DATABASE_URL", "");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  function userParams(id: string) {
+    return { params: Promise.resolve({ id }) };
+  }
+
+  it("returns 401 without a session", async () => {
+    authMock.mockResolvedValue(null);
+    expect(
+      (await createLocal(jsonRequest({ unionId: "union-b7p", localNumber: "8" })))
+        .status,
+    ).toBe(401);
+    expect(
+      (await assignLocal(jsonRequest({ localId: "local-7" }), userParams("user-1")))
+        .status,
+    ).toBe(401);
+    expect((await scanMembershipIntegrity()).status).toBe(401);
+    expect((await tenantOptions()).status).toBe(401);
+    expect(
+      (await archiveLocal(new Request("http://localhost"), userParams("local-7")))
+        .status,
+    ).toBe(401);
+    expect(
+      (await restoreLocal(new Request("http://localhost"), userParams("local-7")))
+        .status,
+    ).toBe(401);
+  });
+
+  it("returns 403 for local officers", async () => {
+    authMock.mockResolvedValue(session(["local_president"]));
+    expect(
+      (await createLocal(jsonRequest({ unionId: "union-b7p", localNumber: "8" })))
+        .status,
+    ).toBe(403);
+    expect(
+      (await assignLocal(jsonRequest({ localId: "local-7" }), userParams("user-1")))
+        .status,
+    ).toBe(403);
+    const integrity = await scanMembershipIntegrity();
+    expect(integrity.status).toBe(403);
+    expect(await integrity.json()).toEqual({ error: "Forbidden" });
+    expect((await tenantOptions()).status).toBe(403);
+    expect(
+      (await archiveLocal(new Request("http://localhost"), userParams("local-7")))
+        .status,
+    ).toBe(403);
+    expect(
+      (await restoreLocal(new Request("http://localhost"), userParams("local-7")))
+        .status,
+    ).toBe(403);
+  });
+
+  it("fails closed without Postgres for mutating and scan routes", async () => {
+    authMock.mockResolvedValue(session());
+    const local = await createLocal(
+      jsonRequest({ unionId: "union-b7p", localNumber: "8" }),
+    );
+    expect(local.status).toBe(503);
+    expect(await local.json()).toEqual({ error: "Postgres is not configured" });
+
+    const assigned = await assignLocal(
+      jsonRequest({ localId: "local-7" }),
+      userParams("user-1"),
+    );
+    expect(assigned.status).toBe(503);
+
+    const integrity = await scanMembershipIntegrity();
+    expect(integrity.status).toBe(503);
+    expect(await integrity.json()).toEqual({
+      error: "Postgres is not configured",
+      issues: [],
+      highCount: 0,
+    });
+
+    const options = await tenantOptions();
+    expect(options.status).toBe(200);
+    expect(await options.json()).toEqual({
+      unions: [],
+      locals: [],
+      subGroups: [],
+    });
+  });
+
+  it("rejects a missing local id before touching the database", async () => {
+    authMock.mockResolvedValue(session());
+    expect(
+      (await archiveLocal(new Request("http://localhost"), userParams(""))).status,
+    ).toBe(400);
+    expect(
+      (await restoreLocal(new Request("http://localhost"), userParams(""))).status,
+    ).toBe(400);
   });
 });

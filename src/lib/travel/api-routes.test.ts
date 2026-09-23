@@ -27,6 +27,7 @@ import {
   PATCH as patchClaim,
   POST as createClaim,
 } from "@/app/api/travel/[id]/claim/route";
+import { GET as exportTravel } from "@/app/api/travel/[id]/export/route";
 import {
   memoryLedgerStore,
   resetLedgerMemoryForTests,
@@ -798,4 +799,87 @@ describe("travel list/create and elevate HTTP routes", () => {
       expect(await memoryTravelStore.getAuthorization(approved.id)).not.toBeNull();
     });
   });
+});
+
+describe("GET /api/travel/[id]/export", () => {
+  beforeEach(() => {
+    resetMemoryTravelStore();
+    resetTravelStore();
+    authMock.mockReset();
+  });
+
+  afterEach(() => {
+    resetMemoryTravelStore();
+    resetTravelStore();
+  });
+
+  it("returns 401 without a session and 403 for members", async () => {
+    const auth = await seedAuthorization();
+    authMock.mockResolvedValue(null);
+    expect(
+      (
+        await exportTravel(
+          new Request("http://localhost/api/travel/x/export"),
+          params(auth.id),
+        )
+      ).status,
+    ).toBe(401);
+
+    authMock.mockResolvedValue(session({ roles: ["local_member"] }));
+    const forbidden = await exportTravel(
+      new Request("http://localhost/api/travel/x/export"),
+      params(auth.id),
+    );
+    expect(forbidden.status).toBe(403);
+    expect(await forbidden.json()).toEqual({ error: "Forbidden" });
+  });
+
+  it("returns 404 for another union, including platform_admin", async () => {
+    const foreign = await seedAuthorization({
+      unionId: "union-other",
+      localId: "local-1",
+      requestedById: "user-other",
+    });
+    authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
+    const res = await exportTravel(
+      new Request("http://localhost/api/travel/x/export"),
+      params(foreign.id),
+    );
+    expect(res.status).toBe(404);
+    expect(await res.json()).toEqual({ error: "Not found" });
+  });
+
+  it("hides a sister local from the home president", async () => {
+    const sister = await seedAuthorization({
+      localId: "local-1337",
+      requestedById: "user-560",
+    });
+    authMock.mockResolvedValue(
+      session({ id: "user-president-7", roles: ["local_president"] }),
+    );
+    const res = await exportTravel(
+      new Request("http://localhost/api/travel/x/export"),
+      params(sister.id),
+    );
+    expect(res.status).toBe(404);
+  });
+
+  it(
+    "exports xlsx for the requester with a spreadsheet attachment",
+    { timeout: 15_000 },
+    async () => {
+      const auth = await seedAuthorization();
+      authMock.mockResolvedValue(session());
+      const res = await exportTravel(
+        new Request("http://localhost/api/travel/x/export?format=xlsx"),
+        params(auth.id),
+      );
+      expect(res.status).toBe(200);
+      expect(res.headers.get("Content-Type")).toContain(
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      );
+      expect(res.headers.get("Content-Disposition")).toContain("attachment");
+      expect((await res.arrayBuffer()).byteLength).toBeGreaterThan(0);
+    },
+  );
 });
