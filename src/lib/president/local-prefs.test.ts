@@ -55,7 +55,7 @@ describe("president presets and destructive guards", () => {
       ]),
     ).toEqual(["grievance", "portal"]);
     expect(
-      sameModuleSet(["a", "b"], ["b", "a"]),
+      sameModuleSet(["comms", "portal"], ["portal", "comms"]),
     ).toBe(true);
   });
 });
