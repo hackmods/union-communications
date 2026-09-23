@@ -52,6 +52,7 @@ const sampleGrievance: Grievance = {
   assignedStewardId: "steward-1",
   createdById: "pres-1",
   updatedAt: new Date().toISOString(),
+  workflowStage: "formal",
 };
 
 const sampleBump: BumpingCase = {

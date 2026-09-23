@@ -22,6 +22,10 @@ export const informalLogEntries = pgTable(
     occurredAt: timestamp("occurred_at", { withTimezone: true }).notNull(),
     loggedById: text("logged_by_id").notNull(),
     loggedByName: text("logged_by_name").notNull(),
+    visibility: text("visibility")
+      .notNull()
+      .default("local_executive")
+      .$type<"private" | "local_executive" | "area_officer">(),
     convertedToGrievanceId: text("converted_to_grievance_id"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()

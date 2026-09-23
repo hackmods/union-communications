@@ -24,6 +24,20 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "grievance-workflow-uplift",
+    date: "2026-09-23",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/grievances",
+  },
+  {
+    id: "informal-log-visibility",
+    date: "2026-09-23",
+    kind: "added",
+    audience: "hub",
+    href: "/app/informal-log",
+  },
+  {
     id: "branding-local-feedback",
     date: "2026-09-23",
     kind: "improved",

@@ -18,6 +18,7 @@ const entry: InformalLogEntry = {
   occurredAt: "2026-08-01T12:00:00.000Z",
   loggedById: "steward-1",
   loggedByName: "Alex Steward",
+  visibility: "local_executive",
   createdAt: "2026-08-01T12:00:00.000Z",
 };
 
@@ -51,25 +52,104 @@ describe("informal log access", () => {
 
   it("never allows a cross-union read, even for platform_admin", () => {
     expect(
-      canViewInformalLogEntry(entry, "union-b", "local-1", ["platform_admin"]),
+      canViewInformalLogEntry(
+        entry,
+        "union-b",
+        "local-1",
+        ["platform_admin"],
+        "platform-1",
+      ),
     ).toBe(false);
     expect(
-      canViewInformalLogEntry(entry, undefined, "local-1", ["local_president"]),
+      canViewInformalLogEntry(
+        entry,
+        undefined,
+        "local-1",
+        ["local_president"],
+        "pres-1",
+      ),
     ).toBe(false);
   });
 
   it("scopes stewards to their local and lets elevated roles read other locals", () => {
     expect(
-      canViewInformalLogEntry(entry, "union-a", "local-1", ["local_steward"]),
+      canViewInformalLogEntry(
+        entry,
+        "union-a",
+        "local-1",
+        ["local_steward"],
+        "other-steward",
+      ),
     ).toBe(true);
     expect(
-      canViewInformalLogEntry(entry, "union-a", "local-2", ["local_steward"]),
+      canViewInformalLogEntry(
+        entry,
+        "union-a",
+        "local-2",
+        ["local_steward"],
+        "other-steward",
+      ),
     ).toBe(false);
     expect(
-      canViewInformalLogEntry(entry, "union-a", "local-2", ["union_admin"]),
+      canViewInformalLogEntry(
+        entry,
+        "union-a",
+        "local-2",
+        ["union_admin"],
+        "admin-1",
+      ),
     ).toBe(true);
     expect(
-      canViewInformalLogEntry(entry, "union-a", "local-1", ["local_member"]),
+      canViewInformalLogEntry(
+        entry,
+        "union-a",
+        "local-1",
+        ["local_member"],
+        "member-1",
+      ),
     ).toBe(false);
+  });
+
+  it("hides private entries from peer stewards but not the author", () => {
+    const privateEntry: InformalLogEntry = {
+      ...entry,
+      visibility: "private",
+    };
+    expect(
+      canViewInformalLogEntry(
+        privateEntry,
+        "union-a",
+        "local-1",
+        ["local_steward"],
+        "steward-1",
+      ),
+    ).toBe(true);
+    expect(
+      canViewInformalLogEntry(
+        privateEntry,
+        "union-a",
+        "local-1",
+        ["local_steward"],
+        "other-steward",
+      ),
+    ).toBe(false);
+    expect(
+      canViewInformalLogEntry(
+        privateEntry,
+        "union-a",
+        "local-1",
+        ["local_president"],
+        "pres-1",
+      ),
+    ).toBe(false);
+    expect(
+      canViewInformalLogEntry(
+        privateEntry,
+        "union-a",
+        "local-1",
+        ["platform_admin"],
+        "platform-1",
+      ),
+    ).toBe(true);
   });
 });

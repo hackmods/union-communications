@@ -11,9 +11,10 @@ import { getTenantContext } from "@/lib/tenant/loader";
 import type { UserRole } from "@/types/tenant";
 
 /**
- * Promote an informal discussion log into a Step 1 grievance.
- * Copies topic → category, memberPseudonym, stamps convertedToGrievanceId,
- * and seeds a note + member communication from the log summary/channel.
+ * Promote an informal discussion log into an intake-stage grievance.
+ * Copies topic → category, summary → summary, memberPseudonym, stamps
+ * convertedToGrievanceId, and seeds a note + member communication from the
+ * log summary/channel. Formal CA deadlines start only after promotion to formal.
  */
 export async function POST(
   _request: Request,
@@ -62,6 +63,8 @@ export async function POST(
     {
       memberPseudonym: entry.memberPseudonym,
       category: entry.topic,
+      summary: entry.summary,
+      workflowStage: "intake",
       filedAt: new Date().toISOString(),
       assignedStewardId: session.user.id,
       bargainingUnitId: entry.bargainingUnitId,

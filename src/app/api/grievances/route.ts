@@ -33,7 +33,12 @@ export async function GET() {
       bargainingUnitId: grievance.bargainingUnitId,
       localId: grievance.localId,
     });
-    const due = config && getCurrentStepDueDate(grievance.filedAt, grievance.currentStep, config);
+    const due = config && getCurrentStepDueDate(
+      grievance.filedAt,
+      grievance.currentStep,
+      config,
+      grievance.workflowStage,
+    );
     if (decision.level === "summary") {
       visible.push({ ...grievanceSummary(grievance), dueAt: due?.toISOString() ?? null });
     } else if (decision.level === "case_read" || decision.level === "case_write") {
@@ -123,6 +128,15 @@ export async function POST(request: Request) {
         filedAt: input.filedAt,
         assignedStewardId,
         bargainingUnitId: collectionId,
+        workflowStage: input.workflowStage,
+        fileNumber: input.fileNumber,
+        grievanceType: input.grievanceType,
+        memberNames: input.memberNames,
+        summary: input.summary,
+        intake: input.intake,
+        linkedSnippets: input.linkedSnippets,
+        localLabel: input.localLabel,
+        unitLabel: input.unitLabel,
       },
       {
         unionId,

@@ -65,6 +65,7 @@ describe("handoff package", () => {
     assignedStewardId: "user-steward-7",
     createdById: "user-president-7",
     updatedAt: "2026-01-01T00:00:00.000Z",
+    workflowStage: "formal",
   };
 
   it("allows presidents to initiate handoff", () => {

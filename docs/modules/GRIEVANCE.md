@@ -78,12 +78,16 @@ See `docs/PROGRESS.md` Phase 4.
 
 `/guide/grievance-process` teaches how to open and walk a file (forum gate, 6 W's, clocks, CA-named jobs). The printable 6 W's sheet is Document Generator preset `grievance-intake` (on-device Excel). Do not render live tenant `grievanceConfig` on the public guide.
 
-## Next (not this pass): Hub 6 W's intake
+## Workflow stages (2026-09-23)
 
-Officer Hub create/early detail is still pseudonym / category / `filedAt` ([`NewGrievanceForm.tsx`](../../src/components/grievance/NewGrievanceForm.tsx)). The growth slice that matches Vision (“grievance tracking: dates, notes, deadlines”) without turning UnionOps into a lawyer:
+Hub files use `workflowStage: "intake" | "formal"` as the primary Stage 1 / Stage 2 machine. CA `currentStep` clocks apply only on **formal** files. New creates default to intake; officers advance with **Advance to formal file**. Informal Log convert seeds an intake file.
 
-- Add structured 6 W's (and remedy) on create / early detail + adapter types; keep notes immutable for later commentary.
-- Surface CA steps from `resolveGrievanceConfig` (already true on the file) so the Hub never hardcodes pamphlet labels.
-- Optional: “open from worksheet” is a steward paste, not a file parser.
-- Still no auto-decision, no auto-send email, no legal advice.
-- What's new for that slice: `audience: "hub"` until the Hub is advertised.
+Create form captures 6 W’s + remedy, grievance type, member names, linked CA snippet snapshots, and Brand Kit–prefilled `localLabel` / `unitLabel` (editable snapshots). Human-readable `fileNumber` (`GRV-YYYY-NNNN`) is generated on create. Outcome records support mediator + sent-to-arbitration fields. Export ZIP/PDF includes the new fields and uses Brand Kit primary colour for the PDF title.
+
+## Steward Quick-Log visibility
+
+Informal Log entries require `visibility`: `private` | `local_executive` | `area_officer` (default/backfill `local_executive`). Enforced in `canViewInformalLogEntry` + list filtering.
+
+## Shipped: Hub 6 W's intake
+
+Structured intake on [`NewGrievanceForm.tsx`](../../src/components/grievance/NewGrievanceForm.tsx) + adapter fields. Notes remain immutable for later commentary. Still no auto-decision, no auto-send email, no legal advice.

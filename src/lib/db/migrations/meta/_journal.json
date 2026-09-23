@@ -376,6 +376,8 @@
     { "idx": 53, "version": "7", "when": 1789970000000, "tag": "0053_access_requests", "breakpoints": true
     },
     { "idx": 54, "version": "7", "when": 1790120000000, "tag": "0054_customization_foundation", "breakpoints": true },
-    { "idx": 55, "version": "7", "when": 1790200000000, "tag": "0055_membership_policy_uniqueness", "breakpoints": true }
+    { "idx": 55, "version": "7", "when": 1790200000000, "tag": "0055_membership_policy_uniqueness", "breakpoints": true },
+    { "idx": 56, "version": "7", "when": 1790300000000, "tag": "0056_informal_log_visibility", "breakpoints": true },
+    { "idx": 57, "version": "7", "when": 1790400000000, "tag": "0057_grievance_workflow_uplift", "breakpoints": true }
   ]
 }

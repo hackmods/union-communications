@@ -48,6 +48,7 @@ export function assertInformalLogView(
     session.user.unionId,
     session.user.localId,
     (session.user.roles ?? []) as UserRole[],
+    session.user.id,
   );
 }
 

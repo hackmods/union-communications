@@ -7291,6 +7291,14 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "grievance-workflow-uplift": {
+        "title": "Griefs : prise en charge et dossier formel",
+        "body": "Les griefs du Hub commencent maintenant à l’étape 1 (6 W, liens de clauses, libellés de section depuis la Trousse de marque) et passent à l’étape 2 (horloges de convention, numéros de dossier, résumés d’export aux couleurs de la Trousse)."
+      },
+      "informal-log-visibility": {
+        "title": "Niveaux de visibilité du journal rapide",
+        "body": "Les entrées du journal rapide du délégué exigent maintenant un choix de visibilité avant l’enregistrement : privé, exécutif local et délégués, ou représentant de secteur / dirigeant."
+      },
       "branding-local-feedback": {
         "title": "Titre d’accueil et Explorer les fonctions de la plateforme",
         "body": "La page d’accueil mène maintenant avec « Conçu pour les syndicats. Façonné par les retours des sections. » et ajoute Explorer les fonctions de la plateforme à côté de Configurer la Trousse de marque, pour ouvrir le catalogue Créer en un tap."
@@ -9403,9 +9411,17 @@
       "memberPseudonym": "Membre (pseudonyme)",
       "memberPseudonymHint": "Facultatif — évitez les vrais noms lorsque possible",
       "channel": "Canal",
+      "visibility": "Visibilité / niveau d'accès",
       "occurredAt": "Date et heure",
       "summary": "Résumé"
     },
+    "visibility": {
+      "private": "Privé (moi seulement)",
+      "local_executive": "Exécutif local et délégués",
+      "area_officer": "Représentant de secteur / dirigeant"
+    },
+    "visibilityHint": "Choisissez qui peut voir cette note avant d'enregistrer. Les notes privées restent à vous, sauf en cas d'accès d'urgence de la plateforme.",
+    "visibilityLabel": "Accès : {level}",
     "channel": {
       "email": "Courriel",
       "phone": "Téléphone",
@@ -9879,6 +9895,38 @@
     "loading": "Chargement des griefs...",
     "loadError": "Impossible de charger les griefs. Actualisez la page et réessayez.",
     "newGrievance": "Nouveau grief",
+    "newGrievanceHint": "Commencez en prise en charge pour noter les faits, ou ouvrez un dossier formel lorsque les horloges de l’étape 1 doivent tourner. Les libellés de section et d’unité se préremplissent depuis votre Trousse de marque — modifiez-les avant d’enregistrer.",
+    "workflowStageLabel": "Étape du flux",
+    "workflowStageHint": "La prise en charge est l’étape 1 (faits et évaluation). Le dossier formel est l’étape 2 (suivi des étapes de la convention et export imprimable).",
+    "workflowStage": {
+      "intake": "Étape 1 — Prise en charge",
+      "formal": "Étape 2 — Dossier formel"
+    },
+    "advanceToFormal": "Passer au dossier formel",
+    "intakeStageHint": "Ce dossier est encore en prise en charge. Les horloges des étapes de la convention démarrent après le passage au dossier formel.",
+    "localLabel": "Libellé de la section / unité",
+    "localLabelHint": "Prérempli depuis la Trousse de marque (Section {number}). Enregistré sur le dossier pour que les exports restent stables si la Trousse change.",
+    "unitLabel": "Collection / unité",
+    "unitLabelHint": "Prérempli depuis la collection ou le sous-texte de la Trousse de marque, le cas échéant.",
+    "grievanceType": "Type de grief",
+    "grievanceTypes": {
+      "individual": "Individuel",
+      "group": "Groupe",
+      "policy": "Syndicat / politique"
+    },
+    "memberNames": "Nom(s) du ou des membres",
+    "memberNamesHint": "Pour un dossier de groupe, listez les noms séparés par des virgules ou des lignes.",
+    "summary": "Résumé du problème",
+    "intakeHeading": "Faits de prise en charge (6 W + réparation)",
+    "intakeWho": "Qui",
+    "intakeWhat": "Quoi",
+    "intakeWhen": "Quand",
+    "intakeWhere": "Où",
+    "intakeWhy": "Pourquoi",
+    "intakeHow": "Comment",
+    "intakeRemedy": "Réparation demandée",
+    "linkedSnippets": "Articles de la convention violés",
+    "linkedSnippetsHint": "Sélectionnez des clauses dans la bibliothèque d’extraits de votre section. Le texte complet est instantané sur ce dossier pour l’export.",
     "allGrievances": "Tous les griefs",
     "overdueTitle": "En retard",
     "empty": "Aucun grief pour le moment. Créez-en un lorsqu’un membre soulève un dossier.",
@@ -10037,6 +10085,10 @@
       "remedy": "Réparation",
       "settlementTerms": "Conditions du règlement",
       "arbitratorName": "Arbitre",
+      "mediatorName": "Médiateur",
+      "sentToArbitration": "Envoyé en arbitrage?",
+      "sentToArbitrationYes": "Envoyé en arbitrage",
+      "sentToArbitrationAt": "Date d’envoi en arbitrage",
       "hearingDate": "Date d’audience",
       "decidedAt": "Date de la décision",
       "record": "Enregistrer le résultat",

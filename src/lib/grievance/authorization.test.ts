@@ -16,6 +16,7 @@ const BASE_CASE: Grievance = {
   updatedAt: "2026-09-02T00:00:00.000Z",
   memberPseudonym: "Member A",
   privacyMode: "standard",
+  workflowStage: "formal",
 };
 
 function actor(input: Partial<AuthorizationActor> = {}): AuthorizationActor {

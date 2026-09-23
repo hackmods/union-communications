@@ -16,7 +16,7 @@ import {
   canCreateInformalLog,
   canDeleteInformalLog,
 } from "@/lib/informal-log/access";
-import type { InformalLogEntry } from "@/types/informal-log";
+import type { InformalLogEntry, InformalLogVisibility } from "@/types/informal-log";
 import type { CommunicationChannel } from "@/types/qol";
 import type { UserRole } from "@/types/tenant";
 
@@ -26,6 +26,12 @@ const CHANNELS: CommunicationChannel[] = [
   "phone",
   "letter",
   "other",
+];
+
+const VISIBILITY_OPTIONS: InformalLogVisibility[] = [
+  "private",
+  "local_executive",
+  "area_officer",
 ];
 
 function toLocalInputValue(iso: string): string {
@@ -57,6 +63,8 @@ export function InformalLogBoard() {
   const [summary, setSummary] = useState("");
   const [channel, setChannel] = useState<CommunicationChannel>("in_person");
   const [memberPseudonym, setMemberPseudonym] = useState("");
+  const [visibility, setVisibility] =
+    useState<InformalLogVisibility>("local_executive");
   const [occurredAt, setOccurredAt] = useState(() =>
     toLocalInputValue(new Date().toISOString()),
   );
@@ -99,6 +107,7 @@ export function InformalLogBoard() {
         topic,
         summary,
         channel,
+        visibility,
         occurredAt: new Date(occurredAt).toISOString(),
         ...(memberPseudonym.trim()
           ? { memberPseudonym: memberPseudonym.trim() }
@@ -110,6 +119,7 @@ export function InformalLogBoard() {
       setSummary("");
       setChannel("in_person");
       setMemberPseudonym("");
+      setVisibility("local_executive");
       setOccurredAt(toLocalInputValue(new Date().toISOString()));
       setShowForm(false);
       setMessage(t("created"));
@@ -265,6 +275,21 @@ export function InformalLogBoard() {
                 </option>
               ))}
             </Select>
+            <Select
+              label={t("fields.visibility")}
+              value={visibility}
+              onChange={(e) =>
+                setVisibility(e.target.value as InformalLogVisibility)
+              }
+              required
+            >
+              {VISIBILITY_OPTIONS.map((v) => (
+                <option key={v} value={v}>
+                  {t(`visibility.${v}`)}
+                </option>
+              ))}
+            </Select>
+            <p className="text-sm text-gray-600">{t("visibilityHint")}</p>
             <Input
               label={t("fields.occurredAt")}
               type="datetime-local"
@@ -306,6 +331,13 @@ export function InformalLogBoard() {
                           channel: t(`channel.${entry.channel}`),
                           when: new Date(entry.occurredAt).toLocaleString(),
                           by: entry.loggedByName,
+                        })}
+                      </p>
+                      <p className="text-sm font-medium text-opseu-dark">
+                        {t("visibilityLabel", {
+                          level: t(
+                            `visibility.${entry.visibility ?? "local_executive"}`,
+                          ),
                         })}
                       </p>
                       {entry.memberPseudonym && (

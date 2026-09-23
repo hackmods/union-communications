@@ -7344,6 +7344,14 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "grievance-workflow-uplift": {
+        "title": "Grievance intake and formal stages",
+        "body": "Officer Hub grievances now start as Stage 1 intake (6 W’s, CA clause links, Brand Kit local labels) and advance to Stage 2 formal files with CA step clocks, file numbers, and Brand Kit–coloured export summaries."
+      },
+      "informal-log-visibility": {
+        "title": "Quick-Log visibility levels",
+        "body": "Steward Quick-Log entries now require a visibility choice before save: private, local executive and stewards, or area representative / officer."
+      },
       "branding-local-feedback": {
         "title": "Home headline and Explore Platform Features",
         "body": "The home page now leads with “Built for Unions. Shaped by Local Feedback.” and adds Explore Platform Features beside Set up Brand Kit, so you can open the Create catalog in one tap."
@@ -9456,9 +9464,17 @@
       "memberPseudonym": "Member (pseudonym)",
       "memberPseudonymHint": "Optional — avoid real names when possible",
       "channel": "Channel",
+      "visibility": "Visibility / access level",
       "occurredAt": "When it happened",
       "summary": "Summary"
     },
+    "visibility": {
+      "private": "Private (only me)",
+      "local_executive": "Local executive & stewards",
+      "area_officer": "Area representative / officer"
+    },
+    "visibilityHint": "Choose who can see this note before you save. Private notes stay with you unless platform break-glass is used.",
+    "visibilityLabel": "Access: {level}",
     "channel": {
       "email": "Email",
       "phone": "Phone",
@@ -9932,6 +9948,38 @@
     "loading": "Loading grievances...",
     "loadError": "Could not load grievances. Refresh and try again.",
     "newGrievance": "New grievance",
+    "newGrievanceHint": "Start as intake to capture facts, or open a formal file when Step 1 clocks should run. Local and unit labels prefill from your Brand Kit — edit before saving.",
+    "workflowStageLabel": "Workflow stage",
+    "workflowStageHint": "Intake is Stage 1 (facts and assessment). Formal is Stage 2 (CA step tracking and printable export).",
+    "workflowStage": {
+      "intake": "Stage 1 — Intake",
+      "formal": "Stage 2 — Formal file"
+    },
+    "advanceToFormal": "Advance to formal file",
+    "intakeStageHint": "This file is still in intake. CA step clocks start after you advance to a formal file.",
+    "localLabel": "Local / unit label",
+    "localLabelHint": "Prefills from Brand Kit (Local {number}). Saved on the file so exports stay stable if Brand Kit changes.",
+    "unitLabel": "Collection / unit",
+    "unitLabelHint": "Prefills from Brand Kit collection or sub-text when set.",
+    "grievanceType": "Grievance type",
+    "grievanceTypes": {
+      "individual": "Individual",
+      "group": "Group",
+      "policy": "Union / policy"
+    },
+    "memberNames": "Member name(s)",
+    "memberNamesHint": "For group files, list names separated by commas or new lines.",
+    "summary": "Issue summary",
+    "intakeHeading": "Intake facts (6 W’s + remedy)",
+    "intakeWho": "Who",
+    "intakeWhat": "What",
+    "intakeWhen": "When",
+    "intakeWhere": "Where",
+    "intakeWhy": "Why",
+    "intakeHow": "How",
+    "intakeRemedy": "Remedy sought",
+    "linkedSnippets": "CA articles violated",
+    "linkedSnippetsHint": "Select clauses from your local CA snippet library. Full text is snapshotted onto this file for export.",
     "allGrievances": "All grievances",
     "overdueTitle": "Overdue",
     "empty": "No grievances yet. Create one when a member raises a case.",
@@ -10090,6 +10138,10 @@
       "remedy": "Remedy",
       "settlementTerms": "Settlement terms",
       "arbitratorName": "Arbitrator",
+      "mediatorName": "Mediator",
+      "sentToArbitration": "Sent to arbitration?",
+      "sentToArbitrationYes": "Sent to arbitration",
+      "sentToArbitrationAt": "Date sent to arbitration",
       "hearingDate": "Hearing date",
       "decidedAt": "Decision date",
       "record": "Record outcome",

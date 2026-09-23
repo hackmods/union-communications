@@ -30,6 +30,7 @@ function grievance(partial: Partial<Grievance> & Pick<Grievance, "id">): Grievan
     assignedStewardId: "s1",
     createdById: "s1",
     updatedAt: "2026-02-01T12:00:00.000Z",
+    workflowStage: "formal",
     ...partial,
   };
 }

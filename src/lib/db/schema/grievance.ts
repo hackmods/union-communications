@@ -1,11 +1,20 @@
 import {
+  boolean,
   index,
   integer,
+  jsonb,
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { bargainingUnits, locals, unions, users } from "./tenant";
+import type {
+  GrievanceIntake,
+  GrievanceLinkedSnippet,
+  GrievanceType,
+  GrievanceWorkflowStage,
+} from "@/types/grievance";
 
 export const grievances = pgTable(
   "grievances",
@@ -34,10 +43,28 @@ export const grievances = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
+    /** Existing rows backfilled to `formal`; new creates default to intake in adapters. */
+    workflowStage: text("workflow_stage")
+      .notNull()
+      .default("formal")
+      .$type<GrievanceWorkflowStage>(),
+    fileNumber: text("file_number"),
+    grievanceType: text("grievance_type").$type<GrievanceType>(),
+    memberNames: jsonb("member_names").$type<string[]>(),
+    summary: text("summary"),
+    intake: jsonb("intake").$type<GrievanceIntake>(),
+    linkedSnippets: jsonb("linked_snippets").$type<GrievanceLinkedSnippet[]>(),
+    localLabel: text("local_label"),
+    unitLabel: text("unit_label"),
   },
   (t) => [
     index("grievances_union_local_idx").on(t.unionId, t.localId),
     index("grievances_steward_idx").on(t.assignedStewardId),
+    uniqueIndex("grievances_union_local_file_number_uidx").on(
+      t.unionId,
+      t.localId,
+      t.fileNumber,
+    ),
   ],
 );
 
@@ -80,7 +107,10 @@ export const grievanceOutcomes = pgTable("grievance_outcomes", {
   remedy: text("remedy"),
   settlementTerms: text("settlement_terms"),
   arbitratorName: text("arbitrator_name"),
+  mediatorName: text("mediator_name"),
   hearingDate: timestamp("hearing_date", { withTimezone: true }),
   decidedAt: timestamp("decided_at", { withTimezone: true }).notNull(),
   recordedById: text("recorded_by_id").notNull(),
+  sentToArbitration: boolean("sent_to_arbitration").notNull().default(false),
+  sentToArbitrationAt: timestamp("sent_to_arbitration_at", { withTimezone: true }),
 });

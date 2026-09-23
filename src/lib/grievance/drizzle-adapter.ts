@@ -10,6 +10,7 @@ import {
   scheduledMeetings,
 } from "@/lib/db/schema";
 import type { GrievanceAdapter } from "./adapter";
+import { nextGrievanceFileNumber } from "./file-number";
 import type {
   CreateEventInput,
   CreateGrievanceInput,
@@ -22,7 +23,9 @@ import type {
   GrievanceOutcome,
   GrievanceOutcomeType,
   GrievanceStatus,
+  GrievanceType,
   GrievanceWithRelations,
+  GrievanceWorkflowStage,
   UpdateGrievanceInput,
 } from "@/types/grievance";
 import type {
@@ -59,6 +62,15 @@ function mapGrievance(row: typeof grievances.$inferSelect): Grievance {
     assignedStewardId: row.assignedStewardId,
     createdById: row.createdById,
     updatedAt: toIso(row.updatedAt)!,
+    workflowStage: (row.workflowStage ?? "formal") as GrievanceWorkflowStage,
+    fileNumber: row.fileNumber ?? undefined,
+    grievanceType: (row.grievanceType ?? undefined) as GrievanceType | undefined,
+    memberNames: row.memberNames ?? undefined,
+    summary: row.summary ?? undefined,
+    intake: row.intake ?? undefined,
+    linkedSnippets: row.linkedSnippets ?? undefined,
+    localLabel: row.localLabel ?? undefined,
+    unitLabel: row.unitLabel ?? undefined,
   };
 }
 
@@ -96,9 +108,12 @@ function mapOutcome(
     remedy: row.remedy ?? undefined,
     settlementTerms: row.settlementTerms ?? undefined,
     arbitratorName: row.arbitratorName ?? undefined,
+    mediatorName: row.mediatorName ?? undefined,
     hearingDate: toIso(row.hearingDate),
     decidedAt: toIso(row.decidedAt)!,
     recordedById: row.recordedById,
+    sentToArbitration: row.sentToArbitration ?? undefined,
+    sentToArbitrationAt: toIso(row.sentToArbitrationAt),
   };
 }
 
@@ -241,6 +256,25 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
     const grievanceId = newId("grev");
     const eventId = newId("evt");
     const filedAt = new Date(input.filedAt);
+    const workflowStage = input.workflowStage ?? "intake";
+    const year = filedAt.getFullYear() || now.getFullYear();
+
+    let fileNumber = input.fileNumber;
+    if (!fileNumber) {
+      const existingNumbers = await db
+        .select({ fileNumber: grievances.fileNumber })
+        .from(grievances)
+        .where(
+          and(
+            eq(grievances.unionId, meta.unionId),
+            eq(grievances.localId, meta.localId),
+          ),
+        );
+      fileNumber = nextGrievanceFileNumber(
+        existingNumbers.map((r) => r.fileNumber),
+        year,
+      );
+    }
 
     await db.insert(grievances).values({
       id: grievanceId,
@@ -257,6 +291,15 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
       assignedStewardId: meta.assignedStewardId,
       createdById: meta.createdById,
       updatedAt: now,
+      workflowStage,
+      fileNumber,
+      grievanceType: input.grievanceType,
+      memberNames: input.memberNames,
+      summary: input.summary,
+      intake: input.intake,
+      linkedSnippets: input.linkedSnippets,
+      localLabel: input.localLabel,
+      unitLabel: input.unitLabel,
     });
 
     await db.insert(grievanceEvents).values({
@@ -300,6 +343,34 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
     if (input.resolvedAt !== undefined) {
       patch.resolvedAt =
         input.resolvedAt === null ? null : new Date(input.resolvedAt);
+    }
+    if (input.workflowStage !== undefined) {
+      patch.workflowStage = input.workflowStage;
+    }
+    if (input.fileNumber !== undefined) patch.fileNumber = input.fileNumber;
+    if (input.grievanceType !== undefined) {
+      patch.grievanceType =
+        input.grievanceType === null ? null : input.grievanceType;
+    }
+    if (input.memberNames !== undefined) {
+      patch.memberNames =
+        input.memberNames === null ? null : input.memberNames;
+    }
+    if (input.summary !== undefined) {
+      patch.summary = input.summary === null ? null : input.summary;
+    }
+    if (input.intake !== undefined) {
+      patch.intake = input.intake === null ? null : input.intake;
+    }
+    if (input.linkedSnippets !== undefined) {
+      patch.linkedSnippets =
+        input.linkedSnippets === null ? null : input.linkedSnippets;
+    }
+    if (input.localLabel !== undefined) {
+      patch.localLabel = input.localLabel === null ? null : input.localLabel;
+    }
+    if (input.unitLabel !== undefined) {
+      patch.unitLabel = input.unitLabel === null ? null : input.unitLabel;
     }
 
     await db
@@ -408,9 +479,14 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
           remedy: input.remedy,
           settlementTerms: input.settlementTerms,
           arbitratorName: input.arbitratorName,
+          mediatorName: input.mediatorName,
           hearingDate,
           decidedAt,
           recordedById: meta.recordedById,
+          sentToArbitration: input.sentToArbitration ?? false,
+          sentToArbitrationAt: input.sentToArbitrationAt
+            ? new Date(input.sentToArbitrationAt)
+            : null,
         })
         .where(eq(grievanceOutcomes.grievanceId, grievanceId));
     } else {
@@ -421,9 +497,14 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
         remedy: input.remedy,
         settlementTerms: input.settlementTerms,
         arbitratorName: input.arbitratorName,
+        mediatorName: input.mediatorName,
         hearingDate,
         decidedAt,
         recordedById: meta.recordedById,
+        sentToArbitration: input.sentToArbitration ?? false,
+        sentToArbitrationAt: input.sentToArbitrationAt
+          ? new Date(input.sentToArbitrationAt)
+          : null,
       });
     }
 
@@ -434,9 +515,12 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
       remedy: input.remedy,
       settlementTerms: input.settlementTerms,
       arbitratorName: input.arbitratorName,
+      mediatorName: input.mediatorName,
       hearingDate: input.hearingDate,
       decidedAt: input.decidedAt,
       recordedById: meta.recordedById,
+      sentToArbitration: input.sentToArbitration,
+      sentToArbitrationAt: input.sentToArbitrationAt,
     };
   }
 
@@ -584,6 +668,15 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
           filedAt: new Date(g.filedAt),
           resolvedAt: g.resolvedAt ? new Date(g.resolvedAt) : null,
           updatedAt: new Date(g.updatedAt),
+          workflowStage: g.workflowStage ?? "formal",
+          fileNumber: g.fileNumber,
+          grievanceType: g.grievanceType,
+          memberNames: g.memberNames,
+          summary: g.summary,
+          intake: g.intake,
+          linkedSnippets: g.linkedSnippets,
+          localLabel: g.localLabel,
+          unitLabel: g.unitLabel,
         }).where(eq(grievances.id, g.id));
       } else {
         await db.insert(grievances).values({
@@ -602,6 +695,15 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
           assignedStewardId: g.assignedStewardId,
           createdById: g.createdById,
           updatedAt: new Date(g.updatedAt),
+          workflowStage: g.workflowStage ?? "formal",
+          fileNumber: g.fileNumber,
+          grievanceType: g.grievanceType,
+          memberNames: g.memberNames,
+          summary: g.summary,
+          intake: g.intake,
+          linkedSnippets: g.linkedSnippets,
+          localLabel: g.localLabel,
+          unitLabel: g.unitLabel,
         });
       }
 

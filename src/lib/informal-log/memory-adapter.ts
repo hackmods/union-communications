@@ -21,6 +21,7 @@ function seedEntries(): InformalLogEntry[] {
       occurredAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
       loggedById: "user-steward-7",
       loggedByName: "Local 777 Steward",
+      visibility: "local_executive",
       createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
     },
     {
@@ -35,6 +36,7 @@ function seedEntries(): InformalLogEntry[] {
       occurredAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
       loggedById: "user-steward-7",
       loggedByName: "Local 777 Steward",
+      visibility: "private",
       createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     },
     {
@@ -50,6 +52,7 @@ function seedEntries(): InformalLogEntry[] {
       occurredAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
       loggedById: "user-steward-7-pt",
       loggedByName: "Local 777 Steward (PT)",
+      visibility: "area_officer",
       createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
     },
   ];
@@ -109,6 +112,7 @@ export class MemoryInformalLogAdapter implements InformalLogAdapter {
       occurredAt: input.occurredAt,
       loggedById: meta.loggedById,
       loggedByName: meta.loggedByName,
+      visibility: input.visibility,
       createdAt: new Date().toISOString(),
     };
     entries.push(entry);
@@ -141,6 +145,7 @@ export class MemoryInformalLogAdapter implements InformalLogAdapter {
           ? undefined
           : input.convertedToGrievanceId;
     }
+    if (input.visibility !== undefined) next.visibility = input.visibility;
     entries[idx] = next;
     return next;
   }
