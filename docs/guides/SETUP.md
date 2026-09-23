@@ -1,6 +1,6 @@
 # Local setup
 
-UnionOps — stewarded by Ryan Morris. Source-available; see [`LICENSE`](../../LICENSE).
+UnionOps — stewarded by Ryan Morris. Proprietary; see [`LICENSE`](../../LICENSE). Future source-available track: [`LICENSING.md`](LICENSING.md).
 
 ## Requirements
 

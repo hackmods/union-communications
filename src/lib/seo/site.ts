@@ -8,12 +8,12 @@ export const SITE_NAME = "UnionOps";
 const hubPublic = isOfficerHubPublic();
 
 export const SITE_TITLE = hubPublic
-  ? "UnionOps | Toolkit for locals and unions"
-  : "UnionOps | Toolkit for union locals";
+  ? "UnionOps | Built for unions"
+  : "UnionOps | Built for union locals";
 
 export const SITE_DESCRIPTION = hubPublic
-  ? "Communications, steward training, and officer playbooks. Comms stay free on your device. Hosted Officer Hub has a hosting cost."
-  : "Communications, steward training, and officer playbooks for union locals. They stay on your device: no ads, nobody harvesting your data.";
+  ? "Practical, privacy-focused tools for membership, steward workflows, and union communications. Comms stay free on your device. Hosted Officer Hub has a hosting cost."
+  : "Practical, privacy-focused tools for membership, steward workflows, and union communications. They stay on your device: no ads, nobody harvesting your data.";
 
 export const SITE_KEYWORDS = [
   "union grievance tracker",
@@ -46,8 +46,8 @@ export const SAFARI_PINNED_TAB_PATH = "/safari-pinned-tab.svg";
 export const SAFARI_PINNED_TAB_COLOR = BRAND_COLORS.primary;
 
 export const SHARE_BLURB = hubPublic
-  ? "UnionOps is a toolkit for a local or a union. Comms stay free on your device, stewarded by Ryan Morris. If we host Officer Hub or Local Portal, hosting has a cost, and you control who sees that data. No ads, nobody harvesting your data. Solidarity."
-  : "UnionOps is a toolkit for a local or a union. Comms stay free on your device, stewarded by Ryan Morris. No ads, nobody harvesting your data. If we host Officer Hub or Local Portal, hosting has a cost. Self-host stays an option. Solidarity.";
+  ? "UnionOps is dedicated software for membership, steward workflows, and union communications. Comms stay free on your device, stewarded by Ryan Morris. If we host Officer Hub or Local Portal, hosting has a cost, and you control who sees that data. No ads, nobody harvesting your data. Solidarity."
+  : "UnionOps is dedicated software for membership, steward workflows, and union communications. Comms stay free on your device, stewarded by Ryan Morris. No ads, nobody harvesting your data. If we host Officer Hub or Local Portal, hosting has a cost. Solidarity.";
 
 export type AppLocale = "en" | "fr";
 

@@ -71,9 +71,16 @@ export function HomeContent() {
             <p className="mt-4 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
               {t(hubAvailable ? "subtitle" : "subtitleCommsOnly")}
             </p>
-            <div className="mt-7">
+            <div className="mt-7 flex flex-wrap items-center gap-3">
               <ButtonLink href={primaryHref} variant="outline" className="border-white bg-white text-opseu-dark hover:bg-white/90">
                 {primaryCta}
+              </ButtonLink>
+              <ButtonLink
+                href="/create"
+                variant="outline"
+                className="border-white/70 bg-transparent text-white hover:bg-white/10"
+              >
+                {t("exploreFeaturesCta")}
               </ButtonLink>
             </div>
           </div>

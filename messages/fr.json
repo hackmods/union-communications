@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "UnionOps | Outils pour sections et syndicats",
-    "titleCommsOnly": "UnionOps | Outils pour sections locales",
-    "description": "Communications, formation des délégués et guides pour dirigeants. Les outils Comms restent gratuits sur votre appareil. Un Hub des dirigeants hébergé a un coût.",
-    "descriptionCommsOnly": "Communications, formation des délégués et guides pour dirigeants. Ils restent sur votre appareil : pas de pubs, personne ne récolte vos données."
+    "title": "UnionOps | Conçu pour les syndicats",
+    "titleCommsOnly": "UnionOps | Conçu pour les sections locales",
+    "description": "Outils pratiques et axés sur la confidentialité pour l’adhésion, le travail des délégués et les communications syndicales. Les outils Comms restent gratuits sur votre appareil. Un Hub des dirigeants hébergé a un coût.",
+    "descriptionCommsOnly": "Outils pratiques et axés sur la confidentialité pour l’adhésion, le travail des délégués et les communications syndicales. Ils restent sur votre appareil : pas de pubs, personne ne récolte vos données."
   },
   "nav": {
     "home": "Accueil",
@@ -267,12 +267,13 @@
     "whenToUse": "À utiliser en premier pour créer une plaque logo locale, puis enregistrez-la dans la Trousse de marque pour que tous les outils s’accordent."
   },
   "home": {
-    "title": "UnionOps : outils pour sections et syndicats",
-    "headline": "Outils et guides pour votre section locale",
-    "subtitle": "Configurez la Trousse de marque de votre section, créez des communications pour les membres et trouvez des conseils pour les délégués et les dirigeants.",
-    "subtitleCommsOnly": "Configurez la Trousse de marque de votre section, créez des communications pour les membres et consultez les guides pratiques. Les brouillons restent dans votre navigateur.",
+    "title": "UnionOps : logiciel dédié aux syndicats et sections locales",
+    "headline": "Conçu pour les syndicats. Façonné par les retours des sections.",
+    "subtitle": "Des outils pratiques et axés sur la confidentialité, conçus spécifiquement pour les dirigeants locaux, les délégués syndicaux et les comités de négociation.",
+    "subtitleCommsOnly": "Des outils pratiques et axés sur la confidentialité, conçus spécifiquement pour les dirigeants locaux, les délégués syndicaux et les comités de négociation. Les brouillons restent dans votre navigateur.",
     "primaryCta": "Configurer la Trousse de marque",
     "openToolsCta": "Créer des documents",
+    "exploreFeaturesCta": "Explorer les fonctions de la plateforme",
     "guidedSetupCta": "Ouvrir la configuration guidée",
     "workflowEyebrow": "Ordre recommandé",
     "workflowTitle": "Suivez ces trois étapes",
@@ -7243,13 +7244,13 @@
     "noSubsTitle": "Les Comms restent gratuites :",
     "noSubsBody": "Les guides, les tracts, la Trousse de marque et les autres outils publics restent gratuits. Ils restent sur votre appareil. Pas de pubs, pas de pistage, pas de mur payant sur une affiche.",
     "hostingTitle": "L'hébergement a un coût :",
-    "hostingBody": "Le Hub des dirigeants et le Portail local contiennent de vrais dossiers. Si nous les hébergeons pour une section, nous devons couvrir cet hébergement. Nous demanderons assez pour garder le service en ligne, pas pour vous enfermer. Vous pouvez aussi l'héberger vous-même.",
+    "hostingBody": "Le Hub des dirigeants et le Portail local contiennent de vrais dossiers. Si nous les hébergeons pour une section, nous devons couvrir cet hébergement. Nous demanderons assez pour garder le service en ligne, pas pour vous enfermer.",
     "noDataTitle": "Pas de collecte de données :",
     "noDataBody": "Graphiques Comms et Trousse de marque restent sur votre appareil. Si vous hébergez un Hub des dirigeants, cet hôte détient les dossiers et en est le responsable.",
     "noDataBodyCommsOnly": "Nous ne collectons pas vos données ni ne vendons de pubs. Les Comms restent dans votre navigateur. Pas d’investisseurs à enrichir, pas de modèle d’affaires basé sur la surveillance.",
     "noAdsTitle": "Pas de pubs, pas de pistage :",
     "noAdsBody": "On ne vend pas votre attention.",
-    "closing": "UnionOps est bâti par des bénévoles syndicaux qui voulaient une vraie trousse d'outils pour une section — ou tout un syndicat — qui fait le vrai travail sur le terrain.",
+    "closing": "UnionOps est conçu pour les syndicats et façonné en continu par les retours des délégués et des dirigeants locaux — un logiciel dédié à l’adhésion, au travail des délégués et aux communications syndicales.",
     "slogan": "Solidarity.",
     "supportLead": "Si les outils publics vous ont aidé et que vous voulez contribuer pour un café ou le site public,",
     "supportLink": "il y a une page Soutien discrète.",
@@ -7290,6 +7291,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "branding-local-feedback": {
+        "title": "Titre d’accueil et Explorer les fonctions de la plateforme",
+        "body": "La page d’accueil mène maintenant avec « Conçu pour les syndicats. Façonné par les retours des sections. » et ajoute Explorer les fonctions de la plateforme à côté de Configurer la Trousse de marque, pour ouvrir le catalogue Créer en un tap."
+      },
       "steward-ux-brand-letters": {
         "title": "Générateur de lettres, catalogue Création et confirmations de la Trousse",
         "body": "Le générateur de lettres, le constructeur de formulaires de grief, les extraits de convention et le journal rapide du délégué sont dans Création et Utilitaire. La Trousse indique la complétion et confirme l'enregistrement. Les lettres gardent salutations, QR facultatif et espacement d'impression. Les outils graphiques et d'affichage peuvent essayer les dispositions des jetons avancés sans changer votre Trousse."
@@ -7733,7 +7738,7 @@
     }
   },
   "footer": {
-    "madeBy": "UnionOps. Créé par des bénévoles syndicaux pour les sections locales.",
+    "madeBy": "© UnionOps. Conçu pour les syndicats et raffiné grâce aux retours des sections.",
     "privacy": "Comms sur l'appareil ; vous contrôlez votre Hub des dirigeants",
     "privacyCommsOnly": "Les Comms restent sur votre appareil. Pas de pubs ni de pistage.",
     "installApp": "Installer comme application"
@@ -11072,12 +11077,12 @@
     "comms4": "Les photos de membres dans les graphiques ne sont pas téléversées vers les serveurs UnionOps par les outils Comms",
     "hubTitle": "Hub des dirigeants (instance hébergée)",
     "hubIntro": "Quand vous vous connectez, ce Hub conserve votre session et vos dossiers. Les démos peuvent perdre les données au redémarrage ; en production, les dossiers de chaque syndicat restent sécurisés et séparés.",
-    "hubSelfHost": "Si vous auto-hébergez (CapRover / Docker), vous êtes le responsable des données. Préférez un hébergement canadien pour le confidentiel. AUTH_SECRET unique. Pas de mots de passe de démo pour de vrais dossiers.",
+    "hubSelfHost": "Si vous exploitez une instance hébergée du Hub des dirigeants, vous êtes le responsable des données. Utilisez le contrôle d’accès fondé sur les rôles, définissez un AUTH_SECRET unique et n’utilisez jamais de mots de passe de démo pour de vrais dossiers.",
     "hubHybrid": "Les phrases de passe d’export hybride restent dans le navigateur. Elles ne partent pas vers le serveur dans le flux de chiffrement.",
     "hubDemo": "Les comptes de démo sont pour ateliers et CI seulement, pas pour des dossiers confidentiels réels.",
     "ontarioTitle": "Législation ontarienne sur la vie privée",
-    "ontarioHub": "Conçu autour de la LPRPDE et, le cas échéant, de la LAIPVP. Comms sur l’appareil. Les hôtes de Hub appliquent contrôle d’accès, conservation et pratiques de violation pour les dossiers syndicaux.",
-    "ontarioCommsOnly": "UnionOps s’appuie sur les principes canadiens de confidentialité, dont la LPRPDE et, le cas échéant, la LAIPVP. Les outils Comms réduisent la collecte en restant sur l’appareil.",
+    "ontarioHub": "Traitement des données axé sur la confidentialité, avec contrôles d’accès fondés sur les rôles. Les hôtes doivent tenir compte des cadres canadiens comme la LPRPDE et, le cas échéant, la LAIPVP — y compris contrôle d’accès, conservation et pratiques de violation pour les dossiers syndicaux. Les Comms restent sur l’appareil.",
+    "ontarioCommsOnly": "Traitement des données axé sur la confidentialité, avec contrôles d’accès fondés sur les rôles. Les outils Comms réduisent la collecte en restant sur l’appareil. Les cadres canadiens comme la LPRPDE et, le cas échéant, la LAIPVP décrivent ces attentes.",
     "contactTitle": "Contact",
     "contactBody": "UnionOps est géré par Ryan Morris. Pour des questions sur cette politique, contactez la présidence des communications de votre section ou voir Soutien.",
     "supportLink": "Soutien",
@@ -11125,7 +11130,7 @@
     "operatorTitle": "Si vous opérez cet hôte",
     "operator1": "Définissez un AUTH_SECRET unique; désactivez les connexions de démo avant de vrais dossiers",
     "operator2": "Basculez Postgres et vérifiez avec /api/health avant de faire confiance à la durabilité",
-    "operator3": "Préférez un hébergement canadien pour les dossiers syndicaux; suivez le plan d'intervention en cas de brèche dans nos docs opérateur",
+    "operator3": "Appliquez le contrôle d’accès fondé sur les rôles et des pratiques de conservation pour les dossiers syndicaux; suivez le plan d’intervention en cas de brèche dans nos docs opérateur",
     "operator4": "Signalez les vulnérabilités suspectées en privé via Soutien — pas d'enjeux publics GitHub",
     "reportTitle": "Signaler une vulnérabilité",
     "reportBody": "Si vous avez trouvé un contournement d'authentification, une fuite de données ou une injection, contactez le responsable en privé via",

@@ -57,9 +57,9 @@ This toolkit fills the gap without replacing national union ERP, membership, or 
 
 ## What stays free
 
-Public **Comms** tools stay free: they run on the volunteer’s device, with no ads and no paywall on a poster. Self-host remains permitted under [`LICENSE`](../LICENSE) — the local pays its own server.
+Public **Comms** tools stay free: they run on the volunteer’s device, with no ads and no paywall on a poster.
 
-**Officer Hub** and **Local Portal** hold real case files. If UnionOps hosts those for a local, hosting has a cost (enough to keep the service online, not a lock-in subscription). Do not tell volunteers the whole platform is “free forever.” Public copy lives on `/manifesto` (ADR-019).
+**Officer Hub** and **Local Portal** hold real case files. If UnionOps hosts those for a local, hosting has a cost (enough to keep the service online, not a lock-in subscription). Do not tell volunteers the whole platform is “free forever.” Public copy lives on `/manifesto` (ADR-019). Source code on `main` is proprietary — see [`LICENSE`](../LICENSE) and [`docs/guides/LICENSING.md`](guides/LICENSING.md).
 
 ## Non-Goals
 
@@ -82,7 +82,7 @@ Public **Comms** tools stay free: they run on the volunteer’s device, with no 
 ## Repo / Naming
 
 - **Public brand:** UnionOps (https://unionops.org); package name remains `local-union-hub`
-- **Stewardship:** UnionOps — stewarded by Ryan Morris (source-available; see `LICENSE`)
+- **Stewardship:** UnionOps — stewarded by Ryan Morris (proprietary; see `LICENSE`; future track in `docs/guides/LICENSING.md`)
 - **UI branding:** Platform name is UnionOps; union name from tenant config after login
 - **Operator docs:** [`docs/guides/SETUP.md`](guides/SETUP.md), [`docs/guides/DEPLOY.md`](guides/DEPLOY.md)
 - **v1 code debt:** OPSEU/CAAT strings migrate to tenant config in Phase 1 - see `docs/modules/COMMS.md`

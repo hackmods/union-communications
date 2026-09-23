@@ -9,7 +9,8 @@
 <p align="center">
   Free Comms tools for union stewards and officers — on-device communications,<br />
   plus Officer Hub and Local Portal for casework. Multi-union by design.<br />
-  Comms stay free. Hosted Officer Hub or Local Portal has a cost. Self-host stays an option.
+  UnionOps: Practical, privacy-focused management tools built for labour unions and locals.<br />
+  Comms stay free. Hosted Officer Hub or Local Portal has a cost.
 </p>
 
 <p align="center">
@@ -17,12 +18,12 @@
   ·
   <a href="https://unionops.org/en">Try Comms</a>
   ·
-  <a href="docs/guides/SETUP.md">Self-host</a>
+  <a href="docs/guides/SETUP.md">Operator setup</a>
 </p>
 
 <p align="center">
   <a href="https://github.com/hackmods/union-communications/actions/workflows/ci.yml"><img src="https://github.com/hackmods/union-communications/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Source--Available-blue" alt="License" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Proprietary-red" alt="License" /></a>
   <a href="https://github.com/hackmods/union-communications/pkgs/container/union-communications"><img src="https://img.shields.io/badge/image-ghcr.io%2Fhackmods%2Funion--communications-black" alt="GHCR" /></a>
   <img src="https://img.shields.io/badge/EN%2FFR-bilingual-brightgreen" alt="Bilingual EN/FR" />
   <img src="https://img.shields.io/badge/node-%3E%3D24-brightgreen" alt="Node" />
@@ -32,7 +33,7 @@
   <img src="public/og-image.png" alt="UnionOps — Solidarity." width="640" />
 </p>
 
-**Stewarded by Ryan Morris.** Source-available · all rights reserved · [LICENSE](LICENSE)
+**Stewarded by Ryan Morris.** Proprietary · all rights reserved · [LICENSE](LICENSE) · [Licensing track](docs/guides/LICENSING.md)
 
 OPSEU/CAAT is the **first adopter** (reference tenant seed), not a platform default. Any union can run with their own branding, CA steps, and enabled modules.
 
@@ -44,9 +45,9 @@ OPSEU/CAAT is the **first adopter** (reference tenant seed), not a platform defa
 |---|---|---|
 | **Who** | Stewards, communicators, any local | Officers, stewards, stability committees |
 | **Where** | Public site — no account required | Authenticated `/app` (Auth.js + MFA) |
-| **Data** | Browser-side; Brand Kit in `localStorage` | Hosted by **you** or by UnionOps; that host is the data controller |
-| **Cost** | **Free.** No ads, no paywall on a poster. | Self-host: your server. If UnionOps hosts it for a local, hosting has a cost — enough to cover it, not a lock-in fee. |
-| **Try it** | [unionops.org](https://unionops.org/en) | Self-host or local demo logins below |
+| **Data** | Browser-side; Brand Kit in `localStorage` | Hosted by UnionOps (or an authorized operator); that host is the data controller |
+| **Cost** | **Free.** No ads, no paywall on a poster. | If UnionOps hosts it for a local, hosting has a cost — enough to cover it, not a lock-in fee. |
+| **Try it** | [unionops.org](https://unionops.org/en) | Local demo logins below (dev / CI) |
 
 ---
 
@@ -101,7 +102,7 @@ UnionOps is **local-first for Comms**, not “no servers ever.”
 | Surface | What happens to data |
 |---------|----------------------|
 | **Comms tools** | Graphics, brand kit, and uploads stay in your browser. No analytics. |
-| **Officer Hub you host** | Sessions and hub records live on **that instance**. You are the data controller. Prefer Canadian hosting for confidential modules. |
+| **Officer Hub (hosted instance)** | Sessions and hub records live on **that instance**. The instance operator is the data controller. Use role-based access control and a unique `AUTH_SECRET`. |
 | **Demo / CI accounts** | Workshop and test only — not for real member case files. |
 
 Full policy: [Privacy](https://unionops.org/en/privacy) · [Security](https://unionops.org/en/security) · [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) · [`docs/guides/HOSTED_SECURITY.md`](docs/guides/HOSTED_SECURITY.md) · [`SECURITY.md`](SECURITY.md)
@@ -164,11 +165,12 @@ See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/PROGRESS.md`](docs/PROGRESS.
 | [Vision](docs/VISION.md) | Multi-union product scope |
 | [Architecture](docs/ARCHITECTURE.md) | Stack, tenancy, DataAdapter |
 | [Setup](docs/guides/SETUP.md) / [Deploy](docs/guides/DEPLOY.md) | Operator guides |
-| [CapRover + Postgres](docs/guides/CAPROVER_POSTGRES.md) | Durable self-host on CapRover |
+| [CapRover + Postgres](docs/guides/CAPROVER_POSTGRES.md) | Durable CapRover deploy |
 | [RBAC](docs/RBAC.md) | Roles — never cross-union data |
 | [Compliance](docs/COMPLIANCE.md) | Privacy, AODA |
 | [Roadmap](docs/ROADMAP.md) / [Progress](docs/PROGRESS.md) | Phase status |
-| [Contributing](CONTRIBUTING.md) | Source-available contribution rules |
+| [Contributing](CONTRIBUTING.md) | Contribution rules |
+| [Licensing](docs/guides/LICENSING.md) | Proprietary now; source-available branch recipe |
 | [Security](SECURITY.md) | Vulnerability reporting |
 | [Reference tenant](seed/reference-tenant-b7p.json) | B7P Hub demo seed (meme locals; not OPSEU) |
 
@@ -178,8 +180,8 @@ Agent entry point: [`AGENTS.md`](AGENTS.md)
 
 ## Stewardship
 
-UnionOps is stewarded by **Ryan Morris**, intended as a Canadian non-profit / community labour project. The code is source-available under [`LICENSE`](LICENSE): you may run and self-host for your local; redistribution and competing commercial hosting require written permission.
+UnionOps is stewarded by **Ryan Morris**, intended as a Canadian non-profit / community labour project. The code is **proprietary** under [`LICENSE`](LICENSE) (all rights reserved). To restore limited source-available self-host grants later, follow [`docs/guides/LICENSING.md`](docs/guides/LICENSING.md).
 
-**Comms stay free** (on-device, no ads). If UnionOps hosts Officer Hub or Local Portal for a local, that hosting has a cost — enough to keep the service online, not a lock-in subscription. Self-host remains an option. Public promise: [unionops.org/en/manifesto](https://unionops.org/en/manifesto/).
+**Comms stay free** (on-device, no ads). If UnionOps hosts Officer Hub or Local Portal for a local, that hosting has a cost — enough to keep the service online, not a lock-in subscription. Public promise: [unionops.org/en/manifesto](https://unionops.org/en/manifesto/).
 
 Solidarity.

@@ -1,6 +1,6 @@
 # Contributing to UnionOps
 
-UnionOps is **source-available**, stewarded by **Ryan Morris**. Contributions are welcome for discussion; acceptance is at the steward’s discretion.
+UnionOps is **proprietary** (all rights reserved; see [`LICENSE`](LICENSE)), stewarded by **Ryan Morris**. Contributions are welcome for discussion; acceptance is at the steward’s discretion.
 
 ## Before you start
 

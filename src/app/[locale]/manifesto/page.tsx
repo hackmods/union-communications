@@ -24,8 +24,8 @@ export async function generateMetadata({
       : "Built in solidarity, not for profit";
   const description =
     locale === "fr"
-      ? "Les Comms restent gratuites sur votre appareil. Un Hub des dirigeants ou Portail local hébergé a un coût. L'auto-hébergement reste possible."
-      : "Comms stay free on your device. Hosted Officer Hub or Local Portal has a hosting cost. Self-host stays an option.";
+      ? "Les Comms restent gratuites sur votre appareil. Un Hub des dirigeants ou Portail local hébergé a un coût."
+      : "Comms stay free on your device. Hosted Officer Hub or Local Portal has a hosting cost.";
   return buildPageMetadata({
     locale,
     path: "/manifesto",
