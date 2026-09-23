@@ -304,28 +304,37 @@ export function isPostgresFlipComplete(
  * UnionOps Data is also omitted because its access gate makes the module
  * unavailable unless its dedicated backend is already PostgreSQL.
  */
+export const MEMORY_CASE_DATA_ENV_KEYS = [
+  "GRIEVANCE_DB_BACKEND",
+  "PORTAL_DB_BACKEND",
+  "BUMPING_DB_BACKEND",
+  "TIME_DB_BACKEND",
+  "ATTACHMENTS_DB_BACKEND",
+  "DISCUSSIONS_DB_BACKEND",
+  "TASKS_DB_BACKEND",
+  "INFORMAL_LOG_DB_BACKEND",
+  "MINUTES_DB_BACKEND",
+  "LEDGER_DB_BACKEND",
+  "OFFICERS_DB_BACKEND",
+  "TRAVEL_DB_BACKEND",
+  "EXPENSES_DB_BACKEND",
+  "COMMITTEES_DB_BACKEND",
+  "ELECTIONS_DB_BACKEND",
+  "POLLS_DB_BACKEND",
+  "MEETINGS_DB_BACKEND",
+  "MEETINGS_RSVP_DB_BACKEND",
+  "CHECKINS_DB_BACKEND",
+] as const satisfies readonly DbBackendEnvKey[];
+
+export function listMemoryCaseDataBackendKeys(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackendEnvKey[] {
+  const effective = readEffectiveBackendFlags(env);
+  return MEMORY_CASE_DATA_ENV_KEYS.filter((key) => effective[key] === "memory");
+}
+
 export function isMemoryCaseDataActive(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
 ): boolean {
-  return (
-    grievanceDbBackend(env) === "memory" ||
-    portalDbBackend(env) === "memory" ||
-    bumpingDbBackend(env) === "memory" ||
-    timeDbBackend(env) === "memory" ||
-    attachmentsDbBackend(env) === "memory" ||
-    discussionsDbBackend(env) === "memory" ||
-    tasksDbBackend(env) === "memory" ||
-    informalLogDbBackend(env) === "memory" ||
-    minutesDbBackend(env) === "memory" ||
-    ledgerDbBackend(env) === "memory" ||
-    officersDbBackend(env) === "memory" ||
-    travelDbBackend(env) === "memory" ||
-    expensesDbBackend(env) === "memory" ||
-    committeesDbBackend(env) === "memory" ||
-    electionsDbBackend(env) === "memory" ||
-    pollsDbBackend(env) === "memory" ||
-    meetingsDbBackend(env) === "memory" ||
-    meetingsRsvpDbBackend(env) === "memory" ||
-    checkinsDbBackend(env) === "memory"
-  );
+  return listMemoryCaseDataBackendKeys(env).length > 0;
 }
