@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { getVisibleModules } from "@/lib/modules/registry";
+import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -48,7 +49,7 @@ export function HubDashboard() {
       ? getTenantContext(session.user.unionId, session.user.localId)
       : null);
   const enabledModules: HubModule[] =
-    tenant?.union.enabledModules ?? ["comms"];
+    tenant?.union.enabledModules ?? [...PRESIDENT_OVERLAY_MODULES];
   const roles = (session.user.roles ?? []) as UserRole[];
   const modules = getVisibleModules(enabledModules, roles);
   const isPresident = roles.includes("local_president");

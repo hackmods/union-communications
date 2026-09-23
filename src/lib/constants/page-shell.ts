@@ -27,8 +27,11 @@ export const PAGE_SHELL = {
   nestedFocus: "mx-auto w-full max-w-2xl",
   /** Hub login / MFA inside `wide` layout */
   nestedAuth: "mx-auto w-full max-w-md",
-  /** Hub profile inside `wide` layout */
-  nestedProfile: "mx-auto w-full max-w-lg",
+  /**
+   * Hub profile inside `wide` layout — match `nestedFocus` so photo capture
+   * and operator tiles are not squeezed into a form-narrow column.
+   */
+  nestedProfile: "mx-auto w-full max-w-2xl",
 } as const;
 
 export type PageShellSize = keyof typeof PAGE_SHELL;

@@ -1,6 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { getTenantByUnionSlug, getTenantContext } from "@/lib/tenant/loader";
-import { getVisibleModules, getHubNavModules, canAccessModule } from "@/lib/modules/registry";
+import {
+  getVisibleModules,
+  getHubNavModules,
+  canAccessModule,
+} from "@/lib/modules/registry";
+import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 
 describe("tenant loader", () => {
   it("loads B7P demo tenant by slug", () => {
@@ -33,6 +38,31 @@ describe("module registry", () => {
     expect(nav.map((m) => m.id)).not.toContain("comms");
     expect(nav.map((m) => m.id)).not.toContain("portal");
     expect(nav.map((m) => m.id)).toEqual(expect.arrayContaining(["grievance"]));
+  });
+
+  it("leaves HubNav empty when only comms is enabled (legacy chrome trap)", () => {
+    const nav = getHubNavModules(["comms"], ["local_president"]);
+    expect(nav).toEqual([]);
+  });
+
+  it("shows executive defaults in HubNav for a president", () => {
+    const nav = getHubNavModules(PRESIDENT_OVERLAY_MODULES, [
+      "local_president",
+    ]);
+    expect(nav.map((m) => m.id)).toEqual(
+      expect.arrayContaining([
+        "grievance",
+        "discussions",
+        "bylaws",
+        "proposals",
+      ]),
+    );
+    expect(nav.map((m) => m.id)).not.toContain("time");
+  });
+
+  it("shows grievance to platform_admin when the module is enabled", () => {
+    const nav = getHubNavModules(["comms", "grievance"], ["platform_admin"]);
+    expect(nav.map((m) => m.id)).toContain("grievance");
   });
 
   it("hides bumping when not enabled", () => {

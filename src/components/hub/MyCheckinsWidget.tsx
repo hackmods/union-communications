@@ -8,6 +8,7 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canAccessCheckinsModule } from "@/lib/checkins/access";
+import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 import type { CheckinPendingItem } from "@/types/checkins";
 import type { HubModule, UserRole } from "@/types/tenant";
 
@@ -25,7 +26,7 @@ export function MyCheckinsWidget() {
     ? getTenantContext(session.user.unionId)
     : null;
   const enabledModules: HubModule[] =
-    tenant?.union.enabledModules ?? ["comms"];
+    tenant?.union.enabledModules ?? [...PRESIDENT_OVERLAY_MODULES];
   const show =
     mfaOk &&
     canAccessCheckinsModule(roles) &&

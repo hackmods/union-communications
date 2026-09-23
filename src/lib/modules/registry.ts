@@ -30,10 +30,12 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     href: "/app/grievances",
     emojiId: "clipboard",
     requiredRoles: [
+      "platform_admin",
+      "union_admin",
+      "division_admin",
       "local_president",
       "local_steward",
       "local_exec",
-      "union_admin",
       "solo_account",
     ],
     requiresMfa: true,
@@ -46,6 +48,7 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     href: "/app/bumping",
     emojiId: "document",
     requiredRoles: [
+      "platform_admin",
       "local_president",
       "stability_member",
       "union_admin",
@@ -61,6 +64,7 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     href: "/app/time",
     emojiId: "clock",
     requiredRoles: [
+      "platform_admin",
       "local_president",
       "local_steward",
       "local_exec",

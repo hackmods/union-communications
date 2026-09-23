@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { getHubNavModules } from "@/lib/modules/registry";
+import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { resolveHubModulesForLocal } from "@/lib/president/local-prefs";
 import {
@@ -82,8 +83,11 @@ export function HubNav() {
     (session.user.unionId
       ? getTenantContext(session.user.unionId, session.user.localId)
       : null);
+  // Client seed may miss Postgres-only unions until /api/tenant lands.
+  // Never fall back to ["comms"] alone — HubNav filters comms/portal out, so
+  // that produced an empty bar. Use president defaults instead.
   const enabledModules: HubModule[] =
-    tenant?.union.enabledModules ?? ["comms"];
+    tenant?.union.enabledModules ?? [...PRESIDENT_OVERLAY_MODULES];
   const visibleModules = tenant?.union.id
     ? resolveHubModulesForLocal(
         tenant.union.id,
