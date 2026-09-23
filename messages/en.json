@@ -7831,7 +7831,7 @@
         "noUnions": "No unions available",
         "pickUnion": "Choose a union first",
         "createScope": "Create union scope",
-        "opseuStarterTitle": "Reference-tenant starter",
+        "opseuStarterTitle": "Starter for this union",
         "opseuStarterBody": "Fill the draft form from this union's Brand Kit preset and reviewed registry links. Still preview and publish yourself — nothing auto-publishes.",
         "opseuFillBrand": "Fill brand baseline",
         "opseuFillSource": "Fill first registry source",

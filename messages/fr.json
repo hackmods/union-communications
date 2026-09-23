@@ -7778,7 +7778,7 @@
         "noUnions": "Aucun syndicat disponible",
         "pickUnion": "Choisissez d'abord un syndicat",
         "createScope": "Créer la portée du syndicat",
-        "opseuStarterTitle": "Départ pour le syndicat de référence",
+        "opseuStarterTitle": "Départ pour ce syndicat",
         "opseuStarterBody": "Remplit le brouillon à partir du préréglage Trousse de marque de ce syndicat et des liens du registre déjà vérifiés. L'aperçu et la publication restent manuels — rien n'est publié automatiquement.",
         "opseuFillBrand": "Remplir la base de marque",
         "opseuFillSource": "Remplir la première source du registre",
