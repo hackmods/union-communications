@@ -46,3 +46,9 @@ Follow the existing external-links audit playbook. National sites may need brows
 ## Entitlements
 
 Hosted maintenance entitlement (`customization.maintenance`) may block **new edits** when expired while preserving published reader access and free public Comms. Entitlements never grant membership.
+
+## Commit / CI
+
+Ship customization work with conventional commits; **push arms GitHub Actions**. Do not treat green unit tests as a substitute for browser verification of national URLs.
+
+See also: [OPSEU customization use case](OPSEU_CUSTOMIZATION.md).

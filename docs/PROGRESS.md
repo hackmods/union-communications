@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-09-23 — OPSEU customization use case + bargaining hide
+
+- When Brand Kit preset is `opseu`, the Bargaining lifecycle playbook is removed from Learn/Create catalogs and `/guide/bargaining` shows an OPSEU-specific notice (national/staff-led negotiations).
+- Added high-level OPSEU pilot helpers (`opseu-pilot.ts`) from Brand Kit colours + registry sources, and operator follow-up [`docs/guides/OPSEU_CUSTOMIZATION.md`](guides/OPSEU_CUSTOMIZATION.md).
+- Validation: preset visibility + OPSEU pilot + catalog suites; typecheck/lint; push arms CI.
+
 ## 2026-09-23 — Customization polish (fit-gaps / QOL)
 
 - Brand Kit baseline apply/undo uses public `brandKit.baseline` EN/FR copy (no longer Site Admin strings on a steward page).

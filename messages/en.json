@@ -7190,6 +7190,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "opseu-bargaining-hide": {
+        "title": "OPSEU / SEFPO Brand Kit hides the generic bargaining guide",
+        "body": "When your Brand Kit is set to OPSEU / SEFPO, the Bargaining lifecycle playbook leaves Learn catalogs and shows an OPSEU / SEFPO-specific notice instead — national and staff-led negotiations stay the source of truth."
+      },
       "brand-baseline-apply": {
         "title": "Apply a published brand baseline",
         "body": "When Root publishes a brand baseline for your union, Brand Kit can apply those colours and typefaces with one tap — and undo restores the kit you had just before."
@@ -12902,6 +12906,15 @@
     "title": "The Bargaining Lifecycle: From Survey to Signing",
     "subtitle": "How Local Bargaining Committees manage membership from demand setting through ratification",
     "intro": "Negotiating a Collective Bargaining Agreement (CBA) is the most important thing your local will do. Even if your National or Provincial union sends a Staff Representative to lead the negotiations, the Local Bargaining Committee must manage the membership. Here is the standard lifecycle of contract negotiations in Canada/Ontario — plus the comms, tracking, and mandate work that keep members with you.",
+    "opseuHidden": {
+      "title": "Bargaining for OPSEU / SEFPO locals",
+      "subtitle": "National and staff-led negotiations — use OPSEU / SEFPO channels first",
+      "intro": "Your Brand Kit is set to OPSEU / SEFPO. UnionOps hides the generic contract-negotiation playbook so it is not mistaken for OPSEU / SEFPO's bargaining system of record.",
+      "whyTitle": "Why this guide is hidden",
+      "whyBody": "OPSEU / SEFPO contract negotiations are typically led with national and staff support. Use your Staff Representative, member portal, and local mandate work instead of this Ontario-generic lifecycle. Strike operations and Proposal Tracker stay available for local support around the table.",
+      "opseuHome": "OPSEU / SEFPO home",
+      "memberPortal": "Member portal"
+    },
     "backToGuide": "Back to The Blueprint",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",

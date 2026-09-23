@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "opseu-bargaining-hide",
+    date: "2026-09-23",
+    kind: "improved",
+    href: "/guide/bargaining",
+  },
+  {
     id: "brand-baseline-apply",
     date: "2026-09-23",
     kind: "added",

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Link } from "@/i18n/navigation";
 import { useDisabledPublicTools } from "@/hooks/use-disabled-public-tools";
+import { useBrandStore } from "@/store/brand-store";
 import {
   visiblePublicCatalog,
   type PublicCatalogAudience,
@@ -136,14 +137,16 @@ export function PublicCatalogExplorer({
     unionId: session?.user?.unionId,
     localId: session?.user?.localId,
   });
+  const unionPresetId = useBrandStore((state) => state.brandKit.unionPresetId);
   const available = useMemo(
     () =>
       visiblePublicCatalog({
         authenticated,
         officerHubPublic: isOfficerHubPublic(),
         disabledToolSlugs,
+        unionPresetId,
       }),
-    [authenticated, disabledToolSlugs],
+    [authenticated, disabledToolSlugs, unionPresetId],
   );
   const [query, setQuery] = useState(initialState.q);
   const [audience, setAudience] = useState(initialState.audience);

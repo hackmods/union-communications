@@ -7137,6 +7137,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "opseu-bargaining-hide": {
+        "title": "La Trousse de marque OPSEU / SEFPO masque le guide de négociation générique",
+        "body": "Quand votre Trousse de marque est réglée sur OPSEU / SEFPO, le guide du cycle de négociation quitte les catalogues Apprendre et affiche plutôt un avis propre à OPSEU / SEFPO — les négociations nationales et menées par le personnel restent la référence."
+      },
       "brand-baseline-apply": {
         "title": "Appliquer une base de marque publiée",
         "body": "Quand Root publie une base de marque pour votre syndicat, la Trousse de marque peut appliquer ces couleurs et polices en un tap — et Annuler restaure la Trousse de marque que vous aviez juste avant."
@@ -12902,6 +12906,15 @@
     "title": "Le cycle de négociation : du sondage à la signature",
     "subtitle": "Comment les comités de négociation locaux gèrent les membres, de l'établissement des demandes à la ratification",
     "intro": "Négocier une convention collective (CC) est la chose la plus importante que fera votre section. Même si votre syndicat national ou provincial envoie un représentant du personnel pour mener les négociations, le comité de négociation local doit gérer les membres. Voici le cycle habituel des négociations contractuelles au Canada et en Ontario — plus les communications, le suivi et le travail de mandat qui gardent les membres avec vous.",
+    "opseuHidden": {
+      "title": "Négociation pour les sections OPSEU / SEFPO",
+      "subtitle": "Négociations nationales et menées par le personnel — utilisez d'abord les canaux OPSEU / SEFPO",
+      "intro": "Votre Trousse de marque est réglée sur OPSEU / SEFPO. UnionOps masque le guide générique de négociation contractuelle pour qu'il ne soit pas pris pour le système de négociation officiel d'OPSEU / SEFPO.",
+      "whyTitle": "Pourquoi ce guide est masqué",
+      "whyBody": "Les négociations contractuelles d'OPSEU / SEFPO sont en général menées avec l'appui national et du personnel. Utilisez votre représentant du personnel, le portail des membres et le travail de mandat local plutôt que ce cycle générique ontarien. Les opérations de grève et le Suivi des propositions restent disponibles pour le soutien local autour de la table.",
+      "opseuHome": "Accueil OPSEU / SEFPO",
+      "memberPortal": "Portail des membres"
+    },
     "backToGuide": "Retour au Plan directeur",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
