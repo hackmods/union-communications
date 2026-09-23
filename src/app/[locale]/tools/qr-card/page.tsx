@@ -74,6 +74,7 @@ import {
   CanvasGrainOverlay,
   CanvasQrPlate,
   CanvasUrlCaption,
+  WalletCopyBlock,
 } from "@/components/tools/canvas";
 
 interface QrCardState {
@@ -132,6 +133,7 @@ function QrCardPageContent() {
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<QrCardState>(initial);
   const { exportError, exportSuccess, exporting, runExport } = useExportHandler();
+  const [copyClamped, setCopyClamped] = useState(false);
 
   const applyPreset = (id: string, base: QrCardState = state) => {
     const preset = getQrCardPreset(id);
@@ -291,15 +293,6 @@ function QrCardPageContent() {
   const contentPadPx = walletContentPaddingPx(tokens, size.previewWidthPx, squareFontOpts);
   const contentGapPx = walletContentGapPx(tokens, size.previewWidthPx, squareFontOpts);
 
-  /** Line-clamp description on dense canvases so QR + footer stay clear */
-  const descriptionLineClamp = isReference
-    ? isCompact
-      ? 2
-      : 4
-    : isSquare
-      ? 1
-      : null;
-
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
     await runExport(async () => {
@@ -411,6 +404,11 @@ function QrCardPageContent() {
             onChange={(e) => setState({ ...state, description: e.target.value })}
             rows={isReference ? 6 : 2}
           />
+          {copyClamped ? (
+            <p className="text-sm leading-snug text-amber-800" role="status">
+              {t("copyClampedHint")}
+            </p>
+          ) : null}
           <Input
             label={t("tagline")}
             value={state.tagline}
@@ -562,15 +560,16 @@ function QrCardPageContent() {
                   >
                     <div
                       className={cn(
-                        "w-full min-w-0",
+                        "flex w-full min-w-0 flex-col",
                         isReference || isSquare
-                          ? "min-h-0 overflow-hidden"
+                          ? "min-h-0 flex-1 overflow-hidden"
                           : "shrink-0",
                       )}
+                      style={{ gap: Math.max(4, Math.round(contentGapPx * 0.5)) }}
                     >
                       {showCanvasLogo(state.logoMode) ? (
                         <div
-                          className={cn("flex flex-col", isSquare ? "mb-1 gap-0.5" : "mb-2")}
+                          className={cn("flex shrink-0 flex-col", isSquare ? "gap-0.5" : "")}
                           style={{ alignItems: flexAlign, justifyContent: brandJustify }}
                         >
                           <LogoContainer
@@ -601,58 +600,30 @@ function QrCardPageContent() {
                           ) : null}
                         </div>
                       ) : null}
-                      <h2
-                        className="font-black uppercase leading-tight"
-                        style={{
-                          color: canvasInk,
-                          fontSize: titleFontPx,
-                          fontWeight: tokens.titleFontWeight,
-                          letterSpacing: tokens.titleLetterSpacing,
-                          textTransform: tokens.titleTextTransform,
-                          fontFamily: tokens.headlineFontFamily,
-                          ...(isSquare
-                            ? {
-                                display: "-webkit-box",
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: "vertical" as const,
-                                overflow: "hidden",
-                              }
-                            : {}),
-                        }}
-                      >
-                        {state.title}
-                      </h2>
-                      {state.description.trim() ? (
-                        <p
-                          className={cn(
-                            "mt-1 leading-snug",
-                            (isReference || isSquare) && "whitespace-pre-line",
-                          )}
-                          style={{
-                            color: mutedInk,
-                            fontSize: bodyFontPx,
-                            textAlign,
-                            fontFamily: tokens.bodyFontFamily,
-                            ...(descriptionLineClamp != null
-                              ? {
-                                  display: "-webkit-box",
-                                  WebkitLineClamp: descriptionLineClamp,
-                                  WebkitBoxOrient: "vertical" as const,
-                                  overflow: "hidden",
-                                }
-                              : {}),
-                          }}
-                        >
-                          {state.description}
-                        </p>
-                      ) : null}
+                      <WalletCopyBlock
+                        className={
+                          isReference || isSquare ? "min-h-0 flex-1" : undefined
+                        }
+                        title={state.title}
+                        body={state.description}
+                        titleFontPx={titleFontPx}
+                        bodyFontPx={bodyFontPx}
+                        titleColor={canvasInk}
+                        bodyColor={mutedInk}
+                        headlineFontFamily={tokens.headlineFontFamily}
+                        bodyFontFamily={tokens.bodyFontFamily}
+                        titleFontWeight={tokens.titleFontWeight}
+                        titleLetterSpacing={tokens.titleLetterSpacing}
+                        titleTextTransform={tokens.titleTextTransform}
+                        textAlign={textAlign}
+                        fit={isReference || isSquare}
+                        titleMaxLines={isSquare ? 2 : null}
+                        onFitStateChange={({ clamped }) => setCopyClamped(clamped)}
+                      />
                     </div>
 
                     <div
-                      className={cn(
-                        "flex w-full min-w-0 shrink-0 flex-col justify-center",
-                        (isReference || isSquare) && "mt-auto",
-                      )}
+                      className="flex w-full min-w-0 shrink-0 flex-col justify-center"
                       style={{
                         alignItems: "center",
                         ...(isReference

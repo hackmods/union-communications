@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "qr-card-pocket-type",
+    date: "2026-09-23",
+    kind: "improved",
+    href: "/tools/qr-card",
+  },
+  {
     id: "ca-snippets-bulk-durable",
     date: "2026-09-23",
     kind: "improved",

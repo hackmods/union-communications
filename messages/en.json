@@ -3305,6 +3305,7 @@
     "savedFacebook": "Facebook",
     "cardTitle": "Title",
     "description": "Description (optional)",
+    "copyClampedHint": "This print size cannot show the full description. Shorten the copy, or pick a larger size.",
     "tagline": "Tagline under QR",
     "bgMode": "Background",
     "bgModes": {
@@ -3349,7 +3350,7 @@
       "healthSafetyDesc": "Committee contacts and how to report a hazard.",
       "healthSafetyTagline": "Scan for H&S contacts",
       "rightToRefuseTitle": "Right to refuse",
-      "rightToRefuseDesc": "OHSA s.43 right-to-refuse pocket card. Not legal advice. Steps: report hazard, refuse unsafe work, stay available, contact JHSC/supervisor, document, escalate if unresolved.",
+      "rightToRefuseDesc": "OHSA s.43 — you may refuse unsafe work. Not legal advice. Scan for the full steps.",
       "rightToRefuseTagline": "Scan the full guide →",
       "stewardRepresentationTitle": "Request your steward",
       "stewardRepresentationDesc": "Member script for discipline-risk meetings. Say: If this could lead to discipline, I request my union steward. Scan for the full Steward 101 guide. Not legal advice.",
@@ -3377,6 +3378,7 @@
     "savedFacebook": "Facebook",
     "headline": "Headline",
     "ask": "The ask",
+    "copyClampedHint": "This print size cannot show the full ask. Shorten the copy, or pick a larger size.",
     "deadline": "Deadline (optional)",
     "deadlinePlaceholder": "e.g. Sign by Friday March 14",
     "cta": "Call to action under QR",
@@ -7345,6 +7347,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "qr-card-pocket-type": {
+        "title": "Clearer type on pocket QR cards",
+        "body": "QR Link Cards and Action Cards use the space above the code for the description, so pocket presets like Right to refuse stay readable instead of truncating into empty red."
+      },
       "ca-snippets-bulk-durable": {
         "title": "CA snippet library: bulk import and durable storage",
         "body": "Officers can bulk-import clauses from CSV or text, replace or reset a union library when authorized, and keep the library on durable storage when the host turns that option on."

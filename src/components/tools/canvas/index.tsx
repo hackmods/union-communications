@@ -226,6 +226,205 @@ export function CanvasStackSlot({
 }
 
 /**
+ * Wallet / pocket title + body that packs into remaining height above a QR.
+ *
+ * Prefer wrap at Brand Kit–scaled sizes, then uniform shrink via canvas-type-fit.
+ * Hard line-clamp is a last resort only after the fit floor — never the first step
+ * while unused vertical slack remains (COMMS_VISUAL_SYSTEM wallet contract).
+ */
+export function WalletCopyBlock({
+  title,
+  body,
+  titleFontPx,
+  bodyFontPx,
+  titleColor,
+  bodyColor,
+  headlineFontFamily,
+  bodyFontFamily,
+  titleFontWeight,
+  titleLetterSpacing,
+  titleTextTransform,
+  textAlign = "left",
+  fit = true,
+  titleMaxLines,
+  className,
+  onFitStateChange,
+}: {
+  title: string;
+  body?: string;
+  titleFontPx: number;
+  bodyFontPx: number;
+  titleColor: string;
+  bodyColor: string;
+  headlineFontFamily: string;
+  bodyFontFamily: string;
+  titleFontWeight: number | string;
+  titleLetterSpacing?: string;
+  titleTextTransform?: CSSProperties["textTransform"];
+  textAlign?: CanvasTextAlign;
+  fit?: boolean;
+  /** Last-resort title clamp (e.g. square cards) after fit. */
+  titleMaxLines?: number | null;
+  className?: string;
+  /** Fired when fit hits the floor and copy still overflows (editor hint). */
+  onFitStateChange?: (state: { clamped: boolean; scale: number }) => void;
+}) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  const [clamped, setClamped] = useState(false);
+  const onFitStateChangeRef = useRef(onFitStateChange);
+  useEffect(() => {
+    onFitStateChangeRef.current = onFitStateChange;
+  }, [onFitStateChange]);
+  const items =
+    textAlign === "right"
+      ? "flex-end"
+      : textAlign === "center"
+        ? "center"
+        : "flex-start";
+  const bodyTrimmed = body?.trim() ?? "";
+  const titleFloor = Math.min(12, titleFontPx);
+  const bodyFloor = Math.min(11, bodyFontPx);
+  const applied = fit ? scale : 1;
+  const showClamped = fit && clamped;
+
+  useLayoutEffect(() => {
+    if (!fit) {
+      onFitStateChangeRef.current?.({ clamped: false, scale: 1 });
+      return;
+    }
+    const el = wrapRef.current;
+    if (!el) return;
+
+    let raf = 0;
+    const measure = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const parent = el.parentElement;
+        const budgetW = parent?.clientWidth || el.clientWidth;
+        const budgetH = parent?.clientHeight || el.clientHeight;
+        if (!(budgetW > 0) || !(budgetH > 0)) return;
+
+        let next = 1;
+        for (let i = 0; i < CANVAS_TYPE_FIT_MAX_ITERS; i++) {
+          el.dataset.canvasTypeFit = String(next);
+          const titleEl = el.querySelector<HTMLElement>("[data-wallet-title]");
+          const bodyEl = el.querySelector<HTMLElement>("[data-wallet-body]");
+          if (titleEl) {
+            titleEl.style.fontSize = `${fittedFontSizePx(titleFontPx, next, titleFloor)}px`;
+            titleEl.style.removeProperty("-webkit-line-clamp");
+            titleEl.style.display = "";
+            titleEl.style.overflow = "";
+          }
+          if (bodyEl) {
+            bodyEl.style.fontSize = `${fittedFontSizePx(bodyFontPx, next, bodyFloor)}px`;
+          }
+          const overflowing = typeFitOverflows(
+            el.scrollWidth,
+            el.scrollHeight,
+            budgetW,
+            budgetH,
+          );
+          if (!overflowing || next <= CANVAS_TYPE_FIT_MIN_SCALE) break;
+          next = nextTypeFitScale(next, true);
+        }
+
+        const stillOver = typeFitOverflows(
+          el.scrollWidth,
+          el.scrollHeight,
+          budgetW,
+          budgetH,
+        );
+        setScale((prev) => (prev === next ? prev : next));
+        setClamped((prev) => (prev === stillOver ? prev : stillOver));
+        onFitStateChangeRef.current?.({ clamped: stillOver, scale: next });
+      });
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    if (el.parentElement) ro.observe(el.parentElement);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, [
+    fit,
+    title,
+    bodyTrimmed,
+    titleFontPx,
+    bodyFontPx,
+    titleFloor,
+    bodyFloor,
+    headlineFontFamily,
+    bodyFontFamily,
+    titleFontWeight,
+    titleLetterSpacing,
+    titleTextTransform,
+    textAlign,
+    titleMaxLines,
+  ]);
+
+  const titlePx = fittedFontSizePx(titleFontPx, applied, titleFloor);
+  const bodyPx = fittedFontSizePx(bodyFontPx, applied, bodyFloor);
+
+  return (
+    <div
+      ref={wrapRef}
+      data-wallet-copy=""
+      data-wallet-copy-clamped={showClamped ? "true" : undefined}
+      data-canvas-type-fit={fit ? applied.toFixed(3) : undefined}
+      className={cn(
+        "relative z-[2] flex w-full min-w-0 flex-col",
+        fit && "max-h-full min-h-0 overflow-hidden",
+        className,
+      )}
+      style={{ alignItems: items, textAlign }}
+    >
+      <h2
+        data-wallet-title=""
+        className="font-black uppercase leading-tight"
+        style={{
+          color: titleColor,
+          fontSize: titlePx,
+          fontWeight: titleFontWeight,
+          letterSpacing: titleLetterSpacing,
+          textTransform: titleTextTransform,
+          margin: 0,
+          fontFamily: headlineFontFamily,
+          ...(titleMaxLines != null
+            ? {
+                display: "-webkit-box",
+                WebkitLineClamp: titleMaxLines,
+                WebkitBoxOrient: "vertical" as const,
+                overflow: "hidden",
+              }
+            : {}),
+        }}
+      >
+        {title}
+      </h2>
+      {bodyTrimmed ? (
+        <p
+          data-wallet-body=""
+          className="mt-1 leading-snug whitespace-pre-line"
+          style={{
+            color: bodyColor,
+            fontSize: bodyPx,
+            textAlign,
+            margin: 0,
+            fontFamily: bodyFontFamily,
+          }}
+        >
+          {bodyTrimmed}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+/**
  * Title + optional subtitle for export canvases.
  *
  * When `fit` is true, type scales down into the parent slot (use with

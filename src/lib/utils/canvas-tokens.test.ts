@@ -22,6 +22,9 @@ import {
   walletContentPaddingPx,
   walletMetaFontSizePx,
   walletTitleFontSizePx,
+  WALLET_BODY_MIN_PX,
+  WALLET_META_MIN_PX,
+  WALLET_TITLE_MIN_PX,
   bannerPadPercent,
   clampTypeRem,
   officeMockPaddingPx,
@@ -287,8 +290,19 @@ describe("wallet chrome helpers", () => {
         canvas: canvasFromStyleId("workshop"),
       }),
     );
-    expect(walletBodyFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(11);
-    expect(walletMetaFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(10);
+    const quarterPreviewPx = 4.25 * 48;
+    expect(walletBodyFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(
+      WALLET_BODY_MIN_PX,
+    );
+    expect(walletBodyFontSizePx(tokens, quarterPreviewPx)).toBeGreaterThanOrEqual(
+      WALLET_BODY_MIN_PX,
+    );
+    expect(walletTitleFontSizePx(tokens, quarterPreviewPx)).toBeGreaterThanOrEqual(
+      WALLET_TITLE_MIN_PX,
+    );
+    expect(walletMetaFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(
+      WALLET_META_MIN_PX,
+    );
     expect(walletMetaFontSizePx(tokens, letterPreviewPx)).toBeGreaterThan(
       walletMetaFontSizePx(tokens, compactPreviewPx),
     );
