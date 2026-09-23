@@ -554,6 +554,71 @@
       ]
     },
     {
+      "name": "ca_snippets",
+      "columns": [
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "body",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "clause_ref",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_by_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "tags",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "title",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "cash_advances",
       "columns": [
         {

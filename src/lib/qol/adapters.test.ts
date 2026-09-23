@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { snippetStore } from "@/lib/snippets/memory-adapter";
+import { describe, it, expect, beforeEach } from "vitest";
+import { snippetStore, resetSnippetStore } from "@/lib/snippets/store";
+import { resetSnippetMemoryForTests } from "@/lib/snippets/memory-adapter";
 import { marketplaceStore } from "@/lib/marketplace/memory-adapter";
 import { grievanceStore } from "@/lib/grievance/memory-adapter";
 import {
@@ -9,6 +10,11 @@ import {
 } from "@/lib/qol/access";
 
 describe("snippet adapter", () => {
+  beforeEach(() => {
+    resetSnippetMemoryForTests();
+    resetSnippetStore();
+  });
+
   it("lists only same-union snippets and supports search", async () => {
     const all = await snippetStore.list({ unionId: "union-b7p" });
     expect(all.length).toBeGreaterThan(0);

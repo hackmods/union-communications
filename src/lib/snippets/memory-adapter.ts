@@ -1,4 +1,8 @@
-import type { SnippetAdapter, SnippetListFilters } from "./adapter";
+import type {
+  SnippetAdapter,
+  SnippetBulkCreateResult,
+  SnippetListFilters,
+} from "./adapter";
 import type {
   CaSnippet,
   CreateCaSnippetInput,
@@ -7,60 +11,60 @@ import type {
 
 function seedSnippets(): CaSnippet[] {
   return [
-  {
-    id: "snip-001",
-    unionId: "union-b7p",
-    localId: "local-7",
-    bargainingUnitId: "bu-7-ft",
-    title: "Just cause for discipline",
-    clauseRef: "Article 7.01",
-    body: "No employee shall be disciplined or discharged without just cause. The Employer shall provide written reasons upon request.",
-    tags: ["discipline", "just-cause", "ft"],
-    createdById: "user-president-7",
-    createdByName: "Local 777 President",
-    createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: "snip-002",
-    unionId: "union-b7p",
-    localId: "local-7",
-    bargainingUnitId: "bu-7-pt",
-    title: "Step 1 meeting timeline (PT)",
-    clauseRef: "Article 12.02",
-    body: "A Step 1 meeting shall be held within seven (7) working days of the grievance being filed for part-time Support Staff, unless the parties agree to an extension in writing.",
-    tags: ["grievance", "timeline", "step-1", "pt"],
-    createdById: "user-president-7",
-    createdByName: "Local 777 President",
-    createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: "snip-003",
-    unionId: "union-b7p",
-    title: "Union representation right",
-    clauseRef: "Article 6.03",
-    body: "An employee is entitled to union representation at any meeting that may result in discipline. The Employer shall advise the employee of this right in advance.",
-    tags: ["representation", "discipline"],
-    createdById: "user-president-7",
-    createdByName: "Local 777 President",
-    createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: "snip-004",
-    unionId: "union-b7p",
-    localId: "local-7",
-    bargainingUnitId: "bu-7-pt",
-    title: "Additional hours by seniority (PT)",
-    clauseRef: "Article 15.03",
-    body: "Additional hours shall be offered to part-time employees by seniority on the part-time additional-hours list before they are offered as overtime to full-time employees, except where operational requirements make that impracticable.",
-    tags: ["hours", "seniority", "additional-hours", "pt"],
-    createdById: "user-steward-7-pt",
-    createdByName: "Local 777 Steward (PT)",
-    createdAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
-  },
+    {
+      id: "snip-001",
+      unionId: "union-b7p",
+      localId: "local-7",
+      bargainingUnitId: "bu-7-ft",
+      title: "Just cause for discipline",
+      clauseRef: "Article 7.01",
+      body: "No employee shall be disciplined or discharged without just cause. The Employer shall provide written reasons upon request.",
+      tags: ["discipline", "just-cause", "ft"],
+      createdById: "user-president-7",
+      createdByName: "Local 777 President",
+      createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: "snip-002",
+      unionId: "union-b7p",
+      localId: "local-7",
+      bargainingUnitId: "bu-7-pt",
+      title: "Step 1 meeting timeline (PT)",
+      clauseRef: "Article 12.02",
+      body: "A Step 1 meeting shall be held within seven (7) working days of the grievance being filed for part-time Support Staff, unless the parties agree to an extension in writing.",
+      tags: ["grievance", "timeline", "step-1", "pt"],
+      createdById: "user-president-7",
+      createdByName: "Local 777 President",
+      createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: "snip-003",
+      unionId: "union-b7p",
+      title: "Union representation right",
+      clauseRef: "Article 6.03",
+      body: "An employee is entitled to union representation at any meeting that may result in discipline. The Employer shall advise the employee of this right in advance.",
+      tags: ["representation", "discipline"],
+      createdById: "user-president-7",
+      createdByName: "Local 777 President",
+      createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: "snip-004",
+      unionId: "union-b7p",
+      localId: "local-7",
+      bargainingUnitId: "bu-7-pt",
+      title: "Additional hours by seniority (PT)",
+      clauseRef: "Article 15.03",
+      body: "Additional hours shall be offered to part-time employees by seniority on the part-time additional-hours list before they are offered as overtime to full-time employees, except where operational requirements make that impracticable.",
+      tags: ["hours", "seniority", "additional-hours", "pt"],
+      createdById: "user-steward-7-pt",
+      createdByName: "Local 777 Steward (PT)",
+      createdAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+    },
   ];
 }
 
@@ -68,6 +72,16 @@ const snippets: CaSnippet[] = seedSnippets();
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function duplicateKey(clauseRef: string, title: string): string {
+  return `${clauseRef.trim().toLowerCase()}::${title.trim().toLowerCase()}`;
+}
+
+function isValidInput(input: CreateCaSnippetInput): boolean {
+  return Boolean(
+    input.title?.trim() && input.clauseRef?.trim() && input.body?.trim(),
+  );
 }
 
 export class MemorySnippetAdapter implements SnippetAdapter {
@@ -152,9 +166,55 @@ export class MemorySnippetAdapter implements SnippetAdapter {
     snippets.splice(idx, 1);
     return true;
   }
+
+  async bulkCreate(
+    inputs: CreateCaSnippetInput[],
+    meta: {
+      unionId: string;
+      createdById: string;
+      createdByName: string;
+    },
+  ): Promise<SnippetBulkCreateResult> {
+    const existing = new Set(
+      snippets
+        .filter((s) => s.unionId === meta.unionId)
+        .map((s) => duplicateKey(s.clauseRef, s.title)),
+    );
+    let created = 0;
+    let skipped = 0;
+    for (const input of inputs) {
+      if (!isValidInput(input)) {
+        skipped += 1;
+        continue;
+      }
+      const key = duplicateKey(input.clauseRef, input.title);
+      if (existing.has(key)) {
+        skipped += 1;
+        continue;
+      }
+      await this.create(input, meta);
+      existing.add(key);
+      created += 1;
+    }
+    return { created, skipped };
+  }
+
+  async resetUnion(unionId: string): Promise<number> {
+    let removed = 0;
+    for (let i = snippets.length - 1; i >= 0; i -= 1) {
+      if (snippets[i].unionId === unionId) {
+        snippets.splice(i, 1);
+        removed += 1;
+      }
+    }
+    return removed;
+  }
 }
 
-export const snippetStore: SnippetAdapter = new MemorySnippetAdapter();
+export const memorySnippetStore: SnippetAdapter = new MemorySnippetAdapter();
+
+/** @deprecated Use `snippetStore` from `./store` — kept for transitional imports. */
+export const snippetStore: SnippetAdapter = memorySnippetStore;
 
 /** @internal test helper — restores demo seed so mutating tests stay isolated. */
 export function resetSnippetMemoryForTests(): void {

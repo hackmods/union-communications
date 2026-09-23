@@ -33,6 +33,7 @@ export const RECOMMENDED_BACKENDS: Record<
   DISCUSSIONS_DB_BACKEND: { recommended: "postgres" },
   TASKS_DB_BACKEND: { recommended: "postgres" },
   INFORMAL_LOG_DB_BACKEND: { recommended: "postgres" },
+  SNIPPETS_DB_BACKEND: { recommended: "postgres" },
   MINUTES_DB_BACKEND: { recommended: "postgres" },
   LEDGER_DB_BACKEND: { recommended: "postgres" },
   OFFICERS_DB_BACKEND: { recommended: "postgres" },

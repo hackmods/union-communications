@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
 import { canDeleteSharedContent, canManageQolContent } from "@/lib/qol/access";
-import { snippetStore } from "@/lib/snippets/memory-adapter";
+import { snippetStore } from "@/lib/snippets/store";
 import type { UpdateCaSnippetInput } from "@/types/qol";
 import type { UserRole } from "@/types/tenant";
 import { canManageSnippet, canViewSnippet } from "@/lib/snippets/access";

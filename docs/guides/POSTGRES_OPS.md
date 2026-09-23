@@ -36,6 +36,7 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
 | `DISCUSSIONS_DB_BACKEND` | `memory` \| `postgres` | Discussions |
 | `TASKS_DB_BACKEND` | `memory` \| `postgres` | Tasks board |
 | `INFORMAL_LOG_DB_BACKEND` | `memory` \| `postgres` | Steward quick-log |
+| `SNIPPETS_DB_BACKEND` | `memory` \| `postgres` | CA clause snippets |
 | `MINUTES_DB_BACKEND` | `memory` \| `postgres` | Meeting minutes |
 | `LEDGER_DB_BACKEND` | `memory` \| `postgres` | Discretionary fund ledger |
 | `OFFICERS_DB_BACKEND` | `memory` \| `postgres` | Officer roster |

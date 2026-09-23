@@ -130,4 +130,55 @@ describe("office-docx-builders", () => {
     expect(docXml).toContain("President");
   });
 
+  it("builds a formal grievance pack with intake and snippets", async () => {
+    const { buildFormalGrievanceDocx } = await import("./office-docx-builders");
+    const blob = await buildFormalGrievanceDocx({
+      palette,
+      localLabel: "Local 110",
+      logo,
+      fields: {},
+      labels: {
+        title: "Formal grievance",
+        fileNumber: "File number",
+        local: "Local",
+        filedAt: "Date filed",
+        members: "Member name(s)",
+        summary: "Summary",
+        intakeHeading: "Intake (6 W's)",
+        who: "Who",
+        what: "What",
+        when: "When",
+        where: "Where",
+        why: "Why",
+        how: "How",
+        remedy: "Remedy",
+        snippetsHeading: "Linked CA clauses",
+        brandNote: "Brand Kit colours and logo.",
+      },
+      data: {
+        fileNumber: "GRV-2026-0001",
+        localLabel: "Local 110",
+        memberNames: ["Alex Member"],
+        summary: "Scheduling dispute.",
+        filedAt: "September 23, 2026",
+        intake: { who: "Alex", what: "Denied OT", why: "Past practice" },
+        linkedSnippets: [
+          {
+            clauseRef: "12.01",
+            title: "Overtime",
+            bodySnapshot: "Overtime is offered by seniority.",
+          },
+        ],
+      },
+    });
+    expect(blob.size).toBeGreaterThan(5000);
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const docXml = await zip.file("word/document.xml")!.async("string");
+    expect(docXml).toContain("GRV-2026-0001");
+    expect(docXml).toContain("Alex Member");
+    expect(docXml).toContain("12.01");
+    expect(docXml).toContain("Brand Kit colours");
+  });
+
 });

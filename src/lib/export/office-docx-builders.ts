@@ -1198,3 +1198,211 @@ export async function buildGrievanceIntakeDocx(
 
   return Packer.toBlob(baseDocument(opts, children));
 }
+
+export type FormalGrievanceDocxInput = DocxBuildInput & {
+  labels: {
+    title: string;
+    fileNumber: string;
+    local: string;
+    filedAt: string;
+    members: string;
+    summary: string;
+    intakeHeading: string;
+    who: string;
+    what: string;
+    when: string;
+    where: string;
+    why: string;
+    how: string;
+    remedy: string;
+    snippetsHeading: string;
+    brandNote: string;
+  };
+  data: {
+    fileNumber?: string;
+    localLabel: string;
+    memberNames?: string[];
+    summary?: string;
+    filedAt?: string;
+    intake?: {
+      who?: string;
+      what?: string;
+      when?: string;
+      where?: string;
+      why?: string;
+      how?: string;
+      remedy?: string;
+    };
+    linkedSnippets?: Array<{
+      clauseRef: string;
+      title: string;
+      bodySnapshot?: string;
+    }>;
+  };
+};
+
+/** Branded formal grievance pack filled from a Hub case (letterhead chrome). */
+export async function buildFormalGrievanceDocx(
+  opts: FormalGrievanceDocxInput,
+): Promise<Blob> {
+  const hFont = headlineFace(opts);
+  const bFont = bodyFace(opts);
+  const secondary = hexNoHash(opts.palette.secondary);
+  const { labels, data } = opts;
+  const members =
+    data.memberNames?.filter((n) => n.trim()).join(", ") || "";
+
+  const metaLines: Array<{ label: string; value: string }> = [
+    { label: labels.fileNumber, value: data.fileNumber?.trim() || "—" },
+    { label: labels.local, value: data.localLabel },
+    { label: labels.filedAt, value: data.filedAt?.trim() || "—" },
+    { label: labels.members, value: members || "—" },
+  ];
+
+  const intakePairs: Array<{ label: string; value: string }> = [
+    { label: labels.who, value: data.intake?.who?.trim() || "" },
+    { label: labels.what, value: data.intake?.what?.trim() || "" },
+    { label: labels.when, value: data.intake?.when?.trim() || "" },
+    { label: labels.where, value: data.intake?.where?.trim() || "" },
+    { label: labels.why, value: data.intake?.why?.trim() || "" },
+    { label: labels.how, value: data.intake?.how?.trim() || "" },
+    { label: labels.remedy, value: data.intake?.remedy?.trim() || "" },
+  ].filter((row) => row.value.length > 0);
+
+  const children: (Paragraph | Table)[] = [
+    new Paragraph({
+      spacing: { after: 160 },
+      children: [
+        new TextRun({
+          text: labels.title,
+          bold: true,
+          font: hFont,
+          size: 36,
+          color: secondary,
+        }),
+      ],
+    }),
+    ...metaLines.map(
+      (row) =>
+        new Paragraph({
+          spacing: { after: 40 },
+          children: [
+            new TextRun({
+              text: `${row.label}: `,
+              bold: true,
+              font: bFont,
+              size: 20,
+            }),
+            new TextRun({
+              text: row.value,
+              font: bFont,
+              size: 20,
+            }),
+          ],
+        }),
+    ),
+    new Paragraph({
+      spacing: { before: 200, after: 80 },
+      children: [
+        new TextRun({
+          text: labels.summary,
+          bold: true,
+          font: hFont,
+          size: 24,
+          color: secondary,
+        }),
+      ],
+    }),
+    ...bodyParagraphs(data.summary?.trim() || "—", bFont),
+  ];
+
+  if (intakePairs.length > 0) {
+    children.push(
+      new Paragraph({
+        spacing: { before: 200, after: 80 },
+        children: [
+          new TextRun({
+            text: labels.intakeHeading,
+            bold: true,
+            font: hFont,
+            size: 24,
+            color: secondary,
+          }),
+        ],
+      }),
+    );
+    for (const row of intakePairs) {
+      children.push(
+        new Paragraph({
+          spacing: { after: 40 },
+          children: [
+            new TextRun({
+              text: `${row.label}: `,
+              bold: true,
+              font: bFont,
+              size: 20,
+            }),
+            new TextRun({
+              text: row.value,
+              font: bFont,
+              size: 20,
+            }),
+          ],
+        }),
+      );
+    }
+  }
+
+  const snippets = data.linkedSnippets ?? [];
+  if (snippets.length > 0) {
+    children.push(
+      new Paragraph({
+        spacing: { before: 200, after: 80 },
+        children: [
+          new TextRun({
+            text: labels.snippetsHeading,
+            bold: true,
+            font: hFont,
+            size: 24,
+            color: secondary,
+          }),
+        ],
+      }),
+    );
+    for (const snip of snippets) {
+      children.push(
+        new Paragraph({
+          spacing: { after: 40 },
+          children: [
+            new TextRun({
+              text: `${snip.clauseRef} — ${snip.title}`,
+              bold: true,
+              font: bFont,
+              size: 20,
+            }),
+          ],
+        }),
+      );
+      if (snip.bodySnapshot?.trim()) {
+        children.push(...bodyParagraphs(snip.bodySnapshot.trim(), bFont));
+      }
+    }
+  }
+
+  children.push(
+    new Paragraph({
+      spacing: { before: 280 },
+      children: [
+        new TextRun({
+          text: labels.brandNote,
+          italics: true,
+          color: "666666",
+          font: bFont,
+          size: 16,
+        }),
+      ],
+    }),
+  );
+
+  return Packer.toBlob(baseDocument(opts, children));
+}

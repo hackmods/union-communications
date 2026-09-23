@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
+import { HubDraftSyncPanel } from "@/components/tools/HubDraftSyncPanel";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -14,8 +15,50 @@ import {
   loadStewardQuickLogDraft,
   newStewardQuickLogEntry,
   saveStewardQuickLogDraft,
+  type StewardQuickLogEntry,
 } from "@/lib/comms/steward-quick-log-draft";
 import { guideCtaOutlineClassSm } from "@/components/comms/guideCtaClasses";
+
+const TOPIC_MAX = 120;
+
+function truncateTopic(what: string): string {
+  const compact = what.trim().replace(/\s+/g, " ");
+  if (compact.length <= TOPIC_MAX) return compact;
+  return `${compact.slice(0, TOPIC_MAX - 1)}…`;
+}
+
+function occurredAtIso(when: string): string {
+  const trimmed = when.trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+    return new Date(`${trimmed}T12:00:00`).toISOString();
+  }
+  const parsed = new Date(trimmed);
+  if (!Number.isNaN(parsed.getTime())) return parsed.toISOString();
+  return new Date().toISOString();
+}
+
+/** Map on-device quick-log rows to Informal Log POST bodies (topic requires `what`). */
+function quickLogToInformalPayloads(
+  entries: StewardQuickLogEntry[],
+): Record<string, unknown>[] | null {
+  const syncable = entries.filter((e) => e.what.trim());
+  if (syncable.length === 0) return null;
+
+  return syncable.map((entry) => {
+    const what = entry.what.trim();
+    const next = entry.nextStep.trim();
+    const summary = [what, next].filter(Boolean).join("\n\n").slice(0, 5000);
+    const who = entry.who.trim().slice(0, 200);
+    return {
+      topic: truncateTopic(what).slice(0, 500),
+      summary,
+      channel: "other",
+      visibility: "local_executive",
+      occurredAt: occurredAtIso(entry.when),
+      ...(who ? { memberPseudonym: who } : {}),
+    };
+  });
+}
 
 export default function StewardQuickLogPage() {
   const t = useTranslations("stewardQuickLog");
@@ -25,6 +68,8 @@ export default function StewardQuickLogPage() {
     createEmpty: createEmptyStewardQuickLogDraft,
     clearStorage: clearStewardQuickLogDraft,
   });
+
+  const syncableCount = draft.entries.filter((e) => e.what.trim()).length;
 
   const form = (
     <div className="space-y-4">
@@ -42,6 +87,11 @@ export default function StewardQuickLogPage() {
           {t("draftSaveFailed")}
         </Callout>
       ) : null}
+      <HubDraftSyncPanel
+        kind="informalLog"
+        syncLabel={t("syncLabel", { count: syncableCount })}
+        getPayloads={() => quickLogToInformalPayloads(draft.entries)}
+      />
       <Button
         type="button"
         onClick={() =>

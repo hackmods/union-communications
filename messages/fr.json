@@ -3186,7 +3186,8 @@
       "nextStep": "Prochaine étape"
     },
     "previewTitle": "Enregistré sur cet appareil",
-    "previewBody": "{count, plural, =0 {Aucune entrée pour l'instant.} one {# entrée enregistrée.} other {# entrées enregistrées.}}"
+    "previewBody": "{count, plural, =0 {Aucune entrée pour l'instant.} one {# entrée enregistrée.} other {# entrées enregistrées.}}",
+    "syncLabel": "{count, plural, =0 {Entrées du journal rapide} one {# entrée du journal rapide} other {# entrées du journal rapide}}"
   },
   "keepLearning": {
     "title": "Continuer à apprendre",
@@ -7291,6 +7292,18 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "ca-snippets-bulk-durable": {
+        "title": "Bibliothèque d’extraits : import en lot et stockage durable",
+        "body": "Les dirigeants peuvent importer des clauses en lot depuis un CSV ou un texte, remplacer ou réinitialiser la bibliothèque syndicale avec autorisation, et conserver la bibliothèque sur un stockage durable lorsque l’hôte active cette option."
+      },
+      "grievance-intake-detail-formal": {
+        "title": "Modifier la prise en charge et télécharger un formulaire de grief",
+        "body": "La fiche de grief permet maintenant de modifier les 6 W, le type, les membres et les clauses liées après la création, d’enrichir la conversion depuis le journal rapide, et de télécharger un formulaire formel DOCX aux couleurs de la Trousse de marque."
+      },
+      "quick-log-hub-sync": {
+        "title": "Envoyer le journal rapide du délégué vers le Hub des dirigeants",
+        "body": "Les dirigeants connectés peuvent synchroniser les entrées du journal rapide sur l’appareil vers le journal informel du Hub des dirigeants en une étape — les notes commencent toujours sur votre appareil."
+      },
       "grievance-workflow-uplift": {
         "title": "Griefs : prise en charge et dossier formel",
         "body": "Les griefs du Hub commencent maintenant à l’étape 1 (6 W, liens de clauses, libellés de section depuis la Trousse de marque) et passent à l’étape 2 (horloges de convention, numéros de dossier, résumés d’export aux couleurs de la Trousse)."
@@ -9433,6 +9446,16 @@
     "memberLabel": "Membre : {name}",
     "convert": "Convertir en grief",
     "converting": "Conversion…",
+    "convertConfirm": "Créer le dossier de prise en charge",
+    "convertEnrichTitle": "Convertir en grief de prise en charge",
+    "convertEnrichHint": "Ouverture d’un dossier de prise en charge à partir de « {topic} ». Choisissez un type et des clauses facultatives — vous pourrez terminer les 6 W sur le grief.",
+    "convertType": "Type de grief",
+    "convertSnippets": "Lier des articles de convention (facultatif)",
+    "grievanceTypes": {
+      "individual": "Individuel",
+      "group": "Groupe",
+      "policy": "Syndicat / politique"
+    },
     "viewGrievance": "Ouvrir le grief",
     "delete": "Supprimer",
     "readOnlyBanner": "Le mode lecture seule mobile du délégué est activé — vous pouvez consulter le journal mais pas ajouter ni convertir d’entrées.",
@@ -9797,7 +9820,28 @@
       "delete": "Supprimer",
       "created": "Extrait enregistré.",
       "createError": "Impossible d'enregistrer l'extrait. Vérifiez les champs et réessayez.",
-      "insert": "Insérer un extrait CA dans la note"
+      "insert": "Insérer un extrait CA dans la note",
+      "bulkTitle": "Import en lot",
+      "bulkHint": "Collez un CSV (clauseRef,title,body,tags) ou des blocs texte (Article X.Y | Titre, puis le corps jusqu'à une ligne vide). Les étiquettes utilisent | ou ;.",
+      "bulkFormat": "Format",
+      "bulkFormatCsv": "CSV",
+      "bulkFormatText": "Texte brut",
+      "bulkMode": "Mode d'import",
+      "bulkModeAppend": "Ajouter (ignorer les doublons)",
+      "bulkModeReplace": "Remplacer toute la bibliothèque du syndicat",
+      "bulkFile": "Ou choisir un fichier .csv / .txt",
+      "bulkContent": "Coller le contenu",
+      "bulkImport": "Importer les extraits",
+      "bulkWorking": "Import en cours…",
+      "bulkSuccess": "{created} extrait(s) importé(s) ; {skipped} ignoré(s).",
+      "bulkError": "Impossible d'importer les extraits. Vérifiez le format et réessayez.",
+      "resetTitle": "Réinitialiser la bibliothèque",
+      "resetHint": "Supprime tous les extraits CA de ce syndicat. Les présidents de section utilisent Remplacer à l'import ; seuls les admins syndicaux ou plateforme peuvent forcer la réinitialisation ici.",
+      "resetButton": "Réinitialiser la bibliothèque",
+      "resetWorking": "Réinitialisation…",
+      "resetConfirm": "Supprimer tous les extraits CA de ce syndicat? La confirmation est exigée côté serveur.",
+      "resetSuccess": "{removed} extrait(s) supprimé(s).",
+      "resetError": "Impossible de réinitialiser la bibliothèque. Actualisez et réessayez."
     },
     "marketplace": {
       "title": "Marché de modèles syndicaux",
@@ -9894,6 +9938,14 @@
     "subtitle": "Suivez les dossiers, les échéances et les notes des dirigeants pour votre section.",
     "loading": "Chargement des griefs...",
     "loadError": "Impossible de charger les griefs. Actualisez la page et réessayez.",
+    "intakePanelTitle": "Faits de prise en charge",
+    "intakePanelHint": "6 W, type, membres et clauses de convention liées pour ce dossier. Modifiez en tout temps — l’export reprend la version à jour.",
+    "intakeEmpty": "Aucun fait de prise en charge pour l’instant. Ajoutez-les avant de passer au dossier formel.",
+    "addIntake": "Ajouter les faits",
+    "editIntake": "Modifier la prise en charge",
+    "saveIntake": "Enregistrer la prise en charge",
+    "intakeSaveError": "Impossible d’enregistrer les faits. Vérifiez les champs et réessayez.",
+    "grievanceTypeUnset": "Non défini",
     "newGrievance": "Nouveau grief",
     "newGrievanceHint": "Commencez en prise en charge pour noter les faits, ou ouvrez un dossier formel lorsque les horloges de l’étape 1 doivent tourner. Les libellés de section et d’unité se préremplissent depuis votre Trousse de marque — modifiez-les avant d’enregistrer.",
     "workflowStageLabel": "Étape du flux",
@@ -10011,6 +10063,20 @@
     "copyDraft": "Copier",
     "copied": "Copié!",
     "exportBundle": "Exporter (ZIP)",
+    "formalForm": {
+      "download": "Télécharger le formulaire officiel",
+      "exporting": "Préparation du formulaire…",
+      "exportError": "Impossible de préparer le formulaire officiel. Vérifiez la Trousse de marque, puis réessayez.",
+      "title": "Grief officiel",
+      "fileNumber": "Numéro de dossier",
+      "local": "Section locale",
+      "filedAt": "Date de dépôt",
+      "members": "Nom(s) du/des membre(s)",
+      "summary": "Résumé",
+      "intakeHeading": "Prise en charge (6 W)",
+      "snippetsHeading": "Clauses de convention liées",
+      "brandNote": "Les couleurs et le logo proviennent de votre Trousse de marque. Ce dossier est une ébauche de travail — confirmez-le avec le formulaire officiel de votre section locale avant le dépôt."
+    },
     "markResolved": "Marquer résolu",
     "memberPseudonym": "Pseudonyme du membre",
     "memberPseudonymHint": "Optionnel - utiliser un pseudonyme",
@@ -12914,11 +12980,15 @@
   "hubDraftSync": {
     "title": "Envoyer ce brouillon au Hub des dirigeants",
     "body": "Votre brouillon reste sur cet appareil. Cette action crée une copie partagée que les dirigeants autorisés peuvent voir et modifier.",
+    "titleInformalLog": "Envoyer les entrées du journal rapide au journal informel",
+    "bodyInformalLog": "Les notes restent sur cet appareil jusqu'à l'envoi. Chaque entrée remplie devient une ligne partagée du journal informel que votre section locale peut voir.",
     "sync": "Envoyer au Hub",
+    "syncInformalLog": "Envoyer les entrées au Hub",
     "saving": "Envoi en cours…",
     "done": "Enregistré sur le Hub des dirigeants : {label}",
     "error": "Impossible d'envoyer ce brouillon. Réessayez.",
     "empty": "Rien à envoyer pour l'instant. Ajoutez d'abord un nom de section locale ou au moins une proposition.",
+    "emptyInformalLog": "Rien à envoyer pour l'instant. Ajoutez d'abord ce qui s'est passé dans au moins une entrée.",
     "mfaFirst": "Vérifier le MFA d'abord"
   },
   "hubBylaws": {

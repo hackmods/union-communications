@@ -18,7 +18,10 @@ import {
   GET as getSnippet,
   PATCH as patchSnippet,
 } from "@/app/api/snippets/[id]/route";
-import { resetSnippetMemoryForTests, snippetStore } from "./memory-adapter";
+import { POST as bulkSnippets } from "@/app/api/snippets/bulk/route";
+import { POST as resetSnippets } from "@/app/api/snippets/reset/route";
+import { resetSnippetMemoryForTests } from "./memory-adapter";
+import { resetSnippetStore, snippetStore } from "./store";
 
 function session(input?: {
   id?: string;
@@ -66,11 +69,13 @@ const validCreate = {
 describe("snippets API routes", () => {
   beforeEach(() => {
     resetSnippetMemoryForTests();
+    resetSnippetStore();
     authMock.mockReset();
   });
 
   afterEach(() => {
     resetSnippetMemoryForTests();
+    resetSnippetStore();
   });
 
   describe("GET /api/snippets", () => {
@@ -344,6 +349,131 @@ describe("snippets API routes", () => {
       );
       expect(deleted.status).toBe(200);
       expect(await snippetStore.getById("snip-004")).toBeNull();
+    });
+  });
+
+  describe("POST /api/snippets/bulk", () => {
+    const csv = [
+      "clauseRef,title,body,tags",
+      "Article 99.01,Bulk clause,Body of bulk clause.,bulk|test",
+    ].join("\n");
+
+    it("lets a steward append and skips duplicates", async () => {
+      authMock.mockResolvedValue(
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
+      );
+      const first = await bulkSnippets(
+        jsonRequest({ format: "csv", content: csv, mode: "append" }),
+      );
+      expect(first.status).toBe(201);
+      const firstBody = (await first.json()) as {
+        created: number;
+        skipped: number;
+      };
+      expect(firstBody.created).toBe(1);
+      expect(firstBody.skipped).toBe(0);
+
+      const second = await bulkSnippets(
+        jsonRequest({ format: "csv", content: csv, mode: "append" }),
+      );
+      expect(second.status).toBe(201);
+      const secondBody = (await second.json()) as {
+        created: number;
+        skipped: number;
+      };
+      expect(secondBody.created).toBe(0);
+      expect(secondBody.skipped).toBe(1);
+    });
+
+    it("forbids replace_union for stewards and allows presidents", async () => {
+      authMock.mockResolvedValue(
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
+      );
+      expect(
+        (
+          await bulkSnippets(
+            jsonRequest({
+              format: "csv",
+              content: csv,
+              mode: "replace_union",
+            }),
+          )
+        ).status,
+      ).toBe(403);
+
+      authMock.mockResolvedValue(session());
+      const replaced = await bulkSnippets(
+        jsonRequest({
+          format: "text",
+          content: "Article 1.01 | Fresh start\nOnly this remains.",
+          mode: "replace_union",
+        }),
+      );
+      expect(replaced.status).toBe(201);
+      const body = (await replaced.json()) as {
+        created: number;
+        removed: number;
+      };
+      expect(body.created).toBe(1);
+      expect(body.removed).toBeGreaterThan(0);
+      const listed = await snippetStore.list({ unionId: "union-b7p" });
+      expect(listed).toHaveLength(1);
+      expect(listed[0].title).toBe("Fresh start");
+    });
+
+    it("rejects empty or invalid bodies", async () => {
+      authMock.mockResolvedValue(session());
+      expect(
+        (await bulkSnippets(jsonRequest({ format: "csv", content: "" }))).status,
+      ).toBe(400);
+      expect(
+        (
+          await bulkSnippets(
+            jsonRequest({ format: "csv", content: "not,a,valid\nrow" }),
+          )
+        ).status,
+      ).toBe(400);
+      expect(
+        (
+          await bulkSnippets(
+            jsonRequest({
+              format: "csv",
+              content: csv,
+              mode: "append",
+              extra: true,
+            }),
+          )
+        ).status,
+      ).toBe(400);
+    });
+  });
+
+  describe("POST /api/snippets/reset", () => {
+    it("requires union_admin or platform_admin and confirm phrase", async () => {
+      authMock.mockResolvedValue(session());
+      expect(
+        (
+          await resetSnippets(
+            jsonRequest({ confirm: "RESET SNIPPETS" }),
+          )
+        ).status,
+      ).toBe(403);
+
+      authMock.mockResolvedValue(
+        session({ id: "user-admin", roles: ["union_admin"] }),
+      );
+      expect(
+        (await resetSnippets(jsonRequest({ confirm: "nope" }))).status,
+      ).toBe(400);
+
+      const ok = await resetSnippets(
+        jsonRequest({ confirm: "RESET SNIPPETS" }),
+      );
+      expect(ok.status).toBe(200);
+      const body = (await ok.json()) as { ok: boolean; removed: number };
+      expect(body.ok).toBe(true);
+      expect(body.removed).toBeGreaterThan(0);
+      expect(await snippetStore.list({ unionId: "union-b7p" })).toHaveLength(0);
     });
   });
 });
