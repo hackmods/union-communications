@@ -2,7 +2,7 @@
 
 **Status:** C01–C04 implemented; C05 next. C05–C15 pending. Verification is recorded in PROGRESS.md.
 
-**Design authority:** [UNION_CUSTOMIZATION.md](../modules/UNION_CUSTOMIZATION.md).  
+**Design authority:** [UNION_CUSTOMIZATION.md](../modules/UNION_CUSTOMIZATION.md).
 **Baseline reviewed:** `1f68490`, 2026-09-22. Recheck the checkout before implementing.
 
 ## 1. Instructions for the implementing model
