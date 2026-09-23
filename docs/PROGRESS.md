@@ -1,5 +1,10 @@
 # Progress Log
 
+## 2026-09-22 — Customization reset handoff saved
+
+- Saved [session knowledge](audit/session-knowledge-2026-09-22-union-customization.md) with completed commits, test evidence, compiler security boundaries, isolated checkout location and exact C03 resume instructions.
+- C01–C02 complete; C03–C15 pending. Continue on `feat/union-customization-foundation` in the isolated worktree; do not switch the original checkout used by another task. No push or GitHub Actions E2E initiated.
+
 ## 2026-09-22 — Customization C02 typed schemas and resolution foundation complete
 
 - Added strict Zod contracts for guides/blocks, sources, branding, registered tool defaults, whole workflow configurations, scope descriptors, layered patches and versioned compiled manifests under `src/lib/customization/`.
