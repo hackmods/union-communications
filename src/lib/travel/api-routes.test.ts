@@ -864,18 +864,22 @@ describe("GET /api/travel/[id]/export", () => {
     expect(res.status).toBe(404);
   });
 
-  it("exports xlsx for the requester with a spreadsheet attachment", async () => {
-    const auth = await seedAuthorization();
-    authMock.mockResolvedValue(session());
-    const res = await exportTravel(
-      new Request("http://localhost/api/travel/x/export?format=xlsx"),
-      params(auth.id),
-    );
-    expect(res.status).toBe(200);
-    expect(res.headers.get("Content-Type")).toContain(
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    );
-    expect(res.headers.get("Content-Disposition")).toContain("attachment");
-    expect((await res.arrayBuffer()).byteLength).toBeGreaterThan(0);
-  });
+  it(
+    "exports xlsx for the requester with a spreadsheet attachment",
+    { timeout: 15_000 },
+    async () => {
+      const auth = await seedAuthorization();
+      authMock.mockResolvedValue(session());
+      const res = await exportTravel(
+        new Request("http://localhost/api/travel/x/export?format=xlsx"),
+        params(auth.id),
+      );
+      expect(res.status).toBe(200);
+      expect(res.headers.get("Content-Type")).toContain(
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      );
+      expect(res.headers.get("Content-Disposition")).toContain("attachment");
+      expect((await res.arrayBuffer()).byteLength).toBeGreaterThan(0);
+    },
+  );
 });

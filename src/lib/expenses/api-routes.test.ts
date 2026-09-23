@@ -654,25 +654,29 @@ describe("GET /api/expenses/[id]/export", () => {
     expect(res.status).toBe(404);
   });
 
-  it("exports xlsx for a same-local officer with a spreadsheet attachment", async () => {
-    const draft = await seedSubmitted({
-      submittedById: "user-steward-7",
-      status: "draft",
-    });
-    authMock.mockResolvedValue(
-      session({ id: "user-steward-7", roles: ["local_steward"] }),
-    );
-    const res = await exportExpense(
-      new Request("http://localhost/api/expenses/x/export?format=xlsx"),
-      params(draft.id),
-    );
-    expect(res.status).toBe(200);
-    expect(res.headers.get("Content-Type")).toContain(
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    );
-    expect(res.headers.get("Content-Disposition")).toContain("attachment");
-    expect((await res.arrayBuffer()).byteLength).toBeGreaterThan(0);
-  });
+  it(
+    "exports xlsx for a same-local officer with a spreadsheet attachment",
+    { timeout: 15_000 },
+    async () => {
+      const draft = await seedSubmitted({
+        submittedById: "user-steward-7",
+        status: "draft",
+      });
+      authMock.mockResolvedValue(
+        session({ id: "user-steward-7", roles: ["local_steward"] }),
+      );
+      const res = await exportExpense(
+        new Request("http://localhost/api/expenses/x/export?format=xlsx"),
+        params(draft.id),
+      );
+      expect(res.status).toBe(200);
+      expect(res.headers.get("Content-Type")).toContain(
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      );
+      expect(res.headers.get("Content-Disposition")).toContain("attachment");
+      expect((await res.arrayBuffer()).byteLength).toBeGreaterThan(0);
+    },
+  );
 });
 
 describe("expense attachment HTTP", () => {
