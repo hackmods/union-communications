@@ -38,6 +38,19 @@ export type DocxBuildInput = {
   headlineFont?: string;
   /** Office face name for body copy (Brand Kit body). Binary TTF embed applied post-build. */
   bodyFont?: string;
+  /** Optional greeting line (letters). When set, replaces `Dear {memberName},`. */
+  salutationLine?: string;
+  /** Letterhead local-label size in half-points (docx TextRun size). */
+  headerLocalSize?: number;
+  /** Letterhead contact line size in half-points. */
+  headerContactSize?: number;
+  /** Page top margin in twips. */
+  topMarginTwips?: number;
+  /** Character spacing in twentieths of a point (docx characterSpacing). */
+  letterSpacingTwentieths?: number;
+  /** Optional single QR PNG for letter footers. */
+  qr?: BrandLogoBytes | null;
+  qrCaption?: string;
 };
 
 function hexNoHash(hex: string): string {
@@ -152,7 +165,8 @@ function letterheadHeader(opts: DocxBuildInput): Header {
                     bold: true,
                     color: ink,
                     font: hFont,
-                    size: 28,
+                    size: opts.headerLocalSize ?? 28,
+                    characterSpacing: opts.letterSpacingTwentieths,
                   }),
                 ],
               }),
@@ -165,7 +179,8 @@ function letterheadHeader(opts: DocxBuildInput): Header {
                           text: contact,
                           color: ink,
                           font: bFont,
-                          size: 20,
+                          size: opts.headerContactSize ?? 20,
+                          characterSpacing: opts.letterSpacingTwentieths,
                         }),
                       ],
                     }),
@@ -205,7 +220,7 @@ function baseDocument(
         properties: {
           page: {
             margin: {
-              top: 720,
+              top: opts.topMarginTwips ?? 720,
               right: tokens.word.marginTwips,
               bottom: tokens.word.marginTwips,
               left: tokens.word.marginTwips,
@@ -398,26 +413,71 @@ export async function buildLecDirectoryDocx(
   return Packer.toBlob(baseDocument(opts, children));
 }
 
+function letterQrParagraphs(opts: DocxBuildInput): Paragraph[] {
+  if (!opts.qr) return [];
+  const [w, h] = logoDisplaySizePx(opts.qr, 96, 96);
+  return [
+    new Paragraph({
+      spacing: { before: 280 },
+      children: [
+        new ImageRun({
+          type: "png",
+          data: opts.qr.bytes,
+          transformation: { width: w, height: h },
+          altText: {
+            title: "QR",
+            description: opts.qrCaption || "QR code",
+            name: "qr",
+          },
+        }),
+      ],
+    }),
+    ...(opts.qrCaption
+      ? [
+          new Paragraph({
+            spacing: { before: 60 },
+            children: [
+              new TextRun({
+                text: opts.qrCaption,
+                color: "666666",
+                font: bodyFace(opts),
+                size: 16,
+              }),
+            ],
+          }),
+        ]
+      : []),
+  ];
+}
+
 export async function buildSimpleLetterDocx(
   opts: DocxBuildInput,
 ): Promise<Blob> {
   const date = opts.fields.date || "";
   const member = opts.fields.memberName || "Member";
   const steward = opts.fields.stewardName || "";
+  const greeting =
+    opts.salutationLine?.trim() || `Dear ${member},`;
   const children: Paragraph[] = [
     new Paragraph({
       spacing: { after: 280 },
       children: [
-        new TextRun({ text: date, font: bodyFace(opts), size: 22 }),
+        new TextRun({
+          text: date,
+          font: bodyFace(opts),
+          size: 22,
+          characterSpacing: opts.letterSpacingTwentieths,
+        }),
       ],
     }),
     new Paragraph({
       spacing: { after: 240 },
       children: [
         new TextRun({
-          text: `Dear ${member},`,
+          text: greeting,
           font: bodyFace(opts),
           size: 22,
+          characterSpacing: opts.letterSpacingTwentieths,
         }),
       ],
     }),
@@ -453,6 +513,7 @@ export async function buildSimpleLetterDocx(
         }),
       ],
     }),
+    ...letterQrParagraphs(opts),
   ];
 
   return Packer.toBlob(baseDocument(opts, children));
@@ -467,6 +528,8 @@ export async function buildWelcomeLetterDocx(
   const president = opts.fields.presidentName || "";
   const stewardContact = opts.fields.stewardContact || "";
   const membershipUrl = opts.fields.membershipUrl?.trim() || "";
+  const greeting =
+    opts.salutationLine?.trim() || `Dear ${member},`;
 
   const children: Paragraph[] = [
     new Paragraph({
@@ -479,7 +542,7 @@ export async function buildWelcomeLetterDocx(
       spacing: { after: 120 },
       children: [
         new TextRun({
-          text: `Dear ${member},`,
+          text: greeting,
           font: bodyFace(opts),
           size: 22,
         }),
@@ -574,6 +637,7 @@ export async function buildWelcomeLetterDocx(
         }),
       ],
     }),
+    ...letterQrParagraphs(opts),
   ];
 
   return Packer.toBlob(baseDocument(opts, children));

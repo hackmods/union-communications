@@ -161,9 +161,11 @@ describe("GET/POST /api/tenant", () => {
       enabledModules: string[];
     };
     expect(body.enabledModules).toEqual(
-      expect.arrayContaining(["comms", "grievance", "portal", "data"]),
+      expect.arrayContaining(["comms", "grievance", "portal", "data", "time"]),
     );
-    expect(body.enabledModules).not.toContain("time");
+    // Platform-gated Workforce Time stays enabled when already on, even though
+    // presidents no longer see a Time toggle while NEXT_PUBLIC_WORKFORCE_TIME_ENABLED is off.
+    expect(body.enabledModules).toContain("time");
   });
 
   it("lets a president set portal surfaces and same-union local prefs, not a foreign local", async () => {

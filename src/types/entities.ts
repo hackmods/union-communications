@@ -128,6 +128,11 @@ export interface BrandKit {
   membershipUrls?: MembershipUrl[];
   /** Shared canvas chrome tokens — omit for legacy export look */
   canvas?: BrandKitCanvas;
+  /**
+   * Default officer / steward signature line for letters and worksheets.
+   * Optional — tools may still override per draft.
+   */
+  signatureName?: string;
   updatedAt: string;
 }
 

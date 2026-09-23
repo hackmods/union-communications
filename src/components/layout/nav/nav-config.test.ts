@@ -28,11 +28,8 @@ describe("public primary navigation", () => {
 describe("shared tool registry", () => {
   it("keeps job groups and tool paths represented", () => {
     expect(toolGroups.map((group) => group.labelKey)).toEqual([
-      "toolsGroupBrand",
-      "toolsGroupBoards",
-      "toolsGroupPrint",
-      "toolsGroupSocialWeb",
-      "toolsGroupStewardWorksheets",
+      "toolsGroupCreation",
+      "toolsGroupUtility",
     ]);
     const hrefs = toolGroups.flatMap((group) => group.links.map((link) => link.href));
     expect(hrefs).toContain("/tools/logo-builder");

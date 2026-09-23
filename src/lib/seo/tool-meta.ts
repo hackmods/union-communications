@@ -88,10 +88,35 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       description:
         "Make branded Word, Excel, and PowerPoint files for your local. Presets, colour themes, and ZIP download on your device.",
     },
-    "rtw-accommodation": {
-      title: "Return-to-Work & Accommodation Intake",
+    "letter-generator": {
+      title: "Free Union Letter Generator",
       description:
-        "Capture functional limits and draft HR talking points for RTW or accommodation meetings. Notes stay on your device.",
+        "Start a branded solidarity, welcome, or letterhead letter with salutation presets and optional QR — then finish in Document Generator.",
+    },
+    "grievance-form-builder": {
+      title: "Grievance Form Builder",
+      description:
+        "Choose the right path: complaint vs grievance check, printable 6 W's intake, or early-resolution draft scripts. Private and on your device.",
+    },
+    "ca-snippets": {
+      title: "CA Snippets Engine",
+      description:
+        "Keep personal Collective agreement clause notes on your device. Open Officer Hub snippets when your local shares a library.",
+    },
+    "steward-quick-log": {
+      title: "Steward Quick-Log",
+      description:
+        "Jot who, what, and next step after a floor conversation. Entries stay on your device; Hub Informal Log is optional for shared files.",
+    },
+    "keep-learning": {
+      title: "Keep Learning",
+      description:
+        "Jump into Learn catalogs, steward playbooks, and Officer Learning without hunting through the site menu.",
+    },
+    "rtw-accommodation": {
+      title: "Steward Documents — RTW, Accommodation & Grievance Drafts",
+      description:
+        "Draft HR emails and verbal scripts for return-to-work, accommodation, or early grievance resolution. Notes stay on your device.",
     },
     "pre-disciplinary-log": {
       title: "Pre-Disciplinary Meeting Log",
@@ -205,10 +230,35 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       description:
         "Créez des fichiers Word, Excel et PowerPoint à l'image de votre section. Préréglages, thèmes et téléchargement ZIP, sur votre appareil.",
     },
-    "rtw-accommodation": {
-      title: "Prise en charge du retour au travail et de l'adaptation",
+    "letter-generator": {
+      title: "Générateur de lettres syndicales gratuit",
       description:
-        "Notez les limites fonctionnelles et rédigez des points de discussion RH pour le retour au travail ou l'adaptation. Les notes restent sur votre appareil.",
+        "Démarrez une lettre de solidarité, d’accueil ou à en-tête avec salutation et QR facultatif — puis terminez dans le générateur de documents.",
+    },
+    "grievance-form-builder": {
+      title: "Générateur de formulaires de grief",
+      description:
+        "Choisissez la bonne voie : diagnostic plainte ou grief, fiche des 6 W, ou scripts de résolution précoce. Privé et sur votre appareil.",
+    },
+    "ca-snippets": {
+      title: "Moteur d’extraits de convention",
+      description:
+        "Gardez vos notes personnelles d’articles de convention sur votre appareil. Ouvrez les extraits du Hub quand votre section partage une bibliothèque.",
+    },
+    "steward-quick-log": {
+      title: "Journal rapide du délégué",
+      description:
+        "Notez qui, quoi et la prochaine étape après une conversation au plancher. Les entrées restent sur votre appareil ; le journal informel du Hub est facultatif.",
+    },
+    "keep-learning": {
+      title: "Continuer à apprendre",
+      description:
+        "Accédez aux catalogues Apprendre, aux guides pour délégués et à la Formation des dirigeants sans chercher dans le menu.",
+    },
+    "rtw-accommodation": {
+      title: "Documents du délégué — RTW, adaptation et brouillons de grief",
+      description:
+        "Rédigez des courriels RH et des scripts verbaux pour le retour au travail, l’adaptation ou une résolution précoce de grief. Les notes restent sur votre appareil.",
     },
     "pre-disciplinary-log": {
       title: "Journal de rencontre prédisciplinaire",

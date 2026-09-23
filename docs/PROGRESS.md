@@ -1,5 +1,15 @@
 # Progress Log
 
+## 2026-09-23 — Steward UX review (Brand Kit, letters, Creation/Utility, Time gate)
+
+- Document Generator letters: sticky drafts, salutation presets, optional single QR with Brand Kit link picker, top-margin / letter-spacing / header size presets.
+- Brand Kit: completion %, save banner, signature name, JSON import/export, Display Settings (pulse/reduced motion) on the page; Advanced canvas type-scale sizes labeled.
+- Creation / Utility catalog regroup; Letter Generator, Grievance Form Builder, CA Snippets, Steward Quick-Log, Keep Learning; RTW tool gains grievance-draft mode (modular email/doc engine).
+- Start paths point at letter / form builder instead of first-week as the primary post-Brand Kit CTA; Officer Learning checklist no longer strikes through completed items.
+- Workforce Time / GPS / shifts remain in-tree, hidden from Hub discovery unless `NEXT_PUBLIC_WORKFORCE_TIME_ENABLED=true`.
+- Advanced Brand Token overrides (ephemeral, Brand Kit unchanged) on Graphic Maker plus board notice, quote, action card, solidarity poster, meeting background, QR board.
+- Validation: focused unit suites + lint + typecheck; PR #107.
+
 ## 2026-09-23 — Audit follow-up: union-scoped pilot delivery
 
 - Presentation context maps Brand Kit preset / tenant slug → trusted system→union scope chain (`presentation-context.ts`).

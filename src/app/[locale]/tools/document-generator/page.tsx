@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
@@ -11,16 +11,19 @@ import { Checkbox } from "@/components/ui/Checkbox";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { SegControl } from "@/components/tools/SegControl";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useBrandStore } from "@/store/brand-store";
 import {
   OFFICE_PRESETS,
   brandPalette,
-  defaultFieldsForPreset,
   getPreset,
   type OfficePresetId,
 } from "@/lib/constants/office-templates";
-import { resolvePresetDestination } from "@/lib/utils/local-links";
+import {
+  listSavedLinks,
+  resolvePresetDestination,
+} from "@/lib/utils/local-links";
 import {
   EVENT_RSVP_XLSX_LABELS,
   type GrievanceIntakeLabels,
@@ -48,32 +51,22 @@ import {
   OfficePresetMock,
 } from "@/components/tools/OfficePresetMock";
 import { resolveOfficePresetFromQuery } from "@/lib/constants/document-generator-links";
+import {
+  SALUTATION_PRESET_IDS,
+  isLetterPreset,
+  saveDocumentGeneratorDraft,
+} from "@/lib/comms/document-generator-draft";
+import {
+  applyGeneratorPreset,
+  buildLetterQrBytes,
+  createInitialGeneratorState,
+  docxPrintChrome,
+  hydrateGeneratorState,
+  type GeneratorState,
+} from "@/lib/comms/document-generator-state";
+import { Callout } from "@/components/ui/Callout";
 
-export interface GeneratorState {
-  presetId: OfficePresetId;
-  includeDocx: boolean;
-  includeXlsx: boolean;
-  includePptx: boolean;
-  includeIcs: boolean;
-  includeLogo: boolean;
-  fields: Record<string, string>;
-}
-
-function initialState(
-  presetId: OfficePresetId = "simple-letter",
-  includeLogo = false,
-): GeneratorState {
-  const preset = getPreset(presetId);
-  return {
-    presetId,
-    includeDocx: true,
-    includeXlsx: preset.outputs.xlsx,
-    includePptx: true,
-    includeIcs: Boolean(preset.outputs.ics),
-    includeLogo,
-    fields: defaultFieldsForPreset(preset),
-  };
-}
+export type { GeneratorState };
 
 export default function DocumentGeneratorPage() {
   return (
@@ -100,9 +93,31 @@ function DocumentGeneratorPageContent() {
   );
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
-    useUndoRedo<GeneratorState>(initialState(initialPreset));
+    useUndoRedo<GeneratorState>(createInitialGeneratorState(initialPreset));
+  const [draftHydrated, setDraftHydrated] = useState(false);
+  const [, startTransition] = useTransition();
   const { exportError: error, exportSuccess: success, exporting: busy, runExport } = useExportHandler();
   const [logoPreviewSrc, setLogoPreviewSrc] = useState<string | null>(null);
+  const [qrPreviewSrc, setQrPreviewSrc] = useState<string | null>(null);
+  const [draftSaveFailed, setDraftSaveFailed] = useState(false);
+
+  useEffect(() => {
+    if (!hydrated || draftHydrated) return;
+    startTransition(() => {
+      setState(hydrateGeneratorState(initialPreset, brandKit));
+      setDraftHydrated(true);
+    });
+  }, [hydrated, draftHydrated, brandKit, initialPreset, setState, startTransition]);
+
+  useEffect(() => {
+    if (!draftHydrated) return;
+    const timer = window.setTimeout(() => {
+      const ok = saveDocumentGeneratorDraft(state);
+      startTransition(() => setDraftSaveFailed(!ok));
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, [state, draftHydrated, startTransition]);
+
   useOneShotBrandSeed(hydrated, () => {
     if (themeEstablished) {
       setState((prev) => ({ ...prev, includeLogo: true }));
@@ -111,6 +126,8 @@ function DocumentGeneratorPageContent() {
 
   const preset = getPreset(state.presetId);
   const palette = brandPalette(brandKit);
+  const savedLinks = listSavedLinks(brandKit);
+  const letterMode = isLetterPreset(state.presetId);
 
   useEffect(() => {
     let cancelled = false;
@@ -130,11 +147,35 @@ function DocumentGeneratorPageContent() {
     };
   }, [brandKit, state.includeLogo, palette.primary]);
 
-  const canvasTokens = resolveCanvasTokens(brandKit);
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      if (!letterMode || !state.showQr || savedLinks.length === 0) {
+        setQrPreviewSrc(null);
+        return;
+      }
+      const built = await buildLetterQrBytes(brandKit, state);
+      if (!cancelled) setQrPreviewSrc(built?.qr.src ?? null);
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- draft fields change via state
+  }, [brandKit, letterMode, state.showQr, state.qrLinkId, savedLinks.length]);
+
+  const canvasTokens = resolveCanvasTokens(
+    state.typeScaleOverride === "inherit"
+      ? brandKit
+      : {
+          ...brandKit,
+          canvas: { ...brandKit.canvas, typeScale: state.typeScaleOverride },
+        },
+  );
   const officeHeadlineFont = canvasFontOfficeName(canvasTokens.headlineFontId);
   const officeBodyFont = canvasFontOfficeName(canvasTokens.bodyFontId);
   const localNumber = brandKit.local.localNumber;
   const localLabel = `Local ${resolveLocalNumber(localNumber)}`;
+  const printChrome = docxPrintChrome(state);
 
   const fields: Record<string, string> = {
     ...state.fields,
@@ -149,7 +190,18 @@ function DocumentGeneratorPageContent() {
       bodyFont: officeBodyFont,
       headlineFontId: canvasTokens.headlineFontId,
       bodyFontId: canvasTokens.bodyFontId,
+      ...printChrome,
     };
+  }
+
+  async function letterQrOpts(): Promise<{
+    qr?: BrandLogoBytes | null;
+    qrCaption?: string;
+  }> {
+    if (!letterMode) return {};
+    const built = await buildLetterQrBytes(brandKit, state);
+    if (!built) return {};
+    return { qr: built.qr, qrCaption: built.caption };
   }
 
   function rsvpXlsxLabels() {
@@ -214,26 +266,18 @@ function DocumentGeneratorPageContent() {
   }
 
   function applyPreset(id: OfficePresetId) {
-    const next = getPreset(id);
-    const nextFields = defaultFieldsForPreset(next);
-    if (id === "welcome-letter") {
-      const origin =
-        typeof window !== "undefined" ? window.location.origin : "";
-      nextFields.collection =
-        brandKit.local.subText?.trim() || nextFields.collection;
-      nextFields.membershipUrl =
-        resolvePresetDestination("membership-primary", brandKit, origin) ||
-        nextFields.membershipUrl;
-    }
-    setState((prev) => ({
-      ...prev,
-      presetId: id,
-      includeDocx: next.outputs.docx,
-      includeXlsx: next.outputs.xlsx,
-      includePptx: next.outputs.pptx,
-      includeIcs: Boolean(next.outputs.ics),
-      fields: nextFields,
-    }));
+    const origin =
+      typeof window !== "undefined" ? window.location.origin : "";
+    setState((prev) =>
+      applyGeneratorPreset(
+        prev,
+        id,
+        brandKit,
+        origin,
+        (kit, o) =>
+          resolvePresetDestination("membership-primary", kit, o) || "",
+      ),
+    );
   }
 
   function setField(key: string, value: string) {
@@ -291,6 +335,7 @@ function DocumentGeneratorPageContent() {
         fields,
         logo,
         ...officeFontOpts(),
+        ...(await letterQrOpts()),
         ...worksheetDocxExtras(),
         filename: formatFilename(preset.fileStem, localNumber, "docx"),
       });
@@ -312,6 +357,7 @@ function DocumentGeneratorPageContent() {
         fields,
         logo,
         ...officeFontOpts(),
+        ...(await letterQrOpts()),
         ...worksheetDocxExtras(),
         filename: formatFilename(preset.fileStem, localNumber, "dotx"),
       });
@@ -447,6 +493,7 @@ function DocumentGeneratorPageContent() {
             fields,
             logo,
             ...officeFontOpts(),
+            ...(await letterQrOpts()),
             ...worksheetDocxExtras(),
           }),
         });
@@ -459,6 +506,7 @@ function DocumentGeneratorPageContent() {
             fields,
             logo,
             ...officeFontOpts(),
+            ...(await letterQrOpts()),
             ...worksheetDocxExtras(),
           }),
         });
@@ -634,15 +682,53 @@ function DocumentGeneratorPageContent() {
           onUndo={undo}
           onRedo={redo}
           onReset={() =>
-            reset(initialState(state.presetId, state.includeLogo))
+            reset(
+              createInitialGeneratorState(
+                state.presetId,
+                state.includeLogo,
+                brandKit,
+              ),
+            )
           }
         />
       </div>
 
       <p className="text-sm leading-snug text-gray-600">{t(preset.blurbKey)}</p>
 
+      {draftSaveFailed ? (
+        <Callout tone="muted" role="status">
+          {t("draftSaveFailed")}
+        </Callout>
+      ) : null}
+
+      {letterMode ? (
+        <ToolFormDetails title={t("sectionSalutation")} defaultOpen>
+          <SegControl
+            label={t("salutationPreset")}
+            value={state.salutationPresetId}
+            options={SALUTATION_PRESET_IDS.map((id) => ({
+              value: id,
+              label: t(`salutationPresets.${id}`),
+            }))}
+            onChange={(salutationPresetId) =>
+              setState({ ...state, salutationPresetId })
+            }
+          />
+          {state.salutationPresetId === "custom" ? (
+            <Input
+              label={t("fields.salutation")}
+              value={state.fields.salutation ?? ""}
+              onChange={(e) => setField("salutation", e.target.value)}
+              placeholder={t("salutationCustomPlaceholder")}
+            />
+          ) : null}
+        </ToolFormDetails>
+      ) : null}
+
       <ToolFormDetails title={t("fieldsHeading")} defaultOpen>
-        {preset.fields.map((field) =>
+        {preset.fields
+          .filter((field) => !(letterMode && field.key === "salutation"))
+          .map((field) =>
           field.multiline ? (
             <Textarea
               key={field.key}
@@ -662,6 +748,38 @@ function DocumentGeneratorPageContent() {
         )}
       </ToolFormDetails>
 
+      {letterMode ? (
+        <ToolFormDetails title={t("sectionPrint")} defaultOpen>
+          <SegControl
+            label={t("topMargin")}
+            value={state.topMargin}
+            options={(["tight", "standard", "roomy"] as const).map((v) => ({
+              value: v,
+              label: t(`topMarginOpts.${v}`),
+            }))}
+            onChange={(topMargin) => setState({ ...state, topMargin })}
+          />
+          <SegControl
+            label={t("letterSpacing")}
+            value={state.letterSpacing}
+            options={(["tight", "normal", "loose"] as const).map((v) => ({
+              value: v,
+              label: t(`letterSpacingOpts.${v}`),
+            }))}
+            onChange={(letterSpacing) => setState({ ...state, letterSpacing })}
+          />
+          <SegControl
+            label={t("headerSize")}
+            value={state.headerSize}
+            options={(["compact", "standard", "display"] as const).map((v) => ({
+              value: v,
+              label: t(`headerSizeOpts.${v}`),
+            }))}
+            onChange={(headerSize) => setState({ ...state, headerSize })}
+          />
+        </ToolFormDetails>
+      ) : null}
+
       <ToolFormDetails title={t("sectionBranding")}>
         <Checkbox
           label={t("includeLogo")}
@@ -670,6 +788,40 @@ function DocumentGeneratorPageContent() {
             setState({ ...state, includeLogo: e.target.checked })
           }
         />
+        {letterMode ? (
+          <>
+            <Checkbox
+              label={t("showQr")}
+              checked={state.showQr && savedLinks.length > 0}
+              disabled={savedLinks.length === 0}
+              onChange={(e) =>
+                setState({ ...state, showQr: e.target.checked })
+              }
+            />
+            {savedLinks.length === 0 ? (
+              <p className="text-xs text-gray-600">{t("qrNeedsLinks")}</p>
+            ) : savedLinks.length > 1 && state.showQr ? (
+              <label className="block text-sm">
+                <span className="mb-1 block font-medium text-gray-700">
+                  {t("qrLink")}
+                </span>
+                <select
+                  className="min-h-11 w-full rounded-md border border-gray-300 bg-white px-3 text-sm"
+                  value={state.qrLinkId || savedLinks[0]?.id}
+                  onChange={(e) =>
+                    setState({ ...state, qrLinkId: e.target.value })
+                  }
+                >
+                  {savedLinks.map((link) => (
+                    <option key={link.id} value={link.id}>
+                      {link.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ) : null}
+          </>
+        ) : null}
       </ToolFormDetails>
 
       <ToolFormDetails title={t("outputs")}>
@@ -733,10 +885,30 @@ function DocumentGeneratorPageContent() {
         localLabel={localLabel}
         fields={fields}
         logoSrc={state.includeLogo ? logoPreviewSrc : null}
+        salutationLine={letterMode ? printChrome.salutationLine : undefined}
+        qrSrc={letterMode && state.showQr ? qrPreviewSrc : null}
         includeDocx={state.includeDocx && preset.outputs.docx}
         includeXlsx={state.includeXlsx && preset.outputs.xlsx}
         includePptx={state.includePptx && preset.outputs.pptx}
         tokens={canvasTokens}
+        letterSpacing={
+          letterMode
+            ? state.letterSpacing === "tight"
+              ? "-0.01em"
+              : state.letterSpacing === "loose"
+                ? "0.04em"
+                : "0.01em"
+            : undefined
+        }
+        topPadPx={
+          letterMode
+            ? state.topMargin === "tight"
+              ? 10
+              : state.topMargin === "roomy"
+                ? 28
+                : 16
+            : undefined
+        }
       />
       <ToolFormDetails title={t("sectionStructure")}>
         <ul className="list-disc space-y-1 pl-5 text-xs text-gray-600">

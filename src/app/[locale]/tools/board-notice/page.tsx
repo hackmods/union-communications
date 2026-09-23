@@ -21,6 +21,12 @@ import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SegControl } from "@/components/tools/SegControl";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { CanvasTokenOverridesControls } from "@/components/tools/CanvasTokenOverridesControls";
+import {
+  EMPTY_CANVAS_TOKEN_OVERRIDES,
+  resolveCanvasTokensWithOverrides,
+  type CanvasTokenOverrides,
+} from "@/lib/comms/canvas-token-overrides";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { fieldsFromBoardNotice } from "@/lib/comms/event-email-from-notice";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
@@ -61,6 +67,7 @@ interface BoardNoticeState {
   layout: BoardNoticeLayoutId;
   logoMode: BoardLogoMode;
   showLocalNumber: boolean;
+  canvasOverrides: CanvasTokenOverrides;
 }
 
 export default function BoardNoticePage() {
@@ -86,6 +93,7 @@ export default function BoardNoticePage() {
     layout: DEFAULT_BOARD_NOTICE_LAYOUT,
     logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
+    canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -106,7 +114,11 @@ export default function BoardNoticePage() {
   const designHeight = boardNoticePreviewHeightPx(formatSpec);
   const referenceWidth = PRINT_PAGE_LEGACY_REFERENCE_PX;
   const exportPixelRatio = boardNoticeExportPixelRatio(formatSpec);
-  const tokens = resolveCanvasTokens(brandKit);
+  const brandCanvasTokens = resolveCanvasTokens(brandKit);
+  const tokens = resolveCanvasTokensWithOverrides(
+    brandKit,
+    state.canvasOverrides,
+  );
   const showInviteEmail =
     state.noticeType === "meeting" || state.noticeType === "event";
   const inviteFields = fieldsFromBoardNotice({
@@ -253,6 +265,19 @@ export default function BoardNoticePage() {
                 }
               />
             </ToolFormDetails>
+              <CanvasTokenOverridesControls
+                brandDefaults={{
+                  typeScale: brandCanvasTokens.typeScale,
+                  density: brandCanvasTokens.density,
+                  alignmentBias: brandCanvasTokens.alignmentBias,
+                  qrPlate: brandCanvasTokens.qrPlate,
+                  surface: brandCanvasTokens.surface,
+                }}
+                overrides={state.canvasOverrides}
+                onChange={(canvasOverrides) =>
+                  setState({ ...state, canvasOverrides })
+                }
+              />
 
             <UndoRedoBar
               canUndo={canUndo}

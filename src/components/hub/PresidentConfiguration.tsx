@@ -6,7 +6,6 @@ import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 import {
-  HUB_CONFIG_ROWS,
   PORTAL_CONFIG_ROWS,
   PRESIDENT_ALWAYS_ON_TOOLS,
   PRESIDENT_PRESETS,
@@ -18,6 +17,7 @@ import {
   resolvePortalSurfaces,
   sameModuleSet,
   sameSurfaceSet,
+  visibleHubConfigRows,
   type PortalSurfaceId,
   type PresidentPresetId,
 } from "@/lib/president/module-catalog";
@@ -101,7 +101,7 @@ function PreviewPanel({
   surfaces: PortalSurfaceId[];
 }) {
   const t = useTranslations("hub.presidentConfig");
-  const hubOn = HUB_CONFIG_ROWS.filter((row) => modules.includes(row.id));
+  const hubOn = visibleHubConfigRows().filter((row) => modules.includes(row.id));
   const portalOn = PORTAL_CONFIG_ROWS.filter(
     (row) =>
       surfaces.includes(row.id) &&
@@ -478,8 +478,8 @@ export function PresidentConfiguration() {
     );
   }
 
-  const executive = HUB_CONFIG_ROWS.filter((row) => row.tier === "executive");
-  const operational = HUB_CONFIG_ROWS.filter((row) => row.tier === "operational");
+  const executive = visibleHubConfigRows().filter((row) => row.tier === "executive");
+  const operational = visibleHubConfigRows().filter((row) => row.tier === "operational");
 
   return (
     <div className="space-y-8">

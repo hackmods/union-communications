@@ -37,6 +37,11 @@ export type NavLinkKey =
   | "logoBuilder"
   | "resizer"
   | "documentGenerator"
+  | "letterGenerator"
+  | "grievanceFormBuilder"
+  | "caSnippets"
+  | "stewardQuickLog"
+  | "keepLearning"
   | "boardBanner"
   | "boardNotice"
   | "solidarityPoster"
@@ -59,6 +64,8 @@ export type NavLinkKey =
   | "rulesOfOrder";
 
 export type NavGroupLabelKey =
+  | "toolsGroupCreation"
+  | "toolsGroupUtility"
   | "toolsGroupBrand"
   | "toolsGroupBoards"
   | "toolsGroupPrint"
@@ -101,51 +108,41 @@ export const PULSE_POLL_HREF = "/tools/pulse-poll" as const;
 /** Job-grouped tools registry, consumed by the shared public catalog. */
 export const toolGroups: readonly NavGroup[] = [
   {
-    labelKey: "toolsGroupBrand",
+    labelKey: "toolsGroupCreation",
     links: [
-      { href: "/tools/logo-builder", key: "logoBuilder" },
-      { href: "/tools/resizer", key: "resizer" },
+      { href: "/tools/letter-generator", key: "letterGenerator" },
+      { href: "/tools/rtw-accommodation", key: "rtwAccommodation" },
+      { href: "/tools/grievance-form-builder", key: "grievanceFormBuilder" },
       { href: "/tools/document-generator", key: "documentGenerator" },
-    ],
-  },
-  {
-    labelKey: "toolsGroupBoards",
-    links: [
+      { href: "/tools/graphic-maker", key: "graphicMaker" },
+      { href: "/tools/flyer-maker", key: "flyerMaker" },
       { href: "/tools/board-banner", key: "boardBanner" },
       { href: "/tools/board-notice", key: "boardNotice" },
       { href: "/tools/solidarity-poster", key: "solidarityPoster" },
       { href: "/tools/qr-board", key: "qrBoard" },
-      { href: "/tools/org-chart", key: "orgChart" },
-    ],
-  },
-  {
-    labelKey: "toolsGroupPrint",
-    links: [
-      { href: "/tools/flyer-maker", key: "flyerMaker" },
       { href: "/tools/qr-card", key: "qrCard" },
       { href: "/tools/action-card", key: "actionCard" },
+      { href: "/tools/quote-card", key: "quoteCard" },
+      { href: "/tools/meeting-background", key: "meetingBackground" },
+      { href: "/tools/org-chart", key: "orgChart" },
+      { href: "/tools/logo-builder", key: "logoBuilder" },
+      { href: "/tools/website-template", key: "websiteTemplate" },
       { href: PULSE_POLL_HREF, key: "pulsePoll" },
     ],
   },
   {
-    labelKey: "toolsGroupSocialWeb",
+    labelKey: "toolsGroupUtility",
     links: [
-      { href: "/tools/graphic-maker", key: "graphicMaker" },
-      { href: "/tools/quote-card", key: "quoteCard" },
-      { href: "/tools/meeting-background", key: "meetingBackground" },
-      { href: "/tools/website-template", key: "websiteTemplate" },
-      { href: "/tools/alt-text", key: "altText" },
-    ],
-  },
-  {
-    labelKey: "toolsGroupStewardWorksheets",
-    links: [
-      { href: "/tools/rtw-accommodation", key: "rtwAccommodation" },
+      { href: "/tools/ca-snippets", key: "caSnippets" },
+      { href: "/tools/steward-quick-log", key: "stewardQuickLog" },
+      { href: "/tools/keep-learning", key: "keepLearning" },
       { href: "/tools/pre-disciplinary-log", key: "preDisciplinaryLog" },
       { href: "/tools/complaint-vs-grievance", key: "complaintVsGrievance" },
       { href: "/tools/bylaw-builder", key: "bylawBuilder" },
       { href: "/tools/proposal-tracker", key: "proposalTracker" },
       { href: "/tools/rules-of-order", key: "rulesOfOrder" },
+      { href: "/tools/resizer", key: "resizer" },
+      { href: "/tools/alt-text", key: "altText" },
     ],
   },
 ] as const;

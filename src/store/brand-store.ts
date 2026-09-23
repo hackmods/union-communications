@@ -17,6 +17,8 @@ interface BrandState {
   hydrated: boolean;
   /** True when localStorage refused a write (quota / private mode). */
   storageBlocked: boolean;
+  /** Epoch ms of last successful Brand Kit persist — drives save banner. */
+  lastSavedAt: number | null;
   setBrandKit: (kit: BrandKitPatch) => void;
   resetBrandKit: () => void;
   importBrandKit: (kit: BrandKit | unknown) => void;
@@ -43,7 +45,7 @@ function patchTouchesLogo(partial: BrandKitPatch): boolean {
   return LOGO_PATCH_KEYS.some((key) => key in partial);
 }
 
-function flushPendingBrandKitSave() {
+function flushPendingBrandKitSave(onSaved?: () => void) {
   if (saveBrandKitTimer) {
     clearTimeout(saveBrandKitTimer);
     saveBrandKitTimer = null;
@@ -51,18 +53,24 @@ function flushPendingBrandKitSave() {
   const kit = pendingSaveKit;
   pendingSaveKit = null;
   if (kit) {
-    void dataAdapter.saveBrandKit(kit);
+    void Promise.resolve(dataAdapter.saveBrandKit(kit)).then(() => {
+      onSaved?.();
+    });
   }
 }
 
-function scheduleSaveBrandKit(kit: BrandKit, immediate = false) {
+function scheduleSaveBrandKit(
+  kit: BrandKit,
+  immediate = false,
+  onSaved?: () => void,
+) {
   pendingSaveKit = kit;
   if (saveBrandKitTimer) clearTimeout(saveBrandKitTimer);
   if (immediate) {
-    flushPendingBrandKitSave();
+    flushPendingBrandKitSave(onSaved);
     return;
   }
-  saveBrandKitTimer = setTimeout(flushPendingBrandKitSave, 400);
+  saveBrandKitTimer = setTimeout(() => flushPendingBrandKitSave(onSaved), 400);
 }
 
 function clearSaveTimer() {
@@ -74,7 +82,9 @@ function clearSaveTimer() {
 }
 
 if (typeof window !== "undefined") {
-  window.addEventListener("pagehide", flushPendingBrandKitSave);
+  window.addEventListener("pagehide", () => {
+    flushPendingBrandKitSave();
+  });
 }
 
 function applyBrandKitPatch(current: BrandKit, partial: BrandKitPatch): BrandKit {
@@ -144,6 +154,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   onboardingComplete: false,
   hydrated: false,
   storageBlocked: false,
+  lastSavedAt: null,
 
   setBrandKit: (partial) => {
     if (!get().hydrated) {
@@ -152,7 +163,11 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     }
     const updated = applyBrandKitPatch(get().brandKit, partial);
     set({ brandKit: updated });
-    scheduleSaveBrandKit(updated, patchTouchesLogo(partial));
+    scheduleSaveBrandKit(updated, patchTouchesLogo(partial), () => {
+      if (!get().storageBlocked) {
+        set({ lastSavedAt: Date.now() });
+      }
+    });
   },
 
   resetBrandKit: () => {
@@ -162,7 +177,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
       ...DEFAULT_BRAND_KIT,
       updatedAt: new Date().toISOString(),
     });
-    set({ brandKit: reset });
+    set({ brandKit: reset, lastSavedAt: null });
     void dataAdapter.clearBrandKit();
   },
 
@@ -174,7 +189,11 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
       updatedAt: new Date().toISOString(),
     });
     set({ brandKit: updated });
-    void dataAdapter.saveBrandKit(updated);
+    void Promise.resolve(dataAdapter.saveBrandKit(updated)).then(() => {
+      if (!get().storageBlocked) {
+        set({ lastSavedAt: Date.now() });
+      }
+    });
   },
 
   setOnboardingComplete: (complete) => {
@@ -198,7 +217,11 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     let brandKit = kit ?? get().brandKit;
     if (queued) {
       brandKit = applyBrandKitPatch(brandKit, queued);
-      scheduleSaveBrandKit(brandKit);
+      scheduleSaveBrandKit(brandKit, false, () => {
+        if (!get().storageBlocked) {
+          set({ lastSavedAt: Date.now() });
+        }
+      });
     }
     set({ brandKit, onboardingComplete, hydrated: true });
   },

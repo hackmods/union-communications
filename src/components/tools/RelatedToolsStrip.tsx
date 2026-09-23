@@ -119,16 +119,42 @@ export const RELATED_BY_TOOL: Record<
     { href: "/tools/graphic-maker", navKey: "graphicMaker" },
   ],
   "document-generator": [
+    { href: "/tools/letter-generator", navKey: "letterGenerator" },
     { href: "/guide/grievance-process", navKey: "grievanceProcessGuide" },
     { href: "/tools/org-chart", navKey: "orgChart" },
     { href: "/brand-kit", navKey: "brandKit" },
-    { href: "/tools/board-notice", navKey: "boardNotice" },
+  ],
+  "letter-generator": [
+    { href: "/tools/document-generator", navKey: "documentGenerator" },
+    { href: "/brand-kit", navKey: "brandKit" },
+    { href: "/tools/rtw-accommodation", navKey: "rtwAccommodation" },
+  ],
+  "grievance-form-builder": [
+    { href: "/tools/complaint-vs-grievance", navKey: "complaintVsGrievance" },
+    { href: "/tools/document-generator", navKey: "documentGenerator" },
+    { href: "/tools/rtw-accommodation", navKey: "rtwAccommodation" },
+  ],
+  "ca-snippets": [
+    { href: "/tools/steward-quick-log", navKey: "stewardQuickLog" },
+    { href: "/tools/document-generator", navKey: "documentGenerator" },
+    { href: "/guide/steward-101", navKey: "steward101Guide" },
+  ],
+  "steward-quick-log": [
+    { href: "/tools/ca-snippets", navKey: "caSnippets" },
+    { href: "/tools/pre-disciplinary-log", navKey: "preDisciplinaryLog" },
+    { href: "/guide/steward-101", navKey: "steward101Guide" },
+  ],
+  "keep-learning": [
+    { href: "/learn", navKey: "learn" },
+    { href: "/learn/steward", navKey: "stewardPlaybooksHub" },
+    { href: "/tools/letter-generator", navKey: "letterGenerator" },
   ],
   "alt-text": [
     { href: "/tools/graphic-maker", navKey: "graphicMaker" },
     { href: "/guide/photo-consent", navKey: "photoConsent" },
   ],
   "rtw-accommodation": [
+    { href: "/tools/grievance-form-builder", navKey: "grievanceFormBuilder" },
     { href: "/tools/complaint-vs-grievance", navKey: "complaintVsGrievance" },
     { href: "/tools/pre-disciplinary-log", navKey: "preDisciplinaryLog" },
     { href: "/guide/steward-101", navKey: "steward101Guide" },

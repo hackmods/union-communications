@@ -58,6 +58,12 @@ import {
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import { CanvasTokenOverridesControls } from "@/components/tools/CanvasTokenOverridesControls";
+import {
+  EMPTY_CANVAS_TOKEN_OVERRIDES,
+  resolveCanvasTokensWithOverrides,
+  type CanvasTokenOverrides,
+} from "@/lib/comms/canvas-token-overrides";
 
 interface QuoteState {
   quote: string;
@@ -71,6 +77,7 @@ interface QuoteState {
   textColor: string;
   logoMode: BoardLogoMode;
   showLocalNumber: boolean;
+  canvasOverrides: CanvasTokenOverrides;
 }
 
 function QuoteCardPageContent() {
@@ -85,7 +92,7 @@ function QuoteCardPageContent() {
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const inDemo = useWorkshopDemoSession(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const tokens = resolveCanvasTokens(brandKit);
+  const brandCanvasTokens = resolveCanvasTokens(brandKit);
 
   const initial: QuoteState = {
     quote: tq("defaults.quote"),
@@ -99,11 +106,16 @@ function QuoteCardPageContent() {
     textColor: pickContrastingInk(brandKit.primaryColor),
     logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
+    canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<QuoteState>(initial);
   const { exportError, exportSuccess, exporting, runExport } = useExportHandler();
+  const tokens = resolveCanvasTokensWithOverrides(
+    brandKit,
+    state.canvasOverrides,
+  );
   const surfaceStyle = canvasSurfaceStyle(tokens, {
     primary: state.primaryColor,
     secondary: state.secondaryColor,
@@ -298,6 +310,19 @@ function QuoteCardPageContent() {
             }
           />
           </ToolFormDetails>
+          <CanvasTokenOverridesControls
+            brandDefaults={{
+              typeScale: brandCanvasTokens.typeScale,
+              density: brandCanvasTokens.density,
+              alignmentBias: brandCanvasTokens.alignmentBias,
+              qrPlate: brandCanvasTokens.qrPlate,
+              surface: brandCanvasTokens.surface,
+            }}
+            overrides={state.canvasOverrides}
+            onChange={(canvasOverrides) =>
+              setState({ ...state, canvasOverrides })
+            }
+          />
           <ToolColourSection
             primaryColor={state.primaryColor}
             secondaryColor={state.secondaryColor}

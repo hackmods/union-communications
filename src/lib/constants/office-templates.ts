@@ -57,6 +57,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         defaultValue: "July 15, 2026",
       },
       {
+        key: "salutation",
+        labelKey: "fields.salutation",
+        defaultValue: "",
+      },
+      {
         key: "memberName",
         labelKey: "fields.memberName",
         defaultValue: "Member name",
@@ -184,6 +189,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         key: "date",
         labelKey: "fields.date",
         defaultValue: "July 18, 2026",
+      },
+      {
+        key: "salutation",
+        labelKey: "fields.salutation",
+        defaultValue: "",
       },
       {
         key: "memberName",

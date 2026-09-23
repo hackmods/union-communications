@@ -1,6 +1,7 @@
 import type { HubModule } from "@/types/tenant";
 import type { UserRole } from "@/types/tenant";
 import type { EmojiId } from "@/lib/constants/emoji";
+import { isWorkforceTimeEnabled } from "@/lib/features/workforce-time";
 
 export interface HubModuleDefinition {
   id: HubModule;
@@ -217,6 +218,8 @@ export function getVisibleModules(
   roles: UserRole[],
 ): HubModuleDefinition[] {
   return MODULE_REGISTRY.filter((mod) => {
+    // Platform config hide — code stays; discovery stays off until re-enabled.
+    if (mod.id === "time" && !isWorkforceTimeEnabled()) return false;
     if (!mod.enabledCheck(enabledModules)) return false;
     if (!mod.requiredRoles) return true;
     return mod.requiredRoles.some((r) => roles.includes(r));

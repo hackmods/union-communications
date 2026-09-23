@@ -4,13 +4,13 @@ export const START_PATHS = {
   comms: [
     { id: "brand", href: "/create/brand-kit" },
     { id: "blueprint", href: "/learn/communications-blueprint" },
-    { id: "firstWeek", href: "/learn/first-week" },
+    { id: "letter", href: "/create/letter-generator" },
     { id: "asset", href: "/create/graphic-maker" },
   ],
   steward: [
     { id: "orientation", href: "/learn/steward" },
     { id: "grievance", href: "/learn/grievance-process" },
-    { id: "safety", href: "/learn/right-to-refuse" },
+    { id: "builder", href: "/create/grievance-form-builder" },
     { id: "meetings", href: "/learn/running-meetings" },
   ],
   officer: [

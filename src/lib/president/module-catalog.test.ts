@@ -87,4 +87,18 @@ describe("president module catalog", () => {
     expect(getPresidentPreset("bargainingSeason").modules).toContain("tasks");
     expect(isDestructiveHubOff("portal", false)).toBe(true);
   });
+
+  it("hides Workforce Time from president config when platform gate is off", async () => {
+    const { visibleHubConfigRows } = await import("./module-catalog");
+    expect(
+      visibleHubConfigRows({
+        NEXT_PUBLIC_WORKFORCE_TIME_ENABLED: undefined,
+      }).some((row) => row.id === "time"),
+    ).toBe(false);
+    expect(
+      visibleHubConfigRows({
+        NEXT_PUBLIC_WORKFORCE_TIME_ENABLED: "true",
+      }).some((row) => row.id === "time"),
+    ).toBe(true);
+  });
 });

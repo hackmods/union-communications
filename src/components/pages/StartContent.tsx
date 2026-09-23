@@ -97,7 +97,7 @@ export function StartContent({ initialPath }: { initialPath?: string }) {
       id: "comms",
       title: t("startPaths.commsTitle"),
       body: t("startPaths.commsBody"),
-      href: brandReady ? "/learn/first-week" : "/create/brand-kit",
+      href: brandReady ? "/create/letter-generator" : "/create/brand-kit",
       cta: t(brandReady ? "startPaths.commsCta" : "brandSetupTitle"),
       mark: "C",
       tone: "brand" as const,
@@ -176,8 +176,8 @@ export function StartContent({ initialPath }: { initialPath?: string }) {
               {t("brandSetupCompleteBody")}
             </p>
           </div>
-          <ButtonLink href="/learn/first-week" className="shrink-0">
-            {nav("firstWeek")}
+          <ButtonLink href="/create/letter-generator" className="shrink-0">
+            {nav("letterGenerator")}
           </ButtonLink>
         </Card>
       ) : hydrated ? (

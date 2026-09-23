@@ -29,7 +29,7 @@ export const PROHIBITED_GROUNDS = [
 
 export type ProhibitedGroundId = (typeof PROHIBITED_GROUNDS)[number];
 
-export type RtwMode = "rtw" | "accommodation";
+export type RtwMode = "rtw" | "accommodation" | "grievanceDraft";
 
 export type RtwIntakeDraft = {
   mode: RtwMode;
@@ -46,6 +46,10 @@ export type RtwIntakeDraft = {
   functionalLimitations: string;
   measures: AccommodationMeasureId[];
   customMeasure: string;
+  /** Grievance-draft mode: short issue summary for email/script. */
+  grievanceIssue: string;
+  /** Grievance-draft mode: CA article / policy cite. */
+  caArticle: string;
 };
 
 export function createEmptyRtwDraft(): RtwIntakeDraft {
@@ -64,6 +68,8 @@ export function createEmptyRtwDraft(): RtwIntakeDraft {
     functionalLimitations: "",
     measures: [],
     customMeasure: "",
+    grievanceIssue: "",
+    caArticle: "",
   };
 }
 
@@ -78,7 +84,9 @@ export function isRtwIntakeDraft(v: unknown): v is RtwIntakeDraft {
   if (!v || typeof v !== "object") return false;
   const d = v as Record<string, unknown>;
   return (
-    (d.mode === "rtw" || d.mode === "accommodation") &&
+    (d.mode === "rtw" ||
+      d.mode === "accommodation" ||
+      d.mode === "grievanceDraft") &&
     typeof d.memberName === "string" &&
     typeof d.classification === "string" &&
     typeof d.meetingDate === "string" &&
@@ -92,12 +100,21 @@ export function isRtwIntakeDraft(v: unknown): v is RtwIntakeDraft {
     typeof d.functionalLimitations === "string" &&
     Array.isArray(d.measures) &&
     d.measures.every(isMeasureId) &&
-    typeof d.customMeasure === "string"
+    typeof d.customMeasure === "string" &&
+    (typeof d.grievanceIssue === "string" || d.grievanceIssue === undefined) &&
+    (typeof d.caArticle === "string" || d.caArticle === undefined)
   );
 }
 
 export function loadRtwDraft(): RtwIntakeDraft | null {
-  return loadJsonDraft(RTW_STORAGE_KEY, isRtwIntakeDraft);
+  const loaded = loadJsonDraft(RTW_STORAGE_KEY, isRtwIntakeDraft);
+  if (!loaded) return null;
+  return {
+    ...createEmptyRtwDraft(),
+    ...loaded,
+    grievanceIssue: loaded.grievanceIssue ?? "",
+    caArticle: loaded.caArticle ?? "",
+  };
 }
 
 export function saveRtwDraft(draft: RtwIntakeDraft): boolean {
@@ -177,7 +194,9 @@ export function hasRtwIntakeStarted(draft: RtwIntakeDraft): boolean {
       draft.requestedModifications.trim() ||
       draft.functionalLimitations.trim() ||
       draft.measures.length > 0 ||
-      draft.customMeasure.trim(),
+      draft.customMeasure.trim() ||
+      draft.grievanceIssue.trim() ||
+      draft.caArticle.trim(),
   );
 }
 
@@ -247,7 +266,13 @@ export function buildRtwScripts(
   const measures = measureList(draft, labels);
 
   let body: string;
-  if (draft.mode === "rtw") {
+  if (draft.mode === "grievanceDraft") {
+    const issue = draft.grievanceIssue.trim() || "the workplace issue we discussed";
+    const article = draft.caArticle.trim();
+    body = `${labels.propose} we document ${issue} and seek early resolution for ${member}.${
+      article ? ` CA / policy reference: ${article}.` : ""
+    } ${labels.basedOn} the facts gathered to date. ${labels.preserve}`;
+  } else if (draft.mode === "rtw") {
     const schedule =
       draft.gradualHours.trim() ||
       "a phased work-hardening schedule starting at reduced hours";
@@ -279,6 +304,7 @@ export function rtwDraftToMarkdown(
     title: string;
     modeRtw: string;
     modeAccommodation: string;
+    modeGrievanceDraft?: string;
     fields: Record<string, string>;
     measureLabels: Record<AccommodationMeasureId, string>;
     groundLabels: Record<ProhibitedGroundId, string>;
@@ -289,7 +315,11 @@ export function rtwDraftToMarkdown(
 ): string {
   const { email, verbal } = buildRtwScripts(draft, labels.scripts);
   const modeLabel =
-    draft.mode === "rtw" ? labels.modeRtw : labels.modeAccommodation;
+    draft.mode === "rtw"
+      ? labels.modeRtw
+      : draft.mode === "grievanceDraft"
+        ? (labels.modeGrievanceDraft ?? "Grievance draft")
+        : labels.modeAccommodation;
   const lines: string[] = [
     `# ${labels.title}`,
     "",

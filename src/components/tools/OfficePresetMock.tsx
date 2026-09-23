@@ -19,12 +19,19 @@ type OfficePresetMockProps = {
   localLabel: string;
   fields: Record<string, string>;
   logoSrc?: string | null;
+  /** Optional letter greeting override (salutation presets). */
+  salutationLine?: string;
+  qrSrc?: string | null;
   includeDocx: boolean;
   includeXlsx: boolean;
   includePptx: boolean;
   className?: string;
   /** Brand Kit canvas tokens — drives preview type scale */
   tokens?: CanvasTokens;
+  /** CSS letter-spacing for letter body preview */
+  letterSpacing?: string;
+  /** Extra top padding for letter preview (px) */
+  topPadPx?: number;
 };
 
 function FormatChips({
@@ -69,15 +76,22 @@ export function OfficePresetMock({
   localLabel,
   fields,
   logoSrc,
+  salutationLine,
+  qrSrc,
   includeDocx,
   includeXlsx,
   includePptx,
   className,
   tokens,
+  letterSpacing,
+  topPadPx,
 }: OfficePresetMockProps) {
   const ink = pickContrastingInk(palette.primary);
   const type = tokens ? officeMockTypography(tokens) : FALLBACK_TYPE;
   const bodyPadPx = officeMockPaddingPx(tokens);
+  const greeting =
+    salutationLine?.trim() ||
+    `Dear ${fields.memberName || "Member"},`;
 
   if (presetId === "grievance-intake") {
     const wRows = [
@@ -373,14 +387,19 @@ export function OfficePresetMock({
         </div>
         <div
           className="space-y-3 text-gray-800"
-          style={{ fontSize: type.bodyPx, padding: bodyPadPx }}
+          style={{
+            fontSize: type.bodyPx,
+            padding: bodyPadPx,
+            paddingTop: topPadPx ?? bodyPadPx,
+            letterSpacing,
+          }}
         >
           {presetId === "simple-letter" || presetId === "welcome-letter" ? (
             <>
               {fields.date ? (
                 <p className="text-gray-600">{fields.date}</p>
               ) : null}
-              <p>Dear {fields.memberName || "Member"},</p>
+              <p>{greeting}</p>
               {presetId === "welcome-letter" && fields.collection ? (
                 <p className="italic text-gray-600">{fields.collection}</p>
               ) : null}
@@ -399,6 +418,14 @@ export function OfficePresetMock({
                   ? fields.presidentName || "Local president"
                   : fields.stewardName || "Steward"}
               </p>
+              {qrSrc ? (
+                // eslint-disable-next-line @next/next/no-img-element -- data URL preview
+                <img
+                  src={qrSrc}
+                  alt=""
+                  className="mt-3 h-16 w-16 rounded border border-gray-200 bg-white p-1"
+                />
+              ) : null}
             </>
           ) : (
             <>

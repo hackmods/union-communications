@@ -67,6 +67,12 @@ import {
   typeScaleFactor,
 } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import { CanvasTokenOverridesControls } from "@/components/tools/CanvasTokenOverridesControls";
+import {
+  EMPTY_CANVAS_TOKEN_OVERRIDES,
+  resolveCanvasTokensWithOverrides,
+  type CanvasTokenOverrides,
+} from "@/lib/comms/canvas-token-overrides";
 import {
   CanvasEdgeClearanceFrame,
   CanvasFitStackedHeadline,
@@ -99,6 +105,7 @@ interface PosterState {
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
+  canvasOverrides: CanvasTokenOverrides;
 }
 
 function headlineLines(headline: string): string[] {
@@ -200,6 +207,7 @@ function SolidarityPosterPageContent() {
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
     accentColor: brandKit.accentColor,
+    canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -231,6 +239,7 @@ function SolidarityPosterPageContent() {
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
       accentColor: brandKit.accentColor,
+      canvasOverrides: { ...EMPTY_CANVAS_TOKEN_OVERRIDES },
     });
   });
 
@@ -263,7 +272,11 @@ function SolidarityPosterPageContent() {
   const lines = headlineLines(state.headline);
   const chrome = layoutChrome(format);
   const isLandscape = chrome.isLandscape;
-  const baseTokens = resolveCanvasTokens(brandKit);
+  const brandCanvasTokens = resolveCanvasTokens(brandKit);
+  const baseTokens = resolveCanvasTokensWithOverrides(
+    brandKit,
+    state.canvasOverrides,
+  );
   const printReferenceWidth = PRINT_PAGE_LEGACY_REFERENCE_PX;
   const isPrintCanvas =
     format.medium === "print" && typeof format.previewWidthPx === "number";
@@ -814,6 +827,19 @@ function SolidarityPosterPageContent() {
               }
             />
           </ToolFormDetails>
+            <CanvasTokenOverridesControls
+              brandDefaults={{
+                typeScale: brandCanvasTokens.typeScale,
+                density: brandCanvasTokens.density,
+                alignmentBias: brandCanvasTokens.alignmentBias,
+                qrPlate: brandCanvasTokens.qrPlate,
+                surface: brandCanvasTokens.surface,
+              }}
+              overrides={state.canvasOverrides}
+              onChange={(canvasOverrides) =>
+                setState({ ...state, canvasOverrides })
+              }
+            />
 
           <ToolFormDetails title={tc("sectionOptions")}>
             <Checkbox

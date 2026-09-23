@@ -157,6 +157,7 @@ export default function RtwAccommodationPage() {
       title: t("title"),
       modeRtw: t("mode.rtw"),
       modeAccommodation: t("mode.accommodation"),
+      modeGrievanceDraft: t("mode.grievanceDraft"),
       fields: {
         mode: t("fields.mode"),
         memberName: t("fields.memberName"),
@@ -171,6 +172,8 @@ export default function RtwAccommodationPage() {
         requestedModifications: t("fields.requestedModifications"),
         functionalLimitations: t("fields.functionalLimitations"),
         measures: t("fields.measures"),
+        grievanceIssue: t("fields.grievanceIssue"),
+        caArticle: t("fields.caArticle"),
         emailScript: t("preview.email"),
         verbalScript: t("preview.verbal"),
       },
@@ -293,6 +296,7 @@ export default function RtwAccommodationPage() {
         options={[
           { value: "rtw", label: t("mode.rtw") },
           { value: "accommodation", label: t("mode.accommodation") },
+          { value: "grievanceDraft", label: t("mode.grievanceDraft") },
         ]}
       />
 
@@ -303,6 +307,25 @@ export default function RtwAccommodationPage() {
           setDraft((prev) => ({ ...prev, memberName: e.target.value }))
         }
       />
+      {draft.mode === "grievanceDraft" ? (
+        <>
+          <Textarea
+            label={t("fields.grievanceIssue")}
+            rows={3}
+            value={draft.grievanceIssue}
+            onChange={(e) =>
+              setDraft((prev) => ({ ...prev, grievanceIssue: e.target.value }))
+            }
+          />
+          <Input
+            label={t("fields.caArticle")}
+            value={draft.caArticle}
+            onChange={(e) =>
+              setDraft((prev) => ({ ...prev, caArticle: e.target.value }))
+            }
+          />
+        </>
+      ) : null}
       <Input
         label={t("fields.classification")}
         value={draft.classification}
@@ -363,7 +386,7 @@ export default function RtwAccommodationPage() {
             }
           />
         </>
-      ) : (
+      ) : draft.mode === "accommodation" ? (
         <>
           <Select
             label={t("fields.prohibitedGround")}
@@ -394,8 +417,10 @@ export default function RtwAccommodationPage() {
             }
           />
         </>
-      )}
+      ) : null}
 
+      {draft.mode === "grievanceDraft" ? null : (
+        <>
       <Textarea
         label={t("fields.functionalLimitations")}
         rows={4}
@@ -430,6 +455,8 @@ export default function RtwAccommodationPage() {
           }
         />
       </fieldset>
+        </>
+      )}
     </div>
   );
 
