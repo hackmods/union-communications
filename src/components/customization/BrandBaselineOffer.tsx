@@ -1,16 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { BrandBaselineApplyButton } from "@/components/customization/BrandBaselineApplyButton";
 import type { AuthorizedBrandDto } from "@/lib/customization/types";
+import { useBrandStore } from "@/store/brand-store";
 
 /**
- * Loads a published brand baseline and offers explicit apply/undo.
- * Never auto-applies into the volunteer's saved Brand Kit.
+ * Loads a published brand baseline for the Brand Kit preset's union scope
+ * (system fallback) and offers explicit apply/undo. Never auto-applies.
  */
 export function BrandBaselineOffer() {
   const t = useTranslations("brandKit.baseline");
+  const locale = useLocale();
+  const unionPresetId = useBrandStore((state) => state.brandKit.unionPresetId);
   const [content, setContent] = useState<AuthorizedBrandDto | null>(null);
   const [releaseId, setReleaseId] = useState<string | undefined>();
 
@@ -18,11 +21,18 @@ export function BrandBaselineOffer() {
     let cancelled = false;
     void (async () => {
       try {
-        const res = await fetch("/api/customization/content/brand%3Abaseline?locale=en", {
+        const params = new URLSearchParams({
+          locale: locale === "fr" ? "fr" : "en",
+        });
+        if (unionPresetId) params.set("presetId", unionPresetId);
+        const res = await fetch(`/api/customization/content/brand%3Abaseline?${params}`, {
           headers: { Accept: "application/json" },
           cache: "no-store",
         });
-        if (!res.ok || cancelled) return;
+        if (!res.ok || cancelled) {
+          if (!cancelled) setContent(null);
+          return;
+        }
         const data = await res.json() as {
           status?: string;
           content?: AuthorizedBrandDto;
@@ -31,15 +41,17 @@ export function BrandBaselineOffer() {
         if (data.status === "resolved" && data.content && !cancelled) {
           setContent(data.content);
           setReleaseId(data.releaseId);
+        } else if (!cancelled) {
+          setContent(null);
         }
       } catch {
-        // Compiled defaults / unavailable hosts leave Brand Kit unchanged.
+        if (!cancelled) setContent(null);
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [locale, unionPresetId]);
 
   if (!content) return null;
 

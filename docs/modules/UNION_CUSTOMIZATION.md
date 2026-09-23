@@ -1,12 +1,21 @@
 # Union and sub-collective customization layer
 
-**Status: accepted design; C01–C15 foundation implemented on the customization branch. Operator content seeding remains a post-deploy Root workflow.**
+**Status: accepted design; Phase 1–3 foundation on `feat/union-customization-foundation`. Not every C07–C15 acceptance gate is closed — see honest gaps below.**
 
 **Prepared:** 2026-09-22 against checkout `1f68490`.
 **Execution companion:** [implementation handoff](../audit/plan-2026-09-22-union-customization.md).
 **Operator runbook:** [CUSTOMIZATION_OPERATOR.md](../guides/CUSTOMIZATION_OPERATOR.md).
+**OPSEU use case:** [OPSEU_CUSTOMIZATION.md](../guides/OPSEU_CUSTOMIZATION.md).
 
-Implementation boundary: `src/lib/customization/` provides strict Zod payload/scope contracts, a code-owned tool configuration registry, versioned manifest validation, a pure authoring resolver, authorization decisions, C04 persistence adapters, C05 compile/read/cache services, C06 publication, C07 Root panel, C08 pilot consumers, C09 discovery sanitization, C10 asset serving, C12 workflow snapshots, C13 grant decisions (flag-gated), C14 local parameter allowlists, and C15 entitlement gates. Migration 0054 stores scopes, immutable releases and audience filtered fragments under RLS. Resolver output and raw authoring rows are internal data, not an authorized reader DTO; ordinary delivery must use `readerTransaction` via `readPublishedContent` / `loadCustomizationContent`. See the [module README](../../src/lib/customization/README.md).
+Implementation boundary: `src/lib/customization/` provides schemas, resolver, authorization, adapters, compile/read/cache, drafts/publication, discovery sanitizers, assets, grants (flag-gated), workflow snapshots, local-parameter allowlists, entitlements, and presentation-context mapping from Brand Kit preset → trusted tenant scope. Migration 0054 stores scopes/releases/fragments under RLS. Ordinary delivery uses `readPublishedContent` / `loadCustomizationContent` with a system→union chain when a seed matches the Brand Kit preset slug.
+
+### Honest gaps (still open)
+
+- Full Root block/source editor, asset-upload UI, Playwright/axe empty-state journeys.
+- Public asset GET for non-Root readers; durable entitlements table (memory provider today).
+- C09 discovery rows not yet merged into `PUBLIC_CATALOG` teasers (sanitize helpers + policy flags exist).
+- C12 grievance/hybrid consumers not pinning live snapshots; C14 has no steward manage UI.
+- Compiled Print manifest remains empty; TSX/system fallback until Root publishes union overlays.
 
 ## 1. Recommendation and review of the requirements
 

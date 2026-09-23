@@ -19,7 +19,9 @@ import {
   GuideTipItem,
 } from "@/components/comms/guide-ui";
 import { loadCustomizationContent } from "@/lib/customization/deliver-server";
+import { resolvePresentationScopes } from "@/lib/customization/presentation-context";
 import { AuthorizedGuideView } from "@/components/customization/AuthorizedGuideView";
+import { PrintGuideCustomization } from "@/components/customization/PrintGuideCustomization";
 
 export async function generateMetadata({
   params,
@@ -55,9 +57,12 @@ export default async function PrintGuidePage({
   const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
+  const presentation = resolvePresentationScopes();
   const customized = await loadCustomizationContent({
     key: "guide:learn-print",
     locale: locale === "fr" ? "fr" : "en",
+    scopes: presentation.scopes,
+    targetScopeId: presentation.targetScopeId,
   });
   const aside = (
     <GuideToolAside
@@ -85,24 +90,25 @@ export default async function PrintGuidePage({
   ];
   const footer = <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />;
 
-  if (customized.status === "resolved" && "blocks" in customized.content && customized.content.blocks.length > 0) {
-    return (
-      <AuthorizedGuideView
-        content={customized.content}
-        subtitle={t("subtitle")}
-        tocLabel={t("tocLabel")}
-        aside={aside}
-        relatedLabel={t("relatedLabel")}
-        relatedLinks={relatedLinks}
-        footer={footer}
-        sourcesLabel={ts("title")}
-      />
-    );
-  }
+  const systemOverlay =
+    customized.status === "resolved" && "blocks" in customized.content && customized.content.blocks.length > 0
+      ? (
+        <AuthorizedGuideView
+          content={customized.content}
+          subtitle={t("subtitle")}
+          tocLabel={t("tocLabel")}
+          aside={aside}
+          relatedLabel={t("relatedLabel")}
+          relatedLinks={relatedLinks}
+          footer={footer}
+          sourcesLabel={ts("title")}
+        />
+      )
+      : null;
 
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
 
-  return (
+  const compiledFallback = (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
@@ -248,5 +254,18 @@ export default async function PrintGuidePage({
         </Link>
       </GuideActionRow>
     </GuideLayout>
+  );
+
+  return (
+    <PrintGuideCustomization
+      fallback={systemOverlay ?? compiledFallback}
+      subtitle={t("subtitle")}
+      tocLabel={t("tocLabel")}
+      aside={aside}
+      relatedLabel={t("relatedLabel")}
+      relatedLinks={relatedLinks}
+      footer={footer}
+      sourcesLabel={ts("title")}
+    />
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Card } from "@/components/ui/Card";
@@ -18,10 +18,13 @@ import {
   type RulesOfOrderCategoryId,
 } from "@/lib/rules-of-order/actions";
 import { DEFAULT_RULES_OF_ORDER_CONFIGURATION } from "@/lib/customization/registry";
+import { useBrandStore } from "@/store/brand-store";
 
 export default function RulesOfOrderPage() {
   const t = useTranslations("rulesOfOrder");
   const tc = useTranslations("common");
+  const locale = useLocale();
+  const unionPresetId = useBrandStore((state) => state.brandKit.unionPresetId);
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<
     RulesOfOrderCategoryId | "all"
@@ -36,7 +39,11 @@ export default function RulesOfOrderPage() {
     let cancelled = false;
     void (async () => {
       try {
-        const res = await fetch("/api/customization/content/tool%3Arules-of-order?locale=en", {
+        const params = new URLSearchParams({
+          locale: locale === "fr" ? "fr" : "en",
+        });
+        if (unionPresetId) params.set("presetId", unionPresetId);
+        const res = await fetch(`/api/customization/content/tool%3Arules-of-order?${params}`, {
           headers: { Accept: "application/json" },
           cache: "no-store",
         });
@@ -54,7 +61,7 @@ export default function RulesOfOrderPage() {
       }
     })();
     return () => { cancelled = true; };
-  }, []);
+  }, [locale, unionPresetId]);
 
   const normalizedQuery = query.trim().toLowerCase();
 

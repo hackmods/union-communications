@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-23 — Audit follow-up: union-scoped pilot delivery
+
+- Presentation context maps Brand Kit preset / tenant slug → trusted system→union scope chain (`presentation-context.ts`).
+- Content API accepts `presetId` (not forged union ids); Brand Kit baseline, Rules of Order, and Print overlay fetch locale + preset scope.
+- Grants/entitlements were already wired in the prior polish pass; module/plan status text corrected for remaining C07–C15 gaps.
+- Validation: presentation + customization suites; typecheck/lint before push.
+
 ## 2026-09-23 — OPSEU customization use case + bargaining hide
 
 - When Brand Kit preset is `opseu`, the Bargaining lifecycle playbook is removed from Learn/Create catalogs and `/guide/bargaining` shows an OPSEU-specific notice (national/staff-led negotiations).
