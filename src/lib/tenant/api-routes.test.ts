@@ -97,7 +97,7 @@ describe("GET/POST /api/tenant", () => {
       json: async () => {
         throw new SyntaxError("bad json");
       },
-    } as Request);
+    } as unknown as Request);
     expect(invalid.status).toBe(400);
     expect(await invalid.json()).toEqual({ error: "Invalid JSON" });
 
