@@ -1,5 +1,14 @@
 # Progress Log
 
+## 2026-09-23 — Customization polish (fit-gaps / QOL)
+
+- Brand Kit baseline apply/undo uses public `brandKit.baseline` EN/FR copy (no longer Site Admin strings on a steward page).
+- Authorized guide renderer: humanized section titles, callout/list support, localized sources label; custom-guide metadata uses published title and stays noindex.
+- Root panel: body/colour/URL fields, audit reason, public-listing teaser toggle, destructive confirm dialogs, published-guide link, busy feedback.
+- Wired maintenance grants into `requireCustomizationSession` when `CUSTOMIZATION_DELEGATION_ENABLED` is on; wired hosted maintenance entitlements into write mutations.
+- SEO guard test: `/learn/custom` never enters `PUBLIC_PATHS`; What's new note for baseline apply.
+- Validation: customization + updates suites, typecheck, lint in this commit.
+
 ## 2026-09-22 — Customization C09–C15 phase completion
 
 - **C09:** Audience controls in Root panel; public discovery sanitizer (`discovery.ts`) with teasers default off; custom guides remain noindex.

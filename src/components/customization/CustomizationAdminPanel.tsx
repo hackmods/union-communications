@@ -2,10 +2,11 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { CustomizationScope } from "@/lib/customization/types";
 
 type Props = {
-  unions: Array<{ id: string; name: string }>;
+  unions: Array<{ id: string; name: string; slug?: string }>;
   enabled: boolean;
   configurationError: string | null;
 };
@@ -14,6 +15,8 @@ type HistoryPayload = {
   releases: Array<{ id: string; revisionId: string; publishedBy: string; createdAt: string }>;
   audits: Array<{ id: string; action: string; reason: string; actorId: string; createdAt: string }>;
 };
+
+type ConfirmAction = "withdraw" | "rollback" | "inherit" | null;
 
 const systemTarget: CustomizationScope = { id: "system", kind: "system", archived: false };
 
@@ -34,15 +37,27 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
   const [lastRevisionId, setLastRevisionId] = useState<string | null>(null);
   const [titleEn, setTitleEn] = useState("");
   const [titleFr, setTitleFr] = useState("");
+  const [bodyEn, setBodyEn] = useState("");
+  const [bodyFr, setBodyFr] = useState("");
+  const [sourceUrl, setSourceUrl] = useState("https://example.org/reference");
+  const [primaryColor, setPrimaryColor] = useState("#112233");
+  const [reason, setReason] = useState("");
+  const [publicListing, setPublicListing] = useState(false);
   const [localeTab, setLocaleTab] = useState<"en" | "fr">("en");
   const [previewTitle, setPreviewTitle] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryPayload | null>(null);
   const [kind, setKind] = useState<"guide" | "brand" | "source">("guide");
   const [audience, setAudience] = useState<"public" | "verified_member" | "local_officer">("public");
+  const [confirmAction, setConfirmAction] = useState<ConfirmAction>(null);
+  const [publishedHref, setPublishedHref] = useState<string | null>(null);
 
   useEffect(() => {
     if (error) errorRef.current?.focus();
   }, [error]);
+
+  function selectedUnion() {
+    return unions.find((union) => union.id === selectedUnionId);
+  }
 
   function currentTarget(): CustomizationScope {
     return {
@@ -52,6 +67,11 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
       parentScopeId: "system",
       archived: false,
     };
+  }
+
+  function mutationReason(fallback: string) {
+    const trimmed = reason.trim();
+    return trimmed || fallback;
   }
 
   async function postJson(url: string, body: unknown) {
@@ -118,11 +138,11 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
         resource: {
           schemaVersion: 1,
           key,
-          policy: { audience: "public", enabled: true, editableFields: ["label", "logoAssetId"] },
+          policy: { audience, enabled: true, editableFields: ["label", "logoAssetId"] },
           payload: {
             kind: "brand",
             label: { en: titleEn.trim() || "Union brand", fr: titleFr.trim() || "Marque syndicale" },
-            primaryColor: "#112233",
+            primaryColor: primaryColor.trim() || "#112233",
             secondaryColor: "#445566",
             accentColor: "#778899",
             headlineFontId: "montserrat",
@@ -142,12 +162,12 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
         resource: {
           schemaVersion: 1,
           key,
-          policy: { audience: "public", enabled: true, editableFields: ["label"] },
+          policy: { audience, enabled: true, editableFields: ["label"] },
           payload: {
             kind: "source",
             label: { en: titleEn.trim() || "Reference source", fr: titleFr.trim() || "Source de référence" },
-            note: { en: "Reviewed by Root", fr: "Relu par Root" },
-            url: "https://example.org/reference",
+            note: { en: bodyEn.trim() || "Reviewed by Root", fr: bodyFr.trim() || "Relu par Root" },
+            url: sourceUrl.trim() || "https://example.org/reference",
             publisher: "Example",
             jurisdiction: "Example",
             applicability: { en: "Example only", fr: "Exemple seulement" },
@@ -167,18 +187,18 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
       resource: {
         schemaVersion: 1,
         key,
-        policy: { audience: "public", enabled: true, editableFields: ["title", "blocks", "sources"] },
+        policy: { audience, enabled: true, editableFields: ["title", "blocks", "sources"] },
         payload: {
           kind: "guide",
           title: { en: titleEn.trim() || "Custom meeting guide", fr: titleFr.trim() || "Guide de réunion personnalisé" },
           blocks: [{
             id: "prepare",
             type: "paragraph",
-            audience: "public",
+            audience,
             sourceIds: [],
             content: {
-              en: [{ type: "text", text: "Prepare with your local." }],
-              fr: [{ type: "text", text: "Préparez-vous avec votre section locale." }],
+              en: [{ type: "text", text: bodyEn.trim() || "Prepare with your local." }],
+              fr: [{ type: "text", text: bodyFr.trim() || "Préparez-vous avec votre section locale." }],
             },
           }],
           sources: [],
@@ -191,6 +211,7 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
     setBusy(true);
     setError(null);
     setStatus(null);
+    setPublishedHref(null);
     try {
       if (!selectedUnionId) throw new Error(t("pickUnion"));
       const target = currentTarget();
@@ -207,7 +228,7 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
         resourceId: created.resourceId,
         expectedLockVersion: 0,
         payload,
-        reason: "Root empty-state draft",
+        reason: mutationReason("Root empty-state draft"),
         markReviewed: true,
       });
       setResourceId(created.resourceId);
@@ -236,7 +257,7 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
         resourceId,
         locale: localeTab,
         scopes: [systemTarget, target],
-        reason: "Root private preview",
+        reason: mutationReason("Root private preview"),
       });
       setPreviewTitle(String(preview.discovery?.title ?? preview.fragments?.[0]?.payload?.title ?? ""));
       setStatus(t("previewReady"));
@@ -256,7 +277,7 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
       const result = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/publish`, {
         target,
         resourceId,
-        reason: "Root publish from empty state",
+        reason: mutationReason("Root publish from empty state"),
         idempotencyKey: `ui-publish-${resourceId}-${generation}`,
         expectedDraftLockVersion: lockVersion,
         expectedGeneration: generation,
@@ -265,6 +286,10 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
       setGeneration(result.generation ?? generation + 1);
       setLastRevisionId(result.revisionId ?? null);
       setStatus(t("published", { releaseId: result.releaseId }));
+      const slug = selectedUnion()?.slug;
+      if (kind === "guide" && slug) {
+        setPublishedHref(`/learn/custom/${slug}/custom-meeting`);
+      }
       await loadHistory();
     } catch (err) {
       setError(err instanceof Error ? err.message : t("requestFailed"));
@@ -277,16 +302,18 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
     if (!resourceId || !selectedUnionId) return;
     setBusy(true);
     setError(null);
+    setConfirmAction(null);
     try {
       const target = currentTarget();
       const result = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/policy`, {
         target,
         resourceId,
-        reason: "Emergency withdrawal",
+        reason: mutationReason("Emergency withdrawal"),
         expectedPolicyVersion: policyVersion,
         withdrawn: true,
       });
       setPolicyVersion(result.policyVersion ?? policyVersion + 1);
+      setPublishedHref(null);
       setStatus(t("withdrawn"));
       await loadHistory();
     } catch (err) {
@@ -300,13 +327,14 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
     if (!resourceId || !selectedUnionId || !lastRevisionId) return;
     setBusy(true);
     setError(null);
+    setConfirmAction(null);
     try {
       const target = currentTarget();
       const result = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/rollback`, {
         target,
         resourceId,
         historicalRevisionId: lastRevisionId,
-        reason: "Rollback to last published revision",
+        reason: mutationReason("Rollback to last published revision"),
         idempotencyKey: `ui-rollback-${resourceId}-${generation}`,
         expectedDraftLockVersion: lockVersion,
         expectedGeneration: generation,
@@ -328,13 +356,14 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
     if (!resourceId || !selectedUnionId) return;
     setBusy(true);
     setError(null);
+    setConfirmAction(null);
     try {
       const target = currentTarget();
       const result = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/inherit`, {
         target,
         resourceId,
         key: resourceKey,
-        reason: "Inherit again from ancestors",
+        reason: mutationReason("Inherit again from ancestors"),
         expectedLockVersion: lockVersion,
         scopes: [systemTarget, target],
       });
@@ -357,9 +386,10 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
       const result = await postJson(`/api/site-admin/customization/resources/${encodeURIComponent(resourceId)}/policy`, {
         target,
         resourceId,
-        reason: `Set audience to ${audience}`,
+        reason: mutationReason(`Set audience to ${audience}`),
         expectedPolicyVersion: policyVersion,
         audience,
+        publicListing: audience === "public" ? publicListing : false,
       });
       setPolicyVersion(result.policyVersion ?? policyVersion + 1);
       setStatus(t("audienceUpdated", { audience: t(`audience.${audience}`) }));
@@ -394,7 +424,7 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
   const scopeLabel = selectedUnionId ? `union-${selectedUnionId}` : t("noScope");
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" aria-busy={busy}>
       <p className="text-sm font-medium text-opseu-dark" aria-live="polite">
         {t("scopeHeading", { scope: scopeLabel })}
       </p>
@@ -490,6 +520,64 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
             />
           </label>
         </div>
+        {kind !== "brand" ? (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <label className="block text-sm font-medium text-opseu-dark">
+              {t("bodyEn")}
+              <textarea
+                className="mt-1 min-h-24 w-full rounded border border-opseu-gray/30 px-3 py-2 text-sm"
+                value={bodyEn}
+                onChange={(event) => setBodyEn(event.target.value)}
+                disabled={busy}
+              />
+            </label>
+            <label className="block text-sm font-medium text-opseu-dark">
+              {t("bodyFr")}
+              <textarea
+                className="mt-1 min-h-24 w-full rounded border border-opseu-gray/30 px-3 py-2 text-sm"
+                value={bodyFr}
+                onChange={(event) => setBodyFr(event.target.value)}
+                disabled={busy}
+              />
+            </label>
+          </div>
+        ) : (
+          <label className="mt-4 block text-sm font-medium text-opseu-dark" htmlFor="customization-primary">
+            {t("primaryColor")}
+            <input
+              id="customization-primary"
+              type="text"
+              className="mt-1 w-full max-w-xs rounded border border-opseu-gray/30 px-3 py-2 font-mono text-sm"
+              value={primaryColor}
+              onChange={(event) => setPrimaryColor(event.target.value)}
+              disabled={busy}
+            />
+          </label>
+        )}
+        {kind === "source" ? (
+          <label className="mt-4 block text-sm font-medium text-opseu-dark" htmlFor="customization-source-url">
+            {t("sourceUrl")}
+            <input
+              id="customization-source-url"
+              type="url"
+              className="mt-1 w-full rounded border border-opseu-gray/30 px-3 py-2 text-sm"
+              value={sourceUrl}
+              onChange={(event) => setSourceUrl(event.target.value)}
+              disabled={busy}
+            />
+          </label>
+        ) : null}
+        <label className="mt-4 block text-sm font-medium text-opseu-dark" htmlFor="customization-reason">
+          {t("reasonLabel")}
+          <input
+            id="customization-reason"
+            className="mt-1 w-full rounded border border-opseu-gray/30 px-3 py-2 text-sm"
+            value={reason}
+            onChange={(event) => setReason(event.target.value)}
+            disabled={busy}
+            placeholder={t("reasonPlaceholder")}
+          />
+        </label>
         <label className="mt-4 block text-sm font-medium text-opseu-dark" htmlFor="customization-audience">
           {t("audienceLabel")}
           <select
@@ -505,17 +593,66 @@ export function CustomizationAdminPanel({ unions, enabled, configurationError }:
           </select>
         </label>
         <p className="mt-1 text-xs text-opseu-gray-dark">{t("audienceHint")}</p>
+        {audience === "public" ? (
+          <label className="mt-3 inline-flex items-center gap-2 text-sm text-opseu-dark">
+            <input
+              type="checkbox"
+              checked={publicListing}
+              onChange={(event) => setPublicListing(event.target.checked)}
+              disabled={busy || !resourceId}
+            />
+            {t("publicListing")}
+          </label>
+        ) : null}
+        <p className="mt-3 text-xs text-opseu-gray-dark">{t("impactHint")}</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          <button type="button" className="rounded bg-opseu-blue px-3 py-2 text-sm font-medium text-white disabled:opacity-50" onClick={() => void createDraft()} disabled={busy || !selectedUnionId}>{t("saveDraft")}</button>
+          <button type="button" className="rounded bg-opseu-blue px-3 py-2 text-sm font-medium text-white disabled:opacity-50" onClick={() => void createDraft()} disabled={busy || !selectedUnionId}>{busy ? t("working") : t("saveDraft")}</button>
           <button type="button" className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50" onClick={() => void previewDraft()} disabled={busy || !resourceId}>{t("preview")}</button>
           <button type="button" className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50" onClick={() => void publishDraft()} disabled={busy || !resourceId}>{t("publish")}</button>
           <button type="button" className="rounded border border-opseu-blue px-3 py-2 text-sm font-medium text-opseu-blue disabled:opacity-50" onClick={() => void setResourceAudience()} disabled={busy || !resourceId}>{t("setAudience")}</button>
-          <button type="button" className="rounded border border-opseu-orange px-3 py-2 text-sm font-medium text-opseu-orange disabled:opacity-50" onClick={() => void withdrawResource()} disabled={busy || !resourceId}>{t("withdraw")}</button>
-          <button type="button" className="rounded border border-opseu-gray/40 px-3 py-2 text-sm font-medium disabled:opacity-50" onClick={() => void rollbackResource()} disabled={busy || !resourceId || !lastRevisionId}>{t("rollback")}</button>
-          <button type="button" className="rounded border border-opseu-gray/40 px-3 py-2 text-sm font-medium disabled:opacity-50" onClick={() => void inheritResource()} disabled={busy || !resourceId}>{t("inherit")}</button>
+          <button type="button" className="rounded border border-opseu-orange px-3 py-2 text-sm font-medium text-opseu-orange disabled:opacity-50" onClick={() => setConfirmAction("withdraw")} disabled={busy || !resourceId}>{t("withdraw")}</button>
+          <button type="button" className="rounded border border-opseu-gray/40 px-3 py-2 text-sm font-medium disabled:opacity-50" onClick={() => setConfirmAction("rollback")} disabled={busy || !resourceId || !lastRevisionId}>{t("rollback")}</button>
+          <button type="button" className="rounded border border-opseu-gray/40 px-3 py-2 text-sm font-medium disabled:opacity-50" onClick={() => setConfirmAction("inherit")} disabled={busy || !resourceId}>{t("inherit")}</button>
         </div>
+        {confirmAction ? (
+          <div className="mt-4 rounded border border-opseu-orange/40 bg-opseu-orange/5 p-3" role="alertdialog" aria-labelledby="customization-confirm-title">
+            <p id="customization-confirm-title" className="text-sm font-semibold text-opseu-dark">
+              {t(`confirm.${confirmAction}.title`)}
+            </p>
+            <p className="mt-1 text-sm text-opseu-gray-dark">{t(`confirm.${confirmAction}.body`)}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                className="rounded bg-opseu-orange px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
+                disabled={busy}
+                onClick={() => {
+                  if (confirmAction === "withdraw") void withdrawResource();
+                  if (confirmAction === "rollback") void rollbackResource();
+                  if (confirmAction === "inherit") void inheritResource();
+                }}
+              >
+                {t("confirm.proceed")}
+              </button>
+              <button
+                type="button"
+                className="rounded border border-opseu-gray/40 px-3 py-2 text-sm"
+                disabled={busy}
+                onClick={() => setConfirmAction(null)}
+              >
+                {t("confirm.cancel")}
+              </button>
+            </div>
+          </div>
+        ) : null}
         {resourceId ? (
           <p className="mt-3 text-xs text-opseu-gray-dark">{t("resourceId", { id: resourceId, lockVersion, generation })}</p>
+        ) : null}
+        {publishedHref ? (
+          <p className="mt-3 text-sm">
+            <Link href={publishedHref} className="font-medium text-opseu-blue underline underline-offset-2">
+              {t("openPublished")}
+            </Link>
+          </p>
         ) : null}
         {previewTitle ? (
           <div className="mt-4 rounded border border-dashed border-opseu-gray/30 p-3" aria-live="polite">

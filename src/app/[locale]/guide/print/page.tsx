@@ -95,6 +95,7 @@ export default async function PrintGuidePage({
         relatedLabel={t("relatedLabel")}
         relatedLinks={relatedLinks}
         footer={footer}
+        sourcesLabel={ts("title")}
       />
     );
   }

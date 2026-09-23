@@ -7,6 +7,7 @@ import { parseJsonBody } from "@/lib/validation/parse";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
 import type { CustomizationCapability } from "@/lib/customization/authorization";
 import type { CustomizationScope } from "@/lib/customization/types";
+import { mayEditHostedCustomization } from "@/lib/customization/entitlements";
 
 export const targetScopeSchema = scopeSchema;
 export const resourceIdSchema = idSchema;
@@ -18,6 +19,14 @@ export function noStoreJson(body: unknown, init?: ResponseInit) {
 }
 
 type MutationBody = { target: CustomizationScope };
+
+const WRITE_CAPABILITIES = new Set<CustomizationCapability>([
+  "customization.edit",
+  "customization.publish",
+  "customization.policy.manage",
+  "customization.localParameters.edit",
+  "customization.grants.manage",
+]);
 
 export async function withCustomizationMutation<S extends z.ZodTypeAny>(
   req: Request,
@@ -40,6 +49,14 @@ export async function withCustomizationMutation<S extends z.ZodTypeAny>(
   const data = parsed.data as z.output<S> & MutationBody;
   const gate = await requireCustomizationSession(data.target, capability);
   if (!gate.ok) return noStoreJson({ error: gate.error }, { status: gate.status });
+
+  if (WRITE_CAPABILITIES.has(capability) && data.target.kind !== "system") {
+    const entitlement = await mayEditHostedCustomization({ unionId: data.target.unionId });
+    if (!entitlement.allowed) {
+      return noStoreJson({ error: "Hosted maintenance entitlement required", reason: entitlement.reason }, { status: 403 });
+    }
+  }
+
   try {
     const adapter = getCustomizationAdapter();
     return await run({ data, gate, adapter });

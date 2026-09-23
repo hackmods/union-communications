@@ -4194,6 +4194,12 @@
       "logoNote": "Le symbole UnionOps est utilisé par défaut jusqu’à ce que vous joigniez un mot-symbole local.",
       "collectionsNote": "Ce préréglage inclut un sélecteur de secteur et des collections de départ que vous pouvez renommer ou retirer dans Paramètres actuels ci-dessous."
     },
+    "baseline": {
+      "title": "Base de marque publiée",
+      "body": "Votre section locale peut appliquer les couleurs et la typographie d'une base publiée par Root pour votre syndicat. Cela n'écrase jamais votre Trousse de marque tant que vous ne choisissez pas Appliquer. Annuler restaure la Trousse de marque que vous aviez juste avant.",
+      "apply": "Appliquer la base de marque publiée",
+      "undo": "Annuler l'application de la base"
+    },
     "presetSlogans": {
       "opseu": {
         "items": [
@@ -7131,6 +7137,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "brand-baseline-apply": {
+        "title": "Appliquer une base de marque publiée",
+        "body": "Quand Root publie une base de marque pour votre syndicat, la Trousse de marque peut appliquer ces couleurs et polices en un tap — et Annuler restaure la Trousse de marque que vous aviez juste avant."
+      },
       "invite-local-select": {
         "title": "Syndicat et section plus clairs sur les invitations",
         "body": "Quand vous invitez des dirigeants, le formulaire utilise les mêmes champs syndicat, numéro de section et sous-groupe facultatif. Les présidents restent sur leur propre section ; les admins de syndicat peuvent encore créer une section par numéro."
@@ -7810,6 +7820,32 @@
           "public": "Public",
           "verified_member": "Membre vérifié",
           "local_officer": "Dirigeant local"
+        },
+        "bodyEn": "Corps (anglais)",
+        "bodyFr": "Corps (français)",
+        "primaryColor": "Couleur principale",
+        "sourceUrl": "URL de la source",
+        "reasonLabel": "Motif du changement",
+        "reasonPlaceholder": "Pourquoi ce changement (piste d'audit)",
+        "publicListing": "Autoriser un aperçu dans le catalogue public (désactivé par défaut)",
+        "impactHint": "Publier crée une nouvelle version. Retirer masque le contenu pour les nouveaux lecteurs. Revenir en arrière restaure le texte sous le public cible restrictif actuel. Hériter retire la surcharge de cette portée.",
+        "working": "En cours…",
+        "openPublished": "Ouvrir le guide personnalisé publié",
+        "confirm": {
+          "proceed": "Confirmer",
+          "cancel": "Annuler",
+          "withdraw": {
+            "title": "Retirer cette ressource ?",
+            "body": "Les nouveaux lecteurs ne verront plus le contenu publié tant que vous n'aurez pas publié à nouveau. Les réglages de public cible restrictifs restent en place."
+          },
+          "rollback": {
+            "title": "Revenir à la dernière révision ?",
+            "body": "Cela crée une nouvelle version à partir de la révision précédente. Le public cible et le retrait actuels sont conservés."
+          },
+          "inherit": {
+            "title": "Hériter à nouveau des ancêtres ?",
+            "body": "La surcharge de cette portée cessera de contribuer. Les conflits descendants sont vérifiés avant l'enregistrement."
+          }
         }
       },
       "usersListLead": "Derniers {count} comptes actifs dans toutes les sections. {demoCount} marqués démo",

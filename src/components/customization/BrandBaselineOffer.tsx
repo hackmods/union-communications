@@ -10,7 +10,7 @@ import type { AuthorizedBrandDto } from "@/lib/customization/types";
  * Never auto-applies into the volunteer's saved Brand Kit.
  */
 export function BrandBaselineOffer() {
-  const t = useTranslations("hub.platformOperator.customization");
+  const t = useTranslations("brandKit.baseline");
   const [content, setContent] = useState<AuthorizedBrandDto | null>(null);
   const [releaseId, setReleaseId] = useState<string | undefined>();
 
@@ -45,7 +45,8 @@ export function BrandBaselineOffer() {
 
   return (
     <div className="rounded border border-opseu-gray/30 bg-white p-3">
-      <p className="mb-2 text-sm text-opseu-gray-dark">{t("applyBaseline")}</p>
+      <p className="mb-1 text-sm font-medium text-opseu-dark">{t("title")}</p>
+      <p className="mb-2 text-sm text-opseu-gray-dark">{t("body")}</p>
       <BrandBaselineApplyButton content={content} releaseId={releaseId} />
     </div>
   );

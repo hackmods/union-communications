@@ -30,6 +30,7 @@ export default async function SiteAdminCustomizationPage({
   const unions = getAllTenantSeeds().map((seed) => ({
     id: seed.union.id,
     name: seed.union.name,
+    slug: seed.union.slug,
   }));
 
   return (

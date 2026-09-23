@@ -32,7 +32,7 @@ export function BrandBaselineApplyButton(props: {
   content: AuthorizedBrandDto;
   releaseId?: string;
 }) {
-  const t = useTranslations("hub.platformOperator.customization");
+  const t = useTranslations("brandKit.baseline");
   const setBrandKit = useBrandStore((state) => state.setBrandKit);
   const importBrandKit = useBrandStore((state) => state.importBrandKit);
   const [applied, setApplied] = useState<AppliedBaselineRecord | null>(() =>
@@ -67,7 +67,7 @@ export function BrandBaselineApplyButton(props: {
         className="rounded bg-opseu-blue px-3 py-2 text-sm font-medium text-white"
         onClick={apply}
       >
-        {t("applyBaseline")}
+        {t("apply")}
       </button>
       {applied ? (
         <button
@@ -75,7 +75,7 @@ export function BrandBaselineApplyButton(props: {
           className="rounded border border-opseu-gray/40 px-3 py-2 text-sm"
           onClick={undo}
         >
-          {t("undoBaseline")}
+          {t("undo")}
         </button>
       ) : null}
     </div>

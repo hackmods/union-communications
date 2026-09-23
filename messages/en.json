@@ -4194,6 +4194,12 @@
       "logoNote": "UnionOps mark is the default until you attach a local wordmark.",
       "collectionsNote": "This preset includes a sector picker and starter collections you can rename or trim in Current settings below."
     },
+    "baseline": {
+      "title": "Published brand baseline",
+      "body": "Your local can apply colours and type from a baseline Root published for your union. This never overwrites your Brand Kit until you choose Apply. Undo restores the kit you had just before.",
+      "apply": "Apply published brand baseline",
+      "undo": "Undo baseline application"
+    },
     "presetSlogans": {
       "opseu": {
         "items": [
@@ -7184,6 +7190,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "brand-baseline-apply": {
+        "title": "Apply a published brand baseline",
+        "body": "When Root publishes a brand baseline for your union, Brand Kit can apply those colours and typefaces with one tap — and undo restores the kit you had just before."
+      },
       "invite-local-select": {
         "title": "Clearer union and local on invites",
         "body": "When you invite officers, the form now uses the same union, local number, and optional sub-group fields. Presidents stay on their own local; union admins can still create a local by number."
@@ -7863,6 +7873,32 @@
           "public": "Public",
           "verified_member": "Verified member",
           "local_officer": "Local officer"
+        },
+        "bodyEn": "Body (English)",
+        "bodyFr": "Body (French)",
+        "primaryColor": "Primary colour",
+        "sourceUrl": "Source URL",
+        "reasonLabel": "Change reason",
+        "reasonPlaceholder": "Why this change (audit trail)",
+        "publicListing": "Allow public catalog teaser (off by default)",
+        "impactHint": "Publish creates a new release. Withdraw hides content for new readers. Rollback restores text under the current restrictive audience. Inherit removes this scope's override.",
+        "working": "Working…",
+        "openPublished": "Open published custom guide",
+        "confirm": {
+          "proceed": "Confirm",
+          "cancel": "Cancel",
+          "withdraw": {
+            "title": "Withdraw this resource?",
+            "body": "New readers will not see published content until you publish again. Existing restrictive audience settings stay in place."
+          },
+          "rollback": {
+            "title": "Rollback to the last revision?",
+            "body": "This creates a new release from the previous revision. Current audience and withdrawal policy are preserved."
+          },
+          "inherit": {
+            "title": "Inherit again from ancestors?",
+            "body": "This scope's override will stop contributing. Descendant conflicts are checked before the change is saved."
+          }
         }
       },
       "usersListLead": "Latest {count} active accounts across all unions. {demoCount} marked demo",
