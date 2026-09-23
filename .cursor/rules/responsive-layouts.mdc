@@ -28,7 +28,7 @@ Use [`PageShell`](src/components/layout/PageShell.tsx) / [`PAGE_SHELL`](src/lib/
 | `focus` | `max-w-2xl` | Manifesto, public forms — **not** multi-panel workspaces |
 | `nestedFocus` | `max-w-2xl` (no extra px) | Hub forms already inside `/app` `wide` (forgot/reset/invite) |
 | `nestedAuth` | `max-w-md` (no extra px) | Hub login / MFA |
-| `nestedProfile` | `max-w-lg` (no extra px) | Hub profile |
+| `nestedProfile` | `max-w-2xl` (no extra px) | Hub profile (photo + account; same measure as nestedFocus) |
 
 Chrome and wide use `px-4 sm:px-6 xl:px-8`. Nested Hub tiers omit horizontal padding so they do not double-pad inside `PAGE_SHELL.wide`. After picking a shell, compose with grids/columns at `lg`/`xl`/`2xl` — do not leave a sparse single column on a 90rem shell (Brand Kit is the reference **workspace** pattern; Home marketing follows [`public-marketing-ux.mdc`](public-marketing-ux.mdc)).
 

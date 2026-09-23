@@ -8,6 +8,7 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canAccessTasksModule } from "@/lib/tasks/access";
+import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 import type { Task } from "@/types/task";
 import type { HubModule, UserRole } from "@/types/tenant";
 
@@ -25,7 +26,7 @@ export function MyTasksWidget() {
     ? getTenantContext(session.user.unionId)
     : null;
   const enabledModules: HubModule[] =
-    tenant?.union.enabledModules ?? ["comms"];
+    tenant?.union.enabledModules ?? [...PRESIDENT_OVERLAY_MODULES];
   const show =
     mfaOk &&
     canAccessTasksModule(roles) &&
