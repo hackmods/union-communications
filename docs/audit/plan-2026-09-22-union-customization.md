@@ -1,6 +1,6 @@
 # Union customization: implementation handoff
 
-**Status:** C01–C06 implemented; C07 next. C07–C15 pending. Verification is recorded in PROGRESS.md.
+**Status:** C01–C06 implemented; C07 Root panel scaffold in progress (empty state + draft/publish form); C08–C15 pending. Verification is recorded in PROGRESS.md.
 
 **Design authority:** [UNION_CUSTOMIZATION.md](../modules/UNION_CUSTOMIZATION.md).
 **Baseline reviewed:** `1f68490`, 2026-09-22. Recheck the checkout before implementing.

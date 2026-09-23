@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { getDraft, saveDraft } from "@/lib/customization/drafts";
+import { getDraft, saveDraft, draftContentHash } from "@/lib/customization/drafts";
 import { layerSchema } from "@/lib/customization/schemas";
 import { noStoreJson, resourceIdSchema, targetScopeSchema, withCustomizationMutation } from "@/lib/customization/http";
 
@@ -15,6 +15,7 @@ const patchSchema = z.object({
     reviewedBy: z.string().min(1),
     reviewedAt: z.string().datetime(),
   })).optional(),
+  markReviewed: z.boolean().optional(),
   reason: z.string().trim().min(1).max(1000),
 }).strict();
 
@@ -34,6 +35,14 @@ export async function PATCH(req: Request, { params }: Params) {
   const { id } = await params;
   return withCustomizationMutation(req, "customization.edit", patchSchema, async ({ data, gate, adapter }) => {
     if (data.resourceId !== id) return noStoreJson({ error: "Resource mismatch" }, { status: 400 });
+    const hash = draftContentHash(data.payload);
+    const reviewedAt = new Date().toISOString();
+    const reviews = data.markReviewed
+      ? {
+        en: { hash, reviewedBy: gate.actor.userId, reviewedAt },
+        fr: { hash, reviewedBy: gate.actor.userId, reviewedAt },
+      }
+      : data.reviews;
     const result = await saveDraft(adapter, gate.rlsContext, {
       resourceId: data.resourceId,
       scopeId: data.target.id,
@@ -43,7 +52,7 @@ export async function PATCH(req: Request, { params }: Params) {
       payload: data.payload,
       baseReleaseId: data.baseReleaseId,
       ancestorHeads: data.ancestorHeads,
-      reviews: data.reviews,
+      reviews,
       reason: data.reason,
     });
     if (!result.ok) return noStoreJson({ error: result.error }, { status: result.status });

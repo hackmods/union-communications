@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-22 — Customization C07 Root panel scaffold
+
+- Added `/app/site-admin/customization` with empty-state copy, union scope creation, bilingual guide draft/publish form, and a Site Admin landing card. Panel stays disabled until `CUSTOMIZATION_ENABLED` + durable auth/MFA configuration checks pass.
+- Added admin helpers and APIs for scopes list/create and resource create; draft PATCH can `markReviewed` with a server-side content hash so publish bilingual attestation stays consistent.
+- EN/FR UI strings added under `hub.platformOperator.customization*`. Full browser/axe journey, history/rollback UI chrome, and withdraw/impact panels remain follow-ups on this page before calling C07 fully closed for release UX.
+- Validation: customization suites + typecheck passed. **Next: finish C07 UX depth or proceed to C08 pilot consumer wiring.**
+
 ## 2026-09-22 — Customization C06 drafts/preview/publication complete
 
 - Added draft optimistic saves (`drafts.ts`), authenticated private preview (`preview.ts`), atomic publish/rollback/policy/inherit (`publish.ts`), and audit writes that share the publication transaction (`audit.ts`).
