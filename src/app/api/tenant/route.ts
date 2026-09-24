@@ -68,6 +68,8 @@ const createLocalSchema = z.object({
   divisionId: z.string().optional(),
   collectionCode: z.string().min(1).max(32).optional(),
   collectionName: z.string().min(1).max(200).optional(),
+  /** Brand Kit union preset id (e.g. opseu) — drives CA reference pack seed. */
+  unionPresetId: z.string().min(1).max(64).optional(),
 });
 
 const createCollectionSchema = z.object({
@@ -75,6 +77,8 @@ const createCollectionSchema = z.object({
   localId: z.string().min(1),
   code: z.string().min(1).max(32),
   name: z.string().min(1).max(200),
+  /** Brand Kit union preset id — reseed OPSEU packs when relevant. */
+  unionPresetId: z.string().min(1).max(64).optional(),
 });
 
 const createUnionSchema = z.object({
@@ -349,11 +353,34 @@ export async function POST(req: Request) {
         code: data.collectionCode,
         name: data.collectionName,
       });
+      const { syncPreferredLibraryFromCollectionCode } = await import(
+        "@/lib/snippets/preferred-library"
+      );
+      syncPreferredLibraryFromCollectionCode(
+        unionId,
+        local.id,
+        data.collectionCode,
+        collection?.id,
+      );
     }
+
+    const { unionPresetSeedsReferencePacks } = await import(
+      "@/lib/snippets/libraries"
+    );
+    const { ensureReferencePacksIfEmpty } = await import(
+      "@/lib/snippets/ensure-seeded"
+    );
+    let snippetsSeeded = 0;
+    if (unionPresetSeedsReferencePacks(data.unionPresetId ?? "opseu")) {
+      const ensure = await ensureReferencePacksIfEmpty(unionId);
+      snippetsSeeded = ensure.restored;
+    }
+
     return NextResponse.json(
       {
         local,
         collection,
+        snippetsSeeded,
         context: getTenantContext(unionId),
       },
       { status: 201 },
@@ -370,8 +397,28 @@ export async function POST(req: Request) {
     code: data.code,
     name: data.name,
   });
+  const { syncPreferredLibraryFromCollectionCode } = await import(
+    "@/lib/snippets/preferred-library"
+  );
+  syncPreferredLibraryFromCollectionCode(
+    unionId,
+    data.localId,
+    data.code,
+    collection.id,
+  );
+  const { unionPresetSeedsReferencePacks } = await import(
+    "@/lib/snippets/libraries"
+  );
+  const { ensureReferencePacksIfEmpty } = await import(
+    "@/lib/snippets/ensure-seeded"
+  );
+  let snippetsSeeded = 0;
+  if (unionPresetSeedsReferencePacks(data.unionPresetId ?? "opseu")) {
+    const ensure = await ensureReferencePacksIfEmpty(unionId);
+    snippetsSeeded = ensure.restored;
+  }
   return NextResponse.json(
-    { collection, context: getTenantContext(unionId) },
+    { collection, snippetsSeeded, context: getTenantContext(unionId) },
     { status: 201 },
   );
 }

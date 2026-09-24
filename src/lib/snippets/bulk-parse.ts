@@ -128,3 +128,51 @@ export function parseSnippetBulk(
 ): CreateCaSnippetInput[] {
   return format === "csv" ? parseSnippetCsv(content) : parseSnippetText(content);
 }
+
+function cellToString(value: unknown): string {
+  if (value == null) return "";
+  if (typeof value === "string" || typeof value === "number") {
+    return String(value);
+  }
+  if (typeof value === "object" && value !== null && "text" in value) {
+    const text = (value as { text?: unknown }).text;
+    return typeof text === "string" ? text : String(text ?? "");
+  }
+  return String(value);
+}
+
+/**
+ * Parse first worksheet of an .xlsx workbook with headers
+ * clauseRef / title / body / tags (same aliases as CSV).
+ */
+export async function parseSnippetXlsx(
+  bytes: ArrayBuffer | Uint8Array,
+): Promise<CreateCaSnippetInput[]> {
+  const ExcelJS = await import("exceljs");
+  const workbook = new ExcelJS.Workbook();
+  const buffer =
+    bytes instanceof Uint8Array
+      ? Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+      : Buffer.from(bytes);
+  // exceljs typings accept Buffer; cast keeps node Buffer happy under Next.
+  await workbook.xlsx.load(buffer as never);
+  const sheet = workbook.worksheets[0];
+  if (!sheet) return [];
+
+  const rows: string[][] = [];
+  sheet.eachRow({ includeEmpty: false }, (row) => {
+    const values = row.values;
+    // ExcelJS rows are 1-indexed; index 0 is unused.
+    const cells = Array.isArray(values)
+      ? values.slice(1).map((v) => cellToString(v).trim())
+      : [];
+    if (cells.some((c) => c.length > 0)) rows.push(cells);
+  });
+  if (rows.length < 2) return [];
+
+  // Reuse CSV parser via a synthetic CSV string (handles quoting).
+  const escape = (c: string) =>
+    /[",\n]/.test(c) ? `"${c.replace(/"/g, '""')}"` : c;
+  const csv = rows.map((r) => r.map(escape).join(",")).join("\n");
+  return parseSnippetCsv(csv);
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
@@ -11,6 +11,10 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import {
+  snippetSetupCollectionsForPreset,
+  snippetSetupUnionPresets,
+} from "@/lib/snippets/setup-options";
 import type { TenantContext, TenantSeed } from "@/types/tenant";
 import { cn } from "@/lib/utils";
 
@@ -37,17 +41,40 @@ export function TenantOnboardingWizard() {
 
   const [localNumber, setLocalNumber] = useState("");
   const [subText, setSubText] = useState("");
-  const [collectionCode, setCollectionCode] = useState("");
-  const [collectionName, setCollectionName] = useState("");
+  const [unionPresetId, setUnionPresetId] = useState("opseu");
+  const [collectionCode, setCollectionCode] = useState("support");
+  const [collectionName, setCollectionName] = useState("College Support");
 
   const [addUnitLocalId, setAddUnitLocalId] = useState("");
-  const [unitCode, setUnitCode] = useState("");
-  const [unitName, setUnitName] = useState("");
+  const [unitPresetId, setUnitPresetId] = useState("opseu");
+  const [unitCode, setUnitCode] = useState("support");
+  const [unitName, setUnitName] = useState("College Support");
 
   const [unionName, setUnionName] = useState("");
   const [unionSlug, setUnionSlug] = useState("");
   const [newLocalNumber, setNewLocalNumber] = useState("");
   const [createdUnion, setCreatedUnion] = useState<TenantSeed | null>(null);
+
+  const unionPresets = useMemo(() => snippetSetupUnionPresets(), []);
+  const localCollections = useMemo(
+    () => snippetSetupCollectionsForPreset(unionPresetId),
+    [unionPresetId],
+  );
+  const unitCollections = useMemo(
+    () => snippetSetupCollectionsForPreset(unitPresetId),
+    [unitPresetId],
+  );
+
+  function applyCollectionChoice(
+    code: string,
+    options: { code: string; name: string }[],
+    setCode: (c: string) => void,
+    setName: (n: string) => void,
+  ) {
+    setCode(code);
+    const match = options.find((o) => o.code === code);
+    if (match) setName(match.name);
+  }
 
   async function refresh() {
     const res = await fetch("/api/tenant");
@@ -90,6 +117,7 @@ export function TenantOnboardingWizard() {
         action: "create_local",
         localNumber,
         subText,
+        unionPresetId,
         ...(collectionCode && collectionName
           ? { collectionCode, collectionName }
           : {}),
@@ -99,13 +127,18 @@ export function TenantOnboardingWizard() {
       setError(t("saveError"));
       return;
     }
-    const data = (await res.json()) as { context: TenantContext };
+    const data = (await res.json()) as {
+      context: TenantContext;
+      snippetsSeeded?: number;
+    };
     setCtx(data.context);
-    setMessage(t("localCreated"));
+    setMessage(
+      data.snippetsSeeded && data.snippetsSeeded > 0
+        ? t("localCreatedWithSnippets", { count: data.snippetsSeeded })
+        : t("localCreated"),
+    );
     setLocalNumber("");
     setSubText("");
-    setCollectionCode("");
-    setCollectionName("");
     window.dispatchEvent(new Event("unionops:tenant-updated"));
   }
 
@@ -121,17 +154,23 @@ export function TenantOnboardingWizard() {
         localId: addUnitLocalId,
         code: unitCode,
         name: unitName,
+        unionPresetId: unitPresetId,
       }),
     });
     if (!res.ok) {
       setError(t("saveError"));
       return;
     }
-    const data = (await res.json()) as { context: TenantContext };
+    const data = (await res.json()) as {
+      context: TenantContext;
+      snippetsSeeded?: number;
+    };
     setCtx(data.context);
-    setMessage(t("collectionCreated"));
-    setUnitCode("");
-    setUnitName("");
+    setMessage(
+      data.snippetsSeeded && data.snippetsSeeded > 0
+        ? t("collectionCreatedWithSnippets", { count: data.snippetsSeeded })
+        : t("collectionCreated"),
+    );
     window.dispatchEvent(new Event("unionops:tenant-updated"));
   }
 
@@ -271,6 +310,11 @@ export function TenantOnboardingWizard() {
               </Link>
             </li>
             <li>
+              <Link href="/app/snippets" className="text-opseu-blue underline">
+                {t("checklistSnippets")}
+              </Link>
+            </li>
+            <li>
               <div className="flex flex-wrap items-center gap-2">
                 <span>{t("checklistHall")}</span>
                 <Button
@@ -357,18 +401,55 @@ export function TenantOnboardingWizard() {
               onChange={(e) => setSubText(e.target.value)}
               autoComplete="off"
             />
-            <Input
-              label={t("optionalCollectionCode")}
-              value={collectionCode}
-              onChange={(e) => setCollectionCode(e.target.value)}
-              autoComplete="off"
-            />
-            <Input
-              label={t("optionalCollectionName")}
-              value={collectionName}
-              onChange={(e) => setCollectionName(e.target.value)}
-              autoComplete="off"
-            />
+            <div className="sm:col-span-2">
+              <Select
+                label={t("unionPreset")}
+                value={unionPresetId}
+                onChange={(e) => {
+                  const next = e.target.value;
+                  setUnionPresetId(next);
+                  const opts = snippetSetupCollectionsForPreset(next);
+                  if (opts[0]) {
+                    applyCollectionChoice(
+                      opts[0].code,
+                      opts,
+                      setCollectionCode,
+                      setCollectionName,
+                    );
+                  }
+                }}
+              >
+                {unionPresets.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+              </Select>
+              <p className="mt-1 text-xs text-gray-500">{t("unionPresetHint")}</p>
+            </div>
+            <div className="sm:col-span-2">
+              <Select
+                label={t("optionalCollection")}
+                value={collectionCode}
+                onChange={(e) =>
+                  applyCollectionChoice(
+                    e.target.value,
+                    localCollections,
+                    setCollectionCode,
+                    setCollectionName,
+                  )
+                }
+              >
+                {localCollections.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.name}
+                  </option>
+                ))}
+              </Select>
+              <p className="mt-1 text-xs text-gray-500">
+                {t("optionalCollectionHint")}
+              </p>
+            </div>
             <div className="sm:col-span-2">
               <Button type="submit" className="min-h-11">
                 {t("createLocal")}
@@ -397,20 +478,52 @@ export function TenantOnboardingWizard() {
                   ))}
                 </Select>
               </div>
-              <Input
-                label={t("collectionCode")}
-                value={unitCode}
-                onChange={(e) => setUnitCode(e.target.value)}
-                required
-                autoComplete="off"
-              />
-              <Input
-                label={t("collectionName")}
-                value={unitName}
-                onChange={(e) => setUnitName(e.target.value)}
-                required
-                autoComplete="off"
-              />
+              <div className="sm:col-span-2">
+                <Select
+                  label={t("unionPreset")}
+                  value={unitPresetId}
+                  onChange={(e) => {
+                    const next = e.target.value;
+                    setUnitPresetId(next);
+                    const opts = snippetSetupCollectionsForPreset(next);
+                    if (opts[0]) {
+                      applyCollectionChoice(
+                        opts[0].code,
+                        opts,
+                        setUnitCode,
+                        setUnitName,
+                      );
+                    }
+                  }}
+                >
+                  {unionPresets.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+              <div className="sm:col-span-2">
+                <Select
+                  label={t("collectionName")}
+                  value={unitCode}
+                  onChange={(e) =>
+                    applyCollectionChoice(
+                      e.target.value,
+                      unitCollections,
+                      setUnitCode,
+                      setUnitName,
+                    )
+                  }
+                  required
+                >
+                  {unitCollections.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.name}
+                    </option>
+                  ))}
+                </Select>
+              </div>
               <div className="sm:col-span-2">
                 <Button type="submit" className="min-h-11">
                   {t("createCollection")}

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auditLog } from "@/lib/audit/store";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { canManageQolContent } from "@/lib/qol/access";
 import { parseSnippetBulk } from "@/lib/snippets/bulk-parse";
 import { snippetStore } from "@/lib/snippets/store";
@@ -15,9 +16,15 @@ const bulkSchema = z
   })
   .strict();
 
+/** Presidents, VPs (local_exec), and union/platform admins may replace the union library. */
 function canReplaceUnionLibrary(roles: UserRole[]): boolean {
   return roles.some((r) =>
-    ["union_admin", "platform_admin", "local_president"].includes(r),
+    [
+      "union_admin",
+      "platform_admin",
+      "local_president",
+      "local_exec",
+    ].includes(r),
   );
 }
 
@@ -67,34 +74,52 @@ export async function POST(request: Request) {
     bargainingUnitId: input.bargainingUnitId ?? actor.bargainingUnitId,
   }));
 
-  let removed = 0;
-  if (parsed.mode === "replace_union") {
-    removed = await snippetStore.resetUnion(unionId);
-  }
-
-  const meta = {
-    unionId,
-    createdById: session.user.id,
-    createdByName: session.user.name ?? session.user.email ?? "Officer",
-  };
-  const result = await snippetStore.bulkCreate(scopedInputs, meta);
-
-  await auditLog.log({
-    userId: session.user.id,
-    action:
-      parsed.mode === "replace_union" ? "snippet.bulk_replace" : "snippet.bulk",
-    resourceType: "ca_snippet",
-    resourceId: "*",
+  const rlsCtx = {
     unionId,
     localId: session.user.localId,
-  });
+    crossLocal: true,
+  };
 
-  return NextResponse.json(
-    {
-      ...result,
-      removed,
-      mode: parsed.mode,
-    },
-    { status: 201 },
-  );
+  try {
+    let removed = 0;
+    if (parsed.mode === "replace_union") {
+      removed = await withRlsContext(rlsCtx, () =>
+        snippetStore.resetUnion(unionId),
+      );
+    }
+
+    const meta = {
+      unionId,
+      createdById: session.user.id,
+      createdByName: session.user.name ?? session.user.email ?? "Officer",
+    };
+    const result = await withRlsContext(rlsCtx, () =>
+      snippetStore.bulkCreate(scopedInputs, meta),
+    );
+
+    await auditLog.log({
+      userId: session.user.id,
+      action:
+        parsed.mode === "replace_union" ? "snippet.bulk_replace" : "snippet.bulk",
+      resourceType: "ca_snippet",
+      resourceId: "*",
+      unionId,
+      localId: session.user.localId,
+    });
+
+    return NextResponse.json(
+      {
+        ...result,
+        removed,
+        mode: parsed.mode,
+      },
+      { status: 201 },
+    );
+  } catch (err) {
+    console.error("[snippets] bulk import failed", err);
+    return NextResponse.json(
+      { error: "Import failed. Check the format and try again." },
+      { status: 500 },
+    );
+  }
 }

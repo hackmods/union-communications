@@ -2,10 +2,15 @@ import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
 import { canManageQolContent } from "@/lib/qol/access";
+import { ensureReferencePacksIfEmpty } from "@/lib/snippets/ensure-seeded";
 import { snippetStore } from "@/lib/snippets/store";
 import { canAccessSnippetLocalScope, canCreateSnippetInScope } from "@/lib/snippets/access";
 import { normalizeSnippetText } from "@/lib/snippets/text-normalize";
 import { isSnippetLibraryId } from "@/lib/snippets/libraries";
+import {
+  getPreferredSnippetLibrary,
+  resolvePreferredOrDefaultLibrary,
+} from "@/lib/snippets/preferred-library";
 import { isCrossLocalAdministrator } from "@/lib/authorization/model";
 import type { UserRole } from "@/types/tenant";
 
@@ -27,23 +32,28 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Local membership required" }, { status: 403 });
   }
 
+  // First visit / empty union → restore shipped packs (idempotent).
+  const ensure = await ensureReferencePacksIfEmpty(unionId);
+
   const url = new URL(request.url);
   const query = url.searchParams.get("q") ?? undefined;
   const libraryParam = url.searchParams.get("library");
   const localeParam = url.searchParams.get("locale");
 
-  let libraryId = libraryParam || undefined;
-  if (!libraryId && actor.bargainingUnitId) {
+  let collectionCode: string | null | undefined;
+  if (actor.bargainingUnitId) {
     const { getBargainingUnitById } = await import("@/lib/tenant/loader");
-    const { defaultLibraryForBargainingUnitCode } = await import(
-      "@/lib/snippets/libraries"
-    );
-    const unit = getBargainingUnitById(
-      session.user.unionId!,
-      actor.bargainingUnitId,
-    );
-    libraryId = defaultLibraryForBargainingUnitCode(unit?.code);
+    const unit = getBargainingUnitById(unionId, actor.bargainingUnitId);
+    collectionCode = unit?.code;
   }
+
+  const libraryId = resolvePreferredOrDefaultLibrary({
+    unionId,
+    localId: actor.activeLocalId,
+    bargainingUnitId: actor.bargainingUnitId,
+    collectionCode,
+    explicit: libraryParam,
+  });
 
   const snippets = await snippetStore.list({
     unionId,
@@ -65,7 +75,16 @@ export async function GET(request: Request) {
     localId: session.user.localId,
   });
 
-  return NextResponse.json({ snippets });
+  return NextResponse.json({
+    snippets,
+    preferredLibrary: getPreferredSnippetLibrary(
+      unionId,
+      actor.activeLocalId,
+      actor.bargainingUnitId,
+    ),
+    activeLibrary: libraryId,
+    ensure,
+  });
 }
 
 export async function POST(request: Request) {

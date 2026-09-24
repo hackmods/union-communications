@@ -19,6 +19,10 @@ import { withRlsContext } from "@/lib/db/rls-context";
 type AnyAsyncFn = (...args: never[]) => Promise<unknown>;
 
 function scopeFrom(x: unknown): RlsSessionContext | undefined {
+  // Plain unionId string (resetUnion / reseedReferencePacks).
+  if (typeof x === "string" && x.length > 0) {
+    return { unionId: x };
+  }
   if (!x || typeof x !== "object") return undefined;
   const record = x as { unionId?: unknown; localId?: unknown; crossLocal?: unknown };
   const unionId = record.unionId;
@@ -36,6 +40,12 @@ const SCOPE_ARG: Record<string, number> = {
   list: 0,
   create: 1,
   importLocalSlice: 0,
+  /** CA snippets — meta.unionId */
+  bulkCreate: 1,
+  /** CA snippets — unionId string */
+  resetUnion: 0,
+  reseedReferencePacks: 0,
+  upsertSeedPacks: 0,
 };
 
 /**

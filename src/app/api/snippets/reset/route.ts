@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auditLog } from "@/lib/audit/store";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
+import { withRlsContext } from "@/lib/db/rls-context";
+import { countAvailableSnippetSeedFiles } from "@/lib/snippets/seed-packs";
 import { snippetStore } from "@/lib/snippets/store";
 import type { UserRole } from "@/types/tenant";
 
@@ -42,17 +44,56 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  const removed = await snippetStore.resetUnion(unionId);
-  const restored = await snippetStore.reseedReferencePacks(unionId);
-
-  await auditLog.log({
-    userId: session.user.id,
-    action: "snippet.reset",
-    resourceType: "ca_snippet",
-    resourceId: "*",
+  const rlsCtx = {
     unionId,
     localId: session.user.localId,
-  });
+    crossLocal: true,
+  };
 
-  return NextResponse.json({ ok: true, removed, restored });
+  try {
+    const removed = await withRlsContext(rlsCtx, () =>
+      snippetStore.resetUnion(unionId),
+    );
+    const restored = await withRlsContext(rlsCtx, () =>
+      snippetStore.reseedReferencePacks(unionId),
+    );
+
+    const seedStatus = countAvailableSnippetSeedFiles();
+    if (restored === 0) {
+      console.warn(
+        `[snippets] reset restored 0 packs for ${unionId}; seed dir ${seedStatus.seedDir} has ${seedStatus.available}/${seedStatus.expected} files`,
+      );
+    }
+
+    await auditLog.log({
+      userId: session.user.id,
+      action: "snippet.reset",
+      resourceType: "ca_snippet",
+      resourceId: "*",
+      unionId,
+      localId: session.user.localId,
+    });
+
+    return NextResponse.json({
+      ok: true,
+      removed,
+      restored,
+      seedFilesAvailable: seedStatus.available,
+      seedFilesExpected: seedStatus.expected,
+      ...(restored === 0
+        ? {
+            warning:
+              seedStatus.available === 0
+                ? "packs_missing"
+                : "reseed_empty",
+          }
+        : {}),
+    });
+  } catch (err) {
+    console.error("[snippets] reset failed", err);
+    return NextResponse.json(
+      { error: "Reset failed. Refresh and try again." },
+      { status: 500 },
+    );
+  }
 }

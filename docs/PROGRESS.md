@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-24 — Hub CA clause library (site-stored)
+
+- Fixed reset/reseed under Postgres RLS; ship `seed/snippets` in Docker runner; empty unions auto-seed on first list.
+- `/app/snippets` redesigned: catalog first, Load your CA (CSV/Excel/text) secondary; preferred library from Brand Kit / union setup collection.
+- Union setup picks Brand Kit union + collection; president checklist links to CA library.
+- Entitlement stub `ca_library_hosted` for future paid org CA management; module note [`docs/modules/CA_SNIPPETS.md`](modules/CA_SNIPPETS.md).
+
 ## 2026-09-24 — Grievance load fix + ops package (MFA stays opt-in)
 
 - Removed production postgres+MFA 503 gate that blocked Hub grievance list when MFA was off; MFA remains host opt-in via `sessionMfaOk` only.

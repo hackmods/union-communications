@@ -527,12 +527,35 @@ describe("snippets API routes", () => {
         jsonRequest({ confirm: "RESET SNIPPETS" }),
       );
       expect(ok.status).toBe(200);
-      const body = (await ok.json()) as { ok: boolean; removed: number };
+      const body = (await ok.json()) as {
+        ok: boolean;
+        removed: number;
+        restored: number;
+      };
       expect(body.ok).toBe(true);
       expect(body.removed).toBeGreaterThan(0);
+      expect(body.restored).toBeGreaterThan(100);
       const restored = await snippetStore.list({ unionId: "union-b7p" });
-      expect(restored.length).toBeGreaterThan(100);
+      expect(restored.length).toBe(body.restored);
       expect(restored.every((s) => s.libraryId != null)).toBe(true);
+    });
+
+    it("lets local_exec replace_union", async () => {
+      authMock.mockResolvedValue(
+        session({ id: "user-vp", roles: ["local_exec"] }),
+      );
+      const csv = [
+        "clauseRef,title,body,tags",
+        "Article 2.01,VP import,Body from VP.,vp",
+      ].join("\n");
+      const replaced = await bulkSnippets(
+        jsonRequest({
+          format: "csv",
+          content: csv,
+          mode: "replace_union",
+        }),
+      );
+      expect(replaced.status).toBe(201);
     });
   });
 });

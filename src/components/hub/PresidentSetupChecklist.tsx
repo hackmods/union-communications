@@ -14,13 +14,14 @@ type ChecklistState = {
   hallReady: boolean;
   invitesReady: boolean;
   configVisited: boolean;
+  snippetsReady: boolean;
 };
 
 const CONFIG_VISITED_KEY = "unionops:president-config-visited";
 
 /**
  * Soft-launch progress for local presidents — modules → Hall → invites →
- * configuration visit. Complementary to the setup card.
+ * configuration visit → CA clauses. Complementary to the setup card.
  */
 export function PresidentSetupChecklist({
   enabledModules,
@@ -39,15 +40,17 @@ export function PresidentSetupChecklist({
       let hallReady = false;
       let invitesReady = false;
       let configVisited = false;
+      let snippetsReady = false;
       try {
         configVisited = localStorage.getItem(CONFIG_VISITED_KEY) === "1";
       } catch {
         configVisited = false;
       }
       try {
-        const [hallRes, invitesRes] = await Promise.all([
+        const [hallRes, invitesRes, snippetsRes] = await Promise.all([
           fetch("/api/portal/station"),
           fetch("/api/invites"),
+          fetch("/api/snippets?library=caat-s-ft&locale=en"),
         ]);
         if (hallRes.ok) {
           const data = (await hallRes.json()) as {
@@ -58,6 +61,10 @@ export function PresidentSetupChecklist({
         if (invitesRes.ok) {
           const data = (await invitesRes.json()) as { invites?: unknown[] };
           invitesReady = (data.invites?.length ?? 0) > 0;
+        }
+        if (snippetsRes.ok) {
+          const data = (await snippetsRes.json()) as { snippets?: unknown[] };
+          snippetsReady = (data.snippets?.length ?? 0) > 0;
         }
       } catch {
         /* checklist is advisory */
@@ -70,6 +77,7 @@ export function PresidentSetupChecklist({
         hallReady,
         invitesReady,
         configVisited,
+        snippetsReady,
       });
     })();
     return () => {
@@ -103,6 +111,12 @@ export function PresidentSetupChecklist({
       done: state.configVisited,
       href: "/app/configuration",
       labelKey: "config" as const,
+    },
+    {
+      id: "snippets",
+      done: state.snippetsReady,
+      href: "/app/snippets",
+      labelKey: "snippets" as const,
     },
   ];
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { canDeleteSharedContent, canManageQolContent } from "@/lib/qol/access";
 import { snippetStore } from "@/lib/snippets/store";
 import type { UpdateCaSnippetInput } from "@/types/qol";
@@ -9,6 +10,15 @@ import { canManageSnippet, canViewSnippet } from "@/lib/snippets/access";
 import { normalizeSnippetText } from "@/lib/snippets/text-normalize";
 
 type RouteContext = { params: Promise<{ id: string }> };
+
+function rlsFromSession(session: {
+  user: { unionId?: string | null; localId?: string | null };
+}) {
+  return {
+    unionId: session.user.unionId!,
+    localId: session.user.localId ?? undefined,
+  };
+}
 
 export async function GET(_request: Request, context: RouteContext) {
   const authResult = await requireGrievanceSession();
@@ -20,7 +30,9 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const snippet = await snippetStore.getById(id);
+  const snippet = await withRlsContext(rlsFromSession(authResult.session), () =>
+    snippetStore.getById(id),
+  );
   if (!snippet) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -49,7 +61,9 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const existing = await snippetStore.getById(id);
+  const existing = await withRlsContext(rlsFromSession(authResult.session), () =>
+    snippetStore.getById(id),
+  );
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -83,7 +97,9 @@ export async function PATCH(request: Request, context: RouteContext) {
       .map((tag) => normalizeSnippetText(tag))
       .filter(Boolean);
   }
-  const updated = await snippetStore.update(id, patch);
+  const updated = await withRlsContext(rlsFromSession(authResult.session), () =>
+    snippetStore.update(id, patch),
+  );
   await auditLog.log({
     userId: authResult.session.user.id,
     action: "snippet.update",
@@ -111,7 +127,9 @@ export async function DELETE(_request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const existing = await snippetStore.getById(id);
+  const existing = await withRlsContext(rlsFromSession(authResult.session), () =>
+    snippetStore.getById(id),
+  );
   if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -131,7 +149,9 @@ export async function DELETE(_request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  await snippetStore.remove(id);
+  await withRlsContext(rlsFromSession(authResult.session), () =>
+    snippetStore.remove(id),
+  );
   await auditLog.log({
     userId: authResult.session.user.id,
     action: "snippet.delete",

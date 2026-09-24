@@ -24,7 +24,12 @@ import type { UserRole } from "@/types/tenant";
 
 function canReplaceUnionLibrary(roles: UserRole[]): boolean {
   return roles.some((r) =>
-    ["union_admin", "platform_admin", "local_president"].includes(r),
+    [
+      "union_admin",
+      "platform_admin",
+      "local_president",
+      "local_exec",
+    ].includes(r),
   );
 }
 
@@ -46,6 +51,13 @@ function inferLibraryFromBargainingUnitId(
     return defaultLibraryForBargainingUnitCode("academic");
   }
   return defaultLibraryForBargainingUnitCode("ft");
+}
+
+function mapListError(status: number, t: (key: string) => string): string {
+  if (status === 401) return t("snippets.errorUnauthorized");
+  if (status === 403) return t("snippets.errorForbidden");
+  if (status === 503) return t("snippets.errorMfa");
+  return t("snippets.errorGeneric");
 }
 
 export function SnippetLibrary() {
@@ -71,6 +83,8 @@ export function SnippetLibrary() {
   );
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [showLoadCa, setShowLoadCa] = useState(false);
+  const [showMaintain, setShowMaintain] = useState(false);
   const [title, setTitle] = useState("");
   const [clauseRef, setClauseRef] = useState("");
   const [body, setBody] = useState("");
@@ -80,7 +94,9 @@ export function SnippetLibrary() {
   const [error, setError] = useState<string | null>(null);
 
   const [bulkFormat, setBulkFormat] = useState<"csv" | "text">("csv");
-  const [bulkMode, setBulkMode] = useState<"append" | "replace_union">("append");
+  const [bulkMode, setBulkMode] = useState<"append" | "replace_union">(
+    "replace_union",
+  );
   const [bulkContent, setBulkContent] = useState("");
   const [bulkBusy, setBulkBusy] = useState(false);
   const [resetBusy, setResetBusy] = useState(false);
@@ -104,10 +120,25 @@ export function SnippetLibrary() {
     locale?: SnippetLocale;
   }) {
     setLoading(true);
+    setError(null);
     const res = await fetch(buildListUrl(opts));
     if (res.ok) {
-      const data = await res.json();
+      const data = (await res.json()) as {
+        snippets: CaSnippet[];
+        preferredLibrary?: SnippetLibraryId | null;
+        activeLibrary?: SnippetLibraryId;
+      };
       setSnippets(data.snippets);
+      if (!libraryId && data.preferredLibrary) {
+        setLibraryId(data.preferredLibrary);
+      } else if (!libraryId && data.activeLibrary) {
+        setLibraryId(data.activeLibrary);
+      }
+      if (data.snippets.length === 0 && canReplace) {
+        setShowLoadCa(true);
+      }
+    } else {
+      setError(mapListError(res.status, t));
     }
     setLoading(false);
   }
@@ -119,9 +150,23 @@ export function SnippetLibrary() {
     params.set("locale", snippetLocale);
     void fetch(`/api/snippets?${params.toString()}`)
       .then(async (res) => {
-        if (cancelled || !res.ok) return;
-        const data = await res.json();
+        if (cancelled) return;
+        if (!res.ok) {
+          setError(mapListError(res.status, t));
+          return;
+        }
+        const data = (await res.json()) as {
+          snippets: CaSnippet[];
+          preferredLibrary?: SnippetLibraryId | null;
+          activeLibrary?: SnippetLibraryId;
+        };
         setSnippets(data.snippets);
+        if (data.preferredLibrary) {
+          setLibraryId((prev) => prev ?? data.preferredLibrary ?? null);
+        }
+        if (data.snippets.length === 0) {
+          setShowLoadCa(true);
+        }
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -129,7 +174,7 @@ export function SnippetLibrary() {
     return () => {
       cancelled = true;
     };
-  }, [activeLibrary, snippetLocale]);
+  }, [activeLibrary, snippetLocale, t]);
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
@@ -180,7 +225,12 @@ export function SnippetLibrary() {
         }),
       });
       if (!res.ok) {
-        setError(t("snippets.bulkError"));
+        const bodyJson = (await res.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        if (res.status === 403) setError(t("snippets.errorForbidden"));
+        else if (bodyJson?.error) setError(bodyJson.error);
+        else setError(t("snippets.bulkError"));
         return;
       }
       const data = (await res.json()) as {
@@ -195,6 +245,7 @@ export function SnippetLibrary() {
         }),
       );
       setBulkContent("");
+      setShowLoadCa(false);
       await load();
     } catch {
       setError(t("snippets.bulkError"));
@@ -205,18 +256,42 @@ export function SnippetLibrary() {
 
   async function handleFilePick(file: File | null) {
     if (!file) return;
+    const name = file.name.toLowerCase();
+    if (name.endsWith(".xlsx") || name.endsWith(".xls")) {
+      const { parseSnippetXlsx } = await import("@/lib/snippets/bulk-parse");
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const rows = await parseSnippetXlsx(bytes);
+      if (rows.length === 0) {
+        setError(t("snippets.bulkExcelEmpty"));
+        return;
+      }
+      // Convert rows back to CSV for the existing bulk API.
+      const escape = (c: string) =>
+        /[",\n]/.test(c) ? `"${c.replace(/"/g, '""')}"` : c;
+      const header = "clauseRef,title,body,tags";
+      const lines = rows.map((r) =>
+        [
+          escape(r.clauseRef),
+          escape(r.title),
+          escape(r.body),
+          escape((r.tags ?? []).join("|")),
+        ].join(","),
+      );
+      setBulkContent([header, ...lines].join("\n"));
+      setBulkFormat("csv");
+      setError(null);
+      return;
+    }
+
     const { decodeSnippetFileBytes } = await import(
       "@/lib/snippets/text-normalize"
     );
     const bytes = new Uint8Array(await file.arrayBuffer());
     const text = decodeSnippetFileBytes(bytes);
     setBulkContent(text);
-    if (file.name.toLowerCase().endsWith(".csv")) {
+    if (name.endsWith(".csv")) {
       setBulkFormat("csv");
-    } else if (
-      file.name.toLowerCase().endsWith(".txt") ||
-      file.name.toLowerCase().endsWith(".text")
-    ) {
+    } else if (name.endsWith(".txt") || name.endsWith(".text")) {
       setBulkFormat("text");
     }
   }
@@ -234,12 +309,28 @@ export function SnippetLibrary() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ confirm: "RESET SNIPPETS" }),
       });
+      const data = (await res.json().catch(() => ({}))) as {
+        removed?: number;
+        restored?: number;
+        warning?: string;
+        error?: string;
+      };
       if (!res.ok) {
-        setError(t("snippets.resetError"));
+        if (res.status === 403) setError(t("snippets.errorForbidden"));
+        else if (res.status === 503) setError(t("snippets.errorMfa"));
+        else setError(data.error ?? t("snippets.resetError"));
         return;
       }
-      const data = (await res.json()) as { removed: number };
-      setMessage(t("snippets.resetSuccess", { removed: data.removed }));
+      if (data.warning === "packs_missing") {
+        setError(t("snippets.resetPacksMissing"));
+      } else {
+        setMessage(
+          t("snippets.resetSuccess", {
+            removed: data.removed ?? 0,
+            restored: data.restored ?? 0,
+          }),
+        );
+      }
       await load();
     } catch {
       setError(t("snippets.resetError"));
@@ -263,6 +354,9 @@ export function SnippetLibrary() {
     else setError(t("snippets.createError"));
   }
 
+  const packSnippets = snippets.filter((s) => s.libraryId);
+  const customSnippets = snippets.filter((s) => !s.libraryId);
+
   return (
     <div>
       {readOnly && (
@@ -278,13 +372,25 @@ export function SnippetLibrary() {
           <h1 className="text-3xl font-bold text-opseu-dark">
             {t("snippets.title")}
           </h1>
-          <p className="mt-1 text-gray-600">{t("snippets.subtitle")}</p>
+          <p className="mt-1 max-w-2xl text-gray-600">
+            {t("snippets.subtitle")}
+          </p>
         </div>
-        {canWrite && (
-          <Button onClick={() => setShowForm((v) => !v)}>
-            {showForm ? t("snippets.cancel") : t("snippets.add")}
-          </Button>
-        )}
+        <div className="flex flex-wrap gap-2">
+          {canWrite && (
+            <Button
+              variant="outline"
+              onClick={() => setShowLoadCa((v) => !v)}
+            >
+              {showLoadCa ? t("snippets.loadCaHide") : t("snippets.loadCa")}
+            </Button>
+          )}
+          {canWrite && (
+            <Button onClick={() => setShowForm((v) => !v)}>
+              {showForm ? t("snippets.cancel") : t("snippets.add")}
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className="mt-6 xl:grid xl:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] xl:items-start xl:gap-6">
@@ -335,8 +441,19 @@ export function SnippetLibrary() {
         </div>
 
         <div>
+          {message && (
+            <p className="mb-4 text-sm text-opseu-blue" role="status">
+              {message}
+            </p>
+          )}
+          {error && (
+            <p className="mb-4 text-sm text-red-700" role="alert">
+              {error}
+            </p>
+          )}
+
           {showForm && canWrite && (
-            <Card className="space-y-3">
+            <Card className="mb-4 space-y-3">
               <CardTitle>{t("snippets.add")}</CardTitle>
               <form onSubmit={handleCreate} className="space-y-3">
                 <Input
@@ -369,10 +486,10 @@ export function SnippetLibrary() {
             </Card>
           )}
 
-          {canWrite && (
-            <Card className="mt-4 space-y-3">
-              <CardTitle>{t("snippets.bulkTitle")}</CardTitle>
-              <p className="text-sm text-gray-600">{t("snippets.bulkHint")}</p>
+          {canWrite && showLoadCa && (
+            <Card className="mb-4 space-y-3 border-opseu-blue/30">
+              <CardTitle>{t("snippets.loadCaTitle")}</CardTitle>
+              <p className="text-sm text-gray-600">{t("snippets.loadCaHint")}</p>
               <form
                 onSubmit={(e) => void handleBulkImport(e)}
                 className="space-y-3"
@@ -419,7 +536,7 @@ export function SnippetLibrary() {
                   {t("snippets.bulkFile")}
                   <input
                     type="file"
-                    accept=".csv,.txt,text/csv,text/plain"
+                    accept=".csv,.txt,.xlsx,.xls,text/csv,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     className="mt-1 block w-full text-sm"
                     onChange={(e) =>
                       void handleFilePick(e.target.files?.[0] ?? null)
@@ -446,35 +563,39 @@ export function SnippetLibrary() {
           )}
 
           {canReset && (
-            <Card className="mt-4 space-y-3 border-red-200">
-              <CardTitle>{t("snippets.resetTitle")}</CardTitle>
-              <p className="text-sm text-gray-600">{t("snippets.resetHint")}</p>
+            <div className="mb-4">
               <Button
                 variant="ghost"
-                disabled={resetBusy}
-                onClick={() => void handleResetLibrary()}
+                size="sm"
+                onClick={() => setShowMaintain((v) => !v)}
               >
-                {resetBusy
-                  ? t("snippets.resetWorking")
-                  : t("snippets.resetButton")}
+                {showMaintain
+                  ? t("snippets.maintainHide")
+                  : t("snippets.maintainShow")}
               </Button>
-            </Card>
-          )}
-
-          {message && (
-            <p className="mt-4 text-sm text-opseu-blue" role="status">
-              {message}
-            </p>
-          )}
-          {error && (
-            <p className="mt-4 text-sm text-red-700" role="alert">
-              {error}
-            </p>
+              {showMaintain && (
+                <Card className="mt-2 space-y-3 border-red-200">
+                  <CardTitle>{t("snippets.resetTitle")}</CardTitle>
+                  <p className="text-sm text-gray-600">
+                    {t("snippets.resetHint")}
+                  </p>
+                  <Button
+                    variant="ghost"
+                    disabled={resetBusy}
+                    onClick={() => void handleResetLibrary()}
+                  >
+                    {resetBusy
+                      ? t("snippets.resetWorking")
+                      : t("snippets.resetButton")}
+                  </Button>
+                </Card>
+              )}
+            </div>
           )}
 
           {loading ? (
             <div
-              className="mt-6 space-y-3"
+              className="mt-2 space-y-3"
               aria-busy="true"
               aria-label={t("snippets.loading")}
             >
@@ -484,71 +605,124 @@ export function SnippetLibrary() {
             </div>
           ) : snippets.length === 0 ? (
             <EmptyState
-              className="mt-6"
+              className="mt-2"
               title={
                 snippetLocale === "fr"
                   ? t("snippets.emptyLocaleFr")
                   : t("snippets.empty")
               }
+              description={t("snippets.emptyHint")}
               action={
                 canWrite ? (
-                  <Button size="sm" onClick={() => setShowForm(true)}>
-                    {t("snippets.add")}
+                  <Button size="sm" onClick={() => setShowLoadCa(true)}>
+                    {t("snippets.loadCa")}
+                  </Button>
+                ) : canReset ? (
+                  <Button size="sm" onClick={() => void handleResetLibrary()}>
+                    {t("snippets.resetButton")}
                   </Button>
                 ) : undefined
               }
             />
           ) : (
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {snippets.map((s) => (
-                <Card key={s.id}>
-                  <div className="flex flex-wrap items-start justify-between gap-2">
-                    <div>
-                      <CardTitle className="text-base">{s.title}</CardTitle>
-                      <p className="mt-1 text-sm font-medium text-opseu-blue">
-                        {s.clauseRef}
-                      </p>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => void copySnippet(s)}
-                      >
-                        {copiedId === s.id
-                          ? t("snippets.copied")
-                          : t("snippets.copy")}
-                      </Button>
-                      {!readOnly &&
-                        canDeleteSharedContent(
-                          roles,
-                          s.createdById,
-                          userId,
-                        ) && (
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => void removeSnippet(s.id)}
-                          >
-                            {t("snippets.delete")}
-                          </Button>
-                        )}
-                    </div>
+            <div className="mt-2 space-y-8">
+              {packSnippets.length > 0 && (
+                <section>
+                  <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+                    {t("snippets.packHeading")}
+                  </h2>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {packSnippets.map((s) => (
+                      <SnippetCard
+                        key={s.id}
+                        snippet={s}
+                        copiedId={copiedId}
+                        onCopy={() => void copySnippet(s)}
+                        onDelete={
+                          !readOnly &&
+                          canDeleteSharedContent(roles, s.createdById, userId)
+                            ? () => void removeSnippet(s.id)
+                            : undefined
+                        }
+                        t={t}
+                      />
+                    ))}
                   </div>
-                  <p className="mt-3 whitespace-pre-wrap text-sm text-gray-700">
-                    {s.body}
-                  </p>
-                  {s.tags.length > 0 && (
-                    <p className="mt-2 text-xs text-gray-500">
-                      {s.tags.join(" · ")}
-                    </p>
-                  )}
-                </Card>
-              ))}
+                </section>
+              )}
+              {customSnippets.length > 0 && (
+                <section>
+                  <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+                    {t("snippets.customHeading")}
+                  </h2>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {customSnippets.map((s) => (
+                      <SnippetCard
+                        key={s.id}
+                        snippet={s}
+                        copiedId={copiedId}
+                        onCopy={() => void copySnippet(s)}
+                        onDelete={
+                          !readOnly &&
+                          canDeleteSharedContent(roles, s.createdById, userId)
+                            ? () => void removeSnippet(s.id)
+                            : undefined
+                        }
+                        t={t}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
             </div>
           )}
         </div>
       </div>
     </div>
+  );
+}
+
+function SnippetCard({
+  snippet,
+  copiedId,
+  onCopy,
+  onDelete,
+  t,
+}: {
+  snippet: CaSnippet;
+  copiedId: string | null;
+  onCopy: () => void;
+  onDelete?: () => void;
+  t: ReturnType<typeof useTranslations<"qol">>;
+}) {
+  return (
+    <Card>
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <CardTitle className="text-base">{snippet.title}</CardTitle>
+          <p className="mt-1 text-sm font-medium text-opseu-blue">
+            {snippet.clauseRef}
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={onCopy}>
+            {copiedId === snippet.id
+              ? t("snippets.copied")
+              : t("snippets.copy")}
+          </Button>
+          {onDelete && (
+            <Button size="sm" variant="ghost" onClick={onDelete}>
+              {t("snippets.delete")}
+            </Button>
+          )}
+        </div>
+      </div>
+      <p className="mt-3 whitespace-pre-wrap text-sm text-gray-700">
+        {snippet.body}
+      </p>
+      {snippet.tags.length > 0 && (
+        <p className="mt-2 text-xs text-gray-500">{snippet.tags.join(" · ")}</p>
+      )}
+    </Card>
   );
 }

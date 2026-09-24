@@ -7357,6 +7357,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "ca-clause-library-site": {
+        "title": "CA clause library lives on the site",
+        "body": "Browse your union’s clauses in Officer Hub, restore college reference packs when empty, and Load your CA from CSV, Excel, or text. Brand Kit collection choice sets the default agreement without wiping custom clauses."
+      },
       "qr-card-pocket-type": {
         "title": "Clearer type on pocket QR cards",
         "body": "QR Link Cards and Action Cards use the space above the code for the description, so pocket presets like Right to refuse stay readable instead of truncating into empty red."
@@ -8728,12 +8732,13 @@
     },
     "presidentChecklist": {
       "title": "Local launch checklist",
-      "body": "Four steps to open Officer Hub and Local Portal without overload.",
+      "body": "Steps to open Officer Hub and Local Portal without overload.",
       "steps": {
         "modules": "Choose modules",
         "hall": "Open Hall",
         "invites": "Invite people",
-        "config": "Review president configuration"
+        "config": "Review president configuration",
+        "snippets": "Open the CA clause library"
       }
     },
     "moduleDisabled": {
@@ -8892,7 +8897,7 @@
     "localNumber": "Local number",
     "subText": "Subtitle (e.g. Support Staff)",
     "unionPreset": "Union (for Brand Kit / CA packs)",
-    "unionPresetHint": "College OPSEU locals get shipped CA reference packs. Other unions start empty until you Load your CA.",
+    "unionPresetHint": "College locals get shipped CA reference packs when their Brand Kit union matches. Other unions start empty until you Load your CA.",
     "optionalCollection": "Collection (optional)",
     "optionalCollectionHint": "Sets the default agreement filter in the CA clause library. You can add more collections later.",
     "optionalCollectionCode": "Collection code (optional)",
@@ -9895,8 +9900,8 @@
       "daysUntil": "Due in {days}d"
     },
     "snippets": {
-      "title": "CA clause snippets",
-      "subtitle": "Union-scoped clause library for notes and drafts. Copy only - never auto-insert into member emails.",
+      "title": "CA clause library",
+      "subtitle": "Site-stored clauses for your union — available on every device once seeded. Copy into notes; never auto-insert into member emails.",
       "library": "Agreement / source",
       "libraries": {
         "caat-a": "College Academic (2024–2027)",
@@ -9909,6 +9914,10 @@
       "localeFr": "French",
       "localeHint": "French packs can be imported later. Switch language to browse EN or FR clauses.",
       "emptyLocaleFr": "No French snippets for this source yet. Switch to English, or import a French CSV when you have one.",
+      "empty": "No clauses in this library yet.",
+      "emptyHint": "College locals usually get reference packs on first visit. Presidents can Load your CA from a CSV, Excel, or text file.",
+      "packHeading": "Reference pack",
+      "customHeading": "Local additions",
       "add": "Add snippet",
       "cancel": "Cancel",
       "search": "Search snippets",
@@ -9920,13 +9929,16 @@
       "tagsHint": "Comma-separated, e.g. discipline, timeline",
       "save": "Save snippet",
       "loading": "Loading snippets…",
-      "empty": "No snippets yet.",
       "copy": "Copy",
       "copied": "Copied!",
       "delete": "Delete",
       "created": "Snippet saved.",
       "createError": "Could not save snippet. Check the fields and try again.",
       "insert": "Insert CA snippet into note",
+      "loadCa": "Load your CA",
+      "loadCaHide": "Hide Load your CA",
+      "loadCaTitle": "Load your collective agreement",
+      "loadCaHint": "Import CSV, Excel (.xlsx), or text blocks. Prefer Replace when this is your local’s real CA — append to add without wiping reference packs.",
       "bulkTitle": "Bulk import",
       "bulkHint": "Paste CSV (clauseRef,title,body,tags) or text blocks (Article X.Y | Title, then body until a blank line). Tags use | or ;. Import repairs mojibake and smart quotes; French accents stay intact.",
       "bulkFormat": "Format",
@@ -9935,19 +9947,27 @@
       "bulkMode": "Import mode",
       "bulkModeAppend": "Append (skip duplicates)",
       "bulkModeReplace": "Replace entire union library",
-      "bulkFile": "Or choose a .csv / .txt file",
+      "bulkFile": "Choose a .csv, .xlsx, or .txt file",
       "bulkContent": "Paste content",
-      "bulkImport": "Import snippets",
+      "bulkImport": "Import into site library",
       "bulkWorking": "Importing…",
       "bulkSuccess": "Imported {created} snippet(s); skipped {skipped}.",
       "bulkError": "Could not import snippets. Check the format and try again.",
-      "resetTitle": "Reset union library",
-      "resetHint": "Deletes custom CA snippets for this union, then restores the shipped college academic, college support full-time and part-time, and constitution packs. Presidents use Replace on bulk import to wipe without restoring packs.",
-      "resetButton": "Reset library",
+      "bulkExcelEmpty": "No valid rows in that Excel file. Use headers clauseRef, title, body (tags optional).",
+      "maintainShow": "Maintain reference packs (union admins)",
+      "maintainHide": "Hide maintain tools",
+      "resetTitle": "Restore shipped reference packs",
+      "resetHint": "Deletes all custom CA snippets for this union, then restores the shipped college academic, college support full-time and part-time, and constitution packs. Presidents use Replace on Load your CA to wipe without restoring packs.",
+      "resetButton": "Reset and restore packs",
       "resetWorking": "Resetting…",
-      "resetConfirm": "Reset this union's snippet library to the shipped CA packs? Custom clauses will be deleted. Type confirmation is enforced on the server.",
-      "resetSuccess": "Removed {removed} snippet(s) and restored the shipped packs.",
-      "resetError": "Could not reset the snippet library. Refresh and try again."
+      "resetConfirm": "Reset this union's snippet library to the shipped CA packs? Custom clauses will be deleted.",
+      "resetSuccess": "Removed {removed} snippet(s) and restored {restored} pack clause(s).",
+      "resetError": "Could not reset the snippet library. Refresh and try again.",
+      "resetPacksMissing": "Reset ran, but no seed pack files were found on this host. Ask an operator to redeploy with seed/snippets, or Load your CA from a file.",
+      "errorUnauthorized": "Sign in again to open the clause library.",
+      "errorForbidden": "You do not have permission for that action. Ask a president or union admin, or complete MFA if required.",
+      "errorMfa": "MFA is required for this host before changing the clause library.",
+      "errorGeneric": "Could not load the clause library. Refresh and try again."
     },
     "marketplace": {
       "title": "Union template marketplace",

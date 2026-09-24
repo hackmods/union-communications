@@ -75,6 +75,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY docker/entrypoint.sh /entrypoint.sh
+# Runtime reseed of Hub CA clause packs (POST /api/snippets/reset).
+COPY seed/snippets ./seed/snippets
 # Minimal manifest — the runner needs only drizzle-orm + postgres.
 COPY docker/migrate-package.json ./db-migrate/package.json
 COPY src/lib/db/migrations ./db-migrate/src/lib/db/migrations

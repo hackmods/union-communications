@@ -24,6 +24,13 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "ca-clause-library-site",
+    date: "2026-09-24",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/snippets",
+  },
+  {
     id: "ca-snippet-packs-locale",
     date: "2026-09-23",
     kind: "added",

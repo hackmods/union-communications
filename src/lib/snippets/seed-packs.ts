@@ -43,10 +43,14 @@ export function loadSnippetSeedPackInputs(options?: {
     libraryId: SnippetLibraryId;
     locale: SnippetLocale;
   })[] = [];
+  let missing = 0;
 
   for (const pack of SNIPPET_SEED_FILES) {
     const path = resolve(seedDir, pack.file);
-    if (!existsSync(path)) continue;
+    if (!existsSync(path)) {
+      missing += 1;
+      continue;
+    }
     const csv = readFileSync(path, "utf8");
     for (const row of parseSnippetCsv(csv)) {
       rows.push({
@@ -59,7 +63,30 @@ export function loadSnippetSeedPackInputs(options?: {
       });
     }
   }
+
+  if (missing > 0 && rows.length === 0) {
+    console.warn(
+      `[snippets] No seed CSVs found under ${seedDir} (${missing} pack file(s) missing). Runtime reseed will restore 0 rows.`,
+    );
+  } else if (missing > 0) {
+    console.warn(
+      `[snippets] ${missing} of ${SNIPPET_SEED_FILES.length} seed pack file(s) missing under ${seedDir}.`,
+    );
+  }
+
   return rows;
+}
+
+/** How many registered seed CSV files are present on disk. */
+export function countAvailableSnippetSeedFiles(options?: {
+  seedDir?: string;
+}): { available: number; expected: number; seedDir: string } {
+  const seedDir = options?.seedDir ?? resolve(process.cwd(), "seed/snippets");
+  let available = 0;
+  for (const pack of SNIPPET_SEED_FILES) {
+    if (existsSync(resolve(seedDir, pack.file))) available += 1;
+  }
+  return { available, expected: SNIPPET_SEED_FILES.length, seedDir };
 }
 
 export function buildSeedSnippets(unionId: string): CaSnippet[] {

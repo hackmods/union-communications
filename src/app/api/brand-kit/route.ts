@@ -5,8 +5,10 @@ import {
   hubSettingsKey,
   saveHubBrandKitRecord,
 } from "@/lib/hub-settings/store";
+import { syncPreferredLibraryFromCollectionCode } from "@/lib/snippets/preferred-library";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { brandKitPutSchema } from "@/lib/validation/hub-settings";
+import type { BrandKit } from "@/types/entities";
 
 /**
  * Authenticated Brand Kit persistence for `ApiAdapter` (Hub context only).
@@ -47,12 +49,31 @@ export async function PUT(request: Request) {
   const key = hubSettingsKey(session.user.id, session.user.unionId);
   const record = saveHubBrandKitRecord(key, {
     ...(parsed.data.brandKit !== undefined
-      ? { brandKit: parsed.data.brandKit as import("@/types/entities").BrandKit | null }
+      ? { brandKit: parsed.data.brandKit as BrandKit | null }
       : {}),
     ...(parsed.data.onboardingComplete !== undefined
       ? { onboardingComplete: parsed.data.onboardingComplete }
       : {}),
   });
+
+  // Preference only — never wipe custom CA clauses when Brand Kit collection changes.
+  const unionId = session.user.unionId;
+  const localId = session.user.localId;
+  const kit = record.brandKit;
+  if (unionId && localId && kit) {
+    const active = kit.profiles?.find((p) => p.id === kit.activeProfileId);
+    const code =
+      active?.bargainingUnitCode ?? kit.local?.bargainingUnitCode ?? null;
+    if (code) {
+      syncPreferredLibraryFromCollectionCode(
+        unionId,
+        localId,
+        code,
+        session.user.bargainingUnitId,
+      );
+    }
+  }
+
   return NextResponse.json(record);
 }
 

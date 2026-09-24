@@ -206,6 +206,18 @@ export class MemorySnippetAdapter implements SnippetAdapter {
   /** Restore CAAT / constitution reference packs after an admin hard-reset. */
   async reseedReferencePacks(unionId: string): Promise<number> {
     const packs = buildSeedSnippets(unionId);
+    // Idempotent: replace existing pack rows for this union, keep customs.
+    const packIds = new Set(packs.map((p) => p.id));
+    for (let i = snippets.length - 1; i >= 0; i -= 1) {
+      if (
+        snippets[i].unionId === unionId &&
+        snippets[i].libraryId &&
+        (packIds.has(snippets[i].id) ||
+          snippets[i].createdById === "system-seed")
+      ) {
+        snippets.splice(i, 1);
+      }
+    }
     snippets.push(...packs);
     return packs.length;
   }

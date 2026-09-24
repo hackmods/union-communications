@@ -55,8 +55,29 @@ export function defaultLibraryForBargainingUnitCode(
   ) {
     return "caat-a";
   }
-  // FT support (and unknown) → CAAT-S Full-Time
+  // Brand Kit CAAT Support single profile + FT support codes.
+  if (
+    normalized === "support" ||
+    normalized === "ft" ||
+    normalized === "ftss" ||
+    normalized === "caat-s-ft" ||
+    normalized === "full-time"
+  ) {
+    return "caat-s-ft";
+  }
+  // Unknown → CAAT-S Full-Time (college reference default)
   return "caat-s-ft";
+}
+
+/**
+ * Brand Kit / Comms union presets that ship college CA reference packs.
+ * Other presets stay empty until officers Load your CA (or opt in).
+ */
+export function unionPresetSeedsReferencePacks(
+  unionPresetId?: string | null,
+): boolean {
+  const id = (unionPresetId ?? "").trim().toLowerCase();
+  return id === "opseu" || id === "opseu-sefp" || id === "caat";
 }
 
 /** CSV / seed filenames relative to `seed/snippets/`. */
