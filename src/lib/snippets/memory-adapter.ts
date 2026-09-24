@@ -3,6 +3,8 @@ import type {
   SnippetBulkCreateResult,
   SnippetListFilters,
 } from "./adapter";
+import { buildSeedSnippets, seedSnippetId } from "./seed-packs";
+import type { SnippetLibraryId, SnippetLocale } from "./libraries";
 import type {
   CaSnippet,
   CreateCaSnippetInput,
@@ -10,62 +12,7 @@ import type {
 } from "@/types/qol";
 
 function seedSnippets(): CaSnippet[] {
-  return [
-    {
-      id: "snip-001",
-      unionId: "union-b7p",
-      localId: "local-7",
-      bargainingUnitId: "bu-7-ft",
-      title: "Just cause for discipline",
-      clauseRef: "Article 7.01",
-      body: "No employee shall be disciplined or discharged without just cause. The Employer shall provide written reasons upon request.",
-      tags: ["discipline", "just-cause", "ft"],
-      createdById: "user-president-7",
-      createdByName: "Local 777 President",
-      createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-      updatedAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-    },
-    {
-      id: "snip-002",
-      unionId: "union-b7p",
-      localId: "local-7",
-      bargainingUnitId: "bu-7-pt",
-      title: "Step 1 meeting timeline (PT)",
-      clauseRef: "Article 12.02",
-      body: "A Step 1 meeting shall be held within seven (7) working days of the grievance being filed for part-time Support Staff, unless the parties agree to an extension in writing.",
-      tags: ["grievance", "timeline", "step-1", "pt"],
-      createdById: "user-president-7",
-      createdByName: "Local 777 President",
-      createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
-      updatedAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
-    },
-    {
-      id: "snip-003",
-      unionId: "union-b7p",
-      title: "Union representation right",
-      clauseRef: "Article 6.03",
-      body: "An employee is entitled to union representation at any meeting that may result in discipline. The Employer shall advise the employee of this right in advance.",
-      tags: ["representation", "discipline"],
-      createdById: "user-president-7",
-      createdByName: "Local 777 President",
-      createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-      updatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    },
-    {
-      id: "snip-004",
-      unionId: "union-b7p",
-      localId: "local-7",
-      bargainingUnitId: "bu-7-pt",
-      title: "Additional hours by seniority (PT)",
-      clauseRef: "Article 15.03",
-      body: "Additional hours shall be offered to part-time employees by seniority on the part-time additional-hours list before they are offered as overtime to full-time employees, except where operational requirements make that impracticable.",
-      tags: ["hours", "seniority", "additional-hours", "pt"],
-      createdById: "user-steward-7-pt",
-      createdByName: "Local 777 Steward (PT)",
-      createdAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
-      updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
-    },
-  ];
+  return buildSeedSnippets("union-b7p");
 }
 
 const snippets: CaSnippet[] = seedSnippets();
@@ -74,8 +21,18 @@ function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function duplicateKey(clauseRef: string, title: string): string {
-  return `${clauseRef.trim().toLowerCase()}::${title.trim().toLowerCase()}`;
+function duplicateKey(
+  clauseRef: string,
+  title: string,
+  libraryId?: string | null,
+  locale?: string | null,
+): string {
+  return [
+    (libraryId ?? "").toLowerCase(),
+    (locale ?? "en").toLowerCase(),
+    clauseRef.trim().toLowerCase(),
+    title.trim().toLowerCase(),
+  ].join("::");
 }
 
 function isValidInput(input: CreateCaSnippetInput): boolean {
@@ -99,6 +56,15 @@ export class MemorySnippetAdapter implements SnippetAdapter {
           s.bargainingUnitId === filters.bargainingUnitId,
       );
     }
+    if (filters.libraryId) {
+      // Selected pack + custom (no library) clauses.
+      results = results.filter(
+        (s) => !s.libraryId || s.libraryId === filters.libraryId,
+      );
+    }
+    if (filters.locale) {
+      results = results.filter((s) => s.locale === filters.locale);
+    }
     if (filters.query) {
       const q = filters.query.toLowerCase();
       results = results.filter(
@@ -109,10 +75,14 @@ export class MemorySnippetAdapter implements SnippetAdapter {
           s.tags.some((t) => t.toLowerCase().includes(q)),
       );
     }
-    return results.sort(
-      (a, b) =>
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-    );
+    return results.sort((a, b) => {
+      const ref = a.clauseRef.localeCompare(b.clauseRef, undefined, {
+        numeric: true,
+        sensitivity: "base",
+      });
+      if (ref !== 0) return ref;
+      return a.title.localeCompare(b.title);
+    });
   }
 
   async getById(snippetId: string): Promise<CaSnippet | null> {
@@ -128,11 +98,18 @@ export class MemorySnippetAdapter implements SnippetAdapter {
     },
   ): Promise<CaSnippet> {
     const now = new Date().toISOString();
+    const locale = (input.locale ?? "en") as SnippetLocale;
+    const libraryId = input.libraryId as SnippetLibraryId | undefined;
     const snippet: CaSnippet = {
-      id: id("snip"),
+      id:
+        libraryId != null
+          ? seedSnippetId(libraryId, locale, input.clauseRef, input.title)
+          : id("snip"),
       unionId: meta.unionId,
       localId: input.localId,
       bargainingUnitId: input.bargainingUnitId,
+      libraryId,
+      locale,
       title: input.title,
       clauseRef: input.clauseRef,
       body: input.body,
@@ -152,9 +129,18 @@ export class MemorySnippetAdapter implements SnippetAdapter {
   ): Promise<CaSnippet | null> {
     const idx = snippets.findIndex((s) => s.id === snippetId);
     if (idx < 0) return null;
+    const nextLibrary =
+      input.libraryId === null
+        ? undefined
+        : (input.libraryId ?? snippets[idx].libraryId);
     snippets[idx] = {
       ...snippets[idx],
-      ...input,
+      title: input.title ?? snippets[idx].title,
+      clauseRef: input.clauseRef ?? snippets[idx].clauseRef,
+      body: input.body ?? snippets[idx].body,
+      tags: input.tags ?? snippets[idx].tags,
+      libraryId: nextLibrary,
+      locale: input.locale ?? snippets[idx].locale,
       updatedAt: new Date().toISOString(),
     };
     return snippets[idx];
@@ -178,7 +164,9 @@ export class MemorySnippetAdapter implements SnippetAdapter {
     const existing = new Set(
       snippets
         .filter((s) => s.unionId === meta.unionId)
-        .map((s) => duplicateKey(s.clauseRef, s.title)),
+        .map((s) =>
+          duplicateKey(s.clauseRef, s.title, s.libraryId, s.locale),
+        ),
     );
     let created = 0;
     let skipped = 0;
@@ -187,7 +175,12 @@ export class MemorySnippetAdapter implements SnippetAdapter {
         skipped += 1;
         continue;
       }
-      const key = duplicateKey(input.clauseRef, input.title);
+      const key = duplicateKey(
+        input.clauseRef,
+        input.title,
+        input.libraryId,
+        input.locale ?? "en",
+      );
       if (existing.has(key)) {
         skipped += 1;
         continue;
@@ -208,6 +201,13 @@ export class MemorySnippetAdapter implements SnippetAdapter {
       }
     }
     return removed;
+  }
+
+  /** Restore CAAT / constitution reference packs after an admin hard-reset. */
+  async reseedReferencePacks(unionId: string): Promise<number> {
+    const packs = buildSeedSnippets(unionId);
+    snippets.push(...packs);
+    return packs.length;
   }
 }
 

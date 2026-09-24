@@ -6,6 +6,7 @@ import { snippetStore } from "@/lib/snippets/store";
 import type { UpdateCaSnippetInput } from "@/types/qol";
 import type { UserRole } from "@/types/tenant";
 import { canManageSnippet, canViewSnippet } from "@/lib/snippets/access";
+import { normalizeSnippetText } from "@/lib/snippets/text-normalize";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -65,14 +66,22 @@ export async function PATCH(request: Request, context: RouteContext) {
       ? (raw as Record<string, unknown>)
       : {};
   const patch: UpdateCaSnippetInput = {};
-  if (typeof body.title === "string") patch.title = body.title;
-  if (typeof body.clauseRef === "string") patch.clauseRef = body.clauseRef;
-  if (typeof body.body === "string") patch.body = body.body;
+  if (typeof body.title === "string") {
+    patch.title = normalizeSnippetText(body.title);
+  }
+  if (typeof body.clauseRef === "string") {
+    patch.clauseRef = normalizeSnippetText(body.clauseRef);
+  }
+  if (typeof body.body === "string") {
+    patch.body = normalizeSnippetText(body.body);
+  }
   if (
     Array.isArray(body.tags) &&
     body.tags.every((tag) => typeof tag === "string")
   ) {
-    patch.tags = body.tags;
+    patch.tags = body.tags
+      .map((tag) => normalizeSnippetText(tag))
+      .filter(Boolean);
   }
   const updated = await snippetStore.update(id, patch);
   await auditLog.log({

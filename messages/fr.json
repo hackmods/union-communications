@@ -7298,6 +7298,10 @@
         "title": "Texte plus lisible sur les cartes QR de poche",
         "body": "Les cartes lien QR et les cartes d’action utilisent l’espace au-dessus du code pour la description, pour que les préréglages de poche comme Droit de refuser restent lisibles au lieu d’être coupés dans du rouge vide."
       },
+      "ca-snippet-packs-locale": {
+        "title": "Jeux de conventions collégiales et langue des clauses",
+        "body": "La bibliothèque d’extraits CA livre les clauses du corps enseignant collégial, du soutien à temps plein et à temps partiel, et de la constitution. Choisissez la convention qui correspond à votre collection, et passez à l’anglais ou au français quand les jeux français seront disponibles."
+      },
       "ca-snippets-bulk-durable": {
         "title": "Bibliothèque d’extraits : import en lot et stockage durable",
         "body": "Les dirigeants peuvent importer des clauses en lot depuis un CSV ou un texte, remplacer ou réinitialiser la bibliothèque syndicale avec autorisation, et conserver la bibliothèque sur un stockage durable lorsque l’hôte active cette option."
@@ -9809,6 +9813,18 @@
     "snippets": {
       "title": "Extraits de clauses CA",
       "subtitle": "Bibliothèque de clauses pour notes et brouillons. Copie seulement - jamais d'envoi automatique.",
+      "library": "Convention / source",
+      "libraries": {
+        "caat-a": "Corps enseignant collégial (2024-2027)",
+        "caat-s-ft": "Soutien collégial à temps plein (2025-2028)",
+        "caat-s-pt": "Soutien collégial à temps partiel (2021-2024)",
+        "constitution": "Constitution syndicale"
+      },
+      "locale": "Langue de la clause",
+      "localeEn": "Anglais",
+      "localeFr": "Français",
+      "localeHint": "Les jeux français pourront être importés plus tard. Changez la langue pour parcourir les clauses EN ou FR.",
+      "emptyLocaleFr": "Aucun extrait français pour cette source pour l'instant. Passez à l'anglais, ou importez un CSV français quand vous en aurez un.",
       "add": "Ajouter un extrait",
       "cancel": "Annuler",
       "search": "Rechercher",
@@ -9828,7 +9844,7 @@
       "createError": "Impossible d'enregistrer l'extrait. Vérifiez les champs et réessayez.",
       "insert": "Insérer un extrait CA dans la note",
       "bulkTitle": "Import en lot",
-      "bulkHint": "Collez un CSV (clauseRef,title,body,tags) ou des blocs texte (Article X.Y | Titre, puis le corps jusqu'à une ligne vide). Les étiquettes utilisent | ou ;.",
+      "bulkHint": "Collez un CSV (clauseRef,title,body,tags) ou des blocs texte (Article X.Y | Titre, puis le corps jusqu'à une ligne vide). Les étiquettes utilisent | ou ;. L'import répare le mojibake et les guillemets typographiques ; les accents français restent intacts.",
       "bulkFormat": "Format",
       "bulkFormatCsv": "CSV",
       "bulkFormatText": "Texte brut",
@@ -9842,11 +9858,11 @@
       "bulkSuccess": "{created} extrait(s) importé(s) ; {skipped} ignoré(s).",
       "bulkError": "Impossible d'importer les extraits. Vérifiez le format et réessayez.",
       "resetTitle": "Réinitialiser la bibliothèque",
-      "resetHint": "Supprime tous les extraits CA de ce syndicat. Les présidents de section utilisent Remplacer à l'import ; seuls les admins syndicaux ou plateforme peuvent forcer la réinitialisation ici.",
+      "resetHint": "Supprime les extraits CA personnalisés de ce syndicat, puis restaure les jeux collégiaux (corps enseignant, soutien à temps plein et à temps partiel) et la constitution livrés. Les présidents de section utilisent Remplacer à l'import pour tout effacer sans restaurer les jeux.",
       "resetButton": "Réinitialiser la bibliothèque",
       "resetWorking": "Réinitialisation…",
-      "resetConfirm": "Supprimer tous les extraits CA de ce syndicat? La confirmation est exigée côté serveur.",
-      "resetSuccess": "{removed} extrait(s) supprimé(s).",
+      "resetConfirm": "Réinitialiser la bibliothèque d'extraits de ce syndicat aux jeux CA livrés? Les clauses personnalisées seront supprimées. La confirmation est exigée côté serveur.",
+      "resetSuccess": "{removed} extrait(s) supprimé(s) ; jeux livrés restaurés.",
       "resetError": "Impossible de réinitialiser la bibliothèque. Actualisez et réessayez."
     },
     "marketplace": {

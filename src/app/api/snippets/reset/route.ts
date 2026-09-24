@@ -43,6 +43,7 @@ export async function POST(request: Request) {
   }
 
   const removed = await snippetStore.resetUnion(unionId);
+  const restored = await snippetStore.reseedReferencePacks(unionId);
 
   await auditLog.log({
     userId: session.user.id,
@@ -53,5 +54,5 @@ export async function POST(request: Request) {
     localId: session.user.localId,
   });
 
-  return NextResponse.json({ ok: true, removed });
+  return NextResponse.json({ ok: true, removed, restored });
 }

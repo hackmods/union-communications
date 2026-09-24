@@ -1,4 +1,5 @@
 import type { CreateCaSnippetInput } from "@/types/qol";
+import { normalizeSnippetText } from "./text-normalize";
 
 function parseCsvLine(line: string): string[] {
   const cells: string[] = [];
@@ -67,12 +68,18 @@ export function parseSnippetCsv(content: string): CreateCaSnippetInput[] {
     const clauseRef = cells[clauseIdx] ?? "";
     const title = cells[titleIdx] ?? "";
     const body = cells[bodyIdx] ?? "";
-    if (!clauseRef.trim() || !title.trim() || !body.trim()) continue;
+    const normalizedClause = normalizeSnippetText(clauseRef);
+    const normalizedTitle = normalizeSnippetText(title);
+    const normalizedBody = normalizeSnippetText(body);
+    if (!normalizedClause || !normalizedTitle || !normalizedBody) continue;
     results.push({
-      clauseRef: clauseRef.trim(),
-      title: title.trim(),
-      body: body.trim(),
-      tags: tagsIdx >= 0 ? parseTags(cells[tagsIdx]) : [],
+      clauseRef: normalizedClause,
+      title: normalizedTitle,
+      body: normalizedBody,
+      tags:
+        tagsIdx >= 0
+          ? parseTags(cells[tagsIdx]).map((t) => normalizeSnippetText(t)).filter(Boolean)
+          : [],
     });
   }
   return results;
@@ -106,9 +113,9 @@ export function parseSnippetText(content: string): CreateCaSnippetInput[] {
     const header = nonEmpty[0];
     const pipeIdx = header.indexOf("|");
     if (pipeIdx < 0) continue;
-    const clauseRef = header.slice(0, pipeIdx).trim();
-    const title = header.slice(pipeIdx + 1).trim();
-    const body = nonEmpty.slice(1).join("\n").trim();
+    const clauseRef = normalizeSnippetText(header.slice(0, pipeIdx));
+    const title = normalizeSnippetText(header.slice(pipeIdx + 1));
+    const body = normalizeSnippetText(nonEmpty.slice(1).join("\n"));
     if (!clauseRef || !title || !body) continue;
     results.push({ clauseRef, title, body, tags: [] });
   }

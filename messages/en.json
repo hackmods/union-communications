@@ -7351,6 +7351,10 @@
         "title": "Clearer type on pocket QR cards",
         "body": "QR Link Cards and Action Cards use the space above the code for the description, so pocket presets like Right to refuse stay readable instead of truncating into empty red."
       },
+      "ca-snippet-packs-locale": {
+        "title": "College CA packs and clause language",
+        "body": "The CA snippet library ships college academic, college support full-time and part-time, and constitution clauses. Pick the agreement that matches your collection, and switch English or French when French packs are available."
+      },
       "ca-snippets-bulk-durable": {
         "title": "CA snippet library: bulk import and durable storage",
         "body": "Officers can bulk-import clauses from CSV or text, replace or reset a union library when authorized, and keep the library on durable storage when the host turns that option on."
@@ -9862,6 +9866,18 @@
     "snippets": {
       "title": "CA clause snippets",
       "subtitle": "Union-scoped clause library for notes and drafts. Copy only - never auto-insert into member emails.",
+      "library": "Agreement / source",
+      "libraries": {
+        "caat-a": "College Academic (2024–2027)",
+        "caat-s-ft": "College Support Full-Time (2025–2028)",
+        "caat-s-pt": "College Support Part-Time (2021–2024)",
+        "constitution": "Union constitution"
+      },
+      "locale": "Clause language",
+      "localeEn": "English",
+      "localeFr": "French",
+      "localeHint": "French packs can be imported later. Switch language to browse EN or FR clauses.",
+      "emptyLocaleFr": "No French snippets for this source yet. Switch to English, or import a French CSV when you have one.",
       "add": "Add snippet",
       "cancel": "Cancel",
       "search": "Search snippets",
@@ -9881,7 +9897,7 @@
       "createError": "Could not save snippet. Check the fields and try again.",
       "insert": "Insert CA snippet into note",
       "bulkTitle": "Bulk import",
-      "bulkHint": "Paste CSV (clauseRef,title,body,tags) or text blocks (Article X.Y | Title, then body until a blank line). Tags use | or ;.",
+      "bulkHint": "Paste CSV (clauseRef,title,body,tags) or text blocks (Article X.Y | Title, then body until a blank line). Tags use | or ;. Import repairs mojibake and smart quotes; French accents stay intact.",
       "bulkFormat": "Format",
       "bulkFormatCsv": "CSV",
       "bulkFormatText": "Plain text",
@@ -9895,11 +9911,11 @@
       "bulkSuccess": "Imported {created} snippet(s); skipped {skipped}.",
       "bulkError": "Could not import snippets. Check the format and try again.",
       "resetTitle": "Reset union library",
-      "resetHint": "Deletes every CA snippet for this union. Presidents use Replace on bulk import; only union or platform admins can hard-reset here.",
+      "resetHint": "Deletes custom CA snippets for this union, then restores the shipped college academic, college support full-time and part-time, and constitution packs. Presidents use Replace on bulk import to wipe without restoring packs.",
       "resetButton": "Reset library",
       "resetWorking": "Resetting…",
-      "resetConfirm": "Delete all CA snippets for this union? Type confirmation is enforced on the server.",
-      "resetSuccess": "Removed {removed} snippet(s).",
+      "resetConfirm": "Reset this union's snippet library to the shipped CA packs? Custom clauses will be deleted. Type confirmation is enforced on the server.",
+      "resetSuccess": "Removed {removed} snippet(s) and restored the shipped packs.",
       "resetError": "Could not reset the snippet library. Refresh and try again."
     },
     "marketplace": {
