@@ -142,7 +142,9 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(
       page.getByRole("heading", { name: /Letter Generator/i }),
     ).toBeVisible();
-    await expect(page.getByRole("button", { name: /Download Word/i })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Download Word", exact: true }).first(),
+    ).toBeVisible();
     await expect(
       page.getByText(/Choose a preset on the left/i),
     ).toHaveCount(0);
