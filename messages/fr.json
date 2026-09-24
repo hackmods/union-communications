@@ -44,7 +44,7 @@
     "caSnippets": "Extraits de convention",
     "stewardQuickLog": "Journal rapide du délégué",
     "keepLearning": "Continuer à apprendre",
-    "socialMediaPlan": "Première semaine",
+    "socialMediaPlan": "Plan de la première semaine",
     "socialExamples": "Exemples sociaux",
     "unionBoardsGuide": "Guide tableaux syndicaux",
     "printGuide": "Guide impression",
@@ -91,7 +91,7 @@
     "closeMenu": "Fermer le menu",
     "menu": "Menu",
     "mobileNav": "Mobile",
-    "firstWeek": "Première semaine",
+    "firstWeek": "Plan de la première semaine",
     "allTools": "Tous les outils",
     "allGuides": "Tous les guides",
     "mainNav": "Navigation du site",
@@ -113,7 +113,10 @@
     "strikeOpsGuide": "Opérations de grève",
     "crisisCommsGuide": "Communications de crise",
     "workshopsHub": "Ateliers",
-    "landAckWorkshopGuide": "Atelier de reconnaissance territoriale"
+    "landAckWorkshopGuide": "Atelier de reconnaissance territoriale",
+    "utilities": "Utilitaires",
+    "platform": "Plateforme",
+    "guidedSetup": "Configuration guidée"
   },
   "common": {
     "download": "Télécharger",
@@ -273,18 +276,18 @@
     "subtitle": "Des outils pratiques et axés sur la confidentialité, conçus spécifiquement pour les dirigeants locaux, les délégués syndicaux et les comités de négociation.",
     "subtitleCommsOnly": "Des outils pratiques et axés sur la confidentialité, conçus spécifiquement pour les dirigeants locaux, les délégués syndicaux et les comités de négociation. Les brouillons restent dans votre navigateur.",
     "primaryCta": "Configurer la Trousse de marque",
-    "openToolsCta": "Créer des documents",
+    "openToolsCta": "Ouvrir Créer",
     "exploreFeaturesCta": "Explorer les fonctions de la plateforme",
     "guidedSetupCta": "Ouvrir la configuration guidée",
     "workflowEyebrow": "Ordre recommandé",
-    "workflowTitle": "Suivez ces trois étapes",
-    "workflowIntro": "Configurez votre section une fois, puis réutilisez ces renseignements dans vos documents et vos guides.",
+    "workflowTitle": "Comment UnionOps s’articule",
+    "workflowIntro": "Configurez la Trousse de marque une fois, puis créez des documents, accomplissez le travail pratique, apprenez le métier et collaborez sur la plateforme hébergée lorsque votre section est prête.",
     "workflowBrandKitTitle": "Configurer la Trousse de marque",
-    "workflowBrandKitBody": "Ajoutez le nom et le numéro de votre section, ses couleurs, son logo et ses liens. Les outils pourront réutiliser ces renseignements.",
-    "workflowCreateTitle": "Créer des communications",
-    "workflowCreateBody": "Préparez des avis de tableau, des tracts, des graphiques, des pages Web et des feuilles de travail avec nos outils.",
-    "workflowLearnTitle": "Suivre un guide",
-    "workflowLearnBody": "Consultez nos guides étape par étape sur les communications, le travail des délégués, les réunions et la gouvernance locale.",
+    "workflowBrandKitBody": "Ajoutez une fois le nom, le numéro, les couleurs, le logo et les liens de votre section. Les outils Créer et Utilitaires réutilisent ces détails au lieu de les redemander.",
+    "workflowCreateTitle": "Créer des documents de communication",
+    "workflowCreateBody": "Réalisez graphiques, tracts, matériel pour tableaux, lettres, documents et autres artefacts de communication terminés.",
+    "workflowLearnTitle": "Apprendre le travail",
+    "workflowLearnBody": "Suivez guides, playbooks, modules d’apprentissage des dirigeants et ateliers  -  sans enfouir des mini-cours dans les outils.",
     "guidedSetupTitle": "Besoin d'instructions selon votre rôle?",
     "guidedSetupBody": "Choisissez communications, délégué ou dirigeant local pour afficher une liste d'étapes dans l'ordre.",
     "privacySummary": "Les brouillons de communication restent dans ce navigateur. Le travail du Hub des dirigeants est conservé séparément de ces brouillons.",
@@ -312,7 +315,7 @@
     "pathOfficerDescComingSoon": "Le suivi des griefs, le bumpage, les tableaux de retards et les passations attendent dans le Hub des dirigeants. La formation et les Comms sont prêts dès maintenant.",
     "pathOfficerCtaComingSoon": "Hub des dirigeants : sur invitation",
     "pathStewardTitle": "Représentez sur le plancher",
-    "pathStewardDesc": "Délégué 101, griefs, négociation et fiches de poche imprimables — commencez par les guides pratiques.",
+    "pathStewardDesc": "Délégué 101, griefs, négociation et fiches de poche imprimables  -  commencez par les guides pratiques.",
     "pathStewardCta": "Ouvrir les guides pratiques",
     "pathStewardOfficerLearningCta": "Ouvrir la formation des dirigeants",
     "channelsTitle": "Outils Comms",
@@ -342,7 +345,7 @@
         "localLabel": "Section {number}",
         "lead": "Publication de solidarité",
         "headline": "Ensemble, on est là.",
-        "body": "Graphiques carrés pour Facebook et Instagram — la même Trousse de marque sur chaque canal.",
+        "body": "Graphiques carrés pour Facebook et Instagram  -  la même Trousse de marque sur chaque canal.",
         "cta": "En savoir plus",
         "openTool": "Ouvrir Créateur graphique"
       },
@@ -352,7 +355,7 @@
         "localLabel": "Section {number}",
         "lead": "Tract imprimable",
         "headline": "Rassemblement vendredi",
-        "body": "Date, heure et lieu — prêt à imprimer pour le lieu de travail ou une assemblée.",
+        "body": "Date, heure et lieu  -  prêt à imprimer pour le lieu de travail ou une assemblée.",
         "cta": "Voir les détails",
         "openTool": "Ouvrir Créateur de tracts"
       }
@@ -374,7 +377,13 @@
         "title": "Site Web",
         "description": "Un modèle de site simple à héberger sur GitHub Pages. Remplissez vos renseignements et publiez."
       }
-    }
+    },
+    "brandFoundation": "Configurez votre section une fois. Utilisez UnionOps partout.",
+    "explorePlatformCta": "Découvrir le Hub et le Portail local",
+    "workflowUtilitiesTitle": "Utiliser les utilitaires pratiques",
+    "workflowUtilitiesBody": "Ouvrez des feuilles de travail et des espaces pour la préparation des dossiers de délégué, les projets de gouvernance, l’accessibilité et d’autres tâches syndicales.",
+    "workflowPlatformTitle": "Collaborer sur la plateforme",
+    "workflowPlatformBody": "Le Hub des dirigeants est l’espace privé des dirigeants. Le Portail local est l’espace destiné aux membres. Ce sont des produits hébergés au-delà de la trousse sur appareil."
   },
   "socialMediaPlan": {
     "title": "Première semaine",
@@ -7781,6 +7790,10 @@
       "land-ack-workshops-hub": {
         "title": "Marche à suivre territoriale + hub d'ateliers",
         "body": "Le Guide de reconnaissance territoriale est une marche à suivre ciblée avec la feuille PDF et l'exemple de Niagara. Les plans animateur vivent sous Ateliers avec le plan Comms."
+      },
+      "product-areas-nav": {
+        "title": "Chemins plus clairs : Créer, Utilitaires, Apprendre et Plateforme",
+        "body": "La navigation principale sépare maintenant les outils créatifs des utilitaires pratiques, et Plateforme explique le Hub des dirigeants et le Portail local aux sections qui évaluent UnionOps."
       }
     }
   },
@@ -11358,7 +11371,7 @@
     "title": "Prise en charge du retour au travail et des mesures d'adaptation",
     "subtitle": "Notez les limites fonctionnelles et les mesures proposées avant la rencontre avec les RH — les notes restent sur cet appareil.",
     "whenToUse": "À utiliser avant une rencontre de retour au travail ou quand un membre demande une mesure d'adaptation. Ne notez pas de diagnostic ici.",
-    "moduleLink": "Module Formation des dirigeants : droits de la personne et adaptation",
+    "moduleLink": "En savoir plus sur l’adaptation",
     "privacy": {
       "title": "Règle de confidentialité médicale",
       "body": "L'employeur n'a pas le droit d'exiger un diagnostic, des symptômes ou un plan de traitement. Il a seulement droit aux limites et restrictions fonctionnelles. Gardez les détails de diagnostic hors de ce formulaire."
@@ -11469,7 +11482,9 @@
       "phase3Hours": "30 h",
       "phase4Label": "Ensuite",
       "phase4Hours": "Heures complètes"
-    }
+    },
+    "grievancePlaybookLink": "Lire le guide des griefs",
+    "referenceSummary": "Référence juridique facultative (Meiorin et contrainte excessive)"
   },
   "preDisciplinaryLog": {
     "title": "Journal de rencontre prédisciplinaire",
@@ -11568,7 +11583,7 @@
     "title": "Diagnostic plainte ou grief",
     "subtitle": "Évaluez cinq points d'admissibilité, puis rédigez une prise en charge de grief ou une autre voie en milieu de travail — les notes restent sur cet appareil.",
     "whenToUse": "À utiliser quand un membre apporte une plainte et que vous devez vérifier si elle est prête pour un grief ou mieux traitée autrement.",
-    "moduleLink": "Module Formation des dirigeants : application de la convention",
+    "moduleLink": "En savoir plus sur l’application de la convention",
     "score": {
       "label": "Indice de viabilité du grief",
       "grievancePath": "Au moins un point d'admissibilité est rempli. Complétez les 6 W et utilisez le brouillon à droite.",
@@ -11677,7 +11692,8 @@
     "diagrams": {
       "filterTitle": "Filtre d'admissibilité en cinq points",
       "filterCaption": "Un oui débloque la prise en charge de grief ; score zéro → plan d'action alternatif."
-    }
+    },
+    "grievancePlaybookLink": "Lire le guide des griefs"
   },
   "stewardGuidesHub": {
     "title": "Guides de rencontre pour délégués",
@@ -14799,8 +14815,8 @@
   },
   "publicCatalog": {
     "createEyebrow": "Créer",
-    "createTitle": "Créer des communications et des outils pour votre section locale",
-    "createIntro": "Choisissez un outil pour créer un avis, un tract, un graphique, une page Web ou une feuille de travail. Configurez d'abord la Trousse de marque pour réutiliser les renseignements de votre section.",
+    "createTitle": "Que voulez-vous créer ?",
+    "createIntro": "Choisissez un outil Créer pour un artefact de communication terminé : graphiques, tracts, matériel pour tableaux, lettres, documents et plus. Configurez d’abord la Trousse de marque pour que les détails de votre section suivent.",
     "learnEyebrow": "Apprendre",
     "learnTitle": "Guides et formation",
     "learnIntro": "Trouvez des consignes pratiques sur les communications, le travail des délégués, les responsabilités des dirigeants, les ateliers et les documents de référence.",
@@ -15036,7 +15052,10 @@
       "examplesSummary": "Parcourez des exemples de communications syndicales et adaptez ces modèles à votre section.",
       "captionsSummary": "Copiez et adaptez des légendes accessibles pour les publications sociales de votre section.",
       "assetsSummary": "Parcourez les éléments de marque et les fichiers de départ pour les communications locales et les ateliers."
-    }
+    },
+    "utilitiesEyebrow": "Utilitaires",
+    "utilitiesTitle": "Que devez-vous accomplir ?",
+    "utilitiesIntro": "Feuilles de travail et espaces pratiques pour la préparation des délégués, la gouvernance, l’accessibilité et d’autres tâches syndicales. Pour une formation plus approfondie, ouvrez Apprendre."
   },
   "localPack": {
     "title": "Trousse locale",
@@ -15063,5 +15082,33 @@
     "linkBrandKit": "Trousse de marque",
     "linkOrgChart": "Organigramme",
     "linkWebsite": "Modèle de site Web"
+  },
+  "platformPage": {
+    "eyebrow": "Plateforme UnionOps",
+    "title": "Hub des dirigeants et Portail local",
+    "intro": "UnionOps, ce n’est pas seulement des outils sur appareil. Lorsque votre section est prête, la plateforme hébergée aide les dirigeants à mener le travail privé et les membres à participer ensemble  -  avec la même fondation Trousse de marque déjà configurée.",
+    "brandBridge": "Créer, Utilitaires et Apprendre restent disponibles dans le navigateur. La plateforme ajoute des espaces partagés et autorisés pour votre section.",
+    "hubTitle": "Hub des dirigeants",
+    "hubBody": "L’environnement opérationnel privé pour les dirigeants, les délégués, les dossiers, l’administration et d’autres flux de travail locaux pris en charge.",
+    "hubItemCasework": "Dossiers de grief et de bumping avec accès selon les rôles",
+    "hubItemMeetings": "Réunions, événements, RSVP et rappels aux dirigeants",
+    "hubItemOrg": "Tâches, discussions, documents, bilans et projets de gouvernance",
+    "hubItemTime": "Outils de temps de travail lorsque votre section les active",
+    "hubCta": "Ouvrir le Hub des dirigeants",
+    "requestAccessCta": "Demander l’accès au Hub",
+    "portalTitle": "Portail local",
+    "portalBody": "L’environnement destiné aux membres pour la communication, la participation et d’autres fonctions membres prises en charge.",
+    "portalItemCircles": "Cercles pour les groupes de membres et de délégués",
+    "portalItemParticipation": "Espaces de participation tels que les propositions, lorsqu’ils sont activés",
+    "portalItemMemberSafe": "Vues sécurisées pour les membres qui respectent les limites de confidentialité du Hub",
+    "portalCta": "S’informer sur le Portail local",
+    "publicTitle": "Lien avec la trousse publique",
+    "publicBody": "Tout le monde peut configurer la Trousse de marque et utiliser Créer, Utilitaires et Apprendre sur son appareil. Le Hub des dirigeants et le Portail local sont des produits hébergés pour les sections qui demandent l’accès.",
+    "brandKitCta": "Ouvrir la Trousse de marque",
+    "createCta": "Parcourir Créer",
+    "utilitiesCta": "Parcourir Utilitaires",
+    "learnCta": "Parcourir Apprendre",
+    "joinPrompt": "Prêt pour que votre section adopte la plateforme hébergée ?",
+    "joinLink": "Amener votre section à UnionOps"
   }
 }

@@ -77,10 +77,12 @@ describe("public header uses task-first direct navigation", () => {
   it("links to focused destinations without public flyouts", () => {
     const header = readFileSync(join(srcRoot, "components/layout/Header.tsx"), "utf8");
     const navConfig = readFileSync(join(srcRoot, "components/layout/nav/nav-config.ts"), "utf8");
-    expect(navConfig).toContain('{ href: "/start", key: "start" }');
     expect(navConfig).toContain('{ href: "/create/brand-kit", key: "brandKit" }');
     expect(navConfig).toContain('{ href: "/create", key: "create" }');
+    expect(navConfig).toContain('{ href: "/utilities", key: "utilities" }');
     expect(navConfig).toContain('{ href: "/learn", key: "learn" }');
+    expect(navConfig).toContain('{ href: "/platform", key: "platform" }');
+    expect(navConfig).not.toContain('{ href: "/start", key: "start" }');
     expect(header).toContain('href="/search"');
     expect(header).toContain("PUBLIC_PRIMARY_NAV.map");
     expect(header).not.toContain("MenuContents");

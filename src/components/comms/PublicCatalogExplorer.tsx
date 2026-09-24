@@ -28,7 +28,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 
-type ExplorerMode = "create" | "learn" | "search";
+type ExplorerMode = "create" | "utilities" | "learn" | "search";
 
 const AUDIENCES: readonly PublicCatalogAudience[] = [
   "comms",
@@ -208,7 +208,12 @@ export function PublicCatalogExplorer({
   const items = useMemo(() => {
     const normalizedQuery = normalizeCatalogSearchText(query);
     return available.filter((item) => {
-      if (mode === "create" && item.kind !== "tool") return false;
+      if (mode === "create") {
+        if (item.kind !== "tool" || item.toolSurface !== "create") return false;
+      }
+      if (mode === "utilities") {
+        if (item.kind !== "tool" || item.toolSurface !== "utilities") return false;
+      }
       if (mode === "learn" && item.kind === "tool") return false;
       if (audience && !item.audiences.includes(audience as PublicCatalogAudience)) return false;
       if (topic && !item.topics.includes(topic as PublicCatalogTopic)) return false;
@@ -257,14 +262,36 @@ export function PublicCatalogExplorer({
   const removeFilter = (key: keyof PublicCatalogQueryState) => {
     updateFilter(key, "" as PublicCatalogQueryState[typeof key]);
   };
-  const pageTitle = mode === "create" ? t("createTitle") : mode === "learn" ? t("learnTitle") : t("searchTitle");
-  const pageIntro = mode === "create" ? t("createIntro") : mode === "learn" ? t("learnIntro") : t("searchIntro");
+  const pageTitle =
+    mode === "create"
+      ? t("createTitle")
+      : mode === "utilities"
+        ? t("utilitiesTitle")
+        : mode === "learn"
+          ? t("learnTitle")
+          : t("searchTitle");
+  const pageIntro =
+    mode === "create"
+      ? t("createIntro")
+      : mode === "utilities"
+        ? t("utilitiesIntro")
+        : mode === "learn"
+          ? t("learnIntro")
+          : t("searchIntro");
+  const pageEyebrow =
+    mode === "create"
+      ? t("createEyebrow")
+      : mode === "utilities"
+        ? t("utilitiesEyebrow")
+        : mode === "learn"
+          ? t("learnEyebrow")
+          : t("searchEyebrow");
   const titleId = `catalog-${mode}-title`;
 
   return (
     <div className="mx-auto w-full max-w-[90rem] px-4 py-8 sm:px-6 md:py-12 xl:px-8">
       <header className="max-w-3xl">
-        <Eyebrow>{t(mode === "create" ? "createEyebrow" : mode === "learn" ? "learnEyebrow" : "searchEyebrow")}</Eyebrow>
+        <Eyebrow>{pageEyebrow}</Eyebrow>
         <h1 id={titleId} className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{pageTitle}</h1>
         <p className="mt-4 max-w-prose text-base leading-relaxed text-slate-700">{pageIntro}</p>
       </header>

@@ -40,8 +40,17 @@ export function Footer() {
           <Link href="/create" className={footerLinkClass}>
             {nav("create")}
           </Link>
+          <Link href="/utilities" className={footerLinkClass}>
+            {nav("utilities")}
+          </Link>
           <Link href="/learn" className={footerLinkClass}>
             {nav("learn")}
+          </Link>
+          <Link href="/platform" className={footerLinkClass}>
+            {nav("platform")}
+          </Link>
+          <Link href="/start" className={footerLinkClass}>
+            {nav("guidedSetup")}
           </Link>
           <Link href="/updates" className={footerLinkClass}>
             {nav("whatsNew")}

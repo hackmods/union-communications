@@ -10,13 +10,13 @@ export const START_PATHS = {
   steward: [
     { id: "orientation", href: "/learn/steward" },
     { id: "grievance", href: "/learn/grievance-process" },
-    { id: "builder", href: "/create/grievance-form-builder" },
+    { id: "builder", href: "/utilities/grievance-form-builder" },
     { id: "meetings", href: "/learn/running-meetings" },
   ],
   officer: [
     { id: "learning", href: "/learn/officer" },
     { id: "governance", href: "/learn/bylaws" },
-    { id: "bylawDraft", href: "/create/bylaw-builder" },
+    { id: "bylawDraft", href: "/utilities/bylaw-builder" },
     { id: "meeting", href: "/learn/running-meetings" },
   ],
 } as const;

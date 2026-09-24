@@ -53,17 +53,21 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(
       page
         .getByRole("region", { name: /built for unions\. shaped by local feedback/i })
-        .getByRole("link", { name: "Explore Platform Features" }),
+        .getByRole("link", { name: "Explore Officer Hub & Local Portal" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Follow these three steps" }),
+      page.getByRole("heading", { name: "How UnionOps fits together" }),
     ).toBeVisible();
     await expect(page.getByTestId("home-step-brand-kit").getByRole("link", { name: "Brand Kit" }))
       .toHaveAttribute("href", /\/create\/brand-kit\/$/);
     await expect(page.getByTestId("home-step-create").getByRole("link", { name: "Create" }))
       .toHaveAttribute("href", /\/create\/$/);
+    await expect(page.getByTestId("home-step-utilities").getByRole("link", { name: "Utilities" }))
+      .toHaveAttribute("href", /\/utilities\/$/);
     await expect(page.getByTestId("home-step-learn").getByRole("link", { name: "Learn" }))
       .toHaveAttribute("href", /\/learn\/$/);
+    await expect(page.getByTestId("home-step-platform").getByRole("link", { name: "Platform" }))
+      .toHaveAttribute("href", /\/platform\/$/);
     await expect(page.getByRole("link", { name: "Open guided setup" }).first())
       .toHaveAttribute("href", /\/start\/$/);
     await expect(page.getByText(/drafts stay in this browser/i).first()).toBeVisible();
@@ -278,7 +282,8 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/steward-playbooks/",
       heading: "Steward playbooks",
     },
-    { path: "/en/create/", heading: "Create materials for your union local" },
+    { path: "/en/create/", heading: "What do you want to make?" },
+    { path: "/en/utilities/", heading: "What do you need to get done?" },
     { path: "/en/learn/", heading: "Guides and training" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },
@@ -400,9 +405,11 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
     await page.getByTestId("mobile-nav-toggle").click();
     const drawer = page.getByTestId("mobile-nav-drawer");
     await expect(drawer).toBeVisible();
-    await expect(drawer.getByRole("link", { name: "Start", exact: true })).toBeVisible();
     await expect(drawer.getByRole("link", { name: "Brand Kit", exact: true }))
       .toHaveAttribute("href", "/en/create/brand-kit/");
+    await expect(drawer.getByRole("link", { name: "Utilities", exact: true })).toBeVisible();
+    await expect(drawer.getByRole("link", { name: "Platform", exact: true })).toBeVisible();
+    await expect(drawer.getByRole("link", { name: "Start", exact: true })).toHaveCount(0);
     await drawer.getByRole("link", { name: "Create" }).click();
     await page.getByRole("link", { name: /Logo Builder/i }).click();
     await expect(page).toHaveURL(/\/en\/create\/logo-builder/);

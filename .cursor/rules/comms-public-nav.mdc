@@ -6,23 +6,23 @@ alwaysApply: false
 
 # Public discovery shell
 
-The public primary navigation uses the preferred task-first destinations: **Start** (`/start`), **Brand Kit** (`/create/brand-kit`), **Create** (`/create`), **Learn** (`/learn`), and the session-aware **Officer Hub** (`/app`). The UnionOps wordmark links Home. Brand Kit is a direct, always-visible link, not a catalog-only item. At narrow widths expose the labeled Menu control, whose first-level drawer repeats the same destinations. Search (`/search`) is a separate utility action. Keep language, display, and account controls separate from primary navigation.
+The public primary navigation uses clear product destinations: **Brand Kit** (`/create/brand-kit`), **Create** (`/create`), **Utilities** (`/utilities`), **Learn** (`/learn`), and **Platform** (`/platform`). The UnionOps wordmark links Home. Brand Kit is a direct, always-visible setup destination — not a Create catalog peer. Guided setup lives at `/start` (Home CTA + footer), not in primary nav. At narrow widths expose the labeled Menu control, whose first-level drawer repeats the same destinations. Search (`/search`) is a separate utility action. Keep language, display, and account controls separate from primary navigation. Session/env-gated Officer Hub and Local Portal links remain operational shortcuts when applicable; Platform explains the hosted products to logged-out visitors.
 
 Use direct, descriptive links rather than public mega-menus, circular launch cards, or icon-only navigation. Keep desktop and mobile labels aligned. Mobile navigation must retain visible focus, Escape-to-close, focus return, and a keyboard trap while open. The authenticated Hub and Portal keep their own navigation.
 
 ## One public catalog
 
-`src/lib/comms/public-catalog.ts` is the discovery registry for tools, guides, steward playbooks, Officer Learning modules, workshops, and reference libraries. Derive Create, Learn, Search, breadcrumbs, related links, and sitemap coverage from it. Keep legacy content registries only as source data where they still power existing pages. Preserve feature gates, signed-in visibility, and platform/tenant-disabled tool filtering.
+`src/lib/comms/public-catalog.ts` is the discovery registry for tools, guides, steward playbooks, Officer Learning modules, workshops, and reference libraries. Derive Create, Utilities, Learn, Search, breadcrumbs, related links, and sitemap coverage from it. Tools carry `toolSurface: "create" | "utilities"`. Keep legacy content registries only as source data where they still power existing pages. Preserve feature gates, signed-in visibility, and platform/tenant-disabled tool filtering.
 
 Catalog copy lives in `messages/en.json` and `messages/fr.json`; do not fork public content into Markdown trees. Search and filters run in the browser over localized registry content, with query/filter state reflected in the URL. Do not add analytics or third-party search. Every card states a useful outcome, audience, approximate time, concrete deliverable, and whether work/progress stays in this browser, can optionally be copied to Officer Hub, uses Officer Hub, or is reading-only. A broad format label is not a substitute for the deliverable. Estimates remain approximate and need content-owner review.
 
-## Start and Home
+## Home and guided setup
 
-Home explains the recommended sequence in plain language: configure Brand Kit, create materials from Tools, then follow a Guide. Link to `/start` as **Guided setup** for the communications lead, steward, and local officer checklists. Each path offers a sequenced checklist; selected path and manually marked progress are saved in this browser only and are not synced. Brand Kit completion is inferred from local browser state; never imply it is a union-wide shared profile. Officer Hub remains available only when the visitor is signed in or the Hub is publicly advertised.
+Home explains the recommended sequence in plain language: configure Brand Kit once (“Set up your local once. Use UnionOps everywhere.”), then Create, Utilities, Learn, and Platform. Link to `/start` as **Guided setup** for the communications lead, steward, and local officer checklists. Each path offers a sequenced checklist; selected path and manually marked progress are saved in this browser only and are not synced. Brand Kit completion is inferred from local browser state; never imply it is a union-wide shared profile.
 
-Learn starts with four curated task collections; active filters can be removed individually, and search terms include bilingual task vocabulary with accent-insensitive matching. Continue to test whether the flat catalog needs more progressive grouping with real visitors before adding more categories or search infrastructure.
+Learn starts with curated task collections; active filters can be removed individually, and search terms include bilingual task vocabulary with accent-insensitive matching. Continue to test whether the flat catalog needs more progressive grouping with real visitors before adding more categories or search infrastructure.
 
-Home has one value proposition, one primary Brand Kit action, a product preview, and a numbered three-step workflow. Keep role-specific checklists under Guided setup; keep exhaustive channel lists and workshop facilitation details in Guides, not on Home.
+Home has one value proposition, one primary Brand Kit (or Create) action, a product preview, a Platform secondary CTA, and an ordered workflow. Keep role-specific checklists under Guided setup; keep exhaustive channel lists and workshop facilitation details in Learn, not on Home. Do not dump the full tool inventory on Home.
 
 ## Canonical routes
 
@@ -30,7 +30,9 @@ Home has one value proposition, one primary Brand Kit action, a product preview,
 |---|---|
 | `/onboarding` | `/start?step=brand` |
 | `/brand-kit` | `/create/brand-kit` |
-| `/tools` and `/tools/:slug` | `/create` and `/create/:slug` |
+| `/tools` | `/create` |
+| `/tools/:creative-slug` | `/create/:slug` |
+| `/tools/:utility-slug` and `/create/:utility-slug` | `/utilities/:slug` |
 | `/guides` | `/learn` |
 | `/guide` | `/learn/communications-blueprint` |
 | `/guide/social-media-plan` | `/learn/first-week` |
@@ -40,10 +42,14 @@ Home has one value proposition, one primary Brand Kit action, a product preview,
 | `/examples`, `/captions`, `/assets` | `/learn/library/:slug` |
 | Other `/guide/:slug` | `/learn/:slug` |
 
-Keep locale-aware permanent redirects in `PUBLIC_ROUTE_REDIRECTS`, and keep internal `Link` targets, canonical/hreflang metadata, and sitemap paths on the new routes. Query strings and fragments must survive route migration. Do not remove redirects; bookmarks and search equity are part of the product.
+Utility slug list: `UTILITY_TOOL_SLUGS` in `nav-config.ts`. Keep locale-aware permanent redirects in `PUBLIC_ROUTE_REDIRECTS`, and keep internal `Link` targets, canonical/hreflang metadata, and sitemap paths on the new routes. Query strings and fragments must survive route migration. Do not remove redirects; bookmarks and search equity are part of the product.
 
 Privacy and security copy must distinguish Comms that stays on-device from hosted Officer Hub / Local Portal data. Do not imply Hub storage is local-only or promise that the whole platform is free forever.
 
 ## Footer
 
-Keep the footer compact: Home, Brand Kit, Create, Learn, What's New, About UnionOps, Privacy, Security, Accessibility, Support, Feedback, and Install. Do not duplicate deep guide or maker links there.
+Keep the footer compact: Home, Brand Kit, Create, Utilities, Learn, Platform, Guided setup, What's New, About UnionOps, Privacy, Security, Accessibility, Support, Feedback, and Install. Do not duplicate deep guide or maker links there.
+
+## Living decision log
+
+Product IA decisions for this shell live in [`docs/UX_PRODUCT_REFACTOR.md`](../../docs/UX_PRODUCT_REFACTOR.md).

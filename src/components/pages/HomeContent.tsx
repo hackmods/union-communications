@@ -47,12 +47,28 @@ export function HomeContent() {
       cta: nav("create"),
     },
     {
-      id: "learn",
+      id: "utilities",
       number: "03",
+      title: t("workflowUtilitiesTitle"),
+      body: t("workflowUtilitiesBody"),
+      href: "/utilities",
+      cta: nav("utilities"),
+    },
+    {
+      id: "learn",
+      number: "04",
       title: t("workflowLearnTitle"),
       body: t("workflowLearnBody"),
       href: "/learn",
       cta: nav("learn"),
+    },
+    {
+      id: "platform",
+      number: "05",
+      title: t("workflowPlatformTitle"),
+      body: t("workflowPlatformBody"),
+      href: "/platform",
+      cta: nav("platform"),
     },
   ];
 
@@ -71,16 +87,19 @@ export function HomeContent() {
             <p className="mt-4 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
               {t(hubAvailable ? "subtitle" : "subtitleCommsOnly")}
             </p>
+            <p className="mt-3 max-w-xl text-sm font-medium leading-relaxed text-white/85 sm:text-base">
+              {t("brandFoundation")}
+            </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <ButtonLink href={primaryHref} variant="outline" className="border-white bg-white text-opseu-dark hover:bg-white/90">
                 {primaryCta}
               </ButtonLink>
               <ButtonLink
-                href="/create"
+                href="/platform"
                 variant="outline"
                 className="border-white/70 bg-transparent text-white hover:bg-white/10"
               >
-                {t("exploreFeaturesCta")}
+                {t("explorePlatformCta")}
               </ButtonLink>
             </div>
           </div>
@@ -105,7 +124,7 @@ export function HomeContent() {
             title={t("workflowTitle")}
             intro={t("workflowIntro")}
           />
-          <ol className="mt-6 grid list-none gap-4 p-0 md:grid-cols-2 xl:grid-cols-3">
+          <ol className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2 xl:grid-cols-3">
             {steps.map((step) => (
               <li key={step.id} className="min-w-0" data-testid={`home-step-${step.id}`}>
                 <Card variant="ghost" className="h-full border border-slate-200 bg-white p-5 sm:p-6">

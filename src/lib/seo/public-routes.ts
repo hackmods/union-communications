@@ -3,6 +3,11 @@
  * App Router folders while canonical URLs move to the task-first structure.
  * Keep this table in sync with `next.config.ts` redirects and rewrites.
  */
+import {
+  UTILITY_TOOL_SLUGS,
+  UTILITY_TOOL_SLUG_SET,
+} from "@/components/layout/nav/nav-config";
+
 const STATIC_CANONICAL_PATHS: Record<string, string> = {
   "/onboarding": "/start",
   "/brand-kit": "/create/brand-kit",
@@ -25,6 +30,7 @@ const STATIC_CANONICAL_PATHS: Record<string, string> = {
   "/tools/share-kit": "/create/graphic-maker",
   "/tools/keep-learning": "/learn",
   "/create/keep-learning": "/learn",
+  "/join": "/join",
 };
 
 export type PermanentPublicRedirect = {
@@ -37,6 +43,21 @@ export type PermanentPublicRedirect = {
 
 const LOCALE = "/:locale";
 const LOCALE_SOURCE = `${LOCALE}(en|fr)`;
+
+function utilitySlugRedirects(): PermanentPublicRedirect[] {
+  return UTILITY_TOOL_SLUGS.flatMap((slug) => [
+    {
+      source: `${LOCALE_SOURCE}/create/${slug}/`,
+      destination: `${LOCALE}/utilities/${slug}/`,
+      permanent: true as const,
+    },
+    {
+      source: `${LOCALE_SOURCE}/tools/${slug}/`,
+      destination: `${LOCALE}/utilities/${slug}/`,
+      permanent: true as const,
+    },
+  ]);
+}
 
 /**
  * Permanent public redirects. Next preserves source query parameters when
@@ -60,6 +81,7 @@ export const PUBLIC_ROUTE_REDIRECTS: readonly PermanentPublicRedirect[] = [
   { source: `${LOCALE_SOURCE}/tools/share-kit/`, destination: `${LOCALE}/create/graphic-maker/`, permanent: true },
   { source: `${LOCALE_SOURCE}/tools/keep-learning/`, destination: `${LOCALE}/learn/`, permanent: true },
   { source: `${LOCALE_SOURCE}/create/keep-learning/`, destination: `${LOCALE}/learn/`, permanent: true },
+  ...utilitySlugRedirects(),
   { source: `${LOCALE_SOURCE}/tools/`, destination: `${LOCALE}/create/`, permanent: true },
   { source: `${LOCALE_SOURCE}/tools/:slug/`, destination: `${LOCALE}/create/:slug/`, permanent: true },
   { source: `${LOCALE_SOURCE}/guides/`, destination: `${LOCALE}/learn/`, permanent: true },
@@ -81,6 +103,13 @@ export const PUBLIC_ROUTE_REDIRECTS: readonly PermanentPublicRedirect[] = [
   { source: `${LOCALE_SOURCE}/assets/`, destination: `${LOCALE}/learn/library/brand-assets/`, permanent: true },
 ];
 
+function toolSlugCanonical(slug: string): string {
+  if (slug === "share-kit") return "/create/graphic-maker";
+  if (slug === "keep-learning") return "/learn";
+  if (UTILITY_TOOL_SLUG_SET.has(slug)) return `/utilities/${slug}`;
+  return `/create/${slug}`;
+}
+
 /** Return the new canonical path for an old public path, without query/hash. */
 export function canonicalPublicPath(path: string): string {
   const normalized = path.length > 1 ? path.replace(/\/+$/, "") : path;
@@ -88,7 +117,15 @@ export function canonicalPublicPath(path: string): string {
   if (exact) return exact;
 
   if (normalized.startsWith("/tools/")) {
-    return `/create/${normalized.slice("/tools/".length)}`;
+    return toolSlugCanonical(normalized.slice("/tools/".length));
+  }
+  if (normalized.startsWith("/create/")) {
+    const slug = normalized.slice("/create/".length);
+    if (slug === "brand-kit") return "/create/brand-kit";
+    return toolSlugCanonical(slug);
+  }
+  if (normalized.startsWith("/utilities/")) {
+    return normalized;
   }
   if (normalized.startsWith("/guide/officer-learning/")) {
     return `/learn/officer/${normalized.slice("/guide/officer-learning/".length)}`;

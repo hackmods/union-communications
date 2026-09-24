@@ -268,46 +268,62 @@ function RtwAccommodationPageContent() {
       </Callout>
 
       <Callout tone="muted" role="note">
-        <p className="font-semibold text-gray-900">
-          {t("legal.undueHardshipTitle")}
+        <p className="text-sm leading-relaxed">
+          <Link
+            href="/learn/officer/human-rights-accommodation"
+            className="font-semibold text-opseu-blue underline underline-offset-2"
+          >
+            {t("moduleLink")}
+          </Link>
+          {" · "}
+          <Link
+            href="/learn/grievance-process"
+            className="font-semibold text-opseu-blue underline underline-offset-2"
+          >
+            {t("grievancePlaybookLink")}
+          </Link>
         </p>
-        <p className="mt-1">{t("legal.undueHardshipBody")}</p>
-        <ul className="mt-2 list-inside list-disc space-y-1">
-          <li>{t("legal.undueHardshipCost")}</li>
-          <li>{t("legal.undueHardshipFunding")}</li>
-          <li>{t("legal.undueHardshipSafety")}</li>
-        </ul>
-        <p className="mt-2 font-medium text-gray-900">
-          {t("legal.undueHardshipNotTitle")}
-        </p>
-        <p className="mt-1">{t("legal.undueHardshipNotBody")}</p>
       </Callout>
 
-      <div className="space-y-3 rounded-lg border border-gray-200 border-l-2 border-l-teal-500/40 p-3">
-        <p className="text-sm font-medium text-gray-900">
-          {t("diagrams.meiorinTitle")}
-        </p>
-        <MeiorinStepsDiagram
-          steps={meiorinSteps}
-          caption={t("diagrams.meiorinCaption")}
-        />
-        <p className="text-sm font-medium text-gray-900">
-          {t("diagrams.workHardeningTitle")}
-        </p>
-        <RtwWorkHardeningDiagram
-          phases={workHardeningPhases}
-          caption={t("diagrams.workHardeningCaption")}
-        />
-      </div>
+      <details className="rounded-lg border border-gray-200 bg-slate-50/80 p-3 open:bg-white">
+        <summary className="cursor-pointer text-sm font-semibold text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50">
+          {t("referenceSummary")}
+        </summary>
+        <div className="mt-3 space-y-4">
+          <Callout tone="muted" role="note">
+            <p className="font-semibold text-gray-900">
+              {t("legal.undueHardshipTitle")}
+            </p>
+            <p className="mt-1">{t("legal.undueHardshipBody")}</p>
+            <ul className="mt-2 list-inside list-disc space-y-1">
+              <li>{t("legal.undueHardshipCost")}</li>
+              <li>{t("legal.undueHardshipFunding")}</li>
+              <li>{t("legal.undueHardshipSafety")}</li>
+            </ul>
+            <p className="mt-2 font-medium text-gray-900">
+              {t("legal.undueHardshipNotTitle")}
+            </p>
+            <p className="mt-1">{t("legal.undueHardshipNotBody")}</p>
+          </Callout>
 
-      <Callout tone="muted" role="note">
-        <Link
-          href="/guide/officer-learning/human-rights-accommodation"
-          className="font-semibold text-opseu-blue underline underline-offset-2"
-        >
-          {t("moduleLink")}
-        </Link>
-      </Callout>
+          <div className="space-y-3 rounded-lg border border-gray-200 border-l-2 border-l-teal-500/40 p-3">
+            <p className="text-sm font-medium text-gray-900">
+              {t("diagrams.meiorinTitle")}
+            </p>
+            <MeiorinStepsDiagram
+              steps={meiorinSteps}
+              caption={t("diagrams.meiorinCaption")}
+            />
+            <p className="text-sm font-medium text-gray-900">
+              {t("diagrams.workHardeningTitle")}
+            </p>
+            <RtwWorkHardeningDiagram
+              phases={workHardeningPhases}
+              caption={t("diagrams.workHardeningCaption")}
+            />
+          </div>
+        </div>
+      </details>
 
       <Callout tone="warning" role="note">
         <p className="font-semibold text-amber-950">{t("privacy.title")}</p>

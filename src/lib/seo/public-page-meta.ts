@@ -74,9 +74,19 @@ export const PUBLIC_PAGE_SEO: Record<
         "Your Brand Kit colours and logo, plus reference starter files for workshops. Change any of it in Brand Kit.",
     },
     "/tools": {
-      title: "Tools",
+      title: "Create",
       description:
-        "Makers for your brand, union boards, print, social, and the web. They all run on your device, with no account needed.",
+        "Make graphics, flyers, board materials, letters, and documents for your local — on your device, with Brand Kit details reused.",
+    },
+    "/utilities": {
+      title: "Utilities",
+      description:
+        "Practical worksheets for steward prep, governance drafts, accessibility helpers, and other union work — separate from Create and Learn.",
+    },
+    "/platform": {
+      title: "Officer Hub and Local Portal",
+      description:
+        "How UnionOps hosted products work: Officer Hub for private officer operations and Local Portal for member participation.",
     },
     "/guides": {
       title: "Guides",
@@ -376,9 +386,19 @@ export const PUBLIC_PAGE_SEO: Record<
         "Les couleurs et le logo de votre Trousse de marque, plus des fichiers de départ pour les ateliers. Changez tout dans la Trousse de marque.",
     },
     "/tools": {
-      title: "Outils",
+      title: "Créer",
       description:
-        "Des créateurs pour votre marque, les tableaux syndicaux, l'impression, le social et le web. Tout reste sur votre appareil, sans compte à créer.",
+        "Réalisez graphiques, tracts, matériel pour tableaux, lettres et documents pour votre section — sur votre appareil, avec la Trousse de marque.",
+    },
+    "/utilities": {
+      title: "Utilitaires",
+      description:
+        "Feuilles de travail pour la préparation des délégués, la gouvernance, l’accessibilité et d’autres tâches syndicales — distincts de Créer et d’Apprendre.",
+    },
+    "/platform": {
+      title: "Hub des dirigeants et Portail local",
+      description:
+        "Produits hébergés UnionOps : Hub des dirigeants pour le travail privé des dirigeants et Portail local pour la participation des membres.",
     },
     "/guides": {
       title: "Guides",
