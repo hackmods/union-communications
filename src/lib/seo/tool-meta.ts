@@ -91,7 +91,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "letter-generator": {
       title: "Free Union Letter Generator",
       description:
-        "Start a branded solidarity, welcome, or letterhead letter with salutation presets and optional QR — then finish in Document Generator.",
+        "Write a branded solidarity, welcome, or letterhead letter with salutation presets, optional QR, live preview, and download — free and on your device.",
     },
     "grievance-form-builder": {
       title: "Grievance Form Builder",
@@ -107,11 +107,6 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       title: "Steward Quick-Log",
       description:
         "Jot who, what, and next step after a floor conversation. Entries stay on your device; Hub Informal Log is optional for shared files.",
-    },
-    "keep-learning": {
-      title: "Keep Learning",
-      description:
-        "Jump into Learn catalogs, steward playbooks, and Officer Learning without hunting through the site menu.",
     },
     "rtw-accommodation": {
       title: "Steward Documents — RTW, Accommodation & Grievance Drafts",
@@ -233,7 +228,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "letter-generator": {
       title: "Générateur de lettres syndicales gratuit",
       description:
-        "Démarrez une lettre de solidarité, d’accueil ou à en-tête avec salutation et QR facultatif — puis terminez dans le générateur de documents.",
+        "Rédigez une lettre de solidarité, d’accueil ou à en-tête avec salutation, QR facultatif, aperçu en direct et téléchargement — gratuit et sur votre appareil.",
     },
     "grievance-form-builder": {
       title: "Générateur de formulaires de grief",
@@ -249,11 +244,6 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       title: "Journal rapide du délégué",
       description:
         "Notez qui, quoi et la prochaine étape après une conversation au plancher. Les entrées restent sur votre appareil ; le journal informel du Hub est facultatif.",
-    },
-    "keep-learning": {
-      title: "Continuer à apprendre",
-      description:
-        "Accédez aux catalogues Apprendre, aux guides pour délégués et à la Formation des dirigeants sans chercher dans le menu.",
     },
     "rtw-accommodation": {
       title: "Documents du délégué — RTW, adaptation et brouillons de grief",

@@ -23,6 +23,8 @@ const STATIC_CANONICAL_PATHS: Record<string, string> = {
   "/assets": "/learn/library/brand-assets",
   "/guide/pdf-classification": "/learn/officer/pdf-classification",
   "/tools/share-kit": "/create/graphic-maker",
+  "/tools/keep-learning": "/learn",
+  "/create/keep-learning": "/learn",
 };
 
 export type PermanentPublicRedirect = {
@@ -56,6 +58,8 @@ export const PUBLIC_ROUTE_REDIRECTS: readonly PermanentPublicRedirect[] = [
   },
   { source: `${LOCALE_SOURCE}/brand-kit/`, destination: `${LOCALE}/create/brand-kit/`, permanent: true },
   { source: `${LOCALE_SOURCE}/tools/share-kit/`, destination: `${LOCALE}/create/graphic-maker/`, permanent: true },
+  { source: `${LOCALE_SOURCE}/tools/keep-learning/`, destination: `${LOCALE}/learn/`, permanent: true },
+  { source: `${LOCALE_SOURCE}/create/keep-learning/`, destination: `${LOCALE}/learn/`, permanent: true },
   { source: `${LOCALE_SOURCE}/tools/`, destination: `${LOCALE}/create/`, permanent: true },
   { source: `${LOCALE_SOURCE}/tools/:slug/`, destination: `${LOCALE}/create/:slug/`, permanent: true },
   { source: `${LOCALE_SOURCE}/guides/`, destination: `${LOCALE}/learn/`, permanent: true },

@@ -10,45 +10,60 @@ import {
   guideCtaOutlineClassSm,
 } from "@/components/comms/guideCtaClasses";
 
+const PATHS = [
+  {
+    id: "complaintFirst" as const,
+    href: "/tools/complaint-vs-grievance",
+    primary: true,
+  },
+  {
+    id: "intakeSheet" as const,
+    href: documentGeneratorPresetHref("grievance-intake"),
+    primary: true,
+  },
+  {
+    id: "draftScripts" as const,
+    href: "/tools/rtw-accommodation?mode=grievanceDraft",
+    primary: false,
+  },
+  {
+    id: "hubFile" as const,
+    href: "/app/grievances/new",
+    primary: false,
+  },
+] as const;
+
 export default function GrievanceFormBuilderPage() {
   const t = useTranslations("grievanceFormBuilder");
 
   const form = (
     <div className="space-y-5">
       <p className="text-sm text-gray-600">{t("chooserHint")}</p>
-      <div className="space-y-2">
-        <Link
-          href="/tools/complaint-vs-grievance"
-          className={guideCtaClassSm}
-        >
-          {t("complaintFirst")}
-        </Link>
-        <p className="text-xs text-gray-600">{t("complaintFirstBlurb")}</p>
-      </div>
-      <div className="space-y-2">
-        <Link
-          href={documentGeneratorPresetHref("grievance-intake")}
-          className={guideCtaClassSm}
-        >
-          {t("intakeSheet")}
-        </Link>
-        <p className="text-xs text-gray-600">{t("intakeSheetBlurb")}</p>
-      </div>
-      <div className="space-y-2">
-        <Link
-          href="/tools/rtw-accommodation"
-          className={guideCtaOutlineClassSm}
-        >
-          {t("draftScripts")}
-        </Link>
-        <p className="text-xs text-gray-600">{t("draftScriptsBlurb")}</p>
-      </div>
-      <div className="space-y-2">
-        <Link href="/app/grievances/new" className={guideCtaOutlineClassSm}>
-          {t("hubFile")}
-        </Link>
-        <p className="text-xs text-gray-600">{t("hubFileBlurb")}</p>
-      </div>
+      {PATHS.map((path) => (
+        <div key={path.id} className="space-y-2">
+          <Link
+            href={path.href}
+            className={path.primary ? guideCtaClassSm : guideCtaOutlineClassSm}
+          >
+            {t(path.id)}
+          </Link>
+          <p className="text-xs text-gray-600">{t(`${path.id}Blurb`)}</p>
+        </div>
+      ))}
+    </div>
+  );
+
+  const preview = (
+    <div className="space-y-4 text-sm text-gray-700">
+      <p className="font-semibold text-opseu-dark">{t("previewTitle")}</p>
+      <ol className="list-decimal space-y-3 pl-5">
+        {PATHS.map((path) => (
+          <li key={path.id}>
+            <p className="font-medium text-opseu-dark">{t(path.id)}</p>
+            <p className="text-xs text-gray-600">{t(`${path.id}Blurb`)}</p>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 
@@ -58,7 +73,7 @@ export default function GrievanceFormBuilderPage() {
       description={t("subtitle")}
       purposeHint={t("whenToUse")}
       form={form}
-      preview={<p className="text-sm text-gray-600">{t("previewHint")}</p>}
+      preview={preview}
       footer={<ToolRelatedFooter toolSlug="grievance-form-builder" />}
     />
   );

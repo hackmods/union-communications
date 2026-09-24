@@ -187,6 +187,33 @@ export default function StewardQuickLogPage() {
         <div className="space-y-3 text-sm text-gray-700">
           <p className="font-semibold text-opseu-dark">{t("previewTitle")}</p>
           <p>{t("previewBody", { count: draft.entries.length })}</p>
+          {draft.entries.length === 0 ? (
+            <p className="text-xs text-gray-600">{t("empty")}</p>
+          ) : (
+            <ul className="space-y-2">
+              {draft.entries.map((row) => (
+                <li
+                  key={row.id}
+                  className="rounded-md border border-gray-200 bg-white px-3 py-2"
+                >
+                  <p className="text-xs text-gray-500">{row.when || t("undated")}</p>
+                  <p className="font-medium text-opseu-dark">
+                    {row.who.trim() || t("anonymous")}
+                  </p>
+                  {row.what.trim() ? (
+                    <p className="mt-1 line-clamp-3 text-xs text-gray-600">
+                      {row.what}
+                    </p>
+                  ) : null}
+                  {row.nextStep.trim() ? (
+                    <p className="mt-1 text-xs text-gray-600">
+                      {t("nextStepPreview", { step: row.nextStep })}
+                    </p>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       }
       footer={<ToolRelatedFooter toolSlug="steward-quick-log" />}

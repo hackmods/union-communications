@@ -3118,9 +3118,9 @@
   },
   "letterGenerator": {
     "title": "Générateur de lettres",
-    "subtitle": "Commencez une lettre de solidarité, de bienvenue ou un en-tête à l'image de la section — puis terminez dans Documents et diapositives.",
+    "subtitle": "Rédigez une lettre de solidarité, de bienvenue ou un en-tête à l'image de la section, avec aperçu en direct et téléchargement.",
     "whenToUse": "Utilisez-le quand vous avez besoin d'une lettre aux membres ou à l'employeur avec les couleurs et le logo de votre Trousse de marque.",
-    "chooserHint": "Choisissez une lettre de départ. Documents et diapositives conserve l'aperçu en direct, les salutations et le QR optionnel.",
+    "chooserHint": "Choisissez une lettre de départ. L'aperçu en direct, les salutations et le QR optionnel restent sur cette page.",
     "presets": {
       "simple-letter": "Lettre de solidarité",
       "welcome-letter": "Lettre de bienvenue",
@@ -3132,7 +3132,7 @@
       "letterhead": "En-tête vide pour toute correspondance."
     },
     "openFull": "Ouvrir Documents et diapositives au complet",
-    "previewHint": "Choisissez un modèle à gauche. L'éditeur complet s'ouvre avec aperçu en direct et téléchargement."
+    "previewHint": "Modifiez à gauche. L'aperçu et le téléchargement restent sur cette page."
   },
   "grievanceFormBuilder": {
     "title": "Constructeur de formulaires de grief",
@@ -3147,6 +3147,7 @@
     "draftScriptsBlurb": "Ouvrez le moteur de courriels et de scripts (outil retour au travail et adaptation) en mode brouillon de grief.",
     "hubFile": "Déposer dans le Hub des dirigeants",
     "hubFileBlurb": "Ouvre l'accueil des griefs du Hub si vous êtes connecté. Nécessite l'accès au Hub.",
+    "previewTitle": "Quatre parcours de départ",
     "previewHint": "Choisissez un parcours à gauche. Chaque lien ouvre l'outil ou le formulaire Hub correspondant."
   },
   "caSnippets": {
@@ -3166,7 +3167,8 @@
       "tags": "Balises (facultatif)"
     },
     "previewTitle": "Enregistré sur cet appareil",
-    "previewBody": "{count, plural, =0 {Aucun extrait pour l'instant.} one {# extrait enregistré.} other {# extraits enregistrés.}}"
+    "previewBody": "{count, plural, =0 {Aucun extrait pour l'instant.} one {# extrait enregistré.} other {# extraits enregistrés.}}",
+    "untitled": "Extrait sans titre"
   },
   "stewardQuickLog": {
     "title": "Journal rapide du délégué",
@@ -3187,7 +3189,10 @@
     },
     "previewTitle": "Enregistré sur cet appareil",
     "previewBody": "{count, plural, =0 {Aucune entrée pour l'instant.} one {# entrée enregistrée.} other {# entrées enregistrées.}}",
-    "syncLabel": "{count, plural, =0 {Entrées du journal rapide} one {# entrée du journal rapide} other {# entrées du journal rapide}}"
+    "syncLabel": "{count, plural, =0 {Entrées du journal rapide} one {# entrée du journal rapide} other {# entrées du journal rapide}}",
+    "undated": "Sans date",
+    "anonymous": "Membre non nommé",
+    "nextStepPreview": "Suite : {step}"
   },
   "keepLearning": {
     "title": "Continuer à apprendre",
@@ -7327,8 +7332,8 @@
         "body": "La page d’accueil mène maintenant avec « Conçu pour les syndicats. Façonné par les retours des sections. » et ajoute Explorer les fonctions de la plateforme à côté de Configurer la Trousse de marque, pour ouvrir le catalogue Créer en un tap."
       },
       "steward-ux-brand-letters": {
-        "title": "Générateur de lettres, catalogue Création et confirmations de la Trousse",
-        "body": "Le générateur de lettres, le constructeur de formulaires de grief, les extraits de convention et le journal rapide du délégué sont dans Création et Utilitaire. La Trousse indique la complétion et confirme l'enregistrement. Les lettres gardent salutations, QR facultatif et espacement d'impression. Les outils graphiques et d'affichage peuvent essayer les dispositions des jetons avancés sans changer votre Trousse."
+        "title": "Le générateur de lettres ouvre l'éditeur complet",
+        "body": "Le générateur de lettres rédige maintenant les lettres de solidarité, de bienvenue et les en-têtes sur la même page — aperçu en direct, salutations, QR facultatif et téléchargement. Le constructeur de formulaires de grief oriente encore le triage, l'accueil, les scripts et le dépôt au Hub. Les extraits de convention et le journal rapide montrent vos notes enregistrées dans l'aperçu."
       },
       "host-readiness": {
         "title": "Préparation de l’hôte dans Admin du site",

@@ -3118,9 +3118,9 @@
   },
   "letterGenerator": {
     "title": "Letter Generator",
-    "subtitle": "Start a branded solidarity, welcome, or letterhead letter — then finish in Document Generator.",
+    "subtitle": "Write a branded solidarity, welcome, or letterhead letter with live preview and download.",
     "whenToUse": "Use when you need a member or employer letter with your Brand Kit colours and lockup.",
-    "chooserHint": "Pick a starting letter. Document Generator keeps the live preview, salutations, and optional QR.",
+    "chooserHint": "Pick a starting letter. Live preview, salutations, and optional QR stay on this page.",
     "presets": {
       "simple-letter": "Solidarity letter",
       "welcome-letter": "Welcome letter",
@@ -3132,7 +3132,7 @@
       "letterhead": "Empty letterhead for any correspondence."
     },
     "openFull": "Open full Document Generator",
-    "previewHint": "Choose a preset on the left. The full editor opens with live preview and download."
+    "previewHint": "Edit on the left. Preview and download stay on this page."
   },
   "grievanceFormBuilder": {
     "title": "Grievance Form Builder",
@@ -3147,6 +3147,7 @@
     "draftScriptsBlurb": "Open the modular email and script engine (RTW & accommodation tool) in grievance-draft mode.",
     "hubFile": "File in Officer Hub",
     "hubFileBlurb": "Opens Hub grievance intake when you are signed in. Requires Officer Hub access.",
+    "previewTitle": "Four starting paths",
     "previewHint": "Pick a path on the left. Each link opens the matching tool or Hub form."
   },
   "caSnippets": {
@@ -3166,7 +3167,8 @@
       "tags": "Tags (optional)"
     },
     "previewTitle": "Saved on this device",
-    "previewBody": "{count, plural, =0 {No snippets yet.} one {# snippet saved.} other {# snippets saved.}}"
+    "previewBody": "{count, plural, =0 {No snippets yet.} one {# snippet saved.} other {# snippets saved.}}",
+    "untitled": "Untitled snippet"
   },
   "stewardQuickLog": {
     "title": "Steward Quick-Log",
@@ -3187,7 +3189,10 @@
     },
     "previewTitle": "Saved on this device",
     "previewBody": "{count, plural, =0 {No entries yet.} one {# entry saved.} other {# entries saved.}}",
-    "syncLabel": "{count, plural, =0 {Quick-Log entries} one {# Quick-Log entry} other {# Quick-Log entries}}"
+    "syncLabel": "{count, plural, =0 {Quick-Log entries} one {# Quick-Log entry} other {# Quick-Log entries}}",
+    "undated": "No date",
+    "anonymous": "Member not named",
+    "nextStepPreview": "Next: {step}"
   },
   "keepLearning": {
     "title": "Keep Learning",
@@ -7380,8 +7385,8 @@
         "body": "The home page now leads with “Built for Unions. Shaped by Local Feedback.” and adds Explore Platform Features beside Set up Brand Kit, so you can open the Create catalog in one tap."
       },
       "steward-ux-brand-letters": {
-        "title": "Letter Generator, Creation catalog, and Brand Kit save cues",
-        "body": "Letter Generator, Grievance Form Builder, CA Snippets, and Steward Quick-Log sit in Creation and Utility. Brand Kit shows completion and save confirmation. Letters keep salutations, optional QR, and print spacing. Graphic and board tools can try Advanced token layouts without changing your Brand Kit."
+        "title": "Letter Generator opens the full letter editor",
+        "body": "Letter Generator now edits solidarity, welcome, and letterhead letters on the same page — live preview, salutations, optional QR, and download. Grievance Form Builder still routes triage, intake, scripts, and Hub filing. CA Snippets and Steward Quick-Log show your saved notes in the preview pane."
       },
       "host-readiness": {
         "title": "Host readiness in Site admin",

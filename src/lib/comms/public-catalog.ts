@@ -143,7 +143,6 @@ const TOOL_KIND: Record<string, PublicCatalogFormat> = {
   "steward-quick-log": "worksheet",
   "letter-generator": "maker",
   "grievance-form-builder": "worksheet",
-  "keep-learning": "library",
 };
 
 const TOOL_DELIVERABLE: Record<string, PublicCatalogDeliverable> = {
@@ -174,7 +173,6 @@ const TOOL_DELIVERABLE: Record<string, PublicCatalogDeliverable> = {
   "rules-of-order": "meeting-phrases",
   "ca-snippets": "ca-snippet-notes",
   "steward-quick-log": "steward-quick-notes",
-  "keep-learning": "learning-hub",
 };
 
 const TOOL_SEARCH_TERMS: Readonly<Record<string, string>> = {
@@ -200,7 +198,6 @@ const TOOL_SEARCH_TERMS: Readonly<Record<string, string>> = {
   "grievance-form-builder": "tool-grievance-form-builder",
   "ca-snippets": "tool-ca-snippets",
   "steward-quick-log": "tool-steward-quick-log",
-  "keep-learning": "tool-keep-learning",
 };
 
 function catalogId(path: string): string {

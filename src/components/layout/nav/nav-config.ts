@@ -41,7 +41,6 @@ export type NavLinkKey =
   | "grievanceFormBuilder"
   | "caSnippets"
   | "stewardQuickLog"
-  | "keepLearning"
   | "boardBanner"
   | "boardNotice"
   | "solidarityPoster"
@@ -135,7 +134,6 @@ export const toolGroups: readonly NavGroup[] = [
     links: [
       { href: "/tools/ca-snippets", key: "caSnippets" },
       { href: "/tools/steward-quick-log", key: "stewardQuickLog" },
-      { href: "/tools/keep-learning", key: "keepLearning" },
       { href: "/tools/pre-disciplinary-log", key: "preDisciplinaryLog" },
       { href: "/tools/complaint-vs-grievance", key: "complaintVsGrievance" },
       { href: "/tools/bylaw-builder", key: "bylawBuilder" },

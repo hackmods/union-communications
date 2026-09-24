@@ -34,11 +34,13 @@ export type DocumentGeneratorDraft = {
   fields: Record<string, string>;
 };
 
-const LETTER_PRESETS: readonly OfficePresetId[] = [
+export const LETTER_PRESET_IDS: readonly OfficePresetId[] = [
   "simple-letter",
   "welcome-letter",
   "letterhead",
 ] as const;
+
+const LETTER_PRESETS = LETTER_PRESET_IDS;
 
 export const LETTER_SHARED_FIELD_KEYS = [
   "contactName",

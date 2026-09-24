@@ -122,6 +122,27 @@ export default function CaSnippetsPage() {
         <div className="space-y-3 text-sm text-gray-700">
           <p className="font-semibold text-opseu-dark">{t("previewTitle")}</p>
           <p>{t("previewBody", { count: draft.snippets.length })}</p>
+          {draft.snippets.length === 0 ? (
+            <p className="text-xs text-gray-600">{t("empty")}</p>
+          ) : (
+            <ul className="space-y-2">
+              {draft.snippets.map((row) => (
+                <li
+                  key={row.id}
+                  className="rounded-md border border-gray-200 bg-white px-3 py-2"
+                >
+                  <p className="font-medium text-opseu-dark">
+                    {row.title.trim() || t("untitled")}
+                  </p>
+                  {row.body.trim() ? (
+                    <p className="mt-1 line-clamp-3 text-xs text-gray-600">
+                      {row.body}
+                    </p>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       }
       footer={<ToolRelatedFooter toolSlug="ca-snippets" />}

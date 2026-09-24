@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useId, useMemo, useState } from "react";
+import { Suspense, useEffect, useId, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SegControl } from "@/components/tools/SegControl";
 import { Button } from "@/components/ui/Button";
@@ -44,12 +46,35 @@ import {
   type RtwMode,
 } from "@/lib/steward-guides";
 
+function isRtwMode(value: string | null): value is RtwMode {
+  return (
+    value === "rtw" ||
+    value === "accommodation" ||
+    value === "grievanceDraft"
+  );
+}
+
 export default function RtwAccommodationPage() {
+  return (
+    <Suspense fallback={<ToolLoadingFallback />}>
+      <RtwAccommodationPageContent />
+    </Suspense>
+  );
+}
+
+function RtwAccommodationPageContent() {
   const t = useTranslations("rtwAccommodation");
   const locale = useLocale();
+  const searchParams = useSearchParams();
   const brandKit = useBrandStore((s) => s.brandKit);
+  const modeFromQuery = searchParams.get("mode");
   const { draft, setDraft, clear, saveFailed } = useStewardGuideDraft({
-    load: loadRtwDraft,
+    load: () => {
+      const stored = loadRtwDraft();
+      if (!isRtwMode(modeFromQuery)) return stored;
+      const base = stored ?? createEmptyRtwDraft();
+      return { ...base, mode: modeFromQuery };
+    },
     save: saveRtwDraft,
     createEmpty: createEmptyRtwDraft,
     clearStorage: clearRtwDraft,

@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-09-23 — Restore Letter Generator + hollow Create hubs
+
+- Letter Generator mounts Document Generator `variant="letters"` (live preview, salutations, QR, download) instead of a three-link chooser.
+- Keep Learning permanently redirects to `/learn` and leaves the Create catalog; Grievance Form Builder gains path preview + RTW `?mode=grievanceDraft` deep link.
+- CA Snippets / Steward Quick-Log show saved rows in the preview pane; What’s new `steward-ux-brand-letters` updated for the real editor.
+
 ## 2026-09-23 — Truthful branding copy + proprietary LICENSE
 
 - Home hero: “Built for Unions. Shaped by Local Feedback.” + secondary CTA “Explore Platform Features” → `/create`

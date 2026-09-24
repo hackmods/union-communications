@@ -59,14 +59,26 @@ export function createInitialGeneratorState(
 export function hydrateGeneratorState(
   presetFromQuery: OfficePresetId,
   brandKit: BrandKit,
+  options?: { allowedPresets?: readonly OfficePresetId[] },
 ): GeneratorState {
+  const allowed = options?.allowedPresets;
+  const coercePreset = (id: OfficePresetId): OfficePresetId => {
+    if (!allowed || allowed.includes(id)) return id;
+    return allowed.includes(presetFromQuery) ? presetFromQuery : allowed[0]!;
+  };
+
   const stored = loadDocumentGeneratorDraft();
   if (!stored) {
-    return createInitialGeneratorState(presetFromQuery, false, brandKit);
+    return createInitialGeneratorState(
+      coercePreset(presetFromQuery),
+      false,
+      brandKit,
+    );
   }
-  const validPreset = OFFICE_PRESETS.some((p) => p.id === stored.presetId)
+  const rawPreset = OFFICE_PRESETS.some((p) => p.id === stored.presetId)
     ? stored.presetId
     : presetFromQuery;
+  const validPreset = coercePreset(rawPreset);
   return {
     ...createInitialGeneratorState(validPreset, stored.includeLogo, brandKit),
     ...stored,

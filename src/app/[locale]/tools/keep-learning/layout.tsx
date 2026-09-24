@@ -1,16 +1,8 @@
-import type { Metadata } from "next";
-import { buildToolLayoutMetadata } from "@/lib/seo/tool-layout-metadata";
-
-const slug = "keep-learning" as const;
-
-export async function generateMetadata({
-  params,
+/** Redirect-only alias — Learn is the real surface. */
+export default function KeepLearningLayout({
+  children,
 }: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  return buildToolLayoutMetadata(slug, params);
-}
-
-export default function Layout({ children }: { children: React.ReactNode }) {
+  children: React.ReactNode;
+}) {
   return children;
 }

@@ -144,11 +144,6 @@ export const RELATED_BY_TOOL: Record<
     { href: "/tools/pre-disciplinary-log", navKey: "preDisciplinaryLog" },
     { href: "/guide/steward-101", navKey: "steward101Guide" },
   ],
-  "keep-learning": [
-    { href: "/learn", navKey: "learn" },
-    { href: "/learn/steward", navKey: "stewardPlaybooksHub" },
-    { href: "/tools/letter-generator", navKey: "letterGenerator" },
-  ],
   "alt-text": [
     { href: "/tools/graphic-maker", navKey: "graphicMaker" },
     { href: "/guide/photo-consent", navKey: "photoConsent" },

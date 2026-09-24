@@ -137,6 +137,17 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
+  test("letter generator renders the live letter editor", async ({ page }) => {
+    await page.goto("/en/create/letter-generator/");
+    await expect(
+      page.getByRole("heading", { name: /Letter Generator/i }),
+    ).toBeVisible();
+    await expect(page.getByRole("button", { name: /Download DOCX/i })).toBeVisible();
+    await expect(
+      page.getByText(/Choose a preset on the left/i),
+    ).toHaveCount(0);
+  });
+
   test("logo builder shows preview and download", async ({ page }) => {
     await page.goto("/en/tools/logo-builder/");
     await expect(

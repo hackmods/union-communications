@@ -24,6 +24,8 @@ describe("public route migration", () => {
     ["/brand-kit", "/create/brand-kit"],
     ["/tools", "/create"],
     ["/tools/flyer-maker", "/create/flyer-maker"],
+    ["/tools/keep-learning", "/learn"],
+    ["/create/keep-learning", "/learn"],
     ["/guides", "/learn"],
     ["/guide", "/learn/communications-blueprint"],
     ["/guide/social-media-plan", "/learn/first-week"],
