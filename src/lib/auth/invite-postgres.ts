@@ -327,3 +327,96 @@ export async function acceptInvitePostgres(
     return { userId };
   });
 }
+
+/**
+ * Ensure primary local membership + officer assignments exist for a durable
+ * user (seed-admin / assign restore). Idempotent.
+ */
+export async function ensurePrimaryLocalAuthority(input: {
+  userId: string;
+  unionId: string;
+  localId: string;
+  roles: UserRole[];
+  bargainingUnitId?: string;
+  createdById?: string;
+}): Promise<void> {
+  const db = getDb();
+  const grantorId = input.createdById ?? input.userId;
+  await db.transaction(async (tx) => {
+    await applyRlsContext(tx, {
+      unionId: input.unionId,
+      localId: input.localId,
+      userId: grantorId,
+      crossLocal: true,
+      mfaVerified: true,
+    });
+    const [existingMembership] = await tx
+      .select({ id: localMemberships.id, isPrimary: localMemberships.isPrimary })
+      .from(localMemberships)
+      .where(
+        and(
+          eq(localMemberships.unionId, input.unionId),
+          eq(localMemberships.localId, input.localId),
+          eq(localMemberships.userId, input.userId),
+        ),
+      )
+      .limit(1);
+    if (existingMembership) {
+      await tx
+        .update(localMemberships)
+        .set({
+          status: "active",
+          endedAt: null,
+          startedAt: new Date(),
+          bargainingUnitId: input.bargainingUnitId ?? null,
+          isPrimary: true,
+        })
+        .where(eq(localMemberships.id, existingMembership.id));
+    } else {
+      await tx.insert(localMemberships).values({
+        id: newId("lm"),
+        unionId: input.unionId,
+        localId: input.localId,
+        userId: input.userId,
+        bargainingUnitId: input.bargainingUnitId ?? null,
+        status: "active",
+        isPrimary: true,
+        createdById: grantorId,
+      });
+    }
+    const positions: Array<[UserRole, "president" | "steward" | "executive_member"]> = [
+      ["local_president", "president"],
+      ["local_steward", "steward"],
+      ["local_exec", "executive_member"],
+    ];
+    for (const [role, position] of positions) {
+      if (!input.roles.includes(role)) continue;
+      const [activeAssignment] = await tx
+        .select({ id: officerAssignments.id })
+        .from(officerAssignments)
+        .where(
+          and(
+            eq(officerAssignments.unionId, input.unionId),
+            eq(officerAssignments.localId, input.localId),
+            eq(officerAssignments.userId, input.userId),
+            eq(officerAssignments.position, position),
+            isNull(officerAssignments.revokedAt),
+          ),
+        )
+        .limit(1);
+      if (!activeAssignment) {
+        await tx.insert(officerAssignments).values({
+          id: newId("oa"),
+          unionId: input.unionId,
+          localId: input.localId,
+          userId: input.userId,
+          position,
+          assignedById: grantorId,
+        });
+      }
+    }
+    await tx.execute(
+      sql`SELECT app_sync_local_portal_membership(${input.unionId}, ${input.localId}, ${input.userId})`,
+    );
+  });
+}

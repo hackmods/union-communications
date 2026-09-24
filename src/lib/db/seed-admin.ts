@@ -15,7 +15,10 @@
  */
 import { isPostgresConfigured, resetDbClient } from "@/lib/db/client";
 import { seedReferenceTenant } from "@/lib/db/seed";
-import { upsertPostgresUser } from "@/lib/auth/invite-postgres";
+import {
+  ensurePrimaryLocalAuthority,
+  upsertPostgresUser,
+} from "@/lib/auth/invite-postgres";
 import type { UserRole } from "@/types/tenant";
 
 const VALID_ROLES = new Set<UserRole>([
@@ -79,9 +82,20 @@ async function main(): Promise<void> {
     roles,
   });
 
+  if (localId) {
+    await ensurePrimaryLocalAuthority({
+      userId: result.id,
+      unionId,
+      localId,
+      roles,
+      bargainingUnitId,
+      createdById: result.id,
+    });
+  }
+
   resetDbClient();
   console.log(
-    `[db:seed-admin] ${result.created ? "created" : "updated"} user ${result.id} (${email}) roles=${roles.join(",")}`,
+    `[db:seed-admin] ${result.created ? "created" : "updated"} user ${result.id} (${email}) roles=${roles.join(",")}${localId ? ` local=${localId}` : ""}`,
   );
 }
 
