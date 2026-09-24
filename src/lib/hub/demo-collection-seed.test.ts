@@ -43,9 +43,13 @@ describe("demo collection seeds (FT vs PT)", () => {
     expect(tasks.map((t) => t.id)).not.toContain("task-004");
     expect(logs.map((e) => e.id)).toContain("ilog-001");
     expect(logs.map((e) => e.id)).not.toContain("ilog-003");
-    expect(snippets.map((s) => s.id)).toContain("snip-001");
-    expect(snippets.map((s) => s.id)).not.toContain("snip-002");
-    expect(snippets.map((s) => s.id)).not.toContain("snip-004");
+    // Reference CA packs are union-scoped (no BU), so FT sees the full library.
+    expect(snippets.length).toBeGreaterThan(100);
+    expect(
+      snippets.every(
+        (s) => !s.bargainingUnitId || s.bargainingUnitId === "bu-7-ft",
+      ),
+    ).toBe(true);
     expect(threads.map((t) => t.id)).toContain("disc-thread-002");
     expect(threads.map((t) => t.id)).not.toContain("disc-thread-003");
     expect(checkins.map((s) => s.id)).toContain("checkin-sched-001");
@@ -66,6 +70,7 @@ describe("demo collection seeds (FT vs PT)", () => {
           unionId,
           localId,
           bargainingUnitId: "bu-7-pt",
+          libraryId: "caat-s-pt",
         }),
         discussionsStore.listThreads({
           unionId,
@@ -85,10 +90,10 @@ describe("demo collection seeds (FT vs PT)", () => {
     expect(tasks.map((t) => t.id)).not.toContain("task-001");
     expect(logs.map((e) => e.id)).toContain("ilog-003");
     expect(logs.map((e) => e.id)).not.toContain("ilog-001");
-    expect(snippets.map((s) => s.id)).toEqual(
-      expect.arrayContaining(["snip-002", "snip-003", "snip-004"]),
-    );
-    expect(snippets.map((s) => s.id)).not.toContain("snip-001");
+    expect(snippets.length).toBeGreaterThan(50);
+    expect(
+      snippets.every((s) => !s.libraryId || s.libraryId === "caat-s-pt"),
+    ).toBe(true);
     expect(threads.map((t) => t.id)).toEqual(["disc-thread-003"]);
     expect(checkins.map((s) => s.id)).toEqual(["checkin-sched-003"]);
 
@@ -102,9 +107,6 @@ describe("demo collection seeds (FT vs PT)", () => {
 
     const hoursLog = logs.find((e) => e.id === "ilog-003");
     expect(hoursLog?.topic).toMatch(/additional hours/i);
-
-    const hoursSnippet = snippets.find((s) => s.id === "snip-004");
-    expect(hoursSnippet?.title).toMatch(/additional hours/i);
 
     const ptCheckin = checkins[0];
     expect(ptCheckin?.question).toMatch(/additional-hours/i);
