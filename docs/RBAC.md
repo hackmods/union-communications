@@ -60,9 +60,10 @@ Small one-off accounts for individual stewards without full local setup:
 
 ## Invitation Flow (Phase 6 onboarding)
 
-1. An authorized administrator creates or finds a local and invites a user.
-2. Invite acceptance creates a local membership; office authority is represented by a separate canonical assignment.
-3. Confidential Hub access requires MFA. Revoking a membership or office invalidates the user's session version.
+1. A **site admin** (`platform_admin`) mints the local number (Site admin → Locals) and invites the local president when needed.
+2. Local presidents invite stewards, exec, and members onto their **existing** session local — they cannot mint new local numbers or invite other presidents.
+3. Invite acceptance creates a local membership; office authority is represented by a separate canonical assignment.
+4. Confidential Hub access requires MFA when enabled. Revoking a membership or office invalidates the user's session version.
 
 Hub stays invite-only. There is no public `/app/register`.
 
@@ -102,6 +103,12 @@ is reachable through a tenant-scoped page, the site-admin route returns
 audited break-glass: the operator's session is authenticated, their
 action is logged, and the diff is reversible (`archived_at`/`restored_at`
 instead of hard delete for v1).
+
+Site admin also:
+
+- Configures Officer Hub / Local Portal modules for any union via `/app/configuration` (union picker / `unionId` override on `/api/tenant`).
+- Mints locals and elevates local numbers (presidents cannot).
+- Edits durable Hub roles on Account support (`site_admin.user.set_roles`).
 
 ### Union customization (content)
 

@@ -12,6 +12,7 @@ import {
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { formatRoleList } from "@/lib/auth/role-labels";
 import { AssignLocalForm } from "@/components/site-admin/AssignLocalForm";
+import { EditRolesForm } from "@/components/site-admin/EditRolesForm";
 
 export const dynamic = "force-dynamic";
 
@@ -201,6 +202,12 @@ export default async function AccountSupportDetailPage({
         userId={profile.id}
         initialUnionId={profile.unionId}
         initialLocalId={profile.localId}
+      />
+
+      <EditRolesForm
+        userId={profile.id}
+        initialRoles={profile.roles}
+        archived={profile.archivedAt !== null}
       />
 
       <form

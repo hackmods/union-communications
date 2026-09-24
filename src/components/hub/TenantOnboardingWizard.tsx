@@ -19,11 +19,13 @@ import type { TenantContext, TenantSeed } from "@/types/tenant";
 import { cn } from "@/lib/utils";
 
 type TenantGetResponse = {
-  context: TenantContext;
+  context: TenantContext | null;
   canManageOnboarding: boolean;
   canCreateUnion: boolean;
   canManageUnionModules: boolean;
+  canMintLocal?: boolean;
   durableTenants?: boolean;
+  needsUnionContext?: boolean;
 };
 
 export function TenantOnboardingWizard() {
@@ -34,6 +36,7 @@ export function TenantOnboardingWizard() {
   const [ctx, setCtx] = useState<TenantContext | null>(null);
   const [canCreateUnion, setCanCreateUnion] = useState(false);
   const [canManageModules, setCanManageModules] = useState(false);
+  const [canMintLocal, setCanMintLocal] = useState(false);
   const [durableTenants, setDurableTenants] = useState(false);
   const [hallStatus, setHallStatus] = useState<string | null>(null);
   const [hallBusy, setHallBusy] = useState(false);
@@ -80,9 +83,18 @@ export function TenantOnboardingWizard() {
     const res = await fetch("/api/tenant");
     if (!res.ok) throw new Error("fail");
     const data = (await res.json()) as TenantGetResponse;
+    if (data.needsUnionContext || !data.context) {
+      setCtx(null);
+      setCanCreateUnion(data.canCreateUnion);
+      setCanManageModules(data.canManageUnionModules);
+      setCanMintLocal(data.canMintLocal === true);
+      setDurableTenants(data.durableTenants === true);
+      return;
+    }
     setCtx(data.context);
     setCanCreateUnion(data.canCreateUnion);
     setCanManageModules(data.canManageUnionModules);
+    setCanMintLocal(data.canMintLocal === true);
     setDurableTenants(data.durableTenants === true);
     if (!addUnitLocalId && data.context.locals[0]) {
       setAddUnitLocalId(data.context.locals[0].id);
@@ -383,80 +395,97 @@ export function TenantOnboardingWizard() {
           </PublicHubPanel>
         )}
 
-        <PublicHubPanel
-          title={t("addLocalTitle")}
-          description={t("addLocalHint")}
-        >
-          <form onSubmit={handleCreateLocal} className="grid gap-3 sm:grid-cols-2">
-            <Input
-              label={t("localNumber")}
-              value={localNumber}
-              onChange={(e) => setLocalNumber(e.target.value)}
-              required
-              autoComplete="off"
-            />
-            <Input
-              label={t("subText")}
-              value={subText}
-              onChange={(e) => setSubText(e.target.value)}
-              autoComplete="off"
-            />
-            <div className="sm:col-span-2">
-              <Select
-                label={t("unionPreset")}
-                value={unionPresetId}
-                onChange={(e) => {
-                  const next = e.target.value;
-                  setUnionPresetId(next);
-                  const opts = snippetSetupCollectionsForPreset(next);
-                  if (opts[0]) {
+        {canMintLocal ? (
+          <PublicHubPanel
+            title={t("addLocalTitle")}
+            description={t("addLocalHint")}
+          >
+            <form onSubmit={handleCreateLocal} className="grid gap-3 sm:grid-cols-2">
+              <Input
+                label={t("localNumber")}
+                value={localNumber}
+                onChange={(e) => setLocalNumber(e.target.value)}
+                required
+                autoComplete="off"
+              />
+              <Input
+                label={t("subText")}
+                value={subText}
+                onChange={(e) => setSubText(e.target.value)}
+                autoComplete="off"
+              />
+              <div className="sm:col-span-2">
+                <Select
+                  label={t("unionPreset")}
+                  value={unionPresetId}
+                  onChange={(e) => {
+                    const next = e.target.value;
+                    setUnionPresetId(next);
+                    const opts = snippetSetupCollectionsForPreset(next);
+                    if (opts[0]) {
+                      applyCollectionChoice(
+                        opts[0].code,
+                        opts,
+                        setCollectionCode,
+                        setCollectionName,
+                      );
+                    }
+                  }}
+                >
+                  {unionPresets.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
+                </Select>
+                <p className="mt-1 text-xs text-gray-500">{t("unionPresetHint")}</p>
+              </div>
+              <div className="sm:col-span-2">
+                <Select
+                  label={t("optionalCollection")}
+                  value={collectionCode}
+                  onChange={(e) =>
                     applyCollectionChoice(
-                      opts[0].code,
-                      opts,
+                      e.target.value,
+                      localCollections,
                       setCollectionCode,
                       setCollectionName,
-                    );
+                    )
                   }
-                }}
+                >
+                  {localCollections.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.name}
+                    </option>
+                  ))}
+                </Select>
+                <p className="mt-1 text-xs text-gray-500">
+                  {t("optionalCollectionHint")}
+                </p>
+              </div>
+              <div className="sm:col-span-2">
+                <Button type="submit" className="min-h-11">
+                  {t("createLocal")}
+                </Button>
+              </div>
+            </form>
+          </PublicHubPanel>
+        ) : (
+          <PublicHubPanel
+            title={t("addLocalTitle")}
+            description={t("mintLocalAskSiteAdmin")}
+          >
+            <Callout tone="muted" measure="fill">
+              <p>{t("mintLocalAskSiteAdminBody")}</p>
+              <Link
+                href="/app/site-admin/locals"
+                className="mt-2 inline-flex text-sm font-semibold text-opseu-blue underline"
               >
-                {unionPresets.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name}
-                  </option>
-                ))}
-              </Select>
-              <p className="mt-1 text-xs text-gray-500">{t("unionPresetHint")}</p>
-            </div>
-            <div className="sm:col-span-2">
-              <Select
-                label={t("optionalCollection")}
-                value={collectionCode}
-                onChange={(e) =>
-                  applyCollectionChoice(
-                    e.target.value,
-                    localCollections,
-                    setCollectionCode,
-                    setCollectionName,
-                  )
-                }
-              >
-                {localCollections.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.name}
-                  </option>
-                ))}
-              </Select>
-              <p className="mt-1 text-xs text-gray-500">
-                {t("optionalCollectionHint")}
-              </p>
-            </div>
-            <div className="sm:col-span-2">
-              <Button type="submit" className="min-h-11">
-                {t("createLocal")}
-              </Button>
-            </div>
-          </form>
-        </PublicHubPanel>
+                {t("mintLocalSiteAdminLink")}
+              </Link>
+            </Callout>
+          </PublicHubPanel>
+        )}
 
         {ctx && ctx.locals.length > 0 && (
           <PublicHubPanel title={t("addCollectionTitle")}>

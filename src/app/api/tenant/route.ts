@@ -11,8 +11,15 @@ import {
   canManageTenantOnboarding,
   canManageUnionModules,
 } from "@/lib/tenant/access";
+import {
+  canMintLocal,
+  isPlatformAdminRole,
+} from "@/lib/tenant/local-number-access";
 import { dataDbBackend } from "@/lib/db/backend";
-import { getTenantContext } from "@/lib/tenant/loader";
+import {
+  getAllTenantSeeds,
+  getTenantContext,
+} from "@/lib/tenant/loader";
 import {
   getPortalSurfacesForUnion,
   setPortalSurfacesForUnion,
@@ -70,6 +77,8 @@ const createLocalSchema = z.object({
   collectionName: z.string().min(1).max(200).optional(),
   /** Brand Kit union preset id (e.g. opseu) — drives CA reference pack seed. */
   unionPresetId: z.string().min(1).max(64).optional(),
+  /** Platform admin may target a union other than the session home. */
+  unionId: z.string().min(1).optional(),
 });
 
 const createCollectionSchema = z.object({
@@ -96,16 +105,20 @@ const createUnionSchema = z.object({
 const setDataModuleSchema = z.object({
   action: z.literal("set_data_module"),
   enabled: z.boolean(),
+  /** Platform admin may target a union other than the session home. */
+  unionId: z.string().min(1).optional(),
 });
 
 const setModulesSchema = z.object({
   action: z.literal("set_modules"),
   enabledModules: z.array(hubModuleSchema).min(1).max(24),
+  unionId: z.string().min(1).optional(),
 });
 
 const setPortalSurfacesSchema = z.object({
   action: z.literal("set_portal_surfaces"),
   portalSurfaces: z.array(portalSurfaceSchema).max(16),
+  unionId: z.string().min(1).optional(),
 });
 
 const setLocalPrefsSchema = z.object({
@@ -115,6 +128,7 @@ const setLocalPrefsSchema = z.object({
   portalSurfaces: z.array(portalSurfaceSchema).max(16),
   /** When true, clear the local filter (fall back to union). */
   clear: z.boolean().optional(),
+  unionId: z.string().min(1).optional(),
 });
 
 const bodySchema = z.discriminatedUnion("action", [
@@ -127,8 +141,54 @@ const bodySchema = z.discriminatedUnion("action", [
   setLocalPrefsSchema,
 ]);
 
+function resolveOperatorUnionId(
+  roles: UserRole[],
+  sessionUnionId: string | undefined,
+  requestedUnionId: string | null | undefined,
+): { ok: true; unionId: string } | { ok: false; status: 400 | 403; error: string } {
+  if (requestedUnionId) {
+    if (!isPlatformAdminRole(roles)) {
+      return { ok: false, status: 403, error: "Forbidden" };
+    }
+    return { ok: true, unionId: requestedUnionId };
+  }
+  if (!sessionUnionId) {
+    return { ok: false, status: 400, error: "Missing union context" };
+  }
+  return { ok: true, unionId: sessionUnionId };
+}
+
+function tenantPayload(
+  unionId: string,
+  roles: UserRole[],
+  session: {
+    localId?: string | null;
+    canCreateUnion: boolean;
+  },
+  extras?: { needsUnionContext?: boolean; unions?: Array<{ id: string; name: string }> },
+) {
+  const localId = session.localId ?? null;
+  const ctx = getTenantContext(unionId, localId);
+  if (!ctx) return null;
+  return {
+    context: ctx,
+    canManageOnboarding: canManageTenantOnboarding(roles),
+    canManageUnionModules: canManageUnionModules(roles),
+    canManageLocalModules: canManageLocalModules(roles),
+    canMintLocal: canMintLocal(roles),
+    canCreateUnion: session.canCreateUnion,
+    durableTenants: tenantsPostgresEnabled(),
+    portalSurfaces: getPortalSurfacesForUnion(unionId),
+    localPrefs: localId ? getLocalPresentationPrefs(unionId, localId) : null,
+    sessionLocalId: localId,
+    operatorUnionId: unionId,
+    isPlatformAdmin: isPlatformAdminRole(roles),
+    ...extras,
+  };
+}
+
 /** Any MFA-verified hub user — powers HubContextSwitcher with overlay merges. */
-export async function GET() {
+export async function GET(req?: Request) {
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -136,30 +196,55 @@ export async function GET() {
   if (!sessionMfaOk(session)) {
     return NextResponse.json({ error: "MFA required" }, { status: 403 });
   }
-  const unionId = session.user.unionId;
-  if (!unionId) {
-    return NextResponse.json({ error: "Missing union context" }, { status: 400 });
-  }
+  const roles = (session.user.roles ?? []) as UserRole[];
+  const url = new URL(req?.url ?? "http://localhost/api/tenant");
+  const queryUnionId = url.searchParams.get("unionId");
   await hydrateTenantOverlayFromPostgres();
-  const ctx = getTenantContext(unionId, session.user.localId);
-  if (!ctx) {
+
+  const unions = getAllTenantSeeds().map((s) => ({
+    id: s.union.id,
+    name: s.union.name,
+  }));
+
+  if (!session.user.unionId && isPlatformAdminRole(roles) && !queryUnionId) {
+    return NextResponse.json({
+      needsUnionContext: true,
+      unions,
+      canManageOnboarding: canManageTenantOnboarding(roles),
+      canManageUnionModules: canManageUnionModules(roles),
+      canManageLocalModules: canManageLocalModules(roles),
+      canMintLocal: canMintLocal(roles),
+      canCreateUnion: sessionCanCreateUnion(session),
+      durableTenants: tenantsPostgresEnabled(),
+      isPlatformAdmin: true,
+      sessionLocalId: session.user.localId ?? null,
+      operatorUnionId: null,
+      context: null,
+      portalSurfaces: [],
+      localPrefs: null,
+    });
+  }
+
+  const resolved = resolveOperatorUnionId(
+    roles,
+    session.user.unionId,
+    queryUnionId,
+  );
+  if (!resolved.ok) {
+    return NextResponse.json(
+      { error: resolved.error },
+      { status: resolved.status },
+    );
+  }
+
+  const payload = tenantPayload(resolved.unionId, roles, {
+    localId: session.user.localId,
+    canCreateUnion: sessionCanCreateUnion(session),
+  }, isPlatformAdminRole(roles) ? { unions } : undefined);
+  if (!payload) {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
-  const roles = (session.user.roles ?? []) as UserRole[];
-  const localId = session.user.localId ?? null;
-  return NextResponse.json({
-    context: ctx,
-    canManageOnboarding: canManageTenantOnboarding(roles),
-    canManageUnionModules: canManageUnionModules(roles),
-    canManageLocalModules: canManageLocalModules(roles),
-    canCreateUnion: sessionCanCreateUnion(session),
-    durableTenants: tenantsPostgresEnabled(),
-    portalSurfaces: getPortalSurfacesForUnion(unionId),
-    localPrefs: localId
-      ? getLocalPresentationPrefs(unionId, localId)
-      : null,
-    sessionLocalId: localId,
-  });
+  return NextResponse.json(payload);
 }
 
 export async function POST(req: Request) {
@@ -188,11 +273,26 @@ export async function POST(req: Request) {
   await hydrateTenantOverlayFromPostgres();
 
   const data = parsed.data;
-  const unionId = authResult.session.user.unionId;
   const roles = (authResult.session.user.roles ?? []) as UserRole[];
+  const sessionUnionId = authResult.session.user.unionId;
+  const requestedUnionId =
+    "unionId" in data && typeof data.unionId === "string"
+      ? data.unionId
+      : undefined;
 
   if (data.action === "set_data_module") {
-    if (!unionId || !canManageUnionModules(roles)) {
+    const resolved = resolveOperatorUnionId(
+      roles,
+      sessionUnionId,
+      requestedUnionId,
+    );
+    if (!resolved.ok) {
+      return NextResponse.json(
+        { error: resolved.error },
+        { status: resolved.status },
+      );
+    }
+    if (!canManageUnionModules(roles)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     if (data.enabled && dataDbBackend() !== "postgres") {
@@ -202,7 +302,7 @@ export async function POST(req: Request) {
       );
     }
     try {
-      await setUnionDataModule(unionId, data.enabled);
+      await setUnionDataModule(resolved.unionId, data.enabled);
       return NextResponse.json({ enabled: data.enabled });
     } catch (error) {
       return NextResponse.json(
@@ -218,9 +318,21 @@ export async function POST(req: Request) {
   }
 
   if (data.action === "set_modules") {
-    if (!unionId || !canManageLocalModules(roles)) {
+    const resolved = resolveOperatorUnionId(
+      roles,
+      sessionUnionId,
+      requestedUnionId,
+    );
+    if (!resolved.ok) {
+      return NextResponse.json(
+        { error: resolved.error },
+        { status: resolved.status },
+      );
+    }
+    if (!canManageLocalModules(roles)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+    const unionId = resolved.unionId;
     const ctx = getTenantContext(unionId);
     if (!ctx) {
       return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
@@ -281,20 +393,43 @@ export async function POST(req: Request) {
   }
 
   if (data.action === "set_portal_surfaces") {
-    if (!unionId || !canManageLocalModules(roles)) {
+    const resolved = resolveOperatorUnionId(
+      roles,
+      sessionUnionId,
+      requestedUnionId,
+    );
+    if (!resolved.ok) {
+      return NextResponse.json(
+        { error: resolved.error },
+        { status: resolved.status },
+      );
+    }
+    if (!canManageLocalModules(roles)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     const portalSurfaces = setPortalSurfacesForUnion(
-      unionId,
+      resolved.unionId,
       data.portalSurfaces as PortalSurfaceId[],
     );
     return NextResponse.json({ portalSurfaces });
   }
 
   if (data.action === "set_local_prefs") {
-    if (!unionId || !canManageLocalModules(roles)) {
+    const resolved = resolveOperatorUnionId(
+      roles,
+      sessionUnionId,
+      requestedUnionId,
+    );
+    if (!resolved.ok) {
+      return NextResponse.json(
+        { error: resolved.error },
+        { status: resolved.status },
+      );
+    }
+    if (!canManageLocalModules(roles)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+    const unionId = resolved.unionId;
     const ctx = getTenantContext(unionId);
     if (!ctx) {
       return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
@@ -330,15 +465,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ seed }, { status: 201 });
   }
 
-  if (!unionId) {
-    return NextResponse.json({ error: "Missing union context" }, { status: 400 });
+  const resolved = resolveOperatorUnionId(
+    roles,
+    sessionUnionId,
+    data.action === "create_local" ? requestedUnionId : undefined,
+  );
+  if (!resolved.ok) {
+    return NextResponse.json(
+      { error: resolved.error },
+      { status: resolved.status },
+    );
   }
+  const unionId = resolved.unionId;
   const ctx = getTenantContext(unionId);
   if (!ctx) {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
 
   if (data.action === "create_local") {
+    if (!canMintLocal(roles)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     const local = await createLocalDurable({
       unionId,
       localNumber: data.localNumber,

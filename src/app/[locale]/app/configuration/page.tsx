@@ -4,14 +4,18 @@ import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { PresidentConfiguration } from "@/components/hub/PresidentConfiguration";
 import { canManageLocalModules } from "@/lib/tenant/access";
+import { isPlatformAdminRole } from "@/lib/tenant/local-number-access";
 import type { UserRole } from "@/types/tenant";
 
 export default async function PresidentConfigurationPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ unionId?: string }>;
 }) {
   const { locale } = await params;
+  const { unionId: queryUnionId } = await searchParams;
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
@@ -28,5 +32,9 @@ export default async function PresidentConfigurationPage({
   if (!canView) {
     redirect(`/${locale}/app`);
   }
-  return <PresidentConfiguration />;
+  const initialUnionId =
+    isPlatformAdminRole(roles) && queryUnionId?.trim()
+      ? queryUnionId.trim()
+      : null;
+  return <PresidentConfiguration initialUnionId={initialUnionId} />;
 }

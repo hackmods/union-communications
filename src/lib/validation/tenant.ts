@@ -12,6 +12,7 @@ export const userRoleSchema = z.enum([
   "local_exec",
   "local_steward",
   "stability_member",
+  "local_member",
   "solo_account",
 ]);
 
