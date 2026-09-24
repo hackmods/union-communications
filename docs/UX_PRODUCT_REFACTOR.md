@@ -5,7 +5,7 @@ Living implementation record for the product-architecture, information-architect
 **Objective:** Make UnionOps feel like one coherent system — Brand Kit as foundation, Create / Utilities / Learn as distinct intents, Platform (Officer Hub + Local Portal) discoverable for logged-out visitors — without weakening auth, privacy, localization, or accessibility boundaries.
 
 **Started:** 2026-09-24  
-**Status:** Core IA implemented; remaining fit-gaps tracked below
+**Status:** Core IA shipped (PR #119). Follow-ups remain in the fit-gap register (broader tool/Learn separation, letter-engine consolidation, CI infra for 0s push failures).
 
 ---
 
