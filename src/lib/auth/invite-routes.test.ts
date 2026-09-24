@@ -1,12 +1,18 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { UserRole } from "@/types/tenant";
+import type { AuthorizationActor } from "@/lib/authorization/model";
 
-const { authMock } = vi.hoisted(() => ({
+const { authMock, resolveActorMock } = vi.hoisted(() => ({
   authMock: vi.fn(),
+  resolveActorMock: vi.fn(),
 }));
 
 vi.mock("@/auth", () => ({
   auth: authMock,
+}));
+
+vi.mock("@/lib/authorization/resolve-actor", () => ({
+  resolveAuthorizationActor: resolveActorMock,
 }));
 
 import { GET as listInvites, POST as createInviteRoute } from "@/app/api/invites/route";
@@ -41,6 +47,24 @@ function session(input?: {
   };
 }
 
+/** Postgres-style actor: roles on the user row, no membership/assignment rows. */
+function actorFromSessionRoles(
+  sess: ReturnType<typeof session>,
+): AuthorizationActor {
+  return {
+    userId: sess.user.id,
+    unionId: sess.user.unionId,
+    roles: sess.user.roles,
+    memberships: [],
+    assignments: [],
+    delegations: [],
+    circleMemberships: [],
+    mfaVerified: false,
+    accountActive: true,
+    source: "database",
+  };
+}
+
 function jsonRequest(body: unknown, url = "http://localhost/api/invites"): Request {
   return new Request(url, {
     method: "POST",
@@ -68,6 +92,10 @@ describe("invite API routes", () => {
     resetInviteStoreForTests();
     resetTenantOverlayForTests();
     authMock.mockReset();
+    resolveActorMock.mockReset();
+    resolveActorMock.mockImplementation(async (sess: ReturnType<typeof session>) =>
+      actorFromSessionRoles(sess),
+    );
   });
 
   afterEach(() => {
@@ -87,6 +115,49 @@ describe("invite API routes", () => {
       const forbidden = await listInvites(getRequest());
       expect(forbidden.status).toBe(403);
       expect(await forbidden.json()).toEqual({ error: "Forbidden" });
+    });
+
+    it("lists invites for a local president even without membership rows", async () => {
+      const mine = await createInvite({
+        email: "mine@example.test",
+        name: "Mine",
+        unionId: "union-b7p",
+        localId: "local-7",
+        roles: ["local_steward"],
+        invitedById: "user-president-7",
+      });
+      const sess = session({ roles: ["local_president"] });
+      authMock.mockResolvedValue(sess);
+      resolveActorMock.mockResolvedValue(actorFromSessionRoles(sess));
+
+      const res = await listInvites(getRequest());
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as {
+        invites: Array<{ email: string; token?: string }>;
+      };
+      expect(body.invites.map((row) => row.email)).toEqual(["mine@example.test"]);
+      expect(body.invites[0]?.token).toBe(mine.token);
+    });
+
+    it("does not hard-fail platform admins when the session union is missing", async () => {
+      const sess = session({
+        roles: ["platform_admin"],
+        unionId: "union-purged-gone",
+        localId: null,
+      });
+      authMock.mockResolvedValue(sess);
+      resolveActorMock.mockResolvedValue(actorFromSessionRoles(sess));
+
+      const res = await listInvites(getRequest());
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as {
+        invites: unknown[];
+        unions: Array<{ id: string }>;
+        selectedUnionId: string | null;
+      };
+      expect(body.invites).toEqual([]);
+      expect(body.selectedUnionId).toBeNull();
+      expect(body.unions.some((u) => u.id === "union-b7p")).toBe(true);
     });
 
     it("does not widen a local president's invite list when local context is missing", async () => {
