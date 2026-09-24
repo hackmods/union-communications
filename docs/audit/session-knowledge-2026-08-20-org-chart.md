@@ -9,7 +9,7 @@ Public Comms **Org Chart** at `/tools/org-chart`:
 
 - On-device `PublicRoster` (`unionops-public-roster`) — officers, stewards, optional committees. Not Hub `/app/officers` (emails/terms/MFA). Not a membership directory (ADR-016).
 - Letter/tabloid poster (PNG + PDF) via `ToolEditorLayout` + Brand Kit canvas tokens.
-- JSON (canonical) + CSV import/export so a local can update names after elections.
+- Roster backup moved to **Local pack** (`/tools/local-pack`) — versioned JSON with Brand Kit + preferences + website draft; CSV for Excel remains on that page. Org Chart no longer has its own JSON/CSV import/export.
 - Website Template one-shot seeds from `showOnWebsite` people; **Use Org Chart names** refreshes later. Website ZIP officers stay a flat card grid.
 
 ## Product language

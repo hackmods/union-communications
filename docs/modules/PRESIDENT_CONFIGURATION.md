@@ -86,6 +86,7 @@ reason Comms is omitted — the site header already elevates it).
 10. **Module-off panels** with Configuration deep links (Time, Tasks, Check-ins, Discussions).
 11. **Steward read-only** note; first-run coach; axe smoke on `/app/configuration`.
 12. **Data stays locked** for presidents — elevates only with union/platform admin after durable Postgres.
+13. **Site admin override** — `platform_admin` may configure modules for any union (picker / `?unionId=`); minting locals and inviting presidents is site-admin only.
 
 ## Implementation map
 
@@ -94,7 +95,7 @@ reason Comms is omitted — the site header already elevates it).
 | Catalog + defaults | `src/lib/president/module-catalog.ts` |
 | Portal surface store | `src/lib/tenant/portal-surfaces.ts` |
 | Overlay defaults | `DEFAULT_OVERLAY_MODULES` in `src/lib/tenant/overlay.ts` |
-| API | `POST /api/tenant` `set_modules` / `set_portal_surfaces` |
+| API | `POST /api/tenant` `set_modules` / `set_portal_surfaces` (+ optional `unionId` for platform admin) |
 | UI | `src/components/hub/PresidentConfiguration.tsx` → `/app/configuration` |
 | Nav peers | `LocalPortalNavLink` + `OfficerHubNavLink` in Header / MobileNavDrawer |
 
@@ -102,4 +103,5 @@ reason Comms is omitted — the site header already elevates it).
 
 - [`LOCAL_PORTAL.md`](./LOCAL_PORTAL.md)
 - Soft-launch: `docs/audit/session-knowledge-2026-08-19-president-soft-launch.md`
-- Access: `canManageLocalModules` in `src/lib/tenant/access.ts`
+- Site admin full ops: `docs/audit/session-knowledge-2026-09-24-site-admin-full-ops.md`
+- Access: `canManageLocalModules` / `canMintLocal` in `src/lib/tenant/access.ts` + `local-number-access.ts`

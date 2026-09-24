@@ -1,5 +1,19 @@
 # Progress Log
 
+## 2026-09-24 — Local pack (versioned Comms backup)
+
+- New `/tools/local-pack`: one versioned `unionops-local-pack` JSON (Brand Kit, public roster, preferences, website draft) with a future-proof loader.
+- Website Template page copy persists on-device (`unionops-website-draft`); live/ZIP merge via `composeWebsiteTemplateData`.
+- Brand Kit and Org Chart no longer offer standalone JSON/CSV import/export; Callouts point to Local pack. Website Template site-file/ZIP import/export stays.
+- Session note: [`docs/audit/session-knowledge-2026-09-24-local-pack.md`](audit/session-knowledge-2026-09-24-local-pack.md).
+
+## 2026-09-24 — Site admin full ops (modules, minting, roles)
+
+- Platform admins configure Hub/Portal modules for any union (`?unionId=` / picker); load failures no longer show steward-only copy.
+- Local minting + invite elevate/president invites: `platform_admin` only; presidents keep modules + invites onto existing session local.
+- Account support Hub roles editor (`PATCH /api/site-admin/users/[id]/roles`) with sole-admin safeguard + sessionVersion bump.
+- Session note: [`docs/audit/session-knowledge-2026-09-24-site-admin-full-ops.md`](audit/session-knowledge-2026-09-24-site-admin-full-ops.md).
+
 ## 2026-09-24 — Hub CA clause library (site-stored)
 
 - Fixed reset/reseed under Postgres RLS; ship `seed/snippets` in Docker runner; empty unions auto-seed on first list.

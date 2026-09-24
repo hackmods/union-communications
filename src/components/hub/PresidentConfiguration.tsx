@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
+import { Select } from "@/components/ui/Select";
 import {
   PORTAL_CONFIG_ROWS,
   PRESIDENT_ALWAYS_ON_TOOLS,
@@ -34,12 +35,17 @@ import { markPresidentConfigVisited } from "@/components/hub/PresidentSetupCheck
 type ConfigScope = "union" | "local";
 
 type TenantPayload = {
-  context: TenantContext;
+  context: TenantContext | null;
   canManageLocalModules: boolean;
   canManageUnionModules: boolean;
+  canMintLocal?: boolean;
   portalSurfaces: PortalSurfaceId[];
   localPrefs: LocalPresentationPrefs | null;
   sessionLocalId: string | null;
+  needsUnionContext?: boolean;
+  isPlatformAdmin?: boolean;
+  operatorUnionId?: string | null;
+  unions?: Array<{ id: string; name: string }>;
 };
 
 const COACH_KEY = "unionops:president-coach-dismissed";
@@ -173,7 +179,12 @@ function PreviewPanel({
   );
 }
 
-export function PresidentConfiguration() {
+export function PresidentConfiguration({
+  initialUnionId = null,
+}: {
+  /** Site-admin deep link: `/app/configuration?unionId=…` */
+  initialUnionId?: string | null;
+}) {
   const t = useTranslations("hub.presidentConfig");
   const liveTenant = useLiveTenant();
 
@@ -184,6 +195,14 @@ export function PresidentConfiguration() {
   const [success, setSuccess] = useState<string | null>(null);
   const [canManage, setCanManage] = useState(false);
   const [canManageData, setCanManageData] = useState(false);
+  const [isPlatformAdmin, setIsPlatformAdmin] = useState(false);
+  const [needsUnionContext, setNeedsUnionContext] = useState(false);
+  const [unionOptions, setUnionOptions] = useState<
+    Array<{ id: string; name: string }>
+  >([]);
+  const [operatorUnionId, setOperatorUnionId] = useState<string | null>(
+    initialUnionId,
+  );
   const [unionName, setUnionName] = useState("");
   const [sessionLocalId, setSessionLocalId] = useState<string | null>(null);
   const [scope, setScope] = useState<ConfigScope>("union");
@@ -213,10 +232,17 @@ export function PresidentConfiguration() {
   useEffect(() => {
     let cancelled = false;
     void (async () => {
+      setLoading(true);
+      setError(null);
       try {
-        const res = await fetch("/api/tenant");
+        const qs =
+          operatorUnionId != null && operatorUnionId.length > 0
+            ? `?unionId=${encodeURIComponent(operatorUnionId)}`
+            : "";
+        const res = await fetch(`/api/tenant${qs}`);
         if (cancelled) return;
         if (!res.ok) {
+          setCanManage(false);
           setError(t("loadError"));
           return;
         }
@@ -224,8 +250,19 @@ export function PresidentConfiguration() {
         if (cancelled) return;
         setCanManage(data.canManageLocalModules);
         setCanManageData(data.canManageUnionModules);
-        setUnionName(data.context.union.name);
+        setIsPlatformAdmin(Boolean(data.isPlatformAdmin));
         setSessionLocalId(data.sessionLocalId);
+        if (data.unions?.length) {
+          setUnionOptions(data.unions);
+        }
+        if (data.needsUnionContext || !data.context) {
+          setNeedsUnionContext(true);
+          setUnionName("");
+          return;
+        }
+        setNeedsUnionContext(false);
+        setOperatorUnionId(data.operatorUnionId ?? data.context.union.id);
+        setUnionName(data.context.union.name);
         const unionModules = data.context.union.enabledModules;
         const unionSurfaces = resolvePortalSurfaces(data.portalSurfaces);
         setSavedModules(unionModules);
@@ -240,7 +277,10 @@ export function PresidentConfiguration() {
           setScope("union");
         }
       } catch {
-        if (!cancelled) setError(t("loadError"));
+        if (!cancelled) {
+          setCanManage(false);
+          setError(t("loadError"));
+        }
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -248,7 +288,16 @@ export function PresidentConfiguration() {
     return () => {
       cancelled = true;
     };
-  }, [t, liveTenant]);
+  }, [t, liveTenant, operatorUnionId]);
+
+  function operatorBody(
+    base: Record<string, unknown>,
+  ): Record<string, unknown> {
+    if (isPlatformAdmin && operatorUnionId) {
+      return { ...base, unionId: operatorUnionId };
+    }
+    return base;
+  }
 
   const dirty = useMemo(() => {
     if (scope === "union") {
@@ -318,12 +367,14 @@ export function PresidentConfiguration() {
         const res = await fetch("/api/tenant", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "set_local_prefs",
-            localId: sessionLocalId,
-            hubModules: draftModules,
-            portalSurfaces: draftSurfaces,
-          }),
+          body: JSON.stringify(
+            operatorBody({
+              action: "set_local_prefs",
+              localId: sessionLocalId,
+              hubModules: draftModules,
+              portalSurfaces: draftSurfaces,
+            }),
+          ),
         });
         if (!res.ok) {
           const body = (await res.json().catch(() => null)) as {
@@ -340,10 +391,12 @@ export function PresidentConfiguration() {
       const modulesRes = await fetch("/api/tenant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "set_modules",
-          enabledModules: draftModules,
-        }),
+        body: JSON.stringify(
+          operatorBody({
+            action: "set_modules",
+            enabledModules: draftModules,
+          }),
+        ),
       });
       if (!modulesRes.ok) {
         const body = (await modulesRes.json().catch(() => null)) as {
@@ -359,10 +412,12 @@ export function PresidentConfiguration() {
       const surfacesRes = await fetch("/api/tenant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "set_portal_surfaces",
-          portalSurfaces: draftSurfaces,
-        }),
+        body: JSON.stringify(
+          operatorBody({
+            action: "set_portal_surfaces",
+            portalSurfaces: draftSurfaces,
+          }),
+        ),
       });
       if (!surfacesRes.ok) {
         const body = (await surfacesRes.json().catch(() => null)) as {
@@ -396,13 +451,15 @@ export function PresidentConfiguration() {
       const res = await fetch("/api/tenant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "set_local_prefs",
-          localId: sessionLocalId,
-          hubModules: [],
-          portalSurfaces: [],
-          clear: true,
-        }),
+        body: JSON.stringify(
+          operatorBody({
+            action: "set_local_prefs",
+            localId: sessionLocalId,
+            hubModules: [],
+            portalSurfaces: [],
+            clear: true,
+          }),
+        ),
       });
       if (!res.ok) {
         setError(t("saveError"));
@@ -460,6 +517,61 @@ export function PresidentConfiguration() {
     );
   }
 
+  if (error && !canManage && !needsUnionContext) {
+    return (
+      <div className="space-y-4">
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
+        <Callout tone="danger" role="alert" measure="fill">
+          {error}
+        </Callout>
+        <Link
+          href="/app"
+          className="inline-flex text-sm font-semibold text-opseu-blue underline"
+        >
+          {t("backToDashboard")}
+        </Link>
+      </div>
+    );
+  }
+
+  if (needsUnionContext && isPlatformAdmin) {
+    return (
+      <div className="space-y-4">
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
+        <Callout tone="brand" measure="fill">
+          {t("pickUnionBody")}
+        </Callout>
+        {unionOptions.length > 0 ? (
+          <Select
+            label={t("pickUnionLabel")}
+            value={operatorUnionId ?? ""}
+            onChange={(e) => {
+              const next = e.target.value;
+              setOperatorUnionId(next || null);
+            }}
+          >
+            <option value="">{t("pickUnionPlaceholder")}</option>
+            {unionOptions.map((u) => (
+              <option key={u.id} value={u.id}>
+                {u.name}
+              </option>
+            ))}
+          </Select>
+        ) : (
+          <Callout tone="muted" measure="fill">
+            {t("pickUnionEmpty")}
+          </Callout>
+        )}
+        <Link
+          href="/app/site-admin"
+          className="inline-flex text-sm font-semibold text-opseu-blue underline"
+        >
+          {t("backToSiteAdmin")}
+        </Link>
+      </div>
+    );
+  }
+
   const readOnly = !canManage;
   if (readOnly) {
     return (
@@ -488,6 +600,24 @@ export function PresidentConfiguration() {
         <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
           {t("intro", { union: unionName || t("yourUnion") })}
         </p>
+        {isPlatformAdmin && unionOptions.length > 0 ? (
+          <Select
+            label={t("pickUnionLabel")}
+            value={operatorUnionId ?? ""}
+            onChange={(e) => {
+              const next = e.target.value;
+              if (next && next !== operatorUnionId) {
+                setOperatorUnionId(next);
+              }
+            }}
+          >
+            {unionOptions.map((u) => (
+              <option key={u.id} value={u.id}>
+                {u.name}
+              </option>
+            ))}
+          </Select>
+        ) : null}
         {coachOpen ? (
           <Callout tone="brand" measure="fill">
             <p>{t("coachBody")}</p>

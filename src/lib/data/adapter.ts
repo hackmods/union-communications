@@ -34,6 +34,8 @@ export const ONBOARDING_KEY = "unionops-onboarding-complete";
 export const USER_PREFERENCES_KEY = "lunion-user-preferences";
 /** On-device Org Chart / Website Template public officers (not Hub roster). */
 export const PUBLIC_ROSTER_KEY = "unionops-public-roster";
+/** On-device Website Template page copy (not Brand Kit colours/links). */
+export const WEBSITE_DRAFT_KEY = "unionops-website-draft";
 
 /** Pre-rebrand keys — read once and migrate to the canonical names. */
 export const LEGACY_BRAND_KIT_KEY = "opseu-brand-kit";

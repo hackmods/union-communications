@@ -9,7 +9,7 @@ import { usePublicRosterStore } from "@/store/public-roster-store";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
-import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { formatFilename } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { brandSetupHref } from "@/lib/utils/brand-setup";
 import {
@@ -25,11 +25,6 @@ import {
 } from "@/lib/constants/org-chart-formats";
 import {
   emptyRosterPerson,
-  parsePublicRosterCsv,
-  parsePublicRosterJsonText,
-  serializePublicRoster,
-  serializePublicRosterCsv,
-  type RosterImportCode,
 } from "@/lib/org-chart";
 import {
   MAX_ROSTER_PEOPLE,
@@ -51,16 +46,6 @@ import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { OrgChartCanvas } from "@/components/tools/org-chart/OrgChartCanvas";
-
-function downloadText(filename: string, text: string, mime: string) {
-  const blob = new Blob([text], { type: mime });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
 function PersonEditor({
   person,
@@ -212,9 +197,7 @@ function OrgChartPageContent() {
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const roster = usePublicRosterStore((s) => s.roster);
   const setPeople = usePublicRosterStore((s) => s.setPeople);
-  const importRoster = usePublicRosterStore((s) => s.importRoster);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
   const [formatId, setFormatId] = useState<OrgChartFormatId>(
     DEFAULT_ORG_CHART_FORMAT,
   );
@@ -222,12 +205,9 @@ function OrgChartPageContent() {
     DEFAULT_ORG_CHART_LAYOUT,
   );
   const [title, setTitle] = useState(t("posterTitleDefault"));
-  const [importMessage, setImportMessage] = useState<string | null>(null);
-  const [importTone, setImportTone] = useState<"danger" | "success">("success");
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
 
-  const localNumber = resolveLocalNumber(brandKit.local.localNumber);
   const format = ORG_CHART_FORMATS[formatId];
   const exportPixelRatio = orgChartExportPixelRatio(format);
   const people = roster.people;
@@ -256,46 +236,6 @@ function OrgChartPageContent() {
         .map((person) =>
           person.reportsToId === id ? { ...person, reportsToId: null } : person,
         ),
-    );
-  };
-
-  const importErrorMessage = (code: RosterImportCode): string => {
-    if (code === "brandKit") return t("importBrandKit");
-    if (code === "invalidJson") return t("importInvalidJson");
-    if (code === "invalidCsv") return t("importInvalidCsv");
-    if (code === "empty") return t("importEmpty");
-    return t("importInvalidSchema");
-  };
-
-  const handleImportFile = async (file: File) => {
-    const text = await file.text();
-    const lower = file.name.toLowerCase();
-    const result = lower.endsWith(".csv")
-      ? parsePublicRosterCsv(text)
-      : parsePublicRosterJsonText(text);
-    if (!result.ok) {
-      setImportTone("danger");
-      setImportMessage(importErrorMessage(result.code));
-      return;
-    }
-    importRoster(result.roster);
-    setImportTone("success");
-    setImportMessage(t("importSuccess"));
-  };
-
-  const handleExportJson = () => {
-    downloadText(
-      `org-chart-local-${localNumber}.json`,
-      serializePublicRoster(roster),
-      "application/json",
-    );
-  };
-
-  const handleExportCsv = () => {
-    downloadText(
-      `org-chart-local-${localNumber}.csv`,
-      serializePublicRosterCsv(roster),
-      "text/csv;charset=utf-8",
     );
   };
 
@@ -438,48 +378,17 @@ function OrgChartPageContent() {
             </p>
           </Callout>
 
-          <ToolFormDetails title={t("dataHeading")}>
-            <p className="text-sm text-gray-600">{t("dataIntro")}</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={handleExportJson}>
-                {t("exportJson")}
-              </Button>
-              <Button type="button" variant="outline" size="sm" onClick={handleExportCsv}>
-                {t("exportCsv")}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => fileRef.current?.click()}
+          <Callout tone="muted">
+            <p>{t("packCallout")}</p>
+            <p className="mt-2">
+              <Link
+                href="/tools/local-pack"
+                className="font-semibold text-opseu-blue underline underline-offset-2"
               >
-                {t("importFile")}
-              </Button>
-              <input
-                ref={fileRef}
-                type="file"
-                accept=".json,.csv,application/json,text/csv"
-                className="sr-only"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  e.target.value = "";
-                  if (file) void handleImportFile(file);
-                }}
-              />
-            </div>
-            {importMessage ? (
-              <p
-                className={
-                  importTone === "danger"
-                    ? "mt-2 text-sm text-red-700"
-                    : "mt-2 text-sm text-green-800"
-                }
-                role={importTone === "danger" ? "alert" : "status"}
-              >
-                {importMessage}
-              </p>
-            ) : null}
-          </ToolFormDetails>
+                {t("packLink")}
+              </Link>
+            </p>
+          </Callout>
 
           <ToolExportActions
             exporting={exporting}

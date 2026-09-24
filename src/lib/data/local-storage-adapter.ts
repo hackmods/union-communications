@@ -1,6 +1,7 @@
 import type { BrandKit } from "@/types/entities";
 import type { UserPreferences } from "@/types/preferences";
 import type { PublicRoster } from "@/types/public-roster";
+import type { WebsiteDraft } from "@/types/website-draft";
 import {
   BRAND_KIT_KEY,
   LEGACY_BRAND_KIT_KEY,
@@ -8,10 +9,12 @@ import {
   ONBOARDING_KEY,
   PUBLIC_ROSTER_KEY,
   USER_PREFERENCES_KEY,
+  WEBSITE_DRAFT_KEY,
   type DataAdapter,
 } from "./adapter";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
 import { parsePublicRosterJson } from "@/lib/org-chart/schema";
+import { parseWebsiteDraft } from "@/lib/local-pack/website-draft";
 
 type PersistenceListener = (blocked: boolean) => void;
 
@@ -153,6 +156,32 @@ export class LocalStorageAdapter implements DataAdapter {
   async clearPublicRoster(): Promise<void> {
     if (typeof window === "undefined") return;
     this.safeRemove(PUBLIC_ROSTER_KEY);
+  }
+
+  /**
+   * Website Template page copy. Local-only — never added to DataAdapter /
+   * ApiAdapter so draft text stays on the volunteer’s device.
+   */
+  async getWebsiteDraft(): Promise<WebsiteDraft | null> {
+    if (typeof window === "undefined") return null;
+    const raw = this.safeGet(WEBSITE_DRAFT_KEY);
+    if (!raw) return null;
+    try {
+      const parsed = parseWebsiteDraft(JSON.parse(raw) as unknown);
+      return parsed.ok ? parsed.draft : null;
+    } catch {
+      return null;
+    }
+  }
+
+  async saveWebsiteDraft(draft: WebsiteDraft): Promise<void> {
+    if (typeof window === "undefined") return;
+    this.safeSet(WEBSITE_DRAFT_KEY, JSON.stringify(draft));
+  }
+
+  async clearWebsiteDraft(): Promise<void> {
+    if (typeof window === "undefined") return;
+    this.safeRemove(WEBSITE_DRAFT_KEY);
   }
 
   private safeGet(key: string): string | null {

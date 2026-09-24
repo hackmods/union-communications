@@ -111,6 +111,11 @@ export default async function SiteAdminLandingPage({
           body={t("operatorAuditCardBody")}
         />
         <SiteAdminCard
+          href="/app/configuration"
+          title={t("modulesCard")}
+          body={t("modulesCardBody")}
+        />
+        <SiteAdminCard
           href="/app/invites"
           title={t("invites")}
           body={t("invitesBody")}

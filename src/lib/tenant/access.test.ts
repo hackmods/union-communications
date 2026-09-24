@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  canInviteAcrossUnionLocals,
   canInvitePresidents,
   canInviteRoles,
   inviteRolesForActor,
@@ -20,12 +21,16 @@ describe("invite role ladder", () => {
     expect(canInviteRoles(["platform_admin"], ["union_admin"])).toBe(true);
   });
 
-  it("lets union admin invite presidents and members, not union admin", () => {
-    expect(canInvitePresidents(["union_admin"])).toBe(true);
+  it("lets union admin invite members across the union, not presidents", () => {
+    expect(canInvitePresidents(["union_admin"])).toBe(false);
     expect(
-      canInviteRoles(["union_admin"], ["local_president", "local_member"]),
+      canInviteRoles(["union_admin"], ["local_steward", "local_member"]),
     ).toBe(true);
+    expect(canInviteRoles(["union_admin"], ["local_president"])).toBe(false);
     expect(canInviteRoles(["union_admin"], ["union_admin"])).toBe(false);
+    expect(canInviteAcrossUnionLocals(["union_admin"])).toBe(true);
+    expect(canInviteAcrossUnionLocals(["local_president"])).toBe(false);
+    expect(canInviteAcrossUnionLocals(["platform_admin"])).toBe(true);
   });
 
   it("does not let division admin elevate Local Number / invite presidents", () => {

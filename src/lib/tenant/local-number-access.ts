@@ -11,11 +11,19 @@ export function canAssignLocalNumber(roles: readonly string[]): boolean {
 }
 
 /**
+ * Who may mint a local (create_local / find-or-create by number) or pick any
+ * local in a union. Site admin only — presidents invite onto an existing local.
+ */
+export function canMintLocal(roles: readonly string[]): boolean {
+  return roles.includes("platform_admin" satisfies UserRole);
+}
+
+/**
  * Who may find-or-create a local by number or pick any local in the union.
- * Division admins and presidents are excluded (presidents stay session-local).
+ * Same gate as minting — platform_admin only.
  */
 export function canElevateLocalNumber(roles: readonly string[]): boolean {
-  return roles.some((r) => ["platform_admin", "union_admin"].includes(r));
+  return canMintLocal(roles);
 }
 
 export function isPlatformAdminRole(roles: readonly string[]): boolean {

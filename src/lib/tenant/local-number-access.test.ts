@@ -5,9 +5,9 @@ import {
 } from "./local-number-access";
 
 describe("local-number-access", () => {
-  it("lets platform and union admins elevate Local Number", () => {
+  it("lets only platform admin elevate / mint Local Number", () => {
     expect(canElevateLocalNumber(["platform_admin"])).toBe(true);
-    expect(canElevateLocalNumber(["union_admin"])).toBe(true);
+    expect(canElevateLocalNumber(["union_admin"])).toBe(false);
     expect(canElevateLocalNumber(["division_admin"])).toBe(false);
     expect(canElevateLocalNumber(["local_president"])).toBe(false);
   });

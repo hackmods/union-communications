@@ -76,12 +76,17 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "org-chart": {
       title: "Free Union Org Chart Maker",
       description:
-        "Print a who-to-contact poster for your union board, save officers and stewards as JSON or CSV, and reuse those names on your local website.",
+        "Print a who-to-contact poster for your union board, and reuse those names on your local website. Back up officers with Local pack.",
     },
     "website-template": {
       title: "Free Union Website Template",
       description:
         "Fill in your local details and download a simple website your members can bookmark, ready to publish free on GitHub Pages.",
+    },
+    "local-pack": {
+      title: "Free Local Pack Backup",
+      description:
+        "Download one versioned file with your Brand Kit, officer roster, display settings, and website draft. Import it on another browser.",
     },
     "document-generator": {
       title: "Free Document & Slide Generator",
@@ -213,12 +218,17 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "org-chart": {
       title: "Créateur d’organigramme syndical gratuit",
       description:
-        "Imprimez une affiche « qui contacter » pour le babillard, gardez dirigeants et délégués en JSON ou CSV, et réutilisez ces noms sur le site de votre section.",
+        "Imprimez une affiche « qui contacter » pour le babillard et réutilisez ces noms sur le site. Sauvegardez via Trousse locale.",
     },
     "website-template": {
       title: "Modèle de site web syndical gratuit",
       description:
         "Remplissez les détails de votre section et téléchargez un site simple que les membres pourront garder en favori, prêt à publier sur GitHub Pages.",
+    },
+    "local-pack": {
+      title: "Sauvegarde Trousse locale gratuite",
+      description:
+        "Téléchargez un fichier versionné : Trousse de marque, dirigeants, affichage et brouillon de site. Importez-le dans un autre navigateur.",
     },
     "document-generator": {
       title: "Générateur de documents et diapositives gratuit",

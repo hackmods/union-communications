@@ -17,6 +17,7 @@ import { POST as createLocal } from "@/app/api/site-admin/locals/route";
 import { POST as archiveLocal } from "@/app/api/site-admin/locals/[id]/archive/route";
 import { POST as restoreLocal } from "@/app/api/site-admin/locals/[id]/restore/route";
 import { POST as assignLocal } from "@/app/api/site-admin/users/[id]/assign-local/route";
+import { PATCH as patchRoles } from "@/app/api/site-admin/users/[id]/roles/route";
 import { GET as scanMembershipIntegrity } from "@/app/api/site-admin/membership-integrity/route";
 import { GET as tenantOptions } from "@/app/api/site-admin/tenant-options/route";
 import { GET as operatorAudit } from "@/app/api/site-admin/audit/route";
@@ -171,6 +172,11 @@ describe("site-admin locals, assign-local, and integrity HTTP", () => {
       (await restoreLocal(new Request("http://localhost"), userParams("local-7")))
         .status,
     ).toBe(403);
+    expect(
+      (
+        await patchRoles(jsonRequest({ roles: ["local_steward"] }), userParams("user-1"))
+      ).status,
+    ).toBe(403);
   });
 
   it("fails closed without Postgres for mutating and scan routes", async () => {
@@ -186,6 +192,12 @@ describe("site-admin locals, assign-local, and integrity HTTP", () => {
       userParams("user-1"),
     );
     expect(assigned.status).toBe(503);
+
+    const roles = await patchRoles(
+      jsonRequest({ roles: ["local_steward"] }),
+      userParams("user-1"),
+    );
+    expect(roles.status).toBe(503);
 
     const integrity = await scanMembershipIntegrity();
     expect(integrity.status).toBe(503);

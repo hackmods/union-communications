@@ -10,6 +10,7 @@ import {
 } from "@/lib/email/messages";
 import { sendTransactionalEmail } from "@/lib/email/send";
 import {
+  canInviteAcrossUnionLocals,
   canInviteRoles,
   canManageInvites,
   inviteRolesForActor,
@@ -17,7 +18,11 @@ import {
 import {
   canElevateLocalNumber,
 } from "@/lib/tenant/local-number-access";
-import { getTenantContext, getAllTenantSeeds } from "@/lib/tenant/loader";
+import {
+  findLocalByNumber,
+  getTenantContext,
+  getAllTenantSeeds,
+} from "@/lib/tenant/loader";
 import {
   findOrCreateLocal,
   hydrateTenantOverlayFromPostgres,
@@ -104,6 +109,7 @@ export async function GET(req: Request) {
   const roles = actor.roles;
   const isPlatform = roles.includes("platform_admin");
   const elevateLocal = canElevateLocalNumber(roles);
+  const crossLocal = canInviteAcrossUnionLocals(roles);
   const sessionUnionId = session.user.unionId ?? null;
 
   // Match the invites page + email resend route: Hub invite managers are
@@ -119,7 +125,7 @@ export async function GET(req: Request) {
   }
 
   // Presidents / division admins stay session-local — never widen to the union.
-  if (!elevateLocal && !session.user.localId) {
+  if (!crossLocal && !session.user.localId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -181,7 +187,7 @@ export async function GET(req: Request) {
   if (!ctx) {
     // Orphaned session union (e.g. demo purge) must not hard-fail the board for
     // elevated operators — they still need the empty composer + union picker.
-    if (elevateLocal || isPlatform) {
+    if (crossLocal || isPlatform) {
       return NextResponse.json(
         emptyInvitesPayload({
           roles,
@@ -198,8 +204,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
 
-  const scopeLocalId =
-    elevateLocal || isPlatform ? undefined : session.user.localId;
+  const scopeLocalId = crossLocal ? undefined : session.user.localId;
   const invites = await listInvitesForUnion({
     unionId: effectiveUnionId,
     localId: scopeLocalId,
@@ -264,6 +269,7 @@ export async function POST(req: Request) {
   const roles = actor.roles;
   const isPlatform = roles.includes("platform_admin");
   const elevateLocal = canElevateLocalNumber(roles);
+  const crossLocal = canInviteAcrossUnionLocals(roles);
   const sessionUnionId = session.user.unionId ?? null;
 
   if (!canManageInvites(roles)) {
@@ -274,7 +280,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing union context" }, { status: 400 });
   }
 
-  if (!elevateLocal && !session.user.localId) {
+  if (!crossLocal && !session.user.localId) {
     return NextResponse.json(
       { error: "Missing local context" },
       { status: 400 },
@@ -331,7 +337,7 @@ export async function POST(req: Request) {
 
   let localId = parsed.data.localId;
 
-  if (!elevateLocal) {
+  if (!crossLocal) {
     localId = session.user.localId;
     if (!localId) {
       return NextResponse.json(
@@ -340,28 +346,39 @@ export async function POST(req: Request) {
       );
     }
   } else if (parsed.data.localNumber?.trim()) {
-    const { local } = await findOrCreateLocal({
-      unionId,
-      localNumber: parsed.data.localNumber,
-      subText: parsed.data.localSubText,
-      divisionId: parsed.data.divisionId ?? ctx.division?.id,
-    });
-    localId = local.id;
-    if (parsed.data.collectionCode && parsed.data.collectionName) {
-      const latest = getTenantContext(unionId);
-      const existing = latest?.bargainingUnits.find(
-        (u) =>
-          u.localId === local.id &&
-          u.code === parsed.data.collectionCode?.trim().toLowerCase(),
-      );
-      if (!existing) {
-        await createCollectionDurable({
-          unionId,
-          localId: local.id,
-          code: parsed.data.collectionCode,
-          name: parsed.data.collectionName,
-        });
+    if (elevateLocal) {
+      const { local } = await findOrCreateLocal({
+        unionId,
+        localNumber: parsed.data.localNumber,
+        subText: parsed.data.localSubText,
+        divisionId: parsed.data.divisionId ?? ctx.division?.id,
+      });
+      localId = local.id;
+      if (parsed.data.collectionCode && parsed.data.collectionName) {
+        const latest = getTenantContext(unionId);
+        const existing = latest?.bargainingUnits.find(
+          (u) =>
+            u.localId === local.id &&
+            u.code === parsed.data.collectionCode?.trim().toLowerCase(),
+        );
+        if (!existing) {
+          await createCollectionDurable({
+            unionId,
+            localId: local.id,
+            code: parsed.data.collectionCode,
+            name: parsed.data.collectionName,
+          });
+        }
       }
+    } else {
+      const existing = findLocalByNumber(unionId, parsed.data.localNumber);
+      if (!existing) {
+        return NextResponse.json(
+          { error: "Local not found. Ask a site admin to create that local number." },
+          { status: 404 },
+        );
+      }
+      localId = existing.id;
     }
   } else if (localId) {
     const latest = getTenantContext(unionId);
@@ -394,7 +411,7 @@ export async function POST(req: Request) {
         unionId,
         localId,
         mfaVerified: true,
-        crossLocal: elevateLocal || isPlatform,
+        crossLocal: crossLocal || isPlatform,
       },
       () =>
         accessRequestStore.update(parsed.data.requestId!, {

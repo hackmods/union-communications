@@ -213,7 +213,7 @@ describe("GET/POST /api/tenant", () => {
     expect(prefsBody.localPrefs.hubModules).toEqual(["grievance", "portal"]);
   });
 
-  it("lets a president create a local on the session union overlay", async () => {
+  it("forbids a president from minting a local; platform admin may", async () => {
     authMock.mockResolvedValue(session());
     const created = await postTenant(
       jsonRequest({
@@ -222,12 +222,65 @@ describe("GET/POST /api/tenant", () => {
         subText: "Coverage local",
       }),
     );
-    expect(created.status).toBe(201);
-    const body = (await created.json()) as {
+    expect(created.status).toBe(403);
+
+    authMock.mockResolvedValue(
+      session({ id: "user-root", roles: ["platform_admin"] }),
+    );
+    const minted = await postTenant(
+      jsonRequest({
+        action: "create_local",
+        localNumber: "808",
+        subText: "Coverage local",
+      }),
+    );
+    expect(minted.status).toBe(201);
+    const body = (await minted.json()) as {
       local: { unionId: string; localNumber: string; subText: string };
     };
     expect(body.local.unionId).toBe("union-b7p");
     expect(body.local.localNumber).toBe("808");
     expect(body.local.subText).toBe("Coverage local");
+  });
+
+  it("lets platform admin GET/POST modules for a union override without home union", async () => {
+    authMock.mockResolvedValue(
+      session({
+        id: "user-root",
+        unionId: null,
+        localId: null,
+        roles: ["platform_admin"],
+      }),
+    );
+    const missing = await getTenant(
+      new Request("http://localhost/api/tenant"),
+    );
+    expect(missing.status).toBe(200);
+    const missingBody = (await missing.json()) as {
+      needsUnionContext: boolean;
+      canManageLocalModules: boolean;
+    };
+    expect(missingBody.needsUnionContext).toBe(true);
+    expect(missingBody.canManageLocalModules).toBe(true);
+
+    const withUnion = await getTenant(
+      new Request("http://localhost/api/tenant?unionId=union-b7p"),
+    );
+    expect(withUnion.status).toBe(200);
+    const withBody = (await withUnion.json()) as {
+      context: { union: { id: string } };
+      operatorUnionId: string;
+    };
+    expect(withBody.context.union.id).toBe("union-b7p");
+    expect(withBody.operatorUnionId).toBe("union-b7p");
+
+    const written = await postTenant(
+      jsonRequest({
+        action: "set_portal_surfaces",
+        portalSurfaces: ["announcements"],
+        unionId: "union-b7p",
+      }),
+    );
+    expect(written.status).toBe(200);
   });
 });
