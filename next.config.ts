@@ -145,6 +145,10 @@ const nextConfig: NextConfig = {
         destination: "/:locale/tools/:slug/",
       },
       {
+        source: "/:locale(en|fr)/utilities/:slug/",
+        destination: "/:locale/tools/:slug/",
+      },
+      {
         source: "/:locale(en|fr)/learn/communications-blueprint/",
         destination: "/:locale/guide/",
       },

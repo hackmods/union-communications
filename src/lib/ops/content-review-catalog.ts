@@ -55,7 +55,9 @@ const SITE_SHELL_PATHS: readonly {
   { href: "/feedback", navKey: "feedback" },
   { href: "/start", navKey: "start" },
   { href: "/create", navKey: "create" },
+  { href: "/utilities", navKey: "utilities" },
   { href: "/learn", navKey: "learn" },
+  { href: "/platform", navKey: "platform" },
   { href: "/join", labelKey: "join" },
   { href: "/request-access", labelKey: "requestAccess" },
 ];

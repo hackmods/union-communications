@@ -1,16 +1,15 @@
 "use client";
 
-import { Suspense, useEffect, useId, useMemo, useState } from "react";
+import { Suspense, useEffect, useId, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SegControl } from "@/components/tools/SegControl";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
-import { Dialog } from "@/components/ui/Dialog";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { ChecklistToggle } from "@/components/tools/steward-guides/ChecklistToggle";
@@ -19,15 +18,15 @@ import {
   ScriptBlock,
   SuggestionPanel,
 } from "@/components/tools/steward-guides/SuggestionPanel";
-import {
-  MeiorinStepsDiagram,
-  RtwWorkHardeningDiagram,
-} from "@/components/comms/StewardGuideDiagrams";
 import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
 import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import { useBrandStore } from "@/store/brand-store";
+import {
+  letterGeneratorContextHref,
+  saveLetterHandoff,
+} from "@/lib/comms/letter-contexts";
 import {
   ACCOMMODATION_MEASURES,
   PROHIBITED_GROUNDS,
@@ -81,7 +80,7 @@ function RtwAccommodationPageContent() {
   });
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
-  const [meiorinOpen, setMeiorinOpen] = useState(false);
+  const router = useRouter();
   const primacyId = useId();
 
   useEffect(() => {
@@ -155,27 +154,6 @@ function RtwAccommodationPageContent() {
         : prev.measures.filter((m) => m !== id),
     }));
   };
-
-  const meiorinSteps = useMemo(
-    () =>
-      [
-        t("legal.meiorinStep1Title"),
-        t("legal.meiorinStep2Title"),
-        t("legal.meiorinStep3Title"),
-      ] as [string, string, string],
-    [t],
-  );
-
-  const workHardeningPhases = useMemo(
-    () =>
-      [
-        { label: t("diagrams.phase1Label"), hours: t("diagrams.phase1Hours") },
-        { label: t("diagrams.phase2Label"), hours: t("diagrams.phase2Hours") },
-        { label: t("diagrams.phase3Label"), hours: t("diagrams.phase3Hours") },
-        { label: t("diagrams.phase4Label"), hours: t("diagrams.phase4Hours") },
-      ] as const,
-    [t],
-  );
 
   const buildMarkdown = () =>
     rtwDraftToMarkdown(draft, {
@@ -254,59 +232,24 @@ function RtwAccommodationPageContent() {
         <p id={primacyId} className="mt-1">
           {t("legal.primacyBody")}
         </p>
-        <p className="mt-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="min-h-11"
-            onClick={() => setMeiorinOpen(true)}
+      </Callout>
+
+      <Callout tone="muted" role="note">
+        <p className="text-sm leading-relaxed">
+          <Link
+            href="/learn/officer/human-rights-accommodation"
+            className="font-semibold text-opseu-blue underline underline-offset-2"
           >
-            {t("legal.meiorinOpen")}
-          </Button>
+            {t("moduleLink")}
+          </Link>
+          {" · "}
+          <Link
+            href="/learn/grievance-process"
+            className="font-semibold text-opseu-blue underline underline-offset-2"
+          >
+            {t("grievancePlaybookLink")}
+          </Link>
         </p>
-      </Callout>
-
-      <Callout tone="muted" role="note">
-        <p className="font-semibold text-gray-900">
-          {t("legal.undueHardshipTitle")}
-        </p>
-        <p className="mt-1">{t("legal.undueHardshipBody")}</p>
-        <ul className="mt-2 list-inside list-disc space-y-1">
-          <li>{t("legal.undueHardshipCost")}</li>
-          <li>{t("legal.undueHardshipFunding")}</li>
-          <li>{t("legal.undueHardshipSafety")}</li>
-        </ul>
-        <p className="mt-2 font-medium text-gray-900">
-          {t("legal.undueHardshipNotTitle")}
-        </p>
-        <p className="mt-1">{t("legal.undueHardshipNotBody")}</p>
-      </Callout>
-
-      <div className="space-y-3 rounded-lg border border-gray-200 border-l-2 border-l-teal-500/40 p-3">
-        <p className="text-sm font-medium text-gray-900">
-          {t("diagrams.meiorinTitle")}
-        </p>
-        <MeiorinStepsDiagram
-          steps={meiorinSteps}
-          caption={t("diagrams.meiorinCaption")}
-        />
-        <p className="text-sm font-medium text-gray-900">
-          {t("diagrams.workHardeningTitle")}
-        </p>
-        <RtwWorkHardeningDiagram
-          phases={workHardeningPhases}
-          caption={t("diagrams.workHardeningCaption")}
-        />
-      </div>
-
-      <Callout tone="muted" role="note">
-        <Link
-          href="/guide/officer-learning/human-rights-accommodation"
-          className="font-semibold text-opseu-blue underline underline-offset-2"
-        >
-          {t("moduleLink")}
-        </Link>
       </Callout>
 
       <Callout tone="warning" role="note">
@@ -502,11 +445,33 @@ function RtwAccommodationPageContent() {
       ) : null}
       <ScriptBlock label={t("preview.email")} text={scripts.email} />
       <ScriptBlock label={t("preview.verbal")} text={scripts.verbal} />
+      <Button
+        type="button"
+        variant="outline"
+        className="min-h-11 w-full sm:w-auto"
+        onClick={() => {
+          const context =
+            draft.mode === "grievanceDraft" ? "grievance" : "accommodation";
+          saveLetterHandoff({
+            context,
+            source: "rtw-accommodation",
+            fields: {
+              memberName: draft.memberName,
+              salutation: draft.hrContact,
+              body: scripts.email,
+            },
+          });
+          router.push(
+            letterGeneratorContextHref(context, { from: "rtw-accommodation" }),
+          );
+        }}
+      >
+        {t("openFormalLetter")}
+      </Button>
     </SuggestionPanel>
   );
 
   return (
-    <>
     <ToolEditorLayout
       className="steward-guide-print"
       title={t("title")}
@@ -522,31 +487,5 @@ function RtwAccommodationPageContent() {
       exportSuccess={exportSuccess}
       footer={<ToolRelatedFooter toolSlug="rtw-accommodation" />}
     />
-    <Dialog
-      open={meiorinOpen}
-      onClose={() => setMeiorinOpen(false)}
-      title={t("legal.meiorinTitle")}
-      closeLabel={t("legal.meiorinClose")}
-      className="max-w-lg"
-    >
-      <ol className="list-decimal space-y-3 pl-5 text-sm leading-relaxed">
-        <li>
-          <span className="font-semibold">{t("legal.meiorinStep1Title")}</span>
-          {" — "}
-          {t("legal.meiorinStep1Body")}
-        </li>
-        <li>
-          <span className="font-semibold">{t("legal.meiorinStep2Title")}</span>
-          {" — "}
-          {t("legal.meiorinStep2Body")}
-        </li>
-        <li>
-          <span className="font-semibold">{t("legal.meiorinStep3Title")}</span>
-          {" — "}
-          {t("legal.meiorinStep3Body")}
-        </li>
-      </ol>
-    </Dialog>
-    </>
   );
 }

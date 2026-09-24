@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 const footerLinkClass =
   "inline-flex min-h-11 items-center hover:text-opseu-blue sm:min-h-8";
 
+/** Secondary/trust navigation — primary product destinations stay in the header. */
 export function Footer() {
   const t = useTranslations("footer");
   const nav = useTranslations("nav");
@@ -34,14 +35,8 @@ export function Footer() {
           <Link href="/" className={footerLinkClass}>
             {nav("home")}
           </Link>
-          <Link href="/create/brand-kit" className={footerLinkClass}>
-            {nav("brandKit")}
-          </Link>
-          <Link href="/create" className={footerLinkClass}>
-            {nav("create")}
-          </Link>
-          <Link href="/learn" className={footerLinkClass}>
-            {nav("learn")}
+          <Link href="/start" className={footerLinkClass}>
+            {nav("guidedSetup")}
           </Link>
           <Link href="/updates" className={footerLinkClass}>
             {nav("whatsNew")}

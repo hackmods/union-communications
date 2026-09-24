@@ -90,7 +90,7 @@ describe("public-catalog", () => {
   });
 
   it("enforces anonymous, Hub, and disabled-tool visibility", () => {
-    const pulsePoll = PUBLIC_CATALOG.find((item) => item.id === "create-pulse-poll");
+    const pulsePoll = PUBLIC_CATALOG.find((item) => item.id === "utilities-pulse-poll");
     expect(pulsePoll?.featureGate).toBe("officerHubPublic");
 
     const anonymous = visiblePublicCatalog({ authenticated: false, officerHubPublic: true });
@@ -106,9 +106,9 @@ describe("public-catalog", () => {
       }).some((item) => item.legacyPaths.includes("/tools/flyer-maker")),
     ).toBe(false);
 
-    expect(PUBLIC_CATALOG.find((item) => item.id === "create-bylaw-builder")?.storageMode)
+    expect(PUBLIC_CATALOG.find((item) => item.id === "utilities-bylaw-builder")?.storageMode)
       .toBe("on-device-hub-optional");
-    expect(PUBLIC_CATALOG.find((item) => item.id === "create-proposal-tracker")?.storageMode)
+    expect(PUBLIC_CATALOG.find((item) => item.id === "utilities-proposal-tracker")?.storageMode)
       .toBe("on-device-hub-optional");
   });
 
@@ -118,7 +118,17 @@ describe("public-catalog", () => {
       "learn-communications-blueprint",
       "learn-first-week",
       "learn-library-brand-assets",
+      "utilities-local-pack",
     ]);
+  });
+
+  it("splits Create makers from Utilities workspaces", () => {
+    expect(PUBLIC_CATALOG.find((item) => item.id === "create-flyer-maker")?.toolSurface)
+      .toBe("create");
+    expect(PUBLIC_CATALOG.find((item) => item.id === "utilities-rtw-accommodation")?.toolSurface)
+      .toBe("utilities");
+    expect(PUBLIC_CATALOG.find((item) => item.id === "utilities-rtw-accommodation")?.canonicalPath)
+      .toBe("/utilities/rtw-accommodation");
   });
 
   it("resolves breadcrumbs from canonical and legacy catalog paths", () => {

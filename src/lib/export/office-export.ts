@@ -138,6 +138,10 @@ export async function renderDocxFromPreset(
   let blob: Blob;
   switch (opts.presetId) {
     case "simple-letter":
+    case "accommodation-letter":
+    case "grievance-notice":
+    case "representation-request":
+    case "meeting-follow-up":
       blob = await buildSimpleLetterDocx(input);
       break;
     case "welcome-letter":

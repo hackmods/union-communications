@@ -24,6 +24,8 @@ describe("public route migration", () => {
     ["/brand-kit", "/create/brand-kit"],
     ["/tools", "/create"],
     ["/tools/flyer-maker", "/create/flyer-maker"],
+    ["/tools/rtw-accommodation", "/utilities/rtw-accommodation"],
+    ["/create/rtw-accommodation", "/utilities/rtw-accommodation"],
     ["/tools/keep-learning", "/learn"],
     ["/create/keep-learning", "/learn"],
     ["/guides", "/learn"],

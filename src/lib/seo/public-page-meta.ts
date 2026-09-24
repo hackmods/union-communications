@@ -74,14 +74,24 @@ export const PUBLIC_PAGE_SEO: Record<
         "Your Brand Kit colours and logo, plus reference starter files for workshops. Change any of it in Brand Kit.",
     },
     "/tools": {
-      title: "Tools",
+      title: "Create",
       description:
-        "Makers for your brand, union boards, print, social, and the web. They all run on your device, with no account needed.",
+        "Make graphics, flyers, board materials, letters, and documents for your local — on your device, with Brand Kit details reused.",
+    },
+    "/utilities": {
+      title: "Utilities",
+      description:
+        "Practical worksheets for steward prep, governance drafts, accessibility helpers, and other union work — separate from Create and Learn.",
+    },
+    "/platform": {
+      title: "Officer Hub and Local Portal",
+      description:
+        "How UnionOps hosted products work: Officer Hub for private officer operations and Local Portal for member participation.",
     },
     "/guides": {
       title: "Guides",
       description:
-        "Every UnionOps handbook in one list: First week, channel guides, and steward playbooks for the shop floor and the local.",
+        "Every UnionOps handbook in one list: Comms getting started, channel guides, and steward playbooks for the shop floor and the local.",
     },
     "/guide": {
       title: "The Blueprint",
@@ -89,9 +99,9 @@ export const PUBLIC_PAGE_SEO: Record<
         "A handbook for ongoing local communications practice: which platforms to choose, tone of voice, posting rhythm, and accessibility.",
     },
     "/guide/social-media-plan": {
-      title: "First week",
+      title: "Comms getting started",
       description:
-        "What to do after Brand Kit: boards, print, socials, and a simple website. One message, four channels, in order.",
+        "What to do after Brand Kit: boards, print, socials, and a simple website. One message across four channels.",
     },
     "/guide/workshop": {
       title: "Comms workshop",
@@ -376,9 +386,19 @@ export const PUBLIC_PAGE_SEO: Record<
         "Les couleurs et le logo de votre Trousse de marque, plus des fichiers de départ pour les ateliers. Changez tout dans la Trousse de marque.",
     },
     "/tools": {
-      title: "Outils",
+      title: "Créer",
       description:
-        "Des créateurs pour votre marque, les tableaux syndicaux, l'impression, le social et le web. Tout reste sur votre appareil, sans compte à créer.",
+        "Réalisez graphiques, tracts, matériel pour tableaux, lettres et documents pour votre section — sur votre appareil, avec la Trousse de marque.",
+    },
+    "/utilities": {
+      title: "Utilitaires",
+      description:
+        "Feuilles de travail pour la préparation des délégués, la gouvernance, l’accessibilité et d’autres tâches syndicales — distincts de Créer et d’Apprendre.",
+    },
+    "/platform": {
+      title: "Hub des dirigeants et Portail local",
+      description:
+        "Produits hébergés UnionOps : Hub des dirigeants pour le travail privé des dirigeants et Portail local pour la participation des membres.",
     },
     "/guides": {
       title: "Guides",
@@ -391,9 +411,9 @@ export const PUBLIC_PAGE_SEO: Record<
         "Un manuel pour la pratique continue des communications locales : quelles plateformes choisir, le ton, le rythme de publication et l'accessibilité.",
     },
     "/guide/social-media-plan": {
-      title: "Première semaine",
+      title: "Premiers pas en communication",
       description:
-        "Quoi faire après la Trousse de marque : tableaux, impression, médias sociaux et un site simple. Un message, quatre canaux, dans l'ordre.",
+        "Quoi faire après la Trousse de marque : tableaux, impression, médias sociaux et un site simple. Un message sur quatre canaux.",
     },
     "/guide/workshop": {
       title: "Atelier Comms",

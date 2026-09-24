@@ -4,8 +4,8 @@ import { expectNoSeriousA11yViolations } from "./helpers/axe";
 
 test.describe("task-first public discovery @smoke", () => {
   for (const locale of ["en", "fr"] as const) {
-    test(`${locale} Start, Create, Learn, and Search render`, async ({ page }) => {
-      for (const path of ["/start/", "/create/", "/learn/", "/search/"]) {
+    test(`${locale} Brand Kit, Create, Utilities, Learn, Platform, and Search render`, async ({ page }) => {
+      for (const path of ["/create/", "/utilities/", "/learn/", "/platform/", "/search/"]) {
         await page.goto(`/${locale}${path}`);
         await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       }
@@ -13,14 +13,34 @@ test.describe("task-first public discovery @smoke", () => {
         name: locale === "en" ? "Site navigation" : "Navigation du site",
       });
       const labels = locale === "en"
-        ? { start: "Start", brand: "Brand Kit", create: "Create", learn: "Learn", hub: "Officer Hub", search: "Search" }
-        : { start: "Commencer", brand: "Trousse de marque", create: "Créer", learn: "Apprendre", hub: "Hub des dirigeants", search: "Rechercher" };
-      await expect(primary.getByRole("link", { name: labels.start, exact: true }))
-        .toHaveAttribute("href", `/${locale}/start/`);
+        ? {
+            brand: "Brand Kit",
+            create: "Create",
+            utilities: "Utilities",
+            learn: "Learn",
+            platform: "Platform",
+            hub: "Officer Hub",
+            search: "Search",
+          }
+        : {
+            brand: "Trousse de marque",
+            create: "Créer",
+            utilities: "Utilitaires",
+            learn: "Apprendre",
+            platform: "Plateforme",
+            hub: "Hub des dirigeants",
+            search: "Rechercher",
+          };
       await expect(primary.getByRole("link", { name: labels.brand, exact: true }))
         .toHaveAttribute("href", `/${locale}/create/brand-kit/`);
       await expect(primary.getByRole("link", { name: labels.create, exact: true })).toBeVisible();
+      await expect(primary.getByRole("link", { name: labels.utilities, exact: true }))
+        .toHaveAttribute("href", `/${locale}/utilities/`);
       await expect(primary.getByRole("link", { name: labels.learn, exact: true })).toBeVisible();
+      await expect(primary.getByRole("link", { name: labels.platform, exact: true }))
+        .toHaveAttribute("href", `/${locale}/platform/`);
+      await expect(primary.getByRole("link", { name: locale === "en" ? "Start" : "Commencer", exact: true }))
+        .toHaveCount(0);
       const hubLink = primary.getByRole("link", { name: labels.hub, exact: true });
       if (await hubLink.count()) {
         await expect(hubLink).toHaveAttribute("href", `/${locale}/app/`);
@@ -32,16 +52,18 @@ test.describe("task-first public discovery @smoke", () => {
     });
   }
 
-  test("Home presents a direct, ordered Brand Kit-to-Create-to-Learn workflow", async ({ page }) => {
+  test("Home presents Brand Kit foundation with parallel destinations and Platform", async ({ page }) => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Follow these three steps" })).toBeVisible();
-    await expect(page.getByTestId("home-step-brand-kit").getByRole("link", { name: "Brand Kit" }))
-      .toHaveAttribute("href", "/en/create/brand-kit/");
-    await expect(page.getByTestId("home-step-create").getByRole("link", { name: "Create" }))
+    await expect(page.getByRole("heading", { name: "Brand Kit powers everything on your device" })).toBeVisible();
+    await expect(page.getByTestId("home-dest-create").getByRole("link", { name: "Create" }))
       .toHaveAttribute("href", "/en/create/");
-    await expect(page.getByTestId("home-step-learn").getByRole("link", { name: "Learn" }))
+    await expect(page.getByTestId("home-dest-utilities").getByRole("link", { name: "Utilities" }))
+      .toHaveAttribute("href", "/en/utilities/");
+    await expect(page.getByTestId("home-dest-learn").getByRole("link", { name: "Learn" }))
       .toHaveAttribute("href", "/en/learn/");
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "Understand Officer Hub and Local Portal" }))
+      .toHaveAttribute("href", "/en/platform/");
     await page.getByRole("link", { name: "Open guided setup" }).first().click();
     await expect(page).toHaveURL(/\/en\/start\//);
     await expect(page.getByTestId("start-path-comms")).toBeVisible();
@@ -147,6 +169,8 @@ test.describe("task-first public discovery @smoke", () => {
     const xml = await sitemap.text();
     expect(xml).toContain("/en/learn/");
     expect(xml).toContain("/fr/create/");
+    expect(xml).toContain("/en/utilities/");
+    expect(xml).toContain("/en/platform/");
     expect(xml).not.toContain("/guide/");
     expect(xml).not.toContain("/tools/");
     expect(xml).not.toContain("/guides/");
@@ -155,7 +179,7 @@ test.describe("task-first public discovery @smoke", () => {
   test("catalog layouts stay within the viewport at the target widths @mobile", async ({ page }) => {
     for (const width of [375, 768, 1280, 1536]) {
       await page.setViewportSize({ width, height: 900 });
-      for (const path of ["/en/", "/en/start/", "/en/create/", "/en/learn/", "/en/search/"]) {
+      for (const path of ["/en/", "/en/start/", "/en/create/", "/en/utilities/", "/en/learn/", "/en/platform/", "/en/search/"]) {
         await page.goto(path);
         await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
         await assertNoHorizontalOverflow(page);
@@ -169,12 +193,15 @@ test.describe("task-first public discovery @smoke", () => {
     await page.getByTestId("mobile-nav-toggle").click();
     const drawer = page.getByTestId("mobile-nav-drawer");
     const primary = drawer.getByRole("navigation", { name: "Navigation du site" });
-    await expect(primary.getByRole("link", { name: "Commencer", exact: true }))
-      .toHaveAttribute("href", "/fr/start/");
     await expect(primary.getByRole("link", { name: "Trousse de marque", exact: true }))
       .toHaveAttribute("href", "/fr/create/brand-kit/");
     await expect(primary.getByRole("link", { name: "Créer", exact: true })).toBeVisible();
+    await expect(primary.getByRole("link", { name: "Utilitaires", exact: true }))
+      .toHaveAttribute("href", "/fr/utilities/");
     await expect(primary.getByRole("link", { name: "Apprendre", exact: true })).toBeVisible();
+    await expect(primary.getByRole("link", { name: "Plateforme", exact: true }))
+      .toHaveAttribute("href", "/fr/platform/");
+    await expect(primary.getByRole("link", { name: "Commencer", exact: true })).toHaveCount(0);
     await expect(page.getByTestId("mobile-nav-toggle")).toContainText("Fermer le menu");
     const hubLink = primary.getByRole("link", { name: "Hub des dirigeants", exact: true });
     if (await hubLink.count()) {
@@ -197,7 +224,9 @@ test.describe("task-first public discovery @smoke", () => {
     const drawer = page.getByTestId("mobile-nav-drawer");
     const primary = drawer.getByRole("navigation", { name: "Site navigation" });
     await expect(primary.getByRole("link", { name: "Brand Kit", exact: true })).toBeVisible();
-    await expect(primary.getByRole("link", { name: "Start", exact: true })).toBeVisible();
+    await expect(primary.getByRole("link", { name: "Utilities", exact: true })).toBeVisible();
+    await expect(primary.getByRole("link", { name: "Platform", exact: true })).toBeVisible();
+    await expect(primary.getByRole("link", { name: "Start", exact: true })).toHaveCount(0);
     await expect(primary.getByRole("link", { name: "Create", exact: true })).toBeVisible();
     await expect(primary.getByRole("link", { name: "Learn", exact: true })).toBeVisible();
   });
@@ -211,7 +240,7 @@ test.describe("task-first public discovery @smoke", () => {
     const drawer = page.getByTestId("mobile-nav-drawer");
     await expect(drawer).toBeVisible();
     await expect.poll(() => page.evaluate(() => document.activeElement?.getAttribute("href")))
-      .toBe("/en/start/");
+      .toBe("/en/create/brand-kit/");
     await page.keyboard.press("Shift+Tab");
     await expect.poll(() => drawer.evaluate((panel) => {
       const focusable = panel.querySelectorAll<HTMLElement>(

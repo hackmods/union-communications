@@ -38,6 +38,10 @@ export const LETTER_PRESET_IDS: readonly OfficePresetId[] = [
   "simple-letter",
   "welcome-letter",
   "letterhead",
+  "accommodation-letter",
+  "grievance-notice",
+  "representation-request",
+  "meeting-follow-up",
 ] as const;
 
 const LETTER_PRESETS = LETTER_PRESET_IDS;

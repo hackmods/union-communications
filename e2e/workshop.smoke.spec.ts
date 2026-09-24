@@ -199,7 +199,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
 
   test("first week shows calendar and demo path", async ({ page }) => {
     await page.goto("/en/guide/social-media-plan/");
-    await expect(page.getByRole("heading", { name: "First week" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Comms getting started" })).toBeVisible();
     await expect(
       page.getByRole("heading", { name: /Four-week starter calendar/i }),
     ).toBeVisible();

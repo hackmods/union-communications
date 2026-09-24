@@ -58,6 +58,7 @@ import {
   isLetterPreset,
   saveDocumentGeneratorDraft,
 } from "@/lib/comms/document-generator-draft";
+import { consumeLetterHandoff } from "@/lib/comms/letter-contexts";
 import { guideCtaOutlineClassSm } from "@/components/comms/guideCtaClasses";
 import {
   applyGeneratorPreset,
@@ -123,11 +124,22 @@ function DocumentGeneratorEditorContent({
   useEffect(() => {
     if (!hydrated || draftHydrated) return;
     startTransition(() => {
-      setState(
-        hydrateGeneratorState(initialPreset, brandKit, {
-          allowedPresets: lettersOnly ? LETTER_PRESET_IDS : undefined,
-        }),
-      );
+      let next = hydrateGeneratorState(initialPreset, brandKit, {
+        allowedPresets: lettersOnly ? LETTER_PRESET_IDS : undefined,
+      });
+      if (lettersOnly) {
+        const handoff = consumeLetterHandoff();
+        if (handoff) {
+          next = {
+            ...next,
+            fields: {
+              ...next.fields,
+              ...handoff.fields,
+            },
+          };
+        }
+      }
+      setState(next);
       setDraftHydrated(true);
     });
   }, [hydrated, draftHydrated, brandKit, initialPreset, lettersOnly, setState, startTransition]);

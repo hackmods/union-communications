@@ -184,12 +184,21 @@ export default function ComplaintVsGrievancePage() {
       ) : null}
 
       <Callout tone="muted">
-        <Link
-          href="/guide/officer-learning/contract-enforcement"
-          className="font-semibold text-opseu-blue underline underline-offset-2"
-        >
-          {t("moduleLink")}
-        </Link>
+        <p className="text-sm leading-relaxed">
+          <Link
+            href="/learn/officer/contract-enforcement"
+            className="font-semibold text-opseu-blue underline underline-offset-2"
+          >
+            {t("moduleLink")}
+          </Link>
+          {" · "}
+          <Link
+            href="/learn/grievance-process"
+            className="font-semibold text-opseu-blue underline underline-offset-2"
+          >
+            {t("grievancePlaybookLink")}
+          </Link>
+        </p>
       </Callout>
 
       <div className="space-y-3">

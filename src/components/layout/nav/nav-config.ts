@@ -75,30 +75,61 @@ export type NavGroupLabelKey =
 export type NavLink = { href: string; key: NavLinkKey };
 export type NavGroup = { labelKey: NavGroupLabelKey; links: readonly NavLink[] };
 
-export type PublicPrimaryNavKey = "start" | "brandKit" | "create" | "learn";
-export type PublicPrimaryNavHref = "/start" | "/create/brand-kit" | "/create" | "/learn";
+export type {
+  ToolSurface,
+  UtilityToolSlug,
+} from "@/lib/seo/utility-tool-slugs";
+export {
+  UTILITY_TOOL_SLUGS,
+  UTILITY_TOOL_SLUG_SET,
+  toolSurfaceForSlug,
+} from "@/lib/seo/utility-tool-slugs";
+
+export type PublicPrimaryNavKey =
+  | "brandKit"
+  | "create"
+  | "utilities"
+  | "learn"
+  | "platform";
+export type PublicPrimaryNavHref =
+  | "/create/brand-kit"
+  | "/create"
+  | "/utilities"
+  | "/learn"
+  | "/platform";
 export type PublicPrimaryNavItem = {
   href: PublicPrimaryNavHref;
   key: PublicPrimaryNavKey;
 };
 
-/** Direct, task-labeled destinations in the public shell. */
+/**
+ * Primary public destinations: setup, creative output, practical work,
+ * learning, and hosted platform — not guided-setup checklists (those stay on /start).
+ */
 export const PUBLIC_PRIMARY_NAV: readonly PublicPrimaryNavItem[] = [
-  { href: "/start", key: "start" },
   { href: "/create/brand-kit", key: "brandKit" },
   { href: "/create", key: "create" },
+  { href: "/utilities", key: "utilities" },
   { href: "/learn", key: "learn" },
+  { href: "/platform", key: "platform" },
 ] as const;
 
 export function isPublicPrimaryNavActive(
   pathname: string,
   href: PublicPrimaryNavHref,
 ): boolean {
-  if (href === "/start") return pathname === href || pathname.startsWith(`${href}/`);
   if (href === "/create/brand-kit") return pathname === href;
   if (href === "/create") {
-    return pathname === href ||
-      (pathname.startsWith(`${href}/`) && !pathname.startsWith("/create/brand-kit"));
+    return (
+      pathname === href ||
+      (pathname.startsWith(`${href}/`) && !pathname.startsWith("/create/brand-kit"))
+    );
+  }
+  if (href === "/utilities") {
+    return pathname === href || pathname.startsWith(`${href}/`);
+  }
+  if (href === "/platform") {
+    return pathname === href || pathname.startsWith(`${href}/`);
   }
   return pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -110,9 +141,7 @@ export const toolGroups: readonly NavGroup[] = [
   {
     labelKey: "toolsGroupCreation",
     links: [
-      { href: "/create/letter-generator", key: "letterGenerator" },
-      { href: "/tools/rtw-accommodation", key: "rtwAccommodation" },
-      { href: "/tools/grievance-form-builder", key: "grievanceFormBuilder" },
+      { href: "/tools/letter-generator", key: "letterGenerator" },
       { href: "/tools/document-generator", key: "documentGenerator" },
       { href: "/tools/graphic-maker", key: "graphicMaker" },
       { href: "/tools/flyer-maker", key: "flyerMaker" },
@@ -127,12 +156,13 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/org-chart", key: "orgChart" },
       { href: "/tools/logo-builder", key: "logoBuilder" },
       { href: "/tools/website-template", key: "websiteTemplate" },
-      { href: PULSE_POLL_HREF, key: "pulsePoll" },
     ],
   },
   {
     labelKey: "toolsGroupUtility",
     links: [
+      { href: "/tools/rtw-accommodation", key: "rtwAccommodation" },
+      { href: "/tools/grievance-form-builder", key: "grievanceFormBuilder" },
       { href: "/tools/ca-snippets", key: "caSnippets" },
       { href: "/tools/steward-quick-log", key: "stewardQuickLog" },
       { href: "/tools/pre-disciplinary-log", key: "preDisciplinaryLog" },
@@ -143,6 +173,7 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/local-pack", key: "localPack" },
       { href: "/tools/resizer", key: "resizer" },
       { href: "/tools/alt-text", key: "altText" },
+      { href: PULSE_POLL_HREF, key: "pulsePoll" },
     ],
   },
 ] as const;

@@ -447,14 +447,20 @@ jobs:
           # Mirrors buildHostReadiness: MFA/email/cron are advisory and never fail this step.
           node scripts/verify-host-readiness.mjs
 
+      # Do not reference secrets.* in step `if:` — GitHub rejects the whole workflow
+      # at parse time (0s / 0 jobs). Gate emptiness inside the script instead.
       - name: Post-deploy upgrade email (optional)
-        if: ${{ steps.deploy.outputs.DEPLOYED_IMAGE != '' && github.event.inputs.skip_smoke != true && secrets.CRON_SECRET != '' }}
+        if: ${{ steps.deploy.outputs.DEPLOYED_IMAGE != '' && github.event.inputs.skip_smoke != true }}
         continue-on-error: true
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           TARGET_ORIGIN: ${{ github.event.inputs.target_url || 'https://unionops.org/api/health' }}
         run: |
           set -euo pipefail
+          if [ -z "${CRON_SECRET}" ]; then
+            echo "CRON_SECRET not set — skipping deploy-notify"
+            exit 0
+          fi
           # Strip /api/health suffix if present
           ORIGIN="${TARGET_ORIGIN%/api/health}"
           ORIGIN="${ORIGIN%/}"

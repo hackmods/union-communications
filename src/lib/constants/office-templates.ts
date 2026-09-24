@@ -11,7 +11,11 @@ export type OfficePresetId =
   | "welcome-letter"
   | "seniority-worksheet"
   | "grievance-intake"
-  | "lec-directory";
+  | "lec-directory"
+  | "accommodation-letter"
+  | "grievance-notice"
+  | "representation-request"
+  | "meeting-follow-up";
 
 export type FieldDef = {
   key: string;
@@ -231,6 +235,186 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         key: "contactName",
         labelKey: "fields.contactName",
         defaultValue: "Local executive committee",
+      },
+    ],
+  },
+  {
+    id: "accommodation-letter",
+    titleKey: "presets.accommodationLetter.title",
+    blurbKey: "presets.accommodationLetter.blurb",
+    fileStem: "accommodation-letter",
+    outputs: { docx: true, xlsx: false, pptx: true, ics: false },
+    structureKeys: [
+      "structure.accommodationLetterDocx",
+      "structure.accommodationLetterPptx",
+    ],
+    fields: [
+      {
+        key: "date",
+        labelKey: "fields.date",
+        defaultValue: "",
+      },
+      {
+        key: "salutation",
+        labelKey: "fields.salutation",
+        defaultValue: "",
+      },
+      {
+        key: "memberName",
+        labelKey: "fields.memberName",
+        defaultValue: "Member name",
+      },
+      {
+        key: "body",
+        labelKey: "fields.body",
+        multiline: true,
+        defaultValue:
+          "I am writing on behalf of the member named above regarding return-to-work and/or accommodation. We ask to meet to discuss functional limitations and reasonable measures. Please confirm a meeting time. This letter does not waive any rights under the collective agreement or human rights legislation.",
+      },
+      {
+        key: "stewardName",
+        labelKey: "fields.stewardName",
+        defaultValue: "Steward name",
+      },
+      {
+        key: "contactName",
+        labelKey: "fields.contactName",
+        defaultValue: "Chief steward",
+      },
+    ],
+  },
+  {
+    id: "grievance-notice",
+    titleKey: "presets.grievanceNotice.title",
+    blurbKey: "presets.grievanceNotice.blurb",
+    fileStem: "grievance-notice",
+    outputs: { docx: true, xlsx: false, pptx: true, ics: false },
+    structureKeys: [
+      "structure.grievanceNoticeDocx",
+      "structure.grievanceNoticePptx",
+    ],
+    fields: [
+      {
+        key: "date",
+        labelKey: "fields.date",
+        defaultValue: "",
+      },
+      {
+        key: "salutation",
+        labelKey: "fields.salutation",
+        defaultValue: "",
+      },
+      {
+        key: "memberName",
+        labelKey: "fields.memberName",
+        defaultValue: "Member name",
+      },
+      {
+        key: "body",
+        labelKey: "fields.body",
+        multiline: true,
+        defaultValue:
+          "Please take this letter as notice that the union intends to pursue the workplace issue described below under the collective agreement. We ask for early resolution and will follow the grievance timelines that apply. This is not legal advice.",
+      },
+      {
+        key: "stewardName",
+        labelKey: "fields.stewardName",
+        defaultValue: "Steward name",
+      },
+      {
+        key: "contactName",
+        labelKey: "fields.contactName",
+        defaultValue: "Chief steward",
+      },
+    ],
+  },
+  {
+    id: "representation-request",
+    titleKey: "presets.representationRequest.title",
+    blurbKey: "presets.representationRequest.blurb",
+    fileStem: "representation-request",
+    outputs: { docx: true, xlsx: false, pptx: true, ics: false },
+    structureKeys: [
+      "structure.representationRequestDocx",
+      "structure.representationRequestPptx",
+    ],
+    fields: [
+      {
+        key: "date",
+        labelKey: "fields.date",
+        defaultValue: "",
+      },
+      {
+        key: "salutation",
+        labelKey: "fields.salutation",
+        defaultValue: "",
+      },
+      {
+        key: "memberName",
+        labelKey: "fields.memberName",
+        defaultValue: "Member name",
+      },
+      {
+        key: "body",
+        labelKey: "fields.body",
+        multiline: true,
+        defaultValue:
+          "The member named above has requested union representation. Please schedule any investigatory or disciplinary meeting with the steward present, and provide the particulars we need to prepare.",
+      },
+      {
+        key: "stewardName",
+        labelKey: "fields.stewardName",
+        defaultValue: "Steward name",
+      },
+      {
+        key: "contactName",
+        labelKey: "fields.contactName",
+        defaultValue: "Chief steward",
+      },
+    ],
+  },
+  {
+    id: "meeting-follow-up",
+    titleKey: "presets.meetingFollowUp.title",
+    blurbKey: "presets.meetingFollowUp.blurb",
+    fileStem: "meeting-follow-up",
+    outputs: { docx: true, xlsx: false, pptx: true, ics: false },
+    structureKeys: [
+      "structure.meetingFollowUpDocx",
+      "structure.meetingFollowUpPptx",
+    ],
+    fields: [
+      {
+        key: "date",
+        labelKey: "fields.date",
+        defaultValue: "",
+      },
+      {
+        key: "salutation",
+        labelKey: "fields.salutation",
+        defaultValue: "",
+      },
+      {
+        key: "memberName",
+        labelKey: "fields.memberName",
+        defaultValue: "Member name",
+      },
+      {
+        key: "body",
+        labelKey: "fields.body",
+        multiline: true,
+        defaultValue:
+          "Thank you for meeting with us. This letter confirms what we discussed and the next steps we agreed. Please reply if anything below does not match your notes.",
+      },
+      {
+        key: "stewardName",
+        labelKey: "fields.stewardName",
+        defaultValue: "Steward name",
+      },
+      {
+        key: "contactName",
+        labelKey: "fields.contactName",
+        defaultValue: "Chief steward",
       },
     ],
   },

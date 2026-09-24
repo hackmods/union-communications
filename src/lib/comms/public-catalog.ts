@@ -1,4 +1,9 @@
-import { toolGroups, type NavLinkKey } from "@/components/layout/nav/nav-config";
+import {
+  toolGroups,
+  toolSurfaceForSlug,
+  type NavLinkKey,
+  type ToolSurface,
+} from "@/components/layout/nav/nav-config";
 import {
   GUIDE_CATALOG_GROUP_IDS,
   GUIDE_REGISTRY,
@@ -110,6 +115,8 @@ export type PublicCatalogItem = {
   storageMode: PublicCatalogStorage;
   authRequirement: PublicCatalogAuth;
   featureGate?: "officerHubPublic";
+  /** Present on tools: Create makers vs Utilities workspaces. */
+  toolSurface?: ToolSurface;
   relatedItemIds: readonly string[];
 };
 
@@ -222,11 +229,16 @@ function toolItems(): PublicCatalogItem[] {
       if (!deliverableKey) {
         throw new Error(`Missing public catalog deliverable for tool: ${slug}`);
       }
+      const surface = toolSurfaceForSlug(slug);
+      const canonicalPath = canonicalPublicPath(href);
       return {
-        id: catalogId(canonicalPublicPath(href)),
+        id: catalogId(canonicalPath),
         kind: "tool" as const,
-        canonicalPath: canonicalPublicPath(href),
-        legacyPaths: [href],
+        canonicalPath,
+        legacyPaths: [
+          href.startsWith("/tools/") ? href : `/tools/${slug}`,
+          ...(surface === "utilities" ? [`/create/${slug}`] as const : []),
+        ],
         titleKey: key,
         titleNamespace: "nav",
         summaryKey: key,
@@ -246,6 +258,7 @@ function toolItems(): PublicCatalogItem[] {
             : "on-device" as const,
         authRequirement: gated ? "signed-in" as const : "public" as const,
         ...(gated ? { featureGate: "officerHubPublic" as const } : {}),
+        toolSurface: surface,
         relatedItemIds: [],
       } satisfies PublicCatalogItem;
     }),
@@ -432,43 +445,51 @@ const RELATED_ITEM_IDS: Readonly<Record<string, readonly string[]>> = {
     "learn-communications-blueprint",
     "learn-first-week",
     "learn-library-brand-assets",
-    "create-local-pack",
+    "utilities-local-pack",
   ],
   "create-logo-builder": ["create-brand-kit", "learn-library-brand-assets"],
-  "create-resizer": ["create-graphic-maker", "learn-short-form"],
+  "utilities-resizer": ["create-graphic-maker", "learn-short-form"],
   "create-document-generator": ["learn-membership-signup", "learn-workshops-comms"],
   "create-board-banner": ["learn-union-boards", "learn-print"],
   "create-board-notice": ["learn-union-boards", "learn-print"],
   "create-solidarity-poster": ["learn-union-boards", "learn-strike"],
   "create-qr-board": ["learn-union-boards", "learn-membership-signup"],
-  "create-org-chart": ["learn-union-boards", "create-website-template", "create-local-pack"],
+  "create-org-chart": ["learn-union-boards", "create-website-template", "utilities-local-pack"],
   "create-flyer-maker": ["learn-print", "learn-first-week"],
   "create-qr-card": ["learn-membership-signup", "create-qr-board"],
   "create-action-card": ["learn-first-week", "learn-strike"],
-  "create-pulse-poll": ["learn-workshops-comms", "learn-first-week"],
+  "utilities-pulse-poll": ["learn-workshops-comms", "learn-first-week"],
   "create-graphic-maker": ["learn-library-examples", "learn-short-form"],
   "create-quote-card": ["learn-library-examples", "create-graphic-maker"],
   "create-meeting-background": ["learn-workshops-comms", "learn-photo-consent"],
-  "create-website-template": ["learn-website", "learn-library-brand-assets", "create-local-pack"],
-  "create-local-pack": [
+  "create-website-template": ["learn-website", "learn-library-brand-assets", "utilities-local-pack"],
+  "utilities-local-pack": [
     "create-brand-kit",
     "create-org-chart",
     "create-website-template",
   ],
-  "create-alt-text": ["learn-photo-consent", "learn-library-examples"],
-  "create-rtw-accommodation": ["learn-right-to-refuse", "learn-grievance-process"],
-  "create-pre-disciplinary-log": ["learn-grievance-process", "learn-dfr"],
-  "create-complaint-vs-grievance": ["learn-grievance-process", "learn-dfr"],
-  "create-bylaw-builder": ["learn-bylaws", "learn-running-meetings"],
-  "create-proposal-tracker": ["learn-bargaining", "learn-workshops-comms"],
-  "create-rules-of-order": ["learn-running-meetings", "learn-bylaws"],
+  "utilities-alt-text": ["learn-photo-consent", "learn-library-examples"],
+  "utilities-rtw-accommodation": ["learn-right-to-refuse", "learn-grievance-process"],
+  "utilities-pre-disciplinary-log": ["learn-grievance-process", "learn-dfr"],
+  "utilities-complaint-vs-grievance": ["learn-grievance-process", "learn-dfr"],
+  "utilities-bylaw-builder": ["learn-bylaws", "learn-running-meetings"],
+  "utilities-proposal-tracker": ["learn-bargaining", "learn-workshops-comms"],
+  "utilities-rules-of-order": ["learn-running-meetings", "learn-bylaws"],
+  "utilities-grievance-form-builder": ["learn-grievance-process", "utilities-complaint-vs-grievance"],
+  "utilities-ca-snippets": ["learn-grievance-process", "utilities-steward-quick-log"],
+  "utilities-steward-quick-log": ["learn-steward", "utilities-pre-disciplinary-log"],
+  "create-letter-generator": ["learn-email-broadcast", "create-document-generator"],
   "learn-first-week": ["create-brand-kit", "learn-communications-blueprint", "create-graphic-maker"],
   "learn-communications-blueprint": ["learn-first-week", "learn-workshops-comms"],
   "learn-steward": ["learn-grievance-process", "learn-right-to-refuse", "learn-running-meetings"],
-  "learn-officer": ["learn-bylaws", "learn-running-meetings", "create-bylaw-builder"],
+  "learn-officer": ["learn-bylaws", "learn-running-meetings", "utilities-bylaw-builder"],
   "learn-workshops-comms": ["learn-library-examples", "create-brand-kit", "learn-communications-blueprint"],
-  "learn-grievance-process": ["create-complaint-vs-grievance", "create-pre-disciplinary-log", "learn-dfr"],
-  "learn-running-meetings": ["create-rules-of-order", "learn-bylaws"],
+  "learn-grievance-process": [
+    "utilities-complaint-vs-grievance",
+    "utilities-pre-disciplinary-log",
+    "learn-dfr",
+  ],
+  "learn-running-meetings": ["utilities-rules-of-order", "learn-bylaws"],
 };
 
 export const PUBLIC_CATALOG: readonly PublicCatalogItem[] = [

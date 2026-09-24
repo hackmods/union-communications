@@ -202,7 +202,7 @@ test.describe("Hub dashboards mobile @smoke @mobile", () => {
     {
       label: "snippets",
       path: "/en/app/snippets",
-      heading: /CA clause snippets|Extraits de clauses CA/i,
+      heading: /CA clause library|Bibliothèque de clauses/i,
     },
     {
       label: "hybrid",

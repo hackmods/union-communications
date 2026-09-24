@@ -29,28 +29,26 @@ export function HomeContent() {
 
   const primaryHref = brandReady ? "/create" : "/create/brand-kit";
   const primaryCta = brandReady ? t("openToolsCta") : t("primaryCta");
-  const steps = [
-    {
-      id: "brand-kit",
-      number: "01",
-      title: t("workflowBrandKitTitle"),
-      body: t("workflowBrandKitBody"),
-      href: "/create/brand-kit",
-      cta: nav("brandKit"),
-    },
+
+  const destinations = [
     {
       id: "create",
-      number: "02",
-      title: t("workflowCreateTitle"),
-      body: t("workflowCreateBody"),
+      title: t("destCreateTitle"),
+      body: t("destCreateBody"),
       href: "/create",
       cta: nav("create"),
     },
     {
+      id: "utilities",
+      title: t("destUtilitiesTitle"),
+      body: t("destUtilitiesBody"),
+      href: "/utilities",
+      cta: nav("utilities"),
+    },
+    {
       id: "learn",
-      number: "03",
-      title: t("workflowLearnTitle"),
-      body: t("workflowLearnBody"),
+      title: t("destLearnTitle"),
+      body: t("destLearnBody"),
       href: "/learn",
       cta: nav("learn"),
     },
@@ -71,16 +69,19 @@ export function HomeContent() {
             <p className="mt-4 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
               {t(hubAvailable ? "subtitle" : "subtitleCommsOnly")}
             </p>
+            <p className="mt-3 max-w-xl text-sm font-medium leading-relaxed text-white/85 sm:text-base">
+              {t("brandFoundation")}
+            </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <ButtonLink href={primaryHref} variant="outline" className="border-white bg-white text-opseu-dark hover:bg-white/90">
                 {primaryCta}
               </ButtonLink>
               <ButtonLink
-                href="/create"
+                href="/platform"
                 variant="outline"
                 className="border-white/70 bg-transparent text-white hover:bg-white/10"
               >
-                {t("exploreFeaturesCta")}
+                {t("explorePlatformCta")}
               </ButtonLink>
             </div>
           </div>
@@ -91,46 +92,85 @@ export function HomeContent() {
       <PageShell className="py-8 md:py-12">
         <Callout tone="plain" className="border border-slate-200 bg-slate-50 p-4 sm:p-5" role="note">
           <p className="text-sm leading-relaxed text-slate-800 sm:text-base">
-            {t(hubAvailable ? "privacySummary" : "privacySummaryCommsOnly")} {" "}
+            {t(hubAvailable ? "privacySummary" : "privacySummaryCommsOnly")}{" "}
             <Link href="/privacy" className="font-semibold underline underline-offset-2">
               {t("privacyLink")}
             </Link>
           </p>
         </Callout>
 
-        <section className="mt-10" aria-labelledby="home-task-heading">
+        <section className="mt-10" aria-labelledby="home-foundation-heading" data-testid="home-foundation">
           <SectionHeading
-            id="home-task-heading"
-            eyebrow={t("workflowEyebrow")}
-            title={t("workflowTitle")}
-            intro={t("workflowIntro")}
+            id="home-foundation-heading"
+            eyebrow={t("foundationEyebrow")}
+            title={t("foundationTitle")}
+            intro={t("foundationIntro")}
           />
-          <ol className="mt-6 grid list-none gap-4 p-0 md:grid-cols-2 xl:grid-cols-3">
-            {steps.map((step) => (
-              <li key={step.id} className="min-w-0" data-testid={`home-step-${step.id}`}>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <ButtonLink href="/create/brand-kit">{nav("brandKit")}</ButtonLink>
+            {!brandReady ? (
+              <p className="self-center text-sm text-slate-600">{t("foundationHint")}</p>
+            ) : (
+              <p className="self-center text-sm text-slate-600">{t("foundationReady")}</p>
+            )}
+          </div>
+        </section>
+
+        <section className="mt-12" aria-labelledby="home-destinations-heading">
+          <SectionHeading
+            id="home-destinations-heading"
+            eyebrow={t("destinationsEyebrow")}
+            title={t("destinationsTitle")}
+            intro={t("destinationsIntro")}
+          />
+          <ul className="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2 xl:grid-cols-3">
+            {destinations.map((item) => (
+              <li key={item.id} className="min-w-0" data-testid={`home-dest-${item.id}`}>
                 <Card variant="ghost" className="h-full border border-slate-200 bg-white p-5 sm:p-6">
-                  <div className="flex items-start gap-4">
-                    <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-md bg-opseu-blue text-sm font-bold text-white">
-                      {step.number}
+                  <h3 className="text-lg font-bold text-opseu-dark">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-700">{item.body}</p>
+                  <Link
+                    href={item.href}
+                    className="mt-5 inline-flex min-h-10 items-center font-semibold text-opseu-blue underline underline-offset-2 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+                  >
+                    {item.cta}
+                    <span aria-hidden="true" className="ml-2">
+                      →
                     </span>
-                    <div>
-                      <h3 className="text-lg font-bold text-opseu-dark">{step.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-700">{step.body}</p>
-                    </div>
-                  </div>
-                  <Link href={step.href} className="mt-5 inline-flex min-h-10 items-center font-semibold text-opseu-blue underline underline-offset-2 hover:text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50">
-                    {step.cta}<span aria-hidden="true" className="ml-2">→</span>
                   </Link>
                 </Card>
               </li>
             ))}
-          </ol>
+          </ul>
         </section>
 
-        <section className="mt-8 flex flex-col gap-4 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between" aria-labelledby="home-guided-setup-heading">
+        <section
+          className="mt-12 rounded-lg border border-slate-200 bg-slate-50 p-5 sm:p-7"
+          aria-labelledby="home-platform-heading"
+          data-testid="home-platform"
+        >
+          <h2 id="home-platform-heading" className="text-xl font-bold text-opseu-dark">
+            {t("platformBandTitle")}
+          </h2>
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-700 sm:text-base">
+            {t("platformBandBody")}
+          </p>
+          <ButtonLink href="/platform" className="mt-5">
+            {t("platformBandCta")}
+          </ButtonLink>
+        </section>
+
+        <section
+          className="mt-8 flex flex-col gap-4 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between"
+          aria-labelledby="home-guided-setup-heading"
+        >
           <div>
-            <h2 id="home-guided-setup-heading" className="text-lg font-bold text-opseu-dark">{t("guidedSetupTitle")}</h2>
-            <p className="mt-1 max-w-2xl text-sm leading-relaxed text-slate-700">{t("guidedSetupBody")}</p>
+            <h2 id="home-guided-setup-heading" className="text-lg font-bold text-opseu-dark">
+              {t("guidedSetupTitle")}
+            </h2>
+            <p className="mt-1 max-w-2xl text-sm leading-relaxed text-slate-700">
+              {t("guidedSetupBody")}
+            </p>
           </div>
           <ButtonLink href="/start" variant="outline" className="shrink-0">
             {t("guidedSetupCta")}

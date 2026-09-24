@@ -1,5 +1,20 @@
 # Progress Log
 
+## 2026-09-24 — Product architecture second pass
+
+- Home: Brand Kit foundation + parallel Create/Utilities/Learn + Platform band (no forced five-step sequence).
+- Terminology: “First week” → Comms getting started (URL `/learn/first-week` kept; `/learn/comms-getting-started` redirects).
+- Letter Generator: topic contexts (accommodation, grievance notice, representation, meeting follow-up) + utility handoff.
+- Tool/Learn: RTW teaching moved to Learn links; pre-disciplinary ladder behind disclosure; circular Platform/footer cross-links removed.
+- Decision log: [`docs/UX_PRODUCT_REFACTOR.md`](UX_PRODUCT_REFACTOR.md).
+
+## 2026-09-24 — Product architecture / public IA refactor
+
+- Primary nav: Brand Kit · Create · Utilities · Learn · Platform (Start demoted to guided setup).
+- Create vs Utilities catalog split with `/utilities` routes + redirects; `/platform` explains Hub + Portal.
+- Home workflow and Brand Kit foundation copy; RTW/complaint tools point to Learn with optional reference disclosure.
+- Living decision log: [`docs/UX_PRODUCT_REFACTOR.md`](UX_PRODUCT_REFACTOR.md).
+
 ## 2026-09-24 — Local pack (versioned Comms backup)
 
 - New `/tools/local-pack`: one versioned `unionops-local-pack` JSON (Brand Kit, public roster, preferences, website draft) with a future-proof loader.

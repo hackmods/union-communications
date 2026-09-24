@@ -12,15 +12,17 @@ import {
   sendTransactionalEmail,
 } from "@/lib/email/send";
 
+type EnvLike = Record<string, string | undefined>;
+
 export function isDeployNotifyEnabled(
-  env: NodeJS.ProcessEnv = process.env,
+  env: EnvLike = process.env,
 ): boolean {
   const raw = env.DEPLOY_NOTIFY_ENABLED?.trim().toLowerCase();
   return raw === "true" || raw === "1" || raw === "yes";
 }
 
 export function readDeployNotifyEmail(
-  env: NodeJS.ProcessEnv = process.env,
+  env: EnvLike = process.env,
 ): string | null {
   const value = env.DEPLOY_NOTIFY_EMAIL?.trim();
   return value || null;
