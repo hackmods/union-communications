@@ -1,9 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import {
   buildDeployNotifyPayload,
   isDeployNotifyEnabled,
   readDeployNotifyEmail,
 } from "@/lib/ops/deploy-notify";
+import { GET as deployNotifyGet, POST as deployNotifyPost } from "@/app/api/cron/deploy-notify/route";
 import type { HealthStatus } from "@/lib/ops/health-status";
 import { memoryDatabaseBootAttestation } from "@/lib/ops/database-boot";
 
@@ -90,5 +91,65 @@ describe("deploy-notify", () => {
     expect(payload.text).toContain("Advisory");
     expect(payload.text).toContain("mfaEnabled");
     expect(payload.text).toContain("MFA does not block casework");
+  });
+});
+
+describe("GET/POST /api/cron/deploy-notify", () => {
+  const previousSecret = process.env.CRON_SECRET;
+  const previousEnabled = process.env.DEPLOY_NOTIFY_ENABLED;
+
+  afterEach(() => {
+    if (previousSecret === undefined) delete process.env.CRON_SECRET;
+    else process.env.CRON_SECRET = previousSecret;
+    if (previousEnabled === undefined) delete process.env.DEPLOY_NOTIFY_ENABLED;
+    else process.env.DEPLOY_NOTIFY_ENABLED = previousEnabled;
+  });
+
+  it("returns 401 without the cron secret and dry-runs when authorized", async () => {
+    process.env.CRON_SECRET = "test-deploy-notify-secret";
+
+    const denied = await deployNotifyGet(
+      new Request("http://localhost/api/cron/deploy-notify?dryRun=1"),
+    );
+    expect(denied.status).toBe(401);
+
+    const wrong = await deployNotifyPost(
+      new Request("http://localhost/api/cron/deploy-notify?dryRun=1", {
+        headers: { authorization: "Bearer nope" },
+      }),
+    );
+    expect(wrong.status).toBe(401);
+
+    const ok = await deployNotifyGet(
+      new Request("http://localhost/api/cron/deploy-notify?dryRun=1", {
+        headers: { "x-cron-secret": "test-deploy-notify-secret" },
+      }),
+    );
+    expect(ok.status).toBe(200);
+    const body = (await ok.json()) as {
+      ok: boolean;
+      dryRun: boolean;
+      enabled: boolean;
+      commit?: string;
+    };
+    expect(body.ok).toBe(true);
+    expect(body.dryRun).toBe(true);
+    expect(typeof body.enabled).toBe("boolean");
+    expect(body.commit).toBeTruthy();
+  });
+
+  it("returns 200 skipped=disabled when notify is off and the secret matches", async () => {
+    process.env.CRON_SECRET = "test-deploy-notify-secret";
+    delete process.env.DEPLOY_NOTIFY_ENABLED;
+
+    const res = await deployNotifyPost(
+      new Request("http://localhost/api/cron/deploy-notify", {
+        headers: { authorization: "Bearer test-deploy-notify-secret" },
+      }),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { ok: boolean; skipped?: string };
+    expect(body.ok).toBe(false);
+    expect(body.skipped).toBe("disabled");
   });
 });
