@@ -119,13 +119,13 @@ export const RELATED_BY_TOOL: Record<
     { href: "/tools/graphic-maker", navKey: "graphicMaker" },
   ],
   "document-generator": [
-    { href: "/tools/letter-generator", navKey: "letterGenerator" },
+    { href: "/create/letter-generator", navKey: "letterGenerator" },
     { href: "/guide/grievance-process", navKey: "grievanceProcessGuide" },
     { href: "/tools/org-chart", navKey: "orgChart" },
     { href: "/brand-kit", navKey: "brandKit" },
   ],
   "letter-generator": [
-    { href: "/tools/document-generator", navKey: "documentGenerator" },
+    { href: "/create/document-generator", navKey: "documentGenerator" },
     { href: "/brand-kit", navKey: "brandKit" },
     { href: "/tools/rtw-accommodation", navKey: "rtwAccommodation" },
   ],

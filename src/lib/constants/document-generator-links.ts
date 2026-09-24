@@ -24,5 +24,5 @@ export function documentGeneratorPresetHref(presetId: OfficePresetId): string {
 export function letterGeneratorPresetHref(
   presetId: (typeof LETTER_PRESET_IDS)[number] = "simple-letter",
 ): string {
-  return withTrailingSlash(`/tools/letter-generator?preset=${presetId}`);
+  return withTrailingSlash(`/create/letter-generator?preset=${presetId}`);
 }

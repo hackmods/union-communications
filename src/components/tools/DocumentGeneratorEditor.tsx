@@ -705,7 +705,7 @@ function DocumentGeneratorEditorContent({
         {presetPicker}
         {lettersOnly ? (
           <Link
-            href="/tools/document-generator"
+            href="/create/document-generator"
             className={`${guideCtaOutlineClassSm} mt-3`}
           >
             {tLetters("openFull")}
