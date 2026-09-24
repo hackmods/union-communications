@@ -11,7 +11,7 @@ const emptyBrand = {
   logos: {},
   colors: {},
   canvas: {},
-} as BrandKit;
+} as unknown as BrandKit;
 
 describe("hydrateGeneratorState letters variant", () => {
   beforeEach(() => {
