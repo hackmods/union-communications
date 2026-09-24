@@ -42,7 +42,7 @@ Home has one value proposition, Brand Kit as primary setup, a product preview, p
 | `/examples`, `/captions`, `/assets` | `/learn/library/:slug` |
 | Other `/guide/:slug` | `/learn/:slug` |
 
-Utility slug list: `UTILITY_TOOL_SLUGS` in `nav-config.ts`. Keep locale-aware permanent redirects in `PUBLIC_ROUTE_REDIRECTS`, and keep internal `Link` targets, canonical/hreflang metadata, and sitemap paths on the new routes. Query strings and fragments must survive route migration. Do not remove redirects; bookmarks and search equity are part of the product.
+Utility slug list: `UTILITY_TOOL_SLUGS` in `src/lib/seo/utility-tool-slugs.ts` (re-exported from `nav-config.ts`). Keep locale-aware permanent redirects in `PUBLIC_ROUTE_REDIRECTS`, and keep internal `Link` targets, canonical/hreflang metadata, and sitemap paths on the new routes. Query strings and fragments must survive route migration. Do not remove redirects; bookmarks and search equity are part of the product.
 
 Privacy and security copy must distinguish Comms that stays on-device from hosted Officer Hub / Local Portal data. Do not imply Hub storage is local-only or promise that the whole platform is free forever.
 

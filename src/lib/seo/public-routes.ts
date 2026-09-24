@@ -6,7 +6,7 @@
 import {
   UTILITY_TOOL_SLUGS,
   UTILITY_TOOL_SLUG_SET,
-} from "@/components/layout/nav/nav-config";
+} from "./utility-tool-slugs";
 
 const STATIC_CANONICAL_PATHS: Record<string, string> = {
   "/onboarding": "/start",

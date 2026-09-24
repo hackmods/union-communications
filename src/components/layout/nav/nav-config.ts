@@ -75,8 +75,15 @@ export type NavGroupLabelKey =
 export type NavLink = { href: string; key: NavLinkKey };
 export type NavGroup = { labelKey: NavGroupLabelKey; links: readonly NavLink[] };
 
-/** Product surface for public tool discovery (Create vs Utilities). */
-export type ToolSurface = "create" | "utilities";
+export type {
+  ToolSurface,
+  UtilityToolSlug,
+} from "@/lib/seo/utility-tool-slugs";
+export {
+  UTILITY_TOOL_SLUGS,
+  UTILITY_TOOL_SLUG_SET,
+  toolSurfaceForSlug,
+} from "@/lib/seo/utility-tool-slugs";
 
 export type PublicPrimaryNavKey =
   | "brandKit"
@@ -128,34 +135,6 @@ export function isPublicPrimaryNavActive(
 }
 
 export const PULSE_POLL_HREF = "/tools/pulse-poll" as const;
-
-/**
- * Utility tool slugs (practical workspaces). Canonical public URLs live under
- * `/utilities/:slug`; Create makers stay under `/create/:slug`.
- */
-export const UTILITY_TOOL_SLUGS = [
-  "rtw-accommodation",
-  "grievance-form-builder",
-  "ca-snippets",
-  "steward-quick-log",
-  "pre-disciplinary-log",
-  "complaint-vs-grievance",
-  "bylaw-builder",
-  "proposal-tracker",
-  "rules-of-order",
-  "local-pack",
-  "resizer",
-  "alt-text",
-  "pulse-poll",
-] as const;
-
-export type UtilityToolSlug = (typeof UTILITY_TOOL_SLUGS)[number];
-
-export const UTILITY_TOOL_SLUG_SET: ReadonlySet<string> = new Set(UTILITY_TOOL_SLUGS);
-
-export function toolSurfaceForSlug(slug: string): ToolSurface {
-  return UTILITY_TOOL_SLUG_SET.has(slug) ? "utilities" : "create";
-}
 
 /** Job-grouped tools registry, consumed by the shared public catalog. */
 export const toolGroups: readonly NavGroup[] = [
