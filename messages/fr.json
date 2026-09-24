@@ -36,6 +36,7 @@
     "pulsePoll": "Sondage éclair",
     "qrBoard": "Affiches QR tableau",
     "orgChart": "Organigramme",
+    "localPack": "Trousse locale",
     "websiteTemplate": "Modèle de site Web",
     "documentGenerator": "Documents et diapositives",
     "letterGenerator": "Générateur de lettres",
@@ -3652,21 +3653,10 @@
     "addCommittee": "Ajouter un rôle de comité",
     "websiteHint": "Les personnes cochées pour le site remplissent la section des dirigeants dans le Modèle de site Web. Les délégués peuvent rester seulement sur l’affiche.",
     "websiteLink": "Ouvrir le Modèle de site Web",
-    "dataHeading": "Garder pour l’année suivante",
-    "dataIntro": "Téléchargez le JSON pour garder les rôles et les cases du site. Utilisez le CSV si vous modifiez les noms dans Excel après une élection.",
-    "exportJson": "Télécharger le JSON",
-    "exportCsv": "Télécharger le CSV",
-    "importFile": "Importer JSON ou CSV",
-    "importSuccess": "Dirigeants et délégués chargés. Vérifiez l’affiche, puis téléchargez le PNG ou le PDF.",
-    "importBrandKit": "Ce fichier est un export de Trousse de marque. Choisissez le JSON ou le CSV téléchargé depuis l’Organigramme, puis réessayez.",
-    "importInvalidJson": "Ce fichier n’est pas un JSON lisible. Choisissez le fichier .json téléchargé depuis l’Organigramme, ou un CSV avec les colonnes nom et rôle.",
-    "importInvalidCsv": "Ce CSV a besoin des colonnes nom et rôle. Téléchargez un CSV depuis l’Organigramme pour voir les en-têtes attendus, puis réessayez.",
-    "importEmpty": "Ce fichier n’a pas de dirigeants ni de délégués. Ajoutez un nom et un rôle dans l’Organigramme, ou choisissez un autre JSON ou CSV.",
-    "importInvalidSchema": "Ce fichier n’est pas un export d’Organigramme. Choisissez le JSON ou le CSV téléchargé depuis cet outil, puis réessayez.",
     "bandExecutive": "Exécutif",
     "bandStewards": "Délégués syndicaux",
     "bandCommittee": "Comités",
-    "canvasEmpty": "Ajoutez des dirigeants et des délégués dans l’éditeur, ou importez le JSON de l’an dernier.",
+    "canvasEmpty": "Ajoutez dirigeants et délégués dans l’éditeur.",
     "layout": "Mise en page",
     "layoutPoster": "Affiche",
     "layoutDirectory": "Liste + lieu",
@@ -3687,7 +3677,9 @@
     "layoutListLocation": "Liste + lieu",
     "layoutHint": "L'affiche utilise des cartes de contact. La liste est une feuille Poste | Nom. Liste + lieu ajoute une colonne campus (ou site) ; utilisez un code court si vous en avez un.",
     "locationOptional": "Campus / lieu (facultatif)",
-    "locationPlaceholder": "ex. 01"
+    "locationPlaceholder": "ex. 01",
+    "packCallout": "Pour enregistrer dirigeants et délégués pour un autre navigateur ou l’élection de l’an prochain, utilisez Trousse locale. Le CSV pour Excel s’y trouve aussi.",
+    "packLink": "Ouvrir Trousse locale"
   },
   "sources": {
     "title": "Sources et références",
@@ -4451,7 +4443,9 @@
       "useUnionMarkHint": "Emblème de départ fourni pour {union}. Compact pour en-têtes et formats circulaires.",
       "usePlatform": "Monogramme UnionOps",
       "usePlatformHint": "Monogramme U de la plateforme qui prend la couleur de marque principale. Utilisé par défaut lorsqu'aucun autre logo n'est choisi."
-    }
+    },
+    "packCallout": "Pour déplacer la Trousse de marque, les noms des dirigeants, l’affichage et le brouillon de site vers un autre navigateur, utilisez Trousse locale — un seul fichier versionné.",
+    "packLink": "Ouvrir Trousse locale"
   },
   "graphicMaker": {
     "title": "Créateur graphique",
@@ -7304,6 +7298,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "local-pack": {
+        "title": "Sauvegarde Trousse locale",
+        "body": "Téléchargez un seul fichier versionné avec la Trousse de marque, les dirigeants, l’affichage et le brouillon de site. Importez-le quand vous changez de navigateur. Le Modèle de site Web garde son propre fichier de site pour régénérer un ZIP."
+      },
       "ca-clause-library-site": {
         "title": "La bibliothèque de clauses vit sur le site",
         "body": "Parcourez les clauses de votre syndicat dans le Hub, restaurez les paquets collégiaux de référence au besoin, et chargez votre convention depuis un CSV, Excel ou texte. Le choix de collection dans la Trousse de marque règle l’entente par défaut sans effacer les clauses personnalisées."
@@ -10692,6 +10690,7 @@
       "quoteCard": "Transformez une citation en carte à partager.",
       "meetingBackground": "Fonds Zoom et Teams aux couleurs de votre section.",
       "websiteTemplate": "ZIP de site local simple pour GitHub Pages.",
+      "localPack": "Un fichier versionné pour la Trousse de marque, la liste, l’affichage et le brouillon de site.",
       "altText": "Rédigez du texte alternatif sans envoyer d'images.",
       "pulsePoll": "Sondages courts avec carte QR imprimable.",
       "rtwAccommodation": "Limites fonctionnelles, mesures d'adaptation et scripts RH, sur votre appareil.",
@@ -14970,7 +14969,7 @@
       "board-notice-files": "Avis de milieu de travail prêts à imprimer",
       "poster-files": "Affiches imprimables et fonds d'écran numériques",
       "qr-board-files": "Fichiers d'affiche à codes QR en PNG et PDF",
-      "roster-files": "Répertoire ou affiche des dirigeants, avec fichiers CSV/JSON",
+      "roster-files": "Répertoire ou affiche des dirigeants ; la sauvegarde de la liste est dans Trousse locale",
       "flyer-files": "Tracts prêts à imprimer en PNG et PDF",
       "qr-card-files": "Cartes QR d'adhésion et d'information",
       "action-card-files": "Cartes d'action et de pétition en PNG et PDF",
@@ -14995,7 +14994,8 @@
       "learning-module": "Leçon autonome avec exercices et progression sur cet appareil",
       "facilitator-run-sheet": "Plan d'atelier prêt à animer",
       "reference-library": "Collection consultable de documents de référence",
-      "communications-examples": "Exemples commentés à adapter à votre section"
+      "communications-examples": "Exemples commentés à adapter à votre section",
+      "local-pack-file": "Un fichier JSON Trousse locale versionné avec Trousse de marque, liste, préférences et brouillon de site"
     },
     "searchTerms": {
       "tool-logo-builder": "brand identité couleurs logo marque identité couleurs",
@@ -15028,7 +15028,8 @@
       "running-meetings": "assemblée générale quorum motion présidence réunion ordre du jour",
       "grievances": "grief plainte discipline arbitrage griefs",
       "communications-examples": "médias sociaux campagne facebook instagram publication exemples",
-      "captions": "légende mot-clic texte alternatif accessible médias sociaux"
+      "captions": "légende mot-clic texte alternatif accessible médias sociaux",
+      "tool-local-pack": "sauvegarde export import marque liste dirigeants trousse locale"
     },
     "summaries": {
       "brandKitSummary": "Réglez une seule fois les couleurs, le logo, le numéro de section et les liens clés, puis réutilisez-les dans vos communications.",
@@ -15036,5 +15037,31 @@
       "captionsSummary": "Copiez et adaptez des légendes accessibles pour les publications sociales de votre section.",
       "assetsSummary": "Parcourez les éléments de marque et les fichiers de départ pour les communications locales et les ateliers."
     }
+  },
+  "localPack": {
+    "title": "Trousse locale",
+    "subtitle": "Enregistrez la Trousse de marque, les dirigeants, l’affichage et le brouillon de site dans un seul fichier versionné sur votre appareil.",
+    "whenToUse": "Utilisez-la quand vous changez d’ordinateur ou de navigateur, ou avant d’effacer les données du site. Modifiez les couleurs dans la Trousse de marque, les noms dans l’Organigramme, et le texte du site dans le Modèle de site Web.",
+    "includesIntro": "Un fichier Trousse locale contient :",
+    "includesBrandKit": "Couleurs, logo, numéro de section et liens de la Trousse de marque",
+    "includesRoster": "Dirigeants et délégués de l’Organigramme (qui apparaît sur le site)",
+    "includesPreferences": "Préférences d’affichage pour ce navigateur",
+    "includesWebsiteDraft": "Texte du Modèle de site Web (accroche, à propos, contact — pas le ZIP complet du site)",
+    "excludesNote": "Le Modèle de site Web garde son propre fichier de site pour régénérer un ZIP après publication. La Trousse locale ne remplace pas ce fichier de déploiement.",
+    "exportPack": "Télécharger la Trousse locale",
+    "importPack": "Importer la Trousse locale",
+    "exportRosterCsv": "Télécharger le CSV de la liste",
+    "exportSuccess": "Trousse locale téléchargée. Gardez le fichier en lieu sûr sur votre appareil.",
+    "importSuccess": "Trousse locale chargée. Ouvrez la Trousse de marque, l’Organigramme ou le Modèle de site Web pour vérifier ce qui a changé.",
+    "csvSuccess": "CSV de la liste téléchargé. Modifiez les noms dans Excel, puis importez un JSON Trousse locale après les élections si vous avez besoin de la sauvegarde complète.",
+    "errorInvalidJson": "Ce fichier n’est pas un JSON lisible. Choisissez le fichier .json Trousse locale téléchargé depuis cette page, puis réessayez.",
+    "errorWrongKind": "Ce fichier n’est pas une Trousse locale. Choisissez le .json téléchargé depuis Trousse locale — pas une Trousse de marque ni un fichier de site — puis réessayez.",
+    "errorUnsupportedVersion": "Cette Trousse locale vient d’une version plus récente d’UnionOps. Mettez à jour ce site, puis réessayez l’importation.",
+    "errorInvalidSection": "Cette Trousse locale a une section endommagée. Téléchargez une trousse neuve depuis un navigateur qui fonctionne, ou importez seulement après avoir vérifié le fichier.",
+    "errorEmpty": "Cette Trousse locale n’a ni Trousse de marque, ni liste, ni préférences, ni brouillon de site. Exportez de nouveau depuis un navigateur qui a vos données.",
+    "editElsewhere": "Modifiez la configuration de votre section dans ces outils :",
+    "linkBrandKit": "Trousse de marque",
+    "linkOrgChart": "Organigramme",
+    "linkWebsite": "Modèle de site Web"
   }
 }

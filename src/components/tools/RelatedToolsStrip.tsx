@@ -65,6 +65,7 @@ export const RELATED_BY_TOOL: Record<
   "website-template": [
     { href: "/tools/org-chart", navKey: "orgChart" },
     { href: "/brand-kit", navKey: "brandKit" },
+    { href: "/tools/local-pack", navKey: "localPack" },
     { href: "/tools/qr-card", navKey: "qrCard" },
     { href: "/guide/website", navKey: "websiteGuide" },
   ],
@@ -97,8 +98,14 @@ export const RELATED_BY_TOOL: Record<
   "org-chart": [
     { href: documentGeneratorPresetHref("lec-directory"), navKey: "documentGenerator" },
     { href: "/tools/website-template", navKey: "websiteTemplate" },
+    { href: "/tools/local-pack", navKey: "localPack" },
     { href: "/tools/board-notice", navKey: "boardNotice" },
     { href: "/guide/union-boards", navKey: "unionBoardsGuide" },
+  ],
+  "local-pack": [
+    { href: "/brand-kit", navKey: "brandKit" },
+    { href: "/tools/org-chart", navKey: "orgChart" },
+    { href: "/tools/website-template", navKey: "websiteTemplate" },
   ],
   "solidarity-poster": [
     { href: "/tools/meeting-background", navKey: "meetingBackground" },

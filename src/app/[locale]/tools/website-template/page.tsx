@@ -12,7 +12,6 @@ import {
 } from "@/lib/export/brand-logo-bytes";
 import { buildPreviewHtml } from "@/lib/templates/website/generate-website-zip";
 import {
-  DEFAULT_WEBSITE_HERO_ART_ID,
   coerceWebsiteHeroArtId,
   isWebsiteHeroArtId,
   websiteHeroDataUrlToBytes,
@@ -21,7 +20,6 @@ import {
 } from "@/lib/templates/website/hero-art";
 import {
   joinWithConjunction,
-  toWebsiteNavLinks,
   websiteCollectionLabels,
   websiteDisplayName,
 } from "@/lib/templates/website/brand-kit-fields";
@@ -31,10 +29,10 @@ import {
   type WebsiteImportedAsset,
 } from "@/lib/templates/website/website-config";
 import {
-  DEFAULT_WEBSITE_OFFICERS,
-  type WebsiteOfficer,
-  type WebsiteTemplateData,
-} from "@/types/website-template";
+  composeWebsiteTemplateData,
+  WEBSITE_COMPOSE_LOGO_FILE_NAME,
+} from "@/lib/templates/website/compose-website-data";
+import type { WebsiteOfficer } from "@/types/website-template";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
@@ -48,16 +46,13 @@ import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { Callout } from "@/components/ui/Callout";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
-import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { brandSetupHref } from "@/lib/utils/brand-setup";
-import { listMembershipDestinations } from "@/lib/utils/local-links";
 import { Link } from "@/i18n/navigation";
 import { usePublicRosterStore } from "@/store/public-roster-store";
+import { useWebsiteDraftStore } from "@/store/website-draft-store";
 import { officersFromRoster } from "@/lib/org-chart/website";
 import { MAX_WEBSITE_OFFICERS } from "@/types/public-roster";
-
-const LOGO_FILE_NAME = "logo.png";
 
 export default function WebsiteTemplatePage() {
   const t = useTranslations("websiteTemplate");
@@ -67,8 +62,11 @@ export default function WebsiteTemplatePage() {
   const hydrated = useBrandStore((s) => s.hydrated);
   const rosterHydrated = usePublicRosterStore((s) => s.hydrated);
   const roster = usePublicRosterStore((s) => s.roster);
+  const draft = useWebsiteDraftStore((s) => s.draft);
+  const draftHydrated = useWebsiteDraftStore((s) => s.hydrated);
+  const setDraft = useWebsiteDraftStore((s) => s.setDraft);
+  const replaceDraft = useWebsiteDraftStore((s) => s.replaceDraft);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
-  const localNumber = resolveLocalNumber(brandKit.local.localNumber);
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -83,181 +81,152 @@ export default function WebsiteTemplatePage() {
   const [importMessage, setImportMessage] = useState<string | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
   const [importPhotoMissing, setImportPhotoMissing] = useState(false);
-
-  const [unionName, setUnionName] = useState(`Local ${localNumber}`);
-  const [heroText, setHeroText] = useState(t("heroDefault"));
-  const [about1, setAbout1] = useState(
-    t("aboutSeedGeneric", { localNumber }),
-  );
-  const [about2, setAbout2] = useState(t("about2Default"));
-  const [contactEmail, setContactEmail] = useState(
-    `local${localNumber}@example.com`,
-  );
-  /** null = follow Brand Kit once hydrated; string = user/local draft */
-  const [facebookDraft, setFacebookDraft] = useState<string | null>(null);
-  const facebookUrl =
-    facebookDraft !== null
-      ? facebookDraft
-      : overlay
-        ? overlay.facebookUrl
-        : hydrated
-          ? (brandKit.facebookUrl?.trim() ?? "")
-          : "";
-  const [officeAddress, setOfficeAddress] = useState("");
-  const [officers, setOfficers] = useState<WebsiteOfficer[]>(
-    DEFAULT_WEBSITE_OFFICERS,
-  );
-  const [heroArtId, setHeroArtId] = useState<WebsiteHeroArtId>(
-    DEFAULT_WEBSITE_HERO_ART_ID,
-  );
+  /** Session-only hero photo (not persisted in Local pack / draft). */
   const [heroImagePreviewSrc, setHeroImagePreviewSrc] = useState("");
-  const [heroImageAlt, setHeroImageAlt] = useState("");
-  const displayLocalNumber = overlay?.localNumber
-    ? resolveLocalNumber(overlay.localNumber)
-    : localNumber;
+
   const logoPreviewSrc =
     importedLogo?.previewSrc ?? resolveBrandLogoSrc(brandKit);
-  const includeOpseuResources = overlay
-    ? overlay.includeOpseuResources
-    : brandKit.unionPresetId === "opseu";
-  const canvasTokens = resolveCanvasTokens(brandKit);
-  const busy = exporting || importing;
   const themeEstablished = isBrandThemeEstablished(
     brandKit,
     onboardingComplete,
   );
   const inDemo = useWorkshopDemoSession(null);
-  const customLinks = useMemo(
-    () =>
-      overlay
-        ? overlay.customLinks
-        : toWebsiteNavLinks(brandKit.customLinks ?? []),
-    [overlay, brandKit.customLinks],
+  const busy = exporting || importing;
+
+  const draftLooksEmpty =
+    !draft.unionName.trim() &&
+    !draft.heroText.trim() &&
+    !draft.about1.trim() &&
+    !draft.contactEmail.trim();
+
+  useOneShotBrandSeed(
+    hydrated && draftHydrated,
+    () => {
+      const number = resolveLocalNumber(brandKit.local.localNumber);
+      const collections = websiteCollectionLabels(brandKit);
+      setDraft({
+        unionName: websiteDisplayName(brandKit, number),
+        contactEmail: `local${number}@example.com`,
+        about1:
+          collections.length > 0
+            ? t("aboutSeedNamed", {
+                localNumber: number,
+                collections: joinWithConjunction(collections, t("listAnd")),
+              })
+            : t("aboutSeedGeneric", { localNumber: number }),
+        heroText: draft.heroText || t("heroDefault"),
+        about2: draft.about2 || t("about2Default"),
+      });
+    },
+    overlay === null && draftLooksEmpty,
   );
-  const membershipLinks = useMemo(
-    () =>
-      overlay
-        ? overlay.membershipLinks
-        : toWebsiteNavLinks(listMembershipDestinations(brandKit)),
-    [overlay, brandKit],
+
+  useOneShotBrandSeed(
+    rosterHydrated && draftHydrated,
+    () => {
+      if (draft.officersOverride) return;
+      const next = officersFromRoster(roster);
+      if (next.length) {
+        setDraft({ officers: next, officersOverride: false });
+      }
+    },
+    overlay === null && !draft.officersOverride && draft.officers.length === 0,
   );
 
-  useOneShotBrandSeed(hydrated, () => {
-    const number = resolveLocalNumber(brandKit.local.localNumber);
-    setUnionName(websiteDisplayName(brandKit, number));
-    setContactEmail(`local${number}@example.com`);
-    const collections = websiteCollectionLabels(brandKit);
-    setAbout1(
-      collections.length > 0
-        ? t("aboutSeedNamed", {
-            localNumber: number,
-            collections: joinWithConjunction(collections, t("listAnd")),
-          })
-        : t("aboutSeedGeneric", { localNumber: number }),
-    );
-  }, overlay === null);
-
-  const applyRosterOfficers = () => {
-    const next = officersFromRoster(roster);
-    if (next.length) setOfficers(next);
-  };
-
-  useOneShotBrandSeed(rosterHydrated, applyRosterOfficers, overlay === null);
-
-  const templateData: WebsiteTemplateData = useMemo(
-    () => ({
-      localNumber: displayLocalNumber,
-      unionName,
-      heroText,
-      about1,
-      about2,
-      contactEmail,
-      facebookUrl,
-      customLinks,
-      membershipLinks,
-      officeAddress,
-      primaryColor: overlay?.primaryColor ?? brandKit.primaryColor,
-      secondaryColor: overlay?.secondaryColor ?? brandKit.secondaryColor,
-      officers,
-      logoFileName: importedLogo?.fileName ?? LOGO_FILE_NAME,
-      logoPreviewSrc,
-      logoAlt: overlay?.logoAlt || unionName,
-      includeOpseuResources,
-      heroArtId,
-      heroImageFileName: heroImagePreviewSrc
-        ? importedHero?.fileName ?? websiteHeroUploadFileName(heroImagePreviewSrc)
-        : undefined,
-      heroImagePreviewSrc,
-      heroImageAlt,
-      canvas: overlay?.canvas
-        ? overlay.canvas
-        : brandKit.canvas
-          ? {
-              surface: canvasTokens.surface,
-              typeScale: canvasTokens.typeScale,
-              density: canvasTokens.density,
-              headlineFontId: canvasTokens.headlineFontId,
-              bodyFontId: canvasTokens.bodyFontId,
-            }
-          : {
-              headlineFontId: canvasTokens.headlineFontId,
-              bodyFontId: canvasTokens.bodyFontId,
-            },
-    }),
+  const templateData = useMemo(
+    () =>
+      composeWebsiteTemplateData({
+        brandKit,
+        roster,
+        draft,
+        overlay,
+        logoPreviewSrc,
+        logoFileName: importedLogo?.fileName ?? WEBSITE_COMPOSE_LOGO_FILE_NAME,
+        logoAlt: overlay?.logoAlt,
+        heroImagePreviewSrc,
+        heroImageFileName: heroImagePreviewSrc
+          ? importedHero?.fileName ??
+            websiteHeroUploadFileName(heroImagePreviewSrc)
+          : undefined,
+      }),
     [
-      displayLocalNumber,
-      unionName,
-      heroText,
-      about1,
-      about2,
-      contactEmail,
-      facebookUrl,
-      customLinks,
-      membershipLinks,
-      officeAddress,
+      brandKit,
+      roster,
+      draft,
       overlay,
-      brandKit.primaryColor,
-      brandKit.secondaryColor,
-      brandKit.canvas,
-      canvasTokens.surface,
-      canvasTokens.typeScale,
-      canvasTokens.density,
-      canvasTokens.headlineFontId,
-      canvasTokens.bodyFontId,
-      officers,
+      logoPreviewSrc,
       importedLogo,
       importedHero,
-      logoPreviewSrc,
-      includeOpseuResources,
-      heroArtId,
       heroImagePreviewSrc,
-      heroImageAlt,
     ],
   );
+
+  const displayLocalNumber = templateData.localNumber;
+  const customLinks = templateData.customLinks ?? [];
+  const membershipLinks = templateData.membershipLinks ?? [];
+  const officers = templateData.officers;
+  const facebookUrl = templateData.facebookUrl;
+  const heroArtId = templateData.heroArtId ?? "mesh";
+  const heroImageAlt = templateData.heroImageAlt ?? "";
 
   const previewHtml = useMemo(
     () => buildPreviewHtml(templateData),
     [templateData],
   );
 
+  const applyRosterOfficers = () => {
+    const next = officersFromRoster(roster);
+    if (next.length) {
+      setDraft({ officers: next, officersOverride: false });
+      setOverlay(null);
+    }
+  };
+
   const updateOfficer = (
     index: number,
     field: keyof WebsiteOfficer,
     value: string,
   ) => {
-    setOfficers((prev) =>
-      prev.map((o, i) => (i === index ? { ...o, [field]: value } : o)),
+    const next = officers.map((o, i) =>
+      i === index ? { ...o, [field]: value } : o,
     );
+    setDraft({ officers: next, officersOverride: true });
+    setOverlay(null);
   };
 
   const addOfficer = () => {
     if (officers.length >= MAX_WEBSITE_OFFICERS) return;
-    setOfficers((prev) => [...prev, { name: "", role: "", location: "" }]);
+    setDraft({
+      officers: [...officers, { name: "", role: "", location: "" }],
+      officersOverride: true,
+    });
+    setOverlay(null);
   };
 
   const removeOfficer = (index: number) => {
     if (officers.length <= 1) return;
-    setOfficers((prev) => prev.filter((_, i) => i !== index));
+    setDraft({
+      officers: officers.filter((_, i) => i !== index),
+      officersOverride: true,
+    });
+    setOverlay(null);
+  };
+
+  const patchCopy = (
+    partial: Partial<{
+      unionName: string;
+      heroText: string;
+      about1: string;
+      about2: string;
+      contactEmail: string;
+      officeAddress: string;
+      facebookUrl: string | null;
+      heroArtId: WebsiteHeroArtId;
+      heroImageAlt: string;
+    }>,
+  ) => {
+    setDraft(partial);
+    setOverlay(null);
   };
 
   const collectExportMedia = async () => {
@@ -268,7 +237,9 @@ export default function WebsiteTemplatePage() {
       const resolved = await resolveBrandLogoBytes(brandKit, {
         includeLogo: true,
       });
-      logo = resolved ? { fileName: LOGO_FILE_NAME, bytes: resolved.bytes } : null;
+      logo = resolved
+        ? { fileName: WEBSITE_COMPOSE_LOGO_FILE_NAME, bytes: resolved.bytes }
+        : null;
     }
     let heroImage: { fileName: string; bytes: Uint8Array } | null = null;
     if (heroImagePreviewSrc.trim()) {
@@ -339,25 +310,29 @@ export default function WebsiteTemplatePage() {
   }) => {
     const data = imported.envelope.data;
     setOverlay(data);
-    setUnionName(data.unionName);
-    setHeroText(data.heroText);
-    setAbout1(data.about1);
-    setAbout2(data.about2);
-    setContactEmail(data.contactEmail);
-    setFacebookDraft(data.facebookUrl);
-    setOfficeAddress(data.officeAddress);
-    setOfficers(data.officers);
-    setHeroArtId(coerceWebsiteHeroArtId(data.heroArtId) ?? "none");
+    replaceDraft({
+      version: 1,
+      updatedAt: new Date().toISOString(),
+      unionName: data.unionName,
+      heroText: data.heroText,
+      about1: data.about1,
+      about2: data.about2,
+      contactEmail: data.contactEmail,
+      officeAddress: data.officeAddress,
+      facebookUrl: data.facebookUrl,
+      officersOverride: true,
+      officers: data.officers,
+      heroArtId: coerceWebsiteHeroArtId(data.heroArtId) ?? "none",
+      heroImageAlt: data.heroImageAlt ?? "",
+    });
     setImportedLogo(imported.logo ?? null);
     if (imported.heroImage) {
       setImportedHero(imported.heroImage);
       setHeroImagePreviewSrc(imported.heroImage.previewSrc);
-      setHeroImageAlt(data.heroImageAlt ?? "");
       setImportPhotoMissing(false);
     } else {
       setImportedHero(null);
       setHeroImagePreviewSrc("");
-      setHeroImageAlt(data.heroImageAlt ?? "");
       setImportPhotoMissing(
         Boolean(
           data.heroImageFileName &&
@@ -427,22 +402,24 @@ export default function WebsiteTemplatePage() {
         <div className="space-y-3">
           <Input
             label={t("unionName")}
-            value={unionName}
-            onChange={(e) => setUnionName(e.target.value)}
+            value={templateData.unionName}
+            onChange={(e) => patchCopy({ unionName: e.target.value })}
           />
 
           <ToolFormDetails title={t("sectionHero")}>
             <Textarea
               label={t("heroText")}
-              value={heroText}
-              onChange={(e) => setHeroText(e.target.value)}
+              value={templateData.heroText}
+              onChange={(e) => patchCopy({ heroText: e.target.value })}
               rows={2}
             />
             <SegControl
               label={t("heroArt")}
               value={heroArtId}
               onChange={(value) => {
-                if (isWebsiteHeroArtId(value)) setHeroArtId(value);
+                if (isWebsiteHeroArtId(value)) {
+                  patchCopy({ heroArtId: value });
+                }
               }}
               options={[
                 { value: "none", label: t("heroArtNone") },
@@ -465,7 +442,7 @@ export default function WebsiteTemplatePage() {
                 setImportedHero(null);
                 setImportPhotoMissing(false);
                 setHeroImagePreviewSrc("");
-                setHeroImageAlt("");
+                patchCopy({ heroImageAlt: "" });
               }}
             />
             <p className="text-sm leading-snug text-gray-600">
@@ -480,7 +457,7 @@ export default function WebsiteTemplatePage() {
               <Input
                 label={t("heroArtAlt")}
                 value={heroImageAlt}
-                onChange={(e) => setHeroImageAlt(e.target.value)}
+                onChange={(e) => patchCopy({ heroImageAlt: e.target.value })}
                 aria-describedby="website-hero-alt-hint"
               />
             ) : null}
@@ -499,14 +476,14 @@ export default function WebsiteTemplatePage() {
           <ToolFormDetails title={t("sectionAbout")}>
             <Textarea
               label={t("about1")}
-              value={about1}
-              onChange={(e) => setAbout1(e.target.value)}
+              value={templateData.about1}
+              onChange={(e) => patchCopy({ about1: e.target.value })}
               rows={3}
             />
             <Textarea
               label={t("about2")}
-              value={about2}
-              onChange={(e) => setAbout2(e.target.value)}
+              value={templateData.about2}
+              onChange={(e) => patchCopy({ about2: e.target.value })}
               rows={2}
             />
           </ToolFormDetails>
@@ -515,64 +492,64 @@ export default function WebsiteTemplatePage() {
             <Input
               label={t("contactEmail")}
               type="email"
-              value={contactEmail}
-              onChange={(e) => setContactEmail(e.target.value)}
+              value={templateData.contactEmail}
+              onChange={(e) => patchCopy({ contactEmail: e.target.value })}
             />
             <Input
               label={t("facebookUrl")}
               value={facebookUrl}
-              onChange={(e) => setFacebookDraft(e.target.value)}
+              onChange={(e) => patchCopy({ facebookUrl: e.target.value })}
             />
             <Textarea
               label={t("officeAddress")}
-              value={officeAddress}
-              onChange={(e) => setOfficeAddress(e.target.value)}
+              value={templateData.officeAddress}
+              onChange={(e) => patchCopy({ officeAddress: e.target.value })}
               rows={2}
               placeholder={t("officeAddressPlaceholder")}
             />
           </ToolFormDetails>
 
           <ToolFormDetails title={t("bundledHeading")}>
-          <Callout tone={bundledCount > 0 ? "muted" : "brand"}>
-            <p className="font-semibold text-opseu-dark">
-              {t("bundledHeading")}
-            </p>
-            <p className="mt-1">
-              {bundledCount > 0 ? t("bundledIntro") : t("bundledEmpty")}
-            </p>
-            {customLinks.length > 0 ? (
-              <div className="mt-3">
-                <p className="text-xs font-bold uppercase tracking-wide text-gray-600">
-                  {t("bundledCustomHeading")}
-                </p>
-                <ul className="mt-1 list-disc space-y-0.5 pl-5">
-                  {customLinks.map((link) => (
-                    <li key={link.url}>{link.label}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            {membershipLinks.length > 0 ? (
-              <div className="mt-3">
-                <p className="text-xs font-bold uppercase tracking-wide text-gray-600">
-                  {t("bundledMembershipHeading")}
-                </p>
-                <ul className="mt-1 list-disc space-y-0.5 pl-5">
-                  {membershipLinks.map((link) => (
-                    <li key={link.url}>{link.label}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            <p className="mt-3">
-              <Link
-                href={brandSetupHref(themeEstablished)}
-                className="font-semibold text-opseu-blue underline underline-offset-2"
-              >
-                {t("bundledEdit")}
-              </Link>
-            </p>
-          </Callout>
+            <Callout tone={bundledCount > 0 ? "muted" : "brand"}>
+              <p className="font-semibold text-opseu-dark">
+                {t("bundledHeading")}
+              </p>
+              <p className="mt-1">
+                {bundledCount > 0 ? t("bundledIntro") : t("bundledEmpty")}
+              </p>
+              {customLinks.length > 0 ? (
+                <div className="mt-3">
+                  <p className="text-xs font-bold uppercase tracking-wide text-gray-600">
+                    {t("bundledCustomHeading")}
+                  </p>
+                  <ul className="mt-1 list-disc space-y-0.5 pl-5">
+                    {customLinks.map((link) => (
+                      <li key={link.url}>{link.label}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+              {membershipLinks.length > 0 ? (
+                <div className="mt-3">
+                  <p className="text-xs font-bold uppercase tracking-wide text-gray-600">
+                    {t("bundledMembershipHeading")}
+                  </p>
+                  <ul className="mt-1 list-disc space-y-0.5 pl-5">
+                    {membershipLinks.map((link) => (
+                      <li key={link.url}>{link.label}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+              <p className="mt-3">
+                <Link
+                  href={brandSetupHref(themeEstablished)}
+                  className="font-semibold text-opseu-blue underline underline-offset-2"
+                >
+                  {t("bundledEdit")}
+                </Link>
+              </p>
+            </Callout>
           </ToolFormDetails>
 
           <ToolFormDetails title={t("sectionOfficers")}>

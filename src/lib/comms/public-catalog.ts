@@ -60,6 +60,7 @@ export type PublicCatalogDeliverable =
   | "quote-card-files"
   | "meeting-background-files"
   | "website-files"
+  | "local-pack-file"
   | "alt-text-draft"
   | "accommodation-worksheet"
   | "discipline-log"
@@ -164,6 +165,7 @@ const TOOL_DELIVERABLE: Record<string, PublicCatalogDeliverable> = {
   "quote-card": "quote-card-files",
   "meeting-background": "meeting-background-files",
   "website-template": "website-files",
+  "local-pack": "local-pack-file",
   "alt-text": "alt-text-draft",
   "rtw-accommodation": "accommodation-worksheet",
   "pre-disciplinary-log": "discipline-log",
@@ -187,6 +189,7 @@ const TOOL_SEARCH_TERMS: Readonly<Record<string, string>> = {
   "graphic-maker": "tool-graphic-maker",
   "quote-card": "tool-quote-card",
   "website-template": "tool-website-template",
+  "local-pack": "tool-local-pack",
   "alt-text": "tool-alt-text",
   "rtw-accommodation": "tool-rtw-accommodation",
   "pre-disciplinary-log": "tool-pre-disciplinary-log",
@@ -210,7 +213,9 @@ function catalogId(path: string): string {
 function toolItems(): PublicCatalogItem[] {
   const items: PublicCatalogItem[] = toolGroups.flatMap((group) =>
     group.links.map(({ href, key }) => {
-      const slug = href.slice("/tools/".length);
+      const slug = href
+        .replace(/^\/tools\//, "")
+        .replace(/^\/create\//, "");
       const gated = slug === "pulse-poll";
       const format = TOOL_KIND[slug] ?? "maker";
       const deliverableKey = TOOL_DELIVERABLE[slug];
@@ -427,6 +432,7 @@ const RELATED_ITEM_IDS: Readonly<Record<string, readonly string[]>> = {
     "learn-communications-blueprint",
     "learn-first-week",
     "learn-library-brand-assets",
+    "create-local-pack",
   ],
   "create-logo-builder": ["create-brand-kit", "learn-library-brand-assets"],
   "create-resizer": ["create-graphic-maker", "learn-short-form"],
@@ -435,7 +441,7 @@ const RELATED_ITEM_IDS: Readonly<Record<string, readonly string[]>> = {
   "create-board-notice": ["learn-union-boards", "learn-print"],
   "create-solidarity-poster": ["learn-union-boards", "learn-strike"],
   "create-qr-board": ["learn-union-boards", "learn-membership-signup"],
-  "create-org-chart": ["learn-union-boards", "create-website-template"],
+  "create-org-chart": ["learn-union-boards", "create-website-template", "create-local-pack"],
   "create-flyer-maker": ["learn-print", "learn-first-week"],
   "create-qr-card": ["learn-membership-signup", "create-qr-board"],
   "create-action-card": ["learn-first-week", "learn-strike"],
@@ -443,7 +449,12 @@ const RELATED_ITEM_IDS: Readonly<Record<string, readonly string[]>> = {
   "create-graphic-maker": ["learn-library-examples", "learn-short-form"],
   "create-quote-card": ["learn-library-examples", "create-graphic-maker"],
   "create-meeting-background": ["learn-workshops-comms", "learn-photo-consent"],
-  "create-website-template": ["learn-website", "learn-library-brand-assets"],
+  "create-website-template": ["learn-website", "learn-library-brand-assets", "create-local-pack"],
+  "create-local-pack": [
+    "create-brand-kit",
+    "create-org-chart",
+    "create-website-template",
+  ],
   "create-alt-text": ["learn-photo-consent", "learn-library-examples"],
   "create-rtw-accommodation": ["learn-right-to-refuse", "learn-grievance-process"],
   "create-pre-disciplinary-log": ["learn-grievance-process", "learn-dfr"],

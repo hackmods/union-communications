@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
@@ -38,7 +37,6 @@ import {
 } from "@/lib/constants/unionPresets";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
-import { resolveLocalNumber } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { TOOL_COMPOSITION } from "@/lib/constants/page-composition";
@@ -60,15 +58,12 @@ export default function BrandKitPage() {
   const {
     brandKit,
     setBrandKit,
-    importBrandKit,
     resetBrandKit,
     onboardingComplete,
     storageBlocked,
     dismissStorageBlocked,
     hydrated,
   } = useBrandStore();
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [message, setMessage] = useState<string | null>(null);
   const themeEstablished = isBrandThemeEstablished(
     brandKit,
     onboardingComplete,
@@ -100,39 +95,6 @@ export default function BrandKitPage() {
     );
   };
 
-  const handleExport = () => {
-    const blob = new Blob([JSON.stringify(brandKit, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `brand-kit-local-${resolveLocalNumber(brandKit.local.localNumber)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    try {
-      const text = await file.text();
-      const parsed = JSON.parse(text) as { version?: string; local?: unknown };
-      if (
-        (parsed.version !== "1.0" &&
-          parsed.version !== "1.1" &&
-          parsed.version !== "2.0") ||
-        !parsed.local
-      ) {
-        throw new Error("Invalid schema");
-      }
-      importBrandKit(parsed);
-      setMessage(t("importSuccess"));
-    } catch {
-      setMessage(t("importError"));
-    }
-  };
-
   return (
     <ComposedPageLayout
       composition={TOOL_COMPOSITION.editor.composition}
@@ -151,29 +113,24 @@ export default function BrandKitPage() {
 
         <div className="flex shrink-0 flex-col gap-2 sm:items-end">
           <div className="flex flex-wrap gap-2 sm:justify-end">
-            <Button onClick={handleExport}>{t("export")}</Button>
-            <Button variant="outline" onClick={() => fileRef.current?.click()}>
-              {t("import")}
-            </Button>
-            <input
-              ref={fileRef}
-              type="file"
-              accept="application/json"
-              className="sr-only"
-              aria-label={t("import")}
-              onChange={handleImport}
-            />
             <Button variant="ghost" onClick={resetBrandKit}>
               {t("resetDefaults")}
             </Button>
           </div>
-          {message ? (
-            <p className="text-sm text-opseu-blue" role="status">
-              {message}
-            </p>
-          ) : null}
         </div>
       </div>
+
+      <Callout tone="muted" className="mt-6">
+        <p>{t("packCallout")}</p>
+        <p className="mt-2">
+          <Link
+            href="/tools/local-pack"
+            className="font-semibold text-opseu-blue underline underline-offset-2"
+          >
+            {t("packLink")}
+          </Link>
+        </p>
+      </Callout>
 
       {storageBlocked ? (
         <Callout

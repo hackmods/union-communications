@@ -232,6 +232,13 @@ describe("locked product terms", () => {
     expect(drifted, report(drifted)).toEqual([]);
   });
 
+  it("locks Local pack as Trousse locale", () => {
+    expect(en.nav.localPack).toBe("Local pack");
+    expect(fr.nav.localPack).toBe("Trousse locale");
+    expect(en.localPack.title).toBe("Local pack");
+    expect(fr.localPack.title).toBe("Trousse locale");
+  });
+
   it("Org Chart copy names officers and stewards, not a member list", () => {
     const hits = [...EN_LEAVES, ...FR_LEAVES].filter(([path, value]) => {
       if (

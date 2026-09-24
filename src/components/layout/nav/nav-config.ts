@@ -46,6 +46,7 @@ export type NavLinkKey =
   | "solidarityPoster"
   | "qrBoard"
   | "orgChart"
+  | "localPack"
   | "qrCard"
   | "actionCard"
   | "pulsePoll"
@@ -139,6 +140,7 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/bylaw-builder", key: "bylawBuilder" },
       { href: "/tools/proposal-tracker", key: "proposalTracker" },
       { href: "/tools/rules-of-order", key: "rulesOfOrder" },
+      { href: "/tools/local-pack", key: "localPack" },
       { href: "/tools/resizer", key: "resizer" },
       { href: "/tools/alt-text", key: "altText" },
     ],
