@@ -18,11 +18,11 @@ Catalog copy lives in `messages/en.json` and `messages/fr.json`; do not fork pub
 
 ## Home and guided setup
 
-Home explains the recommended sequence in plain language: configure Brand Kit once (“Set up your local once. Use UnionOps everywhere.”), then Create, Utilities, Learn, and Platform. Link to `/start` as **Guided setup** for the communications lead, steward, and local officer checklists. Each path offers a sequenced checklist; selected path and manually marked progress are saved in this browser only and are not synced. Brand Kit completion is inferred from local browser state; never imply it is a union-wide shared profile.
+Home explains Brand Kit as the foundation, then **parallel** destinations Create / Utilities / Learn, then Platform as the hosted layer for shared local operations. Do **not** present a numbered five-step sequence that implies users must visit every area in order. Link to `/start` as **Guided setup** for role checklists. Brand Kit completion is inferred from local browser state; never imply it is a union-wide shared profile.
 
-Learn starts with curated task collections; active filters can be removed individually, and search terms include bilingual task vocabulary with accent-insensitive matching. Continue to test whether the flat catalog needs more progressive grouping with real visitors before adding more categories or search infrastructure.
+Learn starts with curated task collections (including **Comms getting started** at `/learn/first-week`). Continue to test whether the flat catalog needs more progressive grouping with real visitors before adding more categories or search infrastructure.
 
-Home has one value proposition, one primary Brand Kit (or Create) action, a product preview, a Platform secondary CTA, and an ordered workflow. Keep role-specific checklists under Guided setup; keep exhaustive channel lists and workshop facilitation details in Learn, not on Home. Do not dump the full tool inventory on Home.
+Home has one value proposition, Brand Kit as primary setup, a product preview, parallel toolkit destinations, a Platform band, and secondary guided setup. Keep exhaustive channel lists and workshop facilitation details in Learn, not on Home. Do not dump the full tool inventory on Home.
 
 ## Canonical routes
 
@@ -48,8 +48,8 @@ Privacy and security copy must distinguish Comms that stays on-device from hoste
 
 ## Footer
 
-Keep the footer compact: Home, Brand Kit, Create, Utilities, Learn, Platform, Guided setup, What's New, About UnionOps, Privacy, Security, Accessibility, Support, Feedback, and Install. Do not duplicate deep guide or maker links there.
+Keep the footer compact for secondary/trust links: Home, Guided setup, What's New, About UnionOps, Privacy, Security, Accessibility, Support, Feedback, and Install. Do **not** repeat Brand Kit, Create, Utilities, Learn, or Platform there — those belong in primary navigation.
 
 ## Living decision log
 
-Product IA decisions for this shell live in [`docs/UX_PRODUCT_REFACTOR.md`](../../docs/UX_PRODUCT_REFACTOR.md).
+Product IA decisions for this shell live in [`docs/UX_PRODUCT_REFACTOR.md`](../../docs/UX_PRODUCT_REFACTOR.md). Brand Kit is the foundation; Create, Utilities, and Learn are parallel on-device destinations; Platform is the hosted operational layer — not a fifth forced Home step.

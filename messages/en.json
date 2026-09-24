@@ -44,7 +44,7 @@
     "caSnippets": "CA Snippets",
     "stewardQuickLog": "Steward Quick-Log",
     "keepLearning": "Keep Learning",
-    "socialMediaPlan": "First-week plan",
+    "socialMediaPlan": "Comms getting started",
     "socialExamples": "Social Examples",
     "unionBoardsGuide": "Union Boards Guide",
     "printGuide": "Print Guide",
@@ -91,7 +91,7 @@
     "closeMenu": "Close menu",
     "menu": "Menu",
     "mobileNav": "Mobile",
-    "firstWeek": "First-week plan",
+    "firstWeek": "Comms getting started",
     "allTools": "All tools",
     "allGuides": "All guides",
     "mainNav": "Site navigation",
@@ -295,16 +295,16 @@
     "privacyLink": "Privacy and data handling",
     "heroCta": "See the toolkit",
     "brandSetupCta": "Set up your local brand",
-    "openFirstWeekCta": "Open First week",
+    "openFirstWeekCta": "Open Comms getting started",
     "openBrandKitCta": "Open Brand Kit",
-    "whatsNextCta": "Open First week",
-    "socialMediaPlanCta": "Continue First week",
+    "whatsNextCta": "Open Comms getting started",
+    "socialMediaPlanCta": "Continue Comms getting started",
     "socialMediaPlanDesc": "After Brand Kit: boards, print, socials, and a simple website.",
     "jobsTitle": "Where to start",
     "jobsIntro": "Pick the work in front of you. You can come back for the rest.",
     "pathCommsTitle": "Speak with one voice",
-    "pathCommsDesc": "Set Brand Kit once, then follow First week: boards, print, socials, and a simple website.",
-    "pathCommsCta": "Open First week",
+    "pathCommsDesc": "Set Brand Kit once, then follow Comms getting started: boards, print, socials, and a simple website.",
+    "pathCommsCta": "Open Comms getting started",
     "pathCommsHint": "Channel guides, Social Examples, and Captions live under Guides.",
     "pathOfficerTitle": "Run the local",
     "pathOfficerDesc": "Grievances, bumping, overdue work, and handoffs stay in Officer Hub, ready for the next steward.",
@@ -383,10 +383,27 @@
     "workflowUtilitiesTitle": "Use practical utilities",
     "workflowUtilitiesBody": "Open worksheets and workspaces for steward case prep, governance drafts, accessibility helpers, and other union work.",
     "workflowPlatformTitle": "Operate together on the platform",
-    "workflowPlatformBody": "Officer Hub is the private officer workspace. Local Portal is the member-facing space. Both are hosted products beyond the on-device toolkit."
+    "workflowPlatformBody": "Officer Hub is the private officer workspace. Local Portal is the member-facing space. Both are hosted products beyond the on-device toolkit.",
+    "foundationEyebrow": "Foundation",
+    "foundationTitle": "Brand Kit powers everything on your device",
+    "foundationIntro": "Configure your local identity once. Create tools and Utilities reuse those details instead of asking again.",
+    "foundationHint": "Start here before you make materials.",
+    "foundationReady": "Your Brand Kit on this device is ready to reuse.",
+    "destinationsEyebrow": "On-device toolkit",
+    "destinationsTitle": "Choose what you need next",
+    "destinationsIntro": "Create, Utilities, and Learn are parallel destinations. Pick the one that matches your task — you do not need to visit them in order.",
+    "destCreateTitle": "Create",
+    "destCreateBody": "Make finished communications: graphics, flyers, board materials, letters, and documents.",
+    "destUtilitiesTitle": "Utilities",
+    "destUtilitiesBody": "Get practical work done: steward worksheets, governance drafts, and accessibility helpers.",
+    "destLearnTitle": "Learn",
+    "destLearnBody": "Understand the work through guides, playbooks, Officer Learning, and workshops.",
+    "platformBandTitle": "Operate together on the hosted platform",
+    "platformBandBody": "Officer Hub is the private space for officers and stewards. Local Portal is the member-facing space. Both sit beside the free on-device toolkit.",
+    "platformBandCta": "Understand Officer Hub and Local Portal"
   },
   "socialMediaPlan": {
-    "title": "First week",
+    "title": "Comms getting started",
     "subtitle": "After Brand Kit: boards, print, socials, and a simple website. One message, four channels.",
     "intro": "Set Brand Kit first, then follow this roadmap. Practice tone and platforms in The Blueprint; orientation and sources are in Comms Resources.",
     "relatedLabel": "Also see",
@@ -3025,7 +3042,15 @@
       "grievanceIntakeDocx": "Grievance intake worksheet (Word)",
       "grievanceIntakeXlsx": "Grievance intake worksheet (Excel)",
       "lecDirectoryDocx": "Word LEC directory with Brand Kit colours and blank Position | Name | Location rows",
-      "lecDirectoryXlsx": "Excel LEC directory with the same blank rows"
+      "lecDirectoryXlsx": "Excel LEC directory with the same blank rows",
+      "accommodationLetterDocx": "Word accommodation / RTW letter",
+      "accommodationLetterPptx": "2 PowerPoint slides",
+      "grievanceNoticeDocx": "Word grievance notice letter",
+      "grievanceNoticePptx": "2 PowerPoint slides",
+      "representationRequestDocx": "Word representation request",
+      "representationRequestPptx": "2 PowerPoint slides",
+      "meetingFollowUpDocx": "Word meeting follow-up letter",
+      "meetingFollowUpPptx": "2 PowerPoint slides"
     },
     "senioritySheet": {
       "sheetName": "Seniority",
@@ -3089,6 +3114,22 @@
       "lecDirectory": {
         "title": "LEC directory",
         "blurb": "Blank officer table with your local colours and logo — fill names in Word after elections. Does not pull Org Chart or Hub data."
+      },
+      "accommodationLetter": {
+        "title": "Accommodation / RTW letter",
+        "blurb": "Formal Brand Kit letter for return-to-work or accommodation follow-up with the employer."
+      },
+      "grievanceNotice": {
+        "title": "Grievance notice letter",
+        "blurb": "Formal notice letter for early resolution. Use the grievance intake worksheet for the 6 W’s pack."
+      },
+      "representationRequest": {
+        "title": "Representation request",
+        "blurb": "Ask the employer to schedule meetings with steward representation present."
+      },
+      "meetingFollowUp": {
+        "title": "Meeting follow-up",
+        "blurb": "Confirm what was discussed and the next steps after a steward or officer meeting."
       }
     },
     "fields": {
@@ -7847,6 +7888,10 @@
       "product-areas-nav": {
         "title": "Clearer paths: Create, Utilities, Learn, and Platform",
         "body": "Primary navigation now separates creative tools from practical utilities, and Platform explains Officer Hub and Local Portal for locals evaluating UnionOps."
+      },
+      "product-areas-nav-v2": {
+        "title": "Brand Kit foundation with parallel Create, Utilities, and Learn",
+        "body": "Home no longer walks you through a five-step sequence. Set up Brand Kit, then choose Create, Utilities, or Learn for the task you have. Letter Generator now includes steward letter contexts you can open from accommodation and related utilities."
       }
     }
   },
@@ -10716,7 +10761,7 @@
   },
   "guidesIndex": {
     "title": "Guides",
-    "subtitle": "First week, channel handbooks, and steward playbooks for the floor and the local. Officer Learning stays a top-level link.",
+    "subtitle": "Comms getting started, channel handbooks, and steward playbooks for the floor and the local. Officer Learning stays a top-level link.",
     "hint": "Set colours and logo first in",
     "startHereTitle": "Start here",
     "startHereIntro": "Set the brand, then pick a comms path or a floor playbook. Officer Learning is seventeen self-paced modules.",
@@ -11484,7 +11529,8 @@
       "phase4Hours": "Full hours"
     },
     "grievancePlaybookLink": "Read the grievance playbook",
-    "referenceSummary": "Optional legal reference (Meiorin & undue hardship)"
+    "referenceSummary": "Optional legal reference (Meiorin & undue hardship)",
+    "openFormalLetter": "Open as formal letter"
   },
   "preDisciplinaryLog": {
     "title": "Pre-disciplinary meeting log",
@@ -11575,7 +11621,8 @@
       "written": "Written warning",
       "suspension": "Suspension",
       "termination": "Termination",
-      "moduleLink": "Officer Learning module: progressive discipline"
+      "moduleLink": "Learn about progressive discipline",
+      "referenceSummary": "Optional discipline ladder reference"
     },
     "pocketSheetModuleTitle": "Progressive Discipline"
   },
@@ -14845,8 +14892,8 @@
     "relatedLabel": "Related:",
     "learnCollectionsTitle": "Start with a common task",
     "learnCollections": {
-      "firstWeekTitle": "Plan your first week",
-      "firstWeekBody": "Set a clear goal and a practical first-week communications plan.",
+      "firstWeekTitle": "Comms getting started",
+      "firstWeekBody": "After Brand Kit, plan boards, print, social, and a simple website with one clear message.",
       "stewardTitle": "Support a member at work",
       "stewardBody": "Find the steward playbooks for grievances, safety, and meetings.",
       "officerTitle": "Build your officer skills",
@@ -15102,13 +15149,8 @@
     "portalItemParticipation": "Participation surfaces such as proposals where enabled",
     "portalItemMemberSafe": "Member-safe views that respect Hub confidentiality boundaries",
     "portalCta": "Ask about Local Portal",
-    "publicTitle": "How this relates to the public toolkit",
-    "publicBody": "Anyone can set up Brand Kit and use Create, Utilities, and Learn on their device. Officer Hub and Local Portal are hosted products for locals that request access.",
-    "brandKitCta": "Open Brand Kit",
-    "createCta": "Browse Create",
-    "utilitiesCta": "Browse Utilities",
-    "learnCta": "Browse Learn",
     "joinPrompt": "Ready for your local to adopt the hosted platform?",
-    "joinLink": "Bring your local to UnionOps"
+    "joinLink": "Bring your local to UnionOps",
+    "memberAccessLink": "Request member access"
   }
 }

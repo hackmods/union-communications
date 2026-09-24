@@ -44,7 +44,7 @@
     "caSnippets": "Extraits de convention",
     "stewardQuickLog": "Journal rapide du délégué",
     "keepLearning": "Continuer à apprendre",
-    "socialMediaPlan": "Plan de la première semaine",
+    "socialMediaPlan": "Premiers pas en communication",
     "socialExamples": "Exemples sociaux",
     "unionBoardsGuide": "Guide tableaux syndicaux",
     "printGuide": "Guide impression",
@@ -91,7 +91,7 @@
     "closeMenu": "Fermer le menu",
     "menu": "Menu",
     "mobileNav": "Mobile",
-    "firstWeek": "Plan de la première semaine",
+    "firstWeek": "Premiers pas en communication",
     "allTools": "Tous les outils",
     "allGuides": "Tous les guides",
     "mainNav": "Navigation du site",
@@ -295,16 +295,16 @@
     "privacyLink": "Confidentialité et traitement des données",
     "heroCta": "Voir par où commencer",
     "brandSetupCta": "Configurer la marque de votre section",
-    "openFirstWeekCta": "Ouvrir Première semaine",
+    "openFirstWeekCta": "Ouvrir Premiers pas en communication",
     "openBrandKitCta": "Ouvrir la Trousse de marque",
-    "whatsNextCta": "Ouvrir Première semaine",
-    "socialMediaPlanCta": "Continuer Première semaine",
+    "whatsNextCta": "Ouvrir Premiers pas en communication",
+    "socialMediaPlanCta": "Continuer Premiers pas en communication",
     "socialMediaPlanDesc": "Après la Trousse de marque : tableaux, impression, médias sociaux et site Web simple.",
     "jobsTitle": "Par où commencer",
     "jobsIntro": "Choisissez le travail devant vous. Vous pourrez revenir aux autres chemins.",
     "pathCommsTitle": "Parlez d'une seule voix",
-    "pathCommsDesc": "Réglez la Trousse de marque une fois, puis suivez Première semaine : tableaux, impression, médias sociaux et un site simple.",
-    "pathCommsCta": "Ouvrir Première semaine",
+    "pathCommsDesc": "Réglez la Trousse de marque une fois, puis suivez Premiers pas en communication : tableaux, impression, médias sociaux et un site simple.",
+    "pathCommsCta": "Ouvrir Premiers pas en communication",
     "pathCommsHint": "Les guides par canal, les Exemples sociaux et les Légendes sont sous Guides.",
     "pathOfficerTitle": "Faites tourner la section",
     "pathOfficerDesc": "Griefs, bumpage, retards et passations restent dans le Hub des dirigeants, prêts pour le prochain délégué.",
@@ -383,11 +383,28 @@
     "workflowUtilitiesTitle": "Utiliser les utilitaires pratiques",
     "workflowUtilitiesBody": "Ouvrez des feuilles de travail et des espaces pour la préparation des dossiers de délégué, les projets de gouvernance, l’accessibilité et d’autres tâches syndicales.",
     "workflowPlatformTitle": "Collaborer sur la plateforme",
-    "workflowPlatformBody": "Le Hub des dirigeants est l’espace privé des dirigeants. Le Portail local est l’espace destiné aux membres. Ce sont des produits hébergés au-delà de la trousse sur appareil."
+    "workflowPlatformBody": "Le Hub des dirigeants est l’espace privé des dirigeants. Le Portail local est l’espace destiné aux membres. Ce sont des produits hébergés au-delà de la trousse sur appareil.",
+    "foundationEyebrow": "Fondation",
+    "foundationTitle": "La Trousse de marque alimente tout sur votre appareil",
+    "foundationIntro": "Configurez l’identité de votre section une fois. Les outils Créer et Utilitaires réutilisent ces détails au lieu de les redemander.",
+    "foundationHint": "Commencez ici avant de produire des documents.",
+    "foundationReady": "Votre Trousse de marque sur cet appareil est prête à être réutilisée.",
+    "destinationsEyebrow": "Trousse sur appareil",
+    "destinationsTitle": "Choisissez la suite",
+    "destinationsIntro": "Créer, Utilitaires et Apprendre sont des destinations parallèles. Choisissez celle qui correspond à votre tâche — vous n’avez pas à les parcourir dans l’ordre.",
+    "destCreateTitle": "Créer",
+    "destCreateBody": "Réalisez des communications terminées : graphiques, tracts, matériel pour tableaux, lettres et documents.",
+    "destUtilitiesTitle": "Utilitaires",
+    "destUtilitiesBody": "Accomplissez le travail pratique : feuilles de délégué, projets de gouvernance et aides à l’accessibilité.",
+    "destLearnTitle": "Apprendre",
+    "destLearnBody": "Comprenez le travail grâce aux guides, playbooks, modules d’apprentissage des dirigeants et ateliers.",
+    "platformBandTitle": "Collaborer sur la plateforme hébergée",
+    "platformBandBody": "Le Hub des dirigeants est l’espace privé des dirigeants et délégués. Le Portail local est l’espace destiné aux membres. Les deux s’ajoutent à la trousse gratuite sur appareil.",
+    "platformBandCta": "Comprendre le Hub et le Portail local"
   },
   "socialMediaPlan": {
-    "title": "Première semaine",
-    "subtitle": "Après la Trousse de marque : tableaux, impression, médias sociaux et un site simple. Un message, quatre canaux.",
+    "title": "Premiers pas en communication",
+    "subtitle": "Après la Trousse de marque : tableaux, impression, réseaux et un site simple. Un message, quatre canaux.",
     "intro": "Réglez d’abord la Trousse de marque, puis suivez cette feuille de route. Pour le ton et les plateformes, voir Le plan. Pour l’orientation et les sources, voir Ressources Comms.",
     "relatedLabel": "Voir aussi",
     "stepsNavLabel": "Étapes de la feuille de route",
@@ -3025,7 +3042,15 @@
       "grievanceIntakeDocx": "Feuille d'accueil de grief (Word)",
       "grievanceIntakeXlsx": "Feuille d'accueil de grief (Excel)",
       "lecDirectoryDocx": "Répertoire CLE Word avec les couleurs de la Trousse de marque et des lignes vides Poste | Nom | Lieu",
-      "lecDirectoryXlsx": "Répertoire CLE Excel avec les mêmes lignes vides"
+      "lecDirectoryXlsx": "Répertoire CLE Excel avec les mêmes lignes vides",
+      "accommodationLetterDocx": "Lettre Word d’adaptation / retour au travail",
+      "accommodationLetterPptx": "2 diapositives PowerPoint",
+      "grievanceNoticeDocx": "Lettre Word d’avis de grief",
+      "grievanceNoticePptx": "2 diapositives PowerPoint",
+      "representationRequestDocx": "Demande Word de représentation",
+      "representationRequestPptx": "2 diapositives PowerPoint",
+      "meetingFollowUpDocx": "Lettre Word de suivi de rencontre",
+      "meetingFollowUpPptx": "2 diapositives PowerPoint"
     },
     "senioritySheet": {
       "sheetName": "Ancienneté",
@@ -3089,6 +3114,22 @@
       "lecDirectory": {
         "title": "Répertoire du CLE",
         "blurb": "Tableau d'officiers vide avec les couleurs et le logo de votre section — remplissez les noms dans Word après les élections. Ne tire pas les données de l'organigramme ni du Hub."
+      },
+      "accommodationLetter": {
+        "title": "Lettre d’adaptation / retour au travail",
+        "blurb": "Lettre formelle avec Trousse de marque pour le suivi de retour au travail ou d’adaptation auprès de l’employeur."
+      },
+      "grievanceNotice": {
+        "title": "Lettre d’avis de grief",
+        "blurb": "Lettre d’avis formelle pour une résolution précoce. Utilisez la feuille d’ouverture de grief pour le dossier des 6 Q."
+      },
+      "representationRequest": {
+        "title": "Demande de représentation",
+        "blurb": "Demandez à l’employeur de planifier les rencontres avec représentation syndicale."
+      },
+      "meetingFollowUp": {
+        "title": "Suivi de rencontre",
+        "blurb": "Confirmez ce qui a été discuté et les prochaines étapes après une rencontre de délégué ou de dirigeant."
       }
     },
     "fields": {
@@ -7794,6 +7835,10 @@
       "product-areas-nav": {
         "title": "Chemins plus clairs : Créer, Utilitaires, Apprendre et Plateforme",
         "body": "La navigation principale sépare maintenant les outils créatifs des utilitaires pratiques, et Plateforme explique le Hub des dirigeants et le Portail local aux sections qui évaluent UnionOps."
+      },
+      "product-areas-nav-v2": {
+        "title": "Fondation Trousse de marque avec Créer, Utilitaires et Apprendre en parallèle",
+        "body": "L’accueil ne vous impose plus une séquence en cinq étapes. Configurez la Trousse de marque, puis choisissez Créer, Utilitaires ou Apprendre selon votre tâche. Le générateur de lettres inclut maintenant des contextes de lettre pour délégués, ouvrables depuis l’adaptation et d’autres utilitaires."
       }
     }
   },
@@ -10716,10 +10761,10 @@
   },
   "guidesIndex": {
     "title": "Guides",
-    "subtitle": "Première semaine, manuels par canal, et guides pratiques pour le plancher et la section. La formation des dirigeants reste un lien en tête de page.",
+    "subtitle": "Premiers pas en communication, manuels par canal, et guides pratiques pour le plancher et la section. La formation des dirigeants reste un lien en tête de page.",
     "hint": "Définissez d'abord les couleurs et le logo dans",
     "startHereTitle": "Par où commencer",
-    "startHereIntro": "Réglez la marque, puis choisissez un parcours Comms ou un guide de plancher. La formation des dirigeants compte dix-sept modules autogérés.",
+    "startHereIntro": "Après la Trousse de marque, rédigez une lettre ou ouvrez le catalogue Création — Premiers pas en communication reste sous Apprendre si vous voulez un plan par canal.",
     "startHereRoadmap": "Ouvrir tous les guides pratiques",
     "startHereSteps": {
       "firstWeek": "Tableaux, impression, social et un site simple après la Trousse de marque.",
@@ -11484,7 +11529,8 @@
       "phase4Hours": "Heures complètes"
     },
     "grievancePlaybookLink": "Lire le guide des griefs",
-    "referenceSummary": "Référence juridique facultative (Meiorin et contrainte excessive)"
+    "referenceSummary": "Référence juridique facultative (Meiorin et contrainte excessive)",
+    "openFormalLetter": "Ouvrir comme lettre formelle"
   },
   "preDisciplinaryLog": {
     "title": "Journal de rencontre prédisciplinaire",
@@ -11564,7 +11610,8 @@
       "written": "Avertissement écrit",
       "suspension": "Suspension",
       "termination": "Congédiement",
-      "moduleLink": "Module Formation des dirigeants : discipline progressive"
+      "moduleLink": "En savoir plus sur la discipline progressive",
+      "referenceSummary": "Référence facultative de l’échelle disciplinaire"
     },
     "proceduralAudit": {
       "title": "Défaut procédural à consigner",
@@ -14845,8 +14892,8 @@
     "relatedLabel": "À consulter aussi :",
     "learnCollectionsTitle": "Commencez par une tâche courante",
     "learnCollections": {
-      "firstWeekTitle": "Planifier votre première semaine",
-      "firstWeekBody": "Définissez un objectif clair et un plan de communication concret pour la première semaine.",
+      "firstWeekTitle": "Premiers pas en communication",
+      "firstWeekBody": "Après la Trousse de marque, planifiez tableaux, impression, social et un site simple avec un message clair.",
       "stewardTitle": "Soutenir une personne au travail",
       "stewardBody": "Trouvez les guides pratiques sur les griefs, la santé-sécurité et les réunions.",
       "officerTitle": "Développer vos compétences de dirigeant",
@@ -15102,13 +15149,8 @@
     "portalItemParticipation": "Espaces de participation tels que les propositions, lorsqu’ils sont activés",
     "portalItemMemberSafe": "Vues sécurisées pour les membres qui respectent les limites de confidentialité du Hub",
     "portalCta": "S’informer sur le Portail local",
-    "publicTitle": "Lien avec la trousse publique",
-    "publicBody": "Tout le monde peut configurer la Trousse de marque et utiliser Créer, Utilitaires et Apprendre sur son appareil. Le Hub des dirigeants et le Portail local sont des produits hébergés pour les sections qui demandent l’accès.",
-    "brandKitCta": "Ouvrir la Trousse de marque",
-    "createCta": "Parcourir Créer",
-    "utilitiesCta": "Parcourir Utilitaires",
-    "learnCta": "Parcourir Apprendre",
     "joinPrompt": "Prêt pour que votre section adopte la plateforme hébergée ?",
-    "joinLink": "Amener votre section à UnionOps"
+    "joinLink": "Amener votre section à UnionOps",
+    "memberAccessLink": "Demander l’accès membre"
   }
 }

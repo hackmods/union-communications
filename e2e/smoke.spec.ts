@@ -75,7 +75,7 @@ test.describe("Smoke tests @smoke", () => {
 
   test("social media plan page renders", async ({ page }) => {
     await page.goto("/en/guide/social-media-plan/");
-    await expect(page.getByRole("heading", { name: "First week" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Comms getting started" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Brand Kit" }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Logo Builder" }).first()).toBeVisible();
     await expect(
@@ -143,12 +143,9 @@ test.describe("Smoke tests @smoke", () => {
     await page.goto("/en/");
     const footer = page.getByRole("contentinfo");
     await expect(footer.getByRole("link", { name: "Home", exact: true })).toHaveAttribute("href", "/en/");
-    await expect(footer.getByRole("link", { name: "Brand Kit", exact: true })).toHaveAttribute("href", "/en/create/brand-kit/");
-    await expect(footer.getByRole("link", { name: "Create", exact: true })).toHaveAttribute("href", "/en/create/");
-    await expect(footer.getByRole("link", { name: "Utilities", exact: true })).toHaveAttribute("href", "/en/utilities/");
-    await expect(footer.getByRole("link", { name: "Learn", exact: true })).toHaveAttribute("href", "/en/learn/");
-    await expect(footer.getByRole("link", { name: "Platform", exact: true })).toHaveAttribute("href", "/en/platform/");
     await expect(footer.getByRole("link", { name: "Guided setup", exact: true })).toHaveAttribute("href", "/en/start/");
+    await expect(footer.getByRole("link", { name: "Create", exact: true })).toHaveCount(0);
+    await expect(footer.getByRole("link", { name: "Platform", exact: true })).toHaveCount(0);
     await expect(footer.getByRole("link", { name: "Support" })).toBeVisible();
     await expect(footer.getByRole("link", { name: "Privacy" })).toBeVisible();
     await expect(footer.getByRole("link", { name: "Steward playbooks" })).toHaveCount(0);

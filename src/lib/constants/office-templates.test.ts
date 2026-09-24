@@ -8,12 +8,16 @@ import {
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 
 describe("office-templates", () => {
-  it("ships seven high-quality presets including seniority and grievance intake", () => {
+  it("ships office presets including letter topic contexts and worksheets", () => {
     expect(OFFICE_PRESETS.map((p) => p.id)).toEqual([
       "simple-letter",
       "letterhead",
       "quick-event",
       "welcome-letter",
+      "accommodation-letter",
+      "grievance-notice",
+      "representation-request",
+      "meeting-follow-up",
       "seniority-worksheet",
       "grievance-intake",
       "lec-directory",

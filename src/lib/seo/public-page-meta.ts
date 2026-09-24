@@ -91,7 +91,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guides": {
       title: "Guides",
       description:
-        "Every UnionOps handbook in one list: First week, channel guides, and steward playbooks for the shop floor and the local.",
+        "Every UnionOps handbook in one list: Comms getting started, channel guides, and steward playbooks for the shop floor and the local.",
     },
     "/guide": {
       title: "The Blueprint",
@@ -99,9 +99,9 @@ export const PUBLIC_PAGE_SEO: Record<
         "A handbook for ongoing local communications practice: which platforms to choose, tone of voice, posting rhythm, and accessibility.",
     },
     "/guide/social-media-plan": {
-      title: "First week",
+      title: "Comms getting started",
       description:
-        "What to do after Brand Kit: boards, print, socials, and a simple website. One message, four channels, in order.",
+        "What to do after Brand Kit: boards, print, socials, and a simple website. One message across four channels.",
     },
     "/guide/workshop": {
       title: "Comms workshop",
@@ -411,9 +411,9 @@ export const PUBLIC_PAGE_SEO: Record<
         "Un manuel pour la pratique continue des communications locales : quelles plateformes choisir, le ton, le rythme de publication et l'accessibilité.",
     },
     "/guide/social-media-plan": {
-      title: "Première semaine",
+      title: "Premiers pas en communication",
       description:
-        "Quoi faire après la Trousse de marque : tableaux, impression, médias sociaux et un site simple. Un message, quatre canaux, dans l'ordre.",
+        "Quoi faire après la Trousse de marque : tableaux, impression, médias sociaux et un site simple. Un message sur quatre canaux.",
     },
     "/guide/workshop": {
       title: "Atelier Comms",

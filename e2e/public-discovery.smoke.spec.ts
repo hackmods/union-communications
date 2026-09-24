@@ -52,19 +52,17 @@ test.describe("task-first public discovery @smoke", () => {
     });
   }
 
-  test("Home presents Brand Kit through Platform workflow with guided setup", async ({ page }) => {
+  test("Home presents Brand Kit foundation with parallel destinations and Platform", async ({ page }) => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-preview")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "How UnionOps fits together" })).toBeVisible();
-    await expect(page.getByTestId("home-step-brand-kit").getByRole("link", { name: "Brand Kit" }))
-      .toHaveAttribute("href", "/en/create/brand-kit/");
-    await expect(page.getByTestId("home-step-create").getByRole("link", { name: "Create" }))
+    await expect(page.getByRole("heading", { name: "Brand Kit powers everything on your device" })).toBeVisible();
+    await expect(page.getByTestId("home-dest-create").getByRole("link", { name: "Create" }))
       .toHaveAttribute("href", "/en/create/");
-    await expect(page.getByTestId("home-step-utilities").getByRole("link", { name: "Utilities" }))
+    await expect(page.getByTestId("home-dest-utilities").getByRole("link", { name: "Utilities" }))
       .toHaveAttribute("href", "/en/utilities/");
-    await expect(page.getByTestId("home-step-learn").getByRole("link", { name: "Learn" }))
+    await expect(page.getByTestId("home-dest-learn").getByRole("link", { name: "Learn" }))
       .toHaveAttribute("href", "/en/learn/");
-    await expect(page.getByTestId("home-step-platform").getByRole("link", { name: "Platform" }))
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "Understand Officer Hub and Local Portal" }))
       .toHaveAttribute("href", "/en/platform/");
     await page.getByRole("link", { name: "Open guided setup" }).first().click();
     await expect(page).toHaveURL(/\/en\/start\//);

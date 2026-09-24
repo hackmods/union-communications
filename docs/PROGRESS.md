@@ -1,5 +1,13 @@
 # Progress Log
 
+## 2026-09-24 — Product architecture second pass
+
+- Home: Brand Kit foundation + parallel Create/Utilities/Learn + Platform band (no forced five-step sequence).
+- Terminology: “First week” → Comms getting started (URL `/learn/first-week` kept; `/learn/comms-getting-started` redirects).
+- Letter Generator: topic contexts (accommodation, grievance notice, representation, meeting follow-up) + utility handoff.
+- Tool/Learn: RTW teaching moved to Learn links; pre-disciplinary ladder behind disclosure; circular Platform/footer cross-links removed.
+- Decision log: [`docs/UX_PRODUCT_REFACTOR.md`](UX_PRODUCT_REFACTOR.md).
+
 ## 2026-09-24 — Product architecture / public IA refactor
 
 - Primary nav: Brand Kit · Create · Utilities · Learn · Platform (Start demoted to guided setup).

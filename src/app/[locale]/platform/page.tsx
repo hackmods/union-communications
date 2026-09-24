@@ -75,34 +75,19 @@ export default async function PlatformPage({
         </PublicHubPanel>
       </div>
 
-      <section className="mt-12 max-w-3xl border-t border-slate-200 pt-8" aria-labelledby="platform-public-heading">
-        <h2 id="platform-public-heading" className="text-xl font-bold text-opseu-dark">
-          {t("publicTitle")}
-        </h2>
-        <p className="mt-3 max-w-prose text-base leading-relaxed text-slate-700">
-          {t("publicBody")}
-        </p>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <ButtonLink href="/create/brand-kit" variant="outline">
-            {t("brandKitCta")}
-          </ButtonLink>
-          <ButtonLink href="/create" variant="outline">
-            {t("createCta")}
-          </ButtonLink>
-          <ButtonLink href="/utilities" variant="outline">
-            {t("utilitiesCta")}
-          </ButtonLink>
-          <ButtonLink href="/learn" variant="outline">
-            {t("learnCta")}
-          </ButtonLink>
-        </div>
-        <p className="mt-6 text-sm text-slate-700">
-          {t("joinPrompt")}{" "}
-          <Link href="/join" className="font-semibold text-opseu-blue underline underline-offset-2">
-            {t("joinLink")}
-          </Link>
-        </p>
-      </section>
+      <p className="mt-10 max-w-prose text-sm leading-relaxed text-slate-700">
+        {t("joinPrompt")}{" "}
+        <Link href="/join" className="font-semibold text-opseu-blue underline underline-offset-2">
+          {t("joinLink")}
+        </Link>
+        {" · "}
+        <Link
+          href="/request-access"
+          className="font-semibold text-opseu-blue underline underline-offset-2"
+        >
+          {t("memberAccessLink")}
+        </Link>
+      </p>
     </ComposedPageLayout>
   );
 }

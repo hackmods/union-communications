@@ -56,17 +56,15 @@ test.describe("Home hero & builders smoke @smoke", () => {
         .getByRole("link", { name: "Explore Officer Hub & Local Portal" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "How UnionOps fits together" }),
+      page.getByRole("heading", { name: "Brand Kit powers everything on your device" }),
     ).toBeVisible();
-    await expect(page.getByTestId("home-step-brand-kit").getByRole("link", { name: "Brand Kit" }))
-      .toHaveAttribute("href", /\/create\/brand-kit\/$/);
-    await expect(page.getByTestId("home-step-create").getByRole("link", { name: "Create" }))
+    await expect(page.getByTestId("home-dest-create").getByRole("link", { name: "Create" }))
       .toHaveAttribute("href", /\/create\/$/);
-    await expect(page.getByTestId("home-step-utilities").getByRole("link", { name: "Utilities" }))
+    await expect(page.getByTestId("home-dest-utilities").getByRole("link", { name: "Utilities" }))
       .toHaveAttribute("href", /\/utilities\/$/);
-    await expect(page.getByTestId("home-step-learn").getByRole("link", { name: "Learn" }))
+    await expect(page.getByTestId("home-dest-learn").getByRole("link", { name: "Learn" }))
       .toHaveAttribute("href", /\/learn\/$/);
-    await expect(page.getByTestId("home-step-platform").getByRole("link", { name: "Platform" }))
+    await expect(page.getByTestId("home-platform").getByRole("link", { name: "Understand Officer Hub and Local Portal" }))
       .toHaveAttribute("href", /\/platform\/$/);
     await expect(page.getByRole("link", { name: "Open guided setup" }).first())
       .toHaveAttribute("href", /\/start\/$/);
@@ -210,7 +208,7 @@ test.describe("Public secondary pages smoke @smoke", () => {
     { path: "/en/guide/strike/", heading: "Strike operations playbook" },
     { path: "/en/guide/website/", heading: "Local Website Guide" },
     { path: "/en/guide/union-boards/", heading: "Union Boards Guide" },
-    { path: "/en/guide/social-media-plan/", heading: "First week" },
+    { path: "/en/guide/social-media-plan/", heading: "Comms getting started" },
     { path: "/en/guide/photo-consent/", heading: "Photo Consent & Member Media" },
     { path: "/en/guide/resources/", heading: "Comms Resources" },
     {

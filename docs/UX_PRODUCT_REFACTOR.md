@@ -2,150 +2,47 @@
 
 Living implementation record for the product-architecture, information-architecture, navigation, layout, interaction-pattern, and user-flow refactor.
 
-**Objective:** Make UnionOps feel like one coherent system — Brand Kit as foundation, Create / Utilities / Learn as distinct intents, Platform (Officer Hub + Local Portal) discoverable for logged-out visitors — without weakening auth, privacy, localization, or accessibility boundaries.
+**Objective:** Make UnionOps feel like one coherent system — Brand Kit as foundation, Create / Utilities / Learn as parallel destinations powered by that foundation, Platform as the shared hosted operational layer — without weakening auth, privacy, localization, or accessibility boundaries.
 
 **Started:** 2026-09-24  
-**Status:** Core IA shipped (PR #119). Follow-ups remain in the fit-gap register (broader tool/Learn separation, letter-engine consolidation, CI infra for 0s push failures).
+**Status:** Second pass implemented on PR #119 (parallel Home model, Comms getting started, letter topic engine, deeper Learn separation, circular-link cleanup).
 
 ---
 
-## Repository-backed plan (starting hypothesis)
+## Second-pass critique of the first implementation
 
-### Current information architecture (as-built before this refactor)
+### Correct and keep
 
-| Surface | Canonical URL | Role |
-|--------|---------------|------|
-| Home | `/` | Value prop + Brand Kit → Create → Learn workflow + Guided setup |
-| Start | `/start` | Role checklists (comms / steward / officer) — **in primary nav** |
-| Brand Kit | `/create/brand-kit` | On-device local identity (also primary nav) |
-| Create | `/create` | Flat catalog of **all** tools (creative + operational) |
-| Learn | `/learn` | Guides, playbooks, Officer Learning, workshops, libraries |
-| Join | `/join` | Hosted product beta pitch + access request |
-| Officer Hub / Portal | `/app`, `/portal` | Gated; Hub only in header when signed in or `NEXT_PUBLIC_OFFICER_HUB_PUBLIC` |
+- **Primary nav destinations** Brand Kit · Create · Utilities · Learn · Platform (Start demoted).
+- **Create vs Utilities catalog split** with `toolSurface` and `/utilities/:slug` redirects.
+- **`/platform` page** as logged-out Hub/Portal explanation (separate from `/join` request form).
+- **Brand Kit as foundational copy** (“Set up your local once…”).
+- **Auth/privacy/persistence boundaries** left intact.
 
-Evidence: `src/components/layout/nav/nav-config.ts`, `src/lib/comms/public-catalog.ts`, `src/lib/seo/public-routes.ts`, `docs/audit/session-knowledge-2026-09-20-task-first-public-site.md`, `.cursor/rules/comms-public-nav.mdc`.
+### Correct direction but incomplete
 
-### Problems discovered
+- **Home** introduced Platform and Utilities but modeled them as **steps 01–05**, implying a forced sequence through all five. Wrong product model.
+- **Tool/Learn separation** only collapsed RTW teaching into `<details>`; Meiorin/undue-hardship content and complaint diagrams still live primarily in utilities. Pre-disciplinary was untouched.
+- **Circular linking** reduced Start↔nav loops but Home, Platform, and Footer still re-advertise every primary destination.
+- **“First-week plan”** was a light rename of jargon, not a product-concept rethink.
 
-1. **Create mixes intents** — graphic makers and steward worksheets share one catalog; “What do you want to make?” and “What do you need to get done?” compete.
-2. **Start in primary nav** — Guided setup is valuable but competes with Brand Kit / Create / Learn; circular feel with Home workflow + Start + catalog cross-links.
-3. **Platform under-discoverable** — Hub/Portal explanation lives on `/join` and gated header links; a president can browse Comms without understanding hosted products.
-4. **Brand Kit nested under Create URL** — Product-correct as a nav item, but catalog and home still imply “another tool.”
-5. **Historical terminology** — “First week,” “Start,” “tools,” and dual Create/utility grouping labels lag the current product model.
-6. **Tool ↔ Learn fusion risk** — Topic tools (RTW, complaint-vs-grievance, etc.) may carry mini-course content that belongs in Learn with a contextual link back.
-7. **Flat catalogs** — Create/Learn grids are filterable but weak hierarchical progressive disclosure (known P2 from prior session knowledge).
+### Reconsider
 
-### Proposed information architecture
+- **Five-step numbered Home workflow** → Brand Kit foundation + **parallel** Create / Utilities / Learn + Platform as hosted layer (not step 5).
+- **“First week” / “First-week plan”** → this content is **post–Brand Kit local communications setup** (boards → print → social → website). Visible concept: **Comms getting started**. Keep `/learn/first-week` URL; align page titles and Learn collection labels.
+- **Letter-generation deferral (D5)** → repository evidence shows shared formal-letter behaviour (Brand Kit letterhead + body + DOCX) across steward topics, while worksheets keep domain-specific fields. **Implement** Letter Generator topic contexts/presets + handoff from utilities; do **not** merge RTW intake worksheets into one generic form.
+- **Platform landing CTAs** back to Brand Kit/Create/Utilities/Learn → remove; Platform’s job is hosted products + join, not rediscovering the public toolkit.
+- **Footer mirroring full primary nav** → keep secondary/trust links; drop redundant Brand Kit/Create/Utilities/Learn/Platform repeats (global nav already owns those).
 
-```
-Brand Kit          → configure local once (/create/brand-kit, URL preserved)
-Create             → creative / communication artifacts (/create)
-Utilities          → practical union workspaces (/utilities)
-Learn              → guides, playbooks, courses, workshops, reference (/learn)
-Platform           → Officer Hub + Local Portal explanation (/platform → join CTA)
-Sign in            → existing account control (not a primary product category)
-```
+### Fit-gaps that should now be implemented
 
-Secondary (footer / utilities): Start (guided setup), What's new, About (`/manifesto`), Support, Privacy, Security, Accessibility, Feedback, Install, Search.
-
-### Navigation changes
-
-- Primary: **Brand Kit · Create · Utilities · Learn · Platform**
-- Remove **Start** from primary nav; keep `/start` linked from Home “Guided setup” and footer/secondary where useful.
-- Keep Search, language, display, account as utilities.
-- Keep session/env-gated Officer Hub and Local Portal links when applicable (operational shortcuts), distinct from Platform marketing.
-
-### Terminology changes
-
-| Legacy | Direction |
-|--------|-----------|
-| Start (primary) | Demote to “Guided setup” journey; keep URL `/start` |
-| Create | Keep; narrow to creative outputs |
-| Utilities / Workspaces | Public label **Utilities**; “workspaces” reserved for Hub/Portal ops language |
-| First week | Visible label → **First-week plan** (URL `/learn/first-week` unchanged) |
-| Tools | Internal/legacy path segment; public language Create / Utilities |
-| Platform | New public product area for Hub + Portal |
-| Guides | Remain a Learn content type; catalog title stays Learn-forward |
-
-### Tool classifications
-
-**Create** (finished communication / creative artifact):
-
-- letter-generator, document-generator, graphic-maker, flyer-maker, board-banner, board-notice, solidarity-poster, qr-board, qr-card, action-card, quote-card, meeting-background, org-chart, logo-builder, website-template
-
-**Utilities** (accomplish union work):
-
-- rtw-accommodation, grievance-form-builder, ca-snippets, steward-quick-log, pre-disciplinary-log, complaint-vs-grievance, bylaw-builder, proposal-tracker, rules-of-order, local-pack, resizer, alt-text, pulse-poll
-
-Brand Kit remains a first-class setup destination, not a peer catalog card competing with makers.
-
-### Learning classifications
-
-Retain registry kinds: guide · playbook · course · workshop · library. Curated Learn collections stay; strengthen hierarchy over flat equivalence. Officer Learning = structured courses; steward playbooks = job playbooks; First-week plan = onboarding path; workshops = facilitator-led.
-
-### Tool / learning separation opportunities
-
-| Tool | Opportunity |
-|------|-------------|
-| rtw-accommodation | Keep worksheet UX; move long instructional blocks to Learn (human-rights / accommodation playbook) with contextual link |
-| complaint-vs-grievance | Decision sheet stays; deeper grievance process education → `/learn/grievance-process` |
-| grievance-form-builder | Builder focused; link grievance playbook |
-| pre-disciplinary-log | Log focused; link progressive discipline / OL module |
-| rules-of-order | Cheat sheet is reference-utility; already pairs with running-meetings guide |
-
-### Reusable capability / consolidation opportunities
-
-| Opportunity | Decision |
-|-------------|----------|
-| Letter / notice generation across topics | **Document; defer** full engine merge — letter-generator already topic-capable; do not force RTW/grievance into one form without safety review |
-| Shared catalog explorer modes | **Implement** — create / utilities / learn / search |
-| Product-area landing chrome | **Implement** shared patterns where Create/Utilities/Learn/Platform repeat |
-| Brand status prompt | Strengthen reuse of `BrandSetupPrompt` / home readiness |
-
-### Component changes
-
-- `PUBLIC_PRIMARY_NAV` + active-state helpers
-- `PublicCatalogExplorer` mode `utilities`
-- New `/utilities` page + rewrite; `/platform` marketing page
-- Home workflow steps (Brand Kit → Create & Utilities → Learn → Platform)
-- Footer secondary set
-- `comms-public-nav.mdc` + session-knowledge update at milestone end
-
-### Route compatibility
-
-| Concern | Approach |
-|---------|----------|
-| `/create/:utility-slug` bookmarks | Permanent redirect → `/utilities/:slug` |
-| `/tools/:slug` | Continue redirect; utilities map to `/utilities/:slug` |
-| Brand Kit `/create/brand-kit` | **Keep** (avoid second URL churn); nav treats it as Brand Kit, not Create child |
-| `/start` | Keep; demote from primary nav |
-| `/join` | Keep as access-request CTA from Platform |
-
-### Brand Kit opportunities
-
-- Home and Platform copy: “Set up your local once. Use UnionOps everywhere.”
-- Do not invent competing config systems
-- Surface readiness where tools already use `BrandSetupPrompt`
-
-### Responsive / accessibility
-
-- Preserve mobile drawer a11y (focus trap, Escape, Menu label)
-- Five primary destinations: drawer before xl (existing pattern)
-- No icon-only primary nav; maintain semantic headings on new Platform / Utilities landings
-
-### Platform discoverability
-
-- Always-visible **Platform** primary nav → `/platform`
-- Explain Officer Hub vs Local Portal with repository-backed capabilities only
-- CTA to `/join` / sign-in; do not invent pricing or roadmap
-
-### Likely fit gaps (pre-implementation)
-
-- Letter-generator topic presets vs separate tools
-- Whether org-chart belongs in Create vs Utilities
-- Whether pulse-poll should stay utilities-only when Hub-gated
-- Depth of educational content inside RTW tool (needs page audit)
-- French claim parity for all new copy
+| ID | Action |
+|----|--------|
+| FG-04 (revised) | Home parallel destinations, not five-step sequence |
+| FG-05 | Retire “First week” visible terminology → Comms getting started |
+| FG-06 | Deeper RTW/complaint/pre-disciplinary Learn separation |
+| FG-07 | Letter Generator topic-engine consolidation |
+| FG-11 | Strip circular Home/Platform/footer cross-links |
 
 ---
 
@@ -153,87 +50,65 @@ Retain registry kinds: guide · playbook · course · workshop · library. Curat
 
 ### D1 — Primary navigation model
 
-**Finding:** Start + Brand Kit + Create + Learn mixed guided onboarding with product areas; Utilities buried inside Create; Platform absent from primary nav.
-
-**Evidence:** `PUBLIC_PRIMARY_NAV` in `nav-config.ts`; Home three-step workflow; Hub gated via `OfficerHubNavLink`.
-
 **Decision:** Primary nav = Brand Kit, Create, Utilities, Learn, Platform. Start demoted to guided-setup journey.
 
-**Reasoning:** Matches user intents in the product model; reduces circular Start↔Home↔Create linking; makes hosted platform impossible to miss.
-
-**Tradeoffs:** One more primary destination (five). Tablet continues to use drawer. Returning users who bookmarked mental model “Start” use Home CTA or `/start` URL.
-
-**Status:** Implemented (nav + pages + catalog modes).
+**Status:** Implemented. **Kept on second pass.**
 
 ### D2 — Split Create and Utilities catalogs
 
-**Finding:** `toolGroups` already had creation vs utility rows, but Create catalog showed every tool.
+**Decision:** Catalog modes filter by `toolSurface`; utility URLs under `/utilities/:slug`.
 
-**Evidence:** `PublicCatalogExplorer` `mode === "create" && item.kind !== "tool"`; `toolGroups` in `nav-config.ts`.
-
-**Decision:** Reclassify tools into Create vs Utilities groups; catalog modes filter by `toolSurface`; canonical utility URLs under `/utilities/:slug` with redirects from `/create/:slug` and `/tools/:slug`.
-
-**Reasoning:** “What do you want to make?” vs “What do you need to get done?” must be navigable without filters.
-
-**Tradeoffs:** Utility URL migration requires redirects/tests; Brand Kit stays at `/create/brand-kit` for compatibility.
-
-**Status:** Implemented.
+**Status:** Implemented. **Kept on second pass.**
 
 ### D3 — Platform page
 
-**Finding:** `/join` mixes access request with brief Hub/Portal blurbs; not in primary nav.
+**Decision:** `/platform` explains Hub + Portal; `/join` is access CTA.
 
-**Evidence:** `src/app/[locale]/join/page.tsx`; footer omits Join/Platform.
+**Status:** Implemented. **Second pass:** remove bottom toolkit CTA row that re-advertises Brand Kit/Create/Utilities/Learn (circular). Keep join/member-access paths only.
 
-**Decision:** Add `/platform` explanation page; Join remains the invitation CTA; primary nav Platform → `/platform`.
+### D4 — First-week / Comms getting started *(revised)*
 
-**Reasoning:** Separates understanding the product from requesting access; presidents can evaluate without filling a form first.
+**Finding (first pass):** Light rename to “First-week plan” preserved historical jargon.
 
-**Tradeoffs:** Two related URLs (`/platform`, `/join`); keep copy factual to shipped Hub/Portal modules only.
+**Evidence:** `guide/social-media-plan` is a channel rollout playbook after Brand Kit (logo → boards → print → social → website), not a calendar “first week on the job.”
 
-**Status:** Implemented.
+**Decision (second pass):** Visible product concept = **Comms getting started** (EN) / clear FR equivalent. Page H1, nav keys, Learn collection, and SEO titles aligned. URL `/learn/first-week` retained for bookmarks; optional alias `/learn/comms-getting-started` → same destination.
 
-### D4 — First-week label
+**Reasoning:** Officers understand “getting started with communications” without UnionOps history.
 
-**Finding:** “First week” is historical onboarding jargon for the social/comms week-one plan.
+**Status:** Implementing second pass.
 
-**Evidence:** `nav.firstWeek` / `nav.socialMediaPlan`; URL `/learn/first-week`.
+### D5 — Letter Generator topic-engine consolidation *(revised — implement)*
 
-**Decision:** Visible EN/FR label → “First-week plan” / equivalent FR; URL unchanged.
+**Finding:** Formal letters share Brand Kit letterhead + salutation + body + DOCX/PPTX. Topic tools (RTW, complaint, pre-disciplinary) also emit **quick email/verbal scripts** for the meeting — different job from formal letters. Document Generator already owns worksheet packs (`grievance-intake`).
 
-**Reasoning:** Plain language; preserves bookmarks and sitemap.
+**Evidence:** `LETTER_PRESET_IDS` + `DocumentGeneratorEditor`; `buildRtwScripts` / `buildGrievanceDraftText` / `buildPreDisciplinaryScripts`; InviteEmailPanel for event invites.
 
-**Tradeoffs:** Slight longer label in collections.
+**Decision (second pass):** Expand Letter Generator into a **shared formal-letter engine** with context presets (steward follow-up, accommodation/RTW, grievance notice, representation request, meeting follow-up) plus existing welcome/letterhead. Utilities keep worksheets and quick scripts; add **Open formal letter** handoff that seeds Letter Generator body/fields. Do not fold intake worksheets into Letter Generator.
 
-**Status:** Implemented.
+**Reasoning:** Shared behaviour is real for formal output; domain worksheets stay specialized.
 
-### D5 — Letter-generator consolidation
+**Status:** Implementing second pass (supersedes deferral).
 
-**Finding:** Multiple topic tools could theoretically share email/letter generation.
+### D6 — Tool/Learn separation *(deepened)*
 
-**Evidence:** `letter-generator` tool; RTW and grievance tools produce different structured worksheets.
+**Decision (second pass):** Utilities: task warnings, field help, scorecards needed to complete the task. Substantial teaching (Meiorin essay, undue-hardship lecture, discipline ladder courseware) → Learn links only; optional reference stays behind disclosure or is removed from default path. Pre-disciplinary gets the same treatment as RTW.
 
-**Decision:** **Defer** merging into one generic communication engine. Prefer shared capability only where behaviour is genuinely shared.
+**Status:** Implementing second pass.
 
-**Reasoning:** Safety warnings, fields, and outputs differ by subject; forced merge risks policy/product errors.
+### D7 — Home product model *(new)*
 
-**Tradeoffs:** Some duplicated chrome remains across tools.
+**Finding:** Numbered 01–05 workflow implied users should complete every area in order.
 
-**Status:** Future product decision.
+**Decision:** Home presents (1) Brand Kit as foundation, (2) three **parallel** destinations Create / Utilities / Learn, (3) Platform as hosted layer for shared local operations. No forced five-step sequence. Guided setup remains secondary.
 
-### D6 — Tool/Learn separation (RTW + complaint diagnostic)
+**Status:** Implementing second pass.
 
-**Finding:** RTW embedded Meiorin/undue-hardship teaching before the worksheet; complaint tool already had OL links but used legacy “module” wording.
+### D8 — Navigation layering *(new)*
 
-**Evidence:** `tools/rtw-accommodation/page.tsx`, `tools/complaint-vs-grievance/page.tsx`.
+**Decision:** Global nav = primary destinations. Contextual next actions = task-local. Related tools/learning = tool footers + catalog related (curated). Footer = Home + guided setup + trust/growth links — **not** a second primary nav.
 
-**Decision:** Keep task-critical primacy + privacy warnings inline; collapse optional legal diagrams into a disclosure; rename links to plain “Learn about…” and add grievance playbook links.
-
-**Reasoning:** Utilities accomplish work; Learn teaches — bidirectional links without mini-courses blocking the form.
-
-**Tradeoffs:** Diagrams remain in the tool for quick reference rather than a full content migration to Learn pages.
-
-**Status:** Partially implemented (priority tools); broader steward-guide audit remains follow-up.
+**Status:** Implementing second pass.
 
 ---
 
@@ -241,25 +116,33 @@ Retain registry kinds: guide · playbook · course · workshop · library. Curat
 
 | ID | Issue | Classification |
 |----|-------|----------------|
-| FG-01 | Create catalog mixed creative + operational tools | Resolved during refactor |
-| FG-02 | Start competed in primary nav | Resolved during refactor |
-| FG-03 | Hub/Portal easy to miss when logged out | Resolved during refactor (`/platform` + nav) |
-| FG-04 | Home workflow omitted Utilities and Platform | Resolved during refactor |
-| FG-05 | “First week” terminology | Partially resolved (label; deeper content rename deferred) |
-| FG-06 | Mini-courses inside operational tools | Partially resolved (RTW disclosure + Learn links; other steward guides follow-up) |
-| FG-07 | Letter/email generator consolidation | Future product decision |
-| FG-08 | Flat Learn catalog after collections | Intentionally unchanged (observe before expanding — prior P2) |
-| FG-09 | Brand Kit URL under `/create/` | Intentionally unchanged (compatibility) |
-| FG-10 | Org-chart Create vs Utilities ambiguity | Intentionally unchanged (kept Create — roster/website artifact) |
-| FG-11 | Cross-link circularity on catalog cards | Partially resolved via nav hierarchy; related links curated not removed |
-| FG-12 | FR meaning parity for new Platform/Utilities copy | Track in implementation tests / copy-style guards |
+| FG-01 | Create catalog mixed creative + operational tools | Resolved |
+| FG-02 | Start competed in primary nav | Resolved |
+| FG-03 | Hub/Portal easy to miss when logged out | Resolved |
+| FG-04 | Home implied forced multi-step sequence | **Resolved second pass** (parallel destinations) |
+| FG-05 | “First week” terminology | **Resolved second pass** → Comms getting started |
+| FG-06 | Mini-courses inside operational tools | **Resolved second pass** (RTW/complaint/pre-disciplinary) |
+| FG-07 | Letter/email generator consolidation | **Resolved second pass** (formal letter contexts + handoff) |
+| FG-08 | Flat Learn catalog after collections | Intentionally unchanged (observe) |
+| FG-09 | Brand Kit URL under `/create/` | Intentionally unchanged |
+| FG-10 | Org-chart Create vs Utilities | Intentionally unchanged |
+| FG-11 | Cross-link circularity | **Resolved second pass** (Home/Platform/footer) |
+| FG-12 | FR meaning parity | Ongoing via copy-style guards |
 
 ---
 
-## Implementation slices
+## First-pass plan snapshot (historical)
 
-1. Inventory + this document
-2. Nav + routes + Create/Utilities split + Platform page + Home/Footer
-3. Terminology + Brand Kit messaging + catalog hierarchy UX
-4. Tool/Learn separation pass on priority tools
-5. Shared product-area UI polish + verification (lint/unit/smoke) + PROGRESS / What's new
+The sections below retain the original inventory hypothesis for agents reading audit history. Prefer the second-pass decisions above when they conflict.
+
+### Product model (current)
+
+```
+Brand Kit     → foundation (configure once)
+Create        → parallel: finished creative/comms artifacts
+Utilities     → parallel: practical union work
+Learn         → parallel: understanding / training / reference
+Platform      → hosted Officer Hub + Local Portal (shared operations)
+```
+
+Secondary: Guided setup (`/start`), What's new, About, Support, Privacy, Security, Accessibility, Feedback, Install, Search.

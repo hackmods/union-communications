@@ -178,24 +178,31 @@ export default function PreDisciplinaryLogPage() {
         </Callout>
       ) : null}
 
-      <Callout tone="muted">
-        <p className="font-medium text-gray-900">{t("confidentiality.title")}</p>
-        <p className="mt-1">{t("confidentiality.body")}</p>
-      </Callout>
-
-      <div className="space-y-2 rounded-lg border border-gray-200 border-l-2 border-l-opseu-blue/30 p-3">
-        <p className="text-sm font-medium text-gray-900">{t("ladder.title")}</p>
-        <p className="text-xs text-gray-600">{t("ladder.hint")}</p>
-        <ProgressiveDisciplineLadderDiagram steps={ladderSteps} />
-        <p className="text-sm">
+      <Callout tone="muted" role="note">
+        <p className="text-sm leading-relaxed">
           <Link
-            href="/guide/officer-learning/progressive-discipline"
+            href="/learn/officer/progressive-discipline"
             className="font-semibold text-opseu-blue underline underline-offset-2"
           >
             {t("ladder.moduleLink")}
           </Link>
         </p>
-      </div>
+      </Callout>
+
+      <details className="rounded-lg border border-gray-200 bg-slate-50/80 p-3 open:bg-white">
+        <summary className="cursor-pointer text-sm font-semibold text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50">
+          {t("ladder.referenceSummary")}
+        </summary>
+        <div className="mt-3 space-y-2">
+          <p className="text-xs text-gray-600">{t("ladder.hint")}</p>
+          <ProgressiveDisciplineLadderDiagram steps={ladderSteps} />
+        </div>
+      </details>
+
+      <Callout tone="muted">
+        <p className="font-medium text-gray-900">{t("confidentiality.title")}</p>
+        <p className="mt-1">{t("confidentiality.body")}</p>
+      </Callout>
 
       <Input
         label={t("fields.memberName")}
