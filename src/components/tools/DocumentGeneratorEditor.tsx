@@ -734,9 +734,27 @@ function DocumentGeneratorEditorContent({
 
       <p className="text-sm leading-snug text-gray-600">{t(preset.blurbKey)}</p>
 
+      {lettersOnly ? (
+        <p className="text-sm text-gray-600">{tLetters("chooserHint")}</p>
+      ) : null}
+
       {draftSaveFailed ? (
         <Callout tone="muted" role="status">
           {t("draftSaveFailed")}
+        </Callout>
+      ) : null}
+
+      {preset.id === "quick-event" ? (
+        <Callout tone="muted" role="note">
+          {t("formatNoticeEventPack")}
+        </Callout>
+      ) : null}
+
+      {!letterMode &&
+      preset.outputs.docx &&
+      preset.outputs.xlsx ? (
+        <Callout tone="muted" role="note">
+          {t("formatNoticeWorksheet")}
         </Callout>
       ) : null}
 
@@ -859,11 +877,26 @@ function DocumentGeneratorEditorContent({
                 </select>
               </label>
             ) : null}
+            {state.showQr && savedLinks.length > 0 && preset.outputs.pptx ? (
+              <Callout tone="muted" role="note" className="mt-2">
+                {t("formatNoticeQrWordOnly")}
+              </Callout>
+            ) : null}
           </>
         ) : null}
       </ToolFormDetails>
 
       <ToolFormDetails title={t("outputs")}>
+        {letterMode && preset.outputs.pptx ? (
+          <Callout tone="muted" role="note" className="mb-3">
+            {t("formatNoticePptxLetter")}
+          </Callout>
+        ) : null}
+        {preset.outputs.docx && state.includeDocx ? (
+          <Callout tone="muted" role="note" className="mb-3">
+            {t("formatNoticeZipDotx")}
+          </Callout>
+        ) : null}
         <div className="flex flex-col gap-1.5">
           {preset.outputs.docx ? (
             <Checkbox

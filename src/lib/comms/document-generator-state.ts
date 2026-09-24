@@ -12,6 +12,7 @@ import {
   type OfficeTopMarginPreset,
   headerContactSizeHalfPoints,
   headerLocalSizeHalfPoints,
+  isLetterPreset,
   letterSpacingTwentieths,
   loadDocumentGeneratorDraft,
   mergeLetterSharedFields,
@@ -42,7 +43,8 @@ export function createInitialGeneratorState(
     presetId,
     includeDocx: true,
     includeXlsx: preset.outputs.xlsx,
-    includePptx: true,
+    // Letters: Word is the printable artifact; PPTX is an optional short deck.
+    includePptx: Boolean(preset.outputs.pptx) && !isLetterPreset(presetId),
     includeIcs: Boolean(preset.outputs.ics),
     includeLogo,
     showQr: links.length > 0,
@@ -121,7 +123,7 @@ export function applyGeneratorPreset(
     presetId: id,
     includeDocx: next.outputs.docx,
     includeXlsx: next.outputs.xlsx,
-    includePptx: next.outputs.pptx,
+    includePptx: Boolean(next.outputs.pptx) && !isLetterPreset(id),
     includeIcs: Boolean(next.outputs.ics),
     salutationPresetId:
       id === "welcome-letter" && prev.salutationPresetId === "dearMember"

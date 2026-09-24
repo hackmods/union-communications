@@ -2976,6 +2976,11 @@
       "display": "Display"
     },
     "draftSaveFailed": "Could not save this draft in browser storage. Check private browsing or free up space, then try again.",
+    "formatNoticePptxLetter": "PowerPoint is a short meeting deck — not a printable letter. Salutation, margins, and QR stay in Word.",
+    "formatNoticeQrWordOnly": "QR codes appear in the Word download only. Uncheck PowerPoint if you only need the letter file.",
+    "formatNoticeWorksheet": "Word keeps letterhead and a printable page. Excel is the sheet you fill in cells (no logo, different title band). Download the format you will edit.",
+    "formatNoticeEventPack": "This pack mixes a Word notice, an Excel RSVP sheet, a calendar file, and slides. Each file has a different job.",
+    "formatNoticeZipDotx": "When Word is in the ZIP, a matching .dotx template is included — same content, opens as a new document in Word.",
     "sectionStructure": "Document structure",
     "logoResolveFailed": "Could not load your Brand Kit logo as PNG. Try a PNG upload in Brand Kit, or turn off the logo.",
     "setupBrandPrompt": "Set up Brand Kit so letterhead can use your local logo.",
@@ -2992,7 +2997,7 @@
     "icsNeedsCalendar": "Set Calendar start (and optionally Calendar end) so the .ics file has a real date/time.",
     "selectOutput": "Select at least one output format.",
     "preview": "Preview",
-    "previewHint": "Live mock of the selected example. Downloads use the same Brand Kit colours, logo, and text.",
+    "previewHint": "Live mock of the Word / letter layout. Brand Kit colours and text carry into every download; PowerPoint and Excel use different page layouts.",
     "structure": {
       "letterheadDocx": "Word stationery with Brand Kit letterhead",
       "letterheadPptx": "2 PowerPoint slides",
@@ -3132,7 +3137,7 @@
       "letterhead": "Empty letterhead for any correspondence."
     },
     "openFull": "Open full Document Generator",
-    "previewHint": "Edit on the left. Preview and download stay on this page."
+    "previewHint": "Edit on the left. Preview shows the Word letter layout; download Word for the printable file."
   },
   "grievanceFormBuilder": {
     "title": "Grievance Form Builder",
@@ -7386,7 +7391,7 @@
       },
       "steward-ux-brand-letters": {
         "title": "Letter Generator opens the full letter editor",
-        "body": "Letter Generator now edits solidarity, welcome, and letterhead letters on the same page — live preview, salutations, optional QR, and download. Grievance Form Builder still routes triage, intake, scripts, and Hub filing. CA Snippets and Steward Quick-Log show your saved notes in the preview pane."
+        "body": "Letter Generator now edits solidarity, welcome, and letterhead letters on the same page — live preview, salutations, optional QR, and download. Format notes explain when PowerPoint is only a short deck, when QR stays Word-only, and how Word and Excel worksheets differ. Excel brand bands now match Word’s contrasting ink."
       },
       "host-readiness": {
         "title": "Host readiness in Site admin",

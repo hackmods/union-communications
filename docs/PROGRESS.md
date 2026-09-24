@@ -1,5 +1,10 @@
 # Progress Log
 
+## 2026-09-23 — Office format-gap notices + Excel ink on main
+
+- Document Generator / Letter Generator Callouts when PowerPoint is a short deck, QR is Word-only, Word vs Excel worksheets differ, event packs mix jobs, and ZIP includes `.dotx` with Word.
+- Letter presets default PowerPoint off; Excel brand-band contrasting ink already on `main` via PR #116.
+
 ## 2026-09-23 — Restore Letter Generator + hollow Create hubs
 
 - Letter Generator mounts Document Generator `variant="letters"` (live preview, salutations, QR, download) instead of a three-link chooser.

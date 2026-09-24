@@ -2976,6 +2976,11 @@
       "display": "Display"
     },
     "draftSaveFailed": "Impossible d’enregistrer ce brouillon dans le stockage du navigateur. Vérifiez la navigation privée ou libérez de l’espace, puis réessayez.",
+    "formatNoticePptxLetter": "PowerPoint est un court jeu de diapositives pour une réunion — pas une lettre imprimable. Salutation, marges et QR restent dans Word.",
+    "formatNoticeQrWordOnly": "Les codes QR apparaissent seulement dans le téléchargement Word. Décochez PowerPoint si vous n’avez besoin que du fichier lettre.",
+    "formatNoticeWorksheet": "Word garde l’en-tête et une page imprimable. Excel est la feuille à remplir cellule par cellule (sans logo, bandeau de titre différent). Téléchargez le format que vous allez modifier.",
+    "formatNoticeEventPack": "Ce lot mélange un avis Word, une feuille RSVP Excel, un fichier calendrier et des diapositives. Chaque fichier a un rôle différent.",
+    "formatNoticeZipDotx": "Quand Word est dans le ZIP, un modèle .dotx correspondant est inclus — même contenu, s’ouvre comme un nouveau document dans Word.",
     "sectionStructure": "Structure du document",
     "logoResolveFailed": "Impossible de charger le logo en PNG. Essayez un PNG dans la Trousse de marque, ou désactivez le logo.",
     "setupBrandPrompt": "Configurez la Trousse de marque pour que l’en-tête utilise votre logo.",
@@ -2992,7 +2997,7 @@
     "icsNeedsCalendar": "Indiquez le début du calendrier (et éventuellement la fin) pour que le fichier .ics ait une vraie date/heure.",
     "selectOutput": "Sélectionnez au moins un format.",
     "preview": "Aperçu",
-    "previewHint": "Maquette en direct de l'exemple choisi. Les téléchargements utilisent les mêmes couleurs, logo et texte.",
+    "previewHint": "Maquette en direct de la mise en page Word / lettre. Les couleurs et le texte de la Trousse de marque passent dans chaque téléchargement ; PowerPoint et Excel ont d’autres mises en page.",
     "structure": {
       "letterheadDocx": "Papeterie Word avec en-tête de marque",
       "letterheadPptx": "2 diapositives PowerPoint",
@@ -3132,7 +3137,7 @@
       "letterhead": "En-tête vide pour toute correspondance."
     },
     "openFull": "Ouvrir Documents et diapositives au complet",
-    "previewHint": "Modifiez à gauche. L'aperçu et le téléchargement restent sur cette page."
+    "previewHint": "Modifiez à gauche. L’aperçu montre la mise en page lettre Word ; téléchargez Word pour le fichier imprimable."
   },
   "grievanceFormBuilder": {
     "title": "Constructeur de formulaires de grief",
@@ -7333,7 +7338,7 @@
       },
       "steward-ux-brand-letters": {
         "title": "Le générateur de lettres ouvre l'éditeur complet",
-        "body": "Le générateur de lettres rédige maintenant les lettres de solidarité, de bienvenue et les en-têtes sur la même page — aperçu en direct, salutations, QR facultatif et téléchargement. Le constructeur de formulaires de grief oriente encore le triage, l'accueil, les scripts et le dépôt au Hub. Les extraits de convention et le journal rapide montrent vos notes enregistrées dans l'aperçu."
+        "body": "Le générateur de lettres rédige maintenant les lettres de solidarité, de bienvenue et les en-têtes sur la même page — aperçu en direct, salutations, QR facultatif et téléchargement. Des notes de format expliquent quand PowerPoint n’est qu’un court jeu de diapositives, quand le QR reste réservé à Word, et comment les feuilles Word et Excel diffèrent. Les bandeaux de marque Excel suivent maintenant le même contraste d’encre que Word."
       },
       "host-readiness": {
         "title": "Préparation de l’hôte dans Admin du site",

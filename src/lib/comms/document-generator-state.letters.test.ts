@@ -1,16 +1,16 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
 import { LETTER_PRESET_IDS } from "./document-generator-draft";
-import { hydrateGeneratorState } from "./document-generator-state";
+import {
+  createInitialGeneratorState,
+  hydrateGeneratorState,
+} from "./document-generator-state";
 import type { BrandKit } from "@/types/entities";
 
 const emptyBrand = {
-  version: "2.0",
-  local: { id: "local-1", localNumber: "", subText: "" },
-  primaryColor: "#003366",
-  secondaryColor: "#FF6600",
-  accentColor: "#FFFFFF",
-  useOfficialLogo: false,
-  updatedAt: "2026-09-24",
+  local: { localNumber: "" },
+  logos: {},
+  colors: {},
+  canvas: {},
 } as BrandKit;
 
 describe("hydrateGeneratorState letters variant", () => {
@@ -48,5 +48,18 @@ describe("hydrateGeneratorState letters variant", () => {
     });
     expect(LETTER_PRESET_IDS).toContain(state.presetId);
     expect(state.presetId).toBe("welcome-letter");
+  });
+});
+
+describe("createInitialGeneratorState format defaults", () => {
+  it("defaults PowerPoint off for letters and on for events", () => {
+    expect(createInitialGeneratorState("simple-letter").includePptx).toBe(false);
+    expect(createInitialGeneratorState("welcome-letter").includePptx).toBe(
+      false,
+    );
+    expect(createInitialGeneratorState("quick-event").includePptx).toBe(true);
+    expect(createInitialGeneratorState("grievance-intake").includePptx).toBe(
+      false,
+    );
   });
 });
