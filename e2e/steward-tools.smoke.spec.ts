@@ -26,6 +26,12 @@ test.describe("Steward meeting guides @smoke", () => {
     await expect(
       page.getByRole("heading", { name: /Pre-disciplinary meeting log/i }),
     ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Learn about progressive discipline/i }),
+    ).toBeVisible();
+    await page
+      .getByText(/Optional discipline ladder reference/i)
+      .click();
     await expect(page.getByText(/Progressive discipline ladder/i)).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });

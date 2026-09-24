@@ -419,7 +419,9 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
     await page.goto("/en/brand-kit/");
     await assertNoHorizontalOverflow(page);
     await expect(page.getByRole("heading", { name: /Brand Kit|Trousse/i })).toBeVisible();
-    await expect(page.getByRole("button", { name: /Export|Exporter/i })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Local pack|Trousse locale|Open Local pack/i }),
+    ).toBeVisible();
     await page.setViewportSize({ width: 1920, height: 1080 });
     await assertNoHorizontalOverflow(page);
     await expect(page.getByRole("heading", { name: /Current settings|Paramètres/i })).toBeVisible();

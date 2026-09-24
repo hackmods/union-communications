@@ -194,6 +194,7 @@ export default function PreDisciplinaryLogPage() {
           {t("ladder.referenceSummary")}
         </summary>
         <div className="mt-3 space-y-2">
+          <p className="text-sm font-semibold text-opseu-dark">{t("ladder.title")}</p>
           <p className="text-xs text-gray-600">{t("ladder.hint")}</p>
           <ProgressiveDisciplineLadderDiagram steps={ladderSteps} />
         </div>
