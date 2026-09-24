@@ -4,10 +4,13 @@ import { hydrateGeneratorState } from "./document-generator-state";
 import type { BrandKit } from "@/types/entities";
 
 const emptyBrand = {
-  local: { localNumber: "" },
-  logos: {},
-  colors: {},
-  canvas: {},
+  version: "2.0",
+  local: { id: "local-1", localNumber: "", subText: "" },
+  primaryColor: "#003366",
+  secondaryColor: "#FF6600",
+  accentColor: "#FFFFFF",
+  useOfficialLogo: false,
+  updatedAt: "2026-09-24",
 } as BrandKit;
 
 describe("hydrateGeneratorState letters variant", () => {
