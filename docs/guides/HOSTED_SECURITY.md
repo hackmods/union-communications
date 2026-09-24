@@ -52,7 +52,7 @@ Auth.js uses **JWT session cookies** ([`auth.config.ts`](../../src/auth.config.t
 
 - **Server-side enforcement** on every confidential API route (`require*Session()` or `auth()` + role checks). UI hiding is secondary.
 - **No cross-union reads** — ever ([`RBAC.md`](../RBAC.md)).
-- **MFA** — opt-in via `AUTH_MFA_ENABLED`; TOTP preferred in production. Grievance/bumping expect MFA when enabled.
+- **MFA** — opt-in via `AUTH_MFA_ENABLED`; TOTP preferred when enabled. Casework does **not** require MFA; when MFA is on, grievance/bumping (and other Hub modules) enforce `sessionMfaOk`.
 - **Postgres RLS** — when `*_DB_BACKEND=postgres`, runtime must use `unionops_app` role. Verify: `npm run db:rls-smoke`.
 - **Attachments** — type/size limits; ClamAV when `ATTACHMENT_SCANNER_URL` is set.
 
@@ -79,7 +79,7 @@ Before storing **real** member casework or collaboration:
 1. **Secrets** — unique `AUTH_SECRET`; strong Postgres passwords; URL-encode in connection strings.
 2. **Disable demo auth** — `AUTH_ALLOW_DEMO_USERS=false`, `NEXT_PUBLIC_DEMO_SITE=false`.
 3. **Postgres flip** — set `DATABASE_URL`, `MIGRATE_DATABASE_URL`, and `*_DB_BACKEND=postgres` per [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md). Run `npm run ops:verify-durable` locally first.
-4. **MFA** — `AUTH_MFA_ENABLED=true`, `AUTH_MFA_MODE=totp` for confidential Hub modules.
+4. **MFA (optional)** — recommended for higher-assurance hosts: `AUTH_MFA_ENABLED=true`, `AUTH_MFA_MODE=totp`. Leaving MFA off does not block Postgres casework.
 5. **Canadian hosting** — preferred for labour records (PIPEDA/FIPPA posture in [`COMPLIANCE.md`](../COMPLIANCE.md)).
 6. **Attachments** — persistent volume for `ATTACHMENT_LOCAL_DIR` or S3 with scanning enabled.
 7. **Health** — after deploy: `curl -sL https://<host>/api/health/` → expect `postgresFlipComplete: true`, `demoAuthEnabled: false` when hardened.

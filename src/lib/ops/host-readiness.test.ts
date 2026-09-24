@@ -164,6 +164,57 @@ describe("buildHostReadiness", () => {
       "cronConfigured",
       "mfaEnabled",
     ]);
+    expect(readiness.missingAdvisoryPresence.map((p) => p.id).sort()).toEqual([
+      "cronConfigured",
+      "mfaEnabled",
+    ]);
+    expect(readiness.missingBlockingPresence).toEqual([]);
+  });
+
+  it("stays ready when MFA is off (advisory only)", () => {
+    const backends = allMemoryBackends();
+    for (const key of HUB_POSTGRES_KEYS) {
+      backends[key] = "postgres";
+    }
+    backends.ACCESS_REQUEST_DB_BACKEND = "postgres";
+    backends.PORTAL_DB_BACKEND = "postgres";
+    backends.DATA_DB_BACKEND = "memory";
+
+    const readiness = buildHostReadiness(
+      baseHealth({
+        status: "ok",
+        postgresConfigured: true,
+        memoryCaseDataActive: false,
+        postgresFlipComplete: true,
+        emailEnabled: false,
+        cronConfigured: false,
+        mfaEnabled: false,
+        demoAuthEnabled: false,
+        backends,
+        databaseDeployment: {
+          version: 1,
+          mode: "postgres",
+          verified: true,
+          verifiedAt: "2026-09-23T12:03:50.988Z",
+          journalSchema: "drizzle",
+          tailTag: "0055_membership_policy_uniqueness",
+          tailIdx: 55,
+          tailCreatedAt: 1790200000000,
+          contractVersion: 1,
+          tables: 120,
+          columns: 1274,
+          policies: 134,
+        },
+      }),
+    );
+
+    expect(readiness.ready).toBe(true);
+    expect(readiness.missingAdvisoryPresence.map((p) => p.id).sort()).toEqual([
+      "cronConfigured",
+      "emailEnabled",
+      "mfaEnabled",
+    ]);
+    expect(readiness.missingBlockingPresence).toEqual([]);
   });
 
   it("marks ready when flip complete and presence gates pass", () => {

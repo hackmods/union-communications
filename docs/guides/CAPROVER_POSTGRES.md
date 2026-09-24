@@ -176,6 +176,7 @@ AUTH_USERS_BACKEND=postgres
 OFFICER_LEARNING_DB_BACKEND=postgres
 
 AUTH_ALLOW_DEMO_USERS=false
+# MFA recommended for higher-assurance hosts; omit or false — casework still works.
 AUTH_MFA_ENABLED=true
 AUTH_MFA_MODE=totp
 ```

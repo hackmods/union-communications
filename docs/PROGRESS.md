@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-24 — Grievance load fix + ops package (MFA stays opt-in)
+
+- Removed production postgres+MFA 503 gate that blocked Hub grievance list when MFA was off; MFA remains host opt-in via `sessionMfaOk` only.
+- Hub grievance/overdue load errors surface 401/403-specific copy; Letter Generator nav/PPTX draft coerce + a11y path.
+- Deploy-notify cron, site-admin operator action log, CI `health:check:readiness` (MFA advisory never fails deploy).
+- Session note: [`docs/audit/session-knowledge-2026-09-24-grievance-mfa-ops.md`](audit/session-knowledge-2026-09-24-grievance-mfa-ops.md).
+
 ## 2026-09-23 — Office format-gap notices + Excel ink on main
 
 - Document Generator / Letter Generator Callouts when PowerPoint is a short deck, QR is Word-only, Word vs Excel worksheets differ, event packs mix jobs, and ZIP includes `.dotx` with Word.

@@ -8,7 +8,7 @@ If **you** host an instance, **you** are the data controller for data that insta
 
 1. Set a unique `AUTH_SECRET` (`openssl rand -base64 32`) — never use the repo placeholders. Production refuses to start without it.
 2. Set `AUTH_URL` to your public HTTPS origin (no trailing slash). Behind CapRover or custom nginx, this must be the **browser-facing** host (e.g. `https://unionops.org`), not the internal app FQDN — otherwise locale redirects and Auth cookies advertise the proxy hostname to crawlers.
-3. MFA is **opt-in** (`AUTH_MFA_ENABLED=true`). Leave it off for demos/usability. For real casework: enable MFA and set `AUTH_MFA_MODE=totp`. Workshop hosts may use `shared_code_insecure` only with `AUTH_ALLOW_SHARED_MFA_IN_PROD=true` plus a unique `AUTH_MFA_CODE`. When MFA is enabled in production, unset mode or shared-code without break-glass fails closed.
+3. MFA is **opt-in** (`AUTH_MFA_ENABLED=true`). Leave it off for demos/usability — durable Postgres grievances and other Hub modules work without MFA. Enabling MFA is recommended for hosts that want a second factor; set `AUTH_MFA_MODE=totp` when you do. Workshop hosts may use `shared_code_insecure` only with `AUTH_ALLOW_SHARED_MFA_IN_PROD=true` plus a unique `AUTH_MFA_CODE`. When MFA is enabled in production, unset mode or shared-code without break-glass fails closed.
 4. Set your union’s default brand (optional but recommended for a white-label host):
    - Edit `config/host-brand.json` before build, or
    - `npm run brand:set -- --primary=#… --secondary=#… --local=… --sub="…"`, or
@@ -126,7 +126,7 @@ This repo includes [`captain-definition`](../../captain-definition) pointing at 
 | `AUTH_SECRET` | output of `openssl rand -base64 32` |
 | `AUTH_URL` | **Public** HTTPS origin only (no trailing slash) — e.g. `https://unionops.org`. Never the CapRover/internal FQDN (`*.behind7proxies.com`); wrong value leaks internal hosts into locale redirects, Auth.js `callback-url` cookies, and GSC “Page with redirect” noise. |
 | `AUTH_ALLOW_DEMO_USERS` | `true` on the public demo host so `president.243@unionops.test` / `demo123` work. The image defaults this to match `NEXT_PUBLIC_DEMO_SITE`. Omit/`false` for live casework. |
-| `AUTH_MFA_ENABLED` | `true` for casework; omit/`false` for demos (default) |
+| `AUTH_MFA_ENABLED` | omit/`false` (default) — casework works; set `true` when you want a second factor |
 | `AUTH_MFA_MODE` | `totp` when MFA enabled; workshops: shared_code + break-glass |
 | `AUTH_ALLOW_SHARED_MFA_IN_PROD` | `true` only for workshop/demo hosts using shared code |
 | `AUTH_MFA_CODE` | 6-digit code when using shared_code mode |
@@ -154,6 +154,16 @@ Optional SMTP (non-DO hosts, or Mailgun port **2525** if your network allows it)
 | `SMTP_PASS` | Mailgun SMTP password from Domain → SMTP credentials |
 
 When `MAILGUN_API_KEY` is set it takes priority over SMTP. On SMTP CONN timeout to 465/587 the app retries port 2525 once, then surfaces a DigitalOcean hint.
+
+Optional post-deploy operator notify (no member lists):
+
+| Variable | Example |
+|----------|---------|
+| `CRON_SECRET` | shared secret for `/api/cron/*` |
+| `DEPLOY_NOTIFY_ENABLED` | `true` to allow `/api/cron/deploy-notify` |
+| `DEPLOY_NOTIFY_EMAIL` | operator inbox for host-readiness summaries |
+
+CI runs `npm run health:check:readiness` after the commit smoke (MFA off is advisory and does not fail). When `CRON_SECRET` is in GitHub secrets, CI also calls deploy-notify (continue-on-error).
 
 Optional **error sinks** (ADR-006 — ops only, not product analytics; defaults off). Full matrix: [`HOSTED_SECURITY.md`](HOSTED_SECURITY.md).
 

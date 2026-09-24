@@ -49,6 +49,34 @@ describe("hydrateGeneratorState letters variant", () => {
     expect(LETTER_PRESET_IDS).toContain(state.presetId);
     expect(state.presetId).toBe("welcome-letter");
   });
+
+  it("forces includePptx off when a shared draft had PowerPoint checked for a letter", () => {
+    vi.stubGlobal("localStorage", {
+      getItem: () =>
+        JSON.stringify({
+          presetId: "simple-letter",
+          includeDocx: true,
+          includeXlsx: false,
+          includePptx: true,
+          includeIcs: false,
+          includeLogo: false,
+          showQr: false,
+          qrLinkId: "",
+          salutationPresetId: "dearMember",
+          topMargin: "standard",
+          letterSpacing: "normal",
+          headerSize: "standard",
+          typeScaleOverride: "inherit",
+          fields: {},
+        }),
+      setItem: () => undefined,
+      removeItem: () => undefined,
+    });
+    const state = hydrateGeneratorState("simple-letter", emptyBrand, {
+      allowedPresets: LETTER_PRESET_IDS,
+    });
+    expect(state.includePptx).toBe(false);
+  });
 });
 
 describe("createInitialGeneratorState format defaults", () => {

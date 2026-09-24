@@ -12,6 +12,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
 import { usePreferencesStore } from "@/store/preferences-store";
+import { grievanceListErrorKey } from "@/lib/hybrid/case-client";
 import type { Grievance } from "@/types/grievance";
 
 interface GrievanceListItem extends Grievance {
@@ -46,8 +47,8 @@ export function GrievanceDashboard() {
         setItems(result.grievances);
         setError(null);
       })
-      .catch(() => {
-        if (!cancelled) setError(t("loadError"));
+      .catch((err: unknown) => {
+        if (!cancelled) setError(t(grievanceListErrorKey(err)));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);

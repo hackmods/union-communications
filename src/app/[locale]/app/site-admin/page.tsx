@@ -34,7 +34,7 @@ export default async function SiteAdminLandingPage({
   const hostReadiness = buildHostReadiness(buildHealthStatus());
   const missingHostCount =
     hostReadiness.missingBackendFlips.length +
-    hostReadiness.missingPresence.length;
+    hostReadiness.missingBlockingPresence.length;
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 lg:py-12">
@@ -105,6 +105,11 @@ export default async function SiteAdminLandingPage({
           body={t("customizationCardBody")}
         />
 
+        <SiteAdminCard
+          href="/app/site-admin/operator-audit"
+          title={t("operatorAuditCardTitle")}
+          body={t("operatorAuditCardBody")}
+        />
         <SiteAdminCard
           href="/app/invites"
           title={t("invites")}

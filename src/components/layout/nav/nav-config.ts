@@ -109,7 +109,7 @@ export const toolGroups: readonly NavGroup[] = [
   {
     labelKey: "toolsGroupCreation",
     links: [
-      { href: "/tools/letter-generator", key: "letterGenerator" },
+      { href: "/create/letter-generator", key: "letterGenerator" },
       { href: "/tools/rtw-accommodation", key: "rtwAccommodation" },
       { href: "/tools/grievance-form-builder", key: "grievanceFormBuilder" },
       { href: "/tools/document-generator", key: "documentGenerator" },

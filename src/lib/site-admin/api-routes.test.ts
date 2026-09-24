@@ -19,6 +19,7 @@ import { POST as restoreLocal } from "@/app/api/site-admin/locals/[id]/restore/r
 import { POST as assignLocal } from "@/app/api/site-admin/users/[id]/assign-local/route";
 import { GET as scanMembershipIntegrity } from "@/app/api/site-admin/membership-integrity/route";
 import { GET as tenantOptions } from "@/app/api/site-admin/tenant-options/route";
+import { GET as operatorAudit } from "@/app/api/site-admin/audit/route";
 import { DEMO_PURGE_CONFIRM_PHRASE } from "./demo-purge";
 
 function session(roles: UserRole[] = ["platform_admin"]) {
@@ -211,5 +212,33 @@ describe("site-admin locals, assign-local, and integrity HTTP", () => {
     expect(
       (await restoreLocal(new Request("http://localhost"), userParams(""))).status,
     ).toBe(400);
+  });
+});
+
+describe("site-admin operator audit HTTP", () => {
+  beforeEach(() => {
+    authMock.mockReset();
+  });
+
+  it("returns 401 without a session and 403 for non-platform officers", async () => {
+    authMock.mockResolvedValue(null);
+    expect(
+      (await operatorAudit(new Request("http://localhost/api/site-admin/audit"))).status,
+    ).toBe(401);
+
+    authMock.mockResolvedValue(session(["local_president"]));
+    expect(
+      (await operatorAudit(new Request("http://localhost/api/site-admin/audit"))).status,
+    ).toBe(403);
+  });
+
+  it("returns entries for platform_admin", async () => {
+    authMock.mockResolvedValue(session());
+    const res = await operatorAudit(
+      new Request("http://localhost/api/site-admin/audit?limit=10"),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { entries: unknown[] };
+    expect(Array.isArray(body.entries)).toBe(true);
   });
 });

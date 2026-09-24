@@ -437,3 +437,28 @@ jobs:
           echo "::error::  (3) Is the running container's network or image-pull policy blocking CapRover from re-tagging the image? Force a redeploy from the CapRover UI's 'Restart' button on the app's Deployment tab."
           echo "::error::Docs: docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md (L-α, L-β)."
           exit 1
+
+      - name: Post-deploy host readiness gate
+        if: ${{ steps.deploy.outputs.DEPLOYED_IMAGE != '' && github.event.inputs.skip_smoke != true }}
+        env:
+          HEALTH_URL: ${{ github.event.inputs.target_url || 'https://unionops.org/api/health' }}
+        run: |
+          set -euo pipefail
+          # Mirrors buildHostReadiness: MFA/email/cron are advisory and never fail this step.
+          node scripts/verify-host-readiness.mjs
+
+      - name: Post-deploy upgrade email (optional)
+        if: ${{ steps.deploy.outputs.DEPLOYED_IMAGE != '' && github.event.inputs.skip_smoke != true && secrets.CRON_SECRET != '' }}
+        continue-on-error: true
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          TARGET_ORIGIN: ${{ github.event.inputs.target_url || 'https://unionops.org/api/health' }}
+        run: |
+          set -euo pipefail
+          # Strip /api/health suffix if present
+          ORIGIN="${TARGET_ORIGIN%/api/health}"
+          ORIGIN="${ORIGIN%/}"
+          curl -fsS --max-time 30 \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            "${ORIGIN}/api/cron/deploy-notify" \
+            || echo "::warning::deploy-notify cron failed or is disabled on the host (non-blocking)"

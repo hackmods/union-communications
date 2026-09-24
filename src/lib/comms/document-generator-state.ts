@@ -81,10 +81,18 @@ export function hydrateGeneratorState(
     ? stored.presetId
     : presetFromQuery;
   const validPreset = coercePreset(rawPreset);
+  const base = createInitialGeneratorState(validPreset, stored.includeLogo, brandKit);
   return {
-    ...createInitialGeneratorState(validPreset, stored.includeLogo, brandKit),
+    ...base,
     ...stored,
     presetId: validPreset,
+    // Letter route / letter presets: never inherit a full-generator PPTX toggle from shared draft.
+    includePptx: isLetterPreset(validPreset)
+      ? false
+      : Boolean(stored.includePptx && getPreset(validPreset).outputs.pptx),
+    includeDocx: Boolean(stored.includeDocx && getPreset(validPreset).outputs.docx),
+    includeXlsx: Boolean(stored.includeXlsx && getPreset(validPreset).outputs.xlsx),
+    includeIcs: Boolean(stored.includeIcs && getPreset(validPreset).outputs.ics),
     fields: {
       ...defaultFieldsForPreset(getPreset(validPreset)),
       ...stored.fields,

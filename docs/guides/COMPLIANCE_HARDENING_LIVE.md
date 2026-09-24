@@ -94,6 +94,8 @@ CHECKINS_DB_BACKEND=postgres
 AUTH_USERS_BACKEND=postgres
 
 AUTH_ALLOW_DEMO_USERS=false
+# MFA is optional — recommended for higher-assurance hosts, not required for
+# Postgres grievances or other Hub casework. Leave unset/false to stay password-only.
 AUTH_MFA_ENABLED=true
 AUTH_MFA_MODE=totp
 ```

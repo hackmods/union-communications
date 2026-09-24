@@ -77,6 +77,11 @@ export type PresenceCheck = {
   ok: boolean;
   /** CapRover / env hint (non-secret key names only). */
   hintKey: string;
+  /**
+   * Advisory checks never block `ready` or CI deploy gates.
+   * MFA / email / cron stay optional — MFA must not gate casework.
+   */
+  advisory: boolean;
 };
 
 export type HostReadiness = {
@@ -101,10 +106,14 @@ export type HostReadiness = {
   missingBackendFlips: BackendReadinessRow[];
   presence: PresenceCheck[];
   missingPresence: PresenceCheck[];
+  /** Missing presence that should fail deploy / Host “needs work” severity. */
+  missingBlockingPresence: PresenceCheck[];
+  /** Missing optional hardening (MFA, email, cron) — surface only. */
+  missingAdvisoryPresence: PresenceCheck[];
   memoryCaseDataActive: boolean;
   postgresFlipComplete: boolean;
   healthStatus: HealthStatus["status"];
-  /** True when nothing is missing for a durable Hub + Portal host (Data may stay memory). */
+  /** True when nothing blocking is missing for a durable Hub + Portal host (Data may stay memory). MFA never required. */
   ready: boolean;
 };
 
@@ -139,31 +148,37 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
       id: "postgresConfigured",
       ok: health.postgresConfigured,
       hintKey: "DATABASE_URL",
+      advisory: false,
     },
     {
       id: "migrateVerified",
       ok: migrateVerified,
       hintKey: "MIGRATE_DATABASE_URL",
+      advisory: false,
     },
     {
       id: "emailEnabled",
       ok: health.emailEnabled,
       hintKey: "EMAIL_ENABLED",
+      advisory: true,
     },
     {
       id: "cronConfigured",
       ok: health.cronConfigured,
       hintKey: "CRON_SECRET",
+      advisory: true,
     },
     {
       id: "mfaEnabled",
       ok: health.mfaEnabled,
       hintKey: "AUTH_MFA_ENABLED",
+      advisory: true,
     },
     {
       id: "demoAuthOff",
       ok: !health.demoAuthEnabled,
       hintKey: "AUTH_ALLOW_DEMO_USERS",
+      advisory: false,
     },
   ];
 }
@@ -174,8 +189,11 @@ export function buildHostReadiness(health: HealthStatus): HostReadiness {
   const missingBackendFlips = backends.filter((row) => !row.ok);
   const presence = presenceChecks(health);
   const missingPresence = presence.filter((row) => !row.ok);
+  const missingBlockingPresence = missingPresence.filter((row) => !row.advisory);
+  const missingAdvisoryPresence = missingPresence.filter((row) => row.advisory);
   const ready =
     missingBackendFlips.length === 0 &&
+    missingBlockingPresence.length === 0 &&
     health.postgresConfigured &&
     health.databaseDeployment.verified &&
     health.databaseDeployment.mode === "postgres" &&
@@ -204,9 +222,47 @@ export function buildHostReadiness(health: HealthStatus): HostReadiness {
     missingBackendFlips,
     presence,
     missingPresence,
+    missingBlockingPresence,
+    missingAdvisoryPresence,
     memoryCaseDataActive: health.memoryCaseDataActive,
     postgresFlipComplete: health.postgresFlipComplete,
     healthStatus: health.status,
     ready,
   };
+}
+
+/** Plain-text checklist for deploy-notify emails (no secrets). */
+export function formatHostReadinessEmailBody(readiness: HostReadiness): string {
+  const lines: string[] = [
+    `UnionOps deploy health`,
+    ``,
+    `Version: ${readiness.image.version}`,
+    `Commit: ${readiness.image.commit}`,
+    `Built at: ${readiness.image.builtAt}`,
+    `Ready: ${readiness.ready ? "yes" : "no"}`,
+    `DB tip: ${readiness.database.tailTag ?? "unknown"} (verified=${readiness.database.verified})`,
+    ``,
+  ];
+  if (readiness.missingBackendFlips.length > 0) {
+    lines.push("Missing backend flips:");
+    for (const row of readiness.missingBackendFlips) {
+      lines.push(`  - ${row.key}=${row.effective} (want ${row.recommended})`);
+    }
+    lines.push("");
+  }
+  if (readiness.missingBlockingPresence.length > 0) {
+    lines.push("Blocking presence:");
+    for (const row of readiness.missingBlockingPresence) {
+      lines.push(`  - ${row.id} (${row.hintKey})`);
+    }
+    lines.push("");
+  }
+  if (readiness.missingAdvisoryPresence.length > 0) {
+    lines.push("Advisory (optional — MFA does not block casework):");
+    for (const row of readiness.missingAdvisoryPresence) {
+      lines.push(`  - ${row.id} (${row.hintKey})`);
+    }
+    lines.push("");
+  }
+  return lines.join("\n").trimEnd();
 }

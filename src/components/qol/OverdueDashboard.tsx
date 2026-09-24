@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import { daysUntilDue } from "@/lib/grievance/deadlines";
+import { grievanceListErrorKey } from "@/lib/hybrid/case-client";
 import type { Grievance } from "@/types/grievance";
 
 interface OverdueItem extends Grievance {
@@ -38,8 +39,8 @@ export function OverdueDashboard() {
         setItems(result.grievances);
         setError(null);
       })
-      .catch(() => {
-        if (!cancelled) setError(tg("loadError"));
+      .catch((err: unknown) => {
+        if (!cancelled) setError(tg(grievanceListErrorKey(err)));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);

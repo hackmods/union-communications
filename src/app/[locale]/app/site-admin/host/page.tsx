@@ -156,7 +156,7 @@ export default async function HostReadinessPage({
         </section>
       ) : null}
 
-      {readiness.missingPresence.length > 0 ? (
+      {readiness.missingBlockingPresence.length > 0 ? (
         <section className="mb-8 rounded-lg border border-opseu-orange/30 bg-opseu-orange/5 p-4">
           <h2 className="text-base font-semibold text-opseu-dark">
             {t("hostMissingPresenceHeading")}
@@ -165,7 +165,37 @@ export default async function HostReadinessPage({
             {t("hostMissingPresenceLead")}
           </p>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">
-            {readiness.missingPresence.map((row) => (
+            {readiness.missingBlockingPresence.map((row) => (
+              <li key={row.id}>
+                {t(
+                  (
+                    {
+                      postgresConfigured: "hostPresencePostgres",
+                      migrateVerified: "hostPresenceMigrate",
+                      emailEnabled: "hostPresenceEmail",
+                      cronConfigured: "hostPresenceCron",
+                      mfaEnabled: "hostPresenceMfa",
+                      demoAuthOff: "hostPresenceDemoAuth",
+                    } as const
+                  )[row.id],
+                )}{" "}
+                <code className="text-xs">({row.hintKey})</code>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {readiness.missingAdvisoryPresence.length > 0 ? (
+        <section className="mb-8 rounded-lg border border-opseu-gray/20 bg-white p-4 shadow-sm">
+          <h2 className="text-base font-semibold text-opseu-dark">
+            {t("hostMissingAdvisoryHeading")}
+          </h2>
+          <p className="mt-1 text-sm text-opseu-gray-dark">
+            {t("hostMissingAdvisoryLead")}
+          </p>
+          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">
+            {readiness.missingAdvisoryPresence.map((row) => (
               <li key={row.id}>
                 {t(
                   (

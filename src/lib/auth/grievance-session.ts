@@ -1,7 +1,5 @@
 import { auth } from "@/auth";
 import { sessionMfaOk } from "@/lib/auth/mfa-policy";
-import { isMfaEnabled } from "@/lib/auth/mfa-policy";
-import { grievanceDbBackend } from "@/lib/db/backend";
 import type { Session } from "next-auth";
 import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
 import { actorFromSession, type AuthorizationActor } from "@/lib/authorization/model";
@@ -22,10 +20,8 @@ export async function requireGrievanceSession(): Promise<GrievanceSessionResult>
   if (!session?.user) {
     return { ok: false, status: 401, error: "Unauthorized" };
   }
-  const durableProductionCasework = process.env.NODE_ENV === "production" && grievanceDbBackend() === "postgres";
-  if (durableProductionCasework && !isMfaEnabled()) {
-    return { ok: false, status: 503, error: "MFA must be enabled before durable grievance casework is available" };
-  }
+  // MFA is host opt-in (AUTH_MFA_ENABLED). When off, sessionMfaOk is always true.
+  // Do not couple durable Postgres casework to MFA — that blocked production loads.
   if (!sessionMfaOk(session)) {
     return { ok: false, status: 403, error: "MFA required" };
   }

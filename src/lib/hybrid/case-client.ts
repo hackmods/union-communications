@@ -43,6 +43,51 @@ import type { Grievance } from "@/types/grievance";
 
 export type HybridCaseSource = "central" | "local" | "locked";
 
+/** Structured Hub API failure for grievance/bumping list/mutate calls. */
+export class HybridCaseApiError extends Error {
+  readonly status: number;
+  readonly apiError: string | null;
+
+  constructor(status: number, apiError: string | null, fallbackMessage: string) {
+    super(apiError?.trim() || fallbackMessage);
+    this.name = "HybridCaseApiError";
+    this.status = status;
+    this.apiError = apiError?.trim() || null;
+  }
+}
+
+async function readJsonOrThrow<T>(
+  res: Response,
+  fallbackMessage: string,
+): Promise<T> {
+  let body: unknown = null;
+  try {
+    body = await res.json();
+  } catch {
+    body = null;
+  }
+  if (!res.ok) {
+    const apiError =
+      body &&
+      typeof body === "object" &&
+      "error" in body &&
+      typeof (body as { error: unknown }).error === "string"
+        ? (body as { error: string }).error
+        : null;
+    throw new HybridCaseApiError(res.status, apiError, fallbackMessage);
+  }
+  return body as T;
+}
+
+/** Map list-load failures to grievance i18n keys (no MFA-enable copy). */
+export function grievanceListErrorKey(err: unknown): "loadErrorUnauthorized" | "loadErrorForbidden" | "loadError" {
+  if (err instanceof HybridCaseApiError) {
+    if (err.status === 401) return "loadErrorUnauthorized";
+    if (err.status === 403) return "loadErrorForbidden";
+  }
+  return "loadError";
+}
+
 export async function resolveHybridCaseSource(): Promise<HybridCaseSource> {
   const mode = await hybridLocalSliceAdapter.getDataMode();
   if (mode !== "local") return "central";
@@ -73,8 +118,10 @@ export async function listHybridGrievances(): Promise<
     };
   }
   const res = await fetch("/api/grievances");
-  if (!res.ok) throw new Error("Failed to load grievances");
-  const data = (await res.json()) as { grievances: EnrichedGrievanceListItem[] };
+  const data = await readJsonOrThrow<{ grievances: EnrichedGrievanceListItem[] }>(
+    res,
+    "Failed to load grievances",
+  );
   return { source: "central", grievances: data.grievances };
 }
 
@@ -115,8 +162,7 @@ export async function createHybridGrievance(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
   });
-  if (!res.ok) throw new Error("Create failed");
-  return res.json() as Promise<{ grievance: Grievance }>;
+  return readJsonOrThrow<{ grievance: Grievance }>(res, "Create failed");
 }
 
 export async function updateHybridGrievance(
@@ -175,8 +221,10 @@ export async function listHybridBumpingCases(): Promise<
     return { source, cases: listBumpingFromSlice(requireSlice()) };
   }
   const res = await fetch("/api/bumping/cases");
-  if (!res.ok) throw new Error("Failed to load bumping cases");
-  const data = (await res.json()) as { cases: BumpingCase[] };
+  const data = await readJsonOrThrow<{ cases: BumpingCase[] }>(
+    res,
+    "Failed to load bumping cases",
+  );
   return { source: "central", cases: data.cases };
 }
 
@@ -220,8 +268,7 @@ export async function createHybridBumpingCase(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
   });
-  if (!res.ok) throw new Error("Create failed");
-  return res.json() as Promise<{ bumpingCase: BumpingCase }>;
+  return readJsonOrThrow<{ bumpingCase: BumpingCase }>(res, "Create failed");
 }
 
 export async function updateHybridBumpingCase(

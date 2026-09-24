@@ -31,6 +31,7 @@ const TOOL_A11Y_PAGES = [
   "/en/tools/org-chart/",
   "/en/tools/website-template/",
   "/en/tools/document-generator/",
+  "/en/create/letter-generator/",
   "/en/tools/solidarity-poster/",
   "/en/tools/meeting-background/",
   "/en/tools/board-banner/",
