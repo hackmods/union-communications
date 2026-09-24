@@ -39,8 +39,12 @@ export async function GET() {
   if (!sessionMfaOk(session)) return NextResponse.json({ error: "MFA required" }, { status: 403 });
   const actor = await resolveAuthorizationActor(session);
   const unionId = session.user.unionId;
-  const localId = actor.activeLocalId;
-  if (!unionId || !localId || !decideCapability(actor, "memberships.manage", { unionId, localId }).allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  // Prefer resolved active local; fall back to JWT local for role-claim bridge
+  // accounts before membership rows exist.
+  const localId = actor.activeLocalId ?? session.user.localId;
+  if (!unionId || !localId || !decideCapability(actor, "memberships.manage", { unionId, localId }).allowed) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
   const rows = await withRlsContext({ userId: session.user.id, unionId, localId, mfaVerified: true }, () => accessRequestStore.list({ unionId, localId, kind: "member_access" }));
   return NextResponse.json({ items: rows.map(accessRequestMemberView) });
 }
