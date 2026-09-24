@@ -48,7 +48,12 @@ export async function PATCH(
     },
     () => accessRequestStore.getById(id),
   );
-  if (!row || row.kind !== "member_access") {
+  if (
+    !row ||
+    row.kind !== "member_access" ||
+    row.unionId !== unionId ||
+    row.localId !== localId
+  ) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
   let raw: unknown;
