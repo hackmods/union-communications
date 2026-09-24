@@ -22,9 +22,12 @@ describe("snippet adapter", () => {
 
     const filtered = await snippetStore.list({
       unionId: "union-b7p",
-      query: "just cause",
+      query: "Exclusive Bargaining",
     });
-    expect(filtered.some((s) => s.id === "snip-001")).toBe(true);
+    expect(filtered.length).toBeGreaterThan(0);
+    expect(
+      filtered.every((s) => /exclusive bargaining/i.test(s.title)),
+    ).toBe(true);
   });
 
   it("creates and updates a snippet", async () => {

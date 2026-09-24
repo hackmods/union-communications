@@ -23,6 +23,7 @@ function snippet(overrides: Partial<CaSnippet> = {}): CaSnippet {
     id: "snippet-1",
     unionId: "union-1",
     localId: "local-1",
+    locale: "en",
     title: "Clause",
     clauseRef: "Article 1",
     body: "Text",

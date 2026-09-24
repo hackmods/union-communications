@@ -1,5 +1,7 @@
 /** Phase 5 QOL entity types */
 
+import type { SnippetLibraryId, SnippetLocale } from "@/lib/snippets/libraries";
+
 export type CommunicationChannel =
   | "email"
   | "phone"
@@ -35,6 +37,10 @@ export interface CaSnippet {
   unionId: string;
   localId?: string;
   bargainingUnitId?: string;
+  /** Reference pack id (CAAT-A / CAAT-S FT|PT / constitution). Custom rows omit this. */
+  libraryId?: SnippetLibraryId;
+  /** Clause language. Seed EN packs use `en`; FR packs arrive later. */
+  locale: SnippetLocale;
   title: string;
   clauseRef: string;
   body: string;
@@ -52,6 +58,8 @@ export interface CreateCaSnippetInput {
   tags?: string[];
   localId?: string;
   bargainingUnitId?: string;
+  libraryId?: SnippetLibraryId;
+  locale?: SnippetLocale;
 }
 
 export interface UpdateCaSnippetInput {
@@ -59,6 +67,8 @@ export interface UpdateCaSnippetInput {
   clauseRef?: string;
   body?: string;
   tags?: string[];
+  libraryId?: SnippetLibraryId | null;
+  locale?: SnippetLocale;
 }
 
 export type MarketplaceTemplateKind =

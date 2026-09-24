@@ -9,6 +9,8 @@ export interface SnippetListFilters {
   localId?: string;
   bargainingUnitId?: string;
   query?: string;
+  libraryId?: string;
+  locale?: string;
 }
 
 export interface SnippetBulkCreateResult {
@@ -40,4 +42,6 @@ export interface SnippetAdapter {
   ): Promise<SnippetBulkCreateResult>;
   /** Delete every snippet for a union (elevated callers only). */
   resetUnion(unionId: string): Promise<number>;
+  /** Restore shipped CAAT / constitution packs after reset (elevated callers). */
+  reseedReferencePacks(unionId: string): Promise<number>;
 }

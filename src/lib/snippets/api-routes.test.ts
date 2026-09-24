@@ -137,15 +137,33 @@ describe("snippets API routes", () => {
 
     it("filters by query", async () => {
       authMock.mockResolvedValue(session());
-      const res = await listSnippets(listRequest("?q=just%20cause"));
+      const res = await listSnippets(listRequest("?q=Exclusive%20Bargaining"));
       expect(res.status).toBe(200);
       const body = (await res.json()) as {
         snippets: Array<{ id: string; title: string }>;
       };
-      expect(body.snippets.map((s) => s.id)).toContain("snip-001");
-      expect(body.snippets.every((s) => /just cause/i.test(s.title))).toBe(
-        true,
+      expect(body.snippets.length).toBeGreaterThan(0);
+      expect(
+        body.snippets.every((s) => /exclusive bargaining/i.test(s.title)),
+      ).toBe(true);
+    });
+
+    it("filters by library pack", async () => {
+      authMock.mockResolvedValue(session());
+      const res = await listSnippets(
+        listRequest("?library=constitution&locale=en"),
       );
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as {
+        snippets: Array<{ libraryId?: string; locale: string }>;
+      };
+      expect(body.snippets.length).toBeGreaterThan(20);
+      expect(
+        body.snippets.every(
+          (s) => !s.libraryId || s.libraryId === "constitution",
+        ),
+      ).toBe(true);
+      expect(body.snippets.every((s) => s.locale === "en")).toBe(true);
     });
 
     it("requires an active local before listing scoped snippets", async () => {
@@ -290,6 +308,19 @@ describe("snippets API routes", () => {
     });
 
     it("ignores forged tenant keys on PATCH of an owned snippet", async () => {
+      const owned = await snippetStore.create(
+        {
+          title: "Additional hours by seniority (PT)",
+          clauseRef: "Article 15.03",
+          body: "Offer additional hours by seniority.",
+          localId: "local-7",
+        },
+        {
+          unionId: "union-b7p",
+          createdById: "user-steward-7-pt",
+          createdByName: "Local 777 Steward (PT)",
+        },
+      );
       authMock.mockResolvedValue(
         session({
           id: "user-steward-7-pt",
@@ -303,7 +334,7 @@ describe("snippets API routes", () => {
           localId: "local-evil",
           createdById: "attacker",
         }),
-        params("snip-004"),
+        params(owned.id),
       );
       expect(patched.status).toBe(200);
       const body = (await patched.json()) as {
@@ -321,34 +352,60 @@ describe("snippets API routes", () => {
     });
 
     it("lets the author delete and forbids another steward", async () => {
+      const owned = await snippetStore.create(
+        {
+          title: "PT hours clause",
+          clauseRef: "Article 15.03",
+          body: "Seniority for additional hours.",
+          localId: "local-7",
+        },
+        {
+          unionId: "union-b7p",
+          createdById: "user-steward-7-pt",
+          createdByName: "Local 777 Steward (PT)",
+        },
+      );
       authMock.mockResolvedValue(
         session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       expect(
-        (await deleteSnippet(new Request("http://localhost"), params("snip-004")))
+        (await deleteSnippet(new Request("http://localhost"), params(owned.id)))
           .status,
       ).toBe(403);
-      expect(await snippetStore.getById("snip-004")).not.toBeNull();
+      expect(await snippetStore.getById(owned.id)).not.toBeNull();
 
       authMock.mockResolvedValue(
         session({ id: "user-steward-7-pt", roles: ["local_steward"] }),
       );
       const deleted = await deleteSnippet(
         new Request("http://localhost"),
-        params("snip-004"),
+        params(owned.id),
       );
       expect(deleted.status).toBe(200);
-      expect(await snippetStore.getById("snip-004")).toBeNull();
+      expect(await snippetStore.getById(owned.id)).toBeNull();
     });
 
     it("lets a president delete another officer's snippet", async () => {
+      const owned = await snippetStore.create(
+        {
+          title: "Steward-authored clause",
+          clauseRef: "Article 15.03",
+          body: "Body",
+          localId: "local-7",
+        },
+        {
+          unionId: "union-b7p",
+          createdById: "user-steward-7-pt",
+          createdByName: "Local 777 Steward (PT)",
+        },
+      );
       authMock.mockResolvedValue(session());
       const deleted = await deleteSnippet(
         new Request("http://localhost"),
-        params("snip-004"),
+        params(owned.id),
       );
       expect(deleted.status).toBe(200);
-      expect(await snippetStore.getById("snip-004")).toBeNull();
+      expect(await snippetStore.getById(owned.id)).toBeNull();
     });
   });
 
@@ -473,7 +530,9 @@ describe("snippets API routes", () => {
       const body = (await ok.json()) as { ok: boolean; removed: number };
       expect(body.ok).toBe(true);
       expect(body.removed).toBeGreaterThan(0);
-      expect(await snippetStore.list({ unionId: "union-b7p" })).toHaveLength(0);
+      const restored = await snippetStore.list({ unionId: "union-b7p" });
+      expect(restored.length).toBeGreaterThan(100);
+      expect(restored.every((s) => s.libraryId != null)).toBe(true);
     });
   });
 });

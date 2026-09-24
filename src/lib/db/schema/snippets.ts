@@ -15,6 +15,8 @@ export const caSnippets = pgTable(
       () => bargainingUnits.id,
       { onDelete: "set null" },
     ),
+    libraryId: text("library_id"),
+    locale: text("locale").notNull().default("en"),
     title: text("title").notNull(),
     clauseRef: text("clause_ref").notNull(),
     body: text("body").notNull(),
@@ -32,5 +34,6 @@ export const caSnippets = pgTable(
     index("ca_snippets_union_idx").on(t.unionId),
     index("ca_snippets_union_local_idx").on(t.unionId, t.localId),
     index("ca_snippets_clause_ref_idx").on(t.unionId, t.clauseRef),
+    index("ca_snippets_library_locale_idx").on(t.unionId, t.libraryId, t.locale),
   ],
 );

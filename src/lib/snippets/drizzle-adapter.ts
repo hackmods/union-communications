@@ -6,6 +6,8 @@ import type {
   SnippetBulkCreateResult,
   SnippetListFilters,
 } from "./adapter";
+import { loadSnippetSeedPackInputs, seedSnippetId } from "./seed-packs";
+import type { SnippetLibraryId, SnippetLocale } from "./libraries";
 import type {
   CaSnippet,
   CreateCaSnippetInput,
@@ -28,6 +30,8 @@ function mapSnippet(row: typeof caSnippets.$inferSelect): CaSnippet {
     unionId: row.unionId,
     localId: row.localId ?? undefined,
     bargainingUnitId: row.bargainingUnitId ?? undefined,
+    libraryId: (row.libraryId as SnippetLibraryId | null) ?? undefined,
+    locale: (row.locale as SnippetLocale) || "en",
     title: row.title,
     clauseRef: row.clauseRef,
     body: row.body,
@@ -39,8 +43,18 @@ function mapSnippet(row: typeof caSnippets.$inferSelect): CaSnippet {
   };
 }
 
-function duplicateKey(clauseRef: string, title: string): string {
-  return `${clauseRef.trim().toLowerCase()}::${title.trim().toLowerCase()}`;
+function duplicateKey(
+  clauseRef: string,
+  title: string,
+  libraryId?: string | null,
+  locale?: string | null,
+): string {
+  return [
+    (libraryId ?? "").toLowerCase(),
+    (locale ?? "en").toLowerCase(),
+    clauseRef.trim().toLowerCase(),
+    title.trim().toLowerCase(),
+  ].join("::");
 }
 
 function isValidInput(input: CreateCaSnippetInput): boolean {
@@ -69,6 +83,17 @@ export class DrizzleSnippetAdapter implements SnippetAdapter {
         )!,
       );
     }
+    if (filters.libraryId) {
+      conditions.push(
+        or(
+          isNull(caSnippets.libraryId),
+          eq(caSnippets.libraryId, filters.libraryId),
+        )!,
+      );
+    }
+    if (filters.locale) {
+      conditions.push(eq(caSnippets.locale, filters.locale));
+    }
     const rows = await db
       .select()
       .from(caSnippets)
@@ -84,10 +109,14 @@ export class DrizzleSnippetAdapter implements SnippetAdapter {
           s.tags.some((t) => t.toLowerCase().includes(q)),
       );
     }
-    return results.sort(
-      (a, b) =>
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-    );
+    return results.sort((a, b) => {
+      const ref = a.clauseRef.localeCompare(b.clauseRef, undefined, {
+        numeric: true,
+        sensitivity: "base",
+      });
+      if (ref !== 0) return ref;
+      return a.title.localeCompare(b.title);
+    });
   }
 
   async getById(id: string): Promise<CaSnippet | null> {
@@ -109,13 +138,24 @@ export class DrizzleSnippetAdapter implements SnippetAdapter {
     },
   ): Promise<CaSnippet> {
     const db = getDb();
-    const id = newId("snip");
+    const locale = input.locale ?? "en";
+    const id =
+      input.libraryId != null
+        ? seedSnippetId(
+            input.libraryId,
+            locale,
+            input.clauseRef,
+            input.title,
+          )
+        : newId("snip");
     const ts = new Date();
     await db.insert(caSnippets).values({
       id,
       unionId: meta.unionId,
       localId: input.localId,
       bargainingUnitId: input.bargainingUnitId,
+      libraryId: input.libraryId,
+      locale,
       title: input.title,
       clauseRef: input.clauseRef,
       body: input.body,
@@ -144,6 +184,10 @@ export class DrizzleSnippetAdapter implements SnippetAdapter {
     if (input.clauseRef !== undefined) patch.clauseRef = input.clauseRef;
     if (input.body !== undefined) patch.body = input.body;
     if (input.tags !== undefined) patch.tags = input.tags;
+    if (input.locale !== undefined) patch.locale = input.locale;
+    if (input.libraryId !== undefined) {
+      patch.libraryId = input.libraryId === null ? null : input.libraryId;
+    }
 
     const db = getDb();
     await db.update(caSnippets).set(patch).where(eq(caSnippets.id, id));
@@ -168,7 +212,9 @@ export class DrizzleSnippetAdapter implements SnippetAdapter {
   ): Promise<SnippetBulkCreateResult> {
     const existingRows = await this.list({ unionId: meta.unionId });
     const existing = new Set(
-      existingRows.map((s) => duplicateKey(s.clauseRef, s.title)),
+      existingRows.map((s) =>
+        duplicateKey(s.clauseRef, s.title, s.libraryId, s.locale),
+      ),
     );
     let created = 0;
     let skipped = 0;
@@ -177,7 +223,12 @@ export class DrizzleSnippetAdapter implements SnippetAdapter {
         skipped += 1;
         continue;
       }
-      const key = duplicateKey(input.clauseRef, input.title);
+      const key = duplicateKey(
+        input.clauseRef,
+        input.title,
+        input.libraryId,
+        input.locale ?? "en",
+      );
       if (existing.has(key)) {
         skipped += 1;
         continue;
@@ -196,5 +247,67 @@ export class DrizzleSnippetAdapter implements SnippetAdapter {
       .where(eq(caSnippets.unionId, unionId))
       .returning({ id: caSnippets.id });
     return result.length;
+  }
+
+  async reseedReferencePacks(unionId: string): Promise<number> {
+    const { upserted } = await this.upsertSeedPacks(
+      unionId,
+      loadSnippetSeedPackInputs(),
+    );
+    return upserted;
+  }
+
+  /** Idempotent upsert of reference packs (used by db:seed). */
+  async upsertSeedPacks(
+    unionId: string,
+    inputs: CreateCaSnippetInput[],
+  ): Promise<{ upserted: number }> {
+    const db = getDb();
+    const ts = new Date();
+    let upserted = 0;
+    for (const input of inputs) {
+      if (!isValidInput(input) || !input.libraryId) continue;
+      const locale = input.locale ?? "en";
+      const id = seedSnippetId(
+        input.libraryId,
+        locale,
+        input.clauseRef,
+        input.title,
+      );
+      await db
+        .insert(caSnippets)
+        .values({
+          id,
+          unionId,
+          localId: null,
+          bargainingUnitId: null,
+          libraryId: input.libraryId,
+          locale,
+          title: input.title,
+          clauseRef: input.clauseRef,
+          body: input.body,
+          tags: input.tags ?? [],
+          createdById: "system-seed",
+          createdByName: "UnionOps seed",
+          createdAt: ts,
+          updatedAt: ts,
+        })
+        .onConflictDoUpdate({
+          target: caSnippets.id,
+          set: {
+            title: input.title,
+            clauseRef: input.clauseRef,
+            body: input.body,
+            tags: input.tags ?? [],
+            libraryId: input.libraryId,
+            locale,
+            localId: null,
+            bargainingUnitId: null,
+            updatedAt: ts,
+          },
+        });
+      upserted += 1;
+    }
+    return { upserted };
   }
 }

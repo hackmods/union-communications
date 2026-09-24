@@ -274,6 +274,21 @@ export async function runSeed(options?: {
     const id = await seedDemoGrievance(seed);
     console.log(`[db:seed] upserted demo grievance ${id}`);
   }
+
+  const { loadSnippetSeedPackInputs } = await import(
+    "@/lib/snippets/seed-packs"
+  );
+  const { DrizzleSnippetAdapter } = await import(
+    "@/lib/snippets/drizzle-adapter"
+  );
+  const packInputs = loadSnippetSeedPackInputs();
+  const packs = await new DrizzleSnippetAdapter().upsertSeedPacks(
+    seed.union.id,
+    packInputs,
+  );
+  console.log(
+    `[db:seed] upserted ${packs.upserted} CA snippet pack row(s) (${packInputs.length} from CSV)`,
+  );
 }
 
 async function main(): Promise<void> {

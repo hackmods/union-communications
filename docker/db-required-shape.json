@@ -592,9 +592,19 @@
           "notNull": true
         },
         {
+          "name": "library_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "local_id",
           "dataType": "text",
           "notNull": false
+        },
+        {
+          "name": "locale",
+          "dataType": "text",
+          "notNull": true
         },
         {
           "name": "tags",

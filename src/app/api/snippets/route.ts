@@ -4,6 +4,8 @@ import { requireGrievanceSession } from "@/lib/auth/grievance-session";
 import { canManageQolContent } from "@/lib/qol/access";
 import { snippetStore } from "@/lib/snippets/store";
 import { canAccessSnippetLocalScope, canCreateSnippetInScope } from "@/lib/snippets/access";
+import { normalizeSnippetText } from "@/lib/snippets/text-normalize";
+import { isSnippetLibraryId } from "@/lib/snippets/libraries";
 import { isCrossLocalAdministrator } from "@/lib/authorization/model";
 import type { UserRole } from "@/types/tenant";
 
@@ -27,12 +29,31 @@ export async function GET(request: Request) {
 
   const url = new URL(request.url);
   const query = url.searchParams.get("q") ?? undefined;
+  const libraryParam = url.searchParams.get("library");
+  const localeParam = url.searchParams.get("locale");
+
+  let libraryId = libraryParam || undefined;
+  if (!libraryId && actor.bargainingUnitId) {
+    const { getBargainingUnitById } = await import("@/lib/tenant/loader");
+    const { defaultLibraryForBargainingUnitCode } = await import(
+      "@/lib/snippets/libraries"
+    );
+    const unit = getBargainingUnitById(
+      session.user.unionId!,
+      actor.bargainingUnitId,
+    );
+    libraryId = defaultLibraryForBargainingUnitCode(unit?.code);
+  }
 
   const snippets = await snippetStore.list({
     unionId,
     localId: isCrossLocalAdministrator(actor) ? undefined : actor.activeLocalId,
-    bargainingUnitId: isCrossLocalAdministrator(actor) ? undefined : actor.bargainingUnitId,
+    bargainingUnitId: isCrossLocalAdministrator(actor)
+      ? undefined
+      : actor.bargainingUnitId,
     query,
+    libraryId,
+    locale: localeParam === "fr" || localeParam === "en" ? localeParam : "en",
   });
 
   await auditLog.log({
@@ -75,6 +96,8 @@ export async function POST(request: Request) {
     tags,
     localId,
     bargainingUnitId,
+    libraryId,
+    locale,
   } = body;
   if (!title || !clauseRef || !snippetBody) {
     return NextResponse.json(
@@ -91,12 +114,16 @@ export async function POST(request: Request) {
 
   const snippet = await snippetStore.create(
     {
-      title,
-      clauseRef,
-      body: snippetBody,
-      tags: Array.isArray(tags) ? tags : [],
+      title: normalizeSnippetText(String(title)),
+      clauseRef: normalizeSnippetText(String(clauseRef)),
+      body: normalizeSnippetText(String(snippetBody)),
+      tags: Array.isArray(tags)
+        ? tags.map((t: unknown) => normalizeSnippetText(String(t))).filter(Boolean)
+        : [],
       localId: requestedLocalId,
       bargainingUnitId: requestedBargainingUnitId,
+      libraryId: isSnippetLibraryId(libraryId) ? libraryId : undefined,
+      locale: locale === "fr" || locale === "en" ? locale : "en",
     },
     {
       unionId,
