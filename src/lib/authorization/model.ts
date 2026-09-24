@@ -214,15 +214,17 @@ export function decideCapability(
 ): AuthorizationDecision {
   if (!actor.accountActive) return { allowed: false, capability, reason: "inactive_account" };
   const administrative = roleHas(actor.roles, capability);
-  // platform_admin may act across unions for admin capabilities; other admins
-  // stay home-union scoped. Do this before the hard union_mismatch reject so
-  // operators without a home union (seed-admin platform_admin) still work.
-  if (
-    scope.unionId &&
-    actor.unionId !== scope.unionId &&
-    !(actor.roles.includes("platform_admin") && administrative)
-  ) {
-    return { allowed: false, capability, reason: "union_mismatch" };
+  // platform_admin with no home union may use admin capabilities anywhere
+  // (seed-admin / site-admin bootstrap). Once they have a home union, they
+  // stay tenant-scoped — no cross-union officer/org reads.
+  if (scope.unionId && actor.unionId !== scope.unionId) {
+    const platformWithoutHome =
+      actor.roles.includes("platform_admin") &&
+      !actor.unionId &&
+      administrative;
+    if (!platformWithoutHome) {
+      return { allowed: false, capability, reason: "union_mismatch" };
+    }
   }
   const localScoped = Boolean(scope.localId);
   const matchingMembership = actor.memberships.find((m) =>

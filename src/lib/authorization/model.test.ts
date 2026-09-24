@@ -51,22 +51,35 @@ describe("shared authorization decisions", () => {
     expect(decideCapability(actor, "grievances.case.read", { unionId: "union-1", localId: "local-9" }).allowed).toBe(false);
   });
 
-  it("lets platform_admin manage without a home union", () => {
-    const actor: AuthorizationActor = {
+  it("lets platform_admin manage without a home union, but not across unions once housed", () => {
+    const homeless: AuthorizationActor = {
       ...base,
       unionId: undefined,
       memberships: [],
       roles: ["platform_admin"],
     };
     expect(
-      decideCapability(actor, "memberships.manage", {
+      decideCapability(homeless, "memberships.manage", {
         unionId: "union-other",
         localId: "local-9",
       }).allowed,
     ).toBe(true);
+
+    const housed: AuthorizationActor = {
+      ...base,
+      unionId: "union-1",
+      memberships: [],
+      roles: ["platform_admin"],
+    };
     expect(
-      decideCapability(actor, "officers.manage", {
+      decideCapability(housed, "officers.manage", {
         unionId: "union-other",
+        localId: "local-9",
+      }),
+    ).toMatchObject({ allowed: false, reason: "union_mismatch" });
+    expect(
+      decideCapability(housed, "officers.manage", {
+        unionId: "union-1",
         localId: "local-9",
       }).allowed,
     ).toBe(true);
