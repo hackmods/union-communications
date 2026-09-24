@@ -18,6 +18,7 @@ import {
 } from "@/lib/comms/canvas-fonts";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import {
+  officeXlsxBrandBandStyle,
   resolveOfficeBrandFonts,
   withOfficeXlsxFont,
   type OfficeBrandFontOpts,
@@ -386,7 +387,6 @@ export async function renderEventRsvpXlsx(opts: {
   const fonts = resolveOfficeBrandFonts(opts);
   const labels = opts.labels ?? EVENT_RSVP_XLSX_LABELS.en;
   const ws = workbook.addWorksheet(labels.sheetName.slice(0, 31) || "RSVP");
-  const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
   const headFace = fonts.headlineFont;
   const bodyFace = fonts.bodyFont;
   const attendingRange = `${RSVP_ATTENDING}${RSVP_FIRST_DATA_ROW}:${RSVP_ATTENDING}${RSVP_LAST_DATA_ROW}`;
@@ -408,16 +408,20 @@ export async function renderEventRsvpXlsx(opts: {
   ws.getCell("A6").value = labels.quorumNeeded;
   ws.getCell("B6").value = opts.fields.quorumNeeded?.trim() || "";
 
+  const brandBand = officeXlsxBrandBandStyle({
+    background: opts.palette.primary,
+    faceName: headFace,
+  });
+  const surfaceBand = officeXlsxBrandBandStyle({
+    background: "#E8EEF4",
+    faceName: headFace,
+  });
   for (let r = 1; r <= 6; r++) {
-    ws.getCell(`A${r}`).font = withOfficeXlsxFont(
-      { bold: true, color: { argb: "FFFFFFFF" } },
-      headFace,
-    );
-    ws.getCell(`A${r}`).fill = {
-      type: "pattern",
-      pattern: "solid",
-      fgColor: { argb: `FF${fill}` },
-    };
+    const cell = ws.getCell(`A${r}`);
+    cell.font = brandBand.font;
+    cell.fill = brandBand.fill;
+    cell.alignment = brandBand.alignment;
+    ws.getRow(r).height = Math.max(ws.getRow(r).height ?? 0, 26);
   }
 
   const yes = labels.attendingYes;
@@ -478,13 +482,14 @@ export async function renderEventRsvpXlsx(opts: {
   labels.columns.forEach((h, i) => {
     const cell = ws.getCell(RSVP_HEADER_ROW, i + 1);
     cell.value = h;
-    cell.font = withOfficeXlsxFont({ bold: true }, headFace);
-    cell.fill = {
-      type: "pattern",
-      pattern: "solid",
-      fgColor: { argb: "FFE8EEF4" },
-    };
+    cell.font = surfaceBand.font;
+    cell.fill = surfaceBand.fill;
+    cell.alignment = surfaceBand.alignment;
   });
+  ws.getRow(RSVP_HEADER_ROW).height = Math.max(
+    ws.getRow(RSVP_HEADER_ROW).height ?? 0,
+    26,
+  );
 
   const attendingList = `"${yes},${no},${maybe}"`;
   const modeList = `"${onSite},${remote}"`;
@@ -581,15 +586,25 @@ export async function renderSeniorityWorksheetXlsx(opts: {
   const fonts = resolveOfficeBrandFonts(opts);
   const headFace = fonts.headlineFont;
   const ws = workbook.addWorksheet(opts.labels.sheetName.slice(0, 31) || "Worksheet");
-  const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
+
+  const brandBand = officeXlsxBrandBandStyle({
+    background: opts.palette.primary,
+    faceName: headFace,
+    size: 14,
+  });
+  const brandLabel = officeXlsxBrandBandStyle({
+    background: opts.palette.primary,
+    faceName: headFace,
+  });
+  const surfaceBand = officeXlsxBrandBandStyle({
+    background: "#E8EEF4",
+    faceName: headFace,
+  });
 
   ws.getCell("A1").value = opts.labels.title;
-  ws.getCell("A1").font = withOfficeXlsxFont({ bold: true, size: 14, color: { argb: "FFFFFFFF" } }, headFace);
-  ws.getCell("A1").fill = {
-    type: "pattern",
-    pattern: "solid",
-    fgColor: { argb: `FF${fill}` },
-  };
+  ws.getCell("A1").font = brandBand.font;
+  ws.getCell("A1").fill = brandBand.fill;
+  ws.getCell("A1").alignment = brandBand.alignment;
   ws.mergeCells("A1:G1");
 
   ws.getCell("A2").value = opts.labels.local;
@@ -605,12 +620,11 @@ export async function renderSeniorityWorksheetXlsx(opts: {
   ws.mergeCells("B6:G6");
 
   for (let r = 2; r <= 6; r++) {
-    ws.getCell(`A${r}`).font = withOfficeXlsxFont({ bold: true, color: { argb: "FFFFFFFF" } }, headFace);
-    ws.getCell(`A${r}`).fill = {
-      type: "pattern",
-      pattern: "solid",
-      fgColor: { argb: `FF${fill}` },
-    };
+    const cell = ws.getCell(`A${r}`);
+    cell.font = brandLabel.font;
+    cell.fill = brandLabel.fill;
+    cell.alignment = brandLabel.alignment;
+    ws.getRow(r).height = Math.max(ws.getRow(r).height ?? 0, 24);
   }
 
   ws.getCell("A7").value = opts.labels.disclaimer;
@@ -620,13 +634,14 @@ export async function renderSeniorityWorksheetXlsx(opts: {
   opts.labels.columns.forEach((h, i) => {
     const cell = ws.getCell(SENIORITY_HEADER_ROW, i + 1);
     cell.value = h;
-    cell.font = withOfficeXlsxFont({ bold: true }, headFace);
-    cell.fill = {
-      type: "pattern",
-      pattern: "solid",
-      fgColor: { argb: "FFE8EEF4" },
-    };
+    cell.font = surfaceBand.font;
+    cell.fill = surfaceBand.fill;
+    cell.alignment = surfaceBand.alignment;
   });
+  ws.getRow(SENIORITY_HEADER_ROW).height = Math.max(
+    ws.getRow(SENIORITY_HEADER_ROW).height ?? 0,
+    26,
+  );
 
   for (let r = SENIORITY_FIRST_DATA_ROW; r <= SENIORITY_LAST_DATA_ROW; r++) {
     ws.getCell(r, 6).dataValidation = {
@@ -725,15 +740,25 @@ export async function renderGrievanceIntakeXlsx(opts: {
   const fonts = resolveOfficeBrandFonts(opts);
   const headFace = fonts.headlineFont;
   const ws = workbook.addWorksheet(opts.labels.sheetName.slice(0, 31) || "Intake");
-  const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
+
+  const brandBand = officeXlsxBrandBandStyle({
+    background: opts.palette.primary,
+    faceName: headFace,
+    size: 14,
+  });
+  const brandLabel = officeXlsxBrandBandStyle({
+    background: opts.palette.primary,
+    faceName: headFace,
+  });
+  const surfaceBand = officeXlsxBrandBandStyle({
+    background: "#E8EEF4",
+    faceName: headFace,
+  });
 
   ws.getCell("A1").value = opts.labels.title;
-  ws.getCell("A1").font = withOfficeXlsxFont({ bold: true, size: 14, color: { argb: "FFFFFFFF" } }, headFace);
-  ws.getCell("A1").fill = {
-    type: "pattern",
-    pattern: "solid",
-    fgColor: { argb: `FF${fill}` },
-  };
+  ws.getCell("A1").font = brandBand.font;
+  ws.getCell("A1").fill = brandBand.fill;
+  ws.getCell("A1").alignment = brandBand.alignment;
   ws.mergeCells("A1:B1");
 
   ws.getCell("A2").value = opts.labels.local;
@@ -744,12 +769,11 @@ export async function renderGrievanceIntakeXlsx(opts: {
   ws.getCell("B4").value = opts.fields.caArticle ?? "";
 
   for (let r = 2; r <= 4; r++) {
-    ws.getCell(`A${r}`).font = withOfficeXlsxFont({ bold: true, color: { argb: "FFFFFFFF" } }, headFace);
-    ws.getCell(`A${r}`).fill = {
-      type: "pattern",
-      pattern: "solid",
-      fgColor: { argb: `FF${fill}` },
-    };
+    const cell = ws.getCell(`A${r}`);
+    cell.font = brandLabel.font;
+    cell.fill = brandLabel.fill;
+    cell.alignment = brandLabel.alignment;
+    ws.getRow(r).height = Math.max(ws.getRow(r).height ?? 0, 24);
   }
 
   ws.getCell("A5").value = opts.labels.disclaimer;
@@ -760,13 +784,12 @@ export async function renderGrievanceIntakeXlsx(opts: {
   ws.getCell("A6").value = opts.labels.itemCol;
   ws.getCell("B6").value = opts.labels.notesCol;
   for (const col of ["A", "B"] as const) {
-    ws.getCell(`${col}6`).font = withOfficeXlsxFont({ bold: true }, headFace);
-    ws.getCell(`${col}6`).fill = {
-      type: "pattern",
-      pattern: "solid",
-      fgColor: { argb: "FFE8EEF4" },
-    };
+    const cell = ws.getCell(`${col}6`);
+    cell.font = surfaceBand.font;
+    cell.fill = surfaceBand.fill;
+    cell.alignment = surfaceBand.alignment;
   }
+  ws.getRow(6).height = Math.max(ws.getRow(6).height ?? 0, 26);
 
   INTAKE_W_KEYS.forEach((key, i) => {
     const row = 7 + i;
@@ -778,26 +801,20 @@ export async function renderGrievanceIntakeXlsx(opts: {
   });
 
   ws.getCell("A13").value = opts.labels.witnesses;
-  ws.getCell("A13").font = withOfficeXlsxFont({ bold: true, color: { argb: "FFFFFFFF" } }, headFace);
-  ws.getCell("A13").fill = {
-    type: "pattern",
-    pattern: "solid",
-    fgColor: { argb: `FF${fill}` },
-  };
+  ws.getCell("A13").font = brandLabel.font;
+  ws.getCell("A13").fill = brandLabel.fill;
+  ws.getCell("A13").alignment = brandLabel.alignment;
   ws.getCell("B13").value = opts.fields.witnesses ?? "";
   ws.getCell("B13").alignment = { wrapText: true, vertical: "top" };
-  ws.getRow(13).height = 36;
+  ws.getRow(13).height = 40;
 
   ws.getCell("A14").value = opts.labels.clockNotes;
-  ws.getCell("A14").font = withOfficeXlsxFont({ bold: true, color: { argb: "FFFFFFFF" } }, headFace);
-  ws.getCell("A14").fill = {
-    type: "pattern",
-    pattern: "solid",
-    fgColor: { argb: `FF${fill}` },
-  };
+  ws.getCell("A14").font = brandLabel.font;
+  ws.getCell("A14").fill = brandLabel.fill;
+  ws.getCell("A14").alignment = brandLabel.alignment;
   ws.getCell("B14").value = opts.fields.clockNotes ?? "";
   ws.getCell("B14").alignment = { wrapText: true, vertical: "top" };
-  ws.getRow(14).height = 36;
+  ws.getRow(14).height = 40;
 
   ws.getColumn(1).width = 22;
   ws.getColumn(2).width = 72;
@@ -847,15 +864,21 @@ export async function renderLecDirectoryXlsx(opts: {
   const fonts = resolveOfficeBrandFonts(opts);
   const headFace = fonts.headlineFont;
   const ws = workbook.addWorksheet("LEC directory");
-  const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
+
+  const brandBand = officeXlsxBrandBandStyle({
+    background: opts.palette.primary,
+    faceName: headFace,
+    size: 14,
+  });
+  const brandLabel = officeXlsxBrandBandStyle({
+    background: opts.palette.primary,
+    faceName: headFace,
+  });
 
   ws.getCell("A1").value = "LOCAL EXECUTIVE COMMITTEE";
-  ws.getCell("A1").font = withOfficeXlsxFont({ bold: true, size: 14, color: { argb: "FFFFFFFF" } }, headFace);
-  ws.getCell("A1").fill = {
-    type: "pattern",
-    pattern: "solid",
-    fgColor: { argb: `FF${fill}` },
-  };
+  ws.getCell("A1").font = brandBand.font;
+  ws.getCell("A1").fill = brandBand.fill;
+  ws.getCell("A1").alignment = brandBand.alignment;
   ws.mergeCells("A1:C1");
 
   ws.getCell("A2").value = "Local";
@@ -868,6 +891,7 @@ export async function renderLecDirectoryXlsx(opts: {
 
   for (const r of [2, 3, 4]) {
     ws.getCell(`A${r}`).font = withOfficeXlsxFont({ bold: true }, headFace);
+    ws.getRow(r).height = Math.max(ws.getRow(r).height ?? 0, 22);
   }
 
   const headerRow = 6;
@@ -880,13 +904,11 @@ export async function renderLecDirectoryXlsx(opts: {
   ).forEach(([col, label]) => {
     const cell = ws.getCell(headerRow, col);
     cell.value = label;
-    cell.font = withOfficeXlsxFont({ bold: true, color: { argb: "FFFFFFFF" } }, headFace);
-    cell.fill = {
-      type: "pattern",
-      pattern: "solid",
-      fgColor: { argb: `FF${fill}` },
-    };
+    cell.font = brandLabel.font;
+    cell.fill = brandLabel.fill;
+    cell.alignment = brandLabel.alignment;
   });
+  ws.getRow(headerRow).height = Math.max(ws.getRow(headerRow).height ?? 0, 26);
 
   LEC_DIRECTORY_XLSX_POSITIONS.forEach((position, i) => {
     const row = headerRow + 1 + i;

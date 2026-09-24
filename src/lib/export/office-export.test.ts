@@ -361,6 +361,52 @@ describe("office-export", () => {
       expect(ws!.getCell("B3").value).toBe("2026-08-26");
       expect(ws!.getCell("A7").value).toBe("Who");
       expect(ws!.getCell("B7").value).toBe("");
+      expect(ws!.getCell("A1").font?.color).toEqual({ argb: "FFFFFFFF" });
+      expect(ws!.getCell("A2").font?.color).toEqual({ argb: "FFFFFFFF" });
+    },
+    20_000,
+  );
+
+  it(
+    "renderGrievanceIntakeXlsx uses white ink on brand orange like Word",
+    async () => {
+      const blob = await renderGrievanceIntakeXlsx({
+        palette: { primary: "#C2410C", secondary: "#7C2D12", accent: "#EA580C" },
+        localNumber: "777",
+        fields: { incidentDate: "", caArticle: "" },
+        labels: {
+          sheetName: "Intake",
+          title: "Grievance intake (6 W's)",
+          local: "Local",
+          incidentDate: "Incident date",
+          caArticle: "CA article",
+          itemCol: "Item",
+          notesCol: "Notes",
+          witnesses: "Witnesses",
+          clockNotes: "Clock notes",
+          disclaimer: "Aid only",
+          rows: {
+            who: "Who",
+            what: "What",
+            where: "Where",
+            when: "When",
+            why: "Why",
+            want: "Want",
+          },
+        },
+      });
+      const excelMod = await import("exceljs");
+      const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+      const wb = new ExcelNS.Workbook();
+      await wb.xlsx.load(await blob.arrayBuffer());
+      const ws = wb.getWorksheet("Intake");
+      expect(ws!.getCell("A1").fill).toMatchObject({
+        type: "pattern",
+        fgColor: { argb: "FFC2410C" },
+      });
+      expect(ws!.getCell("A1").font?.color).toEqual({ argb: "FFFFFFFF" });
+      expect(ws!.getCell("A13").font?.color).toEqual({ argb: "FFFFFFFF" });
+      expect((ws!.getRow(1).height ?? 0) >= 28).toBe(true);
     },
     20_000,
   );
