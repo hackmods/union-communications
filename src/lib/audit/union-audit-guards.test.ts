@@ -22,6 +22,27 @@ function walk(dir: string, acc: string[] = []): string[] {
 }
 
 describe("union audit source guards", () => {
+  it("tools layout mounts PublicCatalogBreadcrumbs for create and utilities rewrites", () => {
+    const layout = fs.readFileSync(
+      path.join(ROOT, "src/app/[locale]/tools/layout.tsx"),
+      "utf8",
+    );
+    expect(layout).toContain("PublicCatalogItemLayout");
+    const crumbs = fs.readFileSync(
+      path.join(ROOT, "src/components/comms/PublicCatalogBreadcrumbs.tsx"),
+      "utf8",
+    );
+    expect(crumbs).toContain('pathname.startsWith("/utilities")');
+    expect(crumbs).toContain('pathname.startsWith("/learn/officer")');
+    expect(crumbs).toContain('pathname.startsWith("/learn/library")');
+  });
+
+  it("library hub page exists on disk", () => {
+    expect(
+      fs.existsSync(path.join(ROOT, "src/app/[locale]/library/page.tsx")),
+    ).toBe(true);
+  });
+
   it("sitemap includes library hub, library shelves, and /app", () => {
     expect(PUBLIC_PATHS).toContain("/learn/library");
     expect(PUBLIC_PATHS).toContain("/learn/library/examples");
