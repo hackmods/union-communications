@@ -1,6 +1,7 @@
 import type { NextAuthConfig } from "next-auth";
 import { resolveAuthSecret } from "@/lib/auth/auth-secret";
 import { applyTrustedSessionUpdate } from "@/lib/auth/session-update";
+import { refreshJwtTenancyIfStale } from "@/lib/auth/refresh-jwt-tenancy";
 
 export const authConfig = {
   secret: resolveAuthSecret(),
@@ -22,7 +23,7 @@ export const authConfig = {
       if (isAppRoute) return !!auth?.user;
       return true;
     },
-    jwt({ token, user, trigger, session }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.sub = user.id;
         token.unionId = user.unionId;
@@ -37,6 +38,7 @@ export const authConfig = {
       if (trigger === "update" && session) {
         applyTrustedSessionUpdate(token, session);
       }
+      await refreshJwtTenancyIfStale(token);
       return token;
     },
     session({ session, token }) {

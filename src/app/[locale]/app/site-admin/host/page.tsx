@@ -29,7 +29,7 @@ export default async function HostReadinessPage({
     locale,
     namespace: "hub.platformOperator",
   });
-  const readiness = buildHostReadiness(buildHealthStatus());
+  const readiness = buildHostReadiness(await buildHealthStatus());
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 lg:py-12">
@@ -172,6 +172,7 @@ export default async function HostReadinessPage({
                     {
                       postgresConfigured: "hostPresencePostgres",
                       migrateVerified: "hostPresenceMigrate",
+                      tenantsSeeded: "hostPresenceTenantsSeeded",
                       emailEnabled: "hostPresenceEmail",
                       cronConfigured: "hostPresenceCron",
                       mfaEnabled: "hostPresenceMfa",
@@ -202,6 +203,7 @@ export default async function HostReadinessPage({
                     {
                       postgresConfigured: "hostPresencePostgres",
                       migrateVerified: "hostPresenceMigrate",
+                      tenantsSeeded: "hostPresenceTenantsSeeded",
                       emailEnabled: "hostPresenceEmail",
                       cronConfigured: "hostPresenceCron",
                       mfaEnabled: "hostPresenceMfa",

@@ -17,6 +17,7 @@ import {
   readDatabaseBootAttestation,
   type DatabaseBootAttestation,
 } from "@/lib/ops/database-boot";
+import { countUnions } from "@/lib/tenant/union-exists";
 
 /** Non-secret runtime summary for `/api/health` (operators + smoke). */
 export type HealthStatus = {
@@ -37,6 +38,19 @@ export type HealthStatus = {
   observability: ObservabilityHealth;
   /** Non-authoritative evidence from the fail-closed boot deployment gate. */
   databaseDeployment: DatabaseBootAttestation;
+  /**
+   * Tenant registry probe — schema gate does not seed `unions`.
+   * Does not flip HTTP 503 by itself (CapRover would loop); host readiness
+   * treats empty registry as blocking when Postgres is configured.
+   */
+  tenantRegistry: TenantRegistryHealth;
+};
+
+export type TenantRegistryHealth = {
+  /** null when Postgres unset or count failed */
+  unionCount: number | null;
+  /** true when ≥1 union row; false when count is 0; null when unknown */
+  seeded: boolean | null;
 };
 
 let cachedVersion: string | undefined;
@@ -72,11 +86,25 @@ export function readBuildTime(): string {
   return cachedBuiltAt;
 }
 
-export function buildHealthStatus(): HealthStatus {
+export async function readTenantRegistryHealth(
+  postgresConfigured: boolean,
+): Promise<TenantRegistryHealth> {
+  if (!postgresConfigured) {
+    return { unionCount: null, seeded: null };
+  }
+  const unionCount = await countUnions();
+  if (unionCount == null) {
+    return { unionCount: null, seeded: null };
+  }
+  return { unionCount, seeded: unionCount > 0 };
+}
+
+export async function buildHealthStatus(): Promise<HealthStatus> {
   const postgresConfigured = isPostgresConfigured();
   const databaseDeployment = postgresConfigured
     ? readDatabaseBootAttestation()
     : memoryDatabaseBootAttestation();
+  const tenantRegistry = await readTenantRegistryHealth(postgresConfigured);
   return {
     status:
       postgresConfigured && !databaseDeployment.verified ? "degraded" : "ok",
@@ -93,5 +121,6 @@ export function buildHealthStatus(): HealthStatus {
     demoAuthEnabled: isDemoAuthEnabled(),
     observability: buildObservabilityHealth(),
     databaseDeployment,
+    tenantRegistry,
   };
 }

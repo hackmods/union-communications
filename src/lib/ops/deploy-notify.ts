@@ -6,7 +6,10 @@ import {
   buildHostReadiness,
   formatHostReadinessEmailBody,
 } from "@/lib/ops/host-readiness";
-import { buildHealthStatus } from "@/lib/ops/health-status";
+import {
+  buildHealthStatus,
+  type HealthStatus,
+} from "@/lib/ops/health-status";
 import {
   isTransactionalEmailAvailable,
   sendTransactionalEmail,
@@ -36,10 +39,11 @@ export type DeployNotifyPayload = {
   ready: boolean;
 };
 
-export function buildDeployNotifyPayload(
-  health = buildHealthStatus(),
-): DeployNotifyPayload {
-  const readiness = buildHostReadiness(health);
+export async function buildDeployNotifyPayload(
+  health?: HealthStatus,
+): Promise<DeployNotifyPayload> {
+  const resolved = health ?? (await buildHealthStatus());
+  const readiness = buildHostReadiness(resolved);
   const short = readiness.image.commit.slice(0, 7);
   const subject = `UnionOps deploy ${short} — ${readiness.ready ? "ready" : "needs attention"}`;
   return {
@@ -63,7 +67,7 @@ export async function sendDeployNotifyEmail(input?: {
   to?: string | null;
   payload?: DeployNotifyPayload;
 }): Promise<DeployNotifySendResult & { payload: DeployNotifyPayload }> {
-  const payload = input?.payload ?? buildDeployNotifyPayload();
+  const payload = input?.payload ?? (await buildDeployNotifyPayload());
   if (!isDeployNotifyEnabled()) {
     return { ok: false, skipped: "disabled", payload };
   }

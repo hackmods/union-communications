@@ -3,8 +3,8 @@ import { auditLog } from "@/lib/audit/store";
 import {
   listFiltersForMinutesSession,
   requireMinutesSession,
-  tenantIdsForMinutesSession,
 } from "@/lib/auth/minutes-session";
+import { resolveMinutesWriteTenant } from "@/lib/auth/minutes-write-tenant";
 import { canWriteMinutes } from "@/lib/minutes/access";
 import { minutesStore } from "@/lib/minutes/store";
 import { parseJsonBody } from "@/lib/validation/parse";
@@ -80,7 +80,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const tenant = tenantIdsForMinutesSession(session);
+  const tenant = await resolveMinutesWriteTenant(session);
+  if (!tenant.ok) {
+    return NextResponse.json(
+      { error: tenant.error },
+      { status: tenant.status },
+    );
+  }
   const entry = await minutesStore.create(parsed.data, {
     unionId: tenant.unionId,
     localId: tenant.localId,

@@ -114,7 +114,7 @@ export const users = pgTable("users", {
   /**
    * Bumps on `signout-everywhere` and email change. Reserved for v2
    * server-side session invalidation (the JWT callback will reject tokens
-   * whose `sessionVersion` lag); v1 stores / bumps but does not yet check.
+   * whose `sessionVersion` lag). JWT refresh syncs tenancy when version or union/local drift.
    * `0` is the genesis value.
    */
   sessionVersion: integer("session_version").notNull().default(0),

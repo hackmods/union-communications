@@ -67,6 +67,7 @@ export type BackendReadinessRow = {
 export type PresenceCheckId =
   | "postgresConfigured"
   | "migrateVerified"
+  | "tenantsSeeded"
   | "emailEnabled"
   | "cronConfigured"
   | "mfaEnabled"
@@ -143,6 +144,9 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
     health.databaseDeployment.mode === "postgres" &&
     health.databaseDeployment.verified;
 
+  const tenantsSeeded =
+    !health.postgresConfigured || health.tenantRegistry.seeded !== false;
+
   return [
     {
       id: "postgresConfigured",
@@ -154,6 +158,12 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
       id: "migrateVerified",
       ok: migrateVerified,
       hintKey: "MIGRATE_DATABASE_URL",
+      advisory: false,
+    },
+    {
+      id: "tenantsSeeded",
+      ok: tenantsSeeded,
+      hintKey: "npm run db:seed",
       advisory: false,
     },
     {
@@ -199,7 +209,8 @@ export function buildHostReadiness(health: HealthStatus): HostReadiness {
     health.databaseDeployment.mode === "postgres" &&
     !health.memoryCaseDataActive &&
     health.postgresFlipComplete &&
-    !health.demoAuthEnabled;
+    !health.demoAuthEnabled &&
+    health.tenantRegistry.seeded !== false;
 
   return {
     image: {
@@ -243,6 +254,13 @@ export function formatHostReadinessEmailBody(readiness: HostReadiness): string {
     `DB tip: ${readiness.database.tailTag ?? "unknown"} (verified=${readiness.database.verified})`,
     ``,
   ];
+  const tenants = readiness.presence.find((p) => p.id === "tenantsSeeded");
+  if (tenants && !tenants.ok) {
+    lines.push(
+      "Tenant registry empty: run npm run db:seed (or scripts/caprover-bootstrap-seed.sh) once after migrate.",
+      "",
+    );
+  }
   if (readiness.missingBackendFlips.length > 0) {
     lines.push("Missing backend flips:");
     for (const row of readiness.missingBackendFlips) {
