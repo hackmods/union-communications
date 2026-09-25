@@ -61,12 +61,12 @@ describe("union audit source guards", () => {
     ).toBe(true);
   });
 
-  it("sitemap includes library hub, library shelves, and /app", () => {
+  it("sitemap includes library hub and shelves, but not authenticated /app", () => {
     expect(PUBLIC_PATHS).toContain("/learn/library");
     expect(PUBLIC_PATHS).toContain("/learn/library/examples");
     expect(PUBLIC_PATHS).toContain("/learn/library/captions");
     expect(PUBLIC_PATHS).toContain("/learn/library/brand-assets");
-    expect(PUBLIC_PATHS).toContain("/app");
+    expect(PUBLIC_PATHS).not.toContain("/app");
   });
 
   it("tokenizeInline consumes backticks and bold without leaking markers", () => {
