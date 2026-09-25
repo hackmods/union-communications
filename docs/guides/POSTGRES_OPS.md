@@ -15,18 +15,9 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
    - `MIGRATE_DATABASE_URL` — owner role (DDL + migrations)
    - `DATABASE_URL` — `unionops_app` when `POSTGRES_APP_PASSWORD` is set (RLS binds at runtime)
    - **URL-encode passwords** in connection strings (`encodeURIComponent` / `[uri]::EscapeDataString`). A raw `+` or `/` in the password will break migrate/seed.
-3. **Run deploy gate + seed once:** Production images run the database gate on every boot and sync `unionops_app` when `POSTGRES_APP_PASSWORD` is set. Run **`npm run db:seed` once** after the first successful gate — seed is not automatic. CapRover walkthrough: [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md). Local/manual: `npm run db:deploy` then `npm run db:seed`.
+3. **Run deploy gate + boot seed:** Production images run the database gate on every boot and sync `unionops_app` when `POSTGRES_APP_PASSWORD` is set. Next, [`docker/db-seed-boot.mjs`](../../docker/db-seed-boot.mjs) runs with **`SEED_ON_BOOT=auto`** (default): if `unions` is empty, upsert the B7P reference tenant. CapRover walkthrough: [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md). Local/manual: `npm run db:deploy` then (if needed) `npm run db:seed` for platform admin / demo users.
 
-   **Schema gate ≠ tenant seed.** `/api/health` `databaseDeployment.verified` only proves DDL/RLS. Empty `unions` still passes the gate; flipping `AUDIT_DB_BACKEND` / `MINUTES_DB_BACKEND` (and peers) to postgres then causes FK errors (`union_id` not in `unions`). Site-admin Host readiness and `tenantRegistry.seeded` flag this. CapRover one-shot: [`scripts/caprover-bootstrap-seed.sh`](../../scripts/caprover-bootstrap-seed.sh). Diagnose:
-
-   ```sql
-   SELECT id, slug, is_demo FROM unions ORDER BY id;
-   SELECT id, email, union_id FROM users
-   WHERE union_id IS NOT NULL
-     AND union_id NOT IN (SELECT id FROM unions);
-   ```
-
-   After demo purge or union delete, force re-login so JWTs drop stale `unionId` values.
+   Boot seed does **not** create demo roster users or a platform admin — use `npm run db:seed` or [`scripts/caprover-bootstrap-seed.sh`](../../scripts/caprover-bootstrap-seed.sh) once for those. Opt out with `SEED_ON_BOOT=false`; force re-upsert with `SEED_ON_BOOT=true`.
 
    **One-shot local verify** (db already healthy, `docker/.env` filled):
 

@@ -102,9 +102,11 @@ You can leave `*_DB_BACKEND` unset (memory) for this step — the goal is to con
 [entrypoint] database deploy gate passed
 [entrypoint] syncing unionops_app password
 [sync-app-role] unionops_app password synced from POSTGRES_APP_PASSWORD
+[entrypoint] running boot seed (SEED_ON_BOOT=auto)
+[db-seed-boot] upserted reference tenant b7p (… locals, … collections); unions=1
 ```
 
-If migration, exact-tail proof, or required-shape verification fails, the container **refuses to start**. `MIGRATE_CONTINUE_ON_ERROR=true` is a local/debug escape only and is deliberately ignored when `NODE_ENV=production`. Multiple replicas serialize through the advisory lock (`MIGRATE_LOCK_TIMEOUT_MS`, default 120000).
+If migration, exact-tail proof, required-shape verification, or boot seed fails, the container **refuses to start**. `MIGRATE_CONTINUE_ON_ERROR=true` is a local/debug escape only and is deliberately ignored when `NODE_ENV=production`. Multiple replicas serialize through the advisory lock (`MIGRATE_LOCK_TIMEOUT_MS`, default 120000). Boot seed defaults to `SEED_ON_BOOT=auto` (skip when `unions` already has rows).
 
 **Droplet check** (optional — if App Logs are noisy):
 
@@ -115,9 +117,13 @@ bash scripts/caprover-verify-migrate.sh
 
 Expect one schema-qualified Drizzle table, `migration_rows>0`, the current tail timestamp/hash, `app_role=1`, all four 0027 task columns, and `obsolete_meta_tables=0`.
 
-### Step C — One-shot seed (reference tenant + platform admin)
+### Step C — Reference tenant seed (now automatic on boot)
 
-Seeding is **not** automatic on boot (would upsert demo users). Run once:
+On every container start, after the migrate gate, entrypoint runs [`docker/db-seed-boot.mjs`](../../docker/db-seed-boot.mjs) with **`SEED_ON_BOOT=auto`** (default): if `unions` is empty, it upserts the B7P reference tenant (locals + collections). It does **not** create demo roster users or a platform admin.
+
+Opt out with `SEED_ON_BOOT=false`. Force re-upsert with `SEED_ON_BOOT=true` (still idempotent; still no demo users).
+
+**Platform admin / demo users** stay a one-shot operator step:
 
 **Option 1 — CapRover host** (repo checkout or tarball on the server):
 

@@ -36,4 +36,16 @@ if [ -n "${MIGRATE_DATABASE_URL:-}" ] && [ -n "${POSTGRES_APP_PASSWORD:-}" ]; th
   MIGRATE_DIR="${MIGRATE_DIR}" node /app/scripts/sync-app-role-password.mjs
 fi
 
+# Reference-tenant seed (empty unions → FK-safe Hub). Default SEED_ON_BOOT=auto.
+# Does not create demo users or platform admin — use caprover-bootstrap-seed.sh for those.
+if [ -n "${MIGRATE_DATABASE_URL:-}${DATABASE_URL:-}" ]; then
+  echo "[entrypoint] running boot seed (SEED_ON_BOOT=${SEED_ON_BOOT:-auto})"
+  if ! (
+    MIGRATE_DIR="${MIGRATE_DIR}" node /app/scripts/db-seed-boot.mjs
+  ); then
+    echo "[entrypoint] ERROR: boot seed failed — refusing to start" >&2
+    exit 1
+  fi
+fi
+
 exec "$@"
