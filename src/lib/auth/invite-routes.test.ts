@@ -295,6 +295,36 @@ describe("invite API routes", () => {
       ).toBe(true);
     });
 
+    it("forbids a president from minting a union through newUnionName", async () => {
+      authMock.mockResolvedValue(session());
+      const res = await createInviteRoute(
+        jsonRequest({
+          ...validCreate,
+          newUnionName: "Hijack Union",
+        }),
+      );
+      expect(res.status).toBe(403);
+      expect(await res.json()).toEqual({
+        error: "Only platform admins can create a union",
+      });
+    });
+
+    it("requires a platform admin without a home union to choose or name one", async () => {
+      const sess = session({
+        id: "user-root",
+        roles: ["platform_admin"],
+        unionId: null,
+        localId: null,
+      });
+      authMock.mockResolvedValue(sess);
+      resolveActorMock.mockResolvedValue(actorFromSessionRoles(sess));
+      const res = await createInviteRoute(jsonRequest(validCreate));
+      expect(res.status).toBe(400);
+      expect(await res.json()).toEqual({
+        error: "Choose a union or enter a new union name",
+      });
+    });
+
     it("returns 403 when a president tries to invite another president", async () => {
       authMock.mockResolvedValue(session());
       const res = await createInviteRoute(
