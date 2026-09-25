@@ -39,11 +39,10 @@ export function HubOfficerToolsCatalog({
   if (groups.length === 0) return null;
 
   return (
-    <section
-      aria-labelledby="officer-tools-heading"
+    <details
       className="min-w-0 overflow-hidden rounded-xl border border-opseu-blue/20 bg-gradient-to-br from-opseu-blue/[0.07] via-white to-opseu-orange/[0.05] shadow-sm"
     >
-      <div className="border-b border-opseu-blue/10 px-4 py-4 sm:px-5 sm:py-5">
+      <summary className="cursor-pointer px-4 py-4 marker:text-opseu-blue focus-visible:outline-2 focus-visible:outline-offset-[-3px] sm:px-5 sm:py-5">
         <p className="text-xs font-semibold uppercase tracking-[0.08em] text-opseu-blue">
           {t("qolCardEyebrow")}
         </p>
@@ -56,7 +55,7 @@ export function HubOfficerToolsCatalog({
         <p className="mt-1.5 max-w-prose text-sm leading-relaxed text-gray-600">
           {t("qolCardDesc")}
         </p>
-      </div>
+      </summary>
 
       {mfaOk ? (
         <div
@@ -120,6 +119,6 @@ export function HubOfficerToolsCatalog({
           </Link>
         </div>
       )}
-    </section>
+    </details>
   );
 }

@@ -26,12 +26,12 @@ test.describe("Hub MFA-off dashboard @smoke", () => {
       page.getByRole("navigation").getByText(/MFA verified|AMF vérifiée|MFA required|AMF requise/i),
     ).toHaveCount(0);
 
-    // Confidential modules should offer Open module, not an MFA lock link.
-    const grievances = page
-      .locator("a")
-      .filter({ hasText: /Open module|Ouvrir le module/i })
-      .first();
-    await expect(grievances).toBeVisible();
+    // Confidential modules stay reachable through the Hub navigation.
+    await page.getByTestId("hub-nav-toggle").click();
+    await expect(
+      page.getByTestId("hub-nav-drawer").getByRole("link", { name: /Grievances|Griefs/i }),
+    ).toBeVisible();
+    await page.keyboard.press("Escape");
 
     await expect(
       page.getByRole("heading", {
@@ -39,6 +39,9 @@ test.describe("Hub MFA-off dashboard @smoke", () => {
         name: /Officer tools|Outils dirigeants/i,
       }),
     ).toBeVisible();
+    await page.locator("details").filter({
+      has: page.getByRole("heading", { name: /Officer tools|Outils dirigeants/i }),
+    }).locator("summary").click();
     await expect(page.getByTestId("hub-officer-tools")).toBeVisible();
     await expect(
       page.getByTestId("hub-officer-tools").getByRole("link", {

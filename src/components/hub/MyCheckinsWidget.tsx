@@ -1,86 +1,59 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
-import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
-import { getTenantContext } from "@/lib/tenant/loader";
-import { canAccessCheckinsModule } from "@/lib/checkins/access";
-import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 import type { CheckinPendingItem } from "@/types/checkins";
-import type { HubModule, UserRole } from "@/types/tenant";
 
-/** Compact unanswered check-ins strip for the Hub dashboard. */
+type LoadState = "loading" | "ready" | "error";
+
+/** Unanswered questions for the signed-in officer, scoped by the API. */
 export function MyCheckinsWidget() {
   const t = useTranslations("checkins");
-  const { data: session } = useSession();
-  const mfaOk = useSessionMfaOk();
   const [pending, setPending] = useState<CheckinPendingItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [fetched, setFetched] = useState(false);
-
-  const roles = (session?.user?.roles ?? []) as UserRole[];
-  const tenant = session?.user?.unionId
-    ? getTenantContext(session.user.unionId)
-    : null;
-  const enabledModules: HubModule[] =
-    tenant?.union.enabledModules ?? [...PRESIDENT_OVERLAY_MODULES];
-  const show =
-    mfaOk &&
-    canAccessCheckinsModule(roles) &&
-    enabledModules.includes("checkins");
+  const [state, setState] = useState<LoadState>("loading");
 
   useEffect(() => {
-    if (!show) return;
-    void fetch("/api/checkins/mine?unanswered=1")
+    const controller = new AbortController();
+    void fetch("/api/checkins/mine?unanswered=1", { signal: controller.signal })
       .then(async (res) => {
-        if (!res.ok) return;
-        const data = (await res.json()) as { pending: CheckinPendingItem[] };
+        if (!res.ok) throw new Error(`Check-ins: ${res.status}`);
+        const data = (await res.json()) as { pending?: CheckinPendingItem[] };
         setPending((data.pending ?? []).slice(0, 5));
+        setState("ready");
       })
-      .finally(() => {
-        setLoading(false);
-        setFetched(true);
+      .catch(() => {
+        if (!controller.signal.aborted) setState("error");
       });
-  }, [show]);
-
-  if (!show) return null;
-
-  const busy = loading && !fetched;
-  if (!busy && pending.length === 0) return null;
+    return () => controller.abort();
+  }, []);
 
   return (
     <Card density="compact" className="h-full min-w-0">
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex flex-wrap items-start justify-between gap-2">
         <CardTitle>{t("widgetTitle")}</CardTitle>
-        <Link
-          href="/app/checkins"
-          className="text-sm text-opseu-blue underline"
-        >
+        <Link href="/app/checkins" className="text-sm font-medium text-opseu-blue underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
           {t("widgetAll")}
         </Link>
       </div>
-      {busy ? (
-        <p className="mt-2 text-sm text-gray-600">{t("loading")}</p>
-      ) : (
-        <ul className="mt-2 space-y-1.5">
-          {pending.map((item) => (
-            <li key={item.schedule.id}>
-              <Link
-                href={`/app/checkins/${item.schedule.id}`}
-                className="block text-sm text-opseu-dark hover:underline"
-              >
-                {item.schedule.question}
-              </Link>
-              <p className="text-xs text-gray-500">
-                {t("periodLabel", { period: item.periodLabel })}
-              </p>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div role="status" aria-live="polite" className="mt-3 text-sm leading-relaxed text-gray-700">
+        {state === "loading" ? <p>{t("loading")}</p> : null}
+        {state === "error" ? <p>{t("widgetError")}</p> : null}
+        {state === "ready" && pending.length === 0 ? <p>{t("widgetEmpty")}</p> : null}
+        {state === "ready" && pending.length > 0 ? (
+          <ul className="space-y-2">
+            {pending.map((item) => (
+              <li key={item.schedule.id} className="border-t border-slate-200 pt-2 first:border-0 first:pt-0">
+                <Link href={`/app/checkins/${item.schedule.id}`} className="font-medium text-opseu-blue underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2">
+                  {item.schedule.question}
+                </Link>
+                <p className="text-xs text-gray-600">{t("periodLabel", { period: item.periodLabel })}</p>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
     </Card>
   );
 }

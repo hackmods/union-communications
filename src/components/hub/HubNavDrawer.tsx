@@ -42,6 +42,7 @@ type HubNavDrawerProps = {
   onClose: () => void;
   onCloseAfterNav: () => void;
   drawerId: string;
+  compactDashboard?: boolean;
 };
 
 export function HubNavDrawer({
@@ -54,6 +55,7 @@ export function HubNavDrawer({
   onClose,
   onCloseAfterNav,
   drawerId,
+  compactDashboard = false,
 }: HubNavDrawerProps) {
   const t = useTranslations("hub");
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -130,7 +132,7 @@ export function HubNavDrawer({
     );
 
   return createPortal(
-    <div className="lg:hidden" role="presentation">
+    <div className={compactDashboard ? "2xl:hidden" : "lg:hidden"} role="presentation">
       <button
         type="button"
         className="fixed inset-x-0 bottom-0 z-[60] bg-black/40"

@@ -7861,6 +7861,10 @@
         "title": "Fondation Trousse de marque avec Créer, Utilitaires et Apprendre en parallèle",
         "body": "L’accueil ne vous impose plus une séquence en cinq étapes. Configurez la Trousse de marque, puis choisissez Créer, Utilitaires ou Apprendre selon votre tâche. Le générateur de lettres inclut maintenant des contextes de lettre pour délégués, ouvrables depuis l’adaptation et d’autres utilitaires."
       },
+      "officer-hub-task-dashboard": {
+        "title": "Le Hub des dirigeants met votre travail en premier",
+        "body": "Voyez d’abord vos tâches assignées et points de suivi en attente, puis choisissez une prochaine action permise. La configuration et le catalogue complet restent accessibles au besoin."
+      },
       "brand-kit-workspace-preview": {
         "title": "Trousse de marque avec aperçu en direct",
         "body": "Définissez l’identité de votre section dans un éditeur plus spacieux et voyez ensemble votre logo, vos couleurs et le style de canevas. Vous pourrez ajouter les liens et la signature facultatifs plus tard."
@@ -8002,6 +8006,24 @@
     "title": "Hub des dirigeants",
     "navLabel": "Navigation du hub",
     "dashboard": "Tableau de bord",
+    "dashboardHome": {
+      "attention": "Qu’est-ce qui demande mon attention ?",
+      "attentionBody": "Votre travail assigné dans cette section. Les autres dossiers restent dans la navigation.",
+      "platformAttention": "Travail de la plateforme",
+      "platformAttentionBody": "Ouvrez ici les opérations de l’hôte. L’accès aux dossiers locaux reste régi par leurs propres règles.",
+      "mfaTitle": "Vérifiez votre identité pour voir votre travail",
+      "mfaBody": "Les espaces de travail privés seront disponibles après la vérification d’identité sur cet hôte.",
+      "mfaNext": "Vos espaces de travail autorisés apparaîtront après la vérification.",
+      "noWorkModules": "Aucun tableau de tâches ni point de suivi n’est activé pour cette section. Les autres espaces de travail sont dans les prochaines actions.",
+      "tenantPending": "Vérification des réglages de votre syndicat. S’ils n’apparaissent pas, actualisez la page ou contactez l’administration du Hub des dirigeants.",
+      "nextSteps": "Que puis-je faire ensuite ?",
+      "nextStepsBody": "Ouvrez un espace de travail accessible à votre rôle.",
+      "noNextSteps": "Aucun module de travail n’est activé pour votre rôle. Demandez l’accès à une personne dirigeante de la section.",
+      "browseTools": "Parcourir les outils des dirigeants",
+      "notices": "Avis de l’hôte :",
+      "noticeCaution": "N’entrez pas de vraies données de membres.",
+      "noticeDetails": "Lire les détails"
+    },
     "welcome": "Bienvenue, {name}",
     "signOut": "Déconnexion",
     "signIn": "Connexion",
@@ -8767,8 +8789,8 @@
       "starterCommitteeDesc": "Cercle de démarrage pour le travail du conseil."
     },
     "presidentToday": {
-      "title": "Aujourd’hui",
-      "body": "Raccourcis pour le travail quotidien de la présidence.",
+      "title": "Que puis-je faire ensuite ?",
+      "body": "Ouvrez un espace pour le travail de la section.",
       "overdue": "Échéances CA",
       "overdueBlurb": "Griefs et délais à surveiller.",
       "ledger": "Sommaire financier",
@@ -8779,8 +8801,8 @@
       "meetingsBlurb": "Horaire et confirmations de présence."
     },
     "presidentChecklist": {
-      "title": "Mise en route de la section",
-      "body": "Étapes pour ouvrir le Hub et le Portail sans surcharge.",
+      "title": "Configuration et administration de la section",
+      "body": "Vérifiez les modules et les invitations de votre section. Les autres outils de configuration apparaissent lorsqu’ils sont activés.",
       "steps": {
         "modules": "Choisir les modules",
         "hall": "Ouvrir la Salle",
@@ -9771,7 +9793,9 @@
     "answersTitle": "Réponses de cette période",
     "answersEmpty": "Aucune réponse pour cette période. Rappelez aux dirigeants, ou revenez après l’échéance.",
     "widgetTitle": "Vos points de suivi en attente",
-    "widgetAll": "Tout voir"
+    "widgetAll": "Tout voir",
+    "widgetEmpty": "Aucun point de suivi en attente pour le moment. Les nouvelles questions apparaîtront ici.",
+    "widgetError": "Impossible de charger les points de suivi. Ouvrez leur page ou actualisez pour réessayer."
   },
   "tasks": {
     "title": "Tableau des tâches",
@@ -9820,6 +9844,7 @@
     "widgetTitle": "Mes tâches",
     "widgetDesc": "Tâches ouvertes qui vous sont assignées.",
     "widgetEmpty": "Aucune tâche ouverte qui vous est assignée. Les nouvelles assignations apparaîtront ici.",
+    "widgetError": "Impossible de charger vos tâches. Ouvrez leur tableau ou actualisez pour réessayer.",
     "widgetLink": "Ouvrir le tableau des tâches",
     "relatedPanel": {
       "title": "Tâches liées",
