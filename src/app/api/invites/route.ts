@@ -23,6 +23,7 @@ import {
   getTenantContext,
   getAllTenantSeeds,
 } from "@/lib/tenant/loader";
+import { isSampleDemoLocal } from "@/lib/tenant/sample-demo";
 import {
   findOrCreateLocal,
   hydrateTenantOverlayFromPostgres,
@@ -69,12 +70,13 @@ function emptyInvitesPayload(input: {
   isPlatform: boolean;
   sessionLocalId: string | null;
   sessionUnionId: string | null;
-  unions: Array<{ id: string; name: string }>;
+  unions: Array<{ id: string; name: string; isSample?: boolean }>;
   locals?: Array<{
     id: string;
     localNumber: string;
     subText?: string;
     unionId: string;
+    isSample?: boolean;
   }>;
   subGroups?: Array<{
     id: string;
@@ -140,7 +142,14 @@ export async function GET(req: Request) {
 
   const seeds = getAllTenantSeeds();
   const unionsList = isPlatform
-    ? seeds.map((s) => ({ id: s.union.id, name: s.union.name }))
+    ? seeds.map((s) => ({
+        id: s.union.id,
+        name: s.union.name,
+        isSample: isSampleDemoLocal({
+          unionId: s.union.id,
+          unionSlug: s.union.slug,
+        }),
+      }))
     : [];
   const platformLocals = isPlatform
     ? seeds.flatMap((s) =>
@@ -154,6 +163,10 @@ export async function GET(req: Request) {
           localNumber: local.localNumber,
           subText: local.subText,
           unionId: s.union.id,
+          isSample: isSampleDemoLocal({
+            unionId: s.union.id,
+            unionSlug: s.union.slug,
+          }),
         })),
       )
     : [];
@@ -217,6 +230,10 @@ export async function GET(req: Request) {
         localNumber: local.localNumber,
         subText: local.subText,
         unionId: effectiveUnionId,
+        isSample: isSampleDemoLocal({
+          unionId: effectiveUnionId,
+          unionSlug: ctx.union.slug,
+        }),
       }));
 
   const allSubGroups = isPlatform

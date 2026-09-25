@@ -9042,7 +9042,8 @@
       "pickExisting": "Choisir une section existante",
       "enterNumber": "Saisir ou créer par numéro",
       "subGroup": "Sous-groupe",
-      "subGroupOptional": "Aucun (facultatif)"
+      "subGroupOptional": "Aucun (facultatif)",
+      "sampleBadge": "Échantillon"
     }
   },
   "invites": {

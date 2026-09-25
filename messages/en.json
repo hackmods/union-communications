@@ -9095,7 +9095,8 @@
       "pickExisting": "Pick existing local",
       "enterNumber": "Enter or create by number",
       "subGroup": "Sub-group",
-      "subGroupOptional": "None (optional)"
+      "subGroupOptional": "None (optional)",
+      "sampleBadge": "Sample"
     }
   },
   "invites": {
