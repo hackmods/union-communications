@@ -31,7 +31,7 @@ export default async function SiteAdminLandingPage({
   const demoPurgeOn = isDemoPurgeEnabled();
   const highIntegrity =
     isPostgresConfigured() ? await countHighMembershipIntegrityIssues() : 0;
-  const hostReadiness = buildHostReadiness(buildHealthStatus());
+  const hostReadiness = buildHostReadiness(await buildHealthStatus());
   const missingHostCount =
     hostReadiness.missingBackendFlips.length +
     hostReadiness.missingBlockingPresence.length;

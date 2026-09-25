@@ -32,7 +32,7 @@ export default async function BuildInfoPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("buildInfo");
-  const health = buildHealthStatus();
+  const health = await buildHealthStatus();
 
   const rows = [
     { label: t("version"), value: health.version },

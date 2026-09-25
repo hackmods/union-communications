@@ -81,6 +81,13 @@ if (process.exitCode) {
     ok = gate(body.memoryCaseDataActive === false, "memoryCaseDataActive=false") && ok;
     ok = gate(body.demoAuthEnabled === false, "demoAuthEnabled=false") && ok;
 
+    const registry = /** @type {Record<string, unknown>} */ (body.tenantRegistry ?? {});
+    ok =
+      gate(
+        registry.seeded === true,
+        `tenantRegistry.seeded (unionCount=${registry.unionCount ?? "unknown"})`,
+      ) && ok;
+
     const backends = /** @type {Record<string, string>} */ (body.backends ?? {});
     const badBackends = Object.entries(backends).filter(([key, value]) => {
       if (INTENTIONAL_MEMORY.has(key) && value === "memory") return false;

@@ -8177,6 +8177,7 @@
       "hostPresenceCron": "Cron secret is unset (meeting reminders and deploy notify stay off)",
       "hostPresenceMfa": "MFA is off (optional — does not block casework)",
       "hostPresenceDemoAuth": "Demo roster sign-in is still allowed — turn off demo users for live casework",
+      "hostPresenceTenantsSeeded": "No unions in lasting storage — run npm run db:seed (or CapRover bootstrap seed) once after migrate; schema verify alone does not create unions",
       "operatorAuditCardTitle": "Operator action log",
       "operatorAuditCardBody": "Private log of site-admin actions across unions. Not a public changelog.",
       "operatorAuditTitle": "Operator action log",

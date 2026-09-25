@@ -71,6 +71,7 @@ function sampleHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
       columns: 1000,
       policies: 100,
     },
+    tenantRegistry: { unionCount: 1, seeded: true },
     ...overrides,
   };
 }
@@ -84,8 +85,10 @@ describe("deploy-notify", () => {
     );
   });
 
-  it("builds a payload that stays ready when MFA is off", () => {
-    const payload = buildDeployNotifyPayload(sampleHealth({ mfaEnabled: false }));
+  it("builds a payload that stays ready when MFA is off", async () => {
+    const payload = await buildDeployNotifyPayload(
+      sampleHealth({ mfaEnabled: false }),
+    );
     expect(payload.ready).toBe(true);
     expect(payload.subject).toContain("ready");
     expect(payload.text).toContain("Advisory");

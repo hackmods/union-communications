@@ -61,6 +61,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
       sentryClientServerMismatch: false,
     },
     databaseDeployment: memoryDatabaseBootAttestation(),
+    tenantRegistry: { unionCount: null, seeded: null },
     ...overrides,
   };
 }
@@ -149,6 +150,7 @@ describe("buildHostReadiness", () => {
           columns: 1274,
           policies: 134,
         },
+        tenantRegistry: { unionCount: 1, seeded: true },
       }),
     );
 
@@ -205,6 +207,7 @@ describe("buildHostReadiness", () => {
           columns: 1274,
           policies: 134,
         },
+        tenantRegistry: { unionCount: 1, seeded: true },
       }),
     );
 
@@ -251,11 +254,56 @@ describe("buildHostReadiness", () => {
           columns: 1274,
           policies: 134,
         },
+        tenantRegistry: { unionCount: 1, seeded: true },
       }),
     );
 
     expect(readiness.missingBackendFlips).toEqual([]);
     expect(readiness.ready).toBe(true);
+  });
+
+  it("blocks ready when unions table is empty after migrate", () => {
+    const backends = allMemoryBackends();
+    for (const key of HUB_POSTGRES_KEYS) {
+      backends[key] = "postgres";
+    }
+    backends.ACCESS_REQUEST_DB_BACKEND = "postgres";
+    backends.PORTAL_DB_BACKEND = "postgres";
+    backends.DATA_DB_BACKEND = "memory";
+
+    const readiness = buildHostReadiness(
+      baseHealth({
+        status: "ok",
+        postgresConfigured: true,
+        memoryCaseDataActive: false,
+        postgresFlipComplete: true,
+        emailEnabled: true,
+        cronConfigured: true,
+        mfaEnabled: true,
+        demoAuthEnabled: false,
+        backends,
+        databaseDeployment: {
+          version: 1,
+          mode: "postgres",
+          verified: true,
+          verifiedAt: "2026-09-23T12:03:50.988Z",
+          journalSchema: "drizzle",
+          tailTag: "0055_membership_policy_uniqueness",
+          tailIdx: 55,
+          tailCreatedAt: 1790200000000,
+          contractVersion: 1,
+          tables: 120,
+          columns: 1274,
+          policies: 134,
+        },
+        tenantRegistry: { unionCount: 0, seeded: false },
+      }),
+    );
+
+    expect(readiness.ready).toBe(false);
+    expect(readiness.missingBlockingPresence.map((p) => p.id)).toContain(
+      "tenantsSeeded",
+    );
   });
 });
 

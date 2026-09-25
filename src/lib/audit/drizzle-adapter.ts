@@ -2,6 +2,7 @@ import { and, desc, eq, type SQL } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import { applyRlsContext } from "@/lib/db/rls-context";
 import { auditLog as auditLogTable } from "@/lib/db/schema";
+import { resolveAuditUnionId } from "@/lib/audit/resolve-audit-union-id";
 import type { AuditEntry, AuditLogAdapter } from "./adapter";
 
 function toIso(value: Date | string): string {
@@ -15,11 +16,12 @@ export class DrizzleAuditLogAdapter implements AuditLogAdapter {
     const db = getDb();
     const id = `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     const timestamp = new Date();
+    const unionId = await resolveAuditUnionId(entry.unionId);
     // RLS on audit_log requires session GUCs when union_id is set (login, API writes).
     await db.transaction(async (tx) => {
-      if (entry.unionId) {
+      if (unionId) {
         await applyRlsContext(tx, {
-          unionId: entry.unionId,
+          unionId,
           localId: entry.localId,
           crossLocal: true,
         });
@@ -30,7 +32,7 @@ export class DrizzleAuditLogAdapter implements AuditLogAdapter {
         action: entry.action,
         resourceType: entry.resourceType,
         resourceId: entry.resourceId,
-        unionId: entry.unionId,
+        unionId: unionId ?? null,
         localId: entry.localId,
         metadata: entry.metadata ?? null,
         timestamp,
@@ -38,6 +40,7 @@ export class DrizzleAuditLogAdapter implements AuditLogAdapter {
     });
     return {
       ...entry,
+      unionId,
       id,
       timestamp: timestamp.toISOString(),
     };

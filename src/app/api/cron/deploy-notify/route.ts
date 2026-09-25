@@ -31,7 +31,7 @@ async function handle(request: Request) {
 
   const url = new URL(request.url);
   const dryRun = parseCronDryRun(url.searchParams);
-  const payload = buildDeployNotifyPayload();
+  const payload = await buildDeployNotifyPayload();
   const to = readDeployNotifyEmail();
 
   if (dryRun) {

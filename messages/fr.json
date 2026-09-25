@@ -8124,6 +8124,7 @@
       "hostPresenceCron": "Le secret cron n’est pas défini (rappels de réunion et avis de déploiement restent off)",
       "hostPresenceMfa": "L’AMF est désactivée (facultatif — ne bloque pas les dossiers)",
       "hostPresenceDemoAuth": "La connexion à la liste démo est encore permise — désactivez les utilisateurs démo pour les vrais dossiers",
+      "hostPresenceTenantsSeeded": "Aucun syndicat dans le stockage durable — exécutez npm run db:seed (ou le script CapRover) une fois après la migration ; la vérification du schéma ne crée pas les syndicats",
       "operatorAuditCardTitle": "Journal des actions opérateur",
       "operatorAuditCardBody": "Journal privé des actions site-admin pour tous les syndicats. Ce n’est pas un journal public.",
       "operatorAuditTitle": "Journal des actions opérateur",
