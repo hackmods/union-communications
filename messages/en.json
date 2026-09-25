@@ -7529,7 +7529,7 @@
       },
       "b7p-demo-roster": {
         "title": "Sample Hub accounts are Behind 7 Proxies now",
-        "body": "Workshop logins use Local 777, 404, 502, and 1337 under Behind 7 Proxies (B7P), so they no longer look like real OPSEU / SEFPO local numbers. Workshop demo passwords stay on the Hub login screen when demo auth is on — not published here."
+        "body": "Workshop logins use Local 777, 404, 502, and 1337 under Behind 7 Proxies (B7P), so they no longer look like real OPSEU / SEFPO local numbers. Workshop demo passwords stay on the Officer Hub login screen when demo auth is on, not published here."
       },
       "demo-cleanup-purge": {
         "title": "Demo cleanup can purge leftover sample accounts",
@@ -15131,7 +15131,7 @@
     "utilitiesTitle": "What do you need to get done?",
     "utilitiesIntro": "Practical worksheets and workspaces for steward prep, governance, accessibility, and other union work. For deeper training, open Learn.",
     "libraryHubTitle": "Library",
-    "libraryHubDescription": "Examples, caption packs, and brand assets for floor communications — open a shelf below."
+    "libraryHubDescription": "Examples, caption packs, and brand assets for floor communications. Open a shelf below."
   },
   "localPack": {
     "title": "Local pack",

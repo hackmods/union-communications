@@ -7476,7 +7476,7 @@
       },
       "b7p-demo-roster": {
         "title": "Les comptes Hub d'exemple sont Behind 7 Proxies",
-        "body": "Les connexions d'atelier utilisent les sections 777, 404, 502 et 1337 sous Behind 7 Proxies (B7P), pour ne plus ressembler aux vrais numéros de section OPSEU / SEFPO. Le mot de passe commun reste demo123 quand l'auth démo est active."
+        "body": "Les connexions d'atelier utilisent les sections 777, 404, 502 et 1337 sous Behind 7 Proxies (B7P), pour ne plus ressembler aux vrais numéros de section OPSEU / SEFPO. Les mots de passe démo d'atelier restent sur l'écran de connexion Officer Hub quand l'auth démo est active, et ne sont pas publiés ici."
       },
       "demo-cleanup-purge": {
         "title": "Le nettoyage démo peut supprimer les comptes exemples",
@@ -15131,7 +15131,7 @@
     "utilitiesTitle": "Que devez-vous accomplir ?",
     "utilitiesIntro": "Feuilles de travail et espaces pratiques pour la préparation des délégués, la gouvernance, l’accessibilité et d’autres tâches syndicales. Pour une formation plus approfondie, ouvrez Apprendre.",
     "libraryHubTitle": "Bibliothèque",
-    "libraryHubDescription": "Exemples, légendes et ressources de marque pour les communications de plancher — ouvrez une section ci-dessous."
+    "libraryHubDescription": "Exemples, légendes et ressources de marque pour les communications de plancher. Ouvrez une section ci-dessous."
   },
   "localPack": {
     "title": "Trousse locale",
