@@ -56,7 +56,9 @@
     "office:verify:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-office-windows.ps1",
     "office:fixtures": "tsx scripts/generate-office-smoke.ts",
     "pdf:preview": "node scripts/pdf-preview.mjs",
-    "test:union-audit": "vitest run src/lib/audit/union-audit-guards.test.ts src/lib/officer-learning/inline-markdown.test.ts"
+    "test:union-audit": "vitest run src/lib/audit/union-audit-guards.test.ts src/lib/officer-learning/inline-markdown.test.ts",
+    "test:external-links": "node scripts/check-external-links.mjs",
+    "test:union-audit:e2e": "playwright test e2e/union-audit.site.spec.ts e2e/officer-learning.quiz.audit.spec.ts --grep @smoke"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1094.0",

@@ -37,6 +37,24 @@ describe("union audit source guards", () => {
     expect(crumbs).toContain('pathname.startsWith("/learn/library")');
   });
 
+  it("short-form and workplace-mapping catalog cards use h3 under section h2", () => {
+    for (const rel of [
+      "src/app/[locale]/guide/short-form/page.tsx",
+      "src/app/[locale]/guide/workplace-mapping/page.tsx",
+    ]) {
+      const text = fs.readFileSync(path.join(ROOT, rel), "utf8");
+      expect(text).toContain('titleAs="h3"');
+    }
+  });
+
+  it("SourcesBlock defaults to h2 bibliography headings", () => {
+    const text = fs.readFileSync(
+      path.join(ROOT, "src/components/comms/SourcesBlock.tsx"),
+      "utf8",
+    );
+    expect(text).toContain('headingAs = "h2"');
+  });
+
   it("library hub page exists on disk", () => {
     expect(
       fs.existsSync(path.join(ROOT, "src/app/[locale]/library/page.tsx")),
