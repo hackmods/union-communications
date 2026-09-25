@@ -277,8 +277,8 @@ export function buildRtwScripts(
   } else if (draft.mode === "rtw") {
     const schedule =
       draft.gradualHours.trim() ||
-      labels.defaultGradualSchedule ??
-      "a phased work-hardening schedule starting at reduced hours";
+      (labels.defaultGradualSchedule ??
+        "a phased work-hardening schedule starting at reduced hours");
     const returnDate = draft.returnDate.trim()
       ? ` starting ${draft.returnDate.trim()}`
       : "";

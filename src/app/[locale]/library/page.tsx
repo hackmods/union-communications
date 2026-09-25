@@ -3,19 +3,12 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/guide-ui";
 import { PublicCatalogBreadcrumbs } from "@/components/comms/PublicCatalogBreadcrumbs";
-import { buildPageMetadata } from "@/lib/seo/public-page-meta";
+import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "publicCatalog" });
-  return buildPageMetadata({
-    locale,
-    path: "/learn/library",
-    title: t("libraryHubTitle"),
-    description: t("libraryHubDescription"),
-  });
+  return buildPublicPageMetadata("/learn/library", params);
 }
 
 const LINKS = [
@@ -36,9 +29,16 @@ export default async function LibraryHubPage({ params }: Props) {
         <ul className="mt-8 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
           {LINKS.map((row) => (
             <li key={row.href} className="min-w-0">
-              <Link href={row.href} className="block rounded-xl border border-slate-200 bg-white p-5 transition hover:border-opseu-blue/40 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50">
-                <span className="block text-lg font-bold text-opseu-dark">{nav(row.titleKey)}</span>
-                <span className="mt-2 block text-sm leading-relaxed text-slate-600">{t(row.bodyKey)}</span>
+              <Link
+                href={row.href}
+                className="block rounded-xl border border-slate-200 bg-white p-5 transition hover:border-opseu-blue/40 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+              >
+                <span className="block text-lg font-bold text-opseu-dark">
+                  {nav(row.titleKey)}
+                </span>
+                <span className="mt-2 block text-sm leading-relaxed text-slate-600">
+                  {t(row.bodyKey)}
+                </span>
               </Link>
             </li>
           ))}
