@@ -70,4 +70,29 @@ describe("tokenizeInline", () => {
     const out = flat("Use folder `03_Contract_Enforcement/`.");
     expect(out).toContain("<code>03_Contract_Enforcement/</code>");
   });
+
+  it("nested bold around backticked path still drops backticks", () => {
+    const tokens = tokenizeInline("See **/guide/dfr** and **`/guide/dfr`**.");
+    const flatText = tokens
+      .map((token) => {
+        if (token.kind === "strong") {
+          return tokenizeInline(token.value)
+            .map((inner) =>
+              inner.kind === "code" || inner.kind === "path"
+                ? humanizeInternalPath(inner.value)
+                : "value" in inner
+                  ? inner.value
+                  : "",
+            )
+            .join("");
+        }
+        if (token.kind === "code" || token.kind === "path") {
+          return humanizeInternalPath(token.value);
+        }
+        return "value" in token ? token.value : "";
+      })
+      .join("");
+    expect(flatText).not.toContain("`");
+    expect(flatText).toMatch(/Dfr|DFR|dfr/i);
+  });
 });

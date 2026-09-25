@@ -13,10 +13,16 @@ function plainInline(text: string): string {
     .map((token) => {
       switch (token.kind) {
         case "text":
+          return token.value;
         case "strong":
         case "em":
+          return plainInline(token.value);
         case "code":
-          return token.value;
+          return /^\/(?:guide|tools|app|brand-kit|portal|learn|create|utilities|start)(?:\/[\w-]+)*/.test(
+            token.value,
+          )
+            ? humanizeInternalPath(token.value)
+            : token.value;
         case "path":
           return humanizeInternalPath(token.value);
         case "md-link":

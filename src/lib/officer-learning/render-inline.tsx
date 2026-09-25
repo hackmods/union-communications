@@ -49,7 +49,7 @@ export function renderInline(
       case "strong":
         return (
           <strong key={`strong-${key}`} className={classes.strong}>
-            {token.value}
+            {renderInline(token.value, classes)}
           </strong>
         );
       case "code":
@@ -72,7 +72,7 @@ export function renderInline(
       case "em":
         return (
           <em key={`em-${key}`} className={classes.em ?? "italic"}>
-            {token.value}
+            {renderInline(token.value, classes)}
           </em>
         );
       case "path":
