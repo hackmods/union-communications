@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Allow **40–50 minutes**. Bring your JHSC terms of reference (or OHSA-required structure notes), any Labour-Management Committee (LMC) minutes, and a current hazard or workload complaint from the floor. Sketch who sits where using `/tools/org-chart` before the practice drill — committee power is useless if stewards cannot find the right door.
+Allow **28 minutes** for the reading and self-test. Bring your JHSC terms of reference (or OHSA-required structure notes), any Labour-Management Committee (LMC) minutes, and a current hazard or workload complaint from the floor. Sketch who sits where using `/tools/org-chart` before the practice drill — committee power is useless if stewards cannot find the right door.
 
 Sections move from JHSC vs. LMC mandates through United Caucus Discipline, multi-committee escalation, and OHSA work-refusal routes that engage the JHSC. Pair with `/guide/joint-committee` and `/guide/right-to-refuse`. **This module** trains steward routing, caucus discipline, and parallel escalation; the **joint-committee guide** owns standing-committee charters, cadence, and meeting ops — do not rebuild those templates here. **CLC** health and safety education and provincial OHSA concepts deepen statutory powers; LMC practice stays consultative unless your CA says otherwise.
 

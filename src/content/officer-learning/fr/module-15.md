@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **40 à 50 minutes** pour une première lecture, puis **25 minutes** supplémentaires pour l'exercice pratique avec un partenaire. Apportez un dossier récent où vous avez refusé ou retardé la représentation, les **délais de grief** de votre **convention collective**, et les coordonnées d'escalade de votre section locale (représentant de service, avocat syndical, dirigeant).
+Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Apportez un dossier récent où vous avez refusé ou retardé la représentation, les **délais de grief** de votre **convention collective**, et les coordonnées d'escalade de votre section locale (représentant de service, avocat syndical, dirigeant).
 
 **Associez ce module à deux ressources UnionOps :**
 - **`/guide/dfr`** — le **guide de terrain** : filtre d'admission, test juridique, déclencheurs d'échéances, lettres de refus et scripts de conversation avec le membre. Utilisez-le au bureau lorsqu'un dossier est actif.

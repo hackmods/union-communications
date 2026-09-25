@@ -83,6 +83,17 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Practical worksheets for steward prep, governance drafts, accessibility helpers, and other union work — separate from Create and Learn.",
     },
+    "/learn/library": {
+      title: "Library",
+      description:
+        "Examples, caption packs, and brand assets for floor communications — open a shelf and reuse what already works.",
+    },
+    "/app": {
+      title: "Officer Hub",
+      description:
+        "Sign in to the Officer Hub for casework, meetings, and local tools. Invite-only for local officers and stewards.",
+    },
+
     "/platform": {
       title: "Officer Hub and Local Portal",
       description:
@@ -395,6 +406,17 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Feuilles de travail pour la préparation des délégués, la gouvernance, l’accessibilité et d’autres tâches syndicales — distincts de Créer et d’Apprendre.",
     },
+    "/learn/library": {
+      title: "Bibliothèque",
+      description:
+        "Exemples, légendes et ressources de marque pour les communications de plancher — ouvrez une section et réutilisez ce qui fonctionne déjà.",
+    },
+    "/app": {
+      title: "Hub des dirigeants",
+      description:
+        "Connectez-vous au Hub des dirigeants pour les dossiers, les réunions et les outils de section locale. Sur invitation seulement.",
+    },
+
     "/platform": {
       title: "Hub des dirigeants et Portail local",
       description:

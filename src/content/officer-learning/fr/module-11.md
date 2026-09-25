@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **35 à 45 minutes**. Lisez avec vos **règlements locaux**, un récent **rapport de cotisations de l'employeur** (CSV ou feuille de calcul), votre **registre de cartes signées**, et l'accès à la base de données sécurisée du syndicat — pas le courriel de l'employeur. Les sections passent de la formule Rand aux membres titulaires de carte, à la **directive sur les listes de membres**, à la réconciliation mensuelle et au stockage sécurisé.
+Prévoyez **30 minutes** pour la lecture et l'autoévaluation. Lisez avec vos **règlements locaux**, un récent **rapport de cotisations de l'employeur** (CSV ou feuille de calcul), votre **registre de cartes signées**, et l'accès à la base de données sécurisée du syndicat — pas le courriel de l'employeur. Les sections passent de la formule Rand aux membres titulaires de carte, à la **directive sur les listes de membres**, à la réconciliation mensuelle et au stockage sécurisé.
 
 Associez `/guide/membership-signup` pour l'art des campagnes de signature — ce guide enseigne le pitch au plancher ; **ce module** enseigne la réconciliation du secrétaire, les règles constitutionnelles de confidentialité et l'hygiène des bases de données. Les matériaux d'administration des membres du **CTC** et les manuels de secrétaire local du **SCFP** renforcent la garde des listes ; la formation des dirigeants locaux d'**Unifor** traite les données des membres comme une fiducie.
 

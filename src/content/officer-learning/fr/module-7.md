@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **40 à 50 minutes**. Lisez avec votre **convention collective**, une carte de milieu de travail vierge (quarts × classifications), et un carnet pour les idées d'escalade. Parcourez les limites juridiques de la section 4 avec votre représentant de service ou un conseiller juridique avant de lancer tout *work-to-rule* — ce module enseigne la carte ; le conseil juridique assume le jugement de risque.
+Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Lisez avec votre **convention collective**, une carte de milieu de travail vierge (quarts × classifications), et un carnet pour les idées d'escalade. Parcourez les limites juridiques de la section 4 avec votre représentant de service ou un conseiller juridique avant de lancer tout *work-to-rule* — ce module enseigne la carte ; le conseil juridique assume le jugement de risque.
 
 Les sections passent du cycle de négociation à la cartographie démographique, à l'échelle d'escalade à cinq échelons, et aux limites de grève du *Code des relations de travail* (LRT) de l'Ontario. Associez `/guide/workplace-mapping`, `/guide/bargaining`, `/guide/strike`, et `/guide/membership-signup`. Le **module 6** possède le langage de négociation d'équité et la RAD ; **ce module** possède les échelles de mobilisation et les limites de grève en cours de convention du LRT — les guides publics sont des cahiers de marche, pas un second cours OL. L'éducation à l'organisation du **CTC** et le **Leadership en milieu de travail d'Unifor** approfondissent la pratique de cartographie ; les chapitres du **manuel des délégués du SCFP** sur la pression au lieu de travail renforcent la prudence juridique.
 

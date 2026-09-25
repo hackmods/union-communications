@@ -54,16 +54,9 @@ export default function GrievanceFormBuilderPage() {
   );
 
   const preview = (
-    <div className="space-y-4 text-sm text-gray-700">
+    <div className="space-y-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
       <p className="font-semibold text-opseu-dark">{t("previewTitle")}</p>
-      <ol className="list-decimal space-y-3 pl-5">
-        {PATHS.map((path) => (
-          <li key={path.id}>
-            <p className="font-medium text-opseu-dark">{t(path.id)}</p>
-            <p className="text-xs text-gray-600">{t(`${path.id}Blurb`)}</p>
-          </li>
-        ))}
-      </ol>
+      <p>{t("previewBody")}</p>
     </div>
   );
 

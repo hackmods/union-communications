@@ -3204,7 +3204,8 @@
     "hubFile": "Déposer dans le Hub des dirigeants",
     "hubFileBlurb": "Ouvre l'accueil des griefs du Hub si vous êtes connecté. Nécessite l'accès au Hub.",
     "previewTitle": "Quatre parcours de départ",
-    "previewHint": "Choisissez un parcours à gauche. Chaque lien ouvre l'outil ou le formulaire Hub correspondant."
+    "previewHint": "Choisissez un parcours à gauche. Chaque lien ouvre l'outil ou le formulaire Hub correspondant.",
+    "previewBody": "Utilisez Modifier pour ouvrir un chemin de départ. L’aperçu reste un court rappel pour ne pas lister les quatre routes deux fois."
   },
   "caSnippets": {
     "title": "Extraits de convention",
@@ -5297,22 +5298,22 @@
     "fullScenario": {
       "navLabel": "Dossier commenté",
       "title": "Exemple commenté : accueil d’un avertissement écrit",
-      "intro": "Le membre Alex reçoit un avertissement écrit le lundi 3 mars 2026 pour « manquement à la procédure d’horaire ». Alex croit que l’avertissement est sans cause juste et suffisante. Votre CC accorde dix jours civils à partir de la réception pour déposer à l’étape 1. Échéance de l’étape 1 : jeudi 13 mars 2026.",
+      "intro": "Le membre Alex reçoit un avertissement écrit le mardi 3 mars 2026 pour « manquement à la procédure d’horaire ». Alex croit que l’avertissement est sans cause juste et suffisante. Votre CC accorde dix jours civils à partir de la réception pour déposer à l’étape 1. Échéance de l’étape 1 : vendredi 13 mars 2026.",
       "phases": {
         "d0": {
-          "label": "Jour 0 — lundi 3 mars",
+          "label": "Jour 0 — mardi 3 mars",
           "content": "Alex appelle à 16 h. Vous journalisez l’accueil : date de la lettre, nom du superviseur, article disciplinaire de la CC et échéance de l’étape 1 le 13 mars. Vous inscrivez au calendrier le 11 mars comme date interne de « décision des dirigeants » pour garder deux jours de marge."
         },
         "d2": {
-          "label": "Jour 2 — mercredi 5 mars",
+          "label": "Jour 2 — jeudi 5 mars",
           "content": "Vous entrevuez Alex et demandez la lettre d’avertissement plus les courriels d’horaire des RH. Un collègue témoin pourrait confirmer que le quart a changé après l’arrivée d’Alex. Les notes vont au dossier — faits seulement."
         },
         "d4": {
-          "label": "Jour 4 — vendredi 7 mars",
+          "label": "Jour 4 — samedi 7 mars",
           "content": "Les documents arrivent. Les dirigeants examinent : l’avertissement cite une procédure qu’Alex n’a jamais reçue en formation. Décision : déposer à l’étape 1. Si les faits avaient été faibles, vous rédigeriez la lettre de refus maintenant — pas après le 13."
         },
         "d6": {
-          "label": "Jour 8 — mardi 11 mars",
+          "label": "Jour 8 — mercredi 11 mars",
           "content": "Rencontre à l’étape 1 prévue avec l’employeur le 12 mars. Alex reçoit une mise à jour en langage clair : ce qui a été déposé, date de rencontre et présence du délégué. Si vous aviez refusé, Alex aurait l’explication écrite aujourd’hui."
         }
       },
@@ -5545,7 +5546,7 @@
       "navLabel": "Modules de formation",
       "timeBudget": {
         "title": "Peu de temps?",
-        "body": "Le module 1 (~8 min) vous oriente sur le plancher. Le guide complet prend environ 35 minutes — un module par pause-café suffit."
+        "body": "Le module 1 (~28 min) vous oriente sur le plancher. Le guide complet prend environ 35 minutes — un module par pause-café suffit."
       },
       "orient": {
         "number": "1",
@@ -7475,7 +7476,7 @@
       },
       "b7p-demo-roster": {
         "title": "Les comptes Hub d'exemple sont Behind 7 Proxies",
-        "body": "Les connexions d'atelier utilisent les sections 777, 404, 502 et 1337 sous Behind 7 Proxies (B7P), pour ne plus ressembler aux vrais numéros de section OPSEU / SEFPO. Le mot de passe commun reste demo123 quand l'auth démo est active."
+        "body": "Les connexions d'atelier utilisent les sections 777, 404, 502 et 1337 sous Behind 7 Proxies (B7P), pour ne plus ressembler aux vrais numéros de section OPSEU / SEFPO. Les mots de passe démo d'atelier restent sur l'écran de connexion Officer Hub quand l'auth démo est active, et ne sont pas publiés ici."
       },
       "demo-cleanup-purge": {
         "title": "Le nettoyage démo peut supprimer les comptes exemples",
@@ -7873,7 +7874,7 @@
   },
   "footer": {
     "madeBy": "© UnionOps. Conçu pour les syndicats et raffiné grâce aux retours des sections.",
-    "privacy": "Comms sur l'appareil ; vous contrôlez votre Hub des dirigeants",
+    "privacy": "Communications sur l'appareil ; vous contrôlez votre Hub des dirigeants",
     "privacyCommsOnly": "Les Comms restent sur votre appareil. Pas de pubs ni de pistage.",
     "installApp": "Installer comme application"
   },
@@ -11390,7 +11391,7 @@
     "title": "Politique de confidentialité",
     "subtitle": "Dernière mise à jour : juillet 2026",
     "leadTitleHub": "Deux surfaces, deux règles",
-    "leadTitleCommsOnly": "Comms sur l’appareil",
+    "leadTitleCommsOnly": "Communications sur l’appareil",
     "leadBodyHub": "Graphiques et marque restent sur votre appareil. Le Hub tourne chez l’hôte qui l’opère, responsable des données qu’il détient.",
     "leadBodyCommsOnly": "Les Comms publics restent locaux d’abord : graphiques et marque sur votre appareil. Un Hub pour les dossiers ne fait pas encore partie du lancement public.",
     "commsTitle": "Outils Comms (sur votre appareil)",
@@ -11523,7 +11524,8 @@
       "memberFallback": "le membre",
       "hrFallback": "les RH",
       "measuresHeading": "Mesures proposées",
-      "groundLead": "Il s'agit d'une demande d'adaptation active fondée sur des motifs illicites en matière de droits de la personne"
+      "groundLead": "Il s'agit d'une demande d'adaptation active fondée sur des motifs illicites en matière de droits de la personne",
+      "defaultGradualSchedule": "un horaire progressif de reprise du travail à charge réduite"
     },
     "preview": {
       "title": "Scripts RH et règlement précoce",
@@ -15152,7 +15154,9 @@
     },
     "utilitiesEyebrow": "Utilitaires",
     "utilitiesTitle": "Que devez-vous accomplir ?",
-    "utilitiesIntro": "Feuilles de travail et espaces pratiques pour la préparation des délégués, la gouvernance, l’accessibilité et d’autres tâches syndicales. Pour une formation plus approfondie, ouvrez Apprendre."
+    "utilitiesIntro": "Feuilles de travail et espaces pratiques pour la préparation des délégués, la gouvernance, l’accessibilité et d’autres tâches syndicales. Pour une formation plus approfondie, ouvrez Apprendre.",
+    "libraryHubTitle": "Bibliothèque",
+    "libraryHubDescription": "Exemples, légendes et ressources de marque pour les communications de plancher. Ouvrez une section ci-dessous."
   },
   "localPack": {
     "title": "Trousse locale",

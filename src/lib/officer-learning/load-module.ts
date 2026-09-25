@@ -1,8 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { ParsedModule } from "./types";
-import { getModuleById } from "./modules";
-import { estimateReadingMinutes, parseOfficerLearningModule } from "./parse-module";
+import { parseOfficerLearningModule } from "./parse-module";
 
 const CONTENT_DIR = path.join(process.cwd(), "src/content/officer-learning");
 
@@ -18,9 +17,6 @@ export function loadParsedModule(id: string, locale?: string): ParsedModule {
   const filePath = moduleMarkdownPath(id, locale);
   const markdown = fs.readFileSync(filePath, "utf-8");
   const parsed = parseOfficerLearningModule(id, markdown);
-  const meta = getModuleById(id);
-  if (meta) {
-    meta.readingMinutes = estimateReadingMinutes(parsed);
-  }
+  // modules.ts readingMinutes is the single source of truth (hub card + page label).
   return parsed;
 }

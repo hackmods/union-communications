@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Allow **40–50 minutes**. Bring a blank functional abilities form example (if your workplace uses one), your **benefits booklet** summary pages, and notes from any Attendance Management Program (AMP) letters members have received. This module is **claims advocacy** — insurer pressure, LTD/WSIB navigation, AMP audits, and diagnostic privacy — not a repeat of Module 3's Meiorin/BFOR accommodation framework (pair Module 3 for BFOR fights; use `/tools/rtw-accommodation` for return-to-work planning).
+Allow **30 minutes** for the reading and self-test. Bring a blank functional abilities form example (if your workplace uses one), your **benefits booklet** summary pages, and notes from any Attendance Management Program (AMP) letters members have received. This module is **claims advocacy** — insurer pressure, LTD/WSIB navigation, AMP audits, and diagnostic privacy — not a repeat of Module 3's Meiorin/BFOR accommodation framework (pair Module 3 for BFOR fights; use `/tools/rtw-accommodation` for return-to-work planning).
 
 Sections move from medical information boundaries through Joint Insurance Committee (JIC) oversight, IME limits, and de-mechanizing AMPs. Pair with `/guide/steward-101` and `/tools/rtw-accommodation`. **OHRC** *Human Rights at Work* and **CUPE** duty-to-accommodate resources anchor privacy and AMP challenges; pension/benefits text always yields to your plan documents and counsel.
 

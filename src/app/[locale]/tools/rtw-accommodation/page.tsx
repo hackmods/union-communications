@@ -122,6 +122,7 @@ function RtwAccommodationPageContent() {
       groundLabels: Object.fromEntries(
         PROHIBITED_GROUNDS.map((id) => [id, t(`grounds.${id}`)]),
       ) as Record<ProhibitedGroundId, string>,
+      defaultGradualSchedule: t("scripts.defaultGradualSchedule"),
       groundLead: t("scripts.groundLead"),
     }),
     [t],

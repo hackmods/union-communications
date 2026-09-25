@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **35 à 45 minutes**. Apportez une liste de contrôle de trousse d'accueil, tout accord de rabais d'affinité que votre section possède déjà, et un partenaire communautaire que votre exécutif pourrait réalistement soutenir cette année. Lisez le module 6 seulement pour **contraster** — le module 6 couvre les barrières d'équité, la RDA et les clauses d'équité en négociation ; ce module couvre la culture d'accueil du jour 1, les cartes d'affinité sans partage de listes, et les coalitions communautaires.
+Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez une liste de contrôle de trousse d'accueil, tout accord de rabais d'affinité que votre section possède déjà, et un partenaire communautaire que votre exécutif pourrait réalistement soutenir cette année. Lisez le module 6 seulement pour **contraster** — le module 6 couvre les barrières d'équité, la RDA et les clauses d'équité en négociation ; ce module couvre la culture d'accueil du jour 1, les cartes d'affinité sans partage de listes, et les coalitions communautaires.
 
 Les sections passent de l'orientation de 15 minutes aux programmes d'affinité sécurisés et au syndicalisme communautaire. Associez `/guide/membership-signup` pour la signature de cartes et le module 11 pour les règles de confidentialité des listes. L'éducation à l'engagement des membres du **CTC** et les matériaux d'accueil des délégués du **SCFP** renforcent le contact du premier jour ; les campagnes communautaires d'**Unifor** montrent des modèles de coalition à travers l'Ontario.
 

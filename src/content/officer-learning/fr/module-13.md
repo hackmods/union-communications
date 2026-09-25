@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **40 à 50 minutes**. Apportez la clause de conservation de vos règlements (le cas échéant), un croquis de votre arborescence de dossiers numériques, et la dernière liste de contrôle de transition de dirigeants utilisée par votre section — ou un modèle vierge si des élections approchent. Parcourez les garde-fous de cybersécurité avec votre exécutif avant de déplacer des dossiers de griefs ou des données d'adhésion vers un nouveau lecteur.
+Prévoyez **30 minutes** pour la lecture et l'autoévaluation. Apportez la clause de conservation de vos règlements (le cas échéant), un croquis de votre arborescence de dossiers numériques, et la dernière liste de contrôle de transition de dirigeants utilisée par votre section — ou un modèle vierge si des élections approchent. Parcourez les garde-fous de cybersécurité avec votre exécutif avant de déplacer des dossiers de griefs ou des données d'adhésion vers un nouveau lecteur.
 
 Les sections passent de l'architecture de l'information aux calendriers de conservation, à la cybersécurité et à la liste de contrôle de transition de dirigeants. Associez le module 11 (listes de membres et confidentialité des données) et `/guide/membership-signup`. Le **module 11** possède le contenu des listes et qui peut les recevoir (Rand, interdictions politiques/commerciales) ; **ce module** possède où vivent tous les dossiers syndicaux, combien de temps on les conserve, et comment les dirigeants les remettent — les deux interdisent OneDrive/Teams de l'employeur, pour des emplois différents. L'éducation des secrétaires du **CTC** et les matériaux d'administration locale du **SCFP** renforcent la discipline de conservation ; les sections locales de l'Ontario doivent confirmer les règles financières de sept ans avec leur syndicat national et les directives de l'ARC.
 
@@ -81,7 +81,7 @@ Les guides d'administration locale du **SCFP** et d'**Unifor** insistent tous de
 ## 4. La liste de contrôle de transition de dirigeants
 Lorsqu'une élection change la direction, les passations chaotiques perdent des fichiers, bloquent la propriété de domaine et laissent les signataires bancaires chez les dirigeants sortants. La **liste de contrôle de transition de dirigeants** est un protocole formel — pas une poignée de main dans le stationnement.
 
-### Éléments essentiels de la liste (exécuter dans les deux semaines suivant l'installation)
+### Éléments essentiels de la liste (exécuter dans les deux semaines suivant la prise de fonction)
 
 1.  **Banque** : Mettre à jour les signataires immédiatement ; confirmer le transfert des jetons bancaires en ligne.
 2.  **Lecteurs numériques** : Transférer la **propriété administrative** de Google Workspace / cloud syndical au secrétaire ou président entrant.
@@ -136,7 +136,7 @@ Exercice : **Tour 1 — Architecture de dossiers.** Sur une page, dessinez les s
 - [ ] Chiffrer les sous-dossiers de griefs actifs et d'adhésion ; limiter l'accès par rôle
 - [ ] Nommer les fichiers avec date et statut d'approbation pour ne pas confondre ébauche et finale
 - [ ] Reproduire les dossiers papier permanents dans un classeur ignifuge
-- [ ] Exécuter la liste de transition de dirigeants dans les deux semaines suivant l'installation
+- [ ] Exécuter la liste de transition de dirigeants dans les deux semaines suivant la prise de fonction
 - [ ] Mettre à jour les signataires bancaires immédiatement au changement de dirigeant
 - [ ] Transférer la **propriété administrative** des lecteurs et domaines — pas seulement l'accès « éditeur »
 - [ ] Révoquer l'accès du dirigeant sortant la semaine de son départ

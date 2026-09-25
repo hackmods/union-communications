@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Allow **30–40 minutes** for the core read, plus **15 minutes** for the practice drill. Bring your **collective agreement** discipline articles, any recent warning letter or suspension notice, and a **notepad**. Discipline cases are emotionally charged — if possible, review this module with a mentor steward before your first disciplinary meeting.
+Allow **26 minutes** for the reading and self-test. Bring your **collective agreement** discipline articles, any recent warning letter or suspension notice, and a **notepad**. Discipline cases are emotionally charged — if possible, review this module with a mentor steward before your first disciplinary meeting.
 
 Sections 1–5 build from coaching vs. discipline through progressive steps, mitigating factors, obey-now-grieve-later, and off-duty nexus. Pair with `/guide/grievance-process` for filing steps and `/guide/right-to-refuse` when safety exceptions arise. Ontario OHSA principles appear in Section 4's safety exception — know your jurisdiction's equivalent.
 

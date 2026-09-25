@@ -1,0 +1,25 @@
+name: External link health
+
+# Nightly bibliography URL check. National CMS hosts flake; failures alert
+# without blocking PR CI. Re-run manually after LINK-001-style rot reports.
+on:
+  schedule:
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  external-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Check COMMS_SOURCES external URLs
+        run: npm run test:external-links

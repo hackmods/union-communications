@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Set aside **40–50 minutes** for a first read, then another **25 minutes** for the practice drill with a partner. Bring a recent member file where you declined or stalled representation, your **collective agreement** grievance timelines, and access to your local's escalation contacts (servicing rep, legal counsel, executive officer).
+Allow **32 minutes** for the reading and self-test. Bring a recent member file where you declined or stalled representation, your **collective agreement** grievance timelines, and access to your local's escalation contacts (servicing rep, legal counsel, executive officer).
 
 **Pair this module with two UnionOps resources:**
 - **`/guide/dfr`** — the **playbook**: intake gate, legal test, clock triggers, decline letters, and member-conversation scripts. Use it at the desk when a file is live.

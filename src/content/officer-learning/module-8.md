@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Allow **40–50 minutes**. Bring a recent grievance file (or the blank intake from Document Generator), your **collective agreement**, and a notepad for settlement language. Practice open-door wording on a live file before your next step meeting — theory without a draft rarely sticks.
+Allow **32 minutes** for the reading and self-test. Bring a recent grievance file (or the blank intake from Document Generator), your **collective agreement**, and a notepad for settlement language. Practice open-door wording on a live file before your next step meeting — theory without a draft rarely sticks.
 
 Sections move from the five-part grievance file through open-door wording, without prejudice vs. without precedent, and Four Corners settlement discipline. Pair with `/guide/grievance-process` and `/tools/complaint-vs-grievance`. **Module 1** owns the complaint-vs-grievance filter, 6 W's, and FAR intake; **this module** owns trial-ready file pillars, open-door drafting, and MOS / Four Corners settlement discipline — the grievance-process guide covers step filing mechanics. Use Document Generator grievance intake worksheets to structure chronology. **CUPE steward handbook** and **Unifor Grievance Handling** courses deepen file architecture; arbitral practice on make-whole remedies informs remedy asks.
 

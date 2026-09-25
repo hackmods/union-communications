@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Budget **35–45 minutes** for study and **20 minutes** with your Treasurer or Trustee for the practice drill. Bring the **local budget**, a sample **expense voucher**, your **bylaws** on signatories, and a **notepad**. Financial mistakes erode member trust faster than any lost grievance — treat controls as solidarity, not bureaucracy.
+Allow **28 minutes** for the reading and self-test. Bring the **local budget**, a sample **expense voucher**, your **bylaws** on signatories, and a **notepad**. Financial mistakes erode member trust faster than any lost grievance — treat controls as solidarity, not bureaucracy.
 
 Sections 1–4 cover trade union purpose, double signatures, budgeting, and trustee audits. Module 4 covered governance meetings where budgets are approved. Pair with `/guide/union-boards` and ensure Module 4 quorum rules before any spending vote.
 

@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Allow **40–50 minutes**. Bring your local bylaws retention clause (if any), a sketch of your current digital folder tree, and the last Officer Transition Checklist your local used — or a blank template if elections are coming. Walk cybersecurity guardrails with your executive before moving grievance files or membership data to any new drive.
+Allow **30 minutes** for the reading and self-test. Bring your local bylaws retention clause (if any), a sketch of your current digital folder tree, and the last Officer Transition Checklist your local used — or a blank template if elections are coming. Walk cybersecurity guardrails with your executive before moving grievance files or membership data to any new drive.
 
 Sections move from information architecture through retention schedules, cybersecurity, and the Officer Transition Checklist. Pair with Module 11 (member lists and data privacy) and `/guide/membership-signup`. **Module 11** owns list content and who may receive it (Rand, political/commercial bans); **this module** owns where all union records live, how long they are kept, and how officers hand them over — both forbid employer OneDrive/Teams, for different jobs. **CLC** secretary education and **CUPE** local administration materials reinforce retention discipline; Ontario locals should confirm seven-year financial rules with their national union and CRA guidance.
 
@@ -81,7 +81,7 @@ Union records compete with employer IT departments and external attackers for co
 ## 4. The Officer Transition Checklist
 When a local election changes leadership, chaotic handovers lose files, strand domain ownership, and leave bank signing authorities on outgoing officers. The **Officer Transition Checklist** is a formal protocol — not a handshake in the parking lot.
 
-### Checklist essentials (execute within two weeks of installation)
+### Checklist essentials (execute within two weeks of taking office)
 
 1.  **Bank**: Update signing authorities immediately; confirm online banking tokens transferred.
 2.  **Digital drives**: Transfer **admin ownership** of Google Workspace / union cloud to incoming Secretary or President.
@@ -136,7 +136,7 @@ Practice: **Round 1 — Folder IA.** On one page, draw your local's six top-leve
 - [ ] Encrypt active grievance and membership sub-folders; limit access by role
 - [ ] Name files with date and approval status so drafts are not mistaken for final
 - [ ] Mirror permanent paper records in a fire-safe cabinet
-- [ ] Execute Officer Transition Checklist within two weeks of installation
+- [ ] Execute Officer Transition Checklist within two weeks of taking office
 - [ ] Update bank signing authorities immediately on officer change
 - [ ] Transfer **admin ownership** of drives and domains — not just "editor" access
 - [ ] Revoke outgoing officer access the week they leave

@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Allow **40–50 minutes**. Bring your **collective agreement** layoff, seniority, and recall articles; a recent employer seniority list (or a redacted sample); and a **notepad**. Read in a private space — bumping files often involve medical leaves, accommodation, and job loss.
+Allow **32 minutes** for the reading and self-test. Bring your **collective agreement** layoff, seniority, and recall articles; a recent employer seniority list (or a redacted sample); and a **notepad**. Read in a private space — bumping files often involve medical leaves, accommodation, and job loss.
 
 Sections move from seniority lists vs. service dates through bumping trees, skills/qualifications language, layoff notice clocks, trial periods, and human-rights collisions. Pair with `/guide/seniority-bumping` and **Module 1**. The **seniority-bumping guide** owns sector playbook mechanics — cascade examples, worksheet exports, and committee run sheets. **This module** owns steward discipline for **reading seniority lists**, tracing **bumping trees**, tracking **notice clocks**, and running **intake** when displacement hits the floor. **Module 1** owns the complaint-vs-grievance filter, 6 W's, and FAR — use them here before you file.
 

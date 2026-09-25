@@ -149,9 +149,6 @@ export default async function ManifestoPage({
             {t("supportLink")}
           </Link>
         </p>
-        <ButtonLink href="/support" variant="outline" size="sm">
-          {t("supportLink")}
-        </ButtonLink>
       </Card>
 
       <div className="mt-12">

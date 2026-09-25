@@ -168,7 +168,7 @@ export default function LocalPackPage() {
             type="file"
             accept=".json,application/json"
             className="sr-only"
-            aria-label={t("importPack")}
+            aria-hidden="true" tabIndex={-1}
             onChange={(e) => {
               const file = e.target.files?.[0];
               e.target.value = "";
