@@ -138,7 +138,7 @@ test.describe("union audit site integrity @smoke", () => {
       "/en/learn/officer/seniority-bumping-layoff/",
     ]) {
       await page.goto(path);
-      const body = page.locator("main").first();
+      const body = page.locator("article").first();
       await expect(body).toBeVisible();
       const text = await body.innerText();
       // Literal **bold** or lone backtick pairs should not appear in prose.

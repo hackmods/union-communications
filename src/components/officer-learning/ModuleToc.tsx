@@ -2,15 +2,40 @@
 
 import type { ModuleSection } from "@/lib/officer-learning/types";
 import { GuideToc, type GuideTocItem } from "@/components/comms/GuideToc";
+import {
+  humanizeInternalPath,
+  tokenizeInline,
+} from "@/lib/officer-learning/inline-markdown";
+
+/** TOC labels stay plain text; strip markdown markers without HTML. */
+function plainInline(text: string): string {
+  return tokenizeInline(text)
+    .map((token) => {
+      switch (token.kind) {
+        case "text":
+        case "strong":
+        case "em":
+        case "code":
+          return token.value;
+        case "path":
+          return humanizeInternalPath(token.value);
+        case "md-link":
+          return token.label;
+        default:
+          return "";
+      }
+    })
+    .join("");
+}
 
 function flattenSections(sections: ModuleSection[]): GuideTocItem[] {
   const items: GuideTocItem[] = [];
   for (const section of sections) {
-    items.push({ id: section.id, label: section.title, level: 2 });
+    items.push({ id: section.id, label: plainInline(section.title), level: 2 });
     for (const subsection of section.subsections ?? []) {
       items.push({
         id: subsection.id,
-        label: subsection.title,
+        label: plainInline(subsection.title),
         level: 3,
       });
     }
@@ -32,7 +57,5 @@ export function ModuleToc({
     { id: "module-quiz", label: quizLabel, level: 2 },
   ];
 
-  return (
-    <GuideToc items={items} activeId={activeId} smoothScroll />
-  );
+  return <GuideToc items={items} activeId={activeId} smoothScroll />;
 }

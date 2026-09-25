@@ -7,6 +7,7 @@ import type { OlTheme } from "@/lib/officer-learning/theme";
 import { useOlTheme } from "./OlThemeProvider";
 import clsx from "clsx";
 import { ModuleWorkedTimeline } from "./ModuleWorkedTimeline";
+import { renderInline } from "@/lib/officer-learning/render-inline";
 
 type BlockRendererProps = {
   block: ContentBlock;
@@ -44,7 +45,7 @@ export function WorkedScenarioSection({
   return (
     <section id={section.id} className={olTheme.scenarioShell}>
       <p className={olTheme.eyebrow}>{t("label")}</p>
-      <h2 className={clsx("mt-2", olTheme.sectionH2)}>{section.title}</h2>
+      <h2 className={clsx("mt-2", olTheme.sectionH2)}>{renderInline(section.title, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}</h2>
 
       <ModuleWorkedTimeline slug={moduleSlug} className="mt-5" />
 
@@ -72,7 +73,7 @@ export function WorkedScenarioSection({
           id={subsection.id}
           className={clsx("scroll-mt-32 mt-6 space-y-3 pt-6", olTheme.hairline)}
         >
-          <h3 className={olTheme.subsectionTitle}>{subsection.title}</h3>
+          <h3 className={olTheme.subsectionTitle}>{renderInline(subsection.title, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}</h3>
           <div className="space-y-4">
             {subsection.blocks.map((block, index) => (
               <div key={`${subsection.id}-block-${index}`}>
