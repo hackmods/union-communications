@@ -1,8 +1,9 @@
 # Plan — Detailed Brand Kit / theme admin (follow-on)
 
-**Status:** Deferred — scoping only  
+**Status:** Partial — theme editor + host-brand admin + baseline-from-Brand-Styles shipped 2026-09-25  
 **Date:** 2026-09-25  
-**Depends on:** [`session-knowledge-2026-09-25-union-brand-bridge.md`](session-knowledge-2026-09-25-union-brand-bridge.md) (v1 union ↔ preset binding shipped)
+**Depends on:** [`session-knowledge-2026-09-25-union-brand-bridge.md`](session-knowledge-2026-09-25-union-brand-bridge.md) (v1 union ↔ preset binding shipped)  
+**Shipped notes:** [`session-knowledge-2026-09-25-brand-theme-admin.md`](session-knowledge-2026-09-25-brand-theme-admin.md)
 
 ## Goal
 
@@ -14,14 +15,20 @@ Give platform operators a full Site Admin surface to configure per-union brand t
 - One-way Hub → Brand Kit public chrome seed / Match control
 - JWT tenancy refresh after assign-local
 
-## Capabilities to build later
+## Shipped in theme-admin pass (2026-09-25)
 
 | Capability | Notes |
 |------------|--------|
-| Per-union theme editor | Colours, fonts, logo assets, canvas defaults — beyond today’s `brand:baseline` colours/fonts |
-| Host-brand admin UI | Edit instance defaults currently in `config/host-brand.json` / `NEXT_PUBLIC_BRAND_*` |
+| Per-union theme editor | Colours + canvas fonts on Brand Styles (`unions.brand_theme`) |
+| Host-brand admin UI | Durable `platform_host_brand` overlay; env still wins |
+| Rich baseline publish from Brand Styles | Draft/publish `brand:baseline` when customization is configured |
+
+## Still deferred
+
+| Capability | Notes |
+|------------|--------|
+| Logo assets in theme editor | Wire logo upload into baseline draft form |
 | Sector / collection bindings UI | Productize `customization_preset_bindings` sector_id matrix + OPSEU sectors |
-| Rich baseline publish from Brand Styles page | Draft/preview/publish `brand:baseline` without leaving the union brand screen; logo upload wired into draft form |
 | Preset catalog admin | Add/edit Comms presets without code changes to `unionPresets.ts` |
 | Auto-apply published baseline on Hub seed | Opt-in policy (never silent overwrite of steward kits) |
 

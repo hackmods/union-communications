@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { BrandStylesAdminForm } from "@/components/site-admin/BrandStylesAdminForm";
+import { HostBrandAdminForm } from "@/components/site-admin/HostBrandAdminForm";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +41,7 @@ export default async function SiteAdminBrandStylesPage({
       </h1>
       <p className="mt-1 text-sm text-opseu-gray-dark">{t("brandStylesBody")}</p>
       <BrandStylesAdminForm />
+      <HostBrandAdminForm />
     </main>
   );
 }

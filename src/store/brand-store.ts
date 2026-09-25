@@ -8,6 +8,8 @@ import {
   getUnionPreset,
 } from "@/lib/constants/unionPresets";
 import { resolveTrustedPresetId } from "@/lib/brand/union-preset-bridge";
+import { brandThemeToKitPatch } from "@/lib/brand/union-brand-theme";
+import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
 import {
   dataAdapter,
   LocalStorageAdapter,
@@ -30,6 +32,14 @@ interface BrandState {
   setBrandKit: (kit: BrandKitPatch) => void;
   /** Apply a trusted Comms preset (preserves local number when set). */
   applyUnionPresetId: (presetId: string) => boolean;
+  /** Apply operator theme colours/fonts on top of the current kit. */
+  applyBrandTheme: (theme: {
+    primaryColor: string;
+    secondaryColor: string;
+    accentColor: string;
+    headlineFontId?: string;
+    bodyFontId?: string;
+  }) => void;
   resetBrandKit: () => void;
   importBrandKit: (kit: BrandKit | unknown) => void;
   setOnboardingComplete: (complete: boolean) => void;
@@ -204,6 +214,22 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     return true;
   },
 
+  applyBrandTheme: (theme) => {
+    const parsed = theme as UnionBrandTheme;
+    const patch = brandThemeToKitPatch(parsed);
+    if (!get().hydrated) {
+      pendingPatch = mergeBrandKitPatch(pendingPatch, patch);
+      return;
+    }
+    const updated = applyBrandKitPatch(get().brandKit, patch);
+    set({ brandKit: updated });
+    scheduleSaveBrandKit(updated, false, () => {
+      if (!get().storageBlocked) {
+        set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
+      }
+    });
+  },
+
   resetBrandKit: () => {
     pendingPatch = null;
     clearSaveTimer();
@@ -275,26 +301,71 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     let brandKit = kit ?? get().brandKit;
     let hasStoredBrandKit = kit != null;
 
-    // First visit: optional host-level Comms preset (self-hosted single-union).
+    // First visit: optional host-level defaults (durable overlay via API).
     if (!kit) {
-      const hostPreset = resolveTrustedPresetId(
-        resolveHostBrandDefaults().unionPresetId,
-      );
-      if (hostPreset) {
-        const preset = getUnionPreset(hostPreset);
-        if (preset) {
-          brandKit = applyBrandKitPatch(
-            brandKit,
-            brandFieldsFromUnionPreset(preset, {
-              localNumber: brandKit.local.localNumber,
-            }),
-          );
-          hasStoredBrandKit = true;
-          scheduleSaveBrandKit(brandKit, true, () => {
-            if (!get().storageBlocked) {
-              set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
-            }
+      try {
+        const hostRes = await fetch("/api/host-brand");
+        if (hostRes.ok) {
+          const host = (await hostRes.json()) as {
+            primaryColor?: string;
+            secondaryColor?: string;
+            accentColor?: string;
+            localNumber?: string;
+            subText?: string;
+            divisionId?: string;
+            unionPresetId?: string;
+          };
+          brandKit = applyBrandKitPatch(brandKit, {
+            primaryColor: host.primaryColor,
+            secondaryColor: host.secondaryColor,
+            accentColor: host.accentColor,
+            local: {
+              localNumber: host.localNumber ?? brandKit.local.localNumber,
+              subText: host.subText ?? brandKit.local.subText,
+              ...(host.divisionId
+                ? { divisionId: host.divisionId }
+                : {}),
+            },
           });
+          const hostPreset = resolveTrustedPresetId(host.unionPresetId);
+          if (hostPreset) {
+            const preset = getUnionPreset(hostPreset);
+            if (preset) {
+              brandKit = applyBrandKitPatch(
+                brandKit,
+                brandFieldsFromUnionPreset(preset, {
+                  localNumber: brandKit.local.localNumber,
+                }),
+              );
+              hasStoredBrandKit = true;
+              scheduleSaveBrandKit(brandKit, true, () => {
+                if (!get().storageBlocked) {
+                  set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
+                }
+              });
+            }
+          }
+        }
+      } catch {
+        const hostPreset = resolveTrustedPresetId(
+          resolveHostBrandDefaults().unionPresetId,
+        );
+        if (hostPreset) {
+          const preset = getUnionPreset(hostPreset);
+          if (preset) {
+            brandKit = applyBrandKitPatch(
+              brandKit,
+              brandFieldsFromUnionPreset(preset, {
+                localNumber: brandKit.local.localNumber,
+              }),
+            );
+            hasStoredBrandKit = true;
+            scheduleSaveBrandKit(brandKit, true, () => {
+              if (!get().storageBlocked) {
+                set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
+              }
+            });
+          }
         }
       }
     }

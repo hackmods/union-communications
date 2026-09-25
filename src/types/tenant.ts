@@ -68,6 +68,17 @@ export interface BrandDefaults {
    * (`opseu`, `cupe`, …). Prefer over slug coincidence when seeding public chrome.
    */
   commsPresetId?: string;
+  /**
+   * Optional operator theme override (colours + canvas fonts).
+   * Applied after the Comms preset when seeding Brand Kit.
+   */
+  brandTheme?: {
+    primaryColor: string;
+    secondaryColor: string;
+    accentColor: string;
+    headlineFontId?: string;
+    bodyFontId?: string;
+  };
   /** Optional seed membership URLs — applied when selecting that union's Comms preset only */
   membershipUrls?: Array<{
     id: string;

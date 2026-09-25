@@ -6,18 +6,21 @@ import { useTranslations } from "next-intl";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 import { useBrandStore } from "@/store/brand-store";
+import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
 
 /**
  * When an officer is signed into the Hub, remind them that Hub collection
  * scope and Brand Kit collection profiles are separate layers (ADR-013).
- * Offers one-click Match to apply the Hub union's Comms preset to public chrome.
+ * Offers one-click Match to apply the Hub union's Comms preset + theme.
  */
 export function BrandKitContextHint() {
   const { status } = useSession();
   const t = useTranslations("brandKit.contextHint");
   const brandKit = useBrandStore((s) => s.brandKit);
   const applyUnionPresetId = useBrandStore((s) => s.applyUnionPresetId);
+  const applyBrandTheme = useBrandStore((s) => s.applyBrandTheme);
   const [hubPresetId, setHubPresetId] = useState<string | null>(null);
+  const [hubTheme, setHubTheme] = useState<UnionBrandTheme | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -28,11 +31,20 @@ export function BrandKitContextHint() {
     void fetch("/api/me/union-brand-preset")
       .then(async (res) => {
         if (!res.ok) return;
-        const data = (await res.json()) as { presetId?: string | null };
-        if (!cancelled) setHubPresetId(data.presetId ?? null);
+        const data = (await res.json()) as {
+          presetId?: string | null;
+          theme?: UnionBrandTheme | null;
+        };
+        if (!cancelled) {
+          setHubPresetId(data.presetId ?? null);
+          setHubTheme(data.theme ?? null);
+        }
       })
       .catch(() => {
-        if (!cancelled) setHubPresetId(null);
+        if (!cancelled) {
+          setHubPresetId(null);
+          setHubTheme(null);
+        }
       });
     return () => {
       cancelled = true;
@@ -42,17 +54,28 @@ export function BrandKitContextHint() {
   if (status !== "authenticated") return null;
 
   const showCollectionHint = (brandKit.profiles?.length ?? 0) >= 2;
+  const themeDiffers =
+    Boolean(hubTheme) &&
+    (brandKit.primaryColor !== hubTheme!.primaryColor ||
+      brandKit.secondaryColor !== hubTheme!.secondaryColor ||
+      brandKit.accentColor !== hubTheme!.accentColor);
   const showMatch =
-    Boolean(hubPresetId) && brandKit.unionPresetId !== hubPresetId;
+    (Boolean(hubPresetId) && brandKit.unionPresetId !== hubPresetId) ||
+    themeDiffers;
 
   if (!showCollectionHint && !showMatch && !message && !error) return null;
 
   const onMatch = () => {
-    if (!hubPresetId) return;
     setBusy(true);
     setError(null);
     setMessage(null);
-    const ok = applyUnionPresetId(hubPresetId);
+    let ok = true;
+    if (hubPresetId) {
+      ok = applyUnionPresetId(hubPresetId);
+    }
+    if (ok && hubTheme) {
+      applyBrandTheme(hubTheme);
+    }
     setBusy(false);
     if (ok) {
       setMessage(t("matchSuccess"));

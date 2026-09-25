@@ -20,16 +20,19 @@ import {
   markOverlayHydratedFromDb,
   neutralBrandDefaultsForNewTenant,
   setCommsPresetPatch,
+  setBrandThemePatch,
   setDataModulePatch,
   setEnabledModulesPatch,
   getOverlaySeeds,
 } from "@/lib/tenant/overlay";
 import type {
   BargainingUnit,
+  BrandDefaults,
   HubModule,
   TenantLocal,
   TenantSeed,
 } from "@/types/tenant";
+import { parseUnionBrandTheme } from "@/lib/brand/union-brand-theme";
 
 const REFERENCE = referenceTenant as TenantSeed;
 const STATIC_UNION_IDS = new Set([REFERENCE.union.id]);
@@ -74,6 +77,7 @@ export type PersistedTenantSnapshot = {
     defaultLocale: string;
     enabledModules: string[];
     commsPresetId?: string | null;
+    brandTheme?: BrandDefaults["brandTheme"] | null;
   }>;
   divisions: Array<{
     id: string;
@@ -108,6 +112,9 @@ export function applyPersistedSnapshotToOverlay(
     if (row.commsPresetId !== undefined) {
       setCommsPresetPatch(row.id, row.commsPresetId ?? null);
     }
+    if (row.brandTheme !== undefined) {
+      setBrandThemePatch(row.id, row.brandTheme ?? null);
+    }
     if (STATIC_UNION_IDS.has(row.id)) continue;
     const division = snapshot.divisions.find((d) => d.unionId === row.id);
     importOverlayUnion({
@@ -138,6 +145,7 @@ export function applyPersistedSnapshotToOverlay(
         ...(row.commsPresetId
           ? { commsPresetId: row.commsPresetId }
           : {}),
+        ...(row.brandTheme ? { brandTheme: row.brandTheme } : {}),
       },
       grievanceConfig: DEFAULT_OVERLAY_GRIEVANCE,
     });
@@ -167,6 +175,7 @@ async function loadPersistedSnapshot(): Promise<PersistedTenantSnapshot> {
       defaultLocale: row.defaultLocale,
       enabledModules: row.enabledModules ?? [],
       commsPresetId: row.commsPresetId ?? null,
+      brandTheme: parseUnionBrandTheme(row.brandTheme) ?? null,
     })),
     divisions: divisionRows.map((row) => ({
       id: row.id,
@@ -271,6 +280,7 @@ export async function persistUnionSeed(seed: TenantSeed): Promise<void> {
       defaultLocale: seed.union.defaultLocale,
       enabledModules: seed.union.enabledModules,
       commsPresetId: seed.brandDefaults.commsPresetId ?? null,
+      brandTheme: seed.brandDefaults.brandTheme ?? null,
     })
     .onConflictDoUpdate({
       target: unions.id,
@@ -281,6 +291,9 @@ export async function persistUnionSeed(seed: TenantSeed): Promise<void> {
         enabledModules: seed.union.enabledModules,
         ...(seed.brandDefaults.commsPresetId !== undefined
           ? { commsPresetId: seed.brandDefaults.commsPresetId ?? null }
+          : {}),
+        ...(seed.brandDefaults.brandTheme !== undefined
+          ? { brandTheme: seed.brandDefaults.brandTheme ?? null }
           : {}),
       },
     });
@@ -444,6 +457,39 @@ export async function setUnionCommsPresetId(
   await db
     .update(unions)
     .set({ commsPresetId: presetId })
+    .where(eq(unions.id, unionId));
+  return { ok: true };
+}
+
+/**
+ * Set or clear an operator Brand Kit theme for a Hub union (platform admin).
+ * Syncs overlay + Postgres when configured.
+ */
+export async function setUnionBrandTheme(
+  unionId: string,
+  theme: BrandDefaults["brandTheme"] | null,
+): Promise<{ ok: true } | { ok: false; status: 400 | 404; error: string }> {
+  const parsed =
+    theme === null ? null : parseUnionBrandTheme(theme);
+  if (theme !== null && !parsed) {
+    return { ok: false, status: 400, error: "Invalid brand theme" };
+  }
+  setBrandThemePatch(unionId, parsed);
+  if (!tenantsPostgresEnabled()) {
+    return { ok: true };
+  }
+  const db = getDb();
+  const [row] = await db
+    .select({ id: unions.id })
+    .from(unions)
+    .where(eq(unions.id, unionId))
+    .limit(1);
+  if (!row) {
+    return { ok: false, status: 404, error: "Union not found" };
+  }
+  await db
+    .update(unions)
+    .set({ brandTheme: parsed })
     .where(eq(unions.id, unionId));
   return { ok: true };
 }

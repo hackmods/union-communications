@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-09-25 — Brand Kit theme admin
+
+- Site Admin Brand Styles: per-union colours/fonts (`unions.brand_theme`), instance host-brand editor (`platform_host_brand`), optional `brand:baseline` draft/publish when customization is on.
+- Hub seed / Match apply operator theme after Comms preset; public `GET /api/host-brand` for first-visit chrome. Env `NEXT_PUBLIC_BRAND_*` still wins.
+- Session knowledge: [`docs/audit/session-knowledge-2026-09-25-brand-theme-admin.md`](audit/session-knowledge-2026-09-25-brand-theme-admin.md).
+
 ## 2026-09-25 — Union brand default bridge + admin brand styles
 
 - Platform admin: `/app/site-admin/brand-styles` binds each Hub union to a Comms Brand Kit preset and edits slug (`unions.comms_preset_id`, migration `0060`).

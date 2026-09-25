@@ -32,3 +32,4 @@ export * from "./public-tool-settings";
 export * from "./hub-bylaws-proposals";
 export * from "./data-workbench";
 export * from "./customization";
+export * from "./platform-host-brand";

@@ -6,6 +6,7 @@ import {
   getOverlaySeeds,
   getUnitPatches,
   getCommsPresetPatch,
+  getBrandThemePatch,
 } from "@/lib/tenant/overlay";
 import type {
   BargainingUnit,
@@ -25,12 +26,14 @@ function mergeSeed(base: TenantSeed): TenantSeed {
   const dataModulePatch = getDataModulePatch(unionId);
   const enabledModulesPatch = getEnabledModulesPatch(unionId);
   const commsPresetPatch = getCommsPresetPatch(unionId);
+  const brandThemePatch = getBrandThemePatch(unionId);
   if (
     patchLocals.length === 0 &&
     patchUnits.length === 0 &&
     dataModulePatch === undefined &&
     enabledModulesPatch === undefined &&
-    commsPresetPatch === undefined
+    commsPresetPatch === undefined &&
+    brandThemePatch === undefined
   ) {
     return base;
   }
@@ -80,6 +83,20 @@ function mergeSeed(base: TenantSeed): TenantSeed {
     } else if (brandDefaults.commsPresetId !== undefined) {
       brandDefaults = { ...brandDefaults };
       delete brandDefaults.commsPresetId;
+    }
+  }
+  if (brandThemePatch !== undefined) {
+    if (brandThemePatch) {
+      brandDefaults = {
+        ...brandDefaults,
+        brandTheme: brandThemePatch,
+        primaryColor: brandThemePatch.primaryColor,
+        secondaryColor: brandThemePatch.secondaryColor,
+        accentColor: brandThemePatch.accentColor,
+      };
+    } else if (brandDefaults.brandTheme !== undefined) {
+      brandDefaults = { ...brandDefaults };
+      delete brandDefaults.brandTheme;
     }
   }
 

@@ -4284,6 +4284,26 @@
       ]
     },
     {
+      "name": "platform_host_brand",
+      "columns": [
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "payload",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "platform_public_tool_settings",
       "columns": [
         {
@@ -6834,6 +6854,11 @@
         {
           "name": "archived_by_id",
           "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "brand_theme",
+          "dataType": "jsonb",
           "notNull": false
         },
         {

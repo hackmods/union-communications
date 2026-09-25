@@ -41,6 +41,17 @@ export const unions = pgTable("unions", {
    * Drives public chrome seed for members of this union — not Hub tenancy.
    */
   commsPresetId: text("comms_preset_id"),
+  /**
+   * Optional operator theme override (colours + canvas fonts).
+   * Applied after the Comms preset when seeding public Brand Kit chrome.
+   */
+  brandTheme: jsonb("brand_theme").$type<{
+    primaryColor: string;
+    secondaryColor: string;
+    accentColor: string;
+    headlineFontId?: string;
+    bodyFontId?: string;
+  }>(),
 });
 
 export const divisions = pgTable("divisions", {
