@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
 import {
   canDeleteSharedContent,
@@ -216,7 +217,17 @@ export function DocumentsVault() {
       {loading ? (
         <p className="text-sm text-gray-500">{t("loading")}</p>
       ) : docs.length === 0 ? (
-        <p className="text-sm text-gray-500">{t("empty")}</p>
+        <EmptyState
+          className="mt-2"
+          title={t("empty")}
+          action={
+            canWrite ? (
+              <Button size="sm" onClick={() => setShowForm(true)}>
+                {t("upload")}
+              </Button>
+            ) : undefined
+          }
+        />
       ) : (
         <ul className="space-y-3">
           {docs.map((doc) => {

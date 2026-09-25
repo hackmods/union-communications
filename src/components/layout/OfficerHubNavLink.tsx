@@ -4,7 +4,9 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { isPlatformOperator } from "@/lib/platform/operator-nav";
 import { cn } from "@/lib/utils";
+import type { UserRole } from "@/types/tenant";
 
 export function OfficerHubNavLink({
   layout = "desktop",
@@ -16,8 +18,12 @@ export function OfficerHubNavLink({
   const { data: session, status } = useSession();
   const t = useTranslations("hub");
   const pathname = usePathname();
+  const roles = (session?.user?.roles ?? []) as UserRole[];
+  // Platform operators use the Platform dropdown — avoid a redundant Hub link.
   const available =
-    (status === "authenticated" && Boolean(session?.user)) || isOfficerHubPublic();
+    ((status === "authenticated" && Boolean(session?.user)) ||
+      isOfficerHubPublic()) &&
+    !isPlatformOperator(roles);
 
   if (!available) return null;
 
