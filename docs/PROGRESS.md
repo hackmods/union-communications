@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-25 — Officer Hub task-first home
+
+- Moved assigned tasks and unanswered check-ins into the first work area; loading, empty, error, and configured-MFA states now say what is known. Platform operators see host operations first.
+- Reduced dashboard-only status chrome to a readable notice summary with full details on demand. Kept active union/local identity visible and the meeting reminder in place.
+- Replaced duplicate module and president setup cards with role-permitted next steps, one advisory setup surface, and an optional full tools catalog. Removed the hardcoded CAAT snippet readiness check and browser-local setup-complete inference.
+- Authenticated baseline, UX plan, role/MFA/responsive verification: [`docs/audit/plan-2026-09-25-hub-task-dashboard.md`](audit/plan-2026-09-25-hub-task-dashboard.md).
+
 ## 2026-09-24 — Brand Kit workspace uplift
 
 - Replaced the three equal desktop setup cards with a roomy identity editor and adjacent live preview; the preview follows identity on smaller screens and has a direct section jump.

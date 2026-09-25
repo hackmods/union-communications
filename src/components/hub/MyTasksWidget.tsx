@@ -1,83 +1,58 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
-import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
-import { getTenantContext } from "@/lib/tenant/loader";
-import { canAccessTasksModule } from "@/lib/tasks/access";
-import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 import type { Task } from "@/types/task";
-import type { HubModule, UserRole } from "@/types/tenant";
 
-/** Compact "My tasks" strip for the Hub dashboard when the tasks module is on. */
+type LoadState = "loading" | "ready" | "error";
+
+/** Personal work only; the API applies the active union, local and assignee scope. */
 export function MyTasksWidget() {
   const t = useTranslations("tasks");
-  const { data: session } = useSession();
-  const mfaOk = useSessionMfaOk();
+  const locale = useLocale();
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [fetched, setFetched] = useState(false);
-
-  const roles = (session?.user?.roles ?? []) as UserRole[];
-  const tenant = session?.user?.unionId
-    ? getTenantContext(session.user.unionId)
-    : null;
-  const enabledModules: HubModule[] =
-    tenant?.union.enabledModules ?? [...PRESIDENT_OVERLAY_MODULES];
-  const show =
-    mfaOk &&
-    canAccessTasksModule(roles) &&
-    enabledModules.includes("tasks");
+  const [state, setState] = useState<LoadState>("loading");
 
   useEffect(() => {
-    if (!show) return;
-    void fetch("/api/tasks?mine=1&status=open")
+    const controller = new AbortController();
+    void fetch("/api/tasks?mine=1&status=open", { signal: controller.signal })
       .then(async (res) => {
-        if (!res.ok) return;
-        const data = (await res.json()) as { tasks: Task[] };
-        setTasks(data.tasks.slice(0, 5));
+        if (!res.ok) throw new Error(`Tasks: ${res.status}`);
+        const data = (await res.json()) as { tasks?: Task[] };
+        setTasks((data.tasks ?? []).slice(0, 5));
+        setState("ready");
       })
-      .finally(() => {
-        setLoading(false);
-        setFetched(true);
+      .catch(() => {
+        if (!controller.signal.aborted) setState("error");
       });
-  }, [show]);
-
-  if (!show) return null;
-
-  const busy = loading && !fetched;
+    return () => controller.abort();
+  }, []);
 
   return (
     <Card density="compact" className="h-full min-w-0">
-      <CardTitle>{t("widgetTitle")}</CardTitle>
-      <p className="mt-2 text-sm leading-relaxed text-gray-600">{t("widgetDesc")}</p>
-      {busy ? (
-        <p className="mt-3 text-sm text-gray-500">{t("loading")}</p>
-      ) : tasks.length === 0 ? (
-        <p className="mt-3 text-sm text-gray-500">{t("widgetEmpty")}</p>
-      ) : (
-        <ul className="mt-3 space-y-2 text-sm">
-          {tasks.map((task) => (
-            <li key={task.id} className="text-gray-800">
-              {task.title}
-              {task.dueAt ? (
-                <span className="ml-2 text-gray-500">
-                  {new Date(task.dueAt).toLocaleDateString()}
-                </span>
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      )}
-      <Link
-        href="/app/tasks"
-        className="mt-4 inline-block text-sm text-opseu-blue underline"
-      >
-        {t("widgetLink")}
-      </Link>
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <CardTitle>{t("widgetTitle")}</CardTitle>
+        <Link href="/app/tasks" className="text-sm font-medium text-opseu-blue underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
+          {t("widgetLink")}
+        </Link>
+      </div>
+      <div role="status" aria-live="polite" className="mt-3 text-sm leading-relaxed text-gray-700">
+        {state === "loading" ? <p>{t("loading")}</p> : null}
+        {state === "error" ? <p>{t("widgetError")}</p> : null}
+        {state === "ready" && tasks.length === 0 ? <p>{t("widgetEmpty")}</p> : null}
+        {state === "ready" && tasks.length > 0 ? (
+          <ul className="space-y-2">
+            {tasks.map((task) => (
+              <li key={task.id} className="border-t border-slate-200 pt-2 first:border-0 first:pt-0">
+                <span className="font-medium text-opseu-dark">{task.title}</span>
+                {task.dueAt ? <span className="ml-2 text-gray-600">{new Date(task.dueAt).toLocaleDateString(locale === "fr" ? "fr-CA" : "en-CA")}</span> : null}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
     </Card>
   );
 }

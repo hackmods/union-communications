@@ -50,6 +50,7 @@ export function HubNav() {
 
   const drawerOpen = drawer?.path === pathname;
   const toolsOpen = toolsMenu?.path === pathname;
+  const dashboard = pathname === "/app" || pathname === "/app/";
 
   useLayoutEffect(() => {
     const el = barRef.current;
@@ -160,7 +161,10 @@ export function HubNav() {
           </div>
         </div>
 
-        <div className="hidden min-w-0 flex-1 flex-wrap items-center justify-end gap-1 lg:flex">
+        <div className={cn(
+          "hidden min-w-0 flex-1 flex-wrap items-center justify-end gap-1",
+          dashboard ? "2xl:flex" : "lg:flex",
+        )}>
           {isPlatformOperator(roles) && (
             <PlatformOperatorNavDropdown variant="hub" />
           )}
@@ -249,7 +253,10 @@ export function HubNav() {
         <button
           ref={toggleRef}
           type="button"
-          className="relative z-[80] inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-gray-200 text-opseu-dark hover:bg-white lg:hidden"
+          className={cn(
+            "relative z-[80] inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-gray-200 text-opseu-dark hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2",
+            dashboard ? "2xl:hidden" : "lg:hidden",
+          )}
           aria-expanded={drawerOpen}
           aria-controls={drawerId}
           aria-label={drawerOpen ? t("closeHubMenu") : t("openHubMenu")}
@@ -281,6 +288,7 @@ export function HubNav() {
           onClose={closeDrawer}
           onCloseAfterNav={closeDrawerAfterNav}
           drawerId={drawerId}
+          compactDashboard={dashboard}
         />
       ) : null}
     </nav>

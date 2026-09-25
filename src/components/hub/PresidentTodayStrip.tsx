@@ -6,8 +6,7 @@ import type { HubModule } from "@/types/tenant";
 import { PUBLIC_SECTION_TITLE_CLASS } from "@/lib/constants/public-type";
 
 /**
- * Compact “Today” strip for presidents — deep links into high-value Hub work
- * without turning the dashboard into a second nav.
+ * A short list of president work routes. These links do not claim live status.
  */
 export function PresidentTodayStrip({
   enabledModules,
@@ -63,23 +62,23 @@ export function PresidentTodayStrip({
   return (
     <section
       aria-labelledby="president-today-heading"
-      className="space-y-3 md:col-span-2"
+      className="space-y-3"
     >
       <h2 id="president-today-heading" className={PUBLIC_SECTION_TITLE_CLASS}>
         {t("title")}
       </h2>
       <p className="text-sm text-slate-600">{t("body")}</p>
-      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
         {visible.map((card) => (
           <li key={card.id}>
             <Link
               href={card.href}
-              className="flex h-full flex-col justify-between rounded-lg border border-slate-200 bg-white p-4 hover:border-opseu-blue/40 hover:bg-opseu-blue/[0.03]"
+              className="flex min-h-11 items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-opseu-blue/40 hover:bg-opseu-blue/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               <span className="text-sm font-semibold text-opseu-dark">
                 {card.label}
               </span>
-              <span className="mt-3 text-sm leading-relaxed text-slate-600">
+              <span className="text-right text-sm leading-snug text-slate-600">
                 {card.blurb}
               </span>
             </Link>

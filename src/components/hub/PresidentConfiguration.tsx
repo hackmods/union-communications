@@ -30,7 +30,6 @@ import {
 } from "@/lib/constants/public-type";
 import type { LocalPresentationPrefs } from "@/lib/president/local-prefs";
 import { cn } from "@/lib/utils";
-import { markPresidentConfigVisited } from "@/components/hub/PresidentSetupChecklist";
 
 type ConfigScope = "union" | "local";
 
@@ -224,10 +223,6 @@ export function PresidentConfiguration({
       return true;
     }
   });
-
-  useEffect(() => {
-    markPresidentConfigVisited();
-  }, []);
 
   useEffect(() => {
     let cancelled = false;

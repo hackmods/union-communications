@@ -7914,6 +7914,10 @@
         "title": "Brand Kit foundation with parallel Create, Utilities, and Learn",
         "body": "Home no longer walks you through a five-step sequence. Set up Brand Kit, then choose Create, Utilities, or Learn for the task you have. Letter Generator now includes steward letter contexts you can open from accommodation and related utilities."
       },
+      "officer-hub-task-dashboard": {
+        "title": "Officer Hub puts your work first",
+        "body": "See assigned tasks and unanswered check-ins first, then choose a permitted next step. Setup and the full tool catalog stay within reach when you need them."
+      },
       "brand-kit-workspace-preview": {
         "title": "Brand Kit with a live preview",
         "body": "Set your local identity in a roomier editor and see your logo, colours, and canvas style together as you work. Optional links and signature details can wait until you need them."
@@ -8055,6 +8059,24 @@
     "title": "Officer Hub",
     "navLabel": "Hub navigation",
     "dashboard": "Dashboard",
+    "dashboardHome": {
+      "attention": "What needs my attention?",
+      "attentionBody": "Your assigned work in this local. Other casework remains in the navigation.",
+      "platformAttention": "Platform work",
+      "platformAttentionBody": "Open host operations here. Local case files remain within their own access rules.",
+      "mfaTitle": "Verify to see your work",
+      "mfaBody": "Private work areas are available after identity verification on this host.",
+      "mfaNext": "Your permitted work areas will appear after verification.",
+      "noWorkModules": "No task board or check-ins are enabled for this local. Other work areas are in Next steps.",
+      "tenantPending": "Checking your union settings. If they do not appear, refresh the page or contact your Officer Hub administrator.",
+      "nextSteps": "What can I do next?",
+      "nextStepsBody": "Open a work area available to your role.",
+      "noNextSteps": "No work modules are enabled for your role. Ask a local officer about access.",
+      "browseTools": "Browse officer tools",
+      "notices": "Host notices:",
+      "noticeCaution": "Do not enter real member data.",
+      "noticeDetails": "Read details"
+    },
     "welcome": "Welcome, {name}",
     "signOut": "Sign out",
     "signIn": "Sign in",
@@ -8820,8 +8842,8 @@
       "starterCommitteeDesc": "Starter Circle for board work."
     },
     "presidentToday": {
-      "title": "Today",
-      "body": "Shortcuts for daily president work.",
+      "title": "What can I do next?",
+      "body": "Open a work area for local business.",
       "overdue": "CA deadlines",
       "overdueBlurb": "Grievances and deadlines to watch.",
       "ledger": "Financial summary",
@@ -8832,8 +8854,8 @@
       "meetingsBlurb": "Schedule and RSVPs."
     },
     "presidentChecklist": {
-      "title": "Local launch checklist",
-      "body": "Steps to open Officer Hub and Local Portal without overload.",
+      "title": "Local setup and administration",
+      "body": "Review your local’s modules and invitations. Other setup tools appear when enabled.",
       "steps": {
         "modules": "Choose modules",
         "hall": "Open Hall",
@@ -9824,7 +9846,9 @@
     "answersTitle": "Answers this period",
     "answersEmpty": "No answers yet for this period. Remind officers, or check back after the due time.",
     "widgetTitle": "Your unanswered check-ins",
-    "widgetAll": "View all"
+    "widgetAll": "View all",
+    "widgetEmpty": "No unanswered check-ins right now. New questions will appear here.",
+    "widgetError": "Could not load check-ins. Open the check-ins page or refresh to try again."
   },
   "tasks": {
     "title": "Task board",
@@ -9873,6 +9897,7 @@
     "widgetTitle": "My tasks",
     "widgetDesc": "Open tasks assigned to you.",
     "widgetEmpty": "No open tasks assigned to you. New assignments will show up here.",
+    "widgetError": "Could not load your tasks. Open the task board or refresh to try again.",
     "widgetLink": "Open task board",
     "relatedPanel": {
       "title": "Related tasks",

@@ -9,6 +9,8 @@ Living implementation record for the product-architecture, information-architect
 
 **Brand Kit workspace pass:** [2026-09-24 Brand Kit workspace uplift](audit/plan-2026-09-24-brand-kit-workspace-uplift.md). The three equal desktop cards became a roomy identity editor with an adjacent live preview; local number appears in the first panel, and readiness distinguishes essentials from optional details. The route, stored kit, and canvas export contract remain the same.
 
+**Officer Hub home pass:** [2026-09-25 task-first dashboard](audit/plan-2026-09-25-hub-task-dashboard.md). Authenticated work now starts with assigned tasks/check-ins or platform operations, then role-permitted next steps. Local setup and the full tools catalog are secondary; the Hub nav keeps global wayfinding. The casework and tenant authorization contracts remain unchanged.
+
 ---
 
 ## Second-pass critique of the first implementation
