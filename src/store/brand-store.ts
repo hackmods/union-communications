@@ -2,6 +2,12 @@
 
 import { create } from "zustand";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
+import { resolveHostBrandDefaults } from "@/lib/constants/host-brand";
+import {
+  brandFieldsFromUnionPreset,
+  getUnionPreset,
+} from "@/lib/constants/unionPresets";
+import { resolveTrustedPresetId } from "@/lib/brand/union-preset-bridge";
 import {
   dataAdapter,
   LocalStorageAdapter,
@@ -22,6 +28,8 @@ interface BrandState {
   /** A kit was loaded from or successfully written to this browser. */
   hasStoredBrandKit: boolean;
   setBrandKit: (kit: BrandKitPatch) => void;
+  /** Apply a trusted Comms preset (preserves local number when set). */
+  applyUnionPresetId: (presetId: string) => boolean;
   resetBrandKit: () => void;
   importBrandKit: (kit: BrandKit | unknown) => void;
   setOnboardingComplete: (complete: boolean) => void;
@@ -173,6 +181,29 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     });
   },
 
+  applyUnionPresetId: (presetId) => {
+    const trusted = resolveTrustedPresetId(presetId);
+    if (!trusted) return false;
+    const preset = getUnionPreset(trusted);
+    if (!preset) return false;
+    const current = get().brandKit;
+    const patch = brandFieldsFromUnionPreset(preset, {
+      localNumber: current.local.localNumber,
+    });
+    if (!get().hydrated) {
+      pendingPatch = queueBrandKitPatch(pendingPatch, patch);
+      return true;
+    }
+    const updated = applyBrandKitPatch(current, patch);
+    set({ brandKit: updated });
+    scheduleSaveBrandKit(updated, true, () => {
+      if (!get().storageBlocked) {
+        set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
+      }
+    });
+    return true;
+  },
+
   resetBrandKit: () => {
     pendingPatch = null;
     clearSaveTimer();
@@ -242,6 +273,32 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     const queued = pendingPatch;
     pendingPatch = null;
     let brandKit = kit ?? get().brandKit;
+    let hasStoredBrandKit = kit != null;
+
+    // First visit: optional host-level Comms preset (self-hosted single-union).
+    if (!kit) {
+      const hostPreset = resolveTrustedPresetId(
+        resolveHostBrandDefaults().unionPresetId,
+      );
+      if (hostPreset) {
+        const preset = getUnionPreset(hostPreset);
+        if (preset) {
+          brandKit = applyBrandKitPatch(
+            brandKit,
+            brandFieldsFromUnionPreset(preset, {
+              localNumber: brandKit.local.localNumber,
+            }),
+          );
+          hasStoredBrandKit = true;
+          scheduleSaveBrandKit(brandKit, true, () => {
+            if (!get().storageBlocked) {
+              set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
+            }
+          });
+        }
+      }
+    }
+
     if (queued) {
       brandKit = applyBrandKitPatch(brandKit, queued);
       scheduleSaveBrandKit(brandKit, false, () => {
@@ -249,7 +306,8 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
           set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
         }
       });
+      hasStoredBrandKit = true;
     }
-    set({ brandKit, onboardingComplete, hydrated: true, hasStoredBrandKit: kit != null });
+    set({ brandKit, onboardingComplete, hydrated: true, hasStoredBrandKit });
   },
 }));

@@ -5,6 +5,7 @@ import {
   getEnabledModulesPatch,
   getOverlaySeeds,
   getUnitPatches,
+  getCommsPresetPatch,
 } from "@/lib/tenant/overlay";
 import type {
   BargainingUnit,
@@ -23,11 +24,13 @@ function mergeSeed(base: TenantSeed): TenantSeed {
   const patchUnits = getUnitPatches(unionId);
   const dataModulePatch = getDataModulePatch(unionId);
   const enabledModulesPatch = getEnabledModulesPatch(unionId);
+  const commsPresetPatch = getCommsPresetPatch(unionId);
   if (
     patchLocals.length === 0 &&
     patchUnits.length === 0 &&
     dataModulePatch === undefined &&
-    enabledModulesPatch === undefined
+    enabledModulesPatch === undefined &&
+    commsPresetPatch === undefined
   ) {
     return base;
   }
@@ -70,6 +73,16 @@ function mergeSeed(base: TenantSeed): TenantSeed {
       : base.union.enabledModules.filter((module) => module !== "data");
   }
 
+  let brandDefaults = base.brandDefaults;
+  if (commsPresetPatch !== undefined) {
+    if (commsPresetPatch) {
+      brandDefaults = { ...brandDefaults, commsPresetId: commsPresetPatch };
+    } else if (brandDefaults.commsPresetId !== undefined) {
+      brandDefaults = { ...brandDefaults };
+      delete brandDefaults.commsPresetId;
+    }
+  }
+
   return {
     ...base,
     union: {
@@ -78,6 +91,7 @@ function mergeSeed(base: TenantSeed): TenantSeed {
     },
     locals: dedupedLocals,
     bargainingUnits: dedupedUnits,
+    brandDefaults,
   };
 }
 

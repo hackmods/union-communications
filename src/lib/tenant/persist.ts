@@ -19,8 +19,10 @@ import {
   isOverlayHydratedFromDb,
   markOverlayHydratedFromDb,
   neutralBrandDefaultsForNewTenant,
+  setCommsPresetPatch,
   setDataModulePatch,
   setEnabledModulesPatch,
+  getOverlaySeeds,
 } from "@/lib/tenant/overlay";
 import type {
   BargainingUnit,
@@ -71,6 +73,7 @@ export type PersistedTenantSnapshot = {
     slug: string;
     defaultLocale: string;
     enabledModules: string[];
+    commsPresetId?: string | null;
   }>;
   divisions: Array<{
     id: string;
@@ -102,6 +105,9 @@ export function applyPersistedSnapshotToOverlay(
 
   for (const row of snapshot.unions) {
     setDataModulePatch(row.id, row.enabledModules.includes("data"));
+    if (row.commsPresetId !== undefined) {
+      setCommsPresetPatch(row.id, row.commsPresetId ?? null);
+    }
     if (STATIC_UNION_IDS.has(row.id)) continue;
     const division = snapshot.divisions.find((d) => d.unionId === row.id);
     importOverlayUnion({
@@ -127,7 +133,12 @@ export function applyPersistedSnapshotToOverlay(
         : {}),
       locals: localsByUnion.get(row.id) ?? [],
       bargainingUnits: unitsByUnion.get(row.id) ?? [],
-      brandDefaults: neutralBrandDefaultsForNewTenant(),
+      brandDefaults: {
+        ...neutralBrandDefaultsForNewTenant(),
+        ...(row.commsPresetId
+          ? { commsPresetId: row.commsPresetId }
+          : {}),
+      },
       grievanceConfig: DEFAULT_OVERLAY_GRIEVANCE,
     });
   }
@@ -155,6 +166,7 @@ async function loadPersistedSnapshot(): Promise<PersistedTenantSnapshot> {
       slug: row.slug,
       defaultLocale: row.defaultLocale,
       enabledModules: row.enabledModules ?? [],
+      commsPresetId: row.commsPresetId ?? null,
     })),
     divisions: divisionRows.map((row) => ({
       id: row.id,
@@ -258,6 +270,7 @@ export async function persistUnionSeed(seed: TenantSeed): Promise<void> {
       slug: seed.union.slug,
       defaultLocale: seed.union.defaultLocale,
       enabledModules: seed.union.enabledModules,
+      commsPresetId: seed.brandDefaults.commsPresetId ?? null,
     })
     .onConflictDoUpdate({
       target: unions.id,
@@ -266,6 +279,9 @@ export async function persistUnionSeed(seed: TenantSeed): Promise<void> {
         slug: seed.union.slug,
         defaultLocale: seed.union.defaultLocale,
         enabledModules: seed.union.enabledModules,
+        ...(seed.brandDefaults.commsPresetId !== undefined
+          ? { commsPresetId: seed.brandDefaults.commsPresetId ?? null }
+          : {}),
       },
     });
 
@@ -402,4 +418,75 @@ export async function slugTakenByOtherUnion(
     .where(eq(unions.slug, slug))
     .limit(1);
   return Boolean(rows[0] && rows[0].id !== unionId);
+}
+
+/**
+ * Bind a Comms Brand Kit preset to a Hub union (platform admin).
+ * Clears when presetId is null. Syncs overlay + Postgres when configured.
+ */
+export async function setUnionCommsPresetId(
+  unionId: string,
+  presetId: string | null,
+): Promise<{ ok: true } | { ok: false; status: 400 | 404; error: string }> {
+  setCommsPresetPatch(unionId, presetId);
+  if (!tenantsPostgresEnabled()) {
+    return { ok: true };
+  }
+  const db = getDb();
+  const [row] = await db
+    .select({ id: unions.id })
+    .from(unions)
+    .where(eq(unions.id, unionId))
+    .limit(1);
+  if (!row) {
+    return { ok: false, status: 404, error: "Union not found" };
+  }
+  await db
+    .update(unions)
+    .set({ commsPresetId: presetId })
+    .where(eq(unions.id, unionId));
+  return { ok: true };
+}
+
+/** Update union slug (platform admin). Rejects collisions. */
+export async function updateUnionSlug(
+  unionId: string,
+  rawSlug: string,
+): Promise<
+  | { ok: true; slug: string }
+  | { ok: false; status: 400 | 404 | 409; error: string }
+> {
+  const slug = rawSlug
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 64);
+  if (!slug) {
+    return { ok: false, status: 400, error: "Slug is required" };
+  }
+  if (await slugTakenByOtherUnion(slug, unionId)) {
+    return { ok: false, status: 409, error: "Slug already in use" };
+  }
+
+  if (tenantsPostgresEnabled()) {
+    const db = getDb();
+    const [row] = await db
+      .select({ id: unions.id })
+      .from(unions)
+      .where(eq(unions.id, unionId))
+      .limit(1);
+    if (!row) {
+      return { ok: false, status: 404, error: "Union not found" };
+    }
+    await db.update(unions).set({ slug }).where(eq(unions.id, unionId));
+  }
+
+  // Keep overlay seed slug in sync when present
+  const seed = getOverlaySeeds().find((s) => s.union.id === unionId);
+  if (seed) {
+    seed.union.slug = slug;
+  }
+
+  return { ok: true, slug };
 }

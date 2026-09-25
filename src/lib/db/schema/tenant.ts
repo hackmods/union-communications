@@ -36,6 +36,11 @@ export const unions = pgTable("unions", {
    * without relying on fragile regexes. Idempotent; never flipped back to false.
    */
   isDemo: boolean("is_demo").notNull().default(false),
+  /**
+   * Comms Brand Kit preset id bound by platform admin (`opseu`, `cupe`, …).
+   * Drives public chrome seed for members of this union — not Hub tenancy.
+   */
+  commsPresetId: text("comms_preset_id"),
 });
 
 export const divisions = pgTable("divisions", {
@@ -112,9 +117,8 @@ export const users = pgTable("users", {
   totpSecret: text("totp_secret"),
   mfaEnabled: boolean("mfa_enabled").notNull().default(false),
   /**
-   * Bumps on `signout-everywhere` and email change. Reserved for v2
-   * server-side session invalidation (the JWT callback will reject tokens
-   * whose `sessionVersion` lag); v1 stores / bumps but does not yet check.
+   * Bumps on assign-local, role changes, and related ops. JWT callback reloads
+   * tenancy claims when the token's `sessionVersion` lags the Postgres row.
    * `0` is the genesis value.
    */
   sessionVersion: integer("session_version").notNull().default(0),

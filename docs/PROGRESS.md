@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-25 — Union brand default bridge + admin brand styles
+
+- Platform admin: `/app/site-admin/brand-styles` binds each Hub union to a Comms Brand Kit preset and edits slug (`unions.comms_preset_id`, migration `0060`).
+- One-way Hub → Brand Kit: auto-seed when the browser has no kit; Match control on Brand Kit for existing kits. Empty preset no longer implies OPSEU for sources/asset packs.
+- JWT reloads tenancy when `users.sessionVersion` advances (assign-local / roles). Host optional `unionPresetId` via host-brand / env (no admin UI).
+- Follow-on detailed theme admin: [`docs/audit/plan-2026-09-25-brand-kit-admin.md`](audit/plan-2026-09-25-brand-kit-admin.md). Lessons: [`docs/audit/session-knowledge-2026-09-25-union-brand-bridge.md`](audit/session-knowledge-2026-09-25-union-brand-bridge.md).
+
 ## 2026-09-25 — Authenticated audit QOL residuals
 
 - Hub write APIs: `mapScopeApiError` / `readMappedScopeApiError` now surface steward i18n for missing union/local instead of raw `"Local required"`.

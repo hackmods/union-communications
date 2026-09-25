@@ -63,6 +63,11 @@ export interface BrandDefaults {
   accentColor: string;
   useOfficialLogo: boolean;
   assetPackPath: string;
+  /**
+   * Platform-admin binding: Comms Brand Kit preset id for this Hub union
+   * (`opseu`, `cupe`, …). Prefer over slug coincidence when seeding public chrome.
+   */
+  commsPresetId?: string;
   /** Optional seed membership URLs — applied when selecting that union's Comms preset only */
   membershipUrls?: Array<{
     id: string;

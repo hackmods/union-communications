@@ -14,8 +14,8 @@ export interface CommsSource {
   /**
    * Brand Kit `unionPresetId` values this citation applies to.
    * Omit or empty = universal (all unions).
-   * When Brand Kit has no preset yet, OPSEU-scoped sources still show
-   * (reference-tenant / workshop default) — see `sourceMatchesUnion`.
+   * When Brand Kit has no preset yet, only universal sources show —
+   * see `sourceMatchesUnion`.
    */
   unionIds?: readonly string[];
   /** ISO date (YYYY-MM-DD) when a steward or agent last confirmed the URL in a browser. */
@@ -883,7 +883,7 @@ export const WEBSITE_RIGHTS_PARTNERS_ONTARIO_SOURCE_IDS = [
 /**
  * Whether a registry row applies to the current Brand Kit union preset.
  * - No `unionIds` → universal.
- * - Empty / unset preset → reference tenant (OPSEU-scoped still visible).
+ * - Empty / unset preset → universal sources only (no implicit OPSEU).
  * - Other preset → only matching `unionIds` or universal.
  */
 export function sourceMatchesUnion(
@@ -893,7 +893,7 @@ export function sourceMatchesUnion(
   const scope = source.unionIds;
   if (!scope || scope.length === 0) return true;
   const preset = unionPresetId?.trim();
-  if (!preset) return scope.includes("opseu");
+  if (!preset) return false;
   return scope.includes(preset);
 }
 
@@ -902,7 +902,7 @@ export function isReferenceAssetPackVisible(
   unionPresetId?: string | null,
 ): boolean {
   const preset = unionPresetId?.trim();
-  return !preset || preset === "opseu";
+  return preset === "opseu";
 }
 
 export function filterSourcesByUnion(

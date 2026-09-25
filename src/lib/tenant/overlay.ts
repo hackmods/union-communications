@@ -24,6 +24,8 @@ const dataModulePatches = new Map<string, boolean>();
 const enabledModulesPatches = new Map<string, HubModule[]>();
 /** Local Portal surface toggles (member nav). Unset → intelligent defaults. */
 const portalSurfacesPatches = new Map<string, PortalSurfaceId[]>();
+/** Comms preset binding patch (null clears). Applied in loader mergeSeed. */
+const commsPresetPatches = new Map<string, string | null>();
 /** True after Postgres tenant rows were merged into this process overlay. */
 let hydratedFromDb = false;
 
@@ -123,6 +125,31 @@ export function getEnabledModulesPatch(
   unionId: string,
 ): HubModule[] | undefined {
   return enabledModulesPatches.get(unionId);
+}
+
+export function getCommsPresetPatch(unionId: string): string | null | undefined {
+  return commsPresetPatches.get(unionId);
+}
+
+/** In-process binding: Hub union → Comms Brand Kit preset id (null clears). */
+export function setCommsPresetPatch(
+  unionId: string,
+  presetId: string | null,
+): void {
+  commsPresetPatches.set(unionId, presetId);
+  const seed = overlaySeeds.get(unionId);
+  if (seed) {
+    if (presetId) {
+      seed.brandDefaults = {
+        ...seed.brandDefaults,
+        commsPresetId: presetId,
+      };
+    } else if (seed.brandDefaults.commsPresetId !== undefined) {
+      const next = { ...seed.brandDefaults };
+      delete next.commsPresetId;
+      seed.brandDefaults = next;
+    }
+  }
 }
 
 export function setPortalSurfacesPatch(
@@ -306,5 +333,6 @@ export function resetTenantOverlayForTests(): void {
   dataModulePatches.clear();
   enabledModulesPatches.clear();
   portalSurfacesPatches.clear();
+  commsPresetPatches.clear();
   hydratedFromDb = false;
 }

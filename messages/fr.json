@@ -4331,7 +4331,14 @@
     },
     "contextHint": {
       "title": "Collection du Hub vs profil de la Trousse",
-      "body": "Le Hub des dirigeants filtre le travail de grief par collection. Les profils de la Trousse de marque changent les mots sur vos exports — pas les couleurs de l'apparence. Choisissez le profil qui correspond à la voix que vous utilisez avant de télécharger un graphique."
+      "body": "Le Hub des dirigeants filtre le travail de grief par collection. Les profils de la Trousse de marque changent les mots sur vos exports — pas les couleurs de l'apparence. Choisissez le profil qui correspond à la voix que vous utilisez avant de télécharger un graphique.",
+      "matchTitle": "Faire correspondre le site public à mon syndicat du Hub",
+      "matchBody": "Appliquez le préréglage Comms de votre syndicat du Hub à la Trousse de marque de ce navigateur. Votre numéro de section locale est conservé s’il est déjà défini. Cela ne change pas l’adhésion au Hub.",
+      "matchAction": "Faire correspondre le site public",
+      "matchBusy": "Application…",
+      "matchSuccess": "La Trousse de marque publique correspond maintenant au préréglage de votre syndicat du Hub.",
+      "matchFailed": "Impossible d’appliquer ce préréglage.",
+      "matchRemedy": "Ouvrez la Trousse de marque et choisissez un préréglage syndical manuellement, ou demandez à un administrateur de plateforme de lier un style de marque à votre syndicat."
     },
     "campaignBadge": {
       "label": "Badge de campagne (optionnel)",
@@ -7372,6 +7379,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "match-hub-union-brand-kit": {
+        "title": "Faire correspondre la Trousse de marque à votre syndicat du Hub",
+        "body": "Lorsque vous êtes connecté, la Trousse de marque peut appliquer le préréglage Comms de votre syndicat du Hub au site public de ce navigateur. Votre numéro de section locale est conservé s’il est déjà défini."
+      },
       "local-pack": {
         "title": "Sauvegarde Trousse locale",
         "body": "Téléchargez un seul fichier versionné avec la Trousse de marque, les dirigeants, l’affichage et le brouillon de site. Importez-le quand vous changez de navigateur. Le Modèle de site Web garde son propre fichier de site pour régénérer un ZIP."
@@ -8168,6 +8179,23 @@
       "publicToolsDisabled": "Masqué",
       "publicToolsSaving": "Enregistrement…",
       "publicToolsSave": "Enregistrer les réglages",
+      "brandStylesCard": "Styles de marque",
+      "brandStylesCardBody": "Associez chaque syndicat du Hub à un préréglage Comms et modifiez son nom d’URL public.",
+      "brandStylesTitle": "Styles de marque",
+      "brandStylesBody": "Liez un préréglage Brand Kit Comms à chaque syndicat du Hub pour que le site public des membres puisse correspondre à leur syndicat. Cela ne change pas l’appartenance au Hub ni les invitations.",
+      "brandStylesLoading": "Chargement des syndicats…",
+      "brandStylesLoadFailed": "Impossible de charger les liaisons de style de marque. Vérifiez votre connexion et réessayez.",
+      "brandStylesSaveFailed": "Impossible d’enregistrer cette liaison. Corrigez le nom d’URL ou le préréglage et réessayez.",
+      "brandStylesErrorRemedy": "Actualisez la page. Si le problème continue, confirmez que Postgres est configuré pour cet hôte.",
+      "brandStylesSaved": "Style de marque enregistré pour ce syndicat.",
+      "brandStylesEmpty": "Aucun syndicat trouvé. Créez d’abord un syndicat sous Locals ou les invitations.",
+      "brandStylesColUnion": "Syndicat",
+      "brandStylesColSlug": "Nom d’URL",
+      "brandStylesColPreset": "Préréglage Comms",
+      "brandStylesPresetNone": "Aucun (chrome de la plateforme)",
+      "brandStylesDemo": "Échantillon démo",
+      "brandStylesSave": "Enregistrer",
+      "brandStylesSaving": "Enregistrement…",
       "customizationCard": "Personnalisation",
       "customizationCardBody": "Publiez des guides, sources et bases de marque partagés pour un vrai syndicat sans redéployer l'application.",
       "customizationTitle": "Personnalisation syndicale",

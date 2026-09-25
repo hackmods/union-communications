@@ -6837,6 +6837,11 @@
           "notNull": false
         },
         {
+          "name": "comms_preset_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "created_at",
           "dataType": "timestamp with time zone",
           "notNull": true

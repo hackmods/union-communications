@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BrandProvider } from "@/components/providers/BrandProvider";
+import { HubBrandKitSeed } from "@/components/brand/HubBrandKitSeed";
 import { PreferencesProvider } from "@/components/providers/PreferencesProvider";
 import { BrandChromeInitScript } from "@/components/providers/BrandChromeInitScript";
 import { PreferencesInitScript } from "@/components/providers/PreferencesInitScript";
@@ -84,6 +85,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <BrandProvider>
+              <HubBrandKitSeed />
               <PreferencesProvider>
                 <SkipLink />
                 <Header />

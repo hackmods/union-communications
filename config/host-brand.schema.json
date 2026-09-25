@@ -31,6 +31,10 @@
     "divisionId": {
       "type": "string",
       "description": "Optional division id for the default Brand Kit"
+    },
+    "unionPresetId": {
+      "type": "string",
+      "description": "Optional Comms Brand Kit preset id applied on first visit when no kit is saved (e.g. opseu, cupe). Env: NEXT_PUBLIC_BRAND_UNION_PRESET."
     }
   },
   "required": ["primaryColor", "secondaryColor", "accentColor"],
