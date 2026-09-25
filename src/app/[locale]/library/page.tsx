@@ -37,7 +37,7 @@ export default async function LibraryHubPage({ params }: Props) {
                   {nav(row.titleKey)}
                 </span>
                 <span className="mt-2 block text-sm leading-relaxed text-slate-600">
-                  {t(row.bodyKey)}
+                  {t(`summaries.${row.bodyKey}`)}
                 </span>
               </Link>
             </li>

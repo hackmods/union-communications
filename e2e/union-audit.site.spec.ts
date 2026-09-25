@@ -148,19 +148,17 @@ test.describe("union audit site integrity @smoke", () => {
     }
   });
 
-  test("key public images load with non-zero bytes", async ({ page, request }) => {
-    // Examples use CSS mockups (no <img>); brand-assets ships real pack images.
-    await page.goto("/en/learn/library/brand-assets/");
-    const srcs = await page.locator("img[src]").evaluateAll((imgs) =>
-      imgs
-        .map((img) => (img as HTMLImageElement).getAttribute("src") || "")
-        .filter((src) => src && !src.startsWith("data:")),
-    );
-    expect(srcs.length).toBeGreaterThan(0);
+  test("key public images load with non-zero bytes", async ({ request }) => {
+    // Probe shipped static assets. Brand-assets UI may render UnionOps SVG marks
+    // (no <img>) when the Brand Kit has no custom logo / look packs.
+    const assetPaths = [
+      "/assets/caat-opseu/logo-primary.png",
+      "/assets/caat-opseu/logo-mark.png",
+      "/assets/unionops/logo-mark.svg",
+    ];
     const failures: string[] = [];
-    for (const src of srcs.slice(0, 12)) {
-      const url = src.startsWith("http") ? src : src;
-      const res = await request.get(url);
+    for (const src of assetPaths) {
+      const res = await request.get(src);
       if (!res.ok()) {
         failures.push(`${src} -> ${res.status()}`);
         continue;
