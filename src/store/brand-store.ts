@@ -19,6 +19,8 @@ interface BrandState {
   storageBlocked: boolean;
   /** Epoch ms of last successful Brand Kit persist — drives save banner. */
   lastSavedAt: number | null;
+  /** A kit was loaded from or successfully written to this browser. */
+  hasStoredBrandKit: boolean;
   setBrandKit: (kit: BrandKitPatch) => void;
   resetBrandKit: () => void;
   importBrandKit: (kit: BrandKit | unknown) => void;
@@ -155,6 +157,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   hydrated: false,
   storageBlocked: false,
   lastSavedAt: null,
+  hasStoredBrandKit: false,
 
   setBrandKit: (partial) => {
     if (!get().hydrated) {
@@ -165,7 +168,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     set({ brandKit: updated });
     scheduleSaveBrandKit(updated, patchTouchesLogo(partial), () => {
       if (!get().storageBlocked) {
-        set({ lastSavedAt: Date.now() });
+        set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
       }
     });
   },
@@ -177,7 +180,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
       ...DEFAULT_BRAND_KIT,
       updatedAt: new Date().toISOString(),
     });
-    set({ brandKit: reset, lastSavedAt: null });
+    set({ brandKit: reset, lastSavedAt: null, hasStoredBrandKit: false });
     void dataAdapter.clearBrandKit();
   },
 
@@ -191,7 +194,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     set({ brandKit: updated });
     void Promise.resolve(dataAdapter.saveBrandKit(updated)).then(() => {
       if (!get().storageBlocked) {
-        set({ lastSavedAt: Date.now() });
+        set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
       }
     });
   },
@@ -219,10 +222,10 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
       brandKit = applyBrandKitPatch(brandKit, queued);
       scheduleSaveBrandKit(brandKit, false, () => {
         if (!get().storageBlocked) {
-          set({ lastSavedAt: Date.now() });
+          set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
         }
       });
     }
-    set({ brandKit, onboardingComplete, hydrated: true });
+    set({ brandKit, onboardingComplete, hydrated: true, hasStoredBrandKit: kit != null });
   },
 }));

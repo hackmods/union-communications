@@ -21,6 +21,8 @@ import { cn } from "@/lib/utils";
 
 type IdentityPackPickerProps = {
   compact?: boolean;
+  /** Brand Kit editor keeps Look descriptions readable beside the live preview. */
+  roomy?: boolean;
 };
 
 function packNameKey(
@@ -61,7 +63,10 @@ function tileDescription(
 }
 
 /** Visual Look gallery — collective colours + official logos (not collection text). */
-export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps) {
+export function IdentityPackPicker({
+  compact = false,
+  roomy = false,
+}: IdentityPackPickerProps) {
   const t = useTranslations("brandKit.identityPack");
   const brandKit = useBrandStore((s) => s.brandKit);
   const setBrandKit = useBrandStore((s) => s.setBrandKit);
@@ -95,7 +100,10 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
       </div>
 
       <div
-        className="flex min-w-0 max-w-full snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-1 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 xl:grid-cols-3"
+        className={cn(
+          "flex min-w-0 max-w-full snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-1 md:grid md:grid-cols-2 md:overflow-visible md:pb-0",
+          !roomy && "xl:grid-cols-3",
+        )}
         role="radiogroup"
         aria-label={t("label")}
         data-testid="identity-pack-gallery"
@@ -190,9 +198,9 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
                       colors.accentColor,
                       colors.secondaryColor,
                     ] as const
-                  ).map((hex) => (
+                  ).map((hex, index) => (
                     <span
-                      key={`${key}-${hex}`}
+                      key={`${key}-${index}-${hex}`}
                       className="h-4 w-4 shrink-0 rounded-full border border-black/10"
                       style={{ backgroundColor: hex }}
                       title={hex}

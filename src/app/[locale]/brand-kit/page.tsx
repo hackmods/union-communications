@@ -26,6 +26,7 @@ import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesE
 import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
 import { resolveIdentityPackForKit } from "@/lib/brand/identity-packs";
 import { BrandKitCanvasPanel } from "@/components/brand/BrandKitCanvasPanel";
+import { BrandKitPreview } from "@/components/brand/BrandKitPreview";
 import { BrandKitCompletenessBar } from "@/components/brand/BrandKitCompletenessBar";
 import { BrandKitSaveBanner } from "@/components/brand/BrandKitSaveBanner";
 import { DisplaySettingsControls } from "@/components/accessibility/DisplaySettingsControls";
@@ -40,11 +41,11 @@ import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { TOOL_COMPOSITION } from "@/lib/constants/page-composition";
-import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import {
-  guideCtaClassSm,
-  guideCtaOutlineClassSm,
-} from "@/components/comms/guideCtaClasses";
+  PUBLIC_PAGE_TITLE_CLASS,
+  PUBLIC_SECTION_TITLE_CLASS,
+} from "@/lib/constants/public-type";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import { PresetSloganPicker } from "@/components/brand/PresetSloganPicker";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
@@ -63,6 +64,7 @@ export default function BrandKitPage() {
     storageBlocked,
     dismissStorageBlocked,
     hydrated,
+    hasStoredBrandKit,
   } = useBrandStore();
   const themeEstablished = isBrandThemeEstablished(
     brandKit,
@@ -95,47 +97,46 @@ export default function BrandKitPage() {
     );
   };
 
+  const confirmReset = () => {
+    if (window.confirm(t("resetConfirm"))) resetBrandKit();
+  };
+  const sectionLinkClass =
+    "text-opseu-blue underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-opseu-blue";
+
   return (
     <ComposedPageLayout
       composition={TOOL_COMPOSITION.editor.composition}
       size={TOOL_COMPOSITION.editor.shell}
-      className="py-10 md:py-14"
+      className="py-6 md:py-8"
     >
       <BrandKitSaveBanner />
       {inDemo ? (
         <WorkshopDemoPath variant="trail" className="mb-6" />
       ) : null}
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
         <header className="min-w-0">
           <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
-          <p className="mt-2 max-w-prose text-gray-600">{t("description")}</p>
+          <p className="mt-2 max-w-prose text-slate-600">{t("description")}</p>
+          {hydrated && hasStoredBrandKit && !storageBlocked ? (
+            <p className="mt-2 text-sm font-medium text-slate-600">
+              {t("savedOnDevice")}
+            </p>
+          ) : null}
         </header>
-
-        <div className="flex shrink-0 flex-col gap-2 sm:items-end">
-          <div className="flex flex-wrap gap-2 sm:justify-end">
-            <Button variant="ghost" onClick={resetBrandKit}>
-              {t("resetDefaults")}
-            </Button>
-          </div>
+        <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+          <ButtonLink href="/tools/local-pack" variant="outline" size="sm">
+            {t("moveBrowser")}
+          </ButtonLink>
+          <Button type="button" variant="ghost" onClick={confirmReset}>
+            {t("resetDefaults")}
+          </Button>
         </div>
       </div>
-
-      <Callout tone="muted" className="mt-6">
-        <p>{t("packCallout")}</p>
-        <p className="mt-2">
-          <Link
-            href="/tools/local-pack"
-            className="font-semibold text-opseu-blue underline underline-offset-2"
-          >
-            {t("packLink")}
-          </Link>
-        </p>
-      </Callout>
 
       {storageBlocked ? (
         <Callout
           tone="muted"
-          className="mt-6 flex flex-col gap-3 border-amber-300 bg-amber-50 sm:flex-row sm:items-start sm:justify-between"
+          className="mt-4 flex flex-col gap-3 border-amber-300 bg-amber-50 sm:flex-row sm:items-start sm:justify-between"
           role="alert"
         >
           <p className="text-sm text-amber-950">{t("storageBlocked")}</p>
@@ -151,57 +152,41 @@ export default function BrandKitPage() {
         </Callout>
       ) : null}
 
-      <Callout tone="brand" className="mt-6" measure="fill">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-          <div className="grid min-w-0 flex-1 gap-4 sm:grid-cols-2 sm:gap-6">
-            <div className="max-w-prose">
-              <p className="font-semibold text-opseu-dark">{t("purposeSets")}</p>
-              <p className="mt-1">{t("purposeSetsBody")}</p>
-            </div>
-            <div className="max-w-prose">
-              <p className="font-semibold text-opseu-dark">
-                {t("purposeUnlocks")}
-              </p>
-              <p className="mt-1">{t("purposeUnlocksBody")}</p>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 lg:shrink-0">
-            {themeEstablished ? (
-              <Link href="/create" className={guideCtaClassSm}>
-                {t("openCreate")}
-              </Link>
-            ) : (
-              <Link href="/onboarding" className={guideCtaClassSm}>
-                {t("startSetup")}
-              </Link>
-            )}
-            <Link href="/assets" className={guideCtaOutlineClassSm}>
-              {t("assetsLink")}
-            </Link>
-            <Link
-              href="/guide/email-broadcast"
-              className="inline-flex min-h-11 items-center text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-            >
-              {nav("emailBroadcastGuide")}
-            </Link>
-          </div>
-        </div>
-      </Callout>
-
-      <div className="mt-6">
+      <div className="mt-4">
         <BrandKitCompletenessBar
           brandKit={brandKit}
-          onboardingComplete={onboardingComplete}
+          hydrated={hydrated}
         />
       </div>
 
       <BrandKitContextHint />
 
-      <div className="mt-6 grid min-w-0 items-start gap-6 lg:grid-cols-2 xl:grid-cols-3">
+      <nav
+        aria-label={t("sectionNavLabel")}
+        className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold"
+      >
+        <a href="#brand-identity" className={sectionLinkClass}>
+          {t("sections.identity")}
+        </a>
+        <a href="#brand-preview" className={`${sectionLinkClass} xl:hidden`}>
+          {t("sections.preview")}
+        </a>
+        <a href="#brand-style" className={sectionLinkClass}>
+          {t("sections.style")}
+        </a>
+        <a href="#brand-links" className={sectionLinkClass}>
+          {t("sections.links")}
+        </a>
+        <a href="#brand-display" className={sectionLinkClass}>
+          {t("sections.display")}
+        </a>
+      </nav>
+
+      <div className="mt-5 grid min-w-0 items-start gap-5 xl:grid-cols-[minmax(0,1.8fr)_minmax(20rem,1fr)]">
+        <div id="brand-identity" className="min-w-0 scroll-mt-28 space-y-5 xl:col-start-1 xl:row-start-1">
         <PublicHubPanel
           title={t("unionPreset.title")}
           description={t("unionPreset.description")}
-          className="lg:col-start-1 lg:row-start-1"
         >
           <UnionPresetSelect
             label={t("unionPreset.label")}
@@ -209,35 +194,40 @@ export default function BrandKitPage() {
             placeholder={t("unionPreset.placeholder")}
             onSelect={applyUnionPreset}
           />
+          <div className={`grid gap-3 ${multiProfile ? "" : "sm:grid-cols-2"}`}>
+            <Input
+              id="brand-local-number"
+              className="scroll-mt-28"
+              label={t("localNumber")}
+              value={brandKit.local.localNumber}
+              onChange={(e) =>
+                setBrandKit({
+                  local: { ...brandKit.local, localNumber: e.target.value },
+                })
+              }
+            />
+            {!multiProfile ? (
+              <Input
+                label={t("subText")}
+                value={brandKit.local.subText}
+                onChange={(e) =>
+                  setBrandKit({
+                    local: { ...brandKit.local, subText: e.target.value },
+                  })
+                }
+              />
+            ) : null}
+          </div>
           {showPresetCollectionsNote ? (
             <p className="text-sm text-gray-600">
               {t("unionPreset.collectionsNote")}
             </p>
           ) : null}
           {unionPresetId === "opseu" ? <OpseuSectorSelect /> : null}
-          {unionPresetId === "opseu" ? <IdentityPackPicker /> : null}
+          {unionPresetId === "opseu" ? <IdentityPackPicker roomy /> : null}
           <BrandBaselineOffer />
-          <div className="space-y-1">
-            <label
-              className="block text-sm font-medium text-gray-700"
-              htmlFor="campaign-badge"
-            >
-              {t("campaignBadge.label")}
-            </label>
-            <Input
-              id="campaign-badge"
-              value={brandKit.campaignBadge ?? ""}
-              placeholder={t("campaignBadge.placeholder")}
-              onChange={(e) =>
-                setBrandKit({
-                  campaignBadge: e.target.value.trim() || undefined,
-                })
-              }
-            />
-            <p className="text-xs text-gray-600">{t("campaignBadge.hint")}</p>
-          </div>
           {selectedPreset && selectedLogos ? (
-            <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start xl:grid-cols-1">
+            <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
               <div className="flex min-w-0 flex-wrap items-center gap-4">
                 {selectedLogos.useOfficialPack ? (
                   <>
@@ -286,32 +276,11 @@ export default function BrandKitPage() {
         </PublicHubPanel>
 
         <PublicHubPanel
+          id="brand-colours"
           title={t("currentSettings")}
-          className="lg:col-start-2 lg:row-start-1 lg:row-span-2 xl:row-span-1"
+          className="scroll-mt-28"
         >
           <CollectionProfilesEditor />
-          <div className={`grid gap-3 ${multiProfile ? "" : "sm:grid-cols-2"}`}>
-            <Input
-              label={t("localNumber")}
-              value={brandKit.local.localNumber}
-              onChange={(e) =>
-                setBrandKit({
-                  local: { ...brandKit.local, localNumber: e.target.value },
-                })
-              }
-            />
-            {!multiProfile ? (
-              <Input
-                label={t("subText")}
-                value={brandKit.local.subText}
-                onChange={(e) =>
-                  setBrandKit({
-                    local: { ...brandKit.local, subText: e.target.value },
-                  })
-                }
-              />
-            ) : null}
-          </div>
           <ThemePicker
             primaryColor={brandKit.primaryColor}
             secondaryColor={brandKit.secondaryColor}
@@ -322,23 +291,13 @@ export default function BrandKitPage() {
             primaryLabel={t("colors.primary")}
             secondaryLabel={t("colors.secondary")}
           />
-          <Input
-            label={t("signatureName")}
-            value={brandKit.signatureName ?? ""}
-            placeholder={t("signatureNamePlaceholder")}
-            onChange={(e) =>
-              setBrandKit({
-                signatureName: e.target.value.trim() || undefined,
-              })
-            }
-          />
-          <p className="text-xs text-gray-600">{t("signatureNameHint")}</p>
         </PublicHubPanel>
 
         <PublicHubPanel
+          id="brand-logo"
           title={t("logo.title")}
           description={t("logo.description")}
-          className="lg:col-start-1 lg:row-start-2 xl:col-start-3 xl:row-start-1"
+          className="scroll-mt-28"
         >
           <LogoSettings
             useOfficialLogo={brandKit.useOfficialLogo}
@@ -367,15 +326,37 @@ export default function BrandKitPage() {
             onCustomLogoClear={() => setBrandKit({ customLogoDataUrl: "" })}
             onLogoTextChange={(text) => setBrandKit({ logoText: text })}
           />
+          <details className="rounded-lg border border-slate-200 bg-white p-3">
+            <summary className="cursor-pointer text-sm font-semibold text-opseu-dark">{t("campaignSection")}</summary>
+            <div className="mt-3 space-y-1">
+              <Input
+                id="campaign-badge"
+                label={t("campaignBadge.label")}
+                value={brandKit.campaignBadge ?? ""}
+                placeholder={t("campaignBadge.placeholder")}
+                onChange={(e) => setBrandKit({ campaignBadge: e.target.value.trim() || undefined })}
+              />
+              <p className="text-xs text-slate-600">{t("campaignBadge.hint")}</p>
+            </div>
+          </details>
         </PublicHubPanel>
-      </div>
+        </div>
 
-      <div className="mt-6">
+        <aside id="brand-preview" className="min-w-0 scroll-mt-28 xl:col-start-2 xl:row-start-1 xl:row-span-3 xl:self-stretch">
+          <div className="xl:sticky xl:top-24">
+            <PublicHubPanel title={t("previewTitle")} description={t("previewDescription")}>
+              <BrandKitPreview brandKit={brandKit} hydrated={hydrated} />
+              <p className="text-xs text-slate-600">{t("previewNote")}</p>
+            </PublicHubPanel>
+          </div>
+        </aside>
+
+      <div id="brand-style" className="min-w-0 scroll-mt-28 space-y-5 xl:col-start-1 xl:row-start-2">
+        <BrandKitCanvasPanel />
         {themeEstablished && unionPresetId === "opseu" ? (
           <PublicHubPanel
             title={t("coalitionPreview.title")}
             description={t("coalitionPreview.description")}
-            className="mb-6"
           >
             <JointActionCard
               primaryColor={brandKit.primaryColor}
@@ -390,10 +371,10 @@ export default function BrandKitPage() {
             />
           </PublicHubPanel>
         ) : null}
-        <BrandKitCanvasPanel />
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+      <div id="brand-links" className="min-w-0 scroll-mt-28 space-y-5 xl:col-start-1 xl:row-start-3">
+        <h2 className={PUBLIC_SECTION_TITLE_CLASS}>{t("sections.links")}</h2>
         <PublicHubPanel>
           <LocalLinksEditor
             websiteUrl={brandKit.websiteUrl ?? ""}
@@ -415,12 +396,29 @@ export default function BrandKitPage() {
             )}
           />
         </PublicHubPanel>
+
+        <PublicHubPanel title={t("signatureSection")} description={t("signatureNameHint")}>
+          <Input
+            label={t("signatureName")}
+            value={brandKit.signatureName ?? ""}
+            placeholder={t("signatureNamePlaceholder")}
+            onChange={(e) => setBrandKit({ signatureName: e.target.value.trim() || undefined })}
+          />
+        </PublicHubPanel>
+      </div>
+      </div>
+
+      <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
+        <Link href="/assets" className="text-opseu-blue underline underline-offset-2">{t("assetsLink")}</Link>
+        <Link href="/guide/email-broadcast" className="text-opseu-blue underline underline-offset-2">{nav("emailBroadcastGuide")}</Link>
+        {themeEstablished ? <Link href="/create" className="text-opseu-blue underline underline-offset-2">{t("openCreate")}</Link> : null}
       </div>
 
       <PublicHubPanel
+        id="brand-display"
         title={t("displayPreferences")}
         description={t("displayPreferencesBody")}
-        className="mt-6"
+        className="mt-8 max-w-3xl scroll-mt-28"
       >
         <DisplaySettingsControls variant="compact" />
       </PublicHubPanel>

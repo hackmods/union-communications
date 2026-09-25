@@ -4142,7 +4142,23 @@
   },
   "brandKit": {
     "title": "Trousse de marque de votre section",
-    "description": "Configurez ceci en premier. Vos couleurs, votre logo, votre numéro de section et vos liens apparaissent ensuite sur chaque tableau, tract, graphique social et sur le modèle de site.",
+    "description": "Définissez une fois l’identité de votre section. Vos couleurs, votre logo et vos liens se retrouvent dans les outils Comms.",
+    "savedOnDevice": "Enregistré dans ce navigateur",
+    "moveBrowser": "Transférer vers un autre navigateur",
+    "resetConfirm": "Réinitialiser la Trousse de marque? Cela remplacera vos couleurs, votre logo, vos liens et vos collections dans ce navigateur. Utilisez d’abord le Paquet local si vous souhaitez en garder une copie.",
+    "sectionNavLabel": "Sections de la Trousse de marque",
+    "sections": {
+      "identity": "Identité",
+      "preview": "Aperçu",
+      "style": "Style",
+      "links": "Liens et signature",
+      "display": "Affichage"
+    },
+    "previewTitle": "Aperçu en direct",
+    "previewDescription": "Voyez ensemble votre logo, l’identité de votre section, vos couleurs et le style de canevas.",
+    "previewNote": "Exemple de rendu. Chaque outil peut utiliser une mise en page différente.",
+    "campaignSection": "Identité de campagne (facultatif)",
+    "signatureSection": "Signature des lettres (facultatif)",
     "purposeSets": "Ce que vous définissez ici",
     "purposeSetsBody": "Réglez ici votre préréglage syndical, numéro de section, couleurs, logo et style de canevas — plus les liens web, sociaux ou d’adhésion que vos outils réutiliseront.",
     "purposeUnlocks": "Ce que cela débloque",
@@ -4165,8 +4181,13 @@
     "signatureNameHint": "Facultatif. Les lettres et fiches peuvent utiliser ce nom de clôture pour éviter de le retaper chaque fois.",
     "completeness": {
       "label": "Trousse de marque complète à {percent} %",
-      "missingHint": "Il manque encore : {items}",
-      "complete": "Prête pour les outils Créer",
+      "loading": "Chargement de votre Trousse de marque…",
+      "ready": "Identité prête pour les outils Créer",
+      "needsIdentity": "Complétez l’identité de votre section",
+      "missingHint": "À définir : {items}",
+      "nextStep": "Définir {item}",
+      "complete": "Ajoutez les liens, le style de canevas et une signature au besoin.",
+      "optionalConfigured": "Détails facultatifs ajoutés : {count} sur 3",
       "items": {
         "localNumber": "numéro de section locale",
         "colours": "couleurs",
@@ -4185,7 +4206,7 @@
       "activeSummary": "Actif : {type} · {density} · {align}",
       "reset": "Revenir à la Trousse"
     },
-    "currentSettings": "Paramètres actuels",
+    "currentSettings": "Collections et couleurs",
     "localNumber": "Numéro de section",
     "subText": "Sous-texte",
     "profileLabel": "Profil de collection",
@@ -7839,6 +7860,10 @@
       "product-areas-nav-v2": {
         "title": "Fondation Trousse de marque avec Créer, Utilitaires et Apprendre en parallèle",
         "body": "L’accueil ne vous impose plus une séquence en cinq étapes. Configurez la Trousse de marque, puis choisissez Créer, Utilitaires ou Apprendre selon votre tâche. Le générateur de lettres inclut maintenant des contextes de lettre pour délégués, ouvrables depuis l’adaptation et d’autres utilitaires."
+      },
+      "brand-kit-workspace-preview": {
+        "title": "Trousse de marque avec aperçu en direct",
+        "body": "Définissez l’identité de votre section dans un éditeur plus spacieux et voyez ensemble votre logo, vos couleurs et le style de canevas. Vous pourrez ajouter les liens et la signature facultatifs plus tard."
       }
     }
   },

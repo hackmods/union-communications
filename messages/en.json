@@ -4142,7 +4142,23 @@
   },
   "brandKit": {
     "title": "Your local Brand Kit",
-    "description": "Set this up first. Your colours, logo, local number, and links then show up on every board, flyer, social graphic, and the website template.",
+    "description": "Set your local identity once. Your colours, logo, and links carry into Comms tools.",
+    "savedOnDevice": "Saved in this browser",
+    "moveBrowser": "Move to another browser",
+    "resetConfirm": "Reset Brand Kit to its defaults? This replaces your current colours, logo, links, and collections in this browser. Use Local pack first if you want a copy.",
+    "sectionNavLabel": "Brand Kit sections",
+    "sections": {
+      "identity": "Identity",
+      "preview": "Preview",
+      "style": "Style",
+      "links": "Links and signature",
+      "display": "Display settings"
+    },
+    "previewTitle": "Live preview",
+    "previewDescription": "See your current logo, local identity, colours, and canvas style together.",
+    "previewNote": "Sample treatment. Individual tools may use a different layout.",
+    "campaignSection": "Campaign identity (optional)",
+    "signatureSection": "Letter signature (optional)",
     "purposeSets": "What you set here",
     "purposeSetsBody": "Set your union preset, local number, colours, logo, and canvas style here — plus any website, social, or membership links you want the tools to reuse.",
     "purposeUnlocks": "What it unlocks",
@@ -4167,8 +4183,13 @@
     "signatureNameHint": "Optional. Letters and worksheets can use this as the closing name so you do not retype it each time.",
     "completeness": {
       "label": "Brand Kit {percent}% complete",
-      "missingHint": "Still missing: {items}",
-      "complete": "Ready for Create tools",
+      "loading": "Loading your Brand Kit…",
+      "ready": "Identity ready for Create tools",
+      "needsIdentity": "Finish your local identity",
+      "missingHint": "Set: {items}",
+      "nextStep": "Set {item}",
+      "complete": "Add links, canvas style, and a signature whenever you need them.",
+      "optionalConfigured": "Optional details added: {count} of 3",
       "items": {
         "localNumber": "local number",
         "colours": "colours",
@@ -4187,7 +4208,7 @@
       "activeSummary": "Active: {type} · {density} · {align}",
       "reset": "Reset to Brand Kit"
     },
-    "currentSettings": "Current settings",
+    "currentSettings": "Collections and colours",
     "localNumber": "Local number",
     "subText": "Sub-text",
     "profileLabel": "Collection profile",
@@ -7892,6 +7913,10 @@
       "product-areas-nav-v2": {
         "title": "Brand Kit foundation with parallel Create, Utilities, and Learn",
         "body": "Home no longer walks you through a five-step sequence. Set up Brand Kit, then choose Create, Utilities, or Learn for the task you have. Letter Generator now includes steward letter contexts you can open from accommodation and related utilities."
+      },
+      "brand-kit-workspace-preview": {
+        "title": "Brand Kit with a live preview",
+        "body": "Set your local identity in a roomier editor and see your logo, colours, and canvas style together as you work. Optional links and signature details can wait until you need them."
       }
     }
   },

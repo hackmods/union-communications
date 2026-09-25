@@ -420,11 +420,12 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
     await assertNoHorizontalOverflow(page);
     await expect(page.getByRole("heading", { name: /Brand Kit|Trousse/i })).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Local pack|Trousse locale|Open Local pack/i }),
+      page.getByRole("link", { name: "Move to another browser" }),
     ).toBeVisible();
     await page.setViewportSize({ width: 1920, height: 1080 });
     await assertNoHorizontalOverflow(page);
-    await expect(page.getByRole("heading", { name: /Current settings|Paramètres/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Collections and colours" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Live preview" })).toBeVisible();
     await page.goto("/en/onboarding/");
     await assertNoHorizontalOverflow(page);
   });

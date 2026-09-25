@@ -7,6 +7,8 @@ Living implementation record for the product-architecture, information-architect
 **Started:** 2026-09-24  
 **Status:** Second pass implemented on PR #119 (parallel Home model, Comms getting started, letter topic engine, deeper Learn separation, circular-link cleanup).
 
+**Brand Kit workspace pass:** [2026-09-24 Brand Kit workspace uplift](audit/plan-2026-09-24-brand-kit-workspace-uplift.md). The three equal desktop cards became a roomy identity editor with an adjacent live preview; local number appears in the first panel, and readiness distinguishes essentials from optional details. The route, stored kit, and canvas export contract remain the same.
+
 ---
 
 ## Second-pass critique of the first implementation

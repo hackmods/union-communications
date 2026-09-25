@@ -1,5 +1,14 @@
 # Progress Log
 
+## 2026-09-24 — Brand Kit workspace uplift
+
+- Replaced the three equal desktop setup cards with a roomy identity editor and adjacent live preview; the preview follows identity on smaller screens and has a direct section jump.
+- Moved the local number into the first editing panel, grouped optional campaign and signature fields later, and separated browser display settings from the identity workspace.
+- Readiness now names the essential local identity, links to the next missing field, and separates optional links, canvas style, and signature. Reset asks before replacing the browser's kit; Local pack remains the transfer path.
+- Returning kits keep an honest “Saved in this browser” marker after reload. French reflow, keyboard preview navigation, forced-colour/reduced-motion, and separate-browser storage checks cover the remaining workspace acceptance cases.
+- Extracted `BrandKitPreview` from canvas style controls while retaining existing canvas tokens and presets. Fixed duplicate React keys in the OPSEU identity gallery swatches.
+- Plan and verification notes: [`docs/audit/plan-2026-09-24-brand-kit-workspace-uplift.md`](audit/plan-2026-09-24-brand-kit-workspace-uplift.md).
+
 ## 2026-09-24 — Product architecture second pass
 
 - Home: Brand Kit foundation + parallel Create/Utilities/Learn + Platform band (no forced five-step sequence).

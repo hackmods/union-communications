@@ -3,6 +3,7 @@ import {
   assertFitsViewport,
   assertNoHorizontalOverflow,
 } from "./helpers/layout";
+import { expectNoSeriousA11yViolations } from "./helpers/axe";
 
 const CAAT_S_CORAL_COPY =
   /Coral campaign field with the white-and-gold College Support lockup/;
@@ -15,6 +16,92 @@ const DESKTOP_VIEWPORTS = [
 
 const CAAT_A_BURGUNDY_COPY =
   /Burgundy campaign field with the white College Faculty lockup/;
+
+test.describe("Brand Kit workspace @smoke", () => {
+  test("puts local identity and the live preview in the first desktop viewport", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/en/create/brand-kit/");
+
+    const localNumber = page.getByRole("textbox", { name: "Local number" });
+    const preview = page.getByTestId("brand-kit-preview");
+    await expect(localNumber).toBeVisible();
+    await expect(preview).toBeVisible();
+    await assertNoHorizontalOverflow(page);
+
+    const inputBox = await localNumber.boundingBox();
+    const previewBox = await preview.boundingBox();
+    expect(inputBox).toBeTruthy();
+    expect(previewBox).toBeTruthy();
+    expect(inputBox!.y + inputBox!.height).toBeLessThan(900);
+    expect(previewBox!.y + 100).toBeLessThan(900);
+    expect(previewBox!.x).toBeGreaterThan(inputBox!.x + inputBox!.width);
+
+    const before = await preview.getAttribute("style");
+    await page.getByRole("radio", { name: "Field", exact: true }).click();
+    await expect(preview).not.toHaveAttribute("style", before ?? "");
+  });
+
+  test("keeps reset behind confirmation", async ({ page }) => {
+    await page.goto("/en/create/brand-kit/");
+    const localNumber = page.getByRole("textbox", { name: "Local number" });
+    await localNumber.fill("404");
+    await expect(localNumber).toHaveValue("404");
+
+    page.once("dialog", (dialog) => dialog.dismiss());
+    await page.getByRole("button", { name: "Reset to defaults" }).click();
+    await expect(localNumber).toHaveValue("404");
+
+    page.once("dialog", (dialog) => dialog.accept());
+    await page.getByRole("button", { name: "Reset to defaults" }).click();
+    await expect(localNumber).toHaveValue("");
+  });
+
+  test("saves a local identity and points transfers to Local pack", async ({ page, browser }) => {
+    await page.goto("/en/create/brand-kit/");
+    const localNumber = page.getByRole("textbox", { name: "Local number" });
+    await localNumber.fill("404");
+    await expect(page.getByRole("status").getByText("Changes saved successfully"))
+      .toBeVisible();
+    await page.reload();
+    await expect(localNumber).toHaveValue("404");
+    await expect(page.getByText("Saved in this browser")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Move to another browser" }))
+      .toHaveAttribute("href", "/en/utilities/local-pack/");
+
+    const freshContext = await browser.newContext();
+    try {
+      const freshPage = await freshContext.newPage();
+      await freshPage.goto("/en/create/brand-kit/");
+      await expect(freshPage.getByRole("textbox", { name: "Local number" }))
+        .toHaveValue("");
+    } finally {
+      await freshContext.close();
+    }
+  });
+
+  test("keeps French controls and preview usable at enlarged layout widths", async ({ page }) => {
+    test.setTimeout(90_000);
+    await page.emulateMedia({ forcedColors: "active", reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 720, height: 900 });
+    await page.goto("/fr/create/brand-kit/");
+
+    const localNumber = page.getByRole("textbox", { name: "Numéro de section", exact: true });
+    await expect(localNumber).toBeVisible();
+    await assertNoHorizontalOverflow(page);
+
+    const previewJump = page.getByRole("link", { name: "Aperçu", exact: true });
+    await previewJump.focus();
+    await expect(previewJump).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/#brand-preview$/);
+    await expect(page.getByTestId("brand-kit-preview")).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+
+    await page.setViewportSize({ width: 320, height: 700 });
+    await assertNoHorizontalOverflow(page);
+    await expect(localNumber).toBeVisible();
+  });
+});
 
 async function selectOpseuCaatALook(page: Page) {
   const unionSelect = page.getByLabel(/^Union preset$|^Union$/);

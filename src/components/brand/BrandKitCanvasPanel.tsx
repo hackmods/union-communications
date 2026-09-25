@@ -1,25 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
-import { canvasPreviewQrTarget } from "@/lib/brand/canvas-preview-qr";
-import { qrDataUrl } from "@/lib/export/qr";
-import { Card, CardTitle } from "@/components/ui/Card";
+import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import { SegControl } from "@/components/tools/SegControl";
-import {
-  CanvasBrandHeader,
-  CanvasGrainOverlay,
-  CanvasQrPlate,
-  CanvasTypeBlock,
-} from "@/components/tools/canvas";
 import {
   CANVAS_STYLE_IDS,
   canvasFromStyleId,
   resolveCanvasTokens,
 } from "@/lib/utils/canvas-tokens";
-import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
-import { pickContrastingInk } from "@/lib/utils/ink";
 import type {
   BrandKitCanvas,
   CanvasAlignmentBias,
@@ -49,32 +38,9 @@ const FONT_OPTIONS = CANVAS_FONT_ORDER.map((id) => id);
 export function BrandKitCanvasPanel() {
   const t = useTranslations("brandKit.canvas");
   const brandKit = useBrandStore((s) => s.brandKit);
-  const hydrated = useBrandStore((s) => s.hydrated);
   const setBrandKit = useBrandStore((s) => s.setBrandKit);
-  const [qrSrc, setQrSrc] = useState<string | null>(null);
-  const qrTarget = canvasPreviewQrTarget(brandKit);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    let cancelled = false;
-    const timer = window.setTimeout(() => {
-      void qrDataUrl(qrTarget, { width: 160 }).then((url) => {
-        if (!cancelled) setQrSrc(url);
-      });
-    }, 250);
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timer);
-    };
-  }, [hydrated, qrTarget]);
 
   const tokens = resolveCanvasTokens(brandKit);
-  const ink = pickContrastingInk(brandKit.primaryColor);
-  const surfaceStyle = canvasSurfaceStyle(tokens, {
-    primary: brandKit.primaryColor,
-    secondary: brandKit.secondaryColor,
-    accent: brandKit.accentColor,
-  });
 
   const patchCanvas = (next: BrandKitCanvas | null | undefined) => {
     setBrandKit({ canvas: next ?? null });
@@ -103,11 +69,7 @@ export function BrandKitCanvasPanel() {
       : "legacy";
 
   return (
-    <Card density="compact" className="space-y-4">
-      <div>
-        <CardTitle>{t("title")}</CardTitle>
-        <p className="mt-1 text-sm text-gray-600">{t("description")}</p>
-      </div>
+    <PublicHubPanel title={t("title")} description={t("description")} className="space-y-4">
 
       <SegControl
         label={t("style")}
@@ -169,60 +131,6 @@ export function BrandKitCanvasPanel() {
         })}
       </p>
 
-      <div
-        className="relative overflow-hidden rounded-md"
-        style={{
-          ...surfaceStyle,
-          color: ink,
-          minHeight: 160,
-          padding: tokens.paddingPx / 2,
-        }}
-        aria-hidden
-      >
-        <CanvasGrainOverlay opacity={tokens.grainOpacity} />
-        <CanvasBrandHeader
-          backgroundColor={brandKit.primaryColor}
-          localNumber={brandKit.local.localNumber}
-          subText={brandKit.local.subText}
-          logoSize="sm"
-          fontFamily={tokens.bodyFontFamily}
-        />
-        <CanvasTypeBlock
-          tokens={tokens}
-          title={t("previewHeadline")}
-          subtitle={t("previewBody")}
-          ink={ink}
-          accentColor={brandKit.secondaryColor}
-          className="mt-3"
-        />
-        <div
-          className="mt-3 flex"
-          style={{
-            justifyContent:
-              tokens.alignmentBias === "center"
-                ? "center"
-                : tokens.alignmentBias === "asymmetric"
-                  ? "flex-end"
-                  : "flex-start",
-          }}
-        >
-          <CanvasQrPlate
-            tokens={tokens}
-            qrSrc={qrSrc}
-            widthPercent={28}
-            accentColor={brandKit.secondaryColor}
-          />
-        </div>
-        {tokens.surface === "duotone" ? (
-          <p
-            className="relative z-[2] mt-2 text-xs"
-            style={{ color: ink, opacity: 0.85 }}
-          >
-            {t("duotoneNote")}
-          </p>
-        ) : null}
-      </div>
-
       <details className="rounded-md border border-gray-200 p-3">
         <summary className="cursor-pointer text-sm font-medium text-gray-700">
           {t("advanced")}
@@ -270,6 +178,6 @@ export function BrandKitCanvasPanel() {
           />
         </div>
       </details>
-    </Card>
+    </PublicHubPanel>
   );
 }

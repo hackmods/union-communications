@@ -1,5 +1,4 @@
 import type { BrandKit } from "@/types/entities";
-import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 
 export type BrandKitCompletenessItemId =
   | "localNumber"
@@ -19,7 +18,16 @@ export type BrandKitCompleteness = {
   percent: number;
   items: BrandKitCompletenessItem[];
   missing: BrandKitCompletenessItemId[];
+  essentialReady: boolean;
+  essentialMissing: BrandKitCompletenessItemId[];
+  optionalConfigured: number;
 };
+
+const ESSENTIAL_ITEMS: readonly BrandKitCompletenessItemId[] = [
+  "localNumber",
+  "colours",
+  "logo",
+];
 
 function hasLogo(kit: BrandKit): boolean {
   if (kit.useOfficialLogo) return true;
@@ -54,7 +62,6 @@ function hasCanvas(kit: BrandKit): boolean {
  */
 export function measureBrandKitCompleteness(
   brandKit: BrandKit,
-  onboardingComplete = false,
 ): BrandKitCompleteness {
   const items: BrandKitCompletenessItem[] = [
     {
@@ -69,7 +76,7 @@ export function measureBrandKitCompleteness(
     },
     {
       id: "logo",
-      done: hasLogo(brandKit) || isBrandThemeEstablished(brandKit, onboardingComplete),
+      done: hasLogo(brandKit),
       weight: 25,
     },
     {
@@ -94,10 +101,17 @@ export function measureBrandKitCompleteness(
     .filter((item) => item.done)
     .reduce((sum, item) => sum + item.weight, 0);
   const percent = Math.round((earned / totalWeight) * 100);
+  const missing = items.filter((item) => !item.done).map((item) => item.id);
+  const essentialMissing = missing.filter((id) => ESSENTIAL_ITEMS.includes(id));
 
   return {
     percent,
     items,
-    missing: items.filter((item) => !item.done).map((item) => item.id),
+    missing,
+    essentialReady: essentialMissing.length === 0,
+    essentialMissing,
+    optionalConfigured: items.filter(
+      (item) => item.done && !ESSENTIAL_ITEMS.includes(item.id),
+    ).length,
   };
 }

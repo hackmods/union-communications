@@ -71,6 +71,7 @@ describe("brand store hydrate vs early canvas patch", () => {
     });
 
     await useBrandStore.getState().hydrate();
+    expect(useBrandStore.getState().hasStoredBrandKit).toBe(true);
 
     const kit = useBrandStore.getState().brandKit;
     expect(kit.primaryColor).toBe(SAVED_PRIMARY);
@@ -121,5 +122,21 @@ describe("brand store hydrate vs early canvas patch", () => {
     expect(saveBrandKit.mock.calls[0][0].useOfficialLogo).toBe(true);
     await vi.advanceTimersByTimeAsync(400);
     expect(saveBrandKit).toHaveBeenCalledTimes(1);
+  });
+
+  it("only marks a kit as stored after a successful save", async () => {
+    getBrandKit.mockResolvedValueOnce(null);
+    const { useBrandStore } = await import("@/store/brand-store");
+    await useBrandStore.getState().hydrate();
+    expect(useBrandStore.getState().hasStoredBrandKit).toBe(false);
+
+    useBrandStore.getState().setBrandKit({
+      local: { ...DEFAULT_BRAND_KIT.local, localNumber: "404" },
+    });
+    await vi.advanceTimersByTimeAsync(400);
+    expect(useBrandStore.getState().hasStoredBrandKit).toBe(true);
+
+    useBrandStore.getState().resetBrandKit();
+    expect(useBrandStore.getState().hasStoredBrandKit).toBe(false);
   });
 });
