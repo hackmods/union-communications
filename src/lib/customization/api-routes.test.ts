@@ -17,6 +17,10 @@ import { auth } from "@/auth";
 import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
 import { POST as publishRoute } from "@/app/api/site-admin/customization/resources/[id]/publish/route";
 import { POST as policyRoute } from "@/app/api/site-admin/customization/resources/[id]/policy/route";
+import { POST as grantsRoute } from "@/app/api/site-admin/customization/grants/route";
+import { POST as rollbackRoute } from "@/app/api/site-admin/customization/resources/[id]/rollback/route";
+import { POST as inheritRoute } from "@/app/api/site-admin/customization/resources/[id]/inherit/route";
+import { PATCH as draftRoute } from "@/app/api/site-admin/customization/resources/[id]/draft/route";
 
 const mockedAuth = vi.mocked(auth as unknown as () => Promise<unknown>);
 const production = {
@@ -109,5 +113,126 @@ describe("customization API role denial", () => {
       scopes: [{ id: "system", kind: "system", archived: false }, target],
     }), { params: Promise.resolve({ id: "resource-1" }) });
     expect(res.status).toBe(401);
+  });
+
+  it.each([
+    ["grants", () => grantsRoute(request({ target, action: "list" }))],
+    [
+      "rollback",
+      () =>
+        rollbackRoute(
+          request({
+            target,
+            resourceId: "resource-1",
+            historicalRevisionId: "rev-1",
+            reason: "rollback",
+            idempotencyKey: "deny-rollback-1",
+            expectedDraftLockVersion: 1,
+            expectedGeneration: 1,
+            scopes: [{ id: "system", kind: "system", archived: false }, target],
+          }),
+          { params: Promise.resolve({ id: "resource-1" }) },
+        ),
+    ],
+    [
+      "inherit",
+      () =>
+        inheritRoute(
+          request({
+            target,
+            resourceId: "resource-1",
+            key: "guide:resource-1",
+            reason: "inherit",
+            expectedLockVersion: 1,
+            scopes: [{ id: "system", kind: "system", archived: false }, target],
+          }),
+          { params: Promise.resolve({ id: "resource-1" }) },
+        ),
+    ],
+    [
+      "draft",
+      () =>
+        draftRoute(
+          request({
+            target,
+            resourceId: "resource-1",
+            expectedLockVersion: 1,
+            payload: {
+              scopeId: "alpha",
+              revisionId: "rev-1",
+              key: "guide:resource-1",
+              schemaVersion: 1,
+              mode: "inherit",
+            },
+            reason: "edit",
+          }),
+          { params: Promise.resolve({ id: "resource-1" }) },
+        ),
+    ],
+  ] as const)("denies unauthenticated %s", async (_name, invoke) => {
+    mockedAuth.mockResolvedValue(null);
+    const res = await invoke();
+    expect(res.status).toBe(401);
+  });
+
+  it.each([
+    ["grants", () => grantsRoute(request({ target, action: "list" }))],
+    [
+      "rollback",
+      () =>
+        rollbackRoute(
+          request({
+            target,
+            resourceId: "resource-1",
+            historicalRevisionId: "rev-1",
+            reason: "rollback",
+            idempotencyKey: "deny-rollback-2",
+            expectedDraftLockVersion: 1,
+            expectedGeneration: 1,
+            scopes: [{ id: "system", kind: "system", archived: false }, target],
+          }),
+          { params: Promise.resolve({ id: "resource-1" }) },
+        ),
+    ],
+    [
+      "inherit",
+      () =>
+        inheritRoute(
+          request({
+            target,
+            resourceId: "resource-1",
+            key: "guide:resource-1",
+            reason: "inherit",
+            expectedLockVersion: 1,
+            scopes: [{ id: "system", kind: "system", archived: false }, target],
+          }),
+          { params: Promise.resolve({ id: "resource-1" }) },
+        ),
+    ],
+    [
+      "draft",
+      () =>
+        draftRoute(
+          request({
+            target,
+            resourceId: "resource-1",
+            expectedLockVersion: 1,
+            payload: {
+              scopeId: "alpha",
+              revisionId: "rev-1",
+              key: "guide:resource-1",
+              schemaVersion: 1,
+              mode: "inherit",
+            },
+            reason: "edit",
+          }),
+          { params: Promise.resolve({ id: "resource-1" }) },
+        ),
+    ],
+  ] as const)("denies union_admin %s", async (_name, invoke) => {
+    mockedAuth.mockResolvedValue({ user: { id: "user-1", roles: ["union_admin"] } });
+    vi.mocked(resolveAuthorizationActor).mockResolvedValue(actor(["union_admin"]));
+    const res = await invoke();
+    expect(res.status).toBe(403);
   });
 });

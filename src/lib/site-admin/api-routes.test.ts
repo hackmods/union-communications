@@ -1,12 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { UserRole } from "@/types/tenant";
 
-const { authMock } = vi.hoisted(() => ({
+const { authMock, setUserRolesMock } = vi.hoisted(() => ({
   authMock: vi.fn(),
+  setUserRolesMock: vi.fn(),
 }));
 
 vi.mock("@/auth", () => ({
   auth: authMock,
+}));
+
+vi.mock("@/lib/site-admin/set-user-roles", () => ({
+  setUserRoles: setUserRolesMock,
 }));
 
 import { POST as purgeDemo } from "@/app/api/site-admin/demo/purge/route";
@@ -135,6 +140,11 @@ describe("site-admin locals, assign-local, and integrity HTTP", () => {
         .status,
     ).toBe(401);
     expect(
+      (
+        await patchRoles(jsonRequest({ roles: ["local_steward"] }), userParams("user-1"))
+      ).status,
+    ).toBe(401);
+    expect(
       (await assignLocal(jsonRequest({ localId: "local-7" }), userParams("user-1")))
         .status,
     ).toBe(401);
@@ -252,5 +262,83 @@ describe("site-admin operator audit HTTP", () => {
     expect(res.status).toBe(200);
     const body = (await res.json()) as { entries: unknown[] };
     expect(Array.isArray(body.entries)).toBe(true);
+  });
+});
+
+describe("PATCH /api/site-admin/users/[id]/roles validation", () => {
+  function userParams(id: string) {
+    return { params: Promise.resolve({ id }) };
+  }
+
+  beforeEach(() => {
+    authMock.mockReset();
+    setUserRolesMock.mockReset();
+    vi.stubEnv("DATABASE_URL", "postgres://roles-validation-test");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("rejects a missing user id and invalid bodies before writing roles", async () => {
+    authMock.mockResolvedValue(session());
+
+    const missingId = await patchRoles(
+      jsonRequest({ roles: ["local_steward"] }),
+      userParams(""),
+    );
+    expect(missingId.status).toBe(400);
+    expect(await missingId.json()).toEqual({ error: "Missing user id" });
+
+    const invalidJson = await patchRoles(
+      {
+        json: async () => {
+          throw new SyntaxError("bad json");
+        },
+      } as unknown as Request,
+      userParams("user-1"),
+    );
+    expect(invalidJson.status).toBe(400);
+    expect(await invalidJson.json()).toEqual({ error: "Invalid JSON" });
+
+    const emptyRoles = await patchRoles(
+      jsonRequest({ roles: [] }),
+      userParams("user-1"),
+    );
+    expect(emptyRoles.status).toBe(400);
+
+    const forgedRole = await patchRoles(
+      jsonRequest({ roles: ["superuser"] }),
+      userParams("user-1"),
+    );
+    expect(forgedRole.status).toBe(400);
+    expect(setUserRolesMock).not.toHaveBeenCalled();
+  });
+
+  it("passes only parsed roles to the writer", async () => {
+    authMock.mockResolvedValue(session());
+    setUserRolesMock.mockResolvedValue({
+      ok: true,
+      roles: ["local_steward", "local_exec"],
+      sessionVersion: 4,
+    });
+
+    const res = await patchRoles(
+      jsonRequest({
+        roles: ["local_steward", "local_exec", "local_steward"],
+        unionId: "union-other",
+      }),
+      userParams("user-1"),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({
+      roles: ["local_steward", "local_exec"],
+      sessionVersion: 4,
+    });
+    expect(setUserRolesMock).toHaveBeenCalledWith({
+      actorUserId: "user-platform-admin",
+      targetUserId: "user-1",
+      roles: ["local_steward", "local_exec", "local_steward"],
+    });
   });
 });
