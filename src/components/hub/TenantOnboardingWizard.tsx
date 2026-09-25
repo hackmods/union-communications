@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
+import { readMappedScopeApiError } from "@/lib/hub/parse-api-error";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -31,7 +31,7 @@ type TenantGetResponse = {
 
 export function TenantOnboardingWizard() {
   const t = useTranslations("tenantOnboarding");
-  const writeScope = useHubWriteScope();
+  const th = useTranslations("hub");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -138,7 +138,7 @@ export function TenantOnboardingWizard() {
       }),
     });
     if (!res.ok) {
-      setError(writeScope.blockReason ?? t("saveError"));
+      setError(await readMappedScopeApiError(res, t("saveError"), th));
       return;
     }
     const data = (await res.json()) as {
@@ -172,7 +172,7 @@ export function TenantOnboardingWizard() {
       }),
     });
     if (!res.ok) {
-      setError(writeScope.blockReason ?? t("saveError"));
+      setError(await readMappedScopeApiError(res, t("saveError"), th));
       return;
     }
     const data = (await res.json()) as {
@@ -210,7 +210,7 @@ export function TenantOnboardingWizard() {
       }),
     });
     if (!res.ok) {
-      setError(writeScope.blockReason ?? t("saveError"));
+      setError(await readMappedScopeApiError(res, t("saveError"), th));
       return;
     }
     const data = (await res.json()) as { seed: TenantSeed };
@@ -248,8 +248,7 @@ export function TenantOnboardingWizard() {
       body: JSON.stringify({ action: "set_data_module", enabled }),
     });
     if (!res.ok) {
-      const body = await res.json().catch(() => ({}));
-      setError(body.error ?? t("saveError"));
+      setError(await readMappedScopeApiError(res, t("saveError"), th));
       return;
     }
     await refresh();

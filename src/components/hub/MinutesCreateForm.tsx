@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
-import { readApiErrorMessage } from "@/lib/hub/parse-api-error";
+import { readMappedScopeApiError } from "@/lib/hub/parse-api-error";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
@@ -33,6 +33,7 @@ function toDateInputValue(iso: string): string {
 
 export function MinutesCreateForm() {
   const t = useTranslations("minutes");
+  const th = useTranslations("hub");
   const writeScope = useHubWriteScope();
   const router = useRouter();
   const [meetingDate, setMeetingDate] = useState(() =>
@@ -94,8 +95,9 @@ export function MinutesCreateForm() {
 
     setSaving(false);
     if (!res.ok) {
-      const raw = await readApiErrorMessage(res, t("createError"));
-      setError(writeScope.blockReason ?? raw);
+      setError(
+        await readMappedScopeApiError(res, t("createError"), th),
+      );
       return;
     }
     const data = (await res.json()) as { minutes: { id: string } };
