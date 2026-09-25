@@ -27,7 +27,7 @@ export function LanguageToggle() {
           type="button"
           onClick={() => switchLocale(locale)}
           className={cn(
-            "rounded-md px-2 py-1 text-base font-medium uppercase transition-colors",
+            "rounded-md px-2 py-1 text-sm font-medium transition-colors",
             "hover:bg-opseu-blue/10",
             currentLocale === locale &&
               "bg-opseu-blue/10 font-semibold text-opseu-dark",
@@ -35,7 +35,7 @@ export function LanguageToggle() {
           aria-label={locale === "en" ? "English" : "Français"}
           aria-current={currentLocale === locale ? "true" : undefined}
         >
-          {locale}
+          {locale === "en" ? "English" : "Français"}
         </button>
       ))}
     </div>

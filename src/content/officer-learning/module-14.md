@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Allow **35–45 minutes**. Bring a draft welcome-kit checklist, any affinity discount agreements your local already has, and one community partner your executive could realistically stand beside this year. Read Module 6 only to **contrast** — Module 6 covers equity barriers, ADR, and bargaining equity clauses; this module covers Day-1 welcome culture, affinity cards without sharing lists, and community coalitions.
+Allow **28 minutes** for the reading and self-test. Bring a draft welcome-kit checklist, any affinity discount agreements your local already has, and one community partner your executive could realistically stand beside this year. Read Module 6 only to **contrast** — Module 6 covers equity barriers, ADR, and bargaining equity clauses; this module covers Day-1 welcome culture, affinity cards without sharing lists, and community coalitions.
 
 Sections move from the 15-minute orientation through secure affinity programs and community unionism. Pair with `/guide/membership-signup` for card signing and Module 11 for list-privacy rules. **CLC** member engagement education and **CUPE** steward welcome materials reinforce first-day contact; **Unifor** community campaigns show coalition models across Ontario.
 

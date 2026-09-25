@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ExamplePostMockup } from "@/components/examples/ExamplePostMockup";
 import {
   captionHref,
@@ -68,15 +68,13 @@ export function ExampleCard({ post }: ExampleCardProps) {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <Link href={toolHref}>
-          <Button size="sm">{toolLabel}</Button>
-        </Link>
+        <ButtonLink href={toolHref} size="sm">
+          {toolLabel}
+        </ButtonLink>
         {post.captionId && (
-          <Link href={captionHref(post.captionId)}>
-            <Button variant="outline" size="sm">
-              {t("cta.caption")}
-            </Button>
-          </Link>
+          <ButtonLink href={captionHref(post.captionId)} variant="outline" size="sm">
+            {t("cta.caption")}
+          </ButtonLink>
         )}
       </div>
     </article>

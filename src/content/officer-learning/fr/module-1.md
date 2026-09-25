@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **25 à 35 minutes** pour une première lecture, puis **20 minutes** supplémentaires pour compléter l'exercice pratique avec un partenaire. Apportez votre **convention collective**, un **carnet** et toute plainte récente d'un membre dont vous n'êtes pas certain. Si votre section locale dispose d'un programme de mentorat pour délégués, formez une paire avec un représentant expérimenté pour le scénario commenté et le jeu de rôle — le modèle de formation des délégués du Congrès du travail du Canada traite l'enquête comme une compétence acquise sur le plancher, pas seulement devant un écran.
+Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez votre **convention collective**, un **carnet** et toute plainte récente d'un membre dont vous n'êtes pas certain. Si votre section locale dispose d'un programme de mentorat pour délégués, formez une paire avec un représentant expérimenté pour le scénario commenté et le jeu de rôle — le modèle de formation des délégués du Congrès du travail du Canada traite l'enquête comme une compétence acquise sur le plancher, pas seulement devant un écran.
 
 Lisez les sections 1 à 4 dans l'ordre ; elles intègrent le **filtre en 5 points**, les **6 W**, la **fiche FAR** et l'**immunité du représentant** en un seul processus. Après le quiz d'autoévaluation, passez un vrai dossier au travers de la liste de contrôle du plancher avant votre prochain quart. Les guides UnionOps `/guide/steward-101` et `/guide/grievance-process` complètent ce module lorsque vous avez besoin des mécanismes de dépôt étape par étape. Le **module 8** approfondit l'architecture de dossier prêt pour l'arbitrage et le libellé de règlement — ce module possède le filtre d'admission, les 6 W et la FAR.
 

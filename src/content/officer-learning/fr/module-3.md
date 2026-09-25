@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **35 à 45 minutes** pour la lecture et **20 minutes** pour l'exercice pratique. Apportez les clauses de congé et d'accommodement de votre **convention collective**, une note médicale type (anonymisée) et un **carnet**. Les dossiers de droits de la personne exigent de la discrétion — révisez dans un espace privé, pas à la cafétéria.
+Prévoyez **30 minutes** pour la lecture et l'autoévaluation. Apportez les clauses de congé et d'accommodement de votre **convention collective**, une note médicale type (anonymisée) et un **carnet**. Les dossiers de droits de la personne exigent de la discrétion — révisez dans un espace privé, pas à la cafétéria.
 
 Parcourez les sections 1 à 4 dans l'ordre : primauté des droits de la personne, Meiorin, contrainte excessive et confidentialité du RAT. Ce module s'associe à `/guide/steward-101` pour les bases de la représentation. Pour approfondir : **Prêts et capables** du SCFP, **Les droits de la personne au travail** de la CODP, et le guide **Arrêter le harcèlement** du SCFP lorsque la conduite chevauche le harcèlement.
 

@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Allow **40–50 minutes** — this module covers heavy material. Read in a setting where you can pause and reflect. Bring bargaining survey drafts if available, your **collective agreement** preamble and leave language, and a **notepad**. Discuss Section 4 cultural protocols with Indigenous members or your local's equity committee before hosting ceremonies — this module introduces protocols; community relationships guide practice.
+Allow **28 minutes** for the reading and self-test. Read in a setting where you can pause and reflect. Bring bargaining survey drafts if available, your **collective agreement** preamble and leave language, and a **notepad**. Discuss Section 4 cultural protocols with Indigenous members or your local's equity committee before hosting ceremonies — this module introduces protocols; community relationships guide practice.
 
 Sections move from systemic vs. individual bias through equity bargaining, contract language, and ADR with cultural protocols. Pair with `/guide/bargaining`, `/guide/strike`, and `/guide/membership-signup` for campaign runbooks. **Module 7** deepens mobilization ladders and LRA mid-term strike boundaries — this module owns equity language and ADR. **CLC** anti-racism labour education and **CUPE Stop Harassment guide** deepen Sections 1 and 3.
 

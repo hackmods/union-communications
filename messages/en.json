@@ -2020,7 +2020,7 @@
       "portrait": "9:16",
       "square": "1:1",
       "landscape": "16:9",
-      "caption": "Reels, Stories, and Shorts are tall. Graphic Maker is square or landscape today; crop a cover to Instagram Story size in Image Resizer, or export a 9:16 digital Solidarity Poster."
+      "caption": "Reels, Stories, and Shorts are tall. Graphic Maker exports square, landscape, and 9:16 portrait. Use Image Resizer when you need a one-off crop of an existing still."
     },
     "filming": {
       "navLabel": "Filming",
@@ -3204,7 +3204,8 @@
     "hubFile": "File in Officer Hub",
     "hubFileBlurb": "Opens Hub grievance intake when you are signed in. Requires Officer Hub access.",
     "previewTitle": "Four starting paths",
-    "previewHint": "Pick a path on the left. Each link opens the matching tool or Hub form."
+    "previewHint": "Pick a path on the left. Each link opens the matching tool or Hub form.",
+    "previewBody": "Use Edit to open a starting path. Preview stays a short reminder so the four routes are not listed twice."
   },
   "caSnippets": {
     "title": "CA Snippets",
@@ -4010,7 +4011,7 @@
         },
         "connect": {
           "label": "Connect the issue to collective action",
-          "content": "Explain that the problem they named is exactly what a union solves together. One person complaining alone rarely moves management; a organized local does."
+          "content": "Explain that the problem they named is exactly what a union solves together. One person complaining alone rarely moves management; an organized local does."
         },
         "explain": {
           "label": "Explain what the union does",
@@ -5350,7 +5351,7 @@
     "fullScenario": {
       "navLabel": "Worked file",
       "title": "Worked walk-through: written warning intake",
-      "intro": "Member Alex receives a written warning on Monday, 3 March 2026, for “failure to follow scheduling procedure.” Alex believes the warning is without just cause. Your CA gives ten calendar days from receipt to file Step 1. Step 1 deadline: Thursday, 13 March 2026.",
+      "intro": "Member Alex receives a written warning on Tuesday, 3 March 2026, for “failure to follow scheduling procedure.” Alex believes the warning is without just cause. Your CA gives ten calendar days from receipt to file Step 1. Step 1 deadline: Friday, 13 March 2026.",
       "phases": {
         "d0": {
           "label": "Day 0 — Monday 3 March",
@@ -5485,7 +5486,7 @@
     ],
     "quizCallout": {
       "title": "Where the self-tests live",
-      "body": "Officer Learning modules include a quiz at the bottom of each lesson. Use Jump to Quiz in the module header, or scroll to Self-test after reading. A perfect score marks the module complete on this device."
+      "body": "Officer Learning modules include a quiz at the bottom of each lesson. Use Module quiz in the on-page nav, or scroll to the quiz after reading. A perfect score marks the module complete on this device."
     },
     "quizBadge": "Includes self-test quiz",
     "playbooks": {
@@ -5598,7 +5599,7 @@
       "navLabel": "Training modules",
       "timeBudget": {
         "title": "Short on time?",
-        "body": "Module 1 (~8 min) gets you oriented on the floor. The full playbook takes about 35 minutes — one module per coffee break is enough."
+        "body": "Module 1 (~28 min) gets you oriented on the floor. The full playbook takes about 35 minutes — one module per coffee break is enough."
       },
       "orient": {
         "number": "1",
@@ -7528,7 +7529,7 @@
       },
       "b7p-demo-roster": {
         "title": "Sample Hub accounts are Behind 7 Proxies now",
-        "body": "Workshop logins use Local 777, 404, 502, and 1337 under Behind 7 Proxies (B7P), so they no longer look like real OPSEU / SEFPO local numbers. Shared password is still demo123 when demo auth is on."
+        "body": "Workshop logins use Local 777, 404, 502, and 1337 under Behind 7 Proxies (B7P), so they no longer look like real OPSEU / SEFPO local numbers. Workshop demo passwords stay on the Hub login screen when demo auth is on — not published here."
       },
       "demo-cleanup-purge": {
         "title": "Demo cleanup can purge leftover sample accounts",
@@ -7644,7 +7645,7 @@
       },
       "officer-learning-pocket-pdfs": {
         "title": "Officer Learning — scenarios, timelines, and pocket sheets",
-        "body": "Each module now has six quiz questions, a D0–D7 worked-file timeline, Apply/Don't apply scenario frames, printable take-to-meeting sheets, and links from matching floor playbooks."
+        "body": "Each module has a quiz (most have six questions; a few have seven), a D0–D7 worked-file timeline, Apply/Don't apply scenario frames, printable take-to-meeting sheets, and links from matching floor playbooks."
       },
       "steward-101-modules": {
         "title": "Steward 101 — modules, toolkit, and Brand Kit exports",
@@ -11524,7 +11525,8 @@
       "memberFallback": "the member",
       "hrFallback": "HR",
       "measuresHeading": "Proposed measures",
-      "groundLead": "This is an active accommodation request under human-rights prohibited grounds"
+      "groundLead": "This is an active accommodation request under human-rights prohibited grounds",
+      "defaultGradualSchedule": "a phased work-hardening schedule starting at reduced hours"
     },
     "preview": {
       "title": "HR scripts & early resolution",
@@ -15127,7 +15129,9 @@
     },
     "utilitiesEyebrow": "Utilities",
     "utilitiesTitle": "What do you need to get done?",
-    "utilitiesIntro": "Practical worksheets and workspaces for steward prep, governance, accessibility, and other union work. For deeper training, open Learn."
+    "utilitiesIntro": "Practical worksheets and workspaces for steward prep, governance, accessibility, and other union work. For deeper training, open Learn.",
+    "libraryHubTitle": "Library",
+    "libraryHubDescription": "Examples, caption packs, and brand assets for floor communications — open a shelf below."
   },
   "localPack": {
     "title": "Local pack",

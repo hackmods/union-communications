@@ -91,7 +91,7 @@ export function UpdatesContent() {
                 {formatUpdateMonth(group.month, locale)}
               </h2>
               <ol className="mt-6 grid list-none gap-5 p-0 sm:grid-cols-2 xl:grid-cols-3">
-                {group.entries.map((entry) => (
+                {group.entries.map((entry, entryIndex) => (
                   <li
                     key={entry.id}
                     className="min-w-0 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.04] to-white p-5"
@@ -101,9 +101,15 @@ export function UpdatesContent() {
                         {t(`kinds.${entry.kind}`)}
                       </span>
                       <span aria-hidden="true"> · </span>
-                      <time dateTime={entry.date}>
-                        {formatUpdateDate(entry.date, locale)}
-                      </time>
+                      {entryIndex === 0 || group.entries[entryIndex - 1].date !== entry.date ? (
+                        <time dateTime={entry.date}>
+                          {formatUpdateDate(entry.date, locale)}
+                        </time>
+                      ) : (
+                        <span className="sr-only">
+                          {formatUpdateDate(entry.date, locale)}
+                        </span>
+                      )}
                     </p>
                     <h3 className="mt-2 text-lg font-semibold text-opseu-dark">
                       {t(`items.${entry.id}.title`)}

@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **40 à 50 minutes**. Apportez les termes de référence de votre CSTS (ou notes de structure requises par la LSST), tout procès-verbal de comité patronal-syndical (CPS), et une plainte actuelle de danger ou de charge de travail du plancher. Esquissez qui siège où avec `/tools/org-chart` avant l'exercice pratique — le pouvoir des comités est inutile si les délégués ne trouvent pas la bonne porte.
+Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez les termes de référence de votre CSTS (ou notes de structure requises par la LSST), tout procès-verbal de comité patronal-syndical (CPS), et une plainte actuelle de danger ou de charge de travail du plancher. Esquissez qui siège où avec `/tools/org-chart` avant l'exercice pratique — le pouvoir des comités est inutile si les délégués ne trouvent pas la bonne porte.
 
 Les sections passent des mandats CSTS vs CPS à la discipline de caucus uni, à l'escalade multi-comités, et aux voies de refus de travail de la LSST qui engagent le CSTS. Associez `/guide/joint-committee` et `/guide/right-to-refuse`. **Ce module** forme le routage des délégués, la discipline de caucus et l'escalade parallèle ; le **guide des comités conjoints** possède les chartes, le rythme et les opérations de réunion — ne reconstruisez pas ces modèles ici. L'éducation en santé et sécurité du **CTC** et les concepts provinciaux de la LSST approfondissent les pouvoirs statutaires ; la pratique du CPS reste consultative sauf si votre CC dit autrement.
 

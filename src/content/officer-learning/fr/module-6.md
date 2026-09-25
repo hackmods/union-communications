@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **40 à 50 minutes** — ce module couvre du matériel dense. Lisez dans un cadre où vous pouvez faire pause et réfléchir. Apportez des brouillons de sondages de négociation si disponibles, le préambule et le langage de congé de votre **convention collective**, et un **carnet**. Discutez des protocoles culturels de la section 4 avec des membres autochtones ou le comité d'équité de votre section locale avant d'accueillir des cérémonies — ce module introduit les protocoles ; les relations communautaires guident la pratique.
+Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Lisez dans un cadre où vous pouvez faire pause et réfléchir. Apportez des brouillons de sondages de négociation si disponibles, le préambule et le langage de congé de votre **convention collective**, et un **carnet**. Discutez des protocoles culturels de la section 4 avec des membres autochtones ou le comité d'équité de votre section locale avant d'accueillir des cérémonies — ce module introduit les protocoles ; les relations communautaires guident la pratique.
 
 Les sections passent du biais systémique vs individuel à la négociation d'équité, au langage contractuel, et au RAD avec protocoles culturels. Associez `/guide/bargaining`, `/guide/strike` et `/guide/membership-signup` pour les cahiers de campagne. Le **module 7** approfondit les échelles de mobilisation et les limites de grève en cours de convention du LRT — ce module possède le langage d'équité et la RAD. La formation antraciste du **CTC** et le guide **Arrêter le harcèlement** du SCFP approfondissent les sections 1 et 3.
 

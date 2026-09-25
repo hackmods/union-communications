@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Allow **35–45 minutes**. Read with your **local bylaws**, a recent **employer dues report** (CSV or spreadsheet), your **signed-card roster**, and access to your local's secure member database — not employer email. Sections move from Rand Formula vs. card-carrying members through the **Membership List Directive**, monthly reconciliation, and secure storage.
+Allow **30 minutes** for the reading and self-test. Read with your **local bylaws**, a recent **employer dues report** (CSV or spreadsheet), your **signed-card roster**, and access to your local's secure member database — not employer email. Sections move from Rand Formula vs. card-carrying members through the **Membership List Directive**, monthly reconciliation, and secure storage.
 
 Pair with `/guide/membership-signup` for card-signing campaign craft — that guide teaches the floor pitch; **this module** teaches secretary reconciliation, constitutional privacy rules, and database hygiene. **CLC** membership administration materials and **CUPE** local secretary handbooks reinforce list custody; **Unifor** local officer training treats member data as a fiduciary trust.
 

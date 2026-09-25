@@ -9,6 +9,7 @@ import { scrollQuizIntoView, focusQuizStart } from "@/lib/officer-learning/quiz-
 import { maybePushHubProgressAfterPass } from "@/lib/officer-learning/hub-sync-client";
 import { useOlTheme } from "./OlThemeProvider";
 import { Link } from "@/i18n/navigation";
+import { renderInline } from "@/lib/officer-learning/render-inline";
 import { CertificateDownload } from "./CertificateDownload";
 import clsx from "clsx";
 
@@ -174,7 +175,7 @@ export function ModuleQuiz({
           return (
             <fieldset key={question.id} className="space-y-3">
               <legend className={olTheme.quizLegend}>
-                {index + 1}. {question.prompt}
+                {index + 1}.{" "}{renderInline(question.prompt, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}
               </legend>
               <div className="space-y-2">
                 {question.options.map((option) => {
@@ -209,7 +210,7 @@ export function ModuleQuiz({
                       />
                       <span className={olTheme.quizOptionText}>
                         <span className={olTheme.optionLabel}>{option.id})</span>
-                        {option.label.replace(/<\/?[^>]+(>|$)/g, "")}
+                        {renderInline(option.label.replace(/<\/?[^>]+(>|$)/g, ""), { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}
                       </span>
                     </label>
                   );
@@ -230,7 +231,7 @@ export function ModuleQuiz({
                       isIncorrect && olTheme.quizExplainFail,
                     )}
                   >
-                    {question.explanation.replace(/<\/?[^>]+(>|$)/g, "")}
+                    {renderInline(question.explanation.replace(/<\/?[^>]+(>|$)/g, ""), { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}
                   </p>
                 </div>
               </div>

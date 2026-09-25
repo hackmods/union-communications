@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardTitle } from "@/components/ui/Card";
+import { Card } from "@/components/ui/Card";
 import {
   getSourcesForPage,
   type CommsSource,
@@ -13,6 +13,8 @@ interface SourcesBlockProps {
   title: string;
   intro?: string;
   className?: string;
+  /** Bibliography is a page-level section — default h2. */
+  headingAs?: "h2" | "h3";
 }
 
 function SourceItem({ source }: { source: CommsSource }) {
@@ -40,7 +42,9 @@ export function SourcesBlock({
   title,
   intro,
   className,
+  headingAs = "h2",
 }: SourcesBlockProps) {
+  const Heading = headingAs;
   const unionPresetId = useBrandStore((s) => s.brandKit.unionPresetId);
   const hydrated = useBrandStore((s) => s.hydrated);
   const sources = getSourcesForPage(
@@ -56,7 +60,7 @@ export function SourcesBlock({
         className,
       )}
     >
-      <CardTitle className="text-base sm:text-lg">{title}</CardTitle>
+      <Heading className="text-base font-bold text-opseu-dark sm:text-lg">{title}</Heading>
       {intro ? (
         <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
           {intro}

@@ -75,7 +75,7 @@ export function GuideOutlineStep({
             aria-hidden={indexStyle === "padded" ? true : undefined}
           >
             {indexLabel}
-          </span>
+          </span>{" "}
           {title}
         </Heading>
         {badge ? (

@@ -181,6 +181,10 @@ const nextConfig: NextConfig = {
         destination: "/:locale/guide/workshops/",
       },
       {
+        source: "/:locale(en|fr)/learn/library/",
+        destination: "/:locale/library/",
+      },
+      {
         source: "/:locale(en|fr)/learn/library/examples/",
         destination: "/:locale/examples/",
       },

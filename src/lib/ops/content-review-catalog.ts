@@ -63,6 +63,7 @@ const SITE_SHELL_PATHS: readonly {
 ];
 
 const LIBRARY_PATHS: readonly { href: string; navKey: string }[] = [
+  { href: "/learn/library", navKey: "learn" },
   { href: "/learn/library/examples", navKey: "socialExamples" },
   { href: "/learn/library/captions", navKey: "captions" },
   { href: "/learn/library/brand-assets", navKey: "assets" },

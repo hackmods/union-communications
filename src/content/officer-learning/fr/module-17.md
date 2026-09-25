@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **20 à 30 minutes**. Apportez le **formulaire de description de poste (PDF)** actuel du membre, tout **brouillon** que le gestionnaire vient de remettre, l'article de votre convention sur les **bandes salariales / l'évaluation des emplois**, et un carnet. Lisez dans un espace privé : le journal des tâches indique qui a dirigé le travail et peut nommer des collègues.
+Prévoyez **20 minutes** pour la lecture et l'autoévaluation. Apportez le **formulaire de description de poste (PDF)** actuel du membre, tout **brouillon** que le gestionnaire vient de remettre, l'article de votre convention sur les **bandes salariales / l'évaluation des emplois**, et un carnet. Lisez dans un espace privé : le journal des tâches indique qui a dirigé le travail et peut nommer des collègues.
 
 Les sections passent de l'anatomie du PDF aux dumps de tâches, au journal de fréquence sur 14 jours, aux commentaires de l'employé, puis au comité mixte d'évaluation des emplois (JJEC) ou au grief de classification. Associez le **module 1** avant de déposer. **Ce module** possède la discipline du délégué pour **auditer les PDF**, consigner les **tâches réelles**, rédiger les **commentaires de l'employé** et ouvrir un dossier de **reclassification**. Le **module 16** possède les **listes** d'ancienneté et les arbres de bumping — pas l'évaluation des bandes salariales. Le **module 10** possède les comités conjoints en général ; utilisez-le quand le forum est un CSTS ou un CMT, pas un panel d'évaluation des emplois. Le **module 8** possède le libellé de règlement une fois le dossier déposé.
 

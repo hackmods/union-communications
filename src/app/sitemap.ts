@@ -28,6 +28,8 @@ const SHELL_PATHS = [
   "/feedback",
   "/join",
   "/request-access",
+  "/learn/library",
+  "/app",
 ] as const;
 
 /** Public indexable paths (no locale prefix), derived from canonical registries. */

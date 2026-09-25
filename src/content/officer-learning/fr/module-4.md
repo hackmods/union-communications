@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Réservez **30 à 40 minutes** pour la lecture et **15 minutes** pour l'exercice pratique avec votre secrétaire ou un autre dirigeant. Apportez vos **règlements locaux**, le dernier jeu de **procès-verbaux**, une calculatrice pour le calcul du quorum, et un **carnet**. Si votre section locale prépare une élection, lisez la section 4 deux fois avant la soirée de mise en candidature.
+Prévoyez **25 minutes** pour la lecture et l'autoévaluation. Apportez vos **règlements locaux**, le dernier jeu de **procès-verbaux**, une calculatrice pour le calcul du quorum, et un **carnet**. Si votre section locale prépare une élection, lisez la section 4 deux fois avant la soirée de mise en candidature.
 
 Les sections couvrent les rôles des dirigeants, les paliers de quorum, les procès-verbaux sobres, et la procédure du scrutin secret. Croisez avec votre constitution nationale — l'échelle universelle de quorum ici correspond à la pratique locale canadienne courante ; confirmez dans vos documents régissant. Associez `/guide/union-boards` pour le contexte des rôles de dirigeants.
 

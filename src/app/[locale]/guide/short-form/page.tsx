@@ -170,7 +170,7 @@ export default async function ShortFormGuidePage({
       >
         <ul className="mt-6 grid list-none gap-6 p-0 sm:grid-cols-2">
           {SHORT_FORM_EDITORS.map((editor) => (
-            <GuideCatalogCard
+            <GuideCatalogCard titleAs="h3"
               key={editor.id}
               title={t(`editors.${editor.id}.name`)}
               meta={

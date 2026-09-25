@@ -139,6 +139,8 @@ export type RtwScriptLabels = {
   customMeasureLabel: string;
   groundLabels: Record<ProhibitedGroundId, string>;
   groundLead: string;
+  /** Locale-specific fallback when gradualHours is empty. */
+  defaultGradualSchedule?: string;
 };
 
 function displayName(value: string, fallback: string): string {
@@ -275,6 +277,7 @@ export function buildRtwScripts(
   } else if (draft.mode === "rtw") {
     const schedule =
       draft.gradualHours.trim() ||
+      labels.defaultGradualSchedule ??
       "a phased work-hardening schedule starting at reduced hours";
     const returnDate = draft.returnDate.trim()
       ? ` starting ${draft.returnDate.trim()}`

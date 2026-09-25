@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Allow **20–30 minutes**. Bring the member's **current Position Description Form (PDF)**, any **draft update** the manager just issued, the **pay-band / job-evaluation article** in your collective agreement, and a notepad. Read in a private space — duty logs record who directed the work and can name colleagues.
+Allow **20 minutes** for the reading and self-test. Bring the member's **current Position Description Form (PDF)**, any **draft update** the manager just issued, the **pay-band / job-evaluation article** in your collective agreement, and a notepad. Read in a private space — duty logs record who directed the work and can name colleagues.
 
 Sections move from PDF anatomy through duty dumps, a 14-day frequency log, Employee Comments, and Joint Job Evaluation Committee (JJEC) or classification-grievance escalation. Pair with **Module 1** before you file. **This module** owns steward discipline for **auditing PDFs**, logging **actual duties**, writing **Employee Comments**, and starting a **reclassification** file. **Module 16** owns seniority **lists** and bumping trees — not pay-band job evaluation. **Module 10** owns joint committees generally; use it when the forum is a JHSC or LMC, not a job-eval panel. **Module 8** owns settlement wording once the file is filed.
 

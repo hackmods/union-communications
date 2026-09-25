@@ -371,7 +371,7 @@ export default async function WorkplaceMappingGuidePage({
         intro={t("reference.intro")}
       >
         <ul className="mt-5 grid list-none gap-6 p-0 sm:grid-cols-2">
-          <GuideCatalogCard
+          <GuideCatalogCard titleAs="h3"
             title={t("reference.blank.title")}
             body={t("reference.blank.body")}
             meta={t("downloadHint")}
@@ -391,7 +391,7 @@ export default async function WorkplaceMappingGuidePage({
               </>
             }
           />
-          <GuideCatalogCard
+          <GuideCatalogCard titleAs="h3"
             title={t("reference.example.title")}
             body={t("reference.example.body")}
             action={
@@ -410,7 +410,7 @@ export default async function WorkplaceMappingGuidePage({
               </>
             }
           />
-          <GuideCatalogCard
+          <GuideCatalogCard titleAs="h3"
             title={t("reference.orgChart.title")}
             body={t("reference.orgChart.body")}
             action={
@@ -419,7 +419,7 @@ export default async function WorkplaceMappingGuidePage({
               </Link>
             }
           />
-          <GuideCatalogCard
+          <GuideCatalogCard titleAs="h3"
             title={t("reference.membership.title")}
             body={t("reference.membership.body")}
             action={

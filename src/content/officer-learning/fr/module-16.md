@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **40 à 50 minutes**. Apportez les articles de votre **convention collective** sur les mises à pied, l'ancienneté et le rappel ; une liste d'ancienneté récente de l'employeur (ou un échantillon caviardé) ; et un **carnet**. Lisez dans un espace privé — les dossiers de bumping touchent souvent aux congés médicaux, à l'accommodement et à la perte d'emploi.
+Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Apportez les articles de votre **convention collective** sur les mises à pied, l'ancienneté et le rappel ; une liste d'ancienneté récente de l'employeur (ou un échantillon caviardé) ; et un **carnet**. Lisez dans un espace privé — les dossiers de bumping touchent souvent aux congés médicaux, à l'accommodement et à la perte d'emploi.
 
 Les sections passent des listes d'ancienneté vs dates de service aux arbres de bumping, au langage sur les compétences et qualifications, aux délais de préavis de mise à pied, aux périodes d'essai et aux collisions avec les droits de la personne. Associez `/guide/seniority-bumping` et le **module 1**. Le **guide seniority-bumping** possède les mécaniques du guide sectoriel — exemples de cascade, export de feuilles de travail et fiches de comité. **Ce module** possède la discipline du délégué pour **lire les listes d'ancienneté**, tracer les **arbres de bumping**, suivre les **délais de préavis** et mener l'**admission** quand le déplacement frappe le plancher. Le **module 1** possède le filtre plainte/grief, les 6 W et la FAR — utilisez-les ici avant de déposer.
 

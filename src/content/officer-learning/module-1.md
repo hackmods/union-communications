@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Set aside **25–35 minutes** for a first read, then another **20 minutes** to complete the practice drill with a partner. Bring your **collective agreement**, a **notepad**, and any recent member complaint you are unsure about. If your local has a mentor steward program, pair with an experienced rep for the worked scenario and role-play — the Canadian Labour Congress steward education model treats investigation as a skill learned on the floor, not from a screen alone.
+Allow **28 minutes** for the reading and self-test. Bring your **collective agreement**, a **notepad**, and any recent member complaint you are unsure about. If your local has a mentor steward program, pair with an experienced rep for the worked scenario and role-play — the Canadian Labour Congress steward education model treats investigation as a skill learned on the floor, not from a screen alone.
 
 Read sections 1–4 in order; they build the **5-Point Filter**, the **6 W's**, the **FAR sheet**, and **representative immunity** into one workflow. After the Self-Test Quiz, walk one real file through the floor checklist before your next shift. UnionOps guides `/guide/steward-101` and `/guide/grievance-process` complement this module when you need step-by-step filing mechanics. **Module 8** deepens trial-ready file architecture and settlement wording — this module owns the intake filter, 6 W's, and FAR.
 

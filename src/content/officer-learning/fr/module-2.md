@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **30 à 40 minutes** pour la lecture principale, plus **15 minutes** pour l'exercice pratique. Apportez les articles de discipline de votre **convention collective**, toute lettre d'avertissement ou avis de suspension récent, et un **carnet**. Les dossiers disciplinaires sont émotionnellement chargés — si possible, révisez ce module avec un délégué mentor avant votre première rencontre disciplinaire.
+Prévoyez **26 minutes** pour la lecture et l'autoévaluation. Apportez les articles de discipline de votre **convention collective**, toute lettre d'avertissement ou avis de suspension récent, et un **carnet**. Les dossiers disciplinaires sont émotionnellement chargés — si possible, révisez ce module avec un délégué mentor avant votre première rencontre disciplinaire.
 
 Les sections 1 à 5 couvrent l'encadrement par rapport à la discipline, les étapes progressives, les facteurs atténuants, l'obéir maintenant et plaider ensuite, et le lien hors service. Associez `/guide/grievance-process` pour les étapes de dépôt et `/guide/right-to-refuse` lorsque des exceptions de sécurité surviennent. Les principes de la LSST de l'Ontario apparaissent dans l'exception de sécurité de la section 4 — connaissez l'équivalent de votre province.
 

@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import {
   ASSET_PACK_COLORS,
   BRAND_COLORS,
@@ -562,9 +563,9 @@ export function AssetPackPanel() {
       </Callout>
 
       <div className="mt-6">
-        <Link href="/brand-kit">
-          <Button size="sm">{t("editBrandKit")}</Button>
-        </Link>
+        <ButtonLink href="/brand-kit" size="sm">
+          {t("editBrandKit")}
+        </ButtonLink>
       </div>
 
       {packsForDownloads.map((pack) => (

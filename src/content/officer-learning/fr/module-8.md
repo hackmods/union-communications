@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **40 à 50 minutes**. Apportez un dossier de grief récent (ou la prise en charge vierge du Générateur de documents), votre **convention collective**, et un carnet pour le langage de règlement. Pratiquez le libellé à porte ouverte sur un dossier vivant avant votre prochaine rencontre d'étape — la théorie sans brouillon colle rarement.
+Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Apportez un dossier de grief récent (ou la prise en charge vierge du Générateur de documents), votre **convention collective**, et un carnet pour le langage de règlement. Pratiquez le libellé à porte ouverte sur un dossier vivant avant votre prochaine rencontre d'étape — la théorie sans brouillon colle rarement.
 
 Les sections passent du dossier de grief en cinq parties au libellé à porte ouverte, sans préjudice vs sans précédent, et à la discipline de règlement des Quatre coins. Associez `/guide/grievance-process` et `/tools/complaint-vs-grievance`. Le **module 1** possède le filtre plainte/grief, les 6 W et la FAR d'admission ; **ce module** possède les piliers de dossier prêts pour l'arbitrage, la rédaction à porte ouverte et la discipline de PR / Quatre coins — le guide de grief couvre les mécanismes de dépôt par étape. Utilisez les feuilles de prise en charge de grief du Générateur de documents pour structurer la chronologie. Le **manuel des délégués du SCFP** et les cours de **traitement des griefs d'Unifor** approfondissent l'architecture du dossier ; la pratique arbitrale sur les remèdes de réparation intégrale informe les demandes de remède.
 

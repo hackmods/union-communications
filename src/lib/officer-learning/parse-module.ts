@@ -45,40 +45,47 @@ function parseTableBlock(lines: string[]): ContentBlock | null {
   };
 }
 
+
+/** Strip emoji and/or "Warning:"-style labels so the UI title is not duplicated. */
+/** Strip emoji and/or "Warning:"-style labels so the UI title is not duplicated. */
+function stripCalloutPrefix(text: string, kind: "note" | "warning" | "practice" | "reflection"): string {
+  const patterns: Record<typeof kind, RegExp> = {
+    note: /^(?:💡\s*)?(?:(?:Note|Remarque)\s*:\s*)?/i,
+    warning: /^(?:⚠️\s*)?(?:(?:Warning|Avertissement)\s*:\s*)?/i,
+    practice: /^(?:📝\s*)?(?:(?:Practice|Exercice)\s*:\s*)?/i,
+    reflection: /^(?:🪞\s*)?(?:(?:Reflection|Réflexion)\s*:\s*)?/i,
+  };
+  return text.replace(patterns[kind], "").trim();
+}
+
 function detectCallout(text: string): ContentBlock | null {
   const trimmed = text.trim();
   if (/^💡|^Note\s*:/i.test(trimmed)) {
     return {
       type: "callout",
       variant: "note",
-      text: parseInline(trimmed.replace(/^(💡\s*|Note\s*:\s*)/i, "")),
+      text: parseInline(stripCalloutPrefix(trimmed, "note")),
     };
   }
   if (/^⚠️|^(Warning|Avertissement)\s*:/i.test(trimmed)) {
     return {
       type: "callout",
       variant: "warning",
-      text: parseInline(
-        trimmed.replace(/^(⚠️\s*|(Warning|Avertissement)\s*:\s*)/i, ""),
-      ),
+      text: parseInline(stripCalloutPrefix(trimmed, "warning")),
     };
   }
   if (/^📝|^(Practice|Exercice)\s*:/i.test(trimmed)) {
     return {
       type: "callout",
       variant: "practice",
-      text: parseInline(
-        trimmed.replace(/^(📝\s*|(Practice|Exercice)\s*:\s*)/i, ""),
-      ),
+      text: parseInline(stripCalloutPrefix(trimmed, "practice")),
     };
   }
   if (/^🪞|^(Reflection|Réflexion)\s*:/i.test(trimmed)) {
     return {
       type: "callout",
       variant: "reflection",
-      text: parseInline(
-        trimmed.replace(/^(🪞\s*|(Reflection|Réflexion)\s*:\s*)/i, ""),
-      ),
+      text: parseInline(stripCalloutPrefix(trimmed, "reflection")),
     };
   }
   return null;

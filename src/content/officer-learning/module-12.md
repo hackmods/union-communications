@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Budget **40–50 minutes** for study and **25 minutes** with your Treasurer and Trustee for the practice drill. Bring your **local bylaws**, any existing **expense policy**, a sample **honorarium voucher**, and the **Module 5** notes on double-signature controls — Module 5 covers budget basics and trustee audits; **this module** covers expense policy design, taxable honorariums, and hardship fund governance.
+Allow **32 minutes** for the reading and self-test. Bring your **local bylaws**, any existing **expense policy**, a sample **honorarium voucher**, and the **Module 5** notes on double-signature controls — Module 5 covers budget basics and trustee audits; **this module** covers expense policy design, taxable honorariums, and hardship fund governance.
 
 Sections move from GMM-approved expense policies through CRA-aware honorarium reporting and blind-review hardship committees. **CLC** local treasurer education, **CUPE** financial handbooks, and **OFL** steward-officer workshops reinforce that compassion without controls invites audit pain.
 

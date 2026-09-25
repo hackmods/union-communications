@@ -388,7 +388,7 @@ export function BylawBuilderWorkspace() {
         </p>
       </Callout>
       {modeControl}
-      {presetButtons}
+      
       {articleSetControl}
       {scalarFields}
       <Textarea

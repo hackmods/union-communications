@@ -2,7 +2,7 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **40 à 50 minutes** d'étude et **25 minutes** avec votre trésorier et fiduciaire pour l'exercice pratique. Apportez vos **règlements locaux**, toute **politique de dépenses** existante, un **bon d'honoraire** type et les notes du **module 5** sur la double signature — le module 5 couvre budgets et audits des fiduciaires ; **ce module** couvre la conception de politiques de dépenses, les honoraires imposables et la gouvernance des fonds de détresse.
+Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Apportez vos **règlements locaux**, toute **politique de dépenses** existante, un **bon d'honoraire** type et les notes du **module 5** sur la double signature — le module 5 couvre budgets et audits des fiduciaires ; **ce module** couvre la conception de politiques de dépenses, les honoraires imposables et la gouvernance des fonds de détresse.
 
 Les sections passent des politiques de dépenses approuvées à l'AG aux honoraires conformes à l'ARC et aux comités de détresse à examen aveugle. L'éducation trésorier du **CTC**, les manuels financiers du **SCFP** et les ateliers **FTO** rappellent : compassion sans contrôles invite la douleur d'audit.
 

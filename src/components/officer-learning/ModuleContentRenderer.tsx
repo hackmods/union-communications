@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { Emoji } from "@/components/ui/Emoji";
 import type { EmojiId } from "@/lib/constants/emoji";
 import type { ContentBlock, ModuleSection } from "@/lib/officer-learning/types";
-import type { OlTheme } from "@/lib/officer-learning/theme";
+import { renderInline } from "@/lib/officer-learning/render-inline";
 import { useOlTheme } from "./OlThemeProvider";
 import clsx from "clsx";
 import { WorkedScenarioSection } from "./WorkedScenarioSection";
@@ -19,54 +18,6 @@ const CALLOUT_EMOJI: Record<CalloutVariant, EmojiId> = {
   practice: "practice",
   reflection: "reflection",
 };
-
-function renderInline(text: string, olTheme: OlTheme): ReactNode[] {
-  const parts: ReactNode[] = [];
-  const tokenRe =
-    /(\*\*.+?\*\*|\*.+?\*|\/(?:guide|tools|app|brand-kit|portal)(?:\/[\w-]+)*(?:\?[\w=&%-]+)?)/g;
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-  let key = 0;
-
-  while ((match = tokenRe.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
-    }
-    const token = match[0];
-    if (token.startsWith("**")) {
-      parts.push(
-        <strong key={`strong-${key++}`} className={olTheme.proseStrong}>
-          {token.slice(2, -2)}
-        </strong>,
-      );
-    } else if (token.startsWith("*") && !token.startsWith("**")) {
-      parts.push(
-        <em key={`em-${key++}`} className="italic">
-          {token.slice(1, -1)}
-        </em>,
-      );
-    } else if (token.startsWith("/")) {
-      parts.push(
-        <Link
-          key={`link-${key++}`}
-          href={token}
-          className={olTheme.link}
-        >
-          {token}
-        </Link>,
-      );
-    } else {
-      parts.push(token);
-    }
-    lastIndex = match.index + token.length;
-  }
-
-  if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
-  }
-
-  return parts.length > 0 ? parts : [text];
-}
 
 function ChecklistBlock({
   items,
@@ -140,7 +91,7 @@ function ChecklistBlock({
                     isOn && "opacity-80",
                   )}
                 >
-                  {renderInline(item, olTheme)}
+                  {renderInline(item, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}
                 </span>
               </label>
             </li>
@@ -164,14 +115,14 @@ function BlockRenderer({
 
   switch (block.type) {
     case "paragraph":
-      return <p className={olTheme.prose}>{renderInline(block.text, olTheme)}</p>;
+      return <p className={olTheme.prose}>{renderInline(block.text, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}</p>;
     case "list":
       if (block.ordered) {
         return (
           <ol className={clsx("list-decimal space-y-2 pl-5", olTheme.prose)}>
             {block.items.map((item, index) => (
               <li key={`${item}-${index}`} className="leading-relaxed">
-                {renderInline(item, olTheme)}
+                {renderInline(item, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}
               </li>
             ))}
           </ol>
@@ -181,7 +132,7 @@ function BlockRenderer({
         <ul className={clsx("list-disc space-y-2 pl-5", olTheme.prose)}>
           {block.items.map((item, index) => (
             <li key={`${item}-${index}`} className="leading-relaxed">
-              {renderInline(item, olTheme)}
+              {renderInline(item, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}
             </li>
           ))}
         </ul>
@@ -196,7 +147,7 @@ function BlockRenderer({
               <tr>
                 {block.headers.map((header, index) => (
                   <th key={`${header}-${index}`} className="px-4 py-3 font-semibold">
-                    {renderInline(header, olTheme)}
+                    {renderInline(header, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}
                   </th>
                 ))}
               </tr>
@@ -209,7 +160,7 @@ function BlockRenderer({
                       key={`cell-${rowIndex}-${cellIndex}`}
                       className={olTheme.tableCell}
                     >
-                      {renderInline(cell, olTheme)}
+                      {renderInline(cell, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}
                     </td>
                   ))}
                 </tr>
@@ -238,7 +189,7 @@ function BlockRenderer({
           <p className="font-semibold">
             <Emoji id={CALLOUT_EMOJI[block.variant]} /> {t(block.variant)}
           </p>
-          <p className="mt-2 leading-relaxed">{renderInline(block.text, olTheme)}</p>
+          <p className="mt-2 leading-relaxed">{renderInline(block.text, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}</p>
         </div>
       );
     }

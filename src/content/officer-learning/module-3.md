@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-Plan **35–45 minutes** for reading and **20 minutes** for the practice drill. Bring your **collective agreement** leave and accommodation clauses, a sample doctor's note (redacted), and a **notepad**. Human rights cases require discretion — review in a private space, not the lunch room.
+Allow **30 minutes** for the reading and self-test. Bring your **collective agreement** leave and accommodation clauses, a sample doctor's note (redacted), and a **notepad**. Human rights cases require discretion — review in a private space, not the lunch room.
 
 Work through sections 1–4 sequentially: primacy of human rights, Meiorin, undue hardship, and RTW privacy. This module pairs with `/guide/steward-101` for representation basics. External depth: **CUPE Ready and Able**, **OHRC Human Rights at Work**, and **CUPE Stop Harassment guide** when conduct overlaps harassment.
 

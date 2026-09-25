@@ -55,7 +55,8 @@
     "fonts:sync-ttf": "node scripts/sync-canvas-font-ttf.mjs",
     "office:verify:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-office-windows.ps1",
     "office:fixtures": "tsx scripts/generate-office-smoke.ts",
-    "pdf:preview": "node scripts/pdf-preview.mjs"
+    "pdf:preview": "node scripts/pdf-preview.mjs",
+    "test:union-audit": "vitest run src/lib/audit/union-audit-guards.test.ts src/lib/officer-learning/inline-markdown.test.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1094.0",
