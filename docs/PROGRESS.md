@@ -7,6 +7,7 @@
 - Brand Kit: collection rename no longer mirrors into Sub-text; Reset to defaults clears local number/collections and persists; Action Card ask no longer duplicates when equal to headline; bylaw preset picker drops duplicate campus/opseuCaat label.
 - Hub write layer: `useHubWriteScope` + `readApiErrorMessage` on grievances, minutes, committees, elections, ledger, snippets, marketplace, onboarding — actionable no-union/no-local messaging and disabled submits.
 - Nav: local-scoped officer tools hidden when session lacks union/local (stops silent `/app` redirects); Locals admin empty state; hub hamburger shows a visible Menu label; CI `check:zoom` guard against viewport/touch-action regressions.
+- Invite pickers badge Behind 7 Proxies joke locals as Sample; Playwright covers public/hub mobile menu open/close/Escape at 360/390/768.
 - Plans: prompts 08–13 from 2026-09-25 authenticated + mobile menu audits.
 
 ## 2026-09-25 — Officer Hub task-first home
