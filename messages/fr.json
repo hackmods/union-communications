@@ -1626,7 +1626,7 @@
       "reportingHint": "Présidents et exécutif seulement. Les membres doivent aussi consentir individuellement.",
       "reportTitle": "Réussites partagées",
       "reportDisabled": "Activez le rapport ci-dessus pour charger les dossiers partagés.",
-      "reportEmpty": "Aucun membre n'a encore partagé de réussites.",
+      "reportEmpty": "Aucun membre n’a encore partagé de réussites. Demandez aux apprenants de synchroniser la progression Hub et d’activer « partager avec ma section » sur une page de module.",
       "completedCount": "{completed} module(s) sur {total} réussi(s)",
       "forbiddenTitle": "Le rapport de formation exige un rôle de dirigeant",
       "forbiddenBody": "Les présidents et l'exécutif local peuvent activer le rapport. Vous pouvez toujours suivre les cours publics et synchroniser votre propre progression.",

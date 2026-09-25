@@ -19,7 +19,7 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     id: "comms",
     nameKey: "comms",
     descriptionKey: "commsDesc",
-    href: "/",
+    href: "/create",
     emojiId: "megaphone",
     enabledCheck: (m) => m.includes("comms"),
   },

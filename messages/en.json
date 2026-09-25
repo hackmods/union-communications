@@ -1626,7 +1626,7 @@
       "reportingHint": "Presidents and executives only. Members must still consent individually.",
       "reportTitle": "Shared completions",
       "reportDisabled": "Turn on reporting above to load shared records.",
-      "reportEmpty": "No members have shared completions yet.",
+      "reportEmpty": "No members have shared completions yet. Ask learners to sync Hub progress and turn on “share with my local” on a module page.",
       "completedCount": "{completed} of {total} modules passed",
       "forbiddenTitle": "Education report needs an officer role",
       "forbiddenBody": "Presidents and local executives can enable reporting. You can still take the public courses and sync your own progress.",
