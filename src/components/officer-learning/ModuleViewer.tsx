@@ -21,6 +21,7 @@ import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { OlThemeProvider, useOlTheme } from "./OlThemeProvider";
 import { scrollQuizIntoView } from "@/lib/officer-learning/quiz-scroll";
 import { cn } from "@/lib/utils";
+import { renderInline } from "@/lib/officer-learning/render-inline";
 
 type Props = {
   meta: ModuleMeta;
@@ -231,12 +232,12 @@ function ModuleViewerInner({
               <p className={olTheme.eyebrow}>{t("moduleLabel", { number: meta.number })}</p>
               <h1 className={cn("text-3xl font-bold md:text-4xl", olTheme.heading)}>{moduleTitle}</h1>
               <p className={olTheme.bodySmall}>{t("readingTime", { minutes: meta.readingMinutes })}</p>
-              <p className={olTheme.purpose}>{module.purpose}</p>
+              <p className={olTheme.purpose}>{renderInline(module.purpose, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}</p>
               {module.objectives.length > 0 && (
                 <ul className="grid gap-2 md:grid-cols-1">
                   {module.objectives.map((objective) => (
                     <li key={objective} className={olTheme.objective}>
-                      {objective}
+                      {renderInline(objective, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}
                     </li>
                   ))}
                 </ul>

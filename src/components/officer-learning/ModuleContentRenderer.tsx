@@ -221,7 +221,7 @@ export function ModuleContentRenderer({ sections, moduleId, moduleSlug }: Props)
           />
         ) : (
           <section key={section.id} id={section.id} className="scroll-mt-32 space-y-4">
-            <h2 className={olTheme.sectionH2}>{section.title}</h2>
+            <h2 className={olTheme.sectionH2}>{renderInline(section.title, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}</h2>
             <div className="space-y-4">
               {section.blocks.map((block, index) => (
                 <BlockRenderer
@@ -237,7 +237,7 @@ export function ModuleContentRenderer({ sections, moduleId, moduleSlug }: Props)
                 id={subsection.id}
                 className="scroll-mt-32 space-y-3 pt-2"
               >
-                <h3 className={olTheme.subsectionTitle}>{subsection.title}</h3>
+                <h3 className={olTheme.subsectionTitle}>{renderInline(subsection.title, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}</h3>
                 <div className="space-y-4">
                   {subsection.blocks.map((block, index) => (
                     <BlockRenderer
