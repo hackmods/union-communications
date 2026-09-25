@@ -253,17 +253,18 @@ describe("profile helpers", () => {
     );
   });
 
-  it("renames a profile and syncs sub-text on the active collection", () => {
+  it("renames a profile without mirroring into sub-text", () => {
+    const beforeSub = DEFAULT_BRAND_KIT.local.subText;
     const renamed = renameBrandKitProfile(
       DEFAULT_BRAND_KIT,
       GENERIC_COLLECTION_PROFILE_ID,
-      "  Workplace A  ",
+      "  TEST Space Check  ",
     );
     expect(renamed.profiles?.[0]).toMatchObject({
-      label: "Workplace A",
-      subText: "Workplace A",
+      label: "TEST Space Check",
+      subText: DEFAULT_BRAND_KIT.profiles?.[0]?.subText,
     });
-    expect(renamed.local.subText).toBe("Workplace A");
+    expect(renamed.local.subText).toBe(beforeSub);
     const blank = renameBrandKitProfile(
       renamed,
       GENERIC_COLLECTION_PROFILE_ID,

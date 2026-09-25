@@ -181,7 +181,7 @@
   },
   "routeUi": {
     "errorTitle": "Besoin d’un délégué",
-    "errorBody": "Quelque chose a cassé de notre côté, pas du vôtre. Réessayez, ou revenez à une page que vous connaissez.",
+    "errorBody": "Quelque chose a cassé de notre côté, pas du vôtre. Réessayez une fois. Si ça échoue encore, retournez à une page connue et dites-nous ce que vous faisiez.",
     "hubErrorBody": "Le Hub des dirigeants a buté. Réessayez, ou déconnectez-vous puis reconnectez-vous.",
     "tryAgain": "Réessayer",
     "signOut": "Déconnexion",
@@ -1626,7 +1626,7 @@
       "reportingHint": "Présidents et exécutif seulement. Les membres doivent aussi consentir individuellement.",
       "reportTitle": "Réussites partagées",
       "reportDisabled": "Activez le rapport ci-dessus pour charger les dossiers partagés.",
-      "reportEmpty": "Aucun membre n'a encore partagé de réussites.",
+      "reportEmpty": "Aucun membre n’a encore partagé de réussites. Demandez aux apprenants de synchroniser la progression Hub et d’activer « partager avec ma section » sur une page de module.",
       "completedCount": "{completed} module(s) sur {total} réussi(s)",
       "forbiddenTitle": "Le rapport de formation exige un rôle de dirigeant",
       "forbiddenBody": "Les présidents et l'exécutif local peuvent activer le rapport. Vous pouvez toujours suivre les cours publics et synchroniser votre propre progression.",
@@ -2979,6 +2979,7 @@
     "salutationCustomPlaceholder": "Chère nouvelle membre!",
     "salutationPresets": {
       "dearMember": "Cher/Chère {name}",
+      "dearMemberFallback": "membre",
       "dearNewMember": "Chère nouvelle membre!",
       "dearColleague": "Cher/Chère collègue",
       "toWhom": "À qui de droit",
@@ -3481,7 +3482,7 @@
       "writeOfficialDeadline": "Avant le vote",
       "writeOfficialCta": "Scannez pour écrire →",
       "bargainingSupportHeadline": "Appuyez la négociation",
-      "bargainingSupportAsk": "Soutenez votre équipe de négociation — signez et partagez avec vos collègues.",
+      "bargainingSupportAsk": "Scannez le code QR et ajoutez votre nom pour montrer à l’employeur que les membres sont unis.",
       "bargainingSupportDeadline": "Avant la reprise des pourparlers",
       "bargainingSupportCta": "Scannez pour nous appuyer →",
       "stopCutsHeadline": "Arrêtez les compressions",
@@ -3531,7 +3532,8 @@
     "publishSlugTaken": "Ce nom de lien de partage est déjà pris. Essayez-en un autre.",
     "hubSignInTitle": "Hub des dirigeants requis pour publier",
     "hubSignInBody": "La rédaction et l’export PNG/PDF fonctionnent sur cet appareil. Pour recueillir les réponses des membres, connectez-vous au Hub des dirigeants, puis appuyez sur Publier et partagez le lien.",
-    "hubSignInLink": "Connexion au Hub des dirigeants"
+    "hubSignInLink": "Connexion au Hub des dirigeants",
+    "hubSignedInBody": "Vous êtes connecté au Hub des dirigeants — Publier utilisera cette session."
   },
   "pollPublic": {
     "notFoundTitle": "Sondage introuvable",
@@ -7862,6 +7864,10 @@
         "title": "Fondation Trousse de marque avec Créer, Utilitaires et Apprendre en parallèle",
         "body": "L’accueil ne vous impose plus une séquence en cinq étapes. Configurez la Trousse de marque, puis choisissez Créer, Utilitaires ou Apprendre selon votre tâche. Le générateur de lettres inclut maintenant des contextes de lettre pour délégués, ouvrables depuis l’adaptation et d’autres utilitaires."
       },
+      "letter-document-generators-fix": {
+        "title": "Les générateurs de lettres et de documents se chargent à nouveau",
+        "body": "Les lettres de marque et les modèles bureautiques s’ouvrent et s’aperçoivent sans planter. Réinitialiser la Trousse de marque efface bien l’identité de test, et les noms de collection gardent leurs espaces."
+      },
       "officer-hub-task-dashboard": {
         "title": "Le Hub des dirigeants met votre travail en premier",
         "body": "Voyez d’abord vos tâches assignées et points de suivi en attente, puis choisissez une prochaine action permise. La configuration et le catalogue complet restent accessibles au besoin."
@@ -8144,6 +8150,24 @@
       "hostSeedNote": "Ne relancez pas db:seed à chaque déploiement. N’ensemencez que lorsque les notes de version le demandent.",
       "publicToolsTitle": "Outils publics",
       "publicToolsBody": "Contrôlez la visibilité des outils publics pour un syndicat ou une section locale.",
+      "publicToolsLoadFailed": "Impossible de charger les réglages des outils publics. Actualisez et réessayez.",
+      "publicToolsUnionRequired": "Entrez un identifiant de syndicat pour les réglages à l’échelle du syndicat.",
+      "publicToolsLocalRequired": "Entrez les identifiants de syndicat et de section locale pour les réglages locaux.",
+      "publicToolsSaveFailed": "Impossible d’enregistrer les réglages des outils publics. Réessayez.",
+      "publicToolsSaved": "Réglages des outils publics enregistrés.",
+      "publicToolsScope": {
+        "platform": "Plateforme",
+        "union": "Syndicat",
+        "local": "Section locale"
+      },
+      "publicToolsUnionId": "Identifiant du syndicat",
+      "publicToolsLocalId": "Identifiant de la section locale",
+      "publicToolsHint": "Les outils cochés restent visibles sur le site public pour cette portée. Les outils non cochés sont masqués.",
+      "publicToolsLoading": "Chargement de la liste des outils…",
+      "publicToolsEnabled": "Visible",
+      "publicToolsDisabled": "Masqué",
+      "publicToolsSaving": "Enregistrement…",
+      "publicToolsSave": "Enregistrer les réglages",
       "customizationCard": "Personnalisation",
       "customizationCardBody": "Publiez des guides, sources et bases de marque partagés pour un vrai syndicat sans redéployer l'application.",
       "customizationTitle": "Personnalisation syndicale",
@@ -8251,6 +8275,9 @@
       "usersDemoBadge": "démo",
       "usersOpen": "Ouvrir",
       "usersFooter": "Affichage des {pageSize} plus récents. L’archivage ou la suppression en lot arrivera en v2 — pour l’instant, archivez via",
+      "localsEmptyTitle": "Aucun syndicat sur cet hôte pour l’instant",
+      "localsEmptyBody": "Après une purge de démo ou une installation neuve, créez un syndicat et une section locale avant d’inviter des dirigeants.",
+      "localsEmptyCta": "Ouvrir la configuration du syndicat",
       "localsIndexTitle": "Sections locales — choisir un syndicat",
       "localsIndexBody": "Chaque rangée ouvre les sections de ce syndicat. Les sections archivées restent en base pour les dossiers, mais quittent les listes actives.",
       "localsColUnion": "Syndicat",
@@ -8370,6 +8397,9 @@
       "auditBody": "Voyez qui a modifié quoi sur l’hôte, et quand."
     },
     "signingIn": "Connexion...",
+    "writeNoUnion": "Aucun syndicat n’est assigné à ce compte — demandez à un opérateur de plateforme d’en assigner un avant d’enregistrer.",
+    "writeNoLocal": "Aucune section locale n’est assignée à ce compte — demandez à un administrateur d’en assigner une avant d’enregistrer.",
+    "writeScopeBlocked": "Ce formulaire ne peut pas enregistrer tant que votre compte n’a pas de syndicat et de section locale.",
     "sessionLoading": "Chargement de votre Hub des dirigeants…",
     "login": "Connexion dirigeant",
     "loginSubtitle": "Connectez-vous pour accéder aux outils confidentiels",
@@ -8585,6 +8615,7 @@
     "tenantOnboardingLink": "Configuration du syndicat",
     "presidentConfigLink": "Configuration présidence",
     "toolsMenu": "Outils dirigeants",
+    "openHubMenuShort": "Menu",
     "openHubMenu": "Ouvrir le menu du hub",
     "closeHubMenu": "Fermer le menu du hub",
     "mobileNav": "Menu du hub",
@@ -9011,7 +9042,8 @@
       "pickExisting": "Choisir une section existante",
       "enterNumber": "Saisir ou créer par numéro",
       "subGroup": "Sous-groupe",
-      "subGroupOptional": "Aucun (facultatif)"
+      "subGroupOptional": "Aucun (facultatif)",
+      "sampleBadge": "Échantillon"
     }
   },
   "invites": {

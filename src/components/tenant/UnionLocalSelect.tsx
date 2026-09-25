@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/Select";
 export type UnionOption = {
   id: string;
   name: string;
+  isSample?: boolean;
 };
 
 export type LocalOption = {
@@ -15,6 +16,8 @@ export type LocalOption = {
   localNumber: string;
   subText?: string;
   unionId: string;
+  /** Sample / demo Hub seed (e.g. B7P joke locals) — badge in pickers. */
+  isSample?: boolean;
 };
 
 export type SubGroupOption = {
@@ -183,6 +186,7 @@ export function UnionLocalSelect({
             {unions.map((u) => (
               <option key={u.id} value={u.id}>
                 {u.name}
+                {u.isSample ? ` (${t("sampleBadge")})` : ""}
               </option>
             ))}
             <option value={OTHER_UNION}>{t("otherUnion")}</option>
@@ -257,6 +261,7 @@ export function UnionLocalSelect({
             <option key={l.id} value={l.id}>
               {l.localNumber}
               {l.subText ? ` — ${l.subText}` : ""}
+              {l.isSample ? ` (${t("sampleBadge")})` : ""}
             </option>
           ))}
         </Select>

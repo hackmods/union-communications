@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "letter-document-generators-fix",
+    date: "2026-09-25",
+    kind: "improved",
+    href: "/create/letter-generator",
+  },
+  {
     id: "officer-hub-task-dashboard",
     date: "2026-09-25",
     kind: "improved",

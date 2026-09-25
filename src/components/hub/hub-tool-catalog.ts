@@ -257,35 +257,42 @@ export const HUB_TOOL_CATALOG: readonly HubToolDef[] = [
 export function resolveHubToolAccess(
   roles: UserRole[],
   enabledModules: HubModule[],
+  scope?: { unionId?: string | null; localId?: string | null },
 ): HubToolAccess {
   const grievance = canAccessGrievanceModule(roles);
   const bumping =
     canAccessBumpingModule(roles) && enabledModules.includes("bumping");
+  const hasUnion = Boolean(scope?.unionId);
+  const hasLocal = Boolean(scope?.localId);
+  // Hide local-scoped tools when the session cannot open them (silent /app redirect).
+  const localCasework = hasUnion && hasLocal;
   return {
-    calendar: grievance || bumping,
-    grievance,
-    minutes: canAccessMinutesModule(roles),
-    officers: canAccessOfficerRoster(roles),
-    committees: canAccessCommitteesModule(roles),
-    elections: canAccessElectionsModule(roles),
-    meetings: canAccessMeetingsModule(roles),
-    polls: canAccessPollsModule(roles),
+    calendar: localCasework && (grievance || bumping),
+    grievance: localCasework && grievance,
+    minutes: localCasework && canAccessMinutesModule(roles),
+    officers: localCasework && canAccessOfficerRoster(roles),
+    committees: localCasework && canAccessCommitteesModule(roles),
+    elections: localCasework && canAccessElectionsModule(roles),
+    meetings: hasUnion && canAccessMeetingsModule(roles),
+    polls: localCasework && canAccessPollsModule(roles),
     ledger:
-      roles.includes("local_president") ||
-      roles.includes("local_exec") ||
-      canCrossLocalGrievance(roles),
-    travel: canAccessTravelModule(roles),
-    expenses: canAccessExpensesModule(roles),
-    handoff: canInitiateHandoff(roles),
+      localCasework &&
+      (roles.includes("local_president") ||
+        roles.includes("local_exec") ||
+        canCrossLocalGrievance(roles)),
+    travel: localCasework && canAccessTravelModule(roles),
+    expenses: localCasework && canAccessExpensesModule(roles),
+    handoff: localCasework && canInitiateHandoff(roles),
     invites: canManageInvites(roles),
     tenantOnboarding: canManageTenantOnboarding(roles),
-    presidentConfig: canManageLocalModules(roles),
-    reports: isElevatedGrievanceRole(roles),
-    officerLearning: canManageOfficerLearningReport(roles),
+    presidentConfig: localCasework && canManageLocalModules(roles),
+    reports: localCasework && isElevatedGrievanceRole(roles),
+    officerLearning: localCasework && canManageOfficerLearningReport(roles),
     audit:
-      canCrossLocalGrievance(roles) ||
-      roles.includes("local_president") ||
-      roles.includes("local_exec"),
+      localCasework &&
+      (canCrossLocalGrievance(roles) ||
+        roles.includes("local_president") ||
+        roles.includes("local_exec")),
     siteFeedbackInbox: roles.includes("platform_admin"),
   };
 }

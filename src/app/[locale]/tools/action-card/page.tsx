@@ -597,7 +597,13 @@ function ActionCardPageContent() {
                         <WalletCopyBlock
                           className="min-h-0 flex-1"
                           title={state.headline}
-                          body={state.ask}
+                          body={
+                            state.ask.trim() &&
+                            state.ask.trim().toLowerCase() !==
+                              state.headline.trim().toLowerCase()
+                              ? state.ask
+                              : undefined
+                          }
                           titleFontPx={titleFontPx}
                           bodyFontPx={bodyFontPx}
                           titleColor={canvasInk}

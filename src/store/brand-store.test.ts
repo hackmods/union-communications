@@ -124,7 +124,7 @@ describe("brand store hydrate vs early canvas patch", () => {
     expect(saveBrandKit).toHaveBeenCalledTimes(1);
   });
 
-  it("only marks a kit as stored after a successful save", async () => {
+  it("factory-resets identity and persists empty defaults instead of leaving stale storage", async () => {
     getBrandKit.mockResolvedValueOnce(null);
     const { useBrandStore } = await import("@/store/brand-store");
     await useBrandStore.getState().hydrate();
@@ -137,6 +137,13 @@ describe("brand store hydrate vs early canvas patch", () => {
     expect(useBrandStore.getState().hasStoredBrandKit).toBe(true);
 
     useBrandStore.getState().resetBrandKit();
-    expect(useBrandStore.getState().hasStoredBrandKit).toBe(false);
+    expect(useBrandStore.getState().brandKit.local.localNumber).toBe("");
+    expect(useBrandStore.getState().brandKit.local.subText).toBe("");
+    // Reset writes factory defaults so reload does not revive the test identity.
+    expect(useBrandStore.getState().hasStoredBrandKit).toBe(true);
+    await Promise.resolve();
+    expect(saveBrandKit).toHaveBeenCalled();
+    const last = saveBrandKit.mock.calls.at(-1)?.[0];
+    expect(last?.local.localNumber).toBe("");
   });
 });

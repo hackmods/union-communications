@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -30,6 +31,7 @@ type TenantGetResponse = {
 
 export function TenantOnboardingWizard() {
   const t = useTranslations("tenantOnboarding");
+  const writeScope = useHubWriteScope();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -136,7 +138,7 @@ export function TenantOnboardingWizard() {
       }),
     });
     if (!res.ok) {
-      setError(t("saveError"));
+      setError(writeScope.blockReason ?? t("saveError"));
       return;
     }
     const data = (await res.json()) as {
@@ -170,7 +172,7 @@ export function TenantOnboardingWizard() {
       }),
     });
     if (!res.ok) {
-      setError(t("saveError"));
+      setError(writeScope.blockReason ?? t("saveError"));
       return;
     }
     const data = (await res.json()) as {
@@ -208,7 +210,7 @@ export function TenantOnboardingWizard() {
       }),
     });
     if (!res.ok) {
-      setError(t("saveError"));
+      setError(writeScope.blockReason ?? t("saveError"));
       return;
     }
     const data = (await res.json()) as { seed: TenantSeed };

@@ -232,7 +232,15 @@ export function PollsBoard() {
       )}
 
       {polls.length === 0 ? (
-        <EmptyState className="mt-6" title={t("empty")} />
+        <EmptyState
+          className="mt-6"
+          title={t("empty")}
+          action={
+            <Button size="sm" onClick={() => setShowForm(true)}>
+              {t("newPoll")}
+            </Button>
+          }
+        />
       ) : (
         <ul className="mt-6 space-y-4">
           {polls.map((poll) => (

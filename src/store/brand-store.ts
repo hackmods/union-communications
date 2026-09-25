@@ -176,12 +176,36 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   resetBrandKit: () => {
     pendingPatch = null;
     clearSaveTimer();
+    // Factory reset: clear host-baked local number / collections so stewards
+    // are not left with leftover test identity after "Reset to defaults".
     const reset = normalizeBrandKit({
       ...DEFAULT_BRAND_KIT,
+      unionPresetId: undefined,
+      opseuSectorId: undefined,
+      identityPackId: undefined,
+      profiles: [
+        {
+          id: "profile-local",
+          label: "Local",
+          localNumber: "",
+          subText: "",
+        },
+      ],
+      activeProfileId: "profile-local",
+      local: {
+        ...DEFAULT_BRAND_KIT.local,
+        localNumber: "",
+        subText: "",
+        bargainingUnitCode: undefined,
+      },
       updatedAt: new Date().toISOString(),
     });
-    set({ brandKit: reset, lastSavedAt: null, hasStoredBrandKit: false });
-    void dataAdapter.clearBrandKit();
+    set({ brandKit: reset, lastSavedAt: null, hasStoredBrandKit: true });
+    void Promise.resolve(dataAdapter.saveBrandKit(reset)).then(() => {
+      if (!get().storageBlocked) {
+        set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
+      }
+    });
   },
 
   importBrandKit: (kit) => {

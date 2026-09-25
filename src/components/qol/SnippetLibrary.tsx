@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
+import { readApiErrorMessage } from "@/lib/hub/parse-api-error";
 import { useLocale, useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -64,6 +66,7 @@ export function SnippetLibrary() {
   const t = useTranslations("qol");
   const uiLocale = useLocale();
   const { data: session } = useSession();
+  const writeScope = useHubWriteScope();
   const { readOnly } = useStewardReadOnly();
   const roles = (session?.user?.roles ?? []) as UserRole[];
   const canWrite = canManageQolContent(roles) && !readOnly;
@@ -178,6 +181,10 @@ export function SnippetLibrary() {
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
+    if (!writeScope.canWrite) {
+      setError(writeScope.blockedMessage);
+      return;
+    }
     if (!canWrite) return;
     setError(null);
     const res = await fetch("/api/snippets", {
@@ -203,7 +210,10 @@ export function SnippetLibrary() {
       setMessage(t("snippets.created"));
       await load();
     } else {
-      setError(t("snippets.createError"));
+      {
+        const raw = await readApiErrorMessage(res, t("snippets.createError"));
+        setError(writeScope.blockReason ?? raw);
+      }
     }
   }
 

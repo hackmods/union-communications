@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
+import { readApiErrorMessage } from "@/lib/hub/parse-api-error";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
@@ -31,6 +33,7 @@ function toDateInputValue(iso: string): string {
 
 export function MinutesCreateForm() {
   const t = useTranslations("minutes");
+  const writeScope = useHubWriteScope();
   const router = useRouter();
   const [meetingDate, setMeetingDate] = useState(() =>
     toDateInputValue(new Date().toISOString()),
@@ -63,8 +66,12 @@ export function MinutesCreateForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSaving(true);
     setError(null);
+    if (!writeScope.canWrite) {
+      setError(writeScope.blockedMessage);
+      return;
+    }
+    setSaving(true);
 
     const attendees = attendeesText
       .split(/[\n,]/)
@@ -87,7 +94,8 @@ export function MinutesCreateForm() {
 
     setSaving(false);
     if (!res.ok) {
-      setError(t("createError"));
+      const raw = await readApiErrorMessage(res, t("createError"));
+      setError(writeScope.blockReason ?? raw);
       return;
     }
     const data = (await res.json()) as { minutes: { id: string } };
@@ -96,6 +104,11 @@ export function MinutesCreateForm() {
 
   return (
     <div className="space-y-6">
+      {writeScope.blockReason ? (
+        <p role="status" className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-950">
+          {writeScope.blockReason}
+        </p>
+      ) : null}
       <div>
         <h1 className="text-2xl font-bold text-opseu-dark">{t("createTitle")}</h1>
         <p className="mt-1 text-sm text-gray-600">{t("createSubtitle")}</p>
@@ -296,7 +309,7 @@ export function MinutesCreateForm() {
           ) : null}
 
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
-            <Button type="submit" className="w-full sm:w-auto" disabled={saving}>
+            <Button type="submit" className="w-full sm:w-auto" disabled={saving || !writeScope.canWrite}>
               {saving ? t("saving") : t("save")}
             </Button>
             <Link

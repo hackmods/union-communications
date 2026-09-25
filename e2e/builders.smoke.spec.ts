@@ -142,6 +142,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
 
   test("letter generator renders the live letter editor", async ({ page }) => {
     await page.goto("/en/create/letter-generator/");
+    await expect(page.getByText("Needs a steward")).toHaveCount(0);
     await expect(
       page.getByRole("heading", { name: /Letter Generator/i }),
     ).toBeVisible();
@@ -151,6 +152,14 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(
       page.getByText(/Choose a preset on the left/i),
     ).toHaveCount(0);
+  });
+
+  test("document generator default letter preset does not crash", async ({
+    page,
+  }) => {
+    await page.goto("/en/create/document-generator/");
+    await expect(page.getByText("Needs a steward")).toHaveCount(0);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
   test("logo builder shows preview and download", async ({ page }) => {

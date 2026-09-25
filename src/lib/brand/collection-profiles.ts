@@ -361,22 +361,13 @@ export function renameBrandKitProfile(
   profileId: string,
   label: string,
 ): BrandKit {
+  // Preserve internal spaces; only trim edges. Do not mirror into subText —
+  // collection name and Sub-text stay independent (audit 2026-09-25).
   const trimmed = label.trim();
-  const activeId = kit.activeProfileId ?? kit.profiles?.[0]?.id;
-  const isActive = profileId === activeId;
   return {
     ...kit,
     profiles: (kit.profiles ?? []).map((profile) =>
-      profile.id === profileId
-        ? {
-            ...profile,
-            label: trimmed,
-            ...(isActive ? { subText: trimmed } : {}),
-          }
-        : profile,
+      profile.id === profileId ? { ...profile, label: trimmed } : profile,
     ),
-    ...(isActive
-      ? { local: { ...kit.local, subText: trimmed } }
-      : {}),
   };
 }
