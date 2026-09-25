@@ -20,6 +20,7 @@
     "build": "next build",
     "start": "node scripts/start-standalone.mjs",
     "lint": "eslint",
+    "check:zoom": "node scripts/check-zoom-guards.mjs",
     "typecheck": "tsc --noEmit",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",

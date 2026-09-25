@@ -20,6 +20,7 @@ import type {
   GrievanceWorkflowStage,
 } from "@/types/grievance";
 import type { CaSnippet } from "@/types/qol";
+import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
 
 const CATEGORIES = [
   "Contract interpretation",
@@ -43,6 +44,7 @@ type GrievanceOptions = {
 
 export function NewGrievanceForm() {
   const t = useTranslations("grievance");
+  const writeScope = useHubWriteScope();
   const th = useTranslations("hybrid");
   const router = useRouter();
   const { createGrievance, needsUnlock, source, revision } = useHybridCaseStore();
@@ -148,6 +150,10 @@ export function NewGrievanceForm() {
       setError(th("needsUnlockBanner"));
       return;
     }
+    if (!writeScope.canWrite) {
+      setError(writeScope.blockedMessage);
+      return;
+    }
     setSubmitting(true);
     setError(null);
 
@@ -199,7 +205,7 @@ export function NewGrievanceForm() {
       });
       router.push(`/app/grievances/${data.grievance.id}`);
     } catch {
-      setError(t("createError"));
+      setError(writeScope.blockReason ?? t("createError"));
       setSubmitting(false);
     }
   }
@@ -410,7 +416,7 @@ export function NewGrievanceForm() {
 
         {error && <p className="text-sm text-red-600">{error}</p>}
         <div className="flex gap-3">
-          <Button type="submit" disabled={submitting}>
+          <Button type="submit" disabled={submitting || !writeScope.canWrite}>
             {submitting ? t("creating") : t("create")}
           </Button>
           <Button

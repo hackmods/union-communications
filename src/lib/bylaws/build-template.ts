@@ -44,7 +44,6 @@ export type BylawPresetId = "small" | "campus" | "opseuCaat" | "large";
 
 export const BYLAW_PRESET_IDS: readonly BylawPresetId[] = [
   "small",
-  "campus",
   "opseuCaat",
   "large",
 ] as const;

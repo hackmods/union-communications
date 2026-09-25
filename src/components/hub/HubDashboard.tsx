@@ -139,7 +139,13 @@ export function HubDashboard() {
 
       {!platformAdmin && mfaOk && tenant ? (
         <section aria-label={tHome("browseTools")} className="border-t border-slate-200 pt-5">
-          <HubOfficerToolsCatalog roles={roles} enabledModules={enabledModules} mfaOk={mfaOk} />
+          <HubOfficerToolsCatalog
+            roles={roles}
+            enabledModules={enabledModules}
+            mfaOk={mfaOk}
+            unionId={session.user.unionId}
+            localId={session.user.localId}
+          />
         </section>
       ) : null}
     </div>

@@ -69,6 +69,7 @@ jobs:
 
       - name: Lint
         run: npm run lint
+      - run: npm run check:zoom
 
       - name: Typecheck
         run: npm run typecheck

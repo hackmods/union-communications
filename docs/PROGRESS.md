@@ -1,5 +1,14 @@
 # Progress Log
 
+## 2026-09-25 — Authenticated audit QOL (generators, hub write, Brand Kit)
+
+- Letter / Document generators: next-intl ICU crash on `Dear {name}` salutation picker fixed; error-boundary copy no longer promises a refresh will fix a persistent render bug.
+- Public tools admin: missing `hub.platformOperator.publicTools*` EN/FR keys; Pulse Poll publish UI recognizes an active Officer Hub session.
+- Brand Kit: collection rename no longer mirrors into Sub-text; Reset to defaults clears local number/collections and persists; Action Card ask no longer duplicates when equal to headline; bylaw preset picker drops duplicate campus/opseuCaat label.
+- Hub write layer: `useHubWriteScope` + `readApiErrorMessage` on grievances, minutes, committees, elections, ledger, snippets, marketplace, onboarding — actionable no-union/no-local messaging and disabled submits.
+- Nav: local-scoped officer tools hidden when session lacks union/local (stops silent `/app` redirects); Locals admin empty state; hub hamburger shows a visible Menu label; CI `check:zoom` guard against viewport/touch-action regressions.
+- Plans: prompts 08–13 from 2026-09-25 authenticated + mobile menu audits.
+
 ## 2026-09-25 — Officer Hub task-first home
 
 - Moved assigned tasks and unanswered check-ins into the first work area; loading, empty, error, and configured-MFA states now say what is known. Platform operators see host operations first.

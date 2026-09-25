@@ -777,7 +777,14 @@ function DocumentGeneratorEditorContent({
             value={state.salutationPresetId}
             options={SALUTATION_PRESET_IDS.map((id) => ({
               value: id,
-              label: t(`salutationPresets.${id}`),
+              label:
+                id === "dearMember"
+                  ? t("salutationPresets.dearMember", {
+                      name:
+                        state.fields.memberName?.trim() ||
+                        t("salutationPresets.dearMemberFallback"),
+                    })
+                  : t(`salutationPresets.${id}`),
             }))}
             onChange={(salutationPresetId) =>
               setState({ ...state, salutationPresetId })

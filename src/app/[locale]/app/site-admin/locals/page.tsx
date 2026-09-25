@@ -100,6 +100,22 @@ export default async function SiteAdminLocalsIndexPage({
             </tr>
           </thead>
           <tbody className="divide-y divide-opseu-gray/10">
+            {buckets.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="px-3 py-8 text-sm text-opseu-gray-dark">
+                  <p className="font-semibold text-opseu-dark">{t("localsEmptyTitle")}</p>
+                  <p className="mt-1">{t("localsEmptyBody")}</p>
+                  <p className="mt-3">
+                    <Link
+                      href="/app/onboarding"
+                      className="font-semibold text-opseu-blue underline underline-offset-2"
+                    >
+                      {t("localsEmptyCta")}
+                    </Link>
+                  </p>
+                </td>
+              </tr>
+            ) : null}
             {buckets.map((b) => (
               <tr key={b.unionId}>
                 <td className="px-3 py-2 font-semibold text-opseu-dark">

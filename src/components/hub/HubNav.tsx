@@ -98,7 +98,10 @@ export function HubNav() {
     : enabledModules;
   const roles = (session.user.roles ?? []) as UserRole[];
   const modules = getHubNavModules(visibleModules, roles);
-  const toolAccess = resolveHubToolAccess(roles, enabledModules);
+  const toolAccess = resolveHubToolAccess(roles, enabledModules, {
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+  });
   const toolLinks = listHubToolLinks(toolAccess, (key) => t(key));
   const toolGroups = groupHubToolLinks(toolLinks);
   const toolsActive = hubToolsActive(pathname, toolLinks);
@@ -264,14 +267,20 @@ export function HubNav() {
           onClick={toggleDrawer}
         >
           {drawerOpen ? (
-            <span aria-hidden="true" className="text-xl leading-none">
-              ×
+            <span className="inline-flex items-center gap-2 px-2 text-sm font-semibold">
+              <span aria-hidden="true" className="text-xl leading-none">
+                ×
+              </span>
+              <span className="hidden sm:inline">{t("closeHubMenu")}</span>
             </span>
           ) : (
-            <span aria-hidden="true" className="flex flex-col gap-1.5">
-              <span className="block h-0.5 w-5 bg-current" />
-              <span className="block h-0.5 w-5 bg-current" />
-              <span className="block h-0.5 w-5 bg-current" />
+            <span className="inline-flex items-center gap-2 px-2 text-sm font-semibold">
+              <span aria-hidden="true" className="flex flex-col gap-1.5">
+                <span className="block h-0.5 w-5 bg-current" />
+                <span className="block h-0.5 w-5 bg-current" />
+                <span className="block h-0.5 w-5 bg-current" />
+              </span>
+              <span className="hidden sm:inline">{t("openHubMenuShort")}</span>
             </span>
           )}
         </button>

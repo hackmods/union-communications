@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { useSession } from "next-auth/react";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -58,6 +59,7 @@ export default function PulsePollPage() {
   const t = useTranslations("pulsePoll");
   const tc = useTranslations("common");
   const locale = useLocale();
+  const { status: authStatus } = useSession();
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
@@ -458,18 +460,24 @@ export default function PulsePollPage() {
           {!themeEstablished ? (
             <BrandSetupPrompt themeEstablished={themeEstablished} />
           ) : null}
-          <Callout tone="brand">
-            <p className="font-semibold text-opseu-dark">{t("hubSignInTitle")}</p>
-            <p className="mt-1">{t("hubSignInBody")}</p>
-            <p className="mt-2">
-              <Link
-                href="/app/login"
-                className="font-semibold text-opseu-blue underline underline-offset-2"
-              >
-                {t("hubSignInLink")}
-              </Link>
-            </p>
-          </Callout>
+          {authStatus === "unauthenticated" ? (
+            <Callout tone="brand">
+              <p className="font-semibold text-opseu-dark">{t("hubSignInTitle")}</p>
+              <p className="mt-1">{t("hubSignInBody")}</p>
+              <p className="mt-2">
+                <Link
+                  href="/app/login"
+                  className="font-semibold text-opseu-blue underline underline-offset-2"
+                >
+                  {t("hubSignInLink")}
+                </Link>
+              </p>
+            </Callout>
+          ) : authStatus === "authenticated" ? (
+            <Callout tone="muted" role="status">
+              <p>{t("hubSignedInBody")}</p>
+            </Callout>
+          ) : null}
           <div className="flex flex-wrap gap-2">
             <Button type="button" onClick={persist}>
               {tc("save")}

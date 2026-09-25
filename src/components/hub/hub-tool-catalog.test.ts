@@ -34,10 +34,13 @@ describe("HUB_TOOL_CATALOG", () => {
 });
 
 describe("resolveHubToolAccess", () => {
+  const scoped = { unionId: "u1", localId: "l1" };
+
   it("shows the president kit including records and funds", () => {
     const access = resolveHubToolAccess(
       ["local_president"] as UserRole[],
       ALL_MODULES,
+      scoped,
     );
     const hrefs = listVisibleHubTools(access).map((item) => item.href);
     expect(hrefs).toContain("/app/calendar");
@@ -53,6 +56,7 @@ describe("resolveHubToolAccess", () => {
     const access = resolveHubToolAccess(
       ["local_steward"] as UserRole[],
       ALL_MODULES,
+      scoped,
     );
     const hrefs = listVisibleHubTools(access).map((item) => item.href);
     expect(hrefs).toContain("/app/overdue");
@@ -62,5 +66,17 @@ describe("resolveHubToolAccess", () => {
     expect(hrefs).not.toContain("/app/handoff");
     expect(hrefs).not.toContain("/app/officers");
     expect(hrefs).not.toContain("/app/ledger");
+  });
+
+  it("hides local-scoped tools when the session has no union or local", () => {
+    const access = resolveHubToolAccess(
+      ["local_president"] as UserRole[],
+      ALL_MODULES,
+    );
+    const hrefs = listVisibleHubTools(access).map((item) => item.href);
+    expect(hrefs).not.toContain("/app/officers");
+    expect(hrefs).not.toContain("/app/meetings");
+    expect(hrefs).not.toContain("/app/minutes");
+    expect(hrefs).toContain("/app/invites");
   });
 });

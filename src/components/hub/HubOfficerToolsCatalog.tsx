@@ -18,16 +18,23 @@ type HubOfficerToolsCatalogProps = {
   roles: UserRole[];
   enabledModules: HubModule[];
   mfaOk: boolean;
+  unionId?: string | null;
+  localId?: string | null;
 };
 
 export function HubOfficerToolsCatalog({
   roles,
   enabledModules,
   mfaOk,
+  unionId,
+  localId,
 }: HubOfficerToolsCatalogProps) {
   const t = useTranslations("hub");
   const pathname = usePathname();
-  const access = resolveHubToolAccess(roles, enabledModules);
+  const access = resolveHubToolAccess(roles, enabledModules, {
+    unionId,
+    localId,
+  });
   const groups = groupHubToolLinks(
     listVisibleHubTools(access).map((item) => ({
       href: item.href,

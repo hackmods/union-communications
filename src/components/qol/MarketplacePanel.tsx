@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
 import { useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -27,6 +28,7 @@ const KINDS: MarketplaceTemplateKind[] = [
 export function MarketplacePanel() {
   const t = useTranslations("qol");
   const { data: session } = useSession();
+  const writeScope = useHubWriteScope();
   const { readOnly } = useStewardReadOnly();
   const roles = (session?.user?.roles ?? []) as UserRole[];
   const canPublish = canPublishMarketplace(roles) && !readOnly;
@@ -81,7 +83,7 @@ export function MarketplacePanel() {
       setShowForm(false);
       await load(filterKind);
     } else {
-      setError(t("marketplace.publishError"));
+      setError(writeScope.blockReason ?? t("marketplace.publishError"));
     }
   }
 

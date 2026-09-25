@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
+import { readApiErrorMessage } from "@/lib/hub/parse-api-error";
 import type { LedgerEntryType } from "@/types/ledger";
 import type { LedgerEntryWithBalance } from "@/lib/ledger/running-balance";
 
@@ -38,6 +40,7 @@ function toCsv(rows: LedgerEntryWithBalance[]): string {
 
 export function LedgerBoard() {
   const t = useTranslations("ledger");
+  const writeScope = useHubWriteScope();
   const [entries, setEntries] = useState<LedgerEntryWithBalance[]>([]);
   const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -95,6 +98,10 @@ export function LedgerBoard() {
     e.preventDefault();
     setError(null);
     setMessage(null);
+    if (!writeScope.canWrite) {
+      setError(writeScope.blockedMessage);
+      return;
+    }
     const parsedAmount = Number(amount);
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
       setError(t("createError"));
@@ -119,7 +126,8 @@ export function LedgerBoard() {
       setMessage(t("created"));
       await refresh();
     } else {
-      setError(t("createError"));
+      const raw = await readApiErrorMessage(res, t("createError"));
+      setError(writeScope.blockReason ?? raw);
     }
   }
 
