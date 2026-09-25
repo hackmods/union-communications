@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
-import { readApiErrorMessage } from "@/lib/hub/parse-api-error";
+import { readMappedScopeApiError } from "@/lib/hub/parse-api-error";
 import type { Committee } from "@/types/committees";
 
 type LocalMemberOption = {
@@ -23,6 +23,7 @@ type LocalMemberOption = {
 
 export function CommitteesBoard() {
   const t = useTranslations("committees");
+  const th = useTranslations("hub");
   const writeScope = useHubWriteScope();
   const [committees, setCommittees] = useState<Committee[]>([]);
   const [loading, setLoading] = useState(true);
@@ -149,11 +150,13 @@ export function CommitteesBoard() {
       resetForm();
       await refresh();
     } else {
-      const raw = await readApiErrorMessage(
-        res,
-        editingId ? t("updateError") : t("createError"),
+      setError(
+        await readMappedScopeApiError(
+          res,
+          editingId ? t("updateError") : t("createError"),
+          th,
+        ),
       );
-      setError(writeScope.blockReason ?? raw);
     }
   }
 

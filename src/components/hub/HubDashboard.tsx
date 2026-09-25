@@ -13,6 +13,7 @@ import { MyCheckinsWidget } from "@/components/hub/MyCheckinsWidget";
 import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { PresidentSetupChecklist } from "@/components/hub/PresidentSetupChecklist";
 import { PresidentTodayStrip } from "@/components/hub/PresidentTodayStrip";
+import { resolveHubToolAccess } from "@/components/hub/hub-tool-catalog";
 import { PlatformOperatorCard } from "@/components/platform/PlatformOperatorCard";
 import { resolveDashboardModel } from "@/components/hub/hub-dashboard-model";
 import {
@@ -46,6 +47,10 @@ export function HubDashboard() {
   const roles = (session.user.roles ?? []) as UserRole[];
   const { attention, platformAdmin, isPresident, showTasks, showCheckins, modules } =
     resolveDashboardModel(roles, enabledModules, mfaOk);
+  const toolAccess = resolveHubToolAccess(roles, enabledModules, {
+    unionId: session.user.unionId,
+    localId: session.user.localId,
+  });
   const contextKey = `${session.user.unionId ?? ""}:${session.user.localId ?? ""}:${session.user.bargainingUnitId ?? ""}`;
 
   return (
@@ -111,7 +116,12 @@ export function HubDashboard() {
               <p className="text-sm leading-relaxed text-gray-700">{tHome("mfaNext")}</p>
             </section>
           ) : isPresident ? (
-            <PresidentTodayStrip enabledModules={enabledModules} show />
+            <PresidentTodayStrip
+              enabledModules={enabledModules}
+              showLedger={toolAccess.ledger}
+              showMeetings={toolAccess.meetings}
+              show
+            />
           ) : (
             <section aria-labelledby="hub-next-heading" className="space-y-3">
               <h2 id="hub-next-heading" className={PUBLIC_SECTION_TITLE_CLASS}>{tHome("nextSteps")}</h2>

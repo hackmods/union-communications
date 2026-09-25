@@ -10,9 +10,14 @@ import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
-import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
+import { formatFilename, cn } from "@/lib/utils";
+import { localLabel } from "@/lib/utils/local";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
+import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
+import {
+  readMappedScopeApiError,
+} from "@/lib/hub/parse-api-error";
 import { LogoContainer } from "@/components/canvas-core/LogoContainer";
 import { CanvasWrapper } from "@/components/canvas-core";
 import { Button } from "@/components/ui/Button";
@@ -58,8 +63,10 @@ import {
 export default function PulsePollPage() {
   const t = useTranslations("pulsePoll");
   const tc = useTranslations("common");
+  const th = useTranslations("hub");
   const locale = useLocale();
   const { status: authStatus } = useSession();
+  const writeScope = useHubWriteScope();
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
@@ -136,6 +143,14 @@ export default function PulsePollPage() {
 
   async function publish() {
     setPublishMsg(null);
+    if (authStatus !== "authenticated") {
+      setPublishMsg(t("publishAuthRequired"));
+      return;
+    }
+    if (!writeScope.canWrite) {
+      setPublishMsg(writeScope.blockedMessage);
+      return;
+    }
     const questions = draftQuestionsToApi(state.questions);
     if (!state.title.trim() || questions.length === 0) {
       setPublishMsg(t("minQuestions"));
@@ -164,7 +179,9 @@ export default function PulsePollPage() {
         return;
       }
       if (!res.ok) {
-        setPublishMsg(t("publishError"));
+        setPublishMsg(
+          await readMappedScopeApiError(res, t("publishError"), th),
+        );
         return;
       }
       persist();
@@ -397,7 +414,10 @@ export default function PulsePollPage() {
                     fontFamily: tokens.bodyFontFamily,
                   }}
                 >
-                  Local {resolveLocalNumber(brandKit.local.localNumber)}
+                  {localLabel(
+                    brandKit.local.localNumber,
+                    brandKit.local.subText,
+                  )}
                 </span>
               ) : null}
             </div>
@@ -474,8 +494,15 @@ export default function PulsePollPage() {
               </p>
             </Callout>
           ) : authStatus === "authenticated" ? (
-            <Callout tone="muted" role="status">
-              <p>{t("hubSignedInBody")}</p>
+            <Callout
+              tone={writeScope.canWrite ? "muted" : "warning"}
+              role="status"
+            >
+              <p>
+                {writeScope.canWrite
+                  ? t("hubSignedInBody")
+                  : (writeScope.blockReason ?? writeScope.blockedMessage)}
+              </p>
             </Callout>
           ) : null}
           <div className="flex flex-wrap gap-2">
@@ -485,7 +512,11 @@ export default function PulsePollPage() {
             <Button
               type="button"
               variant="secondary"
-              disabled={publishing}
+              disabled={
+                publishing ||
+                authStatus !== "authenticated" ||
+                !writeScope.canWrite
+              }
               onClick={() => void publish()}
             >
               {publishing ? t("publishing") : t("publish")}

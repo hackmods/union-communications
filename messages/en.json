@@ -13375,7 +13375,6 @@
       "label": "Sample local sizes",
       "hint": "Loads demo values you can edit. The OPSEU / SEFPO college preset uses Local 243 patterns — replace the name before you export.",
       "small": "Small OPSEU / SEFPO local",
-      "campus": "OPSEU / SEFPO college",
       "opseuCaat": "OPSEU / SEFPO college",
       "large": "Large local"
     },

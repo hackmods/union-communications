@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
-import { readApiErrorMessage } from "@/lib/hub/parse-api-error";
+import { readMappedScopeApiError } from "@/lib/hub/parse-api-error";
 import type {
   ElectionCycle,
   NominationStatus,
@@ -34,6 +34,7 @@ function buildTallyDraft(cycle: ElectionCycle | null) {
 
 export function ElectionsBoard() {
   const t = useTranslations("elections");
+  const th = useTranslations("hub");
   const writeScope = useHubWriteScope();
   const [cycles, setCycles] = useState<ElectionCycle[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -136,8 +137,7 @@ export function ElectionsBoard() {
       setTermStart("");
       await refresh(data.cycle.id);
     } else {
-      const raw = await readApiErrorMessage(res, t("createError"));
-      setError(writeScope.blockReason ?? raw);
+      setError(await readMappedScopeApiError(res, t("createError"), th));
     }
   }
 

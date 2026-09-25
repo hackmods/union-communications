@@ -9,6 +9,7 @@ import {
   CanvasGrainOverlay,
 } from "@/components/tools/canvas";
 import { cn } from "@/lib/utils";
+import { localLabel } from "@/lib/utils/local";
 import {
   graphicAspectClass,
   type ExampleAspect,
@@ -170,8 +171,7 @@ function LocalFooter({
         whiteSpace: "nowrap",
       }}
     >
-      Local {localNumber}
-      {subText ? ` - ${subText}` : ""}
+      {localLabel(localNumber, subText)}
     </p>
   );
 }

@@ -21,6 +21,8 @@ import type {
 } from "@/types/grievance";
 import type { CaSnippet } from "@/types/qol";
 import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
+import { mapScopeApiError } from "@/lib/hub/parse-api-error";
+import { HybridCaseApiError } from "@/lib/hybrid/case-client";
 
 const CATEGORIES = [
   "Contract interpretation",
@@ -44,8 +46,9 @@ type GrievanceOptions = {
 
 export function NewGrievanceForm() {
   const t = useTranslations("grievance");
+  const th = useTranslations("hub");
   const writeScope = useHubWriteScope();
-  const th = useTranslations("hybrid");
+  const thybrid = useTranslations("hybrid");
   const router = useRouter();
   const { createGrievance, needsUnlock, source, revision } = useHybridCaseStore();
   const brandKit = useBrandStore((s) => s.brandKit);
@@ -147,7 +150,7 @@ export function NewGrievanceForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (needsUnlock) {
-      setError(th("needsUnlockBanner"));
+      setError(thybrid("needsUnlockBanner"));
       return;
     }
     if (!writeScope.canWrite) {
@@ -204,8 +207,14 @@ export function NewGrievanceForm() {
           : {}),
       });
       router.push(`/app/grievances/${data.grievance.id}`);
-    } catch {
-      setError(writeScope.blockReason ?? t("createError"));
+    } catch (err) {
+      if (err instanceof HybridCaseApiError && err.apiError) {
+        setError(mapScopeApiError(err.apiError, th));
+      } else if (err instanceof HybridCaseApiError) {
+        setError(mapScopeApiError(err.message, th));
+      } else {
+        setError(writeScope.blockReason ?? t("createError"));
+      }
       setSubmitting(false);
     }
   }

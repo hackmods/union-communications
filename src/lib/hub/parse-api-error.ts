@@ -28,3 +28,13 @@ export function mapScopeApiError(
   }
   return message;
 }
+
+/** Read the API error body and map scope failures to steward i18n. */
+export async function readMappedScopeApiError(
+  res: Response,
+  fallback: string,
+  t: (key: "writeNoUnion" | "writeNoLocal") => string,
+): Promise<string> {
+  const raw = await readApiErrorMessage(res, fallback);
+  return mapScopeApiError(raw, t);
+}

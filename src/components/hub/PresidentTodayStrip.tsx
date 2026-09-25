@@ -7,12 +7,18 @@ import { PUBLIC_SECTION_TITLE_CLASS } from "@/lib/constants/public-type";
 
 /**
  * A short list of president work routes. These links do not claim live status.
+ * Ledger/meetings use the same visibility as the officer tools catalog so we
+ * never offer silent redirects to /app.
  */
 export function PresidentTodayStrip({
   enabledModules,
+  showLedger,
+  showMeetings,
   show,
 }: {
   enabledModules: HubModule[];
+  showLedger: boolean;
+  showMeetings: boolean;
   show: boolean;
 }) {
   const t = useTranslations("hub.presidentToday");
@@ -38,7 +44,7 @@ export function PresidentTodayStrip({
       href: "/app/ledger",
       label: t("ledger"),
       blurb: t("ledgerBlurb"),
-      show: true,
+      show: showLedger,
     },
     {
       id: "portal",
@@ -52,7 +58,7 @@ export function PresidentTodayStrip({
       href: "/app/meetings",
       label: t("meetings"),
       blurb: t("meetingsBlurb"),
-      show: true,
+      show: showMeetings,
     },
   ];
 

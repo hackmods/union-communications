@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useHubWriteScope } from "@/components/hub/useHubWriteScope";
-import { readApiErrorMessage } from "@/lib/hub/parse-api-error";
+import { readMappedScopeApiError } from "@/lib/hub/parse-api-error";
 import { useLocale, useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -64,6 +64,7 @@ function mapListError(status: number, t: (key: string) => string): string {
 
 export function SnippetLibrary() {
   const t = useTranslations("qol");
+  const th = useTranslations("hub");
   const uiLocale = useLocale();
   const { data: session } = useSession();
   const writeScope = useHubWriteScope();
@@ -211,8 +212,9 @@ export function SnippetLibrary() {
       await load();
     } else {
       {
-        const raw = await readApiErrorMessage(res, t("snippets.createError"));
-        setError(writeScope.blockReason ?? raw);
+        setError(
+          await readMappedScopeApiError(res, t("snippets.createError"), th),
+        );
       }
     }
   }

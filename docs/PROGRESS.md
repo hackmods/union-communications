@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-25 — Authenticated audit QOL residuals
+
+- Hub write APIs: `mapScopeApiError` / `readMappedScopeApiError` now surface steward i18n for missing union/local instead of raw `"Local required"`.
+- Pulse Poll: publish disabled without local scope; brand line uses `localLabel()`.
+- President Today strip gates ledger/meetings via `resolveHubToolAccess` (no silent `/app` redirects).
+- Graphic Maker footer uses `localLabel()`; removed unused bylaw `presets.campus` i18n key.
+
 ## 2026-09-25 — Authenticated audit QOL (generators, hub write, Brand Kit)
 
 - Letter / Document generators: next-intl ICU crash on `Dear {name}` salutation picker fixed; error-boundary copy no longer promises a refresh will fix a persistent render bug.

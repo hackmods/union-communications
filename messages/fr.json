@@ -13375,7 +13375,6 @@
       "label": "Tailles de section types",
       "hint": "Charge des valeurs de démonstration que vous pouvez modifier. Le profil collégial OPSEU / SEFPO reprend la section 243 — remplacez le nom avant d'exporter.",
       "small": "Petite section OPSEU / SEFPO",
-      "campus": "Collège OPSEU / SEFPO",
       "opseuCaat": "Collège OPSEU / SEFPO",
       "large": "Grande section"
     },
