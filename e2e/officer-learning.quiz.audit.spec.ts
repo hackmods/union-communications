@@ -13,8 +13,8 @@ async function answerAndSubmit(
 
   // Explanations stay collapsed until submit
   for (let i = 0; i < answers.length; i += 1) {
-    const explanation = fieldsets.nth(i).locator("p").last();
-    await expect(explanation).toBeHidden();
+    const explanation = fieldsets.nth(i).locator("[data-quiz-explanation]");
+    await expect(explanation).toHaveAttribute("aria-hidden", "true");
   }
 
   for (let i = 0; i < answers.length; i += 1) {

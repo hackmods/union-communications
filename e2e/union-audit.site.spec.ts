@@ -46,7 +46,7 @@ async function sitemapPaths(request: APIRequestContext): Promise<string[]> {
 }
 
 test.describe("union audit site integrity @smoke", () => {
-  test("sitemap lists library hub, shelves, officer modules, and /app", async ({
+  test("sitemap lists library hub, shelves, and officer modules (not Hub /app)", async ({
     request,
   }) => {
     const paths = await sitemapPaths(request);
@@ -56,11 +56,12 @@ test.describe("union audit site integrity @smoke", () => {
       "/en/learn/library/captions/",
       "/en/learn/library/brand-assets/",
       "/en/learn/officer/contract-enforcement/",
-      "/en/app/",
       "/fr/learn/library/",
     ]) {
       expect(paths, `missing ${required}`).toContain(required);
     }
+    // Authenticated Hub must stay out of the public sitemap.
+    expect(paths.some((path) => path.includes("/app/"))).toBe(false);
   });
 
 
@@ -137,7 +138,8 @@ test.describe("union audit site integrity @smoke", () => {
       "/en/learn/officer/seniority-bumping-layoff/",
     ]) {
       await page.goto(path);
-      const body = page.locator("main, article, body");
+      const body = page.locator("main").first();
+      await expect(body).toBeVisible();
       const text = await body.innerText();
       // Literal **bold** or lone backtick pairs should not appear in prose.
       expect(text, path).not.toMatch(/\*\*[^*]+\*\*/);
@@ -147,7 +149,8 @@ test.describe("union audit site integrity @smoke", () => {
   });
 
   test("key public images load with non-zero bytes", async ({ page, request }) => {
-    await page.goto("/en/learn/library/examples/");
+    // Examples use CSS mockups (no <img>); brand-assets ships real pack images.
+    await page.goto("/en/learn/library/brand-assets/");
     const srcs = await page.locator("img[src]").evaluateAll((imgs) =>
       imgs
         .map((img) => (img as HTMLImageElement).getAttribute("src") || "")

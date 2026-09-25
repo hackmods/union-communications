@@ -217,6 +217,8 @@ export function ModuleQuiz({
                 })}
               </div>
               <div
+                data-quiz-explanation
+                aria-hidden={!(showResults && !isExiting)}
                 className={clsx(
                   "grid transition-[grid-template-rows,opacity] duration-200 ease-out",
                   showResults && !isExiting
