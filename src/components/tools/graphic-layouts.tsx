@@ -1,5 +1,6 @@
 "use client";
 
+import { resolveTreatmentSurface, treatmentGraphicInsetClass, treatmentGraphicOuterStyle } from "@/lib/brand/design-treatment-surface";
 import type { CSSProperties } from "react";
 import { LogoContainer } from "@/components/canvas-core/LogoContainer";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
@@ -262,9 +263,10 @@ export function GraphicLayoutCanvas({
   coalitionBadge,
 }: GraphicLayoutCanvasProps) {
   const brandPrimary = colors.primary;
-  const primary = treatment === "full" ? brandPrimary : "#FFFFFF";
-  const accent = treatment === "full" ? colors.accent : brandPrimary;
-  const secondary = treatment === "full" ? colors.secondary : "#FFFFFF";
+  const treated = resolveTreatmentSurface(treatment, colors, "field");
+  const primary = treated.primary;
+  const accent = treated.accent;
+  const secondary = treated.secondary;
   const surface = tokens
     ? canvasSurfaceStyle(tokens, { primary, secondary, accent })
     : { backgroundColor: primary };
@@ -277,9 +279,9 @@ export function GraphicLayoutCanvas({
         graphicAspectClass(aspect),
         className,
       )}
-      style={{ ...surface, ...style, backgroundColor: treatment === "balanced" ? brandPrimary : primary, ...(treatment === "balanced" ? { backgroundImage: "none" } : {}) }}
+      style={treatmentGraphicOuterStyle(treatment, brandPrimary, { ...surface, ...style, backgroundColor: primary })}
     >
-      <div className={cn("overflow-hidden", treatment === "balanced" ? "absolute inset-[4%]" : "relative h-full w-full")} style={treatment === "balanced" ? { backgroundColor: "#FFFFFF" } : undefined}>
+      <div className={cn(treatmentGraphicInsetClass(treatment))} style={treatment === "balanced" ? { backgroundColor: "#FFFFFF" } : undefined}>
       {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity} /> : null}
       {layout === "spotlight" && (
         <SpotlightLayout

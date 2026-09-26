@@ -1,5 +1,7 @@
 "use client";
 
+import { resolveTreatmentSurface, treatmentTopBandStyle, TREATMENT_CHROME } from "@/lib/brand/design-treatment-surface";
+
 import { Suspense, useRef, useState, type ReactElement } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
@@ -203,9 +205,10 @@ function MeetingBackgroundPageContent() {
     brandKit.local.subText,
   );
 
-  const primary = state.treatment === "full" ? state.primaryColor : "#FFFFFF";
-  const secondary = state.treatment === "balanced" ? state.primaryColor : (state.treatment === "paper" ? "#FFFFFF" : state.secondaryColor || primary);
-  const accent = state.treatment === "full" ? state.accentColor || secondary : state.primaryColor;
+  const treated = resolveTreatmentSurface(state.treatment, { primary: state.primaryColor, secondary: state.secondaryColor || state.primaryColor, accent: state.accentColor || state.secondaryColor || state.primaryColor }, "print");
+  const primary = treated.primary;
+  const secondary = state.treatment === "paper" ? "#FFFFFF" : treated.secondary;
+  const accent = treated.accent;
   const canvasInk = pickContrastingInk(primary);
   const brandCanvasTokens = resolveCanvasTokens(brandKit);
   const tokens = resolveCanvasTokensWithOverrides(
@@ -839,7 +842,7 @@ function MeetingBackgroundPageContent() {
             </ToolFormDetails>
           </section>
 
-          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
+          <DesignTreatmentControl primaryColor={state.primaryColor} value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={t("sectionLayout")}>
             <SegControl
               label={t("design")}
@@ -1041,7 +1044,7 @@ function MeetingBackgroundPageContent() {
                 className="relative overflow-hidden"
                 style={{
                   ...surfaceStyle,
-                  ...(state.treatment === "full" ? {} : { backgroundColor: "#FFFFFF", backgroundImage: "none", borderTop: `${state.treatment === "balanced" ? 22 : 7}px solid ${state.primaryColor}`, boxSizing: "border-box" as const }),
+                  ...(state.treatment === "full" ? {} : { backgroundColor: "#FFFFFF", backgroundImage: "none", ...treatmentTopBandStyle(state.treatment, state.primaryColor, TREATMENT_CHROME.meetingTop) }),
                   color: canvasInk,
                   width: designWidth,
                   height: designHeight,

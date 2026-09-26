@@ -1,3 +1,8 @@
+## 2026-09-25 — Comms treatment QOL
+
+- Shared `design-treatment-surface` helper for Full / Balanced / Mostly white colour remap and canonical chrome widths; makers migrated onto it.
+- Treatment control uses live Brand Kit primary swatches and sits with colours on Brand Kit; SegControl keeps Tab reachable on long font lists; save banner remounts per persist; header logo waits for hydrate to avoid flash.
+
 # Progress Log
 
 ## 2026-09-25 — CapRover build: keep postgres out of client/Edge
@@ -8,6 +13,7 @@
 - Verified: `npm run build` completes (Turbopack compile + typecheck + static generation).
 
 ## 2026-09-25 — Lighter Comms Brand Kit follow-through
+- [x] Adjacent QOL notes documented in follow-through plan (header hydrate, save banner, SegControl Tab on long lists, out-of-scope makers) — PR #133
 
 - Added browser checks for legacy Full colour kits, blocked storage, saved Looks, Local pack transfer, first-visit overrides, undo/reset, and narrow French layouts.
 - Fixed first-visit Brand Kit hydration so preset and treatment edits display immediately and remain intact after host defaults load; Local pack import/reset during loading also survives.

@@ -462,7 +462,7 @@ function FlyerMakerPageContent() {
               />
             </ToolFormDetails>
 
-            <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
+            <DesignTreatmentControl value={state.treatment} primaryColor={state.primaryColor} onChange={(treatment) => setState({ ...state, treatment })} />
             <ToolFormDetails title={t("sectionLayout")}>
               <SegControl
                 label={tf("layout")}

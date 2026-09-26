@@ -1,5 +1,7 @@
 "use client";
 
+import { resolveTreatmentSurface, treatmentPulseFrameStyle } from "@/lib/brand/design-treatment-surface";
+
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
@@ -246,7 +248,8 @@ export default function PulsePollPage() {
   }
 
   const treatment = state.treatment ?? "full";
-  const sheetPrimary = treatment === "full" ? state.primaryColor : "#FFFFFF";
+  const treated = resolveTreatmentSurface(treatment, { primary: state.primaryColor, secondary: state.secondaryColor ?? state.primaryColor, accent: state.secondaryColor ?? state.primaryColor }, "sheet");
+  const sheetPrimary = treated.primary;
   const ink = pickContrastingInk(sheetPrimary);
   const pollPreviewWidthPx = 448; // max-w-md (28rem)
   const titleFontPx = walletTitleFontSizePx(tokens, pollPreviewWidthPx);
@@ -264,7 +267,7 @@ export default function PulsePollPage() {
     padding: contentPadPx,
     gap: Math.max(8, Math.round(tokens.gapPx * typeScaleFactor(tokens))),
     textAlign,
-    ...(treatment === "full" ? {} : { backgroundColor: "#FFFFFF", backgroundImage: "none", border: `${treatment === "balanced" ? 10 : 3}px solid ${state.primaryColor}`, boxSizing: "border-box" as const }),
+    ...treatmentPulseFrameStyle(treatment, state.primaryColor),
   };
 
   const editor = (
@@ -339,7 +342,7 @@ export default function PulsePollPage() {
       />
       <p className="text-sm leading-snug text-gray-600">{t("shareSlugHint")}</p>
 
-      <DesignTreatmentControl value={treatment} onChange={(next) => setState({ ...state, treatment: next })} />
+      <DesignTreatmentControl primaryColor={state.primaryColor} value={treatment} onChange={(next) => setState({ ...state, treatment: next })} />
       <ToolFormDetails title={tc("sectionLayout")}>
         <CanvasBrandingControls
           logoMode={state.logoMode}

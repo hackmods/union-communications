@@ -1,5 +1,7 @@
 "use client";
 
+import { resolveTreatmentSurface, treatmentTopBandStyle } from "@/lib/brand/design-treatment-surface";
+
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
@@ -302,7 +304,8 @@ function SolidarityPosterPageContent() {
     isPrintCanvas && designWidthPx
       ? printPageScaledTokens(baseTokens, designWidthPx, printReferenceWidth)
       : baseTokens;
-  const treatedPrimary = state.treatment === "full" ? state.primaryColor : "#FFFFFF";
+  const treated = resolveTreatmentSurface(state.treatment, { primary: state.primaryColor, secondary: state.secondaryColor, accent: state.accentColor || state.secondaryColor }, "print");
+  const treatedPrimary = treated.primary;
   const surfaceStyle = canvasSurfaceStyle(tokens, {
     primary: treatedPrimary,
     secondary: state.secondaryColor,
@@ -506,7 +509,7 @@ function SolidarityPosterPageContent() {
       )}
       style={{
         ...surfaceStyle,
-        ...(state.treatment !== "full" ? { backgroundColor: "#FFFFFF", backgroundImage: "none", borderTop: `${state.treatment === "balanced" ? 24 : 8}px solid ${state.primaryColor}`, boxSizing: "border-box" as const } : {}),
+        ...(state.treatment === "full" ? {} : { backgroundColor: "#FFFFFF", backgroundImage: "none", ...treatmentTopBandStyle(state.treatment, state.primaryColor) }),
         ...(isPrintCanvas && designWidthPx && designHeightPx
           ? {
               width: designWidthPx,
@@ -792,7 +795,7 @@ function SolidarityPosterPageContent() {
             </Select>
           ) : null}
 
-          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
+          <DesignTreatmentControl primaryColor={state.primaryColor} value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={tc("sectionLayout")}>
             <SegControl
               label={t("layout")}

@@ -374,7 +374,7 @@ function QrBoardPageContent() {
             ))}
           </section>
 
-          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
+          <DesignTreatmentControl primaryColor={state.primaryColor} value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={tc("sectionLayout")}>
             <div className="space-y-2">
               <SegControl

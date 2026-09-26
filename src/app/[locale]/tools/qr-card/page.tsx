@@ -1,5 +1,7 @@
 "use client";
 
+import { resolveTreatmentSurface, treatmentWalletFrameStyle } from "@/lib/brand/design-treatment-surface";
+
 import { Suspense, useEffect, useRef, useState, type CSSProperties } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -230,7 +232,8 @@ function QrCardPageContent() {
     brandKit.local.localNumber,
     brandKit.local.subText,
   );
-  const sheetPrimary = state.treatment === "full" ? state.primaryColor : "#FFFFFF";
+  const treated = resolveTreatmentSurface(state.treatment, { primary: state.primaryColor, secondary: state.secondaryColor, accent: state.secondaryColor }, "sheet");
+  const sheetPrimary = treated.primary;
 
   const canvasStyle: CSSProperties = (() => {
     const box: CSSProperties = {
@@ -239,7 +242,7 @@ function QrCardPageContent() {
       aspectRatio: `${size.widthInches} / ${size.heightInches}`,
     };
     const ink = pickContrastingInk(sheetPrimary);
-    const border = state.treatment === "balanced" ? { border: `8px solid ${state.primaryColor}`, boxSizing: "border-box" as const } : state.treatment === "paper" ? { borderTop: `4px solid ${state.primaryColor}`, boxSizing: "border-box" as const } : {};
+    const border = treatmentWalletFrameStyle(state.treatment, state.primaryColor);
     if (state.bgMode === "gradient") {
       return {
         ...box,
@@ -426,7 +429,7 @@ function QrCardPageContent() {
           />
           </section>
 
-          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
+          <DesignTreatmentControl primaryColor={state.primaryColor} value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={tc("sectionLayout")}>
           <SegControl
             label={t("bgMode")}

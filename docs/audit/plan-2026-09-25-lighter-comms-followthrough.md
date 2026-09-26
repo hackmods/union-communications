@@ -31,3 +31,19 @@ The three Design treatments, saved Looks, and public Office output landed on loc
 - Steward visual sign-off on CAAT-S Balanced is pending human review.
 - CI and pipeline repair are deferred to Ryan. Local typecheck, relevant unit tests, and targeted browser checks remain the gate for each follow-through commit.
 - Branch: `feat/comms-lighter-followthrough` (merge when green). Do not force-push `main`.
+
+
+## QOL follow-up (2026-09-25)
+
+Shipped on `feat/comms-treatment-qol` (PR #133): shared `resolveTreatmentSurface` helper across makers, live Brand Kit primary swatches + treatment beside colours, SegControl Tab QOL for long lists, save-banner remount per `lastSavedAt`, Header logo hydrate gate. Steward CAAT-S visual sign-off remains human.
+
+### Adjacent QOL / UX patterns noticed (not blockers)
+
+These sat beside the treatment acceptance matrix. They were not Phase 1–3 blockers; several shipped in the QOL follow-up.
+
+| Pattern | Notes | Status |
+|---------|-------|--------|
+| Header logo hydration flicker | SSR UnionOps mark vs client CAAT/host logo. Noisy in e2e, possible flash for stewards. Brand bridge residual, not treatment-specific. | Mitigated — Header waits for Brand Kit `hydrated` before rendering `BrandLogo` (PR #133). Residual brand-bridge edge cases still possible on first paint elsewhere. |
+| Save banner sticky/stale | “Changes saved” could still be on screen from an earlier edit, so it did not always mean the last click persisted. Local pack race was fixed earlier; banner UX was still soft. | Mitigated — banner keys off `lastSavedAt` and remounts/dismisses per persist (PR #133). |
+| SegControl roving tabindex | Better a11y for treatment radios (<=6 options), but Brand Kit font pickers skipped unselected options on Tab. Tab should still feel right on long font lists. | Mitigated — roving only when <=6 options (or `rovingTabIndex={false}` on Canvas font SegControls) (PR #133). |
+| Out of scope by design | Logo Builder, Website Template, Image Resizer, Hub exports do not get treatments. Fine unless presidents expect “Mostly white” everywhere. | Deferred by design — document expectation; no maker migration planned unless product asks. |
