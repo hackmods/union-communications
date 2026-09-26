@@ -13,6 +13,7 @@ const bodySchema = z.object({
   localId: z.string().min(1).optional(),
   localNumber: z.string().min(1).max(32).optional(),
   localSubText: z.string().max(200).optional(),
+  divisionId: z.string().min(1).optional(),
   bargainingUnitId: z.string().nullable().optional(),
   setPrimary: z.boolean().optional(),
   replaceActiveMembership: z.boolean().optional(),

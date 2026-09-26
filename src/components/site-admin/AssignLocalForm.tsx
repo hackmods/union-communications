@@ -10,6 +10,7 @@ import {
   UNION_LOCAL_SELECT_OTHER,
   UnionLocalSelect,
   emptyUnionLocalSelectValue,
+  type CollectiveOption,
   type LocalOption,
   type SubGroupOption,
   type UnionLocalSelectValue,
@@ -34,6 +35,7 @@ export function AssignLocalForm({
   const router = useRouter();
   const [unions, setUnions] = useState<UnionOption[]>([]);
   const [locals, setLocals] = useState<LocalOption[]>([]);
+  const [collectives, setCollectives] = useState<CollectiveOption[]>([]);
   const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
   const [value, setValue] = useState<UnionLocalSelectValue>(() => ({
     ...emptyUnionLocalSelectValue(),
@@ -55,11 +57,13 @@ export function AssignLocalForm({
         const data = (await res.json()) as {
           unions: UnionOption[];
           locals: LocalOption[];
+          collectives?: CollectiveOption[];
           subGroups: SubGroupOption[];
         };
         if (cancelled) return;
         setUnions(data.unions);
         setLocals(data.locals);
+        setCollectives(data.collectives ?? []);
         setSubGroups(data.subGroups);
       } catch {
         // leave empty — form still allows typed local number after union pick
@@ -90,6 +94,7 @@ export function AssignLocalForm({
         body.localNumber = value.localNumber.trim();
         body.localSubText = value.localSubText.trim() || undefined;
       }
+      if (value.divisionId) body.divisionId = value.divisionId;
       if (value.bargainingUnitId) {
         body.bargainingUnitId = value.bargainingUnitId;
       }
@@ -147,6 +152,7 @@ export function AssignLocalForm({
         mode="platform"
         unions={unions}
         locals={locals}
+        collectives={collectives}
         subGroups={subGroups}
         value={value}
         onChange={(next) => {

@@ -8249,7 +8249,8 @@
       "directoryUnavailable": "The local directory is unavailable right now.",
       "directoryUnpaid": "The local directory is not enabled for your union.",
       "directoryEmpty": "No locals are listed for your union yet.",
-      "directoryLocal": "Local {number}"
+      "directoryLocal": "Local {number}",
+      "directoryDivision": "Bargaining collective: {id}"
     },
     "platformOperator": {
       "menu": "Platform",

@@ -8195,7 +8195,8 @@
       "directoryUnavailable": "Le répertoire des sections locales est indisponible pour le moment.",
       "directoryUnpaid": "Le répertoire des sections locales n’est pas activé pour votre syndicat.",
       "directoryEmpty": "Aucune section locale n’est encore inscrite pour votre syndicat.",
-      "directoryLocal": "Section locale {number}"
+      "directoryLocal": "Section locale {number}",
+      "directoryDivision": "Collectif de négociation : {id}"
     },
     "platformOperator": {
       "menu": "Plateforme",

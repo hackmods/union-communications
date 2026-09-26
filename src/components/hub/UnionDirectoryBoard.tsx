@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
-type DirectoryLocal = { id: string; localNumber: string; divisionId: string | null };
+type DirectoryLocal = {
+  id: string;
+  localNumber: string;
+  divisionId: string | null;
+  divisionName?: string | null;
+};
 type DirectoryState =
   | { kind: "loading" }
   | { kind: "unpaid" }
@@ -43,6 +48,13 @@ export function UnionDirectoryBoard() {
       {state.locals.map((local) => (
         <li key={local.id} className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="font-semibold text-opseu-dark">{t("directoryLocal", { number: local.localNumber })}</p>
+          {local.divisionName || local.divisionId ? (
+            <p className="mt-1 text-sm text-gray-600">
+              {t("directoryDivision", {
+                id: local.divisionName || local.divisionId || "",
+              })}
+            </p>
+          ) : null}
         </li>
       ))}
     </ul>

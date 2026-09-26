@@ -16,14 +16,18 @@ function SelectorHarness() {
         mode="platform"
         unions={[{ id: "union-a", name: "Union A" }, { id: "union-b", name: "Union B" }]}
         locals={[
-          { id: "local-243", unionId: "union-a", localNumber: "243" },
-          { id: "local-404", unionId: "union-a", localNumber: "404" },
-          { id: "local-7", unionId: "union-b", localNumber: "7" },
+          { id: "local-243", unionId: "union-a", divisionId: "division-s", localNumber: "243" },
+          { id: "local-404", unionId: "union-a", divisionId: "division-a", localNumber: "404" },
+          { id: "local-7", unionId: "union-b", divisionId: "division-b", localNumber: "7" },
+        ]}
+        collectives={[
+          { id: "division-s", unionId: "union-a", code: "S", name: "Support" },
+          { id: "division-a", unionId: "union-a", code: "A", name: "Academic" },
+          { id: "division-b", unionId: "union-b", code: "B", name: "Other union" },
         ]}
         subGroups={[
-          { id: "unit-s-243", localId: "local-243", code: "S", name: "Support" },
-          { id: "unit-a-404", localId: "local-404", code: "A", name: "Academic" },
-          { id: "unit-b-7", localId: "local-7", code: "B", name: "Other union" },
+          { id: "unit-ft-243", localId: "local-243", code: "FT", name: "Full time" },
+          { id: "unit-pt-243", localId: "local-243", code: "PT", name: "Part time" },
         ]}
         value={value}
         onChange={setValue}
@@ -52,9 +56,13 @@ describe("UnionLocalSelect", () => {
     expect(local.textContent).toContain("243");
     expect(local.textContent).not.toContain("404");
     fireEvent.change(local, { target: { value: "local-243" } });
-    expect(screen.getByTestId("selection").textContent).toContain('"bargainingUnitId":"unit-s-243"');
+    expect(screen.getByTestId("selection").textContent).toContain('"divisionId":"division-s"');
+    expect(screen.getByTestId("selection").textContent).toContain('"bargainingUnitId":""');
+    fireEvent.change(screen.getByLabelText("Sub-group"), { target: { value: "unit-ft-243" } });
+    expect(screen.getByTestId("selection").textContent).toContain('"bargainingUnitId":"unit-ft-243"');
 
     fireEvent.change(collective, { target: { value: "__other_collective__" } });
+    expect(screen.getByTestId("selection").textContent).toContain('"divisionId":""');
     expect(screen.getByTestId("selection").textContent).toContain('"bargainingUnitId":""');
   });
 });

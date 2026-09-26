@@ -12,6 +12,7 @@ import {
   UNION_LOCAL_SELECT_OTHER,
   UnionLocalSelect,
   emptyUnionLocalSelectValue,
+  type CollectiveOption,
   type LocalOption,
   type SubGroupOption,
   type UnionLocalSelectValue,
@@ -149,6 +150,7 @@ function RequestCard({
   const [draft, setDraft] = useState(row);
   const [unions, setUnions] = useState<UnionOption[]>([]);
   const [locals, setLocals] = useState<LocalOption[]>([]);
+  const [collectives, setCollectives] = useState<CollectiveOption[]>([]);
   const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
   const [scope, setScope] = useState<UnionLocalSelectValue>(() => ({
     ...emptyUnionLocalSelectValue(),
@@ -164,10 +166,12 @@ function RequestCard({
     const data = (await res.json()) as {
       unions: UnionOption[];
       locals: LocalOption[];
+      collectives?: CollectiveOption[];
       subGroups: SubGroupOption[];
     };
     setUnions(data.unions);
     setLocals(data.locals);
+    setCollectives(data.collectives ?? []);
     setSubGroups(data.subGroups);
   }
 
@@ -238,6 +242,7 @@ function RequestCard({
             unionId,
             localNumber: scope.localNumber.trim(),
             localSubText: scope.localSubText.trim() || undefined,
+            ...(scope.divisionId ? { divisionId: scope.divisionId } : {}),
           }),
         });
         const localData = (await localRes.json().catch(() => ({}))) as {
@@ -335,6 +340,7 @@ function RequestCard({
           mode="platform"
           unions={unions}
           locals={locals}
+          collectives={collectives}
           subGroups={subGroups}
           value={scope}
           onChange={applyScope}

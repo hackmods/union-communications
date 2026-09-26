@@ -37,6 +37,7 @@ export type AssignLocalInput = {
   localId?: string;
   localNumber?: string;
   localSubText?: string;
+  divisionId?: string;
   bargainingUnitId?: string | null;
   /** When true (or restoring orphan), mark this membership primary. */
   setPrimary?: boolean;
@@ -148,6 +149,7 @@ async function resolveLocal(input: {
   localId?: string;
   localNumber?: string;
   localSubText?: string;
+  divisionId?: string;
   /** When union was just created with firstLocalNumber, prefer that local. */
   createdUnion: boolean;
 }): Promise<
@@ -186,6 +188,7 @@ async function resolveLocal(input: {
     unionId: input.unionId,
     localNumber: number,
     subText: input.localSubText,
+    ...(input.divisionId ? { divisionId: input.divisionId } : {}),
   });
   return { ok: true, localId: local.id, createdLocal: created };
 }
@@ -223,6 +226,7 @@ export async function assignUserLocal(
     localId: input.localId,
     localNumber: input.localNumber,
     localSubText: input.localSubText,
+    divisionId: input.divisionId,
     createdUnion: union.createdUnion,
   });
   if (!local.ok) return local;

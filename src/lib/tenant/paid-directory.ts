@@ -1,7 +1,7 @@
 import { and, asc, eq, isNull } from "drizzle-orm";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { withRlsContext } from "@/lib/db/rls-context";
-import { locals, unions } from "@/lib/db/schema/tenant";
+import { divisions, locals, unions } from "@/lib/db/schema/tenant";
 
 /** Absence of a durable database never grants paid directory access. */
 export async function hasPaidTenantDirectory(unionId: string): Promise<boolean> {
@@ -38,8 +38,10 @@ export async function listPaidTenantDirectory(unionId: string, userId: string) {
         id: locals.id,
         localNumber: locals.localNumber,
         divisionId: locals.divisionId,
+        divisionName: divisions.name,
       })
       .from(locals)
+      .leftJoin(divisions, eq(locals.divisionId, divisions.id))
       .where(and(eq(locals.unionId, unionId), isNull(locals.archivedAt)))
       .orderBy(asc(locals.localNumber)),
   );

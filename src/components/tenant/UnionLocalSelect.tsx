@@ -16,6 +16,7 @@ export type LocalOption = {
   localNumber: string;
   subText?: string;
   unionId: string;
+  divisionId?: string;
   /** Sample / demo Hub seed (e.g. B7P joke locals) — badge in pickers. */
   isSample?: boolean;
 };
@@ -27,6 +28,13 @@ export type SubGroupOption = {
   localId: string;
 };
 
+export type CollectiveOption = {
+  id: string;
+  unionId: string;
+  code: string;
+  name: string;
+};
+
 export type UnionLocalSelectValue = {
   unionId: string;
   /** When unionId is `__other__`, free-text union name. */
@@ -34,6 +42,7 @@ export type UnionLocalSelectValue = {
   localId: string;
   localNumber: string;
   localSubText: string;
+  divisionId: string;
   bargainingUnitId: string;
 };
 
@@ -41,14 +50,11 @@ const OTHER_UNION = "__other__";
 const NO_COLLECTIVE = "__none__";
 const OTHER_COLLECTIVE = "__other_collective__";
 
-function collectiveKey(group: SubGroupOption): string {
-  return JSON.stringify([group.code.trim(), group.name.trim()]);
-}
-
 type Props = {
   mode: "elevate" | "president" | "platform";
   unions?: UnionOption[];
   locals: LocalOption[];
+  collectives?: CollectiveOption[];
   subGroups?: SubGroupOption[];
   /** Locked session values for president mode. */
   lockedUnionId?: string | null;
@@ -69,6 +75,7 @@ export function emptyUnionLocalSelectValue(): UnionLocalSelectValue {
     localId: "",
     localNumber: "",
     localSubText: "",
+    divisionId: "",
     bargainingUnitId: "",
   };
 }
@@ -81,6 +88,7 @@ export function UnionLocalSelect({
   mode,
   unions = [],
   locals,
+  collectives = [],
   subGroups = [],
   lockedUnionId,
   lockedUnionName,
@@ -108,32 +116,21 @@ export function UnionLocalSelect({
     return locals.filter((l) => l.unionId === unionId);
   }, [locals, lockedUnionId, mode, value.unionId]);
 
-  const collectiveOptions = useMemo(() => {
-    const localIds = new Set(filteredLocals.map((local) => local.id));
-    const seen = new Set<string>();
-    return subGroups.filter((group) => {
-      const key = collectiveKey(group);
-      if (!localIds.has(group.localId) || seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
-  }, [filteredLocals, subGroups]);
-
-  const activeGroup = subGroups.find(
-    (group) => group.id === value.bargainingUnitId,
-  );
-  const selectedCollective = collectiveChoice ||
-    (activeGroup ? collectiveKey(activeGroup) : "");
-  const localsForCollective = selectedCollective &&
-    selectedCollective !== NO_COLLECTIVE &&
-    selectedCollective !== OTHER_COLLECTIVE
-    ? filteredLocals.filter((local) =>
-        subGroups.some((group) =>
-          group.localId === local.id &&
-          collectiveKey(group) === selectedCollective,
-        ),
-      )
-    : filteredLocals;
+  const unionId = mode === "president" ? lockedUnionId : value.unionId || lockedUnionId;
+  const collectiveOptions = collectives.filter((group) => group.unionId === unionId);
+  const activeDivisionId = value.divisionId ||
+    filteredLocals.find((local) => local.id === value.localId)?.divisionId || "";
+  const selectedCollective = collectiveChoice || activeDivisionId;
+  // Filter by the visible selection (including in-flight collectiveChoice), not
+  // only value.divisionId — otherwise the local list lags one render behind.
+  const localsForCollective = !selectedCollective
+    ? filteredLocals
+    : selectedCollective === NO_COLLECTIVE ||
+        selectedCollective === OTHER_COLLECTIVE
+      ? filteredLocals.filter((local) => !local.divisionId)
+      : filteredLocals.filter(
+          (local) => local.divisionId === selectedCollective,
+        );
 
   const visibleSubGroups = useMemo(() => {
     const localId =
@@ -163,32 +160,32 @@ export function UnionLocalSelect({
           disabled
           readOnly
         />
-        <Select
+        <Input
           label={t("collective")}
-          value={value.bargainingUnitId || OTHER_COLLECTIVE}
-          disabled={disabled}
-          onChange={(e) =>
-            onChange({
-              ...value,
-              bargainingUnitId: e.target.value === OTHER_COLLECTIVE
-                ? ""
-                : e.target.value,
-            })
-          }
-        >
-          {visibleSubGroups.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.code} — {s.name}
-            </option>
-          ))}
-          <option value={OTHER_COLLECTIVE}>{t("collectiveOther")}</option>
-        </Select>
+          value={collectives.find((group) => group.id === locals.find((local) =>
+            local.id === lockedLocalId)?.divisionId)?.name ?? t("collectiveOther")}
+          disabled
+          readOnly
+        />
         <Input
           label={t("localNumber")}
           value={lockedLocalNumber || lockedLocalId || "—"}
           disabled
           readOnly
         />
+        {visibleSubGroups.length > 0 ? (
+          <Select
+            label={t("subGroup")}
+            value={value.bargainingUnitId}
+            disabled={disabled}
+            onChange={(e) => onChange({ ...value, bargainingUnitId: e.target.value })}
+          >
+            <option value="">{t("subGroupOptional")}</option>
+            {visibleSubGroups.map((group) => (
+              <option key={group.id} value={group.id}>{group.code} — {group.name}</option>
+            ))}
+          </Select>
+        ) : null}
       </div>
     );
   }
@@ -214,6 +211,7 @@ export function UnionLocalSelect({
                 localId: "",
                 localNumber: "",
                 localSubText: "",
+                divisionId: "",
                 bargainingUnitId: "",
               });
             }}
@@ -248,29 +246,21 @@ export function UnionLocalSelect({
           onChange={(e) => {
             const choice = e.target.value;
             setCollectiveChoice(choice);
-            if (choice && choice !== NO_COLLECTIVE && choice !== OTHER_COLLECTIVE) {
-              setUseLocalNumber(false);
-            }
-            const matching = subGroups.find((group) =>
-              group.localId === value.localId && collectiveKey(group) === choice,
-            );
+            const divisionId = choice === NO_COLLECTIVE || choice === OTHER_COLLECTIVE
+              ? "" : choice;
+            const selectedLocal = filteredLocals.find((local) => local.id === value.localId);
+            const keepLocal = selectedLocal && (selectedLocal.divisionId ?? "") === divisionId;
             onChange({
               ...value,
-              localId: choice && choice !== NO_COLLECTIVE &&
-                choice !== OTHER_COLLECTIVE && !matching
-                ? ""
-                : value.localId,
-              localNumber: choice && choice !== NO_COLLECTIVE &&
-                choice !== OTHER_COLLECTIVE
-                ? ""
-                : value.localNumber,
-              bargainingUnitId: matching?.id ?? "",
+              divisionId,
+              localId: keepLocal ? value.localId : "",
+              bargainingUnitId: keepLocal ? value.bargainingUnitId : "",
             });
           }}
         >
           <option value="">{t("collectivePlaceholder")}</option>
           {collectiveOptions.map((group) => (
-            <option key={collectiveKey(group)} value={collectiveKey(group)}>
+            <option key={group.id} value={group.id}>
               {group.code} — {group.name}
             </option>
           ))}
@@ -308,8 +298,12 @@ export function UnionLocalSelect({
                   disabled={disabled}
                   onChange={() => {
                     setUseLocalNumber(true);
-                    setCollectiveChoice(OTHER_COLLECTIVE);
-                    onChange({ ...value, localId: "", bargainingUnitId: "" });
+                    onChange({
+                      ...value,
+                      localId: "",
+                      localNumber: value.localNumber,
+                      bargainingUnitId: "",
+                    });
                   }}
                 />
                 {t("enterNumber")}
@@ -329,10 +323,8 @@ export function UnionLocalSelect({
               ...value,
               localId: e.target.value,
               localNumber: "",
-              bargainingUnitId: subGroups.find((group) =>
-                group.localId === e.target.value &&
-                collectiveKey(group) === selectedCollective,
-              )?.id ?? "",
+              divisionId: filteredLocals.find((local) => local.id === e.target.value)?.divisionId ?? "",
+              bargainingUnitId: "",
             })
           }
         >
@@ -365,6 +357,20 @@ export function UnionLocalSelect({
           />
         </>
       )}
+
+      {visibleSubGroups.length > 0 ? (
+        <Select
+          label={t("subGroup")}
+          value={value.bargainingUnitId}
+          disabled={disabled}
+          onChange={(e) => onChange({ ...value, bargainingUnitId: e.target.value })}
+        >
+          <option value="">{t("subGroupOptional")}</option>
+          {visibleSubGroups.map((group) => (
+            <option key={group.id} value={group.id}>{group.code} — {group.name}</option>
+          ))}
+        </Select>
+      ) : null}
 
     </div>
   );
