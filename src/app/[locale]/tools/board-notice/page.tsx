@@ -1,5 +1,7 @@
 "use client";
 
+import { resolveTreatmentSurface, treatmentTopBandStyle } from "@/lib/brand/design-treatment-surface";
+
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -119,7 +121,8 @@ export default function BoardNoticePage() {
   const designHeight = boardNoticePreviewHeightPx(formatSpec);
   const referenceWidth = PRINT_PAGE_LEGACY_REFERENCE_PX;
   const exportPixelRatio = boardNoticeExportPixelRatio(formatSpec);
-  const sheetColor = state.treatment === "full" ? brandKit.primaryColor : "#FFFFFF";
+  const treated = resolveTreatmentSurface(state.treatment, { primary: brandKit.primaryColor, secondary: brandKit.secondaryColor, accent: brandKit.accentColor }, "print");
+  const sheetColor = treated.primary;
   const brandCanvasTokens = resolveCanvasTokens(brandKit);
   const tokens = resolveCanvasTokensWithOverrides(
     brandKit,
@@ -238,7 +241,7 @@ export default function BoardNoticePage() {
               />
             ) : null}
 
-            <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
+            <DesignTreatmentControl value={state.treatment} primaryColor={brandKit.primaryColor} onChange={(treatment) => setState({ ...state, treatment })} />
             <ToolFormDetails title={tc("sectionLayout")}>
               <SegControl
                 label={t("layout")}
@@ -331,7 +334,7 @@ export default function BoardNoticePage() {
                 secondary: state.treatment === "balanced" ? brandKit.primaryColor : brandKit.secondaryColor,
                 accent: state.treatment === "full" ? brandKit.accentColor : brandKit.primaryColor,
               }}
-              style={state.treatment === "full" ? undefined : { borderTop: `${state.treatment === "balanced" ? 24 : 8}px solid ${brandKit.primaryColor}`, boxSizing: "border-box" }}
+              style={treatmentTopBandStyle(state.treatment, brandKit.primaryColor)}
               copy={{
                 headline: state.headline,
                 body: state.body,

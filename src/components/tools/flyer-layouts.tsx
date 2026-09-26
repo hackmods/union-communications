@@ -1,5 +1,6 @@
 "use client";
 
+import { resolveTreatmentSurface, treatmentTopBandStyle } from "@/lib/brand/design-treatment-surface";
 import type { CSSProperties, Ref } from "react";
 import {
   CanvasBrandHeader,
@@ -191,8 +192,11 @@ export function FlyerLayoutCanvas({
   showLocalLabel = true,
 }: FlyerLayoutCanvasProps) {
   const brandPrimary = inputColours.primary;
-  const colours = treatment === "full" ? inputColours : {
-    primary: "#FFFFFF", secondary: "#FFFFFF", accent: brandPrimary,
+  const surface = resolveTreatmentSurface(treatment, inputColours, "field");
+  const colours = {
+    primary: surface.primary,
+    secondary: surface.secondary,
+    accent: surface.accent,
   };
   const { tokens: scaledTokens, metaFontSizePx: metaSize } =
     resolvePrintPageLayout(tokens, designWidthPx, referenceWidthPx);
@@ -236,7 +240,7 @@ export function FlyerLayoutCanvas({
     padding: scaledTokens.paddingPx,
     gap: scaledTokens.gapPx,
     ...style,
-    borderTop: treatment === "full" ? undefined : `${treatment === "balanced" ? 24 : 8}px solid ${brandPrimary}`,
+    ...treatmentTopBandStyle(treatment, brandPrimary),
   };
 
   if (layout === "band") {
@@ -263,7 +267,7 @@ export function FlyerLayoutCanvas({
           overflow: "hidden",
           boxSizing: "border-box",
           ...style,
-          borderTop: treatment === "full" ? undefined : `${treatment === "balanced" ? 24 : 8}px solid ${brandPrimary}`,
+          ...treatmentTopBandStyle(treatment, brandPrimary),
         }}
       >
         <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />

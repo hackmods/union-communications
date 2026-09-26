@@ -16,6 +16,11 @@ type SegControlProps<T extends string> = {
   options: SegOption<T>[];
   onChange: (value: T) => void;
   className?: string;
+  /**
+   * Roving tabindex (APG radiogroup). Default: on for short lists (≤6),
+   * off for long font/style pickers so Tab still reaches every option.
+   */
+  rovingTabIndex?: boolean;
 };
 
 function enabledOptionIndexes<T extends string>(options: SegOption<T>[]) {
@@ -31,8 +36,10 @@ export function SegControl<T extends string>({
   options,
   onChange,
   className,
+  rovingTabIndex,
 }: SegControlProps<T>) {
   const enabled = enabledOptionIndexes(options);
+  const useRoving = rovingTabIndex ?? enabled.length <= 6;
 
   const selectIndex = (index: number, currentTarget: HTMLElement) => {
     const opt = options[index];
@@ -66,7 +73,7 @@ export function SegControl<T extends string>({
               aria-checked={selected}
               aria-disabled={disabled || undefined}
               disabled={disabled}
-              tabIndex={selected ? 0 : -1}
+              tabIndex={useRoving ? (selected ? 0 : -1) : 0}
               className={cn(
                 "min-h-11 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
                 opt.fontFamily && "text-base",
@@ -90,7 +97,10 @@ export function SegControl<T extends string>({
                     enabled[(from + 1) % enabled.length]!,
                     event.currentTarget,
                   );
-                } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                } else if (
+                  event.key === "ArrowLeft" ||
+                  event.key === "ArrowUp"
+                ) {
                   event.preventDefault();
                   selectIndex(
                     enabled[(from - 1 + enabled.length) % enabled.length]!,

@@ -1,3 +1,8 @@
+## 2026-09-25 — Comms treatment QOL
+
+- Shared `design-treatment-surface` helper for Full / Balanced / Mostly white colour remap and canonical chrome widths; makers migrated onto it.
+- Treatment control uses live Brand Kit primary swatches and sits with colours on Brand Kit; SegControl keeps Tab reachable on long font lists; save banner remounts per persist; header logo waits for hydrate to avoid flash.
+
 # Progress Log
 
 ## 2026-09-25 — Lighter Comms Brand Kit follow-through

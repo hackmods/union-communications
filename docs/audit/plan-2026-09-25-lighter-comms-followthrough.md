@@ -31,3 +31,8 @@ The three Design treatments, saved Looks, and public Office output landed on loc
 - Steward visual sign-off on CAAT-S Balanced is pending human review.
 - CI and pipeline repair are deferred to Ryan. Local typecheck, relevant unit tests, and targeted browser checks remain the gate for each follow-through commit.
 - Branch: `feat/comms-lighter-followthrough` (merge when green). Do not force-push `main`.
+
+
+## QOL follow-up (2026-09-25)
+
+Shipped after merge: shared treatment surface helper, live swatches + Brand Kit placement beside colours, SegControl Tab QOL for long lists, save-banner remount, header logo hydrate gate. Steward CAAT-S visual sign-off remains human.

@@ -1,5 +1,7 @@
 "use client";
 
+import { resolveTreatmentSurface } from "@/lib/brand/design-treatment-surface";
+
 import { Suspense, useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
@@ -228,9 +230,10 @@ function BoardBannerPageContent() {
     showByline: state.showByline,
     byline: state.byline,
   };
-  const piecePrimary = state.treatment === "full" ? state.primaryColor : "#FFFFFF";
-  const pieceSecondary = state.treatment === "balanced" ? state.primaryColor : state.secondaryColor;
-  const pieceAccent = state.treatment === "full" ? state.accentColor : state.primaryColor;
+  const treated = resolveTreatmentSurface(state.treatment, { primary: state.primaryColor, secondary: state.secondaryColor, accent: state.accentColor }, "print");
+  const piecePrimary = treated.primary;
+  const pieceSecondary = treated.secondary;
+  const pieceAccent = treated.accent;
 
   const renderBannerPiece = () => (
     <BoardBannerCanvas
@@ -492,7 +495,7 @@ function BoardBannerPageContent() {
               ) : null}
             </section>
 
-            <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
+            <DesignTreatmentControl primaryColor={state.primaryColor} value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
 
             {state.mode === "trim" ? (
               <section

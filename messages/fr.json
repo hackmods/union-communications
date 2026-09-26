@@ -4174,6 +4174,7 @@
     "sectionNavLabel": "Sections de la Trousse de marque",
     "sections": {
       "identity": "Identité",
+      "colours": "Couleurs",
       "preview": "Aperçu",
       "style": "Style",
       "links": "Liens et signature",

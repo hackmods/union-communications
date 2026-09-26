@@ -1,5 +1,7 @@
 "use client";
 
+import { treatmentGraphicInsetClass } from "@/lib/brand/design-treatment-surface";
+
 import { Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -287,7 +289,7 @@ function QuoteCardPageContent() {
           />
           </section>
 
-          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
+          <DesignTreatmentControl primaryColor={state.primaryColor} value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={tc("sectionLayout")}>
           <SegControl
             label={tq("layout")}
@@ -400,7 +402,7 @@ function QuoteCardPageContent() {
                 height: designSize.height,
               }}
             >
-              <div className={state.treatment === "balanced" ? "absolute inset-[4%] overflow-hidden" : "relative h-full w-full overflow-hidden"}>
+              <div className={treatmentGraphicInsetClass(state.treatment)}>
               <QuoteLayout
                 primary={state.treatment === "full" ? state.primaryColor : "#FFFFFF"}
                 accent={state.treatment === "full" ? state.accentColor : state.primaryColor}
