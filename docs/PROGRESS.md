@@ -3,6 +3,7 @@
 - Public form copy moved to `accessRequestForm` messages + PUBLIC_NS; localized errors with cause/remedy; privacy link; autocomplete; offerings validation.
 - `/join` form-first on mobile + skip-to-form; member CTA / login prompts; signed-in share panel copy-link buttons; FR section language aligned with `platformPage`.
 - Ops: site-admin `reviewedById`; inbox notify/receipt/invite status + empty states; `MemberAccessRequests` i18n + invite deep link; invites prefill from `requestId`; host readiness advisory for `ACCESS_REQUEST_NOTIFY_EMAIL`.
+- CI follow-up: restore Website Template keys that had leaked into `common` after a JSON structure bug; add `[locale]/this-page-should-404` so root Local 404 redirect lands in the locale shell without looping.
 
 ## 2026-09-26 — Join intake durability + signed-in share
 
