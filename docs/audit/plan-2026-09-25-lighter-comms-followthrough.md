@@ -37,6 +37,8 @@ The three Design treatments, saved Looks, and public Office output landed on loc
 
 Shipped on `feat/comms-treatment-qol` (PR #133): shared `resolveTreatmentSurface` helper across makers, live Brand Kit primary swatches + treatment beside colours, SegControl Tab QOL for long lists, save-banner remount per `lastSavedAt`, Header logo hydrate gate. Steward CAAT-S visual sign-off remains human.
 
+CI unblock (same PR): host-brand resolve stays on the client-safe overlay module so Docker/browser builds do not pull `postgres`; Document Generator swatch + fidelity `nearWhiteShare` + baseline audit metadata type fixes.
+
 ### Adjacent QOL / UX patterns noticed (not blockers)
 
 These sat beside the treatment acceptance matrix. They were not Phase 1–3 blockers; several shipped in the QOL follow-up.
