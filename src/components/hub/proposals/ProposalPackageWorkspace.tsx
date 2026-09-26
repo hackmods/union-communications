@@ -467,7 +467,7 @@ export function ProposalPackageWorkspace({ packageId }: { packageId: string }) {
         {rows.length === 0 ? (
           <EmptyState className="mt-3" title={t("rowsEmpty")} />
         ) : (
-          <div className="mt-3 overflow-x-auto rounded-lg border border-gray-200 bg-white">
+          <div className="mt-3 min-w-0 w-full max-w-full overflow-x-auto overscroll-x-contain rounded-lg border border-gray-200 bg-white">
             <table className="min-w-[64rem] w-full border-collapse text-left text-sm">
               <thead className="bg-gray-50 text-opseu-dark">
                 <tr>

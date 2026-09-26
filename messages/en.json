@@ -3252,7 +3252,9 @@
       "letterhead": "Empty letterhead for any correspondence."
     },
     "openFull": "Open full Document Generator",
-    "previewHint": "Edit on the left. Preview shows the Word letter layout; download Word for the printable file."
+    "previewHint": "Edit on the left. Preview shows the Word letter layout; download Word for the printable file.",
+    "loadErrorBody": "The letter preview did not load — often after an app update or offline reload. Refresh once to pull the latest files, then try again.",
+    "refreshPage": "Refresh page"
   },
   "grievanceFormBuilder": {
     "title": "Grievance Form Builder",
@@ -4604,6 +4606,7 @@
     "yourColours": "Your colours",
     "yourLogo": "Your logo",
     "editBrandKit": "Edit in Brand Kit",
+    "addLogoBrandKit": "Add a logo in Brand Kit",
     "copyHex": "Copy",
     "copied": "Copied",
     "downloadUnavailable": "Download unavailable right now. Try again later.",

@@ -6,7 +6,6 @@ import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { Card } from "@/components/ui/Card";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { IconChip } from "@/components/ui/IconChip";
 import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
@@ -80,8 +79,7 @@ export default async function ManifestoPage({
   return (
     <ComposedPageLayout composition="hub" size="wide" className="py-10 md:py-14">
       <header className="max-w-3xl">
-        <Eyebrow tone="brand">{t("title")}</Eyebrow>
-        <h1 className={`${PUBLIC_PAGE_TITLE_CLASS} mt-2`}>{t("title")}</h1>
+        <h1 className={PUBLIC_PAGE_TITLE_CLASS}>{t("title")}</h1>
         <div className="mt-6 max-w-prose space-y-5 text-lg leading-relaxed text-slate-700">
           <p>{t("p1")}</p>
           <p>{t("p2")}</p>

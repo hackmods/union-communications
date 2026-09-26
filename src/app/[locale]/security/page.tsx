@@ -39,7 +39,7 @@ export default async function SecurityPage({
       </header>
 
       <GuideCallout className="mt-8 max-w-3xl" measure="fill">
-        <p className="font-semibold text-opseu-dark">{t("leadTitle")}</p>
+        <h2 className="text-base font-semibold text-opseu-dark">{t("leadTitle")}</h2>
         <GuideProse className="mt-2">{t("leadBody")}</GuideProse>
       </GuideCallout>
 
@@ -127,14 +127,14 @@ export default async function SecurityPage({
 
       {hubPublic ? (
         <GuideCallout tone="muted" measure="fill" className="mt-10 max-w-3xl">
-          <p className="font-semibold text-opseu-dark">{t("honestTitle")}</p>
+          <h2 className="text-base font-semibold text-opseu-dark">{t("honestTitle")}</h2>
           <GuideProse className="mt-2">{t("honestBody")}</GuideProse>
         </GuideCallout>
       ) : null}
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         <GuideCallout tone="plain" measure="fill" className="h-full">
-          <p className="font-semibold text-opseu-dark">{t("reportTitle")}</p>
+          <h2 className="text-base font-semibold text-opseu-dark">{t("reportTitle")}</h2>
           <GuideProse className="mt-2">
             {t("reportBody")}{" "}
             <Link
@@ -148,7 +148,7 @@ export default async function SecurityPage({
         </GuideCallout>
 
         <GuideCallout tone="plain" measure="fill" className="h-full">
-          <p className="font-semibold text-opseu-dark">{t("privacyTitle")}</p>
+          <h2 className="text-base font-semibold text-opseu-dark">{t("privacyTitle")}</h2>
           <GuideProse className="mt-2">
             {t("privacyBody")}{" "}
             <Link

@@ -83,9 +83,12 @@ export const olTheme = {
   progressTrack: "mt-2 h-1.5 overflow-hidden rounded-full bg-gray-200",
   applyBox: "rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-900",
   stickyChrome:
-    "sticky top-0 z-40 border-b border-gray-200 bg-background/95 backdrop-blur print:hidden",
+    "sticky top-[var(--site-header-height,3.5rem)] z-40 border-b border-gray-200 bg-background/95 backdrop-blur print:hidden",
+  stickyChromeInner:
+    "mx-auto flex min-w-0 max-w-7xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 sm:px-6 lg:px-8",
   stickyNavBtn:
     "shrink-0 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-opseu-dark transition hover:border-opseu-blue/40 hover:bg-gray-50",
+  stickyCtaGroup: "ml-auto flex shrink-0 flex-wrap items-center gap-2",
   stickyMeta: "truncate text-sm text-opseu-blue",
   stickyTitle: "truncate font-semibold text-opseu-dark",
   tocMobile: "border-b border-gray-200 bg-background px-4 py-2 lg:hidden sm:px-6 print:hidden",

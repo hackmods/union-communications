@@ -135,14 +135,17 @@ function ModuleViewerInner({
   return (
     <div className={olTheme.shell} data-ol-shell>
       <header className={olTheme.stickyChrome}>
-        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
-          <Link href="/guide/steward-playbooks" className={olTheme.stickyNavBtn}>
+        <div className={olTheme.stickyChromeInner}>
+          <Link
+            href="/guide/steward-playbooks"
+            className={cn(olTheme.stickyNavBtn, "hidden lg:inline-flex")}
+          >
             {t("viewer.playbooksNav")}
           </Link>
           <Link href="/guide/officer-learning" className={olTheme.stickyNavBtn}>
             ← {t("viewer.back")}
           </Link>
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 basis-[12rem]">
             <p className={olTheme.stickyMeta}>
               {t("moduleLabel", { number: meta.number })}
             </p>
@@ -154,16 +157,18 @@ function ModuleViewerInner({
               />
             </div>
           </div>
-          <button
-            type="button"
-            onClick={() => window.print()}
-            className={cn(olTheme.stickyNavBtn, "hidden md:inline-flex")}
-          >
-            {t("viewer.print")}
-          </button>
-          <button type="button" onClick={handleJumpToQuiz} className={olTheme.jumpToQuiz}>
-            {t("viewer.jumpToQuiz")}
-          </button>
+          <div className={olTheme.stickyCtaGroup}>
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className={cn(olTheme.stickyNavBtn, "hidden md:inline-flex")}
+            >
+              {t("viewer.print")}
+            </button>
+            <button type="button" onClick={handleJumpToQuiz} className={olTheme.jumpToQuiz}>
+              {t("viewer.jumpToQuiz")}
+            </button>
+          </div>
         </div>
       </header>
 

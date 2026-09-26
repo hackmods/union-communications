@@ -41,6 +41,11 @@ describe("humanizeInternalPath", () => {
       "Seniority Bumping",
     );
   });
+
+  it("keeps known acronyms uppercase", () => {
+    expect(humanizeInternalPath("/guide/dfr")).toBe("DFR");
+    expect(humanizeInternalPath("/guide/rtw")).toBe("RTW");
+  });
 });
 
 describe("tokenizeInline", () => {
@@ -93,6 +98,7 @@ describe("tokenizeInline", () => {
       })
       .join("");
     expect(flatText).not.toContain("`");
-    expect(flatText).toMatch(/Dfr|DFR|dfr/i);
+    expect(flatText).toContain("DFR");
+    expect(flatText).not.toContain("Dfr");
   });
 });

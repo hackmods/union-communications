@@ -201,6 +201,7 @@ export const UPDATES: readonly UpdateEntry[] = [
     id: "default-local-777",
     date: "2026-09-22",
     kind: "improved",
+    href: "/create/brand-kit",
   },
   {
     id: "president-configuration",

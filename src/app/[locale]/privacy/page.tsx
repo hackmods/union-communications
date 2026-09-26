@@ -39,9 +39,9 @@ export default async function PrivacyPage({
       </header>
 
       <GuideCallout className="mt-8 max-w-3xl" measure="fill">
-        <p className="font-semibold text-opseu-dark">
+        <h2 className="text-base font-semibold text-opseu-dark">
           {hubPublic ? t("leadTitleHub") : t("leadTitleCommsOnly")}
-        </p>
+        </h2>
         <GuideProse className="mt-2">
           {hubPublic ? t("leadBodyHub") : t("leadBodyCommsOnly")}
         </GuideProse>
@@ -97,9 +97,9 @@ export default async function PrivacyPage({
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <GuideCallout tone="muted" measure="fill" className="h-full">
-          <p className="font-semibold text-opseu-dark">
+          <h2 className="text-base font-semibold text-opseu-dark">
             {t("responsibilitiesTitle")}
-          </p>
+          </h2>
           <GuideProse className="mt-2">
             {t("responsibilitiesBody")}{" "}
             <Link
@@ -113,7 +113,7 @@ export default async function PrivacyPage({
         </GuideCallout>
 
         <GuideCallout tone="muted" measure="fill" className="h-full">
-          <p className="font-semibold text-opseu-dark">{t("installTitle")}</p>
+          <h2 className="text-base font-semibold text-opseu-dark">{t("installTitle")}</h2>
           <GuideProse className="mt-2">
             {t("installBody")}{" "}
             <Link
@@ -127,7 +127,7 @@ export default async function PrivacyPage({
         </GuideCallout>
 
         <GuideCallout tone="plain" measure="fill" className="h-full">
-          <p className="font-semibold text-opseu-dark">{t("siteFeedbackTitle")}</p>
+          <h2 className="text-base font-semibold text-opseu-dark">{t("siteFeedbackTitle")}</h2>
           <GuideProse className="mt-2">
             {t("siteFeedbackBody")}{" "}
             <Link
@@ -141,7 +141,7 @@ export default async function PrivacyPage({
         </GuideCallout>
 
         <GuideCallout tone="plain" measure="fill" className="h-full">
-          <p className="font-semibold text-opseu-dark">{t("contactTitle")}</p>
+          <h2 className="text-base font-semibold text-opseu-dark">{t("contactTitle")}</h2>
           <GuideProse className="mt-2">
             {t("contactBody")}{" "}
             <Link
@@ -159,7 +159,7 @@ export default async function PrivacyPage({
           measure="fill"
           className="h-full sm:col-span-2 xl:col-span-1"
         >
-          <p className="font-semibold text-opseu-dark">{t("securityTitle")}</p>
+          <h2 className="text-base font-semibold text-opseu-dark">{t("securityTitle")}</h2>
           <GuideProse className="mt-2">
             {t("securityBody")}{" "}
             <Link

@@ -3252,7 +3252,9 @@
       "letterhead": "En-tête vide pour toute correspondance."
     },
     "openFull": "Ouvrir Documents et diapositives au complet",
-    "previewHint": "Modifiez à gauche. L’aperçu montre la mise en page lettre Word ; téléchargez Word pour le fichier imprimable."
+    "previewHint": "Modifiez à gauche. L’aperçu montre la mise en page lettre Word ; téléchargez Word pour le fichier imprimable.",
+    "loadErrorBody": "L’aperçu de la lettre ne s’est pas chargé — souvent après une mise à jour de l’appli ou un rechargement hors ligne. Actualisez une fois pour récupérer les derniers fichiers, puis réessayez.",
+    "refreshPage": "Actualiser la page"
   },
   "grievanceFormBuilder": {
     "title": "Constructeur de formulaires de grief",
@@ -10899,6 +10901,7 @@
     "yourColours": "Vos couleurs",
     "yourLogo": "Votre logo",
     "editBrandKit": "Modifier dans la Trousse de marque",
+    "addLogoBrandKit": "Ajouter un logo dans la Trousse de marque",
     "copyHex": "Copier",
     "copied": "Copié",
     "downloadUnavailable": "Téléchargement indisponible pour le moment. Réessayez plus tard.",

@@ -150,7 +150,8 @@ export function GuideTipItem({
       <span className="font-semibold text-opseu-dark">
         {label}
         {punctuation}
-      </span>{" "}
+        {punctuation ? " " : null}
+      </span>
       {content}
     </Tag>
   );

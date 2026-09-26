@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Callout } from "@/components/ui/Callout";
-import { Button } from "@/components/ui/Button";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import {
   ASSET_PACK_COLORS,
@@ -447,12 +446,6 @@ export function AssetPackPanel() {
             <h2 className="text-xl font-bold text-opseu-dark">
               {t("yourColours")}
             </h2>
-            <Link
-              href="/brand-kit"
-              className="text-sm font-medium text-opseu-blue underline"
-            >
-              {t("editBrandKit")}
-            </Link>
           </div>
           <SwatchGrid
             swatches={kitSwatches}
@@ -538,12 +531,11 @@ export function AssetPackPanel() {
                   </>
                 ) : (
                   <p className="text-sm text-gray-600">
-                    {t("downloadUnavailable")}{" "}
                     <Link
                       href="/brand-kit"
                       className="font-medium text-opseu-blue underline"
                     >
-                      {t("editBrandKit")}
+                      {t("addLogoBrandKit")}
                     </Link>
                   </p>
                 )}

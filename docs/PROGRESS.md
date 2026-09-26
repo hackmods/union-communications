@@ -1,3 +1,10 @@
+## 2026-09-26 — Viewport Lab responsive + UX pass
+
+- Proposal Tracker (+ Hub proposal package table): scrollport gets `min-w-0 max-w-full overscroll-x-contain` so the wide worksheet scrolls inside the column under `html { overflow-x: clip }`.
+- Officer Learning sticky chrome: wrap + CTA group; Playbooks link from `lg+`; sticky under site header — fixes clipped Jump to Quiz.
+- Letter Generator tool `error.tsx` with Refresh page parity; Brand Assets empty-logo CTA; updates `default-local-777` href; manifesto duplicate eyebrow removed; privacy/security/accessibility callout titles promoted to headings; `humanizeInternalPath` acronym map (DFR).
+- Verify: `npm run lint`; `npm run test:unit -- src/lib/officer-learning/inline-markdown.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## 2026-09-26 — Website Template world-class layouts
 
 - Living design/fit-gap: [`docs/audit/website-template-world-class-2026-09.md`](audit/website-template-world-class-2026-09.md).

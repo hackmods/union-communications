@@ -14,6 +14,18 @@ export type InlineToken =
   | { kind: "em"; value: string }
   | { kind: "path"; value: string };
 
+/** Known path-leaf acronyms that title-case would mangle (e.g. dfr → Dfr). */
+const PATH_LEAF_ACRONYMS: Record<string, string> = {
+  dfr: "DFR",
+  eerc: "EERC",
+  rtw: "RTW",
+  ot: "OT",
+  ca: "CA",
+  ics: "ICS",
+  csv: "CSV",
+  pdf: "PDF",
+};
+
 /** Turn `/guide/seniority-bumping` into a readable "Seniority Bumping" label. */
 export function humanizeInternalPath(path: string): string {
   const clean = path.split("?")[0] ?? path;
@@ -21,7 +33,14 @@ export function humanizeInternalPath(path: string): string {
   const leaf = segments[segments.length - 1] ?? clean;
   const words = leaf.replace(/[-_]+/g, " ").trim();
   if (!words) return path;
-  return words.replace(/\b\w/g, (c) => c.toUpperCase());
+  return words
+    .split(/\s+/)
+    .map((word) => {
+      const lower = word.toLowerCase();
+      if (PATH_LEAF_ACRONYMS[lower]) return PATH_LEAF_ACRONYMS[lower];
+      return word.replace(/\b\w/g, (c) => c.toUpperCase());
+    })
+    .join(" ");
 }
 
 export function isInternalPath(value: string): boolean {

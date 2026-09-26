@@ -53,7 +53,7 @@ export default async function AccessibilityPage({
       <div className="mt-8 grid items-start gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-8">
         <DisplaySettings />
         <GuideCallout measure="fill" className="h-full">
-          <p className="font-semibold text-opseu-dark">{t("commitment.title")}</p>
+          <h2 className="text-base font-semibold text-opseu-dark">{t("commitment.title")}</h2>
           <GuideProse className="mt-2">{t("commitment.body")}</GuideProse>
         </GuideCallout>
       </div>
@@ -77,12 +77,12 @@ export default async function AccessibilityPage({
 
         <div className="space-y-4">
           <GuideCallout tone="muted" measure="fill">
-            <p className="font-semibold text-opseu-dark">{t("limitations.title")}</p>
+            <h2 className="text-base font-semibold text-opseu-dark">{t("limitations.title")}</h2>
             <GuideProse className="mt-2">{t("limitations.body")}</GuideProse>
           </GuideCallout>
 
           <GuideCallout tone="plain" measure="fill">
-            <p className="font-semibold text-opseu-dark">{t("feedback.title")}</p>
+            <h2 className="text-base font-semibold text-opseu-dark">{t("feedback.title")}</h2>
             <GuideProse className="mt-2">{t("feedback.body")}</GuideProse>
             <p className="mt-3">
               <Link

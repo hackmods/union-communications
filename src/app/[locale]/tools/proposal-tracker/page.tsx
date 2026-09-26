@@ -203,7 +203,7 @@ export default function ProposalTrackerPage() {
         </Button>
       </div>
 
-      <div className="mt-4 overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div className="mt-4 min-w-0 w-full max-w-full overflow-x-auto overscroll-x-contain rounded-lg border border-gray-200 bg-white shadow-sm">
         <table className="min-w-[72rem] w-full border-collapse text-left text-sm">
           <thead className="bg-gray-50 text-opseu-dark">
             <tr>
