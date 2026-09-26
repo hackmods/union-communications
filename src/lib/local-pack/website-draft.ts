@@ -3,7 +3,17 @@ import {
   DEFAULT_WEBSITE_HERO_ART_ID,
   coerceWebsiteHeroArtId,
 } from "@/lib/templates/website/hero-art";
-import { MAX_WEBSITE_OFFICERS } from "@/types/public-roster";
+import {
+  coerceWebsiteLayoutId,
+  DEFAULT_WEBSITE_LAYOUT_ID,
+  WEBSITE_LAYOUT_IDS,
+} from "@/lib/templates/website/layouts/registry";
+import { coerceWebsiteSiteLocale } from "@/lib/templates/website/site-strings";
+import {
+  MAX_WEBSITE_OFFICERS,
+  PUBLIC_ROSTER_GROUPS,
+  PUBLIC_ROSTER_UNITS,
+} from "@/types/public-roster";
 import {
   WEBSITE_DRAFT_VERSION,
   emptyWebsiteDraft,
@@ -16,10 +26,20 @@ const officerSchema = z.object({
   name: text(200),
   role: text(200),
   location: text(200),
+  group: z.enum(PUBLIC_ROSTER_GROUPS).optional(),
+  committeeName: text(200).optional(),
+  unit: z.enum(PUBLIC_ROSTER_UNITS).nullable().optional(),
+});
+
+const eventSchema = z.object({
+  title: text(300),
+  when: text(64),
+  location: text(300).optional().default(""),
+  detail: text(2000).optional().default(""),
 });
 
 const draftSchema = z.object({
-  version: z.literal(WEBSITE_DRAFT_VERSION).optional(),
+  version: z.union([z.literal(1), z.literal(2)]).optional(),
   updatedAt: z.string().max(64).optional(),
   unionName: text(500).optional().default(""),
   heroText: text(2000).optional().default(""),
@@ -27,6 +47,14 @@ const draftSchema = z.object({
   about2: text(8000).optional().default(""),
   contactEmail: text(254).optional().default(""),
   officeAddress: text(2000).optional().default(""),
+  contactPhone: text(64).optional().default(""),
+  officeHours: text(500).optional().default(""),
+  ctaLabel: text(120).optional().default(""),
+  layoutId: z.enum(WEBSITE_LAYOUT_IDS).optional(),
+  siteLocale: z.enum(["en", "fr"]).optional(),
+  includePrivacyPage: z.boolean().optional(),
+  includeSiteQr: z.boolean().optional(),
+  events: z.array(eventSchema).max(24).optional().default([]),
   facebookUrl: text(2048).nullable().optional(),
   officersOverride: z.boolean().optional().default(false),
   officers: z.array(officerSchema).max(MAX_WEBSITE_OFFICERS).optional().default([]),
@@ -55,6 +83,16 @@ export function parseWebsiteDraft(raw: unknown): WebsiteDraftParseResult {
       about2: parsed.data.about2,
       contactEmail: parsed.data.contactEmail,
       officeAddress: parsed.data.officeAddress,
+      contactPhone: parsed.data.contactPhone,
+      officeHours: parsed.data.officeHours,
+      ctaLabel: parsed.data.ctaLabel,
+      layoutId: coerceWebsiteLayoutId(
+        parsed.data.layoutId ?? DEFAULT_WEBSITE_LAYOUT_ID,
+      ),
+      siteLocale: coerceWebsiteSiteLocale(parsed.data.siteLocale),
+      includePrivacyPage: parsed.data.includePrivacyPage ?? true,
+      includeSiteQr: parsed.data.includeSiteQr ?? false,
+      events: parsed.data.events,
       facebookUrl: parsed.data.facebookUrl ?? null,
       officersOverride: parsed.data.officersOverride,
       officers: parsed.data.officers,

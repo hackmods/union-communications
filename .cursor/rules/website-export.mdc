@@ -10,7 +10,11 @@ Canonical plan: [`docs/audit/plan-2026-08-18-website-export-wp-squarespace.md`](
 
 ## As-built
 
-Single-page GitHub Pages ZIP from `generateWebsiteZip()` is the **default** export. Classic WordPress theme ZIP from `generateWordpressThemeZip()` is a second button for locals who already run WordPress. Flat `WebsiteTemplateData` — no blocks, no page list, no forms (`mailto:` only). Page copy is session state; both ZIPs include `unionops-website.json` so a steward can import the site file (or the ZIP) and regenerate.
+GitHub Pages ZIP from `generateWebsiteZip()` is the **default** export. Classic WordPress theme ZIP from `generateWordpressThemeZip()` is a second button for locals who already run WordPress.
+
+**Layouts (2026-09):** curated `layoutId` values `solidarity` | `bulletin` | `hall` share one content model (`WebsiteTemplateData` / draft / `unionops-website.json` **v2**). Switching layouts never recreates copy. Multi-page site trees remain deferred — see [`docs/audit/website-template-world-class-2026-09.md`](../../docs/audit/website-template-world-class-2026-09.md).
+
+Still not a CMS: no freeform block tree, no forms (`mailto:` only), no Squarespace export. Page copy persists in `WebsiteDraft` (localStorage) + Local Pack; hero photo bytes stay session-only. Both ZIPs include `unionops-website.json` so a steward can import the site file (or the ZIP) and regenerate. v1 JSON/ZIP imports migrate to v2 (`layoutId: solidarity`).
 
 ## Verdict
 
@@ -22,3 +26,4 @@ Single-page GitHub Pages ZIP from `generateWebsiteZip()` is the **default** expo
 - Replace GitHub Pages as the default export
 - Promise a Squarespace-compatible template
 - Invent a CMS/block tree solely to chase WP FSE or Squarespace Fluid Engine
+- Fork a full HTML/CSS copy per layout — add layouts via the registry + section renderers

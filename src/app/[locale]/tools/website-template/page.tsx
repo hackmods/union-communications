@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState, type ChangeEvent } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -16,7 +16,6 @@ import {
   isWebsiteHeroArtId,
   websiteHeroDataUrlToBytes,
   websiteHeroUploadFileName,
-  type WebsiteHeroArtId,
 } from "@/lib/templates/website/hero-art";
 import {
   joinWithConjunction,
@@ -41,7 +40,11 @@ import { SegControl } from "@/components/tools/SegControl";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
-import { WebsitePreviewFrame } from "@/components/tools/WebsitePreviewFrame";
+import {
+  WebsitePreviewFrame,
+  type WebsitePreviewDevice,
+} from "@/components/tools/WebsitePreviewFrame";
+import { WebsiteLayoutPicker } from "@/components/tools/WebsiteLayoutPicker";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { Callout } from "@/components/ui/Callout";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -53,11 +56,19 @@ import { usePublicRosterStore } from "@/store/public-roster-store";
 import { useWebsiteDraftStore } from "@/store/website-draft-store";
 import { officersFromRoster } from "@/lib/org-chart/website";
 import { MAX_WEBSITE_OFFICERS } from "@/types/public-roster";
+import {
+  coerceWebsiteLayoutId,
+  DEFAULT_WEBSITE_LAYOUT_ID,
+  type WebsiteLayoutId,
+} from "@/lib/templates/website/layouts/registry";
+import type { WebsiteSiteLocale } from "@/lib/templates/website/site-strings";
+import { emptyWebsiteDraft } from "@/types/website-draft";
 
 export default function WebsiteTemplatePage() {
   const t = useTranslations("websiteTemplate");
   const tc = useTranslations("common");
   const ts = useTranslations("sources");
+  const locale = useLocale();
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const rosterHydrated = usePublicRosterStore((s) => s.hydrated);
@@ -83,6 +94,11 @@ export default function WebsiteTemplatePage() {
   const [importPhotoMissing, setImportPhotoMissing] = useState(false);
   /** Session-only hero photo (not persisted in Local pack / draft). */
   const [heroImagePreviewSrc, setHeroImagePreviewSrc] = useState("");
+  const [previewDevice, setPreviewDevice] =
+    useState<WebsitePreviewDevice>("desktop");
+  const [builderMode, setBuilderMode] = useState<
+    "design" | "content" | "people" | "publish"
+  >("design");
 
   const logoPreviewSrc =
     importedLogo?.previewSrc ?? resolveBrandLogoSrc(brandKit);
@@ -116,6 +132,8 @@ export default function WebsiteTemplatePage() {
             : t("aboutSeedGeneric", { localNumber: number }),
         heroText: draft.heroText || t("heroDefault"),
         about2: draft.about2 || t("about2Default"),
+        siteLocale: locale === "fr" ? "fr" : "en",
+        layoutId: draft.layoutId || DEFAULT_WEBSITE_LAYOUT_ID,
       });
     },
     overlay === null && draftLooksEmpty,
@@ -213,17 +231,7 @@ export default function WebsiteTemplatePage() {
   };
 
   const patchCopy = (
-    partial: Partial<{
-      unionName: string;
-      heroText: string;
-      about1: string;
-      about2: string;
-      contactEmail: string;
-      officeAddress: string;
-      facebookUrl: string | null;
-      heroArtId: WebsiteHeroArtId;
-      heroImageAlt: string;
-    }>,
+    partial: Parameters<typeof setDraft>[0],
   ) => {
     setDraft(partial);
     setOverlay(null);
@@ -310,21 +318,29 @@ export default function WebsiteTemplatePage() {
   }) => {
     const data = imported.envelope.data;
     setOverlay(data);
-    replaceDraft({
-      version: 1,
-      updatedAt: new Date().toISOString(),
-      unionName: data.unionName,
-      heroText: data.heroText,
-      about1: data.about1,
-      about2: data.about2,
-      contactEmail: data.contactEmail,
-      officeAddress: data.officeAddress,
-      facebookUrl: data.facebookUrl,
-      officersOverride: true,
-      officers: data.officers,
-      heroArtId: coerceWebsiteHeroArtId(data.heroArtId) ?? "none",
-      heroImageAlt: data.heroImageAlt ?? "",
-    });
+    replaceDraft(
+      emptyWebsiteDraft({
+        unionName: data.unionName,
+        heroText: data.heroText,
+        about1: data.about1,
+        about2: data.about2,
+        contactEmail: data.contactEmail,
+        officeAddress: data.officeAddress,
+        contactPhone: data.contactPhone,
+        officeHours: data.officeHours,
+        ctaLabel: data.ctaLabel,
+        layoutId: coerceWebsiteLayoutId(data.layoutId),
+        siteLocale: data.siteLocale,
+        includePrivacyPage: data.includePrivacyPage,
+        includeSiteQr: data.includeSiteQr,
+        events: data.events,
+        facebookUrl: data.facebookUrl,
+        officersOverride: true,
+        officers: data.officers,
+        heroArtId: coerceWebsiteHeroArtId(data.heroArtId) ?? "none",
+        heroImageAlt: data.heroImageAlt ?? "",
+      }),
+    );
     setImportedLogo(imported.logo ?? null);
     if (imported.heroImage) {
       setImportedHero(imported.heroImage);
@@ -400,282 +416,495 @@ export default function WebsiteTemplatePage() {
       }
       form={
         <div className="space-y-3">
+          <div
+            className="flex flex-wrap gap-1 rounded-lg border border-gray-200 bg-gray-50 p-1"
+            role="tablist"
+            aria-label={t("builderModesLabel")}
+          >
+            {(
+              [
+                ["design", t("modeDesign")],
+                ["content", t("modeContent")],
+                ["people", t("modePeople")],
+                ["publish", t("modePublish")],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={builderMode === id}
+                className={`min-h-11 flex-1 rounded-md px-2 text-sm font-semibold ${
+                  builderMode === id
+                    ? "bg-white text-opseu-dark shadow-sm"
+                    : "text-gray-600 hover:text-opseu-dark"
+                }`}
+                onClick={() => setBuilderMode(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
           <Input
             label={t("unionName")}
             value={templateData.unionName}
             onChange={(e) => patchCopy({ unionName: e.target.value })}
           />
 
-          <ToolFormDetails title={t("sectionHero")}>
-            <Textarea
-              label={t("heroText")}
-              value={templateData.heroText}
-              onChange={(e) => patchCopy({ heroText: e.target.value })}
-              rows={2}
-            />
-            <SegControl
-              label={t("heroArt")}
-              value={heroArtId}
-              onChange={(value) => {
-                if (isWebsiteHeroArtId(value)) {
-                  patchCopy({ heroArtId: value });
+          {builderMode === "design" ? (
+            <>
+              <WebsiteLayoutPicker
+                legend={t("layoutLegend")}
+                value={coerceWebsiteLayoutId(templateData.layoutId)}
+                onChange={(layoutId: WebsiteLayoutId) =>
+                  patchCopy({ layoutId })
                 }
-              }}
-              options={[
-                { value: "none", label: t("heroArtNone") },
-                { value: "mesh", label: t("heroArtMesh") },
-                { value: "arc", label: t("heroArtArc") },
-                { value: "bloom", label: t("heroArtBloom") },
-              ]}
-            />
-            <p className="text-xs text-gray-500">{t("heroArtHint")}</p>
-            <ImageUpload
-              label={t("heroArtUpload")}
-              hint={t("heroArtUploadHint")}
-              preview={heroImagePreviewSrc}
-              onUpload={(dataUrl) => {
-                setImportedHero(null);
-                setImportPhotoMissing(false);
-                setHeroImagePreviewSrc(dataUrl);
-              }}
-              onClear={() => {
-                setImportedHero(null);
-                setImportPhotoMissing(false);
-                setHeroImagePreviewSrc("");
-                patchCopy({ heroImageAlt: "" });
-              }}
-            />
-            <p className="text-sm leading-snug text-gray-600">
-              <Link
-                href="/guide/photo-consent"
-                className="text-opseu-blue underline"
-              >
-                {t("photoConsentLink")}
-              </Link>
-            </p>
-            {heroImagePreviewSrc ? (
-              <Input
-                label={t("heroArtAlt")}
-                value={heroImageAlt}
-                onChange={(e) => patchCopy({ heroImageAlt: e.target.value })}
-                aria-describedby="website-hero-alt-hint"
+                labels={{
+                  solidarity: {
+                    title: t("layoutSolidarityTitle"),
+                    blurb: t("layoutSolidarityBlurb"),
+                  },
+                  bulletin: {
+                    title: t("layoutBulletinTitle"),
+                    blurb: t("layoutBulletinBlurb"),
+                  },
+                  hall: {
+                    title: t("layoutHallTitle"),
+                    blurb: t("layoutHallBlurb"),
+                  },
+                }}
               />
-            ) : null}
-            {heroImagePreviewSrc ? (
-              <p id="website-hero-alt-hint" className="text-xs text-gray-500">
-                {t("heroArtAltHint")}
-              </p>
-            ) : null}
-            {importPhotoMissing ? (
-              <p className="text-sm text-gray-700" role="status">
-                {t("importPhotoMissing")}
-              </p>
-            ) : null}
-          </ToolFormDetails>
+              <p className="text-xs text-gray-500">{t("layoutHint")}</p>
 
-          <ToolFormDetails title={t("sectionAbout")}>
-            <Textarea
-              label={t("about1")}
-              value={templateData.about1}
-              onChange={(e) => patchCopy({ about1: e.target.value })}
-              rows={3}
-            />
-            <Textarea
-              label={t("about2")}
-              value={templateData.about2}
-              onChange={(e) => patchCopy({ about2: e.target.value })}
-              rows={2}
-            />
-          </ToolFormDetails>
-
-          <ToolFormDetails title={t("sectionContact")}>
-            <Input
-              label={t("contactEmail")}
-              type="email"
-              value={templateData.contactEmail}
-              onChange={(e) => patchCopy({ contactEmail: e.target.value })}
-            />
-            <Input
-              label={t("facebookUrl")}
-              value={facebookUrl}
-              onChange={(e) => patchCopy({ facebookUrl: e.target.value })}
-            />
-            <Textarea
-              label={t("officeAddress")}
-              value={templateData.officeAddress}
-              onChange={(e) => patchCopy({ officeAddress: e.target.value })}
-              rows={2}
-              placeholder={t("officeAddressPlaceholder")}
-            />
-          </ToolFormDetails>
-
-          <ToolFormDetails title={t("bundledHeading")}>
-            <Callout tone={bundledCount > 0 ? "muted" : "brand"}>
-              <p className="font-semibold text-opseu-dark">
-                {t("bundledHeading")}
-              </p>
-              <p className="mt-1">
-                {bundledCount > 0 ? t("bundledIntro") : t("bundledEmpty")}
-              </p>
-              {customLinks.length > 0 ? (
-                <div className="mt-3">
-                  <p className="text-xs font-bold uppercase tracking-wide text-gray-600">
-                    {t("bundledCustomHeading")}
+              <ToolFormDetails title={t("sectionHero")} defaultOpen>
+                <Textarea
+                  label={t("heroText")}
+                  value={templateData.heroText}
+                  onChange={(e) => patchCopy({ heroText: e.target.value })}
+                  rows={2}
+                />
+                <Input
+                  label={t("ctaLabel")}
+                  value={draft.ctaLabel}
+                  onChange={(e) => patchCopy({ ctaLabel: e.target.value })}
+                  placeholder={t("ctaLabelPlaceholder")}
+                />
+                <SegControl
+                  label={t("heroArt")}
+                  value={heroArtId}
+                  onChange={(value) => {
+                    if (isWebsiteHeroArtId(value)) {
+                      patchCopy({ heroArtId: value });
+                    }
+                  }}
+                  options={[
+                    { value: "none", label: t("heroArtNone") },
+                    { value: "mesh", label: t("heroArtMesh") },
+                    { value: "arc", label: t("heroArtArc") },
+                    { value: "bloom", label: t("heroArtBloom") },
+                  ]}
+                />
+                <p className="text-xs text-gray-500">{t("heroArtHint")}</p>
+                <ImageUpload
+                  label={t("heroArtUpload")}
+                  hint={t("heroArtUploadHint")}
+                  preview={heroImagePreviewSrc}
+                  onUpload={(dataUrl) => {
+                    setImportedHero(null);
+                    setImportPhotoMissing(false);
+                    setHeroImagePreviewSrc(dataUrl);
+                  }}
+                  onClear={() => {
+                    setImportedHero(null);
+                    setImportPhotoMissing(false);
+                    setHeroImagePreviewSrc("");
+                    patchCopy({ heroImageAlt: "" });
+                  }}
+                />
+                <p className="text-sm leading-snug text-gray-600">
+                  <Link
+                    href="/guide/photo-consent"
+                    className="text-opseu-blue underline"
+                  >
+                    {t("photoConsentLink")}
+                  </Link>
+                </p>
+                {heroImagePreviewSrc ? (
+                  <Input
+                    label={t("heroArtAlt")}
+                    value={heroImageAlt}
+                    onChange={(e) =>
+                      patchCopy({ heroImageAlt: e.target.value })
+                    }
+                    aria-describedby="website-hero-alt-hint"
+                  />
+                ) : null}
+                {heroImagePreviewSrc ? (
+                  <p
+                    id="website-hero-alt-hint"
+                    className="text-xs text-gray-500"
+                  >
+                    {t("heroArtAltHint")}
                   </p>
-                  <ul className="mt-1 list-disc space-y-0.5 pl-5">
-                    {customLinks.map((link) => (
-                      <li key={link.url}>{link.label}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-              {membershipLinks.length > 0 ? (
-                <div className="mt-3">
-                  <p className="text-xs font-bold uppercase tracking-wide text-gray-600">
-                    {t("bundledMembershipHeading")}
+                ) : null}
+                {importPhotoMissing ? (
+                  <p className="text-sm text-gray-700" role="status">
+                    {t("importPhotoMissing")}
                   </p>
-                  <ul className="mt-1 list-disc space-y-0.5 pl-5">
-                    {membershipLinks.map((link) => (
-                      <li key={link.url}>{link.label}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-              <p className="mt-3">
-                <Link
-                  href={brandSetupHref(themeEstablished)}
-                  className="font-semibold text-opseu-blue underline underline-offset-2"
-                >
-                  {t("bundledEdit")}
-                </Link>
-              </p>
-            </Callout>
-          </ToolFormDetails>
+                ) : null}
+              </ToolFormDetails>
 
-          <ToolFormDetails title={t("sectionOfficers")}>
-            <p className="text-sm text-gray-600">{t("orgChartHint")}</p>
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={applyRosterOfficers}
-              >
-                {t("useOrgChart")}
-              </Button>
-              <Link
-                href="/tools/org-chart"
-                className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2"
-              >
-                {t("orgChartLink")}
-              </Link>
-            </div>
-            <div className="space-y-3">
-              {officers.map((officer, index) => (
-                <div
-                  key={index}
-                  className="rounded-md border border-gray-200 p-3"
-                >
-                  <Input
-                    label={t("officerName")}
-                    value={officer.name}
+              <ToolFormDetails title={t("sectionSiteOptions")} defaultOpen>
+                <SegControl
+                  label={t("siteLocale")}
+                  value={draft.siteLocale}
+                  onChange={(value) =>
+                    patchCopy({
+                      siteLocale: value as WebsiteSiteLocale,
+                    })
+                  }
+                  options={[
+                    { value: "en", label: t("siteLocaleEn") },
+                    { value: "fr", label: t("siteLocaleFr") },
+                  ]}
+                />
+                <label className="flex min-h-11 items-start gap-2 text-sm text-gray-800">
+                  <input
+                    type="checkbox"
+                    className="mt-1"
+                    checked={draft.includePrivacyPage}
                     onChange={(e) =>
-                      updateOfficer(index, "name", e.target.value)
+                      patchCopy({ includePrivacyPage: e.target.checked })
                     }
                   />
-                  <Input
-                    label={t("officerRole")}
-                    value={officer.role}
+                  <span>{t("includePrivacyPage")}</span>
+                </label>
+                <label className="flex min-h-11 items-start gap-2 text-sm text-gray-800">
+                  <input
+                    type="checkbox"
+                    className="mt-1"
+                    checked={draft.includeSiteQr}
                     onChange={(e) =>
-                      updateOfficer(index, "role", e.target.value)
+                      patchCopy({ includeSiteQr: e.target.checked })
                     }
                   />
-                  <Input
-                    label={t("officerLocation")}
-                    value={officer.location}
-                    onChange={(e) =>
-                      updateOfficer(index, "location", e.target.value)
-                    }
-                  />
-                  {officers.length > 1 && (
+                  <span>{t("includeSiteQr")}</span>
+                </label>
+                <p className="text-xs text-gray-500">{t("includeSiteQrHint")}</p>
+              </ToolFormDetails>
+            </>
+          ) : null}
+
+          {builderMode === "content" ? (
+            <>
+              <ToolFormDetails title={t("sectionAbout")} defaultOpen>
+                <Textarea
+                  label={t("about1")}
+                  value={templateData.about1}
+                  onChange={(e) => patchCopy({ about1: e.target.value })}
+                  rows={3}
+                />
+                <Textarea
+                  label={t("about2")}
+                  value={templateData.about2}
+                  onChange={(e) => patchCopy({ about2: e.target.value })}
+                  rows={2}
+                />
+              </ToolFormDetails>
+
+              <ToolFormDetails title={t("sectionContact")} defaultOpen>
+                <Input
+                  label={t("contactEmail")}
+                  type="email"
+                  value={templateData.contactEmail}
+                  onChange={(e) =>
+                    patchCopy({ contactEmail: e.target.value })
+                  }
+                />
+                <Input
+                  label={t("contactPhone")}
+                  type="tel"
+                  value={draft.contactPhone}
+                  onChange={(e) =>
+                    patchCopy({ contactPhone: e.target.value })
+                  }
+                  placeholder={t("contactPhonePlaceholder")}
+                />
+                <Input
+                  label={t("officeHours")}
+                  value={draft.officeHours}
+                  onChange={(e) =>
+                    patchCopy({ officeHours: e.target.value })
+                  }
+                  placeholder={t("officeHoursPlaceholder")}
+                />
+                <Input
+                  label={t("facebookUrl")}
+                  value={facebookUrl}
+                  onChange={(e) =>
+                    patchCopy({ facebookUrl: e.target.value })
+                  }
+                />
+                <Textarea
+                  label={t("officeAddress")}
+                  value={templateData.officeAddress}
+                  onChange={(e) =>
+                    patchCopy({ officeAddress: e.target.value })
+                  }
+                  rows={2}
+                  placeholder={t("officeAddressPlaceholder")}
+                />
+              </ToolFormDetails>
+
+              <ToolFormDetails title={t("sectionEvents")} defaultOpen>
+                <p className="text-xs text-gray-500">{t("eventsHint")}</p>
+                {draft.events.map((event, index) => (
+                  <div
+                    key={`event-${index}`}
+                    className="space-y-2 rounded-lg border border-gray-200 p-3"
+                  >
+                    <Input
+                      label={t("eventTitle")}
+                      value={event.title}
+                      onChange={(e) => {
+                        const events = draft.events.map((row, i) =>
+                          i === index
+                            ? { ...row, title: e.target.value }
+                            : row,
+                        );
+                        patchCopy({ events });
+                      }}
+                    />
+                    <Input
+                      label={t("eventWhen")}
+                      value={event.when}
+                      onChange={(e) => {
+                        const events = draft.events.map((row, i) =>
+                          i === index ? { ...row, when: e.target.value } : row,
+                        );
+                        patchCopy({ events });
+                      }}
+                      placeholder={t("eventWhenPlaceholder")}
+                    />
+                    <Input
+                      label={t("eventLocation")}
+                      value={event.location ?? ""}
+                      onChange={(e) => {
+                        const events = draft.events.map((row, i) =>
+                          i === index
+                            ? { ...row, location: e.target.value }
+                            : row,
+                        );
+                        patchCopy({ events });
+                      }}
+                    />
                     <Button
                       type="button"
                       variant="outline"
-                      size="sm"
-                      className="mt-2"
-                      onClick={() => removeOfficer(index)}
+                      onClick={() =>
+                        patchCopy({
+                          events: draft.events.filter((_, i) => i !== index),
+                        })
+                      }
                     >
-                      {t("removeOfficer")}
+                      {t("removeEvent")}
                     </Button>
-                  )}
+                  </div>
+                ))}
+                {draft.events.length < 12 ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() =>
+                      patchCopy({
+                        events: [
+                          ...draft.events,
+                          { title: "", when: "", location: "", detail: "" },
+                        ],
+                      })
+                    }
+                  >
+                    {t("addEvent")}
+                  </Button>
+                ) : null}
+              </ToolFormDetails>
+
+              <ToolFormDetails title={t("bundledHeading")}>
+                <Callout tone={bundledCount > 0 ? "muted" : "brand"}>
+                  <p className="font-semibold text-opseu-dark">
+                    {t("bundledHeading")}
+                  </p>
+                  <p className="mt-1">
+                    {bundledCount > 0 ? t("bundledIntro") : t("bundledEmpty")}
+                  </p>
+                  {customLinks.length > 0 ? (
+                    <div className="mt-3">
+                      <p className="text-xs font-bold uppercase tracking-wide text-gray-600">
+                        {t("bundledCustomHeading")}
+                      </p>
+                      <ul className="mt-1 list-disc space-y-0.5 pl-5">
+                        {customLinks.map((link) => (
+                          <li key={link.url}>{link.label}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                  {membershipLinks.length > 0 ? (
+                    <div className="mt-3">
+                      <p className="text-xs font-bold uppercase tracking-wide text-gray-600">
+                        {t("bundledMembershipHeading")}
+                      </p>
+                      <ul className="mt-1 list-disc space-y-0.5 pl-5">
+                        {membershipLinks.map((link) => (
+                          <li key={link.url}>{link.label}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                  <p className="mt-3">
+                    <Link
+                      href={brandSetupHref(themeEstablished)}
+                      className="font-semibold text-opseu-blue underline underline-offset-2"
+                    >
+                      {t("bundledEdit")}
+                    </Link>
+                  </p>
+                </Callout>
+              </ToolFormDetails>
+            </>
+          ) : null}
+
+          {builderMode === "people" ? (
+            <>
+              <p className="text-sm text-gray-600">{t("orgChartHint")}</p>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={applyRosterOfficers}
+                >
+                  {t("useOrgChart")}
+                </Button>
+                <Link
+                  href="/tools/org-chart"
+                  className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2"
+                >
+                  {t("orgChartLink")}
+                </Link>
+              </div>
+              <div className="space-y-3">
+                {officers.map((officer, index) => (
+                  <div
+                    key={index}
+                    className="rounded-md border border-gray-200 p-3"
+                  >
+                    <Input
+                      label={t("officerName")}
+                      value={officer.name}
+                      onChange={(e) =>
+                        updateOfficer(index, "name", e.target.value)
+                      }
+                    />
+                    <Input
+                      label={t("officerRole")}
+                      value={officer.role}
+                      onChange={(e) =>
+                        updateOfficer(index, "role", e.target.value)
+                      }
+                    />
+                    <Input
+                      label={t("officerLocation")}
+                      value={officer.location}
+                      onChange={(e) =>
+                        updateOfficer(index, "location", e.target.value)
+                      }
+                    />
+                    {officers.length > 1 ? (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="mt-2"
+                        onClick={() => removeOfficer(index)}
+                      >
+                        {t("removeOfficer")}
+                      </Button>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+              {officers.length < MAX_WEBSITE_OFFICERS ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={addOfficer}
+                >
+                  {t("addOfficer")}
+                </Button>
+              ) : null}
+            </>
+          ) : null}
+
+          {builderMode === "publish" ? (
+            <>
+              <ToolFormDetails title={t("sectionImportExport")} defaultOpen>
+                {importError ? (
+                  <p className="text-sm text-red-700" role="alert">
+                    {importError}
+                  </p>
+                ) : null}
+                {importMessage ? (
+                  <p className="text-sm text-opseu-blue" role="status">
+                    {importMessage}
+                  </p>
+                ) : null}
+                <Callout tone="muted">
+                  <p>{t("importHint")}</p>
+                </Callout>
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept=".json,.zip,application/json,application/zip"
+                  className="sr-only"
+                  aria-label={t("import")}
+                  onChange={handleImport}
+                />
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileRef.current?.click()}
+                    disabled={busy}
+                  >
+                    {importing ? tc("loading") : t("import")}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleDownloadConfig}
+                    disabled={busy}
+                  >
+                    {exporting ? tc("loading") : t("downloadConfig")}
+                  </Button>
                 </div>
-              ))}
-            </div>
-            {officers.length < MAX_WEBSITE_OFFICERS && (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={addOfficer}
-              >
-                {t("addOfficer")}
-              </Button>
-            )}
-          </ToolFormDetails>
+              </ToolFormDetails>
 
-          <ToolFormDetails title={t("sectionImportExport")}>
-            {importError ? (
-              <p className="text-sm text-red-700" role="alert">
-                {importError}
-              </p>
-            ) : null}
-            {importMessage ? (
-              <p className="text-sm text-opseu-blue" role="status">
-                {importMessage}
-              </p>
-            ) : null}
-            <Callout tone="muted">
-              <p>{t("importHint")}</p>
-            </Callout>
-            <input
-              ref={fileRef}
-              type="file"
-              accept=".json,.zip,application/json,application/zip"
-              className="sr-only"
-              aria-label={t("import")}
-              onChange={handleImport}
-            />
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => fileRef.current?.click()}
-                disabled={busy}
-              >
-                {importing ? tc("loading") : t("import")}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleDownloadConfig}
-                disabled={busy}
-              >
-                {exporting ? tc("loading") : t("downloadConfig")}
-              </Button>
-            </div>
-          </ToolFormDetails>
-
-          <ToolFormDetails title={t("sectionOtherPlatforms")}>
-            <Callout tone="muted">
-              <p className="font-semibold text-opseu-dark">
-                {t("wordpressHeading")}
-              </p>
-              <p className="mt-1">{t("wordpressUnsupported")}</p>
-            </Callout>
-            <Callout tone="muted">
-              <p>{t("squarespaceNote")}</p>
-            </Callout>
-          </ToolFormDetails>
+              <ToolFormDetails title={t("sectionOtherPlatforms")}>
+                <Callout tone="muted">
+                  <p className="font-semibold text-opseu-dark">
+                    {t("wordpressHeading")}
+                  </p>
+                  <p className="mt-1">{t("wordpressUnsupported")}</p>
+                </Callout>
+                <Callout tone="muted">
+                  <p>{t("squarespaceNote")}</p>
+                </Callout>
+              </ToolFormDetails>
+            </>
+          ) : null}
 
           {exportError ? (
             <p className="text-sm text-red-700" role="alert">
@@ -691,10 +920,26 @@ export default function WebsiteTemplatePage() {
       }
       preview={
         <div>
-          <p className="mb-2 text-sm font-medium text-gray-700">
-            {t("preview")}
-          </p>
-          <WebsitePreviewFrame title={t("preview")} html={previewHtml} />
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm font-medium text-gray-700">{t("preview")}</p>
+            <SegControl
+              label={t("previewDevice")}
+              value={previewDevice}
+              onChange={(value) =>
+                setPreviewDevice(value as WebsitePreviewDevice)
+              }
+              options={[
+                { value: "phone", label: t("previewPhone") },
+                { value: "tablet", label: t("previewTablet") },
+                { value: "desktop", label: t("previewDesktop") },
+              ]}
+            />
+          </div>
+          <WebsitePreviewFrame
+            title={t("preview")}
+            html={previewHtml}
+            device={previewDevice}
+          />
         </div>
       }
       footer={

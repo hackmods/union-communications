@@ -6,14 +6,25 @@ import {
   type WebsiteHeroArtId,
 } from "@/lib/templates/website/hero-art";
 import type {
+  WebsiteEvent,
   WebsiteNavLink,
   WebsiteOfficer,
   WebsiteTemplateData,
 } from "@/types/website-template";
-import { MAX_WEBSITE_OFFICERS } from "@/types/public-roster";
+import { MAX_WEBSITE_OFFICERS, PUBLIC_ROSTER_GROUPS, PUBLIC_ROSTER_UNITS } from "@/types/public-roster";
+import {
+  coerceWebsiteLayoutId,
+  DEFAULT_WEBSITE_LAYOUT_ID,
+  type WebsiteLayoutId,
+} from "@/lib/templates/website/layouts/registry";
+import {
+  coerceWebsiteSiteLocale,
+  type WebsiteSiteLocale,
+} from "@/lib/templates/website/site-strings";
 
 export const WEBSITE_CONFIG_KIND = "unionops-website" as const;
-export const WEBSITE_CONFIG_VERSION = 1 as const;
+/** Current portable schema. v1 imports migrate in place. */
+export const WEBSITE_CONFIG_VERSION = 2 as const;
 export const WEBSITE_CONFIG_FILE = "unionops-website.json";
 
 const HEX_COLOR = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
@@ -42,6 +53,17 @@ export type WebsiteConfigData = {
   contactEmail: string;
   facebookUrl: string;
   officeAddress: string;
+  contactPhone: string;
+  officeHours: string;
+  ctaLabel: string;
+  tagline: string;
+  websiteUrl: string;
+  accentColor?: string;
+  layoutId: WebsiteLayoutId;
+  siteLocale: WebsiteSiteLocale;
+  includePrivacyPage: boolean;
+  includeSiteQr: boolean;
+  events: WebsiteEvent[];
   officers: WebsiteOfficer[];
   customLinks: WebsiteNavLink[];
   membershipLinks: WebsiteNavLink[];
@@ -81,11 +103,21 @@ const officerSchema = z.object({
   name: text(200),
   role: text(200),
   location: text(200),
+  group: z.enum(PUBLIC_ROSTER_GROUPS).optional(),
+  committeeName: text(200).optional(),
+  unit: z.enum(PUBLIC_ROSTER_UNITS).nullable().optional(),
 });
 
 const navLinkSchema = z.object({
   label: text(200),
   url: text(2048),
+});
+
+const eventSchema = z.object({
+  title: text(300),
+  when: text(64),
+  location: text(300).optional(),
+  detail: text(2000).optional(),
 });
 
 const canvasSchema = z
@@ -109,6 +141,17 @@ const configDataSchema = z.object({
   contactEmail: text(254),
   facebookUrl: text(2048),
   officeAddress: text(2000),
+  contactPhone: text(64).optional(),
+  officeHours: text(500).optional(),
+  ctaLabel: text(120).optional(),
+  tagline: text(300).optional(),
+  websiteUrl: text(2048).optional(),
+  accentColor: z.string().optional(),
+  layoutId: z.string().optional(),
+  siteLocale: z.enum(["en", "fr"]).optional(),
+  includePrivacyPage: z.boolean().optional(),
+  includeSiteQr: z.boolean().optional(),
+  events: z.array(eventSchema).max(24).optional(),
   officers: z.array(officerSchema).max(MAX_WEBSITE_OFFICERS),
   customLinks: z.array(navLinkSchema).max(24).optional(),
   membershipLinks: z.array(navLinkSchema).max(24).optional(),
@@ -126,7 +169,7 @@ const configDataSchema = z.object({
 const envelopeSchema = z
   .object({
     kind: z.literal(WEBSITE_CONFIG_KIND),
-    version: z.literal(WEBSITE_CONFIG_VERSION),
+    version: z.union([z.literal(1), z.literal(2)]),
     exportedAt: z.string().min(1).max(64),
     data: configDataSchema,
   })
@@ -161,16 +204,48 @@ function sanitizeFacebookUrl(url: string): string {
   return isWebsiteHttpUrl(trimmed) ? trimmed : "";
 }
 
+function sanitizeHttpUrl(url: string | undefined): string {
+  const trimmed = trim(url ?? "");
+  if (!trimmed) return "";
+  return isWebsiteHttpUrl(trimmed) ? trimmed : "";
+}
+
+function sanitizeAccent(color: string | undefined): string | undefined {
+  const trimmed = trim(color ?? "");
+  if (!trimmed) return undefined;
+  return HEX_COLOR.test(trimmed) ? trimmed : undefined;
+}
+
 function sanitizeOfficers(officers: WebsiteOfficer[]): WebsiteOfficer[] {
-  const next = officers.map((officer) => ({
-    name: trim(officer.name),
-    role: trim(officer.role),
-    location: trim(officer.location),
-  }));
+  const next = officers.map((officer) => {
+    const row: WebsiteOfficer = {
+      name: trim(officer.name),
+      role: trim(officer.role),
+      location: trim(officer.location),
+    };
+    if (officer.group) row.group = officer.group;
+    if (officer.committeeName?.trim()) {
+      row.committeeName = officer.committeeName.trim();
+    }
+    if (officer.unit) row.unit = officer.unit;
+    return row;
+  });
   if (next.length === 0) {
     return [{ name: "", role: "", location: "" }];
   }
   return next;
+}
+
+function sanitizeEvents(events: WebsiteEvent[] | undefined): WebsiteEvent[] {
+  if (!events?.length) return [];
+  return events
+    .map((event) => ({
+      title: trim(event.title),
+      when: trim(event.when),
+      location: trim(event.location ?? ""),
+      detail: trim(event.detail ?? ""),
+    }))
+    .filter((event) => event.title);
 }
 
 function sanitizeAssetFileName(
@@ -286,6 +361,16 @@ function normalizeParsedData(
     contactEmail: trim(raw.contactEmail),
     facebookUrl: sanitizeFacebookUrl(raw.facebookUrl),
     officeAddress: trim(raw.officeAddress),
+    contactPhone: trim(raw.contactPhone ?? ""),
+    officeHours: trim(raw.officeHours ?? ""),
+    ctaLabel: trim(raw.ctaLabel ?? ""),
+    tagline: trim(raw.tagline ?? ""),
+    websiteUrl: sanitizeHttpUrl(raw.websiteUrl),
+    layoutId: coerceWebsiteLayoutId(raw.layoutId ?? DEFAULT_WEBSITE_LAYOUT_ID),
+    siteLocale: coerceWebsiteSiteLocale(raw.siteLocale),
+    includePrivacyPage: raw.includePrivacyPage ?? true,
+    includeSiteQr: raw.includeSiteQr ?? false,
+    events: sanitizeEvents(raw.events),
     officers: sanitizeOfficers(raw.officers),
     customLinks: toWebsiteNavLinks(raw.customLinks ?? []),
     membershipLinks: toWebsiteNavLinks(raw.membershipLinks ?? []),
@@ -297,6 +382,8 @@ function normalizeParsedData(
     heroImageFileName: sanitizeAssetFileName(raw.heroImageFileName, "hero") || undefined,
     heroImageAlt: trim(raw.heroImageAlt ?? ""),
   };
+  const accent = sanitizeAccent(raw.accentColor);
+  if (accent) data.accentColor = accent;
   if (heroArtId) data.heroArtId = heroArtId;
   if (canvas) data.canvas = canvas;
   return data;
@@ -308,7 +395,7 @@ export function parseWebsiteConfigValue(value: unknown): WebsiteConfigEnvelope {
   }
   const kind = (value as { kind?: unknown }).kind;
   const version = (value as { version?: unknown }).version;
-  if (kind !== WEBSITE_CONFIG_KIND || version !== WEBSITE_CONFIG_VERSION) {
+  if (kind !== WEBSITE_CONFIG_KIND || (version !== 1 && version !== 2)) {
     throw new WebsiteConfigParseError("wrongKind");
   }
   const parsed = envelopeSchema.safeParse(value);
@@ -348,6 +435,16 @@ export function serializeWebsiteConfig(
     contactEmail: trim(data.contactEmail),
     facebookUrl: sanitizeFacebookUrl(data.facebookUrl),
     officeAddress: trim(data.officeAddress),
+    contactPhone: trim(data.contactPhone ?? ""),
+    officeHours: trim(data.officeHours ?? ""),
+    ctaLabel: trim(data.ctaLabel ?? ""),
+    tagline: trim(data.tagline ?? ""),
+    websiteUrl: sanitizeHttpUrl(data.websiteUrl),
+    layoutId: coerceWebsiteLayoutId(data.layoutId ?? DEFAULT_WEBSITE_LAYOUT_ID),
+    siteLocale: coerceWebsiteSiteLocale(data.siteLocale),
+    includePrivacyPage: data.includePrivacyPage !== false,
+    includeSiteQr: Boolean(data.includeSiteQr),
+    events: sanitizeEvents(data.events),
     officers: sanitizeOfficers(data.officers),
     customLinks: toWebsiteNavLinks(data.customLinks ?? []),
     membershipLinks: toWebsiteNavLinks(data.membershipLinks ?? []),
@@ -362,6 +459,8 @@ export function serializeWebsiteConfig(
     includeOpseuResources: Boolean(data.includeOpseuResources),
     heroImageAlt: trim(data.heroImageAlt ?? ""),
   };
+  const accent = sanitizeAccent(data.accentColor);
+  if (accent) payload.accentColor = accent;
   if (heroArtId) payload.heroArtId = heroArtId;
   if (canvas) payload.canvas = canvas;
   const heroImageFileName = sanitizeAssetFileName(

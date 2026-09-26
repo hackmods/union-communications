@@ -62,15 +62,24 @@ export function splitWebsiteChrome(bodyHtml: string): {
   main: string;
   footer: string;
 } {
-  const headerMatch = /<header class="site-header"[\s\S]*?<\/header>/.exec(
+  const headerMatch = /<header class="site-header[^"]*"[\s\S]*?<\/header>/.exec(
     bodyHtml,
   );
   const footerMatch = /<footer class="footer"[\s\S]*?<\/footer>/.exec(bodyHtml);
   const header = headerMatch?.[0] ?? "";
   const footer = footerMatch?.[0] ?? "";
   let main = bodyHtml;
+  // Static export already includes a skip-link; WP header.php adds its own.
+  main = main.replace(/<a class="skip-link"[^>]*>[\s\S]*?<\/a>\s*/i, "");
   if (header) main = main.replace(header, "");
   if (footer) main = main.replace(footer, "");
+  // Unwrap <main id="content"> so index.php can wrap once.
+  const mainMatch = /<main\b[^>]*id="content"[^>]*>\s*([\s\S]*?)\s*<\/main>/i.exec(
+    main,
+  );
+  if (mainMatch?.[1]) {
+    main = mainMatch[1];
+  }
   return { header, main: main.trim(), footer };
 }
 
@@ -84,8 +93,11 @@ export function injectWordpressNav(headerHtml: string, phpPrefix: string): strin
         'depth' => 1,
       ));
     ?>`;
-  if (/<ul class="nav-links">[\s\S]*?<\/ul>/.test(headerHtml)) {
-    return headerHtml.replace(/<ul class="nav-links">[\s\S]*?<\/ul>/, menu);
+  if (/<ul\b[^>]*class="nav-links"[^>]*>[\s\S]*?<\/ul>/.test(headerHtml)) {
+    return headerHtml.replace(
+      /<ul\b[^>]*class="nav-links"[^>]*>[\s\S]*?<\/ul>/,
+      menu,
+    );
   }
   return headerHtml;
 }
@@ -108,6 +120,7 @@ export function buildWordpressStyleCss(data: WebsiteTemplateData): string {
       fontUrlBase: "assets/fonts",
       flatFontFileNames: true,
     },
+    { accentColor: data.accentColor, layoutId: data.layoutId },
   );
   return `/*
 Theme Name: ${name}

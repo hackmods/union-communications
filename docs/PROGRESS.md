@@ -1,3 +1,9 @@
+## 2026-09-26 — Website Template world-class layouts
+
+- Living design/fit-gap: [`docs/audit/website-template-world-class-2026-09.md`](audit/website-template-world-class-2026-09.md).
+- Curated layouts `solidarity` / `bulletin` / `hall` over shared content; config/draft **v2** with v1 migrate; stewards/committees sections from Org Chart groups; phone/hours/CTA/events; privacy page; EN/FR site chrome; device preview + Design/Content/People/Publish modes; OG/skip-link/reduced-motion; optional site QR + `calendar.ics`.
+- GitHub Pages ZIP remains default; WordPress wrap preserved; multi-page trees intentionally deferred.
+
 ## 2026-09-25 — Viewport Lab + quality suite
 
 - Added chrome-free `/viewport-lab/` same-origin device frame for Muse/agents: presets, custom size, orientation, EN/FR, path nav, scale-to-fit, compare mode, overflow + axe probes, versioned `window.__unionopsViewportLab` API.

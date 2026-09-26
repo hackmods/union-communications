@@ -50,7 +50,7 @@ describe("serializeWebsiteConfig", () => {
     expect(json).not.toContain("heroImagePreviewSrc");
     const parsed = parseWebsiteConfigJson(json);
     expect(parsed.kind).toBe(WEBSITE_CONFIG_KIND);
-    expect(parsed.version).toBe(1);
+    expect(parsed.version).toBe(2);
     expect(parsed.data.unionName).toBe("Local 243");
     expect(parsed.data.officers).toEqual(sample.officers);
     expect(parsed.data.heroArtId).toBe("arc");
@@ -91,10 +91,40 @@ describe("parseWebsiteConfigJson", () => {
       ),
     ).toThrow(WebsiteConfigParseError);
     try {
-      parseWebsiteConfigJson(JSON.stringify({ ...payload, version: 2 }));
+      parseWebsiteConfigJson(JSON.stringify({ ...payload, version: 99 }));
     } catch (error) {
       expect((error as WebsiteConfigParseError).code).toBe("wrongKind");
     }
+  });
+
+  it("migrates v1 envelopes to v2 with solidarity defaults", () => {
+    const payload = serializeWebsiteConfig(sample);
+    const v1 = {
+      ...payload,
+      version: 1 as const,
+      data: {
+        localNumber: payload.data.localNumber,
+        unionName: payload.data.unionName,
+        heroText: payload.data.heroText,
+        about1: payload.data.about1,
+        about2: payload.data.about2,
+        contactEmail: payload.data.contactEmail,
+        facebookUrl: payload.data.facebookUrl,
+        officeAddress: payload.data.officeAddress,
+        officers: payload.data.officers,
+        customLinks: payload.data.customLinks,
+        membershipLinks: payload.data.membershipLinks,
+        primaryColor: payload.data.primaryColor,
+        secondaryColor: payload.data.secondaryColor,
+        logoFileName: payload.data.logoFileName,
+        logoAlt: payload.data.logoAlt,
+        includeOpseuResources: payload.data.includeOpseuResources,
+      },
+    };
+    const parsed = parseWebsiteConfigJson(JSON.stringify(v1));
+    expect(parsed.version).toBe(2);
+    expect(parsed.data.layoutId).toBe("solidarity");
+    expect(parsed.data.includePrivacyPage).toBe(true);
   });
 
   it("drops unsafe links on import", () => {

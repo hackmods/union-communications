@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "website-layouts",
+    date: "2026-09-26",
+    kind: "improved",
+    href: "/create/website-template",
+  },
+  {
     id: "hub-nav-module-gates",
     date: "2026-09-25",
     kind: "improved",
