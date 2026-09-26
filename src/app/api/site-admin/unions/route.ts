@@ -6,14 +6,18 @@ import { isPostgresConfigured } from "@/lib/db/client";
 import {
   createUnionDurable,
   hydrateTenantOverlayFromPostgres,
+  setUnionCommsPresetId,
 } from "@/lib/tenant/persist";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
+import { isTrustedUnionPresetId } from "@/lib/brand/union-preset-bridge";
 
 const createSchema = z.object({
   name: z.string().min(1).max(200),
+  slug: z.string().min(1).max(64).optional(),
   localNumber: z.string().min(1).max(32).optional(),
   localSubText: z.string().max(200).optional(),
+  commsPresetId: z.string().min(1).max(64).optional(),
 });
 
 /**
@@ -46,11 +50,25 @@ export async function POST(req: Request) {
   }
 
   try {
+    if (
+      parsed.data.commsPresetId &&
+      !isTrustedUnionPresetId(parsed.data.commsPresetId)
+    ) {
+      return NextResponse.json(
+        { error: "Unknown Comms preset id" },
+        { status: 400 },
+      );
+    }
+
     const seed = await createUnionDurable({
       name: parsed.data.name.trim(),
+      slug: parsed.data.slug?.trim(),
       localNumber: parsed.data.localNumber?.trim(),
       localSubText: parsed.data.localSubText,
     });
+    if (parsed.data.commsPresetId) {
+      await setUnionCommsPresetId(seed.union.id, parsed.data.commsPresetId);
+    }
     await hydrateTenantOverlayFromPostgres();
     await auditLog.log({
       userId: gate.session.user.id,
@@ -60,13 +78,22 @@ export async function POST(req: Request) {
       unionId: seed.union.id,
       metadata: {
         name: seed.union.name,
+        slug: seed.union.slug,
         firstLocalId: seed.locals?.[0]?.id ?? "",
+        ...(parsed.data.commsPresetId
+          ? { commsPresetId: parsed.data.commsPresetId }
+          : {}),
       },
     });
     const firstLocal = seed.locals?.[0];
     return NextResponse.json({
       ok: true,
-      union: { id: seed.union.id, name: seed.union.name, slug: seed.union.slug },
+      union: {
+        id: seed.union.id,
+        name: seed.union.name,
+        slug: seed.union.slug,
+        commsPresetId: parsed.data.commsPresetId ?? null,
+      },
       local: firstLocal
         ? {
             id: firstLocal.id,

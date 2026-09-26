@@ -4,6 +4,8 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { customizationConfigurationError } from "@/lib/auth/customization-session";
 import { getAllTenantSeeds } from "@/lib/tenant/loader";
+import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
+import { isPostgresConfigured } from "@/lib/db/client";
 import { CustomizationAdminPanel } from "@/components/customization/CustomizationAdminPanel";
 import { Link } from "@/i18n/navigation";
 
@@ -27,6 +29,9 @@ export default async function SiteAdminCustomizationPage({
 
   const t = await getTranslations("hub.platformOperator");
   const configurationError = customizationConfigurationError();
+  if (isPostgresConfigured()) {
+    await hydrateTenantOverlayFromPostgres();
+  }
   const unions = getAllTenantSeeds().map((seed) => ({
     id: seed.union.id,
     name: seed.union.name,

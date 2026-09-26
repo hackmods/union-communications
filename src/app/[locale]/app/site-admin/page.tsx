@@ -100,6 +100,11 @@ export default async function SiteAdminLandingPage({
           body={t("publicToolsCardBody")}
         />
         <SiteAdminCard
+          href="/app/site-admin/brand-styles"
+          title={t("brandStylesCard")}
+          body={t("brandStylesCardBody")}
+        />
+        <SiteAdminCard
           href="/app/site-admin/customization"
           title={t("customizationCard")}
           body={t("customizationCardBody")}

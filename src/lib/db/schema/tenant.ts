@@ -36,6 +36,22 @@ export const unions = pgTable("unions", {
    * without relying on fragile regexes. Idempotent; never flipped back to false.
    */
   isDemo: boolean("is_demo").notNull().default(false),
+  /**
+   * Comms Brand Kit preset id bound by platform admin (`opseu`, `cupe`, …).
+   * Drives public chrome seed for members of this union — not Hub tenancy.
+   */
+  commsPresetId: text("comms_preset_id"),
+  /**
+   * Optional operator theme override (colours + canvas fonts).
+   * Applied after the Comms preset when seeding public Brand Kit chrome.
+   */
+  brandTheme: jsonb("brand_theme").$type<{
+    primaryColor: string;
+    secondaryColor: string;
+    accentColor: string;
+    headlineFontId?: string;
+    bodyFontId?: string;
+  }>(),
 });
 
 export const divisions = pgTable("divisions", {
@@ -112,9 +128,9 @@ export const users = pgTable("users", {
   totpSecret: text("totp_secret"),
   mfaEnabled: boolean("mfa_enabled").notNull().default(false),
   /**
-   * Bumps on `signout-everywhere` and email change. Reserved for v2
-   * server-side session invalidation (the JWT callback will reject tokens
-   * whose `sessionVersion` lag). JWT refresh syncs tenancy when version or union/local drift.
+   * Bumps on assign-local, role changes, signout-everywhere, and email change.
+   * JWT callback reloads tenancy when `sessionVersion` lags or union/local
+   * claims drift from the Postgres row (e.g. ON DELETE SET NULL).
    * `0` is the genesis value.
    */
   sessionVersion: integer("session_version").notNull().default(0),

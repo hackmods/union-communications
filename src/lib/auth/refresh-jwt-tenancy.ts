@@ -25,7 +25,8 @@ function sameOptionalString(
 /**
  * Reload tenancy + roles from Postgres `users` when sessionVersion is ahead
  * or when JWT union/local claims diverge from the DB row (e.g. union deleted
- * → ON DELETE SET NULL). Server-driven only — never trusts client unionId.
+ * → ON DELETE SET NULL, or assign-local / role changes). Server-driven only —
+ * never trusts client-supplied unionId.
  */
 export async function refreshJwtTenancyIfStale(token: JWT): Promise<JWT> {
   if (!usersBackendEnabled()) return token;

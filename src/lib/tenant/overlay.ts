@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import { resolveHostBrandDefaults } from "@/lib/constants/host-brand";
+import { resolveHostBrandWithOverlay } from "@/lib/brand/host-brand-store";
 import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 import type { PortalSurfaceId } from "@/lib/president/module-catalog";
 import type {
@@ -24,6 +24,13 @@ const dataModulePatches = new Map<string, boolean>();
 const enabledModulesPatches = new Map<string, HubModule[]>();
 /** Local Portal surface toggles (member nav). Unset → intelligent defaults. */
 const portalSurfacesPatches = new Map<string, PortalSurfaceId[]>();
+/** Comms preset binding patch (null clears). Applied in loader mergeSeed. */
+const commsPresetPatches = new Map<string, string | null>();
+/** Operator theme patch (null clears). */
+const brandThemePatches = new Map<
+  string,
+  BrandDefaults["brandTheme"] | null
+>();
 /** True after Postgres tenant rows were merged into this process overlay. */
 let hydratedFromDb = false;
 
@@ -63,7 +70,7 @@ function slugify(value: string): string {
 
 /** Neutral Brand Kit defaults for a newly provisioned union (not OPSEU). */
 export function neutralBrandDefaultsForNewTenant(): BrandDefaults {
-  const host = resolveHostBrandDefaults();
+  const host = resolveHostBrandWithOverlay();
   return {
     primaryColor: host.primaryColor,
     secondaryColor: host.secondaryColor,
@@ -123,6 +130,61 @@ export function getEnabledModulesPatch(
   unionId: string,
 ): HubModule[] | undefined {
   return enabledModulesPatches.get(unionId);
+}
+
+export function getCommsPresetPatch(unionId: string): string | null | undefined {
+  return commsPresetPatches.get(unionId);
+}
+
+/** In-process binding: Hub union → Comms Brand Kit preset id (null clears). */
+export function setCommsPresetPatch(
+  unionId: string,
+  presetId: string | null,
+): void {
+  commsPresetPatches.set(unionId, presetId);
+  const seed = overlaySeeds.get(unionId);
+  if (seed) {
+    if (presetId) {
+      seed.brandDefaults = {
+        ...seed.brandDefaults,
+        commsPresetId: presetId,
+      };
+    } else if (seed.brandDefaults.commsPresetId !== undefined) {
+      const next = { ...seed.brandDefaults };
+      delete next.commsPresetId;
+      seed.brandDefaults = next;
+    }
+  }
+}
+
+export function getBrandThemePatch(
+  unionId: string,
+): BrandDefaults["brandTheme"] | null | undefined {
+  return brandThemePatches.get(unionId);
+}
+
+/** In-process operator theme for a Hub union (null clears). */
+export function setBrandThemePatch(
+  unionId: string,
+  theme: BrandDefaults["brandTheme"] | null,
+): void {
+  brandThemePatches.set(unionId, theme);
+  const seed = overlaySeeds.get(unionId);
+  if (seed) {
+    if (theme) {
+      seed.brandDefaults = {
+        ...seed.brandDefaults,
+        brandTheme: theme,
+        primaryColor: theme.primaryColor,
+        secondaryColor: theme.secondaryColor,
+        accentColor: theme.accentColor,
+      };
+    } else if (seed.brandDefaults.brandTheme !== undefined) {
+      const next = { ...seed.brandDefaults };
+      delete next.brandTheme;
+      seed.brandDefaults = next;
+    }
+  }
 }
 
 export function setPortalSurfacesPatch(
@@ -306,5 +368,7 @@ export function resetTenantOverlayForTests(): void {
   dataModulePatches.clear();
   enabledModulesPatches.clear();
   portalSurfacesPatches.clear();
+  commsPresetPatches.clear();
+  brandThemePatches.clear();
   hydratedFromDb = false;
 }

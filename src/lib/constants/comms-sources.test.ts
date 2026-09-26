@@ -16,19 +16,31 @@ import {
 } from "@/lib/constants/comms-sources";
 
 describe("comms-sources", () => {
-  it("resolves sources for each mapped page (reference / unset preset)", () => {
+  it("resolves sources for each mapped page (ids resolve; filter may empty when unset)", () => {
     for (const [pageId, ids] of Object.entries(PAGE_SOURCE_IDS)) {
-      const sources = getSourcesForPage(pageId);
-      expect(sources).toHaveLength(ids.length);
-      for (const source of sources) {
+      expect(ids.length).toBeGreaterThan(0);
+      for (const id of ids) {
+        const source = COMMS_SOURCES[id];
+        expect(source, id).toBeDefined();
         expect(source.url).toMatch(/^https:\/\//);
         expect(source.label.length).toBeGreaterThan(0);
       }
+      // With a matching OPSEU preset, every page still yields at least one row
+      // when the page lists OPSEU or universal sources.
+      const withOpseu = getSourcesForPage(pageId, "opseu");
+      expect(withOpseu.length).toBeGreaterThan(0);
     }
   });
 
-  it("includes local243 and OPSEU branding references for OPSEU / unset", () => {
+  it("hides OPSEU-scoped sources when preset is unset", () => {
     const website = getSourcesForPage("websiteTemplate");
+    expect(website.some((s) => s.id === "local243-website")).toBe(false);
+    expect(website.some((s) => s.id === "opseu-branding")).toBe(false);
+    expect(website.some((s) => s.id === "github-pages")).toBe(true);
+  });
+
+  it("includes local243 and OPSEU branding references for OPSEU preset", () => {
+    const website = getSourcesForPage("websiteTemplate", "opseu");
     expect(website.some((s) => s.id === "local243-website")).toBe(true);
     expect(website.some((s) => s.id === "opseu-branding")).toBe(true);
   });
@@ -64,17 +76,18 @@ describe("comms-sources", () => {
     );
   });
 
-  it("matches union scope rules for reference vs other presets", () => {
+  it("matches union scope rules for empty vs other presets", () => {
     const scoped = COMMS_SOURCES["opseu-branding"];
     const universal = COMMS_SOURCES["wcag-21"];
-    expect(sourceMatchesUnion(scoped, undefined)).toBe(true);
+    expect(sourceMatchesUnion(scoped, undefined)).toBe(false);
     expect(sourceMatchesUnion(scoped, "opseu")).toBe(true);
     expect(sourceMatchesUnion(scoped, "cupe")).toBe(false);
     expect(sourceMatchesUnion(universal, "cupe")).toBe(true);
+    expect(sourceMatchesUnion(universal, undefined)).toBe(true);
   });
 
-  it("shows reference asset pack only for unset or opseu", () => {
-    expect(isReferenceAssetPackVisible(undefined)).toBe(true);
+  it("shows reference asset pack only for opseu", () => {
+    expect(isReferenceAssetPackVisible(undefined)).toBe(false);
     expect(isReferenceAssetPackVisible("opseu")).toBe(true);
     expect(isReferenceAssetPackVisible("cupe")).toBe(false);
   });
@@ -163,7 +176,7 @@ describe("comms-sources", () => {
   });
 
   it("includes full-time and part-time CEC EERC archives on joint committee guide", () => {
-    expect(getSourcesForPage("jointCommittee").map((s) => s.id)).toEqual([
+    expect(getSourcesForPage("jointCommittee", "opseu").map((s) => s.id)).toEqual([
       "opseu-collective-agreements",
       "opseu-eerc-minutes",
       "cec-pteerc-minutes",
@@ -190,7 +203,7 @@ describe("comms-sources", () => {
   });
 
   it("maps grievance process guide to CA finder and labour statutes", () => {
-    expect(getSourcesForPage("grievanceProcess").map((s) => s.id)).toEqual([
+    expect(getSourcesForPage("grievanceProcess", "opseu").map((s) => s.id)).toEqual([
       "opseu-collective-agreements",
       "ontario-ccba",
       "ontario-lra-s74",
@@ -198,7 +211,7 @@ describe("comms-sources", () => {
   });
 
   it("maps photo consent guide to privacy sources, not WCAG", () => {
-    expect(getSourcesForPage("photoConsent").map((s) => s.id)).toEqual([
+    expect(getSourcesForPage("photoConsent", "opseu").map((s) => s.id)).toEqual([
       "ipc-video-surveillance",
       "pipeda-consent",
       "opseu-collective-agreements",
@@ -244,7 +257,7 @@ describe("comms-sources", () => {
   });
 
   it("maps union boards guide to Ontario rights and federation sources", () => {
-    expect(getSourcesForPage("unionBoards").map((s) => s.id)).toEqual([
+    expect(getSourcesForPage("unionBoards", "opseu").map((s) => s.id)).toEqual([
       "opseu-collective-agreements",
       "opseu-branding",
       "ontario-required-posters",

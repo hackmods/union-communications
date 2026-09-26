@@ -380,6 +380,8 @@
     { "idx": 56, "version": "7", "when": 1790300000000, "tag": "0056_informal_log_visibility", "breakpoints": true },
     { "idx": 57, "version": "7", "when": 1790400000000, "tag": "0057_grievance_workflow_uplift", "breakpoints": true },
     { "idx": 58, "version": "7", "when": 1790500000000, "tag": "0058_ca_snippets", "breakpoints": true },
-    { "idx": 59, "version": "7", "when": 1790600000000, "tag": "0059_ca_snippet_libraries", "breakpoints": true }
+    { "idx": 59, "version": "7", "when": 1790600000000, "tag": "0059_ca_snippet_libraries", "breakpoints": true },
+    { "idx": 60, "version": "7", "when": 1790700000000, "tag": "0060_union_comms_preset", "breakpoints": true },
+    { "idx": 61, "version": "7", "when": 1790800000000, "tag": "0061_brand_theme_admin", "breakpoints": true }
   ]
 }

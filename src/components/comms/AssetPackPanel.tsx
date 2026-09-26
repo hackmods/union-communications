@@ -428,7 +428,7 @@ export function AssetPackPanel() {
     brandKit.profiles,
   );
   const lookPacks = showReferencePack
-    ? identityPacksFor(brandKit.unionPresetId ?? "opseu", sectorId)
+    ? identityPacksFor(brandKit.unionPresetId || "opseu", sectorId)
     : [];
   // Prefer CAAT-S (and other sector packs) ahead of national when both are offered
   const packsForDownloads = [...lookPacks].sort((a, b) => {

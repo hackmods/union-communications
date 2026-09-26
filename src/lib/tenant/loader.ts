@@ -5,6 +5,8 @@ import {
   getEnabledModulesPatch,
   getOverlaySeeds,
   getUnitPatches,
+  getCommsPresetPatch,
+  getBrandThemePatch,
 } from "@/lib/tenant/overlay";
 import type {
   BargainingUnit,
@@ -23,11 +25,15 @@ function mergeSeed(base: TenantSeed): TenantSeed {
   const patchUnits = getUnitPatches(unionId);
   const dataModulePatch = getDataModulePatch(unionId);
   const enabledModulesPatch = getEnabledModulesPatch(unionId);
+  const commsPresetPatch = getCommsPresetPatch(unionId);
+  const brandThemePatch = getBrandThemePatch(unionId);
   if (
     patchLocals.length === 0 &&
     patchUnits.length === 0 &&
     dataModulePatch === undefined &&
-    enabledModulesPatch === undefined
+    enabledModulesPatch === undefined &&
+    commsPresetPatch === undefined &&
+    brandThemePatch === undefined
   ) {
     return base;
   }
@@ -70,6 +76,30 @@ function mergeSeed(base: TenantSeed): TenantSeed {
       : base.union.enabledModules.filter((module) => module !== "data");
   }
 
+  let brandDefaults = base.brandDefaults;
+  if (commsPresetPatch !== undefined) {
+    if (commsPresetPatch) {
+      brandDefaults = { ...brandDefaults, commsPresetId: commsPresetPatch };
+    } else if (brandDefaults.commsPresetId !== undefined) {
+      brandDefaults = { ...brandDefaults };
+      delete brandDefaults.commsPresetId;
+    }
+  }
+  if (brandThemePatch !== undefined) {
+    if (brandThemePatch) {
+      brandDefaults = {
+        ...brandDefaults,
+        brandTheme: brandThemePatch,
+        primaryColor: brandThemePatch.primaryColor,
+        secondaryColor: brandThemePatch.secondaryColor,
+        accentColor: brandThemePatch.accentColor,
+      };
+    } else if (brandDefaults.brandTheme !== undefined) {
+      brandDefaults = { ...brandDefaults };
+      delete brandDefaults.brandTheme;
+    }
+  }
+
   return {
     ...base,
     union: {
@@ -78,6 +108,7 @@ function mergeSeed(base: TenantSeed): TenantSeed {
     },
     locals: dedupedLocals,
     bargainingUnits: dedupedUnits,
+    brandDefaults,
   };
 }
 

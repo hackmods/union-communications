@@ -4333,7 +4333,14 @@
     },
     "contextHint": {
       "title": "Hub collection vs Brand Kit profile",
-      "body": "Officer Hub filters casework by collection. Brand Kit profiles change the words on your exports — not your Look colours. Pick the profile that matches who you are speaking as before you download graphics."
+      "body": "Officer Hub filters casework by collection. Brand Kit profiles change the words on your exports — not your Look colours. Pick the profile that matches who you are speaking as before you download graphics.",
+      "matchTitle": "Match public site to my Officer Hub union",
+      "matchBody": "Apply your Officer Hub union’s Comms brand preset to this browser’s Brand Kit. Your local number stays if you already set one. This does not change Officer Hub membership.",
+      "matchAction": "Match public site",
+      "matchBusy": "Applying…",
+      "matchSuccess": "Public Brand Kit now matches your Officer Hub union preset.",
+      "matchFailed": "Could not apply that preset.",
+      "matchRemedy": "Open Brand Kit and pick a union preset manually, or ask a platform admin to bind a brand style to your union."
     },
     "campaignBadge": {
       "label": "Campaign badge (optional)",
@@ -7425,6 +7432,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "match-hub-union-brand-kit": {
+        "title": "Match Brand Kit to your Officer Hub union",
+        "body": "When you are signed in, Brand Kit can apply your Officer Hub union’s Comms preset to the public site in this browser. Your local number stays if you already set one."
+      },
       "local-pack": {
         "title": "Local pack backup",
         "body": "Download one versioned file with Brand Kit, officers, display settings, and website draft. Import it when you change browsers. Website Template still has its own site-file import for regenerating a ZIP."
@@ -7928,6 +7939,10 @@
       "brand-kit-workspace-preview": {
         "title": "Brand Kit with a live preview",
         "body": "Set your local identity in a roomier editor and see your logo, colours, and canvas style together as you work. Optional links and signature details can wait until you need them."
+      },
+      "brand-styles-theme-admin": {
+        "title": "Brand styles: colours, fonts, and host defaults",
+        "body": "Platform operators can set per-union Brand Kit colours and fonts, draft or publish a brand baseline when customization is on, and edit instance host brand defaults from Site Admin — without changing who belongs to which Officer Hub union."
       }
     }
   },
@@ -8222,6 +8237,23 @@
       "publicToolsDisabled": "Hidden",
       "publicToolsSaving": "Saving…",
       "publicToolsSave": "Save settings",
+      "brandStylesCard": "Brand styles",
+      "brandStylesCardBody": "Bind Comms presets, edit colours and fonts per union, and set instance host brand defaults.",
+      "brandStylesTitle": "Brand styles",
+      "brandStylesBody": "Bind a Comms Brand Kit preset and optional colours/fonts to each Officer Hub union so members' public site can match. This does not change Officer Hub membership or invites. Host brand defaults apply when no kit is saved yet.",
+      "brandStylesLoading": "Loading unions…",
+      "brandStylesLoadFailed": "Could not load brand style bindings. Check your connection and try again.",
+      "brandStylesSaveFailed": "Could not save this binding. Fix the URL name or preset and try again.",
+      "brandStylesErrorRemedy": "Refresh the page. If it still fails, confirm Postgres is configured for this host.",
+      "brandStylesSaved": "Brand style saved for this union.",
+      "brandStylesEmpty": "No unions found yet. Create a union under Locals or invites first.",
+      "brandStylesColUnion": "Union",
+      "brandStylesColSlug": "URL name",
+      "brandStylesColPreset": "Comms preset",
+      "brandStylesPresetNone": "None (platform chrome)",
+      "brandStylesDemo": "Demo sample",
+      "brandStylesSave": "Save",
+      "brandStylesSaving": "Saving…",
       "customizationCard": "Customization",
       "customizationCardBody": "Publish shared guides, sources and brand baselines for a real union without redeploying the app.",
       "customizationTitle": "Union customization",
@@ -8448,7 +8480,37 @@
       "feedback": "Site feedback",
       "feedbackBody": "Read website notes from visitors and signed-in users.",
       "audit": "Audit log",
-      "auditBody": "See who changed what across the host, and when."
+      "auditBody": "See who changed what across the host, and when.",
+      "brandStylesEditTheme": "Edit style",
+      "brandStylesCollapse": "Hide",
+      "brandStylesThemeEnable": "Override colours and fonts for this union",
+      "brandStylesThemeHint": "Applied after the Comms preset when seeding or matching Brand Kit in the browser. Stewards keep their saved kit until they choose Match.",
+      "brandStylesThemeOn": "theme set",
+      "brandStylesColorPrimary": "Primary",
+      "brandStylesColorSecondary": "Secondary",
+      "brandStylesColorAccent": "Accent",
+      "brandStylesFontHeadline": "Headline font",
+      "brandStylesFontBody": "Body font",
+      "brandStylesBaselineDraft": "Save as baseline draft",
+      "brandStylesBaselinePublish": "Publish baseline",
+      "brandStylesBaselineDrafted": "Brand baseline draft saved. Stewards can Apply it from Brand Kit when customization offers it.",
+      "brandStylesBaselinePublished": "Brand baseline published for this union.",
+      "brandStylesBaselineFailed": "Could not update the brand baseline. Confirm customization and MFA are configured, then try again.",
+      "brandStylesBaselineUnavailable": "Baseline draft/publish needs customization enabled on this host. Open",
+      "hostBrandTitle": "Instance host brand",
+      "hostBrandBody": "Defaults for first-visit Brand Kit chrome when no steward kit is saved. Environment variables still win when set.",
+      "hostBrandLoading": "Loading host brand…",
+      "hostBrandLoadFailed": "Could not load host brand defaults. Check your connection and try again.",
+      "hostBrandSaveFailed": "Could not save host brand defaults. Fix the colours and try again.",
+      "hostBrandSaved": "Host brand defaults saved.",
+      "hostBrandCleared": "Cleared durable host brand overrides. File and env defaults apply again.",
+      "hostBrandSave": "Save host brand",
+      "hostBrandClear": "Clear overrides",
+      "hostBrandLocalNumber": "Default local number",
+      "hostBrandSubText": "Default sub-text",
+      "hostBrandPreset": "Default Comms preset",
+      "hostBrandEnvNote": "Some fields are locked because NEXT_PUBLIC_BRAND_* or DEFAULT_* environment variables are set on this host.",
+      "hostBrandEnvLocked": "env"
     },
     "signingIn": "Signing in...",
     "writeNoUnion": "No union is assigned to this account — ask a platform operator to assign one before saving.",

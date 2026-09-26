@@ -9,6 +9,8 @@ export interface HostBrandDefaults {
   localNumber: string;
   subText: string;
   divisionId?: string;
+  /** Optional Comms preset applied on first visit when Brand Kit is empty. */
+  unionPresetId?: string;
 }
 
 const HEX = /^#[0-9A-Fa-f]{6}$/;
@@ -50,6 +52,8 @@ export function resolveHostBrandDefaults(
     readEnv("NEXT_PUBLIC_DEFAULT_SUB_TEXT") ?? file.subText ?? "Support Staff";
   const divisionId =
     readEnv("NEXT_PUBLIC_DEFAULT_DIVISION_ID") ?? file.divisionId;
+  const unionPresetId =
+    readEnv("NEXT_PUBLIC_BRAND_UNION_PRESET") ?? file.unionPresetId;
 
   return {
     primaryColor: primary,
@@ -58,5 +62,6 @@ export function resolveHostBrandDefaults(
     localNumber,
     subText,
     ...(divisionId ? { divisionId } : {}),
+    ...(unionPresetId?.trim() ? { unionPresetId: unionPresetId.trim() } : {}),
   };
 }
