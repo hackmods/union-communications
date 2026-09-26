@@ -9,6 +9,21 @@ import { cn } from "@/lib/utils";
 import type { UserRole } from "@/types/tenant";
 
 /**
+ * True when HubContextSwitcher would render scope chrome (not null).
+ * HubNav uses this so the decorative "|" never orphan after "Officer Hub".
+ */
+export function useHubContextReady(): boolean {
+  const { session, authenticated } = useHubAuthenticated();
+  const liveTenant = useLiveTenant();
+  const unionId = session?.user?.unionId;
+  const seedTenant = unionId
+    ? getTenantContext(unionId, session?.user?.localId)
+    : null;
+  const tenant = liveTenant ?? seedTenant;
+  return Boolean(authenticated && session?.user?.unionId && tenant);
+}
+
+/**
  * Hub local + collection (bargaining unit) switcher.
  * Updates JWT via session.update so list APIs filter by active context.
  * Reads live tenant from TenantLiveProvider (GET /api/tenant + overlay locals).

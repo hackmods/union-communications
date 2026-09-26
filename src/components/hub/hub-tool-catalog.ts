@@ -254,12 +254,25 @@ export const HUB_TOOL_CATALOG: readonly HubToolDef[] = [
   },
 ] as const;
 
+/** Admin / setup hrefs that stay visible from roles alone when casework modules are off. */
+export const HUB_SETUP_TOOL_HREFS = [
+  "/app/configuration",
+  "/app/invites",
+  "/app/onboarding",
+] as const;
+
+export function isHubSetupToolHref(href: string): boolean {
+  return (HUB_SETUP_TOOL_HREFS as readonly string[]).includes(href);
+}
+
 export function resolveHubToolAccess(
   roles: UserRole[],
   enabledModules: HubModule[],
   scope?: { unionId?: string | null; localId?: string | null },
 ): HubToolAccess {
-  const grievance = canAccessGrievanceModule(roles);
+  const grievanceRole = canAccessGrievanceModule(roles);
+  const grievance =
+    grievanceRole && enabledModules.includes("grievance");
   const bumping =
     canAccessBumpingModule(roles) && enabledModules.includes("bumping");
   const hasUnion = Boolean(scope?.unionId);
@@ -283,9 +296,10 @@ export function resolveHubToolAccess(
     travel: localCasework && canAccessTravelModule(roles),
     expenses: localCasework && canAccessExpensesModule(roles),
     handoff: localCasework && canInitiateHandoff(roles),
+    // Setup chrome is role-gated only — visible while tenant loads or modules are off.
     invites: canManageInvites(roles),
     tenantOnboarding: canManageTenantOnboarding(roles),
-    presidentConfig: localCasework && canManageLocalModules(roles),
+    presidentConfig: canManageLocalModules(roles),
     reports: localCasework && isElevatedGrievanceRole(roles),
     officerLearning: localCasework && canManageOfficerLearningReport(roles),
     audit:

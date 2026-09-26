@@ -7943,6 +7943,10 @@
       "brand-styles-theme-admin": {
         "title": "Brand styles: colours, fonts, and host defaults",
         "body": "Platform operators can set per-union Brand Kit colours and fonts, draft or publish a brand baseline when customization is on, and edit instance host brand defaults from Site Admin — without changing who belongs to which Officer Hub union."
+      },
+      "hub-nav-module-gates": {
+        "title": "Officer Hub menu matches what your local has on",
+        "body": "Disabled modules no longer crowd Officer Hub navigation. When Grievances is off, you get a clear turn-it-on path instead of an access-denied dead end. Presidents still see configuration and invites when the casework strip is empty."
       }
     }
   },
@@ -8978,6 +8982,10 @@
       "discussions": {
         "title": "Discussions is off",
         "body": "Officer Hub threads stay off until enabled."
+      },
+      "grievance": {
+        "title": "Grievances is off",
+        "body": "Case files and grievance deadlines stay off until this module is enabled."
       }
     }
   },
@@ -10290,7 +10298,8 @@
     "loading": "Loading grievances...",
     "loadError": "Could not load grievances. Refresh and try again. If this keeps happening, ask your host to check the Officer Hub logs.",
     "loadErrorUnauthorized": "Your session expired. Sign in again, then open grievances.",
-    "loadErrorForbidden": "You do not have access to grievances for this local. Ask a local officer if you need access.",
+    "loadErrorForbidden": "You do not have grievance access for this local. Ask a local officer to grant access, or open a different local if you work across more than one.",
+    "loadErrorModuleDisabled": "Grievances is off for this local. A president can turn the module on in configuration.",
     "intakePanelTitle": "Intake facts",
     "intakePanelHint": "6 W’s, type, members, and linked CA clauses for this file. Edit anytime — export picks up the latest.",
     "intakeEmpty": "No intake facts yet. Add them before advancing to a formal file.",

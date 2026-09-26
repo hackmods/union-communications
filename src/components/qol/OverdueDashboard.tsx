@@ -7,9 +7,13 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Callout } from "@/components/ui/Callout";
 import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import { daysUntilDue } from "@/lib/grievance/deadlines";
-import { grievanceListErrorKey } from "@/lib/hybrid/case-client";
+import {
+  grievanceListErrorKey,
+  type GrievanceListErrorKey,
+} from "@/lib/hybrid/case-client";
 import type { Grievance } from "@/types/grievance";
 
 interface OverdueItem extends Grievance {
@@ -20,11 +24,12 @@ interface OverdueItem extends Grievance {
 export function OverdueDashboard() {
   const t = useTranslations("qol");
   const tg = useTranslations("grievance");
+  const tDisabled = useTranslations("hub.moduleDisabled");
   const th = useTranslations("hybrid");
   const { listGrievances, needsUnlock, revision } = useHybridCaseStore();
   const [items, setItems] = useState<OverdueItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<GrievanceListErrorKey | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -33,14 +38,14 @@ export function OverdueDashboard() {
         if (cancelled) return;
         if (result.source === "locked") {
           setItems([]);
-          setError(null);
+          setErrorKey(null);
           return;
         }
         setItems(result.grievances);
-        setError(null);
+        setErrorKey(null);
       })
       .catch((err: unknown) => {
-        if (!cancelled) setError(tg(grievanceListErrorKey(err)));
+        if (!cancelled) setErrorKey(grievanceListErrorKey(err));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -48,7 +53,7 @@ export function OverdueDashboard() {
     return () => {
       cancelled = true;
     };
-  }, [listGrievances, revision, tg]);
+  }, [listGrievances, revision]);
 
   const overdue = useMemo(() => {
     return items
@@ -105,7 +110,28 @@ export function OverdueDashboard() {
     );
   }
 
-  if (error) return <p className="text-red-600">{error}</p>;
+  if (errorKey) {
+    return (
+      <div className="mx-auto max-w-xl space-y-4 py-4">
+        <h1 className="text-3xl font-bold text-opseu-dark">
+          {t("overdue.title")}
+        </h1>
+        <Callout tone="danger" measure="fill">
+          <p>{tg(errorKey)}</p>
+          {errorKey === "loadErrorModuleDisabled" ? (
+            <p className="mt-2">
+              <Link
+                href="/app/configuration"
+                className="font-semibold underline"
+              >
+                {tDisabled("openConfiguration")}
+              </Link>
+            </p>
+          ) : null}
+        </Callout>
+      </div>
+    );
+  }
 
   return (
     <div>

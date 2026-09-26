@@ -1,5 +1,12 @@
 # Progress Log
 
+## 2026-09-25 — Officer Hub second-nav corrective rework
+
+- HubNav: orphan `|` only when context switcher has content; no `PRESIDENT_OVERLAY_MODULES` guess while tenant is pending; empty module strip promotes configuration / invites / onboarding for eligible roles.
+- Officer tools: grievance-adjacent hrefs require `enabledModules.includes("grievance")`; setup tools stay role-only.
+- Grievances: server `ModuleDisabledPanel` + role redirect; API module-disabled 403 maps to `loadErrorModuleDisabled`; list errors use Callout (Discussions pattern).
+- Session note: [`docs/audit/session-knowledge-2026-09-25-hub-dashboard.md`](audit/session-knowledge-2026-09-25-hub-dashboard.md) (second-nav section).
+
 ## 2026-09-25 — Brand Kit theme admin
 
 - Site Admin Brand Styles: per-union colours/fonts (`unions.brand_theme`), instance host-brand editor (`platform_host_brand`), optional `brand:baseline` draft/publish when customization is on.

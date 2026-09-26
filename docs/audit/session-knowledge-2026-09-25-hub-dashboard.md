@@ -17,4 +17,14 @@ The task-first home shipped in PR #120. See the [UX audit, implementation record
 3. **Complete human accessibility checks.** Automated EN/FR reflow passed at 375, 768, 1280, 1536, and 1920 px; forced-colour, reduced-motion, keyboard drawer, and contrast checks passed. Test with a screen reader and actual browser zoom at 200%. A 640 CSS-pixel viewport was only an approximation of the latter.
 4. **Add live attention signals only when scoped data supports them.** Meeting and casework deadlines could be useful here if their adapters expose trustworthy union/local-scoped summaries. Keep generic links labelled as actions rather than claiming a count or urgency that was not fetched.
 
+## Second-nav corrective rework (same day follow-on)
+
+Shipped after the task-first home:
+
+- **Orphan pipe:** render `|` only when `useHubContextReady()` is true (tenant + union present).
+- **No module inventing:** HubNav uses `tenant?.union.enabledModules ?? []` like the dashboard — never `PRESIDENT_OVERLAY_MODULES` in chrome.
+- **Empty strip:** when `getHubNavModules` is empty, promote configuration / invites / onboarding links for roles that already pass those gates (not for `local_exec`).
+- **Tool gating:** grievance casework tools require the grievance module flag; bumping still gates calendar via bumping flag; admin setup tools stay role-only.
+- **Grievances off:** page-level `ModuleDisabledPanel`; client 403 with `"Grievance module disabled"` uses `loadErrorModuleDisabled` + Callout, not the “ask a local officer” forbidden string.
+
 The broad parallel smoke run encountered a Brand Kit reset-dialog failure after 43 of 337 cases; that case passed alone, while the focused Hub checks passed. Revisit the parallel test only if it recurs; this run does not establish a Hub regression.

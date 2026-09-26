@@ -24,6 +24,13 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "hub-nav-module-gates",
+    date: "2026-09-25",
+    kind: "improved",
+    audience: "hub",
+    href: "/app",
+  },
+  {
     id: "brand-styles-theme-admin",
     date: "2026-09-25",
     kind: "improved",

@@ -68,6 +68,33 @@ describe("resolveHubToolAccess", () => {
     expect(hrefs).not.toContain("/app/ledger");
   });
 
+  it("hides grievance casework when the grievance module is off", () => {
+    const access = resolveHubToolAccess(
+      ["local_president"] as UserRole[],
+      ["comms", "discussions", "portal"] as HubModule[],
+      scoped,
+    );
+    const hrefs = listVisibleHubTools(access).map((item) => item.href);
+    expect(hrefs).not.toContain("/app/calendar");
+    expect(hrefs).not.toContain("/app/overdue");
+    expect(hrefs).not.toContain("/app/snippets");
+    expect(hrefs).not.toContain("/app/hybrid");
+    expect(hrefs).toContain("/app/configuration");
+    expect(hrefs).toContain("/app/invites");
+    expect(hrefs).toContain("/app/minutes");
+  });
+
+  it("keeps calendar when bumping is on even if grievance is off", () => {
+    const access = resolveHubToolAccess(
+      ["local_president"] as UserRole[],
+      ["bumping"] as HubModule[],
+      scoped,
+    );
+    const hrefs = listVisibleHubTools(access).map((item) => item.href);
+    expect(hrefs).toContain("/app/calendar");
+    expect(hrefs).not.toContain("/app/overdue");
+  });
+
   it("hides local-scoped tools when the session has no union or local", () => {
     const access = resolveHubToolAccess(
       ["local_president"] as UserRole[],
@@ -78,5 +105,6 @@ describe("resolveHubToolAccess", () => {
     expect(hrefs).not.toContain("/app/meetings");
     expect(hrefs).not.toContain("/app/minutes");
     expect(hrefs).toContain("/app/invites");
+    expect(hrefs).toContain("/app/configuration");
   });
 });
