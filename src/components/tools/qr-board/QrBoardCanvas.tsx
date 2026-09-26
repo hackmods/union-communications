@@ -19,6 +19,7 @@ import {
   mutedInkOnBackground,
   pickContrastingInk,
 } from "@/lib/utils/ink";
+import { treatmentQrBoardFrameStyle } from "@/lib/brand/design-treatment-surface";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
   flexAlignFromBias,
@@ -109,7 +110,7 @@ export function QrBoardCanvas({
     width: designWidth,
     height: designHeight,
     fontFamily: tokens?.bodyFontFamily,
-    ...(treatment === "balanced" ? { border: `${Math.round(designWidth * 0.025)}px solid ${brandPrimary}`, boxSizing: "border-box" as const } : {}),
+    ...treatmentQrBoardFrameStyle(treatment, brandPrimary, designWidth),
   };
 
   return (

@@ -37,6 +37,8 @@ The three Design treatments, saved Looks, and public Office output landed on loc
 
 Shipped on `feat/comms-treatment-qol` (PR #133): shared `resolveTreatmentSurface` helper across makers, live Brand Kit primary swatches + treatment beside colours, SegControl Tab QOL for long lists, save-banner remount per `lastSavedAt`, Header logo hydrate gate. Steward CAAT-S visual sign-off remains human.
 
+CI unblock (same PR): host-brand resolve stays on the client-safe overlay module so Docker/browser builds do not pull `postgres`; Document Generator swatch + fidelity `nearWhiteShare` + baseline audit metadata type fixes.
+
 ### Adjacent QOL / UX patterns noticed (not blockers)
 
 These sat beside the treatment acceptance matrix. They were not Phase 1–3 blockers; several shipped in the QOL follow-up.
@@ -47,3 +49,8 @@ These sat beside the treatment acceptance matrix. They were not Phase 1–3 bloc
 | Save banner sticky/stale | “Changes saved” could still be on screen from an earlier edit, so it did not always mean the last click persisted. Local pack race was fixed earlier; banner UX was still soft. | Mitigated — banner keys off `lastSavedAt` and remounts/dismisses per persist (PR #133). |
 | SegControl roving tabindex | Better a11y for treatment radios (<=6 options), but Brand Kit font pickers skipped unselected options on Tab. Tab should still feel right on long font lists. | Mitigated — roving only when <=6 options (or `rovingTabIndex={false}` on Canvas font SegControls) (PR #133). |
 | Out of scope by design | Logo Builder, Website Template, Image Resizer, Hub exports do not get treatments. Fine unless presidents expect “Mostly white” everywhere. | Deferred by design — document expectation; no maker migration planned unless product asks. |
+
+### Longevity guards (2026-09-25)
+
+- QR Board balanced frame routed through `treatmentQrBoardFrameStyle` / `TREATMENT_CHROME.qrBoardBalancedRatio`.
+- Unit locks: meetingTop widths, SegControl roving threshold, Hub `brandKitInputSchema.designTreatment`, maker chrome contract test.

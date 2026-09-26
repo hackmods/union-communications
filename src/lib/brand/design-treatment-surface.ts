@@ -14,6 +14,11 @@ export const TREATMENT_CHROME = {
   pulse: { balancedFrame: 10, paperFrame: 3 },
   /** Graphic / quote inset reading area */
   graphicInsetPercent: 4,
+  /**
+   * QR Board balanced frame as a fraction of design width
+   * (scales with poster format; not a fixed px chrome).
+   */
+  qrBoardBalancedRatio: 0.025,
 } as const;
 
 export type TreatmentPalette = {
@@ -167,5 +172,20 @@ export function treatmentGraphicOuterStyle(
     ...base,
     backgroundColor: brandPrimary,
     backgroundImage: "none",
+  };
+}
+
+/** Format-scaled balanced frame for QR Board posters. */
+export function treatmentQrBoardFrameStyle(
+  treatment: DesignTreatment,
+  brandPrimary: string,
+  designWidth: number,
+  ratio: number = TREATMENT_CHROME.qrBoardBalancedRatio,
+): CSSProperties {
+  if (treatment !== "balanced") return {};
+  const width = Math.max(1, Math.round(designWidth * ratio));
+  return {
+    border: `${width}px solid ${brandPrimary}`,
+    boxSizing: "border-box",
   };
 }

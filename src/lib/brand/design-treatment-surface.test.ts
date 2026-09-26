@@ -5,6 +5,7 @@ import {
   treatmentGraphicInsetClass,
   treatmentGraphicOuterStyle,
   treatmentPulseFrameStyle,
+  treatmentQrBoardFrameStyle,
   treatmentTopBandStyle,
   treatmentWalletFrameStyle,
 } from "./design-treatment-surface";
@@ -67,5 +68,29 @@ describe("treatment chrome helpers", () => {
         backgroundColor: "#FFFFFF",
       }).backgroundColor,
     ).toBe(coral.primary);
+  });
+});
+
+describe("TREATMENT_CHROME longevity", () => {
+  it("locks meeting top band widths used by Meeting Background", () => {
+    expect(TREATMENT_CHROME.meetingTop).toEqual({ balanced: 22, paper: 7 });
+    expect(treatmentTopBandStyle("balanced", coral.primary, TREATMENT_CHROME.meetingTop)).toEqual({
+      borderTop: "22px solid #D65B60",
+      boxSizing: "border-box",
+    });
+    expect(treatmentTopBandStyle("paper", coral.primary, TREATMENT_CHROME.meetingTop)).toEqual({
+      borderTop: "7px solid #D65B60",
+      boxSizing: "border-box",
+    });
+  });
+
+  it("scales QR Board balanced frame from the canonical ratio", () => {
+    expect(TREATMENT_CHROME.qrBoardBalancedRatio).toBe(0.025);
+    expect(treatmentQrBoardFrameStyle("balanced", coral.primary, 800)).toEqual({
+      border: "20px solid #D65B60",
+      boxSizing: "border-box",
+    });
+    expect(treatmentQrBoardFrameStyle("paper", coral.primary, 800)).toEqual({});
+    expect(treatmentQrBoardFrameStyle("full", coral.primary, 800)).toEqual({});
   });
 });
