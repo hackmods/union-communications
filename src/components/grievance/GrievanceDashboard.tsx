@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/Checkbox";
 import { Badge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Callout } from "@/components/ui/Callout";
 import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
 import { usePreferencesStore } from "@/store/preferences-store";
@@ -22,6 +23,7 @@ interface GrievanceListItem extends Grievance {
 
 export function GrievanceDashboard() {
   const t = useTranslations("grievance");
+  const tDisabled = useTranslations("hub.moduleDisabled");
   const tq = useTranslations("qol");
   const th = useTranslations("hybrid");
   const { readOnly, isSteward, mobileMode } = useStewardReadOnly();
@@ -32,7 +34,9 @@ export function GrievanceDashboard() {
     useHybridCaseStore();
   const [items, setItems] = useState<GrievanceListItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<
+    ReturnType<typeof grievanceListErrorKey> | null
+  >(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -41,14 +45,14 @@ export function GrievanceDashboard() {
         if (cancelled) return;
         if (result.source === "locked") {
           setItems([]);
-          setError(null);
+          setErrorKey(null);
           return;
         }
         setItems(result.grievances);
-        setError(null);
+        setErrorKey(null);
       })
       .catch((err: unknown) => {
-        if (!cancelled) setError(t(grievanceListErrorKey(err)));
+        if (!cancelled) setErrorKey(grievanceListErrorKey(err));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -56,7 +60,7 @@ export function GrievanceDashboard() {
     return () => {
       cancelled = true;
     };
-  }, [listGrievances, revision, t]);
+  }, [listGrievances, revision]);
 
   const overdue = items.filter((g) => g.isOverdue);
   const upcoming = items.filter(
@@ -98,8 +102,33 @@ export function GrievanceDashboard() {
     );
   }
 
-  if (error) {
-    return <p className="text-red-600">{error}</p>;
+  if (errorKey) {
+    return (
+      <div className="mx-auto max-w-xl space-y-4 py-4">
+        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+          {t("title")}
+        </h1>
+        <Callout tone="danger" measure="fill">
+          <p>{t(errorKey)}</p>
+          {errorKey === "loadErrorModuleDisabled" ? (
+            <p className="mt-2">
+              <Link
+                href="/app/configuration"
+                className="font-semibold underline"
+              >
+                {tDisabled("openConfiguration")}
+              </Link>
+            </p>
+          ) : null}
+        </Callout>
+        <Link
+          href="/app"
+          className="inline-flex text-sm font-medium text-opseu-blue underline"
+        >
+          {tDisabled("backDashboard")}
+        </Link>
+      </div>
+    );
   }
 
   return (

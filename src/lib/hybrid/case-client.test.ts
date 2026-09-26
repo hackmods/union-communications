@@ -25,6 +25,11 @@ describe("HybridCaseApiError / grievanceListErrorKey", () => {
     expect(grievanceListErrorKey(new HybridCaseApiError(403, "Forbidden", "x"))).toBe(
       "loadErrorForbidden",
     );
+    expect(
+      grievanceListErrorKey(
+        new HybridCaseApiError(403, "Grievance module disabled", "x"),
+      ),
+    ).toBe("loadErrorModuleDisabled");
     expect(grievanceListErrorKey(new HybridCaseApiError(500, "boom", "x"))).toBe("loadError");
     expect(grievanceListErrorKey(new Error("network"))).toBe("loadError");
   });

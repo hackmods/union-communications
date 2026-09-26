@@ -5,6 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
 import { BylawsBoard } from "@/components/hub/bylaws/BylawsBoard";
+import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { canAccessBylawsModule } from "@/lib/hub-governance/access";
 import type { UserRole } from "@/types/tenant";
 
@@ -22,8 +23,13 @@ export default async function HubBylawsPage({
   await hydrateTenantOverlayFromPostgres();
   const tenant = getTenantContext(session.user.unionId, session.user.localId);
   const roles = (session.user.roles ?? []) as UserRole[];
-  if (!canAccessBylawsModule(roles, tenant?.union.enabledModules ?? [])) {
+  const modules = tenant?.union.enabledModules ?? [];
+  // Role check with module forced on so module-off gets a panel, not a silent redirect.
+  if (!canAccessBylawsModule(roles, ["bylaws"])) {
     redirect(`/${locale}/app`);
+  }
+  if (!modules.includes("bylaws")) {
+    return <ModuleDisabledPanel moduleId="bylaws" roles={roles} />;
   }
   return <BylawsBoard />;
 }

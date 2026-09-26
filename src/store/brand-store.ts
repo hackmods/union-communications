@@ -218,7 +218,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     const parsed = theme as UnionBrandTheme;
     const patch = brandThemeToKitPatch(parsed);
     if (!get().hydrated) {
-      pendingPatch = mergeBrandKitPatch(pendingPatch, patch);
+      pendingPatch = queueBrandKitPatch(pendingPatch, patch);
       return;
     }
     const updated = applyBrandKitPatch(get().brandKit, patch);

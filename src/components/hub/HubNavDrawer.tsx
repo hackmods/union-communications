@@ -36,6 +36,8 @@ type HubNavDrawerProps = {
   drawerTop: number;
   pathname: string;
   modules: HubDrawerModule[];
+  /** Promoted when the module strip is empty (president setup chrome). */
+  setupLinks?: HubToolLink[];
   toolGroups: HubToolGroup[];
   toolsActive: boolean;
   accountLinks: HubDrawerAccountLink[];
@@ -49,6 +51,7 @@ export function HubNavDrawer({
   drawerTop,
   pathname,
   modules,
+  setupLinks = [],
   toolGroups,
   toolsActive,
   accountLinks,
@@ -170,6 +173,21 @@ export function HubNavDrawer({
               >
                 <Emoji id={mod.emojiId} />
                 <span className="ml-2">{mod.label}</span>
+              </Link>
+            );
+          })}
+
+          {setupLinks.map((link) => {
+            const active = hubToolLinkActive(pathname, link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={onCloseAfterNav}
+                aria-current={active ? "page" : undefined}
+                className={linkClass(active)}
+              >
+                {link.label}
               </Link>
             );
           })}

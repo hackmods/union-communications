@@ -5,10 +5,10 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { getHubNavModules } from "@/lib/modules/registry";
-import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { resolveHubModulesForLocal } from "@/lib/president/local-prefs";
 import {
+  isHubSetupToolHref,
   listHubToolLinks,
   resolveHubToolAccess,
 } from "@/components/hub/hub-tool-catalog";
@@ -17,7 +17,10 @@ import { cn } from "@/lib/utils";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { preferredHubToolsMenuWidth } from "@/lib/utils/flyout-geometry";
 import { Emoji } from "@/components/ui/Emoji";
-import { HubContextSwitcher } from "@/components/hub/HubContextSwitcher";
+import {
+  HubContextSwitcher,
+  useHubContextReady,
+} from "@/components/hub/HubContextSwitcher";
 import { HubNavDrawer } from "@/components/hub/HubNavDrawer";
 import {
   groupHubToolLinks,
@@ -41,6 +44,7 @@ export function HubNav() {
   const mfaEnabled = useMfaEnabled();
   const mfaOk = useSessionMfaOk();
   const liveTenant = useLiveTenant();
+  const contextReady = useHubContextReady();
   const barRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const drawerId = useId();
@@ -84,26 +88,33 @@ export function HubNav() {
     (session.user.unionId
       ? getTenantContext(session.user.unionId, session.user.localId)
       : null);
-  // Client seed may miss Postgres-only unions until /api/tenant lands.
-  // Never fall back to ["comms"] alone — HubNav filters comms/portal out, so
-  // that produced an empty bar. Use president defaults instead.
-  const enabledModules: HubModule[] =
-    tenant?.union.enabledModules ?? [...PRESIDENT_OVERLAY_MODULES];
+  // Match HubDashboard: never invent enabled modules while tenant is unavailable.
+  const unionModules: HubModule[] = tenant?.union.enabledModules ?? [];
   const visibleModules = tenant?.union.id
     ? resolveHubModulesForLocal(
         tenant.union.id,
         session.user.localId,
-        enabledModules,
+        unionModules,
       )
-    : enabledModules;
+    : unionModules;
   const roles = (session.user.roles ?? []) as UserRole[];
   const modules = getHubNavModules(visibleModules, roles);
-  const toolAccess = resolveHubToolAccess(roles, enabledModules, {
+  const toolAccess = resolveHubToolAccess(roles, visibleModules, {
     unionId: session.user.unionId,
     localId: session.user.localId,
   });
   const toolLinks = listHubToolLinks(toolAccess, (key) => t(key));
-  const toolGroups = groupHubToolLinks(toolLinks);
+  // When the module strip is empty, promote setup links so presidents are not stuck.
+  const setupLinks =
+    modules.length === 0
+      ? toolLinks.filter((link) => isHubSetupToolHref(link.href))
+      : [];
+  // Avoid duplicating promoted setup links inside Officer tools.
+  const menuToolLinks =
+    setupLinks.length > 0
+      ? toolLinks.filter((link) => !isHubSetupToolHref(link.href))
+      : toolLinks;
+  const toolGroups = groupHubToolLinks(menuToolLinks);
   const toolsActive = hubToolsActive(pathname, toolLinks);
 
   const drawerModules = modules.map((mod) => ({
@@ -156,18 +167,27 @@ export function HubNav() {
           >
             {t("title")}
           </Link>
-          <span className="hidden shrink-0 text-gray-400 sm:inline" aria-hidden="true">
-            |
-          </span>
-          <div className="hidden min-w-0 sm:block">
-            <HubContextSwitcher />
-          </div>
+          {contextReady ? (
+            <>
+              <span
+                className="hidden shrink-0 text-gray-400 sm:inline"
+                aria-hidden="true"
+              >
+                |
+              </span>
+              <div className="hidden min-w-0 sm:block">
+                <HubContextSwitcher />
+              </div>
+            </>
+          ) : null}
         </div>
 
-        <div className={cn(
-          "hidden min-w-0 flex-1 flex-wrap items-center justify-end gap-1",
-          dashboard ? "2xl:flex" : "lg:flex",
-        )}>
+        <div
+          className={cn(
+            "hidden min-w-0 flex-1 flex-wrap items-center justify-end gap-1",
+            dashboard ? "2xl:flex" : "lg:flex",
+          )}
+        >
           {isPlatformOperator(roles) && (
             <PlatformOperatorNavDropdown variant="hub" />
           )}
@@ -221,6 +241,21 @@ export function HubNav() {
               ))}
             </NavDropdown>
           )}
+          {setupLinks.map((link) => {
+            const active = hubToolLinkActive(pathname, link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={linkClass(
+                  active ? "bg-white font-semibold text-opseu-dark" : undefined,
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           {modules.map((mod) => {
             const href = mod.href;
             const active = hubModuleActive(pathname, href);
@@ -291,6 +326,7 @@ export function HubNav() {
           drawerTop={drawerTop}
           pathname={pathname}
           modules={drawerModules}
+          setupLinks={setupLinks}
           toolGroups={toolGroups}
           toolsActive={toolsActive}
           accountLinks={accountLinks}

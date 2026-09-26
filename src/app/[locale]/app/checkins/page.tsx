@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { CheckinsBoard } from "@/components/checkins/CheckinsBoard";
 import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
-import { getTenantContext } from "@/lib/tenant/loader";
+import { isSessionModuleEnabled } from "@/lib/hub/session-modules";
 import { canAccessCheckinsModule } from "@/lib/checkins/access";
 import type { UserRole } from "@/types/tenant";
 
@@ -29,10 +29,7 @@ export default async function CheckinsPage({
     redirect(`/${locale}/app`);
   }
 
-  const tenant = session.user.unionId
-    ? getTenantContext(session.user.unionId)
-    : null;
-  if (!tenant?.union.enabledModules.includes("checkins")) {
+  if (!isSessionModuleEnabled(session, "checkins")) {
     return <ModuleDisabledPanel moduleId="checkins" roles={roles} />;
   }
 
