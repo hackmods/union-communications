@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-09-25 — Lighter Comms Brand Kit follow-through
+
+- Added browser checks for legacy Full colour kits, blocked storage, saved Looks, Local pack transfer, first-visit overrides, undo/reset, and narrow French layouts.
+- Fixed first-visit Brand Kit hydration so preset and treatment edits display immediately and remain intact after host defaults load; Local pack import/reset during loading also survives.
+- Follow-through phases and remaining visual acceptance: [`docs/audit/plan-2026-09-25-lighter-comms-followthrough.md`](audit/plan-2026-09-25-lighter-comms-followthrough.md).
+
 ## 2026-09-25 — Lighter Comms design treatments
 
 - Added Full colour, Balanced, and Mostly white treatments to Brand Kit and branded Comms makers. New kits start Balanced; saved kits keep their prior full-colour appearance. Maker overrides travel with preview, reset/undo, and exports.

@@ -13,12 +13,16 @@ describe("saved Brand Kit Looks", () => {
   });
 
   it("captures colours and logo choice without changing the design treatment", () => {
-    const kit = { ...DEFAULT_BRAND_KIT, designTreatment: "paper" as const };
+    const kit = { ...DEFAULT_BRAND_KIT, designTreatment: "paper" as const,
+      useOfficialLogo: true, officialLogoVariant: "mark" as const,
+      identityPackId: "local-pack", customLogoDataUrl: "data:image/png;base64,dGVzdA==" };
     const look = captureSavedLook(kit, "council", " Council ");
     expect(look.name).toBe("Council");
     expect(look.primaryColor).toBe(kit.primaryColor);
     const patch = applySavedLook(look);
     expect(patch).not.toHaveProperty("designTreatment");
     expect({ ...kit, ...patch }.designTreatment).toBe("paper");
+    expect(patch).toMatchObject({ useOfficialLogo: true, officialLogoVariant: "mark",
+      identityPackId: "local-pack", customLogoDataUrl: kit.customLogoDataUrl });
   });
 });
