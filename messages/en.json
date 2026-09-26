@@ -4360,9 +4360,12 @@
       "matchBody": "Apply your Officer Hub union’s Comms brand preset to this browser’s Brand Kit. Your local number stays if you already set one. This does not change Officer Hub membership.",
       "matchAction": "Match public site",
       "matchBusy": "Applying…",
-      "matchSuccess": "Public Brand Kit now matches your Officer Hub union preset.",
+      "matchSuccess": "Public Brand Kit now matches your Officer Hub union brand.",
       "matchFailed": "Could not apply that preset.",
-      "matchRemedy": "Open Brand Kit and pick a union preset manually, or ask a platform admin to bind a brand style to your union."
+      "matchRemedy": "Open Brand Kit and pick a union preset manually, or ask a platform admin to bind a brand style to your union.",
+      "matchBodyWithTheme": "Apply your Officer Hub union’s Comms preset and operator colours to this browser’s Brand Kit. Your local number stays if you already set one. This does not change Officer Hub membership.",
+      "matchBodyThemeOnly": "Apply your Officer Hub union’s operator colours to this browser’s Brand Kit. Your local number stays if you already set one. This does not change Officer Hub membership.",
+      "matchThemePreview": "Operator theme colours"
     },
     "campaignBadge": {
       "label": "Campaign badge (optional)",
@@ -7972,7 +7975,7 @@
       },
       "hub-nav-module-gates": {
         "title": "Officer Hub menu matches what your local has on",
-        "body": "Disabled modules no longer crowd Officer Hub navigation. When Grievances is off, you get a clear turn-it-on path instead of an access-denied dead end. Presidents still see configuration and invites when the casework strip is empty."
+        "body": "Disabled modules no longer crowd Officer Hub navigation. Opening an off module shows how to turn it on. Presidents still see configuration and invites when the casework strip is empty."
       }
     }
   },
@@ -8540,7 +8543,17 @@
       "hostBrandSubText": "Default sub-text",
       "hostBrandPreset": "Default Comms preset",
       "hostBrandEnvNote": "Some fields are locked because NEXT_PUBLIC_BRAND_* or DEFAULT_* environment variables are set on this host.",
-      "hostBrandEnvLocked": "env"
+      "hostBrandEnvLocked": "env",
+      "brandStylesUnionsHeading": "Unions",
+      "brandStylesUnionsHint": "Bind a Comms preset and optional colours for each Officer Hub union.",
+      "brandStylesUnsaved": "unsaved changes",
+      "brandStylesInvalidHex": "Use six-digit hex colours like #C2410C for primary, secondary, and accent.",
+      "brandStylesColourPreview": "Colour preview for {union}",
+      "brandStylesPreviewSample": "Solidarity starts here",
+      "brandStylesEmptyLocalsLink": "Open Locals to create a union",
+      "brandStylesBaselineBusy": "Working…",
+      "hostBrandClearConfirm": "Clear durable host brand overrides? File and environment defaults will apply again.",
+      "hostBrandErrorRemedy": "Refresh the page. If it still fails, confirm Postgres is configured for this host."
     },
     "signingIn": "Signing in...",
     "writeNoUnion": "No union is assigned to this account — ask a platform operator to assign one before saving.",
@@ -9012,6 +9025,22 @@
       "grievance": {
         "title": "Grievances is off",
         "body": "Case files and grievance deadlines stay off until this module is enabled."
+      },
+      "bumping": {
+        "title": "Stability Committee is off",
+        "body": "Bumping case files stay off until this module is enabled."
+      },
+      "bylaws": {
+        "title": "Bylaws is off",
+        "body": "Local bylaw drafts and revision tracking stay off until enabled."
+      },
+      "proposals": {
+        "title": "Proposals is off",
+        "body": "Proposal packages and member-safe feeds stay off until enabled."
+      },
+      "informalLog": {
+        "title": "Informal log is off",
+        "body": "Informal workplace notes stay off until this module is enabled."
       }
     }
   },

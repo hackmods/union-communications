@@ -4358,9 +4358,12 @@
       "matchBody": "Appliquez le préréglage Comms de votre syndicat du Hub à la Trousse de marque de ce navigateur. Votre numéro de section locale est conservé s’il est déjà défini. Cela ne change pas l’adhésion au Hub.",
       "matchAction": "Faire correspondre le site public",
       "matchBusy": "Application…",
-      "matchSuccess": "La Trousse de marque publique correspond maintenant au préréglage de votre syndicat du Hub.",
+      "matchSuccess": "La Trousse de marque publique correspond maintenant à la marque de votre syndicat du Hub.",
       "matchFailed": "Impossible d’appliquer ce préréglage.",
-      "matchRemedy": "Ouvrez la Trousse de marque et choisissez un préréglage syndical manuellement, ou demandez à un administrateur de plateforme de lier un style de marque à votre syndicat."
+      "matchRemedy": "Ouvrez la Trousse de marque et choisissez un préréglage syndical manuellement, ou demandez à un administrateur de plateforme de lier un style de marque à votre syndicat.",
+      "matchBodyWithTheme": "Appliquez le préréglage Comms et les couleurs d'opérateur de votre syndicat du Hub à la Trousse de marque de ce navigateur. Votre numéro de section locale est conservé s'il est déjà défini. Cela ne change pas l'adhésion au Hub.",
+      "matchBodyThemeOnly": "Appliquez les couleurs d'opérateur de votre syndicat du Hub à la Trousse de marque de ce navigateur. Votre numéro de section locale est conservé s'il est déjà défini. Cela ne change pas l'adhésion au Hub.",
+      "matchThemePreview": "Couleurs du thème d'opérateur"
     },
     "campaignBadge": {
       "label": "Badge de campagne (optionnel)",
@@ -7919,7 +7922,7 @@
       },
       "hub-nav-module-gates": {
         "title": "Le menu du Hub des dirigeants suit les modules activés de votre section",
-        "body": "Les modules désactivés n’encombrent plus la navigation du Hub des dirigeants. Quand les griefs sont hors, vous voyez clairement comment les activer, au lieu d’un refus d’accès sans issue. La présidence voit toujours la configuration et les invitations quand la bande de modules de travail est vide."
+        "body": "Les modules désactivés n’encombrent plus la navigation du Hub des dirigeants. Ouvrir un module hors montre comment l’activer. La présidence voit toujours la configuration et les invitations quand la bande de modules de travail est vide."
       }
     }
   },
@@ -8487,7 +8490,17 @@
       "hostBrandSubText": "Sous-texte par défaut",
       "hostBrandPreset": "Préréglage Comms par défaut",
       "hostBrandEnvNote": "Certains champs sont verrouillés parce que des variables NEXT_PUBLIC_BRAND_* ou DEFAULT_* sont définies sur cet hôte.",
-      "hostBrandEnvLocked": "env"
+      "hostBrandEnvLocked": "env",
+      "brandStylesUnionsHeading": "Syndicats",
+      "brandStylesUnionsHint": "Associez un préréglage Comms et des couleurs optionnelles à chaque syndicat du Hub.",
+      "brandStylesUnsaved": "modifications non enregistrées",
+      "brandStylesInvalidHex": "Utilisez des couleurs hexadécimales à six chiffres comme #C2410C pour le primaire, le secondaire et l'accent.",
+      "brandStylesColourPreview": "Aperçu des couleurs pour {union}",
+      "brandStylesPreviewSample": "La solidarité commence ici",
+      "brandStylesEmptyLocalsLink": "Ouvrir Locals pour créer un syndicat",
+      "brandStylesBaselineBusy": "En cours…",
+      "hostBrandClearConfirm": "Effacer les remplacements durables de marque d'instance ? Les défauts fichier et environnement s'appliqueront de nouveau.",
+      "hostBrandErrorRemedy": "Actualisez la page. Si cela échoue encore, confirmez que Postgres est configuré pour cet hôte."
     },
     "signingIn": "Connexion...",
     "writeNoUnion": "Aucun syndicat n’est assigné à ce compte — demandez à un opérateur de plateforme d’en assigner un avant d’enregistrer.",
@@ -8959,6 +8972,22 @@
       "grievance": {
         "title": "Griefs désactivés",
         "body": "Les dossiers et les échéances de grief restent hors jusqu’à l’activation de ce module."
+      },
+      "bumping": {
+        "title": "Comité de stabilité désactivé",
+        "body": "Les dossiers du comité de stabilité restent hors jusqu’à l’activation de ce module."
+      },
+      "bylaws": {
+        "title": "Règlements désactivés",
+        "body": "Les brouillons de règlements locaux et le suivi des révisions restent hors jusqu’à activation."
+      },
+      "proposals": {
+        "title": "Propositions désactivées",
+        "body": "Les dossiers de propositions et les fils sécurisés pour les membres restent hors jusqu’à activation."
+      },
+      "informalLog": {
+        "title": "Journal informel désactivé",
+        "body": "Les notes informelles en milieu de travail restent hors jusqu’à l’activation de ce module."
       }
     }
   },

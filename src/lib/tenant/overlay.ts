@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import { resolveHostBrandWithOverlay } from "@/lib/brand/host-brand-overlay";
+import { resolveHostBrandWithOverlay } from "@/lib/brand/host-brand-store";
 import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 import type { PortalSurfaceId } from "@/lib/president/module-catalog";
 import type {
