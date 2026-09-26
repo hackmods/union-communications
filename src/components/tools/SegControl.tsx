@@ -29,6 +29,14 @@ function enabledOptionIndexes<T extends string>(options: SegOption<T>[]) {
     .filter((index) => index >= 0);
 }
 
+/** Roving tabindex for short lists; long pickers keep every option in the Tab order. */
+export function shouldUseSegRovingTabIndex(
+  enabledOptionCount: number,
+  override?: boolean,
+): boolean {
+  return override ?? enabledOptionCount <= 6;
+}
+
 /** Accessible segmented control (radiogroup) for tool format/layout pills. */
 export function SegControl<T extends string>({
   label,
@@ -39,7 +47,7 @@ export function SegControl<T extends string>({
   rovingTabIndex,
 }: SegControlProps<T>) {
   const enabled = enabledOptionIndexes(options);
-  const useRoving = rovingTabIndex ?? enabled.length <= 6;
+  const useRoving = shouldUseSegRovingTabIndex(enabled.length, rovingTabIndex);
 
   const selectIndex = (index: number, currentTarget: HTMLElement) => {
     const opt = options[index];

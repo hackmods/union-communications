@@ -1,3 +1,7 @@
+## 2026-09-25 — Comms treatment longevity guards
+
+- [x] QR Board balanced frame on `treatmentQrBoardFrameStyle`; chrome contract + meetingTop unit locks; SegControl roving helper tests; Hub `designTreatment` schema + round-trip tests
+
 ## 2026-09-25 — Comms treatment QOL
 
 - Shared `design-treatment-surface` helper for Full / Balanced / Mostly white colour remap and canonical chrome widths; makers migrated onto it.

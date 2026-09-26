@@ -15,6 +15,7 @@ export const brandKitInputSchema = z
     accentColor: z.string().min(1).max(32),
     useOfficialLogo: z.boolean(),
     updatedAt: z.string().min(1).max(64),
+    designTreatment: z.enum(["full", "balanced", "paper"]).optional(),
   })
   .passthrough();
 
