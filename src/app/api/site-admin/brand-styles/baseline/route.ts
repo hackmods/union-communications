@@ -104,7 +104,7 @@ export async function POST(req: Request) {
       resourceId: result.resourceId,
       unionId: parsed.data.unionId,
       metadata: {
-        published: Boolean(result.published),
+        published: result.published ? "true" : "false",
         releaseId: result.releaseId ?? "",
       },
     });
