@@ -55,7 +55,7 @@ test.describe("Hub governance (bylaws + proposals) @smoke", () => {
     await page.getByLabel(/Package name|Nom du paquet/i).fill("Smoke 2026 round");
     await page.getByRole("button", { name: /Save|Enregistrer/i }).click();
 
-    const openLink = page.getByRole("link", { name: /Open|Ouvrir/i });
+    const openLink = page.getByRole("link", { name: /Open|Ouvrir/i }).first();
     await expect(openLink).toBeVisible();
     await openLink.click();
 
