@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# One-shot seed for CapRover / docker hosts after entrypoint migrate.
-# Run ON THE CAPROVER HOST (or any machine on the captain-overlay-network).
+# Optional one-shot seed for CapRover / docker hosts after entrypoint migrate.
+#
+# Prefer the image boot seed for the reference tenant: entrypoint runs
+# docker/db-seed-boot.mjs with SEED_ON_BOOT=auto (upserts B7P when unions is empty).
+# Use THIS script when you also need platform admin and/or demo roster users.
 #
 # Prerequisites:
 #   - Postgres reachable at MIGRATE_DATABASE_URL (owner role)

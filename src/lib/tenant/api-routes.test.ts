@@ -243,6 +243,82 @@ describe("GET/POST /api/tenant", () => {
     expect(body.local.subText).toBe("Coverage local");
   });
 
+  it("forbids a president from targeting another union via unionId", async () => {
+    authMock.mockResolvedValue(session());
+    const modules = await postTenant(
+      jsonRequest({
+        action: "set_modules",
+        enabledModules: ["comms", "grievance", "portal"],
+        unionId: "union-other",
+      }),
+    );
+    expect(modules.status).toBe(403);
+    expect(await modules.json()).toEqual({ error: "Forbidden" });
+
+    const surfaces = await postTenant(
+      jsonRequest({
+        action: "set_portal_surfaces",
+        portalSurfaces: ["announcements"],
+        unionId: "union-other",
+      }),
+    );
+    expect(surfaces.status).toBe(403);
+  });
+
+  it("lets a president add a collection on a home local and rejects a foreign local", async () => {
+    authMock.mockResolvedValue(session({ roles: ["local_member"] }));
+    const denied = await postTenant(
+      jsonRequest({
+        action: "create_collection",
+        localId: "local-7",
+        code: "coverage",
+        name: "Coverage collection",
+      }),
+    );
+    expect(denied.status).toBe(403);
+
+    authMock.mockResolvedValue(session());
+    const invalid = await postTenant(
+      jsonRequest({
+        action: "create_collection",
+        localId: "local-7",
+        name: "Missing code",
+      }),
+    );
+    expect(invalid.status).toBe(400);
+
+    const missing = await postTenant(
+      jsonRequest({
+        action: "create_collection",
+        localId: "local-missing",
+        code: "coverage",
+        name: "Coverage collection",
+        unionId: "union-other",
+      }),
+    );
+    expect(missing.status).toBe(404);
+    expect(await missing.json()).toEqual({ error: "Local not found" });
+
+    const created = await postTenant(
+      jsonRequest({
+        action: "create_collection",
+        localId: "local-7",
+        code: "coverage",
+        name: "Coverage collection",
+        unionPresetId: "cupe",
+        unionId: "union-other",
+      }),
+    );
+    expect(created.status).toBe(201);
+    const body = (await created.json()) as {
+      collection: { unionId: string; localId: string; code: string; name: string };
+    };
+    expect(body.collection.unionId).toBe("union-b7p");
+    expect(body.collection.localId).toBe("local-7");
+    expect(body.collection.code).toBe("coverage");
+    expect(body.collection.name).toBe("Coverage collection");
+  });
+
   it("lets platform admin GET/POST modules for a union override without home union", async () => {
     authMock.mockResolvedValue(
       session({

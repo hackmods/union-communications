@@ -16,11 +16,11 @@ describe("buildHealthStatus", () => {
     process.env = env;
   });
 
-  it("returns ok with commit and default memory backends", () => {
+  it("returns ok with commit and default memory backends", async () => {
     delete process.env.BUILD_COMMIT_SHA;
     delete process.env.BUILD_TIME;
     delete process.env.GRIEVANCE_DB_BACKEND;
-    const status = buildHealthStatus();
+    const status = await buildHealthStatus();
     expect(status.status).toBe("ok");
     expect(status.version).toBe("0.1.0");
     expect(status.commit).toBe("unknown");
@@ -33,6 +33,7 @@ describe("buildHealthStatus", () => {
     expect(status.cronConfigured).toBe(false);
     expect(status.mfaEnabled).toBe(false);
     expect(typeof status.demoAuthEnabled).toBe("boolean");
+    expect(status.tenantRegistry).toEqual({ unionCount: null, seeded: null });
     expect(status.observability).toEqual({
       sentryEnabled: false,
       sentryClientEnabled: false,
@@ -51,7 +52,7 @@ describe("buildHealthStatus", () => {
     expect(readAppVersion()).toBe("0.1.0");
   });
 
-  it("reflects configured commit and postgres flags", () => {
+  it("reflects configured commit and postgres flags", async () => {
     process.env.BUILD_COMMIT_SHA = "abc1234";
     process.env.BUILD_TIME = "2026-08-27T12:00:00Z";
     process.env.GRIEVANCE_DB_BACKEND = "postgres";
@@ -59,7 +60,7 @@ describe("buildHealthStatus", () => {
     process.env.EMAIL_ENABLED = "true";
     process.env.CRON_SECRET = "cron-test";
     process.env.AUTH_MFA_ENABLED = "true";
-    const status = buildHealthStatus();
+    const status = await buildHealthStatus();
     expect(status.commit).toBe("abc1234");
     expect(status.builtAt).toBe("2026-08-27T12:00:00Z");
     expect(status.backends.GRIEVANCE_DB_BACKEND).toBe("postgres");
@@ -76,12 +77,12 @@ describe("buildHealthStatus", () => {
     expect(status.mfaEnabled).toBe(true);
   });
 
-  it("reflects observability sink flags without leaking DSN", () => {
+  it("reflects observability sink flags without leaking DSN", async () => {
     process.env.SENTRY_ENABLED = "true";
     process.env.SENTRY_DSN = "https://leaked-secret@o0.ingest.sentry.io/9";
     process.env.ERROR_LOG_FILE_ENABLED = "true";
     process.env.ERROR_LOG_FILE_PATH = "/data/logs/unionops-errors.jsonl";
-    const status = buildHealthStatus();
+    const status = await buildHealthStatus();
     expect(status.observability.sentryEnabled).toBe(true);
     expect(status.observability.sentryClientEnabled).toBe(false);
     expect(status.observability.sentryClientServerMismatch).toBe(true);

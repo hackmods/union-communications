@@ -94,4 +94,35 @@ describe("refreshJwtTenancyIfStale", () => {
     expect(next.unionId).toBe("union-a");
     expect(next.sessionVersion).toBe(2);
   });
+
+  it("clears stale JWT unionId when DB row was nulled without version bump", async () => {
+    process.env.AUTH_USERS_BACKEND = "postgres";
+    selectLimit.mockResolvedValue([
+      {
+        unionId: null,
+        divisionId: null,
+        localId: null,
+        bargainingUnitId: null,
+        accessibleLocalIds: null,
+        roles: ["platform_admin"],
+        sessionVersion: 1,
+        archivedAt: null,
+        lockedAt: null,
+      },
+    ]);
+    const { refreshJwtTenancyIfStale } = await import(
+      "@/lib/auth/refresh-jwt-tenancy"
+    );
+    const token = {
+      sub: "u1",
+      unionId: "union-purged",
+      localId: "local-gone",
+      sessionVersion: 1,
+      roles: ["platform_admin"],
+    } as JWT;
+    const next = await refreshJwtTenancyIfStale(token);
+    expect(next.unionId).toBeUndefined();
+    expect(next.localId).toBeUndefined();
+    expect(next.sessionVersion).toBe(1);
+  });
 });

@@ -13,10 +13,20 @@ function usersBackendEnabled(
   );
 }
 
+function sameOptionalString(
+  a: string | null | undefined,
+  b: unknown,
+): boolean {
+  const left = a ?? undefined;
+  const right = typeof b === "string" ? b : undefined;
+  return left === right;
+}
+
 /**
- * When Postgres `users.sessionVersion` is ahead of the JWT claim, reload
- * tenancy + roles into the token (assign-local / role changes bump version).
- * Server-driven only — never trusts client-supplied unionId.
+ * Reload tenancy + roles from Postgres `users` when sessionVersion is ahead
+ * or when JWT union/local claims diverge from the DB row (e.g. union deleted
+ * → ON DELETE SET NULL, or assign-local / role changes). Server-driven only —
+ * never trusts client-supplied unionId.
  */
 export async function refreshJwtTenancyIfStale(token: JWT): Promise<JWT> {
   if (!usersBackendEnabled()) return token;
@@ -45,7 +55,13 @@ export async function refreshJwtTenancyIfStale(token: JWT): Promise<JWT> {
       .limit(1);
 
     if (!row || row.archivedAt || row.lockedAt) return token;
-    if (row.sessionVersion <= tokenVersion) return token;
+
+    const versionAhead = row.sessionVersion > tokenVersion;
+    const tenancyDrift =
+      !sameOptionalString(row.unionId, token.unionId) ||
+      !sameOptionalString(row.localId, token.localId) ||
+      !sameOptionalString(row.divisionId, token.divisionId);
+    if (!versionAhead && !tenancyDrift) return token;
 
     token.unionId = row.unionId ?? undefined;
     token.divisionId = row.divisionId ?? undefined;

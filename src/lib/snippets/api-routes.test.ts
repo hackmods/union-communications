@@ -22,6 +22,10 @@ import { POST as bulkSnippets } from "@/app/api/snippets/bulk/route";
 import { POST as resetSnippets } from "@/app/api/snippets/reset/route";
 import { resetSnippetMemoryForTests } from "./memory-adapter";
 import { resetSnippetStore, snippetStore } from "./store";
+import {
+  resetPreferredSnippetLibrariesForTests,
+  syncPreferredLibraryFromCollectionCode,
+} from "./preferred-library";
 
 function session(input?: {
   id?: string;
@@ -70,12 +74,14 @@ describe("snippets API routes", () => {
   beforeEach(() => {
     resetSnippetMemoryForTests();
     resetSnippetStore();
+    resetPreferredSnippetLibrariesForTests();
     authMock.mockReset();
   });
 
   afterEach(() => {
     resetSnippetMemoryForTests();
     resetSnippetStore();
+    resetPreferredSnippetLibrariesForTests();
   });
 
   describe("GET /api/snippets", () => {
@@ -164,6 +170,20 @@ describe("snippets API routes", () => {
         ),
       ).toBe(true);
       expect(body.snippets.every((s) => s.locale === "en")).toBe(true);
+    });
+
+    it("returns the stored preferred library without leaking another local", async () => {
+      syncPreferredLibraryFromCollectionCode("union-b7p", "local-7", "pt");
+      syncPreferredLibraryFromCollectionCode("union-b7p", "local-1337", "academic");
+      authMock.mockResolvedValue(session());
+      const res = await listSnippets(listRequest());
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as {
+        preferredLibrary: string | null;
+        activeLibrary: string;
+      };
+      expect(body.preferredLibrary).toBe("caat-s-pt");
+      expect(body.activeLibrary).toBe("caat-s-pt");
     });
 
     it("requires an active local before listing scoped snippets", async () => {

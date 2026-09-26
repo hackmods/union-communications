@@ -128,8 +128,9 @@ export const users = pgTable("users", {
   totpSecret: text("totp_secret"),
   mfaEnabled: boolean("mfa_enabled").notNull().default(false),
   /**
-   * Bumps on assign-local, role changes, and related ops. JWT callback reloads
-   * tenancy claims when the token's `sessionVersion` lags the Postgres row.
+   * Bumps on assign-local, role changes, signout-everywhere, and email change.
+   * JWT callback reloads tenancy when `sessionVersion` lags or union/local
+   * claims drift from the Postgres row (e.g. ON DELETE SET NULL).
    * `0` is the genesis value.
    */
   sessionVersion: integer("session_version").notNull().default(0),
