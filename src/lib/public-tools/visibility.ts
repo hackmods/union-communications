@@ -39,7 +39,16 @@ export function resolvePublicToolEnabled(
   return true;
 }
 
+/**
+ * Extract a gateable public-tool slug from a tool/create/utilities href.
+ * Guides, Brand Kit, captions, etc. return null (always shown in Related footers).
+ */
 export function slugFromToolHref(href: string): string | null {
-  const match = href.match(/^\/tools\/([^/?#]+)/);
-  return match?.[1] ?? null;
+  const pathOnly = href.split(/[?#]/)[0] ?? href;
+  const match = pathOnly.match(/^\/(?:tools|create|utilities)\/([^/]+)/);
+  if (!match?.[1]) return null;
+  const slug = match[1];
+  if (slug === "brand-kit" || slug === "keep-learning") return null;
+  if (slug === "share-kit") return "graphic-maker";
+  return slug;
 }

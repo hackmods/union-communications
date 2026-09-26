@@ -1,3 +1,11 @@
+## 2026-09-26 — Viewport Lab QOL follow-through
+
+- Related tools: `slugFromToolHref` parses `/create` + `/utilities`; `RELATED_BY_TOOL` + Document Generator preset hrefs canonicalized; footer filters disable lists on create paths.
+- Local 404: locale wayfinding (Create / Utilities / Learn); root miss redirects into `/en/this-page-should-404`; session-knowledge decision log updated.
+- Hub/Portal: inventory doc + mobile overflow for bylaws/proposals/data and portal proposals/dispatch.
+- Tickets closed: `VL-REL-*`, `VL-HUB-0`/`1`, `VL-404-*` (leave `VL-HUB-2`–`4` open).
+- Verify: `npm run test:unit -- src/lib/public-tools/visibility.test.ts src/lib/constants/document-generator-links.test.ts`
+
 ## 2026-09-26 — Viewport Lab follow-up plan
 
 - Deferred tracks planned (not implemented): related-tools disable-list gating for `/create`, Hub/Portal Playwright responsive audit, Local 404 wayfinding enrichment.

@@ -75,6 +75,8 @@ Unrelated WIP + UU conflicts on `messages/*` / `PROGRESS.md` poisoned early writ
 | Poll/RSVP/meeting | `notFound()` | Correct status; domain quips via buckets |
 | Hub detail empties | Out of scope | Resource empties ≠ route 404 |
 | FR title | “Section 404” | “Section” ≈ local in FR labour register |
+| Root miss (2026-09-26) | Redirect → `/en/this-page-should-404` | Locale Header/Footer + i18n wayfinding; keep `global-error` free of next-intl |
+| Locale panel CTAs (2026-09-26) | Create / Utilities / Learn + home + feedback | Focused recovery card, not a second marketing Home |
 
 ---
 

@@ -17,7 +17,7 @@ export function resolveOfficePresetFromQuery(
 
 /** Internal href for guide/tool CTAs — trailing slash before query (App Router safe). */
 export function documentGeneratorPresetHref(presetId: OfficePresetId): string {
-  return withTrailingSlash(`/tools/document-generator?preset=${presetId}`);
+  return withTrailingSlash(`/create/document-generator?preset=${presetId}`);
 }
 
 /** Letter Generator route with optional letter preset deep link. */

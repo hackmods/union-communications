@@ -224,6 +224,21 @@ test.describe("Hub dashboards mobile @smoke @mobile", () => {
       path: "/en/app/overdue",
       heading: /Overdue dashboard|Tableau des retards/i,
     },
+    {
+      label: "bylaws",
+      path: "/en/app/bylaws",
+      heading: /Local bylaws|Règlements locaux/i,
+    },
+    {
+      label: "proposals",
+      path: "/en/app/proposals",
+      heading: /Bargaining proposals|Propositions de négociation/i,
+    },
+    {
+      label: "data",
+      path: "/en/app/data",
+      heading: /UnionOps Data|Données UnionOps/i,
+    },
   ];
 
   for (const { path, heading, label } of overflowPages) {

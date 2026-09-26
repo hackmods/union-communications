@@ -7,10 +7,10 @@ import {
 describe("document-generator-links", () => {
   it("builds trailing-slash-safe preset hrefs", () => {
     expect(documentGeneratorPresetHref("grievance-intake")).toBe(
-      "/tools/document-generator/?preset=grievance-intake",
+      "/create/document-generator/?preset=grievance-intake",
     );
     expect(documentGeneratorPresetHref("seniority-worksheet")).toBe(
-      "/tools/document-generator/?preset=seniority-worksheet",
+      "/create/document-generator/?preset=seniority-worksheet",
     );
   });
 

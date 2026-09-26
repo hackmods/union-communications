@@ -31,4 +31,22 @@ test.describe("Portal mobile @smoke @mobile", () => {
     await expect(page.getByPlaceholder("Bulletin title")).toBeVisible();
     await assertNoHorizontalOverflow(page);
   });
+
+  test("Proposals feed has no horizontal overflow", async ({ page }) => {
+    await page.goto("/en/portal/proposals");
+    await expect(
+      page.getByRole("heading", {
+        name: /Bargaining proposals|Propositions de négociation|Proposals|Propositions/i,
+      }),
+    ).toBeVisible({ timeout: 20_000 });
+    await assertNoHorizontalOverflow(page);
+  });
+
+  test("Dispatch has no horizontal overflow", async ({ page }) => {
+    await page.goto("/en/portal/dispatch");
+    await expect(
+      page.getByRole("heading", { name: /Dispatch|Relais/i }),
+    ).toBeVisible({ timeout: 20_000 });
+    await assertNoHorizontalOverflow(page);
+  });
 });

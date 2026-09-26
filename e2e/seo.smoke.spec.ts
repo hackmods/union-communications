@@ -135,5 +135,22 @@ test.describe("SEO smoke @smoke", () => {
     ).toBeVisible();
     await expect(page.getByText("Solidarity.")).toBeVisible();
     await expect(page).not.toHaveTitle(/This page could not be found/i);
+    await expect(page.getByRole("link", { name: /^Create$|^Créer$/i })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /^Utilities$|^Utilitaires$/i }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Learn$|^Apprendre$/i })).toBeVisible();
+  });
+
+  test("unprefixed miss lands in locale Local 404 with site header", async ({
+    page,
+  }) => {
+    await page.goto("/this-path-does-not-exist-root-404");
+    await expect(page).toHaveURL(/\/(en|fr)\//);
+    await expect(
+      page.getByRole("heading", { name: /Local 404|Section 404/i }),
+    ).toBeVisible();
+    await expect(page.getByRole("banner")).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Create$|^Créer$/i })).toBeVisible();
   });
 });
