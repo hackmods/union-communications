@@ -6902,6 +6902,11 @@
           "notNull": true
         },
         {
+          "name": "paid_tenant_directory_enabled",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
           "name": "slug",
           "dataType": "text",
           "notNull": true
