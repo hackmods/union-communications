@@ -1,7 +1,10 @@
 import { describe, expect, it, beforeEach } from "vitest";
 import {
   applyPersistedSnapshotToOverlay,
+  setUnionBrandTheme,
+  setUnionCommsPresetId,
   tenantsPostgresEnabled,
+  updateUnionSlug,
 } from "@/lib/tenant/persist";
 import { findLocalByNumber, getTenantByUnionId } from "@/lib/tenant/loader";
 import {
@@ -133,5 +136,59 @@ describe("overlay union defaults", () => {
       ]),
     );
     expect(seed.union.enabledModules).not.toContain("time");
+  });
+});
+
+describe("union brand persist (memory)", () => {
+  beforeEach(() => {
+    resetTenantOverlayForTests();
+    delete process.env.DATABASE_URL;
+  });
+
+  it("binds and clears a Comms preset without hitting Postgres", async () => {
+    expect(await setUnionCommsPresetId("union-b7p", "unifor")).toEqual({
+      ok: true,
+    });
+    expect(getTenantByUnionId("union-b7p")?.brandDefaults.commsPresetId).toBe(
+      "unifor",
+    );
+
+    expect(await setUnionCommsPresetId("union-b7p", null)).toEqual({ ok: true });
+    expect(
+      getTenantByUnionId("union-b7p")?.brandDefaults.commsPresetId,
+    ).toBeUndefined();
+  });
+
+  it("rejects an invalid theme and stores a valid one", async () => {
+    expect(
+      await setUnionBrandTheme("union-b7p", {
+        primaryColor: "#fff",
+        secondaryColor: "#ffffff",
+        accentColor: "#000000",
+      }),
+    ).toEqual({ ok: false, status: 400, error: "Invalid brand theme" });
+
+    expect(
+      await setUnionBrandTheme("union-b7p", {
+        primaryColor: "#112233",
+        secondaryColor: "#445566",
+        accentColor: "#778899",
+      }),
+    ).toEqual({ ok: true });
+    expect(getTenantByUnionId("union-b7p")?.brandDefaults.primaryColor).toBe(
+      "#112233",
+    );
+  });
+
+  it("rejects an empty slug after sanitizing punctuation", async () => {
+    expect(await updateUnionSlug("union-b7p", "!!!")).toEqual({
+      ok: false,
+      status: 400,
+      error: "Slug is required",
+    });
+    expect(await updateUnionSlug("union-b7p", " New Slug!! ")).toEqual({
+      ok: true,
+      slug: "new-slug",
+    });
   });
 });

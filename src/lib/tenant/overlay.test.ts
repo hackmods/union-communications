@@ -8,8 +8,12 @@ import {
   createOverlayLocal,
   createOverlayCollection,
   createOverlayUnion,
+  getBrandThemePatch,
+  getCommsPresetPatch,
   neutralBrandDefaultsForNewTenant,
   resetTenantOverlayForTests,
+  setBrandThemePatch,
+  setCommsPresetPatch,
   setDataModulePatch,
 } from "@/lib/tenant/overlay";
 
@@ -74,5 +78,36 @@ describe("tenant overlay", () => {
     expect(getTenantContext("union-b7p")?.union.enabledModules).not.toContain(
       "data",
     );
+  });
+
+  it("binds and clears a Comms preset on the static reference union", () => {
+    setCommsPresetPatch("union-b7p", "cupe");
+    expect(getCommsPresetPatch("union-b7p")).toBe("cupe");
+    expect(getTenantByUnionId("union-b7p")?.brandDefaults.commsPresetId).toBe(
+      "cupe",
+    );
+
+    setCommsPresetPatch("union-b7p", null);
+    expect(getCommsPresetPatch("union-b7p")).toBeNull();
+    expect(
+      getTenantByUnionId("union-b7p")?.brandDefaults.commsPresetId,
+    ).toBeUndefined();
+  });
+
+  it("applies an operator theme to seed colours and can clear it", () => {
+    const theme = {
+      primaryColor: "#112233",
+      secondaryColor: "#445566",
+      accentColor: "#778899",
+    };
+    setBrandThemePatch("union-b7p", theme);
+    expect(getBrandThemePatch("union-b7p")).toEqual(theme);
+    const bound = getTenantByUnionId("union-b7p")?.brandDefaults;
+    expect(bound?.brandTheme).toEqual(theme);
+    expect(bound?.primaryColor).toBe("#112233");
+
+    setBrandThemePatch("union-b7p", null);
+    expect(getBrandThemePatch("union-b7p")).toBeNull();
+    expect(getTenantByUnionId("union-b7p")?.brandDefaults.brandTheme).toBeUndefined();
   });
 });
