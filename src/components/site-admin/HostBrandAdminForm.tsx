@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
@@ -26,8 +26,15 @@ type EnvFlags = {
 
 type PresetOption = { id: string; name: string };
 
+const HEX = /^#[0-9A-Fa-f]{6}$/;
+
+function safeHex(value: string, fallback: string): string {
+  return HEX.test(value) ? value.toUpperCase() : fallback;
+}
+
 export function HostBrandAdminForm() {
   const t = useTranslations("hub.platformOperator");
+  const statusId = useId();
   const [brand, setBrand] = useState<HostBrand | null>(null);
   const [envOverrides, setEnvOverrides] = useState<EnvFlags | null>(null);
   const [presets, setPresets] = useState<PresetOption[]>([]);
@@ -75,8 +82,19 @@ export function HostBrandAdminForm() {
     };
   }, [t]);
 
+  const coloursValid =
+    brand &&
+    HEX.test(brand.primaryColor.trim()) &&
+    HEX.test(brand.secondaryColor.trim()) &&
+    HEX.test(brand.accentColor.trim());
+
   const save = async () => {
     if (!brand) return;
+    if (!coloursValid) {
+      setError(t("brandStylesInvalidHex"));
+      setSuccess(null);
+      return;
+    }
     setSaving(true);
     setError(null);
     setSuccess(null);
@@ -85,9 +103,9 @@ export function HostBrandAdminForm() {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          primaryColor: brand.primaryColor,
-          secondaryColor: brand.secondaryColor,
-          accentColor: brand.accentColor,
+          primaryColor: brand.primaryColor.trim().toUpperCase(),
+          secondaryColor: brand.secondaryColor.trim().toUpperCase(),
+          accentColor: brand.accentColor.trim().toUpperCase(),
           localNumber: brand.localNumber,
           subText: brand.subText,
           ...(brand.divisionId ? { divisionId: brand.divisionId } : {}),
@@ -113,6 +131,7 @@ export function HostBrandAdminForm() {
   };
 
   const clear = async () => {
+    if (!window.confirm(t("hostBrandClearConfirm"))) return;
     setSaving(true);
     setError(null);
     setSuccess(null);
@@ -134,9 +153,22 @@ export function HostBrandAdminForm() {
     }
   };
 
-  if (loading || !brand) {
+  if (loading) {
     return (
-      <p className="mt-4 text-sm text-opseu-gray-dark">{t("hostBrandLoading")}</p>
+      <p className="mt-4 text-sm text-opseu-gray-dark" aria-live="polite">
+        {t("hostBrandLoading")}
+      </p>
+    );
+  }
+
+  if (!brand) {
+    return (
+      <section className="mt-10">
+        <Callout tone="danger">
+          <p>{error ?? t("hostBrandLoadFailed")}</p>
+          <p className="mt-1 text-sm">{t("hostBrandErrorRemedy")}</p>
+        </Callout>
+      </section>
     );
   }
 
@@ -147,23 +179,37 @@ export function HostBrandAdminForm() {
       </h2>
       <p className="mt-1 text-sm text-opseu-gray-dark">{t("hostBrandBody")}</p>
 
-      {error ? (
-        <Callout tone="danger" className="mt-3">
-          <p>{error}</p>
-        </Callout>
-      ) : null}
-      {success ? (
-        <Callout tone="success" className="mt-3">
-          <p>{success}</p>
-        </Callout>
-      ) : null}
+      <div
+        className="mt-3 overflow-hidden rounded border border-opseu-gray/15"
+        aria-hidden
+      >
+        <div
+          className="flex h-8"
+          style={{
+            background: `linear-gradient(90deg, ${safeHex(brand.primaryColor, "#C2410C")} 0 34%, ${safeHex(brand.secondaryColor, "#FFFFFF")} 34% 67%, ${safeHex(brand.accentColor, "#9A3412")} 67% 100%)`,
+          }}
+        />
+      </div>
 
-      {envOverrides &&
-      Object.values(envOverrides).some(Boolean) ? (
-        <Callout tone="brand" className="mt-3">
-          <p>{t("hostBrandEnvNote")}</p>
-        </Callout>
-      ) : null}
+      <div id={statusId} className="mt-3 space-y-3" aria-live="polite">
+        {error ? (
+          <Callout tone="danger">
+            <p>{error}</p>
+            <p className="mt-1 text-sm">{t("hostBrandErrorRemedy")}</p>
+          </Callout>
+        ) : null}
+        {success ? (
+          <Callout tone="success">
+            <p>{success}</p>
+          </Callout>
+        ) : null}
+
+        {envOverrides && Object.values(envOverrides).some(Boolean) ? (
+          <Callout tone="brand">
+            <p>{t("hostBrandEnvNote")}</p>
+          </Callout>
+        ) : null}
+      </div>
 
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
         {(
@@ -176,37 +222,44 @@ export function HostBrandAdminForm() {
             ],
             ["accentColor", "brandStylesColorAccent", envOverrides?.accentColor],
           ] as const
-        ).map(([key, labelKey, locked]) => (
-          <div key={key}>
-            <label
-              className="block text-xs font-medium text-opseu-gray-dark"
-              htmlFor={`host-${key}`}
-            >
-              {t(labelKey)}
-              {locked ? ` (${t("hostBrandEnvLocked")})` : ""}
-            </label>
-            <div className="mt-1 flex items-center gap-2">
-              <input
-                type="color"
-                id={`host-${key}`}
-                disabled={locked}
-                className="h-9 w-12 rounded border border-opseu-gray/25 bg-white disabled:opacity-50"
-                value={brand[key]}
-                onChange={(e) =>
-                  setBrand({ ...brand, [key]: e.target.value.toUpperCase() })
-                }
-              />
-              <input
-                disabled={locked}
-                className="w-full rounded border border-opseu-gray/25 px-2 py-1.5 font-mono text-sm disabled:opacity-50"
-                value={brand[key]}
-                onChange={(e) =>
-                  setBrand({ ...brand, [key]: e.target.value })
-                }
-              />
+        ).map(([key, labelKey, locked]) => {
+          const invalid = !HEX.test(brand[key].trim());
+          return (
+            <div key={key}>
+              <label
+                className="block text-xs font-medium text-opseu-gray-dark"
+                htmlFor={`host-${key}`}
+              >
+                {t(labelKey)}
+                {locked ? ` (${t("hostBrandEnvLocked")})` : ""}
+              </label>
+              <div className="mt-1 flex items-center gap-2">
+                <input
+                  type="color"
+                  id={`host-${key}`}
+                  disabled={locked}
+                  className="h-9 w-12 rounded border border-opseu-gray/25 bg-white disabled:opacity-50"
+                  value={safeHex(brand[key], "#C2410C")}
+                  onChange={(e) =>
+                    setBrand({ ...brand, [key]: e.target.value.toUpperCase() })
+                  }
+                />
+                <input
+                  disabled={locked}
+                  className={`w-full rounded border px-2 py-1.5 font-mono text-sm disabled:opacity-50 ${
+                    invalid ? "border-red-500" : "border-opseu-gray/25"
+                  }`}
+                  value={brand[key]}
+                  spellCheck={false}
+                  aria-invalid={invalid}
+                  onChange={(e) =>
+                    setBrand({ ...brand, [key]: e.target.value })
+                  }
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -279,7 +332,12 @@ export function HostBrandAdminForm() {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <Button type="button" size="sm" disabled={saving} onClick={() => void save()}>
+        <Button
+          type="button"
+          size="sm"
+          disabled={saving || !coloursValid}
+          onClick={() => void save()}
+        >
           {saving ? t("brandStylesSaving") : t("hostBrandSave")}
         </Button>
         <Button

@@ -4338,9 +4338,12 @@
       "matchBody": "Apply your Officer Hub union’s Comms brand preset to this browser’s Brand Kit. Your local number stays if you already set one. This does not change Officer Hub membership.",
       "matchAction": "Match public site",
       "matchBusy": "Applying…",
-      "matchSuccess": "Public Brand Kit now matches your Officer Hub union preset.",
+      "matchSuccess": "Public Brand Kit now matches your Officer Hub union brand.",
       "matchFailed": "Could not apply that preset.",
-      "matchRemedy": "Open Brand Kit and pick a union preset manually, or ask a platform admin to bind a brand style to your union."
+      "matchRemedy": "Open Brand Kit and pick a union preset manually, or ask a platform admin to bind a brand style to your union.",
+      "matchBodyWithTheme": "Apply your Officer Hub union’s Comms preset and operator colours to this browser’s Brand Kit. Your local number stays if you already set one. This does not change Officer Hub membership.",
+      "matchBodyThemeOnly": "Apply your Officer Hub union’s operator colours to this browser’s Brand Kit. Your local number stays if you already set one. This does not change Officer Hub membership.",
+      "matchThemePreview": "Operator theme colours"
     },
     "campaignBadge": {
       "label": "Campaign badge (optional)",
@@ -8514,7 +8517,17 @@
       "hostBrandSubText": "Default sub-text",
       "hostBrandPreset": "Default Comms preset",
       "hostBrandEnvNote": "Some fields are locked because NEXT_PUBLIC_BRAND_* or DEFAULT_* environment variables are set on this host.",
-      "hostBrandEnvLocked": "env"
+      "hostBrandEnvLocked": "env",
+      "brandStylesUnionsHeading": "Unions",
+      "brandStylesUnionsHint": "Bind a Comms preset and optional colours for each Officer Hub union.",
+      "brandStylesUnsaved": "unsaved changes",
+      "brandStylesInvalidHex": "Use six-digit hex colours like #C2410C for primary, secondary, and accent.",
+      "brandStylesColourPreview": "Colour preview for {union}",
+      "brandStylesPreviewSample": "Solidarity starts here",
+      "brandStylesEmptyLocalsLink": "Open Locals to create a union",
+      "brandStylesBaselineBusy": "Working…",
+      "hostBrandClearConfirm": "Clear durable host brand overrides? File and environment defaults will apply again.",
+      "hostBrandErrorRemedy": "Refresh the page. If it still fails, confirm Postgres is configured for this host."
     },
     "signingIn": "Signing in...",
     "writeNoUnion": "No union is assigned to this account — ask a platform operator to assign one before saving.",

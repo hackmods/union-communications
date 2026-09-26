@@ -4336,9 +4336,12 @@
       "matchBody": "Appliquez le préréglage Comms de votre syndicat du Hub à la Trousse de marque de ce navigateur. Votre numéro de section locale est conservé s’il est déjà défini. Cela ne change pas l’adhésion au Hub.",
       "matchAction": "Faire correspondre le site public",
       "matchBusy": "Application…",
-      "matchSuccess": "La Trousse de marque publique correspond maintenant au préréglage de votre syndicat du Hub.",
+      "matchSuccess": "La Trousse de marque publique correspond maintenant à la marque de votre syndicat du Hub.",
       "matchFailed": "Impossible d’appliquer ce préréglage.",
-      "matchRemedy": "Ouvrez la Trousse de marque et choisissez un préréglage syndical manuellement, ou demandez à un administrateur de plateforme de lier un style de marque à votre syndicat."
+      "matchRemedy": "Ouvrez la Trousse de marque et choisissez un préréglage syndical manuellement, ou demandez à un administrateur de plateforme de lier un style de marque à votre syndicat.",
+      "matchBodyWithTheme": "Appliquez le préréglage Comms et les couleurs d'opérateur de votre syndicat du Hub à la Trousse de marque de ce navigateur. Votre numéro de section locale est conservé s'il est déjà défini. Cela ne change pas l'adhésion au Hub.",
+      "matchBodyThemeOnly": "Appliquez les couleurs d'opérateur de votre syndicat du Hub à la Trousse de marque de ce navigateur. Votre numéro de section locale est conservé s'il est déjà défini. Cela ne change pas l'adhésion au Hub.",
+      "matchThemePreview": "Couleurs du thème d'opérateur"
     },
     "campaignBadge": {
       "label": "Badge de campagne (optionnel)",
@@ -8461,7 +8464,17 @@
       "hostBrandSubText": "Sous-texte par défaut",
       "hostBrandPreset": "Préréglage Comms par défaut",
       "hostBrandEnvNote": "Certains champs sont verrouillés parce que des variables NEXT_PUBLIC_BRAND_* ou DEFAULT_* sont définies sur cet hôte.",
-      "hostBrandEnvLocked": "env"
+      "hostBrandEnvLocked": "env",
+      "brandStylesUnionsHeading": "Syndicats",
+      "brandStylesUnionsHint": "Associez un préréglage Comms et des couleurs optionnelles à chaque syndicat du Hub.",
+      "brandStylesUnsaved": "modifications non enregistrées",
+      "brandStylesInvalidHex": "Utilisez des couleurs hexadécimales à six chiffres comme #C2410C pour le primaire, le secondaire et l'accent.",
+      "brandStylesColourPreview": "Aperçu des couleurs pour {union}",
+      "brandStylesPreviewSample": "La solidarité commence ici",
+      "brandStylesEmptyLocalsLink": "Ouvrir Locals pour créer un syndicat",
+      "brandStylesBaselineBusy": "En cours…",
+      "hostBrandClearConfirm": "Effacer les remplacements durables de marque d'instance ? Les défauts fichier et environnement s'appliqueront de nouveau.",
+      "hostBrandErrorRemedy": "Actualisez la page. Si cela échoue encore, confirmez que Postgres est configuré pour cet hôte."
     },
     "signingIn": "Connexion...",
     "writeNoUnion": "Aucun syndicat n’est assigné à ce compte — demandez à un opérateur de plateforme d’en assigner un avant d’enregistrer.",
