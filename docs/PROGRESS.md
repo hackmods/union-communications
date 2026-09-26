@@ -10,7 +10,8 @@
 - Restored the `host-brand-overlay` split reverted by merge `2d7c9885`: tenant overlay + client graphs resolve host brand via `host-brand-overlay` (no `postgres` / `fs` / `net` / `tls`).
 - `host-brand-store` again mutates the shared overlay module for hydrate/save; audit metadata `published` stringified for typecheck.
 - Replaced Node `crypto` in `overlay.ts` with Web Crypto; added import-boundary regression tests.
-- Verified: `npm run build` completes (Turbopack compile + typecheck + static generation).
+- After merging `#133`: Document Generator treatment control uses Brand Kit primary (not draft); fidelity helper accepts `Uint8ClampedArray`.
+- Verified: local `npm run typecheck` + prior `npm run build` compile path clear of postgres module errors.
 
 ## 2026-09-25 — Lighter Comms Brand Kit follow-through
 - [x] Adjacent QOL notes documented in follow-through plan (header hydrate, save banner, SegControl Tab on long lists, out-of-scope makers) — PR #133
