@@ -487,21 +487,25 @@ function documentShell(options: {
     options;
   const mainId = options.mainId ?? "content";
   const lang = strings.locale === "fr" ? "fr" : "en";
-  const canonical =
+  const siteBase =
     data.websiteUrl?.trim() && isWebsiteHttpUrl(data.websiteUrl)
-      ? new URL(
-          canonicalPath.replace(/^\.\//, ""),
-          data.websiteUrl.endsWith("/")
-            ? data.websiteUrl
-            : `${data.websiteUrl}/`,
-        ).href
+      ? data.websiteUrl.endsWith("/")
+        ? data.websiteUrl
+        : `${data.websiteUrl}/`
+      : "";
+  const canonical = siteBase
+    ? new URL(canonicalPath.replace(/^\.\//, ""), siteBase).href
+    : "";
+  // Social crawlers need an absolute og:image; omit when we have no site URL.
+  const relativeOgAsset = data.logoFileName.trim()
+    ? `assets/${data.logoFileName}`
+    : data.heroImageFileName
+      ? `assets/${data.heroImageFileName}`
       : "";
   const ogImage =
-    data.logoFileName.trim()
-      ? `./assets/${data.logoFileName}`
-      : data.heroImageFileName
-        ? `./assets/${data.heroImageFileName}`
-        : "";
+    siteBase && relativeOgAsset
+      ? new URL(relativeOgAsset, siteBase).href
+      : "";
   const accent = data.accentColor?.trim() || data.secondaryColor;
 
   return `<!DOCTYPE html>

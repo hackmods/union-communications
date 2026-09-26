@@ -215,6 +215,22 @@ describe("generate-website-zip", () => {
     expect(Object.keys(zip.files)).not.toContain("assets/hero.svg");
   });
 
+  it("emits absolute og:image when websiteUrl is set, otherwise omits it", () => {
+    const withoutSite = buildWebsiteHtml(sampleData);
+    expect(withoutSite).not.toContain('property="og:image"');
+
+    const withSite = buildWebsiteHtml({
+      ...sampleData,
+      websiteUrl: "https://local243.org",
+    });
+    expect(withSite).toContain(
+      'property="og:image" content="https://local243.org/assets/logo.png"',
+    );
+    expect(withSite).toContain(
+      'property="og:url" content="https://local243.org/"',
+    );
+  });
+
   it("bundles a catalog pattern as assets/hero.svg", async () => {
     const html = buildWebsiteHtml({ ...sampleData, heroArtId: "arc" });
     expect(html).toContain("hero-section");

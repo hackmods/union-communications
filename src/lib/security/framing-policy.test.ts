@@ -2,11 +2,13 @@ import { describe, expect, it } from "vitest";
 import {
   FRAME_ANCESTORS_AUTH,
   FRAME_ANCESTORS_PUBLIC,
+  SECURITY_HEADER_SOURCES,
   VIEWPORT_LAB_BLOCKED_PATH_PREFIXES,
   X_FRAME_OPTIONS_AUTH,
   X_FRAME_OPTIONS_PUBLIC,
   authSecurityHeaders,
   buildContentSecurityPolicy,
+  pathScopedFramingHeaderRoutes,
   publicSecurityHeaders,
 } from "./framing-policy";
 
@@ -45,5 +47,18 @@ describe("framing-policy", () => {
     expect(VIEWPORT_LAB_BLOCKED_PATH_PREFIXES).toContain("/viewport-lab");
     expect(VIEWPORT_LAB_BLOCKED_PATH_PREFIXES).toContain("/app");
     expect(VIEWPORT_LAB_BLOCKED_PATH_PREFIXES).toContain("/portal");
+  });
+
+  it("orders AUTH framing after PUBLIC catch-all (Next.js last-match wins)", () => {
+    const routes = pathScopedFramingHeaderRoutes();
+    expect(routes.map((r) => r.source)).toEqual([
+      SECURITY_HEADER_SOURCES.publicCatchAll,
+      SECURITY_HEADER_SOURCES.authApp,
+      SECURITY_HEADER_SOURCES.authPortal,
+    ]);
+    const lastXfo = routes.at(-1)?.headers.find(
+      (h) => h.key === "X-Frame-Options",
+    )?.value;
+    expect(lastXfo).toBe(X_FRAME_OPTIONS_AUTH);
   });
 });

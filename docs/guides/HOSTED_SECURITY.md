@@ -41,7 +41,7 @@ Configured in [`next.config.ts`](../../next.config.ts) (SEC-008) via [`framing-p
 
 - **TLS** — operator terminates HTTPS; set `AUTH_URL` to the public browser host (never the internal CapRover FQDN).
 - **CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy** — on every response.
-- **Path-scoped framing** — public pages use `X-Frame-Options: SAMEORIGIN` and CSP `frame-ancestors 'self'` so the operator [`/viewport-lab/`](VIEWPORT_LAB.md) can embed them for responsive QA. Officer Hub (`/:locale/app/*`) and Local Portal (`/:locale/portal/*`) stay `DENY` / `frame-ancestors 'none'`.
+- **Path-scoped framing** — public pages use `X-Frame-Options: SAMEORIGIN` and CSP `frame-ancestors 'self'` so the operator [`/viewport-lab/`](VIEWPORT_LAB.md) can embed them for responsive QA. Officer Hub (`/:locale/app/*`) and Local Portal (`/:locale/portal/*`) stay `DENY` / `frame-ancestors 'none'`. In `next.config.ts`, AUTH routes must be listed **after** the public `/:path*` catch-all (Next.js last-match wins for the same header key).
 - **Portal APIs** — `Cache-Control: private, no-store` via [`portalJson`](../../src/lib/portal/portal-json.ts).
 - **Sensitive Hub downloads** — `private, no-store` on attachment/document routes.
 
