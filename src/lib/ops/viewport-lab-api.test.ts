@@ -4,6 +4,7 @@ import path from "node:path";
 import {
   buildViewportLabSearchParams,
   isBlockedViewportPath,
+  measureDocumentOverflow,
   parseViewportLabSearchParams,
   sanitizeViewportFramePath,
   swapLocaleInPath,
@@ -87,6 +88,15 @@ describe("viewport-lab-api path sanitize", () => {
     const qs = buildViewportLabSearchParams(parsed);
     expect(qs).toContain("w=375");
     expect(qs).toContain("compare=1");
+  });
+
+  it("overflow probe returns frame_unavailable for missing document", () => {
+    expect(measureDocumentOverflow(null)).toEqual({
+      error: "frame_unavailable",
+    });
+    expect(measureDocumentOverflow(undefined)).toEqual({
+      error: "frame_unavailable",
+    });
   });
 });
 

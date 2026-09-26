@@ -83,20 +83,51 @@ function readLabBootstrap() {
   );
 }
 
+async function waitForFrameDocument(
+  frame: HTMLIFrameElement,
+): Promise<Document | null> {
+  const existing = frame.contentDocument;
+  // interactive is enough — Next can linger before complete while streaming.
+  if (existing && existing.readyState !== "loading") return existing;
+  await new Promise<void>((resolve) => {
+    const onLoad = () => resolve();
+    frame.addEventListener("load", onLoad, { once: true });
+    const doc = frame.contentDocument;
+    if (doc && doc.readyState !== "loading") {
+      frame.removeEventListener("load", onLoad);
+      resolve();
+    }
+  });
+  return frame.contentDocument;
+}
+
+/**
+ * Pass the iframe element (parent-realm Node), never contentDocument.
+ * Iframe documents fail `instanceof window.Node` in the parent, so axe
+ * mis-parses args and throws "axe.run arguments are invalid".
+ */
 async function runAxeInFrame(
   frame: HTMLIFrameElement | null,
   includeContrast: boolean,
 ): Promise<AxeRunResult> {
   try {
-    const doc = frame?.contentDocument;
-    if (!doc) return { ok: false, error: "frame_unavailable" };
+    if (!frame) return { ok: false, error: "frame_unavailable" };
+    const doc = await waitForFrameDocument(frame);
+    if (!doc?.defaultView) return { ok: false, error: "frame_unavailable" };
+
     const axeCore = await import("axe-core");
-    const results = await axeCore.default.run(doc, {
-      rules: includeContrast
-        ? undefined
-        : { "color-contrast": { enabled: false } },
+    const options: {
+      resultTypes: ["violations"];
+      iframes: boolean;
+      rules?: { "color-contrast": { enabled: boolean } };
+    } = {
       resultTypes: ["violations"],
-    });
+      iframes: true,
+    };
+    if (!includeContrast) {
+      options.rules = { "color-contrast": { enabled: false } };
+    }
+    const results = await axeCore.default.run(frame, options);
     const serious = results.violations.filter(
       (v) => v.impact === "serious" || v.impact === "critical",
     );
@@ -210,9 +241,10 @@ export function ViewportLab() {
   );
 
   const checkOverflow = useCallback((): OverflowResult => {
-    const result = measureDocumentOverflow(
-      frameARef.current?.contentDocument as Document,
-    );
+    const doc = frameARef.current?.contentDocument ?? null;
+    const result = doc
+      ? measureDocumentOverflow(doc)
+      : { error: "frame_unavailable" };
     if ("error" in result) setOverflowNote(`Overflow: ${result.error}`);
     else setOverflowNote(`Horizontal overflow: ${result.horizontalPx}px`);
     return result;

@@ -110,7 +110,10 @@ export type OverflowResult =
   | { horizontalPx: number }
   | { error: string };
 
-export function measureDocumentOverflow(doc: Document): OverflowResult {
+export function measureDocumentOverflow(
+  doc: Document | null | undefined,
+): OverflowResult {
+  if (!doc) return { error: "frame_unavailable" };
   try {
     const root = doc.scrollingElement ?? doc.documentElement;
     const win = doc.defaultView;

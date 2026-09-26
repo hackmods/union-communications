@@ -36,5 +36,26 @@ test.describe("Viewport Lab @smoke", () => {
       () => window.__unionopsViewportLab?.getViewport().preset,
     );
     expect(preset).toBe("mobile");
+
+    await page
+      .frameLocator('[data-testid="viewport-frame-a"]')
+      .locator("body")
+      .waitFor({ state: "visible" });
+
+    const overflow = await page.evaluate(() =>
+      window.__unionopsViewportLab?.checkOverflow(),
+    );
+    expect(overflow && !("error" in overflow)).toBe(true);
+    if (overflow && "horizontalPx" in overflow) {
+      expect(overflow.horizontalPx).toBeGreaterThanOrEqual(0);
+    }
+
+    const axe = await page.evaluate(async () =>
+      window.__unionopsViewportLab?.runAxe({ colorContrast: false }),
+    );
+    expect(axe?.ok).toBe(true);
+    if (axe?.ok) {
+      expect(Array.isArray(axe.violations)).toBe(true);
+    }
   });
 });
