@@ -1,3 +1,8 @@
+## 2026-09-26 — Steward tool QOL fit-gap polish
+
+- Brand Kit → Letter Generator seeding fills empty/placeholder fields on hydrate; secondary signature field on letter presets; office contact composes letterhead line; Next CTA de-duplicated.
+- Worksheets rename residuals: Home/eyebrow/utilityNav copy, e2e labels, `/utilities` breadcrumbs, Org Chart PNG/PDF use treatment fill, Word labeled as editable list, Local pack links canonical `/create/local-pack`.
+
 ## 2026-09-26 — Steward tool QOL (Brand Kit, Worksheets, Word)
 
 - Catalog: moved Local pack, Pulse Poll, Resizer, and Alt-text to Create; renamed Utilities nav/catalog label to Worksheets (URL `/utilities` kept); legacy `/utilities/:slug` redirects for moved makers.

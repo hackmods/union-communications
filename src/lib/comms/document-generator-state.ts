@@ -25,56 +25,79 @@ import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 
 export type GeneratorState = DocumentGeneratorDraft;
 
-/** Seed letter / worksheet fields from Brand Kit identity + contact. */
+/** Demo placeholders that should yield to Brand Kit seeds. */
+const FIELD_PLACEHOLDERS = new Set(
+  [
+    "Steward name",
+    "Chief steward",
+    "Local executive committee",
+    "Local executive",
+    "Local president",
+    "steward@example.org",
+    "Member name",
+  ].map((s) => s.toLowerCase()),
+);
+
+function isUnsetOrPlaceholder(value: string | undefined): boolean {
+  const trimmed = value?.trim() ?? "";
+  if (!trimmed) return true;
+  return FIELD_PLACEHOLDERS.has(trimmed.toLowerCase());
+}
+
+function setIfUnset(
+  fields: Record<string, string>,
+  key: string,
+  value: string | undefined,
+  force = false,
+): void {
+  if (!value?.trim()) return;
+  if (!(key in fields) && !force) return;
+  if (force || isUnsetOrPlaceholder(fields[key])) {
+    fields[key] = value.trim();
+  }
+}
+
+/**
+ * Seed letter / worksheet fields from Brand Kit identity + contact.
+ * Existing non-placeholder values win unless `overwriteNames` is set
+ * (used on first open so Brand Kit signature replaces demo "Steward name").
+ */
 export function applyBrandKitFieldSeeds(
   fields: Record<string, string>,
   brandKit?: BrandKit,
+  options?: { overwriteNames?: boolean },
 ): Record<string, string> {
   if (!brandKit) return fields;
   const next = { ...fields };
+  const overwriteNames = options?.overwriteNames === true;
   const name = brandKit.signatureName?.trim();
   const title = brandKit.signatureTitle?.trim();
+  const email = brandKit.contactEmail?.trim();
+  const phone = brandKit.contactPhone?.trim();
+  const address = brandKit.contactAddress?.trim();
+
   if (name) {
-    if ("stewardName" in next) next.stewardName = name;
-    if ("presidentName" in next) next.presidentName = name;
-    if ("contactName" in next && !next.contactName?.trim()) {
-      next.contactName = name;
-    }
+    setIfUnset(next, "stewardName", name, overwriteNames);
+    setIfUnset(next, "presidentName", name, overwriteNames);
+    setIfUnset(next, "contactName", name);
   }
   if (title) {
-    next.signatureTitle = title;
-    if ("stewardTitle" in next && !next.stewardTitle?.trim()) {
-      next.stewardTitle = title;
-    }
-    if ("closingTitle" in next && !next.closingTitle?.trim()) {
-      next.closingTitle = title;
-    }
-    // Letterhead / contact line often holds the committee name
-    if ("contactName" in next && !next.contactName?.trim()) {
-      next.contactName = title;
-    }
+    next.signatureTitle = overwriteNames || isUnsetOrPlaceholder(next.signatureTitle)
+      ? title
+      : next.signatureTitle ?? title;
+    setIfUnset(next, "contactName", title);
   }
-  if (brandKit.contactEmail?.trim() && "officeEmail" in next && !next.officeEmail?.trim()) {
-    next.officeEmail = brandKit.contactEmail.trim();
+  setIfUnset(next, "officeEmail", email);
+  setIfUnset(next, "officePhone", phone);
+  setIfUnset(next, "officeAddress", address);
+  if (email || phone) {
+    const contactLine = [email, phone].filter(Boolean).join(" · ");
+    setIfUnset(next, "stewardContact", contactLine);
   }
-  if (brandKit.contactPhone?.trim() && "officePhone" in next && !next.officePhone?.trim()) {
-    next.officePhone = brandKit.contactPhone.trim();
-  }
-  if (
-    brandKit.contactAddress?.trim() &&
-    "officeAddress" in next &&
-    !next.officeAddress?.trim()
-  ) {
-    next.officeAddress = brandKit.contactAddress.trim();
-  }
-  // Letterhead contact line often uses contactName; prefer email when empty
-  if (
-    brandKit.contactEmail?.trim() &&
-    "contactName" in next &&
-    !next.contactName?.trim() &&
-    !name
-  ) {
-    next.contactName = brandKit.contactEmail.trim();
+  // Compose letterhead contact from office lines when still empty
+  if (isUnsetOrPlaceholder(next.contactName)) {
+    const composed = [title, email, phone, address].filter(Boolean).join(" · ");
+    if (composed) next.contactName = composed;
   }
   return next;
 }
@@ -85,7 +108,9 @@ export function createInitialGeneratorState(
   brandKit?: BrandKit,
 ): GeneratorState {
   const preset = getPreset(presetId);
-  const fields = applyBrandKitFieldSeeds(defaultFieldsForPreset(preset), brandKit);
+  const fields = applyBrandKitFieldSeeds(defaultFieldsForPreset(preset), brandKit, {
+    overwriteNames: true,
+  });
   const links = brandKit ? listSavedLinks(brandKit) : [];
   return {
     treatment: brandKit ? resolveDesignTreatment(brandKit) : "full",
@@ -131,6 +156,13 @@ export function hydrateGeneratorState(
     : presetFromQuery;
   const validPreset = coercePreset(rawPreset);
   const base = createInitialGeneratorState(validPreset, stored.includeLogo, brandKit);
+  const mergedFields = applyBrandKitFieldSeeds(
+    {
+      ...defaultFieldsForPreset(getPreset(validPreset)),
+      ...stored.fields,
+    },
+    brandKit,
+  );
   return {
     ...base,
     ...stored,
@@ -143,10 +175,7 @@ export function hydrateGeneratorState(
     includeDocx: Boolean(stored.includeDocx && getPreset(validPreset).outputs.docx),
     includeXlsx: Boolean(stored.includeXlsx && getPreset(validPreset).outputs.xlsx),
     includeIcs: Boolean(stored.includeIcs && getPreset(validPreset).outputs.ics),
-    fields: {
-      ...defaultFieldsForPreset(getPreset(validPreset)),
-      ...stored.fields,
-    },
+    fields: mergedFields,
   };
 }
 
@@ -158,23 +187,22 @@ export function applyGeneratorPreset(
   resolveMembership: (kit: BrandKit, origin: string) => string,
 ): GeneratorState {
   const next = getPreset(id);
-  let nextFields = applyBrandKitFieldSeeds(defaultFieldsForPreset(next), brandKit);
+  let nextFields = applyBrandKitFieldSeeds(defaultFieldsForPreset(next), brandKit, {
+    overwriteNames: true,
+  });
   nextFields = mergeLetterSharedFields(
     nextFields,
     prev.fields,
     id,
     prev.presetId,
   );
+  // Re-fill Brand Kit seeds into any still-empty shared slots after merge
+  nextFields = applyBrandKitFieldSeeds(nextFields, brandKit);
   if (id === "welcome-letter") {
     nextFields.collection =
       brandKit.local.subText?.trim() || nextFields.collection;
     nextFields.membershipUrl =
       resolveMembership(brandKit, origin) || nextFields.membershipUrl;
-  }
-  if (brandKit.signatureName?.trim()) {
-    if ("stewardName" in nextFields && !nextFields.stewardName?.trim()) {
-      nextFields.stewardName = brandKit.signatureName;
-    }
   }
   return {
     ...prev,
@@ -249,3 +277,4 @@ export type {
   OfficeLetterSpacingPreset,
   OfficeTopMarginPreset,
 };
+

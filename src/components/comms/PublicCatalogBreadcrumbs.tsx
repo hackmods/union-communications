@@ -92,7 +92,7 @@ export function PublicCatalogBreadcrumbs() {
         <p className="mt-2">
           <Link
             href={section.href}
-            className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+            className="inline-flex min-h-9 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
           >
             {t("backToSection", { section: section.label })}
           </Link>

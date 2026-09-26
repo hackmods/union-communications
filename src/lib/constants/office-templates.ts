@@ -83,6 +83,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         defaultValue: "Steward name",
       },
       {
+        key: "signatureTitle",
+        labelKey: "fields.signatureTitle",
+        defaultValue: "",
+      },
+      {
         key: "contactName",
         labelKey: "fields.contactName",
         defaultValue: "Chief steward",
@@ -101,6 +106,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         key: "contactName",
         labelKey: "fields.contactName",
         defaultValue: "Local executive committee",
+      },
+      {
+        key: "signatureTitle",
+        labelKey: "fields.signatureTitle",
+        defaultValue: "",
       },
       {
         key: "body",
@@ -227,6 +237,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         defaultValue: "Local president",
       },
       {
+        key: "signatureTitle",
+        labelKey: "fields.signatureTitle",
+        defaultValue: "",
+      },
+      {
         key: "stewardContact",
         labelKey: "fields.stewardContact",
         defaultValue: "steward@example.org",
@@ -277,6 +292,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         defaultValue: "Steward name",
       },
       {
+        key: "signatureTitle",
+        labelKey: "fields.signatureTitle",
+        defaultValue: "",
+      },
+      {
         key: "contactName",
         labelKey: "fields.contactName",
         defaultValue: "Chief steward",
@@ -320,6 +340,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         key: "stewardName",
         labelKey: "fields.stewardName",
         defaultValue: "Steward name",
+      },
+      {
+        key: "signatureTitle",
+        labelKey: "fields.signatureTitle",
+        defaultValue: "",
       },
       {
         key: "contactName",
@@ -367,6 +392,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         defaultValue: "Steward name",
       },
       {
+        key: "signatureTitle",
+        labelKey: "fields.signatureTitle",
+        defaultValue: "",
+      },
+      {
         key: "contactName",
         labelKey: "fields.contactName",
         defaultValue: "Chief steward",
@@ -410,6 +440,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         key: "stewardName",
         labelKey: "fields.stewardName",
         defaultValue: "Steward name",
+      },
+      {
+        key: "signatureTitle",
+        labelKey: "fields.signatureTitle",
+        defaultValue: "",
       },
       {
         key: "contactName",

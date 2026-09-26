@@ -33,9 +33,9 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page).toHaveURL(/\/en\/create\//);
     await expect(page.getByRole("heading", { name: "What do you want to make?" })).toBeVisible();
 
-    await main.getByRole("link", { name: "Utilities", exact: true }).click();
+    await main.getByRole("link", { name: "Worksheets", exact: true }).click();
     await expect(page).toHaveURL(/\/en\/utilities\//);
-    await expect(page.getByRole("heading", { name: "What do you need to get done?" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Which worksheet do you need?" })).toBeVisible();
 
     await main.getByRole("link", { name: "Learn", exact: true }).click();
     await expect(page).toHaveURL(/\/en\/learn\//);
@@ -168,7 +168,7 @@ test.describe("Smoke tests @smoke", () => {
     await expect(main.getByRole("link", { name: "Start", exact: true })).toHaveCount(0);
     await expect(main.getByRole("link", { name: "Brand Kit", exact: true })).toHaveAttribute("href", "/en/create/brand-kit/");
     await expect(main.getByRole("link", { name: "Create", exact: true })).toBeVisible();
-    await expect(main.getByRole("link", { name: "Utilities", exact: true })).toBeVisible();
+    await expect(main.getByRole("link", { name: "Worksheets", exact: true })).toBeVisible();
     await expect(main.getByRole("link", { name: "Learn", exact: true })).toBeVisible();
     await expect(main.getByRole("link", { name: "Platform", exact: true })).toHaveAttribute("href", "/en/platform/");
     await expect(main.getByRole("button", { name: /Learn|Create/i })).toHaveCount(0);

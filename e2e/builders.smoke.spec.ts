@@ -60,7 +60,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
     ).toBeVisible();
     await expect(page.getByTestId("home-dest-create").getByRole("link", { name: "Create" }))
       .toHaveAttribute("href", /\/create\/$/);
-    await expect(page.getByTestId("home-dest-utilities").getByRole("link", { name: "Utilities" }))
+    await expect(page.getByTestId("home-dest-utilities").getByRole("link", { name: "Worksheets" }))
       .toHaveAttribute("href", /\/utilities\/$/);
     await expect(page.getByTestId("home-dest-learn").getByRole("link", { name: "Learn" }))
       .toHaveAttribute("href", /\/learn\/$/);
@@ -290,7 +290,7 @@ test.describe("Public secondary pages smoke @smoke", () => {
       heading: "Steward playbooks",
     },
     { path: "/en/create/", heading: "What do you want to make?" },
-    { path: "/en/utilities/", heading: "What do you need to get done?" },
+    { path: "/en/utilities/", heading: "Which worksheet do you need?" },
     { path: "/en/learn/", heading: "Guides and training" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },
@@ -414,7 +414,7 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
     await expect(drawer).toBeVisible();
     await expect(drawer.getByRole("link", { name: "Brand Kit", exact: true }))
       .toHaveAttribute("href", "/en/create/brand-kit/");
-    await expect(drawer.getByRole("link", { name: "Utilities", exact: true })).toBeVisible();
+    await expect(drawer.getByRole("link", { name: "Worksheets", exact: true })).toBeVisible();
     await expect(drawer.getByRole("link", { name: "Platform", exact: true })).toBeVisible();
     await expect(drawer.getByRole("link", { name: "Start", exact: true })).toHaveCount(0);
     await drawer.getByRole("link", { name: "Create" }).click();

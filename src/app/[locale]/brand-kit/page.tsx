@@ -126,7 +126,7 @@ export default function BrandKitPage() {
           ) : null}
         </header>
         <div className="flex flex-wrap items-center gap-2 lg:justify-end">
-          <ButtonLink href="/tools/local-pack" variant="outline" size="sm">
+          <ButtonLink href="/create/local-pack" variant="outline" size="sm">
             {t("moveBrowser")}
           </ButtonLink>
           <Button type="button" variant="ghost" onClick={confirmReset}>
@@ -410,7 +410,12 @@ export default function BrandKitPage() {
           />
         </PublicHubPanel>
 
-        <PublicHubPanel title={t("signatureSection")} description={t("signatureNameHint")}>
+        <PublicHubPanel
+          id="brand-signature"
+          title={t("signatureSection")}
+          description={t("signatureNameHint")}
+          className="scroll-mt-28"
+        >
           <div className="space-y-3">
             <Input
               label={t("signatureName")}
@@ -446,7 +451,12 @@ export default function BrandKitPage() {
           </div>
         </PublicHubPanel>
 
-        <PublicHubPanel title={t("contactSection")} description={t("contactSectionHint")}>
+        <PublicHubPanel
+          id="brand-contact"
+          title={t("contactSection")}
+          description={t("contactSectionHint")}
+          className="scroll-mt-28"
+        >
           <div className="space-y-3">
             <Input
               label={t("contactEmail")}
@@ -506,7 +516,7 @@ export default function BrandKitPage() {
           description={t("nextAfterBrandBody")}
           className="mt-6 max-w-3xl"
         >
-          <ButtonLink href="/create" size="lg">
+          <ButtonLink href="/create" size="lg" trailingArrow>
             {t("openCreate")}
           </ButtonLink>
         </PublicHubPanel>
@@ -515,7 +525,6 @@ export default function BrandKitPage() {
       <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
         <Link href="/assets" className="text-opseu-blue underline underline-offset-2">{t("assetsLink")}</Link>
         <Link href="/guide/email-broadcast" className="text-opseu-blue underline underline-offset-2">{nav("emailBroadcastGuide")}</Link>
-        {themeEstablished ? <Link href="/create" className="text-opseu-blue underline underline-offset-2">{t("openCreate")}</Link> : null}
       </div>
 
       <PublicHubPanel

@@ -36,6 +36,7 @@ import {
 } from "@/types/public-roster";
 import type { DesignTreatment } from "@/types/entities";
 import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import { resolveTreatmentSurface } from "@/lib/brand/design-treatment-surface";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -215,6 +216,16 @@ function OrgChartPageContent() {
   const format = ORG_CHART_FORMATS[formatId];
   const exportPixelRatio = orgChartExportPixelRatio(format);
   const people = roster.people;
+  const treatedSurface = resolveTreatmentSurface(
+    treatment,
+    {
+      primary: brandKit.primaryColor,
+      secondary: brandKit.secondaryColor,
+      accent: brandKit.accentColor,
+    },
+    "print",
+  );
+  const exportBackground = treatedSurface.outerFill;
 
   const updatePerson = (
     id: string,
@@ -249,7 +260,7 @@ function OrgChartPageContent() {
       await exportNodeAsPng(
         canvasRef.current!,
         formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
-        { pixelRatio: exportPixelRatio, backgroundColor: brandKit.primaryColor },
+        { pixelRatio: exportPixelRatio, backgroundColor: exportBackground },
       );
     });
   };
@@ -263,7 +274,7 @@ function OrgChartPageContent() {
         format.widthInches,
         format.heightInches,
         exportPixelRatio,
-        brandKit.primaryColor,
+        exportBackground,
       );
     });
   };
@@ -421,7 +432,7 @@ function OrgChartPageContent() {
             <p>{t("packCallout")}</p>
             <p className="mt-2">
               <Link
-                href="/tools/local-pack"
+                href="/create/local-pack"
                 className="font-semibold text-opseu-blue underline underline-offset-2"
               >
                 {t("packLink")}
@@ -434,6 +445,7 @@ function OrgChartPageContent() {
             onPng={() => void handleExportPng()}
             onPdf={() => void handleExportPdf()}
             onDocx={() => void handleExportDocx()}
+            docxLabel={t("downloadWordList")}
           />
           {!themeEstablished ? (
             <p className="text-sm text-gray-600">
@@ -453,6 +465,7 @@ function OrgChartPageContent() {
           onPng={() => void handleExportPng()}
           onPdf={() => void handleExportPdf()}
           onDocx={() => void handleExportDocx()}
+          docxLabel={t("downloadWordList")}
         />
       }
       preview={

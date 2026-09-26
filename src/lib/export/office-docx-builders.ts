@@ -97,7 +97,15 @@ function letterheadHeader(opts: DocxBuildInput): Header {
   const band = officeBandColor(opts.palette.primary, opts.treatment);
   const primary = hexNoHash(band);
   const ink = hexNoHash(pickContrastingInk(band));
-  const contact = opts.fields.contactName || "";
+  const contact =
+    opts.fields.contactName?.trim() ||
+    [
+      opts.fields.officeEmail?.trim(),
+      opts.fields.officePhone?.trim(),
+      opts.fields.officeAddress?.trim(),
+    ]
+      .filter(Boolean)
+      .join(" · ");
   const hFont = headlineFace(opts);
   const bFont = bodyFace(opts);
   const [logoW, logoH] = opts.logo

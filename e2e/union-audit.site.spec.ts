@@ -117,7 +117,7 @@ test.describe("union audit site integrity @smoke", () => {
       await expect(nav, path).toBeVisible();
       const text = (await nav.innerText()).replace(/\s+/g, " ");
       if (path.includes("/utilities/")) {
-        expect(text).toMatch(/Utilities|Utilitaires/i);
+        expect(text).toMatch(/Worksheets|Feuilles de travail/i);
       }
       if (path.includes("/officer/")) {
         expect(text).toMatch(/Officer|dirigeants|apprentissage/i);

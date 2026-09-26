@@ -51,6 +51,7 @@ export const LETTER_SHARED_FIELD_KEYS = [
   "contactName",
   "stewardName",
   "presidentName",
+  "signatureTitle",
   "salutation",
 ] as const;
 

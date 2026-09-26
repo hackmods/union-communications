@@ -4,7 +4,7 @@ import { expectNoSeriousA11yViolations } from "./helpers/axe";
 
 test.describe("task-first public discovery @smoke", () => {
   for (const locale of ["en", "fr"] as const) {
-    test(`${locale} Brand Kit, Create, Utilities, Learn, Platform, and Search render`, async ({ page }) => {
+    test(`${locale} Brand Kit, Create, Worksheets, Learn, Platform, and Search render`, async ({ page }) => {
       for (const path of ["/create/", "/utilities/", "/learn/", "/platform/", "/search/"]) {
         await page.goto(`/${locale}${path}`);
         await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
@@ -16,7 +16,7 @@ test.describe("task-first public discovery @smoke", () => {
         ? {
             brand: "Brand Kit",
             create: "Create",
-            utilities: "Utilities",
+            utilities: "Worksheets",
             learn: "Learn",
             platform: "Platform",
             hub: "Officer Hub",
@@ -25,7 +25,7 @@ test.describe("task-first public discovery @smoke", () => {
         : {
             brand: "Trousse de marque",
             create: "Créer",
-            utilities: "Utilitaires",
+            utilities: "Feuilles de travail",
             learn: "Apprendre",
             platform: "Plateforme",
             hub: "Hub des dirigeants",
@@ -58,7 +58,7 @@ test.describe("task-first public discovery @smoke", () => {
     await expect(page.getByRole("heading", { name: "Brand Kit powers everything on your device" })).toBeVisible();
     await expect(page.getByTestId("home-dest-create").getByRole("link", { name: "Create" }))
       .toHaveAttribute("href", "/en/create/");
-    await expect(page.getByTestId("home-dest-utilities").getByRole("link", { name: "Utilities" }))
+    await expect(page.getByTestId("home-dest-utilities").getByRole("link", { name: "Worksheets" }))
       .toHaveAttribute("href", "/en/utilities/");
     await expect(page.getByTestId("home-dest-learn").getByRole("link", { name: "Learn" }))
       .toHaveAttribute("href", "/en/learn/");
@@ -196,7 +196,7 @@ test.describe("task-first public discovery @smoke", () => {
     await expect(primary.getByRole("link", { name: "Trousse de marque", exact: true }))
       .toHaveAttribute("href", "/fr/create/brand-kit/");
     await expect(primary.getByRole("link", { name: "Créer", exact: true })).toBeVisible();
-    await expect(primary.getByRole("link", { name: "Utilitaires", exact: true }))
+    await expect(primary.getByRole("link", { name: "Feuilles de travail", exact: true }))
       .toHaveAttribute("href", "/fr/utilities/");
     await expect(primary.getByRole("link", { name: "Apprendre", exact: true })).toBeVisible();
     await expect(primary.getByRole("link", { name: "Plateforme", exact: true }))
@@ -224,7 +224,7 @@ test.describe("task-first public discovery @smoke", () => {
     const drawer = page.getByTestId("mobile-nav-drawer");
     const primary = drawer.getByRole("navigation", { name: "Site navigation" });
     await expect(primary.getByRole("link", { name: "Brand Kit", exact: true })).toBeVisible();
-    await expect(primary.getByRole("link", { name: "Utilities", exact: true })).toBeVisible();
+    await expect(primary.getByRole("link", { name: "Worksheets", exact: true })).toBeVisible();
     await expect(primary.getByRole("link", { name: "Platform", exact: true })).toBeVisible();
     await expect(primary.getByRole("link", { name: "Start", exact: true })).toHaveCount(0);
     await expect(primary.getByRole("link", { name: "Create", exact: true })).toBeVisible();

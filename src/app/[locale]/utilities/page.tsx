@@ -1,3 +1,4 @@
+import { PublicCatalogItemLayout } from "@/components/comms/PublicCatalogItemLayout";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { PublicCatalogExplorer } from "@/components/comms/PublicCatalogExplorer";
@@ -28,5 +29,9 @@ export default async function UtilitiesCatalogPage({
   const { locale } = await params;
   const initialState = parsePublicCatalogQueryValues(await searchParams);
   setRequestLocale(locale);
-  return <PublicCatalogExplorer mode="utilities" initialState={initialState} />;
+  return (
+    <PublicCatalogItemLayout>
+      <PublicCatalogExplorer mode="utilities" initialState={initialState} />
+    </PublicCatalogItemLayout>
+  );
 }

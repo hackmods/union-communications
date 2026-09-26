@@ -137,7 +137,7 @@ test.describe("SEO smoke @smoke", () => {
     await expect(page).not.toHaveTitle(/This page could not be found/i);
     await expect(page.getByRole("link", { name: /^Create$|^Créer$/i })).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /^Utilities$|^Utilitaires$/i }),
+      page.getByRole("link", { name: /^Worksheets$|^Feuilles de travail$/i }),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: /^Learn$|^Apprendre$/i })).toBeVisible();
   });
