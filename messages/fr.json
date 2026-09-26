@@ -195,8 +195,7 @@
     "downloadSuccessDetail": "Votre fichier est prêt. Consultez votre dossier de téléchargements.",
     "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
     "setupBrandLink": "Ouvrir la Trousse de marque",
-    "logoResolveFailed": "Impossible de charger le logo de la Trousse de marque en PNG. Essayez un PNG dans la Trousse de marque, ou désactivez le logo."
-  ,
+    "logoResolveFailed": "Impossible de charger le logo de la Trousse de marque en PNG. Essayez un PNG dans la Trousse de marque, ou désactivez le logo.",
     "builderModesLabel": "Sections du générateur",
     "modeDesign": "Design",
     "modeContent": "Contenu",
@@ -7451,6 +7450,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "join-share-when-signed-in": {
+        "title": "Les visiteurs connectés peuvent partager l’accès bêta",
+        "body": "Lorsque vous êtes déjà dans le Hub des dirigeants, /join vous remercie et propose des liens à partager avec d’autres locaux au lieu de vous demander de postuler à nouveau."
+      },
       "match-hub-union-brand-kit": {
         "title": "Faire correspondre la Trousse de marque à votre syndicat du Hub",
         "body": "Lorsque vous êtes connecté, la Trousse de marque peut appliquer le préréglage Comms de votre syndicat du Hub au site public de ce navigateur. Votre numéro de section locale est conservé s’il est déjà défini."
@@ -15426,5 +15429,36 @@
     "joinPrompt": "Prêt pour que votre section adopte la plateforme hébergée ?",
     "joinLink": "Amener votre section à UnionOps",
     "memberAccessLink": "Demander l’accès membre"
+  },
+  "joinPage": {
+    "eyebrow": "Accès bêta",
+    "title": "Amenez votre local à UnionOps",
+    "intro": "Les outils Comms restent gratuits. Pendant la bêta, le Hub des dirigeants et le Portail local sont gratuits; l’accès est examiné puis envoyé par invitation. Les conditions d’hébergement futures seront communiquées avant tout frais.",
+    "commsTitle": "Comms",
+    "commsBody": "Outils publics et apprentissage sur votre appareil.",
+    "hubTitle": "Hub des dirigeants",
+    "hubBody": "Travail administratif et dossiers des dirigeants.",
+    "portalTitle": "Portail local",
+    "portalBody": "Communication et participation des membres.",
+    "memberPrompt": "Vous êtes membre? Utilisez la demande d’accès pour que nous trouvions votre local.",
+    "memberLink": "Demander l’accès"
+  },
+  "requestAccessPage": {
+    "back": "← Retour à l’accès bêta",
+    "title": "Demander l’accès membre",
+    "intro": "Indiquez votre syndicat et votre local. Nous acheminerons la demande à la bonne personne après vérification. Cette demande ne crée pas de compte et n’inscrit personne à un syndicat."
+  },
+  "accessShare": {
+    "title": "Vous êtes déjà inscrit — merci de nous avoir rejoints",
+    "body": "Votre accès au Hub des dirigeants est actif. Partagez l’accès bêta avec d’autres locaux pour qu’ils puissent aussi demander à se joindre.",
+    "memberTitle": "Vous êtes déjà connecté",
+    "memberBody": "Vous avez déjà accès au Hub. Partagez le lien d’accès membre avec les personnes qui ont encore besoin d’une invitation.",
+    "sharePrompt": "Partagez ces liens avec les dirigeants et les membres d’autres locaux :",
+    "shareJoin": "Amener votre local (/join)",
+    "shareJoinHint": "pour les présidents et dirigeants qui amènent un local dans la bêta",
+    "shareMember": "Demander l’accès membre",
+    "shareMemberHint": "pour les membres qui ont besoin d’aide pour trouver leur local",
+    "hubCta": "Ouvrir le Hub des dirigeants",
+    "localLabel": "Local {number}"
   }
 }

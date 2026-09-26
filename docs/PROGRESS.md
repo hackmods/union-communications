@@ -1,3 +1,11 @@
+## 2026-09-26 — Join intake durability + signed-in share
+
+- Public `POST /api/access-requests` no longer returns 503 when the backend flag is unset — submissions always persist.
+- Access requests prefer Postgres whenever `DATABASE_URL` is set; `ACCESS_REQUEST_DB_BACKEND=memory` remains the explicit demo opt-out.
+- Documented `ACCESS_REQUEST_NOTIFY_EMAIL` (example `ryan@ryanmorris.ca`) in `.env.example`, docker production example, CapRover + SETUP guides; notify body includes kind/name/union/local + site-admin inbox hint.
+- Signed-in visitors on `/join` and `/request-access` see a thanks/share panel (Brand Kit logo + tenant line + share links + Hub CTA) instead of the apply form.
+- What's new: `join-share-when-signed-in`.
+
 ## 2026-09-26 — Mobile menu + AODA display access
 
 - Public sticky header (`<xl`): Accessibility + language beside Menu; wrap-safe chrome; Menu label stays short when open.

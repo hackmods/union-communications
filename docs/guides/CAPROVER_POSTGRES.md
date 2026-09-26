@@ -276,6 +276,7 @@ When most Hub modules are already `postgres` but the Hub still shows a Memory ba
 ```bash
 PORTAL_DB_BACKEND=postgres
 ACCESS_REQUEST_DB_BACKEND=postgres
+ACCESS_REQUEST_NOTIFY_EMAIL=ryan@ryanmorris.ca
 ```
 
 Set those in CapRover App Configs, restart or Method-3 redeploy, then confirm:
@@ -283,7 +284,9 @@ Set those in CapRover App Configs, restart or Method-3 redeploy, then confirm:
 - `/api/health` → `backends.PORTAL_DB_BACKEND` / `ACCESS_REQUEST_DB_BACKEND` = `"postgres"`
 - `memoryCaseDataActive` = `false`
 - `postgresFlipComplete` = `true` (with audit + auth users already on postgres)
+- With `EMAIL_ENABLED` + SMTP/Mailgun, new `/join` submissions also email `ACCESS_REQUEST_NOTIFY_EMAIL`. Review the inbox at **Site admin → Access requests** (`/app/site-admin/access-requests`).
 
+Access requests prefer Postgres whenever `DATABASE_URL` is set even if you forget the backend flag; set `ACCESS_REQUEST_DB_BACKEND=memory` only for local demos that must not touch the DB. Public POST never returns 503 for a missing backend flag — submissions always persist.
 Leave `DATA_DB_BACKEND=memory` until the UnionOps Data workbench flip is deliberate. Do **not** re-seed for this flip.
 
 Local Portal persistence is separately controlled by `PORTAL_DB_BACKEND`. Keep

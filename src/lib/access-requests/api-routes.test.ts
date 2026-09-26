@@ -6,14 +6,11 @@ import type { AccessRequest } from "@/types/access-request";
 import { accessRequestMemberView } from "@/types/access-request";
 import { accessRequestSchema } from "@/lib/access-requests/validation";
 
-const { authMock, resolveActorMock, durableMock, sendEmailMock } = vi.hoisted(
-  () => ({
-    authMock: vi.fn(),
-    resolveActorMock: vi.fn(),
-    durableMock: vi.fn(() => false),
-    sendEmailMock: vi.fn(),
-  }),
-);
+const { authMock, resolveActorMock, sendEmailMock } = vi.hoisted(() => ({
+  authMock: vi.fn(),
+  resolveActorMock: vi.fn(),
+  sendEmailMock: vi.fn(),
+}));
 
 vi.mock("@/auth", () => ({
   auth: authMock,
@@ -22,14 +19,6 @@ vi.mock("@/auth", () => ({
 vi.mock("@/lib/authorization/resolve-actor", () => ({
   resolveAuthorizationActor: resolveActorMock,
 }));
-
-vi.mock("@/lib/access-requests/store", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@/lib/access-requests/store")>();
-  return {
-    ...actual,
-    isAccessRequestDurable: durableMock,
-  };
-});
 
 vi.mock("@/lib/email/send", () => ({
   sendTransactionalEmail: sendEmailMock,
@@ -40,13 +29,9 @@ import {
   POST as submitAccessRequest,
 } from "@/app/api/access-requests/route";
 import { PATCH as patchMemberAccess } from "@/app/api/access-requests/[id]/route";
-import {
-  GET as listSiteAdminAccess,
-} from "@/app/api/site-admin/access-requests/route";
+import { GET as listSiteAdminAccess } from "@/app/api/site-admin/access-requests/route";
 import { PATCH as patchSiteAdminAccess } from "@/app/api/site-admin/access-requests/[id]/route";
-import {
-  accessRequestStore,
-} from "@/lib/access-requests/store";
+import { accessRequestStore } from "@/lib/access-requests/store";
 import { resetMemoryAccessRequestStore } from "@/lib/access-requests/memory-adapter";
 
 function session(input?: {
@@ -140,8 +125,6 @@ describe("access request HTTP", () => {
     resetMemoryAccessRequestStore();
     authMock.mockReset();
     resolveActorMock.mockReset();
-    durableMock.mockReset();
-    durableMock.mockReturnValue(false);
     sendEmailMock.mockReset();
     sendEmailMock.mockResolvedValue({ ok: false, reason: "not_configured" });
     resolveActorMock.mockImplementation(async (sess: ReturnType<typeof session>) =>
@@ -156,18 +139,16 @@ describe("access request HTTP", () => {
   });
 
   describe("POST /api/access-requests", () => {
-    it("returns 503 when the durable inbox is not configured", async () => {
-      const res = await submitAccessRequest(jsonRequest(validSubmit(), undefined, "203.0.113.1"));
-      expect(res.status).toBe(503);
-      expect(await res.json()).toEqual({
-        error: "Applications are temporarily unavailable. Please try again later.",
-      });
-      expect(await accessRequestStore.list()).toEqual([]);
+    it("always persists even when the durable backend flag is unset", async () => {
+      const res = await submitAccessRequest(
+        jsonRequest(validSubmit(), undefined, "203.0.113.1"),
+      );
+      expect(res.status).toBe(201);
+      expect(await res.json()).toEqual({ ok: true });
+      expect(await accessRequestStore.list()).toHaveLength(1);
     });
 
     it("rejects invalid JSON, extra keys, and missing consent before writing", async () => {
-      durableMock.mockReturnValue(true);
-
       const invalidJson = await submitAccessRequest(
         jsonRequest("{", "http://localhost/api/access-requests", "203.0.113.2"),
       );
@@ -196,7 +177,6 @@ describe("access request HTTP", () => {
     });
 
     it("swallows honeypot bots without creating a row", async () => {
-      durableMock.mockReturnValue(true);
       const res = await submitAccessRequest(
         jsonRequest(
           validSubmit({ website: "https://spam.example" }),
@@ -210,8 +190,11 @@ describe("access request HTTP", () => {
       expect(sendEmailMock).not.toHaveBeenCalled();
     });
 
-    it("creates a durable request without tenant stamps and rate-limits the same IP", async () => {
-      durableMock.mockReturnValue(true);
+    it("creates a request without tenant stamps, notifies the configured operator, and rate-limits the same IP", async () => {
+      vi.stubEnv("ACCESS_REQUEST_NOTIFY_EMAIL", "ryan@ryanmorris.ca");
+      vi.stubEnv("AUTH_URL", "https://unionops.org");
+      sendEmailMock.mockResolvedValue({ ok: true, messageId: "msg-1" });
+
       const first = await submitAccessRequest(
         jsonRequest(validSubmit(), undefined, "203.0.113.6"),
       );
@@ -224,6 +207,23 @@ describe("access request HTTP", () => {
       expect(rows[0]?.localId).toBeUndefined();
       expect(rows[0]?.kind).toBe("member_access");
       expect(rows[0]?.email).toBe("alex@example.test");
+      expect(rows[0]?.notifySentAt).toBeTruthy();
+      expect(rows[0]?.receiptSentAt).toBeTruthy();
+
+      expect(sendEmailMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          to: "ryan@ryanmorris.ca",
+          subject: "UnionOps beta access request (member_access)",
+        }),
+      );
+      const notifyText = String(
+        (sendEmailMock.mock.calls[0]?.[0] as { text?: string })?.text ?? "",
+      );
+      expect(notifyText).toContain("name=Alex Rivera");
+      expect(notifyText).toContain("union=Behind 7 Proxies");
+      expect(notifyText).toContain(
+        "inbox=https://unionops.org/en/app/site-admin/access-requests",
+      );
 
       for (let i = 0; i < 4; i += 1) {
         const again = await submitAccessRequest(
@@ -312,7 +312,9 @@ describe("access request HTTP", () => {
       const res = await listMemberAccess();
       expect(res.status).toBe(200);
       const body = (await res.json()) as {
-        items: Array<ReturnType<typeof accessRequestMemberView> & { privateNote?: string }>;
+        items: Array<
+          ReturnType<typeof accessRequestMemberView> & { privateNote?: string }
+        >;
       };
       expect(body.items.map((row) => row.name)).toEqual(["Home member"]);
       expect(body.items[0]?.id).toBe(mine.id);
@@ -354,7 +356,9 @@ describe("access request HTTP", () => {
       );
       expect(ok.status).toBe(200);
       const body = (await ok.json()) as {
-        item: ReturnType<typeof accessRequestMemberView> & { privateNote?: string };
+        item: ReturnType<typeof accessRequestMemberView> & {
+          privateNote?: string;
+        };
       };
       expect(body.item?.status).toBe("reviewing");
       expect(body.item?.privateNote).toBeUndefined();
@@ -376,9 +380,12 @@ describe("access request HTTP", () => {
     });
 
     it("lists every kind including private notes, then assigns a local for officers", async () => {
-      durableMock.mockReturnValue(true);
       const created = await submitAccessRequest(
-        jsonRequest(validSubmit({ name: "Public submitter" }), undefined, "203.0.113.7"),
+        jsonRequest(
+          validSubmit({ name: "Public submitter" }),
+          undefined,
+          "203.0.113.7",
+        ),
       );
       expect(created.status).toBe(201);
       const [row] = await accessRequestStore.list();
@@ -416,7 +423,9 @@ describe("access request HTTP", () => {
       const officerBody = (await officer.json()) as {
         items: Array<{ name: string; status: string; privateNote?: string }>;
       };
-      expect(officerBody.items.map((item) => item.name)).toEqual(["Public submitter"]);
+      expect(officerBody.items.map((item) => item.name)).toEqual([
+        "Public submitter",
+      ]);
       expect(officerBody.items[0]?.status).toBe("reviewing");
       expect(officerBody.items[0]?.privateNote).toBeUndefined();
     });
@@ -427,10 +436,12 @@ describe("accessRequestSchema and member view", () => {
   it("accepts a valid public payload and rejects forged tenant keys", () => {
     expect(accessRequestSchema.safeParse(validSubmit()).success).toBe(true);
     expect(
-      accessRequestSchema.safeParse(validSubmit({ unionId: "union-forged" })).success,
+      accessRequestSchema.safeParse(validSubmit({ unionId: "union-forged" }))
+        .success,
     ).toBe(false);
     expect(
-      accessRequestSchema.safeParse(validSubmit({ consentAccepted: false })).success,
+      accessRequestSchema.safeParse(validSubmit({ consentAccepted: false }))
+        .success,
     ).toBe(false);
   });
 

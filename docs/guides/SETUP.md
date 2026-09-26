@@ -155,6 +155,7 @@ Officer invites, meeting self-reminders, and opt-in RSVP confirmations use SMTP 
 3. With `EMAIL_ENABLED` unset/false, send helpers return `{ ok: false, reason: "not_configured" }` and APIs respond 503 — copy links still work.
 4. Optional cron officer reminders: set `CRON_SECRET`, then call `GET|POST /api/cron/meeting-reminders?days=7` with `Authorization: Bearer $CRON_SECRET` (or `x-cron-secret`). Sends only to officer roster emails for Hub events starting within N days — never member broadcast lists. Add `?dryRun=1` to preview job count and recipients without sending (no audit log write).
 5. Optional post-deploy operator email: set `DEPLOY_NOTIFY_ENABLED=true` and `DEPLOY_NOTIFY_EMAIL=ops@example.ca` (still needs `CRON_SECRET` + transactional email). `GET|POST /api/cron/deploy-notify` sends a host-readiness summary (commit, backends, advisory MFA/email/cron). MFA off never blocks casework and is listed as advisory only. CI may call this after the health smoke when `CRON_SECRET` is present (non-blocking).
+6. Optional beta-access operator ping: set `ACCESS_REQUEST_NOTIFY_EMAIL=ryan@ryanmorris.ca` (or your ops inbox). Public `/join` and `/request-access` always persist; with `DATABASE_URL` they use Postgres unless you explicitly set `ACCESS_REQUEST_DB_BACKEND=memory`. Review submissions under **Site admin → Access requests**.
 
 ## Sandbox smoke (Proxmox CT 115)
 

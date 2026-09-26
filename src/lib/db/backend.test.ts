@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  accessRequestDbBackend,
   attachmentsDbBackend,
   auditDbBackend,
   bumpingDbBackend,
@@ -512,5 +513,36 @@ describe("db backend flags", () => {
     expect(DB_BACKEND_ENV_KEYS).toContain("DATA_DB_BACKEND");
     expect(DB_BACKEND_ENV_KEYS).toContain("ACCESS_REQUEST_DB_BACKEND");
     expect(DB_BACKEND_ENV_KEYS).toContain("SNIPPETS_DB_BACKEND");
+  });
+
+  it("prefers Postgres for access requests when DATABASE_URL is set", () => {
+    expect(accessRequestDbBackend({})).toBe("memory");
+    expect(
+      accessRequestDbBackend({
+        DATABASE_URL: "postgres://localhost/unionops",
+      }),
+    ).toBe("postgres");
+    expect(
+      accessRequestDbBackend({
+        ACCESS_REQUEST_DB_BACKEND: "postgres",
+        DATABASE_URL: "postgres://localhost/unionops",
+      }),
+    ).toBe("postgres");
+    expect(
+      accessRequestDbBackend({
+        ACCESS_REQUEST_DB_BACKEND: "memory",
+        DATABASE_URL: "postgres://localhost/unionops",
+      }),
+    ).toBe("memory");
+    expect(
+      accessRequestDbBackend({
+        ACCESS_REQUEST_DB_BACKEND: "postgres",
+      }),
+    ).toBe("memory");
+    expect(
+      readEffectiveBackendFlags({
+        DATABASE_URL: "postgres://localhost/unionops",
+      }).ACCESS_REQUEST_DB_BACKEND,
+    ).toBe("postgres");
   });
 });

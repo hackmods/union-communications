@@ -195,8 +195,7 @@
     "downloadSuccessDetail": "Your file is ready. Check your downloads folder.",
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
     "setupBrandLink": "Open Brand Kit",
-    "logoResolveFailed": "Could not load your Brand Kit logo as PNG. Try a PNG upload in Brand Kit, or turn off the logo."
-  ,
+    "logoResolveFailed": "Could not load your Brand Kit logo as PNG. Try a PNG upload in Brand Kit, or turn off the logo.",
     "builderModesLabel": "Builder sections",
     "modeDesign": "Design",
     "modeContent": "Content",
@@ -7505,6 +7504,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "join-share-when-signed-in": {
+        "title": "Signed-in visitors can share beta access",
+        "body": "When you are already in Officer Hub, /join thanks you and offers links to share with other locals instead of asking you to apply again."
+      },
       "match-hub-union-brand-kit": {
         "title": "Match Brand Kit to your Officer Hub union",
         "body": "When you are signed in, Brand Kit can apply your Officer Hub union’s Comms preset to the public site in this browser. Your local number stays if you already set one."
@@ -15426,5 +15429,36 @@
     "joinPrompt": "Ready for your local to adopt the hosted platform?",
     "joinLink": "Bring your local to UnionOps",
     "memberAccessLink": "Request member access"
+  },
+  "joinPage": {
+    "eyebrow": "Beta access",
+    "title": "Bring your local to UnionOps",
+    "intro": "Comms tools stay free. During beta, Officer Hub and Local Portal are free; access is reviewed and then sent by invitation. Future hosting terms will be shared before any charge.",
+    "commsTitle": "Comms",
+    "commsBody": "Public tools and learning, available on your device.",
+    "hubTitle": "Officer Hub",
+    "hubBody": "Officer administration and casework.",
+    "portalTitle": "Local Portal",
+    "portalBody": "Member communication and participation.",
+    "memberPrompt": "Already a member? Use the member access request so we can find your local.",
+    "memberLink": "Request access"
+  },
+  "requestAccessPage": {
+    "back": "← Back to beta access",
+    "title": "Request member access",
+    "intro": "Tell us your union and local. We’ll route the request after verification. This does not create an account or enroll anyone in a union."
+  },
+  "accessShare": {
+    "title": "You’re already in — thanks for joining",
+    "body": "Your Officer Hub access is active. Share beta access with other locals so they can ask to join too.",
+    "memberTitle": "You’re already signed in",
+    "memberBody": "You already have Hub access. Share the member access link with people who still need an invitation.",
+    "sharePrompt": "Share these links with officers and members at other locals:",
+    "shareJoin": "Bring your local (/join)",
+    "shareJoinHint": "for presidents and officers bringing a local into the beta",
+    "shareMember": "Request member access",
+    "shareMemberHint": "for members who need help finding their local",
+    "hubCta": "Open Officer Hub",
+    "localLabel": "Local {number}"
   }
 }

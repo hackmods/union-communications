@@ -252,6 +252,28 @@ export function authUsersDbBackend(
   return resolveBackend("AUTH_USERS_BACKEND", env);
 }
 
+/**
+ * Beta access / member request intake.
+ * Prefer Postgres whenever DATABASE_URL is set so public /join never
+ * silently drops to memory on a durable host that forgot the backend flag.
+ * Explicit `ACCESS_REQUEST_DB_BACKEND=memory` remains the demo opt-out.
+ */
+export function accessRequestDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  const raw = env.ACCESS_REQUEST_DB_BACKEND?.trim().toLowerCase();
+  if (raw === "memory") return "memory";
+  if (!env.DATABASE_URL?.trim()) {
+    if (raw === "postgres") {
+      console.warn(
+        "[db] ACCESS_REQUEST_DB_BACKEND=postgres but DATABASE_URL is unset — falling back to memory",
+      );
+    }
+    return "memory";
+  }
+  return "postgres";
+}
+
 /** Effective backend per module (respects DATABASE_URL fallback warnings). */
 export function readEffectiveBackendFlags(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -284,7 +306,7 @@ export function readEffectiveBackendFlags(
     BYLAWS_DB_BACKEND: bylawsDbBackend(env),
     PROPOSALS_DB_BACKEND: proposalsDbBackend(env),
     DATA_DB_BACKEND: dataDbBackend(env),
-    ACCESS_REQUEST_DB_BACKEND: resolveBackend("ACCESS_REQUEST_DB_BACKEND", env),
+    ACCESS_REQUEST_DB_BACKEND: accessRequestDbBackend(env),
     PORTAL_DB_BACKEND: portalDbBackend(env),
   };
 }

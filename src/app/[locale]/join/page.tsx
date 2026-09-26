@@ -1,10 +1,92 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { auth } from "@/auth";
 import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import { AccessRequestForm } from "@/components/access/AccessRequestForm";
+import { AccessSharePanel } from "@/components/access/AccessSharePanel";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
-export async function generateMetadata({params}:{params:Promise<{locale:string}>}):Promise<Metadata>{return buildPublicPageMetadata("/join",params);}
-export default async function JoinPage({params}:{params:Promise<{locale:string}>}){const {locale}=await params;setRequestLocale(locale);const fr=locale==="fr";return <ComposedPageLayout composition="hub" size="wide" className="py-10 md:py-14"><div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-start"><section><p className="text-sm font-semibold uppercase tracking-wide text-opseu-blue">{fr?"Accès bêta":"Beta access"}</p><h1 className="mt-2 text-4xl font-bold text-opseu-dark">{fr?"Amenez votre local à UnionOps":"Bring your local to UnionOps"}</h1><p className="mt-5 max-w-prose text-lg leading-relaxed text-slate-700">{fr?"Les outils Comms restent gratuits. Pendant la bêta, le Hub des dirigeants et le Portail local sont gratuits; l’accès est examiné puis envoyé par invitation. Les conditions d’hébergement futures seront communiquées avant tout frais.":"Comms tools stay free. During beta, Officer Hub and Local Portal are free; access is reviewed and then sent by invitation. Future hosting terms will be shared before any charge."}</p><div className="mt-7 grid gap-4 sm:grid-cols-3"><PublicHubPanel><h2 className="font-semibold text-opseu-dark">{fr?"Comms":"Comms"}</h2><p className="mt-2 text-sm text-slate-700">{fr?"Outils publics et apprentissage sur votre appareil.":"Public tools and learning, available on your device."}</p></PublicHubPanel><PublicHubPanel><h2 className="font-semibold text-opseu-dark">{fr?"Hub des dirigeants":"Officer Hub"}</h2><p className="mt-2 text-sm text-slate-700">{fr?"Travail administratif et dossiers des dirigeants.":"Officer administration and casework."}</p></PublicHubPanel><PublicHubPanel><h2 className="font-semibold text-opseu-dark">{fr?"Portail local":"Local Portal"}</h2><p className="mt-2 text-sm text-slate-700">{fr?"Communication et participation des membres.":"Member communication and participation."}</p></PublicHubPanel></div><p className="mt-6 text-sm text-slate-700">{fr?"Vous êtes membre? Utilisez la demande d’accès pour que nous trouvions votre local.":"Already a member? Use the member access request so we can find your local."} <Link href="/request-access" className="font-semibold text-opseu-blue underline">{fr?"Demander l’accès":"Request access"}</Link></p></section><PublicHubPanel className="p-5 sm:p-7"><AccessRequestForm kind="local_interest" locale={locale}/></PublicHubPanel></div></ComposedPageLayout>}
+import { getTenantContext } from "@/lib/tenant/loader";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  return buildPublicPageMetadata("/join", params);
+}
+
+export default async function JoinPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "joinPage" });
+  const session = await auth();
+  const tenant = session?.user?.unionId
+    ? getTenantContext(session.user.unionId, session.user.localId)
+    : null;
+  const signedIn = Boolean(session?.user);
+
+  return (
+    <ComposedPageLayout
+      composition="hub"
+      size="wide"
+      className="py-10 md:py-14"
+    >
+      <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-start">
+        <section>
+          <p className="text-sm font-semibold uppercase tracking-wide text-opseu-blue">
+            {t("eyebrow")}
+          </p>
+          <h1 className="mt-2 text-4xl font-bold text-opseu-dark">
+            {t("title")}
+          </h1>
+          <p className="mt-5 max-w-prose text-lg leading-relaxed text-slate-700">
+            {t("intro")}
+          </p>
+          <div className="mt-7 grid gap-4 sm:grid-cols-3">
+            <PublicHubPanel>
+              <h2 className="font-semibold text-opseu-dark">{t("commsTitle")}</h2>
+              <p className="mt-2 text-sm text-slate-700">{t("commsBody")}</p>
+            </PublicHubPanel>
+            <PublicHubPanel>
+              <h2 className="font-semibold text-opseu-dark">{t("hubTitle")}</h2>
+              <p className="mt-2 text-sm text-slate-700">{t("hubBody")}</p>
+            </PublicHubPanel>
+            <PublicHubPanel>
+              <h2 className="font-semibold text-opseu-dark">
+                {t("portalTitle")}
+              </h2>
+              <p className="mt-2 text-sm text-slate-700">{t("portalBody")}</p>
+            </PublicHubPanel>
+          </div>
+          <p className="mt-6 text-sm text-slate-700">
+            {t("memberPrompt")}{" "}
+            <Link
+              href="/request-access"
+              className="font-semibold text-opseu-blue underline"
+            >
+              {t("memberLink")}
+            </Link>
+          </p>
+        </section>
+        <PublicHubPanel className="p-5 sm:p-7">
+          {signedIn ? (
+            <AccessSharePanel
+              variant="local_interest"
+              unionName={tenant?.union.name}
+              localNumber={tenant?.local?.localNumber}
+            />
+          ) : (
+            <AccessRequestForm kind="local_interest" locale={locale} />
+          )}
+        </PublicHubPanel>
+      </div>
+    </ComposedPageLayout>
+  );
+}
