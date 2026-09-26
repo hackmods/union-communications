@@ -30,7 +30,7 @@ const LONG_FR =
   "Assemblée générale annuelle — veuillez confirmer votre présence avant le 12 septembre. " +
   "Apportez votre carte de membre. Accessibilité et garde d'enfants sur demande auprès du local. ".repeat(2);
 
-function nearWhiteShare(raster: { data: Uint8Array; width: number; height: number }) {
+function nearWhiteShare(raster: { data: Uint8Array | Uint8ClampedArray; width: number; height: number }) {
   let count = 0;
   const pixels = raster.width * raster.height;
   for (let i = 0; i < raster.data.length; i += 4) {

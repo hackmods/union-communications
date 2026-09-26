@@ -715,7 +715,7 @@ function DocumentGeneratorEditorContent({
 
   const form = (
     <div className="space-y-4">
-      <DesignTreatmentControl value={state.treatment ?? "full"} primaryColor={state.primaryColor ?? brandKit.primaryColor} onChange={(treatment) => setState({ ...state, treatment })} />
+      <DesignTreatmentControl value={state.treatment ?? "full"} primaryColor={brandKit.primaryColor} onChange={(treatment) => setState({ ...state, treatment })} />
       <div>
         <p className="mb-2 text-sm font-medium text-gray-700">{t("examples")}</p>
         {presetPicker}

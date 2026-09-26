@@ -2,11 +2,20 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { platformHostBrand } from "@/lib/db/schema/platform-host-brand";
-import {
-  resolveHostBrandDefaults,
-  type HostBrandDefaults,
-} from "@/lib/constants/host-brand";
+import type { HostBrandDefaults } from "@/lib/constants/host-brand";
 import { isTrustedUnionPresetId } from "@/lib/brand/union-preset-bridge";
+import {
+  getHostBrandOverlay,
+  resetHostBrandOverlayForTests,
+  resolveHostBrandWithOverlay,
+  setHostBrandOverlay,
+} from "@/lib/brand/host-brand-overlay";
+
+export {
+  getHostBrandOverlay,
+  resolveHostBrandWithOverlay,
+  setHostBrandOverlay,
+} from "@/lib/brand/host-brand-overlay";
 
 const HEX = /^#[0-9A-Fa-f]{6}$/;
 
@@ -24,26 +33,14 @@ export const hostBrandPatchSchema = z
 
 export type HostBrandPatch = z.infer<typeof hostBrandPatchSchema>;
 
-/** Singleton row id — one instance-wide host brand override. */
+/** Singleton row id - one instance-wide host brand override. */
 export const HOST_BRAND_ROW_ID = "default";
 
-/** In-process overlay (memory + after Postgres hydrate). */
-let hostBrandOverlay: Partial<HostBrandDefaults> | null = null;
 let hostBrandHydrated = false;
-
-export function getHostBrandOverlay(): Partial<HostBrandDefaults> | null {
-  return hostBrandOverlay;
-}
-
-export function setHostBrandOverlay(
-  patch: Partial<HostBrandDefaults> | null,
-): void {
-  hostBrandOverlay = patch;
-}
 
 /** @internal tests */
 export function resetHostBrandStoreForTests(): void {
-  hostBrandOverlay = null;
+  resetHostBrandOverlayForTests();
   hostBrandHydrated = false;
 }
 
@@ -70,60 +67,6 @@ function normalizePatch(raw: HostBrandPatch): HostBrandDefaults {
   };
 }
 
-/**
- * Resolve instance defaults with durable overlay.
- * Precedence: env → overlay (DB/admin) → host-brand.json → platform orange.
- */
-export function resolveHostBrandWithOverlay(
-  file?: Partial<HostBrandDefaults>,
-): HostBrandDefaults {
-  const base = resolveHostBrandDefaults(file);
-  const overlay = hostBrandOverlay;
-  if (!overlay) return base;
-
-  const envPrimary = process.env.NEXT_PUBLIC_BRAND_PRIMARY?.trim();
-  const envSecondary = process.env.NEXT_PUBLIC_BRAND_SECONDARY?.trim();
-  const envAccent = process.env.NEXT_PUBLIC_BRAND_ACCENT?.trim();
-  const envLocal = process.env.NEXT_PUBLIC_DEFAULT_LOCAL_NUMBER?.trim();
-  const envSub = process.env.NEXT_PUBLIC_DEFAULT_SUB_TEXT?.trim();
-  const envDivision = process.env.NEXT_PUBLIC_DEFAULT_DIVISION_ID?.trim();
-  const envPreset = process.env.NEXT_PUBLIC_BRAND_UNION_PRESET?.trim();
-
-  return {
-    primaryColor: envPrimary
-      ? base.primaryColor
-      : (overlay.primaryColor ?? base.primaryColor),
-    secondaryColor: envSecondary
-      ? base.secondaryColor
-      : (overlay.secondaryColor ?? base.secondaryColor),
-    accentColor: envAccent
-      ? base.accentColor
-      : (overlay.accentColor ?? base.accentColor),
-    localNumber: envLocal
-      ? base.localNumber
-      : (overlay.localNumber ?? base.localNumber),
-    subText: envSub ? base.subText : (overlay.subText ?? base.subText),
-    ...(envDivision
-      ? base.divisionId
-        ? { divisionId: base.divisionId }
-        : {}
-      : overlay.divisionId
-        ? { divisionId: overlay.divisionId }
-        : base.divisionId
-          ? { divisionId: base.divisionId }
-          : {}),
-    ...(envPreset
-      ? base.unionPresetId
-        ? { unionPresetId: base.unionPresetId }
-        : {}
-      : overlay.unionPresetId
-        ? { unionPresetId: overlay.unionPresetId }
-        : base.unionPresetId
-          ? { unionPresetId: base.unionPresetId }
-          : {}),
-  };
-}
-
 export async function hydrateHostBrandFromPostgres(): Promise<void> {
   if (!isPostgresConfigured() || hostBrandHydrated) return;
   try {
@@ -136,7 +79,7 @@ export async function hydrateHostBrandFromPostgres(): Promise<void> {
     if (row?.payload && typeof row.payload === "object") {
       const parsed = hostBrandPatchSchema.safeParse(row.payload);
       if (parsed.success) {
-        hostBrandOverlay = normalizePatch(parsed.data);
+        setHostBrandOverlay(normalizePatch(parsed.data));
       }
     }
   } finally {
@@ -148,7 +91,7 @@ export async function saveHostBrand(
   raw: HostBrandPatch,
 ): Promise<HostBrandDefaults> {
   const next = normalizePatch(raw);
-  hostBrandOverlay = next;
+  setHostBrandOverlay(next);
   if (!isPostgresConfigured()) {
     return next;
   }
@@ -169,7 +112,7 @@ export async function saveHostBrand(
 }
 
 export async function clearHostBrand(): Promise<void> {
-  hostBrandOverlay = null;
+  setHostBrandOverlay(null);
   if (!isPostgresConfigured()) return;
   const db = getDb();
   await db
