@@ -2426,8 +2426,8 @@
       "tocLabel": "Part 2 sections"
     },
     "wordpress": {
-      "title": "Already on WordPress?",
-      "body": "Website Template can also download a WordPress theme. UnionOps does not support WordPress. Use that file only if someone already runs your site. Everyone else should stay with the GitHub Pages ZIP in this part."
+      "title": "WordPress theme",
+      "body": "Website Template downloads a classic WordPress theme that matches the preview. Upload it under Appearance → Themes, then edit copy in Appearance → Local site, or import unionops-website.json for updates without a full theme re-upload. UnionOps does not host WordPress; if you are not already running it, the GitHub Pages ZIP in this part is usually simpler."
     },
     "squarespace": {
       "title": "On Squarespace?",
@@ -3635,7 +3635,7 @@
   },
   "websiteTemplate": {
     "title": "Website Template",
-    "subtitle": "Fill in your local details, preview the site, and download a ZIP ready for GitHub Pages.",
+    "subtitle": "Fill in your local details, preview the site, then download a GitHub Pages ZIP or a WordPress theme you can update in the dashboard.",
     "previewAccessibleName": "Website template preview",
     "unionName": "Union name",
     "heroText": "Hero tagline",
@@ -3653,8 +3653,9 @@
     "preview": "Live preview",
     "downloadZip": "Download site ZIP",
     "downloadWordpress": "Download WordPress theme",
-    "wordpressHeading": "Already on WordPress?",
-    "wordpressUnsupported": "UnionOps does not support WordPress. Use this only if someone already runs your WordPress site. If you are starting from scratch, download the site ZIP instead — we cannot help with WordPress hosting or updates.",
+    "wordpressHeading": "WordPress theme",
+    "wordpressSupported": "Download a classic WordPress theme that matches this preview. After you upload it under Appearance → Themes, edit homepage copy in Appearance → Local site — or import the site file below without re-uploading the whole theme. UnionOps does not host WordPress on your server; you (or your host) still run the install.",
+    "wordpressUpdateHint": "For copy-only updates on an existing theme: download the site file, then Appearance → Local site → Import JSON in WordPress. Re-download the full theme ZIP only when logo, hero photo, fonts, or layout change.",
     "squarespaceNote": "Squarespace does not accept a custom theme ZIP. There is no Squarespace export. If you already use Squarespace, rebuild the page in their editor.",
     "referenceNote": "Based on the volunteer local243.org GitHub Pages site. Export uses your Brand Kit logo in the nav. OPSEU / SEFPO footer links appear only when the Brand Kit theme is OPSEU / SEFPO.",
     "whenToUse": "Use when your local needs a simple lasting website members can bookmark.",
@@ -3682,8 +3683,8 @@
     "heroArtAltHint": "Describe the photo for people who cannot see it. Leave this blank for a decorative pattern.",
     "import": "Import a saved site",
     "downloadConfig": "Download site file",
-    "importHint": "To update a site you already downloaded, import the site file from that ZIP. Colours and extra links in the file apply here only — they do not change Brand Kit.",
-    "importSuccess": "Site restored. Edit the fields and download a fresh ZIP. This does not change Brand Kit.",
+    "importHint": "To update a site you already downloaded, import the site file from that ZIP (or the WordPress theme ZIP). Colours and extra links in the file apply here only — they do not change Brand Kit.",
+    "importSuccess": "Site restored. Edit the fields, then download a fresh site ZIP, WordPress theme, or site file. This does not change Brand Kit.",
     "importError": "That file is not a Website Template export. Pick the site file from your last ZIP, or the ZIP itself, and try again.",
     "importPhotoMissing": "The site file loaded, but the header photo was not in this file. Choose a photo below, or keep the pattern.",
     "orgChartHint": "Names marked in Org Chart fill this list. You can still edit them here before you download the ZIP.",
@@ -3691,7 +3692,8 @@
     "orgChartLink": "Open Org Chart",
     "sectionOfficers": "Executive officers",
     "sectionImportExport": "Import and download",
-    "sectionOtherPlatforms": "Other website platforms",
+    "sectionWordpress": "WordPress",
+    "sectionOtherPlatforms": "Other platforms",
     "sectionHero": "Hero section",
     "sectionAbout": "About page",
     "sectionContact": "Contact details",
@@ -7788,7 +7790,7 @@
       },
       "website-wordpress": {
         "title": "WordPress theme from Website Template",
-        "body": "Website Template can download a classic WordPress theme of the same local page. WordPress hosting is still unsupported. GitHub Pages remains the usual path."
+        "body": "Website Template can download a classic WordPress theme of the same local page. GitHub Pages remains the usual path when you are not already on WordPress."
       },
       "website-hero-art": {
         "title": "Website Template header art",
@@ -7973,6 +7975,10 @@
       "brand-styles-theme-admin": {
         "title": "Brand styles: colours, fonts, and host defaults",
         "body": "Platform operators can set per-union Brand Kit colours and fonts, draft or publish a brand baseline when customization is on, and edit instance host brand defaults from Site Admin — without changing who belongs to which Officer Hub union."
+      },
+      "website-wordpress-local-site": {
+        "title": "WordPress theme you can update in the dashboard",
+        "body": "Website Template’s WordPress download now stores homepage copy in WordPress. Edit under Appearance → Local site, or import the site file for updates without re-uploading the whole theme."
       },
       "hub-nav-module-gates": {
         "title": "Officer Hub menu matches what your local has on",
@@ -10959,7 +10965,7 @@
       "graphicMaker": "Social posts for Facebook and Instagram.",
       "quoteCard": "Turn a quote into a branded shareable card.",
       "meetingBackground": "Zoom and Teams backgrounds in your local's colours.",
-      "websiteTemplate": "Simple local site ZIP for GitHub Pages.",
+      "websiteTemplate": "Local site ZIP for GitHub Pages, or a WordPress theme you can update in the dashboard.",
       "localPack": "One versioned file for Brand Kit, roster, display settings, and website draft.",
       "altText": "Draft accessible alt text without uploading images.",
       "pulsePoll": "Short pulse polls with a printable QR card.",

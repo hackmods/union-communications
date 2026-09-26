@@ -58,7 +58,8 @@ Capture hardening + fidelity helpers + Playwright download smoke (`e2e/tools.exp
 ### Website Template → WordPress / Squarespace export
 
 - **Why:** Locals who already host on WordPress (or pay for Squarespace) asked whether the Website Template ZIP can become a native theme / WXR / Squarespace 7.1 developer package.
-- **Shipped (2026-08-18):** Classic WordPress theme ZIP (`generateWordpressThemeZip`) as a **second** download. GitHub Pages ZIP stays the default. Copy states **UnionOps does not support WordPress**.
+- **Shipped (2026-08-18):** Classic WordPress theme ZIP (`generateWordpressThemeZip`) as a **second** download. GitHub Pages ZIP stays the default.
+- **Shipped (2026-09-26):** Data-driven theme — homepage in WP option, Appearance → Local site + Customizer, JSON import for updates, search.php; steward copy distinguishes hosting (not UnionOps) from theme support. Squarespace remains a non-option.
 - **Still no:** WXR, FSE/`theme.json`, Squarespace 7.1 theme/template export (non-option). Do not scrape editor APIs; do not advertise “Squarespace export.”
 - **Spec:** [`plan-2026-08-18-website-export-wp-squarespace.md`](../audit/plan-2026-08-18-website-export-wp-squarespace.md), [`.cursor/rules/website-export.mdc`](../../.cursor/rules/website-export.mdc).
 - **Do not:** Replace the GitHub Pages path; target Squarespace 7.0 Developer Mode; invent a block CMS to chase FSE or Fluid Engine.

@@ -68,7 +68,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (toolkit headline + `HomeHe
 | `/[locale]/tools/resizer` | Omnichannel resizer — Logo Builder plate (circle/square/rectangle) or upload; social + custom sizes at true pixels; ZIP/PNG |
 | `/[locale]/tools/quote-card` | Leadership quote cards (stripe / centered / large mark; square, landscape, 9:16; `?preset=` / `?aspect=` / `?layout=`) |
 | `/[locale]/tools/flyer-maker` | Picket/rally flyers |
-| `/[locale]/tools/website-template` | GitHub Pages site ZIP (default) + optional classic WordPress theme ZIP; not a CMS. **UnionOps does not support WordPress.** Squarespace 7.1 theme export is a non-option: [`plan-2026-08-18-website-export-wp-squarespace.md`](../audit/plan-2026-08-18-website-export-wp-squarespace.md) |
+| `/[locale]/tools/website-template` | GitHub Pages site ZIP (default) + classic WordPress theme ZIP with Appearance → Local site updates; not a full CMS. UnionOps does not host WordPress. Squarespace 7.1 theme export is a non-option: [`plan-2026-08-18-website-export-wp-squarespace.md`](../audit/plan-2026-08-18-website-export-wp-squarespace.md) |
 | `/[locale]/tools/document-generator` | Branded Word / Excel / PowerPoint + ZIP (simple letter, letterhead, welcome letter, event notice) |
 | `/[locale]/tools/alt-text` | Alt-text draft helper (starters, platform limits, checklist) |
 | `/[locale]/guide/officer-learning` | Officer Learning Center — **ten** self-paced modules (scenarios, floor checklists, quizzes, pocket PDFs). Progress on-device (`unionops-officer-learning-progress`). Top-level header link, not under Guides ▾. Module slugs under `/guide/officer-learning/{slug}` — see [`session-knowledge-2026-09-06-officer-learning-modules-7-10.md`](../audit/session-knowledge-2026-09-06-officer-learning-modules-7-10.md) |
@@ -80,12 +80,12 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (toolkit headline + `HomeHe
 | **Social** | Blueprint, crisis guide, captions, examples, graphic maker, resizer, quote card, alt-text, **short-form video guide** |
 | **Print** | Flyer maker, print guide; pocket QR / action cards live under Tools → Print & cards |
 | **Union boards** | Board banner, board notice, solidarity poster, QR board posters, **Org Chart**, union boards guide (bare-minimum + reference layouts) |
-| **Website** | Website template (based on local243.org model), website guide — GitHub Pages ZIP default; optional classic WordPress theme (unsupported hosting); not Squarespace |
+| **Website** | Website template (based on local243.org model), website guide — GitHub Pages ZIP default; WordPress classic theme with Local site / JSON updates; not Squarespace |
 | **Email (fifth channel)** | Email & outreach guide — complements boards/print/social/website; officer SMTP/cron stays Hub-only |
 
 The four-channel model (boards → print → social → website) remains the First week roadmap. Email is documented as an optional fifth channel for officer outreach copy and Hub SMTP boundaries — not a member broadcast list. Short-form video is **channel practice** under social (not a fifth Tools column and not an in-browser editor).
 
-Website Template is a **fixed one-page static generator** (`WebsiteTemplateData` → HTML/CSS/JS ZIP for GitHub Pages by default). Optional classic WordPress theme ZIP wraps the same page; **UnionOps does not support WordPress** hosting or updates. **Squarespace 7.1 theme / developer-mode export is a non-option**. Do not advertise a Squarespace template. Full matrix: [`plan-2026-08-18-website-export-wp-squarespace.md`](../audit/plan-2026-08-18-website-export-wp-squarespace.md), [`.cursor/rules/website-export.mdc`](../../.cursor/rules/website-export.mdc).
+Website Template is a **fixed one-page static generator** (`WebsiteTemplateData` → HTML/CSS/JS ZIP for GitHub Pages by default). The WordPress theme ZIP is data-driven: homepage copy lives in a WP option (Appearance → Local site + JSON import); UnionOps does not host WordPress. **Squarespace 7.1 theme / developer-mode export is a non-option**. Do not advertise a Squarespace template. Full matrix: [`plan-2026-08-18-website-export-wp-squarespace.md`](../audit/plan-2026-08-18-website-export-wp-squarespace.md), [`.cursor/rules/website-export.mdc`](../../.cursor/rules/website-export.mdc).
 
 ## Multi-Union Migration Checklist (Phase 1)
 
@@ -170,7 +170,8 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 - `src/components/brand/MembershipUrlsEditor.tsx` — membership application URLs on Brand Kit (FT/PT audience only for College Support)
 - `src/lib/utils/local-links.ts` — Brand Kit link normalize + membership preset destination resolve
 - `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator (GitHub Pages default)
-- `src/lib/templates/website/generate-wordpress-theme-zip.ts` — classic WordPress theme ZIP (unsupported hosting; not FSE)
+- `src/lib/templates/website/generate-wordpress-theme-zip.ts` — classic WordPress theme ZIP (data-driven Local site admin; not FSE)
+- `src/lib/templates/website/wordpress/build-php.ts` — config / render / admin / customizer PHP builders
 - `src/components/tools/*` — upload, contrast, consent, undo/redo, office export
 - `src/store/brand-store.ts` — brand state via DataAdapter
 - `src/lib/utils/canvas-tokens.ts` — Brand Kit canvas chrome resolver (`solid` / `field` / `workshop`, grain, duotone)
