@@ -23,6 +23,8 @@ import {
   renderPptx,
 } from "./office-export";
 import { transparentPngBytes } from "./brand-logo-bytes";
+import { officeBandColor } from "./office-brand-styles";
+import type { DesignTreatment } from "@/types/entities";
 
 const sampleLetterPath = join(
   process.cwd(),
@@ -59,6 +61,43 @@ describe("office-export", () => {
     vi.unstubAllGlobals();
     clearOfficeTemplateCache();
   });
+
+  it("carries every treatment into Word, template, worksheet, and slide output", async () => {
+    const JSZip = (await import("jszip")).default;
+    const excelMod = await import("exceljs");
+    const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+    const palette = { primary: "#D65B60", secondary: "#FFFFFF", accent: "#823038" };
+    for (const treatment of ["full", "balanced", "paper"] as DesignTreatment[]) {
+      const band = officeBandColor(palette.primary, treatment).replace("#", "").toUpperCase();
+      const common = { presetId: "simple-letter" as const, palette, treatment, localLabel: "Local 110", fields: { body: "Bonjour aux membres" } };
+      const docx = await renderDocxFromPreset(common);
+      const docxZip = await JSZip.loadAsync(await docx.arrayBuffer());
+      const header = await docxZip.file("word/header1.xml")!.async("string");
+      expect(header.toUpperCase()).toContain(band);
+
+      const dotx = await renderDotxFromPreset(common);
+      const dotxZip = await JSZip.loadAsync(await dotx.arrayBuffer());
+      expect((await dotxZip.file("word/header1.xml")!.async("string")).toUpperCase()).toContain(band);
+
+      const xlsx = await renderEventRsvpXlsx({
+        treatment, palette, localNumber: "110",
+        fields: { title: "Assemblée", date: "12 septembre", time: "18 h", location: "Salle" },
+      });
+      const workbook = new ExcelNS.Workbook();
+      await workbook.xlsx.load(await xlsx.arrayBuffer());
+      const sheet = workbook.getWorksheet("RSVP")!;
+      expect(sheet.getCell("A1").fill).toMatchObject({ fgColor: { argb: `FF${band}` } });
+      expect(sheet.getCell("A12").fill).not.toMatchObject({ fgColor: { argb: `FF${band}` } });
+
+      const pptx = await renderPptx({
+        presetId: "quick-event", title: "Assemblée", localLabel: "Local 110",
+        palette, treatment, fields: { date: "12 septembre", location: "Salle" },
+      });
+      const pptxZip = await JSZip.loadAsync(await pptx.arrayBuffer());
+      const slide = await pptxZip.file("ppt/slides/slide1.xml")!.async("string");
+      expect(slide.toUpperCase()).toContain(band);
+    }
+  }, 45_000);
 
   it("caches template buffers", async () => {
     mockFetchFromFile(sampleLetterPath);

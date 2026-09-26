@@ -17,6 +17,9 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import type { DesignTreatment } from "@/types/entities";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SegControl } from "@/components/tools/SegControl";
@@ -56,6 +59,7 @@ import {
 type NoticeType = "meeting" | "bargaining" | "event" | "general";
 
 interface BoardNoticeState {
+  treatment: DesignTreatment;
   noticeType: NoticeType;
   headline: string;
   body: string;
@@ -82,6 +86,7 @@ export default function BoardNoticePage() {
   const [format, setFormat] = useState<BoardNoticeFormatId>("letter");
 
   const initial: BoardNoticeState = {
+    treatment: resolveDesignTreatment(brandKit),
     noticeType: "meeting",
     headline: "GENERAL MEMBERSHIP MEETING",
     body: "All members are invited to attend. Agenda: bargaining update, steward reports, and Q&A.",
@@ -114,6 +119,7 @@ export default function BoardNoticePage() {
   const designHeight = boardNoticePreviewHeightPx(formatSpec);
   const referenceWidth = PRINT_PAGE_LEGACY_REFERENCE_PX;
   const exportPixelRatio = boardNoticeExportPixelRatio(formatSpec);
+  const sheetColor = state.treatment === "full" ? brandKit.primaryColor : "#FFFFFF";
   const brandCanvasTokens = resolveCanvasTokens(brandKit);
   const tokens = resolveCanvasTokensWithOverrides(
     brandKit,
@@ -138,7 +144,7 @@ export default function BoardNoticePage() {
       await exportNodeAsPng(
         canvasRef.current!,
         formatFilename(`board-notice-${format}`, brandKit.local.localNumber, "png"),
-        { pixelRatio: exportPixelRatio, backgroundColor: brandKit.primaryColor },
+        { pixelRatio: exportPixelRatio, backgroundColor: sheetColor },
       );
     });
   };
@@ -152,7 +158,7 @@ export default function BoardNoticePage() {
         formatSpec.widthInches,
         formatSpec.heightInches,
         exportPixelRatio,
-        brandKit.primaryColor,
+        sheetColor,
       );
     });
   };
@@ -232,6 +238,7 @@ export default function BoardNoticePage() {
               />
             ) : null}
 
+            <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
             <ToolFormDetails title={tc("sectionLayout")}>
               <SegControl
                 label={t("layout")}
@@ -320,10 +327,11 @@ export default function BoardNoticePage() {
               layout={state.layout}
               tokens={tokens}
               colours={{
-                primary: brandKit.primaryColor,
-                secondary: brandKit.secondaryColor,
-                accent: brandKit.accentColor,
+                primary: sheetColor,
+                secondary: state.treatment === "balanced" ? brandKit.primaryColor : brandKit.secondaryColor,
+                accent: state.treatment === "full" ? brandKit.accentColor : brandKit.primaryColor,
               }}
+              style={state.treatment === "full" ? undefined : { borderTop: `${state.treatment === "balanced" ? 24 : 8}px solid ${brandKit.primaryColor}`, boxSizing: "border-box" }}
               copy={{
                 headline: state.headline,
                 body: state.body,

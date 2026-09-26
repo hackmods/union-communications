@@ -2,6 +2,20 @@
 
 Shared **canvas chrome** for public export tools: Brand Kit–owned tokens + primitives, with per-tool layout IDs unchanged (hybrid model).
 
+## Design treatment (2026-09-25)
+
+`BrandKit.designTreatment` is independent of the palette, logo Look, and canvas style package. New kits start on `balanced`; a stored kit without the field resolves to `full`, preserving existing designs. Every maker may override the Brand Kit treatment within its own editable/export state. A saved Look contains colours and logo choice only; switching Looks does not alter treatment. Local pack round trips both values through Brand Kit normalization.
+
+| Treatment | Composition contract |
+|-----------|----------------------|
+| `full` | Existing full-colour composition, kept as an explicit choice. |
+| `balanced` | Substantial white content area with a visible brand-colour header, frame, or band. For CAAT-S coral, white should dominate the reading/writing area. |
+| `paper` | White main surface; colour is reserved for borders, headings, and calls to action. |
+
+Apply treatment on the capture root so preview and PNG/PDF agree. Choose text ink against the **effective surface**, not the original primary colour. QR modules stay black on white. Keep photos and type-fit boundaries inside the white reading area. The public Document Generator uses the same treatment in preview and DOCX/DOTX/XLSX/PPTX exports; forms and lists retain white fields. Hub exports are outside this scope.
+
+The Brand Kit gallery includes two UnionOps starter palettes for each non-OPSEU union preset. These are editable suggestions, not official union standards. No third-party logo asset ships with the starters.
+
 ## Audit findings → tokens
 
 | Finding | Response |

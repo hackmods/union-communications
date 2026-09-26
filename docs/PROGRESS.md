@@ -1,5 +1,11 @@
 # Progress Log
 
+## 2026-09-25 — Lighter Comms design treatments
+
+- Added Full colour, Balanced, and Mostly white treatments to Brand Kit and branded Comms makers. New kits start Balanced; saved kits keep their prior full-colour appearance. Maker overrides travel with preview, reset/undo, and exports.
+- Added two labelled UnionOps starter palettes for each non-OPSEU preset and local named Looks that capture colours and logo choice separately from treatment.
+- Carried treatments through the public Document Generator preview and DOCX, DOTX, XLSX, and PPTX output while keeping writing areas white. Added EN/FR controls and a What's new note.
+- Updated the Comms visual-system contract and regression checks for migration, saved Looks, and Office files.
 ## 2026-09-25 — Officer Hub module-off deep-link QOL
 
 - Grievance-adjacent routes (detail/new, overdue, documents, snippets, marketplace, steward-guides, hybrid, calendar) and peer modules (bumping, bylaws, proposals, informal log, discussion threads) show `ModuleDisabledPanel` instead of a silent `/app` redirect when the module is off.

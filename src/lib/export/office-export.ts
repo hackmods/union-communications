@@ -19,6 +19,7 @@ import {
 import { pickContrastingInk } from "@/lib/utils/ink";
 import {
   officeXlsxBrandBandStyle,
+  officeBandColor,
   resolveOfficeBrandFonts,
   withOfficeXlsxFont,
   type OfficeBrandFontOpts,
@@ -73,6 +74,7 @@ export function clearOfficeTemplateCache(): void {
 }
 
 export type DocxPresetOpts = {
+  treatment?: import("@/types/entities").DesignTreatment;
   presetId: OfficePresetId;
   palette: BrandPalette;
   localLabel: string;
@@ -121,6 +123,7 @@ export async function renderDocxFromPreset(
   const headlineFontId = opts.headlineFontId ?? DEFAULT_HEADLINE_FONT;
   const bodyFontId = opts.bodyFontId ?? DEFAULT_BODY_FONT;
   const input = {
+    treatment: opts.treatment,
     palette: opts.palette,
     localLabel: opts.localLabel,
     fields: opts.fields,
@@ -413,7 +416,7 @@ export async function renderEventRsvpXlsx(opts: {
   ws.getCell("B6").value = opts.fields.quorumNeeded?.trim() || "";
 
   const brandBand = officeXlsxBrandBandStyle({
-    background: opts.palette.primary,
+    background: officeBandColor(opts.palette.primary, opts.treatment),
     faceName: headFace,
   });
   const surfaceBand = officeXlsxBrandBandStyle({
@@ -592,12 +595,12 @@ export async function renderSeniorityWorksheetXlsx(opts: {
   const ws = workbook.addWorksheet(opts.labels.sheetName.slice(0, 31) || "Worksheet");
 
   const brandBand = officeXlsxBrandBandStyle({
-    background: opts.palette.primary,
+    background: officeBandColor(opts.palette.primary, opts.treatment),
     faceName: headFace,
     size: 14,
   });
   const brandLabel = officeXlsxBrandBandStyle({
-    background: opts.palette.primary,
+    background: officeBandColor(opts.palette.primary, opts.treatment),
     faceName: headFace,
   });
   const surfaceBand = officeXlsxBrandBandStyle({
@@ -746,12 +749,12 @@ export async function renderGrievanceIntakeXlsx(opts: {
   const ws = workbook.addWorksheet(opts.labels.sheetName.slice(0, 31) || "Intake");
 
   const brandBand = officeXlsxBrandBandStyle({
-    background: opts.palette.primary,
+    background: officeBandColor(opts.palette.primary, opts.treatment),
     faceName: headFace,
     size: 14,
   });
   const brandLabel = officeXlsxBrandBandStyle({
-    background: opts.palette.primary,
+    background: officeBandColor(opts.palette.primary, opts.treatment),
     faceName: headFace,
   });
   const surfaceBand = officeXlsxBrandBandStyle({
@@ -870,12 +873,12 @@ export async function renderLecDirectoryXlsx(opts: {
   const ws = workbook.addWorksheet("LEC directory");
 
   const brandBand = officeXlsxBrandBandStyle({
-    background: opts.palette.primary,
+    background: officeBandColor(opts.palette.primary, opts.treatment),
     faceName: headFace,
     size: 14,
   });
   const brandLabel = officeXlsxBrandBandStyle({
-    background: opts.palette.primary,
+    background: officeBandColor(opts.palette.primary, opts.treatment),
     faceName: headFace,
   });
 
@@ -978,6 +981,7 @@ export async function exportXlsx(opts: {
 }
 
 export type PptxDemoOpts = {
+  treatment?: import("@/types/entities").DesignTreatment;
   presetId: OfficePresetId;
   title: string;
   subtitle?: string;
@@ -1284,10 +1288,10 @@ export async function renderPptx(opts: PptxDemoOpts): Promise<Blob> {
   const presentationFonts = resolveOfficeBrandFonts(opts);
   pptx.theme = createPowerPointTheme(createOfficeDesignTokens({ palette: opts.palette, headlineFont: presentationFonts.headlineFont, bodyFont: presentationFonts.bodyFont }));
 
-  const primary = stripHash(opts.palette.primary);
+  const primary = stripHash(officeBandColor(opts.palette.primary, opts.treatment));
   const secondary = stripHash(opts.palette.secondary);
-  const accent = stripHash(opts.palette.accent);
-  const ink = inkHex(opts.palette.primary);
+  const accent = stripHash(opts.treatment === "full" ? opts.palette.accent : opts.palette.primary);
+  const ink = inkHex(`#${primary}`);
 
   if (opts.presetId === "quick-event") {
     buildEvent(pptx, opts, primary, secondary, accent, ink);

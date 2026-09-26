@@ -21,6 +21,7 @@ import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import { MembershipUrlsEditor } from "@/components/brand/MembershipUrlsEditor";
 import { OpseuSectorSelect } from "@/components/brand/OpseuSectorSelect";
 import { IdentityPackPicker } from "@/components/brand/IdentityPackPicker";
+import { SavedLooksPanel } from "@/components/brand/SavedLooksPanel";
 import { BrandKitContextHint } from "@/components/brand/BrandKitContextHint";
 import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesEditor";
 import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
@@ -291,6 +292,7 @@ export default function BrandKitPage() {
             primaryLabel={t("colors.primary")}
             secondaryLabel={t("colors.secondary")}
           />
+          <SavedLooksPanel />
         </PublicHubPanel>
 
         <PublicHubPanel

@@ -20,6 +20,8 @@ import {
 } from "@/lib/hub/parse-api-error";
 import { LogoContainer } from "@/components/canvas-core/LogoContainer";
 import { CanvasWrapper } from "@/components/canvas-core";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
@@ -84,6 +86,7 @@ export default function PulsePollPage() {
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
   });
+  initial.treatment = resolveDesignTreatment(brandKit);
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<PulsePollDraft>(initial);
@@ -94,6 +97,7 @@ export default function PulsePollPage() {
     if (saved) {
       reset({
         ...saved,
+        treatment: saved.treatment ?? "full",
         logoMode: themeEstablished ? saved.logoMode : "none",
         primaryColor: saved.primaryColor || brandKit.primaryColor,
         secondaryColor: saved.secondaryColor || brandKit.secondaryColor,
@@ -104,6 +108,7 @@ export default function PulsePollPage() {
           primaryColor: brandKit.primaryColor,
           secondaryColor: brandKit.secondaryColor,
         }),
+        treatment: resolveDesignTreatment(brandKit),
         logoMode: defaultLogoMode(themeEstablished),
         showLocalNumber: defaultShowLocalNumber(),
         title: t("demoTitle"),
@@ -240,7 +245,9 @@ export default function PulsePollPage() {
     }
   }
 
-  const ink = pickContrastingInk(state.primaryColor);
+  const treatment = state.treatment ?? "full";
+  const sheetPrimary = treatment === "full" ? state.primaryColor : "#FFFFFF";
+  const ink = pickContrastingInk(sheetPrimary);
   const pollPreviewWidthPx = 448; // max-w-md (28rem)
   const titleFontPx = walletTitleFontSizePx(tokens, pollPreviewWidthPx);
   const bodyFontPx = walletBodyFontSizePx(tokens, pollPreviewWidthPx);
@@ -249,7 +256,7 @@ export default function PulsePollPage() {
   const textAlign = textAlignFromBias(tokens.alignmentBias);
   const previewStyle: CSSProperties = {
     ...canvasSurfaceStyle(tokens, {
-      primary: state.primaryColor,
+      primary: sheetPrimary,
       secondary: state.secondaryColor,
       accent: state.secondaryColor,
     }),
@@ -257,6 +264,7 @@ export default function PulsePollPage() {
     padding: contentPadPx,
     gap: Math.max(8, Math.round(tokens.gapPx * typeScaleFactor(tokens))),
     textAlign,
+    ...(treatment === "full" ? {} : { backgroundColor: "#FFFFFF", backgroundImage: "none", border: `${treatment === "balanced" ? 10 : 3}px solid ${state.primaryColor}`, boxSizing: "border-box" as const }),
   };
 
   const editor = (
@@ -331,6 +339,7 @@ export default function PulsePollPage() {
       />
       <p className="text-sm leading-snug text-gray-600">{t("shareSlugHint")}</p>
 
+      <DesignTreatmentControl value={treatment} onChange={(next) => setState({ ...state, treatment: next })} />
       <ToolFormDetails title={tc("sectionLayout")}>
         <CanvasBrandingControls
           logoMode={state.logoMode}
@@ -364,6 +373,7 @@ export default function PulsePollPage() {
               primaryColor: brandKit.primaryColor,
               secondaryColor: brandKit.secondaryColor,
             }),
+            treatment: resolveDesignTreatment(brandKit),
             logoMode: defaultLogoMode(themeEstablished),
             showLocalNumber: defaultShowLocalNumber(),
             title: t("demoTitle"),
@@ -402,7 +412,7 @@ export default function PulsePollPage() {
           {showCanvasLogo(state.logoMode) && themeEstablished && (
             <div className="relative z-[2] flex items-center gap-2">
               <LogoContainer
-                backgroundColor={state.primaryColor}
+                backgroundColor={sheetPrimary}
                 logoMode={state.logoMode}
                 bounds={{ maxWidthCqw: 36, align: "start" }}
               />

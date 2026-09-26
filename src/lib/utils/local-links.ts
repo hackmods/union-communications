@@ -11,12 +11,14 @@ import {
 } from "@/lib/brand/identity-packs";
 import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
+import { isDesignTreatment } from "@/lib/brand/design-treatment";
 import { normalizeBrandKitCanvas } from "@/lib/utils/canvas-tokens";
 import type {
   BrandKit,
   LocalLink,
   MembershipUrl,
   MembershipUrlAudience,
+  SavedBrandLook,
 } from "@/types/entities";
 
 export interface SavedLink {
@@ -41,6 +43,32 @@ function trimUrl(value: unknown): string | undefined {
 }
 
 const BRAND_HEX = /^#[0-9A-Fa-f]{6}$/;
+
+function normalizeSavedLooks(raw: unknown): SavedBrandLook[] {
+  if (!Array.isArray(raw)) return [];
+  const out: SavedBrandLook[] = [];
+  for (const item of raw.slice(0, 12)) {
+    if (!item || typeof item !== "object") continue;
+    const row = item as Record<string, unknown>;
+    if (typeof row.id !== "string" || !row.id.trim() ||
+        typeof row.name !== "string" || !row.name.trim()) continue;
+    out.push({
+      id: row.id.trim().slice(0, 80),
+      name: row.name.trim().slice(0, 60),
+      unionPresetId: typeof row.unionPresetId === "string" ? row.unionPresetId : undefined,
+      primaryColor: asBrandHex(row.primaryColor, "#1A1A1A"),
+      secondaryColor: asBrandHex(row.secondaryColor, "#FFFFFF"),
+      accentColor: asBrandHex(row.accentColor, "#1A1A1A"),
+      useOfficialLogo: row.useOfficialLogo === true,
+      officialLogoVariant: row.officialLogoVariant === "mark" ? "mark" : "lockup",
+      identityPackId: typeof row.identityPackId === "string" ? row.identityPackId : undefined,
+      campaignPlate: typeof row.campaignPlate === "string" ? row.campaignPlate : undefined,
+      customLogoDataUrl: typeof row.customLogoDataUrl === "string" ? row.customLogoDataUrl : undefined,
+      logoText: typeof row.logoText === "string" ? row.logoText.slice(0, 12) : undefined,
+    });
+  }
+  return out;
+}
 
 /** Keep a valid `#RRGGBB` colour; empty/invalid strings fall back to defaults. */
 function asBrandHex(value: unknown, fallback: string): string {
@@ -236,6 +264,10 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
     primaryColor: asBrandHex(input.primaryColor, base.primaryColor),
     secondaryColor: asBrandHex(input.secondaryColor, base.secondaryColor),
     accentColor: asBrandHex(input.accentColor, base.accentColor),
+    designTreatment: isDesignTreatment(input.designTreatment)
+      ? input.designTreatment
+      : "full",
+    savedLooks: normalizeSavedLooks(input.savedLooks),
     useOfficialLogo,
     customLogoDataUrl,
     unionPresetId,

@@ -56,6 +56,23 @@ export type CanvasAlignmentBias = "center" | "start" | "asymmetric";
 export type CanvasDensity = "roomy" | "tight";
 export type CanvasTypeScale = "compact" | "display" | "dense";
 export type CanvasQrPlate = "white-card" | "inset" | "flush";
+/** Amount of brand-colour field used by composed Comms outputs. */
+export type DesignTreatment = "full" | "balanced" | "paper";
+
+export interface SavedBrandLook {
+  id: string;
+  name: string;
+  unionPresetId?: string;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  useOfficialLogo: boolean;
+  officialLogoVariant?: BrandKit["officialLogoVariant"];
+  identityPackId?: string;
+  campaignPlate?: string;
+  customLogoDataUrl?: string;
+  logoText?: string;
+}
 /**
  * Capture-safe surface treatments. `grain` uses a tiled PNG noise overlay.
  * `duotone` applies brand-coloured photo treatment (Graphic Maker spotlight etc.).
@@ -94,6 +111,9 @@ export interface BrandKit {
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
+  /** Missing in older kits: resolve as the original full-colour look. */
+  designTreatment?: DesignTreatment;
+  savedLooks?: SavedBrandLook[];
   useOfficialLogo: boolean;
   /** Which bundled official logo to use when useOfficialLogo is true */
   officialLogoVariant?: "lockup" | "mark" | "slitBlue" | "slitWhite";

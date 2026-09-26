@@ -27,6 +27,7 @@ import {
 } from "@/lib/utils/canvas-tokens";
 import { CanvasGrainOverlay, CanvasQrPlate, CanvasUrlCaption } from "@/components/tools/canvas";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import type { DesignTreatment } from "@/types/entities";
 
 export interface QrBoardCanvasSlot {
   id: string;
@@ -36,6 +37,7 @@ export interface QrBoardCanvasSlot {
 }
 
 export interface QrBoardCanvasProps {
+  treatment?: DesignTreatment;
   canvasRef: Ref<HTMLDivElement>;
   formatId: QrBoardFormatId;
   posterTitle: string;
@@ -52,6 +54,7 @@ export interface QrBoardCanvasProps {
 }
 
 export function QrBoardCanvas({
+  treatment = "full",
   canvasRef,
   formatId,
   posterTitle,
@@ -60,12 +63,14 @@ export function QrBoardCanvas({
   showUrl,
   logoMode,
   showLocalNumber,
-  primaryColor,
-  secondaryColor,
+  primaryColor: brandPrimary,
+  secondaryColor: brandSecondary,
   localLabel,
   qrPlaceholder,
   tokens,
 }: QrBoardCanvasProps) {
+  const primaryColor = treatment === "full" ? brandPrimary : "#FFFFFF";
+  const secondaryColor = treatment === "full" ? brandSecondary : brandPrimary;
   const format = QR_BOARD_FORMATS[formatId];
   const designWidth = format.previewWidthPx;
   const designHeight = Math.round(
@@ -104,6 +109,7 @@ export function QrBoardCanvas({
     width: designWidth,
     height: designHeight,
     fontFamily: tokens?.bodyFontFamily,
+    ...(treatment === "balanced" ? { border: `${Math.round(designWidth * 0.025)}px solid ${brandPrimary}`, boxSizing: "border-box" as const } : {}),
   };
 
   return (

@@ -44,6 +44,12 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/create/brand-kit",
   },
   {
+    id: "comms-lighter-designs",
+    date: "2026-09-25",
+    kind: "improved",
+    href: "/create/brand-kit",
+  },
+  {
     id: "letter-document-generators-fix",
     date: "2026-09-25",
     kind: "improved",

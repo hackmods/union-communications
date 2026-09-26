@@ -39,6 +39,9 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import type { DesignTreatment } from "@/types/entities";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { QrBoardCanvas } from "@/components/tools/qr-board/QrBoardCanvas";
@@ -58,6 +61,7 @@ import {
 } from "@/lib/comms/canvas-token-overrides";
 
 interface QrBoardState {
+  treatment: DesignTreatment;
   presetId: string;
   posterTitle: string;
   posterSubtitle: string;
@@ -105,6 +109,7 @@ function QrBoardPageContent() {
   const first = QR_BOARD_PRESETS[0];
 
   const initial: QrBoardState = {
+    treatment: resolveDesignTreatment(brandKit),
     presetId: first.id,
     posterTitle: t(`presets.${first.titleKey}`),
     posterSubtitle: t(`presets.${first.subtitleKey}`),
@@ -155,6 +160,7 @@ function QrBoardPageContent() {
         ? getQrBoardPreset(deepPreset)!
         : first;
     reset({
+      treatment: resolveDesignTreatment(brandKit),
       presetId: fromDeep.id,
       posterTitle: t(`presets.${fromDeep.titleKey}`),
       posterSubtitle: t(`presets.${fromDeep.subtitleKey}`),
@@ -238,7 +244,7 @@ function QrBoardPageContent() {
       await exportNodeAsPng(
         canvasRef.current!,
         formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
-        { pixelRatio: exportPixelRatio, backgroundColor: state.primaryColor },
+        { pixelRatio: exportPixelRatio, backgroundColor: state.treatment === "full" ? state.primaryColor : "#FFFFFF" },
       );
     });
   };
@@ -252,7 +258,7 @@ function QrBoardPageContent() {
         format.widthInches,
         format.heightInches,
         exportPixelRatio,
-        state.primaryColor,
+        state.treatment === "full" ? state.primaryColor : "#FFFFFF",
       );
     });
   };
@@ -368,6 +374,7 @@ function QrBoardPageContent() {
             ))}
           </section>
 
+          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={tc("sectionLayout")}>
             <div className="space-y-2">
               <SegControl
@@ -438,6 +445,7 @@ function QrBoardPageContent() {
                 const origin =
                   typeof window !== "undefined" ? window.location.origin : "";
                 reset({
+                  treatment: resolveDesignTreatment(brandKit),
                   presetId: first.id,
                   posterTitle: t(`presets.${first.titleKey}`),
                   posterSubtitle: t(`presets.${first.subtitleKey}`),
@@ -499,6 +507,7 @@ function QrBoardPageContent() {
           <div className="w-full min-w-0 max-w-full">
             <div className="overflow-hidden rounded-lg shadow-lg">
               <QrBoardCanvas
+                treatment={state.treatment}
                 canvasRef={canvasRef}
                 formatId={state.formatId}
                 posterTitle={state.posterTitle}

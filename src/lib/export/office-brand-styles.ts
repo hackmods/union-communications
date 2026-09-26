@@ -10,13 +10,28 @@ import {
   type CanvasFontId,
 } from "@/lib/comms/canvas-fonts";
 import { pickContrastingInk } from "@/lib/utils/ink";
+import { blendHex, meetsWcagAA } from "@/lib/utils/contrast";
+import type { DesignTreatment } from "@/types/entities";
 
 export type OfficeBrandFontOpts = {
+  treatment?: DesignTreatment;
   headlineFont?: string;
   bodyFont?: string;
   headlineFontId?: CanvasFontId;
   bodyFontId?: CanvasFontId;
 };
+
+export function officeBandColor(primary: string, treatment: DesignTreatment = "full"): string {
+  if (treatment === "balanced") return blendHex(primary, "#FFFFFF", 0.25);
+  if (treatment === "paper") return "#F6F6F6";
+  return primary;
+}
+
+export function officeHeadingColorOnWhite(primary: string, secondary: string, treatment: DesignTreatment = "full"): string {
+  if (treatment === "full") return secondary;
+  const darkBrand = blendHex("#000000", primary, 0.35);
+  return meetsWcagAA(darkBrand, "#FFFFFF") ? darkBrand : "#1A1A1A";
+}
 
 export type ResolvedOfficeBrandFonts = {
   headlineFont: string;

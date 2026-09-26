@@ -44,6 +44,9 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import type { DesignTreatment } from "@/types/entities";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
@@ -78,6 +81,7 @@ import {
 } from "@/components/tools/canvas";
 
 interface QrCardState {
+  treatment: DesignTreatment;
   presetId: string;
   destination: string;
   title: string;
@@ -116,6 +120,7 @@ function QrCardPageContent() {
   const first = QR_CARD_PRESETS[0];
 
   const initial: QrCardState = {
+    treatment: resolveDesignTreatment(brandKit),
     presetId: first.id,
     destination: first.defaultUrl.trim(),
     title: t(`presets.${first.titleKey}`),
@@ -164,6 +169,7 @@ function QrCardPageContent() {
     }
     const fromPreset = fromDeep.defaultUrl.trim();
     reset({
+      treatment: resolveDesignTreatment(brandKit),
       presetId: fromDeep.id,
       destination:
         fromPreset ||
@@ -224,6 +230,7 @@ function QrCardPageContent() {
     brandKit.local.localNumber,
     brandKit.local.subText,
   );
+  const sheetPrimary = state.treatment === "full" ? state.primaryColor : "#FFFFFF";
 
   const canvasStyle: CSSProperties = (() => {
     const box: CSSProperties = {
@@ -231,32 +238,35 @@ function QrCardPageContent() {
       height: designHeight,
       aspectRatio: `${size.widthInches} / ${size.heightInches}`,
     };
-    const ink = pickContrastingInk(state.primaryColor);
+    const ink = pickContrastingInk(sheetPrimary);
+    const border = state.treatment === "balanced" ? { border: `8px solid ${state.primaryColor}`, boxSizing: "border-box" as const } : state.treatment === "paper" ? { borderTop: `4px solid ${state.primaryColor}`, boxSizing: "border-box" as const } : {};
     if (state.bgMode === "gradient") {
       return {
         ...box,
-        ...softGradientFillStyle(state.primaryColor, state.secondaryColor),
+        ...(state.treatment === "full" ? softGradientFillStyle(sheetPrimary, state.secondaryColor) : { backgroundColor: sheetPrimary }),
         color: ink,
+        ...border,
       };
     }
     // plain + accentBar: Brand Kit surface (soft-gradient / grain / accent-band) shows through
     return {
       ...box,
       ...canvasSurfaceStyle(tokens, {
-        primary: state.primaryColor,
+        primary: sheetPrimary,
         secondary: state.secondaryColor,
         accent: state.secondaryColor,
       }),
       color: ink,
+      ...border,
     };
   })();
 
-  const canvasInk = pickContrastingInk(state.primaryColor);
-  const mutedInk = mutedInkOnBackground(state.primaryColor, 0.9);
-  const mutedInk80 = mutedInkOnBackground(state.primaryColor, 0.8);
+  const canvasInk = pickContrastingInk(sheetPrimary);
+  const mutedInk = mutedInkOnBackground(sheetPrimary, 0.9);
+  const mutedInk80 = mutedInkOnBackground(sheetPrimary, 0.8);
   const taglineColor =
     state.bgMode === "plain" &&
-    meetsWcagAA(state.secondaryColor, state.primaryColor, true)
+    meetsWcagAA(state.secondaryColor, sheetPrimary, true)
       ? state.secondaryColor
       : canvasInk;
   const isSquare = isQrCardSquareSize(state.sizeId);
@@ -299,7 +309,7 @@ function QrCardPageContent() {
       await exportNodeAsPng(
         canvasRef.current!,
         formatFilename(`qr-card-${state.sizeId}`, brandKit.local.localNumber, "png"),
-        { pixelRatio: exportPixelRatio, backgroundColor: state.primaryColor },
+        { pixelRatio: exportPixelRatio, backgroundColor: sheetPrimary },
       );
     });
   };
@@ -313,7 +323,7 @@ function QrCardPageContent() {
         size.widthInches,
         size.heightInches,
         exportPixelRatio,
-        state.primaryColor,
+        sheetPrimary,
       );
     });
   };
@@ -416,6 +426,7 @@ function QrCardPageContent() {
           />
           </section>
 
+          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={tc("sectionLayout")}>
           <SegControl
             label={t("bgMode")}
@@ -573,7 +584,7 @@ function QrCardPageContent() {
                           style={{ alignItems: flexAlign, justifyContent: brandJustify }}
                         >
                           <LogoContainer
-                            backgroundColor={state.primaryColor}
+                            backgroundColor={sheetPrimary}
                             logoMode={canvasLogoMode}
                             bounds={{
                               maxWidthCqw: isCompact ? 36 : 42,

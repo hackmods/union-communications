@@ -11,9 +11,12 @@ import {
   type CanvasTokens,
 } from "@/lib/utils/canvas-tokens";
 import { pickContrastingInk } from "@/lib/utils/ink";
+import { officeBandColor } from "@/lib/export/office-brand-styles";
+import type { DesignTreatment } from "@/types/entities";
 import { cn } from "@/lib/utils";
 
 type OfficePresetMockProps = {
+  treatment?: DesignTreatment;
   presetId: OfficePresetId;
   palette: BrandPalette;
   localLabel: string;
@@ -71,6 +74,7 @@ const FALLBACK_TYPE = {
 } as const;
 
 export function OfficePresetMock({
+  treatment = "full",
   presetId,
   palette,
   localLabel,
@@ -86,7 +90,8 @@ export function OfficePresetMock({
   letterSpacing,
   topPadPx,
 }: OfficePresetMockProps) {
-  const ink = pickContrastingInk(palette.primary);
+  const bandColor = officeBandColor(palette.primary, treatment);
+  const ink = pickContrastingInk(bandColor);
   const type = tokens ? officeMockTypography(tokens) : FALLBACK_TYPE;
   const bodyPadPx = officeMockPaddingPx(tokens);
   const greeting =
@@ -110,7 +115,7 @@ export function OfficePresetMock({
         >
           <div
             className="flex items-center gap-3 px-4 py-3"
-            style={{ backgroundColor: palette.primary, color: ink }}
+            style={{ backgroundColor: bandColor, color: ink }}
           >
             {logoSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -187,7 +192,7 @@ export function OfficePresetMock({
         >
           <div
             className="flex items-center gap-3 px-4 py-3"
-            style={{ backgroundColor: palette.primary, color: ink }}
+            style={{ backgroundColor: bandColor, color: ink }}
           >
             {logoSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -275,7 +280,7 @@ export function OfficePresetMock({
         >
           <div
             className="flex items-center gap-3 px-4 py-3"
-            style={{ backgroundColor: palette.primary, color: ink }}
+            style={{ backgroundColor: bandColor, color: ink }}
           >
             {logoSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -307,7 +312,7 @@ export function OfficePresetMock({
             <div
               className="inline-block rounded px-2 py-0.5 font-bold uppercase tracking-wide"
               style={{
-                backgroundColor: palette.primary,
+                backgroundColor: bandColor,
                 color: ink,
                 fontSize: type.labelPx,
               }}
@@ -323,7 +328,7 @@ export function OfficePresetMock({
             <div
               className="inline-block rounded px-2 py-0.5 font-bold uppercase tracking-wide"
               style={{
-                backgroundColor: palette.primary,
+                backgroundColor: bandColor,
                 color: ink,
                 fontSize: type.labelPx,
               }}
@@ -361,7 +366,7 @@ export function OfficePresetMock({
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
         <div
           className="flex items-center gap-3 px-4 py-3"
-          style={{ backgroundColor: palette.primary, color: ink }}
+          style={{ backgroundColor: bandColor, color: ink }}
         >
           {logoSrc ? (
             // eslint-disable-next-line @next/next/no-img-element

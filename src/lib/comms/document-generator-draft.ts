@@ -4,7 +4,7 @@ import {
   loadJsonDraft,
   saveJsonDraft,
 } from "@/lib/steward-guides/storage";
-import type { CanvasTypeScale } from "@/types/entities";
+import type { CanvasTypeScale, DesignTreatment } from "@/types/entities";
 
 export const DOCUMENT_GENERATOR_STORAGE_KEY =
   "unionops-document-generator-draft-v1";
@@ -15,6 +15,7 @@ export type OfficeTopMarginPreset = "tight" | "standard" | "roomy";
 export type OfficeLetterSpacingPreset = "tight" | "normal" | "loose";
 
 export type DocumentGeneratorDraft = {
+  treatment?: DesignTreatment;
   presetId: OfficePresetId;
   includeDocx: boolean;
   includeXlsx: boolean;
