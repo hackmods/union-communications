@@ -56,12 +56,12 @@ export function BrandKitContextHint() {
   const showCollectionHint = (brandKit.profiles?.length ?? 0) >= 2;
   const themeDiffers =
     Boolean(hubTheme) &&
-    (brandKit.primaryColor !== hubTheme!.primaryColor ||
-      brandKit.secondaryColor !== hubTheme!.secondaryColor ||
-      brandKit.accentColor !== hubTheme!.accentColor);
-  const showMatch =
-    (Boolean(hubPresetId) && brandKit.unionPresetId !== hubPresetId) ||
-    themeDiffers;
+    (brandKit.primaryColor.toUpperCase() !== hubTheme!.primaryColor ||
+      brandKit.secondaryColor.toUpperCase() !== hubTheme!.secondaryColor ||
+      brandKit.accentColor.toUpperCase() !== hubTheme!.accentColor);
+  const presetDiffers =
+    Boolean(hubPresetId) && brandKit.unionPresetId !== hubPresetId;
+  const showMatch = presetDiffers || themeDiffers;
 
   if (!showCollectionHint && !showMatch && !message && !error) return null;
 
@@ -77,12 +77,19 @@ export function BrandKitContextHint() {
       applyBrandTheme(hubTheme);
     }
     setBusy(false);
-    if (ok) {
+    if (ok || (!hubPresetId && hubTheme)) {
       setMessage(t("matchSuccess"));
     } else {
       setError(t("matchFailed"));
     }
   };
+
+  const matchBodyKey =
+    hubTheme && hubPresetId
+      ? "matchBodyWithTheme"
+      : hubTheme && !hubPresetId
+        ? "matchBodyThemeOnly"
+        : "matchBody";
 
   return (
     <Callout tone="brand" className="mt-6">
@@ -101,7 +108,26 @@ export function BrandKitContextHint() {
           }
         >
           <p className="font-semibold text-opseu-dark">{t("matchTitle")}</p>
-          <p className="mt-1">{t("matchBody")}</p>
+          <p className="mt-1">{t(matchBodyKey)}</p>
+          {hubTheme ? (
+            <div
+              className="mt-2 flex items-center gap-1.5"
+              role="img"
+              aria-label={t("matchThemePreview")}
+            >
+              {[
+                hubTheme.primaryColor,
+                hubTheme.secondaryColor,
+                hubTheme.accentColor,
+              ].map((c) => (
+                <span
+                  key={c}
+                  className="inline-block h-4 w-4 rounded-sm border border-opseu-gray/30"
+                  style={{ backgroundColor: c }}
+                />
+              ))}
+            </div>
+          ) : null}
           <Button
             type="button"
             size="sm"
@@ -113,9 +139,13 @@ export function BrandKitContextHint() {
           </Button>
         </div>
       ) : null}
-      {message ? <p className="mt-2 text-sm text-opseu-dark">{message}</p> : null}
+      {message ? (
+        <p className="mt-2 text-sm text-opseu-dark" aria-live="polite">
+          {message}
+        </p>
+      ) : null}
       {error ? (
-        <p className="mt-2 text-sm text-red-800">
+        <p className="mt-2 text-sm text-red-800" role="alert">
           {error} {t("matchRemedy")}
         </p>
       ) : null}
