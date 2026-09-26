@@ -100,6 +100,56 @@ test.describe("Canvas brand fonts rendering @smoke", () => {
     expect(family.toLowerCase()).toMatch(/oswald|__/i);
   });
 
+  test("every catalog headline face loads or uses a system stack", async ({
+    page,
+  }) => {
+    const {
+      CANVAS_FONT_ORDER,
+      CANVAS_FONT_META,
+    } = await import("../src/lib/comms/canvas-fonts");
+    const labels: Record<string, string> = {
+      montserrat: "Montserrat",
+      sourceSans: "Source Sans",
+      lato: "Lato",
+      barlowCondensed: "Barlow Condensed",
+      oswald: "Oswald",
+      sourceSerif: "Source Serif",
+      robotoSlab: "Roboto Slab",
+      systemSans: "System sans",
+      systemSerif: "System serif",
+    };
+
+    await page.goto("/en/brand-kit/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await awaitDocumentFonts(page);
+    await assertCanvasFontCssVars(page);
+
+    const headlineGroup = page.getByRole("radiogroup", {
+      name: /Headline font/i,
+    });
+    await expect(headlineGroup).toBeVisible();
+
+    for (const id of CANVAS_FONT_ORDER) {
+      const label = labels[id];
+      await headlineGroup.getByRole("radio", { name: label }).click();
+      await page.waitForTimeout(150);
+      await awaitDocumentFonts(page);
+      const family = await brandKitPreviewHeadlineFontFamily(page);
+      if (CANVAS_FONT_META[id].isSystem) {
+        expect(
+          family.toLowerCase(),
+          `${id} should resolve to a system stack, got: ${family}`,
+        ).toMatch(/system-ui|segoe|georgia|times|arial|serif|sans-serif/);
+      } else {
+        expect(
+          looksLikeWebfontFamily(family) ||
+            family.toLowerCase().includes(label.split(" ")[0]!.toLowerCase()),
+          `${id} expected webfont-ish family, got: ${family}`,
+        ).toBe(true);
+      }
+    }
+  });
+
   test("default Flyer export root uses Brand Kit webfont headline", async ({
     page,
   }) => {

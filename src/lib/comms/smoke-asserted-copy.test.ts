@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import en from "../../../messages/en.json";
+import fr from "../../../messages/fr.json";
 import {
   collectPublicCommsSmokeLiterals,
   extractSmokeCopyLiterals,
@@ -41,8 +42,11 @@ describe("COPY-002 smoke-asserted copy vs messages/en.json", () => {
     expect(literalMissingFromCatalog("Solidarity.", catalog)).toBe(false);
   });
 
-  it("every public Comms smoke prose literal still appears in messages/en.json", () => {
-    const catalog = flattenMessageLeaves(en).join("\n");
+  it("every public Comms smoke prose literal still appears in messages en or fr", () => {
+    const catalog = [
+      ...flattenMessageLeaves(en),
+      ...flattenMessageLeaves(fr),
+    ].join("\n");
     const missing: string[] = [];
 
     for (const { file, literals } of collectPublicCommsSmokeLiterals(repoRoot)) {
@@ -56,7 +60,7 @@ describe("COPY-002 smoke-asserted copy vs messages/en.json", () => {
     expect(
       missing,
       [
-        "Smoke specs assert catalog copy that is missing from messages/en.json.",
+        "Smoke specs assert catalog copy that is missing from messages/en.json and fr.json.",
         "Update the spec, restore the string, or add a commented allowlist entry in smoke-asserted-copy.ts.",
         ...missing,
       ].join("\n"),

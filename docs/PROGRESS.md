@@ -1,3 +1,9 @@
+## 2026-09-25 — Viewport Lab + quality suite
+
+- Added chrome-free `/viewport-lab/` same-origin device frame for Muse/agents: presets, custom size, orientation, EN/FR, path nav, scale-to-fit, compare mode, overflow + axe probes, versioned `window.__unionopsViewportLab` API.
+- Path-scoped framing: public pages `SAMEORIGIN` / `frame-ancestors 'self'`; Hub/Portal stay `DENY` / `'none'`. Guide: [`docs/guides/VIEWPORT_LAB.md`](guides/VIEWPORT_LAB.md); recipes under `docs/guides/viewport-lab-recipes/`.
+- Suite: shell axe color-contrast graduation; Hub axe smoke subset; full Brand Kit font face matrix; captions template↔messages parity; alt-text fixture corpus; expanded COPY-002 smoke scan set; EN/FR photo-consent contradiction heuristic.
+
 ## 2026-09-25 — Comms treatment longevity guards
 
 - [x] QR Board balanced frame on `treatmentQrBoardFrameStyle`; chrome contract + meetingTop unit locks; SegControl roving helper tests; Hub `designTreatment` schema + round-trip tests

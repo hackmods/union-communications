@@ -23,6 +23,15 @@ function isMetadataImagePath(pathname: string): boolean {
   );
 }
 
+/** Chrome-free operator lab — must not get locale-prefixed by next-intl. */
+function isViewportLabPath(pathname: string): boolean {
+  return (
+    pathname === "/viewport-lab" ||
+    pathname === "/viewport-lab/" ||
+    pathname.startsWith("/viewport-lab/")
+  );
+}
+
 function localeFromPath(pathname: string): string {
   const locale = pathname.split("/")[1];
   return routing.locales.includes(locale as "en" | "fr") ? locale : routing.defaultLocale;
@@ -31,7 +40,7 @@ function localeFromPath(pathname: string): string {
 export default auth((req) => {
   const pathname = req.nextUrl.pathname;
 
-  if (isMetadataImagePath(pathname)) {
+  if (isMetadataImagePath(pathname) || isViewportLabPath(pathname)) {
     return NextResponse.next();
   }
 
@@ -74,6 +83,6 @@ export const config = {
   // Skip static files (.*\\..*) and App Router OG/Twitter image routes (no extension).
   matcher: [
     // Skip Sentry tunnel (/monitoring) — next-intl must not locale-prefix it.
-    "/((?!api|monitoring|_next|_vercel|opengraph-image|twitter-image|.*\\..*).*)",
+    "/((?!api|monitoring|viewport-lab|_next|_vercel|opengraph-image|twitter-image|.*\\..*).*)",
   ],
 };

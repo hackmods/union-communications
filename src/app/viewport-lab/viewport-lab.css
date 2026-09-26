@@ -1,0 +1,5 @@
+/* Minimal reset for the chrome-free Viewport Lab shell. */
+html,
+body {
+  height: 100%;
+}

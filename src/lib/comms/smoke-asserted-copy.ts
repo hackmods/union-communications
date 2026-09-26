@@ -13,6 +13,11 @@ export const PUBLIC_COMMS_SMOKE_SPECS = [
   "e2e/workshop.smoke.spec.ts",
   "e2e/seo.smoke.spec.ts",
   "e2e/tools.export.smoke.spec.ts",
+  "e2e/public-discovery.smoke.spec.ts",
+  "e2e/steward-tools.smoke.spec.ts",
+  "e2e/officer-learning.smoke.spec.ts",
+  "e2e/design-treatment.smoke.spec.ts",
+  "e2e/viewport-lab.smoke.spec.ts",
 ] as const;
 
 /**
@@ -22,6 +27,12 @@ export const PUBLIC_COMMS_SMOKE_SPECS = [
 export const SMOKE_COPY_ALLOWLIST = new Set([
   // Bibliography row title from COMMS_SOURCES (registry), not messages/*.json
   "OPSEU / SEFPO graphics, logos & letterhead",
+  // Filter chrome / download filename / arrow suffix not always in message leaves
+  "Remove Privacy filter",
+  "Duty of Fair Representation →",
+  "local-pack.json",
+  "Council palette",
+  "Local council",
 ]);
 
 const ROLE_NAME_LITERAL =
