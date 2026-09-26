@@ -79,11 +79,21 @@ async function readJsonOrThrow<T>(
   return body as T;
 }
 
+export type GrievanceListErrorKey =
+  | "loadErrorUnauthorized"
+  | "loadErrorForbidden"
+  | "loadErrorModuleDisabled"
+  | "loadError";
+
 /** Map list-load failures to grievance i18n keys (no MFA-enable copy). */
-export function grievanceListErrorKey(err: unknown): "loadErrorUnauthorized" | "loadErrorForbidden" | "loadError" {
+export function grievanceListErrorKey(err: unknown): GrievanceListErrorKey {
   if (err instanceof HybridCaseApiError) {
     if (err.status === 401) return "loadErrorUnauthorized";
-    if (err.status === 403) return "loadErrorForbidden";
+    if (err.status === 403) {
+      const msg = (err.apiError ?? err.message).toLowerCase();
+      if (msg.includes("module disabled")) return "loadErrorModuleDisabled";
+      return "loadErrorForbidden";
+    }
   }
   return "loadError";
 }

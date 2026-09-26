@@ -7890,6 +7890,10 @@
       "brand-styles-theme-admin": {
         "title": "Styles de marque : couleurs, polices et défauts d'instance",
         "body": "Les opérateurs de plateforme peuvent définir couleurs et polices de Trousse de marque par syndicat, rédiger ou publier une base de marque lorsque la personnalisation est active, et modifier les défauts de marque d'instance depuis l'administration du site — sans changer qui appartient à quel syndicat du Hub."
+      },
+      "hub-nav-module-gates": {
+        "title": "Le menu du Hub des dirigeants suit les modules activés de votre section",
+        "body": "Les modules désactivés n’encombrent plus la navigation du Hub des dirigeants. Quand les griefs sont hors, vous voyez clairement comment les activer, au lieu d’un refus d’accès sans issue. La présidence voit toujours la configuration et les invitations quand la bande de modules de travail est vide."
       }
     }
   },
@@ -8925,6 +8929,10 @@
       "discussions": {
         "title": "Discussions désactivées",
         "body": "Les fils exécutifs du Hub restent hors jusqu’à activation."
+      },
+      "grievance": {
+        "title": "Griefs désactivés",
+        "body": "Les dossiers et les échéances de grief restent hors jusqu’à l’activation de ce module."
       }
     }
   },
@@ -10237,7 +10245,8 @@
     "loading": "Chargement des griefs...",
     "loadError": "Impossible de charger les griefs. Actualisez la page et réessayez. Si le problème continue, demandez à l’hôte de vérifier les journaux du hub des dirigeants.",
     "loadErrorUnauthorized": "Votre session a expiré. Connectez-vous de nouveau, puis ouvrez les griefs.",
-    "loadErrorForbidden": "Vous n’avez pas accès aux griefs de cette section. Demandez à un dirigeant local si vous avez besoin d’accès.",
+    "loadErrorForbidden": "Vous n’avez pas accès aux griefs de cette section. Demandez à un dirigeant local de vous l’accorder, ou ouvrez une autre section si vous intervenez dans plus d’une.",
+    "loadErrorModuleDisabled": "Les griefs sont désactivés pour cette section. La présidence peut activer le module dans la configuration.",
     "intakePanelTitle": "Faits de prise en charge",
     "intakePanelHint": "6 W, type, membres et clauses de convention liées pour ce dossier. Modifiez en tout temps — l’export reprend la version à jour.",
     "intakeEmpty": "Aucun fait de prise en charge pour l’instant. Ajoutez-les avant de passer au dossier formel.",

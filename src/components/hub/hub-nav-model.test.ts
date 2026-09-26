@@ -111,4 +111,17 @@ describe("HubNav chrome contract", () => {
     expect(source).not.toContain("/app/send-feedback");
     expect(source).not.toContain("sendFeedbackLink");
   });
+
+  it("gates the context pipe on useHubContextReady and does not invent modules", () => {
+    const source = readFileSync(
+      join(srcRoot, "components/hub/HubNav.tsx"),
+      "utf8",
+    );
+    expect(source).toContain("useHubContextReady");
+    expect(source).toContain("contextReady");
+    expect(source).not.toContain("PRESIDENT_OVERLAY_MODULES");
+    expect(source).toContain("tenant?.union.enabledModules ?? []");
+    expect(source).toContain("isHubSetupToolHref");
+    expect(source).toContain("setupLinks");
+  });
 });
