@@ -115,7 +115,7 @@ export type PublicCatalogItem = {
   storageMode: PublicCatalogStorage;
   authRequirement: PublicCatalogAuth;
   featureGate?: "officerHubPublic";
-  /** Present on tools: Create makers vs Utilities workspaces. */
+  /** Present on tools: Create makers vs Worksheets (utilities route). */
   toolSurface?: ToolSurface;
   relatedItemIds: readonly string[];
 };
@@ -445,30 +445,30 @@ const RELATED_ITEM_IDS: Readonly<Record<string, readonly string[]>> = {
     "learn-communications-blueprint",
     "learn-first-week",
     "learn-library-brand-assets",
-    "utilities-local-pack",
+    "create-local-pack",
   ],
   "create-logo-builder": ["create-brand-kit", "learn-library-brand-assets"],
-  "utilities-resizer": ["create-graphic-maker", "learn-short-form"],
+  "create-resizer": ["create-graphic-maker", "learn-short-form"],
   "create-document-generator": ["learn-membership-signup", "learn-workshops-comms"],
   "create-board-banner": ["learn-union-boards", "learn-print"],
   "create-board-notice": ["learn-union-boards", "learn-print"],
   "create-solidarity-poster": ["learn-union-boards", "learn-strike"],
   "create-qr-board": ["learn-union-boards", "learn-membership-signup"],
-  "create-org-chart": ["learn-union-boards", "create-website-template", "utilities-local-pack"],
+  "create-org-chart": ["learn-union-boards", "create-website-template", "create-local-pack"],
   "create-flyer-maker": ["learn-print", "learn-first-week"],
   "create-qr-card": ["learn-membership-signup", "create-qr-board"],
   "create-action-card": ["learn-first-week", "learn-strike"],
-  "utilities-pulse-poll": ["learn-workshops-comms", "learn-first-week"],
+  "create-pulse-poll": ["learn-workshops-comms", "learn-first-week"],
   "create-graphic-maker": ["learn-library-examples", "learn-short-form"],
   "create-quote-card": ["learn-library-examples", "create-graphic-maker"],
   "create-meeting-background": ["learn-workshops-comms", "learn-photo-consent"],
-  "create-website-template": ["learn-website", "learn-library-brand-assets", "utilities-local-pack"],
-  "utilities-local-pack": [
+  "create-website-template": ["learn-website", "learn-library-brand-assets", "create-local-pack"],
+  "create-local-pack": [
     "create-brand-kit",
     "create-org-chart",
     "create-website-template",
   ],
-  "utilities-alt-text": ["learn-photo-consent", "learn-library-examples"],
+  "create-alt-text": ["learn-photo-consent", "learn-library-examples"],
   "utilities-rtw-accommodation": ["learn-right-to-refuse", "learn-grievance-process"],
   "utilities-pre-disciplinary-log": ["learn-grievance-process", "learn-dfr"],
   "utilities-complaint-vs-grievance": ["learn-grievance-process", "learn-dfr"],

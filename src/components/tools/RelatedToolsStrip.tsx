@@ -48,7 +48,7 @@ export const RELATED_BY_TOOL: Record<
   "graphic-maker": [
     { href: "/captions", navKey: "captions" },
     { href: "/examples", navKey: "socialExamples" },
-    { href: "/utilities/resizer", navKey: "resizer" },
+    { href: "/create/resizer", navKey: "resizer" },
     { href: "/guide/short-form", navKey: "shortFormGuide" },
   ],
   "flyer-maker": [
@@ -65,7 +65,7 @@ export const RELATED_BY_TOOL: Record<
   "website-template": [
     { href: "/create/org-chart", navKey: "orgChart" },
     { href: "/brand-kit", navKey: "brandKit" },
-    { href: "/utilities/local-pack", navKey: "localPack" },
+    { href: "/create/local-pack", navKey: "localPack" },
     { href: "/create/qr-card", navKey: "qrCard" },
     { href: "/guide/website", navKey: "websiteGuide" },
   ],
@@ -80,7 +80,7 @@ export const RELATED_BY_TOOL: Record<
   ],
   "logo-builder": [
     { href: "/brand-kit", navKey: "brandKit" },
-    { href: "/utilities/resizer", navKey: "resizer" },
+    { href: "/create/resizer", navKey: "resizer" },
   ],
   "qr-card": [
     { href: "/create/board-notice", navKey: "boardNotice" },
@@ -98,7 +98,7 @@ export const RELATED_BY_TOOL: Record<
   "org-chart": [
     { href: documentGeneratorPresetHref("lec-directory"), navKey: "documentGenerator" },
     { href: "/create/website-template", navKey: "websiteTemplate" },
-    { href: "/utilities/local-pack", navKey: "localPack" },
+    { href: "/create/local-pack", navKey: "localPack" },
     { href: "/create/board-notice", navKey: "boardNotice" },
     { href: "/guide/union-boards", navKey: "unionBoardsGuide" },
   ],

@@ -1,3 +1,11 @@
+## 2026-09-26 — Steward tool QOL (Brand Kit, Worksheets, Word)
+
+- Catalog: moved Local pack, Pulse Poll, Resizer, and Alt-text to Create; renamed Utilities nav/catalog label to Worksheets (URL `/utilities` kept); legacy `/utilities/:slug` redirects for moved makers.
+- Brand Kit: signature names keep spaces while typing; secondary signature line + office email/phone/address; Next CTA into Create when identity is ready; seeds letters/directories.
+- Navigation: explicit Back to Create / Worksheets / Learn under breadcrumbs on tool and guide pages.
+- Org Chart: design treatment control + live-roster Word download; Board Notice Word download for further editing.
+- What's new: `steward-tool-qol-pack`.
+
 ## 2026-09-26 — Portal / Hub feature teaser landings
 
 - When `enabledModules.portal` is off, `/portal` stays signed-in and shows a Local Portal teaser (solidarity names + ask officers; Configuration CTA for presidents/admins). Portal APIs remain 403.

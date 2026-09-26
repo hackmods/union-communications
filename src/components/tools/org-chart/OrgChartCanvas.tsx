@@ -7,7 +7,7 @@ import {
   type CSSProperties,
   type RefObject,
 } from "react";
-import type { BrandKit } from "@/types/entities";
+import type { BrandKit, DesignTreatment } from "@/types/entities";
 import type { PublicRosterPerson } from "@/types/public-roster";
 import {
   ORG_CHART_FORMATS,
@@ -38,6 +38,7 @@ import {
 import { printPageScaledTokens, resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
+import { resolveTreatmentSurface } from "@/lib/brand/design-treatment-surface";
 import { cn } from "@/lib/utils";
 import {
   CanvasBrandHeader,
@@ -47,6 +48,7 @@ import {
 type OrgChartCanvasProps = {
   canvasRef: RefObject<HTMLDivElement | null>;
   brandKit: BrandKit;
+  treatment: DesignTreatment;
   people: PublicRosterPerson[];
   formatId: OrgChartFormatId;
   layoutId: OrgChartLayoutId;
@@ -104,6 +106,7 @@ function cardStyle(
 export function OrgChartCanvas({
   canvasRef,
   brandKit,
+  treatment,
   people,
   formatId,
   layoutId,
@@ -148,14 +151,26 @@ export function OrgChartCanvas({
   const logoMaxHeightPx = Math.round(
     headerChrome.logoMaxHeightPx * orgChartHeaderLogoScale(load),
   );
+  const treated = resolveTreatmentSurface(
+    treatment,
+    {
+      primary: brandKit.primaryColor,
+      secondary: brandKit.secondaryColor,
+      accent: brandKit.accentColor,
+    },
+    "print",
+  );
   const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
-    primary: brandKit.primaryColor,
-    secondary: brandKit.secondaryColor,
-    accent: brandKit.accentColor,
+    primary: treated.outerFill,
+    secondary: treated.secondary,
+    accent: treated.accent,
   });
-  const ink = pickContrastingInk(brandKit.primaryColor);
-  const plateInk = pickContrastingInk(brandKit.secondaryColor);
-  const muted = mutedInkOnBackground(brandKit.primaryColor, 0.85);
+  const ink = treated.textInk;
+  const plateFill =
+    treatment === "full" ? brandKit.secondaryColor : treated.contentFill;
+  const plateInk = pickContrastingInk(plateFill);
+  const muted = mutedInkOnBackground(treated.outerFill, 0.85);
+  const headerFill = treated.brand;
   const directoryRows = directoryRowsFromPeople(people, stewardsPositionLabel);
   const showLocation = orgChartLayoutShowsLocation(layoutId);
   const hasPeople = rosterHasNamedPeople(people);
@@ -245,7 +260,7 @@ export function OrgChartCanvas({
       >
         <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
         <CanvasBrandHeader
-          backgroundColor={brandKit.primaryColor}
+          backgroundColor={headerFill}
           localNumber={brandKit.local.localNumber}
           subText={brandKit.local.subText}
           logoSize="sm"
@@ -329,7 +344,7 @@ export function OrgChartCanvas({
                       style={{
                         textAlign: "left",
                         padding: cellPad,
-                        borderBottom: `2px solid ${brandKit.secondaryColor}`,
+                        borderBottom: `2px solid ${treated.brand}`,
                         fontFamily: scaledTokens.headlineFontFamily,
                         fontSize: listHeadFontPx,
                         letterSpacing: "0.06em",
@@ -430,7 +445,7 @@ export function OrgChartCanvas({
                       <article
                         key={person.id}
                         style={cardStyle(
-                          brandKit.secondaryColor,
+                          plateFill,
                           plateInk,
                           compact && !lead,
                           typeRatio,

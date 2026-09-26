@@ -25,20 +25,67 @@ import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 
 export type GeneratorState = DocumentGeneratorDraft;
 
+/** Seed letter / worksheet fields from Brand Kit identity + contact. */
+export function applyBrandKitFieldSeeds(
+  fields: Record<string, string>,
+  brandKit?: BrandKit,
+): Record<string, string> {
+  if (!brandKit) return fields;
+  const next = { ...fields };
+  const name = brandKit.signatureName?.trim();
+  const title = brandKit.signatureTitle?.trim();
+  if (name) {
+    if ("stewardName" in next) next.stewardName = name;
+    if ("presidentName" in next) next.presidentName = name;
+    if ("contactName" in next && !next.contactName?.trim()) {
+      next.contactName = name;
+    }
+  }
+  if (title) {
+    next.signatureTitle = title;
+    if ("stewardTitle" in next && !next.stewardTitle?.trim()) {
+      next.stewardTitle = title;
+    }
+    if ("closingTitle" in next && !next.closingTitle?.trim()) {
+      next.closingTitle = title;
+    }
+    // Letterhead / contact line often holds the committee name
+    if ("contactName" in next && !next.contactName?.trim()) {
+      next.contactName = title;
+    }
+  }
+  if (brandKit.contactEmail?.trim() && "officeEmail" in next && !next.officeEmail?.trim()) {
+    next.officeEmail = brandKit.contactEmail.trim();
+  }
+  if (brandKit.contactPhone?.trim() && "officePhone" in next && !next.officePhone?.trim()) {
+    next.officePhone = brandKit.contactPhone.trim();
+  }
+  if (
+    brandKit.contactAddress?.trim() &&
+    "officeAddress" in next &&
+    !next.officeAddress?.trim()
+  ) {
+    next.officeAddress = brandKit.contactAddress.trim();
+  }
+  // Letterhead contact line often uses contactName; prefer email when empty
+  if (
+    brandKit.contactEmail?.trim() &&
+    "contactName" in next &&
+    !next.contactName?.trim() &&
+    !name
+  ) {
+    next.contactName = brandKit.contactEmail.trim();
+  }
+  return next;
+}
+
 export function createInitialGeneratorState(
   presetId: OfficePresetId = "simple-letter",
   includeLogo = false,
   brandKit?: BrandKit,
 ): GeneratorState {
   const preset = getPreset(presetId);
-  const fields = defaultFieldsForPreset(preset);
-  if (brandKit?.signatureName?.trim()) {
-    if ("stewardName" in fields) fields.stewardName = brandKit.signatureName;
-    if ("presidentName" in fields) fields.presidentName = brandKit.signatureName;
-    if ("contactName" in fields && !fields.contactName?.trim()) {
-      fields.contactName = brandKit.signatureName;
-    }
-  }
+  const fields = applyBrandKitFieldSeeds(defaultFieldsForPreset(preset), brandKit);
   const links = brandKit ? listSavedLinks(brandKit) : [];
   return {
     treatment: brandKit ? resolveDesignTreatment(brandKit) : "full",
@@ -111,7 +158,7 @@ export function applyGeneratorPreset(
   resolveMembership: (kit: BrandKit, origin: string) => string,
 ): GeneratorState {
   const next = getPreset(id);
-  let nextFields = defaultFieldsForPreset(next);
+  let nextFields = applyBrandKitFieldSeeds(defaultFieldsForPreset(next), brandKit);
   nextFields = mergeLetterSharedFields(
     nextFields,
     prev.fields,

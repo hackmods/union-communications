@@ -79,9 +79,9 @@ export const PUBLIC_PAGE_SEO: Record<
         "Make graphics, flyers, board materials, letters, and documents for your local — on your device, with Brand Kit details reused.",
     },
     "/utilities": {
-      title: "Utilities",
+      title: "Worksheets",
       description:
-        "Practical worksheets for steward prep, governance drafts, accessibility helpers, and other union work — separate from Create and Learn.",
+        "Steward and officer worksheets for case prep, governance drafts, and meeting aids — separate from Create and Learn.",
     },
     "/learn/library": {
       title: "Library",
@@ -402,9 +402,9 @@ export const PUBLIC_PAGE_SEO: Record<
         "Réalisez graphiques, tracts, matériel pour tableaux, lettres et documents pour votre section — sur votre appareil, avec la Trousse de marque.",
     },
     "/utilities": {
-      title: "Utilitaires",
+      title: "Feuilles de travail",
       description:
-        "Feuilles de travail pour la préparation des délégués, la gouvernance, l’accessibilité et d’autres tâches syndicales — distincts de Créer et d’Apprendre.",
+        "Feuilles de travail pour la préparation des délégués, les projets de gouvernance et les aides aux réunions — distincts de Créer et d’Apprendre.",
     },
     "/learn/library": {
       title: "Bibliothèque",

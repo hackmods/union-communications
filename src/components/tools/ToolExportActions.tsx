@@ -8,13 +8,16 @@ export interface ToolExportActionsProps {
   onPng?: () => void;
   onPdf?: () => void;
   onZip?: () => void;
+  onDocx?: () => void;
   /** Disable PNG when source is incomplete (e.g. resizer without upload). */
   pngDisabled?: boolean;
   pdfDisabled?: boolean;
   zipDisabled?: boolean;
+  docxDisabled?: boolean;
   pngLabel?: string;
   pdfLabel?: string;
   zipLabel?: string;
+  docxLabel?: string;
   className?: string;
 }
 
@@ -26,12 +29,15 @@ export function ToolExportActions({
   onPng,
   onPdf,
   onZip,
+  onDocx,
   pngDisabled,
   pdfDisabled,
   zipDisabled,
+  docxDisabled,
   pngLabel,
   pdfLabel,
   zipLabel,
+  docxLabel,
   className,
 }: ToolExportActionsProps) {
   const tc = useTranslations("common");
@@ -56,6 +62,16 @@ export function ToolExportActions({
           onClick={onPdf}
         >
           {busy ?? pdfLabel ?? tc("downloadPdf")}
+        </Button>
+      ) : null}
+      {onDocx ? (
+        <Button
+          type="button"
+          variant="outline"
+          disabled={exporting || docxDisabled}
+          onClick={onDocx}
+        >
+          {busy ?? docxLabel ?? tc("downloadDocx")}
         </Button>
       ) : null}
       {onZip ? (

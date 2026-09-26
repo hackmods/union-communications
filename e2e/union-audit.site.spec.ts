@@ -6,7 +6,7 @@ const AUDIT_PATHS = [
   "/en/utilities/",
   "/en/utilities/rtw-accommodation/",
   "/en/utilities/bylaw-builder/",
-  "/en/utilities/local-pack/",
+  "/en/create/local-pack/",
   "/en/utilities/grievance-form-builder/",
   "/en/learn/",
   "/en/learn/library/",

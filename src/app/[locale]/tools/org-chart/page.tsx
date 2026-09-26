@@ -7,9 +7,9 @@ import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-
 import { useBrandStore } from "@/store/brand-store";
 import { usePublicRosterStore } from "@/store/public-roster-store";
 import { useExportHandler } from "@/hooks/use-export-handler";
-import { exportNodeAsPng } from "@/lib/export/image-export";
+import { exportNodeAsPng, downloadBlob } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
-import { formatFilename } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { brandSetupHref } from "@/lib/utils/brand-setup";
 import {
@@ -24,6 +24,7 @@ import {
   type OrgChartLayoutId,
 } from "@/lib/constants/org-chart-formats";
 import {
+  directoryRowsFromPeople,
   emptyRosterPerson,
 } from "@/lib/org-chart";
 import {
@@ -33,12 +34,15 @@ import {
   type PublicRosterPerson,
   type PublicRosterUnit,
 } from "@/types/public-roster";
+import type { DesignTreatment } from "@/types/entities";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Callout } from "@/components/ui/Callout";
 import { SegControl } from "@/components/tools/SegControl";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
@@ -190,9 +194,6 @@ function OrgChartPageContent() {
   const t = useTranslations("orgChart");
   const tc = useTranslations("common");
   const brandKit = useBrandStore((s) => s.brandKit);
-  // Intentional: Org Chart has no colour overrides. It renders the public
-  // roster directly from Brand Kit (primary accent) so an exported chart
-  // always matches the local's saved look (2026-09-13 poster-family pass).
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const roster = usePublicRosterStore((s) => s.roster);
@@ -205,6 +206,9 @@ function OrgChartPageContent() {
     DEFAULT_ORG_CHART_LAYOUT,
   );
   const [title, setTitle] = useState(t("posterTitleDefault"));
+  const [treatment, setTreatment] = useState<DesignTreatment>(() =>
+    resolveDesignTreatment(brandKit),
+  );
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
 
@@ -264,6 +268,36 @@ function OrgChartPageContent() {
     });
   };
 
+  const handleExportDocx = async () => {
+    await runExport(async () => {
+      const { buildLecDirectoryDocx } = await import(
+        "@/lib/export/office-docx-builders"
+      );
+      const rows = directoryRowsFromPeople(people, t("stewardsPosition"));
+      const blob = await buildLecDirectoryDocx({
+        treatment,
+        palette: {
+          primary: brandKit.primaryColor,
+          secondary: brandKit.secondaryColor,
+          accent: brandKit.accentColor,
+        },
+        localLabel: `Local ${resolveLocalNumber(brandKit.local.localNumber)}`,
+        sheetTitle: title.trim() || undefined,
+        rows,
+        fields: {
+          subtitle: brandKit.local.subText?.trim() || "",
+          officeEmail: brandKit.contactEmail?.trim() || "",
+          officePhone: brandKit.contactPhone?.trim() || "",
+          officeAddress: brandKit.contactAddress?.trim() || "",
+        },
+      });
+      await downloadBlob(
+        blob,
+        formatFilename(format.filenameStem, brandKit.local.localNumber, "docx"),
+      );
+    });
+  };
+
   const groupLabel = (group: PublicRosterGroup) => t(`groups.${group}`);
 
   const addLabel = (group: PublicRosterGroup) => {
@@ -291,6 +325,11 @@ function OrgChartPageContent() {
             label={t("posterTitle")}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+          />
+          <DesignTreatmentControl
+            value={treatment}
+            primaryColor={brandKit.primaryColor}
+            onChange={setTreatment}
           />
           <SegControl
             label={t("layout")}
@@ -394,6 +433,7 @@ function OrgChartPageContent() {
             exporting={exporting}
             onPng={() => void handleExportPng()}
             onPdf={() => void handleExportPdf()}
+            onDocx={() => void handleExportDocx()}
           />
           {!themeEstablished ? (
             <p className="text-sm text-gray-600">
@@ -412,12 +452,14 @@ function OrgChartPageContent() {
           exporting={exporting}
           onPng={() => void handleExportPng()}
           onPdf={() => void handleExportPdf()}
+          onDocx={() => void handleExportDocx()}
         />
       }
       preview={
         <OrgChartCanvas
           canvasRef={canvasRef}
           brandKit={brandKit}
+          treatment={treatment}
           people={people}
           formatId={formatId}
           layoutId={layoutId}

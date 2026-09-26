@@ -44,13 +44,21 @@ describe("shared tool registry", () => {
     const createHrefs = toolGroups
       .find((group) => group.labelKey === "toolsGroupCreation")!
       .links.map((link) => link.href);
+    const utilityHrefs = toolGroups
+      .find((group) => group.labelKey === "toolsGroupUtility")!
+      .links.map((link) => link.href);
     expect(createHrefs).not.toContain("/tools/rtw-accommodation");
-    expect(createHrefs).not.toContain(PULSE_POLL_HREF);
+    expect(createHrefs).toContain(PULSE_POLL_HREF);
+    expect(createHrefs).toContain("/tools/local-pack");
+    expect(utilityHrefs).not.toContain(PULSE_POLL_HREF);
+    expect(utilityHrefs).not.toContain("/tools/local-pack");
   });
 
   it("classifies utility slugs for the Utilities surface", () => {
     expect(UTILITY_TOOL_SLUGS).toContain("rtw-accommodation");
     expect(toolSurfaceForSlug("flyer-maker")).toBe("create");
-    expect(toolSurfaceForSlug("pulse-poll")).toBe("utilities");
+    expect(toolSurfaceForSlug("pulse-poll")).toBe("create");
+    expect(toolSurfaceForSlug("local-pack")).toBe("create");
+    expect(toolSurfaceForSlug("rtw-accommodation")).toBe("utilities");
   });
 });

@@ -7,7 +7,7 @@ import { canonicalPublicPath } from "@/lib/seo/public-routes";
 
 type Crumb = { href?: string; label: string };
 
-/** Home / Section [/ Officer|Library] / Current — Create, Utilities, Learn. */
+/** Home / Section [/ Officer|Library] / Current — Create, Worksheets, Learn. */
 export function PublicCatalogBreadcrumbs() {
   const pathname = canonicalPublicPath(usePathname());
   const nav = useTranslations("nav");
@@ -56,6 +56,8 @@ export function PublicCatalogBreadcrumbs() {
     crumbs.push({ label: title });
   }
 
+  const showBack = !isSectionPage && Boolean(section.href);
+
   return (
     <nav
       aria-label={t("breadcrumbNav")}
@@ -86,6 +88,16 @@ export function PublicCatalogBreadcrumbs() {
           );
         })}
       </ol>
+      {showBack ? (
+        <p className="mt-2">
+          <Link
+            href={section.href}
+            className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50"
+          >
+            {t("backToSection", { section: section.label })}
+          </Link>
+        </p>
+      ) : null}
     </nav>
   );
 }

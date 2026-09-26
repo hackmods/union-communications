@@ -4,6 +4,7 @@
  * Keep this table in sync with `next.config.ts` redirects and rewrites.
  */
 import {
+  MOVED_TO_CREATE_TOOL_SLUGS,
   UTILITY_TOOL_SLUGS,
   UTILITY_TOOL_SLUG_SET,
 } from "./utility-tool-slugs";
@@ -46,7 +47,7 @@ const LOCALE = "/:locale";
 const LOCALE_SOURCE = `${LOCALE}(en|fr)`;
 
 function utilitySlugRedirects(): PermanentPublicRedirect[] {
-  return UTILITY_TOOL_SLUGS.flatMap((slug) => [
+  const worksheetRedirects = UTILITY_TOOL_SLUGS.flatMap((slug) => [
     {
       source: `${LOCALE_SOURCE}/create/${slug}/`,
       destination: `${LOCALE}/utilities/${slug}/`,
@@ -58,6 +59,12 @@ function utilitySlugRedirects(): PermanentPublicRedirect[] {
       permanent: true as const,
     },
   ]);
+  const movedToCreateRedirects = MOVED_TO_CREATE_TOOL_SLUGS.map((slug) => ({
+    source: `${LOCALE_SOURCE}/utilities/${slug}/`,
+    destination: `${LOCALE}/create/${slug}/`,
+    permanent: true as const,
+  }));
+  return [...worksheetRedirects, ...movedToCreateRedirects];
 }
 
 /**
@@ -133,6 +140,10 @@ export function canonicalPublicPath(path: string): string {
     return toolSlugCanonical(slug);
   }
   if (normalized.startsWith("/utilities/")) {
+    const slug = normalized.slice("/utilities/".length);
+    if (slug && !UTILITY_TOOL_SLUG_SET.has(slug)) {
+      return toolSlugCanonical(slug);
+    }
     return normalized;
   }
   if (normalized.startsWith("/guide/officer-learning/")) {

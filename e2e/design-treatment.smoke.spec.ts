@@ -24,7 +24,7 @@ test.describe("Comms design treatments @smoke", () => {
       }),
     ).toBe("paper");
 
-    await page.goto("/en/utilities/local-pack/");
+    await page.goto("/en/create/local-pack/");
     const downloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: "Download Local pack" }).click();
     const download = await downloadPromise;
@@ -48,7 +48,7 @@ test.describe("Comms design treatments @smoke", () => {
         return stored.designTreatment;
       }),
     ).toBe("full");
-    await page.goto("/en/utilities/local-pack/");
+    await page.goto("/en/create/local-pack/");
     await page.locator('input[type="file"]').setInputFiles({
       name: "local-pack.json", mimeType: "application/json", buffer,
     });

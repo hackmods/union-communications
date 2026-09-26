@@ -127,6 +127,10 @@ export const DEFAULT_BRAND_KIT = {
   membershipUrls: [] as MembershipUrl[],
   campaignBadge: undefined as string | undefined,
   signatureName: undefined as string | undefined,
+  signatureTitle: undefined as string | undefined,
+  contactEmail: undefined as string | undefined,
+  contactPhone: undefined as string | undefined,
+  contactAddress: undefined as string | undefined,
   updatedAt: new Date().toISOString(),
 };
 

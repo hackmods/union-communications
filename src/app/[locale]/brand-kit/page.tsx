@@ -411,15 +411,106 @@ export default function BrandKitPage() {
         </PublicHubPanel>
 
         <PublicHubPanel title={t("signatureSection")} description={t("signatureNameHint")}>
-          <Input
-            label={t("signatureName")}
-            value={brandKit.signatureName ?? ""}
-            placeholder={t("signatureNamePlaceholder")}
-            onChange={(e) => setBrandKit({ signatureName: e.target.value.trim() || undefined })}
-          />
+          <div className="space-y-3">
+            <Input
+              label={t("signatureName")}
+              value={brandKit.signatureName ?? ""}
+              placeholder={t("signatureNamePlaceholder")}
+              onChange={(e) =>
+                setBrandKit({
+                  signatureName: e.target.value.slice(0, 120) || undefined,
+                })
+              }
+              onBlur={(e) =>
+                setBrandKit({
+                  signatureName: e.target.value.trim().slice(0, 120) || undefined,
+                })
+              }
+            />
+            <Input
+              label={t("signatureTitle")}
+              value={brandKit.signatureTitle ?? ""}
+              placeholder={t("signatureTitlePlaceholder")}
+              onChange={(e) =>
+                setBrandKit({
+                  signatureTitle: e.target.value.slice(0, 120) || undefined,
+                })
+              }
+              onBlur={(e) =>
+                setBrandKit({
+                  signatureTitle: e.target.value.trim().slice(0, 120) || undefined,
+                })
+              }
+            />
+            <p className="text-xs text-slate-600">{t("signatureTitleHint")}</p>
+          </div>
+        </PublicHubPanel>
+
+        <PublicHubPanel title={t("contactSection")} description={t("contactSectionHint")}>
+          <div className="space-y-3">
+            <Input
+              label={t("contactEmail")}
+              type="email"
+              value={brandKit.contactEmail ?? ""}
+              autoComplete="email"
+              onChange={(e) =>
+                setBrandKit({
+                  contactEmail: e.target.value.slice(0, 160) || undefined,
+                })
+              }
+              onBlur={(e) =>
+                setBrandKit({
+                  contactEmail: e.target.value.trim().slice(0, 160) || undefined,
+                })
+              }
+            />
+            <Input
+              label={t("contactPhone")}
+              type="tel"
+              value={brandKit.contactPhone ?? ""}
+              autoComplete="tel"
+              onChange={(e) =>
+                setBrandKit({
+                  contactPhone: e.target.value.slice(0, 60) || undefined,
+                })
+              }
+              onBlur={(e) =>
+                setBrandKit({
+                  contactPhone: e.target.value.trim().slice(0, 60) || undefined,
+                })
+              }
+            />
+            <Input
+              label={t("contactAddress")}
+              value={brandKit.contactAddress ?? ""}
+              autoComplete="street-address"
+              onChange={(e) =>
+                setBrandKit({
+                  contactAddress: e.target.value.slice(0, 240) || undefined,
+                })
+              }
+              onBlur={(e) =>
+                setBrandKit({
+                  contactAddress: e.target.value.trim().slice(0, 240) || undefined,
+                })
+              }
+            />
+          </div>
         </PublicHubPanel>
       </div>
       </div>
+
+      {themeEstablished ? (
+        <PublicHubPanel
+          title={t("nextAfterBrand")}
+          description={t("nextAfterBrandBody")}
+          className="mt-6 max-w-3xl"
+        >
+          <ButtonLink href="/create" size="lg">
+            {t("openCreate")}
+          </ButtonLink>
+        </PublicHubPanel>
+      ) : null}
 
       <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
         <Link href="/assets" className="text-opseu-blue underline underline-offset-2">{t("assetsLink")}</Link>

@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "steward-tool-qol-pack",
+    date: "2026-09-26",
+    kind: "improved",
+    href: "/create/brand-kit",
+  },
+  {
     id: "portal-hub-feature-teasers",
     date: "2026-09-26",
     kind: "improved",
@@ -122,7 +128,7 @@ export const UPDATES: readonly UpdateEntry[] = [
     id: "local-pack",
     date: "2026-09-24",
     kind: "added",
-    href: "/utilities/local-pack",
+    href: "/create/local-pack",
   },
   {
     id: "site-admin-full-ops",

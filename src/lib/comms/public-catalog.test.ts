@@ -90,7 +90,7 @@ describe("public-catalog", () => {
   });
 
   it("enforces anonymous, Hub, and disabled-tool visibility", () => {
-    const pulsePoll = PUBLIC_CATALOG.find((item) => item.id === "utilities-pulse-poll");
+    const pulsePoll = PUBLIC_CATALOG.find((item) => item.id === "create-pulse-poll");
     expect(pulsePoll?.featureGate).toBe("officerHubPublic");
 
     const anonymous = visiblePublicCatalog({ authenticated: false, officerHubPublic: true });
@@ -118,17 +118,21 @@ describe("public-catalog", () => {
       "learn-communications-blueprint",
       "learn-first-week",
       "learn-library-brand-assets",
-      "utilities-local-pack",
+      "create-local-pack",
     ]);
   });
 
-  it("splits Create makers from Utilities workspaces", () => {
+  it("splits Create makers from Worksheets workspaces", () => {
     expect(PUBLIC_CATALOG.find((item) => item.id === "create-flyer-maker")?.toolSurface)
       .toBe("create");
     expect(PUBLIC_CATALOG.find((item) => item.id === "utilities-rtw-accommodation")?.toolSurface)
       .toBe("utilities");
     expect(PUBLIC_CATALOG.find((item) => item.id === "utilities-rtw-accommodation")?.canonicalPath)
       .toBe("/utilities/rtw-accommodation");
+    expect(PUBLIC_CATALOG.find((item) => item.id === "create-local-pack")?.toolSurface)
+      .toBe("create");
+    expect(PUBLIC_CATALOG.find((item) => item.id === "create-pulse-poll")?.canonicalPath)
+      .toBe("/create/pulse-poll");
   });
 
   it("resolves breadcrumbs from canonical and legacy catalog paths", () => {

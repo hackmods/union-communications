@@ -156,6 +156,10 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/org-chart", key: "orgChart" },
       { href: "/tools/logo-builder", key: "logoBuilder" },
       { href: "/tools/website-template", key: "websiteTemplate" },
+      { href: "/tools/local-pack", key: "localPack" },
+      { href: "/tools/resizer", key: "resizer" },
+      { href: "/tools/alt-text", key: "altText" },
+      { href: PULSE_POLL_HREF, key: "pulsePoll" },
     ],
   },
   {
@@ -170,10 +174,6 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/bylaw-builder", key: "bylawBuilder" },
       { href: "/tools/proposal-tracker", key: "proposalTracker" },
       { href: "/tools/rules-of-order", key: "rulesOfOrder" },
-      { href: "/tools/local-pack", key: "localPack" },
-      { href: "/tools/resizer", key: "resizer" },
-      { href: "/tools/alt-text", key: "altText" },
-      { href: PULSE_POLL_HREF, key: "pulsePoll" },
     ],
   },
 ] as const;

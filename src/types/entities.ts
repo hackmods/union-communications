@@ -153,6 +153,15 @@ export interface BrandKit {
    * Optional — tools may still override per draft.
    */
   signatureName?: string;
+  /**
+   * Optional secondary signature line (title, committee, or Local executive).
+   * Shown under the primary name on letters when present.
+   */
+  signatureTitle?: string;
+  /** Reusable office contact for letters / directories (optional). */
+  contactEmail?: string;
+  contactPhone?: string;
+  contactAddress?: string;
   updatedAt: string;
 }
 

@@ -289,11 +289,14 @@ function lecDirectoryCell(
 }
 
 /**
- * Blank branded LEC directory (Position | Name | Location).
- * Placeholder rows only — never pulls Org Chart / Hub member data.
+ * Branded LEC directory (Position | Name | Location).
+ * Pass `rows` to fill from Org Chart roster; omit for blank placeholder sheet.
  */
 export async function buildLecDirectoryDocx(
-  opts: DocxBuildInput,
+  opts: DocxBuildInput & {
+    rows?: readonly { position: string; name: string; location: string }[];
+    sheetTitle?: string;
+  },
 ): Promise<Blob> {
   const band = officeBandColor(opts.palette.primary, opts.treatment);
   const primary = hexNoHash(band);
@@ -303,6 +306,8 @@ export async function buildLecDirectoryDocx(
   const term = opts.fields.termYears?.trim() || "";
   const subtitle = opts.fields.subtitle?.trim() || "";
   const colW = [2400, 3200, 2400] as const;
+  const sheetTitle =
+    opts.sheetTitle?.trim() || "LOCAL EXECUTIVE COMMITTEE";
 
   const headerRow = new TableRow({
     children: [
@@ -330,13 +335,26 @@ export async function buildLecDirectoryDocx(
     ],
   });
 
-  const dataRows = LEC_DIRECTORY_PLACEHOLDER_POSITIONS.map(
-    (position) =>
+  const sourceRows =
+    opts.rows && opts.rows.length > 0
+      ? opts.rows
+      : LEC_DIRECTORY_PLACEHOLDER_POSITIONS.map((position) => ({
+          position,
+          name: "",
+          location: "",
+        }));
+
+  const dataRows = sourceRows.map(
+    (row) =>
       new TableRow({
         children: [
-          lecDirectoryCell(position, { font: bFont, width: colW[0], bold: true }),
-          lecDirectoryCell("", { font: bFont, width: colW[1] }),
-          lecDirectoryCell("", { font: bFont, width: colW[2] }),
+          lecDirectoryCell(row.position, {
+            font: bFont,
+            width: colW[0],
+            bold: true,
+          }),
+          lecDirectoryCell(row.name, { font: bFont, width: colW[1] }),
+          lecDirectoryCell(row.location, { font: bFont, width: colW[2] }),
         ],
       }),
   );
@@ -357,7 +375,7 @@ export async function buildLecDirectoryDocx(
       spacing: { after: 80 },
       children: [
         new TextRun({
-          text: "LOCAL EXECUTIVE COMMITTEE",
+          text: sheetTitle,
           bold: true,
           font: hFont,
           size: 32,
@@ -511,7 +529,9 @@ export async function buildSimpleLetterDocx(
     new Paragraph({
       children: [
         new TextRun({
-          text: `Steward · ${opts.localLabel}`,
+          text:
+            opts.fields.signatureTitle?.trim() ||
+            `Steward · ${opts.localLabel}`,
           color: "666666",
           font: bodyFace(opts),
           size: 18,
@@ -635,7 +655,9 @@ export async function buildWelcomeLetterDocx(
     new Paragraph({
       children: [
         new TextRun({
-          text: `Local president · ${opts.localLabel}`,
+          text:
+            opts.fields.signatureTitle?.trim() ||
+            `Local president · ${opts.localLabel}`,
           color: "666666",
           font: bodyFace(opts),
           size: 18,

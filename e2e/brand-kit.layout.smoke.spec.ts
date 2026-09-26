@@ -66,7 +66,7 @@ test.describe("Brand Kit workspace @smoke", () => {
     await expect(localNumber).toHaveValue("404");
     await expect(page.getByText("Saved in this browser")).toBeVisible();
     await expect(page.getByRole("link", { name: "Move to another browser" }))
-      .toHaveAttribute("href", "/en/utilities/local-pack/");
+      .toHaveAttribute("href", "/en/create/local-pack/");
 
     const freshContext = await browser.newContext();
     try {

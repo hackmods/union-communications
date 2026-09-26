@@ -287,6 +287,22 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
       typeof input.signatureName === "string"
         ? input.signatureName.trim().slice(0, 120) || undefined
         : base.signatureName,
+    signatureTitle:
+      typeof input.signatureTitle === "string"
+        ? input.signatureTitle.trim().slice(0, 120) || undefined
+        : base.signatureTitle,
+    contactEmail:
+      typeof input.contactEmail === "string"
+        ? input.contactEmail.trim().slice(0, 160) || undefined
+        : base.contactEmail,
+    contactPhone:
+      typeof input.contactPhone === "string"
+        ? input.contactPhone.trim().slice(0, 60) || undefined
+        : base.contactPhone,
+    contactAddress:
+      typeof input.contactAddress === "string"
+        ? input.contactAddress.trim().slice(0, 240) || undefined
+        : base.contactAddress,
     updatedAt:
       typeof input.updatedAt === "string"
         ? input.updatedAt

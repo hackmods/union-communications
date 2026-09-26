@@ -10,7 +10,7 @@ import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
-import { exportNodeAsPng } from "@/lib/export/image-export";
+import { exportNodeAsPng, downloadBlob } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -166,6 +166,37 @@ export default function BoardNoticePage() {
     });
   };
 
+  const handleExportDocx = async () => {
+    await runExport(async () => {
+      const { buildEventNoticeDocx } = await import(
+        "@/lib/export/office-docx-builders"
+      );
+      const blob = await buildEventNoticeDocx({
+        treatment: state.treatment,
+        palette: {
+          primary: brandKit.primaryColor,
+          secondary: brandKit.secondaryColor,
+          accent: brandKit.accentColor,
+        },
+        localLabel: `Local ${resolveLocalNumber(brandKit.local.localNumber)}`,
+        fields: {
+          title: state.headline,
+          body: state.body,
+          date: state.date,
+          time: state.time,
+          location: state.location,
+          contactName: [state.contact, state.quorumNeeded]
+            .filter(Boolean)
+            .join(" · "),
+        },
+      });
+      await downloadBlob(
+        blob,
+        formatFilename(`board-notice-${format}`, brandKit.local.localNumber, "docx"),
+      );
+    });
+  };
+
   return (
     <>
       <ToolEditorLayout
@@ -306,6 +337,7 @@ export default function BoardNoticePage() {
               exporting={exporting}
               onPng={() => void handleExportPng()}
               onPdf={() => void handleExportPdf()}
+              onDocx={() => void handleExportDocx()}
             />
           </div>
         }
@@ -314,6 +346,7 @@ export default function BoardNoticePage() {
             exporting={exporting}
             onPng={() => void handleExportPng()}
             onPdf={() => void handleExportPdf()}
+            onDocx={() => void handleExportDocx()}
           />
         }
         preview={

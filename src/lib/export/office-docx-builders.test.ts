@@ -110,6 +110,32 @@ describe("office-docx-builders", () => {
     expect(blob.size).toBeGreaterThan(8000);
   });
 
+  it("builds an LEC directory from live roster rows", async () => {
+    const blob = await buildLecDirectoryDocx({
+      palette,
+      localLabel: "Local 110",
+      logo,
+      sheetTitle: "Local directory",
+      rows: [
+        { position: "President", name: "Alex Steward", location: "Main" },
+        { position: "Stewards", name: "Jordan Lee", location: "North" },
+      ],
+      fields: {
+        officeEmail: "local@example.org",
+        officePhone: "555-0100",
+        officeAddress: "1 Union Hall",
+      },
+    });
+    expect(blob.size).toBeGreaterThan(4000);
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const docXml = await zip.file("word/document.xml")!.async("string");
+    expect(docXml).toContain("Local directory");
+    expect(docXml).toContain("Alex Steward");
+    expect(docXml).toContain("Jordan Lee");
+    expect(docXml).toContain("local@example.org");
+  });
+
   it("builds a blank LEC directory with placeholder rows and brand tokens", async () => {
     const blob = await buildLecDirectoryDocx({
       palette,
