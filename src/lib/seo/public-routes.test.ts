@@ -87,4 +87,12 @@ describe("public route migration", () => {
     expect(onboarding.some((redirect) => redirect.has?.some((item) => item.key === "step"))).toBe(true);
     expect(onboarding.some((redirect) => redirect.missing?.some((item) => item.key === "step"))).toBe(true);
   });
+
+  it("redirects locale-prefixed Viewport Lab URLs to the chrome-free lab", () => {
+    const lab = PUBLIC_ROUTE_REDIRECTS.find((redirect) =>
+      redirect.source.endsWith("/viewport-lab/"),
+    );
+    expect(lab?.destination).toBe("/viewport-lab/");
+    expect(lab?.permanent).toBe(true);
+  });
 });

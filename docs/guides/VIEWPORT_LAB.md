@@ -4,7 +4,7 @@ Operator device frame for same-origin responsive QA. **Not** a steward Comms cat
 
 Live: `https://unionops.org/viewport-lab/`  
 Local: `http://localhost:3000/viewport-lab/`  
-Linked from `/build`.
+Linked from `/build`. Locale-prefixed URLs (`/en/viewport-lab/`, `/fr/viewport-lab/`) permanently redirect here.
 
 ## What it is / is not
 
