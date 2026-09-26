@@ -39,9 +39,13 @@ describe("Hub governance scope requires an active local or cross-local capabilit
     expect(proposalScopedForSession(localActor, proposal)).toBe(true);
 
     const unionActor = session(["union_admin"]);
-    expect(bylawsListScope(unionActor).localId).toBeUndefined();
-    expect(proposalsListScope(unionActor).localId).toBeUndefined();
-    expect(bylawsScopedForSession(unionActor, bylaw)).toBe(true);
-    expect(proposalScopedForSession(unionActor, proposal)).toBe(true);
+    expect(bylawsListScope(unionActor).localId).toBe("__no_local_context__");
+    expect(proposalsListScope(unionActor).localId).toBe("__no_local_context__");
+    expect(bylawsScopedForSession(unionActor, bylaw)).toBe(false);
+    expect(proposalScopedForSession(unionActor, proposal)).toBe(false);
+
+    const platformActor = session(["platform_admin"]);
+    expect(bylawsListScope(platformActor).localId).toBeUndefined();
+    expect(proposalsListScope(platformActor).localId).toBeUndefined();
   });
 });

@@ -65,8 +65,9 @@ describe("missing local scope is fail-closed", () => {
     expect(listFiltersForBumpingSession(actor).localId).toBe(deniedLocal);
     expect(listFiltersForTimeSession(actor).localId).toBe(deniedLocal);
 
-    expect(listFiltersForElectionsSession(session(["union_admin"])).localId).toBeUndefined();
-    expect(listFiltersForLedgerSession(session(["division_admin"])).localId).toBeUndefined();
+    expect(listFiltersForElectionsSession(session(["union_admin"])).localId).toBe(deniedLocal);
+    expect(listFiltersForLedgerSession(session(["division_admin"])).localId).toBe(deniedLocal);
+    expect(listFiltersForElectionsSession(session(["platform_admin"])).localId).toBeUndefined();
   });
 
   it("denies unrelated local records but preserves explicit owners and cross-local roles", () => {
@@ -75,7 +76,7 @@ describe("missing local scope is fail-closed", () => {
     const record = { unionId: "union-1", localId: "local-2" };
 
     expect(canViewElectionCycle({ ...record } as never, "union-1", undefined, localPresident)).toBe(false);
-    expect(canViewElectionCycle({ ...record } as never, "union-1", undefined, unionAdmin)).toBe(true);
+    expect(canViewElectionCycle({ ...record } as never, "union-1", undefined, unionAdmin)).toBe(false);
     expect(canViewCheckinSchedule({ ...record, createdById: "someone-else" } as never, "actor-1", "union-1", undefined, localPresident)).toBe(false);
     expect(canViewCheckinSchedule({ ...record, createdById: "actor-1" } as never, "actor-1", "union-1", undefined, localPresident)).toBe(false);
     expect(canViewDiscussionThreadBase({ ...record, createdById: "someone-else" } as never, "actor-1", "union-1", undefined, localPresident)).toBe(false);
@@ -83,13 +84,13 @@ describe("missing local scope is fail-closed", () => {
     expect(canViewExpenseSubmission({ ...record, submittedById: "someone-else" } as never, "union-1", undefined, "actor-1", localPresident)).toBe(false);
     expect(canViewExpenseSubmission({ ...record, submittedById: "actor-1" } as never, "union-1", undefined, "actor-1", localPresident)).toBe(true);
     expect(canViewInformalLogEntry(record as never, "union-1", undefined, localPresident)).toBe(false);
-    expect(canViewInformalLogEntry(record as never, "union-1", undefined, unionAdmin)).toBe(true);
+    expect(canViewInformalLogEntry(record as never, "union-1", undefined, unionAdmin)).toBe(false);
     expect(canViewPoll(record as never, "union-1", undefined, localPresident)).toBe(false);
-    expect(canViewPoll(record as never, "union-1", undefined, unionAdmin)).toBe(true);
+    expect(canViewPoll(record as never, "union-1", undefined, unionAdmin)).toBe(false);
     expect(canViewLedgerEntry(record as never, "union-1", undefined, localPresident)).toBe(false);
-    expect(canViewLedgerEntry(record as never, "union-1", undefined, unionAdmin)).toBe(true);
+    expect(canViewLedgerEntry(record as never, "union-1", undefined, unionAdmin)).toBe(false);
     expect(canViewMinutes(record as never, "union-1", undefined, localPresident)).toBe(false);
-    expect(canViewMinutes(record as never, "union-1", undefined, unionAdmin)).toBe(true);
+    expect(canViewMinutes(record as never, "union-1", undefined, unionAdmin)).toBe(false);
     expect(canViewTravelAuth({ ...record, requestedById: "someone-else" } as never, "union-1", undefined, "actor-1", localPresident)).toBe(false);
     expect(canViewTravelAuth({ ...record, requestedById: "actor-1" } as never, "union-1", undefined, "actor-1", localPresident)).toBe(true);
     expect(canViewTask({ ...record, assigneeId: "someone-else", createdById: "someone-else" } as never, "actor-1", "union-1", undefined, localPresident)).toBe(false);

@@ -28,13 +28,16 @@ describe("ledger access", () => {
   });
 
   it("scopes cross-local reads to elevated admins", () => {
-    expect(canCrossLocalLedger(["union_admin"])).toBe(true);
+    expect(canCrossLocalLedger(["union_admin"])).toBe(false);
     expect(canCrossLocalLedger(["local_president"])).toBe(false);
     expect(
       canViewLedgerEntry(sample, "union-a", "local-other", ["local_president"]),
     ).toBe(false);
     expect(
       canViewLedgerEntry(sample, "union-a", "local-other", ["union_admin"]),
+    ).toBe(false);
+    expect(
+      canViewLedgerEntry(sample, "union-a", "local-other", ["platform_admin"]),
     ).toBe(true);
   });
 

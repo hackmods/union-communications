@@ -15,8 +15,6 @@ const LEDGER_ROLES: UserRole[] = [
 
 const CROSS_LOCAL_ROLES: UserRole[] = [
   "platform_admin",
-  "union_admin",
-  "division_admin",
 ];
 
 export function canAccessLedgerModule(roles: UserRole[]): boolean {
