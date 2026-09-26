@@ -22,13 +22,18 @@ The platform is **not** built for one union. OPSEU/CAAT remains the **first Comm
 ```
 Platform (you host)
   └── Union (e.g. OPSEU, CUPE, UNIFOR)
-        └── Division / Sector (optional - e.g. CAAT, colleges)
-              └── Local (e.g. Local 777 in the B7P demo; real locals keep their own numbers)
-                    └── Collection / BargainingUnit (optional - e.g. FT / PT Support Staff)
-                          └── Users (officers, stewards, solo accounts)
+        └── Bargaining collective (optional - e.g. a sector-wide bargaining group)
+              ├── Local (e.g. Local 777 in the B7P demo)
+              │     └── Collection / BargainingUnit (optional CA group, e.g. FT / PT)
+              └── Invited committee / organizing group (may span locals)
+                    └── Members (explicitly invited, including officers from several locals)
 ```
 
 **Collection** = CA group under a local (product UI label). Code type: `BargainingUnit`. Used when one local has distinct CAs (full-time vs part-time Support Staff). Omit when a local has a single CA.
+
+**Bargaining collective** = an optional union-wide organizing/bargaining parent for multiple locals or groups. It is distinct from a local's CA Collection. A union with no collective chooses **Other / no bargaining collective**. Public Brand Kit profiles suggest names but never establish Hub membership or access.
+
+**Committee / organizing group** = an invited union-side collaboration space. Joining a group grants access to that space only; it does not grant a local membership or access to another local's casework. A local remains the boundary for local casework. Existing union-scoped Portal Circles provide the invited collaboration primitive.
 
 ## Problem Statement
 
