@@ -7506,6 +7506,10 @@
         "title": "Beta access forms and signed-in sharing",
         "body": "Locals and members can apply for beta access with clearer errors and a privacy link. When you are already signed in, /join thanks you and lets you copy share links for other locals."
       },
+      "union-admin-brand-directory": {
+        "title": "Union brand and local directory",
+        "body": "Union administrators can update their union Brand Kit colours and fonts from Officer Hub. When the host enables it, they can also browse a metadata-only list of locals in their union."
+      },
       "match-hub-union-brand-kit": {
         "title": "Match Brand Kit to your Officer Hub union",
         "body": "When you are signed in, Brand Kit can apply your Officer Hub union’s Comms preset to the public site in this browser. Your local number stays if you already set one."

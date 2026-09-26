@@ -7452,6 +7452,10 @@
         "title": "Formulaires d’accès bêta et partage une fois connecté",
         "body": "Les sections et les membres peuvent demander l’accès bêta avec des messages d’erreur plus clairs et un lien vers la confidentialité. Lorsque vous êtes déjà connecté, /join vous remercie et vous laisse copier des liens à partager avec d’autres sections."
       },
+      "union-admin-brand-directory": {
+        "title": "Marque du syndicat et répertoire des sections",
+        "body": "Les administrateurs du syndicat peuvent mettre à jour les couleurs et les polices de la Trousse de marque depuis le Hub des dirigeants. Lorsque l’hôte l’active, ils peuvent aussi consulter une liste métadonnées seulement des sections locales de leur syndicat."
+      },
       "match-hub-union-brand-kit": {
         "title": "Faire correspondre la Trousse de marque à votre syndicat du Hub",
         "body": "Lorsque vous êtes connecté, la Trousse de marque peut appliquer le préréglage Comms de votre syndicat du Hub au site public de ce navigateur. Votre numéro de section locale est conservé s’il est déjà défini."

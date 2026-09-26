@@ -108,6 +108,13 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     reportApiFailure(err, "/api/site-admin/locals");
+    const message = err instanceof Error ? err.message : "";
+    if (message.includes("different bargaining collective")) {
+      return NextResponse.json(
+        { error: "That local already belongs to a different bargaining collective." },
+        { status: 409 },
+      );
+    }
     return NextResponse.json(
       { error: "Create local failed" },
       { status: 500 },

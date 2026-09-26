@@ -1,3 +1,12 @@
+## 2026-09-26 — Account and organization access uplift
+
+- Hierarchy: Union → optional bargaining collective (`Division`) → Local → optional CA collection; Portal Circles may reference a collective without becoming tenants.
+- Paid, default-off `unions.paid_tenant_directory_enabled` + MFA-gated `/api/union-directory` (metadata only) and `/app/union-brand` for invited `union_admin`.
+- Removed implicit cross-local authority from `union_admin` / `division_admin`; selectors and create paths use real Division IDs (not bargaining-unit codes).
+- Migration `0063_circle_collective` + constrained `app_circle_create_allowed` for union-scoped Circle inserts.
+- Resume plan: [`docs/audit/plan-2026-09-26-account-organization-access.md`](audit/plan-2026-09-26-account-organization-access.md).
+- What's new: `union-admin-brand-directory` (Hub audience).
+
 ## 2026-09-26 — Join access-request QOL pass
 
 - Public form copy moved to `accessRequestForm` messages + PUBLIC_NS; localized errors with cause/remedy; privacy link; autocomplete; offerings validation.
