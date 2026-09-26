@@ -9,6 +9,12 @@
 
 # Progress Log
 
+## 2026-09-26 — CI unblock after host-brand public route + journal tail
+
+- Mark `GET /api/host-brand` as intentionally public in `api-route-auth` coverage (colours/local only; no Hub session).
+- Point `db-deploy` journal contract at shipped tail `0061_brand_theme_admin` (idx 61).
+- Drop Node `crypto` from tenant overlay (Web Crypto) + boundary regression tests so Edge/client graphs stay free of Node builtins.
+
 ## 2026-09-25 — Lighter Comms Brand Kit follow-through
 - [x] Adjacent QOL notes documented in follow-through plan (header hydrate, save banner, SegControl Tab on long lists, out-of-scope makers) — PR #133
 

@@ -1,4 +1,3 @@
-import { randomBytes } from "crypto";
 import { resolveHostBrandWithOverlay } from "@/lib/brand/host-brand-overlay";
 import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
 import type { PortalSurfaceId } from "@/lib/president/module-catalog";
@@ -14,6 +13,10 @@ import type {
  * In-memory tenant overlay merged by the loader.
  * Survives for the process lifetime only (same durability model as memory adapters).
  * New unions never clone the OPSEU reference seed — brand defaults come from host brand.
+ *
+ * Client/Edge-safe: resolve host brand via host-brand-overlay only.
+ * Importing host-brand-store (or any DB client) pulls Node postgres into
+ * client / middleware / OG image graphs and breaks Turbopack builds.
  */
 const overlaySeeds = new Map<string, TenantSeed>();
 /** Locals / collections patched onto an existing seed (by unionId). */
@@ -55,8 +58,15 @@ export function markOverlayHydratedFromDb(): void {
   hydratedFromDb = true;
 }
 
+/** Web Crypto — works in Node, Edge, and browser (no Node `crypto` import). */
+function randomHex(byteLength: number): string {
+  const bytes = new Uint8Array(byteLength);
+  globalThis.crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 function id(prefix: string): string {
-  return `${prefix}-${Date.now()}-${randomBytes(4).toString("hex")}`;
+  return `${prefix}-${Date.now()}-${randomHex(4)}`;
 }
 
 function slugify(value: string): string {
