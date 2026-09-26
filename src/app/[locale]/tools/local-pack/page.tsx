@@ -12,6 +12,7 @@ import { useBrandStore } from "@/store/brand-store";
 import { usePublicRosterStore } from "@/store/public-roster-store";
 import { usePreferencesStore } from "@/store/preferences-store";
 import { useWebsiteDraftStore } from "@/store/website-draft-store";
+import { dataAdapter } from "@/lib/data/local-storage-adapter";
 import { resolveLocalNumber } from "@/lib/utils";
 import { serializePublicRosterCsv } from "@/lib/org-chart";
 import {
@@ -36,7 +37,7 @@ export default function LocalPackPage() {
   const t = useTranslations("localPack");
   const tc = useTranslations("common");
   const brandKit = useBrandStore((s) => s.brandKit);
-  const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const hydrated = useBrandStore((s) => s.hydrated);
   const importBrandKit = useBrandStore((s) => s.importBrandKit);
   const setOnboardingComplete = useBrandStore((s) => s.setOnboardingComplete);
   const roster = usePublicRosterStore((s) => s.roster);
@@ -63,15 +64,18 @@ export default function LocalPackPage() {
 
   const handleExport = () => {
     void runExport(async () => {
+      // Prefer the on-device kit so a slow hydrate cannot export defaults.
+      const stored = await dataAdapter.getBrandKit();
+      const kit = stored ?? useBrandStore.getState().brandKit;
       const pack = buildLocalPack({
-        brandKit,
+        brandKit: kit,
         publicRoster: roster,
         preferences,
-        onboardingComplete,
+        onboardingComplete: useBrandStore.getState().onboardingComplete,
         websiteDraft: draft,
       });
       downloadText(
-        localPackFilename(localNumber),
+        localPackFilename(resolveLocalNumber(kit.local.localNumber)),
         serializeLocalPack(pack),
         "application/json",
       );
@@ -145,14 +149,18 @@ export default function LocalPackPage() {
         </Callout>
 
         <div className="flex flex-wrap gap-2">
-          <Button type="button" onClick={handleExport} disabled={exporting}>
+          <Button
+            type="button"
+            onClick={handleExport}
+            disabled={exporting || !hydrated}
+          >
             {exporting ? tc("loading") : t("exportPack")}
           </Button>
           <Button
             type="button"
             variant="outline"
             onClick={() => fileRef.current?.click()}
-            disabled={exporting}
+            disabled={exporting || !hydrated}
           >
             {t("importPack")}
           </Button>

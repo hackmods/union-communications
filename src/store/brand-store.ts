@@ -67,6 +67,10 @@ function patchTouchesLogo(partial: BrandKitPatch): boolean {
   return LOGO_PATCH_KEYS.some((key) => key in partial);
 }
 
+function patchNeedsImmediateSave(partial: BrandKitPatch): boolean {
+  return patchTouchesLogo(partial) || "designTreatment" in partial;
+}
+
 function flushPendingBrandKitSave(onSaved?: () => void) {
   if (saveBrandKitTimer) {
     clearTimeout(saveBrandKitTimer);
@@ -75,7 +79,10 @@ function flushPendingBrandKitSave(onSaved?: () => void) {
   const kit = pendingSaveKit;
   pendingSaveKit = null;
   if (kit) {
-    void Promise.resolve(dataAdapter.saveBrandKit(kit)).then(() => {
+    // Invoke immediately so localStorage writes land before navigation tears
+    // down the document (async `then` microtasks can be cancelled on unload).
+    const result = dataAdapter.saveBrandKit(kit);
+    void Promise.resolve(result).then(() => {
       onSaved?.();
     });
   }
@@ -187,7 +194,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     }
     const updated = applyBrandKitPatch(get().brandKit, partial);
     set({ brandKit: updated });
-    scheduleSaveBrandKit(updated, patchTouchesLogo(partial), () => {
+    scheduleSaveBrandKit(updated, patchNeedsImmediateSave(partial), () => {
       if (!get().storageBlocked) {
         set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
       }

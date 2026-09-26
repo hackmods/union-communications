@@ -4,7 +4,9 @@
 
 - Added browser checks for legacy Full colour kits, blocked storage, saved Looks, Local pack transfer, first-visit overrides, undo/reset, and narrow French layouts.
 - Fixed first-visit Brand Kit hydration so preset and treatment edits display immediately and remain intact after host defaults load; Local pack import/reset during loading also survives.
-- Follow-through phases and remaining visual acceptance: [`docs/audit/plan-2026-09-25-lighter-comms-followthrough.md`](audit/plan-2026-09-25-lighter-comms-followthrough.md).
+- Phase 2: `@export` treatment matrix (coral/dark/light, wallet, photo spotlight, long French flyer) with preview↔PNG(/PDF) agreement and white-share progression on coral.
+- Phase 3: Office long-French package checks; `SegControl` arrow/Home/End keyboard path; axe contrast on the treatment radiogroup for light and dark kits.
+- Follow-through tracker (human CAAT-S sign-off still open): [`docs/audit/plan-2026-09-25-lighter-comms-followthrough.md`](audit/plan-2026-09-25-lighter-comms-followthrough.md).
 
 ## 2026-09-25 — Lighter Comms design treatments
 
