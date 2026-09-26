@@ -27,6 +27,8 @@ import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesE
 import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
 import { resolveIdentityPackForKit } from "@/lib/brand/identity-packs";
 import { BrandKitCanvasPanel } from "@/components/brand/BrandKitCanvasPanel";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
 import { BrandKitPreview } from "@/components/brand/BrandKitPreview";
 import { BrandKitCompletenessBar } from "@/components/brand/BrandKitCompletenessBar";
 import { BrandKitSaveBanner } from "@/components/brand/BrandKitSaveBanner";
@@ -169,6 +171,9 @@ export default function BrandKitPage() {
         <a href="#brand-identity" className={sectionLinkClass}>
           {t("sections.identity")}
         </a>
+        <a href="#brand-colours" className={sectionLinkClass}>
+          {t("sections.colours")}
+        </a>
         <a href="#brand-preview" className={`${sectionLinkClass} xl:hidden`}>
           {t("sections.preview")}
         </a>
@@ -292,6 +297,13 @@ export default function BrandKitPage() {
             primaryLabel={t("colors.primary")}
             secondaryLabel={t("colors.secondary")}
           />
+          <div className="mt-4">
+            <DesignTreatmentControl
+              primaryColor={brandKit.primaryColor}
+              value={resolveDesignTreatment(brandKit)}
+              onChange={(designTreatment) => setBrandKit({ designTreatment })}
+            />
+          </div>
           <SavedLooksPanel />
         </PublicHubPanel>
 

@@ -14,7 +14,7 @@ Shared **canvas chrome** for public export tools: Brand Kit–owned tokens + pri
 
 Apply treatment on the capture root so preview and PNG/PDF agree. Choose text ink against the **effective surface**, not the original primary colour. QR modules stay black on white. Keep photos and type-fit boundaries inside the white reading area. The public Document Generator uses the same treatment in preview and DOCX/DOTX/XLSX/PPTX exports; forms and lists retain white fields. Hub exports are outside this scope.
 
-Shared treatment UI uses `DesignTreatmentControl` → `SegControl` (radiogroup with arrow/Home/End keys and roving tabindex). Regression: `e2e/design-treatment.smoke.spec.ts` + `e2e/design-treatment.fidelity.spec.ts` (`@export`). Follow-through acceptance: [`docs/audit/plan-2026-09-25-lighter-comms-followthrough.md`](../audit/plan-2026-09-25-lighter-comms-followthrough.md).
+Shared treatment UI uses `DesignTreatmentControl` → `SegControl` (radiogroup with arrow/Home/End keys; roving tabindex for short lists, full Tab order for long font pickers). Live Brand Kit primary colours drive the treatment swatches. Canvas colour remap and chrome widths live in `src/lib/brand/design-treatment-surface.ts` so makers do not invent their own border px values. Regression: `e2e/design-treatment.smoke.spec.ts` + `e2e/design-treatment.fidelity.spec.ts` (`@export`). Follow-through acceptance: [`docs/audit/plan-2026-09-25-lighter-comms-followthrough.md`](../audit/plan-2026-09-25-lighter-comms-followthrough.md).
 
 The Brand Kit gallery includes two UnionOps starter palettes for each non-OPSEU union preset. These are editable suggestions, not official union standards. No third-party logo asset ships with the starters.
 

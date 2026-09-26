@@ -4,8 +4,6 @@ import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import { SegControl } from "@/components/tools/SegControl";
-import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
-import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
 import {
   CANVAS_STYLE_IDS,
   canvasFromStyleId,
@@ -88,13 +86,9 @@ export function BrandKitCanvasPanel() {
 
       <p className="text-xs text-gray-500">{t(`styleHints.${activeStyle}`)}</p>
 
-      <DesignTreatmentControl
-        value={resolveDesignTreatment(brandKit)}
-        onChange={(designTreatment) => setBrandKit({ designTreatment })}
-      />
-
       <SegControl
         label={t("headlineFont")}
+        rovingTabIndex={false}
         value={tokens.headlineFontId}
         options={FONT_OPTIONS.map((id) => ({
           value: id,
@@ -107,6 +101,7 @@ export function BrandKitCanvasPanel() {
       />
       <SegControl
         label={t("bodyFont")}
+        rovingTabIndex={false}
         value={tokens.bodyFontId}
         options={canvasBodyFontChoices(tokens.bodyFontId).map((id) => ({
           value: id,

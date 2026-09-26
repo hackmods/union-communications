@@ -423,7 +423,7 @@ function GraphicMakerPageContent() {
             ) : null}
             </section>
 
-            <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
+            <DesignTreatmentControl value={state.treatment} primaryColor={state.primaryColor} onChange={(treatment) => setState({ ...state, treatment })} />
             <ToolFormDetails title={t("sectionLayout")}>
             <SegControl
               label={tg("layout")}

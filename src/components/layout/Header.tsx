@@ -28,6 +28,7 @@ export function Header() {
   const [headerHeight, setHeaderHeight] = useState(0);
   const drawerOpen = drawer?.path === pathname;
   const brandKit = useBrandStore((state) => state.brandKit);
+  const hydrated = useBrandStore((state) => state.hydrated);
   const siteChromeLogoVariant = resolveSiteChromeLogoVariant(brandKit);
 
   const isActive = (base: string) => pathname === base || pathname.startsWith(`${base}/`);
@@ -79,11 +80,18 @@ export function Header() {
           className="flex min-w-0 items-center gap-2 font-bold text-opseu-blue"
           onClick={drawerOpen ? closeDrawerAfterNav : undefined}
         >
-          <BrandLogo
-            size="sm"
-            variantOverride={siteChromeLogoVariant}
-            className="h-9 w-auto max-w-[10rem] shrink-0 object-contain sm:h-10"
-          />
+          {hydrated ? (
+            <BrandLogo
+              size="sm"
+              variantOverride={siteChromeLogoVariant}
+              className="h-9 w-auto max-w-[10rem] shrink-0 object-contain sm:h-10"
+            />
+          ) : (
+            <span
+              aria-hidden
+              className="inline-block h-9 w-9 shrink-0 rounded-[22%] bg-slate-100 sm:h-10 sm:w-10"
+            />
+          )}
           <span className="truncate">{th("platformName")}</span>
         </Link>
 
