@@ -10,7 +10,8 @@ export default async function PortalCirclePage({
 }) {
   const { locale, id } = await params;
   setRequestLocale(locale);
-  const { roles } = await requirePortalPage(locale);
+  const { roles, portalEnabled } = await requirePortalPage(locale);
+  if (!portalEnabled) return null;
   return (
     <Suspense fallback={<p className="text-gray-600">Loading…</p>}>
       <CircleWorkspace circleId={id} roles={roles} />

@@ -93,7 +93,8 @@ Circle
 - [x] @mentions → Dispatch, soft-delete + audit, per-tool mute
 - [x] Many hands drag-and-drop, Basecamp CSV import, activity pack export
 - [x] Keyboard shortcuts (1–0), Calendar external RSVP URL, guest banner
-- [x] Rank-and-file home is Together; `/app` dashboard redirects members to Portal when the module is on
+- [x] Rank-and-file home is Together; `/app` shows members an Officer Hub teaser (Portal stays one click away) when the module is on
+- [x] When Portal is off, `/portal` shows a Local Portal feature teaser (APIs stay 403) instead of bouncing to Hub
 - [x] Circle tabs keep `?tab=` on refresh/share; Dispatch pings open the matching tool
 - [x] Together opens on Hall work (not an empty search); demo seed is current-week; Hall hides empty extras; committee Circles show empty Roll Call / Many hands / One fight so officers can start them
 - [ ] Email→Bulletin, digest email, SSE Floor (see backlog)
@@ -114,7 +115,7 @@ Do not lose remaining design ideas — see:
 ## Access
 
 - Portal does **not** require MFA (Hub confidential modules still do).
-- Rank-and-file (`local_member` only) land on Together after sign-in. Visiting `/app` as a member redirects to `/portal` when the module is enabled. Officers and stewards still home to Officer Hub.
+- Rank-and-file (`local_member` only) land on Together after sign-in. Visiting `/app` as a member shows an Officer Hub feature teaser (with a Local Portal CTA) when the module is enabled. When Portal is off, `/portal` shows a Local Portal teaser instead of redirecting to Hub; presidents who can manage modules get a quiet Configuration link. Officers and stewards still home to Officer Hub.
 - Writes: Circle `member`+; admin actions: `circle_admin` or Hub `local_president` / `local_exec` / elevated.
 - Rank-and-file role: `local_member` (portal + Hall; no grievance unless also steward).
 

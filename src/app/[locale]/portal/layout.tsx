@@ -1,6 +1,7 @@
 import { DemoSiteBanner } from "@/components/hub/DemoSiteBanner";
 import { SoftLaunchBanner } from "@/components/hub/SoftLaunchBanner";
 import { TenantLiveProvider } from "@/components/hub/TenantLiveProvider";
+import { PortalFeatureTeaser } from "@/components/portal/PortalFeatureTeaser";
 import { PortalMemoryBanner } from "@/components/portal/PortalMemoryBanner";
 import { PortalNav } from "@/components/portal/PortalNav";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
@@ -32,7 +33,19 @@ export default async function PortalLayout({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  await requirePortalPage(locale);
+  const { roles, portalEnabled } = await requirePortalPage(locale);
+
+  if (!portalEnabled) {
+    return (
+      <TenantLiveProvider>
+        <DemoSiteBanner />
+        <SoftLaunchBanner />
+        <div className={cn(PAGE_SHELL.wide, "py-4 sm:py-6 md:py-8")}>
+          <PortalFeatureTeaser roles={roles} />
+        </div>
+      </TenantLiveProvider>
+    );
+  }
 
   return (
     <TenantLiveProvider>

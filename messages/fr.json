@@ -7452,6 +7452,10 @@
         "title": "Formulaires d’accès bêta et partage une fois connecté",
         "body": "Les sections et les membres peuvent demander l’accès bêta avec des messages d’erreur plus clairs et un lien vers la confidentialité. Lorsque vous êtes déjà connecté, /join vous remercie et vous laisse copier des liens à partager avec d’autres sections."
       },
+      "portal-hub-feature-teasers": {
+        "title": "Accueils plus clairs quand le Portail ou le Hub n’est pas votre maison",
+        "body": "Si le Portail local est désactivé pour votre section, l’ouvrir explique à quoi servent les Cercles et Ensemble, et comment demander aux dirigeants. Les membres qui ouvrent le Hub des dirigeants voient un court aperçu des outils de délégués, avec un chemin de retour vers le Portail local lorsqu’il est activé."
+      },
       "union-admin-brand-directory": {
         "title": "Marque du syndicat et répertoire des sections",
         "body": "Les administrateurs du syndicat peuvent mettre à jour les couleurs et les polices de la Trousse de marque depuis le Hub des dirigeants. Lorsque l’hôte l’active, ils peuvent aussi consulter une liste métadonnées seulement des sections locales de leur syndicat."
@@ -8127,6 +8131,16 @@
     "title": "Hub des dirigeants",
     "navLabel": "Navigation du hub",
     "dashboard": "Tableau de bord",
+    "teaser": {
+      "eyebrow": "Hub des dirigeants",
+      "title": "Les outils des dirigeants sont ici",
+      "body": "Le Hub des dirigeants est destiné aux délégués et aux dirigeants — griefs, réunions et autre travail confidentiel de la section. Les membres de la base restent en général dans le Portail local. Votre accueil reste Ensemble lorsque le Portail est activé.",
+      "bulletCasework": "Suivre les griefs et les échéances avec votre équipe de délégués",
+      "bulletMeetings": "Planifier les réunions d’assemblée et gérer les RSVP",
+      "bulletTools": "Utiliser les tableaux de dirigeants que votre section a activés",
+      "askOfficers": "Demandez à vos dirigeants si vous avez besoin d’un accès délégué ou dirigeant dans le Hub.",
+      "openPortal": "Ouvrir le Portail local"
+    },
     "dashboardHome": {
       "attention": "Qu’est-ce qui demande mon attention ?",
       "attentionBody": "Votre travail assigné dans cette section. Les autres dossiers restent dans la navigation.",
@@ -11197,6 +11211,17 @@
   },
   "portal": {
     "portalEyebrow": "Portail local",
+    "teaser": {
+      "eyebrow": "Portail local",
+      "title": "Les Cercles de cette section ne sont pas encore activés",
+      "body": "Le Portail local est l’endroit où les membres se retrouvent dans le Hall et les Cercles — Ensemble pour l’accueil, Relais pour les avis, et les espaces de comité auxquels vos dirigeants vous invitent. Cette section ne l’a pas encore activé.",
+      "bulletCircles": "Rejoindre le Hall et les Cercles invités pour les comités et les campagnes",
+      "bulletTogether": "Voir les Actions, le babillard et le calendrier depuis un même accueil (Ensemble)",
+      "bulletDispatch": "Suivre les assignations et les échéances dans Relais",
+      "askOfficers": "Demandez à vos dirigeants locaux si le Portail local devrait être activé pour les membres.",
+      "openHub": "Ouvrir le Hub des dirigeants",
+      "turnOnPortal": "Activer le Portail local dans Configuration"
+    },
     "stationTitle": "Ensemble",
     "stationSubtitle": "Ouvrez vos Cercles, vos Actions et le babillard récent depuis un même accueil.",
     "navLabel": "Navigation du Portail",

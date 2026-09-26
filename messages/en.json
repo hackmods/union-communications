@@ -7506,6 +7506,10 @@
         "title": "Beta access forms and signed-in sharing",
         "body": "Locals and members can apply for beta access with clearer errors and a privacy link. When you are already signed in, /join thanks you and lets you copy share links for other locals."
       },
+      "portal-hub-feature-teasers": {
+        "title": "Clearer landings when Portal or Hub is not your home",
+        "body": "If Local Portal is off for your local, opening it explains what Circles and Together are for and how to ask officers. Members who open Officer Hub see a short plug for steward tools, with a path back to Local Portal when it is on."
+      },
       "union-admin-brand-directory": {
         "title": "Union brand and local directory",
         "body": "Union administrators can update their union Brand Kit colours and fonts from Officer Hub. When the host enables it, they can also browse a metadata-only list of locals in their union."
@@ -8181,6 +8185,16 @@
     "title": "Officer Hub",
     "navLabel": "Hub navigation",
     "dashboard": "Dashboard",
+    "teaser": {
+      "eyebrow": "Officer Hub",
+      "title": "Officer tools live here",
+      "body": "Officer Hub is for stewards and officers — grievances, meetings, and other confidential local work. Rank-and-file members usually stay in Local Portal. Your home is still Together when Portal is on.",
+      "bulletCasework": "Track grievances and case deadlines with your steward team",
+      "bulletMeetings": "Schedule membership meetings and manage RSVPs",
+      "bulletTools": "Use officer boards your local has turned on",
+      "askOfficers": "Ask your officers if you need steward or officer access in Officer Hub.",
+      "openPortal": "Open Local Portal"
+    },
     "dashboardHome": {
       "attention": "What needs my attention?",
       "attentionBody": "Your assigned work in this local. Other casework remains in the navigation.",
@@ -11197,6 +11211,17 @@
   },
   "portal": {
     "portalEyebrow": "Local Portal",
+    "teaser": {
+      "eyebrow": "Local Portal",
+      "title": "Circles for this local are not on yet",
+      "body": "Local Portal is where members meet in Hall and Circles — Together for your home, Dispatch for pings, and committee spaces your officers invite you into. This local has not turned it on.",
+      "bulletCircles": "Join Hall and invited Circles for committees and campaigns",
+      "bulletTogether": "See Actions, Bulletin, and Calendar from one home (Together)",
+      "bulletDispatch": "Catch assignments and due-soon notes in Dispatch",
+      "askOfficers": "Ask your local officers if Local Portal should be turned on for members.",
+      "openHub": "Open Officer Hub",
+      "turnOnPortal": "Turn on Local Portal in Configuration"
+    },
     "stationTitle": "Together",
     "stationSubtitle": "Open your Circles, Actions, and the latest Bulletin from one home.",
     "navLabel": "Portal navigation",

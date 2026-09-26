@@ -12,7 +12,8 @@ export default async function PortalSendFeedbackPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { session } = await requirePortalPage(locale);
+  const { session, portalEnabled } = await requirePortalPage(locale);
+  if (!portalEnabled) return null;
 
   const t = await getTranslations("portal");
 

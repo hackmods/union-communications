@@ -37,24 +37,31 @@ export async function requirePortalSession(): Promise<PortalSessionResult> {
   return { ok: true, session, actor };
 }
 
-/** Server pages/layouts under `/portal` — same redirects as the previous per-page gates. */
-export async function requirePortalPage(locale: string): Promise<{
+export type PortalPageGate = {
   session: Session;
   roles: UserRole[];
   tenant: TenantContext;
-}> {
+  /** False when the union has Portal off — pages should render the teaser. */
+  portalEnabled: boolean;
+};
+
+/**
+ * Server pages/layouts under `/portal`.
+ * When the Portal module is off, still authenticates and returns
+ * `portalEnabled: false` so the layout can show a feature teaser (APIs stay 403).
+ */
+export async function requirePortalPage(locale: string): Promise<PortalPageGate> {
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   if (!session.user.unionId) redirect(`/${locale}/app`);
   await hydrateTenantOverlayFromPostgres();
   const tenant = getTenantContext(session.user.unionId, session.user.localId);
-  if (!tenant || !tenant.union.enabledModules.includes("portal")) {
-    redirect(`/${locale}/app`);
-  }
+  if (!tenant) redirect(`/${locale}/app`);
   const actor = await resolveAuthorizationActor(session);
   if (!actor.accountActive) redirect(`/${locale}/app/login`);
   const roles = actor.roles as UserRole[];
   const hasMembership = actor.memberships.some((membership) => membership.unionId === session.user.unionId);
   if (!hasMembership && !canAccessPortal(roles)) redirect(`/${locale}/app`);
-  return { session, roles, tenant };
+  const portalEnabled = tenant.union.enabledModules.includes("portal");
+  return { session, roles, tenant, portalEnabled };
 }

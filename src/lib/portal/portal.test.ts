@@ -5,7 +5,9 @@ import {
   canAdminCircle,
   canCreateCircle,
   canSeeOfficerHubLink,
+  isPortalModuleEnabled,
   prefersPortalHome,
+  shouldShowHubFeatureTeaser,
   signedInHomeHref,
 } from "@/lib/portal/access";
 
@@ -26,6 +28,19 @@ describe("portal access", () => {
     expect(signedInHomeHref(["local_member"])).toBe("/portal");
     expect(signedInHomeHref(["local_president"])).toBe("/app");
     expect(signedInHomeHref(["local_member"], ["comms"])).toBe("/app");
+  });
+
+  it("shows Hub teaser for members when Portal is their home", () => {
+    expect(shouldShowHubFeatureTeaser(["local_member"], ["comms", "portal"])).toBe(
+      true,
+    );
+    expect(shouldShowHubFeatureTeaser(["local_member"], ["comms"])).toBe(false);
+    expect(shouldShowHubFeatureTeaser(["local_president"], ["comms", "portal"])).toBe(
+      false,
+    );
+    expect(isPortalModuleEnabled(["comms", "portal"])).toBe(true);
+    expect(isPortalModuleEnabled(["comms"])).toBe(false);
+    expect(isPortalModuleEnabled(undefined)).toBe(true);
   });
 });
 

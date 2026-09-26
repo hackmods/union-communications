@@ -1,3 +1,9 @@
+## 2026-09-26 — Portal / Hub feature teaser landings
+
+- When `enabledModules.portal` is off, `/portal` stays signed-in and shows a Local Portal teaser (solidarity names + ask officers; Configuration CTA for presidents/admins). Portal APIs remain 403.
+- Member-only visitors on `/app` see an Officer Hub teaser instead of an immediate redirect to `/portal` (Portal CTA when the module is on). National Hub advertising unchanged.
+- Shared `FeatureTeaserPanel`; helpers `shouldShowHubFeatureTeaser` / `isPortalModuleEnabled`. What's new: `portal-hub-feature-teasers`.
+
 ## 2026-09-26 — Account and organization access uplift
 
 - Hierarchy: Union → optional bargaining collective (`Division`) → Local → optional CA collection; Portal Circles may reference a collective without becoming tenants.
@@ -1408,7 +1414,7 @@ Lessons + parity rules: [`docs/audit/session-knowledge-2026-09-05-pdf-office-eng
 
 ## Local Portal QOL after chrome (2026-08-18)
 
-- [x] Rank-and-file sign-in lands on Station (`/portal`), not an empty Officer Hub dashboard; `/app` sends members to Station too
+- [x] Rank-and-file sign-in lands on Together (`/portal`), not an empty Officer Hub dashboard; `/app` shows members an Officer Hub teaser (Portal CTA) when Portal is on
 - [x] Circle tool tabs write `?tab=` so refresh and share keep the same tool; Dispatch pings open that tool; Front dates live under Front dates, not the Circle heading
 - [x] Empty, error, and create-fail states name a next step (Try again); Dispatch unread count is labelled for assistive tech
 - Verify: `npm run test:unit -- src/lib/portal/portal.test.ts src/components/portal/portal-nav-model.test.ts src/lib/comms/public-copy-style.test.ts` · `npx playwright test e2e/portal.smoke.spec.ts`

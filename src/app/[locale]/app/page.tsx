@@ -2,7 +2,11 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { HubDashboard } from "@/components/hub/HubDashboard";
-import { signedInHomeHref } from "@/lib/portal/access";
+import { HubFeatureTeaser } from "@/components/hub/HubFeatureTeaser";
+import {
+  isPortalModuleEnabled,
+  shouldShowHubFeatureTeaser,
+} from "@/lib/portal/access";
 import { getTenantContext } from "@/lib/tenant/loader";
 import type { UserRole } from "@/types/tenant";
 
@@ -19,8 +23,11 @@ export default async function HubDashboardPage({
   const tenant = session.user.unionId
     ? getTenantContext(session.user.unionId, session.user.localId)
     : null;
-  if (signedInHomeHref(roles, tenant?.union.enabledModules) === "/portal") {
-    redirect(`/${locale}/portal`);
+  const enabledModules = tenant?.union.enabledModules;
+  if (shouldShowHubFeatureTeaser(roles, enabledModules)) {
+    return (
+      <HubFeatureTeaser portalEnabled={isPortalModuleEnabled(enabledModules)} />
+    );
   }
   return <HubDashboard />;
 }

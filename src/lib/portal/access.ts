@@ -48,6 +48,25 @@ export function signedInHomeHref(
   return prefersPortalHome(roles) ? "/portal" : "/app";
 }
 
+/**
+ * Member-only users whose home is Portal — show an Officer Hub teaser on
+ * `/app` instead of redirecting straight to `/portal`.
+ */
+export function shouldShowHubFeatureTeaser(
+  roles: UserRole[],
+  enabledModules?: readonly HubModule[],
+): boolean {
+  return signedInHomeHref(roles, enabledModules) === "/portal";
+}
+
+/** Portal module flag for the signed-in union (default true when unknown). */
+export function isPortalModuleEnabled(
+  enabledModules?: readonly HubModule[],
+): boolean {
+  if (!enabledModules) return true;
+  return enabledModules.includes("portal");
+}
+
 export function canCreateCircle(roles: UserRole[]): boolean {
   return roles.some((r) =>
     [

@@ -9,6 +9,7 @@ export default async function PortalSidebarsPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  await requirePortalPage(locale);
+  const { portalEnabled } = await requirePortalPage(locale);
+  if (!portalEnabled) return null;
   return <PortalSidebars />;
 }

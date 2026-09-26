@@ -55,11 +55,17 @@ test.describe("Officer Hub task-first home @smoke", () => {
     await expect(page.getByText("Could not load check-ins. Open the check-ins page or refresh to try again.")).toBeVisible();
   });
 
-  test("member goes to the Portal instead of seeing the officer board", async ({ page }) => {
+  test("member sees an Officer Hub teaser instead of the officer board", async ({ page }) => {
     await loginAsMember(page);
     await page.goto("/en/app");
-    await expect(page).toHaveURL(/\/en\/portal\/?$/);
+    await expect(page).toHaveURL(/\/en\/app\/?(?:\?.*)?$/);
+    await expect(
+      page.getByRole("heading", { name: "Officer tools live here" }),
+    ).toBeVisible();
     await expect(page.getByRole("heading", { name: "What needs my attention?" })).toHaveCount(0);
+    await expect(
+      page.getByRole("link", { name: "Open Local Portal" }),
+    ).toBeVisible();
   });
 
   test("the first work area and responsive navigation fit five widths", async ({ page }) => {

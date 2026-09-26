@@ -10,7 +10,8 @@ export default async function PortalProposalsPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { tenant } = await requirePortalPage(locale);
+  const { tenant, portalEnabled } = await requirePortalPage(locale);
+  if (!portalEnabled) return null;
   if (!tenant.union.enabledModules.includes("proposals")) notFound();
   return <PortalProposals />;
 }

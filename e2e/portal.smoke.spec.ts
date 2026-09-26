@@ -26,13 +26,18 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page).toHaveURL(/\/en\/app\/login/);
   });
 
-  test("member visiting Officer Hub home is sent to Together", async ({
+  test("member visiting Officer Hub home sees a Hub teaser", async ({
     page,
   }) => {
     await loginAsMember(page);
     await page.goto("/en/app");
-    await expect(page).toHaveURL(/\/en\/portal\/?(?:\?.*)?$/);
-    await expect(page.getByRole("heading", { name: "Together" })).toBeVisible();
+    await expect(page).toHaveURL(/\/en\/app\/?(?:\?.*)?$/);
+    await expect(
+      page.getByRole("heading", { name: "Officer tools live here" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Open Local Portal" }),
+    ).toBeVisible();
   });
 
   test("member reaches Together without MFA", async ({ page }) => {
