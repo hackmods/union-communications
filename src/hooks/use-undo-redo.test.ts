@@ -23,6 +23,32 @@ describe("useUndoRedo", () => {
     expect(result.current.state.includeLogo).toBe(true);
   });
 
+  it("keeps a defined current state when reset and setState batch", () => {
+    const { result } = renderHook(() => useUndoRedo({ n: 0 }));
+
+    act(() => {
+      // Mimic brand seed reset + example/deep-link setState in one commit.
+      result.current.reset({ n: 1 });
+      result.current.setState((prev) => ({ n: prev.n + 10 }));
+    });
+
+    expect(result.current.state).toEqual({ n: 11 });
+    expect(result.current.canUndo).toBe(true);
+  });
+
+  it("keeps a defined current state across three batched setStates", () => {
+    const { result } = renderHook(() => useUndoRedo(0));
+
+    act(() => {
+      result.current.setState(1);
+      result.current.setState(2);
+      result.current.setState(3);
+    });
+
+    expect(result.current.state).toBe(3);
+    expect(result.current.canUndo).toBe(true);
+  });
+
   it("undo and redo walk the stack", () => {
     const { result } = renderHook(() => useUndoRedo(0));
 

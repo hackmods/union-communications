@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -127,7 +127,6 @@ function GraphicMakerPageContent() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
-  const presetApplied = useRef(false);
 
   const brandColors = {
     primary: brandKit.primaryColor,
@@ -218,7 +217,6 @@ function GraphicMakerPageContent() {
     const presetRaw = searchParams.get("preset");
     if (presetRaw && isToolPresetKey(presetRaw)) {
       const preset = TOOL_PRESETS[presetRaw];
-      presetApplied.current = true;
       reset({
         ...initial,
         ...colours,
@@ -243,39 +241,6 @@ function GraphicMakerPageContent() {
       aspect: aspectFromQuery(searchParams, initial.aspect),
     });
   });
-
-  useEffect(() => {
-    if (!hydrated) return;
-    if (presetApplied.current) return;
-    const exampleId = searchParams.get("example");
-    if (exampleId) {
-      const post = getExamplePost(exampleId);
-      if (
-        post &&
-        post.primaryTool === "graphic-maker" &&
-        isGraphicLayoutId(post.layout)
-      ) {
-        return;
-      }
-    }
-    const presetRaw = searchParams.get("preset");
-
-    if (presetRaw && isToolPresetKey(presetRaw)) {
-      presetApplied.current = true;
-      const preset = TOOL_PRESETS[presetRaw];
-      setState((prev) => ({
-        ...prev,
-        layout: layoutForPreset(presetRaw),
-        aspect: aspectFromQuery(
-          searchParams,
-          defaultAspectForPreset(presetRaw),
-        ),
-        headline: preset.headline,
-        subheadline: preset.subheadline,
-        detail: detailForPreset(presetRaw, tg),
-      }));
-    }
-  }, [searchParams, setState, hydrated, tg]);
 
   const handlePhotoUpload = (url: string) => {
     setPendingPhoto(url);
