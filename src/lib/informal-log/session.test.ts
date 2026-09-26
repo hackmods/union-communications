@@ -81,7 +81,7 @@ describe("informal log session helpers", () => {
     ).toEqual({ unionId: "union-b7p" });
   });
 
-  it("lets cross-local admins drop local/collection filters only when localId is empty", () => {
+  it("keeps union administrators scoped to an assigned local", () => {
     expect(
       listFiltersForInformalLogSession(
         session({
@@ -106,8 +106,8 @@ describe("informal log session helpers", () => {
       ),
     ).toEqual({
       unionId: "union-b7p",
-      localId: undefined,
-      bargainingUnitId: undefined,
+      localId: "__no_local_context__",
+      bargainingUnitId: "bu-7-ft",
     });
   });
 

@@ -161,7 +161,7 @@ describe("bumping API routes", () => {
       );
     });
 
-    it("lets a union_admin without a local list sister locals in the same union only", async () => {
+    it("does not let a union_admin without a local list sister locals", async () => {
       await seedForeignCase();
       await memoryBumpingStore.create(
         {
@@ -189,9 +189,7 @@ describe("bumping API routes", () => {
       const body = (await res.json()) as {
         cases: Array<{ memberRef: string; unionId: string; localId: string }>;
       };
-      expect(body.cases.every((c) => c.unionId === "union-b7p")).toBe(true);
-      expect(body.cases.map((c) => c.memberRef)).toContain("Sister local member");
-      expect(body.cases.map((c) => c.memberRef)).toContain("Member C");
+      expect(body.cases.map((c) => c.memberRef)).not.toContain("Sister local member");
       expect(body.cases.map((c) => c.memberRef)).not.toContain("Foreign member");
     });
   });

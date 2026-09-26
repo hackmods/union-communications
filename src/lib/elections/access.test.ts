@@ -35,6 +35,9 @@ describe("elections access", () => {
     ).toBe(false);
     expect(
       canViewElectionCycle(sample, "union-a", "local-other", ["union_admin"]),
+    ).toBe(false);
+    expect(
+      canViewElectionCycle(sample, "union-a", "local-other", ["platform_admin"]),
     ).toBe(true);
   });
 

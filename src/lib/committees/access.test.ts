@@ -32,6 +32,9 @@ describe("committees access", () => {
     ).toBe(false);
     expect(
       canViewCommittee(sample, "union-a", "local-other", ["union_admin"]),
+    ).toBe(false);
+    expect(
+      canViewCommittee(sample, "union-a", "local-other", ["platform_admin"]),
     ).toBe(true);
   });
 

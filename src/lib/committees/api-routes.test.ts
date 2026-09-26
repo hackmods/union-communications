@@ -167,13 +167,12 @@ describe("committees API routes", () => {
       expect(await res.json()).toEqual({ error: "Account-linked committee membership requires Postgres" });
     });
 
-    it("returns 400 when the session has no local", async () => {
+    it("returns 403 when a union_admin session has no local", async () => {
       authMock.mockResolvedValue(
         session({ localId: null, roles: ["union_admin"] }),
       );
       const res = await createCommittee(jsonRequest(validCreate));
-      expect(res.status).toBe(400);
-      expect(await res.json()).toEqual({ error: "Local required" });
+      expect(res.status).toBe(403);
     });
   });
 
@@ -215,7 +214,7 @@ describe("committees API routes", () => {
       expect(await memoryCommitteesStore.getById(foreign.id)).not.toBeNull();
     });
 
-    it("lets a union_admin read another local in the same union, but a president cannot", async () => {
+    it("keeps union_admin and presidents from reading another local's committee", async () => {
       const otherLocal = await memoryCommitteesStore.create(
         { name: "Local 560 H&S" },
         { unionId: "union-b7p", localId: "local-1337" },
@@ -236,9 +235,7 @@ describe("committees API routes", () => {
         new Request("http://localhost"),
         params(otherLocal.id),
       );
-      expect(admin.status).toBe(200);
-      const body = (await admin.json()) as { committee: { localId: string } };
-      expect(body.committee.localId).toBe("local-1337");
+      expect(admin.status).toBe(403);
     });
 
     it("clears description on PATCH and deletes a same-local committee", async () => {

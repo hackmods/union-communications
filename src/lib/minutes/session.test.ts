@@ -68,7 +68,7 @@ describe("minutes session helpers", () => {
     ).toEqual({ unionId: "union-b7p" });
   });
 
-  it("lets cross-local admins drop the local filter only when localId is empty", () => {
+  it("keeps union administrators scoped to an assigned local", () => {
     expect(
       listFiltersForMinutesSession(
         session({ roles: ["union_admin"], localId: "local-7" }),
@@ -83,7 +83,7 @@ describe("minutes session helpers", () => {
       ),
     ).toEqual({
       unionId: "union-b7p",
-      localId: undefined,
+      localId: "__no_local_context__",
     });
   });
 

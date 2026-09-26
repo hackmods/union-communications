@@ -46,6 +46,9 @@ describe("minutes access", () => {
     ).toBe(false);
     expect(
       canViewMinutes(sample, "union-a", "local-2", ["union_admin"]),
+    ).toBe(false);
+    expect(
+      canViewMinutes(sample, "union-a", "local-2", ["platform_admin"]),
     ).toBe(true);
   });
 

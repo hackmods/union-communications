@@ -194,7 +194,7 @@ describe("grievance access control", () => {
     ).toBe(true);
   });
 
-  it("allows division_admin to view another local grievance", () => {
+  it("does not let division_admin view another local grievance", () => {
     expect(
       canViewGrievance(
         { ...sampleGrievance, localId: "local-1337" },
@@ -203,7 +203,7 @@ describe("grievance access control", () => {
         "local-7",
         ["division_admin"],
       ),
-    ).toBe(true);
+    ).toBe(false);
   });
 
   it("blocks local_president from another local without switch", () => {

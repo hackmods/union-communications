@@ -212,35 +212,13 @@ describe("invite API routes", () => {
       expect(body.invites[0]?.token).toBe(mine.token);
     });
 
-    it("lets union_admin list every local in the union, still excluding other unions", async () => {
-      await createInvite({
-        email: "foreign@example.test",
-        name: "Foreign",
-        unionId: "union-other",
-        localId: "local-7",
-        roles: ["local_steward"],
-        invitedById: "user-x",
-      });
-      await createInvite({
-        email: "sister@example.test",
-        name: "Sister local",
-        unionId: "union-b7p",
-        localId: "local-1337",
-        roles: ["local_member"],
-        invitedById: "user-y",
-      });
-
+    it("does not let union_admin widen invites when local context is missing", async () => {
       authMock.mockResolvedValue(
         session({ roles: ["union_admin"], localId: null }),
       );
       const res = await listInvites(getRequest());
-      expect(res.status).toBe(200);
-      const body = (await res.json()) as {
-        invites: Array<{ email: string }>;
-      };
-      expect(body.invites.map((row) => row.email)).toEqual([
-        "sister@example.test",
-      ]);
+      expect(res.status).toBe(403);
+      expect(await res.json()).toEqual({ error: "Forbidden" });
     });
 
     it("omits the accept token after the invite is accepted", async () => {

@@ -233,7 +233,7 @@ describe("meetings API routes", () => {
       expect(await memoryMeetingsRsvpStore.getMeetingById(foreign.id)).not.toBeNull();
     });
 
-    it("lets union_admin read a sister local by id but not rewrite it from the wrong session local", async () => {
+    it("does not let union_admin read a sister local by id", async () => {
       const sister = await memoryMeetingsRsvpStore.createMeeting(
         { ...validCreate, title: "Sister LEC" },
         {
@@ -250,9 +250,7 @@ describe("meetings API routes", () => {
         new Request("http://localhost"),
         params(sister.id),
       );
-      expect(viewed.status).toBe(200);
-      const body = (await viewed.json()) as { meeting: { title: string } };
-      expect(body.meeting.title).toBe("Sister LEC");
+      expect(viewed.status).toBe(404);
     });
 
     it("lets a president patch and delete their local event", async () => {
