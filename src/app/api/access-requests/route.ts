@@ -25,11 +25,12 @@ function allowed(ip: string) {
   return true;
 }
 
-function operatorInboxHint(): string {
+function operatorInboxHint(locale = "en"): string {
   const origin = process.env.AUTH_URL?.replace(/\/$/, "") ?? "";
+  const loc = locale === "fr" ? "fr" : "en";
   return origin
-    ? `${origin}/en/app/site-admin/access-requests`
-    : "/app/site-admin/access-requests";
+    ? `${origin}/${loc}/app/site-admin/access-requests`
+    : `/app/site-admin/access-requests`;
 }
 
 export async function POST(request: Request) {
@@ -85,7 +86,7 @@ export async function POST(request: Request) {
         row.role ? `role=${row.role}` : null,
         `offerings=${row.offerings.join(",")}`,
         row.message ? `message=${row.message}` : null,
-        `inbox=${operatorInboxHint()}`,
+        `inbox=${operatorInboxHint(row.locale)}`,
       ]
         .filter(Boolean)
         .join("\n"),

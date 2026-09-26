@@ -49,6 +49,7 @@ function sampleHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     memoryCaseDataActive: false,
     postgresFlipComplete: true,
     emailEnabled: true,
+    accessRequestNotifyConfigured: true,
     cronConfigured: false,
     mfaEnabled: false,
     demoAuthEnabled: false,

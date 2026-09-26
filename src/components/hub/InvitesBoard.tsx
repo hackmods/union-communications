@@ -68,6 +68,10 @@ export function InvitesBoard() {
   const t = useTranslations("invites");
   const tRoles = useTranslations("hub.roleLabels");
   const [requestId, setRequestId] = useState<string | null>(() => readRequestId());
+  const [fulfilling, setFulfilling] = useState<{
+    name: string;
+    email: string;
+  } | null>(null);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [roles, setRoles] = useState<InviteRoleOption[]>(["local_steward"]);
@@ -197,6 +201,56 @@ export function InvitesBoard() {
     // Initial load only — refresh() closes over form state and would loop.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [t]);
+
+  useEffect(() => {
+    if (!requestId) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/access-requests/${requestId}`);
+        if (!res.ok) {
+          if (!cancelled) setError(t("fulfillingRequestLoadFailed"));
+          return;
+        }
+        const data = (await res.json()) as {
+          item?: {
+            name?: string;
+            email?: string;
+            unionId?: string;
+            localId?: string;
+            kind?: string;
+          };
+        };
+        const item = data.item;
+        if (!item || cancelled) return;
+        if (item.email) setEmail(item.email);
+        if (item.name) setName(item.name);
+        if (item.name && item.email) {
+          setFulfilling({ name: item.name, email: item.email });
+        }
+        if (item.kind === "local_interest") {
+          setRoles(["local_president"]);
+        }
+        if (item.unionId || item.localId) {
+          setTeamLocal((prev) => ({
+            ...prev,
+            unionId: item.unionId ?? prev.unionId,
+            localId: item.localId ?? prev.localId,
+          }));
+          setPresidentLocal((prev) => ({
+            ...prev,
+            unionId: item.unionId ?? prev.unionId,
+            localId: item.localId ?? prev.localId,
+          }));
+        }
+      } catch {
+        if (!cancelled) setError(t("fulfillingRequestLoadFailed"));
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [requestId, t]);
 
   function scopePayload(scope: UnionLocalSelectValue): Record<string, unknown> {
     const payload: Record<string, unknown> = {};
@@ -586,7 +640,14 @@ export function InvitesBoard() {
           )}
           {requestId ? (
             <Callout tone="muted">
-              <p>{t("fulfillingRequest", { id: requestId })}</p>
+              <p>
+                {fulfilling
+                  ? t("fulfillingRequest", {
+                      name: fulfilling.name,
+                      email: fulfilling.email,
+                    })
+                  : t("fulfillingRequestFallback", { id: requestId })}
+              </p>
             </Callout>
           ) : null}
           <fieldset className="space-y-2">

@@ -7505,8 +7505,8 @@
     "feedbackLink": "Send site feedback",
     "items": {
       "join-share-when-signed-in": {
-        "title": "Signed-in visitors can share beta access",
-        "body": "When you are already in Officer Hub, /join thanks you and offers links to share with other locals instead of asking you to apply again."
+        "title": "Beta access forms and signed-in sharing",
+        "body": "Locals and members can apply for beta access with clearer errors and a privacy link. When you are already signed in, /join thanks you and lets you copy share links for other locals."
       },
       "match-hub-union-brand-kit": {
         "title": "Match Brand Kit to your Officer Hub union",
@@ -8542,7 +8542,7 @@
       "accessRequestsBody": "Review local interest and route member access requests before sending an invitation.",
       "accessRequestsFilter": "Filter status",
       "accessRequestsAll": "All requests",
-      "accessRequestsEmpty": "No requests match this filter.",
+      "accessRequestsEmpty": "No access requests yet. New /join and /request-access submissions appear here.",
       "accessRequestsLoadFailed": "Unable to load requests.",
       "accessRequestsSaveFailed": "Unable to save request.",
       "accessRequestsNoMessage": "No message provided.",
@@ -8618,7 +8618,19 @@
       "brandStylesEmptyLocalsLink": "Open Locals to create a union",
       "brandStylesBaselineBusy": "Working…",
       "hostBrandClearConfirm": "Clear durable host brand overrides? File and environment defaults will apply again.",
-      "hostBrandErrorRemedy": "Refresh the page. If it still fails, confirm Postgres is configured for this host."
+      "hostBrandErrorRemedy": "Refresh the page. If it still fails, confirm Postgres is configured for this host.",
+      "accessRequestsEmptyFiltered": "No requests match this filter. Try All requests or another status.",
+      "accessRequestsRole": "Role",
+      "accessRequestsOfferings": "Interested in",
+      "accessRequestsNotifySent": "Operator email sent",
+      "accessRequestsNotifyFailed": "Operator email failed: {reason}",
+      "accessRequestsNotifyPending": "Operator email not sent yet",
+      "accessRequestsReceiptSent": "Receipt emailed to applicant",
+      "accessRequestsInviteLinked": "Invite linked",
+      "accessRequestsBack": "← Site admin",
+      "accessRequestsKindLocal": "Local interest",
+      "accessRequestsKindMember": "Member access",
+      "hostPresenceAccessRequestNotify": "Beta access notify email is unset (ACCESS_REQUEST_NOTIFY_EMAIL)"
     },
     "signingIn": "Signing in...",
     "writeNoUnion": "No union is assigned to this account — ask a platform operator to assign one before saving.",
@@ -9107,6 +9119,15 @@
         "title": "Informal log is off",
         "body": "Informal workplace notes stay off until this module is enabled."
       }
+    },
+    "memberAccessRequests": {
+      "title": "Member access requests",
+      "body": "Review requests routed to this local before inviting members.",
+      "empty": "No member access requests.",
+      "loadFailed": "Unable to load member access requests. Confirm MFA if prompted, then refresh.",
+      "approve": "Approve",
+      "decline": "Decline",
+      "invite": "Invite this person"
     }
   },
   "dataWorkbench": {
@@ -9331,13 +9352,15 @@
     "localUnknown": "Local not listed",
     "pendingTitle": "Invites on this union",
     "pendingEmpty": "No invites yet. Create one to send a link.",
-    "fulfillingRequest": "Fulfilling access request {id}. Saving an invite marks that request Invited.",
+    "fulfillingRequest": "Fulfilling access request for {name} ({email}). Saving an invite marks that request Invited.",
     "status": {
       "pending": "Waiting",
       "accepted": "Accepted",
       "revoked": "Revoked",
       "expired": "Expired"
-    }
+    },
+    "fulfillingRequestFallback": "Fulfilling access request {id}. Saving an invite marks that request Invited.",
+    "fulfillingRequestLoadFailed": "Could not load that access request. You can still create an invite manually."
   },
   "inviteAccept": {
     "title": "Accept invite",
@@ -15434,6 +15457,7 @@
     "eyebrow": "Beta access",
     "title": "Bring your local to UnionOps",
     "intro": "Comms tools stay free. During beta, Officer Hub and Local Portal are free; access is reviewed and then sent by invitation. Future hosting terms will be shared before any charge.",
+    "skipToForm": "Skip to the request form",
     "commsTitle": "Comms",
     "commsBody": "Public tools and learning, available on your device.",
     "hubTitle": "Officer Hub",
@@ -15441,12 +15465,16 @@
     "portalTitle": "Local Portal",
     "portalBody": "Member communication and participation.",
     "memberPrompt": "Already a member? Use the member access request so we can find your local.",
-    "memberLink": "Request access"
+    "memberLink": "Request member access",
+    "loginPrompt": "Already invited?",
+    "loginLink": "Sign in to Officer Hub"
   },
   "requestAccessPage": {
     "back": "← Back to beta access",
     "title": "Request member access",
-    "intro": "Tell us your union and local. We’ll route the request after verification. This does not create an account or enroll anyone in a union."
+    "intro": "Tell us your union and local. We’ll route the request after verification. This does not create an account or enroll anyone in a union.",
+    "officerPrompt": "Bringing a whole local into the beta?",
+    "officerLink": "Start from Bring your local"
   },
   "accessShare": {
     "title": "You’re already in — thanks for joining",
@@ -15454,11 +15482,44 @@
     "memberTitle": "You’re already signed in",
     "memberBody": "You already have Hub access. Share the member access link with people who still need an invitation.",
     "sharePrompt": "Share these links with officers and members at other locals:",
-    "shareJoin": "Bring your local (/join)",
+    "shareJoin": "Bring your local",
     "shareJoinHint": "for presidents and officers bringing a local into the beta",
     "shareMember": "Request member access",
     "shareMemberHint": "for members who need help finding their local",
     "hubCta": "Open Officer Hub",
-    "localLabel": "Local {number}"
+    "localLabel": "Local {number}",
+    "copyLink": "Copy link",
+    "copied": "Copied"
+  },
+  "accessRequestForm": {
+    "name": "Your name",
+    "email": "Email",
+    "union": "Union",
+    "local": "Local name or number",
+    "role": "Your role",
+    "message": "Anything you want us to know?",
+    "language": "Preferred language",
+    "consent": "I agree that UnionOps may use these details to follow up about beta access.",
+    "privacyLead": "See how we handle personal information on the",
+    "privacyLink": "privacy page",
+    "submit": "Send request",
+    "sending": "Sending…",
+    "success": "Thanks. Your request was received.",
+    "next": "We’ll review the details and follow up. This does not create an account or enroll anyone in a union.",
+    "en": "English",
+    "fr": "French",
+    "hub": "Officer Hub",
+    "portal": "Local Portal",
+    "offerings": "What would you like to explore?",
+    "offeringsHint": "Choose at least one. We use this to route your request.",
+    "localTitle": "Tell us about your local",
+    "memberTitle": "Help us find your local",
+    "localRole": "President, officer, steward, or organizer",
+    "errorConsent": "Check the consent box to continue. We need your agreement before we can store and follow up on this request.",
+    "errorOfferings": "Choose Officer Hub, Local Portal, or both so we know what to review.",
+    "errorRateLimited": "Too many requests from this connection. Wait about ten minutes, then try again.",
+    "errorInvalid": "Check the required fields and try again. Name, email, union, and local must be filled in.",
+    "errorNetwork": "We could not reach the server. Check your connection, then try again.",
+    "errorGeneric": "We could not send your request. Try again in a moment. If it keeps failing, email the address on the Support page."
   }
 }

@@ -7451,8 +7451,8 @@
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
       "join-share-when-signed-in": {
-        "title": "Les visiteurs connectés peuvent partager l’accès bêta",
-        "body": "Lorsque vous êtes déjà dans le Hub des dirigeants, /join vous remercie et propose des liens à partager avec d’autres locaux au lieu de vous demander de postuler à nouveau."
+        "title": "Formulaires d’accès bêta et partage une fois connecté",
+        "body": "Les sections et les membres peuvent demander l’accès bêta avec des messages d’erreur plus clairs et un lien vers la confidentialité. Lorsque vous êtes déjà connecté, /join vous remercie et vous laisse copier des liens à partager avec d’autres sections."
       },
       "match-hub-union-brand-kit": {
         "title": "Faire correspondre la Trousse de marque à votre syndicat du Hub",
@@ -8488,7 +8488,7 @@
       "accessRequestsBody": "Examinez l’intérêt des sections et acheminez les demandes d’accès des membres avant d’envoyer une invitation.",
       "accessRequestsFilter": "Filtrer le statut",
       "accessRequestsAll": "Toutes les demandes",
-      "accessRequestsEmpty": "Aucune demande ne correspond à ce filtre.",
+      "accessRequestsEmpty": "Aucune demande d’accès pour le moment. Les nouvelles soumissions de /join et /request-access apparaissent ici.",
       "accessRequestsLoadFailed": "Impossible de charger les demandes.",
       "accessRequestsSaveFailed": "Impossible d’enregistrer la demande.",
       "accessRequestsNoMessage": "Aucun message fourni.",
@@ -8564,7 +8564,19 @@
       "brandStylesEmptyLocalsLink": "Ouvrir Locals pour créer un syndicat",
       "brandStylesBaselineBusy": "En cours…",
       "hostBrandClearConfirm": "Effacer les remplacements durables de marque d'instance ? Les défauts fichier et environnement s'appliqueront de nouveau.",
-      "hostBrandErrorRemedy": "Actualisez la page. Si cela échoue encore, confirmez que Postgres est configuré pour cet hôte."
+      "hostBrandErrorRemedy": "Actualisez la page. Si cela échoue encore, confirmez que Postgres est configuré pour cet hôte.",
+      "accessRequestsEmptyFiltered": "Aucune demande ne correspond à ce filtre. Essayez Toutes les demandes ou un autre statut.",
+      "accessRequestsRole": "Rôle",
+      "accessRequestsOfferings": "Intérêt pour",
+      "accessRequestsNotifySent": "Courriel à l’opérateur envoyé",
+      "accessRequestsNotifyFailed": "Échec du courriel à l’opérateur : {reason}",
+      "accessRequestsNotifyPending": "Courriel à l’opérateur pas encore envoyé",
+      "accessRequestsReceiptSent": "Accusé de réception envoyé au demandeur",
+      "accessRequestsInviteLinked": "Invitation liée",
+      "accessRequestsBack": "← Administration du site",
+      "accessRequestsKindLocal": "Intérêt local",
+      "accessRequestsKindMember": "Accès membre",
+      "hostPresenceAccessRequestNotify": "Courriel de notification pour l’accès bêta non défini (ACCESS_REQUEST_NOTIFY_EMAIL)"
     },
     "signingIn": "Connexion...",
     "writeNoUnion": "Aucun syndicat n’est assigné à ce compte — demandez à un opérateur de plateforme d’en assigner un avant d’enregistrer.",
@@ -9053,6 +9065,15 @@
         "title": "Journal informel désactivé",
         "body": "Les notes informelles en milieu de travail restent hors jusqu’à l’activation de ce module."
       }
+    },
+    "memberAccessRequests": {
+      "title": "Demandes d’accès membre",
+      "body": "Examinez les demandes acheminées à cette section avant d’inviter des membres.",
+      "empty": "Aucune demande d’accès membre.",
+      "loadFailed": "Impossible de charger les demandes d’accès membre. Confirmez l’AMF au besoin, puis actualisez.",
+      "approve": "Approuver",
+      "decline": "Refuser",
+      "invite": "Inviter cette personne"
     }
   },
   "dataWorkbench": {
@@ -9277,13 +9298,15 @@
     "localUnknown": "Section non listée",
     "pendingTitle": "Invitations de ce syndicat",
     "pendingEmpty": "Aucune invitation pour le moment. Créez-en une pour envoyer un lien.",
-    "fulfillingRequest": "Traitement de la demande d’accès {id}. Enregistrer une invitation marque cette demande comme Invitée.",
+    "fulfillingRequest": "Traitement de la demande d’accès pour {name} ({email}). Enregistrer une invitation marque cette demande comme Invitée.",
     "status": {
       "pending": "En attente",
       "accepted": "Acceptée",
       "revoked": "Révoquée",
       "expired": "Expirée"
-    }
+    },
+    "fulfillingRequestFallback": "Traitement de la demande d’accès {id}. Enregistrer une invitation marque cette demande comme Invitée.",
+    "fulfillingRequestLoadFailed": "Impossible de charger cette demande d’accès. Vous pouvez encore créer une invitation manuellement."
   },
   "inviteAccept": {
     "title": "Accepter l’invitation",
@@ -15432,33 +15455,71 @@
   },
   "joinPage": {
     "eyebrow": "Accès bêta",
-    "title": "Amenez votre local à UnionOps",
-    "intro": "Les outils Comms restent gratuits. Pendant la bêta, le Hub des dirigeants et le Portail local sont gratuits; l’accès est examiné puis envoyé par invitation. Les conditions d’hébergement futures seront communiquées avant tout frais.",
+    "title": "Amenez votre section à UnionOps",
+    "intro": "Les outils Comms restent gratuits. Pendant la bêta, le Hub des dirigeants et le Portail local sont gratuits ; l’accès est examiné puis envoyé par invitation. Les conditions d’hébergement futures seront communiquées avant tout frais.",
+    "skipToForm": "Aller au formulaire de demande",
     "commsTitle": "Comms",
     "commsBody": "Outils publics et apprentissage sur votre appareil.",
     "hubTitle": "Hub des dirigeants",
     "hubBody": "Travail administratif et dossiers des dirigeants.",
     "portalTitle": "Portail local",
     "portalBody": "Communication et participation des membres.",
-    "memberPrompt": "Vous êtes membre? Utilisez la demande d’accès pour que nous trouvions votre local.",
-    "memberLink": "Demander l’accès"
+    "memberPrompt": "Vous êtes membre? Utilisez la demande d’accès membre pour que nous trouvions votre section.",
+    "memberLink": "Demander l’accès membre",
+    "loginPrompt": "Déjà invité?",
+    "loginLink": "Se connecter au Hub des dirigeants"
   },
   "requestAccessPage": {
     "back": "← Retour à l’accès bêta",
     "title": "Demander l’accès membre",
-    "intro": "Indiquez votre syndicat et votre local. Nous acheminerons la demande à la bonne personne après vérification. Cette demande ne crée pas de compte et n’inscrit personne à un syndicat."
+    "intro": "Indiquez votre syndicat et votre section. Nous acheminerons la demande à la bonne personne après vérification. Cette demande ne crée pas de compte et n’inscrit personne à un syndicat.",
+    "officerPrompt": "Vous amenez toute une section dans la bêta?",
+    "officerLink": "Commencer par Amener votre section"
   },
   "accessShare": {
     "title": "Vous êtes déjà inscrit — merci de nous avoir rejoints",
-    "body": "Votre accès au Hub des dirigeants est actif. Partagez l’accès bêta avec d’autres locaux pour qu’ils puissent aussi demander à se joindre.",
+    "body": "Votre accès au Hub des dirigeants est actif. Partagez l’accès bêta avec d’autres sections pour qu’elles puissent aussi demander à se joindre.",
     "memberTitle": "Vous êtes déjà connecté",
     "memberBody": "Vous avez déjà accès au Hub. Partagez le lien d’accès membre avec les personnes qui ont encore besoin d’une invitation.",
-    "sharePrompt": "Partagez ces liens avec les dirigeants et les membres d’autres locaux :",
-    "shareJoin": "Amener votre local (/join)",
-    "shareJoinHint": "pour les présidents et dirigeants qui amènent un local dans la bêta",
+    "sharePrompt": "Partagez ces liens avec les dirigeants et les membres d’autres sections :",
+    "shareJoin": "Amener votre section",
+    "shareJoinHint": "pour les présidents et dirigeants qui amènent une section dans la bêta",
     "shareMember": "Demander l’accès membre",
-    "shareMemberHint": "pour les membres qui ont besoin d’aide pour trouver leur local",
+    "shareMemberHint": "pour les membres qui ont besoin d’aide pour trouver leur section",
     "hubCta": "Ouvrir le Hub des dirigeants",
-    "localLabel": "Local {number}"
+    "localLabel": "Section {number}",
+    "copyLink": "Copier le lien",
+    "copied": "Copié"
+  },
+  "accessRequestForm": {
+    "name": "Votre nom",
+    "email": "Courriel",
+    "union": "Syndicat",
+    "local": "Nom ou numéro de la section",
+    "role": "Votre rôle",
+    "message": "Un détail à nous transmettre?",
+    "language": "Langue préférée",
+    "consent": "J’accepte que UnionOps utilise ces renseignements pour communiquer au sujet de l’accès bêta.",
+    "privacyLead": "Voyez comment nous traitons les renseignements personnels sur la",
+    "privacyLink": "page de confidentialité",
+    "submit": "Envoyer la demande",
+    "sending": "Envoi…",
+    "success": "Merci. Votre demande a été reçue.",
+    "next": "Nous examinerons les renseignements et communiquerons avec vous. Cela ne crée pas de compte et n’inscrit personne à un syndicat.",
+    "en": "Anglais",
+    "fr": "Français",
+    "hub": "Hub des dirigeants",
+    "portal": "Portail local",
+    "offerings": "Que souhaitez-vous explorer?",
+    "offeringsHint": "Choisissez au moins une option. Nous utilisons ce choix pour acheminer votre demande.",
+    "localTitle": "Parlez-nous de votre section",
+    "memberTitle": "Aidez-nous à trouver votre section",
+    "localRole": "Présidence, dirigeance, délégation ou organisation",
+    "errorConsent": "Cochez la case de consentement pour continuer. Nous avons besoin de votre accord avant d’enregistrer et de donner suite à cette demande.",
+    "errorOfferings": "Choisissez le Hub des dirigeants, le Portail local, ou les deux, pour que nous sachions quoi examiner.",
+    "errorRateLimited": "Trop de demandes depuis cette connexion. Attendez environ dix minutes, puis réessayez.",
+    "errorInvalid": "Vérifiez les champs obligatoires et réessayez. Le nom, le courriel, le syndicat et la section doivent être remplis.",
+    "errorNetwork": "Nous n’avons pas pu joindre le serveur. Vérifiez votre connexion, puis réessayez.",
+    "errorGeneric": "Nous n’avons pas pu envoyer votre demande. Réessayez dans un moment. Si le problème continue, écrivez à l’adresse indiquée sur la page Soutien."
   }
 }

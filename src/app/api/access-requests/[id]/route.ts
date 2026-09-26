@@ -17,44 +17,73 @@ const schema = z
   })
   .strict();
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+async function authorize(id: string) {
   const session = await auth();
   if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return { ok: false as const, status: 401 as const, error: "Unauthorized" };
   }
   if (!sessionMfaOk(session)) {
-    return NextResponse.json({ error: "MFA required" }, { status: 403 });
+    return { ok: false as const, status: 403 as const, error: "MFA required" };
   }
   const actor = await resolveAuthorizationActor(session);
+  const isPlatformAdmin = (session.user.roles ?? []).includes("platform_admin");
   const unionId = session.user.unionId;
   const localId = actor.activeLocalId ?? session.user.localId;
-  if (
-    !localId ||
-    !unionId ||
-    !decideCapability(actor, "memberships.manage", { unionId, localId }).allowed
-  ) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
-  const { id } = await params;
+
   const row = await withRlsContext(
     {
       userId: session.user.id,
-      unionId,
-      localId,
+      unionId: unionId ?? undefined,
+      localId: localId ?? undefined,
       mfaVerified: true,
+      crossLocal: isPlatformAdmin,
     },
     () => accessRequestStore.getById(id),
   );
+  if (!row) {
+    return { ok: false as const, status: 404 as const, error: "Not found" };
+  }
+
+  if (isPlatformAdmin) {
+    return { ok: true as const, session, actor, row, unionId, localId, isPlatformAdmin };
+  }
+
   if (
-    !row ||
+    !unionId ||
+    !localId ||
+    !decideCapability(actor, "memberships.manage", { unionId, localId }).allowed ||
     row.kind !== "member_access" ||
     row.unionId !== unionId ||
     row.localId !== localId
   ) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return { ok: false as const, status: 404 as const, error: "Not found" };
+  }
+
+  return { ok: true as const, session, actor, row, unionId, localId, isPlatformAdmin };
+}
+
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
+  const authz = await authorize(id);
+  if (!authz.ok) {
+    return NextResponse.json({ error: authz.error }, { status: authz.status });
+  }
+  return NextResponse.json({
+    item: authz.isPlatformAdmin ? authz.row : accessRequestMemberView(authz.row),
+  });
+}
+
+export async function PATCH(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
+  const authz = await authorize(id);
+  if (!authz.ok) {
+    return NextResponse.json({ error: authz.error }, { status: authz.status });
   }
   let raw: unknown;
   try {
@@ -68,18 +97,23 @@ export async function PATCH(
   }
   const updated = await withRlsContext(
     {
-      userId: session.user.id,
-      unionId,
-      localId,
+      userId: authz.session.user.id,
+      unionId: authz.unionId ?? authz.row.unionId ?? undefined,
+      localId: authz.localId ?? authz.row.localId ?? undefined,
       mfaVerified: true,
+      crossLocal: authz.isPlatformAdmin,
     },
     () =>
-      accessRequestStore.update(row.id, {
+      accessRequestStore.update(authz.row.id, {
         ...parsed.data,
-        reviewedById: session.user.id,
+        reviewedById: authz.session.user.id,
       }),
   );
   return NextResponse.json({
-    item: updated ? accessRequestMemberView(updated) : null,
+    item: updated
+      ? authz.isPlatformAdmin
+        ? updated
+        : accessRequestMemberView(updated)
+      : null,
   });
 }

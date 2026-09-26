@@ -49,6 +49,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     memoryCaseDataActive: true,
     postgresFlipComplete: false,
     emailEnabled: false,
+    accessRequestNotifyConfigured: false,
     cronConfigured: false,
     mfaEnabled: false,
     demoAuthEnabled: true,
@@ -163,10 +164,12 @@ describe("buildHostReadiness", () => {
     ]);
     expect(readiness.ready).toBe(false);
     expect(readiness.missingPresence.map((p) => p.id).sort()).toEqual([
+      "accessRequestNotify",
       "cronConfigured",
       "mfaEnabled",
     ]);
     expect(readiness.missingAdvisoryPresence.map((p) => p.id).sort()).toEqual([
+      "accessRequestNotify",
       "cronConfigured",
       "mfaEnabled",
     ]);
@@ -236,6 +239,7 @@ describe("buildHostReadiness", () => {
         memoryCaseDataActive: false,
         postgresFlipComplete: true,
         emailEnabled: true,
+        accessRequestNotifyConfigured: true,
         cronConfigured: true,
         mfaEnabled: true,
         demoAuthEnabled: false,

@@ -33,6 +33,10 @@ type Row = {
   createdAt: string;
   unionId?: string;
   localId?: string;
+  inviteId?: string;
+  notifySentAt?: string;
+  receiptSentAt?: string;
+  notificationError?: string;
 };
 
 const statuses = [
@@ -48,17 +52,22 @@ export function AccessRequestsInbox() {
   const t = useTranslations("hub.platformOperator");
   const [rows, setRows] = useState<Row[]>([]);
   const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   async function load() {
+    setLoading(true);
     const r = await fetch(
       `/api/site-admin/access-requests${status ? `?status=${status}` : ""}`,
     );
     if (!r.ok) {
       setError(t("accessRequestsLoadFailed"));
+      setLoading(false);
       return;
     }
+    setError("");
     setRows((await r.json()).items);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -83,7 +92,13 @@ export function AccessRequestsInbox() {
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="text-2xl font-bold text-opseu-dark">
+        <Link
+          href="/app/site-admin"
+          className="text-sm font-semibold text-opseu-blue underline"
+        >
+          {t("accessRequestsBack")}
+        </Link>
+        <h1 className="mt-3 text-2xl font-bold text-opseu-dark">
           {t("accessRequestsTitle")}
         </h1>
         <p className="mt-2 text-gray-700">{t("accessRequestsBody")}</p>
@@ -112,8 +127,12 @@ export function AccessRequestsInbox() {
           </li>
         ))}
       </ul>
-      {!rows.length ? (
-        <p className="text-gray-600">{t("accessRequestsEmpty")}</p>
+      {!loading && !rows.length ? (
+        <p className="text-gray-600">
+          {status
+            ? t("accessRequestsEmptyFiltered")
+            : t("accessRequestsEmpty")}
+        </p>
       ) : null}
     </div>
   );
@@ -250,19 +269,51 @@ function RequestCard({
     }
   }
 
+  const kindLabel =
+    draft.kind === "member_access"
+      ? t("accessRequestsKindMember")
+      : t("accessRequestsKindLocal");
+
   return (
     <Card density="compact">
       <div className="flex flex-wrap justify-between gap-3">
         <div>
           <p className="font-semibold text-opseu-dark">
-            {draft.name} · {draft.kind}
+            {draft.name} · {kindLabel}
           </p>
           <p className="text-sm text-gray-700">
             {draft.email} · {draft.unionName} · {draft.localName}
           </p>
+          {draft.role ? (
+            <p className="mt-1 text-sm text-gray-700">
+              {t("accessRequestsRole")}: {draft.role}
+            </p>
+          ) : null}
+          {draft.offerings?.length ? (
+            <p className="mt-1 text-sm text-gray-700">
+              {t("accessRequestsOfferings")}: {draft.offerings.join(", ")}
+            </p>
+          ) : null}
           <p className="mt-2 text-sm text-gray-700">
             {draft.message || t("accessRequestsNoMessage")}
           </p>
+          <ul className="mt-2 space-y-0.5 text-xs text-gray-600">
+            <li>
+              {draft.notifySentAt
+                ? t("accessRequestsNotifySent")
+                : draft.notificationError
+                  ? t("accessRequestsNotifyFailed", {
+                      reason: draft.notificationError,
+                    })
+                  : t("accessRequestsNotifyPending")}
+            </li>
+            {draft.receiptSentAt ? (
+              <li>{t("accessRequestsReceiptSent")}</li>
+            ) : null}
+            {draft.inviteId ? (
+              <li>{t("accessRequestsInviteLinked")}</li>
+            ) : null}
+          </ul>
         </div>
         <span className="text-sm text-gray-600">
           {new Date(draft.createdAt).toLocaleString()}

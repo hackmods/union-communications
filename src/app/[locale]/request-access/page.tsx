@@ -48,6 +48,12 @@ export default async function RequestAccessPage({
       <p className="mt-4 max-w-prose text-lg leading-relaxed text-slate-700">
         {t("intro")}
       </p>
+      <p className="mt-3 text-sm text-slate-700">
+        {t("officerPrompt")}{" "}
+        <Link href="/join" className="font-semibold text-opseu-blue underline">
+          {t("officerLink")}
+        </Link>
+      </p>
       <PublicHubPanel className="mt-8 p-5 sm:p-7">
         {signedIn ? (
           <AccessSharePanel

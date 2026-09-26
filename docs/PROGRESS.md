@@ -1,3 +1,9 @@
+## 2026-09-26 — Join access-request QOL pass
+
+- Public form copy moved to `accessRequestForm` messages + PUBLIC_NS; localized errors with cause/remedy; privacy link; autocomplete; offerings validation.
+- `/join` form-first on mobile + skip-to-form; member CTA / login prompts; signed-in share panel copy-link buttons; FR section language aligned with `platformPage`.
+- Ops: site-admin `reviewedById`; inbox notify/receipt/invite status + empty states; `MemberAccessRequests` i18n + invite deep link; invites prefill from `requestId`; host readiness advisory for `ACCESS_REQUEST_NOTIFY_EMAIL`.
+
 ## 2026-09-26 — Join intake durability + signed-in share
 
 - Public `POST /api/access-requests` no longer returns 503 when the backend flag is unset — submissions always persist.

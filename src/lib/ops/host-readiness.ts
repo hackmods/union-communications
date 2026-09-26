@@ -69,6 +69,7 @@ export type PresenceCheckId =
   | "migrateVerified"
   | "tenantsSeeded"
   | "emailEnabled"
+  | "accessRequestNotify"
   | "cronConfigured"
   | "mfaEnabled"
   | "demoAuthOff";
@@ -170,6 +171,15 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
       id: "emailEnabled",
       ok: health.emailEnabled,
       hintKey: "EMAIL_ENABLED",
+      advisory: true,
+    },
+    {
+      id: "accessRequestNotify",
+      // Only matters when email can send; otherwise surface EMAIL_ENABLED first.
+      ok:
+        !health.emailEnabled ||
+        Boolean(health.accessRequestNotifyConfigured),
+      hintKey: "ACCESS_REQUEST_NOTIFY_EMAIL",
       advisory: true,
     },
     {

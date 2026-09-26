@@ -31,6 +31,8 @@ export type HealthStatus = {
   memoryCaseDataActive: boolean;
   postgresFlipComplete: boolean;
   emailEnabled: boolean;
+  /** True when ACCESS_REQUEST_NOTIFY_EMAIL is set (operator ping for /join). */
+  accessRequestNotifyConfigured: boolean;
   cronConfigured: boolean;
   mfaEnabled: boolean;
   demoAuthEnabled: boolean;
@@ -116,6 +118,9 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
     memoryCaseDataActive: isMemoryCaseDataActive(),
     postgresFlipComplete: isPostgresFlipComplete(),
     emailEnabled: process.env.EMAIL_ENABLED === "true",
+    accessRequestNotifyConfigured: Boolean(
+      process.env.ACCESS_REQUEST_NOTIFY_EMAIL?.trim(),
+    ),
     cronConfigured: Boolean(process.env.CRON_SECRET?.trim()),
     mfaEnabled: process.env.AUTH_MFA_ENABLED === "true",
     demoAuthEnabled: isDemoAuthEnabled(),

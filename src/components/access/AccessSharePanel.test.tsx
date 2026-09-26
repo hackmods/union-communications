@@ -54,10 +54,13 @@ describe("AccessSharePanel", () => {
       screen.getByRole("link", { name: "Open Officer Hub" }),
     ).toHaveAttribute("href", "/app");
     expect(
-      screen.getByRole("link", { name: "Bring your local (/join)" }),
+      screen.getByRole("link", { name: "Bring your local" }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: "Request member access" }),
     ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("button", { name: "Copy link" }),
+    ).toHaveLength(2);
   });
 });
