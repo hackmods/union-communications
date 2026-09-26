@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { GrievanceDashboard } from "@/components/grievance/GrievanceDashboard";
 import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
-import { getTenantContext } from "@/lib/tenant/loader";
+import { isSessionModuleEnabled } from "@/lib/hub/session-modules";
 import { canAccessGrievanceModule } from "@/lib/grievance/access";
 import type { UserRole } from "@/types/tenant";
 
@@ -29,10 +29,7 @@ export default async function GrievancesPage({
     redirect(`/${locale}/app`);
   }
 
-  const tenant = session.user.unionId
-    ? getTenantContext(session.user.unionId, session.user.localId)
-    : null;
-  if (!tenant?.union.enabledModules.includes("grievance")) {
+  if (!isSessionModuleEnabled(session, "grievance")) {
     return <ModuleDisabledPanel moduleId="grievance" roles={roles} />;
   }
 

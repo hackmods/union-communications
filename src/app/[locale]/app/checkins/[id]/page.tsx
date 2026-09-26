@@ -3,7 +3,8 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { CheckinDetailView } from "@/components/checkins/CheckinDetailView";
-import { getTenantContext } from "@/lib/tenant/loader";
+import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
+import { isSessionModuleEnabled } from "@/lib/hub/session-modules";
 import { canAccessCheckinsModule } from "@/lib/checkins/access";
 import type { UserRole } from "@/types/tenant";
 
@@ -28,11 +29,8 @@ export default async function CheckinDetailPage({
     redirect(`/${locale}/app`);
   }
 
-  const tenant = session.user.unionId
-    ? getTenantContext(session.user.unionId)
-    : null;
-  if (!tenant?.union.enabledModules.includes("checkins")) {
-    redirect(`/${locale}/app`);
+  if (!isSessionModuleEnabled(session, "checkins")) {
+    return <ModuleDisabledPanel moduleId="checkins" roles={roles} />;
   }
 
   return <CheckinDetailView scheduleId={id} />;

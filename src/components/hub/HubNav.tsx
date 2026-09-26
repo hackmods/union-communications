@@ -104,13 +104,18 @@ export function HubNav() {
     localId: session.user.localId,
   });
   const toolLinks = listHubToolLinks(toolAccess, (key) => t(key));
-  const toolGroups = groupHubToolLinks(toolLinks);
-  const toolsActive = hubToolsActive(pathname, toolLinks);
   // When the module strip is empty, promote setup links so presidents are not stuck.
   const setupLinks =
     modules.length === 0
       ? toolLinks.filter((link) => isHubSetupToolHref(link.href))
       : [];
+  // Avoid duplicating promoted setup links inside Officer tools.
+  const menuToolLinks =
+    setupLinks.length > 0
+      ? toolLinks.filter((link) => !isHubSetupToolHref(link.href))
+      : toolLinks;
+  const toolGroups = groupHubToolLinks(menuToolLinks);
+  const toolsActive = hubToolsActive(pathname, toolLinks);
 
   const drawerModules = modules.map((mod) => ({
     id: mod.id,

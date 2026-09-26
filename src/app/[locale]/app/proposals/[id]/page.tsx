@@ -5,6 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
 import { ProposalPackageWorkspace } from "@/components/hub/proposals/ProposalPackageWorkspace";
+import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { canAccessProposalsModule } from "@/lib/hub-governance/access";
 import type { UserRole } from "@/types/tenant";
 
@@ -22,8 +23,12 @@ export default async function HubProposalPackagePage({
   await hydrateTenantOverlayFromPostgres();
   const tenant = getTenantContext(session.user.unionId, session.user.localId);
   const roles = (session.user.roles ?? []) as UserRole[];
-  if (!canAccessProposalsModule(roles, tenant?.union.enabledModules ?? [])) {
+  const modules = tenant?.union.enabledModules ?? [];
+  if (!canAccessProposalsModule(roles, ["proposals"])) {
     redirect(`/${locale}/app`);
+  }
+  if (!modules.includes("proposals")) {
+    return <ModuleDisabledPanel moduleId="proposals" roles={roles} />;
   }
   return <ProposalPackageWorkspace packageId={id} />;
 }

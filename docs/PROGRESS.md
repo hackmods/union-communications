@@ -1,5 +1,10 @@
 # Progress Log
 
+## 2026-09-25 — Officer Hub module-off deep-link QOL
+
+- Grievance-adjacent routes (detail/new, overdue, documents, snippets, marketplace, steward-guides, hybrid, calendar) and peer modules (bumping, bylaws, proposals, informal log, discussion threads) show `ModuleDisabledPanel` instead of a silent `/app` redirect when the module is off.
+- Shared `getSessionEnabledModules` / `isSessionModuleEnabled`; HubNav dedupes promoted setup links out of Officer tools.
+
 ## 2026-09-25 — Officer Hub second-nav corrective rework
 
 - HubNav: orphan `|` only when context switcher has content; no `PRESIDENT_OVERLAY_MODULES` guess while tenant is pending; empty module strip promotes configuration / invites / onboarding for eligible roles.
