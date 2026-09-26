@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { canAccessPortal } from "@/lib/portal/access";
-import { getTenantContext } from "@/lib/tenant/loader";
 import type { UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
 
@@ -22,11 +21,9 @@ export function LocalPortalNavLink({
   if (status !== "authenticated" || !session?.user) return null;
 
   const roles = (session.user.roles ?? []) as UserRole[];
-  const tenant = session.user.unionId
-    ? getTenantContext(session.user.unionId)
-    : null;
-  const portalEnabled = Boolean(tenant?.union.enabledModules.includes("portal"));
-  if (!portalEnabled || !canAccessPortal(roles)) return null;
+  // Show by default for portal-eligible roles (including platform_admin).
+  // Tenant module gates still apply on /portal itself.
+  if (!canAccessPortal(roles)) return null;
 
   const active = pathname.startsWith("/portal");
   const className =
