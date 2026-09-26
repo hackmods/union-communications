@@ -8,6 +8,16 @@ officer assignments, scoped delegations, resource ownership/participation, and
 the feature's policy. `accessibleLocalIds` remains a context-switch hint; it is
 not a membership or permission grant.
 
+## Account and organization layers
+
+1. `platform_admin` operates the host, provisions unions, and maintains brand bindings. It has no standing access to private union casework.
+2. `union_admin` manages the account's own union brand and configuration. A paid, operator-enabled tenant-directory entitlement may additionally show **metadata only** for locals and groups in that union. The entitlement defaults off and never grants casework, Portal content, or cross-union access.
+3. A bargaining collective is an optional organizational parent within one union; it does not itself grant access. A union may use Other / no collective.
+4. Local membership and an active local context govern local records. A local may have one or several CA Collections (`BargainingUnit` records).
+5. A committee or organizing group is joined by explicit invitation and has its own participant boundary. Group membership does not imply local membership.
+
+The selection order in account/setup UI is **Union → bargaining collective (optional) → Local or group**. Brand Kit presets are presentation data only and cannot set the Hub union or confer any role.
+
 ## Permissions Matrix
 
 | Role | Scope | Comms | Grievance | Bumping |

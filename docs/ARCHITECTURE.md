@@ -78,6 +78,14 @@ Tools never call `localStorage` or fetch directly — always via adapter. `getDa
 
 ## Multi-Tenancy
 
+Account and organization hierarchy (as-built):
+
+```
+Union → optional bargaining collective (Division) → Local → optional CA collection (BargainingUnit)
+```
+
+Portal Circles are invited/joinable groups. They may be local-scoped or union-scoped and may reference a collective; they are not local tenants and do not inherit casework. A paid, platform-enabled `unions.paid_tenant_directory_enabled` entitlement may show metadata-only local listings to that union's `union_admin` — never casework or Portal content.
+
 Every authenticated row includes:
 
 - `unionId` (required)

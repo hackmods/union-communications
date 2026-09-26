@@ -4,6 +4,7 @@ import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import {
   bargainingUnits,
+  divisions,
   locals,
   unions,
 } from "@/lib/db/schema/tenant";
@@ -20,13 +21,13 @@ export async function GET() {
   }
   if (!isPostgresConfigured()) {
     return NextResponse.json(
-      { unions: [], locals: [], subGroups: [] },
+      { unions: [], collectives: [], locals: [], subGroups: [] },
       { status: 200 },
     );
   }
 
   const db = getDb();
-  const [unionRows, localRows, buRows] = await Promise.all([
+  const [unionRows, collectiveRows, localRows, buRows] = await Promise.all([
     db
       .select({
         id: unions.id,
@@ -36,9 +37,14 @@ export async function GET() {
       .from(unions)
       .where(isNull(unions.archivedAt)),
     db
+      .select({ id: divisions.id, unionId: divisions.unionId, code: divisions.code, name: divisions.name })
+      .from(divisions)
+      .where(isNull(divisions.archivedAt)),
+    db
       .select({
         id: locals.id,
         unionId: locals.unionId,
+        divisionId: locals.divisionId,
         localNumber: locals.localNumber,
         subText: locals.subText,
       })
@@ -56,6 +62,7 @@ export async function GET() {
 
   return NextResponse.json({
     unions: unionRows,
+    collectives: collectiveRows,
     locals: localRows,
     subGroups: buRows,
   });

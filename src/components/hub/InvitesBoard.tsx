@@ -13,6 +13,7 @@ import {
   UNION_LOCAL_SELECT_OTHER,
   UnionLocalSelect,
   emptyUnionLocalSelectValue,
+  type CollectiveOption,
   type LocalOption,
   type SubGroupOption,
   type UnionLocalSelectValue,
@@ -45,6 +46,7 @@ type PendingInvite = {
 type InvitesGetResponse = {
   invites: PendingInvite[];
   locals: LocalOption[];
+  collectives?: CollectiveOption[];
   subGroups?: SubGroupOption[];
   unions?: UnionOption[];
   inviteRoles: InviteRoleOption[];
@@ -91,6 +93,7 @@ export function InvitesBoard() {
   const [isPlatformAdmin, setIsPlatformAdmin] = useState(false);
   const [unions, setUnions] = useState<UnionOption[]>([]);
   const [locals, setLocals] = useState<LocalOption[]>([]);
+  const [collectives, setCollectives] = useState<CollectiveOption[]>([]);
   const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
   const [sessionUnionId, setSessionUnionId] = useState<string | null>(null);
   const [unionName, setUnionName] = useState<string | null>(null);
@@ -134,6 +137,7 @@ export function InvitesBoard() {
     setIsPlatformAdmin(Boolean(data.isPlatformAdmin));
     setUnions(data.unions ?? []);
     setLocals(data.locals);
+    setCollectives(data.collectives ?? []);
     setSubGroups(data.subGroups ?? []);
     setPending(data.invites);
     setSessionUnionId(data.sessionUnionId ?? null);
@@ -266,6 +270,7 @@ export function InvitesBoard() {
         payload.localSubText = scope.localSubText.trim();
       }
     }
+    if (scope.divisionId) payload.divisionId = scope.divisionId;
     if (scope.bargainingUnitId) {
       payload.bargainingUnitId = scope.bargainingUnitId;
     }
@@ -538,6 +543,7 @@ export function InvitesBoard() {
               mode={isPlatformAdmin ? "platform" : "elevate"}
               unions={unions}
               locals={locals}
+              collectives={collectives}
               subGroups={subGroups}
               lockedUnionId={sessionUnionId}
               value={presidentLocal}
@@ -605,6 +611,7 @@ export function InvitesBoard() {
               mode={isPlatformAdmin ? "platform" : "elevate"}
               unions={unions}
               locals={locals}
+              collectives={collectives}
               subGroups={subGroups}
               lockedUnionId={sessionUnionId}
               value={teamLocal}
@@ -626,6 +633,7 @@ export function InvitesBoard() {
             <UnionLocalSelect
               mode="president"
               locals={locals}
+              collectives={collectives}
               subGroups={subGroups}
               lockedUnionId={sessionUnionId}
               lockedUnionName={unionName}

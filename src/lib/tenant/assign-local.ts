@@ -1,6 +1,6 @@
 import { and, asc, eq, isNull, sql } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
-import { getDb, getRlsTx, type Db } from "@/lib/db/client";
+import { getDb, type Db } from "@/lib/db/client";
 import { getOwnerDb, isOwnerDbConfigured } from "@/lib/db/owner-client";
 import { applyRlsContext } from "@/lib/db/rls-context";
 import {
@@ -27,44 +27,6 @@ function getAssignDb(): Db {
   return isOwnerDbConfigured() ? getOwnerDb() : getDb();
 }
 
-// #region agent log
-function getRlsTxSafe(): unknown {
-  try {
-    return getRlsTx();
-  } catch {
-    return null;
-  }
-}
-
-function summarizeDbError(
-  err: unknown,
-  extra: Record<string, unknown>,
-): Record<string, unknown> {
-  const e = err as {
-    message?: string;
-    code?: string;
-    cause?: {
-      message?: string;
-      code?: string;
-      detail?: string;
-      constraint?: string;
-      schema?: string;
-      table?: string;
-    };
-  };
-  return {
-    ...extra,
-    message: e?.message ?? String(err),
-    code: e?.code ?? null,
-    causeMessage: e?.cause?.message ?? null,
-    causeCode: e?.cause?.code ?? null,
-    causeDetail: e?.cause?.detail ?? null,
-    causeConstraint: e?.cause?.constraint ?? null,
-    causeTable: e?.cause?.table ?? null,
-  };
-}
-// #endregion
-
 export type AssignLocalInput = {
   actorUserId: string;
   targetUserId: string;
@@ -75,6 +37,7 @@ export type AssignLocalInput = {
   localId?: string;
   localNumber?: string;
   localSubText?: string;
+  divisionId?: string;
   bargainingUnitId?: string | null;
   /** When true (or restoring orphan), mark this membership primary. */
   setPrimary?: boolean;
@@ -186,6 +149,7 @@ async function resolveLocal(input: {
   localId?: string;
   localNumber?: string;
   localSubText?: string;
+  divisionId?: string;
   /** When union was just created with firstLocalNumber, prefer that local. */
   createdUnion: boolean;
 }): Promise<
@@ -224,6 +188,7 @@ async function resolveLocal(input: {
     unionId: input.unionId,
     localNumber: number,
     subText: input.localSubText,
+    ...(input.divisionId ? { divisionId: input.divisionId } : {}),
   });
   return { ok: true, localId: local.id, createdLocal: created };
 }
@@ -261,6 +226,7 @@ export async function assignUserLocal(
     localId: input.localId,
     localNumber: input.localNumber,
     localSubText: input.localSubText,
+    divisionId: input.divisionId,
     createdUnion: union.createdUnion,
   });
   if (!local.ok) return local;
@@ -321,74 +287,6 @@ export async function assignUserLocal(
   const replacedMembershipIds: string[] = [];
   const now = new Date();
 
-  // #region agent log
-  {
-    const [actorRow] = await db
-      .select({
-        id: users.id,
-        unionId: users.unionId,
-        localId: users.localId,
-        roles: users.roles,
-      })
-      .from(users)
-      .where(eq(users.id, input.actorUserId))
-      .limit(1);
-    let gucs: unknown = null;
-    let orgManage: unknown = null;
-    try {
-      gucs = await db.execute(sql`
-        SELECT
-          nullif(current_setting('app.current_union_id', true), '') AS current_union_id,
-          nullif(current_setting('app.current_local_id', true), '') AS current_local_id,
-          nullif(current_setting('app.current_user_id', true), '') AS current_user_id,
-          current_setting('app.current_cross_local', true) AS current_cross_local,
-          current_user AS db_user
-      `);
-      orgManage = await db.execute(
-        sql`SELECT app_org_manage(${union.unionId}, ${local.localId}, ${"memberships.manage"}) AS can_manage`,
-      );
-    } catch (probeErr) {
-      orgManage = {
-        probeFailed: true,
-        message: probeErr instanceof Error ? probeErr.message : String(probeErr),
-      };
-    }
-    fetch("http://127.0.0.1:7911/ingest/3d68b2c0-ac88-4c57-b4e8-72926e068c79", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "9d35a6",
-      },
-      body: JSON.stringify({
-        sessionId: "9d35a6",
-        runId: "post-fix",
-        hypothesisId: "A-RLS",
-        location: "assign-local.ts:pre-tx",
-        message: "assignUserLocal pre-transaction RLS probe",
-        data: {
-          actorUserId: input.actorUserId,
-          targetUserId: input.targetUserId,
-          actorUnionId: actorRow?.unionId ?? null,
-          actorLocalId: actorRow?.localId ?? null,
-          actorRoles: actorRow?.roles ?? null,
-          targetUnionId: union.unionId,
-          targetLocalId: local.localId,
-          actorUnionMatchesTarget: actorRow?.unionId === union.unionId,
-          createdUnion: union.createdUnion,
-          createdLocal: local.createdLocal,
-          setPrimary,
-          bargainingUnitId: input.bargainingUnitId ?? null,
-          usingOwnerDb,
-          gucs,
-          orgManage,
-          hasRlsTx: Boolean(getRlsTxSafe()),
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-  }
-  // #endregion
-
   const membershipId = await db.transaction(async (tx) => {
     // App-role fallback: bind RLS GUCs so same-union platform_admin can insert.
     // Cross-union / new-union still needs MIGRATE_DATABASE_URL (owner) above.
@@ -444,89 +342,31 @@ export async function assignUserLocal(
 
     let membershipRowId: string;
     if (existing) {
-      try {
-        const [updated] = await tx
-          .update(localMemberships)
-          .set({
-            status: "active",
-            startedAt: now,
-            endedAt: null,
-            isPrimary: setPrimary,
-            bargainingUnitId: input.bargainingUnitId ?? existing.bargainingUnitId,
-          })
-          .where(eq(localMemberships.id, existing.id))
-          .returning({ id: localMemberships.id });
-        membershipRowId = updated.id;
-      } catch (updateErr) {
-        // #region agent log
-        fetch("http://127.0.0.1:7911/ingest/3d68b2c0-ac88-4c57-b4e8-72926e068c79", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Debug-Session-Id": "9d35a6",
-          },
-          body: JSON.stringify({
-            sessionId: "9d35a6",
-            runId: "pre-fix",
-            hypothesisId: "B-UNIQUE-OR-RLS-UPDATE",
-            location: "assign-local.ts:update",
-            message: "local_memberships update failed",
-            data: summarizeDbError(updateErr, {
-              path: "update",
-              existingId: existing.id,
-              unionId: union.unionId,
-              localId: local.localId,
-            }),
-            timestamp: Date.now(),
-          }),
-        }).catch(() => {});
-        // #endregion
-        throw updateErr;
-      }
+      const [updated] = await tx
+        .update(localMemberships)
+        .set({
+          status: "active",
+          startedAt: now,
+          endedAt: null,
+          isPrimary: setPrimary,
+          bargainingUnitId: input.bargainingUnitId ?? existing.bargainingUnitId,
+        })
+        .where(eq(localMemberships.id, existing.id))
+        .returning({ id: localMemberships.id });
+      membershipRowId = updated.id;
     } else {
       const id = randomUUID();
-      try {
-        await tx.insert(localMemberships).values({
-          id,
-          unionId: union.unionId,
-          localId: local.localId,
-          userId: target.id,
-          bargainingUnitId: input.bargainingUnitId ?? null,
-          status: "active",
-          isPrimary: setPrimary,
-          startedAt: now,
-          createdById: input.actorUserId,
-        });
-      } catch (insertErr) {
-        // #region agent log
-        fetch("http://127.0.0.1:7911/ingest/3d68b2c0-ac88-4c57-b4e8-72926e068c79", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Debug-Session-Id": "9d35a6",
-          },
-          body: JSON.stringify({
-            sessionId: "9d35a6",
-            runId: "pre-fix",
-            hypothesisId: "A-RLS",
-            location: "assign-local.ts:insert",
-            message: "local_memberships insert failed",
-            data: summarizeDbError(insertErr, {
-              path: "insert",
-              membershipId: id,
-              unionId: union.unionId,
-              localId: local.localId,
-              userId: target.id,
-              actorUserId: input.actorUserId,
-              bargainingUnitId: input.bargainingUnitId ?? null,
-              isPrimary: setPrimary,
-            }),
-            timestamp: Date.now(),
-          }),
-        }).catch(() => {});
-        // #endregion
-        throw insertErr;
-      }
+      await tx.insert(localMemberships).values({
+        id,
+        unionId: union.unionId,
+        localId: local.localId,
+        userId: target.id,
+        bargainingUnitId: input.bargainingUnitId ?? null,
+        status: "active",
+        isPrimary: setPrimary,
+        startedAt: now,
+        createdById: input.actorUserId,
+      });
       membershipRowId = id;
     }
 

@@ -58,7 +58,7 @@ describe("committees session helpers", () => {
     });
   });
 
-  it("lets cross-local admins drop the local filter only when localId is empty", () => {
+  it("keeps union administrators scoped to an assigned local", () => {
     expect(
       listFiltersForCommitteesSession(
         session({ roles: ["union_admin"], localId: "local-7" }),
@@ -74,7 +74,7 @@ describe("committees session helpers", () => {
       ),
     ).toEqual({
       unionId: "union-b7p",
-      localId: undefined,
+      localId: "__no_local_context__",
     });
   });
 

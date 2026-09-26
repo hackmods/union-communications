@@ -76,7 +76,14 @@ function emptyInvitesPayload(input: {
     localNumber: string;
     subText?: string;
     unionId: string;
+    divisionId?: string;
     isSample?: boolean;
+  }>;
+  collectives?: Array<{
+    id: string;
+    unionId: string;
+    code: string;
+    name: string;
   }>;
   subGroups?: Array<{
     id: string;
@@ -88,6 +95,7 @@ function emptyInvitesPayload(input: {
   return {
     invites: [],
     locals: input.locals ?? [],
+    collectives: input.collectives ?? [],
     subGroups: input.subGroups ?? [],
     unions: input.unions,
     inviteRoles: inviteRolesForActor(input.roles),
@@ -163,10 +171,21 @@ export async function GET(req: Request) {
           localNumber: local.localNumber,
           subText: local.subText,
           unionId: s.union.id,
+          divisionId: local.divisionId,
           isSample: isSampleDemoLocal({
             unionId: s.union.id,
             unionSlug: s.union.slug,
           }),
+        })),
+      )
+    : [];
+  const platformCollectives = isPlatform
+    ? seeds.flatMap((s) =>
+        (s.divisions ?? (s.division ? [s.division] : [])).map((division) => ({
+          id: division.id,
+          unionId: s.union.id,
+          code: division.code,
+          name: division.name,
         })),
       )
     : [];
@@ -191,6 +210,7 @@ export async function GET(req: Request) {
         sessionUnionId: null,
         unions: unionsList,
         locals: platformLocals,
+        collectives: platformCollectives,
         subGroups: platformSubGroups,
       }),
     );
@@ -210,6 +230,7 @@ export async function GET(req: Request) {
           sessionUnionId,
           unions: unionsList,
           locals: platformLocals,
+          collectives: platformCollectives,
           subGroups: platformSubGroups,
         }),
       );
@@ -230,10 +251,20 @@ export async function GET(req: Request) {
         localNumber: local.localNumber,
         subText: local.subText,
         unionId: effectiveUnionId,
+        divisionId: local.divisionId,
         isSample: isSampleDemoLocal({
           unionId: effectiveUnionId,
           unionSlug: ctx.union.slug,
         }),
+      }));
+
+  const allCollectives = isPlatform
+    ? platformCollectives
+    : ctx.divisions.map((division) => ({
+        id: division.id,
+        unionId: effectiveUnionId,
+        code: division.code,
+        name: division.name,
       }));
 
   const allSubGroups = isPlatform
@@ -263,6 +294,7 @@ export async function GET(req: Request) {
         : {}),
     })),
     locals: allLocals,
+    collectives: allCollectives,
     subGroups: allSubGroups,
     unions: unionsList,
     inviteRoles: inviteRolesForActor(roles),
@@ -368,7 +400,8 @@ export async function POST(req: Request) {
         unionId,
         localNumber: parsed.data.localNumber,
         subText: parsed.data.localSubText,
-        divisionId: parsed.data.divisionId ?? ctx.division?.id,
+        // Explicit selection only — never inherit the tenant's first collective.
+        ...(parsed.data.divisionId ? { divisionId: parsed.data.divisionId } : {}),
       });
       localId = local.id;
       if (parsed.data.collectionCode && parsed.data.collectionName) {
@@ -409,12 +442,18 @@ export async function POST(req: Request) {
     );
   }
 
+  const inviteLocal = localId
+    ? getTenantContext(unionId)?.locals.find((l) => l.id === localId)
+    : undefined;
   const invite = await createInvite({
     email: parsed.data.email,
     name: parsed.data.name,
     unionId,
     localId,
-    divisionId: parsed.data.divisionId ?? session.user.divisionId,
+    divisionId:
+      parsed.data.divisionId ||
+      inviteLocal?.divisionId ||
+      session.user.divisionId,
     bargainingUnitId:
       parsed.data.bargainingUnitId ?? session.user.bargainingUnitId,
     roles: parsed.data.roles as UserRole[],

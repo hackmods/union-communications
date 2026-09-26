@@ -1,6 +1,7 @@
 import referenceTenant from "../../../seed/reference-tenant-b7p.json";
 import {
   getLocalPatches,
+  getDivisionPatches,
   getDataModulePatch,
   getEnabledModulesPatch,
   getOverlaySeeds,
@@ -11,6 +12,7 @@ import {
 import type {
   BargainingUnit,
   BrandDefaults,
+  Division,
   GrievanceConfig,
   TenantContext,
   TenantLocal,
@@ -22,6 +24,7 @@ const STATIC_SEEDS: TenantSeed[] = [referenceTenant as TenantSeed];
 function mergeSeed(base: TenantSeed): TenantSeed {
   const unionId = base.union.id;
   const patchLocals = getLocalPatches(unionId);
+  const patchDivisions = getDivisionPatches(unionId);
   const patchUnits = getUnitPatches(unionId);
   const dataModulePatch = getDataModulePatch(unionId);
   const enabledModulesPatch = getEnabledModulesPatch(unionId);
@@ -29,6 +32,7 @@ function mergeSeed(base: TenantSeed): TenantSeed {
   const brandThemePatch = getBrandThemePatch(unionId);
   if (
     patchLocals.length === 0 &&
+    patchDivisions.length === 0 &&
     patchUnits.length === 0 &&
     dataModulePatch === undefined &&
     enabledModulesPatch === undefined &&
@@ -45,6 +49,11 @@ function mergeSeed(base: TenantSeed): TenantSeed {
         ? [base.local]
         : []),
     ...patchLocals.filter((p) => !base.locals?.some((l) => l.id === p.id)),
+  ];
+  const baseDivisions = base.divisions ?? (base.division ? [base.division] : []);
+  const divisions = [
+    ...baseDivisions,
+    ...patchDivisions.filter((row) => !baseDivisions.some((baseRow) => baseRow.id === row.id)),
   ];
   // Deduplicate by id when overlay seed already includes patches
   const localIds = new Set<string>();
@@ -107,6 +116,7 @@ function mergeSeed(base: TenantSeed): TenantSeed {
       enabledModules,
     },
     locals: dedupedLocals,
+    divisions,
     bargainingUnits: dedupedUnits,
     brandDefaults,
   };
@@ -131,6 +141,10 @@ export function getTenantByUnionId(unionId: string): TenantSeed | undefined {
 export function normalizeLocals(seed: TenantSeed): TenantLocal[] {
   if (seed.locals && seed.locals.length > 0) return seed.locals;
   return seed.local ? [seed.local] : [];
+}
+
+export function normalizeDivisions(seed: TenantSeed): Division[] {
+  return seed.divisions ?? (seed.division ? [seed.division] : []);
 }
 
 export function normalizeBargainingUnits(seed: TenantSeed): BargainingUnit[] {
@@ -158,9 +172,13 @@ export function getTenantContext(
     (localId ? locals.find((row) => row.id === localId) : undefined) ??
     locals[0] ??
     seed.local;
+  const divisions = normalizeDivisions(seed);
   return {
     union: seed.union,
-    division: seed.division,
+    division: local
+      ? divisions.find((row) => row.id === local.divisionId)
+      : divisions[0],
+    divisions,
     local,
     locals,
     bargainingUnits: normalizeBargainingUnits(seed),

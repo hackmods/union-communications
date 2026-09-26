@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
-import { isPostgresConfigured } from "@/lib/db/client";
+import { getDb, isPostgresConfigured } from "@/lib/db/client";
+import { divisions } from "@/lib/db/schema/tenant";
+import { and, eq, isNull } from "drizzle-orm";
 import {
   createCollectionDurable,
   findOrCreateLocal,
@@ -51,6 +53,14 @@ export async function POST(req: Request) {
   }
 
   try {
+    if (parsed.data.divisionId) {
+      const [division] = await getDb().select({ id: divisions.id }).from(divisions).where(and(
+        eq(divisions.id, parsed.data.divisionId),
+        eq(divisions.unionId, parsed.data.unionId),
+        isNull(divisions.archivedAt),
+      )).limit(1);
+      if (!division) return NextResponse.json({ error: "Bargaining collective not found" }, { status: 404 });
+    }
     const { local, created } = await findOrCreateLocal({
       unionId: parsed.data.unionId,
       localNumber: parsed.data.localNumber,
@@ -98,11 +108,15 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     reportApiFailure(err, "/api/site-admin/locals");
+    const message = err instanceof Error ? err.message : "";
+    if (message.includes("different bargaining collective")) {
+      return NextResponse.json(
+        { error: "That local already belongs to a different bargaining collective." },
+        { status: 409 },
+      );
+    }
     return NextResponse.json(
-      {
-        error:
-          err instanceof Error ? err.message : "Create local failed",
-      },
+      { error: "Create local failed" },
       { status: 500 },
     );
   }

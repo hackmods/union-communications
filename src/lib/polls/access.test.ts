@@ -39,6 +39,7 @@ describe("polls access", () => {
     expect(canViewPoll(poll, "u1", "l1", ["local_president"])).toBe(true);
     expect(canViewPoll(poll, "u2", "l1", ["local_president"])).toBe(false);
     expect(canViewPoll(poll, "u1", "l2", ["local_president"])).toBe(false);
-    expect(canViewPoll(poll, "u1", "l2", ["union_admin"])).toBe(true);
+    expect(canViewPoll(poll, "u1", "l2", ["union_admin"])).toBe(false);
+    expect(canViewPoll(poll, "u1", "l2", ["platform_admin"])).toBe(true);
   });
 });

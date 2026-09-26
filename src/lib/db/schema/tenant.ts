@@ -52,6 +52,10 @@ export const unions = pgTable("unions", {
     headlineFontId?: string;
     bodyFontId?: string;
   }>(),
+  /** Operator-granted paid access to this union's local directory. Defaults closed. */
+  paidTenantDirectoryEnabled: boolean("paid_tenant_directory_enabled")
+    .notNull()
+    .default(false),
 });
 
 export const divisions = pgTable("divisions", {

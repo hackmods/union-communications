@@ -28,6 +28,8 @@ export interface Circle {
   id: string;
   unionId: string;
   localId?: string;
+  /** Optional bargaining collective; membership remains Circle-specific. */
+  divisionId?: string;
   kind: CircleKind;
   name: string;
   description?: string;

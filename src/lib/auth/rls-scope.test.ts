@@ -32,14 +32,20 @@ describe("rlsContextForSession", () => {
     ).toEqual({ unionId: "union-b7p", localId: "local-7", userId: "user-1", crossLocal: false, mfaVerified: false });
   });
 
-  it("sets crossLocal for union/division/platform admins", async () => {
-    for (const role of ["union_admin", "division_admin", "platform_admin"]) {
+  it("does not grant cross-local access to union or division admins", async () => {
+    for (const role of ["union_admin", "division_admin"]) {
       expect(
         await rlsContextForSession(
           sessionFor({ unionId: "union-b7p", roles: [role] }),
         ),
-      ).toMatchObject({ unionId: "union-b7p", crossLocal: true });
+      ).toMatchObject({ unionId: "union-b7p", crossLocal: false });
     }
+  });
+
+  it("reserves role-wide cross-local context for platform operations", async () => {
+    expect(await rlsContextForSession(sessionFor({
+      unionId: "union-b7p", roles: ["platform_admin"],
+    }))).toMatchObject({ unionId: "union-b7p", crossLocal: true });
   });
 
   it("keeps crossLocal false for local officers", async () => {

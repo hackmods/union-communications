@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/auth";
+import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
+import type { AuthorizationActor } from "@/lib/authorization/model";
 import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import {
   requireTenantOnboardingSession,
@@ -31,6 +33,7 @@ import {
 } from "@/lib/president/local-prefs";
 import {
   createCollectionDurable,
+  createDivisionDurable,
   createLocalDurable,
   createUnionDurable,
   setUnionDataModule,
@@ -41,7 +44,7 @@ import {
 import { visibleHubConfigRows } from "@/lib/president/module-catalog";
 import type { PortalSurfaceId } from "@/lib/president/module-catalog";
 import { parseJsonBody } from "@/lib/validation/parse";
-import type { HubModule, UserRole } from "@/types/tenant";
+import type { HubModule, TenantContext, UserRole } from "@/types/tenant";
 
 const hubModuleSchema = z.enum([
   "comms",
@@ -90,6 +93,13 @@ const createCollectionSchema = z.object({
   unionPresetId: z.string().min(1).max(64).optional(),
 });
 
+const createCollectiveSchema = z.object({
+  action: z.literal("create_collective"),
+  code: z.string().trim().min(1).max(32),
+  name: z.string().trim().min(1).max(200),
+  unionId: z.string().min(1).optional(),
+});
+
 const createUnionSchema = z.object({
   action: z.literal("create_union"),
   name: z.string().min(1).max(200),
@@ -134,6 +144,7 @@ const setLocalPrefsSchema = z.object({
 const bodySchema = z.discriminatedUnion("action", [
   createLocalSchema,
   createCollectionSchema,
+  createCollectiveSchema,
   createUnionSchema,
   setDataModuleSchema,
   setModulesSchema,
@@ -158,6 +169,29 @@ function resolveOperatorUnionId(
   return { ok: true, unionId: sessionUnionId };
 }
 
+function scopeTenantContext(
+  context: TenantContext | null,
+  unionId: string,
+  actor: AuthorizationActor,
+): TenantContext | null {
+  if (!context || isPlatformAdminRole(actor.roles)) return context;
+  const visibleLocalIds = new Set(actor.memberships
+    .filter((membership) => membership.unionId === unionId)
+    .map((membership) => membership.localId));
+  const visibleDivisions = context.divisions.filter((division) =>
+    context.locals.some((local) => visibleLocalIds.has(local.id) && local.divisionId === division.id));
+  return {
+    ...context,
+    divisions: visibleDivisions,
+    division: visibleDivisions.find((division) => division.id === context.local?.divisionId),
+    locals: context.locals.filter((local) => visibleLocalIds.has(local.id)),
+    bargainingUnits: context.bargainingUnits.filter((unit) => visibleLocalIds.has(unit.localId)),
+    local: context.local && visibleLocalIds.has(context.local.id)
+      ? context.local
+      : undefined,
+  };
+}
+
 function tenantPayload(
   unionId: string,
   roles: UserRole[],
@@ -165,10 +199,11 @@ function tenantPayload(
     localId?: string | null;
     canCreateUnion: boolean;
   },
-  extras?: { needsUnionContext?: boolean; unions?: Array<{ id: string; name: string }> },
+  actor: AuthorizationActor,
+  extras?: { unions?: Array<{ id: string; name: string }> },
 ) {
   const localId = session.localId ?? null;
-  const ctx = getTenantContext(unionId, localId);
+  const ctx = scopeTenantContext(getTenantContext(unionId, localId), unionId, actor);
   if (!ctx) return null;
   return {
     context: ctx,
@@ -237,10 +272,14 @@ export async function GET(req?: Request) {
     );
   }
 
+  const actor = await resolveAuthorizationActor(session);
+  if (!actor.accountActive || (actor.unionId !== resolved.unionId && !isPlatformAdminRole(actor.roles))) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
   const payload = tenantPayload(resolved.unionId, roles, {
     localId: session.user.localId,
     canCreateUnion: sessionCanCreateUnion(session),
-  }, isPlatformAdminRole(roles) ? { unions } : undefined);
+  }, actor, isPlatformAdminRole(roles) ? { unions } : undefined);
   if (!payload) {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
@@ -274,6 +313,10 @@ export async function POST(req: Request) {
 
   const data = parsed.data;
   const roles = (authResult.session.user.roles ?? []) as UserRole[];
+  const actor = await resolveAuthorizationActor(authResult.session);
+  if (!actor.accountActive) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
   const sessionUnionId = authResult.session.user.unionId;
   const requestedUnionId =
     "unionId" in data && typeof data.unionId === "string"
@@ -377,7 +420,7 @@ export async function POST(req: Request) {
       const enabledModules = await setUnionEnabledModules(unionId, next);
       return NextResponse.json({
         enabledModules,
-        context: getTenantContext(unionId, authResult.session.user.localId),
+        context: scopeTenantContext(getTenantContext(unionId, authResult.session.user.localId), unionId, actor),
       });
     } catch (error) {
       return NextResponse.json(
@@ -437,6 +480,10 @@ export async function POST(req: Request) {
     if (!ctx.locals.some((local) => local.id === data.localId)) {
       return NextResponse.json({ error: "Local not found" }, { status: 404 });
     }
+    if (!isPlatformAdminRole(roles) && !actor.memberships.some((membership) =>
+      membership.unionId === unionId && membership.localId === data.localId)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     if (data.clear) {
       clearLocalPresentationPrefs(unionId, data.localId);
       return NextResponse.json({ localPrefs: null, cleared: true });
@@ -468,7 +515,9 @@ export async function POST(req: Request) {
   const resolved = resolveOperatorUnionId(
     roles,
     sessionUnionId,
-    data.action === "create_local" ? requestedUnionId : undefined,
+    data.action === "create_local" || data.action === "create_collective"
+      ? requestedUnionId
+      : undefined,
   );
   if (!resolved.ok) {
     return NextResponse.json(
@@ -486,11 +535,14 @@ export async function POST(req: Request) {
     if (!canMintLocal(roles)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+    if (data.divisionId && !ctx.divisions.some((division) => division.id === data.divisionId)) {
+      return NextResponse.json({ error: "Bargaining collective not found" }, { status: 404 });
+    }
     const local = await createLocalDurable({
       unionId,
       localNumber: data.localNumber,
       subText: data.subText ?? "",
-      divisionId: data.divisionId ?? ctx.division?.id,
+      divisionId: data.divisionId,
     });
     let collection = null;
     if (data.collectionCode && data.collectionName) {
@@ -518,7 +570,7 @@ export async function POST(req: Request) {
       "@/lib/snippets/ensure-seeded"
     );
     let snippetsSeeded = 0;
-    if (unionPresetSeedsReferencePacks(data.unionPresetId ?? "opseu")) {
+    if (unionPresetSeedsReferencePacks(ctx.brandDefaults.commsPresetId ?? "")) {
       const ensure = await ensureReferencePacksIfEmpty(unionId);
       snippetsSeeded = ensure.restored;
     }
@@ -534,9 +586,29 @@ export async function POST(req: Request) {
     );
   }
 
+  if (data.action === "create_collective") {
+    if (!isPlatformAdminRole(roles)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    if (ctx.divisions.some((division) => division.code.toLowerCase() === data.code.toLowerCase())) {
+      return NextResponse.json({ error: "Bargaining collective code already exists" }, { status: 409 });
+    }
+    const collective = await createDivisionDurable({
+      unionId,
+      code: data.code,
+      name: data.name,
+      enabledModules: ctx.union.enabledModules,
+    });
+    return NextResponse.json({ collective, context: getTenantContext(unionId) }, { status: 201 });
+  }
+
   const localExists = ctx.locals.some((l) => l.id === data.localId);
   if (!localExists) {
     return NextResponse.json({ error: "Local not found" }, { status: 404 });
+  }
+  if (!isPlatformAdminRole(roles) && !actor.memberships.some((membership) =>
+    membership.unionId === unionId && membership.localId === data.localId)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   const collection = await createCollectionDurable({
     unionId,
@@ -560,12 +632,12 @@ export async function POST(req: Request) {
     "@/lib/snippets/ensure-seeded"
   );
   let snippetsSeeded = 0;
-  if (unionPresetSeedsReferencePacks(data.unionPresetId ?? "opseu")) {
+  if (unionPresetSeedsReferencePacks(ctx.brandDefaults.commsPresetId ?? "")) {
     const ensure = await ensureReferencePacksIfEmpty(unionId);
     snippetsSeeded = ensure.restored;
   }
   return NextResponse.json(
-    { collection, snippetsSeeded, context: getTenantContext(unionId) },
+    { collection, snippetsSeeded, context: scopeTenantContext(getTenantContext(unionId), unionId, actor) },
     { status: 201 },
   );
 }

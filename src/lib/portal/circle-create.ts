@@ -1,4 +1,16 @@
 import type { CircleKind, CircleVisibility } from "@/types/portal";
+import type { AuthorizationActor } from "@/lib/authorization/model";
+
+/** A local president may start an invited cross-local Circle without gaining any other local's records. */
+export function canCreateUnionScopedCircle(actor: AuthorizationActor, unionId: string): boolean {
+  if (!actor.accountActive || actor.unionId !== unionId) return false;
+  if (actor.roles.includes("platform_admin") || actor.roles.includes("union_admin")) return true;
+  const localId = actor.activeLocalId;
+  return Boolean(localId &&
+    actor.memberships.some((membership) => membership.unionId === unionId && membership.localId === localId) &&
+    actor.assignments.some((assignment) => assignment.unionId === unionId && assignment.localId === localId &&
+      ["president", "vice_president"].includes(assignment.position)));
+}
 
 export type CircleCreateScope = "local" | "union";
 export type CircleCreateTemplate = "blank" | "lec" | "jhsc" | "campaign";

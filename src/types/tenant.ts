@@ -110,6 +110,8 @@ export interface TenantSeed {
   description?: string;
   union: Union;
   division?: Division;
+  /** Union-level bargaining collectives; `division` is the legacy single row. */
+  divisions?: Division[];
   /** @deprecated Prefer `locals` — kept for older single-local seeds */
   local?: TenantLocal;
   locals?: TenantLocal[];
@@ -126,6 +128,7 @@ export interface TenantSeed {
 export interface TenantContext {
   union: Union;
   division?: Division;
+  divisions: Division[];
   /** Primary / default local (first in seed or legacy `local`) */
   local?: TenantLocal;
   locals: TenantLocal[];

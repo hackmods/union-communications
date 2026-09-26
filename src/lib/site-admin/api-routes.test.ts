@@ -221,6 +221,7 @@ describe("site-admin locals, assign-local, and integrity HTTP", () => {
     expect(options.status).toBe(200);
     expect(await options.json()).toEqual({
       unions: [],
+      collectives: [],
       locals: [],
       subGroups: [],
     });

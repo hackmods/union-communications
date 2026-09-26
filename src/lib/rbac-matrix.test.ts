@@ -96,8 +96,8 @@ describe("RBAC matrix (docs/RBAC.md)", () => {
   it("only elevated admin roles cross-local without switcher", () => {
     expect(canCrossLocalGrievance(["local_president"])).toBe(false);
     expect(canCrossLocalGrievance(["local_steward"])).toBe(false);
-    expect(canCrossLocalGrievance(["union_admin"])).toBe(true);
-    expect(canCrossLocalGrievance(["division_admin"])).toBe(true);
+    expect(canCrossLocalGrievance(["union_admin"])).toBe(false);
+    expect(canCrossLocalGrievance(["division_admin"])).toBe(false);
     expect(canCrossLocalGrievance(["platform_admin"])).toBe(true);
   });
 

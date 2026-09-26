@@ -62,6 +62,7 @@ function mapCircle(row: typeof portalCircles.$inferSelect): Circle {
     id: row.id,
     unionId: row.unionId,
     localId: row.localId ?? undefined,
+    divisionId: row.divisionId ?? undefined,
     kind: row.kind as Circle["kind"],
     name: row.name,
     description: row.description ?? undefined,
@@ -369,7 +370,7 @@ export class PostgresPortalAdapter implements PortalAdapter {
   }
 
   async createCircle(input: {
-    unionId: string; localId?: string; kind: Circle["kind"]; name: string;
+    unionId: string; localId?: string; divisionId?: string; kind: Circle["kind"]; name: string;
     description?: string; visibility: Circle["visibility"]; createdById: string;
     createdByName: string; template?: "blank" | "lec" | "jhsc" | "campaign";
     frontStartsAt?: string; frontEndsAt?: string;
@@ -382,6 +383,7 @@ export class PostgresPortalAdapter implements PortalAdapter {
       const createdAt = instant();
       const row = {
         id: makeId("circle"), unionId: input.unionId, localId: input.localId ?? null,
+        divisionId: input.divisionId ?? null,
         kind: input.kind, name: input.name, description: input.description ?? null,
         visibility: input.visibility, frontStartsAt: asDate(input.frontStartsAt),
         frontEndsAt: asDate(input.frontEndsAt), archivedAt: null,

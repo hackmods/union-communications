@@ -12,13 +12,17 @@ import type { MembershipPolicy } from "@/lib/db/schema/tenant";
 type Props = {
   unionId: string;
   membershipPolicy: MembershipPolicy;
+  collectives: Array<{ id: string; name: string }>;
 };
 
-export function CreateLocalForm({ unionId, membershipPolicy }: Props) {
+export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Props) {
   const t = useTranslations("hub.platformOperator");
   const router = useRouter();
   const [localNumber, setLocalNumber] = useState("");
   const [subText, setSubText] = useState("");
+  const [divisionId, setDivisionId] = useState("");
+  const [collectiveCode, setCollectiveCode] = useState("");
+  const [collectiveName, setCollectiveName] = useState("");
   const [collectionCode, setCollectionCode] = useState("");
   const [collectionName, setCollectionName] = useState("");
   const [policy, setPolicy] = useState<MembershipPolicy>(membershipPolicy);
@@ -80,6 +84,7 @@ export function CreateLocalForm({ unionId, membershipPolicy }: Props) {
           unionId,
           localNumber: localNumber.trim(),
           localSubText: subText.trim() || undefined,
+          ...(divisionId ? { divisionId } : {}),
           ...(collectionCode.trim() && collectionName.trim()
             ? {
                 collectionCode: collectionCode.trim(),
@@ -106,6 +111,34 @@ export function CreateLocalForm({ unionId, membershipPolicy }: Props) {
       router.refresh();
     } catch {
       setError(t("createLocalFailed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function createCollective(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError(null);
+    setMessage(null);
+    try {
+      const res = await fetch("/api/tenant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "create_collective", unionId, code: collectiveCode.trim(), name: collectiveName.trim() }),
+      });
+      const data = await res.json() as { error?: string; collective?: { id: string } };
+      if (!res.ok || !data.collective) {
+        setError(data.error ?? t("createCollectiveFailed"));
+        return;
+      }
+      setDivisionId(data.collective.id);
+      setCollectiveCode("");
+      setCollectiveName("");
+      setMessage(t("createCollectiveSaved"));
+      router.refresh();
+    } catch {
+      setError(t("createCollectiveFailed"));
     } finally {
       setBusy(false);
     }
@@ -138,6 +171,16 @@ export function CreateLocalForm({ unionId, membershipPolicy }: Props) {
         </div>
       </section>
 
+      <form onSubmit={createCollective} className="space-y-3 rounded-md border border-opseu-gray/15 bg-white p-4">
+        <h2 className="text-lg font-semibold text-opseu-dark">{t("createCollectiveTitle")}</h2>
+        <p className="text-sm text-opseu-gray-dark">{t("createCollectiveBody")}</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Input label={t("createCollectiveCode")} value={collectiveCode} required disabled={busy} maxLength={32} onChange={(event) => setCollectiveCode(event.target.value)} />
+          <Input label={t("createCollectiveName")} value={collectiveName} required disabled={busy} maxLength={200} onChange={(event) => setCollectiveName(event.target.value)} />
+        </div>
+        <Button type="submit" disabled={busy || !collectiveCode.trim() || !collectiveName.trim()}>{t("createCollectiveSubmit")}</Button>
+      </form>
+
       <form
         onSubmit={createLocal}
         className="space-y-3 rounded-md border border-opseu-gray/15 bg-white p-4"
@@ -147,6 +190,13 @@ export function CreateLocalForm({ unionId, membershipPolicy }: Props) {
         </h2>
         <p className="text-sm text-opseu-gray-dark">{t("createLocalBody")}</p>
         <div className="grid gap-3 sm:grid-cols-2">
+          <div className="sm:col-span-2">
+            <Select label={t("createLocalCollective")} value={divisionId} disabled={busy} onChange={(event) => setDivisionId(event.target.value)}>
+              <option value="">{t("createLocalCollectiveOther")}</option>
+              {collectives.map((collective) => <option key={collective.id} value={collective.id}>{collective.name}</option>)}
+              {divisionId && !collectives.some((collective) => collective.id === divisionId) ? <option value={divisionId}>{t("createCollectiveSaved")}</option> : null}
+            </Select>
+          </div>
           <Input
             label={t("createLocalNumber")}
             value={localNumber}

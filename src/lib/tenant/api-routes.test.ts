@@ -82,6 +82,12 @@ describe("GET/POST /api/tenant", () => {
     expect(body.canManageLocalModules).toBe(false);
     expect(body.canCreateUnion).toBe(false);
 
+    const scoped = (await getTenant().then((response) => response.json())) as {
+      context: { locals: Array<{ id: string }>; bargainingUnits: Array<{ localId: string }> };
+    };
+    expect(scoped.context.locals.map((local) => local.id)).toEqual(["local-7"]);
+    expect(scoped.context.bargainingUnits.every((unit) => unit.localId === "local-7")).toBe(true);
+
     const written = await postTenant(
       jsonRequest({
         action: "set_modules",
@@ -198,6 +204,16 @@ describe("GET/POST /api/tenant", () => {
     expect(missing.status).toBe(404);
     expect(await missing.json()).toEqual({ error: "Local not found" });
 
+    const foreign = await postTenant(
+      jsonRequest({
+        action: "set_local_prefs",
+        localId: "local-404",
+        hubModules: ["grievance"],
+        portalSurfaces: ["announcements"],
+      }),
+    );
+    expect(foreign.status).toBe(403);
+
     const prefs = await postTenant(
       jsonRequest({
         action: "set_local_prefs",
@@ -241,6 +257,34 @@ describe("GET/POST /api/tenant", () => {
     expect(body.local.unionId).toBe("union-b7p");
     expect(body.local.localNumber).toBe("808");
     expect(body.local.subText).toBe("Coverage local");
+  });
+
+  it("creates a union-scoped collective and validates a local's parent", async () => {
+    authMock.mockResolvedValue(session());
+    expect((await postTenant(jsonRequest({
+      action: "create_collective", code: "joint", name: "Joint bargaining",
+    }))).status).toBe(403);
+
+    authMock.mockResolvedValue(session({ id: "user-root", roles: ["platform_admin"] }));
+    const created = await postTenant(jsonRequest({
+      action: "create_collective", code: "joint", name: "Joint bargaining",
+    }));
+    expect(created.status).toBe(201);
+    const body = await created.json() as { collective: { id: string; unionId: string }; context: { divisions: Array<{ id: string }> } };
+    expect(body.collective.unionId).toBe("union-b7p");
+    expect(body.context.divisions.some((division) => division.id === body.collective.id)).toBe(true);
+    expect((await postTenant(jsonRequest({
+      action: "create_collective", code: "JOINT", name: "Duplicate",
+    }))).status).toBe(409);
+
+    expect((await postTenant(jsonRequest({
+      action: "create_local", localNumber: "808", divisionId: "foreign-division",
+    }))).status).toBe(404);
+    const local = await postTenant(jsonRequest({
+      action: "create_local", localNumber: "808", divisionId: body.collective.id,
+    }));
+    expect(local.status).toBe(201);
+    expect((await local.json() as { local: { divisionId: string } }).local.divisionId).toBe(body.collective.id);
   });
 
   it("forbids a president from targeting another union via unionId", async () => {
@@ -299,6 +343,16 @@ describe("GET/POST /api/tenant", () => {
     expect(missing.status).toBe(404);
     expect(await missing.json()).toEqual({ error: "Local not found" });
 
+    const foreign = await postTenant(
+      jsonRequest({
+        action: "create_collection",
+        localId: "local-404",
+        code: "other",
+        name: "Another local's collection",
+      }),
+    );
+    expect(foreign.status).toBe(403);
+
     const created = await postTenant(
       jsonRequest({
         action: "create_collection",
@@ -312,11 +366,15 @@ describe("GET/POST /api/tenant", () => {
     expect(created.status).toBe(201);
     const body = (await created.json()) as {
       collection: { unionId: string; localId: string; code: string; name: string };
+      snippetsSeeded: number;
+      context: { locals: Array<{ id: string }> };
     };
     expect(body.collection.unionId).toBe("union-b7p");
     expect(body.collection.localId).toBe("local-7");
     expect(body.collection.code).toBe("coverage");
     expect(body.collection.name).toBe("Coverage collection");
+    expect(body.snippetsSeeded).toBe(0);
+    expect(body.context.locals.map((local) => local.id)).toEqual(["local-7"]);
   });
 
   it("lets platform admin GET/POST modules for a union override without home union", async () => {

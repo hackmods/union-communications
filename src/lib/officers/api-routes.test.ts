@@ -185,7 +185,7 @@ describe("officer roster API routes", () => {
       expect(await memoryOfficerRosterStore.getById(foreign.id)).not.toBeNull();
     });
 
-    it("lets a union_admin read another local in the same union, but a president cannot", async () => {
+    it("keeps union_admin and presidents from reading another local's officer", async () => {
       const otherLocal = await memoryOfficerRosterStore.create(
         { name: "Local 560 chair", role: "President", termStart: "2026-01-01" },
         { unionId: "union-b7p", localId: "local-1337" },
@@ -203,9 +203,7 @@ describe("officer roster API routes", () => {
         new Request("http://localhost"),
         params(otherLocal.id),
       );
-      expect(admin.status).toBe(200);
-      const body = (await admin.json()) as { officer: { localId: string } };
-      expect(body.officer.localId).toBe("local-1337");
+      expect(admin.status).toBe(403);
     });
 
     it("clears optional fields on PATCH and deletes a same-local row", async () => {

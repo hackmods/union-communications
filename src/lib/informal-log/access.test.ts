@@ -98,6 +98,15 @@ describe("informal log access", () => {
         ["union_admin"],
         "admin-1",
       ),
+    ).toBe(false);
+    expect(
+      canViewInformalLogEntry(
+        entry,
+        "union-a",
+        "local-2",
+        ["platform_admin"],
+        "admin-1",
+      ),
     ).toBe(true);
     expect(
       canViewInformalLogEntry(

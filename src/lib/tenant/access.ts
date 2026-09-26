@@ -43,7 +43,7 @@ export function canManageInvites(roles: string[]): boolean {
  * Presidents stay session-local; site admin still uses elevate for minting.
  */
 export function canInviteAcrossUnionLocals(roles: string[]): boolean {
-  return roles.some((r) => ["platform_admin", "union_admin"].includes(r));
+  return roles.includes("platform_admin");
 }
 
 /** Site admin: invite a local president onto a (possibly new) local. */

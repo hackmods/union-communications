@@ -4,6 +4,7 @@ import type { PortalSurfaceId } from "@/lib/president/module-catalog";
 import type {
   BargainingUnit,
   BrandDefaults,
+  Division,
   HubModule,
   TenantLocal,
   TenantSeed,
@@ -21,6 +22,7 @@ import type {
 const overlaySeeds = new Map<string, TenantSeed>();
 /** Locals / collections patched onto an existing seed (by unionId). */
 const localPatches = new Map<string, TenantLocal[]>();
+const divisionPatches = new Map<string, Division[]>();
 const unitPatches = new Map<string, BargainingUnit[]>();
 const dataModulePatches = new Map<string, boolean>();
 /** Full enabledModules replace for static or overlay unions (president config). */
@@ -98,6 +100,41 @@ export function getOverlaySeeds(): TenantSeed[] {
 
 export function getLocalPatches(unionId: string): TenantLocal[] {
   return localPatches.get(unionId) ?? [];
+}
+
+export function getDivisionPatches(unionId: string): Division[] {
+  return divisionPatches.get(unionId) ?? [];
+}
+
+export function createOverlayDivision(input: {
+  unionId: string;
+  code: string;
+  name: string;
+  enabledModules: HubModule[];
+}): Division {
+  const division: Division = {
+    id: id("division"),
+    unionId: input.unionId,
+    code: input.code.trim().toLowerCase(),
+    name: input.name.trim(),
+    enabledModules: [...input.enabledModules],
+  };
+  importOverlayDivision(division);
+  return division;
+}
+
+export function importOverlayDivision(division: Division): void {
+  const list = divisionPatches.get(division.unionId) ?? [];
+  if (list.some((row) => row.id === division.id)) return;
+  divisionPatches.set(division.unionId, [...list, division]);
+  const seed = overlaySeeds.get(division.unionId);
+  if (seed) seed.divisions = [...(seed.divisions ?? []), division];
+}
+
+export function removeOverlayDivision(unionId: string, divisionId: string): void {
+  divisionPatches.set(unionId, (divisionPatches.get(unionId) ?? []).filter((row) => row.id !== divisionId));
+  const seed = overlaySeeds.get(unionId);
+  if (seed?.divisions) seed.divisions = seed.divisions.filter((row) => row.id !== divisionId);
 }
 
 export function getUnitPatches(unionId: string): BargainingUnit[] {
@@ -234,6 +271,12 @@ export function createOverlayLocal(input: {
   return local;
 }
 
+export function removeOverlayLocal(unionId: string, localId: string): void {
+  localPatches.set(unionId, (localPatches.get(unionId) ?? []).filter((row) => row.id !== localId));
+  const seed = overlaySeeds.get(unionId);
+  if (seed?.locals) seed.locals = seed.locals.filter((row) => row.id !== localId);
+}
+
 export function createOverlayCollection(input: {
   unionId: string;
   localId: string;
@@ -255,6 +298,12 @@ export function createOverlayCollection(input: {
     seed.bargainingUnits = [...(seed.bargainingUnits ?? []), unit];
   }
   return unit;
+}
+
+export function removeOverlayCollection(unionId: string, unitId: string): void {
+  unitPatches.set(unionId, (unitPatches.get(unionId) ?? []).filter((row) => row.id !== unitId));
+  const seed = overlaySeeds.get(unionId);
+  if (seed?.bargainingUnits) seed.bargainingUnits = seed.bargainingUnits.filter((row) => row.id !== unitId);
 }
 
 export function createOverlayUnion(input: {
@@ -353,18 +402,21 @@ export function importOverlayCollection(unit: BargainingUnit): void {
 export function importOverlayUnion(seed: TenantSeed): void {
   const existing = overlaySeeds.get(seed.union.id);
   if (existing) {
+    for (const division of seed.divisions ?? (seed.division ? [seed.division] : [])) importOverlayDivision(division);
     for (const local of seed.locals ?? []) importOverlayLocal(local);
     for (const unit of seed.bargainingUnits ?? []) importOverlayCollection(unit);
     return;
   }
   overlaySeeds.set(seed.union.id, {
     ...seed,
+    divisions: [...(seed.divisions ?? (seed.division ? [seed.division] : []))],
     locals: [...(seed.locals ?? [])],
     bargainingUnits: [...(seed.bargainingUnits ?? [])],
   });
   if (seed.locals?.length) {
     localPatches.set(seed.union.id, [...seed.locals]);
   }
+  if (seed.divisions?.length) divisionPatches.set(seed.union.id, [...seed.divisions]);
   if (seed.bargainingUnits?.length) {
     unitPatches.set(seed.union.id, [...seed.bargainingUnits]);
   }
@@ -374,6 +426,7 @@ export function importOverlayUnion(seed: TenantSeed): void {
 export function resetTenantOverlayForTests(): void {
   overlaySeeds.clear();
   localPatches.clear();
+  divisionPatches.clear();
   unitPatches.clear();
   dataModulePatches.clear();
   enabledModulesPatches.clear();

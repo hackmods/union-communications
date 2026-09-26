@@ -23,8 +23,6 @@ const TASK_ELEVATED_ROLES: UserRole[] = [
 
 const CROSS_LOCAL_ROLES: UserRole[] = [
   "platform_admin",
-  "union_admin",
-  "division_admin",
 ];
 
 export function canAccessTasksModule(roles: UserRole[]): boolean {

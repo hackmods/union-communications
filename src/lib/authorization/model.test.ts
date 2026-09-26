@@ -97,6 +97,12 @@ describe("shared authorization decisions", () => {
         localId: "local-9",
       }),
     ).toMatchObject({ allowed: false, reason: "union_mismatch" });
+    expect(decideCapability(actor, "memberships.manage", {
+      unionId: "union-1", localId: "local-9",
+    })).toMatchObject({ allowed: false, reason: "active_local_membership_required" });
+    expect(decideCapability(actor, "tenant.configure", {
+      unionId: "union-1",
+    }).allowed).toBe(true);
   });
 
   it("requires active local membership before officer capability is applied", () => {

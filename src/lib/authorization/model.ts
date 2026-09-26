@@ -234,6 +234,11 @@ export function decideCapability(
     ? actor.assignments.find((a) => a.unionId === scope.unionId && a.localId === scope.localId)
     : undefined;
   if (administrative) {
+    // Union and division configuration authority does not imply access to
+    // another local's memberships, officers, or collaborative records.
+    if (localScoped && !actor.roles.includes("platform_admin") && !matchingMembership) {
+      return { allowed: false, capability, reason: "active_local_membership_required" };
+    }
     return { allowed: true, capability, reason: "administrative_role", relationship: actor.roles.find((r) => ["platform_admin", "union_admin", "division_admin"].includes(r)) };
   }
   if (localScoped && !matchingMembership) return { allowed: false, capability, reason: "active_local_membership_required" };
@@ -251,5 +256,5 @@ export function decideCapability(
 }
 
 export function isCrossLocalAdministrator(actor: AuthorizationActor): boolean {
-  return actor.roles.some((r) => ["platform_admin", "union_admin", "division_admin"].includes(r));
+  return actor.roles.includes("platform_admin");
 }

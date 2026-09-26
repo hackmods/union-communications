@@ -21,14 +21,14 @@ describe("invite role ladder", () => {
     expect(canInviteRoles(["platform_admin"], ["union_admin"])).toBe(true);
   });
 
-  it("lets union admin invite members across the union, not presidents", () => {
+  it("lets union admin invite members only in an assigned local, not presidents", () => {
     expect(canInvitePresidents(["union_admin"])).toBe(false);
     expect(
       canInviteRoles(["union_admin"], ["local_steward", "local_member"]),
     ).toBe(true);
     expect(canInviteRoles(["union_admin"], ["local_president"])).toBe(false);
     expect(canInviteRoles(["union_admin"], ["union_admin"])).toBe(false);
-    expect(canInviteAcrossUnionLocals(["union_admin"])).toBe(true);
+    expect(canInviteAcrossUnionLocals(["union_admin"])).toBe(false);
     expect(canInviteAcrossUnionLocals(["local_president"])).toBe(false);
     expect(canInviteAcrossUnionLocals(["platform_admin"])).toBe(true);
   });

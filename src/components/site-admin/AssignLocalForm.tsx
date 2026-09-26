@@ -10,6 +10,7 @@ import {
   UNION_LOCAL_SELECT_OTHER,
   UnionLocalSelect,
   emptyUnionLocalSelectValue,
+  type CollectiveOption,
   type LocalOption,
   type SubGroupOption,
   type UnionLocalSelectValue,
@@ -34,6 +35,7 @@ export function AssignLocalForm({
   const router = useRouter();
   const [unions, setUnions] = useState<UnionOption[]>([]);
   const [locals, setLocals] = useState<LocalOption[]>([]);
+  const [collectives, setCollectives] = useState<CollectiveOption[]>([]);
   const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
   const [value, setValue] = useState<UnionLocalSelectValue>(() => ({
     ...emptyUnionLocalSelectValue(),
@@ -55,11 +57,13 @@ export function AssignLocalForm({
         const data = (await res.json()) as {
           unions: UnionOption[];
           locals: LocalOption[];
+          collectives?: CollectiveOption[];
           subGroups: SubGroupOption[];
         };
         if (cancelled) return;
         setUnions(data.unions);
         setLocals(data.locals);
+        setCollectives(data.collectives ?? []);
         setSubGroups(data.subGroups);
       } catch {
         // leave empty — form still allows typed local number after union pick
@@ -90,6 +94,7 @@ export function AssignLocalForm({
         body.localNumber = value.localNumber.trim();
         body.localSubText = value.localSubText.trim() || undefined;
       }
+      if (value.divisionId) body.divisionId = value.divisionId;
       if (value.bargainingUnitId) {
         body.bargainingUnitId = value.bargainingUnitId;
       }
@@ -107,51 +112,14 @@ export function AssignLocalForm({
         code?: string;
         ok?: boolean;
         localId?: string;
-        debug?: {
-          causeMessage?: string | null;
-          causeCode?: string | null;
-          causeConstraint?: string | null;
-        };
       };
-      // #region agent log
-      fetch("http://127.0.0.1:7911/ingest/3d68b2c0-ac88-4c57-b4e8-72926e068c79", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Debug-Session-Id": "9d35a6",
-        },
-        body: JSON.stringify({
-          sessionId: "9d35a6",
-          runId: "post-fix",
-          hypothesisId: "A-RLS",
-          location: "AssignLocalForm.tsx:submitAssign",
-          message: "assign-local client response",
-          data: {
-            status: res.status,
-            ok: res.ok,
-            code: data.code ?? null,
-            error: data.error ?? null,
-            debug: data.debug ?? null,
-            unionMode:
-              value.unionId === UNION_LOCAL_SELECT_OTHER ? "newUnion" : "existing",
-            hasLocalId: Boolean(value.localId),
-            hasLocalNumber: Boolean(value.localNumber.trim()),
-            replace,
-          },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion
       if (!res.ok) {
         if (data.code === "single_local_conflict") {
           setNeedsReplace(true);
           setReplaceActive(true);
           setError(t("assignLocalSingleConflict"));
         } else {
-          const debugSuffix = data.debug?.causeMessage
-            ? ` [${data.debug.causeCode ?? "?"}: ${data.debug.causeMessage}]`
-            : "";
-          setError((data.error ?? t("assignLocalFailed")) + debugSuffix);
+          setError(data.error ?? t("assignLocalFailed"));
         }
         return;
       }
@@ -184,6 +152,7 @@ export function AssignLocalForm({
         mode="platform"
         unions={unions}
         locals={locals}
+        collectives={collectives}
         subGroups={subGroups}
         value={value}
         onChange={(next) => {

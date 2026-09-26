@@ -1,9 +1,10 @@
 import { boolean, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
-import { locals, unions } from "./tenant";
+import { divisions, locals, unions } from "./tenant";
 
 export const portalCircles = pgTable("portal_circles", {
   id: text("id").primaryKey(), unionId: text("union_id").notNull().references(() => unions.id, { onDelete: "cascade" }),
   localId: text("local_id").references(() => locals.id, { onDelete: "cascade" }), kind: text("kind").notNull(), name: text("name").notNull(),
+  divisionId: text("division_id").references(() => divisions.id, { onDelete: "set null" }),
   description: text("description"), visibility: text("visibility").notNull(), frontStartsAt: timestamp("front_starts_at", { withTimezone: true }),
   frontEndsAt: timestamp("front_ends_at", { withTimezone: true }), archivedAt: timestamp("archived_at", { withTimezone: true }),
   createdById: text("created_by_id").notNull(), createdAt: timestamp("created_at", { withTimezone: true }).notNull(), updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),

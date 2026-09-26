@@ -77,15 +77,16 @@ describe("applyTrustedSessionUpdate (SEC-001 / SEC-005)", () => {
     expect(token.localId).toBe("local-1337");
   });
 
-  it("allows union_admin to clear localId (all locals)", () => {
+  it("keeps union_admin on an assigned local (no all-locals clear)", () => {
     const token = applyTrustedSessionUpdate(
       baseToken({
         roles: ["union_admin"],
         accessibleLocalIds: ["local-7"],
+        localId: "local-7",
       }),
       { localId: undefined },
     );
-    expect(token.localId).toBeUndefined();
+    expect(token.localId).toBe("local-7");
   });
 
   it("rejects bargainingUnitId that does not belong to the active local", () => {

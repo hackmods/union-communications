@@ -5,14 +5,12 @@ import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
 import { isCrossLocalAdministrator, type AuthorizationActor } from "@/lib/authorization/model";
 
 /**
- * Roles that may cross local lines (union/division/platform admins).
+ * Platform operations are the only role-wide cross-local exception.
  * Mirrors CROSS_LOCAL_ROLES across module access gates — RLS policies set
  * `app.current_cross_local = 'true'` for these so the local_id clause is waived.
  */
 const CROSS_LOCAL_ROLES: UserRole[] = [
   "platform_admin",
-  "union_admin",
-  "division_admin",
 ];
 
 /**

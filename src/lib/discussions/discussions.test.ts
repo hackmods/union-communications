@@ -59,8 +59,9 @@ describe("discussions access", () => {
     ).toBe(false);
   });
 
-  it("allows cross-local admins", () => {
-    expect(canCrossLocalDiscussions(["union_admin"])).toBe(true);
+  it("keeps union_admin local-scoped; platform_admin may cross local", () => {
+    expect(canCrossLocalDiscussions(["union_admin"])).toBe(false);
+    expect(canCrossLocalDiscussions(["platform_admin"])).toBe(true);
     expect(
       canViewDiscussionThreadBase(
         baseThread,
@@ -68,6 +69,15 @@ describe("discussions access", () => {
         "union-b7p",
         "local-1337",
         ["union_admin"],
+      ),
+    ).toBe(false);
+    expect(
+      canViewDiscussionThreadBase(
+        baseThread,
+        "user-admin",
+        "union-b7p",
+        "local-1337",
+        ["platform_admin"],
       ),
     ).toBe(true);
   });

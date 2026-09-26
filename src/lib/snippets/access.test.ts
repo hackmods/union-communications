@@ -52,10 +52,12 @@ describe("CA snippet access follows active membership and local ownership", () =
     expect(canCreateSnippetInScope(memberActor, "local-1", "unit-2")).toBe(false);
   });
 
-  it("allows cross-local administrators only within the same union", () => {
-    const admin: AuthorizationActor = { ...memberActor, activeLocalId: undefined, memberships: [], roles: ["union_admin"] };
-    expect(canViewSnippet(admin, snippet({ localId: "local-2" }))).toBe(true);
-    expect(canManageSnippet(admin, snippet({ localId: undefined }))).toBe(true);
-    expect(canViewSnippet(admin, snippet({ unionId: "union-2" }))).toBe(false);
+  it("does not grant union_admin sister-local casework; platform_admin stays union-scoped", () => {
+    const unionAdmin: AuthorizationActor = { ...memberActor, activeLocalId: undefined, memberships: [], roles: ["union_admin"] };
+    expect(canViewSnippet(unionAdmin, snippet({ localId: "local-2" }))).toBe(false);
+    const platform: AuthorizationActor = { ...memberActor, activeLocalId: undefined, memberships: [], roles: ["platform_admin"] };
+    expect(canViewSnippet(platform, snippet({ localId: "local-2" }))).toBe(true);
+    expect(canManageSnippet(platform, snippet({ localId: undefined }))).toBe(true);
+    expect(canViewSnippet(platform, snippet({ unionId: "union-2" }))).toBe(false);
   });
 });

@@ -36,6 +36,9 @@ describe("officers access", () => {
     ).toBe(false);
     expect(
       canViewOfficerRosterEntry(entry, "u1", "l2", ["union_admin"]),
+    ).toBe(false);
+    expect(
+      canViewOfficerRosterEntry(entry, "u1", "l2", ["platform_admin"]),
     ).toBe(true);
   });
 });

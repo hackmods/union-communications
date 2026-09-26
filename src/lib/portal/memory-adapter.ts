@@ -1189,6 +1189,7 @@ export class MemoryPortalAdapter {
   createCircle(input: {
     unionId: string;
     localId?: string;
+    divisionId?: string;
     kind: Circle["kind"];
     name: string;
     description?: string;
@@ -1204,6 +1205,7 @@ export class MemoryPortalAdapter {
       id: id("circle"),
       unionId: input.unionId,
       localId: input.localId,
+      divisionId: input.divisionId,
       kind: input.kind,
       name: input.name,
       description: input.description,

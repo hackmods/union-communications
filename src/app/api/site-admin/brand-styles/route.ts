@@ -58,6 +58,7 @@ export async function GET() {
           commsPresetId: unions.commsPresetId,
           brandTheme: unions.brandTheme,
           isDemo: unions.isDemo,
+          paidTenantDirectoryEnabled: unions.paidTenantDirectoryEnabled,
         })
         .from(unions)
         .orderBy(asc(unions.name));
@@ -69,6 +70,7 @@ export async function GET() {
           commsPresetId: r.commsPresetId ?? null,
           brandTheme: parseUnionBrandTheme(r.brandTheme),
           isDemo: r.isDemo,
+          paidTenantDirectoryEnabled: r.paidTenantDirectoryEnabled,
         })),
         presets,
         fonts,
@@ -85,6 +87,7 @@ export async function GET() {
         commsPresetId: s.brandDefaults.commsPresetId ?? null,
         brandTheme: parseUnionBrandTheme(s.brandDefaults.brandTheme),
         isDemo: false,
+        paidTenantDirectoryEnabled: false,
       })),
       presets,
       fonts,

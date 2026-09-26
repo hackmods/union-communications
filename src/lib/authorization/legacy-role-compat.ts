@@ -15,8 +15,6 @@ const LEGACY_ELEVATED_ROLES: UserRole[] = [
 
 const LEGACY_CROSS_LOCAL_ROLES: UserRole[] = [
   "platform_admin",
-  "union_admin",
-  "division_admin",
 ];
 
 export function isElevatedGrievanceRole(roles: UserRole[]): boolean {
