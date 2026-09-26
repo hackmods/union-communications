@@ -141,10 +141,24 @@ function DocumentGeneratorEditorContent({
           };
         }
       }
+      // Fold logo seed into the same setState as hydrate — a second setState in
+      // the same tick used to race useUndoRedo and crash getPreset(undefined).
+      if (themeEstablished) {
+        next = { ...next, includeLogo: true };
+      }
       setState(next);
       setDraftHydrated(true);
     });
-  }, [hydrated, draftHydrated, brandKit, initialPreset, lettersOnly, setState, startTransition]);
+  }, [
+    hydrated,
+    draftHydrated,
+    brandKit,
+    initialPreset,
+    lettersOnly,
+    themeEstablished,
+    setState,
+    startTransition,
+  ]);
 
   useEffect(() => {
     if (!draftHydrated) return;
@@ -155,9 +169,11 @@ function DocumentGeneratorEditorContent({
     return () => window.clearTimeout(timer);
   }, [state, draftHydrated, startTransition]);
 
-  useOneShotBrandSeed(hydrated, () => {
+  useOneShotBrandSeed(hydrated && draftHydrated, () => {
     if (themeEstablished) {
-      setState((prev) => ({ ...prev, includeLogo: true }));
+      setState((prev) =>
+        prev.includeLogo ? prev : { ...prev, includeLogo: true },
+      );
     }
   });
 
