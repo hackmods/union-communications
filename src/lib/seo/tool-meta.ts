@@ -81,7 +81,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "website-template": {
       title: "Free Union Website Template",
       description:
-        "Fill in your local details and download a simple website your members can bookmark, ready to publish free on GitHub Pages.",
+        "Fill in your local details and download a GitHub Pages ZIP or a WordPress theme your members can bookmark — update WordPress copy in the dashboard.",
     },
     "local-pack": {
       title: "Free Local Pack Backup",
@@ -223,7 +223,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "website-template": {
       title: "Modèle de site web syndical gratuit",
       description:
-        "Remplissez les détails de votre section et téléchargez un site simple que les membres pourront garder en favori, prêt à publier sur GitHub Pages.",
+        "Remplissez les détails de votre section et téléchargez un ZIP GitHub Pages ou un thème WordPress — mettez à jour le texte WordPress dans le tableau de bord.",
     },
     "local-pack": {
       title: "Sauvegarde Trousse locale gratuite",

@@ -11,6 +11,10 @@ import {
 /**
  * Sticky undo-redo companion: hydrate once after Brand Kit, debounce-save.
  * Caller owns useUndoRedo; this only persists T with a type guard.
+ *
+ * Do not also call undo/redo setState/reset from a Brand Kit seed in the
+ * same hydrate tick — fold seed fields into the stored draft (or one setState)
+ * so history cannot race. See DocumentGeneratorEditor + useUndoRedo.
  */
 export function useStickyToolDraft<T>(options: {
   storageKey: string;

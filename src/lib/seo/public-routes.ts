@@ -66,6 +66,12 @@ function utilitySlugRedirects(): PermanentPublicRedirect[] {
  * preserves a caller-supplied step while defaulting old links to Brand Kit.
  */
 export const PUBLIC_ROUTE_REDIRECTS: readonly PermanentPublicRedirect[] = [
+  // Chrome-free operator lab lives outside [locale]; locale-prefixed URLs redirect.
+  {
+    source: `${LOCALE_SOURCE}/viewport-lab/`,
+    destination: "/viewport-lab/",
+    permanent: true,
+  },
   {
     source: `${LOCALE_SOURCE}/onboarding/`,
     destination: `${LOCALE}/start/`,

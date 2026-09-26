@@ -30,6 +30,12 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/create/website-template",
   },
   {
+    id: "website-wordpress-local-site",
+    date: "2026-09-26",
+    kind: "improved",
+    href: "/tools/website-template",
+  },
+  {
     id: "hub-nav-module-gates",
     date: "2026-09-25",
     kind: "improved",

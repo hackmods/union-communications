@@ -92,7 +92,7 @@ describe("wordpress theme markup helpers", () => {
     expect(parts.footer).toContain("Office");
     expect(parts.main).toContain('id="home"');
     expect(parts.main).not.toContain("site-header");
-    expect(parts.main).not.toContain("class=\"footer\"");
+    expect(parts.main).not.toContain('class="footer"');
   });
 
   it("swaps the hardcoded nav for a WordPress menu with fallback", () => {
@@ -107,7 +107,7 @@ describe("wordpress theme markup helpers", () => {
 });
 
 describe("generateWordpressThemeZip", () => {
-  it("packs a classic theme folder WordPress can upload", async () => {
+  it("packs a data-driven classic theme WordPress can upload", async () => {
     const zip = await loadThemeZip(sampleData, {
       fileName: "logo.png",
       bytes: new Uint8Array([1, 2, 3]),
@@ -121,6 +121,11 @@ describe("generateWordpressThemeZip", () => {
     expect(names).toContain(themePath("front-page.php"));
     expect(names).toContain(themePath("page.php"));
     expect(names).toContain(themePath("404.php"));
+    expect(names).toContain(themePath("search.php"));
+    expect(names).toContain(themePath("inc/config.php"));
+    expect(names).toContain(themePath("inc/render.php"));
+    expect(names).toContain(themePath("inc/admin.php"));
+    expect(names).toContain(themePath("inc/customizer.php"));
     expect(names).toContain(themePath("screenshot.png"));
     expect(names).toContain(themePath("js/site.js"));
     expect(names).toContain(themePath("README.md"));
@@ -133,13 +138,16 @@ describe("generateWordpressThemeZip", () => {
   });
 
   it("writes a WordPress stylesheet header and Brand Kit colours", async () => {
-    const css = buildWordpressStyleCss(sampleData);
+    const css = buildWordpressStyleCss(sampleData, "1.2.20260926");
     expect(css.startsWith("/*")).toBe(true);
     expect(css).toContain("Theme Name: OPSEU SEFPO Local 243");
     expect(css).toContain("Text Domain: unionops-local-243");
-    expect(css).toContain("does not host, update, or support WordPress");
+    expect(css).toContain("Version: 1.2.20260926");
+    expect(css).toContain("Appearance → Local site");
+    expect(css).toContain("does not host WordPress");
+    expect(css).not.toMatch(/does not support WordPress/i);
     expect(css).toContain("--color-primary: #003DA5");
-    expect(css).toContain("url(\"assets/fonts/");
+    expect(css).toContain('url("assets/fonts/');
     expect(css).toContain(".skip-link");
     expect(css).toContain(".site-content--entry");
     const zip = await loadThemeZip({
@@ -149,14 +157,19 @@ describe("generateWordpressThemeZip", () => {
     const packed = await zip.file(themePath("style.css"))!.async("string");
     expect(packed.startsWith("/*")).toBe(true);
     expect(packed).toContain("Theme Name:");
+    expect(packed).toMatch(/Version: 1\.2\.\d{8}/);
   });
 
-  it("enqueues CSS/JS and bakes an escaped document title", () => {
+  it("enqueues CSS/JS and loads data-driven title + dynamic colours", () => {
     const php = buildWordpressFunctionsPhp({
       ...sampleData,
       unionName: "Local O'Brien <script>",
     });
     expect(php).toContain("if (!defined('ABSPATH'))");
+    expect(php).toContain("inc/config.php");
+    expect(php).toContain("inc/render.php");
+    expect(php).toContain("inc/admin.php");
+    expect(php).toContain("inc/customizer.php");
     expect(php).toContain("wp_enqueue_style");
     expect(php).toContain("wp_enqueue_script");
     expect(php).toContain("get_stylesheet_uri()");
@@ -164,6 +177,8 @@ describe("generateWordpressThemeZip", () => {
     expect(php).toContain("pre_get_document_title");
     expect(php).toContain("Local O\\'Brien <script>");
     expect(php).toContain("unionops_local_243_enqueue");
+    expect(php).toContain("wp_add_inline_style");
+    expect(php).toContain("--color-primary");
     expect(php).toContain("wp_dequeue_style('wp-block-library')");
     expect(php).toContain("register_nav_menus");
     expect(php).toContain("'primary'");
@@ -172,7 +187,7 @@ describe("generateWordpressThemeZip", () => {
     expect(php).toContain("home_url('/')");
   });
 
-  it("puts steward copy in index.php with escaped HTML and theme URI assets", async () => {
+  it("renders the front page from PHP helpers, not baked steward HTML", async () => {
     const zip = await loadThemeZip(
       {
         ...sampleData,
@@ -184,51 +199,74 @@ describe("generateWordpressThemeZip", () => {
     const index = await zip.file(themePath("index.php"))!.async("string");
     expect(index).toContain("get_header()");
     expect(index).toContain("get_footer()");
-    expect(index).toContain('id="content"');
-    expect(index).toContain("OPSEU SEFPO Local 243");
-    expect(index).toContain("Jane &lt;b&gt;Doe&lt;/b&gt;");
-    expect(index).not.toContain("<b>Doe</b>");
-    expect(index).toContain("mailto:local243@example.com");
-    expect(index).not.toContain("./js/site.js");
+    expect(index).toContain("unionops_local_243_render_front_page");
+    expect(index).not.toContain("Jane &lt;b&gt;Doe&lt;/b&gt;");
+    expect(index).not.toContain("mailto:local243@example.com");
     expect(index).not.toContain("<script");
     expect(index).not.toContain("site-header");
+
+    const render = await zip.file(themePath("inc/render.php"))!.async("string");
+    expect(render).toContain("unionops_local_243_render_hero");
+    expect(render).toContain("unionops_local_243_esc");
+    expect(render).toContain("esc_html");
+    expect(render).toContain("javascript:");
+
+    const config = await zip.file(themePath("inc/config.php"))!.async("string");
+    expect(config).toContain("unionops_website_config");
+    expect(config).toContain("unionops-website.json");
+    expect(config).toContain("after_switch_theme");
+
+    const admin = await zip.file(themePath("inc/admin.php"))!.async("string");
+    expect(admin).toContain("add_theme_page");
+    expect(admin).toContain("Local site");
+    expect(admin).toContain("unionops_import");
+
     const header = await zip.file(themePath("header.php"))!.async("string");
     expect(header).toContain("wp_body_open()");
     expect(header).toContain('href="#content"');
     expect(header).toContain("Skip to content");
-    expect(header).toContain("wp_nav_menu");
-    expect(header).toContain("unionops_local_243_nav_fallback");
-    expect(header).toContain("site-header");
-    expect(header).toContain("get_template_directory_uri()");
-    expect(header).toContain("/assets/logo.png");
-    expect(header).not.toContain("./assets/");
+    expect(header).toContain("unionops_local_243_render_header");
+
     const front = await zip.file(themePath("front-page.php"))!.async("string");
     expect(front).toContain("index.php");
+
+    const site = await zip
+      .file(themePath("unionops-website.json"))!
+      .async("string");
+    expect(site).toContain("Jane <b>Doe</b>");
+    expect(site).toContain("local243@example.com");
   });
 
-  it("keeps unsafe hrefs out of the PHP page", async () => {
+  it("keeps unsafe hrefs out of partner/render helpers", async () => {
     const zip = await loadThemeZip({
       ...sampleData,
       customLinks: [{ label: "Nope", url: "javascript:alert(1)" }],
       canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
     });
-    const footer = await zip.file(themePath("footer.php"))!.async("string");
-    expect(footer).not.toContain("javascript:");
+    const render = await zip.file(themePath("inc/render.php"))!.async("string");
+    expect(render).toContain("_is_http_url");
+    expect(render).toContain("javascript:");
+    const configJson = await zip
+      .file(themePath("unionops-website.json"))!
+      .async("string");
+    // Sanitized at prepare/export time — unsafe link should not ship in config.
+    expect(configJson).not.toContain("javascript:alert");
   });
 
-  it("README says UnionOps does not support WordPress", async () => {
+  it("README explains Local site updates without anti-WP framing", async () => {
     const zip = await loadThemeZip({
       ...sampleData,
       canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
     });
     const readme = await zip.file(themePath("README.md"))!.async("string");
-    expect(readme).toMatch(/does not support WordPress/i);
-    expect(readme).toContain("Appearance");
+    expect(readme).not.toMatch(/does not support WordPress/i);
+    expect(readme).toContain("Appearance → Local site");
+    expect(readme).toContain("does **not** host WordPress");
     expect(readme).toContain("GitHub Pages");
     expect(readme).toContain("Primary menu");
-    expect(readme).toContain("page not found");
     expect(readme).toContain("unionops.org/tools/website-template");
     expect(readme).toContain("unionops-website.json");
+    expect(readme).toContain("Import JSON");
   });
 
   it("bundles webfonts next to style.css at the theme root", async () => {
@@ -246,7 +284,7 @@ describe("generateWordpressThemeZip", () => {
     expect(css).not.toContain("../assets/fonts");
   });
 
-  it("bundles an uploaded hero photo", async () => {
+  it("bundles an uploaded hero photo and records it in the site file", async () => {
     const bytes = new Uint8Array([0xff, 0xd8, 0xff, 0xd9]);
     const zip = await loadThemeZip(
       {
@@ -260,11 +298,13 @@ describe("generateWordpressThemeZip", () => {
     const names = Object.keys(zip.files);
     expect(names).toContain(themePath("assets/hero.jpg"));
     expect(names).not.toContain(themePath("assets/hero.svg"));
-    const index = await zip.file(themePath("index.php"))!.async("string");
-    expect(index).toContain("hero.jpg");
+    const site = await zip
+      .file(themePath("unionops-website.json"))!
+      .async("string");
+    expect(site).toContain("hero.jpg");
   });
 
-  it("lets WordPress pages and 404s use the shared chrome", async () => {
+  it("lets WordPress pages, search, and 404s use the shared chrome", async () => {
     const zip = await loadThemeZip({
       ...sampleData,
       canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
@@ -277,6 +317,9 @@ describe("generateWordpressThemeZip", () => {
     expect(missing).toContain("Page not found");
     expect(missing).toContain("home_url('/')");
     expect(missing).not.toContain("Your Executive Committee");
+    const search = await zip.file(themePath("search.php"))!.async("string");
+    expect(search).toContain("Search results");
+    expect(search).toContain("have_posts()");
   });
 
   it("writes a valid PNG screenshot in brand colours", async () => {
@@ -287,7 +330,9 @@ describe("generateWordpressThemeZip", () => {
       ...sampleData,
       canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
     });
-    const packed = await zip.file(themePath("screenshot.png"))!.async("uint8array");
+    const packed = await zip
+      .file(themePath("screenshot.png"))!
+      .async("uint8array");
     expect([...packed.slice(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
   });
 });

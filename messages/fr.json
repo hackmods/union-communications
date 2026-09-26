@@ -2467,8 +2467,8 @@
       "tocLabel": "Sections de la partie 2"
     },
     "wordpress": {
-      "title": "Déjà sur WordPress?",
-      "body": "Le modèle de site Web peut aussi télécharger un thème WordPress. UnionOps ne prend pas en charge WordPress. N’utilisez ce fichier que si quelqu’un gère déjà votre site. Les autres devraient rester avec le ZIP GitHub Pages de cette partie."
+      "title": "Thème WordPress",
+      "body": "Le Modèle de site Web télécharge un thème WordPress classique qui correspond à l’aperçu. Téléversez-le sous Apparence → Thèmes, puis modifiez le texte dans Apparence → Site local, ou importez unionops-website.json pour des mises à jour sans retéléverser tout le thème. UnionOps n’héberge pas WordPress ; si vous ne le faites pas déjà tourner, le ZIP GitHub Pages de cette partie est en général plus simple."
     },
     "squarespace": {
       "title": "Sur Squarespace?",
@@ -3676,7 +3676,7 @@
   },
   "websiteTemplate": {
     "title": "Modèle de site Web",
-    "subtitle": "Remplissez les détails de votre section, prévisualisez le site et téléchargez un ZIP prêt pour GitHub Pages.",
+    "subtitle": "Remplissez les détails de votre section, prévisualisez le site, puis téléchargez un ZIP GitHub Pages ou un thème WordPress que vous pouvez mettre à jour dans le tableau de bord.",
     "previewAccessibleName": "Aperçu du modèle de site Web",
     "unionName": "Nom du syndicat",
     "heroText": "Slogan d'accueil",
@@ -3694,8 +3694,9 @@
     "preview": "Aperçu en direct",
     "downloadZip": "Télécharger le ZIP du site",
     "downloadWordpress": "Télécharger le thème WordPress",
-    "wordpressHeading": "Déjà sur WordPress?",
-    "wordpressUnsupported": "UnionOps ne prend pas en charge WordPress. Utilisez ce fichier seulement si quelqu’un gère déjà votre site WordPress. Si vous partez de zéro, téléchargez plutôt le ZIP du site — nous ne pouvons pas aider pour l’hébergement ou les mises à jour WordPress.",
+    "wordpressHeading": "Thème WordPress",
+    "wordpressSupported": "Téléchargez un thème WordPress classique qui correspond à cet aperçu. Après l’avoir téléversé sous Apparence → Thèmes, modifiez le texte d’accueil dans Apparence → Site local — ou importez le fichier du site ci-dessous sans retéléverser tout le thème. UnionOps n’héberge pas WordPress sur votre serveur ; vous (ou votre hébergeur) continuez de gérer l’installation.",
+    "wordpressUpdateHint": "Pour des mises à jour de texte seulement sur un thème déjà installé : téléchargez le fichier du site, puis Apparence → Site local → Importer JSON dans WordPress. Retéléchargez le ZIP complet du thème seulement si le logo, la photo d’accueil, les polices ou la mise en page changent.",
     "squarespaceNote": "Squarespace n’accepte pas un ZIP de thème personnalisé. Il n’y a pas d’export Squarespace. Si vous utilisez déjà Squarespace, recréez la page dans leur éditeur.",
     "referenceNote": "Basé sur le site bénévole local243.org (GitHub Pages). L’export utilise le logo de la Trousse de marque dans la navigation. Liens OPSEU / SEFPO en pied seulement si le thème est OPSEU / SEFPO.",
     "whenToUse": "À utiliser quand votre section a besoin d'un site Web simple et durable que les membres peuvent mettre dans leurs favoris.",
@@ -3723,8 +3724,8 @@
     "heroArtAltHint": "Décrivez la photo pour les personnes qui ne peuvent pas la voir. Laissez ce champ vide pour un motif décoratif.",
     "import": "Importer un site enregistré",
     "downloadConfig": "Télécharger le fichier du site",
-    "importHint": "Pour mettre à jour un site déjà téléchargé, importez le fichier du site depuis ce ZIP. Les couleurs et les liens supplémentaires du fichier s’appliquent ici seulement — ils ne changent pas la Trousse de marque.",
-    "importSuccess": "Site restauré. Modifiez les champs et téléchargez un ZIP frais. Cela ne change pas la Trousse de marque.",
+    "importHint": "Pour mettre à jour un site déjà téléchargé, importez le fichier du site depuis ce ZIP (ou le ZIP du thème WordPress). Les couleurs et les liens supplémentaires du fichier s’appliquent ici seulement — ils ne changent pas la Trousse de marque.",
+    "importSuccess": "Site restauré. Modifiez les champs, puis téléchargez un ZIP du site, un thème WordPress ou un fichier du site. Cela ne change pas la Trousse de marque.",
     "importError": "Ce fichier n’est pas un export du Modèle de site Web. Choisissez le fichier du site dans votre dernier ZIP, ou le ZIP lui-même, puis réessayez.",
     "importPhotoMissing": "Le fichier du site s’est chargé, mais la photo d’en-tête n’était pas dans ce fichier. Choisissez une photo ci-dessous, ou gardez le motif.",
     "orgChartHint": "Les noms cochés dans l’Organigramme remplissent cette liste. Vous pouvez encore les modifier ici avant de télécharger le ZIP.",
@@ -3732,7 +3733,8 @@
     "orgChartLink": "Ouvrir l’Organigramme",
     "sectionOfficers": "Dirigeants exécutifs",
     "sectionImportExport": "Importer et télécharger",
-    "sectionOtherPlatforms": "Autres plateformes Web",
+    "sectionWordpress": "WordPress",
+    "sectionOtherPlatforms": "Autres plateformes",
     "sectionHero": "Section d’accueil",
     "sectionAbout": "Page À propos",
     "sectionContact": "Coordonnées",
@@ -7776,7 +7778,7 @@
       },
       "website-wordpress": {
         "title": "Thème WordPress depuis le modèle de site",
-        "body": "Le modèle de site Web peut télécharger un thème WordPress classique de la même page locale. L'hébergement WordPress n'est toujours pas pris en charge. GitHub Pages reste le chemin habituel."
+        "body": "Le modèle de site Web peut télécharger un thème WordPress classique de la même page locale. GitHub Pages reste le chemin habituel si vous n’êtes pas déjà sur WordPress."
       },
       "website-hero-art": {
         "title": "Image d'en-tête du modèle de site",
@@ -7965,6 +7967,10 @@
       "website-layouts": {
         "title": "Trois mises en page pour le site de votre section locale",
         "body": "Le modèle de site propose maintenant Solidarité, Bulletin et Salle à partir du même Brand Kit et de la même liste de dirigeants. Prévisualisez sur téléphone ou bureau, puis téléchargez le même ZIP GitHub Pages — changer de mise en page conserve votre texte."
+      },
+      "website-wordpress-local-site": {
+        "title": "Thème WordPress que vous mettez à jour dans le tableau de bord",
+        "body": "Le téléchargement WordPress du Modèle de site Web enregistre maintenant le texte d’accueil dans WordPress. Modifiez sous Apparence → Site local, ou importez le fichier du site pour des mises à jour sans retéléverser tout le thème."
       },
       "hub-nav-module-gates": {
         "title": "Le menu du Hub des dirigeants suit les modules activés de votre section",
@@ -11004,7 +11010,7 @@
       "graphicMaker": "Publications sociales pour Facebook et Instagram.",
       "quoteCard": "Transformez une citation en carte à partager.",
       "meetingBackground": "Fonds Zoom et Teams aux couleurs de votre section.",
-      "websiteTemplate": "ZIP de site local simple pour GitHub Pages.",
+      "websiteTemplate": "ZIP de site local pour GitHub Pages, ou un thème WordPress à mettre à jour dans le tableau de bord.",
       "localPack": "Un fichier versionné pour la Trousse de marque, la liste, l’affichage et le brouillon de site.",
       "altText": "Rédigez du texte alternatif sans envoyer d'images.",
       "pulsePoll": "Sondages courts avec carte QR imprimable.",

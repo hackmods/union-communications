@@ -25,6 +25,8 @@ const PUBLIC_API_ROUTES = new Set([
   "public-tools/visibility/route.ts",
   // Customization published DTO — audience-gated in delivery; no Hub session.
   "customization/content/[key]/route.ts",
+  // Public host brand chrome — colours / local number / optional preset only.
+  "host-brand/route.ts",
 ]);
 
 function walkRouteFiles(dir: string): string[] {

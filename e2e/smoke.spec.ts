@@ -255,6 +255,18 @@ test.describe("Smoke tests @smoke", () => {
   });
 
   test("comms resources page renders with sources", async ({ page }) => {
+    // Empty Brand Kit hides OPSEU-scoped citations — seed the reference preset.
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        "unionops-brand-kit",
+        JSON.stringify({
+          unionPresetId: "opseu",
+          primaryColor: "#003DA5",
+          secondaryColor: "#FFFFFF",
+          accentColor: "#9B0D1C",
+        }),
+      );
+    });
     await page.goto("/en/guide/resources/");
     await expect(page.getByRole("heading", { name: "Comms Resources" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Practice checklist" })).toBeVisible();

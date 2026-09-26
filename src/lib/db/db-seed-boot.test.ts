@@ -3,6 +3,7 @@ import {
   resolveSeedJsonPath,
   resolveSeedOnBootMode,
   loadReferenceTenantSeed,
+  runBootSeed,
 } from "../../../docker/db-seed-boot.mjs";
 
 describe("db-seed-boot", () => {
@@ -27,5 +28,21 @@ describe("db-seed-boot", () => {
     expect(seed.union.id).toBe("union-b7p");
     expect(seed.locals.length).toBeGreaterThan(0);
     expect(seed.bargainingUnits.length).toBeGreaterThan(0);
+  });
+
+  it("skips boot seed when disabled or no database URL is set", async () => {
+    expect(
+      await runBootSeed({ SEED_ON_BOOT: "false" } as unknown as NodeJS.ProcessEnv),
+    ).toEqual({
+      skipped: true,
+      reason: "disabled",
+    });
+    expect(
+      await runBootSeed({
+        SEED_ON_BOOT: "auto",
+        DATABASE_URL: "",
+        MIGRATE_DATABASE_URL: "",
+      } as unknown as NodeJS.ProcessEnv),
+    ).toEqual({ skipped: true, reason: "no_database_url" });
   });
 });

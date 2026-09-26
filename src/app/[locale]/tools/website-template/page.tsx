@@ -405,13 +405,13 @@ export default function WebsiteTemplatePage() {
             </Button>
             <Button
               type="button"
-              variant="outline"
               onClick={handleWordpressDownload}
               disabled={busy}
             >
               {exporting ? tc("loading") : t("downloadWordpress")}
             </Button>
           </div>
+          <p className="text-sm text-gray-600">{t("wordpressUpdateHint")}</p>
         </div>
       }
       form={
@@ -892,13 +892,35 @@ export default function WebsiteTemplatePage() {
                 </div>
               </ToolFormDetails>
 
-              <ToolFormDetails title={t("sectionOtherPlatforms")}>
-                <Callout tone="muted">
+              <ToolFormDetails title={t("sectionWordpress")}>
+                <Callout tone="brand">
                   <p className="font-semibold text-opseu-dark">
                     {t("wordpressHeading")}
                   </p>
-                  <p className="mt-1">{t("wordpressUnsupported")}</p>
+                  <p className="mt-1">{t("wordpressSupported")}</p>
+                  <p className="mt-2 text-sm">{t("wordpressUpdateHint")}</p>
                 </Callout>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleWordpressDownload}
+                    disabled={busy}
+                  >
+                    {exporting ? tc("loading") : t("downloadWordpress")}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleDownloadConfig}
+                    disabled={busy}
+                  >
+                    {exporting ? tc("loading") : t("downloadConfig")}
+                  </Button>
+                </div>
+              </ToolFormDetails>
+
+              <ToolFormDetails title={t("sectionOtherPlatforms")}>
                 <Callout tone="muted">
                   <p>{t("squarespaceNote")}</p>
                 </Callout>

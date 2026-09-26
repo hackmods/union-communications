@@ -4,6 +4,13 @@
 - Curated layouts `solidarity` / `bulletin` / `hall` over shared content; config/draft **v2** with v1 migrate; stewards/committees sections from Org Chart groups; phone/hours/CTA/events; privacy page; EN/FR site chrome; device preview + Design/Content/People/Publish modes; OG/skip-link/reduced-motion; optional site QR + `calendar.ics`.
 - GitHub Pages ZIP remains default; WordPress wrap preserved; multi-page trees intentionally deferred.
 
+## 2026-09-26 — Website Template WordPress Local site
+
+- [x] Data-driven classic theme: `inc/config.php` / `render.php` / `admin.php` / `customizer.php` — homepage copy in WP option; Appearance → Local site + JSON import; dynamic CSS colour vars; versioned `style.css`
+- [x] Steward copy: remove “does not support WordPress” framing; tool + guide + What's new; GitHub Pages stays default export
+- [x] QOL passes: Customizer panel, search.php, admin-bar header offset, dedicated WordPress section with site-file update path
+- Verify: `npm run test:unit -- src/lib/templates/website/generate-wordpress-theme-zip.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## 2026-09-25 — Viewport Lab + quality suite
 
 - Added chrome-free `/viewport-lab/` same-origin device frame for Muse/agents: presets, custom size, orientation, EN/FR, path nav, scale-to-fit, compare mode, overflow + axe probes, versioned `window.__unionopsViewportLab` API.
@@ -20,6 +27,12 @@
 - Treatment control uses live Brand Kit primary swatches and sits with colours on Brand Kit; SegControl keeps Tab reachable on long font lists; save banner remounts per persist; header logo waits for hydrate to avoid flash.
 
 # Progress Log
+
+## 2026-09-26 — CI unblock after host-brand public route + journal tail
+
+- Mark `GET /api/host-brand` as intentionally public in `api-route-auth` coverage (colours/local only; no Hub session).
+- Point `db-deploy` journal contract at shipped tail `0061_brand_theme_admin` (idx 61).
+- Drop Node `crypto` from tenant overlay (Web Crypto) + boundary regression tests so Edge/client graphs stay free of Node builtins.
 
 ## 2026-09-25 — Lighter Comms Brand Kit follow-through
 - [x] Adjacent QOL notes documented in follow-through plan (header hydrate, save banner, SegControl Tab on long lists, out-of-scope makers) — PR #133
