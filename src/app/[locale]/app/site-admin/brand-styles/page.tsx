@@ -31,15 +31,21 @@ export default async function SiteAdminBrandStylesPage({
       <p className="text-sm">
         <Link
           href="/app/site-admin"
-          className="text-opseu-blue underline-offset-2 hover:underline"
+          className="font-medium text-opseu-blue underline underline-offset-2"
         >
-          {t("siteAdminTitle")}
+          ← {t("siteAdminTitle")}
         </Link>
       </p>
       <h1 className="mt-2 text-2xl font-bold text-opseu-dark lg:text-3xl">
         {t("brandStylesTitle")}
       </h1>
       <p className="mt-1 text-sm text-opseu-gray-dark">{t("brandStylesBody")}</p>
+      <h2 className="mt-8 text-lg font-semibold text-opseu-dark">
+        {t("brandStylesUnionsHeading")}
+      </h2>
+      <p className="mt-1 text-sm text-opseu-gray-dark">
+        {t("brandStylesUnionsHint")}
+      </p>
       <BrandStylesAdminForm />
       <HostBrandAdminForm />
     </main>
