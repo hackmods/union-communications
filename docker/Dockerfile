@@ -75,6 +75,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY docker/entrypoint.sh /entrypoint.sh
+# Reference tenant JSON for boot seed (SEED_ON_BOOT=auto|true).
+COPY seed/reference-tenant-b7p.json ./seed/reference-tenant-b7p.json
 # Runtime reseed of Hub CA clause packs (POST /api/snippets/reset).
 COPY seed/snippets ./seed/snippets
 # Minimal manifest — the runner needs only drizzle-orm + postgres.
@@ -82,6 +84,7 @@ COPY docker/migrate-package.json ./db-migrate/package.json
 COPY src/lib/db/migrations ./db-migrate/src/lib/db/migrations
 COPY --from=builder /app/db-required-shape.json ./db-migrate/db-required-shape.json
 COPY docker/db-deploy.mjs ./scripts/db-deploy.mjs
+COPY docker/db-seed-boot.mjs ./scripts/db-seed-boot.mjs
 COPY scripts/sync-app-role-password.mjs ./scripts/sync-app-role-password.mjs
 
 # UTC timestamp stamped at image build — read by /api/health and /build.
