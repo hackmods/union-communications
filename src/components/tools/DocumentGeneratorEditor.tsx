@@ -12,6 +12,7 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useBrandStore } from "@/store/brand-store";
 import {
@@ -46,6 +47,7 @@ import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasFontOfficeName } from "@/lib/comms/canvas-fonts";
+import { officeBandColor } from "@/lib/export/office-brand-styles";
 import {
   OfficeExampleTile,
   OfficePresetMock,
@@ -173,14 +175,14 @@ function DocumentGeneratorEditorContent({
       }
       const logo = await resolveBrandLogoBytes(brandKit, {
         includeLogo: true,
-        backgroundColor: palette.primary,
+        backgroundColor: officeBandColor(palette.primary, state.treatment),
       });
       if (!cancelled) setLogoPreviewSrc(logo?.src ?? null);
     })();
     return () => {
       cancelled = true;
     };
-  }, [brandKit, state.includeLogo, palette.primary]);
+  }, [brandKit, state.includeLogo, palette.primary, state.treatment]);
 
   useEffect(() => {
     let cancelled = false;
@@ -221,6 +223,7 @@ function DocumentGeneratorEditorContent({
 
   function officeFontOpts() {
     return {
+      treatment: state.treatment ?? "full",
       headlineFont: officeHeadlineFont,
       bodyFont: officeBodyFont,
       headlineFontId: canvasTokens.headlineFontId,
@@ -331,7 +334,7 @@ function DocumentGeneratorEditorContent({
     try {
       return await requireBrandLogoBytes(brandKit, {
         includeLogo: true,
-        backgroundColor: palette.primary,
+        backgroundColor: officeBandColor(palette.primary, state.treatment),
       });
     } catch (err) {
       if (err instanceof BrandLogoResolveError) {
@@ -507,7 +510,7 @@ function DocumentGeneratorEditorContent({
         try {
           logo = await requireBrandLogoBytes(brandKit, {
             includeLogo: true,
-            backgroundColor: palette.primary,
+            backgroundColor: officeBandColor(palette.primary, state.treatment),
           });
         } catch (err) {
           if (err instanceof BrandLogoResolveError) {
@@ -712,6 +715,7 @@ function DocumentGeneratorEditorContent({
 
   const form = (
     <div className="space-y-4">
+      <DesignTreatmentControl value={state.treatment ?? "full"} onChange={(treatment) => setState({ ...state, treatment })} />
       <div>
         <p className="mb-2 text-sm font-medium text-gray-700">{t("examples")}</p>
         {presetPicker}
@@ -971,6 +975,7 @@ function DocumentGeneratorEditorContent({
       <h2 className="text-base font-semibold text-opseu-dark">{t("preview")}</h2>
       <p className="text-sm text-gray-600">{t("previewHint")}</p>
       <OfficePresetMock
+        treatment={state.treatment ?? "full"}
         presetId={state.presetId}
         palette={palette}
         localLabel={localLabel}

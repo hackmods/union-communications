@@ -87,6 +87,39 @@ export async function bridgeCapturePng(
  * Chromium paint of the export root (preview), with MobilePreviewStage scale cleared.
  */
 export async function previewPaintPng(page: Page): Promise<RasterBuffer> {
+  const hasScaledCanvasFrame = await page.locator(EXPORT_ROOT_SELECTOR).first().evaluate((root) =>
+    Boolean(root.closest("[data-canvas-wrapper]")),
+  );
+  if (hasScaledCanvasFrame) {
+    // CanvasWrapper keeps a scaled-height clipping frame for the editor. Clearing
+    // only its transform makes a full-size element screenshot include the page
+    // outside that frame. Paint an identical root at design size instead.
+    await page.evaluate((selector) => {
+      const source = document.querySelector<HTMLElement>(selector);
+      if (!source) throw new Error("missing export root");
+      const host = document.createElement("div");
+      host.id = "__unionops-preview-paint-host";
+      Object.assign(host.style, {
+        position: "absolute", top: "0", left: "0", zIndex: "2147483647",
+        width: `${source.offsetWidth}px`, height: `${source.offsetHeight}px`,
+        containerType: "size", containerName: "unionops-canvas",
+      });
+      const clone = source.cloneNode(true) as HTMLElement;
+      clone.id = "__unionops-preview-paint-root";
+      clone.removeAttribute("data-export-root");
+      clone.style.transform = "none";
+      host.appendChild(clone);
+      document.body.appendChild(host);
+    }, EXPORT_ROOT_SELECTOR);
+    try {
+      const buf = await page.locator("#__unionops-preview-paint-root").screenshot({
+        type: "png", animations: "disabled",
+      });
+      return decodePngBuffer(Buffer.from(buf));
+    } finally {
+      await page.evaluate(() => document.getElementById("__unionops-preview-paint-host")?.remove());
+    }
+  }
   await page.evaluate(() => {
     const w = window as Window & CaptureBridge;
     w.__unionopsBeginUnscaleExportRoot?.();

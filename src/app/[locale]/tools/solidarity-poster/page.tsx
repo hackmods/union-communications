@@ -67,6 +67,9 @@ import {
   typeScaleFactor,
 } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import type { DesignTreatment } from "@/types/entities";
 import { CanvasTokenOverridesControls } from "@/components/tools/CanvasTokenOverridesControls";
 import {
   EMPTY_CANVAS_TOKEN_OVERRIDES,
@@ -91,6 +94,7 @@ import {
 } from "@/lib/utils/edge-clearance";
 
 interface PosterState {
+  treatment: DesignTreatment;
   sloganId: string;
   leadIn: string;
   headline: string;
@@ -193,6 +197,7 @@ function SolidarityPosterPageContent() {
   const mediumFormats = formatsForMedium(medium);
 
   const initial: PosterState = {
+    treatment: resolveDesignTreatment(brandKit),
     sloganId: first.id,
     leadIn: first.leadIn,
     headline: first.headline,
@@ -225,6 +230,7 @@ function SolidarityPosterPageContent() {
         ? getSloganById(deepPreset)!
         : first;
     reset({
+      treatment: resolveDesignTreatment(brandKit),
       sloganId: fromDeep.id,
       leadIn: fromDeep.leadIn,
       headline: fromDeep.headline,
@@ -296,8 +302,9 @@ function SolidarityPosterPageContent() {
     isPrintCanvas && designWidthPx
       ? printPageScaledTokens(baseTokens, designWidthPx, printReferenceWidth)
       : baseTokens;
+  const treatedPrimary = state.treatment === "full" ? state.primaryColor : "#FFFFFF";
   const surfaceStyle = canvasSurfaceStyle(tokens, {
-    primary: state.primaryColor,
+    primary: treatedPrimary,
     secondary: state.secondaryColor,
     accent: state.accentColor,
   });
@@ -354,20 +361,21 @@ function SolidarityPosterPageContent() {
     (showCanvasLogo(state.logoMode) || state.layout === "split");
   const showFooter =
     state.showCta || state.showQr || showLocalInFooter;
-  const canvasInk = pickContrastingInk(state.primaryColor);
-  const mutedInk90 = mutedInkOnBackground(state.primaryColor, 0.9);
-  const mutedInk80 = mutedInkOnBackground(state.primaryColor, 0.8);
+  const canvasInk = pickContrastingInk(treatedPrimary);
+  const mutedInk90 = mutedInkOnBackground(treatedPrimary, 0.9);
+  const mutedInk80 = mutedInkOnBackground(treatedPrimary, 0.8);
   const mutedInk30 = inkWithAlpha(canvasInk, 0.3);
   const secondaryOnPrimary = meetsWcagAA(
     state.secondaryColor,
-    state.primaryColor,
+    treatedPrimary,
     true,
   )
     ? state.secondaryColor
     : canvasInk;
-  const bannerBarBg = state.accentColor || state.secondaryColor;
+  const bannerBarBg = state.treatment === "full" ? (state.accentColor || state.secondaryColor) : state.primaryColor;
   const bannerBarInk = pickContrastingInk(bannerBarBg);
-  const splitSideInk = pickContrastingInk(state.secondaryColor);
+  const splitSideBg = state.treatment === "balanced" ? state.primaryColor : state.secondaryColor;
+  const splitSideInk = pickContrastingInk(splitSideBg);
   const clearanceInsets = insetsForProfile(
     profileForSolidarityFormat(formatId),
     state.edgeClearance,
@@ -411,7 +419,7 @@ function SolidarityPosterPageContent() {
         {
           pixelRatio: exportPixelRatio(canvasRef.current!, format),
           // Hex fill — Tailwind oklch utilities break html-to-image capture
-          backgroundColor: state.primaryColor,
+          backgroundColor: treatedPrimary,
         },
       );
     });
@@ -426,7 +434,7 @@ function SolidarityPosterPageContent() {
         format.widthInches!,
         format.heightInches!,
         exportPixelRatio(canvasRef.current!, format),
-        state.primaryColor,
+        treatedPrimary,
       );
     });
   };
@@ -498,6 +506,7 @@ function SolidarityPosterPageContent() {
       )}
       style={{
         ...surfaceStyle,
+        ...(state.treatment !== "full" ? { backgroundColor: "#FFFFFF", backgroundImage: "none", borderTop: `${state.treatment === "balanced" ? 24 : 8}px solid ${state.primaryColor}`, boxSizing: "border-box" as const } : {}),
         ...(isPrintCanvas && designWidthPx && designHeightPx
           ? {
               width: designWidthPx,
@@ -523,7 +532,7 @@ function SolidarityPosterPageContent() {
               {showLogo ? (
                 <div className="flex w-full justify-center">
                   <LogoContainer
-                    backgroundColor={state.primaryColor}
+                    backgroundColor={treatedPrimary}
                     logoMode={canvasLogoMode}
                     bounds={{ maxWidthCqw: 55, align: "center" }}
                     maxHeightPx={logoMaxHeightPx}
@@ -584,7 +593,7 @@ function SolidarityPosterPageContent() {
                   !isLandscape && "col-span-2",
                 )}
                 style={{
-                  backgroundColor: state.secondaryColor,
+                  backgroundColor: splitSideBg,
                   color: splitSideInk,
                   padding: splitSidePadPx,
                 }}
@@ -783,6 +792,7 @@ function SolidarityPosterPageContent() {
             </Select>
           ) : null}
 
+          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={tc("sectionLayout")}>
             <SegControl
               label={t("layout")}

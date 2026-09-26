@@ -23,6 +23,8 @@ import {
   renderPptx,
 } from "./office-export";
 import { transparentPngBytes } from "./brand-logo-bytes";
+import { officeBandColor } from "./office-brand-styles";
+import type { DesignTreatment } from "@/types/entities";
 
 const sampleLetterPath = join(
   process.cwd(),
@@ -59,6 +61,60 @@ describe("office-export", () => {
     vi.unstubAllGlobals();
     clearOfficeTemplateCache();
   });
+
+  it("carries every treatment into Word, template, worksheet, and slide output", async () => {
+    const JSZip = (await import("jszip")).default;
+    const excelMod = await import("exceljs");
+    const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+    const palette = { primary: "#D65B60", secondary: "#FFFFFF", accent: "#823038" };
+    const longFr =
+      "Assemblée générale annuelle — veuillez confirmer votre présence avant le 12 septembre. " +
+      "Apportez votre carte de membre. Accessibilité et garde d'enfants sur demande auprès du local.";
+    for (const treatment of ["full", "balanced", "paper"] as DesignTreatment[]) {
+      const band = officeBandColor(palette.primary, treatment).replace("#", "").toUpperCase();
+      const common = {
+        presetId: "simple-letter" as const,
+        palette,
+        treatment,
+        localLabel: "Local 110",
+        fields: { body: longFr },
+      };
+      const docx = await renderDocxFromPreset(common);
+      const docxZip = await JSZip.loadAsync(await docx.arrayBuffer());
+      const header = await docxZip.file("word/header1.xml")!.async("string");
+      expect(header.toUpperCase()).toContain(band);
+      const documentXml = await docxZip.file("word/document.xml")!.async("string");
+      expect(documentXml).toContain("Assemblée générale annuelle");
+      expect(documentXml).toMatch(/garde d(?:'|\&apos;)enfants/);
+
+      const dotx = await renderDotxFromPreset(common);
+      const dotxZip = await JSZip.loadAsync(await dotx.arrayBuffer());
+      expect((await dotxZip.file("word/header1.xml")!.async("string")).toUpperCase()).toContain(band);
+      expect(await dotxZip.file("word/document.xml")!.async("string")).toContain(
+        "Assemblée générale annuelle",
+      );
+
+      const xlsx = await renderEventRsvpXlsx({
+        treatment, palette, localNumber: "110",
+        fields: { title: "Assemblée générale annuelle", date: "12 septembre", time: "18 h", location: "Salle communautaire" },
+      });
+      const workbook = new ExcelNS.Workbook();
+      await workbook.xlsx.load(await xlsx.arrayBuffer());
+      const sheet = workbook.getWorksheet("RSVP")!;
+      expect(sheet.getCell("A1").fill).toMatchObject({ fgColor: { argb: `FF${band}` } });
+      // Writing/list rows stay off the brand band so officers can type on white.
+      expect(sheet.getCell("A12").fill).not.toMatchObject({ fgColor: { argb: `FF${band}` } });
+
+      const pptx = await renderPptx({
+        presetId: "quick-event", title: "Assemblée générale annuelle", localLabel: "Local 110",
+        palette, treatment, fields: { date: "12 septembre", location: "Salle communautaire" },
+      });
+      const pptxZip = await JSZip.loadAsync(await pptx.arrayBuffer());
+      const slide = await pptxZip.file("ppt/slides/slide1.xml")!.async("string");
+      expect(slide.toUpperCase()).toContain(band);
+      expect(slide).toContain("Assemblée");
+    }
+  }, 45_000);
 
   it("caches template buffers", async () => {
     mockFetchFromFile(sampleLetterPath);

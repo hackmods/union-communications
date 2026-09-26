@@ -13,6 +13,7 @@ import {
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { pickContrastingInk } from "@/lib/utils/ink";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
 import type { BrandKit } from "@/types/entities";
 
 /** A sample treatment built from the same Brand Kit tokens used by Comms canvases. */
@@ -42,6 +43,7 @@ export function BrandKitPreview({
   }, [hydrated, qrTarget]);
 
   const tokens = resolveCanvasTokens(brandKit);
+  const treatment = resolveDesignTreatment(brandKit);
   const ink = pickContrastingInk(brandKit.primaryColor);
   const surfaceStyle = canvasSurfaceStyle(tokens, {
     primary: brandKit.primaryColor,
@@ -54,28 +56,34 @@ export function BrandKitPreview({
       data-testid="brand-kit-preview"
       className="relative min-h-64 min-w-0 overflow-hidden rounded-lg"
       style={{
-        ...surfaceStyle,
-        color: ink,
+        ...(treatment === "paper" ? { backgroundColor: "#FFFFFF" } : surfaceStyle),
+        color: treatment === "paper" ? "#1A1A1A" : ink,
         padding: tokens.paddingPx / 2,
       }}
       aria-hidden="true"
     >
       <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+      <div style={treatment === "paper" ? { borderTop: `8px solid ${brandKit.primaryColor}` } : undefined}>
       <CanvasBrandHeader
-        backgroundColor={brandKit.primaryColor}
+        backgroundColor={treatment === "paper" ? "#FFFFFF" : brandKit.primaryColor}
         localNumber={brandKit.local.localNumber}
         subText={brandKit.local.subText}
         logoSize="sm"
         fontFamily={tokens.bodyFontFamily}
       />
+      </div>
+      <div style={treatment === "balanced" ? {
+        backgroundColor: "#FFFFFF", color: "#1A1A1A", padding: 12, borderRadius: 8,
+      } : undefined}>
       <CanvasTypeBlock
         tokens={tokens}
         title={t("previewHeadline")}
         subtitle={t("previewBody")}
-        ink={ink}
+        ink={treatment === "full" ? ink : "#1A1A1A"}
         accentColor={brandKit.secondaryColor}
         className="mt-3"
       />
+      </div>
       <div
         className="mt-3 flex"
         style={{

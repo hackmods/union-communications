@@ -41,6 +41,9 @@ import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import type { DesignTreatment } from "@/types/entities";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { CanvasTokenOverridesControls } from "@/components/tools/CanvasTokenOverridesControls";
@@ -92,6 +95,7 @@ function detailForPreset(
 }
 
 interface GraphicState {
+  treatment: DesignTreatment;
   layout: GraphicLayoutId;
   aspect: ExampleAspect;
   headline: string;
@@ -133,6 +137,7 @@ function GraphicMakerPageContent() {
 
   const initial: GraphicState = {
     layout: "spotlight",
+    treatment: resolveDesignTreatment(brandKit),
     aspect: "square",
     headline: TOOL_PRESETS.memberSpotlight.headline,
     subheadline: TOOL_PRESETS.memberSpotlight.subheadline,
@@ -418,6 +423,7 @@ function GraphicMakerPageContent() {
             ) : null}
             </section>
 
+            <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
             <ToolFormDetails title={t("sectionLayout")}>
             <SegControl
               label={tg("layout")}
@@ -535,6 +541,7 @@ function GraphicMakerPageContent() {
                 }}
               >
                 <GraphicLayoutCanvas
+                  treatment={state.treatment}
                   layout={state.layout}
                   aspect={state.aspect}
                   copy={{

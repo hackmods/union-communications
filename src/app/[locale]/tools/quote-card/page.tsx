@@ -46,6 +46,9 @@ import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import type { DesignTreatment } from "@/types/entities";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
@@ -66,6 +69,7 @@ import {
 } from "@/lib/comms/canvas-token-overrides";
 
 interface QuoteState {
+  treatment: DesignTreatment;
   quote: string;
   author: string;
   role: string;
@@ -95,6 +99,7 @@ function QuoteCardPageContent() {
   const brandCanvasTokens = resolveCanvasTokens(brandKit);
 
   const initial: QuoteState = {
+    treatment: resolveDesignTreatment(brandKit),
     quote: tq("defaults.quote"),
     author: tq("defaults.author"),
     role: tq("defaults.role"),
@@ -282,6 +287,7 @@ function QuoteCardPageContent() {
           />
           </section>
 
+          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={tc("sectionLayout")}>
           <SegControl
             label={tq("layout")}
@@ -389,16 +395,17 @@ function QuoteCardPageContent() {
               data-export-root=""
               className="relative overflow-hidden"
               style={{
-                ...surfaceStyle,
+                ...(state.treatment === "full" ? surfaceStyle : { backgroundColor: state.treatment === "balanced" ? state.primaryColor : "#FFFFFF" }),
                 width: designSize.width,
                 height: designSize.height,
               }}
             >
+              <div className={state.treatment === "balanced" ? "absolute inset-[4%] overflow-hidden" : "relative h-full w-full overflow-hidden"}>
               <QuoteLayout
-                primary={state.primaryColor}
-                accent={state.accentColor}
+                primary={state.treatment === "full" ? state.primaryColor : "#FFFFFF"}
+                accent={state.treatment === "full" ? state.accentColor : state.primaryColor}
                 secondary={state.secondaryColor}
-                textColor={state.textColor}
+                textColor={state.treatment === "full" ? state.textColor : "#1A1A1A"}
                 copy={{
                   headline: state.author,
                   body: state.quote,
@@ -413,6 +420,7 @@ function QuoteCardPageContent() {
                 logoMode={state.logoMode}
                 showLocalNumber={state.showLocalNumber}
               />
+              </div>
             </div>
         </CanvasSheetPlate>
       }

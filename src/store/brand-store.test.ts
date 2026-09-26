@@ -43,6 +43,57 @@ describe("brand store hydrate vs early canvas patch", () => {
   afterEach(() => {
     vi.useRealTimers();
     vi.doUnmock("@/lib/data/local-storage-adapter");
+    vi.unstubAllGlobals();
+  });
+
+  it("keeps a treatment edit made while first-visit host defaults are loading", async () => {
+    getBrandKit.mockResolvedValueOnce(null);
+    let resolveHost!: (value: unknown) => void;
+    const hostResponse = new Promise<unknown>((resolve) => { resolveHost = resolve; });
+    const fetchHost = vi.fn().mockReturnValue(hostResponse);
+    vi.stubGlobal("fetch", fetchHost);
+    const { useBrandStore } = await import("@/store/brand-store");
+
+    const hydrating = useBrandStore.getState().hydrate();
+    for (let i = 0; i < 4 && !fetchHost.mock.calls.length; i++) await Promise.resolve();
+    expect(fetchHost).toHaveBeenCalledWith("/api/host-brand");
+    useBrandStore.getState().setBrandKit({ designTreatment: "paper" });
+    resolveHost({ ok: true, json: async () => ({ primaryColor: "#003DA5" }) });
+    await hydrating;
+
+    expect(useBrandStore.getState().brandKit.designTreatment).toBe("paper");
+    expect(useBrandStore.getState().brandKit.primaryColor).toBe("#003DA5");
+    await vi.advanceTimersByTimeAsync(400);
+    expect(saveBrandKit.mock.calls.at(-1)?.[0].designTreatment).toBe("paper");
+  });
+
+  it("does not overwrite a Local pack import that arrives during hydration", async () => {
+    getBrandKit.mockResolvedValueOnce(null);
+    let resolveHost!: (value: unknown) => void;
+    const fetchHost = vi.fn().mockReturnValue(new Promise<unknown>((resolve) => { resolveHost = resolve; }));
+    vi.stubGlobal("fetch", fetchHost);
+    const { useBrandStore } = await import("@/store/brand-store");
+
+    const hydrating = useBrandStore.getState().hydrate();
+    for (let i = 0; i < 4 && !fetchHost.mock.calls.length; i++) await Promise.resolve();
+    expect(fetchHost).toHaveBeenCalled();
+    useBrandStore.getState().importBrandKit({
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "cupe",
+      designTreatment: "paper",
+      savedLooks: [{
+        id: "council", name: "Council palette", unionPresetId: "cupe",
+        primaryColor: "#AF0061", secondaryColor: "#FFFFFF", accentColor: "#800047",
+        useOfficialLogo: false,
+      }],
+    });
+    resolveHost({ ok: true, json: async () => ({ primaryColor: "#003DA5" }) });
+    await hydrating;
+
+    const kit = useBrandStore.getState().brandKit;
+    expect(kit.designTreatment).toBe("paper");
+    expect(kit.savedLooks?.[0]?.name).toBe("Council palette");
+    expect(kit.primaryColor).toBe(DEFAULT_BRAND_KIT.primaryColor);
   });
 
   it("does not persist default colours when canvas fonts change before hydrate", async () => {

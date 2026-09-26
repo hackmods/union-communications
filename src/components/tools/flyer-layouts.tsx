@@ -10,6 +10,7 @@ import {
   CanvasTypeBlock,
 } from "@/components/tools/canvas";
 import type { FlyerLayoutId } from "@/lib/comms/flyer-layouts";
+import type { DesignTreatment } from "@/types/entities";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
@@ -38,6 +39,7 @@ export interface FlyerLayoutColors {
 }
 
 export interface FlyerLayoutCanvasProps {
+  treatment?: DesignTreatment;
   layout: FlyerLayoutId;
   tokens: CanvasTokens;
   colours: FlyerLayoutColors;
@@ -166,9 +168,10 @@ function QrFooter({
  * Capture-safe flyer canvas. Shadows must stay on a parent outside canvasRef.
  */
 export function FlyerLayoutCanvas({
+  treatment = "full",
   layout,
   tokens,
-  colours,
+  colours: inputColours,
   copy,
   localNumber,
   subText,
@@ -187,6 +190,10 @@ export function FlyerLayoutCanvas({
   logoMode = "lockup",
   showLocalLabel = true,
 }: FlyerLayoutCanvasProps) {
+  const brandPrimary = inputColours.primary;
+  const colours = treatment === "full" ? inputColours : {
+    primary: "#FFFFFF", secondary: "#FFFFFF", accent: brandPrimary,
+  };
   const { tokens: scaledTokens, metaFontSizePx: metaSize } =
     resolvePrintPageLayout(tokens, designWidthPx, referenceWidthPx);
   const headerChrome = printBrandHeaderChrome(designWidthPx);
@@ -229,6 +236,7 @@ export function FlyerLayoutCanvas({
     padding: scaledTokens.paddingPx,
     gap: scaledTokens.gapPx,
     ...style,
+    borderTop: treatment === "full" ? undefined : `${treatment === "balanced" ? 24 : 8}px solid ${brandPrimary}`,
   };
 
   if (layout === "band") {
@@ -255,6 +263,7 @@ export function FlyerLayoutCanvas({
           overflow: "hidden",
           boxSizing: "border-box",
           ...style,
+          borderTop: treatment === "full" ? undefined : `${treatment === "balanced" ? 24 : 8}px solid ${brandPrimary}`,
         }}
       >
         <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />

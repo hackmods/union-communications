@@ -18,6 +18,12 @@ type SegControlProps<T extends string> = {
   className?: string;
 };
 
+function enabledOptionIndexes<T extends string>(options: SegOption<T>[]) {
+  return options
+    .map((opt, index) => (opt.disabled ? -1 : index))
+    .filter((index) => index >= 0);
+}
+
 /** Accessible segmented control (radiogroup) for tool format/layout pills. */
 export function SegControl<T extends string>({
   label,
@@ -26,6 +32,20 @@ export function SegControl<T extends string>({
   onChange,
   className,
 }: SegControlProps<T>) {
+  const enabled = enabledOptionIndexes(options);
+
+  const selectIndex = (index: number, currentTarget: HTMLElement) => {
+    const opt = options[index];
+    if (!opt || opt.disabled) return;
+    onChange(opt.value);
+    requestAnimationFrame(() => {
+      const next = currentTarget.parentElement?.querySelector<HTMLElement>(
+        `button[role="radio"][data-seg-value="${CSS.escape(opt.value)}"]`,
+      );
+      next?.focus();
+    });
+  };
+
   return (
     <div className={className}>
       <p className="mb-1.5 text-sm font-medium text-gray-700">{label}</p>
@@ -34,7 +54,7 @@ export function SegControl<T extends string>({
         aria-label={label}
         className="flex flex-wrap gap-2"
       >
-        {options.map((opt) => {
+        {options.map((opt, index) => {
           const selected = opt.value === value;
           const disabled = Boolean(opt.disabled);
           return (
@@ -42,9 +62,11 @@ export function SegControl<T extends string>({
               key={opt.value}
               type="button"
               role="radio"
+              data-seg-value={opt.value}
               aria-checked={selected}
               aria-disabled={disabled || undefined}
               disabled={disabled}
+              tabIndex={selected ? 0 : -1}
               className={cn(
                 "min-h-11 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
                 opt.fontFamily && "text-base",
@@ -57,6 +79,33 @@ export function SegControl<T extends string>({
               style={opt.fontFamily ? { fontFamily: opt.fontFamily } : undefined}
               onClick={() => {
                 if (!disabled) onChange(opt.value);
+              }}
+              onKeyDown={(event) => {
+                if (disabled || enabled.length === 0) return;
+                const at = enabled.indexOf(index);
+                const from = at >= 0 ? at : 0;
+                if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                  event.preventDefault();
+                  selectIndex(
+                    enabled[(from + 1) % enabled.length]!,
+                    event.currentTarget,
+                  );
+                } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                  event.preventDefault();
+                  selectIndex(
+                    enabled[(from - 1 + enabled.length) % enabled.length]!,
+                    event.currentTarget,
+                  );
+                } else if (event.key === "Home") {
+                  event.preventDefault();
+                  selectIndex(enabled[0]!, event.currentTarget);
+                } else if (event.key === "End") {
+                  event.preventDefault();
+                  selectIndex(
+                    enabled[enabled.length - 1]!,
+                    event.currentTarget,
+                  );
+                }
               }}
             >
               {opt.label}

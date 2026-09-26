@@ -28,8 +28,11 @@ import {
   DEFAULT_HEADLINE_FONT,
 } from "@/lib/comms/canvas-fonts";
 import { pickContrastingInk } from "@/lib/utils/ink";
+import { officeBandColor, officeHeadingColorOnWhite } from "@/lib/export/office-brand-styles";
+import type { DesignTreatment } from "@/types/entities";
 
 export type DocxBuildInput = {
+  treatment?: DesignTreatment;
   palette: BrandPalette;
   localLabel: string;
   fields: Record<string, string>;
@@ -91,8 +94,9 @@ function bodyParagraphs(text: string, font: string): Paragraph[] {
 }
 
 function letterheadHeader(opts: DocxBuildInput): Header {
-  const primary = hexNoHash(opts.palette.primary);
-  const ink = hexNoHash(pickContrastingInk(opts.palette.primary));
+  const band = officeBandColor(opts.palette.primary, opts.treatment);
+  const primary = hexNoHash(band);
+  const ink = hexNoHash(pickContrastingInk(band));
   const contact = opts.fields.contactName || "";
   const hFont = headlineFace(opts);
   const bFont = bodyFace(opts);
@@ -291,8 +295,9 @@ function lecDirectoryCell(
 export async function buildLecDirectoryDocx(
   opts: DocxBuildInput,
 ): Promise<Blob> {
-  const primary = hexNoHash(opts.palette.primary);
-  const ink = hexNoHash(pickContrastingInk(opts.palette.primary));
+  const band = officeBandColor(opts.palette.primary, opts.treatment);
+  const primary = hexNoHash(band);
+  const ink = hexNoHash(pickContrastingInk(band));
   const hFont = headlineFace(opts);
   const bFont = bodyFace(opts);
   const term = opts.fields.termYears?.trim() || "";
@@ -356,7 +361,7 @@ export async function buildLecDirectoryDocx(
           bold: true,
           font: hFont,
           size: 32,
-          color: hexNoHash(opts.palette.secondary),
+          color: hexNoHash(officeHeadingColorOnWhite(opts.palette.primary, opts.palette.secondary, opts.treatment)),
         }),
       ],
     }),
@@ -657,7 +662,7 @@ export async function buildLetterheadDocx(
           bold: true,
           font: headlineFace(opts),
           size: 32,
-          color: hexNoHash(opts.palette.secondary),
+          color: hexNoHash(officeHeadingColorOnWhite(opts.palette.primary, opts.palette.secondary, opts.treatment)),
         }),
       ],
     }),
@@ -730,8 +735,9 @@ export async function buildLetterheadDocx(
 export async function buildEventNoticeDocx(
   opts: DocxBuildInput,
 ): Promise<Blob> {
-  const primary = hexNoHash(opts.palette.primary);
-  const ink = hexNoHash(pickContrastingInk(opts.palette.primary));
+  const band = officeBandColor(opts.palette.primary, opts.treatment);
+  const primary = hexNoHash(band);
+  const ink = hexNoHash(pickContrastingInk(band));
   const title = opts.fields.title || "Event";
   const subtitle = opts.fields.subtitle || "";
   const when = [opts.fields.date, opts.fields.time].filter(Boolean).join("  ·  ");
@@ -746,7 +752,7 @@ export async function buildEventNoticeDocx(
           bold: true,
           font: headlineFace(opts),
           size: 48,
-          color: hexNoHash(opts.palette.secondary),
+          color: hexNoHash(officeHeadingColorOnWhite(opts.palette.primary, opts.palette.secondary, opts.treatment)),
         }),
       ],
     }),
@@ -891,8 +897,9 @@ export type SeniorityWorksheetDocxInput = DocxBuildInput & {
 export async function buildSeniorityWorksheetDocx(
   opts: SeniorityWorksheetDocxInput,
 ): Promise<Blob> {
-  const primary = hexNoHash(opts.palette.primary);
-  const ink = hexNoHash(pickContrastingInk(opts.palette.primary));
+  const band = officeBandColor(opts.palette.primary, opts.treatment);
+  const primary = hexNoHash(band);
+  const ink = hexNoHash(pickContrastingInk(band));
   const hFont = headlineFace(opts);
   const bFont = bodyFace(opts);
   const colCount = opts.labels.columns.length;
@@ -907,7 +914,7 @@ export async function buildSeniorityWorksheetDocx(
           bold: true,
           font: hFont,
           size: 32,
-          color: hexNoHash(opts.palette.secondary),
+          color: hexNoHash(officeHeadingColorOnWhite(opts.palette.primary, opts.palette.secondary, opts.treatment)),
         }),
       ],
     }),
@@ -1060,8 +1067,9 @@ export type GrievanceIntakeDocxInput = DocxBuildInput & {
 export async function buildGrievanceIntakeDocx(
   opts: GrievanceIntakeDocxInput,
 ): Promise<Blob> {
-  const primary = hexNoHash(opts.palette.primary);
-  const ink = hexNoHash(pickContrastingInk(opts.palette.primary));
+  const band = officeBandColor(opts.palette.primary, opts.treatment);
+  const primary = hexNoHash(band);
+  const ink = hexNoHash(pickContrastingInk(band));
   const hFont = headlineFace(opts);
   const bFont = bodyFace(opts);
   const colW = [2200, 7160] as const;
@@ -1147,7 +1155,7 @@ export async function buildGrievanceIntakeDocx(
           bold: true,
           font: hFont,
           size: 32,
-          color: hexNoHash(opts.palette.secondary),
+          color: hexNoHash(officeHeadingColorOnWhite(opts.palette.primary, opts.palette.secondary, opts.treatment)),
         }),
       ],
     }),

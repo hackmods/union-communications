@@ -68,10 +68,14 @@ import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import type { DesignTreatment } from "@/types/entities";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 
 interface BoardBannerState {
+  treatment: DesignTreatment;
   mode: BoardBannerMode;
   layout: BannerLayoutId;
   trimKit: TrimKit;
@@ -143,6 +147,7 @@ function BoardBannerPageContent() {
   const sheet = BOARD_SHEET_FORMATS[sheetId];
 
   const initial: BoardBannerState = {
+    treatment: resolveDesignTreatment(brandKit),
     mode: DEFAULT_BOARD_BANNER_MODE,
     layout: DEFAULT_BANNER_LAYOUT,
     trimKit: DEFAULT_TRIM_KIT,
@@ -223,6 +228,9 @@ function BoardBannerPageContent() {
     showByline: state.showByline,
     byline: state.byline,
   };
+  const piecePrimary = state.treatment === "full" ? state.primaryColor : "#FFFFFF";
+  const pieceSecondary = state.treatment === "balanced" ? state.primaryColor : state.secondaryColor;
+  const pieceAccent = state.treatment === "full" ? state.accentColor : state.primaryColor;
 
   const renderBannerPiece = () => (
     <BoardBannerCanvas
@@ -230,9 +238,9 @@ function BoardBannerPageContent() {
       callout={state.callout}
       localLabel={localLabel}
       localNumber={localNum}
-      primaryColor={state.primaryColor}
-      secondaryColor={state.secondaryColor}
-      accentColor={state.accentColor}
+      primaryColor={piecePrimary}
+      secondaryColor={pieceSecondary}
+      accentColor={pieceAccent}
       tokens={tokens}
       {...ornamentProps}
     />
@@ -247,9 +255,9 @@ function BoardBannerPageContent() {
     ) : (
       <BoardTrimCanvas
         piece={piece}
-        primaryColor={state.primaryColor}
-        secondaryColor={state.secondaryColor}
-        accentColor={state.accentColor}
+        primaryColor={piecePrimary}
+        secondaryColor={pieceSecondary}
+        accentColor={pieceAccent}
         localNumber={localNum}
         edgeWidthInches={edgeWidthInches}
         endCaps={endCaps}
@@ -483,6 +491,8 @@ function BoardBannerPageContent() {
                 </p>
               ) : null}
             </section>
+
+            <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
 
             {state.mode === "trim" ? (
               <section

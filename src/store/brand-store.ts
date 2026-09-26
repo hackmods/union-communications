@@ -53,6 +53,8 @@ let saveBrandKitTimer: ReturnType<typeof setTimeout> | null = null;
 let pendingSaveKit: BrandKit | null = null;
 /** Patches made before hydrate — applied onto the loaded kit, never onto defaults. */
 let pendingPatch: BrandKitPatch | null = null;
+/** Import/reset requested while hydration awaits a host response. */
+let pendingReplacement: BrandKit | null = null;
 
 const LOGO_PATCH_KEYS = [
   "useOfficialLogo",
@@ -65,6 +67,10 @@ function patchTouchesLogo(partial: BrandKitPatch): boolean {
   return LOGO_PATCH_KEYS.some((key) => key in partial);
 }
 
+function patchNeedsImmediateSave(partial: BrandKitPatch): boolean {
+  return patchTouchesLogo(partial) || "designTreatment" in partial;
+}
+
 function flushPendingBrandKitSave(onSaved?: () => void) {
   if (saveBrandKitTimer) {
     clearTimeout(saveBrandKitTimer);
@@ -73,7 +79,10 @@ function flushPendingBrandKitSave(onSaved?: () => void) {
   const kit = pendingSaveKit;
   pendingSaveKit = null;
   if (kit) {
-    void Promise.resolve(dataAdapter.saveBrandKit(kit)).then(() => {
+    // Invoke immediately so localStorage writes land before navigation tears
+    // down the document (async `then` microtasks can be cancelled on unload).
+    const result = dataAdapter.saveBrandKit(kit);
+    void Promise.resolve(result).then(() => {
       onSaved?.();
     });
   }
@@ -180,11 +189,12 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   setBrandKit: (partial) => {
     if (!get().hydrated) {
       pendingPatch = queueBrandKitPatch(pendingPatch, partial);
+      set({ brandKit: applyBrandKitPatch(get().brandKit, partial) });
       return;
     }
     const updated = applyBrandKitPatch(get().brandKit, partial);
     set({ brandKit: updated });
-    scheduleSaveBrandKit(updated, patchTouchesLogo(partial), () => {
+    scheduleSaveBrandKit(updated, patchNeedsImmediateSave(partial), () => {
       if (!get().storageBlocked) {
         set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
       }
@@ -202,6 +212,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     });
     if (!get().hydrated) {
       pendingPatch = queueBrandKitPatch(pendingPatch, patch);
+      set({ brandKit: applyBrandKitPatch(current, patch) });
       return true;
     }
     const updated = applyBrandKitPatch(current, patch);
@@ -218,7 +229,8 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     const parsed = theme as UnionBrandTheme;
     const patch = brandThemeToKitPatch(parsed);
     if (!get().hydrated) {
-      pendingPatch = mergeBrandKitPatch(pendingPatch, patch);
+      pendingPatch = queueBrandKitPatch(pendingPatch, patch);
+      set({ brandKit: applyBrandKitPatch(get().brandKit, patch) });
       return;
     }
     const updated = applyBrandKitPatch(get().brandKit, patch);
@@ -257,6 +269,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
       },
       updatedAt: new Date().toISOString(),
     });
+    pendingReplacement = get().hydrated ? null : reset;
     set({ brandKit: reset, lastSavedAt: null, hasStoredBrandKit: true });
     void Promise.resolve(dataAdapter.saveBrandKit(reset)).then(() => {
       if (!get().storageBlocked) {
@@ -272,6 +285,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
       ...(kit as object),
       updatedAt: new Date().toISOString(),
     });
+    pendingReplacement = get().hydrated ? null : updated;
     set({ brandKit: updated });
     void Promise.resolve(dataAdapter.saveBrandKit(updated)).then(() => {
       if (!get().storageBlocked) {
@@ -296,8 +310,6 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     ensurePersistenceSubscription(set);
     const kit = await dataAdapter.getBrandKit();
     const onboardingComplete = await dataAdapter.isOnboardingComplete();
-    const queued = pendingPatch;
-    pendingPatch = null;
     let brandKit = kit ?? get().brandKit;
     let hasStoredBrandKit = kit != null;
 
@@ -370,6 +382,15 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
       }
     }
 
+    // Import/reset and ordinary edits may arrive while host defaults load.
+    // Apply them after the lookup so hydration cannot overwrite steward work.
+    if (pendingReplacement) {
+      brandKit = pendingReplacement;
+      hasStoredBrandKit = true;
+      pendingReplacement = null;
+    }
+    const queued = pendingPatch;
+    pendingPatch = null;
     if (queued) {
       brandKit = applyBrandKitPatch(brandKit, queued);
       scheduleSaveBrandKit(brandKit, false, () => {

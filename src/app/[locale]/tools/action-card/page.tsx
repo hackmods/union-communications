@@ -40,6 +40,9 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import type { DesignTreatment } from "@/types/entities";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
@@ -80,6 +83,7 @@ import {
 import { meetsWcagAA } from "@/lib/utils/contrast";
 
 interface ActionCardState {
+  treatment: DesignTreatment;
   presetId: string;
   destination: string;
   headline: string;
@@ -120,6 +124,7 @@ function ActionCardPageContent() {
   const first = ACTION_CARD_PRESETS[0];
 
   const initial: ActionCardState = {
+    treatment: resolveDesignTreatment(brandKit),
     presetId: first.id,
     destination: "",
     headline: "",
@@ -151,6 +156,7 @@ function ActionCardPageContent() {
       deepLinkApplied.current = true;
     }
     reset({
+      treatment: resolveDesignTreatment(brandKit),
       presetId: fromDeep.id,
       destination: "",
       headline: t(`presets.${fromDeep.headlineKey}`),
@@ -227,6 +233,7 @@ function ActionCardPageContent() {
     brandKit.local.localNumber,
     brandKit.local.subText,
   );
+  const sheetPrimary = state.treatment === "full" ? state.primaryColor : "#FFFFFF";
 
   const canvasStyle: CSSProperties = (() => {
     const box: CSSProperties = {
@@ -234,31 +241,34 @@ function ActionCardPageContent() {
       height: designHeight,
       aspectRatio: `${size.widthInches} / ${size.heightInches}`,
     };
-    const ink = pickContrastingInk(state.primaryColor);
+    const ink = pickContrastingInk(sheetPrimary);
+    const border = state.treatment === "balanced" ? { border: `8px solid ${state.primaryColor}`, boxSizing: "border-box" as const } : state.treatment === "paper" ? { borderTop: `4px solid ${state.primaryColor}`, boxSizing: "border-box" as const } : {};
     if (state.bgMode === "gradient") {
       return {
         ...box,
-        ...softGradientFillStyle(state.primaryColor, state.secondaryColor),
+        ...(state.treatment === "full" ? softGradientFillStyle(sheetPrimary, state.secondaryColor) : { backgroundColor: sheetPrimary }),
         color: ink,
+        ...border,
       };
     }
     return {
       ...box,
       ...canvasSurfaceStyle(tokens, {
-        primary: state.primaryColor,
+        primary: sheetPrimary,
         secondary: state.secondaryColor,
         accent: state.secondaryColor,
       }),
       color: ink,
+      ...border,
     };
   })();
 
-  const canvasInk = pickContrastingInk(state.primaryColor);
-  const mutedInk = mutedInkOnBackground(state.primaryColor, 0.9);
-  const mutedInk80 = mutedInkOnBackground(state.primaryColor, 0.8);
+  const canvasInk = pickContrastingInk(sheetPrimary);
+  const mutedInk = mutedInkOnBackground(sheetPrimary, 0.9);
+  const mutedInk80 = mutedInkOnBackground(sheetPrimary, 0.8);
   const ctaColor =
     state.bgMode === "plain" &&
-    meetsWcagAA(state.secondaryColor, state.primaryColor, true)
+    meetsWcagAA(state.secondaryColor, sheetPrimary, true)
       ? state.secondaryColor
       : canvasInk;
   const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
@@ -299,7 +309,7 @@ function ActionCardPageContent() {
           brandKit.local.localNumber,
           "png",
         ),
-        { pixelRatio: exportPixelRatio, backgroundColor: state.primaryColor },
+        { pixelRatio: exportPixelRatio, backgroundColor: sheetPrimary },
       );
     });
   };
@@ -317,7 +327,7 @@ function ActionCardPageContent() {
         size.widthInches,
         size.heightInches,
         exportPixelRatio,
-        state.primaryColor,
+        sheetPrimary,
       );
     });
   };
@@ -421,6 +431,7 @@ function ActionCardPageContent() {
           />
           </section>
 
+          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={tc("sectionLayout")}>
           <SegControl
             label={t("bgMode")}
@@ -579,7 +590,7 @@ function ActionCardPageContent() {
                           style={{ justifyContent: brandJustify }}
                         >
                           <LogoContainer
-                            backgroundColor={state.primaryColor}
+                            backgroundColor={sheetPrimary}
                             logoMode={canvasLogoMode}
                             bounds={{
                               maxWidthCqw: isCompact ? 36 : 42,

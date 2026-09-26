@@ -10,6 +10,32 @@ import { PROFILE_OTHER_ID } from "@/lib/brand/collection-profile-catalog";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
 describe("normalizeBrandKit", () => {
+  it("starts fresh kits Balanced while preserving existing saved kits as Full colour", () => {
+    expect(normalizeBrandKit(undefined).designTreatment).toBe("balanced");
+    expect(normalizeBrandKit({ ...DEFAULT_BRAND_KIT, designTreatment: undefined }).designTreatment).toBe("full");
+    expect(normalizeBrandKit({ ...DEFAULT_BRAND_KIT, designTreatment: "paper" }).designTreatment).toBe("paper");
+  });
+
+  it("retains named Looks and treatment independently through storage normalization", () => {
+    const saved = {
+      id: "local-coral",
+      name: "Council coral",
+      unionPresetId: "opseu",
+      primaryColor: "#D65B60",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#823038",
+      useOfficialLogo: true,
+      officialLogoVariant: "mark" as const,
+    };
+    const kit = normalizeBrandKit(JSON.parse(JSON.stringify({
+      ...DEFAULT_BRAND_KIT,
+      designTreatment: "paper",
+      savedLooks: [saved],
+    })));
+    expect(kit.designTreatment).toBe("paper");
+    expect(kit.savedLooks?.[0]).toMatchObject(saved);
+  });
+
   it("upgrades a 1.0 kit to 2.0 with empty links", () => {
     const kit = normalizeBrandKit({
       version: "1.0",

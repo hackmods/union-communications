@@ -64,6 +64,9 @@ import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { FlyerLayoutCanvas } from "@/components/tools/flyer-layouts";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import type { DesignTreatment } from "@/types/entities";
 import { CanvasSheetPlate } from "@/components/tools/CanvasSheetPlate";
 import { PRINT_PAGE_LEGACY_REFERENCE_PX } from "@/lib/comms/print-page-formats";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
@@ -77,6 +80,7 @@ import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ConsentModal } from "@/components/tools/ConsentModal";
 
 interface FlyerState {
+  treatment: DesignTreatment;
   message: string;
   body: string;
   date: string;
@@ -152,6 +156,7 @@ function FlyerMakerPageContent() {
   ): FlyerState => ({
     ...baseFlyerFields(),
     layout: DEFAULT_FLYER_LAYOUT,
+    treatment: resolveDesignTreatment(brandKit),
     format: DEFAULT_FLYER_FORMAT,
     fontStack: DEFAULT_FLYER_FONT,
     headlineCase: "uppercase",
@@ -457,6 +462,7 @@ function FlyerMakerPageContent() {
               />
             </ToolFormDetails>
 
+            <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
             <ToolFormDetails title={t("sectionLayout")}>
               <SegControl
                 label={tf("layout")}
@@ -669,6 +675,7 @@ function FlyerMakerPageContent() {
             align="center"
           >
             <FlyerLayoutCanvas
+              treatment={state.treatment}
               canvasRef={canvasRef}
               layout={state.layout}
               tokens={tokens}

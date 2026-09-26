@@ -1,4 +1,26 @@
 {
+  "brandLooks": {
+    "starters": "Palettes de départ",
+    "starterNote": "Couleurs proposées par UnionOps. Elles ne constituent pas des normes officielles de la marque syndicale; ajoutez votre logo au besoin.",
+    "core": "Couleurs d’origine",
+    "deep": "Couleur plus foncée",
+    "saved": "Vos styles enregistrés",
+    "name": "Nom du style",
+    "save": "Enregistrer les couleurs et le logo",
+    "remove": "Retirer",
+    "empty": "Enregistrez un style pour retrouver ses couleurs et son logo plus tard."
+  },
+  "designTreatment": {
+    "label": "Présentation",
+    "full": "Couleur pleine",
+    "balanced": "Équilibrée",
+    "paper": "Surtout blanche",
+    "hint": {
+      "full": "La couleur de la marque couvre une grande partie du visuel.",
+      "balanced": "La couleur encadre de grands espaces blancs pour le message.",
+      "paper": "Le blanc domine, avec la couleur de la marque sur les détails essentiels."
+    }
+  },
   "metadata": {
     "title": "UnionOps | Conçu pour les syndicats",
     "titleCommsOnly": "UnionOps | Conçu pour les sections locales",
@@ -7385,6 +7407,10 @@
       "match-hub-union-brand-kit": {
         "title": "Faire correspondre la Trousse de marque à votre syndicat du Hub",
         "body": "Lorsque vous êtes connecté, la Trousse de marque peut appliquer le préréglage Comms de votre syndicat du Hub au site public de ce navigateur. Votre numéro de section locale est conservé s’il est déjà défini."
+      },
+      "comms-lighter-designs": {
+        "title": "Des pages plus claires dans la Trousse de marque et les outils de communication",
+        "body": "Choisissez Couleur pleine, Équilibré ou Surtout blanc pour les tracts, visuels, panneaux, cartes, arrière-plans de réunion, sondages et documents bureautiques. Les nouvelles Trousses de marque commencent en Équilibré ; les trousses enregistrées gardent leur apparence jusqu’à ce que vous la changiez. Enregistrez séparément des apparences nommées pour vos couleurs et votre logo."
       },
       "local-pack": {
         "title": "Sauvegarde Trousse locale",

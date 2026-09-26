@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  officeBandColor,
+  officeHeadingColorOnWhite,
   officeXlsxBrandBandStyle,
   officeXlsxHexArgb,
   officeXlsxInkArgbOn,
@@ -66,5 +68,18 @@ describe("office-brand-styles", () => {
     expect(band.font.color).toEqual({ argb: "FFFFFFFF" });
     expect(band.font.name).toBe("Oswald");
     expect(band.alignment.vertical).toBe("middle");
+  });
+
+  it("lightens Office bands for Balanced and Mostly white treatments", () => {
+    expect(officeBandColor("#D65B60", "full")).toBe("#D65B60");
+    expect(officeBandColor("#D65B60", "balanced")).not.toBe("#D65B60");
+    expect(officeBandColor("#D65B60", "paper")).toBe("#F6F6F6");
+    expect(officeHeadingColorOnWhite("#D65B60", "#FFFFFF", "full")).toBe("#FFFFFF");
+    expect(officeHeadingColorOnWhite("#D65B60", "#FFFFFF", "balanced")).not.toBe(
+      "#FFFFFF",
+    );
+    expect(officeHeadingColorOnWhite("#D65B60", "#FFFFFF", "paper")).not.toBe(
+      "#FFFFFF",
+    );
   });
 });

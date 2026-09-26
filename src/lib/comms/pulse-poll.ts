@@ -1,6 +1,8 @@
 /** FUTURE-006 — local-first pulse poll draft + publish to collection API. */
 
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import type { DesignTreatment } from "@/types/entities";
+import { isDesignTreatment } from "@/lib/brand/design-treatment";
 import {
   INITIAL_LOGO_MODE,
   defaultShowLocalNumber,
@@ -17,6 +19,7 @@ export interface PulsePollQuestion {
 }
 
 export interface PulsePollDraft {
+  treatment?: DesignTreatment;
   title: string;
   intro: string;
   questions: PulsePollQuestion[];
@@ -53,6 +56,7 @@ export function loadPulsePollDraft(): PulsePollDraft | null {
     if (!parsed || !Array.isArray(parsed.questions)) return null;
     return {
       ...parsed,
+      treatment: isDesignTreatment(parsed.treatment) ? parsed.treatment : "full",
       logoMode: normalizeLogoMode(parsed, false),
       showLocalNumber: parsed.showLocalNumber ?? defaultShowLocalNumber(),
     };

@@ -35,6 +35,7 @@ import {
   softGradientEndColor,
 } from "@/lib/utils/canvas-surface";
 import { JointActionCard } from "@/components/comms/campaign/JointActionCard";
+import type { DesignTreatment } from "@/types/entities";
 
 function socialChrome(
   tokens: CanvasTokens | undefined,
@@ -77,6 +78,7 @@ export interface GraphicLayoutColors {
 }
 
 export interface GraphicLayoutCanvasProps {
+  treatment?: DesignTreatment;
   layout: ExampleLayout;
   aspect: ExampleAspect;
   copy: GraphicLayoutCopy;
@@ -242,6 +244,7 @@ function LayoutBrandLogo({
 }
 
 export function GraphicLayoutCanvas({
+  treatment = "full",
   layout,
   aspect,
   copy,
@@ -258,7 +261,10 @@ export function GraphicLayoutCanvas({
   showLocalNumber = true,
   coalitionBadge,
 }: GraphicLayoutCanvasProps) {
-  const { primary, accent, secondary } = colors;
+  const brandPrimary = colors.primary;
+  const primary = treatment === "full" ? brandPrimary : "#FFFFFF";
+  const accent = treatment === "full" ? colors.accent : brandPrimary;
+  const secondary = treatment === "full" ? colors.secondary : "#FFFFFF";
   const surface = tokens
     ? canvasSurfaceStyle(tokens, { primary, secondary, accent })
     : { backgroundColor: primary };
@@ -271,8 +277,9 @@ export function GraphicLayoutCanvas({
         graphicAspectClass(aspect),
         className,
       )}
-      style={{ ...surface, ...style }}
+      style={{ ...surface, ...style, backgroundColor: treatment === "balanced" ? brandPrimary : primary, ...(treatment === "balanced" ? { backgroundImage: "none" } : {}) }}
     >
+      <div className={cn("overflow-hidden", treatment === "balanced" ? "absolute inset-[4%]" : "relative h-full w-full")} style={treatment === "balanced" ? { backgroundColor: "#FFFFFF" } : undefined}>
       {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity} /> : null}
       {layout === "spotlight" && (
         <SpotlightLayout
@@ -371,6 +378,7 @@ export function GraphicLayoutCanvas({
           aspect={aspect}
         />
       )}
+      </div>
     </div>
   );
 }

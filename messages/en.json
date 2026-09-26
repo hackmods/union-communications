@@ -1,4 +1,26 @@
 {
+  "brandLooks": {
+    "starters": "Starter palettes",
+    "starterNote": "UnionOps colour starters. These are not official union brand standards; add your own logo if needed.",
+    "core": "Original colours",
+    "deep": "Deeper colour",
+    "saved": "Your saved Looks",
+    "name": "Look name",
+    "save": "Save current colours and logo",
+    "remove": "Remove",
+    "empty": "Save a Look to switch colours and logos later."
+  },
+  "designTreatment": {
+    "label": "Design treatment",
+    "full": "Full colour",
+    "balanced": "Balanced",
+    "paper": "Mostly white",
+    "hint": {
+      "full": "A strong brand-colour field across the design.",
+      "balanced": "Brand colour frames generous white areas for the message.",
+      "paper": "White leads, with brand colour on key details."
+    }
+  },
   "metadata": {
     "title": "UnionOps | Built for unions",
     "titleCommsOnly": "UnionOps | Built for union locals",
@@ -7438,6 +7460,10 @@
       "match-hub-union-brand-kit": {
         "title": "Match Brand Kit to your Officer Hub union",
         "body": "When you are signed in, Brand Kit can apply your Officer Hub union’s Comms preset to the public site in this browser. Your local number stays if you already set one."
+      },
+      "comms-lighter-designs": {
+        "title": "Lighter pages in Brand Kit and Comms",
+        "body": "Choose Full colour, Balanced, or Mostly white for flyers, graphics, boards, cards, meeting backgrounds, polls, and office documents. New Brand Kits start on Balanced; existing saved kits keep their current look until you change it. Save named Looks for your colours and logo separately."
       },
       "local-pack": {
         "title": "Local pack backup",

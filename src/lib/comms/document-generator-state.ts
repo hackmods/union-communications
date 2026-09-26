@@ -5,6 +5,7 @@ import {
   type OfficePresetId,
 } from "@/lib/constants/office-templates";
 import type { BrandKit } from "@/types/entities";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
 import {
   type DocumentGeneratorDraft,
   type OfficeHeaderSizePreset,
@@ -40,6 +41,7 @@ export function createInitialGeneratorState(
   }
   const links = brandKit ? listSavedLinks(brandKit) : [];
   return {
+    treatment: brandKit ? resolveDesignTreatment(brandKit) : "full",
     presetId,
     includeDocx: true,
     includeXlsx: preset.outputs.xlsx,
@@ -85,6 +87,7 @@ export function hydrateGeneratorState(
   return {
     ...base,
     ...stored,
+    treatment: stored.treatment ?? "full",
     presetId: validPreset,
     // Letter route / letter presets: never inherit a full-generator PPTX toggle from shared draft.
     includePptx: isLetterPreset(validPreset)

@@ -54,6 +54,23 @@ describe("local pack", () => {
     expect(parsed.pack.onboardingComplete).toBe(true);
   });
 
+  it("round-trips design treatment and named Looks", () => {
+    const brandKit = {
+      ...DEFAULT_BRAND_KIT,
+      designTreatment: "paper" as const,
+      savedLooks: [{
+        id: "coral", name: "Council coral", unionPresetId: "opseu",
+        primaryColor: "#D65B60", secondaryColor: "#FFFFFF", accentColor: "#823038",
+        useOfficialLogo: true, officialLogoVariant: "mark" as const,
+      }],
+    };
+    const parsed = parseLocalPackText(serializeLocalPack(buildLocalPack({ brandKit })));
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    expect(parsed.pack.brandKit?.designTreatment).toBe("paper");
+    expect(parsed.pack.brandKit?.savedLooks?.[0]).toMatchObject(brandKit.savedLooks[0]);
+  });
+
   it("rejects wrong kind and empty packs", () => {
     expect(parseLocalPack({ kind: "unionops-website", version: 1 })).toEqual({
       ok: false,

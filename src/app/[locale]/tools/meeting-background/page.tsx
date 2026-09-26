@@ -18,6 +18,9 @@ import {
   typeScaleFactor,
 } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import { DesignTreatmentControl } from "@/components/tools/DesignTreatmentControl";
+import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
+import type { DesignTreatment } from "@/types/entities";
 import {
   insetsForProfile,
   profileForMeetingOrientation,
@@ -89,6 +92,7 @@ import {
 } from "@/lib/comms/canvas-token-overrides";
 
 interface BackgroundState {
+  treatment: DesignTreatment;
   presetId: string;
   leadIn: string;
   headline: string;
@@ -135,6 +139,7 @@ function MeetingBackgroundPageContent() {
   const sizeFormats = formatsForOrientation(orientation);
 
   const initial: BackgroundState = {
+    treatment: resolveDesignTreatment(brandKit),
     presetId: first.id,
     leadIn: first.leadIn,
     headline: first.headline,
@@ -198,9 +203,9 @@ function MeetingBackgroundPageContent() {
     brandKit.local.subText,
   );
 
-  const primary = state.primaryColor;
-  const secondary = state.secondaryColor || primary;
-  const accent = state.accentColor || secondary;
+  const primary = state.treatment === "full" ? state.primaryColor : "#FFFFFF";
+  const secondary = state.treatment === "balanced" ? state.primaryColor : (state.treatment === "paper" ? "#FFFFFF" : state.secondaryColor || primary);
+  const accent = state.treatment === "full" ? state.accentColor || secondary : state.primaryColor;
   const canvasInk = pickContrastingInk(primary);
   const brandCanvasTokens = resolveCanvasTokens(brandKit);
   const tokens = resolveCanvasTokensWithOverrides(
@@ -834,6 +839,7 @@ function MeetingBackgroundPageContent() {
             </ToolFormDetails>
           </section>
 
+          <DesignTreatmentControl value={state.treatment} onChange={(treatment) => setState({ ...state, treatment })} />
           <ToolFormDetails title={t("sectionLayout")}>
             <SegControl
               label={t("design")}
@@ -1035,6 +1041,7 @@ function MeetingBackgroundPageContent() {
                 className="relative overflow-hidden"
                 style={{
                   ...surfaceStyle,
+                  ...(state.treatment === "full" ? {} : { backgroundColor: "#FFFFFF", backgroundImage: "none", borderTop: `${state.treatment === "balanced" ? 22 : 7}px solid ${state.primaryColor}`, boxSizing: "border-box" as const }),
                   color: canvasInk,
                   width: designWidth,
                   height: designHeight,

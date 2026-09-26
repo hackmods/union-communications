@@ -111,6 +111,8 @@ export const DEFAULT_BRAND_KIT = {
   primaryColor: BRAND_COLORS.primary,
   secondaryColor: BRAND_COLORS.secondary,
   accentColor: BRAND_COLORS.accent,
+  designTreatment: "balanced" as const,
+  savedLooks: [],
   // First visit uses UnionOps mark; pick a union preset or upload for local branding
   useOfficialLogo: false,
   officialLogoVariant: "lockup" as OfficialLogoVariant,
