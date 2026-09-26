@@ -32,7 +32,6 @@ import { resolveDesignTreatment } from "@/lib/brand/design-treatment";
 import { BrandKitPreview } from "@/components/brand/BrandKitPreview";
 import { BrandKitCompletenessBar } from "@/components/brand/BrandKitCompletenessBar";
 import { BrandKitSaveBanner } from "@/components/brand/BrandKitSaveBanner";
-import { DisplaySettingsControls } from "@/components/accessibility/DisplaySettingsControls";
 import {
   brandFieldsFromUnionPreset,
   getUnionPreset,
@@ -434,7 +433,16 @@ export default function BrandKitPage() {
         description={t("displayPreferencesBody")}
         className="mt-8 max-w-3xl scroll-mt-28"
       >
-        <DisplaySettingsControls variant="compact" />
+        <Callout>
+          <p>
+            <Link
+              href="/accessibility"
+              className="font-semibold text-opseu-blue underline underline-offset-2"
+            >
+              {t("displayPreferencesOpen")}
+            </Link>
+          </p>
+        </Callout>
       </PublicHubPanel>
     </ComposedPageLayout>
   );

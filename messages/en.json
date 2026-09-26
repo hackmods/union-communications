@@ -4248,7 +4248,8 @@
     "storageBlocked": "Browser storage is blocked. Brand Kit cannot save until storage is allowed.",
     "storageBlockedDismiss": "Dismiss",
     "displayPreferences": "Display preferences",
-    "displayPreferencesBody": "Turn off pulse animations and adjust reading size for this browser. These settings stay on your device.",
+    "displayPreferencesBody": "Text size, contrast, and motion live under Accessibility in the site header — not in Brand Kit. They stay on this device and apply across UnionOps.",
+    "displayPreferencesOpen": "Open accessibility settings",
     "signatureName": "Default signature name",
     "signatureNamePlaceholder": "e.g. Alex Steward",
     "signatureNameHint": "Optional. Letters and worksheets can use this as the closing name so you do not retype it each time.",
@@ -8024,6 +8025,10 @@
         "title": "Three layouts for your local website",
         "body": "Website Template now offers Solidarity, Bulletin, and Hall looks from the same Brand Kit and officer list. Preview on phone or desktop, then download the same GitHub Pages ZIP — switching layouts keeps your copy."
       },
+      "mobile-accessibility-controls": {
+        "title": "Accessibility controls on phones",
+        "body": "Text size, contrast, and motion sit in the header as Accessibility — no need to dig through the menu. Larger text and small screens keep the Menu button usable."
+      },
       "website-wordpress-local-site": {
         "title": "WordPress theme you can update in the dashboard",
         "body": "Website Template’s WordPress download now stores homepage copy in WordPress. Edit under Appearance → Local site, or import the site file for updates without re-uploading the whole theme."
@@ -8130,7 +8135,7 @@
       "altText": "Alt-text on all informational images",
       "reducedMotion": "Reduced motion support via system settings and user preference",
       "bilingual": "English and French language options",
-      "displaySettings": "Adjustable font size, high contrast, reduced motion, and Officer Learning colour settings",
+      "displaySettings": "Adjustable font size, high contrast, and reduced motion from the Accessibility control in the site header",
       "skipLink": "Skip link to jump directly to main content",
       "altTextTool": "Alt-Text Assistant to draft image descriptions for social posts"
     },
@@ -8146,7 +8151,7 @@
     "display": {
       "title": "Display settings",
       "intro": "Customize how the site looks and moves. Your choices are saved on this device.",
-      "menuLabel": "Display",
+      "menuLabel": "Accessibility",
       "fontSizeLabel": "Text size",
       "fontSizeDescription": "Choose a comfortable reading size. All text scales proportionally.",
       "fontSize": {
@@ -8160,7 +8165,8 @@
       "reducedMotionLabel": "Reduce motion",
       "reducedMotionDescription": "Minimize animations and transitions, regardless of system settings.",
       "previewLabel": "Preview",
-      "previewText": "The quick brown fox jumps over the lazy dog. Your local union deserves tools that work for everyone."
+      "previewText": "The quick brown fox jumps over the lazy dog. Your local union deserves tools that work for everyone.",
+      "statementLink": "Accessibility statement"
     }
   },
   "hub": {

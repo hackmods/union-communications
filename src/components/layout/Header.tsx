@@ -74,7 +74,12 @@ export function Header() {
         drawerOpen ? "z-[80]" : "z-50",
       )}
     >
-      <div className={cn(PAGE_SHELL.chrome, "flex items-center justify-between gap-3 py-2.5 sm:gap-4 sm:py-3")}>
+      <div
+        className={cn(
+          PAGE_SHELL.chrome,
+          "flex flex-wrap items-center justify-between gap-x-3 gap-y-2 py-2.5 sm:gap-x-4 sm:py-3",
+        )}
+      >
         <Link
           href="/"
           className="flex min-w-0 items-center gap-2 font-bold text-opseu-blue"
@@ -108,37 +113,42 @@ export function Header() {
           <LocalPortalNavLink />
         </nav>
 
-        <div className="hidden flex-wrap items-center justify-end gap-2 xl:flex">
-          <Link href="/search" aria-current={isActive("/search") ? "page" : undefined} className={linkClass(isActive("/search"))}>
+        <div className="flex w-full shrink-0 flex-wrap items-center justify-end gap-2 xl:w-auto">
+          <Link
+            href="/search"
+            aria-current={isActive("/search") ? "page" : undefined}
+            className={cn(linkClass(isActive("/search")), "hidden xl:inline-flex")}
+          >
             <span aria-hidden="true" className="mr-1.5">⌕</span>{t("search")}
           </Link>
-          <PlatformOperatorNavDropdown />
-          <AuthAccountControls layout="inline" showHubLink={false} showPortalLink={false} />
+          <div className="hidden xl:contents">
+            <PlatformOperatorNavDropdown />
+            <AuthAccountControls layout="inline" showHubLink={false} showPortalLink={false} />
+          </div>
           <DisplaySettingsMenu />
           <LanguageToggle />
+          <button
+            ref={toggleRef}
+            type="button"
+            className="relative z-[80] inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-md border border-slate-300 px-3 font-semibold text-opseu-dark hover:bg-opseu-blue/5 xl:hidden"
+            aria-expanded={drawerOpen}
+            aria-controls={drawerId}
+            aria-label={drawerOpen ? t("closeMenu") : t("openMenu")}
+            data-testid="mobile-nav-toggle"
+            onClick={toggleDrawer}
+          >
+            {drawerOpen ? (
+              <span aria-hidden="true" className="text-xl leading-none">×</span>
+            ) : (
+              <span aria-hidden="true" className="flex flex-col gap-1.5">
+                <span className="block h-0.5 w-5 bg-current" />
+                <span className="block h-0.5 w-5 bg-current" />
+                <span className="block h-0.5 w-5 bg-current" />
+              </span>
+            )}
+            <span>{t("menu")}</span>
+          </button>
         </div>
-
-        <button
-          ref={toggleRef}
-          type="button"
-          className="relative z-[80] inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 px-3 font-semibold text-opseu-dark hover:bg-opseu-blue/5 xl:hidden"
-          aria-expanded={drawerOpen}
-          aria-controls={drawerId}
-          aria-label={drawerOpen ? t("closeMenu") : t("openMenu")}
-          data-testid="mobile-nav-toggle"
-          onClick={toggleDrawer}
-        >
-          {drawerOpen ? (
-            <span aria-hidden="true" className="text-xl leading-none">×</span>
-          ) : (
-            <span aria-hidden="true" className="flex flex-col gap-1.5">
-              <span className="block h-0.5 w-5 bg-current" />
-              <span className="block h-0.5 w-5 bg-current" />
-              <span className="block h-0.5 w-5 bg-current" />
-            </span>
-          )}
-          <span>{drawerOpen ? t("closeMenu") : t("menu")}</span>
-        </button>
       </div>
 
       {drawerOpen ? (

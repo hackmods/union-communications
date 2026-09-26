@@ -4,8 +4,6 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { DisplaySettingsMenu } from "@/components/layout/DisplaySettingsMenu";
-import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { AuthAccountControls } from "@/components/layout/AuthAccountControls";
 import { OfficerHubNavLink } from "@/components/layout/OfficerHubNavLink";
 import { LocalPortalNavLink } from "@/components/layout/LocalPortalNavLink";
@@ -141,18 +139,13 @@ export function MobileNavDrawer({
             </Link>
         </nav>
 
-        <div className="shrink-0 border-t border-slate-200 px-4 pt-3">
+        <div className="shrink-0 border-t border-slate-200 px-4 py-3">
           <AuthAccountControls
             layout="stack"
             showHubLink={false}
             showPortalLink={false}
             onNavigate={onCloseAfterNav}
           />
-        </div>
-
-        <div className="shrink-0 flex flex-wrap items-center gap-3 border-t border-slate-200 px-5 py-4">
-          <DisplaySettingsMenu />
-          <LanguageToggle />
         </div>
       </div>
     </div>,

@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { usePreferencesStore } from "@/store/preferences-store";
 import type { FontSize } from "@/types/preferences";
 import { cn } from "@/lib/utils";
@@ -109,6 +110,15 @@ export function DisplaySettingsControls({
           <p className="mt-2 text-base text-gray-800">{t("previewText")}</p>
         </div>
       )}
+
+      <p className={cn(isCompact ? "text-sm" : "text-base")}>
+        <Link
+          href="/accessibility"
+          className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+        >
+          {t("statementLink")}
+        </Link>
+      </p>
     </div>
   );
 }

@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "mobile-accessibility-controls",
+    date: "2026-09-26",
+    kind: "improved",
+    href: "/accessibility",
+  },
+  {
     id: "website-layouts",
     date: "2026-09-26",
     kind: "improved",

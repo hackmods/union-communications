@@ -1,3 +1,11 @@
+## 2026-09-26 — Mobile menu + AODA display access
+
+- Public sticky header (`<xl`): Accessibility + language beside Menu; wrap-safe chrome; Menu label stays short when open.
+- `DisplaySettingsMenu` portals a viewport-safe panel; menu label renamed Accessibility / Accessibilité; statement link in controls; stale OL colour feature copy removed.
+- Drawer no longer buries display/language; Brand Kit `#brand-display` links to `/accessibility` instead of duplicating controls.
+- E2E: large-text matrix at 320/360 with `data-font-size=maximum`.
+- What's new: `mobile-accessibility-controls`.
+
 ## 2026-09-26 — Viewport Lab QOL follow-through
 
 - Related tools: `slugFromToolHref` parses `/create` + `/utilities`; `RELATED_BY_TOOL` + Document Generator preset hrefs canonicalized; footer filters disable lists on create paths.

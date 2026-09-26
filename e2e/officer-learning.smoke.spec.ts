@@ -46,7 +46,7 @@ test.describe("Officer Learning @smoke", () => {
     // Site --background #f8fafc
     await expect(shell).toHaveCSS("background-color", "rgb(248, 250, 252)");
 
-    await page.getByRole("button", { name: "Display" }).click();
+    await page.getByRole("button", { name: "Accessibility" }).click();
     await expect(
       page.getByRole("radio", { name: /Navy|Light/i }),
     ).toHaveCount(0);

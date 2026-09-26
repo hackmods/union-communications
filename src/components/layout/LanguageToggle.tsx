@@ -35,7 +35,10 @@ export function LanguageToggle() {
           aria-label={locale === "en" ? "English" : "Français"}
           aria-current={currentLocale === locale ? "true" : undefined}
         >
-          {locale === "en" ? "English" : "Français"}
+          <span className="sm:hidden">{locale === "en" ? "EN" : "FR"}</span>
+          <span className="hidden sm:inline">
+            {locale === "en" ? "English" : "Français"}
+          </span>
         </button>
       ))}
     </div>

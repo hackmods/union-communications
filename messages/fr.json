@@ -4246,7 +4246,8 @@
     "storageBlocked": "Le stockage du navigateur est bloqué. La Trousse ne peut pas enregistrer tant qu’il n’est pas autorisé.",
     "storageBlockedDismiss": "Fermer",
     "displayPreferences": "Préférences d’affichage",
-    "displayPreferencesBody": "Désactivez les animations pulsées et ajustez la taille de lecture pour ce navigateur. Ces réglages restent sur votre appareil.",
+    "displayPreferencesBody": "La taille du texte, le contraste et les animations se règlent sous Accessibilité dans l’en-tête du site — pas dans la Trousse de marque. Ils restent sur cet appareil et s’appliquent à tout UnionOps.",
+    "displayPreferencesOpen": "Ouvrir les réglages d’accessibilité",
     "signatureName": "Nom de signature par défaut",
     "signatureNamePlaceholder": "p. ex. Alex Steward",
     "signatureNameHint": "Facultatif. Les lettres et fiches peuvent utiliser ce nom de clôture pour éviter de le retaper chaque fois.",
@@ -7970,6 +7971,10 @@
         "title": "Trois mises en page pour le site de votre section locale",
         "body": "Le modèle de site propose maintenant Solidarité, Bulletin et Salle à partir du même Brand Kit et de la même liste de dirigeants. Prévisualisez sur téléphone ou bureau, puis téléchargez le même ZIP GitHub Pages — changer de mise en page conserve votre texte."
       },
+      "mobile-accessibility-controls": {
+        "title": "Contrôles d’accessibilité sur téléphone",
+        "body": "La taille du texte, le contraste et les animations sont dans l’en-tête sous Accessibilité — plus besoin de fouiller le menu. Les grands textes et petits écrans gardent le bouton Menu utilisable."
+      },
       "website-wordpress-local-site": {
         "title": "Thème WordPress que vous mettez à jour dans le tableau de bord",
         "body": "Le téléchargement WordPress du Modèle de site Web enregistre maintenant le texte d’accueil dans WordPress. Modifiez sous Apparence → Site local, ou importez le fichier du site pour des mises à jour sans retéléverser tout le thème."
@@ -8076,7 +8081,7 @@
       "altText": "Texte alternatif sur toutes les images informatives",
       "reducedMotion": "Réduction des animations via les paramètres système et les préférences utilisateur",
       "bilingual": "Options de langue anglais et français",
-      "displaySettings": "Taille de texte, contraste élevé, réduction des animations et couleur du Centre de formation des dirigeants configurables",
+      "displaySettings": "Taille de texte, contraste élevé et réduction des animations depuis le contrôle Accessibilité dans l’en-tête du site",
       "skipLink": "Lien d'évitement pour accéder directement au contenu principal",
       "altTextTool": "Assistant texte alternatif pour rédiger des descriptions d'images pour les publications"
     },
@@ -8092,7 +8097,7 @@
     "display": {
       "title": "Paramètres d'affichage",
       "intro": "Personnalisez l'apparence et les animations du site. Vos choix sont enregistrés sur cet appareil.",
-      "menuLabel": "Affichage",
+      "menuLabel": "Accessibilité",
       "fontSizeLabel": "Taille du texte",
       "fontSizeDescription": "Choisissez une taille de lecture confortable. Tout le texte s'ajuste proportionnellement.",
       "fontSize": {
@@ -8106,7 +8111,8 @@
       "reducedMotionLabel": "Réduire les animations",
       "reducedMotionDescription": "Minimiser les animations et transitions, indépendamment des paramètres système.",
       "previewLabel": "Aperçu",
-      "previewText": "Voix ambiguë d'un cœur qui au zéphyr préfère les jattes de kiwis. Votre section syndicale mérite des outils accessibles à tous."
+      "previewText": "Voix ambiguë d'un cœur qui au zéphyr préfère les jattes de kiwis. Votre section syndicale mérite des outils accessibles à tous.",
+      "statementLink": "Déclaration d’accessibilité"
     }
   },
   "hub": {
