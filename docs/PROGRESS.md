@@ -1,3 +1,8 @@
+## 2026-09-26 — Viewport Lab follow-up plan
+
+- Deferred tracks planned (not implemented): related-tools disable-list gating for `/create`, Hub/Portal Playwright responsive audit, Local 404 wayfinding enrichment.
+- Plan + open tickets: [`docs/audit/plan-2026-09-26-viewport-lab-followups.md`](audit/plan-2026-09-26-viewport-lab-followups.md); `VL-REL-*` / `VL-HUB-*` / `VL-404-*` in [`docs/audit/execution-backlog.md`](audit/execution-backlog.md).
+
 ## 2026-09-26 — Viewport Lab responsive + UX pass
 
 - Proposal Tracker (+ Hub proposal package table): scrollport gets `min-w-0 max-w-full overscroll-x-contain` so the wide worksheet scrolls inside the column under `html { overflow-x: clip }`.

@@ -925,3 +925,106 @@ Added 2026-07-23. Question posed: once the `SEC-`/`RBAC-`/`FEAT-`/`FUTURE-` item
 3. Health + boot misconfig warns; rotate JSONL. ✅
 4. Wire critical Hub API/email + route error boundaries. ✅
 5. Document operator + agent knowledge surfaces. ✅
+
+---
+
+## VIEWPORT LAB FOLLOW-UPS (`VL-`)
+
+Source plan: [`docs/audit/plan-2026-09-26-viewport-lab-followups.md`](plan-2026-09-26-viewport-lab-followups.md). Open tickets — mark closed in place when done.
+
+### [VL-REL-1] OPEN
+**Category:** Comms / related tools
+**Severity/Priority:** Medium
+**Status:** Open — `slugFromToolHref` only matches `/tools/:slug`; `/create/*` Related links bypass Site Admin disable lists.
+**Problem/Gap Statement:** Letter ↔ Document Generator Related footers use `/create/...` hrefs that never resolve to a gateable slug.
+**Affected Architecture/Files:** `src/lib/public-tools/visibility.ts`, `visibility.test.ts`, `RelatedToolsStrip.tsx`, `ToolRelatedFooter.tsx`
+**Implementation Blueprint:** Extend `slugFromToolHref` for `/create` and `/utilities`; keep guides ungated.
+
+### [VL-REL-2] OPEN
+**Category:** Comms / related tools
+**Severity/Priority:** Low
+**Status:** Open — normalize `RELATED_BY_TOOL` hrefs to canonical `/create/` and `/utilities/`.
+**Problem/Gap Statement:** Mixed `/tools` vs `/create` related targets make disable filtering inconsistent.
+**Affected Architecture/Files:** `src/components/tools/RelatedToolsStrip.tsx`
+**Implementation Blueprint:** Hygiene pass after VL-REL-1.
+
+### [VL-REL-3] OPEN
+**Category:** Comms / related tools
+**Severity/Priority:** Low
+**Status:** Open — prove disabled slug hides both `/tools` and `/create` related forms.
+**Problem/Gap Statement:** No regression lock for create-path gating.
+**Affected Architecture/Files:** `visibility.test.ts` (and optional smoke)
+**Implementation Blueprint:** Unit (preferred) or Site Admin smoke.
+
+### [VL-HUB-0] OPEN
+**Category:** Hub / Portal responsive
+**Severity/Priority:** Medium
+**Status:** Open — inventory + matrix; Viewport Lab N/A for `/app` and `/portal`.
+**Problem/Gap Statement:** Public Viewport Lab audit blocked Hub/Portal; existing mobile/axe coverage is partial and older composition rows are stale.
+**Affected Architecture/Files:** `e2e/hub.mobile.spec.ts`, `portal.mobile.spec.ts`, `docs/guides/VIEWPORT_LAB.md`, framing-policy
+**Implementation Blueprint:** Route checklist + four-width matrix doc; Playwright only.
+
+### [VL-HUB-1] OPEN
+**Category:** Hub / Portal responsive
+**Severity/Priority:** Medium
+**Status:** Open — extend mobile overflow specs for uncovered modules.
+**Problem/Gap Statement:** Bylaws, proposals, data workbench, portal proposals/dispatch, etc. lack the overflow coverage Hub grievances/time already have.
+**Affected Architecture/Files:** `e2e/hub.mobile.spec.ts`, `e2e/portal.mobile.spec.ts`
+**Implementation Blueprint:** Auth fixtures + overflow asserts at 375.
+
+### [VL-HUB-2] OPEN
+**Category:** Hub / Portal responsive
+**Severity/Priority:** Medium
+**Status:** Open — 1280 composition human/scripted pass.
+**Problem/Gap Statement:** Overflow-zero is not composition-complete (CTA wrap, measure, sparse shell).
+**Affected Architecture/Files:** Hub dashboard, grievance detail, Portal circle; `responsive-layouts.mdc`
+**Implementation Blueprint:** Findings → fix tickets; do not reopen Viewport Lab framing.
+
+### [VL-HUB-3] OPEN
+**Category:** Hub / Portal a11y
+**Severity/Priority:** Low
+**Status:** Open — optional axe smoke widen; keep MFA serial; do not block default CI on full hub.a11y.
+**Problem/Gap Statement:** Smoke axe subset is dashboard/grievances/time only.
+**Affected Architecture/Files:** `e2e/hub.a11y.spec.ts`
+**Implementation Blueprint:** Opt-in widen after VL-HUB-1.
+
+### [VL-HUB-4] OPEN
+**Category:** Hub a11y human
+**Severity/Priority:** Low
+**Status:** Open — screen reader + 200% zoom follow-up from hub-dashboard session knowledge.
+**Problem/Gap Statement:** Automated reflow passed; human a11y still open.
+**Affected Architecture/Files:** `docs/audit/session-knowledge-2026-09-25-hub-dashboard.md`
+**Implementation Blueprint:** Document results; file fix tickets if needed.
+
+### [VL-404-1] OPEN
+**Category:** Public 404
+**Severity/Priority:** Low
+**Status:** Open — record product decision in session-knowledge (panel enrich + root→locale; no marketing hero).
+**Problem/Gap Statement:** Audit F18 read bare chrome as a gap; locale already has Header/Footer; root is intentionally static.
+**Affected Architecture/Files:** `docs/audit/session-knowledge-2026-08-09-local-404.md`
+**Implementation Blueprint:** Amend narrative to match plan Track 3.
+
+### [VL-404-2] OPEN
+**Category:** Public 404
+**Severity/Priority:** Low
+**Status:** Open — enrich locale `RouteStatusPanel` with Create / Utilities / Learn wayfinding.
+**Problem/Gap Statement:** Recovery actions are tools/home/feedback only.
+**Affected Architecture/Files:** `[locale]/not-found.tsx`, `RouteStatusPanel.tsx`, `messages/en.json` + `fr.json`
+**Implementation Blueprint:** Compact links; keep focus shell.
+
+### [VL-404-3] OPEN
+**Category:** Public 404
+**Severity/Priority:** Low
+**Status:** Open — root not-found → locale shell when safe; keep global-error free of next-intl.
+**Problem/Gap Statement:** Root misses show EN-only static chrome without Header.
+**Affected Architecture/Files:** `src/app/not-found.tsx`, `e2e/seo.smoke.spec.ts`
+**Implementation Blueprint:** Redirect or equivalent; regression assert.
+
+### [VL-404-4] OPEN
+**Category:** Hub / Portal 404
+**Severity/Priority:** Low
+**Status:** Open — confirm nested Hub/Portal not-found unchanged after public 404 work.
+**Problem/Gap Statement:** Regression risk if shared panel CTAs change.
+**Affected Architecture/Files:** `app/[locale]/app/not-found.tsx`, `portal/not-found.tsx`
+**Implementation Blueprint:** Spot-check after VL-404-2.
+
