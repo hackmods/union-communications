@@ -10,10 +10,15 @@ import {
 import { findLocalByNumber } from "@/lib/tenant/loader";
 import {
   createOverlayCollection,
+  createOverlayDivision,
   createOverlayLocal,
   createOverlayUnion,
   DEFAULT_OVERLAY_GRIEVANCE,
   importOverlayCollection,
+  importOverlayDivision,
+  removeOverlayDivision,
+  removeOverlayLocal,
+  removeOverlayCollection,
   importOverlayLocal,
   importOverlayUnion,
   isOverlayHydratedFromDb,
@@ -28,6 +33,7 @@ import {
 import type {
   BargainingUnit,
   BrandDefaults,
+  Division,
   HubModule,
   TenantLocal,
   TenantSeed,
@@ -116,7 +122,7 @@ export function applyPersistedSnapshotToOverlay(
       setBrandThemePatch(row.id, row.brandTheme ?? null);
     }
     if (STATIC_UNION_IDS.has(row.id)) continue;
-    const division = snapshot.divisions.find((d) => d.unionId === row.id);
+    const unionDivisions = snapshot.divisions.filter((d) => d.unionId === row.id);
     importOverlayUnion({
       version: "1.1-overlay",
       description: `Runtime-provisioned tenant (${row.name}) — not derived from OPSEU seed`,
@@ -127,17 +133,24 @@ export function applyPersistedSnapshotToOverlay(
         defaultLocale: row.defaultLocale === "fr" ? "fr" : "en",
         enabledModules: asHubModules(row.enabledModules),
       },
-      ...(division
+      ...(unionDivisions[0]
         ? {
             division: {
-              id: division.id,
-              unionId: division.unionId,
-              name: division.name,
-              code: division.code,
-              enabledModules: asHubModules(division.enabledModules),
+              id: unionDivisions[0].id,
+              unionId: unionDivisions[0].unionId,
+              name: unionDivisions[0].name,
+              code: unionDivisions[0].code,
+              enabledModules: asHubModules(unionDivisions[0].enabledModules),
             },
           }
         : {}),
+      divisions: unionDivisions.map((division) => ({
+        id: division.id,
+        unionId: division.unionId,
+        name: division.name,
+        code: division.code,
+        enabledModules: asHubModules(division.enabledModules),
+      })),
       locals: localsByUnion.get(row.id) ?? [],
       bargainingUnits: unitsByUnion.get(row.id) ?? [],
       brandDefaults: {
@@ -154,6 +167,12 @@ export function applyPersistedSnapshotToOverlay(
   for (const local of snapshot.locals) {
     if (STATIC_LOCAL_IDS.has(local.id)) continue;
     importOverlayLocal(local);
+  }
+  for (const division of snapshot.divisions) {
+    importOverlayDivision({
+      ...division,
+      enabledModules: asHubModules(division.enabledModules),
+    });
   }
   for (const unit of snapshot.bargainingUnits) {
     if (STATIC_UNIT_IDS.has(unit.id)) continue;
@@ -298,23 +317,23 @@ export async function persistUnionSeed(seed: TenantSeed): Promise<void> {
       },
     });
 
-  if (seed.division) {
+  for (const division of seed.divisions ?? (seed.division ? [seed.division] : [])) {
     await db
       .insert(divisions)
       .values({
-        id: seed.division.id,
-        unionId: seed.division.unionId,
-        name: seed.division.name,
-        code: seed.division.code,
-        enabledModules: seed.division.enabledModules,
+        id: division.id,
+        unionId: division.unionId,
+        name: division.name,
+        code: division.code,
+        enabledModules: division.enabledModules,
       })
       .onConflictDoUpdate({
         target: divisions.id,
         set: {
-          unionId: seed.division.unionId,
-          name: seed.division.name,
-          code: seed.division.code,
-          enabledModules: seed.division.enabledModules,
+          unionId: division.unionId,
+          name: division.name,
+          code: division.code,
+          enabledModules: division.enabledModules,
         },
       });
   }
@@ -327,6 +346,30 @@ export async function persistUnionSeed(seed: TenantSeed): Promise<void> {
   }
 }
 
+export async function createDivisionDurable(input: {
+  unionId: string;
+  code: string;
+  name: string;
+  enabledModules: HubModule[];
+}): Promise<Division> {
+  const division = createOverlayDivision(input);
+  if (tenantsPostgresEnabled()) {
+    try {
+      await getDb().insert(divisions).values({
+        id: division.id,
+        unionId: division.unionId,
+        code: division.code,
+        name: division.name,
+        enabledModules: division.enabledModules,
+      });
+    } catch (error) {
+      removeOverlayDivision(division.unionId, division.id);
+      throw error;
+    }
+  }
+  return division;
+}
+
 export async function createLocalDurable(input: {
   unionId: string;
   localNumber: string;
@@ -334,7 +377,12 @@ export async function createLocalDurable(input: {
   divisionId?: string;
 }): Promise<TenantLocal> {
   const local = createOverlayLocal(input);
-  await persistLocal(local);
+  try {
+    await persistLocal(local);
+  } catch (error) {
+    removeOverlayLocal(local.unionId, local.id);
+    throw error;
+  }
   return local;
 }
 
@@ -345,7 +393,12 @@ export async function createCollectionDurable(input: {
   name: string;
 }): Promise<BargainingUnit> {
   const unit = createOverlayCollection(input);
-  await persistCollection(unit);
+  try {
+    await persistCollection(unit);
+  } catch (error) {
+    removeOverlayCollection(unit.unionId, unit.id);
+    throw error;
+  }
   return unit;
 }
 
@@ -408,7 +461,12 @@ export async function findOrCreateLocal(input: {
 }): Promise<{ local: TenantLocal; created: boolean }> {
   await hydrateTenantOverlayFromPostgres();
   const existing = findLocalByNumber(input.unionId, input.localNumber);
-  if (existing) return { local: existing, created: false };
+  if (existing) {
+    if (input.divisionId && existing.divisionId !== input.divisionId) {
+      throw new Error("This local belongs to a different bargaining collective.");
+    }
+    return { local: existing, created: false };
+  }
   const local = await createLocalDurable({
     unionId: input.unionId,
     localNumber: input.localNumber,

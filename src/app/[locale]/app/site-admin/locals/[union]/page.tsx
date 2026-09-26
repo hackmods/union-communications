@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { and, eq, type SQL } from "drizzle-orm";
+import { and, eq, isNull, type SQL } from "drizzle-orm";
 import { Link } from "@/i18n/navigation";
 import { getDb } from "@/lib/db/client";
-import { locals, unions } from "@/lib/db/schema/tenant";
+import { divisions, locals, unions } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
 import { CreateLocalForm } from "@/components/site-admin/CreateLocalForm";
@@ -31,6 +31,7 @@ export default async function SiteAdminUnionLocalsPage({
 
   let unionName: string | null = null;
   let membershipPolicy: "multi_local" | "single_local" = "multi_local";
+  let collectiveRows: Array<{ id: string; name: string }> = [];
   let rows: Array<{
     id: string;
     localNumber: string;
@@ -52,6 +53,11 @@ export default async function SiteAdminUnionLocalsPage({
       .limit(1);
     unionName = u[0]?.name ?? null;
     membershipPolicy = u[0]?.membershipPolicy ?? "multi_local";
+
+    collectiveRows = await db.select({ id: divisions.id, name: divisions.name })
+      .from(divisions)
+      .where(and(eq(divisions.unionId, unionId), isNull(divisions.archivedAt)))
+      .orderBy(divisions.name);
 
     const conditions: SQL[] = [eq(locals.unionId, unionId)];
     rows = await db
@@ -168,6 +174,7 @@ export default async function SiteAdminUnionLocalsPage({
       <CreateLocalForm
         unionId={unionId}
         membershipPolicy={membershipPolicy}
+        collectives={collectiveRows}
       />
     </main>
   );

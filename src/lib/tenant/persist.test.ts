@@ -6,7 +6,7 @@ import {
   tenantsPostgresEnabled,
   updateUnionSlug,
 } from "@/lib/tenant/persist";
-import { findLocalByNumber, getTenantByUnionId } from "@/lib/tenant/loader";
+import { findLocalByNumber, getTenantByUnionId, getTenantContext } from "@/lib/tenant/loader";
 import {
   createOverlayUnion,
   resetTenantOverlayForTests,
@@ -115,6 +115,21 @@ describe("applyPersistedSnapshotToOverlay", () => {
         (row) => row.id === "local-888",
       ) ?? [];
     expect(matches).toHaveLength(1);
+  });
+
+  it("loads more than one collective and resolves the active local's parent", () => {
+    applyPersistedSnapshotToOverlay({
+      unions: [],
+      divisions: [
+        { id: "division-ft", unionId: "union-b7p", code: "ft", name: "Full-time", enabledModules: ["comms"] },
+        { id: "division-pt", unionId: "union-b7p", code: "pt", name: "Part-time", enabledModules: ["comms"] },
+      ],
+      locals: [{ id: "local-pt", unionId: "union-b7p", divisionId: "division-pt", localNumber: "909", subText: "" }],
+      bargainingUnits: [],
+    });
+    const context = getTenantContext("union-b7p", "local-pt");
+    expect(context?.divisions.map((division) => division.id)).toEqual(expect.arrayContaining(["division-ft", "division-pt"]));
+    expect(context?.division?.id).toBe("division-pt");
   });
 });
 

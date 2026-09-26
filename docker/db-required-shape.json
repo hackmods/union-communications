@@ -4807,6 +4807,11 @@
           "notNull": false
         },
         {
+          "name": "division_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "front_ends_at",
           "dataType": "timestamp with time zone",
           "notNull": false

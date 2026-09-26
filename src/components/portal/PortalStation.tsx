@@ -20,6 +20,8 @@ export function PortalStation() {
     "blank",
   );
   const [unionScope, setUnionScope] = useState(false);
+  const [collectiveId, setCollectiveId] = useState("");
+  const [collectives, setCollectives] = useState<Array<{ id: string; name: string }>>([]);
   const [canCreateCircle, setCanCreateCircle] = useState(false);
   const [canCreateUnionCircle, setCanCreateUnionCircle] = useState(false);
   const [creating, setCreating] = useState(false);
@@ -37,8 +39,9 @@ export function PortalStation() {
         setError(t("loadError"));
         return;
       }
-      const data = (await res.json()) as { station: StationPayload; authorization?: { canCreateCircle: boolean; canCreateUnionCircle: boolean } };
+      const data = (await res.json()) as { station: StationPayload; collectives?: Array<{ id: string; name: string }>; authorization?: { canCreateCircle: boolean; canCreateUnionCircle: boolean } };
       setStation(data.station);
+      setCollectives(data.collectives ?? []);
       setCanCreateCircle(data.authorization?.canCreateCircle === true);
       setCanCreateUnionCircle(data.authorization?.canCreateUnionCircle === true);
       setError(null);
@@ -58,9 +61,10 @@ export function PortalStation() {
           setError(t("loadError"));
           return;
         }
-        const data = (await res.json()) as { station: StationPayload; authorization?: { canCreateCircle: boolean; canCreateUnionCircle: boolean } };
+        const data = (await res.json()) as { station: StationPayload; collectives?: Array<{ id: string; name: string }>; authorization?: { canCreateCircle: boolean; canCreateUnionCircle: boolean } };
         if (cancelled || gen !== loadGen.current) return;
         setStation(data.station);
+        setCollectives(data.collectives ?? []);
         setCanCreateCircle(data.authorization?.canCreateCircle === true);
         setCanCreateUnionCircle(data.authorization?.canCreateUnionCircle === true);
         setError(null);
@@ -118,6 +122,7 @@ export function PortalStation() {
           kind: isCampaign ? "campaign" : "committee",
           template,
           ...(unionScope ? { scope: "union" } : {}),
+          ...(unionScope && collectiveId ? { divisionId: collectiveId } : {}),
           ...(isCampaign
             ? {
                 frontStartsAt: start.toISOString(),
@@ -130,6 +135,7 @@ export function PortalStation() {
         setName("");
         setTemplate("blank");
         setUnionScope(false);
+        setCollectiveId("");
         await load();
         return;
       }
@@ -341,9 +347,16 @@ export function PortalStation() {
               {t("unionScopeLabel")}
             </label> : null}
             {unionScope && canCreateUnionCircle ? (
-              <p className="w-full text-sm leading-relaxed text-gray-600">
-                {t("unionScopeHint")}
-              </p>
+              <div className="w-full space-y-2">
+                <label className="block text-sm text-gray-700">
+                  {t("collectiveLabel")}
+                  <select className="mt-1 block min-h-11 w-full rounded-lg border border-gray-300 bg-white px-2 sm:w-auto" value={collectiveId} onChange={(event) => setCollectiveId(event.target.value)}>
+                    <option value="">{t("collectiveOther")}</option>
+                    {collectives.map((collective) => <option key={collective.id} value={collective.id}>{collective.name}</option>)}
+                  </select>
+                </label>
+                <p className="text-sm leading-relaxed text-gray-600">{t("unionScopeHint")}</p>
+              </div>
             ) : null}
           </form>
           {createError ? (

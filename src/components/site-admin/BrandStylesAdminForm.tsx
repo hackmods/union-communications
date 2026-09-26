@@ -16,6 +16,7 @@ type UnionRow = {
   commsPresetId: string | null;
   brandTheme: UnionBrandTheme | null;
   isDemo: boolean;
+  paidTenantDirectoryEnabled: boolean;
 };
 
 type PresetOption = { id: string; name: string };
@@ -143,6 +144,7 @@ export function BrandStylesAdminForm() {
   const [loading, setLoading] = useState(true);
   const [savingId, setSavingId] = useState<string | null>(null);
   const [baselineBusyId, setBaselineBusyId] = useState<string | null>(null);
+  const [directoryBusyId, setDirectoryBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -317,6 +319,26 @@ export function BrandStylesAdminForm() {
     }
   };
 
+  const setDirectoryAccess = async (unionId: string, enabled: boolean) => {
+    setDirectoryBusyId(unionId);
+    setError(null);
+    setSuccess(null);
+    try {
+      const res = await fetch("/api/site-admin/union-directory-entitlement", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ unionId, enabled }),
+      });
+      if (!res.ok) throw new Error("save");
+      await reload();
+      setSuccess(t("directoryAccessSaved"));
+    } catch {
+      setError(t("directoryAccessFailed"));
+    } finally {
+      setDirectoryBusyId(null);
+    }
+  };
+
   if (loading) {
     return (
       <p className="mt-6 text-sm text-opseu-gray-dark" aria-live="polite">
@@ -407,6 +429,20 @@ export function BrandStylesAdminForm() {
                       ? t("brandStylesCollapse")
                       : t("brandStylesEditTheme")}
                   </Button>
+                </div>
+
+                <div className="mt-4 rounded-md border border-opseu-gray/15 bg-gray-50 p-3">
+                  <label className="flex items-start gap-2 text-sm font-medium text-opseu-dark">
+                    <input
+                      type="checkbox"
+                      className="mt-0.5 size-4"
+                      checked={row.paidTenantDirectoryEnabled}
+                      disabled={directoryBusyId === row.id}
+                      onChange={(event) => void setDirectoryAccess(row.id, event.target.checked)}
+                    />
+                    {t("directoryAccessLabel")}
+                  </label>
+                  <p className="mt-1 pl-6 text-xs text-gray-600">{t("directoryAccessHint")}</p>
                 </div>
 
                 {open ? (

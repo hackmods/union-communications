@@ -259,6 +259,34 @@ describe("GET/POST /api/tenant", () => {
     expect(body.local.subText).toBe("Coverage local");
   });
 
+  it("creates a union-scoped collective and validates a local's parent", async () => {
+    authMock.mockResolvedValue(session());
+    expect((await postTenant(jsonRequest({
+      action: "create_collective", code: "joint", name: "Joint bargaining",
+    }))).status).toBe(403);
+
+    authMock.mockResolvedValue(session({ id: "user-root", roles: ["platform_admin"] }));
+    const created = await postTenant(jsonRequest({
+      action: "create_collective", code: "joint", name: "Joint bargaining",
+    }));
+    expect(created.status).toBe(201);
+    const body = await created.json() as { collective: { id: string; unionId: string }; context: { divisions: Array<{ id: string }> } };
+    expect(body.collective.unionId).toBe("union-b7p");
+    expect(body.context.divisions.some((division) => division.id === body.collective.id)).toBe(true);
+    expect((await postTenant(jsonRequest({
+      action: "create_collective", code: "JOINT", name: "Duplicate",
+    }))).status).toBe(409);
+
+    expect((await postTenant(jsonRequest({
+      action: "create_local", localNumber: "808", divisionId: "foreign-division",
+    }))).status).toBe(404);
+    const local = await postTenant(jsonRequest({
+      action: "create_local", localNumber: "808", divisionId: body.collective.id,
+    }));
+    expect(local.status).toBe(201);
+    expect((await local.json() as { local: { divisionId: string } }).local.divisionId).toBe(body.collective.id);
+  });
+
   it("forbids a president from targeting another union via unionId", async () => {
     authMock.mockResolvedValue(session());
     const modules = await postTenant(

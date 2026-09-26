@@ -33,6 +33,7 @@ import {
 } from "@/lib/president/local-prefs";
 import {
   createCollectionDurable,
+  createDivisionDurable,
   createLocalDurable,
   createUnionDurable,
   setUnionDataModule,
@@ -92,6 +93,13 @@ const createCollectionSchema = z.object({
   unionPresetId: z.string().min(1).max(64).optional(),
 });
 
+const createCollectiveSchema = z.object({
+  action: z.literal("create_collective"),
+  code: z.string().trim().min(1).max(32),
+  name: z.string().trim().min(1).max(200),
+  unionId: z.string().min(1).optional(),
+});
+
 const createUnionSchema = z.object({
   action: z.literal("create_union"),
   name: z.string().min(1).max(200),
@@ -136,6 +144,7 @@ const setLocalPrefsSchema = z.object({
 const bodySchema = z.discriminatedUnion("action", [
   createLocalSchema,
   createCollectionSchema,
+  createCollectiveSchema,
   createUnionSchema,
   setDataModuleSchema,
   setModulesSchema,
@@ -169,8 +178,12 @@ function scopeTenantContext(
   const visibleLocalIds = new Set(actor.memberships
     .filter((membership) => membership.unionId === unionId)
     .map((membership) => membership.localId));
+  const visibleDivisions = context.divisions.filter((division) =>
+    context.locals.some((local) => visibleLocalIds.has(local.id) && local.divisionId === division.id));
   return {
     ...context,
+    divisions: visibleDivisions,
+    division: visibleDivisions.find((division) => division.id === context.local?.divisionId),
     locals: context.locals.filter((local) => visibleLocalIds.has(local.id)),
     bargainingUnits: context.bargainingUnits.filter((unit) => visibleLocalIds.has(unit.localId)),
     local: context.local && visibleLocalIds.has(context.local.id)
@@ -502,7 +515,9 @@ export async function POST(req: Request) {
   const resolved = resolveOperatorUnionId(
     roles,
     sessionUnionId,
-    data.action === "create_local" ? requestedUnionId : undefined,
+    data.action === "create_local" || data.action === "create_collective"
+      ? requestedUnionId
+      : undefined,
   );
   if (!resolved.ok) {
     return NextResponse.json(
@@ -520,11 +535,14 @@ export async function POST(req: Request) {
     if (!canMintLocal(roles)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+    if (data.divisionId && !ctx.divisions.some((division) => division.id === data.divisionId)) {
+      return NextResponse.json({ error: "Bargaining collective not found" }, { status: 404 });
+    }
     const local = await createLocalDurable({
       unionId,
       localNumber: data.localNumber,
       subText: data.subText ?? "",
-      divisionId: data.divisionId ?? ctx.division?.id,
+      divisionId: data.divisionId,
     });
     let collection = null;
     if (data.collectionCode && data.collectionName) {
@@ -566,6 +584,22 @@ export async function POST(req: Request) {
       },
       { status: 201 },
     );
+  }
+
+  if (data.action === "create_collective") {
+    if (!isPlatformAdminRole(roles)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    if (ctx.divisions.some((division) => division.code.toLowerCase() === data.code.toLowerCase())) {
+      return NextResponse.json({ error: "Bargaining collective code already exists" }, { status: 409 });
+    }
+    const collective = await createDivisionDurable({
+      unionId,
+      code: data.code,
+      name: data.name,
+      enabledModules: ctx.union.enabledModules,
+    });
+    return NextResponse.json({ collective, context: getTenantContext(unionId) }, { status: 201 });
   }
 
   const localExists = ctx.locals.some((l) => l.id === data.localId);

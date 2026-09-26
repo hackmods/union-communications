@@ -46,14 +46,17 @@ export function TenantOnboardingWizard() {
 
   const [localNumber, setLocalNumber] = useState("");
   const [subText, setSubText] = useState("");
-  const [unionPresetId, setUnionPresetId] = useState("opseu");
-  const [collectionCode, setCollectionCode] = useState("support");
-  const [collectionName, setCollectionName] = useState("College Support");
+  const [selectedDivisionId, setSelectedDivisionId] = useState("");
+  const [collectiveCode, setCollectiveCode] = useState("");
+  const [collectiveName, setCollectiveName] = useState("");
+  const [unionPresetId, setUnionPresetId] = useState("other");
+  const [collectionCode, setCollectionCode] = useState("");
+  const [collectionName, setCollectionName] = useState("");
 
   const [addUnitLocalId, setAddUnitLocalId] = useState("");
-  const [unitPresetId, setUnitPresetId] = useState("opseu");
-  const [unitCode, setUnitCode] = useState("support");
-  const [unitName, setUnitName] = useState("College Support");
+  const [unitPresetId, setUnitPresetId] = useState("other");
+  const [unitCode, setUnitCode] = useState("default");
+  const [unitName, setUnitName] = useState("Default collection");
 
   const [unionName, setUnionName] = useState("");
   const [unionSlug, setUnionSlug] = useState("");
@@ -131,7 +134,7 @@ export function TenantOnboardingWizard() {
         action: "create_local",
         localNumber,
         subText,
-        unionPresetId,
+        ...(selectedDivisionId ? { divisionId: selectedDivisionId } : {}),
         ...(collectionCode && collectionName
           ? { collectionCode, collectionName }
           : {}),
@@ -153,6 +156,32 @@ export function TenantOnboardingWizard() {
     );
     setLocalNumber("");
     setSubText("");
+    window.dispatchEvent(new Event("unionops:tenant-updated"));
+  }
+
+  async function handleCreateCollective(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setMessage(null);
+    const res = await fetch("/api/tenant", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "create_collective",
+        code: collectiveCode,
+        name: collectiveName,
+      }),
+    });
+    if (!res.ok) {
+      setError(await readMappedScopeApiError(res, t("saveError"), th));
+      return;
+    }
+    const data = (await res.json()) as { collective: { id: string }; context: TenantContext };
+    setCtx(data.context);
+    setSelectedDivisionId(data.collective.id);
+    setCollectiveCode("");
+    setCollectiveName("");
+    setMessage(t("collectiveCreated"));
     window.dispatchEvent(new Event("unionops:tenant-updated"));
   }
 
@@ -372,8 +401,12 @@ export function TenantOnboardingWizard() {
           <PublicHubPanel title={t("currentTenant")}>
             <p className="text-sm text-gray-800">
               {ctx.union.name}
-              {ctx.division ? ` · ${ctx.division.name}` : ""}
             </p>
+            {ctx.divisions.length > 0 && (
+              <p className="mt-1 text-sm text-gray-600">
+                {t("collectiveList", { names: ctx.divisions.map((division) => division.name).join(", ") })}
+              </p>
+            )}
             <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-gray-700">
               {ctx.locals.map((local) => {
                 const units = ctx.bargainingUnits.filter(
@@ -381,6 +414,8 @@ export function TenantOnboardingWizard() {
                 );
                 return (
                   <li key={local.id}>
+                    {ctx.divisions.find((division) => division.id === local.divisionId)?.name ?? t("collectiveOther")}
+                    {" · "}
                     {t("localLabel", { number: local.localNumber })}
                     {local.subText ? ` — ${local.subText}` : ""}
                     {units.length > 0 && (
@@ -396,12 +431,28 @@ export function TenantOnboardingWizard() {
           </PublicHubPanel>
         )}
 
+        {canMintLocal && ctx && (
+          <PublicHubPanel title={t("addCollectiveTitle")} description={t("addCollectiveHint")}>
+            <form onSubmit={handleCreateCollective} className="grid gap-3 sm:grid-cols-2">
+              <Input label={t("collectiveCode")} value={collectiveCode} onChange={(event) => setCollectiveCode(event.target.value)} required maxLength={32} />
+              <Input label={t("collectiveName")} value={collectiveName} onChange={(event) => setCollectiveName(event.target.value)} required maxLength={200} />
+              <Button type="submit" className="sm:col-span-2">{t("createCollective")}</Button>
+            </form>
+          </PublicHubPanel>
+        )}
+
         {canMintLocal ? (
           <PublicHubPanel
             title={t("addLocalTitle")}
             description={t("addLocalHint")}
           >
             <form onSubmit={handleCreateLocal} className="grid gap-3 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <Select label={t("collectiveLabel")} value={selectedDivisionId} onChange={(event) => setSelectedDivisionId(event.target.value)}>
+                  <option value="">{t("collectiveOther")}</option>
+                  {ctx?.divisions.map((division) => <option key={division.id} value={division.id}>{division.name}</option>)}
+                </Select>
+              </div>
               <Input
                 label={t("localNumber")}
                 value={localNumber}
@@ -454,6 +505,7 @@ export function TenantOnboardingWizard() {
                     )
                   }
                 >
+                  <option value="">{t("noCollection")}</option>
                   {localCollections.map((c) => (
                     <option key={c.code} value={c.code}>
                       {c.name}
@@ -485,6 +537,12 @@ export function TenantOnboardingWizard() {
                 {t("mintLocalSiteAdminLink")}
               </Link>
             </Callout>
+          </PublicHubPanel>
+        )}
+
+        {ctx && (
+          <PublicHubPanel title={t("addGroupTitle")} description={t("addGroupHint")}>
+            <Link href="/portal" className="text-sm font-semibold text-opseu-blue underline">{t("createGroupLink")}</Link>
           </PublicHubPanel>
         )}
 

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { resolveCircleCreate } from "./circle-create";
+import { canCreateUnionScopedCircle, resolveCircleCreate } from "./circle-create";
+import type { AuthorizationActor } from "@/lib/authorization/model";
 
 describe("resolveCircleCreate", () => {
   it("stamps the session local by default", () => {
@@ -56,5 +57,24 @@ describe("resolveCircleCreate", () => {
     if (!result.ok) return;
     expect(result.kind).toBe("campaign");
     expect(result.localId).toBeUndefined();
+  });
+});
+
+describe("canCreateUnionScopedCircle", () => {
+  const actor: AuthorizationActor = {
+    userId: "president", unionId: "union-1", activeLocalId: "local-1",
+    roles: ["local_president"],
+    memberships: [{ unionId: "union-1", localId: "local-1", isPrimary: true }],
+    assignments: [{ unionId: "union-1", localId: "local-1", position: "president" }],
+    delegations: [], circleMemberships: [], mfaVerified: true,
+    accountActive: true, source: "database",
+  };
+  it("lets a local president start an invited union-side group without another local membership", () => {
+    expect(canCreateUnionScopedCircle(actor, "union-1")).toBe(true);
+    expect(canCreateUnionScopedCircle(actor, "union-2")).toBe(false);
+  });
+  it("requires active local authority for local officers", () => {
+    expect(canCreateUnionScopedCircle({ ...actor, assignments: [] }, "union-1")).toBe(false);
+    expect(canCreateUnionScopedCircle({ ...actor, memberships: [] }, "union-1")).toBe(false);
   });
 });

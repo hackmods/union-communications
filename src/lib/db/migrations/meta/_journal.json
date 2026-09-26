@@ -383,6 +383,7 @@
     { "idx": 59, "version": "7", "when": 1790600000000, "tag": "0059_ca_snippet_libraries", "breakpoints": true },
     { "idx": 60, "version": "7", "when": 1790700000000, "tag": "0060_union_comms_preset", "breakpoints": true },
     { "idx": 61, "version": "7", "when": 1790800000000, "tag": "0061_brand_theme_admin", "breakpoints": true },
-    { "idx": 62, "version": "7", "when": 1790900000000, "tag": "0062_paid_tenant_directory", "breakpoints": true }
+    { "idx": 62, "version": "7", "when": 1790900000000, "tag": "0062_paid_tenant_directory", "breakpoints": true },
+    { "idx": 63, "version": "7", "when": 1791000000000, "tag": "0063_circle_collective", "breakpoints": true }
   ]
 }
