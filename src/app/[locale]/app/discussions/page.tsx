@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { DiscussionsList } from "@/components/discussions/DiscussionsList";
 import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
-import { getTenantContext } from "@/lib/tenant/loader";
+import { isSessionModuleEnabled } from "@/lib/hub/session-modules";
 import { canAccessDiscussionsModule } from "@/lib/discussions/access";
 import type { UserRole } from "@/types/tenant";
 
@@ -29,10 +29,7 @@ export default async function DiscussionsPage({
     redirect(`/${locale}/app`);
   }
 
-  const tenant = session.user.unionId
-    ? getTenantContext(session.user.unionId)
-    : null;
-  if (!tenant?.union.enabledModules.includes("discussions")) {
+  if (!isSessionModuleEnabled(session, "discussions")) {
     return <ModuleDisabledPanel moduleId="discussions" roles={roles} />;
   }
 

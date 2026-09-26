@@ -3,8 +3,9 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { InformalLogBoard } from "@/components/hub/InformalLogBoard";
+import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { canAccessInformalLogModule } from "@/lib/informal-log/access";
-import { getTenantContext } from "@/lib/tenant/loader";
+import { isSessionModuleEnabled } from "@/lib/hub/session-modules";
 import type { UserRole } from "@/types/tenant";
 
 export default async function InformalLogPage({
@@ -21,11 +22,8 @@ export default async function InformalLogPage({
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canAccessInformalLogModule(roles)) redirect(`/${locale}/app`);
 
-  const tenant = session.user.unionId
-    ? getTenantContext(session.user.unionId)
-    : null;
-  if (!tenant?.union.enabledModules.includes("informalLog")) {
-    redirect(`/${locale}/app`);
+  if (!isSessionModuleEnabled(session, "informalLog")) {
+    return <ModuleDisabledPanel moduleId="informalLog" roles={roles} />;
   }
 
   return <InformalLogBoard />;

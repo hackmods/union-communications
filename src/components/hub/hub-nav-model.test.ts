@@ -123,5 +123,6 @@ describe("HubNav chrome contract", () => {
     expect(source).toContain("tenant?.union.enabledModules ?? []");
     expect(source).toContain("isHubSetupToolHref");
     expect(source).toContain("setupLinks");
+    expect(source).toContain("menuToolLinks");
   });
 });
