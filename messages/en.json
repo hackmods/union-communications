@@ -9306,6 +9306,11 @@
       "enterNumber": "Enter or create by number",
       "subGroup": "Sub-group",
       "subGroupOptional": "None (optional)",
+      "collective": "Bargaining collective",
+      "collectivePlaceholder": "Choose a bargaining collective (optional)",
+      "collectiveNone": "No bargaining collective",
+      "collectiveOther": "Other / not listed",
+      "collectiveHint": "Listed collectives are linked to existing locals. Other leaves the collective unassigned.",
       "sampleBadge": "Sample"
     }
   },

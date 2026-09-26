@@ -38,6 +38,12 @@ export type UnionLocalSelectValue = {
 };
 
 const OTHER_UNION = "__other__";
+const NO_COLLECTIVE = "__none__";
+const OTHER_COLLECTIVE = "__other_collective__";
+
+function collectiveKey(group: SubGroupOption): string {
+  return JSON.stringify([group.code.trim(), group.name.trim()]);
+}
 
 type Props = {
   mode: "elevate" | "president" | "platform";
@@ -89,6 +95,7 @@ export function UnionLocalSelect({
   const [useLocalNumber, setUseLocalNumber] = useState(
     () => !value.localId && Boolean(value.localNumber),
   );
+  const [collectiveChoice, setCollectiveChoice] = useState("");
 
   const filteredLocals = useMemo(() => {
     const unionId =
@@ -97,9 +104,36 @@ export function UnionLocalSelect({
         : value.unionId === OTHER_UNION
           ? null
           : value.unionId || lockedUnionId;
-    if (!unionId) return locals;
+    if (!unionId) return mode === "platform" ? [] : locals;
     return locals.filter((l) => l.unionId === unionId);
   }, [locals, lockedUnionId, mode, value.unionId]);
+
+  const collectiveOptions = useMemo(() => {
+    const localIds = new Set(filteredLocals.map((local) => local.id));
+    const seen = new Set<string>();
+    return subGroups.filter((group) => {
+      const key = collectiveKey(group);
+      if (!localIds.has(group.localId) || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [filteredLocals, subGroups]);
+
+  const activeGroup = subGroups.find(
+    (group) => group.id === value.bargainingUnitId,
+  );
+  const selectedCollective = collectiveChoice ||
+    (activeGroup ? collectiveKey(activeGroup) : "");
+  const localsForCollective = selectedCollective &&
+    selectedCollective !== NO_COLLECTIVE &&
+    selectedCollective !== OTHER_COLLECTIVE
+    ? filteredLocals.filter((local) =>
+        subGroups.some((group) =>
+          group.localId === local.id &&
+          collectiveKey(group) === selectedCollective,
+        ),
+      )
+    : filteredLocals;
 
   const visibleSubGroups = useMemo(() => {
     const localId =
@@ -129,33 +163,32 @@ export function UnionLocalSelect({
           disabled
           readOnly
         />
+        <Select
+          label={t("collective")}
+          value={value.bargainingUnitId || OTHER_COLLECTIVE}
+          disabled={disabled}
+          onChange={(e) =>
+            onChange({
+              ...value,
+              bargainingUnitId: e.target.value === OTHER_COLLECTIVE
+                ? ""
+                : e.target.value,
+            })
+          }
+        >
+          {visibleSubGroups.map((s) => (
+            <option key={s.id} value={s.id}>
+              {s.code} — {s.name}
+            </option>
+          ))}
+          <option value={OTHER_COLLECTIVE}>{t("collectiveOther")}</option>
+        </Select>
         <Input
           label={t("localNumber")}
-          value={
-            lockedLocalNumber
-              ? lockedLocalNumber
-              : lockedLocalId || "—"
-          }
+          value={lockedLocalNumber || lockedLocalId || "—"}
           disabled
           readOnly
         />
-        {visibleSubGroups.length > 0 ? (
-          <Select
-            label={t("subGroup")}
-            value={value.bargainingUnitId}
-            disabled={disabled}
-            onChange={(e) =>
-              onChange({ ...value, bargainingUnitId: e.target.value })
-            }
-          >
-            <option value="">{t("subGroupOptional")}</option>
-            {visibleSubGroups.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.code} — {s.name}
-              </option>
-            ))}
-          </Select>
-        ) : null}
       </div>
     );
   }
@@ -170,7 +203,9 @@ export function UnionLocalSelect({
             label={t("union")}
             value={value.unionId}
             disabled={disabled}
-            onChange={(e) =>
+            onChange={(e) => {
+              setCollectiveChoice("");
+              setUseLocalNumber(false);
               onChange({
                 ...value,
                 unionId: e.target.value,
@@ -178,9 +213,10 @@ export function UnionLocalSelect({
                   e.target.value === OTHER_UNION ? value.newUnionName : "",
                 localId: "",
                 localNumber: "",
+                localSubText: "",
                 bargainingUnitId: "",
-              })
-            }
+              });
+            }}
           >
             <option value="">{t("unionPlaceholder")}</option>
             {unions.map((u) => (
@@ -203,6 +239,46 @@ export function UnionLocalSelect({
           ) : null}
         </>
       ) : null}
+
+      <div className="sm:col-span-2">
+        <Select
+          label={t("collective")}
+          value={selectedCollective}
+          disabled={disabled || (!value.unionId && mode === "platform")}
+          onChange={(e) => {
+            const choice = e.target.value;
+            setCollectiveChoice(choice);
+            if (choice && choice !== NO_COLLECTIVE && choice !== OTHER_COLLECTIVE) {
+              setUseLocalNumber(false);
+            }
+            const matching = subGroups.find((group) =>
+              group.localId === value.localId && collectiveKey(group) === choice,
+            );
+            onChange({
+              ...value,
+              localId: choice && choice !== NO_COLLECTIVE &&
+                choice !== OTHER_COLLECTIVE && !matching
+                ? ""
+                : value.localId,
+              localNumber: choice && choice !== NO_COLLECTIVE &&
+                choice !== OTHER_COLLECTIVE
+                ? ""
+                : value.localNumber,
+              bargainingUnitId: matching?.id ?? "",
+            });
+          }}
+        >
+          <option value="">{t("collectivePlaceholder")}</option>
+          {collectiveOptions.map((group) => (
+            <option key={collectiveKey(group)} value={collectiveKey(group)}>
+              {group.code} — {group.name}
+            </option>
+          ))}
+          <option value={NO_COLLECTIVE}>{t("collectiveNone")}</option>
+          <option value={OTHER_COLLECTIVE}>{t("collectiveOther")}</option>
+        </Select>
+        <p className="mt-1 text-xs text-gray-600">{t("collectiveHint")}</p>
+      </div>
 
       {allowCreateLocal ? (
         <div className="sm:col-span-2">
@@ -232,7 +308,8 @@ export function UnionLocalSelect({
                   disabled={disabled}
                   onChange={() => {
                     setUseLocalNumber(true);
-                    onChange({ ...value, localId: "" });
+                    setCollectiveChoice(OTHER_COLLECTIVE);
+                    onChange({ ...value, localId: "", bargainingUnitId: "" });
                   }}
                 />
                 {t("enterNumber")}
@@ -252,12 +329,15 @@ export function UnionLocalSelect({
               ...value,
               localId: e.target.value,
               localNumber: "",
-              bargainingUnitId: "",
+              bargainingUnitId: subGroups.find((group) =>
+                group.localId === e.target.value &&
+                collectiveKey(group) === selectedCollective,
+              )?.id ?? "",
             })
           }
         >
           <option value="">{t("localPlaceholder")}</option>
-          {filteredLocals.map((l) => (
+          {localsForCollective.map((l) => (
             <option key={l.id} value={l.id}>
               {l.localNumber}
               {l.subText ? ` — ${l.subText}` : ""}
@@ -286,23 +366,6 @@ export function UnionLocalSelect({
         </>
       )}
 
-      {visibleSubGroups.length > 0 ? (
-        <Select
-          label={t("subGroup")}
-          value={value.bargainingUnitId}
-          disabled={disabled}
-          onChange={(e) =>
-            onChange({ ...value, bargainingUnitId: e.target.value })
-          }
-        >
-          <option value="">{t("subGroupOptional")}</option>
-          {visibleSubGroups.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.code} — {s.name}
-            </option>
-          ))}
-        </Select>
-      ) : null}
     </div>
   );
 }

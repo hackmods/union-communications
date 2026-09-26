@@ -9252,6 +9252,11 @@
       "enterNumber": "Saisir ou créer par numéro",
       "subGroup": "Sous-groupe",
       "subGroupOptional": "Aucun (facultatif)",
+      "collective": "Collectif de négociation",
+      "collectivePlaceholder": "Choisir un collectif de négociation (facultatif)",
+      "collectiveNone": "Aucun collectif de négociation",
+      "collectiveOther": "Autre / absent de la liste",
+      "collectiveHint": "Les collectifs affichés sont liés aux sections existantes. Autre laisse le collectif non attribué.",
       "sampleBadge": "Échantillon"
     }
   },
