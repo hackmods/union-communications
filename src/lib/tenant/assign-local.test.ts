@@ -14,6 +14,16 @@ const {
 
 vi.mock("@/lib/db/client", () => ({
   getDb: getDbMock,
+  getRlsTx: () => null,
+}));
+
+vi.mock("@/lib/db/owner-client", () => ({
+  isOwnerDbConfigured: () => false,
+  getOwnerDb: getDbMock,
+}));
+
+vi.mock("@/lib/db/rls-context", () => ({
+  applyRlsContext: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock("@/lib/tenant/persist", () => ({

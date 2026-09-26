@@ -92,10 +92,53 @@ export async function POST(req: Request, { params }: Params) {
     return NextResponse.json({ ...result });
   } catch (err) {
     reportApiFailure(err, "/api/site-admin/users/[id]/assign-local");
+    // #region agent log
+    const nested = err as {
+      message?: string;
+      cause?: {
+        message?: string;
+        code?: string;
+        detail?: string;
+        constraint?: string;
+      };
+    };
+    const causeMessage = nested?.cause?.message ?? null;
+    const causeCode = nested?.cause?.code ?? null;
+    const causeConstraint = nested?.cause?.constraint ?? null;
+    fetch("http://127.0.0.1:7911/ingest/3d68b2c0-ac88-4c57-b4e8-72926e068c79", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "9d35a6",
+      },
+      body: JSON.stringify({
+        sessionId: "9d35a6",
+        runId: "post-fix",
+        hypothesisId: "A-RLS",
+        location: "assign-local/route.ts:catch",
+        message: "assign-local API caught error",
+        data: {
+          targetUserId,
+          message: nested?.message ?? String(err),
+          causeMessage,
+          causeCode,
+          causeConstraint,
+          causeDetail: nested?.cause?.detail ?? null,
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
     return NextResponse.json(
       {
         error:
           err instanceof Error ? err.message : "Assign local failed",
+        // Temporary debug payload for assign-local failure diagnosis.
+        debug: {
+          causeMessage,
+          causeCode,
+          causeConstraint,
+        },
       },
       { status: 500 },
     );
