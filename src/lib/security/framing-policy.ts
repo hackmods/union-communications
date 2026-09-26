@@ -69,6 +69,40 @@ export function authSecurityHeaders(): { key: string; value: string }[] {
   ];
 }
 
+/**
+ * Path sources for `next.config` headers().
+ * Next.js last-match wins for duplicate header keys — keep PUBLIC catch-all
+ * first and AUTH Hub/Portal sources after it.
+ */
+export const SECURITY_HEADER_SOURCES = {
+  publicCatchAll: "/:path*",
+  authApp: "/:locale(en|fr)/app/:path*",
+  authPortal: "/:locale(en|fr)/portal/:path*",
+} as const;
+
+export type SecurityHeaderRoute = {
+  source: string;
+  headers: { key: string; value: string }[];
+};
+
+/** Ordered path-scoped framing entries for next.config (AUTH after PUBLIC). */
+export function pathScopedFramingHeaderRoutes(): SecurityHeaderRoute[] {
+  return [
+    {
+      source: SECURITY_HEADER_SOURCES.publicCatchAll,
+      headers: publicSecurityHeaders(),
+    },
+    {
+      source: SECURITY_HEADER_SOURCES.authApp,
+      headers: authSecurityHeaders(),
+    },
+    {
+      source: SECURITY_HEADER_SOURCES.authPortal,
+      headers: authSecurityHeaders(),
+    },
+  ];
+}
+
 /** Paths the Viewport Lab must refuse to navigate into (match auth framing). */
 export const VIEWPORT_LAB_BLOCKED_PATH_PREFIXES = [
   "/viewport-lab",

@@ -258,6 +258,7 @@ describe("website mapping", () => {
       name: "Person 0",
       role: "Officer",
       location: "",
+      group: "executive",
     });
     expect(officers.some((row) => row.name === "Hidden")).toBe(false);
   });

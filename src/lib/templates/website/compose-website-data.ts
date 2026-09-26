@@ -16,6 +16,11 @@ import {
 import { listMembershipDestinations } from "@/lib/utils/local-links";
 import type { WebsiteConfigData } from "@/lib/templates/website/website-config";
 import type { WebsiteHeroArtId } from "@/lib/templates/website/hero-art";
+import {
+  coerceWebsiteLayoutId,
+  DEFAULT_WEBSITE_LAYOUT_ID,
+} from "@/lib/templates/website/layouts/registry";
+import { coerceWebsiteSiteLocale } from "@/lib/templates/website/site-strings";
 
 const LOGO_FILE_NAME = "logo.png";
 
@@ -57,12 +62,11 @@ export function composeWebsiteTemplateData(
     ? resolveLocalNumber(overlay.localNumber)
     : resolveLocalNumber(brandKit.local.localNumber);
   const canvasTokens = resolveCanvasTokens(brandKit);
-  const facebookUrl =
-    overlay
-      ? overlay.facebookUrl
-      : draft.facebookUrl !== null && draft.facebookUrl !== undefined
-        ? draft.facebookUrl
-        : (brandKit.facebookUrl?.trim() ?? "");
+  const facebookUrl = overlay
+    ? overlay.facebookUrl
+    : draft.facebookUrl !== null && draft.facebookUrl !== undefined
+      ? draft.facebookUrl
+      : (brandKit.facebookUrl?.trim() ?? "");
   const customLinks: WebsiteNavLink[] = overlay
     ? overlay.customLinks
     : toWebsiteNavLinks(brandKit.customLinks ?? []);
@@ -75,6 +79,11 @@ export function composeWebsiteTemplateData(
     draft.unionName ||
     websiteDisplayName(brandKit, localNumber);
 
+  const tagline =
+    overlay?.tagline ??
+    brandKit.local.subText?.trim() ??
+    "";
+
   return {
     localNumber,
     unionName,
@@ -86,6 +95,22 @@ export function composeWebsiteTemplateData(
     customLinks,
     membershipLinks,
     officeAddress: overlay?.officeAddress || draft.officeAddress,
+    contactPhone: overlay?.contactPhone || draft.contactPhone || "",
+    officeHours: overlay?.officeHours || draft.officeHours || "",
+    ctaLabel: overlay?.ctaLabel || draft.ctaLabel || "",
+    tagline,
+    websiteUrl: overlay?.websiteUrl || brandKit.websiteUrl?.trim() || "",
+    accentColor: overlay?.accentColor || brandKit.accentColor,
+    layoutId: coerceWebsiteLayoutId(
+      overlay?.layoutId ?? draft.layoutId ?? DEFAULT_WEBSITE_LAYOUT_ID,
+    ),
+    siteLocale: coerceWebsiteSiteLocale(
+      overlay?.siteLocale ?? draft.siteLocale,
+    ),
+    includePrivacyPage:
+      overlay?.includePrivacyPage ?? draft.includePrivacyPage ?? true,
+    includeSiteQr: overlay?.includeSiteQr ?? draft.includeSiteQr ?? false,
+    events: overlay?.events ?? draft.events ?? [],
     primaryColor: overlay?.primaryColor ?? brandKit.primaryColor,
     secondaryColor: overlay?.secondaryColor ?? brandKit.secondaryColor,
     officers: resolveOfficers(draft, roster, overlay),

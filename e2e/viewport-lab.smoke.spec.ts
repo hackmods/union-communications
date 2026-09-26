@@ -58,4 +58,28 @@ test.describe("Viewport Lab @smoke", () => {
       expect(Array.isArray(axe.violations)).toBe(true);
     }
   });
+
+  test("Hub and Portal deny framing; public home allows same-origin", async ({
+    request,
+  }) => {
+    const hub = await request.get("/en/app/");
+    expect(hub.headers()["x-frame-options"]?.toLowerCase()).toBe("deny");
+    expect(hub.headers()["content-security-policy"] ?? "").toContain(
+      "frame-ancestors 'none'",
+    );
+
+    const portal = await request.get("/en/portal/");
+    expect(portal.headers()["x-frame-options"]?.toLowerCase()).toBe("deny");
+    expect(portal.headers()["content-security-policy"] ?? "").toContain(
+      "frame-ancestors 'none'",
+    );
+
+    const home = await request.get("/en/");
+    expect(home.headers()["x-frame-options"]?.toLowerCase()).toBe(
+      "sameorigin",
+    );
+    expect(home.headers()["content-security-policy"] ?? "").toContain(
+      "frame-ancestors 'self'",
+    );
+  });
 });

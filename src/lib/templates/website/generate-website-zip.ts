@@ -1,9 +1,4 @@
-import type { WebsiteNavLink, WebsiteTemplateData } from "@/types/website-template";
-import { getOpseuWebsiteFooterSources, getWebsiteRightsPartnersFederationSources, getWebsiteRightsPartnersOntarioSources } from "@/lib/constants/comms-sources";
-import {
-  isWebsiteHttpUrl,
-  toWebsiteNavLinks,
-} from "@/lib/templates/website/brand-kit-fields";
+import type { WebsiteTemplateData } from "@/types/website-template";
 import {
   buildWebsiteFontFaceCss,
   canvasFontCssFamily,
@@ -24,6 +19,16 @@ import {
   WEBSITE_CONFIG_FILE,
   buildWebsiteConfigJson,
 } from "@/lib/templates/website/website-config";
+import {
+  buildWebsiteHtml,
+  renderWebsiteSite,
+} from "@/lib/templates/website/build-website-html";
+import { getWebsiteLayout } from "@/lib/templates/website/layouts/registry";
+import { buildIcsCalendar, type IcsEventInput } from "@/lib/calendar/ics";
+import { qrDataUrl } from "@/lib/export/qr";
+import { isWebsiteHttpUrl } from "@/lib/templates/website/brand-kit-fields";
+
+export { buildWebsiteHtml, renderWebsiteSite } from "@/lib/templates/website/build-website-html";
 
 function resolveWebsiteFontIds(canvas?: WebsiteTemplateData["canvas"] | null): {
   headlineFontId: CanvasFontId;
@@ -33,212 +38,6 @@ function resolveWebsiteFontIds(canvas?: WebsiteTemplateData["canvas"] | null): {
     headlineFontId: canvas?.headlineFontId ?? DEFAULT_HEADLINE_FONT,
     bodyFontId: canvas?.bodyFontId ?? DEFAULT_BODY_FONT,
   };
-}
-
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function buildOfficersHtml(officers: WebsiteTemplateData["officers"]): string {
-  return officers
-    .filter((o) => o.name.trim())
-    .map(
-      (o) => `        <div class="officer-card">
-          <h4>${escapeHtml(o.name)}</h4>
-          <p>${escapeHtml(o.role)}</p>
-          ${o.location ? `<p class="location">${escapeHtml(o.location)}</p>` : ""}
-        </div>`,
-    )
-    .join("\n");
-}
-
-function buildAboutHtml(about1: string, about2: string): string {
-  const parts = [about1, about2].filter((p) => p.trim());
-  return parts.map((p) => `            <p class="mb-5 text-left">${escapeHtml(p)}</p>`).join("\n");
-}
-
-function buildOfficeAddressHtml(unionName: string, officeAddress: string): string {
-  const lines = officeAddress.split(/\n/).map((line) => line.trim()).filter(Boolean);
-  if (!lines.length) return "";
-  return `        <ul class="office-address-list">
-          <li><strong>${escapeHtml(unionName)}</strong></li>
-${lines.map((line) => `          <li>${escapeHtml(line)}</li>`).join("\n")}
-        </ul>`;
-}
-
-function buildExternalLinkItems(links: readonly WebsiteNavLink[]): string {
-  return toWebsiteNavLinks(links)
-    .map(
-      (link) =>
-        `          <li><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a></li>`,
-    )
-    .join("\n");
-}
-
-function buildFooterColumn(title: string, itemsHtml: string): string {
-  if (!itemsHtml.trim()) return "";
-  return `      <div class="footer-col">
-        <h3>${title}</h3>
-        <ul>
-${itemsHtml}
-        </ul>
-      </div>
-`;
-}
-
-export function buildWebsiteHtml(data: WebsiteTemplateData): string {
-  const officersHtml = buildOfficersHtml(data.officers);
-  const aboutHtml = buildAboutHtml(data.about1, data.about2);
-  const facebookBlock =
-    data.facebookUrl.trim() && isWebsiteHttpUrl(data.facebookUrl)
-      ? `          <li><a href="${escapeHtml(data.facebookUrl.trim())}" target="_blank" rel="noopener noreferrer">Facebook group</a></li>`
-      : "";
-  const customLinkItems = buildExternalLinkItems(data.customLinks ?? []);
-  const membershipItems = buildExternalLinkItems(data.membershipLinks ?? []);
-  const membershipColumn = buildFooterColumn("Membership", membershipItems);
-  const membershipContactHtml = membershipItems
-    ? `      <p>To apply or update your membership:</p>
-      <ul class="contact-links">
-${membershipItems}
-      </ul>`
-    : "";
-  const officeAddressHtml = buildOfficeAddressHtml(data.unionName, data.officeAddress);
-  const logoHtml = data.logoFileName.trim()
-    ? `<img src="./assets/${escapeHtml(data.logoFileName)}" alt="${escapeHtml(data.logoAlt)}" class="header-logo">`
-    : `<span class="header-brand-text">${escapeHtml(data.unionName)}</span>`;
-  const heroArt = resolveWebsiteHeroArt(data);
-  const heroSectionClass = heroArt
-    ? `hero-section has-art has-${heroArt.kind}-art`
-    : "hero-section";
-  const heroArtHtml = heroArt
-    ? `    <img class="${heroArt.kind === "photo" ? "hero-art hero-art--photo" : "hero-art hero-art--pattern"}" src="${escapeHtml(heroArt.zipSrc)}" alt="${escapeHtml(heroArt.alt)}">
-    <div class="hero-overlay" aria-hidden="true"></div>
-`
-    : "";
-  const opseuFooterLinks = getOpseuWebsiteFooterSources()
-    .map(
-      (source) =>
-        `          <li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)}</a></li>`,
-    )
-    .join("\n");
-  const federationFooterLinks = getWebsiteRightsPartnersFederationSources()
-    .map(
-      (source) =>
-        `          <li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)}</a></li>`,
-    )
-    .join("\n");
-  const ontarioFooterLinks = getWebsiteRightsPartnersOntarioSources()
-    .map(
-      (source) =>
-        `          <li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)}</a></li>`,
-    )
-    .join("\n");
-  const opseuResourcesHtml = data.includeOpseuResources
-    ? `      <div class="footer-col">
-        <h3>Union Resources</h3>
-        <ul>
-${opseuFooterLinks}
-        </ul>
-      </div>
-`
-    : "";
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHtml(data.unionName)}</title>
-  <meta name="description" content="${escapeHtml(data.heroText)}">
-  <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
-  <header class="site-header">
-    <nav class="nav-bar">
-      <div class="header-brand">
-        ${logoHtml}
-      </div>
-      <button type="button" class="hamburger" aria-label="Toggle menu" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#leadership">Officers</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <section id="home" class="${heroSectionClass}">
-${heroArtHtml}    <div class="hero-inner">
-      <h1>${escapeHtml(data.unionName)}</h1>
-      <div class="text-wrapper">
-        <p class="hero-text">${escapeHtml(data.heroText)}</p>
-        <a href="#contact" class="cta-button">Get In Touch</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="about" class="info-section">
-    <div class="text-wrapper">
-      <h2>About Local ${escapeHtml(data.localNumber)}</h2>
-${aboutHtml}
-    </div>
-  </section>
-
-  <section id="leadership" class="support-section">
-    <div class="text-wrapper text-center">
-      <h2>Your Executive Committee</h2>
-      <p class="section-intro">Contact your officers for support, questions about your Collective Agreement, or to get more involved.</p>
-    </div>
-    <div class="text-wrapper">
-      <div class="officer-grid">
-${officersHtml}
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="contact-section">
-    <h2>Contact ${escapeHtml(data.unionName)}</h2>
-    <div class="text-wrapper text-center">
-      <p>For general inquiries, membership questions, or media requests:</p>
-      <p class="contact-email"><a href="mailto:${escapeHtml(data.contactEmail)}">${escapeHtml(data.contactEmail)}</a></p>
-${membershipContactHtml}
-      ${data.officeAddress.trim() ? `<p class="office-address">${escapeHtml(data.officeAddress)}</p>` : ""}
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-col">
-        <h3>Union Office</h3>
-${officeAddressHtml}
-        <h3>Contact</h3>
-        <ul>
-${facebookBlock}
-${customLinkItems}
-          <li><a href="mailto:${escapeHtml(data.contactEmail)}">${escapeHtml(data.contactEmail)}</a></li>
-        </ul>
-      </div>
-${membershipColumn}${opseuResourcesHtml}      <div class="footer-col">
-        <h3>Rights &amp; Partners</h3>
-        <ul>
-${ontarioFooterLinks}
-${federationFooterLinks}
-        </ul>
-      </div>
-    </div>
-    <p class="copyright">&copy; ${new Date().getFullYear()} ${escapeHtml(data.unionName)}</p>
-  </footer>
-
-  <script src="./js/site.js"></script>
-</body>
-</html>`;
 }
 
 export type BuildWebsiteCssOptions = {
@@ -256,7 +55,13 @@ export function buildWebsiteCss(
   secondaryColor: string,
   canvas?: WebsiteTemplateData["canvas"] | null,
   options?: BuildWebsiteCssOptions | null,
+  extras?: {
+    accentColor?: string;
+    layoutId?: WebsiteTemplateData["layoutId"];
+  } | null,
 ): string {
+  const layout = getWebsiteLayout(extras?.layoutId);
+  const accent = extras?.accentColor?.trim() || secondaryColor;
   const footerLinkColor = mutedInkOnBackground(primaryColor, 0.85);
   const footerMutedColor = mutedInkOnBackground(primaryColor, 0.8);
   const officerCardBg = blendHex("#000000", primaryColor, 0.25);
@@ -267,14 +72,22 @@ export function buildWebsiteCss(
       : canvas?.typeScale === "dense"
         ? 0.9
         : 1;
-  const spacingScale = canvas?.density === "tight" ? 0.88 : 1;
-  const rem = (n: number) => `${Number((n).toFixed(3))}rem`;
-  const heroBg =
-    canvas?.surface === "soft-gradient"
-      ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), linear-gradient(160deg, ${primaryColor} 0%, ${secondaryColor} 100%)`
-      : canvas?.surface === "accent-band"
-        ? `linear-gradient(${secondaryColor} 0%, ${secondaryColor} 12px, ${primaryColor} 12px, ${primaryColor} 100%)`
-        : `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), ${primaryColor}`;
+  const density = canvas?.density ?? layout.defaultDensity;
+  const spacingScale = density === "tight" ? 0.88 : 1;
+  const rem = (n: number) => `${Number(n.toFixed(3))}rem`;
+  const surface = canvas?.surface;
+  let heroBg = `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), ${primaryColor}`;
+  if (surface === "soft-gradient") {
+    heroBg = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), linear-gradient(160deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+  } else if (surface === "accent-band") {
+    heroBg = `linear-gradient(${accent} 0%, ${accent} 12px, ${primaryColor} 12px, ${primaryColor} 100%)`;
+  } else if (surface === "grain") {
+    heroBg = `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px), ${primaryColor}`;
+  } else if (surface === "duotone") {
+    heroBg = `linear-gradient(135deg, ${primaryColor} 0%, ${blendHex(primaryColor, accent, 0.55)} 45%, ${accent} 100%)`;
+  } else if (surface === "flat") {
+    heroBg = primaryColor;
+  }
   const { headlineFontId, bodyFontId } = resolveWebsiteFontIds(canvas);
   const headlineStack = canvasFontCssFamily(headlineFontId);
   const bodyStack = canvasFontCssFamily(bodyFontId);
@@ -290,6 +103,7 @@ export function buildWebsiteCss(
   return `${fontFaceBlock}:root {
   --color-primary: ${primaryColor};
   --color-secondary: ${secondaryColor};
+  --color-accent: ${accent};
   --color-dark: #0B203D;
   --color-text: #222;
   --color-white: #fff;
@@ -307,6 +121,34 @@ export function buildWebsiteCss(
 
 * { box-sizing: border-box; }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 1000;
+  padding: 0.75rem 1rem;
+  background: var(--color-white);
+  color: var(--color-dark);
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  left: var(--spacing-3);
+  top: var(--spacing-3);
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -314,6 +156,22 @@ body {
   line-height: 1.5;
   color: var(--color-text);
   scroll-behavior: smooth;
+  font-size: var(--font-size-base);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 h1, h2, h3, h4 {
@@ -330,7 +188,7 @@ h1, h2, h3, h4 {
 }
 
 .text-center { text-align: center; }
-.text-left { text-align: left; }
+.about-p { text-align: left; }
 .mb-5 { margin-bottom: var(--spacing-5); }
 
 .site-header {
@@ -382,6 +240,33 @@ h1, h2, h3, h4 {
 
 .nav-links a:hover { text-decoration: underline; }
 
+.nav-underline .nav-links a {
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0.15rem;
+}
+.nav-underline .nav-links a:hover {
+  text-decoration: none;
+  border-bottom-color: var(--color-accent);
+}
+
+.nav-quiet .site-header,
+.layout-hall .site-header {
+  background: var(--color-white);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+.layout-hall .nav-links a,
+.nav-quiet .nav-links a {
+  color: var(--color-primary);
+}
+.layout-hall .header-brand-text,
+.nav-quiet .header-brand-text {
+  color: var(--color-primary);
+}
+.layout-hall .hamburger span,
+.nav-quiet .hamburger span {
+  background: var(--color-primary);
+}
+
 .hamburger {
   display: none;
   flex-direction: column;
@@ -408,6 +293,36 @@ h1, h2, h3, h4 {
   padding: var(--spacing-8) var(--spacing-4);
 }
 
+.hero-editorial {
+  text-align: left;
+}
+.hero-editorial .hero-text,
+.hero-editorial .hero-tagline {
+  margin-left: 0;
+  margin-right: 0;
+}
+.hero-editorial .cta-button {
+  margin-left: 0;
+}
+
+.hero-split {
+  text-align: left;
+  display: grid;
+}
+.hero-split .hero-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  gap: var(--spacing-4);
+}
+@media (min-width: 900px) {
+  .hero-split .hero-inner {
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: end;
+  }
+}
+
 .hero-art {
   position: absolute;
   inset: 0;
@@ -423,13 +338,9 @@ h1, h2, h3, h4 {
   mix-blend-mode: multiply;
 }
 
-.hero-art--photo {
-  opacity: 1;
-}
+.hero-art--photo { opacity: 1; }
 
-.hero-overlay {
-  display: none;
-}
+.hero-overlay { display: none; }
 
 .hero-section.has-photo-art .hero-overlay {
   display: block;
@@ -451,6 +362,14 @@ h1, h2, h3, h4 {
   text-shadow: 0 1px 2px rgba(0,0,0,0.35);
 }
 
+.hero-tagline {
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin: 0 0 var(--spacing-3);
+}
+
 .hero-text {
   font-size: var(--font-size-xl);
   max-width: 700px;
@@ -468,10 +387,28 @@ h1, h2, h3, h4 {
   font-size: 1.1rem;
 }
 
+.layout-bulletin .cta-button {
+  background: var(--color-accent);
+  color: var(--color-dark);
+  border-radius: 2px;
+}
+
+.layout-hall .cta-button {
+  background: transparent;
+  color: var(--color-white);
+  border: 2px solid var(--color-white);
+  border-radius: 999px;
+}
+
 .info-section {
   padding: var(--spacing-8) var(--spacing-4);
   text-align: center;
 }
+
+.layout-bulletin .info-section {
+  text-align: left;
+}
+.layout-bulletin .about-p { max-width: 42rem; }
 
 .support-section {
   background: var(--color-primary);
@@ -482,6 +419,17 @@ h1, h2, h3, h4 {
 .support-section h2,
 .support-section h3,
 .support-section h4 { color: var(--color-white); }
+
+.layout-bulletin .support-section {
+  background: var(--color-white);
+  color: var(--color-text);
+  border-top: 4px solid var(--color-accent);
+}
+.layout-bulletin .support-section h2,
+.layout-bulletin .support-section h3,
+.layout-bulletin .support-section h4 {
+  color: var(--color-primary);
+}
 
 .section-intro {
   max-width: 700px;
@@ -501,16 +449,69 @@ h1, h2, h3, h4 {
   text-align: center;
 }
 
+.layout-bulletin .officer-card {
+  background: color-mix(in srgb, var(--color-primary) 8%, white);
+  border-left: 4px solid var(--color-accent);
+  border-radius: 0;
+  text-align: left;
+}
+
 .officer-card h4 { color: var(--color-white); margin-bottom: 0.25rem; }
+.layout-bulletin .officer-card h4 { color: var(--color-primary); }
 .officer-card p { margin: 0.25rem 0; }
-.officer-card .location { color: ${officerLocationColor}; font-size: 0.9rem; }
+.officer-card .location,
+.officer-card .committee { color: ${officerLocationColor}; font-size: 0.9rem; }
+.layout-bulletin .officer-card .location,
+.layout-bulletin .officer-card .committee {
+  color: color-mix(in srgb, var(--color-text) 70%, white);
+}
+
+.officer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 40rem;
+}
+.officer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+.officer-row span { color: color-mix(in srgb, var(--color-text) 72%, white); }
+
+.resources-grid {
+  display: grid;
+  gap: var(--spacing-5);
+  text-align: left;
+}
+@media (min-width: 768px) {
+  .resources-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}
+
+.event-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  display: grid;
+  gap: var(--spacing-4);
+}
+.event-card {
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  padding: var(--spacing-4);
+  border-radius: 8px;
+}
+.event-ics { margin-top: var(--spacing-4); }
 
 .contact-section {
   padding: var(--spacing-8) var(--spacing-4);
   text-align: center;
 }
 
-.contact-email a {
+.contact-email a,
+.contact-phone a {
   color: var(--color-primary);
   font-size: 1.25rem;
   font-weight: 700;
@@ -528,7 +529,8 @@ h1, h2, h3, h4 {
   font-weight: 600;
 }
 
-.office-address { margin-top: var(--spacing-3); }
+.office-address,
+.office-hours { margin-top: var(--spacing-3); }
 
 .footer {
   background: var(--color-primary);
@@ -552,6 +554,8 @@ h1, h2, h3, h4 {
 .footer-col a { color: ${footerLinkColor}; }
 .footer-col a:hover { color: var(--color-white); }
 .office-address-list { margin-bottom: var(--spacing-3); }
+.site-qr { margin-top: var(--spacing-3); }
+.site-qr img { background: #fff; padding: 0.35rem; border-radius: 4px; }
 
 .copyright {
   text-align: center;
@@ -559,6 +563,9 @@ h1, h2, h3, h4 {
   font-size: 0.875rem;
   color: ${footerMutedColor};
 }
+.copyright a { color: ${footerLinkColor}; }
+
+.privacy-page { text-align: left; min-height: 50vh; }
 
 @media (max-width: 768px) {
   .hamburger { display: flex; }
@@ -571,13 +578,23 @@ h1, h2, h3, h4 {
   .nav-links.active { display: flex; }
   .hero-section h1 { font-size: 2rem; }
 }
+
+@media print {
+  .site-header, .hamburger, .skip-link { position: static; }
+  .cta-button { border: 1px solid #000; }
+  .support-section { background: #fff !important; color: #000 !important; }
+  .footer { break-inside: avoid; }
+}
 `;
 }
 
 export function buildWebsiteJs(): string {
   return `function toggleMenu() {
   const navLinks = document.querySelector('.nav-links');
-  if (navLinks) navLinks.classList.toggle('active');
+  const btn = document.querySelector('.hamburger');
+  if (!navLinks) return;
+  const open = navLinks.classList.toggle('active');
+  if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
 }
 `;
 }
@@ -609,6 +626,8 @@ To update copy later, open https://unionops.org/tools/website-template and impor
 You can also open \`index.html\` in any text editor for a small fix.
 
 The hero background is \`assets/hero.svg\` (or \`assets/hero.jpg\` if you uploaded a photo). Replace that file to swap in a still later.
+
+Layout choices (Solidarity / Bulletin / Hall) live in \`${WEBSITE_CONFIG_FILE}\` as \`layoutId\`. Switching layouts in UnionOps keeps your copy.
 
 ## No server required
 
@@ -648,6 +667,45 @@ export function prepareWebsiteExportData(
   return exportData;
 }
 
+function websiteEventsToIcs(data: WebsiteTemplateData): string | null {
+  const events = (data.events ?? []).filter((e) => e.title.trim());
+  if (!events.length) return null;
+  const inputs: IcsEventInput[] = events.map((event, index) => {
+    const raw = event.when.trim();
+    let startsAt = raw;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+      startsAt = `${raw}T15:00:00.000Z`;
+    } else if (!raw || Number.isNaN(Date.parse(raw))) {
+      startsAt = new Date().toISOString();
+    }
+    const startMs = Date.parse(startsAt);
+    const endsAt = new Date(startMs + 60 * 60 * 1000).toISOString();
+    return {
+      uid: `unionops-website-${data.localNumber}-${index}@local`,
+      title: event.title.trim(),
+      description: event.detail?.trim() || undefined,
+      location: event.location?.trim() || undefined,
+      startsAt: new Date(startMs).toISOString(),
+      endsAt,
+    };
+  });
+  return buildIcsCalendar(inputs);
+}
+
+async function qrPngBytes(url: string): Promise<Uint8Array | null> {
+  const dataUrl = await qrDataUrl(url, { width: 240, margin: 1 });
+  if (!dataUrl?.startsWith("data:")) return null;
+  const base64 = dataUrl.split(",")[1];
+  if (!base64) return null;
+  if (typeof Buffer !== "undefined") {
+    return new Uint8Array(Buffer.from(base64, "base64"));
+  }
+  const binary = atob(base64);
+  const out = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) out[i] = binary.charCodeAt(i);
+  return out;
+}
+
 /** Logo, hero art, and OFL font files — same layout in both ZIP exporters. */
 export async function addWebsiteMediaToZip(
   zip: WebsiteZipWriter,
@@ -678,6 +736,24 @@ export async function addWebsiteMediaToZip(
       }),
     );
   }
+  if (
+    data.includeSiteQr &&
+    data.websiteUrl?.trim() &&
+    isWebsiteHttpUrl(data.websiteUrl)
+  ) {
+    const bytes = await qrPngBytes(data.websiteUrl.trim());
+    if (bytes) zip.file("assets/site-qr.png", bytes);
+  }
+}
+
+function cssForData(data: WebsiteTemplateData, options?: BuildWebsiteCssOptions | null) {
+  return buildWebsiteCss(
+    data.primaryColor,
+    data.secondaryColor,
+    data.canvas,
+    options,
+    { accentColor: data.accentColor, layoutId: data.layoutId },
+  );
 }
 
 export async function generateWebsiteZip(
@@ -688,16 +764,21 @@ export async function generateWebsiteZip(
   const JSZip = (await import("jszip")).default;
   const zip = new JSZip();
   const exportData = prepareWebsiteExportData(data, logo, heroImage);
+  const rendered = renderWebsiteSite(exportData);
 
-  zip.file("index.html", buildWebsiteHtml(exportData));
+  for (const page of rendered.pages) {
+    zip.file(page.path, page.html);
+  }
   zip.file(
     "css/style.css",
-    buildWebsiteCss(data.primaryColor, data.secondaryColor, data.canvas, {
+    cssForData(exportData, {
       fontUrlBase: "../assets/fonts",
       flatFontFileNames: true,
     }),
   );
   zip.file("js/site.js", buildWebsiteJs());
+  const ics = websiteEventsToIcs(exportData);
+  if (ics) zip.file("calendar.ics", ics);
   await addWebsiteMediaToZip(zip, exportData, logo, heroImage);
   zip.file(WEBSITE_CONFIG_FILE, buildWebsiteConfigJson(exportData));
   zip.file("README.md", buildWebsiteReadme(data.localNumber));
@@ -710,15 +791,16 @@ export async function generateWebsiteZip(
 }
 
 export function buildPreviewHtml(data: WebsiteTemplateData): string {
-  const css = buildWebsiteCss(
-    data.primaryColor,
-    data.secondaryColor,
-    data.canvas,
-    { fontUrlBase: "/fonts", flatFontFileNames: false },
-  );
+  const css = cssForData(data, {
+    fontUrlBase: "/fonts",
+    flatFontFileNames: false,
+  });
   let body = buildWebsiteHtml(data)
-    .replace('<link rel="stylesheet" href="./css/style.css">', `<style>${css}</style>`)
-    .replace('<script src="./js/site.js"></script>', "");
+    .replace(
+      '<link rel="stylesheet" href="./css/style.css">',
+      `<style>${css}</style>`,
+    )
+    .replace('<script src="./js/site.js"></script>', `<script>${buildWebsiteJs()}</script>`);
   if (data.logoFileName.trim() && data.logoPreviewSrc.trim()) {
     body = body.replace(
       `src="./assets/${data.logoFileName}"`,

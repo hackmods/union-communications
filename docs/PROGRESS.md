@@ -1,3 +1,9 @@
+## 2026-09-26 — Website Template world-class layouts
+
+- Living design/fit-gap: [`docs/audit/website-template-world-class-2026-09.md`](audit/website-template-world-class-2026-09.md).
+- Curated layouts `solidarity` / `bulletin` / `hall` over shared content; config/draft **v2** with v1 migrate; stewards/committees sections from Org Chart groups; phone/hours/CTA/events; privacy page; EN/FR site chrome; device preview + Design/Content/People/Publish modes; OG/skip-link/reduced-motion; optional site QR + `calendar.ics`.
+- GitHub Pages ZIP remains default; WordPress wrap preserved; multi-page trees intentionally deferred.
+
 ## 2026-09-26 — Website Template WordPress Local site
 
 - [x] Data-driven classic theme: `inc/config.php` / `render.php` / `admin.php` / `customizer.php` — homepage copy in WP option; Appearance → Local site + JSON import; dynamic CSS colour vars; versioned `style.css`

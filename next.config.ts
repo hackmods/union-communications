@@ -2,10 +2,7 @@ import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs/config";
 import createNextIntlPlugin from "next-intl/plugin";
 import { PUBLIC_ROUTE_REDIRECTS } from "./src/lib/seo/public-routes";
-import {
-  authSecurityHeaders,
-  publicSecurityHeaders,
-} from "./src/lib/security/framing-policy";
+import { pathScopedFramingHeaderRoutes } from "./src/lib/security/framing-policy";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -45,12 +42,10 @@ function resolveAllowedOrigins(): string[] {
 }
 
 /**
- * Security headers (SEC-008) — path-scoped framing:
- * Hub/Portal stay DENY / frame-ancestors 'none'; public pages allow
- * same-origin framing for `/viewport-lab/`.
+ * Security headers (SEC-008) — path-scoped framing via
+ * `pathScopedFramingHeaderRoutes()` (PUBLIC catch-all first; AUTH last so
+ * Hub/Portal keep DENY — Next.js last-match wins for the same header key).
  */
-const PUBLIC_SECURITY_HEADERS = publicSecurityHeaders();
-const AUTH_SECURITY_HEADERS = authSecurityHeaders();
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -102,18 +97,7 @@ const nextConfig: NextConfig = {
       { source: "/icons/:path*", headers: longCache },
       { source: "/demo/:path*", headers: longCache },
       { source: "/templates/:path*", headers: longCache },
-      {
-        source: "/:locale(en|fr)/app/:path*",
-        headers: AUTH_SECURITY_HEADERS,
-      },
-      {
-        source: "/:locale(en|fr)/portal/:path*",
-        headers: AUTH_SECURITY_HEADERS,
-      },
-      {
-        source: "/:path*",
-        headers: PUBLIC_SECURITY_HEADERS,
-      },
+      ...pathScopedFramingHeaderRoutes(),
     ];
   },
   async redirects() {

@@ -66,8 +66,7 @@ export function themeMetaFromData(
 export function buildWordpressStyleCss(
   data: WebsiteTemplateData,
   version?: string,
-): string {
-  const name = wordpressThemeName(data.unionName, data.localNumber);
+): string {  const name = wordpressThemeName(data.unionName, data.localNumber);
   const slug = wordpressThemeSlug(data.localNumber);
   const ver = version ?? wordpressThemeVersion();
   const description = sanitizeThemeHeaderField(
@@ -81,6 +80,7 @@ export function buildWordpressStyleCss(
       fontUrlBase: "assets/fonts",
       flatFontFileNames: true,
     },
+    { accentColor: data.accentColor, layoutId: data.layoutId },
   );
   return `/*
 Theme Name: ${name}

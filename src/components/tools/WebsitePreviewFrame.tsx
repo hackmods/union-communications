@@ -3,10 +3,19 @@
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
+export type WebsitePreviewDevice = "phone" | "tablet" | "desktop";
+
+const DEVICE_WIDTH: Record<WebsitePreviewDevice, string> = {
+  phone: "390px",
+  tablet: "768px",
+  desktop: "100%",
+};
+
 type WebsitePreviewFrameProps = {
   html: string;
   title: string;
   className?: string;
+  device?: WebsitePreviewDevice;
 };
 
 /**
@@ -21,6 +30,7 @@ export function WebsitePreviewFrame({
   html,
   title,
   className,
+  device = "desktop",
 }: WebsitePreviewFrameProps) {
   const ref = useRef<HTMLIFrameElement>(null);
 
@@ -40,14 +50,23 @@ export function WebsitePreviewFrame({
   }, [html]);
 
   return (
-    <iframe
-      ref={ref}
-      title={title}
+    <div
       className={cn(
-        "h-[min(600px,70vh)] w-full rounded-lg border border-gray-200 bg-white shadow-lg",
-        className,
+        "mx-auto w-full transition-[max-width] duration-200",
+        device !== "desktop" && "border border-gray-200 bg-gray-100 p-2 shadow-inner",
       )}
-      sandbox="allow-scripts allow-same-origin"
-    />
+      style={{ maxWidth: DEVICE_WIDTH[device] }}
+    >
+      <iframe
+        ref={ref}
+        title={title}
+        className={cn(
+          "h-[min(600px,70vh)] w-full rounded-lg border border-gray-200 bg-white shadow-lg",
+          device !== "desktop" && "shadow-md",
+          className,
+        )}
+        sandbox="allow-scripts allow-same-origin"
+      />
+    </div>
   );
 }

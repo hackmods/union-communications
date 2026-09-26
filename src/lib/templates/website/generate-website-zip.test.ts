@@ -203,9 +203,9 @@ describe("generate-website-zip", () => {
 
   it("omits hero art when no catalog id is set", async () => {
     const html = buildWebsiteHtml(sampleData);
-    expect(html).not.toContain("hero-art");
+    expect(html).toContain("hero-section");
     expect(html).not.toContain("has-art");
-    expect(html).toContain('class="hero-section"');
+    expect(html).toContain('id="home"');
     const blob = await generateWebsiteZip({
       ...sampleData,
       canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
@@ -215,9 +215,26 @@ describe("generate-website-zip", () => {
     expect(Object.keys(zip.files)).not.toContain("assets/hero.svg");
   });
 
+  it("emits absolute og:image when websiteUrl is set, otherwise omits it", () => {
+    const withoutSite = buildWebsiteHtml(sampleData);
+    expect(withoutSite).not.toContain('property="og:image"');
+
+    const withSite = buildWebsiteHtml({
+      ...sampleData,
+      websiteUrl: "https://local243.org",
+    });
+    expect(withSite).toContain(
+      'property="og:image" content="https://local243.org/assets/logo.png"',
+    );
+    expect(withSite).toContain(
+      'property="og:url" content="https://local243.org/"',
+    );
+  });
+
   it("bundles a catalog pattern as assets/hero.svg", async () => {
     const html = buildWebsiteHtml({ ...sampleData, heroArtId: "arc" });
-    expect(html).toContain('class="hero-section has-art has-pattern-art"');
+    expect(html).toContain("hero-section");
+    expect(html).toContain("has-art has-pattern-art");
     expect(html).toContain('class="hero-art hero-art--pattern"');
     expect(html).toContain('src="./assets/hero.svg"');
     expect(html).toContain('alt=""');
