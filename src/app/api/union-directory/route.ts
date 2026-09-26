@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
-import { sessionMfaOk } from "@/lib/auth/mfa-policy";
+import { requireUnionAdminSession } from "@/lib/auth/union-admin-session";
 import { isPostgresConfigured } from "@/lib/db/client";
 import {
   hasPaidTenantDirectory,
@@ -10,17 +9,9 @@ import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 /** Union-local metadata only. No member, committee, or casework content. */
 export async function GET() {
-  const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-  if (!sessionMfaOk(session)) {
-    return NextResponse.json({ error: "MFA required" }, { status: 403 });
-  }
-  const unionId = session.user.unionId;
-  if (!unionId || !session.user.roles?.includes("union_admin")) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
+  const gate = await requireUnionAdminSession();
+  if (!gate.ok) return NextResponse.json({ error: gate.error }, { status: gate.status });
+  const unionId = gate.unionId;
   if (!isPostgresConfigured()) {
     return NextResponse.json({ error: "Durable directory unavailable" }, { status: 503 });
   }
@@ -28,7 +19,7 @@ export async function GET() {
     if (!(await hasPaidTenantDirectory(unionId))) {
       return NextResponse.json({ error: "Paid directory access required" }, { status: 403 });
     }
-    const locals = await listPaidTenantDirectory(unionId, session.user.id);
+    const locals = await listPaidTenantDirectory(unionId, gate.userId);
     return NextResponse.json({ unionId, locals }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     reportApiFailure(error, "/api/union-directory");

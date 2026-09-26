@@ -13,6 +13,14 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock("@/auth", () => ({ auth: mocks.auth }));
 vi.mock("@/lib/auth/mfa-policy", () => ({ sessionMfaOk: mocks.mfa }));
+vi.mock("@/lib/authorization/resolve-actor", () => ({
+  resolveAuthorizationActor: async (session: { user: { id: string; unionId?: string; roles?: string[] } }) => ({
+    userId: session.user.id,
+    unionId: session.user.unionId,
+    roles: session.user.roles ?? [],
+    accountActive: true,
+  }),
+}));
 vi.mock("@/lib/db/client", () => ({ isPostgresConfigured: mocks.postgres }));
 vi.mock("@/lib/tenant/paid-directory", () => ({
   hasPaidTenantDirectory: mocks.entitled,

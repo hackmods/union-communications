@@ -103,7 +103,13 @@ export function HubNav() {
     unionId: session.user.unionId,
     localId: session.user.localId,
   });
-  const toolLinks = listHubToolLinks(toolAccess, (key) => t(key));
+  const unionAdminLinks = roles.includes("union_admin") && session.user.unionId
+    ? [
+        { href: "/app/union-brand", label: t("unionAdmin.brandLink") },
+        { href: "/app/union-directory", label: t("unionAdmin.directoryLink") },
+      ]
+    : [];
+  const toolLinks = [...listHubToolLinks(toolAccess, (key) => t(key)), ...unionAdminLinks];
   // When the module strip is empty, promote setup links so presidents are not stuck.
   const setupLinks =
     modules.length === 0
