@@ -7942,6 +7942,7 @@
     "commit": "Commit",
     "builtAt": "Construit (UTC)",
     "reviewLink": "Carte de révision du contenu — liens groupés vers chaque page publique, outil, guide et surface PDF",
+    "viewportLabLink": "Viewport Lab — cadre appareil pour Muse / agents (pages publiques seulement)",
     "apiHint": "Les opérateurs peuvent aussi lire le JSON sur /api/health (champs version, commit, builtAt)."
   },
   "buildReview": {

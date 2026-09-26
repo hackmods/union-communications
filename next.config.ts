@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs/config";
 import createNextIntlPlugin from "next-intl/plugin";
 import { PUBLIC_ROUTE_REDIRECTS } from "./src/lib/seo/public-routes";
+import {
+  authSecurityHeaders,
+  publicSecurityHeaders,
+} from "./src/lib/security/framing-policy";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -40,36 +44,13 @@ function resolveAllowedOrigins(): string[] {
   return allowed;
 }
 
-/** Security headers applied on every host (Vercel, CapRover, Docker) — SEC-008. */
-const SECURITY_HEADERS = [
-  { key: "X-Frame-Options", value: "DENY" },
-  { key: "X-Content-Type-Options", value: "nosniff" },
-  {
-    key: "Referrer-Policy",
-    value: "strict-origin-when-cross-origin",
-  },
-  {
-    key: "Permissions-Policy",
-    // camera=(self) — Officer Hub profile photo capture (getUserMedia).
-    value: "camera=(self), microphone=(), geolocation=()",
-  },
-  {
-    key: "Content-Security-Policy",
-    value: [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob:",
-      "font-src 'self'",
-      "connect-src 'self'",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "frame-ancestors 'none'",
-      "worker-src 'self'",
-    ].join("; "),
-  },
-];
+/**
+ * Security headers (SEC-008) — path-scoped framing:
+ * Hub/Portal stay DENY / frame-ancestors 'none'; public pages allow
+ * same-origin framing for `/viewport-lab/`.
+ */
+const PUBLIC_SECURITY_HEADERS = publicSecurityHeaders();
+const AUTH_SECURITY_HEADERS = authSecurityHeaders();
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -122,8 +103,16 @@ const nextConfig: NextConfig = {
       { source: "/demo/:path*", headers: longCache },
       { source: "/templates/:path*", headers: longCache },
       {
+        source: "/:locale(en|fr)/app/:path*",
+        headers: AUTH_SECURITY_HEADERS,
+      },
+      {
+        source: "/:locale(en|fr)/portal/:path*",
+        headers: AUTH_SECURITY_HEADERS,
+      },
+      {
         source: "/:path*",
-        headers: SECURITY_HEADERS,
+        headers: PUBLIC_SECURITY_HEADERS,
       },
     ];
   },

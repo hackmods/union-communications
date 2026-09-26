@@ -1,0 +1,11 @@
+{
+  "$schema": "./recipe.schema.json",
+  "id": "home-en-fr-tablet",
+  "title": "EN then FR home at tablet width",
+  "startUrl": "/viewport-lab/?w=768&h=1024&path=/en/&locale=en",
+  "steps": [
+    { "action": "preset", "id": "tablet" },
+    { "action": "setLocale", "locale": "fr" },
+    { "action": "checkOverflow", "expectHorizontalPxMax": 1 }
+  ]
+}

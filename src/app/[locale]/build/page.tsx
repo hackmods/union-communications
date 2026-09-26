@@ -73,6 +73,14 @@ export default async function BuildInfoPage({
               {t("reviewLink")}
             </Link>
           </p>
+          <p className="mt-4 text-sm leading-relaxed text-gray-700">
+            <a
+              href="/viewport-lab/"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
+              {t("viewportLabLink")}
+            </a>
+          </p>
           <p className="mt-4 text-sm leading-relaxed text-gray-600">
             {t("apiHint")}
           </p>

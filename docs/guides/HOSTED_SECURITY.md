@@ -37,10 +37,11 @@ Grievance notes, bumping strategy, and confidential Hub casework **never** appea
 
 ## Transit controls (all hosts)
 
-Configured in [`next.config.ts`](../../next.config.ts) (SEC-008):
+Configured in [`next.config.ts`](../../next.config.ts) (SEC-008) via [`framing-policy.ts`](../../src/lib/security/framing-policy.ts):
 
 - **TLS** — operator terminates HTTPS; set `AUTH_URL` to the public browser host (never the internal CapRover FQDN).
 - **CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy** — on every response.
+- **Path-scoped framing** — public pages use `X-Frame-Options: SAMEORIGIN` and CSP `frame-ancestors 'self'` so the operator [`/viewport-lab/`](VIEWPORT_LAB.md) can embed them for responsive QA. Officer Hub (`/:locale/app/*`) and Local Portal (`/:locale/portal/*`) stay `DENY` / `frame-ancestors 'none'`.
 - **Portal APIs** — `Cache-Control: private, no-store` via [`portalJson`](../../src/lib/portal/portal-json.ts).
 - **Sensitive Hub downloads** — `private, no-store` on attachment/document routes.
 

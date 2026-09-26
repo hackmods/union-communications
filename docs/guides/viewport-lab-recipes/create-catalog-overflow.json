@@ -1,0 +1,14 @@
+{
+  "$schema": "./recipe.schema.json",
+  "id": "create-catalog-overflow",
+  "title": "Mobile overflow walk of Create catalog",
+  "startUrl": "/viewport-lab/?w=375&h=812&path=/en/create/&locale=en",
+  "steps": [
+    { "action": "preset", "id": "mobile" },
+    { "action": "checkOverflow", "expectHorizontalPxMax": 1 },
+    { "action": "preset", "id": "tablet" },
+    { "action": "checkOverflow", "expectHorizontalPxMax": 1 },
+    { "action": "preset", "id": "desktop" },
+    { "action": "checkOverflow", "expectHorizontalPxMax": 1 }
+  ]
+}
