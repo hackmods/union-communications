@@ -7949,7 +7949,7 @@
       },
       "hub-nav-module-gates": {
         "title": "Officer Hub menu matches what your local has on",
-        "body": "Disabled modules no longer crowd Officer Hub navigation. When Grievances is off, you get a clear turn-it-on path instead of an access-denied dead end. Presidents still see configuration and invites when the casework strip is empty."
+        "body": "Disabled modules no longer crowd Officer Hub navigation. Opening an off module shows how to turn it on. Presidents still see configuration and invites when the casework strip is empty."
       }
     }
   },
@@ -8999,6 +8999,22 @@
       "grievance": {
         "title": "Grievances is off",
         "body": "Case files and grievance deadlines stay off until this module is enabled."
+      },
+      "bumping": {
+        "title": "Stability Committee is off",
+        "body": "Bumping case files stay off until this module is enabled."
+      },
+      "bylaws": {
+        "title": "Bylaws is off",
+        "body": "Local bylaw drafts and revision tracking stay off until enabled."
+      },
+      "proposals": {
+        "title": "Proposals is off",
+        "body": "Proposal packages and member-safe feeds stay off until enabled."
+      },
+      "informalLog": {
+        "title": "Informal log is off",
+        "body": "Informal workplace notes stay off until this module is enabled."
       }
     }
   },

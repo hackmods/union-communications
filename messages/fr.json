@@ -7896,7 +7896,7 @@
       },
       "hub-nav-module-gates": {
         "title": "Le menu du Hub des dirigeants suit les modules activés de votre section",
-        "body": "Les modules désactivés n’encombrent plus la navigation du Hub des dirigeants. Quand les griefs sont hors, vous voyez clairement comment les activer, au lieu d’un refus d’accès sans issue. La présidence voit toujours la configuration et les invitations quand la bande de modules de travail est vide."
+        "body": "Les modules désactivés n’encombrent plus la navigation du Hub des dirigeants. Ouvrir un module hors montre comment l’activer. La présidence voit toujours la configuration et les invitations quand la bande de modules de travail est vide."
       }
     }
   },
@@ -8946,6 +8946,22 @@
       "grievance": {
         "title": "Griefs désactivés",
         "body": "Les dossiers et les échéances de grief restent hors jusqu’à l’activation de ce module."
+      },
+      "bumping": {
+        "title": "Comité de stabilité désactivé",
+        "body": "Les dossiers du comité de stabilité restent hors jusqu’à l’activation de ce module."
+      },
+      "bylaws": {
+        "title": "Règlements désactivés",
+        "body": "Les brouillons de règlements locaux et le suivi des révisions restent hors jusqu’à activation."
+      },
+      "proposals": {
+        "title": "Propositions désactivées",
+        "body": "Les dossiers de propositions et les fils sécurisés pour les membres restent hors jusqu’à activation."
+      },
+      "informalLog": {
+        "title": "Journal informel désactivé",
+        "body": "Les notes informelles en milieu de travail restent hors jusqu’à l’activation de ce module."
       }
     }
   },
