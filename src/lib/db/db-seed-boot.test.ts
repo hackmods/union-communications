@@ -31,7 +31,9 @@ describe("db-seed-boot", () => {
   });
 
   it("skips boot seed when disabled or no database URL is set", async () => {
-    expect(await runBootSeed({ SEED_ON_BOOT: "false" })).toEqual({
+    expect(
+      await runBootSeed({ SEED_ON_BOOT: "false" } as unknown as NodeJS.ProcessEnv),
+    ).toEqual({
       skipped: true,
       reason: "disabled",
     });
@@ -40,7 +42,7 @@ describe("db-seed-boot", () => {
         SEED_ON_BOOT: "auto",
         DATABASE_URL: "",
         MIGRATE_DATABASE_URL: "",
-      }),
+      } as unknown as NodeJS.ProcessEnv),
     ).toEqual({ skipped: true, reason: "no_database_url" });
   });
 });

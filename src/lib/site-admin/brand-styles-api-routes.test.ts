@@ -39,7 +39,7 @@ function session(roles: UserRole[] = ["platform_admin"]) {
 function jsonRequest(body: unknown): Request {
   return {
     json: async () => body,
-  } as Request;
+  } as unknown as Request;
 }
 
 function invalidJsonRequest(): Request {
@@ -47,7 +47,7 @@ function invalidJsonRequest(): Request {
     json: async () => {
       throw new SyntaxError("Unexpected token");
     },
-  } as Request;
+  } as unknown as Request;
 }
 
 const validTheme = {
