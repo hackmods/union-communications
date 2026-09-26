@@ -6,6 +6,7 @@
 # Progress Log
 
 ## 2026-09-25 — Lighter Comms Brand Kit follow-through
+- [x] Adjacent QOL notes documented in follow-through plan (header hydrate, save banner, SegControl Tab on long lists, out-of-scope makers) — PR #133
 
 - Added browser checks for legacy Full colour kits, blocked storage, saved Looks, Local pack transfer, first-visit overrides, undo/reset, and narrow French layouts.
 - Fixed first-visit Brand Kit hydration so preset and treatment edits display immediately and remain intact after host defaults load; Local pack import/reset during loading also survives.
