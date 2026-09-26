@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/auth";
+import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
+import type { AuthorizationActor } from "@/lib/authorization/model";
 import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import {
   requireTenantOnboardingSession,
@@ -41,7 +43,7 @@ import {
 import { visibleHubConfigRows } from "@/lib/president/module-catalog";
 import type { PortalSurfaceId } from "@/lib/president/module-catalog";
 import { parseJsonBody } from "@/lib/validation/parse";
-import type { HubModule, UserRole } from "@/types/tenant";
+import type { HubModule, TenantContext, UserRole } from "@/types/tenant";
 
 const hubModuleSchema = z.enum([
   "comms",
@@ -158,6 +160,25 @@ function resolveOperatorUnionId(
   return { ok: true, unionId: sessionUnionId };
 }
 
+function scopeTenantContext(
+  context: TenantContext | null,
+  unionId: string,
+  actor: AuthorizationActor,
+): TenantContext | null {
+  if (!context || isPlatformAdminRole(actor.roles)) return context;
+  const visibleLocalIds = new Set(actor.memberships
+    .filter((membership) => membership.unionId === unionId)
+    .map((membership) => membership.localId));
+  return {
+    ...context,
+    locals: context.locals.filter((local) => visibleLocalIds.has(local.id)),
+    bargainingUnits: context.bargainingUnits.filter((unit) => visibleLocalIds.has(unit.localId)),
+    local: context.local && visibleLocalIds.has(context.local.id)
+      ? context.local
+      : undefined,
+  };
+}
+
 function tenantPayload(
   unionId: string,
   roles: UserRole[],
@@ -165,10 +186,11 @@ function tenantPayload(
     localId?: string | null;
     canCreateUnion: boolean;
   },
-  extras?: { needsUnionContext?: boolean; unions?: Array<{ id: string; name: string }> },
+  actor: AuthorizationActor,
+  extras?: { unions?: Array<{ id: string; name: string }> },
 ) {
   const localId = session.localId ?? null;
-  const ctx = getTenantContext(unionId, localId);
+  const ctx = scopeTenantContext(getTenantContext(unionId, localId), unionId, actor);
   if (!ctx) return null;
   return {
     context: ctx,
@@ -237,10 +259,14 @@ export async function GET(req?: Request) {
     );
   }
 
+  const actor = await resolveAuthorizationActor(session);
+  if (!actor.accountActive || (actor.unionId !== resolved.unionId && !isPlatformAdminRole(actor.roles))) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
   const payload = tenantPayload(resolved.unionId, roles, {
     localId: session.user.localId,
     canCreateUnion: sessionCanCreateUnion(session),
-  }, isPlatformAdminRole(roles) ? { unions } : undefined);
+  }, actor, isPlatformAdminRole(roles) ? { unions } : undefined);
   if (!payload) {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }
@@ -274,6 +300,10 @@ export async function POST(req: Request) {
 
   const data = parsed.data;
   const roles = (authResult.session.user.roles ?? []) as UserRole[];
+  const actor = await resolveAuthorizationActor(authResult.session);
+  if (!actor.accountActive) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
   const sessionUnionId = authResult.session.user.unionId;
   const requestedUnionId =
     "unionId" in data && typeof data.unionId === "string"
@@ -377,7 +407,7 @@ export async function POST(req: Request) {
       const enabledModules = await setUnionEnabledModules(unionId, next);
       return NextResponse.json({
         enabledModules,
-        context: getTenantContext(unionId, authResult.session.user.localId),
+        context: scopeTenantContext(getTenantContext(unionId, authResult.session.user.localId), unionId, actor),
       });
     } catch (error) {
       return NextResponse.json(
@@ -436,6 +466,10 @@ export async function POST(req: Request) {
     }
     if (!ctx.locals.some((local) => local.id === data.localId)) {
       return NextResponse.json({ error: "Local not found" }, { status: 404 });
+    }
+    if (!isPlatformAdminRole(roles) && !actor.memberships.some((membership) =>
+      membership.unionId === unionId && membership.localId === data.localId)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     if (data.clear) {
       clearLocalPresentationPrefs(unionId, data.localId);
@@ -518,7 +552,7 @@ export async function POST(req: Request) {
       "@/lib/snippets/ensure-seeded"
     );
     let snippetsSeeded = 0;
-    if (unionPresetSeedsReferencePacks(data.unionPresetId ?? "opseu")) {
+    if (unionPresetSeedsReferencePacks(ctx.brandDefaults.commsPresetId ?? "")) {
       const ensure = await ensureReferencePacksIfEmpty(unionId);
       snippetsSeeded = ensure.restored;
     }
@@ -537,6 +571,10 @@ export async function POST(req: Request) {
   const localExists = ctx.locals.some((l) => l.id === data.localId);
   if (!localExists) {
     return NextResponse.json({ error: "Local not found" }, { status: 404 });
+  }
+  if (!isPlatformAdminRole(roles) && !actor.memberships.some((membership) =>
+    membership.unionId === unionId && membership.localId === data.localId)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   const collection = await createCollectionDurable({
     unionId,
@@ -560,12 +598,12 @@ export async function POST(req: Request) {
     "@/lib/snippets/ensure-seeded"
   );
   let snippetsSeeded = 0;
-  if (unionPresetSeedsReferencePacks(data.unionPresetId ?? "opseu")) {
+  if (unionPresetSeedsReferencePacks(ctx.brandDefaults.commsPresetId ?? "")) {
     const ensure = await ensureReferencePacksIfEmpty(unionId);
     snippetsSeeded = ensure.restored;
   }
   return NextResponse.json(
-    { collection, snippetsSeeded, context: getTenantContext(unionId) },
+    { collection, snippetsSeeded, context: scopeTenantContext(getTenantContext(unionId), unionId, actor) },
     { status: 201 },
   );
 }
