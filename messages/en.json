@@ -7995,6 +7995,7 @@
     "commit": "Commit",
     "builtAt": "Built (UTC)",
     "reviewLink": "Content review map — grouped links to every public page, tool, guide, and PDF surface",
+    "viewportLabLink": "Viewport Lab — Muse / agent device frame (public pages only)",
     "apiHint": "Operators can also read JSON at /api/health (fields version, commit, builtAt)."
   },
   "buildReview": {

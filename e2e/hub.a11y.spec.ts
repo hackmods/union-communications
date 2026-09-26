@@ -187,3 +187,32 @@ test.describe("Hub authenticated a11y", () => {
     await expectNoSeriousA11yViolations(page);
   });
 });
+
+/** Minimal Hub axe subset kept in default CI (`test:smoke`). */
+const HUB_A11Y_SMOKE_PAGES = HUB_A11Y_PAGES.filter((p) =>
+  ["dashboard", "grievances", "time"].includes(p.label),
+);
+
+test.describe("Hub authenticated a11y smoke subset @smoke", () => {
+  test.describe.configure({ mode: "serial" });
+
+  test.beforeEach(async ({ page }) => {
+    await loginAsDemoOfficer(page);
+  });
+
+  for (const { path, heading, label } of HUB_A11Y_SMOKE_PAGES) {
+    test(`${label} has no serious or critical a11y violations`, async ({
+      page,
+    }) => {
+      await page.goto(path);
+      await expect(
+        page.getByRole("heading", { level: 1, name: heading }),
+      ).toBeVisible({ timeout: 20_000 });
+      const busy = page.locator('[aria-busy="true"]');
+      if ((await busy.count()) > 0) {
+        await expect(busy).toHaveCount(0, { timeout: 20_000 });
+      }
+      await expectNoSeriousA11yViolations(page);
+    });
+  }
+});

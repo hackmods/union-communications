@@ -1,0 +1,12 @@
+{
+  "$schema": "./recipe.schema.json",
+  "id": "flyer-maker-state-retention",
+  "title": "Flyer Maker 375 then 768 without losing editor state",
+  "startUrl": "/viewport-lab/?w=375&h=812&path=/en/create/flyer-maker/&locale=en",
+  "steps": [
+    { "action": "preset", "id": "mobile" },
+    { "action": "note", "text": "Type a short headline inside the iframe form before resizing." },
+    { "action": "preset", "id": "tablet" },
+    { "action": "checkOverflow", "expectHorizontalPxMax": 1 }
+  ]
+}

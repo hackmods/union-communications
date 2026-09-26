@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import NextLink from "next/link";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -72,6 +73,15 @@ export default async function BuildInfoPage({
             >
               {t("reviewLink")}
             </Link>
+          </p>
+          <p className="mt-4 text-sm leading-relaxed text-gray-700">
+            {/* Outside [locale] — use next/link so the path is not /en/viewport-lab */}
+            <NextLink
+              href="/viewport-lab/"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
+              {t("viewportLabLink")}
+            </NextLink>
           </p>
           <p className="mt-4 text-sm leading-relaxed text-gray-600">
             {t("apiHint")}

@@ -6,6 +6,7 @@ import {
   exceedsLimit,
   strictestPlatformLimit,
 } from "@/lib/alt-text/draft";
+import { ALT_TEXT_FIXTURES } from "@/lib/alt-text/fixtures";
 
 describe("alt-text draft helpers", () => {
   it("counts characters and detects platform overflows", () => {
@@ -59,5 +60,28 @@ describe("alt-text draft helpers", () => {
     );
     expect(result.ok).toBe(true);
     expect(result.issues).toEqual([]);
+  });
+
+  it("locks curated AODA fixtures", () => {
+    for (const fixture of ALT_TEXT_FIXTURES) {
+      const result = analyzeAltText(fixture.draft, {
+        caption: fixture.caption,
+      });
+      for (const issue of fixture.expectIssues) {
+        expect(
+          result.issues,
+          `${fixture.id} missing issue ${issue}`,
+        ).toContain(issue);
+      }
+      if (fixture.expectIssues.length === 0 && !fixture.expectExceedsLimit) {
+        expect(result.ok, fixture.id).toBe(true);
+      }
+      if (fixture.expectExceedsLimit) {
+        expect(
+          exceedsLimit(fixture.draft, strictestPlatformLimit()),
+          fixture.id,
+        ).toBe(true);
+      }
+    }
   });
 });

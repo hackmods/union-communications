@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { USER_PREFERENCES_KEY } from "../src/lib/data/adapter";
-import { expectNoSeriousA11yViolations } from "./helpers/axe";
+import { expectNoSeriousA11yViolations, expectNoSeriousA11yViolationsWithContrast } from "./helpers/axe";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en/");
@@ -331,19 +331,40 @@ test.describe("Smoke tests @smoke", () => {
 
   test("home page has no serious or critical a11y violations", async ({ page }) => {
     await page.goto("/en/");
-    await expectNoSeriousA11yViolations(page);
+    await expectNoSeriousA11yViolationsWithContrast(page);
   });
 
   test("French home page has no serious or critical a11y violations", async ({
     page,
   }) => {
     await page.goto("/fr/");
-    await expectNoSeriousA11yViolations(page);
+    await expectNoSeriousA11yViolationsWithContrast(page);
   });
 
   test("accessibility page has no serious or critical a11y violations", async ({ page }) => {
     await page.goto("/en/accessibility/");
-    await expectNoSeriousA11yViolations(page);
+    await expectNoSeriousA11yViolationsWithContrast(page);
+  });
+
+  test("create catalog has no serious or critical a11y violations with contrast", async ({
+    page,
+  }) => {
+    await page.goto("/en/create/");
+    await expectNoSeriousA11yViolationsWithContrast(page);
+  });
+
+  test("utilities catalog has no serious or critical a11y violations with contrast", async ({
+    page,
+  }) => {
+    await page.goto("/en/utilities/");
+    await expectNoSeriousA11yViolationsWithContrast(page);
+  });
+
+  test("learn catalog has no serious or critical a11y violations with contrast", async ({
+    page,
+  }) => {
+    await page.goto("/en/learn/");
+    await expectNoSeriousA11yViolationsWithContrast(page);
   });
 
   test("feedback page has no serious or critical a11y violations", async ({ page }) => {
