@@ -405,6 +405,11 @@ export function importOverlayUnion(seed: TenantSeed): void {
     for (const division of seed.divisions ?? (seed.division ? [seed.division] : [])) importOverlayDivision(division);
     for (const local of seed.locals ?? []) importOverlayLocal(local);
     for (const unit of seed.bargainingUnits ?? []) importOverlayCollection(unit);
+    if (seed.union.archivedAt !== undefined) {
+      existing.union.archivedAt = seed.union.archivedAt;
+    }
+    if (seed.union.name) existing.union.name = seed.union.name;
+    if (seed.union.slug) existing.union.slug = seed.union.slug;
     return;
   }
   overlaySeeds.set(seed.union.id, {
@@ -420,6 +425,34 @@ export function importOverlayUnion(seed: TenantSeed): void {
   if (seed.bargainingUnits?.length) {
     unitPatches.set(seed.union.id, [...seed.bargainingUnits]);
   }
+}
+
+/** Drop a union seed and its local/division/unit patches from the in-process overlay. */
+export function removeOverlayUnion(unionId: string): void {
+  overlaySeeds.delete(unionId);
+  localPatches.delete(unionId);
+  divisionPatches.delete(unionId);
+  unitPatches.delete(unionId);
+  dataModulePatches.delete(unionId);
+  enabledModulesPatches.delete(unionId);
+  portalSurfacesPatches.delete(unionId);
+  commsPresetPatches.delete(unionId);
+  brandThemePatches.delete(unionId);
+}
+
+/** Update display name on an overlay seed (no-op when missing). */
+export function renameOverlayUnion(unionId: string, name: string): void {
+  const seed = overlaySeeds.get(unionId);
+  if (seed) seed.union.name = name.trim();
+}
+
+/** Mark or clear soft-archive on an overlay seed. */
+export function setOverlayUnionArchived(
+  unionId: string,
+  archivedAt: string | null,
+): void {
+  const seed = overlaySeeds.get(unionId);
+  if (seed) seed.union.archivedAt = archivedAt;
 }
 
 /** @internal test helper */

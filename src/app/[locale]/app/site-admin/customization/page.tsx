@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { customizationConfigurationError } from "@/lib/auth/customization-session";
-import { getAllTenantSeeds } from "@/lib/tenant/loader";
+import { getActiveTenantSeeds } from "@/lib/tenant/loader";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
 import { isPostgresConfigured } from "@/lib/db/client";
 import { CustomizationAdminPanel } from "@/components/customization/CustomizationAdminPanel";
@@ -32,7 +32,7 @@ export default async function SiteAdminCustomizationPage({
   if (isPostgresConfigured()) {
     await hydrateTenantOverlayFromPostgres();
   }
-  const unions = getAllTenantSeeds().map((seed) => ({
+  const unions = getActiveTenantSeeds().map((seed) => ({
     id: seed.union.id,
     name: seed.union.name,
     slug: seed.union.slug,

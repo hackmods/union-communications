@@ -83,6 +83,11 @@ export default async function SiteAdminLandingPage({
           body={t("usersBody")}
         />
         <SiteAdminCard
+          href="/app/site-admin/unions"
+          title={t("unions")}
+          body={t("unionsBody")}
+        />
+        <SiteAdminCard
           href="/app/site-admin/locals"
           title={t("locals")}
           body={t("localsBody")}

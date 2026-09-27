@@ -44,7 +44,7 @@ type TenantPayload = {
   needsUnionContext?: boolean;
   isPlatformAdmin?: boolean;
   operatorUnionId?: string | null;
-  unions?: Array<{ id: string; name: string }>;
+  unions?: Array<{ id: string; name: string; slug?: string }>;
 };
 
 const COACH_KEY = "unionops:president-coach-dismissed";
@@ -197,7 +197,7 @@ export function PresidentConfiguration({
   const [isPlatformAdmin, setIsPlatformAdmin] = useState(false);
   const [needsUnionContext, setNeedsUnionContext] = useState(false);
   const [unionOptions, setUnionOptions] = useState<
-    Array<{ id: string; name: string }>
+    Array<{ id: string; name: string; slug?: string }>
   >([]);
   const [operatorUnionId, setOperatorUnionId] = useState<string | null>(
     initialUnionId,
@@ -548,7 +548,7 @@ export function PresidentConfiguration({
             <option value="">{t("pickUnionPlaceholder")}</option>
             {unionOptions.map((u) => (
               <option key={u.id} value={u.id}>
-                {u.name}
+                {u.slug ? `${u.name} (${u.slug})` : u.name}
               </option>
             ))}
           </Select>
@@ -557,6 +557,12 @@ export function PresidentConfiguration({
             {t("pickUnionEmpty")}
           </Callout>
         )}
+        <Link
+          href="/app/site-admin/unions"
+          className="inline-flex text-sm font-semibold text-opseu-blue underline"
+        >
+          {t("manageUnions")}
+        </Link>
         <Link
           href="/app/site-admin"
           className="inline-flex text-sm font-semibold text-opseu-blue underline"
@@ -608,7 +614,7 @@ export function PresidentConfiguration({
           >
             {unionOptions.map((u) => (
               <option key={u.id} value={u.id}>
-                {u.name}
+                {u.slug ? `${u.name} (${u.slug})` : u.name}
               </option>
             ))}
           </Select>

@@ -17,7 +17,12 @@ vi.mock("@/lib/site-admin/set-user-roles", () => ({
 import { POST as purgeDemo } from "@/app/api/site-admin/demo/purge/route";
 import { GET as previewDemo } from "@/app/api/site-admin/demo/preview/route";
 import { POST as createUnion } from "@/app/api/site-admin/unions/route";
-import { PATCH as patchUnion } from "@/app/api/site-admin/unions/[id]/route";
+import {
+  PATCH as patchUnion,
+  DELETE as deleteUnion,
+} from "@/app/api/site-admin/unions/[id]/route";
+import { POST as archiveUnion } from "@/app/api/site-admin/unions/[id]/archive/route";
+import { POST as restoreUnion } from "@/app/api/site-admin/unions/[id]/restore/route";
 import { POST as createLocal } from "@/app/api/site-admin/locals/route";
 import { POST as archiveLocal } from "@/app/api/site-admin/locals/[id]/archive/route";
 import { POST as restoreLocal } from "@/app/api/site-admin/locals/[id]/restore/route";
@@ -36,6 +41,7 @@ function session(roles: UserRole[] = ["platform_admin"]) {
       unionId: "union-b7p",
       localId: "local-7",
       roles,
+      mfaVerified: true,
     },
   };
 }
@@ -129,6 +135,29 @@ describe("site-admin unions HTTP", () => {
     authMock.mockResolvedValue(session(["local_president"]));
     const res = await createUnion(jsonRequest({ name: "New Union" }));
     expect(res.status).toBe(403);
+  });
+
+  it("archive, restore, and delete reject non-platform officers", async () => {
+    authMock.mockResolvedValue(session(["local_president"]));
+    const params = { params: Promise.resolve({ id: "union-1" }) };
+    expect((await archiveUnion(jsonRequest({}), params)).status).toBe(403);
+    expect((await restoreUnion(jsonRequest({}), params)).status).toBe(403);
+    expect(
+      (await deleteUnion(jsonRequest({ confirm: "slug" }), params)).status,
+    ).toBe(403);
+  });
+
+  it("archive, restore, rename, and delete return 503 without Postgres", async () => {
+    authMock.mockResolvedValue(session());
+    const params = { params: Promise.resolve({ id: "union-1" }) };
+    expect((await archiveUnion(jsonRequest({}), params)).status).toBe(503);
+    expect((await restoreUnion(jsonRequest({}), params)).status).toBe(503);
+    expect(
+      (await patchUnion(jsonRequest({ name: "Renamed" }), params)).status,
+    ).toBe(503);
+    expect(
+      (await deleteUnion(jsonRequest({ confirm: "slug" }), params)).status,
+    ).toBe(503);
   });
 });
 

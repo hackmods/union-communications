@@ -30,6 +30,8 @@ export interface Union {
   slug: string;
   defaultLocale: "en" | "fr";
   enabledModules: HubModule[];
+  /** ISO timestamp when soft-archived; omitted/null = active. */
+  archivedAt?: string | null;
 }
 
 export interface Division {

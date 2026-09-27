@@ -23,7 +23,7 @@ import {
 } from "@/lib/tenant/local-number-access";
 import { dataDbBackend } from "@/lib/db/backend";
 import {
-  getAllTenantSeeds,
+  getActiveTenantSeeds,
   getTenantContext,
 } from "@/lib/tenant/loader";
 import {
@@ -241,9 +241,10 @@ export async function GET(req?: Request) {
   const queryUnionId = url.searchParams.get("unionId");
   await hydrateTenantOverlayFromPostgres();
 
-  const unions = getAllTenantSeeds().map((s) => ({
+  const unions = getActiveTenantSeeds().map((s) => ({
     id: s.union.id,
     name: s.union.name,
+    slug: s.union.slug,
   }));
 
   if (!session.user.unionId && isPlatformAdminRole(roles) && !queryUnionId) {

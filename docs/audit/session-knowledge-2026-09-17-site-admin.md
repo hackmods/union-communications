@@ -87,6 +87,7 @@ registry; purge still clears legacy `union-opseu` rows.
 | Lock / unlock (`/api/site-admin/users/[id]/lock` + `/unlock`) | TODO. |
 | Signout-everywhere (`/api/site-admin/users/[id]/signout-everywhere`) | TODO; v2 wires the JWT callback to compare sessionVersion. |
 | Hard delete (per-user) with typed-confirm + actor re-auth | TODO. The two-step archive-then-delete pattern is mandatory; v1 has archive only. Demo bulk purge is separate. |
+| Union archive / rename / empty hard-delete | **Shipped 2026-09-27** — `/app/site-admin/unions` + `site_admin.union.*` APIs; pickers filter `archived_at`; create paths dedupe active display names. Cascade wipe of live casework stays out of scope (demo purge for `is_demo`). |
 | Right-to-be-forgotten path (PIPEDA / Ontario PHIPA) | TODO. Stretch to a separate runbook; audit_log is the proximate resolution evidence. |
 
 ## Kickoff prompt for future agents

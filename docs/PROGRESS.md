@@ -1,3 +1,10 @@
+## 2026-09-27 — Union lifecycle (archive / rename / empty delete)
+
+- Site Admin → **Unions** (`/app/site-admin/unions`): rename, soft-archive, restore, and hard-delete empty archived unions (typed slug confirm). Schema `unions.archived_at` from `0035` is now wired; demo casework wipe stays on Demo cleanup.
+- Runtime overlay + `GET /api/tenant` / brand-styles / customization pickers omit archived unions. President configuration shows `name (slug)` and links to manage unions.
+- `createUnionDurable` reuses an active union with the same case-insensitive display name so onboarding, invites, and site-admin create stop minting duplicate OPSEU-labelled tenants.
+- What's new (hub): `site-admin-union-lifecycle`. Lessons: [`session-knowledge-2026-09-27-union-lifecycle.md`](audit/session-knowledge-2026-09-27-union-lifecycle.md).
+
 ## 2026-09-27 — Gated product-news implementation (Packet 5)
 
 - Added forward migration `0077` for a durable individual subscriber projection, append-only exact-wording consent history, hashed signed-link tokens, durable throttling, bilingual campaign queue, delivery log, provider feedback events, and shared dispatch rate. The ADR-020 generated database contract and policy list include the new tables.

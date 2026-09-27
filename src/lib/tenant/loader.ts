@@ -122,6 +122,14 @@ function mergeSeed(base: TenantSeed): TenantSeed {
   };
 }
 
+function isActiveSeed(seed: TenantSeed): boolean {
+  return !seed.union.archivedAt;
+}
+
+/**
+ * All tenant seeds including soft-archived overlay rows.
+ * Prefer {@link getActiveTenantSeeds} for operator pickers and runtime context.
+ */
 export function getAllTenantSeeds(): TenantSeed[] {
   const staticMerged = STATIC_SEEDS.map(mergeSeed);
   const overlay = getOverlaySeeds().map(mergeSeed);
@@ -130,11 +138,17 @@ export function getAllTenantSeeds(): TenantSeed[] {
   return [...staticMerged, ...overlay.filter((s) => !staticIds.has(s.union.id))];
 }
 
+/** Active (non-archived) tenants for pickers, Hub context, and create dedup. */
+export function getActiveTenantSeeds(): TenantSeed[] {
+  return getAllTenantSeeds().filter(isActiveSeed);
+}
+
 export function getTenantByUnionSlug(slug: string): TenantSeed | undefined {
-  return getAllTenantSeeds().find((s) => s.union.slug === slug);
+  return getActiveTenantSeeds().find((s) => s.union.slug === slug);
 }
 
 export function getTenantByUnionId(unionId: string): TenantSeed | undefined {
+  // Include archived so restore / site-admin can still resolve a seed by id.
   return getAllTenantSeeds().find((s) => s.union.id === unionId);
 }
 
@@ -166,7 +180,7 @@ export function getTenantContext(
   localId?: string | null,
 ): TenantContext | null {
   const seed = getTenantByUnionId(unionId);
-  if (!seed) return null;
+  if (!seed || seed.union.archivedAt) return null;
   const locals = normalizeLocals(seed);
   const local =
     (localId ? locals.find((row) => row.id === localId) : undefined) ??

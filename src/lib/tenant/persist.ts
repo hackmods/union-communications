@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, asc, eq, isNull, sql } from "drizzle-orm";
 import referenceTenant from "../../../seed/reference-tenant-b7p.json";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import {
@@ -7,7 +7,11 @@ import {
   locals,
   unions,
 } from "@/lib/db/schema";
-import { findLocalByNumber } from "@/lib/tenant/loader";
+import {
+  findLocalByNumber,
+  getActiveTenantSeeds,
+  getTenantByUnionId,
+} from "@/lib/tenant/loader";
 import {
   createOverlayCollection,
   createOverlayDivision,
@@ -183,7 +187,13 @@ export function applyPersistedSnapshotToOverlay(
 
 async function loadPersistedSnapshot(): Promise<PersistedTenantSnapshot> {
   const db = getDb();
-  const unionRows = await db.select().from(unions);
+  // Soft-archived unions stay in Postgres for Site Admin restore/delete but
+  // are omitted from the runtime overlay (pickers + Hub context).
+  const unionRows = await db
+    .select()
+    .from(unions)
+    .where(isNull(unions.archivedAt));
+  const activeUnionIds = new Set(unionRows.map((row) => row.id));
   const divisionRows = await db.select().from(divisions);
   const localRows = await db.select().from(locals);
   const unitRows = await db.select().from(bargainingUnits);
@@ -197,29 +207,71 @@ async function loadPersistedSnapshot(): Promise<PersistedTenantSnapshot> {
       commsPresetId: row.commsPresetId ?? null,
       brandTheme: parseUnionBrandTheme(row.brandTheme) ?? null,
     })),
-    divisions: divisionRows.map((row) => ({
-      id: row.id,
-      unionId: row.unionId,
-      name: row.name,
-      code: row.code,
-      enabledModules: row.enabledModules ?? [],
-    })),
-    locals: localRows.map((row) => ({
-      id: row.id,
-      unionId: row.unionId,
-      localNumber: row.localNumber,
-      subText: row.subText,
-      ...(row.divisionId ? { divisionId: row.divisionId } : {}),
-    })),
-    bargainingUnits: unitRows.map((row) => ({
-      id: row.id,
-      unionId: row.unionId,
-      localId: row.localId,
-      code: row.code,
-      name: row.name,
-      ...(row.grievanceConfig ? { grievanceConfig: row.grievanceConfig } : {}),
-    })),
+    divisions: divisionRows
+      .filter((row) => activeUnionIds.has(row.unionId))
+      .map((row) => ({
+        id: row.id,
+        unionId: row.unionId,
+        name: row.name,
+        code: row.code,
+        enabledModules: row.enabledModules ?? [],
+      })),
+    locals: localRows
+      .filter((row) => activeUnionIds.has(row.unionId))
+      .map((row) => ({
+        id: row.id,
+        unionId: row.unionId,
+        localNumber: row.localNumber,
+        subText: row.subText,
+        ...(row.divisionId ? { divisionId: row.divisionId } : {}),
+      })),
+    bargainingUnits: unitRows
+      .filter((row) => activeUnionIds.has(row.unionId))
+      .map((row) => ({
+        id: row.id,
+        unionId: row.unionId,
+        localId: row.localId,
+        code: row.code,
+        name: row.name,
+        ...(row.grievanceConfig ? { grievanceConfig: row.grievanceConfig } : {}),
+      })),
   };
+}
+
+/**
+ * Reuse an active union with the same display name (case-insensitive).
+ * Prevents duplicate OPSEU-labelled tenants from create / invite retries.
+ */
+export async function findActiveUnionByName(
+  name: string,
+): Promise<TenantSeed | null> {
+  const trimmed = name.trim();
+  if (!trimmed) return null;
+  await hydrateTenantOverlayFromPostgres();
+  if (tenantsPostgresEnabled()) {
+    const db = getDb();
+    const [row] = await db
+      .select({ id: unions.id })
+      .from(unions)
+      .where(
+        and(
+          sql`lower(${unions.name}) = lower(${trimmed})`,
+          isNull(unions.archivedAt),
+        ),
+      )
+      .orderBy(asc(unions.createdAt))
+      .limit(1);
+    if (row) {
+      const seed = getTenantByUnionId(row.id);
+      if (seed && !seed.union.archivedAt) return seed;
+    }
+  }
+  const lower = trimmed.toLowerCase();
+  return (
+    getActiveTenantSeeds().find(
+      (seed) => seed.union.name.trim().toLowerCase() === lower,
+    ) ?? null
+  );
 }
 
 let hydrateInflight: Promise<void> | null = null;
@@ -406,6 +458,8 @@ export async function createCollectionDurable(input: {
 export async function createUnionDurable(
   input: Parameters<typeof createOverlayUnion>[0],
 ): Promise<TenantSeed> {
+  const existing = await findActiveUnionByName(input.name);
+  if (existing) return existing;
   const seed = createOverlayUnion(input);
   if (await slugTakenByOtherUnion(seed.union.slug, seed.union.id)) {
     seed.union.slug = `${seed.union.slug}-${seed.union.id.replace(/^union-/, "").slice(0, 12)}`;

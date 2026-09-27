@@ -17,10 +17,10 @@ import {
   setUnionCommsPresetId,
   updateUnionSlug,
 } from "@/lib/tenant/persist";
-import { getAllTenantSeeds } from "@/lib/tenant/loader";
+import { getActiveTenantSeeds } from "@/lib/tenant/loader";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
-import { asc } from "drizzle-orm";
+import { asc, isNull } from "drizzle-orm";
 import { CANVAS_FONT_ORDER, CANVAS_BODY_FONT_ORDER } from "@/lib/comms/canvas-fonts";
 
 const patchSchema = z.object({
@@ -61,6 +61,7 @@ export async function GET() {
           paidTenantDirectoryEnabled: unions.paidTenantDirectoryEnabled,
         })
         .from(unions)
+        .where(isNull(unions.archivedAt))
         .orderBy(asc(unions.name));
       return NextResponse.json({
         unions: rows.map((r) => ({
@@ -78,7 +79,7 @@ export async function GET() {
       });
     }
 
-    const seeds = getAllTenantSeeds();
+    const seeds = getActiveTenantSeeds();
     return NextResponse.json({
       unions: seeds.map((s) => ({
         id: s.union.id,
