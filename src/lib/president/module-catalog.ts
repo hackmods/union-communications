@@ -28,6 +28,7 @@ export const PRESIDENT_HUB_DEFAULT_OFF: readonly HubModule[] = [
   "informalLog",
   "checkins",
   "data",
+  "documents",
 ] as const;
 
 /** Overlay / create-union defaults — same set as president Hub defaults. */
@@ -141,6 +142,14 @@ export const HUB_CONFIG_ROWS: readonly HubConfigRow[] = [
     blurbKey: "dataBlurb",
     defaultOn: false,
     presidentToggle: false,
+    tier: "operational",
+  },
+  {
+    id: "documents",
+    labelKey: "documents",
+    blurbKey: "documentsBlurb",
+    defaultOn: false,
+    presidentToggle: true,
     tier: "operational",
   },
 ] as const;
@@ -409,4 +418,3 @@ export function resolveLocalPortalSurfaces(
   const filtered = localFilter.filter((id) => allowed.has(id));
   return filtered.length > 0 ? resolvePortalSurfaces(filtered) : base;
 }
-

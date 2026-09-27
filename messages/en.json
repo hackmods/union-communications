@@ -7527,6 +7527,10 @@
         "title": "Org Chart matches other board tools",
         "body": "Org Chart now has design treatment, logo and local-number chrome, advanced canvas overrides, and undo — plus a White paper sheet that stays readable no matter your Brand Kit colours."
       },
+      "documents-library-and-vault": {
+        "title": "A document library and safer local vault",
+        "body": "Public policies and selected downloads now have a Document Library. Officer Hub Documents is local-scoped, uses bounded uploads, and archives files so they can be recovered."
+      },
       "steward-tool-qol-pack": {
         "title": "Easier Brand Kit, Worksheets, and editable Word downloads",
         "body": "Brand Kit now accepts full names with spaces, optional secondary signature and office contact lines, and a clear Next step into Create. Utilities is renamed Worksheets, with Local pack, Pulse Poll, Resizer, and Alt-text under Create. Org Chart has design treatment plus Word download; Board Notice can download Word too; tool pages show a Back link to the catalog."
@@ -8326,6 +8330,8 @@
       "demoCleanupBody": "Preview and purge leftover demo roster rows (is_demo) in production. Typed confirmation + password re-auth.",
       "publicTools": "Public tools",
       "publicToolsCardBody": "Choose which public tools this union or local surfaces to members.",
+      "publicDocuments": "Public Document Library",
+      "publicDocumentsBody": "Manage public documents, sources, rights records, publication timing, and brand variants.",
       "hostTitle": "Host readiness",
       "hostBody": "See this host’s image tip, database journal revision, and CapRover env toggles that still need lasting storage. This page never shows secrets.",
       "hostCardTitle": "Host readiness",
@@ -8936,6 +8942,7 @@
     "tenantOnboardingLink": "Union setup",
     "presidentConfigLink": "President configuration",
     "toolsMenu": "Officer tools",
+    "documents": "Document Library",
     "openHubMenuShort": "Menu",
     "openHubMenu": "Open hub menu",
     "closeHubMenu": "Close hub menu",
@@ -8998,7 +9005,9 @@
       "proposals": "Bargaining proposals",
       "proposalsDesc": "Shared proposal rows, counters, and member updates",
       "data": "UnionOps Data",
-      "dataDesc": "Review local data imports, member records, and employment history"
+      "dataDesc": "Review local data imports, member records, and employment history",
+      "documents": "Documents",
+      "documentsDesc": "Store and share private files with active officers and stewards in this local"
     },
     "stewardGuidesLink": "Steward meeting guides",
     "reportsExportSuccess": "Report downloaded.",
@@ -9059,7 +9068,9 @@
         "checkinsBlurb": "Recurring questions for officers.",
         "data": "UnionOps Data",
         "dataBlurb": "Member data imports and employment history (needs durable Postgres).",
-        "dataLockedBlurb": "Only a union or platform admin can enable UnionOps Data after Postgres is ready."
+        "dataLockedBlurb": "Only a union or platform admin can enable UnionOps Data after Postgres is ready.",
+        "documents": "Documents vault",
+        "documentsBlurb": "Keep local files versioned and available to active officers and stewards."
       },
       "portalSurfaces": {
         "announcements": "Member announcements",
@@ -9203,6 +9214,10 @@
       "informalLog": {
         "title": "Informal log is off",
         "body": "Informal workplace notes stay off until this module is enabled."
+      },
+      "documents": {
+        "title": "Documents is off",
+        "body": "The local document vault stays unavailable until this module is enabled."
       }
     },
     "memberAccessRequests": {
@@ -10333,6 +10348,16 @@
     "categoryPlaceholder": "e.g. CBA, minutes, evidence",
     "fieldDescription": "Description",
     "fieldFile": "File",
+    "visibility": "Who can open this document",
+    "localShared": "All active local officers and stewards",
+    "restricted": "Only me and selected active local members",
+    "manageAccess": "Manage access",
+    "granteeIds": "Granted user IDs",
+    "granteeHelp": "Enter one user ID per line. Each person must have an active membership in this local.",
+    "saveAccess": "Save access",
+    "grantLoadError": "Could not load document access settings.",
+    "grantSaveError": "Could not save document access settings.",
+    "grantsSaved": "Document access updated.",
     "save": "Save",
     "cancel": "Cancel",
     "uploading": "Uploading…",
@@ -10340,10 +10365,28 @@
     "empty": "No documents in the vault yet. Upload a file to get started.",
     "created": "Document uploaded.",
     "createError": "Could not upload that document. Check the file type and size, then try again.",
-    "deleted": "Document deleted.",
-    "deleteError": "Could not delete that document. Refresh and try again.",
+    "deleted": "Document archived.",
+    "archived": "Document archived.",
+    "restored": "Document restored.",
+    "restoreError": "Could not restore that document.",
+    "showArchived": "View archived documents",
+    "showCurrent": "View current documents",
+    "archivedLabel": "Archived",
+    "restore": "Restore",
+    "replaceFile": "Replace file",
+    "editMetadata": "Edit details",
+    "metadataSaved": "Document details updated.",
+    "metadataError": "Could not update document details.",
+    "restoreVersion": "Restore this version",
+    "versionRestored": "A new version was created from the selected history item.",
+    "versionRestoreError": "Could not restore that historical version.",
+    "versionCreated": "New document version saved.",
+    "versionError": "Could not save a new document version.",
+    "history": "Version history",
+    "historyError": "Could not load version history.",
+    "deleteError": "Could not archive that document. Refresh and try again.",
     "download": "Download",
-    "delete": "Delete",
+    "delete": "Archive",
     "unsupportedType": "Unsupported file type.",
     "scanStatus": "Scan: {status}"
   },
@@ -15513,7 +15556,8 @@
       "brandKitSummary": "Set colours, logo, local number, and key links once, then reuse them across your communications.",
       "examplesSummary": "Browse sample union communications and adapt the patterns for your local.",
       "captionsSummary": "Copy and adapt accessible captions for your local's social posts.",
-      "assetsSummary": "Browse brand assets and starter files for local communications and workshops."
+      "assetsSummary": "Browse brand assets and starter files for local communications and workshops.",
+      "documentsSummary": "Find public policies, templates, and trusted outside documents with source details and clear download links."
     },
     "utilitiesEyebrow": "Worksheets",
     "utilitiesTitle": "Which worksheet do you need?",

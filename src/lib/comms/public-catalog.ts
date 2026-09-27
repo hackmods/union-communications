@@ -366,6 +366,7 @@ function libraryItems(): PublicCatalogItem[] {
     { path: "/examples", key: "socialExamples", summaryKey: "examplesSummary", topic: "social" },
     { path: "/captions", key: "captions", summaryKey: "captionsSummary", topic: "social" },
     { path: "/assets", key: "assets", summaryKey: "assetsSummary", topic: "brand" },
+    { path: "/documents", key: "documents", summaryKey: "documentsSummary", topic: "governance" },
   ] as const;
   return rows.map((row) => ({
     id: catalogId(canonicalPublicPath(row.path)),

@@ -56,6 +56,24 @@ export interface DocumentRecord {
   scanStatus: AttachmentScanStatus;
   uploadedById: string;
   createdAt: string;
+  visibility?: "local_shared" | "restricted";
+  currentVersion?: number;
+  archivedAt?: string;
+  retentionUntil?: string;
+  legalHold?: boolean;
+}
+
+export interface DocumentVersionRecord {
+  id: string;
+  documentId: string;
+  version: number;
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number;
+  sha256?: string;
+  scanStatus: AttachmentScanStatus;
+  uploadedById: string;
+  createdAt: string;
 }
 
 export interface CreateDocumentInput {
@@ -66,6 +84,9 @@ export interface CreateDocumentInput {
   mimeType: string;
   sizeBytes: number;
   contentBase64?: string;
+  /** Raw in-process bytes for bounded multipart uploads; avoids base64 expansion. */
+  contentBytes?: Uint8Array;
   localId?: string;
   bargainingUnitId?: string;
+  visibility?: "local_shared" | "restricted";
 }

@@ -92,11 +92,8 @@ const nextConfig: NextConfig = {
       { source: "/assets/unions/:path*", headers: longCache },
       { source: "/assets/caat-opseu/:path*", headers: longCache },
       { source: "/assets/unionops/:path*", headers: longCache },
-      { source: "/assets/ontario-board-posters/:path*", headers: longCache },
       { source: "/assets/website-heroes/:path*", headers: longCache },
       { source: "/icons/:path*", headers: longCache },
-      { source: "/demo/:path*", headers: longCache },
-      { source: "/templates/:path*", headers: longCache },
       ...pathScopedFramingHeaderRoutes(),
     ];
   },

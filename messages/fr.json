@@ -7473,6 +7473,10 @@
         "title": "L’organigramme rejoint les autres outils de tableau",
         "body": "L’organigramme offre maintenant le traitement de design, le chrome logo et numéro de section, les réglages avancés de canevas et l’annulation — plus une feuille Papier blanc lisible quelle que soit la Trousse de marque."
       },
+      "documents-library-and-vault": {
+        "title": "Bibliothèque publique et coffre local plus sûr",
+        "body": "Les politiques et certains téléchargements ont maintenant une bibliothèque de documents. Les documents du Hub sont limités à la section, les téléversements sont plafonnés et les fichiers sont archivés pour permettre leur récupération."
+      },
       "steward-tool-qol-pack": {
         "title": "Trousse de marque plus simple, Feuilles de travail, et Word modifiable",
         "body": "La Trousse de marque accepte maintenant les noms complets avec espaces, une signature secondaire et des coordonnées de bureau facultatives, plus une étape Suivant claire vers Créer. Utilitaires devient Feuilles de travail ; le Pack local, le Sondage pulse, le Redimensionneur et le Texte de remplacement sont sous Créer. L’organigramme offre le traitement de design et le téléchargement Word ; l’avis de tableau aussi ; les outils affichent un lien Retour vers le catalogue."
@@ -8272,6 +8276,8 @@
       "demoCleanupBody": "Prévisualisez et purgez les comptes démo résiduels (is_demo) en production. Confirmation textuelle et ressaisie du mot de passe.",
       "publicTools": "Outils publics",
       "publicToolsCardBody": "Choisissez quels outils publics cette section ou ce syndicat présente aux membres.",
+      "publicDocuments": "Bibliothèque publique de documents",
+      "publicDocumentsBody": "Gérez les documents publics, les sources, les droits, les dates de publication et les variantes de marque.",
       "hostTitle": "Préparation de l’hôte",
       "hostBody": "Consultez la pointe d’image, la révision du journal de base de données et les bascules CapRover qui manquent encore pour le stockage durable. Cette page ne montre jamais de secrets.",
       "hostCardTitle": "Préparation de l’hôte",
@@ -8882,6 +8888,7 @@
     "tenantOnboardingLink": "Configuration du syndicat",
     "presidentConfigLink": "Configuration présidence",
     "toolsMenu": "Outils dirigeants",
+    "documents": "Bibliothèque de documents",
     "openHubMenuShort": "Menu",
     "openHubMenu": "Ouvrir le menu du hub",
     "closeHubMenu": "Fermer le menu du hub",
@@ -8944,7 +8951,9 @@
       "proposals": "Propositions de négociation",
       "proposalsDesc": "Lignes de propositions, contre-propositions et mises à jour aux membres",
       "data": "UnionOps Data",
-      "dataDesc": "Réviser les imports locaux, les dossiers des membres et l’historique d’emploi"
+      "dataDesc": "Réviser les imports locaux, les dossiers des membres et l’historique d’emploi",
+      "documents": "Documents",
+      "documentsDesc": "Stocker et partager les fichiers privés avec les dirigeants et délégués actifs de cette section"
     },
     "stewardGuidesLink": "Guides de rencontre",
     "reportsExportSuccess": "Rapport téléchargé.",
@@ -9005,7 +9014,9 @@
         "checkinsBlurb": "Questions récurrentes pour les dirigeantes et dirigeants.",
         "data": "UnionOps Data",
         "dataBlurb": "Imports de données membres et historique d’emploi (nécessite Postgres durable).",
-        "dataLockedBlurb": "Seul un admin du syndicat ou de la plateforme peut activer UnionOps Data une fois Postgres prêt."
+        "dataLockedBlurb": "Seul un admin du syndicat ou de la plateforme peut activer UnionOps Data une fois Postgres prêt.",
+        "documents": "Coffre de documents",
+        "documentsBlurb": "Conserver les fichiers de la section avec historique, pour les dirigeants et délégués actifs."
       },
       "portalSurfaces": {
         "announcements": "Annonces aux membres",
@@ -9149,6 +9160,10 @@
       "informalLog": {
         "title": "Journal informel désactivé",
         "body": "Les notes informelles en milieu de travail restent hors jusqu’à l’activation de ce module."
+      },
+      "documents": {
+        "title": "Documents désactivés",
+        "body": "Le coffre de documents de la section reste inaccessible jusqu’à l’activation du module."
       }
     },
     "memberAccessRequests": {
@@ -10279,6 +10294,16 @@
     "categoryPlaceholder": "p. ex. convention, PV, preuve",
     "fieldDescription": "Description",
     "fieldFile": "Fichier",
+    "visibility": "Qui peut ouvrir ce document",
+    "localShared": "Tous les dirigeants et délégués actifs de la section",
+    "restricted": "Moi et les membres actifs de la section sélectionnés",
+    "manageAccess": "Gérer l’accès",
+    "granteeIds": "Identifiants des utilisateurs autorisés",
+    "granteeHelp": "Entrez un identifiant par ligne. Chaque personne doit avoir une adhésion active dans cette section.",
+    "saveAccess": "Enregistrer l’accès",
+    "grantLoadError": "Impossible de charger les paramètres d’accès au document.",
+    "grantSaveError": "Impossible d’enregistrer les paramètres d’accès au document.",
+    "grantsSaved": "L’accès au document a été mis à jour.",
     "save": "Enregistrer",
     "cancel": "Annuler",
     "uploading": "Téléversement…",
@@ -10286,10 +10311,28 @@
     "empty": "Aucun document dans le coffre pour le moment. Téléversez un fichier pour commencer.",
     "created": "Document téléversé.",
     "createError": "Impossible de téléverser ce document. Vérifiez le type et la taille du fichier, puis réessayez.",
-    "deleted": "Document supprimé.",
-    "deleteError": "Impossible de supprimer ce document. Actualisez la page et réessayez.",
+    "deleted": "Document archivé.",
+    "archived": "Document archivé.",
+    "restored": "Document restauré.",
+    "restoreError": "Impossible de restaurer ce document.",
+    "showArchived": "Voir les documents archivés",
+    "showCurrent": "Voir les documents actifs",
+    "archivedLabel": "Archivé",
+    "restore": "Restaurer",
+    "replaceFile": "Remplacer le fichier",
+    "editMetadata": "Modifier les détails",
+    "metadataSaved": "Les détails du document ont été mis à jour.",
+    "metadataError": "Impossible de mettre à jour les détails du document.",
+    "restoreVersion": "Restaurer cette version",
+    "versionRestored": "Une nouvelle version a été créée à partir de l’élément sélectionné.",
+    "versionRestoreError": "Impossible de restaurer cette version antérieure.",
+    "versionCreated": "Nouvelle version du document enregistrée.",
+    "versionError": "Impossible d’enregistrer une nouvelle version.",
+    "history": "Historique des versions",
+    "historyError": "Impossible de charger l’historique des versions.",
+    "deleteError": "Impossible d’archiver ce document. Actualisez la page et réessayez.",
     "download": "Télécharger",
-    "delete": "Supprimer",
+    "delete": "Archiver",
     "unsupportedType": "Type de fichier non pris en charge.",
     "scanStatus": "Analyse : {status}"
   },
@@ -15513,7 +15556,8 @@
       "brandKitSummary": "Réglez une seule fois les couleurs, le logo, le numéro de section et les liens clés, puis réutilisez-les dans vos communications.",
       "examplesSummary": "Parcourez des exemples de communications syndicales et adaptez ces modèles à votre section.",
       "captionsSummary": "Copiez et adaptez des légendes accessibles pour les publications sociales de votre section.",
-      "assetsSummary": "Parcourez les éléments de marque et les fichiers de départ pour les communications locales et les ateliers."
+      "assetsSummary": "Parcourez les éléments de marque et les fichiers de départ pour les communications locales et les ateliers.",
+      "documentsSummary": "Trouvez les politiques, modèles et documents externes avec leurs sources et des liens de téléchargement clairs."
     },
     "utilitiesEyebrow": "Feuilles de travail",
     "utilitiesTitle": "De quelle feuille de travail avez-vous besoin ?",

@@ -112,6 +112,15 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
     policy: "documents_tenant_isolation",
     migration: "0006_attachments.sql",
   },
+  { table: "document_versions", policy: "document_versions_tenant_isolation", migration: "0064_document_vault_foundation.sql" },
+  { table: "document_access_grants", policy: "document_access_grants_tenant_isolation", migration: "0064_document_vault_foundation.sql" },
+  { table: "public_documents", policy: "public_documents_public_read", migration: "0065_public_document_management.sql" },
+  { table: "public_documents", policy: "public_documents_admin_insert", migration: "0065_public_document_management.sql" },
+  { table: "public_documents", policy: "public_documents_admin_update", migration: "0065_public_document_management.sql" },
+  { table: "public_document_versions", policy: "public_document_versions_public_current", migration: "0065_public_document_management.sql" },
+  { table: "public_document_versions", policy: "public_document_versions_admin_insert", migration: "0065_public_document_management.sql" },
+  { table: "public_document_acceptances", policy: "public_document_acceptances_subject_read", migration: "0065_public_document_management.sql" },
+  { table: "public_document_acceptances", policy: "public_document_acceptances_subject_insert", migration: "0065_public_document_management.sql" },
   {
     table: "discussion_threads",
     policy: "discussion_threads_tenant_isolation",
@@ -314,6 +323,15 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   { table: "data_assertions", policy: "data_assertions_tenant_isolation", migration: "0040_data_workbench.sql" },
   { table: "data_employment_assignments", policy: "data_employment_assignments_tenant_isolation", migration: "0040_data_workbench.sql" },
   { table: "data_union_memberships", policy: "data_union_memberships_tenant_isolation", migration: "0040_data_workbench.sql" },
+  { table: "public_documents", policy: "public_documents_public_read", migration: "0065_public_document_management.sql" },
+  { table: "public_documents", policy: "public_documents_admin_insert", migration: "0065_public_document_management.sql" },
+  { table: "public_documents", policy: "public_documents_admin_update", migration: "0065_public_document_management.sql" },
+  { table: "public_documents", policy: "public_documents_admin_delete", migration: "0065_public_document_management.sql" },
+  { table: "public_document_versions", policy: "public_document_versions_public_current", migration: "0065_public_document_management.sql" },
+  { table: "public_document_versions", policy: "public_document_versions_admin_insert", migration: "0065_public_document_management.sql" },
+  { table: "public_document_acceptances", policy: "public_document_acceptances_subject_read", migration: "0065_public_document_management.sql" },
+  { table: "public_document_acceptances", policy: "public_document_acceptances_subject_insert", migration: "0065_public_document_management.sql" },
+  { table: "public_document_acceptances", policy: "public_document_acceptances_admin_update", migration: "0065_public_document_management.sql" },
 
   ...(["grievance_events", "grievance_notes", "grievance_outcomes", "grievance_participants"] as const).map((table) => ({
     table,
@@ -368,4 +386,6 @@ export const RLS_SESSION_VARS = [
   "app.current_user_id",
   "app.current_cross_local",
   "app.current_mfa_verified",
+  "app.current_platform_admin",
+  "app.current_retention_job",
 ] as const;

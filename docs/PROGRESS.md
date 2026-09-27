@@ -1,3 +1,12 @@
+## 2026-09-27 — Managed Document Library and Officer Hub vault
+
+- Public `/[locale]/documents` discovery uses durable versioned Postgres records, bilingual detail pages, scheduled publication, downloads from immutable shared-storage objects, official-source redirects, MFA-gated platform-admin publishing, and Brand Kit preset variants. Old policy/download links redirect to canonical library routes; legal baseline wording and Accessibility settings remain intact.
+- Registered file usages are exposed in the admin inventory and CI rejects new direct links to managed files. Third-party bytes require recorded redistribution rights; otherwise the library links to official sources. Office test samples were moved out of the public tree.
+- Added explicit versioned acceptance records and a shared protected-route/API gate. Baseline pages do not trigger retroactive acceptance. Health and host readiness check required active resources, rights, hashes, clean scans, storage availability, MFA, and object existence.
+- The independent local Documents module now supports restricted grants, metadata editing, immutable replacement, history, restore-as-new-version, archive/recovery, seven-year retention defaults, legal holds, dry-run/purge cron, and streamed no-store downloads. By-ID calls use local RLS context; union/platform rank alone does not grant private contents.
+- Forward-only migrations `0064`–`0066`; idempotent `npm run docs:import-public` imports registry metadata and CSV bytes after rights, signature, and scanner checks. Do not remove the legacy import bytes before verifying durable object hashes in the deployment environment. See [`docs/modules/DOCUMENTS.md`](modules/DOCUMENTS.md).
+- What's new: `documents-library-and-vault`.
+
 ## 2026-09-26 — Org Chart peer chrome + white paper
 
 - Org Chart matches Board Notice dynamic chrome: design treatment, Canvas branding (logo mode / local number), canvas token overrides, undo/redo for layout chrome.

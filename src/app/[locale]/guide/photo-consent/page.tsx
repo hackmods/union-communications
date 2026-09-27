@@ -302,7 +302,7 @@ export default async function PhotoConsentGuidePage({
           <Link href="/guide/short-form" className={guideCtaOutlineClass}>
             {nav("shortFormGuide")}
           </Link>
-          <Link href="/privacy" className={guideCtaOutlineClass}>
+          <Link href="/documents/privacy" className={guideCtaOutlineClass}>
             {nav("privacy")}
           </Link>
           <Link href="/guide/resources" className={guideCtaOutlineClass}>
@@ -313,6 +313,3 @@ export default async function PhotoConsentGuidePage({
     </GuideLayout>
   );
 }
-
-
-

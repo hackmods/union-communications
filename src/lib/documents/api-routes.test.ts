@@ -127,10 +127,10 @@ describe("document download API", () => {
       params(doc.id),
     );
     expect(forbidden.status).toBe(403);
-    expect(await forbidden.json()).toEqual({ error: "Forbidden" });
+    expect(await forbidden.json()).toEqual({ error: "Active local officer or steward required" });
   });
 
-  it("returns 404 for a missing id and for another union, including platform_admin", async () => {
+  it("denies platform administrators before inspecting private local records", async () => {
     const foreign = seedDoc({
       unionId: "union-other",
       localId: "local-1",
@@ -141,14 +141,14 @@ describe("document download API", () => {
       new Request("http://localhost"),
       params("doc-does-not-exist"),
     );
-    expect(missing.status).toBe(404);
+    expect(missing.status).toBe(403);
 
     const crossUnion = await downloadDocument(
       new Request("http://localhost"),
       params(foreign.id),
     );
-    expect(crossUnion.status).toBe(404);
-    expect(await crossUnion.json()).toEqual({ error: "Not found" });
+    expect(crossUnion.status).toBe(403);
+    expect(await crossUnion.json()).toEqual({ error: "Active local officer or steward required" });
   });
 
   it("returns 404 when a steward from another local tries to download", async () => {
@@ -270,7 +270,7 @@ describe("document list/upload/delete API", () => {
     authMock.mockResolvedValue(session({ roles: ["local_member"] }));
     const forbidden = await listDocuments();
     expect(forbidden.status).toBe(403);
-    expect(await forbidden.json()).toEqual({ error: "Forbidden" });
+    expect(await forbidden.json()).toEqual({ error: "Active local officer or steward required" });
     expect((await uploadDocument(jsonRequest(pdfPayload().body))).status).toBe(
       403,
     );
@@ -303,7 +303,7 @@ describe("document list/upload/delete API", () => {
     expect(body.documents.map((d) => d.title)).not.toContain("Other local CBA");
   });
 
-  it("never lists another union for union_admin, including when the session local is empty", async () => {
+  it("denies union administrators without active local officer membership", async () => {
     seedDoc({ id: "doc-243" });
     seedDoc({
       id: "doc-560",
@@ -321,16 +321,8 @@ describe("document list/upload/delete API", () => {
       session({ roles: ["union_admin"], localId: null }),
     );
     const res = await listDocuments();
-    expect(res.status).toBe(200);
-    const body = (await res.json()) as {
-      documents: Array<{ id: string; unionId: string }>;
-    };
-    expect(body.documents.every((d) => d.unionId === "union-b7p")).toBe(true);
-    expect(body.documents.map((d) => d.id).sort()).toEqual([
-      "doc-243",
-      "doc-560",
-    ]);
-    expect(body.documents.map((d) => d.id)).not.toContain("doc-other-union");
+    expect(res.status).toBe(403);
+    expect(await res.json()).toEqual({ error: "Active union and local required" });
   });
 
   it("rejects a missing payload, then stamps the session tenant and ignores forged union/local keys", async () => {
@@ -376,8 +368,8 @@ describe("document list/upload/delete API", () => {
       session({ roles: ["union_admin"], localId: null }),
     );
     const res = await uploadDocument(jsonRequest(pdfPayload().body));
-    expect(res.status).toBe(400);
-    expect(await res.json()).toEqual({ error: "Union and local required" });
+    expect(res.status).toBe(403);
+    expect(await res.json()).toEqual({ error: "Active union and local required" });
   });
 
   it("returns 404 for another union on delete, including platform_admin, and forbids a steward from deleting someone else's file", async () => {

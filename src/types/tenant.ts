@@ -10,7 +10,8 @@ export type HubModule =
   | "portal"
   | "bylaws"
   | "proposals"
-  | "data";
+  | "data"
+  | "documents";
 
 export type UserRole =
   | "platform_admin"

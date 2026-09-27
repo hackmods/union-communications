@@ -93,7 +93,7 @@ export function HomeContent() {
         <Callout tone="plain" className="border border-slate-200 bg-slate-50 p-4 sm:p-5" role="note">
           <p className="text-sm leading-relaxed text-slate-800 sm:text-base">
             {t(hubAvailable ? "privacySummary" : "privacySummaryCommsOnly")}{" "}
-            <Link href="/privacy" className="font-semibold underline underline-offset-2">
+            <Link href="/documents/privacy" className="font-semibold underline underline-offset-2">
               {t("privacyLink")}
             </Link>
           </p>

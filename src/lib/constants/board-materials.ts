@@ -22,6 +22,8 @@ export interface BoardMaterial {
   descriptionKey: string;
   /** Public path or absolute URL (posters, spreadsheets, photos). */
   href?: string;
+  /** Registry key for managed public files or official external records. */
+  documentSlug?: string;
   /** Branded PDF download for local templates (Union Boards guide). */
   pdfReference?: BoardPdfReferenceId;
   /** When true, offer Excel download alongside CSV href. */
@@ -38,7 +40,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     kind: "ministryPoster",
     titleKey: "esaPoster",
     descriptionKey: "esaPosterDesc",
-    href: "/assets/ontario-board-posters/esa-employment-standards-poster.pdf",
+    documentSlug: "esa-employment-poster",
     officialUrl: commsSourceUrl("ontario-esa-poster"),
     zone: "healthSafety",
   },
@@ -47,7 +49,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     kind: "ministryPoster",
     titleKey: "esaPosterAlt",
     descriptionKey: "esaPosterAltDesc",
-    href: "/assets/ontario-board-posters/esa-poster-mltsd-2020.pdf",
+    documentSlug: "ontario-required-posters",
     officialUrl: commsSourceUrl("ontario-required-posters"),
     zone: "healthSafety",
   },
@@ -56,7 +58,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     kind: "ministryPoster",
     titleKey: "form82",
     descriptionKey: "form82Desc",
-    href: "/assets/ontario-board-posters/wsib-in-case-of-injury-form82.pdf",
+    documentSlug: "wsib-form-82",
     officialUrl: commsSourceUrl("ontario-required-posters"),
     zone: "healthSafety",
   },
@@ -98,7 +100,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     kind: "localTemplate",
     titleKey: "boardTracker",
     descriptionKey: "boardTrackerDesc",
-    href: "/demo/union-boards/board-tracker-sample.csv",
+    documentSlug: "board-tracker-sample",
     offerXlsx: true,
     zone: "lec",
   },
@@ -107,7 +109,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     kind: "localTemplate",
     titleKey: "jhscSample",
     descriptionKey: "jhscSampleDesc",
-    href: "/demo/union-boards/jhsc-member-list-sample.csv",
+    documentSlug: "jhsc-member-list-sample",
     offerXlsx: true,
     zone: "healthSafety",
   },

@@ -39,9 +39,9 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/workplace-mapping", params);
 }
 
-const TEMPLATE_HREF = "/templates/unionops-workplace-map.csv";
+const TEMPLATE_HREF = "/documents/workplace-map-template/download/";
 const TEMPLATE_DOWNLOAD = "unionops-workplace-map.csv";
-const EXAMPLE_HREF = "/templates/unionops-workplace-map-example.csv";
+const EXAMPLE_HREF = "/documents/workplace-map-example/download/";
 const EXAMPLE_DOWNLOAD = "unionops-workplace-map-example.csv";
 
 const TOC = [

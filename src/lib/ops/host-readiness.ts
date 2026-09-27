@@ -72,7 +72,8 @@ export type PresenceCheckId =
   | "accessRequestNotify"
   | "cronConfigured"
   | "mfaEnabled"
-  | "demoAuthOff";
+  | "demoAuthOff"
+  | "publicDocumentsReady";
 
 export type PresenceCheck = {
   id: PresenceCheckId;
@@ -200,6 +201,12 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
       hintKey: "AUTH_ALLOW_DEMO_USERS",
       advisory: false,
     },
+    {
+      id: "publicDocumentsReady",
+      ok: health.publicDocuments?.ready ?? true,
+      hintKey: "PUBLIC_DOCUMENTS_REQUIRE_READY",
+      advisory: false,
+    },
   ];
 }
 
@@ -221,6 +228,8 @@ export function buildHostReadiness(health: HealthStatus): HostReadiness {
     health.postgresFlipComplete &&
     !health.demoAuthEnabled &&
     health.tenantRegistry.seeded !== false;
+  const documentsReady = health.publicDocuments?.ready ?? true;
+  const finalReady = ready && documentsReady;
 
   return {
     image: {
@@ -248,7 +257,7 @@ export function buildHostReadiness(health: HealthStatus): HostReadiness {
     memoryCaseDataActive: health.memoryCaseDataActive,
     postgresFlipComplete: health.postgresFlipComplete,
     healthStatus: health.status,
-    ready,
+    ready: finalReady,
   };
 }
 

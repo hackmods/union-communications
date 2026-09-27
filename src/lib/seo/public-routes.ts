@@ -33,6 +33,9 @@ const STATIC_CANONICAL_PATHS: Record<string, string> = {
   "/tools/keep-learning": "/learn",
   "/create/keep-learning": "/learn",
   "/join": "/join",
+  "/privacy": "/documents/privacy",
+  "/security": "/documents/security",
+  "/accessibility": "/documents/accessibility",
 };
 
 export type PermanentPublicRedirect = {
@@ -116,6 +119,17 @@ export const PUBLIC_ROUTE_REDIRECTS: readonly PermanentPublicRedirect[] = [
   { source: `${LOCALE_SOURCE}/examples/`, destination: `${LOCALE}/learn/library/examples/`, permanent: true },
   { source: `${LOCALE_SOURCE}/captions/`, destination: `${LOCALE}/learn/library/captions/`, permanent: true },
   { source: `${LOCALE_SOURCE}/assets/`, destination: `${LOCALE}/learn/library/brand-assets/`, permanent: true },
+  { source: `${LOCALE_SOURCE}/privacy/`, destination: `${LOCALE}/documents/privacy/`, permanent: true },
+  { source: `${LOCALE_SOURCE}/security/`, destination: `${LOCALE}/documents/security/`, permanent: true },
+  { source: `${LOCALE_SOURCE}/accessibility/`, destination: `${LOCALE}/documents/accessibility/`, permanent: true },
+  { source: "/templates/unionops-workplace-map.csv", destination: "/en/documents/workplace-map-template/download", permanent: true },
+  { source: "/templates/unionops-steward-intake.csv", destination: "/en/documents/steward-intake-template/download", permanent: true },
+  { source: "/templates/unionops-workplace-map-example.csv", destination: "/en/documents/workplace-map-example/download", permanent: true },
+  { source: "/demo/union-boards/board-tracker-sample.csv", destination: "/en/documents/board-tracker-sample/download", permanent: true },
+  { source: "/demo/union-boards/jhsc-member-list-sample.csv", destination: "/en/documents/jhsc-member-list-sample/download", permanent: true },
+  { source: "/assets/ontario-board-posters/esa-employment-standards-poster.pdf", destination: "/en/documents/esa-employment-poster/open", permanent: true },
+  { source: "/assets/ontario-board-posters/esa-poster-mltsd-2020.pdf", destination: "/en/documents/ontario-required-posters/open", permanent: true },
+  { source: "/assets/ontario-board-posters/wsib-in-case-of-injury-form82.pdf", destination: "/en/documents/wsib-form-82/open", permanent: true },
 ];
 
 function toolSlugCanonical(slug: string): string {

@@ -252,7 +252,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     category: "union",
     label: "Employment Standards Act - mandatory information",
     url: "https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees",
-    note: "Official ESA poster distribution rules; printable PDF mirrored under public/assets/ontario-board-posters/.",
+    note: "Official ESA poster distribution rules. The Document Library links to the current official source rather than mirroring third-party bytes.",
   },
   "ontario-ohsa": {
     id: "ontario-ohsa",

@@ -1,0 +1,30 @@
+# Documents
+
+Documents has two separate surfaces:
+
+- The public, searchable library is `/[locale]/documents`. Each record has a detail route and either a managed download or recorded official-source redirect. Policy routes are `/documents/privacy`, `/documents/security`, and `/documents/accessibility`.
+- The officer-facing vault is `/[locale]/app/documents`. It is an independent, opt-in union module and never exposes private records to public publishing.
+
+## Public library and platform publishing
+
+Public catalogue metadata starts in `src/lib/public-documents/registry.ts`. The first import creates durable Postgres record heads and immutable version rows. Once imported, Postgres versions overlay the code registry; publishing, replacement, scheduling, archiving, and recovery are MFA-protected platform-admin actions under `/app/site-admin/documents`. Union branding can be selected from an existing Brand Kit preset. A brand variant does not grant private Hub access; host-wide policy records cannot use a union preset.
+
+The admin editor requires bilingual catalogue metadata, records all registered linking surfaces, and requires a human approval confirmation for newly published policy wording. Third-party documents must be linked to their official HTTPS source unless redistribution rights for the bytes are recorded. Public files are signature checked, scanned, hashed, stored under immutable object keys, and served without immutable cache headers. SVGs are rebuilt from a strict static-primitive allowlist, stripped of active/external content, and delivered as sandboxed attachments. Office test fixtures now live under `src/lib/export/fixtures/office` instead of the public tree. CI runs `scripts/check-public-document-links.mjs` to catch direct references to registered files.
+
+Before the first production rollout, configure Postgres, MFA, shared S3-compatible object storage, and a working malware scanner. Then run the idempotent baseline import with the app's configured environment: `PUBLIC_DOCUMENT_IMPORT=1 npm run docs:import-public`. The command skips existing slugs, creates an admin-only Terms draft with no legal text, and imports registered files only after signature validation and a clean scanner result. Keep the import source files in place until the imported hashes and object existence have been checked. The production health/readiness surface blocks rollout when required privacy, security, or accessibility records are missing, a live file has missing bytes or provenance, storage is not durable, or MFA is disabled.
+
+The baseline import snapshots the current bilingual privacy, security, and accessibility page strings into their first managed policy versions, selecting the existing Hub/Comms wording from `NEXT_PUBLIC_OFFICER_HUB_PUBLIC`. The Accessibility detail keeps its interactive display settings control. Those imported versions do not trigger acceptance retroactively; new policy wording must be entered bilingually and human-approved before publishing. If the Hub launch setting changes, review and publish the appropriate policy version. Newly published versions can explicitly require individual, union, or local acceptance; effective time controls when the gate starts. The allowlist for sign-in, MFA, acceptance, support, and exact operator recovery is maintained in `src/proxy.ts`.
+
+## Private Hub vault
+
+Migration `0064_document_vault_foundation` adds immutable version metadata, restricted-user grants, archive and legal-hold fields, and enables Documents for unions that already had Grievance enabled. Existing tenant/local ownership is preserved in the v1 backfill. Migrations `0065_public_document_management` and `0066_document_recovery_retention` add the separate public publishing schema and narrowly scoped exact recovery/retention functions.
+
+Private access is checked against current union, local, membership, and assignment data on every operation. `local_shared` is readable by active local officers and stewards. `restricted` is readable by its creator and explicitly granted active local members. Union and platform administrator rank alone grants no private access. By-ID reads use `withRlsContext`; missing local context is denied. Uploads require multipart form data, a 10 MiB limit, allowed MIME and byte-signature validation, a working malware scan in production, unique object keys, and a seven-year default retention date. Replacements and history recovery append versions. Recovery copies bytes from the selected historical version into a new current version; it never repoints history or overwrites an object. All private downloads use `no-store` and stream object data.
+
+Metadata can be edited by the creator or current local president/vice-president. Legal hold and retention-date edits require a current local president/vice-president. Restricted grants are limited to active local members and are audited. Archive replaces hard delete; a MFA-protected platform-admin recovery endpoint restores one exact archived item and returns no content. Neither role can browse private contents by rank.
+
+The retention endpoint requires `CRON_SECRET`: `GET /api/cron/document-retention` is a dry run; `POST /api/cron/document-retention?dryRun=1` is also a dry run; authenticated `POST /api/cron/document-retention` removes expired archived objects and then purges eligible rows. Legal holds and unexpired retention dates are rechecked in the database transaction. Schedule the POST with the deployment's existing cron mechanism. Review the GET result before enabling the purge schedule.
+
+## Verification and deployment
+
+Run `npm run db:check`, `npm run check:public-document-links`, `npm run typecheck`, unit tests, and browser suites before rollout. Test against restricted-role Postgres, not only the schema owner. Verify cross-union/local denial, scheduled publication, acceptance version transitions, old URL redirects, file hashes, rights records, restore history, scanner failure, and retention dry-run behavior. A successful local import or memory-mode test is not proof of durable production readiness.

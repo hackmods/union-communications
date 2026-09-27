@@ -536,7 +536,7 @@ export default function BrandKitPage() {
         <Callout>
           <p>
             <Link
-              href="/accessibility"
+              href="/documents/accessibility"
               className="font-semibold text-opseu-blue underline underline-offset-2"
             >
               {t("displayPreferencesOpen")}

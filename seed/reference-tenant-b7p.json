@@ -6,7 +6,7 @@
     "name": "Behind 7 Proxies",
     "slug": "b7p",
     "defaultLocale": "en",
-    "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks", "informalLog", "checkins", "portal", "bylaws", "proposals"]
+    "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks", "informalLog", "checkins", "portal", "bylaws", "proposals", "documents"]
   },
   "division": {
     "id": "division-b7p",

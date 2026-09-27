@@ -206,7 +206,7 @@ export default async function InstallPage({
         <p className="max-w-3xl text-base leading-relaxed text-slate-700">
           {t("relatedLead")}{" "}
           <Link
-            href="/privacy"
+            href="/documents/privacy"
             className="font-semibold text-opseu-blue underline-offset-2 hover:underline"
           >
             {t("relatedPrivacy")}

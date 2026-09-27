@@ -196,6 +196,16 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     enabledCheck: (m) => m.includes("data"),
   },
   {
+    id: "documents",
+    nameKey: "documents",
+    descriptionKey: "documentsDesc",
+    href: "/app/documents",
+    emojiId: "document",
+    requiredRoles: ["local_president", "local_steward", "local_exec"],
+    requiresMfa: true,
+    enabledCheck: (m) => m.includes("documents"),
+  },
+  {
     id: "portal",
     nameKey: "portal",
     descriptionKey: "portalDesc",

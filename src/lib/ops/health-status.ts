@@ -18,6 +18,7 @@ import {
   type DatabaseBootAttestation,
 } from "@/lib/ops/database-boot";
 import { countUnions } from "@/lib/tenant/union-exists";
+import { checkPublicDocumentsReadiness, type PublicDocumentsReadiness } from "@/lib/public-documents/readiness";
 
 /** Non-secret runtime summary for `/api/health` (operators + smoke). */
 export type HealthStatus = {
@@ -46,6 +47,7 @@ export type HealthStatus = {
    * treats empty registry as blocking when Postgres is configured.
    */
   tenantRegistry: TenantRegistryHealth;
+  publicDocuments?: PublicDocumentsReadiness;
 };
 
 export type TenantRegistryHealth = {
@@ -107,9 +109,11 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
     ? readDatabaseBootAttestation()
     : memoryDatabaseBootAttestation();
   const tenantRegistry = await readTenantRegistryHealth(postgresConfigured);
+  const publicDocuments = await checkPublicDocumentsReadiness();
+  const requirePublicDocs = process.env.NODE_ENV === "production" || process.env.PUBLIC_DOCUMENTS_REQUIRE_READY === "true";
   return {
     status:
-      postgresConfigured && !databaseDeployment.verified ? "degraded" : "ok",
+      (postgresConfigured && !databaseDeployment.verified) || (requirePublicDocs && !publicDocuments.ready) ? "degraded" : "ok",
     version: readAppVersion(),
     commit: process.env.BUILD_COMMIT_SHA?.trim() || "unknown",
     builtAt: readBuildTime(),
@@ -127,5 +131,6 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
     observability: buildObservabilityHealth(),
     databaseDeployment,
     tenantRegistry,
+    publicDocuments,
   };
 }
