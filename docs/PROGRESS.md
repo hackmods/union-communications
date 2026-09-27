@@ -1,3 +1,10 @@
+## 2026-09-27 — Trust and policy index
+
+- Added localized `/trust` pages with links to the managed Privacy, Security, and Accessibility documents and the public service-provider register. Added a Trust footer link, localized page metadata, and EN/FR sitemap entries. Legacy policy URLs now permanently redirect to their managed document routes; the document renderer retains localized baseline content when no approved managed version exists.
+- Added the missing English and French translations for the provider register and a steward-facing `/updates` note. Trust copy describes hosting responsibility and available documents without claiming that legal review or hosted control verification is complete.
+- EN/FR JSON namespace parity and update-copy checks pass, and `git diff --check` is clean. Typecheck, lint, and Vitest could not run because this checkout has no installed project dependencies and network access is unavailable. Provider inventory verification, public claim review, and production operating evidence remain open in [`LAUNCH_TRUST_LEGAL_REFACTOR.md`](LAUNCH_TRUST_LEGAL_REFACTOR.md).
+- What's new: `trust-and-policies-index`.
+
 ## 2026-09-27 — Managed Document Library and Officer Hub vault
 
 - Public `/[locale]/documents` discovery uses durable versioned Postgres records, bilingual detail pages, scheduled publication, downloads from immutable shared-storage objects, official-source redirects, MFA-gated platform-admin publishing, and Brand Kit preset variants. Old policy/download links redirect to canonical library routes; legal baseline wording and Accessibility settings remain intact.

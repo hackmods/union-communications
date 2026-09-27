@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "trust-and-policies-index",
+    date: "2026-09-27",
+    kind: "added",
+    href: "/trust",
+  },
+  {
     id: "documents-library-and-vault",
     date: "2026-09-27",
     kind: "improved",

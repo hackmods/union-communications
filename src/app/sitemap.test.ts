@@ -28,9 +28,16 @@ describe("sitemap", () => {
   });
 
   it("lists the localized public subprocessor register", async () => {
+    expect(PUBLIC_PATHS).toContain("/trust");
     expect(PUBLIC_PATHS).toContain("/trust/subprocessors");
+    for (const slug of ["privacy", "security", "accessibility"]) {
+      expect(PUBLIC_PATHS).toContain(`/documents/${slug}`);
+      expect(PUBLIC_PATHS).not.toContain(`/${slug}`);
+    }
     const entries = await sitemap();
     const urls = new Set(entries.map((entry) => entry.url));
+    expect(urls.has(`${SITE_URL}/en/trust/`)).toBe(true);
+    expect(urls.has(`${SITE_URL}/fr/trust/`)).toBe(true);
     expect(urls.has(`${SITE_URL}/en/trust/subprocessors/`)).toBe(true);
     expect(urls.has(`${SITE_URL}/fr/trust/subprocessors/`)).toBe(true);
   });

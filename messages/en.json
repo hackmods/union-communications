@@ -112,6 +112,7 @@
     "privacy": "Privacy",
     "security": "Security",
     "accessibility": "Accessibility",
+    "trust": "Trust",
     "feedback": "Feedback",
     "buildInfo": "Site build",
     "openMenu": "Open menu",
@@ -7539,6 +7540,10 @@
       "documents-library-and-vault": {
         "title": "A document library and safer local vault",
         "body": "Public policies and selected downloads now have a Document Library. Officer Hub Documents is local-scoped, uses bounded uploads, and archives files so they can be recovered."
+      },
+      "trust-and-policies-index": {
+        "title": "Trust and policy index",
+        "body": "Find UnionOps privacy, security, accessibility, and service provider information from one page. It explains which hosting operator is responsible for an instance."
       },
       "discipline-ladder-collections": {
         "title": "Discipline ladder matches your collection",
@@ -15735,5 +15740,39 @@
     "errorInvalid": "Check the required fields and try again. Name, email, union, and local must be filled in.",
     "errorNetwork": "We could not reach the server. Check your connection, then try again.",
     "errorGeneric": "We could not send your request. Try again in a moment. If it keeps failing, email the address on the Support page."
+  },
+  "trustPage": {
+    "eyebrow": "Trust and policies",
+    "title": "How UnionOps handles trust and responsibility",
+    "intro": "Use this page to find UnionOps public policies and approved service provider information. Each published statement should be read with its version and effective date.",
+    "hostingTitle": "Who operates the service",
+    "hostingBody": "Comms tools run on your device. For a hosted Officer Hub or Local Portal, the organization operating that instance is responsible for its deployment and the data it manages. UnionOps-operated hosting has separate controls and evidence that are still being verified for customer launch.",
+    "documentsTitle": "Policies and service information",
+    "documentsLabel": "Trust and policy documents",
+    "privacy": "Privacy policy",
+    "security": "Security statement",
+    "accessibility": "Accessibility statement",
+    "subprocessors": "Approved service providers",
+    "scopeNote": "This index does not certify a hosting environment or replace an agreement. Review the applicable document and confirm the operator for your instance."
+  },
+  "trustSubprocessorsPage": {
+    "eyebrow": "Trust",
+    "title": "Approved service providers",
+    "intro": "This list shows service providers approved for public disclosure on this host, with their stated purposes, data categories, subjects, and processing regions.",
+    "unavailable": "The provider register is not available right now.",
+    "empty": "No service providers are currently listed for public disclosure.",
+    "purpose": "Purpose",
+    "categories": "Data categories",
+    "subjects": "People affected",
+    "region": "Processing region",
+    "transferLabel": "Transfer status",
+    "effective": "Effective from",
+    "notes": "Public notes",
+    "transfer": {
+      "within_canada": "Within Canada",
+      "cross_border": "Cross-border processing",
+      "not_applicable": "Not applicable",
+      "under_review": "Under review"
+    }
   }
 }

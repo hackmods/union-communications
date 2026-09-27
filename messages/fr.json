@@ -112,6 +112,7 @@
     "privacy": "Confidentialité",
     "security": "Sécurité",
     "accessibility": "Accessibilité",
+    "trust": "Confiance",
     "feedback": "Commentaires",
     "buildInfo": "Version du site",
     "openMenu": "Ouvrir le menu",
@@ -7492,6 +7493,10 @@
       "documents-library-and-vault": {
         "title": "Bibliothèque publique et coffre local plus sûr",
         "body": "Les politiques et certains téléchargements ont maintenant une bibliothèque de documents. Les documents du Hub sont limités à la section, les téléversements sont plafonnés et les fichiers sont archivés pour permettre leur récupération."
+      },
+      "trust-and-policies-index": {
+        "title": "Index de confiance et des politiques",
+        "body": "Consultez depuis une seule page les renseignements d’UnionOps sur la confidentialité, la sécurité, l’accessibilité et les fournisseurs de services. La page précise quel exploitant est responsable d’une instance."
       },
       "steward-tool-qol-pack": {
         "title": "Trousse de marque plus simple, Feuilles de travail, et Word modifiable",
@@ -15734,5 +15739,39 @@
     "errorInvalid": "Vérifiez les champs obligatoires et réessayez. Le nom, le courriel, le syndicat et la section doivent être remplis.",
     "errorNetwork": "Nous n’avons pas pu joindre le serveur. Vérifiez votre connexion, puis réessayez.",
     "errorGeneric": "Nous n’avons pas pu envoyer votre demande. Réessayez dans un moment. Si le problème continue, écrivez à l’adresse indiquée sur la page Soutien."
+  },
+  "trustPage": {
+    "eyebrow": "Confiance et politiques",
+    "title": "Confiance et responsabilités chez UnionOps",
+    "intro": "Cette page donne accès aux politiques publiques d’UnionOps et aux renseignements sur les fournisseurs approuvés. Consultez chaque document avec sa version et sa date d’entrée en vigueur.",
+    "hostingTitle": "Qui exploite le service",
+    "hostingBody": "Les outils Comms fonctionnent sur votre appareil. Pour un Hub des dirigeants ou un Portail local hébergé, l’organisation qui exploite l’instance est responsable de son déploiement et des données qu’elle gère. L’hébergement exploité par UnionOps suit des contrôles distincts dont les preuves sont en cours de vérification avant le lancement client.",
+    "documentsTitle": "Politiques et renseignements sur les services",
+    "documentsLabel": "Documents de confiance et politiques",
+    "privacy": "Politique de confidentialité",
+    "security": "Déclaration de sécurité",
+    "accessibility": "Déclaration d’accessibilité",
+    "subprocessors": "Fournisseurs de services approuvés",
+    "scopeNote": "Cet index ne certifie pas un environnement d’hébergement et ne remplace pas une entente. Consultez le document applicable et confirmez qui exploite votre instance."
+  },
+  "trustSubprocessorsPage": {
+    "eyebrow": "Confiance",
+    "title": "Fournisseurs de services approuvés",
+    "intro": "Cette liste présente les fournisseurs dont la divulgation publique est approuvée sur cet hôte, ainsi que leurs objets, catégories de données, personnes concernées et régions de traitement.",
+    "unavailable": "Le registre des fournisseurs est indisponible pour le moment.",
+    "empty": "Aucun fournisseur n’est actuellement inscrit pour divulgation publique.",
+    "purpose": "Objet",
+    "categories": "Catégories de données",
+    "subjects": "Personnes concernées",
+    "region": "Région de traitement",
+    "transferLabel": "État du transfert",
+    "effective": "En vigueur depuis",
+    "notes": "Notes publiques",
+    "transfer": {
+      "within_canada": "Au Canada",
+      "cross_border": "Traitement transfrontalier",
+      "not_applicable": "Sans objet",
+      "under_review": "En cours d’examen"
+    }
   }
 }

@@ -33,6 +33,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Browse public union templates, workplace references, and policies managed by UnionOps, with sources and publication details.",
     },
+    "/trust": {
+      title: "UnionOps Trust and policies",
+      description:
+        "Find UnionOps privacy, security, accessibility, and approved service provider information, with notes on who operates each hosted instance.",
+    },
     "/privacy": {
       title: "Privacy Policy",
       description:
@@ -366,6 +371,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Bibliothèque documentaire syndicale",
       description:
         "Parcourez des modèles syndicaux, des ressources de travail et des politiques gérés par UnionOps, avec leurs sources et détails de publication.",
+    },
+    "/trust": {
+      title: "Confiance et politiques UnionOps",
+      description:
+        "Les renseignements d’UnionOps sur la confidentialité, la sécurité, l’accessibilité et les fournisseurs approuvés précisent aussi qui exploite les services hébergés.",
     },
     "/privacy": {
       title: "Politique de confidentialité",

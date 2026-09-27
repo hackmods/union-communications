@@ -52,6 +52,8 @@ const SITE_SHELL_PATHS: readonly {
   { href: "/documents/privacy", navKey: "privacy" },
   { href: "/documents/security", navKey: "security" },
   { href: "/documents/accessibility", navKey: "accessibility" },
+  { href: "/trust", navKey: "trust" },
+  { href: "/trust/subprocessors", navKey: "trust" },
   { href: "/feedback", navKey: "feedback" },
   { href: "/start", navKey: "start" },
   { href: "/create", navKey: "create" },

@@ -2,9 +2,9 @@ import { notFound } from "next/navigation";
 import { localizedPublicDocument, PUBLIC_DOCUMENTS } from "@/lib/public-documents/registry";
 import { publicDocumentBySlug } from "@/lib/public-documents/database";
 import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
-import PrivacyPage from "@/app/[locale]/privacy/page";
-import SecurityPage from "@/app/[locale]/security/page";
-import AccessibilityPage from "@/app/[locale]/accessibility/page";
+import { PrivacyPageContent } from "@/app/[locale]/privacy/content";
+import { SecurityPageContent } from "@/app/[locale]/security/content";
+import { AccessibilityPageContent } from "@/app/[locale]/accessibility/content";
 import { DisplaySettings } from "@/components/accessibility/DisplaySettings";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +29,7 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
     return <main className="mx-auto max-w-4xl px-5 py-12 md:px-8"><a className="text-sm font-medium text-opseu-blue underline" href={`/${locale}/documents`}>{locale === "fr" ? "← Bibliothèque" : "← Document Library"}</a><h1 className="mt-6 text-4xl font-bold tracking-tight text-opseu-dark">{doc.title}</h1><dl className="mt-5 grid gap-3 rounded-xl bg-slate-50 p-4 sm:grid-cols-2 lg:grid-cols-3">{[[locale === "fr" ? "Version" : "Version", doc.version], [locale === "fr" ? "En vigueur" : "Effective", doc.effectiveDate ?? (locale === "fr" ? "Non précisée" : "Not supplied")], [locale === "fr" ? "Acceptation requise" : "Acceptance required", doc.requiresAcceptance ? (locale === "fr" ? "Oui pour la version publiée" : "Yes for this published version") : (locale === "fr" ? "Non" : "No")], [locale === "fr" ? "Public" : "Audience", doc.audience], [locale === "fr" ? "Format" : "Format", doc.format], [locale === "fr" ? "Langue" : "Language", doc.language.toUpperCase()], [locale === "fr" ? "Responsable" : "Owner", doc.owner], [locale === "fr" ? "Source" : "Source", doc.source], [locale === "fr" ? "Hébergement" : "Hosting", doc.hosting], [locale === "fr" ? "Mise à jour" : "Currency", doc.currency ?? ""]].map(([label, value]) => <div key={label}><dt className="font-semibold">{label}</dt><dd>{value}</dd></div>)}</dl>{slug === "accessibility" ? <section className="mt-8"><DisplaySettings /></section> : null}<article className="prose prose-slate mt-8 max-w-none whitespace-pre-wrap leading-7">{published.payload.content[locale === "fr" ? "fr" : "en"]}</article>{doc.relatedGuide ? <p className="mt-8 text-sm"><a className="text-opseu-blue underline" href={`/${locale}${doc.relatedGuide}`}>{locale === "fr" ? "Guide associé" : "Related guide"}</a></p> : null}<p className="mt-5 text-sm text-gray-600">{locale === "fr" ? `Provenance : ${doc.source}.` : `Provenance: ${doc.source}.`}</p></main>;
   }
   if (["privacy", "security", "accessibility"].includes(slug) && (!published || ("payload" in published && published.payload.kind === "policy" && !published.payload.content))) {
-    const policyPage = slug === "privacy" ? await PrivacyPage({ params: Promise.resolve({ locale }) }) : slug === "security" ? await SecurityPage({ params: Promise.resolve({ locale }) }) : await AccessibilityPage({ params: Promise.resolve({ locale }) });
+    const policyPage = slug === "privacy" ? await PrivacyPageContent({ params: Promise.resolve({ locale }) }) : slug === "security" ? await SecurityPageContent({ params: Promise.resolve({ locale }) }) : await AccessibilityPageContent({ params: Promise.resolve({ locale }) });
     return <><aside className="mx-auto max-w-4xl px-5 pt-8 text-sm text-gray-600 md:px-8"><a className="text-opseu-blue underline" href={`/${locale}/documents`}>{locale === "fr" ? "← Bibliothèque" : "← Document Library"}</a><dl className="mt-4 grid gap-3 rounded-xl bg-slate-50 p-4 sm:grid-cols-3"><div><dt className="font-semibold">{locale === "fr" ? "Responsable" : "Owner"}</dt><dd>UnionOps</dd></div><div><dt className="font-semibold">{locale === "fr" ? "Version" : "Version"}</dt><dd>{locale === "fr" ? "Version de base migrée" : "Migrated baseline version"}</dd></div><div><dt className="font-semibold">{locale === "fr" ? "Acceptation" : "Acceptance"}</dt><dd>{locale === "fr" ? "Aucune exigence rétroactive" : "No retroactive requirement"}</dd></div></dl></aside>{policyPage}</>;
   }
   const fr = locale === "fr";

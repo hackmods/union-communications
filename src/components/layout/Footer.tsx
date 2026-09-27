@@ -44,6 +44,9 @@ export function Footer() {
           <Link href="/documents" className={footerLinkClass}>
             {nav("documents")}
           </Link>
+          <Link href="/trust" className={footerLinkClass}>
+            {nav("trust")}
+          </Link>
           <Link href="/manifesto" className={footerLinkClass}>
             {nav("manifesto")}
           </Link>
