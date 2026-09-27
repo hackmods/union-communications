@@ -2,6 +2,7 @@ import { and, eq, sql } from "drizzle-orm";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { publicDocuments, publicDocumentVersions, type PublicDocumentPayload } from "@/lib/db/schema";
 import { localizedPublicDocument, type PublicDocument } from "./registry";
+import { isPublicDocumentPayload } from "./visibility";
 
 export type StoredPublicDocument = {
   id: string;
@@ -79,7 +80,7 @@ export async function publicDocumentBySlug(slug: string, locale: string): Promis
     return baseline ? { document: baseline, payload: { kind: baseline.inlineContent ? "policy" : baseline.externalUrl ? "external" : "file", title: { en: baseline.title, fr: baseline.title }, summary: { en: baseline.summary, fr: baseline.summary }, purpose: { en: baseline.purpose, fr: baseline.purpose }, audience: { en: baseline.audience, fr: baseline.audience }, format: baseline.format, language: baseline.language, owner: baseline.owner, source: baseline.source, hosting: baseline.hosting, externalUrl: baseline.externalUrl, fileName: baseline.file, relatedGuide: baseline.relatedGuide, unionBrand: baseline.unionBrand, linkedSurfaces: baseline.linkedSurfaces ? [...baseline.linkedSurfaces] : undefined, required: baseline.required }, versionId: `registry-${slug}-baseline` } : null;
   }
   const live = isLive(row.head.status, row.head.publishAt, row.head.publishedVersion, row.head.archivedAt, new Date());
-  if (!live || !row.version) return { unpublished: true };
+  if (!live || !row.version || !isPublicDocumentPayload(row.version.payload)) return { unpublished: true };
   return { document: { ...fromPayload(slug, row.version.payload, locale, row.head.brandPresetId), version: `v${row.version.version}` }, payload: row.version.payload, versionId: row.version.id };
 }
 
@@ -91,7 +92,7 @@ export async function listPublicDocuments(locale: string): Promise<PublicDocumen
     .map((doc) => localizedPublicDocument(doc.slug, locale)!)
     .filter(Boolean);
   const now = new Date();
-  const stored = rows.flatMap(({ head, version }) => version && isLive(head.status, head.publishAt, head.publishedVersion, head.archivedAt, now) ? [fromPayload(head.slug, version.payload, locale, head.brandPresetId)] : []);
+  const stored = rows.flatMap(({ head, version }) => version && isPublicDocumentPayload(version.payload) && isLive(head.status, head.publishAt, head.publishedVersion, head.archivedAt, now) ? [fromPayload(head.slug, version.payload, locale, head.brandPresetId)] : []);
   return [...baselines, ...stored].sort((a, b) => a.title.localeCompare(b.title, locale === "fr" ? "fr-CA" : "en-CA"));
 }
 

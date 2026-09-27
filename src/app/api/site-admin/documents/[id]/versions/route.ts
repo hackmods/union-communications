@@ -9,6 +9,7 @@ import { buildStorageKey, getObjectStorage } from "@/lib/attachments/storage";
 import { getDb } from "@/lib/db/client";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { publicDocuments, publicDocumentVersions, type PublicDocumentPayload } from "@/lib/db/schema";
+import { validateDocumentVisibility } from "@/lib/public-documents/visibility";
 
 type Params = { params: Promise<{ id: string }> };
 const MAX_BYTES = 10 * 1024 * 1024;
@@ -66,6 +67,9 @@ export async function POST(request: Request, { params }: Params) {
   }
   const desiredStatus = metadata?.status;
   if (desiredStatus !== "draft" && desiredStatus !== "published" && desiredStatus !== "scheduled") return NextResponse.json({ error: "Invalid publication status" }, { status: 400 });
+  const visibility = raw.visibility === undefined ? "public" : raw.visibility;
+  const visibilityError = validateDocumentVisibility({ ...raw, visibility, kind, status: desiredStatus });
+  if (visibilityError) return NextResponse.json({ error: visibilityError }, { status: 400 });
   const effectiveAt = typeof raw.effectiveAt === "string" && raw.effectiveAt ? new Date(raw.effectiveAt) : null;
   if (effectiveAt && Number.isNaN(effectiveAt.getTime())) return NextResponse.json({ error: "Invalid effective date" }, { status: 400 });
   const requestedPublishAt = metadata?.publishAt ? new Date(String(metadata.publishAt)) : effectiveAt ?? (desiredStatus === "published" ? new Date() : null);
@@ -74,7 +78,7 @@ export async function POST(request: Request, { params }: Params) {
   if (desiredStatus === "scheduled" && !publishAt) return NextResponse.json({ error: "Scheduled versions need a publication time or effective date" }, { status: 400 });
   const status = desiredStatus === "published" && publishAt && publishAt > new Date() ? "scheduled" : desiredStatus;
   let payload: PublicDocumentPayload = {
-    kind, title, summary, purpose, audience, format: String(raw.format), language, owner: String(raw.owner), source: String(raw.source),
+    kind, visibility, title, summary, purpose, audience, format: String(raw.format), language, owner: String(raw.owner), source: String(raw.source),
     hosting: kind === "external" ? "External source" : "UnionOps", externalUrl, content,
     relatedGuide: typeof raw.relatedGuide === "string" ? raw.relatedGuide.slice(0, 300) : undefined,
     unionBrand: typeof raw.unionBrand === "string" ? raw.unionBrand.slice(0, 120) : undefined,
@@ -127,6 +131,6 @@ export async function POST(request: Request, { params }: Params) {
     } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "Could not save new version" }, { status: 500 }); }
   }
   const [savedHead] = await withRlsContext({ userId: admin.userId, platformAdmin: true, mfaVerified: true }, () => getDb().select({ slug: publicDocuments.slug }).from(publicDocuments).where(eq(publicDocuments.id, id)).limit(1));
-  await withRlsContext({ userId: admin.userId, platformAdmin: true, mfaVerified: true }, () => auditLog.log({ userId: admin.userId, action: "site_admin.public_document.version", resourceType: "public_document", resourceId: id, metadata: { slug: savedHead?.slug ?? "", status, rightsRecorded: String(Boolean(payload.redistributionPermission)) } }));
+  await withRlsContext({ userId: admin.userId, platformAdmin: true, mfaVerified: true }, () => auditLog.log({ userId: admin.userId, action: "site_admin.public_document.version", resourceType: "public_document", resourceId: id, metadata: { slug: savedHead?.slug ?? "", status, visibility: payload.visibility ?? "public", rightsRecorded: String(Boolean(payload.redistributionPermission)) } }));
   return NextResponse.json({ ok: true }, { status: 201, headers: { "Cache-Control": "private, no-store" } });
 }

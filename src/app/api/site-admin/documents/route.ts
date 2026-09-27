@@ -11,6 +11,7 @@ import { withRlsContext } from "@/lib/db/rls-context";
 import { publicDocuments, publicDocumentVersions, type PublicDocumentPayload } from "@/lib/db/schema";
 import { PUBLIC_DOCUMENTS } from "@/lib/public-documents/registry";
 import { getUnionPreset } from "@/lib/constants/unionPresets";
+import { validateDocumentVisibility } from "@/lib/public-documents/visibility";
 
 const MAX_BYTES = 10 * 1024 * 1024;
 type ParamsPayload = Omit<PublicDocumentPayload, "fileName" | "mimeType" | "sizeBytes" | "storageKey" | "sha256" | "scanStatus">;
@@ -24,6 +25,8 @@ function parsePayload(input: unknown, requireHumanApproval: boolean): { payload?
   if (!data) return { error: "Document metadata is required" };
   const kind = data.kind;
   if (kind !== "policy" && kind !== "file" && kind !== "external") return { error: "kind must be policy, file, or external" };
+  const visibility = data.visibility === undefined ? "public" : data.visibility;
+  if (visibility !== "public" && visibility !== "internal") return { error: "visibility must be public or internal" };
   const bilingual = (name: string) => {
     const value = recordOf(data[name]);
     const en = typeof value?.en === "string" ? value.en.trim() : "";
@@ -62,7 +65,7 @@ function parsePayload(input: unknown, requireHumanApproval: boolean): { payload?
     effectiveAt = parsedDate.toISOString();
   }
   return { payload: {
-    kind, title, summary, purpose, audience, format, language, owner, source, hosting,
+    kind, visibility, title, summary, purpose, audience, format, language, owner, source, hosting,
     externalUrl, content,
     redistributionPermission: typeof data.redistributionPermission === "string" ? data.redistributionPermission.trim().slice(0, 500) : undefined,
     relatedGuide: typeof data.relatedGuide === "string" ? data.relatedGuide.trim().slice(0, 300) : undefined,
@@ -120,6 +123,8 @@ export async function POST(request: Request) {
   const parsed = parsePayload(fields.payload, desiredStatus !== "draft");
   if (!parsed.payload) return NextResponse.json({ error: parsed.error }, { status: 400 });
   const payload = parsed.payload as PublicDocumentPayload;
+  const visibilityError = validateDocumentVisibility({ ...payload, status: desiredStatus });
+  if (visibilityError) return NextResponse.json({ error: visibilityError }, { status: 400 });
   const brandPresetId = typeof fields.brandPresetId === "string" && fields.brandPresetId.trim() ? fields.brandPresetId.trim() : null;
   const hostWidePolicy = fields.hostWidePolicy === true;
   if (hostWidePolicy && (payload.kind !== "policy" || brandPresetId)) return NextResponse.json({ error: "Host-wide policies cannot use a union brand preset" }, { status: 400 });
@@ -166,7 +171,7 @@ export async function POST(request: Request) {
         await tx.insert(publicDocuments).values({ id, slug, status, currentVersion: 1, publishedVersion: status === "published" ? 1 : null, scheduledVersion: status === "scheduled" ? 1 : null, brandPresetId, hostWidePolicy, publishAt, createdById: admin.userId, updatedById: admin.userId });
         await tx.insert(publicDocumentVersions).values({ id: versionId, documentId: id, version: 1, payload, createdById: admin.userId });
       });
-      await auditLog.log({ userId: admin.userId, action: "site_admin.public_document.create", resourceType: "public_document", resourceId: id, metadata: { slug, status, kind: payload.kind, brandPresetId: brandPresetId ?? "", rightsRecorded: String(Boolean(payload.redistributionPermission)) } });
+      await auditLog.log({ userId: admin.userId, action: "site_admin.public_document.create", resourceType: "public_document", resourceId: id, metadata: { slug, status, kind: payload.kind, visibility: payload.visibility ?? "public", brandPresetId: brandPresetId ?? "", rightsRecorded: String(Boolean(payload.redistributionPermission)) } });
     });
   } catch (error) {
     if (objectKey) await getObjectStorage().delete(objectKey);

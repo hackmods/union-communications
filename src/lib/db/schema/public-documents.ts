@@ -2,6 +2,8 @@ import { boolean, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex }
 
 export type PublicDocumentPayload = {
   kind: "policy" | "file" | "external";
+  /** Missing is treated as public for records created before visibility existed. */
+  visibility?: "public" | "internal";
   title: { en: string; fr: string };
   summary: { en: string; fr: string };
   purpose: { en: string; fr: string };

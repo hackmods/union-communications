@@ -3,6 +3,7 @@ import type { Session } from "next-auth";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { publicDocuments, publicDocumentVersions, publicDocumentAcceptances } from "@/lib/db/schema";
 import { withRlsContext } from "@/lib/db/rls-context";
+import { isPublicDocumentPayload } from "./visibility";
 
 export type AcceptanceScope = "individual" | "organization";
 export type AcceptanceSubject = "individual" | "union" | "local";
@@ -47,6 +48,7 @@ export async function outstandingDocumentAcceptances(session: Session, locale = 
     const requirements = docs.flatMap(({ slug, publishAt, status, archivedAt, version }) => {
       if (archivedAt || (status === "published" && publishAt && publishAt > now) || (status === "scheduled" && (!publishAt || publishAt > now) && !version)) return [];
       const payload = version.payload;
+      if (!isPublicDocumentPayload(payload)) return [];
       const effective = payload.effectiveAt ? new Date(payload.effectiveAt) : publishAt;
       if (payload.requiresAcceptance !== true || !effective || effective > now) return [];
       return [{ slug, title: payload.title[locale === "fr" ? "fr" : "en"], versionId: version.id, requiresAcceptance: true as const, acceptanceScope: resolveAcceptanceScope(payload.acceptanceScope) }];

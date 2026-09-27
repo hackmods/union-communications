@@ -3,16 +3,16 @@
 **Enterprise hosted-readiness work (2026-09-27):** [`../LAUNCH_TRUST_LEGAL_REFACTOR.md`](../LAUNCH_TRUST_LEGAL_REFACTOR.md) is the active packet tracker. The initial [`data-inventory-retention-register.md`](data-inventory-retention-register.md) maps data classes and storage/lifecycle gaps from local source. It is not an approved retention schedule: no customer purge or legal-hold service is evidenced, and the checked-in backend flags do not prove production host configuration. The dated 2026-08-24 Portal audit has a 2026-09-27 revalidation addendum; the hosted Portal MFA boundary is documented in [`session-knowledge-2026-09-27-portal-mfa-guard.md`](session-knowledge-2026-09-27-portal-mfa-guard.md). Do not use real sensitive imports until retention, deletion, storage, and host controls are verified.
 
 **Union/local provisioning step-up (2026-09-27):** [`session-knowledge-2026-09-27-tenant-provision-step-up.md`](session-knowledge-2026-09-27-tenant-provision-step-up.md) — Site Admin creation APIs, `/api/tenant` onboarding union creation, and the `newUnionName` branch of `/api/invites` require fresh MFA and correlated authorization/result audit when host policy enables MFA; hosted mode requires durable audit, and onboarding/invite paths also require durable tenant storage. Invite uncertainty responses withhold tokens and block blind UI retries. Tests are authored but Vitest, TypeScript, browser, and deployed database evidence remain pending.
-**Hub document-vault file step-up (2026-09-27):** [`session-knowledge-2026-09-27-document-file-step-up.md`](session-knowledge-2026-09-27-document-file-step-up.md) — legacy Hub Local Documents file downloads now require fresh MFA, an authorization audit before storage reads, and a confirmed result audit before bytes are returned; direct GET is retired. Deletion requires fresh MFA and correlated before/after evidence, with uncertain states blocking UI retry. Hosted mode requires Postgres-backed document metadata and audit. This is distinct from Managed Documents. The current checkout lacks that source, but local ref `origin/feat/managed-document-library` contains it; the source audit records integration conflicts and gaps. Vitest, typecheck, browser, storage-provider, and deployed Postgres/RLS/TOTP/audit evidence remain pending.
+**Hub document-vault file step-up (2026-09-27):** [`session-knowledge-2026-09-27-document-file-step-up.md`](session-knowledge-2026-09-27-document-file-step-up.md) — legacy Hub Local Documents file downloads now require fresh MFA, an authorization audit before storage reads, and a confirmed result audit before bytes are returned; direct GET is retired. Deletion requires fresh MFA and correlated before/after evidence, with uncertain states blocking UI retry. Hosted mode requires Postgres-backed document metadata and audit. This is distinct from the integrated Managed Documents library. Vitest, typecheck, browser, storage-provider, and deployed Postgres/RLS/TOTP/audit evidence remain pending.
 **Attachment download audit (2026-09-27):** [`session-knowledge-2026-09-27-casework-attachment-audit.md`](session-knowledge-2026-09-27-casework-attachment-audit.md) — grievance, bumping, time-entry, and explicitly shared member Portal routes now append correlated authorization evidence before reading attachment bytes and delivery evidence before returning them. Hosted customer mode requires Postgres metadata and audit; time photos also require Postgres time data. No fresh challenge was added so basic members retain permitted access. Route cases are authored; Vitest, target-host RLS, storage, and audit evidence remain pending.
 
-**Hosted TOTP replay protection (2026-09-27):** [`session-knowledge-2026-09-27-totp-replay.md`](session-knowledge-2026-09-27-totp-replay.md) — migration `0067` stores the latest accepted TOTP counter per account with RLS and atomic compare-and-advance. Source behavior and tests are present; generated-shape, deployed migration, and live `unionops_app` RLS proof remain pending.
+**Hosted TOTP replay protection (2026-09-27):** [`session-knowledge-2026-09-27-totp-replay.md`](session-knowledge-2026-09-27-totp-replay.md) — migration `0071` stores the latest accepted TOTP counter per account with RLS and atomic compare-and-advance. Source behavior and tests are present; deployed migration and live `unionops_app` RLS proof remain pending.
 
-**Hosted MFA session grants (2026-09-27):** [`session-knowledge-2026-09-27-mfa-grants.md`](session-knowledge-2026-09-27-mfa-grants.md) — migration `0068` stores a single hashed grant per account and consumes it atomically in the Auth.js JWT update path. Source evidence is present; deployed RLS and multi-replica verification remain pending. Pending enrollment is still process-local.
+**Hosted MFA session grants (2026-09-27):** [`session-knowledge-2026-09-27-mfa-grants.md`](session-knowledge-2026-09-27-mfa-grants.md) — migration `0072` stores a single hashed grant per account and consumes it atomically in the Auth.js JWT update path. Source evidence is present; deployed RLS and multi-replica verification remain pending. Pending enrollment is still process-local.
 
-**Hosted MFA attempt limit (2026-09-27):** [`session-knowledge-2026-09-27-mfa-attempt-limit.md`](session-knowledge-2026-09-27-mfa-attempt-limit.md) — migration `0069` adds an account-scoped 10-attempt/15-minute shared window for MFA verification, including recovery codes and the shared incident challenge verifier. Hosted mode requires durable Postgres; deployed RLS/concurrency evidence and owner review of the internal threshold remain pending.
+**Hosted MFA attempt limit (2026-09-27):** [`session-knowledge-2026-09-27-mfa-attempt-limit.md`](session-knowledge-2026-09-27-mfa-attempt-limit.md) — migration `0073` adds an account-scoped 10-attempt/15-minute shared window for MFA verification, including recovery codes and the shared incident challenge verifier. Hosted mode requires durable Postgres; deployed RLS/concurrency evidence and owner review of the internal threshold remain pending.
 
-**Security audit outcome/correlation fields (2026-09-27):** [`session-knowledge-2026-09-27-security-audit-fields.md`](session-knowledge-2026-09-27-security-audit-fields.md) — migration `0070` adds `outcome` and `request_id`, marks historical outcomes unknown, and removes runtime update/delete privileges. MFA and audit-list routes now emit server-generated request IDs. Broad route coverage and deployed Postgres/RLS evidence remain open.
+**Security audit outcome/correlation fields (2026-09-27):** [`session-knowledge-2026-09-27-security-audit-fields.md`](session-knowledge-2026-09-27-security-audit-fields.md) — migration `0074` adds `outcome` and `request_id`, marks historical outcomes unknown, and removes runtime update/delete privileges. MFA and audit-list routes now emit server-generated request IDs. Broad route coverage and deployed Postgres/RLS evidence remain open.
 
 **Site Admin role-change step-up (2026-09-27):** [`session-knowledge-2026-09-27-role-change-step-up.md`](session-knowledge-2026-09-27-role-change-step-up.md) — the platform Hub-role API requires a fresh MFA challenge when MFA is enabled and fails closed in hosted customer mode without production TOTP; the same request ID correlates audited outcomes. Other sensitive actions and deployed verification remain open.
 
@@ -231,18 +231,18 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
   `/trust/subprocessors` projection is empty until production facts are entered
   and separately approved by a second MFA-verified platform admin.
 - Packet 7 now has a restricted UnionOps-operated incident register at
-  `/app/site-admin/incidents`, on migration `0066`. Access needs durable
+  `/app/site-admin/incidents`, on migration `0070`. Access needs durable
   Postgres-backed accounts/storage, TOTP, and fresh action-bound step-up for
   each view or operation. It records metadata-only access evidence and denies
-  app-role deletion. Migration `0067` adds account-scoped TOTP replay state;
+  app-role deletion. Migration `0071` adds account-scoped TOTP replay state;
   source implementation is present, but deployed RLS verification remains
   pending. Approved retention/cleanup, drill evidence, privacy-request
   workflow, and qualified notification decisions are also outstanding. See
   [`session-knowledge-2026-09-27-incident-register.md`](session-knowledge-2026-09-27-incident-register.md).
 - Migration `0069_subprocessor_registry.sql` adds internal records, public-safe
   projections, and append-only audit events with MFA-aware RLS. The required DB
-  shape was updated in source but still needs official Drizzle generation and
-  deployed Postgres/RLS smoke before production.
+  shape and migration journal checks pass in the integrated source; deployed
+  Postgres/RLS smoke remains required before production.
 - Publishing or withdrawing a projection now requires a same-request fresh
   MFA challenge before provider lookup. Hosted customer mode fails closed if
   the general audit backend is not PostgreSQL. The API correlates intent and
@@ -261,11 +261,12 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
   [`session-knowledge-2026-09-27-subprocessor-review-step-up.md`](session-knowledge-2026-09-27-subprocessor-review-step-up.md).
 - Approved legal surfaces, vendor/DPA review, actual provider configuration,
   backup restore, alert delivery, and other launch gates remain outstanding.
-  Managed Documents is not in this checkout, but its implementation exists at
-  local ref `origin/feat/managed-document-library` and is audited in
-  [`session-knowledge-2026-09-27-managed-documents-source-audit.md`](session-knowledge-2026-09-27-managed-documents-source-audit.md).
-  Do not build a replacement. Its migration numbers conflict with uncommitted
-  work here; integrate only against authoritative main under ADR-020.
+  Managed Documents and its acceptance evidence are integrated at `3da2503e`;
+  its migrations `0064`–`0067` precede hardening migrations `0068`–`0074` under
+  ADR-020. The managed store now supports internal, non-publishable policy
+  drafts; no legal text has been approved or made effective. See
+  [`session-knowledge-2026-09-27-managed-documents-source-audit.md`](session-knowledge-2026-09-27-managed-documents-source-audit.md)
+  and the active [`LAUNCH_TRUST_LEGAL_REFACTOR.md`](../LAUNCH_TRUST_LEGAL_REFACTOR.md).
 - General Workforce Time report exports now use `POST /api/time/export` for
   CSV/XLSX/PDF; the old GET path returns 405. The actor is time-admin checked,
   all filters come from the authenticated union/local scope, and fresh MFA is

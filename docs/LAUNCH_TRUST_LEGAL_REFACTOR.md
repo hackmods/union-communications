@@ -1,6 +1,6 @@
 # UnionOps Launch Trust, Legal, Security & Compliance Refactor
 
-**Status:** Managed Documents acceptance evidence and enterprise hardening are integrated at `3da2503e`; the localized Trust index and managed policy redirects shipped in `5714eb34` on `feat/enterprise-readiness-foundation`; legal approvals, effective Terms/DPA, hosted operating evidence, and deployment proof remain open
+**Status:** Managed Documents acceptance evidence and enterprise hardening are integrated at `3da2503e`; the localized Trust index and managed policy redirects shipped in `5714eb34`; internal managed drafts are scoped and fail closed in the current working tree; legal approvals, effective Terms/DPA, hosted operating evidence, and deployment proof remain open
 **Last reviewed:** 2026-09-27
 **Target:** UnionOps-operated hosted customer instances storing sensitive union data; procurement readiness; staged pilot
 **Source brief:** User-provided launch trust/legal refactor brief, 2026-09-27
@@ -101,7 +101,7 @@ Relevant verified platform facts from this checkout:
 |---|---|---|---|---|---|
 | Managed Documents | Present in integrated history `3da2503e`; public library and private Hub vault are separate; `/documents/{privacy,security,accessibility}` render managed publications with a legacy localized-content fallback | Publication lacks action-bound fresh MFA; seven-year private-vault backfill is unapproved; PostgreSQL runtime/RLS proof pending | Reuse merged system; migration `0067` adds scope-aware append-only acceptance evidence; repair only proven gaps | Focused source tests and migration/generated-shape checks were recorded in the integration audit; restricted-role PostgreSQL and host checks pending | Implemented in integrated source; runtime verification pending |
 | Public trust/policies | Managed `/documents/{privacy,security,accessibility}` pages; localized `/trust` index; legacy policy routes permanently redirect; `/trust/subprocessors` has localized public fields | Trust is navigation, not proof of controls; no effective Terms/DPA or complete claim evidence; policy wording still needs qualified approval | Keep managed pages canonical; maintain Trust navigation, accurate locale copy, metadata, and claim-to-control evidence | Focused EN/FR copy, SEO, and sitemap tests; accessibility and legal claim review remain pending | Partial; public index and stable redirects implemented, approvals/evidence open |
-| Legal docs and Privacy Officer | Merged system seeds required Privacy/Security/Accessibility baselines and an admin-only empty Terms draft; no DPA or configurable Privacy Officer is present | No effective approved Terms/DPA or contact source; Terms draft has no legal text | Managed drafts and approvals; legal contact config; qualified review; add DPA record in the merged store | Publication audit, effective status, contact monitoring/currentness | Open; legal review required |
+| Legal docs and Privacy Officer | Managed store has an admin-only empty Terms draft; explicit public/internal visibility now allows unpublished internal policy drafts and blocks their public publication; no DPA or configurable Privacy Officer is present | No effective approved Terms/DPA, internal procedures, or verified contact source; qualified review and monitored contact ownership remain | Create visibly ineffective bilingual drafts and procedures in the managed store; configure legal contacts; obtain qualified review before publication | Internal scope validation tests authored; public route/list/sitemap/acceptance/readiness filters; publication denial; production audit and contact monitoring remain to verify | Partial; safe internal draft foundation added, content and approvals open |
 | Agreement acceptance | Durable public-document acceptance table keyed by exact version and subject; merged source checks current union/local authority | Earlier acceptance records lack source/request and authority fields; legacy rows cannot prove an attestation; PostgreSQL RLS execution remains unverified | `0067` adds individual/organization scope, authority attestation, server-generated correlation, DB append-only guard, and legacy-row marker; full Terms/DPA gating still depends on approved documents | 83 acceptance and adjacent regression tests pass; `db:check`, typecheck, changed-file lint, and generated shape pass; runtime RLS smoke pending | Implemented in current worktree; not verified for launch |
 | CASL marketing | Transactional email only; no product campaigns | No separate opt-in, evidence, suppression, or unsubscribe | Voluntary individual subscription and restricted marketing pathway; no member roster imports | Consent, withdrawal, suppression, transactional independence | Open |
 | MFA | Existing TOTP; hosted customer profile requires production TOTP; roles, effective officer assignments, and active delegated capabilities are MFA-gated; Site Admin role changes, password-reset emails, cross-union/local account assignment, local lifecycle and provisioning, union membership-policy changes, cross-tenant audit reads, subprocessor review and publish/withdraw, officer/delegation authority changes, UnionOps Data accepted-row publication, sensitive exports, payroll/webhook dispatch, and Hub document-vault downloads/deletions now require fresh step-up when MFA is enabled; basic members can use permitted member surfaces without forced enrollment; one-time recovery codes, durable TOTP replay counters, and hashed session grants ship in this checkout | Verify every sensitive route and target-host RLS path; pending enrollment and TOTP secret storage remain process/plaintext risks requiring multi-replica/key-management review | Keep server/API and UI gates aligned; maintain the role/capability matrix; extend step-up decisions to remaining high-impact actions and complete durable audit | Role matrix, delegated capability denial, effective status/enrollment, privilege-change invalidation, recovery-code and TOTP-counter single-use tests, session-version-bound grant checks, direct API denial/success tests for selected access, authority, review, publication, export, deletion, and cross-tenant actions | Partial; selected step-up routes are covered; pending enrollment, secret-storage review, remaining action coverage, and deployed grant/production evidence remain |
@@ -152,7 +152,7 @@ Relevant verified platform facts from this checkout:
 | Packet | Scope | Dependencies | Acceptance/evidence | Status |
 |---|---|---|---|---|
 | 1. Foundation audit and living plan | Verify Managed Documents and reconcile its migrations | Authoritative repository `main` and ADR-020-compatible migration integration | Audited versioning/auth/storage/route/acceptance/retention contract; this file updated | Partial: Managed Documents and hardening histories integrated; `0067`, migrations through `0074`, generated shape, and focused tests pass; PostgreSQL runtime/RLS verification pending |
-| 2. Legal/operating baseline | Privacy Officer config, draft docs, internal procedures, counsel review | Packet 1, named reviewers | Approved owners/status/effective date; no effective placeholders | Open |
+| 2. Legal/operating baseline | Privacy Officer config, draft docs, internal procedures, counsel review | Packet 1, named reviewers | Approved owners/status/effective date; no effective placeholders | Partial: managed internal drafts are fail-closed and admin-only; drafts, contact configuration, approvals, and operating procedures remain |
 | 3. Public Trust/legal surface | Trust index, stable localized routes, content migration, footer/SEO/print | Packet 1-2 | EN/FR and accessibility review; claims trace to evidence | Partial: EN/FR index, footer, sitemap/metadata, provider disclosure copy, and legacy redirects implemented; legal and accessibility review pending |
 | 4. Terms/DPA agreements | Durable exact-version acceptance and reacceptance | Party model, approved docs | Server enforcement and party-isolation tests | Open |
 | 5. Marketing program | CASL notice, subscription, consent, suppression, campaign pathway | Email classification and approved wording | End-to-end consent and unsubscribe evidence | Open |
@@ -171,7 +171,7 @@ from the target host and accountable reviewers, not inferred from source code.
 | Packet | Owner | Dependencies | Acceptance tests / evidence | Evidence location | Legal/content sign-off | Production configuration | Completion date |
 |---|---|---|---|---|---|---|---|
 | 1. Foundation audit | Ryan / engineering | ADR-020; Managed Documents merge `7e3d42ea`; hardening merge `3da2503e` | Managed Documents versioning, auth, storage, locale, audit, routes, acceptance and retention review | [Managed Documents audit and acceptance implementation](audit/session-knowledge-2026-09-27-managed-documents-source-audit.md); journal through `0074`; runtime verification pending | Product/legal claim review pending | Target release profile inventory pending | Partial; source integrated, not production verified |
-| 2. Legal baseline | Ryan / product; qualified counsel for approval | Packet 1; Privacy Officer and monitored contacts | Approved owners, status, effective dates, policy/procedure inventory | Managed document records after source sync | Qualified privacy/legal review required | Contact and role configuration pending | Open |
+| 2. Legal baseline | Ryan / product; qualified counsel for approval | Packet 1; Privacy Officer and monitored contacts | Approved owners, status, effective dates, policy/procedure inventory | Managed internal-draft visibility and publication guard implemented; draft content, contact settings, approval events, and operating procedures pending | Qualified privacy/legal review required | Contact and role configuration pending | Partial; safe draft capability implemented, content/sign-off pending |
 | 3. Trust/legal site | Ryan / product engineering | Packets 1-2; approved documents | EN/FR routes, canonical/hreflang, mobile/print/accessibility and claim-to-control tests | `/trust`, managed `/documents/*` policies, localized metadata/sitemap, provider projection, and focused tests; manual/accessibility records pending | EN/FR legal/content approval required | Public deployment URLs and cache behavior pending | Partial; index and redirects implemented, tests/review in progress |
 | 4. Terms/DPA acceptance | Ryan / engineering | Managed published versions; union/local contracting-party model | Invite activation, reacceptance, direct API denial, retries, stale sessions, cross-party tests | Agreement schema/routes/tests pending | Counsel must approve Terms, DPA, authority attestation | Durable Postgres and migration attestation pending | Open |
 | 5. Product-news program | Ryan / engineering + privacy reviewer | Mail classification; approved consent/sender copy | Double opt-in, withdrawal/suppression, send-time gate, transactional independence, expiry/replay tests | Consent tables/routes/jobs/send log tests pending | CASL/privacy wording and sender identity approval required | Mail provider, domain, complaint/bounce config pending | Open |
@@ -1002,6 +1002,14 @@ operator decision to expand.
   organization and site context.
 - Preserve the ADR-020 forward-only Drizzle migration/deploy contract and the
   multi-union authorization/RLS rules.
+- Managed document payload visibility is explicit: omitted visibility remains
+  public for legacy records; internal documents are restricted to policy
+  drafts, cannot require public acceptance or launch readiness, and cannot be
+  published by the API. Public document lookup/listing, sitemap generation,
+  acceptance gating, and readiness checks fail closed for internal or malformed
+  explicit visibility. Use the existing document store; do not create a second
+  compliance-document database. No legal draft becomes effective without
+  qualified approval and an audited publication.
 - Recovery codes contain 80 random bits, are shown only once, and persist only
   SHA-256 hashes. They are account-owned rather than tenant-owned and use a
   `current_user_id` RLS policy. A fresh TOTP challenge is required to replace a
@@ -1105,7 +1113,7 @@ operator decision to expand.
   journal, four npm audit-policy checks, shape inspection, and diff checks pass.
   Unit tests, TypeScript, generated shape, and live database checks remain
   unavailable in this checkout.
-- 2026-09-27: Added the Packet 8 subprocessor register on migration `0065`:
+- 2026-09-27: Added the Packet 8 subprocessor register on migration `0069`:
   restricted internal inventory, public-only projection, append-only access and
   change events, MFA-aware platform-admin RLS, and a DB trigger that enforces
   approved disclosures match the reviewed active provider row. Public descriptive
@@ -1213,7 +1221,7 @@ operator decision to expand.
   retention to approval. Updated current EN/FR Security claims to qualify MFA
   by hosting model, data isolation by deployment verification, and Portal
   durability/encryption by host configuration.
-- 2026-09-27: Added the hosted MFA session-grant path on migration `0068`.
+- 2026-09-27: Added the hosted MFA session-grant path on migration `0072`.
   Postgres stores one SHA-256 nonce digest per account; the Auth.js JWT callback
   consumes it atomically and fails closed on storage errors. RLS/source tests
   and a rolled-back live smoke case are present; generated contract, deployed
@@ -1416,6 +1424,16 @@ operator decision to expand.
   namespace/update checks and whitespace checks pass; Vitest, lint, and
   typecheck are blocked because this checkout has no installed project
   dependencies and network access is unavailable.
+
+- 2026-09-27: Added explicit public/internal visibility to managed document
+  payloads. Legacy records without the field remain public; internal records
+  must be bilingual policy drafts with no acceptance or launch-readiness flag,
+  and publication is denied at the API. Public lookup/listing, sitemap,
+  acceptance gating, and public readiness ignore internal/malformed records.
+  This enables restricted operating-procedure drafts without a duplicate store;
+  no legal text or contact has been approved. Unit tests are authored, but
+  typecheck, lint, and Vitest remain unavailable because this checkout has no
+  installed project dependencies and network access is restricted.
 
 
 ### Integration note — prior hardening branch

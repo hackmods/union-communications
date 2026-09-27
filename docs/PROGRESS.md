@@ -5,6 +5,12 @@
 - EN/FR JSON namespace parity and update-copy checks pass, and `git diff --check` is clean. Typecheck, lint, and Vitest could not run because this checkout has no installed project dependencies and network access is unavailable. Provider inventory verification, public claim review, and production operating evidence remain open in [`LAUNCH_TRUST_LEGAL_REFACTOR.md`](LAUNCH_TRUST_LEGAL_REFACTOR.md).
 - What's new: `trust-and-policies-index`.
 
+## 2026-09-27 — Managed internal legal drafts
+
+- Extended the Managed Documents payload with public/internal scope. Old records stay public by default; internal operating material is limited to policy drafts and cannot be published or made an acceptance/readiness requirement.
+- Added server-side publication checks and public filters for document lookup, library listing, acceptance gating, sitemap generation, and readiness evaluation. The Site Admin editor labels internal drafts and hides the publish action.
+- Added unit coverage for legacy defaults, explicit scope, malformed scope, and internal publication constraints. Execution, legal draft content, Privacy Officer/contact configuration, approval workflow, and monitored mailboxes remain open; see [`LAUNCH_TRUST_LEGAL_REFACTOR.md`](LAUNCH_TRUST_LEGAL_REFACTOR.md).
+
 ## 2026-09-27 — Managed Document Library and Officer Hub vault
 
 - Public `/[locale]/documents` discovery uses durable versioned Postgres records, bilingual detail pages, scheduled publication, downloads from immutable shared-storage objects, official-source redirects, MFA-gated platform-admin publishing, and Brand Kit preset variants. Old policy/download links redirect to canonical library routes; legal baseline wording and Accessibility settings remain intact.

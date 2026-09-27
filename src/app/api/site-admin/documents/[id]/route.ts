@@ -5,6 +5,7 @@ import { auditLog } from "@/lib/audit/store";
 import { getDb } from "@/lib/db/client";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { publicDocuments, publicDocumentVersions } from "@/lib/db/schema";
+import { isPublicDocumentPayload } from "@/lib/public-documents/visibility";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -24,6 +25,7 @@ export async function PATCH(request: Request, { params }: Params) {
     if (!version) return false;
     if (action === "publish") {
       const payload = version.payload;
+      if (!isPublicDocumentPayload(payload)) throw new Error("Internal operating documents cannot be published to public routes");
       if (payload.kind === "file" && (!payload.redistributionPermission || payload.scanStatus !== "clean")) throw new Error("A hosted file needs recorded redistribution rights and a clean malware scan before publication");
       if (payload.kind === "policy" && !payload.humanApproved) throw new Error("Legal text needs human approval before publication");
       if (row.hostWidePolicy && (payload.kind !== "policy" || row.brandPresetId)) throw new Error("Host-wide policies cannot be union brand variants");
@@ -35,7 +37,7 @@ export async function PATCH(request: Request, { params }: Params) {
       : action === "archive" ? { status: "archived" as const, archivedAt: now, updatedById: admin.userId, updatedAt: now }
       : { status: "draft" as const, publishedVersion: null, scheduledVersion: null, archivedAt: null, publishAt: null, updatedById: admin.userId, updatedAt: now };
     await db.update(publicDocuments).set(values).where(eq(publicDocuments.id, id));
-    await auditLog.log({ userId: admin.userId, action: `site_admin.public_document.${action}`, resourceType: "public_document", resourceId: id, metadata: { slug: row.slug, version: String(row.currentVersion) } });
+    await auditLog.log({ userId: admin.userId, action: `site_admin.public_document.${action}`, resourceType: "public_document", resourceId: id, metadata: { slug: row.slug, version: String(row.currentVersion), visibility: version.payload.visibility ?? "public" } });
     return true;
   }); } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "Could not update publication status" }, { status: 400 }); }
   if (!changed) return NextResponse.json({ error: "Not found" }, { status: 404 });

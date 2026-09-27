@@ -4,6 +4,7 @@ import { withRlsContext } from "@/lib/db/rls-context";
 import { publicDocuments, publicDocumentVersions } from "@/lib/db/schema";
 import { getObjectStorage, resolveAttachmentStorageMode } from "@/lib/attachments/storage";
 import { PUBLIC_DOCUMENTS } from "./registry";
+import { isPublicDocumentPayload } from "./visibility";
 
 export type PublicDocumentsReadiness = {
   ready: boolean;
@@ -32,6 +33,7 @@ export async function checkPublicDocumentsReadiness(): Promise<PublicDocumentsRe
         if (head.status === "scheduled" && head.publishAt && head.publishAt > now && head.publishedVersion) versionNumber = head.publishedVersion;
         if (versionNumber === null) continue;
         const version = versions.find((item) => item.documentId === head.id && item.version === versionNumber);
+        if (version && !isPublicDocumentPayload(version.payload)) continue;
         active.push({ head, version: version ?? null });
       }
       const requiredMissing = requiredSlugs.filter((slug) => !active.some(({ head, version }) => head.slug === slug && version && version.payload.required));
