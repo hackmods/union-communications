@@ -1,6 +1,6 @@
 # UnionOps Launch Trust, Legal, Security & Compliance Refactor
 
-**Status:** Managed Documents acceptance evidence and enterprise hardening are integrated at `3da2503e` on `feat/enterprise-readiness-prior-hardening`; a localized Trust index and managed policy redirects are in progress; legal approvals, effective Terms/DPA, hosted operating evidence, and deployment proof remain open
+**Status:** Managed Documents acceptance evidence and enterprise hardening are integrated at `3da2503e`; the localized Trust index and managed policy redirects shipped in `5714eb34` on `feat/enterprise-readiness-foundation`; legal approvals, effective Terms/DPA, hosted operating evidence, and deployment proof remain open
 **Last reviewed:** 2026-09-27
 **Target:** UnionOps-operated hosted customer instances storing sensitive union data; procurement readiness; staged pilot
 **Source brief:** User-provided launch trust/legal refactor brief, 2026-09-27
