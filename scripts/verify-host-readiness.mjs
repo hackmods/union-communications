@@ -5,7 +5,7 @@
  * - Accepts intentional DATA_DB_BACKEND=memory
  * - MFA / email / cron are advisory outside the hosted customer profile
  * - Hosted customer deployments must attest current storage, scanner, backup,
- *   and alert evidence; the app cannot independently prove those operations
+ *   alert, and monitored public-contact evidence; the app cannot independently prove them
  * - Fails on missing postgres backends (except intentional memory), unverified
  *   migrate, memory case-data still active, or demo auth still on
  *
@@ -121,6 +121,10 @@ if (process.exitCode) {
       ok = gate(
         controls.alertDeliveryEvidence === true,
         "operator-attested alert delivery evidence is current",
+      ) && ok;
+      ok = gate(
+        controls.publicLegalContacts === true,
+        "public legal identity and monitored role contacts are configured and current",
       ) && ok;
     }
 

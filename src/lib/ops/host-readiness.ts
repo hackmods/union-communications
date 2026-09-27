@@ -77,6 +77,7 @@ export type PresenceCheckId =
   | "strictUploadScan"
   | "backupRestoreEvidence"
   | "alertDeliveryEvidence"
+  | "publicLegalContacts"
   | "publicDocumentsReady";
 
 export type PresenceCheck = {
@@ -86,7 +87,8 @@ export type PresenceCheck = {
   hintKey: string;
   /**
    * Advisory checks never block `ready` or CI deploy gates.
-   * MFA / email / cron stay optional — MFA must not gate casework.
+   * Some profile-specific requirements can be advisory on self-hosted/demo
+   * installs and blocking for UnionOps-operated customer hosting.
    */
   advisory: boolean;
 };
@@ -115,12 +117,12 @@ export type HostReadiness = {
   missingPresence: PresenceCheck[];
   /** Missing presence that should fail deploy / Host “needs work” severity. */
   missingBlockingPresence: PresenceCheck[];
-  /** Missing optional hardening (MFA, email, cron) — surface only. */
+  /** Missing optional controls for the active host profile — surface only. */
   missingAdvisoryPresence: PresenceCheck[];
   memoryCaseDataActive: boolean;
   postgresFlipComplete: boolean;
   healthStatus: HealthStatus["status"];
-  /** True when nothing blocking is missing for a durable Hub + Portal host (Data may stay memory). MFA never required. */
+  /** True when nothing blocking is missing for a durable Hub + Portal host (Data may stay memory). */
   ready: boolean;
 };
 
@@ -229,6 +231,12 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
       id: "alertDeliveryEvidence",
       ok: health.hostedControlEvidence.alertDeliveryEvidence,
       hintKey: "UNIONOPS_ALERTS_CONFIGURED, UNIONOPS_ALERT_DELIVERY_TESTED_AT, UNIONOPS_ALERT_OWNER",
+      advisory: !health.hostedCustomerMode,
+    },
+    {
+      id: "publicLegalContacts",
+      ok: health.hostedControlEvidence.publicLegalContacts,
+      hintKey: "UNIONOPS_LEGAL_ENTITY_NAME, UNIONOPS_PRIVACY_OFFICER_NAME, UNIONOPS_PRIVACY_EMAIL, UNIONOPS_PRIVACY_MAILING_ADDRESS, UNIONOPS_SECURITY_EMAIL, UNIONOPS_ACCESSIBILITY_EMAIL, UNIONOPS_PUBLIC_CONTACTS_MONITORED_AT/BY",
       advisory: !health.hostedCustomerMode,
     },
     {

@@ -182,6 +182,7 @@ export default async function HostReadinessPage({
                       strictUploadScan: "hostPresenceStrictScan",
                       backupRestoreEvidence: "hostPresenceBackupRestore",
                       alertDeliveryEvidence: "hostPresenceAlertDelivery",
+                      publicLegalContacts: "hostPresencePublicLegalContacts",
                       publicDocumentsReady: "hostPresencePublicDocuments",
                     } as const
                   )[row.id],
@@ -219,6 +220,7 @@ export default async function HostReadinessPage({
                       strictUploadScan: "hostPresenceStrictScan",
                       backupRestoreEvidence: "hostPresenceBackupRestore",
                       alertDeliveryEvidence: "hostPresenceAlertDelivery",
+                      publicLegalContacts: "hostPresencePublicLegalContacts",
                       publicDocumentsReady: "hostPresencePublicDocuments",
                     } as const
                   )[row.id],

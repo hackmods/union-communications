@@ -33,6 +33,14 @@ describe("buildHealthStatus", () => {
       "UNIONOPS_ALERTS_CONFIGURED",
       "UNIONOPS_ALERT_DELIVERY_TESTED_AT",
       "UNIONOPS_ALERT_OWNER",
+      "UNIONOPS_LEGAL_ENTITY_NAME",
+      "UNIONOPS_PRIVACY_OFFICER_NAME",
+      "UNIONOPS_PRIVACY_EMAIL",
+      "UNIONOPS_PRIVACY_MAILING_ADDRESS",
+      "UNIONOPS_SECURITY_EMAIL",
+      "UNIONOPS_ACCESSIBILITY_EMAIL",
+      "UNIONOPS_PUBLIC_CONTACTS_MONITORED_AT",
+      "UNIONOPS_PUBLIC_CONTACTS_MONITORED_BY",
     ]) {
       delete process.env[key];
     }
@@ -65,6 +73,7 @@ describe("buildHealthStatus", () => {
       strictUploadScan: false,
       backupRestoreEvidence: false,
       alertDeliveryEvidence: false,
+      publicLegalContacts: false,
     });
     expect(typeof status.demoAuthEnabled).toBe("boolean");
     expect(status.tenantRegistry).toEqual({ unionCount: null, seeded: null });

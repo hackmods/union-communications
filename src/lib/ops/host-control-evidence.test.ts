@@ -21,6 +21,14 @@ function readyEnvironment(): Record<string, string> {
     UNIONOPS_ALERTS_CONFIGURED: "true",
     UNIONOPS_ALERT_DELIVERY_TESTED_AT: "2026-09-01",
     UNIONOPS_ALERT_OWNER: "operations-owner",
+    UNIONOPS_LEGAL_ENTITY_NAME: "UnionOps Services Inc.",
+    UNIONOPS_PRIVACY_OFFICER_NAME: "Privacy Officer",
+    UNIONOPS_PRIVACY_EMAIL: "privacy@example.ca",
+    UNIONOPS_PRIVACY_MAILING_ADDRESS: "100 Main Street, Toronto, ON",
+    UNIONOPS_SECURITY_EMAIL: "security@example.ca",
+    UNIONOPS_ACCESSIBILITY_EMAIL: "accessibility@example.ca",
+    UNIONOPS_PUBLIC_CONTACTS_MONITORED_AT: "2026-09-01",
+    UNIONOPS_PUBLIC_CONTACTS_MONITORED_BY: "privacy-owner",
   };
 }
 
@@ -31,6 +39,7 @@ describe("readHostedControlEvidence", () => {
       strictUploadScan: true,
       backupRestoreEvidence: true,
       alertDeliveryEvidence: true,
+      publicLegalContacts: true,
     });
   });
 
@@ -46,6 +55,7 @@ describe("readHostedControlEvidence", () => {
       strictUploadScan: false,
       backupRestoreEvidence: false,
       alertDeliveryEvidence: false,
+      publicLegalContacts: false,
     });
   });
 
@@ -69,5 +79,18 @@ describe("readHostedControlEvidence", () => {
     expect(readHostedControlEvidence(env, TODAY).attachmentStorageApproved).toBe(
       false,
     );
+  });
+
+  it("requires complete public contacts and a recent monitored-address review", () => {
+    const env = readyEnvironment();
+    delete env.UNIONOPS_PRIVACY_EMAIL;
+    expect(readHostedControlEvidence(env, TODAY).publicLegalContacts).toBe(false);
+
+    env.UNIONOPS_PRIVACY_EMAIL = "privacy@example.ca";
+    env.UNIONOPS_PUBLIC_CONTACTS_MONITORED_AT = "2026-01-01";
+    expect(readHostedControlEvidence(env, TODAY).publicLegalContacts).toBe(false);
+
+    env.UNIONOPS_PUBLIC_CONTACTS_MONITORED_AT = "2026-09-01";
+    expect(readHostedControlEvidence(env, TODAY).publicLegalContacts).toBe(true);
   });
 });

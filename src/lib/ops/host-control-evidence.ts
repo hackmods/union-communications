@@ -3,6 +3,7 @@ import {
   resolveS3StorageConfig,
 } from "@/lib/attachments/storage";
 import { isScannerConfigured } from "@/lib/attachments/scan";
+import { readPublicLegalContacts } from "@/lib/legal/public-contacts";
 
 /**
  * Operational evidence ages out after 90 days. This is an internal readiness
@@ -15,6 +16,7 @@ export type HostedControlEvidence = {
   strictUploadScan: boolean;
   backupRestoreEvidence: boolean;
   alertDeliveryEvidence: boolean;
+  publicLegalContacts: boolean;
 };
 
 type EvidenceEnvironment = Record<string, string | undefined>;
@@ -68,7 +70,7 @@ function hasApprovedStorageConfiguration(env: EvidenceEnvironment): boolean {
  * Read booleans for operator-authenticated health/readiness requests. Dates and
  * reviewer identities stay in deployment configuration; these flags are
  * operator attestations and do not independently verify provider behavior,
- * backup jobs, or alert delivery.
+ * backup jobs, alert delivery, or contact monitoring.
  */
 export function readHostedControlEvidence(
   env: EvidenceEnvironment = process.env,
@@ -108,6 +110,13 @@ export function readHostedControlEvidence(
       hasCurrentEvidence(
         env.UNIONOPS_ALERT_DELIVERY_TESTED_AT,
         env.UNIONOPS_ALERT_OWNER,
+        now,
+      ),
+    publicLegalContacts:
+      readPublicLegalContacts(env).complete &&
+      hasCurrentEvidence(
+        env.UNIONOPS_PUBLIC_CONTACTS_MONITORED_AT,
+        env.UNIONOPS_PUBLIC_CONTACTS_MONITORED_BY,
         now,
       ),
   };

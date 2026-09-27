@@ -85,6 +85,7 @@ Before storing **real** member casework or collaboration:
 6. **Attachments** — persistent volume for `ATTACHMENT_LOCAL_DIR` or S3 with scanning enabled.
 7. **Health** — after deploy: `curl -sL https://<host>/api/health/` → expect `postgresFlipComplete: true`, `demoAuthEnabled: false` when hardened.
 8. **Breach playbook** — detect and contain promptly; use 24 hours as the operator's target for an initial assessment, not a statutory deadline. When PIPEDA applies and its threshold is met, report and notify affected individuals as soon as feasible; do not present 72 hours as a PIPEDA deadline. Keep the required breach record for 24 months from determination. See [COMPLIANCE § Breach Response](../COMPLIANCE.md#breach-response-playbook) and the [OPC guidance](https://www.priv.gc.ca/en/privacy-topics/privacy-for-businesses/privacy-breaches-at-your-business/gd_pb_201810/).
+9. **Public contacts** — set `UNIONOPS_LEGAL_ENTITY_NAME`, `UNIONOPS_PRIVACY_OFFICER_NAME`, `UNIONOPS_PRIVACY_EMAIL`, `UNIONOPS_PRIVACY_MAILING_ADDRESS`, `UNIONOPS_SECURITY_EMAIL`, and `UNIONOPS_ACCESSIBILITY_EMAIL`. Verify that each address is monitored, then record `UNIONOPS_PUBLIC_CONTACTS_MONITORED_AT` and `UNIONOPS_PUBLIC_CONTACTS_MONITORED_BY`. Hosted customer readiness checks completeness and a review no more than 90 days old; it does not send a test message or independently prove monitoring.
 
 **Local Portal durable storage** — not shipped (`PORTAL-DB-001`). Until Postgres adapter lands, treat Portal as **evaluation-only** for real member collaboration.
 

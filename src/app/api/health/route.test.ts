@@ -22,6 +22,7 @@ function sampleStatus(): HealthStatus {
       strictUploadScan: true,
       backupRestoreEvidence: true,
       alertDeliveryEvidence: true,
+      publicLegalContacts: true,
     },
     } as unknown as HealthStatus;
 }
@@ -61,6 +62,7 @@ describe("GET /api/health operational evidence", () => {
       strictUploadScan: true,
       backupRestoreEvidence: true,
       alertDeliveryEvidence: true,
+      publicLegalContacts: true,
     });
   });
 });

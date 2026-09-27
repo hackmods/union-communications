@@ -60,6 +60,7 @@ function sampleHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
       strictUploadScan: false,
       backupRestoreEvidence: false,
       alertDeliveryEvidence: false,
+      publicLegalContacts: false,
     },
     observability: {
       sentryEnabled: false,

@@ -88,6 +88,9 @@ jobs:
       - name: Unit tests
         run: npm run test:unit
 
+      - name: Post-deploy readiness gate tests
+        run: node --test scripts/verify-host-readiness.test.mjs
+
       - name: Build
         env:
           AUTH_SECRET: ci-build-secret-not-for-production
@@ -637,7 +640,7 @@ jobs:
         run: |
           set -euo pipefail
           # Mirrors buildHostReadiness: customer mode blocks without production
-          # TOTP and current storage/scanner/backup/alert operator evidence.
+          # TOTP and current storage/scanner/backup/alert/contact evidence.
           node scripts/verify-host-readiness.mjs
 
       # Do not reference secrets.* in step `if:` — GitHub rejects the whole workflow

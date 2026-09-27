@@ -26,6 +26,11 @@
 - Corrected stale EN/FR Security and Site Admin host-readiness copy that described confidential Hub MFA as optional in hosted customer mode and Portal storage as memory-only. Current implementation requires production TOTP for privileged hosted-customer access and supports either memory or Postgres Portal storage; the wording now distinguishes these configurations without claiming which backend a production host uses.
 - Updated the hosted security guide and Compliance operator notes to match current controls. This source review does not verify any deployed host or replace the separate human/manual claim assessment. See [`session-knowledge-2026-09-27-public-security-claims.md`](audit/session-knowledge-2026-09-27-public-security-claims.md).
 
+## 2026-09-27 — Public legal contact configuration
+
+- Added environment-based legal/business identity and role contacts for Privacy, Security, and Accessibility. Public policy pages render the configured name, email, and mailing address; host readiness exposes only a boolean and blocks hosted-customer mode until required values and a current 90-day monitoring attestation exist. No real identity or address is seeded, and the attestation does not independently prove that an inbox is monitored.
+- Added EN/FR contact notices, operator environment examples, and focused config/readiness tests. The standard-library post-deploy gate test passes both allowed and blocked cases; Vitest-based config/readiness cases cannot run in this checkout because Vitest is not installed. Actual operator values and monitoring checks remain deployment work. See [`session-knowledge-2026-09-27-legal-contacts.md`](audit/session-knowledge-2026-09-27-legal-contacts.md).
+
 ## 2026-09-27 — Managed Document Library and Officer Hub vault
 
 - Public `/[locale]/documents` discovery uses durable versioned Postgres records, bilingual detail pages, scheduled publication, downloads from immutable shared-storage objects, official-source redirects, MFA-gated platform-admin publishing, and Brand Kit preset variants. Old policy/download links redirect to canonical library routes; legal baseline wording and Accessibility settings remain intact.

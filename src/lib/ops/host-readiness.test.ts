@@ -60,6 +60,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
       strictUploadScan: false,
       backupRestoreEvidence: false,
       alertDeliveryEvidence: false,
+      publicLegalContacts: false,
     },
     observability: {
       sentryEnabled: false,
@@ -178,6 +179,7 @@ describe("buildHostReadiness", () => {
       "backupRestoreEvidence",
       "cronConfigured",
       "mfaEnabled",
+      "publicLegalContacts",
       "strictUploadScan",
     ]);
     expect(readiness.missingAdvisoryPresence.map((p) => p.id).sort()).toEqual([
@@ -187,6 +189,7 @@ describe("buildHostReadiness", () => {
       "backupRestoreEvidence",
       "cronConfigured",
       "mfaEnabled",
+      "publicLegalContacts",
       "strictUploadScan",
     ]);
     expect(readiness.missingBlockingPresence).toEqual([]);
@@ -238,6 +241,7 @@ describe("buildHostReadiness", () => {
       "cronConfigured",
       "emailEnabled",
       "mfaEnabled",
+      "publicLegalContacts",
       "strictUploadScan",
     ]);
     expect(readiness.missingBlockingPresence).toEqual([]);
@@ -284,6 +288,7 @@ describe("buildHostReadiness", () => {
         "strictUploadScan",
         "backupRestoreEvidence",
         "alertDeliveryEvidence",
+        "publicLegalContacts",
       ]),
     );
 
@@ -295,6 +300,7 @@ describe("buildHostReadiness", () => {
         strictUploadScan: true,
         backupRestoreEvidence: true,
         alertDeliveryEvidence: true,
+        publicLegalContacts: true,
       },
     });
     expect(ready.ready).toBe(true);
