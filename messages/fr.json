@@ -997,6 +997,7 @@
       "pdfAuditCta": "Télécharger la fiche d'audit PDF"
     },
     "diagrams": {
+      "filterTitle": "Filtre des griefs en cinq points",
       "filterAria": "Cinq vérifications diagnostiques avant d'ouvrir un grief",
       "filter1": "Convention ?",
       "filter2": "Loi ?",
@@ -11559,6 +11560,13 @@
     "eyebrow": "Administration locale",
     "title": "Adhésion et autorité",
     "intro": "Gérez les personnes membres de cette section, leurs postes et la durée des responsabilités déléguées. Les changements prennent effet immédiatement.",
+    "dpaStatusTitle": "Entente organisationnelle en vigueur",
+    "dpaUnionScope": "Votre syndicat",
+    "dpaLocalScope": "Votre section",
+    "dpaVersion": "Version {version}",
+    "dpaAcceptedAt": "Acceptée le {date}",
+    "dpaNotAccepted": "Aucune acceptation n’est enregistrée pour la version en vigueur.",
+    "dpaReviewLink": "Voir l’état de l’entente et les acceptations en attente",
     "loading": "Chargement des dossiers de l’organisation…",
     "loadError": "Impossible de charger les dossiers de l’organisation.",
     "saveError": "Impossible d’enregistrer ce changement.",

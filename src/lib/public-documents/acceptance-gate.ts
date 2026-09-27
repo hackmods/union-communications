@@ -12,6 +12,7 @@ export type AcceptanceEvidence = { subjectType: AcceptanceSubject; subjectId: st
 export type OrganizationAcceptanceStatus = {
   scope: "union" | "local";
   versionId: string;
+  version: number;
   title: string;
   acceptedAt: string | null;
 };
@@ -139,6 +140,7 @@ export async function currentOrganizationAcceptanceStatuses(
       return {
         scope: subject.scope,
         versionId: current.version.id,
+        version: current.version.version,
         title: payload.title[locale === "fr" ? "fr" : "en"],
         acceptedAt: accepted ? (accepted.acceptedAt instanceof Date ? accepted.acceptedAt.toISOString() : accepted.acceptedAt) : null,
       };

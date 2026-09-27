@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 type Member = { id: string; userId: string; name: string; email: string; status: "active" | "inactive"; accountStatus: "active" | "locked" | "archived"; isPrimary: boolean; startedAt: string; endedAt: string | null };
 type Candidate = { id: string; name: string; email: string };
@@ -10,6 +11,7 @@ type RosterEntry = { id: string; name: string; role: string; userId: string | nu
 type Delegation = { id: string; delegateUserId: string; delegateName: string; capability: string; startsAt: string; endsAt: string; reason: string; revokedAt: string | null; isActive: boolean };
 type EffectiveAccess = { offices: Array<{ position: string }>; delegations: Array<{ capability: string; endsAt: string }>; capabilities: Array<{ capability: string; reason: string }> };
 type PendingStepUp = { url: string; method: "POST" | "DELETE"; body: Record<string, unknown> };
+type PartyAcceptanceStatus = { scope: "union" | "local"; versionId: string; version: number; title: string; acceptedAt: string | null };
 
 function isRequestBody(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
@@ -19,6 +21,7 @@ const POSITIONS = ["president", "vice_president", "grievance_officer", "steward"
 const CAPABILITIES = ["grievances.case.read", "grievances.case.write", "grievances.member_updates.publish"] as const;
 
 export function OrganizationManager({ localId }: { localId: string }) {
+  const locale = useLocale();
   const t = useTranslations("organization");
   const [members, setMembers] = useState<Member[]>([]);
   const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -26,6 +29,7 @@ export function OrganizationManager({ localId }: { localId: string }) {
   const [rosterEntries, setRosterEntries] = useState<RosterEntry[]>([]);
   const [delegations, setDelegations] = useState<Delegation[]>([]);
   const [effectiveAccess, setEffectiveAccess] = useState<EffectiveAccess | null>(null);
+  const [partyAcceptances, setPartyAcceptances] = useState<PartyAcceptanceStatus[]>([]);
   const [memberUserId, setMemberUserId] = useState("");
   const [officeUserId, setOfficeUserId] = useState("");
   const [position, setPosition] = useState<(typeof POSITIONS)[number]>("steward");
@@ -49,11 +53,14 @@ export function OrganizationManager({ localId }: { localId: string }) {
     setLoading(true);
     setError("");
     try {
-      const [memberResponse, officeResponse, delegationResponse, accessResponse] = await Promise.all([
+      const [memberResponse, officeResponse, delegationResponse, accessResponse, agreementResponse] = await Promise.all([
         fetch(`/api/organization/memberships${query}`, { cache: "no-store" }),
         fetch(`/api/organization/officers${query}`, { cache: "no-store" }),
         fetch(`/api/organization/delegations${query}`, { cache: "no-store" }),
         fetch(`/api/organization/effective-access${query}`, { cache: "no-store" }),
+        fetch(`/api/documents/acceptance?locale=${locale}`, { cache: "no-store" })
+          .then(async (response) => response.ok ? await response.json() as { partyAcceptances?: PartyAcceptanceStatus[] } : null)
+          .catch(() => null),
       ]);
       const [memberData, officeData, delegationData, accessData] = await Promise.all([
         memberResponse.json(), officeResponse.json(), delegationResponse.json(), accessResponse.json(),
@@ -67,12 +74,13 @@ export function OrganizationManager({ localId }: { localId: string }) {
       setRosterEntries(officeData.rosterEntries ?? []);
       setDelegations(delegationData.delegations);
       setEffectiveAccess(accessData);
+      setPartyAcceptances(agreementResponse?.partyAcceptances ?? []);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : t("loadError"));
     } finally {
       setLoading(false);
     }
-  }, [query, t]);
+  }, [locale, query, t]);
 
   useEffect(() => { void Promise.resolve().then(load); }, [load]);
   useEffect(() => {
@@ -185,6 +193,25 @@ export function OrganizationManager({ localId }: { localId: string }) {
         <h1 className="mt-1 text-2xl font-bold text-opseu-dark">{t("title")}</h1>
         <p className="mt-2 max-w-3xl text-sm text-gray-700">{t("intro")}</p>
       </header>
+
+      {partyAcceptances.length > 0 && (
+        <section className="rounded-lg border border-gray-200 bg-slate-50 p-4 sm:p-5" aria-labelledby="organization-dpa-status">
+          <h2 id="organization-dpa-status" className="text-lg font-semibold text-opseu-dark">{t("dpaStatusTitle")}</h2>
+          <ul className="mt-3 space-y-2 text-sm text-gray-800">
+            {partyAcceptances.map((status) => (
+              <li key={`${status.scope}:${status.versionId}`}>
+                <span className="font-medium">{status.scope === "union" ? t("dpaUnionScope") : t("dpaLocalScope")} · {status.title} · {t("dpaVersion", { version: status.version })}:</span>{" "}
+                {status.acceptedAt
+                  ? t("dpaAcceptedAt", { date: new Intl.DateTimeFormat(locale === "fr" ? "fr-CA" : "en-CA", { dateStyle: "medium", timeStyle: "short" }).format(new Date(status.acceptedAt)) })
+                  : t("dpaNotAccepted")}
+              </li>
+            ))}
+          </ul>
+          <Link href="/documents/acceptance" className="mt-3 inline-block text-sm font-medium text-opseu-blue underline">
+            {t("dpaReviewLink")}
+          </Link>
+        </section>
+      )}
 
       {effectiveAccess ? (
         <section aria-labelledby="org-effective-access-title" className="rounded-lg border border-blue-200 bg-blue-50 p-4 sm:p-5">
