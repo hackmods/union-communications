@@ -16,6 +16,8 @@ export interface RlsSessionContext {
   /** Platform publishing authority; requires a separately verified MFA session. */
   platformAdmin?: boolean;
   retentionJob?: boolean;
+  /** Restricted product-news dispatch worker after CRON_SECRET authentication. */
+  marketingJob?: boolean;
 }
 
 /** Root client or transaction — both expose `execute` for SET LOCAL GUCs. */
@@ -49,6 +51,9 @@ export async function applyRlsContext(
   );
   await db.execute(
     sql`select set_config('app.current_retention_job', ${ctx.retentionJob ? "true" : "false"}, true)`,
+  );
+  await db.execute(
+    sql`select set_config('app.current_marketing_job', ${ctx.marketingJob ? "true" : "false"}, true)`,
   );
 }
 

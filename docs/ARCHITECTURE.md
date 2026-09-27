@@ -53,8 +53,10 @@ MFA and tenant context (`localId` / `bargainingUnitId`) are only writable via tr
 - **Auth.js** + credentials/OAuth for union officer emails; MFA for confidential modules
 - S3-compatible object storage for attachments/PDFs; virus scan on upload
 - Transactional/security email through the central sender. A separate,
-  individually opted-in UnionOps product-news program is specified in ADR-021
-  but is not implemented or enabled.
+  individually opted-in UnionOps product-news program now has PostgreSQL
+  consent evidence, confirmation/preferences links, an admin campaign queue,
+  and a consent-gated Mailgun sender. It is off until the approved notice,
+  sender identity, feedback webhook, and CapRover release settings are present.
 
 ### Auth Options (documented for Phase 1 decision)
 

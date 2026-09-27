@@ -27,6 +27,12 @@ const PUBLIC_API_ROUTES = new Set([
   "customization/content/[key]/route.ts",
   // Public host brand chrome — colours / local number / optional preset only.
   "host-brand/route.ts",
+  // Voluntary address-owned consent links and signed provider feedback.
+  "product-news/confirm/route.ts",
+  "product-news/preferences-link/route.ts",
+  "product-news/subscribe/route.ts",
+  "product-news/unsubscribe/route.ts",
+  "webhooks/mailgun/product-news/route.ts",
 ]);
 
 function walkRouteFiles(dir: string): string[] {
@@ -70,6 +76,11 @@ const AUTH_MARKERS = [
   "requireProposalsSession",
   "requireDataAccess",
   "requireUnionAdminSession",
+  "requireDocumentsSession",
+  "requirePublicDocumentAdmin",
+  "authorizeIncidentAdmin",
+  "authorizeSubprocessorAdmin",
+  "authorizeProductNewsAdmin",
 ];
 
 /** Routes that gate with shared secrets or tokens instead of Hub session. */

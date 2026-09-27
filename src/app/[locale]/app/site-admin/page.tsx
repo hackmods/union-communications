@@ -68,6 +68,11 @@ export default async function SiteAdminLandingPage({
           tone="warn"
         />
         <SiteAdminCard
+          href="/app/site-admin/product-news"
+          title={t("productNewsCardTitle")}
+          body={t("productNewsCardBody")}
+        />
+        <SiteAdminCard
           href="/app/site-admin/account-support"
           title={t("accountSupport")}
           body={t("accountSupportBody")}

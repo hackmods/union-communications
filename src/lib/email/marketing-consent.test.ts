@@ -111,4 +111,18 @@ describe("product-news consent state", () => {
       id: "grant-1", type: "grant", occurredAt: "2026-09-27T12:00:00.000Z", wordingVersion: " ",
     }))).toThrow(/wording version/i);
   });
+
+  it("suppresses a confirmed address after a provider bounce or complaint", () => {
+    const grant: MarketingConsentEventInput = {
+      id: "grant", type: "grant", occurredAt: "2026-09-27T12:00:00.000Z", wordingVersion: "v1",
+    };
+    const confirmed: MarketingConsentEventInput = {
+      id: "confirmed", type: "confirmation", occurredAt: "2026-09-27T12:01:00.000Z", grantEventId: "grant",
+    };
+    expect(canSendMarketingEmail(events(grant, confirmed))).toBe(true);
+    expect(canSendMarketingEmail(events(grant, confirmed,
+      { id: "bounce", type: "provider_bounce", occurredAt: "2026-09-27T12:02:00.000Z" }))).toBe(false);
+    expect(canSendMarketingEmail(events(grant, confirmed,
+      { id: "complaint", type: "provider_complaint", occurredAt: "2026-09-27T12:02:00.000Z" }))).toBe(false);
+  });
 });

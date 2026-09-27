@@ -172,3 +172,5 @@
 - Do not add tracking pixels, open tracking, third-party list sharing, or analytics to this program.
 
 **Consequences:** ADR-016's current sendTransactionalEmail path remains transaction-only. Packet 5 must establish durable evidence, address confirmation, a no-login preference path, a consent-gated marketing sender, and restricted campaign controls before any product-news send is enabled. This engineering decision does not approve CASL wording or decide legal applicability.
+
+**Implementation note (2026-09-27):** Packet 5 source now includes those paths under a disabled-by-default `UNIONOPS_PRODUCT_NEWS_ENABLED` gate. The gate also checks an exact EN/FR notice version and approval reference, sender/contact/postal identity, HTTPS public URL, durable Postgres, Mailgun API and signed failure/complaint feedback, email transport, and token keys. A scheduled worker locks the subscriber row during each provider call; provider failure, complaint, and unsubscribe events suppress later sends. The qualified wording review, actual CapRover values, mailbox/provider tests, and live PostgreSQL/RLS evidence are still required before operation.

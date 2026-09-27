@@ -3,7 +3,7 @@ import { domainToASCII } from "node:url";
 export type MarketingConsentEventInput =
   | { id: string; type: "grant"; occurredAt: string; wordingVersion: string }
   | { id: string; type: "confirmation"; occurredAt: string; grantEventId: string }
-  | { id: string; type: "withdrawal" | "unsubscribe"; occurredAt: string }
+  | { id: string; type: "withdrawal" | "unsubscribe" | "provider_bounce" | "provider_complaint"; occurredAt: string }
   | {
       id: string;
       type: "admin_correction";
@@ -88,11 +88,11 @@ export function deriveMarketingConsentState(
     if (event.type === "confirmation" && !event.grantEventId.trim()) {
       throw new Error("Marketing confirmation is missing its grant reference");
     }
-    if (
-      event.type === "admin_correction" &&
-      (!event.invalidatedGrantEventId.trim() || !event.reason.trim())
-    ) {
-      throw new Error("Marketing consent correction is missing its target or reason");
+    if (event.type === "admin_correction" && !event.invalidatedGrantEventId.trim()) {
+      throw new Error("Marketing consent correction is missing its target");
+    }
+    if (event.type === "admin_correction" && !event.reason.trim()) {
+      throw new Error("Marketing consent correction is missing its reason");
     }
   }
   const events = orderedEvents.map((event) => {
@@ -128,7 +128,8 @@ export function deriveMarketingConsentState(
       continue;
     }
 
-    if (event.type === "withdrawal" || event.type === "unsubscribe") {
+    if (event.type === "withdrawal" || event.type === "unsubscribe" ||
+        event.type === "provider_bounce" || event.type === "provider_complaint") {
       if (state.status !== "none") {
         state = {
           ...state,

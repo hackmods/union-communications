@@ -167,6 +167,33 @@ describe("sendTransactionalEmail", () => {
     );
   });
 
+  it("classifies product news and disables Mailgun tracking", async () => {
+    process.env.EMAIL_ENABLED = "true";
+    process.env.EMAIL_FROM = "UnionOps <admin@unionops.org>";
+    process.env.MAILGUN_API_KEY = "key-test";
+    process.env.MAILGUN_DOMAIN = "unionops.org";
+    fetchSpy.mockResolvedValue(new Response(JSON.stringify({ id: "<news@mailgun.org>" }), { status: 200 }));
+    const { sendClassifiedEmail } = await import("./send");
+    const result = await sendClassifiedEmail({
+      classification: "marketing",
+      to: "reader@example.org",
+      from: "UnionOps <news@unionops.org>",
+      replyTo: "contact@unionops.org",
+      listUnsubscribe: "https://unionops.org/en/email-preferences/unsubscribe?token=test",
+      subject: "Product update",
+      text: "Update with identification and unsubscribe details.",
+    });
+    expect(result.ok).toBe(true);
+    const request = fetchSpy.mock.calls.at(-1)?.[1] as RequestInit | undefined;
+    const body = request?.body as URLSearchParams;
+    expect(body.get("o:tag")).toBe("unionops-product-news");
+    expect(body.get("o:tracking")).toBe("no");
+    expect(body.get("o:tracking-opens")).toBe("no");
+    expect(body.get("o:tracking-clicks")).toBe("no");
+    expect(body.get("h:List-Unsubscribe")).toContain("/email-preferences/unsubscribe");
+    expect(body.get("from")).toBe("UnionOps <news@unionops.org>");
+  });
+
   it("retries SMTP port 2525 after CONN timeout on 465", async () => {
     process.env.EMAIL_ENABLED = "true";
     process.env.SMTP_HOST = "smtp.mailgun.org";

@@ -540,6 +540,13 @@
       "idx": 76,
       "when": 1792300000000,
       "breakpoints": true
+    },
+    {
+      "version": "7",
+      "tag": "0077_product_news_consent",
+      "idx": 77,
+      "when": 1792400000000,
+      "breakpoints": true
     }
   ]
 }

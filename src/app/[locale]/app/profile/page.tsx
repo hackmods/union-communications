@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { ProfilePhotoCapture } from "@/components/hub/ProfilePhotoCapture";
@@ -14,6 +14,7 @@ import type { UserRole } from "@/types/tenant";
 
 export default function ProfilePage() {
   const t = useTranslations("hub");
+  const news = useTranslations("productNews");
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
@@ -102,6 +103,13 @@ export default function ProfilePage() {
             <dd>{session.user.email ?? "—"}</dd>
           </div>
         </dl>
+      </Card>
+      <Card density="compact">
+        <h2 className="text-sm font-medium text-gray-700">{news("title")}</h2>
+        <p className="mt-2 text-sm text-gray-600">{news("intro")}</p>
+        <Link href="/email-preferences" className="mt-3 inline-block text-sm font-medium text-opseu-blue underline underline-offset-2">
+          {news("linkTitle")}
+        </Link>
       </Card>
     </PageShell>
   );

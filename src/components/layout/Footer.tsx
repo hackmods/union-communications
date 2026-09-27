@@ -68,6 +68,9 @@ export function Footer() {
           <Link href="/dpa" className={footerLinkClass}>
             {t("dpa")}
           </Link>
+          <Link href="/email-preferences" className={footerLinkClass}>
+            {t("emailPreferences")}
+          </Link>
           <Link href="/feedback" className={footerLinkClass}>
             {nav("feedback")}
           </Link>

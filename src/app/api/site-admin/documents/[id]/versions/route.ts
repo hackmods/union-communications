@@ -68,6 +68,7 @@ export async function POST(request: Request, { params }: Params) {
   const desiredStatus = metadata?.status;
   if (desiredStatus !== "draft" && desiredStatus !== "published" && desiredStatus !== "scheduled") return NextResponse.json({ error: "Invalid publication status" }, { status: 400 });
   const visibility = raw.visibility === undefined ? "public" : raw.visibility;
+  if (visibility !== "public" && visibility !== "internal") return NextResponse.json({ error: "Invalid visibility" }, { status: 400 });
   const visibilityError = validateDocumentVisibility({ ...raw, visibility, kind, status: desiredStatus });
   if (visibilityError) return NextResponse.json({ error: visibilityError }, { status: 400 });
   const effectiveAt = typeof raw.effectiveAt === "string" && raw.effectiveAt ? new Date(raw.effectiveAt) : null;

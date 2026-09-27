@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       metadata: {
         requestId: correlation.requestId,
         slug: safeSlug,
-        subjectType: safeSubjectType,
+        subjectType: safeSubjectType ?? "unknown",
         reason,
       },
     });

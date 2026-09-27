@@ -361,6 +361,13 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   { table: "public_document_acceptances", policy: "public_document_acceptances_subject_read", migration: "0065_public_document_management.sql" },
   { table: "public_document_acceptances", policy: "public_document_acceptances_subject_insert", migration: "0065_public_document_management.sql" },
   { table: "public_document_acceptances", policy: "public_document_acceptances_admin_update", migration: "0065_public_document_management.sql" },
+  { table: "marketing_subscribers", policy: "marketing_subscribers_admin_job", migration: "0077_product_news_consent.sql" },
+  { table: "marketing_consent_events", policy: "marketing_consent_admin_read", migration: "0077_product_news_consent.sql" },
+  { table: "marketing_consent_events", policy: "marketing_consent_admin_insert", migration: "0077_product_news_consent.sql" },
+  { table: "marketing_campaigns", policy: "marketing_campaign_admin_job", migration: "0077_product_news_consent.sql" },
+  { table: "marketing_deliveries", policy: "marketing_delivery_admin_job", migration: "0077_product_news_consent.sql" },
+  { table: "marketing_provider_events", policy: "marketing_provider_event_admin_read", migration: "0077_product_news_consent.sql" },
+  { table: "marketing_dispatch_control", policy: "marketing_dispatch_job", migration: "0077_product_news_consent.sql" },
 
   ...(["grievance_events", "grievance_notes", "grievance_outcomes", "grievance_participants"] as const).map((table) => ({
     table,
@@ -417,4 +424,5 @@ export const RLS_SESSION_VARS = [
   "app.current_mfa_verified",
   "app.current_platform_admin",
   "app.current_retention_job",
+  "app.current_marketing_job",
 ] as const;

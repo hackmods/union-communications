@@ -36,3 +36,4 @@ export * from "./platform-host-brand";
 export * from "./public-documents";
 export * from "./incidents";
 export * from "./subprocessors";
+export * from "./marketing";

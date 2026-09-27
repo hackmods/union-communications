@@ -29,6 +29,7 @@ import { POST as resendInviteEmail } from "@/app/api/invites/[token]/email/route
 import {
   acceptInvite,
   createInvite,
+  getInviteByToken as getInviteRecordByToken,
   resetInviteStoreForTests,
 } from "@/lib/auth/invites";
 import { resetTenantOverlayForTests } from "@/lib/tenant/overlay";
@@ -455,7 +456,7 @@ describe("invite API routes", () => {
         params(invite.token),
       );
       expect(stale.status).toBe(409);
-      expect((await getInviteByToken(invite.token))?.status).toBe("pending");
+      expect((await getInviteRecordByToken(invite.token))?.status).toBe("pending");
     });
 
     it("fails closed in hosted customer mode when no approved Terms are effective", async () => {
@@ -473,7 +474,7 @@ describe("invite API routes", () => {
         params(invite.token),
       );
       expect(response.status).toBe(503);
-      expect((await getInviteByToken(invite.token))?.status).toBe("pending");
+      expect((await getInviteRecordByToken(invite.token))?.status).toBe("pending");
     });
 
     it("marks a pending invite expired when the TTL has elapsed", async () => {

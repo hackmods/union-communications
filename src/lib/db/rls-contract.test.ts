@@ -24,6 +24,7 @@ describe("RLS policy contract (no live DB)", () => {
       "app.current_mfa_verified",
       "app.current_platform_admin",
       "app.current_retention_job",
+      "app.current_marketing_job",
     ]);
   });
 
@@ -57,6 +58,11 @@ describe("RLS policy contract (no live DB)", () => {
         continue;
       }
       if (row.migration === "0069_subprocessor_registry.sql" || row.migration === "0070_platform_incident_register.sql") {
+        expect(sql).toContain("public.customization_root(");
+        continue;
+      }
+      if (row.migration === "0077_product_news_consent.sql") {
+        expect(sql).toContain("app.current_marketing_job");
         expect(sql).toContain("public.customization_root(");
         continue;
       }

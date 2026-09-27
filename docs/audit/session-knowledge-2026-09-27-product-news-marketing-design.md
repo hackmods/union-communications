@@ -4,6 +4,10 @@
 **Scope:** Packet 5 engineering decision and pure consent-state foundation.  
 **Status:** Partial groundwork only. No subscriber data is collected and no product-news email can be sent.
 
+**Later implementation:** This is the initial design snapshot. The subsequent
+[Packet 5 implementation note](session-knowledge-2026-09-27-product-news-implementation.md)
+records the new durable source path and remaining legal/host gates.
+
 ## Current evidence
 
 - Existing mail is centralized through the transactional email helper and uses SMTP or Mailgun. ADR-016 prohibited marketing campaigns and mailing lists; no consent ledger, campaign sender, unsubscribe surface, or product-news list exists in this checkout.

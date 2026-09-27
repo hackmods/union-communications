@@ -152,7 +152,7 @@ Once enrolled, `/app/mfa` verifies exactly as it does for shared-code mode — e
 
 ## Transactional email (optional)
 
-Officer invites, meeting self-reminders, and opt-in RSVP confirmations use the central email sender (`src/lib/email/send.ts`). The current send path is **transactional/security only**; it cannot send marketing campaigns. ADR-021 specifies a separate, disabled product-news program, which is not available yet. Do not treat SMTP configuration as permission to send campaigns.
+Officer invites, meeting self-reminders, and opt-in RSVP confirmations use the central email sender (`src/lib/email/send.ts`). ADR-021 adds a separate UnionOps product-news sender with durable individual consent, address confirmation, and send-time suppression. It is disabled until its legal and CapRover configuration is complete. SMTP configuration alone does not enable campaigns.
 
 1. Set `EMAIL_ENABLED=true` plus `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, and `EMAIL_FROM` in `.env.local` (see [`.env.example`](../../.env.example)).
 2. Set `NEXT_PUBLIC_EMAIL_ENABLED=true` so Hub **Invites** shows the Send email control (Next.js inlines `NEXT_PUBLIC_*` at build time).
@@ -160,6 +160,14 @@ Officer invites, meeting self-reminders, and opt-in RSVP confirmations use the c
 4. Optional cron officer reminders: set `CRON_SECRET`, then call `GET|POST /api/cron/meeting-reminders?days=7` with `Authorization: Bearer $CRON_SECRET` (or `x-cron-secret`). Sends only to officer roster emails for Hub events starting within N days — never member broadcast lists. Add `?dryRun=1` to preview job count and recipients without sending (no audit log write).
 5. Optional post-deploy operator email: set `DEPLOY_NOTIFY_ENABLED=true` and `DEPLOY_NOTIFY_EMAIL=ops@example.ca` (still needs `CRON_SECRET` + transactional email). `GET|POST /api/cron/deploy-notify` sends a host-readiness summary (commit, backends, and configured controls). MFA is advisory on evaluation/self-hosted profiles and blocking when the UnionOps-operated customer profile lacks production TOTP. CI may call this after the health smoke when `CRON_SECRET` is present (non-blocking).
 6. Optional beta-access operator ping: set `ACCESS_REQUEST_NOTIFY_EMAIL=ryan@ryanmorris.ca` (or your ops inbox). Public `/join` and `/request-access` always persist; with `DATABASE_URL` they use Postgres unless you explicitly set `ACCESS_REQUEST_DB_BACKEND=memory`. Review submissions under **Site admin → Access requests**.
+
+## UnionOps product news (optional)
+
+The public `/{locale}/email-preferences` page accepts only a visitor's own address and an unchecked product-news consent. Confirmation is required before campaign eligibility. Hub, Portal, union member rosters, support, feedback, and transactional contacts are never imported. Existing subscribers can request a no-login preferences link even when new subscriptions are disabled.
+
+Keep `UNIONOPS_PRODUCT_NEWS_ENABLED=false` until qualified reviewers approve the exact English and French notice (`product-news-2026-09-v1` in this image), the sender identity and postal/contact details, retention, and the campaign review procedure. Set the CapRover values in [the product-news deployment section](CAPROVER_POSTGRES.md#unionops-product-news) after approval. The flag alone does not enable sending: the application also requires an approval reference, durable Postgres, HTTPS `AUTH_URL`, Mailgun API plus signed feedback webhook, email transport, and long-lived token keys.
+
+The Site Admin product-news page supports bilingual draft creation, approval reference, recipient count and content preview, test queueing to a **confirmed** address, explicit release/pause, delivery status, and audited exact-address consent search/export/correction. `POST /api/cron/product-news` with `CRON_SECRET` sends at most three recipients per call, checks current consent under a database lock for each provider request, and never automatically retries an uncertain provider outcome. Configure a recurring scheduler only after legal approval and a test send. Permanent Mailgun failures, complaints, and provider unsubscribes suppress future product-news sends; temporary failures are recorded for review. Product-news messages disable Mailgun open and click tracking.
 
 ## Sandbox smoke (Proxmox CT 115)
 

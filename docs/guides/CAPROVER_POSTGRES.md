@@ -336,6 +336,20 @@ Set all `*_DB_BACKEND=memory` and restart — Postgres data is **not read** unti
 
 ---
 
+## UnionOps product news
+
+Product news is a separate opt-in program for individuals. It is **off by default**. Enable it in CapRover only after the exact bilingual notice, sender identity, postal/contact details, retention, and campaign review procedure have qualified legal/privacy approval. Do not import any union or local member roster.
+
+1. Keep the ADR-020 owner/runtime URLs and restricted `unionops_app` role. Migration `0077_product_news_consent` and the generated database contract must pass the boot gate.
+2. Configure `EMAIL_ENABLED=true`, `MAILGUN_API_KEY`, `MAILGUN_DOMAIN`, `EMAIL_FROM`, `AUTH_URL=https://<public-host>`, and `CRON_SECRET`. Configure Mailgun's `permanent_fail`, `temporary_fail`, `complained`, and `unsubscribed` signed webhooks at `https://<public-host>/api/webhooks/mailgun/product-news`; set `MAILGUN_WEBHOOK_SIGNING_KEY`. The webhook correlates only product-news tagged messages and stores no raw payload.
+3. Set `UNIONOPS_PRODUCT_NEWS_TOKEN_KEYS` to a comma-separated list of secret values at least 32 characters each. The first signs new links; retain old keys for at least **65 days after the last message signed with them** so existing unsubscribe links work. Preserve the database token rows until expiry. Keep the sender contact and mailing address usable for at least 60 days after the last message using them.
+4. Set `UNIONOPS_PRODUCT_NEWS_APPROVED_VERSION=product-news-2026-09-v1`, `UNIONOPS_PRODUCT_NEWS_APPROVAL_REFERENCE=<review record>`, `UNIONOPS_PRODUCT_NEWS_SENDER_NAME=<approved legal sender>`, `UNIONOPS_PRODUCT_NEWS_FROM=<verified sender email>`, `UNIONOPS_PRODUCT_NEWS_CONTACT_EMAIL=<monitored contact>`, and `UNIONOPS_PRODUCT_NEWS_MAILING_ADDRESS=<approved postal address>`. Then set `UNIONOPS_PRODUCT_NEWS_ENABLED=true`. Optionally set `UNIONOPS_PRODUCT_NEWS_SEND_INTERVAL_MS=3000` (accepted range 1000–60000).
+5. Request a subscription at `/en/email-preferences` or `/fr/email-preferences`, confirm from that mailbox, and use **Site admin → Product news** to queue a test to that confirmed address. Call `POST /api/cron/product-news` with `Authorization: Bearer <CRON_SECRET>`; verify the delivery log, unsubscribe, and Mailgun feedback before scheduling it every minute. Each invocation sends at most three addresses; failed and unknown-outcome sends require operator review before any manual retry. Pause a released campaign from Site Admin if delivery must stop.
+
+The CRTC says an unsubscribe link and mailing address must remain valid for at least 60 days after a commercial message is sent, and unsubscribe requests must be processed without delay and no later than 10 business days. The application suppresses immediately at the send gate. [CRTC CASL FAQ](https://crtc.gc.ca/eng/com500/faq500.htm).
+
+---
+
 ## Related
 
 - [`POSTGRES_OPS.md`](POSTGRES_OPS.md) — module flag table, RLS smokes, seed-admin

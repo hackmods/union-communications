@@ -9,6 +9,13 @@ export type SendTransactionalEmailInput = {
   html?: string;
 };
 
+export type ClassifiedEmailInput = SendTransactionalEmailInput & {
+  classification: "transactional" | "security" | "marketing";
+  from?: string;
+  replyTo?: string;
+  listUnsubscribe?: string;
+};
+
 export type SendTransactionalEmailResult =
   | { ok: true; messageId?: string; transport?: "smtp" | "mailgun_api" }
   | {
@@ -271,7 +278,7 @@ function isSmtpConnTimeout(err: unknown): boolean {
 }
 
 async function sendViaMailgunApi(
-  input: SendTransactionalEmailInput & { to: string },
+  input: ClassifiedEmailInput & { to: string },
   smtp: SmtpConfigSnapshot,
 ): Promise<SendTransactionalEmailResult> {
   const apiKey = readSmtpEnv("MAILGUN_API_KEY").value;
@@ -284,17 +291,25 @@ async function sendViaMailgunApi(
   const url = `${base}/v3/${encodeURIComponent(domain)}/messages`;
   console.info(`${LOG_PREFIX} attempt mailgun_api`, {
     toDomain: input.to.includes("@") ? input.to.split("@")[1] : null,
-    subject: input.subject.slice(0, 80),
+    classification: input.classification,
     smtp,
   });
 
   try {
     const body = new URLSearchParams();
-    body.set("from", smtp.from ?? `noreply@${domain}`);
+    body.set("from", input.from ?? smtp.from ?? `noreply@${domain}`);
     body.set("to", input.to);
     body.set("subject", input.subject);
     body.set("text", input.text);
     if (input.html) body.set("html", input.html);
+    if (input.replyTo) body.set("h:Reply-To", input.replyTo);
+    if (input.listUnsubscribe) body.set("h:List-Unsubscribe", `<${input.listUnsubscribe}>`);
+    if (input.classification === "marketing") {
+      body.set("o:tag", "unionops-product-news");
+      body.set("o:tracking", "no");
+      body.set("o:tracking-opens", "no");
+      body.set("o:tracking-clicks", "no");
+    }
 
     const res = await fetch(url, {
       method: "POST",
@@ -315,7 +330,9 @@ async function sendViaMailgunApi(
     }
 
     if (!res.ok) {
-      const error = `Mailgun API ${res.status}: ${parsed.message ?? raw.slice(0, 200)}`;
+      const error = input.classification === "marketing"
+        ? `Mailgun API ${res.status}`
+        : `Mailgun API ${res.status}: ${parsed.message ?? raw.slice(0, 200)}`;
       console.error(`${LOG_PREFIX} send_failed mailgun_api`, { error, smtp });
       void reportServerError(new Error(error), { route: "email/mailgun_api" });
       return { ok: false, reason: "send_failed", error, smtp };
@@ -327,12 +344,12 @@ async function sendViaMailgunApi(
     });
     return { ok: true, messageId: parsed.id, transport: "mailgun_api" };
   } catch (err) {
-    const message = formatSendError(err);
+    const message = input.classification === "marketing" ? "Mailgun API request failed" : formatSendError(err);
     console.error(`${LOG_PREFIX} send_failed mailgun_api`, {
       error: message,
       smtp,
     });
-    void reportServerError(err, { route: "email/mailgun_api" });
+    void reportServerError(input.classification === "marketing" ? new Error(message) : err, { route: "email/mailgun_api" });
     return { ok: false, reason: "send_failed", error: message, smtp };
   }
 }
@@ -343,20 +360,22 @@ type SmtpAttempt = {
 };
 
 async function sendViaSmtp(
-  input: SendTransactionalEmailInput & { to: string },
+  input: ClassifiedEmailInput & { to: string },
   smtp: SmtpConfigSnapshot,
   transport: Transporter,
   label: string,
 ): Promise<SmtpAttempt> {
   console.info(`${LOG_PREFIX} attempt ${label}`, {
     toDomain: input.to.includes("@") ? input.to.split("@")[1] : null,
-    subject: input.subject.slice(0, 80),
+    classification: input.classification,
     smtp,
   });
 
   try {
     const info = await transport.sendMail({
-      from: smtp.from ?? undefined,
+      from: input.from ?? smtp.from ?? undefined,
+      ...(input.replyTo ? { replyTo: input.replyTo } : {}),
+      ...(input.listUnsubscribe ? { headers: { "List-Unsubscribe": `<${input.listUnsubscribe}>` } } : {}),
       to: input.to,
       subject: input.subject,
       text: input.text,
@@ -364,9 +383,6 @@ async function sendViaSmtp(
     });
     console.info(`${LOG_PREFIX} sent ${label}`, {
       messageId: info.messageId,
-      response: info.response,
-      accepted: info.accepted,
-      rejected: info.rejected,
       smtp,
     });
     return {
@@ -374,10 +390,10 @@ async function sendViaSmtp(
       connTimeout: false,
     };
   } catch (err) {
-    const message = formatSendError(err);
+    const message = input.classification === "marketing" ? "SMTP delivery failed" : formatSendError(err);
     const connTimeout = isSmtpConnTimeout(err);
     console.error(`${LOG_PREFIX} send_failed ${label}`, { error: message, smtp });
-    void reportServerError(err, { route: `email/${label}` });
+    void reportServerError(input.classification === "marketing" ? new Error(message) : err, { route: `email/${label}` });
     return {
       result: { ok: false, reason: "send_failed", error: message, smtp },
       connTimeout,
@@ -396,6 +412,20 @@ async function sendViaSmtp(
 export async function sendTransactionalEmail(
   input: SendTransactionalEmailInput,
 ): Promise<SendTransactionalEmailResult> {
+  return sendClassifiedEmail({ ...input, classification: "transactional" });
+}
+
+/**
+ * The provider boundary for classified mail. Campaign code must use
+ * marketing-delivery.ts, which locks and verifies durable consent before
+ * invoking this function. Operational callers use sendTransactionalEmail.
+ */
+export async function sendClassifiedEmail(
+  input: ClassifiedEmailInput,
+): Promise<SendTransactionalEmailResult> {
+  if (input.classification === "marketing" && (!input.from || !input.replyTo || !input.listUnsubscribe)) {
+    return { ok: false, reason: "not_configured" };
+  }
   const to = input.to?.trim();
   if (!to) {
     return { ok: false, reason: "missing_recipient" };

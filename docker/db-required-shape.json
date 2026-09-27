@@ -3869,6 +3869,381 @@
       ]
     },
     {
+      "name": "marketing_action_tokens",
+      "columns": [
+        {
+          "name": "consumed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "grant_event_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "purpose",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subscriber_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "token_hash",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "marketing_campaigns",
+      "columns": [
+        {
+          "name": "approval_reference",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "approved_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "approved_by",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "body_en",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body_fr",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "completed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "released_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "released_by",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subject_en",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subject_fr",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "marketing_consent_events",
+      "columns": [
+        {
+          "name": "actor_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "destination_email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "event_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "grant_event_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "locale",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "occurred_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "reason",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "request_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "sequence",
+          "dataType": "bigserial",
+          "notNull": true
+        },
+        {
+          "name": "source",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subscriber_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "wording_text",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "wording_version",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "marketing_deliveries",
+      "columns": [
+        {
+          "name": "attempt_count",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "campaign_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "claimed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "error_code",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "finished_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "kind",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "provider_message_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "queued_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subscriber_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "marketing_dispatch_control",
+      "columns": [
+        {
+          "name": "id",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "next_send_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "marketing_provider_events",
+      "columns": [
+        {
+          "name": "delivery_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "event_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "occurred_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "marketing_request_limits",
+      "columns": [
+        {
+          "name": "attempts",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "window_started_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "marketing_subscribers",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "last_preferences_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "last_request_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "latest_grant_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "locale",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "lookup_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "wording_version",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
       "name": "meeting_minutes",
       "columns": [
         {
@@ -8421,6 +8796,41 @@
       "schema": "public",
       "table": "local_public_tool_settings",
       "name": "local_public_tool_settings_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "marketing_campaigns",
+      "name": "marketing_campaign_admin_job"
+    },
+    {
+      "schema": "public",
+      "table": "marketing_consent_events",
+      "name": "marketing_consent_admin_insert"
+    },
+    {
+      "schema": "public",
+      "table": "marketing_consent_events",
+      "name": "marketing_consent_admin_read"
+    },
+    {
+      "schema": "public",
+      "table": "marketing_deliveries",
+      "name": "marketing_delivery_admin_job"
+    },
+    {
+      "schema": "public",
+      "table": "marketing_dispatch_control",
+      "name": "marketing_dispatch_job"
+    },
+    {
+      "schema": "public",
+      "table": "marketing_provider_events",
+      "name": "marketing_provider_event_admin_read"
+    },
+    {
+      "schema": "public",
+      "table": "marketing_subscribers",
+      "name": "marketing_subscribers_admin_job"
     },
     {
       "schema": "public",

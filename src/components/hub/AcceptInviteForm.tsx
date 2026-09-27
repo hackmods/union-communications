@@ -57,6 +57,10 @@ export function AcceptInviteForm({ token }: { token: string }) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitError(null);
+    if (!preview) {
+      setSubmitError(t("notFound"));
+      return;
+    }
     if (password.length < 8) {
       setSubmitError(t("passwordTooShort"));
       return;
