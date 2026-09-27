@@ -2020,7 +2020,7 @@
       "intro": "UnionOps is a toolkit, not an email server. You write the content here. You keep the list. You hit send from an inbox you already trust.",
       "tools": "Document Generator, Board Notice, Graphic Maker, and Flyer Maker include a copy-only invite step. Paste that text into Outlook, Gmail, or the mass-email tool your union already approved.",
       "privacyTitle": "Privacy by design",
-      "privacyBody": "UnionOps does not store member marketing lists, send automatic broadcasts, or handle dues or card payments. For a newsletter, use your union's approved mass-email provider and export graphics from Comms separately.",
+      "privacyBody": "UnionOps Comms does not store your union's member mailing list or send union-wide emails. Write here, then send with the email provider your union has approved.",
       "hubTitle": "Officer Hub is a separate draft",
       "hubBody": "Officer Hub can draft a membership-meeting reminder for officers. That is not mass mail from this site, and it is separate from the public invite builders."
     },

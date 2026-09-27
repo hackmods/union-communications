@@ -1,3 +1,12 @@
+## 2026-09-27 — Product-news consent foundation (Packet 5)
+
+- Added ADR-021 to supersede the absolute marketing ban only for a separate, disabled-by-default UnionOps product-news program. Transactional email remains ineligible for campaigns; no union/customer/member roster imports, tracking pixels, or sends are allowed by this design.
+- Added a pure consent-state model that requires a matching address confirmation after the latest grant and treats withdrawal, unsubscribe, and justified correction as suppression. Database event order is explicit; address normalization preserves the delivery local-part and canonicalizes the domain.
+- Added regression cases for explicit grants, matching/stale confirmations, suppression, re-subscription, administrative invalidation, IDN domains, and malformed evidence. Added the Packet 5 state and CRTC unsubscribe timing to the launch tracker and knowledge notes.
+- Narrowed the EN/FR Comms email-guide copy to its actual promise: no union member mailing-list storage or union-wide sends from the public drafting toolkit.
+- This is groundwork only: there is no durable consent table, public subscription form, confirmation email, preference endpoint, marketing sender, or campaign UI yet. Nothing can collect consent or send product news; those surfaces remain subject to legal wording, identity/contact approval, Postgres/RLS, and provider verification.
+- See [Packet 5 product-news knowledge](audit/session-knowledge-2026-09-27-product-news-marketing-design.md) and [ADR-021](DECISIONS.md).
+
 ## 2026-09-27 — Trust and policy index
 
 - Added localized `/trust` pages with links to the managed Privacy, Security, and Accessibility documents and the public service-provider register. Added a Trust footer link, localized page metadata, and EN/FR sitemap entries. Legacy policy URLs now permanently redirect to their managed document routes; the document renderer retains localized baseline content when no approved managed version exists.

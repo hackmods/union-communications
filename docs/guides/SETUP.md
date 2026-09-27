@@ -152,7 +152,7 @@ Once enrolled, `/app/mfa` verifies exactly as it does for shared-code mode — e
 
 ## Transactional email (optional)
 
-Officer invites, meeting self-reminders, and opt-in RSVP confirmations use SMTP via `nodemailer` (`src/lib/email/send.ts`). This is **transactional only** — no marketing campaigns (ADR-016).
+Officer invites, meeting self-reminders, and opt-in RSVP confirmations use the central email sender (`src/lib/email/send.ts`). The current send path is **transactional/security only**; it cannot send marketing campaigns. ADR-021 specifies a separate, disabled product-news program, which is not available yet. Do not treat SMTP configuration as permission to send campaigns.
 
 1. Set `EMAIL_ENABLED=true` plus `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, and `EMAIL_FROM` in `.env.local` (see [`.env.example`](../../.env.example)).
 2. Set `NEXT_PUBLIC_EMAIL_ENABLED=true` so Hub **Invites** shows the Send email control (Next.js inlines `NEXT_PUBLIC_*` at build time).

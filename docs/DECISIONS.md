@@ -101,7 +101,7 @@
 **Consequences:** `POST /api/polls/[slug]/responses` is a documented public API route; officer create/results routes stay MFA-gated. Complements ADR-006 for Comms without reopening third-party tracking.
 
 ## ADR-016: Transactional SMTP only (no marketing email)
-**Status:** Accepted  
+**Status:** Accepted; marketing boundary partially superseded by ADR-021
 **Context:** Calendar R3 and Hub invites need one-shot mail (accept links, officer self-reminders, optional RSVP confirmations). Operators self-host (CapRover/Docker); a SaaS-only ESP would weaken the privacy posture. Marketing broadcasts and member list collection remain out of scope pending PIPEDA review (`docs/COMPLIANCE.md`).  
 **Decision:**
 - Use **SMTP via `nodemailer`** (`src/lib/email/send.ts`) gated by `EMAIL_ENABLED=true` plus `SMTP_*` / `EMAIL_FROM`.
@@ -109,7 +109,7 @@
 - **No marketing campaigns**, no subscription lists, no grievance case content on this path.
 - **Audit every send** (and skipped sends) via `auditLog`.
 - When email is disabled or misconfigured, helpers return `{ ok: false, reason: "not_configured" }`; copy-link / mailto flows remain available.
-**Consequences:** Operators must configure SMTP for auto-send; Hub Invites can expose Send email when `NEXT_PUBLIC_EMAIL_ENABLED=true`. Password-reset and cron reminders can reuse this helper later without opening a marketing channel.
+**Consequences:** Operators must configure SMTP for auto-send; Hub Invites can expose Send email when `NEXT_PUBLIC_EMAIL_ENABLED=true`. Password-reset and cron reminders can reuse this helper. The existing transactional helper remains unavailable to marketing campaigns; ADR-021 defines a separate gated path for voluntary individual product news.
 
 ## ADR-017: Local Portal Circles (solidarity collaboration)
 **Status:** Accepted  
@@ -154,3 +154,21 @@
 **Context:** The Drizzle journal, `platform_meta`, and a separate data-version runner could disagree while production still served with missing critical columns.
 **Decision:** Use the append-only Drizzle journal as the sole upgrade ledger. Container boot validates it, serializes replicas, migrates as owner, proves the exact schema-qualified image tail, and verifies generated schema/RLS shape before serving. Data massage ships in forward idempotent migrations.
 **Consequences:** Production fails closed; no automatic destructive downgrade. The old metadata/data runner and health-only probe are retired. Existing applied entries and production data are preserved through reconciliation migration 0036. See [`docs/audit/adr-020-database-deployment-contract.md`](audit/adr-020-database-deployment-contract.md).
+
+## ADR-021: Gated, individual UnionOps product-news email
+**Status:** Accepted for engineering implementation; legal and launch approval remain pending
+**Date:** 2026-09-27
+**Supersedes:** ADR-016 only as to the absolute ban on a separate product-news channel. The transactional sender itself remains marketing-ineligible.
+
+**Context:** UnionOps needs a voluntary way to tell interested individuals about product changes. Hub, Portal, support, feedback, invite, and union membership addresses were collected for other purposes and must not become a product-news audience. Any campaign capability also creates consent, suppression, provider, privacy, and sender-identity obligations that the existing one-shot email helper does not provide.
+
+**Decision:**
+- Product news is a separate UnionOps program for addresses that individuals submit themselves. Never import Hub, Portal, support, feedback, invitation, customer, or union member rosters.
+- Use an unchecked, purpose-specific opt-in followed by address confirmation. Do not activate a grant or send product news before the matching confirmation.
+- Preserve append-only grant, confirmation, withdrawal, unsubscribe, and justified correction evidence. Assign a database order to events; a confirmation applies only to the exact latest grant. Withdrawal, unsubscribe, or correction can suppress an address; a correction cannot manufacture affirmative consent.
+- Keep the existing transactional/security path independent. Marketing sends use a separate typed service, test current consent and suppression at send time, and include approved sender/contact details plus a working unsubscribe action. Never call SMTP or Mailgun directly from campaign code.
+- Keep subscription, confirmation, preference, and campaign surfaces disabled by default. Enabling requires approved wording and sender identity, verified contact details, durable database storage, a production email configuration, privacy/retention approval, and live suppression/unsubscribe tests. Self-hosted instances remain responsible for their own configuration and legal review.
+- Unsubscribe requests suppress future sends immediately in the application. Each sent message's unsubscribe mechanism must remain usable for at least 60 days. The CRTC says unsubscribe requests must be given effect without delay and no later than 10 business days; UnionOps' send gate is designed to apply suppression immediately. See the [CRTC CASL FAQ](https://crtc.gc.ca/eng/com500/faq500.htm) and [Decision CRTC 2019-111](https://crtc.gc.ca/eng/archive/2019/2019-111.htm).
+- Do not add tracking pixels, open tracking, third-party list sharing, or analytics to this program.
+
+**Consequences:** ADR-016's current sendTransactionalEmail path remains transaction-only. Packet 5 must establish durable evidence, address confirmation, a no-login preference path, a consent-gated marketing sender, and restricted campaign controls before any product-news send is enabled. This engineering decision does not approve CASL wording or decide legal applicability.

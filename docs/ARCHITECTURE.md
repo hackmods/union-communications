@@ -52,7 +52,9 @@ MFA and tenant context (`localId` / `bargainingUnitId`) are only writable via tr
 - PostgreSQL with Row-Level Security (RLS)
 - **Auth.js** + credentials/OAuth for union officer emails; MFA for confidential modules
 - S3-compatible object storage for attachments/PDFs; virus scan on upload
-- Transactional email for follow-up reminders only — no marketing email
+- Transactional/security email through the central sender. A separate,
+  individually opted-in UnionOps product-news program is specified in ADR-021
+  but is not implemented or enabled.
 
 ### Auth Options (documented for Phase 1 decision)
 

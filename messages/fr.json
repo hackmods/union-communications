@@ -2020,7 +2020,7 @@
       "intro": "UnionOps est une boîte à outils, pas un serveur de courriel. Vous rédigez le contenu ici. Vous gardez la liste. Vous envoyez depuis une boîte à laquelle vous faites déjà confiance.",
       "tools": "Documents et diapositives, l'Avis pour tableau syndical, le Créateur graphique et le Créateur de tracts incluent une étape d'invitation à copier. Collez ce texte dans Outlook, Gmail, ou l'outil de courriel de masse déjà approuvé par votre syndicat.",
       "privacyTitle": "La vie privée, dès la conception",
-      "privacyBody": "UnionOps ne stocke pas de listes marketing de membres, n'envoie pas de diffusions automatiques et ne gère ni les cotisations ni les paiements par carte. Pour un bulletin, utilisez le fournisseur de courriel de masse approuvé par votre syndicat et exportez les graphiques depuis Comms séparément.",
+      "privacyBody": "UnionOps Comms ne stocke pas la liste de diffusion des membres de votre syndicat et n'envoie pas de courriel à tous ses membres. Rédigez le message ici, puis envoyez-le avec le fournisseur de courriel approuvé par votre syndicat.",
       "hubTitle": "Le Hub des dirigeants est un brouillon distinct",
       "hubBody": "Le Hub des dirigeants peut rédiger un rappel de réunion pour les dirigeants. Ce n'est pas un courriel de masse depuis ce site, et c'est distinct des constructeurs d'invitation publics."
     },
