@@ -35,7 +35,7 @@ export async function PATCH(request: Request, { params }: Params) {
       : action === "archive" ? { status: "archived" as const, archivedAt: now, updatedById: admin.userId, updatedAt: now }
       : { status: "draft" as const, publishedVersion: null, scheduledVersion: null, archivedAt: null, publishAt: null, updatedById: admin.userId, updatedAt: now };
     await db.update(publicDocuments).set(values).where(eq(publicDocuments.id, id));
-    await auditLog.log({ userId: admin.userId, action: `site_admin.public_document.${action}`, resourceType: "public_document", resourceId: id, metadata: { slug: row.slug, version: row.currentVersion } });
+    await auditLog.log({ userId: admin.userId, action: `site_admin.public_document.${action}`, resourceType: "public_document", resourceId: id, metadata: { slug: row.slug, version: String(row.currentVersion) } });
     return true;
   }); } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "Could not update publication status" }, { status: 400 }); }
   if (!changed) return NextResponse.json({ error: "Not found" }, { status: 404 });

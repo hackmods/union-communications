@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
-import { and, desc, eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { requirePublicDocumentAdmin } from "@/lib/auth/public-document-admin";
 import { auditLog } from "@/lib/audit/store";
@@ -45,6 +45,7 @@ export async function POST(request: Request, { params }: Params) {
   const raw = obj(metadata?.payload);
   if (!raw || !["policy", "file", "external"].includes(String(raw.kind)) || !bilingual(raw.title) || !bilingual(raw.summary) || !bilingual(raw.purpose) || !bilingual(raw.audience)) return NextResponse.json({ error: "A complete bilingual document payload is required" }, { status: 400 });
   const kind = raw.kind as PublicDocumentPayload["kind"];
+  if (raw.requiresAcceptance === true && raw.acceptanceScope !== "individual" && raw.acceptanceScope !== "organization") return NextResponse.json({ error: "Choose whether acceptance is required from each individual or the contracting organization" }, { status: 400 });
   const language = raw.language;
   if (language !== "en" && language !== "fr" && language !== "en-fr") return NextResponse.json({ error: "Invalid language" }, { status: 400 });
   const fields = [raw.format, raw.owner, raw.source];
@@ -80,6 +81,7 @@ export async function POST(request: Request, { params }: Params) {
     linkedSurfaces: Array.isArray(raw.linkedSurfaces) ? raw.linkedSurfaces.filter((surface): surface is string => typeof surface === "string").map((surface) => surface.slice(0, 160)).slice(0, 100) : undefined,
     effectiveAt: typeof raw.effectiveAt === "string" ? raw.effectiveAt : undefined,
     requiresAcceptance: raw.requiresAcceptance === true,
+    acceptanceScope: raw.requiresAcceptance === true ? raw.acceptanceScope as "individual" | "organization" : undefined,
     humanApproved: metadata?.humanApproval === true,
     required: raw.required === true,
   };
@@ -99,7 +101,7 @@ export async function POST(request: Request, { params }: Params) {
     if (status !== "draft" && scan.status !== "clean") return NextResponse.json({ error: "A clean malware scan is required before public release" }, { status: 503 });
     const [head] = await withRlsContext({ userId: admin.userId, platformAdmin: true, mfaVerified: true }, () => getDb().select().from(publicDocuments).where(eq(publicDocuments.id, id)).limit(1));
     if (!head) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    if (head.hostWidePolicy && kind !== "policy") return NextResponse.json({ error: "Host-wide policies must remain policy records" }, { status: 400 });
+    if (head.hostWidePolicy) return NextResponse.json({ error: "Host-wide policies must remain policy records" }, { status: 400 });
     const version = head.currentVersion + 1;
     const versionId = `${id}-v${version}`;
     const key = buildStorageKey({ unionId: "unionops-platform", localId: "public-library", scope: "document", scopeId: head.slug, attachmentId: `${versionId}-${randomUUID()}`, fileName: file.name });
@@ -125,6 +127,6 @@ export async function POST(request: Request, { params }: Params) {
     } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "Could not save new version" }, { status: 500 }); }
   }
   const [savedHead] = await withRlsContext({ userId: admin.userId, platformAdmin: true, mfaVerified: true }, () => getDb().select({ slug: publicDocuments.slug }).from(publicDocuments).where(eq(publicDocuments.id, id)).limit(1));
-  await withRlsContext({ userId: admin.userId, platformAdmin: true, mfaVerified: true }, () => auditLog.log({ userId: admin.userId, action: "site_admin.public_document.version", resourceType: "public_document", resourceId: id, metadata: { slug: savedHead?.slug, status, rightsRecorded: Boolean(payload.redistributionPermission) } }));
+  await withRlsContext({ userId: admin.userId, platformAdmin: true, mfaVerified: true }, () => auditLog.log({ userId: admin.userId, action: "site_admin.public_document.version", resourceType: "public_document", resourceId: id, metadata: { slug: savedHead?.slug ?? "", status, rightsRecorded: String(Boolean(payload.redistributionPermission)) } }));
   return NextResponse.json({ ok: true }, { status: 201, headers: { "Cache-Control": "private, no-store" } });
 }

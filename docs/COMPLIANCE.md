@@ -21,20 +21,29 @@ UnionOps Data imports, raw staging values, member assertions, and employment his
 
 ## Ontario & Canadian Privacy
 
-- **PIPEDA** — consent, breach notification (72h), access rights
+- **PIPEDA** — consent, access rights, and breach reporting/individual notification *as soon as feasible* when the statutory threshold applies. PIPEDA does not set a universal 72-hour notification deadline; assess applicability and duties for the specific incident. See the [OPC breach guidance](https://www.priv.gc.ca/en/privacy-topics/privacy-for-businesses/privacy-breaches-at-your-business/gd_pb_201810/) and [OPC finding on timing](https://www.priv.gc.ca/en/opc-actions-and-decisions/investigations/investigations-into-businesses/2025/pipeda-2025-001/).
 - **FIPPA** — public-sector members; data minimization, pseudonym option
 - **Privacy by design** — Comms tools: no analytics, client-side processing, brand kit in browser storage. Hosted instances may enable **operator error sinks** (Sentry and/or server JSONL) via env only — not product analytics; see ADR-006 amendment and [`OBSERVABILITY.md`](modules/OBSERVABILITY.md).
 - **Hosted Officer Hub** — the **instance operator** is the data controller for sessions and hub records on that host; prefer Canadian data residency. If UnionOps hosts Officer Hub or Local Portal for a local, hosting has a cost (ADR-019); that does not change who the controller is on that instance.
 - **Evaluation builds** — may use in-memory stores and demo accounts; not for real member case files without production hardening
 - **Site feedback (ADR-018)** — optional public/Hub notes about the UnionOps website (text + optional name/email). The instance operator is the controller. Reply-only contact; not a mailing list. Prefer `FEEDBACK_DB_BACKEND=postgres` for real collection; operators may delete on request. Default keep 24 months.
 
-## AODA / WCAG 2.1 AA
+## Accessibility
 
-Semantic HTML, keyboard nav, contrast checker, EN/FR i18n, axe-core in CI.
+Use WCAG 2.2 AA as UnionOps's internal target for new work; do not claim
+conformance until a scoped assessment supports the claim. Ontario's AODA web
+requirements refer to WCAG 2.0 AA for covered organizations, subject to the
+regulation's scope and exceptions. See [Ontario's website guidance](https://www.ontario.ca/page/how-make-websites-accessible)
+and [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/). Current practices include
+semantic HTML, keyboard navigation, contrast checks, EN/FR content, and axe
+checks in CI; these do not alone establish conformance.
 
 ## Union Governance
 
-Separation of duties, immutable audit trail, 7-year retention default, member photo consent, legal disclaimer in app.
+Separation of duties, append-only audit evidence, approved per-data-class
+retention schedules, member photo consent, and legal notices. The existing
+private-vault seven-year default is a code default under review, not a universal
+legal retention period.
 
 ## Security Controls
 
@@ -62,8 +71,15 @@ Hybrid backup export (`GET /api/hybrid/slice`) returns **plaintext JSON** over t
 1. Detect and contain (revoke tokens, isolate affected tenant)
 2. Assess scope within 24 hours
 3. Notify platform admin immediately
-4. Notify affected union/local within 72 hours (PIPEDA)
-5. Document in audit log; post-mortem within 14 days
+4. Determine applicable law, customer duties, and whether a reporting or
+   notification threshold is met. Where PIPEDA applies and its threshold is
+   met, report to the OPC and notify affected individuals **as soon as
+   feasible**; handle customer/union notice under the contract and incident
+   facts. There is no universal 72-hour PIPEDA deadline.
+5. Keep the required breach record for 24 months from the day the breach is
+   determined to have occurred. A 24-hour initial assessment and 14-day
+   post-mortem are internal operating targets, not statutory deadlines. See
+   [OPC record-keeping guidance](https://www.priv.gc.ca/en/privacy-topics/privacy-for-businesses/privacy-breaches-at-your-business/breach_101/breach_records/).
 
 ## Postgres durability (SEC-003)
 
@@ -96,6 +112,6 @@ activity and authorize a staged rollout before cutover.
 | Ontario LRA | Grievance | Step tracking, timelines, confidentiality |
 | Collective agreement | Grievance | Configurable per-union CA templates |
 | PIPEDA / FIPPA | All with PII | Classification, retention, breach response |
-| AODA WCAG 2.1 AA | All UI | EN/FR, keyboard, contrast, axe-core |
+| AODA website requirements (WCAG 2.0 AA for covered organizations); UnionOps internal target WCAG 2.2 AA | Public website and product UI | Applicable scope review; EN/FR, keyboard, contrast, automated and manual assessment |
 | Union governance | RBAC | Separation of duties, audit trail |
-| Records retention | Grievance, bumping | 7-year default, configurable export |
+| Records retention | Grievance, bumping | Approved per-class schedule; existing seven-year defaults require review |

@@ -69,6 +69,6 @@ export async function PUT(request: Request, { params }: Params) {
     return { status: 200 as const };
   });
   if (result.status !== 200) return NextResponse.json({ error: "error" in result ? result.error : result.status === 404 ? "Not found" : result.status === 403 ? "Forbidden" : "Document is not restricted" }, { status: result.status });
-  await auditLog.log({ userId: access.session.user.id, action: "document.access.update", resourceType: "document", resourceId: id, unionId: access.unionId, localId: access.localId, metadata: { granteeCount: userIds.length } });
+  await auditLog.log({ userId: access.session.user.id, action: "document.access.update", resourceType: "document", resourceId: id, unionId: access.unionId, localId: access.localId, metadata: { granteeCount: String(userIds.length) } });
   return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "private, no-store" } });
 }

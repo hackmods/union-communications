@@ -84,7 +84,7 @@ Before storing **real** member casework or collaboration:
 5. **Canadian hosting** — preferred for labour records (PIPEDA/FIPPA posture in [`COMPLIANCE.md`](../COMPLIANCE.md)).
 6. **Attachments** — persistent volume for `ATTACHMENT_LOCAL_DIR` or S3 with scanning enabled.
 7. **Health** — after deploy: `curl -sL https://<host>/api/health/` → expect `postgresFlipComplete: true`, `demoAuthEnabled: false` when hardened.
-8. **Breach playbook** — detect, contain, assess within 24h, notify within 72h (PIPEDA). See COMPLIANCE § Breach Response.
+8. **Breach playbook** — detect and contain promptly; use 24 hours as the operator's target for an initial assessment, not a statutory deadline. When PIPEDA applies and its threshold is met, report and notify affected individuals as soon as feasible; do not present 72 hours as a PIPEDA deadline. Keep the required breach record for 24 months from determination. See [COMPLIANCE § Breach Response](../COMPLIANCE.md#breach-response-playbook) and the [OPC guidance](https://www.priv.gc.ca/en/privacy-topics/privacy-for-businesses/privacy-breaches-at-your-business/gd_pb_201810/).
 
 **Local Portal durable storage** — not shipped (`PORTAL-DB-001`). Until Postgres adapter lands, treat Portal as **evaluation-only** for real member collaboration.
 

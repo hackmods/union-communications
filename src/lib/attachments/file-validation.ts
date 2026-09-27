@@ -1,4 +1,4 @@
-import { DOMImplementation, DOMParser, XMLSerializer } from "@xmldom/xmldom";
+import { DOMImplementation, DOMParser, XMLSerializer, type Element as XmlElement } from "@xmldom/xmldom";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const MAX_SVG_BYTES = 1024 * 1024;
@@ -31,29 +31,31 @@ export function sanitizeSvgBytes(input: Buffer): Buffer {
   if (parserError || !root || root.localName !== "svg" || (root.namespaceURI && root.namespaceURI !== SVG_NS)) throw new Error("Malformed SVG document");
   const safeDocument = new DOMImplementation().createDocument(SVG_NS, "svg", null);
   let nodes = 0;
-  const copyChildren = (sourceNode: Element, targetNode: Element, depth: number) => {
+  const copyChildren = (sourceNode: XmlElement, targetNode: XmlElement, depth: number) => {
     if (depth > 32 || ++nodes > 10000) throw new Error("SVG document is too complex");
     for (let index = 0; index < sourceNode.attributes.length; index += 1) {
       const attr = sourceNode.attributes.item(index);
-      if (!attr || !SVG_ATTRIBUTES.has(attr.name) || /(?:^on|style|href|src)/i.test(attr.name)) continue;
+      if (!attr?.name || !SVG_ATTRIBUTES.has(attr.name) || /(?:^on|style|href|src)/i.test(attr.name)) continue;
       if (safeSvgAttribute(attr.name, attr.value)) targetNode.setAttribute(attr.name, attr.value);
     }
     for (let index = 0; index < sourceNode.childNodes.length; index += 1) {
       const child = sourceNode.childNodes.item(index);
       if (!child) continue;
       if (child.nodeType === 3) {
-        if (["title", "desc"].includes(sourceNode.localName)) targetNode.appendChild(safeDocument.createTextNode(child.nodeValue ?? ""));
+        if (sourceNode.localName && ["title", "desc"].includes(sourceNode.localName)) targetNode.appendChild(safeDocument.createTextNode(child.nodeValue ?? ""));
         continue;
       }
       if (child.nodeType !== 1) continue;
-      const element = child as Element;
-      if (!SVG_ELEMENTS.has(element.localName) || (element.namespaceURI && element.namespaceURI !== SVG_NS)) continue;
+      const element = child as XmlElement;
+      if (!element.localName || !SVG_ELEMENTS.has(element.localName) || (element.namespaceURI && element.namespaceURI !== SVG_NS)) continue;
       const safeChild = safeDocument.createElementNS(SVG_NS, element.localName);
       targetNode.appendChild(safeChild);
       copyChildren(element, safeChild, depth + 1);
     }
   };
-  copyChildren(root, safeDocument.documentElement, 0);
+  const safeRoot = safeDocument.documentElement;
+  if (!safeRoot) throw new Error("Could not create a safe SVG document");
+  copyChildren(root, safeRoot, 0);
   const output = new XMLSerializer().serializeToString(safeDocument);
   return Buffer.from(output, "utf8");
 }

@@ -178,6 +178,7 @@ export default async function HostReadinessPage({
                       cronConfigured: "hostPresenceCron",
                       mfaEnabled: "hostPresenceMfa",
                       demoAuthOff: "hostPresenceDemoAuth",
+                      publicDocumentsReady: "hostPresencePublicDocuments",
                     } as const
                   )[row.id],
                 )}{" "}
@@ -210,6 +211,7 @@ export default async function HostReadinessPage({
                       cronConfigured: "hostPresenceCron",
                       mfaEnabled: "hostPresenceMfa",
                       demoAuthOff: "hostPresenceDemoAuth",
+                      publicDocumentsReady: "hostPresencePublicDocuments",
                     } as const
                   )[row.id],
                 )}{" "}

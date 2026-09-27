@@ -1,4 +1,4 @@
-import { and, eq, or } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { publicDocuments, publicDocumentVersions } from "@/lib/db/schema";
@@ -23,16 +23,17 @@ export async function checkPublicDocumentsReadiness(): Promise<PublicDocumentsRe
       const heads = await db.select().from(publicDocuments).where(or(eq(publicDocuments.status, "published"), eq(publicDocuments.status, "scheduled")));
       const versions = await db.select().from(publicDocumentVersions);
       const requiredSlugs = PUBLIC_DOCUMENTS.filter((doc) => doc.required).map((doc) => doc.slug);
-      const active = heads.flatMap((head) => {
-        if (head.archivedAt) return [];
+      const active: Array<{ head: (typeof heads)[number]; version: (typeof versions)[number] | null }> = [];
+      for (const head of heads) {
+        if (head.archivedAt) continue;
         let versionNumber: number | null = null;
         if (head.status === "published" && (!head.publishAt || head.publishAt <= now)) versionNumber = head.publishedVersion ?? head.currentVersion;
         if (head.status === "scheduled" && head.publishAt && head.publishAt <= now) versionNumber = head.scheduledVersion ?? head.currentVersion;
         if (head.status === "scheduled" && head.publishAt && head.publishAt > now && head.publishedVersion) versionNumber = head.publishedVersion;
-        if (versionNumber === null) return [];
+        if (versionNumber === null) continue;
         const version = versions.find((item) => item.documentId === head.id && item.version === versionNumber);
-        return version ? [{ head, version }] : [{ head, version: null }];
-      });
+        active.push({ head, version: version ?? null });
+      }
       const requiredMissing = requiredSlugs.filter((slug) => !active.some(({ head, version }) => head.slug === slug && version && version.payload.required));
       const invalidActive: string[] = [];
       if (process.env.NODE_ENV === "production" && resolveAttachmentStorageMode() !== "s3") invalidActive.push("Durable shared object storage is not configured");

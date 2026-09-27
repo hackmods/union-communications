@@ -4,14 +4,30 @@ import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { publicDocuments, publicDocumentVersions, publicDocumentAcceptances } from "@/lib/db/schema";
 import { withRlsContext } from "@/lib/db/rls-context";
 
-export type AcceptanceRequirement = { slug: string; title: string; versionId: string; requiresAcceptance: true };
+export type AcceptanceScope = "individual" | "organization";
+export type AcceptanceSubject = "individual" | "union" | "local";
+export type AcceptanceRequirement = { slug: string; title: string; versionId: string; requiresAcceptance: true; acceptanceScope: AcceptanceScope };
+export type AcceptanceEvidence = { subjectType: AcceptanceSubject; subjectId: string };
+
+/** Legacy payloads omit scope; malformed explicit values fail closed to organization scope. */
+export function resolveAcceptanceScope(scope: unknown): AcceptanceScope {
+  return scope === undefined || scope === "individual" ? "individual" : "organization";
+}
+
+/** An individual can satisfy only a personal obligation; organization evidence must match its current party. */
+export function acceptanceSatisfiesRequirement(requirement: AcceptanceRequirement, evidence: AcceptanceEvidence, identity: { userId: string; unionId?: string; localId?: string }): boolean {
+  if (requirement.acceptanceScope === "individual") return evidence.subjectType === "individual" && evidence.subjectId === identity.userId;
+  if (evidence.subjectType === "union") return Boolean(identity.unionId && evidence.subjectId === identity.unionId);
+  if (evidence.subjectType === "local") return Boolean(identity.localId && evidence.subjectId === identity.localId);
+  return false;
+}
 
 /** Returns only the current, effective publication versions this identity has not accepted. */
 export async function outstandingDocumentAcceptances(session: Session, locale = "en"): Promise<AcceptanceRequirement[]> {
   const userId = session.user?.id;
   const unionId = session.user?.unionId;
   const localId = session.user?.localId;
-  if (!userId || !unionId) return [];
+  if (!userId) return [];
   if (!isPostgresConfigured()) {
     if (process.env.NODE_ENV === "production") throw new Error("Acceptance status requires Postgres");
     return [];
@@ -33,18 +49,15 @@ export async function outstandingDocumentAcceptances(session: Session, locale = 
       const payload = version.payload;
       const effective = payload.effectiveAt ? new Date(payload.effectiveAt) : publishAt;
       if (payload.requiresAcceptance !== true || !effective || effective > now) return [];
-      return [{ slug, title: payload.title[locale === "fr" ? "fr" : "en"], versionId: version.id, requiresAcceptance: true as const }];
+      return [{ slug, title: payload.title[locale === "fr" ? "fr" : "en"], versionId: version.id, requiresAcceptance: true as const, acceptanceScope: resolveAcceptanceScope(payload.acceptanceScope) }];
     });
     if (!requirements.length) return [];
-    const subjects = [and(eq(publicDocumentAcceptances.subjectType, "individual"), eq(publicDocumentAcceptances.subjectId, userId))!, and(eq(publicDocumentAcceptances.subjectType, "union"), eq(publicDocumentAcceptances.subjectId, unionId))!];
+    const subjects = [and(eq(publicDocumentAcceptances.subjectType, "individual"), eq(publicDocumentAcceptances.subjectId, userId))!];
+    if (unionId) subjects.push(and(eq(publicDocumentAcceptances.subjectType, "union"), eq(publicDocumentAcceptances.subjectId, unionId))!);
     if (localId) subjects.push(and(eq(publicDocumentAcceptances.subjectType, "local"), eq(publicDocumentAcceptances.subjectId, localId))!);
-    const accepted = await db.select({ versionId: publicDocumentAcceptances.documentVersionId })
+    const accepted = await db.select({ versionId: publicDocumentAcceptances.documentVersionId, subjectType: publicDocumentAcceptances.subjectType, subjectId: publicDocumentAcceptances.subjectId })
       .from(publicDocumentAcceptances)
-      .where(and(
-        or(...requirements.map((requirement) => eq(publicDocumentAcceptances.documentVersionId, requirement.versionId)))!,
-        or(...subjects)!,
-      ));
-    const acceptedIds = new Set(accepted.map((row) => row.versionId));
-    return requirements.filter((requirement) => !acceptedIds.has(requirement.versionId));
+      .where(and(or(...requirements.map((requirement) => eq(publicDocumentAcceptances.documentVersionId, requirement.versionId)))!, or(...subjects)!));
+    return requirements.filter((requirement) => !accepted.some((row) => row.versionId === requirement.versionId && acceptanceSatisfiesRequirement(requirement, { subjectType: row.subjectType, subjectId: row.subjectId }, { userId, unionId, localId })));
   });
 }

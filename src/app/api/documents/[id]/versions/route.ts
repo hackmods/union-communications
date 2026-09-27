@@ -71,6 +71,6 @@ export async function PUT(request: Request, { params }: Params) {
     return restored.document ? { status: 200 as const, document: restored.document } : { status: 409 as const, error: restored.error ?? "Version restore failed" };
   });
   if (result.status !== 200) return NextResponse.json({ error: "error" in result ? result.error : result.status === 404 ? "Not found" : "Forbidden" }, { status: result.status });
-  await auditLog.log({ userId: access.session.user.id, action: "document.version.restore", resourceType: "document", resourceId: id, unionId: access.unionId, localId: access.localId, metadata: { sourceVersion: Number(version) } });
+  await auditLog.log({ userId: access.session.user.id, action: "document.version.restore", resourceType: "document", resourceId: id, unionId: access.unionId, localId: access.localId, metadata: { sourceVersion: String(Number(version)) } });
   return NextResponse.json({ document: result.document }, { headers: { "Cache-Control": "private, no-store" } });
 }

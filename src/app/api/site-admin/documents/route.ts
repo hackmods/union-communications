@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
-import { desc, eq } from "drizzle-orm";
+import { desc } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { requirePublicDocumentAdmin } from "@/lib/auth/public-document-admin";
 import { auditLog } from "@/lib/audit/store";
@@ -53,6 +53,8 @@ function parsePayload(input: unknown, requireHumanApproval: boolean): { payload?
     if (requireHumanApproval && !content) return { error: "Policy text needs approved English and French content" };
     if (requireHumanApproval && data.humanApproval !== true) return { error: "Confirm that the legal wording has human approval before publishing" };
   }
+  const requiresAcceptance = data.requiresAcceptance === true;
+  if (requiresAcceptance && data.acceptanceScope !== "individual" && data.acceptanceScope !== "organization") return { error: "Choose whether acceptance is required from each individual or the contracting organization" };
   let effectiveAt: string | undefined;
   if (typeof data.effectiveAt === "string" && data.effectiveAt) {
     const parsedDate = new Date(data.effectiveAt);
@@ -66,7 +68,8 @@ function parsePayload(input: unknown, requireHumanApproval: boolean): { payload?
     relatedGuide: typeof data.relatedGuide === "string" ? data.relatedGuide.trim().slice(0, 300) : undefined,
     unionBrand: typeof data.unionBrand === "string" ? data.unionBrand.trim().slice(0, 120) : undefined,
     linkedSurfaces: Array.isArray(data.linkedSurfaces) ? data.linkedSurfaces.filter((surface): surface is string => typeof surface === "string").map((surface) => surface.slice(0, 160)).slice(0, 100) : undefined,
-    requiresAcceptance: data.requiresAcceptance === true,
+    requiresAcceptance,
+    acceptanceScope: requiresAcceptance ? data.acceptanceScope as "individual" | "organization" : undefined,
     humanApproved: data.humanApproval === true,
     required: data.required === true,
     effectiveAt,
@@ -163,7 +166,7 @@ export async function POST(request: Request) {
         await tx.insert(publicDocuments).values({ id, slug, status, currentVersion: 1, publishedVersion: status === "published" ? 1 : null, scheduledVersion: status === "scheduled" ? 1 : null, brandPresetId, hostWidePolicy, publishAt, createdById: admin.userId, updatedById: admin.userId });
         await tx.insert(publicDocumentVersions).values({ id: versionId, documentId: id, version: 1, payload, createdById: admin.userId });
       });
-      await auditLog.log({ userId: admin.userId, action: "site_admin.public_document.create", resourceType: "public_document", resourceId: id, metadata: { slug, status, kind: payload.kind, brandPresetId, rightsRecorded: Boolean(payload.redistributionPermission) } });
+      await auditLog.log({ userId: admin.userId, action: "site_admin.public_document.create", resourceType: "public_document", resourceId: id, metadata: { slug, status, kind: payload.kind, brandPresetId: brandPresetId ?? "", rightsRecorded: String(Boolean(payload.redistributionPermission)) } });
     });
   } catch (error) {
     if (objectKey) await getObjectStorage().delete(objectKey);

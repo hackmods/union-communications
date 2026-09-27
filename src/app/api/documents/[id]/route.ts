@@ -93,6 +93,6 @@ export async function PUT(request: Request, { params }: Params) {
     return updated ? { status: 200 as const, document: updated } : { status: 404 as const };
   });
   if (result.status !== 200) return NextResponse.json({ error: "error" in result ? result.error : result.status === 404 ? "Not found" : "Forbidden" }, { status: result.status });
-  await auditLog.log({ userId: session.user.id, action: "document.metadata.update", resourceType: "document", resourceId: id, unionId, localId, metadata: { fields: Object.keys(body).sort() } });
+  await auditLog.log({ userId: session.user.id, action: "document.metadata.update", resourceType: "document", resourceId: id, unionId, localId, metadata: { fields: Object.keys(body).sort().join(",") } });
   return NextResponse.json({ document: result.document }, { headers: { "Cache-Control": "private, no-store" } });
 }

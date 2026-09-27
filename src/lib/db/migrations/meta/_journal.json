@@ -470,6 +470,13 @@
       "when": 1791300000000,
       "tag": "0066_document_recovery_retention",
       "breakpoints": true
+    },
+    {
+      "idx": 67,
+      "version": "7",
+      "when": 1791400000000,
+      "tag": "0067_document_acceptance_evidence",
+      "breakpoints": true
     }
   ]
 }

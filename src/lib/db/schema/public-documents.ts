@@ -25,6 +25,7 @@ export type PublicDocumentPayload = {
   linkedSurfaces?: string[];
   effectiveAt?: string;
   requiresAcceptance?: boolean;
+  acceptanceScope?: "individual" | "organization";
   humanApproved?: boolean;
   required?: boolean;
 };
@@ -65,4 +66,9 @@ export const publicDocumentAcceptances = pgTable("public_document_acceptances", 
   subjectId: text("subject_id").notNull(),
   acceptedById: text("accepted_by_id").notNull(),
   acceptedAt: timestamp("accepted_at", { withTimezone: true }).notNull().defaultNow(),
+  requestId: text("request_id"),
+  acceptanceSource: text("acceptance_source").notNull().default("legacy"),
+  authorityAttested: boolean("authority_attested").notNull().default(false),
+  authorityAttestationVersion: text("authority_attestation_version"),
+  authorityAttestedAt: timestamp("authority_attested_at", { withTimezone: true }),
 }, (t) => [uniqueIndex("public_document_acceptances_subject_uidx").on(t.documentVersionId, t.subjectType, t.subjectId), index("public_document_acceptances_subject_idx").on(t.subjectType, t.subjectId, t.acceptedAt)]);

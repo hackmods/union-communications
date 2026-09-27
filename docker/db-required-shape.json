@@ -2584,27 +2584,62 @@
       ]
     },
     {
-      "name": "documents",
+      "name": "document_access_grants",
       "columns": [
-        {
-          "name": "bargaining_unit_id",
-          "dataType": "text",
-          "notNull": false
-        },
-        {
-          "name": "category",
-          "dataType": "text",
-          "notNull": false
-        },
         {
           "name": "created_at",
           "dataType": "timestamp with time zone",
           "notNull": true
         },
         {
-          "name": "description",
+          "name": "document_id",
           "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "granted_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revoked_at",
+          "dataType": "timestamp with time zone",
           "notNull": false
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "document_versions",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "document_id",
+          "dataType": "text",
+          "notNull": true
         },
         {
           "name": "file_name",
@@ -2625,6 +2660,111 @@
           "name": "mime_type",
           "dataType": "text",
           "notNull": true
+        },
+        {
+          "name": "scan_status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "sha256",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "size_bytes",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "storage_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "uploaded_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "version",
+          "dataType": "integer",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "documents",
+      "columns": [
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "archived_by_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "bargaining_unit_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "category",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "current_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "description",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "file_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "legal_hold",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "mime_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "retention_until",
+          "dataType": "timestamp with time zone",
+          "notNull": false
         },
         {
           "name": "scan_status",
@@ -2653,6 +2793,11 @@
         },
         {
           "name": "uploaded_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "visibility",
           "dataType": "text",
           "notNull": true
         }
@@ -5739,6 +5884,181 @@
       ]
     },
     {
+      "name": "public_document_acceptances",
+      "columns": [
+        {
+          "name": "acceptance_source",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "accepted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "accepted_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "authority_attestation_version",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "authority_attested",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "authority_attested_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "document_version_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "request_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "resource_slug",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subject_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subject_type",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "public_document_versions",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "document_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "payload",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "version",
+          "dataType": "integer",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "public_documents",
+      "columns": [
+        {
+          "name": "archived_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "brand_preset_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "current_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "host_wide_policy",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "publish_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "published_version",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "scheduled_version",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "slug",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "rsvp_responses",
       "columns": [
         {
@@ -7464,6 +7784,16 @@
     },
     {
       "schema": "public",
+      "table": "document_access_grants",
+      "name": "document_access_grants_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "document_versions",
+      "name": "document_versions_tenant_isolation"
+    },
+    {
+      "schema": "public",
       "table": "documents",
       "name": "documents_tenant_isolation"
     },
@@ -7756,6 +8086,86 @@
       "schema": "public",
       "table": "pto_requests",
       "name": "pto_requests_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "public_document_acceptances",
+      "name": "public_document_acceptances_admin_update"
+    },
+    {
+      "schema": "public",
+      "table": "public_document_acceptances",
+      "name": "public_document_acceptances_subject_insert"
+    },
+    {
+      "schema": "public",
+      "table": "public_document_acceptances",
+      "name": "public_document_acceptances_subject_insert"
+    },
+    {
+      "schema": "public",
+      "table": "public_document_acceptances",
+      "name": "public_document_acceptances_subject_read"
+    },
+    {
+      "schema": "public",
+      "table": "public_document_acceptances",
+      "name": "public_document_acceptances_subject_read"
+    },
+    {
+      "schema": "public",
+      "table": "public_document_versions",
+      "name": "public_document_versions_admin_insert"
+    },
+    {
+      "schema": "public",
+      "table": "public_document_versions",
+      "name": "public_document_versions_admin_insert"
+    },
+    {
+      "schema": "public",
+      "table": "public_document_versions",
+      "name": "public_document_versions_public_current"
+    },
+    {
+      "schema": "public",
+      "table": "public_document_versions",
+      "name": "public_document_versions_public_current"
+    },
+    {
+      "schema": "public",
+      "table": "public_documents",
+      "name": "public_documents_admin_delete"
+    },
+    {
+      "schema": "public",
+      "table": "public_documents",
+      "name": "public_documents_admin_insert"
+    },
+    {
+      "schema": "public",
+      "table": "public_documents",
+      "name": "public_documents_admin_insert"
+    },
+    {
+      "schema": "public",
+      "table": "public_documents",
+      "name": "public_documents_admin_update"
+    },
+    {
+      "schema": "public",
+      "table": "public_documents",
+      "name": "public_documents_admin_update"
+    },
+    {
+      "schema": "public",
+      "table": "public_documents",
+      "name": "public_documents_public_read"
+    },
+    {
+      "schema": "public",
+      "table": "public_documents",
+      "name": "public_documents_public_read"
     },
     {
       "schema": "public",

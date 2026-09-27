@@ -7,7 +7,7 @@ type Row = { id: string; slug: string; status: string; currentVersion: number; p
 type VersionRow = { version: number; createdById: string; createdAt: string; payload: { sha256?: string; sizeBytes?: number; fileName?: string; scanStatus?: string } };
 const emptyPayload = {
   kind: "external", title: { en: "", fr: "" }, summary: { en: "", fr: "" }, purpose: { en: "", fr: "" }, audience: { en: "", fr: "" },
-  format: "External resource", language: "en-fr", owner: "", source: "", externalUrl: "", unionBrand: "", relatedGuide: "", effectiveAt: "", requiresAcceptance: false,
+  format: "External resource", language: "en-fr", owner: "", source: "", externalUrl: "", unionBrand: "", relatedGuide: "", effectiveAt: "", requiresAcceptance: false, acceptanceScope: "individual" as "individual" | "organization",
   content: { en: "", fr: "" }, redistributionPermission: "",
   linkedSurfaces: [] as string[],
   required: false,
@@ -37,7 +37,7 @@ export function PublicDocumentsAdmin() {
     const response = await fetch("/api/site-admin/documents", { cache: "no-store" });
     if (response.ok) setRows((await response.json() as { documents: Row[] }).documents);
   }
-  useEffect(() => { void refresh(); }, []);
+  useEffect(() => { const timer = window.setTimeout(() => { void refresh(); }, 0); return () => window.clearTimeout(timer); }, []);
 
   function setField<K extends keyof typeof payload>(name: K, value: typeof payload[K]) {
     setPayload((current) => ({ ...current, [name]: value }));
@@ -128,6 +128,7 @@ export function PublicDocumentsAdmin() {
         <Field label={label("Publication time", "Date de publication")}><input type="datetime-local" value={publishAt} onChange={(e) => setPublishAt(e.target.value)} /></Field>
         {payload.kind === "policy" && <label className="flex gap-2 text-sm"><input type="checkbox" checked={hostWidePolicy} onChange={(e) => setHostWidePolicy(e.target.checked)} />{label("Host-wide policy (no brand variant)", "Politique de l’instance (sans variante de marque)")}</label>}
         <label className="flex gap-2 text-sm"><input type="checkbox" checked={payload.requiresAcceptance} onChange={(e) => setField("requiresAcceptance", e.target.checked)} />{label("Require acceptance of this version from affected Hub / Portal users", "Exiger l’acceptation de cette version des personnes concernées du Hub / Portail")}</label>
+        {payload.requiresAcceptance && <Field label={label("Acceptance is required from", "Acceptation requise de")}><select value={payload.acceptanceScope} onChange={(e) => setField("acceptanceScope", e.target.value as typeof payload.acceptanceScope)}><option value="individual">{label("Each individual account holder", "Chaque titulaire de compte individuel")}</option><option value="organization">{label("The contracting union or local", "Le syndicat ou la section contractante")}</option></select></Field>}
         <label className="flex gap-2 text-sm"><input type="checkbox" checked={payload.required} onChange={(e) => setField("required", e.target.checked)} />{label("Required for launch readiness", "Requis pour l’état de préparation au lancement")}</label>
         <div className="flex gap-2 md:col-span-2"><button disabled={busy} className="rounded-lg bg-opseu-blue px-4 py-2 font-semibold text-white disabled:opacity-50">{busy ? label("Saving…", "Enregistrement…") : editId ? label("Save new version", "Enregistrer la nouvelle version") : label("Save record", "Enregistrer")}</button>{editId && <button type="button" className="rounded-lg border px-4 py-2" onClick={() => { setEditId(null); setSlug(""); setPayload(emptyPayload); setFile(null); }}>Cancel</button>}</div>
       </form>

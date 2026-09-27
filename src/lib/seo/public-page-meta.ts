@@ -1,8 +1,22 @@
 import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
 import { canonicalPublicPath } from "@/lib/seo/public-routes";
+import { PUBLIC_DOCUMENTS, localizedPublicDocument } from "@/lib/public-documents/registry";
 
 type PageSeoEntry = { title: string; description: string };
+
+function publicDocumentSeo(locale: "en" | "fr"): Record<string, PageSeoEntry> {
+  return Object.fromEntries(PUBLIC_DOCUMENTS.map(({ slug }) => {
+    const document = localizedPublicDocument(slug, locale);
+    const title = document?.title ?? slug;
+    return [`/documents/${slug}`, {
+      title,
+      description: locale === "fr"
+        ? `Fiche « ${title} » de la bibliothèque UnionOps. Vérifiez sa source et sa version avant réutilisation.`
+        : `Find the current ${title} in the UnionOps public library. Check its source and version before reuse.`,
+    }];
+  }));
+}
 
 /**
  * Bilingual SEO for public sitemap routes that are not home / manifesto /
@@ -13,6 +27,12 @@ export const PUBLIC_PAGE_SEO: Record<
   Record<string, PageSeoEntry>
 > = {
   en: {
+    ...publicDocumentSeo("en"),
+    "/documents": {
+      title: "Union document library",
+      description:
+        "Browse public union templates, workplace references, and policies managed by UnionOps, with sources and publication details.",
+    },
     "/privacy": {
       title: "Privacy Policy",
       description:
@@ -336,6 +356,12 @@ export const PUBLIC_PAGE_SEO: Record<
     },
   },
   fr: {
+    ...publicDocumentSeo("fr"),
+    "/documents": {
+      title: "Bibliothèque documentaire syndicale",
+      description:
+        "Parcourez des modèles syndicaux, des ressources de travail et des politiques gérés par UnionOps, avec leurs sources et détails de publication.",
+    },
     "/privacy": {
       title: "Politique de confidentialité",
       description:
