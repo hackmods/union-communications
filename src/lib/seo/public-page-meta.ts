@@ -38,6 +38,16 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Find UnionOps privacy, security, accessibility, and approved service provider information, with notes on who operates each hosted instance.",
     },
+    "/terms": {
+      title: "UnionOps Terms of Service",
+      description:
+        "Check whether UnionOps has published approved Terms of Service. This page distinguishes terms in effect from a version that is not yet available.",
+    },
+    "/dpa": {
+      title: "UnionOps data processing terms",
+      description:
+        "Check whether UnionOps has published approved data processing terms for customer organizations and review the effective version when available.",
+    },
     "/privacy": {
       title: "Privacy Policy",
       description:
@@ -376,6 +386,16 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Confiance et politiques UnionOps",
       description:
         "Les renseignements d’UnionOps sur la confidentialité, la sécurité, l’accessibilité et les fournisseurs approuvés précisent aussi qui exploite les services hébergés.",
+    },
+    "/terms": {
+      title: "Conditions d’utilisation d’UnionOps",
+      description:
+        "Vérifiez si UnionOps a publié des conditions d’utilisation approuvées. Cette page distingue une version en vigueur d’une version qui n’est pas encore disponible.",
+    },
+    "/dpa": {
+      title: "Traitement des données chez UnionOps",
+      description:
+        "Vérifiez si UnionOps a publié des conditions approuvées de traitement des données pour les organisations clientes et consultez la version en vigueur.",
     },
     "/privacy": {
       title: "Politique de confidentialité",

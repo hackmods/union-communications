@@ -95,6 +95,7 @@ export const PUBLIC_NS = [
   "joinPage",
   "requestAccessPage",
   "trustPage",
+  "legalAvailability",
   "trustSubprocessorsPage",
   "accessShare",
   "accessRequestForm",

@@ -42,6 +42,11 @@ describe("sitemap", () => {
     expect(urls.has(`${SITE_URL}/fr/trust/subprocessors/`)).toBe(true);
   });
 
+  it("does not index Terms or DPA status pages before an effective publication exists", () => {
+    expect(PUBLIC_PATHS).not.toContain("/terms");
+    expect(PUBLIC_PATHS).not.toContain("/dpa");
+  });
+
   it("includes every top-level /guide route from the filesystem (en + fr)", async () => {
     const entries = await sitemap();
     const urls = new Set(entries.map((e) => e.url));

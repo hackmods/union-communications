@@ -21,6 +21,8 @@ export default async function TrustPage({
 
   const links = [
     { href: "/documents/privacy", label: t("privacy") },
+    { href: "/terms", label: t("terms") },
+    { href: "/dpa", label: t("dpa") },
     { href: "/documents/security", label: t("security") },
     { href: "/documents/accessibility", label: t("accessibility") },
     { href: "/trust/subprocessors", label: t("subprocessors") },

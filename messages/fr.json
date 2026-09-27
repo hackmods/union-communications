@@ -7496,7 +7496,7 @@
       },
       "trust-and-policies-index": {
         "title": "Index de confiance et des politiques",
-        "body": "Consultez depuis une seule page les renseignements d’UnionOps sur la confidentialité, la sécurité, l’accessibilité et les fournisseurs de services. La page précise quel exploitant est responsable d’une instance."
+        "body": "Consultez depuis une seule page les renseignements d’UnionOps sur la confidentialité, la sécurité, l’accessibilité et les fournisseurs de services. Les pages sur les conditions et le traitement des données indiquent clairement quand aucune version approuvée n’est publiée."
       },
       "steward-tool-qol-pack": {
         "title": "Trousse de marque plus simple, Feuilles de travail, et Word modifiable",
@@ -8048,6 +8048,8 @@
     "madeBy": "© UnionOps. Conçu pour les syndicats et raffiné grâce aux retours des sections.",
     "privacy": "Communications sur l'appareil ; vous contrôlez votre Hub des dirigeants",
     "privacyCommsOnly": "Les Comms restent sur votre appareil. Pas de pubs ni de pistage.",
+    "terms": "Conditions d’utilisation",
+    "dpa": "Traitement des données",
     "installApp": "Installer comme application"
   },
   "buildInfo": {
@@ -15750,10 +15752,23 @@
     "documentsTitle": "Politiques et renseignements sur les services",
     "documentsLabel": "Documents de confiance et politiques",
     "privacy": "Politique de confidentialité",
+    "terms": "Conditions d’utilisation",
+    "dpa": "Annexe sur le traitement des données (DPA)",
     "security": "Déclaration de sécurité",
     "accessibility": "Déclaration d’accessibilité",
     "subprocessors": "Fournisseurs de services approuvés",
     "scopeNote": "Cet index ne certifie pas un environnement d’hébergement et ne remplace pas une entente. Consultez le document applicable et confirmez qui exploite votre instance."
+  },
+  "legalAvailability": {
+    "status": "Aucune version approuvée en vigueur",
+    "termsTitle": "Conditions d’utilisation",
+    "dpaTitle": "Entente de traitement des données",
+    "termsUnavailable": "Aucune version générale approuvée des conditions d’utilisation n’est actuellement en vigueur sur ce site. Revenez ici pour consulter la version à jour lorsqu’elle sera disponible.",
+    "dpaUnavailable": "Aucune entente générale approuvée sur le traitement des données des organisations clientes n’est actuellement en vigueur sur ce site. Revenez ici pour consulter la version à jour lorsqu’elle sera disponible.",
+    "notAgreement": "Cette page de statut n’est ni un contrat ni une entente de traitement des données et ne crée pas de nouvelles obligations. Les ententes déjà signées peuvent toujours s’appliquer.",
+    "navigationLabel": "Renseignements connexes sur la confiance",
+    "trustLink": "Confiance et politiques",
+    "documentsLink": "Bibliothèque publique de documents"
   },
   "legalContact": {
     "privacyTitle": "Coordonnées de la personne responsable de la protection des renseignements personnels",

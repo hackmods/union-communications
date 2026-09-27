@@ -31,6 +31,12 @@
 - Added environment-based legal/business identity and role contacts for Privacy, Security, and Accessibility. Public policy pages render the configured name, email, and mailing address; host readiness exposes only a boolean and blocks hosted-customer mode until required values and a current 90-day monitoring attestation exist. No real identity or address is seeded, and the attestation does not independently prove that an inbox is monitored.
 - Added EN/FR contact notices, operator environment examples, and focused config/readiness tests. The standard-library post-deploy gate test passes both allowed and blocked cases; Vitest-based config/readiness cases cannot run in this checkout because Vitest is not installed. Actual operator values and monitoring checks remain deployment work. See [`session-knowledge-2026-09-27-legal-contacts.md`](audit/session-knowledge-2026-09-27-legal-contacts.md).
 
+## 2026-09-27 — Terms and DPA public route readiness
+
+- Added localized `/terms` and `/dpa` landing routes. Until an approved bilingual managed publication is live, each route states that no approved version is published and explicitly says the status page is not an agreement. When an effective managed publication is available, the route redirects to its versioned document page.
+- Added the links to Trust and the footer. The status pages are noindex until an effective publication; the managed document library adds published Terms/DPA pages to the sitemap. Contract-publication eligibility and sitemap assertions were added, and a Node type-stripping check passed the approval, future-effective, and bilingual-content cases. Full Vitest, locale-copy, SEO, and browser execution remain pending because dependencies are not installed.
+- Updated the existing What's New Trust entry without suggesting the Terms or DPA has been approved. See [`session-knowledge-2026-09-27-terms-dpa-routes.md`](audit/session-knowledge-2026-09-27-terms-dpa-routes.md).
+
 ## 2026-09-27 — Managed Document Library and Officer Hub vault
 
 - Public `/[locale]/documents` discovery uses durable versioned Postgres records, bilingual detail pages, scheduled publication, downloads from immutable shared-storage objects, official-source redirects, MFA-gated platform-admin publishing, and Brand Kit preset variants. Old policy/download links redirect to canonical library routes; legal baseline wording and Accessibility settings remain intact.

@@ -7543,7 +7543,7 @@
       },
       "trust-and-policies-index": {
         "title": "Trust and policy index",
-        "body": "Find UnionOps privacy, security, accessibility, and service provider information from one page. It explains which hosting operator is responsible for an instance."
+        "body": "Find UnionOps privacy, security, accessibility, and service provider information from one page. Terms and data processing pages now show clearly when an approved version is not yet published."
       },
       "discipline-ladder-collections": {
         "title": "Discipline ladder matches your collection",
@@ -8103,6 +8103,8 @@
     "madeBy": "© UnionOps. Built for labour unions and refined through local feedback.",
     "privacy": "Comms on-device; you control your Officer Hub",
     "privacyCommsOnly": "Comms stay on your device. No ads or tracking.",
+    "terms": "Terms",
+    "dpa": "Data processing terms",
     "installApp": "Install as an app"
   },
   "buildInfo": {
@@ -15751,10 +15753,23 @@
     "documentsTitle": "Policies and service information",
     "documentsLabel": "Trust and policy documents",
     "privacy": "Privacy policy",
+    "terms": "Terms of service",
+    "dpa": "Data processing terms (DPA)",
     "security": "Security statement",
     "accessibility": "Accessibility statement",
     "subprocessors": "Approved service providers",
     "scopeNote": "This index does not certify a hosting environment or replace an agreement. Review the applicable document and confirm the operator for your instance."
+  },
+  "legalAvailability": {
+    "status": "No approved version currently in effect",
+    "termsTitle": "Terms of service",
+    "dpaTitle": "Data processing terms",
+    "termsUnavailable": "No approved general Terms of Service version is currently in effect on this site. Check back here for the current version when it becomes available.",
+    "dpaUnavailable": "No approved general Data Processing Agreement for customer organizations is currently in effect on this site. Check back here for the current version when it becomes available.",
+    "notAgreement": "This status page is not a contract or data processing agreement and does not create new obligations. Existing signed agreements may still apply.",
+    "navigationLabel": "Related trust information",
+    "trustLink": "Trust and policies",
+    "documentsLink": "Public document library"
   },
   "legalContact": {
     "privacyTitle": "Privacy Officer contact",
