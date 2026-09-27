@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { loginHrefForInviteRoles } from "@/lib/auth/post-login-path";
 import { PageShell } from "@/components/layout/PageShell";
@@ -16,9 +16,12 @@ type InvitePreview = {
   status: string;
   expiresAt: string;
   roles: string[];
+  terms: { versionId: string; versionLabel: string; title: string } | null;
+  activationUnavailable: boolean;
 };
 
 export function AcceptInviteForm({ token }: { token: string }) {
+  const locale = useLocale();
   const t = useTranslations("inviteAccept");
   const [preview, setPreview] = useState<InvitePreview | null>(null);
   const [loading, setLoading] = useState(true);
@@ -33,9 +36,9 @@ export function AcceptInviteForm({ token }: { token: string }) {
     let cancelled = false;
     void (async () => {
       try {
-        const res = await fetch(`/api/invites/${encodeURIComponent(token)}`);
+        const res = await fetch(`/api/invites/${encodeURIComponent(token)}?locale=${locale}`);
         if (!res.ok) {
-          if (!cancelled) setLoadError(t("notFound"));
+          if (!cancelled) setLoadError(res.status === 503 ? t("termsUnavailable") : t("notFound"));
           return;
         }
         const data = (await res.json()) as InvitePreview;
@@ -49,7 +52,7 @@ export function AcceptInviteForm({ token }: { token: string }) {
     return () => {
       cancelled = true;
     };
-  }, [token, t]);
+  }, [token, locale, t]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -64,10 +67,13 @@ export function AcceptInviteForm({ token }: { token: string }) {
     }
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/invites/${encodeURIComponent(token)}`, {
+      const res = await fetch(`/api/invites/${encodeURIComponent(token)}?locale=${locale}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({
+          password,
+          ...(preview.terms ? { acceptTerms: true, termsVersionId: preview.terms.versionId } : {}),
+        }),
       });
       if (!res.ok) {
         const body = (await res.json().catch(() => null)) as {
@@ -174,6 +180,27 @@ export function AcceptInviteForm({ token }: { token: string }) {
       </header>
 
       <form onSubmit={handleSubmit} className="space-y-3">
+        {preview.activationUnavailable && (
+          <Callout tone="danger" role="alert">
+            {t("termsUnavailable")}
+          </Callout>
+        )}
+        {preview.terms && (
+          <label className="flex items-start gap-3 rounded-lg border border-gray-300 p-4 text-sm text-gray-800">
+            <input
+              type="checkbox"
+              required
+              className="mt-1 size-4 shrink-0 accent-opseu-blue"
+              aria-label={t("acceptTerms", { version: preview.terms.versionLabel })}
+            />
+            <span>
+              {t("acceptTerms", { version: preview.terms.versionLabel })}{" "}
+              <Link href="/documents/terms" className="text-opseu-blue underline">
+                {t("readTerms", { title: preview.terms.title })}
+              </Link>
+            </span>
+          </label>
+        )}
         <Input
           label={t("password")}
           type="password"
@@ -197,7 +224,7 @@ export function AcceptInviteForm({ token }: { token: string }) {
             {submitError}
           </p>
         )}
-        <Button type="submit" disabled={submitting} className="min-h-11 w-full">
+        <Button type="submit" disabled={submitting || preview.activationUnavailable} className="min-h-11 w-full">
           {submitting ? t("accepting") : t("accept")}
         </Button>
       </form>

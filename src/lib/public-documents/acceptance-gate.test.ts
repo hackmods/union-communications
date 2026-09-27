@@ -36,11 +36,13 @@ describe("public document acceptance scope", () => {
   it("keeps the database acceptance ledger immutable and attested", () => {
     const migration = readFileSync(join(process.cwd(), "src/lib/db/migrations/0067_document_acceptance_evidence.sql"), "utf8");
     const individualPolicyMigration = readFileSync(join(process.cwd(), "src/lib/db/migrations/0075_personal_document_acceptance.sql"), "utf8");
+    const inviteSourceMigration = readFileSync(join(process.cwd(), "src/lib/db/migrations/0076_invite_activation_acceptance_source.sql"), "utf8");
     expect(migration).toContain("DROP POLICY IF EXISTS public_document_acceptances_admin_update");
     expect(migration).toContain("BEFORE UPDATE OR DELETE ON public_document_acceptances");
     expect(migration).toContain("REVOKE UPDATE, DELETE ON TABLE public_document_acceptances FROM PUBLIC, unionops_app");
     expect(migration).toContain("authority_attestation_version = 'unionops-organization-acceptance-v1'");
     expect(migration).toContain("acceptance_source = 'legacy'");
+    expect(inviteSourceMigration).toContain("'invite_activation'");
     const personalBranch = individualPolicyMigration.split("OR (subject_type = 'union'")[0];
     const unionBranch = individualPolicyMigration.split("OR (subject_type = 'union'")[1]?.split("OR (subject_type = 'local'")[0] ?? "";
     const localBranch = individualPolicyMigration.split("OR (subject_type = 'local'")[1] ?? "";

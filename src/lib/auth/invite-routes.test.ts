@@ -2,9 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { UserRole } from "@/types/tenant";
 import type { AuthorizationActor } from "@/lib/authorization/model";
 
-const { authMock, resolveActorMock } = vi.hoisted(() => ({
+const { authMock, resolveActorMock, currentInviteTermsMock } = vi.hoisted(() => ({
   authMock: vi.fn(),
   resolveActorMock: vi.fn(),
+  currentInviteTermsMock: vi.fn(),
 }));
 
 vi.mock("@/auth", () => ({
@@ -13,6 +14,10 @@ vi.mock("@/auth", () => ({
 
 vi.mock("@/lib/authorization/resolve-actor", () => ({
   resolveAuthorizationActor: resolveActorMock,
+}));
+
+vi.mock("@/lib/public-documents/invite-terms", () => ({
+  currentInviteTermsVersion: currentInviteTermsMock,
 }));
 
 import { GET as listInvites, POST as createInviteRoute } from "@/app/api/invites/route";
@@ -93,12 +98,14 @@ describe("invite API routes", () => {
     resetTenantOverlayForTests();
     authMock.mockReset();
     resolveActorMock.mockReset();
+    currentInviteTermsMock.mockReset().mockResolvedValue(null);
     resolveActorMock.mockImplementation(async (sess: ReturnType<typeof session>) =>
       actorFromSessionRoles(sess),
     );
   });
 
   afterEach(() => {
+    vi.unstubAllEnvs();
     resetInviteStoreForTests();
     resetTenantOverlayForTests();
   });
@@ -394,6 +401,79 @@ describe("invite API routes", () => {
       expect(body.unionId).toBeUndefined();
       expect(body.localId).toBeUndefined();
       expect(body.token).toBeUndefined();
+    });
+
+    it("shows the exact effective Terms version without exposing tenant identifiers", async () => {
+      const invite = await createInvite({
+        email: "terms-preview@example.test",
+        name: "Terms Preview",
+        unionId: "union-b7p",
+        localId: "local-7",
+        roles: ["local_member"],
+        invitedById: "user-president-7",
+      });
+      currentInviteTermsMock.mockResolvedValue({
+        versionId: "terms-version-4",
+        versionLabel: "v4",
+        title: "Terms of Service",
+      });
+
+      const response = await getInviteByToken(
+        getRequest(`http://localhost/api/invites/${invite.token}?locale=en`),
+        params(invite.token),
+      );
+      expect(response.status).toBe(200);
+      expect(await response.json()).toMatchObject({
+        terms: { versionId: "terms-version-4", versionLabel: "v4", title: "Terms of Service" },
+        activationUnavailable: true,
+      });
+    });
+
+    it("rejects unchecked and stale Terms submissions before activating an account", async () => {
+      const invite = await createInvite({
+        email: "terms-required@example.test",
+        name: "Terms Required",
+        unionId: "union-b7p",
+        localId: "local-7",
+        roles: ["local_member"],
+        invitedById: "user-president-7",
+      });
+      currentInviteTermsMock.mockResolvedValue({
+        versionId: "terms-current",
+        versionLabel: "vCurrent",
+        title: "Terms of Service",
+      });
+
+      const unchecked = await acceptInviteRoute(
+        jsonRequest({ password: "securepass1" }),
+        params(invite.token),
+      );
+      expect(unchecked.status).toBe(400);
+
+      const stale = await acceptInviteRoute(
+        jsonRequest({ password: "securepass1", acceptTerms: true, termsVersionId: "terms-old" }),
+        params(invite.token),
+      );
+      expect(stale.status).toBe(409);
+      expect((await getInviteByToken(invite.token))?.status).toBe("pending");
+    });
+
+    it("fails closed in hosted customer mode when no approved Terms are effective", async () => {
+      const invite = await createInvite({
+        email: "terms-missing@example.test",
+        name: "Terms Missing",
+        unionId: "union-b7p",
+        roles: ["local_member"],
+        invitedById: "user-president-7",
+      });
+      vi.stubEnv("UNIONOPS_HOSTED_CUSTOMER_MODE", "true");
+
+      const response = await acceptInviteRoute(
+        jsonRequest({ password: "securepass1" }),
+        params(invite.token),
+      );
+      expect(response.status).toBe(503);
+      expect((await getInviteByToken(invite.token))?.status).toBe("pending");
     });
 
     it("marks a pending invite expired when the TTL has elapsed", async () => {

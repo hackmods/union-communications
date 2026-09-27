@@ -8,6 +8,9 @@ import { userInvites } from "@/lib/db/schema/auth";
 import { users } from "@/lib/db/schema/tenant";
 import { localMemberships, officerAssignments } from "@/lib/db/schema/organization-access";
 import { locals } from "@/lib/db/schema/tenant";
+import { auditLog as auditLogTable } from "@/lib/db/schema/audit";
+import { publicDocumentAcceptances, publicDocuments, publicDocumentVersions } from "@/lib/db/schema/public-documents";
+import { hasPublishedContractDocument } from "@/lib/public-documents/contract-routes";
 import { verifyPassword } from "@/lib/auth/password";
 
 export function invitesPostgresEnabled(
@@ -218,6 +221,7 @@ export async function listInvitesPostgres(input: {
 export async function acceptInvitePostgres(
   token: string,
   password: string,
+  termsAcceptance?: { versionId: string; requestId: string },
 ): Promise<{ userId?: string; error?: string }> {
   const invite = await getInviteByTokenPostgres(token);
   if (!invite) return { error: "Invite not found" };
@@ -241,6 +245,39 @@ export async function acceptInvitePostgres(
     const [lockedInvite] = await tx.select().from(userInvites)
       .where(eq(userInvites.id, invite.id)).for("update").limit(1);
     if (!lockedInvite || lockedInvite.status !== "pending") return { error: "Invite is no longer pending" };
+
+    // Lock the public document head so a concurrent publication cannot make
+    // this activation accept a stale Terms version.
+    const [termsHead] = await tx.select().from(publicDocuments)
+      .where(eq(publicDocuments.slug, "terms")).for("share").limit(1);
+    let effectiveTermsVersion: number | null = null;
+    const now = new Date();
+    if (termsHead && !termsHead.archivedAt) {
+      if (termsHead.status === "published" && (!termsHead.publishAt || termsHead.publishAt <= now)) {
+        effectiveTermsVersion = termsHead.publishedVersion ?? termsHead.currentVersion;
+      } else if (termsHead.status === "scheduled" && termsHead.publishAt && termsHead.publishAt > now) {
+        effectiveTermsVersion = termsHead.publishedVersion;
+      } else if (termsHead.status === "scheduled" && termsHead.publishAt && termsHead.publishAt <= now) {
+        effectiveTermsVersion = termsHead.scheduledVersion ?? termsHead.currentVersion;
+      }
+    }
+    let effectiveTermsVersionId: string | null = null;
+    if (termsHead && effectiveTermsVersion !== null) {
+      const [termsVersion] = await tx.select().from(publicDocumentVersions).where(and(
+        eq(publicDocumentVersions.documentId, termsHead.id),
+        eq(publicDocumentVersions.version, effectiveTermsVersion),
+      )).limit(1);
+      if (termsVersion && hasPublishedContractDocument({ payload: termsVersion.payload }, now)) {
+        effectiveTermsVersionId = termsVersion.id;
+      }
+    }
+    if (effectiveTermsVersionId && termsAcceptance?.versionId !== effectiveTermsVersionId) {
+      return { error: "Current Terms must be accepted. Reload the invitation and try again." };
+    }
+    if (!effectiveTermsVersionId && termsAcceptance) {
+      return { error: "The Terms version changed. Reload the invitation and try again." };
+    }
+
     if (invite.localId) {
       const [local] = await tx.select({ id: locals.id }).from(locals).where(and(
         eq(locals.id, invite.localId), eq(locals.unionId, invite.unionId),
@@ -322,6 +359,57 @@ export async function acceptInvitePostgres(
         });
       }
       await tx.execute(sql`SELECT app_sync_local_portal_membership(${invite.unionId}, ${invite.localId}, ${userId})`);
+    }
+
+    if (effectiveTermsVersionId && termsAcceptance) {
+      const acceptedAt = new Date();
+      await applyRlsContext(tx, {
+        unionId: invite.unionId,
+        localId: invite.localId,
+        userId,
+        mfaVerified: false,
+      });
+      const [acceptance] = await tx.insert(publicDocumentAcceptances).values({
+        id: newId("pubaccept"),
+        documentVersionId: effectiveTermsVersionId,
+        resourceSlug: "terms",
+        subjectType: "individual",
+        subjectId: userId,
+        acceptedById: userId,
+        acceptedAt,
+        requestId: termsAcceptance.requestId,
+        acceptanceSource: "invite_activation",
+        authorityAttested: false,
+        authorityAttestationVersion: null,
+        authorityAttestedAt: null,
+      }).onConflictDoNothing().returning({ id: publicDocumentAcceptances.id });
+      if (acceptance) {
+        await tx.insert(auditLogTable).values({
+          id: newId("audit"),
+          userId,
+          action: "document.acceptance.record",
+          resourceType: "public_document_version",
+          resourceId: effectiveTermsVersionId,
+          unionId: invite.unionId,
+          localId: invite.localId ?? null,
+          metadata: {
+            requestId: termsAcceptance.requestId,
+            slug: "terms",
+            subjectType: "individual",
+            subjectId: userId,
+            acceptanceScope: "individual",
+            authorityAttested: "false",
+            source: "invite_activation",
+          },
+          outcome: "success",
+          requestId: termsAcceptance.requestId,
+        });
+      }
+      await applyRlsContext(tx, {
+        unionId: invite.unionId,
+        localId: invite.localId,
+        userId: invite.invitedById,
+      });
     }
     await tx.update(userInvites).set({ status: "accepted", acceptedAt: new Date() }).where(eq(userInvites.id, invite.id));
     return { userId };

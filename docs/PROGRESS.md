@@ -37,6 +37,13 @@
 - Added the links to Trust and the footer. The status pages are noindex until an effective publication; the managed document library adds published Terms/DPA pages to the sitemap. Contract-publication eligibility and sitemap assertions were added, and a Node type-stripping check passed the approval, future-effective, and bilingual-content cases. Full Vitest, locale-copy, SEO, and browser execution remain pending because dependencies are not installed.
 - Updated the existing What's New Trust entry without suggesting the Terms or DPA has been approved. See [`session-knowledge-2026-09-27-terms-dpa-routes.md`](audit/session-knowledge-2026-09-27-terms-dpa-routes.md).
 
+## 2026-09-27 — Invite activation Terms evidence
+
+- Invite activation now displays the current approved/effective Terms version with an unchecked acceptance checkbox in EN/FR. The API rejects missing or stale acceptance, and hosted activation fails closed if no approved Terms or durable Postgres acceptance backend is available.
+- The Postgres activation transaction locks the invite and Terms document head, revalidates the effective version, then inserts the individual acceptance, correlated audit event, and accepted invite state atomically. Added forward-only migration `0076` to permit `invite_activation` as an append-only evidence source; no table shape or RLS policy changed.
+- The protected agreement surface now reports the current DPA version and acceptance timestamp for only an authorized, MFA-verified, non-archived union/local. DPA writes lock and recheck the current party row; signed-in acceptance audit rows also populate the dedicated request-correlation column.
+- Added direct route cases for Terms preview, unchecked/stale submissions, and hosted missing-Terms behavior. `node scripts/check-db-migrations.mjs` passes with 77 entries; security workflow contract, EN/FR JSON parsing, and `git diff --check` pass. Vitest cannot run because project dependencies are not installed; live Postgres/RLS execution, approved legal text, DPA party history/settings visibility, and target-host evidence remain open. See [`session-knowledge-2026-09-27-invite-terms-acceptance.md`](audit/session-knowledge-2026-09-27-invite-terms-acceptance.md).
+
 ## 2026-09-27 — Managed Document Library and Officer Hub vault
 
 - Public `/[locale]/documents` discovery uses durable versioned Postgres records, bilingual detail pages, scheduled publication, downloads from immutable shared-storage objects, official-source redirects, MFA-gated platform-admin publishing, and Brand Kit preset variants. Old policy/download links redirect to canonical library routes; legal baseline wording and Accessibility settings remain intact.

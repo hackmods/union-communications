@@ -212,10 +212,11 @@ async function acceptInviteMemory(
 export async function acceptInvite(
   token: string,
   password: string,
+  termsAcceptance?: { versionId: string; requestId: string },
 ): Promise<{ user?: InvitedUserRecord; error?: string }> {
   await hydrateTenantOverlayFromPostgres();
   if (invitesPostgresEnabled()) {
-    const result = await acceptInvitePostgres(token, password);
+    const result = await acceptInvitePostgres(token, password, termsAcceptance);
     if (result.error || !result.userId) {
       return { error: result.error ?? "Accept failed" };
     }
@@ -243,6 +244,9 @@ export async function acceptInvite(
         createdAt: invite.acceptedAt ?? new Date().toISOString(),
       },
     };
+  }
+  if (termsAcceptance) {
+    return { error: "Durable Terms acceptance is unavailable on this host" };
   }
   return acceptInviteMemory(token, password);
 }

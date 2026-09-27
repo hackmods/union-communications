@@ -4,11 +4,13 @@ const mocks = vi.hoisted(() => ({
   auth: vi.fn(),
   resolveActor: vi.fn(),
   outstanding: vi.fn(),
+  currentPartyStatuses: vi.fn(),
   withRlsContext: vi.fn(),
   getDb: vi.fn(),
   log: vi.fn(),
   insertValues: vi.fn(),
   returning: vi.fn(),
+  partyRows: vi.fn(),
 }));
 
 vi.mock("@/auth", () => ({ auth: mocks.auth }));
@@ -16,12 +18,13 @@ vi.mock("@/lib/authorization/resolve-actor", () => ({ resolveAuthorizationActor:
 vi.mock("@/lib/public-documents/acceptance-gate", () => ({
   acceptanceRequiresVerifiedMfa: (scope: "individual" | "organization") => scope === "organization",
   outstandingDocumentAcceptances: mocks.outstanding,
+  currentOrganizationAcceptanceStatuses: mocks.currentPartyStatuses,
 }));
 vi.mock("@/lib/db/rls-context", () => ({ withRlsContext: mocks.withRlsContext }));
 vi.mock("@/lib/db/client", () => ({ getDb: mocks.getDb }));
 vi.mock("@/lib/audit/store", () => ({ auditLog: { log: mocks.log } }));
 
-import { POST } from "./route";
+import { GET, POST } from "./route";
 
 function session(input: { roles: string[]; mfaVerified: boolean }) {
   return {
@@ -48,15 +51,20 @@ describe("POST /api/documents/acceptance MFA scope", () => {
     mocks.auth.mockReset();
     mocks.resolveActor.mockReset();
     mocks.outstanding.mockReset();
+    mocks.currentPartyStatuses.mockReset().mockResolvedValue([]);
     mocks.withRlsContext.mockReset();
     mocks.getDb.mockReset();
     mocks.log.mockReset().mockResolvedValue(undefined);
     mocks.insertValues.mockReset();
     mocks.returning.mockReset().mockResolvedValue([{ id: "accept-1" }]);
+    mocks.partyRows.mockReset().mockResolvedValue([{ id: "current-party" }]);
     mocks.insertValues.mockReturnValue({
       onConflictDoNothing: () => ({ returning: mocks.returning }),
     });
-    mocks.getDb.mockReturnValue({ insert: () => ({ values: mocks.insertValues }) });
+    mocks.getDb.mockReturnValue({
+      select: () => ({ from: () => ({ where: () => ({ for: () => ({ limit: mocks.partyRows }) }) }) }),
+      insert: () => ({ values: mocks.insertValues }),
+    });
     mocks.withRlsContext.mockImplementation(async (_context: unknown, callback: () => unknown) => callback());
     mocks.resolveActor.mockImplementation(async (sess: ReturnType<typeof session>) => ({
       userId: sess.user.id,
@@ -112,6 +120,10 @@ describe("POST /api/documents/acceptance MFA scope", () => {
       authorityAttested: true,
       authorityAttestationVersion: "unionops-organization-acceptance-v1",
     }));
+    expect(mocks.log).toHaveBeenCalledWith(expect.objectContaining({
+      requestId: expect.any(String),
+      metadata: expect.objectContaining({ slug: "dpa", subjectId: "union-1" }),
+    }));
   });
 
   it("requires the current local president or vice-president for local acceptance", async () => {
@@ -132,5 +144,42 @@ describe("POST /api/documents/acceptance MFA scope", () => {
     const denied = await POST(request({ slug: "dpa", subjectType: "local", authorityAttestation: true }));
     expect(denied.status).toBe(403);
     expect(mocks.withRlsContext).not.toHaveBeenCalled();
+  });
+
+  it("rejects organization acceptance for an archived or missing party", async () => {
+    mocks.auth.mockResolvedValue(session({ roles: ["local_president"], mfaVerified: true }));
+    mocks.outstanding.mockResolvedValue([{ slug: "dpa", title: "DPA", versionId: "dpa-v1", requiresAcceptance: true, acceptanceScope: "organization" }]);
+    mocks.partyRows.mockResolvedValue([]);
+
+    const response = await POST(request({ slug: "dpa", subjectType: "local", authorityAttestation: true }));
+
+    expect(response.status).toBe(409);
+    expect(mocks.insertValues).not.toHaveBeenCalled();
+  });
+});
+
+describe("GET /api/documents/acceptance status", () => {
+  beforeEach(() => {
+    mocks.auth.mockReset();
+    mocks.resolveActor.mockReset();
+    mocks.outstanding.mockReset().mockResolvedValue([]);
+    mocks.currentPartyStatuses.mockReset().mockResolvedValue([]);
+    mocks.auth.mockResolvedValue(session({ roles: ["union_admin"], mfaVerified: true }));
+    mocks.resolveActor.mockResolvedValue({
+      userId: "user-1", unionId: "union-1", roles: ["union_admin"], memberships: [],
+      assignments: [], delegations: [], circleMemberships: [], mfaVerified: true,
+      accountActive: true, source: "database",
+    });
+  });
+
+  it("returns the current union DPA status only for a party the actor may administer", async () => {
+    mocks.currentPartyStatuses.mockResolvedValue([{
+      scope: "union", versionId: "dpa-v3", title: "Data Processing Agreement", acceptedAt: "2026-09-01T12:00:00.000Z",
+    }]);
+    const response = await GET(new Request("https://unionops.test/api/documents/acceptance?locale=en"));
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Cache-Control")).toBe("private, no-store");
+    expect(mocks.currentPartyStatuses).toHaveBeenCalledWith(expect.anything(), ["union"], "en");
+    expect(await response.json()).toMatchObject({ partyAcceptances: [{ scope: "union", versionId: "dpa-v3", acceptedAt: "2026-09-01T12:00:00.000Z" }] });
   });
 });
