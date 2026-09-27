@@ -14,7 +14,7 @@
 ## 2026-09-27 — Acceptance MFA scope
 
 - Personal policy acceptance no longer requires privileged MFA or writes a false MFA-verified RLS context. Organization acceptance still requires an MFA-verified session, exact current party authority, and the representative attestation.
-- Added forward-only migration `0075_personal_document_acceptance.sql` and focused scope/policy coverage. `node scripts/check-db-migrations.mjs` passes with 76 journal entries; Vitest, typecheck, and lint are unavailable because this checkout has no installed executables. Invite-activation acceptance, approved effective Terms/DPA, fresh organization step-up review, and deployed RLS verification remain open in [`LAUNCH_TRUST_LEGAL_REFACTOR.md`](LAUNCH_TRUST_LEGAL_REFACTOR.md).
+- Added forward-only migration `0075_personal_document_acceptance.sql`, scope/policy checks, and direct acceptance API tests for personal, union, and current-local authority paths. `node scripts/check-db-migrations.mjs` passes with 76 journal entries; Vitest, typecheck, and lint are unavailable because this checkout has no installed executables. Invite-activation acceptance, approved effective Terms/DPA, fresh organization step-up review, and deployed RLS verification remain open in [`LAUNCH_TRUST_LEGAL_REFACTOR.md`](LAUNCH_TRUST_LEGAL_REFACTOR.md).
 
 ## 2026-09-27 — Managed Document Library and Officer Hub vault
 
