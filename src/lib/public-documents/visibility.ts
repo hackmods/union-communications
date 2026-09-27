@@ -11,6 +11,13 @@ export function isInternalDocumentPayload(
   return payload?.visibility === "internal";
 }
 
+/** Policy text is not an effective public statement until an accountable human approval is recorded. */
+export function isApprovedPublicPolicy(
+  payload: { kind?: unknown; humanApproved?: unknown } | null | undefined,
+): boolean {
+  return payload?.kind !== "policy" || payload.humanApproved === true;
+}
+
 export function validateDocumentVisibility(input: {
   visibility?: unknown;
   kind: unknown;

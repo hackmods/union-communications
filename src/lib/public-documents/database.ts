@@ -2,7 +2,8 @@ import { and, eq, sql } from "drizzle-orm";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { publicDocuments, publicDocumentVersions, type PublicDocumentPayload } from "@/lib/db/schema";
 import { localizedPublicDocument, type PublicDocument } from "./registry";
-import { isPublicDocumentPayload } from "./visibility";
+import { policyDraftStatusCopy } from "./launch-drafts";
+import { isApprovedPublicPolicy, isPublicDocumentPayload } from "./visibility";
 
 export type StoredPublicDocument = {
   id: string;
@@ -73,14 +74,60 @@ export async function listStoredPublicDocuments(): Promise<StoredPublicDocument[
 }
 
 /** DB publication overlays registry content by slug; future schedules go live at their timestamp. */
-export async function publicDocumentBySlug(slug: string, locale: string): Promise<{ document: PublicDocument; payload: PublicDocumentPayload; versionId: string } | { unpublished: true } | null> {
+export async function publicDocumentBySlug(slug: string, locale: string): Promise<{ document: PublicDocument; payload: PublicDocumentPayload; versionId: string; draft?: true } | { unpublished: true } | null> {
   const [row] = await rowsForSlug(slug);
   if (!row) {
     const baseline = localizedPublicDocument(slug, locale);
-    return baseline ? { document: baseline, payload: { kind: baseline.inlineContent ? "policy" : baseline.externalUrl ? "external" : "file", title: { en: baseline.title, fr: baseline.title }, summary: { en: baseline.summary, fr: baseline.summary }, purpose: { en: baseline.purpose, fr: baseline.purpose }, audience: { en: baseline.audience, fr: baseline.audience }, format: baseline.format, language: baseline.language, owner: baseline.owner, source: baseline.source, hosting: baseline.hosting, externalUrl: baseline.externalUrl, fileName: baseline.file, relatedGuide: baseline.relatedGuide, unionBrand: baseline.unionBrand, linkedSurfaces: baseline.linkedSurfaces ? [...baseline.linkedSurfaces] : undefined, required: baseline.required }, versionId: `registry-${slug}-baseline` } : null;
+    if (!baseline) return null;
+    const isPolicyBaseline = ["privacy", "security", "accessibility"].includes(slug);
+    const draftStatus = policyDraftStatusCopy(locale);
+    const document = isPolicyBaseline
+      ? { ...baseline, title: `${draftStatus.label} ${baseline.title}`, effectiveDate: draftStatus.effectiveDate }
+      : baseline;
+    return {
+      document,
+      payload: { kind: isPolicyBaseline ? "policy" : baseline.externalUrl ? "external" : "file", title: { en: baseline.title, fr: baseline.title }, summary: { en: baseline.summary, fr: baseline.summary }, purpose: { en: baseline.purpose, fr: baseline.purpose }, audience: { en: baseline.audience, fr: baseline.audience }, format: baseline.format, language: baseline.language, owner: baseline.owner, source: baseline.source, hosting: baseline.hosting, externalUrl: baseline.externalUrl, fileName: baseline.file, relatedGuide: baseline.relatedGuide, unionBrand: baseline.unionBrand, linkedSurfaces: baseline.linkedSurfaces ? [...baseline.linkedSurfaces] : undefined, required: baseline.required, requiresAcceptance: false, ...(isPolicyBaseline ? { humanApproved: false } : {}) },
+      versionId: `registry-${slug}-baseline`,
+      ...(isPolicyBaseline ? { draft: true as const } : {}),
+    };
   }
   const live = isLive(row.head.status, row.head.publishAt, row.head.publishedVersion, row.head.archivedAt, new Date());
-  if (!live || !row.version || !isPublicDocumentPayload(row.version.payload)) return { unpublished: true };
+  if (!live || !row.version || !isPublicDocumentPayload(row.version.payload)) {
+    if (
+      ["privacy", "security", "accessibility"].includes(slug)
+      && !row.head.archivedAt
+      && row.version
+      && isPublicDocumentPayload(row.version.payload)
+      && row.version.payload.kind === "policy"
+    ) {
+      const document = localizedPublicDocument(slug, locale);
+      if (document) {
+        const draftStatus = policyDraftStatusCopy(locale);
+        return {
+          document: {
+            ...document,
+            title: `${draftStatus.label} ${document.title}`,
+            version: `v${row.version.version}`,
+            effectiveDate: draftStatus.effectiveDate,
+          },
+          payload: row.version.payload,
+          versionId: row.version.id,
+          draft: true,
+        };
+      }
+    }
+    return { unpublished: true };
+  }
+  if (!isApprovedPublicPolicy(row.version.payload)) {
+    if (["privacy", "security", "accessibility"].includes(slug) && !row.head.archivedAt) {
+      const document = localizedPublicDocument(slug, locale);
+      if (document) {
+        const draftStatus = policyDraftStatusCopy(locale);
+        return { document: { ...document, title: `${draftStatus.label} ${document.title}`, version: `v${row.version.version}`, effectiveDate: draftStatus.effectiveDate }, payload: row.version.payload, versionId: row.version.id, draft: true };
+      }
+    }
+    return { unpublished: true };
+  }
   return { document: { ...fromPayload(slug, row.version.payload, locale, row.head.brandPresetId), version: `v${row.version.version}` }, payload: row.version.payload, versionId: row.version.id };
 }
 
@@ -88,11 +135,35 @@ export async function listPublicDocuments(locale: string): Promise<PublicDocumen
   const rows = await rowsForSlug();
   const heads = new Map(rows.map((row) => [row.head.slug, row]));
   const baselines = (await import("./registry")).PUBLIC_DOCUMENTS
-    .filter((doc) => !heads.has(doc.slug))
-    .map((doc) => localizedPublicDocument(doc.slug, locale)!)
+    .filter((doc) => {
+      const managed = heads.get(doc.slug);
+      if (!managed) return true;
+      return ["privacy", "security", "accessibility"].includes(doc.slug)
+        && !managed.head.archivedAt
+        && managed.version !== null
+        && isPublicDocumentPayload(managed.version.payload)
+        && managed.version.payload.kind === "policy"
+        && (managed.head.status === "draft" || !isApprovedPublicPolicy(managed.version.payload));
+    })
+    .map((doc) => {
+      const localized = localizedPublicDocument(doc.slug, locale)!;
+      const managed = heads.get(doc.slug);
+      if (
+        ["privacy", "security", "accessibility"].includes(doc.slug)
+        && (!managed || (!managed.head.archivedAt
+          && managed.version
+          && isPublicDocumentPayload(managed.version.payload)
+          && managed.version.payload.kind === "policy"
+          && (managed.head.status === "draft" || !isApprovedPublicPolicy(managed.version.payload))))
+      ) {
+        const draftStatus = policyDraftStatusCopy(locale);
+        return { ...localized, title: `${draftStatus.label} ${localized.title}`, effectiveDate: draftStatus.effectiveDate };
+      }
+      return localized;
+    })
     .filter(Boolean);
   const now = new Date();
-  const stored = rows.flatMap(({ head, version }) => version && isPublicDocumentPayload(version.payload) && isLive(head.status, head.publishAt, head.publishedVersion, head.archivedAt, now) ? [fromPayload(head.slug, version.payload, locale, head.brandPresetId)] : []);
+  const stored = rows.flatMap(({ head, version }) => version && isPublicDocumentPayload(version.payload) && isApprovedPublicPolicy(version.payload) && isLive(head.status, head.publishAt, head.publishedVersion, head.archivedAt, now) ? [fromPayload(head.slug, version.payload, locale, head.brandPresetId)] : []);
   return [...baselines, ...stored].sort((a, b) => a.title.localeCompare(b.title, locale === "fr" ? "fr-CA" : "en-CA"));
 }
 

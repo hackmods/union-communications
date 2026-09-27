@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  isApprovedPublicPolicy,
   isInternalDocumentPayload,
   isPublicDocumentPayload,
   validateDocumentVisibility,
@@ -20,6 +21,13 @@ describe("managed document visibility", () => {
   it("fails closed for malformed explicit visibility values", () => {
     expect(isPublicDocumentPayload({ visibility: "private" })).toBe(false);
     expect(isPublicDocumentPayload({ visibility: null })).toBe(false);
+  });
+
+  it("does not treat unapproved policy text as effective public content", () => {
+    expect(isApprovedPublicPolicy({ kind: "policy", humanApproved: true })).toBe(true);
+    expect(isApprovedPublicPolicy({ kind: "policy", humanApproved: false })).toBe(false);
+    expect(isApprovedPublicPolicy({ kind: "policy" })).toBe(false);
+    expect(isApprovedPublicPolicy({ kind: "file" })).toBe(true);
   });
 
   it("allows internal operating documents only as non-required policy drafts", () => {

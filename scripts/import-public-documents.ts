@@ -11,6 +11,7 @@ import { localizedPublicDocument, PUBLIC_DOCUMENTS } from "@/lib/public-document
 import enMessages from "../messages/en.json";
 import frMessages from "../messages/fr.json";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { initialRegistryImportStatus, LAUNCH_DRAFT_SEEDS, toLaunchDraftPayload } from "@/lib/public-documents/launch-drafts";
 
 function readPath(source: unknown, path: string): string | undefined {
   let value: unknown = source;
@@ -96,9 +97,10 @@ async function main() {
       payload = { ...payload, fileName, mimeType, sizeBytes: bytes.length, storageKey, sha256: createHash("sha256").update(bytes).digest("hex"), scanStatus: scan.status, redistributionPermission: "UnionOps-authored template or anonymized UnionOps sample; contains no third-party bytes or marks" };
     }
     const brandPresetId = source.unionBrand === "OPSEU / SEFPO" ? "opseu" : null;
+    const status = initialRegistryImportStatus(payload.kind);
     try {
       await db.transaction(async (tx) => {
-        await tx.insert(publicDocuments).values({ id, slug: source.slug, status: "published", currentVersion: 1, publishedVersion: 1, scheduledVersion: null, brandPresetId, hostWidePolicy: payload.kind === "policy", publishAt: new Date(), createdById: "registry-import", updatedById: "registry-import" });
+        await tx.insert(publicDocuments).values({ id, slug: source.slug, status, currentVersion: 1, publishedVersion: status === "published" ? 1 : null, scheduledVersion: null, brandPresetId, hostWidePolicy: payload.kind === "policy", publishAt: status === "published" ? new Date() : null, createdById: "registry-import", updatedById: "registry-import" });
         await tx.insert(publicDocumentVersions).values({ id: versionId, documentId: id, version: 1, payload, createdById: "registry-import" });
       });
     } catch (error) {
@@ -107,25 +109,19 @@ async function main() {
     }
     imported += 1;
   }
-  let termsDraft = 0;
-  const [existingTerms] = await db.select({ id: publicDocuments.id }).from(publicDocuments).where(eq(publicDocuments.slug, "terms")).limit(1);
-  if (!existingTerms) {
-    const id = "pubdoc-terms-draft";
-    const payload: PublicDocumentPayload = {
-      kind: "policy", title: { en: "Terms of Use (draft)", fr: "Conditions d’utilisation (brouillon)" },
-      summary: { en: "Draft record. No approved terms text is available for publication.", fr: "Fiche brouillon. Aucun texte de conditions approuvé n’est disponible pour publication." },
-      purpose: { en: "Review approved terms before publication", fr: "Faire approuver les conditions avant publication" },
-      audience: { en: "UnionOps users", fr: "Personnes qui utilisent UnionOps" }, format: "Web page", language: "en-fr",
-      owner: "UnionOps", source: "UnionOps policy draft", hosting: "UnionOps", linkedSurfaces: [], required: false,
-      requiresAcceptance: false, humanApproved: false,
-    };
+  let launchDrafts = 0;
+  for (const seed of LAUNCH_DRAFT_SEEDS) {
+    const [existing] = await db.select({ id: publicDocuments.id }).from(publicDocuments).where(eq(publicDocuments.slug, seed.slug)).limit(1);
+    if (existing) continue;
+    const id = `pubdoc-draft-${seed.slug}`;
+    const payload = toLaunchDraftPayload(seed);
     await db.transaction(async (tx) => {
-      await tx.insert(publicDocuments).values({ id, slug: "terms", status: "draft", currentVersion: 1, publishedVersion: null, scheduledVersion: null, brandPresetId: null, hostWidePolicy: true, publishAt: null, createdById: "registry-import", updatedById: "registry-import" });
+      await tx.insert(publicDocuments).values({ id, slug: seed.slug, status: "draft", currentVersion: 1, publishedVersion: null, scheduledVersion: null, brandPresetId: null, hostWidePolicy: seed.hostWidePolicy, publishAt: null, createdById: "registry-import", updatedById: "registry-import" });
       await tx.insert(publicDocumentVersions).values({ id: `${id}-v1`, documentId: id, version: 1, payload, createdById: "registry-import" });
     });
-    termsDraft = 1;
+    launchDrafts += 1;
   }
-  console.log(`[public-document-import] imported=${imported} skipped=${skipped} termsDraft=${termsDraft} registryTotal=${PUBLIC_DOCUMENTS.length}`);
+  console.log(`[public-document-import] imported=${imported} skipped=${skipped} launchDrafts=${launchDrafts} registryTotal=${PUBLIC_DOCUMENTS.length}`);
 }
 
 main().catch((error) => { console.error(error instanceof Error ? error.message : error); process.exitCode = 1; });

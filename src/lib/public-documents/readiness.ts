@@ -4,7 +4,7 @@ import { withRlsContext } from "@/lib/db/rls-context";
 import { publicDocuments, publicDocumentVersions } from "@/lib/db/schema";
 import { getObjectStorage, resolveAttachmentStorageMode } from "@/lib/attachments/storage";
 import { PUBLIC_DOCUMENTS } from "./registry";
-import { isPublicDocumentPayload } from "./visibility";
+import { isApprovedPublicPolicy, isPublicDocumentPayload } from "./visibility";
 
 export type PublicDocumentsReadiness = {
   ready: boolean;
@@ -43,6 +43,7 @@ export async function checkPublicDocumentsReadiness(): Promise<PublicDocumentsRe
       for (const { head, version } of active) {
         if (!version) { invalidActive.push(`${head.slug}: current version missing`); continue; }
         const payload = version.payload;
+        if (!isApprovedPublicPolicy(payload)) invalidActive.push(`${head.slug}: policy approval is not recorded`);
         if (!payload.title?.en?.trim() || !payload.title?.fr?.trim() || !payload.summary?.en?.trim() || !payload.summary?.fr?.trim()) invalidActive.push(`${head.slug}: placeholder metadata`);
         if (payload.kind === "policy" && (!payload.content?.en?.trim() || !payload.content?.fr?.trim())) invalidActive.push(`${head.slug}: bilingual policy content missing`);
         if (payload.kind === "external" && (!payload.externalUrl || !payload.externalUrl.startsWith("https://"))) invalidActive.push(`${head.slug}: invalid external source`);

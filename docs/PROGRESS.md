@@ -16,6 +16,11 @@
 - Personal policy acceptance no longer requires privileged MFA or writes a false MFA-verified RLS context. Organization acceptance still requires an MFA-verified session, exact current party authority, and the representative attestation.
 - Added forward-only migration `0075_personal_document_acceptance.sql`, scope/policy checks, and direct acceptance API tests for personal, union, and current-local authority paths. `node scripts/check-db-migrations.mjs` passes with 76 journal entries; Vitest, typecheck, and lint are unavailable because this checkout has no installed executables. Invite-activation acceptance, approved effective Terms/DPA, fresh organization step-up review, and deployed RLS verification remain open in [`LAUNCH_TRUST_LEGAL_REFACTOR.md`](LAUNCH_TRUST_LEGAL_REFACTOR.md).
 
+## 2026-09-27 — Launch document draft queue
+
+- Extended the idempotent managed-document baseline import to seed the existing Privacy, Security, and Accessibility text as unpublished policy drafts; metadata-only Terms and DPA drafts; and internal drafts for incident response, privacy requests, retention/deletion, access/MFA, security, vulnerability management, logging/alerts, backup/restore, CASL, subprocessor review, data inventory, privacy impact assessment, and accessibility remediation.
+- Draft titles are marked “DRAFT / NOT YET IN EFFECT” in both locales; public detail routes visibly label existing baseline text, internal procedure records have internal visibility, and no seed asserts approval, acceptance, or launch readiness. Readiness blocks required unpublished/unapproved policies. Existing database rows are not rewritten automatically. The import was not run against a target host. Focused source tests were added but Vitest/typecheck/lint remain unavailable.
+
 ## 2026-09-27 — Managed Document Library and Officer Hub vault
 
 - Public `/[locale]/documents` discovery uses durable versioned Postgres records, bilingual detail pages, scheduled publication, downloads from immutable shared-storage objects, official-source redirects, MFA-gated platform-admin publishing, and Brand Kit preset variants. Old policy/download links redirect to canonical library routes; legal baseline wording and Accessibility settings remain intact.
