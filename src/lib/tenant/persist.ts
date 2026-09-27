@@ -62,6 +62,7 @@ const HUB_MODULES: HubModule[] = [
   "bylaws",
   "proposals",
   "data",
+  "documents",
 ];
 
 function asHubModules(raw: string[] | null | undefined): HubModule[] {

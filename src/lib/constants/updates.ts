@@ -24,6 +24,13 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "documents-library-and-vault",
+    date: "2026-09-27",
+    kind: "improved",
+    audience: "hub",
+    href: "/documents",
+  },
+  {
     id: "discipline-ladder-collections",
     date: "2026-09-26",
     kind: "improved",
@@ -71,7 +78,7 @@ export const UPDATES: readonly UpdateEntry[] = [
     id: "mobile-accessibility-controls",
     date: "2026-09-26",
     kind: "improved",
-    href: "/accessibility",
+    href: "/documents/accessibility",
   },
   {
     id: "website-layouts",

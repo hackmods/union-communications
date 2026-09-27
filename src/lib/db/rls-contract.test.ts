@@ -22,6 +22,8 @@ describe("RLS policy contract (no live DB)", () => {
       "app.current_user_id",
       "app.current_cross_local",
       "app.current_mfa_verified",
+      "app.current_platform_admin",
+      "app.current_retention_job",
     ]);
   });
 
@@ -49,6 +51,11 @@ describe("RLS policy contract (no live DB)", () => {
       expect(sql).toMatch(
         new RegExp(`CREATE POLICY\\s+${row.policy}\\s+ON\\s+${row.table}`),
       );
+      if (row.migration === "0065_public_document_management.sql") {
+        expect(sql).toContain("app.current_platform_admin");
+        expect(sql).toContain("app.current_mfa_verified");
+        continue;
+      }
       // Circle memberships are explicit cross-local relationships. Preferences
       // stay union-bound and actor-bound, while the membership itself decides
       // the Circle; requiring the currently selected local would break invited
@@ -202,6 +209,17 @@ describe("RLS policy contract (no live DB)", () => {
     expect(sql).toContain("CREATE OR REPLACE FUNCTION app_create_break_glass_grant(target_grievance text, grant_reason text)");
     expect(sql).toContain("CREATE OR REPLACE FUNCTION app_revoke_break_glass_grant(target_grievance text)");
     expect(sql).not.toContain("CREATE POLICY break_glass_grants_actor_scope ON break_glass_grants FOR ALL");
+  });
+
+  it("limits private-document recovery and purge functions to their exact authorized scope", () => {
+    const sql = readMigration("0066_document_recovery_retention.sql");
+    expect(sql).toContain("app_restore_archived_document(target_document_id text)");
+    expect(sql).toContain("app.current_platform_admin");
+    expect(sql).toContain("app.current_mfa_verified");
+    expect(sql).toContain("d.id = target_document_id AND d.archived_at IS NOT NULL");
+    expect(sql).toContain("app.current_retention_job");
+    expect(sql).toContain("d.legal_hold = false");
+    expect(sql).toContain("REVOKE ALL ON FUNCTION app_restore_archived_document(text) FROM PUBLIC");
   });
 
   it("removes role-array writes from the legacy officer roster policy", () => {

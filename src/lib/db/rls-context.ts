@@ -13,6 +13,9 @@ export interface RlsSessionContext {
   mfaVerified?: boolean;
   /** Elevated cross-local roles: union_admin / division_admin / platform_admin */
   crossLocal?: boolean;
+  /** Platform publishing authority; requires a separately verified MFA session. */
+  platformAdmin?: boolean;
+  retentionJob?: boolean;
 }
 
 /** Root client or transaction — both expose `execute` for SET LOCAL GUCs. */
@@ -40,6 +43,12 @@ export async function applyRlsContext(
   );
   await db.execute(
     sql`select set_config('app.current_mfa_verified', ${ctx.mfaVerified ? "true" : "false"}, true)`,
+  );
+  await db.execute(
+    sql`select set_config('app.current_platform_admin', ${ctx.platformAdmin ? "true" : "false"}, true)`,
+  );
+  await db.execute(
+    sql`select set_config('app.current_retention_job', ${ctx.retentionJob ? "true" : "false"}, true)`,
   );
 }
 

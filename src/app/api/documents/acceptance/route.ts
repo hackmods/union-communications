@@ -1,0 +1,53 @@
+import { randomUUID } from "node:crypto";
+import { and, eq } from "drizzle-orm";
+import { NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
+import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
+import { auditLog } from "@/lib/audit/store";
+import { getDb } from "@/lib/db/client";
+import { withRlsContext } from "@/lib/db/rls-context";
+import { publicDocumentAcceptances } from "@/lib/db/schema";
+import { outstandingDocumentAcceptances } from "@/lib/public-documents/acceptance-gate";
+
+export async function GET(request: Request) {
+  const session = await auth();
+  if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!sessionMfaOk(session)) return NextResponse.json({ error: "MFA required" }, { status: 403 });
+  const locale = new URL(request.url).searchParams.get("locale") === "fr" ? "fr" : "en";
+  const actor = await resolveAuthorizationActor(session);
+  const requirements = await outstandingDocumentAcceptances(session, locale);
+  const allowedScopes = ["individual", ...(actor.roles.includes("union_admin") ? ["union"] : []), ...(session.user.localId && actor.assignments.some((assignment) => assignment.localId === session.user.localId && ["president", "vice_president"].includes(assignment.position)) ? ["local"] : [])];
+  return NextResponse.json({ requirements, allowedScopes }, { headers: { "Cache-Control": "private, no-store" } });
+}
+
+export async function POST(request: Request) {
+  const session = await auth();
+  if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!sessionMfaOk(session)) return NextResponse.json({ error: "MFA required" }, { status: 403 });
+  const body = await request.json().catch(() => null) as { slug?: string; subjectType?: string } | null;
+  if (!body?.slug || !["individual", "union", "local"].includes(body.subjectType ?? "")) return NextResponse.json({ error: "slug and a valid subjectType are required" }, { status: 400 });
+  const actor = await resolveAuthorizationActor(session);
+  if (!actor.accountActive) return NextResponse.json({ error: "Session expired" }, { status: 401 });
+  const requirements = await outstandingDocumentAcceptances(session);
+  const target = requirements.find((item) => item.slug === body.slug);
+  if (!target) return NextResponse.json({ error: "No current acceptance is pending for that document" }, { status: 409 });
+  const type = body.subjectType as "individual" | "union" | "local";
+  let subjectId = session.user.id;
+  if (type === "union") {
+    if (!actor.roles.includes("union_admin") || !session.user.unionId || actor.unionId !== session.user.unionId) return NextResponse.json({ error: "Only a union administrator may accept for their own union" }, { status: 403 });
+    subjectId = session.user.unionId;
+  }
+  if (type === "local") {
+    const localId = session.user.localId;
+    const authorized = Boolean(localId && session.user.unionId && actor.assignments.some((assignment) => assignment.unionId === session.user.unionId && assignment.localId === localId && ["president", "vice_president"].includes(assignment.position)));
+    if (!authorized || !localId) return NextResponse.json({ error: "Only the current local president or vice-president may accept for this local" }, { status: 403 });
+    subjectId = localId;
+  }
+  await withRlsContext({ userId: session.user.id, unionId: session.user.unionId, localId: session.user.localId, mfaVerified: true }, async () => {
+    const db = getDb();
+    await db.insert(publicDocumentAcceptances).values({ id: `pubaccept-${randomUUID()}`, documentVersionId: target.versionId, resourceSlug: target.slug, subjectType: type, subjectId, acceptedById: session.user.id, acceptedAt: new Date() }).onConflictDoNothing();
+    await auditLog.log({ userId: session.user.id, action: "document.acceptance.record", resourceType: "public_document_version", resourceId: target.versionId, unionId: session.user.unionId, localId: session.user.localId, metadata: { slug: target.slug, subjectType: type, subjectId } });
+  });
+  return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "private, no-store" } });
+}

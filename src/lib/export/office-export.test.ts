@@ -28,11 +28,11 @@ import type { DesignTreatment } from "@/types/entities";
 
 const sampleLetterPath = join(
   process.cwd(),
-  "public/templates/office/docx/sample-letter.docx",
+  "src/lib/export/fixtures/office/docx/sample-letter.docx",
 );
 const sampleRosterPath = join(
   process.cwd(),
-  "public/templates/office/xlsx/sample-roster.xlsx",
+  "src/lib/export/fixtures/office/xlsx/sample-roster.xlsx",
 );
 
 function mockFetchFromFile(path: string) {

@@ -5,8 +5,8 @@ import { setRequestLocale } from "next-intl/server";
 import { DocumentsVault } from "@/components/hub/DocumentsVault";
 import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { isSessionModuleEnabled } from "@/lib/hub/session-modules";
-import { canAccessGrievanceModule } from "@/lib/grievance/access";
 import type { UserRole } from "@/types/tenant";
+import { requireDocumentsSession } from "@/lib/auth/documents-session";
 
 export default async function DocumentsPage({
   params,
@@ -24,12 +24,11 @@ export default async function DocumentsPage({
     redirect(`/${locale}/app/mfa`);
   }
   const roles = (session.user.roles ?? []) as UserRole[];
-  if (!canAccessGrievanceModule(roles)) {
-    redirect(`/${locale}/app`);
+  if (!isSessionModuleEnabled(session, "documents")) {
+    return <ModuleDisabledPanel moduleId="documents" roles={roles} />;
   }
-  if (!isSessionModuleEnabled(session, "grievance")) {
-    return <ModuleDisabledPanel moduleId="grievance" roles={roles} />;
-  }
+  const access = await requireDocumentsSession();
+  if (!access.ok) redirect(`/${locale}/app`);
 
   return <DocumentsVault />;
 }

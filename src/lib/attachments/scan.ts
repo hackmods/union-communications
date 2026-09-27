@@ -6,8 +6,10 @@ const ALLOWED = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
+  "image/svg+xml",
   "application/msword",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "text/csv",
 ]);
 
 /**
@@ -51,6 +53,7 @@ export type ScanMeta = {
   mimeType: string;
   sizeBytes: number;
   contentBase64?: string;
+  contentBytes?: Uint8Array;
 };
 
 export function isScannerConfigured(
@@ -59,9 +62,14 @@ export function isScannerConfigured(
   return Boolean(env.ATTACHMENT_SCANNER_URL?.trim());
 }
 
+function requiresRealScanner(env: NodeJS.ProcessEnv | Record<string, string | undefined>): boolean {
+  return env.NODE_ENV === "production" || env.ATTACHMENT_SCAN_MODE === "strict";
+}
+
 function allowSkipOnScannerError(
   env: NodeJS.ProcessEnv | Record<string, string | undefined>,
 ): boolean {
+  if (env.NODE_ENV === "production") return false;
   const raw = env.ATTACHMENT_SCAN_ALLOW_SKIP_ON_ERROR?.trim().toLowerCase();
   return raw === "true" || raw === "1";
 }
@@ -82,6 +90,10 @@ function validateMeta(meta: ScanMeta): ScanResult | null {
     };
   }
   // EICAR test string detection (base64 of classic EICAR)
+  const eicar = Buffer.from("X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*", "ascii");
+  if (meta.contentBytes && Buffer.from(meta.contentBytes).includes(eicar)) {
+    return { ok: false, status: "infected", error: "Malware signature detected" };
+  }
   if (meta.contentBase64?.includes("WDVPIVAlQEFQWzRcUFg1N0RUFALUg==")) {
     return { ok: false, status: "infected", error: "Malware signature detected" };
   }
@@ -202,7 +214,7 @@ export async function scanAttachment(
   if (local) return local;
 
   if (!isScannerConfigured(env)) {
-    if (env.ATTACHMENT_SCAN_MODE === "strict") {
+    if (requiresRealScanner(env)) {
       return {
         ok: false,
         status: "pending",
@@ -214,7 +226,7 @@ export async function scanAttachment(
 
   let bytes: Buffer;
   try {
-    bytes = Buffer.from(meta.contentBase64 ?? "", "base64");
+    bytes = meta.contentBytes ? Buffer.from(meta.contentBytes) : Buffer.from(meta.contentBase64 ?? "", "base64");
   } catch {
     return { ok: false, status: "pending", error: "Invalid base64 content" };
   }
@@ -245,7 +257,7 @@ export function scanAttachmentStub(
     };
   }
 
-  if (env.ATTACHMENT_SCAN_MODE === "strict") {
+  if (requiresRealScanner(env)) {
     return {
       ok: false,
       status: "pending",

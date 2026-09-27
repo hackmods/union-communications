@@ -47,7 +47,7 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/steward-101", params);
 }
 
-const INTAKE_TEMPLATE_HREF = "/templates/unionops-steward-intake.csv";
+const INTAKE_TEMPLATE_HREF = "/documents/steward-intake-template/download/";
 const INTAKE_TEMPLATE_DOWNLOAD = "unionops-steward-intake.csv";
 
 const MODULE_KEYS = ["orient", "hats", "protect", "equip"] as const;
@@ -685,4 +685,3 @@ export default async function Steward101GuidePage({
     </GuideLayout>
   );
 }
-

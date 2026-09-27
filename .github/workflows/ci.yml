@@ -74,6 +74,9 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Public document link registry
+        run: npm run check:public-document-links
+
       - name: Unit tests
         run: npm run test:unit
 

@@ -7,8 +7,12 @@ import {
 import { OFFICER_LEARNING_MODULES } from "@/lib/officer-learning/modules";
 import { canonicalPublicPath } from "@/lib/seo/public-routes";
 import { getPlatformDisabledToolSlugs } from "@/lib/public-tools/store";
+import { PUBLIC_DOCUMENTS } from "@/lib/public-documents/registry";
+import { listPublicDocuments } from "@/lib/public-documents/database";
 
 const LOCALES = ["en", "fr"] as const;
+
+export const dynamic = "force-dynamic";
 
 /** Non-catalog public leaves with their own indexable pages. */
 const SHELL_PATHS = [
@@ -22,9 +26,7 @@ const SHELL_PATHS = [
   "/updates",
   "/support",
   "/install",
-  "/privacy",
-  "/security",
-  "/accessibility",
+  "/documents",
   "/feedback",
   "/join",
   "/request-access",
@@ -43,6 +45,7 @@ export const PUBLIC_PATHS = [
     ...OFFICER_LEARNING_MODULES.map(({ slug }) =>
       canonicalPublicPath(`/guide/officer-learning/${slug}`),
     ),
+    ...PUBLIC_DOCUMENTS.map(({ slug }) => `/documents/${slug}`),
   ]),
 ];
 
@@ -54,8 +57,13 @@ function localeUrl(locale: string, path: string): string {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
   const disabled = new Set(await getPlatformDisabledToolSlugs());
+  const liveDocuments = await listPublicDocuments("en");
+  const paths = [
+    ...PUBLIC_PATHS.filter((path) => !path.startsWith("/documents/")),
+    ...liveDocuments.map(({ slug }) => `/documents/${slug}`),
+  ];
 
-  for (const path of PUBLIC_PATHS) {
+  for (const path of new Set(paths)) {
     const tool = PUBLIC_CATALOG.find(
       (item) => item.kind === "tool" && item.canonicalPath === path,
     );

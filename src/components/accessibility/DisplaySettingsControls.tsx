@@ -113,7 +113,7 @@ export function DisplaySettingsControls({
 
       <p className={cn(isCompact ? "text-sm" : "text-base")}>
         <Link
-          href="/accessibility"
+          href="/documents/accessibility"
           className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
         >
           {t("statementLink")}

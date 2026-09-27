@@ -9,9 +9,9 @@ describe("board-materials", () => {
     const posters = materialsByKind("ministryPoster");
     expect(posters.length).toBeGreaterThanOrEqual(2);
     for (const p of posters) {
-      expect(p.href).toBeDefined();
-      expect(p.href!).toMatch(/\.pdf$/);
-      expect(p.href!.startsWith("/assets/ontario-board-posters/")).toBe(true);
+      expect(p.documentSlug).toBeDefined();
+      expect(p.href).toBeUndefined();
+      expect(p.officialUrl).toMatch(/^https:\/\//);
     }
   });
 
@@ -37,8 +37,8 @@ describe("board-materials", () => {
   });
 
   it("offers optional XLSX for CSV sample templates", () => {
-    const csvTemplates = materialsByKind("localTemplate").filter((m) => m.href);
-    expect(csvTemplates.every((m) => m.href?.endsWith(".csv"))).toBe(true);
+    const csvTemplates = materialsByKind("localTemplate").filter((m) => m.documentSlug);
+    expect(csvTemplates.length).toBeGreaterThanOrEqual(2);
     expect(csvTemplates.filter((m) => m.offerXlsx).length).toBeGreaterThanOrEqual(
       2,
     );

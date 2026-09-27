@@ -180,7 +180,7 @@ export function AccessRequestForm({ kind, locale }: Props) {
         <Checkbox name="consent" label={t("consent")} required />
         <p className="text-xs text-gray-600">
           {t("privacyLead")}{" "}
-          <Link href="/privacy" className="font-semibold text-opseu-blue underline">
+          <Link href="/documents/privacy" className="font-semibold text-opseu-blue underline">
             {t("privacyLink")}
           </Link>
         </p>

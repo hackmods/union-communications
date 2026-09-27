@@ -1,4 +1,6 @@
 import { mkdir, readFile, unlink, writeFile, access } from "node:fs/promises";
+import { createReadStream } from "node:fs";
+import { Readable } from "node:stream";
 import path from "node:path";
 import { constants } from "node:fs";
 import {
@@ -23,6 +25,7 @@ import {
 export interface ObjectStorageAdapter {
   put(key: string, bytes: Buffer, contentType: string): Promise<void>;
   get(key: string): Promise<Buffer | null>;
+  getStream(key: string): Promise<ReadableStream<Uint8Array> | null>;
   delete(key: string): Promise<void>;
   exists(key: string): Promise<boolean>;
 }
@@ -111,6 +114,16 @@ export class LocalFilesystemStorage implements ObjectStorageAdapter {
     try {
       const full = this.resolveKey(key);
       return await readFile(full);
+    } catch {
+      return null;
+    }
+  }
+
+  async getStream(key: string): Promise<ReadableStream<Uint8Array> | null> {
+    try {
+      const full = this.resolveKey(key);
+      await access(full, constants.F_OK);
+      return Readable.toWeb(createReadStream(full)) as ReadableStream<Uint8Array>;
     } catch {
       return null;
     }
@@ -282,6 +295,19 @@ export class S3ObjectStorage implements ObjectStorageAdapter {
       if (name === "NoSuchKey" || name === "NotFound" || status === 404) {
         return null;
       }
+      throw err;
+    }
+  }
+
+  async getStream(key: string): Promise<ReadableStream<Uint8Array> | null> {
+    try {
+      const out = await this.client.send(new GetObjectCommand({ Bucket: this.config.bucket, Key: key }));
+      if (!out.Body) return null;
+      return out.Body.transformToWebStream() as ReadableStream<Uint8Array>;
+    } catch (err) {
+      const name = err && typeof err === "object" && "name" in err ? String((err as { name: string }).name) : "";
+      const status = err && typeof err === "object" && "$metadata" in err ? (err as { $metadata?: { httpStatusCode?: number } }).$metadata?.httpStatusCode : undefined;
+      if (name === "NoSuchKey" || name === "NotFound" || status === 404) return null;
       throw err;
     }
   }

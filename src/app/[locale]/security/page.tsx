@@ -152,7 +152,7 @@ export default async function SecurityPage({
           <GuideProse className="mt-2">
             {t("privacyBody")}{" "}
             <Link
-              href="/privacy"
+              href="/documents/privacy"
               className="font-medium text-opseu-blue underline underline-offset-2"
             >
               {t("privacyLink")}

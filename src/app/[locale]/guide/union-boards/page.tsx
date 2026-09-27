@@ -169,7 +169,7 @@ export default async function UnionBoardsGuidePage({
         <p className="mt-1 text-sm text-gray-600">{t("materials.ministryNote")}</p>
         <ul className="mt-4 grid gap-3 sm:grid-cols-2">
           {ministry.map((item) => {
-            const href = item.href;
+            const href = item.documentSlug ? `/${locale}/documents/${item.documentSlug}/${item.kind === "ministryPoster" ? "open" : ""}`.replace(/\/$/, "") : item.href;
             if (!href) return null;
             return (
             <li
@@ -217,7 +217,11 @@ export default async function UnionBoardsGuidePage({
         </h3>
         <p className="mt-1 text-sm text-gray-600">{t("materials.templatesNote")}</p>
         <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-          {templates.map((item) => (
+          {templates.map((item) => {
+            const templateHref = item.documentSlug
+              ? `/${locale}/documents/${item.documentSlug}/download/`
+              : item.href;
+            return (
             <li
               key={item.id}
               className="rounded-lg border border-gray-200 bg-white px-4 py-3"
@@ -231,10 +235,10 @@ export default async function UnionBoardsGuidePage({
               <div className="mt-2 flex flex-wrap items-center gap-3 text-sm">
                 {item.pdfReference ? (
                   <BoardReferenceSheetButton kind={item.pdfReference} />
-                ) : item.href ? (
+                ) : templateHref ? (
                   <>
                     <a
-                      href={item.href}
+                      href={templateHref}
                       className="font-medium text-opseu-blue underline"
                       download
                     >
@@ -242,9 +246,9 @@ export default async function UnionBoardsGuidePage({
                     </a>
                     {item.offerXlsx ? (
                       <SpreadsheetXlsxButton
-                        csvHref={item.href}
+                        csvHref={templateHref}
                         downloadBasename={
-                          item.href.split("/").pop() ?? "sample.csv"
+                          templateHref.split("/").pop() ?? "sample.csv"
                         }
                       />
                     ) : null}
@@ -252,7 +256,8 @@ export default async function UnionBoardsGuidePage({
                 ) : null}
               </div>
             </li>
-          ))}
+            );
+          })}
         </ul>
       </GuideSection>
 

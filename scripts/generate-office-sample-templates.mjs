@@ -1,5 +1,5 @@
 /**
- * Generate pristine Office baselines under public/templates/office/.
+ * Generate test-only Office baselines under src/lib/export/fixtures/office/.
  * Run: node scripts/generate-office-sample-templates.mjs
  *
  * Colour toggles fetch discrete files (e.g. simple-letter_red.docx).
@@ -12,8 +12,8 @@ import ExcelJS from "exceljs";
 import PizZip from "pizzip";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const docxDir = path.join(root, "public", "templates", "office", "docx");
-const xlsxDir = path.join(root, "public", "templates", "office", "xlsx");
+const docxDir = path.join(root, "src", "lib", "export", "fixtures", "office", "docx");
+const xlsxDir = path.join(root, "src", "lib", "export", "fixtures", "office", "xlsx");
 
 fs.mkdirSync(docxDir, { recursive: true });
 fs.mkdirSync(xlsxDir, { recursive: true });

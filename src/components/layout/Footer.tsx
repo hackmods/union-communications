@@ -41,19 +41,22 @@ export function Footer() {
           <Link href="/updates" className={footerLinkClass}>
             {nav("whatsNew")}
           </Link>
+          <Link href="/documents" className={footerLinkClass}>
+            {nav("documents")}
+          </Link>
           <Link href="/manifesto" className={footerLinkClass}>
             {nav("manifesto")}
           </Link>
           <Link href="/support" className={footerLinkClass}>
             {nav("support")}
           </Link>
-          <Link href="/privacy" className={footerLinkClass}>
+          <Link href="/documents/privacy" className={footerLinkClass}>
             {nav("privacy")}
           </Link>
-          <Link href="/security" className={footerLinkClass}>
+          <Link href="/documents/security" className={footerLinkClass}>
             {nav("security")}
           </Link>
-          <Link href="/accessibility" className={footerLinkClass}>
+          <Link href="/documents/accessibility" className={footerLinkClass}>
             {nav("accessibility")}
           </Link>
           <Link href="/feedback" className={footerLinkClass}>

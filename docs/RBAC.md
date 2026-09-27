@@ -33,6 +33,10 @@ The selection order in account/setup UI is **Union → bargaining collective (op
 | `stability_member` | Committee | — | — | R/W committee |
 | `solo_account` | User | R/W | Own cases | Own workspace |
 
+### Documents
+
+The private Documents module requires MFA, an enabled tenant module, an active local membership, local context, and an active officer/steward assignment. Local-shared documents are available only inside that local. Restricted documents are creator/grant scoped. Union and platform administrator roles do not grant access to private document contents by rank. Public Document Library publishing is a host operation restricted to MFA platform administrators; public union-brand variants are explicit presentation metadata and never establish Hub membership.
+
 ### UnionOps Data
 
 The Data workbench is local-scoped and requires MFA plus PostgreSQL. Platform, union, and division admins may manage the active local's datasets and imports; the local president may manage their own active local. Local executives, stewards, members, and Portal accounts have no Data access in the first release. Person records created from imports are data records only: they do not create login accounts, invitations, roles, or Portal access.
