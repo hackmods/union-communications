@@ -17,6 +17,23 @@ test.describe("Comms design treatments @smoke", () => {
       "aria-checked",
       "true",
     );
+    // Preview swatches are pointer-only (aria-hidden); clicking one selects treatment.
+    await page.locator('[data-treatment="balanced"]').click();
+    await expect(treatment.getByRole("radio", { name: "Balanced" })).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect.poll(async () =>
+      page.evaluate(() => {
+        const stored = JSON.parse(localStorage.getItem("unionops-brand-kit") || "{}");
+        return stored.designTreatment;
+      }),
+    ).toBe("balanced");
+    await page.getByRole("radio", { name: "Mostly white" }).click();
+    await expect(treatment.getByRole("radio", { name: "Mostly white" })).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
     await expect.poll(async () =>
       page.evaluate(() => {
         const stored = JSON.parse(localStorage.getItem("unionops-brand-kit") || "{}");

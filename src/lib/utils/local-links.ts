@@ -59,6 +59,9 @@ function normalizeSavedLooks(raw: unknown): SavedBrandLook[] {
       primaryColor: asBrandHex(row.primaryColor, "#1A1A1A"),
       secondaryColor: asBrandHex(row.secondaryColor, "#FFFFFF"),
       accentColor: asBrandHex(row.accentColor, "#1A1A1A"),
+      designTreatment: isDesignTreatment(row.designTreatment)
+        ? row.designTreatment
+        : undefined,
       useOfficialLogo: row.useOfficialLogo === true,
       officialLogoVariant: row.officialLogoVariant === "mark" ? "mark" : "lockup",
       identityPackId: typeof row.identityPackId === "string" ? row.identityPackId : undefined,

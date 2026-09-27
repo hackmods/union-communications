@@ -145,9 +145,14 @@ export function brandKitPatchForLogoMode(
     };
   }
   if (mode === "custom") {
+    const current = currentCustomLogoDataUrl?.trim() ?? "";
+    // Platform kits store the UnionOps mark in customLogoDataUrl. Clearing it
+    // to "" keeps resolveLogoMode on "custom" so ImageUpload can mount.
+    const keepUpload =
+      current.length > 0 && !isUnionOpsLogoSrc(current);
     return {
       useOfficialLogo: false,
-      customLogoDataUrl: currentCustomLogoDataUrl ?? "",
+      customLogoDataUrl: keepUpload ? current : "",
     };
   }
   return {

@@ -4,7 +4,7 @@ Shared **canvas chrome** for public export tools: Brand Kit–owned tokens + pri
 
 ## Design treatment (2026-09-25)
 
-`BrandKit.designTreatment` is independent of the palette, logo Look, and canvas style package. New kits start on `balanced`; a stored kit without the field resolves to `full`, preserving existing designs. Every maker may override the Brand Kit treatment within its own editable/export state. A saved Look contains colours and logo choice only; switching Looks does not alter treatment. Local pack round trips both values through Brand Kit normalization.
+`BrandKit.designTreatment` is independent of the palette, logo Look, and canvas style package. New kits start on `balanced`; a stored kit without the field resolves to `full`, preserving existing designs. Every maker may override the Brand Kit treatment within its own editable/export state. A saved Look contains colours, logo choice, **and design treatment**; switching Looks restores those three. Older Looks without `designTreatment` leave the kit treatment unchanged. Local pack round trips both values through Brand Kit normalization. Treatment preview swatches under `DesignTreatmentControl` are clickable (pointer enhancement; SegControl radios remain the accessible control).
 
 | Treatment | Composition contract |
 |-----------|----------------------|

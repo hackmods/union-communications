@@ -14,7 +14,6 @@ import {
   SuggestionPanel,
 } from "@/components/tools/steward-guides/SuggestionPanel";
 import { ViabilityScorecard } from "@/components/tools/steward-guides/ViabilityScorecard";
-import { FivePointFilterDiagram } from "@/components/comms/StewardGuideDiagrams";
 import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
@@ -162,10 +161,6 @@ export default function ComplaintVsGrievancePage() {
     </div>
   );
 
-  const filterLabels = DIAGNOSTIC_POINTS.map((id) =>
-    t(`points.${id}.label`),
-  ) as [string, string, string, string, string];
-
   const scorecard = (
     <ViabilityScorecard
       answers={draft.answers}
@@ -202,22 +197,12 @@ export default function ComplaintVsGrievancePage() {
       </Callout>
 
       <div className="space-y-3">
-        <div className="rounded-lg border border-gray-200 border-l-2 border-l-opseu-blue/30 p-3">
-          <p className="text-sm font-medium text-gray-900">
-            {t("diagrams.filterTitle")}
-          </p>
-          <FivePointFilterDiagram
-            labels={filterLabels}
-            caption={t("diagrams.filterCaption")}
-            className="mt-2"
-          />
-        </div>
+        <p className="text-sm text-gray-600">{t("diagrams.filterCaption")}</p>
         <Callout tone={showGrievance ? "success" : "warning"}>
           <p className="font-semibold">
             {showGrievance ? t("score.grievancePath") : t("score.alternatePath")}
           </p>
         </Callout>
-        {scorecard}
       </div>
 
       <fieldset className="space-y-3">

@@ -104,6 +104,15 @@ describe("brandKitPatchForLogoMode", () => {
     });
   });
 
+  it("selecting custom from the UnionOps platform mark clears it so the picker mounts", () => {
+    expect(
+      brandKitPatchForLogoMode("custom", "UO", UNIONOPS_LOGOS.mark),
+    ).toEqual({
+      useOfficialLogo: false,
+      customLogoDataUrl: "",
+    });
+  });
+
   it("selecting custom keeps an existing upload", () => {
     expect(
       brandKitPatchForLogoMode("custom", "LU", "data:image/png;base64,abc"),

@@ -1,3 +1,11 @@
+## 2026-09-26 — Site testing feedback (Brand Kit + steward worksheets)
+
+- Brand Kit: custom logo mode clears the UnionOps platform mark so the upload picker mounts; design-treatment preview swatches are clickable everywhere `DesignTreatmentControl` is used.
+- Saved Looks: include design treatment; swatch load UI + Looks jump link; clearer cap / other-preset messaging; Local pack pointer for full kit backup.
+- Complaint vs grievance: remove duplicate five-point diagram and form scorecard; keep unlock caption + single viability index above Draft & next steps.
+- Pre-disciplinary log: collection-scoped discipline ladder presets + editable rungs on Brand Kit profiles (confirm against CA).
+- What's new: `brand-kit-looks-logo-fix`, `discipline-ladder-collections`.
+
 ## 2026-09-26 — Org Chart peer chrome + white paper
 
 - Org Chart matches Board Notice dynamic chrome: design treatment, Canvas branding (logo mode / local number), canvas token overrides, undo/redo for layout chrome.

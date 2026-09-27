@@ -6,6 +6,7 @@ import {
   type UnionCollectionCatalog,
 } from "@/lib/brand/collection-profile-catalog";
 import { membershipUrlsForOpseuSector } from "@/lib/brand/membership-primary";
+import { normalizeDisciplineLadderCustom, isDisciplineLadderPresetId } from "@/lib/steward-guides/discipline-ladder-presets";
 import {
   DEFAULT_OPSEU_SECTOR_ID,
   getOpseuSector,
@@ -272,12 +273,24 @@ export function normalizeBrandKitProfiles(
         typeof row.bargainingUnitCode === "string"
           ? row.bargainingUnitCode.trim()
           : "";
+      const ladderPresetIdRaw =
+        typeof row.ladderPresetId === "string" && row.ladderPresetId.trim()
+          ? row.ladderPresetId.trim()
+          : undefined;
+      const ladderPresetId = isDisciplineLadderPresetId(ladderPresetIdRaw)
+        ? ladderPresetIdRaw
+        : undefined;
+      const disciplineLadderCustom = normalizeDisciplineLadderCustom(
+        row.disciplineLadderCustom,
+      );
       out.push({
         id,
         label,
         localNumber,
         subText,
         bargainingUnitCode: code || undefined,
+        ladderPresetId,
+        disciplineLadderCustom,
       });
     }
     return out.length > 0 ? out : fallback;

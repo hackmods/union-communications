@@ -2,10 +2,9 @@
 
 import { useMemo, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
-import { ProgressiveDisciplineLadderDiagram } from "@/components/comms/StewardGuideDiagrams";
+import { DisciplineLadderReference } from "@/components/tools/steward-guides/DisciplineLadderReference";
 import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
 import { Callout } from "@/components/ui/Callout";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -79,16 +78,6 @@ export default function PreDisciplinaryLogPage() {
   const scripts = useMemo(
     () => buildPreDisciplinaryScripts(draft, scriptLabels),
     [draft, scriptLabels],
-  );
-
-  const ladderSteps = useMemo(
-    () => [
-      t("ladder.coaching"),
-      t("ladder.written"),
-      t("ladder.suspension"),
-      t("ladder.termination"),
-    ],
-    [t],
   );
 
   const setRight = (id: RightsCheckId, value: TriState) => {
@@ -178,27 +167,7 @@ export default function PreDisciplinaryLogPage() {
         </Callout>
       ) : null}
 
-      <Callout tone="muted" role="note">
-        <p className="text-sm leading-relaxed">
-          <Link
-            href="/learn/officer/progressive-discipline"
-            className="font-semibold text-opseu-blue underline underline-offset-2"
-          >
-            {t("ladder.moduleLink")}
-          </Link>
-        </p>
-      </Callout>
-
-      <details className="rounded-lg border border-gray-200 bg-slate-50/80 p-3 open:bg-white">
-        <summary className="cursor-pointer text-sm font-semibold text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50">
-          {t("ladder.referenceSummary")}
-        </summary>
-        <div className="mt-3 space-y-2">
-          <p className="text-sm font-semibold text-opseu-dark">{t("ladder.title")}</p>
-          <p className="text-xs text-gray-600">{t("ladder.hint")}</p>
-          <ProgressiveDisciplineLadderDiagram steps={ladderSteps} />
-        </div>
-      </details>
+      <DisciplineLadderReference />
 
       <Callout tone="muted">
         <p className="font-medium text-gray-900">{t("confidentiality.title")}</p>

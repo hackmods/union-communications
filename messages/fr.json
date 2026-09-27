@@ -5,10 +5,15 @@
     "core": "Couleurs d’origine",
     "deep": "Couleur plus foncée",
     "saved": "Vos styles enregistrés",
+    "help": "Un style enregistre les couleurs, le choix de logo et la présentation pour ce préréglage syndical. Cliquez une pastille pour le charger.",
     "name": "Nom du style",
     "save": "Enregistrer les couleurs et le logo",
     "remove": "Retirer",
-    "empty": "Enregistrez un style pour retrouver ses couleurs et son logo plus tard."
+    "empty": "Enregistrez un style pour retrouver ses couleurs, son logo et sa présentation plus tard.",
+    "capCount": "{used} styles sur {max} enregistrés dans ce navigateur",
+    "otherPresetCount": "{count} style(s) enregistré(s) sous d’autres préréglages restent masqués jusqu’à ce que vous y reveniez.",
+    "capBlockedOtherPresets": "Limite atteinte. Retirez un style, ou passez à un autre préréglage et retirez-en là-bas ({count} masqués).",
+    "localPackHint": "Besoin d’une copie complète de la Trousse de marque? Utilisez le <link>Paquet local</link> pour télécharger ou importer le tout."
   },
   "designTreatment": {
     "label": "Présentation",
@@ -4223,6 +4228,7 @@
     "sections": {
       "identity": "Identité",
       "colours": "Couleurs",
+      "looks": "Styles",
       "preview": "Aperçu",
       "style": "Style",
       "links": "Liens et signature",
@@ -7468,6 +7474,14 @@
       "join-share-when-signed-in": {
         "title": "Formulaires d’accès bêta et partage une fois connecté",
         "body": "Les sections et les membres peuvent demander l’accès bêta avec des messages d’erreur plus clairs et un lien vers la confidentialité. Lorsque vous êtes déjà connecté, /join vous remercie et vous laisse copier des liens à partager avec d’autres sections."
+      },
+      "discipline-ladder-collections": {
+        "title": "L’échelle disciplinaire suit votre collection",
+        "body": "Sur le journal de rencontre prédisciplinaire, choisissez une échelle de discipline progressive pour la collection active de la Trousse de marque, ou modifiez les échelons selon la pratique locale. Confirmez les noms dans votre convention collective."
+      },
+      "brand-kit-looks-logo-fix": {
+        "title": "Logo et styles enregistrés dans la Trousse de marque",
+        "body": "Téléversez un logo personnalisé depuis la marque UnionOps sans que le sélecteur disparaisse. Les styles enregistrés conservent aussi la présentation — cliquez une pastille pour en charger un, et utilisez le Paquet local pour une copie complète."
       },
       "org-chart-peer-chrome": {
         "title": "L’organigramme rejoint les autres outils de tableau",
@@ -12025,7 +12039,37 @@
       "written": "Avertissement écrit",
       "suspension": "Suspension",
       "termination": "Congédiement",
+      "rungs": {
+        "coaching": "Conseil / coaching",
+        "written": "Avertissement écrit",
+        "suspension": "Suspension",
+        "termination": "Congédiement",
+        "verbal": "Verbal (documenté)",
+        "discharge": "Congédiement"
+      },
+      "presets": {
+        "generic-progressive-4": "Progressive générique (coaching d’abord)",
+        "ol-verbal-4": "Échelle pédagogique (verbal d’abord)",
+        "college-support-progressive": "Progressive soutien collégial",
+        "college-academic-progressive": "Progressive personnel enseignant collégial"
+      },
+      "using": "En cours : {collection} — {preset}",
+      "customSuffix": "(modifiée pour cette collection)",
+      "defaultCollection": "Collection active",
+      "presetLabel": "Préréglage d’échelle pour cette collection",
+      "disclaimer": "Confirmez les noms des échelons dans votre convention collective et la pratique locale. Ce schéma est une aide de référence, pas un avis juridique.",
+      "editForCollection": "Modifier pour cette collection",
+      "editHeading": "Échelons personnalisés pour cette collection",
+      "rungLabel": "Échelon {n}",
+      "newRung": "Nouvelle étape",
+      "addRung": "Ajouter un échelon",
+      "removeRung": "Retirer",
+      "moveUp": "Monter",
+      "moveDown": "Descendre",
+      "resetPreset": "Réinitialiser le préréglage",
+      "doneEditing": "Terminé",
       "moduleLink": "En savoir plus sur la discipline progressive",
+      "moduleNote": "La Formation des dirigeants garde un schéma pédagogique ; l’échelle de votre collection peut différer lorsque la pratique locale le fait.",
       "referenceSummary": "Référence facultative de l’échelle disciplinaire"
     },
     "proceduralAudit": {

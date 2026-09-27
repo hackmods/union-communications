@@ -5,10 +5,15 @@
     "core": "Original colours",
     "deep": "Deeper colour",
     "saved": "Your saved Looks",
+    "help": "A Look stores colours, logo choice, and design treatment for this union preset. Click a swatch to load it.",
     "name": "Look name",
     "save": "Save current colours and logo",
     "remove": "Remove",
-    "empty": "Save a Look to switch colours and logos later."
+    "empty": "Save a Look to switch colours, logo, and treatment later.",
+    "capCount": "{used} of {max} Looks saved in this browser",
+    "otherPresetCount": "{count} Look(s) saved under other union presets stay hidden until you switch back.",
+    "capBlockedOtherPresets": "Limit reached. Remove a Look, or switch to another union preset and remove Looks there ({count} hidden).",
+    "localPackHint": "Need a full Brand Kit backup? Use <link>Local pack</link> to download or import everything."
   },
   "designTreatment": {
     "label": "Design treatment",
@@ -4223,6 +4228,7 @@
     "sections": {
       "identity": "Identity",
       "colours": "Colours",
+      "looks": "Looks",
       "preview": "Preview",
       "style": "Style",
       "links": "Links and signature",
@@ -7526,6 +7532,14 @@
       "org-chart-peer-chrome": {
         "title": "Org Chart matches other board tools",
         "body": "Org Chart now has design treatment, logo and local-number chrome, advanced canvas overrides, and undo — plus a White paper sheet that stays readable no matter your Brand Kit colours."
+      },
+      "discipline-ladder-collections": {
+        "title": "Discipline ladder matches your collection",
+        "body": "On the pre-disciplinary meeting log, pick a progressive-discipline ladder for the active Brand Kit collection, or edit the rungs to match local practice. Confirm names against your collective agreement."
+      },
+      "brand-kit-looks-logo-fix": {
+        "title": "Brand Kit logo upload and saved Looks",
+        "body": "Upload a custom logo from the UnionOps platform mark without the picker vanishing. Saved Looks now store design treatment too — click a colour swatch to load one, and use Local pack for a full kit backup."
       },
       "steward-tool-qol-pack": {
         "title": "Easier Brand Kit, Worksheets, and editable Word downloads",
@@ -12036,7 +12050,37 @@
       "written": "Written warning",
       "suspension": "Suspension",
       "termination": "Termination",
+      "rungs": {
+        "coaching": "Letter of counsel / coaching",
+        "written": "Written warning",
+        "suspension": "Suspension",
+        "termination": "Termination",
+        "verbal": "Verbal (documented)",
+        "discharge": "Discharge"
+      },
+      "presets": {
+        "generic-progressive-4": "Generic progressive (coaching first)",
+        "ol-verbal-4": "Teaching ladder (verbal first)",
+        "college-support-progressive": "College support progressive",
+        "college-academic-progressive": "College academic progressive"
+      },
+      "using": "Using: {collection} — {preset}",
+      "customSuffix": "(edited for this collection)",
+      "defaultCollection": "Active collection",
+      "presetLabel": "Ladder preset for this collection",
+      "disclaimer": "Confirm rung names against your collective agreement and local practice. This diagram is a reference aid, not legal advice.",
+      "editForCollection": "Edit for this collection",
+      "editHeading": "Custom rungs for this collection",
+      "rungLabel": "Rung {n}",
+      "newRung": "New step",
+      "addRung": "Add rung",
+      "removeRung": "Remove",
+      "moveUp": "Up",
+      "moveDown": "Down",
+      "resetPreset": "Reset to preset",
+      "doneEditing": "Done",
       "moduleLink": "Learn about progressive discipline",
+      "moduleNote": "Officer Learning keeps a teaching diagram; your collection ladder can differ when local practice does.",
       "referenceSummary": "Optional discipline ladder reference"
     },
     "pocketSheetModuleTitle": "Progressive Discipline"
