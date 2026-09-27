@@ -602,22 +602,30 @@ export function PresidentConfiguration({
           {t("intro", { union: unionName || t("yourUnion") })}
         </p>
         {isPlatformAdmin && unionOptions.length > 0 ? (
-          <Select
-            label={t("pickUnionLabel")}
-            value={operatorUnionId ?? ""}
-            onChange={(e) => {
-              const next = e.target.value;
-              if (next && next !== operatorUnionId) {
-                setOperatorUnionId(next);
-              }
-            }}
-          >
-            {unionOptions.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.slug ? `${u.name} (${u.slug})` : u.name}
-              </option>
-            ))}
-          </Select>
+          <div className="space-y-2">
+            <Select
+              label={t("pickUnionLabel")}
+              value={operatorUnionId ?? ""}
+              onChange={(e) => {
+                const next = e.target.value;
+                if (next && next !== operatorUnionId) {
+                  setOperatorUnionId(next);
+                }
+              }}
+            >
+              {unionOptions.map((u) => (
+                <option key={u.id} value={u.id}>
+                  {u.slug ? `${u.name} (${u.slug})` : u.name}
+                </option>
+              ))}
+            </Select>
+            <Link
+              href="/app/site-admin/unions"
+              className="inline-flex text-sm font-semibold text-opseu-blue underline"
+            >
+              {t("manageUnions")}
+            </Link>
+          </div>
         ) : null}
         {coachOpen ? (
           <Callout tone="brand" measure="fill">

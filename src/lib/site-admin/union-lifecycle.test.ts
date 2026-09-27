@@ -1,7 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
+  duplicateNameKeys,
   isUnionEmpty,
+  sortUnionsForSiteAdmin,
+  unionNameKey,
   type UnionAttachmentCounts,
+  type UnionLifecycleRow,
 } from "./union-lifecycle";
 import {
   createOverlayUnion,
@@ -69,6 +73,62 @@ describe("overlay union archive helpers", () => {
     expect(getTenantByUnionId(seed.union.id)?.union.name).toBe("After Name");
     removeOverlayUnion(seed.union.id);
     expect(getTenantByUnionId(seed.union.id)).toBeUndefined();
+  });
+});
+
+describe("union list helpers", () => {
+  const base = (
+    partial: Partial<UnionLifecycleRow> & Pick<UnionLifecycleRow, "id" | "name">,
+  ): UnionLifecycleRow => ({
+    slug: partial.slug ?? partial.id,
+    isDemo: false,
+    archivedAt: null,
+    createdAt: "2026-09-01T00:00:00.000Z",
+    membershipPolicy: "multi_local",
+    localCount: 0,
+    activeLocalCount: 0,
+    userCount: 0,
+    inviteCount: 0,
+    membershipCount: 0,
+    caseworkCount: 0,
+    empty: true,
+    ...partial,
+  });
+
+  it("flags case-insensitive duplicate display names", () => {
+    const rows = [
+      base({ id: "a", name: "OPSEU SEFPO" }),
+      base({ id: "b", name: "opseu sefpo" }),
+      base({ id: "c", name: "Behind 7 Proxies" }),
+    ];
+    const keys = duplicateNameKeys(rows);
+    expect(keys.has(unionNameKey("OPSEU SEFPO"))).toBe(true);
+    expect(keys.has(unionNameKey("Behind 7 Proxies"))).toBe(false);
+  });
+
+  it("sorts active before archived, then by name and created", () => {
+    const rows = [
+      base({
+        id: "z",
+        name: "Zed",
+        archivedAt: "2026-09-20T00:00:00.000Z",
+      }),
+      base({
+        id: "a2",
+        name: "Alpha",
+        createdAt: "2026-09-10T00:00:00.000Z",
+      }),
+      base({
+        id: "a1",
+        name: "Alpha",
+        createdAt: "2026-09-01T00:00:00.000Z",
+      }),
+    ];
+    expect(sortUnionsForSiteAdmin(rows).map((r) => r.id)).toEqual([
+      "a1",
+      "a2",
+      "z",
+    ]);
   });
 });
 

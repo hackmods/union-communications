@@ -3,6 +3,7 @@
 - Site Admin → **Unions** (`/app/site-admin/unions`): rename, soft-archive, restore, and hard-delete empty archived unions (typed slug confirm). Schema `unions.archived_at` from `0035` is now wired; demo casework wipe stays on Demo cleanup.
 - Runtime overlay + `GET /api/tenant` / brand-styles / customization pickers omit archived unions. President configuration shows `name (slug)` and links to manage unions.
 - `createUnionDurable` reuses an active union with the same case-insensitive display name so onboarding, invites, and site-admin create stop minting duplicate OPSEU-labelled tenants.
+- QOL: active/archived filter, created column, duplicate-name badges, locals + demo-cleanup links, delete-blocked reasons, manage-unions link under the loaded President configuration picker.
 - What's new (hub): `site-admin-union-lifecycle`. Lessons: [`session-knowledge-2026-09-27-union-lifecycle.md`](audit/session-knowledge-2026-09-27-union-lifecycle.md).
 
 ## 2026-09-27 — Gated product-news implementation (Packet 5)

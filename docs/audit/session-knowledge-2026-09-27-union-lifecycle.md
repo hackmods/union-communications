@@ -12,7 +12,8 @@ President configuration’s “Union to configure” list came from every tenant
 - **Site Admin → Unions** (`/app/site-admin/unions`): rename, soft-archive, restore, hard-delete when empty + already archived (typed slug confirm + MFA step-up when host policy requires it).
 - APIs: `POST .../unions/[id]/archive|restore`, extended `PATCH .../unions/[id]` (`name` and/or `membershipPolicy`), `DELETE .../unions/[id]` with `{ confirm: slug }`.
 - Runtime overlay omits archived unions on hydrate; archive removes the overlay seed; restore re-imports it.
-- Pickers (`GET /api/tenant`, brand-styles, customization) use active unions only; President config shows `name (slug)`.
+- Pickers (`GET /api/tenant`, brand-styles, customization) use active unions only; President config shows `name (slug)` and a manage-unions link (empty state + loaded picker).
+- Inventory QOL: active/archived filter, created column, duplicate-name badge + banner, locals count → locals page, demo badge → demo cleanup when enabled, delete-blocked reason when archived but not empty.
 - `createUnionDurable` reuses an active union with the same case-insensitive display name (covers onboarding, invites, site-admin create, access-request create).
 
 ## Do not

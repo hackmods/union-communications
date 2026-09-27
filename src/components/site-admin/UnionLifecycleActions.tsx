@@ -13,6 +13,8 @@ type Props = {
   name: string;
   archived: boolean;
   empty: boolean;
+  /** When archived but not empty — explain why Delete is unavailable. */
+  deleteBlockedReason?: string | null;
 };
 
 type Mode = "idle" | "rename" | "delete" | "stepUp";
@@ -26,6 +28,7 @@ export function UnionLifecycleActions({
   name,
   archived,
   empty,
+  deleteBlockedReason = null,
 }: Props) {
   const t = useTranslations("hub.platformOperator");
   const router = useRouter();
@@ -312,47 +315,54 @@ export function UnionLifecycleActions({
       ) : null}
 
       {mode === "idle" ? (
-        <div className="flex flex-wrap justify-end gap-2">
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            disabled={busy || resultUnconfirmed}
-            onClick={() => {
-              setRenameValue(name);
-              setMode("rename");
-              setError(null);
-            }}
-          >
-            {t("unionRename")}
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            disabled={busy || resultUnconfirmed}
-            onClick={() => void run(archived ? "restore" : "archive")}
-          >
-            {busy
-              ? t("unionActionSaving")
-              : archived
-                ? t("unionRestore")
-                : t("unionArchive")}
-          </Button>
-          {archived && empty ? (
+        <div className="flex w-full flex-col items-end gap-2">
+          <div className="flex flex-wrap justify-end gap-2">
             <Button
               type="button"
               size="sm"
               variant="outline"
               disabled={busy || resultUnconfirmed}
               onClick={() => {
-                setConfirmSlug("");
-                setMode("delete");
+                setRenameValue(name);
+                setMode("rename");
                 setError(null);
               }}
             >
-              {t("unionDelete")}
+              {t("unionRename")}
             </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              disabled={busy || resultUnconfirmed}
+              onClick={() => void run(archived ? "restore" : "archive")}
+            >
+              {busy
+                ? t("unionActionSaving")
+                : archived
+                  ? t("unionRestore")
+                  : t("unionArchive")}
+            </Button>
+            {archived && empty ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                disabled={busy || resultUnconfirmed}
+                onClick={() => {
+                  setConfirmSlug("");
+                  setMode("delete");
+                  setError(null);
+                }}
+              >
+                {t("unionDelete")}
+              </Button>
+            ) : null}
+          </div>
+          {archived && !empty && deleteBlockedReason ? (
+            <p className="max-w-xs text-right text-xs text-opseu-gray-dark">
+              {deleteBlockedReason}
+            </p>
           ) : null}
         </div>
       ) : null}
