@@ -21,6 +21,11 @@
 - Extended the idempotent managed-document baseline import to seed the existing Privacy, Security, and Accessibility text as unpublished policy drafts; metadata-only Terms and DPA drafts; and internal drafts for incident response, privacy requests, retention/deletion, access/MFA, security, vulnerability management, logging/alerts, backup/restore, CASL, subprocessor review, data inventory, privacy impact assessment, and accessibility remediation.
 - Draft titles are marked “DRAFT / NOT YET IN EFFECT” in both locales; public detail routes visibly label existing baseline text, internal procedure records have internal visibility, and no seed asserts approval, acceptance, or launch readiness. Readiness blocks required unpublished/unapproved policies. Existing database rows are not rewritten automatically. The import was not run against a target host. Focused source tests were added but Vitest/typecheck/lint remain unavailable.
 
+## 2026-09-27 — Public security claim correction
+
+- Corrected stale EN/FR Security and Site Admin host-readiness copy that described confidential Hub MFA as optional in hosted customer mode and Portal storage as memory-only. Current implementation requires production TOTP for privileged hosted-customer access and supports either memory or Postgres Portal storage; the wording now distinguishes these configurations without claiming which backend a production host uses.
+- Updated the hosted security guide and Compliance operator notes to match current controls. This source review does not verify any deployed host or replace the separate human/manual claim assessment. See [`session-knowledge-2026-09-27-public-security-claims.md`](audit/session-knowledge-2026-09-27-public-security-claims.md).
+
 ## 2026-09-27 — Managed Document Library and Officer Hub vault
 
 - Public `/[locale]/documents` discovery uses durable versioned Postgres records, bilingual detail pages, scheduled publication, downloads from immutable shared-storage objects, official-source redirects, MFA-gated platform-admin publishing, and Brand Kit preset variants. Old policy/download links redirect to canonical library routes; legal baseline wording and Accessibility settings remain intact.

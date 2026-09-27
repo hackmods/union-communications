@@ -11,8 +11,8 @@ Operator and steward reference for **UnionOps security on a hosted instance** (C
 | Surface | Route | Data location | Security model |
 |---------|-------|---------------|------------------|
 | **Public Comms** | `/tools/*`, guides | Browser only | No server persistence; no analytics (ADR-006) |
-| **Officer Hub** | `/app/*` | Server (memory or Postgres) | Auth.js, RBAC, optional MFA, RLS when Postgres |
-| **Local Portal** | `/portal/*` | Server memory today (`portalStore`) | Auth.js + circle membership; **no MFA by design** (ADR-017) |
+| **Officer Hub** | `/app/*` | Server (memory or Postgres) | Auth.js, RBAC, TOTP MFA for privileged capabilities in UnionOps-operated hosted customer mode, RLS when Postgres |
+| **Local Portal** | `/portal/*` | Server memory or Postgres adapter | Auth.js + circle membership; **no MFA by design** (ADR-017) |
 
 Grievance notes, bumping strategy, and confidential Hub casework **never** appear in Local Portal.
 
@@ -28,7 +28,7 @@ Grievance notes, bumping strategy, and confidential Hub casework **never** appea
 | Hub attachments (local FS) | TLS on download | **Not app-encrypted** — host volume | Encrypt `ATTACHMENT_LOCAL_DIR` volume |
 | Hub attachments (S3) | TLS | SSE-S3 AES256 on PutObject (default) | CMEK optional |
 | Hybrid export download | TLS (`Cache-Control: no-store`) | Plaintext JSON over session; browser encrypts after | Passphrase never sent to server |
-| Portal Circles content | TLS | **Plaintext in process memory** — no `PORTAL_DB_BACKEND` | Lost on restart; durable adapter not shipped |
+| Portal Circles content | TLS | Plaintext in process memory or Postgres, depending on `PORTAL_DB_BACKEND` | Memory-backed activity is lost on restart; Postgres-backed records persist subject to operator database and disk protections |
 | Site feedback | TLS | Postgres or memory per `FEEDBACK_DB_BACKEND` | Prefer Postgres for production |
 
 **Do not claim** “Portal member data is encrypted at rest.” **Do claim** “Sign-in and API traffic use HTTPS; Comms stay on-device.”
@@ -80,7 +80,7 @@ Before storing **real** member casework or collaboration:
 1. **Secrets** — unique `AUTH_SECRET`; strong Postgres passwords; URL-encode in connection strings.
 2. **Disable demo auth** — `AUTH_ALLOW_DEMO_USERS=false`, `NEXT_PUBLIC_DEMO_SITE=false`.
 3. **Postgres flip** — set `DATABASE_URL`, `MIGRATE_DATABASE_URL`, and `*_DB_BACKEND=postgres` per [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md). Run `npm run ops:verify-durable` locally first.
-4. **MFA (optional)** — recommended for higher-assurance hosts: `AUTH_MFA_ENABLED=true`, `AUTH_MFA_MODE=totp`. Leaving MFA off does not block Postgres casework.
+4. **MFA** — UnionOps-operated hosted customer deployments require production TOTP for privileged capabilities: `UNIONOPS_HOSTED_CUSTOMER_MODE=true`, `AUTH_MFA_MODE=totp`, `NODE_ENV=production`. Self-host operators remain responsible for selecting and verifying their own access policy. Do not use shared-code MFA for customer casework.
 5. **Canadian hosting** — preferred for labour records (PIPEDA/FIPPA posture in [`COMPLIANCE.md`](../COMPLIANCE.md)).
 6. **Attachments** — persistent volume for `ATTACHMENT_LOCAL_DIR` or S3 with scanning enabled.
 7. **Health** — after deploy: `curl -sL https://<host>/api/health/` → expect `postgresFlipComplete: true`, `demoAuthEnabled: false` when hardened.

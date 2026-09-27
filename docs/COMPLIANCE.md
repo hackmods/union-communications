@@ -89,11 +89,12 @@ Local Portal has an asynchronous adapter with memory and Postgres backends.
 Postgres persistence uses the restricted runtime role and RLS; the effective
 backend is selected with `PORTAL_DB_BACKEND`. Memory remains the default, so
 activity written to a memory-backed instance can disappear on restart. The
-combined 53-entry migration chain through `0052` has passed fresh and
-`0039`-era upgrade verification on an isolated Postgres database, along with
-restricted-role RLS, Portal durability, and process-restart smokes. Preserve
-these gates in CI. Operators must still preserve any runtime-only memory
-activity and authorize a staged rollout before cutover.
+Portal adapter and migration chain have isolated-database durability and
+restricted-role RLS coverage; confirm the current image's verified migration
+attestation before rollout. Operators must preserve runtime-only memory
+activity and authorize a staged rollout before cutover. In UnionOps-operated
+hosted customer mode, privileged capabilities require production TOTP MFA;
+self-host operators remain responsible for their own policy and verification.
 
 ## Attachment storage & scanning (FEAT-001)
 
