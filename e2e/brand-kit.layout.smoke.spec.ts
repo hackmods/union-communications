@@ -291,4 +291,36 @@ test.describe("Brand Kit membership audience @smoke", () => {
     await expect(audience).toContainText("Full-time");
     await expect(audience).toContainText("Part-time");
   });
+
+  test("custom logo upload mounts from the platform mark and persists", async ({
+    page,
+  }) => {
+    await page.goto("/en/create/brand-kit/");
+    await expect(
+      page.getByRole("navigation", { name: "Brand Kit sections" }).getByRole("link", {
+        name: "Logo",
+      }),
+    ).toBeVisible();
+    await page.getByRole("radio", { name: "Upload logo" }).click();
+    await expect(page.getByRole("button", { name: "Upload image" })).toBeVisible();
+
+    // 1×1 PNG
+    const png = Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+      "base64",
+    );
+    await page.locator("#brand-logo input[type=\"file\"]").setInputFiles({
+      name: "custom-logo.png",
+      mimeType: "image/png",
+      buffer: png,
+    });
+
+    await expect.poll(async () =>
+      page.evaluate(() => {
+        const stored = JSON.parse(localStorage.getItem("unionops-brand-kit") || "{}");
+        const url = stored.customLogoDataUrl as string | undefined;
+        return typeof url === "string" && url.startsWith("data:image/");
+      }),
+    ).toBe(true);
+  });
 });

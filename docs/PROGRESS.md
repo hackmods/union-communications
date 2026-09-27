@@ -1,3 +1,10 @@
+## 2026-09-26 — Site testing QOL follow-through
+
+- Pre-disciplinary: Learn link stays visible above the ladder disclosure; prior-step chips append collection ladder rungs.
+- Complaint vs grievance: one-line viability score under the path Callout (full scorecard remains in Draft & next steps).
+- Brand Kit: Logo jump-nav link; logo upload validation errors via i18n; Looks cap is per union preset; upload hint matches 2 MB limit.
+- Smoke: custom logo upload; steward tools assert ladder preset after opening disclosure.
+
 ## 2026-09-26 — Site testing feedback (Brand Kit + steward worksheets)
 
 - Brand Kit: custom logo mode clears the UnionOps platform mark so the upload picker mounts; design-treatment preview swatches are clickable everywhere `DesignTreatmentControl` is used.

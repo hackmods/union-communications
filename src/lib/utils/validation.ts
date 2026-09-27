@@ -1,8 +1,10 @@
 import { ALLOWED_IMAGE_TYPES, MAX_UPLOAD_SIZE_MB } from "@/lib/constants/brand";
 
+export type ImageValidationErrorCode = "invalidType" | "tooLarge";
+
 export type ValidationResult =
   | { valid: true; file: File }
-  | { valid: false; error: string };
+  | { valid: false; errorCode: ImageValidationErrorCode };
 
 export function validateImageFile(file: File): ValidationResult {
   const isSvg =
@@ -14,19 +16,15 @@ export function validateImageFile(file: File): ValidationResult {
     );
 
   if (!isAllowedType) {
-    return {
-      valid: false,
-      error: "Invalid file type. Use JPEG, PNG, WebP, or SVG.",
-    };
+    return { valid: false, errorCode: "invalidType" };
   }
 
   const maxBytes = MAX_UPLOAD_SIZE_MB * 1024 * 1024;
   if (file.size > maxBytes) {
-    return {
-      valid: false,
-      error: `File too large. Maximum size is ${MAX_UPLOAD_SIZE_MB}MB.`,
-    };
+    return { valid: false, errorCode: "tooLarge" };
   }
 
   return { valid: true, file };
 }
+
+export { MAX_UPLOAD_SIZE_MB };

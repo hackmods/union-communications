@@ -10,9 +10,9 @@
     "save": "Enregistrer les couleurs et le logo",
     "remove": "Retirer",
     "empty": "Enregistrez un style pour retrouver ses couleurs, son logo et sa présentation plus tard.",
-    "capCount": "{used} styles sur {max} enregistrés dans ce navigateur",
+    "capCount": "{used} styles sur {max} pour ce préréglage syndical",
     "otherPresetCount": "{count} style(s) enregistré(s) sous d’autres préréglages restent masqués jusqu’à ce que vous y reveniez.",
-    "capBlockedOtherPresets": "Limite atteinte. Retirez un style, ou passez à un autre préréglage et retirez-en là-bas ({count} masqués).",
+    "capBlocked": "Ce préréglage syndical a atteint la limite de styles. Retirez-en un pour en enregistrer un autre.",
     "localPackHint": "Besoin d’une copie complète de la Trousse de marque? Utilisez le <link>Paquet local</link> pour télécharger ou importer le tout."
   },
   "designTreatment": {
@@ -172,6 +172,8 @@
     "exportPartial": "{exported} feuilles sur {total} ont été exportées. Non exportées : {failed}. Réessayez.",
     "upload": "Téléverser une image",
     "uploadFailed": "Impossible de traiter cette image. Essayez un autre fichier.",
+    "uploadInvalidType": "Ce type de fichier n’est pas pris en charge. Utilisez JPEG, PNG, WebP ou SVG.",
+    "uploadTooLarge": "Ce fichier est trop volumineux. Utilisez une image de moins de {maxMb} Mo.",
     "remove": "Supprimer",
     "preview": "Aperçu",
     "learnMore": "En savoir plus",
@@ -994,7 +996,6 @@
       "pdfAuditCta": "Télécharger la fiche d'audit PDF"
     },
     "diagrams": {
-      "filterTitle": "Filtre de grief en 5 points",
       "filterAria": "Cinq vérifications diagnostiques avant d'ouvrir un grief",
       "filter1": "Convention ?",
       "filter2": "Loi ?",
@@ -4229,6 +4230,7 @@
       "identity": "Identité",
       "colours": "Couleurs",
       "looks": "Styles",
+      "logo": "Logo",
       "preview": "Aperçu",
       "style": "Style",
       "links": "Liens et signature",
@@ -4591,7 +4593,7 @@
       "description": "Si le préréglage inclut des logos, choisissez-en un. Sinon, marque UnionOps (teintée) ou téléversement local.",
       "useOfficialLogo": "Utiliser le logo OPSEU / SEFPO",
       "uploadCustomLogo": "Téléverser un logo",
-      "uploadHint": "PNG, JPEG, WebP ou SVG jusqu'à 10 Mo.",
+      "uploadHint": "PNG, JPEG, WebP ou SVG jusqu'à 2 Mo.",
       "useOfficialLogoHint": "Lockup officiel OPSEU / SEFPO - recommandé lorsque OPSEU / SEFPO est votre syndicat.",
       "noImage": "Aucune image",
       "noImageHint": "Revient au monogramme UnionOps teinté de votre couleur de marque principale.",
@@ -10698,7 +10700,7 @@
       "download": "Télécharger",
       "chooseFile": "Choisir un fichier",
       "noFileChosen": "Aucun fichier choisi",
-      "sizeLimit": "PDF, Word ou image, jusqu'à 10 Mo.",
+      "sizeLimit": "PDF, Word ou image, jusqu'à 2 Mo.",
       "uploadError": "Impossible de téléverser ce fichier. Vérifiez le type et la taille, puis réessayez.",
       "fileTooLarge": "Fichier trop volumineux (max 10 Mo)",
       "scanPending": "Analyse en attente",
@@ -10814,7 +10816,7 @@
       "download": "Télécharger",
       "chooseFile": "Choisir un fichier",
       "noFileChosen": "Aucun fichier choisi",
-      "sizeLimit": "PDF, Word ou image, jusqu'à 10 Mo.",
+      "sizeLimit": "PDF, Word ou image, jusqu'à 2 Mo.",
       "uploadError": "Impossible de téléverser ce fichier. Vérifiez le type et la taille, puis réessayez.",
       "fileTooLarge": "Fichier trop volumineux (max 10 Mo)",
       "scanPending": "Analyse en attente",
@@ -11983,7 +11985,8 @@
       "memberNarrative": "Récit et explications du membre",
       "mitigators": "Facteurs atténuants",
       "priorSteps": "Étapes progressives antérieures",
-      "priorStepsHint": "Dates et type (ex. avertissement écrit du 12 mars 2025)"
+      "priorStepsHint": "Dates et type (ex. avertissement écrit du 12 mars 2025)",
+      "priorStepsChipsHint": "Touchez un échelon de l’échelle de votre collection pour l’ajouter aux notes."
     },
     "triState": {
       "yes": "Oui",
@@ -12092,6 +12095,7 @@
     "moduleLink": "En savoir plus sur l’application de la convention",
     "score": {
       "label": "Indice de viabilité du grief",
+      "line": "Indice de viabilité du grief : {score} / 5",
       "grievancePath": "Au moins un point d'admissibilité est rempli. Complétez les 6 W et utilisez le brouillon à droite.",
       "alternatePath": "Aucun point d'admissibilité → utilisez le plan d'action de règlement alternatif ci-dessous. Les quatre brouillons de parcours sont prêts dans l'aperçu."
     },
@@ -12196,7 +12200,6 @@
     },
     "pocketSheetModuleTitle": "Application de la convention",
     "diagrams": {
-      "filterTitle": "Filtre d'admissibilité en cinq points",
       "filterCaption": "Un oui débloque la prise en charge de grief ; score zéro → plan d'action alternatif."
     },
     "grievancePlaybookLink": "Lire le guide des griefs"

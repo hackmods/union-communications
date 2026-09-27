@@ -24,7 +24,7 @@ export function SavedLooksPanel() {
   const allLooks = kit.savedLooks ?? [];
   const looks = allLooks.filter((look) => look.unionPresetId === kit.unionPresetId);
   const otherPresetCount = allLooks.length - looks.length;
-  const atCap = allLooks.length >= SAVED_LOOKS_MAX;
+  const atCap = looks.length >= SAVED_LOOKS_MAX;
   const currentTreatment = resolveDesignTreatment(kit);
 
   const save = () => {
@@ -92,14 +92,12 @@ export function SavedLooksPanel() {
           </Button>
         </div>
         <p className="mt-2 text-xs text-slate-600">
-          {t("capCount", { used: allLooks.length, max: SAVED_LOOKS_MAX })}
+          {t("capCount", { used: looks.length, max: SAVED_LOOKS_MAX })}
         </p>
-        {atCap && otherPresetCount > 0 ? (
-          <p className="mt-1 text-xs text-amber-800">
-            {t("capBlockedOtherPresets", { count: otherPresetCount })}
-          </p>
+        {atCap ? (
+          <p className="mt-1 text-xs text-amber-800">{t("capBlocked")}</p>
         ) : null}
-        {!atCap && otherPresetCount > 0 ? (
+        {otherPresetCount > 0 ? (
           <p className="mt-1 text-xs text-slate-600">
             {t("otherPresetCount", { count: otherPresetCount })}
           </p>

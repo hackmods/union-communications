@@ -203,6 +203,9 @@ export default function ComplaintVsGrievancePage() {
             {showGrievance ? t("score.grievancePath") : t("score.alternatePath")}
           </p>
         </Callout>
+        <p className="text-sm font-semibold text-opseu-dark" aria-live="polite">
+          {t("score.line", { score })}
+        </p>
       </div>
 
       <fieldset className="space-y-3">

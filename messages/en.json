@@ -10,9 +10,9 @@
     "save": "Save current colours and logo",
     "remove": "Remove",
     "empty": "Save a Look to switch colours, logo, and treatment later.",
-    "capCount": "{used} of {max} Looks saved in this browser",
+    "capCount": "{used} of {max} Looks for this union preset",
     "otherPresetCount": "{count} Look(s) saved under other union presets stay hidden until you switch back.",
-    "capBlockedOtherPresets": "Limit reached. Remove a Look, or switch to another union preset and remove Looks there ({count} hidden).",
+    "capBlocked": "This union preset is at the Look limit. Remove one to save another.",
     "localPackHint": "Need a full Brand Kit backup? Use <link>Local pack</link> to download or import everything."
   },
   "designTreatment": {
@@ -172,6 +172,8 @@
     "exportPartial": "Exported {exported} of {total} sheets. These did not export: {failed}. Try again.",
     "upload": "Upload image",
     "uploadFailed": "Could not process that image. Try another file.",
+    "uploadInvalidType": "That file type is not supported. Use JPEG, PNG, WebP, or SVG.",
+    "uploadTooLarge": "That file is too large. Use an image under {maxMb} MB.",
     "remove": "Remove",
     "preview": "Preview",
     "learnMore": "Learn more",
@@ -4229,6 +4231,7 @@
       "identity": "Identity",
       "colours": "Colours",
       "looks": "Looks",
+      "logo": "Logo",
       "preview": "Preview",
       "style": "Style",
       "links": "Links and signature",
@@ -4593,7 +4596,7 @@
       "description": "If your preset includes bundled logos, pick one. Otherwise use the UnionOps mark (tinted) or upload your own.",
       "useOfficialLogo": "Use OPSEU / SEFPO logo",
       "uploadCustomLogo": "Upload logo",
-      "uploadHint": "PNG, JPEG, WebP, or SVG up to 10 MB.",
+      "uploadHint": "PNG, JPEG, WebP, or SVG up to 2 MB.",
       "useOfficialLogoHint": "Official OPSEU / SEFPO lockup - recommended when OPSEU / SEFPO is your union.",
       "noImage": "No image",
       "noImageHint": "Falls back to the UnionOps mark tinted to your primary brand colour.",
@@ -11994,7 +11997,8 @@
       "memberNarrative": "Member narrative & explanations",
       "mitigators": "Mitigating factors",
       "priorSteps": "Prior progressive steps",
-      "priorStepsHint": "Dates and type (e.g. written warning 12 Mar 2025)"
+      "priorStepsHint": "Dates and type (e.g. written warning 12 Mar 2025)",
+      "priorStepsChipsHint": "Tap a rung from your collection ladder to add it to the notes."
     },
     "triState": {
       "yes": "Yes",
@@ -12092,6 +12096,7 @@
     "moduleLink": "Learn about contract enforcement",
     "score": {
       "label": "Grievance viability index",
+      "line": "Grievance viability index: {score} / 5",
       "grievancePath": "At least one eligibility point is met. Complete the 6 W's and use the draft on the right.",
       "alternatePath": "No eligibility points → use the Alternative Resolution Action Plan below. All four pathway drafts are ready in the preview."
     },
@@ -12196,7 +12201,6 @@
     },
     "pocketSheetModuleTitle": "Contract Enforcement",
     "diagrams": {
-      "filterTitle": "Five-point eligibility filter",
       "filterCaption": "Score yes on any point to unlock grievance intake; zero points → alternate action plan."
     },
     "grievancePlaybookLink": "Read the grievance playbook"

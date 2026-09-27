@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { validateImageFile } from "@/lib/utils/validation";
+import { validateImageFile, MAX_UPLOAD_SIZE_MB } from "@/lib/utils/validation";
 import { downscaleImageForStorage } from "@/lib/utils/image-storage";
 import { Button } from "@/components/ui/Button";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
@@ -33,7 +33,11 @@ export function ImageUpload({
 
     const result = validateImageFile(file);
     if (!result.valid) {
-      setError(result.error);
+      setError(
+        result.errorCode === "tooLarge"
+          ? t("uploadTooLarge", { maxMb: MAX_UPLOAD_SIZE_MB })
+          : t("uploadInvalidType"),
+      );
       e.target.value = "";
       return;
     }

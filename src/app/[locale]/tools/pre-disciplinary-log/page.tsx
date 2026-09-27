@@ -30,6 +30,7 @@ import {
   hasProceduralDefect,
   loadPreDisciplinaryDraft,
   preDisciplinaryDraftToMarkdown,
+  resolveDisciplineLadder,
   savePreDisciplinaryDraft,
   shouldEscalateCriminal,
   type AllegationTypeId,
@@ -79,6 +80,30 @@ export default function PreDisciplinaryLogPage() {
     () => buildPreDisciplinaryScripts(draft, scriptLabels),
     [draft, scriptLabels],
   );
+
+  const ladderRungs = useMemo(
+    () =>
+      resolveDisciplineLadder(brandKit, (key) => t(`ladder.rungs.${key}`)).rungs,
+    [brandKit, t],
+  );
+
+  const appendPriorRung = (label: string) => {
+    setDraft((prev) => {
+      const existing = prev.priorSteps.trim();
+      if (
+        existing
+          .toLowerCase()
+          .split(/[;\n,]/)
+          .some((part) => part.trim() === label.toLowerCase())
+      ) {
+        return prev;
+      }
+      return {
+        ...prev,
+        priorSteps: existing ? `${existing}; ${label}` : label,
+      };
+    });
+  };
 
   const setRight = (id: RightsCheckId, value: TriState) => {
     setDraft((prev) => ({
@@ -207,16 +232,41 @@ export default function PreDisciplinaryLogPage() {
         ))}
       </Select>
 
-      <Textarea
-        label={t("fields.priorSteps")}
-        rows={2}
-        value={draft.priorSteps}
-        onChange={(e) =>
-          setDraft((prev) => ({ ...prev, priorSteps: e.target.value }))
-        }
-        placeholder={t("fields.priorStepsHint")}
-      />
-
+      <div className="space-y-2">
+        <Textarea
+          label={t("fields.priorSteps")}
+          rows={2}
+          value={draft.priorSteps}
+          onChange={(e) =>
+            setDraft((prev) => ({ ...prev, priorSteps: e.target.value }))
+          }
+          placeholder={t("fields.priorStepsHint")}
+        />
+        <p className="text-xs text-gray-600">{t("fields.priorStepsChipsHint")}</p>
+        <div className="flex flex-wrap gap-2" role="group" aria-label={t("fields.priorSteps")}>
+          {ladderRungs.map((rung) => {
+            const active = draft.priorSteps
+              .toLowerCase()
+              .split(/[;\n,]/)
+              .some((part) => part.trim() === rung.label.toLowerCase());
+            return (
+              <button
+                key={rung.id}
+                type="button"
+                onClick={() => appendPriorRung(rung.label)}
+                aria-pressed={active}
+                className={`min-h-11 rounded-lg border px-3 text-sm font-medium focus-visible:ring-2 focus-visible:ring-opseu-blue/40 ${
+                  active
+                    ? "border-opseu-blue bg-opseu-blue/10 text-opseu-dark"
+                    : "border-gray-200 bg-white text-gray-700"
+                }`}
+              >
+                {rung.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
       <div ref={printRef} className="space-y-3">
         <fieldset className="space-y-3">
           <legend className="text-sm font-medium text-gray-700">

@@ -12,6 +12,10 @@ import {
 import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { isDesignTreatment } from "@/lib/brand/design-treatment";
+import {
+  SAVED_LOOKS_PARSE_MAX,
+  capSavedLooksPerPreset,
+} from "@/lib/brand/saved-looks";
 import { normalizeBrandKitCanvas } from "@/lib/utils/canvas-tokens";
 import type {
   BrandKit,
@@ -46,13 +50,13 @@ const BRAND_HEX = /^#[0-9A-Fa-f]{6}$/;
 
 function normalizeSavedLooks(raw: unknown): SavedBrandLook[] {
   if (!Array.isArray(raw)) return [];
-  const out: SavedBrandLook[] = [];
-  for (const item of raw.slice(0, 12)) {
+  const parsed: SavedBrandLook[] = [];
+  for (const item of raw.slice(0, SAVED_LOOKS_PARSE_MAX)) {
     if (!item || typeof item !== "object") continue;
     const row = item as Record<string, unknown>;
     if (typeof row.id !== "string" || !row.id.trim() ||
         typeof row.name !== "string" || !row.name.trim()) continue;
-    out.push({
+    parsed.push({
       id: row.id.trim().slice(0, 80),
       name: row.name.trim().slice(0, 60),
       unionPresetId: typeof row.unionPresetId === "string" ? row.unionPresetId : undefined,
@@ -70,7 +74,7 @@ function normalizeSavedLooks(raw: unknown): SavedBrandLook[] {
       logoText: typeof row.logoText === "string" ? row.logoText.slice(0, 12) : undefined,
     });
   }
-  return out;
+  return capSavedLooksPerPreset(parsed);
 }
 
 /** Keep a valid `#RRGGBB` colour; empty/invalid strings fall back to defaults. */

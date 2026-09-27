@@ -176,6 +176,9 @@ export default function BrandKitPage() {
         <a href="#brand-looks" className={sectionLinkClass}>
           {t("sections.looks")}
         </a>
+        <a href="#brand-logo" className={sectionLinkClass}>
+          {t("sections.logo")}
+        </a>
         <a href="#brand-preview" className={`${sectionLinkClass} xl:hidden`}>
           {t("sections.preview")}
         </a>
