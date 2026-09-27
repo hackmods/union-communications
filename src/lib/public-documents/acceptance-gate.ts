@@ -10,6 +10,11 @@ export type AcceptanceSubject = "individual" | "union" | "local";
 export type AcceptanceRequirement = { slug: string; title: string; versionId: string; requiresAcceptance: true; acceptanceScope: AcceptanceScope };
 export type AcceptanceEvidence = { subjectType: AcceptanceSubject; subjectId: string };
 
+/** Personal policy acceptance is not a privileged action; organization acceptance is. */
+export function acceptanceRequiresVerifiedMfa(scope: AcceptanceScope): boolean {
+  return scope === "organization";
+}
+
 /** Legacy payloads omit scope; malformed explicit values fail closed to organization scope. */
 export function resolveAcceptanceScope(scope: unknown): AcceptanceScope {
   return scope === undefined || scope === "individual" ? "individual" : "organization";
