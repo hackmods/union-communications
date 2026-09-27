@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "org-chart-peer-chrome",
+    date: "2026-09-26",
+    kind: "improved",
+    href: "/create/org-chart",
+  },
+  {
     id: "steward-tool-qol-pack",
     date: "2026-09-26",
     kind: "improved",

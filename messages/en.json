@@ -3794,6 +3794,10 @@
     "docGenHint": "Download Word below to edit this roster further. Need a blank template after elections? Document Generator still offers an empty sheet.",
     "docGenLink": "Open LEC directory template",
     "downloadWordList": "Download Word (editable list)",
+    "sheetBackground": "Sheet background",
+    "sheetBackgroundWhite": "White paper",
+    "sheetBackgroundBrand": "Brand colour field",
+    "sheetBackgroundHint": "White paper stays readable on any Brand Kit. Brand colour field fills the sheet with your treatment colours.",
     "layoutList": "List",
     "layoutListLocation": "List + location",
     "layoutHint": "Poster uses contact cards. List is a Position | Name sheet. List + location adds a campus (or site) column; use a short code when you have one.",
@@ -7518,6 +7522,10 @@
       "join-share-when-signed-in": {
         "title": "Beta access forms and signed-in sharing",
         "body": "Locals and members can apply for beta access with clearer errors and a privacy link. When you are already signed in, /join thanks you and lets you copy share links for other locals."
+      },
+      "org-chart-peer-chrome": {
+        "title": "Org Chart matches other board tools",
+        "body": "Org Chart now has design treatment, logo and local-number chrome, advanced canvas overrides, and undo — plus a White paper sheet that stays readable no matter your Brand Kit colours."
       },
       "steward-tool-qol-pack": {
         "title": "Easier Brand Kit, Worksheets, and editable Word downloads",

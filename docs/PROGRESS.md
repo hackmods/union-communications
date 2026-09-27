@@ -1,3 +1,8 @@
+## 2026-09-26 — Org Chart peer chrome + white paper
+
+- Org Chart matches Board Notice dynamic chrome: design treatment, Canvas branding (logo mode / local number), canvas token overrides, undo/redo for layout chrome.
+- New **White paper** sheet background (default) stays theme-agnostic; **Brand colour field** keeps treatment fills. PNG/PDF export uses the chosen sheet fill.
+
 ## 2026-09-26 — Steward tool QOL fit-gap polish
 
 - Brand Kit → Letter Generator seeding fills empty/placeholder fields on hydrate; secondary signature field on letter presets; office contact composes letterhead line; Next CTA de-duplicated.

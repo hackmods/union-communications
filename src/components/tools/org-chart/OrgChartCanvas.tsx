@@ -9,6 +9,8 @@ import {
 } from "react";
 import type { BrandKit, DesignTreatment } from "@/types/entities";
 import type { PublicRosterPerson } from "@/types/public-roster";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
   ORG_CHART_FORMATS,
   isOrgChartListLayout,
@@ -35,7 +37,7 @@ import {
   PRINT_PAGE_LEGACY_REFERENCE_PX,
   printBrandHeaderChrome,
 } from "@/lib/comms/print-page-formats";
-import { printPageScaledTokens, resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { printPageScaledTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { resolveTreatmentSurface } from "@/lib/brand/design-treatment-surface";
@@ -45,10 +47,17 @@ import {
   CanvasGrainOverlay,
 } from "@/components/tools/canvas";
 
+export type OrgChartSheetBackground = "brand" | "white";
+
 type OrgChartCanvasProps = {
   canvasRef: RefObject<HTMLDivElement | null>;
   brandKit: BrandKit;
   treatment: DesignTreatment;
+  /** Theme-agnostic sheet fill — `white` ignores Brand Kit field colour. */
+  sheetBackground: OrgChartSheetBackground;
+  tokens: CanvasTokens;
+  logoMode: BoardLogoMode;
+  showLocalNumber: boolean;
   people: PublicRosterPerson[];
   formatId: OrgChartFormatId;
   layoutId: OrgChartLayoutId;
@@ -88,6 +97,7 @@ function cardStyle(
   ink: string,
   compact: boolean,
   typeRatio: number,
+  borderColor?: string,
 ): CSSProperties {
   const padY = compact ? 6 : 10;
   const padX = compact ? 8 : 12;
@@ -95,6 +105,7 @@ function cardStyle(
     backgroundColor: plate,
     color: ink,
     borderRadius: 8,
+    border: borderColor ? `1px solid ${borderColor}` : undefined,
     padding: `${Math.round(padY * typeRatio)}px ${Math.round(padX * typeRatio)}px`,
     textAlign: "center",
     minWidth: Math.round((compact ? 88 : 112) * typeRatio),
@@ -103,10 +114,47 @@ function cardStyle(
   };
 }
 
+/** Export / canvas sheet fill after treatment + optional white override. */
+export function resolveOrgChartSheetFill(opts: {
+  treatment: DesignTreatment;
+  sheetBackground: OrgChartSheetBackground;
+  primary: string;
+  secondary: string;
+  accent: string;
+}): { outerFill: string; textInk: string; headerFill: string; brand: string } {
+  const treated = resolveTreatmentSurface(
+    opts.treatment,
+    {
+      primary: opts.primary,
+      secondary: opts.secondary,
+      accent: opts.accent,
+    },
+    "print",
+  );
+  if (opts.sheetBackground === "white") {
+    return {
+      outerFill: "#FFFFFF",
+      textInk: "#1A1A1A",
+      headerFill: treated.brand,
+      brand: treated.brand,
+    };
+  }
+  return {
+    outerFill: treated.outerFill,
+    textInk: treated.textInk,
+    headerFill: treated.brand,
+    brand: treated.brand,
+  };
+}
+
 export function OrgChartCanvas({
   canvasRef,
   brandKit,
   treatment,
+  sheetBackground,
+  tokens,
+  logoMode,
+  showLocalNumber,
   people,
   formatId,
   layoutId,
@@ -124,7 +172,6 @@ export function OrgChartCanvas({
   const referenceWidthPx = PRINT_PAGE_LEGACY_REFERENCE_PX;
   const designWidthPx = format.previewWidthPx;
   const designHeightPx = orgChartPreviewHeightPx(format);
-  const tokens = resolveCanvasTokens(brandKit);
   const scaledTokens = printPageScaledTokens(
     tokens,
     designWidthPx,
@@ -151,6 +198,13 @@ export function OrgChartCanvas({
   const logoMaxHeightPx = Math.round(
     headerChrome.logoMaxHeightPx * orgChartHeaderLogoScale(load),
   );
+  const sheet = resolveOrgChartSheetFill({
+    treatment,
+    sheetBackground,
+    primary: brandKit.primaryColor,
+    secondary: brandKit.secondaryColor,
+    accent: brandKit.accentColor,
+  });
   const treated = resolveTreatmentSurface(
     treatment,
     {
@@ -161,16 +215,25 @@ export function OrgChartCanvas({
     "print",
   );
   const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
-    primary: treated.outerFill,
-    secondary: treated.secondary,
+    primary: sheet.outerFill,
+    secondary:
+      sheetBackground === "white" ? "#FFFFFF" : treated.secondary,
     accent: treated.accent,
   });
-  const ink = treated.textInk;
-  const plateFill =
-    treatment === "full" ? brandKit.secondaryColor : treated.contentFill;
+  const ink = sheet.textInk;
+  const whiteSheet = sheetBackground === "white";
+  const plateFill = whiteSheet
+    ? treatment === "full"
+      ? brandKit.secondaryColor
+      : "#FFFFFF"
+    : treatment === "full"
+      ? brandKit.secondaryColor
+      : treated.contentFill;
   const plateInk = pickContrastingInk(plateFill);
-  const muted = mutedInkOnBackground(treated.outerFill, 0.85);
-  const headerFill = treated.brand;
+  const plateBorder =
+    whiteSheet && treatment !== "full" ? sheet.brand : undefined;
+  const muted = mutedInkOnBackground(sheet.outerFill, 0.85);
+  const headerFill = sheet.headerFill;
   const directoryRows = directoryRowsFromPeople(people, stewardsPositionLabel);
   const showLocation = orgChartLayoutShowsLocation(layoutId);
   const hasPeople = rosterHasNamedPeople(people);
@@ -264,6 +327,8 @@ export function OrgChartCanvas({
           localNumber={brandKit.local.localNumber}
           subText={brandKit.local.subText}
           logoSize="sm"
+          logoMode={logoMode}
+          showLocalLabel={showLocalNumber}
           fontFamily={scaledTokens.bodyFontFamily}
           labelFontSizePx={headerChrome.labelPx}
           logoMaxHeightPx={logoMaxHeightPx}
@@ -344,7 +409,7 @@ export function OrgChartCanvas({
                       style={{
                         textAlign: "left",
                         padding: cellPad,
-                        borderBottom: `2px solid ${treated.brand}`,
+                        borderBottom: `2px solid ${sheet.brand}`,
                         fontFamily: scaledTokens.headlineFontFamily,
                         fontSize: listHeadFontPx,
                         letterSpacing: "0.06em",
@@ -449,6 +514,7 @@ export function OrgChartCanvas({
                           plateInk,
                           compact && !lead,
                           typeRatio,
+                          plateBorder,
                         )}
                       >
                         <p

@@ -3792,6 +3792,10 @@
     "docGenHint": "Téléchargez Word ci-dessous pour modifier cette liste. Besoin d'un modèle vide après les élections? Le générateur de documents offre encore une feuille vierge.",
     "docGenLink": "Ouvrir le modèle de répertoire du CLE",
     "downloadWordList": "Télécharger Word (liste modifiable)",
+    "sheetBackground": "Fond de feuille",
+    "sheetBackgroundWhite": "Papier blanc",
+    "sheetBackgroundBrand": "Champ couleur de marque",
+    "sheetBackgroundHint": "Le papier blanc reste lisible avec n’importe quelle Trousse de marque. Le champ couleur remplit la feuille avec vos traitements.",
     "layoutList": "Liste",
     "layoutListLocation": "Liste + lieu",
     "layoutHint": "L'affiche utilise des cartes de contact. La liste est une feuille Poste | Nom. Liste + lieu ajoute une colonne campus (ou site) ; utilisez un code court si vous en avez un.",
@@ -7464,6 +7468,10 @@
       "join-share-when-signed-in": {
         "title": "Formulaires d’accès bêta et partage une fois connecté",
         "body": "Les sections et les membres peuvent demander l’accès bêta avec des messages d’erreur plus clairs et un lien vers la confidentialité. Lorsque vous êtes déjà connecté, /join vous remercie et vous laisse copier des liens à partager avec d’autres sections."
+      },
+      "org-chart-peer-chrome": {
+        "title": "L’organigramme rejoint les autres outils de tableau",
+        "body": "L’organigramme offre maintenant le traitement de design, le chrome logo et numéro de section, les réglages avancés de canevas et l’annulation — plus une feuille Papier blanc lisible quelle que soit la Trousse de marque."
       },
       "steward-tool-qol-pack": {
         "title": "Trousse de marque plus simple, Feuilles de travail, et Word modifiable",
