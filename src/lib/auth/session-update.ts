@@ -31,15 +31,25 @@ export function validateBargainingUnitForLocal(
     : undefined;
 }
 
-export function applyTrustedSessionUpdate(
+export async function applyTrustedSessionUpdate(
   token: JWT,
   session: SessionUpdateInput,
   now = Date.now(),
-): JWT {
+): Promise<JWT> {
   // mfaVerified is NEVER settable directly from client input.
   if (typeof session.mfaGrant === "string" && token.sub) {
-    if (consumeMfaGrant(token.sub, session.mfaGrant, now)) {
-      token.mfaVerified = true;
+    try {
+      if (await consumeMfaGrant(
+        token.sub,
+        session.mfaGrant,
+        now,
+        typeof token.sessionVersion === "number" ? token.sessionVersion : 0,
+      )) {
+        token.mfaVerified = true;
+      }
+    } catch {
+      // A database or grant-store outage must never turn a client update into
+      // a verified MFA claim. The JWT callback remains available but fails closed.
     }
   }
 

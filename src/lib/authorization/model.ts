@@ -1,6 +1,10 @@
 import type { Session } from "next-auth";
 import type { OfficerPosition } from "@/lib/db/schema/organization-access";
 import type { UserRole } from "@/types/tenant";
+import {
+  hostedCustomerProfileEnabled,
+  rolesRequireHostedMfa,
+} from "@/lib/auth/mfa-requirements";
 
 export type Capability =
   | "memberships.manage"
@@ -64,6 +68,26 @@ export type AuthorizationDecision = {
   reason: string;
   relationship?: string;
 };
+
+const MFA_REQUIRED_CAPABILITIES: readonly Capability[] = [
+  "memberships.manage",
+  "officers.manage",
+  "delegations.manage",
+  "circles.create",
+  "circles.admin",
+  "grievances.summary.read",
+  "grievances.case.read",
+  "grievances.case.write",
+  "grievances.access.manage",
+  "grievances.member_updates.publish",
+  "tenant.configure",
+  "customization.readDraft",
+  "customization.edit",
+  "customization.publish",
+  "customization.policy.manage",
+  "customization.localParameters.edit",
+  "customization.grants.manage",
+];
 
 export function actorFromSession(session: Session): AuthorizationActor {
   const u = session.user;
@@ -239,11 +263,21 @@ export function decideCapability(
     if (localScoped && !actor.roles.includes("platform_admin") && !matchingMembership) {
       return { allowed: false, capability, reason: "active_local_membership_required" };
     }
-    return { allowed: true, capability, reason: "administrative_role", relationship: actor.roles.find((r) => ["platform_admin", "union_admin", "division_admin"].includes(r)) };
+    return enforceHostedCapabilityMfa(actor, {
+      allowed: true,
+      capability,
+      reason: "administrative_role",
+      relationship: actor.roles.find((r) => ["platform_admin", "union_admin", "division_admin"].includes(r)),
+    });
   }
   if (localScoped && !matchingMembership) return { allowed: false, capability, reason: "active_local_membership_required" };
   if (matchingAssignment && positionHas(matchingAssignment.position, capability)) {
-    return { allowed: true, capability, reason: "active_officer_assignment", relationship: matchingAssignment.position };
+    return enforceHostedCapabilityMfa(actor, {
+      allowed: true,
+      capability,
+      reason: "active_officer_assignment",
+      relationship: matchingAssignment.position,
+    });
   }
   const delegation = localScoped
     ? actor.delegations.find((d) =>
@@ -251,8 +285,47 @@ export function decideCapability(
         d.capability === capability && new Date(d.endsAt).getTime() > Date.now(),
       )
     : undefined;
-  if (delegation) return { allowed: true, capability, reason: "active_delegation", relationship: delegation.grantorUserId };
+  if (delegation) {
+    return enforceHostedCapabilityMfa(actor, {
+      allowed: true,
+      capability,
+      reason: "active_delegation",
+      relationship: delegation.grantorUserId,
+    });
+  }
   return { allowed: false, capability, reason: "capability_not_granted" };
+}
+
+function enforceHostedCapabilityMfa(
+  actor: AuthorizationActor,
+  decision: AuthorizationDecision,
+): AuthorizationDecision {
+  if (
+    decision.allowed &&
+    hostedCustomerProfileEnabled(process.env) &&
+    MFA_REQUIRED_CAPABILITIES.includes(decision.capability) &&
+    !actor.mfaVerified
+  ) {
+    return { ...decision, allowed: false, reason: "mfa_required" };
+  }
+  return decision;
+}
+
+/** True when the actor currently holds any capability requiring hosted MFA. */
+export function actorHasHostedMfaCapability(actor: AuthorizationActor): boolean {
+  if (rolesRequireHostedMfa(actor.roles)) return true;
+  if (actor.circleMemberships.some((membership) => membership.role === "admin")) {
+    return true;
+  }
+  const now = Date.now();
+  return MFA_REQUIRED_CAPABILITIES.some((capability) =>
+    roleHas(actor.roles, capability) ||
+    actor.assignments.some((assignment) => positionHas(assignment.position, capability)) ||
+    actor.delegations.some((delegation) =>
+      delegation.capability === capability &&
+      new Date(delegation.endsAt).getTime() > now,
+    ),
+  );
 }
 
 export function isCrossLocalAdministrator(actor: AuthorizationActor): boolean {

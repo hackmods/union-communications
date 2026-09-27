@@ -1,3 +1,5 @@
+import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
+
 /**
  * Whether the site-admin Demo Cleanup purge UI and APIs are enabled.
  *
@@ -10,6 +12,7 @@
 export function isDemoPurgeEnabled(
   env: Partial<NodeJS.ProcessEnv> = process.env,
 ): boolean {
+  if (hostedCustomerProfileEnabled(env)) return false;
   const raw = env.SITE_ADMIN_DEMO_PURGE_ENABLED?.trim().toLowerCase();
   return raw === "1" || raw === "true" || raw === "yes";
 }

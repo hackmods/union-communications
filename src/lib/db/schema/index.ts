@@ -33,3 +33,5 @@ export * from "./hub-bylaws-proposals";
 export * from "./data-workbench";
 export * from "./customization";
 export * from "./platform-host-brand";
+export * from "./subprocessors";
+export * from "./incidents";

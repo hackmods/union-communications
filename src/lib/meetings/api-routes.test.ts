@@ -18,6 +18,10 @@ import {
   GET as getEvent,
   PATCH as patchEvent,
 } from "@/app/api/meetings/events/[id]/route";
+import {
+  GET as legacyGetEventExport,
+  POST as exportEventResponses,
+} from "@/app/api/meetings/events/[id]/export/route";
 import { POST as createToken } from "@/app/api/meetings/events/[id]/tokens/route";
 import { DELETE as revokeToken } from "@/app/api/meetings/events/[id]/tokens/[tokenId]/route";
 import {
@@ -273,6 +277,27 @@ describe("meetings API routes", () => {
       );
       expect(deleted.status).toBe(200);
       expect(await memoryMeetingsRsvpStore.getMeetingById(meeting.id)).toBeNull();
+    });
+  });
+
+  describe("POST /api/meetings/events/[id]/export", () => {
+    it("hides another union's RSVP roster and retires the legacy GET path", async () => {
+      const foreign = await memoryMeetingsRsvpStore.createMeeting(validCreate, {
+        unionId: "union-other",
+        localId: "local-1",
+        createdById: "user-x",
+      });
+      authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
+
+      const response = await exportEventResponses(
+        jsonRequest({}, `http://localhost/api/meetings/events/${foreign.id}/export`),
+        params(foreign.id),
+      );
+      expect(response.status).toBe(404);
+
+      const legacy = await legacyGetEventExport();
+      expect(legacy.status).toBe(405);
+      expect(legacy.headers.get("Allow")).toBe("POST");
     });
   });
 

@@ -16,6 +16,7 @@
  */
 import * as readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
+import { hostedCustomerProfileEnabled } from "../src/lib/auth/mfa-requirements";
 import { getDb, isPostgresConfigured, resetDbClient } from "../src/lib/db/client";
 import {
   closeOwnerDb,
@@ -33,6 +34,10 @@ import {
 
 async function main(): Promise<void> {
   const dryRun = process.argv.includes("--dry-run");
+
+  if (hostedCustomerProfileEnabled(process.env)) {
+    throw new Error("Demo purge is unavailable in the hosted customer profile");
+  }
 
   if (!isPostgresConfigured()) {
     throw new Error("DATABASE_URL is required");

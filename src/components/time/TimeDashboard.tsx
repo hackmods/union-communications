@@ -53,6 +53,13 @@ const CATEGORIES: TimeCategory[] = [
   "volunteer",
 ];
 
+type TimeExportFormat = "csv" | "xlsx" | "pdf";
+type PendingTimeExport = {
+  format: TimeExportFormat;
+  from: string;
+  to: string;
+};
+
 function formatDuration(entry: TimeEntry): string {
   const end = entry.clockOutAt ? new Date(entry.clockOutAt) : new Date();
   const ms = end.getTime() - new Date(entry.clockInAt).getTime();
@@ -190,6 +197,9 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
     return toLocalInputValue(d).slice(0, 16);
   });
   const [reportTo, setReportTo] = useState(() => toLocalInputValue(new Date()));
+  const [pendingExport, setPendingExport] = useState<PendingTimeExport | null>(null);
+  const [exportMfaCode, setExportMfaCode] = useState("");
+  const [exportError, setExportError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -598,13 +608,83 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
     }
   }
 
-  function handleExport(format: "csv" | "xlsx" | "pdf" = "csv") {
-    const qs = new URLSearchParams({
-      from: localInputToIso(reportFrom),
-      to: localInputToIso(reportTo),
+  async function submitTimeExport(
+    request: PendingTimeExport,
+    mfaCode?: string,
+  ) {
+    setWorking(true);
+    setExportError(null);
+    try {
+      const response = await fetch("/api/time/export", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...request, ...(mfaCode ? { mfaCode } : {}) }),
+      });
+      const result: { code?: string } = response.ok
+        ? {}
+        : ((await response.json().catch(() => ({}))) as { code?: string });
+      if (response.status === 428 || result.code === "mfa_step_up_required") {
+        setPendingExport(request);
+        setExportMfaCode("");
+        return;
+      }
+      if (!response.ok) {
+        if (result.code === "mfa_step_up_failed") {
+          setExportError(t("timeExportStepUpFailed"));
+        } else if (result.code === "mfa_step_up_limited") {
+          setExportError(t("timeExportStepUpLimited"));
+        } else if (
+          result.code === "mfa_step_up_unavailable" ||
+          result.code === "audit_unavailable"
+        ) {
+          setExportError(t("timeExportStepUpUnavailable"));
+        } else if (result.code === "export_audit_unavailable") {
+          setExportMfaCode("");
+          setExportError(t("timeExportAuditUnavailable"));
+        } else {
+          setExportError(t("timeExportError"));
+        }
+        return;
+      }
+
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const disposition = response.headers.get("Content-Disposition") ?? "";
+      const filename = disposition.match(/filename="?([^";]+)"?/i)?.[1] ??
+        `time-export.${request.format}`;
+      const anchor = document.createElement("a");
+      anchor.href = objectUrl;
+      anchor.download = filename;
+      document.body.append(anchor);
+      anchor.click();
+      anchor.remove();
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+      setPendingExport(null);
+      setExportMfaCode("");
+    } catch {
+      setExportError(t("timeExportError"));
+    } finally {
+      setWorking(false);
+    }
+  }
+
+  function handleExport(format: TimeExportFormat = "csv") {
+    setExportError(null);
+    const fromTime = Date.parse(reportFrom);
+    const toTime = Date.parse(reportTo);
+    if (
+      !Number.isFinite(fromTime) ||
+      !Number.isFinite(toTime) ||
+      fromTime > toTime
+    ) {
+      setExportError(t("timeExportInvalidRange"));
+      return;
+    }
+    void submitTimeExport({
+      from: new Date(fromTime).toISOString(),
+      to: new Date(toTime).toISOString(),
       format,
     });
-    window.location.assign(`/api/time/export?${qs}`);
   }
 
   function handleExportCsv() {
@@ -662,6 +742,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                 variant="outline"
                 className="w-full sm:w-auto"
                 onClick={handleExportCsv}
+                disabled={working}
               >
                 {t("exportCsv")}
               </Button>
@@ -1157,23 +1238,87 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                 >
                   {t("runReport")}
                 </Button>
-                <Button variant="outline" onClick={handleExportCsv}>
+                <Button
+                  variant="outline"
+                  onClick={handleExportCsv}
+                  disabled={working}
+                >
                   {t("exportCsv")}
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => handleExport("xlsx")}
+                  disabled={working}
                 >
                   {t("exportXlsx")}
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => handleExport("pdf")}
+                  disabled={working}
                 >
                   {t("exportPdf")}
                 </Button>
               </div>
             </div>
+            {pendingExport && (
+              <form
+                className="mt-4 space-y-3 rounded-lg border border-amber-300 bg-amber-50 p-4"
+                aria-labelledby="time-export-step-up-title"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  void submitTimeExport(pendingExport, exportMfaCode);
+                }}
+              >
+                <div>
+                  <h3 id="time-export-step-up-title" className="font-semibold">
+                    {t("timeExportStepUpTitle")}
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-700">
+                    {t("timeExportStepUpHint", {
+                      format: pendingExport.format.toUpperCase(),
+                      from: new Date(pendingExport.from).toLocaleString(),
+                      to: new Date(pendingExport.to).toLocaleString(),
+                    })}
+                  </p>
+                </div>
+                <Input
+                  label={t("timeExportMfaCode")}
+                  value={exportMfaCode}
+                  onChange={(event) => setExportMfaCode(event.target.value)}
+                  autoComplete="one-time-code"
+                  inputMode="numeric"
+                  maxLength={32}
+                  autoFocus
+                  required
+                />
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="submit"
+                    disabled={working || !exportMfaCode.trim()}
+                  >
+                    {t("timeExportStepUpVerify")}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    disabled={working}
+                    onClick={() => {
+                      setPendingExport(null);
+                      setExportMfaCode("");
+                      setExportError(null);
+                    }}
+                  >
+                    {t("timeExportStepUpCancel")}
+                  </Button>
+                </div>
+              </form>
+            )}
+            {exportError && (
+              <Callout className="mt-4" tone="danger" role="alert">
+                {exportError}
+              </Callout>
+            )}
             {reportTotals && (
               <div className="mt-4 space-y-3 text-sm">
                 <p>

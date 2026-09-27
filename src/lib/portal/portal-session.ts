@@ -7,6 +7,9 @@ import { canAccessPortal } from "@/lib/portal/access";
 import type { TenantContext, UserRole } from "@/types/tenant";
 import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
 import type { AuthorizationActor } from "@/lib/authorization/model";
+import { sessionHasMfaForActor } from "@/lib/auth/mfa-access";
+import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
+import { actorHasActiveCircleAdminAuthority } from "@/lib/portal/mfa-authority";
 
 export type PortalSessionResult =
   | { ok: true; session: Session; actor: AuthorizationActor }
@@ -23,6 +26,12 @@ export async function requirePortalSession(): Promise<PortalSessionResult> {
   const actor = await resolveAuthorizationActor(session);
   if (!actor.accountActive) {
     return { ok: false, status: 401, error: "Session expired" };
+  }
+  const hasCircleAdminAuthority = isHostedCustomerMode()
+    ? await actorHasActiveCircleAdminAuthority(actor)
+    : false;
+  if (!sessionHasMfaForActor(session, actor, process.env, hasCircleAdminAuthority)) {
+    return { ok: false, status: 403, error: "MFA verification required" };
   }
   await hydrateTenantOverlayFromPostgres();
   const tenant = getTenantContext(session.user.unionId, session.user.localId);
@@ -59,6 +68,12 @@ export async function requirePortalPage(locale: string): Promise<PortalPageGate>
   if (!tenant) redirect(`/${locale}/app`);
   const actor = await resolveAuthorizationActor(session);
   if (!actor.accountActive) redirect(`/${locale}/app/login`);
+  const hasCircleAdminAuthority = isHostedCustomerMode()
+    ? await actorHasActiveCircleAdminAuthority(actor)
+    : false;
+  if (!sessionHasMfaForActor(session, actor, process.env, hasCircleAdminAuthority)) {
+    redirect(`/${locale}/app/mfa`);
+  }
   const roles = actor.roles as UserRole[];
   const hasMembership = actor.memberships.some((membership) => membership.unionId === session.user.unionId);
   if (!hasMembership && !canAccessPortal(roles)) redirect(`/${locale}/app`);

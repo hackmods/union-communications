@@ -24,6 +24,26 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "subprocessor-register",
+    date: "2026-09-27",
+    kind: "added",
+    href: "/trust/subprocessors",
+  },
+  {
+    id: "host-operational-readiness-controls",
+    date: "2026-09-27",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/site-admin/host",
+  },
+  {
+    id: "hosted-privileged-mfa",
+    date: "2026-09-27",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/mfa",
+  },
+  {
     id: "discipline-ladder-collections",
     date: "2026-09-26",
     kind: "improved",

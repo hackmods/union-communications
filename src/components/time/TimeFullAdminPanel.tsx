@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
@@ -15,6 +15,12 @@ import type {
   TimeWorker,
   TimeWorkerGroup,
 } from "@/types/time";
+
+type PayrollExportRequest = {
+  profileId: string;
+  from: string;
+  to: string;
+};
 
 export function TimeFullAdminPanel() {
   const t = useTranslations("time");
@@ -59,6 +65,10 @@ export function TimeFullAdminPanel() {
   const [exportTo, setExportTo] = useState(() =>
     new Date().toISOString().slice(0, 10),
   );
+  const [pendingPayrollExport, setPendingPayrollExport] =
+    useState<PayrollExportRequest | null>(null);
+  const [payrollMfaCode, setPayrollMfaCode] = useState("");
+  const [payrollStepUpError, setPayrollStepUpError] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
     const [
@@ -321,20 +331,57 @@ export function TimeFullAdminPanel() {
     }
   }
 
-  async function runPayrollExport() {
-    if (!exportProfileId) return;
+  async function runPayrollExport(
+    action?: PayrollExportRequest,
+    mfaCode?: string,
+  ) {
+    if (working) return;
     setWorking(true);
+    setError(null);
+    setPayrollStepUpError(null);
+    if (!action) {
+      setPendingPayrollExport(null);
+      setPayrollMfaCode("");
+    }
     try {
+      const exportAction = action ?? {
+        profileId: exportProfileId,
+        from: new Date(exportFrom).toISOString(),
+        to: new Date(exportTo).toISOString(),
+      };
+      if (!exportAction.profileId) throw new Error("profile");
       const res = await fetch("/api/time/payroll-export", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          profileId: exportProfileId,
-          from: new Date(exportFrom).toISOString(),
-          to: new Date(exportTo).toISOString(),
+          ...exportAction,
+          ...(mfaCode ? { mfaCode } : {}),
         }),
       });
-      if (!res.ok) throw new Error("export");
+      if (res.status === 428) {
+        setPendingPayrollExport(exportAction);
+        setPayrollMfaCode("");
+        return;
+      }
+      if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as
+          | { code?: string }
+          | null;
+        if (body?.code === "mfa_step_up_failed") {
+          setPayrollStepUpError(t("payrollStepUpFailed"));
+        } else if (body?.code === "mfa_step_up_limited") {
+          setPayrollStepUpError(t("payrollStepUpLimited"));
+        } else if (body?.code === "mfa_step_up_unavailable") {
+          setPayrollStepUpError(t("payrollStepUpUnavailable"));
+        } else if (body?.code === "payroll_result_audit_unavailable") {
+          setError(t("payrollResultAuditUnavailable"));
+        } else if (body?.code === "audit_unavailable") {
+          setError(t("payrollAuditUnavailable"));
+        } else {
+          setError(t("full8PayrollExportError"));
+        }
+        return;
+      }
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -342,11 +389,22 @@ export function TimeFullAdminPanel() {
       a.download = "payroll-export.csv";
       a.click();
       URL.revokeObjectURL(url);
+      setPendingPayrollExport(null);
+      setPayrollMfaCode("");
+      if (res.headers.get("X-Payroll-Webhook-Ok") === "false") {
+        setError(t("payrollWebhookFailed"));
+      }
     } catch {
       setError(t("full8PayrollExportError"));
     } finally {
       setWorking(false);
     }
+  }
+
+  function confirmPayrollExport(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!pendingPayrollExport || payrollMfaCode.length !== 6) return;
+    void runPayrollExport(pendingPayrollExport, payrollMfaCode);
   }
 
   if (loading) {
@@ -597,10 +655,92 @@ export function TimeFullAdminPanel() {
           <Button onClick={savePayrollProfile} disabled={working}>
             {t("payrollSave")}
           </Button>
-          <Button variant="outline" onClick={runPayrollExport} disabled={working}>
+          <Button
+            variant="outline"
+            onClick={() => void runPayrollExport()}
+            disabled={working}
+          >
             {t("payrollExport")}
           </Button>
         </div>
+        {pendingPayrollExport && (
+          <form
+            className="mt-4 space-y-3 rounded-md border border-amber-300 bg-amber-50 p-3"
+            onSubmit={confirmPayrollExport}
+            aria-labelledby="payroll-export-step-up-title"
+          >
+            <div>
+              <h3
+                id="payroll-export-step-up-title"
+                className="font-semibold text-amber-950"
+              >
+                {t("payrollStepUpTitle")}
+              </h3>
+              <p className="text-sm text-amber-900">
+                {t("payrollStepUpHint", {
+                  profile:
+                    payrollProfiles.find(
+                      (profile) => profile.id === pendingPayrollExport.profileId,
+                    )?.name ?? t("payrollSelectProfile"),
+                  from: pendingPayrollExport.from.slice(0, 10),
+                  to: pendingPayrollExport.to.slice(0, 10),
+                })}
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+              <label className="min-w-0 flex-1 text-sm font-medium text-amber-950">
+                {t("payrollMfaCode")}
+                <input
+                  autoFocus
+                  required
+                  type="password"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  pattern="[0-9]{6}"
+                  maxLength={6}
+                  disabled={working}
+                  aria-describedby={
+                    payrollStepUpError ? "payroll-export-step-up-error" : undefined
+                  }
+                  className="mt-1 min-h-10 w-full rounded-md border border-amber-400 bg-white px-3 text-base text-gray-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
+                  value={payrollMfaCode}
+                  onChange={(event) =>
+                    setPayrollMfaCode(event.target.value.replace(/\D/g, ""))
+                  }
+                />
+              </label>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="submit"
+                  disabled={working || payrollMfaCode.length !== 6}
+                >
+                  {t("payrollStepUpVerify")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={working}
+                  onClick={() => {
+                    setPendingPayrollExport(null);
+                    setPayrollMfaCode("");
+                    setPayrollStepUpError(null);
+                  }}
+                >
+                  {t("payrollStepUpCancel")}
+                </Button>
+              </div>
+            </div>
+            {payrollStepUpError && (
+              <p
+                id="payroll-export-step-up-error"
+                className="text-sm text-red-800"
+                role="alert"
+              >
+                {payrollStepUpError}
+              </p>
+            )}
+          </form>
+        )}
       </Card>
     </div>
   );

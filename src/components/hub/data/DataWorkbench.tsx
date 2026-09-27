@@ -36,6 +36,8 @@ export function DataWorkbench() {
   const [file, setFile] = useState<File | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [publishStepUpRequired, setPublishStepUpRequired] = useState(false);
+  const [publishMfaCode, setPublishMfaCode] = useState("");
   const [personHistory, setPersonHistory] = useState<unknown>(null);
   const [records, setRecords] = useState<Array<{ rowIndex: number; values: Record<string, unknown> }>>([]);
 
@@ -77,6 +79,8 @@ export function DataWorkbench() {
   }, [request, t]);
 
   const loadImport = useCallback(async (id: string, requestedPage = 0) => {
+    setPublishStepUpRequired(false);
+    setPublishMfaCode("");
     const response = await request<ImportDetail>(`/api/data/imports/${id}?offset=${requestedPage * 100}&limit=100`);
     setDetail(response);
     setMapping(response.run.mapping);
@@ -142,11 +146,48 @@ export function DataWorkbench() {
     finally { setBusy(false); }
   }
 
-  async function publish() {
+  async function publish(code?: string) {
     if (!detail) return;
     setBusy(true); setMessage("");
     try {
-      const result = await request<{ publication: { acceptedCount: number; heldCount: number; status: string } }>(`/api/data/imports/${detail.run.id}/publish`, { method: "POST" });
+      const response = await fetch(`/api/data/imports/${detail.run.id}/publish`, {
+        method: "POST",
+        ...(code ? {
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mfaCode: code }),
+        } : {}),
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (response.status === 428 && payload.code === "mfa_step_up_required") {
+        setPublishStepUpRequired(true);
+        setPublishMfaCode("");
+        return;
+      }
+      if (!response.ok) {
+        if (payload.code === "mfa_step_up_failed") {
+          setPublishMfaCode("");
+          throw new Error(t("mfaStepUpFailed"));
+        }
+        if (payload.code === "mfa_step_up_limited") {
+          setPublishMfaCode("");
+          throw new Error(t("mfaStepUpLimited"));
+        }
+        if (payload.code === "mfa_step_up_unavailable") {
+          setPublishMfaCode("");
+          throw new Error(t("mfaStepUpUnavailable"));
+        }
+        if (payload.code === "publication_audit_unavailable") {
+          setPublishStepUpRequired(false);
+          setPublishMfaCode("");
+          throw new Error(t("publicationAuditUnavailable"));
+        }
+        setPublishStepUpRequired(false);
+        setPublishMfaCode("");
+        throw new Error(payload.error ?? t("requestFailed"));
+      }
+      const result = payload as { publication: { acceptedCount: number; heldCount: number; status: string } };
+      setPublishStepUpRequired(false);
+      setPublishMfaCode("");
       setMessage(t("published", { accepted: result.publication.acceptedCount, held: result.publication.heldCount }));
       await loadImport(detail.run.id, page); await refresh();
     } catch (error) { setMessage(error instanceof Error ? error.message : t("requestFailed")); }
@@ -216,7 +257,11 @@ export function DataWorkbench() {
         {detail ? <Card density="compact" className="min-w-0 space-y-5">
           <div className="flex flex-wrap items-start justify-between gap-3"><div><CardTitle>{detail.run.fileName}</CardTitle><p className="mt-1 text-sm text-gray-600">{t("importSummary", { rows: detail.totalRows, sheet: detail.run.sheetName, status: t(`status.${detail.run.status}`) })}</p><p className="mt-1 break-all text-xs text-gray-500">SHA-256 {detail.run.contentHash}</p></div><Button type="button" variant="outline" onClick={() => void loadImport(detail.run.id, page)} disabled={busy}>{t("refresh")}</Button></div>
           {detail.run.status === "review" && <section className="space-y-3"><h3 className="font-semibold text-opseu-dark">{t("mapColumns")}</h3><p className="text-sm text-gray-700">{t("mappingHelp")}</p><div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">{Object.keys(detail.rows[0]?.rawValues ?? {}).map((header) => <label key={header} className="block space-y-1 text-sm"><span className="block truncate font-medium">{header}</span><select className={inputClass} value={mapping[header] ?? ""} onChange={(event) => { setMapping((current) => ({ ...current, [header]: event.target.value || null })); setMappingDirty(true); }}><option value="">{t("leaveInStaging")}</option>{targets.map((target) => <option key={target.id} value={target.id}>{target.label}</option>)}</select></label>)}</div><Button type="button" disabled={!mappingDirty || busy} onClick={() => void saveMapping()}>{t("saveMapping")}</Button></section>}
-          <div className="flex flex-wrap items-center gap-2 border-y border-gray-200 py-3"><Button type="button" variant="outline" disabled={busy || selectedRows.length === 0 || detail.run.status === "published"} onClick={() => void decideRows("accept")}>{t("acceptSelected", { count: selectedRows.length })}</Button><Button type="button" variant="outline" disabled={busy || selectedRows.length === 0 || detail.run.status === "published"} onClick={() => void decideRows("exclude")}>{t("excludeSelected")}</Button><Button type="button" disabled={busy || detail.run.status === "published" || !detail.rows.some((row) => row.decision === "accept")} onClick={() => void publish()}>{t("publishAccepted")}</Button><span className="text-xs text-gray-600">{t("selectionHelp")}</span></div>
+          <div className="flex flex-wrap items-center gap-2 border-y border-gray-200 py-3"><Button type="button" variant="outline" disabled={busy || selectedRows.length === 0 || detail.run.status === "published"} onClick={() => void decideRows("accept")}>{t("acceptSelected", { count: selectedRows.length })}</Button><Button type="button" variant="outline" disabled={busy || selectedRows.length === 0 || detail.run.status === "published"} onClick={() => void decideRows("exclude")}>{t("excludeSelected")}</Button><Button type="button" disabled={busy || publishStepUpRequired || detail.run.status === "published" || !detail.rows.some((row) => row.decision === "accept")} onClick={() => void publish()}>{t("publishAccepted")}</Button><span className="text-xs text-gray-600">{t("selectionHelp")}</span></div>
+          {publishStepUpRequired ? <form className="space-y-3 rounded-md border border-amber-300 bg-amber-50 p-4" onSubmit={(event) => { event.preventDefault(); if (publishMfaCode.length === 6) void publish(publishMfaCode); }}>
+            <div><h3 className="font-semibold text-amber-950">{t("mfaStepUpTitle")}</h3><p className="mt-1 break-words text-sm text-amber-950">{t("publishStepUpHint", { file: detail.run.fileName })}</p></div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end"><label className="min-w-0 flex-1 text-sm font-medium text-amber-950">{t("mfaCode")}<input autoFocus required type="text" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} className={`${inputClass} mt-1`} value={publishMfaCode} onChange={(event) => setPublishMfaCode(event.target.value.replace(/\D/g, ""))} /></label><Button type="submit" disabled={busy || publishMfaCode.length !== 6}>{t("mfaStepUpSubmit")}</Button></div>
+          </form> : null}
           <div className="overflow-x-auto rounded-md border border-gray-200"><table className="min-w-full border-collapse text-left text-sm"><thead className="bg-gray-50"><tr><th className="p-2">{t("select")}</th><th className="p-2">{t("row")}</th>{Object.keys(detail.rows[0]?.rawValues ?? {}).map((header) => <th className="max-w-48 p-2" key={header}>{header}<span className="block font-normal text-gray-500">→ {mapping[header] ? targets.find((field) => field.id === mapping[header])?.label : t("stagingOnly")}</span></th>)}<th className="p-2">{t("reviewStatus")}</th></tr></thead><tbody>{detail.rows.map((row) => <tr key={row.rowIndex} className="border-t border-gray-100 align-top"><td className="p-2"><input type="checkbox" aria-label={t("selectRow", { row: row.rowIndex })} disabled={row.decision === "published" || detail.run.status === "published"} checked={selectedRows.includes(row.rowIndex)} onChange={(event) => setSelectedRows((current) => event.target.checked ? [...current, row.rowIndex] : current.filter((id) => id !== row.rowIndex))} /></td><td className="p-2">{row.rowIndex}</td>{Object.keys(row.rawValues).map((header) => <td className="max-w-48 truncate p-2" key={header} title={row.rawValues[header]}>{row.rawValues[header] || <span className="text-gray-400">—</span>}</td>)}<td className="max-w-64 p-2"><span className="font-medium">{t(`decision.${row.decision}`)}</span>{row.matchReason && <p className="text-xs text-gray-600">{row.matchReason}</p>}{row.errors.map((error) => <p className="text-xs text-red-700" key={error}>{error}</p>)}</td></tr>)}</tbody></table></div>
           <div className="flex items-center justify-between gap-3"><Button type="button" variant="outline" disabled={page === 0 || busy} onClick={() => void loadImport(detail.run.id, page - 1)}>{t("previousPage")}</Button><span className="text-sm text-gray-600">{t("page", { current: page + 1, total: Math.max(1, Math.ceil(detail.totalRows / 100)) })}</span><Button type="button" variant="outline" disabled={(page + 1) * 100 >= detail.totalRows || busy} onClick={() => void loadImport(detail.run.id, page + 1)}>{t("nextPage")}</Button></div>
         </Card> : <Card density="compact"><p className="text-sm text-gray-600">{t("selectImport")}</p></Card>}

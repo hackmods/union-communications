@@ -242,6 +242,16 @@
           "notNull": false
         },
         {
+          "name": "outcome",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "request_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
           "name": "resource_id",
           "dataType": "text",
           "notNull": true
@@ -3889,6 +3899,106 @@
       ]
     },
     {
+      "name": "mfa_recovery_codes",
+      "columns": [
+        {
+          "name": "code_hash",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "used_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "mfa_session_grants",
+      "columns": [
+        {
+          "name": "consumed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "issued_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "session_version",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "token_hash",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "mfa_totp_counters",
+      "columns": [
+        {
+          "name": "last_counter",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "mfa_verification_attempts",
+      "columns": [
+        {
+          "name": "attempt_count",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "window_started_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "officer_assignments",
       "columns": [
         {
@@ -4299,6 +4409,216 @@
         {
           "name": "updated_at",
           "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "platform_incident_audit_events",
+      "columns": [
+        {
+          "name": "action",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "actor_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "incident_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "outcome",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "request_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "platform_incident_step_up_grants",
+      "columns": [
+        {
+          "name": "action",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "actor_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "consumed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "resource_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "token_hash",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "platform_incidents",
+      "columns": [
+        {
+          "name": "affected_individual_estimate",
+          "dataType": "integer",
+          "notNull": false
+        },
+        {
+          "name": "affected_party_categories",
+          "dataType": "text[]",
+          "notNull": true
+        },
+        {
+          "name": "affected_system",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "closed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "containment_summary",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "data_categories",
+          "dataType": "text[]",
+          "notNull": true
+        },
+        {
+          "name": "discovered_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "kind",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "last_reviewed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "lessons_learned",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "notification_decision",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "notification_decision_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "notification_rationale",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "occurred_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "remediation_summary",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "risk_assessment",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "scope_summary",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "severity",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by",
+          "dataType": "text",
           "notNull": true
         }
       ]
@@ -5969,6 +6289,221 @@
       ]
     },
     {
+      "name": "subprocessor_audit_events",
+      "columns": [
+        {
+          "name": "action",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "actor_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "after_record",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "before_record",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "provider_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "subprocessor_public_projections",
+      "columns": [
+        {
+          "name": "data_categories",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "data_subjects",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "effective_from",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "effective_to",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "processing_region",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "public_notes",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "published_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "purpose",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "service_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "transfer_status",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "subprocessor_registry",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "data_categories",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "data_subjects",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "dpa_status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "effective_from",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "effective_to",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "internal_notes",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "processing_region",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "public_disclosure_approved",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "public_notes",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "purpose",
+          "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "review_owner",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "review_status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "reviewed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "reviewed_by",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "service_name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "transfer_status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "verification_evidence",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "tasks",
       "columns": [
         {
@@ -7569,6 +8104,56 @@
     },
     {
       "schema": "public",
+      "table": "mfa_recovery_codes",
+      "name": "mfa_recovery_codes_user_scope"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_session_grants",
+      "name": "mfa_session_grants_user_insert"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_session_grants",
+      "name": "mfa_session_grants_user_select"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_session_grants",
+      "name": "mfa_session_grants_user_update"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_totp_counters",
+      "name": "mfa_totp_counters_user_insert"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_totp_counters",
+      "name": "mfa_totp_counters_user_select"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_totp_counters",
+      "name": "mfa_totp_counters_user_update"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_verification_attempts",
+      "name": "mfa_verification_attempts_user_insert"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_verification_attempts",
+      "name": "mfa_verification_attempts_user_select"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_verification_attempts",
+      "name": "mfa_verification_attempts_user_update"
+    },
+    {
+      "schema": "public",
       "table": "officer_assignments",
       "name": "officer_assignments_self_or_scope"
     },
@@ -7591,6 +8176,46 @@
       "schema": "public",
       "table": "payroll_export_profiles",
       "name": "payroll_export_profiles_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "platform_incident_audit_events",
+      "name": "platform_incident_audit_operator_insert"
+    },
+    {
+      "schema": "public",
+      "table": "platform_incident_audit_events",
+      "name": "platform_incident_audit_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "platform_incident_step_up_grants",
+      "name": "platform_incident_step_up_actor_insert"
+    },
+    {
+      "schema": "public",
+      "table": "platform_incident_step_up_grants",
+      "name": "platform_incident_step_up_actor_select"
+    },
+    {
+      "schema": "public",
+      "table": "platform_incident_step_up_grants",
+      "name": "platform_incident_step_up_actor_update"
+    },
+    {
+      "schema": "public",
+      "table": "platform_incidents",
+      "name": "platform_incidents_operator_insert"
+    },
+    {
+      "schema": "public",
+      "table": "platform_incidents",
+      "name": "platform_incidents_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "platform_incidents",
+      "name": "platform_incidents_operator_update"
     },
     {
       "schema": "public",
@@ -7771,6 +8396,46 @@
       "schema": "public",
       "table": "scheduled_meetings",
       "name": "scheduled_meetings_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "subprocessor_audit_events",
+      "name": "subprocessor_audit_operator_insert"
+    },
+    {
+      "schema": "public",
+      "table": "subprocessor_audit_events",
+      "name": "subprocessor_audit_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "subprocessor_public_projections",
+      "name": "subprocessor_public_active_read"
+    },
+    {
+      "schema": "public",
+      "table": "subprocessor_public_projections",
+      "name": "subprocessor_public_operator_read"
+    },
+    {
+      "schema": "public",
+      "table": "subprocessor_public_projections",
+      "name": "subprocessor_public_publish_insert"
+    },
+    {
+      "schema": "public",
+      "table": "subprocessor_public_projections",
+      "name": "subprocessor_public_publish_update"
+    },
+    {
+      "schema": "public",
+      "table": "subprocessor_public_projections",
+      "name": "subprocessor_public_withdraw_delete"
+    },
+    {
+      "schema": "public",
+      "table": "subprocessor_registry",
+      "name": "subprocessor_registry_operator_all"
     },
     {
       "schema": "public",

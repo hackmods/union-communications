@@ -49,6 +49,21 @@ describe("RLS policy contract (no live DB)", () => {
       expect(sql).toMatch(
         new RegExp(`CREATE POLICY\\s+${row.policy}\\s+ON\\s+${row.table}`),
       );
+      if (row.table === "mfa_recovery_codes" || row.table === "mfa_totp_counters" || row.table === "mfa_session_grants" || row.table === "mfa_verification_attempts") {
+        expect(sql).toContain("app.current_user_id");
+        continue;
+      }
+      if (row.table.startsWith("subprocessor_")) {
+        expect(sql).toContain("public.customization_root(NULL, true)");
+        if (row.policy === "subprocessor_public_active_read") {
+          expect(sql).toContain('"effective_from" <= now()');
+          expect(sql).toContain('"effective_to" > now()');
+        }
+        if (row.policy === "subprocessor_audit_operator_insert") {
+          expect(sql).toContain("FOR INSERT WITH CHECK");
+        }
+        continue;
+      }
       // Circle memberships are explicit cross-local relationships. Preferences
       // stay union-bound and actor-bound, while the membership itself decides
       // the Circle; requiring the currently selected local would break invited
@@ -108,6 +123,30 @@ describe("RLS policy contract (no live DB)", () => {
     expect(sql).toContain("app_grievance_case_access(grievance_id, true)");
     expect(sql).toContain("grievance_member_updates_member_safe_read");
     expect(sql).toContain("app_grievance_member(grievance_id");
+  });
+
+  it("keeps processor review internal and publishes only an approved active projection", () => {
+    const sql = readMigration("0065_subprocessor_registry.sql");
+    expect(sql).toContain("ALTER TABLE subprocessor_registry FORCE ROW LEVEL SECURITY");
+    expect(sql).toContain("CREATE POLICY subprocessor_registry_operator_all ON subprocessor_registry");
+    expect(sql).toContain("public.customization_root(NULL, true)");
+    expect(sql).toContain("CREATE POLICY subprocessor_public_active_read ON subprocessor_public_projections");
+    expect(sql).toContain("CREATE POLICY subprocessor_public_publish_insert ON subprocessor_public_projections");
+    expect(sql).toContain("r.review_status = 'approved'");
+    expect(sql).toContain("r.public_disclosure_approved");
+    expect(sql).toContain('"reviewed_by" IS DISTINCT FROM "updated_by"');
+    expect(sql).toContain('length(btrim("verification_evidence")) > 0');
+    expect(sql).toContain("CREATE TRIGGER subprocessor_public_projection_guard");
+    expect(sql).toContain("FOR SHARE");
+    expect(sql).toContain('"effective_from" <= now()');
+    expect(sql).toContain('"effective_to" > now()');
+    expect(sql).toContain("ALTER TABLE subprocessor_audit_events FORCE ROW LEVEL SECURITY");
+    expect(sql).toContain("REVOKE UPDATE, DELETE ON subprocessor_audit_events FROM unionops_app");
+    const publicTable = sql.split("CREATE TABLE subprocessor_public_projections (")[1]?.split(");")[0] ?? "";
+    expect(publicTable).toContain("public_notes");
+    expect(publicTable).not.toContain("internal_notes");
+    expect(publicTable).not.toContain("dpa_status");
+    expect(sql).not.toContain("CREATE POLICY subprocessor_registry_public_read");
   });
 
   it("limits Circle roster writes to Circle administrators", () => {
@@ -202,6 +241,67 @@ describe("RLS policy contract (no live DB)", () => {
     expect(sql).toContain("CREATE OR REPLACE FUNCTION app_create_break_glass_grant(target_grievance text, grant_reason text)");
     expect(sql).toContain("CREATE OR REPLACE FUNCTION app_revoke_break_glass_grant(target_grievance text)");
     expect(sql).not.toContain("CREATE POLICY break_glass_grants_actor_scope ON break_glass_grants FOR ALL");
+  });
+
+  it("restricts the platform incident register, step-up grants, and append-only metadata audit", () => {
+    const sql = readMigration("0066_platform_incident_register.sql");
+    expect(sql).toContain("ALTER TABLE platform_incidents FORCE ROW LEVEL SECURITY");
+    expect(sql).toContain("public.customization_root(NULL, true)");
+    expect(sql).toContain("actor_id = nullif(current_setting('app.current_user_id', true), '')");
+    expect(sql).toContain("CREATE POLICY platform_incident_audit_operator_insert");
+    expect(sql).not.toContain("CREATE POLICY platform_incidents_operator_all");
+    expect(sql).toContain("REVOKE DELETE ON platform_incidents FROM unionops_app");
+    expect(sql).toContain("NEW.created_by IS DISTINCT FROM actor");
+    expect(sql).toContain("platform_incident_audit_actor_guard");
+    const auditPolicyStart = sql.indexOf("CREATE POLICY platform_incident_audit_operator_insert");
+    const stepUpPolicyStart = sql.indexOf("ALTER TABLE platform_incident_step_up_grants");
+    expect(sql.slice(auditPolicyStart, stepUpPolicyStart)).toContain(
+      "actor_id = nullif(current_setting('app.current_user_id', true), '')",
+    );
+    expect(sql).toContain("CREATE TRIGGER platform_incident_audit_immutable");
+    expect(sql).toContain("REVOKE UPDATE, DELETE ON platform_incident_audit_events FROM unionops_app");
+    expect(sql).toContain("CREATE TRIGGER platform_incident_step_up_consume_guard");
+    expect(sql).not.toContain("before_record");
+    expect(sql).not.toContain("after_record");
+  });
+
+  it("stores the current TOTP replay counter under account-scoped RLS", () => {
+    const sql = readMigration("0067_mfa_totp_replay_guard.sql");
+    expect(sql).toContain("ALTER TABLE mfa_totp_counters ENABLE ROW LEVEL SECURITY");
+    expect(sql).toContain("ALTER TABLE mfa_totp_counters FORCE ROW LEVEL SECURITY");
+    expect(sql).toContain("user_id = nullif(current_setting('app.current_user_id', true), '')");
+    expect(sql).toContain("CHECK (last_counter >= 0)");
+    expect(sql).toContain("REVOKE DELETE ON mfa_totp_counters FROM unionops_app");
+  });
+
+  it("stores only account-scoped single-use MFA grant state", () => {
+    const sql = readMigration("0068_mfa_session_grants.sql");
+    expect(sql).toContain("token_hash text NOT NULL CHECK (length(token_hash) = 64)");
+    expect(sql).toContain("ALTER TABLE mfa_session_grants FORCE ROW LEVEL SECURITY");
+    expect(sql).toContain("mfa_session_grants_user_select");
+    expect(sql).toContain("mfa_session_grants_user_insert");
+    expect(sql).toContain("mfa_session_grants_user_update");
+    expect(sql).toContain("REVOKE DELETE ON mfa_session_grants FROM unionops_app");
+  });
+
+  it("adds audit outcomes and request correlation while making runtime audit append-only", () => {
+    const sql = readMigration("0070_audit_outcome_request_correlation.sql");
+    expect(sql).toContain("ADD COLUMN outcome text NOT NULL DEFAULT 'unknown'");
+    expect(sql).toContain("ADD COLUMN request_id text");
+    expect(sql).toContain("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
+    expect(sql).toContain("ALTER COLUMN outcome SET DEFAULT 'success'");
+    expect(sql).toContain("CREATE INDEX audit_log_request_idx");
+    expect(sql).toContain("REVOKE UPDATE, DELETE ON audit_log FROM unionops_app");
+  });
+
+  it("limits MFA verification attempts under account-scoped RLS", () => {
+    const sql = readMigration("0069_mfa_verification_attempts.sql");
+    expect(sql).toContain("CHECK (attempt_count BETWEEN 1 AND 10)");
+    expect(sql).toContain("ALTER TABLE mfa_verification_attempts FORCE ROW LEVEL SECURITY");
+    expect(sql).toContain("mfa_verification_attempts_user_select");
+    expect(sql).toContain("mfa_verification_attempts_user_insert");
+    expect(sql).toContain("mfa_verification_attempts_user_update");
+    expect(sql).toContain("REVOKE DELETE ON mfa_verification_attempts FROM unionops_app");
   });
 
   it("removes role-array writes from the legacy officer roster policy", () => {

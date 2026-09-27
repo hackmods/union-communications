@@ -6,8 +6,9 @@ import {
   getPendingSecret,
 } from "@/lib/auth/mfa-enrollment-store";
 import { persistTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
+import { rotateMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
 import { resolveMfaMode } from "@/lib/auth/mfa-policy";
-import { verifyTotp } from "@/lib/auth/totp";
+import { matchTotpCounter } from "@/lib/auth/totp";
 
 /**
  * Confirms TOTP enrollment: the user must prove they scanned the QR by
@@ -46,11 +47,13 @@ export async function POST(request: Request) {
   }
 
   const code = (body.code ?? "").trim();
-  if (!verifyTotp(pendingSecret, code)) {
+  const acceptedCounter = matchTotpCounter(pendingSecret, code);
+  if (acceptedCounter === null) {
     return NextResponse.json({ error: "Invalid code" }, { status: 400 });
   }
 
-  await persistTotpSecretForUser(session.user.id, pendingSecret);
+  await persistTotpSecretForUser(session.user.id, pendingSecret, acceptedCounter);
+  const recoveryCodes = await rotateMfaRecoveryCodes(session.user.id);
   clearPendingSecret(session.user.id);
 
   await auditLog.log({
@@ -62,5 +65,5 @@ export async function POST(request: Request) {
     localId: session.user.localId,
   });
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ success: true, recoveryCodes });
 }

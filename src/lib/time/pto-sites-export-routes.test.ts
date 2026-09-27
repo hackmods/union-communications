@@ -23,7 +23,10 @@ import {
   GET as listShifts,
   POST as createShift,
 } from "@/app/api/time/shifts/route";
-import { GET as exportTime } from "@/app/api/time/export/route";
+import {
+  GET as legacyGetTimeExport,
+  POST as exportTime,
+} from "@/app/api/time/export/route";
 import { memoryTimeStore } from "@/lib/time/memory-adapter";
 import { resetTimeStore } from "@/lib/time/store";
 import {
@@ -476,7 +479,7 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
     });
   });
 
-  describe("GET /api/time/export", () => {
+  describe("POST /api/time/export", () => {
     it("forbids stewards, then CSV-exports only the president's local", async () => {
       await memoryTimeStore.createManualEntry(
         {
@@ -532,14 +535,14 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
 
       authMock.mockResolvedValue(session());
       expect(
-        (await exportTime(new Request("http://localhost/api/time/export"))).status,
+        (await exportTime(jsonRequest({ format: "csv" }))).status,
       ).toBe(403);
 
       authMock.mockResolvedValue(
         session({ id: "user-president-7", roles: ["local_president"] }),
       );
       const res = await exportTime(
-        new Request("http://localhost/api/time/export?format=csv"),
+        jsonRequest({ format: "csv" }),
       );
       expect(res.status).toBe(200);
       expect(res.headers.get("Content-Type")).toContain("text/csv");
@@ -564,10 +567,18 @@ describe("time PTO, sites, shifts, and export HTTP routes", () => {
         }),
       );
       const res = await exportTime(
-        new Request("http://localhost/api/time/export"),
+        jsonRequest({ format: "csv" }),
       );
       expect(res.status).toBe(403);
       expect(await res.json()).toEqual({ error: "Module not enabled" });
+    });
+
+    it("retires the legacy GET download path", async () => {
+      const res = await legacyGetTimeExport();
+
+      expect(res.status).toBe(405);
+      expect(res.headers.get("Allow")).toBe("POST");
+      expect(res.headers.get("Cache-Control")).toBe("private, no-store");
     });
   });
 });

@@ -292,7 +292,7 @@ Deploy through ADR-020: additive Drizzle migration, journal integrity, generated
 
 Feature controls proposed: `CUSTOMIZATION_ENABLED` (off initially), `CUSTOMIZATION_DELEGATION_ENABLED` (off until Phase 3), and `CUSTOMIZATION_LOCAL_EDIT_ENABLED` (off until Phase 3). Production activation requires PostgreSQL and durable auth; startup/config validation rejects an unsafe combination. The UI flag is not the security boundary: turning off the editor must not make previously private scoped content public. An emergency serving kill switch returns unavailable on scoped customization routes; it never reveals their generic ancestor by accident.
 
-Back up revisions, heads, grants, audit, and asset storage consistently; run a restore smoke on an isolated database. No hard deletion of referenced releases in v1. Use current governance retention as the initial policy, but have the operator document an actual retention/purge schedule before external maintainers upload private material. This is an engineering proposal, not a claim of legal compliance.
+Back up revisions, heads, grants, audit, and asset storage consistently; run a restore smoke on an isolated database. No hard deletion of referenced releases in v1. This repository does not define an approved system-wide retention schedule. Have the customer and qualified counsel approve the asset, revision, audit, and backup schedule before external maintainers upload private material. This is an engineering proposal, not a claim of legal compliance.
 
 ## 9. Acceptance and rollout summary
 

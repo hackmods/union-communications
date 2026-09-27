@@ -1,3 +1,104 @@
+## 2026-09-27 — Enterprise trust readiness
+
+- Started [`LAUNCH_TRUST_LEGAL_REFACTOR.md`](LAUNCH_TRUST_LEGAL_REFACTOR.md):
+  fit-gap, claim and evidence registers, decision log, and ten packet tracker.
+- Packet 6: Site Admin and onboarding union/local provisioning now require
+  fresh MFA after request validation and before tenant writes. Hosted provisioning
+  requires durable audit; onboarding also requires durable tenant storage.
+  Correlated authorization
+  audits must succeed first; uncertain results block blind retries in the
+  local form, access-request inbox, and onboarding wizard. Direct API cases
+  cover denial, strict validation, pre-write audit failure, code-redacted
+  evidence, and post-write audit uncertainty. Test execution and deployed
+  TOTP/Postgres/RLS evidence remain pending. See
+  [`session-knowledge-2026-09-27-tenant-provision-step-up.md`](audit/session-knowledge-2026-09-27-tenant-provision-step-up.md).
+- Closed the alternate `/api/invites` union-creation path. A new-union invite
+  now requires fresh MFA and durable tenant/audit backends in hosted customer
+  mode; correlated authorization evidence precedes writes, and a final event
+  confirms the union and invitation. Both EN/FR invite composers preserve the
+  form for challenge retry and disable blind retries after an uncertain result
+  or a lost response
+  without exposing the invite token. Ordinary invitations to existing unions
+  remain unchanged. Direct route cases are authored; Vitest, typecheck, browser,
+  and target-host evidence remain pending. See
+  [`session-knowledge-2026-09-27-tenant-provision-step-up.md`](audit/session-knowledge-2026-09-27-tenant-provision-step-up.md).
+- Hardened the existing Hub Local Documents Vault: downloads now require fresh
+  MFA, an authorization audit before file reads, and a confirmed result audit
+  before file bytes are returned; the old GET URL returns 405. Deletion has
+  correlated intent/result events and fresh MFA. Hosted mode requires durable
+  document metadata and audit. The EN/FR vault resumes after challenge and
+  blocks retry after uncertainty or a lost response. This is separate from the
+  missing Managed Documents policy/version system. Route/integration tests are
+  authored; Vitest, typecheck, browser, storage, and deployed Postgres/RLS/TOTP
+  evidence remain pending. See
+  [`session-knowledge-2026-09-27-document-file-step-up.md`](audit/session-knowledge-2026-09-27-document-file-step-up.md).
+- Hardened grievance, bumping, time-entry, and member-shared Portal attachment
+  downloads: correlated intent audits now precede byte reads, delivery audits
+  precede file responses, and hosted customer mode fails closed unless the
+  required metadata/time backends and audit use Postgres. The member routes
+  remain available to authorized basic members without adding a fresh
+  challenge. Route tests cover audit events and authorization-audit
+  outage; Vitest and target-host Postgres/RLS/object-storage verification are
+  pending. See
+  [`session-knowledge-2026-09-27-casework-attachment-audit.md`](audit/session-knowledge-2026-09-27-casework-attachment-audit.md).
+- Corrected PIPEDA breach timing and removed the universal seven-year retention
+  claim pending applicable-law and customer review.
+- Added `UNIONOPS_HOSTED_CUSTOMER_MODE` to require production TOTP for the Hub
+  and block host readiness without it. Evaluation and self-hosted MFA defaults
+  remain unchanged. Hosted enrollment is now role/capability-aware: basic local
+  members are exempt unless their account enabled MFA; privileged roles require
+  enrollment and verification. Active assignments/delegations are checked at
+  authorization and status boundaries; grant/revoke changes invalidate the
+  recipient session. MFA grants are bound to session versions. Full route/RLS
+  and production-host verification remain.
+- Managed Documents code is available at local ref
+  `origin/feat/managed-document-library` (`118f432d`) but is not in the current
+  checkout or locally resolved `origin/main`; remote access is unavailable.
+  Its source audit is recorded in
+  [`session-knowledge-2026-09-27-managed-documents-source-audit.md`](audit/session-knowledge-2026-09-27-managed-documents-source-audit.md).
+  Do not duplicate the system. Integration waits for authoritative main and
+  ADR-020 migration reconciliation because feature migrations `0064`–`0066`
+  conflict with the current worktree's uncommitted `0064`–`0070`.
+- At the initial baseline check, MFA step-up remained outstanding; subsequent
+  step-up work is recorded below. Full project verification remains pending
+  because npm dependencies are not installed and registry access is unavailable.
+- MFA verification now advances a durable hosted TOTP counter and stores a
+  one-row-per-account SHA-256 session grant before the Auth.js JWT update. The
+  session callback consumes it atomically; pending enrollment is still
+  process-memory-backed, and deployed migration/RLS evidence is outstanding.
+- CI's dependency audit is now a blocking critical/high gate. High findings
+  require an exact package/advisory exception with approver, rationale, and
+  expiry; critical findings cannot be excepted. Policy checks use Node's built-in
+  assertions and can run without installed project dependencies.
+- The public accessibility smoke covers Privacy, Security, Accessibility, and
+  Trust/subprocessor routes in EN and FR (eight localized policy routes total),
+  plus Home/Create/Utilities/Learn in both locales. This is selected axe
+  evidence only, not a WCAG conformance assessment; manual review remains.
+- Added the bilingual `/updates` note for hosted privileged MFA behavior.
+- Packet 7 now has a source-backed [data inventory and retention register](audit/data-inventory-retention-register.md) covering schema classes, backend flags, attachments, scanner, email, telemetry, backups, and observed lifecycle behavior. Corrected stale universal retention assertions and removed the unapproved feedback period. Retention periods and legal holds remain unapproved/unimplemented; do not treat this inventory as launch approval.
+- MFA recovery codes are implemented in the current branch; production/Postgres migration, RLS, and recovery-flow verification are still pending. Earlier work notes below may describe the pre-recovery state.
+- The Portal page/API session guard now checks current actor authority against the hosted MFA profile. Privileged roles, assignments/delegations, and active Circle administrators without a verified TOTP are blocked at both surfaces; basic members stay exempt. Focused tests are recorded in [`session-knowledge-2026-09-27-portal-mfa-guard.md`](audit/session-knowledge-2026-09-27-portal-mfa-guard.md) but could not run without installed Vitest dependencies.
+- Revalidated the older Portal audit and live hardening guide: Postgres/RLS are implemented but memory remains the default; Circle access/correction/deletion tools, full audit, and target-host verification remain open. Updated EN/FR Security and host-readiness copy so claims distinguish UnionOps-hosted customer requirements from self-hosted/evaluation settings and avoid asserting host durability or encryption without evidence.
+- Accessibility documentation now sets WCAG 2.2 AA as an internal target and separates that from legal applicability and a conformance claim. The checked-in six-route axe smoke remains partial evidence only.
+- Packet 8 hosted readiness now blocks the UnionOps customer profile on explicit/reviewed attachment storage, strict fail-closed scanning, and named backup/restore and alert-delivery attestations dated within 90 days. Public `/api/health` omits those operational fields; a dedicated bearer secret is required for the CI readiness request. The site-admin page says attestations are not independent provider verification. Added EN/FR Host readiness copy, a production env template, operator guidance, CI post-deploy gating, focused tests, and a bilingual `/updates` note. Real scanner/storage/restore/alert behavior and the subprocessor register remain unverified/open; see [`session-knowledge-2026-09-27-host-readiness.md`](audit/session-knowledge-2026-09-27-host-readiness.md).
+- Repaired the CI post-deploy readiness step's YAML nesting and extended its condition to cover a target deployment confirmed through `/api/health` when CI lacks CapRover image-deploy secrets. PyYAML parsing verified the gate is attached to the deploy job after the health smoke. GitHub-side validation is still pending.
+- Packet 9 dependency follow-through: added a weekly scheduled npm audit using the blocking critical/high policy and the same expiring exception registry, with the full JSON report retained as a 30-day Actions artifact. Configured weekly Dependabot PRs for npm dependencies and GitHub Actions. Local workflow/config parsing passes; actual scheduled output and Dependabot PR behavior await GitHub Actions.
+- Packet 9 secret/image scans: CI scans all fetched Git refs with digest-pinned, redacted Gitleaks; Trivy CRITICAL/HIGH checks run before demo/production image push and on manually selected prebuilt deploy tags. The workflow contract and YAML/job graph pass locally. Docker is unavailable in this environment; first hosted findings/reports and a controlled blocking-failure test remain pending. CapRover Git/webhook deploy remains outside this workflow. See [`session-knowledge-2026-09-27-secret-image-scan.md`](audit/session-knowledge-2026-09-27-secret-image-scan.md).
+- Packet 9 static analysis: added `.github/workflows/codeql.yml` for scheduled and PR/push CodeQL `security-extended` analysis of JavaScript/TypeScript. The workflow contract and YAML/query/permission checks pass. Workflow execution, alert review, and protected-branch enforcement remain pending; a configured scan does not itself prove alerts block merges. See [`session-knowledge-2026-09-27-codeql.md`](audit/session-knowledge-2026-09-27-codeql.md).
+- Packet 9 DAST: added a weekly/manual ZAP baseline workflow with an exact hostname allowlist and Node validator. Production apex/www, IPv4/IPv6 literals, localhost, subpaths, custom ports, credentials, and unapproved targets are rejected. If `DAST_STAGING_URL` is absent, the run summary clearly says no scan ran. The allowlist is empty because no verified stage origin is present in repo docs; scan execution and report review remain pending until an isolated synthetic-data stage is approved. The ZAP baseline is report-only and unauthenticated. Node policy/workflow checks and PyYAML parsing of DAST, CodeQL, and CI workflows pass. See [`session-knowledge-2026-09-27-dast-staging.md`](audit/session-knowledge-2026-09-27-dast-staging.md).
+- Added `npm run check:security-workflows` to PR CI. The Node-only contract check protects the two post-deploy readiness paths, shared audit-policy use, report artifact retention, and weekly npm/GitHub Actions updates.
+- Packet 9 accessibility follow-through: added EN/FR axe smoke for public Create/Utilities/Learn, Hub login, invite error state, selected authenticated Hub screens, MFA setup, and member Portal Together. Public legal/Trust routes were already covered in both locales. Site Admin docs and successful invite activation still need dedicated safe E2E fixtures; full Playwright execution and manual accessibility review remain pending because `node_modules` is absent. See [`session-knowledge-2026-09-27-a11y-locale-matrix.md`](audit/session-knowledge-2026-09-27-a11y-locale-matrix.md).
+- Added an unfilled [manual accessibility review checklist](audit/accessibility-manual-review-checklist.md) for route/locale scope, assistive technology, keyboard/focus, dialogs, screen readers, contrast, zoom/reflow, mobile, language, print, findings, and retests. No manual review is claimed complete.
+- Publishing or withdrawing a subprocessor from the public Trust projection now requires a fresh MFA challenge. Hosted customer mode also requires `AUDIT_DB_BACKEND=postgres`; the change is gated by a correlated intent audit, transactional projection/register event, and confirmed result audit. The bilingual panel preserves the pending action and requires a status reload after an uncertain outcome. Provider inventory, legal review, and deployed evidence remain open; see [`session-knowledge-2026-09-27-subprocessor-publish-step-up.md`](audit/session-knowledge-2026-09-27-subprocessor-publish-step-up.md).
+- Subprocessor approval/rejection now posts to its actual `/api/site-admin/subprocessors/[id]` handler (the prior client `/review` path had no route) and requires fresh MFA before provider lookup. The endpoint retains the distinct-admin check, requires durable hosted audit, and correlates its intent/result around the transactional registry update. Its bilingual panel freezes the decision and reloads before retry after uncertain results. Provider verification, legal review, deployed RLS evidence, and test execution remain open; see [`session-knowledge-2026-09-27-subprocessor-review-step-up.md`](audit/session-knowledge-2026-09-27-subprocessor-review-step-up.md).
+- Packet 6 audit foundation: migration `0070` adds outcome and request-correlation fields, records historic outcomes as unknown, and revokes runtime UPDATE/DELETE on `audit_log`. MFA verification/recovery rotation and the operator audit-list endpoint now use server-generated IDs; broader event coverage remains open. Migration journal, audit-policy harness, shape inspection, and diff checks pass. See [`session-knowledge-2026-09-27-security-audit-fields.md`](audit/session-knowledge-2026-09-27-security-audit-fields.md).
+
+- Site Admin Hub role changes now require a fresh MFA challenge whenever MFA is enabled. The hosted profile fails closed unless production TOTP is active; attempt limits and replay protection apply, and denied/successful outcomes are correlated without recording the code. The bilingual account-support form reveals the challenge field only when the server requires it. Route tests cover direct API bypass, denial, throttling, success, and a misconfigured hosted profile; Vitest remains unavailable. See [`session-knowledge-2026-09-27-role-change-step-up.md`](audit/session-knowledge-2026-09-27-role-change-step-up.md).
+- Officer assignment/revocation and delegation grant/revocation now require a same-request fresh MFA challenge after tenant authorization and before the database write when MFA is enabled. The organization form identifies and retains the pending change, prompts for a one-time code, and handles verification errors in EN/FR. All four APIs correlate outcomes to a server-generated request ID; direct denial, throttling, and successful correlated change tests were added. Other sensitive actions remain open, as do live RLS checks and focused test execution. See [`session-knowledge-2026-09-27-org-authority-step-up.md`](audit/session-knowledge-2026-09-27-org-authority-step-up.md).
+- Publishing accepted UnionOps Data import rows now requires a fresh MFA challenge after local writer authorization and before the publication service runs. The bilingual workbench identifies the source file and resumes publication with the code. API denials and successful publications are correlated; a post-commit audit failure reports that publication completed and warns against retrying blindly. Direct route cases cover denial, throttling, success, code omission, and audit failure. Data storage/scanning/retention and P0 review gaps still block real member data. See [`session-knowledge-2026-09-27-data-publish-step-up.md`](audit/session-knowledge-2026-09-27-data-publish-step-up.md).
+- Expense spreadsheet, PDF, and receipt ZIP exports now use POST and require a fresh MFA challenge on hosts where MFA is enabled. The pending form identifies the exact expense and export type; server-side tenant authorization runs before the challenge. Exports carry a server request ID, are audited without challenge or expense contents, use `private, no-store`, and are withheld if the success audit cannot be confirmed. The old GET download endpoint returns 405. Direct route coverage was added, but Vitest remains unavailable here. See [`session-knowledge-2026-09-27-expense-export-step-up.md`](audit/session-knowledge-2026-09-27-expense-export-step-up.md).
+- When host MFA policy is enabled, Time payroll export requires fresh MFA after local profile authorization and before approved employee/time rows are loaded or posted to the optional webhook. The form preserves and summarizes the exact profile and date range. A correlated audit event must be written before the external send; if the post-send result audit fails, the response tells operators to verify delivery before retrying. EN/FR copy and direct route cases cover denial, throttling, local isolation, audit ordering, and pre/post-send audit failure. Project tests and live webhook/audit/RLS verification remain unavailable. See [`session-knowledge-2026-09-27-payroll-export-step-up.md`](audit/session-knowledge-2026-09-27-payroll-export-step-up.md).
+
 ## 2026-09-26 — Site testing QOL follow-through
 
 - Pre-disciplinary: Learn link stays visible above the ladder disclosure; prior-step chips append collection ladder rungs.
@@ -1816,7 +1917,7 @@ Lessons + parity rules: [`docs/audit/session-knowledge-2026-09-05-pdf-office-eng
 - [x] Re-land Circles memory MVP on current main (Station, Circle workspace P0–P4, Dispatch/Fronts/Sidebars)
 - [x] Solidarity naming + `/portal` routes + `enabledModules.portal` + `local_member` demo user (`passwordHash`)
 - [x] Explicitly **excluded** Postgres identity / register / approvals fork from experimental branch
-- [x] ADR-017 + `docs/modules/LOCAL_PORTAL.md`; Hub tile does not require MFA
+- [x] ADR-017 + `docs/modules/LOCAL_PORTAL.md`; the Hub tile itself did not gate MFA in that release. Current hosted-customer MFA checks run at protected route/API boundaries.
 
 
 ## Comms visual system stop-gap pass 2 (2026-08-06)
@@ -2680,3 +2781,135 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Shared `edge-clearance.ts` profiles inset type/chrome (not the brand field) so taskbars, notches, and Zoom/Teams cover-fit crop empty colour
 - [x] Meeting Backgrounds: toggle default on; Solidarity Poster: Digital on / Print off; Resizer overlay extracted to `CanvasSafeZoneOverlay` (preview-only)
 - [x] EN/FR copy + dashed preview overlay outside `canvasRef`; related-tools link between the two digital tools
+
+## Enterprise readiness — hosted MFA recovery slice (2026-09-27)
+
+- [x] Added ten one-time 80-bit MFA recovery codes after verified TOTP enrollment; only SHA-256 hashes are persisted for Postgres-backed accounts.
+- [x] Recovery use is atomic and single-use; replacement requires a fresh TOTP challenge, invalidates prior codes, and increments `session_version`. The table is `FORCE ROW LEVEL SECURITY` scoped to `app.current_user_id`, with same-account/cross-account checks added to `db:rls-smoke`.
+- [x] Added localized setup display, remaining-code count, replacement flow, forward migration `0064_mfa_recovery_codes.sql`, and focused service/API tests.
+- [x] Captured design decisions and remaining evidence in [`session-knowledge-2026-09-27-hosted-mfa-recovery.md`](audit/session-knowledge-2026-09-27-hosted-mfa-recovery.md) and [`LAUNCH_TRUST_LEGAL_REFACTOR.md`](LAUNCH_TRUST_LEGAL_REFACTOR.md).
+- [ ] Run migration contract generation, full unit/type/lint checks, hosted Postgres/RLS tests, and production-like recovery verification when dependencies and host access are available.
+- [ ] Resolve in-memory TOTP enrollment, TOTP-secret key management, attempt rate limits, complete API coverage, and legal retention approval before launch. MFA grants have a durable hosted source path; deployed verification remains open.
+
+## Enterprise readiness — subprocessor registry slice (2026-09-27)
+
+- [x] Added migration `0065_subprocessor_registry.sql`, Drizzle schema, RLS policies, and DB required-shape entries for internal provider records, public projection, and append-only register audit events; official generator verification is pending.
+- [x] Added MFA-verified site-admin API/UI and public `/trust/subprocessors`; the public projection is separate, active-date filtered, and exposes only fields that a second platform admin explicitly approves. Editing resets approval and withdraws the projection.
+- [x] Provider purpose, data categories, data subjects, and optional public notes are stored in English and French; the public route displays the requested locale, and both locales are required before approval.
+- [x] Added EN/FR copy, Security-page link, sitemap/hreflang metadata, localized axe smoke coverage, and a `/updates` note. No providers are pre-populated.
+- [x] Documented the database/publication boundary in [`session-knowledge-2026-09-27-subprocessor-register.md`](audit/session-knowledge-2026-09-27-subprocessor-register.md), [`HOSTED_SECURITY.md`](guides/HOSTED_SECURITY.md), and [`LAUNCH_TRUST_LEGAL_REFACTOR.md`](LAUNCH_TRUST_LEGAL_REFACTOR.md).
+- [ ] Run focused Vitest, TypeScript, lint, official Drizzle contract generation, and live Postgres/RLS smoke when dependencies and a database are available. Verify actual providers, DPA status, and public notes with operations/legal before any entry is published.
+
+## Enterprise readiness — restricted incident register slice (2026-09-27)
+
+- [x] Added migration `0066_platform_incident_register.sql`, Drizzle schema, RLS policies, and required-shape rows for incident records, metadata-only audit events, and one-use step-up grants.
+- [x] Added `/app/site-admin/incidents` and independently guarded APIs for listing, create, update, and controlled JSON export. Access needs Postgres-backed accounts/storage and TOTP; each action is bound to a one-use 60-second grant.
+- [x] Failed challenges are metadata-audited and throttled after five failures per actor in 15 minutes; incident rows cannot be deleted through the runtime role, actor/timestamp attribution is database-guarded, audit rows are append-only, and grant rows can only be consumed.
+- [x] Client-held register data clears after five minutes without form/code activity or on manual lock. `db:rls-smoke` now checks that a union-scoped president cannot read platform incidents or step-up grants.
+- [x] Added bilingual operator UI, validation/auth/API boundary tests, and the session knowledge note. No incident records were seeded.
+- [ ] Complete focused/full Vitest, TypeScript, ESLint, official DB-shape generation, `unionops_app` live RLS/direct-API checks, incident and privacy-request drills, and qualified review of notification duties and retention.
+- [x] Added RFC 6238 counter replay prevention with durable account-scoped state in hosted mode; enrollment confirmation records its accepted counter, and concurrent replays are atomically rejected. Migration `0067_mfa_totp_replay_guard.sql`; live migration/RLS proof remains pending.
+- [ ] Implement approved incident/step-up record retention and cleanup. Self-hosted operators remain responsible for their own incident evidence.
+
+## Enterprise readiness — TOTP replay guard (2026-09-27)
+
+- [x] Verifier returns the precise matched counter; each counter can be consumed once per account, including under concurrent requests.
+- [x] Added account-scoped `FORCE ROW LEVEL SECURITY` table and append-only migration `0067_mfa_totp_replay_guard.sql`; hosted mode fails closed without durable Postgres-backed account storage.
+- [x] Enrollment seeds its verification counter atomically with the new Postgres TOTP secret, preventing immediate reuse of the confirmation code.
+- [x] Added repeat/concurrent-code tests and extended the `db:rls-smoke` checks with a rolled-back cross-account exercise.
+- [ ] Run unit tests, typecheck, ESLint, official DB-shape generation, deployed migration and `unionops_app` RLS smoke. MFA grants and verification-attempt windows now have durable source paths; pending-enrollment durability, TOTP-secret key management, and broader step-up remain launch gaps.
+
+## Enterprise readiness — durable MFA session grants (2026-09-27)
+
+- [x] Added one grant row per account in migration `0068_mfa_session_grants.sql`; only the SHA-256 digest is stored, and each challenge replaces the previous grant.
+- [x] Hosted mode refuses the memory fallback. Consumption uses an atomic update and binds verification to the saved session version and 60-second expiry; expired/stale matching grants are consumed without verifying the session.
+- [x] Auth.js awaits the database-backed session update and fails closed on grant-store errors. MFA verification returns 503 if it cannot persist the grant after consuming the TOTP counter.
+- [x] Extended RLS contracts, required-shape rows, and the rolled-back live RLS smoke with own-account, cross-account, and runtime-delete checks.
+- [ ] Run Vitest, typecheck, ESLint, official DB-shape generation, deployed migration, multi-replica grant consumption and `unionops_app` RLS smoke. Pending TOTP enrollment remains in memory; TOTP-secret key management and broader step-up remain open.
+
+## Enterprise readiness — MFA attempt limit (2026-09-27)
+
+- [x] Added account-scoped 10-attempt/15-minute MFA challenge window on migration `0069_mfa_verification_attempts.sql`; hosted mode uses a conditional Postgres upsert and fails closed without durable storage.
+- [x] Wired the shared verifier for TOTP/shared-code challenges, recovery-code rotation, and incident step-up; the primary verify API reserves one attempt for recovery-code submissions and returns `429` with `Retry-After` when capped.
+- [x] Added FORCE RLS contract, required-shape entry, account isolation/runtime-delete checks in `db:rls-smoke`, and service/API tests. Updated operator security and session knowledge notes.
+- [ ] Staging gate: run unit tests, typecheck, ESLint, official DB-shape generation, migrations, and concurrent `unionops_app` RLS attempts. This checkout has no `node_modules` or live Postgres; syntax checks for 82 TypeScript files, 70 journal entries, 132 unique shape tables, four audit-policy checks, and diff checks pass. Security/product owner review of the internal threshold remains due.
+
+## Enterprise readiness — Workforce Time report export step-up (2026-09-27)
+
+- [x] Replaced the time report query-string download with `POST /api/time/export`; GET now returns 405.
+- [x] Require fresh MFA under the shared host policy before reading scoped time entries. Validate format, category, and range; audit denied/successful attempts with a server-generated request ID and metadata-only format/category/row count.
+- [x] Require the correlated success audit before returning CSV/XLSX/PDF bytes. Responses are private/no-store; direct callers cannot bypass the challenge with the old URL.
+- [x] Added a bilingual Time Dashboard challenge/resume form that retains the exact date range and export format, plus localized failure, throttling, unavailable, audit, and range messages. Updated `/updates`, Time module/operator guidance, and the packet evidence register.
+- [x] Added isolated API cases for direct-call denial, throttling/code omission, scoped filters, success audit/correlation, fail-closed audit, and GET retirement; extended integration coverage for local tenant isolation and the retired path.
+- [ ] Run Vitest, TypeScript, lint, browser download/accessibility checks, and hosted Postgres/RLS/TOTP/audit evidence when dependencies and target infrastructure are available.
+
+## Enterprise readiness — Travel export step-up (2026-09-27)
+
+- [x] Replaced the query-string Travel export with `POST /api/travel/[id]/export`; old GET returns 405.
+- [x] Keep authorization and union/local scope checks before MFA; require fresh MFA before loading advances, claims, or receipt files. XLSX, PDF, and receipt ZIP responses are private/no-store and withheld if the correlated success audit cannot be confirmed.
+- [x] Audit denied, error, and successful outcomes with a server request ID and format/reason metadata only. No MFA code, financial values, claim detail, or receipt content is placed in the event.
+- [x] Added localized TravelBoard resume UI and focused route tests; updated integration tests for auth, role, union/local boundaries, XLSX response, and GET retirement. Updated the public hosted-MFA `/updates` note and operator security guide.
+- [ ] Run Vitest, TypeScript, lint, browser download/accessibility checks, and hosted Postgres/RLS/TOTP/audit evidence when dependencies and target infrastructure are available. Organization deletion, MFA reset, and other sensitive actions remain in Packet 6's route inventory.
+
+## Enterprise readiness — Poll result export step-up (2026-09-27)
+
+- [x] Replaced query-string Poll CSV/XLSX exports with `POST /api/polls/id/[id]/export`; legacy GET returns 405.
+- [x] Keep poll union/local authorization before fresh MFA; require a challenge before reading aggregates or free-text answers. Responses are private/no-store, carry a server request ID, and are withheld if the correlated success audit cannot be confirmed.
+- [x] Added bilingual PollsBoard challenge/resume UI and focused route cases for denial ordering, throttling/code omission, audited CSV/XLSX success, audit outage, cross-scope denial, and GET retirement. Updated API integration coverage and the existing hosted-MFA `/updates` note.
+- [ ] Run Vitest, TypeScript, lint, browser download/accessibility checks, and hosted Postgres/RLS/TOTP/audit evidence when dependencies and target infrastructure are available. Organization deletion, MFA reset, and other sensitive actions remain in Packet 6's route inventory. See [`session-knowledge-2026-09-27-poll-export-step-up.md`](audit/session-knowledge-2026-09-27-poll-export-step-up.md).
+
+## Enterprise readiness — meeting RSVP export step-up (2026-09-27)
+
+- [x] Replaced the query-string RSVP roster export with `POST /api/meetings/events/[id]/export`; legacy GET returns 405.
+- [x] Keep union/local meeting authorization before fresh MFA; require a challenge before reading names, contact details, or notes. The CSV is private/no-store, carries a server request ID, and is withheld if the correlated success audit cannot be confirmed.
+- [x] Added the EN/FR challenge/resume form, route cases for challenge ordering, throttling/code omission, correlated success, audit failure, cross-scope denial, and GET retirement, and updated the hosted-MFA `/updates` note.
+- [ ] Run Vitest, TypeScript, lint, browser download/accessibility checks, and hosted Postgres/RLS/TOTP/audit evidence when dependencies and target infrastructure are available. Organization deletion, MFA reset, and other sensitive actions remain in Packet 6's route inventory. See [`session-knowledge-2026-09-27-rsvp-export-step-up.md`](audit/session-knowledge-2026-09-27-rsvp-export-step-up.md).
+
+## Enterprise readiness — Site Admin password-reset step-up (2026-09-27)
+
+- [x] Require fresh MFA under host policy before Site Admin creates and emails a password-reset link; correlate verification, pre-dispatch authorization, and delivery outcome with a server request ID.
+- [x] Removed the reset token and target email from the operator API response and audit metadata. Added an account-support challenge/resume UI and explicit guidance for uncertain delivery before retry.
+- [x] Added direct route cases for challenge enforcement, audit failures, archived targets, mail failure, result uncertainty, and secret/address redaction; corrected account-support capability summary copy in EN/FR.
+- [ ] Run Vitest, TypeScript, lint, browser checks, and hosted TOTP/audit evidence when dependencies and target infrastructure are available. Organization deletion and any separate operator MFA-reset process remain open. See [`session-knowledge-2026-09-27-password-reset-step-up.md`](audit/session-knowledge-2026-09-27-password-reset-step-up.md).
+
+## Enterprise readiness — Site Admin account-assignment step-up (2026-09-27)
+
+- [x] Require fresh MFA before changing a user's union/local membership. A correlated authorization event must append before the assignment helper runs, and the result audit uses the assigned union/local scope.
+- [x] Added EN/FR challenge/resume, conflict-retry handling that requests a new challenge, and post-write audit uncertainty handling that blocks blind retry. Tests cover denial, pre-write audit failure, conflict, success, and uncertain result audit.
+- [ ] Run Vitest, TypeScript, lint, browser checks, and deployed Postgres/RLS/TOTP/audit verification when dependencies and target infrastructure are available. Union membership-policy changes, organization deletion, and other privileged actions remain to review; local archive/restore now has its own step-up slice below. See [`session-knowledge-2026-09-27-site-admin-assignment-step-up.md`](audit/session-knowledge-2026-09-27-site-admin-assignment-step-up.md).
+
+## Enterprise readiness — Site Admin local archive/restore step-up (2026-09-27)
+
+- [x] Require fresh MFA before target-local lookup on both archive and restore routes.
+- [x] Require correlated authorization audit before mutation and append a separate union-scoped result event. If the update or result evidence is uncertain, API/UI response tells the operator to reload and inspect before retrying.
+- [x] Add bilingual challenge/resume, throttling, unavailable, and uncertain-result states. Add direct route cases for archive and restore challenge ordering, audit-before-write, successful audit, post-write audit failure, and database errors after mutation starts.
+- [x] Record behavior and remaining checks in [`session-knowledge-2026-09-27-local-lifecycle-step-up.md`](audit/session-knowledge-2026-09-27-local-lifecycle-step-up.md), update the hosted security guide and Packet 6 tracker.
+- [ ] Run focused Vitest, TypeScript, lint, browser, and target-host Postgres/RLS/TOTP/durable-audit verification when dependencies and infrastructure are available. Union membership-policy step-up now has a separate source slice below; verify it with the same checks. Organization deletion, operator MFA reset, and remaining privileged actions stay open.
+
+## Enterprise readiness — Union membership-policy step-up (2026-09-27)
+
+- [x] Require fresh MFA after strict request validation and before union lookup or multiple-local member-impact reads.
+- [x] Require a correlated intent audit before the scoped impact aggregate and policy update; append a separate result event and return an explicit uncertain outcome if the write/result cannot be confirmed.
+- [x] Add bilingual challenge/resume, failure/throttling/unavailable copy, selected-policy freeze, and reload-before-retry handling. Add route cases for challenge order, strict input, pre-audit outage, success, post-audit outage, and database write error.
+- [x] Record implementation and follow-up evidence in [`session-knowledge-2026-09-27-membership-policy-step-up.md`](audit/session-knowledge-2026-09-27-membership-policy-step-up.md), the Packet 6 tracker, current ground truth, and hosted security guide.
+- [ ] Run focused Vitest, TypeScript, lint, browser, and target-host Postgres/RLS/TOTP/durable-audit verification when dependencies and infrastructure are available. Organization deletion, operator MFA reset, and remaining privileged APIs stay open.
+
+## Enterprise readiness — Site Admin cross-tenant audit-read step-up (2026-09-27)
+
+- [x] Retire `GET /api/site-admin/audit`; use strict `POST` so MFA codes never enter a URL. Require fresh MFA before querying the host-wide log.
+- [x] Require correlated access-intent audit before query and result audit before returning entries. Keep the response private/no-store; withhold entries if result evidence is unavailable.
+- [x] Add EN/FR challenge, throttling, unavailability, uncertain-result, and retry states. Add route cases for challenge order, strict input, audit failures, successful return, and GET retirement.
+- [x] Record owner-DB and runtime-RLS verification as open in [`session-knowledge-2026-09-27-site-admin-audit-step-up.md`](audit/session-knowledge-2026-09-27-site-admin-audit-step-up.md); update Packet 6, current ground truth, hosted security, and agent guidance.
+- [ ] Run focused Vitest, TypeScript, lint, browser, owner-DB least-privilege, and target-host RLS/durable-audit checks when dependencies and infrastructure are available. Other Site Admin sensitive actions remain open.
+
+## Enterprise readiness — Hosted demo-purge guard (2026-09-27)
+
+- [x] The shared Demo Cleanup gate disables the UI and both preview/purge APIs in hosted customer mode. The owner-DB CLI also exits before connecting to the database under that profile, even if the demo flag is enabled.
+- [x] Added regression cases for hosted feature-flag combinations and documented that the guard does not implement the planned customer organization deletion workflow.
+- [ ] Run the focused feature-flag and Site Admin suites when Vitest is available; verify the deployed host and keep auditing remaining demo-only routes. See [`session-knowledge-2026-09-27-demo-purge-host-guard.md`](audit/session-knowledge-2026-09-27-demo-purge-host-guard.md).
+
+## Enterprise readiness — Dependency audit release gate (2026-09-27)
+
+- [x] Split `npm audit` into a standalone blocking job so Docker image publication waits for the critical/high policy result without waiting for the browser suite.
+- [x] Require successful `test-and-build` and `security-audit` results before every CI push/manual deploy path; extend the workflow-contract checker to enforce job dependencies and result conditions.
+- [ ] Run GitHub Actions server-side validation and verify a failing audit blocks image publication and deploy. A separate CapRover Git/webhook deployment path remains a host-level release-gate item. See [`session-knowledge-2026-09-27-ci-security-deploy-gate.md`](audit/session-knowledge-2026-09-27-ci-security-deploy-gate.md).

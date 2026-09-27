@@ -46,6 +46,9 @@ export default async function HostReadinessPage({
           {t("hostTitle")}
         </h1>
         <p className="mt-1 text-sm text-opseu-gray-dark">{t("hostBody")}</p>
+        <p className="mt-2 max-w-3xl text-sm text-opseu-gray-dark">
+          {t("hostEvidenceNote")}
+        </p>
         <p
           className={cn(
             "mt-3 inline-flex rounded px-2 py-1 text-xs font-bold uppercase tracking-wide",
@@ -178,9 +181,16 @@ export default async function HostReadinessPage({
                       cronConfigured: "hostPresenceCron",
                       mfaEnabled: "hostPresenceMfa",
                       demoAuthOff: "hostPresenceDemoAuth",
+                      attachmentStorageApproved: "hostPresenceAttachmentStorageApproved",
+                      strictUploadScan: "hostPresenceStrictUploadScan",
+                      backupRestoreEvidence: "hostPresenceBackupRestoreEvidence",
+                      alertDeliveryEvidence: "hostPresenceAlertDeliveryEvidence",
                     } as const
                   )[row.id],
                 )}{" "}
+                {row.evidenceSource === "operator-attested"
+                  ? `(${t("hostOperatorAttestation")}) `
+                  : ""}
                 <code className="text-xs">({row.hintKey})</code>
               </li>
             ))}
@@ -210,9 +220,16 @@ export default async function HostReadinessPage({
                       cronConfigured: "hostPresenceCron",
                       mfaEnabled: "hostPresenceMfa",
                       demoAuthOff: "hostPresenceDemoAuth",
+                      attachmentStorageApproved: "hostPresenceAttachmentStorageApproved",
+                      strictUploadScan: "hostPresenceStrictUploadScan",
+                      backupRestoreEvidence: "hostPresenceBackupRestoreEvidence",
+                      alertDeliveryEvidence: "hostPresenceAlertDeliveryEvidence",
                     } as const
                   )[row.id],
                 )}{" "}
+                {row.evidenceSource === "operator-attested"
+                  ? `(${t("hostOperatorAttestation")}) `
+                  : ""}
                 <code className="text-xs">({row.hintKey})</code>
               </li>
             ))}

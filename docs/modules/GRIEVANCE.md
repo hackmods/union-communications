@@ -72,7 +72,7 @@ See `docs/PROGRESS.md` Phase 4.
 - MFA required
 - Full audit log on view/edit
 - Pseudonym option for member identity
-- 7-year retention default post-resolution
+- Retention: no universal period or automated purge is implemented. Set the trigger, period, exceptions, and legal-hold process with the customer and qualified counsel before production use.
 
 ## Public playbook (2026-08-26)
 

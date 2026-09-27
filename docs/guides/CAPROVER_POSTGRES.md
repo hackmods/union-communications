@@ -219,7 +219,7 @@ Save and **redeploy**.
 
 **Demo cleanup purge** (after durable flip, when sample `is_demo` rows must leave a **demo** host):
 
-- **Gate:** set CapRover App Config `SITE_ADMIN_DEMO_PURGE_ENABLED=true` to show `/app/site-admin/demo-cleanup` and enable the preview/purge APIs. Leave unset/`false` on live production — the UI card and Users page link stay hidden, and the APIs return 404.
+- **Gate:** set CapRover App Config `SITE_ADMIN_DEMO_PURGE_ENABLED=true` only on a demo/workshop host to show `/app/site-admin/demo-cleanup` and enable the preview/purge APIs. The shared gate hides the UI and returns 404 from both APIs in `UNIONOPS_HOSTED_CUSTOMER_MODE`, even if this flag is accidentally enabled. The `db:demo-purge` CLI also refuses the hosted customer profile before connecting to Postgres. Leave the flag unset/`false` on other hosts.
 - UI: `/app/site-admin/demo-cleanup` — typed `DELETE demo` + operator password (only when the gate is on)
 - CLI: `MIGRATE_DATABASE_URL=… DATABASE_URL=… npm run db:demo-purge` (`--dry-run` for counts only)
 - Requires `MIGRATE_DATABASE_URL` (owner) so RLS cannot leave restrict orphans under demo unions

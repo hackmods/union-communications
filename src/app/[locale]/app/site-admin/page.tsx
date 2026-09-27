@@ -57,6 +57,17 @@ export default async function SiteAdminLandingPage({
           tone={missingHostCount > 0 ? "warn" : "default"}
         />
         <SiteAdminCard
+          href="/app/site-admin/subprocessors"
+          title={t("subprocessorsCardTitle")}
+          body={t("subprocessorsCardBody")}
+        />
+        <SiteAdminCard
+          href="/app/site-admin/incidents"
+          title={t("incidentsCardTitle")}
+          body={t("incidentsCardBody")}
+          tone="warn"
+        />
+        <SiteAdminCard
           href="/app/site-admin/account-support"
           title={t("accountSupport")}
           body={t("accountSupportBody")}

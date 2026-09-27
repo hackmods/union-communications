@@ -14,6 +14,8 @@ import type { AuthAccount } from "@/lib/auth/find-db-user";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { users } from "@/lib/db/schema/tenant";
 import type { UserRole } from "@/types/tenant";
+import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
+import { accountRequiresMfa, rolesRequireHostedMfa } from "@/lib/auth/mfa-requirements";
 
 export type SignInableAccount = {
   id: string;
@@ -98,6 +100,8 @@ export async function loadAuthAccountById(
       .limit(1);
     const row = rows[0];
     if (row && !row.archivedAt && !row.lockedAt) {
+      const roles = row.roles as UserRole[];
+      const explicitMfaEnabled = row.mfaEnabled || Boolean(row.totpSecret);
       return {
         id: row.id,
         email: row.email,
@@ -107,8 +111,13 @@ export async function loadAuthAccountById(
         localId: row.localId ?? undefined,
         bargainingUnitId: row.bargainingUnitId ?? undefined,
         accessibleLocalIds: row.accessibleLocalIds ?? undefined,
-        roles: row.roles as UserRole[],
-        requiresMfa: row.mfaEnabled || Boolean(row.totpSecret),
+        roles,
+        requiresMfa: accountRequiresMfa({
+          roles,
+          explicitMfaEnabled,
+          legacyRequiresMfa: explicitMfaEnabled,
+          hostedCustomerMode: isHostedCustomerMode(env),
+        }),
         sessionVersion: row.sessionVersion,
         totpSecret: row.totpSecret,
       };
@@ -126,7 +135,9 @@ export async function loadAuthAccountById(
       localId: invited.localId,
       bargainingUnitId: invited.bargainingUnitId,
       roles: invited.roles,
-      requiresMfa: invited.requiresMfa,
+      requiresMfa: isHostedCustomerMode(env)
+        ? rolesRequireHostedMfa(invited.roles)
+        : invited.requiresMfa,
     };
   }
 
@@ -142,7 +153,9 @@ export async function loadAuthAccountById(
       bargainingUnitId: demo.bargainingUnitId,
       accessibleLocalIds: demo.accessibleLocalIds,
       roles: demo.roles,
-      requiresMfa: demo.requiresMfa,
+      requiresMfa: isHostedCustomerMode(env)
+        ? rolesRequireHostedMfa(demo.roles) || Boolean(demo.totpSecret)
+        : demo.requiresMfa,
       totpSecret: demo.totpSecret,
     };
   }

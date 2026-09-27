@@ -13,6 +13,7 @@ import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { formatRoleList } from "@/lib/auth/role-labels";
 import { AssignLocalForm } from "@/components/site-admin/AssignLocalForm";
 import { EditRolesForm } from "@/components/site-admin/EditRolesForm";
+import { ForcePasswordResetForm } from "@/components/site-admin/ForcePasswordResetForm";
 
 export const dynamic = "force-dynamic";
 
@@ -210,25 +211,10 @@ export default async function AccountSupportDetailPage({
         archived={profile.archivedAt !== null}
       />
 
-      <form
-        action={`/api/site-admin/users/${profile.id}/force-password-reset`}
-        method="POST"
-        className="mt-6 flex items-center gap-3"
-      >
-        <input type="hidden" name="id" value={profile.id} />
-        <button
-          type="submit"
-          disabled={profile.archivedAt !== null}
-          className="rounded-md bg-opseu-blue px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-opseu-blue/90 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {t("accountSupportForcePassword")}
-        </button>
-        {profile.archivedAt && (
-          <span className="text-xs text-opseu-gray-dark">
-            {t("accountSupportCannotResetArchived")}
-          </span>
-        )}
-      </form>
+      <ForcePasswordResetForm
+        userId={profile.id}
+        archived={profile.archivedAt !== null}
+      />
 
       <p className="mt-6 text-xs text-opseu-gray-dark">
         {t("accountSupportOtherActionsLead")}{" "}

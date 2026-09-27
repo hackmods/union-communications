@@ -18,7 +18,7 @@ import {
   POST as uploadDocument,
 } from "@/app/api/documents/route";
 import { DELETE as deleteDocument } from "@/app/api/documents/[id]/route";
-import { GET as downloadDocument } from "@/app/api/documents/[id]/download/route";
+import { GET as legacyDownloadDocument, POST as downloadDocument } from "@/app/api/documents/[id]/download/route";
 import {
   insertDocumentForTests,
   resetDocumentsMemoryForTests,
@@ -51,6 +51,13 @@ function session(input?: {
 function jsonRequest(body: unknown): Request {
   return {
     json: async () => body,
+  } as Request;
+}
+
+function documentActionRequest(method: "POST" | "DELETE" = "POST"): Request {
+  return {
+    json: async () => ({}),
+    method,
   } as Request;
 }
 
@@ -117,17 +124,23 @@ describe("document download API", () => {
     const doc = seedDoc();
     authMock.mockResolvedValue(null);
     expect(
-      (await downloadDocument(new Request("http://localhost"), params(doc.id)))
+      (await downloadDocument(documentActionRequest(), params(doc.id)))
         .status,
     ).toBe(401);
 
     authMock.mockResolvedValue(session({ roles: ["local_member"] }));
     const forbidden = await downloadDocument(
-      new Request("http://localhost"),
+      documentActionRequest(),
       params(doc.id),
     );
     expect(forbidden.status).toBe(403);
     expect(await forbidden.json()).toEqual({ error: "Forbidden" });
+  });
+
+  it("retires the old direct download URL", async () => {
+    const response = await legacyDownloadDocument();
+    expect(response.status).toBe(405);
+    expect(response.headers.get("Allow")).toBe("POST");
   });
 
   it("returns 404 for a missing id and for another union, including platform_admin", async () => {
@@ -138,13 +151,13 @@ describe("document download API", () => {
 
     authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
     const missing = await downloadDocument(
-      new Request("http://localhost"),
+      documentActionRequest(),
       params("doc-does-not-exist"),
     );
     expect(missing.status).toBe(404);
 
     const crossUnion = await downloadDocument(
-      new Request("http://localhost"),
+      documentActionRequest(),
       params(foreign.id),
     );
     expect(crossUnion.status).toBe(404);
@@ -161,7 +174,7 @@ describe("document download API", () => {
       }),
     );
     const res = await downloadDocument(
-      new Request("http://localhost"),
+      documentActionRequest(),
       params(doc.id),
     );
     expect(res.status).toBe(404);
@@ -174,7 +187,7 @@ describe("document download API", () => {
     authMock.mockResolvedValue(session());
 
     const pendingRes = await downloadDocument(
-      new Request("http://localhost"),
+      documentActionRequest(),
       params(pending.id),
     );
     expect(pendingRes.status).toBe(403);
@@ -183,7 +196,7 @@ describe("document download API", () => {
     });
 
     const infectedRes = await downloadDocument(
-      new Request("http://localhost"),
+      documentActionRequest(),
       params(infected.id),
     );
     expect(infectedRes.status).toBe(403);
@@ -196,7 +209,7 @@ describe("document download API", () => {
 
     authMock.mockResolvedValue(session());
     const res = await downloadDocument(
-      new Request("http://localhost"),
+      documentActionRequest("POST"),
       params(doc.id),
     );
     expect(res.status).toBe(200);
@@ -394,7 +407,7 @@ describe("document list/upload/delete API", () => {
 
     authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
     const crossUnion = await deleteDocument(
-      new Request("http://localhost"),
+      documentActionRequest("DELETE"),
       params(foreign.id),
     );
     expect(crossUnion.status).toBe(404);
@@ -402,13 +415,13 @@ describe("document list/upload/delete API", () => {
 
     authMock.mockResolvedValue(session());
     const forbidden = await deleteDocument(
-      new Request("http://localhost"),
+      documentActionRequest("DELETE"),
       params(otherSteward.id),
     );
     expect(forbidden.status).toBe(403);
 
     const deleted = await deleteDocument(
-      new Request("http://localhost"),
+      documentActionRequest("DELETE"),
       params(owned.id),
     );
     expect(deleted.status).toBe(200);

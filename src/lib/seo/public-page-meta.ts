@@ -28,6 +28,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "The UnionOps commitment to AODA and WCAG 2.1 Level AA, so stewards and officers with disabilities can use these tools, plus the gaps we still know about.",
     },
+    "/trust/subprocessors": {
+      title: "UnionOps Subprocessors",
+      description:
+        "See the service providers approved for public disclosure on this UnionOps host, including their purposes, data categories, subjects, and processing regions.",
+    },
     "/feedback": {
       title: "Site feedback",
       description:
@@ -350,6 +355,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Déclaration d'accessibilité",
       description:
         "L'engagement d'UnionOps envers la LAPHO et le WCAG 2.1 niveau AA, pour que les délégués et les dirigeants en situation de handicap puissent utiliser ces outils.",
+    },
+    "/trust/subprocessors": {
+      title: "Sous-traitants UnionOps",
+      description:
+        "Consultez les fournisseurs autorisés à être divulgués publiquement sur cet hôte UnionOps : leur objet, les catégories de données, les personnes et les régions.",
     },
     "/feedback": {
       title: "Commentaires sur le site",

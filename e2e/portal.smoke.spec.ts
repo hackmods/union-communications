@@ -6,6 +6,7 @@ import {
   loginAsSteward,
   hubLogin,
 } from "./helpers/auth";
+import { expectNoSeriousA11yViolations } from "./helpers/axe";
 
 function seriousOrCriticalViolations(
   violations: { impact?: string | null }[],
@@ -262,6 +263,7 @@ test.describe("Local Portal smoke @smoke", () => {
     await page.goto("/fr/portal");
     await expect(page.getByRole("heading", { name: "Ensemble" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Vos Cercles" })).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
   });
 
   test("officer with MFA can open Portal module after verify", async ({

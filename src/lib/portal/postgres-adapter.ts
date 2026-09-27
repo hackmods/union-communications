@@ -236,6 +236,24 @@ export class PostgresPortalAdapter implements PortalAdapter {
     return row ? mapMembership(row) : null;
   }
 
+  async hasAdminCircleMembership(unionId: string, userId: string): Promise<boolean> {
+    if (!this.sameUnion(unionId) || this.rls.userId !== userId) return false;
+    return this.scoped(async () => {
+      const [row] = await getDb()
+        .select({ id: portalCircleMemberships.id })
+        .from(portalCircleMemberships)
+        .innerJoin(portalCircles, eq(portalCircleMemberships.circleId, portalCircles.id))
+        .where(and(
+          eq(portalCircleMemberships.userId, userId),
+          eq(portalCircleMemberships.role, "admin"),
+          eq(portalCircles.unionId, unionId),
+          isNull(portalCircles.archivedAt),
+        ))
+        .limit(1);
+      return Boolean(row);
+    });
+  }
+
   private async audit(input: {
     unionId: string; circleId: string; userId: string; action: string;
     resourceType: string; resourceId: string; metadata?: Record<string, string>;

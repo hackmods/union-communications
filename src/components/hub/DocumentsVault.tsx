@@ -6,7 +6,9 @@ import { useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
+import { Callout } from "@/components/ui/Callout";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { downloadBlob } from "@/lib/export/image-export";
 import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
 import {
   canDeleteSharedContent,
@@ -23,6 +25,8 @@ const ALLOWED_TYPES = [
   "application/msword",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ];
+
+type DocumentAction = { kind: "download" | "delete"; id: string };
 
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -59,6 +63,12 @@ export function DocumentsVault() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [documentAction, setDocumentAction] = useState<DocumentAction | null>(null);
+  const [actionNeedsMfa, setActionNeedsMfa] = useState(false);
+  const [actionCode, setActionCode] = useState("");
+  const [actionBusy, setActionBusy] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [actionUnconfirmed, setActionUnconfirmed] = useState(false);
 
   async function load() {
     setLoading(true);
@@ -127,15 +137,94 @@ export function DocumentsVault() {
     }
   }
 
-  async function removeDoc(id: string) {
-    if (readOnly) return;
-    const res = await fetch(`/api/documents/${id}`, { method: "DELETE" });
-    if (res.ok) {
-      setMessage(t("deleted"));
-      await load();
-    } else {
-      setError(t("deleteError"));
+  async function performDocumentAction(action: DocumentAction, code?: string) {
+    setActionBusy(true);
+    setActionError(null);
+    let actionResponseConfirmed = false;
+    try {
+      const isDownload = action.kind === "download";
+      const res = await fetch(
+        isDownload
+          ? `/api/documents/${encodeURIComponent(action.id)}/download`
+          : `/api/documents/${encodeURIComponent(action.id)}`,
+        {
+          method: isDownload ? "POST" : "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(code ? { mfaCode: code } : {}),
+          cache: "no-store",
+        },
+      );
+      if (!res.ok) {
+        const failure = (await res.json().catch(() => ({}))) as { code?: string };
+        if (failure.code?.startsWith("mfa_step_up_")) {
+          setDocumentAction(action);
+          setActionNeedsMfa(true);
+          setActionError(
+            failure.code === "mfa_step_up_required" ? null : t("mfaStepUpFailed"),
+          );
+        } else if (
+          failure.code === "document_delete_unconfirmed" ||
+          failure.code === "download_audit_unavailable" ||
+          (res.status >= 500 && failure.code !== "audit_unavailable" && failure.code !== "durable_storage_required")
+        ) {
+          setActionUnconfirmed(true);
+        } else {
+          setActionCode("");
+          setActionError(
+            failure.code === "durable_storage_required"
+              ? t("durableStorageRequired")
+              : action.kind === "delete"
+                ? t("deleteError")
+                : t("downloadError"),
+          );
+        }
+        return;
+      }
+      actionResponseConfirmed = true;
+      if (isDownload) {
+        const blob = await res.blob();
+        const doc = docs.find((row) => row.id === action.id);
+        await downloadBlob(blob, doc?.fileName ?? "union-document");
+      } else {
+        setMessage(t("deleted"));
+        setDocs((current) => current.filter((row) => row.id !== action.id));
+        try {
+          await load();
+        } catch {
+          setActionError(t("refreshAfterActionFailed"));
+        }
+      }
+      setDocumentAction(null);
+      setActionNeedsMfa(false);
+      setActionCode("");
+    } catch {
+      if (actionResponseConfirmed) {
+        setActionError(
+          action.kind === "delete"
+            ? t("refreshAfterActionFailed")
+            : t("downloadError"),
+        );
+      } else {
+        setActionUnconfirmed(true);
+      }
+    } finally {
+      setActionBusy(false);
     }
+  }
+
+  function startDocumentAction(action: DocumentAction) {
+    if (readOnly || actionUnconfirmed) return;
+    setDocumentAction(action);
+    setActionNeedsMfa(false);
+    setActionCode("");
+    setActionError(null);
+    void performDocumentAction(action);
+  }
+
+  function continueDocumentAction(event: React.FormEvent) {
+    event.preventDefault();
+    if (!documentAction || !actionCode.trim() || actionUnconfirmed) return;
+    void performDocumentAction(documentAction, actionCode.trim());
   }
 
   return (
@@ -155,6 +244,64 @@ export function DocumentsVault() {
           {error}
         </p>
       )}
+      {actionError && !actionNeedsMfa ? (
+        <p className="text-sm text-red-700" role="alert">{actionError}</p>
+      ) : null}
+
+      {actionUnconfirmed ? (
+        <Callout tone="warning" role="alert">
+          <p>{t("actionUnconfirmed")}</p>
+          <Button
+            type="button"
+            variant="secondary"
+            className="mt-2"
+            onClick={() => window.location.reload()}
+          >
+            {t("reloadVault")}
+          </Button>
+        </Callout>
+      ) : null}
+
+      {documentAction && actionNeedsMfa && !actionUnconfirmed ? (
+        <Callout tone="muted">
+          <form onSubmit={continueDocumentAction} className="space-y-3">
+            <p>
+              {documentAction.kind === "delete"
+                ? t("deleteMfaPrompt")
+                : t("downloadMfaPrompt")}
+            </p>
+            <Input
+              label={t("mfaCode")}
+              value={actionCode}
+              onChange={(event) => setActionCode(event.target.value)}
+              autoComplete="one-time-code"
+              inputMode="numeric"
+              required
+            />
+            {actionError ? (
+              <p className="text-sm text-red-700" role="alert">{actionError}</p>
+            ) : null}
+            <div className="flex flex-wrap gap-2">
+              <Button type="submit" disabled={actionBusy || !actionCode.trim()}>
+                {actionBusy ? t("working") : t("continueAction")}
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={actionBusy}
+                onClick={() => {
+                  setDocumentAction(null);
+                  setActionNeedsMfa(false);
+                  setActionCode("");
+                  setActionError(null);
+                }}
+              >
+                {t("cancel")}
+              </Button>
+            </div>
+          </form>
+        </Callout>
+      ) : null}
 
       {canWrite && (
         <div>
@@ -254,17 +401,19 @@ export function DocumentsVault() {
                       ) : null}
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      <a
-                        href={`/api/documents/${doc.id}/download`}
-                        className="inline-flex items-center rounded-md bg-opseu-blue px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
+                      <Button
+                        type="button"
+                        disabled={actionBusy || actionUnconfirmed}
+                        onClick={() => startDocumentAction({ kind: "download", id: doc.id })}
                       >
                         {t("download")}
-                      </a>
+                      </Button>
                       {canDelete && !readOnly ? (
                         <Button
                           type="button"
                           variant="secondary"
-                          onClick={() => void removeDoc(doc.id)}
+                          disabled={actionBusy || actionUnconfirmed}
+                          onClick={() => startDocumentAction({ kind: "delete", id: doc.id })}
                         >
                           {t("delete")}
                         </Button>

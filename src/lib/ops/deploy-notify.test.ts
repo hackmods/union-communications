@@ -52,7 +52,15 @@ function sampleHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     accessRequestNotifyConfigured: true,
     cronConfigured: false,
     mfaEnabled: false,
+    mfaMode: null,
+    hostedCustomerMode: false,
     demoAuthEnabled: false,
+    hostedControlEvidence: {
+      attachmentStorageApproved: false,
+      strictUploadScan: false,
+      backupRestoreEvidence: false,
+      alertDeliveryEvidence: false,
+    },
     observability: {
       sentryEnabled: false,
       sentryClientEnabled: false,
@@ -94,7 +102,9 @@ describe("deploy-notify", () => {
     expect(payload.subject).toContain("ready");
     expect(payload.text).toContain("Advisory");
     expect(payload.text).toContain("mfaEnabled");
-    expect(payload.text).toContain("MFA does not block casework");
+    expect(payload.text).toContain(
+      "Advisory items outside the hosted customer profile",
+    );
   });
 });
 

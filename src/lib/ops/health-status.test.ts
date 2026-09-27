@@ -10,6 +10,32 @@ describe("buildHealthStatus", () => {
   beforeEach(() => {
     process.env = { ...env };
     process.env.DB_BOOT_ATTESTATION_PATH = `${process.cwd()}/.missing-db-boot-test.json`;
+    delete process.env.UNIONOPS_HOSTED_CUSTOMER_MODE;
+    for (const key of [
+      "ATTACHMENT_STORAGE",
+      "ATTACHMENT_LOCAL_DIR",
+      "ATTACHMENT_S3_BUCKET",
+      "ATTACHMENT_S3_REGION",
+      "ATTACHMENT_S3_ACCESS_KEY_ID",
+      "ATTACHMENT_S3_SECRET_ACCESS_KEY",
+      "ATTACHMENT_S3_SSE",
+      "ATTACHMENT_SCANNER_URL",
+      "ATTACHMENT_SCAN_MODE",
+      "ATTACHMENT_SCAN_ALLOW_SKIP_ON_ERROR",
+      "UNIONOPS_ATTACHMENT_STORAGE_APPROVED",
+      "UNIONOPS_ATTACHMENT_STORAGE_REVIEWED_AT",
+      "UNIONOPS_ATTACHMENT_STORAGE_REVIEWED_BY",
+      "UNIONOPS_ATTACHMENT_SCAN_TESTED_AT",
+      "UNIONOPS_ATTACHMENT_SCAN_TESTED_BY",
+      "UNIONOPS_BACKUP_CONFIGURED",
+      "UNIONOPS_BACKUP_RESTORE_TESTED_AT",
+      "UNIONOPS_BACKUP_OWNER",
+      "UNIONOPS_ALERTS_CONFIGURED",
+      "UNIONOPS_ALERT_DELIVERY_TESTED_AT",
+      "UNIONOPS_ALERT_OWNER",
+    ]) {
+      delete process.env[key];
+    }
   });
 
   afterEach(() => {
@@ -32,6 +58,14 @@ describe("buildHealthStatus", () => {
     expect(status.emailEnabled).toBe(false);
     expect(status.cronConfigured).toBe(false);
     expect(status.mfaEnabled).toBe(false);
+    expect(status.mfaMode).toBeNull();
+    expect(status.hostedCustomerMode).toBe(false);
+    expect(status.hostedControlEvidence).toEqual({
+      attachmentStorageApproved: false,
+      strictUploadScan: false,
+      backupRestoreEvidence: false,
+      alertDeliveryEvidence: false,
+    });
     expect(typeof status.demoAuthEnabled).toBe("boolean");
     expect(status.tenantRegistry).toEqual({ unionCount: null, seeded: null });
     expect(status.observability).toEqual({
@@ -88,5 +122,16 @@ describe("buildHealthStatus", () => {
     expect(status.observability.sentryClientServerMismatch).toBe(true);
     expect(status.observability.errorLogFileEnabled).toBe(true);
     expect(JSON.stringify(status)).not.toContain("leaked-secret");
+  });
+
+  it("reports hosted customer MFA as enabled even when the legacy switch is off", async () => {
+    process.env.NODE_ENV = "production";
+    process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
+    process.env.AUTH_MFA_ENABLED = "false";
+    process.env.AUTH_MFA_MODE = "totp";
+    const status = await buildHealthStatus();
+    expect(status.hostedCustomerMode).toBe(true);
+    expect(status.mfaEnabled).toBe(true);
+    expect(status.mfaMode).toBe("totp");
   });
 });

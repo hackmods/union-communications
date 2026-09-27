@@ -5,12 +5,17 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { UserRole } from "@/types/tenant";
 import type { AttachmentMeta, AttachmentScanStatus } from "@/types/attachments";
 
-const { authMock } = vi.hoisted(() => ({
+const { authMock, auditMock } = vi.hoisted(() => ({
   authMock: vi.fn(),
+  auditMock: vi.fn(),
 }));
 
 vi.mock("@/auth", () => ({
   auth: authMock,
+}));
+
+vi.mock("@/lib/audit/store", () => ({
+  auditLog: { log: auditMock },
 }));
 
 import {
@@ -128,6 +133,10 @@ function seedAttachment(input: {
 describe("grievance and bumping attachment HTTP routes", () => {
   let dir: string;
   const previousLocalDir = process.env.ATTACHMENT_LOCAL_DIR;
+  const previousHostedMode = process.env.UNIONOPS_HOSTED_CUSTOMER_MODE;
+  const previousAuditBackend = process.env.AUDIT_DB_BACKEND;
+  const previousAttachmentsBackend = process.env.ATTACHMENTS_DB_BACKEND;
+  const previousDatabaseUrl = process.env.DATABASE_URL;
 
   beforeEach(async () => {
     dir = await mkdtemp(path.join(tmpdir(), "uo-att-http-"));
@@ -141,6 +150,11 @@ describe("grievance and bumping attachment HTTP routes", () => {
     resetBumpingStore();
     resetTenantOverlayForTests();
     authMock.mockReset();
+    auditMock.mockReset().mockResolvedValue(undefined);
+    delete process.env.UNIONOPS_HOSTED_CUSTOMER_MODE;
+    delete process.env.AUDIT_DB_BACKEND;
+    delete process.env.ATTACHMENTS_DB_BACKEND;
+    delete process.env.DATABASE_URL;
   });
 
   afterEach(async () => {
@@ -156,6 +170,15 @@ describe("grievance and bumping attachment HTTP routes", () => {
       delete process.env.ATTACHMENT_LOCAL_DIR;
     } else {
       process.env.ATTACHMENT_LOCAL_DIR = previousLocalDir;
+    }
+    for (const [key, value] of [
+      ["UNIONOPS_HOSTED_CUSTOMER_MODE", previousHostedMode],
+      ["AUDIT_DB_BACKEND", previousAuditBackend],
+      ["ATTACHMENTS_DB_BACKEND", previousAttachmentsBackend],
+      ["DATABASE_URL", previousDatabaseUrl],
+    ] as const) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
     }
     if (dir) {
       await rm(dir, { recursive: true, force: true });
@@ -408,6 +431,54 @@ describe("grievance and bumping attachment HTTP routes", () => {
         'attachment; filename="memo draft.pdf"',
       );
       expect(Buffer.from(await res.arrayBuffer())).toEqual(pdfBytes);
+      expect(auditMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          action: "grievance.attachment_download",
+          outcome: "success",
+          requestId: expect.any(String),
+          metadata: { phase: "download_authorized" },
+        }),
+      );
+      expect(auditMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          action: "grievance.attachment_download",
+          metadata: { phase: "download_delivered" },
+        }),
+      );
+    });
+
+    it("withholds file bytes when the authorization audit cannot be confirmed", async () => {
+      const row = seedAttachment({ id: "att-audit-fail", grievanceId: "grev-001" });
+      await getObjectStorage().put(row.storageKey, pdfBytes, row.mimeType);
+      authMock.mockResolvedValue(session());
+      auditMock.mockRejectedValueOnce(new Error("audit unavailable"));
+
+      const res = await downloadGrievanceAttachment(
+        new Request("http://localhost"),
+        params("grev-001", row.id),
+      );
+
+      expect(res.status).toBe(503);
+      expect(await res.json()).toEqual({ error: "Audit service unavailable" });
+      expect(auditMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("fails closed when hosted mode has no durable audit or attachment metadata", async () => {
+      const row = seedAttachment({ id: "att-memory-host", grievanceId: "grev-001" });
+      await getObjectStorage().put(row.storageKey, pdfBytes, row.mimeType);
+      authMock.mockResolvedValue(session());
+      process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
+
+      const res = await downloadGrievanceAttachment(
+        new Request("http://localhost"),
+        params("grev-001", row.id),
+      );
+
+      expect(res.status).toBe(503);
+      expect(await res.json()).toEqual({
+        error: "Durable audit and attachment metadata are required.",
+      });
+      expect(auditMock).not.toHaveBeenCalled();
     });
   });
 
@@ -553,6 +624,19 @@ describe("grievance and bumping attachment HTTP routes", () => {
       expect(res.status).toBe(200);
       expect(res.headers.get("Cache-Control")).toBe("private, no-store");
       expect(Buffer.from(await res.arrayBuffer())).toEqual(pdfBytes);
+      expect(auditMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          action: "bumping.attachment_download",
+          outcome: "success",
+          metadata: { phase: "download_authorized" },
+        }),
+      );
+      expect(auditMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          action: "bumping.attachment_download",
+          metadata: { phase: "download_delivered" },
+        }),
+      );
     });
   });
 });

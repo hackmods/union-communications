@@ -18,6 +18,8 @@ VeriClock-class hub module for staff hours, steward release/duty-bank, and actio
 - Scope every query by `unionId` + `localId`
 - Stewards clock/view own and enter past ranges; presidents approve, bulk events, windows, roster, sites, reports
 - Audit every list/create/mutate via `auditLog`
+- Payroll export includes employee/time data and may send it to a configured external webhook. When host MFA policy is enabled, require fresh MFA after local profile authorization and before loading rows or dispatching. UnionOps-hosted customer instances require production TOTP. Require a correlated audit append before the webhook; if the post-dispatch result audit fails, warn operators that delivery may already have happened and advise checking before retrying. Never log row contents or webhook secrets.
+- General time CSV/XLSX/PDF exports use `POST /api/time/export`; the legacy GET download returns 405. When host MFA policy is enabled, challenge before reading entries, tenant-scope all filters, audit the selected format and row count, and withhold the file if the success audit append cannot be confirmed. Never put the MFA code or exported row contents in audit metadata.
 
 ## Shipped slices
 - **8-lite / 8-lite+:** clock, manual/retro, bulk events, job codes, expected windows, entry-needed, CSV + union-business report, optional GPS punch tags (`gpsPolicy: tag_optional`)

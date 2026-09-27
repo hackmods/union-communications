@@ -6,7 +6,7 @@ UnionOps Data is an opt-in, officer-only workbench for importing local operation
 
 The Hub page is `/app/data` and the module is enabled per union from `/app/onboarding` by a platform or union admin. The UI has Datasets, Imports, Records, and Reports areas. Datasets support general typed tables and a member/employment template. Custom fields have stable IDs, labels, a basic type, and an officer/restricted classification. Unmapped source columns remain in the raw, local-scoped staging row until an officer maps or excludes them.
 
-Import flow: choose a local dataset, upload, inspect a paged preview, save the mapping, mark rows for publication or exclusion, publish valid accepted rows, and inspect people/history. CSV supports quoted commas and multiline cells. XLSX reads the first worksheet. Files are limited to 25 MiB, 50,000 data rows, and 200 columns; formulas and macro-enabled files are rejected. Production requires the existing private attachment storage and scanner configuration. Imports require MFA and PostgreSQL.
+Import flow: choose a local dataset, upload, inspect a paged preview, save the mapping, mark rows for publication or exclusion, publish valid accepted rows, and inspect people/history. When MFA is enabled, accepted-row publication requires a fresh challenge after writer authorization. CSV supports quoted commas and multiline cells. XLSX reads the first worksheet. Files are limited to 25 MiB, 50,000 data rows, and 200 columns; formulas and macro-enabled files are rejected. Production requires the existing private attachment storage and scanner configuration. Imports require MFA and PostgreSQL.
 
 Member matching automatically uses only a unique union member number in the active local. Similar names, email, and phone never merge records. New member records do not create Hub users, invitations, roles, or Portal access. Member attributes keep import run and row provenance, and union membership history is distinct from employment assignment history. A supervisor can be linked by member number; unresolved supervisor identifiers and cyclic reporting changes return to review. Missing source rows do not end membership or employment.
 
@@ -16,7 +16,7 @@ Publication runs inside the existing RLS transaction wrapper and locks the datas
 
 ## Access and storage
 
-- All Data routes require MFA, an enabled module, an active local, an authorized officer role, and `DATA_DB_BACKEND=postgres`.
+- All Data routes require session MFA, an enabled module, an active local, an authorized officer role, and `DATA_DB_BACKEND=postgres`. Publication adds a fresh action-bound MFA challenge when MFA is enabled.
 - The first release allows platform admins, union admins, division admins, and local presidents. Access is constrained to the active local; cross-local bulk access is not implemented.
 - The ten `data_*` tables have union/local RLS policies in migration `0040_data_workbench.sql`, and are included in the generated database contract. New routes call `withRlsContext` and repeat explicit union/local filters.
 - Raw source bytes use the existing `ATTACHMENT_STORAGE` private object store. Production import fails closed unless local storage has an explicit durable `ATTACHMENT_LOCAL_DIR` or S3-compatible storage has valid credentials, and unless `ATTACHMENT_SCANNER_URL` is configured and scanning succeeds. Local filesystem storage requires host-volume encryption; S3-compatible storage uses the existing SSE-S3 option.
@@ -29,7 +29,7 @@ Publication runs inside the existing RLS transaction wrapper and locks the datas
 | `GET/POST /api/data/datasets` | List/create local datasets |
 | `GET/POST /api/data/imports` | List imports and upload a scanned source file |
 | `GET/PATCH /api/data/imports/:id` | Page preview rows; save mapping or row decisions |
-| `POST /api/data/imports/:id/publish` | Publish accepted rows and return revision counts |
+| `POST /api/data/imports/:id/publish` | Fresh-MFA-gated publication of accepted rows and revision counts |
 | `GET /api/data/datasets/:id/records` | Read published generic table records |
 | `GET /api/data/records/people` | Search accepted people and current assignments |
 | `GET /api/data/records/people/:id/history` | Read authorized assertions and memberships |

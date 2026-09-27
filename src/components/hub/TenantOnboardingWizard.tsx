@@ -62,6 +62,9 @@ export function TenantOnboardingWizard() {
   const [unionSlug, setUnionSlug] = useState("");
   const [newLocalNumber, setNewLocalNumber] = useState("");
   const [createdUnion, setCreatedUnion] = useState<TenantSeed | null>(null);
+  const [unionStepUpRequired, setUnionStepUpRequired] = useState(false);
+  const [unionMfaCode, setUnionMfaCode] = useState("");
+  const [unionResultUnconfirmed, setUnionResultUnconfirmed] = useState(false);
 
   const unionPresets = useMemo(() => snippetSetupUnionPresets(), []);
   const localCollections = useMemo(
@@ -236,13 +239,42 @@ export function TenantOnboardingWizard() {
               collectionName: "Default collection",
             }
           : {}),
+        ...(unionStepUpRequired ? { mfaCode: unionMfaCode } : {}),
       }),
     });
     if (!res.ok) {
-      setError(await readMappedScopeApiError(res, t("saveError"), th));
+      const failure = (await res.json().catch(() => ({}))) as { code?: string; error?: string };
+      if (failure.code === "mfa_step_up_required") {
+        setUnionStepUpRequired(true);
+        setError(t("unionMfaRequired"));
+      } else if (failure.code === "mfa_step_up_failed") {
+        setUnionStepUpRequired(true);
+        setUnionMfaCode("");
+        setError(t("unionMfaFailed"));
+      } else if (failure.code === "mfa_step_up_limited") {
+        setUnionStepUpRequired(true);
+        setUnionMfaCode("");
+        setError(t("unionMfaLimited"));
+      } else if (failure.code === "audit_unavailable" || failure.code === "durable_storage_required" || failure.code === "mfa_step_up_unavailable") {
+        setUnionStepUpRequired(false);
+        setUnionMfaCode("");
+        setError(t("unionMfaUnavailable"));
+      } else if (failure.code === "union_result_unconfirmed") {
+        setUnionStepUpRequired(false);
+        setUnionMfaCode("");
+        setUnionResultUnconfirmed(true);
+        setError(t("unionResultUnconfirmed"));
+      } else {
+        setUnionStepUpRequired(false);
+        setUnionMfaCode("");
+        setError(failure.error ?? t("saveError"));
+      }
       return;
     }
     const data = (await res.json()) as { seed: TenantSeed };
+    setUnionStepUpRequired(false);
+    setUnionMfaCode("");
+    setUnionResultUnconfirmed(false);
     setCreatedUnion(data.seed);
     setMessage(t("unionCreated"));
     setUnionName("");
@@ -658,10 +690,33 @@ export function TenantOnboardingWizard() {
               <p className="text-sm text-gray-600 sm:col-span-2">
                 {t("unionNotesPlaceholder")}
               </p>
+              {unionStepUpRequired ? (
+                <div className="space-y-2 sm:col-span-2">
+                  <Input
+                    label={t("unionMfaCode")}
+                    value={unionMfaCode}
+                    onChange={(event) => setUnionMfaCode(event.target.value)}
+                    autoComplete="one-time-code"
+                    maxLength={32}
+                    autoFocus
+                    disabled={unionResultUnconfirmed}
+                  />
+                  <p className="text-xs text-gray-600">{t("unionMfaHelp")}</p>
+                </div>
+              ) : null}
               <div className="sm:col-span-2">
-                <Button type="submit" className="min-h-11">
+                <Button
+                  type="submit"
+                  className="min-h-11"
+                  disabled={unionResultUnconfirmed || (unionStepUpRequired && !unionMfaCode.trim())}
+                >
                   {t("createUnion")}
                 </Button>
+                {unionResultUnconfirmed ? (
+                  <Button type="button" variant="outline" className="ml-2 min-h-11" onClick={() => window.location.reload()}>
+                    {t("unionReload")}
+                  </Button>
+                ) : null}
               </div>
             </form>
             {createdUnion && (

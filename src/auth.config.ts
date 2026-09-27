@@ -33,12 +33,13 @@ export const authConfig = {
         token.accessibleLocalIds = user.accessibleLocalIds;
         token.roles = user.roles;
         token.mfaVerified = user.mfaVerified;
+        token.mfaRequired = user.mfaRequired;
         token.sessionVersion = user.sessionVersion ?? 0;
       }
-      if (trigger === "update" && session) {
-        applyTrustedSessionUpdate(token, session);
-      }
       await refreshJwtTenancyIfStale(token);
+      if (trigger === "update" && session) {
+        await applyTrustedSessionUpdate(token, session);
+      }
       return token;
     },
     session({ session, token }) {
@@ -55,6 +56,7 @@ export const authConfig = {
           | undefined;
         session.user.roles = (token.roles as typeof session.user.roles) ?? [];
         session.user.mfaVerified = Boolean(token.mfaVerified);
+        session.user.mfaRequired = Boolean(token.mfaRequired);
         session.user.sessionVersion = token.sessionVersion as number | undefined;
       }
       return session;

@@ -72,16 +72,22 @@ export type PresenceCheckId =
   | "accessRequestNotify"
   | "cronConfigured"
   | "mfaEnabled"
-  | "demoAuthOff";
+  | "demoAuthOff"
+  | "attachmentStorageApproved"
+  | "strictUploadScan"
+  | "backupRestoreEvidence"
+  | "alertDeliveryEvidence";
 
 export type PresenceCheck = {
   id: PresenceCheckId;
   ok: boolean;
   /** CapRover / env hint (non-secret key names only). */
   hintKey: string;
+  /** The app evaluates runtime settings or checks operator-supplied evidence. */
+  evidenceSource: "runtime" | "operator-attested";
   /**
-   * Advisory checks never block `ready` or CI deploy gates.
-   * MFA / email / cron stay optional — MFA must not gate casework.
+   * Advisory checks never block `ready` or CI deploy gates. Hosted customer
+   * mode requires production TOTP and operational-control evidence.
    */
   advisory: boolean;
 };
@@ -110,12 +116,12 @@ export type HostReadiness = {
   missingPresence: PresenceCheck[];
   /** Missing presence that should fail deploy / Host “needs work” severity. */
   missingBlockingPresence: PresenceCheck[];
-  /** Missing optional hardening (MFA, email, cron) — surface only. */
+  /** Missing optional checks for evaluation and self-hosted profiles. */
   missingAdvisoryPresence: PresenceCheck[];
   memoryCaseDataActive: boolean;
   postgresFlipComplete: boolean;
   healthStatus: HealthStatus["status"];
-  /** True when nothing blocking is missing for a durable Hub + Portal host (Data may stay memory). MFA never required. */
+  /** True when the durable host contract and any selected customer-profile gates pass. */
   ready: boolean;
 };
 
@@ -153,24 +159,28 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
       id: "postgresConfigured",
       ok: health.postgresConfigured,
       hintKey: "DATABASE_URL",
+      evidenceSource: "runtime",
       advisory: false,
     },
     {
       id: "migrateVerified",
       ok: migrateVerified,
       hintKey: "MIGRATE_DATABASE_URL",
+      evidenceSource: "runtime",
       advisory: false,
     },
     {
       id: "tenantsSeeded",
       ok: tenantsSeeded,
       hintKey: "npm run db:seed",
+      evidenceSource: "runtime",
       advisory: false,
     },
     {
       id: "emailEnabled",
       ok: health.emailEnabled,
       hintKey: "EMAIL_ENABLED",
+      evidenceSource: "runtime",
       advisory: true,
     },
     {
@@ -180,25 +190,63 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
         !health.emailEnabled ||
         Boolean(health.accessRequestNotifyConfigured),
       hintKey: "ACCESS_REQUEST_NOTIFY_EMAIL",
+      evidenceSource: "runtime",
       advisory: true,
     },
     {
       id: "cronConfigured",
       ok: health.cronConfigured,
       hintKey: "CRON_SECRET",
+      evidenceSource: "runtime",
       advisory: true,
     },
     {
       id: "mfaEnabled",
-      ok: health.mfaEnabled,
-      hintKey: "AUTH_MFA_ENABLED",
-      advisory: true,
+      ok: health.mfaEnabled && health.mfaMode === "totp",
+      hintKey: health.hostedCustomerMode
+        ? "UNIONOPS_HOSTED_CUSTOMER_MODE=true, AUTH_MFA_MODE=totp, NODE_ENV=production"
+        : "AUTH_MFA_ENABLED",
+      evidenceSource: "runtime",
+      advisory: !health.hostedCustomerMode,
     },
     {
       id: "demoAuthOff",
       ok: !health.demoAuthEnabled,
       hintKey: "AUTH_ALLOW_DEMO_USERS",
+      evidenceSource: "runtime",
       advisory: false,
+    },
+    {
+      id: "attachmentStorageApproved",
+      ok: health.hostedControlEvidence.attachmentStorageApproved,
+      hintKey:
+        "UNIONOPS_ATTACHMENT_STORAGE_APPROVED=true, UNIONOPS_ATTACHMENT_STORAGE_REVIEWED_AT/REVIEWED_BY, approved ATTACHMENT_STORAGE configuration",
+      evidenceSource: "operator-attested",
+      advisory: !health.hostedCustomerMode,
+    },
+    {
+      id: "strictUploadScan",
+      ok: health.hostedControlEvidence.strictUploadScan,
+      hintKey:
+        "ATTACHMENT_SCANNER_URL, ATTACHMENT_SCAN_MODE=strict, UNIONOPS_ATTACHMENT_SCAN_TESTED_AT/TESTED_BY; skip-on-error disabled",
+      evidenceSource: "operator-attested",
+      advisory: !health.hostedCustomerMode,
+    },
+    {
+      id: "backupRestoreEvidence",
+      ok: health.hostedControlEvidence.backupRestoreEvidence,
+      hintKey:
+        "UNIONOPS_BACKUP_CONFIGURED=true, UNIONOPS_BACKUP_RESTORE_TESTED_AT, UNIONOPS_BACKUP_OWNER",
+      evidenceSource: "operator-attested",
+      advisory: !health.hostedCustomerMode,
+    },
+    {
+      id: "alertDeliveryEvidence",
+      ok: health.hostedControlEvidence.alertDeliveryEvidence,
+      hintKey:
+        "UNIONOPS_ALERTS_CONFIGURED=true, UNIONOPS_ALERT_DELIVERY_TESTED_AT, UNIONOPS_ALERT_OWNER",
+      evidenceSource: "operator-attested",
+      advisory: !health.hostedCustomerMode,
     },
   ];
 }
@@ -286,7 +334,7 @@ export function formatHostReadinessEmailBody(readiness: HostReadiness): string {
     lines.push("");
   }
   if (readiness.missingAdvisoryPresence.length > 0) {
-    lines.push("Advisory (optional — MFA does not block casework):");
+    lines.push("Advisory items outside the hosted customer profile:");
     for (const row of readiness.missingAdvisoryPresence) {
       lines.push(`  - ${row.id} (${row.hintKey})`);
     }

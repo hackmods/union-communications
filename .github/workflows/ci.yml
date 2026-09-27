@@ -5,9 +5,11 @@ name: CI
 #   - manual: workflow_dispatch from the GH UI / GitHub Mobile so an operator
 #     can ship a pre-published GHCR tag without waiting for a webhook rebuild
 #     (see audit/session-knowledge-2026-09-16-caprover-app-config-drift.md).
-# On dispatch the docker-image job is skipped — the tag the operator chose
-# is expected to exist in GHCR already; the deploy step validates it and
-# the post-deploy /api/health smoke closes the loop.
+# On dispatch the docker-image job is skipped — the operator chose a
+# pre-published GHCR tag, which `dispatch-image-scan` pulls and scans before
+# deploy; the post-deploy /api/health smoke closes the loop. The test-and-build and
+# standalone dependency and secret scan jobs must pass before image
+# publication/deployment; the built image is scanned before registry login.
 on:
   pull_request:
   push:
@@ -71,6 +73,12 @@ jobs:
         run: npm run lint
       - run: npm run check:zoom
 
+      - name: Security workflow contract
+        run: npm run check:security-workflows
+
+      - name: DAST target safety contract
+        run: npm run check:dast-target
+
       - name: Typecheck
         run: npm run typecheck
 
@@ -108,13 +116,60 @@ jobs:
           NEXT_PUBLIC_OFFICER_HUB_PUBLIC: "true"
         run: npm run test:smoke
 
+
+  # Keep release security checks separate from E2E so image publication does
+  # not wait for the full browser suite.
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
       - name: Dependency audit
-        run: npm audit --audit-level=high
-        continue-on-error: true
+        shell: bash
+        run: |
+          audit_file="$RUNNER_TEMP/npm-audit.json"
+          npm audit --json > "$audit_file" || audit_status=$?
+          if [ "${audit_status:-0}" -gt 1 ]; then
+            echo "npm audit exited unexpectedly with status ${audit_status}."
+          fi
+          node scripts/check-npm-audit.mjs \
+            "$audit_file" \
+            .github/security/npm-audit-exceptions.json \
+            "${audit_status:-0}"
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # Scan the repository's full history, not only the checked-out tree.
+          fetch-depth: 0
+
+      - name: Scan Git history for secrets
+        env:
+          GITLEAKS_IMAGE: ghcr.io/gitleaks/gitleaks@sha256:b109bc5f8f76a38196a3e413704fc5b9e3c32360bce4e4b603bd6f45b3721dbb # v8.30.1 linux/amd64
+        run: |
+          set -euo pipefail
+          docker pull "$GITLEAKS_IMAGE"
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/repo:ro" \
+            --workdir /repo \
+            --env GIT_CONFIG_COUNT=1 \
+            --env GIT_CONFIG_KEY_0=safe.directory \
+            --env GIT_CONFIG_VALUE_0=/repo \
+            "$GITLEAKS_IMAGE" \
+            git --redact --verbose --exit-code 1 --log-opts=--all .
 
   # Docker build + GHCR publish run independently of E2E so CapRover can pull a
   # pre-built image instead of rebuilding on a small droplet (BuildKit export failures).
   docker-image:
+    needs: [security-audit, secret-scan]
+    outputs:
+      published_image_ref: ${{ steps.verify-ghcr.outputs.image_ref }}
     # Skip on workflow_dispatch — the operator chose a pre-published GHCR tag
     # and the build/push cycle would waste ~5 min. The deploy step validates
     # the chosen tag exists before invoking caprover.
@@ -128,25 +183,45 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
         run: |
-          EXTRA_ARGS=""
+          EXTRA_ARGS=()
           if [ -n "$SENTRY_AUTH_TOKEN" ]; then
-            EXTRA_ARGS="$EXTRA_ARGS --build-arg SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN --build-arg SENTRY_ORG=union-ops --build-arg SENTRY_PROJECT=javascript-nextjs"
+            EXTRA_ARGS+=(--build-arg "SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN" --build-arg SENTRY_ORG=union-ops --build-arg SENTRY_PROJECT=javascript-nextjs)
           fi
           if [ -n "$NEXT_PUBLIC_SENTRY_DSN" ]; then
-            EXTRA_ARGS="$EXTRA_ARGS --build-arg NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN"
+            EXTRA_ARGS+=(--build-arg "NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN")
           fi
-          # shellcheck disable=SC2086
           docker build -f docker/Dockerfile -t union-communications:ci \
             --build-arg AUTH_SECRET=build-time-placeholder-not-used-at-runtime \
             --build-arg CAPROVER_GIT_COMMIT_SHA=${{ github.sha }} \
             --build-arg NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true \
             --build-arg NEXT_PUBLIC_DEMO_SITE=true \
             --build-arg NEXT_PUBLIC_EMAIL_ENABLED=true \
-            $EXTRA_ARGS \
+            "${EXTRA_ARGS[@]}" \
             .
 
       - name: Docker migrate smoke
         run: bash scripts/docker-migrate-smoke.sh union-communications:ci
+
+      - name: Scan built image for critical and high vulnerabilities
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: union-communications:ci
+          format: json
+          output: trivy-image-report.json
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          ignore-unfixed: false
+          vuln-type: os,library
+          version: v0.74.0
+
+      - name: Retain image scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-image-report-${{ github.sha }}
+          path: trivy-image-report.json
+          if-no-files-found: warn
+          retention-days: 30
 
       - name: Log in to GHCR
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -169,6 +244,7 @@ jobs:
       # catches stale :main tags (expired token, registry republish
       # race) before the deploy job rolls them out.
       - name: Verify GHCR :main tag matches this push
+        id: verify-ghcr
         # Parentheses document left-to-right &&/|| grouping: push+main, or dispatch.
         if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
         env:
@@ -195,80 +271,190 @@ jobs:
           sha_digest="$(docker buildx imagetools inspect "ghcr.io/${REPO}:sha-${SHORT_SHA}" --format '{{.Manifest.Digest}}')"
           # buildx prints the literal string "<no value>" when the templated
           # field is missing (e.g. registry hasn't published the manifest
-          # yet). Treat as drift-not-detectable rather than failing the
-          # build — the push step above already proved the upload happened.
+          # yet). Fail closed because deployment must receive a digest for
+          # the image that was just scanned and pushed.
           if [ "$main_digest" = "<no value>" ] || [ -z "$main_digest" ]; then
-            echo "::warning:::main digest not readable; drift check skipped. :main=\"${main_digest}\""
-            exit 0
+            echo "::error::main digest not readable; cannot prove which image was published."
+            exit 1
           fi
           if [ "$sha_digest" = "<no value>" ] || [ -z "$sha_digest" ]; then
-            echo "::warning:::sha-${SHORT_SHA} digest not readable; drift check skipped. :sha-${SHORT_SHA}=\"${sha_digest}\""
-            exit 0
+            echo "::error::sha-${SHORT_SHA} digest not readable; cannot prove which image was published."
+            exit 1
           fi
           if [ "$main_digest" != "$sha_digest" ]; then
             echo "::error::GHCR drift: :main digest ($main_digest) != :sha-${SHORT_SHA} digest ($sha_digest). Re-run the docker-image job or re-tag :main to match (ghcr.io API)."
             exit 1
           fi
           echo "GHCR :main === :sha-${SHORT_SHA} === ${main_digest}"
+          echo "image_ref=ghcr.io/${REPO}@${sha_digest}" >> "$GITHUB_OUTPUT"
 
       - name: Build and push production hardened image
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: docker/build-push-action@v6
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+        run: |
+          set -euo pipefail
+          EXTRA_ARGS=()
+          if [ -n "$SENTRY_AUTH_TOKEN" ]; then
+            EXTRA_ARGS+=(--build-arg "SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN" --build-arg SENTRY_ORG=union-ops --build-arg SENTRY_PROJECT=javascript-nextjs)
+          fi
+          if [ -n "$NEXT_PUBLIC_SENTRY_DSN" ]; then
+            EXTRA_ARGS+=(--build-arg "NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN")
+          fi
+          docker buildx build --load -f docker/Dockerfile \
+            -t ghcr.io/${{ github.repository }}:production \
+            --build-arg AUTH_SECRET=build-time-placeholder-not-used-at-runtime \
+            --build-arg CAPROVER_GIT_COMMIT_SHA=${{ github.sha }} \
+            --build-arg NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true \
+            --build-arg NEXT_PUBLIC_DEMO_SITE=false \
+            --build-arg NEXT_PUBLIC_EMAIL_ENABLED=true \
+            "${EXTRA_ARGS[@]}" \
+            .
+
+      - name: Scan production-configured image for critical and high vulnerabilities
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
-          context: .
-          file: docker/Dockerfile
-          push: true
-          tags: ghcr.io/${{ github.repository }}:production
-          build-args: |
-            AUTH_SECRET=build-time-placeholder-not-used-at-runtime
-            CAPROVER_GIT_COMMIT_SHA=${{ github.sha }}
-            NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true
-            NEXT_PUBLIC_DEMO_SITE=false
-            NEXT_PUBLIC_EMAIL_ENABLED=true
-            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
-            SENTRY_ORG=union-ops
-            SENTRY_PROJECT=javascript-nextjs
-            NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+          image-ref: ghcr.io/${{ github.repository }}:production
+          format: json
+          output: trivy-production-image-report.json
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          ignore-unfixed: false
+          vuln-type: os,library
+          version: v0.74.0
+
+      - name: Retain production image scan report
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-production-image-report-${{ github.sha }}
+          path: trivy-production-image-report.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Push production hardened image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: docker push ghcr.io/${{ github.repository }}:production
+
+  # Manual dispatch can select a prebuilt tag, so scan that exact registry
+  # image too. This prevents a skipped build job from becoming a scan bypass.
+  dispatch-image-scan:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    outputs:
+      image_ref: ${{ steps.digest.outputs.image_ref }}
+    steps:
+      - name: Resolve selected image
+        id: image
+        env:
+          INPUT_TAG: ${{ github.event.inputs.image_tag }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          TAG="${INPUT_TAG:-main}"
+          if [[ ! "$TAG" =~ ^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$ ]]; then
+            echo "Invalid GHCR image tag."
+            exit 1
+          fi
+          echo "image=ghcr.io/${REPOSITORY}:${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GHCR for image pull
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull selected deploy image
+        env:
+          IMAGE: ${{ steps.image.outputs.image }}
+        run: docker pull "$IMAGE"
+
+      - name: Resolve pulled image digest
+        id: digest
+        env:
+          IMAGE: ${{ steps.image.outputs.image }}
+        run: |
+          set -euo pipefail
+          IMAGE_REF="$(docker image inspect --format='{{index .RepoDigests 0}}' "$IMAGE")"
+          if [[ ! "$IMAGE_REF" =~ ^ghcr\.io/.+@sha256:[a-f0-9]{64}$ ]]; then
+            echo "Could not resolve the selected GHCR tag to an immutable image digest."
+            exit 1
+          fi
+          echo "image_ref=$IMAGE_REF" >> "$GITHUB_OUTPUT"
+
+      - name: Scan selected deploy image for critical and high vulnerabilities
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ${{ steps.digest.outputs.image_ref }}
+          format: json
+          output: trivy-dispatch-image-report.json
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          ignore-unfixed: false
+          vuln-type: os,library
+          version: v0.74.0
+
+      - name: Retain selected image scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-dispatch-image-report-${{ github.run_id }}
+          path: trivy-dispatch-image-report.json
+          if-no-files-found: warn
+          retention-days: 30
 
   deploy:
-    needs: docker-image
+    needs: [docker-image, dispatch-image-scan, test-and-build, security-audit, secret-scan]
     # Trigger on push to main (auto-deploy from CI image) OR on
     # workflow_dispatch (operator chose a pre-published GHCR tag via the
     # GH UI — see the workflow_dispatch inputs above this file).
     # `always()` is required so workflow_dispatch still runs when the
-    # docker-image job is intentionally skipped (pre-published tag).
+    # docker-image job is intentionally skipped (pre-published tag). Successful
+    # test/build and security-audit jobs are required for every deploy path.
     if: |
       always() &&
+      needs.test-and-build.result == 'success' &&
+      needs.security-audit.result == 'success' &&
+      needs.secret-scan.result == 'success' &&
       (
-        github.event_name == 'workflow_dispatch' ||
+        (
+          github.event_name == 'workflow_dispatch' &&
+          needs.dispatch-image-scan.result == 'success'
+        ) ||
         (
           github.event_name == 'push' &&
           github.ref == 'refs/heads/main' &&
-          needs.docker-image.result == 'success'
+          needs.docker-image.result == 'success' &&
+          needs.dispatch-image-scan.result == 'skipped'
         )
       )
     runs-on: ubuntu-latest
     steps:
-      - name: Resolve target GHCR tag
+      - name: Resolve scanned image digest
         id: image
         env:
-          INPUT_TAG: ${{ github.event.inputs.image_tag }}
+          PUSH_IMAGE_REF: ${{ needs.docker-image.outputs.published_image_ref }}
+          DISPATCH_IMAGE_REF: ${{ needs.dispatch-image-scan.outputs.image_ref }}
         run: |
-          # workflow_dispatch inputs are populated only for the dispatch event,
-          # so for push this falls back to "main". The expression is also
-          # safe in either case because `inputs.image_tag` is `null` outside
-          # dispatch.
-          if [ -n "$INPUT_TAG" ]; then
-            TAG="$INPUT_TAG"
+          set -euo pipefail
+          if [ -n "$DISPATCH_IMAGE_REF" ]; then
+            IMAGE_REF="$DISPATCH_IMAGE_REF"
           else
-            TAG="main"
+            IMAGE_REF="$PUSH_IMAGE_REF"
           fi
-          echo "Deploying ghcr.io/${{ github.repository }}:${TAG}"
-          echo "TAG=${TAG}" >> "$GITHUB_OUTPUT"
+          if [[ ! "$IMAGE_REF" =~ ^ghcr\.io/.+@sha256:[a-f0-9]{64}$ ]]; then
+            echo "No verified scanned image digest is available for deployment."
+            exit 1
+          fi
+          echo "Deploying verified image digest ${IMAGE_REF}"
+          echo "IMAGE_REF=$IMAGE_REF" >> "$GITHUB_OUTPUT"
 
       - name: Validate target image exists in GHCR
         env:
-          IMAGE: ghcr.io/${{ github.repository }}:${{ steps.image.outputs.TAG }}
+          IMAGE: ${{ steps.image.outputs.IMAGE_REF }}
         run: |
           # Pre-flight the registry before invoking caprover-cli — the CLI
           # would otherwise yield a less diagnostic error than "tag not found".
@@ -292,7 +478,7 @@ jobs:
           CAPROVER_PASSWORD: ${{ secrets.CAPROVER_PASSWORD }}
           CAPROVER_APP: ${{ secrets.CAPROVER_APP }}
           CAPROVER_WEBHOOK_URL: ${{ secrets.CAPROVER_WEBHOOK_URL }}
-          IMAGE: ghcr.io/${{ github.repository }}:${{ steps.image.outputs.TAG }}
+          IMAGE: ${{ steps.image.outputs.IMAGE_REF }}
           EXPECTED_COMMIT: ${{ github.sha }}
           TARGET_HEALTH: ${{ github.event.inputs.target_url || 'https://unionops.org/api/health' }}
         run: |
@@ -440,12 +626,15 @@ jobs:
           exit 1
 
       - name: Post-deploy host readiness gate
-        if: ${{ steps.deploy.outputs.DEPLOYED_IMAGE != '' && github.event.inputs.skip_smoke != true }}
+        if: ${{ (steps.deploy.outputs.DEPLOYED_IMAGE != '' || steps.deploy.outputs.EXTERNAL_DEPLOY_CONFIRMED == '1') && github.event.inputs.skip_smoke != true }}
         env:
           HEALTH_URL: ${{ github.event.inputs.target_url || 'https://unionops.org/api/health' }}
+          REQUIRE_HOSTED_CUSTOMER_MODE: "true"
+          HOST_READINESS_SECRET: ${{ secrets.HOST_READINESS_SECRET }}
         run: |
           set -euo pipefail
-          # Mirrors buildHostReadiness: MFA/email/cron are advisory and never fail this step.
+          # Mirrors buildHostReadiness: customer mode blocks without production
+          # TOTP and current storage/scanner/backup/alert operator evidence.
           node scripts/verify-host-readiness.mjs
 
       # Do not reference secrets.* in step `if:` — GitHub rejects the whole workflow

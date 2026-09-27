@@ -1,41 +1,66 @@
 /**
  * MFA verification policy (SEC-002 / Phase 7 close-out).
  *
- * Master switch: AUTH_MFA_ENABLED (default **off** for demo/usability).
+ * General switch: AUTH_MFA_ENABLED (default **off** for demo/usability).
+ * UNIONOPS_HOSTED_CUSTOMER_MODE overrides it and requires production TOTP for
+ * privileged roles/capabilities.
  * When enabled:
  * - production requires AUTH_MFA_MODE=totp unless AUTH_ALLOW_SHARED_MFA_IN_PROD
  * - non-production defaults to shared_code_insecure for local/CI
  */
 
 import { getTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
-import { verifyTotp } from "@/lib/auth/totp";
+import {
+  hostedCustomerProfileEnabled,
+  sessionRequiresMfa,
+} from "@/lib/auth/mfa-requirements";
+import { matchTotpCounter } from "@/lib/auth/totp";
+import { consumeTotpCounterForUser } from "@/lib/auth/mfa-totp-counters";
+import { reserveMfaVerificationAttempt } from "@/lib/auth/mfa-attempt-limits";
 
 export type MfaMode = "shared_code_insecure" | "totp";
 
+/** Explicit profile for UnionOps-operated customer instances. */
+export function isHostedCustomerMode(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): boolean {
+  return hostedCustomerProfileEnabled(env);
+}
+
 export type MfaPolicyResult =
   | { ok: true; mode: MfaMode }
-  | { ok: false; status: 400 | 503; error: string };
+  | { ok: false; status: 400 | 429 | 503; error: string; retryAfterSeconds?: number };
 
 /**
- * MFA is opt-in. Unset / false → Hub works after password login (demo-friendly).
- * Set AUTH_MFA_ENABLED=true for real casework hosts.
+ * Hosted customer mode enables the TOTP policy. Protected access is required
+ * for users whose account or current hosted role has privileged capabilities.
+ * Outside that profile, AUTH_MFA_ENABLED retains the existing host-level policy.
  */
 export function isMfaEnabled(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
 ): boolean {
+  if (isHostedCustomerMode(env)) return true;
   const raw = env.AUTH_MFA_ENABLED?.trim().toLowerCase();
   return raw === "true" || raw === "1" || raw === "yes";
 }
 
 /**
- * Whether the session may access MFA-gated Hub surfaces.
- * When MFA is disabled for the host, always true (no second factor required).
+ * Whether the session may access MFA-gated Hub surfaces. Basic local members
+ * can use non-privileged surfaces in hosted mode without forced enrollment.
  */
 export function sessionMfaOk(
-  session: { user?: { mfaVerified?: boolean | null } } | null | undefined,
+  session: {
+    user?: {
+      mfaVerified?: boolean | null;
+      mfaRequired?: boolean | null;
+      roles?: readonly string[] | null;
+    };
+  } | null | undefined,
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
 ): boolean {
-  if (!isMfaEnabled(env)) return true;
+  if (!sessionRequiresMfa(session?.user, isMfaEnabled(env), isHostedCustomerMode(env))) {
+    return true;
+  }
   return Boolean(session?.user?.mfaVerified);
 }
 
@@ -44,6 +69,11 @@ export function resolveMfaMode(
 ): MfaMode | null {
   if (!isMfaEnabled(env)) return null;
   const raw = env.AUTH_MFA_MODE?.trim().toLowerCase();
+  if (isHostedCustomerMode(env)) {
+    // The hosted customer profile fails closed: no development shared code or
+    // production break-glass can weaken the required per-user TOTP factor.
+    return env.NODE_ENV === "production" && raw === "totp" ? "totp" : null;
+  }
   if (raw === "totp") return "totp";
   if (raw === "shared_code_insecure") {
     if (env.NODE_ENV === "production") {
@@ -64,6 +94,7 @@ export function isSharedMfaBreakGlass(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
 ): boolean {
   return (
+    !isHostedCustomerMode(env) &&
     isMfaEnabled(env) &&
     env.NODE_ENV === "production" &&
     env.AUTH_MFA_MODE?.trim().toLowerCase() === "shared_code_insecure" &&
@@ -84,6 +115,8 @@ export async function verifyMfaCode(input: {
   userId: string;
   code: string;
   env?: NodeJS.ProcessEnv | Record<string, string | undefined>;
+  /** Used when a caller has already reserved an attempt before checking a recovery code. */
+  attemptAlreadyReserved?: boolean;
 }): Promise<MfaPolicyResult> {
   const env = input.env ?? process.env;
 
@@ -110,6 +143,26 @@ export async function verifyMfaCode(input: {
         ? "AUTH_MFA_MODE=shared_code_insecure is not allowed in production. Set AUTH_MFA_MODE=totp, or AUTH_ALLOW_SHARED_MFA_IN_PROD=true for workshop hosts only."
         : "MFA is enabled but not configured. Set AUTH_MFA_MODE=totp (required in production when AUTH_MFA_ENABLED=true).",
     };
+  }
+
+  if (!input.attemptAlreadyReserved) {
+    try {
+      const attempt = await reserveMfaVerificationAttempt(input.userId, Date.now(), env);
+      if (!attempt.allowed) {
+        return {
+          ok: false,
+          status: 429,
+          error: "Too many verification attempts. Try again after the limit resets.",
+          retryAfterSeconds: attempt.retryAfterSeconds,
+        };
+      }
+    } catch {
+      return {
+        ok: false,
+        status: 503,
+        error: "MFA verification safeguards are unavailable.",
+      };
+    }
   }
 
   const code = input.code.trim();
@@ -146,8 +199,20 @@ export async function verifyMfaCode(input: {
       error: "TOTP is not enrolled for this account.",
     };
   }
-  if (!verifyTotp(secret, code)) {
+  const counter = matchTotpCounter(secret, code);
+  if (counter === null) {
     return { ok: false, status: 400, error: "Invalid code" };
+  }
+  try {
+    if (!(await consumeTotpCounterForUser(input.userId, counter, env))) {
+      return { ok: false, status: 400, error: "Invalid code" };
+    }
+  } catch {
+    return {
+      ok: false,
+      status: 503,
+      error: "TOTP replay protection is unavailable.",
+    };
   }
   return { ok: true, mode };
 }
@@ -156,7 +221,8 @@ export async function verifyMfaCode(input: {
 export async function needsTotpEnrollment(
   userId: string,
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+  required = true,
 ): Promise<boolean> {
-  if (!isMfaEnabled(env)) return false;
+  if (!isMfaEnabled(env) || !required) return false;
   return resolveMfaMode(env) === "totp" && !(await getTotpSecretForUser(userId));
 }

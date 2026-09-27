@@ -25,7 +25,10 @@ import {
   GET as listExpenseAttachments,
   POST as uploadExpenseAttachment,
 } from "@/app/api/expenses/[id]/attachments/route";
-import { GET as exportExpense } from "@/app/api/expenses/[id]/export/route";
+import {
+  GET as legacyGetExpenseExport,
+  POST as exportExpense,
+} from "@/app/api/expenses/[id]/export/route";
 import { POST as submitExpense } from "@/app/api/expenses/[id]/submit/route";
 import { POST as approveExpense } from "@/app/api/expenses/[id]/approve/route";
 import { POST as denyExpense } from "@/app/api/expenses/[id]/deny/route";
@@ -70,6 +73,14 @@ function jsonRequest(body: unknown): Request {
 
 function listRequest(query = ""): Request {
   return new Request(`http://localhost/api/expenses${query}`);
+}
+
+function expenseExportRequest(format: "xlsx" | "pdf" | "zip" = "xlsx"): Request {
+  return new Request("http://localhost/api/expenses/x/export", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ format }),
+  });
 }
 
 function params(id: string) {
@@ -589,7 +600,7 @@ describe("expense GET/PATCH/DELETE /api/expenses/[id]", () => {
   });
 });
 
-describe("GET /api/expenses/[id]/export", () => {
+describe("POST /api/expenses/[id]/export", () => {
   beforeEach(() => {
     resetExpenseMemoryForTests();
     resetExpenseStore();
@@ -605,17 +616,12 @@ describe("GET /api/expenses/[id]/export", () => {
     const draft = await seedSubmitted({ status: "draft" });
     authMock.mockResolvedValue(null);
     expect(
-      (
-        await exportExpense(
-          new Request("http://localhost/api/expenses/x/export"),
-          params(draft.id),
-        )
-      ).status,
+      (await exportExpense(expenseExportRequest(), params(draft.id))).status,
     ).toBe(401);
 
     authMock.mockResolvedValue(session({ roles: ["local_member"] }));
     const forbidden = await exportExpense(
-      new Request("http://localhost/api/expenses/x/export"),
+      expenseExportRequest(),
       params(draft.id),
     );
     expect(forbidden.status).toBe(403);
@@ -631,7 +637,7 @@ describe("GET /api/expenses/[id]/export", () => {
     });
     authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
     const res = await exportExpense(
-      new Request("http://localhost/api/expenses/x/export"),
+      expenseExportRequest(),
       params(foreign.id),
     );
     expect(res.status).toBe(404);
@@ -648,7 +654,7 @@ describe("GET /api/expenses/[id]/export", () => {
       session({ id: "user-president-7", roles: ["local_president"] }),
     );
     const res = await exportExpense(
-      new Request("http://localhost/api/expenses/x/export"),
+      expenseExportRequest(),
       params(sister.id),
     );
     expect(res.status).toBe(404);
@@ -666,7 +672,7 @@ describe("GET /api/expenses/[id]/export", () => {
         session({ id: "user-steward-7", roles: ["local_steward"] }),
       );
       const res = await exportExpense(
-        new Request("http://localhost/api/expenses/x/export?format=xlsx"),
+        expenseExportRequest("xlsx"),
         params(draft.id),
       );
       expect(res.status).toBe(200);
@@ -677,6 +683,13 @@ describe("GET /api/expenses/[id]/export", () => {
       expect((await res.arrayBuffer()).byteLength).toBeGreaterThan(0);
     },
   );
+
+  it("rejects the legacy GET export route", async () => {
+    const response = await legacyGetExpenseExport();
+    expect(response.status).toBe(405);
+    expect(response.headers.get("Allow")).toBe("POST");
+    expect(response.headers.get("Cache-Control")).toBe("private, no-store");
+  });
 });
 
 describe("expense attachment HTTP", () => {

@@ -25,6 +25,7 @@ const SHELL_PATHS = [
   "/privacy",
   "/security",
   "/accessibility",
+  "/trust/subprocessors",
   "/feedback",
   "/join",
   "/request-access",

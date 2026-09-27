@@ -1,50 +1,134 @@
+import { createHash, randomBytes } from "node:crypto";
+import { and, eq, isNull } from "drizzle-orm";
+import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
+import { getDb, isPostgresConfigured } from "@/lib/db/client";
+import { mfaSessionGrants } from "@/lib/db/schema/auth";
+import { withRlsContext } from "@/lib/db/rls-context";
+
 /**
  * Short-lived, single-use MFA grants.
  * Issued by POST /api/mfa/verify; consumed once in the JWT update callback.
- * In-memory is intentional until Postgres sessions land (SEC-003).
+ * Hosted customer grants persist only one SHA-256 token digest per account.
  */
-
 export interface MfaGrant {
   userId: string;
   nonce: string;
+  sessionVersion: number;
   issuedAt: number;
   expiresAt: number;
 }
 
 const GRANT_TTL_MS = 60_000;
+const memoryGrants = new Map<string, MfaGrant>();
 
-const grants = new Map<string, MfaGrant>();
+function postgresGrantStoreEnabled(
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  return (
+    env.AUTH_USERS_BACKEND?.trim().toLowerCase() === "postgres" &&
+    isPostgresConfigured(env)
+  );
+}
 
-/** @internal test helper */
+function assertGrantStoreAvailable(env: NodeJS.ProcessEnv = process.env): void {
+  if (hostedCustomerProfileEnabled(env) && !postgresGrantStoreEnabled(env)) {
+    throw new Error("Hosted customer MFA grants require durable PostgreSQL storage.");
+  }
+}
+
+function digest(nonce: string): string {
+  return createHash("sha256").update(nonce, "utf8").digest("hex");
+}
+
+/** @internal test helper; hosted state lives in PostgreSQL instead. */
 export function clearMfaGrants(): void {
-  grants.clear();
+  memoryGrants.clear();
 }
 
-/** @internal test helper */
+/** @internal test helper; hosted state lives in PostgreSQL instead. */
 export function getMfaGrant(userId: string): MfaGrant | undefined {
-  return grants.get(userId);
+  return memoryGrants.get(userId);
 }
 
-export function issueMfaGrant(userId: string, now = Date.now()): string {
-  const nonce = crypto.randomUUID();
-  grants.set(userId, {
-    userId,
-    nonce,
-    issuedAt: now,
-    expiresAt: now + GRANT_TTL_MS,
-  });
+export async function issueMfaGrant(
+  userId: string,
+  now = Date.now(),
+  sessionVersion = 0,
+): Promise<string> {
+  assertGrantStoreAvailable();
+  const nonce = randomBytes(32).toString("base64url");
+  const issuedAt = new Date(now);
+  const expiresAt = new Date(now + GRANT_TTL_MS);
+
+  if (postgresGrantStoreEnabled()) {
+    await withRlsContext({ userId }, async () => {
+      await getDb()
+        .insert(mfaSessionGrants)
+        .values({
+          userId,
+          tokenHash: digest(nonce),
+          sessionVersion,
+          issuedAt,
+          expiresAt,
+          consumedAt: null,
+        })
+        .onConflictDoUpdate({
+          target: mfaSessionGrants.userId,
+          set: {
+            tokenHash: digest(nonce),
+            sessionVersion,
+            issuedAt,
+            expiresAt,
+            consumedAt: null,
+          },
+        });
+    });
+  } else {
+    memoryGrants.set(userId, {
+      userId,
+      nonce,
+      sessionVersion,
+      issuedAt: now,
+      expiresAt: now + GRANT_TTL_MS,
+    });
+  }
   return nonce;
 }
 
-export function consumeMfaGrant(
+/** Consume the matching grant even when expired or stale, so it cannot be retried. */
+export async function consumeMfaGrant(
   userId: string,
   nonce: string,
   now = Date.now(),
-): boolean {
-  const grant = grants.get(userId);
-  if (!grant || grant.nonce !== nonce || now > grant.expiresAt) {
-    return false;
+  sessionVersion = 0,
+): Promise<boolean> {
+  assertGrantStoreAvailable();
+  if (nonce.length > 128) return false;
+
+  if (postgresGrantStoreEnabled()) {
+    const [grant] = await withRlsContext({ userId }, async () =>
+      getDb()
+        .update(mfaSessionGrants)
+        .set({ consumedAt: new Date(now) })
+        .where(and(
+          eq(mfaSessionGrants.userId, userId),
+          eq(mfaSessionGrants.tokenHash, digest(nonce)),
+          isNull(mfaSessionGrants.consumedAt),
+        ))
+        .returning({
+          sessionVersion: mfaSessionGrants.sessionVersion,
+          expiresAt: mfaSessionGrants.expiresAt,
+        }),
+    );
+    return Boolean(
+      grant &&
+        grant.sessionVersion === sessionVersion &&
+        now <= grant.expiresAt.getTime(),
+    );
   }
-  grants.delete(userId);
-  return true;
+
+  const grant = memoryGrants.get(userId);
+  if (!grant || grant.nonce !== nonce) return false;
+  memoryGrants.delete(userId);
+  return grant.sessionVersion === sessionVersion && now <= grant.expiresAt;
 }

@@ -163,7 +163,7 @@ Optional post-deploy operator notify (no member lists):
 | `DEPLOY_NOTIFY_ENABLED` | `true` to allow `/api/cron/deploy-notify` |
 | `DEPLOY_NOTIFY_EMAIL` | operator inbox for host-readiness summaries |
 
-CI runs `npm run health:check:readiness` after the commit smoke (MFA off is advisory and does not fail). When `CRON_SECRET` is in GitHub secrets, CI also calls deploy-notify (continue-on-error).
+CI runs `npm run health:check:readiness` after the commit smoke. MFA remains advisory for evaluation and self-hosted profiles. For the UnionOps-operated production target, CI requires `UNIONOPS_HOSTED_CUSTOMER_MODE=true` and blocks unless production TOTP, approved attachment storage, strict scanner settings, current operator backup/restore evidence, and alert delivery evidence pass. The runtime checks configuration and owner/date attestations; they do not independently verify provider behavior. Store the same high-entropy `HOST_READINESS_SECRET` on the app host and as a GitHub Actions secret: only authenticated health requests receive operational evidence booleans. When `CRON_SECRET` is in GitHub secrets, CI also calls deploy-notify (continue-on-error).
 
 Optional **error sinks** (ADR-006 — ops only, not product analytics; defaults off). Full matrix: [`HOSTED_SECURITY.md`](HOSTED_SECURITY.md).
 

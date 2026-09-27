@@ -1,12 +1,16 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import {
   isMfaEnabled,
+  isHostedCustomerMode,
   isSharedMfaBreakGlass,
   needsTotpEnrollment,
   resolveMfaMode,
   sessionMfaOk,
   verifyMfaCode,
 } from "@/lib/auth/mfa-policy";
+import { resetMfaVerificationAttemptsForTests } from "@/lib/auth/mfa-attempt-limits";
+
+afterEach(() => resetMfaVerificationAttemptsForTests());
 
 describe("isMfaEnabled (opt-in, default off)", () => {
   it("is false when unset", () => {
@@ -19,6 +23,15 @@ describe("isMfaEnabled (opt-in, default off)", () => {
     expect(isMfaEnabled({ AUTH_MFA_ENABLED: "1" })).toBe(true);
     expect(isMfaEnabled({ AUTH_MFA_ENABLED: "yes" })).toBe(true);
   });
+
+  it("cannot be disabled in the hosted customer profile", () => {
+    expect(
+      isMfaEnabled({ UNIONOPS_HOSTED_CUSTOMER_MODE: "true" }),
+    ).toBe(true);
+    expect(
+      isHostedCustomerMode({ UNIONOPS_HOSTED_CUSTOMER_MODE: "yes" }),
+    ).toBe(true);
+  });
 });
 
 describe("sessionMfaOk", () => {
@@ -30,6 +43,13 @@ describe("sessionMfaOk", () => {
     const env = { AUTH_MFA_ENABLED: "true" };
     expect(sessionMfaOk({ user: { mfaVerified: false } }, env)).toBe(false);
     expect(sessionMfaOk({ user: { mfaVerified: true } }, env)).toBe(true);
+  });
+
+  it("requires hosted MFA for privileged roles but not basic local members", () => {
+    const env = { NODE_ENV: "production", UNIONOPS_HOSTED_CUSTOMER_MODE: "true" };
+    expect(sessionMfaOk({ user: { roles: ["local_steward"], mfaVerified: false } }, env)).toBe(false);
+    expect(sessionMfaOk({ user: { roles: ["local_steward"], mfaVerified: true } }, env)).toBe(true);
+    expect(sessionMfaOk({ user: { roles: ["local_member"], mfaVerified: false } }, env)).toBe(true);
   });
 });
 
@@ -96,6 +116,32 @@ describe("resolveMfaMode (when MFA enabled)", () => {
     expect(resolveMfaMode(env)).toBe("shared_code_insecure");
     expect(isSharedMfaBreakGlass(env)).toBe(true);
   });
+
+  it("requires production TOTP for hosted customer mode", () => {
+    expect(
+      resolveMfaMode({
+        NODE_ENV: "production",
+        UNIONOPS_HOSTED_CUSTOMER_MODE: "true",
+        AUTH_MFA_ENABLED: "false",
+        AUTH_MFA_MODE: "totp",
+      }),
+    ).toBe("totp");
+    expect(
+      resolveMfaMode({
+        NODE_ENV: "production",
+        UNIONOPS_HOSTED_CUSTOMER_MODE: "true",
+        AUTH_MFA_MODE: "shared_code_insecure",
+        AUTH_ALLOW_SHARED_MFA_IN_PROD: "true",
+      }),
+    ).toBeNull();
+    expect(
+      resolveMfaMode({
+        NODE_ENV: "development",
+        UNIONOPS_HOSTED_CUSTOMER_MODE: "true",
+        AUTH_MFA_MODE: "totp",
+      }),
+    ).toBeNull();
+  });
 });
 
 describe("needsTotpEnrollment", () => {
@@ -116,6 +162,18 @@ describe("needsTotpEnrollment", () => {
         AUTH_MFA_MODE: "totp",
       }),
     ).toBe(true);
+  });
+
+  it("does not force enrollment when the current user has no hosted MFA requirement", async () => {
+    expect(await needsTotpEnrollment(
+      "user-definitely-missing",
+      {
+        NODE_ENV: "production",
+        UNIONOPS_HOSTED_CUSTOMER_MODE: "true",
+        AUTH_MFA_MODE: "totp",
+      },
+      false,
+    )).toBe(false);
   });
 
   it("is false for demo president who has a seeded secret", async () => {

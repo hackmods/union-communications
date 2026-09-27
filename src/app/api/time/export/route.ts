@@ -1,26 +1,39 @@
 import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
+import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 import {
   listFiltersForTimeSession,
   requireTimeSession,
   tenantIdsForTimeSession,
 } from "@/lib/auth/time-session";
+import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { canAdminTime } from "@/lib/time/access";
 import {
   buildTimeExportPdf,
   buildTimeExportXlsx,
 } from "@/lib/time/export-rollup";
-import {
-  applyOtPolicy,
-  resolveOtPolicy,
-} from "@/lib/time/ot-policy";
+import { applyOtPolicy, resolveOtPolicy } from "@/lib/time/ot-policy";
 import {
   entryDurationHours,
   weeklyOtFlags,
 } from "@/lib/time/pay-period";
 import { timeStore } from "@/lib/time/store";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 import type { TimeEntry } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
+
+type TimeExportFormat = "csv" | "xlsx" | "pdf";
+const TIME_CATEGORIES: TimeEntry["category"][] = [
+  "staff",
+  "release",
+  "duty_bank",
+  "action",
+  "volunteer",
+];
+
+function isFormat(value: unknown): value is TimeExportFormat {
+  return value === "csv" || value === "xlsx" || value === "pdf";
+}
 
 function toCsv(
   rows: TimeEntry[],
@@ -56,77 +69,191 @@ function toCsv(
   return [header, ...lines].join("\n");
 }
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
+  const correlation = createAuditRequestContext();
+  const respond = (
+    body: unknown,
+    status = 200,
+    extraHeaders?: HeadersInit,
+  ) => {
+    const headers = new Headers(extraHeaders);
+    headers.set("Cache-Control", "private, no-store");
+    return NextResponse.json(body, {
+      status,
+      headers: correlation.responseHeaders(headers),
+    });
+  };
+
   const authResult = await requireTimeSession();
   if (!authResult.ok) {
-    return NextResponse.json(
-      { error: authResult.error },
-      { status: authResult.status },
-    );
+    return respond({ error: authResult.error }, authResult.status);
   }
 
   const { session } = authResult;
   const roles = (session.user.roles ?? []) as UserRole[];
-  if (!canAdminTime(roles)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
+  if (!canAdminTime(roles)) return respond({ error: "Forbidden" }, 403);
 
-  const url = new URL(request.url);
-  const category = url.searchParams.get("category") ?? undefined;
-  const from = url.searchParams.get("from") ?? undefined;
-  const to = url.searchParams.get("to") ?? undefined;
-  const format = (url.searchParams.get("format") ?? "csv").toLowerCase();
-  const filters = {
-    ...listFiltersForTimeSession(session),
-    workerId: undefined,
-    category: category as TimeEntry["category"] | undefined,
-    from,
-    to,
+  const rawBody = await request.json().catch(() => null);
+  if (
+    !rawBody ||
+    typeof rawBody !== "object" ||
+    Array.isArray(rawBody) ||
+    Object.keys(rawBody).some(
+      (key) => !["category", "from", "to", "format", "mfaCode"].includes(key),
+    )
+  ) {
+    return respond({ error: "Invalid time export request" }, 400);
+  }
+  const body = rawBody as {
+    category?: unknown;
+    from?: unknown;
+    to?: unknown;
+    format?: unknown;
+    mfaCode?: unknown;
   };
-  const entries = await timeStore.listEntries(filters);
-  const otFlags = weeklyOtFlags(entries);
+  if (
+    !isFormat(body.format) ||
+    (body.category !== undefined &&
+      (typeof body.category !== "string" ||
+        !TIME_CATEGORIES.includes(body.category as TimeEntry["category"]))) ||
+    (body.from !== undefined &&
+      (typeof body.from !== "string" || !Number.isFinite(Date.parse(body.from)))) ||
+    (body.to !== undefined &&
+      (typeof body.to !== "string" || !Number.isFinite(Date.parse(body.to)))) ||
+    (typeof body.from === "string" &&
+      typeof body.to === "string" &&
+      Date.parse(body.from) > Date.parse(body.to)) ||
+    (body.mfaCode !== undefined &&
+      (typeof body.mfaCode !== "string" || body.mfaCode.length > 32))
+  ) {
+    return respond({ error: "Invalid time export filters or format" }, 400);
+  }
+
+  const format = body.format;
+  const category = body.category as TimeEntry["category"] | undefined;
+  const from = body.from as string | undefined;
+  const to = body.to as string | undefined;
   const { unionId, localId } = tenantIdsForTimeSession(session);
-  const policies = await timeStore.listOtPolicies(unionId, localId);
-  const activePolicy = resolveOtPolicy(policies);
-  const otBreakdown = activePolicy
-    ? applyOtPolicy(entries, activePolicy)
-    : undefined;
+  const action = `time.export.${format}`;
+  const record = (
+    outcome: "success" | "denied" | "error",
+    metadata?: Record<string, string>,
+  ) =>
+    auditLog.log({
+      userId: session.user.id,
+      action,
+      resourceType: "time_entry",
+      resourceId: "*",
+      unionId,
+      localId,
+      outcome,
+      requestId: correlation.requestId,
+      metadata: { format, ...(category ? { category } : {}), ...metadata },
+    });
 
-  await auditLog.log({
+  const challenge = await verifyFreshMfaStepUp({
     userId: session.user.id,
-    action: `time.export.${format === "xlsx" || format === "pdf" ? format : "csv"}`,
-    resourceType: "time_entry",
-    resourceId: "*",
-    unionId: session.user.unionId,
-    localId: session.user.localId,
+    code: typeof body.mfaCode === "string" ? body.mfaCode : undefined,
   });
-
-  if (format === "xlsx") {
-    const buf = await buildTimeExportXlsx(entries);
-    return new NextResponse(new Uint8Array(buf), {
-      headers: {
-        "Content-Type":
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "Content-Disposition": 'attachment; filename="time-export.xlsx"',
+  if (!challenge.ok) {
+    try {
+      await record(challenge.outcome, {
+        reason: `mfa_step_up_${challenge.code}`,
+      });
+    } catch {
+      return respond(
+        { error: "Audit service unavailable", code: "audit_unavailable" },
+        503,
+      );
+    }
+    return respond(
+      {
+        error:
+          challenge.code === "required"
+            ? "A fresh MFA code is required before exporting time records."
+            : "Fresh MFA verification failed.",
+        code: `mfa_step_up_${challenge.code}`,
       },
-    });
+      challenge.status,
+      challenge.retryAfterSeconds
+        ? { "Retry-After": String(challenge.retryAfterSeconds) }
+        : undefined,
+    );
   }
 
-  if (format === "pdf") {
-    const blob = await buildTimeExportPdf(entries);
-    return new NextResponse(blob, {
-      headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": 'attachment; filename="time-rollup.pdf"',
-      },
-    });
+  let entries: TimeEntry[];
+  let file: string | Blob | Uint8Array;
+  let contentType: string;
+  let filename: string;
+  try {
+    const filters = {
+      ...listFiltersForTimeSession(session),
+      workerId: undefined,
+      category,
+      from,
+      to,
+    };
+    entries = await timeStore.listEntries(filters);
+    if (format === "xlsx") {
+      file = new Uint8Array(await buildTimeExportXlsx(entries));
+      contentType =
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+      filename = "time-export.xlsx";
+    } else if (format === "pdf") {
+      file = await buildTimeExportPdf(entries);
+      contentType = "application/pdf";
+      filename = "time-rollup.pdf";
+    } else {
+      const otFlags = weeklyOtFlags(entries);
+      const policies = await timeStore.listOtPolicies(unionId, localId);
+      const activePolicy = resolveOtPolicy(policies);
+      const otBreakdown = activePolicy
+        ? applyOtPolicy(entries, activePolicy)
+        : undefined;
+      file = toCsv(entries, otFlags, otBreakdown);
+      contentType = "text/csv; charset=utf-8";
+      filename = "time-export.csv";
+    }
+  } catch (error) {
+    reportApiFailure(error, "/api/time/export");
+    await record("error", { reason: "export_generation_failed" }).catch(
+      () => undefined,
+    );
+    return respond({ error: "Time export failed", code: "export_failed" }, 500);
   }
 
-  const csv = toCsv(entries, otFlags, otBreakdown);
-  return new NextResponse(csv, {
-    headers: {
-      "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="time-export.csv"',
+  try {
+    await record("success", { rowCount: String(entries.length) });
+  } catch {
+    return respond(
+      {
+        error: "The time export was not delivered because its audit record could not be confirmed.",
+        code: "export_audit_unavailable",
+      },
+      503,
+    );
+  }
+
+  return new NextResponse(file, {
+    headers: correlation.responseHeaders({
+      "Content-Type": contentType,
+      "Content-Disposition": `attachment; filename="${filename}"`,
+      "Cache-Control": "private, no-store",
+    }),
+  });
+}
+
+/** Retire the query-string download path so callers cannot skip the challenge. */
+export async function GET() {
+  const correlation = createAuditRequestContext();
+  return NextResponse.json(
+    { error: "Use POST to request a time export.", code: "method_not_allowed" },
+    {
+      status: 405,
+      headers: correlation.responseHeaders({
+        Allow: "POST",
+        "Cache-Control": "private, no-store",
+      }),
     },
-  });
+  );
 }

@@ -9,6 +9,11 @@ type Office = { id: string; userId: string; name: string; email: string; positio
 type RosterEntry = { id: string; name: string; role: string; userId: string | null; canonicalPosition: string | null };
 type Delegation = { id: string; delegateUserId: string; delegateName: string; capability: string; startsAt: string; endsAt: string; reason: string; revokedAt: string | null; isActive: boolean };
 type EffectiveAccess = { offices: Array<{ position: string }>; delegations: Array<{ capability: string; endsAt: string }>; capabilities: Array<{ capability: string; reason: string }> };
+type PendingStepUp = { url: string; method: "POST" | "DELETE"; body: Record<string, unknown> };
+
+function isRequestBody(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
 
 const POSITIONS = ["president", "vice_president", "grievance_officer", "steward", "executive_member"] as const;
 const CAPABILITIES = ["grievances.case.read", "grievances.case.write", "grievances.member_updates.publish"] as const;
@@ -36,6 +41,8 @@ export function OrganizationManager({ localId }: { localId: string }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [pendingStepUp, setPendingStepUp] = useState<PendingStepUp | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
 
   const query = useMemo(() => `?localId=${encodeURIComponent(localId)}`, [localId]);
   const load = useCallback(async () => {
@@ -68,8 +75,18 @@ export function OrganizationManager({ localId }: { localId: string }) {
   }, [query, t]);
 
   useEffect(() => { void Promise.resolve().then(load); }, [load]);
+  useEffect(() => {
+    setPendingStepUp(null);
+    setMfaCode("");
+  }, [localId]);
 
-  async function submit(url: string, method: "POST" | "PATCH" | "DELETE", body?: unknown) {
+  async function submit(
+    url: string,
+    method: "POST" | "PATCH" | "DELETE",
+    body?: unknown,
+    isStepUpSubmission = false,
+  ) {
+    if (pendingStepUp && !isStepUpSubmission) return;
     setBusy(true);
     setError("");
     setNotice("");
@@ -80,8 +97,34 @@ export function OrganizationManager({ localId }: { localId: string }) {
         body: body ? JSON.stringify(body) : undefined,
       });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload.error ?? t("saveError"));
+      if (
+        response.status === 428 &&
+        payload.code === "mfa_step_up_required" &&
+        (method === "POST" || method === "DELETE") &&
+        isRequestBody(body)
+      ) {
+        setPendingStepUp({ url, method, body });
+        setMfaCode("");
+        return;
+      }
+      if (!response.ok) {
+        if (payload.code === "mfa_step_up_failed") {
+          setMfaCode("");
+          throw new Error(t("mfaStepUpFailed"));
+        }
+        if (payload.code === "mfa_step_up_limited") {
+          setMfaCode("");
+          throw new Error(t("mfaStepUpLimited"));
+        }
+        if (payload.code === "mfa_step_up_unavailable") {
+          setMfaCode("");
+          throw new Error(t("mfaStepUpUnavailable"));
+        }
+        throw new Error(payload.error ?? t("saveError"));
+      }
       setNotice(t("saved"));
+      setPendingStepUp(null);
+      setMfaCode("");
       if (url === "/api/organization/officers" && method === "POST") {
         setOfficeRosterId("");
         setOfficeEndsAt("");
@@ -98,6 +141,39 @@ export function OrganizationManager({ localId }: { localId: string }) {
   const activeMembers = members.filter((member) => member.status === "active" && !member.endedAt);
   const activeOffices = offices.filter((office) => office.isActive);
   const activeDelegations = delegations.filter((delegation) => delegation.isActive);
+  function getPendingChangeSummary() {
+    if (!pendingStepUp) return "";
+    if (pendingStepUp.url === "/api/organization/officers") {
+      return t("mfaStepUpOfficerDetails", {
+        person: activeMembers.find((member) => member.userId === pendingStepUp.body.userId)?.name ?? t("pendingPerson"),
+        position: t(`position.${String(pendingStepUp.body.position)}`),
+      });
+    }
+    if (pendingStepUp.url === "/api/organization/delegations") {
+      return t("mfaStepUpDelegationDetails", {
+        person: activeMembers.find((member) => member.userId === pendingStepUp.body.delegateUserId)?.name ?? t("pendingPerson"),
+        capability: t(`capability.${String(pendingStepUp.body.capability)}`),
+      });
+    }
+    if (pendingStepUp.url.startsWith("/api/organization/officers/")) {
+      const officeId = decodeURIComponent(pendingStepUp.url.split("/").pop() ?? "");
+      const office = activeOffices.find((item) => item.id === officeId);
+      return t("mfaStepUpOfficerRevokeDetails", {
+        person: office?.name ?? t("pendingPerson"),
+        position: office ? t(`position.${office.position}`) : t("pendingPosition"),
+      });
+    }
+    if (pendingStepUp.url.startsWith("/api/organization/delegations/")) {
+      const delegationId = decodeURIComponent(pendingStepUp.url.split("/").pop() ?? "");
+      const delegation = activeDelegations.find((item) => item.id === delegationId);
+      return t("mfaStepUpDelegationRevokeDetails", {
+        person: delegation?.delegateName ?? t("pendingPerson"),
+        capability: delegation ? t(`capability.${delegation.capability}`) : t("pendingCapability"),
+      });
+    }
+    return "";
+  }
+  const pendingGrantSummary = getPendingChangeSummary();
 
   return (
     <div className="space-y-8">
@@ -126,6 +202,48 @@ export function OrganizationManager({ localId }: { localId: string }) {
 
       {error ? <p role="alert" className="rounded-md border border-red-300 bg-red-50 p-3 text-sm text-red-900">{error}</p> : null}
       {notice ? <p role="status" className="rounded-md border border-green-300 bg-green-50 p-3 text-sm text-green-900">{notice}</p> : null}
+      {pendingStepUp ? (
+        <form
+          aria-labelledby="organization-mfa-step-up-title"
+          className="space-y-3 rounded-lg border border-amber-300 bg-amber-50 p-4"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (!pendingStepUp || !mfaCode.trim()) return;
+            void submit(
+              pendingStepUp.url,
+              pendingStepUp.method,
+              { ...pendingStepUp.body, mfaCode: mfaCode.trim() },
+              true,
+            );
+          }}
+        >
+          <div>
+            <h2 id="organization-mfa-step-up-title" className="font-semibold text-amber-950">{t("mfaStepUpTitle")}</h2>
+            <p className="mt-1 text-sm text-amber-950">{t("mfaStepUpHint")}</p>
+            <p className="mt-1 text-sm font-medium text-amber-950">{pendingGrantSummary}</p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+            <label className="min-w-0 flex-1 text-sm font-medium text-amber-950">
+              {t("mfaCode")}
+              <input
+                autoFocus
+                required
+                type="text"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                pattern="[0-9]{6}"
+                maxLength={6}
+                className="mt-1 min-h-11 w-full rounded-md border border-amber-500 bg-white px-3 text-gray-950"
+                value={mfaCode}
+                onChange={(event) => setMfaCode(event.target.value.replace(/\D/g, ""))}
+              />
+            </label>
+            <button disabled={busy || mfaCode.length !== 6} className="min-h-11 rounded-md bg-opseu-blue px-4 font-semibold text-white disabled:opacity-50">
+              {t("mfaStepUpVerify")}
+            </button>
+          </div>
+        </form>
+      ) : null}
       {loading ? <p role="status" className="text-sm text-gray-600">{t("loading")}</p> : null}
 
       <section aria-labelledby="org-members-title" className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 sm:p-5">

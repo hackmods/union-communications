@@ -1,5 +1,7 @@
 import { randomBytes } from "crypto";
 import type { UserRole } from "@/types/tenant";
+import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
+import { rolesRequireHostedMfa } from "@/lib/auth/mfa-requirements";
 import { getLocalById } from "@/lib/tenant/loader";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
 import { portalStore } from "@/lib/portal/memory-adapter";
@@ -253,7 +255,10 @@ export async function findInvitedUser(
   const user = findInvitedUserRecordByEmail(email);
   if (!user) return null;
   const ok = await verifyPassword(password, user.passwordHash);
-  return ok ? user : null;
+  if (!ok) return null;
+  return isHostedCustomerMode()
+    ? { ...user, requiresMfa: rolesRequireHostedMfa(user.roles) }
+    : user;
 }
 
 /** Lookup without password check (password-reset forgot flow). */

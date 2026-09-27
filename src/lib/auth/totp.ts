@@ -47,6 +47,23 @@ export function generateTotp(
   return hotp(secret, counter);
 }
 
+/** Return the matching RFC 6238 counter, accepting current ±1 for clock skew. */
+export function matchTotpCounter(
+  secretBase32: string,
+  code: string,
+  atMs = Date.now(),
+  stepSeconds = 30,
+  window = 1,
+): number | null {
+  if (!/^\d{6}$/.test(code)) return null;
+  const secret = decodeBase32(secretBase32);
+  const counter = Math.floor(atMs / 1000 / stepSeconds);
+  for (let w = -window; w <= window; w++) {
+    if (hotp(secret, counter + w) === code) return counter + w;
+  }
+  return null;
+}
+
 /** Accept current ±1 window to absorb clock skew. */
 export function verifyTotp(
   secretBase32: string,
@@ -55,11 +72,5 @@ export function verifyTotp(
   stepSeconds = 30,
   window = 1,
 ): boolean {
-  if (!/^\d{6}$/.test(code)) return false;
-  const secret = decodeBase32(secretBase32);
-  const counter = Math.floor(atMs / 1000 / stepSeconds);
-  for (let w = -window; w <= window; w++) {
-    if (hotp(secret, counter + w) === code) return true;
-  }
-  return false;
+  return matchTotpCounter(secretBase32, code, atMs, stepSeconds, window) !== null;
 }

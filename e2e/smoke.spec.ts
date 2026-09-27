@@ -346,26 +346,27 @@ test.describe("Smoke tests @smoke", () => {
     await expectNoSeriousA11yViolationsWithContrast(page);
   });
 
-  test("create catalog has no serious or critical a11y violations with contrast", async ({
-    page,
-  }) => {
-    await page.goto("/en/create/");
-    await expectNoSeriousA11yViolationsWithContrast(page);
-  });
+  for (const locale of ["en", "fr"] as const) {
+    for (const policy of ["privacy", "security", "accessibility", "trust/subprocessors"] as const) {
+      if (locale === "en" && policy === "accessibility") continue;
+      test(`${locale} ${policy} policy page has no serious or critical a11y violations`, async ({ page }) => {
+        await page.goto(`/${locale}/${policy}/`);
+        await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+        await expectNoSeriousA11yViolations(page);
+      });
+    }
+  }
 
-  test("utilities catalog has no serious or critical a11y violations with contrast", async ({
-    page,
-  }) => {
-    await page.goto("/en/utilities/");
-    await expectNoSeriousA11yViolationsWithContrast(page);
-  });
-
-  test("learn catalog has no serious or critical a11y violations with contrast", async ({
-    page,
-  }) => {
-    await page.goto("/en/learn/");
-    await expectNoSeriousA11yViolationsWithContrast(page);
-  });
+  for (const locale of ["en", "fr"] as const) {
+    for (const section of ["create", "utilities", "learn"] as const) {
+      test(`${locale} ${section} catalog has no serious or critical a11y violations with contrast`, async ({
+        page,
+      }) => {
+        await page.goto(`/${locale}/${section}/`);
+        await expectNoSeriousA11yViolationsWithContrast(page);
+      });
+    }
+  }
 
   test("feedback page has no serious or critical a11y violations", async ({ page }) => {
     await page.goto("/en/feedback/");
@@ -443,10 +444,20 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("heading", { name: /Officer login|Connexion/i })).toBeVisible();
   });
 
-  test("hub login page has no serious or critical a11y violations", async ({ page }) => {
-    await page.goto("/en/app/login");
-    await expectNoSeriousA11yViolations(page);
-  });
+  for (const locale of ["en", "fr"] as const) {
+    test(`${locale} Hub login page has no serious or critical a11y violations`, async ({ page }) => {
+      await page.goto(`/${locale}/app/login`);
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      await expectNoSeriousA11yViolations(page);
+    });
+
+    test(`${locale} invite activation error state has no serious or critical a11y violations`, async ({ page }) => {
+      await page.goto(`/${locale}/app/invite/missing-a11y-smoke-token`);
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      await expect(page.getByRole("alert")).toBeVisible();
+      await expectNoSeriousA11yViolations(page);
+    });
+  }
 
   test("demo login lists sample accounts that fill the form", async ({ page }) => {
     await page.goto("/en/app/login");

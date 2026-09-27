@@ -1,43 +1,118 @@
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
-import { users, unions } from "@/lib/db/schema/tenant";
+import { users } from "@/lib/db/schema/tenant";
 import { createPasswordResetToken } from "@/lib/auth/password-reset";
 import {
   buildPasswordResetEmail,
   emailAppBaseUrl,
 } from "@/lib/email/messages";
-import {
-  sendTransactionalEmail,
-  type SmtpConfigSnapshot,
-} from "@/lib/email/send";
+import { sendTransactionalEmail } from "@/lib/email/send";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
+import { createAuditRequestContext } from "@/lib/audit/request-correlation";
+import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 /**
  * POST /api/site-admin/users/[id]/force-password-reset
  *
- * Issue a fresh password-reset token AND send the email directly — no
- * rate limit applies (we are the platform operator). Mirrors the
- * capability of `/api/auth/forgot-password` but derives the URL from a
- * `Request` and emits `site_admin.user.force_password_reset` under the
- * `site_admin` resource type.
+ * A platform operator can trigger a password-reset email after fresh MFA.
+ * Reset tokens are sent only to the target address and never returned to the
+ * operator's browser response.
  */
 export async function POST(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const correlation = createAuditRequestContext();
+  const respond = (body: unknown, status = 200) =>
+    NextResponse.json(body, {
+      status,
+      headers: correlation.responseHeaders({
+        "Cache-Control": "private, no-store",
+      }),
+    });
+
   const gate = await requireSiteAdminSession();
   if (!gate.ok) {
-    return NextResponse.json({ error: gate.error }, { status: gate.status });
+    return respond({ error: gate.error }, gate.status);
   }
 
   const { id } = await params;
-  if (!id) {
-    return NextResponse.json({ error: "Missing user id" }, { status: 400 });
+  if (!id) return respond({ error: "Missing user id" }, 400);
+
+  const rawBody = await req.json().catch(() => null);
+  if (
+    !rawBody ||
+    typeof rawBody !== "object" ||
+    Array.isArray(rawBody) ||
+    Object.keys(rawBody).some((key) => key !== "mfaCode")
+  ) {
+    return respond({ error: "Invalid reset request" }, 400);
+  }
+  const body = rawBody as { mfaCode?: unknown };
+  if (
+    body.mfaCode !== undefined &&
+    (typeof body.mfaCode !== "string" || body.mfaCode.length > 32)
+  ) {
+    return respond({ error: "Invalid MFA challenge" }, 400);
   }
 
+  const recordOutcome = (
+    outcome: "success" | "denied" | "error",
+    metadata: Record<string, string>,
+    unionId?: string,
+  ) =>
+    auditLog.log({
+      userId: gate.session.user.id,
+      action: "site_admin.user.force_password_reset",
+      resourceType: "site_admin",
+      resourceId: id,
+      unionId,
+      outcome,
+      requestId: correlation.requestId,
+      metadata,
+    });
+
+  const challenge = await verifyFreshMfaStepUp({
+    userId: gate.session.user.id,
+    code: typeof body.mfaCode === "string" ? body.mfaCode : undefined,
+  });
+  if (!challenge.ok) {
+    try {
+      await recordOutcome(challenge.outcome, {
+        reason: `mfa_step_up_${challenge.code}`,
+      });
+    } catch {
+      return respond(
+        { error: "Audit service unavailable", code: "audit_unavailable" },
+        503,
+      );
+    }
+    const headers = new Headers({ "Cache-Control": "private, no-store" });
+    if (challenge.retryAfterSeconds) {
+      headers.set("Retry-After", String(challenge.retryAfterSeconds));
+    }
+    return NextResponse.json(
+      {
+        error: "Fresh MFA verification is required before sending a reset email.",
+        code: `mfa_step_up_${challenge.code}`,
+      },
+      {
+        status: challenge.status,
+        headers: correlation.responseHeaders(headers),
+      },
+    );
+  }
+
+  let target: {
+    id: string;
+    email: string;
+    name: string;
+    archivedAt: Date | null;
+    unionId: string | null;
+  } | undefined;
   try {
     const db = getDb();
     const rows = await db
@@ -46,89 +121,138 @@ export async function POST(
         email: users.email,
         name: users.name,
         archivedAt: users.archivedAt,
+        unionId: users.unionId,
       })
       .from(users)
       .where(eq(users.id, id))
       .limit(1);
-    const target = rows[0];
-    if (!target) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-    if (target.archivedAt) {
-      return NextResponse.json(
-        { error: "User is archived — cannot force reset on archived account" },
-        { status: 409 },
-      );
-    }
+    target = rows[0];
+  } catch (error) {
+    reportApiFailure(error, "/api/site-admin/users/[id]/force-password-reset");
+    await recordOutcome("error", { reason: "target_lookup_failed" }).catch(
+      () => undefined,
+    );
+    return respond({ error: "Password-reset request failed" }, 500);
+  }
 
+  if (!target) {
+    await recordOutcome("denied", { reason: "target_not_found" }).catch(
+      () => undefined,
+    );
+    return respond({ error: "User not found" }, 404);
+  }
+  if (target.archivedAt) {
+    await recordOutcome(
+      "denied",
+      { reason: "target_archived" },
+      target.unionId ?? undefined,
+    ).catch(() => undefined);
+    return respond(
+      { error: "User is archived — cannot force reset on archived account" },
+      409,
+    );
+  }
+
+  try {
+    await recordOutcome(
+      "success",
+      { phase: "delivery_authorized" },
+      target.unionId ?? undefined,
+    );
+  } catch {
+    return respond(
+      {
+        error: "The reset email was not sent because the audit record could not be confirmed.",
+        code: "audit_unavailable",
+      },
+      503,
+    );
+  }
+
+  let emailCopy: ReturnType<typeof buildPasswordResetEmail>;
+  try {
     const token = await createPasswordResetToken({
       email: target.email,
       userId: target.id,
     });
     const origin = new URL(req.url).origin;
     const resetUrl = `${emailAppBaseUrl(origin)}/app/reset-password/${token.token}`;
-
-    const copy = buildPasswordResetEmail({
+    emailCopy = buildPasswordResetEmail({
       name: target.name,
       resetUrl,
       expiresAt: token.expiresAt,
     });
-    const result = await sendTransactionalEmail({
-      to: target.email,
-      subject: copy.subject,
-      text: copy.text,
-    });
-
-    let smtp: SmtpConfigSnapshot | undefined;
-    if (!result.ok) {
-      smtp = result.smtp;
-    }
-
-    await auditLog.log({
-      userId: gate.session.user.id,
-      action: "site_admin.user.force_password_reset",
-      resourceType: "site_admin",
-      resourceId: target.id,
-      unionId: await readUnionId(target.id),
-      metadata: {
-        targetEmail: target.email,
-        emailSent: String(result.ok),
-        ...(result.ok ? {} : { reason: result.reason ?? "unknown" }),
+  } catch (error) {
+    reportApiFailure(error, "/api/site-admin/users/[id]/force-password-reset");
+    await recordOutcome(
+      "error",
+      { phase: "preparation_result", reason: "reset_request_preparation_failed" },
+      target.unionId ?? undefined,
+    ).catch(() => undefined);
+    return respond(
+      {
+        error: "The password-reset request could not be prepared.",
+        code: "reset_request_failed",
       },
-    });
-
-    void unions;
-
-    return NextResponse.json({
-      ok: true,
-      sent: result.ok,
-      token: token.token,
-      ...(result.ok
-        ? {}
-        : {
-            reason: result.reason,
-            error: result.error,
-            smtp,
-          }),
-    });
-  } catch (err) {
-    reportApiFailure(err, "/api/site-admin/users/[id]/force-password-reset");
-    return NextResponse.json(
-      { error: "Force-password-reset failed" },
-      { status: 500 },
+      500,
     );
   }
-}
 
-async function readUnionId(userId: string): Promise<string | undefined> {
+  let emailResult: Awaited<ReturnType<typeof sendTransactionalEmail>>;
   try {
-    const row = await getDb()
-      .select({ unionId: users.unionId })
-      .from(users)
-      .where(eq(users.id, userId))
-      .limit(1);
-    return row[0]?.unionId ?? undefined;
-  } catch {
-    return undefined;
+    emailResult = await sendTransactionalEmail({
+      to: target.email,
+      subject: emailCopy.subject,
+      text: emailCopy.text,
+    });
+  } catch (error) {
+    reportApiFailure(error, "/api/site-admin/users/[id]/force-password-reset");
+    await recordOutcome(
+      "error",
+      { phase: "delivery_result", reason: "provider_delivery_unknown" },
+      target.unionId ?? undefined,
+    ).catch(() => undefined);
+    return respond(
+      {
+        error: "The reset email may have been sent, but its result could not be confirmed. Check before retrying.",
+        code: "delivery_result_unconfirmed",
+        requestId: correlation.requestId,
+      },
+      503,
+    );
   }
+
+  try {
+    await recordOutcome(
+      emailResult.ok ? "success" : "error",
+      {
+        phase: "delivery_result",
+        emailSent: String(emailResult.ok),
+        ...(emailResult.ok ? {} : { reason: "email_delivery_failed" }),
+      },
+      target.unionId ?? undefined,
+    );
+  } catch {
+    return respond(
+      {
+        error: "The reset email may have been sent, but its result could not be confirmed. Check before retrying.",
+        code: "delivery_result_unconfirmed",
+        requestId: correlation.requestId,
+      },
+      503,
+    );
+  }
+
+  if (!emailResult.ok) {
+    return respond(
+      {
+        error: "The password-reset email could not be sent.",
+        code: "email_delivery_failed",
+        requestId: correlation.requestId,
+      },
+      502,
+    );
+  }
+
+  return respond({ ok: true, sent: true, requestId: correlation.requestId });
 }

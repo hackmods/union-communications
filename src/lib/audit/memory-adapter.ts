@@ -1,13 +1,14 @@
-import type { AuditEntry, AuditLogAdapter } from "./adapter";
+import type { AuditEntry, AuditLogAdapter, AuditLogInput } from "./adapter";
 
 const store: AuditEntry[] = [];
 
 export class MemoryAuditLogAdapter implements AuditLogAdapter {
   async log(
-    entry: Omit<AuditEntry, "id" | "timestamp">,
+    entry: AuditLogInput,
   ): Promise<AuditEntry> {
     const full: AuditEntry = {
       ...entry,
+      outcome: entry.outcome ?? "success",
       id: `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       timestamp: new Date().toISOString(),
     };

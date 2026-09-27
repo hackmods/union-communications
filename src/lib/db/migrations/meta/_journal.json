@@ -384,6 +384,13 @@
     { "idx": 60, "version": "7", "when": 1790700000000, "tag": "0060_union_comms_preset", "breakpoints": true },
     { "idx": 61, "version": "7", "when": 1790800000000, "tag": "0061_brand_theme_admin", "breakpoints": true },
     { "idx": 62, "version": "7", "when": 1790900000000, "tag": "0062_paid_tenant_directory", "breakpoints": true },
-    { "idx": 63, "version": "7", "when": 1791000000000, "tag": "0063_circle_collective", "breakpoints": true }
+    { "idx": 63, "version": "7", "when": 1791000000000, "tag": "0063_circle_collective", "breakpoints": true },
+    { "idx": 64, "version": "7", "when": 1791100000000, "tag": "0064_mfa_recovery_codes", "breakpoints": true },
+    { "idx": 65, "version": "7", "when": 1791200000000, "tag": "0065_subprocessor_registry", "breakpoints": true },
+    { "idx": 66, "version": "7", "when": 1791300000000, "tag": "0066_platform_incident_register", "breakpoints": true },
+    { "idx": 67, "version": "7", "when": 1791400000000, "tag": "0067_mfa_totp_replay_guard", "breakpoints": true },
+    { "idx": 68, "version": "7", "when": 1791500000000, "tag": "0068_mfa_session_grants", "breakpoints": true },
+    { "idx": 69, "version": "7", "when": 1791600000000, "tag": "0069_mfa_verification_attempts", "breakpoints": true },
+    { "idx": 70, "version": "7", "when": 1791700000000, "tag": "0070_audit_outcome_request_correlation", "breakpoints": true }
   ]
 }

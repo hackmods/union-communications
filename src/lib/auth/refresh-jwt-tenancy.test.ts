@@ -16,6 +16,7 @@ describe("refreshJwtTenancyIfStale", () => {
     vi.resetModules();
     vi.clearAllMocks();
     delete process.env.AUTH_USERS_BACKEND;
+    delete process.env.UNIONOPS_HOSTED_CUSTOMER_MODE;
   });
 
   it("no-ops when AUTH_USERS_BACKEND is not postgres", async () => {
@@ -63,6 +64,60 @@ describe("refreshJwtTenancyIfStale", () => {
     expect(next.localId).toBe("local-9");
     expect(next.sessionVersion).toBe(3);
     expect(next.roles).toEqual(["local_steward"]);
+  });
+
+  it("requires a fresh MFA challenge when hosted roles are elevated", async () => {
+    process.env.AUTH_USERS_BACKEND = "postgres";
+    process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
+    selectLimit.mockResolvedValue([
+      {
+        unionId: "union-a",
+        divisionId: null,
+        localId: "local-1",
+        bargainingUnitId: null,
+        accessibleLocalIds: ["local-1"],
+        roles: ["local_steward"],
+        mfaEnabled: false,
+        totpSecret: null,
+        sessionVersion: 2,
+        archivedAt: null,
+        lockedAt: null,
+      },
+    ]);
+    const { refreshJwtTenancyIfStale } = await import(
+      "@/lib/auth/refresh-jwt-tenancy"
+    );
+    const token = {
+      sub: "u1",
+      unionId: "union-a",
+      localId: "local-1",
+      sessionVersion: 1,
+      roles: ["local_member"],
+      mfaRequired: false,
+      mfaVerified: true,
+    } as JWT;
+    const next = await refreshJwtTenancyIfStale(token);
+    expect(next.roles).toEqual(["local_steward"]);
+    expect(next.mfaRequired).toBe(true);
+    expect(next.mfaVerified).toBe(false);
+  });
+
+  it("fails closed on hosted sessions when the durable role lookup fails", async () => {
+    process.env.AUTH_USERS_BACKEND = "postgres";
+    process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
+    selectLimit.mockRejectedValue(new Error("database unavailable"));
+    const { refreshJwtTenancyIfStale } = await import(
+      "@/lib/auth/refresh-jwt-tenancy"
+    );
+    const token = {
+      sub: "u1",
+      roles: ["local_president"],
+      mfaRequired: true,
+      mfaVerified: true,
+    } as JWT;
+    const next = await refreshJwtTenancyIfStale(token);
+    expect(next.mfaRequired).toBe(true);
+    expect(next.mfaVerified).toBe(false);
   });
 
   it("leaves token alone when versions match", async () => {

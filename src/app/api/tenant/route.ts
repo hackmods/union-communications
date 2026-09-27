@@ -3,7 +3,11 @@ import { z } from "zod";
 import { auth } from "@/auth";
 import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
 import type { AuthorizationActor } from "@/lib/authorization/model";
-import { sessionMfaOk } from "@/lib/auth/mfa-policy";
+import { isHostedCustomerMode, sessionMfaOk } from "@/lib/auth/mfa-policy";
+import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
+import { createAuditRequestContext } from "@/lib/audit/request-correlation";
+import { auditLog } from "@/lib/audit/store";
+import { auditDbBackend } from "@/lib/db/backend";
 import {
   requireTenantOnboardingSession,
   sessionCanCreateUnion,
@@ -110,7 +114,8 @@ const createUnionSchema = z.object({
   localSubText: z.string().max(200).optional(),
   collectionCode: z.string().min(1).max(32).optional(),
   collectionName: z.string().min(1).max(200).optional(),
-});
+  mfaCode: z.string().max(32).optional(),
+}).strict();
 
 const setDataModuleSchema = z.object({
   action: z.literal("set_data_module"),
@@ -499,17 +504,125 @@ export async function POST(req: Request) {
     if (!sessionCanCreateUnion(authResult.session)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
-    const seed = await createUnionDurable({
-      name: data.name,
-      slug: data.slug,
-      defaultLocale: data.defaultLocale,
-      enabledModules: data.enabledModules as HubModule[] | undefined,
-      localNumber: data.localNumber,
-      localSubText: data.localSubText,
-      collectionCode: data.collectionCode,
-      collectionName: data.collectionName,
+    const correlation = createAuditRequestContext();
+    const respond = (body: unknown, status = 200) =>
+      NextResponse.json(body, {
+        status,
+        headers: correlation.responseHeaders({
+          "Cache-Control": "private, no-store",
+        }),
+      });
+    const actorId = authResult.session.user.id;
+    if (
+      isHostedCustomerMode() &&
+      (!tenantsPostgresEnabled() || auditDbBackend() !== "postgres")
+    ) {
+      return respond(
+        {
+          error: "Durable tenant and audit storage are required before creating a union.",
+          code: "durable_storage_required",
+        },
+        503,
+      );
+    }
+    const challenge = await verifyFreshMfaStepUp({
+      userId: actorId,
+      code: data.mfaCode,
     });
-    return NextResponse.json({ seed }, { status: 201 });
+    const record = (
+      outcome: "success" | "denied" | "error",
+      resourceId: string,
+      metadata: Record<string, string>,
+      unionId?: string,
+      localId?: string,
+    ) =>
+      auditLog.log({
+        userId: actorId,
+        action: "tenant.union.provision",
+        resourceType: "tenant",
+        resourceId,
+        ...(unionId ? { unionId } : {}),
+        ...(localId ? { localId } : {}),
+        outcome,
+        requestId: correlation.requestId,
+        metadata,
+      });
+    if (!challenge.ok) {
+      try {
+        await record(challenge.outcome, "provision-request", {
+          reason: `mfa_step_up_${challenge.code}`,
+        });
+      } catch {
+        return respond(
+          { error: "Audit service unavailable", code: "audit_unavailable" },
+          503,
+        );
+      }
+      const headers = new Headers();
+      if (challenge.retryAfterSeconds) {
+        headers.set("Retry-After", String(challenge.retryAfterSeconds));
+      }
+      return NextResponse.json(
+        {
+          error: "Fresh MFA is required before creating a union.",
+          code: `mfa_step_up_${challenge.code}`,
+        },
+        {
+          status: challenge.status,
+          headers: correlation.responseHeaders({
+            "Cache-Control": "private, no-store",
+            ...Object.fromEntries(headers.entries()),
+          }),
+        },
+      );
+    }
+    try {
+      await record("success", "provision-request", { phase: "provision_authorized" });
+    } catch {
+      return respond(
+        {
+          error:
+            "The union was not created because its authorization audit could not be confirmed.",
+          code: "audit_unavailable",
+        },
+        503,
+      );
+    }
+    try {
+      const seed = await createUnionDurable({
+        name: data.name,
+        slug: data.slug,
+        defaultLocale: data.defaultLocale,
+        enabledModules: data.enabledModules as HubModule[] | undefined,
+        localNumber: data.localNumber,
+        localSubText: data.localSubText,
+        collectionCode: data.collectionCode,
+        collectionName: data.collectionName,
+      });
+      await record(
+        "success",
+        seed.union.id,
+        {
+          phase: "provision_result",
+          firstLocalCreated: String(Boolean(seed.locals?.[0])),
+        },
+        seed.union.id,
+        seed.locals?.[0]?.id,
+      );
+      return respond({ seed }, 201);
+    } catch {
+      await record("error", "provision-result", {
+        phase: "provision_result_unconfirmed",
+      }).catch(() => undefined);
+      return respond(
+        {
+          error:
+            "The union may have been created, but its result could not be confirmed. Reload the tenant list before retrying.",
+          code: "union_result_unconfirmed",
+        },
+        503,
+      );
+    }
   }
 
   const resolved = resolveOperatorUnionId(

@@ -27,10 +27,16 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
   const [collectionName, setCollectionName] = useState("");
   const [policy, setPolicy] = useState<MembershipPolicy>(membershipPolicy);
   const [busy, setBusy] = useState(false);
+  const [mfaCode, setMfaCode] = useState("");
+  const [stepUpRequired, setStepUpRequired] = useState(false);
+  const [policyResultUnconfirmed, setPolicyResultUnconfirmed] = useState(false);
+  const [localStepUpRequired, setLocalStepUpRequired] = useState(false);
+  const [localMfaCode, setLocalMfaCode] = useState("");
+  const [localResultUnconfirmed, setLocalResultUnconfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  async function savePolicy() {
+  async function savePolicy(code?: string) {
     setBusy(true);
     setError(null);
     setMessage(null);
@@ -40,17 +46,50 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ membershipPolicy: policy }),
+          body: JSON.stringify({
+            membershipPolicy: policy,
+            ...(code ? { mfaCode: code } : {}),
+          }),
         },
       );
       const data = (await res.json().catch(() => ({}))) as {
         error?: string;
+        code?: string;
         multiLocalMemberCount?: number;
       };
       if (!res.ok) {
-        setError(data.error ?? t("createLocalFailed"));
+        if (data.code === "mfa_step_up_required") {
+          setStepUpRequired(true);
+          setError(t("membershipPolicyStepUpRequired"));
+        } else if (data.code === "mfa_step_up_failed") {
+          setStepUpRequired(true);
+          setMfaCode("");
+          setError(t("membershipPolicyStepUpFailed"));
+        } else if (data.code === "mfa_step_up_limited") {
+          setStepUpRequired(true);
+          setMfaCode("");
+          setError(t("membershipPolicyStepUpLimited"));
+        } else if (
+          data.code === "mfa_step_up_unavailable" ||
+          data.code === "audit_unavailable"
+        ) {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("membershipPolicyStepUpUnavailable"));
+        } else if (data.code === "membership_policy_result_unconfirmed") {
+          setPolicyResultUnconfirmed(true);
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("membershipPolicyResultUnconfirmed"));
+        } else {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(data.error ?? t("createLocalFailed"));
+        }
         return;
       }
+      setMfaCode("");
+      setStepUpRequired(false);
       if (
         policy === "single_local" &&
         (data.multiLocalMemberCount ?? 0) > 0
@@ -65,7 +104,10 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
       }
       router.refresh();
     } catch {
-      setError(t("createLocalFailed"));
+      setPolicyResultUnconfirmed(true);
+      setStepUpRequired(false);
+      setMfaCode("");
+      setError(t("membershipPolicyResultUnconfirmed"));
     } finally {
       setBusy(false);
     }
@@ -91,16 +133,45 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
                 collectionName: collectionName.trim(),
               }
             : {}),
+          ...(localStepUpRequired ? { mfaCode: localMfaCode } : {}),
         }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         error?: string;
+        code?: string;
         created?: boolean;
       };
       if (!res.ok) {
-        setError(data.error ?? t("createLocalFailed"));
+        if (data.code === "mfa_step_up_required") {
+          setLocalStepUpRequired(true);
+          setError(t("createLocalMfaRequired"));
+        } else if (data.code === "mfa_step_up_failed") {
+          setLocalStepUpRequired(true);
+          setLocalMfaCode("");
+          setError(t("createLocalMfaFailed"));
+        } else if (data.code === "mfa_step_up_limited") {
+          setLocalStepUpRequired(true);
+          setLocalMfaCode("");
+          setError(t("createLocalMfaLimited"));
+        } else if (data.code === "mfa_step_up_unavailable" || data.code === "audit_unavailable" || data.code === "durable_storage_required") {
+          setLocalStepUpRequired(false);
+          setLocalMfaCode("");
+          setError(t("createLocalMfaUnavailable"));
+        } else if (data.code === "local_result_unconfirmed") {
+          setLocalResultUnconfirmed(true);
+          setLocalStepUpRequired(false);
+          setLocalMfaCode("");
+          setError(t("createLocalResultUnconfirmed"));
+        } else {
+          setLocalStepUpRequired(false);
+          setLocalMfaCode("");
+          setError(data.error ?? t("createLocalFailed"));
+        }
         return;
       }
+      setLocalMfaCode("");
+      setLocalStepUpRequired(false);
+      setLocalResultUnconfirmed(false);
       setMessage(
         data.created ? t("createLocalCreated") : t("createLocalExisting"),
       );
@@ -157,7 +228,7 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
           <Select
             label={t("membershipPolicyLabel")}
             value={policy}
-            disabled={busy}
+            disabled={busy || stepUpRequired || policyResultUnconfirmed}
             onChange={(e) =>
               setPolicy(e.target.value as MembershipPolicy)
             }
@@ -165,10 +236,48 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
             <option value="multi_local">{t("membershipPolicyMulti")}</option>
             <option value="single_local">{t("membershipPolicySingle")}</option>
           </Select>
-          <Button type="button" disabled={busy} onClick={() => void savePolicy()}>
+          <Button
+            type="button"
+            disabled={
+              busy ||
+              policyResultUnconfirmed ||
+              (stepUpRequired && !mfaCode.trim())
+            }
+            onClick={() =>
+              void savePolicy(stepUpRequired ? mfaCode : undefined)
+            }
+          >
             {t("membershipPolicySave")}
           </Button>
         </div>
+        {stepUpRequired ? (
+          <div className="mt-3 space-y-2">
+            <Input
+              label={t("membershipPolicyMfaCode")}
+              value={mfaCode}
+              onChange={(event) => setMfaCode(event.target.value)}
+              autoComplete="one-time-code"
+              maxLength={32}
+              autoFocus
+              disabled={busy}
+            />
+            <p className="text-xs text-opseu-gray-dark">
+              {t("membershipPolicyStepUpHelp")}
+            </p>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={busy}
+              onClick={() => {
+                setMfaCode("");
+                setStepUpRequired(false);
+                setError(null);
+              }}
+            >
+              {t("membershipPolicyCancelStepUp")}
+            </Button>
+          </div>
+        ) : null}
       </section>
 
       <form onSubmit={createCollective} className="space-y-3 rounded-md border border-opseu-gray/15 bg-white p-4">
@@ -223,7 +332,21 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
             onChange={(e) => setCollectionName(e.target.value)}
           />
         </div>
-        <Button type="submit" disabled={busy || !localNumber.trim()}>
+        {localStepUpRequired ? (
+          <div className="space-y-2">
+            <Input
+              label={t("createLocalMfaCode")}
+              value={localMfaCode}
+              onChange={(event) => setLocalMfaCode(event.target.value)}
+              autoComplete="one-time-code"
+              maxLength={32}
+              autoFocus
+              disabled={busy || localResultUnconfirmed}
+            />
+            <p className="text-xs text-opseu-gray-dark">{t("createLocalMfaHelp")}</p>
+          </div>
+        ) : null}
+        <Button type="submit" disabled={busy || !localNumber.trim() || localResultUnconfirmed || (localStepUpRequired && !localMfaCode.trim())}>
           {busy ? t("createLocalSaving") : t("createLocalSubmit")}
         </Button>
       </form>
@@ -232,6 +355,21 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
         <Callout tone="danger">
           <p className="font-semibold">{t("createLocalErrorTitle")}</p>
           <p className="mt-1">{error}</p>
+          {policyResultUnconfirmed ? (
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-3"
+              onClick={() => window.location.reload()}
+            >
+              {t("membershipPolicyReload")}
+            </Button>
+          ) : null}
+          {localResultUnconfirmed ? (
+            <Button type="button" variant="outline" className="mt-3" onClick={() => window.location.reload()}>
+              {t("createLocalReload")}
+            </Button>
+          ) : null}
         </Callout>
       ) : null}
       {message ? (

@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Callout } from "@/components/ui/Callout";
 import {
   buildMailto,
   buildMembershipMeetingReminder,
@@ -58,6 +59,14 @@ export function MeetingEventsBoard({
   const [reminderCopied, setReminderCopied] = useState<
     "subject" | "body" | null
   >(null);
+  const [pendingExport, setPendingExport] = useState<{
+    meetingId: string;
+    title: string;
+  } | null>(null);
+  const [exportMfaCode, setExportMfaCode] = useState("");
+  const [exportChallengeError, setExportChallengeError] =
+    useState<string | null>(null);
+  const [exportBusy, setExportBusy] = useState(false);
 
   const [title, setTitle] = useState("");
   const [startsAt, setStartsAt] = useState("");
@@ -208,19 +217,69 @@ export function MeetingEventsBoard({
     }
   }
 
-  async function handleExport(meetingId: string) {
+  async function handleExport(meetingId: string, title: string, mfaCode?: string) {
+    if (exportBusy) return;
     setError(null);
+    setExportChallengeError(null);
+    if (mfaCode === undefined) {
+      setPendingExport(null);
+      setExportMfaCode("");
+    }
+    setExportBusy(true);
     try {
-      const res = await fetch(`/api/meetings/events/${meetingId}/export`);
-      if (!res.ok) throw new Error("fail");
+      const res = await fetch(`/api/meetings/events/${meetingId}/export`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(mfaCode ? { mfaCode } : {}),
+      });
+      if (res.status === 428) {
+        setPendingExport({ meetingId, title });
+        setExportMfaCode("");
+        return;
+      }
+      if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as
+          | { code?: string }
+          | null;
+        if (body?.code === "mfa_step_up_failed") {
+          setExportChallengeError(t("mfaStepUpFailed"));
+        } else if (body?.code === "mfa_step_up_limited") {
+          setExportChallengeError(t("mfaStepUpLimited"));
+        } else if (
+          body?.code === "mfa_step_up_unavailable" ||
+          body?.code === "audit_unavailable"
+        ) {
+          setExportChallengeError(t("mfaStepUpUnavailable"));
+        } else if (body?.code === "export_audit_unavailable") {
+          setExportMfaCode("");
+          setError(t("exportAuditUnavailable"));
+        } else {
+          setError(t("exportError"));
+        }
+        return;
+      }
       const blob = await res.blob();
       const disp = res.headers.get("Content-Disposition");
       const match = disp?.match(/filename="([^"]+)"/);
-      void downloadBlob(blob, match?.[1] ?? "rsvp-export.csv");
+      await downloadBlob(blob, match?.[1] ?? "rsvp-export.csv");
+      setPendingExport(null);
+      setExportMfaCode("");
       setMessage(t("exported"));
     } catch {
       setError(t("exportError"));
+    } finally {
+      setExportBusy(false);
     }
+  }
+
+  function submitExportStepUp(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!pendingExport || !exportMfaCode.trim()) return;
+    void handleExport(
+      pendingExport.meetingId,
+      pendingExport.title,
+      exportMfaCode,
+    );
   }
 
   async function handleWalkIn(e: React.FormEvent) {
@@ -392,7 +451,12 @@ export function MeetingEventsBoard({
                       ? "border-opseu-blue bg-opseu-blue/5"
                       : "border-gray-200 hover:bg-gray-50"
                   }`}
-                  onClick={() => void loadDetail(m.id)}
+                  onClick={() => {
+                    setPendingExport(null);
+                    setExportMfaCode("");
+                    setExportChallengeError(null);
+                    void loadDetail(m.id);
+                  }}
                 >
                   <span className="font-medium text-opseu-dark">{m.title}</span>
                   <span className="mt-0.5 block text-xs text-gray-600">
@@ -451,11 +515,68 @@ export function MeetingEventsBoard({
                 type="button"
                 size="sm"
                 variant="secondary"
-                onClick={() => void handleExport(selectedId)}
+                disabled={exportBusy || pendingExport !== null}
+                onClick={() =>
+                  void handleExport(selectedId, selectedMeeting?.title ?? t("title"))
+                }
               >
                 {t("exportCsv")}
               </Button>
             </div>
+          )}
+
+          {pendingExport?.meetingId === selectedId && (
+            <form
+              className="space-y-3 rounded-lg border border-amber-300 bg-amber-50 p-4"
+              aria-labelledby={`rsvp-export-step-up-${selectedId}`}
+              onSubmit={submitExportStepUp}
+            >
+              <div>
+                <h4
+                  id={`rsvp-export-step-up-${selectedId}`}
+                  className="font-semibold"
+                >
+                  {t("mfaStepUpTitle")}
+                </h4>
+                <p className="mt-1 text-sm text-gray-700">
+                  {t("mfaStepUpHint", { title: pendingExport.title })}
+                </p>
+              </div>
+              <Input
+                label={t("mfaCode")}
+                value={exportMfaCode}
+                onChange={(event) => setExportMfaCode(event.target.value)}
+                autoComplete="one-time-code"
+                maxLength={32}
+                autoFocus
+                required
+              />
+              {exportChallengeError && (
+                <Callout role="alert" tone="danger">
+                  {exportChallengeError}
+                </Callout>
+              )}
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="submit"
+                  disabled={exportBusy || !exportMfaCode.trim()}
+                >
+                  {t("mfaStepUpVerify")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={exportBusy}
+                  onClick={() => {
+                    setPendingExport(null);
+                    setExportMfaCode("");
+                    setExportChallengeError(null);
+                  }}
+                >
+                  {t("mfaStepUpCancel")}
+                </Button>
+              </div>
+            </form>
           )}
 
           {activeToken && (

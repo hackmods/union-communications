@@ -27,7 +27,10 @@ import {
   PATCH as patchClaim,
   POST as createClaim,
 } from "@/app/api/travel/[id]/claim/route";
-import { GET as exportTravel } from "@/app/api/travel/[id]/export/route";
+import {
+  GET as legacyGetTravelExport,
+  POST as exportTravel,
+} from "@/app/api/travel/[id]/export/route";
 import {
   memoryLedgerStore,
   resetLedgerMemoryForTests,
@@ -801,7 +804,7 @@ describe("travel list/create and elevate HTTP routes", () => {
   });
 });
 
-describe("GET /api/travel/[id]/export", () => {
+describe("GET/POST /api/travel/[id]/export", () => {
   beforeEach(() => {
     resetMemoryTravelStore();
     resetTravelStore();
@@ -819,7 +822,7 @@ describe("GET /api/travel/[id]/export", () => {
     expect(
       (
         await exportTravel(
-          new Request("http://localhost/api/travel/x/export"),
+          jsonRequest({ format: "xlsx" }),
           params(auth.id),
         )
       ).status,
@@ -827,7 +830,7 @@ describe("GET /api/travel/[id]/export", () => {
 
     authMock.mockResolvedValue(session({ roles: ["local_member"] }));
     const forbidden = await exportTravel(
-      new Request("http://localhost/api/travel/x/export"),
+      jsonRequest({ format: "xlsx" }),
       params(auth.id),
     );
     expect(forbidden.status).toBe(403);
@@ -842,7 +845,7 @@ describe("GET /api/travel/[id]/export", () => {
     });
     authMock.mockResolvedValue(session({ roles: ["platform_admin"] }));
     const res = await exportTravel(
-      new Request("http://localhost/api/travel/x/export"),
+      jsonRequest({ format: "xlsx" }),
       params(foreign.id),
     );
     expect(res.status).toBe(404);
@@ -858,7 +861,7 @@ describe("GET /api/travel/[id]/export", () => {
       session({ id: "user-president-7", roles: ["local_president"] }),
     );
     const res = await exportTravel(
-      new Request("http://localhost/api/travel/x/export"),
+      jsonRequest({ format: "xlsx" }),
       params(sister.id),
     );
     expect(res.status).toBe(404);
@@ -871,7 +874,7 @@ describe("GET /api/travel/[id]/export", () => {
       const auth = await seedAuthorization();
       authMock.mockResolvedValue(session());
       const res = await exportTravel(
-        new Request("http://localhost/api/travel/x/export?format=xlsx"),
+        jsonRequest({ format: "xlsx" }),
         params(auth.id),
       );
       expect(res.status).toBe(200);
@@ -882,4 +885,11 @@ describe("GET /api/travel/[id]/export", () => {
       expect((await res.arrayBuffer()).byteLength).toBeGreaterThan(0);
     },
   );
+
+  it("retires the legacy query-string download URL", async () => {
+    const res = await legacyGetTravelExport();
+    expect(res.status).toBe(405);
+    expect(res.headers.get("Allow")).toBe("POST");
+    expect(res.headers.get("Cache-Control")).toBe("private, no-store");
+  });
 });

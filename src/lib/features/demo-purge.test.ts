@@ -32,4 +32,19 @@ describe("isDemoPurgeEnabled", () => {
       false,
     );
   });
+
+  it("is always off for the hosted customer profile", () => {
+    expect(
+      isDemoPurgeEnabled({
+        UNIONOPS_HOSTED_CUSTOMER_MODE: "true",
+        SITE_ADMIN_DEMO_PURGE_ENABLED: "true",
+      }),
+    ).toBe(false);
+    expect(
+      isDemoPurgeEnabled({
+        UNIONOPS_HOSTED_CUSTOMER_MODE: "1",
+        SITE_ADMIN_DEMO_PURGE_ENABLED: "yes",
+      }),
+    ).toBe(false);
+  });
 });

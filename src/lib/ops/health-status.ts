@@ -9,6 +9,11 @@ import {
 import { isPostgresConfigured } from "@/lib/db/client";
 import { isDemoAuthEnabled } from "@/lib/auth/demo-auth-gate";
 import {
+  isHostedCustomerMode,
+  isMfaEnabled,
+  resolveMfaMode,
+} from "@/lib/auth/mfa-policy";
+import {
   buildObservabilityHealth,
   type ObservabilityHealth,
 } from "@/lib/observability/config";
@@ -18,6 +23,7 @@ import {
   type DatabaseBootAttestation,
 } from "@/lib/ops/database-boot";
 import { countUnions } from "@/lib/tenant/union-exists";
+import { readHostedControlEvidence, type HostedControlEvidence } from "@/lib/ops/host-control-evidence";
 
 /** Non-secret runtime summary for `/api/health` (operators + smoke). */
 export type HealthStatus = {
@@ -35,9 +41,13 @@ export type HealthStatus = {
   accessRequestNotifyConfigured: boolean;
   cronConfigured: boolean;
   mfaEnabled: boolean;
+  mfaMode: "shared_code_insecure" | "totp" | null;
+  hostedCustomerMode: boolean;
   demoAuthEnabled: boolean;
   /** Operator error sinks (Sentry / JSONL) — no secrets. */
   observability: ObservabilityHealth;
+  /** Boolean-only hosted readiness summary; underlying attestations stay private. */
+  hostedControlEvidence: HostedControlEvidence;
   /** Non-authoritative evidence from the fail-closed boot deployment gate. */
   databaseDeployment: DatabaseBootAttestation;
   /**
@@ -122,9 +132,12 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
       process.env.ACCESS_REQUEST_NOTIFY_EMAIL?.trim(),
     ),
     cronConfigured: Boolean(process.env.CRON_SECRET?.trim()),
-    mfaEnabled: process.env.AUTH_MFA_ENABLED === "true",
+    mfaEnabled: isMfaEnabled(),
+    mfaMode: resolveMfaMode(),
+    hostedCustomerMode: isHostedCustomerMode(),
     demoAuthEnabled: isDemoAuthEnabled(),
     observability: buildObservabilityHealth(),
+    hostedControlEvidence: readHostedControlEvidence(),
     databaseDeployment,
     tenantRegistry,
   };

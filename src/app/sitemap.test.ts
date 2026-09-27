@@ -27,6 +27,14 @@ describe("sitemap", () => {
     expect(PUBLIC_PATHS).not.toContain("/build/review");
   });
 
+  it("lists the localized public subprocessor register", async () => {
+    expect(PUBLIC_PATHS).toContain("/trust/subprocessors");
+    const entries = await sitemap();
+    const urls = new Set(entries.map((entry) => entry.url));
+    expect(urls.has(`${SITE_URL}/en/trust/subprocessors/`)).toBe(true);
+    expect(urls.has(`${SITE_URL}/fr/trust/subprocessors/`)).toBe(true);
+  });
+
   it("includes every top-level /guide route from the filesystem (en + fr)", async () => {
     const entries = await sitemap();
     const urls = new Set(entries.map((e) => e.url));
