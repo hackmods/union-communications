@@ -32,9 +32,13 @@ export function DesignTreatmentControl({
       />
       <div className="grid max-w-sm grid-cols-3 gap-2" aria-hidden="true">
         {DESIGN_TREATMENTS.map((id) => (
-          <div
+          <button
             key={id}
-            className={`h-12 overflow-hidden rounded border ${
+            type="button"
+            tabIndex={-1}
+            data-treatment={id}
+            onClick={() => onChange(id)}
+            className={`min-h-11 cursor-pointer overflow-hidden rounded border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 ${
               value === id
                 ? "border-blue-700 ring-1 ring-blue-700"
                 : "border-slate-300"
@@ -60,7 +64,7 @@ export function DesignTreatmentControl({
                 />
               ) : null}
             </div>
-          </div>
+          </button>
         ))}
       </div>
       <p className="text-xs text-slate-600">{t(`hint.${value}`)}</p>

@@ -7,6 +7,21 @@
 - Forward-only migrations `0064`–`0066`; idempotent `npm run docs:import-public` imports registry metadata and CSV bytes after rights, signature, and scanner checks. Do not remove the legacy import bytes before verifying durable object hashes in the deployment environment. See [`docs/modules/DOCUMENTS.md`](modules/DOCUMENTS.md).
 - What's new: `documents-library-and-vault`.
 
+## 2026-09-26 — Site testing QOL follow-through
+
+- Pre-disciplinary: Learn link stays visible above the ladder disclosure; prior-step chips append collection ladder rungs.
+- Complaint vs grievance: one-line viability score under the path Callout (full scorecard remains in Draft & next steps).
+- Brand Kit: Logo jump-nav link; logo upload validation errors via i18n; Looks cap is per union preset; upload hint matches 2 MB limit.
+- Smoke: custom logo upload; steward tools assert ladder preset after opening disclosure.
+
+## 2026-09-26 — Site testing feedback (Brand Kit + steward worksheets)
+
+- Brand Kit: custom logo mode clears the UnionOps platform mark so the upload picker mounts; design-treatment preview swatches are clickable everywhere `DesignTreatmentControl` is used.
+- Saved Looks: include design treatment; swatch load UI + Looks jump link; clearer cap / other-preset messaging; Local pack pointer for full kit backup.
+- Complaint vs grievance: remove duplicate five-point diagram and form scorecard; keep unlock caption + single viability index above Draft & next steps.
+- Pre-disciplinary log: collection-scoped discipline ladder presets + editable rungs on Brand Kit profiles (confirm against CA).
+- What's new: `brand-kit-looks-logo-fix`, `discipline-ladder-collections`.
+
 ## 2026-09-26 — Org Chart peer chrome + white paper
 
 - Org Chart matches Board Notice dynamic chrome: design treatment, Canvas branding (logo mode / local number), canvas token overrides, undo/redo for layout chrome.

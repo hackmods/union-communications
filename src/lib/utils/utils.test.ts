@@ -208,10 +208,11 @@ describe("ink utilities", () => {
 });
 
 describe("validation utilities", () => {
-  it("rejects invalid file types", () => {
+  it("rejects invalid file types with an error code", () => {
     const file = new File(["test"], "test.txt", { type: "text/plain" });
     const result = validateImageFile(file);
     expect(result.valid).toBe(false);
+    if (!result.valid) expect(result.errorCode).toBe("invalidType");
   });
 
   it("accepts valid PNG files", () => {

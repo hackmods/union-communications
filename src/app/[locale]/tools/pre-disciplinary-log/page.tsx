@@ -2,10 +2,9 @@
 
 import { useMemo, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
-import { ProgressiveDisciplineLadderDiagram } from "@/components/comms/StewardGuideDiagrams";
+import { DisciplineLadderReference } from "@/components/tools/steward-guides/DisciplineLadderReference";
 import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
 import { Callout } from "@/components/ui/Callout";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -31,6 +30,7 @@ import {
   hasProceduralDefect,
   loadPreDisciplinaryDraft,
   preDisciplinaryDraftToMarkdown,
+  resolveDisciplineLadder,
   savePreDisciplinaryDraft,
   shouldEscalateCriminal,
   type AllegationTypeId,
@@ -81,15 +81,29 @@ export default function PreDisciplinaryLogPage() {
     [draft, scriptLabels],
   );
 
-  const ladderSteps = useMemo(
-    () => [
-      t("ladder.coaching"),
-      t("ladder.written"),
-      t("ladder.suspension"),
-      t("ladder.termination"),
-    ],
-    [t],
+  const ladderRungs = useMemo(
+    () =>
+      resolveDisciplineLadder(brandKit, (key) => t(`ladder.rungs.${key}`)).rungs,
+    [brandKit, t],
   );
+
+  const appendPriorRung = (label: string) => {
+    setDraft((prev) => {
+      const existing = prev.priorSteps.trim();
+      if (
+        existing
+          .toLowerCase()
+          .split(/[;\n,]/)
+          .some((part) => part.trim() === label.toLowerCase())
+      ) {
+        return prev;
+      }
+      return {
+        ...prev,
+        priorSteps: existing ? `${existing}; ${label}` : label,
+      };
+    });
+  };
 
   const setRight = (id: RightsCheckId, value: TriState) => {
     setDraft((prev) => ({
@@ -178,27 +192,7 @@ export default function PreDisciplinaryLogPage() {
         </Callout>
       ) : null}
 
-      <Callout tone="muted" role="note">
-        <p className="text-sm leading-relaxed">
-          <Link
-            href="/learn/officer/progressive-discipline"
-            className="font-semibold text-opseu-blue underline underline-offset-2"
-          >
-            {t("ladder.moduleLink")}
-          </Link>
-        </p>
-      </Callout>
-
-      <details className="rounded-lg border border-gray-200 bg-slate-50/80 p-3 open:bg-white">
-        <summary className="cursor-pointer text-sm font-semibold text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/50">
-          {t("ladder.referenceSummary")}
-        </summary>
-        <div className="mt-3 space-y-2">
-          <p className="text-sm font-semibold text-opseu-dark">{t("ladder.title")}</p>
-          <p className="text-xs text-gray-600">{t("ladder.hint")}</p>
-          <ProgressiveDisciplineLadderDiagram steps={ladderSteps} />
-        </div>
-      </details>
+      <DisciplineLadderReference />
 
       <Callout tone="muted">
         <p className="font-medium text-gray-900">{t("confidentiality.title")}</p>
@@ -238,16 +232,41 @@ export default function PreDisciplinaryLogPage() {
         ))}
       </Select>
 
-      <Textarea
-        label={t("fields.priorSteps")}
-        rows={2}
-        value={draft.priorSteps}
-        onChange={(e) =>
-          setDraft((prev) => ({ ...prev, priorSteps: e.target.value }))
-        }
-        placeholder={t("fields.priorStepsHint")}
-      />
-
+      <div className="space-y-2">
+        <Textarea
+          label={t("fields.priorSteps")}
+          rows={2}
+          value={draft.priorSteps}
+          onChange={(e) =>
+            setDraft((prev) => ({ ...prev, priorSteps: e.target.value }))
+          }
+          placeholder={t("fields.priorStepsHint")}
+        />
+        <p className="text-xs text-gray-600">{t("fields.priorStepsChipsHint")}</p>
+        <div className="flex flex-wrap gap-2" role="group" aria-label={t("fields.priorSteps")}>
+          {ladderRungs.map((rung) => {
+            const active = draft.priorSteps
+              .toLowerCase()
+              .split(/[;\n,]/)
+              .some((part) => part.trim() === rung.label.toLowerCase());
+            return (
+              <button
+                key={rung.id}
+                type="button"
+                onClick={() => appendPriorRung(rung.label)}
+                aria-pressed={active}
+                className={`min-h-11 rounded-lg border px-3 text-sm font-medium focus-visible:ring-2 focus-visible:ring-opseu-blue/40 ${
+                  active
+                    ? "border-opseu-blue bg-opseu-blue/10 text-opseu-dark"
+                    : "border-gray-200 bg-white text-gray-700"
+                }`}
+              >
+                {rung.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
       <div ref={printRef} className="space-y-3">
         <fieldset className="space-y-3">
           <legend className="text-sm font-medium text-gray-700">

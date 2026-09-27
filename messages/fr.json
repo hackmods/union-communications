@@ -5,10 +5,15 @@
     "core": "Couleurs d’origine",
     "deep": "Couleur plus foncée",
     "saved": "Vos styles enregistrés",
+    "help": "Un style enregistre les couleurs, le choix de logo et la présentation pour ce préréglage syndical. Cliquez une pastille pour le charger.",
     "name": "Nom du style",
     "save": "Enregistrer les couleurs et le logo",
     "remove": "Retirer",
-    "empty": "Enregistrez un style pour retrouver ses couleurs et son logo plus tard."
+    "empty": "Enregistrez un style pour retrouver ses couleurs, son logo et sa présentation plus tard.",
+    "capCount": "{used} styles sur {max} pour ce préréglage syndical",
+    "otherPresetCount": "{count} style(s) enregistré(s) sous d’autres préréglages restent masqués jusqu’à ce que vous y reveniez.",
+    "capBlocked": "Ce préréglage syndical a atteint la limite de styles. Retirez-en un pour en enregistrer un autre.",
+    "localPackHint": "Besoin d’une copie complète de la Trousse de marque? Utilisez le <link>Paquet local</link> pour télécharger ou importer le tout."
   },
   "designTreatment": {
     "label": "Présentation",
@@ -167,6 +172,8 @@
     "exportPartial": "{exported} feuilles sur {total} ont été exportées. Non exportées : {failed}. Réessayez.",
     "upload": "Téléverser une image",
     "uploadFailed": "Impossible de traiter cette image. Essayez un autre fichier.",
+    "uploadInvalidType": "Ce type de fichier n’est pas pris en charge. Utilisez JPEG, PNG, WebP ou SVG.",
+    "uploadTooLarge": "Ce fichier est trop volumineux. Utilisez une image de moins de {maxMb} Mo.",
     "remove": "Supprimer",
     "preview": "Aperçu",
     "learnMore": "En savoir plus",
@@ -989,7 +996,6 @@
       "pdfAuditCta": "Télécharger la fiche d'audit PDF"
     },
     "diagrams": {
-      "filterTitle": "Filtre de grief en 5 points",
       "filterAria": "Cinq vérifications diagnostiques avant d'ouvrir un grief",
       "filter1": "Convention ?",
       "filter2": "Loi ?",
@@ -4223,6 +4229,8 @@
     "sections": {
       "identity": "Identité",
       "colours": "Couleurs",
+      "looks": "Styles",
+      "logo": "Logo",
       "preview": "Aperçu",
       "style": "Style",
       "links": "Liens et signature",
@@ -4585,7 +4593,7 @@
       "description": "Si le préréglage inclut des logos, choisissez-en un. Sinon, marque UnionOps (teintée) ou téléversement local.",
       "useOfficialLogo": "Utiliser le logo OPSEU / SEFPO",
       "uploadCustomLogo": "Téléverser un logo",
-      "uploadHint": "PNG, JPEG, WebP ou SVG jusqu'à 10 Mo.",
+      "uploadHint": "PNG, JPEG, WebP ou SVG jusqu'à 2 Mo.",
       "useOfficialLogoHint": "Lockup officiel OPSEU / SEFPO - recommandé lorsque OPSEU / SEFPO est votre syndicat.",
       "noImage": "Aucune image",
       "noImageHint": "Revient au monogramme UnionOps teinté de votre couleur de marque principale.",
@@ -7468,6 +7476,14 @@
       "join-share-when-signed-in": {
         "title": "Formulaires d’accès bêta et partage une fois connecté",
         "body": "Les sections et les membres peuvent demander l’accès bêta avec des messages d’erreur plus clairs et un lien vers la confidentialité. Lorsque vous êtes déjà connecté, /join vous remercie et vous laisse copier des liens à partager avec d’autres sections."
+      },
+      "discipline-ladder-collections": {
+        "title": "L’échelle disciplinaire suit votre collection",
+        "body": "Sur le journal de rencontre prédisciplinaire, choisissez une échelle de discipline progressive pour la collection active de la Trousse de marque, ou modifiez les échelons selon la pratique locale. Confirmez les noms dans votre convention collective."
+      },
+      "brand-kit-looks-logo-fix": {
+        "title": "Logo et styles enregistrés dans la Trousse de marque",
+        "body": "Téléversez un logo personnalisé depuis la marque UnionOps sans que le sélecteur disparaisse. Les styles enregistrés conservent aussi la présentation — cliquez une pastille pour en charger un, et utilisez le Paquet local pour une copie complète."
       },
       "org-chart-peer-chrome": {
         "title": "L’organigramme rejoint les autres outils de tableau",
@@ -10727,7 +10743,7 @@
       "download": "Télécharger",
       "chooseFile": "Choisir un fichier",
       "noFileChosen": "Aucun fichier choisi",
-      "sizeLimit": "PDF, Word ou image, jusqu'à 10 Mo.",
+      "sizeLimit": "PDF, Word ou image, jusqu'à 2 Mo.",
       "uploadError": "Impossible de téléverser ce fichier. Vérifiez le type et la taille, puis réessayez.",
       "fileTooLarge": "Fichier trop volumineux (max 10 Mo)",
       "scanPending": "Analyse en attente",
@@ -10843,7 +10859,7 @@
       "download": "Télécharger",
       "chooseFile": "Choisir un fichier",
       "noFileChosen": "Aucun fichier choisi",
-      "sizeLimit": "PDF, Word ou image, jusqu'à 10 Mo.",
+      "sizeLimit": "PDF, Word ou image, jusqu'à 2 Mo.",
       "uploadError": "Impossible de téléverser ce fichier. Vérifiez le type et la taille, puis réessayez.",
       "fileTooLarge": "Fichier trop volumineux (max 10 Mo)",
       "scanPending": "Analyse en attente",
@@ -12012,7 +12028,8 @@
       "memberNarrative": "Récit et explications du membre",
       "mitigators": "Facteurs atténuants",
       "priorSteps": "Étapes progressives antérieures",
-      "priorStepsHint": "Dates et type (ex. avertissement écrit du 12 mars 2025)"
+      "priorStepsHint": "Dates et type (ex. avertissement écrit du 12 mars 2025)",
+      "priorStepsChipsHint": "Touchez un échelon de l’échelle de votre collection pour l’ajouter aux notes."
     },
     "triState": {
       "yes": "Oui",
@@ -12068,7 +12085,37 @@
       "written": "Avertissement écrit",
       "suspension": "Suspension",
       "termination": "Congédiement",
+      "rungs": {
+        "coaching": "Conseil / coaching",
+        "written": "Avertissement écrit",
+        "suspension": "Suspension",
+        "termination": "Congédiement",
+        "verbal": "Verbal (documenté)",
+        "discharge": "Congédiement"
+      },
+      "presets": {
+        "generic-progressive-4": "Progressive générique (coaching d’abord)",
+        "ol-verbal-4": "Échelle pédagogique (verbal d’abord)",
+        "college-support-progressive": "Progressive soutien collégial",
+        "college-academic-progressive": "Progressive personnel enseignant collégial"
+      },
+      "using": "En cours : {collection} — {preset}",
+      "customSuffix": "(modifiée pour cette collection)",
+      "defaultCollection": "Collection active",
+      "presetLabel": "Préréglage d’échelle pour cette collection",
+      "disclaimer": "Confirmez les noms des échelons dans votre convention collective et la pratique locale. Ce schéma est une aide de référence, pas un avis juridique.",
+      "editForCollection": "Modifier pour cette collection",
+      "editHeading": "Échelons personnalisés pour cette collection",
+      "rungLabel": "Échelon {n}",
+      "newRung": "Nouvelle étape",
+      "addRung": "Ajouter un échelon",
+      "removeRung": "Retirer",
+      "moveUp": "Monter",
+      "moveDown": "Descendre",
+      "resetPreset": "Réinitialiser le préréglage",
+      "doneEditing": "Terminé",
       "moduleLink": "En savoir plus sur la discipline progressive",
+      "moduleNote": "La Formation des dirigeants garde un schéma pédagogique ; l’échelle de votre collection peut différer lorsque la pratique locale le fait.",
       "referenceSummary": "Référence facultative de l’échelle disciplinaire"
     },
     "proceduralAudit": {
@@ -12091,6 +12138,7 @@
     "moduleLink": "En savoir plus sur l’application de la convention",
     "score": {
       "label": "Indice de viabilité du grief",
+      "line": "Indice de viabilité du grief : {score} / 5",
       "grievancePath": "Au moins un point d'admissibilité est rempli. Complétez les 6 W et utilisez le brouillon à droite.",
       "alternatePath": "Aucun point d'admissibilité → utilisez le plan d'action de règlement alternatif ci-dessous. Les quatre brouillons de parcours sont prêts dans l'aperçu."
     },
@@ -12195,7 +12243,6 @@
     },
     "pocketSheetModuleTitle": "Application de la convention",
     "diagrams": {
-      "filterTitle": "Filtre d'admissibilité en cinq points",
       "filterCaption": "Un oui débloque la prise en charge de grief ; score zéro → plan d'action alternatif."
     },
     "grievancePlaybookLink": "Lire le guide des griefs"

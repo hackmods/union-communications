@@ -47,6 +47,16 @@ export interface BrandKitProfile {
   localNumber: string;
   subText: string;
   bargainingUnitCode?: string;
+  /**
+   * Progressive-discipline reference preset for steward worksheets.
+   * Resolved from bargainingUnitCode when unset.
+   */
+  ladderPresetId?: string;
+  /** Local-practice override of preset rungs (labels are steward text). */
+  disciplineLadderCustom?: {
+    sourcePresetId: string;
+    rungs: { id: string; label: string }[];
+  };
 }
 
 /** Optional style packages that seed Brand Kit canvas chrome tokens */
@@ -66,6 +76,8 @@ export interface SavedBrandLook {
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
+  /** Missing on older Looks — apply leaves kit treatment unchanged. */
+  designTreatment?: DesignTreatment;
   useOfficialLogo: boolean;
   officialLogoVariant?: BrandKit["officialLogoVariant"];
   identityPackId?: string;

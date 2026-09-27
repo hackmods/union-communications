@@ -17,6 +17,7 @@ test.describe("Steward meeting guides @smoke", () => {
       })
       .getByRole("radio", { name: "Yes" })
       .click();
+    await expect(page.getByText(/Grievance viability index: 1 \/ 5/i)).toBeVisible();
     await expect(page.getByText(/Grievance viability index/i).first()).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
@@ -33,6 +34,9 @@ test.describe("Steward meeting guides @smoke", () => {
       .getByText(/Optional discipline ladder reference/i)
       .click();
     await expect(page.getByText(/Progressive discipline ladder/i)).toBeVisible();
+    await expect(
+      page.getByLabel(/Ladder preset for this collection/i),
+    ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
 

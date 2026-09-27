@@ -31,6 +31,18 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/documents",
   },
   {
+    id: "discipline-ladder-collections",
+    date: "2026-09-26",
+    kind: "improved",
+    href: "/tools/pre-disciplinary-log",
+  },
+  {
+    id: "brand-kit-looks-logo-fix",
+    date: "2026-09-26",
+    kind: "improved",
+    href: "/create/brand-kit",
+  },
+  {
     id: "org-chart-peer-chrome",
     date: "2026-09-26",
     kind: "improved",
