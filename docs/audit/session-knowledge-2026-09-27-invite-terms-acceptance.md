@@ -52,4 +52,4 @@
 
 ## Handoff
 
-Continue in the same repository from the Packet 4 commit recorded in `docs/PROGRESS.md`/the current session. Start by checking the worktree and commit status, then execute the targeted tests when dependencies are available. Do not mark Packet 4 or launch complete until legal approval and deployed Postgres/RLS evidence are attached to the launch tracker.
+The Packet 4 implementation follow-up is committed as `7cb208d3` (`feat(legal): harden organization DPA acceptance`) on `feat/enterprise-readiness-foundation`; the invite Terms acceptance foundation is in the prior commit. Continue from this branch and begin by confirming the worktree is clean, then run focused/full tests, TypeScript, and lint once dependencies are available. Do not mark Packet 4 or launch complete until qualified legal approval and deployed Postgres/RLS evidence are attached to the launch tracker.
