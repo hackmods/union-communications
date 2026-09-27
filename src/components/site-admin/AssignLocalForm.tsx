@@ -6,6 +6,7 @@ import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { Input } from "@/components/ui/Input";
 import {
   UNION_LOCAL_SELECT_OTHER,
   UnionLocalSelect,
@@ -45,6 +46,9 @@ export function AssignLocalForm({
   const [replaceActive, setReplaceActive] = useState(false);
   const [needsReplace, setNeedsReplace] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [mfaCode, setMfaCode] = useState("");
+  const [stepUpRequired, setStepUpRequired] = useState(false);
+  const [resultUnconfirmed, setResultUnconfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -83,6 +87,7 @@ export function AssignLocalForm({
       const body: Record<string, unknown> = {
         setPrimary: true,
         replaceActiveMembership: replace,
+        ...(mfaCode ? { mfaCode } : {}),
       };
       if (value.unionId === UNION_LOCAL_SELECT_OTHER) {
         body.newUnionName = value.newUnionName.trim();
@@ -114,20 +119,52 @@ export function AssignLocalForm({
         localId?: string;
       };
       if (!res.ok) {
-        if (data.code === "single_local_conflict") {
+        if (data.code === "mfa_step_up_required") {
+          setStepUpRequired(true);
+          setError(t("assignLocalStepUpRequired"));
+        } else if (data.code === "mfa_step_up_failed") {
+          setStepUpRequired(true);
+          setMfaCode("");
+          setError(t("assignLocalStepUpFailed"));
+        } else if (data.code === "mfa_step_up_limited") {
+          setStepUpRequired(true);
+          setMfaCode("");
+          setError(t("assignLocalStepUpLimited"));
+        } else if (
+          data.code === "mfa_step_up_unavailable" ||
+          data.code === "audit_unavailable"
+        ) {
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("assignLocalStepUpUnavailable"));
+        } else if (data.code === "assignment_audit_unavailable") {
+          setResultUnconfirmed(true);
+          setStepUpRequired(false);
+          setMfaCode("");
+          setError(t("assignLocalAuditUnconfirmed"));
+        } else if (data.code === "single_local_conflict") {
+          setStepUpRequired(false);
+          setMfaCode("");
           setNeedsReplace(true);
           setReplaceActive(true);
           setError(t("assignLocalSingleConflict"));
         } else {
+          setStepUpRequired(false);
+          setMfaCode("");
           setError(data.error ?? t("assignLocalFailed"));
         }
         return;
       }
+      setMfaCode("");
+      setStepUpRequired(false);
       setNeedsReplace(false);
       setSuccess(t("assignLocalSuccess"));
       router.refresh();
     } catch {
-      setError(t("assignLocalFailed"));
+      setResultUnconfirmed(true);
+      setStepUpRequired(false);
+      setMfaCode("");
+      setError(t("assignLocalAuditUnconfirmed"));
     } finally {
       setBusy(false);
     }
@@ -159,7 +196,7 @@ export function AssignLocalForm({
           setNeedsReplace(false);
           setValue(next);
         }}
-        disabled={busy}
+        disabled={busy || stepUpRequired || resultUnconfirmed}
         allowCreateLocal
       />
 
@@ -167,8 +204,38 @@ export function AssignLocalForm({
         checked={replaceActive}
         onChange={(e) => setReplaceActive(e.target.checked)}
         label={t("assignLocalReplace")}
-        disabled={busy}
+        disabled={busy || stepUpRequired || resultUnconfirmed}
       />
+
+      {stepUpRequired ? (
+        <div className="space-y-2">
+          <Input
+            label={t("assignLocalMfaCode")}
+            value={mfaCode}
+            onChange={(event) => setMfaCode(event.target.value)}
+            autoComplete="one-time-code"
+            maxLength={32}
+            autoFocus
+            required
+            disabled={busy}
+          />
+          <p className="text-xs text-opseu-gray-dark">
+            {t("assignLocalStepUpHelp")}
+          </p>
+          <Button
+            type="button"
+            variant="outline"
+            disabled={busy}
+            onClick={() => {
+              setMfaCode("");
+              setStepUpRequired(false);
+              setError(null);
+            }}
+          >
+            {t("assignLocalCancelStepUp")}
+          </Button>
+        </div>
+      ) : null}
 
       {error ? (
         <Callout tone="danger">
@@ -178,7 +245,7 @@ export function AssignLocalForm({
             <div className="mt-3">
               <Button
                 type="button"
-                disabled={busy}
+                disabled={busy || resultUnconfirmed || (stepUpRequired && !mfaCode.trim())}
                 onClick={() => void submitAssign({ replace: true })}
               >
                 {busy ? t("assignLocalSaving") : t("assignLocalReplaceSubmit")}
@@ -194,7 +261,10 @@ export function AssignLocalForm({
         </Callout>
       ) : null}
 
-      <Button type="submit" disabled={busy}>
+      <Button
+        type="submit"
+        disabled={busy || resultUnconfirmed || (stepUpRequired && !mfaCode.trim())}
+      >
         {busy ? t("assignLocalSaving") : t("assignLocalSubmit")}
       </Button>
     </form>

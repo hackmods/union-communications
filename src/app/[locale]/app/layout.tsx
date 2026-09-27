@@ -5,6 +5,7 @@ import { TotpEnrollmentGate } from "@/components/hub/TotpEnrollmentGate";
 import { HubNav } from "@/components/hub/HubNav";
 import { TenantLiveProvider } from "@/components/hub/TenantLiveProvider";
 import { isMfaEnabled } from "@/lib/auth/mfa-policy";
+import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { isMemoryCaseDataActive, listMemoryCaseDataBackendKeys } from "@/lib/db/backend";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
@@ -21,10 +22,14 @@ export default async function AppLayout({
 }) {
   await hydrateTenantOverlayFromPostgres();
   const mfaEnabled = isMfaEnabled();
+  const hostedCustomerMode = hostedCustomerProfileEnabled(process.env);
   const memoryCaseDataActive = isMemoryCaseDataActive();
   const memoryBackendKeys = listMemoryCaseDataBackendKeys();
   return (
-    <MfaPolicyProvider mfaEnabled={mfaEnabled}>
+    <MfaPolicyProvider
+      mfaEnabled={mfaEnabled}
+      hostedCustomerMode={hostedCustomerMode}
+    >
       <TotpEnrollmentGate>
         <TenantLiveProvider>
           <HubBannerStack

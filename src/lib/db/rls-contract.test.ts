@@ -56,6 +56,10 @@ describe("RLS policy contract (no live DB)", () => {
         expect(sql).toContain("app.current_mfa_verified");
         continue;
       }
+      if (row.migration === "0069_subprocessor_registry.sql" || row.migration === "0070_platform_incident_register.sql") {
+        expect(sql).toContain("public.customization_root(");
+        continue;
+      }
       // Circle memberships are explicit cross-local relationships. Preferences
       // stay union-bound and actor-bound, while the membership itself decides
       // the Circle; requiring the currently selected local would break invited
@@ -64,7 +68,12 @@ describe("RLS policy contract (no live DB)", () => {
         expect(sql).toContain("app_org_manage(");
         continue;
       }
-      const requiredGucs = row.migration === "0045_portal_write_policy_completion.sql"
+      const accountScoped = row.table.startsWith("mfa_")
+        || row.table.startsWith("platform_incident_")
+        || row.table.startsWith("subprocessor_");
+      const requiredGucs = accountScoped
+        ? ["app.current_user_id"]
+        : row.migration === "0045_portal_write_policy_completion.sql"
         || row.migration === "0046_portal_membership_integrity.sql"
         || row.migration === "0047_portal_circle_creator_read.sql"
         || row.migration === "0048_portal_circle_insert_returning.sql"

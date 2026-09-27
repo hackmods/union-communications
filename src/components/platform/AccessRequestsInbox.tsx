@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Select } from "@/components/ui/Select";
-import { Textarea } from "@/components/ui/Input";
+import { Input, Textarea } from "@/components/ui/Input";
 import { Link } from "@/i18n/navigation";
 import {
   UNION_LOCAL_SELECT_OTHER,
@@ -159,6 +159,9 @@ function RequestCard({
   }));
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [stepUpRequired, setStepUpRequired] = useState(false);
+  const [mfaCode, setMfaCode] = useState("");
+  const [resultUnconfirmed, setResultUnconfirmed] = useState(false);
 
   async function loadOptions() {
     const res = await fetch("/api/site-admin/tenant-options");
@@ -219,21 +222,49 @@ function RequestCard({
                   localNumber: scope.localNumber.trim(),
                   localSubText: scope.localSubText.trim() || undefined,
                 }
-              : {}),
+                : {}),
+            ...(stepUpRequired ? { mfaCode } : {}),
           }),
         });
         const created = (await createRes.json().catch(() => ({}))) as {
           error?: string;
+          code?: string;
           union?: { id: string };
           local?: { id: string } | null;
         };
         if (!createRes.ok || !created.union) {
-          setError(created.error ?? t("accessRequestsSaveFailed"));
+          if (created.code === "mfa_step_up_required") {
+            setStepUpRequired(true);
+            setError(t("accessRequestsMfaRequired"));
+          } else if (created.code === "mfa_step_up_failed") {
+            setStepUpRequired(true);
+            setMfaCode("");
+            setError(t("accessRequestsMfaFailed"));
+          } else if (created.code === "mfa_step_up_limited") {
+            setStepUpRequired(true);
+            setMfaCode("");
+            setError(t("accessRequestsMfaLimited"));
+          } else if (created.code === "audit_unavailable" || created.code === "mfa_step_up_unavailable" || created.code === "durable_storage_required") {
+            setStepUpRequired(false);
+            setMfaCode("");
+            setError(t("accessRequestsMfaUnavailable"));
+          } else if (created.code === "union_result_unconfirmed") {
+            setResultUnconfirmed(true);
+            setStepUpRequired(false);
+            setMfaCode("");
+            setError(t("accessRequestsProvisionResultUnconfirmed"));
+          } else {
+            setStepUpRequired(false);
+            setMfaCode("");
+            setError(created.error ?? t("accessRequestsSaveFailed"));
+          }
           return;
         }
+        setStepUpRequired(false);
+        setMfaCode("");
         unionId = created.union.id;
         localId = created.local?.id ?? localId;
-        await loadOptions();
+        void loadOptions().catch(() => undefined);
       } else if (scope.localNumber.trim() && unionId && !localId) {
         const localRes = await fetch("/api/site-admin/locals", {
           method: "POST",
@@ -243,18 +274,46 @@ function RequestCard({
             localNumber: scope.localNumber.trim(),
             localSubText: scope.localSubText.trim() || undefined,
             ...(scope.divisionId ? { divisionId: scope.divisionId } : {}),
+            ...(stepUpRequired ? { mfaCode } : {}),
           }),
         });
         const localData = (await localRes.json().catch(() => ({}))) as {
           error?: string;
+          code?: string;
           local?: { id: string };
         };
         if (!localRes.ok || !localData.local) {
-          setError(localData.error ?? t("accessRequestsSaveFailed"));
+          if (localData.code === "mfa_step_up_required") {
+            setStepUpRequired(true);
+            setError(t("accessRequestsMfaRequired"));
+          } else if (localData.code === "mfa_step_up_failed") {
+            setStepUpRequired(true);
+            setMfaCode("");
+            setError(t("accessRequestsMfaFailed"));
+          } else if (localData.code === "mfa_step_up_limited") {
+            setStepUpRequired(true);
+            setMfaCode("");
+            setError(t("accessRequestsMfaLimited"));
+          } else if (localData.code === "audit_unavailable" || localData.code === "mfa_step_up_unavailable" || localData.code === "durable_storage_required") {
+            setStepUpRequired(false);
+            setMfaCode("");
+            setError(t("accessRequestsMfaUnavailable"));
+          } else if (localData.code === "local_result_unconfirmed") {
+            setResultUnconfirmed(true);
+            setStepUpRequired(false);
+            setMfaCode("");
+            setError(t("accessRequestsProvisionResultUnconfirmed"));
+          } else {
+            setStepUpRequired(false);
+            setMfaCode("");
+            setError(localData.error ?? t("accessRequestsSaveFailed"));
+          }
           return;
         }
+        setStepUpRequired(false);
+        setMfaCode("");
         localId = localData.local.id;
-        await loadOptions();
+        void loadOptions().catch(() => undefined);
       }
 
       const next = { ...draft, unionId, localId };
@@ -361,10 +420,29 @@ function RequestCard({
           {error}
         </p>
       ) : null}
+      {stepUpRequired ? (
+        <div className="mt-3 space-y-2">
+          <Input
+            label={t("accessRequestsMfaCode")}
+            value={mfaCode}
+            onChange={(event) => setMfaCode(event.target.value)}
+            autoComplete="one-time-code"
+            maxLength={32}
+            autoFocus
+            disabled={busy || resultUnconfirmed}
+          />
+          <p className="text-xs text-gray-600">{t("accessRequestsMfaHelp")}</p>
+        </div>
+      ) : null}
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <Button disabled={busy} onClick={() => void saveReview()}>
+        <Button disabled={busy || resultUnconfirmed || (stepUpRequired && !mfaCode.trim())} onClick={() => void saveReview()}>
           {busy ? t("accessRequestsSaving") : t("accessRequestsSave")}
         </Button>
+        {resultUnconfirmed ? (
+          <Button variant="outline" disabled={busy} onClick={() => window.location.reload()}>
+            {t("accessRequestsReload")}
+          </Button>
+        ) : null}
         <Link
           href={`/app/invites?requestId=${draft.id}`}
           className="text-sm font-semibold text-opseu-blue underline"

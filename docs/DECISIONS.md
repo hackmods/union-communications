@@ -122,6 +122,7 @@
 - Implementation keys/routes may keep older slugs (`station`, `fronts`, `momentum`, `pipeline`, `/portal/fronts`) so bookmarks and `?tab=` stay stable.
 - Default persistence is the **memory** `portalStore` (same as other Hub modules until a Postgres + RLS adapter is flagged).
 - Portal does **not** require MFA; confidential Hub modules still do.
+- **Security-profile amendment (2026-09-27):** In a UnionOps-operated hosted customer instance, current privileged roles/capabilities, delegated administration, and Circle administrators must complete production TOTP before Portal pages or APIs grant access. Basic local members remain exempt unless their account enables MFA. Evaluation and self-hosted behavior remains operator-configurable. This amendment supersedes the general “Portal does not require MFA” line above for the hosted customer profile.
 - Do **not** land self-serve register / join-local / identity Drizzle schema in this Circles cut — keep main’s demo `passwordHash` auth and existing invite/onboarding.
 **Consequences:** Hub discussions/tasks/check-ins remain officer Hub surfaces; Portal is a parallel member-facing Circles product. Roster invites may use the demo user roster until a real directory exists. Do not restore analog brands (Station, Fronts, Momentum, Pipeline) or shop puns (Locker, On the table, The push, Shop board) as product titles.
 

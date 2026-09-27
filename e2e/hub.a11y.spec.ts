@@ -192,6 +192,16 @@ test.describe("Hub authenticated a11y", () => {
 const HUB_A11Y_SMOKE_PAGES = HUB_A11Y_PAGES.filter((p) =>
   ["dashboard", "grievances", "time"].includes(p.label),
 );
+const HUB_A11Y_SMOKE_CASES = [
+  ...HUB_A11Y_SMOKE_PAGES.map((page) => ({ ...page, locale: "en" as const })),
+  ...HUB_A11Y_PAGES
+    .filter((page) => ["dashboard", "grievances", "profile"].includes(page.label))
+    .map((page) => ({
+      ...page,
+      path: page.path.replace("/en/", "/fr/"),
+      locale: "fr" as const,
+    })),
+];
 
 test.describe("Hub authenticated a11y smoke subset @smoke", () => {
   test.describe.configure({ mode: "serial" });
@@ -200,8 +210,8 @@ test.describe("Hub authenticated a11y smoke subset @smoke", () => {
     await loginAsDemoOfficer(page);
   });
 
-  for (const { path, heading, label } of HUB_A11Y_SMOKE_PAGES) {
-    test(`${label} has no serious or critical a11y violations`, async ({
+  for (const { path, heading, label, locale } of HUB_A11Y_SMOKE_CASES) {
+    test(`${locale} ${label} has no serious or critical a11y violations`, async ({
       page,
     }) => {
       await page.goto(path);
@@ -215,4 +225,17 @@ test.describe("Hub authenticated a11y smoke subset @smoke", () => {
       await expectNoSeriousA11yViolations(page);
     });
   }
+
+  test("French MFA setup has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/fr/app/mfa/setup");
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: /Set up an authenticator|Configurer une appli/i,
+      }),
+    ).toBeVisible({ timeout: 20_000 });
+    await expectNoSeriousA11yViolations(page);
+  });
 });

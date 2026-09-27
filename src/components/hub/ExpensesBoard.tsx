@@ -1,7 +1,7 @@
 "use client";
 
 import { downloadBlob } from "@/lib/export/image-export";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
@@ -67,6 +67,13 @@ export function ExpensesBoard() {
   const [lines, setLines] = useState<LineDraft[]>([emptyLine()]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadTargetId, setUploadTargetId] = useState<string | null>(null);
+  const [pendingExport, setPendingExport] = useState<{
+    id: string;
+    format: "xlsx" | "pdf" | "zip";
+  } | null>(null);
+  const [exportMfaCode, setExportMfaCode] = useState("");
+  const [exportChallengeError, setExportChallengeError] = useState<string | null>(null);
+  const [exportBusy, setExportBusy] = useState(false);
 
   async function refresh() {
     const res = await fetch("/api/expenses");
@@ -150,18 +157,68 @@ export function ExpensesBoard() {
     await refresh();
   }
 
-  async function handleExport(id: string, format: "xlsx" | "pdf" | "zip") {
+  async function handleExport(
+    id: string,
+    format: "xlsx" | "pdf" | "zip",
+    mfaCode?: string,
+  ) {
+    if (exportBusy) return;
     setError(null);
-    const res = await fetch(`/api/expenses/${id}/export?format=${format}`);
-    if (!res.ok) {
-      setError(t("exportError"));
-      return;
+    setExportChallengeError(null);
+    if (mfaCode === undefined) {
+      setPendingExport(null);
+      setExportMfaCode("");
     }
-    const blob = await res.blob();
-    const disposition = res.headers.get("Content-Disposition") ?? "";
-    const match = disposition.match(/filename="([^"]+)"/);
-    void downloadBlob(blob, match?.[1] ?? `expense-export.${format}`);
-    setMessage(t("exported"));
+    setExportBusy(true);
+    try {
+      const res = await fetch(`/api/expenses/${id}/export`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ format, ...(mfaCode ? { mfaCode } : {}) }),
+      });
+      if (res.status === 428) {
+        setPendingExport({ id, format });
+        setExportMfaCode("");
+        return;
+      }
+      if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as
+          | { code?: string }
+          | null;
+        if (body?.code === "mfa_step_up_failed") {
+          setExportChallengeError(t("mfaStepUpFailed"));
+        } else if (body?.code === "mfa_step_up_limited") {
+          setExportChallengeError(t("mfaStepUpLimited"));
+        } else if (body?.code === "mfa_step_up_unavailable") {
+          setExportChallengeError(t("mfaStepUpUnavailable"));
+        } else if (
+          body?.code === "export_audit_unavailable" ||
+          body?.code === "audit_unavailable"
+        ) {
+          setError(t("exportAuditUnavailable"));
+        } else {
+          setError(t("exportError"));
+        }
+        return;
+      }
+      const blob = await res.blob();
+      const disposition = res.headers.get("Content-Disposition") ?? "";
+      const match = disposition.match(/filename="([^"]+)"/);
+      void downloadBlob(blob, match?.[1] ?? `expense-export.${format}`);
+      setPendingExport(null);
+      setExportMfaCode("");
+      setMessage(t("exported"));
+    } catch {
+      setError(t("exportError"));
+    } finally {
+      setExportBusy(false);
+    }
+  }
+
+  function submitExportStepUp(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!pendingExport || exportMfaCode.length !== 6) return;
+    void handleExport(pendingExport.id, pendingExport.format, exportMfaCode);
   }
 
   async function handleReceiptUpload(
@@ -403,6 +460,7 @@ export function ExpensesBoard() {
                       type="button"
                       variant="secondary"
                       size="sm"
+                      disabled={exportBusy}
                       onClick={() => void handleExport(submission.id, "xlsx")}
                     >
                       {t("exportXlsx")}
@@ -411,6 +469,7 @@ export function ExpensesBoard() {
                       type="button"
                       variant="secondary"
                       size="sm"
+                      disabled={exportBusy}
                       onClick={() => void handleExport(submission.id, "pdf")}
                     >
                       {t("exportPdf")}
@@ -419,12 +478,95 @@ export function ExpensesBoard() {
                       type="button"
                       variant="secondary"
                       size="sm"
+                      disabled={exportBusy}
                       onClick={() => void handleExport(submission.id, "zip")}
                     >
                       {t("exportZip")}
                     </Button>
                   </div>
                 </div>
+
+                {pendingExport?.id === submission.id && (
+                  <form
+                    className="space-y-3 rounded-md border border-amber-300 bg-amber-50 p-3"
+                    onSubmit={submitExportStepUp}
+                    aria-labelledby={`expense-export-mfa-${submission.id}`}
+                  >
+                    <div>
+                      <h3
+                        id={`expense-export-mfa-${submission.id}`}
+                        className="font-semibold text-amber-950"
+                      >
+                        {t("mfaStepUpTitle")}
+                      </h3>
+                      <p className="text-sm text-amber-900">
+                        {t("mfaStepUpHint", {
+                          title: submission.title,
+                          format:
+                            pendingExport.format === "xlsx"
+                              ? t("exportXlsx")
+                              : pendingExport.format === "pdf"
+                                ? t("exportPdf")
+                                : t("exportZip"),
+                        })}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+                      <label className="min-w-0 flex-1 text-sm font-medium text-amber-950">
+                        {t("mfaCode")}
+                        <input
+                          autoFocus
+                          required
+                          type="password"
+                          inputMode="numeric"
+                          autoComplete="one-time-code"
+                          pattern="[0-9]{6}"
+                          maxLength={6}
+                          disabled={exportBusy}
+                          aria-describedby={
+                            exportChallengeError
+                              ? `expense-export-mfa-error-${submission.id}`
+                              : undefined
+                          }
+                          className="mt-1 min-h-10 w-full rounded-md border border-amber-400 bg-white px-3 text-base text-gray-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
+                          value={exportMfaCode}
+                          onChange={(event) =>
+                            setExportMfaCode(event.target.value.replace(/\D/g, ""))
+                          }
+                        />
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          type="submit"
+                          disabled={exportBusy || exportMfaCode.length !== 6}
+                        >
+                          {t("mfaStepUpVerify")}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          disabled={exportBusy}
+                          onClick={() => {
+                            setPendingExport(null);
+                            setExportMfaCode("");
+                            setExportChallengeError(null);
+                          }}
+                        >
+                          {t("cancel")}
+                        </Button>
+                      </div>
+                    </div>
+                    {exportChallengeError && (
+                      <p
+                        id={`expense-export-mfa-error-${submission.id}`}
+                        className="text-sm text-red-800"
+                        role="alert"
+                      >
+                        {exportChallengeError}
+                      </p>
+                    )}
+                  </form>
+                )}
 
                 <ul className="divide-y divide-gray-100 text-sm">
                   {submission.lineItems.map((line) => (

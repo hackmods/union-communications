@@ -8,6 +8,8 @@ import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { authorityDelegations, localMemberships, locals, users } from "@/lib/db/schema";
 import { auditLog } from "@/lib/audit/store";
+import { createAuditRequestContext } from "@/lib/audit/request-correlation";
+import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 
 const DELEGABLE: Capability[] = ["grievances.case.read", "grievances.case.write", "grievances.member_updates.publish"];
 
@@ -54,21 +56,75 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  if (!isPostgresConfigured()) return NextResponse.json({ error: "Delegation management requires Postgres" }, { status: 503 });
-  const body = await request.json().catch(() => null) as { localId?: string; delegateUserId?: string; capability?: string; startsAt?: string; endsAt?: string; reason?: string } | null;
+  const correlation = createAuditRequestContext();
+  const respond = (body: unknown, init: ResponseInit = {}) => {
+    const headers = new Headers(init.headers);
+    headers.set("Cache-Control", "private, no-store");
+    return NextResponse.json(body, { ...init, headers: correlation.responseHeaders(headers) });
+  };
+
+  if (!isPostgresConfigured()) return respond({ error: "Delegation management requires Postgres" }, { status: 503 });
+  const body = await request.json().catch(() => null) as {
+    localId?: string;
+    delegateUserId?: string;
+    capability?: string;
+    startsAt?: string;
+    endsAt?: string;
+    reason?: string;
+    mfaCode?: string;
+  } | null;
   if (!body?.delegateUserId || !body.capability || !body.startsAt || !body.endsAt || !body.reason?.trim() || !DELEGABLE.includes(body.capability as Capability)) {
-    return NextResponse.json({ error: "delegateUserId, capability, start, expiry, and reason are required" }, { status: 400 });
+    return respond({ error: "delegateUserId, capability, start, expiry, and reason are required" }, { status: 400 });
+  }
+  if (body.mfaCode !== undefined && (typeof body.mfaCode !== "string" || body.mfaCode.length > 32)) {
+    return respond({ error: "Invalid MFA challenge" }, { status: 400 });
   }
   const scope = await resolveScope(body.localId);
-  if ("error" in scope) return NextResponse.json({ error: scope.error }, { status: scope.status });
+  if ("error" in scope) return respond({ error: scope.error }, { status: scope.status });
+  const recordOutcome = (
+    outcome: "success" | "denied" | "error",
+    resourceId: string,
+    metadata?: Record<string, string>,
+  ) => auditLog.log({
+    userId: scope.session.user.id!,
+    action: "delegation.create",
+    resourceType: "authority_delegation",
+    resourceId,
+    unionId: scope.unionId,
+    localId: scope.localId,
+    outcome,
+    requestId: correlation.requestId,
+    metadata,
+  });
   const capability = body.capability as Capability;
   if (!decideCapability(scope.actor, capability, { unionId: scope.unionId, localId: scope.localId }).allowed) {
-    return NextResponse.json({ error: "Delegation exceeds the grantor's authority" }, { status: 403 });
+    await recordOutcome("denied", body.delegateUserId, { reason: "grantor_authority_exceeded" });
+    return respond({ error: "Delegation exceeds the grantor's authority" }, { status: 403 });
   }
   const startsAt = new Date(body.startsAt);
   const endsAt = new Date(body.endsAt);
   if (Number.isNaN(startsAt.getTime()) || Number.isNaN(endsAt.getTime()) || startsAt >= endsAt || endsAt.getTime() - startsAt.getTime() > 90 * 24 * 60 * 60 * 1000 || body.reason.trim().length > 1000) {
-    return NextResponse.json({ error: "Delegation must have valid dates and expire within 90 days" }, { status: 400 });
+    await recordOutcome("denied", body.delegateUserId, { reason: "invalid_delegation_term" });
+    return respond({ error: "Delegation must have valid dates and expire within 90 days" }, { status: 400 });
+  }
+  const challenge = await verifyFreshMfaStepUp({
+    userId: scope.session.user.id!,
+    code: body.mfaCode,
+  });
+  if (!challenge.ok) {
+    await recordOutcome(challenge.outcome, body.delegateUserId, { reason: `mfa_step_up_${challenge.code}` });
+    return respond(
+      {
+        error: challenge.code === "required" ? "A fresh MFA code is required for this authority change." : "Fresh MFA verification failed.",
+        code: `mfa_step_up_${challenge.code}`,
+      },
+      {
+        status: challenge.status,
+        ...(challenge.retryAfterSeconds
+          ? { headers: { "Retry-After": String(challenge.retryAfterSeconds) } }
+          : {}),
+      },
+    );
   }
   const result = await withRlsContext(scope.rls, () => getDb().transaction(async (tx) => {
     const [delegate] = await tx.select({ id: users.id, unionId: users.unionId, archivedAt: users.archivedAt, lockedAt: users.lockedAt }).from(users).where(eq(users.id, body.delegateUserId!)).limit(1);
@@ -83,9 +139,17 @@ export async function POST(request: Request) {
       grantorUserId: scope.session.user.id, delegateUserId: body.delegateUserId!, startsAt, endsAt,
       reason: body.reason!.trim(),
     }).returning();
+    // Granting delegated sensitive access invalidates the recipient's prior
+    // MFA verification, including sessions in other active browser tabs.
+    await tx.execute(sql`UPDATE users SET session_version = session_version + 1 WHERE id = ${delegate.id}`);
     return { delegation };
   }));
-  if ("error" in result) return NextResponse.json({ error: result.error }, { status: 400 });
-  await auditLog.log({ userId: scope.session.user.id, action: "delegation.create", resourceType: "authority_delegation", resourceId: result.delegation.id, unionId: scope.unionId, localId: scope.localId });
-  return NextResponse.json({ delegation: result.delegation }, { status: 201 });
+  if ("error" in result) {
+    await recordOutcome("denied", body.delegateUserId, { reason: "delegate_membership_validation" });
+    return respond({ error: result.error }, { status: 400 });
+  }
+  await recordOutcome("success", result.delegation.id, {
+    capability: result.delegation.capability,
+  });
+  return respond({ delegation: result.delegation }, { status: 201 });
 }

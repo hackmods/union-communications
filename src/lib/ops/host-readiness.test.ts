@@ -52,7 +52,15 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     accessRequestNotifyConfigured: false,
     cronConfigured: false,
     mfaEnabled: false,
+    mfaMode: null,
+    hostedCustomerMode: false,
     demoAuthEnabled: true,
+    hostedControlEvidence: {
+      attachmentStorageApproved: false,
+      strictUploadScan: false,
+      backupRestoreEvidence: false,
+      alertDeliveryEvidence: false,
+    },
     observability: {
       sentryEnabled: false,
       sentryClientEnabled: false,
@@ -165,13 +173,21 @@ describe("buildHostReadiness", () => {
     expect(readiness.ready).toBe(false);
     expect(readiness.missingPresence.map((p) => p.id).sort()).toEqual([
       "accessRequestNotify",
+      "alertDeliveryEvidence",
+      "attachmentStorageApproved",
+      "backupRestoreEvidence",
       "cronConfigured",
       "mfaEnabled",
+      "strictUploadScan",
     ]);
     expect(readiness.missingAdvisoryPresence.map((p) => p.id).sort()).toEqual([
       "accessRequestNotify",
+      "alertDeliveryEvidence",
+      "attachmentStorageApproved",
+      "backupRestoreEvidence",
       "cronConfigured",
       "mfaEnabled",
+      "strictUploadScan",
     ]);
     expect(readiness.missingBlockingPresence).toEqual([]);
   });
@@ -216,11 +232,73 @@ describe("buildHostReadiness", () => {
 
     expect(readiness.ready).toBe(true);
     expect(readiness.missingAdvisoryPresence.map((p) => p.id).sort()).toEqual([
+      "alertDeliveryEvidence",
+      "attachmentStorageApproved",
+      "backupRestoreEvidence",
       "cronConfigured",
       "emailEnabled",
       "mfaEnabled",
+      "strictUploadScan",
     ]);
     expect(readiness.missingBlockingPresence).toEqual([]);
+  });
+
+  it("blocks hosted customer readiness unless production TOTP is configured", () => {
+    const backends = allMemoryBackends();
+    for (const key of HUB_POSTGRES_KEYS) backends[key] = "postgres";
+    backends.ACCESS_REQUEST_DB_BACKEND = "postgres";
+    backends.PORTAL_DB_BACKEND = "postgres";
+    const health = baseHealth({
+      postgresConfigured: true,
+      memoryCaseDataActive: false,
+      postgresFlipComplete: true,
+      demoAuthEnabled: false,
+      backends,
+      hostedCustomerMode: true,
+      mfaEnabled: true,
+      mfaMode: null,
+      databaseDeployment: {
+        version: 1,
+        mode: "postgres",
+        verified: true,
+        verifiedAt: "2026-09-23T12:03:50.988Z",
+        journalSchema: "drizzle",
+        tailTag: "0055_membership_policy_uniqueness",
+        tailIdx: 55,
+        tailCreatedAt: 1790200000000,
+        contractVersion: 1,
+        tables: 120,
+        columns: 1274,
+        policies: 134,
+      },
+      tenantRegistry: { unionCount: 1, seeded: true },
+    });
+    const blocked = buildHostReadiness(health);
+    expect(blocked.ready).toBe(false);
+    expect(blocked.missingBlockingPresence.map((row) => row.id)).toContain(
+      "mfaEnabled",
+    );
+    expect(blocked.missingBlockingPresence.map((row) => row.id)).toEqual(
+      expect.arrayContaining([
+        "attachmentStorageApproved",
+        "strictUploadScan",
+        "backupRestoreEvidence",
+        "alertDeliveryEvidence",
+      ]),
+    );
+
+    const ready = buildHostReadiness({
+      ...health,
+      mfaMode: "totp",
+      hostedControlEvidence: {
+        attachmentStorageApproved: true,
+        strictUploadScan: true,
+        backupRestoreEvidence: true,
+        alertDeliveryEvidence: true,
+      },
+    });
+    expect(ready.ready).toBe(true);
+    expect(ready.missingBlockingPresence).toEqual([]);
   });
 
   it("marks ready when flip complete and presence gates pass", () => {

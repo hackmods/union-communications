@@ -3,7 +3,9 @@
  * Post-deploy host readiness gate (mirrors src/lib/ops/host-readiness.ts).
  *
  * - Accepts intentional DATA_DB_BACKEND=memory
- * - MFA / email / cron are advisory — never fail the gate when MFA is off
+ * - MFA / email / cron are advisory outside the hosted customer profile
+ * - Hosted customer deployments must attest current storage, scanner, backup,
+ *   and alert evidence; the app cannot independently prove those operations
  * - Fails on missing postgres backends (except intentional memory), unverified
  *   migrate, memory case-data still active, or demo auth still on
  *
@@ -22,20 +24,19 @@ const url = `${base.endsWith("/api/health") ? base : `${base}/api/health`}`;
 /** Backends that may stay memory without failing the gate. */
 const INTENTIONAL_MEMORY = new Set(["DATA_DB_BACKEND"]);
 
-/** Presence ids that never fail CI (opt-in hardening only). */
-const ADVISORY_PRESENCE = new Set([
-  "emailEnabled",
-  "cronConfigured",
-  "mfaEnabled",
-]);
-
 const controller = new AbortController();
 const timer = setTimeout(() => controller.abort(), 15_000);
+const readinessSecret = process.env.HOST_READINESS_SECRET?.trim();
 
 /** @type {Response | undefined} */
 let res;
 try {
-  res = await fetch(url, { signal: controller.signal });
+  res = await fetch(url, {
+    signal: controller.signal,
+    headers: readinessSecret
+      ? { Authorization: `Bearer ${readinessSecret}` }
+      : undefined,
+  });
 } catch (err) {
   console.error(`[verify-host-readiness] Failed to reach ${url}:`, err);
   process.exitCode = 1;
@@ -69,6 +70,13 @@ if (process.exitCode) {
 
     let ok = true;
     ok = gate(body.status === "ok" || body.status === "degraded", "status reachable") && ok;
+    const hostedModeRequired = process.env.REQUIRE_HOSTED_CUSTOMER_MODE === "true";
+    ok = gate(
+      !hostedModeRequired || body.hostedCustomerMode === true,
+      hostedModeRequired
+        ? "hosted customer mode enabled"
+        : "hosted customer mode is optional for this target",
+    ) && ok;
     ok = gate(body.postgresConfigured === true, "postgresConfigured=true") && ok;
 
     const dep = /** @type {Record<string, unknown>} */ (body.databaseDeployment ?? {});
@@ -80,6 +88,41 @@ if (process.exitCode) {
     ok = gate(body.postgresFlipComplete === true, "postgresFlipComplete=true") && ok;
     ok = gate(body.memoryCaseDataActive === false, "memoryCaseDataActive=false") && ok;
     ok = gate(body.demoAuthEnabled === false, "demoAuthEnabled=false") && ok;
+
+    if (body.hostedCustomerMode === true) {
+      const evidenceAvailable =
+        typeof body.hostedControlEvidence === "object" &&
+        body.hostedControlEvidence !== null;
+      ok = gate(
+        evidenceAvailable,
+        "private hosted operational evidence is available (set HOST_READINESS_SECRET on host and CI)",
+      ) && ok;
+
+      ok = gate(
+        body.mfaEnabled === true && body.mfaMode === "totp",
+        "hosted customer production TOTP",
+      ) && ok;
+
+      const controls = /** @type {Record<string, unknown>} */ (
+        body.hostedControlEvidence ?? {}
+      );
+      ok = gate(
+        controls.attachmentStorageApproved === true,
+        "operator-attested attachment storage approval is current",
+      ) && ok;
+      ok = gate(
+        controls.strictUploadScan === true,
+        "strict upload scanner is configured and recently tested",
+      ) && ok;
+      ok = gate(
+        controls.backupRestoreEvidence === true,
+        "operator-attested backup and restore evidence is current",
+      ) && ok;
+      ok = gate(
+        controls.alertDeliveryEvidence === true,
+        "operator-attested alert delivery evidence is current",
+      ) && ok;
+    }
 
     const registry = /** @type {Record<string, unknown>} */ (body.tenantRegistry ?? {});
     ok =
@@ -104,10 +147,10 @@ if (process.exitCode) {
       }
     }
 
-    // Advisory only — log, never fail
+    // Advisory outside the hosted customer profile.
     if (body.mfaEnabled !== true) {
       console.log(
-        "[verify-host-readiness] NOTE mfaEnabled=false (advisory — MFA does not block casework)",
+        "[verify-host-readiness] NOTE mfaEnabled=false (advisory outside hosted customer mode)",
       );
     }
     if (body.emailEnabled !== true) {
@@ -116,9 +159,6 @@ if (process.exitCode) {
     if (body.cronConfigured !== true) {
       console.log("[verify-host-readiness] NOTE cronConfigured=false (advisory)");
     }
-
-    // Keep ADVISORY_PRESENCE referenced so future edits notice the set.
-    void ADVISORY_PRESENCE;
 
     if (!ok) process.exitCode = 1;
     else {

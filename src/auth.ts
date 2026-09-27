@@ -8,7 +8,7 @@ import { findInvitedUser } from "@/lib/auth/invites";
 import { consumeSignInGrant } from "@/lib/auth/sign-in-grants";
 import { loadAuthAccountById } from "@/lib/auth/sign-inable-account";
 import { auditLog } from "@/lib/audit/store";
-import { isMfaEnabled } from "@/lib/auth/mfa-policy";
+import { isHostedCustomerMode, isMfaEnabled } from "@/lib/auth/mfa-policy";
 import { reportServerError } from "@/lib/observability/report-server-error";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -47,7 +47,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             localId: account.localId,
           });
 
-          const mfaVerified = !isMfaEnabled() || !account.requiresMfa;
+          const mfaVerified =
+            !isMfaEnabled() || (!isHostedCustomerMode() && !account.requiresMfa);
           return {
             id: account.id,
             name: account.name,
@@ -58,6 +59,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             bargainingUnitId: account.bargainingUnitId,
             accessibleLocalIds: account.accessibleLocalIds,
             roles: account.roles,
+            mfaRequired: account.requiresMfa,
             mfaVerified,
             sessionVersion: account.sessionVersion ?? 0,
           };
@@ -89,8 +91,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           localId: account.localId,
         });
 
-        // MFA off by default (AUTH_MFA_ENABLED); when off, treat as verified for Hub access.
-        const mfaVerified = !isMfaEnabled() || !account.requiresMfa;
+        // The account's resolved MFA requirement is capability-aware in hosted mode.
+        const mfaVerified =
+          !isMfaEnabled() || (!isHostedCustomerMode() && !account.requiresMfa);
 
         return {
           id: account.id,
@@ -105,6 +108,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               ? account.accessibleLocalIds
               : undefined,
           roles: account.roles,
+          mfaRequired: account.requiresMfa,
           mfaVerified,
           sessionVersion: "sessionVersion" in account ? account.sessionVersion ?? 0 : 0,
         };

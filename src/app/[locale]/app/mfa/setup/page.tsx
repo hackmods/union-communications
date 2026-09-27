@@ -20,6 +20,7 @@ export default function MfaSetupPage() {
   const [secret, setSecret] = useState<string | null>(null);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
   const [code, setCode] = useState("");
+  const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -90,6 +91,8 @@ export default function MfaSetupPage() {
       return;
     }
 
+    const body = (await res.json()) as { recoveryCodes?: string[] };
+    setRecoveryCodes(body.recoveryCodes ?? []);
     setState("done");
   };
 
@@ -99,11 +102,23 @@ export default function MfaSetupPage() {
         <Card density="compact">
           <CardTitle className="text-base">{t("mfaSetupSuccess")}</CardTitle>
           <p className="mt-2 text-gray-600">{t("mfaSetupSuccessDesc")}</p>
+          <section className="mt-5" aria-labelledby="mfa-recovery-codes-heading">
+            <h2 id="mfa-recovery-codes-heading" className="font-semibold text-opseu-dark">
+              {t("mfaRecoveryCodesTitle")}
+            </h2>
+            <p className="mt-1 text-sm text-gray-600">{t("mfaRecoveryCodesSave")}</p>
+            <ul className="mt-3 grid grid-cols-1 gap-2 rounded-md bg-gray-50 p-3 font-mono text-sm sm:grid-cols-2" aria-label={t("mfaRecoveryCodesTitle")}>
+              {recoveryCodes.map((recoveryCode) => <li key={recoveryCode}>{recoveryCode}</li>)}
+            </ul>
+            {recoveryCodes.length === 0 && (
+              <p className="mt-2 text-sm text-red-700" role="alert">{t("mfaRecoveryCodesUnavailable")}</p>
+            )}
+          </section>
           <Button
             className="mt-4 min-h-11 w-full"
             onClick={() => router.push("/app/mfa")}
           >
-            {t("mfaSetupVerifyNow")}
+            {t("mfaRecoveryCodesContinue")}
           </Button>
         </Card>
       </PageShell>

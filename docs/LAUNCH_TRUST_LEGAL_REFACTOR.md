@@ -105,7 +105,7 @@ Relevant verified platform facts from this checkout:
 | Monitoring | Health endpoint; env-gated Sentry/JSONL; hosted readiness now requires current operator attestations for alert delivery and backup restore | Actual provider/jobs, delivery, restore, and measured RTO/RPO remain unverified | Verify provider/job/DB/storage/backup signals; actionable alerts and drills | Readiness config tests plus target-host alert delivery and restore records | Partial; app gate added, operating proof remains |
 | Retention/deletion | Initial schema/storage/lifecycle inventory in [`data-inventory-retention-register.md`](audit/data-inventory-retention-register.md); no approved schedules or central hold/purge service | Periods, legal holds, backup expiry, and per-domain deletion are not implemented or approved | Approve schedule by class; build dry-run, hold-aware deletion and evidence | Hold, tenant boundary, attachment, audit, retry, backup-expiry tests | Partial; engineering inventory captured, approvals and operations open |
 | Incident response | MFA-gated `/app/site-admin/incidents` register and action-bound API added; no incident records seeded and no drill evidence | Qualified notification decisions, approved retention, legal/customer duties, and an exercised incident/privacy-request workflow remain open | Use the restricted platform register for UnionOps-operated incidents; retain operator runbooks for self-hosted deployments; record decisions and metadata-only access evidence | Direct API denial, action-bound TOTP, rate-limited failed challenges, RLS/append-only SQL checks, field validation and controlled JSON export; live DB and drill pending | Partial; source implementation only |
-| Subprocessors | Restricted Postgres register and `/trust/subprocessors` projection added; second-admin review and publication/withdrawal require fresh MFA and correlated audit; hosted customer mode blocks without durable audit | Actual production providers and processing details remain unverified; DPA/vendor review and public field approval are not legal sign-off | Populate only from verified host configuration; second platform-admin review; publish allow-listed fields only after action-bound challenges | Migration `0065_subprocessor_registry.sql`, RLS/trigger checks, registry validation/projection, and review/publication step-up tests; deployed DB and provider evidence pending | Partial; code is present, provider inventory and operating review remain |
+| Subprocessors | Restricted Postgres register and `/trust/subprocessors` projection added; second-admin review and publication/withdrawal require fresh MFA and correlated audit; hosted customer mode blocks without durable audit | Actual production providers and processing details remain unverified; DPA/vendor review and public field approval are not legal sign-off | Populate only from verified host configuration; second platform-admin review; publish allow-listed fields only after action-bound challenges | Migration `0069_subprocessor_registry.sql`, RLS/trigger checks, registry validation/projection, and review/publication step-up tests; deployed DB and provider evidence pending | Partial; code is present, provider inventory and operating review remain |
 | Security scans | CI blocks critical/unexcepted high npm audit findings; weekly lockfile audit/Dependabot updates run; full-history Gitleaks and CRITICAL/HIGH Trivy scans are wired for demo, production-configured, and workflow-dispatch-selected images; extended CodeQL analysis and a weekly ZAP baseline workflow are configured; deploy requires applicable image, test, audit, and secret scan jobs | No approved staging hostname or GitHub `DAST_STAGING_URL` is configured, so ZAP explicitly skips and no DAST evidence exists; scanner runs/findings remain unobserved; CodeQL branch-protection enforcement is unverified; CapRover's independent Git/webhook deploy path is outside this workflow; container and npm exception approver governance remain open | Approve an isolated synthetic-data staging origin and add exact hostname to the allowlist; review ZAP/CodeQL reports; remediate or approve time-bounded exceptions; require CodeQL through branch protection; govern external deploy path | DAST target validator tests pass for absent, approved, production, local, malformed, and unapproved URLs; workflow/CI policy checks pass; live scans, scan report review, branch rule, Docker scanners, and hosted evidence pending | Partial |
 | Accessibility | Axe smoke covers eight localized Privacy, Security, Accessibility, and Trust/subprocessor routes; home/Create/Utilities/Learn, sign-in, invite error, selected Hub, and Portal journeys now include EN/FR paths | Successful invite activation and Site Admin document states lack dedicated E2E identities/fixtures; axe findings have not been executed in this checkout; keyboard/screen-reader/print review remains | Expand representative EN/FR journeys; add safe test identities and successful invite fixtures; keep WCAG 2.2 AA internal target and record manual evidence | Playwright cases exist in `e2e/smoke.spec.ts`, `e2e/hub.a11y.spec.ts`, and `e2e/portal.smoke.spec.ts`; execution pending dependencies | Partial; automated route matrix expanded, results and manual assessment pending |
 | Hosted durability | Postgres/RLS adapters, verified DB deployment gate, readiness checks for required backends/TOTP, and new hosted storage/scanner/backup/alert gates | Runtime flags and owner/date attestations do not independently prove provider policies, scan service behavior, restore quality, or alert delivery | Keep readiness checks, verify runtime DB role/RLS and deployed providers, exercise backup/restore and alerts, and close host-specific gaps | Unit tests for configuration/evidence rules; target-host RLS, scanner, restore, and alert evidence still required | Partial |
@@ -447,7 +447,7 @@ memory. MFA grants now have a durable hosted path; deployed verification
 remains required.
 
 **TOTP replay slice — 2026-09-27:** The verifier now returns the exact accepted
-RFC 6238 counter. New migration `0067_mfa_totp_replay_guard.sql` stores only
+RFC 6238 counter. New migration `0071_mfa_totp_replay_guard.sql` stores only
 the latest accepted counter per account under `FORCE ROW LEVEL SECURITY`;
 hosted mode fails closed unless Postgres-backed account storage is configured.
 An atomic conditional upsert allows a counter once across concurrent requests
@@ -458,13 +458,13 @@ visibility, cross-account denial, and writes in a rolled-back transaction.
 Focused tests cover exact-window counter matching, repeat rejection, and a
 concurrent duplicate. Typecheck, Vitest, generated DB shape, and live RLS are
 still pending in this dependency/database-free checkout. The table is replay
-state, not an event log. Migration `0069_mfa_verification_attempts.sql` now
+state, not an event log. Migration `0073_mfa_verification_attempts.sql` now
 adds a separate account-scoped 10-attempt/15-minute verifier window; its
 deployment and cross-replica RLS behavior remain unverified. TOTP-secret
 encryption remains separate work.
 
 **Session-grant slice — 2026-09-27:** Migration
-`0068_mfa_session_grants.sql` stores one latest grant row per account with a
+`0072_mfa_session_grants.sql` stores one latest grant row per account with a
 SHA-256 token digest, session version, issue/expiry times, and consumed time.
 Hosted mode fails closed without Postgres-backed accounts; issuing grants
 upserts the account row and consuming uses a single conditional `UPDATE ...
@@ -494,7 +494,7 @@ audit or prove production persistence/multi-replica behavior.
 Design note: [`session-knowledge-2026-09-27-portal-mfa-guard.md`](audit/session-knowledge-2026-09-27-portal-mfa-guard.md).
 
 **Security-audit evidence slice — 2026-09-27:** Migration
-`0070_audit_outcome_request_correlation.sql` adds an outcome and optional
+`0074_audit_outcome_request_correlation.sql` adds an outcome and optional
 request ID to audit rows. Existing outcomes are `unknown`; the database default
 is `success` only for new records. MFA verification and recovery-code rotation
 now record success, denial, or error with a server-generated UUID also returned
@@ -680,7 +680,7 @@ deletion includes linked stored files and audit evidence, incidents are private,
 and operational exercises produce retained evidence.
 
 **Implementation slice — 2026-09-27:** Added a platform-level incident register
-for UnionOps-operated hosting on migration `0066_platform_incident_register.sql`.
+for UnionOps-operated hosting on migration `0070_platform_incident_register.sql`.
 The site-admin page and every incident API require the platform-admin session,
 Postgres-backed accounts/storage, and TOTP mode; each view/create/update/export
 then needs a fresh TOTP challenge that issues a one-use, 60-second,
@@ -738,7 +738,7 @@ remain unverified because dependencies and an authorized host are unavailable.
 **Acceptance:** Register matches deployed services; internal fields do not leak;
 test alerts arrive; restore succeeds; readiness reports unmet required controls.
 
-**Implementation slice — 2026-09-27:** Added migration `0065_subprocessor_registry.sql`
+**Implementation slice — 2026-09-27:** Added migration `0069_subprocessor_registry.sql`
 with separate restricted internal records, a minimal public projection, and
 append-only audit evidence. RLS uses the existing MFA-aware platform-admin
 policy; public reads are limited to active projection rows. Insert/update
@@ -1088,7 +1088,7 @@ operator decision to expand.
   Packet 6. Full tests and deployed RLS/host evidence are unavailable. See
   [`session-knowledge-2026-09-27-org-authority-step-up.md`](audit/session-knowledge-2026-09-27-org-authority-step-up.md).
 - 2026-09-27: Added audit outcome and request-correlation fields in migration
-  `0070_audit_outcome_request_correlation.sql`. Historical outcomes remain
+  `0074_audit_outcome_request_correlation.sql`. Historical outcomes remain
   unknown; new rows default to success. The app role can append but not update
   or delete audit rows. MFA verification/recovery rotation and the operator
   audit-list endpoint use server-generated correlation IDs; broad route
@@ -1400,3 +1400,9 @@ operator decision to expand.
   closed unless attachment metadata and audit use Postgres. Direct route tests
   cover event records and an unavailable authorization audit; target-host RLS,
   object-storage, and audit verification remain open.
+
+
+### Integration note — prior hardening branch
+
+The pre Managed Documents hardening branch is being integrated after the merged document foundation. Its migrations are preserved and sequenced as 0068–0074 after Managed Documents 0064–0066 and acceptance evidence 0067. The old branch's file actions targeted the former grievance document API; the merged vault now uses archive and version-history operations, so those conflicting old endpoint implementations were not transplanted. Fresh MFA step-up for managed-vault download/archive remains a tracked verification item before hosted launch. The compatible hardening code, tests, operating guides, and registers are retained.
+

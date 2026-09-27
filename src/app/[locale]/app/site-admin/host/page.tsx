@@ -178,6 +178,10 @@ export default async function HostReadinessPage({
                       cronConfigured: "hostPresenceCron",
                       mfaEnabled: "hostPresenceMfa",
                       demoAuthOff: "hostPresenceDemoAuth",
+                      attachmentStorageApproved: "hostPresenceAttachmentStorage",
+                      strictUploadScan: "hostPresenceStrictScan",
+                      backupRestoreEvidence: "hostPresenceBackupRestore",
+                      alertDeliveryEvidence: "hostPresenceAlertDelivery",
                       publicDocumentsReady: "hostPresencePublicDocuments",
                     } as const
                   )[row.id],
@@ -211,6 +215,10 @@ export default async function HostReadinessPage({
                       cronConfigured: "hostPresenceCron",
                       mfaEnabled: "hostPresenceMfa",
                       demoAuthOff: "hostPresenceDemoAuth",
+                      attachmentStorageApproved: "hostPresenceAttachmentStorage",
+                      strictUploadScan: "hostPresenceStrictScan",
+                      backupRestoreEvidence: "hostPresenceBackupRestore",
+                      alertDeliveryEvidence: "hostPresenceAlertDelivery",
                       publicDocumentsReady: "hostPresencePublicDocuments",
                     } as const
                   )[row.id],

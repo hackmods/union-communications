@@ -17,6 +17,27 @@ Local Portal Circles collaboration is **authenticated and union-scoped**, with *
 
 **Production (unionops.org, 2026-08-24):** Postgres flip not complete; all backends memory; demo auth enabled; MFA off. Portal content remains ephemeral regardless of Hub flip status.
 
+### Revalidation addendum — 2026-09-27
+
+The production observations above are a dated snapshot and are not current-host
+evidence. Since this audit, a Postgres Portal adapter and RLS exist behind
+`PORTAL_DB_BACKEND`; memory remains the default. The app still has no member
+access/export/correction/deletion workflow for Circle content, so the old
+“when Postgres lands” remediation is stale. UnionOps-operated customer mode now
+requires production TOTP for privileged capabilities; Portal-specific MFA
+policy now uses the shared hosted customer profile: privileged roles,
+delegations, and Circle administrators must verify TOTP before Portal pages or
+APIs grant access; basic members remain exempt unless their account enables
+MFA. This supersedes ADR-017's general MFA exemption for the hosted profile.
+Append-only audit permissions and a complete Portal write audit trail remain
+unverified.
+
+PIPEDA breach wording in the older mapping below is also stale: where PIPEDA
+applies and its reporting threshold is met, the OPC says report and notify as
+soon as feasible after determining a breach occurred. PIPEDA breach records
+must be retained for 24 months from that determination. The app still has no
+restricted incident register, and counsel must confirm which law applies.
+
 ---
 
 ## Explicit verdict
@@ -65,7 +86,7 @@ Local Portal Circles collaboration is **authenticated and union-scoped**, with *
 }
 ```
 
-**Note:** `backends` lists 21 module flags from [`DB_BACKEND_ENV_KEYS`](../src/lib/db/backend.ts). **No Portal key exists.** CapRover flip guide ([CAPROVER_POSTGRES.md](../guides/CAPROVER_POSTGRES.md)) does not mention Portal persistence.
+**Note (2026-08-24 snapshot):** The historical `backends` list had 21 module flags and no Portal key. `PORTAL_DB_BACKEND` is now included in [`DB_BACKEND_ENV_KEYS`](../src/lib/db/backend.ts); verify its effective value and RLS behavior on the target host.
 
 ---
 
@@ -76,7 +97,7 @@ Local Portal Circles collaboration is **authenticated and union-scoped**, with *
 | **Together** | Circle list, my Actions, recent Bulletin summaries | `portalStore` memory | No | TLS + session cookie | `requirePortalPage` + `GET /api/portal/station` | Ephemeral; GET mutates Hall | Ship `PORTAL_DB_BACKEND` + RLS (separate ticket) |
 | **Hall** (default Circle) | Same as Circle workspace | Memory | No | TLS | Membership + `hydrateLocalHall` | Memory-only | Enable durable storage before real use |
 | **Bulletin** | title, body, authorName, comments | Memory | No | TLS | Circle member read; writer for POST | IDOR fixed 2026-08-24 | Keep circle-scoped tests |
-| **Floor** | Chat messages, @mentions | Memory | No | TLS | Circle member | No delete path | Add delete + audit when Postgres lands |
+| **Floor** | Chat messages, @mentions | Memory (2026-08-24 snapshot) | No | TLS | Circle member | No delete path | Keep delete, audit, and retention behavior complete in the durable adapter; current evidence is pending |
 | **Sidebars** | 1:1 DMs, participant names | Memory | No | TLS | Participant check on read/send | Recipient now validated against union roster | Consider circle-local DM policy later |
 | **Actions** | Titles, notes, assignee names | Memory | No | TLS | Circle writer | IDOR on complete fixed | — |
 | **Calendar** | Events, location, external URL | Memory | No | TLS | Circle member | No soft-delete | Postgres + retention policy |
@@ -157,7 +178,7 @@ export async function requirePortalSession(): Promise<PortalSessionResult> {
 - **All 9** `/api/portal/**` route files use `requirePortalSession` (verified; [`api-route-auth.test.ts`](../src/lib/auth/api-route-auth.test.ts)).
 - **No cross-union reads** — `unionId` from session on every store call.
 - **Hub separation** — no grievance/bumping imports under portal APIs.
-- **MFA:** Not required for Portal (ADR-017). Acceptable for Internal-class content; document risk for caucus/strategy Circles.
+- **MFA (historical as of 2026-08-24):** Portal was exempt under ADR-017. The 2026-09-27 hosted customer profile amendment now requires TOTP for privileged roles/capabilities, delegations, and Circle administrators.
 
 **IDOR (fixed 2026-08-24):** Mutations now verify resource `circleId` matches route Circle in `memory-adapter` + [`portal-idor.test.ts`](../src/lib/portal/portal-idor.test.ts).
 
@@ -175,7 +196,7 @@ export async function requirePortalSession(): Promise<PortalSessionResult> {
 |-----------|--------|
 | Soft-delete | Bulletin, Actions, Binder only |
 | Audit trail | Partial `pushAudit` — not all writes |
-| Retention | No portal-specific policy; 7-year default is grievance-focused |
+| Retention | No portal-specific or universal approved schedule; no central hold/purge workflow is implemented |
 | Operator purge | No portal API; restart clears memory |
 | Breach playbook | [COMPLIANCE.md](../COMPLIANCE.md) § Breach Response — operator duty |
 
@@ -192,7 +213,7 @@ export async function requirePortalSession(): Promise<PortalSessionResult> {
 | Medium | Missing Cache-Control on portal APIs | Other sensitive routes set no-store | **Fixed 2026-08-24** |
 | Medium | Sidebar arbitrary recipient | DM to any `toId` | **Fixed 2026-08-24** |
 | Medium | Partial portal audit log | COMPLIANCE immutable audit for grievance | **Open** |
-| Low | MFA off | ADR-017 by design | Document risk |
+| Low | MFA off (2026-08-24 snapshot) | ADR-017 at the time | Superseded by the 2026-09-27 hosted-profile requirement |
 | Low | `activity_pack` for viewer role | Full JSON export | **Fixed 2026-08-24** — admin-only |
 | Info | Prod all-memory + demo auth | Evaluation build posture | Ops flip in progress |
 
@@ -204,12 +225,17 @@ export async function requirePortalSession(): Promise<PortalSessionResult> {
 |-------------|------------------|-----|
 | **Consent** | Invite-only Hub/Portal access; send-feedback requires consent checkbox (ADR-018) | No separate Portal ToS |
 | **Data minimization** | No email in Circles entities; feedback optional contact | Free-text may contain member references |
-| **Access rights** | No member export API for Circles; activity-pack for circle admins | Add export/erase when Postgres lands |
-| **Breach notification (72h)** | Operator playbook in COMPLIANCE | Portal memory loss ≠ breach, but no durable audit |
+| **Access rights** | No member export API for Circles; activity-pack for circle admins | Member access/correction/deletion workflow remains unimplemented |
+| **Breach response** | Where PIPEDA applies and its reporting threshold is met, report and notify as soon as feasible after determination | No restricted incident register; confirm law and roles with counsel |
 | **FIPPA pseudonym** | Display names used; no pseudonym mode | Stewards should avoid member numbers in Floor/Bulletin |
 | **Privacy by design** | No analytics; separation from grievance | Memory-only weakens accountability |
 
 **Controller:** Instance operator is data controller for hosted Portal ([COMPLIANCE.md](../COMPLIANCE.md), ADR-019).
+
+**Snapshot qualification (2026-09-27):** The surface inventory and backend
+observations above describe the 2026-08-24 audit. In particular, memory-only
+statements are not claims about every current deployment. Check the current
+source and target-host health/configuration before using them operationally.
 
 ---
 

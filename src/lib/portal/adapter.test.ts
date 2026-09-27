@@ -41,6 +41,10 @@ describe("Portal adapter contract", () => {
     })).rejects.toThrow("creator must match the authenticated actor");
     await expect(postgres.softDelete("bulletin", "post-1", "circle-1", "union-b7p", "other-user"))
       .rejects.toThrow("delete actor must match the authenticated actor");
+    await expect(postgres.hasAdminCircleMembership("other-union", "portal-actor"))
+      .resolves.toBe(false);
+    await expect(postgres.hasAdminCircleMembership("union-b7p", "other-user"))
+      .resolves.toBe(false);
   });
 
   it("provides async Circle, tool, search, deletion, and participant behavior", async () => {
@@ -116,5 +120,27 @@ describe("Portal adapter contract", () => {
     expect(
       (await portal.getCircleDetail(unionId, authorId, circle.id))?.bulletin,
     ).not.toContainEqual(expect.objectContaining({ id: post.id }));
+  });
+
+  it("reports active Circle administrator authority for the scoped union", async () => {
+    vi.stubEnv("PORTAL_DB_BACKEND", "memory");
+    const portal = portalAdapterForMemoryTests();
+    const suffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const unionId = "union-b7p";
+    const userId = `portal-circle-admin-${suffix}`;
+    const circle = await portal.createCircle({
+      unionId,
+      kind: "committee",
+      name: `MFA test ${suffix}`,
+      visibility: "invited",
+      createdById: userId,
+      createdByName: "Circle Admin",
+    });
+
+    expect(await portal.hasAdminCircleMembership(unionId, userId)).toBe(true);
+    expect(await portal.hasAdminCircleMembership("other-union", userId)).toBe(false);
+    expect(await portal.hasAdminCircleMembership(unionId, "other-user")).toBe(false);
+    await portal.archiveCircle(circle.id, unionId);
+    expect(await portal.hasAdminCircleMembership(unionId, userId)).toBe(false);
   });
 });

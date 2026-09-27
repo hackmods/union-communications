@@ -4,6 +4,14 @@
 
 **No `zod`, `drizzle-orm`, `pg`, or `prisma` dependency exists in `package.json` today.** All of this is greenfield.
 
+> **Historical blueprint:** this document captures an earlier proposed design
+> and is not current implementation guidance. In particular, the MFA grant
+> example below used process memory. The hosted implementation now uses the
+> account-scoped, hashed grant in migration `0072_mfa_session_grants.sql`; see
+> [`session-knowledge-2026-09-27-mfa-grants.md`](session-knowledge-2026-09-27-mfa-grants.md)
+> and the active [`launch readiness tracker`](../LAUNCH_TRUST_LEGAL_REFACTOR.md).
+> Verify current source and ADR-020 before applying any other blueprint steps.
+
 ---
 
 ## 1. Zod validation schemas

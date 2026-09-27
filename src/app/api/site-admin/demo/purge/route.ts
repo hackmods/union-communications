@@ -7,6 +7,7 @@ import {
 } from "@/lib/db/owner-client";
 import { users } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
 import { verifyPassword } from "@/lib/auth/password";
 import { auditLog } from "@/lib/audit/store";
 import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
@@ -33,6 +34,11 @@ export async function POST(req: Request) {
   const gate = await requireSiteAdminSession();
   if (!gate.ok) {
     return NextResponse.json({ error: gate.error }, { status: gate.status });
+  }
+  // Demo cleanup is never a customer-host operation. Keep it out of the
+  // hosted customer profile even if a demo-only feature flag is mis-set.
+  if (isHostedCustomerMode()) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
   if (!isDemoPurgeEnabled()) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });

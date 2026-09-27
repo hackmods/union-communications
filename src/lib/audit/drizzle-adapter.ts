@@ -3,7 +3,7 @@ import { getDb } from "@/lib/db/client";
 import { applyRlsContext } from "@/lib/db/rls-context";
 import { auditLog as auditLogTable } from "@/lib/db/schema";
 import { resolveAuditUnionId } from "@/lib/audit/resolve-audit-union-id";
-import type { AuditEntry, AuditLogAdapter } from "./adapter";
+import type { AuditEntry, AuditLogAdapter, AuditLogInput } from "./adapter";
 
 function toIso(value: Date | string): string {
   return value instanceof Date ? value.toISOString() : value;
@@ -11,7 +11,7 @@ function toIso(value: Date | string): string {
 
 export class DrizzleAuditLogAdapter implements AuditLogAdapter {
   async log(
-    entry: Omit<AuditEntry, "id" | "timestamp">,
+    entry: AuditLogInput,
   ): Promise<AuditEntry> {
     const db = getDb();
     const id = `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -35,12 +35,15 @@ export class DrizzleAuditLogAdapter implements AuditLogAdapter {
         unionId: unionId ?? null,
         localId: entry.localId,
         metadata: entry.metadata ?? null,
+        outcome: entry.outcome ?? "success",
+        requestId: entry.requestId ?? null,
         timestamp,
       });
     });
     return {
       ...entry,
       unionId,
+      outcome: entry.outcome ?? "success",
       id,
       timestamp: timestamp.toISOString(),
     };
@@ -90,6 +93,8 @@ export class DrizzleAuditLogAdapter implements AuditLogAdapter {
       unionId: row.unionId ?? undefined,
       localId: row.localId ?? undefined,
       metadata: row.metadata ?? undefined,
+      outcome: row.outcome,
+      requestId: row.requestId ?? undefined,
       timestamp: toIso(row.timestamp),
     }));
   }

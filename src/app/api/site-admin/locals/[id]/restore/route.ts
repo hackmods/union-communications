@@ -3,25 +3,91 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import { locals } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
+import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
+import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 import { auditLog } from "@/lib/audit/store";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
 
-/**
- * POST /api/site-admin/locals/[id]/restore — counter to `/archive`.
- */
+/** POST /api/site-admin/locals/[id]/restore — restore an archived local. */
 export async function POST(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const correlation = createAuditRequestContext();
+  const respond = (body: unknown, status = 200, extra?: HeadersInit) => {
+    const headers = new Headers(extra);
+    headers.set("Cache-Control", "private, no-store");
+    return NextResponse.json(body, {
+      status,
+      headers: correlation.responseHeaders(headers),
+    });
+  };
+
   const gate = await requireSiteAdminSession();
-  if (!gate.ok) {
-    return NextResponse.json({ error: gate.error }, { status: gate.status });
-  }
+  if (!gate.ok) return respond({ error: gate.error }, gate.status);
   const { id } = await params;
-  if (!id) {
-    return NextResponse.json({ error: "Missing local id" }, { status: 400 });
+  if (!id) return respond({ error: "Missing local id" }, 400);
+
+  const raw = await req.json().catch(() => null);
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+    return respond({ error: "Invalid restore request" }, 400);
+  }
+  const body = raw as { mfaCode?: unknown };
+  if (
+    Object.keys(body).some((key) => key !== "mfaCode") ||
+    (body.mfaCode !== undefined &&
+      (typeof body.mfaCode !== "string" || body.mfaCode.length > 32))
+  ) {
+    return respond({ error: "Invalid restore request" }, 400);
   }
 
+  const recordOutcome = (
+    outcome: "success" | "denied" | "error",
+    metadata: Record<string, string>,
+    unionId?: string,
+  ) =>
+    auditLog.log({
+      userId: gate.session.user.id,
+      action: "site_admin.local.restore",
+      resourceType: "site_admin",
+      resourceId: id,
+      unionId,
+      outcome,
+      requestId: correlation.requestId,
+      metadata,
+    });
+
+  const challenge = await verifyFreshMfaStepUp({
+    userId: gate.session.user.id,
+    code: typeof body.mfaCode === "string" ? body.mfaCode : undefined,
+  });
+  if (!challenge.ok) {
+    try {
+      await recordOutcome(challenge.outcome, {
+        reason: `mfa_step_up_${challenge.code}`,
+      });
+    } catch {
+      return respond(
+        { error: "Audit service unavailable", code: "audit_unavailable" },
+        503,
+      );
+    }
+    const headers = new Headers();
+    if (challenge.retryAfterSeconds) {
+      headers.set("Retry-After", String(challenge.retryAfterSeconds));
+    }
+    return respond(
+      {
+        error: "Fresh MFA is required before restoring a local.",
+        code: `mfa_step_up_${challenge.code}`,
+      },
+      challenge.status,
+      headers,
+    );
+  }
+
+  let mutationStarted = false;
+  let targetUnionId: string | undefined;
   try {
     const db = getDb();
     const existing = await db
@@ -30,26 +96,73 @@ export async function POST(
       .where(eq(locals.id, id))
       .limit(1);
     if (!existing[0]) {
-      return NextResponse.json({ error: "Local not found" }, { status: 404 });
+      await recordOutcome("denied", { reason: "local_not_found" }).catch(
+        () => undefined,
+      );
+      return respond({ error: "Local not found" }, 404);
+    }
+    targetUnionId = existing[0].unionId ?? undefined;
+
+    try {
+      await recordOutcome(
+        "success",
+        { phase: "restore_authorized" },
+        existing[0].unionId ?? undefined,
+      );
+    } catch {
+      return respond(
+        {
+          error:
+            "The local was not restored because its audit record could not be confirmed.",
+          code: "audit_unavailable",
+        },
+        503,
+      );
     }
 
+    mutationStarted = true;
     await db
       .update(locals)
       .set({ archivedAt: null, archivedById: null })
       .where(eq(locals.id, id));
 
-    await auditLog.log({
-      userId: gate.session.user.id,
-      action: "site_admin.local.restore",
-      resourceType: "site_admin",
-      resourceId: id,
-      unionId: existing[0].unionId ?? undefined,
-      metadata: { localId: id },
-    });
-
-    return NextResponse.json({ ok: true });
-  } catch (err) {
-    reportApiFailure(err, "/api/site-admin/locals/[id]/restore");
-    return NextResponse.json({ error: "Restore failed" }, { status: 500 });
+    try {
+      await recordOutcome(
+        "success",
+        { phase: "restore_result", localId: id },
+        existing[0].unionId ?? undefined,
+      );
+    } catch {
+      return respond(
+        {
+          error: "The local may have been restored, but the result audit could not be confirmed. Check its status before retrying.",
+          code: "local_action_audit_unavailable",
+        },
+        503,
+      );
+    }
+    return respond({ ok: true });
+  } catch (error) {
+    reportApiFailure(error, "/api/site-admin/locals/[id]/restore");
+    await recordOutcome(
+      "error",
+      {
+        reason: mutationStarted
+          ? "restore_outcome_unconfirmed"
+          : "restore_failed",
+      },
+      targetUnionId,
+    ).catch(() => undefined);
+    if (mutationStarted) {
+      return respond(
+        {
+          error:
+            "The local may have been restored, but the result could not be confirmed. Check its status before retrying.",
+          code: "local_action_outcome_unconfirmed",
+        },
+        503,
+      );
+    }
+    return respond({ error: "Restore failed" }, 500);
   }
 }

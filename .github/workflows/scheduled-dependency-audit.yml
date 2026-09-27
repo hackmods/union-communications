@@ -1,0 +1,47 @@
+name: Scheduled dependency audit
+
+on:
+  schedule:
+    - cron: "17 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scheduled-dependency-audit-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  npm-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install lockfile dependencies
+        run: npm ci
+
+      - name: Audit locked dependencies
+        shell: bash
+        run: |
+          audit_file="$RUNNER_TEMP/npm-audit.json"
+          audit_status=0
+          npm audit --json > "$audit_file" || audit_status=$?
+          node scripts/check-npm-audit.mjs \
+            "$audit_file" \
+            .github/security/npm-audit-exceptions.json \
+            "$audit_status"
+
+      - name: Upload complete audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-${{ github.run_id }}
+          path: ${{ runner.temp }}/npm-audit.json
+          if-no-files-found: ignore
+          retention-days: 30

@@ -22,10 +22,12 @@ import {
 
 type CreateInviteResponse = {
   id: string;
+  unionId: string;
   email: string;
   expiresAt: string;
   acceptPath: string;
   token: string;
+  localId?: string;
   emailSent?: boolean;
   emailReason?: string;
 };
@@ -84,6 +86,10 @@ export function InvitesBoard() {
   const [copied, setCopied] = useState(false);
   const [sendingEmail, setSendingEmail] = useState(false);
   const [emailStatus, setEmailStatus] = useState<string | null>(null);
+  const [teamStepUpRequired, setTeamStepUpRequired] = useState(false);
+  const [presidentStepUpRequired, setPresidentStepUpRequired] = useState(false);
+  const [mfaCode, setMfaCode] = useState("");
+  const [unionResultUnconfirmed, setUnionResultUnconfirmed] = useState(false);
 
   const [inviteRoles, setInviteRoles] = useState<InviteRoleOption[]>([
     "local_steward",
@@ -256,7 +262,10 @@ export function InvitesBoard() {
     };
   }, [requestId, t]);
 
-  function scopePayload(scope: UnionLocalSelectValue): Record<string, unknown> {
+  function scopePayload(
+    scope: UnionLocalSelectValue,
+    challengeCode?: string,
+  ): Record<string, unknown> {
     const payload: Record<string, unknown> = {};
     if (scope.unionId === UNION_LOCAL_SELECT_OTHER) {
       payload.newUnionName = scope.newUnionName.trim();
@@ -275,6 +284,7 @@ export function InvitesBoard() {
       payload.bargainingUnitId = scope.bargainingUnitId;
     }
     if (requestId) payload.requestId = requestId;
+    if (challengeCode) payload.mfaCode = challengeCode;
     return payload;
   }
 
@@ -310,6 +320,7 @@ export function InvitesBoard() {
       return;
     }
     setLoading(true);
+    let inviteResponseConfirmed = false;
     try {
       const res = await fetch("/api/invites", {
         method: "POST",
@@ -318,31 +329,70 @@ export function InvitesBoard() {
           email,
           name,
           roles,
-          ...scopePayload(teamLocal),
+          ...scopePayload(teamLocal, teamStepUpRequired ? mfaCode : undefined),
           ...(emailUiEnabled && sendEmailOnCreate ? { sendEmail: true } : {}),
         }),
       });
       if (!res.ok) {
-        setError(t("createError"));
+        const failure = (await res.json().catch(() => ({}))) as { code?: string };
+        if (failure.code?.startsWith("mfa_step_up_")) {
+          setTeamStepUpRequired(true);
+          setError(
+            failure.code === "mfa_step_up_required" ? null : t("mfaStepUpFailed"),
+          );
+        } else if (failure.code === "union_result_unconfirmed") {
+          setUnionResultUnconfirmed(true);
+          setError(null);
+        } else if (
+          teamLocal.unionId === UNION_LOCAL_SELECT_OTHER &&
+          res.status >= 500 &&
+          failure.code !== "audit_unavailable" &&
+          failure.code !== "durable_storage_required"
+        ) {
+          setUnionResultUnconfirmed(true);
+          setError(null);
+        } else {
+          setError(
+            failure.code === "durable_storage_required"
+              ? t("hostedStorageRequired")
+              : t("createError"),
+          );
+        }
         return;
       }
       const data = (await res.json()) as CreateInviteResponse;
+      inviteResponseConfirmed = true;
       applyEmailResult(data);
       setEmail("");
       setName("");
+      setMfaCode("");
+      setTeamStepUpRequired(false);
+      if (teamLocal.unionId === UNION_LOCAL_SELECT_OTHER) {
+        setTeamLocal((prev) => ({
+          ...prev,
+          unionId: data.unionId,
+          newUnionName: "",
+          localId: data.localId ?? "",
+          localNumber: "",
+          localSubText: "",
+        }));
+      }
       setRequestId(null);
       if (typeof window !== "undefined") {
         const url = new URL(window.location.href);
         url.searchParams.delete("requestId");
         window.history.replaceState({}, "", url.pathname + url.search);
       }
-      await refresh(
-        teamLocal.unionId !== UNION_LOCAL_SELECT_OTHER
-          ? teamLocal.unionId
-          : undefined,
-      );
+      await refresh(data.unionId);
     } catch {
-      setError(t("createError"));
+      if (!inviteResponseConfirmed && teamLocal.unionId === UNION_LOCAL_SELECT_OTHER) {
+        setUnionResultUnconfirmed(true);
+        setError(null);
+      } else if (inviteResponseConfirmed) {
+        setLoadError(t("loadError"));
+      } else {
+        setError(t("createError"));
+      }
     } finally {
       setLoading(false);
     }
@@ -355,6 +405,7 @@ export function InvitesBoard() {
     setCopied(false);
     setEmailStatus(null);
     setPresidentBusy(true);
+    let inviteResponseConfirmed = false;
     try {
       const res = await fetch("/api/invites", {
         method: "POST",
@@ -363,7 +414,10 @@ export function InvitesBoard() {
           email: presidentEmail,
           name: presidentName,
           roles: ["local_president"],
-          ...scopePayload(presidentLocal),
+          ...scopePayload(
+            presidentLocal,
+            presidentStepUpRequired ? mfaCode : undefined,
+          ),
           ...(presidentCollectionCode.trim() && presidentCollectionName.trim()
             ? {
                 collectionCode: presidentCollectionCode.trim(),
@@ -374,24 +428,64 @@ export function InvitesBoard() {
         }),
       });
       if (!res.ok) {
-        setPresidentError(t("presidentCreateError"));
+        const failure = (await res.json().catch(() => ({}))) as { code?: string };
+        if (failure.code?.startsWith("mfa_step_up_")) {
+          setPresidentStepUpRequired(true);
+          setPresidentError(
+            failure.code === "mfa_step_up_required" ? null : t("mfaStepUpFailed"),
+          );
+        } else if (failure.code === "union_result_unconfirmed") {
+          setUnionResultUnconfirmed(true);
+          setPresidentError(null);
+        } else if (
+          presidentLocal.unionId === UNION_LOCAL_SELECT_OTHER &&
+          res.status >= 500 &&
+          failure.code !== "audit_unavailable" &&
+          failure.code !== "durable_storage_required"
+        ) {
+          setUnionResultUnconfirmed(true);
+          setPresidentError(null);
+        } else {
+          setPresidentError(
+            failure.code === "durable_storage_required"
+              ? t("hostedStorageRequired")
+              : t("presidentCreateError"),
+          );
+        }
         return;
       }
       const data = (await res.json()) as CreateInviteResponse;
+      inviteResponseConfirmed = true;
       applyEmailResult(data);
       setPresidentEmail("");
       setPresidentName("");
-      setPresidentLocal(emptyUnionLocalSelectValue());
+      setMfaCode("");
+      setPresidentStepUpRequired(false);
+      setPresidentLocal(
+        presidentLocal.unionId === UNION_LOCAL_SELECT_OTHER
+          ? {
+              ...presidentLocal,
+              unionId: data.unionId,
+              newUnionName: "",
+              localId: data.localId ?? "",
+              localNumber: "",
+              localSubText: "",
+            }
+          : emptyUnionLocalSelectValue(),
+      );
       setPresidentCollectionCode("");
       setPresidentCollectionName("");
       setRequestId(null);
-      await refresh(
-        presidentLocal.unionId !== UNION_LOCAL_SELECT_OTHER
-          ? presidentLocal.unionId
-          : undefined,
-      );
+      await refresh(data.unionId);
     } catch {
-      setPresidentError(t("presidentCreateError"));
+      if (!inviteResponseConfirmed && presidentLocal.unionId === UNION_LOCAL_SELECT_OTHER) {
+        setUnionResultUnconfirmed(true);
+        setPresidentError(null);
+      } else if (inviteResponseConfirmed) {
+        setLoadError(t("loadError"));
+      } else {
+        setPresidentError(t("presidentCreateError"));
+      }
     } finally {
       setPresidentBusy(false);
     }
@@ -511,6 +605,20 @@ export function InvitesBoard() {
         </p>
       )}
 
+      {unionResultUnconfirmed && (
+        <Callout tone="warning">
+          <p>{t("unionResultUnconfirmed")}</p>
+          <Button
+            type="button"
+            variant="outline"
+            className="mt-2 min-h-11"
+            onClick={() => window.location.reload()}
+          >
+            {t("reloadAfterUnconfirmed")}
+          </Button>
+        </Callout>
+      )}
+
       {canInvitePresident && (
         <section
           className="space-y-3 rounded-lg border border-gray-200 bg-white p-4"
@@ -549,6 +657,10 @@ export function InvitesBoard() {
               value={presidentLocal}
               onChange={(next) => {
                 setPresidentLocal(next);
+                if (next.unionId !== UNION_LOCAL_SELECT_OTHER) {
+                  setPresidentStepUpRequired(false);
+                  setMfaCode("");
+                }
                 if (
                   isPlatformAdmin &&
                   next.unionId &&
@@ -579,7 +691,25 @@ export function InvitesBoard() {
                 {presidentError}
               </p>
             )}
-            <Button type="submit" disabled={presidentBusy} className="min-h-11">
+            {presidentStepUpRequired && !unionResultUnconfirmed && (
+              <Input
+                label={t("mfaCode")}
+                value={mfaCode}
+                onChange={(e) => setMfaCode(e.target.value)}
+                autoComplete="one-time-code"
+                inputMode="numeric"
+                required
+              />
+            )}
+            <Button
+              type="submit"
+              disabled={
+                presidentBusy ||
+                unionResultUnconfirmed ||
+                (presidentStepUpRequired && !mfaCode.trim())
+              }
+              className="min-h-11"
+            >
               {presidentBusy ? t("creating") : t("invitePresident")}
             </Button>
           </form>
@@ -617,6 +747,10 @@ export function InvitesBoard() {
               value={teamLocal}
               onChange={(next) => {
                 setTeamLocal(next);
+                if (next.unionId !== UNION_LOCAL_SELECT_OTHER) {
+                  setTeamStepUpRequired(false);
+                  setMfaCode("");
+                }
                 if (
                   isPlatformAdmin &&
                   next.unionId &&
@@ -685,7 +819,25 @@ export function InvitesBoard() {
               {error}
             </p>
           )}
-          <Button type="submit" disabled={loading} className="min-h-11">
+          {teamStepUpRequired && !unionResultUnconfirmed && (
+            <Input
+              label={t("mfaCode")}
+              value={mfaCode}
+              onChange={(e) => setMfaCode(e.target.value)}
+              autoComplete="one-time-code"
+              inputMode="numeric"
+              required
+            />
+          )}
+          <Button
+            type="submit"
+            disabled={
+              loading ||
+              unionResultUnconfirmed ||
+              (teamStepUpRequired && !mfaCode.trim())
+            }
+            className="min-h-11"
+          >
             {loading ? t("creating") : t("create")}
           </Button>
         </form>

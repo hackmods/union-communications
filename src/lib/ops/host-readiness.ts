@@ -73,6 +73,10 @@ export type PresenceCheckId =
   | "cronConfigured"
   | "mfaEnabled"
   | "demoAuthOff"
+  | "attachmentStorageApproved"
+  | "strictUploadScan"
+  | "backupRestoreEvidence"
+  | "alertDeliveryEvidence"
   | "publicDocumentsReady";
 
 export type PresenceCheck = {
@@ -191,15 +195,41 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
     },
     {
       id: "mfaEnabled",
-      ok: health.mfaEnabled,
-      hintKey: "AUTH_MFA_ENABLED",
-      advisory: true,
+      ok: health.mfaEnabled && (!health.hostedCustomerMode || health.mfaMode === "totp"),
+      hintKey: health.hostedCustomerMode
+        ? "UNIONOPS_HOSTED_CUSTOMER_MODE=true, AUTH_MFA_MODE=totp, NODE_ENV=production"
+        : "AUTH_MFA_ENABLED",
+      advisory: !health.hostedCustomerMode,
     },
     {
       id: "demoAuthOff",
       ok: !health.demoAuthEnabled,
       hintKey: "AUTH_ALLOW_DEMO_USERS",
       advisory: false,
+    },
+    {
+      id: "attachmentStorageApproved",
+      ok: health.hostedControlEvidence.attachmentStorageApproved,
+      hintKey: "UNIONOPS_ATTACHMENT_STORAGE_APPROVED, UNIONOPS_ATTACHMENT_STORAGE_REVIEWED_AT, UNIONOPS_ATTACHMENT_STORAGE_REVIEWED_BY",
+      advisory: !health.hostedCustomerMode,
+    },
+    {
+      id: "strictUploadScan",
+      ok: health.hostedControlEvidence.strictUploadScan,
+      hintKey: "ATTACHMENT_SCANNER_URL, ATTACHMENT_SCAN_MODE=strict, UNIONOPS_ATTACHMENT_SCAN_TESTED_AT/TESTED_BY",
+      advisory: !health.hostedCustomerMode,
+    },
+    {
+      id: "backupRestoreEvidence",
+      ok: health.hostedControlEvidence.backupRestoreEvidence,
+      hintKey: "UNIONOPS_BACKUP_CONFIGURED, UNIONOPS_BACKUP_RESTORE_TESTED_AT, UNIONOPS_BACKUP_OWNER",
+      advisory: !health.hostedCustomerMode,
+    },
+    {
+      id: "alertDeliveryEvidence",
+      ok: health.hostedControlEvidence.alertDeliveryEvidence,
+      hintKey: "UNIONOPS_ALERTS_CONFIGURED, UNIONOPS_ALERT_DELIVERY_TESTED_AT, UNIONOPS_ALERT_OWNER",
+      advisory: !health.hostedCustomerMode,
     },
     {
       id: "publicDocumentsReady",

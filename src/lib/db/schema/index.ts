@@ -34,3 +34,5 @@ export * from "./data-workbench";
 export * from "./customization";
 export * from "./platform-host-brand";
 export * from "./public-documents";
+export * from "./incidents";
+export * from "./subprocessors";

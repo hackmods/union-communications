@@ -160,6 +160,20 @@ export default async function SecurityPage({
             .
           </GuideProse>
         </GuideCallout>
+
+        <GuideCallout tone="plain" measure="fill" className="h-full">
+          <h2 className="text-base font-semibold text-opseu-dark">{t("subprocessorsTitle")}</h2>
+          <GuideProse className="mt-2">
+            {t("subprocessorsBody")} {" "}
+            <Link
+              href="/trust/subprocessors"
+              className="font-medium text-opseu-blue underline underline-offset-2"
+            >
+              {t("subprocessorsLink")}
+            </Link>
+            .
+          </GuideProse>
+        </GuideCallout>
       </div>
     </ComposedPageLayout>
   );

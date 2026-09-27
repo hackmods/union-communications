@@ -8,6 +8,13 @@
 - 2026-09-27 follow-up in the clean `main` worktree (`7e3d42ea`): migration `0067` adds explicit individual/organization acceptance scope, representative authority attestation, correlated evidence, and DB append-only enforcement. Legacy acceptance rows remain marked as legacy; they are not retroactively treated as attested. The generated DB shape, journal check, and focused tests pass. PostgreSQL/RLS smoke and full typecheck remain pending; the new Terms/DPA acceptance flow is not a launch approval.
 - What's new: `documents-library-and-vault`.
 
+## 2026-09-27 — Enterprise hardening integration groundwork
+
+- Integrated the preserved pre-Managed-Documents hardening branch after `main`. Added hosted privileged MFA/recovery protections, audit outcomes and request correlation, incident and subprocessor registers, hosted storage/scanner/backup/alert readiness evidence, and CI dependency/secret/container/DAST workflows with operator guides and focused tests.
+- Kept Managed Documents migrations `0064`–`0067` intact and sequenced the incoming hardening migrations as `0068`–`0074`; regenerated the required database shape and aligned RLS contract/documentation references.
+- The old branch's direct file step-up routes targeted the prior grievance document API and were not carried over the new vault archive/version model. Fresh step-up for managed vault download/archive remains a launch tracker item. Hosted PostgreSQL migration/restore and live scanner/alert evidence are still unverified.
+- Full unit suite currently has failures in legacy route expectation tests and hosted capability/MFA cases; see the next verification pass and launch tracker. TypeScript and database contract checks pass; Docker/Postgres smoke is unavailable in this environment.
+
 ## 2026-09-26 — Site testing QOL follow-through
 
 - Pre-disciplinary: Learn link stays visible above the ladder disclosure; prior-step chips append collection ladder rungs.

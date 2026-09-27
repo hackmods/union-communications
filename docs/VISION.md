@@ -81,7 +81,7 @@ Public **Comms** tools stay free: they run on the volunteer’s device, with no 
 
 - Any local can onboard in under 15 minutes
 - Zero cross-union data leakage
-- WCAG 2.1 AA + PIPEDA/FIPPA compliance for confidential modules
+- Support applicable privacy obligations for confidential modules; use WCAG 2.2 AA as the internal accessibility target and verify any conformance claim against a scoped assessment
 - Bilingual EN/FR UI across all modules
 
 ## Repo / Naming

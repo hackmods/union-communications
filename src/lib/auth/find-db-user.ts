@@ -3,6 +3,8 @@ import type { UserRole } from "@/types/tenant";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { users } from "@/lib/db/schema/tenant";
 import { verifyPassword } from "@/lib/auth/password";
+import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
+import { accountRequiresMfa } from "@/lib/auth/mfa-requirements";
 
 export type AuthAccount = {
   id: string;
@@ -44,6 +46,8 @@ export async function findDbUser(
   if (!row || row.archivedAt || row.lockedAt) return null;
   const ok = await verifyPassword(password, row.passwordHash);
   if (!ok) return null;
+  const roles = row.roles as UserRole[];
+  const explicitMfaEnabled = row.mfaEnabled || Boolean(row.totpSecret);
   return {
     id: row.id,
     email: row.email,
@@ -53,8 +57,13 @@ export async function findDbUser(
     localId: row.localId ?? undefined,
     bargainingUnitId: row.bargainingUnitId ?? undefined,
     accessibleLocalIds: row.accessibleLocalIds ?? undefined,
-    roles: row.roles as UserRole[],
-    requiresMfa: row.mfaEnabled || Boolean(row.totpSecret),
+    roles,
+    requiresMfa: accountRequiresMfa({
+      roles,
+      explicitMfaEnabled,
+      legacyRequiresMfa: explicitMfaEnabled,
+      hostedCustomerMode: isHostedCustomerMode(),
+    }),
     sessionVersion: row.sessionVersion,
     totpSecret: row.totpSecret,
   };

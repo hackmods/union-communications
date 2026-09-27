@@ -6,6 +6,7 @@ import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { Input } from "@/components/ui/Input";
 import { USER_ROLES } from "@/lib/auth/role-labels";
 import type { UserRole } from "@/types/tenant";
 
@@ -25,6 +26,8 @@ export function EditRolesForm({ userId, initialRoles, archived }: Props) {
     ),
   );
   const [busy, setBusy] = useState(false);
+  const [mfaCode, setMfaCode] = useState("");
+  const [stepUpRequired, setStepUpRequired] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -50,7 +53,7 @@ export function EditRolesForm({ userId, initialRoles, archived }: Props) {
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ roles }),
+          body: JSON.stringify({ roles, ...(mfaCode ? { mfaCode } : {}) }),
         },
       );
       const data = (await res.json().catch(() => ({}))) as {
@@ -58,6 +61,27 @@ export function EditRolesForm({ userId, initialRoles, archived }: Props) {
         code?: string;
       };
       if (!res.ok) {
+        if (data.code === "mfa_step_up_required") {
+          setStepUpRequired(true);
+          setError(t("editRolesStepUpRequired"));
+          return;
+        }
+        if (data.code === "mfa_step_up_failed") {
+          setStepUpRequired(true);
+          setMfaCode("");
+          setError(t("editRolesStepUpFailed"));
+          return;
+        }
+        if (data.code === "mfa_step_up_limited") {
+          setStepUpRequired(true);
+          setMfaCode("");
+          setError(t("editRolesStepUpLimited"));
+          return;
+        }
+        if (data.code === "mfa_step_up_unavailable") {
+          setError(t("editRolesStepUpUnavailable"));
+          return;
+        }
         setError(
           data.code === "sole_platform_admin"
             ? t("editRolesSoleAdmin")
@@ -65,6 +89,8 @@ export function EditRolesForm({ userId, initialRoles, archived }: Props) {
         );
         return;
       }
+      setMfaCode("");
+      setStepUpRequired(false);
       setSuccess(t("editRolesSaved"));
       router.refresh();
     } catch {
@@ -109,6 +135,25 @@ export function EditRolesForm({ userId, initialRoles, archived }: Props) {
           />
         ))}
       </fieldset>
+
+      {stepUpRequired ? (
+        <div className="space-y-1">
+          <Input
+            label={t("editRolesMfaCode")}
+            value={mfaCode}
+            onChange={(event) => setMfaCode(event.target.value)}
+            autoComplete="one-time-code"
+            inputMode="numeric"
+            maxLength={32}
+            required
+            disabled={archived || busy}
+            aria-describedby="edit-roles-mfa-help"
+          />
+          <p id="edit-roles-mfa-help" className="text-xs text-opseu-gray-dark">
+            {t("editRolesStepUpHelp")}
+          </p>
+        </div>
+      ) : null}
 
       <Button type="submit" disabled={archived || busy || roles.length === 0}>
         {busy ? t("editRolesSaving") : t("editRolesSubmit")}

@@ -17,6 +17,12 @@ export default function MfaPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [mfaEnabled, setMfaEnabled] = useState<boolean | null>(null);
+  const [mfaRequired, setMfaRequired] = useState<boolean | null>(null);
+  const [mfaVerified, setMfaVerified] = useState(false);
+  const [recoveryCodesRemaining, setRecoveryCodesRemaining] = useState<number | null>(null);
+  const [rotationCode, setRotationCode] = useState("");
+  const [newRecoveryCodes, setNewRecoveryCodes] = useState<string[]>([]);
+  const [rotatingRecoveryCodes, setRotatingRecoveryCodes] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -29,18 +35,40 @@ export default function MfaPage() {
     let cancelled = false;
     void fetch("/api/mfa/status")
       .then((res) => (res.ok ? res.json() : null))
-      .then((data: { enabled?: boolean } | null) => {
-        if (!cancelled) setMfaEnabled(Boolean(data?.enabled));
+      .then((data: {
+        enabled?: boolean;
+        required?: boolean;
+        mfaVerified?: boolean;
+        recoveryCodesRemaining?: number | null;
+      } | null) => {
+        if (!cancelled) {
+          setMfaEnabled(Boolean(data?.enabled));
+          setMfaRequired(Boolean(data?.required));
+          setMfaVerified(Boolean(data?.mfaVerified));
+          setRecoveryCodesRemaining(
+            typeof data?.recoveryCodesRemaining === "number"
+              ? data.recoveryCodesRemaining
+              : null,
+          );
+        }
       })
       .catch(() => {
-        if (!cancelled) setMfaEnabled(false);
+        if (!cancelled) {
+          setMfaEnabled(false);
+          setMfaRequired(false);
+        }
       });
     return () => {
       cancelled = true;
     };
   }, [status]);
 
-  if (status === "loading" || !session?.user || mfaEnabled === null) {
+  if (
+    status === "loading" ||
+    !session?.user ||
+    mfaEnabled === null ||
+    mfaRequired === null
+  ) {
     return (
       <PageShell size="nestedAuth" className="py-4 md:py-6">
         <p className="text-gray-600" aria-live="polite">
@@ -64,12 +92,116 @@ export default function MfaPage() {
     );
   }
 
-  if (session.user.mfaVerified) {
+  if (!mfaRequired) {
+    return (
+      <PageShell size="nestedAuth" className="py-4 md:py-6">
+        <Card density="compact">
+          <CardTitle className="text-base">{t("mfaNotRequiredTitle")}</CardTitle>
+          <p className="mt-2 text-gray-600">{t("mfaNotRequiredDesc")}</p>
+          <Button
+            className="mt-4 min-h-11"
+            onClick={() => router.push("/app")}
+          >
+            {t("backToDashboard")}
+          </Button>
+          <Link
+            href="/app/mfa/setup"
+            className="mt-3 block text-sm font-medium text-opseu-blue hover:underline"
+          >
+            {t("mfaSetupLink")}
+          </Link>
+        </Card>
+      </PageShell>
+    );
+  }
+
+  if (mfaVerified) {
+    const handleRotateRecoveryCodes = async (event: React.FormEvent) => {
+      event.preventDefault();
+      setRotatingRecoveryCodes(true);
+      setError(null);
+      try {
+        const response = await fetch("/api/mfa/recovery-codes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code: rotationCode }),
+        });
+        const body = (await response.json().catch(() => ({}))) as {
+          recoveryCodes?: string[];
+        };
+        if (!response.ok || !body.recoveryCodes?.length) {
+          setError(t("mfaError"));
+          return;
+        }
+        setNewRecoveryCodes(body.recoveryCodes);
+        setRecoveryCodesRemaining(body.recoveryCodes.length);
+        setRotationCode("");
+      } catch {
+        setError(t("mfaError"));
+      } finally {
+        setRotatingRecoveryCodes(false);
+      }
+    };
     return (
       <PageShell size="nestedAuth" className="py-4 md:py-6">
         <Card density="compact">
           <CardTitle className="text-base">{t("mfaVerified")}</CardTitle>
           <p className="mt-2 text-gray-600">{t("mfaVerifiedDesc")}</p>
+          <section
+            className="mt-5 border-t border-gray-200 pt-4"
+            aria-labelledby="mfa-recovery-rotate-heading"
+          >
+            <h2
+              id="mfa-recovery-rotate-heading"
+              className="font-semibold text-opseu-dark"
+            >
+              {t("mfaRecoveryCodesTitle")}
+            </h2>
+            {recoveryCodesRemaining !== null && (
+              <p className="mt-1 text-sm text-gray-600">
+                {t("mfaRecoveryCodesRemaining", {
+                  count: recoveryCodesRemaining,
+                })}
+              </p>
+            )}
+            {newRecoveryCodes.length > 0 ? (
+              <>
+                <p className="mt-2 text-sm text-gray-600">{t("mfaRecoveryCodesSave")}</p>
+                <ul className="mt-3 grid grid-cols-1 gap-2 rounded-md bg-gray-50 p-3 font-mono text-sm sm:grid-cols-2">
+                  {newRecoveryCodes.map((recoveryCode) => (
+                    <li key={recoveryCode}>{recoveryCode}</li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <form onSubmit={handleRotateRecoveryCodes} className="mt-3 space-y-3">
+                <Input
+                  label={t("mfaRecoveryCodesChallenge")}
+                  value={rotationCode}
+                  onChange={(event) => setRotationCode(event.target.value)}
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  maxLength={6}
+                  required
+                />
+                {error && (
+                  <p className="text-sm text-red-600" role="alert">
+                    {error}
+                  </p>
+                )}
+                <Button
+                  type="submit"
+                  disabled={rotatingRecoveryCodes}
+                  variant="outline"
+                  className="min-h-11 w-full"
+                >
+                  {rotatingRecoveryCodes
+                    ? t("verifying")
+                    : t("mfaRecoveryCodesRegenerate")}
+                </Button>
+              </form>
+            )}
+          </section>
           <Button className="mt-4 min-h-11" onClick={() => router.push("/app")}>
             {t("backToDashboard")}
           </Button>

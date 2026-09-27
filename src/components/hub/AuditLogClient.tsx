@@ -14,10 +14,18 @@ interface AuditRow {
   unionId?: string;
   localId?: string;
   timestamp: string;
+  outcome: "success" | "denied" | "error" | "unknown";
+  requestId?: string;
 }
 
 export function AuditLogClient() {
   const t = useTranslations("hub");
+  const outcomeLabels = {
+    success: t("auditOutcome.success"),
+    denied: t("auditOutcome.denied"),
+    error: t("auditOutcome.error"),
+    unknown: t("auditOutcome.unknown"),
+  };
   const [entries, setEntries] = useState<AuditRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -92,7 +100,7 @@ export function AuditLogClient() {
                   <div className="flex min-w-0 gap-2">
                     <dt className="shrink-0 text-gray-500">{t("auditAction")}</dt>
                     <dd className="min-w-0 break-all font-mono text-gray-800">
-                      {row.action}
+                      {row.action} · {outcomeLabels[row.outcome]}
                     </dd>
                   </div>
                   <div className="flex min-w-0 gap-2">
@@ -125,6 +133,7 @@ export function AuditLogClient() {
                 <tr>
                   <th className="px-3 py-2 font-medium">{t("auditWhen")}</th>
                   <th className="px-3 py-2 font-medium">{t("auditAction")}</th>
+                  <th className="px-3 py-2 font-medium">{t("auditOutcome.title")}</th>
                   <th className="px-3 py-2 font-medium">{t("auditResource")}</th>
                   <th className="px-3 py-2 font-medium">{t("auditUser")}</th>
                   <th className="px-3 py-2 font-medium">{t("auditLocal")}</th>
@@ -137,6 +146,7 @@ export function AuditLogClient() {
                       {new Date(row.timestamp).toLocaleString()}
                     </td>
                     <td className="px-3 py-2 font-mono text-xs">{row.action}</td>
+                    <td className="px-3 py-2 text-xs">{outcomeLabels[row.outcome]}</td>
                     <td className="px-3 py-2 font-mono text-xs">
                       {row.resourceType}/{row.resourceId}
                     </td>

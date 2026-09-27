@@ -1,12 +1,15 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import {
   INSECURE_DEV_AUTH_SECRET,
   resolveAuthSecret,
 } from "@/lib/auth/auth-secret";
 import { verifyMfaCode } from "@/lib/auth/mfa-policy";
 import { generateTotp } from "@/lib/auth/totp";
+import { resetMfaVerificationAttemptsForTests } from "@/lib/auth/mfa-attempt-limits";
 
 const mfaOn = { AUTH_MFA_ENABLED: "true" } as const;
+
+afterEach(() => resetMfaVerificationAttemptsForTests());
 
 describe("resolveAuthSecret (SEC-004)", () => {
   it("returns AUTH_SECRET when set", () => {

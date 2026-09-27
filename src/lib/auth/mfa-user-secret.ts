@@ -5,14 +5,17 @@
  *   `DEMO_USERS` is a shared module-level const we don't want to mutate.
  */
 
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import {
   getConfirmedSecretOverride,
   setConfirmedSecretOverride,
 } from "@/lib/auth/mfa-enrollment-store";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
+import { mfaTotpCounters } from "@/lib/db/schema/auth";
 import { users } from "@/lib/db/schema/tenant";
+import { setTotpCounterForNewSecret } from "@/lib/auth/mfa-totp-counters";
+import { withRlsContext } from "@/lib/db/rls-context";
 
 function usersBackendEnabled(
   env: NodeJS.ProcessEnv = process.env,
@@ -46,15 +49,30 @@ export async function getTotpSecretForUser(
 export async function persistTotpSecretForUser(
   userId: string,
   secret: string,
+  acceptedCounter: number,
 ): Promise<void> {
   if (usersBackendEnabled()) {
-    const db = getDb();
-    await db
-      .update(users)
-      .set({ totpSecret: secret, mfaEnabled: true })
-      .where(eq(users.id, userId));
+    await withRlsContext({ userId }, async () => {
+      const db = getDb();
+      await db
+        .update(users)
+        .set({
+          totpSecret: secret,
+          mfaEnabled: true,
+          sessionVersion: sql`${users.sessionVersion} + 1`,
+        })
+        .where(eq(users.id, userId));
+      await db
+        .insert(mfaTotpCounters)
+        .values({ userId, lastCounter: acceptedCounter })
+        .onConflictDoUpdate({
+          target: mfaTotpCounters.userId,
+          set: { lastCounter: acceptedCounter },
+        });
+    });
     return;
   }
 
+  await setTotpCounterForNewSecret(userId, acceptedCounter);
   setConfirmedSecretOverride(userId, secret);
 }

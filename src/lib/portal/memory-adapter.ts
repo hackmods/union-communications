@@ -1953,6 +1953,20 @@ export class MemoryPortalAdapter {
     return q;
   }
 
+  hasAdminCircleMembership(unionId: string, userId: string): boolean {
+    return memberships.some(
+      (membership) =>
+        membership.userId === userId &&
+        membership.role === "admin" &&
+        circles.some(
+          (circle) =>
+            circle.id === membership.circleId &&
+            circle.unionId === unionId &&
+            !circle.archivedAt,
+        ),
+    );
+  }
+
   listFronts(unionId: string, userId: string): Circle[] {
     const mine = new Set(
       memberships.filter((m) => m.userId === userId).map((m) => m.circleId),

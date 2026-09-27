@@ -1,4 +1,5 @@
 import { index, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 import { locals, unions } from "./tenant";
 
 export const auditLog = pgTable(
@@ -22,6 +23,11 @@ export const auditLog = pgTable(
      * per `AuditEntry.metadata`.
      */
     metadata: jsonb("metadata").$type<Record<string, string>>(),
+    outcome: text("outcome")
+      .notNull()
+      .$type<"success" | "denied" | "error" | "unknown">()
+      .default("success"),
+    requestId: text("request_id"),
     timestamp: timestamp("timestamp", { withTimezone: true })
       .notNull()
       .defaultNow(),
@@ -30,5 +36,8 @@ export const auditLog = pgTable(
     index("audit_log_union_idx").on(t.unionId),
     index("audit_log_resource_idx").on(t.resourceType, t.resourceId),
     index("audit_log_circle_idx").on(t.unionId, t.circleId, t.timestamp),
+    index("audit_log_request_idx")
+      .on(t.requestId)
+      .where(sql`${t.requestId} is not null`),
   ],
 );

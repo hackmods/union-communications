@@ -17,7 +17,10 @@ import {
   GET as getPoll,
   PATCH as patchPoll,
 } from "@/app/api/polls/id/[id]/route";
-import { GET as exportPoll } from "@/app/api/polls/id/[id]/export/route";
+import {
+  GET as legacyGetPollExport,
+  POST as exportPoll,
+} from "@/app/api/polls/id/[id]/export/route";
 import { POST as submitPollResponse } from "@/app/api/polls/[slug]/responses/route";
 import {
   memoryPollsStore,
@@ -241,7 +244,7 @@ describe("polls API routes", () => {
       expect((await memoryPollsStore.getById(foreign.id))?.status).toBe("open");
 
       const exported = await exportPoll(
-        new Request("http://localhost/api/polls/id/x/export"),
+        jsonRequest({ format: "csv" }),
         params(foreign.id),
       );
       expect(exported.status).toBe(404);
@@ -257,12 +260,16 @@ describe("polls API routes", () => {
 
       authMock.mockResolvedValue(session());
       const csv = await exportPoll(
-        new Request("http://localhost/api/polls/id/x/export?format=csv"),
+        jsonRequest({ format: "csv" }),
         params(poll.id),
       );
       expect(csv.status).toBe(200);
       expect(csv.headers.get("content-type")).toContain("text/csv");
       expect(await csv.text()).toContain("Will you attend?");
+
+      const legacy = await legacyGetPollExport();
+      expect(legacy.status).toBe(405);
+      expect(legacy.headers.get("Allow")).toBe("POST");
 
       const closed = await patchPoll(
         jsonRequest({ status: "closed" }),

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   actorFromSession,
+  actorHasHostedMfaCapability,
   decideCapability,
   mergeRoleClaimBridge,
   relationshipsFromRoleClaims,
@@ -23,6 +24,36 @@ const base: AuthorizationActor = {
 };
 
 describe("shared authorization decisions", () => {
+  it("requires MFA at the capability boundary for delegated hosted access", () => {
+    const prior = process.env.UNIONOPS_HOSTED_CUSTOMER_MODE;
+    process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
+    try {
+      const delegated: AuthorizationActor = {
+        ...base,
+        roles: ["local_member"],
+        delegations: [{
+          unionId: "union-1",
+          localId: "local-1",
+          capability: "grievances.case.read",
+          grantorUserId: "president-1",
+          endsAt: new Date(Date.now() + 60_000).toISOString(),
+        }],
+      };
+      expect(actorHasHostedMfaCapability(delegated)).toBe(true);
+      expect(decideCapability(delegated, "grievances.case.read", {
+        unionId: "union-1",
+        localId: "local-1",
+      })).toMatchObject({ allowed: false, reason: "mfa_required" });
+      expect(decideCapability({ ...delegated, mfaVerified: true }, "grievances.case.read", {
+        unionId: "union-1",
+        localId: "local-1",
+      }).allowed).toBe(true);
+    } finally {
+      if (prior === undefined) delete process.env.UNIONOPS_HOSTED_CUSTOMER_MODE;
+      else process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = prior;
+    }
+  });
+
   it("does not turn context-switch IDs into local membership grants", () => {
     const session = {
       user: { id: "member-1", unionId: "union-1", localId: "local-1", accessibleLocalIds: ["local-2"], roles: [] },

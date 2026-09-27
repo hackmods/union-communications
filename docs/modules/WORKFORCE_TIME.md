@@ -73,7 +73,7 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - `GET/POST /api/time/sites` — work sites + geofence mode/radius
 - `GET/POST /api/time/windows`
 - `GET /api/time/needed?from&to`
-- `GET /api/time/export?from&to&category&format=csv|xlsx|pdf`
+- `POST /api/time/export` — `{ from?, to?, category?, format, mfaCode? }`; CSV/XLSX/PDF report download; legacy GET returns 405
 - `POST /api/time/entries/bulk-approve` — `{ ids: string[] }`
 - `GET /api/time/report/union-business?from&to` — JSON totals + needed
 - `GET/POST /api/time/pto` — leave requests (8c.1)
@@ -88,8 +88,21 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - `GET/POST/PATCH /api/time/pto/accrual-policies` — auto-accrual formulas + run (8-full)
 - `GET/POST /api/time/payroll-profiles` — vendor export profiles (8-full)
 - `POST /api/time/payroll-export` — mapped CSV + optional webhook (8-full)
+- `POST /api/time/export` — local CSV/XLSX/PDF report exports; legacy GET returns 405
 - `GET /api/time/entries/[id]/attachments` — punch photo metadata (8f)
 - `GET /api/time/entries/[id]/attachments/[attachmentId]/download` — punch photo download (8f)
+
+When the host's MFA policy is enabled, payroll export requires a fresh MFA
+challenge after the local profile is authorized and before approved time rows
+are loaded or sent. UnionOps-hosted customer instances require production
+TOTP. A correlated audit record is required before the configured webhook can
+receive rows. The result is audited after dispatch; if that final audit write
+fails, the response warns that the webhook may already have received the
+export and should be checked before retrying. The CSV response is private and
+non-cacheable. The general time report CSV/XLSX/PDF endpoint also uses POST,
+requires fresh MFA when the host policy is enabled, audits the export, and
+withholds the generated file if its success audit cannot be confirmed. Its
+former query-string GET download is retired with 405.
 
 ## GPS (optional, v1-lite foundation)
 
@@ -133,7 +146,7 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 
 - Work sites CRUD (`GET/POST /api/time/sites`) + admin geofence mode/radius UI
 - Bulk approve submitted entries (`POST /api/time/entries/bulk-approve`)
-- XLSX + PDF rollup export (`GET /api/time/export?format=xlsx|pdf`) alongside CSV
+- CSV/XLSX/PDF report export (`POST /api/time/export`; old query-string GET returns 405)
 
 ## Shipped in 8f (2026-07-26)
 
@@ -148,7 +161,7 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 
 - Classify entries + GPS as **Highly Confidential**
 - GPS consent stored per worker (`gpsConsentAt`) — full UI in 8e
-- 7-year retention default per `docs/COMPLIANCE.md`
+- Retention: no universal period or automated purge is implemented. Set the trigger and period with the customer and qualified counsel before production use; include time/location evidence and exports in the review.
 
 ## Disclaimer
 

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { JWT } from "next-auth/jwt";
 import {
   clearMfaGrants,
@@ -20,30 +20,54 @@ function baseToken(overrides: Partial<JWT> = {}): JWT {
   };
 }
 
+beforeEach(() => {
+  vi.stubEnv("AUTH_USERS_BACKEND", "memory");
+  vi.stubEnv("DATABASE_URL", "");
+  vi.stubEnv("UNIONOPS_HOSTED_CUSTOMER_MODE", "");
+});
+
 afterEach(() => {
   clearMfaGrants();
   vi.useRealTimers();
+  vi.unstubAllEnvs();
 });
 
 describe("applyTrustedSessionUpdate (SEC-001 / SEC-005)", () => {
-  it("accepts a valid MFA grant nonce and sets mfaVerified", () => {
-    const nonce = issueMfaGrant("user-steward-7");
-    const token = applyTrustedSessionUpdate(baseToken(), { mfaGrant: nonce });
+  it("fails closed when hosted grants cannot use durable storage", async () => {
+    vi.stubEnv("UNIONOPS_HOSTED_CUSTOMER_MODE", "true");
+    await expect(issueMfaGrant("user-steward-7")).rejects.toThrow(
+      /durable PostgreSQL storage/i,
+    );
+  });
+
+  it("accepts a valid MFA grant nonce and sets mfaVerified", async () => {
+    const nonce = await issueMfaGrant("user-steward-7");
+    const token = await applyTrustedSessionUpdate(baseToken(), { mfaGrant: nonce });
     expect(token.mfaVerified).toBe(true);
   });
 
-  it("rejects a reused MFA grant nonce", () => {
-    const nonce = issueMfaGrant("user-steward-7");
-    expect(consumeMfaGrant("user-steward-7", nonce)).toBe(true);
-    const token = applyTrustedSessionUpdate(baseToken(), { mfaGrant: nonce });
+  it("rejects a reused MFA grant nonce", async () => {
+    const nonce = await issueMfaGrant("user-steward-7");
+    expect(await consumeMfaGrant("user-steward-7", nonce)).toBe(true);
+    const token = await applyTrustedSessionUpdate(baseToken(), { mfaGrant: nonce });
     expect(token.mfaVerified).toBe(false);
   });
 
-  it("rejects an expired MFA grant nonce", () => {
+  it("rejects an MFA grant issued before the session version changed", async () => {
+    const nonce = await issueMfaGrant("user-steward-7", Date.now(), 4);
+    const token = await applyTrustedSessionUpdate(
+      baseToken({ sessionVersion: 5 }),
+      { mfaGrant: nonce },
+    );
+    expect(token.mfaVerified).toBe(false);
+    expect(await consumeMfaGrant("user-steward-7", nonce, Date.now(), 4)).toBe(false);
+  });
+
+  it("rejects an expired MFA grant nonce", async () => {
     const now = 1_000_000;
     vi.setSystemTime(now);
-    const nonce = issueMfaGrant("user-steward-7", now);
-    const token = applyTrustedSessionUpdate(
+    const nonce = await issueMfaGrant("user-steward-7", now);
+    const token = await applyTrustedSessionUpdate(
       baseToken(),
       { mfaGrant: nonce },
       now + 61_000,
@@ -51,22 +75,22 @@ describe("applyTrustedSessionUpdate (SEC-001 / SEC-005)", () => {
     expect(token.mfaVerified).toBe(false);
   });
 
-  it("ignores client-supplied mfaVerified without a grant (SEC-001)", () => {
-    const token = applyTrustedSessionUpdate(baseToken(), {
+  it("ignores client-supplied mfaVerified without a grant (SEC-001)", async () => {
+    const token = await applyTrustedSessionUpdate(baseToken(), {
       mfaVerified: true,
     });
     expect(token.mfaVerified).toBe(false);
   });
 
-  it("rejects local_steward switching to a local outside accessibleLocalIds", () => {
-    const token = applyTrustedSessionUpdate(baseToken(), {
+  it("rejects local_steward switching to a local outside accessibleLocalIds", async () => {
+    const token = await applyTrustedSessionUpdate(baseToken(), {
       localId: "local-1337",
     });
     expect(token.localId).toBe("local-7");
   });
 
-  it("allows division_admin to switch to any localId", () => {
-    const token = applyTrustedSessionUpdate(
+  it("allows division_admin to switch to any localId", async () => {
+    const token = await applyTrustedSessionUpdate(
       baseToken({
         sub: "user-division-admin",
         roles: ["division_admin"],
@@ -77,8 +101,8 @@ describe("applyTrustedSessionUpdate (SEC-001 / SEC-005)", () => {
     expect(token.localId).toBe("local-1337");
   });
 
-  it("keeps union_admin on an assigned local (no all-locals clear)", () => {
-    const token = applyTrustedSessionUpdate(
+  it("keeps union_admin on an assigned local (no all-locals clear)", async () => {
+    const token = await applyTrustedSessionUpdate(
       baseToken({
         roles: ["union_admin"],
         accessibleLocalIds: ["local-7"],
@@ -89,16 +113,16 @@ describe("applyTrustedSessionUpdate (SEC-001 / SEC-005)", () => {
     expect(token.localId).toBe("local-7");
   });
 
-  it("rejects bargainingUnitId that does not belong to the active local", () => {
-    const token = applyTrustedSessionUpdate(baseToken(), {
+  it("rejects bargainingUnitId that does not belong to the active local", async () => {
+    const token = await applyTrustedSessionUpdate(baseToken(), {
       localId: "local-7",
       bargainingUnitId: "bu-not-real",
     });
     expect(token.bargainingUnitId).toBeUndefined();
   });
 
-  it("accepts a bargainingUnitId that belongs to the active local", () => {
-    const token = applyTrustedSessionUpdate(baseToken(), {
+  it("accepts a bargainingUnitId that belongs to the active local", async () => {
+    const token = await applyTrustedSessionUpdate(baseToken(), {
       localId: "local-7",
       bargainingUnitId: "bu-7-pt",
     });

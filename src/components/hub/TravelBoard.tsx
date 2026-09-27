@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Callout } from "@/components/ui/Callout";
 import { canElevateTravel } from "@/lib/travel/access";
 import { estimatedTotal, sumLineItems } from "@/lib/travel/reconcile";
 import type {
@@ -64,6 +65,14 @@ export function TravelBoard() {
   const [claimDrafts, setClaimDrafts] = useState<
     Record<string, { date: string; category: string; amount: string; description: string }>
   >({});
+  const [pendingExport, setPendingExport] = useState<{
+    id: string;
+    format: "xlsx" | "pdf" | "zip";
+    title: string;
+  } | null>(null);
+  const [exportMfaCode, setExportMfaCode] = useState("");
+  const [exportChallengeError, setExportChallengeError] = useState<string | null>(null);
+  const [exportBusy, setExportBusy] = useState(false);
 
   async function refresh() {
     const res = await fetch("/api/travel");
@@ -145,19 +154,75 @@ export function TravelBoard() {
     return true;
   }
 
-  async function handleExport(id: string, format: "xlsx" | "pdf" | "zip") {
+  async function handleExport(
+    id: string,
+    format: "xlsx" | "pdf" | "zip",
+    title: string,
+    mfaCode?: string,
+  ) {
+    if (exportBusy) return;
     setError(null);
+    setExportChallengeError(null);
+    if (mfaCode === undefined) {
+      setPendingExport(null);
+      setExportMfaCode("");
+    }
+    setExportBusy(true);
     try {
-      const res = await fetch(`/api/travel/${id}/export?format=${format}`);
-      if (!res.ok) throw new Error("fail");
+      const res = await fetch(`/api/travel/${id}/export`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ format, ...(mfaCode ? { mfaCode } : {}) }),
+      });
+      if (res.status === 428) {
+        setPendingExport({ id, format, title });
+        setExportMfaCode("");
+        return;
+      }
+      if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as
+          | { code?: string }
+          | null;
+        if (body?.code === "mfa_step_up_failed") {
+          setExportChallengeError(t("mfaStepUpFailed"));
+        } else if (body?.code === "mfa_step_up_limited") {
+          setExportChallengeError(t("mfaStepUpLimited"));
+        } else if (
+          body?.code === "mfa_step_up_unavailable" ||
+          body?.code === "audit_unavailable"
+        ) {
+          setExportChallengeError(t("mfaStepUpUnavailable"));
+        } else if (body?.code === "export_audit_unavailable") {
+          setExportMfaCode("");
+          setError(t("exportAuditUnavailable"));
+        } else {
+          setError(t("exportError"));
+        }
+        return;
+      }
       const blob = await res.blob();
       const disp = res.headers.get("Content-Disposition");
       const match = disp?.match(/filename="([^"]+)"/);
-      void downloadBlob(blob, match?.[1] ?? `travel-export.${format}`);
+      await downloadBlob(blob, match?.[1] ?? `travel-export.${format}`);
+      setPendingExport(null);
+      setExportMfaCode("");
       setMessage(t("exported"));
     } catch {
       setError(t("exportError"));
+    } finally {
+      setExportBusy(false);
     }
+  }
+
+  function submitExportStepUp(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!pendingExport || !exportMfaCode.trim()) return;
+    void handleExport(
+      pendingExport.id,
+      pendingExport.format,
+      pendingExport.title,
+      exportMfaCode,
+    );
   }
 
   if (loading) {
@@ -304,7 +369,8 @@ export function TravelBoard() {
                         type="button"
                         variant="secondary"
                         size="sm"
-                        onClick={() => void handleExport(auth.id, "xlsx")}
+                        disabled={exportBusy || pendingExport !== null}
+                        onClick={() => void handleExport(auth.id, "xlsx", auth.eventName)}
                       >
                         {t("exportXlsx")}
                       </Button>
@@ -312,7 +378,8 @@ export function TravelBoard() {
                         type="button"
                         variant="secondary"
                         size="sm"
-                        onClick={() => void handleExport(auth.id, "pdf")}
+                        disabled={exportBusy || pendingExport !== null}
+                        onClick={() => void handleExport(auth.id, "pdf", auth.eventName)}
                       >
                         {t("exportPdf")}
                       </Button>
@@ -320,12 +387,70 @@ export function TravelBoard() {
                         type="button"
                         variant="secondary"
                         size="sm"
-                        onClick={() => void handleExport(auth.id, "zip")}
+                        disabled={exportBusy || pendingExport !== null}
+                        onClick={() => void handleExport(auth.id, "zip", auth.eventName)}
                       >
                         {t("exportZip")}
                       </Button>
                     </div>
                   </div>
+
+                  {pendingExport?.id === auth.id && (
+                    <form
+                      className="space-y-3 rounded-lg border border-amber-300 bg-amber-50 p-4"
+                      aria-labelledby={`travel-export-step-up-${auth.id}`}
+                      onSubmit={submitExportStepUp}
+                    >
+                      <div>
+                        <h3
+                          id={`travel-export-step-up-${auth.id}`}
+                          className="font-semibold"
+                        >
+                          {t("mfaStepUpTitle")}
+                        </h3>
+                        <p className="mt-1 text-sm text-gray-700">
+                          {t("mfaStepUpHint", {
+                            title: pendingExport.title,
+                            format: pendingExport.format.toUpperCase(),
+                          })}
+                        </p>
+                      </div>
+                      <Input
+                        label={t("mfaCode")}
+                        value={exportMfaCode}
+                        onChange={(event) => setExportMfaCode(event.target.value)}
+                        autoComplete="one-time-code"
+                        maxLength={32}
+                        autoFocus
+                        required
+                      />
+                      {exportChallengeError && (
+                        <Callout role="alert" tone="danger">
+                          {exportChallengeError}
+                        </Callout>
+                      )}
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          type="submit"
+                          disabled={exportBusy || !exportMfaCode.trim()}
+                        >
+                          {t("mfaStepUpVerify")}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          disabled={exportBusy}
+                          onClick={() => {
+                            setPendingExport(null);
+                            setExportMfaCode("");
+                            setExportChallengeError(null);
+                          }}
+                        >
+                          {t("mfaStepUpCancel")}
+                        </Button>
+                      </div>
+                    </form>
+                  )}
 
                   {elevated && auth.status === "requested" && (
                     <div className="flex flex-wrap gap-2">

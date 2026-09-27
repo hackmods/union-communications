@@ -114,7 +114,7 @@ Do not lose remaining design ideas — see:
 
 ## Access
 
-- Portal does **not** require MFA (Hub confidential modules still do).
+- MFA policy follows the host profile. UnionOps-operated customer instances require production TOTP for privileged roles/capabilities, active delegations, and Circle administrators before Portal page/API access. Basic local members are not forced to enroll unless their account enables MFA. Evaluation and self-hosted operators control their own policy.
 - Rank-and-file (`local_member` only) land on Together after sign-in. Visiting `/app` as a member shows an Officer Hub feature teaser (with a Local Portal CTA) when the module is enabled. When Portal is off, `/portal` shows a Local Portal teaser instead of redirecting to Hub; presidents who can manage modules get a quiet Configuration link. Officers and stewards still home to Officer Hub.
 - Writes: Circle `member`+; admin actions: `circle_admin` or Hub `local_president` / `local_exec` / elevated.
 - Rank-and-file role: `local_member` (portal + Hall; no grievance unless also steward).

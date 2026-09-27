@@ -25,7 +25,7 @@ import { POST as assignLocal } from "@/app/api/site-admin/users/[id]/assign-loca
 import { PATCH as patchRoles } from "@/app/api/site-admin/users/[id]/roles/route";
 import { GET as scanMembershipIntegrity } from "@/app/api/site-admin/membership-integrity/route";
 import { GET as tenantOptions } from "@/app/api/site-admin/tenant-options/route";
-import { GET as operatorAudit } from "@/app/api/site-admin/audit/route";
+import { GET as operatorAuditGet, POST as operatorAudit } from "@/app/api/site-admin/audit/route";
 import { DEMO_PURGE_CONFIRM_PHRASE } from "./demo-purge";
 
 function session(roles: UserRole[] = ["platform_admin"]) {
@@ -75,6 +75,19 @@ describe("site-admin demo purge HTTP", () => {
       jsonRequest({ confirm: DEMO_PURGE_CONFIRM_PHRASE, password: "secret" }),
     );
     expect(res.status).toBe(404);
+  });
+
+  it("keeps demo purge unavailable on hosted customer hosts even if enabled", async () => {
+    vi.stubEnv("UNIONOPS_HOSTED_CUSTOMER_MODE", "true");
+    vi.stubEnv("SITE_ADMIN_DEMO_PURGE_ENABLED", "true");
+    authMock.mockResolvedValue(session());
+
+    const res = await purgeDemo(
+      jsonRequest({ confirm: DEMO_PURGE_CONFIRM_PHRASE, password: "secret" }),
+    );
+
+    expect(res.status).toBe(404);
+    expect(await res.json()).toEqual({ error: "Not found" });
   });
 
   it("returns 503 for a platform operator when Postgres is not configured", async () => {
@@ -241,25 +254,32 @@ describe("site-admin locals, assign-local, and integrity HTTP", () => {
 describe("site-admin operator audit HTTP", () => {
   beforeEach(() => {
     authMock.mockReset();
+    vi.stubEnv("AUTH_MFA_ENABLED", "false");
+    vi.stubEnv("UNIONOPS_HOSTED_CUSTOMER_MODE", "false");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
   });
 
   it("returns 401 without a session and 403 for non-platform officers", async () => {
     authMock.mockResolvedValue(null);
     expect(
-      (await operatorAudit(new Request("http://localhost/api/site-admin/audit"))).status,
+      (await operatorAudit(jsonRequest({}))).status,
     ).toBe(401);
 
     authMock.mockResolvedValue(session(["local_president"]));
     expect(
-      (await operatorAudit(new Request("http://localhost/api/site-admin/audit"))).status,
+      (await operatorAudit(jsonRequest({}))).status,
     ).toBe(403);
   });
 
-  it("returns entries for platform_admin", async () => {
+  it("retires GET and returns entries for platform_admin through POST", async () => {
+    const getResponse = await operatorAuditGet();
+    expect(getResponse.status).toBe(405);
+
     authMock.mockResolvedValue(session());
-    const res = await operatorAudit(
-      new Request("http://localhost/api/site-admin/audit?limit=10"),
-    );
+    const res = await operatorAudit(jsonRequest({ limit: 10 }));
     expect(res.status).toBe(200);
     const body = (await res.json()) as { entries: unknown[] };
     expect(Array.isArray(body.entries)).toBe(true);

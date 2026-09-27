@@ -68,7 +68,7 @@ Default Hub modules still use in-memory stores. To use Postgres locally:
    SEED_DEMO_CASES=true npm run db:seed
    ```
 
-4. Flip backends per module (`GRIEVANCE_DB_BACKEND=postgres`, etc.). UnionOps Data requires `DATA_DB_BACKEND=postgres` before an admin can enable it; configure durable private attachment storage and `ATTACHMENT_SCANNER_URL` before accepting uploads.
+4. Flip backends per module (`GRIEVANCE_DB_BACKEND=postgres`, etc.). UnionOps Data requires `DATA_DB_BACKEND=postgres` before an admin can enable it; configure durable private attachment storage and `ATTACHMENT_SCANNER_URL` before accepting uploads. The UnionOps-operated customer profile additionally requires strict scanning and current operator evidence for storage, backup restore, and alert delivery.
 
 Live checks (require a running DB + app role credentials on `DATABASE_URL`):
 
@@ -79,9 +79,9 @@ GRIEVANCE_DB_BACKEND=postgres npm run db:durability-smoke
 
 Compose creates `unionops_app` via `docker/db-init/` + migration `0008_app_role.sql`. Set `POSTGRES_APP_PASSWORD` (or reuse `POSTGRES_PASSWORD` for demos). Production images ship migrations under `/app/db-migrate/`; `docker/entrypoint.sh` runs migrate as the owner when `MIGRATE_DATABASE_URL` is set and syncs the app-role password when `POSTGRES_APP_PASSWORD` is set. CapRover hosts without `db-init`: see [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md).
 
-## Attachment storage & ClamAV (optional — FEAT-001)
+## Attachment storage & ClamAV
 
-Default stores attachment/document bytes on local disk (`ATTACHMENT_STORAGE=local`, `ATTACHMENT_LOCAL_DIR=.data/attachments`). Encrypt that volume at the host level.
+Default stores attachment/document bytes on local disk (`ATTACHMENT_STORAGE=local`, `ATTACHMENT_LOCAL_DIR=.data/attachments`). Encrypt that volume at the host level. Evaluation and self-hosted installs may choose their own policy. The UnionOps-operated customer profile requires an explicit persistent storage path or reviewed S3 configuration, host-level encryption for local storage, a recent storage review, and strict scanning.
 
 ### S3-compatible object storage
 
@@ -98,7 +98,7 @@ ATTACHMENT_S3_SECRET_ACCESS_KEY=…
 # ATTACHMENT_S3_SSE=AES256
 ```
 
-Credentials also accept `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`. PutObject uses SSE-S3 AES256 by default; CMEK is not wired yet.
+Credentials also accept `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`. PutObject uses SSE-S3 AES256 by default; CMEK is not wired yet. Hosted-customer readiness requires an explicit S3 region, SSE-S3 AES256, and `UNIONOPS_ATTACHMENT_STORAGE_APPROVED=true` with `UNIONOPS_ATTACHMENT_STORAGE_REVIEWED_AT` and `UNIONOPS_ATTACHMENT_STORAGE_REVIEWED_BY`. For local volumes, set `ATTACHMENT_LOCAL_DIR` explicitly. The review attests to location, durability, encryption, and lifecycle; the app cannot inspect provider or volume policies.
 
 ### Virus scanner
 
@@ -109,6 +109,8 @@ ATTACHMENT_SCANNER_URL=http://127.0.0.1:8080
 ```
 
 Contract: `POST ${ATTACHMENT_SCANNER_URL}/scan` with raw file bytes and `Content-Type: application/octet-stream`. Response: JSON `{ "ok": true, "infected": false }` or plain text `stream: OK` / `… FOUND`. Compose has an optional `clamav` profile (`docker compose -f docker/docker-compose.yml --profile clamav up`) that starts the official ClamAV daemon only — put a REST proxy in front for the HTTP contract above. Default demo compose does not require ClamAV.
+
+For hosted customers also set `ATTACHMENT_SCAN_MODE=strict`, keep `ATTACHMENT_SCAN_ALLOW_SKIP_ON_ERROR` unset/false, and record a current integration test in `UNIONOPS_ATTACHMENT_SCAN_TESTED_AT` / `UNIONOPS_ATTACHMENT_SCAN_TESTED_BY`. The readiness check accepts operator evidence dated within 90 days; a passing check confirms configuration and attestation fields, not scanner uptime.
 
 ## Tests
 
@@ -138,11 +140,13 @@ Demo accounts (password `demo123`) exist for local CI and workshops. They use th
 
 **Do not** use demo passwords for real member casework on a public host.
 
-**MFA (opt-in):** unset / `AUTH_MFA_ENABLED=false` (default) — password login unlocks the Hub; second factor is not required. Prefer this for local dev, demos, and hosts that do not want MFA. Durable Postgres casework works with MFA off. Set `AUTH_MFA_ENABLED=true` when you want a second factor. When enabled, non-production defaults to `AUTH_MFA_MODE=shared_code_insecure` with `AUTH_DEV_MFA_CODE` (default `000000`). Production with MFA enabled requires `AUTH_MFA_MODE=totp`; `shared_code_insecure` needs `AUTH_ALLOW_SHARED_MFA_IN_PROD=true` (workshop break-glass only). MFA success issues a short-lived server grant; the client cannot set `mfaVerified` via `session.update()` alone.
+**MFA policy:** Development, evaluation, and self-hosted deployments keep the operator-controlled `AUTH_MFA_ENABLED` switch. When enabled, use `AUTH_MFA_MODE=totp` in production; shared-code mode is for non-production only, except an explicitly configured workshop break-glass host. UnionOps-operated customer deployments must set `UNIONOPS_HOSTED_CUSTOMER_MODE=true`, `NODE_ENV=production`, and `AUTH_MFA_MODE=totp`. That profile requires TOTP for privileged roles and effective delegated capabilities regardless of the general MFA default; basic local members are not forced to enroll unless their account enables MFA. Host readiness blocks the profile unless production TOTP is active. MFA success issues a short-lived server grant; client session updates cannot assert MFA verification.
 
-**TOTP enrollment (`AUTH_MFA_ENABLED=true` + `AUTH_MFA_MODE=totp`):** signed-in users without a secret are redirected to `/app/mfa/setup` before other Hub routes. The page calls `POST /api/mfa/enroll` to generate a fresh base32 secret + `otpauth://` URI, renders it as a QR code (scannable by Google Authenticator, Authy, 1Password, etc.) with a manual-entry fallback, then `POST /api/mfa/enroll/confirm` verifies one live code before persisting the secret. Nothing is persisted until confirmation succeeds, so a half-finished enrollment never locks an account out. Persistence depends on the users backend:
+**TOTP enrollment:** privileged users in hosted customer mode and users under any host's required TOTP policy are routed to `/app/mfa/setup` before protected Hub routes. The page calls `POST /api/mfa/enroll` to generate a fresh base32 secret + `otpauth://` URI, renders it as a QR code with a manual-entry fallback, then `POST /api/mfa/enroll/confirm` verifies one live code before persisting the secret. Persistence depends on the users backend:
 - **Demo roster (default):** confirmed secrets are held in an in-memory, process-scoped override (`src/lib/auth/mfa-enrollment-store.ts`) — separate from the seeded `DEMO_USERS` array — and reset on restart, same as other memory-only stores.
 - **`AUTH_USERS_BACKEND=postgres`:** confirmed secrets are written to `users.totp_secret` / `users.mfa_enabled` (`src/lib/auth/mfa-user-secret.ts`), and survive restarts. Password-reset tokens also use the durable `password_reset_tokens` table (migration `0024`) instead of the in-memory store.
+
+After successful enrollment, show the one-time recovery codes to the account holder. Only hashes are stored in `mfa_recovery_codes`; replacing codes requires a fresh TOTP challenge and invalidates prior codes. Database durability and RLS still need verification on the target host.
 
 Once enrolled, `/app/mfa` verifies exactly as it does for shared-code mode — enter the 6-digit code from the app to receive the short-lived server grant.
 
@@ -154,7 +158,7 @@ Officer invites, meeting self-reminders, and opt-in RSVP confirmations use SMTP 
 2. Set `NEXT_PUBLIC_EMAIL_ENABLED=true` so Hub **Invites** shows the Send email control (Next.js inlines `NEXT_PUBLIC_*` at build time).
 3. With `EMAIL_ENABLED` unset/false, send helpers return `{ ok: false, reason: "not_configured" }` and APIs respond 503 — copy links still work.
 4. Optional cron officer reminders: set `CRON_SECRET`, then call `GET|POST /api/cron/meeting-reminders?days=7` with `Authorization: Bearer $CRON_SECRET` (or `x-cron-secret`). Sends only to officer roster emails for Hub events starting within N days — never member broadcast lists. Add `?dryRun=1` to preview job count and recipients without sending (no audit log write).
-5. Optional post-deploy operator email: set `DEPLOY_NOTIFY_ENABLED=true` and `DEPLOY_NOTIFY_EMAIL=ops@example.ca` (still needs `CRON_SECRET` + transactional email). `GET|POST /api/cron/deploy-notify` sends a host-readiness summary (commit, backends, advisory MFA/email/cron). MFA off never blocks casework and is listed as advisory only. CI may call this after the health smoke when `CRON_SECRET` is present (non-blocking).
+5. Optional post-deploy operator email: set `DEPLOY_NOTIFY_ENABLED=true` and `DEPLOY_NOTIFY_EMAIL=ops@example.ca` (still needs `CRON_SECRET` + transactional email). `GET|POST /api/cron/deploy-notify` sends a host-readiness summary (commit, backends, and configured controls). MFA is advisory on evaluation/self-hosted profiles and blocking when the UnionOps-operated customer profile lacks production TOTP. CI may call this after the health smoke when `CRON_SECRET` is present (non-blocking).
 6. Optional beta-access operator ping: set `ACCESS_REQUEST_NOTIFY_EMAIL=ryan@ryanmorris.ca` (or your ops inbox). Public `/join` and `/request-access` always persist; with `DATABASE_URL` they use Postgres unless you explicitly set `ACCESS_REQUEST_DB_BACKEND=memory`. Review submissions under **Site admin → Access requests**.
 
 ## Sandbox smoke (Proxmox CT 115)
