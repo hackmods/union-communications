@@ -9,13 +9,22 @@ test.describe("Comms design treatments @smoke", () => {
     await page.goto("/en/create/brand-kit/");
     const treatment = page.getByRole("radiogroup", { name: "Design treatment" });
     await expect(treatment.getByRole("radio", { name: "Balanced" })).toBeVisible();
-    await page.getByLabel(/^Union preset$|^Union$/).selectOption("cupe");
-    await expect.poll(async () =>
-      page.evaluate(() => {
-        const stored = JSON.parse(localStorage.getItem("unionops-brand-kit") || "{}");
-        return stored.unionPresetId;
-      }),
-    ).toBe("cupe");
+    const unionSelect = page.getByLabel(/^Union preset$|^Union$/);
+    await expect(unionSelect).toBeVisible();
+    // Hydrate can still be awaiting /api/host-brand — retry until localStorage lands.
+    await expect(async () => {
+      if ((await unionSelect.inputValue()) !== "cupe") {
+        await unionSelect.selectOption("cupe");
+      }
+      await expect
+        .poll(async () =>
+          page.evaluate(() => {
+            const stored = JSON.parse(localStorage.getItem("unionops-brand-kit") || "{}");
+            return stored.unionPresetId;
+          }),
+        )
+        .toBe("cupe");
+    }).toPass({ timeout: 15_000 });
     await page.getByRole("textbox", { name: "Look name" }).fill("Council palette");
     await page.getByRole("button", { name: "Save current colours and logo" }).click();
     await page.getByRole("radio", { name: "Mostly white" }).click();
@@ -152,7 +161,13 @@ test.describe("Comms design treatments @smoke", () => {
 
   test("starter palettes and saved Looks switch without changing treatment", async ({ page }) => {
     await page.goto("/en/create/brand-kit/");
-    await page.getByLabel(/^Union preset$|^Union$/).selectOption("cupe");
+    const unionSelect = page.getByLabel(/^Union preset$|^Union$/);
+    await expect(async () => {
+      if ((await unionSelect.inputValue()) !== "cupe") {
+        await unionSelect.selectOption("cupe");
+      }
+      await expect(unionSelect).toHaveValue("cupe");
+    }).toPass({ timeout: 15_000 });
     const original = page.getByRole("button", { name: "Original colours" });
     const deeper = page.getByRole("button", { name: "Deeper colour" });
     await expect(original).toBeVisible();
