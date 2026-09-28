@@ -328,6 +328,13 @@ ALTER TABLE grievances DROP CONSTRAINT IF EXISTS grievances_privacy_mode_check;
 ALTER TABLE grievances DROP COLUMN IF EXISTS member_user_id;
 ALTER TABLE grievances DROP COLUMN IF EXISTS privacy_mode;
 ALTER TABLE audit_log DROP COLUMN IF EXISTS circle_id;
+-- Security audit fields (0074). Bare ADD COLUMN / ADD CONSTRAINT collide when
+-- the journal is rewound past reconcile but the live columns remain.
+DROP INDEX IF EXISTS audit_log_request_idx;
+ALTER TABLE audit_log DROP CONSTRAINT IF EXISTS audit_log_outcome_check;
+ALTER TABLE audit_log DROP CONSTRAINT IF EXISTS audit_log_request_id_check;
+ALTER TABLE audit_log DROP COLUMN IF EXISTS outcome;
+ALTER TABLE audit_log DROP COLUMN IF EXISTS request_id;
 
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS mentioned_user_ids;
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS reactions;
