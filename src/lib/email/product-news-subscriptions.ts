@@ -13,6 +13,10 @@ import {
   verifyProductNewsToken,
 } from "@/lib/email/product-news-config";
 import { sendTransactionalEmail } from "@/lib/email/send";
+import {
+  composeProductNewsConfirmEmail,
+  composeProductNewsPreferencesEmail,
+} from "@/lib/email/engine";
 
 type Locale = "en" | "fr";
 type BooleanRow = Record<string, boolean>;
@@ -48,15 +52,7 @@ export async function requestProductNewsSubscription(input: {
   // Generic response for known, throttled, and newly submitted addresses.
   if (!isYes(rows, "created")) return "accepted";
   const confirmUrl = publicLink(config.baseUrl, locale, "confirm", token.token);
-  const copy = locale === "fr"
-    ? {
-        subject: "Confirmez votre inscription aux nouvelles UnionOps",
-        text: `Vous avez demandé à recevoir les nouvelles sur les produits UnionOps. Confirmez votre adresse en ouvrant ce lien dans les 48 heures :\n${confirmUrl}\n\nSi vous n’avez rien demandé, ignorez ce message.`,
-      }
-    : {
-        subject: "Confirm your UnionOps product-news subscription",
-        text: `You asked to receive UnionOps product news. Confirm your address by opening this link within 48 hours:\n${confirmUrl}\n\nIf you did not request this, ignore this email.`,
-      };
+  const copy = composeProductNewsConfirmEmail({ locale, confirmUrl });
   const sent = await sendTransactionalEmail({ to: email, ...copy });
   if (!sent.ok) {
     // Pending state is deliberately never eligible for a campaign.
@@ -86,9 +82,10 @@ export async function requestProductNewsPreferences(input: {
   const destination = Array.isArray(rows) ? (rows[0] as { email?: string | null } | undefined)?.email : null;
   if (!destination) return "accepted";
   const link = `${config.baseUrl}/${locale}/email-preferences?token=${encodeURIComponent(token.token)}`;
-  const copy = locale === "fr"
-    ? { subject: "Gérez vos courriels UnionOps", text: `Ouvrez ce lien dans les 30 minutes pour voir vos préférences et vous désabonner des nouvelles sur les produits UnionOps :\n${link}\n\nSi vous n’avez rien demandé, ignorez ce message.` }
-    : { subject: "Manage your UnionOps emails", text: `Open this link within 30 minutes to view your preferences and unsubscribe from UnionOps product news:\n${link}\n\nIf you did not request this, ignore this email.` };
+  const copy = composeProductNewsPreferencesEmail({
+    locale,
+    preferencesUrl: link,
+  });
   const sent = await sendTransactionalEmail({ to: destination, ...copy });
   return sent.ok ? "accepted" : "unavailable";
 }

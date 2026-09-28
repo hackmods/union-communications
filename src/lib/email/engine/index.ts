@@ -19,3 +19,8 @@ export {
   composeRsvpConfirmationEmail,
   composeSignInLinkEmail,
 } from "./compose-transactional";
+export {
+  composeMarketingCampaignEmail,
+  composeProductNewsConfirmEmail,
+  composeProductNewsPreferencesEmail,
+} from "./compose-marketing";
