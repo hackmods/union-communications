@@ -71,13 +71,22 @@ APP_URL="postgres://unionops_app:${POSTGRES_APP_PASSWORD}@db:5432/${POSTGRES_DB}
 run_gate() {
   local log_file="$1"
   shift
+  set +e
   docker run --rm --network "${NET}" \
     -e AUTH_SECRET="${AUTH_SECRET}" \
     -e MIGRATE_DATABASE_URL="${OWNER_URL}" \
     -e DATABASE_URL="${APP_URL}" \
     -e POSTGRES_APP_PASSWORD="${POSTGRES_APP_PASSWORD}" \
+    -e SEED_ON_BOOT=false \
     "$@" \
     "${IMAGE}" node -e "process.exit(0)" >"${log_file}" 2>&1
+  local status=$?
+  set -e
+  if [[ "$status" -ne 0 ]]; then
+    echo "[docker-migrate-smoke] gate container failed (status ${status}). Log:" >&2
+    cat "${log_file}" >&2 || true
+    return "$status"
+  fi
 }
 
 psql_scalar() {
@@ -183,6 +192,8 @@ DROP TABLE IF EXISTS data_publications CASCADE;
 DROP TABLE IF EXISTS data_records CASCADE;
 DROP TABLE IF EXISTS data_staged_rows CASCADE;
 DROP TABLE IF EXISTS data_union_memberships CASCADE;
+DROP TABLE IF EXISTS member_broadcast_campaigns CASCADE;
+DROP TABLE IF EXISTS member_broadcast_consents CASCADE;
 
 -- Union customization foundation (0054). Replay creates these tables; leaving
 -- them in place after deleting journal rows from 0036+ collides on CREATE.

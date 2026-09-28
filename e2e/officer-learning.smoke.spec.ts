@@ -111,7 +111,7 @@ test.describe("Officer Learning @smoke", () => {
     await expect(page.getByText("Officer Learning module")).toBeVisible();
     await expect(
       page.getByRole("link", {
-        name: "Duty of Fair Representation →",
+        name: "DFR: Officer course →",
         exact: true,
       }),
     ).toBeVisible();

@@ -33,8 +33,9 @@ export async function loginAsDemoOfficer(
   await page.goto("/en/app/mfa");
   const codeInput = page.getByLabel(/Verification code|Code de vérification/i);
   const verified = page.getByText(/Identity verified|Identité vérifiée/i);
+  // Match current hub.mfaJourney.disabled / notRequired titles (EN + FR).
   const disabled = page.getByText(
-    /MFA is not required|A2F n'est pas requise|not enabled|non activ/i,
+    /not required on this host|Verification is not required|n.est pas requise|Authenticator sign-in is turned off|sans authenticator/i,
   );
 
   await expect(codeInput.or(verified).or(disabled)).toBeVisible({
