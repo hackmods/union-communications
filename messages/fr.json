@@ -7502,7 +7502,7 @@
       },
       "mfa-journey-help": {
         "title": "Configuration d’authenticator plus claire dans le Hub",
-        "body": "La vérification d’identité explique maintenant pourquoi on vous la demande, comment utiliser une appli d’authentification ou des codes de récupération, et avertit avant de remplacer une appli qui protège déjà votre compte."
+        "body": "La vérification d’identité explique pourquoi on vous la demande, comment utiliser une appli d’authentification ou des codes de récupération, avertit avant de remplacer une appli, et permet de copier ou télécharger les codes de récupération en toute sécurité."
       },
       "trust-and-policies-index": {
         "title": "Index de confiance et des politiques",
@@ -9339,7 +9339,8 @@
         "warningTitle": "Cela remplace votre authenticator actuel",
         "warningBody": "Scanner un nouveau code QR écrase le secret de ce compte. Les codes de votre ancienne appli cesseront de fonctionner. Gardez un code de récupération à portée de main avant de continuer.",
         "currentCodeLabel": "Code de vérification actuel",
-        "continue": "Continuer vers le nouveau code QR"
+        "continue": "Continuer vers le nouveau code QR",
+        "cancel": "Annuler — garder l’authenticator actuel"
       },
       "setupSteps": {
         "open": "Ouvrez votre appli d’authentification — une déjà installée sur votre téléphone ou dans votre gestionnaire de mots de passe convient.",
@@ -9363,7 +9364,10 @@
         "regenerate": "Générer de nouveaux codes de récupération",
         "regenerating": "Génération...",
         "lowWarning": "Il vous reste presque plus de codes de récupération. Générez-en bientôt un nouvel ensemble.",
-        "emptyWarning": "Il ne vous reste aucun code de récupération inutilisé. Générez-en un nouvel ensemble avant d’en avoir besoin."
+        "emptyWarning": "Il ne vous reste aucun code de récupération inutilisé. Générez-en un nouvel ensemble avant d’en avoir besoin.",
+        "saveOnceTitle": "Enregistrez ces codes maintenant",
+        "download": "Télécharger en fichier texte",
+        "doneSaving": "J’ai enregistré ces codes"
       },
       "help": {
         "needHelp": "Besoin d’aide ?",
@@ -9431,7 +9435,15 @@
             "body": "Ce compte utilise un seul secret d’authenticator. Utilisez Remplacer l’authenticator pour passer à une nouvelle appli — cela écrase l’ancienne plutôt que d’en ajouter une seconde."
           }
         }
-      }
+      },
+      "continueToGrievances": "Continuer vers les griefs",
+      "continueToBumping": "Continuer vers le bumpage",
+      "continueToTime": "Continuer vers le temps",
+      "continueToWorkArea": "Continuer vers votre travail",
+      "challengeCodeLabel": "Code d’authenticator ou de récupération",
+      "challengeCodeHint": "Utilisez le code à six chiffres de l’appli, ou collez un code de récupération à usage unique.",
+      "manualSecretCopy": "Copier la clé",
+      "manualSecretCopied": "Copié"
     }
   },
   "dataWorkbench": {

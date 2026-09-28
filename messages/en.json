@@ -7548,7 +7548,7 @@
       },
       "mfa-journey-help": {
         "title": "Clearer authenticator setup in Officer Hub",
-        "body": "Identity verification now explains why you are asked, how to use an authenticator app or recovery codes, and warns before replacing an app that is already protecting your account."
+        "body": "Identity verification explains why you are asked, how to use an authenticator app or recovery codes, warns before replacing an app, and lets you copy or download recovery codes safely."
       },
       "trust-and-policies-index": {
         "title": "Trust and policy index",
@@ -9091,7 +9091,8 @@
         "warningTitle": "This replaces your current authenticator",
         "warningBody": "Scanning a new QR code overwrites the secret on this account. Codes from your old authenticator app will stop working. Keep a recovery code handy before you continue.",
         "currentCodeLabel": "Current verification code",
-        "continue": "Continue to new QR code"
+        "continue": "Continue to new QR code",
+        "cancel": "Cancel — keep current authenticator"
       },
       "setupSteps": {
         "open": "Open your authenticator app — one already on your phone or password manager is fine.",
@@ -9115,7 +9116,10 @@
         "regenerate": "Generate new recovery codes",
         "regenerating": "Generating...",
         "lowWarning": "You are almost out of recovery codes. Generate a new set soon.",
-        "emptyWarning": "You have no unused recovery codes left. Generate a new set before you need one."
+        "emptyWarning": "You have no unused recovery codes left. Generate a new set before you need one.",
+        "saveOnceTitle": "Save these codes now",
+        "download": "Download as text file",
+        "doneSaving": "I saved these codes"
       },
       "help": {
         "needHelp": "Need help?",
@@ -9183,8 +9187,17 @@
             "body": "This account uses one authenticator secret. Use Replace authenticator to move to a new app — that overwrites the old one rather than adding a second."
           }
         }
-      }
-    },    "hybridLink": "Hybrid data",
+      },
+      "continueToGrievances": "Continue to grievances",
+      "continueToBumping": "Continue to bumping",
+      "continueToTime": "Continue to time",
+      "continueToWorkArea": "Continue to your work",
+      "challengeCodeLabel": "Authenticator or recovery code",
+      "challengeCodeHint": "Use the six-digit app code, or paste a one-time recovery code.",
+      "manualSecretCopy": "Copy key",
+      "manualSecretCopied": "Copied"
+    },
+    "hybridLink": "Hybrid data",
     "hybridCardTitle": "Hybrid / offline data",
     "hybridCardDesc": "Encrypt grievance and bumping backups, or keep a local encrypted copy on this device. The file is protected in transit; your browser encrypts it, and the passphrase never leaves this device.",
     "calendarLink": "Calendar",

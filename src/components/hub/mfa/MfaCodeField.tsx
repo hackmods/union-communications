@@ -10,7 +10,11 @@ type MfaCodeFieldProps = {
   allowRecovery?: boolean;
   disabled?: boolean;
   autoComplete?: string;
+  autoFocus?: boolean;
   id?: string;
+  /** Fires once when a 6-digit TOTP value is complete (not for recovery codes). */
+  onTotpComplete?: (code: string) => void;
+  hint?: string;
 };
 
 /** Verification code field — 6-digit TOTP or longer recovery codes. */
@@ -21,27 +25,42 @@ export function MfaCodeField({
   allowRecovery = false,
   disabled,
   autoComplete = "one-time-code",
+  autoFocus,
   id,
+  onTotpComplete,
+  hint,
 }: MfaCodeFieldProps) {
   return (
-    <Input
-      id={id}
-      label={label}
-      value={value}
-      onChange={(e) => {
-        const next = e.target.value;
-        if (allowRecovery) {
-          onChange(next.toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 19));
-          return;
-        }
-        onChange(next.replace(/\D/g, "").slice(0, 6));
-      }}
-      inputMode={allowRecovery ? "text" : "numeric"}
-      autoComplete={autoComplete}
-      maxLength={allowRecovery ? 19 : 6}
-      placeholder={allowRecovery ? undefined : "000000"}
-      disabled={disabled}
-      required
-    />
+    <div className="space-y-1">
+      <Input
+        id={id}
+        label={label}
+        value={value}
+        autoFocus={autoFocus}
+        onChange={(e) => {
+          const raw = e.target.value;
+          if (allowRecovery) {
+            const next = raw.toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 19);
+            onChange(next);
+            if (/^\d{6}$/.test(next) && onTotpComplete) {
+              onTotpComplete(next);
+            }
+            return;
+          }
+          const next = raw.replace(/\D/g, "").slice(0, 6);
+          onChange(next);
+          if (next.length === 6 && onTotpComplete) {
+            onTotpComplete(next);
+          }
+        }}
+        inputMode={allowRecovery ? "text" : "numeric"}
+        autoComplete={autoComplete}
+        maxLength={allowRecovery ? 19 : 6}
+        placeholder={allowRecovery ? undefined : "000000"}
+        disabled={disabled}
+        required
+      />
+      {hint ? <p className="text-xs text-gray-500">{hint}</p> : null}
+    </div>
   );
 }

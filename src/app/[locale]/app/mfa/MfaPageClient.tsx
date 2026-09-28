@@ -167,6 +167,7 @@ export function MfaPageClient() {
           recoveryCodesRemaining={mfaStatus.recoveryCodesRemaining}
           newRecoveryCodes={newRecoveryCodes}
           onContinue={resume}
+          onDismissNewCodes={() => setNewRecoveryCodes([])}
           onRotate={handleRotate}
           rotating={rotatingRecoveryCodes}
           rotateError={rotateError}
@@ -182,15 +183,14 @@ export function MfaPageClient() {
   const title = tJourney(`context.${intent}.title`);
   const subtitle = tJourney(`context.${intent}.subtitle`);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const verifyWithCode = async (submittedCode: string) => {
     setLoading(true);
     setError(null);
 
     const res = await fetch("/api/mfa/verify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code }),
+      body: JSON.stringify({ code: submittedCode }),
     });
 
     if (!res.ok) {
@@ -219,6 +219,11 @@ export function MfaPageClient() {
     router.push(nextPath ?? "/app");
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await verifyWithCode(code);
+  };
+
   return (
     <MfaJourneyShell
       title={title}
@@ -227,11 +232,16 @@ export function MfaPageClient() {
     >
       <form onSubmit={handleSubmit} className="space-y-3">
         <MfaCodeField
-          label={t("mfaCode")}
+          label={tJourney("challengeCodeLabel")}
           value={code}
           onChange={setCode}
           allowRecovery
           disabled={loading}
+          autoFocus
+          hint={tJourney("challengeCodeHint")}
+          onTotpComplete={(totp) => {
+            if (!loading) void verifyWithCode(totp);
+          }}
         />
         {error ? (
           <p className="text-sm text-red-600" role="alert">

@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
+import { Link } from "@/i18n/navigation";
 import { MfaCodeField } from "@/components/hub/mfa/MfaCodeField";
 
 type MfaReplaceGateProps = {
@@ -11,6 +12,7 @@ type MfaReplaceGateProps = {
   onConfirm: () => void;
   loading?: boolean;
   error?: string | null;
+  cancelHref?: string;
 };
 
 /** Warn + require current code before replacing the enrolled authenticator. */
@@ -20,6 +22,7 @@ export function MfaReplaceGate({
   onConfirm,
   loading,
   error,
+  cancelHref,
 }: MfaReplaceGateProps) {
   const t = useTranslations("hub.mfaJourney");
   const tHub = useTranslations("hub");
@@ -33,7 +36,7 @@ export function MfaReplaceGate({
         className="space-y-3"
         onSubmit={(e) => {
           e.preventDefault();
-          onConfirm();
+          if (!loading) onConfirm();
         }}
       >
         <MfaCodeField
@@ -41,6 +44,10 @@ export function MfaReplaceGate({
           value={code}
           onChange={onCodeChange}
           disabled={loading}
+          autoFocus
+          onTotpComplete={() => {
+            if (!loading) onConfirm();
+          }}
         />
         {error ? (
           <p className="text-sm text-red-600" role="alert">
@@ -51,6 +58,14 @@ export function MfaReplaceGate({
           {loading ? tHub("verifying") : t("replace.continue")}
         </Button>
       </form>
+      {cancelHref ? (
+        <Link
+          href={cancelHref}
+          className="block text-center text-sm font-medium text-opseu-blue hover:underline"
+        >
+          {t("replace.cancel")}
+        </Link>
+      ) : null}
     </div>
   );
 }

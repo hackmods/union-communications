@@ -3,6 +3,7 @@
 - Officer Hub MFA is one continuous journey: shared shell, Need help? progressive disclosure, context-aware challenge copy from `?next=`, and safe return after verify.
 - Single-authenticator management: status when enrolled; **Replace authenticator** (not “add many”); `POST /api/mfa/enroll` requires a current code when a secret already exists; recovery-code save / low-count polish.
 - Wired Hub MFA redirects + TotpEnrollmentGate + key client entry points to preserve `next`. Status exposes `enrolled`.
+- Follow-on QOL: destination-aware continue labels, recovery download + save gate after rotate, replace cancel + loading, copy manual key, autofocus / six-digit auto-submit, challenge label covers recovery codes.
 - What's new (hub): `mfa-journey-help`.
 
 ## 2026-09-27 — Union lifecycle (archive / rename / empty delete)

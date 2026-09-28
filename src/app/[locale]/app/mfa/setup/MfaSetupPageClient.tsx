@@ -49,6 +49,8 @@ export function MfaSetupPageClient() {
   const [error, setError] = useState<string | null>(null);
   const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
   const [manualOpen, setManualOpen] = useState(false);
+  const [secretCopied, setSecretCopied] = useState(false);
+  const [replaceSubmitting, setReplaceSubmitting] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -94,7 +96,12 @@ export function MfaSetupPageClient() {
   }
 
   const startEnroll = async (currentCode?: string) => {
-    setState("loading");
+    const replacing = Boolean(currentCode) || replaceMode;
+    if (replacing && state === "replaceGate") {
+      setReplaceSubmitting(true);
+    } else {
+      setState("loading");
+    }
     setError(null);
     try {
       const res = await fetch("/api/mfa/enroll", {
@@ -108,7 +115,7 @@ export function MfaSetupPageClient() {
           requiresCurrentCode?: boolean;
         };
         setError(body.error ?? t("mfaSetupError"));
-        setState(body.requiresCurrentCode ? "replaceGate" : "idle");
+        setState(body.requiresCurrentCode || replaceMode ? "replaceGate" : "idle");
         return;
       }
       const body = (await res.json()) as {
@@ -122,10 +129,13 @@ export function MfaSetupPageClient() {
         width: 220,
       });
       setQrDataUrl(dataUrl);
+      setCode("");
       setState("ready");
     } catch {
       setError(t("mfaSetupError"));
       setState(replaceMode ? "replaceGate" : "idle");
+    } finally {
+      setReplaceSubmitting(false);
     }
   };
 
@@ -185,8 +195,9 @@ export function MfaSetupPageClient() {
         <MfaReplaceGate
           code={replaceCode}
           onCodeChange={setReplaceCode}
-          loading={false}
+          loading={replaceSubmitting}
           error={error}
+          cancelHref={hubMfaChallengeHref(nextPath)}
           onConfirm={() => void startEnroll(replaceCode)}
         />
       ) : null}
@@ -251,15 +262,43 @@ export function MfaSetupPageClient() {
                 <p className="break-all rounded-md bg-gray-50 px-3 py-2 font-mono text-sm text-opseu-dark">
                   {secret}
                 </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="min-h-11 w-full"
+                  onClick={() => {
+                    void navigator.clipboard
+                      .writeText(secret)
+                      .then(() => setSecretCopied(true))
+                      .catch(() => setSecretCopied(false));
+                  }}
+                >
+                  {secretCopied
+                    ? tJourney("manualSecretCopied")
+                    : tJourney("manualSecretCopy")}
+                </Button>
               </div>
             </details>
           ) : null}
-          <form onSubmit={handleConfirm} className="space-y-3">
+          <form
+            id="mfa-setup-confirm-form"
+            onSubmit={handleConfirm}
+            className="space-y-3"
+          >
             <MfaCodeField
               label={t("mfaSetupCodeLabel")}
               value={code}
               onChange={setCode}
               disabled={state === "confirming"}
+              autoFocus
+              onTotpComplete={() => {
+                if (state === "ready") {
+                  const form = document.getElementById(
+                    "mfa-setup-confirm-form",
+                  ) as HTMLFormElement | null;
+                  form?.requestSubmit();
+                }
+              }}
             />
             {error ? (
               <p className="text-sm text-red-600" role="alert">
