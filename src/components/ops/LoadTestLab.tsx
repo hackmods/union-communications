@@ -2,13 +2,13 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { LabsNav } from "@/components/ops/LabsNav";
-import {
-  CAPACITY_TIERS,
-  type LoadLabLiveStatus,
-  type LoadLabProfile,
-  type LoadLabSummary,
-  parseSummaryJson,
-} from "@/lib/ops/load-lab";
+import { CAPACITY_TIERS } from "@/lib/ops/load-lab/env";
+import { parseSummaryJson } from "@/lib/ops/load-lab/summary-format";
+import type {
+  LoadLabLiveStatus,
+  LoadLabProfile,
+  LoadLabSummary,
+} from "@/lib/ops/load-lab/types";
 import {
   LOAD_LAB_COPY,
   type LoadLabLocale,
