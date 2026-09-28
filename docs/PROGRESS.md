@@ -1,3 +1,9 @@
+## 2026-09-27 — Load Test Lab (on-box capacity)
+
+- Operator **Load Test Lab** at `/load-test-lab/` (QA Labs sibling of Viewport Lab): configure profiles, Start/Abort on this host, import `summary.json`, capacity headline + HTTP-signal hints.
+- In-process Node runner (`src/lib/ops/load-lab/`) with smoke / public / hub-read / capacity sweep (50→1000 + abort). Gated by `LOAD_LAB_ENABLED` + production interlock; `platform_admin` APIs under `/api/ops/load-lab*`.
+- CLI: `npm run test:load:smoke|public|hub-read|capacity`. Guide: [`docs/guides/LOAD_TEST_LAB.md`](guides/LOAD_TEST_LAB.md). No CI capacity jobs.
+
 ## 2026-09-27 — Account Support MFA reset + Profile Security card
 
 - Site Admin Account Support can reset a locked-out user’s authenticator (clear TOTP secret, invalidate recovery codes, bump `sessionVersion`) with fresh operator MFA step-up and typed-email confirm — reset to re-enroll, not permanent MFA off.

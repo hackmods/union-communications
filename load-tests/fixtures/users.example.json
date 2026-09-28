@@ -1,0 +1,9 @@
+{
+  "_comment": "Example load-test accounts — copy to a private file; never commit real passwords.",
+  "users": [
+    {
+      "username": "loadtest.officer@example.test",
+      "password": "change-me"
+    }
+  ]
+}

@@ -106,6 +106,7 @@ export function pathScopedFramingHeaderRoutes(): SecurityHeaderRoute[] {
 /** Paths the Viewport Lab must refuse to navigate into (match auth framing). */
 export const VIEWPORT_LAB_BLOCKED_PATH_PREFIXES = [
   "/viewport-lab",
+  "/load-test-lab",
   "/app",
   "/portal",
   "/api",

@@ -6,6 +6,8 @@ Live: `https://unionops.org/viewport-lab/`
 Local: `http://localhost:3000/viewport-lab/`  
 Linked from `/build`. Locale-prefixed URLs (`/en/viewport-lab/`, `/fr/viewport-lab/`) permanently redirect here.
 
+Shares **QA Labs** navigation with [Load Test Lab](LOAD_TEST_LAB.md).
+
 ## What it is / is not
 
 | Is | Is not |

@@ -28,6 +28,7 @@ import {
   presetById,
   type ViewportPresetId,
 } from "@/lib/ops/viewport-presets";
+import { LabsNav } from "@/components/ops/LabsNav";
 
 export type ViewportLabApi = {
   version: typeof VIEWPORT_LAB_API_VERSION;
@@ -341,6 +342,9 @@ export function ViewportLab() {
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-950 text-zinc-100">
+      <div className="shrink-0 border-b border-zinc-800 bg-zinc-900 px-3 pt-2">
+        <LabsNav active="viewport" />
+      </div>
       <header className="shrink-0 border-b border-zinc-800 bg-zinc-900 px-3 py-2">
         <div className="flex flex-wrap items-center gap-2">
           <h1 className="mr-2 text-sm font-semibold tracking-wide text-zinc-200">

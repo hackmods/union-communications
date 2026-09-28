@@ -29,6 +29,9 @@
 # Local attachment / document object storage (FEAT-001)
 .data/
 
+# On-box Load Test Lab result artifacts
+/load-results/
+
 # Local reference clones (e.g. local243.github.io) — ignore for now
 /reference/
 
