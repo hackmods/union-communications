@@ -51,9 +51,10 @@ src/lib/email/
 
 ## Operator surfaces
 
-- Site Admin Email Ops (design preview, health, test send) — planned
-- Product-news panel — existing; wraps shared shell
-- `GET /api/auth/email-status` — transport snapshot
+- Site Admin **Email operations** — `/app/site-admin/email` (template studio preview, transport health, test send)
+- Product-news panel — `/app/site-admin/product-news` (campaigns; wraps shared shell in a later phase)
+- `GET /api/auth/email-status` — transport snapshot for login/debug
+- `GET|POST /api/site-admin/email-ops` — operator preview + test send (site-admin MFA session)
 
 ## Tests
 
