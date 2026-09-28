@@ -48,7 +48,7 @@ export async function loginAsDemoOfficer(
       timeout: 20_000,
     });
     await page.goto("/en/app/mfa");
-    await expect(verified).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByRole("heading", { name: /Identity verified|Identité vérifiée/i })).toBeVisible({ timeout: 20_000 });
   }
 }
 
