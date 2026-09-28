@@ -11,7 +11,7 @@ test.describe("MFA setup path @smoke", () => {
     await page.goto("/en/app/mfa");
     await expect(
       page.getByText(
-        /Identity verified|Identité vérifiée|MFA is not required|A2F n'est pas requise/i,
+        /Identity verified|Identité vérifiée|Multi-factor authentication is not required|authentification multifactorielle n.est pas requise|Verification is not required|vérification n.est pas requise/i,
       ),
     ).toBeVisible({ timeout: 20_000 });
 
@@ -19,7 +19,7 @@ test.describe("MFA setup path @smoke", () => {
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: /Set up an authenticator|Configurer une appli/i,
+        name: /Set up an authenticator|Configurer une appli|Replace your authenticator|Remplacer votre appli|Multi-factor authentication is not required|authentification multifactorielle n.est pas requise/i,
       }),
     ).toBeVisible({ timeout: 20_000 });
   });

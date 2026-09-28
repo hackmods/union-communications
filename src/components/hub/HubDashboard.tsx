@@ -22,6 +22,7 @@ import {
 } from "@/lib/constants/public-type";
 import { formatRoleList } from "@/lib/auth/role-labels";
 import { cn } from "@/lib/utils";
+import { hubMfaChallengeHref } from "@/lib/auth/mfa-return-path";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 export function HubDashboard() {
@@ -89,7 +90,7 @@ export function HubDashboard() {
             <Card density="compact" className="border-amber-300 bg-amber-50">
               <h3 className="font-semibold text-amber-950">{tHome("mfaTitle")}</h3>
               <p className="mt-2 text-sm leading-relaxed text-amber-950">{tHome("mfaBody")}</p>
-              <Link href="/app/mfa" className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-blue underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
+              <Link href={hubMfaChallengeHref()} className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-blue underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2">
                 {t("mfaRequired")}
               </Link>
             </Card>
@@ -130,7 +131,11 @@ export function HubDashboard() {
                 {modules.slice(0, 4).map((mod) => (
                   <li key={mod.id}>
                     <Link
-                      href={mod.requiresMfa && !mfaOk ? "/app/mfa" : mod.href}
+                      href={
+                        mod.requiresMfa && !mfaOk
+                          ? hubMfaChallengeHref(mod.href)
+                          : mod.href
+                      }
                       className="flex min-h-11 items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-opseu-dark hover:border-opseu-blue/40 focus-visible:outline-2 focus-visible:outline-offset-2"
                     >
                       <span>{t(`modules.${mod.nameKey}`)}</span>

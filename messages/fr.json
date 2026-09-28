@@ -7500,6 +7500,10 @@
         "title": "Archiver ou retirer les syndicats en double",
         "body": "L’admin Syndicats signale les noms en double, filtre actifs et archivés, et explique quand la suppression est bloquée. Renommez, archivez, restaurez ou supprimez définitivement les syndicats vides — les archivés quittent la configuration présidence."
       },
+      "mfa-journey-help": {
+        "title": "Configuration d’authenticator plus claire dans le Hub",
+        "body": "La vérification d’identité explique maintenant pourquoi on vous la demande, comment utiliser une appli d’authentification ou des codes de récupération, et avertit avant de remplacer une appli qui protège déjà votre compte."
+      },
       "trust-and-policies-index": {
         "title": "Index de confiance et des politiques",
         "body": "Consultez depuis une seule page les renseignements d’UnionOps sur la confidentialité, la sécurité, l’accessibilité et les fournisseurs de services. Les pages sur les conditions et le traitement des données indiquent clairement quand aucune version approuvée n’est publiée."
@@ -8206,7 +8210,7 @@
       "platformAttention": "Travail de la plateforme",
       "platformAttentionBody": "Ouvrez ici les opérations de l’hôte. L’accès aux dossiers locaux reste régi par leurs propres règles.",
       "mfaTitle": "Vérifiez votre identité pour voir votre travail",
-      "mfaBody": "Les espaces de travail privés seront disponibles après la vérification d’identité sur cet hôte.",
+      "mfaBody": "Les espaces de travail privés s’ouvrent après vérification avec votre appli d’authentification sur cet hôte.",
       "mfaNext": "Vos espaces de travail autorisés apparaîtront après la vérification.",
       "noWorkModules": "Aucun tableau de tâches ni point de suivi n’est activé pour cette section. Les autres espaces de travail sont dans les prochaines actions.",
       "tenantPending": "Vérification des réglages de votre syndicat. S’ils n’apparaissent pas, actualisez la page ou contactez l’administration du Hub des dirigeants.",
@@ -8948,33 +8952,33 @@
     "yourModules": "Vos modules",
     "openModule": "Ouvrir le module",
     "mfaTitle": "Vérifiez votre identité",
-    "mfaSubtitle": "L'authentification multifacteur est requise pour les modules confidentiels",
+    "mfaSubtitle": "L'authentification multifactorielle est requise pour les modules confidentiels",
     "mfaCode": "Code de vérification",
     "verifyMfa": "Vérifier",
     "verifying": "Vérification...",
-    "mfaError": "Ce code n’est pas valide. Vérifiez votre appli d’authentification et réessayez.",
+    "mfaError": "Ce code n’est pas valide. Vérifiez votre appli d’authentification ou un code de récupération, puis réessayez.",
     "mfaDevHint": "Sur les instances de démo, essayez 000000. En production, il faut une vraie appli d’authentification.",
-    "mfaRequired": "AMF requise",
-    "mfaOk": "AMF vérifiée",
+    "mfaRequired": "Vérifier l’identité",
+    "mfaOk": "Identité vérifiée",
     "mfaVerified": "Identité vérifiée",
     "mfaVerifiedDesc": "Vous pouvez accéder aux modules confidentiels.",
-    "mfaDisabledTitle": "L'A2F n'est pas requise sur cet hôte",
-    "mfaDisabledDesc": "La connexion à deux facteurs est désactivée sur cette instance (défaut pour les démos). La personne qui gère ce Hub des dirigeants peut l’activer pour le travail confidentiel réel.",
+    "mfaDisabledTitle": "L’authentification multifactorielle n’est pas requise sur cet hôte",
+    "mfaDisabledDesc": "La connexion par authenticator est désactivée sur cette instance (défaut pour les démos). La personne qui gère ce Hub des dirigeants peut l’activer pour le travail confidentiel réel.",
     "backToDashboard": "Retour au tableau de bord",
-    "mfaSetupLink": "Configurer une appli d'authentification (TOTP)",
+    "mfaSetupLink": "Configurer une appli d'authentification",
     "mfaSetupTitle": "Configurer une appli d'authentification",
-    "mfaSetupSubtitle": "Scannez le code QR avec une appli d'authentification (Google Authenticator, Authy, 1Password, etc.) pour activer l'AMF TOTP.",
+    "mfaSetupSubtitle": "Scannez le code QR avec une appli d'authentification sur votre téléphone ou dans votre gestionnaire de mots de passe.",
     "mfaSetupGenerate": "Générer un code de configuration",
     "mfaSetupRegenerate": "Générer un nouveau code",
     "mfaSetupQrAlt": "Code QR pour la configuration de l'appli d'authentification",
-    "mfaSetupScanHint": "Scannez ce code, ou saisissez le secret manuellement ci-dessous.",
-    "mfaSetupSecretLabel": "Secret de saisie manuelle",
+    "mfaSetupScanHint": "Scannez ce code avec votre appli d'authentification.",
+    "mfaSetupSecretLabel": "Clé de saisie manuelle",
     "mfaSetupCodeLabel": "Saisissez le code à 6 chiffres de votre appli",
     "mfaSetupConfirm": "Confirmer et activer",
     "mfaSetupSuccess": "Appli d'authentification activée",
-    "mfaSetupSuccessDesc": "TOTP est maintenant votre méthode d'AMF pour ce compte. Vérifiez votre identité pour continuer.",
+    "mfaSetupSuccessDesc": "Parfait. Une chose de moins dont s’occuper. Enregistrez vos codes de récupération, puis vérifiez pour continuer.",
     "mfaSetupVerifyNow": "Vérifier maintenant",
-    "mfaSetupError": "Impossible de terminer la configuration de l’authenticator. Demandez à la personne qui gère ce Hub des dirigeants de confirmer que la connexion à deux facteurs est activée, puis réessayez.",
+    "mfaSetupError": "Impossible de terminer la configuration de l’authenticator. Demandez à la personne qui gère ce Hub des dirigeants de confirmer que l’authentification multifactorielle est activée, puis réessayez.",
     "hybridLink": "Données hybrides",
     "hybridCardTitle": "Données hybrides / hors ligne",
     "hybridCardDesc": "Chiffrez les sauvegardes de griefs et de bumpage, ou conservez une copie locale chiffrée sur cet appareil. Le fichier est protégé en transit ; votre navigateur le chiffre, et la phrase secrète ne quitte jamais cet appareil.",
@@ -9276,6 +9280,158 @@
       "approve": "Approuver",
       "decline": "Refuser",
       "invite": "Inviter cette personne"
+    },
+    "mfaNotRequiredTitle": "La vérification n’est pas requise pour votre compte",
+    "mfaNotRequiredDesc": "Votre rôle peut utiliser le Hub des dirigeants sans authenticator sur cet hôte. Vous pouvez tout de même en configurer un si votre section le demande.",
+    "mfaJourney": {
+      "continueToWork": "Continuer",
+      "backToDashboard": "Retour au tableau de bord",
+      "setupCta": "Configurer une appli d'authentification",
+      "context": {
+        "grievances": {
+          "title": "Vérification de sécurité rapide",
+          "subtitle": "Les griefs peuvent contenir des renseignements sensibles sur les membres. Vérifiez que c’est bien vous avant de continuer."
+        },
+        "bumping": {
+          "title": "Vérification de sécurité rapide",
+          "subtitle": "Les dossiers de bumpage peuvent contenir des renseignements sensibles sur les membres. Vérifiez que c’est bien vous avant de continuer."
+        },
+        "time": {
+          "title": "Vérification de sécurité rapide",
+          "subtitle": "Les dossiers de temps et de main-d’œuvre peuvent contenir des renseignements personnels. Vérifiez que c’est bien vous avant de continuer."
+        },
+        "casework": {
+          "title": "Vérification de sécurité rapide",
+          "subtitle": "Cette zone peut contenir des renseignements confidentiels de la section. Vérifiez que c’est bien vous avant de continuer."
+        },
+        "setup": {
+          "title": "Protégez votre compte UnionOps",
+          "subtitle": "Une appli d’authentification ajoute une couche de protection même si quelqu’un obtient votre mot de passe."
+        },
+        "enroll": {
+          "title": "Configurer une appli d’authentification",
+          "subtitle": "Utilisez une appli sur votre téléphone ou dans votre gestionnaire de mots de passe. Vous scannerez un code QR, puis entrerez un code à six chiffres."
+        },
+        "replace": {
+          "title": "Remplacer votre appli d’authentification",
+          "subtitle": "Cela remplace l’appli qui protège déjà votre compte. Les codes de l’ancienne appli cesseront de fonctionner."
+        },
+        "manage": {
+          "title": "Identité vérifiée",
+          "subtitle": "Votre appli d’authentification protège le travail confidentiel pendant cette session."
+        }
+      },
+      "disabled": {
+        "title": "L’authentification multifactorielle n’est pas requise sur cet hôte",
+        "body": "La connexion par authenticator est désactivée sur cette instance (défaut pour les démos). La personne qui gère ce Hub des dirigeants peut l’activer pour le travail confidentiel réel."
+      },
+      "notRequired": {
+        "title": "La vérification n’est pas requise pour votre compte",
+        "body": "Votre rôle peut utiliser le Hub des dirigeants sans authenticator sur cet hôte."
+      },
+      "manage": {
+        "title": "Une appli d’authentification protège ce compte",
+        "successCheeky": "Parfait. Une chose de moins dont s’occuper.",
+        "body": "La vérification ouvre les modules confidentiels pour cette connexion jusqu’à votre déconnexion.",
+        "replaceLink": "Remplacer l’authenticator"
+      },
+      "replace": {
+        "warningTitle": "Cela remplace votre authenticator actuel",
+        "warningBody": "Scanner un nouveau code QR écrase le secret de ce compte. Les codes de votre ancienne appli cesseront de fonctionner. Gardez un code de récupération à portée de main avant de continuer.",
+        "currentCodeLabel": "Code de vérification actuel",
+        "continue": "Continuer vers le nouveau code QR"
+      },
+      "setupSteps": {
+        "open": "Ouvrez votre appli d’authentification — une déjà installée sur votre téléphone ou dans votre gestionnaire de mots de passe convient.",
+        "add": "Ajoutez un nouveau compte et choisissez l’option pour scanner un code QR.",
+        "scan": "Scannez le code QR UnionOps affiché sur cette page.",
+        "enter": "Entrez le code à six chiffres affiché par votre appli.",
+        "protected": "Vous êtes protégé·e — enregistrez ensuite vos codes de récupération."
+      },
+      "cantScan": "Impossible de scanner le code QR ?",
+      "manualSecretHint": "Saisissez cette clé manuellement dans votre appli d’authentification.",
+      "recovery": {
+        "title": "Codes de récupération",
+        "remaining": "{count, plural, =0 {Aucun code de récupération inutilisé restant.} one {# code de récupération inutilisé restant.} other {# codes de récupération inutilisés restants.}}",
+        "saveOnce": "Enregistrez ces codes en lieu sûr. Chaque code ne fonctionne qu’une fois, et nous n’affichons cette liste que maintenant.",
+        "copyAll": "Tout copier",
+        "copied": "Copié",
+        "acknowledge": "J’ai enregistré ces codes",
+        "continue": "Continuer vers la vérification",
+        "rotateHint": "Générez un nouvel ensemble de codes de récupération. Vos anciens codes inutilisés cesseront de fonctionner.",
+        "rotateCodeLabel": "Code actuel de l’authenticator",
+        "regenerate": "Générer de nouveaux codes de récupération",
+        "regenerating": "Génération...",
+        "lowWarning": "Il vous reste presque plus de codes de récupération. Générez-en bientôt un nouvel ensemble.",
+        "emptyWarning": "Il ne vous reste aucun code de récupération inutilisé. Générez-en un nouvel ensemble avant d’en avoir besoin."
+      },
+      "help": {
+        "needHelp": "Besoin d’aide ?",
+        "challenge": {
+          "why": {
+            "title": "Pourquoi dois-je faire ceci ?",
+            "body": "Les zones confidentielles du Hub des dirigeants peuvent contenir des renseignements sur les membres. Un code de votre appli d’authentification confirme que c’est toujours vous pendant cette session."
+          },
+          "whereCode": {
+            "title": "Où trouver le code à six chiffres ?",
+            "body": "Ouvrez l’appli d’authentification utilisée lors de l’inscription. Trouvez l’entrée UnionOps (ou de ce Hub) — un nouveau code à six chiffres se renouvelle environ toutes les 30 secondes."
+          },
+          "recovery": {
+            "title": "Puis-je utiliser un code de récupération ?",
+            "body": "Oui. Si vous avez enregistré des codes de récupération à l’inscription, collez-en un dans le champ de vérification à la place du code à six chiffres. Chaque code de récupération ne fonctionne qu’une fois."
+          },
+          "notWorking": {
+            "title": "Mon code ne fonctionne pas",
+            "body": "Attendez le prochain code et réessayez. Assurez-vous que la date et l’heure de votre téléphone sont réglées automatiquement — les codes d’authenticator dépendent d’une horloge exacte."
+          },
+          "after": {
+            "title": "Que se passe-t-il après la vérification ?",
+            "body": "Cette connexion peut ouvrir les modules confidentiels jusqu’à votre déconnexion. Vous n’aurez pas à entrer un code à chaque page — seulement lorsque cet hôte le redemandera."
+          }
+        },
+        "setup": {
+          "whatApp": {
+            "title": "Qu’est-ce qu’une appli d’authentification ?",
+            "body": "Une appli d’authentification affiche de courts codes qui changent avec le temps. On l’appelle parfois TOTP ou mot de passe à usage unique basé sur le temps. Vous n’avez pas besoin de connaître ces termes pour terminer la configuration."
+          },
+          "cantScan": {
+            "title": "Impossible de scanner le code QR ?",
+            "body": "Choisissez la saisie manuelle dans votre appli et tapez la clé affichée sous Impossible de scanner. Les espaces n’ont pas d’importance."
+          },
+          "examples": {
+            "title": "Quelles applis fonctionnent ?",
+            "body": "La plupart des applis d’authentification et de nombreux gestionnaires de mots de passe fonctionnent — par exemple Google Authenticator, Authy ou 1Password. UnionOps n’exige pas un fournisseur précis."
+          }
+        },
+        "replace": {
+          "whyReplace": {
+            "title": "Pourquoi remplacer mon authenticator ?",
+            "body": "Utilisez le remplacement lorsque vous changez de téléphone, d’appli, ou si l’ancienne appli n’est plus privée. Cela n’ajoute pas un second authenticator — votre compte conserve un seul secret."
+          },
+          "oldStops": {
+            "title": "Mon ancienne appli fonctionnera-t-elle encore ?",
+            "body": "Non. Après confirmation du nouveau code QR, les codes de l’authenticator précédent cessent de fonctionner."
+          },
+          "saveCodes": {
+            "title": "Et les codes de récupération ?",
+            "body": "Confirmer un nouvel authenticator émet un nouvel ensemble de codes de récupération. Enregistrez-les ; les anciens codes inutilisés du jeu précédent cessent de fonctionner."
+          }
+        },
+        "manage": {
+          "lostPhone": {
+            "title": "J’ai perdu mon téléphone",
+            "body": "Utilisez un code de récupération si vous en avez encore. Si vous ne pouvez pas vérifier, contactez la personne qui gère ce Hub des dirigeants — elle pourra peut-être aider à réinitialiser l’accès authenticator."
+          },
+          "recoveryManage": {
+            "title": "Que sont les codes de récupération ?",
+            "body": "Des codes de secours à usage unique lorsque vous ne pouvez pas ouvrir votre appli d’authentification. Conservez-les hors ligne et en privé."
+          },
+          "singleSecret": {
+            "title": "Puis-je ajouter un autre authenticator ?",
+            "body": "Ce compte utilise un seul secret d’authenticator. Utilisez Remplacer l’authenticator pour passer à une nouvelle appli — cela écrase l’ancienne plutôt que d’en ajouter une seconde."
+          }
+        }
+      }
     }
   },
   "dataWorkbench": {
@@ -13750,7 +13906,7 @@
     "error": "Impossible d'envoyer ce brouillon. Réessayez.",
     "empty": "Rien à envoyer pour l'instant. Ajoutez d'abord un nom de section locale ou au moins une proposition.",
     "emptyInformalLog": "Rien à envoyer pour l'instant. Ajoutez d'abord ce qui s'est passé dans au moins une entrée.",
-    "mfaFirst": "Vérifier le MFA d'abord"
+    "mfaFirst": "Vérifier l’identité d’abord"
   },
   "hubBylaws": {
     "title": "Règlements locaux",

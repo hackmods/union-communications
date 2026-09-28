@@ -6,6 +6,7 @@ import { SiteFeedbackForm } from "@/components/feedback/SiteFeedbackForm";
 import { PublicHubPanel } from "@/components/comms/PublicHubPanel";
 import { PUBLIC_PAGE_TITLE_CLASS } from "@/lib/constants/public-type";
 import { isFeedbackMemoryBackend } from "@/lib/platform-feedback/durable";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function HubSendFeedbackPage({
   params,
@@ -16,7 +17,7 @@ export default async function HubSendFeedbackPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/send-feedback"));
 
   const t = await getTranslations("hub.sendFeedback");
 

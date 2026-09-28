@@ -102,6 +102,7 @@ describe("MFA API routes", () => {
         enabled: false,
         required: false,
         mode: null,
+        enrolled: false,
         needsEnrollment: false,
         mfaVerified: false,
         recoveryCodesRemaining: null,
@@ -113,6 +114,7 @@ describe("MFA API routes", () => {
       process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
       process.env.AUTH_MFA_MODE = "totp";
       authMock.mockResolvedValue(session({
+        id: "user-member-no-mfa",
         roles: ["local_member"],
         mfaVerified: false,
         mfaRequired: false,
@@ -122,6 +124,7 @@ describe("MFA API routes", () => {
         enabled: true,
         required: false,
         mode: "totp",
+        enrolled: false,
         needsEnrollment: false,
         mfaVerified: false,
       });
@@ -182,29 +185,63 @@ describe("MFA API routes", () => {
   describe("POST /api/mfa/enroll", () => {
     it("returns 401 without a session and 503 when TOTP mode is off", async () => {
       authMock.mockResolvedValue(null);
-      expect((await enrollMfa()).status).toBe(401);
+      expect((await enrollMfa(jsonRequest({}))).status).toBe(401);
 
       authMock.mockResolvedValue(session());
-      const disabled = await enrollMfa();
+      const disabled = await enrollMfa(jsonRequest({}));
       expect(disabled.status).toBe(503);
       expect(await disabled.json()).toEqual({
         error: "TOTP enrollment requires AUTH_MFA_MODE=totp on this instance.",
       });
     });
 
-    it("returns a pending secret and otpauth URI without persisting until confirm", async () => {
+    it("returns a pending secret for first-time enroll without a current code", async () => {
+      process.env.AUTH_MFA_ENABLED = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      authMock.mockResolvedValue(session({ id: "user-no-totp-secret" }));
+
+      const before = await getTotpSecretForUser("user-no-totp-secret");
+      expect(before).toBeNull();
+      const res = await enrollMfa(jsonRequest({}));
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as {
+        secret: string;
+        otpauthUri: string;
+        replacing?: boolean;
+      };
+      expect(body.secret).toMatch(/^[A-Z2-7]+$/);
+      expect(body.otpauthUri).toContain("otpauth://totp/");
+      expect(body.otpauthUri).toContain(`secret=${body.secret}`);
+      expect(body.replacing).toBe(false);
+      expect(await getTotpSecretForUser("user-no-totp-secret")).toBeNull();
+    });
+
+    it("requires a current verification code before replacing an enrolled authenticator", async () => {
       process.env.AUTH_MFA_ENABLED = "true";
       process.env.AUTH_MFA_MODE = "totp";
       authMock.mockResolvedValue(session());
 
-      const before = await getTotpSecretForUser("user-president-7");
-      const res = await enrollMfa();
+      const missing = await enrollMfa(jsonRequest({}));
+      expect(missing.status).toBe(400);
+      expect(await missing.json()).toMatchObject({
+        requiresCurrentCode: true,
+      });
+
+      const wrong = await enrollMfa(jsonRequest({ code: "000000" }));
+      expect(wrong.status).toBe(400);
+
+      const existing = await getTotpSecretForUser("user-president-7");
+      expect(existing).toBeTruthy();
+      const code = generateTotp(existing!);
+      const res = await enrollMfa(jsonRequest({ code }));
       expect(res.status).toBe(200);
-      const body = (await res.json()) as { secret: string; otpauthUri: string };
+      const body = (await res.json()) as {
+        secret: string;
+        replacing?: boolean;
+      };
       expect(body.secret).toMatch(/^[A-Z2-7]+$/);
-      expect(body.otpauthUri).toContain("otpauth://totp/");
-      expect(body.otpauthUri).toContain(`secret=${body.secret}`);
-      expect(await getTotpSecretForUser("user-president-7")).toBe(before);
+      expect(body.replacing).toBe(true);
+      expect(await getTotpSecretForUser("user-president-7")).toBe(existing);
     });
   });
 
@@ -230,19 +267,20 @@ describe("MFA API routes", () => {
         error: expect.stringContaining("No pending enrollment"),
       });
 
-      const enrolled = await enrollMfa();
+      authMock.mockResolvedValue(session({ id: "user-no-totp-secret" }));
+      const enrolled = await enrollMfa(jsonRequest({}));
       const { secret } = (await enrolled.json()) as { secret: string };
       const wrong = await confirmEnroll(jsonRequest({ code: "000000" }));
       expect(wrong.status).toBe(400);
-      expect(await getTotpSecretForUser("user-president-7")).not.toBe(secret);
+      expect(await getTotpSecretForUser("user-no-totp-secret")).not.toBe(secret);
     });
 
     it("persists the pending secret only after a valid TOTP", async () => {
       process.env.AUTH_MFA_ENABLED = "true";
       process.env.AUTH_MFA_MODE = "totp";
-      authMock.mockResolvedValue(session());
+      authMock.mockResolvedValue(session({ id: "user-no-totp-secret" }));
 
-      const enrolled = await enrollMfa();
+      const enrolled = await enrollMfa(jsonRequest({}));
       const { secret } = (await enrolled.json()) as { secret: string };
       const code = generateTotp(secret);
       const confirmed = await confirmEnroll(jsonRequest({ code }));
@@ -250,7 +288,7 @@ describe("MFA API routes", () => {
       const confirmedBody = await confirmed.json() as { success: boolean; recoveryCodes?: string[] };
       expect(confirmedBody).toMatchObject({ success: true, recoveryCodes: expect.any(Array) });
       expect(confirmedBody.recoveryCodes).toHaveLength(10);
-      expect(await getTotpSecretForUser("user-president-7")).toBe(secret);
+      expect(await getTotpSecretForUser("user-no-totp-secret")).toBe(secret);
       expect((await verifyMfa(jsonRequest({ code }))).status).toBe(400);
     });
   });

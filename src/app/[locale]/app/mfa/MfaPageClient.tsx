@@ -1,0 +1,258 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
+import { PageShell } from "@/components/layout/PageShell";
+import { Button } from "@/components/ui/Button";
+import {
+  MfaCodeField,
+  MfaHelpPanel,
+  MfaJourneyShell,
+  MfaStatusPanel,
+} from "@/components/hub/mfa";
+import { resolveMfaCopyIntent } from "@/lib/auth/mfa-copy-context";
+import {
+  hubMfaSetupHref,
+  safeMfaReturnPath,
+} from "@/lib/auth/mfa-return-path";
+
+type MfaStatus = {
+  enabled: boolean;
+  required: boolean;
+  mode: string | null;
+  enrolled: boolean;
+  needsEnrollment: boolean;
+  mfaVerified: boolean;
+  recoveryCodesRemaining: number | null;
+};
+
+export function MfaPageClient() {
+  const t = useTranslations("hub");
+  const tJourney = useTranslations("hub.mfaJourney");
+  const { data: session, status, update } = useSession();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextPath = useMemo(
+    () => safeMfaReturnPath(searchParams.get("next")),
+    [searchParams],
+  );
+
+  const [code, setCode] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [mfaStatus, setMfaStatus] = useState<MfaStatus | null>(null);
+  const [newRecoveryCodes, setNewRecoveryCodes] = useState<string[]>([]);
+  const [rotatingRecoveryCodes, setRotatingRecoveryCodes] = useState(false);
+  const [rotateError, setRotateError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/app/login");
+    }
+  }, [status, router]);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    let cancelled = false;
+    void fetch("/api/mfa/status")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: Partial<MfaStatus> | null) => {
+        if (cancelled || !data) {
+          if (!cancelled) setMfaStatus(null);
+          return;
+        }
+        setMfaStatus({
+          enabled: Boolean(data.enabled),
+          required: Boolean(data.required),
+          mode: data.mode ?? null,
+          enrolled: Boolean(data.enrolled),
+          needsEnrollment: Boolean(data.needsEnrollment),
+          mfaVerified: Boolean(data.mfaVerified),
+          recoveryCodesRemaining:
+            typeof data.recoveryCodesRemaining === "number"
+              ? data.recoveryCodesRemaining
+              : null,
+        });
+      })
+      .catch(() => {
+        if (!cancelled) setMfaStatus(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [status]);
+
+  const resume = () => {
+    router.push(nextPath ?? "/app");
+  };
+
+  if (status === "loading" || !session?.user || mfaStatus === null) {
+    return (
+      <PageShell size="nestedAuth" className="py-4 md:py-6">
+        <p className="text-gray-600" aria-live="polite">
+          {t("sessionLoading")}
+        </p>
+      </PageShell>
+    );
+  }
+
+  if (!mfaStatus.enabled) {
+    return (
+      <MfaJourneyShell title={tJourney("disabled.title")}>
+        <MfaStatusPanel
+          variant="disabled"
+          nextPath={nextPath}
+          onContinue={resume}
+        />
+      </MfaJourneyShell>
+    );
+  }
+
+  if (!mfaStatus.required) {
+    return (
+      <MfaJourneyShell title={tJourney("notRequired.title")}>
+        <MfaStatusPanel
+          variant="notRequired"
+          nextPath={nextPath}
+          onContinue={resume}
+        />
+      </MfaJourneyShell>
+    );
+  }
+
+  if (mfaStatus.mfaVerified || session.user.mfaVerified) {
+    const handleRotate = async (rotationCode: string) => {
+      setRotatingRecoveryCodes(true);
+      setRotateError(null);
+      try {
+        const response = await fetch("/api/mfa/recovery-codes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code: rotationCode }),
+        });
+        const body = (await response.json().catch(() => ({}))) as {
+          recoveryCodes?: string[];
+        };
+        if (!response.ok || !body.recoveryCodes?.length) {
+          setRotateError(t("mfaError"));
+          return;
+        }
+        setNewRecoveryCodes(body.recoveryCodes);
+        setMfaStatus((prev) =>
+          prev
+            ? {
+                ...prev,
+                recoveryCodesRemaining: body.recoveryCodes!.length,
+              }
+            : prev,
+        );
+      } catch {
+        setRotateError(t("mfaError"));
+      } finally {
+        setRotatingRecoveryCodes(false);
+      }
+    };
+
+    return (
+      <MfaJourneyShell
+        title={tJourney("context.manage.title")}
+        subtitle={tJourney("context.manage.subtitle")}
+      >
+        <MfaStatusPanel
+          variant="verified"
+          nextPath={nextPath}
+          recoveryCodesRemaining={mfaStatus.recoveryCodesRemaining}
+          newRecoveryCodes={newRecoveryCodes}
+          onContinue={resume}
+          onRotate={handleRotate}
+          rotating={rotatingRecoveryCodes}
+          rotateError={rotateError}
+        />
+      </MfaJourneyShell>
+    );
+  }
+
+  const intent = resolveMfaCopyIntent({
+    next: nextPath,
+    step: "challenge",
+  });
+  const title = tJourney(`context.${intent}.title`);
+  const subtitle = tJourney(`context.${intent}.subtitle`);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const res = await fetch("/api/mfa/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code }),
+    });
+
+    if (!res.ok) {
+      const errBody = (await res.json().catch(() => ({}))) as {
+        needsEnrollment?: boolean;
+      };
+      if (errBody.needsEnrollment) {
+        setLoading(false);
+        router.replace(hubMfaSetupHref(nextPath));
+        return;
+      }
+      setError(t("mfaError"));
+      setLoading(false);
+      return;
+    }
+
+    const body = (await res.json()) as { mfaGrant?: string };
+    if (!body.mfaGrant) {
+      setError(t("mfaError"));
+      setLoading(false);
+      return;
+    }
+
+    await update({ mfaGrant: body.mfaGrant });
+    setLoading(false);
+    router.push(nextPath ?? "/app");
+  };
+
+  return (
+    <MfaJourneyShell
+      title={title}
+      subtitle={subtitle}
+      help={<MfaHelpPanel step="challenge" />}
+    >
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <MfaCodeField
+          label={t("mfaCode")}
+          value={code}
+          onChange={setCode}
+          allowRecovery
+          disabled={loading}
+        />
+        {error ? (
+          <p className="text-sm text-red-600" role="alert">
+            {error}
+          </p>
+        ) : null}
+        <Button type="submit" disabled={loading} className="min-h-11 w-full">
+          {loading ? t("verifying") : t("verifyMfa")}
+        </Button>
+      </form>
+      {mfaStatus.mode === "shared_code_insecure" ? (
+        <p className="mt-4 text-xs text-gray-500">{t("mfaDevHint")}</p>
+      ) : null}
+      {mfaStatus.needsEnrollment ? (
+        <Link
+          href={hubMfaSetupHref(nextPath)}
+          className="mt-3 block text-sm font-medium text-opseu-blue hover:underline"
+        >
+          {tJourney("setupCta")}
+        </Link>
+      ) : null}
+    </MfaJourneyShell>
+  );
+}

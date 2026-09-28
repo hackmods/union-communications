@@ -7,6 +7,7 @@ import { isBumpingModuleEnabled } from "@/lib/auth/bumping-session";
 import { NewBumpingCaseForm } from "@/components/bumping/NewBumpingCaseForm";
 import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function NewBumpingPage({
   params,
@@ -21,7 +22,7 @@ export default async function NewBumpingPage({
     redirect(`/${locale}/app/login`);
   }
   if (!sessionMfaOk(session)) {
-    redirect(`/${locale}/app/mfa`);
+    redirect(localeMfaRedirect(locale, "/app/bumping/new"));
   }
 
   const roles = (session.user.roles ?? []) as UserRole[];

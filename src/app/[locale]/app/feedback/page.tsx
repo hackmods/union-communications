@@ -6,6 +6,7 @@ import { canReadSiteFeedbackInbox } from "@/lib/platform-feedback/access";
 import { SiteFeedbackInbox } from "@/components/platform/SiteFeedbackInbox";
 import { isFeedbackMemoryBackend } from "@/lib/platform-feedback/durable";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function SiteFeedbackInboxPage({
   params,
@@ -16,7 +17,7 @@ export default async function SiteFeedbackInboxPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/feedback"));
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canReadSiteFeedbackInbox(roles)) {
     redirect(`/${locale}/app`);

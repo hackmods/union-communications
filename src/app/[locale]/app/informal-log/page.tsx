@@ -7,6 +7,7 @@ import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { canAccessInformalLogModule } from "@/lib/informal-log/access";
 import { isSessionModuleEnabled } from "@/lib/hub/session-modules";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function InformalLogPage({
   params,
@@ -17,7 +18,7 @@ export default async function InformalLogPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/informal-log"));
 
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canAccessInformalLogModule(roles)) redirect(`/${locale}/app`);

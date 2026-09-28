@@ -10,6 +10,7 @@ import type { AuthorizationActor } from "@/lib/authorization/model";
 import { sessionHasMfaForActor } from "@/lib/auth/mfa-access";
 import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
 import { actorHasActiveCircleAdminAuthority } from "@/lib/portal/mfa-authority";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export type PortalSessionResult =
   | { ok: true; session: Session; actor: AuthorizationActor }
@@ -72,7 +73,7 @@ export async function requirePortalPage(locale: string): Promise<PortalPageGate>
     ? await actorHasActiveCircleAdminAuthority(actor)
     : false;
   if (!sessionHasMfaForActor(session, actor, process.env, hasCircleAdminAuthority)) {
-    redirect(`/${locale}/app/mfa`);
+    redirect(localeMfaRedirect(locale, "/portal"));
   }
   const roles = actor.roles as UserRole[];
   const hasMembership = actor.memberships.some((membership) => membership.unionId === session.user.unionId);

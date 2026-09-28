@@ -9,6 +9,7 @@ import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 import { useMfaEnabled, useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
 import { canCreateInformalLog } from "@/lib/informal-log/access";
+import { hubMfaChallengeHref } from "@/lib/auth/mfa-return-path";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 const WRITE_ROLES: UserRole[] = [
@@ -146,7 +147,7 @@ export function HubDraftSyncPanel(props: SinglePayloadProps | MultiPayloadProps)
         </div>
         {mfaBlocked ? (
           <Link
-            href="/app/mfa"
+            href={hubMfaChallengeHref(HUB_HREF[props.kind])}
             className="inline-flex min-h-9 items-center rounded-md border border-gray-300 px-3 text-sm font-medium text-opseu-dark hover:bg-gray-50"
           >
             {t("mfaFirst")}

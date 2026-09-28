@@ -3,6 +3,10 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
+import {
+  hubMfaSetupHref,
+  safeMfaReturnPath,
+} from "@/lib/auth/mfa-return-path";
 
 /**
  * When AUTH_MFA_ENABLED and AUTH_MFA_MODE=totp and the signed-in user has no
@@ -26,12 +30,11 @@ export function TotpEnrollmentGate({
       .then((res) => (res.ok ? res.json() : null))
       .then(
         (data: { enabled?: boolean; needsEnrollment?: boolean } | null) => {
-          if (
-            !cancelled &&
-            data?.enabled &&
-            data?.needsEnrollment
-          ) {
-            router.replace("/app/mfa/setup");
+          if (!cancelled && data?.enabled && data?.needsEnrollment) {
+            // Strip locale prefix (/en/app/...) for the Hub return path.
+            const withoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/)/, "");
+            const next = safeMfaReturnPath(withoutLocale);
+            router.replace(hubMfaSetupHref(next));
           }
         },
       )

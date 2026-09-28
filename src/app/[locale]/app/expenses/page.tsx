@@ -5,6 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 import { ExpensesBoard } from "@/components/hub/ExpensesBoard";
 import { canAccessExpensesModule } from "@/lib/expenses/access";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function ExpensesPage({
   params,
@@ -15,7 +16,7 @@ export default async function ExpensesPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/expenses"));
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canAccessExpensesModule(roles)) {
     redirect(`/${locale}/app`);

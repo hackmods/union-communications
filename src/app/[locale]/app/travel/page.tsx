@@ -5,6 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 import { TravelBoard } from "@/components/hub/TravelBoard";
 import { canAccessTravelModule } from "@/lib/travel/access";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function TravelPage({
   params,
@@ -15,7 +16,7 @@ export default async function TravelPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/travel"));
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canAccessTravelModule(roles)) {
     redirect(`/${locale}/app`);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { hubMfaChallengeHref } from "@/lib/auth/mfa-return-path";
 
 type Requirement = { slug: string; title: string; versionId: string; acceptanceScope: "individual" | "organization" };
 type PartyAcceptance = { scope: "union" | "local"; versionId: string; version: number; title: string; acceptedAt: string | null };
@@ -20,7 +21,10 @@ export function DocumentAcceptance({ locale, returnTo }: { locale: string; retur
   const refresh = useCallback(async () => {
     const response = await fetch(`/api/documents/acceptance?locale=${locale}`, { cache: "no-store" });
     if (response.status === 401) { window.location.assign(`/${locale}/app/login?returnTo=${encodeURIComponent(`/${locale}/documents/acceptance?returnTo=${encodeURIComponent(returnTo)}`)}`); return; }
-    if (response.status === 403) { window.location.assign(`/${locale}/app/mfa`); return; }
+    if (response.status === 403) {
+      window.location.assign(`/${locale}${hubMfaChallengeHref("/documents/acceptance")}`);
+      return;
+    }
     if (!response.ok) { setError(fr ? "Impossible de vérifier les documents requis." : "Could not check required documents."); setLoaded(true); return; }
     const result = await response.json() as { requirements: Requirement[]; allowedScopes: Scope[]; partyAcceptances: PartyAcceptance[] };
     setRequirements(result.requirements); setScopes(result.allowedScopes); setPartyAcceptances(result.partyAcceptances ?? []); setLoaded(true);

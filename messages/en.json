@@ -7546,6 +7546,10 @@
         "title": "Archive or remove duplicate unions",
         "body": "Site admin Unions lists duplicates by name, filters active vs archived, and explains when delete is blocked. Rename, archive, restore, or permanently delete empty unions — archived ones leave President configuration."
       },
+      "mfa-journey-help": {
+        "title": "Clearer authenticator setup in Officer Hub",
+        "body": "Identity verification now explains why you are asked, how to use an authenticator app or recovery codes, and warns before replacing an app that is already protecting your account."
+      },
       "trust-and-policies-index": {
         "title": "Trust and policy index",
         "body": "Find UnionOps privacy, security, accessibility, and service provider information from one page. Terms and data processing pages now show clearly when an approved version is not yet published."
@@ -8260,7 +8264,7 @@
       "platformAttention": "Platform work",
       "platformAttentionBody": "Open host operations here. Local case files remain within their own access rules.",
       "mfaTitle": "Verify to see your work",
-      "mfaBody": "Private work areas are available after identity verification on this host.",
+      "mfaBody": "Private work areas open after you verify with your authenticator app on this host.",
       "mfaNext": "Your permitted work areas will appear after verification.",
       "noWorkModules": "No task board or check-ins are enabled for this local. Other work areas are in Next steps.",
       "tenantPending": "Checking your union settings. If they do not appear, refresh the page or contact your Officer Hub administrator.",
@@ -9006,30 +9010,181 @@
     "mfaCode": "Verification code",
     "verifyMfa": "Verify",
     "verifying": "Verifying...",
-    "mfaError": "That code is not valid. Check your authenticator app and try again.",
+    "mfaError": "That code is not valid. Check your authenticator app or a recovery code and try again.",
     "mfaDevHint": "On demo instances, try 000000. Production needs a real authenticator app.",
-    "mfaRequired": "MFA required",
-    "mfaOk": "MFA verified",
+    "mfaRequired": "Verify identity",
+    "mfaOk": "Identity verified",
     "mfaVerified": "Identity verified",
     "mfaVerifiedDesc": "You can access confidential modules.",
-    "mfaDisabledTitle": "MFA is not required on this host",
-    "mfaDisabledDesc": "Two-factor sign-in is turned off on this instance (the default for demos). Whoever runs this Officer Hub can turn it on for real casework.",
+    "mfaDisabledTitle": "Multi-factor authentication is not required on this host",
+    "mfaDisabledDesc": "Authenticator sign-in is turned off on this instance (the default for demos). Whoever runs this Officer Hub can turn it on for real casework.",
+    "mfaNotRequiredTitle": "Verification is not required for your account",
+    "mfaNotRequiredDesc": "Your role can use Officer Hub without an authenticator on this host. You can still set one up if your local asks you to.",
     "backToDashboard": "Back to dashboard",
-    "mfaSetupLink": "Set up an authenticator app (TOTP)",
+    "mfaSetupLink": "Set up an authenticator app",
     "mfaSetupTitle": "Set up an authenticator app",
-    "mfaSetupSubtitle": "Scan the QR code with an authenticator app (Google Authenticator, Authy, 1Password, etc.) to enroll in TOTP MFA.",
+    "mfaSetupSubtitle": "Scan the QR code with an authenticator app on your phone or password manager.",
     "mfaSetupGenerate": "Generate setup code",
     "mfaSetupRegenerate": "Generate a new code",
     "mfaSetupQrAlt": "QR code for authenticator app enrollment",
-    "mfaSetupScanHint": "Scan this code, or enter the secret below manually.",
-    "mfaSetupSecretLabel": "Manual entry secret",
+    "mfaSetupScanHint": "Scan this code with your authenticator app.",
+    "mfaSetupSecretLabel": "Manual entry key",
     "mfaSetupCodeLabel": "Enter the 6-digit code from your app",
     "mfaSetupConfirm": "Confirm and enable",
     "mfaSetupSuccess": "Authenticator app enrolled",
-    "mfaSetupSuccessDesc": "TOTP is now your MFA method for this account. Verify your identity to continue.",
+    "mfaSetupSuccessDesc": "Nice. One less thing to worry about. Save your recovery codes, then verify to continue.",
     "mfaSetupVerifyNow": "Verify now",
-    "mfaSetupError": "Could not finish authenticator setup. Ask whoever runs this Officer Hub to confirm two-factor sign-in is enabled, then try again.",
-    "hybridLink": "Hybrid data",
+    "mfaSetupError": "Could not finish authenticator setup. Ask whoever runs this Officer Hub to confirm multi-factor authentication is enabled, then try again.",
+    "mfaJourney": {
+      "continueToWork": "Continue",
+      "backToDashboard": "Back to dashboard",
+      "setupCta": "Set up an authenticator app",
+      "context": {
+        "grievances": {
+          "title": "Quick security check",
+          "subtitle": "Grievances can contain sensitive member information. Verify it is you before continuing."
+        },
+        "bumping": {
+          "title": "Quick security check",
+          "subtitle": "Bumping records can contain sensitive member information. Verify it is you before continuing."
+        },
+        "time": {
+          "title": "Quick security check",
+          "subtitle": "Time and workforce records can contain personal information. Verify it is you before continuing."
+        },
+        "casework": {
+          "title": "Quick security check",
+          "subtitle": "This area can contain confidential local information. Verify it is you before continuing."
+        },
+        "setup": {
+          "title": "Protect your UnionOps account",
+          "subtitle": "An authenticator app adds another layer of protection even if someone gets your password."
+        },
+        "enroll": {
+          "title": "Set up an authenticator app",
+          "subtitle": "Use an app on your phone or password manager. You will scan a QR code, then enter a six-digit code."
+        },
+        "replace": {
+          "title": "Replace your authenticator app",
+          "subtitle": "This replaces the app already protecting your account. Codes from the old app will stop working."
+        },
+        "manage": {
+          "title": "Identity verified",
+          "subtitle": "Your authenticator app is protecting confidential work in this session."
+        }
+      },
+      "disabled": {
+        "title": "Multi-factor authentication is not required on this host",
+        "body": "Authenticator sign-in is turned off on this instance (the default for demos). Whoever runs this Officer Hub can turn it on for real casework."
+      },
+      "notRequired": {
+        "title": "Verification is not required for your account",
+        "body": "Your role can use Officer Hub without an authenticator on this host."
+      },
+      "manage": {
+        "title": "Authenticator app is protecting this account",
+        "successCheeky": "Nice. One less thing to worry about.",
+        "body": "Verification unlocks confidential modules for this sign-in until you sign out.",
+        "replaceLink": "Replace authenticator"
+      },
+      "replace": {
+        "warningTitle": "This replaces your current authenticator",
+        "warningBody": "Scanning a new QR code overwrites the secret on this account. Codes from your old authenticator app will stop working. Keep a recovery code handy before you continue.",
+        "currentCodeLabel": "Current verification code",
+        "continue": "Continue to new QR code"
+      },
+      "setupSteps": {
+        "open": "Open your authenticator app — one already on your phone or password manager is fine.",
+        "add": "Add a new account and choose the option to scan a QR code.",
+        "scan": "Scan the UnionOps QR code shown on this page.",
+        "enter": "Enter the six-digit code your app shows.",
+        "protected": "You are protected — save your recovery codes next."
+      },
+      "cantScan": "Can't scan the QR code?",
+      "manualSecretHint": "Enter this key manually in your authenticator app.",
+      "recovery": {
+        "title": "Recovery codes",
+        "remaining": "{count, plural, =0 {No unused recovery codes left.} one {# unused recovery code remaining.} other {# unused recovery codes remaining.}}",
+        "saveOnce": "Save these codes somewhere safe. Each code works once, and we only show this list now.",
+        "copyAll": "Copy all",
+        "copied": "Copied",
+        "acknowledge": "I have saved these codes",
+        "continue": "Continue to verify",
+        "rotateHint": "Generate a new set of recovery codes. Your previous unused codes will stop working.",
+        "rotateCodeLabel": "Current authenticator code",
+        "regenerate": "Generate new recovery codes",
+        "regenerating": "Generating...",
+        "lowWarning": "You are almost out of recovery codes. Generate a new set soon.",
+        "emptyWarning": "You have no unused recovery codes left. Generate a new set before you need one."
+      },
+      "help": {
+        "needHelp": "Need help?",
+        "challenge": {
+          "why": {
+            "title": "Why am I being asked to do this?",
+            "body": "Confidential Officer Hub areas can hold member information. A verification code from your authenticator app confirms it is still you in this session."
+          },
+          "whereCode": {
+            "title": "Where do I find the six-digit code?",
+            "body": "Open the authenticator app you used when you enrolled. Find the UnionOps (or this Officer Hub) entry — it refreshes a new six-digit code about every 30 seconds."
+          },
+          "recovery": {
+            "title": "Can I use a recovery code?",
+            "body": "Yes. If you saved recovery codes when you enrolled, paste one into the verification field instead of the six-digit app code. Each recovery code works once."
+          },
+          "notWorking": {
+            "title": "My code is not working",
+            "body": "Wait for the next code and try again. Make sure the date and time on your phone are set automatically — authenticator codes depend on an accurate clock."
+          },
+          "after": {
+            "title": "What happens after I verify?",
+            "body": "This sign-in can open confidential modules until you sign out. You will not need to enter a code on every page — only when this host asks again."
+          }
+        },
+        "setup": {
+          "whatApp": {
+            "title": "What is an authenticator app?",
+            "body": "An authenticator app shows short codes that change over time. It is sometimes called TOTP or time-based one-time password authentication. You do not need to know those terms to finish setup."
+          },
+          "cantScan": {
+            "title": "Can't scan the QR code?",
+            "body": "Choose manual entry in your app and type the key shown under Can't scan. Spaces do not matter."
+          },
+          "examples": {
+            "title": "Which apps work?",
+            "body": "Most authenticator apps and many password managers work — for example Google Authenticator, Authy, or 1Password. UnionOps does not require a specific vendor."
+          }
+        },
+        "replace": {
+          "whyReplace": {
+            "title": "Why would I replace my authenticator?",
+            "body": "Use replace when you get a new phone, switch apps, or believe the old app is no longer private. This does not add a second authenticator — your account keeps one secret."
+          },
+          "oldStops": {
+            "title": "Will my old app still work?",
+            "body": "No. After you confirm the new QR code, codes from the previous authenticator stop working."
+          },
+          "saveCodes": {
+            "title": "What about recovery codes?",
+            "body": "Confirming a new authenticator issues a new set of recovery codes. Save them; older unused codes from the previous set stop working."
+          }
+        },
+        "manage": {
+          "lostPhone": {
+            "title": "I lost my phone",
+            "body": "Use a recovery code if you still have one. If you cannot verify, contact whoever runs this Officer Hub — they may need to help reset authenticator access."
+          },
+          "recoveryManage": {
+            "title": "What are recovery codes?",
+            "body": "One-time backup codes for when you cannot open your authenticator app. Keep them offline and private."
+          },
+          "singleSecret": {
+            "title": "Can I add another authenticator?",
+            "body": "This account uses one authenticator secret. Use Replace authenticator to move to a new app — that overwrites the old one rather than adding a second."
+          }
+        }
+      }
+    },    "hybridLink": "Hybrid data",
     "hybridCardTitle": "Hybrid / offline data",
     "hybridCardDesc": "Encrypt grievance and bumping backups, or keep a local encrypted copy on this device. The file is protected in transit; your browser encrypts it, and the passphrase never leaves this device.",
     "calendarLink": "Calendar",
@@ -13750,7 +13905,7 @@
     "error": "Could not send this draft. Try again.",
     "empty": "Nothing to send yet. Add a local name or at least one proposal first.",
     "emptyInformalLog": "Nothing to send yet. Add what happened on at least one entry first.",
-    "mfaFirst": "Verify MFA first"
+    "mfaFirst": "Verify identity first"
   },
   "hubBylaws": {
     "title": "Local bylaws",

@@ -5,13 +5,14 @@ import { decideCapability } from "@/lib/authorization/model";
 import { OrganizationManager } from "@/components/hub/OrganizationManager";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function OrganizationPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/organization"));
   const actor = await resolveAuthorizationActor(session);
   if (!actor.accountActive) redirect(`/${locale}/app/login`);
   const localId = session.user.localId;

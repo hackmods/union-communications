@@ -4,6 +4,7 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { isPulsePollAuthoringEnabled } from "@/lib/features/pulse-poll-authoring";
 import { buildToolLayoutMetadata } from "@/lib/seo/tool-layout-metadata";
 import { notFound, redirect } from "next/navigation";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 const slug = "pulse-poll" as const;
 
@@ -37,7 +38,7 @@ export default async function PulsePollLayout({
     redirect(`/${locale}/app/login`);
   }
   if (!sessionMfaOk(session)) {
-    redirect(`/${locale}/app/mfa`);
+    redirect(localeMfaRedirect(locale, "/tools/pulse-poll"));
   }
 
   return children;

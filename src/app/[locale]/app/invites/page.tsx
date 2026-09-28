@@ -6,6 +6,7 @@ import { InvitesBoard } from "@/components/hub/InvitesBoard";
 import { MemberAccessRequests } from "@/components/hub/MemberAccessRequests";
 import { canManageInvites } from "@/lib/tenant/access";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function InvitesPage({
   params,
@@ -16,7 +17,7 @@ export default async function InvitesPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/invites"));
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canManageInvites(roles)) {
     redirect(`/${locale}/app`);

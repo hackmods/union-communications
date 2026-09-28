@@ -8,6 +8,7 @@ import { ProposalsBoard } from "@/components/hub/proposals/ProposalsBoard";
 import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { canAccessProposalsModule } from "@/lib/hub-governance/access";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function HubProposalsPage({
   params,
@@ -18,7 +19,7 @@ export default async function HubProposalsPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/proposals"));
   if (!session.user.unionId) redirect(`/${locale}/app`);
   await hydrateTenantOverlayFromPostgres();
   const tenant = getTenantContext(session.user.unionId, session.user.localId);

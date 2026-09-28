@@ -7,6 +7,7 @@ import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { isSessionModuleEnabled } from "@/lib/hub/session-modules";
 import type { UserRole } from "@/types/tenant";
 import { requireDocumentsSession } from "@/lib/auth/documents-session";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function DocumentsPage({
   params,
@@ -21,7 +22,7 @@ export default async function DocumentsPage({
     redirect(`/${locale}/app/login`);
   }
   if (!sessionMfaOk(session)) {
-    redirect(`/${locale}/app/mfa`);
+    redirect(localeMfaRedirect(locale, "/app/documents"));
   }
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!isSessionModuleEnabled(session, "documents")) {

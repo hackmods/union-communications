@@ -1,3 +1,10 @@
+## 2026-09-27 — MFA journey UX uplift
+
+- Officer Hub MFA is one continuous journey: shared shell, Need help? progressive disclosure, context-aware challenge copy from `?next=`, and safe return after verify.
+- Single-authenticator management: status when enrolled; **Replace authenticator** (not “add many”); `POST /api/mfa/enroll` requires a current code when a secret already exists; recovery-code save / low-count polish.
+- Wired Hub MFA redirects + TotpEnrollmentGate + key client entry points to preserve `next`. Status exposes `enrolled`.
+- What's new (hub): `mfa-journey-help`.
+
 ## 2026-09-27 — Union lifecycle (archive / rename / empty delete)
 
 - Site Admin → **Unions** (`/app/site-admin/unions`): rename, soft-archive, restore, and hard-delete empty archived unions (typed slug confirm). Schema `unions.archived_at` from `0035` is now wired; demo casework wipe stays on Demo cleanup.

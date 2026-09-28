@@ -5,6 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 import { MeetingEventsBoard } from "@/components/meetings/MeetingEventsBoard";
 import { MeetingScheduleSettings } from "@/components/meetings/MeetingScheduleSettings";
 import { meetingsRsvpDbBackend } from "@/lib/db/backend";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 import {
   canAccessMeetingsModule,
   canWriteMeetingSchedule,
@@ -24,7 +25,7 @@ export default async function MeetingsPage({
     redirect(`/${locale}/app/login`);
   }
   if (!sessionMfaOk(session)) {
-    redirect(`/${locale}/app/mfa`);
+    redirect(localeMfaRedirect(locale, "/app/meetings"));
   }
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canAccessMeetingsModule(roles) || !session.user.unionId) {

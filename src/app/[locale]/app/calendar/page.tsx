@@ -9,6 +9,7 @@ import { canAccessBumpingModule } from "@/lib/bumping/access";
 import { canAccessGrievanceModule } from "@/lib/grievance/access";
 import { isSessionModuleEnabled } from "@/lib/hub/session-modules";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function CalendarPage({
   params,
@@ -19,7 +20,7 @@ export default async function CalendarPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/calendar"));
 
   const roles = (session.user.roles ?? []) as UserRole[];
   const grievanceRole = canAccessGrievanceModule(roles);

@@ -6,6 +6,7 @@ import { PresidentConfiguration } from "@/components/hub/PresidentConfiguration"
 import { canManageLocalModules } from "@/lib/tenant/access";
 import { isPlatformAdminRole } from "@/lib/tenant/local-number-access";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function PresidentConfigurationPage({
   params,
@@ -19,7 +20,7 @@ export default async function PresidentConfigurationPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/configuration"));
   // Stewards may open the page read-only; writers use canManageLocalModules in UI.
   const roles = (session.user.roles ?? []) as UserRole[];
   const canView =

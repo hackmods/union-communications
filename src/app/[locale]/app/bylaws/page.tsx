@@ -8,6 +8,7 @@ import { BylawsBoard } from "@/components/hub/bylaws/BylawsBoard";
 import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { canAccessBylawsModule } from "@/lib/hub-governance/access";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function HubBylawsPage({
   params,
@@ -18,7 +19,7 @@ export default async function HubBylawsPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/bylaws"));
   if (!session.user.unionId) redirect(`/${locale}/app`);
   await hydrateTenantOverlayFromPostgres();
   const tenant = getTenantContext(session.user.unionId, session.user.localId);

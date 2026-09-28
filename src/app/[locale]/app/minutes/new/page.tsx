@@ -3,6 +3,7 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { MinutesCreateForm } from "@/components/hub/MinutesCreateForm";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 import {
   canAccessMinutesModule,
   canWriteMinutes,
@@ -18,7 +19,7 @@ export default async function NewMinutesPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/minutes/new"));
 
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canAccessMinutesModule(roles) || !canWriteMinutes(roles)) {

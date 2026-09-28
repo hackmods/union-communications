@@ -7,6 +7,7 @@ import { ModuleDisabledPanel } from "@/components/hub/ModuleDisabledPanel";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canAccessTasksModule } from "@/lib/tasks/access";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function TasksPage({
   params,
@@ -17,7 +18,7 @@ export default async function TasksPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/tasks"));
 
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canAccessTasksModule(roles)) redirect(`/${locale}/app`);

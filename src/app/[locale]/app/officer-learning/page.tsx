@@ -3,6 +3,7 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { OfficerLearningHubBoard } from "@/components/officer-learning/OfficerLearningHubBoard";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function OfficerLearningHubPage({
   params,
@@ -17,7 +18,7 @@ export default async function OfficerLearningHubPage({
     redirect(`/${locale}/app/login`);
   }
   if (!sessionMfaOk(session)) {
-    redirect(`/${locale}/app/mfa`);
+    redirect(localeMfaRedirect(locale, "/app/officer-learning"));
   }
 
   return (

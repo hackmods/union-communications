@@ -12,6 +12,7 @@ import {
   resolveHubToolAccess,
 } from "@/components/hub/hub-tool-catalog";
 import { PUBLIC_CARD_TITLE_CLASS } from "@/lib/constants/public-type";
+import { hubMfaChallengeHref } from "@/lib/auth/mfa-return-path";
 import { cn } from "@/lib/utils";
 
 type HubOfficerToolsCatalogProps = {
@@ -119,7 +120,7 @@ export function HubOfficerToolsCatalog({
       ) : (
         <div className="px-4 py-4 sm:px-5">
           <Link
-            href="/app/mfa"
+            href={hubMfaChallengeHref()}
             className="inline-flex min-h-11 items-center text-sm font-medium text-opseu-blue underline-offset-2 hover:underline"
           >
             {t("mfaRequired")}

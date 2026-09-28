@@ -10,6 +10,7 @@ import { sessionRequiresMfa } from "@/lib/auth/mfa-requirements";
 import { actorHasHostedMfaCapability } from "@/lib/authorization/model";
 import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
 import { countUnusedMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
+import { getTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
 import { actorHasActiveCircleAdminAuthority } from "@/lib/portal/mfa-authority";
 
 /** Client helper: MFA host policy + enrollment / verified state. */
@@ -37,12 +38,14 @@ export async function GET() {
       required = true;
     }
   }
+  const enrolled =
+    mode === "totp" ? Boolean(await getTotpSecretForUser(session.user.id)) : false;
   const needsEnrollment =
     enabled && required && mode === "totp"
       ? await needsTotpEnrollment(session.user.id, process.env, required)
       : false;
   let recoveryCodesRemaining: number | null = null;
-  if (mode === "totp" && !needsEnrollment) {
+  if (mode === "totp" && enrolled) {
     try {
       recoveryCodesRemaining = await countUnusedMfaRecoveryCodes(session.user.id);
     } catch {
@@ -54,6 +57,7 @@ export async function GET() {
     enabled,
     required,
     mode,
+    enrolled,
     needsEnrollment,
     mfaVerified: Boolean(session.user.mfaVerified),
     recoveryCodesRemaining,

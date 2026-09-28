@@ -5,6 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 import { TimeDashboard } from "@/components/time/TimeDashboard";
 import { canAdminTime } from "@/lib/time/access";
 import type { UserRole } from "@/types/tenant";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function TimeAdminPage({
   params,
@@ -19,7 +20,7 @@ export default async function TimeAdminPage({
     redirect(`/${locale}/app/login`);
   }
   if (!sessionMfaOk(session)) {
-    redirect(`/${locale}/app/mfa`);
+    redirect(localeMfaRedirect(locale, "/app/time/admin"));
   }
 
   const roles = (session.user.roles ?? []) as UserRole[];

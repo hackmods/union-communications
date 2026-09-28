@@ -8,6 +8,7 @@ import { decideCapability } from "@/lib/authorization/model";
 import { OrganizationManager } from "@/components/hub/OrganizationManager";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function OfficersPage({
   params,
@@ -19,7 +20,7 @@ export default async function OfficersPage({
   const t = await getTranslations({ locale, namespace: "organization" });
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/officers"));
   const actor = await resolveAuthorizationActor(session);
   if (!actor.accountActive) redirect(`/${locale}/app/login`);
   const localId = session.user.localId;

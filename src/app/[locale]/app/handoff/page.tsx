@@ -3,6 +3,7 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { HandoffWizard } from "@/components/qol/HandoffWizard";
+import { localeMfaRedirect } from "@/lib/auth/mfa-return-path";
 
 export default async function HandoffPage({
   params,
@@ -13,6 +14,6 @@ export default async function HandoffPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(localeMfaRedirect(locale, "/app/handoff"));
   return <HandoffWizard />;
 }

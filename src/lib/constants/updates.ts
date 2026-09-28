@@ -24,6 +24,13 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "mfa-journey-help",
+    date: "2026-09-27",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/mfa",
+  },
+  {
     id: "site-admin-union-lifecycle",
     date: "2026-09-27",
     kind: "added",
