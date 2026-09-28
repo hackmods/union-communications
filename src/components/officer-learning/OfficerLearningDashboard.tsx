@@ -175,7 +175,7 @@ function OfficerLearningDashboardInner({
                     number: module.number,
                     title,
                   }),
-                  href: `/guide/officer-learning/${module.slug}`,
+                  href: `/learn/officer/${module.slug}`,
                   status: progress[module.id]?.status ?? "not_started",
                 };
               })}

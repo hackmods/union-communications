@@ -119,7 +119,7 @@ export default async function PhotoConsentGuidePage({
         </p>
       </GuideCallout>
 
-      <OfficerLearningModuleCallout slug="human-rights-accommodation" moduleNumber={3} />
+      <OfficerLearningModuleCallout slug="membership-lists-privacy" moduleNumber={11} />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <GuideTipGrid className="mt-4">

@@ -148,6 +148,16 @@ export function PublicCatalogExplorer({
       }),
     [authenticated, disabledToolSlugs, unionPresetId],
   );
+  const brandKitHidesItems = useMemo(() => {
+    if (!unionPresetId?.trim()) return false;
+    const unfiltered = visiblePublicCatalog({
+      authenticated,
+      officerHubPublic: isOfficerHubPublic(),
+      disabledToolSlugs,
+      unionPresetId: null,
+    });
+    return available.length < unfiltered.length;
+  }, [authenticated, available.length, disabledToolSlugs, unionPresetId]);
   const [query, setQuery] = useState(initialState.q);
   const [audience, setAudience] = useState(initialState.audience);
   const [topic, setTopic] = useState(initialState.topic);
@@ -369,7 +379,14 @@ export function PublicCatalogExplorer({
           </div>
           <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
             <p role="status" aria-live="polite" className="text-sm text-slate-600">
-              {t("resultCount", { count: items.length })}
+              {brandKitHidesItems
+                ? t(
+                    mode === "learn"
+                      ? "resultCountBrandKitGuides"
+                      : "resultCountBrandKit",
+                    { count: items.length },
+                  )
+                : t("resultCount", { count: items.length })}
             </p>
             <button
               type="button"

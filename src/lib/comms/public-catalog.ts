@@ -11,6 +11,7 @@ import {
   type GuideRegistryEntry,
 } from "@/lib/comms/guide-registry";
 import { OFFICER_LEARNING_MODULES } from "@/lib/officer-learning/modules";
+import { getRelatedResources } from "@/lib/officer-learning/related-resources";
 import { canonicalPublicPath } from "@/lib/seo/public-routes";
 import { hiddenGuidePathsForPreset } from "@/lib/comms/preset-guide-visibility";
 
@@ -419,6 +420,24 @@ const MODULE_TOPIC: Record<string, PublicCatalogTopic> = {
   "pdf-classification": "workplace",
 };
 
+/** Map related-resource hrefs onto catalog ids (peer modules + playbooks/tools). */
+function relatedCatalogIdsFromHref(href: string): string {
+  const pathOnly = href.split("?")[0] ?? href;
+  return catalogId(canonicalPublicPath(pathOnly));
+}
+
+function officerModuleRelatedItemIds(slug: string): string[] {
+  const seen = new Set<string>();
+  const ids: string[] = [];
+  for (const link of getRelatedResources(slug)) {
+    const id = relatedCatalogIdsFromHref(link.href);
+    if (seen.has(id)) continue;
+    seen.add(id);
+    ids.push(id);
+  }
+  return ids;
+}
+
 function officerLearningModuleItems(): PublicCatalogItem[] {
   return OFFICER_LEARNING_MODULES.map((module) => {
     const legacyPath = `/guide/officer-learning/${module.slug}`;
@@ -439,7 +458,7 @@ function officerLearningModuleItems(): PublicCatalogItem[] {
       estimatedMinutes: module.readingMinutes,
       storageMode: "on-device",
       authRequirement: "public",
-      relatedItemIds: [],
+      relatedItemIds: officerModuleRelatedItemIds(module.slug),
     } satisfies PublicCatalogItem;
   });
 }
@@ -496,15 +515,22 @@ const RELATED_ITEM_IDS: Readonly<Record<string, readonly string[]>> = {
   "learn-running-meetings": ["utilities-rules-of-order", "learn-bylaws"],
 };
 
-export const PUBLIC_CATALOG: readonly PublicCatalogItem[] = [
+const PUBLIC_CATALOG_RAW: PublicCatalogItem[] = [
   ...toolItems(),
   ...guideItems(),
   ...officerLearningModuleItems(),
   ...libraryItems(),
-].map((item) => ({
-  ...item,
-  relatedItemIds: RELATED_ITEM_IDS[item.id] ?? item.relatedItemIds,
-}));
+];
+
+const CATALOG_ID_SET = new Set(PUBLIC_CATALOG_RAW.map((item) => item.id));
+
+export const PUBLIC_CATALOG: readonly PublicCatalogItem[] = PUBLIC_CATALOG_RAW.map((item) => {
+  const related = RELATED_ITEM_IDS[item.id] ?? item.relatedItemIds;
+  return {
+    ...item,
+    relatedItemIds: related.filter((id) => CATALOG_ID_SET.has(id)),
+  };
+});
 
 export const PUBLIC_CATALOG_BY_ID: ReadonlyMap<string, PublicCatalogItem> =
   new Map(PUBLIC_CATALOG.map((item) => [item.id, item]));

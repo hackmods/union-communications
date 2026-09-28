@@ -4,113 +4,70 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Callout } from "@/components/ui/Callout";
+import { OFFICER_LEARNING_MODULES } from "@/lib/officer-learning/modules";
+
+const MODULE_READ_KEYS = {
+  1: "readModule1",
+  2: "readModule2",
+  3: "readModule3",
+  4: "readModule4",
+  5: "readModule5",
+  6: "readModule6",
+  7: "readModule7",
+  8: "readModule8",
+  9: "readModule9",
+  10: "readModule10",
+  11: "readModule11",
+  12: "readModule12",
+  13: "readModule13",
+  14: "readModule14",
+  15: "readModule15",
+  16: "readModule16",
+  17: "readModule17",
+} as const;
 
 const TOOLS = [
   {
-    href: "/tools/rtw-accommodation",
+    href: "/utilities/rtw-accommodation",
     titleKey: "rtwTitle" as const,
     blurbKey: "rtwBlurb" as const,
-    moduleHref: "/guide/officer-learning/human-rights-accommodation",
+    moduleHref: "/learn/officer/human-rights-accommodation",
     moduleKey: "readModule3" as const,
   },
   {
-    href: "/tools/pre-disciplinary-log",
+    href: "/utilities/pre-disciplinary-log",
     titleKey: "disciplineTitle" as const,
     blurbKey: "disciplineBlurb" as const,
-    moduleHref: "/guide/officer-learning/progressive-discipline",
+    moduleHref: "/learn/officer/progressive-discipline",
     moduleKey: "readModule2" as const,
   },
   {
-    href: "/tools/complaint-vs-grievance",
+    href: "/utilities/complaint-vs-grievance",
     titleKey: "diagnosticTitle" as const,
     blurbKey: "diagnosticBlurb" as const,
-    moduleHref: "/guide/officer-learning/contract-enforcement",
+    moduleHref: "/learn/officer/contract-enforcement",
     moduleKey: "readModule1" as const,
   },
 ] as const;
 
 const READ_FIRST = [
   {
-    href: "/guide/officer-learning",
+    href: "/learn/officer",
     titleKey: "readOfficerLearningCenter" as const,
   },
-  {
-    href: "/guide/officer-learning/contract-enforcement",
-    titleKey: "readModule1" as const,
-  },
-  {
-    href: "/guide/officer-learning/progressive-discipline",
-    titleKey: "readModule2" as const,
-  },
-  {
-    href: "/guide/officer-learning/human-rights-accommodation",
-    titleKey: "readModule3" as const,
-  },
-  {
-    href: "/guide/officer-learning/democratic-governance",
-    titleKey: "readModule4" as const,
-  },
-  {
-    href: "/guide/officer-learning/financial-health",
-    titleKey: "readModule5" as const,
-  },
-  {
-    href: "/guide/officer-learning/building-collective-power",
-    titleKey: "readModule6" as const,
-  },
-  {
-    href: "/guide/officer-learning/mobilizer-bargaining-partner",
-    titleKey: "readModule7" as const,
-  },
-  {
-    href: "/guide/officer-learning/advanced-grievance-settlement",
-    titleKey: "readModule8" as const,
-  },
-  {
-    href: "/guide/officer-learning/benefits-disability-claims",
-    titleKey: "readModule9" as const,
-  },
-  {
-    href: "/guide/officer-learning/joint-workplace-committees",
-    titleKey: "readModule10" as const,
-  },
-  {
-    href: "/guide/officer-learning/membership-lists-privacy",
-    titleKey: "readModule11" as const,
-  },
-  {
-    href: "/guide/officer-learning/advanced-local-finance",
-    titleKey: "readModule12" as const,
-  },
-  {
-    href: "/guide/officer-learning/digital-security-transitions",
-    titleKey: "readModule13" as const,
-  },
-  {
-    href: "/guide/officer-learning/everyday-union-value",
-    titleKey: "readModule14" as const,
-  },
-  {
-    href: "/guide/officer-learning/duty-of-fair-representation",
-    titleKey: "readModule15" as const,
-  },
-  {
-    href: "/guide/officer-learning/seniority-bumping-layoff",
-    titleKey: "readModule16" as const,
-  },
-  {
-    href: "/guide/officer-learning/pdf-classification",
-    titleKey: "readModule17" as const,
-  },
-] as const;
+  ...OFFICER_LEARNING_MODULES.map((module) => ({
+    href: `/learn/officer/${module.slug}`,
+    titleKey: MODULE_READ_KEYS[module.number as keyof typeof MODULE_READ_KEYS],
+  })),
+];
 
 const UTILITIES = [
   {
-    href: "/guide/steward-playbooks",
+    href: "/learn/steward",
     titleKey: "utilStewardPlaybooks" as const,
   },
   {
-    href: "/tools/document-generator",
+    href: "/create/document-generator",
     titleKey: "utilDocGen" as const,
   },
   {
@@ -118,7 +75,7 @@ const UTILITIES = [
     titleKey: "utilSnippets" as const,
   },
   {
-    href: "/guide/grievance-process",
+    href: "/learn/grievance-process",
     titleKey: "utilGrievanceGuide" as const,
   },
   {

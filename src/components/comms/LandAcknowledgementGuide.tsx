@@ -14,6 +14,7 @@ import { Link } from "@/i18n/navigation";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { LandAcknowledgementWritingFlowDiagram } from "@/components/comms/LandAcknowledgementWritingFlowDiagram";
 import { LandAcknowledgementWorksheetButton } from "@/components/comms/LandAcknowledgementWorksheetButton";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
 const TOC = [
   ["groundRules", "groundRules"],
@@ -83,6 +84,11 @@ export async function LandAcknowledgementGuide() {
         />
       }
     >
+      <OfficerLearningModuleCallout
+        slug="building-collective-power"
+        moduleNumber={6}
+      />
+
       <GuideSection
         id="groundRules"
         title={t("groundRules.title")}

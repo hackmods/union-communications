@@ -244,7 +244,7 @@ Quand les RH importent un graphique « standard » d'un autre employeur du secte
 - [**Congrès du travail du Canada**](https://canadianlabour.ca/) — formation de délégués sur la restructuration et le déplacement
 - [**SCFP**](https://cupe.ca/) — documents de délégués sur mises à pied et ancienneté
 - [**Unifor**](https://www.unifor.org/) — formation sur déplacement et rappel
-- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/human-rights-code) — *Droits de la personne au travail* (primauté de l'accommodement)
+- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/ontario-human-rights-code) — *Droits de la personne au travail* (primauté de l'accommodement)
 - **Loi sur les normes d'emploi** (Ontario) — couche de préavis minimum ; comparer à votre CC
 
 ---

@@ -39,7 +39,7 @@ L'éducation à l'organisation du **CTC** et les matériaux d'adhésion des synd
 ---
 
 ## 2. La directive sur les listes de membres et la confidentialité
-Les listes de membres sont des documents constitutionnels hautement sensibles. La **directive sur les listes de membres** — adoptée dans de nombreux syndicats canadiens comme pratique constitutionnelle de confidentialité — impose des garde-fous stricts, quel que soit le corps national auquel votre local est affilié.
+Les listes de membres sont des documents constitutionnels hautement sensibles. La **directive sur les listes de membres** est un modèle pédagogique UnionOps qui résume des règles constitutionnelles de confidentialité courantes dans les syndicats canadiens — ce n'est pas un statut unique transversal. Elle impose des garde-fous stricts, quel que soit le corps national auquel votre local est affilié.
 
 *   **Usage commercial** : Partager, vendre ou louer une liste de membres à tout partenaire commercial — même un vendeur de rabais d'affinité — est une infraction constitutionnelle grave. Les membres adhèrent à un syndicat, pas à une base de marketing.
 *   **Campagnes politiques** : Les locaux ne peuvent pas remettre de listes à des candidats ou partis municipaux, provinciaux ou fédéraux, même lorsque le syndicat les appuie officiellement. Toute sensibilisation doit être menée **en interne** par le local via les canaux syndicaux.
@@ -183,7 +183,7 @@ Où est l'endroit le plus sécuritaire pour qu'un secrétaire local stocke et mo
 ### Question 4
 Votre réconciliation mensuelle montre douze travailleurs à temps plein classés « temporaires » au rapport de paie. Les cotisations sont retenues au taux partiel inférieur. Meilleure première étape?
 *   A) Ignorer — la classification paie est seulement le problème de l'employeur.
-*   B) Documenter le pattern, aviser les membres touchés et poursuivre la correction par grief ou action collective selon la convention.
+*   B) Documenter le pattern, aviser les membres touchés et poursuivre la correction par grief ou grief de groupe selon la convention.
 *   C) Supprimer les douze lignes de la base syndicale jusqu'à ce que la paie corrige.
 *   D) Les ajouter au registre électoral sans cartes parce que des cotisations sont retenues.
 

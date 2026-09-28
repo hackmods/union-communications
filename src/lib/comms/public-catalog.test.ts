@@ -112,6 +112,28 @@ describe("public-catalog", () => {
       .toBe("on-device-hub-optional");
   });
 
+  it("officer learning modules ship curated relatedItemIds", () => {
+    const courses = PUBLIC_CATALOG.filter((item) =>
+      item.id.startsWith("learn-officer-") && item.kind === "course"
+    );
+    expect(courses.length).toBeGreaterThan(0);
+    for (const course of courses) {
+      expect(course.relatedItemIds.length, course.id).toBeGreaterThan(0);
+      expect(course.canonicalPath.startsWith("/learn/officer/")).toBe(true);
+    }
+    const contract = PUBLIC_CATALOG.find(
+      (item) => item.id === "learn-officer-contract-enforcement",
+    );
+    expect(relatedCatalogItems(contract!).map((item) => item.id)).toEqual(
+      expect.arrayContaining([
+        "utilities-complaint-vs-grievance",
+        "learn-steward-101",
+        "learn-grievance-process",
+        "learn-officer-duty-of-fair-representation",
+      ]),
+    );
+  });
+
   it("resolves curated related content from the same registry", () => {
     const brandKit = PUBLIC_CATALOG.find((item) => item.id === "create-brand-kit");
     expect(relatedCatalogItems(brandKit!).map((item) => item.id)).toEqual([

@@ -169,7 +169,7 @@ If a settlement is signed "Without Precedent," what does this legally mean for f
 During a step meeting, HR verbally promises to clean up the scheduling backlog if the union withdraws the grievance. The steward signs a "Full and Final" settlement that does not mention this promise. Can the union enforce the verbal promise later?
 *   A) Yes, verbal agreements made during step meetings are legally binding.
 *   B) Yes, but only if there are at least two witnesses who heard the promise.
-*   C) No, under the "Four Corners" rule, any verbal terms not written directly into the signed settlement are legally unenforceable.
+*   C) No, under the "Four Corners" rule, any verbal terms not written directly into the signed settlement are generally legally unenforceable.
 *   D) Yes, if the steward sends a confirming text message after signing.
 
 **Correct Answer: C**

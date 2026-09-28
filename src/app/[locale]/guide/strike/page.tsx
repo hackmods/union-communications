@@ -206,6 +206,7 @@ export default async function StrikeOpsGuidePage({
       <OfficerLearningModuleCallout
         slug="mobilizer-bargaining-partner"
         moduleNumber={7}
+        focus="strike"
       />
 
       <StrikeCommandDiagram

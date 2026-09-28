@@ -66,7 +66,7 @@ Unions can codify systemic change by negotiating progressive, anti-racist clause
 *   **Preamble Commitments**: Joint declarations committing the union and employer to actively identify, challenge, and eliminate systemic racism and colonization in the workplace.
 *   **Microaggressions Redress**: Defining microaggressions (everyday, subtle, or derogatory comments or behaviors that communicate hostile or negative attitudes toward marginalized groups) and establishing clear, rapid investigation and resolution procedures.
 *   **Evolving Family Definitions**: Expanding bereavement and family leave language to explicitly include **"chosen family"**, recognizing diverse cultural structures that do not fit traditional nuclear family models.
-*   **Flexible Cultural Leaves**: Allowing members to substitute standard, historically Christian statutory holidays (e.g., Good Friday, Christmas) for non-Christian religious or cultural observances (e.g., Eid, Yom Kippur, Diwali, National Indigenous Peoples Day).
+*   **Flexible Cultural Leaves**: Negotiate lieu-day or scheduling arrangements so members can observe non-Christian religious or cultural days (e.g., Eid, Yom Kippur, Diwali, National Indigenous Peoples Day) while preserving statutory minimum holiday entitlements. Substitution usually requires a written agreement under the applicable employment-standards statute — you cannot simply swap away ESA (or equivalent) holiday rights by CA language alone.
 
 OHRC **Human Rights at Work** supports flexible religious accommodation and family status protections — contract language that names chosen family and cultural leave substitution aligns statutory rights with enforceable clauses. Microaggression procedures should cross-reference harassment policies; **CUPE Stop Harassment guide** investigation timelines are a useful benchmark.
 
@@ -162,7 +162,7 @@ Practice: **Round 1 — Bargaining committee tabletop.** Given membership map sh
 - [**Canadian Labour Congress**](https://canadianlabour.ca/) labour education — anti-racism and equity in the labour movement
 - [**CUPE Stop Harassment guide**](https://cupe.ca/stop-harassment-guide-cupe-locals) — microaggressions, investigation, and workplace climate
 - [**Unifor Grievance Handling & Workplace Leadership courses**](https://www.unifor.org/member-services/education/grievance-handling-workplace-leadership-aghwl3-0) — representative committees and power mapping
-- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/human-rights-code) — **Human Rights at Work** (systemic discrimination concepts)
+- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/ontario-human-rights-code) — **Human Rights at Work** (systemic discrimination concepts)
 - [**Ontario Federation of Labour**](https://ofl.ca/) — equity and inclusion resources for locals
 
 ---
@@ -190,14 +190,14 @@ The bargaining committee wants to propose expanding bereavement leave to include
 *Explanation*: Broadening the definition of family to include "chosen family" is a key equity-seeking contract demand. It recognizes that kinship networks vary widely across different cultural and marginalized communities, and that traditional bloodline-only rules are exclusionary.
 
 ### Question 3
-The local is inviting an Indigenous Elder to conduct an opening ceremony for a weekend union school. To follow proper traditional protocols, what should the local prepare to offer the Elder when making the request?
+The local is inviting an Indigenous Elder to conduct an opening ceremony for a weekend union school. Protocols vary by nation and community — always ask the Elder or your equity committee what they prefer. Which option is a widely taught example of respectful protocol (not the only correct practice everywhere)?
 *   A) A standard corporate gift basket with jams and chocolates.
-*   B) A traditional tobacco tie (organic tobacco wrapped in colored broadcloth) offered respectfully with the left hand (closest to the heart).
+*   B) A traditional tobacco tie (organic tobacco wrapped in colored broadcloth) offered respectfully with the left hand (closest to the heart) — when that is the protocol the Elder or community uses.
 *   C) A written promise to donate to a political party.
 *   D) A cash payment in an open envelope before they speak.
 
 **Correct Answer: B**
-*Explanation*: Offering a traditional tobacco tie (organic tobacco in colored cloth) with the left hand (representing the heart) is a foundational cultural protocol when requesting an Elder's guidance, teachings, or ceremonial presence.
+*Explanation*: Many communities teach offering a tobacco tie with the left hand when inviting an Elder — but protocols vary by nation and community. Confirm with Indigenous members or your equity committee before hosting ceremonies; never treat one protocol as universal.
 
 ### Question 4
 A member wants ADR with an Elder instead of a formal grievance meeting with management. Best steward response?

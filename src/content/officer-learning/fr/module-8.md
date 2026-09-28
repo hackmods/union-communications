@@ -169,7 +169,7 @@ Si un règlement est signé « sans précédent », que signifie cela juridiquem
 Durant une rencontre d'étape, les RH promettent verbalement de nettoyer l'arriéré d'horaire si le syndicat retire le grief. Le délégué signe un règlement « plein et final » qui ne mentionne pas cette promesse. Le syndicat peut-il faire respecter la promesse verbale plus tard ?
 *   A) Oui, les ententes verbales faites durant les rencontres d'étape sont juridiquement contraignantes.
 *   B) Oui, mais seulement s'il y a au moins deux témoins qui ont entendu la promesse.
-*   C) Non, sous la règle des « Quatre coins », toute condition verbale non écrite directement dans le règlement signé est juridiquement inexécutoire.
+*   C) Non, sous la règle des « Quatre coins », toute condition verbale non écrite directement dans le règlement signé est généralement juridiquement inexécutoire.
 *   D) Oui, si le délégué envoie un texto de confirmation après la signature.
 
 **Correct Answer: C**

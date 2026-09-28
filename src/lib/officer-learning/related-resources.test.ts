@@ -23,6 +23,13 @@ describe("officer learning related resources", () => {
     }
   });
 
+  it("exposes canonical /learn and /create|/utilities hrefs", () => {
+    for (const link of getRelatedResources("democratic-governance")) {
+      expect(link.href.startsWith("/guide/")).toBe(false);
+      expect(link.href.startsWith("/tools/")).toBe(false);
+    }
+  });
+
   it("maps contract enforcement to FAR + checklist", () => {
     expect(getReferenceSheets("contract-enforcement").map((s) => s.id)).toEqual([
       "far-sheet",
@@ -32,8 +39,15 @@ describe("officer learning related resources", () => {
 
   it("maps democratic governance to running meetings, land acknowledgement, and rules of order", () => {
     const hrefs = getRelatedResources("democratic-governance").map((r) => r.href);
-    expect(hrefs).toContain("/guide/running-meetings");
-    expect(hrefs).toContain("/guide/land-acknowledgement");
-    expect(hrefs).toContain("/tools/rules-of-order");
+    expect(hrefs).toContain("/learn/running-meetings");
+    expect(hrefs).toContain("/learn/land-acknowledgement");
+    expect(hrefs).toContain("/utilities/rules-of-order");
+  });
+
+  it("maps human rights accommodation to Module 9 benefits, not photo consent", () => {
+    const hrefs = getRelatedResources("human-rights-accommodation").map((r) => r.href);
+    expect(hrefs).toContain("/learn/officer/benefits-disability-claims");
+    expect(hrefs).not.toContain("/guide/photo-consent");
+    expect(hrefs).not.toContain("/learn/photo-consent");
   });
 });

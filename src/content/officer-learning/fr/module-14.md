@@ -59,7 +59,7 @@ Les programmes d'affinité négocient des **rabais exclusifs** — équipement d
 | Renouveler annuellement | Reconfirmer les termes du partenariat ; clause écrite de non-partage de données | Remettre les listes d'adhésion pour « prouver » l'effectif |
 | Suivre l'adoption | Comptages anonymes (« cartes distribuées ») | Donner aux fournisseurs l'accès à votre base de données |
 
-La **directive sur les listes d'adhésion** du module 11 s'applique : partager les listes avec des partenaires commerciaux est une infraction constitutionnelle. Un rabais de 15 % sur des bottes ne vaut pas la vente de la vie privée des membres.
+La **directive sur les listes d'adhésion** (modèle pédagogique) du module 11 s'applique : partager les listes avec des partenaires commerciaux est une infraction constitutionnelle. Un rabais de 15 % sur des bottes ne vaut pas la vente de la vie privée des membres.
 
 Les programmes d'affinité d'**Unifor** et des syndicats nationaux fournissent souvent cartons et règles — les sections ajoutent des partenaires locaux seulement avec un mémo **sans partage de listes** signé par le président.
 

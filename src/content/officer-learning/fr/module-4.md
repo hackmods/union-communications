@@ -72,7 +72,7 @@ Les procès-verbaux doivent être objectifs, concis et axés sur les **décision
 ---
 
 ## 4. Élections au scrutin secret étape par étape
-L'intégrité démocratique est primordiale durant les élections de dirigeants locaux. Le processus électoral doit suivre une séquence stricte et inattaquable :
+L'intégrité démocratique est primordiale durant les élections de dirigeants locaux. La séquence ci-dessous est un **défaut pédagogique** — confirmez chaque étape contre la constitution de votre syndicat et vos règlements locaux. Certaines constitutions permettent la pluralité ; d'autres exigent des scrutins successifs jusqu'à une majorité claire. Ne tenez pas une élection que vos propres documents régissant annuleraient.
 
 1.  **Ouvrir les mises en candidature** : Le président de séance appelle les candidatures du plancher. Aucun secondeur n'est requis.
 2.  **Consigner les candidats** : Le secrétaire consigne les candidats et les proposeurs sur un tableau ou écran visible.
@@ -81,9 +81,9 @@ L'intégrité démocratique est primordiale durant les élections de dirigeants 
 5.  **Verrouiller les portes** : Avant le début du scrutin, les portes sont « verrouillées » (fermées). Personne n'est autorisé à entrer ou sortir de la salle jusqu'à la fin du vote pour prévenir le double vote ou le bourrage d'urnes.
 6.  **Vérifier l'admissibilité au vote** : Les bulletins sont distribués strictement aux membres inscrits en règle.
 7.  **Scrutateurs** : Chaque candidat a le droit de désigner un observateur indépendant (scrutateur) pour témoigner du dépouillement aux côtés du comité électoral.
-8.  **Le calcul de majorité 50 % + 1** : Pour être déclaré élu, un candidat doit remporter une **majorité claire** des bulletins valides exprimés (plus de 50 %).
-    *   *Note* : Une « pluralité » (avoir plus de voix que quiconque mais moins de 50 % du total) *ne suffit pas*.
-9.  **Scrutins successifs** : Si aucun candidat ne remporte une majorité claire au premier tour, le candidat avec le moins de voix est éliminé, et un second tour est tenu. Ce processus continue jusqu'à ce qu'un candidat obtienne 50 % + 1 des voix valides exprimées.
+8.  **Majorité claire (plus de la moitié)** : Pour être déclaré élu selon ce défaut pédagogique, un candidat doit remporter une **majorité claire** des bulletins valides exprimés (plus de la moitié).
+    *   *Note* : Une « pluralité » (avoir plus de voix que quiconque mais moins de la moitié du total) *ne suffit pas* sous les constitutions à scrutins successifs — mais certains syndicats permettent la pluralité. Vérifiez la vôtre.
+9.  **Scrutins successifs** : Si aucun candidat ne remporte une majorité claire au premier tour, le candidat avec le moins de voix est éliminé, et un second tour est tenu. Ce processus continue jusqu'à ce qu'un candidat obtienne plus de la moitié des voix valides exprimées.
 
 Les matériaux de démocratie locale du Congrès du travail du Canada et les séances d'éducation des délégués du SCFP sur la structure syndicale renforcent les scrutins successifs — les victoires à la pluralité sont une erreur courante qui engendre des contestations de légitimité.
 
@@ -126,7 +126,7 @@ Exercice : AGM simulée avec cartes de décompte papier. Le secrétaire suit le 
 - [ ] Élections : trois appels de candidature, se présenter/décliner, verrouiller les portes
 - [ ] Scrutateurs nommés avant le dépouillement
 - [ ] Majorité = plus de 50 % des bulletins valides ; éliminer le candidat bas et revoter si nécessaire
-- [ ] Associer `/guide/running-meetings` et `/tools/rules-of-order` pour le libellé du président sur le plancher
+- [ ] Associer [Tenir des réunions](/guide/running-meetings) et [Règles de procédure](/tools/rules-of-order) pour le libellé du président sur le plancher
 
 ---
 
@@ -174,7 +174,7 @@ Durant une assemblée générale tendue, 4 membres quittent la salle pour prendr
 Dans une élection locale pour la présidence, 100 bulletins valides sont exprimés. Le candidat A reçoit 45 voix, le candidat B en reçoit 35, et le candidat C en reçoit 20. Que se passe-t-il ensuite ?
 *   A) Le candidat A est déclaré élu parce qu'il a le plus de voix (pluralité).
 *   B) Un tirage au sort est tenu entre le candidat A et le candidat B.
-*   C) Le candidat C est éliminé, et un second scrutin est tenu entre le candidat A et le candidat B pour déterminer qui obtient une majorité claire de 50 % + 1.
+*   C) Le candidat C est éliminé, et un second scrutin est tenu entre le candidat A et le candidat B pour déterminer qui obtient une majorité claire (plus de la moitié).
 *   D) L'élection est déclarée nulle et doit être reportée au mois suivant.
 
 **Correct Answer: C**
@@ -191,14 +191,14 @@ Un secrétaire veut consigner que « le membre X s'est opposé avec colère à l
 *Explication* : La norme d'écriture sobre consigne les décisions et actions, pas le débat émotionnel ni les attaques personnelles. Le libellé de la motion, le résultat et les tâches assignées constituent le dossier juridique.
 
 ### Question 5
-Lors d'une élection présidentielle contestée, le président veut annoncer « Le candidat A gagne avec 45 % — le plus de votes ». Que doit-il se passer ?
-*   A) Déclarer A élu parce que 45 % est la plus grande part.
-*   B) Éliminer le candidat le plus bas et tenir un second tour jusqu'à ce qu'une personne atteigne plus de 50 % des bulletins valides.
-*   C) Partager la présidence entre A et B.
-*   D) Accepter un tirage au sort entre les deux premiers.
+Le scrutin pour la présidence a commencé. Un membre en retard frappe et demande d'entrer pour voter. Les portes étaient verrouillées quand le premier bulletin a été distribué. Réponse correcte ?
+*   A) Ouvrir la porte — tout membre en règle peut voter à tout moment.
+*   B) Garder les portes verrouillées jusqu'à la fin du scrutin ; les retardataires attendent le prochain tour ou la prochaine réunion selon les règlements.
+*   C) Les laisser voter dans le corridor et passer le bulletin sous la porte.
+*   D) Suspendre le décompte, déverrouiller les portes et relancer les mises en candidature.
 
 **Correct Answer: B**
-*Explication* : Les élections syndicales exigent une majorité claire, pas une pluralité. Lorsqu'aucun candidat n'atteint 50 % + 1, éliminez le plus bas et recomptez jusqu'à un gagnant majoritaire.
+*Explication* : Verrouiller les portes prévient le double vote et le bourrage d'urnes. Une fois le scrutin commencé, entrées et sorties s'arrêtent jusqu'à la fin — les retardataires suivent la prochaine méthode de scrutin autorisée dans vos règlements.
 
 ### Question 6
 Avant le dépouillement, un membre exige de compter seul sans scrutateurs nommés. Meilleure pratique ?

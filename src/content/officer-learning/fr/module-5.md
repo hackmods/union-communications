@@ -12,7 +12,7 @@ Les sections 1 à 4 couvrent le but syndical, les doubles signatures, la budgét
 Fournir aux trésoriers et fiduciaires indépendants les compétences administratives rigoureuses nécessaires pour maintenir des contrôles financiers à double signature, compiler des budgets locaux priorisés par programme, et exécuter des audits internes objectifs.
 
 ## Objectifs d'apprentissage
-*   **Savoir** : La règle constitutionnelle centrale selon laquelle tous les fonds locaux doivent être utilisés strictement à des fins syndicales légitimes ; et le rôle statutaire des fiduciaires élus.
+*   **Savoir** : La règle constitutionnelle centrale selon laquelle tous les fonds locaux doivent être utilisés strictement à des fins syndicales légitimes ; et le rôle constitutionnel des fiduciaires élus.
 *   **Ressentir/Comprendre** : Haute responsabilité envers l'effectif pour chaque centime dépensé ; et engagement envers une opération financière transparente et professionnelle.
 *   **Être capable de** : Établir des contrôles de signature double sur tous les bons, comptes bancaires et chèques ; rédiger et surveiller un budget de fonctionnement annuel priorisé par programme ; et exécuter une réconciliation bancaire et un audit financier systématiques sur 6 mois.
 
@@ -22,7 +22,7 @@ Fournir aux trésoriers et fiduciaires indépendants les compétences administra
 Tous les fonds perçus via les cotisations appartiennent à l'effectif. La règle fondamentale de la finance syndicale est que **les fonds locaux doivent être dépensés strictement pour faire avancer des fins syndicales légitimes**.
 
 *   **Dépenses approuvées** : Campagnes d'organisation, soutien à la négociation, formation des délégués, frais de grief et d'arbitrage, loyer des bureaux locaux, et remboursement approuvé de voyage/salaire perdu pour les délégués représentant la section locale aux assemblées.
-*   **Dépenses interdites** : Prêts personnels aux membres ou dirigeants, achat de cadeaux ou dons à des candidats politiques, financement de dépenses personnelles non approuvées, et signature de chèques en blanc.
+*   **Dépenses interdites** : Prêts personnels aux membres ou dirigeants, achat de cadeaux ou dons à des candidats politiques (selon votre constitution et le droit électoral — certains syndicats utilisent des fonds d'action politique distincts), financement de dépenses personnelles non approuvées, et signature de chèques en blanc.
 
 La formation syndicale du CTC et les formations de trésoriers locaux du SCFP cadrent la légitimité comme une question de membre : « Cette dépense renforce-t-elle la représentation collective ? » Les dons politiques, prêts personnels et avantages de luxe échouent à ce test même lorsque les dirigeants sont appréciés.
 
@@ -194,23 +194,23 @@ Un fiduciaire local élu est prié de combler une vacance soudaine pour le poste
 
 ### Question 4
 Un membre demande pourquoi la section locale ne peut pas donner 500 $ de cotisations à la campagne d'un politicien. Meilleure réponse ?
-*   A) Les cotisations ne peuvent financer que des fins syndicales légitimes ; les dons directs à des candidats politiques sont des utilisations interdites des fonds locaux.
+*   A) Les cotisations ne peuvent financer que des fins syndicales légitimes ; les dons directs à des candidats politiques sont des utilisations interdites des fonds locaux selon votre constitution et le droit électoral.
 *   B) Les dons sont acceptables si le politicien appuie les syndicats.
 *   C) Seul le président décide des dépenses politiques.
 *   D) Les dons sous 500 $ sont toujours permis.
 
 **Correct Answer: A**
-*Explication* : Les fonds locaux doivent faire avancer des fins syndicales. Les dons politiques personnels ou à des candidats sortent des dépenses approuvées, peu importe le montant ou l'alignement.
+*Explication* : Les fonds locaux doivent faire avancer des fins syndicales. Les dons politiques personnels ou à des candidats sortent habituellement des dépenses approuvées — confirmez contre votre constitution et le droit électoral (certains syndicats utilisent des fonds d'action politique distincts).
 
 ### Question 5
-Le président pré-signe trois chèques vides « pour les urgences » avant des vacances de deux semaines. Le trésorier est indisponible. Meilleure réponse ?
-*   A) Accepter — les urgences exigent de la flexibilité.
-*   B) Refuser. Aucun chèque vierge, jamais. Planifier les paiements au retour ou utiliser deux signataires autorisés selon les règlements.
-*   C) Permettre un chèque vierge plafonné à 500 $.
-*   D) Laisser le vice-président signer seul parce qu'il agit comme président.
+Un fournisseur exige un paiement le jour même par virement électronique à un seul signataire parce que « le retard de chèque annulera la réservation de salle ». Meilleure réponse ?
+*   A) Envoyer le virement du compte personnel du président et se faire rembourser plus tard sans reçus.
+*   B) Refuser les virements à un seul signataire. Utiliser l'approbation double selon les règlements, ou payer quand les deux signataires sont disponibles — l'urgence ne lève pas le double contrôle.
+*   C) Autoriser tout dirigeant à virer moins de 1 000 $ sans seconde signature.
+*   D) Préautoriser le trésorier à virer seul pour le reste de l'année.
 
 **Correct Answer: B**
-*Explication* : Les chèques vierges détruisent le double contrôle. L'urgence ne l'emporte jamais sur les reçus détaillés et deux signatures autorisées — reportez ou utilisez des signataires alternatifs selon les règlements.
+*Explication* : Les paiements électroniques exigent encore un double contrôle et un objet documenté. La pression du jour même est un classique de contournement — replanifiez la réservation ou attendez deux approbateurs autorisés.
 
 ### Question 6
 Les fiduciaires trouvent un reçu de repas de 400 $ avec de l'alcool parmi les aliments, payé à partir de la ligne budget formation. Action correcte ?

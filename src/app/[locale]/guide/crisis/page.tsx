@@ -153,6 +153,7 @@ export default async function CrisisPage({
       <OfficerLearningModuleCallout
         slug="mobilizer-bargaining-partner"
         moduleNumber={7}
+        focus="crisis"
       />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>

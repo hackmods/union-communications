@@ -9,7 +9,7 @@ Work through sections 1–4 sequentially: primacy of human rights, Meiorin, undu
 🪞 Reflection: Accommodation is a dialogue, not a single doctor's note. Your role is to keep the process moving while guarding medical privacy.
 
 ## Overarching Purpose
-To provide local leaders and stewards with a robust framework for identifying prohibited grounds of discrimination, applying statutory human rights standards to employer rules, protecting member medical privacy, and designing collaborative, barrier-free return-to-work programs.
+Spot discrimination early, apply Meiorin to biased rules, guard medical privacy, and build phased return-to-work plans that clear barriers instead of parking members on unpaid leave.
 
 ## Core Learning Objectives
 *   **Know**: The prohibited grounds of discrimination under human rights legislation, and the statutory primacy of human rights over collective agreements.
@@ -156,7 +156,7 @@ Practice in the tool: open Tools → Steward worksheets → RTW & accommodation 
 ## Further learning
 
 - **CUPE Ready and Able** — duty to accommodate steward reference
-- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/human-rights-code) — **Human Rights at Work** and duty to accommodate policy guidance
+- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/ontario-human-rights-code) — **Human Rights at Work** and duty to accommodate policy guidance
 - [**CUPE Stop Harassment guide**](https://cupe.ca/stop-harassment-guide-cupe-locals) — overlap of harassment and discriminatory conduct
 - [**Canadian Labour Congress**](https://canadianlabour.ca/) labour education — human rights in the workplace modules
 

@@ -9,10 +9,10 @@ Sections 1–4 cover trade union purpose, double signatures, budgeting, and trus
 ⚠️ Warning: Never sign a cheque or e-transfer without matching itemized receipts — no exceptions for officers.
 
 ## Overarching Purpose
-To provide treasurers and independent trustees with the rigorous administrative skills needed to maintain double-signature financial controls, compile program-prioritized local budgets, and execute objective internal audits.
+Keep every dollar under dual control: itemized receipts, two signatures, a program-first budget, and trustee audits that catch blank-cheque culture before members lose trust.
 
 ## Core Learning Objectives
-*   **Know**: The core constitutional rule that all local funds must be used strictly for legitimate trade union purposes; and the statutory role of elected Trustees.
+*   **Know**: The core constitutional rule that all local funds must be used strictly for legitimate trade union purposes; and the constitutional role of elected Trustees.
 *   **Feel/Understand**: Highly accountable to the membership for every cent spent; and committed to a transparent, business-like financial operation.
 *   **Be Able To**: Establish double-signature signing controls on all vouchers, bank accounts, and cheques; draft and monitor a program-prioritized annual operating budget; and execute a systematic, 6-month bank reconciliation and financial audit.
 
@@ -22,7 +22,7 @@ To provide treasurers and independent trustees with the rigorous administrative 
 All funds collected via union dues belong to the membership. The fundamental rule of union finance is that **local funds must be spent strictly to advance legitimate trade union purposes**.
 
 *   **Approved Expenditures**: Organizing campaigns, bargaining support, steward education, grievance and arbitration expenses, rent for local offices, and approved travel/lost-wage reimbursement for delegates representing the local at assemblies.
-*   **Prohibited Expenditures**: Personal loans to members or officers, purchasing gifts or donations for political candidates, funding unapproved personal expenses, and signing off on blank cheques.
+*   **Prohibited Expenditures**: Personal loans to members or officers, purchasing gifts or donations for political candidates (per your constitution and election law — some unions use separate political-action funds), funding unapproved personal expenses, and signing off on blank cheques.
 
 CLC labour education and CUPE local treasurer trainings frame legitimacy as a member question: "Does this spending strengthen collective representation?" Political donations, personal loans, and luxury perks fail that test even when officers are well liked.
 
@@ -194,23 +194,23 @@ An elected Local Trustee is asked to fill a sudden vacancy for the position of L
 
 ### Question 4
 A member asks why the local cannot donate $500 from dues to a politician's campaign. Best answer?
-*   A) Dues may only fund legitimate trade union purposes; direct political candidate donations are prohibited uses of local funds.
+*   A) Dues may only fund legitimate trade union purposes; direct political candidate donations are prohibited uses of local funds per your constitution and election law.
 *   B) Donations are fine if the politician supports unions.
 *   C) Only the President decides political spending.
 *   D) Donations under $500 are always allowed.
 
 **Correct Answer: A**
-*Explanation*: Local funds must advance trade union purposes. Personal or candidate political donations fall outside approved expenditures regardless of amount or alignment.
+*Explanation*: Local funds must advance trade union purposes. Personal or candidate political donations usually fall outside approved expenditures — confirm against your constitution and election law (some unions use separate political-action funds).
 
 ### Question 5
-The President pre-signs three blank cheques "for emergencies" before a two-week vacation. The Treasurer is unavailable. Best response?
-*   A) Accept — emergencies require flexibility.
-*   B) Refuse. No blank cheques, ever. Schedule payments after return or use dual authorized signers per bylaws.
-*   C) Allow one blank cheque capped at $500.
-*   D) Let the Vice-President sign alone because they are acting president.
+A vendor demands same-day payment by single-signer e-transfer because "cheque delay will cancel the hall booking." Best response?
+*   A) Send the e-transfer from the President's personal account and reimburse later without receipts.
+*   B) Refuse single-signer e-transfers. Use dual authorized approval per bylaws, or pay after both signers are available — urgency does not waive dual control.
+*   C) Allow any officer to e-transfer under $1,000 without a second signature.
+*   D) Pre-authorize the Treasurer to e-transfer alone for the rest of the year.
 
 **Correct Answer: B**
-*Explanation*: Blank cheques destroy dual-control. Urgency never overrides itemized receipts and two authorized signatures — reschedule or use alternate signers per bylaws.
+*Explanation*: Electronic payments still need dual control and documented purpose. Same-day pressure is a classic control bypass — reschedule the booking or wait for two authorized approvers.
 
 ### Question 6
 Trustees find a $400 meal receipt with alcohol listed among food items, paid from the education budget line. Correct action?

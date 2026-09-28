@@ -9,7 +9,7 @@ Read sections 1–4 in order; they build the **5-Point Filter**, the **6 W's**, 
 💡 Note: This module assumes you already know where grievance deadlines live in your contract. If not, flag that as your first homework item before representing anyone formally.
 
 ## Overarching Purpose
-To equip workplace representatives with the foundational analytical, investigative, and meeting skills required to police the collective agreement, distinguish valid grievances from complaints, and protect member rights on an equal footing with management.
+Build the steward's first toolkit: read the CA like a map, separate grievances from complaints, and hold the table with representational equality — not as a subordinate employee.
 
 ## Core Learning Objectives
 *   **Know**: The distinction between a general workplace complaint and a formal contractual grievance, and the legal basis of "Union Representative Immunity".
@@ -92,7 +92,7 @@ The FAR sheet is your meeting anchor. When a supervisor drifts into character at
 Stewards often fear that advocating vigorously for a member will result in personal retaliation or insubordination charges from management.
 
 ### The Equal Footing Principle
-In labor law, when an elected or appointed steward acts in their official union capacity (e.g., in a grievance meeting, disciplinary hearing, or joint committee), they are **not acting as an employee**. They stand on a level of absolute **equality with management**.
+In labor law, when an elected or appointed steward acts in their official union capacity (e.g., in a grievance meeting, disciplinary hearing, or joint committee), they are **not acting as an employee**. They have **representational equality at the table for the duration of the meeting**.
 *   **Representative Immunity**: This legal doctrine protects stewards from disciplinary action for robust, emotional, or aggressive language used during representation. You cannot be disciplined for "insubordination" for arguing forcefully against a manager during a union-management meeting.
 *   **The Boundaries of Immunity**: Representative immunity is not absolute. It does *not* protect:
     *   Direct threats of physical violence.

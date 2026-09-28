@@ -9,7 +9,7 @@ Pair with `/guide/membership-signup` for card-signing campaign craft — that gu
 🪞 Reflection: A dues payer who never signed a card pays for solidarity — but cannot vote until they join democratically. Your list work turns payroll rows into an organized membership.
 
 ## Overarching Purpose
-To equip Local Secretaries, Treasurers, and administrators with the technical skills and legal knowledge to clean, reconcile, and securely manage membership lists — distinguishing employer-provided dues data from card-carrying members in good standing while maintaining absolute data privacy under constitutional guardrails.
+Clean the membership list without leaking it: reconcile dues to signed cards, keep Rand payers distinct from voting members, and treat contact data as a constitutional trust — not a marketing asset.
 
 ## Core Learning Objectives
 *   **Know**: The strict terms of the **Membership List Directive**; the legal distinction between a dues payer under the **Rand Formula** and a card-carrying member in good standing with voting rights.
@@ -39,7 +39,7 @@ One of the most common errors a new Local Secretary makes is assuming everyone o
 ---
 
 ## 2. The Membership List Directive & Data Privacy
-Union membership lists are highly sensitive constitutional documents. The **Membership List Directive** — adopted across many Canadian unions as a binding constitutional privacy practice — mandates strict security guardrails regardless of which national body your local affiliates with.
+Union membership lists are highly sensitive constitutional documents. The **Membership List Directive** is a UnionOps teaching model summarizing common constitutional privacy rules across Canadian unions — it is not a single cross-union statute. It mandates strict security guardrails regardless of which national body your local affiliates with.
 
 *   **Commercial use**: Sharing, selling, or leasing a membership list with any commercial partner — even an affinity discount vendor — is a serious constitutional offense. Members join a union, not a marketing database.
 *   **Political campaigns**: Locals cannot release lists to municipal, provincial, or federal candidates or parties, even when the union formally endorses them. All outreach must be conducted **internally** by the local itself through union channels.
@@ -65,7 +65,7 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 5.  Log changes in a reconciliation journal — who imported, when, and what discrepancies were found.
 
 ### Common data hygiene fixes
-*   **Incorrect classifications**: Employers often mislabel full-time workers as temporary or part-time to avoid benefit obligations. Cross-reference dues sheets with collective agreement classifications — errors become class-action grievance evidence.
+*   **Incorrect classifications**: Employers often mislabel full-time workers as temporary or part-time to avoid benefit obligations. Cross-reference dues sheets with collective agreement classifications — errors become group-grievance evidence.
 *   **Arrears detection**: Verify the correct percentage of dues is deducted for every hour worked. Modified duties, short-term leaves, and retroactive pay adjustments are frequent failure points.
 *   **Address and contact drift**: Home addresses on payroll may be outdated; steward site visits and sign-up drives need current phone numbers stored **only** on union systems.
 *   **Duplicate rows**: Mergers, name changes, and rehires create ghost records — deduplicate before any mail merge.
@@ -144,7 +144,7 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 - [**CUPE**](https://cupe.ca/) local secretary / membership materials — list custody and reconciliation
 - [**Unifor**](https://www.unifor.org/) local officer training — database hygiene and member privacy
 - [**Ontario Federation of Labour**](https://ofl.ca/) — local administration workshops
-- Your national union constitution — Membership List Directive and good-standing rules
+- Your national union constitution — list privacy / good-standing rules (compare to the Membership List Directive teaching model in Section 2)
 
 ---
 

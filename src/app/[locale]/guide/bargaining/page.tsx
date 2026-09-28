@@ -172,6 +172,7 @@ export default async function BargainingGuidePage({
       <OfficerLearningModuleCallout
         slug="mobilizer-bargaining-partner"
         moduleNumber={7}
+        focus="bargaining"
       />
 
       <BargainingLifecycleDiagram

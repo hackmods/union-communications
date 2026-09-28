@@ -59,7 +59,7 @@ Affinity programs negotiate **exclusive discounts** — workwear, retail, auto i
 | Renew annually | Reconfirm partnership terms; no data sharing clause in writing | Hand membership lists to "prove" headcount |
 | Track uptake | Anonymous counts ("cards distributed") | Give vendors access to your database |
 
-Module 11's **Membership List Directive** applies: sharing lists with commercial partners is a constitutional offense. A 15% boot discount is not worth selling member privacy.
+Module 11's **Membership List Directive** teaching model applies: sharing lists with commercial partners is a constitutional offense. A 15% boot discount is not worth selling member privacy.
 
 **Unifor** and national union affinity programs often ship card-stock and rules — locals add shop-specific partners only with a **no-list-sharing** memo signed by the President.
 

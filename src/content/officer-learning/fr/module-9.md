@@ -145,7 +145,7 @@ Exercice : **Tour 1 — Script de confidentialité.** Jouez le rôle des RH exig
 
 ## Pour aller plus loin
 
-- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/human-rights-code) — *Les droits de la personne au travail* (confidentialité médicale ; processus d'accommodement)
+- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/ontario-human-rights-code) — *Les droits de la personne au travail* (confidentialité médicale ; processus d'accommodement)
 - Ressources du [**SCFP**](https://cupe.ca/) sur le devoir d'accommodement et les programmes d'assiduité pour délégués
 - [**Congrès du travail du Canada**](https://canadianlabour.ca/) — éducation invalidité et avantages pour les sections locales
 - Texte du régime et guides d'appel CSPAAT/ILD propres à votre unité de négociation (toujours vérifier)

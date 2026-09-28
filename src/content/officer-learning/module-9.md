@@ -12,7 +12,7 @@ Sections move from medical information boundaries through Joint Insurance Commit
 To prepare stewards to advocate through benefits, pension, and disability claim systems while enforcing medical privacy, challenging insurer denials through joint oversight, limiting improper Independent Medical Examinations, and stopping mechanistic attendance programs from punishing disability-related absences.
 
 ## Core Learning Objectives
-*   **Know**: The jurisdictional role of the Joint Insurance Committee (JIC); the legal limits of Independent Medical Examinations (IMEs); the distinction between active support and punitive Attendance Management Programs (AMPs).
+*   **Know**: The jurisdictional role of the joint benefits/insurance committee (JIC is the Ontario-college CAAT label); the legal limits of Independent Medical Examinations (IMEs); the distinction between active support and punitive Attendance Management Programs (AMPs).
 *   **Feel/Understand**: Confident challenging third-party insurance providers; protective of member medical confidentiality.
 *   **Be Able To**: Guide a member through an LTD/WSIB application while shielding their diagnostic details; identify and file grievances against mechanistic, punitive employer attendance programs.
 
@@ -35,7 +35,7 @@ Module 3 taught Meiorin/BFOR when the employer claims a standard is essential. T
 
 ---
 
-## 2. JIC Oversight & Challenging Benefit Denials
+## 2. Joint benefits/insurance committee oversight & challenging benefit denials
 Insurers often deny once, hoping the member gives up. Where the collective agreement creates a **Joint Insurance Committee (JIC)** or similar joint benefits body, stewards can:
 
 *   Bring disputed denials for joint review.
@@ -145,7 +145,7 @@ Practice: **Round 1 — Privacy script.** Role-play HR demanding medications lis
 
 ## Further learning
 
-- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/human-rights-code) — *Human Rights at Work* (medical privacy; accommodation process)
+- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/ontario-human-rights-code) — *Human Rights at Work* (medical privacy; accommodation process)
 - [**CUPE**](https://cupe.ca/) duty-to-accommodate and steward resources on attendance programs
 - [**Canadian Labour Congress**](https://canadianlabour.ca/) — disability and benefits education for locals
 - Plan text & WSIB/LTD appeal guides specific to your bargaining unit (always verify)
@@ -185,7 +185,7 @@ An employer's Attendance Management Program (AMP) automatically places a member 
 *Explanation*: Applying a "neutral" attendance policy mechanistically to a worker with a disability is discriminatory. Disability-related absences must be accommodated and excluded from punitive AMP counts.
 
 ### Question 4
-What is the primary advocacy role of a Joint Insurance Committee (JIC) when a carrier denies LTD?
+What is the primary advocacy role of a joint benefits/insurance committee (sometimes called a JIC in Ontario college CAAT settings) when a carrier denies LTD?
 *   A) To replace the member's treating physician with an employer doctor.
 *   B) To review disputed denials, audit insurer performance, and pressure HR/carrier processes within plan rules.
 *   C) To publicly disclose the member's diagnosis to the bargaining unit.

@@ -92,7 +92,7 @@ La fiche FAR est votre ancrage en rencontre. Lorsqu'un superviseur dérive vers 
 Les délégués craignent souvent qu'une défense vigoureuse d'un membre entraîne des représailles personnelles ou des accusations d'insubordination de la part de la direction.
 
 ### Le principe du pied d'égalité
-En droit du travail, lorsqu'un délégué élu ou nommé agit dans sa capacité syndicale officielle (p. ex. dans une rencontre de grief, une audience disciplinaire ou un comité conjoint), il **n'agit pas en tant qu'employé**. Il se tient sur un plan d'**égalité absolue avec la direction**.
+En droit du travail, lorsqu'un délégué élu ou nommé agit dans sa capacité syndicale officielle (p. ex. dans une rencontre de grief, une audience disciplinaire ou un comité conjoint), il **n'agit pas en tant qu'employé**. Il a une **égalité de représentation à la table pour la durée de la rencontre**.
 *   **Immunité du représentant** : Cette doctrine juridique protège les délégués des mesures disciplinaires pour un langage vigoureux, émotif ou agressif utilisé durant la représentation. Vous ne pouvez pas être discipliné pour « insubordination » pour avoir argumenté avec force contre un gestionnaire durant une rencontre syndicat-direction.
 *   **Les limites de l'immunité** : L'immunité du représentant n'est pas absolue. Elle ne *protège pas* :
     *   Les menaces directes de violence physique.

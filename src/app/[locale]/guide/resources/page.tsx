@@ -166,6 +166,9 @@ export default async function ResourcesPage({
           {t("allSources.title")}
         </summary>
         <div className="px-4 pb-4">
+          <p className="mb-4 max-w-prose text-sm leading-relaxed text-gray-600">
+            {t("linkRotNote")}
+          </p>
           <ResourcesSourcesList hideHeading />
         </div>
       </details>

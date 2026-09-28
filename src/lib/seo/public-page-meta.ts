@@ -61,7 +61,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/accessibility": {
       title: "Accessibility Statement",
       description:
-        "The UnionOps commitment to AODA and WCAG 2.1 Level AA, so stewards and officers with disabilities can use these tools, plus the gaps we still know about.",
+        "The UnionOps commitment to AODA and WCAG 2.2 Level AA, so stewards and officers with disabilities can use these tools, plus the gaps we still know about.",
     },
     "/trust/subprocessors": {
       title: "UnionOps Subprocessors",
@@ -410,7 +410,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/accessibility": {
       title: "Déclaration d'accessibilité",
       description:
-        "L'engagement d'UnionOps envers la LAPHO et le WCAG 2.1 niveau AA, pour que les délégués et les dirigeants en situation de handicap puissent utiliser ces outils.",
+        "L'engagement d'UnionOps envers la LAPHO et le WCAG 2.2 niveau AA, pour que les délégués et les dirigeants en situation de handicap puissent utiliser ces outils.",
     },
     "/trust/subprocessors": {
       title: "Sous-traitants UnionOps",

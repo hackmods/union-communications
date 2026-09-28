@@ -9,7 +9,7 @@ Sections move from information architecture through retention schedules, cyberse
 🪞 Reflection: A lost password is an inconvenience. A grievance file on employer OneDrive is a breach waiting to happen.
 
 ## Overarching Purpose
-To train Local Secretaries in designing secure digital filing structures, maintaining statutory document retention schedules, executing smooth leadership handovers, and enforcing modern cybersecurity protocols that protect confidential union records from employer surveillance and data breaches.
+Handover without drama: design a secure digital file tree, keep retention schedules honest, and lock confidential records away from employer-watched clouds before the next election.
 
 ## Core Learning Objectives
 *   **Know**: Legally mandated retention periods for local files (minutes, grievances, bank records); the core elements of union-focused cybersecurity including 2FA and password-manager handovers.
