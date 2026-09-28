@@ -20,6 +20,7 @@ import {
   sendClassifiedEmail,
 } from "@/lib/email/send";
 import { readProductNewsConfig } from "@/lib/email/product-news-config";
+import { getEnterpriseEmailHostFlags } from "@/lib/email/enterprise-gates";
 
 export const dynamic = "force-dynamic";
 
@@ -100,6 +101,7 @@ export async function GET() {
         enabled: productNews.enabled,
         reason: productNews.reason,
       },
+      enterpriseHost: getEnterpriseEmailHostFlags(),
     },
   });
 }

@@ -547,6 +547,13 @@
       "idx": 77,
       "when": 1792400000000,
       "breakpoints": true
+    },
+    {
+      "version": "7",
+      "tag": "0078_enterprise_email_entitlements",
+      "idx": 78,
+      "when": 1792500000000,
+      "breakpoints": true
     }
   ]
 }

@@ -56,6 +56,22 @@ export const unions = pgTable("unions", {
   paidTenantDirectoryEnabled: boolean("paid_tenant_directory_enabled")
     .notNull()
     .default(false),
+  /**
+   * Enterprise email entitlements — all default closed.
+   * Also require matching CapRover host flags (see enterprise-gates.ts / ADR-022).
+   */
+  memberBroadcastEnabled: boolean("member_broadcast_enabled")
+    .notNull()
+    .default(false),
+  commsAutoSendEnabled: boolean("comms_auto_send_enabled")
+    .notNull()
+    .default(false),
+  grievanceSmtpEnabled: boolean("grievance_smtp_enabled")
+    .notNull()
+    .default(false),
+  emailTrackingPixelsEnabled: boolean("email_tracking_pixels_enabled")
+    .notNull()
+    .default(false),
 });
 
 export const divisions = pgTable("divisions", {

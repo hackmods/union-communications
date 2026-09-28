@@ -174,3 +174,23 @@
 **Consequences:** ADR-016's current sendTransactionalEmail path remains transaction-only. Packet 5 must establish durable evidence, address confirmation, a no-login preference path, a consent-gated marketing sender, and restricted campaign controls before any product-news send is enabled. This engineering decision does not approve CASL wording or decide legal applicability.
 
 **Implementation note (2026-09-27):** Packet 5 source now includes those paths under a disabled-by-default `UNIONOPS_PRODUCT_NEWS_ENABLED` gate. The gate also checks an exact EN/FR notice version and approval reference, sender/contact/postal identity, HTTPS public URL, durable Postgres, Mailgun API and signed failure/complaint feedback, email transport, and token keys. A scheduled worker locks the subscriber row during each provider call; provider failure, complaint, and unsubscribe events suppress later sends. The qualified wording review, actual CapRover values, mailbox/provider tests, and live PostgreSQL/RLS evidence are still required before operation.
+
+## ADR-022: Gated enterprise email capabilities (broadcast, Comms auto-send, grievance SMTP, tracking)
+**Status:** Accepted for engineering; legal/CASL review still required before production enablement
+**Date:** 2026-09-27
+**Amends:** ADR-016 (absolute ban on member broadcasts / grievance SMTP) and ADR-021 (absolute ban on tracking pixels) only as dual-gated opt-ins. Product-news marketing path remains tracking-off forever.
+
+**Context:** Hosted enterprise operators need durable compose + ops for member outreach and case follow-up without shipping a Mailchimp-class product. Capabilities must stay fail-closed on CapRover and per-union, default off.
+
+**Decision:**
+- Four capabilities, each **default off**:
+  1. **Member broadcast** — Hub/Portal-scoped sends to consenting local/union audiences (`classification: "broadcast"`).
+  2. **Comms auto-send** — optional SMTP from Comms tools when the dual gate is open (copy/mailto remains the default UX).
+  3. **Grievance SMTP** — optional platform send of grievance drafts when the dual gate is open (copy-only remains the default).
+  4. **Tracking pixels** — optional open/click tracking for broadcast (never for product-news `marketing` classification).
+- **Dual gate (AND):** CapRover host env `UNIONOPS_*_ENABLED=true` **and** platform-admin per-union entitlement columns on `unions` (migration `0078`). Absence of Postgres never grants entitlement.
+- Site Admin Email Ops surfaces host flags + union checkboxes; union toggles are disabled until the matching CapRover flag is on.
+- Audit every entitlement change (`site_admin.email_entitlements.update`).
+- Still not Mailchimp: no third-party ESP lock-in, no imported national lists, no open tracking by default, consent/suppression required before broadcast send paths ship.
+
+**Consequences:** Send helpers must call `assertEnterpriseEmailCapability` before broadcast / Comms auto-send / grievance SMTP / openTracking. Self-hosts that never set CapRover flags remain identical to pre-ADR-022 behavior.

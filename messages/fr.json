@@ -16125,9 +16125,23 @@
     "presetSignIn": "Lien de connexion",
     "presetPasswordReset": "Réinitialisation du mot de passe",
     "presetOfficerReminder": "Rappel dirigeant(e)",
-    "presetRsvp": "Confirmation RSVP"
+    "presetRsvp": "Confirmation RSVP",
+    "enterpriseTitle": "Capacités entreprise (désactivées par défaut)",
+    "enterpriseHint": "Chaque capacité exige un drapeau CapRover ET une habilitation par syndicat. Compose durable + ops — pas un Mailchimp.",
+    "hostBroadcast": "CapRover : envoi collectif aux membres",
+    "hostCommsAutoSend": "CapRover : envoi auto Comms",
+    "hostGrievanceSmtp": "CapRover : grief par SMTP",
+    "hostTracking": "CapRover : pixels de suivi",
+    "entitlementNeedsPostgres": "Postgres durable requis pour habiliter les syndicats.",
+    "noUnions": "Aucun syndicat actif.",
+    "entitlementBroadcast": "Envoi collectif aux membres",
+    "entitlementComms": "Envoi auto Comms",
+    "entitlementGrievance": "Grief par SMTP",
+    "entitlementTracking": "Pixels de suivi",
+    "hostOffHint": "D'abord activer le drapeau CapRover correspondant.",
+    "entitlementSaved": "Habilitation enregistrée."
   },
-"productNewsAdmin": {
+  "productNewsAdmin": {
     "back": "Admin du site",
     "title": "Gestion des nouvelles sur les produits",
     "intro": "Utilisez seulement les adresses confirmées dans le programme distinct de nouvelles UnionOps. La diffusion exige un texte et une identité d’expéditeur approuvés.",

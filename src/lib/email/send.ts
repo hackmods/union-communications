@@ -10,10 +10,16 @@ export type SendTransactionalEmailInput = {
 };
 
 export type ClassifiedEmailInput = SendTransactionalEmailInput & {
-  classification: "transactional" | "security" | "marketing";
+  classification: "transactional" | "security" | "marketing" | "broadcast";
   from?: string;
   replyTo?: string;
   listUnsubscribe?: string;
+  /**
+   * Opt-in open/click tracking. Honored only when CapRover
+   * UNIONOPS_EMAIL_TRACKING_PIXELS_ENABLED=true. Product-news (marketing)
+   * always forces tracking off (ADR-021 / ADR-022).
+   */
+  openTracking?: boolean;
 };
 
 export type SendTransactionalEmailResult =
@@ -309,6 +315,18 @@ async function sendViaMailgunApi(
       body.set("o:tracking", "no");
       body.set("o:tracking-opens", "no");
       body.set("o:tracking-clicks", "no");
+    } else if (
+      input.openTracking === true &&
+      process.env.UNIONOPS_EMAIL_TRACKING_PIXELS_ENABLED?.trim() === "true"
+    ) {
+      body.set("o:tracking", "yes");
+      body.set("o:tracking-opens", "yes");
+      body.set("o:tracking-clicks", "yes");
+    } else if (input.classification === "broadcast") {
+      body.set("o:tag", "unionops-member-broadcast");
+      body.set("o:tracking", "no");
+      body.set("o:tracking-opens", "no");
+      body.set("o:tracking-clicks", "no");
     }
 
     const res = await fetch(url, {
@@ -416,14 +434,18 @@ export async function sendTransactionalEmail(
 }
 
 /**
- * The provider boundary for classified mail. Campaign code must use
- * marketing-delivery.ts, which locks and verifies durable consent before
- * invoking this function. Operational callers use sendTransactionalEmail.
+ * The provider boundary for classified mail. Campaign / broadcast code must
+ * verify consent and enterprise gates before invoking this function.
+ * Operational callers use sendTransactionalEmail.
  */
 export async function sendClassifiedEmail(
   input: ClassifiedEmailInput,
 ): Promise<SendTransactionalEmailResult> {
-  if (input.classification === "marketing" && (!input.from || !input.replyTo || !input.listUnsubscribe)) {
+  if (
+    (input.classification === "marketing" ||
+      input.classification === "broadcast") &&
+    (!input.from || !input.replyTo || !input.listUnsubscribe)
+  ) {
     return { ok: false, reason: "not_configured" };
   }
   const to = input.to?.trim();

@@ -6,6 +6,12 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
 type PresetRow = { id: string; classification: string };
+type HostFlags = {
+  member_broadcast: boolean;
+  comms_auto_send: boolean;
+  grievance_smtp: boolean;
+  tracking_pixels: boolean;
+};
 type Health = {
   emailEnabled: boolean;
   emailFlag: boolean;
@@ -16,8 +22,18 @@ type Health = {
     host: string | null;
   };
   productNews: { enabled: boolean; reason: string | null };
+  enterpriseHost?: HostFlags;
 };
 type Artifact = { subject: string; text: string; html: string };
+type UnionEntitlement = {
+  id: string;
+  name: string;
+  slug: string;
+  memberBroadcastEnabled: boolean;
+  commsAutoSendEnabled: boolean;
+  grievanceSmtpEnabled: boolean;
+  emailTrackingPixelsEnabled: boolean;
+};
 
 const PRESET_LABEL_KEYS: Record<string, string> = {
   invite_accept: "presetInvite",
@@ -31,6 +47,8 @@ export function EmailOpsPanel() {
   const t = useTranslations("emailOpsAdmin");
   const [presets, setPresets] = useState<PresetRow[]>([]);
   const [health, setHealth] = useState<Health | null>(null);
+  const [unions, setUnions] = useState<UnionEntitlement[]>([]);
+  const [durable, setDurable] = useState(false);
   const [presetId, setPresetId] = useState("invite_accept");
   const [locale, setLocale] = useState<"en" | "fr">("en");
   const [view, setView] = useState<"html" | "text">("html");
@@ -38,19 +56,38 @@ export function EmailOpsPanel() {
   const [testTo, setTestTo] = useState("");
   const [feedback, setFeedback] = useState("");
   const [busy, setBusy] = useState(false);
+  const [entitlementBusyId, setEntitlementBusyId] = useState<string | null>(
+    null,
+  );
 
   const load = useCallback(async () => {
-    const response = await fetch("/api/site-admin/email-ops", {
-      cache: "no-store",
-    });
-    if (!response.ok) throw new Error("load");
-    const data = (await response.json()) as {
+    const [opsRes, entRes] = await Promise.all([
+      fetch("/api/site-admin/email-ops", { cache: "no-store" }),
+      fetch("/api/site-admin/email-entitlements", { cache: "no-store" }),
+    ]);
+    if (!opsRes.ok) throw new Error("load");
+    const ops = (await opsRes.json()) as {
       presets: PresetRow[];
       health: Health;
     };
-    setPresets(data.presets);
-    setHealth(data.health);
-    if (data.presets[0]?.id) setPresetId(data.presets[0].id);
+    setPresets(ops.presets);
+    setHealth(ops.health);
+    if (ops.presets[0]?.id) setPresetId(ops.presets[0].id);
+
+    if (entRes.ok) {
+      const ent = (await entRes.json()) as {
+        durable: boolean;
+        unions: UnionEntitlement[];
+        host: HostFlags;
+      };
+      setDurable(ent.durable);
+      setUnions(ent.unions);
+      setHealth((prev) =>
+        prev
+          ? { ...prev, enterpriseHost: ent.host }
+          : { ...ops.health, enterpriseHost: ent.host },
+      );
+    }
   }, []);
 
   useEffect(() => {
@@ -114,6 +151,42 @@ export function EmailOpsPanel() {
     }
   }
 
+  async function patchEntitlement(
+    unionId: string,
+    patch: Partial<
+      Pick<
+        UnionEntitlement,
+        | "memberBroadcastEnabled"
+        | "commsAutoSendEnabled"
+        | "grievanceSmtpEnabled"
+        | "emailTrackingPixelsEnabled"
+      >
+    >,
+  ) {
+    setEntitlementBusyId(unionId);
+    setFeedback("");
+    try {
+      const response = await fetch("/api/site-admin/email-entitlements", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ unionId, ...patch }),
+        cache: "no-store",
+      });
+      const data = (await response.json()) as { error?: string };
+      if (!response.ok) throw new Error(data.error ?? t("error"));
+      setUnions((rows) =>
+        rows.map((row) => (row.id === unionId ? { ...row, ...patch } : row)),
+      );
+      setFeedback(t("entitlementSaved"));
+    } catch (error) {
+      setFeedback(error instanceof Error ? error.message : t("error"));
+    } finally {
+      setEntitlementBusyId(null);
+    }
+  }
+
+  const host = health?.enterpriseHost;
+
   return (
     <div className="mt-8 space-y-8">
       <section className="rounded-lg border border-opseu-gray-light bg-white p-4">
@@ -141,6 +214,107 @@ export function EmailOpsPanel() {
           </ul>
         ) : (
           <p className="mt-2 text-sm text-opseu-gray-dark">{t("loading")}</p>
+        )}
+      </section>
+
+      <section className="rounded-lg border border-opseu-gray-light bg-white p-4">
+        <h2 className="text-lg font-semibold text-opseu-dark">
+          {t("enterpriseTitle")}
+        </h2>
+        <p className="mt-1 text-sm text-opseu-gray-dark">{t("enterpriseHint")}</p>
+        {host ? (
+          <ul className="mt-3 space-y-1 text-sm text-opseu-gray-dark">
+            <li>
+              {t("hostBroadcast")}: {host.member_broadcast ? t("yes") : t("no")}
+            </li>
+            <li>
+              {t("hostCommsAutoSend")}:{" "}
+              {host.comms_auto_send ? t("yes") : t("no")}
+            </li>
+            <li>
+              {t("hostGrievanceSmtp")}:{" "}
+              {host.grievance_smtp ? t("yes") : t("no")}
+            </li>
+            <li>
+              {t("hostTracking")}: {host.tracking_pixels ? t("yes") : t("no")}
+            </li>
+          </ul>
+        ) : null}
+        {!durable ? (
+          <p className="mt-3 text-sm text-amber-800">{t("entitlementNeedsPostgres")}</p>
+        ) : (
+          <div className="mt-4 space-y-3">
+            {unions.length === 0 ? (
+              <p className="text-sm text-opseu-gray-dark">{t("noUnions")}</p>
+            ) : (
+              unions.map((row) => (
+                <div
+                  key={row.id}
+                  className="rounded-md border border-opseu-gray-light bg-opseu-gray-light/20 p-3"
+                >
+                  <p className="text-sm font-medium text-opseu-dark">
+                    {row.name}{" "}
+                    <span className="font-normal text-opseu-gray-dark">
+                      ({row.slug})
+                    </span>
+                  </p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                    {(
+                      [
+                        [
+                          "memberBroadcastEnabled",
+                          t("entitlementBroadcast"),
+                          host?.member_broadcast === true,
+                        ],
+                        [
+                          "commsAutoSendEnabled",
+                          t("entitlementComms"),
+                          host?.comms_auto_send === true,
+                        ],
+                        [
+                          "grievanceSmtpEnabled",
+                          t("entitlementGrievance"),
+                          host?.grievance_smtp === true,
+                        ],
+                        [
+                          "emailTrackingPixelsEnabled",
+                          t("entitlementTracking"),
+                          host?.tracking_pixels === true,
+                        ],
+                      ] as const
+                    ).map(([key, label, hostOn]) => (
+                      <label
+                        key={key}
+                        className="flex items-start gap-2 text-sm text-opseu-dark"
+                      >
+                        <input
+                          type="checkbox"
+                          className="mt-0.5 size-4"
+                          checked={row[key]}
+                          disabled={
+                            entitlementBusyId === row.id || !hostOn
+                          }
+                          onChange={(e) =>
+                            void patchEntitlement(row.id, {
+                              [key]: e.target.checked,
+                            })
+                          }
+                        />
+                        <span>
+                          {label}
+                          {!hostOn ? (
+                            <span className="block text-xs text-opseu-gray-dark">
+                              {t("hostOffHint")}
+                            </span>
+                          ) : null}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         )}
       </section>
 

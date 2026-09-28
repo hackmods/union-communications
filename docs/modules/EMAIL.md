@@ -42,19 +42,30 @@ src/lib/email/
 | Product-news | Host-brand chrome + approved env sender/footer | `UNIONOPS_PRODUCT_NEWS_*` |
 | Steward drafts | Brand Kit (local) | Officer inbox |
 
-## Non-goals
+## Non-goals (default)
 
-- Member broadcast lists / Hub “email all”
-- SMTP from public Comms tools
-- Grievance case content via platform SMTP
-- Open/click tracking
+- Mailchimp-class SaaS UX, imported national member lists, or tracking-by-default
+- Enabling any enterprise capability without **both** CapRover host flag and platform-admin union entitlement (ADR-022)
+
+## Enterprise capabilities (ADR-022 — default OFF)
+
+| Capability | CapRover env | Union column | Notes |
+|------------|--------------|--------------|-------|
+| Member broadcast | `UNIONOPS_MEMBER_BROADCAST_ENABLED` | `member_broadcast_enabled` | `classification: "broadcast"`; consent/suppression before send UI ships |
+| Comms auto-send | `UNIONOPS_COMMS_AUTO_SEND_ENABLED` | `comms_auto_send_enabled` | Copy/mailto stays default UX |
+| Grievance SMTP | `UNIONOPS_GRIEVANCE_SMTP_ENABLED` | `grievance_smtp_enabled` | Copy-only stays default |
+| Tracking pixels | `UNIONOPS_EMAIL_TRACKING_PIXELS_ENABLED` | `email_tracking_pixels_enabled` | Never on product-news `marketing` |
+
+Gate helper: `assertEnterpriseEmailCapability` in `src/lib/email/enterprise-gates.ts`.  
+Site Admin: Email Ops → Enterprise capabilities (+ `/api/site-admin/email-entitlements`).
 
 ## Operator surfaces
 
-- Site Admin **Email operations** — `/app/site-admin/email` (template studio preview, transport health, test send)
-- Product-news panel — `/app/site-admin/product-news` (campaigns; wraps shared shell in a later phase)
-- `GET /api/auth/email-status` — transport snapshot for login/debug
-- `GET|POST /api/site-admin/email-ops` — operator preview + test send (site-admin MFA session)
+- Site Admin **Email operations** — `/app/site-admin/email` (template studio, transport health, test send, **enterprise entitlements**)
+- Product-news panel — `/app/site-admin/product-news`
+- `GET /api/auth/email-status` — transport snapshot
+- `GET|POST /api/site-admin/email-ops` — preview + test send
+- `GET|PATCH /api/site-admin/email-entitlements` — CapRover host flags + per-union toggles
 
 ## Tests
 

@@ -16125,9 +16125,23 @@
     "presetSignIn": "Sign-in link",
     "presetPasswordReset": "Password reset",
     "presetOfficerReminder": "Officer reminder",
-    "presetRsvp": "RSVP confirmation"
+    "presetRsvp": "RSVP confirmation",
+    "enterpriseTitle": "Enterprise capabilities (default off)",
+    "enterpriseHint": "Each capability needs a CapRover host flag AND a per-union entitlement. Durable compose + ops — not Mailchimp.",
+    "hostBroadcast": "CapRover: member broadcast",
+    "hostCommsAutoSend": "CapRover: Comms auto-send",
+    "hostGrievanceSmtp": "CapRover: grievance SMTP",
+    "hostTracking": "CapRover: tracking pixels",
+    "entitlementNeedsPostgres": "Durable Postgres is required before union entitlements can be set.",
+    "noUnions": "No active unions.",
+    "entitlementBroadcast": "Member broadcast",
+    "entitlementComms": "Comms auto-send",
+    "entitlementGrievance": "Grievance SMTP",
+    "entitlementTracking": "Tracking pixels",
+    "hostOffHint": "Enable the matching CapRover flag first.",
+    "entitlementSaved": "Entitlement saved."
   },
-"productNewsAdmin": {
+  "productNewsAdmin": {
     "back": "Site admin",
     "title": "Product-news operations",
     "intro": "Use only addresses confirmed through the separate UnionOps product-news program. Release requires approved wording and sender configuration.",
