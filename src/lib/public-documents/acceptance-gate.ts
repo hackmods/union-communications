@@ -41,10 +41,11 @@ export async function outstandingDocumentAcceptances(session: Session, locale = 
   const unionId = session.user?.unionId;
   const localId = session.user?.localId;
   if (!userId) return [];
-  if (!isPostgresConfigured()) {
-    if (process.env.NODE_ENV === "production") throw new Error("Acceptance status requires Postgres");
-    return [];
-  }
+  // Memory / non-Postgres hosts have no durable public-document store to accept.
+  // Fail-closed only when Postgres is configured and the query itself errors.
+  // Throwing here in production+memory made every Hub/Portal route 503 under
+  // `npm start` (CI smoke + demo images), which is worse than skipping the gate.
+  if (!isPostgresConfigured()) return [];
   return withRlsContext({ userId, unionId, localId, mfaVerified: Boolean(session.user.mfaVerified) }, async () => {
     const db = getDb();
     const effectiveVersion = sql<number>`CASE

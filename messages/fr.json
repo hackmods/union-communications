@@ -12367,7 +12367,10 @@
     "supportLink": "Soutien",
     "privacyTitle": "Confidentialité",
     "privacyBody": "La collecte de données et les responsabilités du responsable sont décrites sur la",
-    "privacyLink": "page Confidentialité"
+    "privacyLink": "page Confidentialité",
+    "subprocessorsTitle": "Sous-traitants",
+    "subprocessorsBody": "Lorsque cet hôte publie une liste de fournisseurs, vous pouvez voir qui traite les données personnelles pour les surfaces hébergées dans le",
+    "subprocessorsLink": "registre des sous-traitants"
   },
   "rtwAccommodation": {
     "title": "Prise en charge du retour au travail et des mesures d'adaptation",

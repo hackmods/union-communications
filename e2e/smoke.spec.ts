@@ -454,7 +454,7 @@ test.describe("Smoke tests @smoke", () => {
     test(`${locale} invite activation error state has no serious or critical a11y violations`, async ({ page }) => {
       await page.goto(`/${locale}/app/invite/missing-a11y-smoke-token`);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-      await expect(page.getByRole("alert")).toBeVisible();
+      await expect(page.getByRole("alert").first()).toBeVisible();
       await expectNoSeriousA11yViolations(page);
     });
   }

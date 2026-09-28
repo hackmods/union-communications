@@ -12367,7 +12367,10 @@
     "supportLink": "Support",
     "privacyTitle": "Privacy",
     "privacyBody": "Data collection and controller duties are covered on the",
-    "privacyLink": "Privacy page"
+    "privacyLink": "Privacy page",
+    "subprocessorsTitle": "Subprocessors",
+    "subprocessorsBody": "When this host publishes a provider list, you can review who processes personal data for hosted surfaces on the",
+    "subprocessorsLink": "subprocessor register"
   },
   "rtwAccommodation": {
     "title": "Return-to-work & accommodation intake",

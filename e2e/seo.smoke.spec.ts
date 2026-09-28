@@ -135,7 +135,7 @@ test.describe("SEO smoke @smoke", () => {
     ).toBeVisible();
     await expect(page.getByText("Solidarity.")).toBeVisible();
     await expect(page).not.toHaveTitle(/This page could not be found/i);
-    await expect(page.getByRole("link", { name: /^Create$|^Créer$/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Create$|^Créer$/i }).first()).toBeVisible();
     await expect(
       page.getByRole("link", { name: /^Worksheets$|^Feuilles de travail$/i }),
     ).toBeVisible();
@@ -151,6 +151,6 @@ test.describe("SEO smoke @smoke", () => {
       page.getByRole("heading", { name: /Local 404|Section 404/i }),
     ).toBeVisible();
     await expect(page.getByRole("banner")).toBeVisible();
-    await expect(page.getByRole("link", { name: /^Create$|^Créer$/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Create$|^Créer$/i }).first()).toBeVisible();
   });
 });
