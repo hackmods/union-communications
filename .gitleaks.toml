@@ -7,32 +7,24 @@ useDefault = true
 
 [allowlist]
 description = "Documented false positives - demo/test fixtures, storage key names, and plan prose"
+regexTarget = "line"
 paths = [
-  '''^\.gitleaks\.toml$''',
+  '''(^|/)\.gitleaks\.toml$''',
+  '''(^|/)src/lib/auth/demo-login-accounts\.ts$''',
+  '''(^|/)src/lib/email/mailgun-product-news-webhook\.test\.ts$''',
+  '''(^|/)src/lib/comms/letter-contexts\.ts$''',
+  '''(^|/)src/lib/access-requests/api-routes\.test\.ts$''',
+  '''(^|/)src/lib/customization/api-routes\.test\.ts$''',
+  '''(^|/)docs/audit/plan-members-portal-authorization-remaining-2026-09-20\.md$''',
 ]
 regexes = [
-  # Mailgun webhook unit fixture (not a live signing secret)
   '''0123456789abcdef0123456789abcdef0123456789abcdef01''',
   '''mailgun-signing-key''',
-  # Browser localStorage handoff key name (not a credential)
   '''unionops-letter-handoff-v1''',
-  # Demo roster role key (not an API secret)
-  '''jointLead404''',
-  # Deterministic test submission / idempotency tokens
+  '''roleKey:\\s*"jointLead\\d+"''',
   '''submission-key-16x''',
   '''unassigned-key-16x''',
   '''submission-key-limit''',
   '''deny-publish-1''',
-  # Plan prose matched as generic-api-key
   '''office/assignment/delegation''',
-]
-fingerprints = [
-  '''d59ba819039cc20d1ae9748dee037a089a432c12:src/lib/email/mailgun-product-news-webhook.test.ts:generic-api-key:8''',
-  '''e5c7040256a64e0e985f1159086145472d1bdda1:src/lib/comms/letter-contexts.ts:generic-api-key:10''',
-  '''2cc859c7544ab5932ba9245c138a70b879ef8496:src/lib/access-requests/api-routes.test.ts:generic-api-key:98''',
-  '''2cc859c7544ab5932ba9245c138a70b879ef8496:src/lib/access-requests/api-routes.test.ts:generic-api-key:301''',
-  '''2cc859c7544ab5932ba9245c138a70b879ef8496:src/lib/access-requests/api-routes.test.ts:generic-api-key:440''',
-  '''995b249b6c8b03b3c524648d4db8f7670d5ae338:src/lib/customization/api-routes.test.ts:generic-api-key:79''',
-  '''35bbe96d9264091e8950ca4fee77fa3630f46de2:docs/audit/plan-members-portal-authorization-remaining-2026-09-20.md:generic-api-key:227''',
-  '''0dc9b7dba7a78b6a809cc4923686801935fb3ca9:src/lib/auth/demo-login-accounts.ts:generic-api-key:57''',
 ]

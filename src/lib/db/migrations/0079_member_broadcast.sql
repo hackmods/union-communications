@@ -43,17 +43,17 @@ DROP POLICY IF EXISTS "member_broadcast_consents_tenant" ON "member_broadcast_co
 CREATE POLICY "member_broadcast_consents_tenant" ON "member_broadcast_consents"
   FOR ALL
   USING (
-    union_id = current_setting('app.union_id', true)
+    union_id = current_setting('app.current_union_id', true)
     AND (
-      local_id = current_setting('app.local_id', true)
-      OR current_setting('app.cross_local', true) = 'true'
+      local_id = current_setting('app.current_local_id', true)
+      OR current_setting('app.current_cross_local', true) = 'true'
     )
   )
   WITH CHECK (
-    union_id = current_setting('app.union_id', true)
+    union_id = current_setting('app.current_union_id', true)
     AND (
-      local_id = current_setting('app.local_id', true)
-      OR current_setting('app.cross_local', true) = 'true'
+      local_id = current_setting('app.current_local_id', true)
+      OR current_setting('app.current_cross_local', true) = 'true'
     )
   );
 
@@ -61,16 +61,16 @@ DROP POLICY IF EXISTS "member_broadcast_campaigns_tenant" ON "member_broadcast_c
 CREATE POLICY "member_broadcast_campaigns_tenant" ON "member_broadcast_campaigns"
   FOR ALL
   USING (
-    union_id = current_setting('app.union_id', true)
+    union_id = current_setting('app.current_union_id', true)
     AND (
-      local_id = current_setting('app.local_id', true)
-      OR current_setting('app.cross_local', true) = 'true'
+      local_id = current_setting('app.current_local_id', true)
+      OR current_setting('app.current_cross_local', true) = 'true'
     )
   )
   WITH CHECK (
-    union_id = current_setting('app.union_id', true)
+    union_id = current_setting('app.current_union_id', true)
     AND (
-      local_id = current_setting('app.local_id', true)
-      OR current_setting('app.cross_local', true) = 'true'
+      local_id = current_setting('app.current_local_id', true)
+      OR current_setting('app.current_cross_local', true) = 'true'
     )
   );

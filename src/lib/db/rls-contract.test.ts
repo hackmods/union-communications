@@ -43,14 +43,19 @@ describe("RLS policy contract (no live DB)", () => {
         expect(sql).toContain("app.current_local_id");
         continue;
       }
-      const enableSql = sql.includes(`ALTER TABLE ${row.table} ENABLE ROW LEVEL SECURITY`)
-        ? sql
-        : readMigration("0044_authorization_rls_hardening.sql");
-      expect(enableSql).toContain(
-        `ALTER TABLE ${row.table} ENABLE ROW LEVEL SECURITY`,
-      );
+      const enableMarker = `ALTER TABLE ${row.table} ENABLE ROW LEVEL SECURITY`;
+      const enableMarkerQuoted = `ALTER TABLE "${row.table}" ENABLE ROW LEVEL SECURITY`;
+      const enableSql =
+        sql.includes(enableMarker) || sql.includes(enableMarkerQuoted)
+          ? sql
+          : readMigration("0044_authorization_rls_hardening.sql");
+      expect(
+        enableSql.includes(enableMarker) || enableSql.includes(enableMarkerQuoted),
+      ).toBe(true);
       expect(sql).toMatch(
-        new RegExp(`CREATE POLICY\\s+${row.policy}\\s+ON\\s+${row.table}`),
+        new RegExp(
+          `CREATE POLICY\\s+"?${row.policy}"?\\s+ON\\s+"?${row.table}"?`,
+        ),
       );
       if (row.migration === "0065_public_document_management.sql") {
         expect(sql).toContain("app.current_platform_admin");
