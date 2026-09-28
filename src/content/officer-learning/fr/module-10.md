@@ -139,9 +139,8 @@ Exercice : **Tour 1 — Caucus.** Deux délégués sont en désaccord sur si le 
 ## Pour aller plus loin
 
 - Concepts de la **Loi sur la santé et la sécurité au travail (Ontario)** — devoirs du CSTS, recommandations, refus de travail
-- **Congrès du travail du Canada** — éducation des militants en santé et sécurité
-- Guides santé et sécurité / comités de délégués du **SCFP** et d'**Unifor**
-- UnionOps : `/guide/joint-committee`, `/guide/right-to-refuse`, `/tools/org-chart`, `/guide/steward-101`
+- [**Congrès du travail du Canada**](https://canadianlabour.ca/) — éducation des militants en santé et sécurité
+- Guides santé et sécurité / comités de délégués du [**SCFP**](https://cupe.ca/) et d'[**Unifor**](https://www.unifor.org/)
 
 ---
 

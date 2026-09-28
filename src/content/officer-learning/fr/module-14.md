@@ -166,11 +166,10 @@ Exercice : **Tour 1 — Script d'orientation.** Chronométrez-vous en livrant le
 
 ## Pour aller plus loin
 
-- **Congrès du travail du Canada** — éducation à l'engagement des membres et au syndicalisme communautaire
-- **SCFP** — pratiques d'accueil du manuel des délégués et d'introduction en milieu de travail
-- **Unifor** — programmes d'affinité et études de cas de campagnes communautaires
+- [**Congrès du travail du Canada**](https://canadianlabour.ca/) — éducation à l'engagement des membres et au syndicalisme communautaire
+- [**SCFP**](https://cupe.ca/) — pratiques d'accueil du manuel des délégués et d'introduction en milieu de travail
+- [**Unifor**](https://www.unifor.org/) — programmes d'affinité et études de cas de campagnes communautaires
 - Fédération du travail de l'Ontario — calendriers de coalitions des conseils du travail locaux
-- UnionOps : `/guide/membership-signup`, module 6 (bâtir le pouvoir collectif), module 11 (listes et confidentialité)
 
 ---
 

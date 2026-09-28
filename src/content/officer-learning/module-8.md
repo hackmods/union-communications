@@ -136,11 +136,10 @@ Practice: **Round 1 — Five-part file.** For a missed-overtime grievance, list 
 
 ## Further learning
 
-- **CUPE steward handbook** — investigation, file building, and settlement caution
-- **Unifor Grievance Handling** — open-door drafting and arbitration readiness
-- **Canadian Labour Congress** — steward education on contract enforcement
+- [**CUPE steward handbook**](https://cupe.ca/sites/cupe/files/steward_handbook_eng_final.pdf) — investigation, file building, and settlement caution
+- [**Unifor Grievance Handling**](https://www.unifor.org/member-services/education/grievance-handling-workplace-leadership-aghwl3-0) — open-door drafting and arbitration readiness
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — steward education on contract enforcement
 - Arbitral make-whole principles — full restorative remedies beyond token payments
-- UnionOps: `/guide/grievance-process`, `/tools/complaint-vs-grievance`, Document Generator grievance intake
 
 ---
 

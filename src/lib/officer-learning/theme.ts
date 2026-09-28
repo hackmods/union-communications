@@ -5,7 +5,7 @@
 
 export const olTheme = {
   shell: "min-h-screen bg-background text-opseu-dark",
-  eyebrow: "text-sm font-semibold uppercase tracking-[0.25em] text-opseu-blue",
+  eyebrow: "text-sm font-semibold tracking-wide text-opseu-blue",
   bodyMuted: "text-gray-700",
   bodySmall: "text-sm text-gray-500",
   link: "font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark",
@@ -20,7 +20,7 @@ export const olTheme = {
   calloutReflection: "rounded-xl border border-violet-300 bg-violet-50 p-4 text-violet-900",
   calloutDefault: "rounded-xl border border-orange-200 bg-orange-50 p-4 text-opseu-dark",
   disclaimer: "text-sm text-gray-500",
-  sectionLabel: "text-xs font-semibold uppercase tracking-[0.2em] text-gray-500",
+  sectionLabel: "text-xs font-semibold tracking-wide text-gray-500",
   progressSummary: "text-sm text-gray-700",
   progressBar: "bg-opseu-blue",
   statusCompleted: "border-emerald-400 bg-emerald-500 text-slate-950",
@@ -72,7 +72,7 @@ export const olTheme = {
   certificateLabel: "block text-sm text-gray-700",
   hintPanel: "mb-6 rounded-lg border border-orange-200 bg-orange-50 px-4 py-3 text-sm text-gray-800",
   retryPanel: "rounded-xl border border-orange-300 bg-orange-50 px-4 py-3 text-opseu-dark",
-  phaseLabel: "text-[10px] font-bold uppercase tracking-[0.22em] text-opseu-blue",
+  phaseLabel: "text-[10px] font-bold tracking-wide text-opseu-blue",
   phaseArrow: "hidden shrink-0 self-center text-lg text-gray-400 sm:inline",
   heading: "text-opseu-dark",
   prose: "leading-relaxed text-gray-700",

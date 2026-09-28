@@ -159,12 +159,11 @@ Exercice : **Tour 1 — table de comité de négociation.** Étant donné une ca
 
 ## Pour aller plus loin
 
-- Formation syndicale du **Congrès du travail du Canada** — antiracisme et équité dans le mouvement syndical
+- Formation syndicale du [**Congrès du travail du Canada**](https://canadianlabour.ca/) — antiracisme et équité dans le mouvement syndical
 - Guide **Arrêter le harcèlement** du SCFP — microagressions, enquête et climat de travail
-- Cours de traitement des griefs et de leadership en milieu de travail d'**Unifor** — comités représentatifs et cartographie du pouvoir
-- **Commission ontarienne des droits de la personne** — **Les droits de la personne au travail** (concepts de discrimination systémique)
+- Cours de traitement des griefs et de leadership en milieu de travail d'[**Unifor**](https://www.unifor.org/) — comités représentatifs et cartographie du pouvoir
+- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/human-rights-code) — **Les droits de la personne au travail** (concepts de discrimination systémique)
 - **Fédération du travail de l'Ontario** — ressources d'équité et d'inclusion pour les sections locales
-- UnionOps : `/guide/bargaining`, `/guide/strike`, `/guide/membership-signup`, `/guide/workplace-mapping`, `/guide/joint-committee`, `/guide/steward-101`, `/guide/officer-learning/mobilizer-bargaining-partner`
 
 ---
 

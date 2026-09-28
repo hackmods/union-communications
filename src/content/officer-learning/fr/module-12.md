@@ -140,11 +140,10 @@ De nombreux locaux réservent des lignes budgétaires pour un **fonds de détres
 
 ## Pour aller plus loin
 
-- **Agence du revenu du Canada** — déclaration T4A, taux allocation automobile, lignes directrices avantages imposables
-- **Congrès du travail du Canada** — sessions trésorier local avancées
-- **SCFP** — manuel financier, politiques de dépenses et pratique d'honoraires
+- [**Agence du revenu du Canada**](https://www.canada.ca/en/revenue-agency.html) — déclaration T4A, taux allocation automobile, lignes directrices avantages imposables
+- [**Congrès du travail du Canada**](https://canadianlabour.ca/) — sessions trésorier local avancées
+- [**SCFP**](https://cupe.ca/) — manuel financier, politiques de dépenses et pratique d'honoraires
 - **Fédération du travail de l'Ontario** — ateliers finance locale
-- Module 5 UnionOps — double signature, budgets et audits fiduciaires (fondation de ce module)
 - Constitution de votre syndicat national — modèles règlements fonds de détresse et honoraires
 
 ---

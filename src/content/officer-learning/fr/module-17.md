@@ -155,10 +155,9 @@ Un dump qui ajoute de l'autonomie ou la possession d'un système est un argument
 
 ## Pour aller plus loin
 
-- **Congrès du travail du Canada** — formation des délégués sur la classification et l'évaluation des emplois
-- **SCFP** — documents de délégués sur la classification et l'évaluation des emplois
-- **Unifor** — formation sur l'évaluation des emplois et l'équité salariale
-- UnionOps : `/guide/grievance-process` (étapes de dépôt) ; `/guide/steward-101` ; `/guide/joint-committee` (discipline des forums conjoints) ; `/guide/officer-learning/contract-enforcement` (admission module 1) ; `/guide/officer-learning/advanced-grievance-settlement` (module 8) ; `/guide/officer-learning/seniority-bumping-layoff` (listes du module 16 — autre travail)
+- [**Congrès du travail du Canada**](https://canadianlabour.ca/) — formation des délégués sur la classification et l'évaluation des emplois
+- [**SCFP**](https://cupe.ca/) — documents de délégués sur la classification et l'évaluation des emplois
+- [**Unifor**](https://www.unifor.org/) — formation sur l'évaluation des emplois et l'équité salariale
 
 ---
 

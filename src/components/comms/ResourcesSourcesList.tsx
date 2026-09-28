@@ -21,7 +21,14 @@ const categoryOrder: CommsSourceCategory[] = [
   "accessibility",
 ];
 
-export function ResourcesSourcesList() {
+type ResourcesSourcesListProps = {
+  /** When true, skip the page h2 (parent provides a disclosure summary). */
+  hideHeading?: boolean;
+};
+
+export function ResourcesSourcesList({
+  hideHeading = false,
+}: ResourcesSourcesListProps) {
   const t = useTranslations("resources");
   const ts = useTranslations("sources");
   const unionPresetId = useBrandStore((s) => s.brandKit.unionPresetId);
@@ -35,11 +42,15 @@ export function ResourcesSourcesList() {
   const showScopeNote = Boolean(preset && preset !== "opseu");
 
   return (
-    <div className="mt-10">
-      <h2 className={cn(PUBLIC_SECTION_TITLE_CLASS)}>
-        {t("allSources.title")}
-      </h2>
-      <p className="mt-2 max-w-prose text-gray-600">{t("allSources.intro")}</p>
+    <div className={hideHeading ? undefined : "mt-10"}>
+      {!hideHeading ? (
+        <h2 className={cn(PUBLIC_SECTION_TITLE_CLASS)}>
+          {t("allSources.title")}
+        </h2>
+      ) : null}
+      <p className={cn("max-w-prose text-gray-600", hideHeading ? "mt-0" : "mt-2")}>
+        {t("allSources.intro")}
+      </p>
       {showScopeNote && (
         <p className="mt-2 text-sm text-gray-600">
           {t("allSources.scopedNote")}{" "}

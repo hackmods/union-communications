@@ -145,11 +145,10 @@ Practice: **Round 1 — Privacy script.** Role-play HR demanding medications lis
 
 ## Further learning
 
-- **Ontario Human Rights Commission** — *Human Rights at Work* (medical privacy; accommodation process)
-- **CUPE** duty-to-accommodate and steward resources on attendance programs
-- **Canadian Labour Congress** — disability and benefits education for locals
+- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/human-rights-code) — *Human Rights at Work* (medical privacy; accommodation process)
+- [**CUPE**](https://cupe.ca/) duty-to-accommodate and steward resources on attendance programs
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — disability and benefits education for locals
 - Plan text & WSIB/LTD appeal guides specific to your bargaining unit (always verify)
-- UnionOps: `/tools/rtw-accommodation`, `/guide/steward-101`, `/guide/grievance-process`
 
 ---
 

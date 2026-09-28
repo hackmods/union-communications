@@ -273,6 +273,8 @@ function parseSections(lines: string[]): ModuleSection[] {
   let currentSubsection: { id: string; title: string; blocks: ContentBlock[] } | null =
     null;
   let buffer: string[] = [];
+  /** Skip purpose/objectives body — those render in the module hero only. */
+  let skippingMetaSection = false;
 
   const flushBuffer = () => {
     if (buffer.length === 0) return;
@@ -292,6 +294,7 @@ function parseSections(lines: string[]): ModuleSection[] {
       !isObjectivesHeading(line)
     ) {
       flushBuffer();
+      skippingMetaSection = false;
       const title = line.replace(/^##\s+/, "").trim();
       currentSection = {
         id: slugify(title),
@@ -301,6 +304,16 @@ function parseSections(lines: string[]): ModuleSection[] {
       };
       currentSubsection = null;
       sections.push(currentSection);
+      continue;
+    }
+
+    if (isPurposeHeading(line) || isObjectivesHeading(line)) {
+      flushBuffer();
+      skippingMetaSection = true;
+      continue;
+    }
+
+    if (skippingMetaSection) {
       continue;
     }
 
@@ -316,17 +329,7 @@ function parseSections(lines: string[]): ModuleSection[] {
       continue;
     }
 
-    if (
-      line.startsWith("# ") ||
-      line.trim() === "---" ||
-      isPurposeHeading(line) ||
-      isObjectivesHeading(line)
-    ) {
-      continue;
-    }
-
-    if (line.startsWith("*   **") && line.includes("Core Learning Objectives") === false) {
-      buffer.push(line);
+    if (line.startsWith("# ") || line.trim() === "---") {
       continue;
     }
 

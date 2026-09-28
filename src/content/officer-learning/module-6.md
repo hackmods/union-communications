@@ -159,12 +159,11 @@ Practice: **Round 1 — Bargaining committee tabletop.** Given membership map sh
 
 ## Further learning
 
-- **Canadian Labour Congress** labour education — anti-racism and equity in the labour movement
-- **CUPE Stop Harassment guide** — microaggressions, investigation, and workplace climate
-- **Unifor Grievance Handling & Workplace Leadership courses** — representative committees and power mapping
-- **Ontario Human Rights Commission** — **Human Rights at Work** (systemic discrimination concepts)
-- **Ontario Federation of Labour** — equity and inclusion resources for locals
-- UnionOps: `/guide/bargaining`, `/guide/strike`, `/guide/membership-signup`, `/guide/workplace-mapping`, `/guide/joint-committee`, `/guide/steward-101`, `/guide/officer-learning/mobilizer-bargaining-partner`
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) labour education — anti-racism and equity in the labour movement
+- [**CUPE Stop Harassment guide**](https://cupe.ca/stop-harassment-guide-cupe-locals) — microaggressions, investigation, and workplace climate
+- [**Unifor Grievance Handling & Workplace Leadership courses**](https://www.unifor.org/member-services/education/grievance-handling-workplace-leadership-aghwl3-0) — representative committees and power mapping
+- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/human-rights-code) — **Human Rights at Work** (systemic discrimination concepts)
+- [**Ontario Federation of Labour**](https://ofl.ca/) — equity and inclusion resources for locals
 
 ---
 

@@ -138,9 +138,9 @@ export default async function StewardPlaybooksPage({
       >
         {playbookGroups.map((groupId) => (
           <div key={groupId} className="not-first:mt-8">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+            <p className="text-sm font-semibold tracking-wide text-gray-500">
               {t(`groups.${groupId}`)}
-            </h3>
+            </p>
             <ul className="mt-4 grid list-none gap-5 p-0 sm:grid-cols-2">
               {GUIDE_STEWARD_PLAYBOOK_GROUPS[groupId].map(
                 ({ href, key, ...rest }) => {

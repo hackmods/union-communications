@@ -31,11 +31,13 @@ export function ExamplePostMockup({
 
   return (
     <div className={cn("overflow-hidden rounded-lg border border-gray-200 bg-gray-50", className)}>
-      <div className="flex items-center justify-between border-b border-gray-200 bg-white px-3 py-1.5">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-500">
+      <div className="flex min-w-0 items-center justify-between gap-2 border-b border-gray-200 bg-white px-3 py-1.5">
+        <span className="shrink-0 text-[10px] font-semibold tracking-wide text-gray-500">
           {platformLabel}
         </span>
-        <span className="text-[10px] text-gray-500">Local {local}</span>
+        <span className="min-w-0 truncate text-right text-[10px] text-gray-500">
+          Local {local}
+        </span>
       </div>
       <GraphicLayoutCanvas
         layout={layout}

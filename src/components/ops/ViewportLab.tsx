@@ -21,9 +21,13 @@ import {
   swapLocaleInPath,
 } from "@/lib/ops/viewport-lab-api";
 import {
+  VIEWPORT_AUDIT_SIZES,
   VIEWPORT_LAB_API_VERSION,
   VIEWPORT_LAB_CAPABILITIES_V2,
+  VIEWPORT_PATH_HISTORY_KEY,
+  VIEWPORT_PATH_HISTORY_MAX,
   VIEWPORT_PRESETS,
+  matchAuditSize,
   matchPreset,
   presetById,
   type ViewportPresetId,
@@ -82,6 +86,37 @@ function readLabBootstrap() {
   return parseViewportLabSearchParams(
     new URLSearchParams(window.location.search),
   );
+}
+
+function readPathHistory(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.sessionStorage.getItem(VIEWPORT_PATH_HISTORY_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter((p): p is string => typeof p === "string" && p.startsWith("/"))
+      .slice(0, VIEWPORT_PATH_HISTORY_MAX);
+  } catch {
+    return [];
+  }
+}
+
+function pushPathHistory(path: string): string[] {
+  const next = [path, ...readPathHistory().filter((p) => p !== path)].slice(
+    0,
+    VIEWPORT_PATH_HISTORY_MAX,
+  );
+  try {
+    window.sessionStorage.setItem(
+      VIEWPORT_PATH_HISTORY_KEY,
+      JSON.stringify(next),
+    );
+  } catch {
+    // private browsing / quota
+  }
+  return next;
 }
 
 async function waitForFrameDocument(
@@ -155,6 +190,7 @@ export function ViewportLab() {
   const [height, setHeight] = useState(boot.height);
   const [path, setPath] = useState(boot.path);
   const [pathDraft, setPathDraft] = useState(boot.path);
+  const [pathHistory, setPathHistory] = useState<string[]>(() => readPathHistory());
   const [locale, setLocaleState] = useState<ViewportLabLocale>(boot.locale);
   const [customW, setCustomW] = useState(String(boot.width));
   const [customH, setCustomH] = useState(String(boot.height));
@@ -165,6 +201,7 @@ export function ViewportLab() {
     path: boot.path,
   }));
   const [overflowNote, setOverflowNote] = useState<string | null>(null);
+  const [overflowPx, setOverflowPx] = useState<number | null>(null);
   const [axeFindings, setAxeFindings] = useState<AxeFinding[] | null>(null);
   const [axeError, setAxeError] = useState<string | null>(null);
   const [axeBusy, setAxeBusy] = useState(false);
@@ -174,6 +211,10 @@ export function ViewportLab() {
   const frameARef = useRef<HTMLIFrameElement>(null);
   const frameBRef = useRef<HTMLIFrameElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const overflowTimerRef = useRef<number | null>(null);
+  const checkOverflowRef = useRef<() => OverflowResult>(() => ({
+    error: "frame_unavailable",
+  }));
 
   useEffect(() => {
     const qs = buildViewportLabSearchParams({
@@ -201,27 +242,87 @@ export function ViewportLab() {
     return () => ro.disconnect();
   }, []);
 
-  const applyViewport = useCallback((w: number, h: number) => {
-    const nextW = clampDim(w);
-    const nextH = clampDim(h);
-    setWidth(nextW);
-    setHeight(nextH);
-    setCustomW(String(nextW));
-    setCustomH(String(nextH));
-  }, []);
-
-  const navigateFrame = useCallback((raw: string) => {
-    const sanitized = sanitizeViewportFramePath(raw);
-    if (!sanitized) {
-      setOverflowNote("Path blocked (Hub/Portal/lab) or invalid.");
+  const applyOverflowResult = useCallback((result: OverflowResult) => {
+    if ("error" in result) {
+      setOverflowPx(null);
+      setOverflowNote(`Overflow: ${result.error}`);
       return;
     }
-    const next = ensureTrailingSlashPath(sanitized);
-    setPath(next);
-    setPathDraft(next);
-    setPaneB((prev) => ({ ...prev, path: next }));
-    setOverflowNote(null);
+    setOverflowPx(result.horizontalPx);
+    setOverflowNote(`Horizontal overflow: ${result.horizontalPx}px`);
   }, []);
+
+  const checkOverflow = useCallback((): OverflowResult => {
+    const doc = frameARef.current?.contentDocument ?? null;
+    const result = doc
+      ? measureDocumentOverflow(doc)
+      : { error: "frame_unavailable" };
+    applyOverflowResult(result);
+    return result;
+  }, [applyOverflowResult]);
+
+  useEffect(() => {
+    checkOverflowRef.current = checkOverflow;
+  }, [checkOverflow]);
+
+  /** Debounce past frame chrome transition (300ms) + layout settle. */
+  const scheduleOverflowCheck = useCallback((delayMs = 350) => {
+    if (overflowTimerRef.current != null) {
+      window.clearTimeout(overflowTimerRef.current);
+    }
+    overflowTimerRef.current = window.setTimeout(() => {
+      overflowTimerRef.current = null;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          checkOverflowRef.current();
+        });
+      });
+    }, delayMs);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (overflowTimerRef.current != null) {
+        window.clearTimeout(overflowTimerRef.current);
+      }
+    };
+  }, []);
+
+  const applyViewport = useCallback(
+    (w: number, h: number) => {
+      const nextW = clampDim(w);
+      const nextH = clampDim(h);
+      setWidth(nextW);
+      setHeight(nextH);
+      setCustomW(String(nextW));
+      setCustomH(String(nextH));
+      scheduleOverflowCheck(350);
+    },
+    [scheduleOverflowCheck],
+  );
+
+  const rememberPath = useCallback((next: string) => {
+    setPathHistory(pushPathHistory(next));
+  }, []);
+
+  const navigateFrame = useCallback(
+    (raw: string) => {
+      const sanitized = sanitizeViewportFramePath(raw);
+      if (!sanitized) {
+        setOverflowPx(null);
+        setOverflowNote("Path blocked (Hub/Portal/lab) or invalid.");
+        return;
+      }
+      const next = ensureTrailingSlashPath(sanitized);
+      setPath(next);
+      setPathDraft(next);
+      setPaneB((prev) => ({ ...prev, path: next }));
+      rememberPath(next);
+      setOverflowNote(null);
+      setOverflowPx(null);
+    },
+    [rememberPath],
+  );
 
   const flipOrientation = useCallback(() => {
     applyViewport(height, width);
@@ -237,19 +338,31 @@ export function ViewportLab() {
         ...prev,
         path: swapLocaleInPath(prev.path, next),
       }));
+      rememberPath(swapped);
     },
-    [path],
+    [path, rememberPath],
   );
 
-  const checkOverflow = useCallback((): OverflowResult => {
-    const doc = frameARef.current?.contentDocument ?? null;
-    const result = doc
-      ? measureDocumentOverflow(doc)
-      : { error: "frame_unavailable" };
-    if ("error" in result) setOverflowNote(`Overflow: ${result.error}`);
-    else setOverflowNote(`Horizontal overflow: ${result.horizontalPx}px`);
-    return result;
-  }, []);
+  const syncPathFromFrame = useCallback(() => {
+    try {
+      const live = frameARef.current?.contentWindow?.location.pathname;
+      if (!live) return;
+      const sanitized = sanitizeViewportFramePath(live);
+      if (!sanitized) return;
+      const next = ensureTrailingSlashPath(sanitized);
+      setPath((prev) => (prev === next ? prev : next));
+      setPathDraft((prev) => (prev === next ? prev : next));
+      setPaneB((prev) => (prev.path === next ? prev : { ...prev, path: next }));
+      rememberPath(next);
+    } catch {
+      // cross-origin — ignore
+    }
+  }, [rememberPath]);
+
+  const onFrameALoad = useCallback(() => {
+    syncPathFromFrame();
+    scheduleOverflowCheck(200);
+  }, [scheduleOverflowCheck, syncPathFromFrame]);
 
   const runAxe = useCallback(
     async (options?: { colorContrast?: boolean }): Promise<AxeRunResult> => {
@@ -339,6 +452,7 @@ export function ViewportLab() {
   const scaleA = scaleFor(width, height);
   const scaleB = scaleFor(paneB.width, paneB.height);
   const activePreset = matchPreset(width, height);
+  const activeAudit = matchAuditSize(width, height);
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-950 text-zinc-100">
@@ -430,6 +544,42 @@ export function ViewportLab() {
             />
             axe color-contrast
           </label>
+          <span
+            data-testid="viewport-overflow-badge"
+            className={`inline-flex min-h-11 items-center rounded-md px-3 py-2 text-xs font-medium tabular-nums ${
+              overflowPx == null
+                ? "bg-zinc-800 text-zinc-400"
+                : overflowPx === 0
+                  ? "bg-emerald-900/60 text-emerald-300"
+                  : "bg-amber-900/60 text-amber-200"
+            }`}
+          >
+            {overflowPx == null
+              ? "Overflow: —"
+              : `Overflow: ${overflowPx}px`}
+          </span>
+        </div>
+
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+            Audit sizes
+          </span>
+          {VIEWPORT_AUDIT_SIZES.map((size) => (
+            <button
+              key={size.id}
+              type="button"
+              data-viewport-audit={size.id}
+              data-testid={`viewport-audit-${size.id}`}
+              onClick={() => applyViewport(size.width, size.height)}
+              className={`min-h-11 rounded-md px-3 py-2 text-sm font-medium transition ${
+                activeAudit === size.id
+                  ? "bg-violet-600 text-white"
+                  : "bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
+              }`}
+            >
+              {size.label}
+            </button>
+          ))}
         </div>
 
         <div className="mt-2 flex flex-wrap items-end gap-2">
@@ -466,6 +616,7 @@ export function ViewportLab() {
             </label>
             <button
               type="submit"
+              data-testid="viewport-apply-size"
               className="min-h-11 rounded-md bg-zinc-800 px-3 py-2 text-sm hover:bg-zinc-700"
             >
               Apply size
@@ -484,10 +635,16 @@ export function ViewportLab() {
               <input
                 data-testid="viewport-path-input"
                 type="text"
+                list="viewport-path-history"
                 value={pathDraft}
                 onChange={(e) => setPathDraft(e.target.value)}
                 className="mt-1 block w-full rounded border border-zinc-700 bg-zinc-950 px-2 py-1.5 font-mono text-sm text-zinc-100"
               />
+              <datalist id="viewport-path-history">
+                {pathHistory.map((entry) => (
+                  <option key={entry} value={entry} />
+                ))}
+              </datalist>
             </label>
             <button
               type="submit"
@@ -510,6 +667,7 @@ export function ViewportLab() {
           {" · "}
           {width}×{height}
           {activePreset ? ` (${activePreset})` : ""}
+          {activeAudit ? ` (${activeAudit})` : ""}
           {scaleA < 1 ? ` · scaled ${(scaleA * 100).toFixed(0)}%` : ""}
           {overflowNote ? ` · ${overflowNote}` : ""}
         </p>
@@ -553,6 +711,7 @@ export function ViewportLab() {
           src={path}
           frameRef={frameARef}
           testId="viewport-frame-a"
+          onLoad={onFrameALoad}
         />
         {compare && (
           <DeviceFrame
@@ -588,6 +747,7 @@ function DeviceFrame({
   frameRef,
   testId,
   onPreset,
+  onLoad,
 }: {
   label?: string;
   width: number;
@@ -597,6 +757,7 @@ function DeviceFrame({
   frameRef: RefObject<HTMLIFrameElement | null>;
   testId: string;
   onPreset?: (id: ViewportPresetId) => void;
+  onLoad?: () => void;
 }) {
   return (
     <div className="flex flex-col items-center gap-2">
@@ -637,6 +798,7 @@ function DeviceFrame({
             title={label ? `Viewport Lab ${label}` : "Viewport Lab frame"}
             data-testid={testId}
             src={src}
+            onLoad={onLoad}
             className="h-full w-full rounded-md bg-white"
             style={{ width, height }}
           />

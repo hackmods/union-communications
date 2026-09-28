@@ -140,12 +140,11 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 
 ## Further learning
 
-- **Canadian Labour Congress** — membership administration and organizing fundamentals
-- **CUPE** local secretary / membership materials — list custody and reconciliation
-- **Unifor** local officer training — database hygiene and member privacy
-- **Ontario Federation of Labour** — local administration workshops
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — membership administration and organizing fundamentals
+- [**CUPE**](https://cupe.ca/) local secretary / membership materials — list custody and reconciliation
+- [**Unifor**](https://www.unifor.org/) local officer training — database hygiene and member privacy
+- [**Ontario Federation of Labour**](https://ofl.ca/) — local administration workshops
 - Your national union constitution — Membership List Directive and good-standing rules
-- UnionOps: `/guide/membership-signup` (campaign craft); Module 5 (dues rebate audit alignment)
 
 ---
 

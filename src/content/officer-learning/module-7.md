@@ -158,12 +158,11 @@ Practice: **Round 1 — Map and mandate.** Sketch a one-page workplace map (shif
 
 ## Further learning
 
-- **Canadian Labour Congress** — organizing and bargaining-cycle education
-- **CUPE steward handbook** — worksite pressure and legal caution
-- **Unifor Workplace Leadership** — mapping, escalation, and representative networks
-- **Ontario Labour Relations Act** concepts — broad strike definition; mid-term illegal strike risk
-- Ontario Federation of Labour — strike readiness and member education resources
-- UnionOps: `/guide/workplace-mapping`, `/guide/bargaining`, `/guide/strike`, `/guide/membership-signup`
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — organizing and bargaining-cycle education
+- [**CUPE steward handbook**](https://cupe.ca/sites/cupe/files/steward_handbook_eng_final.pdf) — worksite pressure and legal caution
+- [**Unifor Workplace Leadership**](https://www.unifor.org/resources/education/courses/g) — mapping, escalation, and representative networks
+- [**Ontario Labour Relations Act**](https://www.ontario.ca/laws/statute/95l01) concepts — broad strike definition; mid-term illegal strike risk
+- [Ontario Federation of Labour](https://ofl.ca/) — strike readiness and member education resources
 
 ---
 

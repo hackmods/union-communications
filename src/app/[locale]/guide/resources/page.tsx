@@ -70,6 +70,33 @@ export default async function ResourcesPage({
         </Link>
       </GuideCallout>
 
+      {/* Practice surfaces first — the intro promises checklist/demo kit. */}
+      <GuideSection
+        id="checklist"
+        title={t("checklist.title")}
+        intro={t("checklist.intro")}
+      >
+        <GuideBulletList className="mt-0 space-y-2" columns={2}>
+          {(t.raw("checklist.items") as string[]).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </GuideBulletList>
+      </GuideSection>
+
+      <GuideSection
+        id="demoKit"
+        title={t("demoKit.title")}
+        intro={t("demoKit.description")}
+      >
+        <a
+          href="/demo/brand-kit-local-243.json"
+          download="brand-kit-local-243.json"
+          className="inline-block text-sm font-medium text-opseu-blue underline"
+        >
+          {t("demoKit.download")}
+        </a>
+      </GuideSection>
+
       <GuideSection id="path" title={t("path.title")} intro={t("path.intro")}>
         <ul className="mt-2 grid list-none gap-6 p-0 sm:grid-cols-2">
           {commsPathLinks.map(({ href, key }) => (
@@ -109,32 +136,6 @@ export default async function ResourcesPage({
         </ul>
       </GuideSection>
 
-      <GuideSection
-        id="checklist"
-        title={t("checklist.title")}
-        intro={t("checklist.intro")}
-      >
-        <GuideBulletList className="mt-0 space-y-2" columns={2}>
-          {(t.raw("checklist.items") as string[]).map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </GuideBulletList>
-      </GuideSection>
-
-      <GuideSection
-        id="demoKit"
-        title={t("demoKit.title")}
-        intro={t("demoKit.description")}
-      >
-        <a
-          href="/demo/brand-kit-local-243.json"
-          download="brand-kit-local-243.json"
-          className="inline-block text-sm font-medium text-opseu-blue underline"
-        >
-          {t("demoKit.download")}
-        </a>
-      </GuideSection>
-
       <GuideSection id="explore" title={t("explore.title")}>
         <nav aria-label={t("explore.title")}>
           <GuideLinkList
@@ -160,7 +161,14 @@ export default async function ResourcesPage({
         intro={t("federations.body")}
       />
 
-      <ResourcesSourcesList />
+      <details className="mt-10 rounded-xl border border-gray-200 bg-white open:pb-2">
+        <summary className="cursor-pointer px-4 py-3 text-lg font-semibold text-opseu-dark marker:content-none">
+          {t("allSources.title")}
+        </summary>
+        <div className="px-4 pb-4">
+          <ResourcesSourcesList hideHeading />
+        </div>
+      </details>
     </GuideLayout>
   );
 }

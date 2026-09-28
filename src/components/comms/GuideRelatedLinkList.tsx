@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 export type GuideRelatedLink = {
   href: string;
   label: string;
+  /** Optional one-line description for denser card/grid treatment. */
+  description?: string;
 };
 
 type GuideRelatedLinkListProps = {
@@ -13,7 +15,8 @@ type GuideRelatedLinkListProps = {
 };
 
 /**
- * Related / explore links: disc list on narrow viewports, middot row from `md` up.
+ * Related / explore links — compact 2-col grid with optional descriptions.
+ * Prefer this over plain bullet walls on playbook pages.
  */
 export function GuideRelatedLinkList({
   links,
@@ -23,30 +26,25 @@ export function GuideRelatedLinkList({
   return (
     <ul
       className={cn(
-        "list-disc space-y-1 pl-5 marker:text-gray-400",
-        "md:flex md:flex-wrap md:list-none md:space-y-0 md:pl-0 md:items-baseline md:gap-x-3 md:gap-y-1",
+        "mt-3 grid list-none gap-2 p-0 sm:grid-cols-2",
         className,
         listClassName,
       )}
     >
-      {links.map((link, i) => (
-        <li
-          key={link.href}
-          className="md:inline-flex md:items-baseline md:gap-x-3"
-        >
-          {i > 0 && (
-            <span
-              className="hidden text-gray-300 md:inline"
-              aria-hidden="true"
-            >
-              ·
-            </span>
-          )}
+      {links.map((link) => (
+        <li key={link.href} className="min-w-0">
           <Link
             href={link.href}
-            className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+            className="block min-h-11 rounded-lg border border-gray-200 bg-white px-3 py-2.5 transition hover:border-opseu-blue/40 hover:bg-gray-50"
           >
-            {link.label}
+            <span className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark">
+              {link.label}
+            </span>
+            {link.description ? (
+              <span className="mt-0.5 block text-xs leading-snug text-gray-600">
+                {link.description}
+              </span>
+            ) : null}
           </Link>
         </li>
       ))}

@@ -791,7 +791,7 @@
       "steward101": "Délégué 101",
       "officerLearning": "Centre de formation des dirigeants",
       "grievance": "Processus de grief",
-      "dfr": "Devoir de représentation équitable",
+      "dfr": "DRE : guide pour délégués",
       "seniority": "Ancienneté et bumping",
       "rightToRefuse": "Droit de refuser (Ontario)",
       "jointCommittee": "Guide des comités conjoints",
@@ -810,7 +810,7 @@
     "sourcesIntro": "Lectures complémentaires provenant de fédérations syndicales canadiennes, de manuels multi-syndicaux pour délégués et de guides publics sur les droits de la personne — sans privilégier une seule centrale. Confirmez chaque règle dans votre convention et votre loi applicables.",
     "moduleLabel": "Module {number}",
     "readingTime": "Lecture {minutes} min",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "progressSummary": "{completed} module(s) sur {total} complété(s)",
     "quizHint": {
@@ -1606,8 +1606,8 @@
         "summary": "Animer des orientations Jour 1, offrir l'affinité sans partager les listes et bâtir des alliances communautaires."
       },
       "duty-of-fair-representation": {
-        "title": "Devoir de représentation équitable",
-        "summary": "Enquêter avant de refuser un dossier, communiquer les décisions par écrit, respecter les délais de grief et légaux, et escalader au service quand les enjeux sont élevés."
+        "title": "DRE : cours pour dirigeants",
+        "summary": "Cours pour dirigeants : enquêter avant de refuser, écrire les décisions, respecter les délais et escalader vers le service quand les enjeux sont élevés."
       },
       "seniority-bumping-layoff": {
         "title": "Ancienneté, bumping et mise à pied",
@@ -5218,9 +5218,9 @@
     }
   },
   "dfrGuide": {
-    "title": "Guide du devoir de représentation équitable",
+    "title": "DRE : guide pour délégués",
     "subtitle": "Du premier appel du membre au dossier défendable — lois, délais et mises à jour en langage clair",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -5485,7 +5485,7 @@
     "title": "Guides pratiques pour délégués",
     "subtitle": "Formation sur le terrain pour délégués et dirigeants locaux — commencez ici en attendant l'école nationale",
     "intro": "Guides pratiques et modules autonomes pour l'Ontario. Pas un avis juridique — confirmez chaque délai et recours dans votre convention collective.",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "trainingPath": {
       "title": "Parcours recommandé",
       "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour dix-sept modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
@@ -5574,7 +5574,7 @@
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
       "officerLearning": "Dix-sept modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
       "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable.",
-      "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
+      "dfr": "Guide pour délégués : LRT art. 74, bulletins du BRET et dossier d'admission commenté.",
       "workplaceMapping": "Recensez les collègues, repérez les leaders organiques et cotez l'appui syndical de 1 à 5.",
       "membershipSignup": "Recrutez et orientez les nouveaux membres avec un parcours d'adhésion reproductible.",
       "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
@@ -5609,7 +5609,7 @@
   "steward101Guide": {
     "title": "Délégué 101 : votre rôle et vos droits",
     "subtitle": "Orientation pour nouveaux délégués — rôle, trois chapeaux, représentation et représentation équitable",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -5791,7 +5791,7 @@
     },
     "threeHats": {
       "navLabel": "Trois chapeaux",
-      "title": "Les trois chapeaux du délégué",
+      "title": "Trois chapeaux",
       "intro": "Les délégués efficaces passent d'un rôle à l'autre. Sachez quel chapeau vous portez avant d'agir.",
       "items": {
         "enforcer": {
@@ -5821,7 +5821,8 @@
             "action": "Mobilisez les collègues pour pétitions, présence et pression collective quand le dossier l'exige."
           }
         }
-      }
+      },
+      "expandTitle": "Détail chapeau par chapeau"
     },
     "whichHat": {
       "navLabel": "Quel chapeau quand",
@@ -6015,7 +6016,7 @@
   "grievanceGuide": {
     "title": "Le guide du délégué sur les griefs",
     "subtitle": "Ouvrir et mener un dossier — les 6 W, les délais et les étapes de votre convention",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "intro": "Un grief est une plainte officielle selon laquelle l'employeur a violé la convention collective, une pratique établie ou le droit du travail. Ce guide explique comment ouvrir et mener un dossier : choisir le bon forum, consigner les faits, compter les délais et transmettre un dossier propre. Votre convention nomme les étapes. Le devoir de représentation équitable est l'autre guide pratique.",
@@ -6396,7 +6397,7 @@
     "title": "Cartographie du lieu de travail et leaders organiques",
     "subtitle": "Recenser qui travaille où, qui écoute qui, et où investir le temps d'organisation",
     "intro": "La cartographie du lieu de travail, souvent appelée cartographie murale, sert à comprendre la vraie structure de pouvoir. Il ne s'agit pas seulement de savoir qui travaille où. Il s'agit de savoir qui écoute qui.",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -6693,7 +6694,7 @@
   "seniorityGuide": {
     "title": "Guide d'ancienneté et de bumping",
     "subtitle": "Feuilles d'ancienneté pour les dossiers de déplacement. Aide seulement.",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -6902,7 +6903,7 @@
   "jointCommitteeGuide": {
     "title": "Guide pratique des comités conjoints",
     "subtitle": "D'un dossier de campus à une recommandation provinciale — et une note aux membres qu'ils peuvent vraiment utiliser",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -7173,7 +7174,7 @@
   "rightToRefuseGuide": {
     "title": "Droit de refuser un travail dangereux",
     "subtitle": "Étapes de refus selon la LSST art. 43, pour délégués et CSS. Pas un avis juridique.",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -8063,6 +8064,10 @@
       "data-records-reports": {
         "title": "Dossiers et rapports UnionOps Data",
         "body": "Les dirigeants peuvent chercher des personnes à une date donnée, voir chaque emploi ouvert, documenter le statut observé des cotisations issu des imports, et exporter des instantanés CSV protégés contre les formules — toujours sans collecte de cotisations."
+      },
+      "learn-ui-chrome": {
+        "title": "Les pages Apprendre démarrent plus vite",
+        "body": "Les liens connexes passent après la leçon, Steward 101 ouvre plus vite sur le contenu de plancher, et la Formation des dirigeants montre un rail de progression compact au lieu de lister chaque module deux fois."
       }
     }
   },
@@ -12778,7 +12783,7 @@
   "unionHistoryGuide": {
     "title": "Comment les syndicats canadiens se relient",
     "subtitle": "Histoire du mouvement et une carte travaillée, d'une section de Niagara jusqu'au CTC",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -13058,7 +13063,7 @@
   "runningMeetingsGuide": {
     "title": "Tenir une assemblée et règles de procédure",
     "subtitle": "Procédure parlementaire pour les assemblées syndicales — adaptée à la salle, pas à une convention nationale",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -13353,7 +13358,7 @@
   "landAcknowledgementGuide": {
     "title": "Guide de reconnaissance territoriale",
     "subtitle": "Rechercher, rédiger et ouvrir les réunions syndicales avec sens — pas un texte copié-collé",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -13729,7 +13734,7 @@
     "intro": "Les règlements locaux sont essentiellement la constitution de votre section. Pendant que votre syndicat national ou provincial (comme OPSEU / SEFPO, le SCFP ou Unifor) a une constitution principale qui gouverne tout le monde, vos règlements locaux dictent le fonctionnement quotidien de votre maison.",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "disclaimer": {
       "title": "Pas un avis juridique",

@@ -155,10 +155,9 @@ A duty dump that adds independence or system ownership is a **factor** argument,
 
 ## Further learning
 
-- **Canadian Labour Congress** — steward education on classification and job evaluation
-- **CUPE** classification and job-evaluation steward materials
-- **Unifor** job evaluation and pay equity education
-- UnionOps: `/guide/grievance-process` (filing steps); `/guide/steward-101`; `/guide/joint-committee` (joint-forum discipline); `/guide/officer-learning/contract-enforcement` (Module 1 intake); `/guide/officer-learning/advanced-grievance-settlement` (Module 8); `/guide/officer-learning/seniority-bumping-layoff` (Module 16 lists — different job)
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — steward education on classification and job evaluation
+- [**CUPE**](https://cupe.ca/) classification and job-evaluation steward materials
+- [**Unifor**](https://www.unifor.org/) job evaluation and pay equity education
 
 ---
 

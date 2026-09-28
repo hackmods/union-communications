@@ -140,12 +140,11 @@ Les feuilles Excel ou CSV brutes des services de paie de l'employeur sont notoir
 
 ## Pour aller plus loin
 
-- **Congrès du travail du Canada** — administration des membres et bases de l'organisation
-- **SCFP** — matériaux secrétaire local / adhésion et garde des listes
-- **Unifor** — formation dirigeants locaux, hygiène des bases et confidentialité
+- [**Congrès du travail du Canada**](https://canadianlabour.ca/) — administration des membres et bases de l'organisation
+- [**SCFP**](https://cupe.ca/) — matériaux secrétaire local / adhésion et garde des listes
+- [**Unifor**](https://www.unifor.org/) — formation dirigeants locaux, hygiène des bases et confidentialité
 - **Fédération du travail de l'Ontario** — ateliers d'administration locale
 - Constitution de votre syndicat national — directive sur les listes et règles de statut en règle
-- UnionOps : `/guide/membership-signup` (art de campagne) ; module 5 (alignement audit remise de cotisations)
 
 ---
 

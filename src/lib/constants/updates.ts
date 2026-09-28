@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "learn-ui-chrome",
+    date: "2026-09-28",
+    kind: "improved",
+    href: "/learn/",
+  },
+  {
     id: "data-records-reports",
     date: "2026-09-28",
     kind: "improved",

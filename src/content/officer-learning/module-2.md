@@ -147,12 +147,11 @@ Practice in the tool: open Tools → Steward worksheets → Pre-disciplinary log
 
 ## Further learning
 
-- **CUPE Steward Handbook** — discipline ladder and counseling vs. warning distinctions
-- **Unifor Grievance Handling & Workplace Leadership courses** — just cause and penalty reduction
-- **Canadian Labour Congress** labour education steward modules on discipline meetings
-- **Ontario OHSA** — right to refuse unsafe work (and your province's equivalent)
-- **CUPE Stop Harassment guide** — when conduct crosses into harassment vs. discipline
-- UnionOps: `/guide/grievance-process`, `/guide/right-to-refuse`, `/guide/steward-101`, `/guide/crisis`
+- [**CUPE Steward Handbook**](https://cupe.ca/sites/cupe/files/steward_handbook_eng_final.pdf) — discipline ladder and counseling vs. warning distinctions
+- [**Unifor Grievance Handling & Workplace Leadership courses**](https://www.unifor.org/member-services/education/grievance-handling-workplace-leadership-aghwl3-0) — just cause and penalty reduction
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) labour education steward modules on discipline meetings
+- [**Ontario OHSA**](https://www.ontario.ca/laws/statute/90o01) — right to refuse unsafe work (and your province's equivalent)
+- [**CUPE Stop Harassment guide**](https://cupe.ca/stop-harassment-guide-cupe-locals) — when conduct crosses into harassment vs. discipline
 
 ---
 

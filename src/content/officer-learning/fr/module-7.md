@@ -158,12 +158,11 @@ Exercice : **Tour 1 — Carte et mandat.** Esquissez une carte d'une page du mil
 
 ## Pour aller plus loin
 
-- **Congrès du travail du Canada** — éducation à l'organisation et au cycle de négociation
+- [**Congrès du travail du Canada**](https://canadianlabour.ca/) — éducation à l'organisation et au cycle de négociation
 - **Manuel des délégués du SCFP** — pression au lieu de travail et prudence juridique
 - **Leadership en milieu de travail d'Unifor** — cartographie, escalade et réseaux représentatifs
 - Concepts du **Code des relations de travail de l'Ontario** — définition large de la grève ; risque de grève illégale en cours de convention
 - Fédération du travail de l'Ontario — ressources de préparation à la grève et d'éducation des membres
-- UnionOps : `/guide/workplace-mapping`, `/guide/bargaining`, `/guide/strike`, `/guide/membership-signup`
 
 ---
 

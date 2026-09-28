@@ -138,9 +138,8 @@ Exercice : **Tour 1 — Dossier en cinq parties.** Pour un grief d'heures suppl�
 
 - **Manuel des délégués du SCFP** — enquête, construction de dossier et prudence de règlement
 - **Traitement des griefs d'Unifor** — rédaction à porte ouverte et préparation à l'arbitrage
-- **Congrès du travail du Canada** — éducation des délégués sur l'application de la convention
+- [**Congrès du travail du Canada**](https://canadianlabour.ca/) — éducation des délégués sur l'application de la convention
 - Principes arbitraux de réparation intégrale — remèdes restauratifs complets au-delà des paiements symboliques
-- UnionOps : `/guide/grievance-process`, `/tools/complaint-vs-grievance`, prise en charge de grief du Générateur de documents
 
 ---
 

@@ -138,10 +138,9 @@ Practice: **Round 1 — Caucus.** Two stewards disagree on whether understaffing
 
 ## Further learning
 
-- **Occupational Health and Safety Act (Ontario)** concepts — JHSC duties, recommendations, work refusals
-- **Canadian Labour Congress** — health and safety activist education
-- **CUPE** and **Unifor** health and safety / steward committee guides
-- UnionOps: `/guide/joint-committee`, `/guide/right-to-refuse`, `/tools/org-chart`, `/guide/steward-101`
+- [**Occupational Health and Safety Act (Ontario)**](https://www.ontario.ca/laws/statute/90o01) concepts — JHSC duties, recommendations, work refusals
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — health and safety activist education
+- [**CUPE**](https://cupe.ca/) and [**Unifor**](https://www.unifor.org/) health and safety / steward committee guides
 
 ---
 

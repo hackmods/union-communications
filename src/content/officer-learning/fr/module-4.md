@@ -142,10 +142,9 @@ Exercice : AGM simulée avec cartes de décompte papier. Le secrétaire suit le 
 
 ## Pour aller plus loin
 
-- Formation syndicale du **Congrès du travail du Canada** — gouvernance et démocratie des sections locales
+- Formation syndicale du [**Congrès du travail du Canada**](https://canadianlabour.ca/) — gouvernance et démocratie des sections locales
 - **Manuel du délégué** du SCFP — procédure de rencontre et bases des droits des membres
 - **Fédération du travail de l'Ontario** — ressources de développement du leadership local
-- UnionOps : `/guide/running-meetings`, `/guide/bylaws`, `/tools/rules-of-order`, `/guide/union-boards`, `/guide/membership-signup`
 
 ---
 

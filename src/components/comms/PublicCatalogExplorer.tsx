@@ -421,10 +421,10 @@ export function PublicCatalogExplorer({
                         {t("minutes", { count: item.estimatedMinutes })}
                       </span>
                     </div>
-                    <h2 className="mt-3 text-lg font-bold text-opseu-dark group-hover/card:text-opseu-blue">
+                    <h3 className="mt-3 text-lg font-bold text-opseu-dark group-hover/card:text-opseu-blue">
                       {title}
                       <span aria-hidden="true" className="ml-2 text-sm opacity-60">→</span>
-                    </h2>
+                    </h3>
                     <p className="mt-2 text-sm leading-relaxed text-slate-700">{summary}</p>
                     <p className="mt-3 text-sm font-semibold leading-relaxed text-opseu-dark">
                       {t(`deliverables.${item.deliverableKey}` as never)}

@@ -241,12 +241,11 @@ When HR imports a "standard" chart from another employer in the sector, your fir
 
 ## Further learning
 
-- **Canadian Labour Congress** — steward education on restructuring and displacement
-- **CUPE** layoff and seniority steward materials
-- **Unifor** displacement and recall training
-- **Ontario Human Rights Commission** — *Human Rights at Work* (accommodation primacy)
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — steward education on restructuring and displacement
+- [**CUPE**](https://cupe.ca/) layoff and seniority steward materials
+- [**Unifor**](https://www.unifor.org/) displacement and recall training
+- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/human-rights-code) — *Human Rights at Work* (accommodation primacy)
 - **Employment Standards Act** (Ontario) — minimum notice layer; compare to your CA
-- UnionOps: `/guide/seniority-bumping` (playbook mechanics); `/guide/grievance-process` (filing steps); `/guide/officer-learning/contract-enforcement` (Module 1 intake); `/guide/officer-learning/human-rights-accommodation` (Module 3 accommodation)
 
 ---
 

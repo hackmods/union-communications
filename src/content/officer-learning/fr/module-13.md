@@ -158,12 +158,11 @@ Exercice : **Tour 1 — Architecture de dossiers.** Sur une page, dessinez les s
 
 ## Pour aller plus loin
 
-- **Congrès du travail du Canada** — éducation des secrétaires et des archives
-- **SCFP** — guides d'administration locale et tenue des registres financiers
-- **Unifor** — matériaux de transition et de gouvernance des exécutifs locaux
-- **Agence du revenu du Canada** — conservation des registres d'entreprise (base de sept ans)
+- [**Congrès du travail du Canada**](https://canadianlabour.ca/) — éducation des secrétaires et des archives
+- [**SCFP**](https://cupe.ca/) — guides d'administration locale et tenue des registres financiers
+- [**Unifor**](https://www.unifor.org/) — matériaux de transition et de gouvernance des exécutifs locaux
+- [**Agence du revenu du Canada**](https://www.canada.ca/en/revenue-agency.html) — conservation des registres d'entreprise (base de sept ans)
 - Fédération du travail de l'Ontario — ateliers de sécurité numérique pour petites sections
-- UnionOps : module 11 (listes de membres et confidentialité), `/guide/membership-signup`
 
 ---
 

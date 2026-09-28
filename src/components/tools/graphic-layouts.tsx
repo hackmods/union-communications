@@ -164,14 +164,21 @@ function LocalFooter({
   asMeta?: boolean;
 }) {
   if (!show) return null;
+  const preview = size === "preview";
   return (
     <p
       {...(asMeta ? { "data-canvas-meta": "" } : {})}
-      className={size === "export" ? "mt-3" : "mt-2"}
+      className={preview ? "mt-2 min-w-0 max-w-full" : "mt-3"}
       style={{
         color,
-        fontSize: fontSizePx ?? (size === "export" ? 16 : 13),
-        whiteSpace: "nowrap",
+        fontSize: fontSizePx ?? (preview ? 13 : 16),
+        // Preview cards must wrap/ellipsis — nowrap clipped long Brand Kit lines (LEARN-005).
+        whiteSpace: preview ? "normal" : "nowrap",
+        overflow: preview ? "hidden" : undefined,
+        display: preview ? "-webkit-box" : undefined,
+        WebkitLineClamp: preview ? 2 : undefined,
+        WebkitBoxOrient: preview ? "vertical" : undefined,
+        overflowWrap: preview ? "anywhere" : undefined,
       }}
     >
       {localLabel(localNumber, subText)}

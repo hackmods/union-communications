@@ -148,11 +148,10 @@ Exercice dans l'outil : ouvrez Outils → Fiches délégué → Journal prédisc
 ## Pour aller plus loin
 
 - **Manuel du délégué** du SCFP — échelle disciplinaire et distinctions encadrement/avertissement
-- Cours de traitement des griefs et de leadership en milieu de travail d'**Unifor** — cause juste et réduction des sanctions
-- Modules de formation syndicale du **Congrès du travail du Canada** sur les rencontres disciplinaires
+- Cours de traitement des griefs et de leadership en milieu de travail d'[**Unifor**](https://www.unifor.org/) — cause juste et réduction des sanctions
+- Modules de formation syndicale du [**Congrès du travail du Canada**](https://canadianlabour.ca/) sur les rencontres disciplinaires
 - **LSST** de l'Ontario — droit de refuser un travail dangereux (et l'équivalent de votre province)
 - Guide **Arrêter le harcèlement** du SCFP — lorsque la conduite franchit la ligne entre harcèlement et discipline
-- UnionOps : `/guide/grievance-process`, `/guide/right-to-refuse`, `/guide/steward-101`, `/guide/crisis`
 
 ---
 

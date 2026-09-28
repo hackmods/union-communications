@@ -151,11 +151,10 @@ Practice in the tool: open Tools → Steward worksheets → Complaint vs grievan
 
 ## Further learning
 
-- **Canadian Labour Congress** labour education steward courses — investigation and grievance fundamentals
-- **CUPE Steward Handbook** — complaint vs. grievance gate and meeting preparation
-- **Unifor Grievance Handling & Workplace Leadership courses** — building files and presenting cases
-- **Ontario Labour Relations Act** and **OLRB DFR bulletins** — representation duties and timeliness expectations
-- UnionOps: `/guide/steward-101`, `/guide/grievance-process`, `/guide/dfr`, `/guide/workplace-mapping`
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) labour education steward courses — investigation and grievance fundamentals
+- [**CUPE Steward Handbook**](https://cupe.ca/sites/cupe/files/steward_handbook_eng_final.pdf) — complaint vs. grievance gate and meeting preparation
+- [**Unifor Grievance Handling & Workplace Leadership courses**](https://www.unifor.org/member-services/education/grievance-handling-workplace-leadership-aghwl3-0) — building files and presenting cases
+- [**Ontario Labour Relations Act**](https://www.ontario.ca/laws/statute/95l01) and [**OLRB DFR bulletins**](https://www.olrb.gov.on.ca/Forms/IB/InformationBulletin-12-EN.pdf) — representation duties and timeliness expectations
 
 ---
 

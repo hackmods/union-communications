@@ -79,7 +79,7 @@ export function GuideOutlineStep({
           {title}
         </Heading>
         {badge ? (
-          <span className="inline-flex min-h-8 items-center rounded-full bg-opseu-blue px-3 text-xs font-bold uppercase tracking-wide text-white">
+          <span className="inline-flex min-h-8 items-center rounded-full bg-opseu-blue px-3 text-xs font-bold tracking-wide text-white">
             {badge}
           </span>
         ) : null}
@@ -151,7 +151,7 @@ export function GuideWorkshopNote({
         className,
       )}
     >
-      <p className="text-xs font-bold uppercase tracking-wide">{label}</p>
+      <p className="text-xs font-bold tracking-wide">{label}</p>
       <div className="mt-1 max-w-prose text-sm leading-relaxed">{children}</div>
     </blockquote>
   );

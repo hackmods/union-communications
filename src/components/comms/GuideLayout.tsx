@@ -14,6 +14,7 @@ import {
 } from "@/components/comms/GuideRelatedLinkList";
 import type { GuideTocItem } from "@/components/comms/GuideToc";
 import { GuidePlaybookToc } from "@/components/comms/GuidePlaybookToc";
+import { dedupeRelatedByHref } from "@/lib/comms/dedupe-related-links";
 import { cn } from "@/lib/utils";
 
 export type { GuideRelatedLink, GuideTocItem };
@@ -99,9 +100,13 @@ export function GuideLayout({
     </header>
   );
 
+  const uniqueRelated = relatedLinks
+    ? dedupeRelatedByHref(relatedLinks)
+    : undefined;
+
   const relatedBlock =
-    relatedLinks && relatedLinks.length > 0 ? (
-      <div className={cn("text-sm", hub ? "mt-8" : "mt-5")}>
+    uniqueRelated && uniqueRelated.length > 0 ? (
+      <div className={cn("text-sm", hub ? "mt-8" : "mt-10 border-t border-gray-200 pt-8")}>
         {relatedLabel && (
           <p className="font-semibold text-opseu-dark">{relatedLabel}</p>
         )}
@@ -113,7 +118,7 @@ export function GuideLayout({
                 relatedLabel ? undefined : "mt-0",
               )}
             >
-              {relatedLinks.map((link) => (
+              {uniqueRelated.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -126,7 +131,7 @@ export function GuideLayout({
             </ul>
           ) : (
             <GuideRelatedLinkList
-              links={relatedLinks}
+              links={uniqueRelated}
               className={relatedLabel ? "mt-2" : undefined}
             />
           )}
@@ -161,9 +166,10 @@ export function GuideLayout({
       rail={railContent}
     >
       {headerBlock}
-      {relatedBlock}
+      {hub ? relatedBlock : null}
       {mobileToc}
       <div className="mt-8 md:mt-10">{children}</div>
+      {!hub ? relatedBlock : null}
       {footer}
     </ComposedPageLayout>
   );

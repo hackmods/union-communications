@@ -156,10 +156,9 @@ Exercice dans l'outil : ouvrez Outils → Fiches délégué → RAT et accommode
 ## Pour aller plus loin
 
 - **Prêts et capables** du SCFP — référence délégué sur le devoir d'accommodement
-- **Commission ontarienne des droits de la personne** — **Les droits de la personne au travail** et orientation sur le devoir d'accommodement
+- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/human-rights-code) — **Les droits de la personne au travail** et orientation sur le devoir d'accommodement
 - Guide **Arrêter le harcèlement** du SCFP — chevauchement du harcèlement et de la conduite discriminatoire
-- Formation syndicale du **Congrès du travail du Canada** — modules sur les droits de la personne en milieu de travail
-- UnionOps : `/guide/steward-101`, `/guide/grievance-process`, `/guide/joint-committee`
+- Formation syndicale du [**Congrès du travail du Canada**](https://canadianlabour.ca/) — modules sur les droits de la personne en milieu de travail
 
 ---
 

@@ -164,6 +164,7 @@ export default async function Steward101GuidePage({
       }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
+        // Tools that live in the TOC aside stay out of this list (pocket card, diagnostic).
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/officer-learning", label: t("related.officerLearning") },
@@ -171,14 +172,6 @@ export default async function Steward101GuidePage({
         { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/dfr", label: t("related.dfr") },
         { href: "/brand-kit", label: t("related.brandKit") },
-        {
-          href: "/tools/qr-card?preset=stewardRepresentation",
-          label: t("related.pocketCard"),
-        },
-        {
-          href: "/tools/complaint-vs-grievance",
-          label: t("related.diagnostic"),
-        },
         {
           href: "/tools/pre-disciplinary-log",
           label: t("related.discipline"),
@@ -198,15 +191,6 @@ export default async function Steward101GuidePage({
           {t("disclaimer.body")}
         </p>
       </GuideCallout>
-
-      <OfficerLearningModuleCallout slug="contract-enforcement" moduleNumber={1} />
-
-      <Steward101ModuleNav
-        ariaLabel={t("modules.navLabel")}
-        timeBudgetTitle={t("modules.timeBudget.title")}
-        timeBudgetBody={t("modules.timeBudget.body")}
-        modules={moduleNavItems}
-      />
 
       <GuideTrainingPhase
         id={PHASE_IDS.orient}
@@ -242,6 +226,18 @@ export default async function Steward101GuidePage({
             </Link>
           </GuideCallout>
         </GuideSubsection>
+
+        <OfficerLearningModuleCallout
+          slug="contract-enforcement"
+          moduleNumber={1}
+        />
+
+        <Steward101ModuleNav
+          ariaLabel={t("modules.navLabel")}
+          timeBudgetTitle={t("modules.timeBudget.title")}
+          timeBudgetBody={t("modules.timeBudget.body")}
+          modules={moduleNavItems}
+        />
 
         <GuideSubsection
           id="first48Hours"
@@ -287,7 +283,7 @@ export default async function Steward101GuidePage({
             />
           </GuideWideFigure>
           <GuideExpandSection
-            title={t("threeHats.navLabel")}
+            title={t("threeHats.expandTitle")}
             summary={t("threeHats.intro")}
             className="mt-5"
           >
@@ -536,6 +532,7 @@ export default async function Steward101GuidePage({
 
         <ul className="mt-6 grid list-none gap-6 p-0 md:grid-cols-2">
           <GuideCatalogCard
+            titleAs="h3"
             title={t("referenceMaterials.pocketCard.title")}
             body={t("referenceMaterials.pocketCard.body")}
             action={
@@ -548,6 +545,7 @@ export default async function Steward101GuidePage({
             }
           />
           <GuideCatalogCard
+            titleAs="h3"
             title={t("referenceMaterials.intakeSheet.title")}
             body={t("referenceMaterials.intakeSheet.body")}
             meta={t("referenceMaterials.intakeSheet.hint")}
@@ -570,6 +568,7 @@ export default async function Steward101GuidePage({
             }
           />
           <GuideCatalogCard
+            titleAs="h3"
             title={t("referenceMaterials.grievanceWorksheet.title")}
             body={t("referenceMaterials.grievanceWorksheet.body")}
             action={

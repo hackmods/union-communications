@@ -16,6 +16,7 @@ Shares **QA Labs** navigation with [Load Test Lab](LOAD_TEST_LAB.md).
 | Preserves in-frame navigation when resizing | Able to frame Officer Hub or Local Portal |
 | Versioned `window.__unionopsViewportLab` API | In the Create/Utilities catalog or sitemap |
 | Complements Muse / restricted VMs | The CI viewport matrix (`page.setViewportSize`) |
+| Auto overflow badge after navigate/resize | An in-app recipe runner (JSON recipes are docs only) |
 
 Hub and Portal stay `X-Frame-Options: DENY` by design. Test those in a normal browser or Playwright.
 
@@ -36,13 +37,15 @@ Bootstrap query (all optional):
 
 ## Human controls
 
-- **Mobile / Tablet / Desktop** — set size only; do **not** reload the iframe `src`
-- **Custom width/height + Apply size** — same rule
+- **Mobile / Tablet / Desktop** — product presets 375 / 768 / 1280; set size only; do **not** reload the iframe `src`
+- **Audit 390 / Audit 1366** — explicit Muse audit widths (`data-viewport-audit`); not aliases of Mobile/Desktop
+- **Custom width/height + Apply size** — same resize-without-reload rule (`data-testid="viewport-apply-size"`)
 - **Flip orientation** — swaps width and height
 - **EN / FR** — rewrites the locale segment of the current path
-- **Path + Go** — intentional navigation (reloads frame content)
+- **Path + Go** — intentional navigation (reloads frame content); recent paths offer datalist history (session)
 - **Compare** — second pane; Pane B has its own preset chips
-- **Check overflow** — horizontal overflow px inside the frame
+- **Check overflow** — horizontal overflow px inside Pane A (also auto-runs after navigate/resize)
+- **Overflow badge** — dedicated readout (`data-testid="viewport-overflow-badge"`)
 - **Run axe** — serious/critical findings from the framed document; optional color-contrast checkbox
 - **Scale-to-fit** — when the device is larger than the lab window, the chrome scales down; the iframe’s *logical* size stays `w×h` so media queries stay honest
 
@@ -51,29 +54,41 @@ Bootstrap query (all optional):
 Copy-paste rules for vision or script agents:
 
 1. Start on `/viewport-lab/` or a bootstrapped query URL — do not open the site root first.
-2. Vision agents: click buttons with `data-viewport-preset="mobile|tablet|desktop"`.
-3. Script agents: use `window.__unionopsViewportLab` (aliases `window.setViewport` / `window.setViewportPreset` also exist).
-4. After each resize, interact **inside the iframe** only. Do not reload the lab page.
-5. Before declaring a viewport pass, call `checkOverflow()` (and optionally `runAxe()`).
-6. Never navigate the lab to `/app`, `/portal`, `/api`, or `/viewport-lab` itself.
+2. Vision agents: click `data-viewport-preset="mobile|tablet|desktop"` or `data-viewport-audit="audit-390|audit-1366"`. Prefer buttons over spinbuttons when possible.
+3. Script agents: use `window.__unionopsViewportLab` via page `evaluate` (aliases `window.setViewport` / `window.setViewportPreset` also exist). Vision-only agents that cannot run JS should use the buttons + Path/Go — the API is not a separate set of DOM controls.
+4. After each resize, interact **inside the iframe** only. Do not reload the lab page. Overflow auto-updates; still call `checkOverflow()` before declaring a pass if your harness ignores the badge.
+5. Never navigate the lab to `/app`, `/portal`, `/api`, or `/viewport-lab` itself.
+6. Recipe JSON under [`viewport-lab-recipes/`](viewport-lab-recipes/) is documentation — there is **no in-app recipe executor**.
+
+### Muse-side limits (not lab bugs)
+
+These slowed the 2026-09-28 Learn audit; they belong to the automation host, not UnionOps:
+
+- **Document-boundary / batched actions** — combining Apply size with later Path+Go in one automation array can stop after resize. Split resize and navigate into separate turns, or use `evaluate` for `setViewport` + `navigateFrame` in one script.
+- **`ref_scope` churn** — accessibility scopes from a prior look observation often go stale. Re-snapshot before clicking.
+- **Large batched attribute reads** — batches of ~16 may fail mid-dispatch; prefer batches of ≤10 or the lab JS API.
 
 ### Ready-made Muse prompts
 
 **Mobile overflow walk of Create catalog**
 
-> Open `/viewport-lab/?w=375&h=812&path=/en/create/&locale=en`. Click Mobile if needed. Inside the iframe, scroll the Create catalog. Call `window.__unionopsViewportLab.checkOverflow()` and report `horizontalPx`. Repeat at Tablet (768) and Desktop (1280) without reloading the lab.
+> Open `/viewport-lab/?w=375&h=812&path=/en/create/&locale=en`. Click Mobile if needed. Inside the iframe, scroll the Create catalog. Read the Overflow badge (`data-testid="viewport-overflow-badge"`) or call `window.__unionopsViewportLab.checkOverflow()` and report `horizontalPx`. Repeat at Tablet (768) and Desktop (1280) without reloading the lab.
+
+**Audit widths 390 then 1366 on Learn**
+
+> Open `/viewport-lab/?path=/en/learn/&w=390&h=844`. Click Audit 390 if needed. Confirm the Overflow badge. Click Audit 1366. Confirm overflow again without reloading the lab page.
 
 **Flyer Maker at 375 then 768 without losing editor state**
 
-> Open `/viewport-lab/?path=/en/create/flyer-maker/&w=375&h=812`. Type a short headline in the Flyer Maker form inside the iframe. Switch to Tablet via the preset button (do not change the path). Confirm the headline text is still present, then call `checkOverflow()`.
+> Open `/viewport-lab/?path=/en/create/flyer-maker/&w=375&h=812`. Type a short headline in the Flyer Maker form inside the iframe. Switch to Tablet via the preset button (do not change the path). Confirm the headline text is still present, then read the Overflow badge.
 
 **EN then FR home at tablet width**
 
-> Open `/viewport-lab/?w=768&h=1024&path=/en/&locale=en`. Screenshot the iframe. Click FR. Confirm the path locale is `/fr/` and the home content is French. Call `checkOverflow()`.
+> Open `/viewport-lab/?w=768&h=1024&path=/en/&locale=en`. Screenshot the iframe. Click FR. Confirm the path locale is `/fr/` and the home content is French. Read the Overflow badge.
 
 **Desktop vs mobile Brand Kit pair**
 
-> Open `/viewport-lab/?path=/en/create/brand-kit/&w=1280&h=800`. Enable Compare. Set Pane B to mobile. Screenshot both panes. Call `checkOverflow()` on Pane A via the API.
+> Open `/viewport-lab/?path=/en/create/brand-kit/&w=1280&h=800`. Enable Compare. Set Pane B to mobile. Screenshot both panes. Call `checkOverflow()` on Pane A via the API (overflow is Pane A only).
 
 **Axe on Learn shell**
 
@@ -101,9 +116,10 @@ lab.setViewportPane("b", 375, 812);
 ## Limits
 
 - Hub / Portal cannot be framed (security).
+- Overflow and axe measure **Pane A** only.
 - Canvas/export raster text is not visible to axe.
 - Prefer Playwright `setViewportSize` in CI; use this lab when DevTools emulation is blocked (e.g. Muse VMs).
 
 ## Recipes
 
-Machine-readable extras: [`viewport-lab-recipes/`](viewport-lab-recipes/).
+Machine-readable extras: [`viewport-lab-recipes/`](viewport-lab-recipes/). Documentation contract only — not executed by the lab UI.

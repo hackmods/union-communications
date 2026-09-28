@@ -27,6 +27,26 @@ async function answerAndSubmit(
 }
 
 test.describe("officer learning quiz grading @smoke", () => {
+  test("quiz prompts render once per question (legend only)", async ({
+    page,
+  }) => {
+    await page.goto("/en/learn/officer/contract-enforcement/");
+    const quiz = page.locator("#module-quiz");
+    await quiz.scrollIntoViewIfNeeded();
+    const fieldsets = quiz.locator("fieldset");
+    const count = await fieldsets.count();
+    expect(count).toBeGreaterThan(0);
+    for (let i = 0; i < count; i += 1) {
+      const legend = fieldsets.nth(i).locator("legend");
+      await expect(legend).toHaveCount(1);
+      const promptText = (await legend.innerText()).trim();
+      expect(promptText.length).toBeGreaterThan(10);
+      // Prompt must not also appear as a sibling paragraph inside the fieldset.
+      const siblingParas = fieldsets.nth(i).locator(":scope > p");
+      await expect(siblingParas).toHaveCount(0);
+    }
+  });
+
   test("module 1 grades perfect score and reveals explanations after submit", async ({
     page,
   }) => {

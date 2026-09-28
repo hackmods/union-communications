@@ -156,10 +156,9 @@ Practice in the tool: open Tools → Steward worksheets → RTW & accommodation 
 ## Further learning
 
 - **CUPE Ready and Able** — duty to accommodate steward reference
-- **Ontario Human Rights Commission** — **Human Rights at Work** and duty to accommodate policy guidance
-- **CUPE Stop Harassment guide** — overlap of harassment and discriminatory conduct
-- **Canadian Labour Congress** labour education — human rights in the workplace modules
-- UnionOps: `/guide/steward-101`, `/guide/grievance-process`, `/guide/joint-committee`
+- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/human-rights-code) — **Human Rights at Work** and duty to accommodate policy guidance
+- [**CUPE Stop Harassment guide**](https://cupe.ca/stop-harassment-guide-cupe-locals) — overlap of harassment and discriminatory conduct
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) labour education — human rights in the workplace modules
 
 ---
 

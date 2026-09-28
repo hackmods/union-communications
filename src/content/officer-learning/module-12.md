@@ -140,11 +140,10 @@ Many locals reserve budget lines for a **Member Hardship Fund** — emergency ai
 
 ## Further learning
 
-- **Canada Revenue Agency** — T4A reporting, automobile allowance rates, taxable benefits guidance
-- **Canadian Labour Congress** — local treasurer advanced sessions
-- **CUPE** financial handbook — expense policies and honorarium practice
-- **Ontario Federation of Labour** — local finance workshops
-- UnionOps Module 5 — double-signature controls, budgets, and trustee audits (foundation for this module)
+- [**Canada Revenue Agency**](https://www.canada.ca/en/revenue-agency.html) — T4A reporting, automobile allowance rates, taxable benefits guidance
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — local treasurer advanced sessions
+- [**CUPE**](https://cupe.ca/) financial handbook — expense policies and honorarium practice
+- [**Ontario Federation of Labour**](https://ofl.ca/) — local finance workshops
 - Your national union constitution — hardship fund and honorarium bylaws templates
 
 ---

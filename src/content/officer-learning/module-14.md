@@ -166,11 +166,10 @@ Practice: **Round 1 — Orientation script.** Time yourself delivering the four-
 
 ## Further learning
 
-- **Canadian Labour Congress** — member engagement and community-unionism education
-- **CUPE** — steward handbook welcome and shop-floor introduction practices
-- **Unifor** — affinity programs and community campaign case studies
-- Ontario Federation of Labour — local labour council coalition calendars
-- UnionOps: `/guide/membership-signup`, Module 6 (building collective power), Module 11 (member lists & privacy)
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — member engagement and community-unionism education
+- [**CUPE**](https://cupe.ca/) — steward handbook welcome and shop-floor introduction practices
+- [**Unifor**](https://www.unifor.org/) — affinity programs and community campaign case studies
+- [Ontario Federation of Labour](https://ofl.ca/) — local labour council coalition calendars
 
 ---
 

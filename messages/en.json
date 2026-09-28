@@ -791,7 +791,7 @@
       "steward101": "Steward 101",
       "officerLearning": "Officer Learning Center",
       "grievance": "Grievance process",
-      "dfr": "Duty of Fair Representation",
+      "dfr": "DFR: Steward playbook",
       "seniority": "Seniority & bumping",
       "rightToRefuse": "Right to refuse (Ontario)",
       "jointCommittee": "Joint committee playbook",
@@ -810,7 +810,7 @@
     "sourcesIntro": "Further reading from Canadian labour federations, multi-union steward handbooks, and public human rights guidance — not tied to one national. Confirm every rule against your own collective agreement and statute.",
     "moduleLabel": "Module {number}",
     "readingTime": "{minutes} min read",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "progressSummary": "{completed} of {total} modules completed",
     "quizHint": {
@@ -1606,8 +1606,8 @@
         "summary": "Run Day-1 orientations, deliver affinity benefits without sharing lists, and build community unionism alliances."
       },
       "duty-of-fair-representation": {
-        "title": "Duty of Fair Representation",
-        "summary": "Investigate before declining files, communicate outcomes in writing, meet grievance and statutory clocks, and escalate to servicing when stakes are high."
+        "title": "DFR: Officer course",
+        "summary": "Officer course: investigate before declining files, write outcomes, meet clocks, and escalate to servicing when stakes are high."
       },
       "seniority-bumping-layoff": {
         "title": "Seniority, Bumping & Layoff",
@@ -5272,9 +5272,9 @@
     }
   },
   "dfrGuide": {
-    "title": "Duty of Fair Representation playbook",
+    "title": "DFR: Steward playbook",
     "subtitle": "From first member call to a defensible file — statutes, clocks, and plain-language member updates",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -5539,7 +5539,7 @@
     "title": "Steward playbooks",
     "subtitle": "Floor training for stewards and local officers — start here before national school",
     "intro": "Ontario-focused playbooks and self-paced modules. Not legal advice — confirm every deadline and remedy against your own collective agreement.",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "trainingPath": {
       "title": "Recommended training path",
       "body": "Start with Steward 101 for role basics, then Officer Learning Center for seventeen modules with self-tests. Open the other playbooks when a live file needs them.",
@@ -5628,7 +5628,7 @@
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
       "officerLearning": "Seventeen modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
       "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet.",
-      "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
+      "dfr": "Steward playbook: LRA s.74, OLRB bulletins, and a worked intake file.",
       "workplaceMapping": "Chart coworkers, find organic leaders, and score union support 1 to 5.",
       "membershipSignup": "Recruit and orient new members with a repeatable signup path.",
       "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
@@ -5663,7 +5663,7 @@
   "steward101Guide": {
     "title": "Steward 101: Your Role and Rights",
     "subtitle": "Orientation for new stewards — role, three hats, representation, and fair representation",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -5845,7 +5845,7 @@
     },
     "threeHats": {
       "navLabel": "Three hats",
-      "title": "The Three Hats of a Steward",
+      "title": "Three hats",
       "intro": "Effective stewards switch between three roles. Know which hat you are wearing before you act.",
       "items": {
         "enforcer": {
@@ -5875,7 +5875,8 @@
             "action": "Mobilize coworkers for petitions, turnout, and collective pressure when the file needs it."
           }
         }
-      }
+      },
+      "expandTitle": "Hat-by-hat detail"
     },
     "whichHat": {
       "navLabel": "Which hat when",
@@ -6069,7 +6070,7 @@
   "grievanceGuide": {
     "title": "The Steward's Guide to Grievances",
     "subtitle": "How to open and walk a file — 6 W's, clocks, and your CA's steps",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "intro": "A grievance is a formal complaint that the employer violated the Collective Agreement, past practice, or labour law. This playbook is how to open and walk a file: pick the right forum, log facts, count clocks, and hand off a clean record. Your CA names the steps. Duty of fair representation is the other playbook.",
@@ -6450,7 +6451,7 @@
     "title": "Workplace Mapping & Finding Organic Leaders",
     "subtitle": "Chart who works where, who listens to whom, and where to spend organizing time",
     "intro": "Workplace mapping, often called wall charting, is how you understand the real power structure of your workplace. It is not only who works where. It is who listens to whom.",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -6747,7 +6748,7 @@
   "seniorityGuide": {
     "title": "Seniority & bumping playbook",
     "subtitle": "Seniority worksheets for bumping files. Aid only.",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -6956,7 +6957,7 @@
   "jointCommitteeGuide": {
     "title": "Joint committee playbook",
     "subtitle": "From a campus issue to a provincial table recommendation — and a member note members can actually use",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -7227,7 +7228,7 @@
   "rightToRefuseGuide": {
     "title": "Right to refuse unsafe work",
     "subtitle": "OHSA s.43 refusal steps for stewards and JHSC members. Not legal advice.",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -8117,6 +8118,10 @@
       "data-records-reports": {
         "title": "UnionOps Data records and reports",
         "body": "Officers can search people as of a date, see every open job, document observational dues standing from imports, and export formula-safe CSV snapshots — still not dues collection."
+      },
+      "learn-ui-chrome": {
+        "title": "Learn pages start sooner",
+        "body": "Related links sit after the lesson, Steward 101 opens on the floor content faster, and Officer Learning shows a compact progress rail instead of listing every module twice."
       }
     }
   },
@@ -12776,9 +12781,9 @@
     }
   },
   "unionHistoryGuide": {
-    "title": "How Canadian Unions Connect",
+    "title": "How Canadian unions connect",
     "subtitle": "Canadian labour history and a worked map from one Niagara local to the CLC",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -13058,7 +13063,7 @@
   "runningMeetingsGuide": {
     "title": "Running a Meeting & Robert's Rules",
     "subtitle": "Parliamentary procedure for union meetings — scaled to the room, not a national convention",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -13351,9 +13356,9 @@
     }
   },
   "landAcknowledgementGuide": {
-    "title": "Land Acknowledgement Guide",
+    "title": "Land acknowledgement guide",
     "subtitle": "Research, write, and open union meetings with meaning — not a copy-paste script",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -13724,12 +13729,12 @@
     }
   },
   "bylawsGuide": {
-    "title": "Local Bylaws: The Rules of Your Local",
+    "title": "Local bylaws: the rules of your local",
     "subtitle": "How your local chapter runs day to day under the national constitution",
     "intro": "Your Local Bylaws are essentially the constitution of your specific chapter. While your National or Provincial union (like OPSEU / SEFPO, CUPE, or Unifor) has a main constitution that governs everyone, your Local Bylaws dictate how your specific house is run on a day-to-day basis.",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "disclaimer": {
       "title": "Not legal advice",

@@ -59,6 +59,40 @@ test.describe("Viewport Lab @smoke", () => {
     }
   });
 
+  test("audit 390, Apply size test id, and auto overflow badge", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1400, height: 900 });
+    await page.goto("/viewport-lab/?w=1280&h=800&path=/en/&locale=en");
+
+    await expect(page.getByTestId("viewport-apply-size")).toBeVisible();
+    await expect(page.getByTestId("viewport-overflow-badge")).toBeVisible();
+
+    await page.getByTestId("viewport-audit-audit-390").click();
+    await page.waitForTimeout(450);
+
+    const logical = await page.evaluate(() => {
+      const frame = document.querySelector(
+        '[data-testid="viewport-frame-a"]',
+      ) as HTMLIFrameElement | null;
+      return frame ? { w: frame.clientWidth, h: frame.clientHeight } : null;
+    });
+    expect(logical?.w).toBe(390);
+    expect(logical?.h).toBe(844);
+
+    await page.getByTestId("viewport-path-input").fill("/en/learn/");
+    await page.getByTestId("viewport-path-go").click();
+    await page
+      .frameLocator('[data-testid="viewport-frame-a"]')
+      .locator("body")
+      .waitFor({ state: "visible" });
+    await page.waitForTimeout(500);
+
+    await expect(page.getByTestId("viewport-overflow-badge")).toContainText(
+      /Overflow:\s+\d+px/,
+    );
+  });
+
   test("Hub and Portal deny framing; public home allows same-origin", async ({
     request,
   }) => {

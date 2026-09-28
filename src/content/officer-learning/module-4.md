@@ -142,10 +142,9 @@ Practice: Mock GMM with paper headcount cards. Secretary tracks quorum for a fic
 
 ## Further learning
 
-- **Canadian Labour Congress** labour education — local union governance and democracy
-- **CUPE Steward Handbook** — meeting procedure and member rights basics
-- **Ontario Federation of Labour** — local leadership development resources
-- UnionOps: `/guide/running-meetings`, `/guide/bylaws`, `/tools/rules-of-order`, `/guide/union-boards`, `/guide/membership-signup`
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) labour education — local union governance and democracy
+- [**CUPE Steward Handbook**](https://cupe.ca/sites/cupe/files/steward_handbook_eng_final.pdf) — meeting procedure and member rights basics
+- [**Ontario Federation of Labour**](https://ofl.ca/) — local leadership development resources
 
 ---
 

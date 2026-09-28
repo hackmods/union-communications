@@ -158,12 +158,11 @@ Practice: **Round 1 — Folder IA.** On one page, draw your local's six top-leve
 
 ## Further learning
 
-- **Canadian Labour Congress** — local secretary and records education
-- **CUPE** — local administration and financial record-keeping guides
-- **Unifor** — local executive transition and governance materials
-- **Canada Revenue Agency** — business record retention (seven-year baseline)
-- Ontario Federation of Labour — digital security workshops for small locals
-- UnionOps: Module 11 (member lists & data privacy), `/guide/membership-signup`
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — local secretary and records education
+- [**CUPE**](https://cupe.ca/) — local administration and financial record-keeping guides
+- [**Unifor**](https://www.unifor.org/) — local executive transition and governance materials
+- [**Canada Revenue Agency**](https://www.canada.ca/en/revenue-agency.html) — business record retention (seven-year baseline)
+- [Ontario Federation of Labour](https://ofl.ca/) — digital security workshops for small locals
 
 ---
 

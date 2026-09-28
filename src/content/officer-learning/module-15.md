@@ -230,11 +230,10 @@ Practice: **Round 1 — Intake to investigation.** Partner plays an angry member
 
 ## Further learning
 
-- **Canadian Labour Congress** — steward education on representation duties and investigation discipline
-- **CUPE** — steward handbook grievance assessment and member communication
-- **Unifor** — grievance handling and servicing escalation practices
-- Ontario Labour Relations Board — public information on duty-of-fair-representation complaints (process details vary by case; confirm with counsel)
-- UnionOps: `/guide/dfr`, `/guide/grievance-process`, `/guide/officer-learning/contract-enforcement`, `/guide/steward-101`
+- [**Canadian Labour Congress**](https://canadianlabour.ca/) — steward education on representation duties and investigation discipline
+- [**CUPE**](https://cupe.ca/) — steward handbook grievance assessment and member communication
+- [**Unifor**](https://www.unifor.org/) — grievance handling and servicing escalation practices
+- [Ontario Labour Relations Board](https://www.olrb.gov.on.ca/Forms/IB/InformationBulletin-12-EN.pdf) — public information on duty-of-fair-representation complaints (process details vary by case; confirm with counsel)
 
 ---
 

@@ -176,9 +176,8 @@ export default async function ShortFormGuidePage({
               meta={
                 <>
                   {t(`pricing.${editor.pricing}`)}
-                  <span className="text-gray-400" aria-hidden="true">
-                    {" "}
-                    ·{" "}
+                  <span className="text-gray-400">
+                    {" · "}
                   </span>
                   {t(`privacy.${editor.privacy}`)}
                 </>

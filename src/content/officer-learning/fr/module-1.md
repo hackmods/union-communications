@@ -151,11 +151,10 @@ Exercice dans l'outil : ouvrez Outils → Fiches délégué → Plainte ou grief
 
 ## Pour aller plus loin
 
-- Cours de formation syndicale du **Congrès du travail du Canada** — fondements de l'enquête et des griefs
+- Cours de formation syndicale du [**Congrès du travail du Canada**](https://canadianlabour.ca/) — fondements de l'enquête et des griefs
 - **Manuel du délégué** du SCFP — filtre plainte/grief et préparation des rencontres
-- Cours de traitement des griefs et de leadership en milieu de travail d'**Unifor** — constitution de dossiers et présentation des cas
+- Cours de traitement des griefs et de leadership en milieu de travail d'[**Unifor**](https://www.unifor.org/) — constitution de dossiers et présentation des cas
 - **Loi sur les relations de travail** de l'Ontario et bulletins du BRET sur le DRE — devoirs de représentation et attentes de diligence
-- UnionOps : `/guide/steward-101`, `/guide/grievance-process`, `/guide/dfr`, `/guide/workplace-mapping`
 
 ---
 

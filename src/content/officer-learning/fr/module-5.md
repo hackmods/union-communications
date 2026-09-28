@@ -154,10 +154,9 @@ Exercice : **Partie A — simulation d'audit de fiduciaire.** Étant donné un g
 
 ## Pour aller plus loin
 
-- Formation syndicale du **Congrès du travail du Canada** — administration financière des sections locales
+- Formation syndicale du [**Congrès du travail du Canada**](https://canadianlabour.ca/) — administration financière des sections locales
 - **Manuel du délégué** du SCFP — aperçu des finances locales pour les délégués qui surveillent la responsabilité de l'exécutif
 - **Fédération du travail de l'Ontario** — matériaux de formation des trésoriers et fiduciaires locaux
-- UnionOps : `/guide/union-boards`, `/guide/officer-learning/advanced-local-finance`
 
 ---
 

@@ -42,10 +42,16 @@ export function WorkedScenarioSection({
   const t = useTranslations("officerLearning.workedScenario");
   const olTheme = useOlTheme();
 
+  // Avoid redundant "Worked scenario" eyebrow + h2 saying the same thing.
+  const titlePlain = section.title.replace(/<[^>]+>/g, "").trim();
+  const labelPlain = t("label").trim();
+  const showEyebrow =
+    titlePlain.toLowerCase() !== labelPlain.toLowerCase();
+
   return (
     <section id={section.id} className={olTheme.scenarioShell}>
-      <p className={olTheme.eyebrow}>{t("label")}</p>
-      <h2 className={clsx("mt-2", olTheme.sectionH2)}>{renderInline(section.title, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}</h2>
+      {showEyebrow ? <p className={olTheme.eyebrow}>{t("label")}</p> : null}
+      <h2 className={clsx(showEyebrow && "mt-2", olTheme.sectionH2)}>{renderInline(section.title, { link: olTheme.link, strong: olTheme.proseStrong, code: "rounded bg-black/5 px-1 py-0.5 font-mono text-[0.9em]", em: "italic" })}</h2>
 
       <ModuleWorkedTimeline slug={moduleSlug} className="mt-5" />
 

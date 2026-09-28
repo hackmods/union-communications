@@ -230,11 +230,10 @@ Exercice : **Ronde 1 — De l'admission à l'enquête.** Le partenaire joue un m
 
 ## Pour aller plus loin
 
-- **Congrès du travail du Canada** — formation des délégués sur les devoirs de représentation et la discipline investigative
-- **SCFP** — manuel du délégué sur l'évaluation des griefs et la communication avec les membres
-- **Unifor** — traitement des griefs et pratiques d'escalade vers le service de représentation
+- [**Congrès du travail du Canada**](https://canadianlabour.ca/) — formation des délégués sur les devoirs de représentation et la discipline investigative
+- [**SCFP**](https://cupe.ca/) — manuel du délégué sur l'évaluation des griefs et la communication avec les membres
+- [**Unifor**](https://www.unifor.org/) — traitement des griefs et pratiques d'escalade vers le service de représentation
 - Bureau des relations de travail de l'Ontario — information publique sur les plaintes pour devoir de représentation équitable (les détails procéduraux varient selon le dossier; confirmez avec l'avocat)
-- UnionOps : `/guide/dfr`, `/guide/grievance-process`, `/guide/officer-learning/contract-enforcement`, `/guide/steward-101`
 
 ---
 

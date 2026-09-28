@@ -1,3 +1,10 @@
+﻿## 2026-09-28 — Learn UI + Viewport Lab remediation
+
+- **Viewport Lab:** auto overflow badge after navigate/resize, audit size chips (390/1366), path history datalist + iframe path sync, Apply size test id; Muse-limit docs in `VIEWPORT_LAB.md`.
+- **Learn chrome:** `GuideLayout` moves related links after lesson content (hub keeps related near header); denser related grid; `dedupeRelatedByHref`; short-form accessible pricing separator; softer OL eyebrows; Worked scenario drops redundant label.
+- **IA:** Steward 101 aside/related dedupe + lesson-first chrome; Officer Learning path is a compact progress rail; Further learning externals linked via registry (UnionOps peer bullets removed from markdown); quiz legend-only assert; Resources checklist/demo first + collapsed bibliography; Social Examples brand-line wrap; DFR steward vs officer naming; steward `backToGuide` → Back to Learn.
+- What's new: `learn-ui-chrome`. Session: `docs/audit/session-knowledge-2026-09-28-learn-ui-audit.md`.
+
 ## 2026-09-28 — UnionOps Data enterprise Records + Reports
 
 - Extended member/employment canonical fields with observational dues standing, membership status, classification, and hire date; as-of assertion/assignment reads; position-aware reporting chains.
