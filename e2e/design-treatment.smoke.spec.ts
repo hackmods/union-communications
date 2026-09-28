@@ -10,6 +10,12 @@ test.describe("Comms design treatments @smoke", () => {
     const treatment = page.getByRole("radiogroup", { name: "Design treatment" });
     await expect(treatment.getByRole("radio", { name: "Balanced" })).toBeVisible();
     await page.getByLabel(/^Union preset$|^Union$/).selectOption("cupe");
+    await expect.poll(async () =>
+      page.evaluate(() => {
+        const stored = JSON.parse(localStorage.getItem("unionops-brand-kit") || "{}");
+        return stored.unionPresetId;
+      }),
+    ).toBe("cupe");
     await page.getByRole("textbox", { name: "Look name" }).fill("Council palette");
     await page.getByRole("button", { name: "Save current colours and logo" }).click();
     await page.getByRole("radio", { name: "Mostly white" }).click();
@@ -40,8 +46,20 @@ test.describe("Comms design treatments @smoke", () => {
         return stored.designTreatment;
       }),
     ).toBe("paper");
+    await expect.poll(async () =>
+      page.evaluate(() => {
+        const stored = JSON.parse(localStorage.getItem("unionops-brand-kit") || "{}");
+        return stored.unionPresetId;
+      }),
+    ).toBe("cupe");
 
     await page.goto("/en/create/local-pack/");
+    await expect.poll(async () =>
+      page.evaluate(() => {
+        const stored = JSON.parse(localStorage.getItem("unionops-brand-kit") || "{}");
+        return stored.unionPresetId;
+      }),
+    ).toBe("cupe");
     const downloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: "Download Local pack" }).click();
     const download = await downloadPromise;

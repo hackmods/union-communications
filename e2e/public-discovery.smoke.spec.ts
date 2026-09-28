@@ -202,7 +202,10 @@ test.describe("task-first public discovery @smoke", () => {
     await expect(primary.getByRole("link", { name: "Plateforme", exact: true }))
       .toHaveAttribute("href", "/fr/platform/");
     await expect(primary.getByRole("link", { name: "Commencer", exact: true })).toHaveCount(0);
-    await expect(page.getByTestId("mobile-nav-toggle")).toContainText("Fermer le menu");
+    await expect(page.getByTestId("mobile-nav-toggle")).toHaveAttribute(
+      "aria-label",
+      "Fermer le menu",
+    );
     const hubLink = primary.getByRole("link", { name: "Hub des dirigeants", exact: true });
     if (await hubLink.count()) {
       await expect(hubLink).toHaveAttribute("href", "/fr/app/");

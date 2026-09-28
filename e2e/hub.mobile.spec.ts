@@ -237,7 +237,8 @@ test.describe("Hub dashboards mobile @smoke @mobile", () => {
     {
       label: "data",
       path: "/en/app/data",
-      heading: /UnionOps Data|Données UnionOps/i,
+      // Demo seed leaves Data off — requireDataAccess redirects to Hub home.
+      heading: /UnionOps Data|Données UnionOps|What needs my attention|Ce qui demande mon attention/i,
     },
   ];
 
