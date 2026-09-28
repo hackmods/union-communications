@@ -157,7 +157,7 @@ describe("PATCH /api/site-admin/unions/[id] membership policy", () => {
         outcome: "success",
         requestId: response.headers.get("X-Request-ID"),
         metadata: {
-          phase: "policy_change_result",
+          phase: "update_result",
           membershipPolicy: "single_local",
         },
       }),
@@ -181,7 +181,7 @@ describe("PATCH /api/site-admin/unions/[id] membership policy", () => {
     expect(db.execute).not.toHaveBeenCalled();
     expect(db.update).toHaveBeenCalledOnce();
     expect(response.status).toBe(503);
-    expect(body.code).toBe("membership_policy_result_unconfirmed");
+    expect(body.code).toBe("union_update_result_unconfirmed");
     expect(body.error).toContain("Check the union settings before retrying");
   });
 
@@ -197,7 +197,7 @@ describe("PATCH /api/site-admin/unions/[id] membership policy", () => {
     const body = await response.json();
 
     expect(response.status).toBe(503);
-    expect(body.code).toBe("membership_policy_result_unconfirmed");
+    expect(body.code).toBe("union_update_result_unconfirmed");
     expect(body.error).toContain("Check the union settings before retrying");
   });
 });

@@ -8,6 +8,7 @@ import { HUB_TOOL_CATALOG } from "@/components/hub/hub-tool-catalog";
 import { HUB_TOOL_GROUPS } from "@/components/hub/hub-nav-model";
 import { MODULE_REGISTRY } from "@/lib/modules/registry";
 import { canonicalPublicPath } from "@/lib/seo/public-routes";
+import { PUBLIC_DOCUMENTS } from "@/lib/public-documents/registry";
 
 export type ContentReviewTag = "pdf" | "canvas" | "hub" | "portal";
 
@@ -69,6 +70,14 @@ const LIBRARY_PATHS: readonly { href: string; navKey: string }[] = [
   { href: "/learn/library/examples", navKey: "socialExamples" },
   { href: "/learn/library/captions", navKey: "captions" },
   { href: "/learn/library/brand-assets", navKey: "assets" },
+  { href: "/documents", navKey: "documents" },
+  ...PUBLIC_DOCUMENTS.map((doc) => ({
+    href: `/documents/${doc.slug}`,
+    navKey:
+      doc.slug === "privacy" || doc.slug === "security" || doc.slug === "accessibility"
+        ? doc.slug
+        : "documents",
+  })),
 ];
 
 const OFFICER_LEARNING_MODULES: readonly { href: string; labelKey: string }[] = [

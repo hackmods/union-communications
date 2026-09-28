@@ -466,7 +466,10 @@ describe("grievance and bumping attachment HTTP routes", () => {
     it("fails closed when hosted mode has no durable audit or attachment metadata", async () => {
       const row = seedAttachment({ id: "att-memory-host", grievanceId: "grev-001" });
       await getObjectStorage().put(row.storageKey, pdfBytes, row.mimeType);
-      authMock.mockResolvedValue(session());
+      authMock.mockResolvedValue({
+        ...session(),
+        user: { ...session().user, mfaVerified: true },
+      });
       process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
 
       const res = await downloadGrievanceAttachment(

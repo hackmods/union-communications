@@ -104,7 +104,7 @@ describe("deploy-notify", () => {
     expect(payload.text).toContain("Advisory");
     expect(payload.text).toContain("mfaEnabled");
     expect(payload.text).toContain(
-      "Advisory items outside the hosted customer profile",
+      "Advisory (optional — MFA does not block casework):",
     );
   });
 });

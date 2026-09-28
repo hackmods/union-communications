@@ -12,6 +12,7 @@ const LOGO_MODE_TOOLS = [
   "flyer-maker",
   "graphic-maker",
   "meeting-background",
+  "org-chart",
   "pulse-poll",
   "qr-board",
   "qr-card",

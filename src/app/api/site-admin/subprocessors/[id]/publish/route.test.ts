@@ -204,7 +204,7 @@ describe("POST /api/site-admin/subprocessors/[id]/publish", () => {
   });
 
   it("publishes only the allow-listed projection and correlates the result audit", async () => {
-    const db = configureDb([], []);
+    const db = configureDb();
     mocks.freshMfaStepUp.mockResolvedValue({ ok: true, required: true });
 
     const response = await POST(request({ published: true, mfaCode: "654321" }), context());

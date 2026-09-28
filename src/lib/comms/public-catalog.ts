@@ -82,6 +82,7 @@ export type PublicCatalogDeliverable =
   | "learning-module"
   | "facilitator-run-sheet"
   | "reference-library"
+  | "public-documents"
   | "communications-examples";
 export type PublicCatalogStorage =
   | "on-device"
@@ -372,7 +373,7 @@ function libraryItems(): PublicCatalogItem[] {
     id: catalogId(canonicalPublicPath(row.path)),
     kind: "library",
     canonicalPath: canonicalPublicPath(row.path),
-    legacyPaths: [row.path],
+    legacyPaths: row.path === "/documents" ? ["/library/documents"] : [row.path],
     titleKey: row.key,
     titleNamespace: "nav",
     summaryKey: row.summaryKey,
@@ -380,7 +381,9 @@ function libraryItems(): PublicCatalogItem[] {
     deliverableKey:
       row.path === "/examples"
         ? "communications-examples"
-        : "reference-library",
+        : row.path === "/documents"
+          ? "public-documents"
+          : "reference-library",
     ...(row.path === "/examples"
       ? { searchTermsKey: "communications-examples" }
       : row.path === "/captions"

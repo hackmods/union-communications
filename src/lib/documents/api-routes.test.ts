@@ -34,6 +34,7 @@ function session(input?: {
   unionId?: string | null;
   localId?: string | null;
   roles?: UserRole[];
+  mfaVerified?: boolean;
 }) {
   return {
     user: {
@@ -44,14 +45,21 @@ function session(input?: {
       localId:
         input?.localId === null ? undefined : (input?.localId ?? "local-7"),
       roles: input?.roles ?? (["local_steward"] as UserRole[]),
+      mfaVerified: input?.mfaVerified ?? true,
     },
   };
 }
 
 function jsonRequest(body: unknown): Request {
-  return {
-    json: async () => body,
-  } as Request;
+  const payload = JSON.stringify(body);
+  return new Request("http://localhost/api/documents", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Content-Length": String(Buffer.byteLength(payload)),
+    },
+    body: payload,
+  });
 }
 
 function params(id: string) {
@@ -113,8 +121,10 @@ describe("document download API", () => {
     }
   });
 
-  it("returns 401 without a session and 403 for members", async () => {
+  it("returns 401 without a session and hides local_shared downloads from members", async () => {
     const doc = seedDoc();
+    const bytes = Buffer.from("%PDF-1.4 test");
+    await getObjectStorage().put(doc.storageKey, bytes, doc.mimeType);
     authMock.mockResolvedValue(null);
     expect(
       (await downloadDocument(new Request("http://localhost"), params(doc.id)))
@@ -122,15 +132,15 @@ describe("document download API", () => {
     ).toBe(401);
 
     authMock.mockResolvedValue(session({ roles: ["local_member"] }));
-    const forbidden = await downloadDocument(
+    const memberDownload = await downloadDocument(
       new Request("http://localhost"),
       params(doc.id),
     );
-    expect(forbidden.status).toBe(403);
-    expect(await forbidden.json()).toEqual({ error: "Active local officer or steward required" });
+    expect(memberDownload.status).toBe(404);
+    expect(await memberDownload.json()).toEqual({ error: "Not found" });
   });
 
-  it("denies platform administrators before inspecting private local records", async () => {
+  it("returns 404 for platform administrators outside the document local scope", async () => {
     const foreign = seedDoc({
       unionId: "union-other",
       localId: "local-1",
@@ -141,14 +151,14 @@ describe("document download API", () => {
       new Request("http://localhost"),
       params("doc-does-not-exist"),
     );
-    expect(missing.status).toBe(403);
+    expect(missing.status).toBe(404);
 
     const crossUnion = await downloadDocument(
       new Request("http://localhost"),
       params(foreign.id),
     );
-    expect(crossUnion.status).toBe(403);
-    expect(await crossUnion.json()).toEqual({ error: "Active local officer or steward required" });
+    expect(crossUnion.status).toBe(404);
+    expect(await crossUnion.json()).toEqual({ error: "Not found" });
   });
 
   it("returns 404 when a steward from another local tries to download", async () => {
@@ -262,15 +272,14 @@ describe("document list/upload/delete API", () => {
     };
   }
 
-  it("returns 401 without a session and 403 for members", async () => {
+  it("returns 401 without a session, lists for members, and blocks member uploads", async () => {
     seedDoc();
     authMock.mockResolvedValue(null);
     expect((await listDocuments()).status).toBe(401);
 
     authMock.mockResolvedValue(session({ roles: ["local_member"] }));
-    const forbidden = await listDocuments();
-    expect(forbidden.status).toBe(403);
-    expect(await forbidden.json()).toEqual({ error: "Active local officer or steward required" });
+    const memberList = await listDocuments();
+    expect(memberList.status).toBe(200);
     expect((await uploadDocument(jsonRequest(pdfPayload().body))).status).toBe(
       403,
     );
@@ -389,8 +398,8 @@ describe("document list/upload/delete API", () => {
       new Request("http://localhost"),
       params(foreign.id),
     );
-    expect(crossUnion.status).toBe(404);
-    expect(await crossUnion.json()).toEqual({ error: "Not found" });
+    expect(crossUnion.status).toBe(403);
+    expect(await crossUnion.json()).toEqual({ error: "Active local officer or steward required" });
 
     authMock.mockResolvedValue(session());
     const forbidden = await deleteDocument(

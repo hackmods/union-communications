@@ -55,7 +55,7 @@ describe("readHostedControlEvidence", () => {
       strictUploadScan: false,
       backupRestoreEvidence: false,
       alertDeliveryEvidence: false,
-      publicLegalContacts: false,
+      publicLegalContacts: true,
     });
   });
 

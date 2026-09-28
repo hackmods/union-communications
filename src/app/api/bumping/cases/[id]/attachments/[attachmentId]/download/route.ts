@@ -42,13 +42,6 @@ export async function GET(_request: Request, { params }: Params) {
   if (!attachment || attachment.bumpingCaseId !== id) {
     return respond(correlation, { error: "Not found" }, 404);
   }
-  if (!isDownloadAllowed(attachment.scanStatus)) {
-    return respond(
-      correlation,
-      { error: "Attachment is not available for download" },
-      403,
-    );
-  }
   if (
     isHostedCustomerMode() &&
     (auditDbBackend() !== "postgres" || attachmentsDbBackend() !== "postgres")
@@ -57,6 +50,13 @@ export async function GET(_request: Request, { params }: Params) {
       correlation,
       { error: "Durable audit and attachment metadata are required." },
       503,
+    );
+  }
+  if (!isDownloadAllowed(attachment.scanStatus)) {
+    return respond(
+      correlation,
+      { error: "Attachment is not available for download" },
+      403,
     );
   }
 
