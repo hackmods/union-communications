@@ -9683,6 +9683,14 @@
     "filterDuesStanding": "Dues standing",
     "anyStanding": "Any standing",
     "applyFilters": "Apply",
+    "clearFilters": "Clear filters",
+    "loadingPeople": "Loading people for this local…",
+    "importStepsLabel": "Import steps",
+    "importSteps": {
+      "map": "Map columns",
+      "review": "Review rows",
+      "publish": "Publish"
+    },
     "openJobs": "Open jobs",
     "profile": "Profile",
     "openProfile": "Open profile",

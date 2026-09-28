@@ -41,7 +41,7 @@ export function PersonProfilePanel({ profile, onClose, onOpenPerson }: Props) {
         <Button type="button" variant="outline" onClick={onClose}>{t("backToPeople")}</Button>
       </div>
 
-      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         <div className="rounded-md border border-gray-200 bg-gray-50 p-3">
           <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">{t("duesStandingLabel")}</p>
           <p className="mt-1 text-base font-semibold text-opseu-dark">
@@ -65,6 +65,22 @@ export function PersonProfilePanel({ profile, onClose, onOpenPerson }: Props) {
             {profile.membershipStatus
               ? t(`membershipStatus.${profile.membershipStatus}` as "membershipStatus.active")
               : "—"}
+          </p>
+        </div>
+        <div className="rounded-md border border-gray-200 bg-gray-50 p-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">{t("fields.classification")}</p>
+          <p className="mt-1 text-base font-semibold text-opseu-dark">
+            {profile.profile.classification == null || profile.profile.classification === ""
+              ? "—"
+              : String(profile.profile.classification)}
+          </p>
+        </div>
+        <div className="rounded-md border border-gray-200 bg-gray-50 p-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">{t("fields.hireDate")}</p>
+          <p className="mt-1 text-base font-semibold text-opseu-dark">
+            {profile.profile.hireDate == null || profile.profile.hireDate === ""
+              ? "—"
+              : String(profile.profile.hireDate)}
           </p>
         </div>
       </section>

@@ -12,6 +12,8 @@ vi.mock("@/auth", () => ({
 import { GET as listDatasets, POST as createDataset } from "@/app/api/data/datasets/route";
 import { GET as listImports, POST as createImport } from "@/app/api/data/imports/route";
 import { GET as listPeople } from "@/app/api/data/records/people/route";
+import { GET as getPersonProfile } from "@/app/api/data/records/people/[id]/route";
+import { POST as runReport } from "@/app/api/data/reports/run/route";
 import {
   createOverlayUnion,
   resetTenantOverlayForTests,
@@ -52,6 +54,18 @@ describe("UnionOps Data HTTP access", () => {
     expect((await listImports()).status).toBe(401);
     expect(
       (await listPeople(new Request("http://localhost/api/data/records/people"))).status,
+    ).toBe(401);
+    expect(
+      (await getPersonProfile(new Request("http://localhost/api/data/records/people/p1"), {
+        params: Promise.resolve({ id: "p1" }),
+      })).status,
+    ).toBe(401);
+    expect(
+      (await runReport(new Request("http://localhost/api/data/reports/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ view: "people_as_of" }),
+      }))).status,
     ).toBe(401);
   });
 

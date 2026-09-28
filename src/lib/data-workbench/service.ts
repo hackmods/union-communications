@@ -16,6 +16,7 @@ import {
 } from "@/lib/db/schema/data-workbench";
 import type { DataAccessResult } from "./access";
 import { filterEffectiveOn, normalizeAsOf, pickAssertionsAsOf } from "./as-of";
+import { summarizePublishImpact, type PublishImpactSummary } from "./impact";
 import {
   applyMapping,
   isIsoDate,
@@ -34,6 +35,8 @@ import {
   type PersonProfile,
   type StagedPreviewRow,
 } from "./types";
+
+export type { PublishImpactSummary };
 
 type Scope = Extract<DataAccessResult, { ok: true }>;
 const newId = () => crypto.randomUUID();
@@ -191,56 +194,6 @@ async function getDuplicateMemberNumbers(scope: Scope, runId: string, header: st
     if (value) counts.set(value, (counts.get(value) ?? 0) + 1);
   }
   return new Set([...counts].filter(([, count]) => count > 1).map(([value]) => value));
-}
-
-export type PublishImpactSummary = {
-  acceptedRows: number;
-  excludedRows: number;
-  pendingRows: number;
-  newPeople: number;
-  matchedPeople: number;
-  jobsWithPositionId: number;
-  jobsMissingPositionId: number;
-  duesStandingRows: number;
-};
-
-function summarizePublishImpact(
-  dataset: DataDataset,
-  mapping: WorkbenchMapping,
-  staged: Array<{ decision: string; rawValues: Record<string, string>; matchPersonId: string | null }>,
-): PublishImpactSummary {
-  let acceptedRows = 0;
-  let excludedRows = 0;
-  let pendingRows = 0;
-  let newPeople = 0;
-  let matchedPeople = 0;
-  let jobsWithPositionId = 0;
-  let jobsMissingPositionId = 0;
-  let duesStandingRows = 0;
-  for (const row of staged) {
-    if (row.decision === "accept") acceptedRows += 1;
-    else if (row.decision === "exclude") excludedRows += 1;
-    else if (row.decision === "pending") pendingRows += 1;
-    if (row.decision !== "accept" || dataset.kind !== "member_employment") continue;
-    const values = normalizeCanonicalValues(normalizeMappedValues(applyMapping(row.rawValues, mapping), dataset.fields));
-    if (row.matchPersonId) matchedPeople += 1;
-    else if (String(values.memberNumber ?? "").trim()) newPeople += 1;
-    const jobFields = ["employer", "jobTitle", "worksite", "department", "supervisorName"];
-    const hasJob = jobFields.some((key) => String(values[key] ?? "").trim());
-    if (hasJob && String(values.positionId ?? "").trim()) jobsWithPositionId += 1;
-    else if (hasJob) jobsMissingPositionId += 1;
-    if (String(values.duesStanding ?? "").trim()) duesStandingRows += 1;
-  }
-  return {
-    acceptedRows,
-    excludedRows,
-    pendingRows,
-    newPeople,
-    matchedPeople,
-    jobsWithPositionId,
-    jobsMissingPositionId,
-    duesStandingRows,
-  };
 }
 
 export async function getImport(scope: Scope, id: string, paging: { offset?: number; limit?: number } = {}) {

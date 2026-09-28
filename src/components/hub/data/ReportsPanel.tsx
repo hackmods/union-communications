@@ -96,7 +96,14 @@ export function ReportsPanel({ request, datasets, busy, setBusy, setMessage }: P
         >
           <label className="block space-y-1 text-sm">
             <span>{t("reportView")}</span>
-            <select className={inputClass} value={view} onChange={(event) => setView(event.target.value)}>
+            <select
+              className={inputClass}
+              value={view}
+              onChange={(event) => {
+                setView(event.target.value);
+                setReport(null);
+              }}
+            >
               <option value="people_as_of">{t("reportViews.people_as_of")}</option>
               <option value="assignments_as_of">{t("reportViews.assignments_as_of")}</option>
               <option value="dues_standing_snapshot">{t("reportViews.dues_standing_snapshot")}</option>

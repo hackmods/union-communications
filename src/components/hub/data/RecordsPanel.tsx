@@ -168,12 +168,27 @@ export function RecordsPanel({ request, datasets, busy, setBusy, setMessage }: P
                   <option value="exempt">{t("standing.exempt")}</option>
                 </select>
               </label>
-              <div className="flex items-end">
+              <div className="flex flex-wrap items-end gap-2">
                 <Button type="submit" disabled={busy}>{t("applyFilters")}</Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={busy}
+                  onClick={() => {
+                    setQuery("");
+                    setDuesStanding("");
+                    setAsOf("");
+                    void loadPeople(0, { q: "", asOf: "", duesStanding: "" });
+                  }}
+                >
+                  {t("clearFilters")}
+                </Button>
               </div>
             </form>
 
-            {people.length === 0 ? (
+            {busy && people.length === 0 ? (
+              <p className="rounded-md bg-gray-50 p-4 text-sm text-gray-700" role="status">{t("loadingPeople")}</p>
+            ) : people.length === 0 ? (
               <p className="rounded-md bg-gray-50 p-4 text-sm text-gray-700">{t("noPeople")}</p>
             ) : (
               <>

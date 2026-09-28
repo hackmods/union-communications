@@ -9629,6 +9629,14 @@
     "filterDuesStanding": "Statut des cotisations",
     "anyStanding": "Tout statut",
     "applyFilters": "Appliquer",
+    "clearFilters": "Effacer les filtres",
+    "loadingPeople": "Chargement des personnes de cette section locale…",
+    "importStepsLabel": "Étapes de l’import",
+    "importSteps": {
+      "map": "Associer les colonnes",
+      "review": "Réviser les lignes",
+      "publish": "Publier"
+    },
     "openJobs": "Emplois ouverts",
     "profile": "Profil",
     "openProfile": "Ouvrir le profil",

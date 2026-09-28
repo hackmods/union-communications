@@ -117,10 +117,26 @@ describe("observational dues and as-of reads", () => {
     );
   });
 
+  it("validates hire dates and normalizes French dues source aliases", () => {
+    expect(validateMappedRow({ fullName: "Alex", hireDate: "2024-13-01" }, "member_employment")).toContain(
+      "Hire date must be a valid date in YYYY-MM-DD format.",
+    );
+    expect(validateMappedRow({ fullName: "Alex", hireDate: "2024-01-15" }, "member_employment")).toEqual([]);
+    expect(normalizeCanonicalValues({ duesSource: "Rapport employeur" })).toEqual({
+      duesSource: "employer_report",
+    });
+    expect(validateMappedRow({ fullName: "Alex", duesSource: "payroll" }, "member_employment")).toContain(
+      "Dues source must be employer_report, card_roster, or officer_note.",
+    );
+  });
+
   it("resolves as-of assertions and open multi-job intervals", () => {
     expect(isEffectiveOn("2024-01-01", "", "2024-06-01")).toBe(true);
     expect(isEffectiveOn("2024-01-01", "2024-03-01", "2024-06-01")).toBe(false);
     expect(isEffectiveOn("2024-07-01", "", "2024-06-01")).toBe(false);
+    // End date is exclusive: still open on the day before effectiveTo.
+    expect(isEffectiveOn("2024-01-01", "2024-06-01", "2024-05-31")).toBe(true);
+    expect(isEffectiveOn("2024-01-01", "2024-06-01", "2024-06-01")).toBe(false);
 
     const profile = pickAssertionsAsOf([
       { fieldKey: "duesStanding", value: "good", effectiveFrom: "2024-01-01", effectiveTo: "2024-04-01", observedAt: "2024-01-02T00:00:00.000Z" },
@@ -129,6 +145,12 @@ describe("observational dues and as-of reads", () => {
       { fieldKey: "email", value: "new@example.test", effectiveFrom: "2024-05-01", effectiveTo: "", observedAt: "2024-05-02T00:00:00.000Z" },
     ], "2024-06-01");
     expect(profile).toEqual({ duesStanding: "arrears", email: "new@example.test" });
+
+    // Prefer the later observation when two facts share the same field and window.
+    expect(pickAssertionsAsOf([
+      { fieldKey: "duesStanding", value: "good", effectiveFrom: "2024-01-01", effectiveTo: "", observedAt: "2024-01-01T00:00:00.000Z" },
+      { fieldKey: "duesStanding", value: "exempt", effectiveFrom: "2024-01-01", effectiveTo: "", observedAt: "2024-02-01T00:00:00.000Z" },
+    ], "2024-03-01")).toEqual({ duesStanding: "exempt" });
 
     const openJobs = filterEffectiveOn([
       { positionKey: "A", effectiveFrom: "2023-01-01", effectiveTo: "" },
