@@ -17,13 +17,29 @@ VU count ≠ requests/sec. Simulated users include think-time between page/API s
 
 | Variable | Purpose |
 |----------|---------|
-| `LOAD_LAB_ENABLED=true` | Master switch (default off) |
+| `LOAD_LAB_ENABLED=true` | Master switch (default **off**) |
 | `ALLOW_PRODUCTION_LOAD_TEST=true` | Required when Environment = Production |
-| `LOAD_LAB_MAX_VUS` | Hard cap (default 1000) |
-| `LOAD_LAB_MAX_DURATION_SEC` | Hard cap (default 900) |
+| `LOAD_LAB_MAX_VUS` | Hard VU cap (default 1000; tiers above are skipped) |
+| `LOAD_LAB_MAX_DURATION_SEC` | Per-tier steady duration cap (default 900) |
+| `LOAD_LAB_MAX_RUN_SEC` | **Whole-run wall-clock kill** (default 1200 = 20 min) |
 | `LOAD_LAB_RESULTS_DIR` | Optional override for `load-results/` |
 
 Without `LOAD_LAB_ENABLED`, Start returns 403. Production also needs the allow flag **and** the Lab confirmation checkbox.
+
+### Built-in runaway protections
+
+| Guard | Behavior |
+|-------|----------|
+| Feature flags + `platform_admin` | Cannot start when disabled or unauthenticated |
+| Single-flight | Second Start while running → 409 |
+| Target allowlist | Only loopback or this host’s `AUTH_URL` (blocks SSRF / external hammering) |
+| VU / duration / wall-clock caps | Hard limits; wall-clock aborts the AbortController |
+| Capacity circuit breaker | Stops escalating tiers on failed / ≥10% errors / p95 ≥5s |
+| Mid-tier breaker | Aborts *inside* a tier once enough samples show the same cliffs |
+| Auth session pool | At most 8 logins per tier (shared cookies) — avoids auth DoS |
+| Bounded samples | Reservoir ≤8k latencies — avoids OOM from sample arrays |
+| Read-only profiles | No write-heavy / destructive production mutations |
+| Manual Abort | Operator Abort API kills the in-flight run |
 
 **Run off-hours only.** Capacity sweeps can make the site slow or unavailable for real members.
 

@@ -16,6 +16,10 @@ import {
 } from "./env";
 import { parseSummaryJson } from "./report";
 import { executeLoadRun } from "./runner";
+import {
+  assertAllowedTargetUrl,
+  maxRunWallClockSec,
+} from "./safety";
 import type {
   LoadLabLiveStatus,
   LoadLabStartRequest,
@@ -34,6 +38,7 @@ type InternalState = {
   startedAt: string | null;
   summary: LoadLabSummary | null;
   abort: AbortController | null;
+  wallClockTimer: ReturnType<typeof setTimeout> | null;
   actorId: string | null;
 };
 
@@ -49,6 +54,7 @@ const state: InternalState = {
   startedAt: null,
   summary: null,
   abort: null,
+  wallClockTimer: null,
   actorId: null,
 };
 
@@ -127,9 +133,26 @@ export async function startLoadLabRun(
     env,
   });
 
+  const targetGate = assertAllowedTargetUrl(baseUrl, env);
+  if (!targetGate.ok) {
+    return { ok: false, status: 400, error: targetGate.error };
+  }
+
   const ac = new AbortController();
+  const wallSec = maxRunWallClockSec(env);
+  const wallClockTimer = setTimeout(() => {
+    if (state.abort === ac && !ac.signal.aborted) {
+      state.message = `Wall-clock limit (${wallSec}s) reached — aborting.`;
+      state.status = "aborting";
+      ac.abort();
+    }
+  }, wallSec * 1000);
+  // Do not keep the event loop alive solely for the safety timer.
+  wallClockTimer.unref?.();
+
   state.status = "starting";
   state.abort = ac;
+  state.wallClockTimer = wallClockTimer;
   state.summary = null;
   state.profile = request.profile;
   state.envName = request.envName;
@@ -222,6 +245,10 @@ export async function startLoadLabRun(
         metadata: { message: state.message },
       });
     } finally {
+      if (state.wallClockTimer) {
+        clearTimeout(state.wallClockTimer);
+        state.wallClockTimer = null;
+      }
       state.abort = null;
       state.currentVus = null;
     }
@@ -246,6 +273,10 @@ export async function abortLoadLabRun(
   state.status = "aborting";
   state.message = "Aborting…";
   state.abort.abort();
+  if (state.wallClockTimer) {
+    clearTimeout(state.wallClockTimer);
+    state.wallClockTimer = null;
+  }
   await auditLog.log({
     userId: gate.session.user.id,
     action: "load_lab.abort",
@@ -274,6 +305,10 @@ export function importLoadLabSummary(raw: unknown): LoadLabSummary | null {
 /** Test-only reset. */
 export function resetLoadLabStateForTests(): void {
   state.abort?.abort();
+  if (state.wallClockTimer) {
+    clearTimeout(state.wallClockTimer);
+    state.wallClockTimer = null;
+  }
   state.status = "idle";
   state.runId = null;
   state.profile = null;

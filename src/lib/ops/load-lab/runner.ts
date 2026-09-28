@@ -20,6 +20,14 @@ import {
 import { sleep, type CookieJar } from "./http";
 import { buildBottleneckHints, summarizeCapacity } from "./hints";
 import { writeSummary } from "./report";
+import {
+  assertAllowedTargetUrl,
+  createRollingStats,
+  filterCapacityTiers,
+  midTierShouldAbort,
+  recordSample,
+  type RollingStats,
+} from "./safety";
 import { classifyTier, percentile } from "./thresholds";
 import type {
   EndpointStats,
@@ -47,27 +55,38 @@ export type ExecuteOptions = {
   env?: NodeJS.ProcessEnv;
 };
 
-function aggregateSamples(
-  samples: Sample[],
+type Collectors = {
+  global: RollingStats;
+  byName: Map<string, RollingStats>;
+};
+
+function createCollectors(): Collectors {
+  return { global: createRollingStats(), byName: new Map() };
+}
+
+function pushSample(collectors: Collectors, sample: Sample): void {
+  recordSample(collectors.global, sample);
+  let ep = collectors.byName.get(sample.name);
+  if (!ep) {
+    ep = createRollingStats();
+    collectors.byName.set(sample.name, ep);
+  }
+  recordSample(ep, sample);
+}
+
+function aggregateCollectors(
+  collectors: Collectors,
   vus: number,
   wallSec: number,
 ): Omit<TierResult, "verdict" | "skipReason"> {
-  const byName = new Map<string, Sample[]>();
-  for (const s of samples) {
-    const list = byName.get(s.name) ?? [];
-    list.push(s);
-    byName.set(s.name, list);
-  }
-
-  const endpoints: EndpointStats[] = [...byName.entries()].map(
-    ([name, list]) => {
-      const times = list.map((x) => x.ms).sort((a, b) => a - b);
-      const errors = list.filter((x) => !x.ok).length;
+  const endpoints: EndpointStats[] = [...collectors.byName.entries()].map(
+    ([name, stats]) => {
+      const times = [...stats.latenciesMs].sort((a, b) => a - b);
       return {
         name,
-        count: list.length,
-        errors,
-        errorRate: list.length ? errors / list.length : 0,
+        count: stats.count,
+        errors: stats.errors,
+        errorRate: stats.count ? stats.errors / stats.count : 0,
         p50Ms: percentile(times, 50),
         p95Ms: percentile(times, 95),
         p99Ms: percentile(times, 99),
@@ -75,17 +94,17 @@ function aggregateSamples(
     },
   );
 
-  const times = samples.map((s) => s.ms).sort((a, b) => a - b);
-  const failed = samples.filter((s) => !s.ok).length;
-  const successful = samples.length - failed;
-  const errorRate = samples.length ? failed / samples.length : 1;
-  const authFailures = samples.filter((s) => s.authFailure).length;
-  const timeouts = samples.filter((s) => s.timeout).length;
+  const times = [...collectors.global.latenciesMs].sort((a, b) => a - b);
+  const failed = collectors.global.errors;
+  const successful = collectors.global.count - failed;
+  const errorRate = collectors.global.count
+    ? failed / collectors.global.count
+    : 1;
 
   return {
     vus,
-    reqPerSec: wallSec > 0 ? samples.length / wallSec : 0,
-    iterations: samples.length,
+    reqPerSec: wallSec > 0 ? collectors.global.count / wallSec : 0,
+    iterations: collectors.global.count,
     successful,
     failed,
     errorRate,
@@ -93,9 +112,32 @@ function aggregateSamples(
     p95Ms: percentile(times, 95),
     p99Ms: percentile(times, 99),
     maxMs: times.length ? times[times.length - 1]! : 0,
-    authFailures,
-    timeouts,
+    authFailures: collectors.global.authFailures,
+    timeouts: collectors.global.timeouts,
     endpoints,
+  };
+}
+
+function emptySkippedTier(
+  vus: number,
+  reason: string,
+): TierResult {
+  return {
+    vus,
+    reqPerSec: 0,
+    iterations: 0,
+    successful: 0,
+    failed: 0,
+    errorRate: 0,
+    p50Ms: 0,
+    p95Ms: 0,
+    p99Ms: 0,
+    maxMs: 0,
+    authFailures: 0,
+    timeouts: 0,
+    endpoints: [],
+    verdict: "not_attempted",
+    skipReason: reason,
   };
 }
 
@@ -105,9 +147,14 @@ async function runVuWorker(options: {
   jar: CookieJar;
   until: number;
   signal: AbortSignal;
-  collect: Sample[];
+  collectors: Collectors;
+  midAbort: { tripped: boolean; reason?: string };
 }): Promise<void> {
-  while (Date.now() < options.until && !options.signal.aborted) {
+  while (
+    Date.now() < options.until &&
+    !options.signal.aborted &&
+    !options.midAbort.tripped
+  ) {
     try {
       const batch =
         options.profile === "public" || options.profile === "smoke"
@@ -121,7 +168,20 @@ async function runVuWorker(options: {
               options.jar,
               options.signal,
             );
-      options.collect.push(...batch);
+      for (const sample of batch) {
+        pushSample(options.collectors, sample);
+      }
+      const check = midTierShouldAbort(
+        options.collectors.global,
+        ABORT_ERROR_RATE,
+        ABORT_P95_MS,
+        percentile,
+      );
+      if (check.abort) {
+        options.midAbort.tripped = true;
+        options.midAbort.reason = check.reason;
+        break;
+      }
     } catch {
       if (options.signal.aborted) break;
     }
@@ -131,6 +191,36 @@ async function runVuWorker(options: {
       break;
     }
   }
+}
+
+/** Cap concurrent Auth.js logins so capacity does not DoS the auth path. */
+const MAX_AUTH_SESSIONS = 8;
+
+async function buildSessionPool(
+  baseUrl: string,
+  credentials: LoadCredentials,
+  vus: number,
+  signal: AbortSignal,
+  collectors: Collectors,
+): Promise<CookieJar[]> {
+  const poolSize = Math.min(MAX_AUTH_SESSIONS, Math.max(1, vus));
+  const jars: CookieJar[] = [];
+  for (let i = 0; i < poolSize; i++) {
+    if (signal.aborted) break;
+    const session = await ensureHubSession(baseUrl, credentials, signal);
+    for (const s of session.samples) pushSample(collectors, s);
+    jars.push(session.jar);
+    // Small stagger between logins.
+    try {
+      await sleep(50 + Math.floor(Math.random() * 100), signal);
+    } catch {
+      break;
+    }
+  }
+  if (jars.length === 0) {
+    jars.push(new Map());
+  }
+  return jars;
 }
 
 async function runTier(options: {
@@ -144,8 +234,9 @@ async function runTier(options: {
   onProgress?: (p: RunProgress) => void;
   tierIndex: number;
 }): Promise<TierResult> {
-  const collect: Sample[] = [];
+  const collectors = createCollectors();
   const workers: Promise<void>[] = [];
+  const midAbort = { tripped: false, reason: undefined as string | undefined };
   const started = Date.now();
   const rampMs = Math.max(0, options.rampSec) * 1000;
   const steadyMs = Math.max(5, options.durationSec) * 1000;
@@ -157,37 +248,40 @@ async function runTier(options: {
     currentTierIndex: options.tierIndex,
   });
 
-  for (let i = 0; i < options.vus; i++) {
-    if (options.signal.aborted) break;
-    const jar: CookieJar = new Map();
-    const needsAuth =
-      options.profile === "hub-read" ||
-      (options.profile === "capacity" && Boolean(options.credentials));
-    const workerProfile: LoadLabProfile =
-      options.profile === "smoke"
-        ? "public"
-        : options.profile === "capacity"
-          ? needsAuth
-            ? "hub-read"
-            : "public"
-          : options.profile;
+  const needsAuth =
+    options.profile === "hub-read" ||
+    (options.profile === "capacity" && Boolean(options.credentials));
+  const workerProfile: LoadLabProfile =
+    options.profile === "smoke"
+      ? "public"
+      : options.profile === "capacity"
+        ? needsAuth
+          ? "hub-read"
+          : "public"
+        : options.profile;
 
-    if (needsAuth) {
-      if (!options.credentials) {
-        return {
-          ...aggregateSamples([], options.vus, 0.001),
-          verdict: "failed",
-          skipReason: "missing credentials",
-        };
-      }
-      const session = await ensureHubSession(
-        options.baseUrl,
-        options.credentials,
-        options.signal,
-      );
-      collect.push(...session.samples);
-      for (const [k, v] of session.jar) jar.set(k, v);
-    }
+  if (needsAuth && !options.credentials) {
+    return {
+      ...aggregateCollectors(collectors, options.vus, 0.001),
+      verdict: "failed",
+      skipReason: "missing credentials",
+    };
+  }
+
+  let sessionPool: CookieJar[] = [new Map()];
+  if (needsAuth && options.credentials) {
+    sessionPool = await buildSessionPool(
+      options.baseUrl,
+      options.credentials,
+      options.vus,
+      options.signal,
+      collectors,
+    );
+  }
+
+  for (let i = 0; i < options.vus; i++) {
+    if (options.signal.aborted || midAbort.tripped) break;
+    const jar = new Map(sessionPool[i % sessionPool.length]);
 
     workers.push(
       runVuWorker({
@@ -196,7 +290,8 @@ async function runTier(options: {
         jar,
         until,
         signal: options.signal,
-        collect,
+        collectors,
+        midAbort,
       }),
     );
 
@@ -211,14 +306,23 @@ async function runTier(options: {
   }
 
   options.onProgress?.({
-    message: `Tier ${options.vus} VUs — steady state`,
+    message: midAbort.tripped
+      ? `Tier ${options.vus} VUs — mid-tier abort`
+      : `Tier ${options.vus} VUs — steady state`,
     currentVus: options.vus,
     currentTierIndex: options.tierIndex,
   });
 
   await Promise.all(workers);
   const wallSec = Math.max(0.001, (Date.now() - started) / 1000);
-  const agg = aggregateSamples(collect, options.vus, wallSec);
+  const agg = aggregateCollectors(collectors, options.vus, wallSec);
+  if (midAbort.tripped) {
+    return {
+      ...agg,
+      verdict: "failed",
+      skipReason: midAbort.reason,
+    };
+  }
   const verdict = classifyTier(agg.errorRate, agg.p95Ms);
   return { ...agg, verdict };
 }
@@ -236,6 +340,11 @@ export async function executeLoadRun(
       (request.envName === "local" || request.envName === "production"),
     env,
   });
+
+  const targetGate = assertAllowedTargetUrl(baseUrl, env);
+  if (!targetGate.ok) {
+    throw new Error(targetGate.error);
+  }
 
   const maxVus = maxVusCap(env);
   const maxDur = maxDurationSecCap(env);
@@ -260,43 +369,38 @@ export async function executeLoadRun(
   let aborted = false;
   let abortReason: string | undefined;
 
-  const vuList: number[] =
-    request.profile === "capacity"
-      ? [...CAPACITY_TIERS]
-      : [
-          Math.min(
-            maxVus,
-            Math.max(
-              1,
-              request.vus ??
-                (request.profile === "smoke" ? DEFAULT_SMOKE_VUS : 50),
-            ),
-          ),
-        ];
+  let vuList: number[];
+  if (request.profile === "capacity") {
+    const filtered = filterCapacityTiers(CAPACITY_TIERS, maxVus);
+    vuList = filtered.run;
+    for (const skipped of filtered.skipped) {
+      tiers.push(
+        emptySkippedTier(
+          skipped,
+          `above LOAD_LAB_MAX_VUS (${maxVus})`,
+        ),
+      );
+    }
+  } else {
+    vuList = [
+      Math.min(
+        maxVus,
+        Math.max(
+          1,
+          request.vus ??
+            (request.profile === "smoke" ? DEFAULT_SMOKE_VUS : 50),
+        ),
+      ),
+    ];
+  }
 
   for (let i = 0; i < vuList.length; i++) {
-    const vus = Math.min(maxVus, vuList[i]!);
+    const vus = vuList[i]!;
     if (options.signal.aborted) {
       aborted = true;
-      abortReason = "operator abort";
+      abortReason = abortReason ?? "operator abort";
       for (let j = i; j < vuList.length; j++) {
-        tiers.push({
-          vus: vuList[j]!,
-          reqPerSec: 0,
-          iterations: 0,
-          successful: 0,
-          failed: 0,
-          errorRate: 0,
-          p50Ms: 0,
-          p95Ms: 0,
-          p99Ms: 0,
-          maxMs: 0,
-          authFailures: 0,
-          timeouts: 0,
-          endpoints: [],
-          verdict: "not_attempted",
-          skipReason: abortReason,
-        });
+        tiers.push(emptySkippedTier(vuList[j]!, abortReason));
       }
       break;
     }
@@ -317,42 +421,33 @@ export async function executeLoadRun(
     });
     tiers.push(tier);
 
-    if (
+    const severe =
       tier.errorRate >= ABORT_ERROR_RATE ||
       tier.p95Ms >= ABORT_P95_MS ||
-      tier.verdict === "failed"
-    ) {
-      const severe =
-        tier.errorRate >= ABORT_ERROR_RATE || tier.p95Ms >= ABORT_P95_MS;
-      if (severe && request.profile === "capacity" && i < vuList.length - 1) {
-        aborted = true;
-        abortReason =
-          tier.errorRate >= ABORT_ERROR_RATE
-            ? `error rate ${(tier.errorRate * 100).toFixed(1)}% ≥ ${ABORT_ERROR_RATE * 100}%`
-            : `p95 ${Math.round(tier.p95Ms)}ms ≥ ${ABORT_P95_MS}ms`;
-        for (let j = i + 1; j < vuList.length; j++) {
-          tiers.push({
-            vus: vuList[j]!,
-            reqPerSec: 0,
-            iterations: 0,
-            successful: 0,
-            failed: 0,
-            errorRate: 0,
-            p50Ms: 0,
-            p95Ms: 0,
-            p99Ms: 0,
-            maxMs: 0,
-            authFailures: 0,
-            timeouts: 0,
-            endpoints: [],
-            verdict: "not_attempted",
-            skipReason: abortReason,
-          });
-        }
-        break;
+      Boolean(tier.skipReason?.startsWith("mid-tier"));
+    const stopEscalation =
+      request.profile === "capacity" &&
+      i < vuList.length - 1 &&
+      (severe || tier.verdict === "failed");
+
+    if (stopEscalation) {
+      aborted = true;
+      abortReason =
+        tier.skipReason ??
+        (tier.errorRate >= ABORT_ERROR_RATE
+          ? `error rate ${(tier.errorRate * 100).toFixed(1)}% ≥ ${ABORT_ERROR_RATE * 100}%`
+          : tier.verdict === "failed"
+            ? `tier failed thresholds at ${vus} VUs`
+            : `p95 ${Math.round(tier.p95Ms)}ms ≥ ${ABORT_P95_MS}ms`);
+      for (let j = i + 1; j < vuList.length; j++) {
+        tiers.push(emptySkippedTier(vuList[j]!, abortReason));
       }
+      break;
     }
   }
+
+  // Keep skipped-above-cap tiers at the end in VU order for the table.
+  tiers.sort((a, b) => a.vus - b.vus);
 
   const capacity = summarizeCapacity(tiers);
   const finishedAt = new Date().toISOString();
@@ -375,6 +470,7 @@ export async function executeLoadRun(
     notes: [
       "On-box capacity (generator co-located). Not an external-only RPS ceiling.",
       "VU count is concurrent simulated users with think-time — not requests per second.",
+      "Safety: target allowlist, VU/duration/run wall-clock caps, mid-tier circuit breaker, bounded samples, auth session pool.",
     ],
   };
   draft.hints = buildBottleneckHints(draft);

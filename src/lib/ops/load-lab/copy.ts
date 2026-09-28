@@ -7,8 +7,10 @@ export const LOAD_LAB_COPY = {
     title: "Load Test Lab",
     subtitle:
       "On-box capacity testing. The load engine runs on this host and shares CPU/RAM with the app.",
-    offHours:
+      offHours:
       "Run off-hours only. Do not start a capacity sweep during steward working hours.",
+    safetyHarness:
+      "Safeguards: single run at a time, VU/duration/wall-clock caps, target allowlist (this host only), mid-tier abort on high errors/latency, auth login pool, read-only profiles. Abort stops the run immediately.",
     disabled:
       "Load Lab is disabled on this host. An operator must set LOAD_LAB_ENABLED=true.",
     productionBanner:
@@ -60,8 +62,10 @@ export const LOAD_LAB_COPY = {
     title: "Labo de charge",
     subtitle:
       "Test de capacité sur la même machine. Le moteur de charge partage le CPU/RAM avec l’application.",
-    offHours:
+      offHours:
       "À lancer hors des heures de travail seulement. Ne démarrez pas un balayage de capacité pendant les heures des délégués.",
+    safetyHarness:
+      "Protections : une seule exécution à la fois, plafonds VU/durée/horloge, liste d’hôtes autorisés (cette machine seulement), arrêt en cours de palier si erreurs/latence élevées, pool de connexions, profils en lecture seule. Interrompre arrête immédiatement.",
     disabled:
       "Le labo de charge est désactivé sur cet hôte. Un opérateur doit définir LOAD_LAB_ENABLED=true.",
     productionBanner:

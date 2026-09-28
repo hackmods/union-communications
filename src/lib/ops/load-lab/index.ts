@@ -10,6 +10,12 @@ export type {
   TierVerdict,
 } from "./types";
 export {
+  assertAllowedTargetUrl,
+  filterCapacityTiers,
+  maxRunWallClockSec,
+  midTierShouldAbort,
+} from "./safety";
+export {
   CAPACITY_TIERS,
   assertProductionInterlock,
   defaultVusForProfile,

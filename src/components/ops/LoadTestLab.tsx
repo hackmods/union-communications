@@ -287,6 +287,9 @@ export function LoadTestLab() {
           <p className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-100">
             {t.offHours}
           </p>
+          <p className="rounded-md border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm text-sky-100">
+            {t.safetyHarness}
+          </p>
           {status && !status.enabled ? (
             <p className="rounded-md border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-sm text-rose-100">
               {t.disabled}

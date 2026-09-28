@@ -8,6 +8,13 @@ import { buildBottleneckHints, summarizeCapacity } from "@/lib/ops/load-lab/hint
 import { classifyTier, percentile } from "@/lib/ops/load-lab/thresholds";
 import { parseSummaryJson } from "@/lib/ops/load-lab/report";
 import {
+  assertAllowedTargetUrl,
+  createRollingStats,
+  filterCapacityTiers,
+  midTierShouldAbort,
+  recordSample,
+} from "@/lib/ops/load-lab/safety";
+import {
   getLoadLabStatus,
   resetLoadLabStateForTests,
   startLoadLabRun,
@@ -206,6 +213,36 @@ describe("load-lab summary parse", () => {
   });
 });
 
+describe("load-lab safety harness", () => {
+  it("allowlists only loopback and AUTH_URL host", () => {
+    vi.stubEnv("AUTH_URL", "https://unionops.org");
+    expect(assertAllowedTargetUrl("http://127.0.0.1:3000")).toEqual({
+      ok: true,
+    });
+    expect(assertAllowedTargetUrl("https://unionops.org")).toEqual({ ok: true });
+    expect(assertAllowedTargetUrl("https://evil.example")).toMatchObject({
+      ok: false,
+    });
+  });
+
+  it("filters capacity tiers above the VU cap", () => {
+    expect(filterCapacityTiers([50, 100, 250, 500, 1000], 100)).toEqual({
+      run: [50, 100],
+      skipped: [250, 500, 1000],
+    });
+  });
+
+  it("trips mid-tier abort on high error rate", () => {
+    const stats = createRollingStats();
+    for (let i = 0; i < 50; i++) {
+      recordSample(stats, { ms: 100, ok: i % 2 === 0 });
+    }
+    expect(
+      midTierShouldAbort(stats, 0.1, 5000, percentile),
+    ).toMatchObject({ abort: true });
+  });
+});
+
 describe("load-lab process manager gate", () => {
   it("refuses start when LOAD_LAB_ENABLED is off", async () => {
     vi.stubEnv("LOAD_LAB_ENABLED", "false");
@@ -216,5 +253,20 @@ describe("load-lab process manager gate", () => {
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.status).toBe(403);
     expect(getLoadLabStatus().enabled).toBe(false);
+  });
+
+  it("refuses SSRF-style external baseUrl", async () => {
+    vi.stubEnv("LOAD_LAB_ENABLED", "true");
+    vi.stubEnv("AUTH_URL", "https://unionops.org");
+    const result = await startLoadLabRun({
+      profile: "smoke",
+      envName: "local",
+      baseUrl: "https://evil.example",
+    });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.status).toBe(400);
+      expect(result.error).toMatch(/not allowed/i);
+    }
   });
 });
