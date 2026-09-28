@@ -6,7 +6,6 @@ const cfg = resolveObservabilityConfig();
 Sentry.init({
   dsn: cfg.sentryDsn,
   enabled: cfg.sentryEnabled,
-  sendDefaultPii: false,
   tracesSampleRate: 0,
   beforeSend(event) {
     if (event.request) {

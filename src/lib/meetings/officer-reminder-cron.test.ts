@@ -128,6 +128,7 @@ describe("officer reminder cron helpers", () => {
           to: "pres@example.com",
           subject: "Reminder: GM",
           text: "body",
+          html: "<p>body</p>",
         },
       ],
     });

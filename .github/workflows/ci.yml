@@ -168,7 +168,7 @@ jobs:
             --env GIT_CONFIG_KEY_0=safe.directory \
             --env GIT_CONFIG_VALUE_0=/repo \
             "$GITLEAKS_IMAGE" \
-            git --redact --verbose --exit-code 1 --log-opts=--all .
+            git --config /repo/.gitleaks.toml --redact --verbose --exit-code 1 --log-opts=--all .
 
   # Docker build + GHCR publish run independently of E2E so CapRover can pull a
   # pre-built image instead of rebuilding on a small droplet (BuildKit export failures).

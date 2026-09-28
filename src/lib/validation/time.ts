@@ -50,7 +50,7 @@ export const upsertOtPolicySchema = z.object({
   doubleTimeMultiplier: z.number().positive().optional(),
   holidayDates: z.array(z.string()).optional(),
   holidayMultiplier: z.number().positive().optional(),
-  categoryOtEligible: z.record(z.boolean()).optional(),
+  categoryOtEligible: z.record(z.string(), z.boolean()).optional(),
   active: z.boolean().optional(),
   id: z.string().optional(),
 });
@@ -115,7 +115,7 @@ export const upsertPayrollProfileSchema = z.object({
     "ceridian",
     "custom",
   ]),
-  fieldMapping: z.record(z.string()).optional(),
+  fieldMapping: z.record(z.string(), z.string()).optional(),
   webhookUrl: z.string().url().optional().or(z.literal("")),
   includeOtBreakdown: z.boolean().optional(),
   active: z.boolean().optional(),

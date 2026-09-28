@@ -244,8 +244,8 @@ describe("load-lab safety harness", () => {
   });
 
   it("exposes cool-down default", () => {
-    expect(coolDownSec({})).toBe(60);
-    expect(coolDownSec({ LOAD_LAB_COOLDOWN_SEC: "120" })).toBe(120);
+    expect(coolDownSec({} as NodeJS.ProcessEnv)).toBe(60);
+    expect(coolDownSec({ NODE_ENV: "test", LOAD_LAB_COOLDOWN_SEC: "120" })).toBe(120);
   });
 });
 

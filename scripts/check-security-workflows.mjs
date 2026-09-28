@@ -25,7 +25,7 @@ assert.match(auditBlock, /\.github\/security\/npm-audit-exceptions\.json/);
 const secretBlock = ci.slice(secretStart, dockerStart);
 assert.match(secretBlock, /fetch-depth:\s*0/, "Secret scanning must check repository history.");
 assert.match(secretBlock, /ghcr\.io\/gitleaks\/gitleaks@sha256:[a-f0-9]{64}/, "Gitleaks must use a digest-pinned image.");
-assert.match(secretBlock, /git --redact --verbose --exit-code 1 --log-opts=--all/, "Gitleaks must scan all refs and redact secrets in output.");
+assert.match(secretBlock, /git --config \/repo\/\.gitleaks\.toml --redact --verbose --exit-code 1 --log-opts=--all/, "Gitleaks must use the repo allowlist, scan all refs, and redact secrets in output.");
 const dockerBlock = ci.slice(dockerStart, ci.indexOf("\n  deploy:\n"));
 assert.match(
   dockerBlock,
@@ -112,7 +112,7 @@ assert.match(scheduled, /npm audit --json/);
 assert.match(scheduled, /node scripts\/check-npm-audit\.mjs/);
 assert.match(scheduled, /\.github\/security\/npm-audit-exceptions\.json/);
 assert.match(scheduled, /if:\s*always\(\)/);
-assert.match(scheduled, /actions\/upload-artifact@v4/);
+assert.match(scheduled, /actions\/upload-artifact@v7/);
 assert.match(scheduled, /retention-days:\s*30/);
 
 assert.match(codeql, /pull_request:/);

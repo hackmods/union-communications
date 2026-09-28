@@ -4319,6 +4319,126 @@
       ]
     },
     {
+      "name": "member_broadcast_campaigns",
+      "columns": [
+        {
+          "name": "accepted_count",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "body_text",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "failed_count",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "open_tracking_applied",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "open_tracking_requested",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "recipient_count",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subject",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "member_broadcast_consents",
+      "columns": [
+        {
+          "name": "consented_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "revoked_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "wording_version",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "member_communications",
       "columns": [
         {
@@ -8097,6 +8217,11 @@
           "notNull": false
         },
         {
+          "name": "comms_auto_send_enabled",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
           "name": "comms_preset_id",
           "dataType": "text",
           "notNull": false
@@ -8112,8 +8237,18 @@
           "notNull": true
         },
         {
+          "name": "email_tracking_pixels_enabled",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
           "name": "enabled_modules",
           "dataType": "jsonb",
+          "notNull": true
+        },
+        {
+          "name": "grievance_smtp_enabled",
+          "dataType": "boolean",
           "notNull": true
         },
         {
@@ -8123,6 +8258,11 @@
         },
         {
           "name": "is_demo",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "member_broadcast_enabled",
           "dataType": "boolean",
           "notNull": true
         },
@@ -8836,6 +8976,16 @@
       "schema": "public",
       "table": "meeting_minutes",
       "name": "meeting_minutes_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "member_broadcast_campaigns",
+      "name": "member_broadcast_campaigns_tenant"
+    },
+    {
+      "schema": "public",
+      "table": "member_broadcast_consents",
+      "name": "member_broadcast_consents_tenant"
     },
     {
       "schema": "public",

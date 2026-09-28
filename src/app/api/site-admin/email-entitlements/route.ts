@@ -134,7 +134,7 @@ export async function PATCH(request: Request) {
         emailTrackingPixelsEnabled === undefined
           ? "unchanged"
           : String(emailTrackingPixelsEnabled),
-      host: getEnterpriseEmailHostFlags(),
+      host: JSON.stringify(getEnterpriseEmailHostFlags()),
     },
   });
 

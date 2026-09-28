@@ -14,7 +14,7 @@ export const officerLearningMePutSchema = z
     displayName: z.string().trim().min(1).max(120),
     hubSyncEnabled: z.boolean(),
     shareWithLocal: z.boolean(),
-    modules: z.record(moduleProgressSchema),
+    modules: z.record(z.string(), moduleProgressSchema),
   })
   .strict()
   .refine((v) => !v.shareWithLocal || v.hubSyncEnabled, {
