@@ -8,7 +8,7 @@ import {
   sortUnionsForSiteAdmin,
   unionNameKey,
   type UnionLifecycleRow,
-} from "@/lib/site-admin/union-lifecycle";
+} from "@/lib/site-admin/union-lifecycle-shared";
 import { UnionLifecycleActions } from "@/components/site-admin/UnionLifecycleActions";
 
 type StatusFilter = "all" | "active" | "archived";
