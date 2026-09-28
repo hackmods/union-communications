@@ -1,23 +1,33 @@
 ---
-description: Keep PDF + Office export lanes at Brand Kit parity — shared fonts, embed, i18n, downloads
-globs: src/lib/export/**,src/lib/minutes/export-docx.ts,src/lib/elections/export-ballot.ts,src/app/**/document-generator/**,src/components/hub/**Board.tsx,src/components/hub/MinutesDetail.tsx
+description: Keep PDF + Office + Email export lanes at Brand Kit / host-brand parity — shared fonts, embed, i18n, downloads
+globs: src/lib/export/**,src/lib/email/**,src/lib/minutes/export-docx.ts,src/lib/elections/export-ballot.ts,src/app/**/document-generator/**,src/components/hub/**Board.tsx,src/components/hub/MinutesDetail.tsx
 alwaysApply: false
 ---
 
-# Export engine parity (PDF + Office)
+# Export engine parity (PDF + Office + Email)
 
 Canonical lessons: [`docs/audit/session-knowledge-2026-09-05-pdf-office-engine-qol.md`](../../docs/audit/session-knowledge-2026-09-05-pdf-office-engine-qol.md).
 Roadmap: [`docs/audit/future-pdf-and-docx-engines-2026-08.md`](../../docs/audit/future-pdf-and-docx-engines-2026-08.md).
+Email module: [`docs/modules/EMAIL.md`](../../docs/modules/EMAIL.md).
 
-## Three lanes
+## Four lanes
 
 | Lane | Use for |
 |------|---------|
 | `pdf-export.ts` (raster) | Canvas Comms print (Flyer, Board Notice, …) |
 | `text-pdf-layout.ts` + `pdf-layout/` | Selectable worksheets, certificates, Hub reports |
 | `office-export.ts` + builders + `ooxml-font-embed.ts` | Editable DOCX / XLSX / PPTX |
+| `src/lib/email/engine/` | Multipart HTML+text compose; delivery via `send.ts` only |
 
 Do **not** merge raster + text PDF into one writer. Share Brand Kit font resolution, OFL binaries, and `downloadBlob` / export success UX instead.
+
+### Email lane rules
+
+1. Compose via `compose*` / `renderEmailDocument` — do not add new ad-hoc SMTP string builders.
+2. Always send multipart (`text` + `html`) for platform SMTP.
+3. Never import `send.ts` / `adapters/deliver` from `"use client"` Comms tools.
+4. Platform chrome = host-brand; steward drafts may use Brand Kit — see EMAIL.md brand matrix.
+5. ADR-016/021: no member marketing lists; grievance drafts stay copy-only.
 
 ## Must do on new/changed Office exports
 

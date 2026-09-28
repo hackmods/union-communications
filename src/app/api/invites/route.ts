@@ -632,6 +632,7 @@ export async function POST(req: Request) {
         to: invite.email,
         subject: copy.subject,
         text: copy.text,
+        html: copy.html,
       });
       emailSent = result.ok;
       emailReason = result.ok ? undefined : result.reason;

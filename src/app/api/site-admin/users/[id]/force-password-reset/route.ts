@@ -204,6 +204,7 @@ export async function POST(
       to: target.email,
       subject: emailCopy.subject,
       text: emailCopy.text,
+      html: emailCopy.html,
     });
   } catch (error) {
     reportApiFailure(error, "/api/site-admin/users/[id]/force-password-reset");

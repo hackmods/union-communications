@@ -1,43 +1,29 @@
 /**
- * Copy builders for transactional SMTP (R3).
+ * Transactional SMTP copy builders (compat facade).
  * Announcement / ops class only — never grievance case content.
+ * Implementation lives in `src/lib/email/engine/`.
  */
+
+import {
+  composeInviteAcceptEmail,
+  composeOfficerMeetingReminderEmail,
+  composePasswordResetEmail,
+  composeRsvpConfirmationEmail,
+  composeSignInLinkEmail,
+  type EmailArtifact,
+  type EmailLocale,
+} from "@/lib/email/engine";
+
+export type { EmailArtifact, EmailLocale };
 
 export function buildInviteAcceptEmail(input: {
   inviteeName: string;
   acceptUrl: string;
   expiresAt: string;
   kind?: "officer" | "member" | "president";
-}): { subject: string; text: string } {
-  const expires = new Date(input.expiresAt).toLocaleString();
-  const kind = input.kind ?? "officer";
-  const subject =
-    kind === "member"
-      ? "You're invited to your local on UnionOps"
-      : kind === "president"
-        ? "Set up your local on UnionOps"
-        : "You're invited to UnionOps Officer Hub";
-  const intro =
-    kind === "member"
-      ? "You've been invited to join your local's Hall on UnionOps (Local Portal)."
-      : kind === "president"
-        ? "You've been invited to set up your local on UnionOps before a wider launch. Accept the invite, then invite your officers and members."
-        : "You've been invited to join the Officer Hub for your local. This is an early local setup — not a national announcement.";
-  return {
-    subject,
-    text: [
-      `Hello ${input.inviteeName},`,
-      "",
-      intro,
-      `Accept your invite here: ${input.acceptUrl}`,
-      "",
-      `This link expires on ${expires}.`,
-      "",
-      "If you weren't expecting this, you can ignore this message.",
-      "",
-      "— UnionOps (transactional invite; not a mailing list)",
-    ].join("\n"),
-  };
+  locale?: EmailLocale;
+}): EmailArtifact {
+  return composeInviteAcceptEmail(input);
 }
 
 export function buildOfficerMeetingReminderEmail(input: {
@@ -45,26 +31,9 @@ export function buildOfficerMeetingReminderEmail(input: {
   startsAt: string;
   location: string;
   meetingUrl?: string;
-}): { subject: string; text: string } {
-  const when = new Date(input.startsAt).toLocaleString();
-  return {
-    subject: `Reminder: ${input.title}`,
-    text: [
-      "Officer reminder (sent only to you):",
-      "",
-      `Meeting: ${input.title}`,
-      `When: ${when}`,
-      `Where: ${input.location}`,
-      input.meetingUrl ? `Hub: ${input.meetingUrl}` : undefined,
-      "",
-      "This is a one-shot transactional reminder — not a campaign.",
-      "To stop reminders, do not use the Email-me control (no mailing list is kept).",
-      "",
-      "— UnionOps",
-    ]
-      .filter((line): line is string => line != null)
-      .join("\n"),
-  };
+  locale?: EmailLocale;
+}): EmailArtifact {
+  return composeOfficerMeetingReminderEmail(input);
 }
 
 export function buildRsvpConfirmationEmail(input: {
@@ -73,79 +42,27 @@ export function buildRsvpConfirmationEmail(input: {
   location: string;
   attending: string;
   joinMode?: string;
-}): { subject: string; text: string } {
-  const when = new Date(input.startsAt).toLocaleString();
-  const mode =
-    input.joinMode === "on_site"
-      ? "On site"
-      : input.joinMode === "remote"
-        ? "Remote"
-        : undefined;
-  return {
-    subject: `RSVP received: ${input.title}`,
-    text: [
-      "Thanks — we recorded your RSVP.",
-      "",
-      `Meeting: ${input.title}`,
-      `When: ${when}`,
-      `Where: ${input.location}`,
-      `Attending: ${input.attending}`,
-      mode ? `Join mode: ${mode}` : undefined,
-      "",
-      "This confirmation was sent because you opted in on the RSVP form.",
-      "It is a one-shot transactional message — you will not be added to a list.",
-      "",
-      "— UnionOps",
-    ]
-      .filter((line): line is string => line != null)
-      .join("\n"),
-  };
+  locale?: EmailLocale;
+}): EmailArtifact {
+  return composeRsvpConfirmationEmail(input);
 }
 
 export function buildPasswordResetEmail(input: {
   name: string;
   resetUrl: string;
   expiresAt: string;
-}): { subject: string; text: string } {
-  const expires = new Date(input.expiresAt).toLocaleString();
-  return {
-    subject: "Reset your UnionOps Officer Hub password",
-    text: [
-      `Hello ${input.name},`,
-      "",
-      "We received a request to reset your Officer Hub password.",
-      `Choose a new password here: ${input.resetUrl}`,
-      "",
-      `This link expires on ${expires}.`,
-      "",
-      "If you did not request a reset, you can ignore this message — your password will stay the same.",
-      "",
-      "— UnionOps (transactional password reset; not a mailing list)",
-    ].join("\n"),
-  };
+  locale?: EmailLocale;
+}): EmailArtifact {
+  return composePasswordResetEmail(input);
 }
 
 export function buildSignInLinkEmail(input: {
   name: string;
   signInUrl: string;
   expiresAt: string;
-}): { subject: string; text: string } {
-  const expires = new Date(input.expiresAt).toLocaleString();
-  return {
-    subject: "Your UnionOps Officer Hub sign-in link",
-    text: [
-      `Hello ${input.name},`,
-      "",
-      "Use this link to sign in to the Officer Hub:",
-      input.signInUrl,
-      "",
-      `This link expires on ${expires} and can only be used once.`,
-      "",
-      "If you did not request this, you can ignore this message.",
-      "",
-      "— UnionOps (transactional sign-in link; not a mailing list)",
-    ].join("\n"),
-  };
+  locale?: EmailLocale;
+}): EmailArtifact {
+  return composeSignInLinkEmail(input);
 }
 
 /** Public base URL for links in outbound mail (no trailing slash). */

@@ -13,6 +13,7 @@ export type OfficerReminderJob = {
   to: string;
   subject: string;
   text: string;
+  html: string;
 };
 
 /** Collect unique officer emails for a local (skip blanks). */
@@ -55,6 +56,7 @@ export function buildOfficerReminderJobs(input: {
         to,
         subject: copy.subject,
         text: copy.text,
+        html: copy.html,
       });
     }
   }
@@ -81,6 +83,7 @@ export async function sendOfficerReminderJobs(
       to: job.to,
       subject: job.subject,
       text: job.text,
+      html: job.html,
     });
     if (result.ok) {
       sent += 1;

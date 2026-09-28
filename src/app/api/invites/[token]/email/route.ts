@@ -62,6 +62,7 @@ export async function POST(
     to: invite.email,
     subject: copy.subject,
     text: copy.text,
+    html: copy.html,
   });
 
   await auditLog.log({

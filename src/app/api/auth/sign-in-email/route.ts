@@ -62,6 +62,7 @@ export async function POST(req: Request) {
       to: account.email,
       subject: copy.subject,
       text: copy.text,
+      html: copy.html,
     });
     emailSent = result.ok;
     if (!result.ok) {
