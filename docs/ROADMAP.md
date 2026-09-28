@@ -129,8 +129,8 @@ UnionOps Data is an opt-in Officer Hub module for general typed datasets and the
 | Milestone | Status |
 |-----------|--------|
 | A — Dataset setup, scanned CSV/XLSX upload, local-scoped staging, mapping, review, typed-table publication | First release foundation shipped; upload processing is request-bound |
-| B — Member identity, provenance, membership/employment history, supervisor graph, reviewed partial publication | Initial officer-only lifecycle workflow shipped; trust automation, correction/merge/split tools, and full effective-date reconciliation remain |
-| C — Saved table reports and reproducible authorized exports | Planned next |
+| B — Member identity, provenance, membership/employment history, supervisor graph, reviewed partial publication | Officer Records UX + as-of reads + observational dues standing shipped; trust automation, correction/merge/split tools, and async ingest remain |
+| C — Saved table reports and reproducible authorized exports | Curated as-of reports + formula-safe CSV shipped; saved custom definitions remain |
 | D — Time-worker and grievance links, member-safe Portal views, specialized dues/dispatch packs | Deferred; separate specs required |
 | E — Custom entities, relationships, and constrained joins | Deferred |
 

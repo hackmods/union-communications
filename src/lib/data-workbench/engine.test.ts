@@ -1,6 +1,13 @@
 import ExcelJS from "exceljs";
 import { describe, expect, it } from "vitest";
-import { applyMapping, suggestMapping, validateMappedRow } from "./mapping";
+import { filterEffectiveOn, isEffectiveOn, pickAssertionsAsOf } from "./as-of";
+import {
+  applyMapping,
+  normalizeCanonicalValues,
+  normalizeDuesStanding,
+  suggestMapping,
+  validateMappedRow,
+} from "./mapping";
 import { resolveByIdentifier, normalizePersonName } from "./resolution";
 import { parseUploadedTable } from "./table-parser";
 import { parsePage } from "./pagination";
@@ -89,5 +96,45 @@ describe("data API pagination", () => {
   it("rejects non-finite offsets and caps requested page sizes", () => {
     expect(parsePage(new URLSearchParams("offset=Infinity&limit=999"))).toEqual({ offset: 0, limit: 200 });
     expect(parsePage(new URLSearchParams("offset=-1&limit=10"))).toEqual({ offset: 0, limit: 10 });
+  });
+});
+
+describe("observational dues and as-of reads", () => {
+  it("maps dues standing aliases and rejects unknown standing values", () => {
+    const mapping = suggestMapping(["Dues standing", "Classification", "Hire date"], "member_employment");
+    expect(mapping).toEqual({
+      "Dues standing": "duesStanding",
+      Classification: "classification",
+      "Hire date": "hireDate",
+    });
+    expect(normalizeDuesStanding("En règle")).toBe("good");
+    expect(normalizeCanonicalValues({ duesStanding: "in arrears", membershipStatus: "Actif" })).toEqual({
+      duesStanding: "arrears",
+      membershipStatus: "active",
+    });
+    expect(validateMappedRow({ fullName: "Alex", duesStanding: "paid-up" }, "member_employment")).toContain(
+      "Dues standing must be good, arrears, unknown, or exempt.",
+    );
+  });
+
+  it("resolves as-of assertions and open multi-job intervals", () => {
+    expect(isEffectiveOn("2024-01-01", "", "2024-06-01")).toBe(true);
+    expect(isEffectiveOn("2024-01-01", "2024-03-01", "2024-06-01")).toBe(false);
+    expect(isEffectiveOn("2024-07-01", "", "2024-06-01")).toBe(false);
+
+    const profile = pickAssertionsAsOf([
+      { fieldKey: "duesStanding", value: "good", effectiveFrom: "2024-01-01", effectiveTo: "2024-04-01", observedAt: "2024-01-02T00:00:00.000Z" },
+      { fieldKey: "duesStanding", value: "arrears", effectiveFrom: "2024-04-01", effectiveTo: "", observedAt: "2024-04-02T00:00:00.000Z" },
+      { fieldKey: "email", value: "old@example.test", effectiveFrom: "2023-01-01", effectiveTo: "", observedAt: "2023-01-02T00:00:00.000Z" },
+      { fieldKey: "email", value: "new@example.test", effectiveFrom: "2024-05-01", effectiveTo: "", observedAt: "2024-05-02T00:00:00.000Z" },
+    ], "2024-06-01");
+    expect(profile).toEqual({ duesStanding: "arrears", email: "new@example.test" });
+
+    const openJobs = filterEffectiveOn([
+      { positionKey: "A", effectiveFrom: "2023-01-01", effectiveTo: "" },
+      { positionKey: "B", effectiveFrom: "2024-01-01", effectiveTo: "2024-05-01" },
+      { positionKey: "C", effectiveFrom: "2024-02-01", effectiveTo: "" },
+    ], "2024-06-01");
+    expect(openJobs.map((job) => job.positionKey)).toEqual(["A", "C"]);
   });
 });

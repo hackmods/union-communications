@@ -1,3 +1,10 @@
+## 2026-09-28 — UnionOps Data enterprise Records + Reports
+
+- Extended member/employment canonical fields with observational dues standing, membership status, classification, and hire date; as-of assertion/assignment reads; position-aware reporting chains.
+- Officer Records UX: searchable people directory, multi-job profiles, provenance timeline (no JSON dump). Import publish-impact preview + Source position ID mapping help.
+- Curated as-of reports (`people_as_of`, `assignments_as_of`, `dues_standing_snapshot`, table revision) with formula-safe CSV via `POST /api/data/reports/run`.
+- Boundary unchanged: observational standing only — not dues collection, Portal CRM, or Time punch sync. What's new (hub): `data-records-reports`.
+
 ## 2026-09-27 — Load Test Lab recovery QOL
 
 - Dropped `/api/health` from public journeys (avoids CapRover restart loops). Added post-run cool-down, stale-run auto-clear, disk restore of last `summary.json`, and status caps/cooldown in the Lab UI.

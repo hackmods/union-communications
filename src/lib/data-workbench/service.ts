@@ -15,9 +15,25 @@ import {
   type WorkbenchMapping,
 } from "@/lib/db/schema/data-workbench";
 import type { DataAccessResult } from "./access";
-import { applyMapping, isIsoDate, suggestMapping, validateMappedRow } from "./mapping";
+import { filterEffectiveOn, normalizeAsOf, pickAssertionsAsOf } from "./as-of";
+import {
+  applyMapping,
+  isIsoDate,
+  normalizeCanonicalValues,
+  suggestMapping,
+  validateMappedRow,
+} from "./mapping";
 import { resolveByIdentifier } from "./resolution";
-import type { DataImportRun, DataDataset, DatasetKind, ParsedTable, StagedPreviewRow } from "./types";
+import {
+  CANONICAL_MEMBER_FIELD_IDS,
+  type DataImportRun,
+  type DataDataset,
+  type DatasetKind,
+  type ParsedTable,
+  type PersonListItem,
+  type PersonProfile,
+  type StagedPreviewRow,
+} from "./types";
 
 type Scope = Extract<DataAccessResult, { ok: true }>;
 const newId = () => crypto.randomUUID();
@@ -142,7 +158,7 @@ export async function createImportRun(scope: Scope, input: {
     : [];
   for (let offset = 0; offset < input.table.rows.length; offset += 250) {
     const values = input.table.rows.slice(offset, offset + 250).map((rawValues, index) => {
-      const mappedValues = normalizeMappedValues(applyMapping(rawValues, mapping), input.dataset.fields);
+      const mappedValues = normalizeCanonicalValues(normalizeMappedValues(applyMapping(rawValues, mapping), input.dataset.fields));
       const errors = [...validateMappedRow(mappedValues, input.dataset.kind)];
       if (input.dataset.kind === "table") errors.push(...validateTypedFields(mappedValues, input.dataset.fields));
       const match = input.dataset.kind === "member_employment"
@@ -177,6 +193,56 @@ async function getDuplicateMemberNumbers(scope: Scope, runId: string, header: st
   return new Set([...counts].filter(([, count]) => count > 1).map(([value]) => value));
 }
 
+export type PublishImpactSummary = {
+  acceptedRows: number;
+  excludedRows: number;
+  pendingRows: number;
+  newPeople: number;
+  matchedPeople: number;
+  jobsWithPositionId: number;
+  jobsMissingPositionId: number;
+  duesStandingRows: number;
+};
+
+function summarizePublishImpact(
+  dataset: DataDataset,
+  mapping: WorkbenchMapping,
+  staged: Array<{ decision: string; rawValues: Record<string, string>; matchPersonId: string | null }>,
+): PublishImpactSummary {
+  let acceptedRows = 0;
+  let excludedRows = 0;
+  let pendingRows = 0;
+  let newPeople = 0;
+  let matchedPeople = 0;
+  let jobsWithPositionId = 0;
+  let jobsMissingPositionId = 0;
+  let duesStandingRows = 0;
+  for (const row of staged) {
+    if (row.decision === "accept") acceptedRows += 1;
+    else if (row.decision === "exclude") excludedRows += 1;
+    else if (row.decision === "pending") pendingRows += 1;
+    if (row.decision !== "accept" || dataset.kind !== "member_employment") continue;
+    const values = normalizeCanonicalValues(normalizeMappedValues(applyMapping(row.rawValues, mapping), dataset.fields));
+    if (row.matchPersonId) matchedPeople += 1;
+    else if (String(values.memberNumber ?? "").trim()) newPeople += 1;
+    const jobFields = ["employer", "jobTitle", "worksite", "department", "supervisorName"];
+    const hasJob = jobFields.some((key) => String(values[key] ?? "").trim());
+    if (hasJob && String(values.positionId ?? "").trim()) jobsWithPositionId += 1;
+    else if (hasJob) jobsMissingPositionId += 1;
+    if (String(values.duesStanding ?? "").trim()) duesStandingRows += 1;
+  }
+  return {
+    acceptedRows,
+    excludedRows,
+    pendingRows,
+    newPeople,
+    matchedPeople,
+    jobsWithPositionId,
+    jobsMissingPositionId,
+    duesStandingRows,
+  };
+}
+
 export async function getImport(scope: Scope, id: string, paging: { offset?: number; limit?: number } = {}) {
   const [run] = await getDb().select().from(dataImportRuns).where(and(
     eq(dataImportRuns.id, id), eq(dataImportRuns.unionId, scope.unionId), eq(dataImportRuns.localId, scope.localId),
@@ -186,14 +252,25 @@ export async function getImport(scope: Scope, id: string, paging: { offset?: num
   if (!dataset) return null;
   const [{ count }] = await getDb().select({ count: sql<number>`count(*)::int` }).from(dataStagedRows).where(and(eq(dataStagedRows.runId, id), eq(dataStagedRows.unionId, scope.unionId), eq(dataStagedRows.localId, scope.localId)));
   const duplicateNumbers = dataset.kind === "member_employment" ? await getDuplicateMemberNumbers(scope, id, run.mapping.memberNumber) : new Set<string>();
+  const allStaged = await getDb().select({
+    decision: dataStagedRows.decision,
+    rawValues: dataStagedRows.rawValues,
+    matchPersonId: dataStagedRows.matchPersonId,
+  }).from(dataStagedRows).where(and(eq(dataStagedRows.runId, id), eq(dataStagedRows.unionId, scope.unionId), eq(dataStagedRows.localId, scope.localId)));
+  const impact = summarizePublishImpact(dataset, run.mapping, allStaged);
   const rows = await getDb().select().from(dataStagedRows).where(and(eq(dataStagedRows.runId, id), eq(dataStagedRows.unionId, scope.unionId), eq(dataStagedRows.localId, scope.localId))).orderBy(dataStagedRows.rowIndex).limit(Math.max(1, Math.min(paging.limit ?? 100, 200))).offset(Math.max(0, paging.offset ?? 0));
-  return { run: runDto(run), dataset, totalRows: count, rows: rows.map((r): StagedPreviewRow => {
-    const rawMapped = applyMapping(r.rawValues, run.mapping);
-    const mappedValues = normalizeMappedValues(rawMapped, dataset.fields);
-    const memberNumber = String(mappedValues.memberNumber ?? "").trim();
-    const errors = [...validateMappedRow(mappedValues, dataset.kind), ...(dataset.kind === "table" ? validateTypedFields(mappedValues, dataset.fields) : []), ...(duplicateNumbers.has(memberNumber) ? ["This member number appears more than once in the file."] : [])];
-    return { rowIndex: r.rowIndex, rawValues: r.rawValues, mappedValues, errors: [...new Set(errors)], matchPersonId: r.matchPersonId, matchReason: r.matchReason, decision: r.decision };
-  }) };
+  return {
+    run: runDto(run),
+    dataset,
+    totalRows: count,
+    impact,
+    rows: rows.map((r): StagedPreviewRow => {
+      const mappedValues = normalizeCanonicalValues(normalizeMappedValues(applyMapping(r.rawValues, run.mapping), dataset.fields));
+      const memberNumber = String(mappedValues.memberNumber ?? "").trim();
+      const errors = [...validateMappedRow(mappedValues, dataset.kind), ...(dataset.kind === "table" ? validateTypedFields(mappedValues, dataset.fields) : []), ...(duplicateNumbers.has(memberNumber) ? ["This member number appears more than once in the file."] : [])];
+      return { rowIndex: r.rowIndex, rawValues: r.rawValues, mappedValues, errors: [...new Set(errors)], matchPersonId: r.matchPersonId, matchReason: r.matchReason, decision: r.decision };
+    }),
+  };
 }
 
 export async function listImports(scope: Scope) {
@@ -208,7 +285,7 @@ export async function saveImportMapping(scope: Scope, runId: string, mapping: Wo
   if (!detail || detail.run.status !== "review") return null;
   const headers = Object.keys(detail.rows[0]?.rawValues ?? {});
   if (headers.length === 0 || Object.keys(mapping).length !== headers.length || headers.some((h) => !(h in mapping))) throw new Error("Map every column in the imported file.");
-  const allowed = new Set(detail.dataset.kind === "member_employment" ? ["memberNumber", "fullName", "email", "phone", "localNumber", "jobTitle", "employer", "worksite", "department", "supervisorName", "effectiveFrom", "effectiveTo", "positionId", "supervisorNumber", ...detail.dataset.fields.map((field) => field.id)] : detail.dataset.fields.map((field) => field.id));
+  const allowed = new Set(detail.dataset.kind === "member_employment" ? [...CANONICAL_MEMBER_FIELD_IDS, ...detail.dataset.fields.map((field) => field.id)] : detail.dataset.fields.map((field) => field.id));
   const targets = Object.values(mapping).filter((value): value is string => Boolean(value));
   if (new Set(targets).size !== targets.length) throw new Error("Map each destination field once. Leave unused columns in staging.");
   if (targets.some((target) => !allowed.has(target))) throw new Error("The mapping includes a field that is not part of this dataset.");
@@ -229,7 +306,7 @@ export async function setImportDecisions(scope: Scope, runId: string, input: { r
     : [];
   const duplicateNumbers = detail.dataset.kind === "member_employment" ? await getDuplicateMemberNumbers(scope, runId, detail.run.mapping.memberNumber) : new Set<string>();
   for (const row of selectedRows) {
-    const values = normalizeMappedValues(applyMapping(row.rawValues, detail.run.mapping), detail.dataset.fields);
+    const values = normalizeCanonicalValues(normalizeMappedValues(applyMapping(row.rawValues, detail.run.mapping), detail.dataset.fields));
     const errors = [...validateMappedRow(values, detail.dataset.kind), ...(detail.dataset.kind === "table" ? validateTypedFields(values, detail.dataset.fields) : [])];
     let matchPersonId = row.matchPersonId;
     let matchReason = row.matchReason;
@@ -243,7 +320,7 @@ export async function setImportDecisions(scope: Scope, runId: string, input: { r
     }
     if (input.decision === "accept" && (errors.length || (detail.dataset.kind === "member_employment" && !matchPersonId && !String(values.memberNumber ?? "").trim()))) throw new Error("Rows with errors or without a stable member number must be resolved before acceptance.");
     if (row.decision === "published") throw new Error("Published rows cannot be changed.");
-    await getDb().update(dataStagedRows).set({ decision: input.decision, matchPersonId, matchReason }).where(eq(dataStagedRows.id, row.id));
+    await getDb().update(dataStagedRows).set({ decision: input.decision, matchPersonId, matchReason, mappedValues: values }).where(eq(dataStagedRows.id, row.id));
   }
   return getImport(scope, runId);
 }
@@ -276,7 +353,7 @@ export async function publishImport(scope: Scope, runId: string) {
     ? await db.select({ personId: dataIdentifiers.personId, namespace: dataIdentifiers.namespace, value: dataIdentifiers.value }).from(dataIdentifiers).where(and(eq(dataIdentifiers.unionId, scope.unionId), eq(dataIdentifiers.localId, scope.localId)))
     : [];
   for (const staged of allStaged.filter((row) => row.decision === "accept")) {
-    const mappedValues = normalizeMappedValues(applyMapping(staged.rawValues, detail.run.mapping), detail.dataset.fields);
+    const mappedValues = normalizeCanonicalValues(normalizeMappedValues(applyMapping(staged.rawValues, detail.run.mapping), detail.dataset.fields));
     const errors = [...validateMappedRow(mappedValues, detail.dataset.kind), ...(detail.dataset.kind === "table" ? validateTypedFields(mappedValues, detail.dataset.fields) : [])];
     const memberNumber = String(mappedValues.memberNumber ?? "").trim();
     const match = detail.dataset.kind === "member_employment"
@@ -409,7 +486,11 @@ export async function publishImport(scope: Scope, runId: string) {
       const personId = personIds.get(memberNumber);
       if (!personId) throw new Error(`Row ${row.rowIndex} has no stable member number.`);
       if (String(row.mappedValues.fullName ?? "").trim()) await db.update(dataPeople).set({ displayName: String(row.mappedValues.fullName).trim() }).where(eq(dataPeople.id, personId));
-      const assertionKeys = new Set(["fullName", "email", "phone", "localNumber", "jobTitle", "employer", "worksite", "department", "supervisorName", ...detail.dataset.fields.map((field) => field.id)]);
+      const assertionKeys = new Set([
+        "fullName", "email", "phone", "localNumber", "jobTitle", "employer", "worksite", "department", "supervisorName",
+        "membershipStatus", "duesStanding", "duesPeriod", "duesSource", "classification", "hireDate",
+        ...detail.dataset.fields.map((field) => field.id),
+      ]);
       for (const fieldKey of assertionKeys) {
         const value = row.mappedValues[fieldKey];
         if (value === undefined || value === null || value === "") continue;
@@ -503,30 +584,165 @@ function validateTypedFields(values: Record<string, unknown>, fields: WorkbenchF
   return errors;
 }
 
-export async function listPeople(scope: Scope, paging: { offset?: number; limit?: number } = {}) {
+export async function listPeople(scope: Scope, paging: {
+  offset?: number;
+  limit?: number;
+  q?: string;
+  asOf?: string;
+  duesStanding?: string;
+} = {}) {
   const db = getDb();
+  const asOf = normalizeAsOf(paging.asOf);
   const offset = Math.max(0, paging.offset ?? 0);
   const limit = Math.max(1, Math.min(paging.limit ?? 100, 200));
-  const [{ count }] = await db.select({ count: sql<number>`count(*)::int` }).from(dataPeople).where(and(eq(dataPeople.unionId, scope.unionId), eq(dataPeople.localId, scope.localId)));
-  const people = await db.select().from(dataPeople).where(and(eq(dataPeople.unionId, scope.unionId), eq(dataPeople.localId, scope.localId))).orderBy(dataPeople.displayName).limit(limit).offset(offset);
-  if (!people.length) return { people: [], total: count, nextOffset: null as number | null };
+  const query = String(paging.q ?? "").trim().toLocaleLowerCase();
+  const duesFilter = String(paging.duesStanding ?? "").trim().toLocaleLowerCase();
+
+  const people = await db.select().from(dataPeople).where(and(
+    eq(dataPeople.unionId, scope.unionId), eq(dataPeople.localId, scope.localId),
+  )).orderBy(dataPeople.displayName);
+  if (!people.length) return { people: [] as PersonListItem[], total: 0, asOf, nextOffset: null as number | null };
+
   const personIds = people.map((person) => person.id);
-  const [assertions, assignments] = await Promise.all([
+  const [assertions, assignments, identifiers] = await Promise.all([
     db.select().from(dataAssertions).where(and(inArray(dataAssertions.personId, personIds), eq(dataAssertions.unionId, scope.unionId), eq(dataAssertions.localId, scope.localId))).orderBy(desc(dataAssertions.observedAt)),
     db.select().from(dataEmploymentAssignments).where(and(inArray(dataEmploymentAssignments.personId, personIds), eq(dataEmploymentAssignments.unionId, scope.unionId), eq(dataEmploymentAssignments.localId, scope.localId))).orderBy(desc(dataEmploymentAssignments.observedAt)),
+    db.select({ personId: dataIdentifiers.personId, namespace: dataIdentifiers.namespace, value: dataIdentifiers.value }).from(dataIdentifiers).where(and(inArray(dataIdentifiers.personId, personIds), eq(dataIdentifiers.unionId, scope.unionId), eq(dataIdentifiers.localId, scope.localId))),
   ]);
-  const profiles = new Map<string, Record<string, unknown>>();
+
+  const assertionsByPerson = new Map<string, typeof assertions>();
   for (const assertion of assertions) {
-    const profile = profiles.get(assertion.personId) ?? {};
-    if (!(assertion.fieldKey in profile)) profile[assertion.fieldKey] = assertion.value;
-    profiles.set(assertion.personId, profile);
+    assertionsByPerson.set(assertion.personId, [...(assertionsByPerson.get(assertion.personId) ?? []), assertion]);
   }
   const assignmentsByPerson = new Map<string, typeof assignments>();
-  for (const assignment of assignments) assignmentsByPerson.set(assignment.personId, [...(assignmentsByPerson.get(assignment.personId) ?? []), assignment]);
+  for (const assignment of assignments) {
+    assignmentsByPerson.set(assignment.personId, [...(assignmentsByPerson.get(assignment.personId) ?? []), assignment]);
+  }
+  const memberNumberByPerson = new Map<string, string>();
+  for (const identifier of identifiers) {
+    if (identifier.namespace === "union_member_number" && !memberNumberByPerson.has(identifier.personId)) {
+      memberNumberByPerson.set(identifier.personId, identifier.value);
+    }
+  }
+
+  const items: PersonListItem[] = people.map((person) => {
+    const profile = pickAssertionsAsOf(assertionsByPerson.get(person.id) ?? [], asOf);
+    const openAssignments = filterEffectiveOn(assignmentsByPerson.get(person.id) ?? [], asOf).map((assignment) => ({
+      id: assignment.id,
+      jobTitle: assignment.jobTitle,
+      employer: assignment.employer,
+      worksite: assignment.worksite,
+      department: assignment.department,
+      positionKey: assignment.positionKey,
+      supervisorName: assignment.supervisorName,
+      supervisorPersonId: assignment.supervisorPersonId,
+      effectiveFrom: assignment.effectiveFrom,
+      effectiveTo: assignment.effectiveTo,
+    }));
+    return {
+      id: person.id,
+      displayName: person.displayName,
+      memberNumber: memberNumberByPerson.get(person.id) ?? null,
+      profile,
+      duesStanding: profile.duesStanding == null ? null : String(profile.duesStanding),
+      membershipStatus: profile.membershipStatus == null ? null : String(profile.membershipStatus),
+      openJobCount: openAssignments.length,
+      assignments: openAssignments,
+    };
+  }).filter((person) => {
+    if (duesFilter && String(person.duesStanding ?? "").toLocaleLowerCase() !== duesFilter) return false;
+    if (!query) return true;
+    const haystack = [
+      person.displayName,
+      person.memberNumber ?? "",
+      person.duesStanding ?? "",
+      ...person.assignments.map((job) => `${job.jobTitle} ${job.employer}`),
+    ].join(" ").toLocaleLowerCase();
+    return haystack.includes(query);
+  });
+
+  const total = items.length;
+  const page = items.slice(offset, offset + limit);
   return {
-    people: people.map((person) => ({ id: person.id, displayName: person.displayName, profile: profiles.get(person.id) ?? {}, assignments: assignmentsByPerson.get(person.id) ?? [] })),
-    total: count,
-    nextOffset: offset + people.length < count ? offset + people.length : null,
+    people: page,
+    total,
+    asOf,
+    nextOffset: offset + page.length < total ? offset + page.length : null,
+  };
+}
+
+export async function getPersonProfile(scope: Scope, personId: string, asOfInput?: string): Promise<PersonProfile | null> {
+  const db = getDb();
+  const asOf = normalizeAsOf(asOfInput);
+  const [person] = await db.select().from(dataPeople).where(and(
+    eq(dataPeople.id, personId), eq(dataPeople.unionId, scope.unionId), eq(dataPeople.localId, scope.localId),
+  )).limit(1);
+  if (!person) return null;
+
+  const [identifiers, assertions, memberships, assignments, directReports] = await Promise.all([
+    db.select({ namespace: dataIdentifiers.namespace, value: dataIdentifiers.value }).from(dataIdentifiers).where(and(eq(dataIdentifiers.personId, personId), eq(dataIdentifiers.unionId, scope.unionId), eq(dataIdentifiers.localId, scope.localId))),
+    db.select().from(dataAssertions).where(and(eq(dataAssertions.personId, personId), eq(dataAssertions.unionId, scope.unionId), eq(dataAssertions.localId, scope.localId))).orderBy(desc(dataAssertions.observedAt)),
+    db.select().from(dataUnionMemberships).where(and(eq(dataUnionMemberships.personId, personId), eq(dataUnionMemberships.unionId, scope.unionId), eq(dataUnionMemberships.localId, scope.localId))).orderBy(desc(dataUnionMemberships.observedAt)),
+    db.select().from(dataEmploymentAssignments).where(and(eq(dataEmploymentAssignments.personId, personId), eq(dataEmploymentAssignments.unionId, scope.unionId), eq(dataEmploymentAssignments.localId, scope.localId))).orderBy(desc(dataEmploymentAssignments.observedAt)),
+    getDirectReports(scope, personId, { limit: 100 }),
+  ]);
+
+  const profile = pickAssertionsAsOf(assertions, asOf);
+  const openAssignments = filterEffectiveOn(assignments, asOf);
+  const memberNumber = identifiers.find((item) => item.namespace === "union_member_number")?.value ?? null;
+  const chains = await Promise.all(openAssignments.map(async (assignment) => ({
+    positionKey: assignment.positionKey,
+    jobTitle: assignment.jobTitle,
+    chain: await getReportingChainForAssignment(scope, personId, assignment.id, asOf),
+  })));
+
+  return {
+    person: { id: person.id, displayName: person.displayName, createdAt: person.createdAt.toISOString() },
+    asOf,
+    memberNumber,
+    identifiers,
+    profile,
+    duesStanding: profile.duesStanding == null ? null : String(profile.duesStanding),
+    duesPeriod: profile.duesPeriod == null ? null : String(profile.duesPeriod),
+    duesSource: profile.duesSource == null ? null : String(profile.duesSource),
+    membershipStatus: profile.membershipStatus == null ? null : String(profile.membershipStatus),
+    memberships: memberships.map((row) => ({
+      id: row.id,
+      memberNumber: row.memberNumber,
+      effectiveFrom: row.effectiveFrom,
+      effectiveTo: row.effectiveTo,
+      runId: row.runId,
+      observedAt: row.observedAt.toISOString(),
+    })),
+    assignments: assignments.map((row) => ({
+      id: row.id,
+      jobTitle: row.jobTitle,
+      employer: row.employer,
+      worksite: row.worksite,
+      department: row.department,
+      positionKey: row.positionKey,
+      supervisorName: row.supervisorName,
+      supervisorPersonId: row.supervisorPersonId,
+      effectiveFrom: row.effectiveFrom,
+      effectiveTo: row.effectiveTo,
+      runId: row.runId,
+      rowIndex: row.rowIndex,
+      observedAt: row.observedAt.toISOString(),
+    })),
+    assertions: assertions.map((row) => ({
+      id: row.id,
+      fieldKey: row.fieldKey,
+      value: row.value,
+      effectiveFrom: row.effectiveFrom,
+      effectiveTo: row.effectiveTo,
+      runId: row.runId,
+      rowIndex: row.rowIndex,
+      observedAt: row.observedAt.toISOString(),
+    })),
+    reporting: {
+      chains,
+      directReports: directReports.people,
+    },
   };
 }
 
@@ -579,22 +795,51 @@ export async function getDirectReports(scope: Scope, supervisorPersonId: string,
   return { people, total: count, nextOffset: offset + people.length < count ? offset + people.length : null };
 }
 
-export async function getReportingChain(scope: Scope, personId: string) {
+async function getReportingChainForAssignment(
+  scope: Scope,
+  personId: string,
+  assignmentId: string,
+  asOf: string,
+) {
   const chain: Array<{ id: string; displayName: string }> = [];
   const visited = new Set([personId]);
-  let currentId = personId;
-  for (let depth = 0; depth < 50; depth += 1) {
-    const [assignment] = await getDb().select({ supervisorPersonId: dataEmploymentAssignments.supervisorPersonId }).from(dataEmploymentAssignments).where(and(
-      eq(dataEmploymentAssignments.personId, currentId), eq(dataEmploymentAssignments.unionId, scope.unionId), eq(dataEmploymentAssignments.localId, scope.localId), eq(dataEmploymentAssignments.effectiveTo, ""),
-    )).orderBy(desc(dataEmploymentAssignments.observedAt)).limit(1);
-    if (!assignment?.supervisorPersonId || visited.has(assignment.supervisorPersonId)) break;
-    const [supervisor] = await getDb().select({ id: dataPeople.id, displayName: dataPeople.displayName }).from(dataPeople).where(and(eq(dataPeople.id, assignment.supervisorPersonId), eq(dataPeople.unionId, scope.unionId), eq(dataPeople.localId, scope.localId))).limit(1);
+  const [seed] = await getDb().select().from(dataEmploymentAssignments).where(and(
+    eq(dataEmploymentAssignments.id, assignmentId),
+    eq(dataEmploymentAssignments.personId, personId),
+    eq(dataEmploymentAssignments.unionId, scope.unionId),
+    eq(dataEmploymentAssignments.localId, scope.localId),
+  )).limit(1);
+  let supervisorId = seed?.supervisorPersonId ?? null;
+  for (let depth = 0; depth < 50 && supervisorId; depth += 1) {
+    if (visited.has(supervisorId)) break;
+    const [supervisor] = await getDb().select({ id: dataPeople.id, displayName: dataPeople.displayName }).from(dataPeople).where(and(
+      eq(dataPeople.id, supervisorId), eq(dataPeople.unionId, scope.unionId), eq(dataPeople.localId, scope.localId),
+    )).limit(1);
     if (!supervisor) break;
     chain.push(supervisor);
     visited.add(supervisor.id);
-    currentId = supervisor.id;
+    const supervisorAssignments = await getDb().select().from(dataEmploymentAssignments).where(and(
+      eq(dataEmploymentAssignments.personId, supervisor.id),
+      eq(dataEmploymentAssignments.unionId, scope.unionId),
+      eq(dataEmploymentAssignments.localId, scope.localId),
+    )).orderBy(desc(dataEmploymentAssignments.observedAt));
+    const open = filterEffectiveOn(supervisorAssignments, asOf);
+    supervisorId = open[0]?.supervisorPersonId ?? null;
   }
   return chain;
+}
+
+/** Prefer a specific open assignment when present; otherwise walk each open job. */
+export async function getReportingChain(scope: Scope, personId: string, asOfInput?: string) {
+  const asOf = normalizeAsOf(asOfInput);
+  const assignments = await getDb().select().from(dataEmploymentAssignments).where(and(
+    eq(dataEmploymentAssignments.personId, personId),
+    eq(dataEmploymentAssignments.unionId, scope.unionId),
+    eq(dataEmploymentAssignments.localId, scope.localId),
+  )).orderBy(desc(dataEmploymentAssignments.observedAt));
+  const open = filterEffectiveOn(assignments, asOf);
+  if (!open.length) return [];
+  return getReportingChainForAssignment(scope, personId, open[0].id, asOf);
 }
 
 export async function listGenericRecords(scope: Scope, datasetId: string, paging: { offset?: number; limit?: number } = {}) {

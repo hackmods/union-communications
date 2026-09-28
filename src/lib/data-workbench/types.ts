@@ -15,7 +15,13 @@ export type CanonicalField =
   | "effectiveFrom"
   | "effectiveTo"
   | "positionId"
-  | "supervisorNumber";
+  | "supervisorNumber"
+  | "membershipStatus"
+  | "duesStanding"
+  | "duesPeriod"
+  | "duesSource"
+  | "classification"
+  | "hireDate";
 
 export const MEMBER_EMPLOYMENT_FIELDS: Array<{
   id: CanonicalField;
@@ -36,7 +42,24 @@ export const MEMBER_EMPLOYMENT_FIELDS: Array<{
   { id: "effectiveTo", label: "Effective to" },
   { id: "positionId", label: "Source position ID" },
   { id: "supervisorNumber", label: "Supervisor member number" },
+  { id: "membershipStatus", label: "Membership status" },
+  { id: "duesStanding", label: "Dues standing" },
+  { id: "duesPeriod", label: "Dues period" },
+  { id: "duesSource", label: "Dues source" },
+  { id: "classification", label: "Classification" },
+  { id: "hireDate", label: "Hire date" },
 ];
+
+/** Canonical member/employment field ids allowed in mappings (excludes custom dataset fields). */
+export const CANONICAL_MEMBER_FIELD_IDS: CanonicalField[] = MEMBER_EMPLOYMENT_FIELDS.map((field) => field.id);
+
+export const MEMBERSHIP_STATUS_VALUES = ["active", "leave", "resigned", "unknown"] as const;
+export const DUES_STANDING_VALUES = ["good", "arrears", "unknown", "exempt"] as const;
+export const DUES_SOURCE_VALUES = ["employer_report", "card_roster", "officer_note"] as const;
+
+export type MembershipStatusValue = (typeof MEMBERSHIP_STATUS_VALUES)[number];
+export type DuesStandingValue = (typeof DUES_STANDING_VALUES)[number];
+export type DuesSourceValue = (typeof DUES_SOURCE_VALUES)[number];
 
 export type ParsedTable = {
   sheetName: string;
@@ -81,5 +104,80 @@ export type DataImportRun = {
   acceptedCount: number;
   heldCount: number;
   createdAt: string;
-  publishedAt?: string | null;
+  publishedAt: string | null;
+};
+
+export type PersonListItem = {
+  id: string;
+  displayName: string;
+  memberNumber: string | null;
+  profile: Record<string, unknown>;
+  duesStanding: string | null;
+  membershipStatus: string | null;
+  openJobCount: number;
+  assignments: Array<{
+    id: string;
+    jobTitle: string;
+    employer: string;
+    worksite: string;
+    department: string;
+    positionKey: string;
+    supervisorName: string;
+    supervisorPersonId: string | null;
+    effectiveFrom: string | null;
+    effectiveTo: string | null;
+  }>;
+};
+
+export type PersonProfile = {
+  person: { id: string; displayName: string; createdAt: string };
+  asOf: string;
+  memberNumber: string | null;
+  identifiers: Array<{ namespace: string; value: string }>;
+  profile: Record<string, unknown>;
+  duesStanding: string | null;
+  duesPeriod: string | null;
+  duesSource: string | null;
+  membershipStatus: string | null;
+  memberships: Array<{
+    id: string;
+    memberNumber: string;
+    effectiveFrom: string | null;
+    effectiveTo: string | null;
+    runId: string;
+    observedAt: string;
+  }>;
+  assignments: Array<{
+    id: string;
+    jobTitle: string;
+    employer: string;
+    worksite: string;
+    department: string;
+    positionKey: string;
+    supervisorName: string;
+    supervisorPersonId: string | null;
+    effectiveFrom: string | null;
+    effectiveTo: string | null;
+    runId: string;
+    rowIndex: number;
+    observedAt: string;
+  }>;
+  assertions: Array<{
+    id: string;
+    fieldKey: string;
+    value: unknown;
+    effectiveFrom: string | null;
+    effectiveTo: string | null;
+    runId: string;
+    rowIndex: number;
+    observedAt: string;
+  }>;
+  reporting: {
+    chains: Array<{
+      positionKey: string;
+      jobTitle: string;
+      chain: Array<{ id: string; displayName: string }>;
+    }>;
+    directReports: Array<{ id: string; displayName: string }>;
+  };
 };

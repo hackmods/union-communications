@@ -31,15 +31,34 @@ Publication runs inside the existing RLS transaction wrapper and locks the datas
 | `GET/PATCH /api/data/imports/:id` | Page preview rows; save mapping or row decisions |
 | `POST /api/data/imports/:id/publish` | Fresh-MFA-gated publication of accepted rows and revision counts |
 | `GET /api/data/datasets/:id/records` | Read published generic table records |
-| `GET /api/data/records/people` | Search accepted people and current assignments |
+| `GET /api/data/records/people` | Search accepted people (`q`, `asOf`, `duesStanding`) with open multi-job summary |
+| `GET /api/data/records/people/:id` | Structured person profile at `asOf` (standing, jobs, reporting, timeline) |
 | `GET /api/data/records/people/:id/history` | Read authorized assertions and memberships |
 | `GET /api/data/records/reporting-relationships` | Read a person's reporting chain or direct reports |
+| `POST /api/data/reports/run` | Curated as-of report JSON or formula-safe CSV |
 
 All list/detail APIs are local-scoped and paged where row volume can grow. APIs for Portal, dues, dispatch, and grievance integrations are intentionally deferred.
 
+## Core observational fields (member/employment)
+
+In addition to identity and job columns, imports may map:
+
+- `membershipStatus` — active / leave / resigned / unknown
+- `duesStanding` — good / arrears / unknown / exempt (**observational**; not dues collection or remittance)
+- `duesPeriod` — period label (prefer `YYYY-MM`)
+- `duesSource` — employer_report / card_roster / officer_note
+- `classification` — bargaining class / band text
+- `hireDate` — observational hire date (`YYYY-MM-DD`), distinct from job `effectiveFrom`
+
+People and report reads support an `asOf` date. Concurrent jobs still require a **Source position ID**.
+
+## Reports
+
+`POST /api/data/reports/run` runs curated as-of views (`people_as_of`, `assignments_as_of`, `dues_standing_snapshot`) or a published general-table revision, with JSON preview or formula-safe CSV export. Saved custom report definitions remain follow-on work.
+
 ## Not shipped yet
 
-The Reports area is a placeholder. The first release does not include saved table reports, spreadsheet exports, declarative transform profiles, date-format selection, workbook sheet selection/multi-sheet imports, a durable background queue/worker, retry/cancel/checkpoint controls, trusted-source auto-publication, reviewed merge/split correction, retention purging, or custom entities/relationships. Upload parsing and row staging currently run synchronously in the upload request. Do not enable the module for a real-data pilot until private storage, malware scanning, and operator retention are ready.
+The first release does not include saved custom report definitions, declarative transform profiles, date-format selection, workbook sheet selection/multi-sheet imports, a durable background queue/worker, retry/cancel/checkpoint controls, trusted-source auto-publication, reviewed merge/split correction, retention purging, or custom entities/relationships. Upload parsing and row staging currently run synchronously in the upload request. Do not enable the module for a real-data pilot until private storage, malware scanning, and operator retention are ready.
 
 ## UX and operator gaps
 

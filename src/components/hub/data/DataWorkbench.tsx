@@ -7,9 +7,20 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { MEMBER_EMPLOYMENT_FIELDS } from "@/lib/data-workbench/types";
 import type { DataDataset, DataImportRun, StagedPreviewRow } from "@/lib/data-workbench/types";
 import type { WorkbenchField, WorkbenchMapping } from "@/lib/db/schema/data-workbench";
+import { RecordsPanel } from "./RecordsPanel";
+import { ReportsPanel } from "./ReportsPanel";
 
 type ImportDetail = { run: DataImportRun; dataset: DataDataset; totalRows: number; rows: StagedPreviewRow[] };
-type PersonRow = { id: string; displayName: string; profile: Record<string, unknown>; assignments: Array<Record<string, unknown>> };
+type PublishImpact = {
+  acceptedRows: number;
+  excludedRows: number;
+  pendingRows: number;
+  newPeople: number;
+  matchedPeople: number;
+  jobsWithPositionId: number;
+  jobsMissingPositionId: number;
+  duesStandingRows: number;
+};
 type Tab = "datasets" | "imports" | "records" | "reports";
 
 const inputClass = "min-h-11 w-full rounded-md border border-gray-300 bg-white px-3 text-sm";
@@ -20,7 +31,6 @@ export function DataWorkbench() {
   const [tab, setTab] = useState<Tab>("datasets");
   const [datasets, setDatasets] = useState<DataDataset[]>([]);
   const [imports, setImports] = useState<DataImportRun[]>([]);
-  const [people, setPeople] = useState<PersonRow[]>([]);
   const [selectedDataset, setSelectedDataset] = useState("");
   const [detail, setDetail] = useState<ImportDetail | null>(null);
   const [mapping, setMapping] = useState<WorkbenchMapping>({});
@@ -38,8 +48,7 @@ export function DataWorkbench() {
   const [busy, setBusy] = useState(false);
   const [publishStepUpRequired, setPublishStepUpRequired] = useState(false);
   const [publishMfaCode, setPublishMfaCode] = useState("");
-  const [personHistory, setPersonHistory] = useState<unknown>(null);
-  const [records, setRecords] = useState<Array<{ rowIndex: number; values: Record<string, unknown> }>>([]);
+  const [publishImpact, setPublishImpact] = useState<PublishImpact | null>(null);
 
   const request = useCallback(async <T,>(url: string, init?: RequestInit): Promise<T> => {
     const response = await fetch(url, init);
@@ -49,14 +58,12 @@ export function DataWorkbench() {
   }, [t]);
 
   const refresh = useCallback(async () => {
-    const [datasetResult, importResult, peopleResult] = await Promise.all([
+    const [datasetResult, importResult] = await Promise.all([
       request<{ datasets: DataDataset[] }>("/api/data/datasets"),
       request<{ imports: DataImportRun[] }>("/api/data/imports"),
-      request<{ people: PersonRow[] }>("/api/data/records/people"),
     ]);
     setDatasets(datasetResult.datasets);
     setImports(importResult.imports);
-    setPeople(peopleResult.people);
     if (!selectedDataset && datasetResult.datasets[0]) setSelectedDataset(datasetResult.datasets[0].id);
   }, [request, selectedDataset]);
 
@@ -65,12 +72,10 @@ export function DataWorkbench() {
     void Promise.all([
       request<{ datasets: DataDataset[] }>("/api/data/datasets"),
       request<{ imports: DataImportRun[] }>("/api/data/imports"),
-      request<{ people: PersonRow[] }>("/api/data/records/people"),
-    ]).then(([datasetResult, importResult, peopleResult]) => {
+    ]).then(([datasetResult, importResult]) => {
       if (cancelled) return;
       setDatasets(datasetResult.datasets);
       setImports(importResult.imports);
-      setPeople(peopleResult.people);
       setSelectedDataset((current) => current || datasetResult.datasets[0]?.id || "");
     }).catch((error: unknown) => {
       if (!cancelled) setMessage(error instanceof Error ? error.message : t("requestFailed"));
@@ -81,12 +86,13 @@ export function DataWorkbench() {
   const loadImport = useCallback(async (id: string, requestedPage = 0) => {
     setPublishStepUpRequired(false);
     setPublishMfaCode("");
-    const response = await request<ImportDetail>(`/api/data/imports/${id}?offset=${requestedPage * 100}&limit=100`);
+    const response = await request<ImportDetail & { impact?: PublishImpact }>(`/api/data/imports/${id}?offset=${requestedPage * 100}&limit=100`);
     setDetail(response);
     setMapping(response.run.mapping);
     setMappingDirty(false);
     setSelectedRows([]);
     setPage(requestedPage);
+    setPublishImpact(response.impact ?? null);
   }, [request]);
 
   const targets = useMemo(() => {
@@ -194,20 +200,6 @@ export function DataWorkbench() {
     finally { setBusy(false); }
   }
 
-  async function showHistory(personId: string) {
-    setBusy(true); setMessage("");
-    try { setPersonHistory((await request<{ history: unknown }>(`/api/data/records/people/${personId}/history`)).history); }
-    catch (error) { setMessage(error instanceof Error ? error.message : t("requestFailed")); }
-    finally { setBusy(false); }
-  }
-
-  async function showRecords(datasetId: string) {
-    setSelectedDataset(datasetId); setBusy(true); setMessage("");
-    try { const result = await request<{ records: typeof records }>(`/api/data/datasets/${datasetId}/records`); setRecords(result.records); }
-    catch (error) { setMessage(error instanceof Error ? error.message : t("requestFailed")); }
-    finally { setBusy(false); }
-  }
-
   function addField() {
     const id = idFromLabel(fieldLabel);
     if (!id || fields.some((field) => field.id === id)) return;
@@ -223,6 +215,7 @@ export function DataWorkbench() {
         <p className="text-sm font-semibold uppercase tracking-wide text-opseu-blue">{t("eyebrow")}</p>
         <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
         <p className="max-w-3xl text-gray-700">{t("intro")}</p>
+        <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">{t("activeLocalBanner")}</p>
       </header>
       <div className="flex flex-wrap gap-2 border-b border-gray-200 pb-2" role="tablist" aria-label={t("sections")}>
         {(Object.keys(tabLabels) as Tab[]).map((item) => <button key={item} type="button" role="tab" aria-selected={tab === item} className={`min-h-11 rounded-md px-4 text-sm font-medium ${tab === item ? "bg-opseu-blue text-white" : "bg-gray-100 text-opseu-dark hover:bg-gray-200"}`} onClick={() => { setTab(item); setMessage(""); }}>{tabLabels[item]}</button>)}
@@ -256,7 +249,8 @@ export function DataWorkbench() {
         <Card density="compact" className="space-y-3"><CardTitle>{t("recentImports")}</CardTitle>{imports.length === 0 ? <p className="text-sm text-gray-600">{t("noImports")}</p> : imports.map((item) => <button key={item.id} type="button" className={`block w-full rounded-md border p-3 text-left ${detail?.run.id === item.id ? "border-opseu-blue bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`} onClick={() => void loadImport(item.id)}><span className="block truncate font-medium">{item.fileName}</span><span className="mt-1 block text-xs text-gray-600">{item.rowCount} · {t(`status.${item.status}`)}</span></button>)}</Card>
         {detail ? <Card density="compact" className="min-w-0 space-y-5">
           <div className="flex flex-wrap items-start justify-between gap-3"><div><CardTitle>{detail.run.fileName}</CardTitle><p className="mt-1 text-sm text-gray-600">{t("importSummary", { rows: detail.totalRows, sheet: detail.run.sheetName, status: t(`status.${detail.run.status}`) })}</p><p className="mt-1 break-all text-xs text-gray-500">SHA-256 {detail.run.contentHash}</p></div><Button type="button" variant="outline" onClick={() => void loadImport(detail.run.id, page)} disabled={busy}>{t("refresh")}</Button></div>
-          {detail.run.status === "review" && <section className="space-y-3"><h3 className="font-semibold text-opseu-dark">{t("mapColumns")}</h3><p className="text-sm text-gray-700">{t("mappingHelp")}</p><div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">{Object.keys(detail.rows[0]?.rawValues ?? {}).map((header) => <label key={header} className="block space-y-1 text-sm"><span className="block truncate font-medium">{header}</span><select className={inputClass} value={mapping[header] ?? ""} onChange={(event) => { setMapping((current) => ({ ...current, [header]: event.target.value || null })); setMappingDirty(true); }}><option value="">{t("leaveInStaging")}</option>{targets.map((target) => <option key={target.id} value={target.id}>{target.label}</option>)}</select></label>)}</div><Button type="button" disabled={!mappingDirty || busy} onClick={() => void saveMapping()}>{t("saveMapping")}</Button></section>}
+          {detail.run.status === "review" && <section className="space-y-3"><h3 className="font-semibold text-opseu-dark">{t("mapColumns")}</h3><p className="text-sm text-gray-700">{t("mappingHelp")}</p><p className="text-sm text-amber-950">{t("positionIdHelp")}</p><div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">{Object.keys(detail.rows[0]?.rawValues ?? {}).map((header) => <label key={header} className="block space-y-1 text-sm"><span className="block truncate font-medium">{header}</span><select className={inputClass} value={mapping[header] ?? ""} onChange={(event) => { setMapping((current) => ({ ...current, [header]: event.target.value || null })); setMappingDirty(true); }}><option value="">{t("leaveInStaging")}</option>{targets.map((target) => <option key={target.id} value={target.id}>{target.label}</option>)}</select></label>)}</div><Button type="button" disabled={!mappingDirty || busy} onClick={() => void saveMapping()}>{t("saveMapping")}</Button></section>}
+          {publishImpact && detail.dataset.kind === "member_employment" && <section className="space-y-2 rounded-md border border-blue-200 bg-blue-50 p-4 text-sm text-blue-950"><h3 className="font-semibold">{t("publishImpactTitle")}</h3><p>{t("publishImpactBody")}</p><ul className="grid gap-1 sm:grid-cols-2"><li>{t("impactAccepted", { count: publishImpact.acceptedRows })}</li><li>{t("impactPending", { count: publishImpact.pendingRows })}</li><li>{t("impactExcluded", { count: publishImpact.excludedRows })}</li><li>{t("impactNewPeople", { count: publishImpact.newPeople })}</li><li>{t("impactMatched", { count: publishImpact.matchedPeople })}</li><li>{t("impactJobsReady", { count: publishImpact.jobsWithPositionId })}</li><li>{t("impactJobsMissingPosition", { count: publishImpact.jobsMissingPositionId })}</li><li>{t("impactDuesStanding", { count: publishImpact.duesStandingRows })}</li></ul></section>}
           <div className="flex flex-wrap items-center gap-2 border-y border-gray-200 py-3"><Button type="button" variant="outline" disabled={busy || selectedRows.length === 0 || detail.run.status === "published"} onClick={() => void decideRows("accept")}>{t("acceptSelected", { count: selectedRows.length })}</Button><Button type="button" variant="outline" disabled={busy || selectedRows.length === 0 || detail.run.status === "published"} onClick={() => void decideRows("exclude")}>{t("excludeSelected")}</Button><Button type="button" disabled={busy || publishStepUpRequired || detail.run.status === "published" || !detail.rows.some((row) => row.decision === "accept")} onClick={() => void publish()}>{t("publishAccepted")}</Button><span className="text-xs text-gray-600">{t("selectionHelp")}</span></div>
           {publishStepUpRequired ? <form className="space-y-3 rounded-md border border-amber-300 bg-amber-50 p-4" onSubmit={(event) => { event.preventDefault(); if (publishMfaCode.length === 6) void publish(publishMfaCode); }}>
             <div><h3 className="font-semibold text-amber-950">{t("mfaStepUpTitle")}</h3><p className="mt-1 break-words text-sm text-amber-950">{t("publishStepUpHint", { file: detail.run.fileName })}</p></div>
@@ -267,13 +261,25 @@ export function DataWorkbench() {
         </Card> : <Card density="compact"><p className="text-sm text-gray-600">{t("selectImport")}</p></Card>}
       </div>}
 
-      {tab === "records" && <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(20rem,0.8fr)]">
-        <Card density="compact" className="space-y-3"><CardTitle>{t("people")}</CardTitle>{people.length === 0 ? <p className="text-sm text-gray-600">{t("noPeople")}</p> : <div className="overflow-x-auto"><table className="min-w-full text-left text-sm"><thead><tr><th className="p-2">{t("name")}</th><th className="p-2">{t("memberNumber")}</th><th className="p-2">{t("position")}</th><th className="p-2">{t("history")}</th></tr></thead><tbody>{people.map((person) => <tr className="border-t border-gray-100" key={person.id}><td className="p-2">{person.displayName}</td><td className="p-2">{String(person.profile.memberNumber ?? "")}</td><td className="p-2">{String(person.assignments[0]?.jobTitle ?? "")}</td><td className="p-2"><button className="text-opseu-blue underline" onClick={() => void showHistory(person.id)}>{t("viewHistory")}</button></td></tr>)}</tbody></table></div>}</Card>
-        <Card density="compact" className="space-y-3"><CardTitle>{t("tableRecords")}</CardTitle><label className="block space-y-1 text-sm"><span>{t("chooseDataset")}</span><select className={inputClass} value={selectedDataset} onChange={(event) => void showRecords(event.target.value)}><option value="">{t("chooseDataset")}</option>{datasets.filter((dataset) => dataset.kind === "table").map((dataset) => <option key={dataset.id} value={dataset.id}>{dataset.name}</option>)}</select></label><div className="max-h-96 overflow-auto"><pre className="whitespace-pre-wrap break-words rounded-md bg-gray-50 p-3 text-xs">{JSON.stringify(records, null, 2)}</pre></div></Card>
-        {personHistory != null && <Card density="compact" className="space-y-3 xl:col-span-2"><div className="flex items-center justify-between"><CardTitle>{t("personHistory")}</CardTitle><button className="text-sm text-opseu-blue underline" onClick={() => setPersonHistory(null)}>{t("close")}</button></div><pre className="max-h-[32rem] overflow-auto whitespace-pre-wrap break-words rounded-md bg-gray-50 p-3 text-xs">{JSON.stringify(personHistory, null, 2)}</pre></Card>}
-      </div>}
+      {tab === "records" && (
+        <RecordsPanel
+          request={request}
+          datasets={datasets}
+          busy={busy}
+          setBusy={setBusy}
+          setMessage={setMessage}
+        />
+      )}
 
-      {tab === "reports" && <Card density="compact" className="space-y-3"><CardTitle>{t("reports")}</CardTitle><p className="max-w-3xl text-sm text-gray-700">{t("reportsComing")}</p></Card>}
+      {tab === "reports" && (
+        <ReportsPanel
+          request={request}
+          datasets={datasets}
+          busy={busy}
+          setBusy={setBusy}
+          setMessage={setMessage}
+        />
+      )}
     </main>
   );
 }

@@ -10,7 +10,10 @@ export async function GET(request: Request) {
   if (!access.ok) return NextResponse.json({ error: access.error }, { status: access.status });
   const url = new URL(request.url);
   const page = parsePage(url.searchParams);
+  const q = url.searchParams.get("q") ?? undefined;
+  const asOf = url.searchParams.get("asOf") ?? undefined;
+  const duesStanding = url.searchParams.get("duesStanding") ?? undefined;
   const rlsContext = await rlsContextForSession(access.session) ?? {};
-  const result = await withRlsContext(rlsContext, () => listPeople(access, page));
+  const result = await withRlsContext(rlsContext, () => listPeople(access, { ...page, q, asOf, duesStanding }));
   return NextResponse.json(result);
 }
