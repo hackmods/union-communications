@@ -212,14 +212,14 @@ DROP TABLE IF EXISTS customization_revisions CASCADE;
 DROP TABLE IF EXISTS customization_drafts CASCADE;
 DROP TABLE IF EXISTS customization_resources CASCADE;
 DROP TABLE IF EXISTS customization_scopes CASCADE;
-DROP FUNCTION IF EXISTS public.customization_fragment_access(text, text, text, text, jsonb);
-DROP FUNCTION IF EXISTS public.customization_current_access(text, text, text, text);
-DROP FUNCTION IF EXISTS public.customization_audience(text, text);
-DROP FUNCTION IF EXISTS public.customization_scope_live(text);
-DROP FUNCTION IF EXISTS public.customization_root(text, boolean);
-DROP FUNCTION IF EXISTS public.customization_immutable();
-DROP FUNCTION IF EXISTS public.customization_row_guard();
-DROP FUNCTION IF EXISTS public.customization_scope_guard();
+DROP FUNCTION IF EXISTS public.customization_fragment_access(text, text, text, text, jsonb) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_current_access(text, text, text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_audience(text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_scope_live(text) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_root(text, boolean) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_immutable() CASCADE;
+DROP FUNCTION IF EXISTS public.customization_row_guard() CASCADE;
+DROP FUNCTION IF EXISTS public.customization_scope_guard() CASCADE;
 
 -- Rewind the Members Portal authorization/Portal tail as well. The journal-hole
 -- fixture replays every migration after the reconciliation point; retaining

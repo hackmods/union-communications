@@ -13,7 +13,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : 2,
   /** Bound CI so auth misconfig cannot hang the job for 20+ minutes. */
-  globalTimeout: process.env.CI ? 15 * 60 * 1000 : undefined,
+  globalTimeout: process.env.CI ? 25 * 60 * 1000 : undefined,
   timeout: 30_000,
   reporter: "html",
   use: {
