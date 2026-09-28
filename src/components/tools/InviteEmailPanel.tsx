@@ -1,16 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Input, Textarea } from "@/components/ui/Input";
+import { Input } from "@/components/ui/Input";
+import { EmailDraftComposer } from "@/components/email/EmailDraftComposer";
 import {
   buildEventInviteEmail,
-  buildMailto,
   type EventEmailFields,
 } from "@/lib/comms/event-email";
-import { copyToClipboard } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
 type InviteEmailMessagesNamespace =
@@ -35,87 +34,135 @@ export function InviteEmailPanel({
   className,
 }: InviteEmailPanelProps) {
   const t = useTranslations(messagesNamespace);
-  const tc = useTranslations("common");
+  const te = useTranslations("commsAutoSend");
   const locale = useLocale() as "en" | "fr";
-  const [copied, setCopied] = useState<"subject" | "body" | null>(null);
-
   const inviteEmail = buildEventInviteEmail(fields, { locale, localNumber });
+  const [autoSendAllowed, setAutoSendAllowed] = useState(false);
+  const [trackingAllowed, setTrackingAllowed] = useState(false);
+  const [to, setTo] = useState("");
+  const [trackingOptIn, setTrackingOptIn] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [feedback, setFeedback] = useState("");
 
-  async function copyEmailPart(part: "subject" | "body") {
-    const ok = await copyToClipboard(
-      part === "subject" ? inviteEmail.subject : inviteEmail.body,
-    );
-    if (ok) {
-      setCopied(part);
-      window.setTimeout(() => setCopied(null), 1500);
+  useEffect(() => {
+    let cancelled = false;
+    void fetch("/api/email/capabilities", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) return;
+        const data = (await response.json()) as {
+          allowed?: { comms_auto_send?: boolean; tracking_pixels?: boolean };
+        };
+        if (!cancelled) {
+          setAutoSendAllowed(data.allowed?.comms_auto_send === true);
+          setTrackingAllowed(data.allowed?.tracking_pixels === true);
+        }
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  async function sendSmtp() {
+    setBusy(true);
+    setFeedback("");
+    try {
+      const response = await fetch("/api/comms/invite-email/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to,
+          locale,
+          localNumber,
+          fields,
+          explicitTrackingOptIn: trackingOptIn,
+        }),
+        cache: "no-store",
+      });
+      const data = (await response.json()) as {
+        error?: string;
+        trackingApplied?: boolean;
+      };
+      if (!response.ok) throw new Error(data.error ?? te("error"));
+      setFeedback(
+        te("sent", {
+          tracking: data.trackingApplied ? te("yes") : te("no"),
+        }),
+      );
+    } catch (error) {
+      setFeedback(error instanceof Error ? error.message : te("error"));
+    } finally {
+      setBusy(false);
     }
   }
 
   return (
-    <Card density="compact" className={cn("space-y-3", className)}>
-      <div>
-        <CardTitle className="text-base">{t("inviteEmail.title")}</CardTitle>
-        <p className="mt-1 text-sm text-gray-600">{t("inviteEmail.hint")}</p>
-      </div>
-
-      <div className="space-y-1">
-        <label
-          htmlFor="invite-subject"
-          className="text-sm font-medium text-gray-700"
-        >
-          {t("inviteEmail.subjectLabel")}
-        </label>
-        <Input
-          id="invite-subject"
-          readOnly
-          value={inviteEmail.subject}
-          onFocus={(e) => e.currentTarget.select()}
-        />
-      </div>
-
-      <div className="space-y-1">
-        <label
-          htmlFor="invite-body"
-          className="text-sm font-medium text-gray-700"
-        >
-          {t("inviteEmail.bodyLabel")}
-        </label>
-        <Textarea
-          id="invite-body"
-          readOnly
-          rows={12}
-          value={inviteEmail.body}
-          onFocus={(e) => e.currentTarget.select()}
-        />
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => void copyEmailPart("subject")}
-        >
-          {copied === "subject"
-            ? tc("copied")
-            : t("inviteEmail.copySubject")}
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => void copyEmailPart("body")}
-        >
-          {copied === "body" ? tc("copied") : t("inviteEmail.copyBody")}
-        </Button>
-        <a
-          href={buildMailto(inviteEmail)}
-          className="inline-flex items-center justify-center rounded-lg border-2 border-opseu-blue px-4 py-2 text-base font-semibold text-opseu-blue transition-colors hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
-        >
-          {t("inviteEmail.openMail")}
-        </a>
-      </div>
-
-      <p className="text-xs text-gray-500">{t("inviteEmail.privacy")}</p>
-      {footerExtra}
+    <Card density="compact" className={cn(className)}>
+      <CardTitle className="text-base">{t("inviteEmail.title")}</CardTitle>
+      <EmailDraftComposer
+        className="mt-3"
+        subject={inviteEmail.subject}
+        body={inviteEmail.body}
+        labels={{
+          subjectLabel: t("inviteEmail.subjectLabel"),
+          bodyLabel: t("inviteEmail.bodyLabel"),
+          copySubject: t("inviteEmail.copySubject"),
+          copyBody: t("inviteEmail.copyBody"),
+          openMail: t("inviteEmail.openMail"),
+          hint: t("inviteEmail.hint"),
+          privacy: t("inviteEmail.privacy"),
+        }}
+        footer={
+          <>
+            {autoSendAllowed ? (
+              <div className="mt-4 space-y-2 border-t border-gray-100 pt-3">
+                <p className="text-sm font-medium text-gray-800">
+                  {te("title")}
+                </p>
+                <p className="text-xs text-gray-600">{te("hint")}</p>
+                <Input
+                  type="email"
+                  label={te("to")}
+                  value={to}
+                  onChange={(e) => setTo(e.target.value)}
+                  autoComplete="email"
+                />
+                <label className="flex items-start gap-2 text-sm text-gray-800">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5 size-4"
+                    checked={trackingOptIn}
+                    disabled={!trackingAllowed}
+                    onChange={(e) => setTrackingOptIn(e.target.checked)}
+                  />
+                  <span>
+                    {te("trackingOptIn")}
+                    {!trackingAllowed ? (
+                      <span className="block text-xs text-gray-500">
+                        {te("trackingUnavailable")}
+                      </span>
+                    ) : null}
+                  </span>
+                </label>
+                <Button
+                  type="button"
+                  size="sm"
+                  disabled={busy || !to.trim()}
+                  onClick={() => void sendSmtp()}
+                >
+                  {te("send")}
+                </Button>
+                {feedback ? (
+                  <p className="text-xs text-gray-700" role="status">
+                    {feedback}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
+            {footerExtra}
+          </>
+        }
+      />
     </Card>
   );
 }

@@ -1,3 +1,5 @@
+import { buildMailto as buildMailtoHref } from "@/lib/email/adapters/mailto";
+
 /**
  * Copy-only RSVP invite email for the Document Generator Event notice.
  *
@@ -101,11 +103,9 @@ export function buildEventInviteEmail(
 
 /** Build a mailto: URL (opens the officer's own mail app; no send). */
 export function buildMailto(email: EventEmail, to = ""): string {
-  const params = new URLSearchParams({
+  return buildMailtoHref({
     subject: email.subject,
     body: email.body,
+    to,
   });
-  // URLSearchParams encodes spaces as "+"; mail clients expect %20.
-  const query = params.toString().replace(/\+/g, "%20");
-  return `mailto:${encodeURIComponent(to)}?${query}`;
 }

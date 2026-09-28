@@ -37,3 +37,4 @@ export * from "./public-documents";
 export * from "./incidents";
 export * from "./subprocessors";
 export * from "./marketing";
+export * from "./member-broadcast";

@@ -8055,6 +8055,10 @@
       "hub-nav-module-gates": {
         "title": "Le menu du Hub des dirigeants suit les modules activés de votre section",
         "body": "Les modules désactivés n’encombrent plus la navigation du Hub des dirigeants. Ouvrir un module hors montre comment l’activer. La présidence voit toujours la configuration et les invitations quand la bande de modules de travail est vide."
+      },
+      "member-broadcast": {
+        "title": "Diffusion aux membres (sous portes)",
+        "body": "Les sections peuvent recueillir le consentement et envoyer des nouvelles seulement lorsque CapRover et l’admin du site activent la capacité — toujours désactivée par défaut."
       }
     }
   },
@@ -8410,6 +8414,8 @@
       "publicDocumentsBody": "Gérez les documents publics, les sources, les droits, les dates de publication et les variantes de marque.",
       "productNewsCardTitle": "Nouvelles sur les produits",
       "productNewsCardBody": "Consultez les inscriptions, les campagnes, les résultats d’envoi et les preuves de consentement.",
+      "emailOpsCardTitle": "Courriel (ops)",
+      "emailOpsCardBody": "Aperçu des modèles transactionnels, état du transport et envoi d'essai.",
       "hostTitle": "Préparation de l’hôte",
       "hostBody": "Consultez la pointe d’image, la révision du journal de base de données et les bascules CapRover qui manquent encore pour le stockage durable. Cette page ne montre jamais de secrets.",
       "hostCardTitle": "Préparation de l’hôte",
@@ -9088,7 +9094,8 @@
       "reports": "Des totaux pour les mises à jour aux membres — sans noms.",
       "audit": "Voir qui a modifié quoi, et quand.",
       "feedback": "Notes sur le site provenant des visiteurs et des personnes connectées.",
-      "stewardGuides": "Feuilles de travail pour le retour au travail, les rencontres prédisciplinaires et le diagnostic plainte ou grief — notes sur cet appareil."
+      "stewardGuides": "Feuilles de travail pour le retour au travail, les rencontres prédisciplinaires et le diagnostic plainte ou grief — notes sur cet appareil.",
+      "broadcast": "Envoyer des nouvelles locales seulement aux membres qui ont confirmé leur consentement — les portes CapRover et syndicat restent fermées par défaut."
     },
     "modules": {
       "comms": "Boîte à outils comms",
@@ -9502,6 +9509,33 @@
       "challengeCodeHint": "Utilisez le code à six chiffres de l’appli, ou collez un code de récupération à usage unique.",
       "manualSecretCopy": "Copier la clé",
       "manualSecretCopied": "Copié"
+    },
+    "broadcastLink": "Diffusion aux membres",
+    "broadcast": {
+      "title": "Diffusion aux membres",
+      "intro": "Courriel de nouvelles locales pour les membres qui ont consenti. Accepter une invitation n’est pas un consentement. CapRover et l’habilitation du syndicat doivent être activés avant l’envoi.",
+      "gatesClosed": "La diffusion aux membres est désactivée sur cet hôte ou pour ce syndicat. Demandez à l’admin du site une fois le drapeau CapRover activé.",
+      "yourConsent": "Votre consentement à la diffusion",
+      "status": "Statut",
+      "status_confirmed": "Confirmé",
+      "status_revoked": "Retiré",
+      "status_none": "Non défini",
+      "optIn": "Confirmer que je veux les courriels de diffusion locale",
+      "optOut": "Retirer mon consentement",
+      "consentSaved": "Consentement enregistré.",
+      "consentRevoked": "Consentement retiré.",
+      "consentRoster": "Liste de consentement",
+      "rosterHint": "Seules les adresses confirmées peuvent être sélectionnées. Les membres non confirmés restent décochés.",
+      "composeTitle": "Rédiger et envoyer",
+      "subject": "Objet",
+      "body": "Message",
+      "trackingOptIn": "Inclure le suivi d’ouverture sur cet envoi (nécessite CapRover et l’habilitation de suivi du syndicat).",
+      "trackingUnavailable": "Le suivi reste désactivé tant que CapRover et ce syndicat n’activent pas les pixels de suivi.",
+      "send": "Envoyer aux membres confirmés sélectionnés",
+      "sendResult": "Envoi terminé : {accepted} acceptés, {failed} échoués. Suivi appliqué : {tracking}.",
+      "yes": "oui",
+      "no": "non",
+      "error": "Impossible de charger ou d’envoyer. Vérifiez la session, la MFA et le transport courriel."
     }
   },
   "dataWorkbench": {
@@ -10986,7 +11020,7 @@
     "saveNote": "Enregistrer",
     "saving": "Enregistrement...",
     "emailDrafts": "Brouillons de courriel",
-    "emailDraftWarning": "Brouillons seulement - réviser et envoyer manuellement.",
+    "emailDraftWarning": "La copie est le chemin par défaut. L’envoi SMTP n’apparaît que lorsque CapRover et votre syndicat activent le courriel de grief.",
     "generateDraft": "Générer le brouillon",
     "copyDraft": "Copier",
     "copied": "Copié!",
@@ -11093,7 +11127,17 @@
       "appealHint": "Fenêtre d’appel indicative ({days} jours après la décision) — vérifiez les délais dans votre convention.",
       "disclaimer": "Aide au suivi seulement — pas un avis juridique. Confirmez les délais d’appel dans votre convention collective."
     },
-    "appealDaysLabel": "appel {days} j"
+    "appealDaysLabel": "appel {days} j",
+    "smtpTitle": "Envoyer via le SMTP UnionOps",
+    "smtpHint": "Utilise le brouillon généré. Nécessite le SMTP de grief CapRover et l’habilitation du syndicat.",
+    "smtpTo": "Envoyer à",
+    "smtpTrackingOptIn": "Inclure le suivi d’ouverture sur cet envoi (nécessite CapRover et l’habilitation de suivi du syndicat).",
+    "smtpTrackingUnavailable": "Le suivi reste désactivé tant que CapRover et ce syndicat n’activent pas les pixels de suivi.",
+    "smtpSend": "Envoyer maintenant",
+    "smtpSent": "Message envoyé. Suivi appliqué : {tracking}.",
+    "smtpYes": "oui",
+    "smtpNo": "non",
+    "smtpError": "Impossible d’envoyer. Vérifiez l’adresse, la MFA et le transport courriel."
   },
   "bumping": {
     "title": "Comité de stabilité",
@@ -16089,6 +16133,56 @@
     "mailingLabel": "Adresse postale",
     "incomplete": "Les coordonnées ne sont pas entièrement configurées pour cet hôte. Communiquez avec l’exploitant du site pour obtenir les coordonnées à jour."
   },
+  "emailOpsAdmin": {
+    "back": "Admin du site",
+    "title": "Opérations courriel",
+    "intro": "Prévisualisez les modèles SMTP de la plateforme (EN/FR), vérifiez le transport et envoyez un message d'essai. Les brouillons de grief et les listes de membres ne sont pas ici.",
+    "healthTitle": "État du transport",
+    "healthFlag": "EMAIL_ENABLED",
+    "healthReady": "Prêt à envoyer",
+    "healthTransport": "Transport préféré",
+    "healthFrom": "Adresse From",
+    "healthProductNews": "Nouvelles produit",
+    "yes": "Oui",
+    "no": "Non",
+    "none": "Non configuré",
+    "loading": "Chargement…",
+    "studioTitle": "Studio de modèles",
+    "studioHint": "Les textes d'authentification et d'invitation restent dans le code. Cet écran prévisualise le rendu multipart avec la marque de l'hôte.",
+    "preset": "Modèle",
+    "locale": "Langue",
+    "preview": "Prévisualiser",
+    "viewHtml": "HTML",
+    "viewText": "Texte",
+    "subject": "Objet",
+    "previewFrame": "Aperçu HTML du courriel",
+    "testTitle": "Envoi d'essai",
+    "testHint": "Envoie le modèle sélectionné à votre boîte avec le préfixe [TEST]. Aucune liste marketing.",
+    "testTo": "Adresse d'essai",
+    "testSend": "Envoyer l'essai",
+    "previewReady": "Aperçu prêt.",
+    "testSent": "Message d'essai envoyé.",
+    "error": "Impossible de charger ou d'envoyer. Vérifiez la session et le transport.",
+    "presetInvite": "Invitation",
+    "presetSignIn": "Lien de connexion",
+    "presetPasswordReset": "Réinitialisation du mot de passe",
+    "presetOfficerReminder": "Rappel dirigeant(e)",
+    "presetRsvp": "Confirmation RSVP",
+    "enterpriseTitle": "Capacités entreprise (désactivées par défaut)",
+    "enterpriseHint": "Chaque capacité exige un drapeau CapRover ET une habilitation par syndicat. Compose durable + ops — pas un Mailchimp.",
+    "hostBroadcast": "CapRover : envoi collectif aux membres",
+    "hostCommsAutoSend": "CapRover : envoi auto Comms",
+    "hostGrievanceSmtp": "CapRover : grief par SMTP",
+    "hostTracking": "CapRover : pixels de suivi",
+    "entitlementNeedsPostgres": "Postgres durable requis pour habiliter les syndicats.",
+    "noUnions": "Aucun syndicat actif.",
+    "entitlementBroadcast": "Envoi collectif aux membres",
+    "entitlementComms": "Envoi auto Comms",
+    "entitlementGrievance": "Grief par SMTP",
+    "entitlementTracking": "Pixels de suivi",
+    "hostOffHint": "D'abord activer le drapeau CapRover correspondant.",
+    "entitlementSaved": "Habilitation enregistrée."
+  },
   "productNewsAdmin": {
     "back": "Admin du site",
     "title": "Gestion des nouvelles sur les produits",
@@ -16178,5 +16272,17 @@
       "not_applicable": "Sans objet",
       "under_review": "En cours d’examen"
     }
+  },
+  "commsAutoSend": {
+    "title": "Envoyer via le SMTP UnionOps",
+    "hint": "Copier / mailto reste le chemin par défaut. Le SMTP n’apparaît que lorsque CapRover et votre syndicat activent l’envoi auto Comms.",
+    "to": "Envoyer à",
+    "trackingOptIn": "Inclure le suivi d’ouverture sur cet envoi (nécessite CapRover et l’habilitation de suivi du syndicat).",
+    "trackingUnavailable": "Le suivi reste désactivé tant que CapRover et ce syndicat n’activent pas les pixels de suivi.",
+    "send": "Envoyer maintenant",
+    "sent": "Message envoyé. Suivi appliqué : {tracking}.",
+    "yes": "oui",
+    "no": "non",
+    "error": "Impossible d’envoyer. Vérifiez l’adresse, la MFA et le transport courriel."
   }
 }

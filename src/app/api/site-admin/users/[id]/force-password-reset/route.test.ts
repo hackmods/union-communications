@@ -97,6 +97,7 @@ describe("POST /api/site-admin/users/[id]/force-password-reset", () => {
     mocks.buildPasswordResetEmail.mockReturnValue({
       subject: "Reset your password",
       text: "Use https://unionops.test/app/reset-password/secret-reset-token",
+      html: "<p>Use https://unionops.test/app/reset-password/secret-reset-token</p>",
     });
     mocks.sendTransactionalEmail.mockResolvedValue({ ok: true });
   });
@@ -143,6 +144,7 @@ describe("POST /api/site-admin/users/[id]/force-password-reset", () => {
       to: target.email,
       subject: "Reset your password",
       text: "Use https://unionops.test/app/reset-password/secret-reset-token",
+      html: "<p>Use https://unionops.test/app/reset-password/secret-reset-token</p>",
     });
     expect(mocks.auditLog).toHaveBeenCalledWith(
       expect.objectContaining({

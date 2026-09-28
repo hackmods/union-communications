@@ -54,6 +54,7 @@ export async function POST(
     to,
     subject: copy.subject,
     text: copy.text,
+    html: copy.html,
   });
 
   await auditLog.log({

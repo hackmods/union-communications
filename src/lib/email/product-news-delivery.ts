@@ -8,6 +8,7 @@ import {
   type ProductNewsConfig,
 } from "@/lib/email/product-news-config";
 import { sendClassifiedEmail } from "@/lib/email/send";
+import { composeMarketingCampaignEmail } from "@/lib/email/engine";
 
 type Claim = {
   id: string;
@@ -118,17 +119,25 @@ async function sendClaim(claim: Claim, config: ProductNewsConfig): Promise<"acce
       throw new Error("Product-news sender identity is incomplete");
     }
     const unsubscribeUrl = `${config.baseUrl}/${claim.locale}/email-preferences/unsubscribe?token=${encodeURIComponent(claim.token)}`;
-    const footer = claim.locale === "fr"
-      ? `\n\nEnvoyé par : ${config.senderName}\nAdresse postale : ${config.mailingAddress}\nContact : ${config.contactEmail}\nSe désabonner : ${unsubscribeUrl}`
-      : `\n\nSent by: ${config.senderName}\nMailing address: ${config.mailingAddress}\nContact: ${config.contactEmail}\nUnsubscribe: ${unsubscribeUrl}`;
+    const artifact = composeMarketingCampaignEmail({
+      locale: claim.locale,
+      subject: claim.subject,
+      body: claim.body,
+      senderName: config.senderName,
+      mailingAddress: config.mailingAddress,
+      contactEmail: config.contactEmail,
+      unsubscribeUrl,
+      testPrefix: claim.kind === "test",
+    });
     const result = await sendClassifiedEmail({
       classification: "marketing",
       to: claim.email,
       from: `${config.senderName} <${config.senderEmail}>`,
       replyTo: config.contactEmail,
       listUnsubscribe: unsubscribeUrl,
-      subject: claim.kind === "test" ? `[TEST] ${claim.subject}` : claim.subject,
-      text: claim.body + footer,
+      subject: artifact.subject,
+      text: artifact.text,
+      html: artifact.html,
     });
     await db.execute(sql`UPDATE marketing_deliveries SET
       status=${result.ok ? "accepted" : "failed"},

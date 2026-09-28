@@ -37,6 +37,7 @@ export async function maybeSendRsvpConfirmation(input: {
     to: input.to,
     subject: copy.subject,
     text: copy.text,
+    html: copy.html,
   });
 
   await auditLog.log({

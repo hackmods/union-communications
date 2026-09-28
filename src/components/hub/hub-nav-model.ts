@@ -38,6 +38,7 @@ export const HUB_TOOL_GROUPS: readonly HubToolGroupDef[] = [
       "/app/committees",
       "/app/elections",
       "/app/meetings",
+      "/app/broadcast",
       "/app/polls",
       "/app/officer-learning",
     ],
