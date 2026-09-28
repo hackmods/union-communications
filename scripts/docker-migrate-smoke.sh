@@ -222,6 +222,26 @@ DROP TABLE IF EXISTS marketing_action_tokens CASCADE;
 DROP TABLE IF EXISTS marketing_consent_events CASCADE;
 DROP TABLE IF EXISTS marketing_subscribers CASCADE;
 
+-- Bare CREATE FUNCTION migrations (no OR REPLACE) leave functions behind after
+-- table CASCADE drops. Replay then fails with "function already exists".
+DROP FUNCTION IF EXISTS public.subprocessor_public_projection_guard() CASCADE;
+DROP FUNCTION IF EXISTS public.subprocessor_audit_immutable() CASCADE;
+DROP FUNCTION IF EXISTS public.platform_incident_record_actor_guard() CASCADE;
+DROP FUNCTION IF EXISTS public.platform_incident_audit_actor_guard() CASCADE;
+DROP FUNCTION IF EXISTS public.platform_incident_step_up_consume_only() CASCADE;
+DROP FUNCTION IF EXISTS public.platform_incident_audit_immutable() CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_consent_immutable() CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_request_allowed(text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_request_subscription(text, text, text, text, text, text, text, text, text, text, timestamptz, text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_confirm_subscription(text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_issue_preferences(text, text, text, timestamptz, text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_preference_state(text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_unsubscribe(text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_admin_suppress(text, text, text, text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_issue_delivery_token(text, text, text, timestamptz) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_cleanup_transient() CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_record_provider_event(text, text, text, text) CASCADE;
+
 -- Union customization foundation (0054). Replay creates these tables; leaving
 -- them in place after deleting journal rows from 0036+ collides on CREATE.
 DROP TABLE IF EXISTS customization_delivery_fragments CASCADE;
