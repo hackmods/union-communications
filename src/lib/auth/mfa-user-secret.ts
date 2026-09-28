@@ -8,13 +8,17 @@
 import { eq, sql } from "drizzle-orm";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import {
+  clearConfirmedSecretOverride,
+  clearPendingSecret,
   getConfirmedSecretOverride,
+  isConfirmedSecretCleared,
   setConfirmedSecretOverride,
 } from "@/lib/auth/mfa-enrollment-store";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { mfaTotpCounters } from "@/lib/db/schema/auth";
 import { users } from "@/lib/db/schema/tenant";
-import { setTotpCounterForNewSecret } from "@/lib/auth/mfa-totp-counters";
+import { clearTotpCounterForUser, setTotpCounterForNewSecret } from "@/lib/auth/mfa-totp-counters";
+import { invalidateAllMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
 import { withRlsContext } from "@/lib/db/rls-context";
 
 function usersBackendEnabled(
@@ -42,6 +46,7 @@ export async function getTotpSecretForUser(
 
   const override = getConfirmedSecretOverride(userId);
   if (override) return override;
+  if (isConfirmedSecretCleared(userId)) return null;
   return DEMO_USERS.find((u) => u.id === userId)?.totpSecret ?? null;
 }
 
@@ -75,4 +80,35 @@ export async function persistTotpSecretForUser(
 
   await setTotpCounterForNewSecret(userId, acceptedCounter);
   setConfirmedSecretOverride(userId, secret);
+}
+
+/**
+ * Admin / ops reset: remove authenticator enrollment so the user must
+ * re-enroll. Invalidates recovery codes and bumps session version (Postgres).
+ */
+export async function clearTotpEnrollmentForUser(
+  userId: string,
+  env: NodeJS.ProcessEnv = process.env,
+): Promise<void> {
+  clearPendingSecret(userId);
+
+  if (usersBackendEnabled(env)) {
+    await withRlsContext({ userId }, async () => {
+      const db = getDb();
+      await db
+        .update(users)
+        .set({
+          totpSecret: null,
+          mfaEnabled: false,
+          sessionVersion: sql`${users.sessionVersion} + 1`,
+        })
+        .where(eq(users.id, userId));
+      await db.delete(mfaTotpCounters).where(eq(mfaTotpCounters.userId, userId));
+    });
+  } else {
+    clearConfirmedSecretOverride(userId);
+    await clearTotpCounterForUser(userId, env);
+  }
+
+  await invalidateAllMfaRecoveryCodes(userId, env);
 }

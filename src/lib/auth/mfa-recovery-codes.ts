@@ -166,6 +166,42 @@ export async function countUnusedMfaRecoveryCodes(
   );
 }
 
+/** Mark every unused recovery code used (admin MFA reset). */
+export async function invalidateAllMfaRecoveryCodes(
+  userId: string,
+  env: NodeJS.ProcessEnv = process.env,
+): Promise<number> {
+  assertStoreAvailable(env);
+  const now = new Date();
+
+  if (postgresRecoveryStoreEnabled(env)) {
+    return withRlsContext({ userId }, async () => {
+      const rows = await getDb()
+        .update(mfaRecoveryCodes)
+        .set({ usedAt: now })
+        .where(
+          and(
+            eq(mfaRecoveryCodes.userId, userId),
+            isNull(mfaRecoveryCodes.usedAt),
+          ),
+        )
+        .returning({ id: mfaRecoveryCodes.id });
+      return rows.length;
+    });
+  }
+
+  const current = memoryCodes.get(userId) ?? [];
+  let invalidated = 0;
+  for (const record of current) {
+    if (record.usedAt === null) {
+      record.usedAt = now.getTime();
+      invalidated += 1;
+    }
+  }
+  memoryCodes.set(userId, current);
+  return invalidated;
+}
+
 /** @internal test helper */
 export function resetMfaRecoveryCodesForTests(): void {
   memoryCodes.clear();

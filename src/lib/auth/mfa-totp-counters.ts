@@ -1,4 +1,4 @@
-import { lt } from "drizzle-orm";
+import { eq, lt } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { mfaTotpCounters } from "@/lib/db/schema/auth";
@@ -79,6 +79,22 @@ export async function setTotpCounterForNewSecret(
   }
 
   memoryLastCounter.set(userId, counter);
+}
+
+/** Drop replay-protection state when enrollment is cleared. */
+export async function clearTotpCounterForUser(
+  userId: string,
+  env: NodeJS.ProcessEnv = process.env,
+): Promise<void> {
+  if (postgresCounterStoreEnabled(env)) {
+    await withRlsContext({ userId }, async () => {
+      await getDb()
+        .delete(mfaTotpCounters)
+        .where(eq(mfaTotpCounters.userId, userId));
+    });
+    return;
+  }
+  memoryLastCounter.delete(userId);
 }
 
 /** @internal test helper */

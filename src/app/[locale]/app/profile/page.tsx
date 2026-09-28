@@ -7,6 +7,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { ProfilePhotoCapture } from "@/components/hub/ProfilePhotoCapture";
+import { ProfileSecurityCard } from "@/components/hub/ProfileSecurityCard";
 import { PlatformOperatorCard } from "@/components/platform/PlatformOperatorCard";
 import { isPlatformOperator } from "@/lib/platform/operator-nav";
 import { usePathname } from "@/i18n/navigation";
@@ -88,6 +89,8 @@ export default function ProfilePage() {
       {isPlatformOperator(roles) && (
         <PlatformOperatorCard pathname={pathname} variant="profile" />
       )}
+
+      <ProfileSecurityCard />
 
       <Card density="compact">
         <h2 className="text-sm font-medium text-gray-700">

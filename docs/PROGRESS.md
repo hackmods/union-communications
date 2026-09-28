@@ -1,3 +1,9 @@
+## 2026-09-27 — Account Support MFA reset + Profile Security card
+
+- Site Admin Account Support can reset a locked-out user’s authenticator (clear TOTP secret, invalidate recovery codes, bump `sessionVersion`) with fresh operator MFA step-up and typed-email confirm — reset to re-enroll, not permanent MFA off.
+- Officer Profile gains a full Security card from `/api/mfa/status` (host off / optional / needs setup / needs verify / verified + recovery warnings) with deep links into the MFA journey; no self-serve remove.
+- What’s new: `profile-security-card` (hub audience).
+
 ## 2026-09-27 — MFA journey UX uplift
 
 - Officer Hub MFA is one continuous journey: shared shell, Need help? progressive disclosure, context-aware challenge copy from `?next=`, and safe return after verify.

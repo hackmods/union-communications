@@ -15,6 +15,8 @@ interface PendingEnrollment {
 const pending = new Map<string, PendingEnrollment>();
 /** Confirmed secrets for demo users — kept separate from the DEMO_USERS const. */
 const confirmedOverrides = new Map<string, string>();
+/** Users whose demo/static secret was admin-cleared in this process. */
+const clearedOverrides = new Set<string>();
 
 export function setPendingSecret(
   userId: string,
@@ -41,15 +43,29 @@ export function clearPendingSecret(userId: string): void {
 }
 
 export function setConfirmedSecretOverride(userId: string, secret: string): void {
+  clearedOverrides.delete(userId);
   confirmedOverrides.set(userId, secret);
 }
 
 export function getConfirmedSecretOverride(userId: string): string | null {
+  if (clearedOverrides.has(userId)) return null;
   return confirmedOverrides.get(userId) ?? null;
+}
+
+/** True when an admin clear blocked falling back to a demo roster secret. */
+export function isConfirmedSecretCleared(userId: string): boolean {
+  return clearedOverrides.has(userId);
+}
+
+/** Clears memory override and blocks demo-roster secret fallback for this process. */
+export function clearConfirmedSecretOverride(userId: string): void {
+  confirmedOverrides.delete(userId);
+  clearedOverrides.add(userId);
 }
 
 /** @internal test helper */
 export function resetMfaEnrollmentStoreForTests(): void {
   pending.clear();
   confirmedOverrides.clear();
+  clearedOverrides.clear();
 }

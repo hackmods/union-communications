@@ -53,6 +53,16 @@ describe("MFA recovery codes", () => {
     expect(results.filter(Boolean)).toHaveLength(1);
   });
 
+  it("admin invalidate marks every unused code used", async () => {
+    const env = { AUTH_USERS_BACKEND: "memory" } as unknown as NodeJS.ProcessEnv;
+    await rotateMfaRecoveryCodes("user-a", env);
+    const { invalidateAllMfaRecoveryCodes } = await import(
+      "@/lib/auth/mfa-recovery-codes"
+    );
+    expect(await invalidateAllMfaRecoveryCodes("user-a", env)).toBe(10);
+    expect(await countUnusedMfaRecoveryCodes("user-a", env)).toBe(0);
+  });
+
   it("fails closed instead of using memory storage in hosted mode", async () => {
     const env = {
       AUTH_USERS_BACKEND: "memory",

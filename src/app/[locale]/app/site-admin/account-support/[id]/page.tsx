@@ -14,6 +14,7 @@ import { formatRoleList } from "@/lib/auth/role-labels";
 import { AssignLocalForm } from "@/components/site-admin/AssignLocalForm";
 import { EditRolesForm } from "@/components/site-admin/EditRolesForm";
 import { ForcePasswordResetForm } from "@/components/site-admin/ForcePasswordResetForm";
+import { ResetMfaForm } from "@/components/site-admin/ResetMfaForm";
 
 export const dynamic = "force-dynamic";
 
@@ -43,6 +44,7 @@ export default async function AccountSupportDetailPage({
     localId: string | null;
     roles: string[];
     mfaEnabled: boolean;
+    totpEnrolled: boolean;
     sessionVersion: number;
     archivedAt: Date | null;
     lockedAt: Date | null;
@@ -64,6 +66,7 @@ export default async function AccountSupportDetailPage({
         localId: users.localId,
         roles: users.roles,
         mfaEnabled: users.mfaEnabled,
+        totpSecret: users.totpSecret,
         sessionVersion: users.sessionVersion,
         archivedAt: users.archivedAt,
         lockedAt: users.lockedAt,
@@ -92,8 +95,10 @@ export default async function AccountSupportDetailPage({
               .limit(1)
           : Promise.resolve([] as Array<{ localNumber: string }>),
       ]);
+      const { totpSecret, ...rest } = row;
       profile = {
-        ...row,
+        ...rest,
+        totpEnrolled: rest.mfaEnabled || Boolean(totpSecret),
         unionName: u[0]?.name ?? null,
         localNumber: l[0]?.localNumber ?? null,
       };
@@ -161,7 +166,7 @@ export default async function AccountSupportDetailPage({
         <Row
           label={t("accountSupportLabelMfa")}
           value={
-            profile.mfaEnabled
+            profile.totpEnrolled
               ? t("accountSupportMfaEnrolled")
               : t("accountSupportMfaNotEnrolled")
           }
@@ -213,6 +218,13 @@ export default async function AccountSupportDetailPage({
 
       <ForcePasswordResetForm
         userId={profile.id}
+        archived={profile.archivedAt !== null}
+      />
+
+      <ResetMfaForm
+        userId={profile.id}
+        email={profile.email}
+        enrolled={profile.totpEnrolled}
         archived={profile.archivedAt !== null}
       />
 
