@@ -39,6 +39,7 @@ export type HubToolLabelKey =
   | "committeesLink"
   | "electionsLink"
   | "meetingsLink"
+  | "broadcastLink"
   | "pollsLink"
   | "ledgerLink"
   | "travelLink"
@@ -65,6 +66,7 @@ export type HubToolBlurbKey =
   | "committees"
   | "elections"
   | "meetings"
+  | "broadcast"
   | "polls"
   | "ledger"
   | "travel"
@@ -86,6 +88,7 @@ export type HubToolAccess = {
   committees: boolean;
   elections: boolean;
   meetings: boolean;
+  broadcast: boolean;
   polls: boolean;
   ledger: boolean;
   travel: boolean;
@@ -179,6 +182,12 @@ export const HUB_TOOL_CATALOG: readonly HubToolDef[] = [
     labelKey: "meetingsLink",
     blurbKey: "meetings",
     visible: (a) => a.meetings,
+  },
+  {
+    href: "/app/broadcast",
+    labelKey: "broadcastLink",
+    blurbKey: "broadcast",
+    visible: (a) => a.broadcast,
   },
   {
     href: "/app/polls",
@@ -287,6 +296,13 @@ export function resolveHubToolAccess(
     committees: localCasework && canAccessCommitteesModule(roles),
     elections: localCasework && canAccessElectionsModule(roles),
     meetings: hasUnion && canAccessMeetingsModule(roles),
+    broadcast:
+      localCasework &&
+      (roles.includes("local_president") ||
+        roles.includes("local_exec") ||
+        roles.includes("union_admin") ||
+        roles.includes("platform_admin") ||
+        roles.includes("local_member")),
     polls: localCasework && canAccessPollsModule(roles),
     ledger:
       localCasework &&

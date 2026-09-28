@@ -124,6 +124,12 @@ export function GrievanceDetail({ id }: { id: string }) {
   const [selectedTemplate, setSelectedTemplate] =
     useState<EmailTemplateId>("step1_meeting");
   const [copied, setCopied] = useState(false);
+  const [smtpAllowed, setSmtpAllowed] = useState(false);
+  const [trackingAllowed, setTrackingAllowed] = useState(false);
+  const [smtpTo, setSmtpTo] = useState("");
+  const [smtpTrackingOptIn, setSmtpTrackingOptIn] = useState(false);
+  const [smtpBusy, setSmtpBusy] = useState(false);
+  const [smtpFeedback, setSmtpFeedback] = useState("");
 
   const [commChannel, setCommChannel] =
     useState<CommunicationChannel>("email");
@@ -167,6 +173,25 @@ export function GrievanceDetail({ id }: { id: string }) {
   useEffect(() => {
     void hydrateBrand();
   }, [hydrateBrand]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetch("/api/email/capabilities", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) return;
+        const data = (await response.json()) as {
+          allowed?: { grievance_smtp?: boolean; tracking_pixels?: boolean };
+        };
+        if (!cancelled) {
+          setSmtpAllowed(data.allowed?.grievance_smtp === true);
+          setTrackingAllowed(data.allowed?.tracking_pixels === true);
+        }
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const applyDetailData = useCallback((json: GrievanceDetailData) => {
     setData(json);
@@ -372,6 +397,41 @@ export function GrievanceDetail({ id }: { id: string }) {
     );
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function sendSmtpDraft() {
+    if (!emailDraft || readOnly) return;
+    setSmtpBusy(true);
+    setSmtpFeedback("");
+    try {
+      const response = await fetch(`/api/grievances/${id}/email-send`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          template: selectedTemplate,
+          locale,
+          to: smtpTo,
+          explicitTrackingOptIn: smtpTrackingOptIn,
+        }),
+        cache: "no-store",
+      });
+      const data = (await response.json()) as {
+        error?: string;
+        trackingApplied?: boolean;
+      };
+      if (!response.ok) throw new Error(data.error ?? t("smtpError"));
+      setSmtpFeedback(
+        t("smtpSent", {
+          tracking: data.trackingApplied ? t("smtpYes") : t("smtpNo"),
+        }),
+      );
+    } catch (error) {
+      setSmtpFeedback(
+        error instanceof Error ? error.message : t("smtpError"),
+      );
+    } finally {
+      setSmtpBusy(false);
+    }
   }
 
   async function updateStatus(status: GrievanceStatus) {
@@ -1311,6 +1371,49 @@ export function GrievanceDetail({ id }: { id: string }) {
             </pre>
           </div>
         )}
+        {smtpAllowed && emailDraft && !readOnly ? (
+          <div className="mt-4 space-y-2 border-t border-gray-100 pt-4">
+            <p className="text-sm font-medium text-gray-800">{t("smtpTitle")}</p>
+            <p className="text-xs text-gray-600">{t("smtpHint")}</p>
+            <Input
+              type="email"
+              label={t("smtpTo")}
+              value={smtpTo}
+              onChange={(e) => setSmtpTo(e.target.value)}
+              autoComplete="email"
+            />
+            <label className="flex items-start gap-2 text-sm text-gray-800">
+              <input
+                type="checkbox"
+                className="mt-0.5 size-4"
+                checked={smtpTrackingOptIn}
+                disabled={!trackingAllowed}
+                onChange={(e) => setSmtpTrackingOptIn(e.target.checked)}
+              />
+              <span>
+                {t("smtpTrackingOptIn")}
+                {!trackingAllowed ? (
+                  <span className="block text-xs text-gray-500">
+                    {t("smtpTrackingUnavailable")}
+                  </span>
+                ) : null}
+              </span>
+            </label>
+            <Button
+              type="button"
+              size="sm"
+              disabled={smtpBusy || !smtpTo.trim()}
+              onClick={() => void sendSmtpDraft()}
+            >
+              {t("smtpSend")}
+            </Button>
+            {smtpFeedback ? (
+              <p className="text-xs text-gray-700" role="status">
+                {smtpFeedback}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
       </Card>
     </div>
   );

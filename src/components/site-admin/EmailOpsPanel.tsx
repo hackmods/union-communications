@@ -92,6 +92,7 @@ export function EmailOpsPanel() {
 
   useEffect(() => {
     let cancelled = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- load ops snapshot on mount
     void load().catch(() => {
       if (!cancelled) setFeedback(t("error"));
     });

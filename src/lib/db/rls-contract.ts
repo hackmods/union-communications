@@ -368,6 +368,8 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   { table: "marketing_deliveries", policy: "marketing_delivery_admin_job", migration: "0077_product_news_consent.sql" },
   { table: "marketing_provider_events", policy: "marketing_provider_event_admin_read", migration: "0077_product_news_consent.sql" },
   { table: "marketing_dispatch_control", policy: "marketing_dispatch_job", migration: "0077_product_news_consent.sql" },
+  { table: "member_broadcast_consents", policy: "member_broadcast_consents_tenant", migration: "0079_member_broadcast.sql" },
+  { table: "member_broadcast_campaigns", policy: "member_broadcast_campaigns_tenant", migration: "0079_member_broadcast.sql" },
 
   ...(["grievance_events", "grievance_notes", "grievance_outcomes", "grievance_participants"] as const).map((table) => ({
     table,
