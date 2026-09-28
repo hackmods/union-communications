@@ -195,6 +195,33 @@ DROP TABLE IF EXISTS data_union_memberships CASCADE;
 DROP TABLE IF EXISTS member_broadcast_campaigns CASCADE;
 DROP TABLE IF EXISTS member_broadcast_consents CASCADE;
 
+-- Tables introduced after the hole fixture was last extended. Leaving them
+-- in place after deleting journal rows from 0036+ collides on CREATE TABLE.
+DROP TABLE IF EXISTS platform_host_brand CASCADE;
+DROP TABLE IF EXISTS document_access_grants CASCADE;
+DROP TABLE IF EXISTS document_versions CASCADE;
+DROP TABLE IF EXISTS public_document_acceptances CASCADE;
+DROP TABLE IF EXISTS public_document_versions CASCADE;
+DROP TABLE IF EXISTS public_documents CASCADE;
+DROP TABLE IF EXISTS mfa_recovery_codes CASCADE;
+DROP TABLE IF EXISTS mfa_totp_counters CASCADE;
+DROP TABLE IF EXISTS mfa_session_grants CASCADE;
+DROP TABLE IF EXISTS mfa_verification_attempts CASCADE;
+DROP TABLE IF EXISTS subprocessor_audit_events CASCADE;
+DROP TABLE IF EXISTS subprocessor_public_projections CASCADE;
+DROP TABLE IF EXISTS subprocessor_registry CASCADE;
+DROP TABLE IF EXISTS platform_incident_step_up_grants CASCADE;
+DROP TABLE IF EXISTS platform_incident_audit_events CASCADE;
+DROP TABLE IF EXISTS platform_incidents CASCADE;
+DROP TABLE IF EXISTS marketing_dispatch_control CASCADE;
+DROP TABLE IF EXISTS marketing_provider_events CASCADE;
+DROP TABLE IF EXISTS marketing_deliveries CASCADE;
+DROP TABLE IF EXISTS marketing_campaigns CASCADE;
+DROP TABLE IF EXISTS marketing_request_limits CASCADE;
+DROP TABLE IF EXISTS marketing_action_tokens CASCADE;
+DROP TABLE IF EXISTS marketing_consent_events CASCADE;
+DROP TABLE IF EXISTS marketing_subscribers CASCADE;
+
 -- Union customization foundation (0054). Replay creates these tables; leaving
 -- them in place after deleting journal rows from 0036+ collides on CREATE.
 DROP TABLE IF EXISTS customization_delivery_fragments CASCADE;
