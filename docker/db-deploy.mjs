@@ -181,6 +181,20 @@ async function proveJournalTail(sql, schema, tail) {
   }
 }
 
+/** Map Drizzle SQL types onto information_schema.data_type equivalents. */
+export function pgTypesCompatible(expected, actual) {
+  const e = String(expected ?? "").toLowerCase();
+  const a = String(actual ?? "").toLowerCase();
+  if (e === a) return true;
+  // bigserial/serial are sequences; catalogs report the underlying integer type.
+  if ((e === "bigserial" && a === "bigint") || (e === "bigint" && a === "bigserial")) return true;
+  if ((e === "serial" && a === "integer") || (e === "integer" && a === "serial")) return true;
+  // information_schema reports array columns as ARRAY; Drizzle emits text[].
+  if (e.endsWith("[]") && a === "array") return true;
+  if (a.endsWith("[]") && e === "array") return true;
+  return false;
+}
+
 /** Compare the generated contract with catalog rows returned by PostgreSQL. */
 export function evaluateRequiredShape(contract, catalog) {
   const errors = [];
@@ -204,7 +218,7 @@ export function evaluateRequiredShape(contract, catalog) {
         errors.push(`missing column ${key}`);
         continue;
       }
-      if (actual.data_type !== column.dataType) {
+      if (!pgTypesCompatible(column.dataType, actual.data_type)) {
         errors.push(`column ${key} type ${actual.data_type}; expected ${column.dataType}`);
       }
       const actualNotNull = actual.is_nullable === "NO";
