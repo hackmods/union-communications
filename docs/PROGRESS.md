@@ -1,3 +1,7 @@
+## 2026-09-27 — Load Test Lab recovery QOL
+
+- Dropped `/api/health` from public journeys (avoids CapRover restart loops). Added post-run cool-down, stale-run auto-clear, disk restore of last `summary.json`, and status caps/cooldown in the Lab UI.
+
 ## 2026-09-27 — Load Test Lab safety harness
 
 - Hardened on-box runner: target allowlist (loopback/`AUTH_URL` only), whole-run wall-clock kill (`LOAD_LAB_MAX_RUN_SEC`), mid-tier circuit breaker, capacity tier filter under `LOAD_LAB_MAX_VUS`, auth session pool (max 8 logins), bounded latency reservoir, stop escalation on any failed tier.

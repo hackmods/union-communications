@@ -22,6 +22,7 @@ VU count ≠ requests/sec. Simulated users include think-time between page/API s
 | `LOAD_LAB_MAX_VUS` | Hard VU cap (default 1000; tiers above are skipped) |
 | `LOAD_LAB_MAX_DURATION_SEC` | Per-tier steady duration cap (default 900) |
 | `LOAD_LAB_MAX_RUN_SEC` | **Whole-run wall-clock kill** (default 1200 = 20 min) |
+| `LOAD_LAB_COOLDOWN_SEC` | Refuse a new Start for N seconds after a run ends (default 60) |
 | `LOAD_LAB_RESULTS_DIR` | Optional override for `load-results/` |
 
 Without `LOAD_LAB_ENABLED`, Start returns 403. Production also needs the allow flag **and** the Lab confirmation checkbox.
@@ -31,17 +32,21 @@ Without `LOAD_LAB_ENABLED`, Start returns 403. Production also needs the allow f
 | Guard | Behavior |
 |-------|----------|
 | Feature flags + `platform_admin` | Cannot start when disabled or unauthenticated |
-| Single-flight | Second Start while running → 409 |
+| Single-flight | Second Start while running/starting/aborting → 409 |
+| Cool-down | After a run, Start → 429 until cool-down elapses |
 | Target allowlist | Only loopback or this host’s `AUTH_URL` (blocks SSRF / external hammering) |
 | VU / duration / wall-clock caps | Hard limits; wall-clock aborts the AbortController |
 | Capacity circuit breaker | Stops escalating tiers on failed / ≥10% errors / p95 ≥5s |
 | Mid-tier breaker | Aborts *inside* a tier once enough samples show the same cliffs |
 | Auth session pool | At most 8 logins per tier (shared cookies) — avoids auth DoS |
 | Bounded samples | Reservoir ≤8k latencies — avoids OOM from sample arrays |
+| No `/api/health` in journeys | CapRover probes health; load-testing it can restart the container |
 | Read-only profiles | No write-heavy / destructive production mutations |
 | Manual Abort | Operator Abort API kills the in-flight run |
+| Stale-run recovery | Stuck running/aborting past wall-clock+grace auto-clears to failed |
+| Disk restore | After process restart, GET status reloads the latest `summary.json` |
 
-**Run off-hours only.** Capacity sweeps can make the site slow or unavailable for real members.
+**Run off-hours only.** Capacity sweeps can make the site slow or unavailable for real members. If CapRover still restarts the app under extreme load, wait for the cool-down, confirm `/api/health`, then Start smoke before another capacity sweep.
 
 ## Who can Start / Abort
 

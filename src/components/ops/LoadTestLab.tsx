@@ -473,7 +473,14 @@ export function LoadTestLab() {
           <div className="flex flex-wrap gap-2 sm:col-span-2">
             <button
               type="button"
-              disabled={busy || status?.enabled === false}
+              disabled={
+                busy ||
+                status?.enabled === false ||
+                (status?.cooldownRemainingSec ?? 0) > 0 ||
+                status?.status === "running" ||
+                status?.status === "starting" ||
+                status?.status === "aborting"
+              }
               onClick={() => void onStart()}
               className="rounded-md bg-sky-500 px-4 py-2 text-sm font-medium text-zinc-950 disabled:opacity-40"
             >
@@ -543,6 +550,22 @@ export function LoadTestLab() {
             <div>
               <dt className="text-zinc-500">Current VUs</dt>
               <dd>{status?.currentVus ?? "—"}</dd>
+            </div>
+            <div>
+              <dt className="text-zinc-500">{t.cooldownWait}</dt>
+              <dd>
+                {(status?.cooldownRemainingSec ?? 0) > 0
+                  ? `${status?.cooldownRemainingSec}s`
+                  : "—"}
+              </dd>
+            </div>
+            <div className="sm:col-span-2">
+              <dt className="text-zinc-500">{t.capsLabel}</dt>
+              <dd className="font-mono text-xs text-zinc-400">
+                {status?.caps
+                  ? `maxVUs=${status.caps.maxVus} · maxDuration=${status.caps.maxDurationSec}s · maxRun=${status.caps.maxRunSec}s · cooldown=${status.caps.cooldownSec}s`
+                  : "—"}
+              </dd>
             </div>
           </dl>
         </section>

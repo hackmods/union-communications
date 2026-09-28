@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import {
-  getLoadLabStatus,
+  getLoadLabStatusAsync,
   isLoadLabEnabled,
   loadLabStartSchema,
   startLoadLabRun,
@@ -17,7 +17,7 @@ export async function GET() {
   if (!gate.ok) {
     return NextResponse.json({ error: gate.error }, { status: gate.status });
   }
-  return NextResponse.json(getLoadLabStatus(), {
+  return NextResponse.json(await getLoadLabStatusAsync(), {
     headers: { "Cache-Control": "private, no-store" },
   });
 }

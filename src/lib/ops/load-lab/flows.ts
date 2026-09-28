@@ -9,7 +9,9 @@ const PUBLIC_STEPS: { path: string; name: string }[] = [
   { path: "/en/learn/", name: "GET learn" },
   { path: "/en/create/flyer-maker/", name: "GET flyer-maker" },
   { path: "/en/create/brand-kit/", name: "GET brand-kit" },
-  { path: "/api/health", name: "GET health" },
+  // Intentionally omit /api/health — CapRover probes it; load-testing that
+  // path can 503 the orchestrator and restart the container mid-run.
+  { path: "/en/manifesto/", name: "GET manifesto" },
 ];
 
 const HUB_READ_STEPS: { path: string; name: string }[] = [

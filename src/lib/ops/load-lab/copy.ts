@@ -10,7 +10,9 @@ export const LOAD_LAB_COPY = {
       offHours:
       "Run off-hours only. Do not start a capacity sweep during steward working hours.",
     safetyHarness:
-      "Safeguards: single run at a time, VU/duration/wall-clock caps, target allowlist (this host only), mid-tier abort on high errors/latency, auth login pool, read-only profiles. Abort stops the run immediately.",
+      "Safeguards: single run at a time, VU/duration/wall-clock caps, cool-down after runs, target allowlist (this host only), mid-tier abort, auth login pool, read-only profiles, no CapRover /api/health hammering. Abort stops immediately; stale runs auto-recover.",
+    cooldownWait: "Cool-down",
+    capsLabel: "Host caps",
     disabled:
       "Load Lab is disabled on this host. An operator must set LOAD_LAB_ENABLED=true.",
     productionBanner:
@@ -65,7 +67,9 @@ export const LOAD_LAB_COPY = {
       offHours:
       "À lancer hors des heures de travail seulement. Ne démarrez pas un balayage de capacité pendant les heures des délégués.",
     safetyHarness:
-      "Protections : une seule exécution à la fois, plafonds VU/durée/horloge, liste d’hôtes autorisés (cette machine seulement), arrêt en cours de palier si erreurs/latence élevées, pool de connexions, profils en lecture seule. Interrompre arrête immédiatement.",
+      "Protections : une seule exécution à la fois, plafonds VU/durée/horloge, pause après chaque course, liste d’hôtes autorisés, arrêt en cours de palier, pool de connexions, lecture seule, pas de martelage de /api/health CapRover. Interrompre arrête immédiatement; les courses bloquées se récupèrent.",
+    cooldownWait: "Pause",
+    capsLabel: "Plafonds hôte",
     disabled:
       "Le labo de charge est désactivé sur cet hôte. Un opérateur doit définir LOAD_LAB_ENABLED=true.",
     productionBanner:

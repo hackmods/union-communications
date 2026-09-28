@@ -17,6 +17,20 @@ export function maxRunWallClockSec(
   return Math.min(3600, Math.floor(raw));
 }
 
+/** Seconds to refuse a new Start after a run ends (lets the host breathe). */
+export function coolDownSec(env: NodeJS.ProcessEnv = process.env): number {
+  const raw = Number(env.LOAD_LAB_COOLDOWN_SEC ?? "60");
+  if (!Number.isFinite(raw) || raw < 0) return 60;
+  return Math.min(600, Math.floor(raw));
+}
+
+/** If a run is marked active longer than wall-clock + grace, force-clear it. */
+export function staleRunGraceSec(
+  env: NodeJS.ProcessEnv = process.env,
+): number {
+  return maxRunWallClockSec(env) + 60;
+}
+
 /** Soft cap on retained latency samples to avoid OOM during intense tiers. */
 export const MAX_RETAINED_SAMPLES = 8_000;
 

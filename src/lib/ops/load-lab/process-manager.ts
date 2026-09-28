@@ -14,11 +14,14 @@ import {
   profileNeedsAuth,
   resolveBaseUrl,
 } from "./env";
+import { loadLatestSummaryFromDisk } from "./persist";
 import { parseSummaryJson } from "./report";
 import { executeLoadRun } from "./runner";
 import {
   assertAllowedTargetUrl,
+  coolDownSec,
   maxRunWallClockSec,
+  staleRunGraceSec,
 } from "./safety";
 import type {
   LoadLabLiveStatus,
@@ -36,10 +39,12 @@ type InternalState = {
   currentTierIndex: number | null;
   message: string;
   startedAt: string | null;
+  finishedAt: string | null;
   summary: LoadLabSummary | null;
   abort: AbortController | null;
   wallClockTimer: ReturnType<typeof setTimeout> | null;
   actorId: string | null;
+  diskHydrated: boolean;
 };
 
 const state: InternalState = {
@@ -52,15 +57,94 @@ const state: InternalState = {
   currentTierIndex: null,
   message: "Idle",
   startedAt: null,
+  finishedAt: null,
   summary: null,
   abort: null,
   wallClockTimer: null,
   actorId: null,
+  diskHydrated: false,
 };
+
+function isActiveStatus(status: LoadLabLiveStatus["status"]): boolean {
+  return (
+    status === "running" ||
+    status === "starting" ||
+    status === "aborting"
+  );
+}
+
+function capsPayload(env: NodeJS.ProcessEnv) {
+  return {
+    maxVus: maxVusCap(env),
+    maxDurationSec: maxDurationSecCap(env),
+    maxRunSec: maxRunWallClockSec(env),
+    cooldownSec: coolDownSec(env),
+  };
+}
+
+function cooldownRemainingSec(env: NodeJS.ProcessEnv): number {
+  if (!state.finishedAt || isActiveStatus(state.status)) return 0;
+  const cd = coolDownSec(env);
+  if (cd <= 0) return 0;
+  const elapsed = (Date.now() - Date.parse(state.finishedAt)) / 1000;
+  if (!Number.isFinite(elapsed) || elapsed >= cd) return 0;
+  return Math.ceil(cd - elapsed);
+}
+
+/**
+ * Recover from stuck aborting/running if the controller is gone or the run
+ * exceeded wall-clock + grace (e.g. event-loop starved and timer missed).
+ */
+function recoverStaleRun(env: NodeJS.ProcessEnv): void {
+  if (!isActiveStatus(state.status)) return;
+  const started = state.startedAt ? Date.parse(state.startedAt) : NaN;
+  const stale =
+    !state.abort ||
+    (Number.isFinite(started) &&
+      Date.now() - started > staleRunGraceSec(env) * 1000);
+
+  if (!stale) return;
+
+  state.abort?.abort();
+  state.abort = null;
+  if (state.wallClockTimer) {
+    clearTimeout(state.wallClockTimer);
+    state.wallClockTimer = null;
+  }
+  state.status = "failed";
+  state.message =
+    "Recovered stale load run (process restart, missed abort, or wall-clock overrun). Safe to Start again after cooldown.";
+  state.finishedAt = new Date().toISOString();
+  state.currentVus = null;
+  state.currentTierIndex = null;
+}
+
+async function hydrateSummaryFromDisk(
+  env: NodeJS.ProcessEnv,
+): Promise<void> {
+  if (state.diskHydrated || state.summary || isActiveStatus(state.status)) {
+    return;
+  }
+  state.diskHydrated = true;
+  const latest = await loadLatestSummaryFromDisk(env);
+  if (!latest || state.summary || isActiveStatus(state.status)) return;
+  state.summary = latest;
+  state.runId = latest.runId;
+  state.profile = latest.profile;
+  state.envName = latest.envName;
+  state.baseUrl = latest.baseUrl;
+  state.startedAt = latest.startedAt;
+  state.finishedAt = latest.finishedAt;
+  if (state.status === "idle") {
+    state.status = "completed";
+    state.message = "Restored last on-disk summary after process restart";
+  }
+}
 
 export function getLoadLabStatus(
   env: NodeJS.ProcessEnv = process.env,
 ): LoadLabLiveStatus {
+  recoverStaleRun(env);
   return {
     status: state.status,
     runId: state.runId,
@@ -74,7 +158,18 @@ export function getLoadLabStatus(
     summary: state.summary,
     enabled: isLoadLabEnabled(env),
     productionAllowed: isProductionLoadAllowed(env),
+    cooldownRemainingSec: cooldownRemainingSec(env),
+    caps: capsPayload(env),
   };
+}
+
+/** Async status for GET — hydrates last summary from disk once. */
+export async function getLoadLabStatusAsync(
+  env: NodeJS.ProcessEnv = process.env,
+): Promise<LoadLabLiveStatus> {
+  recoverStaleRun(env);
+  await hydrateSummaryFromDisk(env);
+  return getLoadLabStatus(env);
 }
 
 export async function startLoadLabRun(
@@ -86,6 +181,8 @@ export async function startLoadLabRun(
     return { ok: false, status: gate.status, error: gate.error };
   }
 
+  recoverStaleRun(env);
+
   const interlock = assertProductionInterlock({
     envName: request.envName,
     allowProduction: request.allowProduction,
@@ -95,8 +192,21 @@ export async function startLoadLabRun(
     return { ok: false, status: 403, error: interlock.error };
   }
 
-  if (state.status === "running" || state.status === "starting") {
-    return { ok: false, status: 409, error: "A load test is already running." };
+  if (isActiveStatus(state.status)) {
+    return {
+      ok: false,
+      status: 409,
+      error: `A load test is already ${state.status}. Abort or wait for it to finish.`,
+    };
+  }
+
+  const coolLeft = cooldownRemainingSec(env);
+  if (coolLeft > 0) {
+    return {
+      ok: false,
+      status: 429,
+      error: `Cool-down active — wait ${coolLeft}s before starting another run (lets CapRover health and the host recover).`,
+    };
   }
 
   if (profileNeedsAuth(request.profile)) {
@@ -147,7 +257,6 @@ export async function startLoadLabRun(
       ac.abort();
     }
   }, wallSec * 1000);
-  // Do not keep the event loop alive solely for the safety timer.
   wallClockTimer.unref?.();
 
   state.status = "starting";
@@ -158,6 +267,7 @@ export async function startLoadLabRun(
   state.envName = request.envName;
   state.baseUrl = baseUrl;
   state.startedAt = new Date().toISOString();
+  state.finishedAt = null;
   state.currentVus = null;
   state.currentTierIndex = null;
   state.message = "Starting…";
@@ -214,6 +324,7 @@ export async function startLoadLabRun(
       state.runId = summary.runId;
       state.summary = summary;
       state.status = "completed";
+      state.finishedAt = new Date().toISOString();
       state.message = summary.aborted
         ? `Completed with abort: ${summary.abortReason}`
         : "Completed";
@@ -232,6 +343,7 @@ export async function startLoadLabRun(
       });
     } catch (err) {
       state.status = "failed";
+      state.finishedAt = new Date().toISOString();
       state.message =
         err instanceof Error ? err.message : "Load run failed unexpectedly.";
       await auditLog.log({
@@ -251,6 +363,7 @@ export async function startLoadLabRun(
       }
       state.abort = null;
       state.currentVus = null;
+      if (!state.finishedAt) state.finishedAt = new Date().toISOString();
     }
   })();
 
@@ -267,7 +380,8 @@ export async function abortLoadLabRun(
   if (!isLoadLabEnabled(env)) {
     return { ok: false, status: 403, error: "Load Lab is disabled." };
   }
-  if (!state.abort || (state.status !== "running" && state.status !== "starting")) {
+  recoverStaleRun(env);
+  if (!state.abort || !isActiveStatus(state.status)) {
     return { ok: false, status: 409, error: "No running load test to abort." };
   }
   state.status = "aborting";
@@ -299,6 +413,8 @@ export function importLoadLabSummary(raw: unknown): LoadLabSummary | null {
   state.status = "completed";
   state.message = "Imported summary";
   state.startedAt = parsed.startedAt;
+  state.finishedAt = parsed.finishedAt;
+  state.diskHydrated = true;
   return parsed;
 }
 
@@ -318,7 +434,9 @@ export function resetLoadLabStateForTests(): void {
   state.currentTierIndex = null;
   state.message = "Idle";
   state.startedAt = null;
+  state.finishedAt = null;
   state.summary = null;
   state.abort = null;
   state.actorId = null;
+  state.diskHydrated = false;
 }

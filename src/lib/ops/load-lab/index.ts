@@ -11,6 +11,7 @@ export type {
 } from "./types";
 export {
   assertAllowedTargetUrl,
+  coolDownSec,
   filterCapacityTiers,
   maxRunWallClockSec,
   midTierShouldAbort,
@@ -31,6 +32,7 @@ export { executeLoadRun } from "./runner";
 export {
   abortLoadLabRun,
   getLoadLabStatus,
+  getLoadLabStatusAsync,
   importLoadLabSummary,
   resetLoadLabStateForTests,
   startLoadLabRun,

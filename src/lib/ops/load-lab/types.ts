@@ -105,6 +105,14 @@ export type LoadLabLiveStatus = {
   summary: LoadLabSummary | null;
   enabled: boolean;
   productionAllowed: boolean;
+  /** Seconds until a new Start is allowed (0 = ready). */
+  cooldownRemainingSec: number;
+  caps: {
+    maxVus: number;
+    maxDurationSec: number;
+    maxRunSec: number;
+    cooldownSec: number;
+  };
 };
 
 export type Sample = {

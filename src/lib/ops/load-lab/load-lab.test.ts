@@ -9,6 +9,7 @@ import { classifyTier, percentile } from "@/lib/ops/load-lab/thresholds";
 import { parseSummaryJson } from "@/lib/ops/load-lab/report";
 import {
   assertAllowedTargetUrl,
+  coolDownSec,
   createRollingStats,
   filterCapacityTiers,
   midTierShouldAbort,
@@ -240,6 +241,11 @@ describe("load-lab safety harness", () => {
     expect(
       midTierShouldAbort(stats, 0.1, 5000, percentile),
     ).toMatchObject({ abort: true });
+  });
+
+  it("exposes cool-down default", () => {
+    expect(coolDownSec({})).toBe(60);
+    expect(coolDownSec({ LOAD_LAB_COOLDOWN_SEC: "120" })).toBe(120);
   });
 });
 
