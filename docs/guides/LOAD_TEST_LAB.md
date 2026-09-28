@@ -46,6 +46,17 @@ Without `LOAD_LAB_ENABLED`, Start returns 403. Production also needs the allow f
 | Stale-run recovery | Stuck running/aborting past wall-clock+grace auto-clears to failed |
 | Disk restore | After process restart, GET status reloads the latest `summary.json` |
 
+### Fit-gap closed (recovery / QOL)
+
+| Gap | Fix |
+|-----|-----|
+| Public journeys hit `/api/health` | Removed — CapRover can restart the app if health 503s under load |
+| Could Start while aborting | Blocked; Start disabled in UI too |
+| Stuck running/aborting forever | Auto-clear after wall-clock + grace → failed, safe to retry |
+| Process restart wipes results UI | GET status reloads latest `load-results/.../summary.json` |
+| Stacked intense runs | 60s cool-down (`LOAD_LAB_COOLDOWN_SEC`) before next Start |
+| Caps invisible | Status shows max VUs / duration / run / cool-down |
+
 **Run off-hours only.** Capacity sweeps can make the site slow or unavailable for real members. If CapRover still restarts the app under extreme load, wait for the cool-down, confirm `/api/health`, then Start smoke before another capacity sweep.
 
 ## Who can Start / Abort
@@ -57,7 +68,7 @@ Without `LOAD_LAB_ENABLED`, Start returns 403. Production also needs the allow f
 | Profile | What it does |
 |---------|----------------|
 | Smoke | 1–2 VUs, short public browse — proves the runner |
-| Public browse | Anonymous journeys (home, Create, Utilities, Learn, a couple tools, `/api/health`) |
+| Public browse | Anonymous journeys (home, Create, Utilities, Learn, a couple tools, manifesto — **not** `/api/health`) |
 | Officer Hub read | Credentials login once per VU, then dashboard + grievances/tasks/meetings reads |
 | Capacity sweep | Staged **50 → 100 → 250 → 500 → 1000** with ramp; **aborts** escalation if error rate ≥10% or p95 ≥5s |
 
