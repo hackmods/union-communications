@@ -8065,6 +8065,10 @@
         "title": "Dossiers et rapports UnionOps Data",
         "body": "Les dirigeants peuvent chercher des personnes à une date donnée, voir chaque emploi ouvert, documenter le statut observé des cotisations issu des imports, et exporter des instantanés CSV protégés contre les formules — toujours sans collecte de cotisations."
       },
+      "proposal-tracker-csv-load": {
+        "title": "Chargez un CSV du Suivi des propositions pour reprendre",
+        "body": "L'export sauvegarde toujours vos lignes de négociation sur cet appareil. Rechargez le même CSV plus tard pour les restaurer, et les dirigeants connectés ont un lien direct vers les propositions du Hub."
+      },
       "learn-ui-chrome": {
         "title": "Les pages Apprendre démarrent plus vite",
         "body": "Les liens connexes passent après la leçon, Steward 101 ouvre plus vite sur le contenu de plancher, et la Formation des dirigeants montre un rail de progression compact au lieu de lister chaque module deux fois."
@@ -11692,7 +11696,7 @@
       "preDisciplinaryLog": "Droits procéduraux, facteurs atténuants et points de représentation.",
       "complaintVsGrievance": "Cinq points d'admissibilité, puis brouillon de grief ou autre voie.",
       "bylawBuilder": "Rédigez un modèle de règlements locaux à partir du quorum et de la structure de l'exécutif.",
-      "proposalTracker": "Suivez les propositions et contre-propositions sur cet appareil, puis exportez en CSV pour sauvegarde.",
+      "proposalTracker": "Suivez les propositions et contre-propositions sur cet appareil, puis exportez ou chargez un CSV pour reprendre.",
       "rulesOfOrder": "Quatorze actions parlementaires avec formulation exacte, notes pour le président et copie — conçu pour le téléphone en salle."
     }
   },
@@ -14141,7 +14145,10 @@
     "error": "Impossible d'envoyer ce brouillon. Réessayez.",
     "empty": "Rien à envoyer pour l'instant. Ajoutez d'abord un nom de section locale ou au moins une proposition.",
     "emptyInformalLog": "Rien à envoyer pour l'instant. Ajoutez d'abord ce qui s'est passé dans au moins une entrée.",
-    "mfaFirst": "Vérifier l’identité d’abord"
+    "mfaFirst": "Vérifier l’identité d’abord",
+    "openHubProposals": "Ouvrir les propositions du Hub",
+    "openHubBylaws": "Ouvrir les règlements du Hub",
+    "openHubInformalLog": "Ouvrir le journal informel du Hub"
   },
   "hubBylaws": {
     "title": "Règlements locaux",
@@ -14800,11 +14807,20 @@
     "privacyNote": "Les lignes sont enregistrées sur cet appareil seulement. Envoyez une copie au Hub des dirigeants quand le comité veut une version partagée.",
     "trust": {
       "title": "La stratégie de négociation est confidentielle",
-      "body": "Ce suivi enregistre tout directement sur votre appareil. Aucune donnée n'est envoyée dans le nuage. Exportez en CSV pour sauvegarder vos notes."
+      "body": "Ce suivi enregistre tout directement sur votre appareil. Aucune donnée n'est envoyée dans le nuage. Exportez en CSV pour sauvegarder vos notes, puis rechargez le même fichier pour reprendre sur un autre navigateur."
     },
     "saveFailed": "Impossible d'enregistrer sur cet appareil. Exportez en CSV maintenant pour ne pas perdre de lignes, puis libérez de l'espace de navigateur et réessayez.",
     "addProposal": "Ajouter une proposition",
     "exportCsv": "Exporter en CSV",
+    "importCsv": "Charger un CSV",
+    "importConfirm": "Charger ce CSV remplace les lignes sur cet appareil. Continuer ?",
+    "importSuccess": "{count} propositions chargées depuis le CSV. Elles sont enregistrées sur cet appareil.",
+    "importError": {
+      "empty": "Ce CSV n'a aucune ligne de proposition. Exportez d'abord depuis cet outil, ou vérifiez le fichier.",
+      "invalidCsv": "Ce fichier n'est pas un CSV du Suivi des propositions. Utilisez un fichier exporté depuis cet outil.",
+      "tooManyRows": "Ce CSV a trop de lignes. Divisez-le sous 500 propositions et réessayez.",
+      "readFailed": "Impossible de lire ce fichier. Réessayez, ou exportez un nouveau CSV depuis cet outil."
+    },
     "clearDraft": "Effacer le brouillon",
     "removeRow": "Retirer",
     "columns": {

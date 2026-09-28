@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "proposal-tracker-csv-load",
+    date: "2026-09-28",
+    kind: "improved",
+    href: "/tools/proposal-tracker",
+  },
+  {
     id: "learn-ui-chrome",
     date: "2026-09-28",
     kind: "improved",

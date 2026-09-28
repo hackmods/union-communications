@@ -8119,6 +8119,10 @@
         "title": "UnionOps Data records and reports",
         "body": "Officers can search people as of a date, see every open job, document observational dues standing from imports, and export formula-safe CSV snapshots — still not dues collection."
       },
+      "proposal-tracker-csv-load": {
+        "title": "Load a Proposal Tracker CSV to resume",
+        "body": "Export still backs up your bargaining rows on this device. Load the same CSV later to restore them, and signed-in officers get a direct link to Hub proposals."
+      },
       "learn-ui-chrome": {
         "title": "Learn pages start sooner",
         "body": "Related links sit after the lesson, Steward 101 opens on the floor content faster, and Officer Learning shows a compact progress rail instead of listing every module twice."
@@ -11692,7 +11696,7 @@
       "preDisciplinaryLog": "Procedural rights, mitigators, and representation talking points.",
       "complaintVsGrievance": "Five eligibility points, then a grievance draft or alternate route.",
       "bylawBuilder": "Draft a standard local bylaws template from quorum and executive fields.",
-      "proposalTracker": "Track bargaining proposals and counters on this device, then export CSV for backup.",
+      "proposalTracker": "Track bargaining proposals and counters on this device, then export or load CSV to resume.",
       "rulesOfOrder": "Fourteen parliamentary actions with exact wording, chair notes, and copy — built for phones in the meeting room."
     }
   },
@@ -14141,7 +14145,10 @@
     "error": "Could not send this draft. Try again.",
     "empty": "Nothing to send yet. Add a local name or at least one proposal first.",
     "emptyInformalLog": "Nothing to send yet. Add what happened on at least one entry first.",
-    "mfaFirst": "Verify identity first"
+    "mfaFirst": "Verify identity first",
+    "openHubProposals": "Open Hub proposals",
+    "openHubBylaws": "Open Hub bylaws",
+    "openHubInformalLog": "Open Hub Informal Log"
   },
   "hubBylaws": {
     "title": "Local bylaws",
@@ -14800,11 +14807,20 @@
     "privacyNote": "Rows save on this device only. Send a copy to your Officer Hub when the committee wants a shared version.",
     "trust": {
       "title": "Bargaining strategy is confidential",
-      "body": "This tracker saves everything directly to your device. No data is sent to the cloud. Export to CSV to back up your notes."
+      "body": "This tracker saves everything directly to your device. No data is sent to the cloud. Export to CSV to back up your notes, then load the same file to resume on another browser."
     },
     "saveFailed": "Could not save on this device. Export to CSV now so you do not lose rows, then free browser storage and try again.",
     "addProposal": "Add Proposal",
-    "exportCsv": "Export to CSV",
+    "exportCsv": "Export CSV",
+    "importCsv": "Load CSV",
+    "importConfirm": "Loading this CSV replaces the rows on this device. Continue?",
+    "importSuccess": "Loaded {count} proposals from CSV. They are saved on this device.",
+    "importError": {
+      "empty": "That CSV has no proposal rows. Export from this tool first, or check the file.",
+      "invalidCsv": "That file is not a Proposal Tracker CSV. Use a file exported from this tool.",
+      "tooManyRows": "That CSV has too many rows. Split it under 500 proposals and try again.",
+      "readFailed": "Could not read that file. Try again, or export a fresh CSV from this tool."
+    },
     "clearDraft": "Clear draft",
     "removeRow": "Remove",
     "columns": {
