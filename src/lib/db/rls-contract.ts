@@ -360,7 +360,7 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
   { table: "public_document_versions", policy: "public_document_versions_admin_insert", migration: "0065_public_document_management.sql" },
   { table: "public_document_acceptances", policy: "public_document_acceptances_subject_read", migration: "0065_public_document_management.sql" },
   { table: "public_document_acceptances", policy: "public_document_acceptances_subject_insert", migration: "0065_public_document_management.sql" },
-  { table: "public_document_acceptances", policy: "public_document_acceptances_admin_update", migration: "0065_public_document_management.sql" },
+  // admin_update removed in 0067 (append-only acceptances)
   { table: "marketing_subscribers", policy: "marketing_subscribers_admin_job", migration: "0077_product_news_consent.sql" },
   { table: "marketing_consent_events", policy: "marketing_consent_admin_read", migration: "0077_product_news_consent.sql" },
   { table: "marketing_consent_events", policy: "marketing_consent_admin_insert", migration: "0077_product_news_consent.sql" },

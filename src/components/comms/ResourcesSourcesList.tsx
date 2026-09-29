@@ -49,7 +49,7 @@ export function ResourcesSourcesList({
         </h2>
       ) : null}
       <p className={cn("max-w-prose text-gray-600", hideHeading ? "mt-0" : "mt-2")}>
-        {t("allSources.intro")}
+        {ts("intro")}
       </p>
       {showScopeNote && (
         <p className="mt-2 text-sm text-gray-600">

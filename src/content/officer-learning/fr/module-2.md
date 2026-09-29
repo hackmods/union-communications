@@ -4,7 +4,7 @@
 
 Prévoyez **26 minutes** pour la lecture et l'autoévaluation. Apportez les articles de discipline de votre **convention collective**, toute lettre d'avertissement ou avis de suspension récent, et un **carnet**. Les dossiers disciplinaires sont émotionnellement chargés — si possible, révisez ce module avec un délégué mentor avant votre première rencontre disciplinaire.
 
-Les sections 1 à 5 couvrent l'encadrement par rapport à la discipline, les étapes progressives, les facteurs atténuants, l'obéir maintenant et plaider ensuite, et le lien hors service. Associez `/guide/grievance-process` pour les étapes de dépôt et `/guide/right-to-refuse` lorsque des exceptions de sécurité surviennent. Les principes de la LSST de l'Ontario apparaissent dans l'exception de sécurité de la section 4 — connaissez l'équivalent de votre province.
+Les sections 1 à 5 couvrent l'encadrement par rapport à la discipline, les étapes progressives, les facteurs atténuants, l'obéir maintenant et plaider ensuite, et le lien hors service. Associez `/learn/grievance-process` pour les étapes de dépôt et `/learn/right-to-refuse` lorsque des exceptions de sécurité surviennent. Les principes de la LSST de l'Ontario apparaissent dans l'exception de sécurité de la section 4 — connaissez l'équivalent de votre province.
 
 💡 Note : En matière de discipline, l'employeur porte le fardeau de la preuve. Votre rôle est de tester ses preuves et de présenter l'atténuation — pas de prouver l'innocence du membre à partir de zéro.
 
@@ -116,7 +116,7 @@ Un employeur ne peut discipliner un employé pour une conduite hors service à m
 
 Exercice : Jouez un rôle de rencontre disciplinaire. Le gestionnaire présente une suspension d'un jour pour retards (trois incidents en deux mois). Le délégué doit demander la preuve de chaque date, les avertissements antérieurs donnés, et si d'autres travailleurs en retard ont été disciplinés. Le délégué conclut en offrant l'atténuation (documentation de rendez-vous médicaux, retards de transport) et en demandant une réduction à un avertissement écrit. Limite : 12 minutes. Débriefing : quelqu'un a-t-il accidentellement admis des faits que l'employeur n'avait pas prouvés ?
 
-Exercice dans l'outil : ouvrez Outils → Fiches délégué → Journal prédisciplinaire (/tools/pre-disciplinary-log) et complétez la liste des droits pour le même scénario.
+Exercice dans l'outil : ouvrez Outils → Fiches délégué → Journal prédisciplinaire (/utilities/pre-disciplinary-log) et complétez la liste des droits pour le même scénario.
 
 ---
 
@@ -129,7 +129,7 @@ Exercice dans l'outil : ouvrez Outils → Fiches délégué → Journal prédisc
 - [ ] Préparer les facteurs atténuants avec dates et notes de soutien
 - [ ] Conseiller le membre sur obéir maintenant, plaider ensuite ou les exceptions de sécurité/légales avant le prochain quart
 - [ ] Pour la conduite hors service, conserver les publications sociales et documenter l'impact en milieu de travail (ou son absence)
-- [ ] Compléter la liste des droits de `/tools/pre-disciplinary-log` avant la rencontre lorsque possible
+- [ ] Compléter la liste des droits de `/utilities/pre-disciplinary-log` avant la rencontre lorsque possible
 - [ ] Rédiger un redressement précis : retrait du dossier, sanction réduite, réintégration avec salaire rétroactif
 - [ ] Briefer le membre : n'admettre que les faits prouvés ; ne pas inventer de dates ou de motifs pour l'employeur
 

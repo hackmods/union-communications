@@ -31,7 +31,7 @@ export function renderInline(
         if (token.href.startsWith("/")) {
           return (
             <Link key={`md-${key}`} href={token.href} className={classes.link}>
-              {token.label}
+              {renderInline(token.label, classes)}
             </Link>
           );
         }
@@ -43,7 +43,7 @@ export function renderInline(
             rel="noopener noreferrer"
             target="_blank"
           >
-            {token.label}
+            {renderInline(token.label, classes)}
           </a>
         );
       case "strong":

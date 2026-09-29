@@ -4,7 +4,7 @@
 
 Allow **32 minutes** for the reading and self-test. Bring a recent grievance file (or the blank intake from Document Generator), your **collective agreement**, and a notepad for settlement language. Practice open-door wording on a live file before your next step meeting — theory without a draft rarely sticks.
 
-Sections move from the five-part grievance file through open-door wording, without prejudice vs. without precedent, and Four Corners settlement discipline. Pair with `/guide/grievance-process` and `/tools/complaint-vs-grievance`. **Module 1** owns the complaint-vs-grievance filter, 6 W's, and FAR intake; **this module** owns trial-ready file pillars, open-door drafting, and MOS / Four Corners settlement discipline — the grievance-process guide covers step filing mechanics. Use Document Generator grievance intake worksheets to structure chronology. **CUPE steward handbook** and **Unifor Grievance Handling** courses deepen file architecture; arbitral practice on make-whole remedies informs remedy asks.
+Sections move from the five-part grievance file through open-door wording, without prejudice vs. without precedent, and Four Corners settlement discipline. Pair with `/learn/grievance-process` and `/utilities/complaint-vs-grievance`. **Module 1** owns the complaint-vs-grievance filter, 6 W's, and FAR intake; **this module** owns trial-ready file pillars, open-door drafting, and MOS / Four Corners settlement discipline — the grievance-process guide covers step filing mechanics. Use Document Generator grievance intake worksheets to structure chronology. **CUPE steward handbook** and **Unifor Grievance Handling** courses deepen file architecture; arbitral practice on make-whole remedies informs remedy asks.
 
 🪞 Reflection: A weak grievance form loses arguments before the meeting starts. Write for the arbitrator you hope never to need.
 
@@ -75,7 +75,7 @@ In contract practice, the signed **Memorandum of Settlement** stands alone. The 
 ### When to walk away
 Walk when the written offer is worse than arbitration risk *and* HR refuses to put key promises on paper. A handshake about "cleaning up the schedule later" is not a win — it is a future grievance with no leverage. **Unifor Grievance Handling** training treats unsigned side deals as lost deals.
 
-💡 Note: `/tools/complaint-vs-grievance` helps members see when informal complaints should harden into filed grievances with open-door forms — not hallway bargains.
+💡 Note: `/utilities/complaint-vs-grievance` helps members see when informal complaints should harden into filed grievances with open-door forms — not hallway bargains.
 
 ---
 
@@ -113,14 +113,14 @@ Practice: **Round 1 — Five-part file.** For a missed-overtime grievance, list 
 - [ ] Preserve emails, schedules, swipe logs early (before deletion cycles)
 - [ ] Use open-door article language on the formal form
 - [ ] Ask make-whole remedies, not single-day token amounts
-- [ ] Separate complaint coaching from filed grievance standards (`/tools/complaint-vs-grievance`)
+- [ ] Separate complaint coaching from filed grievance standards (`/utilities/complaint-vs-grievance`)
 - [ ] Mark exploratory offers without prejudice where appropriate
 - [ ] Decide consciously whether the MOS is without precedent
 - [ ] Apply Four Corners: if it is not written, it is not the deal
 - [ ] Settlement checklist complete before any full-and-final signature
 - [ ] Brief the grievor on what full-and-final ends — and what it does not create
 - [ ] Walk away when key promises stay verbal only
-- [ ] File architecture matches `/guide/grievance-process` timelines
+- [ ] File architecture matches `/learn/grievance-process` timelines
 
 ---
 
@@ -169,7 +169,7 @@ If a settlement is signed "Without Precedent," what does this legally mean for f
 During a step meeting, HR verbally promises to clean up the scheduling backlog if the union withdraws the grievance. The steward signs a "Full and Final" settlement that does not mention this promise. Can the union enforce the verbal promise later?
 *   A) Yes, verbal agreements made during step meetings are legally binding.
 *   B) Yes, but only if there are at least two witnesses who heard the promise.
-*   C) No, under the "Four Corners" rule, any verbal terms not written directly into the signed settlement are legally unenforceable.
+*   C) No, under the "Four Corners" rule, any verbal terms not written directly into the signed settlement are generally legally unenforceable.
 *   D) Yes, if the steward sends a confirming text message after signing.
 
 **Correct Answer: C**

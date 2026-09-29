@@ -14,6 +14,7 @@ import { Link } from "@/i18n/navigation";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { LandAcknowledgementWritingFlowDiagram } from "@/components/comms/LandAcknowledgementWritingFlowDiagram";
 import { LandAcknowledgementWorksheetButton } from "@/components/comms/LandAcknowledgementWorksheetButton";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
 const TOC = [
   ["groundRules", "groundRules"],
@@ -66,7 +67,7 @@ export async function LandAcknowledgementGuide() {
       tocLabel={t("tocLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
         { href: "/guide/running-meetings", label: nav("runningMeetingsGuide") },
         {
           href: "/guide/workshops/land-acknowledgement",
@@ -83,6 +84,11 @@ export async function LandAcknowledgementGuide() {
         />
       }
     >
+      <OfficerLearningModuleCallout
+        slug="building-collective-power"
+        moduleNumber={6}
+      />
+
       <GuideSection
         id="groundRules"
         title={t("groundRules.title")}
@@ -152,7 +158,7 @@ export async function LandAcknowledgementGuide() {
           <p className="mt-1 max-w-prose">{t("howToWrite.workshopCtaBody")}</p>
           <div className="button-row mt-4">
             <Link
-              href="/guide/workshops/land-acknowledgement"
+              href="/learn/workshops/land-acknowledgement"
               className={guideCtaOutlineClass}
             >
               {t("howToWrite.workshopCtaLabel")}
@@ -291,7 +297,7 @@ export async function LandAcknowledgementGuide() {
           ))}
         </GuideTipGrid>
         <div className="button-row mt-5">
-          <Link href="/guide/running-meetings" className={guideCtaOutlineClass}>
+          <Link href="/learn/running-meetings" className={guideCtaOutlineClass}>
             {nav("runningMeetingsGuide")}
           </Link>
         </div>
@@ -354,7 +360,7 @@ export async function LandAcknowledgementGuide() {
           ))}
         </GuideTipGrid>
         <div className="button-row mt-5">
-          <Link href="/guide/bargaining" className={guideCtaOutlineClass}>
+          <Link href="/learn/bargaining" className={guideCtaOutlineClass}>
             {nav("bargainingGuide")}
           </Link>
         </div>
@@ -377,7 +383,7 @@ export async function LandAcknowledgementGuide() {
           ))}
         </GuideTipGrid>
         <div className="button-row mt-5">
-          <Link href="/guide/resources" className={guideCtaOutlineClass}>
+          <Link href="/learn/resources" className={guideCtaOutlineClass}>
             {t("nextSteps.resourcesCta")}
           </Link>
           <LandAcknowledgementWorksheetButton />

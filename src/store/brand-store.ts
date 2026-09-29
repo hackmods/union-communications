@@ -68,7 +68,12 @@ function patchTouchesLogo(partial: BrandKitPatch): boolean {
 }
 
 function patchNeedsImmediateSave(partial: BrandKitPatch): boolean {
-  return patchTouchesLogo(partial) || "designTreatment" in partial;
+  return (
+    patchTouchesLogo(partial) ||
+    "designTreatment" in partial ||
+    // Preset switches drive Local pack / Look exports — do not wait on debounce.
+    "unionPresetId" in partial
+  );
 }
 
 function flushPendingBrandKitSave(onSaved?: () => void) {
@@ -316,7 +321,9 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     // First visit: optional host-level defaults (durable overlay via API).
     if (!kit) {
       try {
-        const hostRes = await fetch("/api/host-brand");
+        const hostRes = await fetch("/api/host-brand", {
+          signal: AbortSignal.timeout(5_000),
+        });
         if (hostRes.ok) {
           const host = (await hostRes.json()) as {
             primaryColor?: string;
@@ -393,7 +400,9 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     pendingPatch = null;
     if (queued) {
       brandKit = applyBrandKitPatch(brandKit, queued);
-      scheduleSaveBrandKit(brandKit, false, () => {
+      // Steward edits while host defaults loaded must land in localStorage
+      // before the next navigation (Local pack export, E2E polls).
+      scheduleSaveBrandKit(brandKit, true, () => {
         if (!get().storageBlocked) {
           set({ lastSavedAt: Date.now(), hasStoredBrandKit: true });
         }

@@ -4,7 +4,7 @@
 
 Allow **25 minutes** for the reading and self-test. Bring your **local bylaws**, the last set of **minutes**, a calculator for quorum math, and a **notepad**. If your local is preparing an election, read Section 4 twice before nomination night.
 
-Sections cover officer roles, quorum tiers, dull minutes, and secret ballot procedure. Cross-reference your national constitution — the Universal Quorum Scale here matches common Canadian local practice; confirm against your governing documents. Pair with `/guide/union-boards` for officer role context and `/guide/union-history` for how the local sits in the house of labour.
+Sections cover officer roles, quorum tiers, dull minutes, and secret ballot procedure. Cross-reference your national constitution — the Universal Quorum Scale here matches common Canadian local practice; confirm against your governing documents. Pair with `/learn/union-boards` for officer role context and `/learn/union-history` for how the local sits in the house of labour.
 
 💡 Note: Democracy failures are procedural — lost quorum and plurality winners are fixable before they become crises if the Secretary tracks headcount in real time.
 
@@ -72,7 +72,7 @@ Minutes must be objective, concise, and focused on **decisions and actions, not 
 ---
 
 ## 4. Secret Ballot Elections Step-by-Step
-Democratic integrity is paramount during local officer elections. The election process must follow a strict, unassailable sequence:
+Democratic integrity is paramount during local officer elections. The sequence below is a **teaching default** — confirm every step against your union's constitution and local bylaws. Some constitutions permit plurality wins; others require successive balloting to a clear majority. Do not run an election your own governing documents would void.
 
 1.  **Open Nominations**: The Chair calls for nominations from the floor. No seconder is required.
 2.  **Log Candidates**: The Secretary records nominees and nominators on a visible board or screen.
@@ -81,9 +81,9 @@ Democratic integrity is paramount during local officer elections. The election p
 5.  **Tile the Doors**: Before balloting begins, the doors are "tiled" (locked). No one is permitted to enter or leave the room until the vote is complete to prevent double-voting or ballot stuffing.
 6.  **Verify Voting Eligibility**: Ballots are distributed strictly to signed-up members in good standing.
 7.  **Scrutineers**: Each candidate is entitled to designate an independent observer (scrutineer) to witness the ballot counting process alongside the election committee.
-8.  **The 50% + 1 Majority Calculation**: To be declared elected, a candidate must win a **clear majority** of valid ballots cast (more than 50%).
-    *   *Note*: A "plurality" (having more votes than anyone else but less than 50% of the total) is *not* sufficient.
-9.  **Successive Balloting**: If no candidate wins a clear majority in the first round, the candidate with the fewest votes is eliminated, and a second round of voting is run. This process continues until one candidate secures 50% + 1 of the valid votes cast.
+8.  **Clear majority (more than half)**: To be declared elected under this teaching default, a candidate must win a **clear majority** of valid ballots cast (more than half).
+    *   *Note*: A "plurality" (having more votes than anyone else but less than half of the total) is *not* sufficient under successive-balloting constitutions — but some unions do allow plurality. Check yours.
+9.  **Successive Balloting**: If no candidate wins a clear majority in the first round, the candidate with the fewest votes is eliminated, and a second round of voting is run. This process continues until one candidate secures more than half of the valid votes cast.
 
 Canadian Labour Congress local democracy materials and CUPE steward education sessions on union structure reinforce successive balloting — plurality wins are a common error that breeds legitimacy challenges.
 
@@ -126,7 +126,7 @@ Practice: Mock GMM with paper headcount cards. Secretary tracks quorum for a fic
 - [ ] Elections: three nomination calls, stand/decline, tile doors
 - [ ] Scrutineers appointed before ballot count
 - [ ] Majority = more than 50% of valid ballots; eliminate low candidate and reballot if needed
-- [ ] Pair with `/guide/running-meetings` and `/tools/rules-of-order` for chair wording on the floor
+- [ ] Pair with [Running meetings](/learn/running-meetings) and [Rules of Order](/utilities/rules-of-order) for chair wording on the floor
 
 ---
 
@@ -174,11 +174,11 @@ During a heated General Membership Meeting, 4 members leave the hall to catch a 
 In a local election for President, 100 valid ballots are cast. Candidate A receives 45 votes, Candidate B receives 35 votes, and Candidate C receives 20 votes. What happens next?
 *   A) Candidate A is declared elected because they have the most votes (plurality).
 *   B) A coin toss is held between Candidate A and Candidate B.
-*   C) Candidate C is eliminated, and a second ballot is run between Candidate A and Candidate B to determine who secures a 50% + 1 clear majority.
+*   C) Candidate C is eliminated, and a second ballot is run between Candidate A and Candidate B to determine who secures a clear majority (more than half).
 *   D) The election is declared void and must be postponed to next month.
 
 **Correct Answer: C**
-*Explanation*: Local union elections require a clear majority (more than 50% of valid ballots, which in this case would be at least 51 votes). Because no candidate reached 51 votes, the lowest vote-getter (Candidate C with 20 votes) is eliminated, and a second ballot is run between A and B.
+*Explanation*: Under successive-balloting constitutions, elections require a clear majority (more than half of valid ballots — here at least 51). Because no candidate reached 51, Candidate C is eliminated and A and B reballot. Confirm your constitution — some unions permit plurality.
 
 ### Question 4
 A Secretary wants to record that "Member X angrily opposed the motion and accused the executive of corruption" in the minutes. Best advice?
@@ -191,14 +191,14 @@ A Secretary wants to record that "Member X angrily opposed the motion and accuse
 *Explanation*: The dull writing standard records decisions and actions, not emotional debate or personal attacks. The motion wording, outcome, and assigned tasks are the legal record.
 
 ### Question 5
-During a contested presidential election, the chair wants to announce "Candidate A wins with 45% — most votes." What must happen?
-*   A) Declare A elected because 45% is the highest share.
-*   B) Eliminate the lowest candidate and hold a runoff until someone reaches more than 50% of valid ballots.
-*   C) Split the presidency between A and B.
-*   D) Accept a coin toss between the top two.
+Balloting for President has started. A late member knocks and asks to enter the hall to vote. Doors were tiled when the first ballot was distributed. Correct response?
+*   A) Open the door — every member in good standing may vote at any time.
+*   B) Keep the doors tiled until the ballot is complete; late arrivals wait for the next round or the next meeting per bylaws.
+*   C) Let them vote in the hallway and pass the ballot under the door.
+*   D) Pause the count, unlock the doors, and restart nominations.
 
 **Correct Answer: B**
-*Explanation*: Union elections require a clear majority, not a plurality. When no candidate clears 50%+1, eliminate the lowest and reballot until a majority winner emerges.
+*Explanation*: Tiling the doors prevents double-voting and ballot stuffing. Once balloting starts, entry and exit stop until the vote is complete — late arrivals follow the next authorized ballot method in your bylaws.
 
 ### Question 6
 Before counting ballots, a member demands to watch the count alone without scrutineers appointed. Best practice?

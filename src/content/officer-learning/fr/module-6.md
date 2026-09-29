@@ -4,7 +4,7 @@
 
 Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Lisez dans un cadre où vous pouvez faire pause et réfléchir. Apportez des brouillons de sondages de négociation si disponibles, le préambule et le langage de congé de votre **convention collective**, et un **carnet**. Discutez des protocoles culturels de la section 4 avec des membres autochtones ou le comité d'équité de votre section locale avant d'accueillir des cérémonies — ce module introduit les protocoles ; les relations communautaires guident la pratique.
 
-Les sections passent du biais systémique vs individuel à la négociation d'équité, au langage contractuel, et au RAD avec protocoles culturels. Associez `/guide/bargaining`, `/guide/strike` et `/guide/membership-signup` pour les cahiers de campagne. Le **module 7** approfondit les échelles de mobilisation et les limites de grève en cours de convention du LRT — ce module possède le langage d'équité et la RAD. La formation antraciste du **CTC** et le guide **Arrêter le harcèlement** du SCFP approfondissent les sections 1 et 3.
+Les sections passent du biais systémique vs individuel à la négociation d'équité, au langage contractuel, et au RAD avec protocoles culturels. Associez `/learn/bargaining`, `/learn/strike` et `/learn/membership-signup` pour les cahiers de campagne. Le **module 7** approfondit les échelles de mobilisation et les limites de grève en cours de convention du LRT — ce module possède le langage d'équité et la RAD. La formation antraciste du **CTC** et le guide **Arrêter le harcèlement** du SCFP approfondissent les sections 1 et 3.
 
 🪞 Réflexion : Le changement systémique est plus lent que de dénoncer une blague raciste — mais c'est ainsi que le prochain membre évite le même obstacle.
 
@@ -66,7 +66,7 @@ Les syndicats peuvent codifier le changement systémique en négociant des claus
 *   **Engagements du préambule** : Déclarations conjointes engageant le syndicat et l'employeur à identifier, contester et éliminer activement le racisme systémique et la colonisation en milieu de travail.
 *   **Redressement des microagressions** : Définir les microagressions (commentaires ou comportements quotidiens, subtils ou dénigrants qui communiquent des attitudes hostiles ou négatives envers les groupes marginalisés) et établir des procédures claires et rapides d'enquête et de résolution.
 *   **Définitions évolutives de la famille** : Élargir le langage de deuil et de congé familial pour inclure explicitement la **« famille choisie »**, reconnaissant des structures culturelles diverses qui ne correspondent pas aux modèles traditionnels de famille nucléaire.
-*   **Congés culturels flexibles** : Permettre aux membres de substituer des jours fériés statutaires historiquement chrétiens (p. ex. Vendredi saint, Noël) par des observances religieuses ou culturelles non chrétiennes (p. ex. Aïd, Yom Kippour, Diwali, Journée nationale des peuples autochtones).
+*   **Congés culturels flexibles** : Négocier des jours de remplacement ou des aménagements d'horaire pour que les membres puissent observer des jours religieux ou culturels non chrétiens (p. ex. Aïd, Yom Kippour, Diwali, Journée nationale des peuples autochtones) tout en préservant les entitlements minimums aux jours fériés statutaires. La substitution exige habituellement une entente écrite selon la loi sur les normes d'emploi applicable — on ne peut pas simplement échanger les droits de jours fériés de la LNE (ou équivalent) par du langage de convention seule.
 
 **Les droits de la personne au travail** de la CODP appuient l'accommodement religieux flexible et les protections de la situation familiale — un langage contractuel qui nomme la famille choisie et la substitution de congés culturels aligne les droits statutaires avec des clauses exécutoires. Les procédures de microagression devraient croiser les politiques de harcèlement ; les échéanciers d'enquête du guide **Arrêter le harcèlement** du SCFP sont une référence utile.
 
@@ -162,7 +162,7 @@ Exercice : **Tour 1 — table de comité de négociation.** Étant donné une ca
 - Formation syndicale du [**Congrès du travail du Canada**](https://canadianlabour.ca/) — antiracisme et équité dans le mouvement syndical
 - Guide **Arrêter le harcèlement** du SCFP — microagressions, enquête et climat de travail
 - Cours de traitement des griefs et de leadership en milieu de travail d'[**Unifor**](https://www.unifor.org/) — comités représentatifs et cartographie du pouvoir
-- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/human-rights-code) — **Les droits de la personne au travail** (concepts de discrimination systémique)
+- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/ontario-human-rights-code) — **Les droits de la personne au travail** (concepts de discrimination systémique)
 - **Fédération du travail de l'Ontario** — ressources d'équité et d'inclusion pour les sections locales
 
 ---
@@ -190,14 +190,14 @@ Le comité de négociation veut proposer d'élargir le congé de deuil pour incl
 *Explication* : Élargir la définition de la famille pour inclure la « famille choisie » est une demande contractuelle clé d'équité. Elle reconnaît que les réseaux de parenté varient largement selon les communautés culturelles et marginalisées, et que les règles traditionnelles limitées aux liens de sang sont exclusives.
 
 ### Question 3
-La section locale invite un Aîné autochtone à mener une cérémonie d'ouverture pour une école syndicale de fin de semaine. Pour suivre les protocoles traditionnels appropriés, que devrait préparer la section locale à offrir à l'Aîné lors de la demande ?
+La section locale invite un Aîné autochtone à mener une cérémonie d'ouverture pour une école syndicale de fin de semaine. Les protocoles varient selon la nation et la communauté — demandez toujours à l'Aîné ou à votre comité d'équité ce qu'ils préfèrent. Quelle option est un exemple largement enseigné de protocole respectueux (pas la seule pratique correcte partout) ?
 *   A) Un panier-cadeau corporatif standard avec confitures et chocolats.
 *   B) Un lien de tabac traditionnel (tabac organique enveloppé dans du drap coloré) offert respectueusement avec la main gauche (la plus proche du cœur).
 *   C) Une promesse écrite de don à un parti politique.
 *   D) Un paiement en espèces dans une enveloppe ouverte avant qu'ils ne parlent.
 
 **Correct Answer: B**
-*Explication* : Offrir un lien de tabac traditionnel (tabac organique dans du drap coloré) avec la main gauche (représentant le cœur) est un protocole culturel fondamental lorsqu'on demande les conseils, enseignements ou présence cérémonielle d'un Aîné.
+*Explication* : Bien des communautés enseignent d'offrir un lien de tabac avec la main gauche lorsqu'on invite un Aîné — mais les protocoles varient selon la nation et la communauté. Confirmez avec les membres autochtones ou votre comité d'équité avant d'accueillir des cérémonies ; ne traitez jamais un protocole comme universel.
 
 ### Question 4
 Un membre veut une RAD avec un Aîné plutôt qu'une rencontre de grief formelle avec la direction. Meilleure réponse du délégué ?

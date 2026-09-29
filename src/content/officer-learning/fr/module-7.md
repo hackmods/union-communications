@@ -4,7 +4,7 @@
 
 Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Lisez avec votre **convention collective**, une carte de milieu de travail vierge (quarts × classifications), et un carnet pour les idées d'escalade. Parcourez les limites juridiques de la section 4 avec votre représentant de service ou un conseiller juridique avant de lancer tout *work-to-rule* — ce module enseigne la carte ; le conseil juridique assume le jugement de risque.
 
-Les sections passent du cycle de négociation à la cartographie démographique, à l'échelle d'escalade à cinq échelons, et aux limites de grève du *Code des relations de travail* (LRT) de l'Ontario. Associez `/guide/workplace-mapping`, `/guide/bargaining`, `/guide/strike`, et `/guide/membership-signup`. Le **module 6** possède le langage de négociation d'équité et la RAD ; **ce module** possède les échelles de mobilisation et les limites de grève en cours de convention du LRT — les guides publics sont des cahiers de marche, pas un second cours OL. L'éducation à l'organisation du **CTC** et le **Leadership en milieu de travail d'Unifor** approfondissent la pratique de cartographie ; les chapitres du **manuel des délégués du SCFP** sur la pression au lieu de travail renforcent la prudence juridique.
+Les sections passent du cycle de négociation à la cartographie démographique, à l'échelle d'escalade à cinq échelons, et aux limites de grève du *Code des relations de travail* (LRT) de l'Ontario. Associez `/learn/workplace-mapping`, `/learn/bargaining`, `/learn/strike`, et `/learn/membership-signup`. Le **module 6** possède le langage de négociation d'équité et la RAD ; **ce module** possède les échelles de mobilisation et les limites de grève en cours de convention du LRT — les guides publics sont des cahiers de marche, pas un second cours OL. L'éducation à l'organisation du **CTC** et le **Leadership en milieu de travail d'Unifor** approfondissent la pratique de cartographie ; les chapitres du **manuel des délégués du SCFP** sur la pression au lieu de travail renforcent la prudence juridique.
 
 🪞 Réflexion : Une convention sans plancher organisé est un document. Votre travail est de transformer l'encre en pouvoir — légalement.
 
@@ -38,9 +38,9 @@ Avant d'escalader, vous cartographiez. Une carte du milieu de travail trace les 
 1.  Dessinez le site par département ou unité.
 2.  Marquez qui parle à qui aux pauses — les leaders organiques portent rarement encore le titre de délégué.
 3.  Signalez les grappes temporaires/précaires et les îlots linguistiques qui ne voient jamais de visite de délégué.
-4.  Croisez avec les listes de membres et les lacunes d'adhésion (`/guide/membership-signup`).
+4.  Croisez avec les listes de membres et les lacunes d'adhésion (`/learn/membership-signup`).
 
-Sans carte, les journées de chandails recrutent la salle à manger déjà active et laissent l'isolement du quart de nuit intact. `/guide/workplace-mapping` enseigne la même discipline pour la planification de campagne.
+Sans carte, les journées de chandails recrutent la salle à manger déjà active et laissent l'isolement du quart de nuit intact. `/learn/workplace-mapping` enseigne la même discipline pour la planification de campagne.
 
 ⚠️ Avertissement : Les notes démographiques volontaires appartiennent aux classeurs d'organisation — ne publiez jamais de listes d'identité ni ne forcez les membres à divulguer en assemblée ouverte.
 
@@ -55,7 +55,7 @@ N'escaladez que jusqu'où la carte et le mandat le soutiennent. Chaque échelon 
 | Application rigide de la convention | Rend coûteuses les clauses ignorées | Faible–moyen — anticiper des griefs de riposte | L'employeur minimise les heures, les HS ou les procédures |
 | Mini-campagnes (pétitions, griefs de groupe massifs) | Gagne des correctifs visibles d'installations/sécurité | Moyen — exige des demandes serrées | Cibles gagnables en santé, sécurité ou installations |
 | *Work-to-rule* (lettre de la CC ; refuser les extras volontaires) | Perturbe la flexibilité de l'employeur | Élevé — erreur juridique = risque de grève illégale | Fin d'élaboration des demandes / début de négociation |
-| Préparation à la grève (comités, capitaines, fonds) | Levier ultime | Le plus élevé — calendrier et votes statutaires | Fenêtre de grève légale ; voir `/guide/strike` |
+| Préparation à la grève (comités, capitaines, fonds) | Levier ultime | Le plus élevé — calendrier et votes statutaires | Fenêtre de grève légale ; voir `/learn/strike` |
 
 ### *Work-to-rule* vs ralentissement illégal
 Le **LRT** de l'Ontario définit la **grève** largement — les ralentissements concertés, interdictions d'heures supplémentaires et retraits de services similaires en cours de convention peuvent être illégaux pendant qu'une convention collective est en vigueur. La pression protégée ressemble à ceci :
@@ -81,7 +81,7 @@ La mobilisation sans limites juridiques brûle les membres. Gardez ces règles d
 
 *   Pas d'interdictions d'heures supplémentaires ni de ralentissements en cours de convention déguisés en « *work-to-rule* ».
 *   Les journées de chandails et macarons sont de la solidarité — pas des lignes de piquetage.
-*   Les comités et fonds de grève appartiennent à la **préparation à la grève**, calée sur les fenêtres légales (`/guide/strike`).
+*   Les comités et fonds de grève appartiennent à la **préparation à la grève**, calée sur les fenêtres légales (`/learn/strike`).
 *   Documentez les représailles de l'employeur ; mobilisez le soutien par griefs et voies des droits de la personne, pas par contre-grèves illégales.
 
 Le **manuel des délégués du SCFP** et les matériaux d'organisation du **CTC** insistent tous deux : le délégué qui ne peut pas expliquer la ligne juridique ne devrait pas appeler l'action.
@@ -89,7 +89,7 @@ Le **manuel des délégués du SCFP** et les matériaux d'organisation du **CTC*
 💡 Note : Refuser une faveur volontaire tout en faisant correctement son travail n'est pas une grève. Ralentir volontairement le travail requis avec des collègues l'est généralement.
 
 ### Jour 1 du délégué en grève (fenêtre légale seulement)
-Quand une fenêtre de grève légale s'ouvre, `/guide/strike` possède les cahiers de commandement, de piquetage et de retour au travail. Les délégués possèdent encore la discipline du plancher le premier jour :
+Quand une fenêtre de grève légale s'ouvre, `/learn/strike` possède les cahiers de commandement, de piquetage et de retour au travail. Les délégués possèdent encore la discipline du plancher le premier jour :
 
 1.  Confirmer le vote de grève et le calendrier statutaire avec votre comité de négociation — n'inventez pas une heure de départ à partir d'une rumeur.
 2.  Connaître votre capitaine de piquet, la carte du site et qui parle aux médias (habituellement pas le délégué seul).
@@ -142,7 +142,7 @@ Exercice : **Tour 1 — Carte et mandat.** Esquissez une carte d'une page du mil
 - [ ] Séparer la préparation à la grève (comités, capitaines, fonds) de la pression en cours de convention
 - [ ] Documenter les représailles ; répondre par voies légales, pas par contre-action illégale
 - [ ] Partager les thèmes agrégés de cartographie avec les membres avant l'ouverture de la négociation
-- [ ] Associer les plans de mobilisation aux échéanciers de `/guide/bargaining` et `/guide/strike`
+- [ ] Associer les plans de mobilisation aux échéanciers de `/learn/bargaining` et `/learn/strike`
 
 ---
 

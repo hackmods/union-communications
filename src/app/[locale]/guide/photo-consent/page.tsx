@@ -90,9 +90,9 @@ export default async function PhotoConsentGuidePage({
           title={tg("asideTitle")}
           intro={tg("asideIntro")}
           links={[
-            { href: "/tools/graphic-maker", label: nav("graphicMaker") },
+            { href: "/create/graphic-maker", label: nav("graphicMaker") },
             {
-              href: "/guide/short-form",
+              href: "/learn/short-form",
               label: nav("shortFormGuide"),
               variant: "outline",
             },
@@ -100,9 +100,9 @@ export default async function PhotoConsentGuidePage({
         />
       }
       relatedLinks={[
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/short-form", label: nav("shortFormGuide") },
-        { href: "/guide/crisis", label: nav("crisisCommsGuide") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/short-form", label: nav("shortFormGuide") },
+        { href: "/learn/crisis", label: nav("crisisCommsGuide") },
       ]}
       footer={
         <SourcesBlock
@@ -119,7 +119,7 @@ export default async function PhotoConsentGuidePage({
         </p>
       </GuideCallout>
 
-      <OfficerLearningModuleCallout slug="human-rights-accommodation" moduleNumber={3} />
+      <OfficerLearningModuleCallout slug="membership-lists-privacy" moduleNumber={11} />
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <GuideTipGrid className="mt-4">
@@ -296,16 +296,16 @@ export default async function PhotoConsentGuidePage({
           ))}
         </GuideTipGrid>
         <GuideActionRow>
-          <Link href="/tools/graphic-maker" className={guideCtaClass}>
+          <Link href="/create/graphic-maker" className={guideCtaClass}>
             {nav("graphicMaker")}
           </Link>
-          <Link href="/guide/short-form" className={guideCtaOutlineClass}>
+          <Link href="/learn/short-form" className={guideCtaOutlineClass}>
             {nav("shortFormGuide")}
           </Link>
           <Link href="/documents/privacy" className={guideCtaOutlineClass}>
             {nav("privacy")}
           </Link>
-          <Link href="/guide/resources" className={guideCtaOutlineClass}>
+          <Link href="/learn/resources" className={guideCtaOutlineClass}>
             {nav("resources")}
           </Link>
         </GuideActionRow>

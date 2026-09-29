@@ -4,12 +4,12 @@
 
 Allow **30 minutes** for the reading and self-test. Read with your **local bylaws**, a recent **employer dues report** (CSV or spreadsheet), your **signed-card roster**, and access to your local's secure member database — not employer email. Sections move from Rand Formula vs. card-carrying members through the **Membership List Directive**, monthly reconciliation, and secure storage.
 
-Pair with `/guide/membership-signup` for card-signing campaign craft — that guide teaches the floor pitch; **this module** teaches secretary reconciliation, constitutional privacy rules, and database hygiene. **CLC** membership administration materials and **CUPE** local secretary handbooks reinforce list custody; **Unifor** local officer training treats member data as a fiduciary trust.
+Pair with `/learn/membership-signup` for card-signing campaign craft — that guide teaches the floor pitch; **this module** teaches secretary reconciliation, constitutional privacy rules, and database hygiene. **CLC** membership administration materials and **CUPE** local secretary handbooks reinforce list custody; **Unifor** local officer training treats member data as a fiduciary trust.
 
 🪞 Reflection: A dues payer who never signed a card pays for solidarity — but cannot vote until they join democratically. Your list work turns payroll rows into an organized membership.
 
 ## Overarching Purpose
-To equip Local Secretaries, Treasurers, and administrators with the technical skills and legal knowledge to clean, reconcile, and securely manage membership lists — distinguishing employer-provided dues data from card-carrying members in good standing while maintaining absolute data privacy under constitutional guardrails.
+Clean the membership list without leaking it: reconcile dues to signed cards, keep Rand payers distinct from voting members, and treat contact data as a constitutional trust — not a marketing asset.
 
 ## Core Learning Objectives
 *   **Know**: The strict terms of the **Membership List Directive**; the legal distinction between a dues payer under the **Rand Formula** and a card-carrying member in good standing with voting rights.
@@ -25,7 +25,7 @@ One of the most common errors a new Local Secretary makes is assuming everyone o
 *   **The distinction**: Paying dues does **not** make an employee a signed-up member in good standing. Under union bylaws, a worker must sign a physical or digital **membership card** to obtain the right to vote on contracts, attend general meetings, run for office, or vote in local elections.
 *   **The Secretary's duty**: Cross-reference the employer's monthly dues report against the local's database of signed cards. Anyone paying dues without a card belongs on a sign-up target list — not on the voting roll.
 
-**CLC** organizing education and national union membership materials both stress: the payroll file is a **dues file**, not a democracy file. `/guide/membership-signup` walks card-signing campaigns; this module owns the reconciliation math behind those campaigns.
+**CLC** organizing education and national union membership materials both stress: the payroll file is a **dues file**, not a democracy file. `/learn/membership-signup` walks card-signing campaigns; this module owns the reconciliation math behind those campaigns.
 
 | Record type | Source | Grants voting rights? | Secretary action |
 | --- | --- | --- | --- |
@@ -39,7 +39,7 @@ One of the most common errors a new Local Secretary makes is assuming everyone o
 ---
 
 ## 2. The Membership List Directive & Data Privacy
-Union membership lists are highly sensitive constitutional documents. The **Membership List Directive** — adopted across many Canadian unions as a binding constitutional privacy practice — mandates strict security guardrails regardless of which national body your local affiliates with.
+Union membership lists are highly sensitive constitutional documents. The **Membership List Directive** is a UnionOps teaching model summarizing common constitutional privacy rules across Canadian unions — it is not a single cross-union statute. It mandates strict security guardrails regardless of which national body your local affiliates with.
 
 *   **Commercial use**: Sharing, selling, or leasing a membership list with any commercial partner — even an affinity discount vendor — is a serious constitutional offense. Members join a union, not a marketing database.
 *   **Political campaigns**: Locals cannot release lists to municipal, provincial, or federal candidates or parties, even when the union formally endorses them. All outreach must be conducted **internally** by the local itself through union channels.
@@ -61,11 +61,11 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 1.  Import the employer dues report into your **union-controlled** database (never the employer's cloud).
 2.  Match employee ID or name + classification against signed-card records.
 3.  Flag **dues without card**, **card without dues**, and **classification mismatches**.
-4.  Export a sign-up target list for stewards (`/guide/membership-signup`).
+4.  Export a sign-up target list for stewards (`/learn/membership-signup`).
 5.  Log changes in a reconciliation journal — who imported, when, and what discrepancies were found.
 
 ### Common data hygiene fixes
-*   **Incorrect classifications**: Employers often mislabel full-time workers as temporary or part-time to avoid benefit obligations. Cross-reference dues sheets with collective agreement classifications — errors become class-action grievance evidence.
+*   **Incorrect classifications**: Employers often mislabel full-time workers as temporary or part-time to avoid benefit obligations. Cross-reference dues sheets with collective agreement classifications — errors become group-grievance evidence.
 *   **Arrears detection**: Verify the correct percentage of dues is deducted for every hour worked. Modified duties, short-term leaves, and retroactive pay adjustments are frequent failure points.
 *   **Address and contact drift**: Home addresses on payroll may be outdated; steward site visits and sign-up drives need current phone numbers stored **only** on union systems.
 *   **Duplicate rows**: Mergers, name changes, and rehires create ghost records — deduplicate before any mail merge.
@@ -87,7 +87,7 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 
 **The ratification vote surprise.** Contract ratification is Thursday. The Secretary pulls the employer dues report: 412 names. The signed-card database shows 318 active cards. Eighty-seven workers have paid dues for two or more years without signing. An executive member says, "They pay — let them vote."
 
-**Apply:** Explain Rand vs. card distinction (Section 1). Run an emergency internal sign-up blitz using stewards and `/guide/membership-signup` tactics — cards at shift change, not employer email. For the ratification meeting, use **only** the signed-card roster cross-checked for good standing. Document the reconciliation gap for the next GMM membership report.
+**Apply:** Explain Rand vs. card distinction (Section 1). Run an emergency internal sign-up blitz using stewards and `/learn/membership-signup` tactics — cards at shift change, not employer email. For the ratification meeting, use **only** the signed-card roster cross-checked for good standing. Document the reconciliation gap for the next GMM membership report.
 
 **Don't apply:** Do not add dues payers to the voting list without signed cards. Do not export the full payroll file to a campaign volunteer's personal Gmail to "get texts out faster."
 
@@ -114,7 +114,7 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 - [ ] Distinguish employer dues report from signed-card membership roster
 - [ ] Know Rand Formula payers are not automatic voting members
 - [ ] Cross-reference payroll and card database monthly — not only before elections
-- [ ] Flag dues-without-card workers for sign-up outreach (`/guide/membership-signup`)
+- [ ] Flag dues-without-card workers for sign-up outreach (`/learn/membership-signup`)
 - [ ] Catch classification mismatches against the collective agreement
 - [ ] Verify dues percentages and arrears after leaves or modified duties
 - [ ] Never release membership lists to political campaigns or candidates
@@ -144,7 +144,7 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 - [**CUPE**](https://cupe.ca/) local secretary / membership materials — list custody and reconciliation
 - [**Unifor**](https://www.unifor.org/) local officer training — database hygiene and member privacy
 - [**Ontario Federation of Labour**](https://ofl.ca/) — local administration workshops
-- Your national union constitution — Membership List Directive and good-standing rules
+- Your national union constitution — list privacy / good-standing rules (compare to the Membership List Directive teaching model in Section 2)
 
 ---
 

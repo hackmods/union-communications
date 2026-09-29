@@ -241,6 +241,7 @@ export function ProfilePhotoCapture({
         accept="image/jpeg,image/png,image/webp"
         capture="user"
         className="sr-only"
+        aria-label={t("profileChoosePhoto")}
         onChange={onFileChange}
       />
 

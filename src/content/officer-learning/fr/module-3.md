@@ -4,7 +4,7 @@
 
 Prévoyez **30 minutes** pour la lecture et l'autoévaluation. Apportez les clauses de congé et d'accommodement de votre **convention collective**, une note médicale type (anonymisée) et un **carnet**. Les dossiers de droits de la personne exigent de la discrétion — révisez dans un espace privé, pas à la cafétéria.
 
-Parcourez les sections 1 à 4 dans l'ordre : primauté des droits de la personne, Meiorin, contrainte excessive et confidentialité du RAT. Ce module s'associe à `/guide/steward-101` pour les bases de la représentation. Pour approfondir : **Prêts et capables** du SCFP, **Les droits de la personne au travail** de la CODP, et le guide **Arrêter le harcèlement** du SCFP lorsque la conduite chevauche le harcèlement.
+Parcourez les sections 1 à 4 dans l'ordre : primauté des droits de la personne, Meiorin, contrainte excessive et confidentialité du RAT. Ce module s'associe à `/learn/steward-101` pour les bases de la représentation. Pour approfondir : **Prêts et capables** du SCFP, **Les droits de la personne au travail** de la CODP, et le guide **Arrêter le harcèlement** du SCFP lorsque la conduite chevauche le harcèlement.
 
 🪞 Réflexion : L'accommodement est un dialogue, pas une seule note médicale. Votre rôle est de faire avancer le processus tout en protégeant la confidentialité médicale.
 
@@ -120,7 +120,7 @@ Exercice : Faites deux tours de huit minutes. **Tour 1 — portail de confidenti
 
 🪞 Réflexion : Après l'exercice, listez trois questions que vous poserez à chaque future rencontre d'accommodement avant de quitter la salle.
 
-Exercice dans l'outil : ouvrez Outils → Fiches délégué → RAT et accommodement (/tools/rtw-accommodation) et rédigez les limites fonctionnelles et le script RH sans nommer de diagnostic.
+Exercice dans l'outil : ouvrez Outils → Fiches délégué → RAT et accommodement (/utilities/rtw-accommodation) et rédigez les limites fonctionnelles et le script RH sans nommer de diagnostic.
 
 ---
 
@@ -156,7 +156,7 @@ Exercice dans l'outil : ouvrez Outils → Fiches délégué → RAT et accommode
 ## Pour aller plus loin
 
 - **Prêts et capables** du SCFP — référence délégué sur le devoir d'accommodement
-- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/human-rights-code) — **Les droits de la personne au travail** et orientation sur le devoir d'accommodement
+- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/ontario-human-rights-code) — **Les droits de la personne au travail** et orientation sur le devoir d'accommodement
 - Guide **Arrêter le harcèlement** du SCFP — chevauchement du harcèlement et de la conduite discriminatoire
 - Formation syndicale du [**Congrès du travail du Canada**](https://canadianlabour.ca/) — modules sur les droits de la personne en milieu de travail
 

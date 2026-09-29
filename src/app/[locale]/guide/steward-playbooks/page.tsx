@@ -36,32 +36,32 @@ const TOC = [
 
 const workspaceLinks = [
   {
-    href: "/tools/complaint-vs-grievance",
+    href: "/utilities/complaint-vs-grievance",
     titleKey: "diagnosticTitle" as const,
     blurbKey: "diagnosticBlurb" as const,
   },
   {
-    href: "/tools/pre-disciplinary-log",
+    href: "/utilities/pre-disciplinary-log",
     titleKey: "disciplineTitle" as const,
     blurbKey: "disciplineBlurb" as const,
   },
   {
-    href: "/tools/rtw-accommodation",
+    href: "/utilities/rtw-accommodation",
     titleKey: "rtwTitle" as const,
     blurbKey: "rtwBlurb" as const,
   },
   {
-    href: "/tools/bylaw-builder",
+    href: "/utilities/bylaw-builder",
     titleKey: "bylawsTitle" as const,
     blurbKey: "bylawsBlurb" as const,
   },
   {
-    href: "/tools/proposal-tracker",
+    href: "/utilities/proposal-tracker",
     titleKey: "proposalTitle" as const,
     blurbKey: "proposalBlurb" as const,
   },
   {
-    href: "/tools/rules-of-order",
+    href: "/utilities/rules-of-order",
     titleKey: "rulesTitle" as const,
     blurbKey: "rulesBlurb" as const,
   },
@@ -107,11 +107,11 @@ export default async function StewardPlaybooksPage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/complaint-vs-grievance",
+              href: "/utilities/complaint-vs-grievance",
               label: t("workspaces.diagnosticTitle"),
             },
             {
-              href: "/guide/steward-101",
+              href: "/learn/steward-101",
               label: t("trainingPath.steward101Cta"),
               variant: "outline",
             },
@@ -119,9 +119,9 @@ export default async function StewardPlaybooksPage({
         />
       }
       relatedLinks={[
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/officer-learning", label: t("links.officerLearning") },
-        { href: "/guide/steward-101", label: t("links.steward101") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/officer", label: t("links.officerLearning") },
+        { href: "/learn/steward-101", label: t("links.steward101") },
       ]}
       footer={
         <SourcesBlock
@@ -176,10 +176,10 @@ export default async function StewardPlaybooksPage({
           <TrainingPathDiagram steps={pathSteps} className="w-full" />
         </GuideWideFigure>
         <GuideActionRow>
-          <Link href="/guide/steward-101" className={guideCtaClass}>
+          <Link href="/learn/steward-101" className={guideCtaClass}>
             {t("trainingPath.steward101Cta")}
           </Link>
-          <Link href="/guide/officer-learning" className={guideCtaOutlineClass}>
+          <Link href="/learn/officer" className={guideCtaOutlineClass}>
             {t("trainingPath.officerLearningCta")}
           </Link>
         </GuideActionRow>

@@ -73,14 +73,14 @@ export default async function EmailBroadcastGuidePage({
           title={tg("asideTitle")}
           intro={tg("asideIntro")}
           links={[
-            { href: "/tools/document-generator", label: nav("documentGenerator") },
+            { href: "/create/document-generator", label: nav("documentGenerator") },
             {
-              href: "/tools/board-notice",
+              href: "/create/board-notice",
               label: nav("boardNotice"),
               variant: "outline",
             },
             {
-              href: "/tools/flyer-maker",
+              href: "/create/flyer-maker",
               label: nav("flyerMaker"),
               variant: "outline",
             },
@@ -89,12 +89,12 @@ export default async function EmailBroadcastGuidePage({
       }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
-        { href: "/guide/print", label: nav("printGuide") },
-        { href: "/guide/website", label: nav("websiteGuide") },
-        { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
-        { href: "/tools/document-generator", label: nav("documentGenerator") },
-        { href: "/tools/flyer-maker", label: nav("flyerMaker") },
-        { href: "/guide/crisis", label: nav("crisisCommsGuide") },
+        { href: "/learn/print", label: nav("printGuide") },
+        { href: "/learn/website", label: nav("websiteGuide") },
+        { href: "/learn/first-week", label: nav("socialMediaPlan") },
+        { href: "/create/document-generator", label: nav("documentGenerator") },
+        { href: "/create/flyer-maker", label: nav("flyerMaker") },
+        { href: "/learn/crisis", label: nav("crisisCommsGuide") },
       ]}
       footer={
         <SourcesBlock
@@ -187,13 +187,13 @@ export default async function EmailBroadcastGuidePage({
       </GuideSection>
 
       <GuideActionRow className="mt-10">
-        <Link href="/tools/document-generator" className={guideCtaOutlineClass}>
+        <Link href="/create/document-generator" className={guideCtaOutlineClass}>
           {nav("documentGenerator")}
         </Link>
-        <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+        <Link href="/create/board-notice" className={guideCtaOutlineClass}>
           {nav("boardNotice")}
         </Link>
-        <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+        <Link href="/create/flyer-maker" className={guideCtaOutlineClass}>
           {nav("flyerMaker")}
         </Link>
       </GuideActionRow>

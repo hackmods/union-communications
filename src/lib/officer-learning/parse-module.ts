@@ -21,7 +21,7 @@ function parseInline(text: string): string {
 
 function parseListBlock(lines: string[], ordered: boolean): ContentBlock {
   const items = lines.map((line) => {
-    const cleaned = line.replace(/^(\*|\d+\.)\s+/, "").trim();
+    const cleaned = line.replace(/^([*-]|\d+\.)\s+/, "").trim();
     return parseInline(cleaned);
   });
   return { type: "list", ordered, items };
@@ -147,12 +147,12 @@ function parseBlocks(rawLines: string[]): ContentBlock[] {
       continue;
     }
 
-    if (/^\*\s+/.test(line) || /^\d+\.\s+/.test(line)) {
+    if (/^[-*]\s+/.test(line) || /^\d+\.\s+/.test(line)) {
       const ordered = /^\d+\.\s+/.test(line);
       const listLines: string[] = [];
       while (
         i < rawLines.length &&
-        (/^\*\s+/.test(rawLines[i]) || /^\d+\.\s+/.test(rawLines[i]))
+        (/^[-*]\s+/.test(rawLines[i]) || /^\d+\.\s+/.test(rawLines[i]))
       ) {
         listLines.push(rawLines[i]);
         i += 1;
@@ -170,7 +170,7 @@ function parseBlocks(rawLines: string[]): ContentBlock[] {
       !rawLines[i].startsWith("```") &&
       !rawLines[i].includes("|") &&
       !isChecklistLine(rawLines[i]) &&
-      !/^\*\s+/.test(rawLines[i]) &&
+      !/^[-*]\s+/.test(rawLines[i]) &&
       !/^\d+\.\s+/.test(rawLines[i])
     ) {
       paragraphLines.push(rawLines[i]);

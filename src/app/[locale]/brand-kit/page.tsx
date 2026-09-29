@@ -33,7 +33,6 @@ import { BrandKitPreview } from "@/components/brand/BrandKitPreview";
 import { BrandKitCompletenessBar } from "@/components/brand/BrandKitCompletenessBar";
 import { BrandKitSaveBanner } from "@/components/brand/BrandKitSaveBanner";
 import {
-  brandFieldsFromUnionPreset,
   getUnionPreset,
   resolvePresetLogos,
   type UnionBranding,
@@ -61,6 +60,7 @@ export default function BrandKitPage() {
   const {
     brandKit,
     setBrandKit,
+    applyUnionPresetId,
     resetBrandKit,
     onboardingComplete,
     storageBlocked,
@@ -92,11 +92,9 @@ export default function BrandKitPage() {
   });
 
   const applyUnionPreset = (preset: UnionBranding) => {
-    setBrandKit(
-      brandFieldsFromUnionPreset(preset, {
-        localNumber: brandKit.local.localNumber,
-      }),
-    );
+    // Immediate persist (unionPresetId) so Local pack / E2E see the preset
+    // without waiting on the ordinary Brand Kit debounce.
+    applyUnionPresetId(preset.id);
   };
 
   const confirmReset = () => {
@@ -530,7 +528,7 @@ export default function BrandKitPage() {
 
       <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
         <Link href="/assets" className="text-opseu-blue underline underline-offset-2">{t("assetsLink")}</Link>
-        <Link href="/guide/email-broadcast" className="text-opseu-blue underline underline-offset-2">{nav("emailBroadcastGuide")}</Link>
+        <Link href="/learn/email-broadcast" className="text-opseu-blue underline underline-offset-2">{nav("emailBroadcastGuide")}</Link>
       </div>
 
       <PublicHubPanel

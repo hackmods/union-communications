@@ -2,9 +2,9 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **30 minutes** pour la lecture et l'autoévaluation. Apportez un exemple de formulaire d'aptitudes fonctionnelles vierge (si votre milieu de travail en utilise un), les pages sommaires de votre **livret d'avantages**, et des notes de toute lettre de programme de gestion de l'assiduité (PGA) que des membres ont reçues. Ce module est de la **défense des réclamations** — pression de l'assureur, navigation ILD/CSPAAT, audits de PGA et confidentialité diagnostique — pas une reprise du cadre d'accommodement Meiorin/EPJ du module 3 (associez le module 3 pour les combats EPJ ; utilisez `/tools/rtw-accommodation` pour la planification du retour au travail).
+Prévoyez **30 minutes** pour la lecture et l'autoévaluation. Apportez un exemple de formulaire d'aptitudes fonctionnelles vierge (si votre milieu de travail en utilise un), les pages sommaires de votre **livret d'avantages**, et des notes de toute lettre de programme de gestion de l'assiduité (PGA) que des membres ont reçues. Ce module est de la **défense des réclamations** — pression de l'assureur, navigation ILD/CSPAAT, audits de PGA et confidentialité diagnostique — pas une reprise du cadre d'accommodement Meiorin/EPJ du module 3 (associez le module 3 pour les combats EPJ ; utilisez `/utilities/rtw-accommodation` pour la planification du retour au travail).
 
-Les sections passent des limites d'information médicale à la surveillance du comité conjoint d'assurance (CCA), aux limites d'EME et à la démécanisation des PGA. Associez `/guide/steward-101` et `/tools/rtw-accommodation`. **Les droits de la personne au travail** de la **CODP** et les ressources du **SCFP** sur le devoir d'accommodement ancrent la confidentialité et les défis de PGA ; le texte pensions/avantages cède toujours à vos documents de régime et au conseil juridique.
+Les sections passent des limites d'information médicale à la surveillance du comité conjoint d'assurance (CCA), aux limites d'EME et à la démécanisation des PGA. Associez `/learn/steward-101` et `/utilities/rtw-accommodation`. **Les droits de la personne au travail** de la **CODP** et les ressources du **SCFP** sur le devoir d'accommodement ancrent la confidentialité et les défis de PGA ; le texte pensions/avantages cède toujours à vos documents de régime et au conseil juridique.
 
 🪞 Réflexion : L'employeur a besoin de savoir ce que le membre peut faire en sécurité — pas ce qui le tient éveillé la nuit. Protégez le diagnostic.
 
@@ -75,7 +75,7 @@ Les **programmes de gestion de l'assiduité** qui déclenchent automatiquement d
 *   Des comptes mécanistes qui incluent la maladie chronique, l'invalidité ou les jours de traitement de santé mentale.
 *   Un langage « de soutien » qui menace encore la discipline.
 *   L'échec à exclure les absences protégées par les droits de la personne.
-*   Des voies parallèles qui ignorent le dialogue d'accommodement en cours (`/tools/rtw-accommodation`).
+*   Des voies parallèles qui ignorent le dialogue d'accommodement en cours (`/utilities/rtw-accommodation`).
 
 Les matériaux de devoir d'accommodement du **SCFP** et l'orientation de la **CODP** traitent les pénalités automatiques pour absence liée à l'invalidité comme un drapeau rouge — l'application égale d'une règle biaisée est encore biaisée.
 
@@ -92,7 +92,7 @@ Différenciez clairement les voies :
 
 **Le dump de dossier.** Un membre revient d'un congé de santé mentale. Les RH exigent le dossier psychiatrique complet « avant que nous puissions accommoder ». Le formulaire d'aptitudes fonctionnelles liste déjà les limites : pas de quarts de nuit pendant 90 jours ; jours de 6 heures max ; éviter le travail seul.
 
-**À appliquer :** Refusez le dump de dossier (section 1). Offrez les fonctions seulement. Utilisez `/tools/rtw-accommodation` pour proposer un horaire modifié correspondant au formulaire. Si les RH stallent, portez grief pour retard et dépassement de confidentialité ; gardez les outils EPJ du module 3 prêts s'ils inventent une norme de quart de nuit essentielle sans preuve.
+**À appliquer :** Refusez le dump de dossier (section 1). Offrez les fonctions seulement. Utilisez `/utilities/rtw-accommodation` pour proposer un horaire modifié correspondant au formulaire. Si les RH stallent, portez grief pour retard et dépassement de confidentialité ; gardez les outils EPJ du module 3 prêts s'ils inventent une norme de quart de nuit essentielle sans preuve.
 
 **À ne pas appliquer :** Ne conseillez pas la conformité complète « pour garder la paix ». Ne laissez pas les RH téléphoner au psychiatre sans consentement éclairé et limites de portée.
 
@@ -125,7 +125,7 @@ Exercice : **Tour 1 — Script de confidentialité.** Jouez le rôle des RH exig
 - [ ] Limiter tout EME aux fonctions, pas à la pêche d'étiquettes
 - [ ] Auditer les lettres de PGA pour les jours liés à l'invalidité dans des comptes « neutres »
 - [ ] Porter grief contre les déclencheurs PGA mécanistes qui punissent les absences protégées
-- [ ] Mener la planification RTW par `/tools/rtw-accommodation` avec les fonctions d'abord
+- [ ] Mener la planification RTW par `/utilities/rtw-accommodation` avec les fonctions d'abord
 - [ ] Garder l'analyse EPJ du module 3 disponible quand des allégations d'exigence essentielle apparaissent
 - [ ] Ne jamais autoriser le contact de l'employeur avec les cliniciens sans consentement éclairé
 - [ ] Documenter chaque dépassement de confidentialité dans la chronologie du grief
@@ -145,7 +145,7 @@ Exercice : **Tour 1 — Script de confidentialité.** Jouez le rôle des RH exig
 
 ## Pour aller plus loin
 
-- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/human-rights-code) — *Les droits de la personne au travail* (confidentialité médicale ; processus d'accommodement)
+- [**Commission ontarienne des droits de la personne**](https://www.ohrc.on.ca/en/ontario-human-rights-code) — *Les droits de la personne au travail* (confidentialité médicale ; processus d'accommodement)
 - Ressources du [**SCFP**](https://cupe.ca/) sur le devoir d'accommodement et les programmes d'assiduité pour délégués
 - [**Congrès du travail du Canada**](https://canadianlabour.ca/) — éducation invalidité et avantages pour les sections locales
 - Texte du régime et guides d'appel CSPAAT/ILD propres à votre unité de négociation (toujours vérifier)

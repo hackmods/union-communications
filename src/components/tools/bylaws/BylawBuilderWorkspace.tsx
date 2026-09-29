@@ -468,14 +468,14 @@ export function BylawBuilderWorkspace() {
         <div className="space-y-3">
           <p className="text-sm text-gray-600">
             <Link
-              href="/guide/bylaws"
+              href="/learn/bylaws"
               className="font-semibold text-opseu-blue underline underline-offset-2"
             >
               {t("guideLink")}
             </Link>
             {" · "}
             <Link
-              href="/guide/officer-learning/democratic-governance"
+              href="/learn/officer/democratic-governance"
               className="font-semibold text-opseu-blue underline underline-offset-2"
             >
               {t("governanceLink")}

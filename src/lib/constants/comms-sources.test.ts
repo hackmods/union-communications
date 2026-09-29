@@ -49,11 +49,11 @@ describe("comms-sources", () => {
     expect(getSourcesForPage("print", "cupe").map((s) => s.id)).toEqual([
       "ontario-required-posters",
       "ontario-esa-poster",
-      "wcag-21",
+      "wcag-22",
       "facebook-groups",
     ]);
     expect(getSourcesForPage("blueprint", "cupe").map((s) => s.id)).toEqual([
-      "wcag-21",
+      "wcag-22",
       "facebook-groups",
       "instagram-reels",
       "ofl",
@@ -78,7 +78,7 @@ describe("comms-sources", () => {
 
   it("matches union scope rules for empty vs other presets", () => {
     const scoped = COMMS_SOURCES["opseu-branding"];
-    const universal = COMMS_SOURCES["wcag-21"];
+    const universal = COMMS_SOURCES["wcag-22"];
     expect(sourceMatchesUnion(scoped, undefined)).toBe(false);
     expect(sourceMatchesUnion(scoped, "opseu")).toBe(true);
     expect(sourceMatchesUnion(scoped, "cupe")).toBe(false);

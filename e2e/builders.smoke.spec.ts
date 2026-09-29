@@ -255,7 +255,7 @@ test.describe("Public secondary pages smoke @smoke", () => {
     },
     {
       path: "/en/guide/bylaws/",
-      heading: "Local Bylaws: The Rules of Your Local",
+      heading: "Local bylaws: the rules of your local",
     },
     {
       path: "/en/guide/running-meetings/",
@@ -263,7 +263,7 @@ test.describe("Public secondary pages smoke @smoke", () => {
     },
     {
       path: "/en/guide/union-history/",
-      heading: "How Canadian Unions Connect",
+      heading: "How Canadian unions connect",
     },
     {
       path: "/en/guide/land-acknowledgement/",
@@ -275,7 +275,7 @@ test.describe("Public secondary pages smoke @smoke", () => {
     },
     {
       path: "/en/guide/dfr/",
-      heading: /Duty of Fair Representation/i,
+      heading: "DFR: Steward playbook",
     },
     {
       path: "/en/guide/seniority-bumping/",

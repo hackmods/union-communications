@@ -129,7 +129,7 @@ export default function ExamplesPage() {
               title={t("planLink")}
               body={t("planPrompt")}
               action={
-                <Link href="/guide/social-media-plan" className={guideCtaClassSm}>
+                <Link href="/learn/first-week" className={guideCtaClassSm}>
                   {t("planLink")} →
                 </Link>
               }

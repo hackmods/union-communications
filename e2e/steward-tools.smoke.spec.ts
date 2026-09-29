@@ -17,7 +17,9 @@ test.describe("Steward meeting guides @smoke", () => {
       })
       .getByRole("radio", { name: "Yes" })
       .click();
-    await expect(page.getByText(/Grievance viability index: 1 \/ 5/i)).toBeVisible();
+    await expect(
+      page.getByRole("tabpanel", { name: "Edit" }).getByText(/Grievance viability index: 1 \/ 5/i),
+    ).toBeVisible();
     await expect(page.getByText(/Grievance viability index/i).first()).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });

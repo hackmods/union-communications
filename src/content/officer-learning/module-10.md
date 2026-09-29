@@ -2,9 +2,9 @@
 
 ## How to use this module
 
-Allow **28 minutes** for the reading and self-test. Bring your JHSC terms of reference (or OHSA-required structure notes), any Labour-Management Committee (LMC) minutes, and a current hazard or workload complaint from the floor. Sketch who sits where using `/tools/org-chart` before the practice drill — committee power is useless if stewards cannot find the right door.
+Allow **28 minutes** for the reading and self-test. Bring your JHSC terms of reference (or OHSA-required structure notes), any Labour-Management Committee (LMC) minutes, and a current hazard or workload complaint from the floor. Sketch who sits where using `/create/org-chart` before the practice drill — committee power is useless if stewards cannot find the right door.
 
-Sections move from JHSC vs. LMC mandates through United Caucus Discipline, multi-committee escalation, and OHSA work-refusal routes that engage the JHSC. Pair with `/guide/joint-committee` and `/guide/right-to-refuse`. **This module** trains steward routing, caucus discipline, and parallel escalation; the **joint-committee guide** owns standing-committee charters, cadence, and meeting ops — do not rebuild those templates here. **CLC** health and safety education and provincial OHSA concepts deepen statutory powers; LMC practice stays consultative unless your CA says otherwise.
+Sections move from JHSC vs. LMC mandates through United Caucus Discipline, multi-committee escalation, and OHSA work-refusal routes that engage the JHSC. Pair with `/learn/joint-committee` and `/learn/right-to-refuse`. **This module** trains steward routing, caucus discipline, and parallel escalation; the **joint-committee guide** owns standing-committee charters, cadence, and meeting ops — do not rebuild those templates here. **CLC** health and safety education and provincial OHSA concepts deepen statutory powers; LMC practice stays consultative unless your CA says otherwise.
 
 🪞 Reflection: Joint tables are caucuses with a purpose — not audiences for management presentations.
 
@@ -29,7 +29,7 @@ Do not treat every joint meeting as the same meeting.
 | Recommendations | Formal recommendations; employer typically must answer **in writing within a legislative timeline** (often cited as 21 days) | Discussion and recommendations without the same statutory force |
 | Best use | Force documented safety responses | Surface systemic ops issues before mass grievances |
 
-`/guide/joint-committee` details how locals keep joint bodies from becoming management lecture halls. Use `/tools/org-chart` so members know which reps own which table.
+`/learn/joint-committee` details how locals keep joint bodies from becoming management lecture halls. Use `/create/org-chart` so members know which reps own which table.
 
 💡 Note: Putting a pure scheduling gripe only on the JHSC agenda wastes statutory time; putting a critical hazard only on the LMC agenda wastes legal power.
 
@@ -66,7 +66,7 @@ Briefing packages should travel with the issue: chronology, photos, incident rep
 ---
 
 ## 4. Work Refusals & the JHSC Route
-When a worker refuses unsafe work under **OHSA** concepts, the steward's job is process discipline — not heroics. Route refusals through the statutory steps and engage **JHSC** certified members / committee processes as the law and your workplace procedure require. Pair floor coaching with `/guide/right-to-refuse`.
+When a worker refuses unsafe work under **OHSA** concepts, the steward's job is process discipline — not heroics. Route refusals through the statutory steps and engage **JHSC** certified members / committee processes as the law and your workplace procedure require. Pair floor coaching with `/learn/right-to-refuse`.
 
 Steward checklist mindset:
 
@@ -91,7 +91,7 @@ Do not trade a refusal for an LMC "discussion next month" while the hazard remai
 
 **Second beat — refusal.** A member refuses to operate a machine with a disabled interlock. A manager suggests "bring it up at the next LMC."
 
-**Apply:** Support the OHSA refusal path and JHSC involvement now (`/guide/right-to-refuse`). Log the hazard for formal JHSC recommendation. Use LMC later for staffing policy that caused bypass pressure — not as a substitute for the refusal.
+**Apply:** Support the OHSA refusal path and JHSC involvement now (`/learn/right-to-refuse`). Log the hazard for formal JHSC recommendation. Use LMC later for staffing policy that caused bypass pressure — not as a substitute for the refusal.
 
 **Don't apply:** Do not send the member back to the hazard pending a future committee date.
 
@@ -118,8 +118,8 @@ Practice: **Round 1 — Caucus.** Two stewards disagree on whether understaffing
 - [ ] Put systemic workload/schedule friction on the LMC agenda on the record
 - [ ] File grievances in parallel when CA rights are engaged
 - [ ] Route OHSA work refusals through statutory steps — not "next month's LMC"
-- [ ] Engage JHSC processes during and after refusals (`/guide/right-to-refuse`)
-- [ ] Update `/tools/org-chart` so members know committee contacts
+- [ ] Engage JHSC processes during and after refusals (`/learn/right-to-refuse`)
+- [ ] Update `/create/org-chart` so members know committee contacts
 - [ ] Track employer written responses to JHSC recommendations to deadline
 - [ ] Never trade a live hazard for vague future discussion
 - [ ] Carry pattern evidence into bargaining when committees stall

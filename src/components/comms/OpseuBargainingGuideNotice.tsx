@@ -43,10 +43,10 @@ export function OpseuBargainingGuideNotice() {
         >
           {t("memberPortal")}
         </a>
-        <Link href="/guide/strike" className={guideCtaOutlineClass}>
+        <Link href="/learn/strike" className={guideCtaOutlineClass}>
           {nav("strikeGuide")}
         </Link>
-        <Link href="/tools/proposal-tracker" className={guideCtaOutlineClass}>
+        <Link href="/utilities/proposal-tracker" className={guideCtaOutlineClass}>
           {nav("proposalTracker")}
         </Link>
       </GuideActionRow>
