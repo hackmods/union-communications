@@ -91,8 +91,9 @@ test.describe("SEO smoke @smoke", () => {
     await page.goto("/en/privacy/");
     await assertSeoBasics(page, {
       titleIncludes: /Privacy|UnionOps/i,
-      canonicalPath: "/en/privacy/",
-      ogUrlIncludes: "/en/privacy/",
+      // Managed Documents moved the public privacy URL under /documents/.
+      canonicalPath: "/en/documents/privacy/",
+      ogUrlIncludes: "/en/documents/privacy/",
       hreflang: true,
     });
   });
@@ -135,11 +136,11 @@ test.describe("SEO smoke @smoke", () => {
     ).toBeVisible();
     await expect(page.getByText("Solidarity.")).toBeVisible();
     await expect(page).not.toHaveTitle(/This page could not be found/i);
-    await expect(page.getByRole("link", { name: /^Create$|^Créer$/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Create$|^Créer$/i }).first()).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /^Worksheets$|^Feuilles de travail$/i }),
+      page.getByRole("link", { name: /^Worksheets$|^Feuilles de travail$/i }).first(),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: /^Learn$|^Apprendre$/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Learn$|^Apprendre$/i }).first()).toBeVisible();
   });
 
   test("unprefixed miss lands in locale Local 404 with site header", async ({
@@ -151,6 +152,6 @@ test.describe("SEO smoke @smoke", () => {
       page.getByRole("heading", { name: /Local 404|Section 404/i }),
     ).toBeVisible();
     await expect(page.getByRole("banner")).toBeVisible();
-    await expect(page.getByRole("link", { name: /^Create$|^Créer$/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Create$|^Créer$/i }).first()).toBeVisible();
   });
 });

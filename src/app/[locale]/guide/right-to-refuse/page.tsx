@@ -95,20 +95,20 @@ export default async function RightToRefuseGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/qr-card?preset=rightToRefuse",
+              href: "/create/qr-card?preset=rightToRefuse",
               label: t("boards.exportCta"),
             },
           ]}
         />
       }
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        { href: "/guide/grievance-process", label: t("related.grievance") },
-        { href: "/guide/dfr", label: t("related.dfr") },
-        { href: "/guide/joint-committee", label: t("related.jointCommittee") },
-        { href: "/guide/seniority-bumping", label: t("related.seniority") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
+        { href: "/learn/grievance-process", label: t("related.grievance") },
+        { href: "/learn/dfr", label: t("related.dfr") },
+        { href: "/learn/joint-committee", label: t("related.jointCommittee") },
+        { href: "/learn/seniority-bumping", label: t("related.seniority") },
       ]}
       footer={
         <SourcesBlock
@@ -290,7 +290,7 @@ export default async function RightToRefuseGuidePage({
       >
         <GuideActionRow>
           <Link
-            href="/tools/qr-card?preset=rightToRefuse"
+            href="/create/qr-card?preset=rightToRefuse"
             className={guideCtaClass}
           >
             {t("boards.exportCta")}

@@ -87,10 +87,10 @@ const notThisKeys = [
 ] as const;
 const confirmKeys = ["executive", "council", "quebec", "split"] as const;
 const toolRows = [
-  { key: "orgChart", href: "/tools/org-chart" },
-  { key: "website", href: "/tools/website-template" },
-  { key: "bylaws", href: "/guide/bylaws" },
-  { key: "meetings", href: "/guide/running-meetings" },
+  { key: "orgChart", href: "/create/org-chart" },
+  { key: "website", href: "/create/website-template" },
+  { key: "bylaws", href: "/learn/bylaws" },
+  { key: "meetings", href: "/learn/running-meetings" },
 ] as const;
 
 function RegistryLink({
@@ -145,21 +145,21 @@ export default async function UnionHistoryGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/org-chart",
+              href: "/create/org-chart",
               label: nav("orgChart"),
             },
             {
-              href: "/tools/website-template",
+              href: "/create/website-template",
               label: nav("websiteTemplate"),
               variant: "outline",
             },
             {
-              href: "/guide/bylaws",
+              href: "/learn/bylaws",
               label: nav("bylawsGuide"),
               variant: "outline",
             },
             {
-              href: "/guide/running-meetings",
+              href: "/learn/running-meetings",
               label: nav("runningMeetingsGuide"),
               variant: "outline",
             },
@@ -173,18 +173,18 @@ export default async function UnionHistoryGuidePage({
       }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        { href: "/guide/steward-101", label: t("related.steward101") },
-        { href: "/guide/bylaws", label: t("related.bylaws") },
-        { href: "/guide/running-meetings", label: t("related.runningMeetings") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
+        { href: "/learn/steward-101", label: t("related.steward101") },
+        { href: "/learn/bylaws", label: t("related.bylaws") },
+        { href: "/learn/running-meetings", label: t("related.runningMeetings") },
         {
-          href: "/guide/land-acknowledgement",
+          href: "/learn/land-acknowledgement",
           label: t("related.landAcknowledgement"),
         },
         {
-          href: "/guide/workplace-mapping",
+          href: "/learn/workplace-mapping",
           label: t("related.workplaceMapping"),
         },
       ]}
@@ -442,17 +442,17 @@ export default async function UnionHistoryGuidePage({
         </ul>
         <AffiliationMapWorksheetButton className="mt-5" />
         <GuideActionRow>
-          <Link href="/tools/org-chart" className={guideCtaClass}>
+          <Link href="/create/org-chart" className={guideCtaClass}>
             {nav("orgChart")}
           </Link>
-          <Link href="/tools/website-template" className={guideCtaOutlineClass}>
+          <Link href="/create/website-template" className={guideCtaOutlineClass}>
             {nav("websiteTemplate")}
           </Link>
-          <Link href="/guide/bylaws" className={guideCtaOutlineClass}>
+          <Link href="/learn/bylaws" className={guideCtaOutlineClass}>
             {nav("bylawsGuide")}
           </Link>
           <Link
-            href="/guide/running-meetings"
+            href="/learn/running-meetings"
             className={guideCtaOutlineClass}
           >
             {nav("runningMeetingsGuide")}

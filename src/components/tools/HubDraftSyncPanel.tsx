@@ -134,6 +134,13 @@ export function HubDraftSyncPanel(props: SinglePayloadProps | MultiPayloadProps)
     }
   }
 
+  const openHubLabel =
+    props.kind === "proposals"
+      ? t("openHubProposals")
+      : props.kind === "bylaws"
+        ? t("openHubBylaws")
+        : t("openHubInformalLog");
+
   return (
     <Callout tone="muted" className={props.className}>
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -174,6 +181,16 @@ export function HubDraftSyncPanel(props: SinglePayloadProps | MultiPayloadProps)
           </Button>
         )}
       </div>
+      {!mfaBlocked ? (
+        <p className="mt-2 text-xs text-gray-600">
+          <Link
+            href={href}
+            className="font-semibold text-opseu-blue underline underline-offset-2"
+          >
+            {openHubLabel} →
+          </Link>
+        </p>
+      ) : null}
       {state === "error" ? (
         <p className="mt-2 text-xs text-red-700" role="alert">
           {error}

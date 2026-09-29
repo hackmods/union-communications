@@ -180,7 +180,7 @@ export function CommitteesBoard() {
       <p className="mt-2 text-sm text-gray-600">
         {t("jointCommitteeHint")}{" "}
         <Link
-          href="/guide/joint-committee"
+          href="/learn/joint-committee"
           className="font-medium text-opseu-blue underline"
         >
           {t("jointCommitteeLink")}

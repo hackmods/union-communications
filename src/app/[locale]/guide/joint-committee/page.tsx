@@ -96,7 +96,7 @@ export default async function JointCommitteeGuidePage({
               label: nav("documentGenerator"),
             },
             {
-              href: "/tools/flyer-maker",
+              href: "/create/flyer-maker",
               label: nav("flyerMaker"),
               variant: "outline",
             },
@@ -104,13 +104,13 @@ export default async function JointCommitteeGuidePage({
         />
       }
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        { href: "/guide/grievance-process", label: t("related.grievance") },
-        { href: "/guide/dfr", label: guide("labourGuides.dfr") },
-        { href: "/guide/bargaining", label: nav("bargainingGuide") },
-        { href: "/guide/email-broadcast", label: t("related.email") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
+        { href: "/learn/grievance-process", label: t("related.grievance") },
+        { href: "/learn/dfr", label: guide("labourGuides.dfr") },
+        { href: "/learn/bargaining", label: nav("bargainingGuide") },
+        { href: "/learn/email-broadcast", label: t("related.email") },
       ]}
       footer={
         <SourcesBlock
@@ -255,10 +255,10 @@ export default async function JointCommitteeGuidePage({
           >
             {t("afterMinutes.letterCta")}
           </Link>
-          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+          <Link href="/learn/email-broadcast" className={guideCtaOutlineClass}>
             {t("afterMinutes.emailCta")}
           </Link>
-          <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+          <Link href="/create/flyer-maker" className={guideCtaOutlineClass}>
             {t("afterMinutes.flyerCta")}
           </Link>
         </GuideActionRow>
@@ -338,10 +338,10 @@ export default async function JointCommitteeGuidePage({
           >
             {nav("documentGenerator")}
           </Link>
-          <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+          <Link href="/create/flyer-maker" className={guideCtaOutlineClass}>
             {nav("flyerMaker")}
           </Link>
-          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+          <Link href="/learn/email-broadcast" className={guideCtaOutlineClass}>
             {nav("emailBroadcastGuide")}
           </Link>
         </GuideActionRow>

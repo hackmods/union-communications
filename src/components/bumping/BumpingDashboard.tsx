@@ -103,7 +103,7 @@ export function BumpingDashboard({ canWrite }: { canWrite: boolean }) {
           )}
           <p className="mt-2">
             <Link
-              href="/guide/seniority-bumping"
+              href="/learn/seniority-bumping"
               className="text-sm font-medium text-opseu-blue underline underline-offset-2"
             >
               {t("seniorityGuideLink")}

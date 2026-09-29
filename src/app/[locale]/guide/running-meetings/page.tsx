@@ -117,16 +117,16 @@ export default async function RunningMeetingsGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/rules-of-order",
+              href: "/utilities/rules-of-order",
               label: nav("rulesOfOrder"),
             },
             {
-              href: "/tools/board-notice",
+              href: "/create/board-notice",
               label: nav("boardNotice"),
               variant: "outline",
             },
             {
-              href: "/guide/bylaws",
+              href: "/learn/bylaws",
               label: nav("bylawsGuide"),
               variant: "outline",
             },
@@ -134,13 +134,13 @@ export default async function RunningMeetingsGuidePage({
         />
       }
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        { href: "/guide/union-history", label: t("related.unionHistory") },
-        { href: "/guide/land-acknowledgement", label: nav("landAcknowledgementGuide") },
-        { href: "/guide/bylaws", label: nav("bylawsGuide") },
-        { href: "/guide/bargaining", label: nav("bargainingGuide") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
+        { href: "/learn/union-history", label: t("related.unionHistory") },
+        { href: "/learn/land-acknowledgement", label: nav("landAcknowledgementGuide") },
+        { href: "/learn/bylaws", label: nav("bylawsGuide") },
+        { href: "/learn/bargaining", label: nav("bargainingGuide") },
       ]}
       footer={
         <SourcesBlock
@@ -244,7 +244,7 @@ export default async function RunningMeetingsGuidePage({
         <GuideCallout className="mt-5">
           <p className="leading-relaxed text-gray-700">{t("agenda.landAckNote")}</p>
           <p className="mt-3">
-            <Link href="/guide/land-acknowledgement" className={guideCtaOutlineClass}>
+            <Link href="/learn/land-acknowledgement" className={guideCtaOutlineClass}>
               {nav("landAcknowledgementGuide")}
             </Link>
           </p>
@@ -377,11 +377,11 @@ export default async function RunningMeetingsGuidePage({
           <li>{t("tool.items.notice")}</li>
         </ul>
         <GuideActionRow>
-          <Link href="/tools/rules-of-order" className={guideCtaClass}>
+          <Link href="/utilities/rules-of-order" className={guideCtaClass}>
             {nav("rulesOfOrder")}
           </Link>
           <RunningMeetingsReferenceSheetButton />
-          <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+          <Link href="/create/board-notice" className={guideCtaOutlineClass}>
             {nav("boardNotice")}
           </Link>
         </GuideActionRow>

@@ -137,12 +137,12 @@ function ModuleViewerInner({
       <header className={olTheme.stickyChrome}>
         <div className={olTheme.stickyChromeInner}>
           <Link
-            href="/guide/steward-playbooks"
+            href="/learn/steward"
             className={cn(olTheme.stickyNavBtn, "hidden lg:inline-flex")}
           >
             {t("viewer.playbooksNav")}
           </Link>
-          <Link href="/guide/officer-learning" className={olTheme.stickyNavBtn}>
+          <Link href="/learn/officer" className={olTheme.stickyNavBtn}>
             ← {t("viewer.back")}
           </Link>
           <div className="min-w-0 flex-1 basis-[12rem]">
@@ -187,7 +187,7 @@ function ModuleViewerInner({
         </details>
       </div>
 
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[280px_minmax(0,1fr)] xl:gap-12 lg:px-8">
         <aside className="hidden lg:block print:hidden">
           <div className={olTheme.tocAside}>
             <p className={cn("mb-3", olTheme.sectionLabel)}>{t("viewer.toc")}</p>
@@ -199,14 +199,14 @@ function ModuleViewerInner({
           </div>
         </aside>
 
-        <article ref={articleRef} className="min-w-0 space-y-8">
+        <article ref={articleRef} className="min-w-0 max-w-3xl space-y-8 xl:max-w-none xl:pr-4">
           <div className={cn(olTheme.callout, "text-sm")}>{t("disclaimer")}</div>
 
           <nav className="text-sm" aria-label={t("viewer.relatedLabel")}>
             <p className={cn("font-semibold", olTheme.bodySmall)}>{t("viewer.relatedLabel")}</p>
             <ul className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <li>
-                <Link href="/guide/steward-playbooks" className={olTheme.link}>
+                <Link href="/learn/steward" className={olTheme.link}>
                   {t("backToPlaybooks")}
                 </Link>
               </li>
@@ -214,7 +214,7 @@ function ModuleViewerInner({
                 <span className={olTheme.relatedDot} aria-hidden="true">
                   ·
                 </span>
-                <Link href="/guide" className={olTheme.link}>
+                <Link href="/learn" className={olTheme.link}>
                   {t("backToGuide")}
                 </Link>
               </li>

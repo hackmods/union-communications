@@ -3,14 +3,57 @@ import { redirect } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { and, eq, isNull, type SQL } from "drizzle-orm";
 import { Link } from "@/i18n/navigation";
-import { getDb } from "@/lib/db/client";
+import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { divisions, locals, unions } from "@/lib/db/schema/tenant";
 import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
+import {
+  countUnionAttachments,
+  isUnionEmpty,
+} from "@/lib/site-admin/union-lifecycle";
+import type { UnionLifecycleRow } from "@/lib/site-admin/union-lifecycle-shared";
 import { CreateLocalForm } from "@/components/site-admin/CreateLocalForm";
 import { LocalArchiveButton } from "@/components/site-admin/LocalArchiveButton";
+import { UnionLocalsLifecyclePanel } from "@/components/site-admin/UnionLocalsLifecyclePanel";
 
 export const dynamic = "force-dynamic";
+
+async function loadUnionLifecycleRow(
+  unionId: string,
+): Promise<UnionLifecycleRow | null> {
+  const db = getDb();
+  const [u] = await db
+    .select({
+      id: unions.id,
+      name: unions.name,
+      slug: unions.slug,
+      isDemo: unions.isDemo,
+      archivedAt: unions.archivedAt,
+      createdAt: unions.createdAt,
+      membershipPolicy: unions.membershipPolicy,
+    })
+    .from(unions)
+    .where(eq(unions.id, unionId))
+    .limit(1);
+  if (!u) return null;
+  const counts = await countUnionAttachments(unionId);
+  return {
+    id: u.id,
+    name: u.name,
+    slug: u.slug,
+    isDemo: u.isDemo,
+    archivedAt: u.archivedAt ? u.archivedAt.toISOString() : null,
+    createdAt: u.createdAt ? u.createdAt.toISOString() : null,
+    membershipPolicy: u.membershipPolicy ?? "multi_local",
+    localCount: counts.locals,
+    activeLocalCount: counts.activeLocals,
+    userCount: counts.users,
+    inviteCount: counts.invites,
+    membershipCount: counts.memberships,
+    caseworkCount: counts.casework,
+    empty: isUnionEmpty(counts),
+  };
+}
 
 export default async function SiteAdminUnionLocalsPage({
   params,
@@ -29,8 +72,7 @@ export default async function SiteAdminUnionLocalsPage({
   }
   const t = await getTranslations({ locale, namespace: "hub.platformOperator" });
 
-  let unionName: string | null = null;
-  let membershipPolicy: "multi_local" | "single_local" = "multi_local";
+  let unionRow: UnionLifecycleRow | null = null;
   let collectiveRows: Array<{ id: string; name: string }> = [];
   let rows: Array<{
     id: string;
@@ -40,51 +82,49 @@ export default async function SiteAdminUnionLocalsPage({
     isDemo: boolean;
   }> = [];
 
-  try {
-    const db = getDb();
-    const u = await db
-      .select({
-        id: unions.id,
-        name: unions.name,
-        membershipPolicy: unions.membershipPolicy,
-      })
-      .from(unions)
-      .where(eq(unions.id, unionId))
-      .limit(1);
-    unionName = u[0]?.name ?? null;
-    membershipPolicy = u[0]?.membershipPolicy ?? "multi_local";
+  if (isPostgresConfigured()) {
+    try {
+      unionRow = await loadUnionLifecycleRow(unionId);
 
-    collectiveRows = await db.select({ id: divisions.id, name: divisions.name })
-      .from(divisions)
-      .where(and(eq(divisions.unionId, unionId), isNull(divisions.archivedAt)))
-      .orderBy(divisions.name);
+      if (unionRow) {
+        const db = getDb();
+        collectiveRows = await db
+          .select({ id: divisions.id, name: divisions.name })
+          .from(divisions)
+          .where(
+            and(eq(divisions.unionId, unionId), isNull(divisions.archivedAt)),
+          )
+          .orderBy(divisions.name);
 
-    const conditions: SQL[] = [eq(locals.unionId, unionId)];
-    rows = await db
-      .select({
-        id: locals.id,
-        localNumber: locals.localNumber,
-        subText: locals.subText,
-        archivedAt: locals.archivedAt,
-        isDemo: locals.isDemo,
-      })
-      .from(locals)
-      .where(and(...conditions))
-      .orderBy(locals.localNumber);
+        const conditions: SQL[] = [eq(locals.unionId, unionId)];
+        rows = await db
+          .select({
+            id: locals.id,
+            localNumber: locals.localNumber,
+            subText: locals.subText,
+            archivedAt: locals.archivedAt,
+            isDemo: locals.isDemo,
+          })
+          .from(locals)
+          .where(and(...conditions))
+          .orderBy(locals.localNumber);
 
-    await auditLog.log({
-      userId: gate.session.user.id,
-      action: "site_admin.local.list",
-      resourceType: "site_admin",
-      resourceId: unionId,
-      unionId,
-      metadata: { resultCount: String(rows.length) },
-    });
-  } catch {
-    rows = [];
+        await auditLog.log({
+          userId: gate.session.user.id,
+          action: "site_admin.local.list",
+          resourceType: "site_admin",
+          resourceId: unionId,
+          unionId,
+          metadata: { resultCount: String(rows.length) },
+        });
+      }
+    } catch {
+      rows = [];
+      unionRow = null;
+    }
   }
 
-  if (!unionName) {
+  if (!unionRow) {
     return (
       <main className="mx-auto max-w-4xl px-4 py-8">
         <Link
@@ -111,12 +151,14 @@ export default async function SiteAdminUnionLocalsPage({
 
       <header className="mt-4">
         <h1 className="text-2xl font-bold text-opseu-dark lg:text-3xl">
-          {t("unionLocalsTitle", { name: unionName })}
+          {t("unionLocalsTitle", { name: unionRow.name })}
         </h1>
         <p className="mt-1 text-sm text-opseu-gray-dark">
           {t("unionLocalsBody")}
         </p>
       </header>
+
+      <UnionLocalsLifecyclePanel union={unionRow} />
 
       <div className="mt-6 overflow-x-auto rounded-md border border-opseu-gray/15 bg-white">
         <table className="min-w-full divide-y divide-opseu-gray/15 text-sm">
@@ -162,7 +204,10 @@ export default async function SiteAdminUnionLocalsPage({
             ))}
             {rows.filter((r) => !r.archivedAt).length === 0 && (
               <tr>
-                <td colSpan={5} className="px-3 py-4 text-center text-sm text-opseu-gray-dark">
+                <td
+                  colSpan={5}
+                  className="px-3 py-4 text-center text-sm text-opseu-gray-dark"
+                >
                   {t("localsNoneActive")}
                 </td>
               </tr>
@@ -173,7 +218,7 @@ export default async function SiteAdminUnionLocalsPage({
 
       <CreateLocalForm
         unionId={unionId}
-        membershipPolicy={membershipPolicy}
+        membershipPolicy={unionRow.membershipPolicy}
         collectives={collectiveRows}
       />
     </main>

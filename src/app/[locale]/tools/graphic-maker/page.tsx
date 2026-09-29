@@ -364,7 +364,7 @@ function GraphicMakerPageContent() {
                 />
                 <p className="text-sm leading-snug text-gray-600">
                   <Link
-                    href="/guide/photo-consent"
+                    href="/learn/photo-consent"
                     className="text-opseu-blue underline"
                   >
                     {tg("photoConsentLink")}

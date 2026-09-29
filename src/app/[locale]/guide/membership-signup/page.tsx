@@ -84,11 +84,11 @@ export default async function MembershipSignupGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/qr-board?preset=membershipFtPt",
+              href: "/create/qr-board?preset=membershipFtPt",
               label: nav("qrBoard"),
             },
             {
-              href: "/tools/qr-card?preset=joinUnion",
+              href: "/create/qr-card?preset=joinUnion",
               label: nav("qrCard"),
               variant: "outline",
             },
@@ -102,21 +102,21 @@ export default async function MembershipSignupGuidePage({
       }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("related.stewardPlaybooks") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
+        { href: "/learn/steward", label: t("related.stewardPlaybooks") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
         { href: "/brand-kit", label: nav("brandKit") },
-        { href: "/tools/qr-board", label: nav("qrBoard") },
-        { href: "/tools/qr-card", label: nav("qrCard") },
-        { href: "/tools/solidarity-poster", label: nav("solidarityPoster") },
+        { href: "/create/qr-board", label: nav("qrBoard") },
+        { href: "/create/qr-card", label: nav("qrCard") },
+        { href: "/create/solidarity-poster", label: nav("solidarityPoster") },
         {
-          href: "/tools/document-generator",
+          href: "/create/document-generator",
           label: nav("documentGenerator"),
         },
-        { href: "/guide/print", label: nav("printGuide") },
-        { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
-        { href: "/guide/union-boards", label: nav("unionBoardsGuide") },
+        { href: "/learn/print", label: nav("printGuide") },
+        { href: "/learn/email-broadcast", label: nav("emailBroadcastGuide") },
+        { href: "/learn/union-boards", label: nav("unionBoardsGuide") },
         {
-          href: "/guide/workplace-mapping",
+          href: "/learn/workplace-mapping",
           label: labour("labourGuides.workplaceMapping"),
         },
       ]}
@@ -170,7 +170,7 @@ export default async function MembershipSignupGuidePage({
         </GuideTipGrid>
         <p className="mt-5 max-w-prose leading-relaxed text-gray-700">
           <Link
-            href="/guide/print"
+            href="/learn/print"
             className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
           >
             {nav("printGuide")}
@@ -254,19 +254,19 @@ export default async function MembershipSignupGuidePage({
                   aria-label={t("materials.steps.printMaterials.title")}
                 >
                   <Link
-                    href="/tools/qr-board?preset=membershipFtPt"
+                    href="/create/qr-board?preset=membershipFtPt"
                     className={guideCtaOutlineClass}
                   >
                     {t("materials.steps.printMaterials.qrBoard")}
                   </Link>
                   <Link
-                    href="/tools/qr-card?preset=joinUnion"
+                    href="/create/qr-card?preset=joinUnion"
                     className={guideCtaOutlineClass}
                   >
                     {t("materials.steps.printMaterials.qrCard")}
                   </Link>
                   <Link
-                    href="/tools/solidarity-poster"
+                    href="/create/solidarity-poster"
                     className={guideCtaOutlineClass}
                   >
                     {t("materials.steps.printMaterials.poster")}
@@ -309,7 +309,7 @@ export default async function MembershipSignupGuidePage({
           >
             {t("materials.steps.welcome.cta")}
           </Link>
-          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+          <Link href="/learn/email-broadcast" className={guideCtaOutlineClass}>
             {nav("emailBroadcastGuide")}
           </Link>
         </GuideActionRow>
@@ -334,13 +334,13 @@ export default async function MembershipSignupGuidePage({
           {nav("brandKit")}
         </Link>
         <Link
-          href="/tools/qr-board?preset=membershipFtPt"
+          href="/create/qr-board?preset=membershipFtPt"
           className={guideCtaOutlineClass}
         >
           {nav("qrBoard")}
         </Link>
         <Link
-          href="/tools/qr-card?preset=joinUnion"
+          href="/create/qr-card?preset=joinUnion"
           className={guideCtaOutlineClass}
         >
           {nav("qrCard")}

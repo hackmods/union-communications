@@ -258,7 +258,10 @@ test.describe("Brand Kit layout — OPSEU CAAT-S Look @smoke @mobile", () => {
     await expect(
       page.getByRole("heading", { name: "Choose a role to see the steps" }),
     ).toBeVisible();
-    const brandKitLink = page.getByRole("main").getByRole("link", { name: "Brand Kit" });
+    const brandKitLink = page
+      .getByRole("main")
+      .getByRole("link", { name: "Brand Kit" })
+      .first();
     await expect(brandKitLink).toHaveAttribute("href", /\/en\/create\/brand-kit\/?$/);
     await assertNoHorizontalOverflow(page);
   });

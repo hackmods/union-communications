@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   evaluateRequiredShape,
+  pgTypesCompatible,
   journalTailQuery,
   readAndValidateJournal,
   selectJournalSchema,
@@ -103,6 +104,33 @@ describe("required database shape", () => {
 
   it("accepts the required subset and ignores additive database shape", () => {
     expect(evaluateRequiredShape(contract, completeCatalog)).toEqual([]);
+  });
+
+  it("treats bigserial/bigint and text[]/ARRAY as compatible", () => {
+    expect(pgTypesCompatible("bigserial", "bigint")).toBe(true);
+    expect(pgTypesCompatible("text[]", "ARRAY")).toBe(true);
+    expect(pgTypesCompatible("text", "integer")).toBe(false);
+    const arrayContract = {
+      ...contract,
+      tables: [{
+        name: "platform_incidents",
+        columns: [
+          { name: "data_categories", dataType: "text[]", notNull: true },
+          { name: "sequence", dataType: "bigserial", notNull: true },
+        ],
+      }],
+      policies: [],
+    };
+    const arrayCatalog = {
+      columns: [
+        { table_schema: "public", table_name: "platform_incidents", column_name: "data_categories", data_type: "ARRAY", is_nullable: "NO" },
+        { table_schema: "public", table_name: "platform_incidents", column_name: "sequence", data_type: "bigint", is_nullable: "NO" },
+      ],
+      roles: completeCatalog.roles,
+      rls: [{ schema: "public", table: "platform_incidents", enabled: true }],
+      policies: [],
+    };
+    expect(evaluateRequiredShape(arrayContract, arrayCatalog)).toEqual([]);
   });
 
   it("fails when critical DDL or security invariants are missing", () => {

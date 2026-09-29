@@ -5,21 +5,24 @@ import {
 } from "./dedupe-related-links";
 
 describe("dedupeRelatedByHref", () => {
-  it("keeps the first occurrence of each href", () => {
+  it("keeps the first occurrence and emits canonical Learn paths", () => {
     const links = [
       { href: "/guide/dfr", label: "DFR" },
       { href: "/guide/steward-101", label: "Steward 101" },
-      { href: "/guide/dfr/", label: "DFR again" },
+      { href: "/learn/dfr/", label: "DFR again" },
       { href: "/guide/dfr?x=1", label: "DFR query" },
     ];
     expect(dedupeRelatedByHref(links)).toEqual([
-      { href: "/guide/dfr", label: "DFR" },
-      { href: "/guide/steward-101", label: "Steward 101" },
+      { href: "/learn/dfr", label: "DFR" },
+      { href: "/learn/steward-101", label: "Steward 101" },
     ]);
   });
 
-  it("normalizes trailing slashes and query/hash", () => {
-    expect(normalizeRelatedHref("/guide/dfr/")).toBe("/guide/dfr");
-    expect(normalizeRelatedHref("/guide/dfr?foo=1#bar")).toBe("/guide/dfr");
+  it("normalizes trailing slashes and query/hash via canonical paths", () => {
+    expect(normalizeRelatedHref("/guide/dfr/")).toBe("/learn/dfr");
+    expect(normalizeRelatedHref("/guide/dfr?foo=1#bar")).toBe("/learn/dfr");
+    expect(normalizeRelatedHref("/guide/officer-learning/contract-enforcement")).toBe(
+      "/learn/officer/contract-enforcement",
+    );
   });
 });

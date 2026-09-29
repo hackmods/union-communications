@@ -56,15 +56,37 @@ describe("brand store hydrate vs early canvas patch", () => {
 
     const hydrating = useBrandStore.getState().hydrate();
     for (let i = 0; i < 4 && !fetchHost.mock.calls.length; i++) await Promise.resolve();
-    expect(fetchHost).toHaveBeenCalledWith("/api/host-brand");
+    expect(fetchHost).toHaveBeenCalledWith(
+      "/api/host-brand",
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
     useBrandStore.getState().setBrandKit({ designTreatment: "paper" });
     resolveHost({ ok: true, json: async () => ({ primaryColor: "#003DA5" }) });
     await hydrating;
 
     expect(useBrandStore.getState().brandKit.designTreatment).toBe("paper");
     expect(useBrandStore.getState().brandKit.primaryColor).toBe("#003DA5");
-    await vi.advanceTimersByTimeAsync(400);
+    // Queued pre-hydrate edits flush immediately once host defaults resolve.
     expect(saveBrandKit.mock.calls.at(-1)?.[0].designTreatment).toBe("paper");
+  });
+
+  it("persists a union preset chosen while first-visit host defaults are loading", async () => {
+    getBrandKit.mockResolvedValueOnce(null);
+    let resolveHost!: (value: unknown) => void;
+    const hostResponse = new Promise<unknown>((resolve) => { resolveHost = resolve; });
+    const fetchHost = vi.fn().mockReturnValue(hostResponse);
+    vi.stubGlobal("fetch", fetchHost);
+    const { useBrandStore } = await import("@/store/brand-store");
+
+    const hydrating = useBrandStore.getState().hydrate();
+    for (let i = 0; i < 4 && !fetchHost.mock.calls.length; i++) await Promise.resolve();
+    expect(fetchHost).toHaveBeenCalled();
+    expect(useBrandStore.getState().applyUnionPresetId("cupe")).toBe(true);
+    resolveHost({ ok: true, json: async () => ({ primaryColor: "#003DA5" }) });
+    await hydrating;
+
+    expect(useBrandStore.getState().brandKit.unionPresetId).toBe("cupe");
+    expect(saveBrandKit.mock.calls.at(-1)?.[0].unionPresetId).toBe("cupe");
   });
 
   it("does not overwrite a Local pack import that arrives during hydration", async () => {
@@ -129,7 +151,6 @@ describe("brand store hydrate vs early canvas patch", () => {
     expect(kit.canvas?.headlineFontId).toBe("oswald");
     expect(kit.canvas?.bodyFontId).toBe("sourceSerif");
 
-    await vi.advanceTimersByTimeAsync(400);
     expect(saveBrandKit).toHaveBeenCalledTimes(1);
     const persisted = saveBrandKit.mock.calls[0][0] as {
       primaryColor: string;

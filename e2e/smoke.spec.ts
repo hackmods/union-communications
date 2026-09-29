@@ -270,7 +270,9 @@ test.describe("Smoke tests @smoke", () => {
     await page.goto("/en/guide/resources/");
     await expect(page.getByRole("heading", { name: "Comms Resources" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Practice checklist" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Full source bibliography" })).toBeVisible();
+    // Bibliography lives in a disclosure summary (not an h2) so the page stays scannable.
+    await expect(page.getByText("Full source bibliography")).toBeVisible();
+    await page.getByText("Full source bibliography").click();
     await expect(page.getByRole("link", { name: "OPSEU / SEFPO graphics, logos & letterhead" })).toBeVisible();
     await expect(
       page.getByRole("link", { name: "Workshops" }).first(),
@@ -454,7 +456,7 @@ test.describe("Smoke tests @smoke", () => {
     test(`${locale} invite activation error state has no serious or critical a11y violations`, async ({ page }) => {
       await page.goto(`/${locale}/app/invite/missing-a11y-smoke-token`);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-      await expect(page.getByRole("alert")).toBeVisible();
+      await expect(page.getByRole("alert").first()).toBeVisible();
       await expectNoSeriousA11yViolations(page);
     });
   }

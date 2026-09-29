@@ -71,13 +71,22 @@ APP_URL="postgres://unionops_app:${POSTGRES_APP_PASSWORD}@db:5432/${POSTGRES_DB}
 run_gate() {
   local log_file="$1"
   shift
+  set +e
   docker run --rm --network "${NET}" \
     -e AUTH_SECRET="${AUTH_SECRET}" \
     -e MIGRATE_DATABASE_URL="${OWNER_URL}" \
     -e DATABASE_URL="${APP_URL}" \
     -e POSTGRES_APP_PASSWORD="${POSTGRES_APP_PASSWORD}" \
+    -e SEED_ON_BOOT=false \
     "$@" \
     "${IMAGE}" node -e "process.exit(0)" >"${log_file}" 2>&1
+  local status=$?
+  set -e
+  if [[ "$status" -ne 0 ]]; then
+    echo "[docker-migrate-smoke] gate container failed (status ${status}). Log:" >&2
+    cat "${log_file}" >&2 || true
+    return "$status"
+  fi
 }
 
 psql_scalar() {
@@ -183,6 +192,55 @@ DROP TABLE IF EXISTS data_publications CASCADE;
 DROP TABLE IF EXISTS data_records CASCADE;
 DROP TABLE IF EXISTS data_staged_rows CASCADE;
 DROP TABLE IF EXISTS data_union_memberships CASCADE;
+DROP TABLE IF EXISTS member_broadcast_campaigns CASCADE;
+DROP TABLE IF EXISTS member_broadcast_consents CASCADE;
+
+-- Tables introduced after the hole fixture was last extended. Leaving them
+-- in place after deleting journal rows from 0036+ collides on CREATE TABLE.
+DROP TABLE IF EXISTS platform_host_brand CASCADE;
+DROP TABLE IF EXISTS document_access_grants CASCADE;
+DROP TABLE IF EXISTS document_versions CASCADE;
+DROP TABLE IF EXISTS public_document_acceptances CASCADE;
+DROP TABLE IF EXISTS public_document_versions CASCADE;
+DROP TABLE IF EXISTS public_documents CASCADE;
+DROP TABLE IF EXISTS mfa_recovery_codes CASCADE;
+DROP TABLE IF EXISTS mfa_totp_counters CASCADE;
+DROP TABLE IF EXISTS mfa_session_grants CASCADE;
+DROP TABLE IF EXISTS mfa_verification_attempts CASCADE;
+DROP TABLE IF EXISTS subprocessor_audit_events CASCADE;
+DROP TABLE IF EXISTS subprocessor_public_projections CASCADE;
+DROP TABLE IF EXISTS subprocessor_registry CASCADE;
+DROP TABLE IF EXISTS platform_incident_step_up_grants CASCADE;
+DROP TABLE IF EXISTS platform_incident_audit_events CASCADE;
+DROP TABLE IF EXISTS platform_incidents CASCADE;
+DROP TABLE IF EXISTS marketing_dispatch_control CASCADE;
+DROP TABLE IF EXISTS marketing_provider_events CASCADE;
+DROP TABLE IF EXISTS marketing_deliveries CASCADE;
+DROP TABLE IF EXISTS marketing_campaigns CASCADE;
+DROP TABLE IF EXISTS marketing_request_limits CASCADE;
+DROP TABLE IF EXISTS marketing_action_tokens CASCADE;
+DROP TABLE IF EXISTS marketing_consent_events CASCADE;
+DROP TABLE IF EXISTS marketing_subscribers CASCADE;
+
+-- Bare CREATE FUNCTION migrations (no OR REPLACE) leave functions behind after
+-- table CASCADE drops. Replay then fails with "function already exists".
+DROP FUNCTION IF EXISTS public.subprocessor_public_projection_guard() CASCADE;
+DROP FUNCTION IF EXISTS public.subprocessor_audit_immutable() CASCADE;
+DROP FUNCTION IF EXISTS public.platform_incident_record_actor_guard() CASCADE;
+DROP FUNCTION IF EXISTS public.platform_incident_audit_actor_guard() CASCADE;
+DROP FUNCTION IF EXISTS public.platform_incident_step_up_consume_only() CASCADE;
+DROP FUNCTION IF EXISTS public.platform_incident_audit_immutable() CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_consent_immutable() CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_request_allowed(text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_request_subscription(text, text, text, text, text, text, text, text, text, text, timestamptz, text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_confirm_subscription(text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_issue_preferences(text, text, text, timestamptz, text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_preference_state(text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_unsubscribe(text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_admin_suppress(text, text, text, text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_issue_delivery_token(text, text, text, timestamptz) CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_cleanup_transient() CASCADE;
+DROP FUNCTION IF EXISTS public.marketing_record_provider_event(text, text, text, text) CASCADE;
 
 -- Union customization foundation (0054). Replay creates these tables; leaving
 -- them in place after deleting journal rows from 0036+ collides on CREATE.
@@ -201,14 +259,14 @@ DROP TABLE IF EXISTS customization_revisions CASCADE;
 DROP TABLE IF EXISTS customization_drafts CASCADE;
 DROP TABLE IF EXISTS customization_resources CASCADE;
 DROP TABLE IF EXISTS customization_scopes CASCADE;
-DROP FUNCTION IF EXISTS public.customization_fragment_access(text, text, text, text, jsonb);
-DROP FUNCTION IF EXISTS public.customization_current_access(text, text, text, text);
-DROP FUNCTION IF EXISTS public.customization_audience(text, text);
-DROP FUNCTION IF EXISTS public.customization_scope_live(text);
-DROP FUNCTION IF EXISTS public.customization_root(text, boolean);
-DROP FUNCTION IF EXISTS public.customization_immutable();
-DROP FUNCTION IF EXISTS public.customization_row_guard();
-DROP FUNCTION IF EXISTS public.customization_scope_guard();
+DROP FUNCTION IF EXISTS public.customization_fragment_access(text, text, text, text, jsonb) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_current_access(text, text, text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_audience(text, text) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_scope_live(text) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_root(text, boolean) CASCADE;
+DROP FUNCTION IF EXISTS public.customization_immutable() CASCADE;
+DROP FUNCTION IF EXISTS public.customization_row_guard() CASCADE;
+DROP FUNCTION IF EXISTS public.customization_scope_guard() CASCADE;
 
 -- Rewind the Members Portal authorization/Portal tail as well. The journal-hole
 -- fixture replays every migration after the reconciliation point; retaining
@@ -270,6 +328,13 @@ ALTER TABLE grievances DROP CONSTRAINT IF EXISTS grievances_privacy_mode_check;
 ALTER TABLE grievances DROP COLUMN IF EXISTS member_user_id;
 ALTER TABLE grievances DROP COLUMN IF EXISTS privacy_mode;
 ALTER TABLE audit_log DROP COLUMN IF EXISTS circle_id;
+-- Security audit fields (0074). Bare ADD COLUMN / ADD CONSTRAINT collide when
+-- the journal is rewound past reconcile but the live columns remain.
+DROP INDEX IF EXISTS audit_log_request_idx;
+ALTER TABLE audit_log DROP CONSTRAINT IF EXISTS audit_log_outcome_check;
+ALTER TABLE audit_log DROP CONSTRAINT IF EXISTS audit_log_request_id_check;
+ALTER TABLE audit_log DROP COLUMN IF EXISTS outcome;
+ALTER TABLE audit_log DROP COLUMN IF EXISTS request_id;
 
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS mentioned_user_ids;
 ALTER TABLE discussion_posts DROP COLUMN IF EXISTS reactions;

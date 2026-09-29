@@ -19,8 +19,8 @@ export async function generateMetadata({
 const OUTLINE_KEYS = ["comms", "landAcknowledgement"] as const;
 
 const OUTLINE_HREF = {
-  comms: "/guide/workshop",
-  landAcknowledgement: "/guide/workshops/land-acknowledgement",
+  comms: "/learn/workshops/comms",
+  landAcknowledgement: "/learn/workshops/land-acknowledgement",
 } as const;
 
 export default async function WorkshopsHubPage({
@@ -41,9 +41,9 @@ export default async function WorkshopsHubPage({
       preset="hub"
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
-        { href: "/guide", label: nav("guide") },
-        { href: "/guide/resources", label: nav("resources") },
-        { href: "/guides", label: nav("allGuides") },
+        { href: "/learn/communications-blueprint", label: nav("guide") },
+        { href: "/learn/resources", label: nav("resources") },
+        { href: "/learn", label: nav("allGuides") },
       ]}
     >
       <ul className="mt-2 grid list-none gap-6 p-0 sm:grid-cols-2">
@@ -51,8 +51,8 @@ export default async function WorkshopsHubPage({
           <GuideCatalogCard
             key={key}
             title={t(`outlines.${key}.title`)}
-            body={t(`outlines.${key}.body`)}
-            meta={t(`outlines.${key}.time`)}
+            body={t(`outlines.${key}.outcome`)}
+            meta={`${t(`outlines.${key}.audience`)} · ${t(`outlines.${key}.time`)}`}
             action={
               <Link href={OUTLINE_HREF[key]} className={guideCtaOutlineClass}>
                 {t(`outlines.${key}.cta`)}

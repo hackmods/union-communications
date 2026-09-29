@@ -4,7 +4,7 @@
 
 Prévoyez **30 minutes** pour la lecture et l'autoévaluation. Lisez avec vos **règlements locaux**, un récent **rapport de cotisations de l'employeur** (CSV ou feuille de calcul), votre **registre de cartes signées**, et l'accès à la base de données sécurisée du syndicat — pas le courriel de l'employeur. Les sections passent de la formule Rand aux membres titulaires de carte, à la **directive sur les listes de membres**, à la réconciliation mensuelle et au stockage sécurisé.
 
-Associez `/guide/membership-signup` pour l'art des campagnes de signature — ce guide enseigne le pitch au plancher ; **ce module** enseigne la réconciliation du secrétaire, les règles constitutionnelles de confidentialité et l'hygiène des bases de données. Les matériaux d'administration des membres du **CTC** et les manuels de secrétaire local du **SCFP** renforcent la garde des listes ; la formation des dirigeants locaux d'**Unifor** traite les données des membres comme une fiducie.
+Associez `/learn/membership-signup` pour l'art des campagnes de signature — ce guide enseigne le pitch au plancher ; **ce module** enseigne la réconciliation du secrétaire, les règles constitutionnelles de confidentialité et l'hygiène des bases de données. Les matériaux d'administration des membres du **CTC** et les manuels de secrétaire local du **SCFP** renforcent la garde des listes ; la formation des dirigeants locaux d'**Unifor** traite les données des membres comme une fiducie.
 
 🪞 Réflexion : Un payeur de cotisations qui n'a jamais signé de carte paie pour la solidarité — mais ne peut voter qu'une fois membre démocratiquement. Votre travail sur les listes transforme les lignes de paie en adhésion organisée.
 
@@ -25,7 +25,7 @@ L'une des erreurs les plus courantes d'un nouveau secrétaire local est de suppo
 *   **La distinction** : Payer des cotisations ne fait **pas** d'un employé un membre inscrit en règle. Selon les règlements, un travailleur doit signer une **carte de membre** physique ou numérique pour obtenir le droit de voter sur les conventions, assister aux assemblées générales, se porter candidat ou voter aux élections locales.
 *   **Le devoir du secrétaire** : Croiser le rapport mensuel de cotisations de l'employeur avec la base de cartes signées du local. Toute personne payant des cotisations sans carte figure sur une liste cible d'inscription — pas sur le registre électoral.
 
-L'éducation à l'organisation du **CTC** et les matériaux d'adhésion des syndicats nationaux insistent : le fichier de paie est un **fichier de cotisations**, pas un fichier démocratique. `/guide/membership-signup` couvre les campagnes de signature ; ce module possède la mathématique de réconciliation derrière ces campagnes.
+L'éducation à l'organisation du **CTC** et les matériaux d'adhésion des syndicats nationaux insistent : le fichier de paie est un **fichier de cotisations**, pas un fichier démocratique. `/learn/membership-signup` couvre les campagnes de signature ; ce module possède la mathématique de réconciliation derrière ces campagnes.
 
 | Type de dossier | Source | Accorde le droit de vote? | Action du secrétaire |
 | --- | --- | --- | --- |
@@ -39,7 +39,7 @@ L'éducation à l'organisation du **CTC** et les matériaux d'adhésion des synd
 ---
 
 ## 2. La directive sur les listes de membres et la confidentialité
-Les listes de membres sont des documents constitutionnels hautement sensibles. La **directive sur les listes de membres** — adoptée dans de nombreux syndicats canadiens comme pratique constitutionnelle de confidentialité — impose des garde-fous stricts, quel que soit le corps national auquel votre local est affilié.
+Les listes de membres sont des documents constitutionnels hautement sensibles. La **directive sur les listes de membres** est un modèle pédagogique UnionOps qui résume des règles constitutionnelles de confidentialité courantes dans les syndicats canadiens — ce n'est pas un statut unique transversal. Elle impose des garde-fous stricts, quel que soit le corps national auquel votre local est affilié.
 
 *   **Usage commercial** : Partager, vendre ou louer une liste de membres à tout partenaire commercial — même un vendeur de rabais d'affinité — est une infraction constitutionnelle grave. Les membres adhèrent à un syndicat, pas à une base de marketing.
 *   **Campagnes politiques** : Les locaux ne peuvent pas remettre de listes à des candidats ou partis municipaux, provinciaux ou fédéraux, même lorsque le syndicat les appuie officiellement. Toute sensibilisation doit être menée **en interne** par le local via les canaux syndicaux.
@@ -61,7 +61,7 @@ Les feuilles Excel ou CSV brutes des services de paie de l'employeur sont notoir
 1.  Importer le rapport de cotisations dans votre base **contrôlée par le syndicat** (jamais le cloud de l'employeur).
 2.  Faire correspondre l'identifiant employé ou nom + classification aux dossiers de cartes signées.
 3.  Signaler **cotisations sans carte**, **carte sans cotisations** et **désaccords de classification**.
-4.  Exporter une liste cible pour les délégués (`/guide/membership-signup`).
+4.  Exporter une liste cible pour les délégués (`/learn/membership-signup`).
 5.  Journaliser les changements dans un registre de réconciliation — qui a importé, quand, et quelles anomalies ont été trouvées.
 
 ### Corrections courantes d'hygiène des données
@@ -87,7 +87,7 @@ Les feuilles Excel ou CSV brutes des services de paie de l'employeur sont notoir
 
 **La surprise du vote de ratification.** La ratification est jeudi. Le secrétaire tire le rapport de cotisations : 412 noms. La base de cartes signées en montre 318 actives. Quatre-vingt-sept travailleurs paient des cotisations depuis deux ans ou plus sans avoir signé. Un membre de l'exécutif dit : « Ils paient — laissez-les voter. »
 
-**À appliquer :** Expliquer la distinction Rand vs carte (section 1). Mener une campagne interne d'inscription avec les délégués et les tactiques de `/guide/membership-signup` — cartes au changement de quart, pas par courriel de l'employeur. Pour l'assemblée de ratification, utiliser **uniquement** le registre de cartes signées croisé avec le statut en règle. Documenter l'écart de réconciliation pour le prochain rapport à l'AG.
+**À appliquer :** Expliquer la distinction Rand vs carte (section 1). Mener une campagne interne d'inscription avec les délégués et les tactiques de `/learn/membership-signup` — cartes au changement de quart, pas par courriel de l'employeur. Pour l'assemblée de ratification, utiliser **uniquement** le registre de cartes signées croisé avec le statut en règle. Documenter l'écart de réconciliation pour le prochain rapport à l'AG.
 
 **À ne pas appliquer :** N'ajoutez pas les payeurs de cotisations au registre électoral sans cartes signées. N'exportez pas le fichier de paie complet vers le Gmail personnel d'un bénévole de campagne pour « envoyer des textos plus vite ».
 
@@ -114,7 +114,7 @@ Les feuilles Excel ou CSV brutes des services de paie de l'employeur sont notoir
 - [ ] Distinguer le rapport de cotisations employeur du registre des cartes signées
 - [ ] Savoir que les payeurs Rand ne sont pas automatiquement membres votants
 - [ ] Croiser paie et base de cartes mensuellement — pas seulement avant les élections
-- [ ] Signaler les travailleurs cotisations-sans-carte pour sensibilisation (`/guide/membership-signup`)
+- [ ] Signaler les travailleurs cotisations-sans-carte pour sensibilisation (`/learn/membership-signup`)
 - [ ] Repérer les désaccords de classification contre la convention collective
 - [ ] Vérifier pourcentages de cotisations et arriérés après congés ou tâches modifiées
 - [ ] Ne jamais remettre de listes à des campagnes ou candidats politiques
@@ -183,7 +183,7 @@ Où est l'endroit le plus sécuritaire pour qu'un secrétaire local stocke et mo
 ### Question 4
 Votre réconciliation mensuelle montre douze travailleurs à temps plein classés « temporaires » au rapport de paie. Les cotisations sont retenues au taux partiel inférieur. Meilleure première étape?
 *   A) Ignorer — la classification paie est seulement le problème de l'employeur.
-*   B) Documenter le pattern, aviser les membres touchés et poursuivre la correction par grief ou action collective selon la convention.
+*   B) Documenter le pattern, aviser les membres touchés et poursuivre la correction par grief ou grief de groupe selon la convention.
 *   C) Supprimer les douze lignes de la base syndicale jusqu'à ce que la paie corrige.
 *   D) Les ajouter au registre électoral sans cartes parce que des cotisations sont retenues.
 

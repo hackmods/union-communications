@@ -131,21 +131,21 @@ export default async function BylawsGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/bylaw-builder?preset=opseuCaat",
+              href: "/utilities/bylaw-builder?preset=opseuCaat",
               label: nav("bylawBuilder"),
             },
             {
-              href: "/tools/board-notice",
+              href: "/create/board-notice",
               label: nav("boardNotice"),
               variant: "outline",
             },
             {
-              href: "/tools/org-chart",
+              href: "/create/org-chart",
               label: nav("orgChart"),
               variant: "outline",
             },
             {
-              href: "/guide/running-meetings",
+              href: "/learn/running-meetings",
               label: nav("runningMeetingsGuide"),
               variant: "outline",
             },
@@ -153,12 +153,12 @@ export default async function BylawsGuidePage({
         />
       }
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/tools/bylaw-builder", label: nav("bylawBuilder") },
-        { href: "/tools/org-chart", label: nav("orgChart") },
-        { href: "/guide/running-meetings", label: nav("runningMeetingsGuide") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/utilities/bylaw-builder", label: nav("bylawBuilder") },
+        { href: "/create/org-chart", label: nav("orgChart") },
+        { href: "/learn/running-meetings", label: nav("runningMeetingsGuide") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
       ]}
       footer={
         <SourcesBlock
@@ -251,7 +251,7 @@ export default async function BylawsGuidePage({
         <p className="mt-4 max-w-prose text-sm text-gray-600">
           {t("mustHave.electionsDeepen")}{" "}
           <Link
-            href="/guide/officer-learning/democratic-governance"
+            href="/learn/officer/democratic-governance"
             className="font-semibold text-opseu-blue underline underline-offset-2"
           >
             {t("related.governance")}
@@ -292,10 +292,10 @@ export default async function BylawsGuidePage({
           <p className="mt-1">{t("amend.warning")}</p>
         </GuideCallout>
         <GuideActionRow>
-          <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+          <Link href="/create/board-notice" className={guideCtaOutlineClass}>
             {t("amend.boardNoticeCta")}
           </Link>
-          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+          <Link href="/learn/email-broadcast" className={guideCtaOutlineClass}>
             {t("amend.emailCta")}
           </Link>
           <Link
@@ -332,13 +332,13 @@ export default async function BylawsGuidePage({
         </GuideCallout>
         <GuideActionRow>
           <Link
-            href="/tools/bylaw-builder?preset=opseuCaat"
+            href="/utilities/bylaw-builder?preset=opseuCaat"
             className={guideCtaClass}
           >
             {t("scenario.builderCta")}
           </Link>
           <Link
-            href="/tools/bylaw-builder?mode=committee&preset=opseuCaat"
+            href="/utilities/bylaw-builder?mode=committee&preset=opseuCaat"
             className={guideCtaOutlineClass}
           >
             {t("scenario.committeeCta")}
@@ -366,7 +366,7 @@ export default async function BylawsGuidePage({
         </GuideCallout>
         <GuideActionRow>
           <Link
-            href="/tools/bylaw-builder?preset=opseuCaat"
+            href="/utilities/bylaw-builder?preset=opseuCaat"
             className={guideCtaOutlineClass}
           >
             {t("opseuPatterns.builderCta")}
@@ -398,7 +398,7 @@ export default async function BylawsGuidePage({
             {t("committee.portalCta")}
           </Link>
           <Link
-            href="/tools/bylaw-builder?mode=committee"
+            href="/utilities/bylaw-builder?mode=committee"
             className={guideCtaClass}
           >
             {t("committee.builderCta")}
@@ -481,7 +481,7 @@ export default async function BylawsGuidePage({
           <ReferenceBlock title={t("referenceMaterials.builder.title")}>
             <p>{t("referenceMaterials.builder.body")}</p>
             <Link
-              href="/tools/bylaw-builder?preset=campus"
+              href="/utilities/bylaw-builder?preset=campus"
               className={`mt-3 inline-block w-full ${guideCtaClassBlock}`}
             >
               {t("referenceMaterials.builder.cta")}
@@ -490,7 +490,7 @@ export default async function BylawsGuidePage({
           <ReferenceBlock title={t("referenceMaterials.governance.title")}>
             <p>{t("referenceMaterials.governance.body")}</p>
             <Link
-              href="/guide/officer-learning/democratic-governance"
+              href="/learn/officer/democratic-governance"
               className={`mt-3 inline-block w-full ${guideCtaOutlineClassBlock}`}
             >
               {t("referenceMaterials.governance.cta")}
@@ -514,13 +514,13 @@ export default async function BylawsGuidePage({
           ))}
         </GuideTipGrid>
         <GuideActionRow>
-          <Link href="/tools/bylaw-builder?preset=campus" className={guideCtaClass}>
+          <Link href="/utilities/bylaw-builder?preset=campus" className={guideCtaClass}>
             {nav("bylawBuilder")}
           </Link>
-          <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+          <Link href="/create/board-notice" className={guideCtaOutlineClass}>
             {nav("boardNotice")}
           </Link>
-          <Link href="/tools/org-chart" className={guideCtaOutlineClass}>
+          <Link href="/create/org-chart" className={guideCtaOutlineClass}>
             {nav("orgChart")}
           </Link>
           <Link

@@ -45,6 +45,14 @@ describe("public route migration", () => {
     expect(canonicalPublicPath(legacy)).toBe(canonical);
   });
 
+  it("canonicalizes Officer Learning and workshops hub aliases", () => {
+    expect(canonicalizePublicHref("/guide/officer-learning")).toBe("/learn/officer");
+    expect(canonicalizePublicHref("/guide/officer-learning/contract-enforcement"))
+      .toBe("/learn/officer/contract-enforcement");
+    expect(canonicalizePublicHref("/guide/workshops")).toBe("/learn/workshops");
+    expect(canonicalizePublicHref("/guide/steward-playbooks")).toBe("/learn/steward");
+  });
+
   it("preserves query and fragment data while canonicalizing internal links", () => {
     expect(canonicalizePublicHref("/onboarding?campaign=fall#brand"))
       .toBe("/start?campaign=fall&step=brand#brand");

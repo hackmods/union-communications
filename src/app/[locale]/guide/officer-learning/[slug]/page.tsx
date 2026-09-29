@@ -6,28 +6,15 @@ import {
   getModuleBySlug,
   getNextModuleSlug,
 } from "@/lib/officer-learning/modules";
+import {
+  officerLearningStaticParams,
+  SOURCES_PAGE_BY_SLUG,
+} from "@/lib/officer-learning/module-sources";
 import { loadParsedModule } from "@/lib/officer-learning/load-module";
 import { ModuleViewer } from "@/components/officer-learning/ModuleViewer";
 
-const SOURCES_PAGE_BY_SLUG: Record<string, string> = {
-  "contract-enforcement": "officerLearningContract",
-  "progressive-discipline": "officerLearningDiscipline",
-  "human-rights-accommodation": "officerLearningHumanRights",
-  "democratic-governance": "officerLearningGovernance",
-  "financial-health": "officerLearningFinancial",
-  "building-collective-power": "officerLearningCollectivePower",
-  "mobilizer-bargaining-partner": "officerLearningMobilizer",
-  "advanced-grievance-settlement": "officerLearningSettlement",
-  "benefits-disability-claims": "officerLearningBenefits",
-  "joint-workplace-committees": "officerLearningCommittees",
-  "membership-lists-privacy": "officerLearningLists",
-  "advanced-local-finance": "officerLearningAdvancedFinance",
-  "digital-security-transitions": "officerLearningDigitalSecurity",
-  "everyday-union-value": "officerLearningEverydayValue",
-};
-
 export async function generateStaticParams() {
-  return Object.keys(SOURCES_PAGE_BY_SLUG).map((slug) => ({ slug }));
+  return officerLearningStaticParams();
 }
 
 export async function generateMetadata({

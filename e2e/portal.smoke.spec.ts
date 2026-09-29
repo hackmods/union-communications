@@ -239,13 +239,15 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page.getByRole("button", { name: "Add card" }).first()).toBeVisible();
   });
 
-  test("local president cannot create a Circle for other locals by switching scope", async ({
+  test("local president can start an invite-only Circle for members from more than one local", async ({
     page,
   }) => {
     await loginAsPresident(page);
     await page.goto("/en/portal");
     await expect(page.getByRole("heading", { name: "Start a Circle" })).toBeVisible();
-    await expect(page.getByRole("checkbox", { name: "Members from more than one local" })).toHaveCount(0);
+    await expect(
+      page.getByRole("checkbox", { name: "Members from more than one local" }),
+    ).toBeVisible();
     const name = `Union Caucus ${Date.now()}`;
     const posted = await page.request.post("/api/portal/circles/", {
       data: {
@@ -254,7 +256,7 @@ test.describe("Local Portal smoke @smoke", () => {
         scope: "union",
       },
     });
-    expect(posted.status()).toBe(403);
+    expect(posted.status()).toBe(201);
   });
 
   test("French Together uses solidarity labels", async ({ page }) => {

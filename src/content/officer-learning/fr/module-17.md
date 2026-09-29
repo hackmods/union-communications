@@ -137,7 +137,7 @@ Un dump qui ajoute de l'autonomie ou la possession d'un système est un argument
 - [ ] Ne pas traiter le langage d'ancienneté du module 16 comme une cotation de bande
 - [ ] Utiliser le libellé porte ouverte du module 8 une fois le dépôt fait
 - [ ] Escalader les délais manqués et les refus d'amendement vers le service aux membres au besoin
-- [ ] Diriger les membres vers `/guide/grievance-process` pour les étapes de dépôt — posséder l'audit du PDF ici
+- [ ] Diriger les membres vers `/learn/grievance-process` pour les étapes de dépôt — posséder l'audit du PDF ici
 
 ---
 

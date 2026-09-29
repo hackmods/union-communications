@@ -547,7 +547,7 @@
           "items": [
             "Reuse layouts from Social Examples",
             "Schedule one board update and one social post",
-            "Skim The Blueprint for tone and trolls"
+            "Skim The Blueprint for tone and handling negativity"
           ]
         }
       ]
@@ -812,7 +812,7 @@
     "readingTime": "{minutes} min read",
     "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
-    "progressSummary": "{completed} of {total} modules completed",
+    "progressSummary": "{completed} of {total} modules completed on this device",
     "quizHint": {
       "title": "Self-tests mark your progress",
       "body": "Each module ends with a quiz. Read the lesson, then use Jump to Quiz or scroll to Self-test. A perfect score marks the module complete on this device."
@@ -821,6 +821,13 @@
     "deepen": {
       "title": "Officer Learning module",
       "body": "Module {number} expands this playbook with scenarios, a self-test, floor checklists, and printable take-to-meeting sheets."
+    },
+    "callout": {
+      "focus": {
+        "bargaining": "Module {number} expands this bargaining playbook with demand-set scenarios, a self-test, and floor checklists for mobilizers.",
+        "strike": "Module {number} expands this strike playbook with picket and return-to-work scenarios, a self-test, and take-to-meeting sheets.",
+        "crisis": "Module {number} expands this crisis playbook with rapid-response scenarios, a self-test, and floor checklists for spokespeople."
+      }
     },
     "workedScenario": {
       "label": "Worked scenario"
@@ -838,7 +845,7 @@
     },
     "progressPrefs": {
       "title": "Your progress",
-      "body": "Quiz completions and checklist ticks stay on this device by default, so you can train without an account. Sign in only if you want a Hub backup, or to share completions with your local when both you and a president opt in."
+      "body": "Quiz completions and checklist ticks stay on this device by default — train without an account. Hub sync is optional: sign in only if you want a backup, or to share completions with your local when both you and a president opt in."
     },
     "viewer": {
       "back": "Dashboard",
@@ -919,6 +926,7 @@
         "landAcknowledgement": "Land Acknowledgement Guide",
         "rulesOfOrder": "Rules of Order cheat sheet",
         "humanRightsModule": "Module 3: Human Rights & Accommodation",
+        "benefitsDisabilityModule": "Module 9: Benefits & Disability Claims",
         "rightToRefuse": "Right to refuse guide",
         "digitalSecurityModule": "Module 13: Digital Security & Transitions",
         "everydayValueModule": "Module 14: Everyday Union Value",
@@ -1034,7 +1042,7 @@
       "quorumTitle": "Quorum scales with membership",
       "quorumAria": "Three quorum tiers by local size",
       "quorumTier1Label": "Small",
-      "quorumTier1": "Often 50% + 1 of members in good standing",
+      "quorumTier1": "Often more than half of members in good standing",
       "quorumTier2Label": "Mid-size",
       "quorumTier2": "Bylaw % of registered membership",
       "quorumTier3Label": "Large",
@@ -1615,12 +1623,12 @@
       },
       "pdf-classification": {
         "title": "Position Description Forms & Reclassification",
-        "summary": "Audit PDF updates, log actual duties, write Employee Comments, and start a classification or JJEC file when the job outgrows the pay band."
+        "summary": "Audit PDF updates, log actual duties, write Employee Comments, and start a classification or joint job-evaluation file (JJEC in some Ontario college CAs) when the job outgrows the pay band."
       }
     },
     "certificate": {
       "title": "Download your certificate",
-      "hint": "PDF stays on this device. Your Brand Kit logo appears when set. Add the name you want printed — Brand Kit local number is used when set.",
+      "hint": "Downloads a local PDF on this device — not emailed and not a Hub credential. Your Brand Kit logo appears when set. Add the name you want printed — Brand Kit local number is used when set.",
       "nameLabel": "Name on certificate",
       "namePlaceholder": "Your name",
       "defaultName": "Union steward",
@@ -2139,7 +2147,7 @@
   "photoConsentGuide": {
     "title": "Photo Consent & Member Media",
     "subtitle": "Ask before you post — scripts, logs, and takedowns for stewards and comms volunteers",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "intro": "Graphic Maker blocks upload until you acknowledge consent — but locals still need a shared practice for phone cameras, Reels, board photos, and Facebook posts. This playbook helps officers agree on how to ask, what to record, and who takes images down. Not legal advice.",
@@ -2182,7 +2190,7 @@
     "tiers": {
       "navLabel": "Three settings",
       "title": "Match the ask to the room",
-      "intro": "The same photo rules are not the same in every space.",
+      "intro": "Adjust the consent ask to the setting.",
       "items": {
         "rally": {
           "label": "Public rallies and picket lines",
@@ -2393,7 +2401,7 @@
   "websiteGuide": {
     "title": "Local Website Guide",
     "subtitle": "Write a simple local site, download a ZIP, then put it online. A volunteer can do the tech steps.",
-    "intro": "Boards and socials move messages. A website holds who you are, who to email, and how to find you. Start with Part 1. Stop when the ZIP is on your computer.",
+    "intro": "Boards and socials move messages. A website holds who you are, who to email, and how to find you. Website Template offers two downloads: a static ZIP for GitHub Pages (usual path), or a classic WordPress theme if you already run WordPress. Start with Part 1. Stop when the file is on your computer.",
     "tocLabel": "On this page",
     "relatedLabel": "Also see",
     "related": {
@@ -2405,38 +2413,38 @@
     },
     "glance": {
       "title": "At a glance",
-      "intro": "Most locals only need Part 1. Stop when the ZIP is on your computer. Part 2 is for whoever will put those files on the internet.",
+      "intro": "Most locals only need Part 1. Download either the static ZIP (GitHub Pages) or the WordPress theme, then stop when that file is on your computer. Part 2 is for whoever will put a static ZIP online — skip it if you use WordPress hosting you already control.",
       "templateCta": "Open Website Template",
       "part1": {
         "kicker": "Part 1",
         "title": "Write and download",
-        "body": "Gather a few facts, fill Website Template, and download the ZIP. No hosting account yet.",
+        "body": "Gather a few facts, fill Website Template, and download a static ZIP for GitHub Pages or a WordPress theme. No new hosting account yet.",
         "cta": "Jump to writing the site"
       },
       "part2": {
         "kicker": "Part 2",
         "title": "Put it online",
-        "body": "Upload the ZIP to GitHub Pages for free. Skip this if a tech-savvy volunteer will do it.",
+        "body": "Upload the static ZIP to GitHub Pages for free. Skip this if you installed the WordPress theme on a site you already run, or if a tech-savvy volunteer will publish the ZIP.",
         "cta": "Jump to publishing steps"
       }
     },
     "part1": {
       "kicker": "Part 1",
       "title": "Planning and creating your site",
-      "intro": "Your job here is to write the content and download a ZIP. You can stop as soon as that file is on your computer.",
+      "intro": "Your job here is to write the content and download either a static ZIP or a WordPress theme. You can stop as soon as that file is on your computer.",
       "tocLabel": "Part 1 sections"
     },
     "part2": {
       "kicker": "Part 2",
       "title": "Publishing your site (the tech steps)",
-      "intro": "These steps put your downloaded ZIP on the internet so members can open a real web address.",
+      "intro": "These steps put your downloaded static ZIP on the internet so members can open a real web address. If you chose the WordPress theme instead, install it under Appearance → Themes on your existing WordPress host — Part 2 is for the ZIP path.",
       "handoffTitle": "Hand this off if you want",
       "handoff": "Now that you have your website ZIP file, it needs to be put on the internet. If you are not comfortable with technical web setup, you can hand your downloaded ZIP file and this guide to a tech-savvy volunteer.",
       "tocLabel": "Part 2 sections"
     },
     "wordpress": {
-      "title": "WordPress theme",
-      "body": "Website Template downloads a classic WordPress theme that matches the preview. Upload it under Appearance → Themes, then edit copy in Appearance → Local site, or import unionops-website.json for updates without a full theme re-upload. UnionOps does not host WordPress; if you are not already running it, the GitHub Pages ZIP in this part is usually simpler."
+      "title": "WordPress theme (alternate download)",
+      "body": "Website Template also downloads a classic WordPress theme that matches the preview — a different path from the static GitHub Pages ZIP. Upload it under Appearance → Themes, then edit copy in Appearance → Local site, or import unionops-website.json for updates without a full theme re-upload. UnionOps does not host WordPress; if you are not already running it, the static ZIP in this part is usually simpler."
     },
     "squarespace": {
       "title": "On Squarespace?",
@@ -3860,13 +3868,13 @@
         "blueprint": "Ongoing practice: platforms, tone, frequency, trolls, alt-text.",
         "boards": "Bare-minimum workplace boards and what to print.",
         "print": "Flyers and print habits for meetings and actions.",
-        "website": "What to put on a local site, build the ZIP, and publish on GitHub Pages.",
+        "website": "What to put on a local site — download a static ZIP for GitHub Pages or a WordPress theme if you already host WordPress.",
         "email": "Copy-only invites and officer reminders. No marketing lists.",
         "shortForm": "Phone filming, member privacy, and pointing Reels or Shorts at a real ask.",
         "crisis": "Who may speak during a strike, lockout, or layoff.",
         "photoConsent": "Member photo checklist for stewards and workshops.",
         "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path.",
-        "workshopsHub": "Hub of projectable workshop outlines — Comms lunch-and-learn and land acknowledgement drafting."
+        "workshopsHub": "Hub of ready-to-project workshop outlines — Comms lunch-and-learn and land acknowledgement drafting."
       }
     },
     "labourPath": {
@@ -3966,7 +3974,7 @@
         "Brand colours - starter values from published union graphics guidelines (change them in Brand Kit)",
         "Blueprint chapters - volunteer comms best practices for local solidarity communications",
         "Crisis guide - high-level guidance for local strike and bargaining communications",
-        "Accessibility - WCAG 2.1 AA and AODA commitments in the UnionOps accessibility statement"
+        "Accessibility - WCAG 2.2 AA and AODA commitments in the UnionOps accessibility statement"
       ]
     },
     "federations": {
@@ -3975,10 +3983,11 @@
     },
     "allSources": {
       "title": "Full source bibliography",
-      "intro": "National and government links cited across Comms guides.",
+      "intro": "National and government links cited across Comms guides. National and government URLs often move; if a link 404s, search from that organization’s home page. OPSEU / SEFPO pages on opseu.org may block automated checks — open those links in a browser before you share them in a workshop.",
       "scopedNote": "National OPSEU / SEFPO citations are hidden because your Brand Kit is set to another union. Change the union preset in",
       "brandKitLink": "Brand Kit"
-    }
+    },
+    "linkRotNote": "National and government URLs often move; if a link 404s, search from that organization's home page."
   },
   "onboarding": {
     "title": "Set up your local brand",
@@ -4977,7 +4986,7 @@
   "crisisGuide": {
     "title": "Crisis Comms Guide",
     "subtitle": "One voice, a short chain of command, and a channel plan when the local is under pressure",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "intro": "Crisis comms is not “post more.” It is who may speak, what members need to hear, and what never goes on a public channel. Locals handle day-to-day messaging; your provincial or national union supports sector bargaining — but the Facebook group still needs one local voice.",
@@ -6951,7 +6960,7 @@
     },
     "hub": {
       "title": "Officer Hub bumping module",
-      "body": "In the Officer Hub, College Bumping keeps your notes, PDF comparisons, and sessions in one place. Treat any ranking aid as a double-check, and re-run the paper worksheet if a result surprises you."
+      "body": "In the Officer Hub, College Bumping (Ontario college CAAT bumping workflows) keeps your notes, PDF comparisons, and sessions in one place. Treat any ranking aid as a double-check, and re-run the paper worksheet if a result surprises you."
     }
   },
   "jointCommitteeGuide": {
@@ -6981,7 +6990,7 @@
       "items": {
         "grievance": {
           "label": "Already a formal grievance?",
-          "content": "Stop. Joint committees must refuse items that are in the grievance procedure. Route through stewards and the grievance path instead — see the DFR guide for intake discipline."
+          "content": "Stop when your CA bars live grievances from the joint table (EERC-type forums often do). Route those through stewards and the grievance path — see the DFR guide. JHSC and many LMC items can travel alongside a grievance on the same systemic issue — Module 10 §3 covers parallel escalation."
         },
         "local": {
           "label": "Has campus already tried?",
@@ -8119,9 +8128,17 @@
         "title": "UnionOps Data records and reports",
         "body": "Officers can search people as of a date, see every open job, document observational dues standing from imports, and export formula-safe CSV snapshots — still not dues collection."
       },
+      "proposal-tracker-csv-load": {
+        "title": "Load a Proposal Tracker CSV to resume",
+        "body": "Export still backs up your bargaining rows on this device. Load the same CSV later to restore them, and signed-in officers get a direct link to Hub proposals."
+      },
+      "learn-content-trust": {
+        "title": "Learn links and hedges tightened",
+        "body": "Wrong module callouts are fixed, dead bibliography links are replaced, Officer Learning quizzes carry the same constitutional hedges as the lesson text, and Learn pages now point at canonical /learn URLs instead of legacy /guide paths."
+      },
       "learn-ui-chrome": {
         "title": "Learn pages start sooner",
-        "body": "Related links sit after the lesson, Steward 101 opens on the floor content faster, and Officer Learning shows a compact progress rail instead of listing every module twice."
+        "body": "Related links sit after the lesson, Steward 101 opens on the floor content faster, Officer Learning shows a compact progress rail, workshop copy drops jargon, and Create tools link to canonical /learn pages."
       }
     }
   },
@@ -8210,11 +8227,11 @@
   },
   "accessibility": {
     "title": "Accessibility Statement",
-    "subtitle": "AODA / WCAG 2.1 Level AA commitment",
+    "subtitle": "AODA / WCAG 2.2 Level AA commitment",
     "skipLink": "Skip to main content",
     "commitment": {
       "title": "Our commitment",
-      "body": "UnionOps aims for WCAG 2.1 Level AA and AODA so members with disabilities can use these tools."
+      "body": "UnionOps aims for WCAG 2.2 Level AA and AODA so members with disabilities can use these tools."
     },
     "features": {
       "title": "Accessibility features",
@@ -8699,7 +8716,7 @@
       "localsEmptyTitle": "No unions on this host yet",
       "localsEmptyBody": "After a demo purge or a fresh install, create a union and local before inviting officers.",
       "localsEmptyCta": "Open union setup",
-      "localsIndexBody": "Each row opens that union’s locals. Archived locals stay in the database for records but leave active rosters.",
+      "localsIndexBody": "Open a union to manage its locals. You can also rename the display name, archive an unused union, or permanently delete one after archive when nothing is attached.",
       "localsColUnion": "Union",
       "localsColCount": "Locals",
       "localsColActive": "Active",
@@ -8710,6 +8727,8 @@
       "localsNoneActive": "No active locals for this union yet. Create one below.",
       "unionLocalsTitle": "Locals — {name}",
       "unionLocalsBody": "Archive a local to hide it from active rosters. Restore brings it back.",
+      "unionLocalsManageTitle": "Union display name",
+      "unionLocalsManageBody": "Rename this union’s display name, archive it to hide it from pickers, or permanently delete it after archive when no locals, users, invites, or casework remain.",
       "unionNotFound": "Union not found",
       "localArchive": "Archive",
       "localRestore": "Restore",
@@ -11692,7 +11711,7 @@
       "preDisciplinaryLog": "Procedural rights, mitigators, and representation talking points.",
       "complaintVsGrievance": "Five eligibility points, then a grievance draft or alternate route.",
       "bylawBuilder": "Draft a standard local bylaws template from quorum and executive fields.",
-      "proposalTracker": "Track bargaining proposals and counters on this device, then export CSV for backup.",
+      "proposalTracker": "Track bargaining proposals and counters on this device, then export or load CSV to resume.",
       "rulesOfOrder": "Fourteen parliamentary actions with exact wording, chair notes, and copy — built for phones in the meeting room."
     }
   },
@@ -11735,7 +11754,7 @@
       },
       "workshops": {
         "title": "Workshops",
-        "intro": "Projectable outlines for lunch-and-learns and floor drafting sessions."
+        "intro": "Ready-to-project outlines for lunch-and-learns and floor drafting sessions."
       }
     },
     "blurbs": {
@@ -11766,7 +11785,7 @@
       "bylaws": "What must be in local bylaws and how to amend them with notice and quorum.",
       "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say.",
       "landAcknowledgement": "How-to walkthrough and one-page PDF worksheet, with an annotated Niagara example — write your own words.",
-      "workshopsHub": "Choose a workshop outline: Comms tools hour or land acknowledgement drafting.",
+      "workshopsHub": "Choose a workshop: Comms tools or land acknowledgement drafting.",
       "landAckWorkshop": "Facilitator outline (~60–90 min) with prep, timed agenda, and the PDF worksheet."
     }
   },
@@ -12157,7 +12176,9 @@
         "title": "Event thank-you",
         "caption": "Thank you to everyone who joined us at [Event Name]! [X] members came out to show their solidarity. Together, we make a difference."
       }
-    }
+    },
+    "copyNamed": "Copy {title}",
+    "copiedNamed": "Copied {title}"
   },
   "workshopDemo": {
     "title": "Demo this in about 20 minutes",
@@ -12202,7 +12223,7 @@
       "prompt": "Optional: one real announcement or quote you might post this week, so the practice is a real post, not a placeholder."
     },
     "demoKicker": "Quick links",
-    "demoLead": "Keep this box in view. Tap a tool when the agenda names it. Same five stops as the 20-minute live demo.",
+    "demoLead": "Keep this box in view. Open a tool when the agenda names it. Same five stops as the 20-minute live demo.",
     "demoNote": "Strategy lives on First week, not on these numbered stops. The live path is Logo Builder, Social Examples, Graphic Maker, Quote Card, then Website Template. Print and Board Notice stay on First week.",
     "outlineTitle": "Suggested outline",
     "outlineIntro": "Times add up to about 50 minutes, with room for questions. If you have a full hour, linger on <strong>Graphic Maker</strong>. If you have 45 minutes, keep the downloads moving.",
@@ -12367,7 +12388,10 @@
     "supportLink": "Support",
     "privacyTitle": "Privacy",
     "privacyBody": "Data collection and controller duties are covered on the",
-    "privacyLink": "Privacy page"
+    "privacyLink": "Privacy page",
+    "subprocessorsTitle": "Subprocessors",
+    "subprocessorsBody": "When this host publishes a provider list, you can review who processes personal data for hosted surfaces on the",
+    "subprocessorsLink": "subprocessor register"
   },
   "rtwAccommodation": {
     "title": "Return-to-work & accommodation intake",
@@ -12769,7 +12793,10 @@
     "readModule14": "Module 14: everyday union value",
     "readModule15": "Module 15: duty of fair representation",
     "readModule16": "Module 16: seniority, bumping & layoff",
-    "readModule17": "Module 17: position description forms & reclassification"
+    "readModule17": "Module 17: position description forms & reclassification",
+    "readSteward101": "Steward 101: role and rights",
+    "readDfrPlaybook": "DFR steward playbook",
+    "readFirstIntro": "Start with Officer Learning, then open the floor playbooks your meeting needs."
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Preparing PDF…",
@@ -13478,7 +13505,7 @@
         "draft": "Use the ruled lines in Step 3: territory, then one history thread or local action, then a commitment.",
         "review": "Run Step 4 checks and book executive review before anyone reads it aloud at a meeting."
       },
-      "worksheetGoldTip": "Treat the handout like a FAR sheet — mark it up in pen at executive, file the finished draft with minutes, and revisit when your meeting site changes.",
+      "worksheetGoldTip": "Treat the handout like a FAR sheet (Facts, Arguments, Resolution) — mark it up in pen at executive, file the finished draft with minutes, and revisit when your meeting site changes. See the grievance playbook for FAR intake.",
       "worksheetHint": "The PDF includes step prompts and floor tips that mirror this guide. Education only — not a script to paste unchanged.",
       "workshopCtaHeading": "Facilitating a group draft?",
       "workshopCtaBody": "Education committees and executives that want to draft together use a separate ~60–90 minute workshop outline — prep, timed agenda, and the same PDF worksheet.",
@@ -13582,11 +13609,11 @@
       "order": {
         "order": {
           "label": "First item",
-          "content": "OPSEU / SEFPO places land acknowledgement before the Statement of Respect, national anthem, and all other business."
+          "content": "Many OPSEU / SEFPO events place land acknowledgement before the Statement of Respect, national anthem, and all other business — confirm against your union's current event protocol."
         },
         "respect": {
           "label": "Statement of Respect",
-          "content": "Read immediately after the acknowledgement. Event coordinators must list at least two qualified contacts for concerns, including one woman."
+          "content": "Often read immediately after the acknowledgement. Some facilitators require at least two qualified contacts for concerns (including one woman) — confirm against your federation's event materials."
         },
         "bilingual": {
           "label": "English and French",
@@ -13837,7 +13864,7 @@
     "scenario": {
       "navLabel": "Worked amendment",
       "title": "Worked example: raising GMM quorum",
-      "intro": "Fictional Local 243 wants to raise GMM quorum from 15 members to 25. Walk the file like an officer, not like a hallway chat.",
+      "intro": "Demo Local 243 wants to raise GMM quorum from 15 members to 25 (illustrative scenario — the number is also a real OPSEU / SEFPO local elsewhere). Walk the file like an officer, not like a hallway chat.",
       "phases": {
         "d0": {
           "label": "Day 0 — Read the constitution",
@@ -13876,7 +13903,7 @@
         }
       },
       "tip": "Treat \"passed at the GMM\" and \"in force\" as two different dates whenever national approval is required.",
-      "tableCaption": "Fictional Local 243 — raising GMM quorum from 15 to 25",
+      "tableCaption": "Demo Local 243 — raising GMM quorum from 15 to 25",
       "headers": {
         "day": "When",
         "action": "What officers do",
@@ -13904,7 +13931,7 @@
         },
         "approval": {
           "label": "National approval",
-          "content": "Amended local bylaws do not take effect until the OPSEU / SEFPO National President (or designate) approves in writing, as required by the Constitution."
+          "content": "Amended local bylaws do not take effect until the OPSEU / SEFPO President (or designate) approves in writing, as required by the Constitution."
         },
         "fiscal": {
           "label": "Fiscal year",
@@ -14088,7 +14115,7 @@
         "title": "Quorum scales with membership",
         "intro": "Write a number or percentage your local can actually meet. Lost quorum mid-meeting stops binding votes.",
         "tier1Label": "Small",
-        "tier1": "Often a fixed floor (e.g. 15) or 50% + 1 of members in good standing",
+        "tier1": "Often a fixed floor (e.g. 15) or more than half of members in good standing",
         "tier2Label": "Mid-size",
         "tier2": "A bylaw % of registered membership, or the lesser of a floor and a %",
         "tier3Label": "Large",
@@ -14138,7 +14165,10 @@
     "error": "Could not send this draft. Try again.",
     "empty": "Nothing to send yet. Add a local name or at least one proposal first.",
     "emptyInformalLog": "Nothing to send yet. Add what happened on at least one entry first.",
-    "mfaFirst": "Verify identity first"
+    "mfaFirst": "Verify identity first",
+    "openHubProposals": "Open Hub proposals",
+    "openHubBylaws": "Open Hub bylaws",
+    "openHubInformalLog": "Open Hub Informal Log"
   },
   "hubBylaws": {
     "title": "Local bylaws",
@@ -14392,7 +14422,7 @@
       "finances": "Article 9: Finances. All cheques and electronic payments of the Local shall require signatures or authorizations from {signingOfficers}. The Treasurer shall present financial reports to the membership. The fiscal year ends on {fiscalYearEnd}.",
       "trustees": "Article 10: Trustees. The Local shall have {trustees}. Trustees shall review the books and report to the membership as required by the OPSEU / SEFPO Constitution and these bylaws.",
       "committees": "Article 11: Committees. The LEC may establish standing and special committees, including bargaining, mobilization, and joint health and safety committees. Committee terms of reference shall not conflict with these bylaws or the OPSEU / SEFPO Constitution.",
-      "amendments": "Article 12: Amendments. These bylaws may be amended only after {amendmentNotice}, a vote at a quorate General Membership Meeting by two-thirds (2/3) of members present and voting, and written approval of the OPSEU / SEFPO National President (or designate) as required by the OPSEU / SEFPO Constitution before the amended text takes effect.",
+      "amendments": "Article 12: Amendments. These bylaws may be amended only after {amendmentNotice}, a vote at a quorate General Membership Meeting by two-thirds (2/3) of members present and voting, and written approval of the OPSEU / SEFPO President (or designate) as required by the OPSEU / SEFPO Constitution before the amended text takes effect.",
       "conflict": "Article 13: Conflict with the OPSEU / SEFPO Constitution. If any provision of these bylaws conflicts with the OPSEU / SEFPO Constitution, the Constitution prevails. These bylaws shall be read to give effect to the Constitution wherever possible."
     },
     "checklistPrompt": {
@@ -14413,7 +14443,7 @@
       "opseuHome": "OPSEU / SEFPO home",
       "memberPortal": "Member portal"
     },
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -14797,11 +14827,20 @@
     "privacyNote": "Rows save on this device only. Send a copy to your Officer Hub when the committee wants a shared version.",
     "trust": {
       "title": "Bargaining strategy is confidential",
-      "body": "This tracker saves everything directly to your device. No data is sent to the cloud. Export to CSV to back up your notes."
+      "body": "This tracker saves everything directly to your device. No data is sent to the cloud. Export to CSV to back up your notes, then load the same file to resume on another browser."
     },
     "saveFailed": "Could not save on this device. Export to CSV now so you do not lose rows, then free browser storage and try again.",
     "addProposal": "Add Proposal",
-    "exportCsv": "Export to CSV",
+    "exportCsv": "Export CSV",
+    "importCsv": "Load CSV",
+    "importConfirm": "Loading this CSV replaces the rows on this device. Continue?",
+    "importSuccess": "Loaded {count} proposals from CSV. They are saved on this device.",
+    "importError": {
+      "empty": "That CSV has no proposal rows. Export from this tool first, or check the file.",
+      "invalidCsv": "That file is not a Proposal Tracker CSV. Use a file exported from this tool.",
+      "tooManyRows": "That CSV has too many rows. Split it under 500 proposals and try again.",
+      "readFailed": "Could not read that file. Try again, or export a fresh CSV from this tool."
+    },
     "clearDraft": "Clear draft",
     "removeRow": "Remove",
     "columns": {
@@ -15008,7 +15047,7 @@
   "strikeOpsGuide": {
     "title": "Strike operations playbook",
     "subtitle": "Kits, gate coverage, captain training, and return to work — not a posting calendar",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -15303,7 +15342,7 @@
         },
         "chants": {
           "label": "Chants have a captain",
-          "content": "The captain starts, one demand, stop if a camera is baiting a dare. No slurs. No copyrighted anthem lyrics on this page: write a short original call-and-response your local owns."
+          "content": "The captain starts, one demand, stop if a camera is baiting a dare. No slurs. Don't use copyrighted anthem lyrics — write a short original call-and-response your local owns."
         },
         "flyers": {
           "label": "Flyers with a way back",
@@ -15754,19 +15793,21 @@
   },
   "workshopsHub": {
     "title": "Workshops",
-    "subtitle": "Projectable outlines for local executives and education committees",
+    "subtitle": "Ready-to-project outlines for local executives and education committees",
     "intro": "Pick the workshop that matches the room. Each outline is built to project — timed blocks, facilitator notes, and a clear close.",
     "relatedLabel": "Related",
     "outlines": {
       "comms": {
         "title": "From Scratch to Solidarity (Comms)",
-        "body": "A beginner hour: platforms and posting rhythm, a local logo, Social Examples, Graphic Maker, Quote Card, and a website ZIP — with a live Demo Path.",
+        "audience": "Facilitators & stewards new to Comms tools",
+        "outcome": "Leave with a posting rhythm, a local logo pass, and a live Demo Path through Graphic Maker, Quote Card, and a website ZIP.",
         "time": "~45–60 minutes",
         "cta": "Open Comms workshop outline"
       },
       "landAcknowledgement": {
         "title": "Land acknowledgement drafting",
-        "body": "A working session for executive or education committee: ground rules, research together, draft in pairs on the PDF worksheet, and leave with a review date.",
+        "audience": "Executive or education committee",
+        "outcome": "Research together, draft in pairs on the PDF worksheet, and leave with a named review date.",
         "time": "~60–90 minutes",
         "cta": "Open land acknowledgement workshop"
       }
@@ -15875,6 +15916,8 @@
     "activeFilters": "Active filters",
     "removeFilter": "Remove {filter} filter",
     "resultCount": "{count, plural, =0 {No results} one {# result} other {# results}}",
+    "resultCountBrandKit": "{count, plural, =0 {No results for your Brand Kit} one {Showing # result for your Brand Kit} other {Showing # results for your Brand Kit}}",
+    "resultCountBrandKitGuides": "{count, plural, =0 {No guides for your Brand Kit} one {Showing # guide for your Brand Kit} other {Showing # guides for your Brand Kit}}",
     "minutes": "About {count} min",
     "noResultsTitle": "No matching resources",
     "noResultsBody": "Try a broader search or clear one or more filters.",
@@ -16045,7 +16088,7 @@
       "grievance-builder-pack": "A grievance triage path, intake sheet, or draft scripts",
       "guide-checklists": "Practical steps, examples, and checklists",
       "learning-module": "A self-paced lesson with practice and on-device progress",
-      "facilitator-run-sheet": "A facilitator-ready workshop run sheet",
+      "facilitator-run-sheet": "A facilitator-ready workshop outline",
       "reference-library": "A browsable collection of reference material",
       "public-documents": "Public policies, templates, and official reference downloads",
       "communications-examples": "Annotated examples to adapt for your local"

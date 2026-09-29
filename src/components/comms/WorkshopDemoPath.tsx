@@ -161,7 +161,7 @@ export function WorkshopDemoPath({
       {showRoadmapLink ? (
         <p className="mt-3">
           <Link
-            href="/guide/social-media-plan"
+            href="/learn/first-week"
             className="text-sm font-medium text-opseu-blue underline-offset-2 hover:underline"
           >
             {t("openRoadmap")}
