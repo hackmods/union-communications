@@ -95,7 +95,7 @@ The deploy step's first sub-step validates the chosen tag exists in GHCR before 
 For ops who keep the secrets on their laptop (instead of GH repo secrets):
 
 ```sh
-docker run --rm caprover/caprover-cli:2.2.3 caprover deploy \
+docker run --rm caprover/cli-caprover:2.2.3 caprover deploy \
   --caproverUrl "$CAPROVER_SERVER" \
   --caproverPassword "$CAPROVER_PASSWORD" \
   --caproverApp "$CAPROVER_APP" \

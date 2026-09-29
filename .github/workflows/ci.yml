@@ -490,7 +490,7 @@ jobs:
         run: |
           if [ -n "$CAPROVER_SERVER" ] && [ -n "$CAPROVER_PASSWORD" ] && [ -n "$CAPROVER_APP" ]; then
             echo "Deploying ${IMAGE} to CapRover app ${CAPROVER_APP} (pull only — no on-host build)."
-            docker run --rm caprover/caprover-cli:2.2.3 caprover deploy \
+            docker run --rm caprover/cli-caprover:2.2.3 caprover deploy \
               --caproverUrl "$CAPROVER_SERVER" \
               --caproverPassword "$CAPROVER_PASSWORD" \
               --caproverApp "$CAPROVER_APP" \
