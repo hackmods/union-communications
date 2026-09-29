@@ -22,6 +22,13 @@ Binding: OPSEU materials are opt-in education, never core doctrine defaults.
 - Quiz/body hedges (Modules 1–6, 8–9, 11); redundant Q5 differentiation (M4 tiled doors, M5 e-transfer).
 - What’s new: `learn-content-trust`.
 
+## Follow-up polish (same day)
+
+- Finish canonical `/learn` sweep: OL dashboard/quiz, guide relatedLinks, OL markdown peer paths.
+- `dedupeRelatedByHref` now emits `canonicalizePublicHref` so `/guide/*` and `/learn/*` collapse.
+- Land-ack OPSEU event-order claims hedged (FC-016).
+- JJEC + College Bumping first-use glossary cues.
+
 ## Rejected / deferred
 
 - CONT-009 remove Document Generator CTAs (crash fixed — keep + smoke).

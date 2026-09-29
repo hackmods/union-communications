@@ -1623,7 +1623,7 @@
       },
       "pdf-classification": {
         "title": "Formulaires de description de poste et reclassification",
-        "summary": "Auditer les mises à jour de PDF, consigner les tâches réelles, rédiger les commentaires de l'employé et ouvrir un dossier de classification ou de JJEC quand l'emploi dépasse la bande salariale."
+        "summary": "Auditer les mises à jour de PDF, consigner les tâches réelles, rédiger les commentaires de l'employé et ouvrir un dossier de classification ou d'évaluation conjointe des emplois (JJEC dans certaines CC collégiales ontariennes) quand l'emploi dépasse la bande salariale."
       }
     },
     "certificate": {
@@ -6906,7 +6906,7 @@
     },
     "hub": {
       "title": "Module de bumping du Hub des dirigeants",
-      "body": "Dans le Hub des dirigeants, le déplacement collégial regroupe vos notes, comparaisons PDF et séances au même endroit. Traitez toute aide de classement comme une vérification, et refaites la feuille papier si un résultat vous surprend."
+      "body": "Dans le Hub des dirigeants, le déplacement collégial (flux de bumping CAAT collégial ontarien) regroupe vos notes, comparaisons PDF et séances au même endroit. Traitez toute aide de classement comme une vérification, et refaites la feuille papier si un résultat vous surprend."
     }
   },
   "jointCommitteeGuide": {
@@ -13602,11 +13602,11 @@
       "order": {
         "order": {
           "label": "Premier point",
-          "content": "OPSEU / SEFPO place la reconnaissance territoriale avant la déclaration de respect, l'hymne national et tout autre point."
+          "content": "Beaucoup d'événements OPSEU / SEFPO placent la reconnaissance territoriale avant la déclaration de respect, l'hymne national et tout autre point — confirmez contre le protocole d'événement actuel de votre syndicat."
         },
         "respect": {
           "label": "Déclaration de respect",
-          "content": "Lue immédiatement après la reconnaissance. Les coordonnateurs doivent lister au moins deux personnes-ressources qualifiées, dont une femme."
+          "content": "Souvent lue immédiatement après la reconnaissance. Certains animateurs exigent au moins deux personnes-ressources qualifiées (dont une femme) — confirmez contre le matériel d'événement de votre fédération."
         },
         "bilingual": {
           "label": "Anglais et français",

@@ -127,14 +127,14 @@ export default async function BargainingGuidePage({
           title={tg("asideTitle")}
           intro={tg("asideIntro")}
           links={[
-            { href: "/tools/proposal-tracker", label: nav("proposalTracker") },
+            { href: "/utilities/proposal-tracker", label: nav("proposalTracker") },
             {
-              href: "/tools/graphic-maker?preset=bargainingUpdate",
+              href: "/create/graphic-maker?preset=bargainingUpdate",
               label: nav("graphicMaker"),
               variant: "outline",
             },
             {
-              href: "/tools/flyer-maker",
+              href: "/create/flyer-maker",
               label: nav("flyerMaker"),
               variant: "outline",
             },
@@ -142,17 +142,17 @@ export default async function BargainingGuidePage({
         />
       }
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/strike", label: nav("strikeOpsGuide") },
-        { href: "/guide/crisis", label: nav("crisisCommsGuide") },
-        { href: "/guide/grievance-process", label: nav("grievanceProcessGuide") },
-        { href: "/guide/joint-committee", label: nav("jointCommitteeGuide") },
-        { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
-        { href: "/guide/workplace-mapping", label: nav("workplaceMappingGuide") },
-        { href: "/guide/membership-signup", label: nav("membershipSignupGuide") },
-        { href: "/guide/officer-learning", label: nav("officerLearningGuide") },
-        { href: "/tools/proposal-tracker", label: nav("proposalTracker") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/strike", label: nav("strikeOpsGuide") },
+        { href: "/learn/crisis", label: nav("crisisCommsGuide") },
+        { href: "/learn/grievance-process", label: nav("grievanceProcessGuide") },
+        { href: "/learn/joint-committee", label: nav("jointCommitteeGuide") },
+        { href: "/learn/email-broadcast", label: nav("emailBroadcastGuide") },
+        { href: "/learn/workplace-mapping", label: nav("workplaceMappingGuide") },
+        { href: "/learn/membership-signup", label: nav("membershipSignupGuide") },
+        { href: "/learn/officer", label: nav("officerLearningGuide") },
+        { href: "/utilities/proposal-tracker", label: nav("proposalTracker") },
       ]}
       footer={
         <SourcesBlock
@@ -231,10 +231,10 @@ export default async function BargainingGuidePage({
           <p className="mt-1">{t("prep.tip")}</p>
         </GuideCallout>
         <GuideActionRow>
-          <Link href="/guide/workplace-mapping" className={guideCtaOutlineClass}>
+          <Link href="/learn/workplace-mapping" className={guideCtaOutlineClass}>
             {nav("workplaceMappingGuide")}
           </Link>
-          <Link href="/guide/membership-signup" className={guideCtaOutlineClass}>
+          <Link href="/learn/membership-signup" className={guideCtaOutlineClass}>
             {nav("membershipSignupGuide")}
           </Link>
         </GuideActionRow>
@@ -271,11 +271,11 @@ export default async function BargainingGuidePage({
           <p className="mt-1">{t("comms.tip")}</p>
         </GuideCallout>
         <GuideActionRow>
-          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+          <Link href="/learn/email-broadcast" className={guideCtaOutlineClass}>
             {nav("emailBroadcastGuide")}
           </Link>
           <Link
-            href="/tools/graphic-maker?preset=bargainingUpdate"
+            href="/create/graphic-maker?preset=bargainingUpdate"
             className={guideCtaOutlineClass}
           >
             {nav("graphicMaker")}
@@ -302,7 +302,7 @@ export default async function BargainingGuidePage({
           <p className="mt-1">{t("tracker.calloutBody")}</p>
         </GuideCallout>
         <GuideActionRow>
-          <Link href="/tools/proposal-tracker" className={guideCtaClass}>
+          <Link href="/utilities/proposal-tracker" className={guideCtaClass}>
             {t("tracker.cta")}
           </Link>
         </GuideActionRow>
@@ -345,10 +345,10 @@ export default async function BargainingGuidePage({
           <p className="mt-1">{t("dispute.warning")}</p>
         </GuideCallout>
         <GuideActionRow>
-          <Link href="/guide/strike" className={guideCtaOutlineClass}>
+          <Link href="/learn/strike" className={guideCtaOutlineClass}>
             {t("dispute.strikeOpsCta")}
           </Link>
-          <Link href="/guide/crisis" className={guideCtaOutlineClass}>
+          <Link href="/learn/crisis" className={guideCtaOutlineClass}>
             {t("dispute.crisisCta")}
           </Link>
         </GuideActionRow>
@@ -454,16 +454,16 @@ export default async function BargainingGuidePage({
           ))}
         </GuideTipGrid>
         <GuideActionRow>
-          <Link href="/guide/grievance-process" className={guideCtaOutlineClass}>
+          <Link href="/learn/grievance-process" className={guideCtaOutlineClass}>
             {nav("grievanceProcessGuide")}
           </Link>
-          <Link href="/guide/joint-committee" className={guideCtaOutlineClass}>
+          <Link href="/learn/joint-committee" className={guideCtaOutlineClass}>
             {nav("jointCommitteeGuide")}
           </Link>
-          <Link href="/guide/strike" className={guideCtaOutlineClass}>
+          <Link href="/learn/strike" className={guideCtaOutlineClass}>
             {nav("strikeOpsGuide")}
           </Link>
-          <Link href="/guide/crisis" className={guideCtaOutlineClass}>
+          <Link href="/learn/crisis" className={guideCtaOutlineClass}>
             {nav("crisisCommsGuide")}
           </Link>
         </GuideActionRow>
@@ -484,16 +484,16 @@ export default async function BargainingGuidePage({
           ))}
         </GuideTipGrid>
         <GuideActionRow>
-          <Link href="/tools/proposal-tracker" className={guideCtaOutlineClass}>
+          <Link href="/utilities/proposal-tracker" className={guideCtaOutlineClass}>
             {nav("proposalTracker")}
           </Link>
-          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+          <Link href="/learn/email-broadcast" className={guideCtaOutlineClass}>
             {nav("emailBroadcastGuide")}
           </Link>
-          <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+          <Link href="/create/flyer-maker" className={guideCtaOutlineClass}>
             {nav("flyerMaker")}
           </Link>
-          <Link href="/guide/workplace-mapping" className={guideCtaOutlineClass}>
+          <Link href="/learn/workplace-mapping" className={guideCtaOutlineClass}>
             {nav("workplaceMappingGuide")}
           </Link>
         </GuideActionRow>

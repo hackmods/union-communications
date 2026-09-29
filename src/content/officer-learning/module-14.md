@@ -4,7 +4,7 @@
 
 Allow **28 minutes** for the reading and self-test. Bring a draft welcome-kit checklist, any affinity discount agreements your local already has, and one community partner your executive could realistically stand beside this year. Read Module 6 only to **contrast** — Module 6 covers equity barriers, ADR, and bargaining equity clauses; this module covers Day-1 welcome culture, affinity cards without sharing lists, and community coalitions.
 
-Sections move from the 15-minute orientation through secure affinity programs and community unionism. Pair with `/guide/membership-signup` for card signing and Module 11 for list-privacy rules. **CLC** member engagement education and **CUPE** steward welcome materials reinforce first-day contact; **Unifor** community campaigns show coalition models across Ontario.
+Sections move from the 15-minute orientation through secure affinity programs and community unionism. Pair with `/learn/membership-signup` for card signing and Module 11 for list-privacy rules. **CLC** member engagement education and **CUPE** steward welcome materials reinforce first-day contact; **Unifor** community campaigns show coalition models across Ontario.
 
 🪞 Reflection: Members who only meet the union during a crisis think we are an insurance company. Day-1 welcome turns the union into their team.
 
@@ -31,14 +31,14 @@ Push for a collective agreement clause granting the union **15–30 minutes** du
 | Welcome letter from the Local President | Human face of the local |
 | Current collective agreement (or pocket summary + QR) | Wages, rights, safety |
 | Steward name, photo, contact card | Someone to call before HR |
-| Union membership card + pen | Sign on the spot — see `/guide/membership-signup` |
+| Union membership card + pen | Sign on the spot — see `/learn/membership-signup` |
 | Affinity discount card (if your local has one) | Everyday value before first dues |
 | Calendar of next GMM or social event | Invitation, not obligation |
 
 ### The 15-minute script (keep it simple)
 1.  **Welcome (2 min):** "We're glad you're here. The union is every member — not a downtown office."
 2.  **Contract basics (5 min):** Wages, probation, safety, how to reach your steward.
-3.  **Sign the card (5 min):** Voting rights, meeting notices, democratic voice — walk through `/guide/membership-signup`.
+3.  **Sign the card (5 min):** Voting rights, meeting notices, democratic voice — walk through `/learn/membership-signup`.
 4.  **Questions + perks (3 min):** Affinity discounts, committee invites, no grievance lecture yet.
 
 Do **not** spend fifteen minutes on arbitration timelines on someone's first morning.
@@ -110,7 +110,7 @@ Stewards need both: Module 6 removes barriers; Module 14 makes the union feel wo
 
 **Three new hires, one steward.** Onboarding day, HR gives you eighteen minutes in a break room. A workwear shop wants member emails for a 15% boot discount. The local also represents school custodians negotiating staffing language.
 
-**Apply:** Run the 15-minute script (Section 1): welcome, contract basics, sign cards via `/guide/membership-signup`, hand affinity cards without collecting emails for the vendor (Section 2). Decline the CSV request; offer branded cards instead. Ask the custodian steward to invite a parent-council ally to the next staffing press event (Section 3) — community face on a workplace demand.
+**Apply:** Run the 15-minute script (Section 1): welcome, contract basics, sign cards via `/learn/membership-signup`, hand affinity cards without collecting emails for the vendor (Section 2). Decline the CSV request; offer branded cards instead. Ask the custodian steward to invite a parent-council ally to the next staffing press event (Section 3) — community face on a workplace demand.
 
 **Don't apply:** Do not lecture on grievance steps A–Z. Do not email the vendor your membership list. Do not confuse this orientation with Module 6 ADR training — save equity accommodation depth for case work.
 
@@ -138,7 +138,7 @@ Practice: **Round 1 — Orientation script.** Time yourself delivering the four-
 
 - [ ] Negotiate or enforce a Day-1 (or first-week) orientation time block in the CA
 - [ ] Maintain a welcome kit: letter, CA, steward card, membership card, events
-- [ ] Use `/guide/membership-signup` to sign cards during orientation — not months later
+- [ ] Use `/learn/membership-signup` to sign cards during orientation — not months later
 - [ ] Keep orientation under fifteen minutes; defer grievance deep-dives
 - [ ] Issue affinity discount cards members present themselves at vendors
 - [ ] Never share membership lists or personal emails with commercial partners
@@ -208,7 +208,7 @@ Which of the following is the best example of "Community Unionism" in action?
 ### Question 4
 Your local wants to maximize ratification turnout. Best orientation practice tied to this module?
 *   A) Explain that dues payers automatically vote — no card needed.
-*   B) Sign membership cards during Day-1 orientation using `/guide/membership-signup` so new hires are eligible before the first vote.
+*   B) Sign membership cards during Day-1 orientation using `/learn/membership-signup` so new hires are eligible before the first vote.
 *   C) Wait until a strike vote to introduce the union.
 *   D) Email the membership list to a political campaign to remind members to vote.
 

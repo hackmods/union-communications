@@ -4,7 +4,7 @@
 
 Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez le **budget local**, un **bon de dépenses** type, vos **règlements** sur les signataires, et un **carnet**. Les erreurs financières érodent la confiance des membres plus vite que n'importe quel grief perdu — traitez les contrôles comme de la solidarité, pas de la bureaucratie.
 
-Les sections 1 à 4 couvrent le but syndical, les doubles signatures, la budgétisation et les audits des fiduciaires. Le module 4 a couvert les rencontres de gouvernance où les budgets sont approuvés. Associez `/guide/union-boards` et assurez-vous des règles de quorum du module 4 avant tout vote de dépense.
+Les sections 1 à 4 couvrent le but syndical, les doubles signatures, la budgétisation et les audits des fiduciaires. Le module 4 a couvert les rencontres de gouvernance où les budgets sont approuvés. Associez `/learn/union-boards` et assurez-vous des règles de quorum du module 4 avant tout vote de dépense.
 
 ⚠️ Avertissement : Ne signez jamais un chèque ou un virement électronique sans reçus détaillés correspondants — aucune exception pour les dirigeants.
 

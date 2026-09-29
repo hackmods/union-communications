@@ -4,7 +4,7 @@
 
 Prévoyez **25 minutes** pour la lecture et l'autoévaluation. Apportez vos **règlements locaux**, le dernier jeu de **procès-verbaux**, une calculatrice pour le calcul du quorum, et un **carnet**. Si votre section locale prépare une élection, lisez la section 4 deux fois avant la soirée de mise en candidature.
 
-Les sections couvrent les rôles des dirigeants, les paliers de quorum, les procès-verbaux sobres, et la procédure du scrutin secret. Croisez avec votre constitution nationale — l'échelle universelle de quorum ici correspond à la pratique locale canadienne courante ; confirmez dans vos documents régissant. Associez `/guide/union-boards` pour le contexte des rôles de dirigeants.
+Les sections couvrent les rôles des dirigeants, les paliers de quorum, les procès-verbaux sobres, et la procédure du scrutin secret. Croisez avec votre constitution nationale — l'échelle universelle de quorum ici correspond à la pratique locale canadienne courante ; confirmez dans vos documents régissant. Associez `/learn/union-boards` pour le contexte des rôles de dirigeants.
 
 💡 Note : Les échecs démocratiques sont procéduraux — un quorum perdu et des vainqueurs à la pluralité se corrigent avant de devenir des crises si le secrétaire suit le décompte en temps réel.
 
@@ -126,7 +126,7 @@ Exercice : AGM simulée avec cartes de décompte papier. Le secrétaire suit le 
 - [ ] Élections : trois appels de candidature, se présenter/décliner, verrouiller les portes
 - [ ] Scrutateurs nommés avant le dépouillement
 - [ ] Majorité = plus de 50 % des bulletins valides ; éliminer le candidat bas et revoter si nécessaire
-- [ ] Associer [Tenir des réunions](/guide/running-meetings) et [Règles de procédure](/tools/rules-of-order) pour le libellé du président sur le plancher
+- [ ] Associer [Tenir des réunions](/learn/running-meetings) et [Règles de procédure](/utilities/rules-of-order) pour le libellé du président sur le plancher
 
 ---
 

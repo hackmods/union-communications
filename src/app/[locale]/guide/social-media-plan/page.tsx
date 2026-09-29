@@ -111,8 +111,8 @@ export default async function SocialMediaPlanPage({
       }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
-        { href: "/guide", label: t("pathLinks.blueprintShort") },
-        { href: "/guide/resources", label: t("pathLinks.resourcesShort") },
+        { href: "/learn/communications-blueprint", label: t("pathLinks.blueprintShort") },
+        { href: "/learn/resources", label: t("pathLinks.resourcesShort") },
       ]}
       footer={
         <SourcesBlock

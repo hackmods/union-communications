@@ -2,9 +2,9 @@
 
 ## How to use this module
 
-Allow **30 minutes** for the reading and self-test. Bring a blank functional abilities form example (if your workplace uses one), your **benefits booklet** summary pages, and notes from any Attendance Management Program (AMP) letters members have received. This module is **claims advocacy** — insurer pressure, LTD/WSIB navigation, AMP audits, and diagnostic privacy — not a repeat of Module 3's Meiorin/BFOR accommodation framework (pair Module 3 for BFOR fights; use `/tools/rtw-accommodation` for return-to-work planning).
+Allow **30 minutes** for the reading and self-test. Bring a blank functional abilities form example (if your workplace uses one), your **benefits booklet** summary pages, and notes from any Attendance Management Program (AMP) letters members have received. This module is **claims advocacy** — insurer pressure, LTD/WSIB navigation, AMP audits, and diagnostic privacy — not a repeat of Module 3's Meiorin/BFOR accommodation framework (pair Module 3 for BFOR fights; use `/utilities/rtw-accommodation` for return-to-work planning).
 
-Sections move from medical information boundaries through Joint Insurance Committee (JIC) oversight, IME limits, and de-mechanizing AMPs. Pair with `/guide/steward-101` and `/tools/rtw-accommodation`. **OHRC** *Human Rights at Work* and **CUPE** duty-to-accommodate resources anchor privacy and AMP challenges; pension/benefits text always yields to your plan documents and counsel.
+Sections move from medical information boundaries through Joint Insurance Committee (JIC) oversight, IME limits, and de-mechanizing AMPs. Pair with `/learn/steward-101` and `/utilities/rtw-accommodation`. **OHRC** *Human Rights at Work* and **CUPE** duty-to-accommodate resources anchor privacy and AMP challenges; pension/benefits text always yields to your plan documents and counsel.
 
 🪞 Reflection: The employer needs to know what the member can safely do — not what keeps them up at night. Guard the diagnosis.
 
@@ -75,7 +75,7 @@ Consent and scope matter — members should know who sees the report and whether
 *   Mechanistic counts that include chronic illness, disability, or mental-health treatment days.
 *   "Supportive" language that still threatens discipline.
 *   Failure to carve out human-rights-protected absences.
-*   Parallel tracks that ignore ongoing accommodation dialogue (`/tools/rtw-accommodation`).
+*   Parallel tracks that ignore ongoing accommodation dialogue (`/utilities/rtw-accommodation`).
 
 **CUPE** DTA materials and **OHRC** guidance treat automatic penalties for disability-related absence as a red flag — equal application of a biased rule is still biased.
 
@@ -92,7 +92,7 @@ Differentiate tracks clearly:
 
 **The chart dump.** A member returns from a mental-health leave. HR demands the full psychiatrist file "before we can accommodate." The functional abilities form already lists limits: no night shifts for 90 days; max 6-hour days; avoid lone work.
 
-**Apply:** Refuse the chart dump (Section 1). Offer functions only. Use `/tools/rtw-accommodation` to propose a modified schedule matching the form. If HR stalls, grieve delay and privacy overreach; keep Module 3 BFOR tools ready if they invent an essential-night-shift standard without evidence.
+**Apply:** Refuse the chart dump (Section 1). Offer functions only. Use `/utilities/rtw-accommodation` to propose a modified schedule matching the form. If HR stalls, grieve delay and privacy overreach; keep Module 3 BFOR tools ready if they invent an essential-night-shift standard without evidence.
 
 **Don't apply:** Do not advise full compliance "to keep the peace." Do not let HR phone the psychiatrist without informed consent and scope limits.
 
@@ -125,7 +125,7 @@ Practice: **Round 1 — Privacy script.** Role-play HR demanding medications lis
 - [ ] Scope any IME to functions, not fishing for labels
 - [ ] Audit AMP letters for disability-related days inside "neutral" counts
 - [ ] Grieve mechanistic AMP triggers that punish protected absences
-- [ ] Run RTW planning through `/tools/rtw-accommodation` with functions first
+- [ ] Run RTW planning through `/utilities/rtw-accommodation` with functions first
 - [ ] Keep Module 3 BFOR analysis available when essential-requirement claims appear
 - [ ] Never authorize employer contact with clinicians without informed consent
 - [ ] Document every privacy overreach in the grievance chronology

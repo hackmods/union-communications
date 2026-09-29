@@ -1623,7 +1623,7 @@
       },
       "pdf-classification": {
         "title": "Position Description Forms & Reclassification",
-        "summary": "Audit PDF updates, log actual duties, write Employee Comments, and start a classification or JJEC file when the job outgrows the pay band."
+        "summary": "Audit PDF updates, log actual duties, write Employee Comments, and start a classification or joint job-evaluation file (JJEC in some Ontario college CAs) when the job outgrows the pay band."
       }
     },
     "certificate": {
@@ -6960,7 +6960,7 @@
     },
     "hub": {
       "title": "Officer Hub bumping module",
-      "body": "In the Officer Hub, College Bumping keeps your notes, PDF comparisons, and sessions in one place. Treat any ranking aid as a double-check, and re-run the paper worksheet if a result surprises you."
+      "body": "In the Officer Hub, College Bumping (Ontario college CAAT bumping workflows) keeps your notes, PDF comparisons, and sessions in one place. Treat any ranking aid as a double-check, and re-run the paper worksheet if a result surprises you."
     }
   },
   "jointCommitteeGuide": {
@@ -8134,7 +8134,7 @@
       },
       "learn-content-trust": {
         "title": "Learn links and hedges tightened",
-        "body": "Wrong module callouts are fixed, dead bibliography links are replaced, and Officer Learning quizzes now carry the same constitutional hedges as the lesson text."
+        "body": "Wrong module callouts are fixed, dead bibliography links are replaced, Officer Learning quizzes carry the same constitutional hedges as the lesson text, and Learn pages now point at canonical /learn URLs instead of legacy /guide paths."
       },
       "learn-ui-chrome": {
         "title": "Learn pages start sooner",
@@ -13602,11 +13602,11 @@
       "order": {
         "order": {
           "label": "First item",
-          "content": "OPSEU / SEFPO places land acknowledgement before the Statement of Respect, national anthem, and all other business."
+          "content": "Many OPSEU / SEFPO events place land acknowledgement before the Statement of Respect, national anthem, and all other business — confirm against your union's current event protocol."
         },
         "respect": {
           "label": "Statement of Respect",
-          "content": "Read immediately after the acknowledgement. Event coordinators must list at least two qualified contacts for concerns, including one woman."
+          "content": "Often read immediately after the acknowledgement. Some facilitators require at least two qualified contacts for concerns (including one woman) — confirm against your federation's event materials."
         },
         "bilingual": {
           "label": "English and French",

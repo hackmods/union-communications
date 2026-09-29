@@ -99,9 +99,9 @@ export default async function UnionBoardsGuidePage({
           title={tg("asideTitle")}
           intro={tg("asideIntro")}
           links={[
-            { href: "/tools/board-notice", label: t("toolCta") },
+            { href: "/create/board-notice", label: t("toolCta") },
             {
-              href: "/tools/board-banner",
+              href: "/create/board-banner",
               label: nav("boardBanner"),
               variant: "outline",
             },
@@ -342,25 +342,25 @@ export default async function UnionBoardsGuidePage({
       </GuideSection>
 
       <GuideActionRow className="mt-8">
-        <Link href="/tools/board-banner" className={guideCtaClass}>
+        <Link href="/create/board-banner" className={guideCtaClass}>
           {nav("boardBanner")}
         </Link>
-        <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+        <Link href="/create/board-notice" className={guideCtaOutlineClass}>
           {t("toolCta")}
         </Link>
-        <Link href="/tools/solidarity-poster" className={guideCtaOutlineClass}>
+        <Link href="/create/solidarity-poster" className={guideCtaOutlineClass}>
           {nav("solidarityPoster")}
         </Link>
-        <Link href="/tools/org-chart" className={guideCtaOutlineClass}>
+        <Link href="/create/org-chart" className={guideCtaOutlineClass}>
           {nav("orgChart")}
         </Link>
-        <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+        <Link href="/create/qr-card" className={guideCtaOutlineClass}>
           {nav("qrCard")}
         </Link>
-        <Link href="/tools/qr-board" className={guideCtaOutlineClass}>
+        <Link href="/create/qr-board" className={guideCtaOutlineClass}>
           {nav("qrBoard")}
         </Link>
-        <Link href="/guide/membership-signup" className={guideCtaOutlineClass}>
+        <Link href="/learn/membership-signup" className={guideCtaOutlineClass}>
           {nav("membershipSignupGuide")}
         </Link>
       </GuideActionRow>

@@ -4,7 +4,7 @@
 
 Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez votre **convention collective**, un **carnet** et toute plainte récente d'un membre dont vous n'êtes pas certain. Si votre section locale dispose d'un programme de mentorat pour délégués, formez une paire avec un représentant expérimenté pour le scénario commenté et le jeu de rôle — le modèle de formation des délégués du Congrès du travail du Canada traite l'enquête comme une compétence acquise sur le plancher, pas seulement devant un écran.
 
-Lisez les sections 1 à 4 dans l'ordre ; elles intègrent le **filtre en 5 points**, les **6 W**, la **fiche FAR** et l'**immunité du représentant** en un seul processus. Après le quiz d'autoévaluation, passez un vrai dossier au travers de la liste de contrôle du plancher avant votre prochain quart. Les guides UnionOps `/guide/steward-101` et `/guide/grievance-process` complètent ce module lorsque vous avez besoin des mécanismes de dépôt étape par étape. Le **module 8** approfondit l'architecture de dossier prêt pour l'arbitrage et le libellé de règlement — ce module possède le filtre d'admission, les 6 W et la FAR.
+Lisez les sections 1 à 4 dans l'ordre ; elles intègrent le **filtre en 5 points**, les **6 W**, la **fiche FAR** et l'**immunité du représentant** en un seul processus. Après le quiz d'autoévaluation, passez un vrai dossier au travers de la liste de contrôle du plancher avant votre prochain quart. Les guides UnionOps `/learn/steward-101` et `/learn/grievance-process` complètent ce module lorsque vous avez besoin des mécanismes de dépôt étape par étape. Le **module 8** approfondit l'architecture de dossier prêt pour l'arbitrage et le libellé de règlement — ce module possède le filtre d'admission, les 6 W et la FAR.
 
 💡 Note : Ce module suppose que vous savez déjà où se trouvent les délais de grief dans votre convention. Sinon, signalez cela comme premier devoir avant de représenter formellement qui que ce soit.
 
@@ -120,7 +120,7 @@ En droit du travail, lorsqu'un délégué élu ou nommé agit dans sa capacité 
 
 Exercice : Formez des paires. Une personne joue un délégué pressé ; l'autre joue un membre qui dit seulement « Ils me fous toujours dans les heures supplémentaires — je veux porter un grief. » Le délégué a sept minutes pour poser des questions sur les 6 W et compléter une fiche FAR d'une page. Inversez les rôles avec un scénario différent (pause manquée, jour de vacances refusé). Débriefing : Quelqu'un a-t-il déposé avant de confirmer une clause contractuelle ? Le VOULOIR est-il resté précis ?
 
-Exercice dans l'outil : ouvrez Outils → Fiches délégué → Plainte ou grief (/tools/complaint-vs-grievance) et notez le même scénario avant de rédiger la FAR.
+Exercice dans l'outil : ouvrez Outils → Fiches délégué → Plainte ou grief (/utilities/complaint-vs-grievance) et notez le même scénario avant de rédiger la FAR.
 
 ---
 
@@ -135,7 +135,7 @@ Exercice dans l'outil : ouvrez Outils → Fiches délégué → Plainte ou grief
 - [ ] Compléter la fiche FAR avant toute rencontre de l'étape 1 — le VOULOIR doit être précis et exécutoire
 - [ ] Conserver les notes de façon sécurisée ; partager les détails du dossier seulement avec le membre et les dirigeants syndicaux selon les besoins
 - [ ] Confirmer le contexte d'immunité de représentation — rencontre ou plancher
-- [ ] Noter le dossier dans `/tools/complaint-vs-grievance` avant de déposer lorsque la porte est incertaine
+- [ ] Noter le dossier dans `/utilities/complaint-vs-grievance` avant de déposer lorsque la porte est incertaine
 
 ---
 

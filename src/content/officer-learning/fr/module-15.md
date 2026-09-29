@@ -5,8 +5,8 @@
 Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Apportez un dossier récent où vous avez refusé ou retardé la représentation, les **délais de grief** de votre **convention collective**, et les coordonnées d'escalade de votre section locale (représentant de service, avocat syndical, dirigeant).
 
 **Associez ce module à deux ressources UnionOps :**
-- **`/guide/dfr`** — le **guide de terrain** : filtre d'admission, test juridique, déclencheurs d'échéances, lettres de refus et scripts de conversation avec le membre. Utilisez-le au bureau lorsqu'un dossier est actif.
-- **Module 1** (`/guide/officer-learning/contract-enforcement`) — le fondement investigatif : filtre en 5 points, 6 W et discipline FAR à appliquer *avant* toute décision sensible au DRE.
+- **`/learn/dfr`** — le **guide de terrain** : filtre d'admission, test juridique, déclencheurs d'échéances, lettres de refus et scripts de conversation avec le membre. Utilisez-le au bureau lorsqu'un dossier est actif.
+- **Module 1** (`/learn/officer/contract-enforcement`) — le fondement investigatif : filtre en 5 points, 6 W et discipline FAR à appliquer *avant* toute décision sensible au DRE.
 
 **Répartition des rôles :** Le guide indique *quoi faire, étape par étape*, sur le plancher. **Ce module** forme les habitudes qui vous évitent les problèmes de DRE — **enquêter avant de décider**, **communiquer avec le membre**, **respecter les délais contractuels et légaux**, et **savoir quand escalader vers le service de représentation ou l'avocat** au lieu d'improviser seul.
 
@@ -18,7 +18,7 @@ La formation des délégués du Congrès du travail du Canada, les documents du 
 Doter les représentants en milieu de travail en Ontario des habitudes d'enquête, de communication et de discipline des échéances requises pour respecter le devoir de représentation équitable du syndicat — protéger les membres par un processus équitable tout en protégeant la section locale contre les refus arbitraires, discriminatoires ou de mauvaise foi.
 
 ## Objectifs d'apprentissage
-*   **Savoir** : Ce qu'est le DRE en vertu du droit du travail ontarien; en quoi il diffère du droit du membre de gagner chaque grief; les tests juridiques (arbitraire, discriminatoire, refus de mauvaise foi); et la place de `/guide/dfr` dans votre processus.
+*   **Savoir** : Ce qu'est le DRE en vertu du droit du travail ontarien; en quoi il diffère du droit du membre de gagner chaque grief; les tests juridiques (arbitraire, discriminatoire, refus de mauvaise foi); et la place de `/learn/dfr` dans votre processus.
 *   **Ressentir/Comprendre** : Se sentir responsable et stable lorsque vous refusez des dossiers faibles ou faites face à des membres en colère — confiant que le processus rigoureux est le bouclier, et non des promesses vides.
 *   **Être capable de** : Mener une admission et une enquête conformes au DRE; documenter les décisions; communiquer les résultats par écrit; respecter les délais de grief et légaux; et escalader vers le service de représentation ou l'avocat avant que le silence, les préjugés ou les échéances manquées créent une responsabilité.
 
@@ -50,7 +50,7 @@ En vertu de la *Loi sur les relations de travail* de l'Ontario, un syndicat accr
 Une violation du DRE commence souvent par une **décision prise avant la collecte des faits**. Le **filtre en 5 points** et les **6 W** du module 1 sont vos premières protections DRE — appliquez-les avant de dire oui, non ou « on verra » au membre.
 
 ### Enquête minimale avant de refuser la représentation
-1.  **Journal d'admission** — date, nom du membre, résumé du problème, autres personnes impliquées (voir le filtre d'admission de `/guide/dfr`).
+1.  **Journal d'admission** — date, nom du membre, résumé du problème, autres personnes impliquées (voir le filtre d'admission de `/learn/dfr`).
 2.  **Vérification contractuelle** — articles, délais et limites de redressement.
 3.  **Collecte de témoins et de documents** — horaires, courriels, avis disciplinaires, griefs antérieurs sur des faits similaires.
 4.  **Analyse comparative** — comment la section locale a traité des cas semblables? Un traitement incohérent alimente les allégations de discrimination.
@@ -81,7 +81,7 @@ La représentation équitable se vit dans **ce que le membre expérimente**, et 
 | Règlement | Expliquer la portée intégrale et définitive avant la signature | Laisser le membre apprendre le résultat par la direction |
 
 ### La discipline de la lettre de refus
-Lorsque le syndicat ne déposera pas ou se retirera, les directives de refus de `/guide/dfr` s'appliquent : **écrit**, **précis**, **révisable**. Le membre doit comprendre :
+Lorsque le syndicat ne déposera pas ou se retirera, les directives de refus de `/learn/dfr` s'appliquent : **écrit**, **précis**, **révisable**. Le membre doit comprendre :
 *   Quels faits ont été considérés.
 *   Pourquoi le syndicat estime qu'aucun grief (ou aucune autre étape) n'est justifié.
 *   Comment demander un **examen par l'exécutif ou le service de représentation** selon votre constitution.
@@ -172,7 +172,7 @@ Les délégués sont la **première ligne**, et non le **dernier mot**. L'escala
 
 **Le congédiement en probation.** Alex, un nouvel employé en période probatoire, est congédié après un seul avertissement pour assiduité. Alex vous dit que le superviseur le cible depuis qu'il a soulevé une préoccupation de sécurité dans la salle de pause. Alex veut un grief « peu importe quoi » et dit qu'il « poursuivra aussi le syndicat » si vous refusez.
 
-**À appliquer :** Passez le filtre en 5 points du module 1 — les clauses de probation peuvent limiter les recours, mais une **représailles pour participation à la sécurité** peut engager des voies de représailles en vertu de la LSST ou des droits de la personne au-delà d'une lecture étroite de la probation. Ouvrez immédiatement le dossier des 6 W : QUI (Alex, superviseur, témoins de sécurité); QUAND (date de l'avertissement, date du congédiement, date de la rencontre de sécurité); documents (dossiers d'assiduité, registre de sécurité, courriels). Journalisez l'admission selon `/guide/dfr`. **Ne refusez pas verbalement dans le corridor.** Dites à Alex que vous ouvrez une enquête et répondrez par écrit à une date nommée. **Escaladez vers le service de représentation dans les 24 heures** en raison du chevauchement représailles-sécurité et de la menace DRE. Commencez l'évaluation de l'échéance de grief — si l'échéance de l'étape 1 est imminente, déposez un grief de protection avec libellé à porte ouverte pendant que l'enquête continue (l'avocat ou le service de représentation peut ajuster la théorie plus tard).
+**À appliquer :** Passez le filtre en 5 points du module 1 — les clauses de probation peuvent limiter les recours, mais une **représailles pour participation à la sécurité** peut engager des voies de représailles en vertu de la LSST ou des droits de la personne au-delà d'une lecture étroite de la probation. Ouvrez immédiatement le dossier des 6 W : QUI (Alex, superviseur, témoins de sécurité); QUAND (date de l'avertissement, date du congédiement, date de la rencontre de sécurité); documents (dossiers d'assiduité, registre de sécurité, courriels). Journalisez l'admission selon `/learn/dfr`. **Ne refusez pas verbalement dans le corridor.** Dites à Alex que vous ouvrez une enquête et répondrez par écrit à une date nommée. **Escaladez vers le service de représentation dans les 24 heures** en raison du chevauchement représailles-sécurité et de la menace DRE. Commencez l'évaluation de l'échéance de grief — si l'échéance de l'étape 1 est imminente, déposez un grief de protection avec libellé à porte ouverte pendant que l'enquête continue (l'avocat ou le service de représentation peut ajuster la théorie plus tard).
 
 **À ne pas appliquer :** Ne refusez pas parce qu'Alex a été grossier en parlant de « poursuivre le syndicat ». Ne promettez pas la victoire à l'arbitrage. Ne manquez pas l'étape 1 en débattant seul du droit de la probation. Ne partagez pas les préoccupations de sécurité d'Alex avec le superviseur avant l'enquête.
 
@@ -198,7 +198,7 @@ Exercice : **Ronde 1 — De l'admission à l'enquête.** Le partenaire joue un m
 
 ## Liste de contrôle du plancher
 
-- [ ] Journaliser chaque demande de représentation avec date, membre, problème et délégué assigné (`/guide/dfr`)
+- [ ] Journaliser chaque demande de représentation avec date, membre, problème et délégué assigné (`/learn/dfr`)
 - [ ] Appliquer le filtre en 5 points avant de promettre un grief (module 1)
 - [ ] Compléter l'enquête minimale (6 W, documents, comparateurs) avant tout refus
 - [ ] Identifier la date de déclenchement du grief et l'échéance de l'étape 1 à l'admission

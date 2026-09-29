@@ -5,8 +5,8 @@
 Allow **32 minutes** for the reading and self-test. Bring a recent member file where you declined or stalled representation, your **collective agreement** grievance timelines, and access to your local's escalation contacts (servicing rep, legal counsel, executive officer).
 
 **Pair this module with two UnionOps resources:**
-- **`/guide/dfr`** — the **playbook**: intake gate, legal test, clock triggers, decline letters, and member-conversation scripts. Use it at the desk when a file is live.
-- **Module 1** (`/guide/officer-learning/contract-enforcement`) — the investigative foundation: 5-Point Filter, 6 W's, and FAR discipline you apply *before* any DFR-sensitive decision.
+- **`/learn/dfr`** — the **playbook**: intake gate, legal test, clock triggers, decline letters, and member-conversation scripts. Use it at the desk when a file is live.
+- **Module 1** (`/learn/officer/contract-enforcement`) — the investigative foundation: 5-Point Filter, 6 W's, and FAR discipline you apply *before* any DFR-sensitive decision.
 
 **Division of labour:** The guide tells you *what to do step by step* on the floor. **This module** trains the habits that keep you out of DFR trouble — **investigate before deciding**, **communicate with the member**, **meet contractual and statutory clocks**, and **know when to escalate to servicing or counsel** instead of improvising alone.
 
@@ -18,7 +18,7 @@ CLC steward education, CUPE grievance-handling materials, and Unifor representat
 To equip Ontario workplace representatives with the investigative, communicative, and clock-discipline habits required to meet the union's duty of fair representation — protecting members through fair process while protecting the local from arbitrary, discriminatory, or bad-faith refusals to represent.
 
 ## Core Learning Objectives
-*   **Know**: What DFR is under Ontario labour law; how it differs from a member's right to win every grievance; the legal tests (arbitrary, discriminatory, bad-faith refusal); and where `/guide/dfr` fits in your workflow.
+*   **Know**: What DFR is under Ontario labour law; how it differs from a member's right to win every grievance; the legal tests (arbitrary, discriminatory, bad-faith refusal); and where `/learn/dfr` fits in your workflow.
 *   **Feel/Understand**: Accountable and steady when declining weak files or facing angry members — confident that thorough process is the shield, not empty promises.
 *   **Be Able To**: Run a DFR-safe intake and investigation; document decisions; communicate outcomes in writing; meet grievance and statutory clocks; and escalate to servicing or counsel before silence, bias, or missed deadlines create liability.
 
@@ -50,7 +50,7 @@ Under Ontario's *Labour Relations Act*, a certified union is the **exclusive bar
 A DFR breach often starts with a **decision made before the facts are gathered**. Module 1's **5-Point Filter** and **6 W's** are your first DFR safeguards — apply them before you tell a member yes, no, or "we'll see."
 
 ### Minimum investigation before declining representation
-1.  **Intake log** — date, member name, issue summary, who else was involved (see `/guide/dfr` intake gate).
+1.  **Intake log** — date, member name, issue summary, who else was involved (see `/learn/dfr` intake gate).
 2.  **Contract check** — identify articles, deadlines, and remedy limits.
 3.  **Witness and document sweep** — schedules, emails, discipline notices, prior grievances on similar facts.
 4.  **Comparator scan** — how has the local treated similar cases? Inconsistent treatment fuels discrimination claims.
@@ -81,7 +81,7 @@ Fair representation lives in **what the member experiences**, not only what the 
 | Settlement | Explain full-and-final scope before signature | Let the member learn outcomes from management |
 
 ### The decline letter discipline
-When the union will not file or will withdraw, `/guide/dfr` decline guidance applies: **written**, **specific**, **reviewable**. The member should understand:
+When the union will not file or will withdraw, `/learn/dfr` decline guidance applies: **written**, **specific**, **reviewable**. The member should understand:
 *   What facts were considered.
 *   Why the union's position is that no grievance (or no further step) is warranted.
 *   How to request **executive or servicing review** within your constitution.
@@ -172,7 +172,7 @@ Stewards are the **front line**, not the **final word**. Escalation is a skill, 
 
 **The probation termination.** Alex, a new hire in their probationary period, is terminated after a single attendance warning. Alex tells you the supervisor has targeted them since they raised a safety concern in the break room. Alex wants a grievance "no matter what" and says they will "sue the union too" if you refuse.
 
-**Apply:** Run Module 1's 5-Point Filter — probation clauses may limit remedies, but **retaliation for safety participation** may engage OHSA reprisal routes or human-rights angles beyond a narrow probation read. Open the 6 W's file immediately: WHO (Alex, supervisor, safety witnesses); WHEN (warning date, termination date, safety meeting date); documents (attendance records, safety log, emails). Log intake per `/guide/dfr`. **Do not decline verbally in the hallway.** Tell Alex you are opening an investigation and will respond in writing by a named date. **Escalate to servicing within 24 hours** because of the safety-reprisal overlap and the DFR threat. Start the grievance clock assessment — if Step 1 deadline is imminent, file a protective grievance with open-door language while investigation continues (counsel/servicing may adjust theory later).
+**Apply:** Run Module 1's 5-Point Filter — probation clauses may limit remedies, but **retaliation for safety participation** may engage OHSA reprisal routes or human-rights angles beyond a narrow probation read. Open the 6 W's file immediately: WHO (Alex, supervisor, safety witnesses); WHEN (warning date, termination date, safety meeting date); documents (attendance records, safety log, emails). Log intake per `/learn/dfr`. **Do not decline verbally in the hallway.** Tell Alex you are opening an investigation and will respond in writing by a named date. **Escalate to servicing within 24 hours** because of the safety-reprisal overlap and the DFR threat. Start the grievance clock assessment — if Step 1 deadline is imminent, file a protective grievance with open-door language while investigation continues (counsel/servicing may adjust theory later).
 
 **Don't apply:** Do not refuse because Alex was rude about "suing the union." Do not promise arbitration victory. Do not miss Step 1 while debating probation law alone. Do not share Alex's safety concerns with the supervisor before investigation.
 
@@ -198,7 +198,7 @@ Practice: **Round 1 — Intake to investigation.** Partner plays an angry member
 
 ## Floor checklist
 
-- [ ] Log every representation request with date, member, issue, and steward assigned (`/guide/dfr` intake)
+- [ ] Log every representation request with date, member, issue, and steward assigned (`/learn/dfr` intake)
 - [ ] Run the 5-Point Filter before promising a grievance (Module 1)
 - [ ] Complete minimum investigation (6 W's, documents, comparators) before any decline
 - [ ] Identify grievance trigger date and Step 1 deadline on intake

@@ -102,7 +102,7 @@ export default async function DfrGuidePage({
               label: tgriev("worksheet.exportCta"),
             },
             {
-              href: "/guide/grievance-process",
+              href: "/learn/grievance-process",
               label: nav("grievanceProcessGuide"),
               variant: "outline",
             },
@@ -110,13 +110,13 @@ export default async function DfrGuidePage({
         />
       }
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        { href: "/guide/grievance-process", label: t("related.grievance") },
-        { href: "/guide/seniority-bumping", label: t("related.seniority") },
-        { href: "/guide/right-to-refuse", label: t("related.rightToRefuse") },
-        { href: "/guide/joint-committee", label: t("related.jointCommittee") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
+        { href: "/learn/grievance-process", label: t("related.grievance") },
+        { href: "/learn/seniority-bumping", label: t("related.seniority") },
+        { href: "/learn/right-to-refuse", label: t("related.rightToRefuse") },
+        { href: "/learn/joint-committee", label: t("related.jointCommittee") },
       ]}
       footer={
         <SourcesBlock pageId="dfr" title={ts("title")} intro={ts("intro")} />

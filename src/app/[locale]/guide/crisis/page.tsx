@@ -118,14 +118,14 @@ export default async function CrisisPage({
           title={tg("asideTitle")}
           intro={tg("asideIntro")}
           links={[
-            { href: "/tools/board-notice", label: nav("boardNotice") },
+            { href: "/create/board-notice", label: nav("boardNotice") },
             {
-              href: "/tools/flyer-maker",
+              href: "/create/flyer-maker",
               label: nav("flyerMaker"),
               variant: "outline",
             },
             {
-              href: "/tools/graphic-maker",
+              href: "/create/graphic-maker",
               label: nav("graphicMaker"),
               variant: "outline",
             },
@@ -133,11 +133,11 @@ export default async function CrisisPage({
         />
       }
       relatedLinks={[
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/strike", label: nav("strikeOpsGuide") },
-        { href: "/guide/bargaining", label: nav("bargainingGuide") },
-        { href: "/guide/photo-consent", label: nav("photoConsent") },
-        { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/strike", label: nav("strikeOpsGuide") },
+        { href: "/learn/bargaining", label: nav("bargainingGuide") },
+        { href: "/learn/photo-consent", label: nav("photoConsent") },
+        { href: "/learn/email-broadcast", label: nav("emailBroadcastGuide") },
       ]}
       footer={
         <SourcesBlock pageId="crisis" title={ts("title")} intro={ts("intro")} />
@@ -199,7 +199,7 @@ export default async function CrisisPage({
           ))}
         </GuideTipGrid>
         <GuideActionRow>
-          <Link href="/guide/strike" className={guideCtaOutlineClass}>
+          <Link href="/learn/strike" className={guideCtaOutlineClass}>
             {nav("strikeOpsGuide")}
           </Link>
         </GuideActionRow>
@@ -220,7 +220,7 @@ export default async function CrisisPage({
           ))}
         </GuideTipGrid>
         <GuideActionRow>
-          <Link href="/guide/bargaining" className={guideCtaOutlineClass}>
+          <Link href="/learn/bargaining" className={guideCtaOutlineClass}>
             {nav("bargainingGuide")}
           </Link>
         </GuideActionRow>
@@ -335,13 +335,13 @@ export default async function CrisisPage({
           <Link href="/brand-kit" className={guideCtaOutlineClass}>
             {nav("brandKit")}
           </Link>
-          <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+          <Link href="/create/board-notice" className={guideCtaOutlineClass}>
             {nav("boardNotice")}
           </Link>
-          <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+          <Link href="/create/flyer-maker" className={guideCtaOutlineClass}>
             {nav("flyerMaker")}
           </Link>
-          <Link href="/tools/graphic-maker" className={guideCtaOutlineClass}>
+          <Link href="/create/graphic-maker" className={guideCtaOutlineClass}>
             {nav("graphicMaker")}
           </Link>
         </GuideActionRow>

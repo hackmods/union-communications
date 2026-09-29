@@ -142,39 +142,39 @@ export default async function StrikeOpsGuidePage({
           title={tg("asideTitle")}
           intro={tg("asideIntro")}
           links={[
-            { href: "/guide/crisis", label: nav("crisisCommsGuide") },
+            { href: "/learn/crisis", label: nav("crisisCommsGuide") },
             {
-              href: "/guide/bargaining",
+              href: "/learn/bargaining",
               label: nav("bargainingGuide"),
               variant: "outline",
             },
             {
-              href: "/tools/board-notice",
+              href: "/create/board-notice",
               label: nav("boardNotice"),
               variant: "outline",
             },
             {
-              href: "/guide/photo-consent",
+              href: "/learn/photo-consent",
               label: nav("photoConsent"),
               variant: "outline",
             },
             {
-              href: "/tools/flyer-maker",
+              href: "/create/flyer-maker",
               label: nav("flyerMaker"),
               variant: "outline",
             },
             {
-              href: "/tools/qr-card",
+              href: "/create/qr-card",
               label: nav("qrCard"),
               variant: "outline",
             },
             {
-              href: "/tools/website-template",
+              href: "/create/website-template",
               label: nav("websiteTemplate"),
               variant: "outline",
             },
             {
-              href: "/guide/workplace-mapping",
+              href: "/learn/workplace-mapping",
               label: nav("workplaceMappingGuide"),
               variant: "outline",
             },
@@ -182,17 +182,17 @@ export default async function StrikeOpsGuidePage({
         />
       }
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/crisis", label: nav("crisisCommsGuide") },
-        { href: "/guide/bargaining", label: nav("bargainingGuide") },
-        { href: "/guide/photo-consent", label: nav("photoConsent") },
-        { href: "/tools/flyer-maker", label: nav("flyerMaker") },
-        { href: "/tools/qr-card", label: nav("qrCard") },
-        { href: "/tools/website-template", label: nav("websiteTemplate") },
-        { href: "/guide/workplace-mapping", label: nav("workplaceMappingGuide") },
-        { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
-        { href: "/guide/officer-learning", label: nav("officerLearningGuide") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/crisis", label: nav("crisisCommsGuide") },
+        { href: "/learn/bargaining", label: nav("bargainingGuide") },
+        { href: "/learn/photo-consent", label: nav("photoConsent") },
+        { href: "/create/flyer-maker", label: nav("flyerMaker") },
+        { href: "/create/qr-card", label: nav("qrCard") },
+        { href: "/create/website-template", label: nav("websiteTemplate") },
+        { href: "/learn/workplace-mapping", label: nav("workplaceMappingGuide") },
+        { href: "/learn/email-broadcast", label: nav("emailBroadcastGuide") },
+        { href: "/learn/officer", label: nav("officerLearningGuide") },
       ]}
       footer={
         <SourcesBlock pageId="strike" title={ts("title")} intro={ts("intro")} />
@@ -409,13 +409,13 @@ export default async function StrikeOpsGuidePage({
         <p className="mt-5 max-w-prose leading-relaxed text-gray-700">{t("captains.chants.technique")}</p>
         <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{t("captains.flyers.body")}</p>
         <GuideActionRow>
-          <Link href="/tools/flyer-maker" className={guideCtaClass}>
+          <Link href="/create/flyer-maker" className={guideCtaClass}>
             {nav("flyerMaker")}
           </Link>
-          <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+          <Link href="/create/qr-card" className={guideCtaOutlineClass}>
             {nav("qrCard")}
           </Link>
-          <Link href="/tools/website-template" className={guideCtaOutlineClass}>
+          <Link href="/create/website-template" className={guideCtaOutlineClass}>
             {nav("websiteTemplate")}
           </Link>
         </GuideActionRow>
@@ -529,7 +529,7 @@ export default async function StrikeOpsGuidePage({
           <p className="mt-1">{t("rhythms.tip")}</p>
         </GuideCallout>
         <GuideActionRow>
-          <Link href="/guide/crisis" className={guideCtaOutlineClass}>
+          <Link href="/learn/crisis" className={guideCtaOutlineClass}>
             {t("rhythms.crisisCta")}
           </Link>
         </GuideActionRow>
@@ -613,10 +613,10 @@ export default async function StrikeOpsGuidePage({
           ))}
         </GuideTipGrid>
         <GuideActionRow>
-          <Link href="/guide/crisis" className={guideCtaOutlineClass}>
+          <Link href="/learn/crisis" className={guideCtaOutlineClass}>
             {nav("crisisCommsGuide")}
           </Link>
-          <Link href="/guide/bargaining" className={guideCtaOutlineClass}>
+          <Link href="/learn/bargaining" className={guideCtaOutlineClass}>
             {nav("bargainingGuide")}
           </Link>
         </GuideActionRow>
@@ -633,32 +633,32 @@ export default async function StrikeOpsGuidePage({
           ))}
         </GuideTipGrid>
         <GuideActionRow>
-          <Link href="/guide/crisis" className={guideCtaClass}>
+          <Link href="/learn/crisis" className={guideCtaClass}>
             {nav("crisisCommsGuide")}
           </Link>
-          <Link href="/guide/bargaining" className={guideCtaOutlineClass}>
+          <Link href="/learn/bargaining" className={guideCtaOutlineClass}>
             {nav("bargainingGuide")}
           </Link>
           <StrikeStandingBriefButton />
-          <Link href="/guide/photo-consent" className={guideCtaOutlineClass}>
+          <Link href="/learn/photo-consent" className={guideCtaOutlineClass}>
             {nav("photoConsent")}
           </Link>
-          <Link href="/guide/workplace-mapping" className={guideCtaOutlineClass}>
+          <Link href="/learn/workplace-mapping" className={guideCtaOutlineClass}>
             {nav("workplaceMappingGuide")}
           </Link>
-          <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+          <Link href="/create/flyer-maker" className={guideCtaOutlineClass}>
             {nav("flyerMaker")}
           </Link>
-          <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+          <Link href="/create/qr-card" className={guideCtaOutlineClass}>
             {nav("qrCard")}
           </Link>
-          <Link href="/tools/website-template" className={guideCtaOutlineClass}>
+          <Link href="/create/website-template" className={guideCtaOutlineClass}>
             {nav("websiteTemplate")}
           </Link>
-          <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+          <Link href="/create/board-notice" className={guideCtaOutlineClass}>
             {nav("boardNotice")}
           </Link>
-          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+          <Link href="/learn/email-broadcast" className={guideCtaOutlineClass}>
             {nav("emailBroadcastGuide")}
           </Link>
         </GuideActionRow>

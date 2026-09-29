@@ -110,9 +110,9 @@ export default async function WorkplaceMappingGuidePage({
           title={tg("asideTitle")}
           intro={tg("asideIntro")}
           links={[
-            { href: "/tools/org-chart", label: nav("orgChart") },
+            { href: "/create/org-chart", label: nav("orgChart") },
             {
-              href: "/tools/board-notice",
+              href: "/create/board-notice",
               label: nav("boardNotice"),
               variant: "outline",
             },
@@ -120,14 +120,14 @@ export default async function WorkplaceMappingGuidePage({
         />
       }
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        { href: "/guide/steward-101", label: t("related.steward101") },
-        { href: "/guide/membership-signup", label: t("related.membership") },
-        { href: "/guide/dfr", label: t("related.dfr") },
-        { href: "/tools/org-chart", label: t("related.orgChart") },
-        { href: "/guide/union-boards", label: t("related.boards") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
+        { href: "/learn/steward-101", label: t("related.steward101") },
+        { href: "/learn/membership-signup", label: t("related.membership") },
+        { href: "/learn/dfr", label: t("related.dfr") },
+        { href: "/create/org-chart", label: t("related.orgChart") },
+        { href: "/learn/union-boards", label: t("related.boards") },
       ]}
       footer={
         <SourcesBlock
@@ -183,7 +183,7 @@ export default async function WorkplaceMappingGuidePage({
           <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
           <p className="mt-1">{t("gate.warning")}</p>
           <Link
-            href="/guide/dfr"
+            href="/learn/dfr"
             className="mt-2 inline-block font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
           >
             {t("related.dfr")} →
@@ -302,7 +302,7 @@ export default async function WorkplaceMappingGuidePage({
         </GuideCallout>
         <GuideProse className="mt-4">
           <Link
-            href="/guide/membership-signup"
+            href="/learn/membership-signup"
             className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
           >
             {t("related.membership")} →
@@ -414,7 +414,7 @@ export default async function WorkplaceMappingGuidePage({
             title={t("reference.orgChart.title")}
             body={t("reference.orgChart.body")}
             action={
-              <Link href="/tools/org-chart" className={guideCtaOutlineClass}>
+              <Link href="/create/org-chart" className={guideCtaOutlineClass}>
                 {t("related.orgChart")} →
               </Link>
             }
@@ -424,7 +424,7 @@ export default async function WorkplaceMappingGuidePage({
             body={t("reference.membership.body")}
             action={
               <Link
-                href="/guide/membership-signup"
+                href="/learn/membership-signup"
                 className={guideCtaOutlineClass}
               >
                 {t("related.membership")} →

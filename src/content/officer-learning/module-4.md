@@ -4,7 +4,7 @@
 
 Allow **25 minutes** for the reading and self-test. Bring your **local bylaws**, the last set of **minutes**, a calculator for quorum math, and a **notepad**. If your local is preparing an election, read Section 4 twice before nomination night.
 
-Sections cover officer roles, quorum tiers, dull minutes, and secret ballot procedure. Cross-reference your national constitution — the Universal Quorum Scale here matches common Canadian local practice; confirm against your governing documents. Pair with `/guide/union-boards` for officer role context and `/guide/union-history` for how the local sits in the house of labour.
+Sections cover officer roles, quorum tiers, dull minutes, and secret ballot procedure. Cross-reference your national constitution — the Universal Quorum Scale here matches common Canadian local practice; confirm against your governing documents. Pair with `/learn/union-boards` for officer role context and `/learn/union-history` for how the local sits in the house of labour.
 
 💡 Note: Democracy failures are procedural — lost quorum and plurality winners are fixable before they become crises if the Secretary tracks headcount in real time.
 
@@ -126,7 +126,7 @@ Practice: Mock GMM with paper headcount cards. Secretary tracks quorum for a fic
 - [ ] Elections: three nomination calls, stand/decline, tile doors
 - [ ] Scrutineers appointed before ballot count
 - [ ] Majority = more than 50% of valid ballots; eliminate low candidate and reballot if needed
-- [ ] Pair with [Running meetings](/guide/running-meetings) and [Rules of Order](/tools/rules-of-order) for chair wording on the floor
+- [ ] Pair with [Running meetings](/learn/running-meetings) and [Rules of Order](/utilities/rules-of-order) for chair wording on the floor
 
 ---
 

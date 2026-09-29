@@ -4,7 +4,7 @@
 
 Allow **30 minutes** for the reading and self-test. Read with your **local bylaws**, a recent **employer dues report** (CSV or spreadsheet), your **signed-card roster**, and access to your local's secure member database — not employer email. Sections move from Rand Formula vs. card-carrying members through the **Membership List Directive**, monthly reconciliation, and secure storage.
 
-Pair with `/guide/membership-signup` for card-signing campaign craft — that guide teaches the floor pitch; **this module** teaches secretary reconciliation, constitutional privacy rules, and database hygiene. **CLC** membership administration materials and **CUPE** local secretary handbooks reinforce list custody; **Unifor** local officer training treats member data as a fiduciary trust.
+Pair with `/learn/membership-signup` for card-signing campaign craft — that guide teaches the floor pitch; **this module** teaches secretary reconciliation, constitutional privacy rules, and database hygiene. **CLC** membership administration materials and **CUPE** local secretary handbooks reinforce list custody; **Unifor** local officer training treats member data as a fiduciary trust.
 
 🪞 Reflection: A dues payer who never signed a card pays for solidarity — but cannot vote until they join democratically. Your list work turns payroll rows into an organized membership.
 
@@ -25,7 +25,7 @@ One of the most common errors a new Local Secretary makes is assuming everyone o
 *   **The distinction**: Paying dues does **not** make an employee a signed-up member in good standing. Under union bylaws, a worker must sign a physical or digital **membership card** to obtain the right to vote on contracts, attend general meetings, run for office, or vote in local elections.
 *   **The Secretary's duty**: Cross-reference the employer's monthly dues report against the local's database of signed cards. Anyone paying dues without a card belongs on a sign-up target list — not on the voting roll.
 
-**CLC** organizing education and national union membership materials both stress: the payroll file is a **dues file**, not a democracy file. `/guide/membership-signup` walks card-signing campaigns; this module owns the reconciliation math behind those campaigns.
+**CLC** organizing education and national union membership materials both stress: the payroll file is a **dues file**, not a democracy file. `/learn/membership-signup` walks card-signing campaigns; this module owns the reconciliation math behind those campaigns.
 
 | Record type | Source | Grants voting rights? | Secretary action |
 | --- | --- | --- | --- |
@@ -61,7 +61,7 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 1.  Import the employer dues report into your **union-controlled** database (never the employer's cloud).
 2.  Match employee ID or name + classification against signed-card records.
 3.  Flag **dues without card**, **card without dues**, and **classification mismatches**.
-4.  Export a sign-up target list for stewards (`/guide/membership-signup`).
+4.  Export a sign-up target list for stewards (`/learn/membership-signup`).
 5.  Log changes in a reconciliation journal — who imported, when, and what discrepancies were found.
 
 ### Common data hygiene fixes
@@ -87,7 +87,7 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 
 **The ratification vote surprise.** Contract ratification is Thursday. The Secretary pulls the employer dues report: 412 names. The signed-card database shows 318 active cards. Eighty-seven workers have paid dues for two or more years without signing. An executive member says, "They pay — let them vote."
 
-**Apply:** Explain Rand vs. card distinction (Section 1). Run an emergency internal sign-up blitz using stewards and `/guide/membership-signup` tactics — cards at shift change, not employer email. For the ratification meeting, use **only** the signed-card roster cross-checked for good standing. Document the reconciliation gap for the next GMM membership report.
+**Apply:** Explain Rand vs. card distinction (Section 1). Run an emergency internal sign-up blitz using stewards and `/learn/membership-signup` tactics — cards at shift change, not employer email. For the ratification meeting, use **only** the signed-card roster cross-checked for good standing. Document the reconciliation gap for the next GMM membership report.
 
 **Don't apply:** Do not add dues payers to the voting list without signed cards. Do not export the full payroll file to a campaign volunteer's personal Gmail to "get texts out faster."
 
@@ -114,7 +114,7 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 - [ ] Distinguish employer dues report from signed-card membership roster
 - [ ] Know Rand Formula payers are not automatic voting members
 - [ ] Cross-reference payroll and card database monthly — not only before elections
-- [ ] Flag dues-without-card workers for sign-up outreach (`/guide/membership-signup`)
+- [ ] Flag dues-without-card workers for sign-up outreach (`/learn/membership-signup`)
 - [ ] Catch classification mismatches against the collective agreement
 - [ ] Verify dues percentages and arrears after leaves or modified duties
 - [ ] Never release membership lists to political campaigns or candidates

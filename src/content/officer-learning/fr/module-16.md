@@ -4,7 +4,7 @@
 
 Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Apportez les articles de votre **convention collective** sur les mises à pied, l'ancienneté et le rappel ; une liste d'ancienneté récente de l'employeur (ou un échantillon caviardé) ; et un **carnet**. Lisez dans un espace privé — les dossiers de bumping touchent souvent aux congés médicaux, à l'accommodement et à la perte d'emploi.
 
-Les sections passent des listes d'ancienneté vs dates de service aux arbres de bumping, au langage sur les compétences et qualifications, aux délais de préavis de mise à pied, aux périodes d'essai et aux collisions avec les droits de la personne. Associez `/guide/seniority-bumping` et le **module 1**. Le **guide seniority-bumping** possède les mécaniques du guide sectoriel — exemples de cascade, export de feuilles de travail et fiches de comité. **Ce module** possède la discipline du délégué pour **lire les listes d'ancienneté**, tracer les **arbres de bumping**, suivre les **délais de préavis** et mener l'**admission** quand le déplacement frappe le plancher. Le **module 1** possède le filtre plainte/grief, les 6 W et la FAR — utilisez-les ici avant de déposer.
+Les sections passent des listes d'ancienneté vs dates de service aux arbres de bumping, au langage sur les compétences et qualifications, aux délais de préavis de mise à pied, aux périodes d'essai et aux collisions avec les droits de la personne. Associez `/learn/seniority-bumping` et le **module 1**. Le **guide seniority-bumping** possède les mécaniques du guide sectoriel — exemples de cascade, export de feuilles de travail et fiches de comité. **Ce module** possède la discipline du délégué pour **lire les listes d'ancienneté**, tracer les **arbres de bumping**, suivre les **délais de préavis** et mener l'**admission** quand le déplacement frappe le plancher. Le **module 1** possède le filtre plainte/grief, les 6 W et la FAR — utilisez-les ici avant de déposer.
 
 Les formations de délégués du **CTC**, les documents du **SCFP** sur les mises à pied et la formation d'**Unifor** sur le déplacement approfondissent la lecture des listes ; les règles de préavis de la **Loi sur les normes d'emploi** (LNE) de l'Ontario coexistent avec — sans remplacer — les délais de votre CC.
 
@@ -176,7 +176,7 @@ Les arbres de bumping échouent quand le **mauvais bassin** est utilisé. Les d�
 
 Quand les RH importent un graphique « standard » d'un autre employeur du secteur, votre première question est : **montrez-moi où notre CC autorise ce graphique.**
 
-💡 Note : `/guide/seniority-bumping` parcourt des exemples prêts pour comité ; apportez votre CC au guide — ne copiez pas la cascade d'une autre unité.
+💡 Note : `/learn/seniority-bumping` parcourt des exemples prêts pour comité ; apportez votre CC au guide — ne copiez pas la cascade d'une autre unité.
 
 ---
 
@@ -200,7 +200,7 @@ Quand les RH importent un graphique « standard » d'un autre employeur du secte
 
 **Manche 1 — Audit de liste.** Avec une liste d'ancienneté caviardée (10–15 lignes), marquez : mauvaise classification, erreurs de date de service, ajustements de congé manquants et questions de limite de bassin. Écrivez trois questions écrites aux RH citant des articles de la CC — pas des opinions.
 
-**Manche 2 — Esquisse d'arbre.** À partir des seuls articles de mise à pied de votre CC, dessinez un arbre de bumping pour une classification sur papier. Comparez à la mise en page de la feuille de travail de `/guide/seniority-bumping`. Listez deux endroits où l'accommodement pourrait bloquer une branche.
+**Manche 2 — Esquisse d'arbre.** À partir des seuls articles de mise à pied de votre CC, dessinez un arbre de bumping pour une classification sur papier. Comparez à la mise en page de la feuille de travail de `/learn/seniority-bumping`. Listez deux endroits où l'accommodement pourrait bloquer une branche.
 
 **Manche 3 — Calendrier d'horloges.** À partir d'une date effective de mise à pied, calculez à rebours les délais de préavis syndical, d'élection, de rappel et de grief sur un calendrier d'une page.
 
@@ -223,7 +223,7 @@ Quand les RH importent un graphique « standard » d'un autre employeur du secte
 - [ ] Utiliser le libellé de grief à porte ouverte (**module 8**) pour les dossiers de déplacement
 - [ ] Documenter par écrit chaque offre et refus des RH
 - [ ] Escalader les litiges de portée et le chevauchement LNE au personnel de service au besoin
-- [ ] Diriger les membres vers `/guide/seniority-bumping` pour les mécaniques de comité — posséder l'admission ici
+- [ ] Diriger les membres vers `/learn/seniority-bumping` pour les mécaniques de comité — posséder l'admission ici
 
 ---
 

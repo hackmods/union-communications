@@ -33,8 +33,8 @@ type Props = {
 };
 
 const RELATED_LINKS = [
-  { href: "/guide/steward-playbooks", key: "backToPlaybooks" as const },
-  { href: "/guide", key: "backToGuide" as const },
+  { href: "/learn/steward", key: "backToPlaybooks" as const },
+  { href: "/learn/communications-blueprint", key: "backToGuide" as const },
   { href: "/app/officer-learning", key: "hubBoardLink" as const },
 ] as const;
 
@@ -239,7 +239,7 @@ function OfficerLearningDashboardInner({
               return (
                 <Link
                   key={module.id}
-                  href={`/guide/officer-learning/${module.slug}`}
+                  href={`/learn/officer/${module.slug}`}
                   aria-labelledby={titleId}
                   className={olTheme.card}
                   onClick={() => {

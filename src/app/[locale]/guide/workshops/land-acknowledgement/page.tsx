@@ -64,10 +64,10 @@ export default async function LandAckWorkshopPage({
       tocLabel={t("outlineNavLabel")}
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
-        { href: "/guide/land-acknowledgement", label: nav("landAcknowledgementGuide") },
-        { href: "/guide/running-meetings", label: nav("runningMeetingsGuide") },
-        { href: "/guide/workshops", label: nav("workshopsHub") },
-        { href: "/guide/workshop", label: nav("workshopGuide") },
+        { href: "/learn/land-acknowledgement", label: nav("landAcknowledgementGuide") },
+        { href: "/learn/running-meetings", label: nav("runningMeetingsGuide") },
+        { href: "/learn/workshops", label: nav("workshopsHub") },
+        { href: "/learn/workshops/comms", label: nav("workshopGuide") },
       ]}
     >
       <div className="grid gap-3 sm:grid-cols-2">
@@ -150,10 +150,10 @@ export default async function LandAckWorkshopPage({
       </GuideSection>
 
       <GuideActionRow className="mt-10">
-        <Link href="/guide/land-acknowledgement" className={guideCtaClassSm}>
+        <Link href="/learn/land-acknowledgement" className={guideCtaClassSm}>
           {t("guideCta")}
         </Link>
-        <Link href="/guide/workshops" className={guideCtaOutlineClassSm}>
+        <Link href="/learn/workshops" className={guideCtaOutlineClassSm}>
           {t("hubCta")}
         </Link>
       </GuideActionRow>

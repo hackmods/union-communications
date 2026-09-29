@@ -89,12 +89,12 @@ export default async function SeniorityBumpingGuidePage({
         />
       }
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        { href: "/guide/grievance-process", label: t("related.grievance") },
-        { href: "/guide/dfr", label: t("related.dfr") },
-        { href: "/guide/right-to-refuse", label: t("related.rightToRefuse") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
+        { href: "/learn/grievance-process", label: t("related.grievance") },
+        { href: "/learn/dfr", label: t("related.dfr") },
+        { href: "/learn/right-to-refuse", label: t("related.rightToRefuse") },
       ]}
       footer={
         <SourcesBlock

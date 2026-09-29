@@ -135,12 +135,12 @@ export default async function GrievanceProcessGuidePage({
               label: t("worksheet.exportCta"),
             },
             {
-              href: "/tools/complaint-vs-grievance",
+              href: "/utilities/complaint-vs-grievance",
               label: t("tools.items.diagnostic.label"),
               variant: "outline",
             },
             {
-              href: "/tools/pre-disciplinary-log",
+              href: "/utilities/pre-disciplinary-log",
               label: t("tools.items.discipline.label"),
               variant: "outline",
             },
@@ -148,14 +148,14 @@ export default async function GrievanceProcessGuidePage({
         />
       }
       relatedLinks={[
-        { href: "/guide/steward-playbooks", label: t("related.stewardPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/steward-101", label: t("related.steward101") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        { href: "/guide/dfr", label: t("related.dfr") },
-        { href: "/guide/seniority-bumping", label: t("related.seniority") },
-        { href: "/guide/right-to-refuse", label: t("related.rightToRefuse") },
-        { href: "/guide/joint-committee", label: t("related.jointCommittee") },
+        { href: "/learn/steward", label: t("related.stewardPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/steward-101", label: t("related.steward101") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
+        { href: "/learn/dfr", label: t("related.dfr") },
+        { href: "/learn/seniority-bumping", label: t("related.seniority") },
+        { href: "/learn/right-to-refuse", label: t("related.rightToRefuse") },
+        { href: "/learn/joint-committee", label: t("related.jointCommittee") },
       ]}
       footer={
         <SourcesBlock
@@ -202,11 +202,11 @@ export default async function GrievanceProcessGuidePage({
         >
           {(
             [
-              { href: "/guide/steward-101", label: t("related.steward101") },
-              { href: "/guide/right-to-refuse", label: t("related.rightToRefuse") },
-              { href: "/guide/seniority-bumping", label: t("related.seniority") },
+              { href: "/learn/steward-101", label: t("related.steward101") },
+              { href: "/learn/right-to-refuse", label: t("related.rightToRefuse") },
+              { href: "/learn/seniority-bumping", label: t("related.seniority") },
               {
-                href: "/guide/joint-committee",
+                href: "/learn/joint-committee",
                 label: t("related.jointCommittee"),
               },
             ] as const
@@ -391,7 +391,7 @@ export default async function GrievanceProcessGuidePage({
         </GuideTipGrid>
         <p className="mt-5 text-sm">
           <Link
-            href="/guide/dfr"
+            href="/learn/dfr"
             className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
           >
             {t("related.dfr")}
@@ -454,19 +454,19 @@ export default async function GrievanceProcessGuidePage({
         </GuideTipGrid>
         <GuideActionRow>
           <Link
-            href="/tools/complaint-vs-grievance"
+            href="/utilities/complaint-vs-grievance"
             className={guideCtaOutlineClassBlock}
           >
             {t("tools.items.diagnostic.label")}
           </Link>
           <Link
-            href="/tools/pre-disciplinary-log"
+            href="/utilities/pre-disciplinary-log"
             className={guideCtaOutlineClassBlock}
           >
             {t("tools.items.discipline.label")}
           </Link>
           <Link
-            href="/tools/rtw-accommodation"
+            href="/utilities/rtw-accommodation"
             className={guideCtaOutlineClassBlock}
           >
             {t("tools.items.rtw.label")}
@@ -477,7 +477,7 @@ export default async function GrievanceProcessGuidePage({
           >
             {t("worksheet.exportCta")}
           </Link>
-          <Link href="/guide/dfr" className={guideCtaOutlineClassBlock}>
+          <Link href="/learn/dfr" className={guideCtaOutlineClassBlock}>
             {t("related.dfr")}
           </Link>
           <Link href="/app/grievances" className={guideCtaOutlineClassBlock}>

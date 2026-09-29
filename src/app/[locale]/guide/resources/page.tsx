@@ -29,14 +29,14 @@ const commsPathLinks = GUIDE_RESOURCES_COMMS_LINKS;
 const labourPathLinks = GUIDE_RESOURCES_LABOUR_LINKS;
 
 const exploreLinks = [
-  { href: "/guide/social-media-plan", key: "cta" as const },
+  { href: "/learn/first-week", key: "cta" as const },
   { href: "/onboarding", key: "onboarding" as const },
-  { href: "/tools/logo-builder", key: "logo" as const },
-  { href: "/tools/board-notice", key: "board" as const },
-  { href: "/tools/flyer-maker", key: "flyer" as const },
-  { href: "/tools/graphic-maker", key: "graphic" as const },
-  { href: "/tools/website-template", key: "website" as const },
-  { href: "/guide/crisis", key: "crisis" as const },
+  { href: "/create/logo-builder", key: "logo" as const },
+  { href: "/create/board-notice", key: "board" as const },
+  { href: "/create/flyer-maker", key: "flyer" as const },
+  { href: "/create/graphic-maker", key: "graphic" as const },
+  { href: "/create/website-template", key: "website" as const },
+  { href: "/learn/crisis", key: "crisis" as const },
 ];
 
 export default async function ResourcesPage({

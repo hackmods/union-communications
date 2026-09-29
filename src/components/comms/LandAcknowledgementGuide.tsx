@@ -67,7 +67,7 @@ export async function LandAcknowledgementGuide() {
       tocLabel={t("tocLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
         { href: "/guide/running-meetings", label: nav("runningMeetingsGuide") },
         {
           href: "/guide/workshops/land-acknowledgement",

@@ -78,7 +78,7 @@ export default async function ShortFormGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/graphic-maker?aspect=portrait",
+              href: "/create/graphic-maker?aspect=portrait",
               label: nav("graphicMaker"),
             },
             { href: "/captions", label: nav("captions"), variant: "outline" },
@@ -88,11 +88,11 @@ export default async function ShortFormGuidePage({
       }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
-        { href: "/guide/photo-consent", label: nav("photoConsent") },
+        { href: "/learn/photo-consent", label: nav("photoConsent") },
         { href: "/captions", label: nav("captions") },
-        { href: "/tools/graphic-maker?aspect=portrait", label: nav("graphicMaker") },
-        { href: "/tools/resizer", label: nav("resizer") },
-        { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
+        { href: "/create/graphic-maker?aspect=portrait", label: nav("graphicMaker") },
+        { href: "/create/resizer", label: nav("resizer") },
+        { href: "/learn/first-week", label: nav("socialMediaPlan") },
         { href: "/examples", label: nav("socialExamples") },
       ]}
       footer={
@@ -155,7 +155,7 @@ export default async function ShortFormGuidePage({
           </p>
           <p className="mt-2 leading-relaxed">{t("filming.consentBody")}</p>
           <Link
-            href="/guide/photo-consent"
+            href="/learn/photo-consent"
             className="mt-2 inline-block font-medium text-opseu-blue underline"
           >
             {nav("photoConsent")} →
@@ -230,18 +230,18 @@ export default async function ShortFormGuidePage({
 
       <GuideActionRow className="mt-8">
         <Link
-          href="/tools/graphic-maker?aspect=portrait"
+          href="/create/graphic-maker?aspect=portrait"
           className={guideCtaOutlineClass}
         >
           {nav("graphicMaker")}
         </Link>
-        <Link href="/tools/resizer" className={guideCtaOutlineClass}>
+        <Link href="/create/resizer" className={guideCtaOutlineClass}>
           {nav("resizer")}
         </Link>
         <Link href="/captions" className={guideCtaOutlineClass}>
           {nav("captions")}
         </Link>
-        <Link href="/guide/photo-consent" className={guideCtaOutlineClass}>
+        <Link href="/learn/photo-consent" className={guideCtaOutlineClass}>
           {nav("photoConsent")}
         </Link>
       </GuideActionRow>

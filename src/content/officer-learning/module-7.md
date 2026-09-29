@@ -4,7 +4,7 @@
 
 Allow **32 minutes** for the reading and self-test. Read with your **collective agreement**, a blank workplace map (shifts × classifications), and a notepad for escalation ideas. Walk Section 4 legal boundaries with your servicing representative or legal counsel before launching any work-to-rule — this module teaches the map; counsel owns the risk call.
 
-Sections move from the bargaining cycle through demographic mapping, the five-rung escalation ladder, and Ontario *Labour Relations Act* (LRA) strike boundaries. Pair with `/guide/workplace-mapping`, `/guide/bargaining`, `/guide/strike`, and `/guide/membership-signup`. **Module 6** owns equity bargaining language and ADR; **this module** owns mobilization ladders and mid-term LRA strike boundaries — the public guides are runbooks, not a second OL course. **CLC** organizing education and **Unifor Workplace Leadership** deepen mapping practice; **CUPE steward handbook** chapters on worksite pressure reinforce legal caution.
+Sections move from the bargaining cycle through demographic mapping, the five-rung escalation ladder, and Ontario *Labour Relations Act* (LRA) strike boundaries. Pair with `/learn/workplace-mapping`, `/learn/bargaining`, `/learn/strike`, and `/learn/membership-signup`. **Module 6** owns equity bargaining language and ADR; **this module** owns mobilization ladders and mid-term LRA strike boundaries — the public guides are runbooks, not a second OL course. **CLC** organizing education and **Unifor Workplace Leadership** deepen mapping practice; **CUPE steward handbook** chapters on worksite pressure reinforce legal caution.
 
 🪞 Reflection: A contract without an organized floor is a document. Your job is to turn ink into power — legally.
 
@@ -38,9 +38,9 @@ Before you escalate, you map. A workplace map plots **shifts**, **classification
 1.  Draw the site by department or unit.
 2.  Mark who talks to whom at breaks — organic leaders rarely hold steward titles yet.
 3.  Flag temp/precarious clusters and language islands that never see a steward visit.
-4.  Cross-check with membership lists and signup gaps (`/guide/membership-signup`).
+4.  Cross-check with membership lists and signup gaps (`/learn/membership-signup`).
 
-Without a map, shirt days recruit the already-active lunchroom and leave night-shift isolation untouched. `/guide/workplace-mapping` walks the same discipline for campaign planning.
+Without a map, shirt days recruit the already-active lunchroom and leave night-shift isolation untouched. `/learn/workplace-mapping` walks the same discipline for campaign planning.
 
 ⚠️ Warning: Voluntary demographic notes belong in organizing binders — never publish identity lists or pressure members to disclose in open meetings.
 
@@ -55,7 +55,7 @@ Escalate only as far as the map and mandate support. Each rung raises **power** 
 | Rigid contract enforcement | Makes ignored clauses costly | Low–medium — expect push-back grievances | Employer soft-pedals hours, OT, or procedures |
 | Mini-campaigns (petitions, mass group grievances) | Wins visible facility/safety fixes | Medium — needs tight asks | Winnable health, safety, or facility targets |
 | Work-to-rule (letter of CA; decline voluntary extras) | Disrupts employer flexibility | High — legal misfire = illegal strike risk | Late demand-setting / early negotiation |
-| Strike readiness (committees, captains, funds) | Ultimate leverage | Highest — statutory timing & votes | Lawful strike window; see `/guide/strike` |
+| Strike readiness (committees, captains, funds) | Ultimate leverage | Highest — statutory timing & votes | Lawful strike window; see `/learn/strike` |
 
 ### Work-to-rule vs. illegal slowdown
 Ontario's **LRA** defines **strike** broadly — concerted slowdowns, overtime bans, and similar mid-term withdrawals of services can be illegal while a collective agreement is in force. Protected pressure looks like this:
@@ -81,7 +81,7 @@ Mobilization without legal boundaries burns members. Keep these floor rules:
 
 *   No mid-term overtime bans or slowdowns dressed up as "work-to-rule."
 *   Shirt days and buttons are solidarity — not picket lines.
-*   Strike committees and funds belong to **strike readiness**, timed to lawful windows (`/guide/strike`).
+*   Strike committees and funds belong to **strike readiness**, timed to lawful windows (`/learn/strike`).
 *   Document employer retaliation; mobilize support through grievances and human rights routes, not illegal counter-strikes.
 
 **CUPE steward handbook** and **CLC** organizing materials both stress: the steward who cannot explain the legal line should not call the action.
@@ -89,7 +89,7 @@ Mobilization without legal boundaries burns members. Keep these floor rules:
 💡 Note: Declining a voluntary favour while doing your job properly is not a strike. Slowing required work on purpose with coworkers usually is.
 
 ### Strike steward day-1 (lawful window only)
-When a lawful strike window opens, `/guide/strike` owns command, picket, and return-to-work runbooks. Stewards still own floor discipline on day one:
+When a lawful strike window opens, `/learn/strike` owns command, picket, and return-to-work runbooks. Stewards still own floor discipline on day one:
 
 1.  Confirm the strike vote and statutory timing with your bargaining committee — do not invent a start time from rumour.
 2.  Know your picket captain, site map, and who speaks to media (usually not the steward alone).
@@ -142,7 +142,7 @@ Practice: **Round 1 — Map and mandate.** Sketch a one-page workplace map (shif
 - [ ] Separate strike readiness (committees, captains, funds) from mid-term pressure
 - [ ] Document retaliation; respond through legal channels, not illegal counter-action
 - [ ] Share aggregate mapping themes with members before bargaining opens
-- [ ] Pair mobilization plans with `/guide/bargaining` and `/guide/strike` timelines
+- [ ] Pair mobilization plans with `/learn/bargaining` and `/learn/strike` timelines
 
 ---
 

@@ -2,9 +2,9 @@
 
 ## Comment utiliser ce module
 
-Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez les termes de référence de votre CSTS (ou notes de structure requises par la LSST), tout procès-verbal de comité patronal-syndical (CPS), et une plainte actuelle de danger ou de charge de travail du plancher. Esquissez qui siège où avec `/tools/org-chart` avant l'exercice pratique — le pouvoir des comités est inutile si les délégués ne trouvent pas la bonne porte.
+Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez les termes de référence de votre CSTS (ou notes de structure requises par la LSST), tout procès-verbal de comité patronal-syndical (CPS), et une plainte actuelle de danger ou de charge de travail du plancher. Esquissez qui siège où avec `/create/org-chart` avant l'exercice pratique — le pouvoir des comités est inutile si les délégués ne trouvent pas la bonne porte.
 
-Les sections passent des mandats CSTS vs CPS à la discipline de caucus uni, à l'escalade multi-comités, et aux voies de refus de travail de la LSST qui engagent le CSTS. Associez `/guide/joint-committee` et `/guide/right-to-refuse`. **Ce module** forme le routage des délégués, la discipline de caucus et l'escalade parallèle ; le **guide des comités conjoints** possède les chartes, le rythme et les opérations de réunion — ne reconstruisez pas ces modèles ici. L'éducation en santé et sécurité du **CTC** et les concepts provinciaux de la LSST approfondissent les pouvoirs statutaires ; la pratique du CPS reste consultative sauf si votre CC dit autrement.
+Les sections passent des mandats CSTS vs CPS à la discipline de caucus uni, à l'escalade multi-comités, et aux voies de refus de travail de la LSST qui engagent le CSTS. Associez `/learn/joint-committee` et `/learn/right-to-refuse`. **Ce module** forme le routage des délégués, la discipline de caucus et l'escalade parallèle ; le **guide des comités conjoints** possède les chartes, le rythme et les opérations de réunion — ne reconstruisez pas ces modèles ici. L'éducation en santé et sécurité du **CTC** et les concepts provinciaux de la LSST approfondissent les pouvoirs statutaires ; la pratique du CPS reste consultative sauf si votre CC dit autrement.
 
 🪞 Réflexion : Les tables conjointes sont des caucus avec un but — pas des auditoires pour les présentations de la direction.
 
@@ -29,7 +29,7 @@ Ne traitez pas chaque rencontre conjointe comme la même rencontre.
 | Recommandations | Recommandations formelles ; l'employeur doit typiquement répondre **par écrit dans un délai législatif** (souvent cité comme 21 jours) | Discussion et recommandations sans la même force statutaire |
 | Meilleure utilisation | Forcer des réponses documentées en sécurité | Faire surface les enjeux opérationnels systémiques avant les griefs de masse |
 
-`/guide/joint-committee` détaille comment les sections locales empêchent les organes conjoints de devenir des salles de conférence de la direction. Utilisez `/tools/org-chart` pour que les membres sachent quels représentants possèdent quelle table.
+`/learn/joint-committee` détaille comment les sections locales empêchent les organes conjoints de devenir des salles de conférence de la direction. Utilisez `/create/org-chart` pour que les membres sachent quels représentants possèdent quelle table.
 
 💡 Note : Mettre une pure plainte d'horaire seulement à l'ordre du jour du CSTS gaspille du temps statutaire ; mettre un danger critique seulement à l'ordre du jour du CPS gaspille le pouvoir juridique.
 
@@ -66,7 +66,7 @@ Les dossiers d'information devraient voyager avec l'enjeu : chronologie, photos,
 ---
 
 ## 4. Refus de travail et la voie du CSTS
-Quand un travailleur refuse un travail non sécuritaire sous les concepts de la **LSST**, le travail du délégué est la discipline de processus — pas l'héroïsme. Orientez les refus par les étapes statutaires et engagez les membres certifiés / processus du **CSTS** comme la loi et la procédure de votre milieu de travail l'exigent. Associez le coaching du plancher avec `/guide/right-to-refuse`.
+Quand un travailleur refuse un travail non sécuritaire sous les concepts de la **LSST**, le travail du délégué est la discipline de processus — pas l'héroïsme. Orientez les refus par les étapes statutaires et engagez les membres certifiés / processus du **CSTS** comme la loi et la procédure de votre milieu de travail l'exigent. Associez le coaching du plancher avec `/learn/right-to-refuse`.
 
 État d'esprit de liste de contrôle du délégué :
 
@@ -91,7 +91,7 @@ N'échangez pas un refus contre une « discussion au CPS le mois prochain » pen
 
 **Deuxième temps — refus.** Un membre refuse d'opérer une machine avec un verrouillage désactivé. Un gestionnaire suggère de « le soulever au prochain CPS ».
 
-**À appliquer :** Appuyez la voie de refus de la LSST et l'implication du CSTS maintenant (`/guide/right-to-refuse`). Journalisez le danger pour une recommandation formelle du CSTS. Utilisez le CPS plus tard pour la politique de dotation qui a causé la pression de contournement — pas comme substitut au refus.
+**À appliquer :** Appuyez la voie de refus de la LSST et l'implication du CSTS maintenant (`/learn/right-to-refuse`). Journalisez le danger pour une recommandation formelle du CSTS. Utilisez le CPS plus tard pour la politique de dotation qui a causé la pression de contournement — pas comme substitut au refus.
 
 **À ne pas appliquer :** N'envoyez pas le membre au danger en attendant une future date de comité.
 
@@ -118,8 +118,8 @@ Exercice : **Tour 1 — Caucus.** Deux délégués sont en désaccord sur si le 
 - [ ] Mettre la friction systémique charge/horaire à l'ordre du jour du CPS au dossier
 - [ ] Déposer des griefs en parallèle quand les droits de la CC sont engagés
 - [ ] Orienter les refus de travail de la LSST par les étapes statutaires — pas « le CPS du mois prochain »
-- [ ] Engager les processus du CSTS durant et après les refus (`/guide/right-to-refuse`)
-- [ ] Mettre à jour `/tools/org-chart` pour que les membres connaissent les contacts de comité
+- [ ] Engager les processus du CSTS durant et après les refus (`/learn/right-to-refuse`)
+- [ ] Mettre à jour `/create/org-chart` pour que les membres connaissent les contacts de comité
 - [ ] Suivre les réponses écrites de l'employeur aux recommandations du CSTS jusqu'à l'échéance
 - [ ] Ne jamais échanger un danger vivant contre une vague discussion future
 - [ ] Porter les preuves de schéma en négociation quand les comités stallent
