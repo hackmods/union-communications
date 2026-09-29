@@ -224,7 +224,8 @@ function toolItems(): PublicCatalogItem[] {
     group.links.map(({ href, key }) => {
       const slug = href
         .replace(/^\/tools\//, "")
-        .replace(/^\/create\//, "");
+        .replace(/^\/create\//, "")
+        .replace(/^\/utilities\//, "");
       const gated = slug === "pulse-poll";
       const format = TOOL_KIND[slug] ?? "maker";
       const deliverableKey = TOOL_DELIVERABLE[slug];

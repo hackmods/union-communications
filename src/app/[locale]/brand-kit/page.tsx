@@ -528,7 +528,7 @@ export default function BrandKitPage() {
 
       <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
         <Link href="/assets" className="text-opseu-blue underline underline-offset-2">{t("assetsLink")}</Link>
-        <Link href="/guide/email-broadcast" className="text-opseu-blue underline underline-offset-2">{nav("emailBroadcastGuide")}</Link>
+        <Link href="/learn/email-broadcast" className="text-opseu-blue underline underline-offset-2">{nav("emailBroadcastGuide")}</Link>
       </div>
 
       <PublicHubPanel

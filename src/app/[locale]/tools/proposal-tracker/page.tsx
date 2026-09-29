@@ -145,7 +145,7 @@ export default function ProposalTrackerPage() {
         <p className="mt-2 max-w-2xl text-sm text-gray-600">{t("whenToUse")}</p>
         <p className="mt-3">
           <Link
-            href="/guide/bargaining"
+            href="/learn/bargaining"
             className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2"
           >
             {t("guideLink")} →

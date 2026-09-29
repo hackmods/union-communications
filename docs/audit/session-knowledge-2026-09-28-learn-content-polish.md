@@ -28,6 +28,9 @@ Binding: OPSEU materials are opt-in education, never core doctrine defaults.
 - `dedupeRelatedByHref` now emits `canonicalizePublicHref` so `/guide/*` and `/learn/*` collapse.
 - Land-ack OPSEU event-order claims hedged (FC-016).
 - JJEC + College Bumping first-use glossary cues.
+- Create/Hub user-facing `/guide` hrefs → `/learn` (and utilities for proposal-tracker).
+- WORD polish: workshop jargon, tap→open, tone/trolls, Blueprint back-links → Learn, caption Copy accessible names.
+- Hub `StewardGuidesHubBoard` read-first list compacted (no 17-module wall).
 
 ## Rejected / deferred
 

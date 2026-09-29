@@ -172,7 +172,7 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/pre-disciplinary-log", key: "preDisciplinaryLog" },
       { href: "/tools/complaint-vs-grievance", key: "complaintVsGrievance" },
       { href: "/tools/bylaw-builder", key: "bylawBuilder" },
-      { href: "/tools/proposal-tracker", key: "proposalTracker" },
+      { href: "/utilities/proposal-tracker", key: "proposalTracker" },
       { href: "/tools/rules-of-order", key: "rulesOfOrder" },
     ],
   },

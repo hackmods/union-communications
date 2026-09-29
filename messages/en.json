@@ -547,7 +547,7 @@
           "items": [
             "Reuse layouts from Social Examples",
             "Schedule one board update and one social post",
-            "Skim The Blueprint for tone and trolls"
+            "Skim The Blueprint for tone and handling negativity"
           ]
         }
       ]
@@ -2147,7 +2147,7 @@
   "photoConsentGuide": {
     "title": "Photo Consent & Member Media",
     "subtitle": "Ask before you post — scripts, logs, and takedowns for stewards and comms volunteers",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "intro": "Graphic Maker blocks upload until you acknowledge consent — but locals still need a shared practice for phone cameras, Reels, board photos, and Facebook posts. This playbook helps officers agree on how to ask, what to record, and who takes images down. Not legal advice.",
@@ -3874,7 +3874,7 @@
         "crisis": "Who may speak during a strike, lockout, or layoff.",
         "photoConsent": "Member photo checklist for stewards and workshops.",
         "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path.",
-        "workshopsHub": "Hub of projectable workshop outlines — Comms lunch-and-learn and land acknowledgement drafting."
+        "workshopsHub": "Hub of ready-to-project workshop outlines — Comms lunch-and-learn and land acknowledgement drafting."
       }
     },
     "labourPath": {
@@ -4986,7 +4986,7 @@
   "crisisGuide": {
     "title": "Crisis Comms Guide",
     "subtitle": "One voice, a short chain of command, and a channel plan when the local is under pressure",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "intro": "Crisis comms is not “post more.” It is who may speak, what members need to hear, and what never goes on a public channel. Locals handle day-to-day messaging; your provincial or national union supports sector bargaining — but the Facebook group still needs one local voice.",
@@ -8138,7 +8138,7 @@
       },
       "learn-ui-chrome": {
         "title": "Learn pages start sooner",
-        "body": "Related links sit after the lesson, Steward 101 opens on the floor content faster, and Officer Learning shows a compact progress rail instead of listing every module twice."
+        "body": "Related links sit after the lesson, Steward 101 opens on the floor content faster, Officer Learning shows a compact progress rail, workshop copy drops jargon, and Create tools link to canonical /learn pages."
       }
     }
   },
@@ -11752,7 +11752,7 @@
       },
       "workshops": {
         "title": "Workshops",
-        "intro": "Projectable outlines for lunch-and-learns and floor drafting sessions."
+        "intro": "Ready-to-project outlines for lunch-and-learns and floor drafting sessions."
       }
     },
     "blurbs": {
@@ -11783,7 +11783,7 @@
       "bylaws": "What must be in local bylaws and how to amend them with notice and quorum.",
       "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say.",
       "landAcknowledgement": "How-to walkthrough and one-page PDF worksheet, with an annotated Niagara example — write your own words.",
-      "workshopsHub": "Choose a workshop outline: Comms tools hour or land acknowledgement drafting.",
+      "workshopsHub": "Choose a workshop: Comms tools or land acknowledgement drafting.",
       "landAckWorkshop": "Facilitator outline (~60–90 min) with prep, timed agenda, and the PDF worksheet."
     }
   },
@@ -12174,7 +12174,9 @@
         "title": "Event thank-you",
         "caption": "Thank you to everyone who joined us at [Event Name]! [X] members came out to show their solidarity. Together, we make a difference."
       }
-    }
+    },
+    "copyNamed": "Copy {title}",
+    "copiedNamed": "Copied {title}"
   },
   "workshopDemo": {
     "title": "Demo this in about 20 minutes",
@@ -12219,7 +12221,7 @@
       "prompt": "Optional: one real announcement or quote you might post this week, so the practice is a real post, not a placeholder."
     },
     "demoKicker": "Quick links",
-    "demoLead": "Keep this box in view. Tap a tool when the agenda names it. Same five stops as the 20-minute live demo.",
+    "demoLead": "Keep this box in view. Open a tool when the agenda names it. Same five stops as the 20-minute live demo.",
     "demoNote": "Strategy lives on First week, not on these numbered stops. The live path is Logo Builder, Social Examples, Graphic Maker, Quote Card, then Website Template. Print and Board Notice stay on First week.",
     "outlineTitle": "Suggested outline",
     "outlineIntro": "Times add up to about 50 minutes, with room for questions. If you have a full hour, linger on <strong>Graphic Maker</strong>. If you have 45 minutes, keep the downloads moving.",
@@ -12789,7 +12791,10 @@
     "readModule14": "Module 14: everyday union value",
     "readModule15": "Module 15: duty of fair representation",
     "readModule16": "Module 16: seniority, bumping & layoff",
-    "readModule17": "Module 17: position description forms & reclassification"
+    "readModule17": "Module 17: position description forms & reclassification",
+    "readSteward101": "Steward 101: role and rights",
+    "readDfrPlaybook": "DFR steward playbook",
+    "readFirstIntro": "Start with Officer Learning, then open the floor playbooks your meeting needs."
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Preparing PDF…",
@@ -14436,7 +14441,7 @@
       "opseuHome": "OPSEU / SEFPO home",
       "memberPortal": "Member portal"
     },
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -15040,7 +15045,7 @@
   "strikeOpsGuide": {
     "title": "Strike operations playbook",
     "subtitle": "Kits, gate coverage, captain training, and return to work — not a posting calendar",
-    "backToGuide": "Back to The Blueprint",
+    "backToGuide": "Back to Learn",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -15786,7 +15791,7 @@
   },
   "workshopsHub": {
     "title": "Workshops",
-    "subtitle": "Projectable outlines for local executives and education committees",
+    "subtitle": "Ready-to-project outlines for local executives and education committees",
     "intro": "Pick the workshop that matches the room. Each outline is built to project — timed blocks, facilitator notes, and a clear close.",
     "relatedLabel": "Related",
     "outlines": {
@@ -16081,7 +16086,7 @@
       "grievance-builder-pack": "A grievance triage path, intake sheet, or draft scripts",
       "guide-checklists": "Practical steps, examples, and checklists",
       "learning-module": "A self-paced lesson with practice and on-device progress",
-      "facilitator-run-sheet": "A facilitator-ready workshop run sheet",
+      "facilitator-run-sheet": "A facilitator-ready workshop outline",
       "reference-library": "A browsable collection of reference material",
       "public-documents": "Public policies, templates, and official reference downloads",
       "communications-examples": "Annotated examples to adapt for your local"

@@ -547,7 +547,7 @@
           "items": [
             "Réutiliser les mises en page des Exemples",
             "Planifier une mise à jour tableau et une publication",
-            "Parcourir Le plan pour le ton et les trolls"
+            "Parcourir Le plan pour le ton et la gestion des commentaires négatifs"
           ]
         }
       ]
@@ -2147,7 +2147,7 @@
   "photoConsentGuide": {
     "title": "Consentement photo et médias des membres",
     "subtitle": "Demandez avant de publier — scripts, journaux et retraits pour délégués et volontaires Comms",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "intro": "Le Créateur graphique bloque le téléversement tant que vous n'avez pas confirmé le consentement — mais les sections ont quand même besoin d'une pratique commune pour les appareils photo, les Reels, les photos de tableau et les publications Facebook. Ce guide aide les dirigeants à s'entendre sur la façon de demander, quoi consigner et qui retire les images. Pas un avis juridique.",
@@ -3874,7 +3874,7 @@
         "crisis": "Qui peut parler pendant une grève, un lock-out ou des mises à pied.",
         "photoConsent": "Liste photo membre pour délégués et ateliers.",
         "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo.",
-        "workshopsHub": "Hub des plans d'atelier projectables — lunch-and-learn Comms et rédaction de reconnaissance territoriale."
+        "workshopsHub": "Hub des plans d'atelier prêts à projeter — lunch-and-learn Comms et rédaction de reconnaissance territoriale."
       }
     },
     "labourPath": {
@@ -4932,7 +4932,7 @@
   "crisisGuide": {
     "title": "Guide des communications de crise",
     "subtitle": "Une voix, une courte chaîne de commandement et un plan de canaux quand la section est sous pression",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "intro": "Les communications de crise, ce n'est pas « publier plus ». C'est qui peut parler, ce que les membres doivent entendre et ce qui ne doit jamais aller sur un canal public. Les sections gèrent le quotidien ; votre syndicat provincial ou national appuie la négociation sectorielle — mais le groupe Facebook a quand même besoin d'une voix locale unique.",
@@ -8084,7 +8084,7 @@
       },
       "learn-ui-chrome": {
         "title": "Les pages Apprendre démarrent plus vite",
-        "body": "Les liens connexes passent après la leçon, Steward 101 ouvre plus vite sur le contenu de plancher, et la Formation des dirigeants montre un rail de progression compact au lieu de lister chaque module deux fois."
+        "body": "Les liens connexes passent après la leçon, Steward 101 ouvre plus vite sur le contenu de plancher, la Formation des dirigeants montre un rail de progression compact, le texte des ateliers abandonne le jargon, et les outils Créer pointent vers les pages /learn canoniques."
       }
     }
   },
@@ -11752,7 +11752,7 @@
       },
       "workshops": {
         "title": "Ateliers",
-        "intro": "Plans projectables pour lunch-and-learns et séances de rédaction au plancher."
+        "intro": "Plans prêts à projeter pour lunch-and-learns et séances de rédaction au plancher."
       }
     },
     "blurbs": {
@@ -11783,7 +11783,7 @@
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis et quorum.",
       "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire.",
       "landAcknowledgement": "Marche à suivre et feuille PDF d'une page, avec un exemple annoté de Niagara — écrivez vos propres mots.",
-      "workshopsHub": "Choisissez un plan d'atelier : heure d'outils Comms ou rédaction de reconnaissance territoriale.",
+      "workshopsHub": "Choisissez un atelier : outils Comms ou rédaction de reconnaissance territoriale.",
       "landAckWorkshop": "Plan animateur (~60–90 min) avec préparation, ordre du jour chronométré et feuille PDF."
     }
   },
@@ -12174,7 +12174,9 @@
         "title": "Remerciement après un événement",
         "caption": "Merci à toutes les personnes qui se sont jointes à nous pour [Event Name]! [X] membres sont venus manifester leur solidarité. Ensemble, nous changeons les choses."
       }
-    }
+    },
+    "copyNamed": "Copier {title}",
+    "copiedNamed": "{title} copié"
   },
   "workshopDemo": {
     "title": "Démo en environ 20 minutes",
@@ -12219,7 +12221,7 @@
       "prompt": "Facultatif : une vraie annonce ou une citation que vous pourriez publier cette semaine, pour que l'exercice soit une vraie publication, pas un exemple vide."
     },
     "demoKicker": "Liens rapides",
-    "demoLead": "Gardez cette boîte visible. Touchez un outil quand le plan le nomme. Ce sont les cinq mêmes arrêts que la démo de 20 minutes.",
+    "demoLead": "Gardez cette boîte visible. Ouvrez un outil quand le plan le nomme. Ce sont les cinq mêmes arrêts que la démo de 20 minutes.",
     "demoNote": "La stratégie est dans Première semaine, pas sur ces arrêts numérotés. Le parcours en direct est Créateur de logo, Exemples sociaux, Créateur de graphiques, Carte de citation, puis Modèle de site Web. L'impression et l'Avis d'affichage restent dans Première semaine.",
     "outlineTitle": "Plan suggéré",
     "outlineIntro": "Les durées totalisent environ 50 minutes, avec de la place pour les questions. Si vous avez une heure complète, restez plus longtemps sur le <strong>Créateur de graphiques</strong>. Si vous avez 45 minutes, enchaînez les téléchargements.",
@@ -12789,7 +12791,10 @@
     "readModule14": "Module 14 : valeur syndicale quotidienne",
     "readModule15": "Module 15 : devoir de représentation équitable",
     "readModule16": "Module 16 : ancienneté, bumping et mise à pied",
-    "readModule17": "Module 17 : formulaires de description de poste et reclassification"
+    "readModule17": "Module 17 : formulaires de description de poste et reclassification",
+    "readSteward101": "Steward 101 : rôle et droits",
+    "readDfrPlaybook": "Cahier DFR pour délégués",
+    "readFirstIntro": "Commencez par la Formation des dirigeants, puis ouvrez les cahiers de plancher dont votre réunion a besoin."
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Préparation du PDF…",
@@ -14436,7 +14441,7 @@
       "opseuHome": "Accueil OPSEU / SEFPO",
       "memberPortal": "Portail des membres"
     },
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -15040,7 +15045,7 @@
   "strikeOpsGuide": {
     "title": "Guide des opérations de grève",
     "subtitle": "Trousses, couverture des portes, formation des capitaines et retour au travail — pas un calendrier de publications",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -15786,7 +15791,7 @@
   },
   "workshopsHub": {
     "title": "Ateliers",
-    "subtitle": "Plans projectables pour les cadres locaux et les comités d'éducation",
+    "subtitle": "Plans prêts à projeter pour les cadres locaux et les comités d'éducation",
     "intro": "Choisissez l'atelier qui convient à la salle. Chaque plan est conçu pour projection — blocs chronométrés, notes d'animateur et clôture claire.",
     "relatedLabel": "Liens connexes",
     "outlines": {

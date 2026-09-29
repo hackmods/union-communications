@@ -33,7 +33,7 @@ export const UPDATES: readonly UpdateEntry[] = [
     id: "proposal-tracker-csv-load",
     date: "2026-09-28",
     kind: "improved",
-    href: "/tools/proposal-tracker",
+    href: "/utilities/proposal-tracker",
   },
   {
     id: "learn-ui-chrome",
@@ -662,7 +662,7 @@ export const UPDATES: readonly UpdateEntry[] = [
     id: "proposal-tracker",
     date: "2026-08-27",
     kind: "added",
-    href: "/tools/proposal-tracker",
+    href: "/utilities/proposal-tracker",
   },
   {
     id: "bargaining-lifecycle-guide",

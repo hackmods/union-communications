@@ -275,7 +275,7 @@ export function BumpingCaseDetail({
           <p className="mt-1 text-sm text-gray-500">{bumpingCase.scenario}</p>
           <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm">
             <Link
-              href="/guide/seniority-bumping"
+              href="/learn/seniority-bumping"
               className="text-opseu-blue underline"
             >
               {t("seniorityGuideLink")}

@@ -158,7 +158,7 @@ export async function LandAcknowledgementGuide() {
           <p className="mt-1 max-w-prose">{t("howToWrite.workshopCtaBody")}</p>
           <div className="button-row mt-4">
             <Link
-              href="/guide/workshops/land-acknowledgement"
+              href="/learn/workshops/land-acknowledgement"
               className={guideCtaOutlineClass}
             >
               {t("howToWrite.workshopCtaLabel")}
@@ -297,7 +297,7 @@ export async function LandAcknowledgementGuide() {
           ))}
         </GuideTipGrid>
         <div className="button-row mt-5">
-          <Link href="/guide/running-meetings" className={guideCtaOutlineClass}>
+          <Link href="/learn/running-meetings" className={guideCtaOutlineClass}>
             {nav("runningMeetingsGuide")}
           </Link>
         </div>
@@ -360,7 +360,7 @@ export async function LandAcknowledgementGuide() {
           ))}
         </GuideTipGrid>
         <div className="button-row mt-5">
-          <Link href="/guide/bargaining" className={guideCtaOutlineClass}>
+          <Link href="/learn/bargaining" className={guideCtaOutlineClass}>
             {nav("bargainingGuide")}
           </Link>
         </div>
@@ -383,7 +383,7 @@ export async function LandAcknowledgementGuide() {
           ))}
         </GuideTipGrid>
         <div className="button-row mt-5">
-          <Link href="/guide/resources" className={guideCtaOutlineClass}>
+          <Link href="/learn/resources" className={guideCtaOutlineClass}>
             {t("nextSteps.resourcesCta")}
           </Link>
           <LandAcknowledgementWorksheetButton />

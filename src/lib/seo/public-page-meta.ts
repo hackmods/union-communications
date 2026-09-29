@@ -162,7 +162,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/workshops": {
       title: "Workshops",
       description:
-        "Projectable workshop outlines for local executives — Comms lunch-and-learn and land acknowledgement drafting session.",
+        "Ready-to-project workshop outlines for local executives — Comms lunch-and-learn and land acknowledgement drafting session.",
     },
     "/guide/workshops/land-acknowledgement": {
       title: "Land acknowledgement workshop",
@@ -511,7 +511,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/workshops": {
       title: "Ateliers",
       description:
-        "Plans d'atelier projectables pour les cadres locaux — lunch-and-learn Comms et séance de rédaction de reconnaissance territoriale.",
+        "Plans d'atelier prêts à projeter pour les cadres locaux — lunch-and-learn Comms et séance de rédaction de reconnaissance territoriale.",
     },
     "/guide/workshops/land-acknowledgement": {
       title: "Atelier de reconnaissance territoriale",
