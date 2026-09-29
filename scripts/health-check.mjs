@@ -57,8 +57,12 @@ if (!process.exitCode) {
         const memoryBackends = Object.entries(body.backends ?? {}).filter(
           ([, value]) => value === "memory",
         );
+        const commit =
+          typeof body.commit === "string" && /^[0-9a-f]{7,40}$/i.test(body.commit)
+            ? body.commit.slice(0, 12)
+            : "unknown";
         console.log(
-          `[health-check] ok commit=${body.commit ?? "unknown"} version=${body.version ?? "unknown"} email=${body.emailEnabled} cron=${body.cronConfigured} postgres=${body.postgresConfigured} dbVerified=${body.databaseDeployment?.verified ?? false} dbTail=${body.databaseDeployment?.tailTag ?? "memory"} durable=${body.postgresFlipComplete} demoAuth=${body.demoAuthEnabled} sentry=${body.observability?.sentryEnabled ?? "?"} fileLog=${body.observability?.errorLogFileEnabled ?? "?"}`,
+          `[health-check] ok commit=${commit} version=${body.version ?? "unknown"} email=${Boolean(body.emailEnabled)} cron=${Boolean(body.cronConfigured)} postgres=${Boolean(body.postgresConfigured)} dbVerified=${Boolean(body.databaseDeployment?.verified)} dbTail=${typeof body.databaseDeployment?.tailTag === "string" ? body.databaseDeployment.tailTag : "memory"} durable=${Boolean(body.postgresFlipComplete)} sentry=${Boolean(body.observability?.sentryEnabled)} fileLog=${Boolean(body.observability?.errorLogFileEnabled)}`,
         );
         if (
           body.observability?.sentryMisconfigured ||

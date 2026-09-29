@@ -2,6 +2,7 @@
 import JSZip from "jszip";
 import { collectOfficeEmbedTtfFiles, loadCanvasFontBinary, OFFICE_FONT_NOTICE, type CanvasFontId, type OfficeEmbedTtfFile } from "@/lib/comms/canvas-fonts";
 import { validateOfficePackage } from "@/lib/export/office-package-validator";
+import { ooxmlRelationshipTypePresent } from "@/lib/security/ooxml-rels";
 
 const FONT_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/font";
 const FONT_TABLE_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable";
@@ -95,7 +96,9 @@ async function finalizeDocx(blob: Blob, headlineId: CanvasFontId, bodyId: Canvas
   const settings = await zip.file("word/settings.xml")?.async("string");
   if (settings) zip.file("word/settings.xml", ensureWordSettings(settings));
   let rels = await zip.file("word/_rels/document.xml.rels")?.async("string") ?? "";
-  if (rels && !rels.includes(FONT_TABLE_REL)) rels = appendRelationship(rels, "rIdUnionOpsFontTable", FONT_TABLE_REL, "fontTable.xml");
+  if (rels && !ooxmlRelationshipTypePresent(rels, FONT_TABLE_REL)) {
+    rels = appendRelationship(rels, "rIdUnionOpsFontTable", FONT_TABLE_REL, "fontTable.xml");
+  }
   if (rels) zip.file("word/_rels/document.xml.rels", rels);
   let ct = ensureTxtContentType(appendOverride(await zip.file("[Content_Types].xml")!.async("string"), "/word/fontTable.xml", FONT_TABLE_CT));
   for (const font of fonts) ct = appendOverride(ct, `/${font.path}`, "application/vnd.openxmlformats-officedocument.obfuscatedFont");

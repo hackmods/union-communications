@@ -18,11 +18,11 @@ async function assertTextPdfWithMark(opts: {
   titleNeedle: string | RegExp;
   footerNeedle: string | RegExp;
 }) {
-  const size = fs.statSync(opts.filePath).size;
-  expect(size).toBeGreaterThan(opts.minBytes);
+  const fileBytes = fs.readFileSync(opts.filePath);
+  expect(fileBytes.length).toBeGreaterThan(opts.minBytes);
 
   const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-  const data = new Uint8Array(fs.readFileSync(opts.filePath));
+  const data = new Uint8Array(fileBytes);
   const doc = await pdfjs.getDocument({ data }).promise;
   expect(doc.numPages).toBeGreaterThanOrEqual(1);
 

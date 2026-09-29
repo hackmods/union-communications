@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { WebsiteTemplateData } from "@/types/website-template";
+import { isWebsiteHttpUrl } from "@/lib/templates/website/brand-kit-fields";
 import {
   WEBSITE_CONFIG_FILE,
   WEBSITE_CONFIG_KIND,
@@ -66,9 +67,9 @@ describe("serializeWebsiteConfig", () => {
 
   it("drops javascript: links instead of keeping them", () => {
     const envelope = serializeWebsiteConfig(sample);
-    expect(envelope.data.customLinks.some((l) => l.url.startsWith("javascript:"))).toBe(
-      false,
-    );
+    expect(
+      envelope.data.customLinks.every((l) => isWebsiteHttpUrl(l.url)),
+    ).toBe(true);
   });
 });
 

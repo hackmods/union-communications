@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
   LETTER_CONTEXT_PRESETS,
-  LETTER_HANDOFF_STORAGE_KEY,
   consumeLetterHandoff,
   isLetterContextId,
   letterGeneratorContextHref,
@@ -26,41 +25,19 @@ describe("letter contexts", () => {
     );
   });
 
-  it("round-trips a session handoff", () => {
-    const store = new Map<string, string>();
-    const original = globalThis.sessionStorage;
-    Object.defineProperty(globalThis, "sessionStorage", {
-      configurable: true,
-      value: {
-        getItem: (key: string) => store.get(key) ?? null,
-        setItem: (key: string, value: string) => {
-          store.set(key, value);
-        },
-        removeItem: (key: string) => {
-          store.delete(key);
-        },
-      },
-    });
-    try {
-      expect(
-        saveLetterHandoff({
-          context: "accommodation",
-          source: "rtw-accommodation",
-          fields: { body: "Hello HR", memberName: "Alex" },
-        }),
-      ).toBe(true);
-      expect(store.get(LETTER_HANDOFF_STORAGE_KEY)).toBeTruthy();
-      expect(consumeLetterHandoff()).toEqual({
+  it("round-trips an in-memory handoff", () => {
+    expect(
+      saveLetterHandoff({
         context: "accommodation",
         source: "rtw-accommodation",
         fields: { body: "Hello HR", memberName: "Alex" },
-      });
-      expect(consumeLetterHandoff()).toBeNull();
-    } finally {
-      Object.defineProperty(globalThis, "sessionStorage", {
-        configurable: true,
-        value: original,
-      });
-    }
+      }),
+    ).toBe(true);
+    expect(consumeLetterHandoff()).toEqual({
+      context: "accommodation",
+      source: "rtw-accommodation",
+      fields: { body: "Hello HR", memberName: "Alex" },
+    });
+    expect(consumeLetterHandoff()).toBeNull();
   });
 });

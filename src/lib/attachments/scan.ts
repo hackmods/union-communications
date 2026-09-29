@@ -107,6 +107,18 @@ function resolveScanUrl(
   return base.endsWith("/scan") ? base : `${base}/scan`;
 }
 
+function assertOperatorConfiguredScannerUrl(url: string): void {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    throw new Error("Invalid attachment scanner URL");
+  }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    throw new Error("Attachment scanner URL must be http or https");
+  }
+}
+
 function parseScannerBody(text: string, contentType: string | null): ScanResult {
   const trimmed = text.trim();
   const ct = (contentType ?? "").toLowerCase();
@@ -169,11 +181,13 @@ export async function postBytesToScanner(
   fetchImpl: typeof fetch = fetch,
 ): Promise<ScanResult> {
   const url = resolveScanUrl(env);
+  assertOperatorConfiguredScannerUrl(url);
   try {
+    const payload = new Uint8Array(bytes);
     const res = await fetchImpl(url, {
       method: "POST",
       headers: { "Content-Type": "application/octet-stream" },
-      body: new Uint8Array(bytes),
+      body: payload,
     });
     const text = await res.text();
     if (!res.ok) {

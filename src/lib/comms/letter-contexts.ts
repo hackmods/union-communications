@@ -7,8 +7,6 @@
 import type { OfficePresetId } from "@/lib/constants/office-templates";
 import { letterGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 
-export const LETTER_HANDOFF_STORAGE_KEY = "unionops-letter-handoff-v1";
-
 export type LetterContextId =
   | "general"
   | "welcome"
@@ -24,6 +22,9 @@ export type LetterHandoff = {
   /** Utility slug that produced the handoff (for analytics-free UX copy). */
   source?: string;
 };
+
+/** In-memory only — avoids persisting draft letter fields in browser storage. */
+let pendingLetterHandoff: LetterHandoff | null = null;
 
 export const LETTER_CONTEXT_PRESETS: Record<
   LetterContextId,
@@ -56,41 +57,28 @@ export function letterGeneratorContextHref(
 }
 
 export function saveLetterHandoff(handoff: LetterHandoff): boolean {
-  try {
-    window.sessionStorage.setItem(
-      LETTER_HANDOFF_STORAGE_KEY,
-      JSON.stringify(handoff),
-    );
-    return true;
-  } catch {
-    return false;
-  }
+  pendingLetterHandoff = handoff;
+  return true;
 }
 
 export function consumeLetterHandoff(): LetterHandoff | null {
-  try {
-    const raw = window.sessionStorage.getItem(LETTER_HANDOFF_STORAGE_KEY);
-    if (!raw) return null;
-    window.sessionStorage.removeItem(LETTER_HANDOFF_STORAGE_KEY);
-    const parsed = JSON.parse(raw) as Partial<LetterHandoff>;
-    if (
-      typeof parsed.context !== "string" ||
-      !isLetterContextId(parsed.context) ||
-      !parsed.fields ||
-      typeof parsed.fields !== "object"
-    ) {
-      return null;
-    }
-    const fields: Record<string, string> = {};
-    for (const [key, value] of Object.entries(parsed.fields)) {
-      if (typeof value === "string") fields[key] = value;
-    }
-    return {
-      context: parsed.context,
-      fields,
-      ...(typeof parsed.source === "string" ? { source: parsed.source } : {}),
-    };
-  } catch {
+  const handoff = pendingLetterHandoff;
+  pendingLetterHandoff = null;
+  if (!handoff) return null;
+  if (
+    !isLetterContextId(handoff.context) ||
+    !handoff.fields ||
+    typeof handoff.fields !== "object"
+  ) {
     return null;
   }
+  const fields: Record<string, string> = {};
+  for (const [key, value] of Object.entries(handoff.fields)) {
+    if (typeof value === "string") fields[key] = value;
+  }
+  return {
+    context: handoff.context,
+    fields,
+    ...(typeof handoff.source === "string" ? { source: handoff.source } : {}),
+  };
 }

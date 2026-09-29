@@ -64,8 +64,8 @@ describe("install page i18n", () => {
   });
 
   it("documents apex-only install and platform differences", () => {
-    expect(en.installPage.troubleBody).toMatch(/unionops\.org/i);
-    expect(en.installPage.troubleBody).toMatch(/www/i);
+    expect(en.installPage.troubleBody).toMatch(/\bunionops\.org\b/i);
+    expect(en.installPage.troubleBody).toMatch(/\bwww\b/i);
     expect(en.installPage.desktopStep2).toMatch(/address bar|omnibox/i);
     expect(en.installPage.androidStep3).toMatch(/Install app/i);
     expect(en.installPage.androidStep3).toMatch(/shortcut/i);

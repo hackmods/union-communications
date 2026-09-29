@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 import {
+  buildViewportLabFrameSrc,
   buildViewportLabSearchParams,
   isBlockedViewportPath,
   measureDocumentOverflow,
@@ -65,6 +66,11 @@ describe("viewport-lab-api path sanitize", () => {
   it("rejects javascript and cross-scheme junk", () => {
     expect(sanitizeViewportFramePath("javascript:alert(1)")).toBeNull();
     expect(sanitizeViewportFramePath("data:text/html,hi")).toBeNull();
+  });
+
+  it("builds same-origin iframe paths only", () => {
+    expect(buildViewportLabFrameSrc("/en/create")).toBe("/en/create/");
+    expect(buildViewportLabFrameSrc("javascript:alert(1)")).toBe("/en/");
   });
 
   it("swaps locale prefixes", () => {

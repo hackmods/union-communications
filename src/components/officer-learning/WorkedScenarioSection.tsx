@@ -8,6 +8,7 @@ import { useOlTheme } from "./OlThemeProvider";
 import clsx from "clsx";
 import { ModuleWorkedTimeline } from "./ModuleWorkedTimeline";
 import { renderInline } from "@/lib/officer-learning/render-inline";
+import { stripHtmlTags } from "@/lib/security/markup-sanitize";
 
 type BlockRendererProps = {
   block: ContentBlock;
@@ -43,7 +44,7 @@ export function WorkedScenarioSection({
   const olTheme = useOlTheme();
 
   // Avoid redundant "Worked scenario" eyebrow + h2 saying the same thing.
-  const titlePlain = section.title.replace(/<[^>]+>/g, "").trim();
+  const titlePlain = stripHtmlTags(section.title).trim();
   const labelPlain = t("label").trim();
   const showEyebrow =
     titlePlain.toLowerCase() !== labelPlain.toLowerCase();

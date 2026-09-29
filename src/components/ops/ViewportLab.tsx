@@ -13,6 +13,7 @@ import {
   type AxeRunResult,
   type OverflowResult,
   type ViewportLabLocale,
+  buildViewportLabFrameSrc,
   buildViewportLabSearchParams,
   ensureTrailingSlashPath,
   measureDocumentOverflow,
@@ -708,7 +709,7 @@ export function ViewportLab() {
           width={width}
           height={height}
           scale={scaleA}
-          src={path}
+          src={buildViewportLabFrameSrc(path)}
           frameRef={frameARef}
           testId="viewport-frame-a"
           onLoad={onFrameALoad}
@@ -719,7 +720,7 @@ export function ViewportLab() {
             width={paneB.width}
             height={paneB.height}
             scale={scaleB}
-            src={paneB.path}
+            src={buildViewportLabFrameSrc(paneB.path)}
             frameRef={frameBRef}
             testId="viewport-frame-b"
             onPreset={(id) => {

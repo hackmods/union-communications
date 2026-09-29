@@ -60,7 +60,8 @@ test.describe("Tool export output smoke @smoke", () => {
     fs.mkdirSync(outDir, { recursive: true });
     const filePath = path.join(outDir, download.suggestedFilename());
     await download.saveAs(filePath);
-    expect(fs.statSync(filePath).size).toBeGreaterThan(8_000);
+    const pngBytes = fs.readFileSync(filePath);
+    expect(pngBytes.length).toBeGreaterThan(8_000);
 
     const raw = await sampleDownloadedPng(page, filePath);
     const sample = sampleImageData(
@@ -92,13 +93,13 @@ test.describe("Tool export output smoke @smoke", () => {
     fs.mkdirSync(outDir, { recursive: true });
     const filePath = path.join(outDir, download.suggestedFilename());
     await download.saveAs(filePath);
-    const size = fs.statSync(filePath).size;
+    const pdfBytes = fs.readFileSync(filePath);
     // JPEG-compressed page art should be well under the old multi-MB raw PNG embeds
-    expect(size).toBeGreaterThan(20_000);
-    expect(size).toBeLessThan(2_500_000);
+    expect(pdfBytes.length).toBeGreaterThan(20_000);
+    expect(pdfBytes.length).toBeLessThan(2_500_000);
 
     const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-    const data = new Uint8Array(fs.readFileSync(filePath));
+    const data = new Uint8Array(pdfBytes);
     const doc = await pdfjs.getDocument({ data }).promise;
     expect(doc.numPages).toBe(1);
     const pdfPage = await doc.getPage(1);
@@ -130,7 +131,8 @@ test.describe("Tool export output smoke @smoke", () => {
     fs.mkdirSync(outDir, { recursive: true });
     const filePath = path.join(outDir, `graphic-${download.suggestedFilename()}`);
     await download.saveAs(filePath);
-    expect(fs.statSync(filePath).size).toBeGreaterThan(5_000);
+    const graphicPngBytes = fs.readFileSync(filePath);
+    expect(graphicPngBytes.length).toBeGreaterThan(5_000);
 
     const raw = await sampleDownloadedPng(page, filePath);
     const sample = sampleImageData(
@@ -162,10 +164,11 @@ test.describe("Tool export output smoke @smoke", () => {
     fs.mkdirSync(outDir, { recursive: true });
     const filePath = path.join(outDir, download.suggestedFilename());
     await download.saveAs(filePath);
-    expect(fs.statSync(filePath).size).toBeGreaterThan(15_000);
+    const noticePdfBytes = fs.readFileSync(filePath);
+    expect(noticePdfBytes.length).toBeGreaterThan(15_000);
 
     const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-    const data = new Uint8Array(fs.readFileSync(filePath));
+    const data = new Uint8Array(noticePdfBytes);
     const doc = await pdfjs.getDocument({ data }).promise;
     expect(doc.numPages).toBeGreaterThanOrEqual(1);
     const pdfPage = await doc.getPage(1);
@@ -200,7 +203,8 @@ test.describe("Tool export output smoke @smoke", () => {
       `solidarity-${download.suggestedFilename()}`,
     );
     await download.saveAs(filePath);
-    expect(fs.statSync(filePath).size).toBeGreaterThan(5_000);
+    const solidarityPngBytes = fs.readFileSync(filePath);
+    expect(solidarityPngBytes.length).toBeGreaterThan(5_000);
 
     const raw = await sampleDownloadedPng(page, filePath);
     const sample = sampleImageData(
@@ -237,7 +241,8 @@ test.describe("Tool export output smoke @smoke", () => {
       `org-chart-${download.suggestedFilename()}`,
     );
     await download.saveAs(filePath);
-    expect(fs.statSync(filePath).size).toBeGreaterThan(5_000);
+    const orgChartPngBytes = fs.readFileSync(filePath);
+    expect(orgChartPngBytes.length).toBeGreaterThan(5_000);
 
     const raw = await sampleDownloadedPng(page, filePath);
     const sample = sampleImageData(
@@ -278,9 +283,10 @@ test.describe("Tool export output smoke @smoke", () => {
     fs.mkdirSync(outDir, { recursive: true });
     const filePath = path.join(outDir, download.suggestedFilename());
     await download.saveAs(filePath);
-    expect(fs.statSync(filePath).size).toBeGreaterThan(20_000);
+    const zipBytes = fs.readFileSync(filePath);
+    expect(zipBytes.length).toBeGreaterThan(20_000);
 
-    const zip = await JSZip.loadAsync(fs.readFileSync(filePath));
+    const zip = await JSZip.loadAsync(zipBytes);
     const pngNames = Object.keys(zip.files).filter((n) =>
       /\.png$/i.test(n),
     );

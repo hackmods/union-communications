@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -22,7 +22,6 @@ const LOGO_MODE_TOOLS = [
 
 function pageSource(toolSlug: string): string {
   const page = join(TOOLS_ROOT, toolSlug, "page.tsx");
-  expect(statSync(page).isFile(), `${toolSlug}/page.tsx must exist`).toBe(true);
   return readFileSync(page, "utf8");
 }
 
@@ -41,17 +40,17 @@ describe("canvas tool logoMode defaults (source guard)", () => {
   );
 
   it("covers every tools/* page that imports BoardLogoMode or logoMode state", () => {
-    const slugs = readdirSync(TOOLS_ROOT).filter((name) =>
-      statSync(join(TOOLS_ROOT, name)).isDirectory(),
-    );
+    const slugs = readdirSync(TOOLS_ROOT, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name);
     const withLogoMode = slugs.filter((slug) => {
       const page = join(TOOLS_ROOT, slug, "page.tsx");
+      let source: string;
       try {
-        if (!statSync(page).isFile()) return false;
+        source = readFileSync(page, "utf8");
       } catch {
         return false;
       }
-      const source = readFileSync(page, "utf8");
       return (
         source.includes("logoMode") &&
         (source.includes("BoardLogoMode") ||
