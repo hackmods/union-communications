@@ -34,6 +34,9 @@ workflow even though union rename already existed.
   “Menu” visible label (aria-label carries open/close); `DisplaySettingsMenu`
   portals with rem-aware flip; Header + HubNav remeasure on `data-font-size`;
   matrix e2e in `e2e/mobile-menu.matrix.spec.ts`.
+- Defer polish: `OrganizationStatusFilter` on locals/collectives; create
+  collective moved into `CollectivesAdminPanel` footer (`CreateCollectiveForm`);
+  jump links on union detail; title “Organization structure — {name}”.
 
 ## Do not
 

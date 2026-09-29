@@ -21,6 +21,7 @@ import {
   brandCollectiveOptionsForPreset,
   brandCollectionOptionsForPreset,
 } from "@/lib/site-admin/brand-structure-options";
+import { CreateCollectiveForm } from "@/components/site-admin/CreateCollectiveForm";
 import { CreateLocalForm } from "@/components/site-admin/CreateLocalForm";
 import { CollectivesAdminPanel } from "@/components/site-admin/CollectivesAdminPanel";
 import { LocalsAdminPanel } from "@/components/site-admin/LocalsAdminPanel";
@@ -188,11 +189,41 @@ export default async function SiteAdminOrganizationUnionPage({
         <p className="mt-1 text-sm text-opseu-gray-dark">
           {t("organizationUnionBody")}
         </p>
+        <nav
+          className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm"
+          aria-label={t("organizationJumpLabel")}
+        >
+          {(
+            [
+              ["#organization-union", "organizationJumpUnion"],
+              ["#organization-collectives", "organizationJumpCollectives"],
+              ["#organization-locals", "organizationJumpLocals"],
+              ["#organization-policy", "organizationJumpPolicy"],
+              ["#organization-create-local", "organizationJumpCreateLocal"],
+            ] as const
+          ).map(([href, key]) => (
+            <a
+              key={href}
+              href={href}
+              className="font-medium text-opseu-blue underline-offset-2 hover:underline"
+            >
+              {t(key)}
+            </a>
+          ))}
+        </nav>
       </header>
 
       <UnionLocalsLifecyclePanel union={unionRow} />
 
-      <CollectivesAdminPanel rows={collectiveRows} />
+      <CollectivesAdminPanel
+        rows={collectiveRows}
+        footer={
+          <CreateCollectiveForm
+            unionId={unionId}
+            collectiveCatalog={collectiveCatalog}
+          />
+        }
+      />
 
       <LocalsAdminPanel
         rows={rows}
@@ -200,14 +231,14 @@ export default async function SiteAdminOrganizationUnionPage({
         collectiveNameById={
           new Map(collectiveRows.map((row) => [row.id, row.name]))
         }
-      />
-
-      <CreateLocalForm
-        unionId={unionId}
-        membershipPolicy={unionRow.membershipPolicy}
-        collectives={activeCollectives}
-        collectiveCatalog={collectiveCatalog}
-        collectionCatalog={collectionCatalog}
+        footer={
+          <CreateLocalForm
+            unionId={unionId}
+            membershipPolicy={unionRow.membershipPolicy}
+            collectives={activeCollectives}
+            collectionCatalog={collectionCatalog}
+          />
+        }
       />
     </main>
   );

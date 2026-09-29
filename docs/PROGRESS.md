@@ -7,6 +7,7 @@
 - “Local” stays the labour term for numbered units; only the Site Admin grouping label changed.
 - Mobile polish: locals/collectives card stacks with full-width actions; orphan collective kept in edit Select; Brand styles link when catalog empty; false “no active locals” empty row fixed.
 - Hub/public mobile menus at Accessibility maximum text: short Menu toggle label, viewport-safe Display Settings portal, live header/hub-bar remeasure for drawer top, matrix e2e coverage.
+- Defer polish landed: All/Active/Archived filters on locals + collectives; create collective under collectives panel; jump links; title “Organization structure — {name}”; min-h-11 touch targets on forms.
 
 ## 2026-09-28 — Learn UI + Viewport Lab remediation
 

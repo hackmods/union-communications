@@ -17,7 +17,10 @@ export function UnionLocalsLifecyclePanel({ union }: Props) {
   const t = useTranslations("hub.platformOperator");
 
   return (
-    <section className="mt-4 rounded-md border border-opseu-gray/15 bg-white p-4">
+    <section
+      id="organization-union"
+      className="mt-4 scroll-mt-28 rounded-md border border-opseu-gray/15 bg-white p-4"
+    >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <h2 className="text-lg font-semibold text-opseu-dark">
