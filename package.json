@@ -19,7 +19,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "node scripts/start-standalone.mjs",
-    "lint": "eslint",
+    "lint": "node scripts/run-lint.mjs",
     "check:zoom": "node scripts/check-zoom-guards.mjs",
     "check:security-audit": "node scripts/check-npm-audit.test.mjs",
     "check:security-workflows": "node scripts/check-security-workflows.mjs",
@@ -124,7 +124,7 @@
     "jsdom": "^29.1.1",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
-    "typescript": "^5",
+    "typescript": "^7",
     "vitest": "^4.1.10",
     "wawoff2": "^2.0.1"
   },
