@@ -102,7 +102,7 @@ export function MobileNavDrawer({
         aria-label={t("mainNav")}
         data-testid="mobile-nav-drawer"
         style={{ top: headerHeight }}
-        className="fixed bottom-0 right-0 z-[70] flex w-[min(100vw,23rem)] max-w-full flex-col border-l border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-xl"
+        className="fixed bottom-0 right-0 z-[70] flex w-full max-w-[min(100vw,23rem)] flex-col border-l border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-xl"
       >
         <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [-webkit-overflow-scrolling:touch]" aria-label={t("mainNav")}>
           <div className="space-y-1">

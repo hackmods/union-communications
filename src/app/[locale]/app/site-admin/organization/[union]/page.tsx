@@ -22,8 +22,8 @@ import {
   brandCollectionOptionsForPreset,
 } from "@/lib/site-admin/brand-structure-options";
 import { CreateLocalForm } from "@/components/site-admin/CreateLocalForm";
-import { LocalLifecycleActions } from "@/components/site-admin/LocalLifecycleActions";
 import { CollectivesAdminPanel } from "@/components/site-admin/CollectivesAdminPanel";
+import { LocalsAdminPanel } from "@/components/site-admin/LocalsAdminPanel";
 import { UnionLocalsLifecyclePanel } from "@/components/site-admin/UnionLocalsLifecyclePanel";
 
 export const dynamic = "force-dynamic";
@@ -194,90 +194,13 @@ export default async function SiteAdminOrganizationUnionPage({
 
       <CollectivesAdminPanel rows={collectiveRows} />
 
-      <section className="mt-6">
-        <header className="mb-3">
-          <h2 className="text-lg font-semibold text-opseu-dark">
-            {t("localsPanelTitle")}
-          </h2>
-          <p className="mt-1 text-sm text-opseu-gray-dark">
-            {t("localsPanelBody")}
-          </p>
-        </header>
-        <div className="overflow-x-auto rounded-md border border-opseu-gray/15 bg-white">
-          <table className="min-w-full divide-y divide-opseu-gray/15 text-sm">
-            <thead className="bg-opseu-gray/5 text-left text-xs uppercase text-opseu-gray-dark">
-              <tr>
-                <th className="px-3 py-2">{t("localsColNumber")}</th>
-                <th className="px-3 py-2">{t("localsColSubline")}</th>
-                <th className="px-3 py-2">{t("localsColCollective")}</th>
-                <th className="px-3 py-2">{t("localsColDemo")}</th>
-                <th className="px-3 py-2">{t("localsColArchived")}</th>
-                <th className="px-3 py-2" />
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-opseu-gray/10">
-              {rows.map((r) => {
-                const collectiveName =
-                  collectiveRows.find((c) => c.id === r.divisionId)?.name ??
-                  null;
-                return (
-                  <tr key={r.id}>
-                    <td className="px-3 py-2 font-mono text-xs text-opseu-dark">
-                      {r.localNumber}
-                    </td>
-                    <td className="px-3 py-2 text-opseu-gray-dark">
-                      {r.subText || "—"}
-                    </td>
-                    <td className="px-3 py-2 text-xs text-opseu-gray-dark">
-                      {collectiveName ?? "—"}
-                    </td>
-                    <td className="px-3 py-2 text-xs">
-                      {r.isDemo ? (
-                        <span className="rounded bg-opseu-orange/20 px-2 py-0.5 text-opseu-orange-dark">
-                          {t("usersDemoBadge")}
-                        </span>
-                      ) : (
-                        "—"
-                      )}
-                    </td>
-                    <td className="px-3 py-2 text-xs">
-                      {r.archivedAt
-                        ? r.archivedAt.toISOString().slice(0, 10)
-                        : "—"}
-                    </td>
-                    <td className="px-3 py-2 text-right">
-                      <LocalLifecycleActions
-                        localId={r.id}
-                        localNumber={r.localNumber}
-                        subText={r.subText}
-                        divisionId={r.divisionId}
-                        archived={Boolean(r.archivedAt)}
-                        empty={r.empty}
-                        collectives={activeCollectives}
-                        deleteBlockedReason={
-                          r.archivedAt && !r.empty
-                            ? t("localDeleteBlocked")
-                            : null
-                        }
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-              {rows.filter((r) => !r.archivedAt).length === 0 && (
-                <tr>
-                  <td
-                    colSpan={6}
-                    className="px-3 py-4 text-center text-sm text-opseu-gray-dark"
-                  >
-                    {t("localsNoneActive")}
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <LocalsAdminPanel
+        rows={rows}
+        collectives={activeCollectives}
+        collectiveNameById={
+          new Map(collectiveRows.map((row) => [row.id, row.name]))
+        }
+      />
 
       <CreateLocalForm
         unionId={unionId}

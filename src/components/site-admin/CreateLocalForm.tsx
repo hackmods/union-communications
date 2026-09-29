@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -385,7 +385,13 @@ export function CreateLocalForm({
           </Select>
         ) : (
           <p className="text-xs text-opseu-gray-dark">
-            {t("createCollectiveNoBrandCatalog")}
+            {t("createCollectiveNoBrandCatalog")}{" "}
+            <Link
+              href="/app/site-admin/brand-styles"
+              className="font-semibold text-opseu-blue underline underline-offset-2"
+            >
+              {t("createCollectiveBrandStylesLink")}
+            </Link>
           </p>
         )}
         <div className="grid gap-3 sm:grid-cols-2">

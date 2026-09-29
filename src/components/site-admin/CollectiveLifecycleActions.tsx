@@ -14,6 +14,8 @@ type Props = {
   archived: boolean;
   empty: boolean;
   deleteBlockedReason?: string | null;
+  /** Full-width stacked actions (mobile cards). */
+  stackActions?: boolean;
 };
 
 type Mode = "idle" | "edit" | "delete" | "stepUp";
@@ -28,6 +30,7 @@ export function CollectiveLifecycleActions({
   archived,
   empty,
   deleteBlockedReason = null,
+  stackActions = false,
 }: Props) {
   const t = useTranslations("hub.platformOperator");
   const router = useRouter();
@@ -172,8 +175,16 @@ export function CollectiveLifecycleActions({
     }
   }
 
+  const shellClass = stackActions
+    ? "flex w-full flex-col items-stretch gap-2"
+    : "flex max-w-sm flex-col items-end gap-2";
+  const actionRowClass = stackActions
+    ? "flex w-full flex-col gap-2"
+    : "flex w-full flex-wrap justify-end gap-2";
+  const actionBtnClass = stackActions ? "min-h-11 w-full" : "min-h-11";
+
   return (
-    <div className="flex max-w-sm flex-col items-end gap-2">
+    <div className={shellClass}>
       {error ? (
         <Callout tone="danger" role="alert" className="w-full p-2 text-xs">
           {error}
@@ -181,8 +192,8 @@ export function CollectiveLifecycleActions({
             <div className="mt-2 text-right">
               <Button
                 type="button"
-                size="sm"
                 variant="outline"
+                className={actionBtnClass}
                 onClick={() => window.location.reload()}
               >
                 {t("collectiveActionReload")}
@@ -206,7 +217,7 @@ export function CollectiveLifecycleActions({
             onChange={(event) => setCodeValue(event.target.value)}
             required
             disabled={busy}
-            className="min-h-9 px-2 py-1 text-sm font-mono"
+            className="min-h-11 font-mono"
           />
           <Input
             label={t("createCollectiveName")}
@@ -214,13 +225,13 @@ export function CollectiveLifecycleActions({
             onChange={(event) => setNameValue(event.target.value)}
             required
             disabled={busy}
-            className="min-h-9 px-2 py-1 text-sm"
+            className="min-h-11"
           />
-          <div className="flex gap-2">
+          <div className={actionRowClass}>
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              className={actionBtnClass}
               disabled={busy}
               onClick={() => {
                 setMode("idle");
@@ -233,7 +244,7 @@ export function CollectiveLifecycleActions({
             </Button>
             <Button
               type="submit"
-              size="sm"
+              className={actionBtnClass}
               disabled={busy || !codeValue.trim() || !nameValue.trim()}
             >
               {busy ? t("collectiveActionSaving") : t("collectiveEditSave")}
@@ -259,14 +270,14 @@ export function CollectiveLifecycleActions({
             onChange={(event) => setConfirmCode(event.target.value)}
             required
             disabled={busy}
-            className="min-h-9 px-2 py-1 text-sm font-mono"
+            className="min-h-11 font-mono"
             autoComplete="off"
           />
-          <div className="flex gap-2">
+          <div className={actionRowClass}>
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              className={actionBtnClass}
               disabled={busy}
               onClick={() => {
                 setMode("idle");
@@ -278,7 +289,7 @@ export function CollectiveLifecycleActions({
             </Button>
             <Button
               type="submit"
-              size="sm"
+              className={actionBtnClass}
               disabled={
                 busy ||
                 confirmCode.trim().toLowerCase() !== code.toLowerCase()
@@ -309,16 +320,16 @@ export function CollectiveLifecycleActions({
             autoFocus
             required
             disabled={busy}
-            className="min-h-9 px-2 py-1 text-sm"
+            className="min-h-11"
           />
           <p className="text-right text-xs text-opseu-gray-dark">
             {t("collectiveActionStepUpHelp")}
           </p>
-          <div className="flex gap-2">
+          <div className={actionRowClass}>
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              className={actionBtnClass}
               disabled={busy}
               onClick={() => {
                 setMode("idle");
@@ -331,7 +342,7 @@ export function CollectiveLifecycleActions({
             </Button>
             <Button
               type="submit"
-              size="sm"
+              className={actionBtnClass}
               disabled={busy || !mfaCode.trim()}
             >
               {busy
@@ -344,11 +355,11 @@ export function CollectiveLifecycleActions({
 
       {mode === "idle" ? (
         <div className="flex w-full flex-col items-end gap-2">
-          <div className="flex flex-wrap justify-end gap-2">
+          <div className={actionRowClass}>
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              className={actionBtnClass}
               disabled={busy || resultUnconfirmed}
               onClick={() => {
                 setCodeValue(code);
@@ -361,8 +372,8 @@ export function CollectiveLifecycleActions({
             </Button>
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              className={actionBtnClass}
               disabled={busy || resultUnconfirmed}
               onClick={() => void run(archived ? "restore" : "archive")}
             >
@@ -375,8 +386,8 @@ export function CollectiveLifecycleActions({
             {archived && empty ? (
               <Button
                 type="button"
-                size="sm"
                 variant="outline"
+                className={actionBtnClass}
                 disabled={busy || resultUnconfirmed}
                 onClick={() => {
                   setConfirmCode("");

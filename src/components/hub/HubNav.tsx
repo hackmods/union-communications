@@ -63,11 +63,30 @@ export function HubNav() {
       setDrawerTop(Math.ceil(el.getBoundingClientRect().bottom));
     };
     update();
-    if (typeof ResizeObserver === "undefined") return;
-    const observer = new ResizeObserver(update);
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [drawerOpen]);
+    const observer =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(update)
+        : null;
+    observer?.observe(el);
+    // Public header height changes with Accessibility text scale — keep the
+    // Hub drawer pinned under the live bar bottom, not a stale offset.
+    const siteHeader = document.querySelector("header");
+    if (siteHeader) observer?.observe(siteHeader);
+    window.addEventListener("resize", update);
+    window.addEventListener("scroll", update, true);
+    const mutation = new MutationObserver(update);
+    mutation.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-font-size", "style", "class"],
+    });
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", update, true);
+      mutation.disconnect();
+    };
+    // Re-bind when the drawer opens so the first open paint uses a fresh bottom.
+  }, [drawerOpen, pathname]);
 
   const closeDrawer = useCallback(() => {
     setDrawer(null);
@@ -162,7 +181,7 @@ export function HubNav() {
       <div
         className={cn(
           PAGE_SHELL.chrome,
-          "flex items-center justify-between gap-3 py-2 text-sm",
+          "flex flex-wrap items-center justify-between gap-x-3 gap-y-2 py-2 text-sm",
         )}
       >
         <div className="flex min-w-0 items-center gap-2">
@@ -298,7 +317,7 @@ export function HubNav() {
           ref={toggleRef}
           type="button"
           className={cn(
-            "relative z-[80] inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-gray-200 text-opseu-dark hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2",
+            "relative z-[80] inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-md border border-gray-200 px-3 text-sm font-semibold text-opseu-dark hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2",
             dashboard ? "2xl:hidden" : "lg:hidden",
           )}
           aria-expanded={drawerOpen}
@@ -308,22 +327,19 @@ export function HubNav() {
           onClick={toggleDrawer}
         >
           {drawerOpen ? (
-            <span className="inline-flex items-center gap-2 px-2 text-sm font-semibold">
-              <span aria-hidden="true" className="text-xl leading-none">
-                ×
-              </span>
-              <span className="hidden sm:inline">{t("closeHubMenu")}</span>
+            <span aria-hidden="true" className="text-xl leading-none">
+              ×
             </span>
           ) : (
-            <span className="inline-flex items-center gap-2 px-2 text-sm font-semibold">
-              <span aria-hidden="true" className="flex flex-col gap-1.5">
-                <span className="block h-0.5 w-5 bg-current" />
-                <span className="block h-0.5 w-5 bg-current" />
-                <span className="block h-0.5 w-5 bg-current" />
-              </span>
-              <span className="hidden sm:inline">{t("openHubMenuShort")}</span>
+            <span aria-hidden="true" className="flex flex-col gap-1.5">
+              <span className="block h-0.5 w-5 bg-current" />
+              <span className="block h-0.5 w-5 bg-current" />
+              <span className="block h-0.5 w-5 bg-current" />
             </span>
           )}
+          {/* Short visible label — full open/close strings stay on aria-label so
+              large Accessibility text sizes do not overflow the chrome. */}
+          <span>{t("openHubMenuShort")}</span>
         </button>
       </div>
 

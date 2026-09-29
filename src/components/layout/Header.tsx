@@ -47,11 +47,23 @@ export function Header() {
       document.documentElement.style.setProperty("--site-header-height", `${height}px`);
     };
     updateHeight();
-    if (typeof ResizeObserver === "undefined") return;
-    const observer = new ResizeObserver(updateHeight);
-    observer.observe(element);
+    const observer =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(updateHeight)
+        : null;
+    observer?.observe(element);
+    // Accessibility text scale changes rem sizing — remeasure even if the
+    // ResizeObserver batch is delayed behind a preference MutationObserver.
+    const mutation = new MutationObserver(updateHeight);
+    mutation.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-font-size", "style", "class"],
+    });
+    window.addEventListener("resize", updateHeight);
     return () => {
-      observer.disconnect();
+      observer?.disconnect();
+      mutation.disconnect();
+      window.removeEventListener("resize", updateHeight);
       document.documentElement.style.removeProperty("--site-header-height");
     };
   }, [drawerOpen]);

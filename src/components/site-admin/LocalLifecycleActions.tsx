@@ -18,7 +18,11 @@ type Props = {
   archived: boolean;
   empty: boolean;
   collectives: CollectiveOption[];
+  /** Label when the bound collective is archived / missing from the active list. */
+  orphanCollectiveName?: string | null;
   deleteBlockedReason?: string | null;
+  /** Full-width stacked actions (mobile cards). */
+  stackActions?: boolean;
 };
 
 type Mode = "idle" | "edit" | "delete" | "stepUp";
@@ -34,7 +38,9 @@ export function LocalLifecycleActions({
   archived,
   empty,
   collectives,
+  orphanCollectiveName = null,
   deleteBlockedReason = null,
+  stackActions = false,
 }: Props) {
   const t = useTranslations("hub.platformOperator");
   const router = useRouter();
@@ -171,17 +177,25 @@ export function LocalLifecycleActions({
     }
   }
 
+  const shellClass = stackActions
+    ? "flex w-full flex-col items-stretch gap-2"
+    : "flex max-w-sm flex-col items-end gap-2";
+  const actionRowClass = stackActions
+    ? "flex w-full flex-col gap-2"
+    : "flex w-full flex-wrap justify-end gap-2";
+  const actionBtnClass = stackActions ? "min-h-11 w-full" : "min-h-11";
+
   return (
-    <div className="flex max-w-sm flex-col items-end gap-2">
+    <div className={shellClass}>
       {error ? (
         <Callout tone="danger" role="alert" className="w-full p-2 text-xs">
           {error}
           {resultUnconfirmed ? (
-            <div className="mt-2 text-right">
+            <div className={stackActions ? "mt-2" : "mt-2 text-right"}>
               <Button
                 type="button"
-                size="sm"
                 variant="outline"
+                className={actionBtnClass}
                 onClick={() => window.location.reload()}
               >
                 {t("localActionReload")}
@@ -193,7 +207,7 @@ export function LocalLifecycleActions({
 
       {mode === "edit" ? (
         <form
-          className="flex w-full flex-col items-end gap-2"
+          className="flex w-full flex-col gap-2"
           onSubmit={(event) => {
             event.preventDefault();
             void run("edit");
@@ -205,14 +219,14 @@ export function LocalLifecycleActions({
             onChange={(event) => setNumberValue(event.target.value)}
             required
             disabled={busy}
-            className="min-h-9 px-2 py-1 text-sm font-mono"
+            className="min-h-11 font-mono"
           />
           <Input
             label={t("createLocalSubText")}
             value={subTextValue}
             onChange={(event) => setSubTextValue(event.target.value)}
             disabled={busy}
-            className="min-h-9 px-2 py-1 text-sm"
+            className="min-h-11"
           />
           <Select
             label={t("createLocalCollective")}
@@ -226,12 +240,22 @@ export function LocalLifecycleActions({
                 {collective.name}
               </option>
             ))}
+            {divisionId &&
+            !collectives.some((collective) => collective.id === divisionId) ? (
+              <option value={divisionId}>
+                {orphanCollectiveName
+                  ? t("localEditOrphanCollective", {
+                      name: orphanCollectiveName,
+                    })
+                  : t("localEditOrphanCollectiveUnknown")}
+              </option>
+            ) : null}
           </Select>
-          <div className="flex gap-2">
+          <div className={actionRowClass}>
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              className={actionBtnClass}
               disabled={busy}
               onClick={() => {
                 setMode("idle");
@@ -245,7 +269,7 @@ export function LocalLifecycleActions({
             </Button>
             <Button
               type="submit"
-              size="sm"
+              className={actionBtnClass}
               disabled={busy || !numberValue.trim()}
             >
               {busy ? t("localArchiveSaving") : t("localEditSave")}
@@ -256,13 +280,19 @@ export function LocalLifecycleActions({
 
       {mode === "delete" ? (
         <form
-          className="flex w-full flex-col items-end gap-2"
+          className="flex w-full flex-col gap-2"
           onSubmit={(event) => {
             event.preventDefault();
             void run("delete");
           }}
         >
-          <p className="text-right text-xs text-opseu-gray-dark">
+          <p
+            className={
+              stackActions
+                ? "text-xs text-opseu-gray-dark"
+                : "text-right text-xs text-opseu-gray-dark"
+            }
+          >
             {t("localDeleteHelp", { number: localNumber })}
           </p>
           <Input
@@ -271,14 +301,14 @@ export function LocalLifecycleActions({
             onChange={(event) => setConfirmNumber(event.target.value)}
             required
             disabled={busy}
-            className="min-h-9 px-2 py-1 text-sm font-mono"
+            className="min-h-11 font-mono"
             autoComplete="off"
           />
-          <div className="flex gap-2">
+          <div className={actionRowClass}>
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              className={actionBtnClass}
               disabled={busy}
               onClick={() => {
                 setMode("idle");
@@ -290,7 +320,7 @@ export function LocalLifecycleActions({
             </Button>
             <Button
               type="submit"
-              size="sm"
+              className={actionBtnClass}
               disabled={busy || confirmNumber.trim() !== localNumber}
             >
               {busy ? t("localArchiveSaving") : t("localDeleteConfirm")}
@@ -301,7 +331,7 @@ export function LocalLifecycleActions({
 
       {mode === "stepUp" && pendingAction ? (
         <form
-          className="flex w-full flex-col items-end gap-2"
+          className="flex w-full flex-col gap-2"
           onSubmit={(event) => {
             event.preventDefault();
             void run(pendingAction, mfaCode);
@@ -316,16 +346,22 @@ export function LocalLifecycleActions({
             autoFocus
             required
             disabled={busy}
-            className="min-h-9 px-2 py-1 text-sm"
+            className="min-h-11"
           />
-          <p className="text-right text-xs text-opseu-gray-dark">
+          <p
+            className={
+              stackActions
+                ? "text-xs text-opseu-gray-dark"
+                : "text-right text-xs text-opseu-gray-dark"
+            }
+          >
             {t("localActionStepUpHelp")}
           </p>
-          <div className="flex gap-2">
+          <div className={actionRowClass}>
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              className={actionBtnClass}
               disabled={busy}
               onClick={() => {
                 setMode("idle");
@@ -338,7 +374,7 @@ export function LocalLifecycleActions({
             </Button>
             <Button
               type="submit"
-              size="sm"
+              className={actionBtnClass}
               disabled={busy || !mfaCode.trim()}
             >
               {busy ? t("localArchiveSaving") : t("localActionConfirm")}
@@ -348,12 +384,12 @@ export function LocalLifecycleActions({
       ) : null}
 
       {mode === "idle" ? (
-        <div className="flex w-full flex-col items-end gap-2">
-          <div className="flex flex-wrap justify-end gap-2">
+        <div className={stackActions ? "flex w-full flex-col gap-2" : "flex w-full flex-col items-end gap-2"}>
+          <div className={actionRowClass}>
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              className={actionBtnClass}
               disabled={busy || resultUnconfirmed}
               onClick={() => {
                 setNumberValue(localNumber);
@@ -367,8 +403,8 @@ export function LocalLifecycleActions({
             </Button>
             <Button
               type="button"
-              size="sm"
               variant="outline"
+              className={actionBtnClass}
               disabled={busy || resultUnconfirmed}
               onClick={() => void run(archived ? "restore" : "archive")}
             >
@@ -381,8 +417,8 @@ export function LocalLifecycleActions({
             {archived && empty ? (
               <Button
                 type="button"
-                size="sm"
                 variant="outline"
+                className={actionBtnClass}
                 disabled={busy || resultUnconfirmed}
                 onClick={() => {
                   setConfirmNumber("");
@@ -395,7 +431,13 @@ export function LocalLifecycleActions({
             ) : null}
           </div>
           {archived && !empty && deleteBlockedReason ? (
-            <p className="max-w-xs text-right text-xs text-opseu-gray-dark">
+            <p
+              className={
+                stackActions
+                  ? "text-xs text-opseu-gray-dark"
+                  : "max-w-xs text-right text-xs text-opseu-gray-dark"
+              }
+            >
               {deleteBlockedReason}
             </p>
           ) : null}

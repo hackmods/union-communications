@@ -26,6 +26,14 @@ workflow even though union rename already existed.
   `snippetSetupCollectionsForPreset` for collections when `commsPresetId` is bound.
 - UI: `LocalLifecycleActions`, `CollectivesAdminPanel`, catalog-aware
   `CreateLocalForm`.
+- Mobile polish: `LocalsAdminPanel` / collectives card stacks with
+  `stackActions`; orphan collective option in local edit Select; Brand styles
+  deep link when catalog empty; `localsOnlyArchived` when every local is
+  archived (do not show “no locals”).
+- Hub/public menus at Accessibility maximum text: Hub toggle keeps short
+  “Menu” visible label (aria-label carries open/close); `DisplaySettingsMenu`
+  portals with rem-aware flip; Header + HubNav remeasure on `data-font-size`;
+  matrix e2e in `e2e/mobile-menu.matrix.spec.ts`.
 
 ## Do not
 
