@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/Checkbox";
 import type { InviteRoleOption } from "@/lib/tenant/access";
 import { formatRoleLabel, formatRoleList } from "@/lib/auth/role-labels";
 import type { UserRole } from "@/types/tenant";
+import { isAccessRequestId } from "@/lib/security/access-request-id";
 import {
   UNION_LOCAL_SELECT_OTHER,
   UnionLocalSelect,
@@ -217,7 +218,13 @@ export function InvitesBoard() {
     let cancelled = false;
     void (async () => {
       try {
-        const res = await fetch(`/api/access-requests/${requestId}`);
+        if (!isAccessRequestId(requestId)) {
+          if (!cancelled) setError(t("fulfillingRequestLoadFailed"));
+          return;
+        }
+        const res = await fetch(
+          `/api/access-requests/${encodeURIComponent(requestId)}`,
+        );
         if (!res.ok) {
           if (!cancelled) setError(t("fulfillingRequestLoadFailed"));
           return;

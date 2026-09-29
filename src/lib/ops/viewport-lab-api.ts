@@ -1,4 +1,5 @@
 import { VIEWPORT_LAB_BLOCKED_PATH_PREFIXES } from "@/lib/security/framing-policy";
+import { hasDisallowedUrlScheme } from "@/lib/security/url-schemes";
 
 export type ViewportLabLocale = "en" | "fr";
 
@@ -28,14 +29,19 @@ function normalizePathname(raw: string): string {
   } catch {
     return "";
   }
-  if (
-    trimmed.startsWith("javascript:") ||
-    trimmed.startsWith("data:") ||
-    trimmed.startsWith("blob:")
-  ) {
+  if (hasDisallowedUrlScheme(trimmed)) {
     return "";
   }
   return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+}
+
+/** Same-origin iframe src for Viewport Lab (never pass through raw user URLs). */
+export function buildViewportLabFrameSrc(rawPath: string): string {
+  const safe =
+    sanitizeViewportFramePath(rawPath) ??
+    sanitizeViewportFramePath(DEFAULT_PATH) ??
+    DEFAULT_PATH;
+  return ensureTrailingSlashPath(safe);
 }
 
 export function isBlockedViewportPath(pathname: string): boolean {

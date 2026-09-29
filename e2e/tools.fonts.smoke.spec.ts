@@ -248,7 +248,8 @@ test.describe("Canvas brand fonts rendering @smoke", () => {
     fs.mkdirSync(outDir, { recursive: true });
     const filePath = path.join(outDir, `barlow-${download.suggestedFilename()}`);
     await download.saveAs(filePath);
-    expect(fs.statSync(filePath).size).toBeGreaterThan(5_000);
+    const pngBytes = fs.readFileSync(filePath);
+    expect(pngBytes.length).toBeGreaterThan(5_000);
 
     const raw = await sampleDownloadedPng(page, filePath);
     const sample = sampleImageData(
@@ -287,10 +288,11 @@ test.describe("Canvas brand fonts rendering @smoke", () => {
     fs.mkdirSync(outDir, { recursive: true });
     const filePath = path.join(outDir, download.suggestedFilename());
     await download.saveAs(filePath);
-    expect(fs.statSync(filePath).size).toBeGreaterThan(15_000);
+    const pdfBytes = fs.readFileSync(filePath);
+    expect(pdfBytes.length).toBeGreaterThan(15_000);
 
     const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-    const data = new Uint8Array(fs.readFileSync(filePath));
+    const data = new Uint8Array(pdfBytes);
     const doc = await pdfjs.getDocument({ data }).promise;
     expect(doc.numPages).toBeGreaterThanOrEqual(1);
   });

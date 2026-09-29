@@ -72,7 +72,7 @@ test.describe("Hub governance (bylaws + proposals) @smoke", () => {
     // Publish a member-safe snapshot.
     await page.getByLabel(/Headline|Titre/i).first().fill("Smoke round: what we are asking for");
     await page.getByLabel(/Key points|Points clés/i).fill("Wage grid protection");
-    await page.getByRole("button", { name: /^Publish|Publier$/i }).click();
+    await page.getByRole("button", { name: /^(Publish|Publier)$/i }).click();
     // Badge shows on the header and on the publication card — assert any one.
     await expect(page.getByText(/Published to Local Portal/i).first()).toBeVisible();
   });

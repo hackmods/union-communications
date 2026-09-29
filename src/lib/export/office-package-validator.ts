@@ -1,4 +1,5 @@
 import JSZip from "jszip";
+import { scrubXmlMarkupForParsing } from "@/lib/security/markup-sanitize";
 export type OfficePackageKind = "docx" | "dotx" | "xlsx" | "pptx";
 export class OfficePackageValidationError extends Error {
   constructor(readonly issues: string[]) { super(`Office package failed validation: ${issues.join("; ")}`); this.name = "OfficePackageValidationError"; }
@@ -10,7 +11,7 @@ function normalize(source: string, target: string): string {
 }
 function xmlIssue(xml: string): string | null {
   const stack: string[] = [];
-  const scrubbed = xml.replace(/<!--[\s\S]*?-->/g, "").replace(/<\?[\s\S]*?\?>/g, "");
+  const scrubbed = scrubXmlMarkupForParsing(xml);
   for (const match of scrubbed.matchAll(/<\s*(\/)?\s*([A-Za-z_][\w:.-]*)([^>]*)>/g)) {
     const closing = Boolean(match[1]); const name = match[2]; const tail = match[3];
     if (closing) { if (stack.pop() !== name) return `mismatched closing tag ${name}`; }

@@ -12,6 +12,7 @@ import {
   buildWebsiteConfigJson,
 } from "@/lib/templates/website/website-config";
 import { hexToRgb } from "@/lib/utils/contrast";
+import { removeScriptBlocksFromHtml } from "@/lib/security/markup-sanitize";
 import {
   buildWordpressAdminPhp,
   buildWordpressConfigPhp,
@@ -517,7 +518,7 @@ export function encodeWordpressScreenshotPng(
 export function extractWebsiteBodyMarkup(html: string): string {
   const match = /<body[^>]*>\s*([\s\S]*?)\s*<\/body>/i.exec(html);
   const inner = match?.[1] ?? html;
-  return `${inner.replace(/\s*<script[\s\S]*?<\/script>/gi, "").trimEnd()}\n`;
+  return `${removeScriptBlocksFromHtml(inner)}\n`;
 }
 
 /** @deprecated Prefer PHP renderers in the exported theme. */

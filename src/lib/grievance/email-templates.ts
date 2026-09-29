@@ -176,7 +176,11 @@ export function buildEmailDraft(
   localNumber?: string,
 ): EmailDraft {
   const ctx: TemplateContext = { grievance, config, locale, localNumber };
-  const { subject, body } = TEMPLATES[templateId](ctx);
+  if (!Object.hasOwn(TEMPLATES, templateId)) {
+    throw new Error(`Unknown email template: ${templateId}`);
+  }
+  const render = TEMPLATES[templateId];
+  const { subject, body } = render(ctx);
   return { templateId, locale, subject, body };
 }
 
