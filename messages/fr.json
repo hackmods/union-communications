@@ -8382,7 +8382,7 @@
       "unionsFilterActive": "Actifs ({count})",
       "unionsFilterArchived": "Archivés ({count})",
       "unionsFilterEmpty": "Aucun syndicat ne correspond à ce filtre. Essayez Tous ou Actifs.",
-      "unionsDuplicateBanner": "{count} syndicats partagent un nom affiché avec une autre ligne — vérifiez avant d’inviter des dirigeants.",
+      "unionsDuplicateBanner": "{count} syndicats partagent un nom affiché avec une autre ligne — renommez ou archivez celui qui n’est pas utilisé, puis supprimez-le seulement lorsqu’il est vide, avant d’inviter des dirigeants.",
       "unionsDuplicateBadge": "Nom en double",
       "unionsOpenLocals": "Ouvrir les sections locales de ce syndicat",
       "unionDeleteBlockedLocals": "{count} sections",

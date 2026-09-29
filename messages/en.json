@@ -8436,7 +8436,7 @@
       "unionsFilterActive": "Active ({count})",
       "unionsFilterArchived": "Archived ({count})",
       "unionsFilterEmpty": "No unions match this filter. Try All or Active.",
-      "unionsDuplicateBanner": "{count} unions share a display name with another row — review before inviting officers.",
+      "unionsDuplicateBanner": "{count} unions share a display name with another row — rename or archive the unused one, then delete it only when empty, before inviting officers.",
       "unionsDuplicateBadge": "Duplicate name",
       "unionsOpenLocals": "Open locals for this union",
       "unionDeleteBlockedLocals": "{count} locals",
