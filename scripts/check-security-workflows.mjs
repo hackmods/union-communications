@@ -58,13 +58,24 @@ assert(deployStart >= 0, "CI must include a deploy job.");
 const deployBlock = ci.slice(deployStart);
 assert.match(
   deployBlock,
-  /needs:\s*\[docker-image, dispatch-image-scan, test-and-build, security-audit, secret-scan\]/,
-  "Deploy must wait for the built or selected image scan, test/build, dependency audit, and secret scan jobs.",
+  /needs:\s*\[docker-image, dispatch-image-scan, test-gate, security-audit, secret-scan\]/,
+  "Deploy must wait for the built or selected image scan, test-gate, dependency audit, and secret scan jobs.",
 );
 assert.match(
   deployBlock,
-  /needs\.test-and-build\.result == 'success'/,
-  "Every deployment trigger must require successful test/build.",
+  /needs\.test-gate\.result == 'success'/,
+  "Every deployment trigger must require a successful test-gate (quality + sharded E2E, or intentional docs-only skip).",
+);
+assert.match(ci, /\n  quality:\n/, "CI must include a quality job (lint/typecheck/unit).");
+assert.match(ci, /\n  build-app:\n/, "CI must include a build-app job that produces the standalone artifact.");
+assert.match(ci, /\n  e2e-smoke:\n/, "CI must include a sharded e2e-smoke job.");
+assert.match(ci, /\n  test-gate:\n/, "CI must include a test-gate job for deploy.");
+assert.match(ci, /--shard=\$\{\{\s*matrix\.shard\s*\}\}\/4/, "E2E smoke must shard across 4 runners.");
+assert.match(ci, /\n  detect-changes:\n/, "CI must detect docs-only PRs before skipping the test belt.");
+assert.match(
+  ci,
+  /needs\.detect-changes\.outputs\.run_full == 'true'/,
+  "quality/build/E2E must gate on detect-changes.run_full so main never skips.",
 );
 assert.match(
   deployBlock,

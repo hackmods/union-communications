@@ -20,7 +20,7 @@ If **you** host an instance, **you** are the data controller for data that insta
 
 ## GHCR images
 
-Containers publish to GitHub Container Registry from [`docker/Dockerfile`](../../docker/Dockerfile). CI workflow: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) — `docker-image` job is independent of E2E and runs `:main` + `:sha-<7-char>+ :production` build streams in parallel with the test-and-build job.
+Containers publish to GitHub Container Registry from [`docker/Dockerfile`](../../docker/Dockerfile). CI workflow: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) — `docker-image` job is independent of E2E and runs `:main` + `:sha-<7-char>+ :production` build streams in parallel with `quality` and the sharded `e2e-smoke` jobs (`test-gate` is the deploy dependency).
 
 **Main tip** (after successful CI on `main`):
 

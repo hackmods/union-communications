@@ -13,14 +13,20 @@ checks out the lockfile, runs `npm audit --json`, and passes the report plus
 exit status through the existing fail-closed severity/exception evaluator.
 `docker-image` now depends on `security-audit`, so neither `main` nor
 `production` image publication proceeds on an audit failure. The deploy job
-requires `docker-image`, `test-and-build`, and `security-audit`, and its
-condition explicitly requires successful test/build and audit results for push
-and manual dispatch. The image job remains parallel with the full browser/test
-job, so it does not wait for E2E before building.
+requires `docker-image`, `test-gate`, and `security-audit`, and its
+condition explicitly requires successful test-gate and audit results for push
+and manual dispatch. The image job remains parallel with the quality and
+sharded browser jobs, so it does not wait for E2E before building.
 
 `scripts/check-security-workflows.mjs` now asserts the audit job content, its
-dependency edge into image publication, all deploy dependencies, and required
-success conditions.
+dependency edge into image publication, all deploy dependencies (including
+`test-gate` / sharded E2E), and required success conditions.
+
+## 2026-09-29 follow-on — test sharding
+
+See [`session-knowledge-2026-09-29-ci-test-sharding.md`](session-knowledge-2026-09-29-ci-test-sharding.md):
+`test-and-build` replaced by `quality` ∥ `build-app` → 4× `e2e-smoke` +
+`test-gate`; PR docs-only allowlist; deploy never skips the belt on `main`.
 
 ## Verification and remaining gap
 

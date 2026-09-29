@@ -7,9 +7,11 @@ name: CI
 #     (see audit/session-knowledge-2026-09-16-caprover-app-config-drift.md).
 # On dispatch the docker-image job is skipped — the operator chose a
 # pre-published GHCR tag, which `dispatch-image-scan` pulls and scans before
-# deploy; the post-deploy /api/health smoke closes the loop. The test-and-build and
-# standalone dependency and secret scan jobs must pass before image
-# publication/deployment; the built image is scanned before registry login.
+# deploy; the post-deploy /api/health smoke closes the loop. The test-gate
+# (quality + sharded E2E) and standalone dependency/secret scan jobs must pass
+# before image publication/deployment; the built image is scanned before
+# registry login. PR docs-only diffs may skip the full test belt; main/deploy
+# never skips.
 on:
   pull_request:
   push:
@@ -41,7 +43,55 @@ permissions:
   packages: write
 
 jobs:
-  test-and-build:
+  # PR-only allowlist: skip quality/build/E2E when every changed file is docs,
+  # markdown, .cursor, or LICENSE*. Push to main and workflow_dispatch always
+  # run the full belt (deploy must never skip tests).
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      run_full: ${{ steps.set.outputs.run_full }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Decide whether the full test belt is required
+        id: set
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" != "pull_request" ]; then
+            echo "run_full=true" >> "$GITHUB_OUTPUT"
+            echo "Non-PR event — full test belt required."
+            exit 0
+          fi
+          CHANGED="$(git diff --name-only "origin/${BASE_REF}...HEAD")"
+          if [ -z "$CHANGED" ]; then
+            echo "run_full=true" >> "$GITHUB_OUTPUT"
+            echo "Empty diff — full test belt required (fail closed)."
+            exit 0
+          fi
+          run_full=false
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            if [[ "$f" == docs/* || "$f" == .cursor/* || "$f" == *.md || "$f" == LICENSE || "$f" == LICENSE.* ]]; then
+              continue
+            fi
+            run_full=true
+            break
+          done <<< "$CHANGED"
+          echo "run_full=${run_full}" >> "$GITHUB_OUTPUT"
+          if [ "$run_full" = "true" ]; then
+            echo "Code or config changes detected — full test belt required."
+          else
+            echo "Docs-only PR allowlist matched — skipping quality/build/E2E."
+          fi
+
+  quality:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.run_full == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -91,6 +141,21 @@ jobs:
       - name: Post-deploy readiness gate tests
         run: node --test scripts/verify-host-readiness.test.mjs
 
+  build-app:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.run_full == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Build
         env:
           AUTH_SECRET: ci-build-secret-not-for-production
@@ -102,6 +167,50 @@ jobs:
           SENTRY_PROJECT: javascript-nextjs
         run: npm run build
 
+      - name: Upload standalone build for E2E shards
+        uses: actions/upload-artifact@v7
+        with:
+          name: next-standalone-build
+          path: |
+            .next/standalone
+            .next/static
+            public
+          retention-days: 1
+          if-no-files-found: error
+
+  e2e-smoke:
+    needs: [detect-changes, build-app]
+    if: needs.detect-changes.outputs.run_full == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download standalone build
+        uses: actions/download-artifact@v7
+        with:
+          name: next-standalone-build
+          path: .
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
       - name: Install Playwright browsers
         run: |
           # ubuntu-latest ships Microsoft apt feeds that can break `apt update` (NOSPLIT / unsigned).
@@ -110,7 +219,7 @@ jobs:
             /etc/apt/sources.list.d/azure-cli* 2>/dev/null || true
           npx playwright install chromium --with-deps
 
-      - name: E2E smoke
+      - name: E2E smoke (shard ${{ matrix.shard }}/4)
         env:
           CI: "true"
           AUTH_SECRET: ci-build-secret-not-for-production
@@ -120,8 +229,35 @@ jobs:
           AUTH_ALLOW_DEMO_USERS: "true"
           NEXT_PUBLIC_DEMO_SITE: "true"
           NEXT_PUBLIC_OFFICER_HUB_PUBLIC: "true"
-        run: npm run test:smoke
+        run: npx playwright test --grep @smoke --shard=${{ matrix.shard }}/4
 
+  # Thin gate so deploy (and branch protection) wait on one job name whether
+  # the full belt ran or a docs-only PR intentionally skipped it.
+  test-gate:
+    needs: [detect-changes, quality, e2e-smoke]
+    if: always() && needs.detect-changes.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require quality + E2E (or intentional docs-only skip)
+        env:
+          RUN_FULL: ${{ needs.detect-changes.outputs.run_full }}
+          QUALITY_RESULT: ${{ needs.quality.result }}
+          E2E_RESULT: ${{ needs.e2e-smoke.result }}
+        run: |
+          set -euo pipefail
+          if [ "$RUN_FULL" != "true" ]; then
+            echo "Docs-only PR allowlist — full test belt intentionally skipped."
+            exit 0
+          fi
+          if [ "$QUALITY_RESULT" != "success" ]; then
+            echo "::error::quality job result was '${QUALITY_RESULT}' (expected success)."
+            exit 1
+          fi
+          if [ "$E2E_RESULT" != "success" ]; then
+            echo "::error::e2e-smoke job result was '${E2E_RESULT}' (expected success)."
+            exit 1
+          fi
+          echo "test-gate OK: quality + e2e-smoke succeeded."
 
   # Keep release security checks separate from E2E so image publication does
   # not wait for the full browser suite.
@@ -413,16 +549,16 @@ jobs:
           retention-days: 30
 
   deploy:
-    needs: [docker-image, dispatch-image-scan, test-and-build, security-audit, secret-scan]
+    needs: [docker-image, dispatch-image-scan, test-gate, security-audit, secret-scan]
     # Trigger on push to main (auto-deploy from CI image) OR on
     # workflow_dispatch (operator chose a pre-published GHCR tag via the
     # GH UI — see the workflow_dispatch inputs above this file).
     # `always()` is required so workflow_dispatch still runs when the
     # docker-image job is intentionally skipped (pre-published tag). Successful
-    # test/build and security-audit jobs are required for every deploy path.
+    # test-gate and security-audit jobs are required for every deploy path.
     if: |
       always() &&
-      needs.test-and-build.result == 'success' &&
+      needs.test-gate.result == 'success' &&
       needs.security-audit.result == 'success' &&
       needs.secret-scan.result == 'success' &&
       (

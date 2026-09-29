@@ -1,4 +1,11 @@
-﻿## 2026-09-29 — Organization structure admin uplift
+﻿## 2026-09-29 — CI test gate parallelization
+
+- Split serial `test-and-build` (~20 min) into `quality` ∥ `build-app` → 4× `e2e-smoke` shards + `test-gate`.
+- Build once; shards download standalone artifact; Playwright Chromium cached; CI `workers` stay at 1.
+- PR docs-only allowlist (`docs/**`, `*.md`, `.cursor/**`, `LICENSE*`) skips the full belt; `main`/deploy never skips.
+- Deploy waits on `test-gate`. Session: [`docs/audit/session-knowledge-2026-09-29-ci-test-sharding.md`](audit/session-knowledge-2026-09-29-ci-test-sharding.md).
+
+## 2026-09-29 — Organization structure admin uplift
 
 - Site Admin **Organization structure** (`/app/site-admin/organization`) merges the former Unions + Locals cards into one workspace. Legacy `/unions` and `/locals` routes redirect.
 - Bargaining collectives (Division): create with Brand Kit sector/division dropdowns + MFA, list with edit/archive/restore/empty hard-delete.
