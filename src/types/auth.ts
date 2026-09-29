@@ -1,3 +1,4 @@
+import type { DefaultSession } from "next-auth";
 import type { UserRole } from "@/types/tenant";
 import type {} from "next-auth/jwt";
 
@@ -16,12 +17,9 @@ declare module "next-auth" {
     sessionVersion?: number;
   }
 
-  interface Session {
-    user: {
+  interface Session extends DefaultSession {
+    user: DefaultSession["user"] & {
       id: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
       unionId?: string;
       divisionId?: string;
       localId?: string;
