@@ -10,11 +10,13 @@ PR #88 ([`Fix/caprover build oom deploy`](.github/workflows/ci.yml))
 hardens the **CI `deploy:` job** path, but it cannot restrict
 CapRover's own webhook handler — those are independent.
 
-**Recommendation:** the unionops app should run on **Method 3: Use Docker
-Image** with image `ghcr.io/hackmods/union-communications:main` so the
-app pulls the pre-built GHCR image and restarts without rebuilding on the
-droplet. `captain-definition` is consulted only when the deployment
-method is `Method 1`; once you flip to Method 3, this file is unused.
+**Recommendation:** the unionops app should run on **Method 6: Deploy via
+ImageName** with image `ghcr.io/hackmods/union-communications:production`
+(live bake: `NEXT_PUBLIC_DEMO_SITE=false`). Workshop hosts may pull `:main`
+instead. CapRover pulls the pre-built GHCR image and restarts without
+rebuilding on the droplet. `captain-definition` is consulted only when the
+deployment method is git webhook / Method 3 in current CapRover UI numbering;
+once you flip to ImageName, this file is unused.
 
 Audit: [`session-knowledge-2026-09-16-caprover-app-config-drift.md`](docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md)
 (columns "Deploy method" in

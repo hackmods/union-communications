@@ -19,10 +19,10 @@ on:
   workflow_dispatch:
     inputs:
       image_tag:
-        description: 'GHCR tag to deploy (e.g. "main", "production", "sha-abc1234"). Default: main.'
+        description: 'GHCR tag to deploy (e.g. "production", "main", "sha-abc1234"). Default: production (live bake).'
         required: false
         type: string
-        default: 'main'
+        default: 'production'
       target_url:
         description: 'Full URL to /api/health used by the post-deploy smoke (default: https://unionops.org/api/health). Set this when deploying to a staging URL or non-prod host.'
         required: false
@@ -322,7 +322,10 @@ jobs:
   docker-image:
     needs: [security-audit, secret-scan]
     outputs:
+      # Demo/workshop bake (NEXT_PUBLIC_DEMO_SITE=true) — :main / :sha-<7>
       published_image_ref: ${{ steps.verify-ghcr.outputs.image_ref }}
+      # Live CapRover bake (NEXT_PUBLIC_DEMO_SITE=false) — :production
+      published_production_image_ref: ${{ steps.verify-production.outputs.image_ref }}
     # Skip on workflow_dispatch — the operator chose a pre-published GHCR tag
     # and the build/push cycle would waste ~5 min. The deploy step validates
     # the chosen tag exists before invoking caprover.
@@ -491,6 +494,22 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: docker push ghcr.io/${{ github.repository }}:production
 
+      - name: Verify GHCR :production tag matches this push
+        id: verify-production
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          REPO="${{ github.repository }}"
+          digest="$(docker buildx imagetools inspect "ghcr.io/${REPO}:production" --format '{{.Manifest.Digest}}' 2>/dev/null || true)"
+          if [ -z "$digest" ] || [ "$digest" = "<no value>" ]; then
+            echo "::error::GHCR :production digest not readable after push."
+            exit 1
+          fi
+          echo "GHCR :production === ${digest} (commit ${EXPECTED_SHA})"
+          echo "image_ref=ghcr.io/${REPO}@${digest}" >> "$GITHUB_OUTPUT"
+
   # Manual dispatch can select a prebuilt tag, so scan that exact registry
   # image too. This prevents a skipped build job from becoming a scan bypass.
   dispatch-image-scan:
@@ -506,7 +525,7 @@ jobs:
           REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
-          TAG="${INPUT_TAG:-main}"
+          TAG="${INPUT_TAG:-production}"
           if [[ ! "$TAG" =~ ^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$ ]]; then
             echo "Invalid GHCR image tag."
             exit 1
@@ -589,7 +608,9 @@ jobs:
       - name: Resolve scanned image digest
         id: image
         env:
-          PUSH_IMAGE_REF: ${{ needs.docker-image.outputs.published_image_ref }}
+          # Live CapRover host pulls the non-demo bake. :main stays available for
+          # workshop hosts (NEXT_PUBLIC_DEMO_SITE=true) via workflow_dispatch.
+          PUSH_IMAGE_REF: ${{ needs.docker-image.outputs.published_production_image_ref }}
           DISPATCH_IMAGE_REF: ${{ needs.dispatch-image-scan.outputs.image_ref }}
         run: |
           set -euo pipefail

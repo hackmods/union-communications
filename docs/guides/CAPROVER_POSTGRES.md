@@ -59,7 +59,7 @@ Do **not** expose Postgres to the public internet.
 | Setting | Value |
 |---------|-------|
 | **Container HTTP Port** | `3000` (not 80 — wrong port causes NGINX 502) |
-| **Deploy method** | **Method 3: Use Docker Image** with image `ghcr.io/hackmods/union-communications:main` (avoids BuildKit `unknown parent` and on-droplet next-build OOMs on small hosts). **Do not** leave this on **Method 1: Deploy from GitHub** — even with PR #88 hardening on the **CI `deploy:` job**, the CapRover app-level git webhook fires independently on every push to `main` and runs `docker build` on the droplet, OOM-SIGKILLing at `RUN npm run build`. Switch to Method 3 once and the webhook path is gone. See [session-knowledge-2026-08-25-caprover-buildkit.md](../audit/session-knowledge-2026-08-25-caprover-buildkit.md) and [session-knowledge-2026-09-16-caprover-app-config-drift.md](../audit/session-knowledge-2026-09-16-caprover-app-config-drift.md). |
+| **Deploy method** | **Method 6: Deploy via ImageName** with image `ghcr.io/hackmods/union-communications:production` (live bake: `NEXT_PUBLIC_DEMO_SITE=false`). Workshop/demo hosts may use `:main` instead. Avoids BuildKit `unknown parent` and on-droplet next-build OOMs. **Do not** leave the app on **Method 3: Deploy from Github** (git webhook) — that path runs `docker build` on the droplet and OOM-SIGKILLs at `RUN npm run build`. CapRover's UI numbered methods differently than older docs; ImageName is Method 6. See [session-knowledge-2026-08-25-caprover-buildkit.md](../audit/session-knowledge-2026-08-25-caprover-buildkit.md) and [session-knowledge-2026-09-16-caprover-app-config-drift.md](../audit/session-knowledge-2026-09-16-caprover-app-config-drift.md). |
 
 Paste-ready env template: [`docker/.env.production.example`](../../docker/.env.production.example).
 
@@ -321,7 +321,7 @@ Set all `*_DB_BACKEND=memory` and restart — Postgres data is **not read** unti
 
 | Symptom | Fix |
 |---------|-----|
-| Build fails `unknown parent image ID` on `COPY --from=…` | CapRover droplet BuildKit/disk issue — **prefer GHCR pull deploy** (`ghcr.io/hackmods/union-communications:main`) via CapRover **Method 3: Deploy via ImageName**, or set GitHub secrets `CAPROVER_SERVER`, `CAPROVER_PASSWORD`, `CAPROVER_APP` so CI deploys the pre-built image. On the host: `df -h`, `docker builder prune -af`, ensure no cron runs `docker system prune` during builds. |
+| Build fails `unknown parent image ID` on `COPY --from=…` | CapRover droplet BuildKit/disk issue — **prefer GHCR pull deploy** (`ghcr.io/hackmods/union-communications:production`) via CapRover **Method 6: Deploy via ImageName**, or set GitHub secrets `CAPROVER_SERVER`, `CAPROVER_PASSWORD`, `CAPROVER_APP` so CI deploys the pre-built image. On the host: `df -h`, `docker builder prune -af`, ensure no cron runs `docker system prune` during builds. |
 | Build dies `npm error signal SIGKILL` during `next build` | On-droplet build OOM-killed by the memory cgroup (Next 16 Turbopack, not a code error). Do **not** rebuild on-host — pull the GHCR image instead, or add ~2–4 GB swap first. See [`session-knowledge-2026-09-16-build-oom.md`](../audit/session-knowledge-2026-09-16-build-oom.md). |
 | CapRover NGINX **502** | Web app Container HTTP Port = **3000** |
 | Redirects to `*.captain…` / wrong cookies | `AUTH_URL=https://unionops.org` (browser-facing HTTPS, no trailing slash) |

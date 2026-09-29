@@ -25,10 +25,12 @@ Containers publish to GitHub Container Registry from [`docker/Dockerfile`](../..
 **Main tip** (after successful CI on `main`):
 
 ```text
-ghcr.io/hackmods/union-communications:main
-ghcr.io/hackmods/union-communications:sha-<short>
-ghcr.io/hackmods/union-communications:production  # NEXT_PUBLIC_DEMO_SITE=false
+ghcr.io/hackmods/union-communications:production  # live CapRover — NEXT_PUBLIC_DEMO_SITE=false
+ghcr.io/hackmods/union-communications:main        # workshop/demo bake — NEXT_PUBLIC_DEMO_SITE=true
+ghcr.io/hackmods/union-communications:sha-<short> # same bake as :main for that commit
 ```
+
+CI auto-deploy to CapRover pulls **`:production`**. Manual `workflow_dispatch` defaults to `production`; pass `main` only for demo hosts.
 
 **Tagged releases** (`v*` — see [`.github/workflows/release.yml`](../../.github/workflows/release.yml)):
 
@@ -71,7 +73,7 @@ There are three independent paths that can roll the image out. They run in paral
 - `push` event on `main` triggers `ci.yml`.
 - The `docker-image` job builds + pushes `:main` (and `:sha-<7-char>` + `:production` in parallel).
 - `docker-image` post-publish verification reads `:main` and `:sha-<7-char>` digests via `docker buildx imagetools inspect`; **fails loud with `::error::` on drift** (expired token, registry republish race, missed upload). Operator sees the drift *before* the deploy job fires.
-- The `deploy` job runs `caprover deploy --imageName ghcr.io/<repo>:main` against `CAPROVER_SERVER/PASSWORD/APP` GitHub secrets.
+- The `deploy` job runs `caprover deploy --imageName` with the **`:production`** digest against `CAPROVER_SERVER/PASSWORD/APP` GitHub secrets (live bake). Workshop hosts: `workflow_dispatch` with `image_tag=main`.
 - The post-deploy `Post-deploy /api/health smoke` step polls `https://unionops.org/api/health` for ~100 s and fails loud if `.commit` does not match the just-deployed SHA.
 
 ### 2. Manual deploy from the GitHub UI (`workflow_dispatch`)
@@ -84,7 +86,7 @@ In [GitHub → repo → Actions → CI → Run workflow → inputs]:
 
 | Input | Default | Notes |
 |---|---|---|
-| `image_tag` | `main` | Pass `production`, `sha-abc1234`, etc. Must already exist in GHCR (the `docker-image` job only runs on `push` to main, not on dispatch). |
+| `image_tag` | `production` | Pass `main` (demo bake), `sha-abc1234`, etc. Must already exist in GHCR (the `docker-image` job only runs on `push` to main, not on dispatch). |
 | `target_url` | `https://unionops.org/api/health` | Full URL the post-deploy smoke polls. Set when dispatching to a staging URL or non-prod host. |
 | `skip_smoke` | `false` | Set `true` only when deploying to a host whose `/api/health` doesn't report the dispatched SHA (e.g. pre-rollback verification). |
 
@@ -99,7 +101,7 @@ docker run --rm caprover/cli-caprover:2.2.3 caprover deploy \
   --caproverUrl "$CAPROVER_SERVER" \
   --caproverPassword "$CAPROVER_PASSWORD" \
   --caproverApp "$CAPROVER_APP" \
-  --imageName "ghcr.io/hackmods/union-communications:${image_tag:-main}"
+  --imageName "ghcr.io/hackmods/union-communications:${image_tag:-production}"
 ```
 
 This is the exact command the CI `deploy` job runs. The image pulls from GHCR and CapRover restarts the cluster; no `next build` on the droplet. There's no post-deploy smoke on this path — verify manually with `curl -sL https://<host>/api/health`.
@@ -191,7 +193,7 @@ Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_
 | `NEXT_PUBLIC_OFFICER_HUB_PUBLIC` | `true` (Docker soft-launch default) |
 | `NEXT_PUBLIC_DEMO_SITE` | `true` on demo hosts; `false` for live tenants. Bake at **build** time (login hint). The runner image also sets `AUTH_ALLOW_DEMO_USERS` to the same value so production `authorize()` matches the hint. |
 
-3. **Deployment Method = Method 3: Use Docker Image** with image `ghcr.io/hackmods/union-communications:main`. **Never** leave this on Method 1 (git webhook) on a small CapRover droplet — see [audit/session-knowledge-2026-09-16-caprover-app-config-drift.md](../audit/session-knowledge-2026-09-16-caprover-app-config-drift.md). The CI `deploy` job hardens the CI path, but CapRover's webhook handler is independent and still OOMs.
+3. **Deployment Method = Method 6: Deploy via ImageName** with image `ghcr.io/hackmods/union-communications:production`. **Never** leave this on Method 3 (git webhook) on a small CapRover droplet — see [audit/session-knowledge-2026-09-16-caprover-app-config-drift.md](../audit/session-knowledge-2026-09-16-caprover-app-config-drift.md). The CI `deploy` job hardens the CI path, but CapRover's webhook handler is independent and still OOMs.
 4. Health check: `GET /api/health`. After deploy, the CI's post-deploy smoke should already have verified this; spot-check manually with `curl -sL https://<host>/api/health` and confirm `.commit` matches the SHA you just deployed.
 5. **Public `unionops.org` host:** point the installable origin at apex `https://unionops.org`. Set `AUTH_URL=https://unionops.org` (same origin). Until `www` serves this app (or 301s to apex) with a trusted certificate, leave `www` off the PWA service-worker allowlist (`src/lib/pwa/hosts.ts`). After deploy, spot-check `curl -sI https://unionops.org/examples/` — `Location` must stay on `unionops.org`, not the CapRover hostname.
 
@@ -209,7 +211,7 @@ Three options to restore a working **Method 3** pull deploy:
 
 1. Add the three secrets to the GH repo (Settings → Secrets → Actions). Subsequent pushes will auto-deploy.
 2. Run the workflow via `workflow_dispatch` *and the secrets stay missing* — the health-poll soft path still applies; if the host is stale, it fails.
-3. Use the `workflow_dispatch` with secrets **present on the GH repo**: the deploy step passes the secrets check, picks `:main` (or your `image_tag`), runs `caprover-cli`, polls `/api/health` smoke, done.
+3. Use the `workflow_dispatch` with secrets **present on the GH repo**: the deploy step passes the secrets check, picks `:production` (or your `image_tag`), runs `caprover-cli`, polls `/api/health` smoke, done.
 
 Suggested secret values for this host:
 

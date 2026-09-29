@@ -105,7 +105,7 @@ AUTH_MFA_MODE=totp
 
 **Option A — GHCR production tag (recommended on Digital Ocean):**
 
-CapRover → Deployment → **Method 3: Deploy via ImageName** (or App Configs image field):
+CapRover → Deployment → **Method 6: Deploy via ImageName** (or App Configs image field):
 
 ```text
 ghcr.io/hackmods/union-communications:production
