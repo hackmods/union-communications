@@ -563,7 +563,7 @@ export function TenantOnboardingWizard() {
             <Callout tone="muted" measure="fill">
               <p>{t("mintLocalAskSiteAdminBody")}</p>
               <Link
-                href="/app/site-admin/locals"
+                href="/app/site-admin/organization"
                 className="mt-2 inline-flex text-sm font-semibold text-opseu-blue underline"
               >
                 {t("mintLocalSiteAdminLink")}

@@ -558,7 +558,7 @@ export function PresidentConfiguration({
           </Callout>
         )}
         <Link
-          href="/app/site-admin/unions"
+          href="/app/site-admin/organization"
           className="inline-flex text-sm font-semibold text-opseu-blue underline"
         >
           {t("manageUnions")}
@@ -620,7 +620,7 @@ export function PresidentConfiguration({
               ))}
             </Select>
             <Link
-              href="/app/site-admin/unions"
+              href="/app/site-admin/organization"
               className="inline-flex text-sm font-semibold text-opseu-blue underline"
             >
               {t("manageUnions")}

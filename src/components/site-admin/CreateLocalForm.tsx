@@ -8,21 +8,36 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Callout } from "@/components/ui/Callout";
 import type { MembershipPolicy } from "@/lib/db/schema/tenant";
+import type { BrandStructureOption } from "@/lib/site-admin/brand-structure-options";
 
 type Props = {
   unionId: string;
   membershipPolicy: MembershipPolicy;
   collectives: Array<{ id: string; name: string }>;
+  collectiveCatalog: BrandStructureOption[];
+  collectionCatalog: BrandStructureOption[];
 };
 
-export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Props) {
+/**
+ * Membership policy + create bargaining collective + create local.
+ * Catalog dropdowns align Brand Kit sectors/collections to Hub structure.
+ */
+export function CreateLocalForm({
+  unionId,
+  membershipPolicy,
+  collectives,
+  collectiveCatalog,
+  collectionCatalog,
+}: Props) {
   const t = useTranslations("hub.platformOperator");
   const router = useRouter();
   const [localNumber, setLocalNumber] = useState("");
   const [subText, setSubText] = useState("");
   const [divisionId, setDivisionId] = useState("");
+  const [collectiveCatalogKey, setCollectiveCatalogKey] = useState("");
   const [collectiveCode, setCollectiveCode] = useState("");
   const [collectiveName, setCollectiveName] = useState("");
+  const [collectionCatalogKey, setCollectionCatalogKey] = useState("");
   const [collectionCode, setCollectionCode] = useState("");
   const [collectionName, setCollectionName] = useState("");
   const [policy, setPolicy] = useState<MembershipPolicy>(membershipPolicy);
@@ -30,11 +45,34 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
   const [mfaCode, setMfaCode] = useState("");
   const [stepUpRequired, setStepUpRequired] = useState(false);
   const [policyResultUnconfirmed, setPolicyResultUnconfirmed] = useState(false);
+  const [collectiveStepUpRequired, setCollectiveStepUpRequired] =
+    useState(false);
+  const [collectiveMfaCode, setCollectiveMfaCode] = useState("");
   const [localStepUpRequired, setLocalStepUpRequired] = useState(false);
   const [localMfaCode, setLocalMfaCode] = useState("");
   const [localResultUnconfirmed, setLocalResultUnconfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+
+  function applyCollectiveCatalog(key: string) {
+    setCollectiveCatalogKey(key);
+    if (!key) return;
+    const option = collectiveCatalog.find((row) => row.code === key);
+    if (option) {
+      setCollectiveCode(option.code);
+      setCollectiveName(option.name);
+    }
+  }
+
+  function applyCollectionCatalog(key: string) {
+    setCollectionCatalogKey(key);
+    if (!key) return;
+    const option = collectionCatalog.find((row) => row.code === key);
+    if (option) {
+      setCollectionCode(option.code);
+      setCollectionName(option.name);
+    }
+  }
 
   async function savePolicy(code?: string) {
     setBusy(true);
@@ -153,7 +191,11 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
           setLocalStepUpRequired(true);
           setLocalMfaCode("");
           setError(t("createLocalMfaLimited"));
-        } else if (data.code === "mfa_step_up_unavailable" || data.code === "audit_unavailable" || data.code === "durable_storage_required") {
+        } else if (
+          data.code === "mfa_step_up_unavailable" ||
+          data.code === "audit_unavailable" ||
+          data.code === "durable_storage_required"
+        ) {
           setLocalStepUpRequired(false);
           setLocalMfaCode("");
           setError(t("createLocalMfaUnavailable"));
@@ -177,6 +219,7 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
       );
       setLocalNumber("");
       setSubText("");
+      setCollectionCatalogKey("");
       setCollectionCode("");
       setCollectionName("");
       router.refresh();
@@ -193,19 +236,55 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch("/api/tenant", {
+      const res = await fetch("/api/site-admin/collectives", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "create_collective", unionId, code: collectiveCode.trim(), name: collectiveName.trim() }),
+        body: JSON.stringify({
+          unionId,
+          code: collectiveCode.trim(),
+          name: collectiveName.trim(),
+          ...(collectiveStepUpRequired
+            ? { mfaCode: collectiveMfaCode }
+            : {}),
+        }),
       });
-      const data = await res.json() as { error?: string; collective?: { id: string } };
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        code?: string;
+        collective?: { id: string };
+      };
       if (!res.ok || !data.collective) {
-        setError(data.error ?? t("createCollectiveFailed"));
+        if (data.code === "mfa_step_up_required") {
+          setCollectiveStepUpRequired(true);
+          setError(t("createCollectiveMfaRequired"));
+        } else if (data.code === "mfa_step_up_failed") {
+          setCollectiveStepUpRequired(true);
+          setCollectiveMfaCode("");
+          setError(t("createCollectiveMfaFailed"));
+        } else if (data.code === "mfa_step_up_limited") {
+          setCollectiveStepUpRequired(true);
+          setCollectiveMfaCode("");
+          setError(t("createCollectiveMfaLimited"));
+        } else if (
+          data.code === "mfa_step_up_unavailable" ||
+          data.code === "audit_unavailable"
+        ) {
+          setCollectiveStepUpRequired(false);
+          setCollectiveMfaCode("");
+          setError(t("createCollectiveMfaUnavailable"));
+        } else {
+          setCollectiveStepUpRequired(false);
+          setCollectiveMfaCode("");
+          setError(data.error ?? t("createCollectiveFailed"));
+        }
         return;
       }
       setDivisionId(data.collective.id);
+      setCollectiveCatalogKey("");
       setCollectiveCode("");
       setCollectiveName("");
+      setCollectiveMfaCode("");
+      setCollectiveStepUpRequired(false);
       setMessage(t("createCollectiveSaved"));
       router.refresh();
     } catch {
@@ -280,14 +359,86 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
         ) : null}
       </section>
 
-      <form onSubmit={createCollective} className="space-y-3 rounded-md border border-opseu-gray/15 bg-white p-4">
-        <h2 className="text-lg font-semibold text-opseu-dark">{t("createCollectiveTitle")}</h2>
-        <p className="text-sm text-opseu-gray-dark">{t("createCollectiveBody")}</p>
+      <form
+        onSubmit={createCollective}
+        className="space-y-3 rounded-md border border-opseu-gray/15 bg-white p-4"
+      >
+        <h2 className="text-lg font-semibold text-opseu-dark">
+          {t("createCollectiveTitle")}
+        </h2>
+        <p className="text-sm text-opseu-gray-dark">
+          {t("createCollectiveBody")}
+        </p>
+        {collectiveCatalog.length > 0 ? (
+          <Select
+            label={t("createCollectiveFromBrand")}
+            value={collectiveCatalogKey}
+            disabled={busy}
+            onChange={(event) => applyCollectiveCatalog(event.target.value)}
+          >
+            <option value="">{t("createCollectiveFromBrandPlaceholder")}</option>
+            {collectiveCatalog.map((option) => (
+              <option key={option.code} value={option.code}>
+                {option.name} ({option.code})
+              </option>
+            ))}
+          </Select>
+        ) : (
+          <p className="text-xs text-opseu-gray-dark">
+            {t("createCollectiveNoBrandCatalog")}
+          </p>
+        )}
         <div className="grid gap-3 sm:grid-cols-2">
-          <Input label={t("createCollectiveCode")} value={collectiveCode} required disabled={busy} maxLength={32} onChange={(event) => setCollectiveCode(event.target.value)} />
-          <Input label={t("createCollectiveName")} value={collectiveName} required disabled={busy} maxLength={200} onChange={(event) => setCollectiveName(event.target.value)} />
+          <Input
+            label={t("createCollectiveCode")}
+            value={collectiveCode}
+            required
+            disabled={busy}
+            maxLength={64}
+            onChange={(event) => {
+              setCollectiveCatalogKey("");
+              setCollectiveCode(event.target.value);
+            }}
+          />
+          <Input
+            label={t("createCollectiveName")}
+            value={collectiveName}
+            required
+            disabled={busy}
+            maxLength={200}
+            onChange={(event) => {
+              setCollectiveCatalogKey("");
+              setCollectiveName(event.target.value);
+            }}
+          />
         </div>
-        <Button type="submit" disabled={busy || !collectiveCode.trim() || !collectiveName.trim()}>{t("createCollectiveSubmit")}</Button>
+        {collectiveStepUpRequired ? (
+          <div className="space-y-2">
+            <Input
+              label={t("createCollectiveMfaCode")}
+              value={collectiveMfaCode}
+              onChange={(event) => setCollectiveMfaCode(event.target.value)}
+              autoComplete="one-time-code"
+              maxLength={32}
+              autoFocus
+              disabled={busy}
+            />
+            <p className="text-xs text-opseu-gray-dark">
+              {t("createCollectiveMfaHelp")}
+            </p>
+          </div>
+        ) : null}
+        <Button
+          type="submit"
+          disabled={
+            busy ||
+            !collectiveCode.trim() ||
+            !collectiveName.trim() ||
+            (collectiveStepUpRequired && !collectiveMfaCode.trim())
+          }
+        >
+          {t("createCollectiveSubmit")}
+        </Button>
       </form>
 
       <form
@@ -300,10 +451,22 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
         <p className="text-sm text-opseu-gray-dark">{t("createLocalBody")}</p>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <Select label={t("createLocalCollective")} value={divisionId} disabled={busy} onChange={(event) => setDivisionId(event.target.value)}>
+            <Select
+              label={t("createLocalCollective")}
+              value={divisionId}
+              disabled={busy}
+              onChange={(event) => setDivisionId(event.target.value)}
+            >
               <option value="">{t("createLocalCollectiveOther")}</option>
-              {collectives.map((collective) => <option key={collective.id} value={collective.id}>{collective.name}</option>)}
-              {divisionId && !collectives.some((collective) => collective.id === divisionId) ? <option value={divisionId}>{t("createCollectiveSaved")}</option> : null}
+              {collectives.map((collective) => (
+                <option key={collective.id} value={collective.id}>
+                  {collective.name}
+                </option>
+              ))}
+              {divisionId &&
+              !collectives.some((collective) => collective.id === divisionId) ? (
+                <option value={divisionId}>{t("createCollectiveSaved")}</option>
+              ) : null}
             </Select>
           </div>
           <Input
@@ -319,17 +482,44 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
             disabled={busy}
             onChange={(e) => setSubText(e.target.value)}
           />
+          {collectionCatalog.length > 0 ? (
+            <div className="sm:col-span-2">
+              <Select
+                label={t("createLocalCollectionFromBrand")}
+                value={collectionCatalogKey}
+                disabled={busy}
+                onChange={(event) =>
+                  applyCollectionCatalog(event.target.value)
+                }
+              >
+                <option value="">
+                  {t("createLocalCollectionFromBrandPlaceholder")}
+                </option>
+                {collectionCatalog.map((option) => (
+                  <option key={option.code} value={option.code}>
+                    {option.name} ({option.code})
+                  </option>
+                ))}
+              </Select>
+            </div>
+          ) : null}
           <Input
             label={t("createLocalCollectionCode")}
             value={collectionCode}
             disabled={busy}
-            onChange={(e) => setCollectionCode(e.target.value)}
+            onChange={(e) => {
+              setCollectionCatalogKey("");
+              setCollectionCode(e.target.value);
+            }}
           />
           <Input
             label={t("createLocalCollectionName")}
             value={collectionName}
             disabled={busy}
-            onChange={(e) => setCollectionName(e.target.value)}
+            onChange={(e) => {
+              setCollectionCatalogKey("");
+              setCollectionName(e.target.value);
+            }}
           />
         </div>
         {localStepUpRequired ? (
@@ -343,10 +533,20 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
               autoFocus
               disabled={busy || localResultUnconfirmed}
             />
-            <p className="text-xs text-opseu-gray-dark">{t("createLocalMfaHelp")}</p>
+            <p className="text-xs text-opseu-gray-dark">
+              {t("createLocalMfaHelp")}
+            </p>
           </div>
         ) : null}
-        <Button type="submit" disabled={busy || !localNumber.trim() || localResultUnconfirmed || (localStepUpRequired && !localMfaCode.trim())}>
+        <Button
+          type="submit"
+          disabled={
+            busy ||
+            !localNumber.trim() ||
+            localResultUnconfirmed ||
+            (localStepUpRequired && !localMfaCode.trim())
+          }
+        >
           {busy ? t("createLocalSaving") : t("createLocalSubmit")}
         </Button>
       </form>
@@ -366,7 +566,12 @@ export function CreateLocalForm({ unionId, membershipPolicy, collectives }: Prop
             </Button>
           ) : null}
           {localResultUnconfirmed ? (
-            <Button type="button" variant="outline" className="mt-3" onClick={() => window.location.reload()}>
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-3"
+              onClick={() => window.location.reload()}
+            >
               {t("createLocalReload")}
             </Button>
           ) : null}

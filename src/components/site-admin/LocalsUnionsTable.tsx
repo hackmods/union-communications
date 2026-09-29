@@ -85,7 +85,7 @@ export function LocalsUnionsTable({ rows }: Props) {
               <td className="px-3 py-2 text-right">
                 <div className="flex flex-col items-end gap-2">
                   <Link
-                    href={`/app/site-admin/locals/${encodeURIComponent(row.id)}`}
+                    href={`/app/site-admin/organization/${encodeURIComponent(row.id)}`}
                     className="text-sm font-medium text-opseu-blue hover:underline"
                   >
                     {t("usersOpen")}

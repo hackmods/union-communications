@@ -211,7 +211,7 @@ export default async function SiteAdminUsersPage({
       <p className="mt-3 text-xs text-opseu-gray-dark">
         {t("usersFooter", { pageSize: PAGE_SIZE })}{" "}
         <Link
-          href="/app/site-admin/locals"
+          href="/app/site-admin/organization"
           className="text-opseu-blue hover:underline"
         >
           {t("locals")}
