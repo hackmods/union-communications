@@ -1,23 +1,30 @@
 # captain-definition
 
-`captain-definition` (sibling) is the CapRover build manifest for
-**Method 1: Deploy from GitHub** (git webhook). It tells CapRover to build
-the image on the droplet using `./docker/Dockerfile`.
+`captain-definition` (sibling) is CapRover's app build/deploy manifest.
+It is consulted when CapRover deploys via git webhook / definition file
+(current CapRover UI: Method 3 Github, Method 5 captain-definition).
 
-If you keep the app on Method 1, every push to `main` triggers an on-droplet
-`docker build` → `next build` → OOM-SIGKILL on small CapRover droplets.
-PR #88 ([`Fix/caprover build oom deploy`](.github/workflows/ci.yml))
-hardens the **CI `deploy:` job** path, but it cannot restrict
-CapRover's own webhook handler — those are independent.
+This repo pins **image pull** so a stray webhook cannot run
+`docker build` / `next build` on the droplet (OOM on small hosts):
 
-**Recommendation:** the unionops app should run on **Method 6: Deploy via
-ImageName** with image `ghcr.io/hackmods/union-communications:production`
-(live bake: `NEXT_PUBLIC_DEMO_SITE=false`). Workshop hosts may pull `:main`
-instead. CapRover pulls the pre-built GHCR image and restarts without
-rebuilding on the droplet. `captain-definition` is consulted only when the
-deployment method is git webhook / Method 3 in current CapRover UI numbering;
-once you flip to ImageName, this file is unused.
+```json
+{
+  "schemaVersion": 2,
+  "imageName": "ghcr.io/hackmods/union-communications:production"
+}
+```
 
-Audit: [`session-knowledge-2026-09-16-caprover-app-config-drift.md`](docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md)
-(columns "Deploy method" in
-[`docs/guides/CAPROVER_POSTGRES.md`](docs/guides/CAPROVER_POSTGRES.md)).
+Live bake: `NEXT_PUBLIC_DEMO_SITE=false`. Workshop hosts that still use
+git deploy should override to `:main` in CapRover, or keep CI
+`workflow_dispatch` with `image_tag=main`.
+
+**Preferred path (independent of this file):** CI `deploy` job runs
+`caprover deploy --imageName` with the verified `:production` digest
+(`CAPROVER_SERVER` / `PASSWORD` / `APP`). Delete any GitHub webhook to
+`captain.*.*/…/triggerbuild` so Method 3 cannot fire on push.
+
+Do **not** restore `"dockerfilePath": "./docker/Dockerfile"` on the live
+unionops app — that forces on-droplet builds again.
+
+Audit: [`session-knowledge-2026-09-16-caprover-app-config-drift.md`](docs/audit/session-knowledge-2026-09-16-caprover-app-config-drift.md);
+ops: [`docs/guides/CAPROVER_POSTGRES.md`](docs/guides/CAPROVER_POSTGRES.md).
