@@ -137,6 +137,31 @@ export function removeOverlayDivision(unionId: string, divisionId: string): void
   if (seed?.divisions) seed.divisions = seed.divisions.filter((row) => row.id !== divisionId);
 }
 
+/** Patch code/name on an in-process division (bargaining collective). */
+export function updateOverlayDivision(
+  unionId: string,
+  divisionId: string,
+  patch: { code?: string; name?: string },
+): void {
+  const apply = (row: Division): Division => ({
+    ...row,
+    ...(patch.code !== undefined ? { code: patch.code.trim().toLowerCase() } : {}),
+    ...(patch.name !== undefined ? { name: patch.name.trim() } : {}),
+  });
+  divisionPatches.set(
+    unionId,
+    (divisionPatches.get(unionId) ?? []).map((row) =>
+      row.id === divisionId ? apply(row) : row,
+    ),
+  );
+  const seed = overlaySeeds.get(unionId);
+  if (seed?.divisions) {
+    seed.divisions = seed.divisions.map((row) =>
+      row.id === divisionId ? apply(row) : row,
+    );
+  }
+}
+
 export function getUnitPatches(unionId: string): BargainingUnit[] {
   return unitPatches.get(unionId) ?? [];
 }
@@ -275,6 +300,44 @@ export function removeOverlayLocal(unionId: string, localId: string): void {
   localPatches.set(unionId, (localPatches.get(unionId) ?? []).filter((row) => row.id !== localId));
   const seed = overlaySeeds.get(unionId);
   if (seed?.locals) seed.locals = seed.locals.filter((row) => row.id !== localId);
+}
+
+/** Patch number / sub-text / collective binding on an in-process local. */
+export function updateOverlayLocal(
+  unionId: string,
+  localId: string,
+  patch: {
+    localNumber?: string;
+    subText?: string;
+    divisionId?: string | null;
+  },
+): void {
+  const apply = (row: TenantLocal): TenantLocal => {
+    const next: TenantLocal = {
+      ...row,
+      ...(patch.localNumber !== undefined
+        ? { localNumber: patch.localNumber.trim() }
+        : {}),
+      ...(patch.subText !== undefined ? { subText: patch.subText.trim() } : {}),
+    };
+    if (patch.divisionId !== undefined) {
+      if (patch.divisionId) next.divisionId = patch.divisionId;
+      else delete next.divisionId;
+    }
+    return next;
+  };
+  localPatches.set(
+    unionId,
+    (localPatches.get(unionId) ?? []).map((row) =>
+      row.id === localId ? apply(row) : row,
+    ),
+  );
+  const seed = overlaySeeds.get(unionId);
+  if (seed?.locals) {
+    seed.locals = seed.locals.map((row) =>
+      row.id === localId ? apply(row) : row,
+    );
+  }
 }
 
 export function createOverlayCollection(input: {

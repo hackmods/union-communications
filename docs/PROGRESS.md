@@ -1,4 +1,15 @@
-﻿## 2026-09-28 — Learn UI + Viewport Lab remediation
+﻿## 2026-09-29 — Organization structure admin uplift
+
+- Site Admin **Organization structure** (`/app/site-admin/organization`) merges the former Unions + Locals cards into one workspace. Legacy `/unions` and `/locals` routes redirect.
+- Bargaining collectives (Division): create with Brand Kit sector/division dropdowns + MFA, list with edit/archive/restore/empty hard-delete.
+- Locals: edit number / sub-line / collective binding; archive/restore; empty hard-delete after archive (typed number confirm + MFA).
+- Collection create on a local can prefill from the bound Comms Brand Kit collection catalog.
+- “Local” stays the labour term for numbered units; only the Site Admin grouping label changed.
+- Mobile polish: locals/collectives card stacks with full-width actions; orphan collective kept in edit Select; Brand styles link when catalog empty; false “no active locals” empty row fixed.
+- Hub/public mobile menus at Accessibility maximum text: short Menu toggle label, viewport-safe Display Settings portal, live header/hub-bar remeasure for drawer top, matrix e2e coverage.
+- Defer polish landed: All/Active/Archived filters on locals + collectives; create collective under collectives panel; jump links; title “Organization structure — {name}”; min-h-11 touch targets on forms.
+
+## 2026-09-28 — Learn UI + Viewport Lab remediation
 
 - **Viewport Lab:** auto overflow badge after navigate/resize, audit size chips (390/1366), path history datalist + iframe path sync, Apply size test id; Muse-limit docs in `VIEWPORT_LAB.md`.
 - **Learn chrome:** `GuideLayout` moves related links after lesson content (hub keeps related near header); denser related grid; `dedupeRelatedByHref`; short-form accessible pricing separator; softer OL eyebrows; Worked scenario drops redundant label.

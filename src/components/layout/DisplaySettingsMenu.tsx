@@ -6,25 +6,45 @@ import { useTranslations } from "next-intl";
 import { DisplaySettingsControls } from "@/components/accessibility/DisplaySettingsControls";
 import { cn } from "@/lib/utils";
 
-type PanelCoords = { top: number; left: number };
+type PanelCoords = { top: number; left: number; maxHeight: number };
 
 const PANEL_MARGIN = 12;
 /** Cap matches `max-w` / `20rem` in the panel class — rem grows with text scale. */
 const PANEL_MAX_REM = 20;
+const PANEL_MAX_VH = 0.7;
 
 function coordsFromButton(button: HTMLButtonElement): PanelCoords {
   const rect = button.getBoundingClientRect();
   const rootFont =
-    Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    Number.parseFloat(getComputedStyle(document.documentElement).fontSize) ||
+    16;
   const panelWidth = Math.min(
     window.innerWidth - PANEL_MARGIN * 2,
     PANEL_MAX_REM * rootFont,
   );
   const maxLeft = window.innerWidth - PANEL_MARGIN - panelWidth;
   const preferredLeft = rect.right - panelWidth;
+
+  const spaceBelow = window.innerHeight - rect.bottom - PANEL_MARGIN;
+  const spaceAbove = rect.top - PANEL_MARGIN;
+  const preferBelow =
+    spaceBelow >= 12 * rootFont || spaceBelow >= spaceAbove;
+
+  const hardCap = Math.min(
+    window.innerHeight * PANEL_MAX_VH,
+    28 * rootFont,
+  );
+  const available = preferBelow ? spaceBelow : spaceAbove;
+  const maxHeight = Math.max(8 * rootFont, Math.min(hardCap, available));
+
+  const top = preferBelow
+    ? Math.min(rect.bottom + 8, window.innerHeight - PANEL_MARGIN)
+    : Math.max(PANEL_MARGIN, rect.top - 8 - maxHeight);
+
   return {
-    top: Math.min(rect.bottom + 8, window.innerHeight - PANEL_MARGIN),
+    top,
     left: Math.max(PANEL_MARGIN, Math.min(preferredLeft, maxLeft)),
+    maxHeight,
   };
 }
 
@@ -47,9 +67,15 @@ export function DisplaySettingsMenu() {
 
     window.addEventListener("resize", updatePosition);
     window.addEventListener("scroll", updatePosition, true);
+    const observer = new MutationObserver(updatePosition);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-font-size", "style", "class"],
+    });
     return () => {
       window.removeEventListener("resize", updatePosition);
       window.removeEventListener("scroll", updatePosition, true);
+      observer.disconnect();
     };
   }, [open]);
 
@@ -106,7 +132,7 @@ export function DisplaySettingsMenu() {
         aria-controls={menuId}
         data-testid="display-settings-toggle"
         className={cn(
-          "rounded-lg border border-gray-200 px-3 py-1.5 text-base font-medium transition-colors",
+          "inline-flex min-h-11 max-w-[11rem] items-center truncate rounded-lg border border-gray-200 px-3 py-1.5 text-base font-medium transition-colors sm:max-w-none",
           "hover:bg-opseu-blue/10",
           open && "bg-opseu-blue/10 text-opseu-dark",
         )}
@@ -122,8 +148,12 @@ export function DisplaySettingsMenu() {
               role="dialog"
               aria-label={t("title")}
               data-testid="display-settings-panel"
-              style={{ top: coords.top, left: coords.left }}
-              className="fixed z-[90] max-h-[min(70vh,28rem)] w-[min(calc(100vw-1.5rem),20rem)] overflow-y-auto overscroll-contain rounded-xl border border-gray-200 bg-white p-4 shadow-lg"
+              style={{
+                top: coords.top,
+                left: coords.left,
+                maxHeight: coords.maxHeight,
+              }}
+              className="fixed z-[90] w-[min(calc(100vw-1.5rem),20rem)] overflow-y-auto overscroll-contain rounded-xl border border-gray-200 bg-white p-4 shadow-lg"
             >
               <DisplaySettingsControls variant="compact" />
             </div>,

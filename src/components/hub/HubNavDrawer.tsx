@@ -151,7 +151,7 @@ export function HubNavDrawer({
         aria-label={t("mobileNav")}
         data-testid="hub-nav-drawer"
         style={{ top: drawerTop }}
-        className="fixed bottom-0 right-0 z-[70] flex w-[min(100vw,20rem)] max-w-full flex-col border-l border-gray-200 bg-gray-50 shadow-xl pb-[env(safe-area-inset-bottom)]"
+        className="fixed bottom-0 right-0 z-[70] flex w-full max-w-[min(100vw,20rem)] flex-col border-l border-gray-200 bg-gray-50 shadow-xl pb-[env(safe-area-inset-bottom)]"
       >
         <nav
           className="min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-3 py-3 text-base"

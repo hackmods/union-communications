@@ -170,9 +170,9 @@ export function UnionsAdminTable({ rows, demoPurgeOn }: Props) {
                     <td className="px-3 py-2 font-mono text-xs">{row.slug}</td>
                     <td className="px-3 py-2 text-right font-mono text-xs">
                       <Link
-                        href={`/app/site-admin/locals/${encodeURIComponent(row.id)}`}
+                        href={`/app/site-admin/organization/${encodeURIComponent(row.id)}`}
                         className="text-opseu-blue hover:underline"
-                        title={t("unionsOpenLocals")}
+                        title={t("organizationOpenUnion")}
                       >
                         {row.activeLocalCount}/{row.localCount}
                       </Link>
@@ -195,14 +195,22 @@ export function UnionsAdminTable({ rows, demoPurgeOn }: Props) {
                       )}
                     </td>
                     <td className="px-3 py-2 text-right">
-                      <UnionLifecycleActions
-                        unionId={row.id}
-                        slug={row.slug}
-                        name={row.name}
-                        archived={Boolean(row.archivedAt)}
-                        empty={row.empty}
-                        deleteBlockedReason={unionDeleteBlockedReason(row, t)}
-                      />
+                      <div className="flex flex-col items-end gap-2">
+                        <Link
+                          href={`/app/site-admin/organization/${encodeURIComponent(row.id)}`}
+                          className="text-sm font-medium text-opseu-blue hover:underline"
+                        >
+                          {t("organizationOpenUnion")}
+                        </Link>
+                        <UnionLifecycleActions
+                          unionId={row.id}
+                          slug={row.slug}
+                          name={row.name}
+                          archived={Boolean(row.archivedAt)}
+                          empty={row.empty}
+                          deleteBlockedReason={unionDeleteBlockedReason(row, t)}
+                        />
+                      </div>
                     </td>
                   </tr>
                 );

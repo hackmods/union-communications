@@ -24,6 +24,13 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "organization-structure-admin",
+    date: "2026-09-29",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/site-admin/organization",
+  },
+  {
     id: "learn-content-trust",
     date: "2026-09-28",
     kind: "improved",
@@ -74,7 +81,7 @@ export const UPDATES: readonly UpdateEntry[] = [
     date: "2026-09-27",
     kind: "added",
     audience: "hub",
-    href: "/app/site-admin/unions",
+    href: "/app/site-admin/organization",
   },
   {
     id: "trust-and-policies-index",

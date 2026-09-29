@@ -116,7 +116,7 @@ export default async function MembershipIntegrityPage({
                       </Link>
                     ) : issue.unionId ? (
                       <Link
-                        href={`/app/site-admin/locals/${encodeURIComponent(issue.unionId)}`}
+                        href={`/app/site-admin/organization/${encodeURIComponent(issue.unionId)}`}
                         className="text-opseu-blue hover:underline"
                       >
                         {t("integrityOpenLocal")}

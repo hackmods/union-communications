@@ -368,7 +368,7 @@ export function BrandStylesAdminForm() {
           <p>{t("brandStylesEmpty")}</p>
           <p className="mt-2 text-sm">
             <Link
-              href="/app/site-admin/locals"
+              href="/app/site-admin/organization"
               className="text-opseu-blue underline-offset-2 hover:underline"
             >
               {t("brandStylesEmptyLocalsLink")}
