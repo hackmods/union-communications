@@ -32,9 +32,11 @@ and `run_full` gates.
 ## Verification
 
 - `node scripts/check-security-workflows.mjs` passes locally after the rewrite.
-- First green PR after merge should show wall clock ~6–8 min for the test gate
-  (max of quality vs build + one shard). Re-check Actions timings and update
-  this note if shards are unbalanced or artifact download dominates.
+- First CI attempt failed all four `e2e-smoke` shards: artifact upload omitted the
+  nested hidden `.next/` inside standalone (`BUILD_ID`), so `npm start` could not
+  boot. Fixed with `include-hidden-files: true` plus a shard-side `BUILD_ID` check.
+- Re-check Actions timings on the next green PR run; target wall clock ~6–8 min
+  for the test gate (max of quality vs build + one shard).
 
 ## Follow-up
 

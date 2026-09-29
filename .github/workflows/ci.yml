@@ -175,6 +175,9 @@ jobs:
             .next/standalone
             .next/static
             public
+          # Nested `.next/` inside standalone (BUILD_ID, server chunks) is hidden;
+          # v4+ excludes hidden paths by default and breaks `npm start`.
+          include-hidden-files: true
           retention-days: 1
           if-no-files-found: error
 
@@ -202,6 +205,14 @@ jobs:
         with:
           name: next-standalone-build
           path: .
+
+      - name: Verify standalone build artifact
+        run: |
+          set -euo pipefail
+          test -f .next/standalone/server.js
+          test -f .next/standalone/.next/BUILD_ID
+          test -d .next/static
+          echo "Standalone artifact OK (BUILD_ID=$(cat .next/standalone/.next/BUILD_ID))"
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
