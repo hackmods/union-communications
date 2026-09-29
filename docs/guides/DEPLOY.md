@@ -108,7 +108,7 @@ This is the exact command the CI `deploy` job runs. The image pulls from GHCR an
 
 ## CapRover
 
-This repo includes [`captain-definition`](../../captain-definition) pointing at `./docker/Dockerfile`. The file is consulted **only** when the CapRover app's Deployment Method is `Method 1: Deploy from GitHub`. On Method 3 (Use Docker Image), `captain-definition` is unused — see [`captain-definition.README.md`](../../captain-definition.README.md).
+This repo includes [`captain-definition`](../../captain-definition) with `imageName: ghcr.io/hackmods/union-communications:production` so a stray CapRover git/definition deploy **pulls** instead of rebuilding on the droplet. Preferred auto-deploy is still CI `caprover deploy --imageName` (digest). See [`captain-definition.README.md`](../../captain-definition.README.md).
 
 **Durable Postgres on CapRover:** step-by-step walkthrough in [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md) (two-app setup, env template, bootstrap seed, verify). Paste-ready env: [`docker/.env.production.example`](../../docker/.env.production.example).
 

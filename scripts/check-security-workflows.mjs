@@ -33,6 +33,11 @@ assert.match(
   "Docker image publication must wait for dependency and secret security gates.",
 );
 assert.match(dockerBlock, /published_image_ref:\s*\$\{\{ steps\.verify-ghcr\.outputs\.image_ref \}\}/);
+assert.match(
+  dockerBlock,
+  /published_production_image_ref:\s*\$\{\{ steps\.verify-production\.outputs\.image_ref \}\}/,
+  "Docker image job must expose the :production digest for CapRover auto-deploy.",
+);
 const imageScanIndex = dockerBlock.indexOf("Scan built image for critical and high vulnerabilities");
 const registryLoginIndex = dockerBlock.indexOf("Log in to GHCR");
 assert(imageScanIndex >= 0 && registryLoginIndex > imageScanIndex, "The built image must pass its scan before registry login/publication.");
@@ -97,7 +102,11 @@ assert.match(
   /needs\.docker-image\.result == 'success'/,
   "Main-branch deployment must require a successful built-image scan.",
 );
-assert.match(deployBlock, /needs\.docker-image\.outputs\.published_image_ref/);
+assert.match(
+  deployBlock,
+  /needs\.docker-image\.outputs\.published_production_image_ref/,
+  "Main-branch CapRover deploy must pull the scanned :production image digest (not the demo :main bake).",
+);
 assert.match(deployBlock, /needs\.dispatch-image-scan\.outputs\.image_ref/);
 assert.match(deployBlock, /ghcr\\\.io\/.+@sha256:\[a-f0-9\]\{64\}/);
 const smokeIndex = ci.indexOf(smokeStep);
