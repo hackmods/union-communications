@@ -65,7 +65,7 @@ export function OfficerLearningHubBoard() {
       <div className="rounded-xl border border-orange-200 bg-orange-50 p-6 text-opseu-dark">
         <p className="font-semibold">{t("forbiddenTitle")}</p>
         <p className="mt-2 text-sm">{t("forbiddenBody")}</p>
-        <Link href="/guide/officer-learning" className="mt-4 inline-block font-medium underline">
+        <Link href="/learn/officer" className="mt-4 inline-block font-medium underline">
           {t("openPublic")} →
         </Link>
       </div>
@@ -152,7 +152,7 @@ export function OfficerLearningHubBoard() {
       </section>
 
       <p className="text-sm text-gray-600">
-        <Link href="/guide/officer-learning" className="font-medium text-opseu-blue underline">
+        <Link href="/learn/officer" className="font-medium text-opseu-blue underline">
           {t("openPublic")} →
         </Link>
       </p>

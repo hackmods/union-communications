@@ -94,7 +94,15 @@ RUN date -u +%Y-%m-%dT%H:%M:%SZ > /app/.build-time \
 USER root
 RUN cd /app/db-migrate \
   && npm install --omit=dev \
-  && npm cache clean --force
+  && npm cache clean --force \
+  # Production runtime only needs `node` (entrypoint + Next standalone). Drop the
+  # image-bundled npm tree so Trivy does not fail the gate on npm's own
+  # transitive HIGH CVEs (brace-expansion / ip-address / tar) that never ship
+  # into the app dependency graph.
+  && rm -rf /usr/local/lib/node_modules/npm \
+            /usr/local/bin/npm \
+            /usr/local/bin/npx \
+            /root/.npm
 RUN chown -R nextjs:nodejs /app/db-migrate \
   && chmod +x /entrypoint.sh
 

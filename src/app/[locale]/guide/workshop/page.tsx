@@ -79,12 +79,12 @@ export default async function WorkshopGuidePage({
           links={[
             { href: "/brand-kit", label: nav("brandKit") },
             {
-              href: "/tools/logo-builder",
+              href: "/create/logo-builder",
               label: nav("logoBuilder"),
               variant: "outline",
             },
             {
-              href: "/guide/social-media-plan",
+              href: "/learn/first-week",
               label: nav("socialMediaPlan"),
               variant: "outline",
             },
@@ -93,13 +93,13 @@ export default async function WorkshopGuidePage({
       }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
-        { href: "/guide/workshops", label: nav("workshopsHub") },
+        { href: "/learn/workshops", label: nav("workshopsHub") },
         {
-          href: "/guide/workshops/land-acknowledgement",
+          href: "/learn/workshops/land-acknowledgement",
           label: nav("landAckWorkshopGuide"),
         },
-        { href: "/guide/resources", label: t("resourcesCta") },
-        { href: "/guide/social-media-plan", label: t("roadmapCta") },
+        { href: "/learn/resources", label: t("resourcesCta") },
+        { href: "/learn/first-week", label: t("roadmapCta") },
         { href: "/tools", label: t("toolsCta") },
       ]}
       footer={
@@ -184,10 +184,10 @@ export default async function WorkshopGuidePage({
       </GuideSection>
 
       <GuideActionRow className="mt-10">
-        <Link href="/guide/resources" className={guideCtaClassSm}>
+        <Link href="/learn/resources" className={guideCtaClassSm}>
           {t("resourcesCta")}
         </Link>
-        <Link href="/guide/social-media-plan" className={guideCtaOutlineClassSm}>
+        <Link href="/learn/first-week" className={guideCtaOutlineClassSm}>
           {t("roadmapCta")}
         </Link>
         <Link href="/tools" className={guideCtaGhostClassSm}>

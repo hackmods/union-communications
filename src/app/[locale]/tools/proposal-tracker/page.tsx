@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
@@ -10,6 +10,7 @@ import {
   createEmptyProposalRow,
   createEmptyProposalTrackerDraft,
   loadProposalTrackerDraft,
+  parseProposalTrackerCsv,
   PROPOSAL_STATUSES,
   saveProposalTrackerDraft,
   serializeProposalTrackerCsv,
@@ -49,6 +50,9 @@ const STATUS_BADGE: Record<
 
 export default function ProposalTrackerPage() {
   const t = useTranslations("proposalTracker");
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [importError, setImportError] = useState<string | null>(null);
+  const [importSuccess, setImportSuccess] = useState<string | null>(null);
   const { draft, setDraft, saveFailed, clear } = useStewardGuideDraft({
     load: loadProposalTrackerDraft,
     save: saveProposalTrackerDraft,
@@ -107,6 +111,29 @@ export default function ProposalTrackerPage() {
     (row) => row.article.trim() || row.unionProposal.trim(),
   ).length;
 
+  const handleImportCsv = (file: File) => {
+    setImportError(null);
+    setImportSuccess(null);
+    if (nonEmptyRows > 0 && !window.confirm(t("importConfirm"))) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = typeof reader.result === "string" ? reader.result : "";
+      const parsed = parseProposalTrackerCsv(text);
+      if (!parsed.ok) {
+        setImportError(t(`importError.${parsed.code}`));
+        return;
+      }
+      setDraft({ rows: parsed.rows });
+      setImportSuccess(t("importSuccess", { count: parsed.rows.length }));
+    };
+    reader.onerror = () => {
+      setImportError(t("importError.readFailed"));
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <PageShell className="py-6 md:py-8 lg:py-10">
       <header className="max-w-3xl">
@@ -118,7 +145,7 @@ export default function ProposalTrackerPage() {
         <p className="mt-2 max-w-2xl text-sm text-gray-600">{t("whenToUse")}</p>
         <p className="mt-3">
           <Link
-            href="/guide/bargaining"
+            href="/learn/bargaining"
             className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2"
           >
             {t("guideLink")} →
@@ -185,6 +212,16 @@ export default function ProposalTrackerPage() {
           <p>{exportSuccess}</p>
         </Callout>
       )}
+      {importError && (
+        <Callout tone="warning" className="mt-4 max-w-3xl">
+          <p>{importError}</p>
+        </Callout>
+      )}
+      {importSuccess && (
+        <Callout className="mt-4 max-w-3xl">
+          <p>{importSuccess}</p>
+        </Callout>
+      )}
 
       <div className="button-row mt-6 flex flex-wrap gap-2">
         <Button type="button" onClick={addRow}>
@@ -196,8 +233,27 @@ export default function ProposalTrackerPage() {
           onClick={handleExportCsv}
           disabled={exporting}
         >
-          {t("exportCsv")} (CSV)
+          {t("exportCsv")}
         </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => fileRef.current?.click()}
+        >
+          {t("importCsv")}
+        </Button>
+        <input
+          ref={fileRef}
+          type="file"
+          accept=".csv,text/csv"
+          className="sr-only"
+          aria-label={t("importCsv")}
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            e.target.value = "";
+            if (file) handleImportCsv(file);
+          }}
+        />
         <Button type="button" variant="ghost" onClick={clear}>
           {t("clearDraft")}
         </Button>

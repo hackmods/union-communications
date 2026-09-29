@@ -95,10 +95,10 @@ export default async function GuidePage({
         lead={strike("subtitle")}
       >
         <GuideActionRow className="mt-0">
-          <Link href="/guide/strike" className={guideCtaClass}>
+          <Link href="/learn/strike" className={guideCtaClass}>
             {nav("strikeOpsGuide")}
           </Link>
-          <Link href="/guide/crisis" className={guideCtaOutlineClass}>
+          <Link href="/learn/crisis" className={guideCtaOutlineClass}>
             {nav("crisisCommsGuide")}
           </Link>
         </GuideActionRow>
@@ -126,7 +126,7 @@ export default async function GuidePage({
           <Link href="/brand-kit" className={guideCtaOutlineClass}>
             {nav("brandKit")}
           </Link>
-          <Link href="/guide/social-media-plan" className={guideCtaOutlineClass}>
+          <Link href="/learn/first-week" className={guideCtaOutlineClass}>
             {nav("socialMediaPlan")}
           </Link>
         </GuideActionRow>
@@ -233,7 +233,7 @@ export default async function GuidePage({
           ))}
         </GuideTipGrid>
         <GuideActionRow>
-          <Link href="/tools/alt-text" className={guideCtaOutlineClass}>
+          <Link href="/create/alt-text" className={guideCtaOutlineClass}>
             {nav("altText")}
           </Link>
         </GuideActionRow>
@@ -283,7 +283,7 @@ export default async function GuidePage({
           title={t("labourGuides.title")}
           headerAction={
             <Link
-              href="/guide/steward-playbooks"
+              href="/learn/steward"
               className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
             >
               {t("labourGuides.seeAll")} →

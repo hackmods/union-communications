@@ -4,12 +4,12 @@
 
 Allow **28 minutes** for the reading and self-test. Bring your **collective agreement**, a **notepad**, and any recent member complaint you are unsure about. If your local has a mentor steward program, pair with an experienced rep for the worked scenario and role-play — the Canadian Labour Congress steward education model treats investigation as a skill learned on the floor, not from a screen alone.
 
-Read sections 1–4 in order; they build the **5-Point Filter**, the **6 W's**, the **FAR sheet**, and **representative immunity** into one workflow. After the Self-Test Quiz, walk one real file through the floor checklist before your next shift. UnionOps guides `/guide/steward-101` and `/guide/grievance-process` complement this module when you need step-by-step filing mechanics. **Module 8** deepens trial-ready file architecture and settlement wording — this module owns the intake filter, 6 W's, and FAR.
+Read sections 1–4 in order; they build the **5-Point Filter**, the **6 W's**, the **FAR sheet**, and **representative immunity** into one workflow. After the Self-Test Quiz, walk one real file through the floor checklist before your next shift. UnionOps guides `/learn/steward-101` and `/learn/grievance-process` complement this module when you need step-by-step filing mechanics. **Module 8** deepens trial-ready file architecture and settlement wording — this module owns the intake filter, 6 W's, and FAR.
 
 💡 Note: This module assumes you already know where grievance deadlines live in your contract. If not, flag that as your first homework item before representing anyone formally.
 
 ## Overarching Purpose
-To equip workplace representatives with the foundational analytical, investigative, and meeting skills required to police the collective agreement, distinguish valid grievances from complaints, and protect member rights on an equal footing with management.
+Build the steward's first toolkit: read the CA like a map, separate grievances from complaints, and hold the table with representational equality — not as a subordinate employee.
 
 ## Core Learning Objectives
 *   **Know**: The distinction between a general workplace complaint and a formal contractual grievance, and the legal basis of "Union Representative Immunity".
@@ -92,7 +92,7 @@ The FAR sheet is your meeting anchor. When a supervisor drifts into character at
 Stewards often fear that advocating vigorously for a member will result in personal retaliation or insubordination charges from management.
 
 ### The Equal Footing Principle
-In labor law, when an elected or appointed steward acts in their official union capacity (e.g., in a grievance meeting, disciplinary hearing, or joint committee), they are **not acting as an employee**. They stand on a level of absolute **equality with management**.
+In labor law, when an elected or appointed steward acts in their official union capacity (e.g., in a grievance meeting, disciplinary hearing, or joint committee), they are **not acting as an employee**. They have **representational equality at the table for the duration of the meeting**.
 *   **Representative Immunity**: This legal doctrine protects stewards from disciplinary action for robust, emotional, or aggressive language used during representation. You cannot be disciplined for "insubordination" for arguing forcefully against a manager during a union-management meeting.
 *   **The Boundaries of Immunity**: Representative immunity is not absolute. It does *not* protect:
     *   Direct threats of physical violence.
@@ -120,7 +120,7 @@ In labor law, when an elected or appointed steward acts in their official union 
 
 Practice: Pair up. One person plays a rushed steward; the other plays a member who says only "They always screw me on OT — I want to grieve." The steward has seven minutes to ask 6 W's questions and complete a one-page FAR outline. Switch roles with a different scenario (missed break, denied vacation day). Debrief: Did anyone file before confirming a contract clause? Did the WANT stay specific?
 
-Practice in the tool: open Tools → Steward worksheets → Complaint vs grievance (/tools/complaint-vs-grievance) and score the same scenario before you draft the FAR.
+Practice in the tool: open Tools → Steward worksheets → Complaint vs grievance (/utilities/complaint-vs-grievance) and score the same scenario before you draft the FAR.
 
 ---
 
@@ -135,7 +135,7 @@ Practice in the tool: open Tools → Steward worksheets → Complaint vs grievan
 - [ ] Complete FAR sheet before any Step 1 meeting — WANT must be specific and enforceable
 - [ ] Store notes securely; share file details only with the member and union officers as required
 - [ ] Confirm representation immunity context — meeting vs. shop floor
-- [ ] Score the file in `/tools/complaint-vs-grievance` before filing when the gate is unclear
+- [ ] Score the file in `/utilities/complaint-vs-grievance` before filing when the gate is unclear
 
 ---
 

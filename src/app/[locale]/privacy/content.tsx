@@ -93,7 +93,7 @@ export async function PrivacyPageContent({
           <GuideProse className="mt-2">
             {t("responsibilitiesBody")}{" "}
             <Link
-              href="/guide/photo-consent"
+              href="/learn/photo-consent"
               className="font-medium text-opseu-blue underline underline-offset-2"
             >
               {t("photoConsentLink")}

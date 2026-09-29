@@ -31,24 +31,24 @@ export async function loginAsDemoOfficer(
   await expect(page).toHaveURL(POST_LOGIN, { timeout: 20_000 });
 
   await page.goto("/en/app/mfa");
+  // Prefer role-scoped heading so title+body duplicates do not trip strict mode.
   const codeInput = page.getByLabel(/Verification code|Code de vérification/i);
-  const verified = page.getByText(/Identity verified|Identité vérifiée/i);
-  const disabled = page.getByText(
-    /MFA is not required|A2F n'est pas requise|not enabled|non activ/i,
-  );
+  const statusHeading = page.getByRole("heading", {
+    name: /Identity verified|Identité vérifiée|not required|n.est pas requise/i,
+  });
 
-  await expect(codeInput.or(verified).or(disabled)).toBeVisible({
+  await expect(codeInput.or(statusHeading).first()).toBeVisible({
     timeout: 20_000,
   });
 
-  if (await codeInput.isVisible()) {
+  if (await codeInput.isVisible().catch(() => false)) {
     await codeInput.fill(creds.mfaCode);
     await page.getByRole("button", { name: /Verify|Vérifier/i }).click();
     await expect(page).toHaveURL(/\/en\/app\/?(?:\?.*)?$/, {
       timeout: 20_000,
     });
     await page.goto("/en/app/mfa");
-    await expect(verified).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByRole("heading", { name: /Identity verified|Identité vérifiée/i })).toBeVisible({ timeout: 20_000 });
   }
 }
 

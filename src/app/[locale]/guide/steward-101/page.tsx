@@ -146,7 +146,7 @@ export default async function Steward101GuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/qr-card?preset=stewardRepresentation",
+              href: "/create/qr-card?preset=stewardRepresentation",
               label: t("related.pocketCard"),
             },
             {
@@ -155,7 +155,7 @@ export default async function Steward101GuidePage({
               variant: "outline",
             },
             {
-              href: "/tools/complaint-vs-grievance",
+              href: "/utilities/complaint-vs-grievance",
               label: t("related.diagnostic"),
               variant: "outline",
             },
@@ -165,15 +165,15 @@ export default async function Steward101GuidePage({
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         // Tools that live in the TOC aside stay out of this list (pocket card, diagnostic).
-        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
-        { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        { href: "/guide/union-history", label: t("related.unionHistory") },
-        { href: "/guide/grievance-process", label: t("related.grievance") },
-        { href: "/guide/dfr", label: t("related.dfr") },
+        { href: "/learn/steward", label: t("backToPlaybooks") },
+        { href: "/learn/communications-blueprint", label: t("backToGuide") },
+        { href: "/learn/officer", label: t("related.officerLearning") },
+        { href: "/learn/union-history", label: t("related.unionHistory") },
+        { href: "/learn/grievance-process", label: t("related.grievance") },
+        { href: "/learn/dfr", label: t("related.dfr") },
         { href: "/brand-kit", label: t("related.brandKit") },
         {
-          href: "/tools/pre-disciplinary-log",
+          href: "/utilities/pre-disciplinary-log",
           label: t("related.discipline"),
         },
       ]}
@@ -219,7 +219,7 @@ export default async function Steward101GuidePage({
               {t.rich("unionBasics.body", richMarks)}
             </p>
             <Link
-              href="/guide/membership-signup"
+              href="/learn/membership-signup"
               className="mt-2 inline-block font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
             >
               {t("unionBasics.membershipLink")} →
@@ -315,11 +315,11 @@ export default async function Steward101GuidePage({
               <GuideLinkList
                 links={[
                   {
-                    href: "/guide/workplace-mapping",
+                    href: "/learn/workplace-mapping",
                     label: t("related.workplaceMapping"),
                   },
                   {
-                    href: "/guide/grievance-process",
+                    href: "/learn/grievance-process",
                     label: t("related.grievance"),
                   },
                 ]}
@@ -487,7 +487,7 @@ export default async function Steward101GuidePage({
           <GuideProse className="mt-4">
             {t("dfr.linkIntro")}{" "}
             <Link
-              href="/guide/dfr"
+              href="/learn/dfr"
               className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
             >
               {t("related.dfr")} →
@@ -537,7 +537,7 @@ export default async function Steward101GuidePage({
             body={t("referenceMaterials.pocketCard.body")}
             action={
               <Link
-                href="/tools/qr-card?preset=stewardRepresentation"
+                href="/create/qr-card?preset=stewardRepresentation"
                 className={guideCtaClassBlock}
               >
                 {t("referenceMaterials.pocketCard.cta")}
@@ -586,15 +586,15 @@ export default async function Steward101GuidePage({
 
         <GuideActionRow>
           <Link
-            href="/tools/complaint-vs-grievance"
+            href="/utilities/complaint-vs-grievance"
             className={guideCtaOutlineClass}
           >
             {t("referenceMaterials.stewardGuides.diagnostic")}
           </Link>
-          <Link href="/tools/pre-disciplinary-log" className={guideCtaOutlineClass}>
+          <Link href="/utilities/pre-disciplinary-log" className={guideCtaOutlineClass}>
             {t("referenceMaterials.stewardGuides.discipline")}
           </Link>
-          <Link href="/tools/rtw-accommodation" className={guideCtaOutlineClass}>
+          <Link href="/utilities/rtw-accommodation" className={guideCtaOutlineClass}>
             {t("referenceMaterials.stewardGuides.rtw")}
           </Link>
           <Link href="/app/grievances" className={guideCtaOutlineClass}>
@@ -620,11 +620,11 @@ export default async function Steward101GuidePage({
                     <GuideLinkList
                       links={[
                         {
-                          href: "/tools/org-chart",
+                          href: "/create/org-chart",
                           label: t("referenceMaterials.board.orgChart"),
                         },
                         {
-                          href: "/tools/board-notice",
+                          href: "/create/board-notice",
                           label: t("referenceMaterials.board.boardNotice"),
                         },
                       ]}
@@ -665,16 +665,16 @@ export default async function Steward101GuidePage({
           <GuideLinkList
             links={[
               {
-                href: "/guide/workplace-mapping",
+                href: "/learn/workplace-mapping",
                 label: t("related.workplaceMapping"),
               },
               {
-                href: "/guide/grievance-process",
+                href: "/learn/grievance-process",
                 label: t("related.grievance"),
               },
-              { href: "/guide/dfr", label: t("related.dfr") },
+              { href: "/learn/dfr", label: t("related.dfr") },
               {
-                href: "/guide/membership-signup",
+                href: "/learn/membership-signup",
                 label: t("related.membership"),
               },
             ]}

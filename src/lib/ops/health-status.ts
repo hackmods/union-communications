@@ -116,10 +116,18 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
     : memoryDatabaseBootAttestation();
   const tenantRegistry = await readTenantRegistryHealth(postgresConfigured);
   const publicDocuments = await checkPublicDocumentsReadiness();
-  const requirePublicDocs = process.env.NODE_ENV === "production" || process.env.PUBLIC_DOCUMENTS_REQUIRE_READY === "true";
+  // Public-document readiness only applies when Postgres can hold publications.
+  // Production memory hosts (CI `npm start`, demo images) must stay HTTP 200.
+  const requirePublicDocs =
+    postgresConfigured &&
+    (process.env.NODE_ENV === "production" ||
+      process.env.PUBLIC_DOCUMENTS_REQUIRE_READY === "true");
   return {
     status:
-      (postgresConfigured && !databaseDeployment.verified) || (requirePublicDocs && !publicDocuments.ready) ? "degraded" : "ok",
+      (postgresConfigured && !databaseDeployment.verified) ||
+      (requirePublicDocs && !publicDocuments.ready)
+        ? "degraded"
+        : "ok",
     version: readAppVersion(),
     commit: process.env.BUILD_COMMIT_SHA?.trim() || "unknown",
     builtAt: readBuildTime(),

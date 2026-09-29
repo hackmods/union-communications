@@ -267,7 +267,7 @@ export default function ComplaintVsGrievancePage() {
                   <ul className="mt-2 list-inside list-disc space-y-1 text-sm">
                     <li>
                       <Link
-                        href="/guide/grievance-process"
+                        href="/learn/grievance-process"
                         className="font-semibold text-opseu-blue underline underline-offset-2"
                       >
                         {t("caGuidance.grievanceGuide")}

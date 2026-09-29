@@ -85,14 +85,14 @@ export default async function WebsiteGuidePage({
           title={tg("asideTitle")}
           intro={tg("asideIntro")}
           links={[
-            { href: "/tools/website-template", label: t("related.template") },
+            { href: "/create/website-template", label: t("related.template") },
             {
-              href: "/tools/qr-card",
+              href: "/create/qr-card",
               label: t("related.qr"),
               variant: "outline",
             },
             {
-              href: "/tools/org-chart",
+              href: "/create/org-chart",
               label: t("related.orgChart"),
               variant: "outline",
             },
@@ -101,12 +101,12 @@ export default async function WebsiteGuidePage({
       }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
-        { href: "/tools/website-template", label: t("related.template") },
-        { href: "/tools/org-chart", label: t("related.orgChart") },
+        { href: "/create/website-template", label: t("related.template") },
+        { href: "/create/org-chart", label: t("related.orgChart") },
         { href: "/brand-kit", label: t("related.brandKit") },
-        { href: "/guide/social-media-plan", label: t("related.plan") },
-        { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
-        { href: "/tools/qr-card", label: t("related.qr") },
+        { href: "/learn/first-week", label: t("related.plan") },
+        { href: "/learn/email-broadcast", label: nav("emailBroadcastGuide") },
+        { href: "/create/qr-card", label: t("related.qr") },
       ]}
       footer={
         <SourcesBlock pageId="website" title={ts("title")} intro={ts("intro")} />
@@ -140,7 +140,7 @@ export default async function WebsiteGuidePage({
           />
         </div>
         <GuideActionRow>
-          <Link href="/tools/website-template" className={guideCtaClass}>
+          <Link href="/create/website-template" className={guideCtaClass}>
             {t("glance.templateCta")}
           </Link>
         </GuideActionRow>
@@ -286,7 +286,7 @@ export default async function WebsiteGuidePage({
             {t("build.done")}
           </GuideCallout>
           <GuideActionRow className="mt-6">
-            <Link href="/tools/website-template" className={guideCtaClass}>
+            <Link href="/create/website-template" className={guideCtaClass}>
               {t("build.cta")}
             </Link>
           </GuideActionRow>
@@ -489,10 +489,10 @@ export default async function WebsiteGuidePage({
         <Link href="/brand-kit" className={guideCtaOutlineClass}>
           {nav("brandKit")}
         </Link>
-        <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+        <Link href="/create/qr-card" className={guideCtaOutlineClass}>
           {nav("qrCard")}
         </Link>
-        <Link href="/guide/social-media-plan" className={guideCtaOutlineClass}>
+        <Link href="/learn/first-week" className={guideCtaOutlineClass}>
           {nav("firstWeek")}
         </Link>
       </GuideActionRow>

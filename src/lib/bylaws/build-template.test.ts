@@ -53,7 +53,7 @@ const labels: BylawTemplateLabels = {
 const opseuArticles = {
   ...labels.articles,
   amendments:
-    "Article 12: Amendments. Notice: {amendmentNotice}. Two-thirds vote at a quorate GMM and OPSEU / SEFPO National President approval.",
+    "Article 12: Amendments. Notice: {amendmentNotice}. Two-thirds vote at a quorate GMM and OPSEU / SEFPO President approval.",
 };
 
 describe("buildBylawTemplate", () => {
@@ -67,7 +67,7 @@ describe("buildBylawTemplate", () => {
     expect(text).toContain("2 Vice-President(s)");
     expect(text).toContain("One steward per campus unit");
     expect(text).toContain("25 members in good standing or 10%");
-    expect(text).toContain("National President approval");
+    expect(text).toContain("President approval");
     expect(text).toContain("March 31");
   });
 

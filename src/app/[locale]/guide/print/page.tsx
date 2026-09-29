@@ -69,14 +69,14 @@ export default async function PrintGuidePage({
       title={tg("asideTitle")}
       intro={tg("asideIntro")}
       links={[
-        { href: "/tools/flyer-maker", label: nav("flyerMaker") },
+        { href: "/create/flyer-maker", label: nav("flyerMaker") },
         {
-          href: "/tools/board-notice",
+          href: "/create/board-notice",
           label: nav("boardNotice"),
           variant: "outline",
         },
         {
-          href: "/tools/solidarity-poster",
+          href: "/create/solidarity-poster",
           label: nav("solidarityPoster"),
           variant: "outline",
         },
@@ -84,9 +84,9 @@ export default async function PrintGuidePage({
     />
   );
   const relatedLinks = [
-    { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
-    { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
-    { href: "/guide/union-boards", label: nav("unionBoardsGuide") },
+    { href: "/learn/first-week", label: nav("socialMediaPlan") },
+    { href: "/learn/email-broadcast", label: nav("emailBroadcastGuide") },
+    { href: "/learn/union-boards", label: nav("unionBoardsGuide") },
   ];
   const footer = <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />;
 
@@ -162,10 +162,10 @@ export default async function PrintGuidePage({
           <p className="mt-1">{t("flyers.tip")}</p>
         </GuideCallout>
         <GuideActionRow>
-          <Link href="/tools/flyer-maker" className={guideCtaClass}>
+          <Link href="/create/flyer-maker" className={guideCtaClass}>
             {nav("flyerMaker")}
           </Link>
-          <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+          <Link href="/create/qr-card" className={guideCtaOutlineClass}>
             {nav("qrCard")}
           </Link>
         </GuideActionRow>
@@ -193,10 +193,10 @@ export default async function PrintGuidePage({
           <p className="mt-1">{t("boards.warning")}</p>
         </GuideCallout>
         <GuideActionRow>
-          <Link href="/tools/board-notice" className={guideCtaClass}>
+          <Link href="/create/board-notice" className={guideCtaClass}>
             {nav("boardNotice")}
           </Link>
-          <Link href="/guide/union-boards" className={guideCtaOutlineClass}>
+          <Link href="/learn/union-boards" className={guideCtaOutlineClass}>
             {nav("unionBoardsGuide")}
           </Link>
         </GuideActionRow>
@@ -243,13 +243,13 @@ export default async function PrintGuidePage({
       </GuideSection>
 
       <GuideActionRow className="mt-10">
-        <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+        <Link href="/create/flyer-maker" className={guideCtaOutlineClass}>
           {nav("flyerMaker")}
         </Link>
-        <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+        <Link href="/create/board-notice" className={guideCtaOutlineClass}>
           {nav("boardNotice")}
         </Link>
-        <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+        <Link href="/create/qr-card" className={guideCtaOutlineClass}>
           {nav("qrCard")}
         </Link>
       </GuideActionRow>

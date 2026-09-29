@@ -547,7 +547,7 @@
           "items": [
             "Réutiliser les mises en page des Exemples",
             "Planifier une mise à jour tableau et une publication",
-            "Parcourir Le plan pour le ton et les trolls"
+            "Parcourir Le plan pour le ton et la gestion des commentaires négatifs"
           ]
         }
       ]
@@ -812,7 +812,7 @@
     "readingTime": "Lecture {minutes} min",
     "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
-    "progressSummary": "{completed} module(s) sur {total} complété(s)",
+    "progressSummary": "{completed} module(s) sur {total} complété(s) sur cet appareil",
     "quizHint": {
       "title": "Les autoévaluations marquent votre progression",
       "body": "Chaque module se termine par un quiz. Lisez la leçon, puis utilisez Aller au quiz ou faites défiler jusqu'à Autoévaluation. Un score parfait marque le module comme complété sur cet appareil."
@@ -821,6 +821,13 @@
     "deepen": {
       "title": "Module du Centre de formation",
       "body": "Le module {number} approfondit ce guide avec des scénarios, une autoévaluation, des listes de contrôle sur le terrain et des fiches imprimables à emporter en réunion."
+    },
+    "callout": {
+      "focus": {
+        "bargaining": "Le module {number} est le parcours mobilisateur pour la pression en négociation — cartes du lieu de travail, échelles d'escalade et maintien du travail à la règle dans des limites protégées.",
+        "strike": "Le module {number} couvre le métier de mobilisateur derrière la préparation à la grève — cartes, escalade et pression des membres qui reste légale.",
+        "crisis": "Le module {number} aide les dirigeants à lier les messages de crise et de lock-out à un vrai plan de mobilisation, pas à des publications isolées."
+      }
     },
     "workedScenario": {
       "label": "Scénario travaillé"
@@ -838,7 +845,7 @@
     },
     "progressPrefs": {
       "title": "Votre progression",
-      "body": "Les quiz réussis et les coches de listes restent sur cet appareil par défaut, pour vous former sans compte. Connectez-vous seulement si vous voulez une sauvegarde Hub, ou partager vos réussites avec votre section lorsque vous et un président y consentez."
+      "body": "Les quiz réussis et les coches de listes restent sur cet appareil par défaut — formez-vous sans compte. La synchro Hub est optionnelle : connectez-vous seulement pour une sauvegarde, ou pour partager vos réussites avec votre section lorsque vous et un président y consentez."
     },
     "viewer": {
       "back": "Tableau de bord",
@@ -919,6 +926,7 @@
         "landAcknowledgement": "Guide de reconnaissance territoriale",
         "rulesOfOrder": "Aide-mémoire de procédure",
         "humanRightsModule": "Module 3 : Droits de la personne et accommodation",
+        "benefitsDisabilityModule": "Module 9 : Prestations et demandes d'invalidité",
         "rightToRefuse": "Guide du droit de refuser",
         "digitalSecurityModule": "Module 13 : Sécurité numérique et transitions",
         "everydayValueModule": "Module 14 : Valeur syndicale quotidienne",
@@ -1034,7 +1042,7 @@
       "quorumTitle": "Le quorum suit l'effectif",
       "quorumAria": "Trois paliers de quorum selon la taille de la section",
       "quorumTier1Label": "Petite",
-      "quorumTier1": "Souvent 50 % + 1 des membres en règle",
+      "quorumTier1": "Souvent plus de la moitié des membres en règle",
       "quorumTier2Label": "Moyenne",
       "quorumTier2": "% des membres inscrits selon les règlements",
       "quorumTier3Label": "Grande",
@@ -1615,12 +1623,12 @@
       },
       "pdf-classification": {
         "title": "Formulaires de description de poste et reclassification",
-        "summary": "Auditer les mises à jour de PDF, consigner les tâches réelles, rédiger les commentaires de l'employé et ouvrir un dossier de classification ou de JJEC quand l'emploi dépasse la bande salariale."
+        "summary": "Auditer les mises à jour de PDF, consigner les tâches réelles, rédiger les commentaires de l'employé et ouvrir un dossier de classification ou d'évaluation conjointe des emplois (JJEC dans certaines CC collégiales ontariennes) quand l'emploi dépasse la bande salariale."
       }
     },
     "certificate": {
       "title": "Télécharger votre certificat",
-      "hint": "Le PDF reste sur cet appareil. Le logo de votre Trousse de marque apparaît s'il est défini. Indiquez le nom à imprimer — le numéro de section de la Trousse de marque est utilisé s'il est défini.",
+      "hint": "Télécharge un PDF local sur cet appareil — pas envoyé par courriel et pas un titre Hub. Le logo de votre Trousse de marque apparaît s'il est défini. Indiquez le nom à imprimer — le numéro de section de la Trousse de marque est utilisé s'il est défini.",
       "nameLabel": "Nom sur le certificat",
       "namePlaceholder": "Votre nom",
       "defaultName": "Délégué syndical",
@@ -2139,7 +2147,7 @@
   "photoConsentGuide": {
     "title": "Consentement photo et médias des membres",
     "subtitle": "Demandez avant de publier — scripts, journaux et retraits pour délégués et volontaires Comms",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "intro": "Le Créateur graphique bloque le téléversement tant que vous n'avez pas confirmé le consentement — mais les sections ont quand même besoin d'une pratique commune pour les appareils photo, les Reels, les photos de tableau et les publications Facebook. Ce guide aide les dirigeants à s'entendre sur la façon de demander, quoi consigner et qui retire les images. Pas un avis juridique.",
@@ -2182,7 +2190,7 @@
     "tiers": {
       "navLabel": "Trois contextes",
       "title": "Adaptez la demande à la salle",
-      "intro": "Les mêmes règles photo ne valent pas dans chaque espace.",
+      "intro": "Ajustez la demande de consentement au contexte.",
       "items": {
         "rally": {
           "label": "Rassemblements publics et piquets",
@@ -2393,7 +2401,7 @@
   "websiteGuide": {
     "title": "Guide du site Web local",
     "subtitle": "Rédigez un site local simple, téléchargez un ZIP, puis mettez-le en ligne. Un volontaire peut faire les étapes techniques.",
-    "intro": "Les tableaux et les réseaux font circuler les messages. Un site garde qui vous êtes, à qui écrire et comment vous trouver. Commencez par la partie 1. Arrêtez-vous quand le ZIP est sur votre ordinateur.",
+    "intro": "Les tableaux et les réseaux font circuler les messages. Un site garde qui vous êtes, à qui écrire et comment vous trouver. Le Modèle de site Web offre deux téléchargements : un ZIP statique pour GitHub Pages (chemin habituel), ou un thème WordPress classique si vous faites déjà tourner WordPress. Commencez par la partie 1. Arrêtez-vous quand le fichier est sur votre ordinateur.",
     "tocLabel": "Sur cette page",
     "relatedLabel": "Voir aussi",
     "related": {
@@ -2405,38 +2413,38 @@
     },
     "glance": {
       "title": "En un coup d’œil",
-      "intro": "La plupart des sections n’ont besoin que de la partie 1. Arrêtez-vous quand le ZIP est sur votre ordinateur. La partie 2 est pour la personne qui mettra ces fichiers sur Internet.",
+      "intro": "La plupart des sections n’ont besoin que de la partie 1. Téléchargez soit le ZIP statique (GitHub Pages), soit le thème WordPress, puis arrêtez-vous quand ce fichier est sur votre ordinateur. La partie 2 est pour la personne qui mettra un ZIP statique en ligne — sautez-la si vous utilisez un hébergement WordPress que vous contrôlez déjà.",
       "templateCta": "Ouvrir le modèle de site Web",
       "part1": {
         "kicker": "Partie 1",
         "title": "Rédiger et télécharger",
-        "body": "Rassemblez quelques faits, remplissez le Modèle de site Web, puis téléchargez le ZIP. Pas de compte d’hébergement pour l’instant.",
+        "body": "Rassemblez quelques faits, remplissez le Modèle de site Web, puis téléchargez un ZIP statique pour GitHub Pages ou un thème WordPress. Pas de nouveau compte d’hébergement pour l’instant.",
         "cta": "Aller à la rédaction du site"
       },
       "part2": {
         "kicker": "Partie 2",
         "title": "Le mettre en ligne",
-        "body": "Téléversez le ZIP vers GitHub Pages, gratuitement. Passez cette partie si un volontaire à l’aise avec la technique s’en charge.",
+        "body": "Téléversez le ZIP statique vers GitHub Pages, gratuitement. Passez cette partie si vous avez installé le thème WordPress sur un site que vous faites déjà tourner, ou si un volontaire à l’aise avec la technique publiera le ZIP.",
         "cta": "Aller aux étapes de publication"
       }
     },
     "part1": {
       "kicker": "Partie 1",
       "title": "Planifier et créer votre site",
-      "intro": "Votre tâche ici : rédiger le contenu et télécharger un ZIP. Vous pouvez vous arrêter dès que ce fichier est sur votre ordinateur.",
+      "intro": "Votre tâche ici : rédiger le contenu et télécharger soit un ZIP statique, soit un thème WordPress. Vous pouvez vous arrêter dès que ce fichier est sur votre ordinateur.",
       "tocLabel": "Sections de la partie 1"
     },
     "part2": {
       "kicker": "Partie 2",
       "title": "Publier votre site (les étapes techniques)",
-      "intro": "Ces étapes mettent le ZIP téléchargé sur Internet, pour que les membres puissent ouvrir une vraie adresse Web.",
+      "intro": "Ces étapes mettent le ZIP statique téléchargé sur Internet, pour que les membres puissent ouvrir une vraie adresse Web. Si vous avez choisi le thème WordPress, installez-le sous Apparence → Thèmes sur votre hébergeur WordPress existant — la partie 2 concerne le chemin ZIP.",
       "handoffTitle": "Passez le relais si vous le souhaitez",
       "handoff": "Maintenant que vous avez le fichier ZIP de votre site, il faut le mettre sur Internet. Si la configuration technique du Web ne vous convient pas, vous pouvez donner le ZIP téléchargé et ce guide à un volontaire à l’aise avec la technique.",
       "tocLabel": "Sections de la partie 2"
     },
     "wordpress": {
-      "title": "Thème WordPress",
-      "body": "Le Modèle de site Web télécharge un thème WordPress classique qui correspond à l’aperçu. Téléversez-le sous Apparence → Thèmes, puis modifiez le texte dans Apparence → Site local, ou importez unionops-website.json pour des mises à jour sans retéléverser tout le thème. UnionOps n’héberge pas WordPress ; si vous ne le faites pas déjà tourner, le ZIP GitHub Pages de cette partie est en général plus simple."
+      "title": "Thème WordPress (téléchargement alternatif)",
+      "body": "Le Modèle de site Web télécharge aussi un thème WordPress classique qui correspond à l’aperçu — un autre chemin que le ZIP statique GitHub Pages. Téléversez-le sous Apparence → Thèmes, puis modifiez le texte dans Apparence → Site local, ou importez unionops-website.json pour des mises à jour sans retéléverser tout le thème. UnionOps n’héberge pas WordPress ; si vous ne le faites pas déjà tourner, le ZIP statique de cette partie est en général plus simple."
     },
     "squarespace": {
       "title": "Sur Squarespace?",
@@ -3860,13 +3868,13 @@
         "blueprint": "Pratique continue : plateformes, ton, fréquence, trolls, texte alternatif.",
         "boards": "Tableaux minimaux au travail et quoi imprimer.",
         "print": "Tracts et habitudes d'impression pour réunions et actions.",
-        "website": "Quoi mettre sur un site local, créer le ZIP et publier sur GitHub Pages.",
+        "website": "Quoi mettre sur un site local — télécharger un ZIP statique pour GitHub Pages ou un thème WordPress si vous hébergez déjà WordPress.",
         "email": "Invitations à copier-coller et rappels aux dirigeants. Pas de listes marketing.",
         "shortForm": "Filmer au téléphone, protéger les membres, et orienter Reels ou Shorts vers une vraie demande.",
         "crisis": "Qui peut parler pendant une grève, un lock-out ou des mises à pied.",
         "photoConsent": "Liste photo membre pour délégués et ateliers.",
         "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo.",
-        "workshopsHub": "Hub des plans d'atelier projectables — lunch-and-learn Comms et rédaction de reconnaissance territoriale."
+        "workshopsHub": "Hub des plans d'atelier prêts à projeter — lunch-and-learn Comms et rédaction de reconnaissance territoriale."
       }
     },
     "labourPath": {
@@ -3966,7 +3974,7 @@
         "Couleurs de marque - valeurs de départ tirées des guides graphiques syndicaux publiés (changez-les dans la Trousse de marque)",
         "Chapitres du Plan directeur - bonnes pratiques bénévoles pour les communications locales de solidarité",
         "Guide de crise - orientation générale pour les communications de grève et de négociation locales",
-        "Accessibilité - engagements WCAG 2.1 AA et AODA dans l'énoncé d'accessibilité de UnionOps"
+        "Accessibilité - engagements WCAG 2.2 AA et AODA dans l'énoncé d'accessibilité de UnionOps"
       ]
     },
     "federations": {
@@ -3975,10 +3983,11 @@
     },
     "allSources": {
       "title": "Bibliographie complète des sources",
-      "intro": "Liens nationaux et gouvernementaux cités dans les guides Comms.",
+      "intro": "Liens nationaux et gouvernementaux cités dans les guides Comms. Les URL nationales et gouvernementales bougent souvent ; si un lien donne une erreur 404, cherchez depuis la page d’accueil de cet organisme. Les pages OPSEU / SEFPO sur opseu.org peuvent bloquer les vérifications automatisées — ouvrez ces liens dans un navigateur avant de les partager en atelier.",
       "scopedNote": "Les citations nationales OPSEU / SEFPO sont masquées parce que votre Trousse de marque est réglée sur un autre syndicat. Changez le préréglage dans la",
       "brandKitLink": "Trousse de marque"
-    }
+    },
+    "linkRotNote": "Les URL nationales et gouvernementales bougent souvent ; en cas de 404, cherchez depuis la page d'accueil de l'organisation."
   },
   "onboarding": {
     "title": "Configurer la marque de votre section",
@@ -4923,7 +4932,7 @@
   "crisisGuide": {
     "title": "Guide des communications de crise",
     "subtitle": "Une voix, une courte chaîne de commandement et un plan de canaux quand la section est sous pression",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "intro": "Les communications de crise, ce n'est pas « publier plus ». C'est qui peut parler, ce que les membres doivent entendre et ce qui ne doit jamais aller sur un canal public. Les sections gèrent le quotidien ; votre syndicat provincial ou national appuie la négociation sectorielle — mais le groupe Facebook a quand même besoin d'une voix locale unique.",
@@ -6897,7 +6906,7 @@
     },
     "hub": {
       "title": "Module de bumping du Hub des dirigeants",
-      "body": "Dans le Hub des dirigeants, le déplacement collégial regroupe vos notes, comparaisons PDF et séances au même endroit. Traitez toute aide de classement comme une vérification, et refaites la feuille papier si un résultat vous surprend."
+      "body": "Dans le Hub des dirigeants, le déplacement collégial (flux de bumping CAAT collégial ontarien) regroupe vos notes, comparaisons PDF et séances au même endroit. Traitez toute aide de classement comme une vérification, et refaites la feuille papier si un résultat vous surprend."
     }
   },
   "jointCommitteeGuide": {
@@ -6927,7 +6936,7 @@
       "items": {
         "grievance": {
           "label": "Déjà un grief formel?",
-          "content": "Arrêtez. Les comités conjoints doivent refuser les points qui relèvent de la procédure de grief. Passez plutôt par les délégués et le parcours de grief — voir le guide DRE pour la discipline d'intake."
+          "content": "Arrêtez quand votre convention interdit les griefs en cours à la table conjointe (les forums de type CREE le font souvent). Passez alors par les délégués et le parcours de grief — voir le guide DRE. Les points du CSS et de plusieurs CCE peuvent avancer en parallèle d'un grief sur le même enjeu systémique — le module 10 §3 couvre l'escalade multi-forum."
         },
         "local": {
           "label": "Le campus a-t-il déjà tenté?",
@@ -8065,9 +8074,17 @@
         "title": "Dossiers et rapports UnionOps Data",
         "body": "Les dirigeants peuvent chercher des personnes à une date donnée, voir chaque emploi ouvert, documenter le statut observé des cotisations issu des imports, et exporter des instantanés CSV protégés contre les formules — toujours sans collecte de cotisations."
       },
+      "proposal-tracker-csv-load": {
+        "title": "Chargez un CSV du Suivi des propositions pour reprendre",
+        "body": "L'export sauvegarde toujours vos lignes de négociation sur cet appareil. Rechargez le même CSV plus tard pour les restaurer, et les dirigeants connectés ont un lien direct vers les propositions du Hub."
+      },
+      "learn-content-trust": {
+        "title": "Liens et réserves Apprendre resserrés",
+        "body": "Les encadrés de module erronés sont corrigés, les liens bibliographiques morts sont remplacés, les quiz de Formation des dirigeants portent les mêmes réserves constitutionnelles que le texte de la leçon, et les pages Apprendre pointent maintenant vers les URL canoniques /learn plutôt que les anciens chemins /guide."
+      },
       "learn-ui-chrome": {
         "title": "Les pages Apprendre démarrent plus vite",
-        "body": "Les liens connexes passent après la leçon, Steward 101 ouvre plus vite sur le contenu de plancher, et la Formation des dirigeants montre un rail de progression compact au lieu de lister chaque module deux fois."
+        "body": "Les liens connexes passent après la leçon, Steward 101 ouvre plus vite sur le contenu de plancher, la Formation des dirigeants montre un rail de progression compact, le texte des ateliers abandonne le jargon, et les outils Créer pointent vers les pages /learn canoniques."
       }
     }
   },
@@ -8156,11 +8173,11 @@
   },
   "accessibility": {
     "title": "Déclaration d'accessibilité",
-    "subtitle": "Engagement AODA / WCAG 2.1 niveau AA",
+    "subtitle": "Engagement AODA / WCAG 2.2 niveau AA",
     "skipLink": "Aller au contenu principal",
     "commitment": {
       "title": "Notre engagement",
-      "body": "UnionOps vise le WCAG 2.1 niveau AA et la LAPHO pour que les membres en situation de handicap puissent utiliser ces outils."
+      "body": "UnionOps vise le WCAG 2.2 niveau AA et la LAPHO pour que les membres en situation de handicap puissent utiliser ces outils."
     },
     "features": {
       "title": "Fonctionnalités d'accessibilité",
@@ -8645,7 +8662,7 @@
       "localsEmptyBody": "Après une purge de démo ou une installation neuve, créez un syndicat et une section locale avant d’inviter des dirigeants.",
       "localsEmptyCta": "Ouvrir la configuration du syndicat",
       "localsIndexTitle": "Sections locales — choisir un syndicat",
-      "localsIndexBody": "Chaque rangée ouvre les sections de ce syndicat. Les sections archivées restent en base pour les dossiers, mais quittent les listes actives.",
+      "localsIndexBody": "Ouvrez un syndicat pour gérer ses sections. Vous pouvez aussi renommer le nom affiché, archiver un syndicat inutilisé, ou le supprimer définitivement après archivage lorsqu’aucune pièce jointe ne reste.",
       "localsColUnion": "Syndicat",
       "localsColCount": "Sections",
       "localsColActive": "Actives",
@@ -8656,6 +8673,8 @@
       "localsNoneActive": "Aucune section active pour ce syndicat. Créez-en une ci-dessous.",
       "unionLocalsTitle": "Sections locales — {name}",
       "unionLocalsBody": "Archivez une section pour la retirer des listes actives. La restauration la ramène.",
+      "unionLocalsManageTitle": "Nom affiché du syndicat",
+      "unionLocalsManageBody": "Renommez le nom affiché de ce syndicat, archivez-le pour le retirer des sélecteurs, ou supprimez-le définitivement après archivage lorsqu’aucune section, compte, invitation ou dossier ne reste.",
       "unionNotFound": "Syndicat introuvable",
       "localArchive": "Archiver",
       "localRestore": "Restaurer",
@@ -11692,7 +11711,7 @@
       "preDisciplinaryLog": "Droits procéduraux, facteurs atténuants et points de représentation.",
       "complaintVsGrievance": "Cinq points d'admissibilité, puis brouillon de grief ou autre voie.",
       "bylawBuilder": "Rédigez un modèle de règlements locaux à partir du quorum et de la structure de l'exécutif.",
-      "proposalTracker": "Suivez les propositions et contre-propositions sur cet appareil, puis exportez en CSV pour sauvegarde.",
+      "proposalTracker": "Suivez les propositions et contre-propositions sur cet appareil, puis exportez ou chargez un CSV pour reprendre.",
       "rulesOfOrder": "Quatorze actions parlementaires avec formulation exacte, notes pour le président et copie — conçu pour le téléphone en salle."
     }
   },
@@ -11735,7 +11754,7 @@
       },
       "workshops": {
         "title": "Ateliers",
-        "intro": "Plans projectables pour lunch-and-learns et séances de rédaction au plancher."
+        "intro": "Plans prêts à projeter pour lunch-and-learns et séances de rédaction au plancher."
       }
     },
     "blurbs": {
@@ -11766,7 +11785,7 @@
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis et quorum.",
       "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire.",
       "landAcknowledgement": "Marche à suivre et feuille PDF d'une page, avec un exemple annoté de Niagara — écrivez vos propres mots.",
-      "workshopsHub": "Choisissez un plan d'atelier : heure d'outils Comms ou rédaction de reconnaissance territoriale.",
+      "workshopsHub": "Choisissez un atelier : outils Comms ou rédaction de reconnaissance territoriale.",
       "landAckWorkshop": "Plan animateur (~60–90 min) avec préparation, ordre du jour chronométré et feuille PDF."
     }
   },
@@ -12157,7 +12176,9 @@
         "title": "Remerciement après un événement",
         "caption": "Merci à toutes les personnes qui se sont jointes à nous pour [Event Name]! [X] membres sont venus manifester leur solidarité. Ensemble, nous changeons les choses."
       }
-    }
+    },
+    "copyNamed": "Copier {title}",
+    "copiedNamed": "{title} copié"
   },
   "workshopDemo": {
     "title": "Démo en environ 20 minutes",
@@ -12202,7 +12223,7 @@
       "prompt": "Facultatif : une vraie annonce ou une citation que vous pourriez publier cette semaine, pour que l'exercice soit une vraie publication, pas un exemple vide."
     },
     "demoKicker": "Liens rapides",
-    "demoLead": "Gardez cette boîte visible. Touchez un outil quand le plan le nomme. Ce sont les cinq mêmes arrêts que la démo de 20 minutes.",
+    "demoLead": "Gardez cette boîte visible. Ouvrez un outil quand le plan le nomme. Ce sont les cinq mêmes arrêts que la démo de 20 minutes.",
     "demoNote": "La stratégie est dans Première semaine, pas sur ces arrêts numérotés. Le parcours en direct est Créateur de logo, Exemples sociaux, Créateur de graphiques, Carte de citation, puis Modèle de site Web. L'impression et l'Avis d'affichage restent dans Première semaine.",
     "outlineTitle": "Plan suggéré",
     "outlineIntro": "Les durées totalisent environ 50 minutes, avec de la place pour les questions. Si vous avez une heure complète, restez plus longtemps sur le <strong>Créateur de graphiques</strong>. Si vous avez 45 minutes, enchaînez les téléchargements.",
@@ -12367,7 +12388,10 @@
     "supportLink": "Soutien",
     "privacyTitle": "Confidentialité",
     "privacyBody": "La collecte de données et les responsabilités du responsable sont décrites sur la",
-    "privacyLink": "page Confidentialité"
+    "privacyLink": "page Confidentialité",
+    "subprocessorsTitle": "Sous-traitants",
+    "subprocessorsBody": "Lorsque cet hôte publie une liste de fournisseurs, vous pouvez voir qui traite les données personnelles pour les surfaces hébergées dans le",
+    "subprocessorsLink": "registre des sous-traitants"
   },
   "rtwAccommodation": {
     "title": "Prise en charge du retour au travail et des mesures d'adaptation",
@@ -12769,7 +12793,10 @@
     "readModule14": "Module 14 : valeur syndicale quotidienne",
     "readModule15": "Module 15 : devoir de représentation équitable",
     "readModule16": "Module 16 : ancienneté, bumping et mise à pied",
-    "readModule17": "Module 17 : formulaires de description de poste et reclassification"
+    "readModule17": "Module 17 : formulaires de description de poste et reclassification",
+    "readSteward101": "Steward 101 : rôle et droits",
+    "readDfrPlaybook": "Cahier DFR pour délégués",
+    "readFirstIntro": "Commencez par la Formation des dirigeants, puis ouvrez les cahiers de plancher dont votre réunion a besoin."
   },
   "stewardGuidesShared": {
     "pocketSheetDownloading": "Préparation du PDF…",
@@ -13478,7 +13505,7 @@
         "draft": "Utilisez les lignes à l'étape 3 : territoire, puis fil historique ou action locale, puis engagement.",
         "review": "Cochez l'étape 4 et fixez la revue exécutive avant toute lecture à voix haute en réunion."
       },
-      "worksheetGoldTip": "Traitez la feuille comme une fiche FAR — annotez-la à la main à l'exécutif, archivez l'ébauche avec le procès-verbal, et revisitez si le lieu de réunion change.",
+      "worksheetGoldTip": "Traitez la feuille comme une fiche FAR (faits, arguments, résolution) — annotez-la à la main à l'exécutif, archivez l'ébauche avec le procès-verbal, et revisitez si le lieu de réunion change. Voir le guide des griefs pour l'intake FAR.",
       "worksheetHint": "Le PDF reprend les invites d'étapes et conseils de terrain de ce guide. Formation seulement — pas un texte à coller tel quel.",
       "workshopCtaHeading": "Vous animez une rédaction en groupe?",
       "workshopCtaBody": "Les comités d'éducation et les exécutifs qui veulent rédiger ensemble utilisent un plan d'atelier distinct (~60–90 min) — préparation, ordre du jour chronométré et la même feuille PDF.",
@@ -13582,11 +13609,11 @@
       "order": {
         "order": {
           "label": "Premier point",
-          "content": "OPSEU / SEFPO place la reconnaissance territoriale avant la déclaration de respect, l'hymne national et tout autre point."
+          "content": "Beaucoup d'événements OPSEU / SEFPO placent la reconnaissance territoriale avant la déclaration de respect, l'hymne national et tout autre point — confirmez contre le protocole d'événement actuel de votre syndicat."
         },
         "respect": {
           "label": "Déclaration de respect",
-          "content": "Lue immédiatement après la reconnaissance. Les coordonnateurs doivent lister au moins deux personnes-ressources qualifiées, dont une femme."
+          "content": "Souvent lue immédiatement après la reconnaissance. Certains animateurs exigent au moins deux personnes-ressources qualifiées (dont une femme) — confirmez contre le matériel d'événement de votre fédération."
         },
         "bilingual": {
           "label": "Anglais et français",
@@ -13837,7 +13864,7 @@
     "scenario": {
       "navLabel": "Exemple concret",
       "title": "Exemple : hausser le quorum de l'AGM",
-      "intro": "La section fictive 243 veut hausser le quorum de l'AGM de 15 à 25 membres. Traitez le dossier comme un dirigeant, pas comme une discussion de corridor.",
+      "intro": "La section démo 243 veut hausser le quorum de l'AGM de 15 à 25 membres (scénario illustratif — le numéro existe aussi comme vraie section OPSEU / SEFPO ailleurs). Traitez le dossier comme un dirigeant, pas comme une discussion de corridor.",
       "phases": {
         "d0": {
           "label": "Jour 0 — Lire la constitution",
@@ -13876,7 +13903,7 @@
         }
       },
       "tip": "Traitez « adopté en AGM » et « en vigueur » comme deux dates différentes lorsque l'approbation nationale est exigée.",
-      "tableCaption": "Section fictive 243 — hausser le quorum de l'AGM de 15 à 25",
+      "tableCaption": "Section démo 243 — hausser le quorum de l'AGM de 15 à 25",
       "headers": {
         "day": "Quand",
         "action": "Ce que font les dirigeants",
@@ -13904,7 +13931,7 @@
         },
         "approval": {
           "label": "Approbation nationale",
-          "content": "Les règlements locaux modifiés n'entrent en vigueur qu'après l'approbation écrite du président national d'OPSEU / SEFPO (ou d'une personne désignée), comme l'exige la Constitution."
+          "content": "Les règlements locaux modifiés n'entrent en vigueur qu'après l'approbation écrite du président d'OPSEU / SEFPO (ou d'une personne désignée), comme l'exige la Constitution."
         },
         "fiscal": {
           "label": "Exercice financier",
@@ -14088,7 +14115,7 @@
         "title": "Le quorum s'adapte à l'effectif",
         "intro": "Écrivez un nombre ou un pourcentage que votre section peut réellement atteindre. La perte de quorum en cours de réunion arrête les votes contraignants.",
         "tier1Label": "Petite",
-        "tier1": "Souvent un plancher fixe (p. ex. 15) ou 50 % + 1 des membres en règle",
+        "tier1": "Souvent un plancher fixe (p. ex. 15) ou plus de la moitié des membres en règle",
         "tier2Label": "Moyenne",
         "tier2": "Un % des membres inscrits dans les règlements, ou le moindre d'un plancher et d'un %",
         "tier3Label": "Grande",
@@ -14138,7 +14165,10 @@
     "error": "Impossible d'envoyer ce brouillon. Réessayez.",
     "empty": "Rien à envoyer pour l'instant. Ajoutez d'abord un nom de section locale ou au moins une proposition.",
     "emptyInformalLog": "Rien à envoyer pour l'instant. Ajoutez d'abord ce qui s'est passé dans au moins une entrée.",
-    "mfaFirst": "Vérifier l’identité d’abord"
+    "mfaFirst": "Vérifier l’identité d’abord",
+    "openHubProposals": "Ouvrir les propositions du Hub",
+    "openHubBylaws": "Ouvrir les règlements du Hub",
+    "openHubInformalLog": "Ouvrir le journal informel du Hub"
   },
   "hubBylaws": {
     "title": "Règlements locaux",
@@ -14392,7 +14422,7 @@
       "finances": "Article 9 : Finances. Tous les chèques et paiements électroniques de la section exigent les signatures ou autorisations de {signingOfficers}. Le trésorier présente des rapports financiers aux membres. L'exercice se termine le {fiscalYearEnd}.",
       "trustees": "Article 10 : Fiduciaires. La section a {trustees}. Les fiduciaires examinent les livres et font rapport aux membres selon la Constitution d'OPSEU / SEFPO et les présents règlements.",
       "committees": "Article 11 : Comités. Le CEL peut créer des comités permanents et spéciaux, y compris des comités de négociation, de mobilisation et conjoints de santé et sécurité. Les mandats des comités ne doivent pas entrer en conflit avec les présents règlements ni avec la Constitution d'OPSEU / SEFPO.",
-      "amendments": "Article 12 : Modifications. Les présents règlements ne peuvent être modifiés qu'après {amendmentNotice}, un vote à une assemblée générale des membres avec quorum par une majorité des deux tiers (2/3) des membres présents et votants, et l'approbation écrite du président national d'OPSEU / SEFPO (ou d'une personne désignée) lorsque la Constitution d'OPSEU / SEFPO l'exige, avant que le texte modifié n'entre en vigueur.",
+      "amendments": "Article 12 : Modifications. Les présents règlements ne peuvent être modifiés qu'après {amendmentNotice}, un vote à une assemblée générale des membres avec quorum par une majorité des deux tiers (2/3) des membres présents et votants, et l'approbation écrite du président d'OPSEU / SEFPO (ou d'une personne désignée) lorsque la Constitution d'OPSEU / SEFPO l'exige, avant que le texte modifié n'entre en vigueur.",
       "conflict": "Article 13 : Conflit avec la Constitution d'OPSEU / SEFPO. Si une disposition des présents règlements entre en conflit avec la Constitution d'OPSEU / SEFPO, la Constitution prévaut. Les présents règlements doivent être interprétés de manière à donner effet à la Constitution dans la mesure du possible."
     },
     "checklistPrompt": {
@@ -14413,7 +14443,7 @@
       "opseuHome": "Accueil OPSEU / SEFPO",
       "memberPortal": "Portail des membres"
     },
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -14797,11 +14827,20 @@
     "privacyNote": "Les lignes sont enregistrées sur cet appareil seulement. Envoyez une copie au Hub des dirigeants quand le comité veut une version partagée.",
     "trust": {
       "title": "La stratégie de négociation est confidentielle",
-      "body": "Ce suivi enregistre tout directement sur votre appareil. Aucune donnée n'est envoyée dans le nuage. Exportez en CSV pour sauvegarder vos notes."
+      "body": "Ce suivi enregistre tout directement sur votre appareil. Aucune donnée n'est envoyée dans le nuage. Exportez en CSV pour sauvegarder vos notes, puis rechargez le même fichier pour reprendre sur un autre navigateur."
     },
     "saveFailed": "Impossible d'enregistrer sur cet appareil. Exportez en CSV maintenant pour ne pas perdre de lignes, puis libérez de l'espace de navigateur et réessayez.",
     "addProposal": "Ajouter une proposition",
     "exportCsv": "Exporter en CSV",
+    "importCsv": "Charger un CSV",
+    "importConfirm": "Charger ce CSV remplace les lignes sur cet appareil. Continuer ?",
+    "importSuccess": "{count} propositions chargées depuis le CSV. Elles sont enregistrées sur cet appareil.",
+    "importError": {
+      "empty": "Ce CSV n'a aucune ligne de proposition. Exportez d'abord depuis cet outil, ou vérifiez le fichier.",
+      "invalidCsv": "Ce fichier n'est pas un CSV du Suivi des propositions. Utilisez un fichier exporté depuis cet outil.",
+      "tooManyRows": "Ce CSV a trop de lignes. Divisez-le sous 500 propositions et réessayez.",
+      "readFailed": "Impossible de lire ce fichier. Réessayez, ou exportez un nouveau CSV depuis cet outil."
+    },
     "clearDraft": "Effacer le brouillon",
     "removeRow": "Retirer",
     "columns": {
@@ -15008,7 +15047,7 @@
   "strikeOpsGuide": {
     "title": "Guide des opérations de grève",
     "subtitle": "Trousses, couverture des portes, formation des capitaines et retour au travail — pas un calendrier de publications",
-    "backToGuide": "Retour au Plan directeur",
+    "backToGuide": "Retour à Apprendre",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -15303,7 +15342,7 @@
         },
         "chants": {
           "label": "Les slogans ont un capitaine",
-          "content": "Le capitaine commence, une demande, on arrête si une caméra provoque un défi. Pas d'insultes. Pas de paroles d'hymne protégées sur cette page : écrivez un court appel-et-réponse original que votre section possède."
+          "content": "Le capitaine commence, une demande, on arrête si une caméra provoque un défi. Pas d'insultes. N'utilisez pas de paroles d'hymne protégées — écrivez un court appel-et-réponse original que votre section possède."
         },
         "flyers": {
           "label": "Tracts avec un chemin de retour",
@@ -15754,19 +15793,21 @@
   },
   "workshopsHub": {
     "title": "Ateliers",
-    "subtitle": "Plans projectables pour les cadres locaux et les comités d'éducation",
+    "subtitle": "Plans prêts à projeter pour les cadres locaux et les comités d'éducation",
     "intro": "Choisissez l'atelier qui convient à la salle. Chaque plan est conçu pour projection — blocs chronométrés, notes d'animateur et clôture claire.",
     "relatedLabel": "Liens connexes",
     "outlines": {
       "comms": {
         "title": "De zéro à la solidarité (Comms)",
-        "body": "Une heure pour débutants : plateformes et rythme, un logo local, les Exemples sociaux, le Créateur de graphiques, la Carte de citation et un ZIP de site — avec un parcours Démo en direct.",
+        "audience": "Animateurs et délégués nouveaux aux outils Comms",
+        "outcome": "Partez avec un rythme de publication, un passage logo local et un parcours Démo en direct (Créateur de graphiques, Carte de citation, ZIP de site).",
         "time": "~45–60 minutes",
         "cta": "Ouvrir le plan d'atelier Comms"
       },
       "landAcknowledgement": {
         "title": "Rédaction de reconnaissance territoriale",
-        "body": "Séance de travail pour l'exécutif ou le comité d'éducation : règles de base, recherche ensemble, rédaction en paires sur la feuille PDF, et départ avec une date de révision.",
+        "audience": "Exécutif ou comité d'éducation",
+        "outcome": "Recherchez ensemble, rédigez en paires sur la feuille PDF, et partez avec une date de révision nommée.",
         "time": "~60–90 minutes",
         "cta": "Ouvrir l'atelier de reconnaissance territoriale"
       }
@@ -15875,6 +15916,8 @@
     "activeFilters": "Filtres actifs",
     "removeFilter": "Retirer le filtre {filter}",
     "resultCount": "{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}",
+    "resultCountBrandKit": "{count, plural, =0 {Aucun résultat pour votre Trousse de marque} one {Affichage de # résultat pour votre Trousse de marque} other {Affichage de # résultats pour votre Trousse de marque}}",
+    "resultCountBrandKitGuides": "{count, plural, =0 {Aucun guide pour votre Trousse de marque} one {Affichage de # guide pour votre Trousse de marque} other {Affichage de # guides pour votre Trousse de marque}}",
     "minutes": "Environ {count} min",
     "noResultsTitle": "Aucune ressource correspondante",
     "noResultsBody": "Essayez une recherche plus large ou effacez un ou plusieurs filtres.",

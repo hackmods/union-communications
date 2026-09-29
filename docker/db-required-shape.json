@@ -9275,11 +9275,6 @@
     {
       "schema": "public",
       "table": "public_document_acceptances",
-      "name": "public_document_acceptances_admin_update"
-    },
-    {
-      "schema": "public",
-      "table": "public_document_acceptances",
       "name": "public_document_acceptances_subject_insert"
     },
     {

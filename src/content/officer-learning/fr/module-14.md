@@ -4,7 +4,7 @@
 
 Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez une liste de contrôle de trousse d'accueil, tout accord de rabais d'affinité que votre section possède déjà, et un partenaire communautaire que votre exécutif pourrait réalistement soutenir cette année. Lisez le module 6 seulement pour **contraster** — le module 6 couvre les barrières d'équité, la RDA et les clauses d'équité en négociation ; ce module couvre la culture d'accueil du jour 1, les cartes d'affinité sans partage de listes, et les coalitions communautaires.
 
-Les sections passent de l'orientation de 15 minutes aux programmes d'affinité sécurisés et au syndicalisme communautaire. Associez `/guide/membership-signup` pour la signature de cartes et le module 11 pour les règles de confidentialité des listes. L'éducation à l'engagement des membres du **CTC** et les matériaux d'accueil des délégués du **SCFP** renforcent le contact du premier jour ; les campagnes communautaires d'**Unifor** montrent des modèles de coalition à travers l'Ontario.
+Les sections passent de l'orientation de 15 minutes aux programmes d'affinité sécurisés et au syndicalisme communautaire. Associez `/learn/membership-signup` pour la signature de cartes et le module 11 pour les règles de confidentialité des listes. L'éducation à l'engagement des membres du **CTC** et les matériaux d'accueil des délégués du **SCFP** renforcent le contact du premier jour ; les campagnes communautaires d'**Unifor** montrent des modèles de coalition à travers l'Ontario.
 
 🪞 Réflexion : Les membres qui ne rencontrent le syndicat qu'en crise pensent que nous sommes une compagnie d'assurance. L'accueil du jour 1 transforme le syndicat en leur équipe.
 
@@ -31,14 +31,14 @@ Poussez pour une clause de convention accordant au syndicat **15 à 30 minutes**
 | Lettre d'accueil du président de la section | Visage humain de la section |
 | Convention collective en vigueur (ou résumé de poche + code QR) | Salaires, droits, sécurité |
 | Carte du délégué : nom, photo, coordonnées | Quelqu'un à appeler avant les RH |
-| Carte d'adhésion syndicale + stylo | Signer sur place — voir `/guide/membership-signup` |
+| Carte d'adhésion syndicale + stylo | Signer sur place — voir `/learn/membership-signup` |
 | Carte de rabais d'affinité (si votre section en a une) | Valeur quotidienne avant les premiers cotisations |
 | Calendrier de la prochaine AGM ou activité sociale | Invitation, pas obligation |
 
 ### Le script de 15 minutes (rester simple)
 1.  **Accueil (2 min) :** « Nous sommes contents que vous soyez ici. Le syndicat, c'est chaque membre — pas un bureau au centre-ville. »
 2.  **Bases de la convention (5 min) :** Salaires, probation, sécurité, comment joindre votre délégué.
-3.  **Signer la carte (5 min) :** Droit de vote, avis d'assemblée, voix démocratique — parcourir `/guide/membership-signup`.
+3.  **Signer la carte (5 min) :** Droit de vote, avis d'assemblée, voix démocratique — parcourir `/learn/membership-signup`.
 4.  **Questions + avantages (3 min) :** Rabais d'affinité, invitations aux comités, pas de cours de grief encore.
 
 Ne **pas** passer quinze minutes sur les délais d'arbitrage le premier matin.
@@ -59,7 +59,7 @@ Les programmes d'affinité négocient des **rabais exclusifs** — équipement d
 | Renouveler annuellement | Reconfirmer les termes du partenariat ; clause écrite de non-partage de données | Remettre les listes d'adhésion pour « prouver » l'effectif |
 | Suivre l'adoption | Comptages anonymes (« cartes distribuées ») | Donner aux fournisseurs l'accès à votre base de données |
 
-La **directive sur les listes d'adhésion** du module 11 s'applique : partager les listes avec des partenaires commerciaux est une infraction constitutionnelle. Un rabais de 15 % sur des bottes ne vaut pas la vente de la vie privée des membres.
+La **directive sur les listes d'adhésion** (modèle pédagogique) du module 11 s'applique : partager les listes avec des partenaires commerciaux est une infraction constitutionnelle. Un rabais de 15 % sur des bottes ne vaut pas la vente de la vie privée des membres.
 
 Les programmes d'affinité d'**Unifor** et des syndicats nationaux fournissent souvent cartons et règles — les sections ajoutent des partenaires locaux seulement avec un mémo **sans partage de listes** signé par le président.
 
@@ -110,7 +110,7 @@ Les délégués ont besoin des deux : le module 6 enlève les barrières ; le mo
 
 **Trois nouvelles embauches, un délégué.** Jour d'intégration, les RH vous donnent dix-huit minutes dans une salle de pause. Un magasin d'équipement veut les courriels des membres pour un rabais de 15 % sur les bottes. La section représente aussi des préposés d'entretien scolaire qui négocient un langage de dotation.
 
-**À appliquer :** Animer le script de 15 minutes (section 1) : accueil, bases de la convention, signer les cartes via `/guide/membership-signup`, remettre les cartes d'affinité sans collecter de courriels pour le fournisseur (section 2). Refuser la demande de CSV ; offrir des cartes à l'effigie du syndicat. Demander au délégué préposé d'inviter un allié du conseil de parents à la prochaine conférence sur la dotation (section 3) — visage communautaire sur une demande en milieu de travail.
+**À appliquer :** Animer le script de 15 minutes (section 1) : accueil, bases de la convention, signer les cartes via `/learn/membership-signup`, remettre les cartes d'affinité sans collecter de courriels pour le fournisseur (section 2). Refuser la demande de CSV ; offrir des cartes à l'effigie du syndicat. Demander au délégué préposé d'inviter un allié du conseil de parents à la prochaine conférence sur la dotation (section 3) — visage communautaire sur une demande en milieu de travail.
 
 **À ne pas appliquer :** Ne pas faire un cours sur les étapes A–Z du grief. Ne pas envoyer par courriel la liste d'adhésion au fournisseur. Ne pas confondre cette orientation avec la formation RDA du module 6 — garder la profondeur d'accommodation d'équité pour le travail de dossier.
 
@@ -138,7 +138,7 @@ Exercice : **Tour 1 — Script d'orientation.** Chronométrez-vous en livrant le
 
 - [ ] Négocier ou faire respecter un bloc d'orientation jour 1 (ou première semaine) dans la CC
 - [ ] Maintenir une trousse d'accueil : lettre, CC, carte de délégué, carte d'adhésion, activités
-- [ ] Utiliser `/guide/membership-signup` pour faire signer les cartes pendant l'orientation — pas des mois plus tard
+- [ ] Utiliser `/learn/membership-signup` pour faire signer les cartes pendant l'orientation — pas des mois plus tard
 - [ ] Garder l'orientation sous quinze minutes ; reporter les approfondissements sur les griefs
 - [ ] Émettre des cartes de rabais d'affinité que les membres présentent eux-mêmes chez les fournisseurs
 - [ ] Ne jamais partager les listes d'adhésion ni les courriels personnels avec des partenaires commerciaux
@@ -208,7 +208,7 @@ Lequel des éléments suivants est le meilleur exemple de « syndicalisme commun
 ### Question 4
 Votre section veut maximiser la participation à la ratification. Meilleure pratique d'orientation liée à ce module ?
 *   A) Expliquer que les cotisants votent automatiquement — pas besoin de carte.
-*   B) Faire signer les cartes d'adhésion pendant l'orientation du jour 1 via `/guide/membership-signup` pour que les nouveaux soient admissibles avant le premier vote.
+*   B) Faire signer les cartes d'adhésion pendant l'orientation du jour 1 via `/learn/membership-signup` pour que les nouveaux soient admissibles avant le premier vote.
 *   C) Attendre un vote de grève pour présenter le syndicat.
 *   D) Envoyer la liste d'adhésion à une campagne politique pour rappeler aux membres de voter.
 

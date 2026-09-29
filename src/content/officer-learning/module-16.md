@@ -4,7 +4,7 @@
 
 Allow **32 minutes** for the reading and self-test. Bring your **collective agreement** layoff, seniority, and recall articles; a recent employer seniority list (or a redacted sample); and a **notepad**. Read in a private space — bumping files often involve medical leaves, accommodation, and job loss.
 
-Sections move from seniority lists vs. service dates through bumping trees, skills/qualifications language, layoff notice clocks, trial periods, and human-rights collisions. Pair with `/guide/seniority-bumping` and **Module 1**. The **seniority-bumping guide** owns sector playbook mechanics — cascade examples, worksheet exports, and committee run sheets. **This module** owns steward discipline for **reading seniority lists**, tracing **bumping trees**, tracking **notice clocks**, and running **intake** when displacement hits the floor. **Module 1** owns the complaint-vs-grievance filter, 6 W's, and FAR — use them here before you file.
+Sections move from seniority lists vs. service dates through bumping trees, skills/qualifications language, layoff notice clocks, trial periods, and human-rights collisions. Pair with `/learn/seniority-bumping` and **Module 1**. The **seniority-bumping guide** owns sector playbook mechanics — cascade examples, worksheet exports, and committee run sheets. **This module** owns steward discipline for **reading seniority lists**, tracing **bumping trees**, tracking **notice clocks**, and running **intake** when displacement hits the floor. **Module 1** owns the complaint-vs-grievance filter, 6 W's, and FAR — use them here before you file.
 
 **CLC** steward education, **CUPE** layoff materials, and **Unifor** displacement training deepen list reading; Ontario **Employment Standards Act** notice rules sit beside — not instead of — your CA clocks.
 
@@ -176,7 +176,7 @@ Bumping trees fail when the **wrong pool** is used. Ontario multi-union stewards
 
 When HR imports a "standard" chart from another employer in the sector, your first question is: **show me where our CA authorizes that chart.**
 
-💡 Note: `/guide/seniority-bumping` walks committee-ready examples; bring your CA to the guide — do not copy another unit's cascade.
+💡 Note: `/learn/seniority-bumping` walks committee-ready examples; bring your CA to the guide — do not copy another unit's cascade.
 
 ---
 
@@ -200,7 +200,7 @@ When HR imports a "standard" chart from another employer in the sector, your fir
 
 **Round 1 — List audit.** With a redacted seniority list (10–15 rows), mark: wrong classification, service-date errors, missing leave adjustments, and pool-boundary questions. Write three written questions to HR citing CA articles — not opinions.
 
-**Round 2 — Tree sketch.** From your CA layoff articles only, draw a bumping tree for one classification on paper. Compare to `/guide/seniority-bumping` worksheet layout. List two places accommodation could block a branch.
+**Round 2 — Tree sketch.** From your CA layoff articles only, draw a bumping tree for one classification on paper. Compare to `/learn/seniority-bumping` worksheet layout. List two places accommodation could block a branch.
 
 **Round 3 — Clock calendar.** Given a layoff effective date, back-calculate union notice, election, recall, and grievance deadlines on a one-page calendar.
 
@@ -223,7 +223,7 @@ When HR imports a "standard" chart from another employer in the sector, your fir
 - [ ] Use open-door grievance wording (**Module 8**) for displacement files
 - [ ] Document every HR offer and refusal in writing
 - [ ] Escalate scope disputes and ESA overlap to servicing staff when needed
-- [ ] Point members to `/guide/seniority-bumping` for committee mechanics — own intake here
+- [ ] Point members to `/learn/seniority-bumping` for committee mechanics — own intake here
 
 ---
 
@@ -244,7 +244,7 @@ When HR imports a "standard" chart from another employer in the sector, your fir
 - [**Canadian Labour Congress**](https://canadianlabour.ca/) — steward education on restructuring and displacement
 - [**CUPE**](https://cupe.ca/) layoff and seniority steward materials
 - [**Unifor**](https://www.unifor.org/) displacement and recall training
-- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/human-rights-code) — *Human Rights at Work* (accommodation primacy)
+- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/ontario-human-rights-code) — *Human Rights at Work* (accommodation primacy)
 - **Employment Standards Act** (Ontario) — minimum notice layer; compare to your CA
 
 ---

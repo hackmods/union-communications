@@ -4,7 +4,7 @@
 
 Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Apportez un dossier de grief récent (ou la prise en charge vierge du Générateur de documents), votre **convention collective**, et un carnet pour le langage de règlement. Pratiquez le libellé à porte ouverte sur un dossier vivant avant votre prochaine rencontre d'étape — la théorie sans brouillon colle rarement.
 
-Les sections passent du dossier de grief en cinq parties au libellé à porte ouverte, sans préjudice vs sans précédent, et à la discipline de règlement des Quatre coins. Associez `/guide/grievance-process` et `/tools/complaint-vs-grievance`. Le **module 1** possède le filtre plainte/grief, les 6 W et la FAR d'admission ; **ce module** possède les piliers de dossier prêts pour l'arbitrage, la rédaction à porte ouverte et la discipline de PR / Quatre coins — le guide de grief couvre les mécanismes de dépôt par étape. Utilisez les feuilles de prise en charge de grief du Générateur de documents pour structurer la chronologie. Le **manuel des délégués du SCFP** et les cours de **traitement des griefs d'Unifor** approfondissent l'architecture du dossier ; la pratique arbitrale sur les remèdes de réparation intégrale informe les demandes de remède.
+Les sections passent du dossier de grief en cinq parties au libellé à porte ouverte, sans préjudice vs sans précédent, et à la discipline de règlement des Quatre coins. Associez `/learn/grievance-process` et `/utilities/complaint-vs-grievance`. Le **module 1** possède le filtre plainte/grief, les 6 W et la FAR d'admission ; **ce module** possède les piliers de dossier prêts pour l'arbitrage, la rédaction à porte ouverte et la discipline de PR / Quatre coins — le guide de grief couvre les mécanismes de dépôt par étape. Utilisez les feuilles de prise en charge de grief du Générateur de documents pour structurer la chronologie. Le **manuel des délégués du SCFP** et les cours de **traitement des griefs d'Unifor** approfondissent l'architecture du dossier ; la pratique arbitrale sur les remèdes de réparation intégrale informe les demandes de remède.
 
 🪞 Réflexion : Un formulaire de grief faible perd des arguments avant que la rencontre commence. Rédigez pour l'arbitre que vous espérez ne jamais avoir besoin.
 
@@ -75,7 +75,7 @@ En pratique contractuelle, le **protocole de règlement** signé se suffit à lu
 ### Quand quitter
 Quittez quand l'offre écrite est pire que le risque d'arbitrage *et* que les RH refusent de mettre les promesses clés sur papier. Une poignée de main sur « nettoyer l'horaire plus tard » n'est pas une victoire — c'est un grief futur sans levier. La formation de **traitement des griefs d'Unifor** traite les ententes latérales non signées comme des ententes perdues.
 
-💡 Note : `/tools/complaint-vs-grievance` aide les membres à voir quand les plaintes informelles devraient se durcir en griefs déposés avec formulaires à porte ouverte — pas des bargaines de couloir.
+💡 Note : `/utilities/complaint-vs-grievance` aide les membres à voir quand les plaintes informelles devraient se durcir en griefs déposés avec formulaires à porte ouverte — pas des bargaines de couloir.
 
 ---
 
@@ -113,14 +113,14 @@ Exercice : **Tour 1 — Dossier en cinq parties.** Pour un grief d'heures suppl�
 - [ ] Préserver courriels, horaires, journaux de passage tôt (avant les cycles de suppression)
 - [ ] Utiliser le langage d'article à porte ouverte sur le formulaire formel
 - [ ] Demander des remèdes de réparation intégrale, pas des montants symboliques d'une journée
-- [ ] Séparer le coaching de plainte des normes de grief déposé (`/tools/complaint-vs-grievance`)
+- [ ] Séparer le coaching de plainte des normes de grief déposé (`/utilities/complaint-vs-grievance`)
 - [ ] Marquer les offres exploratoires sans préjudice le cas échéant
 - [ ] Décider consciemment si le PR est sans précédent
 - [ ] Appliquer les Quatre coins : si ce n'est pas écrit, ce n'est pas l'entente
 - [ ] Liste de contrôle de règlement complète avant toute signature plein et final
 - [ ] Briefer le plaignant sur ce que plein et final termine — et ce qu'il ne crée pas
 - [ ] Quitter quand les promesses clés restent seulement verbales
-- [ ] L'architecture du dossier correspond aux échéanciers de `/guide/grievance-process`
+- [ ] L'architecture du dossier correspond aux échéanciers de `/learn/grievance-process`
 
 ---
 
@@ -169,7 +169,7 @@ Si un règlement est signé « sans précédent », que signifie cela juridiquem
 Durant une rencontre d'étape, les RH promettent verbalement de nettoyer l'arriéré d'horaire si le syndicat retire le grief. Le délégué signe un règlement « plein et final » qui ne mentionne pas cette promesse. Le syndicat peut-il faire respecter la promesse verbale plus tard ?
 *   A) Oui, les ententes verbales faites durant les rencontres d'étape sont juridiquement contraignantes.
 *   B) Oui, mais seulement s'il y a au moins deux témoins qui ont entendu la promesse.
-*   C) Non, sous la règle des « Quatre coins », toute condition verbale non écrite directement dans le règlement signé est juridiquement inexécutoire.
+*   C) Non, sous la règle des « Quatre coins », toute condition verbale non écrite directement dans le règlement signé est généralement juridiquement inexécutoire.
 *   D) Oui, si le délégué envoie un texto de confirmation après la signature.
 
 **Correct Answer: C**

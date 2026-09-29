@@ -4,12 +4,12 @@
 
 Allow **30 minutes** for the reading and self-test. Bring your **collective agreement** leave and accommodation clauses, a sample doctor's note (redacted), and a **notepad**. Human rights cases require discretion — review in a private space, not the lunch room.
 
-Work through sections 1–4 sequentially: primacy of human rights, Meiorin, undue hardship, and RTW privacy. This module pairs with `/guide/steward-101` for representation basics. External depth: **CUPE Ready and Able**, **OHRC Human Rights at Work**, and **CUPE Stop Harassment guide** when conduct overlaps harassment.
+Work through sections 1–4 sequentially: primacy of human rights, Meiorin, undue hardship, and RTW privacy. This module pairs with `/learn/steward-101` for representation basics. External depth: **CUPE Ready and Able**, **OHRC Human Rights at Work**, and **CUPE Stop Harassment guide** when conduct overlaps harassment.
 
 🪞 Reflection: Accommodation is a dialogue, not a single doctor's note. Your role is to keep the process moving while guarding medical privacy.
 
 ## Overarching Purpose
-To provide local leaders and stewards with a robust framework for identifying prohibited grounds of discrimination, applying statutory human rights standards to employer rules, protecting member medical privacy, and designing collaborative, barrier-free return-to-work programs.
+Spot discrimination early, apply Meiorin to biased rules, guard medical privacy, and build phased return-to-work plans that clear barriers instead of parking members on unpaid leave.
 
 ## Core Learning Objectives
 *   **Know**: The prohibited grounds of discrimination under human rights legislation, and the statutory primacy of human rights over collective agreements.
@@ -118,7 +118,7 @@ Practice: Run two eight-minute rounds. **Round 1 — privacy gate:** Manager ask
 
 **Round 2 — RTW design:** Same member returns with restrictions: no lifting over 10 lbs, four-hour days for two weeks. Employer proposes reassignment to a lower-paid casual pool outside the bargaining unit. Steward drafts a counter-proposal using task bundling within the unit and a gradual work-hardening grid (Week 1–2: 15 hrs; Week 3–4: 22.5 hrs; Week 5–6: 30 hrs; then full hours) plus a 30-day joint review. Debrief: Did anyone accept diagnosis disclosure? Did the counter preserve wage rate and unit standing?
 
-Practice in the tool: open Tools → Steward worksheets → RTW & accommodation (/tools/rtw-accommodation) and draft the functional limits and HR script without naming a diagnosis.
+Practice in the tool: open Tools → Steward worksheets → RTW & accommodation (/utilities/rtw-accommodation) and draft the functional limits and HR script without naming a diagnosis.
 
 🪞 Reflection: After the drill, list three questions you will ask at every future accommodation meeting before you leave the room.
 
@@ -156,7 +156,7 @@ Practice in the tool: open Tools → Steward worksheets → RTW & accommodation 
 ## Further learning
 
 - **CUPE Ready and Able** — duty to accommodate steward reference
-- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/human-rights-code) — **Human Rights at Work** and duty to accommodate policy guidance
+- [**Ontario Human Rights Commission**](https://www.ohrc.on.ca/en/ontario-human-rights-code) — **Human Rights at Work** and duty to accommodate policy guidance
 - [**CUPE Stop Harassment guide**](https://cupe.ca/stop-harassment-guide-cupe-locals) — overlap of harassment and discriminatory conduct
 - [**Canadian Labour Congress**](https://canadianlabour.ca/) labour education — human rights in the workplace modules
 

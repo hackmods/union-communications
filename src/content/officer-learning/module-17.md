@@ -137,7 +137,7 @@ A duty dump that adds independence or system ownership is a **factor** argument,
 - [ ] Do not treat Module 16 seniority language as a pay-band rating
 - [ ] Use Module 8 open-door wording once you file
 - [ ] Escalate missed windows and refused amendments to servicing when needed
-- [ ] Point members to `/guide/grievance-process` for filing steps — own the PDF audit here
+- [ ] Point members to `/learn/grievance-process` for filing steps — own the PDF audit here
 
 ---
 

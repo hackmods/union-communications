@@ -21,7 +21,7 @@ Muse Viewport Lab audit pack (50 Learn pages). Treated as leads, not gospel.
 - Exact-once URL per page (kills body CTAs).
 - TEST-101 as published content (absent from repo).
 - Most "1.Heading" missing-space as visual bugs (AX glue; real bug was `aria-hidden` separator on short-form).
-- Hub `StewardGuidesHubBoard` DRY and `/guide`→`/learn` href sweep — separate tracks.
+- Hub `StewardGuidesHubBoard` DRY and `/guide`→`/learn` href sweep — **shipped** (compact read-first; Create/Hub hrefs canonicalized).
 - In-app Viewport Lab recipe runner.
 
 ## Verify

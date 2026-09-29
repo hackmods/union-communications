@@ -4,12 +4,12 @@
 
 Allow **26 minutes** for the reading and self-test. Bring your **collective agreement** discipline articles, any recent warning letter or suspension notice, and a **notepad**. Discipline cases are emotionally charged — if possible, review this module with a mentor steward before your first disciplinary meeting.
 
-Sections 1–5 build from coaching vs. discipline through progressive steps, mitigating factors, obey-now-grieve-later, and off-duty nexus. Pair with `/guide/grievance-process` for filing steps and `/guide/right-to-refuse` when safety exceptions arise. Ontario OHSA principles appear in Section 4's safety exception — know your jurisdiction's equivalent.
+Sections 1–5 build from coaching vs. discipline through progressive steps, mitigating factors, obey-now-grieve-later, and off-duty nexus. Pair with `/learn/grievance-process` for filing steps and `/learn/right-to-refuse` when safety exceptions arise. Ontario OHSA principles appear in Section 4's safety exception — know your jurisdiction's equivalent.
 
 💡 Note: In discipline, the employer carries the burden of proof. Your job is to test their evidence and present mitigation — not to prove the member innocent from scratch.
 
 ## Overarching Purpose
-To instruct stewards on how to aggressively defend workers facing employer discipline, recognize the stages of progressive discipline, leverage mitigating factors, and navigate complex performance, innocent absenteeism, and off-duty conduct cases.
+To instruct stewards on how to vigorously defend workers facing employer discipline, recognize the stages of progressive discipline, leverage mitigating factors, and navigate complex performance, innocent absenteeism, and off-duty conduct cases.
 
 ## Core Learning Objectives
 *   **Know**: The strict distinction between non-disciplinary counseling/coaching and formal disciplinary action; the legal definition of "just cause" and progressive discipline.
@@ -116,7 +116,7 @@ An employer cannot discipline an employee for off-duty conduct unless they can p
 
 Practice: Role-play a disciplinary meeting. Manager presents a one-day suspension for lateness (three incidents in two months). Steward must ask for proof of each date, prior warnings given, and whether other late workers were disciplined. Steward closes by offering mitigation (medical appointment documentation, transit delays) and requesting reduction to a written warning. Timebox: 12 minutes. Debrief whether anyone accidentally admitted facts the employer had not proven.
 
-Practice in the tool: open Tools → Steward worksheets → Pre-disciplinary log (/tools/pre-disciplinary-log) and complete the rights checklist for the same scenario.
+Practice in the tool: open Tools → Steward worksheets → Pre-disciplinary log (/utilities/pre-disciplinary-log) and complete the rights checklist for the same scenario.
 
 ---
 
@@ -129,7 +129,7 @@ Practice in the tool: open Tools → Steward worksheets → Pre-disciplinary log
 - [ ] Prepare mitigating factors with dates and supporting notes
 - [ ] Advise member on obey-now-grieve-later vs. safety/legal exceptions before next shift
 - [ ] For off-duty conduct, preserve social posts and document workplace impact (or lack thereof)
-- [ ] Complete `/tools/pre-disciplinary-log` rights checklist before the meeting when possible
+- [ ] Complete `/utilities/pre-disciplinary-log` rights checklist before the meeting when possible
 - [ ] Draft specific remedy: removal from file, reduced penalty, reinstatement with back pay
 - [ ] Brief the member: admit only proven facts; do not invent dates or motives for the employer
 

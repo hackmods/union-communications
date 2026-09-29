@@ -119,6 +119,11 @@ function CaptionsPageContent() {
                     variant="outline"
                     className="min-h-11 shrink-0"
                     onClick={() => handleCopy(template.id, fullText)}
+                    aria-label={
+                      copiedId === template.id
+                        ? tc("copiedNamed", { title })
+                        : tc("copyNamed", { title })
+                    }
                   >
                     {copiedId === template.id ? t("copied") : t("copy")}
                   </Button>
@@ -141,7 +146,7 @@ function CaptionsPageContent() {
             <p className="max-w-prose text-sm text-slate-700">{td("done")}</p>
             <GuideActionRow>
               <Link
-                href="/guide/social-media-plan"
+                href="/learn/first-week"
                 className={guideCtaOutlineClassSm}
               >
                 {td("openRoadmap")} →
@@ -162,7 +167,7 @@ function CaptionsPageContent() {
                     {tc("graphicMakerCta")} →
                   </Link>
                   <Link
-                    href="/guide/short-form"
+                    href="/learn/short-form"
                     className={guideCtaOutlineClassSm}
                   >
                     {nav("shortFormGuide")} →

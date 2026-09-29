@@ -24,6 +24,14 @@ When you need precision that ages badly, **hedge and point to counsel / national
 
 ---
 
+## Quiz ↔ body qualifier rule
+
+Whoever writes a quiz answer must re-read the exact body paragraph it tests. If the lesson says “generally,” “teaching default,” or “confirm against your constitution,” the quiz prompt and explanation must carry the same hedge. Absolute quiz answers against hedged doctrine are a recurring audit failure mode (settlement Four Corners, election plurality, political spending, cultural protocols).
+
+Spot-check with `e2e/officer-learning.quiz.audit.spec.ts` after quiz edits.
+
+---
+
 ## Voice
 
 - Multi-union Ontario: CUPE / Unifor / CLC / OHRC as **education sources**, never OPSEU/CAAT as the default tenant in core prose.

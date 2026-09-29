@@ -29,7 +29,7 @@ export const SMOKE_COPY_ALLOWLIST = new Set([
   "OPSEU / SEFPO graphics, logos & letterhead",
   // Filter chrome / download filename / arrow suffix not always in message leaves
   "Remove Privacy filter",
-  "Duty of Fair Representation →",
+  "DFR: Officer course →",
   "local-pack.json",
   "Council palette",
   "Local council",

@@ -290,13 +290,13 @@ export function ModuleQuiz({
               </button>
               {nextModuleSlug ? (
                 <Link
-                  href={`/guide/officer-learning/${nextModuleSlug}`}
+                  href={`/learn/officer/${nextModuleSlug}`}
                   className={olTheme.btnPrimary}
                 >
                   {t("quiz.nextModule")} →
                 </Link>
               ) : (
-                <Link href="/guide/officer-learning" className={olTheme.btnPrimary}>
+                <Link href="/learn/officer" className={olTheme.btnPrimary}>
                   {t("quiz.backToDashboard")} →
                 </Link>
               )}
