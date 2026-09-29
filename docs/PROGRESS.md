@@ -1,9 +1,10 @@
 ﻿## 2026-09-29 — CI test gate parallelization
 
 - Split serial `test-and-build` (~20 min) into `quality` ∥ `build-app` → 4× `e2e-smoke` shards + `test-gate`.
-- Build once; shards download standalone artifact; Playwright Chromium cached; CI `workers` stay at 1.
+- Build once; shards download standalone artifact (`include-hidden-files` for nested `.next/BUILD_ID`); Playwright Chromium cached; CI `workers` stay at 1.
 - PR docs-only allowlist (`docs/**`, `*.md`, `.cursor/**`, `LICENSE*`) skips the full belt; `main`/deploy never skips.
-- Deploy waits on `test-gate`. Session: [`docs/audit/session-knowledge-2026-09-29-ci-test-sharding.md`](audit/session-knowledge-2026-09-29-ci-test-sharding.md).
+- Measured green PR: **~11 min** wall (was ~20–21); shard 3 ~8.5 min is the remaining bottleneck. Deploy waits on `test-gate`.
+- Session: [`docs/audit/session-knowledge-2026-09-29-ci-test-sharding.md`](audit/session-knowledge-2026-09-29-ci-test-sharding.md).
 
 ## 2026-09-29 — Organization structure admin uplift
 

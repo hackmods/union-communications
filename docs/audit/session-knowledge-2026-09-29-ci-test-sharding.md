@@ -35,8 +35,12 @@ and `run_full` gates.
 - First CI attempt failed all four `e2e-smoke` shards: artifact upload omitted the
   nested hidden `.next/` inside standalone (`BUILD_ID`), so `npm start` could not
   boot. Fixed with `include-hidden-files: true` plus a shard-side `BUILD_ID` check.
-- Re-check Actions timings on the next green PR run; target wall clock ~6–8 min
-  for the test gate (max of quality vs build + one shard).
+- Green PR run `36642902313` (2026-09-29): workflow wall **~11 min**
+  (`23:01:15` → `23:12:05`) vs prior ~20–21 min serial job.
+  - `quality` ~4m40s; `build-app` ~2m; shards ~2m40s / ~3m30s / **~8m30s** / ~3m15s
+  - Critical path = detect + build + slowest shard (~10.5–11 min). Shard 3 is
+    unbalanced (likely heavier specs and/or a retry); consider 5–6 shards or
+    tagging slow suites if wall clock needs to land under 8 min.
 
 ## Follow-up
 
