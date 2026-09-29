@@ -8080,7 +8080,7 @@
       },
       "learn-content-trust": {
         "title": "Liens et réserves Apprendre resserrés",
-        "body": "Les encadrés de module erronés sont corrigés, les liens bibliographiques morts sont remplacés, et les quiz de Formation des dirigeants portent maintenant les mêmes réserves constitutionnelles que le texte de la leçon."
+        "body": "Les encadrés de module erronés sont corrigés, les liens bibliographiques morts sont remplacés, les quiz de Formation des dirigeants portent les mêmes réserves constitutionnelles que le texte de la leçon, et les pages Apprendre pointent maintenant vers les URL canoniques /learn plutôt que les anciens chemins /guide."
       },
       "learn-ui-chrome": {
         "title": "Les pages Apprendre démarrent plus vite",
