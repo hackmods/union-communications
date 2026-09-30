@@ -64,4 +64,14 @@ describe("MFA verification attempt limit", () => {
     const decision = await reserve("account-fallback", Date.now(), env);
     expect(decision).toMatchObject({ allowed: true });
   });
+
+  it("documents CapRover failure: Date#toString is not a Postgres timestamptz", () => {
+    // Regression guard for the hosted MFA lockout where sql`${date}` bound
+    // Date#toString() ("Wed Sep 30 2026 … GMT…") and Postgres rejected it.
+    const instant = new Date("2026-09-30T23:10:25.493Z");
+    expect(String(instant)).toMatch(/^Wed /);
+    expect(String(instant)).toMatch(/GMT/);
+    expect(instant.toISOString()).toBe("2026-09-30T23:10:25.493Z");
+    expect(instant.toISOString()).not.toMatch(/GMT|Wed /);
+  });
 });

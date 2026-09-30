@@ -53,6 +53,10 @@ async function reserveInPostgres(
 ): Promise<MfaAttemptDecision> {
   const cutoff = new Date(now - MFA_ATTEMPT_WINDOW_MS);
   const windowStartedAt = new Date(now);
+  // Drizzle `sql` templates stringify Date via Date#toString() ("Wed Sep 30 ... GMT"),
+  // which Postgres rejects as timestamptz. Bind ISO-8601 and cast explicitly.
+  const cutoffIso = cutoff.toISOString();
+  const windowStartedAtIso = windowStartedAt.toISOString();
   return withRlsContext({ userId }, async () => {
     const db = getDb();
     const table = mfaVerificationAttempts;
@@ -62,8 +66,8 @@ async function reserveInPostgres(
       .onConflictDoUpdate({
         target: table.userId,
         set: {
-          windowStartedAt: sql`case when ${table.windowStartedAt} <= ${cutoff} then ${windowStartedAt} else ${table.windowStartedAt} end`,
-          attemptCount: sql`case when ${table.windowStartedAt} <= ${cutoff} then 1 else ${table.attemptCount} + 1 end`,
+          windowStartedAt: sql`case when ${table.windowStartedAt} <= ${cutoffIso}::timestamptz then ${windowStartedAtIso}::timestamptz else ${table.windowStartedAt} end`,
+          attemptCount: sql`case when ${table.windowStartedAt} <= ${cutoffIso}::timestamptz then 1 else ${table.attemptCount} + 1 end`,
         },
         setWhere: or(
           lte(table.windowStartedAt, cutoff),
