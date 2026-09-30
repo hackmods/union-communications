@@ -34,17 +34,14 @@ test.describe("Hub / Portal desktop composition @smoke", () => {
   test("grievance detail composes at 1280", async ({ page }) => {
     await loginAsPresident(page);
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto("/en/app/grievances");
-    const detailLink = page
-      .locator('a[href*="/app/grievances/"]:not([href*="/new"])')
-      .first();
-    await expect(detailLink).toBeVisible({ timeout: 20_000 });
-    await Promise.all([
-      page.waitForURL(/\/en\/app\/grievances\/[^/]+/, { timeout: 20_000 }),
-      detailLink.click(),
-    ]);
+    // Seed memory grievance — avoid list-row click races (New CTA is a
+    // button-in-link; row Card clicks have flaked under shard load).
+    await page.goto("/en/app/grievances/grev-001");
+    await expect(page).toHaveURL(/\/en\/app\/grievances\/grev-001\/?$/, {
+      timeout: 20_000,
+    });
     const h1 = page.getByRole("heading", { level: 1 });
-    await expect(h1).toBeVisible();
+    await expect(h1).toBeVisible({ timeout: 20_000 });
     await assertDesktopComposition(page, {
       heading: h1,
       maxHeadingY: 420,

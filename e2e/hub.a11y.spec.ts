@@ -151,21 +151,10 @@ test.describe("Hub authenticated a11y", () => {
   test("grievance detail has no serious or critical a11y violations", async ({
     page,
   }) => {
-    await page.goto("/en/app/grievances");
-    await expect(
-      page.getByRole("heading", {
-        level: 1,
-        name: /Grievance Tracking|Suivi des griefs/i,
-      }),
-    ).toBeVisible({ timeout: 20_000 });
-    const detailLink = page
-      .locator('a[href*="/app/grievances/"]:not([href*="/new"])')
-      .first();
-    await expect(detailLink).toBeVisible({ timeout: 20_000 });
-    await Promise.all([
-      page.waitForURL(/\/en\/app\/grievances\/[^/]+/, { timeout: 20_000 }),
-      detailLink.click(),
-    ]);
+    await page.goto("/en/app/grievances/grev-001");
+    await expect(page).toHaveURL(/\/en\/app\/grievances\/grev-001\/?$/, {
+      timeout: 20_000,
+    });
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible({
       timeout: 20_000,
     });
