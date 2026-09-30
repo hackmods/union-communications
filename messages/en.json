@@ -9855,6 +9855,7 @@
         "invalid": "That code does not match. Wait for a new number, or use a recovery code.",
         "replayed": "That number was already used. Wait for the next code in your app.",
         "storage_unavailable": "This sign-in step could not be saved. Wait for a new authenticator number, then try again. If it keeps failing, ask whoever runs this Officer Hub to check multi-factor storage.",
+        "enrollment_store_unavailable": "Authenticator setup could not save the QR secret. This is a host storage problem, not a wrong code. Try Generate setup code again, or ask whoever runs this Officer Hub to check pending enrollment storage in the app logs.",
         "attempt_store_unavailable": "Sign-in could not start the authenticator check. This is not a wrong code — the host could not record the attempt. Try again in a moment, or ask whoever runs this Officer Hub to check the app logs for MFA attempt-limit.",
         "grant_unavailable": "Your code was accepted, but this browser could not finish the signed-in session. Wait for the next authenticator number and try again. If it keeps failing, ask whoever runs this Officer Hub to check MFA session grants.",
         "replay_store_unavailable": "Your code matched, but replay protection could not be saved. Wait for the next authenticator number and try again. If it keeps failing, ask whoever runs this Officer Hub to check MFA replay storage.",

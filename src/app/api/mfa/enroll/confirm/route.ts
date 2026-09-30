@@ -60,8 +60,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "Authenticator setup is unavailable. Ask whoever runs this Officer Hub to confirm multi-factor storage is ready, then try again.",
-        code: "storage_unavailable",
+          "Authenticator setup could not read the QR secret. Ask whoever runs this Officer Hub to check pending enrollment storage.",
+        code: "enrollment_store_unavailable",
       },
       { status: 503, headers: { "Cache-Control": "private, no-store" } },
     );

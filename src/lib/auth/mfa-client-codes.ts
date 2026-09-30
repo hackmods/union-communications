@@ -8,6 +8,7 @@ export const MFA_CLIENT_CODES = [
   "invalid",
   "replayed",
   "storage_unavailable",
+  "enrollment_store_unavailable",
   "attempt_store_unavailable",
   "grant_unavailable",
   "replay_store_unavailable",

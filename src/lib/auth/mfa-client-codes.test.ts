@@ -34,6 +34,7 @@ describe("classifySubmittedMfaCode", () => {
 describe("officerMfaErrorMessage", () => {
   it("maps known codes and falls back otherwise", () => {
     expect(isMfaClientCode("replayed")).toBe(true);
+    expect(isMfaClientCode("enrollment_store_unavailable")).toBe(true);
     expect(isMfaClientCode("attempt_store_unavailable")).toBe(true);
     expect(isMfaClientCode("grant_unavailable")).toBe(true);
     expect(isMfaClientCode("replay_store_unavailable")).toBe(true);

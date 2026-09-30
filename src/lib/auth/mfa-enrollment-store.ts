@@ -82,23 +82,40 @@ export async function setPendingSecret(
   sharedPendingForTests?.set(userId, { ...entry });
 
   if (postgresPendingStoreEnabled(env)) {
-    const stored = encryptTotpSecret(secret, userId, env);
-    await withRlsContext({ userId }, async () => {
-      await getDb()
-        .insert(mfaPendingEnrollments)
-        .values({
-          userId,
-          secret: stored,
-          expiresAt: new Date(entry.expiresAt),
-        })
-        .onConflictDoUpdate({
-          target: mfaPendingEnrollments.userId,
-          set: {
+    let stored: string;
+    try {
+      stored = encryptTotpSecret(secret, userId, env);
+    } catch (error) {
+      console.error("[auth] MFA pending enrollment encrypt failed", {
+        userId,
+        message: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
+    try {
+      await withRlsContext({ userId }, async () => {
+        await getDb()
+          .insert(mfaPendingEnrollments)
+          .values({
+            userId,
             secret: stored,
             expiresAt: new Date(entry.expiresAt),
-          },
-        });
-    });
+          })
+          .onConflictDoUpdate({
+            target: mfaPendingEnrollments.userId,
+            set: {
+              secret: stored,
+              expiresAt: new Date(entry.expiresAt),
+            },
+          });
+      });
+    } catch (error) {
+      console.error("[auth] MFA pending enrollment Postgres write failed", {
+        userId,
+        message: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
   }
 }
 

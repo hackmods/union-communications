@@ -366,8 +366,8 @@ describe("MFA API routes", () => {
       const enrolled = await enrollMfa(jsonRequest({}));
       expect(enrolled.status).toBe(503);
       expect(await enrolled.json()).toMatchObject({
-        error: expect.stringContaining("unavailable"),
-        code: "storage_unavailable",
+        error: expect.stringMatching(/QR secret|pending enrollment/i),
+        code: "enrollment_store_unavailable",
       });
 
       const confirmed = await confirmEnroll(jsonRequest({ code: "123456" }));
