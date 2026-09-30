@@ -36,11 +36,36 @@ export type MemoryOutreachSuppression = {
 const lists: MemoryOutreachList[] = [];
 const subscribers: MemoryOutreachSubscriber[] = [];
 const suppressions: MemoryOutreachSuppression[] = [];
+const confirmTokens: Array<{
+  tokenHash: string;
+  subscriberId: string;
+  expiresAt: Date;
+  consumed: boolean;
+}> = [];
 
 export function resetOutreachListsMemory(): void {
   lists.length = 0;
   subscribers.length = 0;
   suppressions.length = 0;
+  confirmTokens.length = 0;
+}
+
+export function memoryStoreConfirmToken(input: {
+  tokenHash: string;
+  subscriberId: string;
+  expiresAt: Date;
+}): void {
+  confirmTokens.push({ ...input, consumed: false });
+}
+
+export function memoryConsumeConfirmToken(tokenHash: string): boolean {
+  const row = confirmTokens.find(
+    (t) => t.tokenHash === tokenHash && !t.consumed && t.expiresAt.getTime() > Date.now(),
+  );
+  if (!row) return false;
+  if (!memoryConfirmSubscriber(row.subscriberId)) return false;
+  row.consumed = true;
+  return true;
 }
 
 export function memoryCreateList(input: {
@@ -144,4 +169,15 @@ export function memoryListConfirmed(unionId: string, listId: string): MemoryOutr
 
 export function memoryGetLists(unionId: string): MemoryOutreachList[] {
   return lists.filter((l) => l.unionId === unionId);
+}
+
+export function memoryListSubscriberCounts(listId: string): {
+  confirmed: number;
+  pending: number;
+} {
+  const listSubs = subscribers.filter((s) => s.listId === listId);
+  return {
+    confirmed: listSubs.filter((s) => s.status === "confirmed").length,
+    pending: listSubs.filter((s) => s.status === "pending_confirmation").length,
+  };
 }

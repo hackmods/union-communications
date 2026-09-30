@@ -7,12 +7,16 @@ vi.mock("@/lib/auth/mfa-policy", () => ({
 vi.mock("@/lib/auth/fresh-mfa-step-up", () => ({
   verifyFreshMfaStepUp: vi.fn(),
 }));
-vi.mock("@/lib/email/member-broadcast", () => ({
-  listBroadcastRoster: vi.fn(),
-  listBroadcastCampaigns: vi.fn(),
-  sendMemberBroadcast: vi.fn(),
-  setOwnBroadcastConsent: vi.fn(),
-}));
+vi.mock("@/lib/email/member-broadcast", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/email/member-broadcast")>();
+  return {
+    ...actual,
+    listBroadcastRoster: vi.fn(),
+    listBroadcastCampaigns: vi.fn(),
+    sendMemberBroadcast: vi.fn(),
+    setOwnBroadcastConsent: vi.fn(),
+  };
+});
 vi.mock("@/lib/audit/store", () => ({
   auditLog: { log: vi.fn(async () => undefined) },
 }));
@@ -99,6 +103,52 @@ describe("/api/broadcast", () => {
       }),
     );
     expect(response.status).toBe(428);
+    expect(mocks.sendMemberBroadcast).not.toHaveBeenCalled();
+  });
+
+  it("returns dry-run counts without MFA", async () => {
+    mocks.sendMemberBroadcast.mockResolvedValue({
+      ok: true,
+      dryRun: true,
+      recipientCount: 2,
+      accepted: 0,
+      failed: 0,
+      trackingApplied: false,
+    });
+    const response = await POST(
+      new Request("https://unionops.org/api/broadcast", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "send",
+          subject: "Hi",
+          body: "News",
+          recipientUserIds: ["user-1", "user-2"],
+          dryRun: true,
+        }),
+      }),
+    );
+    expect(response.status).toBe(200);
+    expect(mocks.verifyFreshMfaStepUp).not.toHaveBeenCalled();
+    await expect(response.json()).resolves.toEqual(
+      expect.objectContaining({ dryRun: true, recipientCount: 2 }),
+    );
+  });
+
+  it("rejects more than fifty recipients before send", async () => {
+    const response = await POST(
+      new Request("https://unionops.org/api/broadcast", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "send",
+          subject: "Hi",
+          body: "News",
+          recipientUserIds: Array.from({ length: 51 }, (_, i) => `user-${i}`),
+        }),
+      }),
+    );
+    expect(response.status).toBe(400);
     expect(mocks.sendMemberBroadcast).not.toHaveBeenCalled();
   });
 });

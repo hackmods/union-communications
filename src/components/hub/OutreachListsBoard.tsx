@@ -24,6 +24,9 @@ export function OutreachListsBoard() {
   const [mfaCode, setMfaCode] = useState("");
   const [feedback, setFeedback] = useState("");
   const [busy, setBusy] = useState(false);
+  const [createName, setCreateName] = useState("");
+  const [createPurpose, setCreatePurpose] = useState("");
+  const [createSlug, setCreateSlug] = useState("");
 
   const load = useCallback(async () => {
     const [capRes, boardRes] = await Promise.all([
@@ -49,6 +52,36 @@ export function OutreachListsBoard() {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- fetch board on mount
     void load();
   }, [load]);
+
+  async function createList() {
+    setBusy(true);
+    setFeedback("");
+    try {
+      const response = await fetch("/api/outreach-lists", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "create",
+          name: createName,
+          purpose: createPurpose || undefined,
+          slug: createSlug || undefined,
+        }),
+      });
+      const data = (await response.json()) as { error?: string; listId?: string };
+      if (!response.ok) {
+        setFeedback(data.error ?? t("createError"));
+        return;
+      }
+      setFeedback(t("created"));
+      setCreateName("");
+      setCreatePurpose("");
+      setCreateSlug("");
+      if (data.listId) setListId(data.listId);
+      await load();
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function send() {
     setBusy(true);
@@ -119,6 +152,27 @@ export function OutreachListsBoard() {
             ))}
           </ul>
         )}
+      </section>
+      <section className="space-y-3 rounded-lg border border-opseu-gray-light p-4">
+        <h2 className="text-lg font-semibold text-opseu-dark">{t("createTitle")}</h2>
+        <Input
+          value={createName}
+          onChange={(e) => setCreateName(e.target.value)}
+          label={t("createName")}
+        />
+        <Input
+          value={createPurpose}
+          onChange={(e) => setCreatePurpose(e.target.value)}
+          label={t("createPurpose")}
+        />
+        <Input
+          value={createSlug}
+          onChange={(e) => setCreateSlug(e.target.value)}
+          label={t("createSlug")}
+        />
+        <Button type="button" disabled={busy || createName.trim().length < 2} onClick={() => void createList()}>
+          {busy ? t("creating") : t("create")}
+        </Button>
       </section>
       <section className="space-y-3 rounded-lg border border-opseu-gray-light p-4">
         <h2 className="text-lg font-semibold text-opseu-dark">{t("composeTitle")}</h2>

@@ -6,8 +6,38 @@
  * Run: npm run db:rls-smoke
  */
 import { randomUUID } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import postgres from "postgres";
 import { APP_DB_ROLE } from "../src/lib/db/rls-contract";
+
+function assertOutreachMigrationArtifacts(): void {
+  const migrationPath = join(
+    process.cwd(),
+    "src/lib/db/migrations/0088_outreach_lists.sql",
+  );
+  const sql = readFileSync(migrationPath, "utf8");
+  for (const needle of [
+    "outreach_lists_tenant",
+    "outreach_action_tokens",
+    "outreach_confirm_from_token",
+  ]) {
+    if (needle === "outreach_confirm_from_token") {
+      const confirmPath = join(
+        process.cwd(),
+        "src/lib/db/migrations/0089_outreach_confirm.sql",
+      );
+      const confirmSql = readFileSync(confirmPath, "utf8");
+      if (!confirmSql.includes(needle)) {
+        throw new Error(`Outreach confirm migration missing ${needle}`);
+      }
+      continue;
+    }
+    if (!sql.includes(needle)) {
+      throw new Error(`Outreach migration missing ${needle}`);
+    }
+  }
+}
 
 const UNION = "union-b7p";
 const LOCAL = "local-7";
@@ -16,6 +46,7 @@ const LOCAL_MEMBER = "user-member-7";
 const OTHER_LOCAL_MEMBER = "user-president-1337";
 
 async function main(): Promise<void> {
+  assertOutreachMigrationArtifacts();
   const url = process.env.DATABASE_URL?.trim();
   if (!url) throw new Error("DATABASE_URL is required (use unionops_app credentials)");
 

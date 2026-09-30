@@ -9,6 +9,7 @@ import { emailAppBaseUrl } from "@/lib/email/messages";
 import {
   listBroadcastCampaigns,
   listBroadcastRoster,
+  MEMBER_BROADCAST_MAX_RECIPIENTS_PER_SEND,
   sendMemberBroadcast,
   setOwnBroadcastConsent,
 } from "@/lib/email/member-broadcast";
@@ -111,9 +112,13 @@ const postSchema = z.discriminatedUnion("action", [
     action: z.literal("send"),
     subject: z.string().min(1).max(200),
     body: z.string().min(1).max(12000),
-    recipientUserIds: z.array(z.string().min(1)).min(1).max(500),
+    recipientUserIds: z
+      .array(z.string().min(1))
+      .min(1)
+      .max(MEMBER_BROADCAST_MAX_RECIPIENTS_PER_SEND),
     explicitTrackingOptIn: z.boolean().default(false),
     locale: z.enum(["en", "fr"]).default("en"),
+    dryRun: z.boolean().default(false),
     mfaCode: z.string().max(32).optional(),
   }),
 ]);
@@ -188,6 +193,33 @@ export async function POST(request: Request) {
 
   if (!canManageBroadcast(roles)) {
     return respond({ error: "Forbidden" }, 403);
+  }
+
+  if (parsed.data.dryRun) {
+    const result = await sendMemberBroadcast({
+      unionId: gate.unionId,
+      localId: gate.localId,
+      actorUserId: gate.session.user.id,
+      subject: parsed.data.subject,
+      body: parsed.data.body,
+      recipientUserIds: parsed.data.recipientUserIds,
+      explicitTrackingOptIn: parsed.data.explicitTrackingOptIn,
+      locale: parsed.data.locale,
+      rls,
+      from: readSmtpEnv("EMAIL_FROM").value ?? "noreply@example.com",
+      replyTo: readSmtpEnv("EMAIL_FROM").value ?? "noreply@example.com",
+      unsubscribeApiBase: `${emailAppBaseUrl(new URL(request.url).origin)}/api/broadcast/unsubscribe`,
+      dryRun: true,
+    });
+    if (!result.ok) {
+      return respond({ error: result.reason }, 400);
+    }
+    return respond({
+      ok: true,
+      dryRun: true,
+      recipientCount: result.recipientCount,
+      trackingApplied: result.trackingApplied,
+    });
   }
 
   const challenge = await verifyFreshMfaStepUp({

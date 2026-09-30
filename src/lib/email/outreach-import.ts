@@ -10,6 +10,11 @@ import {
 } from "@/lib/db/schema/outreach";
 import { marketingEmailLookupKey } from "@/lib/email/marketing-consent";
 import { OUTREACH_LIST_NOTICE } from "@/lib/email/outreach-list-notice";
+import {
+  mintOutreachConfirmToken,
+  sendOutreachConfirmEmail,
+} from "@/lib/email/outreach-confirm";
+import { readOutreachListsConfig } from "@/lib/email/outreach-config";
 import { memoryImportSubscribers } from "@/lib/email/outreach-lists-memory";
 
 export type OutreachImportRow = { email: string; locale: "en" | "fr" };
@@ -45,6 +50,8 @@ export type OutreachImportResult = {
   imported: number;
   skipped: number;
   pendingOnly: true;
+  confirmPreviewUrls?: string[];
+  confirmEmailsSent?: number;
 };
 
 export async function importOutreachSubscribers(input: {
@@ -62,28 +69,58 @@ export async function importOutreachSubscribers(input: {
     return "invalid_attestation";
   }
   if (!isPostgresConfigured()) {
+    if (input.dryRun) {
+      const previewUrls: string[] = [];
+      let wouldImport = 0;
+      let wouldSkip = 0;
+      for (const row of input.rows) {
+        const lookupKey = marketingEmailLookupKey(row.email);
+        if (!lookupKey) {
+          wouldSkip += 1;
+          continue;
+        }
+        wouldImport += 1;
+        if (previewUrls.length < 25) {
+          previewUrls.push(
+            `[dry-run] confirm:${row.email.trim().toLowerCase()}@${input.listId}`,
+          );
+        }
+      }
+      return {
+        dryRun: true,
+        imported: wouldImport,
+        skipped: wouldSkip,
+        pendingOnly: true,
+        confirmPreviewUrls: previewUrls,
+      };
+    }
     const result = memoryImportSubscribers({
       unionId: input.unionId,
       listId: input.listId,
       rows: input.rows,
     });
     return {
-      dryRun: input.dryRun,
+      dryRun: false,
       imported: result.imported,
       skipped: result.skipped,
       pendingOnly: true,
+      confirmEmailsSent: 0,
     };
   }
   return withRlsContext(input.rls, async () => {
     const db = getDb();
     const [list] = await db
-      .select({ id: outreachLists.id })
+      .select({ id: outreachLists.id, name: outreachLists.name })
       .from(outreachLists)
       .where(
         and(eq(outreachLists.id, input.listId), eq(outreachLists.unionId, input.unionId)),
       )
       .limit(1);
     if (!list) return "list_not_found";
+
+    const config = readOutreachListsConfig();
+    const confirmPreviewUrls: string[] = [];
+    let confirmEmailsSent = 0;
 
     let imported = 0;
     let skipped = 0;
@@ -123,6 +160,20 @@ export async function importOutreachSubscribers(input: {
       }
       if (input.dryRun) {
         imported += 1;
+        if (config.baseUrl && config.tokenKeys.length) {
+          const preview = await mintOutreachConfirmToken({
+            unionId: input.unionId,
+            listId: input.listId,
+            subscriberId: randomUUID(),
+            grantEventId: null,
+            rls: input.rls,
+            locale: row.locale,
+            previewOnly: true,
+          });
+          if (preview?.confirmUrl) confirmPreviewUrls.push(preview.confirmUrl);
+        } else {
+          confirmPreviewUrls.push(`[dry-run] confirm:${row.email.trim().toLowerCase()}`);
+        }
         continue;
       }
       const subscriberId = randomUUID();
@@ -153,8 +204,35 @@ export async function importOutreachSubscribers(input: {
         actorId: input.actorId,
         requestId: input.requestId,
       });
+      const minted = await mintOutreachConfirmToken({
+        unionId: input.unionId,
+        listId: input.listId,
+        subscriberId,
+        grantEventId: grantId,
+        locale: row.locale,
+        rls: input.rls,
+      });
+      if (config.enabled && minted?.confirmUrl) {
+        const sent = await sendOutreachConfirmEmail({
+          to: row.email.trim().toLowerCase(),
+          locale: row.locale,
+          listName: list.name,
+          confirmUrl: minted.confirmUrl,
+          config,
+        });
+        if (sent) confirmEmailsSent += 1;
+      }
       imported += 1;
     }
-    return { dryRun: input.dryRun, imported, skipped, pendingOnly: true };
+    return {
+      dryRun: input.dryRun,
+      imported,
+      skipped,
+      pendingOnly: true,
+      ...(input.dryRun && confirmPreviewUrls.length
+        ? { confirmPreviewUrls }
+        : {}),
+      ...(!input.dryRun ? { confirmEmailsSent } : {}),
+    };
   });
 }

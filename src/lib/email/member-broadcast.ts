@@ -285,6 +285,8 @@ export async function setOwnBroadcastConsent(input: {
   return "ok";
 }
 
+export const MEMBER_BROADCAST_MAX_RECIPIENTS_PER_SEND = 50;
+
 export async function sendMemberBroadcast(input: {
   unionId: string;
   localId: string;
@@ -298,13 +300,16 @@ export async function sendMemberBroadcast(input: {
   from: string;
   replyTo: string;
   unsubscribeApiBase: string;
+  dryRun?: boolean;
 }): Promise<
   | {
       ok: true;
-      campaignId: string;
+      campaignId?: string;
       accepted: number;
       failed: number;
       trackingApplied: boolean;
+      dryRun?: boolean;
+      recipientCount: number;
     }
   | { ok: false; reason: string }
 > {
@@ -338,6 +343,20 @@ export async function sendMemberBroadcast(input: {
   );
   if (recipients.length === 0) {
     return { ok: false, reason: "no_consented_recipients" };
+  }
+  if (recipients.length > MEMBER_BROADCAST_MAX_RECIPIENTS_PER_SEND) {
+    return { ok: false, reason: "recipient_cap_exceeded" };
+  }
+
+  if (input.dryRun) {
+    return {
+      ok: true,
+      dryRun: true,
+      recipientCount: recipients.length,
+      accepted: 0,
+      failed: 0,
+      trackingApplied: tracking.apply,
+    };
   }
 
   const brand = resolveHostBrandWithOverlay();
@@ -461,5 +480,6 @@ export async function sendMemberBroadcast(input: {
     accepted,
     failed,
     trackingApplied: tracking.apply,
+    recipientCount: recipients.length,
   };
 }

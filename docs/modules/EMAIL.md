@@ -51,8 +51,8 @@ src/lib/email/
 
 | Capability | CapRover env | Union column | Notes |
 |------------|--------------|--------------|-------|
-| Member broadcast | `UNIONOPS_MEMBER_BROADCAST_ENABLED` | `member_broadcast_enabled` | `classification: "broadcast"`; explicit consent, signed unsubscribe, suppressions, Mailgun tag `unionops-member-broadcast` |
-| Union outreach lists | `UNIONOPS_OUTREACH_LISTS_ENABLED` | `outreach_lists_enabled` | ADR-023; `classification: "list_campaign"`; double opt-in, CSV import MFA + attestation, tag `unionops-outreach-list`; not local broadcast |
+| Member broadcast | `UNIONOPS_MEMBER_BROADCAST_ENABLED` | `member_broadcast_enabled` | `classification: "broadcast"`; explicit consent, signed unsubscribe, suppressions, Mailgun tag `unionops-member-broadcast`; **50 recipients max per send**; **dry-run** preview on Hub compose |
+| Union outreach lists | `UNIONOPS_OUTREACH_LISTS_ENABLED` | `outreach_lists_enabled` | ADR-023; `classification: "list_campaign"`; double opt-in via `0089` confirm DEFINER + `/outreach/confirm`; Hub **create list** (no MFA); CSV import MFA + attestation + confirm mail; tag `unionops-outreach-list`; not local broadcast |
 | Comms auto-send | `UNIONOPS_COMMS_AUTO_SEND_ENABLED` | `comms_auto_send_enabled` | Copy/mailto stays default UX |
 | Grievance SMTP | `UNIONOPS_GRIEVANCE_SMTP_ENABLED` | `grievance_smtp_enabled` | Copy-only stays default |
 | Tracking pixels | `UNIONOPS_EMAIL_TRACKING_PIXELS_ENABLED` | `email_tracking_pixels_enabled` | Never on product-news `marketing` |

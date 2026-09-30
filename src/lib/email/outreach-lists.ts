@@ -13,7 +13,13 @@ import { assertEnterpriseEmailCapability } from "@/lib/email/enterprise-gates";
 import { composeMarketingCampaignEmail } from "@/lib/email/engine";
 import { OUTREACH_LIST_NOTICE_VERSION } from "@/lib/email/outreach-list-notice";
 import { readOutreachListsConfig } from "@/lib/email/outreach-config";
+import {
+  memoryCreateList,
+  memoryGetLists,
+  memoryListSubscriberCounts,
+} from "@/lib/email/outreach-lists-memory";
 import { sendClassifiedEmail } from "@/lib/email/send";
+import { slugify } from "@/lib/utils";
 
 export type OutreachListRow = {
   id: string;
@@ -34,11 +40,86 @@ export type OutreachCampaignRow = {
   createdAt: string;
 };
 
+export async function createOutreachList(input: {
+  unionId: string;
+  createdById: string;
+  name: string;
+  purpose?: string;
+  slug?: string;
+  rls: RlsSessionContext;
+}): Promise<
+  | { ok: true; listId: string; slug: string }
+  | { ok: false; reason: "gate_closed" | "invalid_name" | "slug_conflict" }
+> {
+  const gate = await assertEnterpriseEmailCapability("outreach_lists", input.unionId);
+  if (!gate.ok) return { ok: false, reason: "gate_closed" };
+
+  const baseName = input.name.trim();
+  if (baseName.length < 2 || baseName.length > 120) {
+    return { ok: false, reason: "invalid_name" };
+  }
+  const purpose = input.purpose?.trim();
+  const storedName =
+    purpose && purpose.length >= 2 ? `${baseName} — ${purpose.slice(0, 200)}` : baseName;
+  let slug = slugify(input.slug?.trim() || baseName);
+  if (!slug) slug = slugify(storedName) || "list";
+
+  if (!isPostgresConfigured()) {
+    const existing = memoryGetLists(input.unionId).some((l) => l.slug === slug);
+    if (existing) return { ok: false, reason: "slug_conflict" };
+    const row = memoryCreateList({
+      unionId: input.unionId,
+      name: storedName,
+      slug,
+    });
+    return { ok: true, listId: row.id, slug: row.slug };
+  }
+
+  return withRlsContext(input.rls, async () => {
+    const db = getDb();
+    let candidate = slug;
+    for (let attempt = 0; attempt < 5; attempt += 1) {
+      const [conflict] = await db
+        .select({ id: outreachLists.id })
+        .from(outreachLists)
+        .where(
+          and(eq(outreachLists.unionId, input.unionId), eq(outreachLists.slug, candidate)),
+        )
+        .limit(1);
+      if (!conflict) break;
+      candidate = `${slug}-${attempt + 2}`;
+      if (attempt === 4) return { ok: false, reason: "slug_conflict" };
+    }
+    const listId = randomUUID();
+    await db.insert(outreachLists).values({
+      id: listId,
+      unionId: input.unionId,
+      name: storedName,
+      slug: candidate,
+      status: "active",
+      createdById: input.createdById,
+    });
+    return { ok: true, listId, slug: candidate };
+  });
+}
+
 export async function listOutreachLists(input: {
   unionId: string;
   rls: RlsSessionContext;
 }): Promise<OutreachListRow[]> {
-  if (!isPostgresConfigured()) return [];
+  if (!isPostgresConfigured()) {
+    return memoryGetLists(input.unionId).map((list) => {
+      const counts = memoryListSubscriberCounts(list.id);
+      return {
+        id: list.id,
+        name: list.name,
+        slug: list.slug,
+        status: list.status,
+        confirmedCount: counts.confirmed,
+        pendingCount: counts.pending,
+      };
+    });
+  }
   return withRlsContext(input.rls, async () => {
     const lists = await getDb()
       .select()

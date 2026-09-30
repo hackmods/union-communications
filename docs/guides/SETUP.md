@@ -175,7 +175,7 @@ The Site Admin product-news page supports bilingual draft creation, approval ref
 
 Union-wide outreach lists are **off by default** and are not local member broadcast (ADR-022) or UnionOps product news (ADR-021). Counsel must approve the EN/FR notice (`outreach-list-2026-09-v1`) before any host enablement.
 
-Keep `UNIONOPS_OUTREACH_LISTS_ENABLED=false` until approval. Sending also requires `UNIONOPS_OUTREACH_LISTS_APPROVAL_REFERENCE`, matching `UNIONOPS_OUTREACH_LISTS_APPROVED_VERSION`, sender/contact/postal env values, durable Postgres, Mailgun + signed feedback webhook (same route as product news — tag `unionops-outreach-list`), email transport, token keys, and Site Admin per-union entitlement `outreach_lists_enabled`. See [CapRover outreach lists](CAPROVER_POSTGRES.md#unionops-outreach-lists).
+Keep `UNIONOPS_OUTREACH_LISTS_ENABLED=false` until counsel approval. Union admins can **create lists** in Hub once host + entitlement gates pass (create does not require send MFA). Subscribers stay pending until they confirm via `/en/outreach/confirm` (or `/fr/...`). Sending also requires `UNIONOPS_OUTREACH_LISTS_APPROVAL_REFERENCE`, matching `UNIONOPS_OUTREACH_LISTS_APPROVED_VERSION`, sender/contact/postal env values, durable Postgres, Mailgun + signed feedback webhook (same route as product news — tag `unionops-outreach-list`), email transport, token keys, and Site Admin per-union entitlement `outreach_lists_enabled`. See [CapRover outreach lists](CAPROVER_POSTGRES.md#unionops-outreach-lists).
 
 ## Sandbox smoke (Proxmox CT 115)
 

@@ -92,6 +92,45 @@ export function BroadcastBoard() {
     }
   }
 
+  async function dryRunSend() {
+    setBusy(true);
+    setFeedback("");
+    try {
+      const response = await fetch("/api/broadcast", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "send",
+          subject,
+          body,
+          recipientUserIds: selected,
+          explicitTrackingOptIn: trackingOptIn,
+          locale,
+          dryRun: true,
+        }),
+        cache: "no-store",
+      });
+      const data = (await response.json()) as {
+        error?: string;
+        recipientCount?: number;
+        trackingApplied?: boolean;
+      };
+      if (!response.ok) {
+        throw new Error(data.error ?? t("error"));
+      }
+      setFeedback(
+        t("dryRunResult", {
+          count: data.recipientCount ?? 0,
+          tracking: data.trackingApplied ? t("yes") : t("no"),
+        }),
+      );
+    } catch (error) {
+      setFeedback(error instanceof Error ? error.message : t("error"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function send(mfaCode?: string) {
     setBusy(true);
     setFeedback("");
@@ -332,19 +371,35 @@ export function BroadcastBoard() {
                 </Button>
               </form>
             ) : (
-              <Button
-                type="button"
-                disabled={
-                  busy ||
-                  !broadcastAllowed ||
-                  !subject.trim() ||
-                  !body.trim() ||
-                  selected.length === 0
-                }
-                onClick={() => void send()}
-              >
-                {t("send")}
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  disabled={
+                    busy ||
+                    !broadcastAllowed ||
+                    !subject.trim() ||
+                    !body.trim() ||
+                    selected.length === 0
+                  }
+                  onClick={() => void dryRunSend()}
+                >
+                  {t("dryRun")}
+                </Button>
+                <Button
+                  type="button"
+                  disabled={
+                    busy ||
+                    !broadcastAllowed ||
+                    !subject.trim() ||
+                    !body.trim() ||
+                    selected.length === 0
+                  }
+                  onClick={() => void send()}
+                >
+                  {t("send")}
+                </Button>
+              </div>
             )}
           </section>
         </>

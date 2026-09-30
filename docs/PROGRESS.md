@@ -1,4 +1,10 @@
-﻿## 2026-09-30 — Union outreach lists (Phase C / ADR-023)
+﻿## 2026-09-30 — Outreach polish P1–P3
+
+- Hub list **create** (`POST /api/outreach-lists` action `create`, no MFA); durable confirm via migration `0089_outreach_confirm` + `/api/outreach-lists/confirm` + `/outreach/confirm`; import mints confirm tokens and sends transactional confirm mail when gates allow; dry-run import returns preview confirm URLs.
+- Member broadcast **dry-run** preview + **50-recipient** cap per send; `docs/audit/session-knowledge-2026-09-30-outreach-polish.md` + RLS migration source checks in `db:rls-smoke`.
+- P4 (Portal floor SSE) remains deferred.
+
+## 2026-09-30 — Union outreach lists (Phase C / ADR-023)
 
 - ADR-023: gated union-wide outreach lists (distinct from ADR-021 product news and ADR-022 local member broadcast). Dual gate `UNIONOPS_OUTREACH_LISTS_ENABLED` + `unions.outreach_lists_enabled`; send gate requires approval reference, notice version, sender identity, Postgres, Mailgun feedback (default OFF).
 - Migration `0088_outreach_lists`: lists, subscribers, consent events, suppressions, campaigns, deliveries, action tokens, RLS; Mailgun tag `unionops-outreach-list` / classification `list_campaign`.
