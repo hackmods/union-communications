@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -52,6 +52,8 @@ export function MfaPageClient() {
   const [newRecoveryCodes, setNewRecoveryCodes] = useState<string[]>([]);
   const [rotatingRecoveryCodes, setRotatingRecoveryCodes] = useState(false);
   const [rotateError, setRotateError] = useState<string | null>(null);
+  /** Sync lock — React `loading` state alone cannot stop auto-submit + Enter racing. */
+  const verifyLockRef = useRef(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -196,59 +198,73 @@ export function MfaPageClient() {
       );
       return;
     }
+    if (verifyLockRef.current) return;
+    verifyLockRef.current = true;
     setLoading(true);
     setError(null);
 
-    const res = await fetch("/api/mfa/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code: submittedCode }),
-    });
+    try {
+      const res = await fetch("/api/mfa/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: submittedCode }),
+      });
 
-    if (!res.ok) {
-      const errBody = (await res.json().catch(() => ({}))) as {
-        needsEnrollment?: boolean;
-        code?: string;
-      };
-      if (errBody.needsEnrollment) {
+      if (!res.ok) {
+        const errBody = (await res.json().catch(() => ({}))) as {
+          needsEnrollment?: boolean;
+          code?: string;
+        };
+        if (errBody.needsEnrollment) {
+          router.replace(hubMfaSetupHref(nextPath));
+          return;
+        }
+        setError(
+          officerMfaErrorMessage(
+            errBody.code,
+            (key) => tErrors(key),
+            t("mfaError"),
+          ),
+        );
+        verifyLockRef.current = false;
         setLoading(false);
-        router.replace(hubMfaSetupHref(nextPath));
         return;
       }
-      setError(
-        officerMfaErrorMessage(errBody.code, (key) => tErrors(key), t("mfaError")),
-      );
-      setLoading(false);
-      return;
-    }
 
-    const body = (await res.json()) as { mfaGrant?: string };
-    if (!body.mfaGrant) {
-      setError(
-        officerMfaErrorMessage(
-          "storage_unavailable",
-          (key) => tErrors(key),
-          t("mfaError"),
-        ),
-      );
-      setLoading(false);
-      return;
-    }
+      const body = (await res.json()) as { mfaGrant?: string };
+      if (!body.mfaGrant) {
+        setError(
+          officerMfaErrorMessage(
+            "storage_unavailable",
+            (key) => tErrors(key),
+            t("mfaError"),
+          ),
+        );
+        verifyLockRef.current = false;
+        setLoading(false);
+        return;
+      }
 
-    const nextSession = await update({ mfaGrant: body.mfaGrant });
-    if (!nextSession?.user?.mfaVerified) {
-      setError(
-        officerMfaErrorMessage(
-          "session_not_verified",
-          (key) => tErrors(key),
-          t("mfaError"),
-        ),
-      );
+      const nextSession = await update({ mfaGrant: body.mfaGrant });
+      if (!nextSession?.user?.mfaVerified) {
+        setError(
+          officerMfaErrorMessage(
+            "session_not_verified",
+            (key) => tErrors(key),
+            t("mfaError"),
+          ),
+        );
+        verifyLockRef.current = false;
+        setLoading(false);
+        return;
+      }
+      // Keep lock held through navigation so a late Enter cannot replay-fail.
+      router.push(nextPath ?? "/app");
+    } catch {
+      setError(t("mfaError"));
+      verifyLockRef.current = false;
       setLoading(false);
-      return;
     }
-    setLoading(false);
-    router.push(nextPath ?? "/app");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

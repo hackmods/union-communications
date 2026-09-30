@@ -39,17 +39,24 @@ export function MfaCodeField({
         autoFocus={autoFocus}
         onChange={(e) => {
           const raw = e.target.value;
+          const prevLen = value.replace(/\D/g, "").length;
           if (allowRecovery) {
             const next = raw.toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 19);
             onChange(next);
-            if (/^\d{6}$/.test(next) && onTotpComplete) {
+            // Only when crossing into a complete TOTP — avoids re-firing on
+            // autofill / duplicate change events for the same six digits.
+            if (
+              /^\d{6}$/.test(next) &&
+              prevLen < 6 &&
+              onTotpComplete
+            ) {
               onTotpComplete(next);
             }
             return;
           }
           const next = raw.replace(/\D/g, "").slice(0, 6);
           onChange(next);
-          if (next.length === 6 && onTotpComplete) {
+          if (next.length === 6 && prevLen < 6 && onTotpComplete) {
             onTotpComplete(next);
           }
         }}

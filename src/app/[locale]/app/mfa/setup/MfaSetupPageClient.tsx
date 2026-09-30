@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -59,6 +59,8 @@ export function MfaSetupPageClient() {
   const [secretCopied, setSecretCopied] = useState(false);
   const [replaceSubmitting, setReplaceSubmitting] = useState(false);
   const [sessionVerified, setSessionVerified] = useState(false);
+  /** Sync lock — auto-submit + Enter can race past React `confirming` state. */
+  const confirmLockRef = useRef(false);
 
   const mapApiError = (code: unknown, fallback: string) =>
     officerMfaErrorMessage(code, (key) => tErrors(key), fallback);
@@ -162,38 +164,48 @@ export function MfaSetupPageClient() {
       setError(mapApiError(kind === "empty" ? "empty" : "invalid", t("mfaSetupError")));
       return;
     }
+    if (confirmLockRef.current) return;
+    confirmLockRef.current = true;
     setState("confirming");
     setError(null);
 
-    const res = await fetch("/api/mfa/enroll/confirm", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code }),
-    });
+    try {
+      const res = await fetch("/api/mfa/enroll/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
 
-    if (!res.ok) {
-      const body = (await res.json().catch(() => ({}))) as {
-        error?: string;
-        code?: string;
+      if (!res.ok) {
+        const body = (await res.json().catch(() => ({}))) as {
+          error?: string;
+          code?: string;
+        };
+        setError(mapApiError(body.code, t("mfaSetupError")));
+        setState("ready");
+        confirmLockRef.current = false;
+        return;
+      }
+
+      const body = (await res.json()) as {
+        recoveryCodes?: string[];
+        mfaGrant?: string;
+        mfaGrantIssued?: boolean;
       };
-      setError(mapApiError(body.code, t("mfaSetupError")));
+      let verified = false;
+      if (body.mfaGrant) {
+        const nextSession = await update({ mfaGrant: body.mfaGrant });
+        verified = Boolean(nextSession?.user?.mfaVerified);
+      }
+      setSessionVerified(verified);
+      setRecoveryCodes(body.recoveryCodes ?? []);
+      setState("done");
+      // Keep lock held so a late Enter/auto-submit cannot POST the same code again.
+    } catch {
+      setError(t("mfaSetupError"));
       setState("ready");
-      return;
+      confirmLockRef.current = false;
     }
-
-    const body = (await res.json()) as {
-      recoveryCodes?: string[];
-      mfaGrant?: string;
-      mfaGrantIssued?: boolean;
-    };
-    let verified = false;
-    if (body.mfaGrant) {
-      const nextSession = await update({ mfaGrant: body.mfaGrant });
-      verified = Boolean(nextSession?.user?.mfaVerified);
-    }
-    setSessionVerified(verified);
-    setRecoveryCodes(body.recoveryCodes ?? []);
-    setState("done");
   };
 
   if (state === "done") {
