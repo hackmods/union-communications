@@ -7,6 +7,7 @@ import { auditLog } from "@/lib/audit/store";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { clearTotpEnrollmentForUser } from "@/lib/auth/mfa-user-secret";
+import { issueMfaGrant } from "@/lib/auth/mfa-grants";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 /**
@@ -204,6 +205,23 @@ export async function POST(
     return respond({ error: "Could not reset authenticator enrollment." }, 500);
   }
 
+  // Self-reset: keep the current browser session verified through re-enroll grace.
+  let mfaGrant: string | undefined;
+  if (gate.session.user.id === target.id) {
+    try {
+      mfaGrant = await issueMfaGrant(
+        target.id,
+        Date.now(),
+        gate.session.user.sessionVersion ?? 0,
+      );
+    } catch (error) {
+      console.error("[auth] MFA self-reset grant issue failed", {
+        userId: target.id,
+        message: error instanceof Error ? error.message : String(error),
+      });
+    }
+  }
+
   try {
     await recordOutcome(
       "success",
@@ -221,5 +239,10 @@ export async function POST(
     );
   }
 
-  return respond({ ok: true, requestId: correlation.requestId });
+  return respond({
+    ok: true,
+    requestId: correlation.requestId,
+    reenrollGrace: true,
+    ...(mfaGrant ? { mfaGrant } : {}),
+  });
 }

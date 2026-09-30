@@ -9342,6 +9342,11 @@
           "notNull": true
         },
         {
+          "name": "mfa_reenroll_grace_until",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
           "name": "name",
           "dataType": "text",
           "notNull": true
@@ -10376,6 +10381,52 @@
       "schema": "public",
       "table": "work_sites",
       "name": "work_sites_tenant_isolation"
+    }
+  ],
+  "tablePrivileges": [
+    {
+      "schema": "public",
+      "table": "mfa_totp_counters",
+      "grantee": "unionops_app",
+      "privileges": [
+        "SELECT",
+        "INSERT",
+        "UPDATE"
+      ],
+      "revokeDelete": true
+    },
+    {
+      "schema": "public",
+      "table": "mfa_session_grants",
+      "grantee": "unionops_app",
+      "privileges": [
+        "SELECT",
+        "INSERT",
+        "UPDATE"
+      ],
+      "revokeDelete": true
+    },
+    {
+      "schema": "public",
+      "table": "mfa_verification_attempts",
+      "grantee": "unionops_app",
+      "privileges": [
+        "SELECT",
+        "INSERT",
+        "UPDATE"
+      ],
+      "revokeDelete": true
+    },
+    {
+      "schema": "public",
+      "table": "mfa_pending_enrollments",
+      "grantee": "unionops_app",
+      "privileges": [
+        "SELECT",
+        "INSERT",
+        "UPDATE"
+      ],
+      "revokeDelete": true
     }
   ]
 }

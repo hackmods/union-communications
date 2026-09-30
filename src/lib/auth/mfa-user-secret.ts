@@ -19,6 +19,11 @@ import { mfaTotpCounters } from "@/lib/db/schema/auth";
 import { users } from "@/lib/db/schema/tenant";
 import { clearTotpCounterForUser, setTotpCounterForNewSecret } from "@/lib/auth/mfa-totp-counters";
 import { invalidateAllMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
+import {
+  armMfaReenrollGrace,
+  clearMfaReenrollGrace,
+  MFA_REENROLL_GRACE_MS,
+} from "@/lib/auth/mfa-reenroll-grace";
 import { decryptTotpSecret, encryptTotpSecret } from "@/lib/auth/totp-secret-crypto";
 import { withRlsContext } from "@/lib/db/rls-context";
 
@@ -97,11 +102,12 @@ export async function persistTotpSecretForUser(
           set: { lastCounter: acceptedCounter },
         });
     });
-    return;
+  } else {
+    await setTotpCounterForNewSecret(userId, acceptedCounter);
+    setConfirmedSecretOverride(userId, secret);
   }
 
-  await setTotpCounterForNewSecret(userId, acceptedCounter);
-  setConfirmedSecretOverride(userId, secret);
+  await clearMfaReenrollGrace(userId, env);
 }
 
 /**
@@ -138,4 +144,5 @@ export async function clearTotpEnrollmentForUser(
   }
 
   await invalidateAllMfaRecoveryCodes(userId, env);
+  await armMfaReenrollGrace(userId, Date.now() + MFA_REENROLL_GRACE_MS, env);
 }

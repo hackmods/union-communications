@@ -55,6 +55,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     mfaMode: null,
     totpEncryptionConfigured: false,
     mfaOperatorBypassConfigured: false,
+    mfaDurableFallbackRecent: false,
     hostedCustomerMode: false,
     demoAuthEnabled: true,
     hostedControlEvidence: {
@@ -328,6 +329,24 @@ describe("buildHostReadiness", () => {
     expect(withBypass.ready).toBe(true);
     expect(withBypass.missingAdvisoryPresence.map((row) => row.id)).toContain(
       "mfaOperatorBypassOff",
+    );
+
+    const withFallback = buildHostReadiness({
+      ...health,
+      mfaMode: "totp",
+      totpEncryptionConfigured: true,
+      mfaDurableFallbackRecent: true,
+      hostedControlEvidence: {
+        attachmentStorageApproved: true,
+        strictUploadScan: true,
+        backupRestoreEvidence: true,
+        alertDeliveryEvidence: true,
+        publicLegalContacts: true,
+      },
+    });
+    expect(withFallback.ready).toBe(true);
+    expect(withFallback.missingAdvisoryPresence.map((row) => row.id)).toContain(
+      "mfaDurableStoreHealthy",
     );
   });
 

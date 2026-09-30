@@ -7,6 +7,7 @@ import { DemoSiteBanner } from "@/components/hub/DemoSiteBanner";
 import { SoftLaunchBanner } from "@/components/hub/SoftLaunchBanner";
 import { MemoryDataBanner } from "@/components/hub/MemoryDataBanner";
 import { MeetingReminderBanner } from "@/components/hub/MeetingReminderBanner";
+import { MfaReenrollGraceBanner } from "@/components/hub/MfaReenrollGraceBanner";
 import { useHubAuthenticated } from "@/components/hub/useHubAuthenticated";
 import { isDemoSite } from "@/lib/features/demo-site";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
@@ -91,6 +92,7 @@ export function HubBannerStack({
         </>
       )}
       <MeetingReminderBanner />
+      <MfaReenrollGraceBanner />
     </div>
   );
 }

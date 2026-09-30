@@ -10,6 +10,44 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import postgres from "postgres";
 import { APP_DB_ROLE } from "../src/lib/db/rls-contract";
+import { reserveMfaVerificationAttempt } from "../src/lib/auth/mfa-attempt-limits";
+import {
+  getPendingSecret,
+  setPendingSecret,
+  clearPendingSecret,
+} from "../src/lib/auth/mfa-enrollment-store";
+import { consumeMfaGrant, issueMfaGrant } from "../src/lib/auth/mfa-grants";
+
+/**
+ * Exercise MFA app binders under live Postgres (not only raw `now()` SQL).
+ * Catches Date#toString binds and missing GRANTs that unit/memory paths miss.
+ */
+async function exerciseMfaAppBinders(): Promise<void> {
+  process.env.AUTH_USERS_BACKEND = "postgres";
+  if (!process.env.AUTH_TOTP_ENCRYPTION_KEY?.trim()) {
+    // Deterministic 32-byte key for smoke only (not a production secret).
+    process.env.AUTH_TOTP_ENCRYPTION_KEY = Buffer.alloc(32, 7).toString("base64");
+  }
+
+  const attempt = await reserveMfaVerificationAttempt(PRESIDENT);
+  if (!attempt.allowed) {
+    throw new Error("MFA app binder failed: reserveMfaVerificationAttempt denied president");
+  }
+
+  const pendingSecret = "JBSWY3DPEHPK3PXP";
+  await setPendingSecret(PRESIDENT, pendingSecret);
+  const roundTrip = await getPendingSecret(PRESIDENT);
+  if (roundTrip !== pendingSecret) {
+    throw new Error("MFA app binder failed: pending enrollment round-trip mismatch");
+  }
+  await clearPendingSecret(PRESIDENT);
+
+  const nonce = await issueMfaGrant(PRESIDENT, Date.now(), 0);
+  const consumed = await consumeMfaGrant(PRESIDENT, nonce, Date.now(), 0);
+  if (!consumed) {
+    throw new Error("MFA app binder failed: issue/consume grant round-trip");
+  }
+}
 
 function assertOutreachMigrationArtifacts(): void {
   const migrationPath = join(
@@ -376,10 +414,13 @@ async function main(): Promise<void> {
     const sameScope = await sql<{ id: string }[]>`select id from grievances where id = ${fixtureId}`;
     if (sameScope.length !== 1) throw new Error(`RLS failed: matching officer scope returned ${sameScope.length} rows`);
 
+    // App-code MFA binders (attempt upsert ISO binds, pending/grant DML under RLS).
+    await exerciseMfaAppBinders();
+
     await sql`delete from committees where id = ${committeeId}`;
     await sql`delete from grievances where id = ${fixtureId}`;
     await sql`delete from mfa_recovery_codes where id = ${recoveryCodeId}`;
-    console.log("[rls-smoke] ok — app role, grievance/committee/audit scope, append-only audit, account-scoped recovery/TOTP/grant/attempt-limit RLS, and non-platform incident denial passed");
+    console.log("[rls-smoke] ok — app role, grievance/committee/audit scope, append-only audit, account-scoped recovery/TOTP/grant/attempt-limit RLS, MFA app binders, and non-platform incident denial passed");
   } finally {
     await sql`select set_config('app.current_union_id', ${UNION}, false)`;
     await sql`select set_config('app.current_local_id', ${LOCAL}, false)`;

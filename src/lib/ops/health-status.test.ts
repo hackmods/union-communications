@@ -160,6 +160,7 @@ describe("buildHealthStatus", () => {
     expect(status.mfaMode).toBe("totp");
     expect(status.totpEncryptionConfigured).toBe(true);
     expect(status.mfaOperatorBypassConfigured).toBe(false);
+    expect(status.mfaDurableFallbackRecent).toBe(false);
     expect(JSON.stringify(status)).not.toContain(totpKey);
   });
 
@@ -168,5 +169,16 @@ describe("buildHealthStatus", () => {
     const status = await buildHealthStatus();
     expect(status.mfaOperatorBypassConfigured).toBe(true);
     expect(JSON.stringify(status)).not.toContain("ryan@ryanmorris.ca");
+  });
+
+  it("reports recent MFA durable memory fallback without secrets", async () => {
+    const { noteMfaDurableFallback, resetMfaDurableFallbackSignalForTests } =
+      await import("@/lib/auth/mfa-durable-fallback-signal");
+    resetMfaDurableFallbackSignalForTests();
+    noteMfaDurableFallback("attempt_limit");
+    const status = await buildHealthStatus();
+    expect(status.mfaDurableFallbackRecent).toBe(true);
+    expect(JSON.stringify(status)).not.toMatch(/attempt_limit|Wed |GMT/);
+    resetMfaDurableFallbackSignalForTests();
   });
 });

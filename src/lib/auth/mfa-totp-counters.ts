@@ -1,5 +1,6 @@
 import { eq, lt } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
+import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { mfaTotpCounters } from "@/lib/db/schema/auth";
 import { withRlsContext } from "@/lib/db/rls-context";
@@ -52,6 +53,7 @@ export async function consumeTotpCounterForUser(
         userId,
         message: error instanceof Error ? error.message : String(error),
       });
+      noteMfaDurableFallback("totp_counter");
     }
   }
 
@@ -73,16 +75,27 @@ export async function setTotpCounterForNewSecret(
   }
 
   if (postgresCounterStoreEnabled(env)) {
-    await withRlsContext({ userId }, async () => {
-      await getDb()
-        .insert(mfaTotpCounters)
-        .values({ userId, lastCounter: counter })
-        .onConflictDoUpdate({
-          target: mfaTotpCounters.userId,
-          set: { lastCounter: counter },
-        });
-    });
-    return;
+    try {
+      await withRlsContext({ userId }, async () => {
+        await getDb()
+          .insert(mfaTotpCounters)
+          .values({ userId, lastCounter: counter })
+          .onConflictDoUpdate({
+            target: mfaTotpCounters.userId,
+            set: { lastCounter: counter },
+          });
+      });
+      return;
+    } catch (error) {
+      console.error(
+        "[auth] TOTP counter seed Postgres write failed; using memory fallback",
+        {
+          userId,
+          message: error instanceof Error ? error.message : String(error),
+        },
+      );
+      noteMfaDurableFallback("totp_counter");
+    }
   }
 
   memoryLastCounter.set(userId, counter);

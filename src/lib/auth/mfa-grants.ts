@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { and, eq, isNull } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
+import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { mfaSessionGrants } from "@/lib/db/schema/auth";
 import { withRlsContext } from "@/lib/db/rls-context";
@@ -91,6 +92,7 @@ export async function issueMfaGrant(
         userId,
         message: error instanceof Error ? error.message : String(error),
       });
+      noteMfaDurableFallback("session_grant");
     }
   }
 
@@ -145,6 +147,7 @@ export async function consumeMfaGrant(
         userId,
         message: error instanceof Error ? error.message : String(error),
       });
+      noteMfaDurableFallback("session_grant");
     }
   }
 

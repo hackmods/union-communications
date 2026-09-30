@@ -6,8 +6,12 @@ import {
   needsTotpEnrollment,
   resolveMfaMode,
 } from "@/lib/auth/mfa-policy";
-import { sessionRequiresMfa } from "@/lib/auth/mfa-requirements";
+import { sessionRequiresMfaWithGrace } from "@/lib/auth/mfa-requirements";
 import { isMfaOperatorBypassEmail } from "@/lib/auth/mfa-operator-bypass";
+import {
+  getMfaReenrollGrace,
+  isMfaReenrollGraceActive,
+} from "@/lib/auth/mfa-reenroll-grace";
 import { actorHasHostedMfaCapability } from "@/lib/authorization/model";
 import { resolveAuthorizationActor } from "@/lib/authorization/resolve-actor";
 import { countUnusedMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
@@ -23,12 +27,17 @@ export async function GET() {
   const enabled = isMfaEnabled();
   const mode = resolveMfaMode();
   const operatorBypass = isMfaOperatorBypassEmail(session.user.email);
-  let required = sessionRequiresMfa(
+  const reenrollGraceActive = await isMfaReenrollGraceActive(session.user.id);
+  const reenrollGraceUntil = reenrollGraceActive
+    ? (await getMfaReenrollGrace(session.user.id))?.toISOString() ?? null
+    : null;
+
+  let required = await sessionRequiresMfaWithGrace(
     session.user,
     enabled,
     isHostedCustomerMode(),
   );
-  if (isHostedCustomerMode() && !operatorBypass) {
+  if (isHostedCustomerMode() && !operatorBypass && !reenrollGraceActive) {
     try {
       const actor = await resolveAuthorizationActor(session);
       required = required || actorHasHostedMfaCapability(actor);
@@ -40,7 +49,7 @@ export async function GET() {
       required = true;
     }
   }
-  if (operatorBypass) required = false;
+  if (operatorBypass || reenrollGraceActive) required = false;
   const enrolled =
     mode === "totp" ? Boolean(await getTotpSecretForUser(session.user.id)) : false;
   const needsEnrollment =
@@ -64,5 +73,7 @@ export async function GET() {
     needsEnrollment,
     mfaVerified: Boolean(session.user.mfaVerified),
     recoveryCodesRemaining,
+    reenrollGrace: reenrollGraceActive,
+    reenrollGraceUntil,
   });
 }

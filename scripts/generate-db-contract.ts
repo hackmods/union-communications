@@ -6,6 +6,7 @@ import { getTableConfig } from "drizzle-orm/pg-core";
 import * as schema from "../src/lib/db/schema/index";
 import {
   APP_DB_ROLE,
+  MFA_APP_TABLE_PRIVILEGES,
   RLS_TENANT_POLICIES,
 } from "../src/lib/db/rls-contract";
 
@@ -19,6 +20,14 @@ export type DbRequiredShape = {
   }>;
   roles: Array<{ name: string; superuser: boolean; bypassRls: boolean }>;
   policies: Array<{ schema: "public"; table: string; name: string }>;
+  /** Required DML privileges for unionops_app on MFA durable tables. */
+  tablePrivileges: Array<{
+    schema: "public";
+    table: string;
+    grantee: string;
+    privileges: string[];
+    revokeDelete: boolean;
+  }>;
 };
 
 function isTable(value: unknown): boolean {
@@ -64,6 +73,13 @@ export function generateDbContract(): DbRequiredShape {
       table: policy.table,
       name: policy.policy,
     })).sort((a, b) => `${a.table}.${a.name}`.localeCompare(`${b.table}.${b.name}`)),
+    tablePrivileges: MFA_APP_TABLE_PRIVILEGES.map((row) => ({
+      schema: "public" as const,
+      table: row.table,
+      grantee: APP_DB_ROLE,
+      privileges: [...row.privileges],
+      revokeDelete: row.revokeDelete,
+    })),
   };
 }
 

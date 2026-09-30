@@ -1,5 +1,7 @@
 import { eq, lte, lt, or, sql } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
+import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
+import { toTimestamptzSqlParam } from "@/lib/auth/timestamptz-sql-param";
 import { getDb } from "@/lib/db/client";
 import { mfaVerificationAttempts } from "@/lib/db/schema/auth";
 import { withRlsContext } from "@/lib/db/rls-context";
@@ -53,10 +55,8 @@ async function reserveInPostgres(
 ): Promise<MfaAttemptDecision> {
   const cutoff = new Date(now - MFA_ATTEMPT_WINDOW_MS);
   const windowStartedAt = new Date(now);
-  // Drizzle `sql` templates stringify Date via Date#toString() ("Wed Sep 30 ... GMT"),
-  // which Postgres rejects as timestamptz. Bind ISO-8601 and cast explicitly.
-  const cutoffIso = cutoff.toISOString();
-  const windowStartedAtIso = windowStartedAt.toISOString();
+  const cutoffIso = toTimestamptzSqlParam(cutoff);
+  const windowStartedAtIso = toTimestamptzSqlParam(windowStartedAt);
   return withRlsContext({ userId }, async () => {
     const db = getDb();
     const table = mfaVerificationAttempts;
@@ -117,6 +117,7 @@ export async function reserveMfaVerificationAttempt(
         hosted,
         message: error instanceof Error ? error.message : String(error),
       });
+      noteMfaDurableFallback("attempt_limit");
       return reserveInMemory(userId, now);
     }
   }

@@ -261,6 +261,30 @@ export function evaluateRequiredShape(contract, catalog) {
       errors.push(`missing RLS policy ${policyKey}`);
     }
   }
+
+  const privilegeRows = new Map();
+  for (const row of catalog.tablePrivileges ?? []) {
+    const key = `${row.schema}.${row.table}.${row.grantee}.${String(row.privilege).toUpperCase()}`;
+    privilegeRows.set(key, row);
+  }
+  for (const req of contract.tablePrivileges ?? []) {
+    for (const privilege of req.privileges ?? []) {
+      const key = `${req.schema}.${req.table}.${req.grantee}.${String(privilege).toUpperCase()}`;
+      if (!privilegeRows.has(key)) {
+        errors.push(
+          `missing privilege ${privilege} on ${req.schema}.${req.table} for ${req.grantee}`,
+        );
+      }
+    }
+    if (req.revokeDelete) {
+      const deleteKey = `${req.schema}.${req.table}.${req.grantee}.DELETE`;
+      if (privilegeRows.has(deleteKey)) {
+        errors.push(
+          `unexpected DELETE privilege on ${req.schema}.${req.table} for ${req.grantee}`,
+        );
+      }
+    }
+  }
   return errors;
 }
 
@@ -285,7 +309,22 @@ async function verifyRequiredShape(sql, contract) {
     FROM pg_catalog.pg_policies
     WHERE schemaname = ${contract.schema}
   `;
-  const errors = evaluateRequiredShape(contract, { columns, roles, rls, policies });
+  const tablePrivileges = await sql`
+    SELECT table_schema AS schema,
+      table_name AS table,
+      grantee,
+      privilege_type AS privilege
+    FROM information_schema.role_table_grants
+    WHERE table_schema = ${contract.schema}
+      AND grantee = ${"unionops_app"}
+  `;
+  const errors = evaluateRequiredShape(contract, {
+    columns,
+    roles,
+    rls,
+    policies,
+    tablePrivileges,
+  });
   if (errors.length > 0) {
     const preview = errors.slice(0, 20).join("; ");
     const suffix = errors.length > 20 ? `; and ${errors.length - 20} more` : "";

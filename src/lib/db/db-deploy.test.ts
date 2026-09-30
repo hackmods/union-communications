@@ -17,8 +17,8 @@ describe("database deploy journal contract", () => {
   it("accepts the shipped one-to-one contiguous journal", () => {
     const { entries } = readAndValidateJournal(migrationsDir);
     expect(entries.at(-1)).toMatchObject({
-      idx: 91,
-      tag: "0091_mfa_table_grants",
+      idx: 92,
+      tag: "0092_mfa_reenroll_grace",
     });
     expect(entries).toHaveLength(
       readdirSync(migrationsDir).filter((file) => /^\d{4}_.+\.sql$/.test(file)).length,
@@ -90,6 +90,7 @@ describe("required database shape", () => {
     }],
     roles: [{ name: "unionops_app", superuser: false, bypassRls: false }],
     policies: [{ schema: "public", table: "tasks", name: "tasks_tenant_isolation" }],
+    tablePrivileges: [],
   };
 
   const completeCatalog = {
@@ -100,6 +101,7 @@ describe("required database shape", () => {
     roles: [{ name: "unionops_app", superuser: false, bypassRls: false }],
     rls: [{ schema: "public", table: "tasks", enabled: true }],
     policies: [{ schema: "public", table: "tasks", name: "tasks_tenant_isolation" }],
+    tablePrivileges: [],
   };
 
   it("accepts the required subset and ignores additive database shape", () => {
@@ -149,6 +151,52 @@ describe("required database shape", () => {
     ]));
   });
 
+  it("fails when MFA app-role DML grants are missing", () => {
+    const withPrivs = {
+      ...contract,
+      tablePrivileges: [
+        {
+          schema: "public",
+          table: "mfa_pending_enrollments",
+          grantee: "unionops_app",
+          privileges: ["SELECT", "INSERT", "UPDATE"],
+          revokeDelete: true,
+        },
+      ],
+    };
+    expect(evaluateRequiredShape(withPrivs, completeCatalog)).toEqual(
+      expect.arrayContaining([
+        "missing privilege SELECT on public.mfa_pending_enrollments for unionops_app",
+        "missing privilege INSERT on public.mfa_pending_enrollments for unionops_app",
+        "missing privilege UPDATE on public.mfa_pending_enrollments for unionops_app",
+      ]),
+    );
+    const granted = {
+      ...completeCatalog,
+      tablePrivileges: [
+        {
+          schema: "public",
+          table: "mfa_pending_enrollments",
+          grantee: "unionops_app",
+          privilege: "SELECT",
+        },
+        {
+          schema: "public",
+          table: "mfa_pending_enrollments",
+          grantee: "unionops_app",
+          privilege: "INSERT",
+        },
+        {
+          schema: "public",
+          table: "mfa_pending_enrollments",
+          grantee: "unionops_app",
+          privilege: "UPDATE",
+        },
+      ],
+    };
+    expect(evaluateRequiredShape(withPrivs, granted)).toEqual([]);
+  });
+
   it("generates the image contract from all Drizzle tables and 0027 columns", () => {
     const generated = generateDbContract();
     const tasks = generated.tables.find((table) => table.name === "tasks");
@@ -161,6 +209,20 @@ describe("required database shape", () => {
       table: "time_worker_groups",
       name: "time_worker_groups_tenant_isolation",
     });
+    expect(generated.tablePrivileges).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          table: "mfa_pending_enrollments",
+          grantee: "unionops_app",
+          privileges: ["SELECT", "INSERT", "UPDATE"],
+          revokeDelete: true,
+        }),
+      ]),
+    );
+    const users = generated.tables.find((table) => table.name === "users");
+    expect(users?.columns.map((column) => column.name)).toContain(
+      "mfa_reenroll_grace_until",
+    );
   });
 
   it("keeps released migration 0035 unchanged while appending reconciliation", () => {

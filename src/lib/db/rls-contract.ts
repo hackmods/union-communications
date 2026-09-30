@@ -418,6 +418,34 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
 /** App role that must not own tables / must not bypass RLS. */
 export const APP_DB_ROLE = "unionops_app";
 
+/**
+ * MFA tables that must expose SELECT/INSERT/UPDATE to `unionops_app`.
+ * DELETE stays revoked (see migrations 0071 / 0091). Boot fails if these DML
+ * grants are missing — REVOKE-only migrations must not ship without INSERT/UPDATE.
+ */
+export const MFA_APP_TABLE_PRIVILEGES = [
+  {
+    table: "mfa_totp_counters",
+    privileges: ["SELECT", "INSERT", "UPDATE"] as const,
+    revokeDelete: true,
+  },
+  {
+    table: "mfa_session_grants",
+    privileges: ["SELECT", "INSERT", "UPDATE"] as const,
+    revokeDelete: true,
+  },
+  {
+    table: "mfa_verification_attempts",
+    privileges: ["SELECT", "INSERT", "UPDATE"] as const,
+    revokeDelete: true,
+  },
+  {
+    table: "mfa_pending_enrollments",
+    privileges: ["SELECT", "INSERT", "UPDATE"] as const,
+    revokeDelete: true,
+  },
+] as const;
+
 export const APP_ROLE_MIGRATION = "0008_app_role.sql";
 
 /** Session GUCs set by `applyRlsContext` and referenced in policies. */

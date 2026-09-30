@@ -99,6 +99,7 @@ export async function POST(request: Request) {
 
   let recoveryCodes: string[];
   try {
+    // Persist secret first; recovery rotate may memory-fallback and still succeed.
     await persistTotpSecretForUser(session.user.id, pendingSecret, acceptedCounter);
     recoveryCodes = await rotateMfaRecoveryCodes(session.user.id);
     await clearPendingSecret(session.user.id);
@@ -111,7 +112,7 @@ export async function POST(request: Request) {
       {
         error:
           "Could not save authenticator setup. Ask whoever runs this Officer Hub to confirm multi-factor storage is ready, then generate a new QR code.",
-        code: "storage_unavailable",
+        code: "enrollment_store_unavailable",
       },
       { status: 503, headers: { "Cache-Control": "private, no-store" } },
     );

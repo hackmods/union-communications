@@ -11,6 +11,7 @@ import {
 /**
  * When AUTH_MFA_ENABLED and AUTH_MFA_MODE=totp and the signed-in user has no
  * secret, send them to /app/mfa/setup before other Hub surfaces.
+ * Re-enroll grace after Site Admin reset skips the hard redirect.
  */
 export function TotpEnrollmentGate({
   children,
@@ -29,8 +30,17 @@ export function TotpEnrollmentGate({
     void fetch("/api/mfa/status")
       .then((res) => (res.ok ? res.json() : null))
       .then(
-        (data: { enabled?: boolean; needsEnrollment?: boolean } | null) => {
-          if (!cancelled && data?.enabled && data?.needsEnrollment) {
+        (data: {
+          enabled?: boolean;
+          needsEnrollment?: boolean;
+          reenrollGrace?: boolean;
+        } | null) => {
+          if (
+            !cancelled &&
+            data?.enabled &&
+            data?.needsEnrollment &&
+            !data.reenrollGrace
+          ) {
             // Strip locale prefix (/en/app/...) for the Hub return path.
             const withoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/)/, "");
             const next = safeMfaReturnPath(withoutLocale);

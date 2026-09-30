@@ -152,6 +152,13 @@ export const users = pgTable("users", {
   totpSecret: text("totp_secret"),
   mfaEnabled: boolean("mfa_enabled").notNull().default(false),
   /**
+   * After Site Admin MFA reset: Hub MFA is not required until this instant
+   * so the account can re-enroll without CapRover env bypass.
+   */
+  mfaReenrollGraceUntil: timestamp("mfa_reenroll_grace_until", {
+    withTimezone: true,
+  }),
+  /**
    * Bumps on assign-local, role changes, signout-everywhere, and email change.
    * JWT callback reloads tenancy when `sessionVersion` lags or union/local
    * claims drift from the Postgres row (e.g. ON DELETE SET NULL).

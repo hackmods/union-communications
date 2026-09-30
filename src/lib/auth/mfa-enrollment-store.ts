@@ -8,6 +8,7 @@
 
 import { eq } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
+import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
 import {
   decryptTotpSecret,
   encryptTotpSecret,
@@ -120,6 +121,7 @@ export async function setPendingSecret(
           message: error instanceof Error ? error.message : String(error),
         },
       );
+      noteMfaDurableFallback("pending_enrollment");
     }
   }
 }
@@ -162,6 +164,7 @@ export async function getPendingSecret(
           message: error instanceof Error ? error.message : String(error),
         },
       );
+      noteMfaDurableFallback("pending_enrollment");
     }
   }
 

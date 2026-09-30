@@ -1,6 +1,7 @@
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { and, eq, isNull, sql } from "drizzle-orm";
 import { isHostedCustomerMode } from "@/lib/auth/mfa-policy";
+import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { mfaRecoveryCodes } from "@/lib/db/schema/auth";
 import { users } from "@/lib/db/schema/tenant";
@@ -52,6 +53,15 @@ export function generateRecoveryCodes(): string[] {
   return Array.from({ length: CODE_COUNT }, () => formatCode(randomBytes(CODE_BYTES)));
 }
 
+function rotateInMemory(userId: string, hashes: string[], now: Date): void {
+  const current = memoryCodes.get(userId) ?? [];
+  for (const record of current) {
+    if (record.usedAt === null) record.usedAt = now.getTime();
+  }
+  current.push(...hashes.map((hash) => ({ hash, usedAt: null })));
+  memoryCodes.set(userId, current);
+}
+
 /** Replace the active code set; plaintext is returned to the caller exactly once. */
 export async function rotateMfaRecoveryCodes(
   userId: string,
@@ -63,45 +73,54 @@ export async function rotateMfaRecoveryCodes(
   const hashes = codes.map(hashRecoveryCode);
 
   if (postgresRecoveryStoreEnabled(env)) {
-    await withRlsContext({ userId }, async () => {
-      const tx = getDb();
-      // Serialize concurrent rotations against the owning account row so only
-      // the last completed response contains the active set.
-      await tx
-        .select({ id: users.id })
-        .from(users)
-        .where(eq(users.id, userId))
-        .for("update");
-      await tx
-        .update(mfaRecoveryCodes)
-        .set({ usedAt: now })
-        .where(
-          and(
-            eq(mfaRecoveryCodes.userId, userId),
-            isNull(mfaRecoveryCodes.usedAt),
-          ),
+    try {
+      await withRlsContext({ userId }, async () => {
+        const tx = getDb();
+        // Serialize concurrent rotations against the owning account row so only
+        // the last completed response contains the active set.
+        await tx
+          .select({ id: users.id })
+          .from(users)
+          .where(eq(users.id, userId))
+          .for("update");
+        await tx
+          .update(mfaRecoveryCodes)
+          .set({ usedAt: now })
+          .where(
+            and(
+              eq(mfaRecoveryCodes.userId, userId),
+              isNull(mfaRecoveryCodes.usedAt),
+            ),
+          );
+        await tx.insert(mfaRecoveryCodes).values(
+          hashes.map((codeHash) => ({
+            id: randomUUID(),
+            userId,
+            codeHash,
+            createdAt: now,
+          })),
         );
-      await tx.insert(mfaRecoveryCodes).values(
-        hashes.map((codeHash) => ({
-          id: randomUUID(),
+        await tx
+          .update(users)
+          .set({ sessionVersion: sql`${users.sessionVersion} + 1` })
+          .where(eq(users.id, userId));
+      });
+      return codes;
+    } catch (error) {
+      console.error(
+        "[auth] MFA recovery codes Postgres rotate failed; using memory fallback",
+        {
           userId,
-          codeHash,
-          createdAt: now,
-        })),
+          message: error instanceof Error ? error.message : String(error),
+        },
       );
-      await tx
-        .update(users)
-        .set({ sessionVersion: sql`${users.sessionVersion} + 1` })
-        .where(eq(users.id, userId));
-    });
-  } else {
-    const current = memoryCodes.get(userId) ?? [];
-    for (const record of current) {
-      if (record.usedAt === null) record.usedAt = now.getTime();
+      noteMfaDurableFallback("recovery_codes");
+      rotateInMemory(userId, hashes, now);
+      return codes;
     }
-    current.push(...hashes.map((hash) => ({ hash, usedAt: null })));
-    memoryCodes.set(userId, current);
   }
+
+  rotateInMemory(userId, hashes, now);
   return codes;
 }
 

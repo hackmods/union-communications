@@ -74,6 +74,7 @@ export type PresenceCheckId =
   | "mfaEnabled"
   | "totpEncryptionConfigured"
   | "mfaOperatorBypassOff"
+  | "mfaDurableStoreHealthy"
   | "demoAuthOff"
   | "attachmentStorageApproved"
   | "strictUploadScan"
@@ -217,6 +218,13 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
       // clear AUTH_MFA_OPERATOR_BYPASS_EMAILS after re-enrollment.
       ok: !health.mfaOperatorBypassConfigured,
       hintKey: "AUTH_MFA_OPERATOR_BYPASS_EMAILS",
+      advisory: true,
+    },
+    {
+      id: "mfaDurableStoreHealthy",
+      // Memory fallback keeps Hub usable; advisory flags CapRover grant/bind gaps.
+      ok: !health.mfaDurableFallbackRecent,
+      hintKey: "mfaDurableFallbackRecent",
       advisory: true,
     },
     {

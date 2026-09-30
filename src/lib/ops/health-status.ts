@@ -21,6 +21,7 @@ import { countUnions } from "@/lib/tenant/union-exists";
 import { checkPublicDocumentsReadiness, type PublicDocumentsReadiness } from "@/lib/public-documents/readiness";
 import { isHostedCustomerMode, isMfaEnabled, resolveMfaMode } from "@/lib/auth/mfa-policy";
 import { isMfaOperatorBypassConfigured } from "@/lib/auth/mfa-operator-bypass";
+import { mfaDurableFallbackRecently } from "@/lib/auth/mfa-durable-fallback-signal";
 import { isTotpEncryptionConfigured } from "@/lib/auth/totp-secret-crypto";
 import { readHostedControlEvidence, type HostedControlEvidence } from "@/lib/ops/host-control-evidence";
 
@@ -48,6 +49,11 @@ export type HealthStatus = {
    * Never includes the allowlisted addresses.
    */
   mfaOperatorBypassConfigured: boolean;
+  /**
+   * True when MFA durable Postgres paths fell back to memory in the last 15m.
+   * Never includes secrets or table details beyond the boolean.
+   */
+  mfaDurableFallbackRecent: boolean;
   hostedCustomerMode: boolean;
   demoAuthEnabled: boolean;
   /** Operator error sinks (Sentry / JSONL) — no secrets. */
@@ -153,6 +159,7 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
     mfaMode: resolveMfaMode(),
     totpEncryptionConfigured: isTotpEncryptionConfigured(),
     mfaOperatorBypassConfigured: isMfaOperatorBypassConfigured(),
+    mfaDurableFallbackRecent: mfaDurableFallbackRecently(),
     hostedCustomerMode: isHostedCustomerMode(),
     demoAuthEnabled: isDemoAuthEnabled(),
     observability: buildObservabilityHealth(),

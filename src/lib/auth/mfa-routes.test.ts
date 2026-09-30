@@ -107,6 +107,8 @@ describe("MFA API routes", () => {
         needsEnrollment: false,
         mfaVerified: false,
         recoveryCodesRemaining: null,
+        reenrollGrace: false,
+        reenrollGraceUntil: null,
       });
     });
 

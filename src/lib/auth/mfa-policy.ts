@@ -124,8 +124,14 @@ export async function verifyMfaCode(input: {
   env?: NodeJS.ProcessEnv | Record<string, string | undefined>;
   /** Used when a caller has already reserved an attempt before checking a recovery code. */
   attemptAlreadyReserved?: boolean;
-}): Promise<MfaPolicyResult> {
+  /**
+   * When false, TOTP is matched but the replay counter is not consumed yet
+   * (so the caller can issue a session grant first). Default true.
+   */
+  consumeCounter?: boolean;
+}): Promise<MfaPolicyResult & { matchedCounter?: number }> {
   const env = input.env ?? process.env;
+  const consumeCounter = input.consumeCounter !== false;
 
   const code = input.code.trim();
   if (!code) {
@@ -243,6 +249,9 @@ export async function verifyMfaCode(input: {
   if (counter === null) {
     return { ok: false, status: 400, error: "Invalid code", code: "invalid" };
   }
+  if (!consumeCounter) {
+    return { ok: true, mode, matchedCounter: counter };
+  }
   try {
     if (!(await consumeTotpCounterForUser(input.userId, counter, env as NodeJS.ProcessEnv))) {
       return {
@@ -264,7 +273,7 @@ export async function verifyMfaCode(input: {
       code: "replay_store_unavailable",
     };
   }
-  return { ok: true, mode };
+  return { ok: true, mode, matchedCounter: counter };
 }
 
 /** Whether the user must enroll TOTP before verifying (MFA on, mode=totp, no secret). */

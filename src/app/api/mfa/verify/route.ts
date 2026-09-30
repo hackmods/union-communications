@@ -1,17 +1,17 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { auditLog } from "@/lib/audit/store";
-import { issueMfaGrant } from "@/lib/auth/mfa-grants";
+import { issueMfaGrant, consumeMfaGrant } from "@/lib/auth/mfa-grants";
 import { classifySubmittedMfaCode } from "@/lib/auth/mfa-client-codes";
 import { resolveMfaMode, verifyMfaCode } from "@/lib/auth/mfa-policy";
 import { consumeMfaRecoveryCode } from "@/lib/auth/mfa-recovery-codes";
 import { reserveMfaVerificationAttempt } from "@/lib/auth/mfa-attempt-limits";
+import { consumeTotpCounterForUser } from "@/lib/auth/mfa-totp-counters";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 
 /**
- * MFA verify — validates the code server-side, then issues a single-use
- * grant nonce. The client must pass that nonce through session.update({ mfaGrant })
- * so the JWT callback can set mfaVerified (SEC-001). Never trust a client boolean.
+ * MFA verify — match factor, issue grant, then consume replay state.
+ * Grant failure must not burn the TOTP counter (SEC-001 handoff).
  */
 export async function POST(request: Request) {
   const correlation = createAuditRequestContext();
@@ -64,6 +64,7 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+
   const recoveryAttempt = resolveMfaMode() === "totp" && submitted === "recovery";
   let attemptAlreadyReserved = false;
   if (recoveryAttempt) {
@@ -101,13 +102,15 @@ export async function POST(request: Request) {
       );
     }
   }
-  const recoveryUsed = recoveryAttempt && (await consumeMfaRecoveryCode(session.user.id, code));
-  const result = recoveryUsed
-    ? ({ ok: true, mode: "totp" } as const)
+
+  // Match only — do not consume recovery/TOTP until grant is issued.
+  const result = recoveryAttempt
+    ? ({ ok: true, mode: "totp" as const })
     : await verifyMfaCode({
         userId: session.user.id,
         code,
         attemptAlreadyReserved,
+        consumeCounter: false,
       });
 
   if (!result.ok) {
@@ -157,6 +160,68 @@ export async function POST(request: Request) {
       },
       { status: 503, headers: { "Cache-Control": "private, no-store" } },
     );
+  }
+
+  const burnGrant = async () => {
+    try {
+      await consumeMfaGrant(
+        session.user.id,
+        mfaGrant,
+        Date.now(),
+        session.user.sessionVersion ?? 0,
+      );
+    } catch {
+      // Best-effort invalidate; grant TTL is short.
+    }
+  };
+
+  let recoveryUsed = false;
+  if (recoveryAttempt) {
+    recoveryUsed = await consumeMfaRecoveryCode(session.user.id, code);
+    if (!recoveryUsed) {
+      await burnGrant();
+      await recordOutcome("auth.mfa_verify_failed", "denied");
+      return respond(
+        { error: "Invalid code", code: "invalid" },
+        { status: 400 },
+      );
+    }
+  } else if (
+    result.ok &&
+    "matchedCounter" in result &&
+    typeof result.matchedCounter === "number"
+  ) {
+    try {
+      const consumed = await consumeTotpCounterForUser(
+        session.user.id,
+        result.matchedCounter,
+      );
+      if (!consumed) {
+        await burnGrant();
+        await recordOutcome("auth.mfa_verify_failed", "denied");
+        return respond(
+          {
+            error: "That code was already used.",
+            code: "replayed",
+          },
+          { status: 400 },
+        );
+      }
+    } catch (error) {
+      await burnGrant();
+      console.error("[auth] TOTP replay protection unavailable after grant", {
+        userId: session.user.id,
+        message: error instanceof Error ? error.message : String(error),
+      });
+      await recordOutcome("auth.mfa_verify_unavailable", "error");
+      return respond(
+        {
+          error: "TOTP replay protection is unavailable.",
+          code: "replay_store_unavailable",
+        },
+        { status: 503, headers: { "Cache-Control": "private, no-store" } },
+      );
+    }
   }
 
   await recordOutcome(
