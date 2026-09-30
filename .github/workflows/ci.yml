@@ -787,8 +787,10 @@ jobs:
             exit 0
           fi
           echo "CapRover appData response (relevant fields):"
-          echo "$resp" | jq '{appName, imageName, isAppBuilding, deploymentMethod, appContainerInfo: .appContainerInfo // null}'
-          running="$(echo "$resp" | jq -r '.imageName // .appContainerInfo.imageName // "(unknown)"')"
+          # Parenthesize // inside object constructors — bare
+          # `.field // null` is a jq syntax error in object values.
+          echo "$resp" | jq '{appName, imageName, isAppBuilding, deploymentMethod, appContainerInfo: (.appContainerInfo // null)}' || echo "$resp" | head -c 2000
+          running="$(echo "$resp" | jq -r '(.imageName // .appContainerInfo.imageName // "(unknown)")')"
           echo "running imageName: ${running}"
           expected="$DEPLOYED_IMAGE"
           echo "expected imageName: ${expected}"
