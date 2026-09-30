@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
+import { MoveLocalPanel } from "@/components/site-admin/MoveLocalPanel";
 
 type CollectiveOption = { id: string; name: string };
 
@@ -15,6 +16,8 @@ type Props = {
   localNumber: string;
   subText: string;
   divisionId: string | null;
+  /** Current union that owns this local (required for Move). */
+  unionId: string;
   archived: boolean;
   empty: boolean;
   collectives: CollectiveOption[];
@@ -25,16 +28,17 @@ type Props = {
   stackActions?: boolean;
 };
 
-type Mode = "idle" | "edit" | "delete" | "stepUp";
+type Mode = "idle" | "edit" | "delete" | "move" | "stepUp";
 
 /**
- * Edit / archive / restore / empty-delete for a Site Admin local row.
+ * Edit / archive / restore / move / empty-delete for a Site Admin local row.
  */
 export function LocalLifecycleActions({
   localId,
   localNumber,
   subText,
   divisionId,
+  unionId,
   archived,
   empty,
   collectives,
@@ -329,6 +333,19 @@ export function LocalLifecycleActions({
         </form>
       ) : null}
 
+      {mode === "move" ? (
+        <MoveLocalPanel
+          localId={localId}
+          localNumber={localNumber}
+          currentUnionId={unionId}
+          stackActions={stackActions}
+          onCancel={() => {
+            setMode("idle");
+            setError(null);
+          }}
+        />
+      ) : null}
+
       {mode === "stepUp" && pendingAction ? (
         <form
           className="flex w-full flex-col gap-2"
@@ -400,6 +417,18 @@ export function LocalLifecycleActions({
               }}
             >
               {t("localEdit")}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className={actionBtnClass}
+              disabled={busy || resultUnconfirmed}
+              onClick={() => {
+                setMode("move");
+                setError(null);
+              }}
+            >
+              {t("localMove")}
             </Button>
             <Button
               type="button"

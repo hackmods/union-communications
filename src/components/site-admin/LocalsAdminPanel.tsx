@@ -21,6 +21,7 @@ export type LocalAdminRow = {
 type CollectiveOption = { id: string; name: string };
 
 type Props = {
+  unionId: string;
   rows: LocalAdminRow[];
   collectives: CollectiveOption[];
   collectiveNameById: Map<string, string>;
@@ -32,6 +33,7 @@ type Props = {
  * Locals inventory: status filter, card stack on small screens, table from md up.
  */
 export function LocalsAdminPanel({
+  unionId,
   rows,
   collectives,
   collectiveNameById,
@@ -135,6 +137,7 @@ export function LocalsAdminPanel({
                           localNumber={row.localNumber}
                           subText={row.subText}
                           divisionId={row.divisionId}
+                          unionId={unionId}
                           archived={Boolean(row.archivedAt)}
                           empty={row.empty}
                           collectives={collectives}
@@ -200,6 +203,7 @@ export function LocalsAdminPanel({
                               localNumber={row.localNumber}
                               subText={row.subText}
                               divisionId={row.divisionId}
+                              unionId={unionId}
                               archived={Boolean(row.archivedAt)}
                               empty={row.empty}
                               collectives={collectives}

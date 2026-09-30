@@ -226,6 +226,7 @@ export default async function SiteAdminOrganizationUnionPage({
       />
 
       <LocalsAdminPanel
+        unionId={unionId}
         rows={rows}
         collectives={activeCollectives}
         collectiveNameById={

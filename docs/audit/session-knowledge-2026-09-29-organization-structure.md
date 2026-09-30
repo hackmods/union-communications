@@ -52,3 +52,10 @@ workflow even though union rename already existed.
 2. Rename / archive unused same-name unions; Delete when empty + archived.
 3. On a union detail: edit or archive mistaken locals/collectives; Delete only
    after archive when attachment counts are zero.
+4. **Wrong-union setup:** use **Move** on the local row (in-place reparent;
+   keeps `local_id`). See
+   [`session-knowledge-2026-09-29-local-move.md`](session-knowledge-2026-09-29-local-move.md).
+
+## Related
+
+- Move Local suite: preview + MFA commit + cascade registry (2026-09-30).

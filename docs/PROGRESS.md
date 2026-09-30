@@ -1,4 +1,11 @@
-﻿## 2026-09-29 — President Hub QOL leftovers
+﻿## 2026-09-30 — Site Admin Move Local (in-place)
+
+- Site Admin can move a local to another union while keeping `local_id` stable (accounts, memberships, invites, collections, and dual-key casework follow).
+- Preview + fresh MFA + typed confirm; owner DB required; cascade registry with CI completeness vs Drizzle dual-key tables.
+- Organization structure → Open structure → **Move**; escape hatch links to create under destination when hard-blocked.
+- Session: [`docs/audit/session-knowledge-2026-09-29-local-move.md`](audit/session-knowledge-2026-09-29-local-move.md).
+
+## 2026-09-29 — President Hub QOL leftovers
 
 - Opt-in Officer tools expanded: expenses, travel, broadcast, and polls join ledger/invites/meetings (default off); catalog + Configuration toggles gate nav only.
 - Hall starter: when Portal is draft-only, primary CTA is **Apply and create Hall** (union scope) via `/api/tenant/` then `/api/tenant/circle-starter/`.
@@ -20,7 +27,8 @@
 
 - Site Admin **Organization structure** (`/app/site-admin/organization`) merges the former Unions + Locals cards into one workspace. Legacy `/unions` and `/locals` routes redirect.
 - Bargaining collectives (Division): create with Brand Kit sector/division dropdowns + MFA, list with edit/archive/restore/empty hard-delete.
-- Locals: edit number / sub-line / collective binding; archive/restore; empty hard-delete after archive (typed number confirm + MFA).
+- Locals: edit number / sub-line / collective binding; **Move** to another union (in-place); archive/restore; empty hard-delete after archive (typed number confirm + MFA).
+- Move Local: see [`session-knowledge-2026-09-29-local-move.md`](audit/session-knowledge-2026-09-29-local-move.md).
 - Collection create on a local can prefill from the bound Comms Brand Kit collection catalog.
 - “Local” stays the labour term for numbered units; only the Site Admin grouping label changed.
 - Mobile polish: locals/collectives card stacks with full-width actions; orphan collective kept in edit Select; Brand styles link when catalog empty; false “no active locals” empty row fixed.
