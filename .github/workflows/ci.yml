@@ -656,13 +656,61 @@ jobs:
           EXPECTED_COMMIT: ${{ github.sha }}
           TARGET_HEALTH: ${{ github.event.inputs.target_url || 'https://unionops.org/api/health' }}
         run: |
+          # Trim accidental paste whitespace / newlines from GH secrets.
+          CAPROVER_SERVER="$(printf '%s' "${CAPROVER_SERVER:-}" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+          CAPROVER_PASSWORD="$(printf '%s' "${CAPROVER_PASSWORD:-}" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+          CAPROVER_APP="$(printf '%s' "${CAPROVER_APP:-}" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+
           if [ -n "$CAPROVER_SERVER" ] && [ -n "$CAPROVER_PASSWORD" ] && [ -n "$CAPROVER_APP" ]; then
+            # CAPROVER_APP must be the CapRover Apps-list name (e.g. union-communications),
+            # never a URL. CAPROVER_SERVER must be the captain root, not the app FQDN.
+            if printf '%s' "$CAPROVER_APP" | grep -Eqi 'https?://|/'; then
+              echo "::error::CAPROVER_APP looks like a URL/path. Set it to the CapRover app name only (e.g. union-communications), not https://union-communications.behind7proxies.com/."
+              exit 1
+            fi
+            if printf '%s' "$CAPROVER_SERVER" | grep -Eqi 'union-communications\.behind7proxies\.com|unionops\.org'; then
+              echo "::error::CAPROVER_SERVER looks like the app/public host, not the CapRover captain. Expected https://captain.behind7proxies.com (docs/guides/DEPLOY.md)."
+              exit 1
+            fi
             echo "Deploying ${IMAGE} to CapRover app ${CAPROVER_APP} (pull only — no on-host build)."
-            docker run --rm caprover/cli-caprover:2.2.3 caprover deploy \
+            echo "caproverUrl host: $(printf '%s' "$CAPROVER_SERVER" | sed -E 's#^https?://##;s#/.*##')"
+            echo "caproverApp length: ${#CAPROVER_APP}"
+            set +e
+            deploy_out="$(docker run --rm caprover/cli-caprover:2.2.3 caprover deploy \
               --caproverUrl "$CAPROVER_SERVER" \
               --caproverPassword "$CAPROVER_PASSWORD" \
               --caproverApp "$CAPROVER_APP" \
-              --imageName "$IMAGE"
+              --imageName "$IMAGE" 2>&1)"
+            deploy_rc=$?
+            set -e
+            printf '%s\n' "$deploy_out"
+            if [ "$deploy_rc" -ne 0 ]; then
+              if printf '%s' "$deploy_out" | grep -qi 'app not exist'; then
+                echo "::error::CapRover authenticated but app '${CAPROVER_APP}' was not found on ${CAPROVER_SERVER}."
+                echo "::notice::Listing apps on that captain so you can fix CAPROVER_APP or CAPROVER_SERVER."
+                login_json="$(curl -fsS --max-time 30 -X POST \
+                  -H 'Content-Type: application/json' \
+                  -H 'x-namespace: captain' \
+                  -d "{\"password\":$(printf '%s' "$CAPROVER_PASSWORD" | jq -Rs .)}" \
+                  "${CAPROVER_SERVER%/}/api/v2/login" 2>/dev/null || true)"
+                token="$(printf '%s' "$login_json" | jq -r '.data.token // empty' 2>/dev/null || true)"
+                if [ -n "$token" ]; then
+                  apps_json="$(curl -fsS --max-time 30 \
+                    -H "x-captain-auth: ${token}" \
+                    -H 'x-namespace: captain' \
+                    "${CAPROVER_SERVER%/}/api/v2/user/apps/appDefinitions" 2>/dev/null || true)"
+                  apps="$(printf '%s' "$apps_json" | jq -r '[.data.appDefinitions[]?.appName] | join(", ")' 2>/dev/null || true)"
+                  if [ -n "$apps" ]; then
+                    echo "::error::Apps on this CapRover machine: ${apps}"
+                  else
+                    echo "::warning::Could not parse app list from captain (empty machine or unexpected API shape)."
+                  fi
+                else
+                  echo "::warning::Could not list apps after deploy failure (login token missing)."
+                fi
+              fi
+              exit "$deploy_rc"
+            fi
             echo "CapRover image deploy triggered."
             echo "DEPLOYED_IMAGE=${IMAGE}" >> "$GITHUB_OUTPUT"
             exit 0

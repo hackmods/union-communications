@@ -217,11 +217,16 @@ Suggested secret values for this host:
 
 | Secret | Typical value |
 |--------|----------------|
-| `CAPROVER_SERVER` | `https://captain.behind7proxies.com` |
-| `CAPROVER_APP` | CapRover **app name** exactly as shown in the CapRover UI (production web app is `unionops`, not the GHCR repo slug `union-communications`) |
-| `CAPROVER_PASSWORD` | Captain password |
+| `CAPROVER_SERVER` | `https://captain.behind7proxies.com` (the **captain** URL — not the app FQDN) |
+| `CAPROVER_APP` | CapRover app name exactly as in the CapRover Apps list — for this host: `union-communications` (no URL, no domain suffix) |
+| `CAPROVER_PASSWORD` | Captain password for that same captain host |
 
-If deploy fails with `*** app not exist on this CapRover machine`, auth succeeded but `CAPROVER_APP` does not match any app on that captain host. Open CapRover → Apps, copy the name character-for-character into the GitHub secret, then re-run the failed `deploy` job (or `workflow_dispatch`). Do not invent a name from the repo slug.
+If deploy fails with `*** app not exist on this CapRover machine`, the CLI authenticated but that captain has no app with that name. Usual causes:
+
+1. `CAPROVER_SERVER` points at a different CapRover instance (or was set to the app URL `https://union-communications.behind7proxies.com` instead of `https://captain.behind7proxies.com`).
+2. `CAPROVER_APP` has a typo, trailing whitespace/newline, or was pasted as a full URL.
+
+Confirm in CapRover → Apps that the name is exactly `union-communications`, then set the three secrets to the table above and re-run the failed `deploy` job.
 
 The third option is the cleanest when you're still toggling between webhook rebuilds and Method 3 in the CapRover UI — it lets you ship without waiting on the rebuild to OOM again.
 
