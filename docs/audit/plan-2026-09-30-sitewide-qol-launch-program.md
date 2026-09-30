@@ -51,7 +51,7 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-b-fitgap.md`](session-knowledge-202
 
 | ID | Status | Verdict | Notes |
 |----|--------|---------|-------|
-| C1–C3 | open | HUMAN | Content-owner + moderated usability |
+| C1–C3 | human | HUMAN | Content-owner + moderated EN/FR usability — not agent-closable |
 
 ### Wave D — Brand Kit / customization
 
@@ -90,7 +90,7 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md`](session-knowledg
 |------|--------|-------|
 | G Postgres flip | local done / prod HUMAN | `ops:verify-durable` passed on Docker Postgres 16; production host flip still Ryan |
 | H Portal cutover | local smoke done / prod HUMAN | `db:portal-durability-smoke` passed after policy REALIGN; `PORTAL_DB_BACKEND` prod flip needs operator |
-| I Launch packets 1–10 | open | Living LAUNCH tracker; human evidence / counsel |
+| I Launch packets 1–10 | human | Code present; legal/host evidence stays Ryan/counsel — see LAUNCH tracker + wave-g-i fit-gap |
 
 Fit-gap: [`session-knowledge-2026-09-30-wave-g-i-durable.md`](session-knowledge-2026-09-30-wave-g-i-durable.md)
 
@@ -115,4 +115,6 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-g-i-durable.md`](session-knowledge-
 
 ## Program completion rule
 
-Goal is **not** complete while any ID remains OPEN without SKIP/HUMAN/BLOCKED disposition, or while G/H/I claim **production** evidence without host/counsel proof. Remaining human/open: **C**, **I**, production flips for **G/H**, plus A2/A8/B6 human rows.
+Agent-implementable IDs are **SKIP-closed, shipped, or local-verified**. Remaining rows are explicitly **HUMAN** (C, I, A2/A8/B6, production G/H flips) — agents must not invent counsel approval or CapRover evidence.
+
+**Agent scope for Waves A–L:** complete as of 2026-09-30 (commits through durable CLI + Portal smoke REALIGN).
