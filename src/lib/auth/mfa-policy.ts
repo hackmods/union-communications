@@ -216,7 +216,21 @@ export async function verifyMfaCode(input: {
     return { ok: true, mode };
   }
 
-  const secret = await getTotpSecretForUser(input.userId);
+  let secret: string | null;
+  try {
+    secret = await getTotpSecretForUser(input.userId, env as NodeJS.ProcessEnv);
+  } catch (error) {
+    console.error("[auth] TOTP secret read failed during verify", {
+      userId: input.userId,
+      message: error instanceof Error ? error.message : String(error),
+    });
+    return {
+      ok: false,
+      status: 503,
+      error: "Authenticator secret storage is unavailable.",
+      code: "storage_unavailable",
+    };
+  }
   if (!secret) {
     return {
       ok: false,

@@ -10136,7 +10136,7 @@
         "empty": "Entrez le code à 6 chiffres de votre authenticator.",
         "invalid": "Ce code ne correspond pas. Attendez un nouveau numéro, ou utilisez un code de récupération.",
         "replayed": "Ce numéro a déjà été utilisé. Attendez le prochain code dans votre appli.",
-        "storage_unavailable": "La configuration de l’authenticator ne peut pas enregistrer cette étape. Demandez à la personne qui gère ce Hub des dirigeants de confirmer que le stockage multifactoriel est prêt, puis réessayez.",
+        "storage_unavailable": "Cette étape de connexion n’a pas pu être enregistrée. Attendez un nouveau numéro dans votre appli, puis réessayez. Si le problème continue, demandez à la personne qui gère ce Hub des dirigeants de vérifier le stockage multifactoriel (jetons et limites de tentatives).",
         "session_not_verified": "Votre authenticator est enregistré, mais ce navigateur a encore besoin d’un nouveau code de votre appli. Ouvrez la page d’identité et entrez le prochain numéro — pas celui que vous venez d’utiliser.",
         "not_enrolled": "Ce compte n’a pas encore d’authenticator. Configurez-en un, puis réessayez.",
         "limited": "Trop d’essais. Attendez quelques minutes, puis entrez un nouveau code de votre appli.",

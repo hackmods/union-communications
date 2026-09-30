@@ -9854,7 +9854,7 @@
         "empty": "Enter the 6-digit code from your authenticator.",
         "invalid": "That code does not match. Wait for a new number, or use a recovery code.",
         "replayed": "That number was already used. Wait for the next code in your app.",
-        "storage_unavailable": "Authenticator setup cannot save this step. Ask whoever runs this Officer Hub to confirm multi-factor storage is ready, then try again.",
+        "storage_unavailable": "This sign-in step could not be saved. Wait for a new authenticator number, then try again. If it keeps failing, ask whoever runs this Officer Hub to check multi-factor storage (grants and attempt limits).",
         "session_not_verified": "Your authenticator is saved, but this browser still needs a new code from your app. Open the identity page and enter the next number — not the one you just used.",
         "not_enrolled": "This account does not have an authenticator yet. Set one up, then try again.",
         "limited": "Too many tries. Wait a few minutes, then enter a new code from your app.",
