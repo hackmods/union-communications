@@ -45,7 +45,9 @@ test.describe("Hub / Portal desktop composition @smoke", () => {
     await expect(h1).toBeVisible({ timeout: 20_000 });
     await assertDesktopComposition(page, {
       heading: h1,
-      maxHeadingY: 420,
+      // Hub shell + back link sit above the case title; keep first-viewport,
+      // but allow a bit more than the bare 420 used for denser Hub home.
+      maxHeadingY: 520,
       maxMeasurePx: 900,
     });
   });
