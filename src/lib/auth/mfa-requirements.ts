@@ -1,6 +1,5 @@
 import type { UserRole } from "@/types/tenant";
 import { isMfaOperatorBypassEmail } from "@/lib/auth/mfa-operator-bypass";
-import { isMfaReenrollGraceActive } from "@/lib/auth/mfa-reenroll-grace";
 
 export function hostedCustomerProfileEnabled(
   env: Record<string, string | undefined>,
@@ -67,32 +66,6 @@ export function sessionRequiresMfa(
     return rolesRequireHostedMfa(user?.roles) || user?.mfaRequired === true;
   }
   if (typeof user?.mfaRequired === "boolean") return user.mfaRequired;
-  return true;
-}
-
-/**
- * Async gate used by status API / enrollment: honor durable re-enroll grace
- * so a reset account is not Hub-locked before they finish setup.
- */
-export async function sessionRequiresMfaWithGrace(
-  user: {
-    id?: string | null;
-    email?: string | null;
-    roles?: readonly string[] | null;
-    mfaRequired?: boolean | null;
-  } | null | undefined,
-  mfaEnabled: boolean,
-  hostedCustomerMode: boolean,
-  env: Record<string, string | undefined> = process.env,
-): Promise<boolean> {
-  const base = sessionRequiresMfa(user, mfaEnabled, hostedCustomerMode, env);
-  if (!base) return false;
-  if (
-    user?.id &&
-    (await isMfaReenrollGraceActive(user.id, Date.now(), env as NodeJS.ProcessEnv))
-  ) {
-    return false;
-  }
   return true;
 }
 

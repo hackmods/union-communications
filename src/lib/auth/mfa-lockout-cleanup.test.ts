@@ -24,7 +24,7 @@ import {
   setConfirmedSecretOverride,
 } from "@/lib/auth/mfa-enrollment-store";
 
-const memoryEnv = {
+const memoryEnv: Record<string, string | undefined> = {
   AUTH_USERS_BACKEND: "memory",
   AUTH_MFA_ENABLED: "true",
   AUTH_MFA_MODE: "totp",
@@ -60,17 +60,36 @@ describe("MFA lockout cleanup behaviors", () => {
       await consumeTotpCounterForUser(
         "user-verify",
         matched.matchedCounter,
-        memoryEnv,
+        memoryEnv as NodeJS.ProcessEnv,
       ),
     ).toBe(true);
   });
 
   it("setTotpCounterForNewSecret and recovery rotate work on memory backend", async () => {
-    await setTotpCounterForNewSecret("user-seed", 42, memoryEnv);
-    expect(await consumeTotpCounterForUser("user-seed", 42, memoryEnv)).toBe(false);
-    expect(await consumeTotpCounterForUser("user-seed", 43, memoryEnv)).toBe(true);
+    await setTotpCounterForNewSecret(
+      "user-seed",
+      42,
+      memoryEnv as NodeJS.ProcessEnv,
+    );
+    expect(
+      await consumeTotpCounterForUser(
+        "user-seed",
+        42,
+        memoryEnv as NodeJS.ProcessEnv,
+      ),
+    ).toBe(false);
+    expect(
+      await consumeTotpCounterForUser(
+        "user-seed",
+        43,
+        memoryEnv as NodeJS.ProcessEnv,
+      ),
+    ).toBe(true);
 
-    const codes = await rotateMfaRecoveryCodes("user-seed", memoryEnv);
+    const codes = await rotateMfaRecoveryCodes(
+      "user-seed",
+      memoryEnv as NodeJS.ProcessEnv,
+    );
     expect(codes).toHaveLength(10);
   });
 
@@ -81,7 +100,12 @@ describe("MFA lockout cleanup behaviors", () => {
   });
 
   it("issueMfaGrant succeeds on memory so verify can proceed without burning", async () => {
-    const grant = await issueMfaGrant("user-grant", Date.now(), 0, memoryEnv);
+    const grant = await issueMfaGrant(
+      "user-grant",
+      Date.now(),
+      0,
+      memoryEnv as NodeJS.ProcessEnv,
+    );
     expect(grant.length).toBeGreaterThan(20);
   });
 });

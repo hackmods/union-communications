@@ -29,7 +29,7 @@ export function isHostedCustomerMode(
 }
 
 export type MfaPolicyResult =
-  | { ok: true; mode: MfaMode }
+  | { ok: true; mode: MfaMode; matchedCounter?: number }
   | {
       ok: false;
       status: 400 | 429 | 503;
@@ -129,7 +129,7 @@ export async function verifyMfaCode(input: {
    * (so the caller can issue a session grant first). Default true.
    */
   consumeCounter?: boolean;
-}): Promise<MfaPolicyResult & { matchedCounter?: number }> {
+}): Promise<MfaPolicyResult> {
   const env = input.env ?? process.env;
   const consumeCounter = input.consumeCounter !== false;
 

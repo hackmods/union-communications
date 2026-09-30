@@ -5,9 +5,11 @@ import {
   isMfaReenrollGraceActive,
   resetMfaReenrollGraceMemoryForTests,
 } from "@/lib/auth/mfa-reenroll-grace";
-import { sessionRequiresMfaWithGrace } from "@/lib/auth/mfa-requirements";
+import { sessionRequiresMfaWithGrace } from "@/lib/auth/mfa-requirements-grace";
 
-const memoryEnv = { AUTH_USERS_BACKEND: "memory" };
+const memoryEnv = {
+  AUTH_USERS_BACKEND: "memory",
+} as unknown as NodeJS.ProcessEnv;
 
 afterEach(() => {
   resetMfaReenrollGraceMemoryForTests();

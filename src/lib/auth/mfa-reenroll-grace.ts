@@ -1,3 +1,5 @@
+import "server-only";
+
 /**
  * Durable re-enroll grace after Site Admin MFA reset.
  * While active, Hub MFA is not required so the officer can finish setup.

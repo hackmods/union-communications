@@ -6,7 +6,7 @@ import {
   needsTotpEnrollment,
   resolveMfaMode,
 } from "@/lib/auth/mfa-policy";
-import { sessionRequiresMfaWithGrace } from "@/lib/auth/mfa-requirements";
+import { sessionRequiresMfaWithGrace } from "@/lib/auth/mfa-requirements-grace";
 import { isMfaOperatorBypassEmail } from "@/lib/auth/mfa-operator-bypass";
 import {
   getMfaReenrollGrace,

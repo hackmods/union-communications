@@ -6,7 +6,7 @@ import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
-import { clearTotpEnrollmentForUser } from "@/lib/auth/mfa-user-secret";
+import { clearTotpEnrollmentForUser, getSessionVersionForUser } from "@/lib/auth/mfa-user-secret";
 import { issueMfaGrant } from "@/lib/auth/mfa-grants";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
 
@@ -209,11 +209,8 @@ export async function POST(
   let mfaGrant: string | undefined;
   if (gate.session.user.id === target.id) {
     try {
-      mfaGrant = await issueMfaGrant(
-        target.id,
-        Date.now(),
-        gate.session.user.sessionVersion ?? 0,
-      );
+      const sessionVersion = await getSessionVersionForUser(target.id);
+      mfaGrant = await issueMfaGrant(target.id, Date.now(), sessionVersion);
     } catch (error) {
       console.error("[auth] MFA self-reset grant issue failed", {
         userId: target.id,

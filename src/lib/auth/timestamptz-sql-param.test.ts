@@ -29,7 +29,7 @@ describe("MFA auth SQL Date-bind guard", () => {
     const files = readdirSync(authDir).filter((name) => name.endsWith(".ts"));
     const offenders: string[] = [];
     const risky =
-      /sql`[^`]*\$\{(?:cutoff|windowStartedAt|expiresAt|issuedAt)(?!\.toISOString)(?![A-Za-z0-9_])/s;
+      /sql`[\s\S]*?\$\{(?:cutoff|windowStartedAt|expiresAt|issuedAt)(?!\.toISOString)(?![A-Za-z0-9_])/;
 
     for (const file of files) {
       const source = readFileSync(join(authDir, file), "utf8");
