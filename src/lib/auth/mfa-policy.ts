@@ -9,6 +9,7 @@
  * - non-production defaults to shared_code_insecure for local/CI
  */
 
+import type { MfaClientCode } from "@/lib/auth/mfa-client-codes";
 import { getTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
 import {
   hostedCustomerProfileEnabled,
@@ -29,7 +30,13 @@ export function isHostedCustomerMode(
 
 export type MfaPolicyResult =
   | { ok: true; mode: MfaMode }
-  | { ok: false; status: 400 | 429 | 503; error: string; retryAfterSeconds?: number };
+  | {
+      ok: false;
+      status: 400 | 429 | 503;
+      error: string;
+      code: MfaClientCode;
+      retryAfterSeconds?: number;
+    };
 
 /**
  * Hosted customer mode enables the TOTP policy. Protected access is required
@@ -120,12 +127,23 @@ export async function verifyMfaCode(input: {
 }): Promise<MfaPolicyResult> {
   const env = input.env ?? process.env;
 
+  const code = input.code.trim();
+  if (!code) {
+    return {
+      ok: false,
+      status: 400,
+      error: "Enter a verification code.",
+      code: "empty",
+    };
+  }
+
   if (!isMfaEnabled(env)) {
     return {
       ok: false,
       status: 503,
       error:
         "MFA is disabled on this host. Set AUTH_MFA_ENABLED=true to require a second factor.",
+      code: "storage_unavailable",
     };
   }
 
@@ -142,6 +160,7 @@ export async function verifyMfaCode(input: {
       error: sharedRejected
         ? "AUTH_MFA_MODE=shared_code_insecure is not allowed in production. Set AUTH_MFA_MODE=totp, or AUTH_ALLOW_SHARED_MFA_IN_PROD=true for workshop hosts only."
         : "MFA is enabled but not configured. Set AUTH_MFA_MODE=totp (required in production when AUTH_MFA_ENABLED=true).",
+      code: "storage_unavailable",
     };
   }
 
@@ -153,6 +172,7 @@ export async function verifyMfaCode(input: {
           ok: false,
           status: 429,
           error: "Too many verification attempts. Try again after the limit resets.",
+          code: "limited",
           retryAfterSeconds: attempt.retryAfterSeconds,
         };
       }
@@ -165,13 +185,13 @@ export async function verifyMfaCode(input: {
         ok: false,
         status: 503,
         error: "MFA verification safeguards are unavailable.",
+        code: "storage_unavailable",
       };
     }
   }
 
-  const code = input.code.trim();
   if (!/^\d{6}$/.test(code)) {
-    return { ok: false, status: 400, error: "Invalid code" };
+    return { ok: false, status: 400, error: "Invalid code", code: "invalid" };
   }
 
   if (mode === "shared_code_insecure") {
@@ -187,10 +207,11 @@ export async function verifyMfaCode(input: {
         status: 503,
         error:
           "AUTH_MFA_CODE is required when AUTH_MFA_MODE=shared_code_insecure.",
+        code: "storage_unavailable",
       };
     }
     if (code !== expected) {
-      return { ok: false, status: 400, error: "Invalid code" };
+      return { ok: false, status: 400, error: "Invalid code", code: "invalid" };
     }
     return { ok: true, mode };
   }
@@ -201,15 +222,21 @@ export async function verifyMfaCode(input: {
       ok: false,
       status: 503,
       error: "TOTP is not enrolled for this account.",
+      code: "not_enrolled",
     };
   }
   const counter = matchTotpCounter(secret, code);
   if (counter === null) {
-    return { ok: false, status: 400, error: "Invalid code" };
+    return { ok: false, status: 400, error: "Invalid code", code: "invalid" };
   }
   try {
     if (!(await consumeTotpCounterForUser(input.userId, counter, env as NodeJS.ProcessEnv))) {
-      return { ok: false, status: 400, error: "Invalid code" };
+      return {
+        ok: false,
+        status: 400,
+        error: "That code was already used.",
+        code: "replayed",
+      };
     }
   } catch (error) {
     console.error("[auth] TOTP replay protection unavailable", {
@@ -220,6 +247,7 @@ export async function verifyMfaCode(input: {
       ok: false,
       status: 503,
       error: "TOTP replay protection is unavailable.",
+      code: "storage_unavailable",
     };
   }
   return { ok: true, mode };

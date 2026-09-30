@@ -26,6 +26,7 @@ export function MfaReplaceGate({
 }: MfaReplaceGateProps) {
   const t = useTranslations("hub.mfaJourney");
   const tHub = useTranslations("hub");
+  const ready = /^\d{6}$/.test(code);
   return (
     <div className="space-y-4">
       <Callout tone="warning">
@@ -36,7 +37,7 @@ export function MfaReplaceGate({
         className="space-y-3"
         onSubmit={(e) => {
           e.preventDefault();
-          if (!loading) onConfirm();
+          if (!loading && ready) onConfirm();
         }}
       >
         <MfaCodeField
@@ -54,7 +55,7 @@ export function MfaReplaceGate({
             {error}
           </p>
         ) : null}
-        <Button type="submit" disabled={loading} className="min-h-11 w-full">
+        <Button type="submit" disabled={loading || !ready} className="min-h-11 w-full">
           {loading ? tHub("verifying") : t("replace.continue")}
         </Button>
       </form>

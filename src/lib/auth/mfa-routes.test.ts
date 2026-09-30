@@ -193,6 +193,7 @@ describe("MFA API routes", () => {
       expect(disabled.status).toBe(503);
       expect(await disabled.json()).toEqual({
         error: "TOTP enrollment requires AUTH_MFA_MODE=totp on this instance.",
+        code: "storage_unavailable",
       });
     });
 
@@ -260,17 +261,24 @@ describe("MFA API routes", () => {
         }),
       );
       expect(badJson.status).toBe(400);
-      expect(await badJson.json()).toEqual({ error: "Invalid code" });
+      expect(await badJson.json()).toEqual({
+        error: "Invalid code",
+        code: "invalid",
+      });
 
       const noPending = await confirmEnroll(jsonRequest({ code: "123456" }));
       expect(noPending.status).toBe(400);
       expect(await noPending.json()).toMatchObject({
         error: expect.stringContaining("No pending enrollment"),
+        code: "no_pending",
       });
 
       authMock.mockResolvedValue(session({ id: "user-no-totp-secret" }));
       const enrolled = await enrollMfa(jsonRequest({}));
       const { secret } = (await enrolled.json()) as { secret: string };
+      const empty = await confirmEnroll(jsonRequest({ code: "" }));
+      expect(empty.status).toBe(400);
+      expect(await empty.json()).toMatchObject({ code: "empty" });
       const wrong = await confirmEnroll(jsonRequest({ code: "000000" }));
       expect(wrong.status).toBe(400);
       expect(await getTotpSecretForUser("user-no-totp-secret")).not.toBe(secret);
@@ -290,8 +298,13 @@ describe("MFA API routes", () => {
         success: boolean;
         recoveryCodes?: string[];
         mfaGrant?: string;
+        mfaGrantIssued?: boolean;
       };
-      expect(confirmedBody).toMatchObject({ success: true, recoveryCodes: expect.any(Array) });
+      expect(confirmedBody).toMatchObject({
+        success: true,
+        recoveryCodes: expect.any(Array),
+        mfaGrantIssued: true,
+      });
       expect(confirmedBody.recoveryCodes).toHaveLength(10);
       expect(confirmedBody.mfaGrant).toMatch(/^[A-Za-z0-9_-]{43}$/);
       expect(await getTotpSecretForUser("user-no-totp-secret")).toBe(secret);
@@ -307,7 +320,9 @@ describe("MFA API routes", () => {
         { mfaGrant: confirmedBody.mfaGrant },
       );
       expect(token.mfaVerified).toBe(true);
-      expect((await verifyMfa(jsonRequest({ code }))).status).toBe(400);
+      const replay = await verifyMfa(jsonRequest({ code }));
+      expect(replay.status).toBe(400);
+      expect(await replay.json()).toMatchObject({ code: "replayed" });
     });
 
     it("confirms after the process pending cache is cleared (replica split)", async () => {
@@ -352,6 +367,7 @@ describe("MFA API routes", () => {
       expect(enrolled.status).toBe(503);
       expect(await enrolled.json()).toMatchObject({
         error: expect.stringContaining("unavailable"),
+        code: "storage_unavailable",
       });
 
       const confirmed = await confirmEnroll(jsonRequest({ code: "123456" }));
@@ -425,6 +441,7 @@ describe("MFA API routes", () => {
 
       expect(first.status).toBe(200);
       expect(replay.status).toBe(400);
+      expect(await replay.json()).toMatchObject({ code: "replayed" });
     });
 
     it("limits repeated verification requests and returns a retry delay", async () => {
@@ -441,7 +458,26 @@ describe("MFA API routes", () => {
       expect(limited.headers.get("Retry-After")).toBe("900");
       expect(await limited.json()).toMatchObject({
         error: expect.stringContaining("Too many verification attempts"),
+        code: "limited",
       });
+    });
+
+    it("rejects empty and junk codes without treating them as recovery", async () => {
+      process.env.AUTH_MFA_ENABLED = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      authMock.mockResolvedValue(session());
+
+      const empty = await verifyMfa(jsonRequest({ code: "" }));
+      expect(empty.status).toBe(400);
+      expect(await empty.json()).toMatchObject({ code: "empty" });
+
+      const junk = await verifyMfa(jsonRequest({ code: "nope" }));
+      expect(junk.status).toBe(400);
+      expect(await junk.json()).toMatchObject({ code: "invalid" });
+
+      for (let attempt = 0; attempt < 12; attempt += 1) {
+        expect((await verifyMfa(jsonRequest({ code: "" }))).status).toBe(400);
+      }
     });
 
     it("returns needsEnrollment when TOTP is on but the account has no secret", async () => {
@@ -454,6 +490,7 @@ describe("MFA API routes", () => {
       expect(res.status).toBe(503);
       expect(await res.json()).toEqual({
         error: "TOTP is not enrolled for this account.",
+        code: "not_enrolled",
         needsEnrollment: true,
       });
     });

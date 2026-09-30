@@ -6,6 +6,7 @@ import {
   issueMfaGrant,
 } from "@/lib/auth/mfa-grants";
 import { applyTrustedSessionUpdate } from "@/lib/auth/session-update";
+import { refreshJwtTenancyIfStale } from "@/lib/auth/refresh-jwt-tenancy";
 
 function baseToken(overrides: Partial<JWT> = {}): JWT {
   return {
@@ -44,6 +45,39 @@ describe("applyTrustedSessionUpdate (SEC-001 / SEC-005)", () => {
     const nonce = await issueMfaGrant("user-steward-7");
     const token = await applyTrustedSessionUpdate(baseToken(), { mfaGrant: nonce });
     expect(token.mfaVerified).toBe(true);
+  });
+
+  it("sets mfaVerified when grant sessionVersion matches after a tenancy bump", async () => {
+    const nonce = await issueMfaGrant("user-steward-7", Date.now(), 5);
+    const token = baseToken({ sessionVersion: 4, mfaVerified: false });
+    await refreshJwtTenancyIfStale(token);
+    token.sessionVersion = 5;
+    token.mfaVerified = false;
+    const updated = await applyTrustedSessionUpdate(token, { mfaGrant: nonce });
+    expect(updated.mfaVerified).toBe(true);
+  });
+
+  it("does not set mfaVerified when consume runs against a stale sessionVersion", async () => {
+    const nonce = await issueMfaGrant("user-steward-7", Date.now(), 5);
+    const token = await applyTrustedSessionUpdate(
+      baseToken({ sessionVersion: 4 }),
+      { mfaGrant: nonce },
+    );
+    expect(token.mfaVerified).toBe(false);
+  });
+
+  it("logs grant consume failures without setting mfaVerified", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.stubEnv("UNIONOPS_HOSTED_CUSTOMER_MODE", "true");
+    const token = await applyTrustedSessionUpdate(baseToken(), {
+      mfaGrant: "hosted-grant-without-postgres",
+    });
+    expect(token.mfaVerified).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith(
+      "[auth] MFA grant consume failed",
+      expect.objectContaining({ userId: "user-steward-7" }),
+    );
+    errorSpy.mockRestore();
   });
 
   it("rejects a reused MFA grant nonce", async () => {

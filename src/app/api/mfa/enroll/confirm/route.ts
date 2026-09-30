@@ -12,6 +12,7 @@ import {
 } from "@/lib/auth/mfa-user-secret";
 import { rotateMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
 import { resolveMfaMode } from "@/lib/auth/mfa-policy";
+import { looksLikeTotpCode } from "@/lib/auth/mfa-client-codes";
 import { matchTotpCounter } from "@/lib/auth/totp";
 
 /**
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
       {
         error:
           "TOTP enrollment requires AUTH_MFA_MODE=totp on this instance.",
+        code: "storage_unavailable",
       },
       { status: 503 },
     );
@@ -41,7 +43,10 @@ export async function POST(request: Request) {
   try {
     body = (await request.json()) as { code?: string };
   } catch {
-    return NextResponse.json({ error: "Invalid code" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid code", code: "invalid" },
+      { status: 400 },
+    );
   }
 
   let pendingSecret: string | null;
@@ -56,21 +61,40 @@ export async function POST(request: Request) {
       {
         error:
           "Authenticator setup is unavailable. Ask whoever runs this Officer Hub to confirm multi-factor storage is ready, then try again.",
+        code: "storage_unavailable",
       },
       { status: 503, headers: { "Cache-Control": "private, no-store" } },
     );
   }
   if (!pendingSecret) {
     return NextResponse.json(
-      { error: "No pending enrollment. Generate a new QR code and try again." },
+      {
+        error: "No pending enrollment. Generate a new QR code and try again.",
+        code: "no_pending",
+      },
       { status: 400 },
     );
   }
 
   const code = (body.code ?? "").trim();
+  if (!code) {
+    return NextResponse.json(
+      { error: "Enter a verification code.", code: "empty" },
+      { status: 400 },
+    );
+  }
+  if (!looksLikeTotpCode(code)) {
+    return NextResponse.json(
+      { error: "Invalid code", code: "invalid" },
+      { status: 400 },
+    );
+  }
   const acceptedCounter = matchTotpCounter(pendingSecret, code);
   if (acceptedCounter === null) {
-    return NextResponse.json({ error: "Invalid code" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid code", code: "invalid" },
+      { status: 400 },
+    );
   }
 
   let recoveryCodes: string[];
@@ -87,6 +111,7 @@ export async function POST(request: Request) {
       {
         error:
           "Could not save authenticator setup. Ask whoever runs this Officer Hub to confirm multi-factor storage is ready, then generate a new QR code.",
+        code: "storage_unavailable",
       },
       { status: 503, headers: { "Cache-Control": "private, no-store" } },
     );
@@ -115,6 +140,7 @@ export async function POST(request: Request) {
   return NextResponse.json({
     success: true,
     recoveryCodes,
+    mfaGrantIssued: Boolean(mfaGrant),
     ...(mfaGrant ? { mfaGrant } : {}),
   });
 }

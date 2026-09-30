@@ -13,6 +13,10 @@ import {
   MfaJourneyShell,
   MfaStatusPanel,
 } from "@/components/hub/mfa";
+import {
+  classifySubmittedMfaCode,
+  officerMfaErrorMessage,
+} from "@/lib/auth/mfa-client-codes";
 import { resolveMfaCopyIntent } from "@/lib/auth/mfa-copy-context";
 import {
   hubMfaSetupHref,
@@ -32,6 +36,7 @@ type MfaStatus = {
 export function MfaPageClient() {
   const t = useTranslations("hub");
   const tJourney = useTranslations("hub.mfaJourney");
+  const tErrors = useTranslations("hub.mfaJourney.errors");
   const { data: session, status, update } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -184,6 +189,13 @@ export function MfaPageClient() {
   const subtitle = tJourney(`context.${intent}.subtitle`);
 
   const verifyWithCode = async (submittedCode: string) => {
+    const kind = classifySubmittedMfaCode(submittedCode);
+    if (kind === "empty" || kind === "invalid") {
+      setError(
+        officerMfaErrorMessage(kind, (key) => tErrors(key), t("mfaError")),
+      );
+      return;
+    }
     setLoading(true);
     setError(null);
 
@@ -196,25 +208,45 @@ export function MfaPageClient() {
     if (!res.ok) {
       const errBody = (await res.json().catch(() => ({}))) as {
         needsEnrollment?: boolean;
+        code?: string;
       };
       if (errBody.needsEnrollment) {
         setLoading(false);
         router.replace(hubMfaSetupHref(nextPath));
         return;
       }
-      setError(t("mfaError"));
+      setError(
+        officerMfaErrorMessage(errBody.code, (key) => tErrors(key), t("mfaError")),
+      );
       setLoading(false);
       return;
     }
 
     const body = (await res.json()) as { mfaGrant?: string };
     if (!body.mfaGrant) {
-      setError(t("mfaError"));
+      setError(
+        officerMfaErrorMessage(
+          "storage_unavailable",
+          (key) => tErrors(key),
+          t("mfaError"),
+        ),
+      );
       setLoading(false);
       return;
     }
 
-    await update({ mfaGrant: body.mfaGrant });
+    const nextSession = await update({ mfaGrant: body.mfaGrant });
+    if (!nextSession?.user?.mfaVerified) {
+      setError(
+        officerMfaErrorMessage(
+          "session_not_verified",
+          (key) => tErrors(key),
+          t("mfaError"),
+        ),
+      );
+      setLoading(false);
+      return;
+    }
     setLoading(false);
     router.push(nextPath ?? "/app");
   };
@@ -248,7 +280,15 @@ export function MfaPageClient() {
             {error}
           </p>
         ) : null}
-        <Button type="submit" disabled={loading} className="min-h-11 w-full">
+        <Button
+          type="submit"
+          disabled={
+            loading ||
+            classifySubmittedMfaCode(code) === "empty" ||
+            classifySubmittedMfaCode(code) === "invalid"
+          }
+          className="min-h-11 w-full"
+        >
           {loading ? t("verifying") : t("verifyMfa")}
         </Button>
       </form>

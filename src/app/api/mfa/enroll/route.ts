@@ -25,6 +25,7 @@ export async function POST(request: Request) {
       {
         error:
           "TOTP enrollment requires AUTH_MFA_MODE=totp on this instance.",
+        code: "storage_unavailable",
       },
       { status: 503 },
     );
@@ -51,6 +52,7 @@ export async function POST(request: Request) {
         {
           error:
             "Current verification code required to replace your authenticator.",
+          code: "empty",
           requiresCurrentCode: true,
         },
         { status: 400 },
@@ -64,6 +66,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error: verified.error,
+          code: verified.code,
           requiresCurrentCode: true,
         },
         {
@@ -93,6 +96,7 @@ export async function POST(request: Request) {
       {
         error:
           "Authenticator setup is unavailable. Ask whoever runs this Officer Hub to confirm multi-factor storage is ready, then try again.",
+        code: "storage_unavailable",
       },
       { status: 503, headers: { "Cache-Control": "private, no-store" } },
     );

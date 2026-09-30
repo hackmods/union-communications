@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { auditLog } from "@/lib/audit/store";
 import { issueMfaGrant } from "@/lib/auth/mfa-grants";
+import { classifySubmittedMfaCode } from "@/lib/auth/mfa-client-codes";
 import { resolveMfaMode, verifyMfaCode } from "@/lib/auth/mfa-policy";
 import { consumeMfaRecoveryCode } from "@/lib/auth/mfa-recovery-codes";
 import { reserveMfaVerificationAttempt } from "@/lib/auth/mfa-attempt-limits";
@@ -41,12 +42,29 @@ export async function POST(request: Request) {
     body = (await request.json()) as { code?: string };
   } catch {
     await recordOutcome("auth.mfa_verify_failed", "denied");
-    return respond({ error: "Invalid code" }, { status: 400 });
+    return respond(
+      { error: "Invalid code", code: "invalid" },
+      { status: 400 },
+    );
   }
 
   const code = body.code ?? "";
-  const recoveryAttempt =
-    resolveMfaMode() === "totp" && !/^\d{6}$/.test(code.trim());
+  const submitted = classifySubmittedMfaCode(code);
+  if (submitted === "empty") {
+    await recordOutcome("auth.mfa_verify_failed", "denied");
+    return respond(
+      { error: "Enter a verification code.", code: "empty" },
+      { status: 400 },
+    );
+  }
+  if (submitted === "invalid") {
+    await recordOutcome("auth.mfa_verify_failed", "denied");
+    return respond(
+      { error: "Invalid code", code: "invalid" },
+      { status: 400 },
+    );
+  }
+  const recoveryAttempt = resolveMfaMode() === "totp" && submitted === "recovery";
   let attemptAlreadyReserved = false;
   if (recoveryAttempt) {
     try {
@@ -54,7 +72,10 @@ export async function POST(request: Request) {
       if (!attempt.allowed) {
         await recordOutcome("auth.mfa_verify_failed", "denied");
         return respond(
-          { error: "Too many verification attempts. Try again after the limit resets." },
+          {
+            error: "Too many verification attempts. Try again after the limit resets.",
+            code: "limited",
+          },
           {
             status: 429,
             headers: {
@@ -72,7 +93,10 @@ export async function POST(request: Request) {
       });
       await recordOutcome("auth.mfa_verify_unavailable", "error");
       return respond(
-        { error: "MFA verification safeguards are unavailable." },
+        {
+          error: "MFA verification safeguards are unavailable.",
+          code: "storage_unavailable",
+        },
         { status: 503, headers: { "Cache-Control": "private, no-store" } },
       );
     }
@@ -91,11 +115,11 @@ export async function POST(request: Request) {
       result.status === 503 ? "auth.mfa_verify_unavailable" : "auth.mfa_verify_failed",
       result.status === 503 ? "error" : "denied",
     );
-    const needsEnrollment =
-      result.error === "TOTP is not enrolled for this account.";
+    const needsEnrollment = result.code === "not_enrolled";
     return respond(
       {
         error: result.error,
+        code: result.code,
         ...(needsEnrollment ? { needsEnrollment: true } : {}),
       },
       {
@@ -126,7 +150,10 @@ export async function POST(request: Request) {
     });
     await recordOutcome("auth.mfa_verify_unavailable", "error");
     return respond(
-      { error: "Could not create a secure session grant. Try again shortly." },
+      {
+        error: "Could not create a secure session grant. Try again shortly.",
+        code: "storage_unavailable",
+      },
       { status: 503, headers: { "Cache-Control": "private, no-store" } },
     );
   }

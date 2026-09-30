@@ -198,6 +198,50 @@ describe("verifyMfaCode", () => {
     if (!result.ok) expect(result.error).toMatch(/disabled/i);
   });
 
+  it("rejects empty codes before reserving an attempt", async () => {
+    const result = await verifyMfaCode({
+      userId: "user-president-7",
+      code: "  ",
+      env: {
+        NODE_ENV: "production",
+        AUTH_MFA_ENABLED: "true",
+        AUTH_MFA_MODE: "totp",
+      },
+    });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.status).toBe(400);
+      expect(result.code).toBe("empty");
+    }
+  });
+
+  it("returns replayed when the same TOTP counter is used twice", async () => {
+    const { generateTotp } = await import("@/lib/auth/totp");
+    const { resetMfaTotpCountersForTests } = await import(
+      "@/lib/auth/mfa-totp-counters"
+    );
+    resetMfaTotpCountersForTests();
+    const code = generateTotp("JBSWY3DPEHPK3PXP");
+    const env = {
+      NODE_ENV: "production",
+      AUTH_MFA_ENABLED: "true",
+      AUTH_MFA_MODE: "totp",
+    };
+    const first = await verifyMfaCode({
+      userId: "user-president-7",
+      code,
+      env,
+    });
+    expect(first.ok).toBe(true);
+    const second = await verifyMfaCode({
+      userId: "user-president-7",
+      code,
+      env,
+    });
+    expect(second.ok).toBe(false);
+    if (!second.ok) expect(second.code).toBe("replayed");
+  });
+
   it("returns TOTP not enrolled when secret missing", async () => {
     const result = await verifyMfaCode({
       userId: "user-definitely-missing",
@@ -212,6 +256,7 @@ describe("verifyMfaCode", () => {
     if (!result.ok) {
       expect(result.status).toBe(503);
       expect(result.error).toMatch(/not enrolled/i);
+      expect(result.code).toBe("not_enrolled");
     }
   });
 });

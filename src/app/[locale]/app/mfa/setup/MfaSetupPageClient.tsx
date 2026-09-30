@@ -4,9 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
+import { Callout } from "@/components/ui/Callout";
+import { Link, useRouter } from "@/i18n/navigation";
 import {
   MfaCodeField,
   MfaHelpPanel,
@@ -15,6 +16,11 @@ import {
   MfaReplaceGate,
   MfaSetupSteps,
 } from "@/components/hub/mfa";
+import {
+  classifySubmittedMfaCode,
+  looksLikeTotpCode,
+  officerMfaErrorMessage,
+} from "@/lib/auth/mfa-client-codes";
 import {
   hubMfaChallengeHref,
   safeMfaReturnPath,
@@ -32,6 +38,7 @@ type EnrollState =
 export function MfaSetupPageClient() {
   const t = useTranslations("hub");
   const tJourney = useTranslations("hub.mfaJourney");
+  const tErrors = useTranslations("hub.mfaJourney.errors");
   const { data: session, status, update } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -51,6 +58,10 @@ export function MfaSetupPageClient() {
   const [manualOpen, setManualOpen] = useState(false);
   const [secretCopied, setSecretCopied] = useState(false);
   const [replaceSubmitting, setReplaceSubmitting] = useState(false);
+  const [sessionVerified, setSessionVerified] = useState(false);
+
+  const mapApiError = (code: unknown, fallback: string) =>
+    officerMfaErrorMessage(code, (key) => tErrors(key), fallback);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -97,6 +108,10 @@ export function MfaSetupPageClient() {
 
   const startEnroll = async (currentCode?: string) => {
     const replacing = Boolean(currentCode) || replaceMode;
+    if (replacing && !looksLikeTotpCode(currentCode ?? "")) {
+      setError(mapApiError("empty", t("mfaSetupError")));
+      return;
+    }
     if (replacing && state === "replaceGate") {
       setReplaceSubmitting(true);
     } else {
@@ -112,9 +127,10 @@ export function MfaSetupPageClient() {
       if (!res.ok) {
         const body = (await res.json().catch(() => ({}))) as {
           error?: string;
+          code?: string;
           requiresCurrentCode?: boolean;
         };
-        setError(body.error ?? t("mfaSetupError"));
+        setError(mapApiError(body.code, t("mfaSetupError")));
         setState(body.requiresCurrentCode || replaceMode ? "replaceGate" : "idle");
         return;
       }
@@ -141,6 +157,11 @@ export function MfaSetupPageClient() {
 
   const handleConfirm = async (e: React.FormEvent) => {
     e.preventDefault();
+    const kind = classifySubmittedMfaCode(code);
+    if (kind !== "totp") {
+      setError(mapApiError(kind === "empty" ? "empty" : "invalid", t("mfaSetupError")));
+      return;
+    }
     setState("confirming");
     setError(null);
 
@@ -153,8 +174,9 @@ export function MfaSetupPageClient() {
     if (!res.ok) {
       const body = (await res.json().catch(() => ({}))) as {
         error?: string;
+        code?: string;
       };
-      setError(body.error ?? t("mfaSetupError"));
+      setError(mapApiError(body.code, t("mfaSetupError")));
       setState("ready");
       return;
     }
@@ -162,10 +184,14 @@ export function MfaSetupPageClient() {
     const body = (await res.json()) as {
       recoveryCodes?: string[];
       mfaGrant?: string;
+      mfaGrantIssued?: boolean;
     };
+    let verified = false;
     if (body.mfaGrant) {
-      await update({ mfaGrant: body.mfaGrant });
+      const nextSession = await update({ mfaGrant: body.mfaGrant });
+      verified = Boolean(nextSession?.user?.mfaVerified);
     }
+    setSessionVerified(verified);
     setRecoveryCodes(body.recoveryCodes ?? []);
     setState("done");
   };
@@ -180,8 +206,27 @@ export function MfaSetupPageClient() {
           codes={recoveryCodes}
           requireAcknowledge
           continueLabel={tJourney("continueToWork")}
-          onContinue={() => router.push(nextPath ?? "/app")}
+          onContinue={() =>
+            router.push(
+              sessionVerified
+                ? (nextPath ?? "/app")
+                : hubMfaChallengeHref(nextPath),
+            )
+          }
         />
+        {sessionVerified ? (
+          <p className="text-sm text-gray-600">{tErrors("nextCodeHint")}</p>
+        ) : (
+          <Callout tone="warning" role="alert">
+            <p>{tErrors("session_not_verified")}</p>
+            <Link
+              href={hubMfaChallengeHref(nextPath)}
+              className="mt-2 inline-block font-medium text-opseu-blue underline underline-offset-2"
+            >
+              {tErrors("challengeCta")}
+            </Link>
+          </Callout>
+        )}
       </MfaJourneyShell>
     );
   }
@@ -313,7 +358,7 @@ export function MfaSetupPageClient() {
             ) : null}
             <Button
               type="submit"
-              disabled={state === "confirming"}
+              disabled={state === "confirming" || !looksLikeTotpCode(code)}
               className="min-h-11 w-full"
             >
               {state === "confirming" ? t("verifying") : t("mfaSetupConfirm")}

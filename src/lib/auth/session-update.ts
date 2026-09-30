@@ -47,9 +47,13 @@ export async function applyTrustedSessionUpdate(
       )) {
         token.mfaVerified = true;
       }
-    } catch {
+    } catch (error) {
       // A database or grant-store outage must never turn a client update into
       // a verified MFA claim. The JWT callback remains available but fails closed.
+      console.error("[auth] MFA grant consume failed", {
+        userId: token.sub,
+        message: error instanceof Error ? error.message : String(error),
+      });
     }
   }
 

@@ -10131,6 +10131,18 @@
       "continueToWorkArea": "Continuer vers votre travail",
       "challengeCodeLabel": "Code d’authenticator ou de récupération",
       "challengeCodeHint": "Utilisez le code à six chiffres de l’appli, ou collez un code de récupération à usage unique.",
+      "errors": {
+        "empty": "Entrez le code à 6 chiffres de votre authenticator.",
+        "invalid": "Ce code ne correspond pas. Attendez un nouveau numéro, ou utilisez un code de récupération.",
+        "replayed": "Ce numéro a déjà été utilisé. Attendez le prochain code dans votre appli.",
+        "storage_unavailable": "La configuration de l’authenticator ne peut pas enregistrer cette étape. Demandez à la personne qui gère ce Hub des dirigeants de confirmer que le stockage multifactoriel est prêt, puis réessayez.",
+        "session_not_verified": "Votre authenticator est enregistré, mais ce navigateur a encore besoin d’un nouveau code de votre appli. Ouvrez la page d’identité et entrez le prochain numéro — pas celui que vous venez d’utiliser.",
+        "not_enrolled": "Ce compte n’a pas encore d’authenticator. Configurez-en un, puis réessayez.",
+        "limited": "Trop d’essais. Attendez quelques minutes, puis entrez un nouveau code de votre appli.",
+        "no_pending": "La configuration a expiré ou le code QR n’est plus actif. Générez un nouveau code QR, puis réessayez.",
+        "nextCodeHint": "Si une autre page demande un code, utilisez le prochain numéro affiché par votre appli — pas celui que vous venez d’entrer.",
+        "challengeCta": "Entrer un nouveau code de vérification"
+      },
       "manualSecretCopy": "Copier la clé",
       "manualSecretCopied": "Copié"
     },
