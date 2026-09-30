@@ -92,7 +92,7 @@
     "next-intl": "^4.14.7",
     "nodemailer": "^10.0.12",
     "pdfjs-dist": "^6.3.289",
-    "pizzip": "^3.2.0",
+    "pizzip": "^3.3.0",
     "postgres": "^3.4.9",
     "pptxgenjs": "^4.0.1",
     "qrcode": "^1.5.4",
