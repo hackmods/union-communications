@@ -20,7 +20,7 @@ describe("outreach-list configuration", () => {
     expect(
       readOutreachListsConfig({
         UNIONOPS_OUTREACH_LISTS_ENABLED: "true",
-      }).enabled,
+      } as unknown as NodeJS.ProcessEnv).enabled,
     ).toBe(false);
   });
 

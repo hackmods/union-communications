@@ -285,7 +285,7 @@ export async function POST(request: Request) {
     userId: gate.session.user.id,
     action: "broadcast.send",
     resourceType: "member_broadcast_campaign",
-    resourceId: result.campaignId,
+    resourceId: result.campaignId ?? "dry-run",
     unionId: gate.unionId,
     localId: gate.localId,
     outcome: "success",

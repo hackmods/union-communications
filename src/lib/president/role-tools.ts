@@ -22,7 +22,7 @@ const LEGACY_SET = new Set<string>(LEGACY_ROLE_TOOL_HUB_MODULES);
 export function migrateLegacyRoleToolsToHubModules(unionId: string): void {
   const raw = getPresidentRoleToolsPatch(unionId);
   if (!raw?.length) return;
-  const legacy = raw.filter((id) => LEGACY_SET.has(id)) as HubModule[];
+  const legacy = raw.filter((id) => LEGACY_SET.has(id)) as unknown as HubModule[];
   if (legacy.length === 0) return;
 
   const existingPatch = getEnabledModulesPatch(unionId);

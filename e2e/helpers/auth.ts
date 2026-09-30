@@ -21,7 +21,7 @@ const POST_LOGIN = /\/en\/(?:app(?:\/mfa)?|portal)\/?(?:\?.*)?$/;
  */
 export async function loginAsDemoOfficer(
   page: Page,
-  creds: typeof DEMO_OFFICER = DEMO_OFFICER,
+  creds: { email: string; password: string; mfaCode: string } = DEMO_OFFICER,
 ) {
   await page.goto("/en/app/login");
   await page.getByLabel(/Email|Courriel/i).fill(creds.email);

@@ -938,7 +938,7 @@ export function ObservabilityPanelClient({
                 <p className="text-opseu-gray-dark">{t("observabilityNoStack")}</p>
               )}
             </div>
-          ) : selected && "fingerprint" in selected ? (
+          ) : selected && "sampleMessage" in selected ? (
             <div className="mt-3 space-y-2">
               <p className="font-medium">{selected.sampleMessage}</p>
               <p>

@@ -99,6 +99,7 @@ describe("composeObservabilityCrisisAlert", () => {
     );
     const artifact = composeObservabilityCrisisAlert({
       ...EMAIL_ENGINE_FIXTURES.observability_crisis,
+      issues: [...EMAIL_ENGINE_FIXTURES.observability_crisis.issues],
       format: "plain",
     });
     expect(artifact.format).toBe("plain");

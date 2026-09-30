@@ -13,7 +13,7 @@ import {
   type OutreachListsConfig,
 } from "@/lib/email/outreach-config";
 import { OUTREACH_LIST_NOTICE } from "@/lib/email/outreach-list-notice";
-import { sendTransactionalEmail } from "@/lib/email/send";
+import { sendClassifiedEmail } from "@/lib/email/send";
 
 export function verifyOutreachConfirmToken(
   token: unknown,
@@ -108,10 +108,11 @@ export async function sendOutreachConfirmEmail(input: {
   const notice = OUTREACH_LIST_NOTICE[input.locale];
   const text = `${intro}\n\n${input.confirmUrl}\n\n${notice}\n\n${config.mailingAddress ?? ""}`;
   const from = `${config.senderName} <${config.senderEmail}>`;
-  const result = await sendTransactionalEmail({
+  const result = await sendClassifiedEmail({
     to: input.to,
     subject,
     text,
+    classification: "transactional",
     from,
     replyTo: config.contactEmail ?? config.senderEmail,
   });

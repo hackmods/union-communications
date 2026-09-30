@@ -537,8 +537,10 @@ export async function previewLocalMove(input: {
   };
 }
 
+type DbExecutor = Db | Parameters<Parameters<Db["transaction"]>[0]>[0];
+
 async function cascadeUnionId(
-  tx: Db,
+  tx: DbExecutor,
   localId: string,
   fromUnionId: string,
   toUnionId: string,

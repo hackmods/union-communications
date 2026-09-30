@@ -61,6 +61,7 @@ describe("/api/broadcast", () => {
       campaignId: "campaign-1",
       accepted: 1,
       failed: 0,
+      recipientCount: 1,
       trackingApplied: false,
     });
   });
