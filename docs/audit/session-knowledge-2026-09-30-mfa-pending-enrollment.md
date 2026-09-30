@@ -47,5 +47,8 @@ follow-up verify step.
 
 - TOTP secrets remain plaintext on `users.totp_secret` and on the pending
   row (the QR response already returns the secret for manual entry).
+  Follow-up 2026-09-30: application-level AES-256-GCM when
+  `AUTH_TOTP_ENCRYPTION_KEY` is set; see
+  [`session-knowledge-2026-09-30-mfa-totp-encryption.md`](session-knowledge-2026-09-30-mfa-totp-encryption.md).
 - Deployed `unionops_app` RLS and live multi-replica evidence still need a
   host run of `db:rls-smoke` / `ops:verify-durable`.

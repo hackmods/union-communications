@@ -24,6 +24,7 @@ Grievance notes, bumping strategy, and confidential Hub casework **never** appea
 |------|------------|----------------------|-------------------------|
 | Comms exports | N/A (on-device) | N/A | N/A |
 | Hub session / JWT | TLS + HttpOnly cookie | Signed token only | — |
+| TOTP authenticator secrets | TLS | AES-256-GCM in `users.totp_secret` / pending enrollment when `AUTH_TOTP_ENCRYPTION_KEY` is set | Back up that key separately from Postgres; disk encryption still recommended |
 | Hub case rows (Postgres) | TLS | **Plaintext in DB** unless operator encrypts disk | LUKS / cloud volume encryption |
 | Hub attachments (local FS) | TLS on download | **Not app-encrypted** — host volume | Encrypt `ATTACHMENT_LOCAL_DIR` volume |
 | Hub attachments (S3) | TLS | SSE-S3 AES256 on PutObject (default); optional SSE-KMS via `ATTACHMENT_S3_SSE=aws:kms` + `ATTACHMENT_S3_KMS_KEY_ID` | Signed upload URLs still deferred |

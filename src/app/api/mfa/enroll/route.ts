@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { buildOtpauthUri, generateTotpSecret } from "@/lib/auth/mfa-enrollment";
+import { buildOtpauthUri, generateTotpSecret, resolveTotpAuthenticatorImageUrl } from "@/lib/auth/mfa-enrollment";
 import { setPendingSecret } from "@/lib/auth/mfa-enrollment-store";
 import { resolveMfaMode, verifyMfaCode } from "@/lib/auth/mfa-policy";
 import { getTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
@@ -100,6 +100,8 @@ export async function POST(request: Request) {
   const otpauthUri = buildOtpauthUri(
     secret,
     session.user.email ?? session.user.id,
+    undefined,
+    resolveTotpAuthenticatorImageUrl(),
   );
 
   return NextResponse.json({ secret, otpauthUri, replacing: Boolean(existingSecret) });

@@ -7492,6 +7492,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "mfa-authenticator-icon": {
+        "title": "Les applis d’authentification peuvent afficher la marque UnionOps",
+        "body": "Scannez le code QR de configuration et votre appli d’authentification peut charger l’icône UnionOps à côté de votre compte. Les codes fonctionnent quand même si l’appli ignore l’image."
+      },
       "mfa-enroll-one-code": {
         "title": "La configuration de l’appli d’authentification se termine après un code",
         "body": "Scannez le code QR, saisissez le code actuel de l’appli une seule fois et enregistrez vos codes de récupération. Vous êtes vérifié sans second code dans la même minute."
@@ -8531,6 +8535,7 @@
       "hostPresenceEmail": "Le courriel transactionnel est désactivé",
       "hostPresenceCron": "Le secret cron n’est pas défini (rappels de réunion et avis de déploiement restent off)",
       "hostPresenceMfa": "L’AMF n’est pas configurée pour ce profil d’hôte",
+      "hostPresenceTotpEncryption": "Les secrets de l’appli d’authentification ne sont pas chiffrés avec une clé d’hôte",
       "hostPresenceDemoAuth": "La connexion à la liste démo est encore permise — désactivez les utilisateurs démo pour les vrais dossiers",
       "hostPresencePublicDocuments": "Les documents publics requis ne sont pas prêts pour cette instance hébergée",
       "hostPresenceAttachmentStorage": "La preuve du stockage persistant approuvé des pièces jointes est manquante",

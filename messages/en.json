@@ -7546,6 +7546,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "mfa-authenticator-icon": {
+        "title": "Authenticator apps can show the UnionOps mark",
+        "body": "Scan the setup QR and your authenticator can load the UnionOps icon beside your account. Codes still work if the app ignores the picture."
+      },
       "mfa-enroll-one-code": {
         "title": "Authenticator setup finishes after one code",
         "body": "Scan the QR, enter the current authenticator code once, and save your recovery codes. You are verified without a second code in the same minute."
@@ -8585,6 +8589,7 @@
       "hostPresenceEmail": "Transactional email is off",
       "hostPresenceCron": "Cron secret is unset (meeting reminders and deploy notify stay off)",
       "hostPresenceMfa": "MFA is not configured for this host profile",
+      "hostPresenceTotpEncryption": "Authenticator secrets are not encrypted with a host key",
       "hostPresenceDemoAuth": "Demo roster sign-in is still allowed — turn off demo users for live casework",
       "hostPresencePublicDocuments": "Required public documents are not ready for this hosted instance",
       "hostPresenceAttachmentStorage": "Approved persistent attachment storage evidence is missing",

@@ -14,6 +14,8 @@
 
 **Durable MFA pending enrollment (2026-09-30):** [`session-knowledge-2026-09-30-mfa-pending-enrollment.md`](session-knowledge-2026-09-30-mfa-pending-enrollment.md) — migration `0090` stores the QR secret across replicas; confirm issues a session grant so the same TOTP is not required again. Deployed RLS evidence remains pending.
 
+**TOTP secret encryption + restore drill (2026-09-30):** [`session-knowledge-2026-09-30-mfa-totp-encryption.md`](session-knowledge-2026-09-30-mfa-totp-encryption.md) — AES-256-GCM host key for `totp_secret` / pending enrollment; `db:mfa-restore-smoke`; HTTPS authenticator icon on the setup QR.
+
 **Hosted MFA attempt limit (2026-09-27):** [`session-knowledge-2026-09-27-mfa-attempt-limit.md`](session-knowledge-2026-09-27-mfa-attempt-limit.md) — migration `0073` adds an account-scoped 10-attempt/15-minute shared window for MFA verification, including recovery codes and the shared incident challenge verifier. Hosted mode requires durable Postgres; deployed RLS/concurrency evidence and owner review of the internal threshold remain pending.
 
 **Security audit outcome/correlation fields (2026-09-27):** [`session-knowledge-2026-09-27-security-audit-fields.md`](session-knowledge-2026-09-27-security-audit-fields.md) — migration `0074` adds `outcome` and `request_id`, marks historical outcomes unknown, and removes runtime update/delete privileges. MFA and audit-list routes now emit server-generated request IDs. Broad route coverage and deployed Postgres/RLS evidence remain open.

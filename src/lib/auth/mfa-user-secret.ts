@@ -19,6 +19,7 @@ import { mfaTotpCounters } from "@/lib/db/schema/auth";
 import { users } from "@/lib/db/schema/tenant";
 import { clearTotpCounterForUser, setTotpCounterForNewSecret } from "@/lib/auth/mfa-totp-counters";
 import { invalidateAllMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
+import { decryptTotpSecret, encryptTotpSecret } from "@/lib/auth/totp-secret-crypto";
 import { withRlsContext } from "@/lib/db/rls-context";
 
 function usersBackendEnabled(
@@ -33,15 +34,17 @@ function usersBackendEnabled(
 /** Looks up the current confirmed TOTP secret for a user, if any. */
 export async function getTotpSecretForUser(
   userId: string,
+  env: NodeJS.ProcessEnv = process.env,
 ): Promise<string | null> {
-  if (usersBackendEnabled()) {
+  if (usersBackendEnabled(env)) {
     const db = getDb();
     const rows = await db
       .select({ totpSecret: users.totpSecret })
       .from(users)
       .where(eq(users.id, userId))
       .limit(1);
-    return rows[0]?.totpSecret ?? null;
+    const stored = rows[0]?.totpSecret ?? null;
+    return stored ? decryptTotpSecret(stored, userId, env) : null;
   }
 
   const override = getConfirmedSecretOverride(userId);
@@ -72,14 +75,16 @@ export async function persistTotpSecretForUser(
   userId: string,
   secret: string,
   acceptedCounter: number,
+  env: NodeJS.ProcessEnv = process.env,
 ): Promise<void> {
-  if (usersBackendEnabled()) {
+  if (usersBackendEnabled(env)) {
+    const stored = encryptTotpSecret(secret, userId, env);
     await withRlsContext({ userId }, async () => {
       const db = getDb();
       await db
         .update(users)
         .set({
-          totpSecret: secret,
+          totpSecret: stored,
           mfaEnabled: true,
           sessionVersion: sql`${users.sessionVersion} + 1`,
         })

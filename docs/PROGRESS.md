@@ -1,4 +1,11 @@
-﻿## 2026-09-30 — MFA enrollment after Packet 6 hardening
+﻿## 2026-09-30 — TOTP encryption, restore drill, authenticator icon
+
+- Confirmed and pending TOTP secrets are AES-256-GCM at rest when `AUTH_TOTP_ENCRYPTION_KEY` is set (required for hosted/production Postgres). Legacy plaintext still verifies after restore.
+- `npm run db:mfa-restore-smoke` (`ops:verify-durable`) dump/restores a scratch database and checks a live authenticator code.
+- Setup QR can include an HTTPS UnionOps icon. What's new: `mfa-authenticator-icon` (Hub).
+- Fit-gap: [`session-knowledge-2026-09-30-mfa-totp-encryption.md`](audit/session-knowledge-2026-09-30-mfa-totp-encryption.md).
+
+## 2026-09-30 — MFA enrollment after Packet 6 hardening
 
 - Pending TOTP QR secrets are durable (`0090_mfa_pending_enrollments`) so enroll → confirm survives replica hops; hosted mode fails closed without Postgres.
 - Confirm issues a session grant after the authenticator code is proven; setup no longer asks for a second TOTP in the same 30-second window. Replay still rejects that counter later.

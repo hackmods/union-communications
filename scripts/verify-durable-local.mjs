@@ -89,6 +89,15 @@ function main() {
     DATABASE_URL: appUrl,
   });
 
+  run("db:mfa-restore-smoke", npm, ["run", "db:mfa-restore-smoke"], {
+    DATABASE_URL: ownerUrl,
+    AUTH_USERS_BACKEND: "postgres",
+    AUTH_TOTP_ENCRYPTION_KEY:
+      fileEnv.AUTH_TOTP_ENCRYPTION_KEY?.trim() ||
+      process.env.AUTH_TOTP_ENCRYPTION_KEY?.trim() ||
+      "",
+  });
+
   console.log("\n[verify-durable] ok — deploy verification, seed, durability, and RLS smokes passed");
   console.log(
     "[verify-durable] Next: docker compose -f docker-compose.yml -f docker-compose.durable.yml up -d web",

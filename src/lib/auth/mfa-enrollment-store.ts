@@ -8,13 +8,17 @@
 
 import { eq } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
+import {
+  decryptTotpSecret,
+  encryptTotpSecret,
+} from "@/lib/auth/totp-secret-crypto";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { mfaPendingEnrollments } from "@/lib/db/schema/auth";
 import { withRlsContext } from "@/lib/db/rls-context";
 
 export const PENDING_TTL_MS = 10 * 60_000;
 /** Placeholder used instead of DELETE (`unionops_app` has no DELETE on this table). */
-const CLEARED_PENDING_SECRET = "CLEARED-PENDING-ENROLLMENT";
+export const CLEARED_PENDING_SECRET = "CLEARED-PENDING-ENROLLMENT";
 
 interface PendingEnrollment {
   secret: string;
@@ -78,18 +82,19 @@ export async function setPendingSecret(
   sharedPendingForTests?.set(userId, { ...entry });
 
   if (postgresPendingStoreEnabled(env)) {
+    const stored = encryptTotpSecret(secret, userId, env);
     await withRlsContext({ userId }, async () => {
       await getDb()
         .insert(mfaPendingEnrollments)
         .values({
           userId,
-          secret,
+          secret: stored,
           expiresAt: new Date(entry.expiresAt),
         })
         .onConflictDoUpdate({
           target: mfaPendingEnrollments.userId,
           set: {
-            secret,
+            secret: stored,
             expiresAt: new Date(entry.expiresAt),
           },
         });
@@ -126,7 +131,7 @@ export async function getPendingSecret(
       }
       return null;
     }
-    return row.secret;
+    return decryptTotpSecret(row.secret, userId, env);
   }
 
   const local = liveSecret(pending.get(userId), now);

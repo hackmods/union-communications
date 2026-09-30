@@ -6,6 +6,7 @@
  */
 
 import { randomBytes } from "node:crypto";
+import { resolvePublicOrigin } from "@/lib/seo/public-origin";
 
 const BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
@@ -24,12 +25,24 @@ export function generateTotpSecret(): string {
 }
 
 export const TOTP_ISSUER = "UnionOps";
+export const TOTP_AUTHENTICATOR_ICON_PATH =
+  "/assets/unionops/authenticator-icon.png";
+
+/** HTTPS icon URL for authenticator apps. HTTP origins are omitted (most apps refuse them). */
+export function resolveTotpAuthenticatorImageUrl(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): string | undefined {
+  const origin = resolvePublicOrigin({ authUrl: env.AUTH_URL });
+  if (!origin?.startsWith("https://")) return undefined;
+  return `${origin}${TOTP_AUTHENTICATOR_ICON_PATH}`;
+}
 
 /** Builds the `otpauth://` URI most authenticator apps can scan or import. */
 export function buildOtpauthUri(
   secret: string,
   accountLabel: string,
   issuer: string = TOTP_ISSUER,
+  imageUrl?: string,
 ): string {
   const label = encodeURIComponent(`${issuer}:${accountLabel}`);
   const params = new URLSearchParams({
@@ -39,5 +52,8 @@ export function buildOtpauthUri(
     digits: "6",
     period: "30",
   });
+  if (imageUrl?.startsWith("https://")) {
+    params.set("image", imageUrl);
+  }
   return `otpauth://totp/${label}?${params.toString()}`;
 }
