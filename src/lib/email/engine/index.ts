@@ -5,11 +5,12 @@ export type {
   EmailChannel,
   EmailClassification,
   EmailDocumentInput,
+  EmailFormat,
   EmailLocale,
   TransactionalPresetId,
 } from "./types";
 export { resolvePlatformEmailBrand } from "./design-tokens";
-export { renderEmailDocument } from "./layout";
+export { renderEmailDocument, composeSecurityNotice } from "./layout";
 export { validateEmailArtifact } from "./validate";
 export { EMAIL_ENGINE_FIXTURES } from "./fixtures";
 export {

@@ -1,8 +1,9 @@
 import { resolvePlatformEmailBrand } from "@/lib/email/engine/design-tokens";
-import { renderEmailDocument } from "@/lib/email/engine/layout";
+import { composeSecurityNotice } from "@/lib/email/engine/layout";
 import type {
   EmailArtifact,
   EmailBlock,
+  EmailFormat,
   EmailLocale,
 } from "@/lib/email/engine/types";
 
@@ -21,10 +22,13 @@ export function composeObservabilityCrisisAlert(input: {
   issues: CrisisAlertIssueSample[];
   consoleUrl: string;
   locale?: EmailLocale;
+  format?: EmailFormat;
+  unionId?: string | null;
 }): EmailArtifact {
   const locale = input.locale ?? "en";
   const brand = resolvePlatformEmailBrand();
   const top = input.issues.slice(0, 5);
+  const format = input.format ?? "multipart";
 
   const subject =
     locale === "fr"
@@ -47,7 +51,16 @@ export function composeObservabilityCrisisAlert(input: {
       : `An alert rule matched ${input.eventCount} event(s) in the last ${input.windowMinutes} minutes. Open the console to inspect and acknowledge.`;
 
   const blocks: EmailBlock[] = [
-    { type: "heading", text: heading },
+    {
+      type: "severityCallout",
+      severity:
+        input.minLevel === "warn"
+          ? "warn"
+          : input.minLevel === "info"
+            ? "info"
+            : "error",
+      text: heading,
+    },
     { type: "paragraph", text: intro },
     {
       type: "metaList",
@@ -62,11 +75,16 @@ export function composeObservabilityCrisisAlert(input: {
         },
         {
           label: locale === "fr" ? "Fenêtre" : "Window",
-          value:
-            locale === "fr"
-              ? `${input.windowMinutes} min`
-              : `${input.windowMinutes} min`,
+          value: `${input.windowMinutes} min`,
         },
+        ...(input.unionId
+          ? [
+              {
+                label: locale === "fr" ? "Syndicat" : "Union",
+                value: input.unionId,
+              },
+            ]
+          : []),
         {
           label: locale === "fr" ? "Problèmes en tête" : "Top issues",
           value: String(top.length),
@@ -77,10 +95,15 @@ export function composeObservabilityCrisisAlert(input: {
 
   if (top.length > 0) {
     blocks.push({ type: "divider" });
-    for (const issue of top) {
-      const line = `[${issue.count}×] ${issue.level} — ${issue.sampleMessage.slice(0, 160)}`;
-      blocks.push({ type: "paragraph", text: line });
-    }
+    blocks.push({
+      type: "issueList",
+      items: top.map((issue) => ({
+        fingerprint: issue.fingerprint,
+        count: issue.count,
+        sampleMessage: issue.sampleMessage,
+        level: issue.level,
+      })),
+    });
   }
 
   blocks.push({
@@ -92,13 +115,13 @@ export function composeObservabilityCrisisAlert(input: {
     href: input.consoleUrl,
   });
 
-  return renderEmailDocument({
+  return composeSecurityNotice({
     locale,
-    classification: "security",
     subject,
     preheader,
     brand,
     blocks,
+    format,
     footerExtra:
       locale === "fr"
         ? [

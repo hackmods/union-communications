@@ -51,6 +51,15 @@ type ObsAck = {
   note?: string;
 };
 
+type ObsAlertsMeta = {
+  backend?: string;
+  acksBackend?: string;
+  postgresRequired: boolean;
+  enabled: boolean;
+  autoAckOnDeploy?: boolean;
+  defaultRecipientConfigured: boolean;
+};
+
 type ObsAlertRule = {
   id: string;
   name: string;
@@ -60,12 +69,8 @@ type ObsAlertRule = {
   windowMinutes: number;
   cooldownMinutes: number;
   recipients: string[];
-};
-
-type ObsAlertsMeta = {
-  postgresRequired: boolean;
-  enabled: boolean;
-  defaultRecipientConfigured: boolean;
+  unionId?: string | null;
+  emailFormat?: "multipart" | "plain";
 };
 
 type ObsSummary = {
@@ -126,6 +131,8 @@ export function ObservabilityPanelClient({
   const [ruleWindow, setRuleWindow] = useState(15);
   const [ruleCooldown, setRuleCooldown] = useState(60);
   const [ruleRecipients, setRuleRecipients] = useState("");
+  const [ruleUnionId, setRuleUnionId] = useState("");
+  const [rulePlain, setRulePlain] = useState(false);
   const [ruleBusy, setRuleBusy] = useState(false);
 
   const ackByFp = useMemo(() => {
@@ -174,7 +181,9 @@ export function ObservabilityPanelClient({
       }
       if (
         data.code === "acks_require_postgres" ||
-        data.code === "alerts_require_postgres"
+        data.code === "alerts_require_postgres" ||
+        data.code === "acks_backend_unavailable" ||
+        data.code === "alerts_backend_unavailable"
       ) {
         setError(t("observabilityAcksRequirePostgres"));
         return true;
@@ -416,6 +425,8 @@ export function ObservabilityPanelClient({
           thresholdCount: ruleThreshold,
           windowMinutes: ruleWindow,
           cooldownMinutes: ruleCooldown,
+          emailFormat: rulePlain ? "plain" : "multipart",
+          ...(ruleUnionId.trim() ? { unionId: ruleUnionId.trim() } : {}),
           ...(recipients.length ? { recipients } : {}),
           ...(mfaCode ? { mfaCode } : {}),
         }),
@@ -486,8 +497,10 @@ export function ObservabilityPanelClient({
         ? events.find((e) => e.fingerprint === selected.fingerprint) ?? null
         : null;
 
-  const postgresAlerts =
-    health.backend === "postgres" && !alertsMeta?.postgresRequired;
+  const alertsAvailable =
+    alertsMeta?.backend === "postgres" ||
+    alertsMeta?.backend === "file" ||
+    (alertsMeta != null && !alertsMeta.postgresRequired);
 
   return (
     <>
@@ -504,9 +517,15 @@ export function ObservabilityPanelClient({
         </Callout>
       ) : null}
 
-      {health.storeEnabled && health.backend !== "postgres" ? (
+      {health.storeEnabled && !alertsAvailable ? (
         <Callout tone="warning" className="mt-4">
           {t("observabilityAcksRequirePostgres")}
+        </Callout>
+      ) : null}
+
+      {alertsMeta?.autoAckOnDeploy ? (
+        <Callout tone="brand" className="mt-4">
+          {t("observabilityAutoAckOn")}
         </Callout>
       ) : null}
 
@@ -868,7 +887,7 @@ export function ObservabilityPanelClient({
                   {t("observabilityRequestId")}: {selectedEvent.requestId}
                 </p>
               ) : null}
-              {selectedEvent.fingerprint && postgresAlerts ? (
+              {selectedEvent.fingerprint && alertsAvailable ? (
                 <div className="space-y-2 border-t border-opseu-gray-light pt-2">
                   {!selectedAck ? (
                     <Input
@@ -929,7 +948,7 @@ export function ObservabilityPanelClient({
               {selectedAck ? (
                 <p className="text-emerald-900">{t("observabilityAckedBadge")}</p>
               ) : null}
-              {postgresAlerts ? (
+              {alertsAvailable ? (
                 <div className="space-y-2">
                   {!selectedAck ? (
                     <Input
@@ -962,12 +981,12 @@ export function ObservabilityPanelClient({
           {t("observabilityAlertsTitle")}
         </h2>
         <p className="text-sm text-opseu-gray-dark">{t("observabilityAlertsNote")}</p>
-        {!postgresAlerts ? (
+        {!alertsAvailable ? (
           <Callout tone="warning">{t("observabilityAcksRequirePostgres")}</Callout>
         ) : alertsMeta && !alertsMeta.enabled ? (
           <Callout tone="warning">{t("observabilityAlertsDisabled")}</Callout>
         ) : null}
-        {postgresAlerts ? (
+        {alertsAvailable ? (
           <>
             {alertRules.length === 0 ? (
               <p className="text-sm text-opseu-gray-dark">
@@ -991,6 +1010,8 @@ export function ObservabilityPanelClient({
                       </p>
                       <p className="text-xs text-opseu-gray-dark">
                         {rule.recipients.join(", ")}
+                        {rule.unionId ? ` · union ${rule.unionId}` : ""}
+                        {rule.emailFormat === "plain" ? " · plain" : ""}
                         {!rule.enabled ? " · off" : ""}
                       </p>
                     </div>
@@ -1053,6 +1074,20 @@ export function ObservabilityPanelClient({
               value={ruleRecipients}
               onChange={(e) => setRuleRecipients(e.target.value)}
             />
+            <Input
+              label={t("observabilityAlertUnionId")}
+              name="ruleUnionId"
+              value={ruleUnionId}
+              onChange={(e) => setRuleUnionId(e.target.value)}
+            />
+            <label className="flex items-center gap-2 text-sm text-opseu-gray-dark">
+              <input
+                type="checkbox"
+                checked={rulePlain}
+                onChange={(e) => setRulePlain(e.target.checked)}
+              />
+              {t("observabilityAlertPlain")}
+            </label>
             <Button
               type="button"
               variant="primary"

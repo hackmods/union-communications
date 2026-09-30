@@ -11,11 +11,15 @@ import {
   sendDeployNotifyEmail,
 } from "@/lib/ops/deploy-notify";
 import { reportApiFailure } from "@/lib/observability/report-server-error";
+import { autoAckIssuesOnDeploy } from "@/lib/observability/auto-ack-deploy";
+import { withRlsContext } from "@/lib/db/rls-context";
+import { isPostgresConfigured } from "@/lib/db/client";
 
 /**
  * Opt-in post-deploy operator email (host readiness summary).
  * Auth: Authorization Bearer / x-cron-secret = CRON_SECRET
  * Env: DEPLOY_NOTIFY_ENABLED=true + DEPLOY_NOTIFY_EMAIL + EMAIL_ENABLED
+ * Optional: OBSERVABILITY_AUTO_ACK_ON_DEPLOY=true after a successful notify.
  *
  * GET|POST /api/cron/deploy-notify?dryRun=1
  */
@@ -62,6 +66,15 @@ async function handle(request: Request) {
       },
     });
 
+    let autoAck: Awaited<ReturnType<typeof autoAckIssuesOnDeploy>> | null =
+      null;
+    if (result.ok) {
+      const runAck = () => autoAckIssuesOnDeploy({ commit: payload.commit });
+      autoAck = isPostgresConfigured()
+        ? await withRlsContext({ retentionJob: true }, runAck)
+        : await runAck();
+    }
+
     if (!result.ok) {
       const status =
         result.skipped === "disabled" || result.skipped === "no_recipient"
@@ -77,6 +90,7 @@ async function handle(request: Request) {
           commit: payload.commit,
           version: payload.version,
           ready: payload.ready,
+          autoAck,
         },
         { status },
       );
@@ -88,6 +102,7 @@ async function handle(request: Request) {
       version: payload.version,
       ready: payload.ready,
       messageId: result.messageId,
+      autoAck,
     });
   } catch (error) {
     reportApiFailure(error, "/api/cron/deploy-notify", { source: "cron" });

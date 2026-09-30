@@ -8,6 +8,7 @@ import { withRlsContext } from "@/lib/db/rls-context";
 import { isPostgresConfigured } from "@/lib/db/client";
 import {
   acknowledgeObservabilityIssue,
+  acksBackend,
   unacknowledgeObservabilityIssue,
 } from "@/lib/observability/acks";
 
@@ -41,12 +42,12 @@ export async function POST(request: Request) {
   const gate = await requireSiteAdminSession();
   if (!gate.ok) return respond({ error: gate.error }, gate.status);
 
-  if (!isPostgresConfigured()) {
+  if (acksBackend() === "none") {
     return respond(
       {
         error:
-          "Issue acknowledgements require Postgres. File-only hosts cannot persist acks.",
-        code: "acks_require_postgres",
+          "Issue acknowledgements require Postgres or a writable file log path.",
+        code: "acks_backend_unavailable",
       },
       503,
     );
@@ -125,25 +126,39 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await withRlsContext(
-      {
-        userId: gate.session.user.id,
-        platformAdmin: true,
-        mfaVerified: true,
-      },
-      async () => {
-        if (action === "ack") {
-          const ack = await acknowledgeObservabilityIssue({
-            fingerprint,
+    const result = isPostgresConfigured()
+      ? await withRlsContext(
+          {
             userId: gate.session.user.id,
-            note,
-          });
-          return { action, ack };
-        }
-        const cleared = await unacknowledgeObservabilityIssue(fingerprint);
-        return { action, cleared };
-      },
-    );
+            platformAdmin: true,
+            mfaVerified: true,
+          },
+          async () => {
+            if (action === "ack") {
+              const ack = await acknowledgeObservabilityIssue({
+                fingerprint,
+                userId: gate.session.user.id,
+                note,
+              });
+              return { action, ack };
+            }
+            const cleared = await unacknowledgeObservabilityIssue(fingerprint);
+            return { action, cleared };
+          },
+        )
+      : action === "ack"
+        ? {
+            action,
+            ack: await acknowledgeObservabilityIssue({
+              fingerprint,
+              userId: gate.session.user.id,
+              note,
+            }),
+          }
+        : {
+            action,
+            cleared: await unacknowledgeObservabilityIssue(fingerprint),
+          };
 
     try {
       await recordOutcome("success", {

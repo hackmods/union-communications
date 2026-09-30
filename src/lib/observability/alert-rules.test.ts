@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  resolveRecipientBuckets,
   isObservabilityAlertsEnabled,
   isWithinCooldown,
   levelMeetsMinimum,
@@ -15,10 +16,15 @@ describe("observability alert-rules helpers", () => {
     expect(levelMeetsMinimum("info", "info")).toBe(true);
   });
 
-  it("matches sources and fingerprint when set", () => {
+  it("matches sources, fingerprint, and union", () => {
     expect(
       ruleMatchesEvent(
-        { minLevel: "error", sources: ["server"], fingerprint: null },
+        {
+          minLevel: "error",
+          sources: ["server"],
+          fingerprint: null,
+          unionId: null,
+        },
         { level: "error", source: "client" },
       ),
     ).toBe(false);
@@ -27,9 +33,10 @@ describe("observability alert-rules helpers", () => {
         {
           minLevel: "warn",
           sources: null,
-          fingerprint: "abcdefgh",
+          fingerprint: null,
+          unionId: "u-1",
         },
-        { level: "error", source: "cron", fingerprint: "abcdefgh" },
+        { level: "error", source: "cron", unionId: "u-1" },
       ),
     ).toBe(true);
     expect(
@@ -37,11 +44,33 @@ describe("observability alert-rules helpers", () => {
         {
           minLevel: "warn",
           sources: null,
-          fingerprint: "abcdefgh",
+          fingerprint: null,
+          unionId: "u-1",
         },
-        { level: "error", source: "cron", fingerprint: "other___" },
+        { level: "error", source: "cron", unionId: "u-2" },
       ),
     ).toBe(false);
+  });
+
+  it("fans out recipients by union for host-wide rules", () => {
+    const buckets = resolveRecipientBuckets({
+      rule: {
+        unionId: null,
+        recipients: ["ops@example.org"],
+        recipientsByUnion: {
+          "u-a": ["a@example.org"],
+          "u-b": ["b@example.org"],
+        },
+      },
+      eventUnionIds: ["u-a", "u-a", "u-b", null],
+    });
+    expect(buckets).toEqual(
+      expect.arrayContaining([
+        { unionId: "u-a", recipients: ["a@example.org"] },
+        { unionId: "u-b", recipients: ["b@example.org"] },
+        { unionId: null, recipients: ["ops@example.org"] },
+      ]),
+    );
   });
 
   it("enforces threshold and cooldown", () => {
@@ -76,11 +105,11 @@ describe("observability alert-rules helpers", () => {
   });
 
   it("reads OBSERVABILITY_ALERTS_ENABLED", () => {
-    expect(isObservabilityAlertsEnabled({ OBSERVABILITY_ALERTS_ENABLED: "true" })).toBe(
-      true,
-    );
-    expect(isObservabilityAlertsEnabled({ OBSERVABILITY_ALERTS_ENABLED: "no" })).toBe(
-      false,
-    );
+    expect(
+      isObservabilityAlertsEnabled({ OBSERVABILITY_ALERTS_ENABLED: "true" }),
+    ).toBe(true);
+    expect(
+      isObservabilityAlertsEnabled({ OBSERVABILITY_ALERTS_ENABLED: "no" }),
+    ).toBe(false);
   });
 });

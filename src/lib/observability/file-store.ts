@@ -40,6 +40,7 @@ function recordToEvent(
     source?: string;
     requestId?: string;
     fingerprint?: string;
+    unionId?: string | null;
   },
 ): ObservabilityEvent {
   return withFingerprint({
@@ -62,6 +63,7 @@ function recordToEvent(
     signal: record.signal ?? null,
     requestId: record.requestId,
     fingerprint: record.fingerprint,
+    unionId: record.unionId ?? null,
     meta: record.meta,
   });
 }
@@ -104,6 +106,7 @@ export class FileObservabilityStore implements ObservabilityEventStore {
       signal: input.signal ?? null,
       requestId: input.requestId,
       fingerprint: input.fingerprint,
+      unionId: input.unionId ?? null,
       meta: redacted.meta,
     });
 
@@ -142,6 +145,7 @@ export class FileObservabilityStore implements ObservabilityEventStore {
       meta: event.meta,
       source: event.source,
       fingerprint: event.fingerprint,
+      ...(event.unionId ? { unionId: event.unionId } : {}),
       ...(event.requestId ? { requestId: event.requestId } : {}),
     };
 

@@ -12,6 +12,8 @@ export type ReportServerErrorOptions = {
   captureSentry?: boolean;
   source?: ObservabilitySource;
   requestId?: string;
+  /** Optional Hub union stamp when known from session / API context. */
+  unionId?: string | null;
   meta?: Record<string, string | number | boolean | null>;
 };
 
@@ -58,6 +60,7 @@ export async function reportServerError(
     captureSentry = true,
     source = "server",
     requestId,
+    unionId,
     meta,
   } = options;
   const build = currentBuild();
@@ -76,6 +79,7 @@ export async function reportServerError(
       build,
       signal: classification.signal,
       requestId,
+      unionId: unionId || null,
       meta: meta ?? undefined,
     });
   } catch {

@@ -8,6 +8,7 @@ import { withRlsContext } from "@/lib/db/rls-context";
 import { isPostgresConfigured } from "@/lib/db/client";
 import { defaultObservabilityAlertEmail } from "@/lib/observability/alert-rules";
 import {
+  alertsBackend,
   createObservabilityAlertRule,
   deleteObservabilityAlertRule,
   listObservabilityAlertRules,
@@ -21,6 +22,10 @@ const sourcesSchema = z
   .array(z.enum(["server", "client", "cron", "edge"]))
   .min(1)
   .max(4)
+  .nullable()
+  .optional();
+const recipientsByUnionSchema = z
+  .record(z.string().min(1).max(80), z.array(emailSchema).min(1).max(20))
   .nullable()
   .optional();
 
@@ -39,10 +44,13 @@ const createSchema = z
     minLevel: z.enum(["error", "warn", "info"]).optional(),
     sources: sourcesSchema,
     fingerprint: z.string().min(8).max(64).nullable().optional(),
+    unionId: z.string().min(1).max(80).nullable().optional(),
     thresholdCount: z.number().int().min(1).max(10000).optional(),
     windowMinutes: z.number().int().min(1).max(10080).optional(),
     cooldownMinutes: z.number().int().min(1).max(10080).optional(),
     recipients: z.array(emailSchema).min(1).max(20).optional(),
+    recipientsByUnion: recipientsByUnionSchema,
+    emailFormat: z.enum(["multipart", "plain"]).optional(),
     mfaCode: z.string().max(32).optional(),
   })
   .strict();
@@ -56,10 +64,13 @@ const updateSchema = z
     minLevel: z.enum(["error", "warn", "info"]).optional(),
     sources: sourcesSchema,
     fingerprint: z.string().min(8).max(64).nullable().optional(),
+    unionId: z.string().min(1).max(80).nullable().optional(),
     thresholdCount: z.number().int().min(1).max(10000).optional(),
     windowMinutes: z.number().int().min(1).max(10080).optional(),
     cooldownMinutes: z.number().int().min(1).max(10080).optional(),
     recipients: z.array(emailSchema).min(1).max(20).optional(),
+    recipientsByUnion: recipientsByUnionSchema,
+    emailFormat: z.enum(["multipart", "plain"]).optional(),
     mfaCode: z.string().max(32).optional(),
   })
   .strict();
@@ -111,13 +122,15 @@ export async function POST(request: Request) {
   const gate = await requireSiteAdminSession();
   if (!gate.ok) return respond({ error: gate.error }, gate.status);
 
-  if (!isPostgresConfigured()) {
+  const backend = alertsBackend();
+  if (backend === "none") {
     return respond(
       {
         error:
-          "Alert rules require Postgres. File-only hosts cannot evaluate or store rules.",
-        code: "alerts_require_postgres",
+          "Alert rules need Postgres or a writable file log path (ERROR_LOG_FILE_* / OBSERVABILITY_ALERT_RULES_PATH).",
+        code: "alerts_backend_unavailable",
         rules: [],
+        backend,
       },
       503,
     );
@@ -144,15 +157,12 @@ export async function POST(request: Request) {
       action: "site_admin.observability.alert_rules",
       resourceType: "site_admin",
       resourceId:
-        body.action === "update" || body.action === "delete"
-          ? body.id
-          : "*",
+        body.action === "update" || body.action === "delete" ? body.id : "*",
       outcome,
       requestId: correlation.requestId,
       metadata,
     });
 
-  // List is site-admin only; mutations require fresh MFA.
   if (isMutation) {
     const challenge = await verifyFreshMfaStepUp({
       userId: gate.session.user.id,
@@ -205,65 +215,75 @@ export async function POST(request: Request) {
       }
     }
 
-    const payload = await withRlsContext(
-      {
-        userId: gate.session.user.id,
-        platformAdmin: true,
-        mfaVerified: true,
-      },
-      async () => {
-        if (body.action === "list") {
-          return { rules: await listObservabilityAlertRules() };
+    const run = async () => {
+      if (body.action === "list") {
+        return { rules: await listObservabilityAlertRules(), backend };
+      }
+      if (body.action === "create") {
+        const recipients = resolveRecipients(body.recipients);
+        if ("error" in recipients) return recipients;
+        const rule = await createObservabilityAlertRule({
+          name: body.name,
+          enabled: body.enabled,
+          minLevel: body.minLevel,
+          sources: body.sources ?? null,
+          fingerprint: body.fingerprint,
+          unionId: body.unionId,
+          thresholdCount: body.thresholdCount,
+          windowMinutes: body.windowMinutes,
+          cooldownMinutes: body.cooldownMinutes,
+          recipients,
+          recipientsByUnion: body.recipientsByUnion ?? null,
+          emailFormat: body.emailFormat,
+          userId: gate.session.user.id,
+        });
+        return { rule, backend };
+      }
+      if (body.action === "update") {
+        let recipients = body.recipients;
+        if (recipients !== undefined) {
+          const resolved = resolveRecipients(recipients);
+          if ("error" in resolved) return resolved;
+          recipients = resolved;
         }
-        if (body.action === "create") {
-          const recipients = resolveRecipients(body.recipients);
-          if ("error" in recipients) return recipients;
-          const rule = await createObservabilityAlertRule({
-            name: body.name,
-            enabled: body.enabled,
-            minLevel: body.minLevel,
-            sources: body.sources ?? null,
-            fingerprint: body.fingerprint,
-            thresholdCount: body.thresholdCount,
-            windowMinutes: body.windowMinutes,
-            cooldownMinutes: body.cooldownMinutes,
-            recipients,
-            userId: gate.session.user.id,
-          });
-          return { rule };
-        }
-        if (body.action === "update") {
-          let recipients = body.recipients;
-          if (recipients !== undefined) {
-            const resolved = resolveRecipients(recipients);
-            if ("error" in resolved) return resolved;
-            recipients = resolved;
-          }
-          const rule = await updateObservabilityAlertRule({
-            id: body.id,
-            name: body.name,
-            enabled: body.enabled,
-            minLevel: body.minLevel,
-            sources: body.sources,
-            fingerprint: body.fingerprint,
-            thresholdCount: body.thresholdCount,
-            windowMinutes: body.windowMinutes,
-            cooldownMinutes: body.cooldownMinutes,
-            recipients,
-            userId: gate.session.user.id,
-          });
-          if (!rule) {
-            return { error: "Alert rule not found", code: "not_found" };
-          }
-          return { rule };
-        }
-        const deleted = await deleteObservabilityAlertRule(body.id);
-        if (!deleted) {
+        const rule = await updateObservabilityAlertRule({
+          id: body.id,
+          name: body.name,
+          enabled: body.enabled,
+          minLevel: body.minLevel,
+          sources: body.sources,
+          fingerprint: body.fingerprint,
+          unionId: body.unionId,
+          thresholdCount: body.thresholdCount,
+          windowMinutes: body.windowMinutes,
+          cooldownMinutes: body.cooldownMinutes,
+          recipients,
+          recipientsByUnion: body.recipientsByUnion,
+          emailFormat: body.emailFormat,
+          userId: gate.session.user.id,
+        });
+        if (!rule) {
           return { error: "Alert rule not found", code: "not_found" };
         }
-        return { deleted: true, id: body.id };
-      },
-    );
+        return { rule, backend };
+      }
+      const deleted = await deleteObservabilityAlertRule(body.id);
+      if (!deleted) {
+        return { error: "Alert rule not found", code: "not_found" };
+      }
+      return { deleted: true, id: body.id, backend };
+    };
+
+    const payload = isPostgresConfigured()
+      ? await withRlsContext(
+          {
+            userId: gate.session.user.id,
+            platformAdmin: true,
+            mfaVerified: true,
+          },
+          run,
+        )
+      : await run();
 
     if ("error" in payload && payload.error) {
       const status =

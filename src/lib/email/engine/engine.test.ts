@@ -92,4 +92,53 @@ describe("composeObservabilityCrisisAlert", () => {
     expect(artifact.text).toMatch(/Stacks are not included/i);
     expect(validateEmailArtifact(artifact)).toEqual({ ok: true });
   });
+
+  it("supports plain format without table layout", async () => {
+    const { composeObservabilityCrisisAlert } = await import(
+      "@/lib/email/engine"
+    );
+    const artifact = composeObservabilityCrisisAlert({
+      ...EMAIL_ENGINE_FIXTURES.observability_crisis,
+      format: "plain",
+    });
+    expect(artifact.format).toBe("plain");
+    expect(artifact.html).not.toContain('role="presentation"');
+    expect(validateEmailArtifact(artifact, { format: "plain" })).toEqual({
+      ok: true,
+    });
+  });
+});
+
+describe("email engine new blocks", () => {
+  it("renders issueList bulletList codeFence severityCallout", () => {
+    const brand = resolvePlatformEmailBrand();
+    const artifact = renderEmailDocument({
+      locale: "en",
+      classification: "security",
+      subject: "Blocks",
+      brand,
+      blocks: [
+        { type: "severityCallout", severity: "error", text: "Spike" },
+        {
+          type: "issueList",
+          items: [
+            {
+              fingerprint: "fpabcdefghij",
+              count: 3,
+              sampleMessage: "fail",
+              level: "error",
+            },
+          ],
+        },
+        { type: "bulletList", items: ["One", "Two"] },
+        { type: "codeFence", text: "line", language: "text" },
+      ],
+    });
+    expect(artifact.text).toMatch(/\[ERROR\] Spike/);
+    expect(artifact.text).toMatch(/3×/);
+    expect(artifact.text).toMatch(/• One/);
+    expect(artifact.html).toContain("<ul");
+    expect(artifact.html).toContain("<pre");
+    expect(validateEmailArtifact(artifact)).toEqual({ ok: true });
+  });
 });

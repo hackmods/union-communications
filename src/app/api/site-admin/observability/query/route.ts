@@ -6,11 +6,13 @@ import { auditLog } from "@/lib/audit/store";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 import { withRlsContext } from "@/lib/db/rls-context";
 import { isPostgresConfigured } from "@/lib/db/client";
-import { listObservabilityAcks } from "@/lib/observability/acks";
 import {
   isObservabilityAlertsEnabled,
+  isObservabilityAutoAckOnDeploy,
   defaultObservabilityAlertEmail,
 } from "@/lib/observability/alert-rules";
+import { alertsBackend } from "@/lib/observability/alert-store";
+import { acksBackend, listObservabilityAcks } from "@/lib/observability/acks";
 import { observabilityStore } from "@/lib/observability/store";
 import { buildObservabilityHealth } from "@/lib/observability/config";
 import { resolveSincePreset } from "@/lib/observability/summarize";
@@ -170,7 +172,9 @@ export async function POST(request: Request) {
         observabilityStore.query(filters),
         observabilityStore.summarize({ ...filters, limit: 500 }),
         observabilityStore.stats(),
-        isPostgresConfigured() ? listObservabilityAcks() : Promise.resolve([]),
+        acksBackend() === "none"
+          ? Promise.resolve([])
+          : listObservabilityAcks(),
       ]);
       return { events, summary, storeStats, issues: summary.byFingerprint, acks };
     };
@@ -209,8 +213,11 @@ export async function POST(request: Request) {
       ...payload,
       health,
       alerts: {
-        postgresRequired: !isPostgresConfigured(),
+        backend: alertsBackend(),
+        acksBackend: acksBackend(),
+        postgresRequired: alertsBackend() === "none",
         enabled: isObservabilityAlertsEnabled(),
+        autoAckOnDeploy: isObservabilityAutoAckOnDeploy(),
         defaultRecipientConfigured: Boolean(defaultObservabilityAlertEmail()),
       },
     });

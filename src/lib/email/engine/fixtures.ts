@@ -30,4 +30,19 @@ export const EMAIL_ENGINE_FIXTURES = {
     attending: "Yes",
     joinMode: "on_site",
   },
+  observability_crisis: {
+    ruleName: "Host errors",
+    minLevel: "error",
+    eventCount: 12,
+    windowMinutes: 15,
+    issues: [
+      {
+        fingerprint: "fp1234567890ab",
+        count: 8,
+        sampleMessage: "TypeError: boom",
+        level: "error",
+      },
+    ],
+    consoleUrl: "https://example.test/en/app/site-admin/observability",
+  },
 } as const;

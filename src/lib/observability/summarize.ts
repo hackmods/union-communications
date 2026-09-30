@@ -34,6 +34,9 @@ export function matchesObservabilityFilters(
   if (filters.fingerprint && event.fingerprint !== filters.fingerprint) {
     return false;
   }
+  if (filters.unionId) {
+    if (event.unionId !== filters.unionId) return false;
+  }
   if (filters.q?.trim()) {
     const q = filters.q.trim().toLowerCase();
     const hay = `${event.message} ${event.name ?? ""} ${event.route ?? ""}`.toLowerCase();

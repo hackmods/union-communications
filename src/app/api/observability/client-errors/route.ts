@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { auth } from "@/auth";
 import { classifyServerError } from "@/lib/observability/signal-classify";
 import {
   checkClientErrorRateLimit,
@@ -20,6 +21,8 @@ const bodySchema = z
     source: z.string().min(1).max(200),
     route: z.string().max(500).optional(),
     build: z.string().max(80).optional(),
+    /** Ignored unless it matches the authenticated Hub session union. */
+    unionId: z.string().max(80).optional(),
   })
   .strict();
 
@@ -50,6 +53,17 @@ export async function POST(request: Request) {
   }
 
   const data = parsed.data;
+  const session = await auth().catch(() => null);
+  const sessionUnion =
+    typeof session?.user?.unionId === "string"
+      ? session.user.unionId.trim()
+      : "";
+  // Only stamp union when the authenticated Hub session owns it — never trust body alone.
+  const unionId =
+    sessionUnion && data.unionId && data.unionId === sessionUnion
+      ? sessionUnion
+      : sessionUnion || null;
+
   const synthetic = Object.assign(new Error(data.message), {
     name: data.name ?? "Error",
     stack: data.stack,
@@ -76,6 +90,7 @@ export async function POST(request: Request) {
       build: data.build,
       signal: classification.signal,
       fingerprint,
+      unionId,
       meta: { clientSource: data.source },
     });
   } catch {

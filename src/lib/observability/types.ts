@@ -26,6 +26,11 @@ export type ObservabilityEvent = {
   requestId?: string;
   /** Stable grouping key (Sentry-like issue fingerprint). */
   fingerprint?: string;
+  /**
+   * Optional tenant hint when known from Hub session / API context.
+   * Never invent; null for cron/system and unauthenticated client errors.
+   */
+  unionId?: string | null;
   /** Allowlisted classifier / operator metadata only. */
   meta?: Record<string, string | number | boolean | null>;
 };
@@ -46,6 +51,8 @@ export type ObservabilityQueryFilters = {
   /** Substring match on message / name / route (case-insensitive). */
   q?: string;
   fingerprint?: string;
+  /** Filter by optional union stamp. */
+  unionId?: string;
 };
 
 export type ObservabilityExportFormat = "jsonl" | "csv" | "incident-pack";

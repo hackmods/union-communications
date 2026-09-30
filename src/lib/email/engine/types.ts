@@ -10,12 +10,31 @@ export type EmailChannel =
 
 export type EmailClassification = "transactional" | "security" | "marketing";
 
+/** multipart = HTML table + text; plain = text-first (simple html mirror). */
+export type EmailFormat = "multipart" | "plain";
+
 export type EmailBlock =
   | { type: "heading"; text: string }
   | { type: "paragraph"; text: string }
   | { type: "metaList"; rows: Array<{ label: string; value: string }> }
   | { type: "cta"; label: string; href: string }
-  | { type: "divider" };
+  | { type: "divider" }
+  | {
+      type: "issueList";
+      items: Array<{
+        fingerprint: string;
+        count: number;
+        sampleMessage: string;
+        level: string;
+      }>;
+    }
+  | { type: "codeFence"; text: string; language?: string }
+  | { type: "bulletList"; items: string[] }
+  | {
+      type: "severityCallout";
+      severity: "error" | "warn" | "info";
+      text: string;
+    };
 
 export type EmailBrandTokens = {
   productName: string;
@@ -36,6 +55,8 @@ export type EmailDocumentInput = {
   brand: EmailBrandTokens;
   /** Extra footer lines after the classification disclaimer. */
   footerExtra?: string[];
+  /** Default multipart. Plain prefers text; html is a minimal mirror. */
+  format?: EmailFormat;
 };
 
 /** Multipart artifact — always pair text + html for SMTP. */
@@ -43,6 +64,7 @@ export type EmailArtifact = {
   subject: string;
   text: string;
   html: string;
+  format?: EmailFormat;
 };
 
 export type TransactionalPresetId =

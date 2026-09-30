@@ -45,6 +45,7 @@ function rowToEvent(row: typeof observabilityEvents.$inferSelect): Observability
     signal: row.signal ?? null,
     requestId: row.requestId ?? undefined,
     fingerprint: row.fingerprint,
+    unionId: row.unionId ?? null,
     meta: row.meta ?? undefined,
   });
 }
@@ -62,6 +63,9 @@ function buildWhere(filters: ObservabilityQueryFilters): SQL | undefined {
   if (filters.signal) parts.push(eq(observabilityEvents.signal, filters.signal));
   if (filters.fingerprint) {
     parts.push(eq(observabilityEvents.fingerprint, filters.fingerprint));
+  }
+  if (filters.unionId) {
+    parts.push(eq(observabilityEvents.unionId, filters.unionId));
   }
   if (filters.routePrefix) {
     parts.push(sql`${observabilityEvents.route} LIKE ${`${filters.routePrefix}%`}`);
@@ -117,6 +121,7 @@ export class PostgresObservabilityStore implements ObservabilityEventStore {
       signal: input.signal ?? null,
       requestId: input.requestId,
       fingerprint: input.fingerprint,
+      unionId: input.unionId ?? null,
       meta: redacted.meta,
     });
 
@@ -137,6 +142,7 @@ export class PostgresObservabilityStore implements ObservabilityEventStore {
           signal: event.signal ?? null,
           requestId: event.requestId,
           fingerprint: event.fingerprint,
+          unionId: event.unionId ?? null,
           meta: event.meta,
         });
       return event;
