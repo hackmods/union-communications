@@ -24,6 +24,13 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "observability-console",
+    date: "2026-09-29",
+    kind: "added",
+    audience: "hub",
+    href: "/app/site-admin/observability",
+  },
+  {
     id: "president-role-tools-toggle",
     date: "2026-09-29",
     kind: "improved",

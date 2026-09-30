@@ -7540,6 +7540,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "observability-console": {
+        "title": "Host Observability console for Site Admin",
+        "body": "Platform admins can review grouped host errors, export an incident pack, acknowledge issues, and set crisis email alerts when a threshold is crossed."
+      },
       "president-role-tools-toggle": {
         "title": "Quieter Officer tools for presidents",
         "body": "On President configuration, turn on ledger, expenses, travel, invites, meetings, broadcast, and polls only when your local needs them. They stay off by default."
@@ -9311,6 +9315,27 @@
       "observabilityColSource": "Source",
       "observabilityColMessage": "Message",
       "observabilityColRoute": "Route",
+      "observabilityAck": "Acknowledge",
+      "observabilityUnack": "Clear ack",
+      "observabilityAckedBadge": "Acknowledged",
+      "observabilityHideAcked": "Hide acknowledged",
+      "observabilityAckNote": "Optional note",
+      "observabilityAckError": "Could not update the acknowledgement. Try again.",
+      "observabilityAcksRequirePostgres": "Acknowledgements and crisis email alerts need Postgres on this host. File-only stores skip them.",
+      "observabilityAlertsTitle": "Crisis email alerts",
+      "observabilityAlertsNote": "Alert mail uses the UnionOps security email template (same lane as password reset). No stacks or Session Replay.",
+      "observabilityAlertsDisabled": "Alerts are off until OBSERVABILITY_ALERTS_ENABLED=true and EMAIL_ENABLED are set on the host.",
+      "observabilityAlertsEmpty": "No alert rules yet. Create one to email operators when errors spike.",
+      "observabilityAlertCreate": "Add alert rule",
+      "observabilityAlertName": "Rule name",
+      "observabilityAlertThreshold": "Threshold count",
+      "observabilityAlertWindow": "Window (minutes)",
+      "observabilityAlertCooldown": "Cooldown (minutes)",
+      "observabilityAlertRecipients": "Recipients (comma-separated emails)",
+      "observabilityAlertEnabled": "Enabled",
+      "observabilityAlertDelete": "Delete rule",
+      "observabilityAlertSave": "Save rule",
+      "observabilityAlertError": "Could not update alert rules. Try again.",
       "assignLocalMfaCode": "Current authenticator or recovery code",
       "assignLocalStepUpRequired": "Enter a fresh MFA code to change this account's union or local membership.",
       "assignLocalStepUpHelp": "The code confirms this membership change and is used only for this request.",

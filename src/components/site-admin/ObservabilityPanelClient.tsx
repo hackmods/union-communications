@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
@@ -44,6 +44,30 @@ type ObsIssue = {
   source?: string;
 };
 
+type ObsAck = {
+  fingerprint: string;
+  acknowledgedAt: string;
+  acknowledgedBy: string;
+  note?: string;
+};
+
+type ObsAlertRule = {
+  id: string;
+  name: string;
+  enabled: boolean;
+  minLevel: string;
+  thresholdCount: number;
+  windowMinutes: number;
+  cooldownMinutes: number;
+  recipients: string[];
+};
+
+type ObsAlertsMeta = {
+  postgresRequired: boolean;
+  enabled: boolean;
+  defaultRecipientConfigured: boolean;
+};
+
 type ObsSummary = {
   total: number;
   byLevel: { error: number; warn: number; info: number };
@@ -76,6 +100,9 @@ export function ObservabilityPanelClient({
   const [health, setHealth] = useState(initialHealth);
   const [events, setEvents] = useState<ObsEvent[]>([]);
   const [issues, setIssues] = useState<ObsIssue[]>([]);
+  const [acks, setAcks] = useState<ObsAck[]>([]);
+  const [alertRules, setAlertRules] = useState<ObsAlertRule[]>([]);
+  const [alertsMeta, setAlertsMeta] = useState<ObsAlertsMeta | null>(null);
   const [summary, setSummary] = useState<ObsSummary | null>(null);
   const [storeStats, setStoreStats] = useState<ObsStoreStats | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -91,6 +118,26 @@ export function ObservabilityPanelClient({
   const [selected, setSelected] = useState<ObsEvent | ObsIssue | null>(null);
   const [exporting, setExporting] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(false);
+  const [hideAcked, setHideAcked] = useState(true);
+  const [ackBusy, setAckBusy] = useState(false);
+  const [ackNote, setAckNote] = useState("");
+  const [ruleName, setRuleName] = useState("Host errors");
+  const [ruleThreshold, setRuleThreshold] = useState(5);
+  const [ruleWindow, setRuleWindow] = useState(15);
+  const [ruleCooldown, setRuleCooldown] = useState(60);
+  const [ruleRecipients, setRuleRecipients] = useState("");
+  const [ruleBusy, setRuleBusy] = useState(false);
+
+  const ackByFp = useMemo(() => {
+    const map = new Map<string, ObsAck>();
+    for (const ack of acks) map.set(ack.fingerprint, ack);
+    return map;
+  }, [acks]);
+
+  const visibleIssues = useMemo(() => {
+    if (!hideAcked) return issues;
+    return issues.filter((issue) => !ackByFp.has(issue.fingerprint));
+  }, [issues, hideAcked, ackByFp]);
 
   const handleMfaCodes = useCallback(
     (data: { code?: string; error?: string }) => {
@@ -125,6 +172,13 @@ export function ObservabilityPanelClient({
         setError(t("observabilityStoreDisabled"));
         return true;
       }
+      if (
+        data.code === "acks_require_postgres" ||
+        data.code === "alerts_require_postgres"
+      ) {
+        setError(t("observabilityAcksRequirePostgres"));
+        return true;
+      }
       return false;
     },
     [t],
@@ -142,6 +196,31 @@ export function ObservabilityPanelClient({
     [limit, timeWindow, level, source, q],
   );
 
+  const loadAlertRules = useCallback(async () => {
+    try {
+      const res = await fetch("/api/site-admin/observability/alert-rules", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+        body: JSON.stringify({ action: "list" }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        rules?: ObsAlertRule[];
+        code?: string;
+      };
+      if (res.ok) {
+        setAlertRules(data.rules ?? []);
+      } else if (
+        data.code === "alerts_require_postgres" ||
+        res.status === 503
+      ) {
+        setAlertRules([]);
+      }
+    } catch {
+      /* non-blocking */
+    }
+  }, []);
+
   const load = useCallback(
     async (code?: string, isCurrent: () => boolean = () => true) => {
       if (isCurrent()) {
@@ -158,6 +237,8 @@ export function ObservabilityPanelClient({
         const data = (await res.json().catch(() => ({}))) as {
           events?: ObsEvent[];
           issues?: ObsIssue[];
+          acks?: ObsAck[];
+          alerts?: ObsAlertsMeta;
           summary?: ObsSummary;
           storeStats?: ObsStoreStats;
           health?: ObsHealth;
@@ -177,18 +258,21 @@ export function ObservabilityPanelClient({
         if (!isCurrent()) return;
         setEvents(data.events ?? []);
         setIssues(data.issues ?? data.summary?.byFingerprint ?? []);
+        setAcks(data.acks ?? []);
+        if (data.alerts) setAlertsMeta(data.alerts);
         setSummary(data.summary ?? null);
         setStoreStats(data.storeStats ?? null);
         if (data.health) setHealth(data.health);
         setStepUpRequired(false);
         setMfaCode("");
+        void loadAlertRules();
       } catch {
         if (isCurrent()) setError(t("observabilityLoadError"));
       } finally {
         if (isCurrent()) setLoading(false);
       }
     },
-    [filterBody, handleMfaCodes, t],
+    [filterBody, handleMfaCodes, loadAlertRules, t],
   );
 
   useEffect(() => {
@@ -268,12 +352,142 @@ export function ObservabilityPanelClient({
     }
   }
 
+  async function toggleAck(fingerprint: string, currentlyAcked: boolean) {
+    setAckBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/site-admin/observability/acks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+        body: JSON.stringify({
+          fingerprint,
+          action: currentlyAcked ? "unack" : "ack",
+          ...(currentlyAcked || !ackNote.trim()
+            ? {}
+            : { note: ackNote.trim() }),
+          ...(mfaCode ? { mfaCode } : {}),
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        code?: string;
+        error?: string;
+        ack?: ObsAck;
+      };
+      if (!res.ok) {
+        if (handleMfaCodes(data)) return;
+        setError(data.error ?? t("observabilityAckError"));
+        return;
+      }
+      setAckNote("");
+      setStepUpRequired(false);
+      setMfaCode("");
+      if (currentlyAcked) {
+        setAcks((prev) => prev.filter((a) => a.fingerprint !== fingerprint));
+      } else if (data.ack) {
+        setAcks((prev) => [
+          data.ack!,
+          ...prev.filter((a) => a.fingerprint !== fingerprint),
+        ]);
+      }
+    } catch {
+      setError(t("observabilityAckError"));
+    } finally {
+      setAckBusy(false);
+    }
+  }
+
+  async function createAlertRule() {
+    setRuleBusy(true);
+    setError(null);
+    const recipients = ruleRecipients
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    try {
+      const res = await fetch("/api/site-admin/observability/alert-rules", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+        body: JSON.stringify({
+          action: "create",
+          name: ruleName.trim() || "Host errors",
+          minLevel: "error",
+          thresholdCount: ruleThreshold,
+          windowMinutes: ruleWindow,
+          cooldownMinutes: ruleCooldown,
+          ...(recipients.length ? { recipients } : {}),
+          ...(mfaCode ? { mfaCode } : {}),
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        code?: string;
+        error?: string;
+        rule?: ObsAlertRule;
+      };
+      if (!res.ok) {
+        if (handleMfaCodes(data)) return;
+        setError(data.error ?? t("observabilityAlertError"));
+        return;
+      }
+      setStepUpRequired(false);
+      setMfaCode("");
+      if (data.rule) setAlertRules((prev) => [data.rule!, ...prev]);
+    } catch {
+      setError(t("observabilityAlertError"));
+    } finally {
+      setRuleBusy(false);
+    }
+  }
+
+  async function deleteAlertRule(id: string) {
+    setRuleBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/site-admin/observability/alert-rules", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+        body: JSON.stringify({
+          action: "delete",
+          id,
+          ...(mfaCode ? { mfaCode } : {}),
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        code?: string;
+        error?: string;
+      };
+      if (!res.ok) {
+        if (handleMfaCodes(data)) return;
+        setError(data.error ?? t("observabilityAlertError"));
+        return;
+      }
+      setStepUpRequired(false);
+      setMfaCode("");
+      setAlertRules((prev) => prev.filter((r) => r.id !== id));
+    } catch {
+      setError(t("observabilityAlertError"));
+    } finally {
+      setRuleBusy(false);
+    }
+  }
+
+  const selectedFingerprint =
+    selected && "fingerprint" in selected ? selected.fingerprint : null;
+  const selectedAck = selectedFingerprint
+    ? ackByFp.get(selectedFingerprint)
+    : undefined;
+
   const selectedEvent =
     selected && "message" in selected && "id" in selected
       ? (selected as ObsEvent)
       : selected && "fingerprint" in selected
         ? events.find((e) => e.fingerprint === selected.fingerprint) ?? null
         : null;
+
+  const postgresAlerts =
+    health.backend === "postgres" && !alertsMeta?.postgresRequired;
 
   return (
     <>
@@ -287,6 +501,12 @@ export function ObservabilityPanelClient({
       {!health.storeEnabled ? (
         <Callout tone="warning" className="mt-4">
           {t("observabilitySetupDocker")}
+        </Callout>
+      ) : null}
+
+      {health.storeEnabled && health.backend !== "postgres" ? (
+        <Callout tone="warning" className="mt-4">
+          {t("observabilityAcksRequirePostgres")}
         </Callout>
       ) : null}
 
@@ -333,7 +553,7 @@ export function ObservabilityPanelClient({
           </div>
           <div className="rounded-lg border border-opseu-gray-light px-3 py-2">
             <dt className="text-opseu-gray-dark">{t("observabilityStatIssues")}</dt>
-            <dd className="text-lg font-semibold text-opseu-dark">{issues.length}</dd>
+            <dd className="text-lg font-semibold text-opseu-dark">{visibleIssues.length}</dd>
           </div>
         </dl>
       ) : null}
@@ -505,6 +725,16 @@ export function ObservabilityPanelClient({
           />
           {t("observabilityAutoRefresh")}
         </label>
+        {view === "issues" ? (
+          <label className="ml-2 flex items-center gap-2 text-sm text-opseu-gray-dark">
+            <input
+              type="checkbox"
+              checked={hideAcked}
+              onChange={(e) => setHideAcked(e.target.checked)}
+            />
+            {t("observabilityHideAcked")}
+          </label>
+        ) : null}
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)]">
@@ -512,7 +742,7 @@ export function ObservabilityPanelClient({
           {loading ? (
             <Skeleton className="h-40 w-full" />
           ) : view === "issues" ? (
-            issues.length === 0 ? (
+            visibleIssues.length === 0 ? (
               <EmptyState
                 title={t("observabilityEmptyTitle")}
                 description={t("observabilityEmptyBody")}
@@ -529,28 +759,36 @@ export function ObservabilityPanelClient({
                     </tr>
                   </thead>
                   <tbody>
-                    {issues.map((issue) => (
-                      <tr
-                        key={issue.fingerprint}
-                        className="cursor-pointer border-t border-opseu-gray-light hover:bg-opseu-blue/5"
-                        onClick={() => setSelected(issue)}
-                      >
-                        <td className="px-3 py-2 font-semibold">{issue.count}</td>
-                        <td className="px-3 py-2">
-                          <span
-                            className={`rounded px-1.5 py-0.5 text-xs font-medium ${levelClass(issue.level)}`}
-                          >
-                            {issue.level}
-                          </span>
-                        </td>
-                        <td className="max-w-md truncate px-3 py-2" title={issue.sampleMessage}>
-                          {issue.sampleMessage}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-2 font-mono text-xs">
-                          {issue.lastTs}
-                        </td>
-                      </tr>
-                    ))}
+                    {visibleIssues.map((issue) => {
+                      const acked = ackByFp.has(issue.fingerprint);
+                      return (
+                        <tr
+                          key={issue.fingerprint}
+                          className="cursor-pointer border-t border-opseu-gray-light hover:bg-opseu-blue/5"
+                          onClick={() => setSelected(issue)}
+                        >
+                          <td className="px-3 py-2 font-semibold">{issue.count}</td>
+                          <td className="px-3 py-2">
+                            <span
+                              className={`rounded px-1.5 py-0.5 text-xs font-medium ${levelClass(issue.level)}`}
+                            >
+                              {issue.level}
+                            </span>
+                            {acked ? (
+                              <span className="ml-1 rounded bg-emerald-100 px-1.5 py-0.5 text-xs font-medium text-emerald-900">
+                                {t("observabilityAckedBadge")}
+                              </span>
+                            ) : null}
+                          </td>
+                          <td className="max-w-md truncate px-3 py-2" title={issue.sampleMessage}>
+                            {issue.sampleMessage}
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-2 font-mono text-xs">
+                            {issue.lastTs}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -630,6 +868,31 @@ export function ObservabilityPanelClient({
                   {t("observabilityRequestId")}: {selectedEvent.requestId}
                 </p>
               ) : null}
+              {selectedEvent.fingerprint && postgresAlerts ? (
+                <div className="space-y-2 border-t border-opseu-gray-light pt-2">
+                  {!selectedAck ? (
+                    <Input
+                      label={t("observabilityAckNote")}
+                      name="ackNote"
+                      value={ackNote}
+                      onChange={(e) => setAckNote(e.target.value)}
+                    />
+                  ) : null}
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    disabled={ackBusy}
+                    onClick={() =>
+                      void toggleAck(
+                        selectedEvent.fingerprint!,
+                        Boolean(selectedAck),
+                      )
+                    }
+                  >
+                    {selectedAck ? t("observabilityUnack") : t("observabilityAck")}
+                  </Button>
+                </div>
+              ) : null}
               <div className="flex flex-wrap gap-2">
                 <Button
                   type="button"
@@ -663,11 +926,144 @@ export function ObservabilityPanelClient({
                 {t("observabilityColCount")}: {selected.count}
               </p>
               <p className="font-mono text-xs">{selected.fingerprint}</p>
+              {selectedAck ? (
+                <p className="text-emerald-900">{t("observabilityAckedBadge")}</p>
+              ) : null}
+              {postgresAlerts ? (
+                <div className="space-y-2">
+                  {!selectedAck ? (
+                    <Input
+                      label={t("observabilityAckNote")}
+                      name="ackNoteIssue"
+                      value={ackNote}
+                      onChange={(e) => setAckNote(e.target.value)}
+                    />
+                  ) : null}
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    disabled={ackBusy}
+                    onClick={() =>
+                      void toggleAck(selected.fingerprint, Boolean(selectedAck))
+                    }
+                  >
+                    {selectedAck ? t("observabilityUnack") : t("observabilityAck")}
+                  </Button>
+                </div>
+              ) : null}
               <p className="text-opseu-gray-dark">{t("observabilityIssueHint")}</p>
             </div>
           ) : null}
         </aside>
       </div>
+
+      <section className="mt-8 space-y-3 rounded-lg border border-opseu-gray-light bg-white p-4">
+        <h2 className="text-lg font-semibold text-opseu-dark">
+          {t("observabilityAlertsTitle")}
+        </h2>
+        <p className="text-sm text-opseu-gray-dark">{t("observabilityAlertsNote")}</p>
+        {!postgresAlerts ? (
+          <Callout tone="warning">{t("observabilityAcksRequirePostgres")}</Callout>
+        ) : alertsMeta && !alertsMeta.enabled ? (
+          <Callout tone="warning">{t("observabilityAlertsDisabled")}</Callout>
+        ) : null}
+        {postgresAlerts ? (
+          <>
+            {alertRules.length === 0 ? (
+              <p className="text-sm text-opseu-gray-dark">
+                {t("observabilityAlertsEmpty")}
+              </p>
+            ) : (
+              <ul className="space-y-2 text-sm">
+                {alertRules.map((rule) => (
+                  <li
+                    key={rule.id}
+                    className="flex flex-wrap items-center justify-between gap-2 rounded border border-opseu-gray-light px-3 py-2"
+                  >
+                    <div>
+                      <p className="font-medium text-opseu-dark">
+                        {rule.name}{" "}
+                        <span className="text-xs font-normal text-opseu-gray-dark">
+                          ({rule.minLevel} ≥ {rule.thresholdCount}/
+                          {rule.windowMinutes}m · cooldown {rule.cooldownMinutes}
+                          m)
+                        </span>
+                      </p>
+                      <p className="text-xs text-opseu-gray-dark">
+                        {rule.recipients.join(", ")}
+                        {!rule.enabled ? " · off" : ""}
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      disabled={ruleBusy}
+                      onClick={() => void deleteAlertRule(rule.id)}
+                    >
+                      {t("observabilityAlertDelete")}
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <Input
+                label={t("observabilityAlertName")}
+                name="ruleName"
+                value={ruleName}
+                onChange={(e) => setRuleName(e.target.value)}
+              />
+              <Input
+                label={t("observabilityAlertThreshold")}
+                name="ruleThreshold"
+                type="number"
+                min={1}
+                value={String(ruleThreshold)}
+                onChange={(e) => {
+                  const n = Number.parseInt(e.target.value, 10);
+                  if (Number.isFinite(n)) setRuleThreshold(Math.max(1, n));
+                }}
+              />
+              <Input
+                label={t("observabilityAlertWindow")}
+                name="ruleWindow"
+                type="number"
+                min={1}
+                value={String(ruleWindow)}
+                onChange={(e) => {
+                  const n = Number.parseInt(e.target.value, 10);
+                  if (Number.isFinite(n)) setRuleWindow(Math.max(1, n));
+                }}
+              />
+              <Input
+                label={t("observabilityAlertCooldown")}
+                name="ruleCooldown"
+                type="number"
+                min={1}
+                value={String(ruleCooldown)}
+                onChange={(e) => {
+                  const n = Number.parseInt(e.target.value, 10);
+                  if (Number.isFinite(n)) setRuleCooldown(Math.max(1, n));
+                }}
+              />
+            </div>
+            <Input
+              label={t("observabilityAlertRecipients")}
+              name="ruleRecipients"
+              value={ruleRecipients}
+              onChange={(e) => setRuleRecipients(e.target.value)}
+            />
+            <Button
+              type="button"
+              variant="primary"
+              disabled={ruleBusy}
+              onClick={() => void createAlertRule()}
+            >
+              {t("observabilityAlertCreate")}
+            </Button>
+          </>
+        ) : null}
+      </section>
     </>
   );
 }

@@ -7486,6 +7486,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "observability-console": {
+        "title": "Console Observabilité pour l’admin du site",
+        "body": "Les admins de plateforme peuvent examiner les erreurs d’hôte regroupées, exporter un dossier d’incident, accuser réception des problèmes et définir des alertes courriel de crise lorsqu’un seuil est dépassé."
+      },
       "president-role-tools-toggle": {
         "title": "Outils dirigeants plus calmes pour la présidence",
         "body": "Dans la configuration de la présidence, activez le grand livre, les dépenses, les voyages, les invitations, les réunions, la diffusion et les sondages seulement si votre section en a besoin. Ils restent désactivés par défaut."
@@ -9257,6 +9261,27 @@
       "observabilityColSource": "Source",
       "observabilityColMessage": "Message",
       "observabilityColRoute": "Route",
+      "observabilityAck": "Accuser réception",
+      "observabilityUnack": "Retirer l’accusé",
+      "observabilityAckedBadge": "Accusé",
+      "observabilityHideAcked": "Masquer les accusés",
+      "observabilityAckNote": "Note facultative",
+      "observabilityAckError": "Impossible de mettre à jour l’accusé de réception. Réessayez.",
+      "observabilityAcksRequirePostgres": "Les accusés de réception et les alertes courriel de crise exigent Postgres sur cet hôte. Les journaux fichier seuls les ignorent.",
+      "observabilityAlertsTitle": "Alertes courriel de crise",
+      "observabilityAlertsNote": "Les alertes utilisent le modèle de courriel de sécurité UnionOps (même voie que la réinitialisation de mot de passe). Pas de piles ni de Session Replay.",
+      "observabilityAlertsDisabled": "Les alertes sont désactivées tant que OBSERVABILITY_ALERTS_ENABLED=true et EMAIL_ENABLED ne sont pas réglés sur l’hôte.",
+      "observabilityAlertsEmpty": "Aucune règle d’alerte pour l’instant. Créez-en une pour aviser les opérateurs quand les erreurs grimpent.",
+      "observabilityAlertCreate": "Ajouter une règle d’alerte",
+      "observabilityAlertName": "Nom de la règle",
+      "observabilityAlertThreshold": "Seuil (nombre)",
+      "observabilityAlertWindow": "Fenêtre (minutes)",
+      "observabilityAlertCooldown": "Délai de reprise (minutes)",
+      "observabilityAlertRecipients": "Destinataires (courriels séparés par des virgules)",
+      "observabilityAlertEnabled": "Activée",
+      "observabilityAlertDelete": "Supprimer la règle",
+      "observabilityAlertSave": "Enregistrer la règle",
+      "observabilityAlertError": "Impossible de mettre à jour les règles d’alerte. Réessayez.",
       "assignLocalMfaCode": "Code actuel de l’appli d’authentification ou de récupération",
       "assignLocalStepUpRequired": "Saisissez un nouveau code MFA pour changer le syndicat ou la section de ce compte.",
       "assignLocalStepUpHelp": "Le code confirme ce changement d’affiliation et ne sert qu’à cette demande.",

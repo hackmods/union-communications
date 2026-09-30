@@ -24,3 +24,4 @@ export {
   composeProductNewsConfirmEmail,
   composeProductNewsPreferencesEmail,
 } from "./compose-marketing";
+export { composeObservabilityCrisisAlert } from "./compose-observability-alert";

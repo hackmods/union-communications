@@ -582,6 +582,13 @@
       "when": 1792800000000,
       "tag": "0082_observability_events",
       "breakpoints": true
+    },
+    {
+      "idx": 83,
+      "version": "7",
+      "when": 1792900000000,
+      "tag": "0083_observability_alerts_acks",
+      "breakpoints": true
     }
   ]
 }

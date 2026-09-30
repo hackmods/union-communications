@@ -112,10 +112,13 @@ Independently toggled on CapRover / Docker via env (defaults **off**):
 | `ERROR_LOG_FILE_PATH` | Absolute path, e.g. `/data/logs/unionops-errors.jsonl` |
 | `ERROR_LOG_FILE_MAX_BYTES` | Rotate active file when larger (default `10485760` = 10 MiB) |
 | `ERROR_LOG_FILE_KEEP` | Rotated siblings to keep (`path.1`…`path.N`, default `3`) |
+| `OBSERVABILITY_BACKEND` | Prefer `postgres` (or unset when `DATABASE_URL` is set) |
+| `OBSERVABILITY_ALERTS_ENABLED` | Master switch for crisis email cron (`true` to enable) |
+| `OBSERVABILITY_ALERT_EMAIL` | Optional default recipient when creating a rule without explicit emails |
 
 Confirm effective sinks after deploy: `GET /api/health` → `observability` object (`backend`, `storeEnabled`, `fileDualWrite`, Sentry/file flags). `npm run health:check` prints the same summary.
 
-- **Docker preferred:** Postgres via existing `DATABASE_URL` + migration `0082_observability_events`. Site Admin → Observability for MFA-gated issues/export.
+- **Docker preferred:** Postgres via existing `DATABASE_URL` + migrations `0082_observability_events` / `0083_observability_alerts_acks`. Site Admin → Observability for MFA-gated issues/export/acks/alert rules. Cron: `POST /api/cron/observability-alerts` with `CRON_SECRET` when `OBSERVABILITY_ALERTS_ENABLED=true`.
 - Browser errors reach Sentry only when `NEXT_PUBLIC_SENTRY_DSN` was present at **build** time; without Sentry, client boundaries + global handlers POST to `/api/observability/client-errors`.
 - File logging is **Node/server only**. CapRover: attach a **Persistent Directory** (e.g. host `logs` → `/data/logs`) or the file is lost on redeploy — same pattern as `ATTACHMENT_LOCAL_DIR`. Prefer Postgres so redeploys keep history.
 - Do not log grievance bodies, cookies, or auth headers. SDK `beforeSend` strips request cookies/data/headers; server redaction also strips bearer/JWT/email patterns.

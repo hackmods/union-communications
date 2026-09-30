@@ -5,6 +5,12 @@ import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { auditLog } from "@/lib/audit/store";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
 import { withRlsContext } from "@/lib/db/rls-context";
+import { isPostgresConfigured } from "@/lib/db/client";
+import { listObservabilityAcks } from "@/lib/observability/acks";
+import {
+  isObservabilityAlertsEnabled,
+  defaultObservabilityAlertEmail,
+} from "@/lib/observability/alert-rules";
 import { observabilityStore } from "@/lib/observability/store";
 import { buildObservabilityHealth } from "@/lib/observability/config";
 import { resolveSincePreset } from "@/lib/observability/summarize";
@@ -160,12 +166,13 @@ export async function POST(request: Request) {
     };
 
     const run = async () => {
-      const [events, summary, storeStats] = await Promise.all([
+      const [events, summary, storeStats, acks] = await Promise.all([
         observabilityStore.query(filters),
         observabilityStore.summarize({ ...filters, limit: 500 }),
         observabilityStore.stats(),
+        isPostgresConfigured() ? listObservabilityAcks() : Promise.resolve([]),
       ]);
-      return { events, summary, storeStats, issues: summary.byFingerprint };
+      return { events, summary, storeStats, issues: summary.byFingerprint, acks };
     };
 
     const payload =
@@ -198,7 +205,15 @@ export async function POST(request: Request) {
       );
     }
 
-    return respond({ ...payload, health });
+    return respond({
+      ...payload,
+      health,
+      alerts: {
+        postgresRequired: !isPostgresConfigured(),
+        enabled: isObservabilityAlertsEnabled(),
+        defaultRecipientConfigured: Boolean(defaultObservabilityAlertEmail()),
+      },
+    });
   } catch {
     await recordOutcome("error", {
       phase: "query_result",
