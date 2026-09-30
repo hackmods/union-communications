@@ -194,3 +194,20 @@
 - Still not Mailchimp: no third-party ESP lock-in, no imported national lists, no open tracking by default, consent/suppression required before broadcast send paths ship.
 
 **Consequences:** Send helpers must call `assertEnterpriseEmailCapability` before broadcast / Comms auto-send / grievance SMTP / openTracking. Self-hosts that never set CapRover flags remain identical to pre-ADR-022 behavior.
+
+## ADR-023: Gated union/org outreach lists (national lists)
+**Status:** Accepted for engineering; legal/counsel approval required before host enablement
+**Date:** 2026-09-30
+**Distinct from:** ADR-021 (UnionOps product news to self-submitted individuals) and ADR-022 member broadcast (local Hub/Portal consenting members).
+
+**Context:** Some unions need durable, union-wide outreach lists for national or organizational campaigns—not local member broadcast, not UnionOps product marketing, and not Comms on-device copy. These lists carry CASL/consent, suppression, MFA-gated import, and platform-admin entitlement obligations similar to other enterprise email lanes.
+
+**Decision:**
+- Outreach lists are a **separate program** scoped by `unionId`. They are not local member broadcast, not product news, and must not reuse Hub rosters, Portal membership, or Comms tools as implicit audiences.
+- **Dual gate (AND):** CapRover `UNIONOPS_OUTREACH_LISTS_ENABLED=true` **and** platform-admin `unions.outreach_lists_enabled=true`. Sends also require `readOutreachListsConfig()` to pass (approved EN/FR notice version, `UNIONOPS_OUTREACH_LISTS_APPROVAL_REFERENCE`, sender/contact/postal identity, durable Postgres, Mailgun + signed feedback, email transport, token keys)—fail closed like product news.
+- Counsel must approve the notice before operators enable the host flag. Ship **default OFF**. No Campfire / third-party list branding.
+- Double opt-in: imported or self-serve subscribers start `pending_confirmation`; only signed-token confirmation activates sends. CSV import requires MFA step-up, dry-run support, attestation text, and pending-only rows.
+- Classification `list_campaign` (Mailgun tag `unionops-outreach-list`)—not `broadcast`. Tracking pixels stay off.
+- Union-wide compose/release is **union_admin** (and platform admin) only; fresh MFA on send and import. Site Admin exposes entitlements, inventory metadata, MFA-gated exact-address search, pause/resume, approval env display, and metadata-only audit export.
+
+**Consequences:** Migration `0088` adds outreach tables + RLS. Comms free lane unchanged. Production enablement requires legal approval, CapRover values, union entitlement, and live suppression/unsubscribe drills.

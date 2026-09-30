@@ -97,6 +97,7 @@ Circle
 - [x] When Portal is off, `/portal` shows a Local Portal feature teaser (APIs stay 403) instead of bouncing to Hub
 - [x] Circle tabs keep `?tab=` on refresh/share; Dispatch pings open the matching tool
 - [x] Together opens on Hall work (not an empty search); demo seed is current-week; Hall hides empty extras; committee Circles show empty Roll Call / Many hands / One fight so officers can start them
+- [x] **Floor v2 (Phase B2)** — shallow reply threads (`parentId`, one indent), presence-lite heartbeats (`lastFloorSeenAt`, ~3 min TTL, quiet “on the Floor” copy), 15s poll-on-focus while the Floor tab is open, Floor soft-delete + audit (migration `0086_portal_floor_v2`)
 - [ ] Email→Bulletin, digest email, SSE Floor (see backlog)
 
 ## Future intent

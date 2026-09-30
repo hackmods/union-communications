@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/auth";
-import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { auditLog } from "@/lib/audit/store";
+import { createAuditRequestContext } from "@/lib/audit/request-correlation";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
+import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { emailAppBaseUrl } from "@/lib/email/messages";
 import {
+  listBroadcastCampaigns,
   listBroadcastRoster,
   sendMemberBroadcast,
   setOwnBroadcastConsent,
@@ -60,14 +63,22 @@ export async function GET() {
   };
 
   if (canManageBroadcast(roles)) {
-    const roster = await listBroadcastRoster({
-      unionId: gate.unionId,
-      localId: gate.localId,
-      rls,
-    });
+    const [roster, campaigns] = await Promise.all([
+      listBroadcastRoster({
+        unionId: gate.unionId,
+        localId: gate.localId,
+        rls,
+      }),
+      listBroadcastCampaigns({
+        unionId: gate.unionId,
+        localId: gate.localId,
+        rls,
+      }),
+    ]);
     return NextResponse.json({
       notice: MEMBER_BROADCAST_NOTICE,
       roster,
+      campaigns,
       mode: "officer",
     });
   }
@@ -103,24 +114,35 @@ const postSchema = z.discriminatedUnion("action", [
     recipientUserIds: z.array(z.string().min(1)).min(1).max(500),
     explicitTrackingOptIn: z.boolean().default(false),
     locale: z.enum(["en", "fr"]).default("en"),
+    mfaCode: z.string().max(32).optional(),
   }),
 ]);
 
 export async function POST(request: Request) {
+  const correlation = createAuditRequestContext();
+  const respond = (body: unknown, status = 200, extraHeaders?: HeadersInit) => {
+    const headers = new Headers(extraHeaders);
+    headers.set("Cache-Control", "private, no-store");
+    return NextResponse.json(body, {
+      status,
+      headers: correlation.responseHeaders(headers),
+    });
+  };
+
   const gate = await requireBroadcastSession();
   if (!gate.ok) {
-    return NextResponse.json({ error: gate.error }, { status: gate.status });
+    return respond({ error: gate.error }, gate.status);
   }
 
   let raw: unknown;
   try {
     raw = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    return respond({ error: "Invalid JSON" }, 400);
   }
   const parsed = postSchema.safeParse(raw);
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+    return respond({ error: "Invalid body" }, 400);
   }
 
   const rls = {
@@ -134,7 +156,7 @@ export async function POST(request: Request) {
   if (parsed.data.action === "consent") {
     const email = gate.session.user.email;
     if (!email) {
-      return NextResponse.json({ error: "Email required" }, { status: 400 });
+      return respond({ error: "Email required" }, 400);
     }
     const result = await setOwnBroadcastConsent({
       unionId: gate.unionId,
@@ -145,9 +167,9 @@ export async function POST(request: Request) {
       rls,
     });
     if (result !== "ok") {
-      return NextResponse.json(
+      return respond(
         { error: "Broadcast consent unavailable (gates closed)." },
-        { status: 503 },
+        503,
       );
     }
     await auditLog.log({
@@ -159,20 +181,49 @@ export async function POST(request: Request) {
       resourceId: gate.localId,
       unionId: gate.unionId,
       localId: gate.localId,
+      requestId: correlation.requestId,
     });
-    return NextResponse.json({ ok: true });
+    return respond({ ok: true });
   }
 
   if (!canManageBroadcast(roles)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return respond({ error: "Forbidden" }, 403);
+  }
+
+  const challenge = await verifyFreshMfaStepUp({
+    userId: gate.session.user.id,
+    code: parsed.data.mfaCode,
+  });
+  if (!challenge.ok) {
+    await auditLog.log({
+      userId: gate.session.user.id,
+      action: "broadcast.send",
+      resourceType: "local",
+      resourceId: gate.localId,
+      unionId: gate.unionId,
+      localId: gate.localId,
+      outcome: challenge.outcome,
+      requestId: correlation.requestId,
+      metadata: { reason: `mfa_step_up_${challenge.code}` },
+    }).catch(() => undefined);
+    return respond(
+      {
+        error:
+          challenge.code === "required"
+            ? "A fresh MFA code is required before sending member broadcast."
+            : "Fresh MFA verification failed.",
+        code: `mfa_step_up_${challenge.code}`,
+      },
+      challenge.status,
+      challenge.retryAfterSeconds
+        ? { "Retry-After": String(challenge.retryAfterSeconds) }
+        : undefined,
+    );
   }
 
   const from = readSmtpEnv("EMAIL_FROM").value;
   if (!from) {
-    return NextResponse.json(
-      { error: "EMAIL_FROM is not configured" },
-      { status: 503 },
-    );
+    return respond({ error: "EMAIL_FROM is not configured" }, 503);
   }
 
   const origin = new URL(request.url).origin;
@@ -191,11 +242,11 @@ export async function POST(request: Request) {
     replyTo: from.includes("<")
       ? (from.match(/<([^>]+)>/)?.[1] ?? from)
       : from,
-    listUnsubscribeBase: `${base}/app/broadcast`,
+    unsubscribeApiBase: `${base}/api/broadcast/unsubscribe`,
   });
 
   if (!result.ok) {
-    return NextResponse.json({ error: result.reason }, { status: 400 });
+    return respond({ error: result.reason }, 400);
   }
 
   await auditLog.log({
@@ -205,6 +256,8 @@ export async function POST(request: Request) {
     resourceId: result.campaignId,
     unionId: gate.unionId,
     localId: gate.localId,
+    outcome: "success",
+    requestId: correlation.requestId,
     metadata: {
       accepted: String(result.accepted),
       failed: String(result.failed),
@@ -212,5 +265,5 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.json(result);
+  return respond(result);
 }

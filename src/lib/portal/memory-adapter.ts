@@ -22,6 +22,11 @@ import type {
   SidebarThread,
   StationPayload,
 } from "@/types/portal";
+import {
+  activeFloorMessages,
+  floorPresentNames,
+  validateFloorParent,
+} from "@/lib/portal/floor";
 import { resolveMentions } from "@/lib/portal/mentions";
 import {
   parseBasecampCsv,
@@ -1113,7 +1118,10 @@ export class MemoryPortalAdapter {
           a.completedAt >= weekIso,
       ).length,
       floorMessages: floor.filter(
-        (m) => circleIds.has(m.circleId) && m.createdAt >= weekIso,
+        (m) =>
+          circleIds.has(m.circleId) &&
+          !m.deletedAt &&
+          m.createdAt >= weekIso,
       ).length,
     };
 
@@ -1141,10 +1149,15 @@ export class MemoryPortalAdapter {
 
     const board = boards.find((b) => b.circleId === circleId) ?? null;
 
+    const roster = memberships.filter((m) => m.circleId === circleId);
+    const circleFloor = activeFloorMessages(
+      floor.filter((m) => m.circleId === circleId),
+    ).sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+
     return {
       circle,
       membership,
-      roster: memberships.filter((m) => m.circleId === circleId),
+      roster,
       bulletin: bulletin
         .filter((p) => p.circleId === circleId && !p.deletedAt)
         .sort(
@@ -1166,9 +1179,8 @@ export class MemoryPortalAdapter {
       binder: binder
         .filter((b) => b.circleId === circleId && !b.deletedAt)
         .sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
-      floor: floor
-        .filter((m) => m.circleId === circleId)
-        .sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
+      floor: circleFloor,
+      floorPresentNames: floorPresentNames(roster),
       rollCallQuestions: rollQuestions.filter((q) => q.circleId === circleId),
       rollCallAnswers: rollAnswers.filter((a) => a.circleId === circleId),
       pipelineBoard: board,
@@ -1469,7 +1481,19 @@ export class MemoryPortalAdapter {
     authorId: string;
     authorName: string;
     body: string;
+    parentId?: string;
   }): FloorMessage {
+    const circleMessages = floor.filter(
+      (m) => m.circleId === input.circleId && m.unionId === input.unionId,
+    );
+    const parentError = validateFloorParent(
+      circleMessages,
+      input.circleId,
+      input.parentId,
+    );
+    if (parentError) {
+      throw new Error(parentError);
+    }
     const msg: FloorMessage = {
       id: id("fl"),
       ...input,
@@ -1484,6 +1508,15 @@ export class MemoryPortalAdapter {
       title: "Mentioned on the Floor",
     });
     return msg;
+  }
+
+  touchFloorPresence(circleId: string, userId: string): boolean {
+    const membership = memberships.find(
+      (m) => m.circleId === circleId && m.userId === userId,
+    );
+    if (!membership) return false;
+    membership.lastFloorSeenAt = now();
+    return true;
   }
 
   addRollCallAnswer(input: {
@@ -1614,7 +1647,7 @@ export class MemoryPortalAdapter {
   }
 
   softDelete(
-    resourceType: "bulletin" | "action" | "binder",
+    resourceType: "bulletin" | "action" | "binder" | "floor",
     resourceId: string,
     circleId: string,
     unionId: string,
@@ -1662,6 +1695,26 @@ export class MemoryPortalAdapter {
       });
       return true;
     }
+    if (resourceType === "floor") {
+      const msg = floor.find(
+        (m) =>
+          m.id === resourceId &&
+          m.circleId === circleId &&
+          m.unionId === unionId &&
+          !m.deletedAt,
+      );
+      if (!msg) return false;
+      msg.deletedAt = now();
+      pushAudit({
+        unionId,
+        circleId: msg.circleId,
+        userId,
+        action: "floor.soft_delete",
+        resourceType: "floor",
+        resourceId,
+      });
+      return true;
+    }
     const item = binder.find(
       (b) =>
         b.id === resourceId &&
@@ -1702,7 +1755,7 @@ export class MemoryPortalAdapter {
       actions: actions.filter((a) => a.circleId === circleId && !a.deletedAt),
       calendar: calendar.filter((e) => e.circleId === circleId),
       binder: binder.filter((b) => b.circleId === circleId && !b.deletedAt),
-      floor: floor.filter((m) => m.circleId === circleId),
+      floor: activeFloorMessages(floor.filter((m) => m.circleId === circleId)),
       momentum: momentum.filter((m) => m.circleId === circleId),
       audit: this.listAudit(circleId, unionId, 100),
     };

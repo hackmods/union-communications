@@ -171,6 +171,12 @@ Keep `UNIONOPS_PRODUCT_NEWS_ENABLED=false` until qualified reviewers approve the
 
 The Site Admin product-news page supports bilingual draft creation, approval reference, recipient count and content preview, test queueing to a **confirmed** address, explicit release/pause, delivery status, and audited exact-address consent search/export/correction. `POST /api/cron/product-news` with `CRON_SECRET` sends at most three recipients per call, checks current consent under a database lock for each provider request, and never automatically retries an uncertain provider outcome. Configure a recurring scheduler only after legal approval and a test send. Permanent Mailgun failures, complaints, and provider unsubscribes suppress future product-news sends; temporary failures are recorded for review. Product-news messages disable Mailgun open and click tracking.
 
+## Union outreach lists (optional, ADR-023)
+
+Union-wide outreach lists are **off by default** and are not local member broadcast (ADR-022) or UnionOps product news (ADR-021). Counsel must approve the EN/FR notice (`outreach-list-2026-09-v1`) before any host enablement.
+
+Keep `UNIONOPS_OUTREACH_LISTS_ENABLED=false` until approval. Sending also requires `UNIONOPS_OUTREACH_LISTS_APPROVAL_REFERENCE`, matching `UNIONOPS_OUTREACH_LISTS_APPROVED_VERSION`, sender/contact/postal env values, durable Postgres, Mailgun + signed feedback webhook (same route as product news — tag `unionops-outreach-list`), email transport, token keys, and Site Admin per-union entitlement `outreach_lists_enabled`. See [CapRover outreach lists](CAPROVER_POSTGRES.md#unionops-outreach-lists).
+
 ## Sandbox smoke (Proxmox CT 115)
 
 Package source for overlay deploy: `npm run package:sandbox` → `unionops-src.tar.gz` (see [`DEPLOY.md`](DEPLOY.md) Proxmox section).

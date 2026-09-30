@@ -7492,7 +7492,15 @@
       },
       "president-role-tools-toggle": {
         "title": "Outils dirigeants plus calmes pour la présidence",
-        "body": "Dans la configuration de la présidence, activez le grand livre, les dépenses, les voyages, les invitations, les réunions, la diffusion et les sondages seulement si votre section en a besoin. Ils restent désactivés par défaut."
+        "body": "Dans la configuration de la présidence, activez le grand livre, les invitations, les réunions, la diffusion et les sondages seulement si votre section en a besoin. Ils restent désactivés par défaut."
+      },
+      "expenses-travel-hub-modules": {
+        "title": "Dépenses et voyages comme modules du Hub",
+        "body": "Activez Dépenses d’affaires syndicales et Autorisation de voyage dans la configuration présidence, sous les modules opérationnels du Hub — comme Temps de travail ou Tâches. Ils restent désactivés par défaut."
+      },
+      "portal-floor-v2": {
+        "title": "Réponses au plancher et présence discrète dans les Cercles",
+        "body": "Dans l’onglet Plancher d’un Cercle, répondez une fois sous un message, voyez qui d’autre est au plancher, et recevez les nouveaux messages tant que l’onglet reste ouvert."
       },
       "organization-structure-admin": {
         "title": "Structure organisationnelle pour l’admin du site",
@@ -8078,6 +8086,10 @@
         "title": "Le menu du Hub des dirigeants suit les modules activés de votre section",
         "body": "Les modules désactivés n’encombrent plus la navigation du Hub des dirigeants. Ouvrir un module hors montre comment l’activer. La présidence voit toujours la configuration et les invitations quand la bande de modules de travail est vide."
       },
+      "union-outreach-lists": {
+        "title": "Listes de diffusion syndicales (contrôlées)",
+        "body": "Les administrateurs syndicaux peuvent gérer des listes nationales avec double consentement lorsque l’hôte et l’admin du site activent la fonction — toujours désactivée par défaut."
+      },
       "member-broadcast": {
         "title": "Diffusion aux membres (sous portes)",
         "body": "Les sections peuvent recueillir le consentement et envoyer des nouvelles seulement lorsque CapRover et l’admin du site activent la capacité — toujours désactivée par défaut."
@@ -8453,6 +8465,8 @@
       "publicDocumentsBody": "Gérez les documents publics, les sources, les droits, les dates de publication et les variantes de marque.",
       "productNewsCardTitle": "Nouvelles sur les produits",
       "productNewsCardBody": "Consultez les inscriptions, les campagnes, les résultats d’envoi et les preuves de consentement.",
+      "outreachListsCardTitle": "Listes de diffusion syndicales",
+      "outreachListsCardBody": "Habilitations, inventaire, recherche de consentement et état d’approbation (désactivé par défaut).",
       "emailOpsCardTitle": "Courriel (ops)",
       "emailOpsCardBody": "Aperçu des modèles transactionnels, état du transport et envoi d'essai.",
       "hostTitle": "Préparation de l’hôte",
@@ -9661,7 +9675,11 @@
       "data": "UnionOps Data",
       "dataDesc": "Réviser les imports locaux, les dossiers des membres et l’historique d’emploi",
       "documents": "Documents",
-      "documentsDesc": "Stocker et partager les fichiers privés avec les dirigeants et délégués actifs de cette section"
+      "documentsDesc": "Stocker et partager les fichiers privés avec les dirigeants et délégués actifs de cette section",
+      "expenses": "Dépenses d’affaires syndicales",
+      "expensesDesc": "Soumettre et réviser les demandes de remboursement pour les affaires syndicales",
+      "travel": "Autorisation de voyage",
+      "travelDesc": "Approuver les voyages, avances et conciliation des reçus"
     },
     "stewardGuidesLink": "Guides de rencontre",
     "reportsExportSuccess": "Rapport téléchargé.",
@@ -9684,15 +9702,11 @@
         "financialSummaries": "Sommaires financiers locaux (Grand livre)",
         "invites": "Invitations",
         "meetings": "Réunions et RSVP",
-        "expenses": "Dépenses",
-        "travel": "Demandes de voyage",
         "broadcast": "Diffusion",
         "polls": "Sondages",
         "financialSummariesBlurb": "Afficher les sommaires financiers locaux (Grand livre) dans les outils dirigeants.",
         "invitesBlurb": "Afficher Invitations dans les outils dirigeants. La liste de démarrage y mène encore si c’est désactivé.",
         "meetingsBlurb": "Afficher Réunions et RSVP dans les outils dirigeants.",
-        "expensesBlurb": "Afficher Dépenses dans les outils dirigeants.",
-        "travelBlurb": "Afficher Demandes de voyage dans les outils dirigeants.",
         "broadcastBlurb": "Afficher Diffusion dans les outils dirigeants.",
         "pollsBlurb": "Afficher Sondages dans les outils dirigeants."
       },
@@ -9735,7 +9749,11 @@
         "dataBlurb": "Imports de données membres et historique d’emploi (nécessite Postgres durable).",
         "dataLockedBlurb": "Seul un admin du syndicat ou de la plateforme peut activer UnionOps Data une fois Postgres prêt.",
         "documents": "Coffre de documents",
-        "documentsBlurb": "Conserver les fichiers de la section avec historique, pour les dirigeants et délégués actifs."
+        "documentsBlurb": "Conserver les fichiers de la section avec historique, pour les dirigeants et délégués actifs.",
+        "expenses": "Dépenses d’affaires syndicales",
+        "expensesBlurb": "Soumettre et réviser les demandes de remboursement pour les affaires syndicales — désactivé tant que votre section n’utilise pas ce flux.",
+        "travel": "Autorisation de voyage",
+        "travelBlurb": "Demandes d’approbation, avances et conciliation des reçus pour les voyages syndicaux — désactivé par défaut."
       },
       "portalSurfaces": {
         "announcements": "Annonces aux membres",
@@ -9894,6 +9912,14 @@
       "documents": {
         "title": "Documents désactivés",
         "body": "Le coffre de documents de la section reste inaccessible jusqu’à l’activation du module."
+      },
+      "expenses": {
+        "title": "Dépenses d’affaires syndicales désactivées",
+        "body": "Les demandes de remboursement et leur révision restent cachées jusqu’à l’activation du module dans la configuration présidence."
+      },
+      "travel": {
+        "title": "Autorisation de voyage désactivée",
+        "body": "Les demandes de voyage, avances et conciliation des reçus restent hors jusqu’à l’activation du module."
       }
     },
     "memberAccessRequests": {
@@ -10079,6 +10105,17 @@
       "status_confirmed": "Confirmé",
       "status_revoked": "Retiré",
       "status_none": "Non défini",
+      "status_stale": "Nouveau consentement requis",
+      "staleConsent": "L’avis de consentement a changé. Confirmez à nouveau pour rester sur la liste de diffusion.",
+      "campaignHistory": "Envois récents",
+      "campaignMeta": "{date} — {accepted} acceptés, {failed} échoués. Suivi : {tracking}.",
+      "mfaStepUpTitle": "Confirmer avec l’authentificateur",
+      "mfaStepUpHint": "Entrez un code d’authentificateur récent avant d’envoyer aux membres confirmés.",
+      "mfaCode": "Code d’authentificateur",
+      "mfaStepUpVerify": "Confirmer et envoyer",
+      "mfaStepUpFailed": "Ce code d’authentificateur n’a pas fonctionné. Réessayez.",
+      "mfaStepUpLimited": "Trop de tentatives d’authentificateur. Attendez une minute, puis réessayez.",
+      "mfaStepUpUnavailable": "Cet hôte ne peut pas confirmer l’AMF pour le moment. Réessayez plus tard.",
       "optIn": "Confirmer que je veux les courriels de diffusion locale",
       "optOut": "Retirer mon consentement",
       "consentSaved": "Consentement enregistré.",
@@ -10095,6 +10132,24 @@
       "yes": "oui",
       "no": "non",
       "error": "Impossible de charger ou d’envoyer. Vérifiez la session, la MFA et le transport courriel."
+    },
+    "outreachLists": {
+      "disabledTitle": "Listes de diffusion désactivées",
+      "disabledBody": "Les listes syndicales nécessitent CapRover, une habilitation admin du site et l’approbation juridique avant que les administrateurs syndicaux puissent composer.",
+      "noticeTitle": "Pas une diffusion locale aux membres",
+      "noticeBody": "Seuls les abonnés confirmés sur cette liste syndicale reçoivent des messages. Les importations restent en attente jusqu’à confirmation de chaque adresse.",
+      "listsTitle": "Listes",
+      "noLists": "Aucune liste pour l’instant. Créez une liste en stockage durable avant d’importer des abonnés.",
+      "counts": "{confirmed} confirmés · {pending} en attente",
+      "composeTitle": "Composer une campagne",
+      "subject": "Objet",
+      "body": "Message",
+      "mfaCode": "Code AMF (si demandé)",
+      "send": "Libérer l’envoi",
+      "sending": "Envoi…",
+      "mfaRequired": "Entrez votre code AMF actuel pour libérer cet envoi.",
+      "sent": "Campagne mise en file pour envoi par lots.",
+      "error": "Impossible de charger les listes de diffusion."
     }
   },
   "dataWorkbench": {
@@ -12420,6 +12475,13 @@
     "floorPlaceholder": "Message au plancher…",
     "emptyFloor": "Aucun message au plancher pour l’instant. Envoyez-en un ci-dessous pour commencer le fil.",
     "sendFloor": "Envoyer",
+    "floorReply": "Répondre",
+    "floorReplyPlaceholder": "Réponse au plancher…",
+    "floorReplying": "Réponse à un message au plancher.",
+    "floorCancelReply": "Annuler",
+    "floorSendReply": "Envoyer la réponse",
+    "floorPresence": "{names} au plancher",
+    "floorPresenceMany": "{names} et {count} autres au plancher",
     "rollCallAnswer": "Votre réponse à l’appel",
     "submitAnswer": "Soumettre",
     "newRollCallQuestion": "Nouvelle question d’appel",
@@ -16863,17 +16925,39 @@
     "enterpriseTitle": "Capacités entreprise (désactivées par défaut)",
     "enterpriseHint": "Chaque capacité exige un drapeau CapRover ET une habilitation par syndicat. Compose durable + ops — pas un Mailchimp.",
     "hostBroadcast": "CapRover : envoi collectif aux membres",
+    "hostOutreachLists": "CapRover : listes de diffusion syndicales",
     "hostCommsAutoSend": "CapRover : envoi auto Comms",
     "hostGrievanceSmtp": "CapRover : grief par SMTP",
     "hostTracking": "CapRover : pixels de suivi",
     "entitlementNeedsPostgres": "Postgres durable requis pour habiliter les syndicats.",
     "noUnions": "Aucun syndicat actif.",
     "entitlementBroadcast": "Envoi collectif aux membres",
+    "entitlementOutreachLists": "Listes de diffusion syndicales",
     "entitlementComms": "Envoi auto Comms",
     "entitlementGrievance": "Grief par SMTP",
     "entitlementTracking": "Pixels de suivi",
     "hostOffHint": "D'abord activer le drapeau CapRover correspondant.",
     "entitlementSaved": "Habilitation enregistrée."
+  },
+  "outreachListsAdmin": {
+    "title": "Opérations — listes de diffusion",
+    "intro": "Les listes syndicales restent désactivées jusqu’à l’approbation juridique de l’avis et la configuration CapRover. Gérez les habilitations, l’inventaire et la recherche de consentement ici.",
+    "readiness": "Préparation de l’hôte",
+    "enabled": "L’envoi des listes de diffusion est activé sur cet hôte.",
+    "disabled": "Envoi désactivé : {reason}.",
+    "approvalMeta": "Version de l’avis {version} · référence d’approbation : {reference}",
+    "yes": "Oui",
+    "no": "Non",
+    "entitlementsTitle": "Habilitations syndicales",
+    "inventoryTitle": "Inventaire des listes (métadonnées)",
+    "listCounts": "{confirmed} confirmés · {pending} en attente · {suppressed} supprimés",
+    "searchTitle": "Recherche de consentement par adresse",
+    "searchEmail": "Adresse courriel",
+    "searchAction": "Rechercher",
+    "searchFound": "{count} fiche(s) d’abonné trouvée(s) pour ce syndicat.",
+    "searchMissing": "Aucune fiche pour cette adresse dans ce syndicat.",
+    "saved": "Enregistré.",
+    "error": "Impossible de charger les opérations de listes de diffusion."
   },
   "productNewsAdmin": {
     "back": "Admin du site",

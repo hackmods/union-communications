@@ -85,3 +85,94 @@ export const memberBroadcastCampaigns = pgTable(
     index("member_broadcast_campaigns_local_idx").on(t.unionId, t.localId),
   ],
 );
+
+export const memberBroadcastSuppressions = pgTable(
+  "member_broadcast_suppressions",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "cascade" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    email: text("email").notNull(),
+    reason: text("reason").notNull(),
+    source: text("source").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("member_broadcast_suppressions_user_local_uidx").on(
+      t.unionId,
+      t.localId,
+      t.userId,
+    ),
+  ],
+);
+
+export const memberBroadcastActionTokens = pgTable(
+  "member_broadcast_action_tokens",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "cascade" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    campaignId: text("campaign_id").references(() => memberBroadcastCampaigns.id, {
+      onDelete: "set null",
+    }),
+    tokenHash: text("token_hash").notNull().unique(),
+    purpose: text("purpose").notNull().$type<"unsubscribe">(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    consumedAt: timestamp("consumed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    index("member_broadcast_action_tokens_expiry_idx").on(t.expiresAt),
+  ],
+);
+
+export const memberBroadcastDeliveries = pgTable(
+  "member_broadcast_deliveries",
+  {
+    id: text("id").primaryKey(),
+    campaignId: text("campaign_id")
+      .notNull()
+      .references(() => memberBroadcastCampaigns.id, { onDelete: "cascade" }),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "cascade" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    destinationEmail: text("destination_email").notNull(),
+    providerMessageId: text("provider_message_id"),
+    status: text("status")
+      .notNull()
+      .$type<"accepted" | "failed" | "suppressed">()
+      .default("accepted"),
+    errorCode: text("error_code"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    finishedAt: timestamp("finished_at", { withTimezone: true }),
+  },
+  (t) => [
+    index("member_broadcast_deliveries_provider_idx").on(t.providerMessageId),
+  ],
+);

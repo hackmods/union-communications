@@ -11,7 +11,9 @@ export type HubModule =
   | "bylaws"
   | "proposals"
   | "data"
-  | "documents";
+  | "documents"
+  | "expenses"
+  | "travel";
 
 export type UserRole =
   | "platform_admin"

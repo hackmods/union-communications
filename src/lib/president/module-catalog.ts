@@ -29,6 +29,8 @@ export const PRESIDENT_HUB_DEFAULT_OFF: readonly HubModule[] = [
   "checkins",
   "data",
   "documents",
+  "expenses",
+  "travel",
 ] as const;
 
 /** Overlay / create-union defaults — same set as president Hub defaults. */
@@ -152,6 +154,22 @@ export const HUB_CONFIG_ROWS: readonly HubConfigRow[] = [
     presidentToggle: true,
     tier: "operational",
   },
+  {
+    id: "expenses",
+    labelKey: "expenses",
+    blurbKey: "expensesBlurb",
+    defaultOn: false,
+    presidentToggle: true,
+    tier: "operational",
+  },
+  {
+    id: "travel",
+    labelKey: "travel",
+    blurbKey: "travelBlurb",
+    defaultOn: false,
+    presidentToggle: true,
+    tier: "operational",
+  },
 ] as const;
 
 /**
@@ -258,17 +276,19 @@ export type PresidentRoleToolId =
   | "financialSummaries"
   | "invites"
   | "meetings"
-  | "expenses"
-  | "travel"
   | "broadcast"
   | "polls";
+
+/** Legacy role-tool ids promoted to HubModules (one-time overlay map). */
+export const LEGACY_ROLE_TOOL_HUB_MODULES = [
+  "expenses",
+  "travel",
+] as const satisfies readonly HubModule[];
 
 export const PRESIDENT_ROLE_TOOL_ROWS = [
   { id: "financialSummaries" as const, href: "/app/ledger", defaultOn: false },
   { id: "invites" as const, href: "/app/invites", defaultOn: false },
   { id: "meetings" as const, href: "/app/meetings", defaultOn: false },
-  { id: "expenses" as const, href: "/app/expenses", defaultOn: false },
-  { id: "travel" as const, href: "/app/travel", defaultOn: false },
   { id: "broadcast" as const, href: "/app/broadcast", defaultOn: false },
   { id: "polls" as const, href: "/app/polls", defaultOn: false },
 ] as const;

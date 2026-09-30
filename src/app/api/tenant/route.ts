@@ -66,6 +66,9 @@ const hubModuleSchema = z.enum([
   "bylaws",
   "proposals",
   "data",
+  "documents",
+  "expenses",
+  "travel",
 ]);
 
 const portalSurfaceSchema = z.enum([
@@ -82,8 +85,6 @@ const presidentRoleToolSchema = z.enum([
   "financialSummaries",
   "invites",
   "meetings",
-  "expenses",
-  "travel",
   "broadcast",
   "polls",
 ]);

@@ -27,6 +27,11 @@ import {
 import { parseBasecampCsv, type BasecampImportRow } from "@/lib/portal/basecamp-import";
 import { resolveMentions } from "@/lib/portal/mentions";
 import type { PortalAdapter } from "@/lib/portal/adapter";
+import {
+  activeFloorMessages,
+  floorPresentNames,
+  validateFloorParent,
+} from "@/lib/portal/floor";
 import type {
   ActionItem,
   BinderItem,
@@ -87,6 +92,7 @@ function mapMembership(row: typeof portalCircleMemberships.$inferSelect): Circle
     mutedTools: (row.mutedTools ?? []) as PortalToolMute[],
     starred: row.starred,
     joinedAt: row.joinedAt.toISOString(),
+    lastFloorSeenAt: iso(row.lastFloorSeenAt),
   };
 }
 
@@ -134,6 +140,8 @@ function mapFloor(row: typeof portalFloorMessages.$inferSelect): FloorMessage {
   return {
     id: row.id, circleId: row.circleId, unionId: row.unionId,
     authorId: row.authorId, authorName: row.authorName, body: row.body,
+    parentId: row.parentId ?? undefined,
+    deletedAt: iso(row.deletedAt),
     createdAt: row.createdAt.toISOString(),
   };
 }
@@ -332,7 +340,11 @@ export class PostgresPortalAdapter implements PortalAdapter {
         weekDigest: {
           bulletinPosts: bulletins.filter((post) => !post.deletedAt && post.createdAt >= weekIso).length,
           actionsCompleted: actions.filter((item) => item.completedAt && !item.deletedAt && item.completedAt >= weekIso).length,
-          floorMessages: floorRows.filter((item) => circleIdSet.has(item.circleId) && item.createdAt.toISOString() >= weekIso).length,
+          floorMessages: floorRows.filter((item) =>
+            circleIdSet.has(item.circleId) &&
+            !item.deletedAt &&
+            item.createdAt.toISOString() >= weekIso,
+          ).length,
         },
       };
     });
@@ -367,8 +379,12 @@ export class PostgresPortalAdapter implements PortalAdapter {
         db.select().from(portalPipelineColumns).where(eq(portalPipelineColumns.boardId, board.id)).orderBy(asc(portalPipelineColumns.position)),
         db.select().from(portalPipelineCards).where(eq(portalPipelineCards.boardId, board.id)),
       ]) : [[], []];
+      const roster = rosterRows.map(mapMembership);
+      const mappedFloor = activeFloorMessages(floorRows.map(mapFloor)).sort(
+        (a, b) => a.createdAt.localeCompare(b.createdAt),
+      );
       return {
-        circle, membership, roster: rosterRows.map(mapMembership),
+        circle, membership, roster,
         bulletin: activePosts.sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.createdAt.localeCompare(a.createdAt)),
         comments: commentRows.map((row): BulletinComment => ({
           id: row.id, postId: row.postId, authorId: row.authorId,
@@ -377,7 +393,8 @@ export class PostgresPortalAdapter implements PortalAdapter {
         actions: actionRows.map(mapAction).filter((item) => !item.deletedAt).sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
         calendar: calendarRows.map(mapCalendar).sort((a, b) => a.startsAt.localeCompare(b.startsAt)),
         binder: binderRows.map(mapBinder).filter((item) => !item.deletedAt).sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
-        floor: floorRows.map(mapFloor).sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
+        floor: mappedFloor,
+        floorPresentNames: floorPresentNames(roster),
         rollCallQuestions: questionRows.map(mapQuestion), rollCallAnswers: answerRows.map(mapAnswer),
         pipelineBoard: board ? { id: board.id, circleId: board.circleId, unionId: board.unionId, name: board.name } : null,
         pipelineColumns: columnRows.map((row): PipelineColumn => ({ id: row.id, boardId: row.boardId, name: row.name, position: row.position })),
@@ -622,17 +639,51 @@ export class PostgresPortalAdapter implements PortalAdapter {
 
   async addFloorMessage(input: {
     circleId: string; unionId: string; authorId: string; authorName: string; body: string;
+    parentId?: string;
   }): Promise<FloorMessage> {
     this.requireActor(input.authorId, "author");
     if (!this.sameUnion(input.unionId)) throw new Error("Portal Circle scope denied.");
     return this.scoped(async () => {
+      const db = getDb();
+      const existing = await db.select().from(portalFloorMessages).where(and(
+        eq(portalFloorMessages.circleId, input.circleId),
+        eq(portalFloorMessages.unionId, input.unionId),
+      ));
+      const parentError = validateFloorParent(
+        existing.map(mapFloor),
+        input.circleId,
+        input.parentId,
+      );
+      if (parentError) throw new Error(parentError);
       const [row] = await getDb().insert(portalFloorMessages).values({
-        id: makeId("fl"), ...input, createdAt: instant(),
+        id: makeId("fl"),
+        circleId: input.circleId,
+        unionId: input.unionId,
+        authorId: input.authorId,
+        authorName: input.authorName,
+        body: input.body,
+        parentId: input.parentId ?? null,
+        deletedAt: null,
+        createdAt: instant(),
       }).returning();
       if (!row) throw new Error("Floor message was not saved.");
       await this.notifyMentions({ text: input.body, circleId: input.circleId,
         authorId: input.authorId, title: "Mentioned on the Floor" });
       return mapFloor(row);
+    });
+  }
+
+  async touchFloorPresence(circleId: string, userId: string): Promise<boolean> {
+    this.requireActor(userId, "presence actor");
+    return this.scoped(async () => {
+      const changed = await getDb().update(portalCircleMemberships)
+        .set({ lastFloorSeenAt: instant() })
+        .where(and(
+          eq(portalCircleMemberships.circleId, circleId),
+          eq(portalCircleMemberships.userId, userId),
+        ))
+        .returning({ id: portalCircleMemberships.id });
+      return changed.length > 0;
     });
   }
 
@@ -771,7 +822,7 @@ export class PostgresPortalAdapter implements PortalAdapter {
   }
 
   async softDelete(
-    resourceType: "bulletin" | "action" | "binder", resourceId: string,
+    resourceType: "bulletin" | "action" | "binder" | "floor", resourceId: string,
     circleId: string, unionId: string, userId: string,
   ): Promise<boolean> {
     this.requireActor(userId, "delete actor");
@@ -787,6 +838,10 @@ export class PostgresPortalAdapter implements PortalAdapter {
       } else if (resourceType === "action") {
         const [row] = await db.update(portalActions).set({ deletedAt: at, updatedAt: at })
           .where(and(eq(portalActions.id, resourceId), eq(portalActions.circleId, circleId), eq(portalActions.unionId, unionId), isNull(portalActions.deletedAt))).returning({ id: portalActions.id });
+        changed = Boolean(row);
+      } else if (resourceType === "floor") {
+        const [row] = await db.update(portalFloorMessages).set({ deletedAt: at })
+          .where(and(eq(portalFloorMessages.id, resourceId), eq(portalFloorMessages.circleId, circleId), eq(portalFloorMessages.unionId, unionId), isNull(portalFloorMessages.deletedAt))).returning({ id: portalFloorMessages.id });
         changed = Boolean(row);
       } else {
         const [row] = await db.update(portalBinderItems).set({ deletedAt: at })
@@ -861,14 +916,19 @@ export class PostgresPortalAdapter implements PortalAdapter {
       getDb().select().from(portalPipelineColumns).where(eq(portalPipelineColumns.boardId, board.id)).orderBy(asc(portalPipelineColumns.position)),
       getDb().select().from(portalPipelineCards).where(eq(portalPipelineCards.boardId, board.id)),
     ]) : [[], []];
+    const roster = rosterRows.map(mapMembership);
+    const mappedFloor = activeFloorMessages(floorRows.map(mapFloor)).sort(
+      (a, b) => a.createdAt.localeCompare(b.createdAt),
+    );
     return {
-      circle, membership: mapMembership(membership), roster: rosterRows.map(mapMembership),
+      circle, membership: mapMembership(membership), roster,
       bulletin: posts.sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.createdAt.localeCompare(a.createdAt)),
       comments: commentRows.map((row): BulletinComment => ({ id: row.id, postId: row.postId, authorId: row.authorId, authorName: row.authorName, body: row.body, createdAt: row.createdAt.toISOString() })),
       actions: actionRows.map(mapAction).filter((item) => !item.deletedAt).sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
       calendar: calendarRows.map(mapCalendar).sort((a, b) => a.startsAt.localeCompare(b.startsAt)),
       binder: binderRows.map(mapBinder).filter((item) => !item.deletedAt).sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
-      floor: floorRows.map(mapFloor).sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
+      floor: mappedFloor,
+      floorPresentNames: floorPresentNames(roster),
       rollCallQuestions: questionRows.map(mapQuestion), rollCallAnswers: answerRows.map(mapAnswer),
       pipelineBoard: board ? { id: board.id, circleId: board.circleId, unionId: board.unionId, name: board.name } : null,
       pipelineColumns: columnRows.map((row): PipelineColumn => ({ id: row.id, boardId: row.boardId, name: row.name, position: row.position })),

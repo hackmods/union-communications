@@ -14,7 +14,7 @@ function newId(): string {
   return `checkin-nudge-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function usePostgresNudgeStore(
+function postgresNudgeStoreEnabled(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
 ): boolean {
   return (
@@ -36,7 +36,7 @@ export async function hasCheckinNudgeBeenSent(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
 ): Promise<boolean> {
   const key = dedupeKey(scheduleId, periodKey, userId);
-  if (!usePostgresNudgeStore(env)) {
+  if (!postgresNudgeStoreEnabled(env)) {
     return memorySent.has(key);
   }
   const [row] = await withRlsContext({ retentionJob: true }, () =>
@@ -69,7 +69,7 @@ export async function claimCheckinNudgeSend(input: {
 }): Promise<boolean> {
   const env = input.env ?? process.env;
   const key = dedupeKey(input.scheduleId, input.periodKey, input.userId);
-  if (!usePostgresNudgeStore(env)) {
+  if (!postgresNudgeStoreEnabled(env)) {
     if (memorySent.has(key)) return false;
     memorySent.add(key);
     return true;

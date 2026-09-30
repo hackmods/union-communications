@@ -38,4 +38,5 @@ export * from "./incidents";
 export * from "./subprocessors";
 export * from "./marketing";
 export * from "./member-broadcast";
+export * from "./outreach";
 export * from "./observability";

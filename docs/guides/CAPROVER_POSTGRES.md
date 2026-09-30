@@ -346,6 +346,15 @@ Product news is a separate opt-in program for individuals. It is **off by defaul
 4. Set `UNIONOPS_PRODUCT_NEWS_APPROVED_VERSION=product-news-2026-09-v1`, `UNIONOPS_PRODUCT_NEWS_APPROVAL_REFERENCE=<review record>`, `UNIONOPS_PRODUCT_NEWS_SENDER_NAME=<approved legal sender>`, `UNIONOPS_PRODUCT_NEWS_FROM=<verified sender email>`, `UNIONOPS_PRODUCT_NEWS_CONTACT_EMAIL=<monitored contact>`, and `UNIONOPS_PRODUCT_NEWS_MAILING_ADDRESS=<approved postal address>`. Then set `UNIONOPS_PRODUCT_NEWS_ENABLED=true`. Optionally set `UNIONOPS_PRODUCT_NEWS_SEND_INTERVAL_MS=3000` (accepted range 1000–60000).
 5. Request a subscription at `/en/email-preferences` or `/fr/email-preferences`, confirm from that mailbox, and use **Site admin → Product news** to queue a test to that confirmed address. Call `POST /api/cron/product-news` with `Authorization: Bearer <CRON_SECRET>`; verify the delivery log, unsubscribe, and Mailgun feedback before scheduling it every minute. Each invocation sends at most three addresses; failed and unknown-outcome sends require operator review before any manual retry. Pause a released campaign from Site Admin if delivery must stop.
 
+### UnionOps outreach lists
+
+Union/org outreach lists (ADR-023) are **off by default**. Enable only after counsel approves the bilingual notice and sender identity. This is not local member broadcast and not product news.
+
+1. Complete the shared Mailgun + `EMAIL_ENABLED` + `AUTH_URL` + `CRON_SECRET` setup above (signed webhook at `/api/webhooks/mailgun/product-news` also correlates `unionops-outreach-list` tags).
+2. Set `UNIONOPS_OUTREACH_LISTS_APPROVED_VERSION=outreach-list-2026-09-v1`, `UNIONOPS_OUTREACH_LISTS_APPROVAL_REFERENCE=<review record>`, `UNIONOPS_OUTREACH_LISTS_SENDER_NAME`, `UNIONOPS_OUTREACH_LISTS_FROM`, `UNIONOPS_OUTREACH_LISTS_CONTACT_EMAIL`, `UNIONOPS_OUTREACH_LISTS_MAILING_ADDRESS`, and `UNIONOPS_OUTREACH_LISTS_TOKEN_KEYS` (comma-separated, ≥32 chars each).
+3. Set `UNIONOPS_OUTREACH_LISTS_ENABLED=true` only after the approval record exists. Turn on **Site admin → Email ops** (or Outreach lists) per-union entitlement for each union that may compose.
+4. Schedule `POST /api/cron/outreach-lists` with `Authorization: Bearer <CRON_SECRET>` after a test import (pending rows), confirmation drill, and released campaign. Each call sends at most three queued deliveries; tracking stays off.
+
 The CRTC says an unsubscribe link and mailing address must remain valid for at least 60 days after a commercial message is sent, and unsubscribe requests must be processed without delay and no later than 10 business days. The application suppresses immediately at the send gate. [CRTC CASL FAQ](https://crtc.gc.ca/eng/com500/faq500.htm).
 
 ---

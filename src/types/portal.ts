@@ -54,6 +54,8 @@ export interface CircleMembership {
   mutedTools: PortalToolMute[];
   starred: boolean;
   joinedAt: string;
+  /** Presence-lite while the Floor tab is open (heartbeat). */
+  lastFloorSeenAt?: string;
 }
 
 export interface BulletinPost {
@@ -134,6 +136,9 @@ export interface FloorMessage {
   authorId: string;
   authorName: string;
   body: string;
+  /** Shallow reply: one level only (parent must be top-level). */
+  parentId?: string;
+  deletedAt?: string;
   createdAt: string;
 }
 
@@ -271,6 +276,8 @@ export interface CircleDetailPayload {
   calendar: CalendarEvent[];
   binder: BinderItem[];
   floor: FloorMessage[];
+  /** Roster names with a recent Floor heartbeat (presence-lite). */
+  floorPresentNames: string[];
   rollCallQuestions: RollCallQuestion[];
   rollCallAnswers: RollCallAnswer[];
   pipelineBoard: PipelineBoard | null;

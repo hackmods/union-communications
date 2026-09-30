@@ -1,4 +1,18 @@
-﻿## 2026-09-30 — Site Admin Move Local (in-place)
+﻿## 2026-09-30 — Union outreach lists (Phase C / ADR-023)
+
+- ADR-023: gated union-wide outreach lists (distinct from ADR-021 product news and ADR-022 local member broadcast). Dual gate `UNIONOPS_OUTREACH_LISTS_ENABLED` + `unions.outreach_lists_enabled`; send gate requires approval reference, notice version, sender identity, Postgres, Mailgun feedback (default OFF).
+- Migration `0088_outreach_lists`: lists, subscribers, consent events, suppressions, campaigns, deliveries, action tokens, RLS; Mailgun tag `unionops-outreach-list` / classification `list_campaign`.
+- Hub `/app/outreach-lists` (union admin compose + MFA send); CSV import API with MFA + attestation + pending-only rows; Site Admin `/app/site-admin/outreach-lists` (entitlements, inventory, consent search, audit export metadata).
+- Memory adapter + focused unit tests (gates, import, suppressions, config, webhook lane).
+- What's new: `union-outreach-lists` (audience hub). Comms on-device lane untouched.
+
+## 2026-09-30 — Expenses & travel as Hub modules (Phase A)
+
+- Expenses and travel leave president **role tools**; presidents toggle them under operational **Hub modules** (default off). Legacy role-tool prefs map once into `enabledModules`.
+- Officer tools catalog / Funds nav group keeps ledger only; module-off panels + EN/FR copy for expenses/travel.
+- What's new: `expenses-travel-hub-modules`.
+
+## 2026-09-30 — Site Admin Move Local (in-place)
 
 - Site Admin can move a local to another union while keeping `local_id` stable (accounts, memberships, invites, collections, and dual-key casework follow).
 - Preview + fresh MFA + typed confirm; owner DB required; cascade registry with CI completeness vs Drizzle dual-key tables.

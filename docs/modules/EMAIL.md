@@ -1,7 +1,7 @@
 # Email Engine
 
 **Status:** In progress (`feat/email-engine`)  
-**Policy:** ADR-016 (transactional SMTP), ADR-021 (gated product-news), COMMS fifth channel = guide + copy (no member mailer)
+**Policy:** ADR-016 (transactional SMTP), ADR-021 (gated product-news), ADR-023 (gated union outreach lists), COMMS fifth channel = guide + copy (no member mailer)
 
 ## Lanes (do not merge)
 
@@ -51,7 +51,8 @@ src/lib/email/
 
 | Capability | CapRover env | Union column | Notes |
 |------------|--------------|--------------|-------|
-| Member broadcast | `UNIONOPS_MEMBER_BROADCAST_ENABLED` | `member_broadcast_enabled` | `classification: "broadcast"`; consent/suppression before send UI ships |
+| Member broadcast | `UNIONOPS_MEMBER_BROADCAST_ENABLED` | `member_broadcast_enabled` | `classification: "broadcast"`; explicit consent, signed unsubscribe, suppressions, Mailgun tag `unionops-member-broadcast` |
+| Union outreach lists | `UNIONOPS_OUTREACH_LISTS_ENABLED` | `outreach_lists_enabled` | ADR-023; `classification: "list_campaign"`; double opt-in, CSV import MFA + attestation, tag `unionops-outreach-list`; not local broadcast |
 | Comms auto-send | `UNIONOPS_COMMS_AUTO_SEND_ENABLED` | `comms_auto_send_enabled` | Copy/mailto stays default UX |
 | Grievance SMTP | `UNIONOPS_GRIEVANCE_SMTP_ENABLED` | `grievance_smtp_enabled` | Copy-only stays default |
 | Tracking pixels | `UNIONOPS_EMAIL_TRACKING_PIXELS_ENABLED` | `email_tracking_pixels_enabled` | Never on product-news `marketing` |
@@ -63,6 +64,7 @@ Site Admin: Email Ops → Enterprise capabilities (+ `/api/site-admin/email-enti
 
 - Site Admin **Email operations** — `/app/site-admin/email` (template studio, transport health, test send, **enterprise entitlements**)
 - Product-news panel — `/app/site-admin/product-news`
+- Outreach lists (ADR-023, default off) — `/app/site-admin/outreach-lists`; Hub compose `/app/outreach-lists` (union admin)
 - `GET /api/auth/email-status` — transport snapshot
 - `GET|POST /api/site-admin/email-ops` — preview + test send
 - `GET|PATCH /api/site-admin/email-entitlements` — CapRover host flags + per-union toggles

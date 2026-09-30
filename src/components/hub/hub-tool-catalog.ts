@@ -5,7 +5,6 @@
 import { canAccessBumpingModule } from "@/lib/bumping/access";
 import { canAccessCommitteesModule } from "@/lib/committees/access";
 import { canAccessElectionsModule } from "@/lib/elections/access";
-import { canAccessExpensesModule } from "@/lib/expenses/access";
 import {
   canAccessGrievanceModule,
   canCrossLocalGrievance,
@@ -22,7 +21,6 @@ import {
   canManageTenantOnboarding,
 } from "@/lib/tenant/access";
 import { canManageOfficerLearningReport } from "@/lib/officer-learning/access";
-import { canAccessTravelModule } from "@/lib/travel/access";
 import { getPresidentRoleToolsForUnion } from "@/lib/president/role-tools";
 import type { PresidentRoleToolId } from "@/lib/president/module-catalog";
 import type { HubModule, UserRole } from "@/types/tenant";
@@ -44,8 +42,6 @@ export type HubToolLabelKey =
   | "broadcastLink"
   | "pollsLink"
   | "ledgerLink"
-  | "travelLink"
-  | "expensesLink"
   | "handoffLink"
   | "invitesLink"
   | "tenantOnboardingLink"
@@ -71,8 +67,6 @@ export type HubToolBlurbKey =
   | "broadcast"
   | "polls"
   | "ledger"
-  | "travel"
-  | "expenses"
   | "handoff"
   | "invites"
   | "onboarding"
@@ -93,8 +87,6 @@ export type HubToolAccess = {
   broadcast: boolean;
   polls: boolean;
   ledger: boolean;
-  travel: boolean;
-  expenses: boolean;
   handoff: boolean;
   invites: boolean;
   tenantOnboarding: boolean;
@@ -210,18 +202,6 @@ export const HUB_TOOL_CATALOG: readonly HubToolDef[] = [
     visible: (a) => a.ledger,
   },
   {
-    href: "/app/travel",
-    labelKey: "travelLink",
-    blurbKey: "travel",
-    visible: (a) => a.travel,
-  },
-  {
-    href: "/app/expenses",
-    labelKey: "expensesLink",
-    blurbKey: "expenses",
-    visible: (a) => a.expenses,
-  },
-  {
     href: "/app/handoff",
     labelKey: "handoffLink",
     blurbKey: "handoff",
@@ -330,14 +310,6 @@ export function resolveHubToolAccess(
       (roles.includes("local_president") ||
         roles.includes("local_exec") ||
         canCrossLocalGrievance(roles)),
-    travel:
-      localCasework &&
-      roleTools.has("travel") &&
-      canAccessTravelModule(roles),
-    expenses:
-      localCasework &&
-      roleTools.has("expenses") &&
-      canAccessExpensesModule(roles),
     handoff: localCasework && canInitiateHandoff(roles),
     // Setup chrome is role-gated only — visible while tenant loads or modules are off.
     invites: roleTools.has("invites") && canManageInvites(roles),

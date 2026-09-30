@@ -15,6 +15,7 @@ export const dynamic = "force-dynamic";
 const patchSchema = z.object({
   unionId: z.string().min(1).max(120),
   memberBroadcastEnabled: z.boolean().optional(),
+  outreachListsEnabled: z.boolean().optional(),
   commsAutoSendEnabled: z.boolean().optional(),
   grievanceSmtpEnabled: z.boolean().optional(),
   emailTrackingPixelsEnabled: z.boolean().optional(),
@@ -41,6 +42,7 @@ export async function GET() {
       name: unions.name,
       slug: unions.slug,
       memberBroadcastEnabled: unions.memberBroadcastEnabled,
+      outreachListsEnabled: unions.outreachListsEnabled,
       commsAutoSendEnabled: unions.commsAutoSendEnabled,
       grievanceSmtpEnabled: unions.grievanceSmtpEnabled,
       emailTrackingPixelsEnabled: unions.emailTrackingPixelsEnabled,
@@ -57,6 +59,7 @@ export async function GET() {
       name: r.name,
       slug: r.slug,
       memberBroadcastEnabled: r.memberBroadcastEnabled === true,
+      outreachListsEnabled: r.outreachListsEnabled === true,
       commsAutoSendEnabled: r.commsAutoSendEnabled === true,
       grievanceSmtpEnabled: r.grievanceSmtpEnabled === true,
       emailTrackingPixelsEnabled: r.emailTrackingPixelsEnabled === true,
@@ -91,6 +94,7 @@ export async function PATCH(request: Request) {
   const {
     unionId,
     memberBroadcastEnabled,
+    outreachListsEnabled,
     commsAutoSendEnabled,
     grievanceSmtpEnabled,
     emailTrackingPixelsEnabled,
@@ -100,6 +104,7 @@ export async function PATCH(request: Request) {
     ...(memberBroadcastEnabled !== undefined
       ? { memberBroadcastEnabled }
       : {}),
+    ...(outreachListsEnabled !== undefined ? { outreachListsEnabled } : {}),
     ...(commsAutoSendEnabled !== undefined ? { commsAutoSendEnabled } : {}),
     ...(grievanceSmtpEnabled !== undefined ? { grievanceSmtpEnabled } : {}),
     ...(emailTrackingPixelsEnabled !== undefined
@@ -122,6 +127,10 @@ export async function PATCH(request: Request) {
         memberBroadcastEnabled === undefined
           ? "unchanged"
           : String(memberBroadcastEnabled),
+      outreachListsEnabled:
+        outreachListsEnabled === undefined
+          ? "unchanged"
+          : String(outreachListsEnabled),
       commsAutoSendEnabled:
         commsAutoSendEnabled === undefined
           ? "unchanged"

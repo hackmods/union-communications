@@ -12,12 +12,14 @@ import { isEmailEnabled } from "@/lib/email/send";
 
 export type EnterpriseEmailCapability =
   | "member_broadcast"
+  | "outreach_lists"
   | "comms_auto_send"
   | "grievance_smtp"
   | "tracking_pixels";
 
 const ENV_KEYS: Record<EnterpriseEmailCapability, string> = {
   member_broadcast: "UNIONOPS_MEMBER_BROADCAST_ENABLED",
+  outreach_lists: "UNIONOPS_OUTREACH_LISTS_ENABLED",
   comms_auto_send: "UNIONOPS_COMMS_AUTO_SEND_ENABLED",
   grievance_smtp: "UNIONOPS_GRIEVANCE_SMTP_ENABLED",
   tracking_pixels: "UNIONOPS_EMAIL_TRACKING_PIXELS_ENABLED",
@@ -46,6 +48,7 @@ export function getEnterpriseEmailHostFlags(): Record<
 > {
   return {
     member_broadcast: hostEnabled("member_broadcast"),
+    outreach_lists: hostEnabled("outreach_lists"),
     comms_auto_send: hostEnabled("comms_auto_send"),
     grievance_smtp: hostEnabled("grievance_smtp"),
     tracking_pixels: hostEnabled("tracking_pixels"),
@@ -54,6 +57,7 @@ export function getEnterpriseEmailHostFlags(): Record<
 
 export type UnionEmailEntitlements = {
   memberBroadcastEnabled: boolean;
+  outreachListsEnabled: boolean;
   commsAutoSendEnabled: boolean;
   grievanceSmtpEnabled: boolean;
   emailTrackingPixelsEnabled: boolean;
@@ -61,6 +65,7 @@ export type UnionEmailEntitlements = {
 
 const CLOSED: UnionEmailEntitlements = {
   memberBroadcastEnabled: false,
+  outreachListsEnabled: false,
   commsAutoSendEnabled: false,
   grievanceSmtpEnabled: false,
   emailTrackingPixelsEnabled: false,
@@ -73,6 +78,7 @@ export async function getUnionEmailEntitlements(
   const rows = await getDb()
     .select({
       memberBroadcastEnabled: unions.memberBroadcastEnabled,
+      outreachListsEnabled: unions.outreachListsEnabled,
       commsAutoSendEnabled: unions.commsAutoSendEnabled,
       grievanceSmtpEnabled: unions.grievanceSmtpEnabled,
       emailTrackingPixelsEnabled: unions.emailTrackingPixelsEnabled,
@@ -83,6 +89,7 @@ export async function getUnionEmailEntitlements(
   if (!rows[0]) return null;
   return {
     memberBroadcastEnabled: rows[0].memberBroadcastEnabled === true,
+    outreachListsEnabled: rows[0].outreachListsEnabled === true,
     commsAutoSendEnabled: rows[0].commsAutoSendEnabled === true,
     grievanceSmtpEnabled: rows[0].grievanceSmtpEnabled === true,
     emailTrackingPixelsEnabled: rows[0].emailTrackingPixelsEnabled === true,
@@ -96,6 +103,8 @@ function unionAllows(
   switch (capability) {
     case "member_broadcast":
       return entitlements.memberBroadcastEnabled;
+    case "outreach_lists":
+      return entitlements.outreachListsEnabled;
     case "comms_auto_send":
       return entitlements.commsAutoSendEnabled;
     case "grievance_smtp":
@@ -115,6 +124,12 @@ export async function assertEnterpriseEmailCapability(
 ): Promise<EnterpriseEmailGateResult> {
   if (!hostEnabled(capability)) {
     return { ok: false, reason: "host_disabled" };
+  }
+  if (capability === "outreach_lists") {
+    const { readOutreachListsConfig } = await import("@/lib/email/outreach-config");
+    if (!readOutreachListsConfig().enabled) {
+      return { ok: false, reason: "host_disabled" };
+    }
   }
   if (
     capability !== "tracking_pixels" &&
@@ -147,6 +162,9 @@ export async function setUnionEmailEntitlements(
     .set({
       ...(patch.memberBroadcastEnabled !== undefined
         ? { memberBroadcastEnabled: patch.memberBroadcastEnabled }
+        : {}),
+      ...(patch.outreachListsEnabled !== undefined
+        ? { outreachListsEnabled: patch.outreachListsEnabled }
         : {}),
       ...(patch.commsAutoSendEnabled !== undefined
         ? { commsAutoSendEnabled: patch.commsAutoSendEnabled }

@@ -7,7 +7,8 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Card } from "@/components/ui/Card";
-import type { CircleDetailPayload, PortalToolMute } from "@/types/portal";
+import type { CircleDetailPayload, FloorMessage, PortalToolMute } from "@/types/portal";
+import { useHubPoll } from "@/components/hub/useHubPoll";
 import {
   canAdminCircle,
   canWriteCircle,
@@ -97,6 +98,9 @@ export function CircleWorkspace({
   const [invitees, setInvitees] = useState<{ id: string; name: string }[]>([]);
   const [inviteesError, setInviteesError] = useState<string | null>(null);
   const [inviteesTick, setInviteesTick] = useState(0);
+  const [floorReplyParentId, setFloorReplyParentId] = useState<string | null>(
+    null,
+  );
 
   function resetDraft() {
     setDraft({
@@ -170,6 +174,63 @@ export function CircleWorkspace({
   }, [detail]);
 
   const activeTab = visibleTabs.includes(tab) ? tab : visibleTabs[0] ?? "bulletin";
+
+  useHubPoll(activeTab === "floor", load);
+
+  useEffect(() => {
+    if (activeTab !== "floor") return;
+    let cancelled = false;
+    const ping = () => {
+      if (cancelled || document.visibilityState !== "visible") return;
+      void fetch(`/api/portal/circles/${circleId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tool: "floor_heartbeat" }),
+      }).catch(() => {});
+    };
+    ping();
+    const timer = setInterval(ping, 45_000);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+    };
+  }, [activeTab, circleId, load]);
+
+  const floorThreadRows = useMemo(() => {
+    if (!detail) return [] as Array<{ message: FloorMessage; depth: 0 | 1 }>;
+    const tops = detail.floor.filter((m) => !m.parentId);
+    const replies = detail.floor.filter((m) => m.parentId);
+    const byParent = new Map<string, FloorMessage[]>();
+    for (const reply of replies) {
+      const key = reply.parentId!;
+      const list = byParent.get(key) ?? [];
+      list.push(reply);
+      byParent.set(key, list);
+    }
+    const rows: Array<{ message: FloorMessage; depth: 0 | 1 }> = [];
+    for (const top of tops) {
+      rows.push({ message: top, depth: 0 });
+      const children = (byParent.get(top.id) ?? []).sort((a, b) =>
+        a.createdAt.localeCompare(b.createdAt),
+      );
+      for (const child of children) {
+        rows.push({ message: child, depth: 1 });
+      }
+    }
+    return rows;
+  }, [detail]);
+
+  const floorPresenceLabel = useMemo(() => {
+    if (!detail?.floorPresentNames.length) return null;
+    const names = detail.floorPresentNames;
+    if (names.length <= 3) {
+      return t("floorPresence", { names: names.join(", ") });
+    }
+    return t("floorPresenceMany", {
+      names: names.slice(0, 2).join(", "),
+      count: names.length - 2,
+    });
+  }, [detail, t]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -1019,35 +1080,94 @@ export function CircleWorkspace({
 
       {activeTab === "floor" && (
         <div className="space-y-4">
+          {floorPresenceLabel ? (
+            <p className="text-xs text-gray-500">{floorPresenceLabel}</p>
+          ) : null}
           <ul className="max-h-80 space-y-2 overflow-y-auto rounded-lg border border-gray-200 p-3">
-            {detail.floor.length === 0 ? (
+            {floorThreadRows.length === 0 ? (
               <li className="text-sm text-gray-500">{t("emptyFloor")}</li>
             ) : (
-              detail.floor.map((m) => (
-              <li key={m.id} className="text-sm">
-                <span className="font-medium">{m.authorName}</span>
-                <span className="text-gray-500">
-                  {" "}
-                  · {new Date(m.createdAt).toLocaleTimeString()}
-                </span>
-                <p>{m.body}</p>
-              </li>
+              floorThreadRows.map(({ message: m, depth }) => (
+                <li
+                  key={m.id}
+                  className={cn("text-sm", depth === 1 && "ml-6 border-l-2 border-gray-100 pl-3")}
+                >
+                  <span className="font-medium">{m.authorName}</span>
+                  <span className="text-gray-500">
+                    {" "}
+                    · {new Date(m.createdAt).toLocaleTimeString()}
+                  </span>
+                  <p>{m.body}</p>
+                  {canWrite && depth === 0 ? (
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      className="mt-1"
+                      onClick={() => setFloorReplyParentId(m.id)}
+                    >
+                      {t("floorReply")}
+                    </Button>
+                  ) : null}
+                  {canWrite ? (
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      className="mt-1"
+                      onClick={() =>
+                        void postTool({
+                          tool: "soft_delete",
+                          resourceType: "floor",
+                          resourceId: m.id,
+                        })
+                      }
+                    >
+                      {t("softDelete")}
+                    </Button>
+                  ) : null}
+                </li>
               ))
             )}
           </ul>
           {canWrite ? (
             <form
-              className="flex gap-2"
+              className="flex flex-col gap-2 sm:flex-row"
               onSubmit={(e) => {
                 e.preventDefault();
-                void postTool({ tool: "floor", body: draft.body }).then(() =>
-                  resetDraft(),
-                );
+                void postTool({
+                  tool: "floor",
+                  body: draft.body,
+                  ...(floorReplyParentId
+                    ? { parentId: floorReplyParentId }
+                    : {}),
+                }).then(() => {
+                  resetDraft();
+                  setFloorReplyParentId(null);
+                });
               }}
             >
+              {floorReplyParentId ? (
+                <p className="text-xs text-gray-600 sm:basis-full">
+                  {t("floorReplying")}
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    className="ml-2"
+                    onClick={() => setFloorReplyParentId(null)}
+                  >
+                    {t("floorCancelReply")}
+                  </Button>
+                </p>
+              ) : null}
               <input
                 className="min-h-11 flex-1 rounded-lg border border-gray-300 px-3"
-                placeholder={t("floorPlaceholder")}
+                placeholder={
+                  floorReplyParentId
+                    ? t("floorReplyPlaceholder")
+                    : t("floorPlaceholder")
+                }
                 value={draft.body}
                 onChange={(e) =>
                   setDraft((d) => ({ ...d, body: e.target.value }))
@@ -1055,12 +1175,11 @@ export function CircleWorkspace({
               />
               <Button
                 type="submit"
-                // Keep browser focus/scroll-to-control below the sticky tool tabs.
                 style={{
                   scrollMarginTop: "calc(var(--site-header-height, 3.5rem) + 7rem)",
                 }}
               >
-                {t("sendFloor")}
+                {floorReplyParentId ? t("floorSendReply") : t("sendFloor")}
               </Button>
             </form>
           ) : null}

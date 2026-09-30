@@ -7,6 +7,7 @@ import {
 } from "@/lib/expenses/access";
 import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { localScopeFilter } from "@/lib/authorization/scope-filter";
+import { getTenantContext } from "@/lib/tenant/loader";
 import type { ExpenseSubmission } from "@/types/expenses";
 import type { UserRole } from "@/types/tenant";
 
@@ -26,7 +27,16 @@ export async function requireExpenseSession(): Promise<ExpenseSessionResult> {
   if (!canAccessExpensesModule(roles)) {
     return { ok: false, status: 403, error: "Forbidden" };
   }
+  if (!isExpensesModuleEnabled(session)) {
+    return { ok: false, status: 403, error: "Module not enabled" };
+  }
   return { ok: true, session };
+}
+
+export function isExpensesModuleEnabled(session: Session): boolean {
+  if (!session.user.unionId) return false;
+  const tenant = getTenantContext(session.user.unionId);
+  return tenant?.union.enabledModules.includes("expenses") ?? false;
 }
 
 export function assertExpenseView(

@@ -32,6 +32,7 @@ export async function GET() {
       entitlements: null,
       allowed: {
         member_broadcast: false,
+        outreach_lists: false,
         comms_auto_send: false,
         grievance_smtp: false,
         tracking_pixels: false,
@@ -40,8 +41,9 @@ export async function GET() {
   }
 
   const entitlements = await getUnionEmailEntitlements(unionId);
-  const [broadcast, comms, grievance, tracking] = await Promise.all([
+  const [broadcast, outreach, comms, grievance, tracking] = await Promise.all([
     assertEnterpriseEmailCapability("member_broadcast", unionId),
+    assertEnterpriseEmailCapability("outreach_lists", unionId),
     assertEnterpriseEmailCapability("comms_auto_send", unionId),
     assertEnterpriseEmailCapability("grievance_smtp", unionId),
     assertEnterpriseEmailCapability("tracking_pixels", unionId),
@@ -53,6 +55,7 @@ export async function GET() {
     entitlements,
     allowed: {
       member_broadcast: broadcast.ok,
+      outreach_lists: outreach.ok,
       comms_auto_send: comms.ok,
       grievance_smtp: grievance.ok,
       tracking_pixels: tracking.ok,

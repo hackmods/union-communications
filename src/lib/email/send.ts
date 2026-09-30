@@ -10,10 +10,17 @@ export type SendTransactionalEmailInput = {
 };
 
 export type ClassifiedEmailInput = SendTransactionalEmailInput & {
-  classification: "transactional" | "security" | "marketing" | "broadcast";
+  classification:
+    | "transactional"
+    | "security"
+    | "marketing"
+    | "list_campaign"
+    | "broadcast";
   from?: string;
   replyTo?: string;
   listUnsubscribe?: string;
+  /** RFC 8058 one-click when List-Unsubscribe points at an HTTPS POST handler. */
+  listUnsubscribePost?: boolean;
   /**
    * Opt-in open/click tracking. Honored only when CapRover
    * UNIONOPS_EMAIL_TRACKING_PIXELS_ENABLED=true. Product-news (marketing)
@@ -309,9 +316,19 @@ async function sendViaMailgunApi(
     body.set("text", input.text);
     if (input.html) body.set("html", input.html);
     if (input.replyTo) body.set("h:Reply-To", input.replyTo);
-    if (input.listUnsubscribe) body.set("h:List-Unsubscribe", `<${input.listUnsubscribe}>`);
+    if (input.listUnsubscribe) {
+      body.set("h:List-Unsubscribe", `<${input.listUnsubscribe}>`);
+      if (input.listUnsubscribePost) {
+        body.set("h:List-Unsubscribe-Post", "List-Unsubscribe=One-Click");
+      }
+    }
     if (input.classification === "marketing") {
       body.set("o:tag", "unionops-product-news");
+      body.set("o:tracking", "no");
+      body.set("o:tracking-opens", "no");
+      body.set("o:tracking-clicks", "no");
+    } else if (input.classification === "list_campaign") {
+      body.set("o:tag", "unionops-outreach-list");
       body.set("o:tracking", "no");
       body.set("o:tracking-opens", "no");
       body.set("o:tracking-clicks", "no");
@@ -443,6 +460,7 @@ export async function sendClassifiedEmail(
 ): Promise<SendTransactionalEmailResult> {
   if (
     (input.classification === "marketing" ||
+      input.classification === "list_campaign" ||
       input.classification === "broadcast") &&
     (!input.from || !input.replyTo || !input.listUnsubscribe)
   ) {

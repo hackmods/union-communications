@@ -50,14 +50,15 @@ reason Comms is omitted — the site header already elevates it).
 | Steward Quick-Log | **Off** | Operational | |
 | Check-ins | **Off** | Operational | |
 | UnionOps Data | **Off** | Operational | Union/platform admin + Postgres |
+| Documents vault | **Off** | Operational | |
+| Union business expenses | **Off** | Operational | `/app/expenses` |
+| Travel authorization | **Off** | Operational | `/app/travel` |
 
 ### President role tools (nav opt-in, role access unchanged)
 
 | Surface | Path | Default nav |
 |---------|------|-------------|
 | Local financial summaries (Ledger) | `/app/ledger` | **Off** |
-| Expenses | `/app/expenses` | **Off** |
-| Travel claims | `/app/travel` | **Off** |
 | Invites | `/app/invites` | **Off** (setup checklist still links) |
 | Meetings & RSVP | `/app/meetings` | **Off** |
 | Broadcast | `/app/broadcast` | **Off** |

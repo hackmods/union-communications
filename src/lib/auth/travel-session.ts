@@ -7,6 +7,7 @@ import {
 } from "@/lib/travel/access";
 import { canCrossLocalGrievance } from "@/lib/authorization/legacy-role-compat";
 import { localScopeFilter } from "@/lib/authorization/scope-filter";
+import { getTenantContext } from "@/lib/tenant/loader";
 import type { TravelAuthorization } from "@/types/travel";
 import type { UserRole } from "@/types/tenant";
 
@@ -26,7 +27,16 @@ export async function requireTravelSession(): Promise<TravelSessionResult> {
   if (!canAccessTravelModule(roles)) {
     return { ok: false, status: 403, error: "Forbidden" };
   }
+  if (!isTravelModuleEnabled(session)) {
+    return { ok: false, status: 403, error: "Module not enabled" };
+  }
   return { ok: true, session };
+}
+
+export function isTravelModuleEnabled(session: Session): boolean {
+  if (!session.user.unionId) return false;
+  const tenant = getTenantContext(session.user.unionId);
+  return tenant?.union.enabledModules.includes("travel") ?? false;
 }
 
 export function assertTravelView(

@@ -25,8 +25,6 @@ const ALL_ROLE_TOOLS: PresidentRoleToolId[] = [
   "financialSummaries",
   "invites",
   "meetings",
-  "expenses",
-  "travel",
   "broadcast",
   "polls",
 ];
@@ -41,6 +39,12 @@ describe("HUB_TOOL_CATALOG", () => {
 
   it("keeps a blurb key on every row", () => {
     expect(HUB_TOOL_CATALOG.every((item) => item.blurbKey)).toBe(true);
+  });
+
+  it("does not list expenses or travel (Hub modules, not role tools)", () => {
+    const hrefs = hubToolCatalogHrefs();
+    expect(hrefs).not.toContain("/app/expenses");
+    expect(hrefs).not.toContain("/app/travel");
   });
 });
 
@@ -77,8 +81,6 @@ describe("resolveHubToolAccess", () => {
     expect(hrefs).not.toContain("/app/ledger");
     expect(hrefs).not.toContain("/app/meetings");
     expect(hrefs).not.toContain("/app/invites");
-    expect(hrefs).not.toContain("/app/expenses");
-    expect(hrefs).not.toContain("/app/travel");
     expect(hrefs).not.toContain("/app/broadcast");
     expect(hrefs).not.toContain("/app/polls");
     expect(hrefs).toContain("/app/configuration");
@@ -125,6 +127,17 @@ describe("resolveHubToolAccess", () => {
     const hrefs = listVisibleHubTools(access).map((item) => item.href);
     expect(hrefs).toContain("/app/calendar");
     expect(hrefs).not.toContain("/app/overdue");
+  });
+
+  it("does not surface expenses or travel via president role tools when Hub modules are on", () => {
+    const access = resolveHubToolAccess(
+      ["local_president"] as UserRole[],
+      [...ALL_MODULES, "expenses", "travel"] as HubModule[],
+      scoped,
+    );
+    const hrefs = listVisibleHubTools(access).map((item) => item.href);
+    expect(hrefs).not.toContain("/app/expenses");
+    expect(hrefs).not.toContain("/app/travel");
   });
 
   it("hides local-scoped tools when the session has no union or local", () => {

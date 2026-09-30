@@ -1,14 +1,22 @@
 import { randomUUID } from "node:crypto";
-import { and, eq, isNull, lte } from "drizzle-orm";
+import { and, desc, eq, isNull, lte } from "drizzle-orm";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { withRlsContext, type RlsSessionContext } from "@/lib/db/rls-context";
 import { localMemberships } from "@/lib/db/schema/organization-access";
 import {
+  memberBroadcastActionTokens,
   memberBroadcastCampaigns,
   memberBroadcastConsents,
+  memberBroadcastDeliveries,
+  memberBroadcastSuppressions,
 } from "@/lib/db/schema/member-broadcast";
 import { users } from "@/lib/db/schema/tenant";
 import { assertEnterpriseEmailCapability } from "@/lib/email/enterprise-gates";
+import {
+  MEMBER_BROADCAST_UNSUBSCRIBE_LINK_DAYS,
+  createMemberBroadcastToken,
+  readMemberBroadcastTokenKeys,
+} from "@/lib/email/member-broadcast-config";
 import { MEMBER_BROADCAST_NOTICE_VERSION } from "@/lib/email/member-broadcast-notice";
 import { composeMarketingCampaignEmail } from "@/lib/email/engine";
 import { resolveOpenTracking } from "@/lib/email/tracking";
@@ -19,8 +27,34 @@ export type BroadcastRosterRow = {
   userId: string;
   name: string;
   email: string;
-  status: "confirmed" | "revoked" | "none";
+  status: "confirmed" | "revoked" | "none" | "stale";
 };
+
+export type BroadcastCampaignRow = {
+  id: string;
+  subject: string;
+  recipientCount: number;
+  acceptedCount: number;
+  failedCount: number;
+  createdAt: string;
+  openTrackingApplied: boolean;
+};
+
+function isSendEligible(
+  consent:
+    | { status: string; wordingVersion: string }
+    | undefined,
+  suppressed: boolean,
+): BroadcastRosterRow["status"] {
+  if (suppressed) return "revoked";
+  if (!consent || consent.status !== "confirmed") {
+    return consent?.status === "revoked" ? "revoked" : "none";
+  }
+  if (consent.wordingVersion !== MEMBER_BROADCAST_NOTICE_VERSION) {
+    return "stale";
+  }
+  return "confirmed";
+}
 
 export async function listBroadcastRoster(input: {
   unionId: string;
@@ -57,6 +91,7 @@ export async function listBroadcastRoster(input: {
         userId: memberBroadcastConsents.userId,
         status: memberBroadcastConsents.status,
         email: memberBroadcastConsents.email,
+        wordingVersion: memberBroadcastConsents.wordingVersion,
       })
       .from(memberBroadcastConsents)
       .where(
@@ -66,16 +101,68 @@ export async function listBroadcastRoster(input: {
         ),
       );
 
+    const suppressions = await getDb()
+      .select({ userId: memberBroadcastSuppressions.userId })
+      .from(memberBroadcastSuppressions)
+      .where(
+        and(
+          eq(memberBroadcastSuppressions.unionId, input.unionId),
+          eq(memberBroadcastSuppressions.localId, input.localId),
+        ),
+      );
+
     const byUser = new Map(consents.map((c) => [c.userId, c]));
+    const suppressedUsers = new Set(suppressions.map((s) => s.userId));
     return members.map((m) => {
       const c = byUser.get(m.userId);
+      const status = isSendEligible(c, suppressedUsers.has(m.userId));
       return {
         userId: m.userId,
         name: m.name,
         email: c?.email ?? m.email,
-        status: (c?.status as "confirmed" | "revoked" | undefined) ?? "none",
+        status,
       };
     });
+  });
+}
+
+export async function listBroadcastCampaigns(input: {
+  unionId: string;
+  localId: string;
+  rls: RlsSessionContext;
+  limit?: number;
+}): Promise<BroadcastCampaignRow[]> {
+  if (!isPostgresConfigured()) return [];
+  const limit = Math.min(Math.max(input.limit ?? 20, 1), 100);
+  return withRlsContext(input.rls, async () => {
+    const rows = await getDb()
+      .select({
+        id: memberBroadcastCampaigns.id,
+        subject: memberBroadcastCampaigns.subject,
+        recipientCount: memberBroadcastCampaigns.recipientCount,
+        acceptedCount: memberBroadcastCampaigns.acceptedCount,
+        failedCount: memberBroadcastCampaigns.failedCount,
+        createdAt: memberBroadcastCampaigns.createdAt,
+        openTrackingApplied: memberBroadcastCampaigns.openTrackingApplied,
+      })
+      .from(memberBroadcastCampaigns)
+      .where(
+        and(
+          eq(memberBroadcastCampaigns.unionId, input.unionId),
+          eq(memberBroadcastCampaigns.localId, input.localId),
+        ),
+      )
+      .orderBy(desc(memberBroadcastCampaigns.createdAt))
+      .limit(limit);
+    return rows.map((row) => ({
+      id: row.id,
+      subject: row.subject,
+      recipientCount: Number(row.recipientCount) || 0,
+      acceptedCount: Number(row.acceptedCount) || 0,
+      failedCount: Number(row.failedCount) || 0,
+      createdAt: row.createdAt.toISOString(),
+      openTrackingApplied: row.openTrackingApplied === "yes",
+    }));
   });
 }
 
@@ -106,6 +193,18 @@ export async function setOwnBroadcastConsent(input: {
       )
       .limit(1);
 
+    if (input.consent) {
+      await getDb()
+        .delete(memberBroadcastSuppressions)
+        .where(
+          and(
+            eq(memberBroadcastSuppressions.unionId, input.unionId),
+            eq(memberBroadcastSuppressions.localId, input.localId),
+            eq(memberBroadcastSuppressions.userId, input.userId),
+          ),
+        );
+    }
+
     if (existing[0]) {
       await getDb()
         .update(memberBroadcastConsents)
@@ -126,6 +225,31 @@ export async function setOwnBroadcastConsent(input: {
               },
         )
         .where(eq(memberBroadcastConsents.id, existing[0].id));
+      if (!input.consent) {
+        await getDb()
+          .insert(memberBroadcastSuppressions)
+          .values({
+            id: randomUUID(),
+            unionId: input.unionId,
+            localId: input.localId,
+            userId: input.userId,
+            email: input.email.toLowerCase(),
+            reason: "member_withdrawal",
+            source: "hub_consent",
+          })
+          .onConflictDoUpdate({
+            target: [
+              memberBroadcastSuppressions.unionId,
+              memberBroadcastSuppressions.localId,
+              memberBroadcastSuppressions.userId,
+            ],
+            set: {
+              email: input.email.toLowerCase(),
+              reason: "member_withdrawal",
+              source: "hub_consent",
+            },
+          });
+      }
     } else if (input.consent) {
       await getDb().insert(memberBroadcastConsents).values({
         id: randomUUID(),
@@ -135,6 +259,26 @@ export async function setOwnBroadcastConsent(input: {
         email: input.email.toLowerCase(),
         status: "confirmed",
         wordingVersion: MEMBER_BROADCAST_NOTICE_VERSION,
+      });
+    } else {
+      await getDb().insert(memberBroadcastSuppressions).values({
+        id: randomUUID(),
+        unionId: input.unionId,
+        localId: input.localId,
+        userId: input.userId,
+        email: input.email.toLowerCase(),
+        reason: "member_withdrawal",
+        source: "hub_consent",
+      });
+      await getDb().insert(memberBroadcastConsents).values({
+        id: randomUUID(),
+        unionId: input.unionId,
+        localId: input.localId,
+        userId: input.userId,
+        email: input.email.toLowerCase(),
+        status: "revoked",
+        wordingVersion: MEMBER_BROADCAST_NOTICE_VERSION,
+        revokedAt: new Date(),
       });
     }
   });
@@ -153,7 +297,7 @@ export async function sendMemberBroadcast(input: {
   rls: RlsSessionContext;
   from: string;
   replyTo: string;
-  listUnsubscribeBase: string;
+  unsubscribeApiBase: string;
 }): Promise<
   | {
       ok: true;
@@ -169,6 +313,11 @@ export async function sendMemberBroadcast(input: {
     input.unionId,
   );
   if (!gate.ok) return { ok: false, reason: gate.reason };
+
+  const tokenKeys = readMemberBroadcastTokenKeys();
+  if (!tokenKeys.length || tokenKeys.some((key) => key.length < 32)) {
+    return { ok: false, reason: "token_keys_missing" };
+  }
 
   const tracking = await resolveOpenTracking({
     unionId: input.unionId,
@@ -196,8 +345,60 @@ export async function sendMemberBroadcast(input: {
   let accepted = 0;
   let failed = 0;
 
+  await withRlsContext(input.rls, async () => {
+    await getDb().insert(memberBroadcastCampaigns).values({
+      id: campaignId,
+      unionId: input.unionId,
+      localId: input.localId,
+      createdById: input.actorUserId,
+      subject: input.subject,
+      bodyText: input.body,
+      openTrackingRequested: input.explicitTrackingOptIn ? "yes" : "no",
+      openTrackingApplied: tracking.apply ? "yes" : "no",
+      recipientCount: String(recipients.length),
+      acceptedCount: "0",
+      failedCount: "0",
+    });
+  });
+
+  const expiresAt = new Date(
+    Date.now() + MEMBER_BROADCAST_UNSUBSCRIBE_LINK_DAYS * 24 * 60 * 60_000,
+  );
+
   for (const recipient of recipients) {
-    const unsubscribeUrl = `${input.listUnsubscribeBase}?user=${encodeURIComponent(recipient.userId)}`;
+    const link = createMemberBroadcastToken(
+      {
+        purpose: "unsubscribe",
+        expiresAt,
+        unionId: input.unionId,
+        localId: input.localId,
+        userId: recipient.userId,
+      },
+      tokenKeys,
+    );
+    const deliveryId = randomUUID();
+    await withRlsContext(input.rls, async () => {
+      await getDb().insert(memberBroadcastActionTokens).values({
+        id: link.id,
+        unionId: input.unionId,
+        localId: input.localId,
+        userId: recipient.userId,
+        campaignId,
+        tokenHash: link.hash,
+        purpose: "unsubscribe",
+        expiresAt,
+      });
+      await getDb().insert(memberBroadcastDeliveries).values({
+        id: deliveryId,
+        campaignId,
+        unionId: input.unionId,
+        localId: input.localId,
+        userId: recipient.userId,
+        destinationEmail: recipient.email.toLowerCase(),
+      });
+    });
+
+    const unsubscribeUrl = `${input.unsubscribeApiBase}?token=${encodeURIComponent(link.token)}`;
     const artifact = composeMarketingCampaignEmail({
       locale: input.locale,
       subject: input.subject,
@@ -213,29 +414,45 @@ export async function sendMemberBroadcast(input: {
       from: input.from,
       replyTo: input.replyTo,
       listUnsubscribe: unsubscribeUrl,
+      listUnsubscribePost: true,
       subject: artifact.subject,
       text: artifact.text,
       html: artifact.html,
       openTracking: tracking.apply,
     });
-    if (result.ok) accepted += 1;
-    else failed += 1;
+    if (result.ok) {
+      accepted += 1;
+      if (result.messageId) {
+        await withRlsContext(input.rls, async () => {
+          await getDb()
+            .update(memberBroadcastDeliveries)
+            .set({ providerMessageId: result.messageId })
+            .where(eq(memberBroadcastDeliveries.id, deliveryId));
+        });
+      }
+    } else {
+      failed += 1;
+      await withRlsContext(input.rls, async () => {
+        await getDb()
+          .update(memberBroadcastDeliveries)
+          .set({
+            status: "failed",
+            errorCode: "send_failed",
+            finishedAt: new Date(),
+          })
+          .where(eq(memberBroadcastDeliveries.id, deliveryId));
+      });
+    }
   }
 
   await withRlsContext(input.rls, async () => {
-    await getDb().insert(memberBroadcastCampaigns).values({
-      id: campaignId,
-      unionId: input.unionId,
-      localId: input.localId,
-      createdById: input.actorUserId,
-      subject: input.subject,
-      bodyText: input.body,
-      openTrackingRequested: input.explicitTrackingOptIn ? "yes" : "no",
-      openTrackingApplied: tracking.apply ? "yes" : "no",
-      recipientCount: String(recipients.length),
-      acceptedCount: String(accepted),
-      failedCount: String(failed),
-    });
+    await getDb()
+      .update(memberBroadcastCampaigns)
+      .set({
+        acceptedCount: String(accepted),
+        failedCount: String(failed),
+      })
+      .where(eq(memberBroadcastCampaigns.id, campaignId));
   });
 
   return {

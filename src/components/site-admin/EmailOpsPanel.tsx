@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/Input";
 type PresetRow = { id: string; classification: string };
 type HostFlags = {
   member_broadcast: boolean;
+  outreach_lists: boolean;
   comms_auto_send: boolean;
   grievance_smtp: boolean;
   tracking_pixels: boolean;
@@ -30,6 +31,7 @@ type UnionEntitlement = {
   name: string;
   slug: string;
   memberBroadcastEnabled: boolean;
+  outreachListsEnabled: boolean;
   commsAutoSendEnabled: boolean;
   grievanceSmtpEnabled: boolean;
   emailTrackingPixelsEnabled: boolean;
@@ -229,6 +231,10 @@ export function EmailOpsPanel() {
               {t("hostBroadcast")}: {host.member_broadcast ? t("yes") : t("no")}
             </li>
             <li>
+              {t("hostOutreachLists")}:{" "}
+              {host.outreach_lists ? t("yes") : t("no")}
+            </li>
+            <li>
               {t("hostCommsAutoSend")}:{" "}
               {host.comms_auto_send ? t("yes") : t("no")}
             </li>
@@ -266,6 +272,11 @@ export function EmailOpsPanel() {
                           "memberBroadcastEnabled",
                           t("entitlementBroadcast"),
                           host?.member_broadcast === true,
+                        ],
+                        [
+                          "outreachListsEnabled",
+                          t("entitlementOutreachLists"),
+                          host?.outreach_lists === true,
                         ],
                         [
                           "commsAutoSendEnabled",

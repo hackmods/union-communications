@@ -4,7 +4,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import type { BroadcastRosterRow } from "@/lib/email/member-broadcast";
+import { Callout } from "@/components/ui/Callout";
+import type {
+  BroadcastCampaignRow,
+  BroadcastRosterRow,
+} from "@/lib/email/member-broadcast";
 
 type Notice = { en: string; fr: string };
 
@@ -14,6 +18,7 @@ export function BroadcastBoard() {
   const [mode, setMode] = useState<"officer" | "member" | null>(null);
   const [notice, setNotice] = useState<Notice | null>(null);
   const [roster, setRoster] = useState<BroadcastRosterRow[]>([]);
+  const [campaigns, setCampaigns] = useState<BroadcastCampaignRow[]>([]);
   const [self, setSelf] = useState<BroadcastRosterRow | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
   const [subject, setSubject] = useState("");
@@ -23,6 +28,9 @@ export function BroadcastBoard() {
   const [broadcastAllowed, setBroadcastAllowed] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [busy, setBusy] = useState(false);
+  const [sendMfaCode, setSendMfaCode] = useState("");
+  const [sendStepUpRequired, setSendStepUpRequired] = useState(false);
+  const [sendChallengeError, setSendChallengeError] = useState("");
 
   const load = useCallback(async () => {
     const [capRes, boardRes] = await Promise.all([
@@ -44,6 +52,7 @@ export function BroadcastBoard() {
       mode: "officer" | "member";
       notice: Notice;
       roster?: BroadcastRosterRow[];
+      campaigns?: BroadcastCampaignRow[];
       self?: BroadcastRosterRow;
     };
     setMode(data.mode);
@@ -54,6 +63,7 @@ export function BroadcastBoard() {
         data.roster.filter((r) => r.status === "confirmed").map((r) => r.userId),
       );
     }
+    if (data.campaigns) setCampaigns(data.campaigns);
     if (data.self) setSelf(data.self);
   }, [t]);
 
@@ -82,9 +92,14 @@ export function BroadcastBoard() {
     }
   }
 
-  async function send() {
+  async function send(mfaCode?: string) {
     setBusy(true);
     setFeedback("");
+    setSendChallengeError("");
+    if (mfaCode === undefined) {
+      setSendStepUpRequired(false);
+      setSendMfaCode("");
+    }
     try {
       const response = await fetch("/api/broadcast", {
         method: "POST",
@@ -96,16 +111,35 @@ export function BroadcastBoard() {
           recipientUserIds: selected,
           explicitTrackingOptIn: trackingOptIn,
           locale,
+          ...(mfaCode ? { mfaCode } : {}),
         }),
         cache: "no-store",
       });
       const data = (await response.json()) as {
         error?: string;
+        code?: string;
         accepted?: number;
         failed?: number;
         trackingApplied?: boolean;
       };
-      if (!response.ok) throw new Error(data.error ?? t("error"));
+      if (response.status === 428) {
+        setSendStepUpRequired(true);
+        return;
+      }
+      if (!response.ok) {
+        if (data.code === "mfa_step_up_failed") {
+          setSendChallengeError(t("mfaStepUpFailed"));
+        } else if (data.code === "mfa_step_up_limited") {
+          setSendChallengeError(t("mfaStepUpLimited"));
+        } else if (data.code === "mfa_step_up_unavailable") {
+          setSendChallengeError(t("mfaStepUpUnavailable"));
+        } else {
+          throw new Error(data.error ?? t("error"));
+        }
+        return;
+      }
+      setSendStepUpRequired(false);
+      setSendMfaCode("");
       setFeedback(
         t("sendResult", {
           accepted: data.accepted ?? 0,
@@ -113,6 +147,7 @@ export function BroadcastBoard() {
           tracking: data.trackingApplied ? t("yes") : t("no"),
         }),
       );
+      await load();
     } catch (error) {
       setFeedback(error instanceof Error ? error.message : t("error"));
     } finally {
@@ -140,6 +175,9 @@ export function BroadcastBoard() {
           <p className="mt-1 text-sm text-opseu-gray-dark">
             {t("status")}: {t(`status_${self.status}`)}
           </p>
+          {self.status === "stale" ? (
+            <p className="mt-2 text-sm text-amber-900">{t("staleConsent")}</p>
+          ) : null}
           <div className="mt-3 flex flex-wrap gap-2">
             <Button
               type="button"
@@ -196,6 +234,38 @@ export function BroadcastBoard() {
             </ul>
           </section>
 
+          {campaigns.length > 0 ? (
+            <section className="rounded-lg border border-opseu-gray-light bg-white p-4">
+              <h2 className="text-lg font-semibold text-opseu-dark">
+                {t("campaignHistory")}
+              </h2>
+              <ul className="mt-3 space-y-2 text-sm">
+                {campaigns.map((campaign) => (
+                  <li
+                    key={campaign.id}
+                    className="flex flex-col gap-0.5 border-b border-opseu-gray-light pb-2 last:border-0"
+                  >
+                    <span className="font-medium text-opseu-dark">
+                      {campaign.subject}
+                    </span>
+                    <span className="text-opseu-gray-dark">
+                      {t("campaignMeta", {
+                        date: new Date(campaign.createdAt).toLocaleString(
+                          locale,
+                        ),
+                        accepted: campaign.acceptedCount,
+                        failed: campaign.failedCount,
+                        tracking: campaign.openTrackingApplied
+                          ? t("yes")
+                          : t("no"),
+                      })}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
           <section className="rounded-lg border border-opseu-gray-light bg-white p-4 space-y-3">
             <h2 className="text-lg font-semibold text-opseu-dark">
               {t("composeTitle")}
@@ -228,19 +298,54 @@ export function BroadcastBoard() {
                 ) : null}
               </span>
             </label>
-            <Button
-              type="button"
-              disabled={
-                busy ||
-                !broadcastAllowed ||
-                !subject.trim() ||
-                !body.trim() ||
-                selected.length === 0
-              }
-              onClick={() => void send()}
-            >
-              {t("send")}
-            </Button>
+            {sendStepUpRequired ? (
+              <form
+                className="space-y-3 rounded-lg border border-amber-300 bg-amber-50 p-4"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  void send(sendMfaCode.trim());
+                }}
+              >
+                <h3 className="font-semibold text-amber-950">
+                  {t("mfaStepUpTitle")}
+                </h3>
+                <p className="text-sm text-amber-900">{t("mfaStepUpHint")}</p>
+                <Input
+                  label={t("mfaCode")}
+                  value={sendMfaCode}
+                  onChange={(e) => setSendMfaCode(e.target.value)}
+                  autoComplete="one-time-code"
+                  maxLength={32}
+                  autoFocus
+                  required
+                />
+                {sendChallengeError ? (
+                  <Callout role="alert" tone="danger">
+                    {sendChallengeError}
+                  </Callout>
+                ) : null}
+                <Button
+                  type="submit"
+                  disabled={busy || !sendMfaCode.trim()}
+                >
+                  {t("mfaStepUpVerify")}
+                </Button>
+              </form>
+            ) : (
+              <Button
+                type="button"
+                disabled={
+                  busy ||
+                  !broadcastAllowed ||
+                  !subject.trim() ||
+                  !body.trim() ||
+                  selected.length === 0
+                }
+                onClick={() => void send()}
+              >
+                {t("send")}
+              </Button>
+            )}
           </section>
         </>
       ) : null}

@@ -14,6 +14,7 @@ export const portalCircleMemberships = pgTable("portal_circle_memberships", {
   id: text("id").primaryKey(), circleId: text("circle_id").notNull().references(() => portalCircles.id, { onDelete: "cascade" }),
   userId: text("user_id").notNull(), userName: text("user_name").notNull(), role: text("role").notNull(), muted: boolean("muted").notNull().default(false),
   mutedTools: jsonb("muted_tools").notNull().$type<string[]>().default([]), starred: boolean("starred").notNull().default(false), joinedAt: timestamp("joined_at", { withTimezone: true }).notNull(),
+  lastFloorSeenAt: timestamp("last_floor_seen_at", { withTimezone: true }),
 }, (t) => [uniqueIndex("portal_circle_memberships_circle_user_uidx").on(t.circleId, t.userId), index("portal_circle_memberships_user_idx").on(t.userId)]);
 
 export const portalBulletinPosts = pgTable("portal_bulletin_posts", {
@@ -46,8 +47,9 @@ export const portalBinderItems = pgTable("portal_binder_items", {
 }, (t) => [index("portal_binder_items_circle_idx").on(t.circleId, t.createdAt)]);
 
 export const portalFloorMessages = pgTable("portal_floor_messages", {
-  id: text("id").primaryKey(), circleId: text("circle_id").notNull().references(() => portalCircles.id, { onDelete: "cascade" }), unionId: text("union_id").notNull(), authorId: text("author_id").notNull(), authorName: text("author_name").notNull(), body: text("body").notNull(), createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
-}, (t) => [index("portal_floor_messages_circle_idx").on(t.circleId, t.createdAt)]);
+  id: text("id").primaryKey(), circleId: text("circle_id").notNull().references(() => portalCircles.id, { onDelete: "cascade" }), unionId: text("union_id").notNull(), authorId: text("author_id").notNull(), authorName: text("author_name").notNull(), body: text("body").notNull(),
+  parentId: text("parent_id"), deletedAt: timestamp("deleted_at", { withTimezone: true }), createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
+}, (t) => [index("portal_floor_messages_circle_idx").on(t.circleId, t.createdAt), index("portal_floor_messages_parent_idx").on(t.parentId)]);
 
 export const portalRollCallQuestions = pgTable("portal_roll_call_questions", {
   id: text("id").primaryKey(), circleId: text("circle_id").notNull().references(() => portalCircles.id, { onDelete: "cascade" }), unionId: text("union_id").notNull(), question: text("question").notNull(), cadence: text("cadence").notNull(), active: boolean("active").notNull().default(true), createdAt: timestamp("created_at", { withTimezone: true }).notNull(),

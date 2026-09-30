@@ -734,6 +734,51 @@
       ]
     },
     {
+      "name": "checkin_nudge_sends",
+      "columns": [
+        {
+          "name": "destination_email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "period_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "schedule_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "sent_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "checkin_schedules",
       "columns": [
         {
@@ -4319,6 +4364,61 @@
       ]
     },
     {
+      "name": "member_broadcast_action_tokens",
+      "columns": [
+        {
+          "name": "campaign_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "consumed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "purpose",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "token_hash",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "member_broadcast_campaigns",
       "columns": [
         {
@@ -4433,6 +4533,111 @@
         },
         {
           "name": "wording_version",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "member_broadcast_deliveries",
+      "columns": [
+        {
+          "name": "campaign_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "destination_email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "error_code",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "finished_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "provider_message_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "member_broadcast_suppressions",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "local_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "reason",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "source",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
           "dataType": "text",
           "notNull": true
         }
@@ -4635,6 +4840,241 @@
           "name": "window_started_at",
           "dataType": "timestamp with time zone",
           "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "observability_alert_firings",
+      "columns": [
+        {
+          "name": "event_count",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "fingerprint",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "fired_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "message_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "rule_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "observability_alert_rules",
+      "columns": [
+        {
+          "name": "cooldown_minutes",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "email_format",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "enabled",
+          "dataType": "boolean",
+          "notNull": true
+        },
+        {
+          "name": "fingerprint",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "min_level",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "recipients",
+          "dataType": "text[]",
+          "notNull": true
+        },
+        {
+          "name": "recipients_by_union",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "sources",
+          "dataType": "text[]",
+          "notNull": false
+        },
+        {
+          "name": "threshold_count",
+          "dataType": "integer",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "updated_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "window_minutes",
+          "dataType": "integer",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "observability_events",
+      "columns": [
+        {
+          "name": "build",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "digest",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "fingerprint",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "level",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "message",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "meta",
+          "dataType": "jsonb",
+          "notNull": false
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "request_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "route",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "signal",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "source",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "stack",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "ts",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "observability_issue_acks",
+      "columns": [
+        {
+          "name": "acknowledged_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "acknowledged_by",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "fingerprint",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "note",
+          "dataType": "text",
+          "notNull": false
         }
       ]
     },
@@ -4855,6 +5295,426 @@
           "name": "user_id",
           "dataType": "text",
           "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "outreach_action_tokens",
+      "columns": [
+        {
+          "name": "consumed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "grant_event_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "list_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "purpose",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subscriber_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "token_hash",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "outreach_campaigns",
+      "columns": [
+        {
+          "name": "accepted_count",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "approval_reference",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "body_text",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "completed_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "failed_count",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "list_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "recipient_count",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "released_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subject",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "outreach_consent_events",
+      "columns": [
+        {
+          "name": "actor_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "destination_email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "event_type",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "grant_event_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "list_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "locale",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "occurred_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "reason",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "request_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "sequence",
+          "dataType": "bigserial",
+          "notNull": true
+        },
+        {
+          "name": "source",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subscriber_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "wording_text",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "wording_version",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "outreach_deliveries",
+      "columns": [
+        {
+          "name": "campaign_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "destination_email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "error_code",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "finished_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "provider_message_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "queued_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "subscriber_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "outreach_lists",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "created_by_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "slug",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "name": "outreach_subscribers",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "latest_grant_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "list_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "locale",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "lookup_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "wording_version",
+          "dataType": "text",
+          "notNull": false
+        }
+      ]
+    },
+    {
+      "name": "outreach_suppressions",
+      "columns": [
+        {
+          "name": "created_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "email",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "list_id",
+          "dataType": "text",
+          "notNull": false
+        },
+        {
+          "name": "lookup_key",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "reason",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "source",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "union_id",
+          "dataType": "text",
+          "notNull": true
         }
       ]
     },
@@ -5712,6 +6572,11 @@
           "notNull": true
         },
         {
+          "name": "last_floor_seen_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
           "name": "muted",
           "dataType": "boolean",
           "notNull": true
@@ -5902,9 +6767,19 @@
           "notNull": true
         },
         {
+          "name": "deleted_at",
+          "dataType": "timestamp with time zone",
+          "notNull": false
+        },
+        {
           "name": "id",
           "dataType": "text",
           "notNull": true
+        },
+        {
+          "name": "parent_id",
+          "dataType": "text",
+          "notNull": false
         },
         {
           "name": "union_id",
@@ -8274,6 +9149,11 @@
         {
           "name": "name",
           "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "outreach_lists_enabled",
+          "dataType": "boolean",
           "notNull": true
         },
         {

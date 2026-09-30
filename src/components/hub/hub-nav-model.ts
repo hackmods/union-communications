@@ -46,7 +46,7 @@ export const HUB_TOOL_GROUPS: readonly HubToolGroupDef[] = [
   {
     id: "funds",
     labelKey: "toolsGroupFunds",
-    hrefs: ["/app/ledger", "/app/travel", "/app/expenses"],
+    hrefs: ["/app/ledger"],
   },
   {
     id: "admin",

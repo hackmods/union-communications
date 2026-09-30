@@ -113,6 +113,7 @@ export async function POST(request: Request, ctx: Ctx) {
       | "calendar"
       | "binder"
       | "floor"
+      | "floor_heartbeat"
       | "roll_call"
       | "roll_call_question"
       | "pipeline_board"
@@ -154,7 +155,8 @@ export async function POST(request: Request, ctx: Ctx) {
     frontStartsAt?: string;
     frontEndsAt?: string;
     cadence?: "weekly" | "biweekly" | "monthly";
-    resourceType?: "bulletin" | "action" | "binder";
+    parentId?: string;
+    resourceType?: "bulletin" | "action" | "binder" | "floor";
     resourceId?: string;
     csv?: string;
   };
@@ -173,6 +175,11 @@ export async function POST(request: Request, ctx: Ctx) {
       return portalJson({ error: "Not found" }, { status: 404 });
     }
     return portalJson({ pack });
+  }
+
+  if (body.tool === "floor_heartbeat") {
+    await portal.touchFloorPresence(id, authorId);
+    return portalJson({ ok: true });
   }
 
   if (body.tool === "import_csv") {
@@ -293,14 +300,20 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!body.body?.trim()) {
         return portalJson({ error: "Missing body" }, { status: 400 });
       }
-      const message = await portal.addFloorMessage({
-        circleId: id,
-        unionId,
-        authorId,
-        authorName,
-        body: body.body.trim(),
-      });
-      return portalJson({ message }, { status: 201 });
+      try {
+        const message = await portal.addFloorMessage({
+          circleId: id,
+          unionId,
+          authorId,
+          authorName,
+          body: body.body.trim(),
+          parentId: body.parentId,
+        });
+        return portalJson({ message }, { status: 201 });
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "Invalid reply";
+        return portalJson({ error: msg }, { status: 400 });
+      }
     }
     case "roll_call": {
       if (!body.questionId || !body.body?.trim()) {

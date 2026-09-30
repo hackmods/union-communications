@@ -72,6 +72,10 @@ export const unions = pgTable("unions", {
   emailTrackingPixelsEnabled: boolean("email_tracking_pixels_enabled")
     .notNull()
     .default(false),
+  /** Union-wide outreach lists (ADR-023); requires host flag + legal approval. */
+  outreachListsEnabled: boolean("outreach_lists_enabled")
+    .notNull()
+    .default(false),
 });
 
 export const divisions = pgTable("divisions", {

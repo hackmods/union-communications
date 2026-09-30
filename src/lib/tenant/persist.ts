@@ -67,6 +67,8 @@ const HUB_MODULES: HubModule[] = [
   "proposals",
   "data",
   "documents",
+  "expenses",
+  "travel",
 ];
 
 function asHubModules(raw: string[] | null | undefined): HubModule[] {

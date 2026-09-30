@@ -18,6 +18,7 @@ describe("Mailgun product-news webhook", () => {
       tags: ["unionops-product-news"], message: { headers: { "message-id": "message-id-123@mailgun.org" } } });
     expect(parseVerifiedProductNewsWebhook(payload, key)).toEqual({
       authenticated: true,
+      lane: "product_news",
       event: { id: "provider-event-1", messageId: "message-id-123@mailgun.org", type: "permanent_failure" },
     });
     expect(parseVerifiedProductNewsWebhook({ ...payload, signature: { ...payload.signature, signature: "0".repeat(64) } }, key).authenticated).toBe(false);
@@ -26,8 +27,54 @@ describe("Mailgun product-news webhook", () => {
   it("ignores authenticated transactional and tracking events", () => {
     const message = { headers: { "message-id": "message-id-123@mailgun.org" } };
     expect(parseVerifiedProductNewsWebhook(signed({ id: "provider-event-2", event: "complained", tags: [], message }), key))
-      .toEqual({ authenticated: true, event: null });
+      .toEqual({ authenticated: true, event: null, lane: null });
     expect(parseVerifiedProductNewsWebhook(signed({ id: "provider-event-3", event: "opened", tags: ["unionops-product-news"], message }), key))
-      .toEqual({ authenticated: true, event: null });
+      .toEqual({ authenticated: true, event: null, lane: null });
+  });
+
+  it("routes outreach-list tags to the outreach lane", () => {
+    const message = { headers: { "message-id": "message-id-789@mailgun.org" } };
+    expect(
+      parseVerifiedProductNewsWebhook(
+        signed({
+          id: "provider-event-5",
+          event: "unsubscribed",
+          tags: ["unionops-outreach-list"],
+          message,
+        }),
+        key,
+      ),
+    ).toEqual({
+      authenticated: true,
+      lane: "outreach_list",
+      event: {
+        id: "provider-event-5",
+        messageId: "message-id-789@mailgun.org",
+        type: "unsubscribed",
+      },
+    });
+  });
+
+  it("routes member-broadcast tags to the broadcast lane", () => {
+    const message = { headers: { "message-id": "message-id-456@mailgun.org" } };
+    expect(
+      parseVerifiedProductNewsWebhook(
+        signed({
+          id: "provider-event-4",
+          event: "complained",
+          tags: ["unionops-member-broadcast"],
+          message,
+        }),
+        key,
+      ),
+    ).toEqual({
+      authenticated: true,
+      lane: "member_broadcast",
+      event: {
+        id: "provider-event-4",
+        messageId: "message-id-456@mailgun.org",
+        type: "complained",
+      },
+    });
   });
 });
