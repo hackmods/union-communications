@@ -218,8 +218,10 @@ Suggested secret values for this host:
 | Secret | Typical value |
 |--------|----------------|
 | `CAPROVER_SERVER` | `https://captain.behind7proxies.com` |
-| `CAPROVER_APP` | CapRover app name (FQDN prefix, e.g. `union-communications`) |
+| `CAPROVER_APP` | CapRover **app name** exactly as shown in the CapRover UI (production web app is `unionops`, not the GHCR repo slug `union-communications`) |
 | `CAPROVER_PASSWORD` | Captain password |
+
+If deploy fails with `*** app not exist on this CapRover machine`, auth succeeded but `CAPROVER_APP` does not match any app on that captain host. Open CapRover → Apps, copy the name character-for-character into the GitHub secret, then re-run the failed `deploy` job (or `workflow_dispatch`). Do not invent a name from the repo slug.
 
 The third option is the cleanest when you're still toggling between webhook rebuilds and Method 3 in the CapRover UI — it lets you ship without waiting on the rebuild to OOM again.
 
