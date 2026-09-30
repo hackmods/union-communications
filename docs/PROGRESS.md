@@ -3,6 +3,7 @@
 - Site Admin can move a local to another union while keeping `local_id` stable (accounts, memberships, invites, collections, and dual-key casework follow).
 - Preview + fresh MFA + typed confirm; owner DB required; cascade registry with CI completeness vs Drizzle dual-key tables.
 - Organization structure → Open structure → **Move**; escape hatch links to create under destination when hard-blocked.
+- Polish: fail-closed cascade, demo badge sync, concurrent-change code, full-width move panel, searchable destination filter, progressive conflict/demo options, owner-DB banner, RTL + optional E2E smoke.
 - Session: [`docs/audit/session-knowledge-2026-09-29-local-move.md`](audit/session-knowledge-2026-09-29-local-move.md).
 
 ## 2026-09-29 — President Hub QOL leftovers

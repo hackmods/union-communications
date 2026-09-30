@@ -26,6 +26,8 @@ import { CreateLocalForm } from "@/components/site-admin/CreateLocalForm";
 import { CollectivesAdminPanel } from "@/components/site-admin/CollectivesAdminPanel";
 import { LocalsAdminPanel } from "@/components/site-admin/LocalsAdminPanel";
 import { UnionLocalsLifecyclePanel } from "@/components/site-admin/UnionLocalsLifecyclePanel";
+import { isOwnerDbConfigured } from "@/lib/db/owner-client";
+import { Callout } from "@/components/ui/Callout";
 
 export const dynamic = "force-dynamic";
 
@@ -215,6 +217,13 @@ export default async function SiteAdminOrganizationUnionPage({
 
       <UnionLocalsLifecyclePanel union={unionRow} />
 
+      {!isOwnerDbConfigured() ? (
+        <Callout tone="warning" role="status" className="mt-6 p-3 text-sm">
+          <p className="font-semibold">{t("localMoveOwnerDbBannerTitle")}</p>
+          <p className="mt-1">{t("localMoveOwnerDbRequired")}</p>
+        </Callout>
+      ) : null}
+
       <CollectivesAdminPanel
         rows={collectiveRows}
         footer={
@@ -227,6 +236,7 @@ export default async function SiteAdminOrganizationUnionPage({
 
       <LocalsAdminPanel
         unionId={unionId}
+        ownerDbReady={isOwnerDbConfigured()}
         rows={rows}
         collectives={activeCollectives}
         collectiveNameById={

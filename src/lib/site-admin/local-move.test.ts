@@ -24,6 +24,7 @@ vi.mock("@/lib/tenant/overlay", () => ({
 
 import {
   executeLocalMove,
+  isMissingRelationError,
   previewLocalMove,
 } from "@/lib/site-admin/local-move";
 
@@ -32,6 +33,13 @@ describe("local-move gates", () => {
     vi.clearAllMocks();
     mocks.isPostgresConfigured.mockReturnValue(true);
     mocks.isOwnerDbConfigured.mockReturnValue(true);
+  });
+
+  it("treats missing-relation messages as skippable", () => {
+    expect(isMissingRelationError(new Error('relation "portal_actions" does not exist'))).toBe(
+      true,
+    );
+    expect(isMissingRelationError(new Error("unique_violation"))).toBe(false);
   });
 
   it("preview requires postgres", async () => {

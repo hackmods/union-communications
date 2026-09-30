@@ -3,6 +3,7 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { LocalLifecycleActions } from "@/components/site-admin/LocalLifecycleActions";
+import { MoveLocalPanel } from "@/components/site-admin/MoveLocalPanel";
 import {
   OrganizationStatusFilter,
   type StatusFilter,
@@ -25,26 +26,34 @@ type Props = {
   rows: LocalAdminRow[];
   collectives: CollectiveOption[];
   collectiveNameById: Map<string, string>;
+  /** Host has MIGRATE_DATABASE_URL (required for cross-union move). */
+  ownerDbReady?: boolean;
   /** Create-local form (and related) rendered under the inventory. */
   footer?: ReactNode;
 };
 
 /**
  * Locals inventory: status filter, card stack on small screens, table from md up.
+ * Move Local opens a full-width panel under the inventory (desktop + mobile).
  */
 export function LocalsAdminPanel({
   unionId,
   rows,
   collectives,
   collectiveNameById,
+  ownerDbReady = true,
   footer,
 }: Props) {
   const t = useTranslations("hub.platformOperator");
   const [filter, setFilter] = useState<StatusFilter>("all");
+  const [movingLocalId, setMovingLocalId] = useState<string | null>(null);
 
   const archivedCount = rows.filter((row) => row.archivedAt).length;
   const activeCount = rows.length - archivedCount;
   const activeRows = rows.filter((row) => !row.archivedAt);
+  const movingRow = movingLocalId
+    ? (rows.find((row) => row.id === movingLocalId) ?? null)
+    : null;
 
   const visible = useMemo(() => {
     return rows.filter((row) => {
@@ -53,6 +62,22 @@ export function LocalsAdminPanel({
       return true;
     });
   }, [rows, filter]);
+
+  function lifecycleProps(row: LocalAdminRow, collectiveName: string | null) {
+    return {
+      localId: row.id,
+      localNumber: row.localNumber,
+      subText: row.subText,
+      divisionId: row.divisionId,
+      archived: Boolean(row.archivedAt),
+      empty: row.empty,
+      collectives,
+      orphanCollectiveName: collectiveName,
+      deleteBlockedReason:
+        row.archivedAt && !row.empty ? t("localDeleteBlocked") : null,
+      onMove: () => setMovingLocalId(row.id),
+    };
+  }
 
   return (
     <section id="organization-locals" className="mt-6 scroll-mt-28">
@@ -133,20 +158,7 @@ export function LocalsAdminPanel({
                       </dl>
                       <div className="mt-3 border-t border-opseu-gray/10 pt-3">
                         <LocalLifecycleActions
-                          localId={row.id}
-                          localNumber={row.localNumber}
-                          subText={row.subText}
-                          divisionId={row.divisionId}
-                          unionId={unionId}
-                          archived={Boolean(row.archivedAt)}
-                          empty={row.empty}
-                          collectives={collectives}
-                          orphanCollectiveName={collectiveName}
-                          deleteBlockedReason={
-                            row.archivedAt && !row.empty
-                              ? t("localDeleteBlocked")
-                              : null
-                          }
+                          {...lifecycleProps(row, collectiveName)}
                           stackActions
                         />
                       </div>
@@ -199,20 +211,7 @@ export function LocalsAdminPanel({
                           </td>
                           <td className="px-3 py-2 text-right">
                             <LocalLifecycleActions
-                              localId={row.id}
-                              localNumber={row.localNumber}
-                              subText={row.subText}
-                              divisionId={row.divisionId}
-                              unionId={unionId}
-                              archived={Boolean(row.archivedAt)}
-                              empty={row.empty}
-                              collectives={collectives}
-                              orphanCollectiveName={collectiveName}
-                              deleteBlockedReason={
-                                row.archivedAt && !row.empty
-                                  ? t("localDeleteBlocked")
-                                  : null
-                              }
+                              {...lifecycleProps(row, collectiveName)}
                             />
                           </td>
                         </tr>
@@ -223,6 +222,20 @@ export function LocalsAdminPanel({
               </div>
             </>
           )}
+
+          {movingRow ? (
+            <div className="mt-4 rounded-md border border-opseu-gray/15 bg-white p-4">
+              <MoveLocalPanel
+                localId={movingRow.id}
+                localNumber={movingRow.localNumber}
+                currentUnionId={unionId}
+                archived={Boolean(movingRow.archivedAt)}
+                ownerDbReady={ownerDbReady}
+                stackActions
+                onCancel={() => setMovingLocalId(null)}
+              />
+            </div>
+          ) : null}
 
           {activeRows.length === 0 ? (
             <p className="mt-2 text-sm text-opseu-gray-dark">

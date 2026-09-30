@@ -20,10 +20,19 @@ Canonical UI: Organization structure → Open structure → **Move** on a local 
 | Keep `local_id` | Stable FKs |
 | Rewrite `union_id` | Allowlisted dual-key tables + portal circle children + customization scope children |
 | Collective | Clear or remap to a **destination** collective |
+| Demo badge | `locals.is_demo` synced to destination union on commit |
 | Storage keys | Leave opaque; auth follows updated meta |
 | Audit history | Append-only — `site_admin.local.move` / `move_preview` |
-| Postgres + owner DB | Required (`MIGRATE_DATABASE_URL`) |
+| Postgres + owner DB | Required (`MIGRATE_DATABASE_URL`); banner on org structure when missing |
 | Fresh MFA | Required for preview and commit |
+| Cascade errors | Fail closed (only missing-relation skips in slim DBs) |
+
+## Polish (2026-09-30)
+
+- Preview headline + portal/casework split; progressive conflict/demo checkboxes
+- Full-width Move panel under locals inventory; searchable destination union filter
+- Concurrent-change vs already-there codes; titled errors; refresh preview
+- Component RTL coverage + optional live smoke via `E2E_SITE_ADMIN_EMAIL`
 
 ## APIs
 

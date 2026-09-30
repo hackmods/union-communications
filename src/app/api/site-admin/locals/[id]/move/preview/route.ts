@@ -42,7 +42,10 @@ export async function POST(req: Request, { params }: Params) {
   const gate = await requireSiteAdminSession();
   if (!gate.ok) return respond({ error: gate.error }, gate.status);
   if (!isPostgresConfigured()) {
-    return respond({ error: "Postgres is not configured" }, 503);
+    return respond(
+      { error: "Postgres is not configured", code: "postgres_required" },
+      503,
+    );
   }
   if (!isOwnerDbConfigured()) {
     return respond(

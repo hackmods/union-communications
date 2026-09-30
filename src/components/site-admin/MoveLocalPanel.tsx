@@ -22,6 +22,10 @@ type PreviewPayload = {
   toUnionName: string;
   localNumber: string;
   effectiveLocalNumber: string;
+  fromIsDemo: boolean;
+  toIsDemo: boolean;
+  fromMembershipPolicy: string;
+  toMembershipPolicy: string;
   counts: {
     usersPrimary: number;
     memberships: number;
@@ -41,6 +45,9 @@ type Props = {
   localId: string;
   localNumber: string;
   currentUnionId: string;
+  archived?: boolean;
+  /** When false, show owner-DB host banner and disable actions. */
+  ownerDbReady?: boolean;
   stackActions?: boolean;
   onCancel: () => void;
 };
@@ -52,6 +59,8 @@ export function MoveLocalPanel({
   localId,
   localNumber,
   currentUnionId,
+  archived = false,
+  ownerDbReady = true,
   stackActions = false,
   onCancel,
 }: Props) {
@@ -59,6 +68,10 @@ export function MoveLocalPanel({
   const router = useRouter();
   const [unions, setUnions] = useState<UnionOption[]>([]);
   const [collectives, setCollectives] = useState<CollectiveOption[]>([]);
+  const [unionsLoadState, setUnionsLoadState] = useState<
+    "loading" | "ready" | "empty" | "error"
+  >("loading");
+  const [unionQuery, setUnionQuery] = useState("");
   const [toUnionId, setToUnionId] = useState("");
   const [toDivisionId, setToDivisionId] = useState("");
   const [renameNumber, setRenameNumber] = useState("");
@@ -80,18 +93,24 @@ export function MoveLocalPanel({
   useEffect(() => {
     let cancelled = false;
     void (async () => {
+      setUnionsLoadState("loading");
       try {
         const res = await fetch("/api/site-admin/tenant-options");
-        if (!res.ok) return;
+        if (!res.ok) {
+          if (!cancelled) setUnionsLoadState("error");
+          return;
+        }
         const data = (await res.json()) as {
           unions: UnionOption[];
           collectives?: CollectiveOption[];
         };
         if (cancelled) return;
-        setUnions(data.unions.filter((u) => u.id !== currentUnionId));
+        const dest = data.unions.filter((u) => u.id !== currentUnionId);
+        setUnions(dest);
         setCollectives(data.collectives ?? []);
+        setUnionsLoadState(dest.length === 0 ? "empty" : "ready");
       } catch {
-        // Empty pickers — operator can still cancel.
+        if (!cancelled) setUnionsLoadState("error");
       }
     })();
     return () => {
@@ -99,21 +118,36 @@ export function MoveLocalPanel({
     };
   }, [currentUnionId]);
 
+  const filteredUnions = useMemo(() => {
+    const q = unionQuery.trim().toLowerCase();
+    if (!q) return unions;
+    return unions.filter(
+      (u) =>
+        u.name.toLowerCase().includes(q) || u.id.toLowerCase().includes(q),
+    );
+  }, [unions, unionQuery]);
+
   const destinationCollectives = useMemo(
     () => collectives.filter((c) => c.unionId === toUnionId),
     [collectives, toUnionId],
   );
 
+  const showEndOther =
+    Boolean(preview?.blocks.some((b) => b.code === "single_local_conflict")) ||
+    endOtherMemberships;
+  const showDemoMismatch =
+    Boolean(preview?.blocks.some((b) => b.code === "demo_mismatch")) ||
+    Boolean(preview?.warnings.some((w) => w.code === "demo_mismatch_ack")) ||
+    allowDemoMismatch;
+
   const shellClass = stackActions
     ? "flex w-full flex-col items-stretch gap-2"
-    : "flex w-full max-w-md flex-col items-end gap-2";
+    : "flex w-full max-w-2xl flex-col items-stretch gap-2 md:items-start";
   const actionRowClass = stackActions
     ? "flex w-full flex-col gap-2"
-    : "flex w-full flex-wrap justify-end gap-2";
+    : "flex w-full flex-wrap gap-2 md:justify-start";
   const actionBtnClass = stackActions ? "min-h-11 w-full" : "min-h-11";
-  const helpClass = stackActions
-    ? "text-xs text-opseu-gray-dark"
-    : "text-right text-xs text-opseu-gray-dark";
+  const helpClass = "text-xs text-opseu-gray-dark";
 
   function mapError(code: string | undefined, fallback: string): string {
     if (code === "mfa_step_up_required") return t("localActionStepUpRequired");
@@ -130,10 +164,17 @@ export function MoveLocalPanel({
     }
     if (code === "number_taken") return t("localMoveNumberTaken");
     if (code === "owner_db_required") return t("localMoveOwnerDbRequired");
+    if (code === "postgres_required") return t("localMovePostgresRequired");
     if (code === "already_there") return t("localMoveAlreadyThere");
+    if (code === "concurrent_change") return t("localMoveConcurrentChange");
     if (code === "destination_archived") return t("localMoveDestinationArchived");
+    if (code === "destination_not_found") return t("localMoveDestinationNotFound");
+    if (code === "local_not_found") return t("localMoveLocalNotFound");
+    if (code === "number_required") return t("localMoveNumberRequired");
     if (code === "demo_mismatch") return t("localMoveDemoMismatch");
-    if (code === "single_local_conflict") return t("localMoveSingleLocalConflict");
+    if (code === "single_local_conflict") {
+      return t("localMoveSingleLocalConflict");
+    }
     if (code === "data_identifier_collision") {
       return t("localMoveDataIdentifierCollision");
     }
@@ -145,10 +186,14 @@ export function MoveLocalPanel({
       return t("localMoveWarningsUnacknowledged");
     }
     if (code === "division_invalid") return t("localMoveDivisionInvalid");
+    if (code === "cascade_failed") return t("localMoveCascadeFailed");
     return fallback;
   }
 
   function blockLabel(block: PreviewBlock): string {
+    if (block.code === "single_local_conflict" && block.detail) {
+      return t("localMoveSingleLocalConflictCount", { count: block.detail });
+    }
     return mapError(block.code, block.code);
   }
 
@@ -165,6 +210,9 @@ export function MoveLocalPanel({
     }
     if (warning.code === "demo_mismatch_ack") {
       return t("localMoveWarningDemoAck");
+    }
+    if (warning.code === "archived_local") {
+      return t("localMoveWarningArchived");
     }
     return warning.code;
   }
@@ -252,8 +300,8 @@ export function MoveLocalPanel({
 
   if (success && preview) {
     return (
-      <div className={shellClass}>
-        <Callout tone="success" role="status" className="w-full p-2 text-xs">
+      <div className={shellClass} data-testid="local-move-success">
+        <Callout tone="success" role="status" className="w-full p-3 text-sm">
           <p className="font-semibold">{t("localMoveSuccessTitle")}</p>
           <p className="mt-1">{success}</p>
           <div className="mt-2">
@@ -278,14 +326,39 @@ export function MoveLocalPanel({
   }
 
   return (
-    <div className={shellClass}>
+    <div
+      className={shellClass}
+      data-testid="local-move-panel"
+      aria-labelledby="local-move-heading"
+    >
+      <h3
+        id="local-move-heading"
+        className="text-sm font-semibold text-opseu-dark"
+      >
+        {t("localMoveHeading", { number: localNumber })}
+      </h3>
       <p className={helpClass}>{t("localMoveHelp")}</p>
+      <p className={helpClass}>{t("localMoveMfaNote")}</p>
+
+      {!ownerDbReady ? (
+        <Callout tone="warning" role="status" className="w-full p-3 text-sm">
+          <p className="font-semibold">{t("localMoveOwnerDbBannerTitle")}</p>
+          <p className="mt-1">{t("localMoveOwnerDbRequired")}</p>
+        </Callout>
+      ) : null}
+
+      {archived ? (
+        <Callout tone="warning" role="status" className="w-full p-3 text-sm">
+          {t("localMoveWarningArchived")}
+        </Callout>
+      ) : null}
 
       {error ? (
-        <Callout tone="danger" role="alert" className="w-full p-2 text-xs">
-          {error}
+        <Callout tone="danger" role="alert" className="w-full p-3 text-sm">
+          <p className="font-semibold">{t("localMoveErrorTitle")}</p>
+          <p className="mt-1">{error}</p>
           {resultUnconfirmed ? (
-            <div className={stackActions ? "mt-2" : "mt-2 text-right"}>
+            <div className="mt-2">
               <Button
                 type="button"
                 variant="outline"
@@ -354,10 +427,38 @@ export function MoveLocalPanel({
             }
           }}
         >
+          {unionsLoadState === "loading" ? (
+            <p className={helpClass}>{t("localMoveUnionsLoading")}</p>
+          ) : null}
+          {unionsLoadState === "error" ? (
+            <Callout tone="danger" className="w-full p-3 text-sm" role="alert">
+              {t("localMoveUnionsLoadFailed")}
+            </Callout>
+          ) : null}
+          {unionsLoadState === "empty" ? (
+            <Callout tone="warning" className="w-full p-3 text-sm" role="status">
+              {t("localMoveUnionsEmpty")}
+            </Callout>
+          ) : null}
+
+          <Input
+            label={t("localMoveUnionSearch")}
+            value={unionQuery}
+            onChange={(event) => setUnionQuery(event.target.value)}
+            disabled={busy || resultUnconfirmed || !ownerDbReady}
+            className="min-h-11"
+            placeholder={t("localMoveUnionSearchPlaceholder")}
+          />
+
           <Select
             label={t("localMoveDestinationUnion")}
             value={toUnionId}
-            disabled={busy || resultUnconfirmed}
+            disabled={
+              busy ||
+              resultUnconfirmed ||
+              !ownerDbReady ||
+              unionsLoadState !== "ready"
+            }
             onChange={(event) => {
               setToUnionId(event.target.value);
               setToDivisionId("");
@@ -366,17 +467,20 @@ export function MoveLocalPanel({
             required
           >
             <option value="">{t("localMoveDestinationUnionPlaceholder")}</option>
-            {unions.map((union) => (
+            {filteredUnions.map((union) => (
               <option key={union.id} value={union.id}>
                 {union.name}
               </option>
             ))}
           </Select>
+          {unionQuery.trim() && filteredUnions.length === 0 ? (
+            <p className={helpClass}>{t("localMoveUnionSearchEmpty")}</p>
+          ) : null}
 
           <Select
             label={t("localMoveDestinationCollective")}
             value={toDivisionId}
-            disabled={busy || resultUnconfirmed || !toUnionId}
+            disabled={busy || resultUnconfirmed || !toUnionId || !ownerDbReady}
             onChange={(event) => {
               setToDivisionId(event.target.value);
               setPreview(null);
@@ -397,37 +501,59 @@ export function MoveLocalPanel({
               setRenameNumber(event.target.value);
               setPreview(null);
             }}
-            disabled={busy || resultUnconfirmed}
+            disabled={busy || resultUnconfirmed || !ownerDbReady}
             className="min-h-11 font-mono"
             placeholder={localNumber}
           />
           <p className={helpClass}>{t("localMoveRenameHelp")}</p>
 
-          <Checkbox
-            checked={endOtherMemberships}
-            disabled={busy || resultUnconfirmed}
-            onChange={(event) => {
-              setEndOtherMemberships(event.target.checked);
-              setPreview(null);
-            }}
-            label={t("localMoveEndOtherMemberships")}
-          />
-          <Checkbox
-            checked={allowDemoMismatch}
-            disabled={busy || resultUnconfirmed}
-            onChange={(event) => {
-              setAllowDemoMismatch(event.target.checked);
-              setPreview(null);
-            }}
-            label={t("localMoveAllowDemoMismatch")}
-          />
+          {showEndOther ? (
+            <Checkbox
+              checked={endOtherMemberships}
+              disabled={busy || resultUnconfirmed || !ownerDbReady}
+              onChange={(event) => {
+                setEndOtherMemberships(event.target.checked);
+                setPreview(null);
+              }}
+              label={t("localMoveEndOtherMemberships")}
+            />
+          ) : null}
+          {showDemoMismatch ? (
+            <Checkbox
+              checked={allowDemoMismatch}
+              disabled={busy || resultUnconfirmed || !ownerDbReady}
+              onChange={(event) => {
+                setAllowDemoMismatch(event.target.checked);
+                setPreview(null);
+              }}
+              label={t("localMoveAllowDemoMismatch")}
+            />
+          ) : null}
 
           {preview ? (
-            <div className="w-full rounded-md border border-opseu-gray/15 bg-opseu-gray/5 p-3 text-xs text-opseu-gray-dark">
+            <div
+              className="w-full rounded-md border border-opseu-gray/15 bg-opseu-gray/5 p-3 text-sm text-opseu-gray-dark"
+              aria-live="polite"
+              data-testid="local-move-preview"
+            >
               <p className="font-semibold text-opseu-dark">
                 {t("localMovePreviewTitle")}
               </p>
-              <ul className="mt-2 space-y-1">
+              <p className="mt-2 text-opseu-dark">
+                {t("localMovePreviewHeadline", {
+                  number: preview.localNumber,
+                  from: preview.fromUnionName,
+                  to: preview.toUnionName,
+                })}
+              </p>
+              {preview.effectiveLocalNumber !== preview.localNumber ? (
+                <p className="mt-1">
+                  {t("localMovePreviewRename", {
+                    number: preview.effectiveLocalNumber,
+                  })}
+                </p>
+              ) : null}
+              <ul className="mt-2 space-y-1 text-xs">
                 <li>
                   {t("localMovePreviewUsers", {
                     count: preview.counts.usersPrimary,
@@ -453,6 +579,11 @@ export function MoveLocalPanel({
                     count: preview.counts.caseworkRows,
                   })}
                 </li>
+                <li>
+                  {t("localMovePreviewPortal", {
+                    count: preview.counts.portalCircles,
+                  })}
+                </li>
               </ul>
               {preview.blocks.length > 0 ? (
                 <Callout tone="danger" className="mt-2 p-2 text-xs" role="alert">
@@ -462,6 +593,13 @@ export function MoveLocalPanel({
                       <li key={block.code}>{blockLabel(block)}</li>
                     ))}
                   </ul>
+                  {preview.conflictingUserIds.length > 0 ? (
+                    <p className="mt-2">
+                      {t("localMoveConflictMembers", {
+                        count: String(preview.conflictingUserIds.length),
+                      })}
+                    </p>
+                  ) : null}
                   <p className="mt-2">{t("localMoveEscapeHelp")}</p>
                   <Link
                     href={`/app/site-admin/organization/${encodeURIComponent(toUnionId)}#organization-create-local`}
@@ -476,7 +614,7 @@ export function MoveLocalPanel({
                   <p className="font-semibold text-opseu-dark">
                     {t("localMoveWarningsTitle")}
                   </p>
-                  <ul className="mt-1 list-disc space-y-1 pl-4">
+                  <ul className="mt-1 list-disc space-y-1 pl-4 text-xs">
                     {preview.warnings.map((warning) => (
                       <li key={warning.code}>{warningLabel(warning)}</li>
                     ))}
@@ -494,15 +632,18 @@ export function MoveLocalPanel({
                 </div>
               ) : null}
               {preview.canMove ? (
-                <Input
-                  label={t("localMoveConfirmLabel")}
-                  value={confirmNumber}
-                  onChange={(event) => setConfirmNumber(event.target.value)}
-                  required
-                  disabled={busy || resultUnconfirmed}
-                  className="mt-2 min-h-11 font-mono"
-                  autoComplete="off"
-                />
+                <>
+                  <Input
+                    label={t("localMoveConfirmLabel")}
+                    value={confirmNumber}
+                    onChange={(event) => setConfirmNumber(event.target.value)}
+                    required
+                    disabled={busy || resultUnconfirmed}
+                    className="mt-2 min-h-11 font-mono"
+                    autoComplete="off"
+                  />
+                  <p className={helpClass}>{t("localMoveConfirmHelp")}</p>
+                </>
               ) : null}
             </div>
           ) : null}
@@ -517,6 +658,17 @@ export function MoveLocalPanel({
             >
               {t("localActionCancel")}
             </Button>
+            {preview ? (
+              <Button
+                type="button"
+                variant="outline"
+                className={actionBtnClass}
+                disabled={busy || resultUnconfirmed || !toUnionId || !ownerDbReady}
+                onClick={() => void run("preview")}
+              >
+                {busy ? t("localArchiveSaving") : t("localMoveRefreshPreview")}
+              </Button>
+            ) : null}
             {preview?.canMove ? (
               <Button
                 type="submit"
@@ -524,6 +676,7 @@ export function MoveLocalPanel({
                 disabled={
                   busy ||
                   resultUnconfirmed ||
+                  !ownerDbReady ||
                   confirmNumber.trim() !== localNumber ||
                   (preview.warnings.length > 0 && !acknowledgeWarnings)
                 }
@@ -534,7 +687,13 @@ export function MoveLocalPanel({
               <Button
                 type="submit"
                 className={actionBtnClass}
-                disabled={busy || resultUnconfirmed || !toUnionId}
+                disabled={
+                  busy ||
+                  resultUnconfirmed ||
+                  !toUnionId ||
+                  !ownerDbReady ||
+                  unionsLoadState !== "ready"
+                }
               >
                 {busy ? t("localArchiveSaving") : t("localMovePreview")}
               </Button>

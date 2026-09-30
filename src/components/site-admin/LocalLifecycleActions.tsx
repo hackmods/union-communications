@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
-import { MoveLocalPanel } from "@/components/site-admin/MoveLocalPanel";
 
 type CollectiveOption = { id: string; name: string };
 
@@ -16,8 +15,6 @@ type Props = {
   localNumber: string;
   subText: string;
   divisionId: string | null;
-  /** Current union that owns this local (required for Move). */
-  unionId: string;
   archived: boolean;
   empty: boolean;
   collectives: CollectiveOption[];
@@ -26,25 +23,28 @@ type Props = {
   deleteBlockedReason?: string | null;
   /** Full-width stacked actions (mobile cards). */
   stackActions?: boolean;
+  /** Open the parent-owned Move Local panel (full-width layout). */
+  onMove?: () => void;
 };
 
-type Mode = "idle" | "edit" | "delete" | "move" | "stepUp";
+type Mode = "idle" | "edit" | "delete" | "stepUp";
 
 /**
- * Edit / archive / restore / move / empty-delete for a Site Admin local row.
+ * Edit / archive / restore / empty-delete for a Site Admin local row.
+ * Move opens via `onMove` so the panel can span the full locals inventory width.
  */
 export function LocalLifecycleActions({
   localId,
   localNumber,
   subText,
   divisionId,
-  unionId,
   archived,
   empty,
   collectives,
   orphanCollectiveName = null,
   deleteBlockedReason = null,
   stackActions = false,
+  onMove,
 }: Props) {
   const t = useTranslations("hub.platformOperator");
   const router = useRouter();
@@ -333,19 +333,6 @@ export function LocalLifecycleActions({
         </form>
       ) : null}
 
-      {mode === "move" ? (
-        <MoveLocalPanel
-          localId={localId}
-          localNumber={localNumber}
-          currentUnionId={unionId}
-          stackActions={stackActions}
-          onCancel={() => {
-            setMode("idle");
-            setError(null);
-          }}
-        />
-      ) : null}
-
       {mode === "stepUp" && pendingAction ? (
         <form
           className="flex w-full flex-col gap-2"
@@ -422,11 +409,8 @@ export function LocalLifecycleActions({
               type="button"
               variant="outline"
               className={actionBtnClass}
-              disabled={busy || resultUnconfirmed}
-              onClick={() => {
-                setMode("move");
-                setError(null);
-              }}
+              disabled={busy || resultUnconfirmed || !onMove}
+              onClick={() => onMove?.()}
             >
               {t("localMove")}
             </Button>

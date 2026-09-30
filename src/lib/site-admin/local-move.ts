@@ -37,6 +37,7 @@ export type LocalMoveBlockCode =
   | "destination_archived"
   | "same_union"
   | "already_there"
+  | "concurrent_change"
   | "number_taken"
   | "number_required"
   | "division_invalid"
@@ -52,7 +53,8 @@ export type LocalMoveWarningCode =
   | "invites_present"
   | "modules_differ"
   | "collective_cleared"
-  | "demo_mismatch_ack";
+  | "demo_mismatch_ack"
+  | "archived_local";
 
 export type LocalMoveCounts = {
   usersPrimary: number;
@@ -188,6 +190,7 @@ async function buildCounts(
 
   let caseworkRows = 0;
   let tablesWithRows = 0;
+  let portalCircles = 0;
   for (const table of uniqueLocalMoveUnionIdTables()) {
     if (
       table === "bargaining_units" ||
@@ -197,18 +200,17 @@ async function buildCounts(
       continue;
     }
     const n = await countTableForLocal(db, table, localId, fromUnionId);
+    if (table === "portal_circles") {
+      portalCircles = n;
+      // Counted separately in the preview UI — do not fold into caseworkRows.
+      if (n > 0) tablesWithRows += 1;
+      continue;
+    }
     if (n > 0) {
       caseworkRows += n;
       tablesWithRows += 1;
     }
   }
-
-  const portalCircles = await countTableForLocal(
-    db,
-    "portal_circles",
-    localId,
-    fromUnionId,
-  );
 
   return {
     usersPrimary: userTotal?.n ?? 0,
@@ -219,6 +221,23 @@ async function buildCounts(
     portalCircles,
     tablesWithRows,
   };
+}
+
+/** Only swallow missing-relation errors (slim test DBs); rethrow everything else. */
+export function isMissingRelationError(error: unknown): boolean {
+  const message =
+    error instanceof Error
+      ? error.message
+      : typeof error === "string"
+        ? error
+        : String(error ?? "");
+  const lower = message.toLowerCase();
+  return (
+    lower.includes("does not exist") ||
+    lower.includes("undefined_table") ||
+    lower.includes('relation "') ||
+    (lower.includes("relation") && lower.includes("does not exist"))
+  );
 }
 
 async function findSingleLocalConflicts(
@@ -427,6 +446,10 @@ export async function previewLocalMove(input: {
     warnings.push({ code: "demo_mismatch_ack" });
   }
 
+  if (local.archivedAt) {
+    warnings.push({ code: "archived_local" });
+  }
+
   const counts = await buildCounts(db, local.id, local.unionId);
   if (counts.caseworkRows > 0 || counts.portalCircles > 0) {
     warnings.push({
@@ -523,32 +546,49 @@ async function cascadeUnionId(
   let tablesTouched = 0;
   let caseworkRows = 0;
 
+  async function runUpdate(
+    label: string,
+    run: () => Promise<unknown>,
+  ): Promise<void> {
+    try {
+      const result = await run();
+      const count = Number((result as { count?: number }).count ?? 0);
+      if (count > 0) {
+        tablesTouched += 1;
+        caseworkRows += count;
+      }
+    } catch (error) {
+      if (isMissingRelationError(error)) return;
+      throw Object.assign(
+        error instanceof Error ? error : new Error(String(error)),
+        {
+          status: 500,
+          code: "cascade_failed",
+          message: `Local move cascade failed on ${label}`,
+        },
+      );
+    }
+  }
+
   // Circle children before circles (join still sees source union on circles).
   // Table / FK names come only from LOCAL_MOVE_CIRCLE_CHILD_TABLES allowlist.
   for (const { table, circleFk } of LOCAL_MOVE_CIRCLE_CHILD_TABLES) {
-    try {
-      const result = await tx.execute(sql`
+    await runUpdate(table, () =>
+      tx.execute(sql`
         UPDATE ${sql.raw(`"${table}"`)} AS child
         SET union_id = ${toUnionId}
         FROM portal_circles AS c
         WHERE child.${sql.raw(`"${circleFk}"`)} = c.id
           AND c.local_id = ${localId}
           AND child.union_id = ${fromUnionId}
-      `);
-      const count = Number((result as { count?: number }).count ?? 0);
-      if (count > 0) {
-        tablesTouched += 1;
-        caseworkRows += count;
-      }
-    } catch {
-      // Table may be absent in slim test DBs.
-    }
+      `),
+    );
   }
 
   // Customization children via local-scoped scopes
   for (const table of LOCAL_MOVE_SCOPE_CHILD_TABLES) {
-    try {
-      const result = await tx.execute(sql`
+    await runUpdate(table, () =>
+      tx.execute(sql`
         UPDATE ${sql.raw(`"${table}"`)} AS child
         SET union_id = ${toUnionId}
         FROM customization_scopes AS s
@@ -556,33 +596,19 @@ async function cascadeUnionId(
           AND s.local_id = ${localId}
           AND s.union_id = ${fromUnionId}
           AND child.union_id = ${fromUnionId}
-      `);
-      const count = Number((result as { count?: number }).count ?? 0);
-      if (count > 0) {
-        tablesTouched += 1;
-        caseworkRows += count;
-      }
-    } catch {
-      // Optional in slim DBs.
-    }
+      `),
+    );
   }
 
   for (const table of uniqueLocalMoveUnionIdTables()) {
-    try {
-      const result = await tx.execute(sql`
+    await runUpdate(table, () =>
+      tx.execute(sql`
         UPDATE ${sql.raw(`"${table}"`)}
         SET union_id = ${toUnionId}
         WHERE local_id = ${localId}
           AND union_id = ${fromUnionId}
-      `);
-      const count = Number((result as { count?: number }).count ?? 0);
-      if (count > 0) {
-        tablesTouched += 1;
-        caseworkRows += count;
-      }
-    } catch {
-      // Optional in slim DBs.
-    }
+      `),
+    );
   }
 
   return { tablesTouched, caseworkRows };
@@ -692,7 +718,7 @@ export async function executeLocalMove(
     if (row.union_id !== fromUnionId) {
       throw Object.assign(new Error("Local union changed during move"), {
         status: 409,
-        code: "same_union",
+        code: "concurrent_change",
       });
     }
 
@@ -767,6 +793,8 @@ export async function executeLocalMove(
         unionId: toUnionId,
         localNumber: effectiveNumber,
         divisionId: toDivisionId,
+        // Keep demo badge aligned with the destination union after an allowed mismatch.
+        isDemo: preview.data.toIsDemo,
       })
       .where(eq(locals.id, input.localId));
 
