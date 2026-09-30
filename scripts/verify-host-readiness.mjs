@@ -46,8 +46,8 @@ try {
 
 if (process.exitCode) {
   // keep exitCode
-} else if (!res?.ok) {
-  console.error(`[verify-host-readiness] ${url} returned HTTP ${res?.status}`);
+} else if (!res) {
+  console.error(`[verify-host-readiness] ${url} returned no response`);
   process.exitCode = 1;
 } else {
   /** @type {Record<string, unknown> | null} */
@@ -55,11 +55,15 @@ if (process.exitCode) {
   try {
     body = await res.json();
   } catch {
-    console.error("[verify-host-readiness] Response was not JSON");
+    console.error(
+      `[verify-host-readiness] ${url} returned HTTP ${res.status} without JSON`,
+    );
     process.exitCode = 1;
     body = null;
   }
 
+  // Health intentionally uses HTTP 503 when status is "degraded" — still parse
+  // the body and apply the status gate below (ok | degraded).
   if (body) {
     /** @param {boolean} ok @param {string} label */
     function gate(ok, label) {

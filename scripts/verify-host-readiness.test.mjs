@@ -37,10 +37,12 @@ const body = {
 
 let server;
 let healthUrl;
+/** @type {number} */
+let responseStatus = 200;
 
 before(async () => {
   server = createServer((_request, response) => {
-    response.writeHead(200, { "content-type": "application/json" });
+    response.writeHead(responseStatus, { "content-type": "application/json" });
     response.end(JSON.stringify(body));
   });
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
@@ -72,13 +74,28 @@ function runGate() {
 }
 
 test("passes hosted readiness when public contacts are configured and current", async () => {
+  responseStatus = 200;
+  body.status = "ok";
   body.hostedControlEvidence.publicLegalContacts = true;
   const result = await runGate();
   assert.equal(result.status, 0, result.stdout + result.stderr);
   assert.match(result.stdout, /PASS public legal identity and monitored role contacts are configured and current/);
 });
 
+test("accepts HTTP 503 when health JSON status is degraded", async () => {
+  responseStatus = 503;
+  body.status = "degraded";
+  body.hostedControlEvidence.publicLegalContacts = true;
+  const result = await runGate();
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  assert.match(result.stdout, /PASS status reachable/);
+  responseStatus = 200;
+  body.status = "ok";
+});
+
 test("blocks hosted readiness when public contacts are missing or stale", async () => {
+  responseStatus = 200;
+  body.status = "ok";
   body.hostedControlEvidence.publicLegalContacts = false;
   const result = await runGate();
   assert.equal(result.status, 1, result.stdout + result.stderr);
