@@ -42,7 +42,7 @@ describe("clearTotpCounterForUser (Postgres)", () => {
     await clearTotpCounterForUser("user-platform-admin", {
       AUTH_USERS_BACKEND: "postgres",
       DATABASE_URL: "postgres://unionops/test",
-    } as NodeJS.ProcessEnv);
+    } as unknown as NodeJS.ProcessEnv);
 
     expect(update).toHaveBeenCalled();
     expect(updateSet).toHaveBeenCalledWith({ lastCounter: 0 });
