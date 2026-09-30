@@ -109,6 +109,7 @@ export function composeWebsiteTemplateData(
     ),
     includePrivacyPage:
       overlay?.includePrivacyPage ?? draft.includePrivacyPage ?? true,
+    multiPage: overlay?.multiPage ?? draft.multiPage ?? false,
     includeSiteQr: overlay?.includeSiteQr ?? draft.includeSiteQr ?? false,
     events: overlay?.events ?? draft.events ?? [],
     primaryColor: overlay?.primaryColor ?? brandKit.primaryColor,

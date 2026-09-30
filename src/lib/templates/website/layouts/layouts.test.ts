@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildWebsiteHtml, generateWebsiteZip } from "@/lib/templates/website/generate-website-zip";
+import { renderWebsiteSite } from "@/lib/templates/website/build-website-html";
 import type { WebsiteTemplateData } from "@/types/website-template";
 import { partitionWebsiteOfficers } from "@/lib/org-chart/website";
 
@@ -72,5 +73,28 @@ describe("website layout diversity", () => {
     const zip = await JSZip.loadAsync(blob);
     expect(Object.keys(zip.files)).toContain("privacy.html");
     expect(Object.keys(zip.files)).toContain("unionops-website.json");
+  });
+
+  it("emits about, leadership, and contact pages when multiPage is on", () => {
+    const rendered = renderWebsiteSite({ ...base, multiPage: true });
+    const paths = rendered.pages.map((p) => p.path);
+    expect(paths).toEqual(
+      expect.arrayContaining([
+        "index.html",
+        "about.html",
+        "leadership.html",
+        "contact.html",
+        "privacy.html",
+      ]),
+    );
+    expect(rendered.pages.find((p) => p.path === "index.html")?.html).toContain(
+      "./about.html",
+    );
+    expect(rendered.pages.find((p) => p.path === "index.html")?.html).not.toContain(
+      'id="about"',
+    );
+    expect(rendered.pages.find((p) => p.path === "contact.html")?.html).toContain(
+      'id="contact"',
+    );
   });
 });

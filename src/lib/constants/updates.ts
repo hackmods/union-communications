@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "website-multi-page",
+    date: "2026-09-30",
+    kind: "added",
+    href: "/tools/website-template",
+  },
+  {
     id: "union-outreach-lists",
     date: "2026-09-30",
     kind: "added",

@@ -51,33 +51,33 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-b-fitgap.md`](session-knowledge-202
 
 | ID | Status | Verdict | Notes |
 |----|--------|---------|-------|
-| C1–C3 | open | | |
+| C1–C3 | open | HUMAN | Content-owner + moderated usability |
 
 ### Wave D — Brand Kit / customization
 
 | ID | Status | Verdict | Notes |
 |----|--------|---------|-------|
-| D1–D5 | open | | |
+| D1–D5 | open | OPEN | Logo upload + admin gaps |
 
 ### Wave E — Data workbench
 
 | ID | Status | Verdict | Notes |
 |----|--------|---------|-------|
-| E1–E7 | open | | Re-baseline vs 2026-09-28 first |
+| E1–E7 | open | OPEN | Re-baseline first |
 
 ### Wave F — Portal member UX
 
 | ID | Status | Verdict | Notes |
 |----|--------|---------|-------|
-| F1–F2 | open | | |
+| F1–F2 | open | OPEN | |
 
 ## Track T2 — Durability + Launch Trust
 
 | Wave | Status | Notes |
 |------|--------|-------|
-| G Postgres flip | open | G1 local verify first |
-| H Portal cutover | open | Ryan authorizes H4 |
-| I Launch packets 1–10 | open | Update LAUNCH_TRUST_LEGAL_REFACTOR.md |
+| G Postgres flip | blocked | Local Postgres unavailable (`ECONNREFUSED`) |
+| H Portal cutover | blocked | Needs G + Ryan |
+| I Launch packets 1–10 | open | Living LAUNCH tracker; human evidence |
 
 ## Track T3 — Stretch
 
@@ -85,7 +85,7 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-b-fitgap.md`](session-knowledge-202
 |------|--------|-------|
 | J Outreach P4 SSE | open | |
 | K CMEK / signed URLs | open | |
-| L Website multi-page MVP | open | |
+| L Website multi-page MVP | done | Optional `multiPage` export |
 
 ## Fit-gap log
 
@@ -93,3 +93,4 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-b-fitgap.md`](session-knowledge-202
 |------|-----|------|
 | 2026-09-30 | A1–A5 (+A6–A8 disposition) | [session-knowledge-2026-09-30-wave-a-fitgap.md](session-knowledge-2026-09-30-wave-a-fitgap.md) |
 | 2026-09-30 | B1–B8 | [session-knowledge-2026-09-30-wave-b-fitgap.md](session-knowledge-2026-09-30-wave-b-fitgap.md) |
+| 2026-09-30 | L1–L3 + C–K status | [session-knowledge-2026-09-30-wave-l-program-status.md](session-knowledge-2026-09-30-wave-l-program-status.md) |

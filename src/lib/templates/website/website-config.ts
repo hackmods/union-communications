@@ -62,6 +62,7 @@ export type WebsiteConfigData = {
   layoutId: WebsiteLayoutId;
   siteLocale: WebsiteSiteLocale;
   includePrivacyPage: boolean;
+  multiPage: boolean;
   includeSiteQr: boolean;
   events: WebsiteEvent[];
   officers: WebsiteOfficer[];
@@ -150,6 +151,7 @@ const configDataSchema = z.object({
   layoutId: z.string().optional(),
   siteLocale: z.enum(["en", "fr"]).optional(),
   includePrivacyPage: z.boolean().optional(),
+  multiPage: z.boolean().optional(),
   includeSiteQr: z.boolean().optional(),
   events: z.array(eventSchema).max(24).optional(),
   officers: z.array(officerSchema).max(MAX_WEBSITE_OFFICERS),
@@ -369,6 +371,7 @@ function normalizeParsedData(
     layoutId: coerceWebsiteLayoutId(raw.layoutId ?? DEFAULT_WEBSITE_LAYOUT_ID),
     siteLocale: coerceWebsiteSiteLocale(raw.siteLocale),
     includePrivacyPage: raw.includePrivacyPage ?? true,
+    multiPage: raw.multiPage ?? false,
     includeSiteQr: raw.includeSiteQr ?? false,
     events: sanitizeEvents(raw.events),
     officers: sanitizeOfficers(raw.officers),
@@ -443,6 +446,7 @@ export function serializeWebsiteConfig(
     layoutId: coerceWebsiteLayoutId(data.layoutId ?? DEFAULT_WEBSITE_LAYOUT_ID),
     siteLocale: coerceWebsiteSiteLocale(data.siteLocale),
     includePrivacyPage: data.includePrivacyPage !== false,
+    multiPage: Boolean(data.multiPage),
     includeSiteQr: Boolean(data.includeSiteQr),
     events: sanitizeEvents(data.events),
     officers: sanitizeOfficers(data.officers),

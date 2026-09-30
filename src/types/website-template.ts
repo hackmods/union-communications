@@ -70,6 +70,11 @@ export interface WebsiteTemplateData {
   siteLocale?: WebsiteSiteLocale;
   /** Emit privacy.html + footer link (default true for new drafts). */
   includePrivacyPage?: boolean;
+  /**
+   * Emit about.html / leadership.html / contact.html with shared chrome.
+   * Default false — single brochure page with in-page anchors.
+   */
+  multiPage?: boolean;
   /** Bundle assets/site-qr.png targeting websiteUrl when true. */
   includeSiteQr?: boolean;
   /** Optional static events (+ calendar.ics when non-empty). */

@@ -332,6 +332,7 @@ export default function WebsiteTemplatePage() {
         layoutId: coerceWebsiteLayoutId(data.layoutId),
         siteLocale: data.siteLocale,
         includePrivacyPage: data.includePrivacyPage,
+        multiPage: data.multiPage,
         includeSiteQr: data.includeSiteQr,
         events: data.events,
         facebookUrl: data.facebookUrl,
@@ -580,6 +581,18 @@ export default function WebsiteTemplatePage() {
                   />
                   <span>{t("includePrivacyPage")}</span>
                 </label>
+                <label className="flex min-h-11 items-start gap-2 text-sm text-gray-800">
+                  <input
+                    type="checkbox"
+                    className="mt-1"
+                    checked={draft.multiPage}
+                    onChange={(e) =>
+                      patchCopy({ multiPage: e.target.checked })
+                    }
+                  />
+                  <span>{t("multiPage")}</span>
+                </label>
+                <p className="text-xs text-gray-500">{t("multiPageHint")}</p>
                 <label className="flex min-h-11 items-start gap-2 text-sm text-gray-800">
                   <input
                     type="checkbox"

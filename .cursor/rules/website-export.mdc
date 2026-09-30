@@ -12,7 +12,7 @@ Canonical plan: [`docs/audit/plan-2026-08-18-website-export-wp-squarespace.md`](
 
 GitHub Pages ZIP from `generateWebsiteZip()` is the **default** export. Classic WordPress theme ZIP from `generateWordpressThemeZip()` is a first-class second download: homepage copy is stored in a WordPress option, editable under **Appearance → Local site** (and Customizer), with JSON import of `unionops-website.json` for updates without a full theme re-upload.
 
-**Layouts (2026-09):** curated `layoutId` values `solidarity` | `bulletin` | `hall` share one content model (`WebsiteTemplateData` / draft / `unionops-website.json` **v2**). Switching layouts never recreates copy. Multi-page site trees remain deferred — see [`docs/audit/website-template-world-class-2026-09.md`](../../docs/audit/website-template-world-class-2026-09.md).
+**Layouts (2026-09):** curated `layoutId` values `solidarity` | `bulletin` | `hall` share one content model (`WebsiteTemplateData` / draft / `unionops-website.json` **v2**). Switching layouts never recreates copy. **Multi-page MVP (2026-09-30):** optional `multiPage` emits `about.html` / `leadership.html` / `contact.html` (+ privacy stub); default remains single brochure. Still not a CMS.
 
 Still not a CMS: no freeform block tree, no forms (`mailto:` only), no Squarespace export. Page copy persists in `WebsiteDraft` (localStorage) + Local Pack; hero photo bytes stay session-only. Both ZIPs include `unionops-website.json` so a steward can import the site file (or the ZIP) and regenerate. v1 JSON/ZIP imports migrate to v2 (`layoutId: solidarity`).
 

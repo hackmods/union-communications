@@ -1,4 +1,9 @@
-﻿## 2026-09-30 — Wave B poster-family alignment
+﻿## 2026-09-30 — Website Template multi-page MVP (Wave L)
+
+- Optional `multiPage` draft/export flag emits `about.html`, `leadership.html`, `contact.html` with shared nav; default remains single brochure.
+- What's new: `website-multi-page`. Program status: [`session-knowledge-2026-09-30-wave-l-program-status.md`](audit/session-knowledge-2026-09-30-wave-l-program-status.md).
+
+## 2026-09-30 — Wave B poster-family alignment
 
 - Alignment Gate: poster QOL plan largely already shipped (shared Select/Checkbox/ToolColourSection/treatments).
 - Residual: Board Banner byline uses shared `Checkbox`.

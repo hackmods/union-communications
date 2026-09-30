@@ -3740,6 +3740,8 @@
     "siteLocaleEn": "English",
     "siteLocaleFr": "French",
     "includePrivacyPage": "Include a short privacy page",
+    "multiPage": "Export separate About, Leadership, and Contact pages",
+    "multiPageHint": "Off by default. On, the ZIP includes about.html, leadership.html, and contact.html with shared navigation. Home keeps the hero plus resources and events.",
     "includeSiteQr": "Add a QR code for your Brand Kit website URL",
     "includeSiteQrHint": "Needs a website URL in Brand Kit. The PNG lands in the ZIP footer.",
     "ctaLabel": "Hero button label",
@@ -8147,6 +8149,10 @@
       "union-outreach-lists": {
         "title": "Union outreach lists (gated)",
         "body": "Union admins can manage national outreach lists with double opt-in when your host and Site Admin enable the capability — still off by default."
+      },
+      "website-multi-page": {
+        "title": "Website Template multi-page export",
+        "body": "Optionally export separate About, Leadership, and Contact pages alongside your local homepage — still a static brochure ZIP, not a CMS."
       },
       "member-broadcast": {
         "title": "Member broadcast (gated)",

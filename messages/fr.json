@@ -3740,6 +3740,8 @@
     "siteLocaleEn": "Anglais",
     "siteLocaleFr": "Français",
     "includePrivacyPage": "Inclure une courte page de confidentialité",
+    "multiPage": "Exporter des pages À propos, Direction et Contact séparées",
+    "multiPageHint": "Désactivé par défaut. Activé, le ZIP inclut about.html, leadership.html et contact.html avec la même navigation. L’accueil garde le hero plus les ressources et les événements.",
     "includeSiteQr": "Ajouter un code QR pour l'URL du site dans Brand Kit",
     "includeSiteQrHint": "Il faut une URL de site dans Brand Kit. Le PNG se trouve dans le pied de page du ZIP.",
     "ctaLabel": "Libellé du bouton d'accueil",
@@ -8093,6 +8095,10 @@
       "union-outreach-lists": {
         "title": "Listes de diffusion syndicales (contrôlées)",
         "body": "Les administrateurs syndicaux peuvent gérer des listes nationales avec double consentement lorsque l’hôte et l’admin du site activent la fonction — toujours désactivée par défaut."
+      },
+      "website-multi-page": {
+        "title": "Export multipages du modèle de site",
+        "body": "Exportez au besoin des pages À propos, Direction et Contact séparées avec votre page d’accueil locale — toujours un ZIP brochure statique, pas un CMS."
       },
       "member-broadcast": {
         "title": "Diffusion aux membres (sous portes)",

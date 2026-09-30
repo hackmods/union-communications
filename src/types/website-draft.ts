@@ -31,6 +31,8 @@ export interface WebsiteDraft {
   layoutId: WebsiteLayoutId;
   siteLocale: WebsiteSiteLocale;
   includePrivacyPage: boolean;
+  /** Separate about / leadership / contact HTML files (default false). */
+  multiPage: boolean;
   includeSiteQr: boolean;
   events: WebsiteEvent[];
   /**
@@ -63,6 +65,7 @@ export function emptyWebsiteDraft(
     layoutId: coerceWebsiteLayoutId(partial?.layoutId ?? DEFAULT_WEBSITE_LAYOUT_ID),
     siteLocale: coerceWebsiteSiteLocale(partial?.siteLocale),
     includePrivacyPage: partial?.includePrivacyPage ?? true,
+    multiPage: partial?.multiPage ?? false,
     includeSiteQr: partial?.includeSiteQr ?? false,
     events: partial?.events ?? [],
     facebookUrl: partial?.facebookUrl ?? null,
@@ -91,6 +94,7 @@ export function migrateWebsiteDraft(raw: unknown): WebsiteDraft {
     siteLocale: coerceWebsiteSiteLocale(o.siteLocale),
     includePrivacyPage:
       typeof o.includePrivacyPage === "boolean" ? o.includePrivacyPage : true,
+    multiPage: typeof o.multiPage === "boolean" ? o.multiPage : false,
     includeSiteQr:
       typeof o.includeSiteQr === "boolean" ? o.includeSiteQr : false,
     events: Array.isArray(o.events)

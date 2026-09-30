@@ -120,30 +120,40 @@ function navItems(
   strings: WebsiteSiteStrings,
   parts: ReturnType<typeof partitionWebsiteOfficers>,
 ): { href: string; label: string }[] {
+  const multi = Boolean(data.multiPage);
+  const homeHref = multi ? "./index.html" : "#home";
+  const aboutHref = multi ? "./about.html" : "#about";
+  const leadershipHref = multi ? "./leadership.html" : "#leadership";
+  const stewardsHref = multi ? "./leadership.html#stewards" : "#stewards";
+  const committeesHref = multi ? "./leadership.html#committees" : "#committees";
+  const resourcesHref = multi ? "./index.html#resources" : "#resources";
+  const eventsHref = multi ? "./index.html#events" : "#events";
+  const contactHref = multi ? "./contact.html" : "#contact";
+
   const items: { href: string; label: string }[] = [
-    { href: "#home", label: strings.home },
-    { href: "#about", label: strings.about },
+    { href: homeHref, label: strings.home },
+    { href: aboutHref, label: strings.about },
   ];
   if (parts.executive.length) {
-    items.push({ href: "#leadership", label: strings.officers });
+    items.push({ href: leadershipHref, label: strings.officers });
   }
   if (parts.stewards.length) {
-    items.push({ href: "#stewards", label: strings.stewards });
+    items.push({ href: stewardsHref, label: strings.stewards });
   }
   if (parts.committees.length) {
-    items.push({ href: "#committees", label: strings.committees });
+    items.push({ href: committeesHref, label: strings.committees });
   }
   const hasResources =
     (data.customLinks?.length ?? 0) > 0 ||
     (data.membershipLinks?.length ?? 0) > 0 ||
     data.includeOpseuResources;
   if (hasResources) {
-    items.push({ href: "#resources", label: strings.resources });
+    items.push({ href: resourcesHref, label: strings.resources });
   }
   if ((data.events?.length ?? 0) > 0) {
-    items.push({ href: "#events", label: strings.events });
+    items.push({ href: eventsHref, label: strings.events });
   }
-  items.push({ href: "#contact", label: strings.contact });
+  items.push({ href: contactHref, label: strings.contact });
   return items;
 }
 
@@ -199,13 +209,14 @@ function renderHero(
   const tagline = data.tagline?.trim()
     ? `<p class="hero-tagline">${escapeHtml(data.tagline.trim())}</p>`
     : "";
+  const contactHref = data.multiPage ? "./contact.html" : "#contact";
   return `  <section id="home" class="${heroSectionClass}">
 ${heroArtHtml}    <div class="hero-inner">
       <h1>${escapeHtml(data.unionName)}</h1>
       ${tagline}
       <div class="text-wrapper">
         <p class="hero-text">${escapeHtml(data.heroText)}</p>
-        <a href="#contact" class="cta-button">${escapeHtml(cta)}</a>
+        <a href="${contactHref}" class="cta-button">${escapeHtml(cta)}</a>
       </div>
     </div>
   </section>`;
@@ -542,7 +553,12 @@ function buildIndexBody(
 ): string {
   const parts = partitionWebsiteOfficers(data.officers);
   const renderers = sectionRenderers(data, strings, layout, parts);
-  const sections = layout.homeSections
+  const sectionIds = data.multiPage
+    ? layout.homeSections.filter(
+        (id) => id === "hero" || id === "resources" || id === "events",
+      )
+    : layout.homeSections;
+  const sections = sectionIds
     .map((id) => renderers[id]())
     .filter((html) => html.trim())
     .join("\n\n");
@@ -553,6 +569,39 @@ ${sections}
   </main>
 
 ${renderFooter(data, strings)}`;
+}
+
+function buildInnerPage(
+  data: WebsiteTemplateData,
+  strings: WebsiteSiteStrings,
+  layout: WebsiteLayoutDefinition,
+  options: {
+    path: string;
+    title: string;
+    description: string;
+    sectionHtml: string;
+  },
+): WebsiteRenderedPage {
+  const parts = partitionWebsiteOfficers(data.officers);
+  const bodyInner = `${renderHeader(data, strings, layout, parts)}
+
+  <main id="content">
+${options.sectionHtml}
+  </main>
+
+${renderFooter(data, strings)}`;
+  return {
+    path: options.path,
+    html: documentShell({
+      data,
+      strings,
+      layout,
+      title: options.title,
+      description: options.description,
+      canonicalPath: `./${options.path}`,
+      bodyInner,
+    }),
+  };
 }
 
 function buildPrivacyPage(
@@ -586,6 +635,12 @@ export function renderWebsiteSite(
 ): WebsiteRenderResult {
   const layout = getWebsiteLayout(data.layoutId);
   const strings = resolveWebsiteSiteStrings(data.siteLocale);
+  const renderers = sectionRenderers(
+    data,
+    strings,
+    layout,
+    partitionWebsiteOfficers(data.officers),
+  );
   const indexHtml = documentShell({
     data,
     strings,
@@ -598,6 +653,41 @@ export function renderWebsiteSite(
   const pages: WebsiteRenderedPage[] = [
     { path: "index.html", html: indexHtml },
   ];
+  if (data.multiPage) {
+    pages.push(
+      buildInnerPage(data, strings, layout, {
+        path: "about.html",
+        title: `${strings.about} — ${data.unionName}`,
+        description: data.about1 || data.unionName,
+        sectionHtml: renderers.about(),
+      }),
+    );
+    const leadershipHtml = [
+      renderers.leadership(),
+      renderers.stewards(),
+      renderers.committees(),
+    ]
+      .filter((html) => html.trim())
+      .join("\n\n");
+    pages.push(
+      buildInnerPage(data, strings, layout, {
+        path: "leadership.html",
+        title: `${strings.officers} — ${data.unionName}`,
+        description: strings.executiveIntro,
+        sectionHtml:
+          leadershipHtml ||
+          `  <section class="info-section"><div class="text-wrapper"><p>${escapeHtml(strings.executiveIntro)}</p></div></section>`,
+      }),
+    );
+    pages.push(
+      buildInnerPage(data, strings, layout, {
+        path: "contact.html",
+        title: `${strings.contact} — ${data.unionName}`,
+        description: strings.contactIntro,
+        sectionHtml: renderers.contact(),
+      }),
+    );
+  }
   if (data.includePrivacyPage !== false) {
     pages.push({
       path: "privacy.html",

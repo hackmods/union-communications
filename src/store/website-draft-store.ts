@@ -54,6 +54,7 @@ export const useWebsiteDraftStore = create<WebsiteDraftState>()((set, get) => ({
       layoutId: incoming.layoutId,
       siteLocale: incoming.siteLocale,
       includePrivacyPage: incoming.includePrivacyPage ?? true,
+      multiPage: incoming.multiPage ?? false,
       includeSiteQr: incoming.includeSiteQr ?? false,
       events: incoming.events ?? [],
       facebookUrl: incoming.facebookUrl ?? null,
