@@ -5,6 +5,8 @@ import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { isDemoPurgeEnabled } from "@/lib/features/demo-purge";
 import { countHighMembershipIntegrityIssues } from "@/lib/site-admin/membership-integrity";
 import { isPostgresConfigured } from "@/lib/db/client";
+import { isMfaEnabled } from "@/lib/auth/mfa-policy";
+import { resolveAttachmentStorageMode } from "@/lib/attachments/storage";
 import { buildHealthStatus } from "@/lib/ops/health-status";
 import { buildHostReadiness } from "@/lib/ops/host-readiness";
 import { SiteAdminCard } from "@/components/site-admin/SiteAdminCard";
@@ -35,6 +37,11 @@ export default async function SiteAdminLandingPage({
   const missingHostCount =
     hostReadiness.missingBackendFlips.length +
     hostReadiness.missingBlockingPresence.length;
+  const publicDocumentsBlocked =
+    !isMfaEnabled() ||
+    !isPostgresConfigured() ||
+    (process.env.NODE_ENV === "production" &&
+      resolveAttachmentStorageMode() !== "s3");
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 lg:py-12">
@@ -123,7 +130,12 @@ export default async function SiteAdminLandingPage({
         <SiteAdminCard
           href="/app/site-admin/documents"
           title={t("publicDocuments")}
-          body={t("publicDocumentsBody")}
+          body={
+            publicDocumentsBlocked
+              ? t("publicDocumentsBodyBlocked")
+              : t("publicDocumentsBody")
+          }
+          tone={publicDocumentsBlocked ? "warn" : "default"}
         />
         <SiteAdminCard
           href="/app/site-admin/public-tools"
