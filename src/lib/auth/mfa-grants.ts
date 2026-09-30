@@ -54,44 +54,54 @@ export async function issueMfaGrant(
   userId: string,
   now = Date.now(),
   sessionVersion = 0,
+  env: NodeJS.ProcessEnv = process.env,
 ): Promise<string> {
-  assertGrantStoreAvailable();
+  assertGrantStoreAvailable(env);
   const nonce = randomBytes(32).toString("base64url");
   const issuedAt = new Date(now);
   const expiresAt = new Date(now + GRANT_TTL_MS);
 
-  if (postgresGrantStoreEnabled()) {
-    await withRlsContext({ userId }, async () => {
-      await getDb()
-        .insert(mfaSessionGrants)
-        .values({
-          userId,
-          tokenHash: digest(nonce),
-          sessionVersion,
-          issuedAt,
-          expiresAt,
-          consumedAt: null,
-        })
-        .onConflictDoUpdate({
-          target: mfaSessionGrants.userId,
-          set: {
+  if (postgresGrantStoreEnabled(env)) {
+    try {
+      await withRlsContext({ userId }, async () => {
+        await getDb()
+          .insert(mfaSessionGrants)
+          .values({
+            userId,
             tokenHash: digest(nonce),
             sessionVersion,
             issuedAt,
             expiresAt,
             consumedAt: null,
-          },
-        });
-    });
-  } else {
-    memoryGrants.set(userId, {
-      userId,
-      nonce,
-      sessionVersion,
-      issuedAt: now,
-      expiresAt: now + GRANT_TTL_MS,
-    });
+          })
+          .onConflictDoUpdate({
+            target: mfaSessionGrants.userId,
+            set: {
+              tokenHash: digest(nonce),
+              sessionVersion,
+              issuedAt,
+              expiresAt,
+              consumedAt: null,
+            },
+          });
+      });
+      return nonce;
+    } catch (error) {
+      console.error("[auth] MFA grant Postgres write failed", {
+        userId,
+        message: error instanceof Error ? error.message : String(error),
+      });
+      if (hostedCustomerProfileEnabled(env)) throw error;
+    }
   }
+
+  memoryGrants.set(userId, {
+    userId,
+    nonce,
+    sessionVersion,
+    issuedAt: now,
+    expiresAt: now + GRANT_TTL_MS,
+  });
   return nonce;
 }
 
@@ -101,30 +111,43 @@ export async function consumeMfaGrant(
   nonce: string,
   now = Date.now(),
   sessionVersion = 0,
+  env: NodeJS.ProcessEnv = process.env,
 ): Promise<boolean> {
-  assertGrantStoreAvailable();
+  assertGrantStoreAvailable(env);
   if (nonce.length > 128) return false;
 
-  if (postgresGrantStoreEnabled()) {
-    const [grant] = await withRlsContext({ userId }, async () =>
-      getDb()
-        .update(mfaSessionGrants)
-        .set({ consumedAt: new Date(now) })
-        .where(and(
-          eq(mfaSessionGrants.userId, userId),
-          eq(mfaSessionGrants.tokenHash, digest(nonce)),
-          isNull(mfaSessionGrants.consumedAt),
-        ))
-        .returning({
-          sessionVersion: mfaSessionGrants.sessionVersion,
-          expiresAt: mfaSessionGrants.expiresAt,
-        }),
-    );
-    return Boolean(
-      grant &&
+  if (postgresGrantStoreEnabled(env)) {
+    try {
+      const [grant] = await withRlsContext({ userId }, async () =>
+        getDb()
+          .update(mfaSessionGrants)
+          .set({ consumedAt: new Date(now) })
+          .where(and(
+            eq(mfaSessionGrants.userId, userId),
+            eq(mfaSessionGrants.tokenHash, digest(nonce)),
+            isNull(mfaSessionGrants.consumedAt),
+          ))
+          .returning({
+            sessionVersion: mfaSessionGrants.sessionVersion,
+            expiresAt: mfaSessionGrants.expiresAt,
+          }),
+      );
+      if (
+        grant &&
         grant.sessionVersion === sessionVersion &&
-        now <= grant.expiresAt.getTime(),
-    );
+        now <= grant.expiresAt.getTime()
+      ) {
+        return true;
+      }
+      // Miss on durable store: also accept an in-process grant from a prior
+      // non-hosted Postgres fallback so verify→session.update still completes.
+    } catch (error) {
+      console.error("[auth] MFA grant Postgres consume failed", {
+        userId,
+        message: error instanceof Error ? error.message : String(error),
+      });
+      if (hostedCustomerProfileEnabled(env)) throw error;
+    }
   }
 
   const grant = memoryGrants.get(userId);

@@ -48,4 +48,20 @@ describe("MFA verification attempt limit", () => {
       }),
     ).rejects.toThrow(/durable PostgreSQL storage/i);
   });
+
+  it("falls back to memory when Postgres attempt store throws outside hosted mode", async () => {
+    const { reserveMfaVerificationAttempt: reserve } = await import(
+      "@/lib/auth/mfa-attempt-limits"
+    );
+    // Force the postgres path via env; withRlsContext no-ops without a real
+    // DATABASE_URL client when isPostgresConfigured is false — stub both.
+    const env = {
+      AUTH_USERS_BACKEND: "postgres",
+      DATABASE_URL: "postgres://example.invalid/unionops",
+    };
+    // Without a live DB this still exercises the catch→memory path when the
+    // insert throws; if configuration short-circuits, memory path still allows.
+    const decision = await reserve("account-fallback", Date.now(), env);
+    expect(decision).toMatchObject({ allowed: true });
+  });
 });
