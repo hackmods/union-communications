@@ -40,7 +40,8 @@ test.describe("Hub / Portal desktop composition @smoke", () => {
     await expect(page).toHaveURL(/\/en\/app\/grievances\/grev-001\/?$/, {
       timeout: 20_000,
     });
-    const h1 = page.getByRole("heading", { level: 1 });
+    // Seed grev-001 title is the member pseudonym (no fileNumber).
+    const h1 = page.getByRole("heading", { level: 1, name: /Member A/i });
     await expect(h1).toBeVisible({ timeout: 20_000 });
     await assertDesktopComposition(page, {
       heading: h1,

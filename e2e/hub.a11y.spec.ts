@@ -155,9 +155,10 @@ test.describe("Hub authenticated a11y", () => {
     await expect(page).toHaveURL(/\/en\/app\/grievances\/grev-001\/?$/, {
       timeout: 20_000,
     });
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible({
-      timeout: 20_000,
-    });
+    // Seed grev-001 case title (member pseudonym) — not a generic first h1.
+    await expect(
+      page.getByRole("heading", { level: 1, name: /Member A/i }),
+    ).toBeVisible({ timeout: 20_000 });
     await expectNoSeriousA11yViolations(page);
   });
 
