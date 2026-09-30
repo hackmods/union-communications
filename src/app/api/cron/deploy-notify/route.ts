@@ -10,6 +10,7 @@ import {
   readDeployNotifyEmail,
   sendDeployNotifyEmail,
 } from "@/lib/ops/deploy-notify";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 /**
  * Opt-in post-deploy operator email (host readiness summary).
@@ -19,74 +20,82 @@ import {
  * GET|POST /api/cron/deploy-notify?dryRun=1
  */
 async function handle(request: Request) {
-  const secret = process.env.CRON_SECRET;
-  const authHeader = request.headers.get("authorization");
-  const cronHeader = request.headers.get("x-cron-secret");
-  if (
-    !assertCronSecret(authHeader, secret) &&
-    !assertCronSecret(cronHeader, secret)
-  ) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  try {
+    const secret = process.env.CRON_SECRET;
+    const authHeader = request.headers.get("authorization");
+    const cronHeader = request.headers.get("x-cron-secret");
+    if (
+      !assertCronSecret(authHeader, secret) &&
+      !assertCronSecret(cronHeader, secret)
+    ) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  const url = new URL(request.url);
-  const dryRun = parseCronDryRun(url.searchParams);
-  const payload = await buildDeployNotifyPayload();
-  const to = readDeployNotifyEmail();
+    const url = new URL(request.url);
+    const dryRun = parseCronDryRun(url.searchParams);
+    const payload = await buildDeployNotifyPayload();
+    const to = readDeployNotifyEmail();
 
-  if (dryRun) {
-    return NextResponse.json({
-      ok: true,
-      dryRun: true,
-      enabled: isDeployNotifyEnabled(),
-      to: to ? "(configured)" : null,
-      ...payload,
-    });
-  }
+    if (dryRun) {
+      return NextResponse.json({
+        ok: true,
+        dryRun: true,
+        enabled: isDeployNotifyEnabled(),
+        to: to ? "(configured)" : null,
+        ...payload,
+      });
+    }
 
-  const result = await sendDeployNotifyEmail({ to, payload });
+    const result = await sendDeployNotifyEmail({ to, payload });
 
-  await auditLog.log({
-    userId: "system-cron",
-    action: "email.deploy_notify",
-    resourceType: "site_admin",
-    resourceId: payload.commit || "*",
-    metadata: {
-      commit: payload.commit,
-      version: payload.version,
-      ready: payload.ready ? "true" : "false",
-      ok: result.ok ? "true" : "false",
-      skipped: "skipped" in result && result.skipped ? result.skipped : "",
-    },
-  });
-
-  if (!result.ok) {
-    const status =
-      result.skipped === "disabled" || result.skipped === "no_recipient"
-        ? 200
-        : result.skipped === "email_unavailable"
-          ? 503
-          : 502;
-    return NextResponse.json(
-      {
-        ok: false,
-        skipped: result.skipped,
-        error: result.error,
+    await auditLog.log({
+      userId: "system-cron",
+      action: "email.deploy_notify",
+      resourceType: "site_admin",
+      resourceId: payload.commit || "*",
+      metadata: {
         commit: payload.commit,
         version: payload.version,
-        ready: payload.ready,
+        ready: payload.ready ? "true" : "false",
+        ok: result.ok ? "true" : "false",
+        skipped: "skipped" in result && result.skipped ? result.skipped : "",
       },
-      { status },
+    });
+
+    if (!result.ok) {
+      const status =
+        result.skipped === "disabled" || result.skipped === "no_recipient"
+          ? 200
+          : result.skipped === "email_unavailable"
+            ? 503
+            : 502;
+      return NextResponse.json(
+        {
+          ok: false,
+          skipped: result.skipped,
+          error: result.error,
+          commit: payload.commit,
+          version: payload.version,
+          ready: payload.ready,
+        },
+        { status },
+      );
+    }
+
+    return NextResponse.json({
+      ok: true,
+      commit: payload.commit,
+      version: payload.version,
+      ready: payload.ready,
+      messageId: result.messageId,
+    });
+  } catch (error) {
+    reportApiFailure(error, "/api/cron/deploy-notify", { source: "cron" });
+    return NextResponse.json(
+      { error: "Deploy notify cron failed" },
+      { status: 503 },
     );
   }
-
-  return NextResponse.json({
-    ok: true,
-    commit: payload.commit,
-    version: payload.version,
-    ready: payload.ready,
-    messageId: result.messageId,
-  });
 }
 
 export async function GET(request: Request) {

@@ -78,6 +78,8 @@ describe("buildHealthStatus", () => {
     expect(typeof status.demoAuthEnabled).toBe("boolean");
     expect(status.tenantRegistry).toEqual({ unionCount: null, seeded: null });
     expect(status.observability).toEqual({
+      backend: "noop",
+      storeEnabled: false,
       sentryEnabled: false,
       sentryClientEnabled: false,
       errorLogFileEnabled: false,
@@ -130,6 +132,8 @@ describe("buildHealthStatus", () => {
     expect(status.observability.sentryClientEnabled).toBe(false);
     expect(status.observability.sentryClientServerMismatch).toBe(true);
     expect(status.observability.errorLogFileEnabled).toBe(true);
+    expect(status.observability.storeEnabled).toBe(true);
+    expect(status.observability.backend).toBe("file");
     expect(JSON.stringify(status)).not.toContain("leaked-secret");
   });
 

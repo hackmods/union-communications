@@ -1,5 +1,6 @@
 import { assertCronSecret } from "@/lib/meetings/officer-reminder-cron";
 import { dispatchProductNewsBatch } from "@/lib/email/product-news-delivery";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 /** A single bounded batch; CapRover calls this on a schedule after release. */
 export async function POST(request: Request) {
@@ -11,7 +12,8 @@ export async function POST(request: Request) {
   try {
     const result = await dispatchProductNewsBatch();
     return Response.json({ ok: true, ...result }, { headers: { "Cache-Control": "no-store" } });
-  } catch {
+  } catch (error) {
+    reportApiFailure(error, "/api/cron/product-news", { source: "cron" });
     return Response.json({ error: "Product-news dispatch failed." }, { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }

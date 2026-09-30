@@ -14,8 +14,8 @@ export async function register() {
 }
 
 /**
- * Next.js onRequestError — Sentry when enabled; JSONL file sink on Node only
- * (edge has no durable FS write path).
+ * Next.js onRequestError — optional Sentry when enabled; ObservabilityEventStore
+ * on Node only (edge has no durable FS write path).
  */
 export async function onRequestError(
   ...args: Parameters<typeof Sentry.captureRequestError>
@@ -23,10 +23,14 @@ export async function onRequestError(
   const [error, request] = args;
 
   if (process.env.NEXT_RUNTIME === "nodejs") {
-    const { appendServerErrorLog } = await import(
-      "@/lib/observability/file-log"
+    const { reportServerError } = await import(
+      "@/lib/observability/report-server-error"
     );
-    void appendServerErrorLog(error, { route: request.path });
+    void reportServerError(error, {
+      route: request.path,
+      source: "server",
+      captureSentry: false,
+    });
   }
 
   if (resolveObservabilityConfig().sentryEnabled) {

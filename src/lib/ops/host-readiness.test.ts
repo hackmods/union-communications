@@ -63,6 +63,8 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
       publicLegalContacts: false,
     },
     observability: {
+      backend: "noop",
+      storeEnabled: false,
       sentryEnabled: false,
       sentryClientEnabled: false,
       errorLogFileEnabled: false,

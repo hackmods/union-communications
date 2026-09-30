@@ -5,6 +5,7 @@ import { getObjectStorage } from "@/lib/attachments/storage";
 import { auditLog } from "@/lib/audit/store";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { withRlsContext } from "@/lib/db/rls-context";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 type EligibleRow = { document_id: string; storage_keys: string[] };
 
@@ -34,6 +35,7 @@ async function handle(request: Request, dryOnly = false) {
     if (dryRun) await auditLog.log({ userId: "system-cron", action: "document.retention.dry_run", resourceType: "document", resourceId: "*", metadata: { eligible: String(result.eligibleCount), dryRun: "true" } });
     return NextResponse.json({ ok: true, dryRun, ...result }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
+    reportApiFailure(error, "/api/cron/document-retention", { source: "cron" });
     return NextResponse.json({ error: error instanceof Error ? error.message : "Retention job failed" }, { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }

@@ -13,6 +13,7 @@ const KEYS = [
   "ERROR_LOG_FILE_PATH",
   "ERROR_LOG_FILE_MAX_BYTES",
   "ERROR_LOG_FILE_KEEP",
+  "OBSERVABILITY_BACKEND",
 ] as const;
 
 afterEach(() => {
@@ -30,6 +31,7 @@ describe("resolveObservabilityConfig", () => {
     expect(cfg.errorLogFileMisconfigured).toBe(false);
     expect(cfg.errorLogFileMaxBytes).toBe(10 * 1024 * 1024);
     expect(cfg.errorLogFileKeep).toBe(3);
+    expect(cfg.backend).toBe("noop");
   });
 
   it("enables Sentry only when flag and DSN are set", () => {
@@ -100,6 +102,7 @@ describe("resolveObservabilityConfig", () => {
     expect(cfg.errorLogFilePath).toBe("/data/logs/errors.jsonl");
     expect(cfg.errorLogFileMaxBytes).toBe(1024);
     expect(cfg.errorLogFileKeep).toBe(5);
+    expect(cfg.backend).toBe("file");
   });
 });
 
@@ -126,6 +129,8 @@ describe("buildObservabilityHealth", () => {
       ERROR_LOG_FILE_PATH: "/data/logs/x.jsonl",
     });
     expect(health).toEqual({
+      backend: "file",
+      storeEnabled: true,
       sentryEnabled: true,
       sentryClientEnabled: false,
       errorLogFileEnabled: true,

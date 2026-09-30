@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { assertCronSecret, parseCronDryRun } from "@/lib/meetings/officer-reminder-cron";
 import { getDb, isPostgresConfigured } from "@/lib/db/client";
 import { withRlsContext } from "@/lib/db/rls-context";
+import { reportApiFailure } from "@/lib/observability/report-server-error";
 
 /**
  * Purge expired platform incident step-up grants via SECURITY DEFINER helpers.
@@ -46,6 +47,9 @@ async function handle(request: Request, dryOnly = false) {
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (error) {
+    reportApiFailure(error, "/api/cron/incident-step-up-cleanup", {
+      source: "cron",
+    });
     return NextResponse.json(
       {
         error:

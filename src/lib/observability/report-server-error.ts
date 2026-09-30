@@ -1,42 +1,85 @@
 import { resolveObservabilityConfig } from "@/lib/observability/config";
-import { appendServerErrorLog } from "@/lib/observability/file-log";
 import {
   classifyServerError,
   type Classification,
 } from "@/lib/observability/signal-classify";
+import { observabilityStore } from "@/lib/observability/store";
+import type { ObservabilitySource } from "@/lib/observability/types";
 
 export type ReportServerErrorOptions = {
   route?: string;
   /** When true, also Sentry.captureException if the SDK is enabled and loaded. */
   captureSentry?: boolean;
+  source?: ObservabilitySource;
+  requestId?: string;
+  meta?: Record<string, string | number | boolean | null>;
 };
 
-/** Resolved image build commit (set by entrypoint.sh). Used as a Sentry tag. */
+/** Resolved image build commit (set by entrypoint.sh). Used as a tag. */
 function currentBuild(): string | undefined {
   const raw = process.env.BUILD_COMMIT_SHA?.trim();
   return raw && raw.length > 0 ? raw : undefined;
 }
 
+function serializeError(error: unknown): {
+  message: string;
+  name?: string;
+  stack?: string;
+  digest?: string;
+} {
+  if (error instanceof Error) {
+    const digest =
+      "digest" in error && typeof (error as { digest?: unknown }).digest === "string"
+        ? (error as { digest: string }).digest
+        : undefined;
+    return {
+      message: error.message || error.name || "Error",
+      name: error.name,
+      stack: error.stack,
+      digest,
+    };
+  }
+  return { message: String(error) };
+}
+
 /**
- * Fan-out server errors to the file sink and optionally Sentry.
+ * Fan-out server errors to the ObservabilityEventStore and optionally Sentry.
  * Safe no-op when both sinks are off. Never throws.
  *
  * Recognised benign patterns (`auth.credentials_failed`, `action.drift`) are
- * demoted to `warn` / `info` capture levels so they don't dominate the
- * operator's view. The JSONL record carries the same `signal` field so
- * dashboards can group across deploys and SSH-tail together.
+ * demoted to `warn` / `info` so they don't dominate the operator's view.
  */
 export async function reportServerError(
   error: unknown,
   options: ReportServerErrorOptions = {},
 ): Promise<void> {
-  const { route, captureSentry = true } = options;
+  const {
+    route,
+    captureSentry = true,
+    source = "server",
+    requestId,
+    meta,
+  } = options;
   const build = currentBuild();
+  const parts = serializeError(error);
+  const classification: Classification = classifyServerError(error);
 
   try {
-    await appendServerErrorLog(error, route ? { route, build } : { build });
+    await observabilityStore.append({
+      level: classification.level,
+      source,
+      message: parts.message,
+      name: parts.name,
+      stack: parts.stack,
+      digest: parts.digest,
+      route,
+      build,
+      signal: classification.signal,
+      requestId,
+      meta: meta ?? undefined,
+    });
   } catch {
-    // appendServerErrorLog already swallows; belt-and-suspenders
+    // store append should never throw; belt-and-suspenders
   }
 
   if (!captureSentry) return;
@@ -44,7 +87,6 @@ export async function reportServerError(
   const cfg = resolveObservabilityConfig();
   if (!cfg.sentryEnabled) return;
 
-  const classification: Classification = classifyServerError(error);
   try {
     const Sentry = await import("@sentry/nextjs");
     Sentry.withScope((scope) => {
@@ -52,8 +94,6 @@ export async function reportServerError(
       if (classification.signal) scope.setTag("signal", classification.signal);
       if (route) scope.setTag("route", route);
       if (classification.level === "info") {
-        // Demote recognised-benign noise out of Sentry's "Issues" inbox —
-        // visible as breadcrumbs instead of error events.
         scope.setLevel("info");
         Sentry.captureMessage(messageOf(error), "info");
         return;
@@ -77,10 +117,11 @@ export async function reportServerError(
 export function reportApiFailure(
   error: unknown,
   route: string,
+  options?: Omit<ReportServerErrorOptions, "route">,
 ): void {
   void reportServerError(
     error instanceof Error ? error : new Error(String(error)),
-    { route },
+    { route, ...options },
   );
 }
 

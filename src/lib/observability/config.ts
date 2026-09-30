@@ -1,7 +1,10 @@
 /**
  * Operator error sinks — CapRover / Docker env toggles.
  * Not product analytics (ADR-006). Defaults: both sinks off.
+ * Primary store is the ObservabilityEventStore (file); Sentry is optional fan-out.
  */
+
+import type { ObservabilityBackend } from "@/lib/observability/types";
 
 function envFlag(raw: string | undefined): boolean {
   const v = raw?.trim().toLowerCase();
@@ -12,6 +15,8 @@ function envFlag(raw: string | undefined): boolean {
 export type EnvBag = Record<string, string | undefined>;
 
 export type ObservabilityConfig = {
+  /** Resolved store backend (file | noop | postgres-reserved). */
+  backend: ObservabilityBackend;
   /** Server/edge: SENTRY_ENABLED=true and a DSN present. */
   sentryEnabled: boolean;
   /** Browser: non-empty NEXT_PUBLIC_SENTRY_DSN (build/runtime public). */
@@ -36,6 +41,8 @@ export type ObservabilityConfig = {
 
 /** Non-secret snapshot for `/api/health` (no DSN / paths with secrets). */
 export type ObservabilityHealth = {
+  backend: ObservabilityBackend;
+  storeEnabled: boolean;
   sentryEnabled: boolean;
   sentryClientEnabled: boolean;
   errorLogFileEnabled: boolean;
@@ -58,6 +65,22 @@ function parsePositiveInt(
   return Math.min(n, max);
 }
 
+/**
+ * OBSERVABILITY_BACKEND: file (default when file sink on), noop, or postgres
+ * (reserved — falls back to file until implemented).
+ */
+export function resolveObservabilityBackend(
+  env: EnvBag = process.env,
+): ObservabilityBackend {
+  const raw = env.OBSERVABILITY_BACKEND?.trim().toLowerCase();
+  if (raw === "noop") return "noop";
+  if (raw === "postgres") return "postgres";
+  if (raw === "file") return "file";
+  const fileFlag = envFlag(env.ERROR_LOG_FILE_ENABLED);
+  const filePath = env.ERROR_LOG_FILE_PATH?.trim();
+  return fileFlag && filePath ? "file" : "noop";
+}
+
 export function resolveObservabilityConfig(
   env: EnvBag = process.env,
 ): ObservabilityConfig {
@@ -68,8 +91,10 @@ export function resolveObservabilityConfig(
   const filePath = env.ERROR_LOG_FILE_PATH?.trim() || undefined;
   const sentryEnabled = sentryFlag && Boolean(serverDsn);
   const sentryClientEnabled = Boolean(publicDsn);
+  const backend = resolveObservabilityBackend(env);
 
   return {
+    backend,
     sentryEnabled,
     sentryClientEnabled,
     sentryDsn: serverDsn,
@@ -96,7 +121,17 @@ export function buildObservabilityHealth(
   env: EnvBag = process.env,
 ): ObservabilityHealth {
   const cfg = resolveObservabilityConfig(env);
+  const storeEnabled =
+    cfg.backend !== "noop" &&
+    cfg.errorLogFileEnabled &&
+    Boolean(cfg.errorLogFilePath);
   return {
+    backend: storeEnabled
+      ? cfg.backend === "postgres"
+        ? "postgres"
+        : "file"
+      : "noop",
+    storeEnabled,
     sentryEnabled: cfg.sentryEnabled,
     sentryClientEnabled: cfg.sentryClientEnabled,
     errorLogFileEnabled: cfg.errorLogFileEnabled,
