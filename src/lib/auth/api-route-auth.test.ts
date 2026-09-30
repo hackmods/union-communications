@@ -33,6 +33,10 @@ const PUBLIC_API_ROUTES = new Set([
   "product-news/subscribe/route.ts",
   "product-news/unsubscribe/route.ts",
   "webhooks/mailgun/product-news/route.ts",
+  // Member-broadcast one-click / RFC 8058 unsubscribe — token is the capability.
+  "broadcast/unsubscribe/route.ts",
+  // Outreach list double opt-in — signed token confirms address ownership (ADR-023).
+  "outreach-lists/confirm/route.ts",
 ]);
 
 function walkRouteFiles(dir: string): string[] {
@@ -81,6 +85,7 @@ const AUTH_MARKERS = [
   "authorizeIncidentAdmin",
   "authorizeSubprocessorAdmin",
   "authorizeProductNewsAdmin",
+  "authorizeOutreachListsAdmin",
 ];
 
 /** Routes that gate with shared secrets or tokens instead of Hub session. */

@@ -222,6 +222,27 @@ DROP TABLE IF EXISTS marketing_action_tokens CASCADE;
 DROP TABLE IF EXISTS marketing_consent_events CASCADE;
 DROP TABLE IF EXISTS marketing_subscribers CASCADE;
 
+-- Observability + member-broadcast follow-ons + outreach lists (0082–0089).
+-- Fresh-volume migrate creates these before the journal-hole rewind; leaving
+-- them in place collides on CREATE TABLE / CREATE POLICY when the tail replays.
+DROP TABLE IF EXISTS observability_alert_firings CASCADE;
+DROP TABLE IF EXISTS observability_alert_rules CASCADE;
+DROP TABLE IF EXISTS observability_issue_acks CASCADE;
+DROP TABLE IF EXISTS observability_events CASCADE;
+DROP TABLE IF EXISTS checkin_nudge_sends CASCADE;
+DROP TABLE IF EXISTS member_broadcast_provider_events CASCADE;
+DROP TABLE IF EXISTS member_broadcast_deliveries CASCADE;
+DROP TABLE IF EXISTS member_broadcast_action_tokens CASCADE;
+DROP TABLE IF EXISTS member_broadcast_suppressions CASCADE;
+DROP TABLE IF EXISTS outreach_action_tokens CASCADE;
+DROP TABLE IF EXISTS outreach_deliveries CASCADE;
+DROP TABLE IF EXISTS outreach_campaigns CASCADE;
+DROP TABLE IF EXISTS outreach_consent_events CASCADE;
+DROP TABLE IF EXISTS outreach_suppressions CASCADE;
+DROP TABLE IF EXISTS outreach_subscribers CASCADE;
+DROP TABLE IF EXISTS outreach_lists CASCADE;
+ALTER TABLE unions DROP COLUMN IF EXISTS outreach_lists_enabled;
+
 -- Bare CREATE FUNCTION migrations (no OR REPLACE) leave functions behind after
 -- table CASCADE drops. Replay then fails with "function already exists".
 DROP FUNCTION IF EXISTS public.subprocessor_public_projection_guard() CASCADE;

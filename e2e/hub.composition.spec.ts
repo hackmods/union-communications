@@ -35,10 +35,14 @@ test.describe("Hub / Portal desktop composition @smoke", () => {
     await loginAsPresident(page);
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/en/app/grievances");
-    const detailLink = page.locator('a[href*="/app/grievances/"]').first();
+    const detailLink = page
+      .locator('a[href*="/app/grievances/"]:not([href*="/new"])')
+      .first();
     await expect(detailLink).toBeVisible({ timeout: 20_000 });
-    await detailLink.click();
-    await expect(page).toHaveURL(/\/en\/app\/grievances\/[^/]+/, { timeout: 20_000 });
+    await Promise.all([
+      page.waitForURL(/\/en\/app\/grievances\/[^/]+/, { timeout: 20_000 }),
+      detailLink.click(),
+    ]);
     const h1 = page.getByRole("heading", { level: 1 });
     await expect(h1).toBeVisible();
     await assertDesktopComposition(page, {

@@ -140,6 +140,7 @@ function OperatorTile({
   return (
     <Link
       href={href}
+      aria-label={title}
       aria-current={active ? "page" : undefined}
       className={cn(
         "group relative flex h-full min-h-11 flex-col rounded-xl border bg-white p-3.5 transition-all duration-200 ease-out",

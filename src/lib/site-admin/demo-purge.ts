@@ -51,6 +51,7 @@ export const DEMO_PURGE_UNION_SCOPED_TABLES: readonly string[] = [
   // Check-ins
   "checkin_answers",
   "checkin_schedules",
+  "checkin_nudge_sends",
   // Polls
   "poll_responses",
   "poll_definitions",

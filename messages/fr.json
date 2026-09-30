@@ -2089,7 +2089,7 @@
     "strategy": {
       "navLabel": "Publication",
       "title": "Une demande, puis un endroit où aller",
-      "content": "Ouvrez avec qui, quoi et quand dès la première seconde. Gardez une seule action par clip et commencez sur une plateforme que les membres utilisent déjà; plusieurs sections fonctionnent encore avec un groupe Facebook fermé. TikTok est facultatif. Pour les étapes de configuration, consultez les guides connexes à la fin de cette page. Laissez de côté les conseils hebdomadaires de classement, qui vieillissent vite.",
+      "content": "Ouvrez avec qui, quoi et quand dès la première seconde. Gardez une seule action par clip et commencez sur une plateforme que les membres utilisent déjà ; plusieurs sections fonctionnent encore avec un groupe Facebook fermé. TikTok est facultatif. Pour les étapes de configuration, consultez les guides connexes à la fin de cette page. Laissez de côté les conseils hebdomadaires de classement, qui vieillissent vite.",
       "items": {
         "hook": "Mettez la demande à l’écran autant que dans la voix, pour que le clip fonctionne sans le son.",
         "oneAsk": "Une réunion, une pétition ou un site. Pas les trois.",
@@ -2189,7 +2189,7 @@
       "title": "Pourquoi le consentement, c'est la solidarité",
       "intro": "Le consentement protège les membres de la surveillance de l'employeur et des bonnes intentions des autres.",
       "retaliationTitle": "Surveillance de l'employeur",
-      "retaliationBody": "N'identifiez pas les membres au travail, ne laissez pas les données de lieu activées et ne publiez pas une preuve de leur présence à une activité syndicale si cela peut leur nuire. Retirez les détails qui les exposent; si le risque demeure, gardez la photo hors ligne."
+      "retaliationBody": "N'identifiez pas les membres au travail, ne laissez pas les données de lieu activées et ne publiez pas une preuve de leur présence à une activité syndicale si cela peut leur nuire. Retirez les détails qui les exposent ; si le risque demeure, gardez la photo hors ligne."
     },
     "tiers": {
       "navLabel": "Trois contextes",
@@ -2739,7 +2739,7 @@
       },
       "picket-flyer": {
         "title": "Tract de piquetage / rassemblement",
-        "description": "Tract de piquetage : porte 3, samedi à 7 h. Apportez de l'eau; la tente syndicale est près de l'entrée sud.",
+        "description": "Tract de piquetage : porte 3, samedi à 7 h. Apportez de l'eau ; la tente syndicale est près de l'entrée sud.",
         "why": {
           "0": "Les tracts imposent une hiérarchie : nom, lieu, heure.",
           "1": "Le même actif sert au tableau syndical et en ligne."
@@ -2778,7 +2778,7 @@
       },
       "bargaining-update": {
         "title": "Mise à jour de la table de négociation",
-        "description": "À la table mardi, la direction a répondu à deux propositions et en a reporté trois. Il nous faut encore une réponse sur les congés payés pour les réunions; les membres peuvent consulter le suivi jeudi.",
+        "description": "À la table mardi, la direction a répondu à deux propositions et en a reporté trois. Il nous faut encore une réponse sur les congés payés pour les réunions ; les membres peuvent consulter le suivi jeudi.",
         "why": {
           "0": "Les membres veulent le statut, pas du spin - commencez par la mise à jour.",
           "1": "Les couleurs de marque distinguent les messages officiels."
@@ -2804,7 +2804,7 @@
       },
       "town-hall-thanks": {
         "title": "Graphique de remerciement - assemblée",
-        "description": "Merci aux [X] membres présents à [Event Name]. Prochaine étape : [prochaine réunion, action ou date]. À bientôt.",
+        "description": "Merci aux [X] membres présents à [Event Name]. Prochaine étape : [next meeting, action, or date]. À bientôt.",
         "why": {
           "0": "Remercier publiquement renforce la participation la prochaine fois.",
           "1": "Un chiffre de participation suffit - évitez le compte rendu complet."
@@ -5459,7 +5459,7 @@
         },
         "overPromise": {
           "label": "Promettre la victoire",
-          "content": "« On va faire annuler ça » — puis un refus arrive. Expliquez l'étape à venir, les éléments manquants et la date du prochain suivi; ne prédisez pas le résultat."
+          "content": "« On va faire annuler ça » — puis un refus arrive. Expliquez l'étape à venir, les éléments manquants et la date du prochain suivi ; ne prédisez pas le résultat."
         },
         "personalBias": {
           "label": "Conflit personnel à la base de la décision",
@@ -12774,7 +12774,7 @@
       "welcome": {
         "category": "Général",
         "title": "Accueil des nouveaux membres",
-        "caption": "Bienvenue à la [Local Number] [Sub-text]. Votre délégué est [Name]; vous pouvez le joindre à [contact]. La prochaine assemblée des membres aura lieu le [date] à [place]. Venez avec vos questions."
+        "caption": "Bienvenue à la [Local Number] [Sub-text]. Votre délégué est [Name] ; vous pouvez le joindre à [contact]. La prochaine assemblée des membres aura lieu le [date] à [place]. Venez avec vos questions."
       },
       "agm": {
         "category": "AGA",
@@ -12794,12 +12794,12 @@
       "spotlight": {
         "category": "Membre en vedette",
         "title": "Membre en vedette",
-        "caption": "MEMBRE EN VEDETTE\n\nVoici [Name], qui milite dans notre section depuis [X] ans. [Quote or achievement]. Merci pour [contribution précise]."
+        "caption": "MEMBRE EN VEDETTE\n\nVoici [Name], qui milite dans notre section depuis [X] ans. [Quote or achievement]. Merci pour [specific contribution]."
       },
       "event-thanks": {
         "category": "Événements",
         "title": "Remerciement après un événement",
-        "caption": "Merci aux [X] membres présents à [Event Name]. Prochaine étape : [prochaine réunion, action ou date]. À bientôt."
+        "caption": "Merci aux [X] membres présents à [Event Name]. Prochaine étape : [next meeting, action, or date]. À bientôt."
       }
     },
     "copyNamed": "Copier {title}",
@@ -15161,7 +15161,7 @@
         },
         "tracking": {
           "label": "Suivi",
-          "content": "Suivez chaque proposition, contre-proposition et approbation. Gardez la stratégie hors des serveurs de l'employeur; après chaque séance de négociation, conservez un CSV daté sur le support de sauvegarde du syndicat."
+          "content": "Suivez chaque proposition, contre-proposition et approbation. Gardez la stratégie hors des serveurs de l'employeur ; après chaque séance de négociation, conservez un CSV daté sur le support de sauvegarde du syndicat."
         }
       },
       "tip": "Si l'employeur fait fuiter une demi-histoire, répondez avec une seule fiche de faits partagée — pas un fil de clavardage de rumeurs concurrentes."
@@ -16675,8 +16675,8 @@
       "library": "Bibliothèque de référence"
     },
     "storage": {
-      "on-device": "Sur cet appareil; pas de synchronisation automatique",
-      "on-device-hub-optional": "Sur cet appareil; sauvegarde au Hub facultative",
+      "on-device": "Sur cet appareil ; pas de synchronisation automatique",
+      "on-device-hub-optional": "Sur cet appareil ; sauvegarde au Hub facultative",
       "officer-hub": "Utilise le Hub des dirigeants",
       "none": "Lecture seule"
     },

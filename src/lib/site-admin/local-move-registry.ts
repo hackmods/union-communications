@@ -30,6 +30,9 @@ export const LOCAL_MOVE_UNION_ID_TABLES: readonly string[] = [
   // Member broadcast
   "member_broadcast_consents",
   "member_broadcast_campaigns",
+  "member_broadcast_action_tokens",
+  "member_broadcast_deliveries",
+  "member_broadcast_suppressions",
   // Hub governance
   "bylaw_drafts",
   "proposal_packages",
