@@ -89,7 +89,13 @@ export async function setTotpCounterForNewSecret(
   memoryLastCounter.set(userId, counter);
 }
 
-/** Drop replay-protection state when enrollment is cleared. */
+/**
+ * Reset replay-protection state when enrollment is cleared.
+ *
+ * Postgres: UPDATE only — migration `0071` revokes DELETE from `unionops_app`
+ * so Site Admin reset must not delete the counter row (that rolled back the
+ * whole enrollment clear and left operators locked out).
+ */
 export async function clearTotpCounterForUser(
   userId: string,
   env: NodeJS.ProcessEnv = process.env,
@@ -97,7 +103,8 @@ export async function clearTotpCounterForUser(
   if (postgresCounterStoreEnabled(env)) {
     await withRlsContext({ userId }, async () => {
       await getDb()
-        .delete(mfaTotpCounters)
+        .update(mfaTotpCounters)
+        .set({ lastCounter: 0 })
         .where(eq(mfaTotpCounters.userId, userId));
     });
     return;
