@@ -73,3 +73,37 @@ export const checkinAnswers = pgTable(
     index("checkin_answers_union_local_idx").on(t.unionId, t.localId),
   ],
 );
+
+/** One transactional nudge per officer per schedule period (cron dedupe). */
+export const checkinNudgeSends = pgTable(
+  "checkin_nudge_sends",
+  {
+    id: text("id").primaryKey(),
+    scheduleId: text("schedule_id")
+      .notNull()
+      .references(() => checkinSchedules.id, { onDelete: "cascade" }),
+    periodKey: text("period_key").notNull(),
+    userId: text("user_id").notNull(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "cascade" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "cascade" }),
+    destinationEmail: text("destination_email").notNull(),
+    sentAt: timestamp("sent_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("checkin_nudge_sends_unique_period_user_idx").on(
+      t.scheduleId,
+      t.periodKey,
+      t.userId,
+    ),
+    index("checkin_nudge_sends_schedule_period_idx").on(
+      t.scheduleId,
+      t.periodKey,
+    ),
+  ],
+);

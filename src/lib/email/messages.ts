@@ -7,6 +7,7 @@
 import {
   composeInviteAcceptEmail,
   composeOfficerMeetingReminderEmail,
+  composeCheckinNudgeEmail,
   composePasswordResetEmail,
   composeRsvpConfirmationEmail,
   composeSignInLinkEmail,
@@ -34,6 +35,15 @@ export function buildOfficerMeetingReminderEmail(input: {
   locale?: EmailLocale;
 }): EmailArtifact {
   return composeOfficerMeetingReminderEmail(input);
+}
+
+export function buildCheckinNudgeEmail(input: {
+  question: string;
+  periodLabel: string;
+  checkinUrl: string;
+  locale?: EmailLocale;
+}): EmailArtifact {
+  return composeCheckinNudgeEmail(input);
 }
 
 export function buildRsvpConfirmationEmail(input: {

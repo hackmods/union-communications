@@ -162,6 +162,61 @@ export function composeOfficerMeetingReminderEmail(input: {
   });
 }
 
+export function composeCheckinNudgeEmail(input: {
+  question: string;
+  periodLabel: string;
+  checkinUrl: string;
+  locale?: EmailLocale;
+}): EmailArtifact {
+  const locale = input.locale ?? "en";
+  const subject =
+    locale === "fr"
+      ? "Pointage en attente — répondez dans le Hub"
+      : "Check-in waiting — answer in the Hub";
+  const blocks: EmailBlock[] = [
+    {
+      type: "paragraph",
+      text:
+        locale === "fr"
+          ? "Rappel transactionnel ponctuel (envoyé seulement à vous) :"
+          : "One-shot transactional reminder (sent only to you):",
+    },
+    {
+      type: "metaList",
+      rows: [
+        {
+          label: locale === "fr" ? "Période" : "Period",
+          value: input.periodLabel,
+        },
+        {
+          label: locale === "fr" ? "Question" : "Question",
+          value: input.question,
+        },
+      ],
+    },
+    {
+      type: "cta",
+      label: locale === "fr" ? "Répondre au pointage" : "Answer check-in",
+      href: input.checkinUrl,
+    },
+    {
+      type: "paragraph",
+      text:
+        locale === "fr"
+          ? "Un seul rappel par période. Ce n'est pas une liste de diffusion."
+          : "One nudge per period. This is not a mailing list.",
+    },
+  ];
+
+  return renderEmailDocument({
+    locale,
+    classification: "transactional",
+    subject,
+    blocks,
+    brand: resolvePlatformEmailBrand(),
+  });
+}
+
 export function composeRsvpConfirmationEmail(input: {
   title: string;
   startsAt: string;

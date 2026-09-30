@@ -211,6 +211,11 @@ export class MemoryCheckinsAdapter implements CheckinsAdapter {
 
 export const memoryCheckinsStore = new MemoryCheckinsAdapter();
 
+/** Active schedules for cron nudges (memory backend). */
+export function listMemoryActiveCheckinSchedules(): CheckinSchedule[] {
+  return schedules.filter((s) => s.active);
+}
+
 /** @internal test helper — restores demo seed so mutating tests stay isolated. */
 export function resetCheckinsMemoryForTests(): void {
   schedules.splice(0, schedules.length, ...seedSchedules());

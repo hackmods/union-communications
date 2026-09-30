@@ -16,6 +16,7 @@ export { EMAIL_ENGINE_FIXTURES } from "./fixtures";
 export {
   composeInviteAcceptEmail,
   composeOfficerMeetingReminderEmail,
+  composeCheckinNudgeEmail,
   composePasswordResetEmail,
   composeRsvpConfirmationEmail,
   composeSignInLinkEmail,
