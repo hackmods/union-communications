@@ -714,23 +714,6 @@ export function GrievanceDetail({ id }: { id: string }) {
         </p>
       )}
 
-      {data.authorization ? (
-        <p role="status" className="mt-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700">
-          {t(`access.${data.authorization.level}`)} · {t(`access.reason.${data.authorization.reason}`)}
-        </p>
-      ) : null}
-
-      {data.authorization && ["case_read", "case_write"].includes(data.authorization.level) ? (
-        <>
-          <GrievanceAccessPanel
-            id={id}
-            initialPrivacyMode={grievance.privacyMode ?? "standard"}
-            canManage={data.authorization.canManageAccess}
-          />
-          <GrievanceMemberUpdatesPanel id={id} canPublish={data.authorization.canPublishMemberUpdates} />
-        </>
-      ) : null}
-
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-opseu-dark">
@@ -791,6 +774,23 @@ export function GrievanceDetail({ id }: { id: string }) {
         <p className="text-sm text-red-700" role="alert">
           {formalExportError}
         </p>
+      ) : null}
+
+      {data.authorization ? (
+        <p role="status" className="mt-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700">
+          {t(`access.${data.authorization.level}`)} · {t(`access.reason.${data.authorization.reason}`)}
+        </p>
+      ) : null}
+
+      {data.authorization && ["case_read", "case_write"].includes(data.authorization.level) ? (
+        <>
+          <GrievanceAccessPanel
+            id={id}
+            initialPrivacyMode={grievance.privacyMode ?? "standard"}
+            canManage={data.authorization.canManageAccess}
+          />
+          <GrievanceMemberUpdatesPanel id={id} canPublish={data.authorization.canPublishMemberUpdates} />
+        </>
       ) : null}
 
       <GrievanceIntakePanel
