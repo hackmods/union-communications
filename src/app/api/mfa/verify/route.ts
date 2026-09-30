@@ -65,7 +65,11 @@ export async function POST(request: Request) {
         );
       }
       attemptAlreadyReserved = true;
-    } catch {
+    } catch (error) {
+      console.error("[auth] MFA verify attempt reserve failed", {
+        userId: session.user.id,
+        message: error instanceof Error ? error.message : String(error),
+      });
       await recordOutcome("auth.mfa_verify_unavailable", "error");
       return respond(
         { error: "MFA verification safeguards are unavailable." },
@@ -115,7 +119,11 @@ export async function POST(request: Request) {
       Date.now(),
       session.user.sessionVersion ?? 0,
     );
-  } catch {
+  } catch (error) {
+    console.error("[auth] MFA grant issue failed", {
+      userId: session.user.id,
+      message: error instanceof Error ? error.message : String(error),
+    });
     await recordOutcome("auth.mfa_verify_unavailable", "error");
     return respond(
       { error: "Could not create a secure session grant. Try again shortly." },

@@ -34,18 +34,26 @@ export async function consumeTotpCounterForUser(
   if (!Number.isSafeInteger(counter) || counter < 0) return false;
 
   if (postgresCounterStoreEnabled(env)) {
-    return withRlsContext({ userId }, async () => {
-      const rows = await getDb()
-        .insert(mfaTotpCounters)
-        .values({ userId, lastCounter: counter })
-        .onConflictDoUpdate({
-          target: mfaTotpCounters.userId,
-          set: { lastCounter: counter },
-          setWhere: lt(mfaTotpCounters.lastCounter, counter),
-        })
-        .returning({ userId: mfaTotpCounters.userId });
-      return rows.length === 1;
-    });
+    try {
+      return await withRlsContext({ userId }, async () => {
+        const rows = await getDb()
+          .insert(mfaTotpCounters)
+          .values({ userId, lastCounter: counter })
+          .onConflictDoUpdate({
+            target: mfaTotpCounters.userId,
+            set: { lastCounter: counter },
+            setWhere: lt(mfaTotpCounters.lastCounter, counter),
+          })
+          .returning({ userId: mfaTotpCounters.userId });
+        return rows.length === 1;
+      });
+    } catch (error) {
+      console.error("[auth] TOTP replay counter Postgres write failed", {
+        userId,
+        message: error instanceof Error ? error.message : String(error),
+      });
+      if (hostedCustomerProfileEnabled(env)) throw error;
+    }
   }
 
   const last = memoryLastCounter.get(userId);

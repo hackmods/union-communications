@@ -156,7 +156,11 @@ export async function verifyMfaCode(input: {
           retryAfterSeconds: attempt.retryAfterSeconds,
         };
       }
-    } catch {
+    } catch (error) {
+      console.error("[auth] MFA verification safeguards unavailable", {
+        userId: input.userId,
+        message: error instanceof Error ? error.message : String(error),
+      });
       return {
         ok: false,
         status: 503,
@@ -207,7 +211,11 @@ export async function verifyMfaCode(input: {
     if (!(await consumeTotpCounterForUser(input.userId, counter, env as NodeJS.ProcessEnv))) {
       return { ok: false, status: 400, error: "Invalid code" };
     }
-  } catch {
+  } catch (error) {
+    console.error("[auth] TOTP replay protection unavailable", {
+      userId: input.userId,
+      message: error instanceof Error ? error.message : String(error),
+    });
     return {
       ok: false,
       status: 503,

@@ -28,56 +28,10 @@ function retryAfter(startedAt: number, now: number): number {
   return Math.max(1, Math.ceil((startedAt + MFA_ATTEMPT_WINDOW_MS - now) / 1000));
 }
 
-/**
- * Reserve one MFA verification attempt. Hosted accounts require a durable
- * Postgres counter so parallel requests and separate replicas share the cap.
- */
-export async function reserveMfaVerificationAttempt(
+function reserveInMemory(
   userId: string,
-  now = Date.now(),
-  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
-): Promise<MfaAttemptDecision> {
-  const postgres = postgresAttemptStoreEnabled(env);
-  if (hostedCustomerProfileEnabled(env) && !postgres) {
-    throw new Error("Hosted MFA attempt limits require durable PostgreSQL storage.");
-  }
-
-  const cutoff = new Date(now - MFA_ATTEMPT_WINDOW_MS);
-  if (postgres) {
-    return withRlsContext({ userId }, async () => {
-      const db = getDb();
-      const table = mfaVerificationAttempts;
-      const [updated] = await db
-        .insert(table)
-        .values({ userId, windowStartedAt: new Date(now), attemptCount: 1 })
-        .onConflictDoUpdate({
-          target: table.userId,
-          set: {
-            windowStartedAt: sql`case when ${table.windowStartedAt} <= ${cutoff} then ${new Date(now)} else ${table.windowStartedAt} end`,
-            attemptCount: sql`case when ${table.windowStartedAt} <= ${cutoff} then 1 else ${table.attemptCount} + 1 end`,
-          },
-          setWhere: or(
-            lte(table.windowStartedAt, cutoff),
-            lt(table.attemptCount, MFA_ATTEMPT_LIMIT),
-          ),
-        })
-        .returning({ attemptCount: table.attemptCount });
-
-      if (updated) return { allowed: true, retryAfterSeconds: 0 };
-
-      const [current] = await db
-        .select({ windowStartedAt: table.windowStartedAt })
-        .from(table)
-        .where(eq(table.userId, userId));
-      return {
-        allowed: false,
-        retryAfterSeconds: current
-          ? retryAfter(current.windowStartedAt.getTime(), now)
-          : Math.ceil(MFA_ATTEMPT_WINDOW_MS / 1000),
-      };
-    });
-  }
-
+  now: number,
+): MfaAttemptDecision {
   const current = memoryWindows.get(userId);
   if (!current || now >= current.startedAt + MFA_ATTEMPT_WINDOW_MS) {
     memoryWindows.set(userId, { startedAt: now, count: 1 });
@@ -91,6 +45,81 @@ export async function reserveMfaVerificationAttempt(
   }
   memoryWindows.set(userId, { ...current, count: current.count + 1 });
   return { allowed: true, retryAfterSeconds: 0 };
+}
+
+async function reserveInPostgres(
+  userId: string,
+  now: number,
+): Promise<MfaAttemptDecision> {
+  const cutoff = new Date(now - MFA_ATTEMPT_WINDOW_MS);
+  const windowStartedAt = new Date(now);
+  return withRlsContext({ userId }, async () => {
+    const db = getDb();
+    const table = mfaVerificationAttempts;
+    const [updated] = await db
+      .insert(table)
+      .values({ userId, windowStartedAt, attemptCount: 1 })
+      .onConflictDoUpdate({
+        target: table.userId,
+        set: {
+          windowStartedAt: sql`case when ${table.windowStartedAt} <= ${cutoff} then ${windowStartedAt} else ${table.windowStartedAt} end`,
+          attemptCount: sql`case when ${table.windowStartedAt} <= ${cutoff} then 1 else ${table.attemptCount} + 1 end`,
+        },
+        setWhere: or(
+          lte(table.windowStartedAt, cutoff),
+          lt(table.attemptCount, MFA_ATTEMPT_LIMIT),
+        ),
+      })
+      .returning({ attemptCount: table.attemptCount });
+
+    if (updated) return { allowed: true, retryAfterSeconds: 0 };
+
+    const [current] = await db
+      .select({ windowStartedAt: table.windowStartedAt })
+      .from(table)
+      .where(eq(table.userId, userId));
+    return {
+      allowed: false,
+      retryAfterSeconds: current
+        ? retryAfter(current.windowStartedAt.getTime(), now)
+        : Math.ceil(MFA_ATTEMPT_WINDOW_MS / 1000),
+    };
+  });
+}
+
+/**
+ * Reserve one MFA verification attempt. Hosted accounts require a durable
+ * Postgres counter so parallel requests and separate replicas share the cap.
+ * Non-hosted hosts fall back to process memory if the durable write fails so
+ * a broken attempt-limit table cannot soft-lock every MFA sign-in.
+ */
+export async function reserveMfaVerificationAttempt(
+  userId: string,
+  now = Date.now(),
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): Promise<MfaAttemptDecision> {
+  const postgres = postgresAttemptStoreEnabled(env);
+  const hosted = hostedCustomerProfileEnabled(env);
+  if (hosted && !postgres) {
+    throw new Error("Hosted MFA attempt limits require durable PostgreSQL storage.");
+  }
+
+  if (postgres) {
+    try {
+      return await reserveInPostgres(userId, now);
+    } catch (error) {
+      console.error("[auth] MFA attempt-limit Postgres write failed", {
+        userId,
+        hosted,
+        message: error instanceof Error ? error.message : String(error),
+      });
+      if (hosted) throw error;
+      // Evaluation / self-host with AUTH_USERS_BACKEND=postgres: keep MFA usable.
+      return reserveInMemory(userId, now);
+    }
+  }
+
+  return reserveInMemory(userId, now);
 }
 
 /** @internal test helper */
