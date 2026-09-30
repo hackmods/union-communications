@@ -79,7 +79,7 @@
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "docx": "^9.7.2",
-    "docxtemplater": "^3.69.0",
+    "docxtemplater": "^3.71.0",
     "docxtemplater-image-module-free": "^1.1.1",
     "drizzle-orm": "^0.45.2",
     "exceljs": "^4.4.0",
