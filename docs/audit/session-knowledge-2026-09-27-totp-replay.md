@@ -55,9 +55,9 @@ counter across MFA verification requests and app replicas.
 - Failed-code rate limiting is still separate work. At the time this replay
   slice was first recorded, MFA grant nonces and pending enrollment were
   process-memory-backed. The follow-up grant slice now stores hashed one-use
-  grants durably in migration `0068`; pending enrollment remains
-  process-memory-backed. See
-  [`session-knowledge-2026-09-27-mfa-grants.md`](session-knowledge-2026-09-27-mfa-grants.md).
+  grants durably in migration `0068`. Pending enrollment is durable in
+  migration `0090` (2026-09-30); see
+  [`session-knowledge-2026-09-30-mfa-pending-enrollment.md`](session-knowledge-2026-09-30-mfa-pending-enrollment.md).
 - Existing TOTP secrets are not encrypted by this change. Key management and
   rotation require separate design and deployment evidence.
 - Source tests were added, but this checkout has no `node_modules` and no live

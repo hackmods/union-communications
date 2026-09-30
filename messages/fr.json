@@ -7492,6 +7492,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "mfa-enroll-one-code": {
+        "title": "La configuration de l’appli d’authentification se termine après un code",
+        "body": "Scannez le code QR, saisissez le code actuel de l’appli une seule fois et enregistrez vos codes de récupération. Vous êtes vérifié sans second code dans la même minute."
+      },
       "observability-console": {
         "title": "Console Observabilité pour l’admin du site",
         "body": "Les admins de plateforme peuvent examiner les erreurs d’hôte regroupées, exporter un dossier d’incident, accuser réception des problèmes et définir des alertes courriel de crise lorsqu’un seuil est dépassé."
@@ -9622,7 +9626,7 @@
     "mfaSetupCodeLabel": "Saisissez le code à 6 chiffres de votre appli",
     "mfaSetupConfirm": "Confirmer et activer",
     "mfaSetupSuccess": "Appli d'authentification activée",
-    "mfaSetupSuccessDesc": "Parfait. Une chose de moins dont s’occuper. Enregistrez vos codes de récupération, puis vérifiez pour continuer.",
+    "mfaSetupSuccessDesc": "Parfait. Une chose de moins dont s’occuper. Enregistrez vos codes de récupération, puis continuez.",
     "mfaSetupVerifyNow": "Vérifier maintenant",
     "mfaSetupError": "Impossible de terminer la configuration de l’authenticator. Demandez à la personne qui gère ce Hub des dirigeants de confirmer que l’authentification multifactorielle est activée, puis réessayez.",
     "hybridLink": "Données hybrides",

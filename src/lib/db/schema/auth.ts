@@ -19,6 +19,24 @@ export const mfaTotpCounters = pgTable("mfa_totp_counters", {
   lastCounter: integer("last_counter").notNull(),
 });
 
+/** Short-lived QR enrollment secret, shared across hosted app replicas. */
+export const mfaPendingEnrollments = pgTable(
+  "mfa_pending_enrollments",
+  {
+    userId: text("user_id")
+      .primaryKey()
+      .references(() => users.id, { onDelete: "cascade" }),
+    secret: text("secret").notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  },
+  (t) => [
+    check(
+      "mfa_pending_enrollments_secret_len",
+      sql`length(${t.secret}) >= 16`,
+    ),
+  ],
+);
+
 /** Latest single-use session-update grant per account; the token itself is never stored. */
 export const mfaSessionGrants = pgTable("mfa_session_grants", {
   userId: text("user_id")

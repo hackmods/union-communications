@@ -1,4 +1,11 @@
-﻿## 2026-09-30 — Wave G local durable verify + Portal smoke REALIGN
+﻿## 2026-09-30 — MFA enrollment after Packet 6 hardening
+
+- Pending TOTP QR secrets are durable (`0090_mfa_pending_enrollments`) so enroll → confirm survives replica hops; hosted mode fails closed without Postgres.
+- Confirm issues a session grant after the authenticator code is proven; setup no longer asks for a second TOTP in the same 30-second window. Replay still rejects that counter later.
+- Tests: replica-split pending store, grant-on-confirm, hosted 503, optional totp e2e. What's new: `mfa-enroll-one-code` (Hub).
+- Fit-gap: [`session-knowledge-2026-09-30-mfa-pending-enrollment.md`](audit/session-knowledge-2026-09-30-mfa-pending-enrollment.md).
+
+## 2026-09-30 — Wave G local durable verify + Portal smoke REALIGN
 
 - Started Docker Desktop; `npm run ops:verify-durable` passed (deploy `0089`, seed, durability, RLS).
 - CLI seed/smoke scripts import `scripts/register-server-only.mjs` so `tsx` can load `server-only` modules outside Next.

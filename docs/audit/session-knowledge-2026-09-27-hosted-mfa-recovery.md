@@ -40,10 +40,11 @@
 - At the time this recovery-code slice was recorded, pending TOTP enrollment
   secrets and single-use MFA grants were both process-memory-backed. Follow-up
   slices on 2026-09-27 added the durable TOTP replay guard (migration `0067`)
-  and hashed, one-row-per-account MFA session grants (migration `0068`). Only
-  pending TOTP enrollment remains process-memory-backed; deployed RLS and
-  multi-replica evidence for the new tables is still required. See
-  [`session-knowledge-2026-09-27-mfa-grants.md`](session-knowledge-2026-09-27-mfa-grants.md).
+  and hashed, one-row-per-account MFA session grants (migration `0068`).
+  Pending TOTP enrollment is durable in migration `0090` (2026-09-30);
+  deployed RLS and multi-replica evidence for the new tables is still required.
+  See
+  [`session-knowledge-2026-09-30-mfa-pending-enrollment.md`](session-knowledge-2026-09-30-mfa-pending-enrollment.md).
 - Recovery-code history currently follows account deletion through a cascading
   foreign key. The final retention schedule remains subject to counsel and
   operator approval.

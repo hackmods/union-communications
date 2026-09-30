@@ -14,7 +14,8 @@ import { POST as confirmEnroll } from "@/app/api/mfa/enroll/confirm/route";
 import { GET as mfaStatus } from "@/app/api/mfa/status/route";
 import { POST as verifyMfa } from "@/app/api/mfa/verify/route";
 import { POST as rotateRecoveryCodes } from "@/app/api/mfa/recovery-codes/route";
-import { resetMfaEnrollmentStoreForTests } from "@/lib/auth/mfa-enrollment-store";
+import { resetMfaEnrollmentStoreForTests, resetMfaPendingProcessMemoryForTests, useSharedPendingEnrollmentStoreForTests, PENDING_TTL_MS, setPendingSecret } from "@/lib/auth/mfa-enrollment-store";
+import { applyTrustedSessionUpdate } from "@/lib/auth/session-update";
 import { resetMfaRecoveryCodesForTests, rotateMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
 import { clearMfaGrants } from "@/lib/auth/mfa-grants";
 import { resetMfaVerificationAttemptsForTests } from "@/lib/auth/mfa-attempt-limits";
@@ -285,11 +286,76 @@ describe("MFA API routes", () => {
       const code = generateTotp(secret);
       const confirmed = await confirmEnroll(jsonRequest({ code }));
       expect(confirmed.status).toBe(200);
-      const confirmedBody = await confirmed.json() as { success: boolean; recoveryCodes?: string[] };
+      const confirmedBody = await confirmed.json() as {
+        success: boolean;
+        recoveryCodes?: string[];
+        mfaGrant?: string;
+      };
       expect(confirmedBody).toMatchObject({ success: true, recoveryCodes: expect.any(Array) });
       expect(confirmedBody.recoveryCodes).toHaveLength(10);
+      expect(confirmedBody.mfaGrant).toMatch(/^[A-Za-z0-9_-]{43}$/);
       expect(await getTotpSecretForUser("user-no-totp-secret")).toBe(secret);
+      const token = await applyTrustedSessionUpdate(
+        {
+          sub: "user-no-totp-secret",
+          unionId: "union-b7p",
+          localId: "local-7",
+          roles: ["local_president"],
+          mfaVerified: false,
+          sessionVersion: 0,
+        },
+        { mfaGrant: confirmedBody.mfaGrant },
+      );
+      expect(token.mfaVerified).toBe(true);
       expect((await verifyMfa(jsonRequest({ code }))).status).toBe(400);
+    });
+
+    it("confirms after the process pending cache is cleared (replica split)", async () => {
+      process.env.AUTH_MFA_ENABLED = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      authMock.mockResolvedValue(session({ id: "user-replica-enroll" }));
+      useSharedPendingEnrollmentStoreForTests();
+
+      const enrolled = await enrollMfa(jsonRequest({}));
+      const { secret } = (await enrolled.json()) as { secret: string };
+      resetMfaPendingProcessMemoryForTests();
+      const confirmed = await confirmEnroll(jsonRequest({ code: generateTotp(secret) }));
+      expect(confirmed.status).toBe(200);
+      expect(await getTotpSecretForUser("user-replica-enroll")).toBe(secret);
+    });
+
+    it("rejects an expired pending enrollment", async () => {
+      process.env.AUTH_MFA_ENABLED = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      authMock.mockResolvedValue(session({ id: "user-expired-enroll" }));
+      await setPendingSecret(
+        "user-expired-enroll",
+        "JBSWY3DPEHPK3PXP",
+        Date.now() - PENDING_TTL_MS - 1,
+      );
+      const expired = await confirmEnroll(jsonRequest({ code: "123456" }));
+      expect(expired.status).toBe(400);
+      expect(await expired.json()).toMatchObject({
+        error: expect.stringContaining("No pending enrollment"),
+      });
+    });
+
+    it("fails closed in hosted mode without durable enrollment storage", async () => {
+      (process.env as Record<string, string | undefined>).NODE_ENV = "production";
+      process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
+      process.env.AUTH_MFA_MODE = "totp";
+      process.env.AUTH_USERS_BACKEND = "memory";
+      delete process.env.DATABASE_URL;
+      authMock.mockResolvedValue(session({ id: "user-no-totp-secret" }));
+
+      const enrolled = await enrollMfa(jsonRequest({}));
+      expect(enrolled.status).toBe(503);
+      expect(await enrolled.json()).toMatchObject({
+        error: expect.stringContaining("unavailable"),
+      });
+
+      const confirmed = await confirmEnroll(jsonRequest({ code: "123456" }));
+      expect(confirmed.status).toBe(503);
     });
   });
 

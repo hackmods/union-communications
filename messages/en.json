@@ -7546,6 +7546,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "mfa-enroll-one-code": {
+        "title": "Authenticator setup finishes after one code",
+        "body": "Scan the QR, enter the current authenticator code once, and save your recovery codes. You are verified without a second code in the same minute."
+      },
       "observability-console": {
         "title": "Host Observability console for Site Admin",
         "body": "Platform admins can review grouped host errors, export an incident pack, acknowledge issues, and set crisis email alerts when a threshold is crossed."
@@ -9678,7 +9682,7 @@
     "mfaSetupCodeLabel": "Enter the 6-digit code from your app",
     "mfaSetupConfirm": "Confirm and enable",
     "mfaSetupSuccess": "Authenticator app enrolled",
-    "mfaSetupSuccessDesc": "Nice. One less thing to worry about. Save your recovery codes, then verify to continue.",
+    "mfaSetupSuccessDesc": "Nice. One less thing to worry about. Save your recovery codes, then continue.",
     "mfaSetupVerifyNow": "Verify now",
     "mfaSetupError": "Could not finish authenticator setup. Ask whoever runs this Officer Hub to confirm multi-factor authentication is enabled, then try again.",
     "mfaJourney": {

@@ -50,6 +50,23 @@ export async function getTotpSecretForUser(
   return DEMO_USERS.find((u) => u.id === userId)?.totpSecret ?? null;
 }
 
+/** Current JWT/session version for grant issuance after enrollment writes. */
+export async function getSessionVersionForUser(
+  userId: string,
+  env: NodeJS.ProcessEnv = process.env,
+): Promise<number> {
+  if (usersBackendEnabled(env)) {
+    const db = getDb();
+    const rows = await db
+      .select({ sessionVersion: users.sessionVersion })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    return rows[0]?.sessionVersion ?? 0;
+  }
+  return 0;
+}
+
 /** Persists a newly-confirmed TOTP secret for a user. */
 export async function persistTotpSecretForUser(
   userId: string,
@@ -90,7 +107,7 @@ export async function clearTotpEnrollmentForUser(
   userId: string,
   env: NodeJS.ProcessEnv = process.env,
 ): Promise<void> {
-  clearPendingSecret(userId);
+  await clearPendingSecret(userId, env);
 
   if (usersBackendEnabled(env)) {
     await withRlsContext({ userId }, async () => {

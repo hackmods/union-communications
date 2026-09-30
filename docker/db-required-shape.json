@@ -4744,6 +4744,26 @@
       ]
     },
     {
+      "name": "mfa_pending_enrollments",
+      "columns": [
+        {
+          "name": "expires_at",
+          "dataType": "timestamp with time zone",
+          "notNull": true
+        },
+        {
+          "name": "secret",
+          "dataType": "text",
+          "notNull": true
+        },
+        {
+          "name": "user_id",
+          "dataType": "text",
+          "notNull": true
+        }
+      ]
+    },
+    {
       "name": "mfa_recovery_codes",
       "columns": [
         {
@@ -9871,6 +9891,21 @@
       "schema": "public",
       "table": "member_communications",
       "name": "member_communications_tenant_isolation"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_pending_enrollments",
+      "name": "mfa_pending_enrollments_user_insert"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_pending_enrollments",
+      "name": "mfa_pending_enrollments_user_select"
+    },
+    {
+      "schema": "public",
+      "table": "mfa_pending_enrollments",
+      "name": "mfa_pending_enrollments_user_update"
     },
     {
       "schema": "public",
