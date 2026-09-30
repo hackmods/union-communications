@@ -249,12 +249,55 @@ export const PORTAL_CONFIG_ROWS: readonly PortalConfigRow[] = [
 export const DEFAULT_PORTAL_SURFACES: readonly PortalSurfaceId[] =
   PORTAL_CONFIG_ROWS.filter((row) => row.defaultOn).map((row) => row.id);
 
-/** Officer tools that stay available by role — not HubModule flags. */
-export const PRESIDENT_ALWAYS_ON_TOOLS = [
-  { id: "financialSummaries", href: "/app/ledger" },
-  { id: "invites", href: "/app/invites" },
-  { id: "meetings", href: "/app/meetings" },
+/**
+ * President role tools — available by role, but nav chrome is opt-in.
+ * Default off: most locals will not run ledger/meetings day-to-day; invites
+ * stay reachable from setup checklist even when the nav toggle is off.
+ */
+export type PresidentRoleToolId =
+  | "financialSummaries"
+  | "invites"
+  | "meetings";
+
+export const PRESIDENT_ROLE_TOOL_ROWS = [
+  { id: "financialSummaries" as const, href: "/app/ledger", defaultOn: false },
+  { id: "invites" as const, href: "/app/invites", defaultOn: false },
+  { id: "meetings" as const, href: "/app/meetings", defaultOn: false },
 ] as const;
+
+/** @deprecated Use PRESIDENT_ROLE_TOOL_ROWS */
+export const PRESIDENT_ALWAYS_ON_TOOLS = PRESIDENT_ROLE_TOOL_ROWS;
+
+export const DEFAULT_PRESIDENT_ROLE_TOOLS: readonly PresidentRoleToolId[] =
+  PRESIDENT_ROLE_TOOL_ROWS.filter((row) => row.defaultOn).map((row) => row.id);
+
+export function resolvePresidentRoleTools(
+  enabled: readonly PresidentRoleToolId[] | null | undefined,
+): PresidentRoleToolId[] {
+  if (enabled == null) return [...DEFAULT_PRESIDENT_ROLE_TOOLS];
+  const allowed = new Set(PRESIDENT_ROLE_TOOL_ROWS.map((row) => row.id));
+  return enabled.filter((id): id is PresidentRoleToolId => allowed.has(id));
+}
+
+export function applyPresidentRoleToolToggle(
+  current: readonly PresidentRoleToolId[],
+  id: PresidentRoleToolId,
+  enabled: boolean,
+): PresidentRoleToolId[] {
+  const next = new Set(resolvePresidentRoleTools(current));
+  if (enabled) next.add(id);
+  else next.delete(id);
+  return [...next];
+}
+
+export function sameRoleToolSet(
+  a: readonly PresidentRoleToolId[],
+  b: readonly PresidentRoleToolId[],
+): boolean {
+  if (a.length !== b.length) return false;
+  const left = new Set(a);
+  return b.every((id) => left.has(id));
+}
 
 export function isHubModuleDefaultOn(id: HubModule): boolean {
   return (PRESIDENT_HUB_DEFAULT_ON as readonly string[]).includes(id);

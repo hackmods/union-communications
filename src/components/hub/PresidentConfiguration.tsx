@@ -8,19 +8,23 @@ import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
 import {
   PORTAL_CONFIG_ROWS,
-  PRESIDENT_ALWAYS_ON_TOOLS,
   PRESIDENT_PRESETS,
+  PRESIDENT_ROLE_TOOL_ROWS,
   applyHubModuleToggle,
   applyPortalSurfaceToggle,
+  applyPresidentRoleToolToggle,
   getPresidentPreset,
   isDestructiveHubOff,
   portalNavLinkAllowed,
   resolvePortalSurfaces,
+  resolvePresidentRoleTools,
   sameModuleSet,
+  sameRoleToolSet,
   sameSurfaceSet,
   visibleHubConfigRows,
   type PortalSurfaceId,
   type PresidentPresetId,
+  type PresidentRoleToolId,
 } from "@/lib/president/module-catalog";
 import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import type { HubModule, TenantContext } from "@/types/tenant";
@@ -39,6 +43,7 @@ type TenantPayload = {
   canManageUnionModules: boolean;
   canMintLocal?: boolean;
   portalSurfaces: PortalSurfaceId[];
+  presidentRoleTools?: PresidentRoleToolId[];
   localPrefs: LocalPresentationPrefs | null;
   sessionLocalId: string | null;
   needsUnionContext?: boolean;
@@ -208,11 +213,14 @@ export function PresidentConfiguration({
 
   const [savedModules, setSavedModules] = useState<HubModule[]>([]);
   const [savedSurfaces, setSavedSurfaces] = useState<PortalSurfaceId[]>([]);
+  const [savedRoleTools, setSavedRoleTools] = useState<PresidentRoleToolId[]>([]);
   const [draftModules, setDraftModules] = useState<HubModule[]>([]);
   const [draftSurfaces, setDraftSurfaces] = useState<PortalSurfaceId[]>([]);
+  const [draftRoleTools, setDraftRoleTools] = useState<PresidentRoleToolId[]>([]);
   const [undoSnapshot, setUndoSnapshot] = useState<{
     modules: HubModule[];
     surfaces: PortalSurfaceId[];
+    roleTools: PresidentRoleToolId[];
   } | null>(null);
 
   const [pendingOff, setPendingOff] = useState<HubModule | null>(null);
@@ -260,15 +268,19 @@ export function PresidentConfiguration({
         setUnionName(data.context.union.name);
         const unionModules = data.context.union.enabledModules;
         const unionSurfaces = resolvePortalSurfaces(data.portalSurfaces);
+        const unionRoleTools = resolvePresidentRoleTools(data.presidentRoleTools);
         setSavedModules(unionModules);
         setSavedSurfaces(unionSurfaces);
+        setSavedRoleTools(unionRoleTools);
         if (data.localPrefs) {
           setDraftModules(data.localPrefs.hubModules);
           setDraftSurfaces(data.localPrefs.portalSurfaces);
+          setDraftRoleTools(unionRoleTools);
           setScope("local");
         } else {
           setDraftModules(unionModules);
           setDraftSurfaces(unionSurfaces);
+          setDraftRoleTools(unionRoleTools);
           setScope("union");
         }
       } catch {
@@ -298,11 +310,20 @@ export function PresidentConfiguration({
     if (scope === "union") {
       return (
         !sameModuleSet(draftModules, savedModules) ||
-        !sameSurfaceSet(draftSurfaces, savedSurfaces)
+        !sameSurfaceSet(draftSurfaces, savedSurfaces) ||
+        !sameRoleToolSet(draftRoleTools, savedRoleTools)
       );
     }
     return true;
-  }, [draftModules, draftSurfaces, savedModules, savedSurfaces, scope]);
+  }, [
+    draftModules,
+    draftSurfaces,
+    draftRoleTools,
+    savedModules,
+    savedSurfaces,
+    savedRoleTools,
+    scope,
+  ]);
 
   function dismissCoach() {
     try {
@@ -314,7 +335,11 @@ export function PresidentConfiguration({
   }
 
   function pushUndo() {
-    setUndoSnapshot({ modules: [...draftModules], surfaces: [...draftSurfaces] });
+    setUndoSnapshot({
+      modules: [...draftModules],
+      surfaces: [...draftSurfaces],
+      roleTools: [...draftRoleTools],
+    });
   }
 
   function requestHubToggle(id: HubModule, enabled: boolean) {
@@ -345,6 +370,7 @@ export function PresidentConfiguration({
     if (!undoSnapshot) return;
     setDraftModules(undoSnapshot.modules);
     setDraftSurfaces(undoSnapshot.surfaces);
+    setDraftRoleTools(undoSnapshot.roleTools);
     setUndoSnapshot(null);
     setSuccess(t("undoSuccess"));
   }
@@ -425,10 +451,33 @@ export function PresidentConfiguration({
         portalSurfaces: PortalSurfaceId[];
       };
 
+      const roleToolsRes = await fetch("/api/tenant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          operatorBody({
+            action: "set_president_role_tools",
+            presidentRoleTools: draftRoleTools,
+          }),
+        ),
+      });
+      if (!roleToolsRes.ok) {
+        const body = (await roleToolsRes.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        setError(body?.error ?? t("saveError"));
+        return;
+      }
+      const roleToolsBody = (await roleToolsRes.json()) as {
+        presidentRoleTools: PresidentRoleToolId[];
+      };
+
       setSavedModules(modulesBody.enabledModules);
       setSavedSurfaces(surfacesBody.portalSurfaces);
+      setSavedRoleTools(roleToolsBody.presidentRoleTools);
       setDraftModules(modulesBody.enabledModules);
       setDraftSurfaces(surfacesBody.portalSurfaces);
+      setDraftRoleTools(roleToolsBody.presidentRoleTools);
       setSuccess(t("saveSuccess"));
       window.dispatchEvent(new Event("unionops:tenant-updated"));
     } catch {
@@ -477,23 +526,30 @@ export function PresidentConfiguration({
     setError(null);
     setSuccess(null);
     try {
-      const hallRes = await fetch("/api/portal/hall/ensure", { method: "POST" });
-      if (!hallRes.ok) {
-        setError(t("starterError"));
+      if (!savedModules.includes("portal")) {
+        setError(t("starterPortalOff"));
         return;
       }
-      const circleRes = await fetch("/api/portal/circles", {
+      const res = await fetch("/api/tenant/circle-starter/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: t("starterCommitteeName"),
-          kind: "committee",
-          template: "lec",
-          description: t("starterCommitteeDesc"),
+          createCommittee: true,
+          committeeName: t("starterCommitteeName"),
+          committeeDescription: t("starterCommitteeDesc"),
         }),
       });
-      if (!circleRes.ok && circleRes.status !== 201) {
-        setError(t("starterError"));
+      if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        if (body?.error === "MFA required") {
+          setError(t("starterMfaRequired"));
+        } else if (body?.error === "Portal module disabled") {
+          setError(t("starterPortalOff"));
+        } else {
+          setError(t("starterError"));
+        }
         return;
       }
       setSuccess(t("starterSuccess"));
@@ -767,23 +823,41 @@ export function PresidentConfiguration({
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(16rem,20rem)] lg:items-start">
         <div className="space-y-10">
-          <section aria-labelledby="president-always-on" className="space-y-4">
-            <h2 id="president-always-on" className={PUBLIC_SECTION_TITLE_CLASS}>
-              {t("alwaysOnTitle")}
-            </h2>
-            <p className="max-w-prose text-sm text-slate-600">{t("alwaysOnBody")}</p>
-            <ul className="grid gap-3 sm:grid-cols-3">
-              {PRESIDENT_ALWAYS_ON_TOOLS.map((tool) => (
-                <li key={tool.id}>
-                  <Link
-                    href={tool.href}
-                    className="block rounded-lg border border-slate-200 bg-white p-4 text-sm font-semibold text-opseu-dark hover:border-opseu-blue/40 hover:bg-opseu-blue/[0.03]"
-                  >
-                    {t(`alwaysOn.${tool.id}`)}
-                  </Link>
-                </li>
+          <section aria-labelledby="president-role-tools" className="space-y-4">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 id="president-role-tools" className={PUBLIC_SECTION_TITLE_CLASS}>
+                  {t("alwaysOnTitle")}
+                </h2>
+                <p className="mt-1 max-w-prose text-sm text-slate-600">
+                  {t("alwaysOnBody")}
+                </p>
+              </div>
+              <span className="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">
+                {t("recommendedOff")}
+              </span>
+            </div>
+            <div className="grid gap-3 md:grid-cols-2">
+              {PRESIDENT_ROLE_TOOL_ROWS.map((tool) => (
+                <ModuleToggle
+                  key={tool.id}
+                  id={`role-tool-${tool.id}`}
+                  label={t(`alwaysOn.${tool.id}`)}
+                  blurb={t(`alwaysOn.${tool.id}Blurb`)}
+                  checked={draftRoleTools.includes(tool.id)}
+                  disabled={saving || scope === "local"}
+                  onChange={(next) => {
+                    pushUndo();
+                    setDraftRoleTools(
+                      applyPresidentRoleToolToggle(draftRoleTools, tool.id, next),
+                    );
+                  }}
+                />
               ))}
-            </ul>
+            </div>
+            {scope === "local" ? (
+              <p className="text-sm text-slate-600">{t("roleToolsUnionOnly")}</p>
+            ) : null}
           </section>
 
           <section aria-labelledby="president-hub-exec" className="space-y-4">

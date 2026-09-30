@@ -45,8 +45,11 @@ import {
   hydrateTenantOverlayFromPostgres,
   tenantsPostgresEnabled,
 } from "@/lib/tenant/persist";
-import { visibleHubConfigRows } from "@/lib/president/module-catalog";
-import type { PortalSurfaceId } from "@/lib/president/module-catalog";
+import {
+  visibleHubConfigRows,
+} from "@/lib/president/module-catalog";
+import type { PortalSurfaceId, PresidentRoleToolId } from "@/lib/president/module-catalog";
+import { getPresidentRoleToolsForUnion, setPresidentRoleToolsForUnion } from "@/lib/president/role-tools";
 import { parseJsonBody } from "@/lib/validation/parse";
 import type { HubModule, TenantContext, UserRole } from "@/types/tenant";
 
@@ -73,6 +76,12 @@ const portalSurfaceSchema = z.enum([
   "myCases",
   "sidebars",
   "feedback",
+]);
+
+const presidentRoleToolSchema = z.enum([
+  "financialSummaries",
+  "invites",
+  "meetings",
 ]);
 
 const createLocalSchema = z.object({
@@ -136,6 +145,12 @@ const setPortalSurfacesSchema = z.object({
   unionId: z.string().min(1).optional(),
 });
 
+const setPresidentRoleToolsSchema = z.object({
+  action: z.literal("set_president_role_tools"),
+  presidentRoleTools: z.array(presidentRoleToolSchema).max(8),
+  unionId: z.string().min(1).optional(),
+});
+
 const setLocalPrefsSchema = z.object({
   action: z.literal("set_local_prefs"),
   localId: z.string().min(1),
@@ -154,6 +169,7 @@ const bodySchema = z.discriminatedUnion("action", [
   setDataModuleSchema,
   setModulesSchema,
   setPortalSurfacesSchema,
+  setPresidentRoleToolsSchema,
   setLocalPrefsSchema,
 ]);
 
@@ -219,6 +235,7 @@ function tenantPayload(
     canCreateUnion: session.canCreateUnion,
     durableTenants: tenantsPostgresEnabled(),
     portalSurfaces: getPortalSurfacesForUnion(unionId),
+    presidentRoleTools: getPresidentRoleToolsForUnion(unionId),
     localPrefs: localId ? getLocalPresentationPrefs(unionId, localId) : null,
     sessionLocalId: localId,
     operatorUnionId: unionId,
@@ -262,6 +279,7 @@ export async function GET(req?: Request) {
       operatorUnionId: null,
       context: null,
       portalSurfaces: [],
+      presidentRoleTools: [],
       localPrefs: null,
     });
   }
@@ -461,6 +479,28 @@ export async function POST(req: Request) {
       data.portalSurfaces as PortalSurfaceId[],
     );
     return NextResponse.json({ portalSurfaces });
+  }
+
+  if (data.action === "set_president_role_tools") {
+    const resolved = resolveOperatorUnionId(
+      roles,
+      sessionUnionId,
+      requestedUnionId,
+    );
+    if (!resolved.ok) {
+      return NextResponse.json(
+        { error: resolved.error },
+        { status: resolved.status },
+      );
+    }
+    if (!canManageLocalModules(roles)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    const presidentRoleTools = setPresidentRoleToolsForUnion(
+      resolved.unionId,
+      data.presidentRoleTools as PresidentRoleToolId[],
+    );
+    return NextResponse.json({ presidentRoleTools });
   }
 
   if (data.action === "set_local_prefs") {

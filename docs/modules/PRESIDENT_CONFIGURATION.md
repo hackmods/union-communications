@@ -51,14 +51,16 @@ reason Comms is omitted — the site header already elevates it).
 | Check-ins | **Off** | Operational | |
 | UnionOps Data | **Off** | Operational | Union/platform admin + Postgres |
 
-### Always on for presidents (role tools, not module flags)
+### President role tools (nav opt-in, role access unchanged)
 
-| Surface | Path | Default |
-|---------|------|---------|
-| Local financial summaries (Ledger) | `/app/ledger` | Available by role |
-| Expenses | `/app/expenses` | Available by role |
-| Invites | `/app/invites` | Available by role |
-| Meetings & RSVP | `/app/meetings` | Available by role |
+| Surface | Path | Default nav |
+|---------|------|-------------|
+| Local financial summaries (Ledger) | `/app/ledger` | **Off** |
+| Invites | `/app/invites` | **Off** (setup checklist still links) |
+| Meetings & RSVP | `/app/meetings` | **Off** |
+
+These stay available by role at the route; Configuration toggles only Officer
+tools / Today-strip chrome. Most locals leave them off.
 
 ### Local Portal surfaces (dedicated list)
 

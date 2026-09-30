@@ -7,6 +7,7 @@ import {
   resolveHubToolAccess,
 } from "./hub-tool-catalog";
 import type { HubModule, UserRole } from "@/types/tenant";
+import type { PresidentRoleToolId } from "@/lib/president/module-catalog";
 
 const ALL_MODULES: HubModule[] = [
   "comms",
@@ -18,6 +19,12 @@ const ALL_MODULES: HubModule[] = [
   "informalLog",
   "checkins",
   "portal",
+];
+
+const ALL_ROLE_TOOLS: PresidentRoleToolId[] = [
+  "financialSummaries",
+  "invites",
+  "meetings",
 ];
 
 describe("HUB_TOOL_CATALOG", () => {
@@ -34,7 +41,11 @@ describe("HUB_TOOL_CATALOG", () => {
 });
 
 describe("resolveHubToolAccess", () => {
-  const scoped = { unionId: "u1", localId: "l1" };
+  const scoped = {
+    unionId: "u1",
+    localId: "l1",
+    presidentRoleTools: ALL_ROLE_TOOLS,
+  };
 
   it("shows the president kit including records and funds", () => {
     const access = resolveHubToolAccess(
@@ -50,6 +61,19 @@ describe("resolveHubToolAccess", () => {
     expect(hrefs).toContain("/app/officer-learning");
     expect(hrefs).toContain("/app/configuration");
     expect(hrefs).not.toContain("/app/feedback");
+  });
+
+  it("hides role tools when the president toggles them off", () => {
+    const access = resolveHubToolAccess(
+      ["local_president"] as UserRole[],
+      ALL_MODULES,
+      { unionId: "u1", localId: "l1", presidentRoleTools: [] },
+    );
+    const hrefs = listVisibleHubTools(access).map((item) => item.href);
+    expect(hrefs).not.toContain("/app/ledger");
+    expect(hrefs).not.toContain("/app/meetings");
+    expect(hrefs).not.toContain("/app/invites");
+    expect(hrefs).toContain("/app/configuration");
   });
 
   it("hides elevated records from a steward", () => {
@@ -99,6 +123,7 @@ describe("resolveHubToolAccess", () => {
     const access = resolveHubToolAccess(
       ["local_president"] as UserRole[],
       ALL_MODULES,
+      { presidentRoleTools: ["invites"] },
     );
     const hrefs = listVisibleHubTools(access).map((item) => item.href);
     expect(hrefs).not.toContain("/app/officers");

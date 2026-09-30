@@ -287,7 +287,11 @@ export function TenantOnboardingWizard() {
     setHallStatus(null);
     setError(null);
     try {
-      const res = await fetch("/api/portal/hall/ensure", { method: "POST" });
+      const res = await fetch("/api/tenant/circle-starter/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ createCommittee: false }),
+      });
       if (!res.ok) {
         setHallStatus(t("hallError"));
         return;

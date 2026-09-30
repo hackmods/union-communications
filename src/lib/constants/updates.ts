@@ -24,6 +24,13 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "president-role-tools-toggle",
+    date: "2026-09-29",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/configuration",
+  },
+  {
     id: "organization-structure-admin",
     date: "2026-09-29",
     kind: "improved",

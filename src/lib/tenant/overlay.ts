@@ -1,6 +1,9 @@
 import { resolveHostBrandWithOverlay } from "@/lib/brand/host-brand-overlay";
 import { PRESIDENT_OVERLAY_MODULES } from "@/lib/president/module-catalog";
-import type { PortalSurfaceId } from "@/lib/president/module-catalog";
+import type {
+  PortalSurfaceId,
+  PresidentRoleToolId,
+} from "@/lib/president/module-catalog";
 import type {
   BargainingUnit,
   BrandDefaults,
@@ -29,6 +32,8 @@ const dataModulePatches = new Map<string, boolean>();
 const enabledModulesPatches = new Map<string, HubModule[]>();
 /** Local Portal surface toggles (member nav). Unset → intelligent defaults. */
 const portalSurfacesPatches = new Map<string, PortalSurfaceId[]>();
+/** President role-tool nav toggles (ledger / invites / meetings). Unset → defaults. */
+const presidentRoleToolsPatches = new Map<string, PresidentRoleToolId[]>();
 /** Comms preset binding patch (null clears). Applied in loader mergeSeed. */
 const commsPresetPatches = new Map<string, string | null>();
 /** Operator theme patch (null clears). */
@@ -272,6 +277,19 @@ export function getPortalSurfacesPatch(
   return portalSurfacesPatches.get(unionId);
 }
 
+export function setPresidentRoleToolsPatch(
+  unionId: string,
+  tools: PresidentRoleToolId[],
+): void {
+  presidentRoleToolsPatches.set(unionId, [...new Set(tools)]);
+}
+
+export function getPresidentRoleToolsPatch(
+  unionId: string,
+): PresidentRoleToolId[] | undefined {
+  return presidentRoleToolsPatches.get(unionId);
+}
+
 export function createOverlayLocal(input: {
   unionId: string;
   localNumber: string;
@@ -499,6 +517,7 @@ export function removeOverlayUnion(unionId: string): void {
   dataModulePatches.delete(unionId);
   enabledModulesPatches.delete(unionId);
   portalSurfacesPatches.delete(unionId);
+  presidentRoleToolsPatches.delete(unionId);
   commsPresetPatches.delete(unionId);
   brandThemePatches.delete(unionId);
 }
@@ -527,6 +546,7 @@ export function resetTenantOverlayForTests(): void {
   dataModulePatches.clear();
   enabledModulesPatches.clear();
   portalSurfacesPatches.clear();
+  presidentRoleToolsPatches.clear();
   commsPresetPatches.clear();
   brandThemePatches.clear();
   hydratedFromDb = false;

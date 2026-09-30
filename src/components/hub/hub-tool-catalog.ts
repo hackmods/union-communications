@@ -23,6 +23,8 @@ import {
 } from "@/lib/tenant/access";
 import { canManageOfficerLearningReport } from "@/lib/officer-learning/access";
 import { canAccessTravelModule } from "@/lib/travel/access";
+import { getPresidentRoleToolsForUnion } from "@/lib/president/role-tools";
+import type { PresidentRoleToolId } from "@/lib/president/module-catalog";
 import type { HubModule, UserRole } from "@/types/tenant";
 import { HUB_TOOL_GROUPS, type HubToolLink } from "./hub-nav-model";
 
@@ -277,7 +279,12 @@ export function isHubSetupToolHref(href: string): boolean {
 export function resolveHubToolAccess(
   roles: UserRole[],
   enabledModules: HubModule[],
-  scope?: { unionId?: string | null; localId?: string | null },
+  scope?: {
+    unionId?: string | null;
+    localId?: string | null;
+    /** When omitted, load union preference (defaults off for most tools). */
+    presidentRoleTools?: readonly PresidentRoleToolId[] | null;
+  },
 ): HubToolAccess {
   const grievanceRole = canAccessGrievanceModule(roles);
   const grievance =
@@ -288,6 +295,12 @@ export function resolveHubToolAccess(
   const hasLocal = Boolean(scope?.localId);
   // Hide local-scoped tools when the session cannot open them (silent /app redirect).
   const localCasework = hasUnion && hasLocal;
+  const roleTools = new Set(
+    scope?.presidentRoleTools ??
+      (scope?.unionId
+        ? getPresidentRoleToolsForUnion(scope.unionId)
+        : []),
+  );
   return {
     calendar: localCasework && (grievance || bumping),
     grievance: localCasework && grievance,
@@ -295,7 +308,10 @@ export function resolveHubToolAccess(
     officers: localCasework && canAccessOfficerRoster(roles),
     committees: localCasework && canAccessCommitteesModule(roles),
     elections: localCasework && canAccessElectionsModule(roles),
-    meetings: hasUnion && canAccessMeetingsModule(roles),
+    meetings:
+      hasUnion &&
+      roleTools.has("meetings") &&
+      canAccessMeetingsModule(roles),
     broadcast:
       localCasework &&
       (roles.includes("local_president") ||
@@ -306,6 +322,7 @@ export function resolveHubToolAccess(
     polls: localCasework && canAccessPollsModule(roles),
     ledger:
       localCasework &&
+      roleTools.has("financialSummaries") &&
       (roles.includes("local_president") ||
         roles.includes("local_exec") ||
         canCrossLocalGrievance(roles)),
@@ -313,7 +330,7 @@ export function resolveHubToolAccess(
     expenses: localCasework && canAccessExpensesModule(roles),
     handoff: localCasework && canInitiateHandoff(roles),
     // Setup chrome is role-gated only — visible while tenant loads or modules are off.
-    invites: canManageInvites(roles),
+    invites: roleTools.has("invites") && canManageInvites(roles),
     tenantOnboarding: canManageTenantOnboarding(roles),
     presidentConfig: canManageLocalModules(roles),
     reports: localCasework && isElevatedGrievanceRole(roles),
