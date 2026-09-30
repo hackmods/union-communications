@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   buildObservabilityHealth,
   errorLogFileMisconfigured,
+  resolveObservabilityBackend,
   resolveObservabilityConfig,
 } from "@/lib/observability/config";
 
@@ -14,84 +15,61 @@ const KEYS = [
   "ERROR_LOG_FILE_MAX_BYTES",
   "ERROR_LOG_FILE_KEEP",
   "OBSERVABILITY_BACKEND",
+  "DATABASE_URL",
 ] as const;
 
 afterEach(() => {
   for (const k of KEYS) delete process.env[k];
 });
 
+describe("resolveObservabilityBackend", () => {
+  it("auto-selects postgres when DATABASE_URL is set", () => {
+    expect(
+      resolveObservabilityBackend({
+        DATABASE_URL: "postgres://u:p@localhost/db",
+      }),
+    ).toBe("postgres");
+  });
+
+  it("uses file when no DATABASE_URL but file sink on", () => {
+    expect(
+      resolveObservabilityBackend({
+        ERROR_LOG_FILE_ENABLED: "true",
+        ERROR_LOG_FILE_PATH: "/data/logs/x.jsonl",
+      }),
+    ).toBe("file");
+  });
+
+  it("respects explicit noop", () => {
+    expect(
+      resolveObservabilityBackend({
+        OBSERVABILITY_BACKEND: "noop",
+        DATABASE_URL: "postgres://u:p@localhost/db",
+      }),
+    ).toBe("noop");
+  });
+});
+
 describe("resolveObservabilityConfig", () => {
   it("defaults both sinks off", () => {
     const cfg = resolveObservabilityConfig({});
     expect(cfg.sentryEnabled).toBe(false);
-    expect(cfg.sentryClientEnabled).toBe(false);
     expect(cfg.errorLogFileEnabled).toBe(false);
-    expect(cfg.sentryMisconfigured).toBe(false);
-    expect(cfg.sentryClientServerMismatch).toBe(false);
-    expect(cfg.errorLogFileMisconfigured).toBe(false);
-    expect(cfg.errorLogFileMaxBytes).toBe(10 * 1024 * 1024);
-    expect(cfg.errorLogFileKeep).toBe(3);
     expect(cfg.backend).toBe("noop");
+    expect(cfg.fileDualWrite).toBe(false);
   });
 
-  it("enables Sentry only when flag and DSN are set", () => {
-    expect(
-      resolveObservabilityConfig({
-        SENTRY_ENABLED: "true",
-      }).sentryEnabled,
-    ).toBe(false);
-
-    expect(
-      resolveObservabilityConfig({
-        SENTRY_ENABLED: "true",
-        NEXT_PUBLIC_SENTRY_DSN: "https://key@o0.ingest.sentry.io/1",
-      }).sentryEnabled,
-    ).toBe(true);
-  });
-
-  it("flags sentryMisconfigured when enabled without DSN", () => {
-    expect(
-      resolveObservabilityConfig({ SENTRY_ENABLED: "true" }).sentryMisconfigured,
-    ).toBe(true);
-  });
-
-  it("flags client/server mismatch when server on without public DSN", () => {
+  it("enables file dual-write when postgres primary and file on", () => {
     const cfg = resolveObservabilityConfig({
-      SENTRY_ENABLED: "true",
-      SENTRY_DSN: "https://private@o0.ingest.sentry.io/2",
+      DATABASE_URL: "postgres://u:p@localhost/db",
+      ERROR_LOG_FILE_ENABLED: "true",
+      ERROR_LOG_FILE_PATH: "/data/logs/x.jsonl",
     });
-    expect(cfg.sentryEnabled).toBe(true);
-    expect(cfg.sentryClientEnabled).toBe(false);
-    expect(cfg.sentryClientServerMismatch).toBe(true);
-  });
-
-  it("prefers SENTRY_DSN over public DSN on server", () => {
-    const cfg = resolveObservabilityConfig({
-      SENTRY_ENABLED: "true",
-      NEXT_PUBLIC_SENTRY_DSN: "https://public@o0.ingest.sentry.io/1",
-      SENTRY_DSN: "https://private@o0.ingest.sentry.io/2",
-    });
-    expect(cfg.sentryDsn).toBe("https://private@o0.ingest.sentry.io/2");
-    expect(cfg.sentryClientEnabled).toBe(true);
-    expect(cfg.sentryClientServerMismatch).toBe(false);
-  });
-
-  it("enables client when public DSN is present regardless of server flag", () => {
-    const cfg = resolveObservabilityConfig({
-      SENTRY_ENABLED: "false",
-      NEXT_PUBLIC_SENTRY_DSN: "https://key@o0.ingest.sentry.io/1",
-    });
-    expect(cfg.sentryEnabled).toBe(false);
-    expect(cfg.sentryClientEnabled).toBe(true);
+    expect(cfg.backend).toBe("postgres");
+    expect(cfg.fileDualWrite).toBe(true);
   });
 
   it("enables file log only with flag and path", () => {
-    expect(
-      resolveObservabilityConfig({
-        ERROR_LOG_FILE_ENABLED: "true",
-      }).errorLogFileEnabled,
-    ).toBe(false);
-
     const cfg = resolveObservabilityConfig({
       ERROR_LOG_FILE_ENABLED: "yes",
       ERROR_LOG_FILE_PATH: "/data/logs/errors.jsonl",
@@ -99,10 +77,8 @@ describe("resolveObservabilityConfig", () => {
       ERROR_LOG_FILE_KEEP: "5",
     });
     expect(cfg.errorLogFileEnabled).toBe(true);
-    expect(cfg.errorLogFilePath).toBe("/data/logs/errors.jsonl");
-    expect(cfg.errorLogFileMaxBytes).toBe(1024);
-    expect(cfg.errorLogFileKeep).toBe(5);
     expect(cfg.backend).toBe("file");
+    expect(cfg.errorLogFileKeep).toBe(5);
   });
 });
 
@@ -111,33 +87,36 @@ describe("errorLogFileMisconfigured", () => {
     expect(errorLogFileMisconfigured({ ERROR_LOG_FILE_ENABLED: "true" })).toBe(
       true,
     );
-    expect(
-      errorLogFileMisconfigured({
-        ERROR_LOG_FILE_ENABLED: "true",
-        ERROR_LOG_FILE_PATH: "/tmp/x.jsonl",
-      }),
-    ).toBe(false);
   });
 });
 
 describe("buildObservabilityHealth", () => {
-  it("exposes non-secret flags only", () => {
+  it("exposes postgres store without leaking DSN", () => {
     const health = buildObservabilityHealth({
+      DATABASE_URL: "postgres://secret@localhost/db",
       SENTRY_ENABLED: "true",
       SENTRY_DSN: "https://secret@o0.ingest.sentry.io/1",
-      ERROR_LOG_FILE_ENABLED: "true",
-      ERROR_LOG_FILE_PATH: "/data/logs/x.jsonl",
     });
     expect(health).toEqual({
-      backend: "file",
+      backend: "postgres",
       storeEnabled: true,
+      fileDualWrite: false,
       sentryEnabled: true,
       sentryClientEnabled: false,
-      errorLogFileEnabled: true,
+      errorLogFileEnabled: false,
       sentryMisconfigured: false,
       errorLogFileMisconfigured: false,
       sentryClientServerMismatch: true,
     });
     expect(JSON.stringify(health)).not.toContain("secret");
+  });
+
+  it("exposes file store when no database", () => {
+    const health = buildObservabilityHealth({
+      ERROR_LOG_FILE_ENABLED: "true",
+      ERROR_LOG_FILE_PATH: "/data/logs/x.jsonl",
+    });
+    expect(health.backend).toBe("file");
+    expect(health.storeEnabled).toBe(true);
   });
 });

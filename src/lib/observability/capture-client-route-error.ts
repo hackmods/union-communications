@@ -69,7 +69,6 @@ export function captureClientRouteError(
 
   postToOperatorStore(error, source);
 
-  // Optional Sentry fan-out — no-op when NEXT_PUBLIC_SENTRY_DSN is unset.
   try {
     const dsn =
       typeof process !== "undefined"
@@ -97,4 +96,39 @@ export function captureClientRouteError(
   } catch {
     /* SDK missing — ignore */
   }
+}
+
+let globalHandlersInstalled = false;
+
+/**
+ * Capture obscure client errors outside React error boundaries.
+ * Idempotent. Safe to call from instrumentation-client.
+ */
+export function installGlobalClientErrorHandlers(): void {
+  if (typeof window === "undefined" || globalHandlersInstalled) return;
+  globalHandlersInstalled = true;
+
+  window.addEventListener("error", (event) => {
+    const err =
+      event.error instanceof Error
+        ? event.error
+        : new Error(event.message || "Window error");
+    captureClientRouteError(err, "window.error");
+  });
+
+  window.addEventListener("unhandledrejection", (event) => {
+    const reason = event.reason;
+    const err =
+      reason instanceof Error
+        ? reason
+        : new Error(
+            typeof reason === "string" ? reason : "Unhandled promise rejection",
+          );
+    captureClientRouteError(err, "window.unhandledrejection");
+  });
+}
+
+/** @internal test helper */
+export function resetGlobalClientErrorHandlersForTests(): void {
+  globalHandlersInstalled = false;
 }

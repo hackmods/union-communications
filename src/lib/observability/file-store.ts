@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import {
   resolveObservabilityConfig,
   type EnvBag,
@@ -8,18 +8,25 @@ import type {
   ObservabilityEventStore,
   ObservabilityExportResult,
 } from "@/lib/observability/adapter";
+import { buildObservabilityExport } from "@/lib/observability/export-formats";
+import { withFingerprint } from "@/lib/observability/fingerprint";
 import { type ErrorLogRecord } from "@/lib/observability/file-log";
 import { redactEventFields } from "@/lib/observability/redact";
+import {
+  matchesObservabilityFilters,
+  summarizeEvents,
+} from "@/lib/observability/summarize";
 import type {
   ObservabilityEvent,
   ObservabilityEventInput,
   ObservabilityExportFormat,
   ObservabilityQueryFilters,
+  ObservabilityStoreStats,
+  ObservabilitySummary,
 } from "@/lib/observability/types";
 
 const DEFAULT_LIMIT = 100;
 const MAX_LIMIT = 500;
-/** Cap how much we read from disk when querying (main file only in v1). */
 const MAX_READ_BYTES = 4 * 1024 * 1024;
 
 function clampLimit(limit: number | undefined): number {
@@ -27,8 +34,15 @@ function clampLimit(limit: number | undefined): number {
   return Math.min(MAX_LIMIT, Math.max(1, Math.floor(limit)));
 }
 
-function recordToEvent(record: ErrorLogRecord & { id?: string; source?: string; requestId?: string }): ObservabilityEvent {
-  return {
+function recordToEvent(
+  record: ErrorLogRecord & {
+    id?: string;
+    source?: string;
+    requestId?: string;
+    fingerprint?: string;
+  },
+): ObservabilityEvent {
+  return withFingerprint({
     id: typeof record.id === "string" && record.id ? record.id : randomUUID(),
     ts: record.ts,
     level: record.level,
@@ -47,87 +61,14 @@ function recordToEvent(record: ErrorLogRecord & { id?: string; source?: string; 
     build: record.build,
     signal: record.signal ?? null,
     requestId: record.requestId,
+    fingerprint: record.fingerprint,
     meta: record.meta,
-  };
-}
-
-function matchesFilters(
-  event: ObservabilityEvent,
-  filters: ObservabilityQueryFilters,
-): boolean {
-  if (filters.since) {
-    const sinceMs = Date.parse(filters.since);
-    const tsMs = Date.parse(event.ts);
-    if (Number.isFinite(sinceMs) && Number.isFinite(tsMs) && tsMs < sinceMs) {
-      return false;
-    }
-  }
-  if (filters.level && event.level !== filters.level) return false;
-  if (filters.signal != null && filters.signal !== "" && event.signal !== filters.signal) {
-    return false;
-  }
-  if (filters.source && event.source !== filters.source) return false;
-  if (filters.routePrefix) {
-    if (!event.route || !event.route.startsWith(filters.routePrefix)) return false;
-  }
-  return true;
-}
-
-function escapeCsv(value: string): string {
-  if (/[",\n\r]/.test(value)) {
-    return `"${value.replace(/"/g, '""')}"`;
-  }
-  return value;
-}
-
-function eventsToCsv(events: ObservabilityEvent[]): string {
-  const header = [
-    "id",
-    "ts",
-    "level",
-    "source",
-    "message",
-    "name",
-    "route",
-    "signal",
-    "build",
-    "requestId",
-    "digest",
-    "stack",
-    "meta",
-  ];
-  const lines = [header.join(",")];
-  for (const e of events) {
-    lines.push(
-      [
-        e.id,
-        e.ts,
-        e.level,
-        e.source,
-        e.message,
-        e.name ?? "",
-        e.route ?? "",
-        e.signal ?? "",
-        e.build ?? "",
-        e.requestId ?? "",
-        e.digest ?? "",
-        e.stack ?? "",
-        e.meta ? JSON.stringify(e.meta) : "",
-      ]
-        .map((cell) => escapeCsv(String(cell)))
-        .join(","),
-    );
-  }
-  return `${lines.join("\n")}\n`;
-}
-
-function eventsToJsonl(events: ObservabilityEvent[]): string {
-  return `${events.map((e) => JSON.stringify(e)).join("\n")}${events.length ? "\n" : ""}`;
+  });
 }
 
 /**
- * File-backed ObservabilityEventStore (JSONL + rotation via file-log).
- * Per-pod only — multi-replica needs a future Postgres backend.
+ * File-backed ObservabilityEventStore (JSONL + rotation).
+ * Per-pod — prefer Postgres on Docker with DATABASE_URL.
  */
 export class FileObservabilityStore implements ObservabilityEventStore {
   constructor(private readonly env: EnvBag = process.env) {}
@@ -149,7 +90,7 @@ export class FileObservabilityStore implements ObservabilityEventStore {
       meta: input.meta,
     });
 
-    const event: ObservabilityEvent = {
+    const event = withFingerprint({
       id: input.id ?? randomUUID(),
       ts: input.ts ?? new Date().toISOString(),
       level: input.level,
@@ -162,12 +103,10 @@ export class FileObservabilityStore implements ObservabilityEventStore {
       build: input.build,
       signal: input.signal ?? null,
       requestId: input.requestId,
+      fingerprint: input.fingerprint,
       meta: redacted.meta,
-    };
+    });
 
-    // Persist via the existing append path so rotation / boot-warn stay shared.
-    // We write a structured Error by encoding fields the file logger understands,
-    // then overlay engine fields with a direct JSONL append of the full event.
     await this.appendEventLine(event);
     return event;
   }
@@ -176,8 +115,6 @@ export class FileObservabilityStore implements ObservabilityEventStore {
     const cfg = resolveObservabilityConfig(this.env);
     if (!cfg.errorLogFileEnabled || !cfg.errorLogFilePath) return;
 
-    // Reuse mkdir/rotate through appendServerErrorLog for directory setup, then
-    // write the canonical event. Simpler: call low-level write mirroring file-log.
     const { appendFile, mkdir } = await import("node:fs/promises");
     const path = await import("node:path");
     const { rotateErrorLogIfNeeded } = await import("@/lib/observability/file-log");
@@ -191,12 +128,7 @@ export class FileObservabilityStore implements ObservabilityEventStore {
       cfg.errorLogFileKeep,
     );
 
-    // Legacy-compatible record + engine fields (id, source, requestId).
-    const line: ErrorLogRecord & {
-      id: string;
-      source: string;
-      requestId?: string;
-    } = {
+    const line = {
       id: event.id,
       ts: event.ts,
       level: event.level,
@@ -209,6 +141,7 @@ export class FileObservabilityStore implements ObservabilityEventStore {
       signal: event.signal,
       meta: event.meta,
       source: event.source,
+      fingerprint: event.fingerprint,
       ...(event.requestId ? { requestId: event.requestId } : {}),
     };
 
@@ -218,10 +151,48 @@ export class FileObservabilityStore implements ObservabilityEventStore {
   async query(filters: ObservabilityQueryFilters = {}): Promise<ObservabilityEvent[]> {
     const events = await this.readRecentEvents();
     const limit = clampLimit(filters.limit);
-    const matched = events.filter((e) => matchesFilters(e, filters));
-    // Newest first
+    const matched = events.filter((e) => matchesObservabilityFilters(e, filters));
     matched.sort((a, b) => Date.parse(b.ts) - Date.parse(a.ts));
     return matched.slice(0, limit);
+  }
+
+  async summarize(filters: ObservabilityQueryFilters = {}): Promise<ObservabilitySummary> {
+    const events = await this.query({ ...filters, limit: filters.limit ?? 500 });
+    return summarizeEvents(events);
+  }
+
+  async stats(): Promise<ObservabilityStoreStats> {
+    const cfg = resolveObservabilityConfig(this.env);
+    if (!cfg.errorLogFileEnabled || !cfg.errorLogFilePath) {
+      return {
+        backend: "file",
+        eventCountEstimate: 0,
+        fileBytes: null,
+        rotatedFiles: null,
+      };
+    }
+    let fileBytes: number | null = null;
+    let rotatedFiles = 0;
+    try {
+      fileBytes = (await stat(cfg.errorLogFilePath)).size;
+    } catch {
+      fileBytes = 0;
+    }
+    for (let i = 1; i <= cfg.errorLogFileKeep; i += 1) {
+      try {
+        await stat(`${cfg.errorLogFilePath}.${i}`);
+        rotatedFiles += 1;
+      } catch {
+        /* missing */
+      }
+    }
+    const events = await this.readRecentEvents();
+    return {
+      backend: "file",
+      eventCountEstimate: events.length,
+      fileBytes,
+      rotatedFiles,
+    };
   }
 
   async export(
@@ -229,46 +200,45 @@ export class FileObservabilityStore implements ObservabilityEventStore {
     format: ObservabilityExportFormat,
   ): Promise<ObservabilityExportResult> {
     const events = await this.query(filters ?? {});
-    if (format === "csv") {
-      return {
-        format,
-        body: eventsToCsv(events),
-        eventCount: events.length,
-        contentType: "text/csv; charset=utf-8",
-        filename: "unionops-errors.csv",
-      };
-    }
-    return {
-      format: "jsonl",
-      body: eventsToJsonl(events),
-      eventCount: events.length,
-      contentType: "application/x-ndjson; charset=utf-8",
-      filename: "unionops-errors.jsonl",
-    };
+    return buildObservabilityExport(events, format);
   }
 
   private async readRecentEvents(): Promise<ObservabilityEvent[]> {
     const cfg = resolveObservabilityConfig(this.env);
     if (!cfg.errorLogFileEnabled || !cfg.errorLogFilePath) return [];
 
-    let raw: string;
-    try {
-      const buf = await readFile(cfg.errorLogFilePath);
-      raw =
-        buf.byteLength > MAX_READ_BYTES
-          ? buf.subarray(buf.byteLength - MAX_READ_BYTES).toString("utf8")
-          : buf.toString("utf8");
-    } catch {
-      return [];
+    const paths: string[] = [cfg.errorLogFilePath];
+    for (let i = 1; i <= cfg.errorLogFileKeep; i += 1) {
+      paths.push(`${cfg.errorLogFilePath}.${i}`);
     }
 
-    // If we truncated mid-line, drop the partial first line.
+    let remaining = MAX_READ_BYTES;
+    const chunks: string[] = [];
+
+    for (const filePath of paths) {
+      if (remaining <= 0) break;
+      try {
+        const buf = await readFile(filePath);
+        if (buf.byteLength <= remaining) {
+          chunks.push(buf.toString("utf8"));
+          remaining -= buf.byteLength;
+        } else {
+          chunks.push(buf.subarray(buf.byteLength - remaining).toString("utf8"));
+          remaining = 0;
+        }
+      } catch {
+        /* missing sibling */
+      }
+    }
+
+    const raw = chunks.join("\n");
     const lines = raw.split("\n");
     if (raw.length >= MAX_READ_BYTES && lines.length > 1) {
       lines.shift();
     }
 
     const events: ObservabilityEvent[] = [];
+    const seen = new Set<string>();
     for (const line of lines) {
       const trimmed = line.trim();
       if (!trimmed) continue;
@@ -277,13 +247,17 @@ export class FileObservabilityStore implements ObservabilityEventStore {
           id?: string;
           source?: string;
           requestId?: string;
+          fingerprint?: string;
         };
         if (typeof parsed.message !== "string" || typeof parsed.ts !== "string") {
           continue;
         }
-        events.push(recordToEvent(parsed));
+        const event = recordToEvent(parsed);
+        if (seen.has(event.id)) continue;
+        seen.add(event.id);
+        events.push(event);
       } catch {
-        /* skip corrupt lines */
+        /* skip corrupt */
       }
     }
     return events;

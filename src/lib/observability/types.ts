@@ -1,6 +1,6 @@
 /**
  * Canonical operator observability event.
- * Stable shape for file JSONL today and a future Postgres store.
+ * Stable shape for file JSONL and Postgres store.
  */
 
 export type ObservabilityLevel = "error" | "warn" | "info";
@@ -24,6 +24,8 @@ export type ObservabilityEvent = {
   signal?: string | null;
   /** Correlates with audit / request headers when present. */
   requestId?: string;
+  /** Stable grouping key (Sentry-like issue fingerprint). */
+  fingerprint?: string;
   /** Allowlisted classifier / operator metadata only. */
   meta?: Record<string, string | number | boolean | null>;
 };
@@ -41,12 +43,38 @@ export type ObservabilityQueryFilters = {
   source?: ObservabilitySource;
   /** Match events whose route starts with this prefix. */
   routePrefix?: string;
+  /** Substring match on message / name / route (case-insensitive). */
+  q?: string;
+  fingerprint?: string;
 };
 
-export type ObservabilityExportFormat = "jsonl" | "csv";
+export type ObservabilityExportFormat = "jsonl" | "csv" | "incident-pack";
 
 /**
- * Backend selector. `postgres` is reserved for a future durable store —
- * v1 resolves it to file with a boot warn, or noop when file is off.
+ * Backend selector. Auto: postgres when DATABASE_URL set; else file if enabled; else noop.
  */
 export type ObservabilityBackend = "file" | "noop" | "postgres";
+
+export type ObservabilityIssueSummary = {
+  fingerprint: string;
+  count: number;
+  lastTs: string;
+  sampleMessage: string;
+  level: ObservabilityLevel;
+  route?: string;
+  source?: ObservabilitySource;
+};
+
+export type ObservabilitySummary = {
+  total: number;
+  byLevel: Record<ObservabilityLevel, number>;
+  bySource: Record<ObservabilitySource, number>;
+  byFingerprint: ObservabilityIssueSummary[];
+};
+
+export type ObservabilityStoreStats = {
+  backend: ObservabilityBackend;
+  eventCountEstimate: number | null;
+  fileBytes: number | null;
+  rotatedFiles: number | null;
+};

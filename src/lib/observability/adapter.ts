@@ -3,37 +3,35 @@ import type {
   ObservabilityEventInput,
   ObservabilityExportFormat,
   ObservabilityQueryFilters,
+  ObservabilityStoreStats,
+  ObservabilitySummary,
 } from "@/lib/observability/types";
 
 export type ObservabilityExportResult = {
   format: ObservabilityExportFormat;
-  body: string;
+  body: string | Buffer;
   eventCount: number;
   contentType: string;
   filename: string;
 };
 
 /**
- * Operator event store — append / query / export.
- * File backend is v1; PostgresObservabilityStore is the enterprise upgrade path.
+ * Operator event store — append / query / export / summarize.
+ * Postgres is Docker primary; file is fallback / dual-write.
  */
 export interface ObservabilityEventStore {
-  /** True when append/query/export can succeed (backend configured). */
   isEnabled(): boolean;
 
   append(event: ObservabilityEventInput): Promise<ObservabilityEvent | null>;
 
   query(filters?: ObservabilityQueryFilters): Promise<ObservabilityEvent[]>;
 
+  summarize(filters?: ObservabilityQueryFilters): Promise<ObservabilitySummary>;
+
+  stats(): Promise<ObservabilityStoreStats>;
+
   export(
     filters: ObservabilityQueryFilters | undefined,
     format: ObservabilityExportFormat,
   ): Promise<ObservabilityExportResult>;
 }
-
-/**
- * @future PostgresObservabilityStore — durable cross-replica query.
- * Map ObservabilityEvent 1:1 (id, ts, level, source, message, stack, …).
- * Flip via OBSERVABILITY_BACKEND=postgres once a migration lands.
- */
-export type PostgresObservabilityStorePlaceholder = ObservabilityEventStore;

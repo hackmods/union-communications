@@ -1,29 +1,27 @@
-# Session knowledge — Observability Engine (Sentry-free primary) (2026-09-29)
-
-## Context
-
-Launch hosts that do not run Sentry still need durable operator error capture, client boundary reports, and MFA-gated CSV/JSONL export under `platform_admin`. The 2026-09-08 sinks treated JSONL as write-only (SSH `tail`) and client errors as Sentry-only.
+# Session knowledge — Observability Engine Postgres primary (2026-09-29)
 
 ## Decision
 
-Introduce an **ObservabilityEventStore** adapter (`append` / `query` / `export`) with a **file JSONL backend** as v1 source of truth. Optional Sentry remains a secondary fan-out only. Client `error.tsx` boundaries POST sanitized events to `/api/observability/client-errors`. Site Admin **Observability** page uses the same MFA step-up + fail-closed audit pattern as operator audit / sensitive exports.
+On Docker / CapRover, **Postgres is the primary operator error store** when `DATABASE_URL` is set (`OBSERVABILITY_BACKEND=postgres` or unset + URL). File JSONL is fallback or dual-write only, and requires a CapRover Persistent Directory or it dies on redeploy.
 
-## Env
+## Schema
 
-| Variable | Role |
-|----------|------|
-| `ERROR_LOG_FILE_ENABLED` + `ERROR_LOG_FILE_PATH` | Primary store (required without Sentry) |
-| `OBSERVABILITY_BACKEND` | `file` / `noop` / `postgres` (postgres reserved) |
-| `SENTRY_*` | Optional; unused on Sentry-free hosts |
+Migration `0082_observability_events`:
 
-## Security
+- Table `observability_events` (host operator data — not union casework)
+- INSERT policy `WITH CHECK (true)` so `reportServerError` / cron / client ingest work without platform GUC
+- SELECT via `customization_root(NULL, true)` — Site Admin query/export wraps `withRlsContext({ platformAdmin, mfaVerified })`
+- REVOKE UPDATE/DELETE from `unionops_app`
 
-- Never accept filesystem paths from clients.
-- Redact bearer/JWT/email/cookie-shaped strings before append.
-- Client ingest: strict Zod, no arbitrary meta, 20/min per IP hash.
-- Export/query: `requireSiteAdminSession` + `verifyFreshMfaStepUp`; audit metadata only.
+## v1.1 product surface
 
-## Follow-ups
+- Fingerprints + Issues view, filters, detail stack panel
+- Incident-pack ZIP export (`events.jsonl` + `summary.csv` + `report.txt`)
+- Global `window.error` / `unhandledrejection` → `/api/observability/client-errors`
 
-- Postgres store for multi-replica hosts.
-- Broader `reportApiFailure` coverage beyond cron + critical paths.
+## Ops checklist
+
+1. Migrate through `0082`
+2. Confirm health `observability.backend === "postgres"`
+3. Optional: enable `ERROR_LOG_FILE_*` + volume for dual-write
+4. Open `/app/site-admin/observability` as platform_admin + MFA

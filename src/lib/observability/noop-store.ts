@@ -2,13 +2,18 @@ import type {
   ObservabilityEventStore,
   ObservabilityExportResult,
 } from "@/lib/observability/adapter";
+import { buildObservabilityExport } from "@/lib/observability/export-formats";
+import { summarizeEvents } from "@/lib/observability/summarize";
 import type {
   ObservabilityEvent,
+  ObservabilityEventInput,
   ObservabilityExportFormat,
   ObservabilityQueryFilters,
+  ObservabilityStoreStats,
+  ObservabilitySummary,
 } from "@/lib/observability/types";
 
-/** No-op store when file sink is disabled or misconfigured. */
+/** No-op store when no backend is configured. */
 export class NoopObservabilityStore implements ObservabilityEventStore {
   isEnabled(): boolean {
     return false;
@@ -22,20 +27,23 @@ export class NoopObservabilityStore implements ObservabilityEventStore {
     return [];
   }
 
+  async summarize(): Promise<ObservabilitySummary> {
+    return summarizeEvents([]);
+  }
+
+  async stats(): Promise<ObservabilityStoreStats> {
+    return {
+      backend: "noop",
+      eventCountEstimate: 0,
+      fileBytes: null,
+      rotatedFiles: null,
+    };
+  }
+
   async export(
     _filters: ObservabilityQueryFilters | undefined,
     format: ObservabilityExportFormat,
   ): Promise<ObservabilityExportResult> {
-    return {
-      format,
-      body: format === "csv" ? "id,ts,level,source,message\n" : "",
-      eventCount: 0,
-      contentType:
-        format === "csv"
-          ? "text/csv; charset=utf-8"
-          : "application/x-ndjson; charset=utf-8",
-      filename:
-        format === "csv" ? "unionops-errors.csv" : "unionops-errors.jsonl",
-    };
+    return buildObservabilityExport([], format);
   }
 }

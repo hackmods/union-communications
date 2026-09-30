@@ -40,10 +40,26 @@ vi.mock("@/lib/observability/store", () => ({
 
 vi.mock("@/lib/observability/config", () => ({
   resolveObservabilityConfig: () => ({
+    errorLogFileEnabled: false,
+    errorLogFilePath: undefined,
+  }),
+  buildObservabilityHealth: () => ({
+    backend: "file",
+    storeEnabled: true,
+    fileDualWrite: false,
+    sentryEnabled: false,
+    sentryClientEnabled: false,
     errorLogFileEnabled: true,
-    errorLogFilePath: "/tmp/x.jsonl",
+    sentryMisconfigured: false,
+    errorLogFileMisconfigured: false,
+    sentryClientServerMismatch: false,
   }),
 }));
+
+vi.mock("@/lib/db/rls-context", () => ({
+  withRlsContext: async (_ctx: unknown, fn: () => Promise<unknown>) => fn(),
+}));
+
 
 describe("POST /api/site-admin/observability/export", () => {
   beforeEach(() => {

@@ -4,20 +4,24 @@ import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { auditLog } from "@/lib/audit/store";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { observabilityStore } from "@/lib/observability/store";
-import { resolveObservabilityConfig } from "@/lib/observability/config";
+import { buildObservabilityHealth } from "@/lib/observability/config";
+import { resolveSincePreset } from "@/lib/observability/summarize";
 
 export const runtime = "nodejs";
 
 const requestSchema = z
   .object({
-    format: z.enum(["jsonl", "csv"]),
+    format: z.enum(["jsonl", "csv", "incident-pack"]),
     limit: z.number().int().min(1).max(500).optional(),
     since: z.string().max(40).optional(),
     level: z.enum(["error", "warn", "info"]).optional(),
     signal: z.string().max(80).optional(),
     source: z.enum(["server", "client", "cron", "edge"]).optional(),
     routePrefix: z.string().max(200).optional(),
+    q: z.string().max(200).optional(),
+    fingerprint: z.string().max(64).optional(),
     mfaCode: z.string().max(32).optional(),
   })
   .strict();
@@ -35,7 +39,7 @@ function responseContext() {
   return { correlation, respond };
 }
 
-/** POST /api/site-admin/observability/export — MFA-gated CSV/JSONL download. */
+/** POST /api/site-admin/observability/export — MFA-gated CSV/JSONL/incident-pack. */
 export async function POST(request: Request) {
   const { correlation, respond } = responseContext();
   const gate = await requireSiteAdminSession();
@@ -50,20 +54,31 @@ export async function POST(request: Request) {
     return respond({ error: "Invalid export request" }, 400);
   }
 
-  const cfg = resolveObservabilityConfig();
-  if (!observabilityStore.isEnabled() || !cfg.errorLogFileEnabled) {
+  const health = buildObservabilityHealth();
+  if (!observabilityStore.isEnabled()) {
     return respond(
       {
         error:
-          "Error log store is disabled. Enable ERROR_LOG_FILE_ENABLED and ERROR_LOG_FILE_PATH on the host.",
+          "Observability store is disabled. Prefer DATABASE_URL + migrate (Postgres), or ERROR_LOG_FILE_* with a CapRover persistent volume.",
         code: "observability_store_disabled",
       },
       503,
     );
   }
 
-  const { format, mfaCode, limit, since, level, signal, source, routePrefix } =
-    parsed.data;
+  const {
+    format,
+    mfaCode,
+    limit,
+    since,
+    level,
+    signal,
+    source,
+    routePrefix,
+    q,
+    fingerprint,
+  } = parsed.data;
+  const sinceIso = resolveSincePreset(since);
 
   const recordOutcome = (
     outcome: "success" | "denied" | "error",
@@ -115,6 +130,7 @@ export async function POST(request: Request) {
         phase: "export_authorized",
         format,
         limit: String(limit ?? 100),
+        backend: health.backend,
       });
     } catch {
       return respond(
@@ -127,16 +143,35 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await observabilityStore.export(
-      { limit: limit ?? 100, since, level, signal, source, routePrefix },
-      format,
-    );
+    const filters = {
+      limit: limit ?? 100,
+      since: sinceIso,
+      level,
+      signal,
+      source,
+      routePrefix,
+      q,
+      fingerprint,
+    };
+
+    const result =
+      health.backend === "postgres"
+        ? await withRlsContext(
+            {
+              userId: gate.session.user.id,
+              platformAdmin: true,
+              mfaVerified: true,
+            },
+            () => observabilityStore.export(filters, format),
+          )
+        : await observabilityStore.export(filters, format);
 
     try {
       await recordOutcome("success", {
         phase: "export_result",
         format,
         count: String(result.eventCount),
+        backend: health.backend,
       });
     } catch {
       return respond(
@@ -155,7 +190,11 @@ export async function POST(request: Request) {
       "Cache-Control": "private, no-store, max-age=0",
     });
     correlation.responseHeaders(headers);
-    return new NextResponse(result.body, { status: 200, headers });
+    const body =
+      typeof result.body === "string"
+        ? result.body
+        : new Uint8Array(result.body);
+    return new NextResponse(body, { status: 200, headers });
   } catch {
     await recordOutcome("error", {
       phase: "export_result",

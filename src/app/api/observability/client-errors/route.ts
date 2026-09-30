@@ -7,7 +7,7 @@ import {
   hashClientErrorIp,
 } from "@/lib/observability/client-error-rate-limit";
 import { observabilityStore } from "@/lib/observability/store";
-import { resolveObservabilityConfig } from "@/lib/observability/config";
+import { computeFingerprint } from "@/lib/observability/fingerprint";
 
 export const runtime = "nodejs";
 
@@ -26,12 +26,9 @@ const bodySchema = z
 /**
  * POST /api/observability/client-errors
  * Sanitized client route-error ingest for Sentry-free hosts.
- * Never accepts arbitrary meta blobs or request bodies.
  */
 export async function POST(request: Request) {
-  const cfg = resolveObservabilityConfig();
-  if (!cfg.errorLogFileEnabled) {
-    // Soft success when sink off — do not leak config to anonymous clients.
+  if (!observabilityStore.isEnabled()) {
     return NextResponse.json({ ok: true, stored: false }, { status: 202 });
   }
 
@@ -59,6 +56,13 @@ export async function POST(request: Request) {
     digest: data.digest,
   });
   const classification = classifyServerError(synthetic);
+  const route = data.route ?? data.source;
+  const fingerprint = computeFingerprint({
+    level: classification.level,
+    name: data.name,
+    message: data.message,
+    route,
+  });
 
   try {
     await observabilityStore.append({
@@ -68,9 +72,10 @@ export async function POST(request: Request) {
       name: data.name,
       stack: data.stack,
       digest: data.digest,
-      route: data.route ?? data.source,
+      route,
       build: data.build,
       signal: classification.signal,
+      fingerprint,
       meta: { clientSource: data.source },
     });
   } catch {

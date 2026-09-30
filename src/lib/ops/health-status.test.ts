@@ -11,6 +11,13 @@ describe("buildHealthStatus", () => {
     process.env = { ...env };
     process.env.DB_BOOT_ATTESTATION_PATH = `${process.cwd()}/.missing-db-boot-test.json`;
     delete process.env.UNIONOPS_HOSTED_CUSTOMER_MODE;
+    delete process.env.DATABASE_URL;
+    delete process.env.OBSERVABILITY_BACKEND;
+    delete process.env.ERROR_LOG_FILE_ENABLED;
+    delete process.env.ERROR_LOG_FILE_PATH;
+    delete process.env.SENTRY_ENABLED;
+    delete process.env.SENTRY_DSN;
+    delete process.env.NEXT_PUBLIC_SENTRY_DSN;
     for (const key of [
       "ATTACHMENT_STORAGE",
       "ATTACHMENT_LOCAL_DIR",
@@ -80,6 +87,7 @@ describe("buildHealthStatus", () => {
     expect(status.observability).toEqual({
       backend: "noop",
       storeEnabled: false,
+      fileDualWrite: false,
       sentryEnabled: false,
       sentryClientEnabled: false,
       errorLogFileEnabled: false,

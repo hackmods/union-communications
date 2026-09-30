@@ -65,6 +65,7 @@ function sampleHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     observability: {
       backend: "noop",
       storeEnabled: false,
+      fileDualWrite: false,
       sentryEnabled: false,
       sentryClientEnabled: false,
       errorLogFileEnabled: false,

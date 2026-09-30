@@ -4,22 +4,23 @@ import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
 import { auditLog } from "@/lib/audit/store";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
+import { withRlsContext } from "@/lib/db/rls-context";
 import { observabilityStore } from "@/lib/observability/store";
-import {
-  buildObservabilityHealth,
-  resolveObservabilityConfig,
-} from "@/lib/observability/config";
+import { buildObservabilityHealth } from "@/lib/observability/config";
+import { resolveSincePreset } from "@/lib/observability/summarize";
 
 export const runtime = "nodejs";
 
 const requestSchema = z
   .object({
-    limit: z.number().int().min(1).max(100).optional(),
+    limit: z.number().int().min(1).max(500).optional(),
     since: z.string().max(40).optional(),
     level: z.enum(["error", "warn", "info"]).optional(),
     signal: z.string().max(80).optional(),
     source: z.enum(["server", "client", "cron", "edge"]).optional(),
     routePrefix: z.string().max(200).optional(),
+    q: z.string().max(200).optional(),
+    fingerprint: z.string().max(64).optional(),
     mfaCode: z.string().max(32).optional(),
   })
   .strict();
@@ -37,7 +38,14 @@ function responseContext() {
   return { correlation, respond };
 }
 
-/** POST /api/site-admin/observability/query — MFA-gated recent event preview. */
+function storeDisabledMessage(backend: string): string {
+  if (backend === "postgres" || backend === "noop") {
+    return "Observability store is disabled. Set DATABASE_URL (Postgres) or OBSERVABILITY_BACKEND=postgres after migrate, or enable ERROR_LOG_FILE_* as a file fallback.";
+  }
+  return "Error log store is disabled. Enable ERROR_LOG_FILE_ENABLED and ERROR_LOG_FILE_PATH, or use Postgres via DATABASE_URL.";
+}
+
+/** POST /api/site-admin/observability/query — MFA-gated issues + events. */
 export async function POST(request: Request) {
   const { correlation, respond } = responseContext();
   const gate = await requireSiteAdminSession();
@@ -53,13 +61,11 @@ export async function POST(request: Request) {
   }
 
   const health = buildObservabilityHealth();
-  const cfg = resolveObservabilityConfig();
 
-  if (!observabilityStore.isEnabled() || !cfg.errorLogFileEnabled) {
+  if (!observabilityStore.isEnabled()) {
     return respond(
       {
-        error:
-          "Error log store is disabled. Enable ERROR_LOG_FILE_ENABLED and ERROR_LOG_FILE_PATH on the host.",
+        error: storeDisabledMessage(health.backend),
         code: "observability_store_disabled",
         health,
       },
@@ -67,8 +73,18 @@ export async function POST(request: Request) {
     );
   }
 
-  const { mfaCode, limit, since, level, signal, source, routePrefix } =
-    parsed.data;
+  const {
+    mfaCode,
+    limit,
+    since,
+    level,
+    signal,
+    source,
+    routePrefix,
+    q,
+    fingerprint,
+  } = parsed.data;
+  const sinceIso = resolveSincePreset(since);
 
   const recordOutcome = (
     outcome: "success" | "denied" | "error",
@@ -119,6 +135,7 @@ export async function POST(request: Request) {
       await recordOutcome("success", {
         phase: "query_authorized",
         limit: String(limit ?? 50),
+        backend: health.backend,
       });
     } catch {
       return respond(
@@ -131,19 +148,44 @@ export async function POST(request: Request) {
       );
     }
 
-    const events = await observabilityStore.query({
+    const filters = {
       limit: limit ?? 50,
-      since,
+      since: sinceIso,
       level,
       signal,
       source,
       routePrefix,
-    });
+      q,
+      fingerprint,
+    };
+
+    const run = async () => {
+      const [events, summary, storeStats] = await Promise.all([
+        observabilityStore.query(filters),
+        observabilityStore.summarize({ ...filters, limit: 500 }),
+        observabilityStore.stats(),
+      ]);
+      return { events, summary, storeStats, issues: summary.byFingerprint };
+    };
+
+    const payload =
+      health.backend === "postgres"
+        ? await withRlsContext(
+            {
+              userId: gate.session.user.id,
+              platformAdmin: true,
+              mfaVerified: true,
+            },
+            run,
+          )
+        : await run();
 
     try {
       await recordOutcome("success", {
         phase: "query_result",
-        count: String(events.length),
+        count: String(payload.events.length),
+        issueCount: String(payload.issues.length),
+        backend: health.backend,
       });
     } catch {
       return respond(
@@ -156,7 +198,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return respond({ events, health });
+    return respond({ ...payload, health });
   } catch {
     await recordOutcome("error", {
       phase: "query_result",

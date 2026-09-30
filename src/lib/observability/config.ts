@@ -1,7 +1,7 @@
 /**
  * Operator error sinks — CapRover / Docker env toggles.
- * Not product analytics (ADR-006). Defaults: both sinks off.
- * Primary store is the ObservabilityEventStore (file); Sentry is optional fan-out.
+ * Not product analytics (ADR-006).
+ * Primary store: Postgres when DATABASE_URL is set; file JSONL is fallback / dual-write.
  */
 
 import type { ObservabilityBackend } from "@/lib/observability/types";
@@ -15,34 +15,25 @@ function envFlag(raw: string | undefined): boolean {
 export type EnvBag = Record<string, string | undefined>;
 
 export type ObservabilityConfig = {
-  /** Resolved store backend (file | noop | postgres-reserved). */
   backend: ObservabilityBackend;
-  /** Server/edge: SENTRY_ENABLED=true and a DSN present. */
+  /** Dual-write to file when postgres is primary and file sink is also on. */
+  fileDualWrite: boolean;
   sentryEnabled: boolean;
-  /** Browser: non-empty NEXT_PUBLIC_SENTRY_DSN (build/runtime public). */
   sentryClientEnabled: boolean;
   sentryDsn: string | undefined;
-  /** SENTRY_ENABLED=true but no DSN — sink will not send. */
   sentryMisconfigured: boolean;
-  /**
-   * Server Sentry is on but NEXT_PUBLIC_SENTRY_DSN is empty — browser errors
-   * will not reach Sentry (public DSN is build-time for client bundles).
-   */
   sentryClientServerMismatch: boolean;
   errorLogFileEnabled: boolean;
   errorLogFilePath: string | undefined;
-  /** ERROR_LOG_FILE_ENABLED without path. */
   errorLogFileMisconfigured: boolean;
-  /** Rotate when file exceeds this many bytes (default 10 MiB). */
   errorLogFileMaxBytes: number;
-  /** How many rotated siblings to keep (default 3). */
   errorLogFileKeep: number;
 };
 
-/** Non-secret snapshot for `/api/health` (no DSN / paths with secrets). */
 export type ObservabilityHealth = {
   backend: ObservabilityBackend;
   storeEnabled: boolean;
+  fileDualWrite: boolean;
   sentryEnabled: boolean;
   sentryClientEnabled: boolean;
   errorLogFileEnabled: boolean;
@@ -65,17 +56,27 @@ function parsePositiveInt(
   return Math.min(n, max);
 }
 
+function hasDatabaseUrl(env: EnvBag): boolean {
+  return Boolean(env.DATABASE_URL?.trim());
+}
+
 /**
- * OBSERVABILITY_BACKEND: file (default when file sink on), noop, or postgres
- * (reserved — falls back to file until implemented).
+ * Resolve backend:
+ * - explicit noop / file / postgres
+ * - unset + DATABASE_URL → postgres (Docker default)
+ * - unset + file sink → file
+ * - else noop
  */
 export function resolveObservabilityBackend(
   env: EnvBag = process.env,
 ): ObservabilityBackend {
   const raw = env.OBSERVABILITY_BACKEND?.trim().toLowerCase();
   if (raw === "noop") return "noop";
-  if (raw === "postgres") return "postgres";
   if (raw === "file") return "file";
+  if (raw === "postgres") {
+    return hasDatabaseUrl(env) ? "postgres" : "noop";
+  }
+  if (hasDatabaseUrl(env)) return "postgres";
   const fileFlag = envFlag(env.ERROR_LOG_FILE_ENABLED);
   const filePath = env.ERROR_LOG_FILE_PATH?.trim();
   return fileFlag && filePath ? "file" : "noop";
@@ -92,15 +93,17 @@ export function resolveObservabilityConfig(
   const sentryEnabled = sentryFlag && Boolean(serverDsn);
   const sentryClientEnabled = Boolean(publicDsn);
   const backend = resolveObservabilityBackend(env);
+  const errorLogFileEnabled = fileFlag && Boolean(filePath);
 
   return {
     backend,
+    fileDualWrite: backend === "postgres" && errorLogFileEnabled,
     sentryEnabled,
     sentryClientEnabled,
     sentryDsn: serverDsn,
     sentryMisconfigured: sentryFlag && !serverDsn,
     sentryClientServerMismatch: sentryEnabled && !sentryClientEnabled,
-    errorLogFileEnabled: fileFlag && Boolean(filePath),
+    errorLogFileEnabled,
     errorLogFilePath: filePath,
     errorLogFileMisconfigured: fileFlag && !filePath,
     errorLogFileMaxBytes: parsePositiveInt(
@@ -112,7 +115,6 @@ export function resolveObservabilityConfig(
   };
 }
 
-/** True when file logging was requested but path is missing. */
 export function errorLogFileMisconfigured(env: EnvBag = process.env): boolean {
   return resolveObservabilityConfig(env).errorLogFileMisconfigured;
 }
@@ -122,16 +124,15 @@ export function buildObservabilityHealth(
 ): ObservabilityHealth {
   const cfg = resolveObservabilityConfig(env);
   const storeEnabled =
-    cfg.backend !== "noop" &&
-    cfg.errorLogFileEnabled &&
-    Boolean(cfg.errorLogFilePath);
+    cfg.backend === "postgres"
+      ? hasDatabaseUrl(env)
+      : cfg.backend === "file"
+        ? cfg.errorLogFileEnabled
+        : false;
   return {
-    backend: storeEnabled
-      ? cfg.backend === "postgres"
-        ? "postgres"
-        : "file"
-      : "noop",
+    backend: storeEnabled ? cfg.backend : "noop",
     storeEnabled,
+    fileDualWrite: cfg.fileDualWrite && storeEnabled,
     sentryEnabled: cfg.sentryEnabled,
     sentryClientEnabled: cfg.sentryClientEnabled,
     errorLogFileEnabled: cfg.errorLogFileEnabled,
