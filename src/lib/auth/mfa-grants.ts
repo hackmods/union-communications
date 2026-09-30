@@ -87,11 +87,10 @@ export async function issueMfaGrant(
       });
       return nonce;
     } catch (error) {
-      console.error("[auth] MFA grant Postgres write failed", {
+      console.error("[auth] MFA grant Postgres write failed; using memory fallback", {
         userId,
         message: error instanceof Error ? error.message : String(error),
       });
-      if (hostedCustomerProfileEnabled(env)) throw error;
     }
   }
 
@@ -142,11 +141,10 @@ export async function consumeMfaGrant(
       // Miss on durable store: also accept an in-process grant from a prior
       // non-hosted Postgres fallback so verify→session.update still completes.
     } catch (error) {
-      console.error("[auth] MFA grant Postgres consume failed", {
+      console.error("[auth] MFA grant Postgres consume failed; trying memory fallback", {
         userId,
         message: error instanceof Error ? error.message : String(error),
       });
-      if (hostedCustomerProfileEnabled(env)) throw error;
     }
   }
 

@@ -48,11 +48,10 @@ export async function consumeTotpCounterForUser(
         return rows.length === 1;
       });
     } catch (error) {
-      console.error("[auth] TOTP replay counter Postgres write failed", {
+      console.error("[auth] TOTP replay counter Postgres write failed; using memory fallback", {
         userId,
         message: error instanceof Error ? error.message : String(error),
       });
-      if (hostedCustomerProfileEnabled(env)) throw error;
     }
   }
 

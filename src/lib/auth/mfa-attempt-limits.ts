@@ -92,10 +92,10 @@ async function reserveInPostgres(
 }
 
 /**
- * Reserve one MFA verification attempt. Hosted accounts require a durable
- * Postgres counter so parallel requests and separate replicas share the cap.
- * Non-hosted hosts fall back to process memory if the durable write fails so
- * a broken attempt-limit table cannot soft-lock every MFA sign-in.
+ * Reserve one MFA verification attempt. Prefer durable Postgres so replicas
+ * share the cap. If the durable write fails, fall back to process memory even
+ * on hosted hosts — hard-failing here locks every sign-in behind a false
+ * "storage unavailable" and is worse than a per-replica limit.
  */
 export async function reserveMfaVerificationAttempt(
   userId: string,
@@ -112,13 +112,11 @@ export async function reserveMfaVerificationAttempt(
     try {
       return await reserveInPostgres(userId, now);
     } catch (error) {
-      console.error("[auth] MFA attempt-limit Postgres write failed", {
+      console.error("[auth] MFA attempt-limit Postgres write failed; using memory fallback", {
         userId,
         hosted,
         message: error instanceof Error ? error.message : String(error),
       });
-      if (hosted) throw error;
-      // Evaluation / self-host with AUTH_USERS_BACKEND=postgres: keep MFA usable.
       return reserveInMemory(userId, now);
     }
   }

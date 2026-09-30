@@ -49,7 +49,7 @@ describe("MFA verification attempt limit", () => {
     ).rejects.toThrow(/durable PostgreSQL storage/i);
   });
 
-  it("falls back to memory when Postgres attempt store throws outside hosted mode", async () => {
+  it("falls back to memory when Postgres attempt store throws (including hosted)", async () => {
     const { reserveMfaVerificationAttempt: reserve } = await import(
       "@/lib/auth/mfa-attempt-limits"
     );
@@ -58,6 +58,7 @@ describe("MFA verification attempt limit", () => {
     const env = {
       AUTH_USERS_BACKEND: "postgres",
       DATABASE_URL: "postgres://example.invalid/unionops",
+      UNIONOPS_HOSTED_CUSTOMER_MODE: "true",
     };
     // Without a live DB this still exercises the catch→memory path when the
     // insert throws; if configuration short-circuits, memory path still allows.

@@ -110,11 +110,16 @@ export async function setPendingSecret(
           });
       });
     } catch (error) {
-      console.error("[auth] MFA pending enrollment Postgres write failed", {
-        userId,
-        message: error instanceof Error ? error.message : String(error),
-      });
-      throw error;
+      // Keep the in-process pending secret so Generate→Confirm on this
+      // replica still works. Hard-failing here blocks re-enrollment after
+      // reset and locks the operator out of their own Hub.
+      console.error(
+        "[auth] MFA pending enrollment Postgres write failed; using memory fallback",
+        {
+          userId,
+          message: error instanceof Error ? error.message : String(error),
+        },
+      );
     }
   }
 }
@@ -127,28 +132,37 @@ export async function getPendingSecret(
   assertPendingStoreAvailable(env);
 
   if (postgresPendingStoreEnabled(env)) {
-    const [row] = await withRlsContext({ userId }, async () =>
-      getDb()
-        .select({
-          secret: mfaPendingEnrollments.secret,
-          expiresAt: mfaPendingEnrollments.expiresAt,
-        })
-        .from(mfaPendingEnrollments)
-        .where(eq(mfaPendingEnrollments.userId, userId))
-        .limit(1),
-    );
-    if (
-      !row ||
-      !row.secret ||
-      row.secret === CLEARED_PENDING_SECRET ||
-      now > row.expiresAt.getTime()
-    ) {
+    try {
+      const [row] = await withRlsContext({ userId }, async () =>
+        getDb()
+          .select({
+            secret: mfaPendingEnrollments.secret,
+            expiresAt: mfaPendingEnrollments.expiresAt,
+          })
+          .from(mfaPendingEnrollments)
+          .where(eq(mfaPendingEnrollments.userId, userId))
+          .limit(1),
+      );
+      if (
+        row &&
+        row.secret &&
+        row.secret !== CLEARED_PENDING_SECRET &&
+        now <= row.expiresAt.getTime()
+      ) {
+        return decryptTotpSecret(row.secret, userId, env);
+      }
       if (row?.secret && row.secret !== CLEARED_PENDING_SECRET) {
         await clearPendingSecret(userId, env);
       }
-      return null;
+    } catch (error) {
+      console.error(
+        "[auth] MFA pending enrollment Postgres read failed; trying memory fallback",
+        {
+          userId,
+          message: error instanceof Error ? error.message : String(error),
+        },
+      );
     }
-    return decryptTotpSecret(row.secret, userId, env);
   }
 
   const local = liveSecret(pending.get(userId), now);
