@@ -32,7 +32,7 @@ type EnrollState =
 export function MfaSetupPageClient() {
   const t = useTranslations("hub");
   const tJourney = useTranslations("hub.mfaJourney");
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextPath = useMemo(
@@ -159,7 +159,13 @@ export function MfaSetupPageClient() {
       return;
     }
 
-    const body = (await res.json()) as { recoveryCodes?: string[] };
+    const body = (await res.json()) as {
+      recoveryCodes?: string[];
+      mfaGrant?: string;
+    };
+    if (body.mfaGrant) {
+      await update({ mfaGrant: body.mfaGrant });
+    }
     setRecoveryCodes(body.recoveryCodes ?? []);
     setState("done");
   };
@@ -173,8 +179,8 @@ export function MfaSetupPageClient() {
         <MfaRecoveryCodesPanel
           codes={recoveryCodes}
           requireAcknowledge
-          continueLabel={t("mfaSetupVerifyNow")}
-          onContinue={() => router.push(hubMfaChallengeHref(nextPath))}
+          continueLabel={tJourney("continueToWork")}
+          onContinue={() => router.push(nextPath ?? "/app")}
         />
       </MfaJourneyShell>
     );

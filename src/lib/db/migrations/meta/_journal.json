@@ -631,6 +631,13 @@
       "when": 1793500000000,
       "tag": "0089_outreach_confirm",
       "breakpoints": true
+    },
+    {
+      "idx": 90,
+      "version": "7",
+      "when": 1793600000000,
+      "tag": "0090_mfa_pending_enrollments",
+      "breakpoints": true
     }
   ]
 }

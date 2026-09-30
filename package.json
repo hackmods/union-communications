@@ -48,6 +48,7 @@
     "db:studio": "drizzle-kit studio",
     "db:rls-smoke": "node --import ./scripts/register-server-only.mjs --import tsx scripts/rls-smoke.ts",
     "db:durability-smoke": "node --import ./scripts/register-server-only.mjs --import tsx scripts/durability-smoke.ts",
+    "db:mfa-restore-smoke": "node --import ./scripts/register-server-only.mjs --import tsx scripts/mfa-restore-smoke.ts",
     "db:customization-rls": "node scripts/customization-rls-smoke.mjs",
     "db:customization-durability": "node --import ./scripts/register-server-only.mjs --import tsx scripts/customization-durability-smoke.ts",
     "db:customization-upgrade": "node scripts/customization-upgrade-smoke.mjs",

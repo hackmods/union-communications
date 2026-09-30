@@ -55,9 +55,11 @@ tracker.
 
 ## Remaining MFA limits
 
-- Pending enrollment secrets still live in process memory and are unsuitable
-  for multi-replica hosted enrollment until moved to an approved durable,
-  protected store.
+- Pending enrollment secrets for the QR handoff now live in Postgres
+  (migration `0090`) with a 10-minute TTL. Hosted customer mode fails closed
+  without durable storage. Deployed RLS and live multi-replica evidence still
+  need a host run. See
+  [`session-knowledge-2026-09-30-mfa-pending-enrollment.md`](session-knowledge-2026-09-30-mfa-pending-enrollment.md).
 - TOTP secrets remain plaintext in the current database column. Encryption
   key management, rotation, and existing-secret migration need a separate
   design.

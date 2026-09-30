@@ -10,7 +10,11 @@
 
 **Hosted TOTP replay protection (2026-09-27):** [`session-knowledge-2026-09-27-totp-replay.md`](session-knowledge-2026-09-27-totp-replay.md) — migration `0071` stores the latest accepted TOTP counter per account with RLS and atomic compare-and-advance. Source behavior and tests are present; deployed migration and live `unionops_app` RLS proof remain pending.
 
-**Hosted MFA session grants (2026-09-27):** [`session-knowledge-2026-09-27-mfa-grants.md`](session-knowledge-2026-09-27-mfa-grants.md) — migration `0072` stores a single hashed grant per account and consumes it atomically in the Auth.js JWT update path. Source evidence is present; deployed RLS and multi-replica verification remain pending. Pending enrollment is still process-local.
+**Hosted MFA session grants (2026-09-27):** [`session-knowledge-2026-09-27-mfa-grants.md`](session-knowledge-2026-09-27-mfa-grants.md) — migration `0072` stores a single hashed grant per account and consumes it atomically in the Auth.js JWT update path. Source evidence is present; deployed RLS and multi-replica verification remain pending.
+
+**Durable MFA pending enrollment (2026-09-30):** [`session-knowledge-2026-09-30-mfa-pending-enrollment.md`](session-knowledge-2026-09-30-mfa-pending-enrollment.md) — migration `0090` stores the QR secret across replicas; confirm issues a session grant so the same TOTP is not required again. Deployed RLS evidence remains pending.
+
+**TOTP secret encryption + restore drill (2026-09-30):** [`session-knowledge-2026-09-30-mfa-totp-encryption.md`](session-knowledge-2026-09-30-mfa-totp-encryption.md) — AES-256-GCM host key for `totp_secret` / pending enrollment; `db:mfa-restore-smoke`; HTTPS authenticator icon on the setup QR.
 
 **Hosted MFA attempt limit (2026-09-27):** [`session-knowledge-2026-09-27-mfa-attempt-limit.md`](session-knowledge-2026-09-27-mfa-attempt-limit.md) — migration `0073` adds an account-scoped 10-attempt/15-minute shared window for MFA verification, including recovery codes and the shared incident challenge verifier. Hosted mode requires durable Postgres; deployed RLS/concurrency evidence and owner review of the internal threshold remain pending.
 

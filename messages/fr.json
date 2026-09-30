@@ -7492,6 +7492,14 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "mfa-authenticator-icon": {
+        "title": "Les applis d’authentification peuvent afficher la marque UnionOps",
+        "body": "Scannez le code QR de configuration et votre appli d’authentification peut charger l’icône UnionOps à côté de votre compte. Les codes fonctionnent quand même si l’appli ignore l’image."
+      },
+      "mfa-enroll-one-code": {
+        "title": "La configuration de l’appli d’authentification se termine après un code",
+        "body": "Scannez le code QR, saisissez le code actuel de l’appli une seule fois et enregistrez vos codes de récupération. Vous êtes vérifié sans second code dans la même minute."
+      },
       "observability-console": {
         "title": "Console Observabilité pour l’admin du site",
         "body": "Les admins de plateforme peuvent examiner les erreurs d’hôte regroupées, exporter un dossier d’incident, accuser réception des problèmes et définir des alertes courriel de crise lorsqu’un seuil est dépassé."
@@ -8527,6 +8535,7 @@
       "hostPresenceEmail": "Le courriel transactionnel est désactivé",
       "hostPresenceCron": "Le secret cron n’est pas défini (rappels de réunion et avis de déploiement restent off)",
       "hostPresenceMfa": "L’AMF n’est pas configurée pour ce profil d’hôte",
+      "hostPresenceTotpEncryption": "Les secrets de l’appli d’authentification ne sont pas chiffrés avec une clé d’hôte",
       "hostPresenceDemoAuth": "La connexion à la liste démo est encore permise — désactivez les utilisateurs démo pour les vrais dossiers",
       "hostPresencePublicDocuments": "Les documents publics requis ne sont pas prêts pour cette instance hébergée",
       "hostPresenceAttachmentStorage": "La preuve du stockage persistant approuvé des pièces jointes est manquante",
@@ -9622,7 +9631,7 @@
     "mfaSetupCodeLabel": "Saisissez le code à 6 chiffres de votre appli",
     "mfaSetupConfirm": "Confirmer et activer",
     "mfaSetupSuccess": "Appli d'authentification activée",
-    "mfaSetupSuccessDesc": "Parfait. Une chose de moins dont s’occuper. Enregistrez vos codes de récupération, puis vérifiez pour continuer.",
+    "mfaSetupSuccessDesc": "Parfait. Une chose de moins dont s’occuper. Enregistrez vos codes de récupération, puis continuez.",
     "mfaSetupVerifyNow": "Vérifier maintenant",
     "mfaSetupError": "Impossible de terminer la configuration de l’authenticator. Demandez à la personne qui gère ce Hub des dirigeants de confirmer que l’authentification multifactorielle est activée, puis réessayez.",
     "hybridLink": "Données hybrides",

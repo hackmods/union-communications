@@ -207,6 +207,7 @@ DROP TABLE IF EXISTS mfa_recovery_codes CASCADE;
 DROP TABLE IF EXISTS mfa_totp_counters CASCADE;
 DROP TABLE IF EXISTS mfa_session_grants CASCADE;
 DROP TABLE IF EXISTS mfa_verification_attempts CASCADE;
+DROP TABLE IF EXISTS mfa_pending_enrollments CASCADE;
 DROP TABLE IF EXISTS subprocessor_audit_events CASCADE;
 DROP TABLE IF EXISTS subprocessor_public_projections CASCADE;
 DROP TABLE IF EXISTS subprocessor_registry CASCADE;
@@ -222,7 +223,7 @@ DROP TABLE IF EXISTS marketing_action_tokens CASCADE;
 DROP TABLE IF EXISTS marketing_consent_events CASCADE;
 DROP TABLE IF EXISTS marketing_subscribers CASCADE;
 
--- Observability + member-broadcast follow-ons + outreach lists (0082–0089).
+-- Observability + member-broadcast follow-ons + outreach lists (0082–0090).
 -- Fresh-volume migrate creates these before the journal-hole rewind; leaving
 -- them in place collides on CREATE TABLE / CREATE POLICY when the tail replays.
 DROP TABLE IF EXISTS observability_alert_firings CASCADE;

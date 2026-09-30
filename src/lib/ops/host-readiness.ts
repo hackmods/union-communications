@@ -72,6 +72,7 @@ export type PresenceCheckId =
   | "accessRequestNotify"
   | "cronConfigured"
   | "mfaEnabled"
+  | "totpEncryptionConfigured"
   | "demoAuthOff"
   | "attachmentStorageApproved"
   | "strictUploadScan"
@@ -201,6 +202,12 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
       hintKey: health.hostedCustomerMode
         ? "UNIONOPS_HOSTED_CUSTOMER_MODE=true, AUTH_MFA_MODE=totp, NODE_ENV=production"
         : "AUTH_MFA_ENABLED",
+      advisory: !health.hostedCustomerMode,
+    },
+    {
+      id: "totpEncryptionConfigured",
+      ok: !health.hostedCustomerMode || health.totpEncryptionConfigured,
+      hintKey: "AUTH_TOTP_ENCRYPTION_KEY",
       advisory: !health.hostedCustomerMode,
     },
     {

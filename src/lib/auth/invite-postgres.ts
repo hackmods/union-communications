@@ -12,6 +12,7 @@ import { auditLog as auditLogTable } from "@/lib/db/schema/audit";
 import { publicDocumentAcceptances, publicDocuments, publicDocumentVersions } from "@/lib/db/schema/public-documents";
 import { hasPublishedContractDocument } from "@/lib/public-documents/contract-routes";
 import { verifyPassword } from "@/lib/auth/password";
+import { encryptTotpSecret } from "@/lib/auth/totp-secret-crypto";
 
 export function invitesPostgresEnabled(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -57,7 +58,7 @@ export async function upsertPostgresUser(
   const db = getDb();
   const email = input.email.trim().toLowerCase();
   const passwordHash = await hashPassword(input.password);
-  const values = {
+  const baseValues = {
     email,
     name: input.name.trim(),
     passwordHash,
@@ -67,10 +68,16 @@ export async function upsertPostgresUser(
     bargainingUnitId: input.bargainingUnitId ?? null,
     accessibleLocalIds: input.accessibleLocalIds ?? null,
     roles: input.roles,
-    totpSecret: input.totpSecret ?? null,
     mfaEnabled: input.mfaEnabled ?? false,
     ...(input.isDemo !== undefined ? { isDemo: input.isDemo } : {}),
   };
+  const sealedFor = (userId: string) => ({
+    ...baseValues,
+    totpSecret:
+      input.totpSecret != null && input.totpSecret !== ""
+        ? encryptTotpSecret(input.totpSecret, userId, process.env)
+        : (input.totpSecret ?? null),
+  });
 
   if (input.userId) {
     const byId = await db
@@ -81,7 +88,7 @@ export async function upsertPostgresUser(
     if (byId[0]) {
       await db
         .update(users)
-        .set(values)
+        .set(sealedFor(input.userId))
         .where(eq(users.id, input.userId));
       return { id: input.userId, created: false };
     }
@@ -94,11 +101,11 @@ export async function upsertPostgresUser(
       // Stable demo ids win: retarget the email row when the preferred id is free.
       await db
         .update(users)
-        .set(values)
+        .set(sealedFor(byEmail[0].id))
         .where(eq(users.id, byEmail[0].id));
       return { id: byEmail[0].id, created: false };
     }
-    await db.insert(users).values({ id: input.userId, ...values });
+    await db.insert(users).values({ id: input.userId, ...sealedFor(input.userId) });
     return { id: input.userId, created: true };
   }
 
@@ -109,12 +116,12 @@ export async function upsertPostgresUser(
     .limit(1);
 
   if (existing[0]) {
-    await db.update(users).set(values).where(eq(users.id, existing[0].id));
+    await db.update(users).set(sealedFor(existing[0].id)).where(eq(users.id, existing[0].id));
     return { id: existing[0].id, created: false };
   }
 
   const id = newId("user");
-  await db.insert(users).values({ id, ...values });
+  await db.insert(users).values({ id, ...sealedFor(id) });
   return { id, created: true };
 }
 

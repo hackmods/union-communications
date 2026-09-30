@@ -7546,6 +7546,14 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "mfa-authenticator-icon": {
+        "title": "Authenticator apps can show the UnionOps mark",
+        "body": "Scan the setup QR and your authenticator can load the UnionOps icon beside your account. Codes still work if the app ignores the picture."
+      },
+      "mfa-enroll-one-code": {
+        "title": "Authenticator setup finishes after one code",
+        "body": "Scan the QR, enter the current authenticator code once, and save your recovery codes. You are verified without a second code in the same minute."
+      },
       "observability-console": {
         "title": "Host Observability console for Site Admin",
         "body": "Platform admins can review grouped host errors, export an incident pack, acknowledge issues, and set crisis email alerts when a threshold is crossed."
@@ -8581,6 +8589,7 @@
       "hostPresenceEmail": "Transactional email is off",
       "hostPresenceCron": "Cron secret is unset (meeting reminders and deploy notify stay off)",
       "hostPresenceMfa": "MFA is not configured for this host profile",
+      "hostPresenceTotpEncryption": "Authenticator secrets are not encrypted with a host key",
       "hostPresenceDemoAuth": "Demo roster sign-in is still allowed — turn off demo users for live casework",
       "hostPresencePublicDocuments": "Required public documents are not ready for this hosted instance",
       "hostPresenceAttachmentStorage": "Approved persistent attachment storage evidence is missing",
@@ -9678,7 +9687,7 @@
     "mfaSetupCodeLabel": "Enter the 6-digit code from your app",
     "mfaSetupConfirm": "Confirm and enable",
     "mfaSetupSuccess": "Authenticator app enrolled",
-    "mfaSetupSuccessDesc": "Nice. One less thing to worry about. Save your recovery codes, then verify to continue.",
+    "mfaSetupSuccessDesc": "Nice. One less thing to worry about. Save your recovery codes, then continue.",
     "mfaSetupVerifyNow": "Verify now",
     "mfaSetupError": "Could not finish authenticator setup. Ask whoever runs this Officer Hub to confirm multi-factor authentication is enabled, then try again.",
     "mfaJourney": {

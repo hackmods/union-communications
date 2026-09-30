@@ -25,7 +25,7 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
    npm run ops:verify-durable
    ```
 
-   That runs migrate → seed → `db:durability-smoke` → `db:rls-smoke` without printing secret values. Seed and those smokes load `scripts/register-server-only.mjs` so `tsx` can import modules that use `server-only` outside Next.js.
+   That runs migrate → seed → `db:durability-smoke` → `db:rls-smoke` → `db:mfa-restore-smoke` without printing secret values. Seed and those smokes load `scripts/register-server-only.mjs` so `tsx` can import modules that use `server-only` outside Next.js. The MFA restore drill needs `pg_dump`/`pg_restore` or the Compose `db` service, plus `AUTH_TOTP_ENCRYPTION_KEY` (a throwaway key is generated for the drill if unset).
 4. **Flip module flags** (start with one module, verify, then expand):
 
 | Variable | Values | Module |
@@ -76,7 +76,7 @@ npm run health:check
 HEALTH_REQUIRE_DURABLE=true npm run health:check
 ```
 
-7. **Run smoke:** `npm run db:rls-smoke` and `npm run db:durability-smoke` from the repo (durability smoke needs `GRIEVANCE_DB_BACKEND=postgres`).
+7. **Run smoke:** `npm run db:rls-smoke`, `npm run db:durability-smoke`, and `npm run db:mfa-restore-smoke` from the repo (durability smoke needs `GRIEVANCE_DB_BACKEND=postgres`; MFA restore needs owner `DATABASE_URL` and dump/restore tools).
 8. **Bootstrap admins** (no public signup — invite-only Hub):
 
 `npm run db:seed` (when `AUTH_USERS_BACKEND=postgres`) upserts the demo roster (`demo123`, matching the login hint) unless `SEED_DEMO_USERS=false`, and upserts `ryan@ryanmorris.ca` as `platform_admin,union_admin` unless `SEED_PLATFORM_ADMIN=false`. Set `SEED_PLATFORM_ADMIN_PASSWORD` or read a generated password from `SEED_PLATFORM_ADMIN_BOOTSTRAP_FILE`.

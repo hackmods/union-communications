@@ -20,6 +20,7 @@ import {
 import { countUnions } from "@/lib/tenant/union-exists";
 import { checkPublicDocumentsReadiness, type PublicDocumentsReadiness } from "@/lib/public-documents/readiness";
 import { isHostedCustomerMode, isMfaEnabled, resolveMfaMode } from "@/lib/auth/mfa-policy";
+import { isTotpEncryptionConfigured } from "@/lib/auth/totp-secret-crypto";
 import { readHostedControlEvidence, type HostedControlEvidence } from "@/lib/ops/host-control-evidence";
 
 /** Non-secret runtime summary for `/api/health` (operators + smoke). */
@@ -39,6 +40,8 @@ export type HealthStatus = {
   cronConfigured: boolean;
   mfaEnabled: boolean;
   mfaMode: "shared_code_insecure" | "totp" | null;
+  /** True when AUTH_TOTP_ENCRYPTION_KEY parses; never includes the key material. */
+  totpEncryptionConfigured: boolean;
   hostedCustomerMode: boolean;
   demoAuthEnabled: boolean;
   /** Operator error sinks (Sentry / JSONL) — no secrets. */
@@ -142,6 +145,7 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
     cronConfigured: Boolean(process.env.CRON_SECRET?.trim()),
     mfaEnabled: isMfaEnabled(),
     mfaMode: resolveMfaMode(),
+    totpEncryptionConfigured: isTotpEncryptionConfigured(),
     hostedCustomerMode: isHostedCustomerMode(),
     demoAuthEnabled: isDemoAuthEnabled(),
     observability: buildObservabilityHealth(),

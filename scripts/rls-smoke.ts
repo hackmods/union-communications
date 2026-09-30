@@ -273,6 +273,39 @@ async function main(): Promise<void> {
           "MFA attempt-limit RLS failed: another account could create state for this account",
         );
 
+        await tx`select set_config('app.current_user_id', ${PRESIDENT}, false)`;
+        await tx`
+          insert into mfa_pending_enrollments (user_id, secret, expires_at)
+          values (${PRESIDENT}, 'JBSWY3DPEHPK3PXP', now() + interval '10 minutes')
+          on conflict (user_id) do update set
+            secret = excluded.secret,
+            expires_at = excluded.expires_at
+        `;
+        const ownPendingEnrollment = await tx<{ user_id: string }[]>`
+          select user_id from mfa_pending_enrollments where user_id = ${PRESIDENT}
+        `;
+        if (ownPendingEnrollment.length !== 1) {
+          throw new Error("MFA pending-enrollment RLS failed: account could not read its own secret");
+        }
+        await expectPermissionDenied(
+          (savepoint) => savepoint`delete from mfa_pending_enrollments where user_id = ${PRESIDENT}`,
+          "MFA pending-enrollment RLS failed: account could delete its pending secret",
+        );
+        await tx`select set_config('app.current_user_id', ${LOCAL_MEMBER}, false)`;
+        const crossAccountPending = await tx<{ user_id: string }[]>`
+          select user_id from mfa_pending_enrollments where user_id = ${PRESIDENT}
+        `;
+        if (crossAccountPending.length !== 0) {
+          throw new Error("MFA pending-enrollment RLS failed: another account could read the secret");
+        }
+        await expectPermissionDenied(
+          (savepoint) => savepoint`
+            insert into mfa_pending_enrollments (user_id, secret, expires_at)
+            values (${PRESIDENT}, 'JBSWY3DPEHPK3PXP', now() + interval '10 minutes')
+          `,
+          "MFA pending-enrollment RLS failed: another account could write this pending secret",
+        );
+
         throw new Error("__ROLLBACK_MFA_TOTP_RLS_SMOKE__");
       });
     } catch (error) {

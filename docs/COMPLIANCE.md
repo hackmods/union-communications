@@ -54,7 +54,7 @@ See also: [`docs/guides/HOSTED_SECURITY.md`](guides/HOSTED_SECURITY.md) (operato
 | CSP headers | Yes (`next.config.ts`) | Yes (`next.config.ts`) |
 | File upload validation | Type + size limits | + CSV/XLSX content checks, 25 MiB upload / 50,000 row / 200 column limits, formulas rejected, virus scan (ClamAV via `ATTACHMENT_SCANNER_URL`; production fails closed) |
 | Attachment encryption at rest | N/A (on-device) | Local disk: encrypt the host/volume. S3: SSE-S3 AES256 on PutObject (`ATTACHMENT_S3_SSE`). CMEK optional/stretch. |
-| Auth | None (public comms) | Auth.js + MFA (grant-hardened; TOTP preferred in prod) |
+| Auth | None (public comms) | Auth.js + MFA (grant-hardened; TOTP preferred in prod). TOTP secrets are AES-256-GCM at rest when `AUTH_TOTP_ENCRYPTION_KEY` is set. |
 | RLS | N/A | Postgres policies in migrations; runtime must use `unionops_app` (not table owner). Contract: `src/lib/db/rls-contract.ts`; live: `npm run db:rls-smoke` |
 | Dependency audit | CI `npm audit` | CI `npm audit` |
 | `dangerouslySetInnerHTML` | Prohibited | Prohibited |

@@ -74,6 +74,7 @@ describe("buildHealthStatus", () => {
     expect(status.cronConfigured).toBe(false);
     expect(status.mfaEnabled).toBe(false);
     expect(status.mfaMode).toBeNull();
+    expect(status.totpEncryptionConfigured).toBe(false);
     expect(status.hostedCustomerMode).toBe(false);
     expect(status.hostedControlEvidence).toEqual({
       attachmentStorageApproved: false,
@@ -128,6 +129,7 @@ describe("buildHealthStatus", () => {
     expect(status.emailEnabled).toBe(true);
     expect(status.cronConfigured).toBe(true);
     expect(status.mfaEnabled).toBe(true);
+    expect(status.totpEncryptionConfigured).toBe(false);
   });
 
   it("reflects observability sink flags without leaking DSN", async () => {
@@ -146,13 +148,17 @@ describe("buildHealthStatus", () => {
   });
 
   it("reports hosted customer MFA as enabled even when the legacy switch is off", async () => {
+    const totpKey = Buffer.alloc(32, 7).toString("base64");
     (process.env as Record<string, string | undefined>).NODE_ENV = "production";
     process.env.UNIONOPS_HOSTED_CUSTOMER_MODE = "true";
     process.env.AUTH_MFA_ENABLED = "false";
     process.env.AUTH_MFA_MODE = "totp";
+    process.env.AUTH_TOTP_ENCRYPTION_KEY = totpKey;
     const status = await buildHealthStatus();
     expect(status.hostedCustomerMode).toBe(true);
     expect(status.mfaEnabled).toBe(true);
     expect(status.mfaMode).toBe("totp");
+    expect(status.totpEncryptionConfigured).toBe(true);
+    expect(JSON.stringify(status)).not.toContain(totpKey);
   });
 });

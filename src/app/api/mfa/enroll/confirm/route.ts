@@ -5,7 +5,11 @@ import {
   clearPendingSecret,
   getPendingSecret,
 } from "@/lib/auth/mfa-enrollment-store";
-import { persistTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
+import { issueMfaGrant } from "@/lib/auth/mfa-grants";
+import {
+  getSessionVersionForUser,
+  persistTotpSecretForUser,
+} from "@/lib/auth/mfa-user-secret";
 import { rotateMfaRecoveryCodes } from "@/lib/auth/mfa-recovery-codes";
 import { resolveMfaMode } from "@/lib/auth/mfa-policy";
 import { matchTotpCounter } from "@/lib/auth/totp";
@@ -13,6 +17,8 @@ import { matchTotpCounter } from "@/lib/auth/totp";
 /**
  * Confirms TOTP enrollment: the user must prove they scanned the QR by
  * submitting a currently-valid code before the pending secret is persisted.
+ * Possession is enough for the session — a grant is issued so the client does
+ * not have to re-enter the same authenticator code.
  */
 export async function POST(request: Request) {
   const session = await auth();
@@ -38,7 +44,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid code" }, { status: 400 });
   }
 
-  const pendingSecret = getPendingSecret(session.user.id);
+  let pendingSecret: string | null;
+  try {
+    pendingSecret = await getPendingSecret(session.user.id);
+  } catch (error) {
+    console.error("[auth] MFA pending enrollment read failed", {
+      userId: session.user.id,
+      message: error instanceof Error ? error.message : String(error),
+    });
+    return NextResponse.json(
+      {
+        error:
+          "Authenticator setup is unavailable. Ask whoever runs this Officer Hub to confirm multi-factor storage is ready, then try again.",
+      },
+      { status: 503, headers: { "Cache-Control": "private, no-store" } },
+    );
+  }
   if (!pendingSecret) {
     return NextResponse.json(
       { error: "No pending enrollment. Generate a new QR code and try again." },
@@ -52,9 +73,35 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid code" }, { status: 400 });
   }
 
-  await persistTotpSecretForUser(session.user.id, pendingSecret, acceptedCounter);
-  const recoveryCodes = await rotateMfaRecoveryCodes(session.user.id);
-  clearPendingSecret(session.user.id);
+  let recoveryCodes: string[];
+  try {
+    await persistTotpSecretForUser(session.user.id, pendingSecret, acceptedCounter);
+    recoveryCodes = await rotateMfaRecoveryCodes(session.user.id);
+    await clearPendingSecret(session.user.id);
+  } catch (error) {
+    console.error("[auth] MFA enrollment persist failed", {
+      userId: session.user.id,
+      message: error instanceof Error ? error.message : String(error),
+    });
+    return NextResponse.json(
+      {
+        error:
+          "Could not save authenticator setup. Ask whoever runs this Officer Hub to confirm multi-factor storage is ready, then generate a new QR code.",
+      },
+      { status: 503, headers: { "Cache-Control": "private, no-store" } },
+    );
+  }
+
+  let mfaGrant: string | undefined;
+  try {
+    const sessionVersion = await getSessionVersionForUser(session.user.id);
+    mfaGrant = await issueMfaGrant(session.user.id, Date.now(), sessionVersion);
+  } catch (error) {
+    console.error("[auth] MFA enrollment grant issue failed", {
+      userId: session.user.id,
+      message: error instanceof Error ? error.message : String(error),
+    });
+  }
 
   await auditLog.log({
     userId: session.user.id,
@@ -65,5 +112,9 @@ export async function POST(request: Request) {
     localId: session.user.localId,
   });
 
-  return NextResponse.json({ success: true, recoveryCodes });
+  return NextResponse.json({
+    success: true,
+    recoveryCodes,
+    ...(mfaGrant ? { mfaGrant } : {}),
+  });
 }

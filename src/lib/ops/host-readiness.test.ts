@@ -53,6 +53,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     cronConfigured: false,
     mfaEnabled: false,
     mfaMode: null,
+    totpEncryptionConfigured: false,
     hostedCustomerMode: false,
     demoAuthEnabled: true,
     hostedControlEvidence: {
@@ -298,6 +299,7 @@ describe("buildHostReadiness", () => {
     const ready = buildHostReadiness({
       ...health,
       mfaMode: "totp",
+      totpEncryptionConfigured: true,
       hostedControlEvidence: {
         attachmentStorageApproved: true,
         strictUploadScan: true,
