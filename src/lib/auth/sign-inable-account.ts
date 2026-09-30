@@ -113,6 +113,7 @@ export async function loadAuthAccountById(
         accessibleLocalIds: row.accessibleLocalIds ?? undefined,
         roles,
         requiresMfa: accountRequiresMfa({
+          email: row.email,
           roles,
           explicitMfaEnabled,
           legacyRequiresMfa: explicitMfaEnabled,

@@ -20,6 +20,7 @@ import {
 import { countUnions } from "@/lib/tenant/union-exists";
 import { checkPublicDocumentsReadiness, type PublicDocumentsReadiness } from "@/lib/public-documents/readiness";
 import { isHostedCustomerMode, isMfaEnabled, resolveMfaMode } from "@/lib/auth/mfa-policy";
+import { isMfaOperatorBypassConfigured } from "@/lib/auth/mfa-operator-bypass";
 import { isTotpEncryptionConfigured } from "@/lib/auth/totp-secret-crypto";
 import { readHostedControlEvidence, type HostedControlEvidence } from "@/lib/ops/host-control-evidence";
 
@@ -42,6 +43,11 @@ export type HealthStatus = {
   mfaMode: "shared_code_insecure" | "totp" | null;
   /** True when AUTH_TOTP_ENCRYPTION_KEY parses; never includes the key material. */
   totpEncryptionConfigured: boolean;
+  /**
+   * True when AUTH_MFA_OPERATOR_BYPASS_EMAILS is non-empty.
+   * Never includes the allowlisted addresses.
+   */
+  mfaOperatorBypassConfigured: boolean;
   hostedCustomerMode: boolean;
   demoAuthEnabled: boolean;
   /** Operator error sinks (Sentry / JSONL) — no secrets. */
@@ -146,6 +152,7 @@ export async function buildHealthStatus(): Promise<HealthStatus> {
     mfaEnabled: isMfaEnabled(),
     mfaMode: resolveMfaMode(),
     totpEncryptionConfigured: isTotpEncryptionConfigured(),
+    mfaOperatorBypassConfigured: isMfaOperatorBypassConfigured(),
     hostedCustomerMode: isHostedCustomerMode(),
     demoAuthEnabled: isDemoAuthEnabled(),
     observability: buildObservabilityHealth(),

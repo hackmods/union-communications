@@ -1,15 +1,31 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { hostedModeMock, modeMock, verifyMock } = vi.hoisted(() => ({
+const {
+  hostedModeMock,
+  modeMock,
+  verifyMock,
+  loadAccountMock,
+  auditLogMock,
+} = vi.hoisted(() => ({
   hostedModeMock: vi.fn(),
   modeMock: vi.fn(),
   verifyMock: vi.fn(),
+  loadAccountMock: vi.fn(),
+  auditLogMock: vi.fn(),
 }));
 
 vi.mock("@/lib/auth/mfa-policy", () => ({
   isHostedCustomerMode: hostedModeMock,
   resolveMfaMode: modeMock,
   verifyMfaCode: verifyMock,
+}));
+
+vi.mock("@/lib/auth/sign-inable-account", () => ({
+  loadAuthAccountById: loadAccountMock,
+}));
+
+vi.mock("@/lib/audit/store", () => ({
+  auditLog: { log: auditLogMock },
 }));
 
 import { verifyFreshMfaStepUp } from "@/lib/auth/fresh-mfa-step-up";
@@ -20,6 +36,11 @@ describe("verifyFreshMfaStepUp", () => {
     hostedModeMock.mockReturnValue(false);
     modeMock.mockReturnValue("totp");
     verifyMock.mockResolvedValue({ ok: true, mode: "totp" });
+    loadAccountMock.mockResolvedValue({
+      id: "actor-1",
+      email: "operator@example.org",
+    });
+    auditLogMock.mockResolvedValue({});
   });
 
   it("keeps non-hosted MFA-off deployments compatible", async () => {
@@ -55,11 +76,44 @@ describe("verifyFreshMfaStepUp", () => {
     expect(verifyMock).not.toHaveBeenCalled();
   });
 
+  it("skips the challenge for AUTH_MFA_OPERATOR_BYPASS_EMAILS", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    loadAccountMock.mockResolvedValue({
+      id: "actor-1",
+      email: "Ryan@RyanMorris.ca",
+    });
+
+    await expect(
+      verifyFreshMfaStepUp({
+        userId: "actor-1",
+        env: { AUTH_MFA_OPERATOR_BYPASS_EMAILS: "ryan@ryanmorris.ca" },
+      }),
+    ).resolves.toEqual({ ok: true, required: false, bypassed: true });
+
+    expect(verifyMock).not.toHaveBeenCalled();
+    expect(auditLogMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        action: "auth.mfa_operator_bypass",
+        userId: "actor-1",
+        metadata: { gate: "fresh_step_up" },
+      }),
+    );
+    expect(warn).toHaveBeenCalledWith(
+      "[auth] MFA operator bypass used",
+      expect.objectContaining({ userId: "actor-1" }),
+    );
+    warn.mockRestore();
+  });
+
   it("verifies the supplied code and returns no code material", async () => {
     await expect(
       verifyFreshMfaStepUp({ userId: "actor-1", code: "123456" }),
     ).resolves.toEqual({ ok: true, required: true });
-    expect(verifyMock).toHaveBeenCalledWith({ userId: "actor-1", code: "123456" });
+    expect(verifyMock).toHaveBeenCalledWith({
+      userId: "actor-1",
+      code: "123456",
+      env: process.env,
+    });
   });
 
   it.each([

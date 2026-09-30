@@ -9,6 +9,7 @@ import { consumeSignInGrant } from "@/lib/auth/sign-in-grants";
 import { loadAuthAccountById } from "@/lib/auth/sign-inable-account";
 import { auditLog } from "@/lib/audit/store";
 import { isHostedCustomerMode, isMfaEnabled } from "@/lib/auth/mfa-policy";
+import { isMfaOperatorBypassEmail } from "@/lib/auth/mfa-operator-bypass";
 import { reportServerError } from "@/lib/observability/report-server-error";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -48,7 +49,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           });
 
           const mfaVerified =
-            !isMfaEnabled() || (!isHostedCustomerMode() && !account.requiresMfa);
+            !isMfaEnabled() ||
+            isMfaOperatorBypassEmail(account.email) ||
+            (!isHostedCustomerMode() && !account.requiresMfa);
           return {
             id: account.id,
             name: account.name,
@@ -59,7 +62,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             bargainingUnitId: account.bargainingUnitId,
             accessibleLocalIds: account.accessibleLocalIds,
             roles: account.roles,
-            mfaRequired: account.requiresMfa,
+            mfaRequired: isMfaOperatorBypassEmail(account.email)
+              ? false
+              : account.requiresMfa,
             mfaVerified,
             sessionVersion: account.sessionVersion ?? 0,
           };
@@ -93,7 +98,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         // The account's resolved MFA requirement is capability-aware in hosted mode.
         const mfaVerified =
-          !isMfaEnabled() || (!isHostedCustomerMode() && !account.requiresMfa);
+          !isMfaEnabled() ||
+          isMfaOperatorBypassEmail(account.email) ||
+          (!isHostedCustomerMode() && !account.requiresMfa);
 
         return {
           id: account.id,
@@ -108,7 +115,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               ? account.accessibleLocalIds
               : undefined,
           roles: account.roles,
-          mfaRequired: account.requiresMfa,
+          mfaRequired: isMfaOperatorBypassEmail(account.email)
+            ? false
+            : account.requiresMfa,
           mfaVerified,
           sessionVersion: "sessionVersion" in account ? account.sessionVersion ?? 0 : 0,
         };

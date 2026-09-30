@@ -73,6 +73,7 @@ export type PresenceCheckId =
   | "cronConfigured"
   | "mfaEnabled"
   | "totpEncryptionConfigured"
+  | "mfaOperatorBypassOff"
   | "demoAuthOff"
   | "attachmentStorageApproved"
   | "strictUploadScan"
@@ -209,6 +210,14 @@ function presenceChecks(health: HealthStatus): PresenceCheck[] {
       ok: !health.hostedCustomerMode || health.totpEncryptionConfigured,
       hintKey: "AUTH_TOTP_ENCRYPTION_KEY",
       advisory: !health.hostedCustomerMode,
+    },
+    {
+      id: "mfaOperatorBypassOff",
+      // Recovery allowlist is intentional when set; surface as advisory so ops
+      // clear AUTH_MFA_OPERATOR_BYPASS_EMAILS after re-enrollment.
+      ok: !health.mfaOperatorBypassConfigured,
+      hintKey: "AUTH_MFA_OPERATOR_BYPASS_EMAILS",
+      advisory: true,
     },
     {
       id: "demoAuthOff",

@@ -59,6 +59,7 @@ export async function findDbUser(
     accessibleLocalIds: row.accessibleLocalIds ?? undefined,
     roles,
     requiresMfa: accountRequiresMfa({
+      email: row.email,
       roles,
       explicitMfaEnabled,
       legacyRequiresMfa: explicitMfaEnabled,

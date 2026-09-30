@@ -159,6 +159,14 @@ describe("buildHealthStatus", () => {
     expect(status.mfaEnabled).toBe(true);
     expect(status.mfaMode).toBe("totp");
     expect(status.totpEncryptionConfigured).toBe(true);
+    expect(status.mfaOperatorBypassConfigured).toBe(false);
     expect(JSON.stringify(status)).not.toContain(totpKey);
+  });
+
+  it("reports operator MFA bypass as configured without echoing emails", async () => {
+    process.env.AUTH_MFA_OPERATOR_BYPASS_EMAILS = "ryan@ryanmorris.ca";
+    const status = await buildHealthStatus();
+    expect(status.mfaOperatorBypassConfigured).toBe(true);
+    expect(JSON.stringify(status)).not.toContain("ryan@ryanmorris.ca");
   });
 });

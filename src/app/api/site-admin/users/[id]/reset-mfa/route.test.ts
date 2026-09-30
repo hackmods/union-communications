@@ -148,6 +148,24 @@ describe("POST /api/site-admin/users/[id]/reset-mfa", () => {
     );
   });
 
+  it("clears enrollment without an MFA code when step-up reports operator bypass", async () => {
+    mocks.freshMfaStepUp.mockResolvedValue({
+      ok: true,
+      required: false,
+      bypassed: true,
+    });
+    const response = await POST(
+      request({ confirmEmail: target.email }),
+      params(),
+    );
+    expect(response.status).toBe(200);
+    expect(mocks.freshMfaStepUp).toHaveBeenCalledWith({
+      userId: actor.user.id,
+      code: undefined,
+    });
+    expect(mocks.clearTotpEnrollmentForUser).toHaveBeenCalledWith(target.id);
+  });
+
   it("does not reset archived accounts", async () => {
     configureTarget([{ ...target, archivedAt: new Date() }]);
     const response = await POST(

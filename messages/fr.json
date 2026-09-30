@@ -8536,6 +8536,7 @@
       "hostPresenceCron": "Le secret cron n’est pas défini (rappels de réunion et avis de déploiement restent off)",
       "hostPresenceMfa": "L’AMF n’est pas configurée pour ce profil d’hôte",
       "hostPresenceTotpEncryption": "Les secrets de l’appli d’authentification ne sont pas chiffrés avec une clé d’hôte",
+      "hostPresenceMfaOperatorBypass": "Des adresses de contournement AMF opérateur sont encore configurées — retirez-les après la récupération",
       "hostPresenceDemoAuth": "La connexion à la liste démo est encore permise — désactivez les utilisateurs démo pour les vrais dossiers",
       "hostPresencePublicDocuments": "Les documents publics requis ne sont pas prêts pour cette instance hébergée",
       "hostPresenceAttachmentStorage": "La preuve du stockage persistant approuvé des pièces jointes est manquante",

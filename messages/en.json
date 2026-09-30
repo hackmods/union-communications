@@ -8590,6 +8590,7 @@
       "hostPresenceCron": "Cron secret is unset (meeting reminders and deploy notify stay off)",
       "hostPresenceMfa": "MFA is not configured for this host profile",
       "hostPresenceTotpEncryption": "Authenticator secrets are not encrypted with a host key",
+      "hostPresenceMfaOperatorBypass": "Operator MFA bypass emails are still configured — clear after recovery",
       "hostPresenceDemoAuth": "Demo roster sign-in is still allowed — turn off demo users for live casework",
       "hostPresencePublicDocuments": "Required public documents are not ready for this hosted instance",
       "hostPresenceAttachmentStorage": "Approved persistent attachment storage evidence is missing",

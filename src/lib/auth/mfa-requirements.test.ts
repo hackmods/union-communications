@@ -60,4 +60,26 @@ describe("hosted capability-based MFA scope", () => {
     expect(sessionRequiresMfa({ mfaRequired: false }, true, true)).toBe(true);
     expect(sessionRequiresMfa({ roles: ["local_member"] }, false, false)).toBe(false);
   });
+
+  it("exempts AUTH_MFA_OPERATOR_BYPASS_EMAILS from session and account MFA", () => {
+    const env = { AUTH_MFA_OPERATOR_BYPASS_EMAILS: "ryan@ryanmorris.ca" };
+    expect(
+      sessionRequiresMfa(
+        { email: "Ryan@RyanMorris.ca", roles: ["platform_admin"] },
+        true,
+        true,
+        env,
+      ),
+    ).toBe(false);
+    expect(
+      accountRequiresMfa({
+        email: "ryan@ryanmorris.ca",
+        roles: ["platform_admin"],
+        explicitMfaEnabled: true,
+        legacyRequiresMfa: true,
+        hostedCustomerMode: true,
+        env,
+      }),
+    ).toBe(false);
+  });
 });

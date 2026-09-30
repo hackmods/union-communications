@@ -54,6 +54,7 @@ function sampleHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     mfaEnabled: false,
     mfaMode: null,
     totpEncryptionConfigured: false,
+    mfaOperatorBypassConfigured: false,
     hostedCustomerMode: false,
     demoAuthEnabled: false,
     hostedControlEvidence: {

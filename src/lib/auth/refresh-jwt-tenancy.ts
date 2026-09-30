@@ -41,6 +41,7 @@ export async function refreshJwtTenancyIfStale(token: JWT): Promise<JWT> {
     const db = getDb();
     const [row] = await db
       .select({
+        email: users.email,
         unionId: users.unionId,
         divisionId: users.divisionId,
         localId: users.localId,
@@ -86,6 +87,7 @@ export async function refreshJwtTenancyIfStale(token: JWT): Promise<JWT> {
           process.env.AUTH_MFA_ENABLED?.trim().toLowerCase() ?? "",
         ));
     const mfaRequired = accountRequiresMfa({
+      email: row.email,
       roles,
       explicitMfaEnabled,
       legacyRequiresMfa,
@@ -94,6 +96,7 @@ export async function refreshJwtTenancyIfStale(token: JWT): Promise<JWT> {
     const mfaRequirementIncreased = mfaRequired && token.mfaRequired !== true;
     if (!versionAhead && !rolesDrift && !tenancyDrift && token.mfaRequired === mfaRequired) return token;
 
+    token.email = row.email;
     token.unionId = row.unionId ?? undefined;
     token.divisionId = row.divisionId ?? undefined;
     token.localId = row.localId ?? undefined;

@@ -54,6 +54,7 @@ function baseHealth(overrides: Partial<HealthStatus> = {}): HealthStatus {
     mfaEnabled: false,
     mfaMode: null,
     totpEncryptionConfigured: false,
+    mfaOperatorBypassConfigured: false,
     hostedCustomerMode: false,
     demoAuthEnabled: true,
     hostedControlEvidence: {
@@ -310,6 +311,24 @@ describe("buildHostReadiness", () => {
     });
     expect(ready.ready).toBe(true);
     expect(ready.missingBlockingPresence).toEqual([]);
+
+    const withBypass = buildHostReadiness({
+      ...health,
+      mfaMode: "totp",
+      totpEncryptionConfigured: true,
+      mfaOperatorBypassConfigured: true,
+      hostedControlEvidence: {
+        attachmentStorageApproved: true,
+        strictUploadScan: true,
+        backupRestoreEvidence: true,
+        alertDeliveryEvidence: true,
+        publicLegalContacts: true,
+      },
+    });
+    expect(withBypass.ready).toBe(true);
+    expect(withBypass.missingAdvisoryPresence.map((row) => row.id)).toContain(
+      "mfaOperatorBypassOff",
+    );
   });
 
   it("marks ready when flip complete and presence gates pass", () => {

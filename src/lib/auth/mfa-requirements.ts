@@ -1,4 +1,5 @@
 import type { UserRole } from "@/types/tenant";
+import { isMfaOperatorBypassEmail } from "@/lib/auth/mfa-operator-bypass";
 
 export function hostedCustomerProfileEnabled(
   env: Record<string, string | undefined>,
@@ -51,13 +52,16 @@ export function isKnownRole(role: string): role is UserRole {
 
 export function sessionRequiresMfa(
   user: {
+    email?: string | null;
     roles?: readonly string[] | null;
     mfaRequired?: boolean | null;
   } | null | undefined,
   mfaEnabled: boolean,
   hostedCustomerMode: boolean,
+  env: Record<string, string | undefined> = process.env,
 ): boolean {
   if (!mfaEnabled) return false;
+  if (isMfaOperatorBypassEmail(user?.email, env)) return false;
   if (hostedCustomerMode) {
     return rolesRequireHostedMfa(user?.roles) || user?.mfaRequired === true;
   }
@@ -66,11 +70,16 @@ export function sessionRequiresMfa(
 }
 
 export function accountRequiresMfa(input: {
+  email?: string | null;
   roles: readonly string[];
   explicitMfaEnabled: boolean;
   legacyRequiresMfa: boolean;
   hostedCustomerMode: boolean;
+  env?: Record<string, string | undefined>;
 }): boolean {
+  if (isMfaOperatorBypassEmail(input.email, input.env ?? process.env)) {
+    return false;
+  }
   if (!input.hostedCustomerMode) return input.legacyRequiresMfa;
   return rolesRequireHostedMfa(input.roles) || input.explicitMfaEnabled;
 }
