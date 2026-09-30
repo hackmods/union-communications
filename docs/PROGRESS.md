@@ -1,4 +1,12 @@
-﻿## 2026-09-30 — Website Template multi-page MVP (Wave L)
+﻿## 2026-09-30 — Wave D/E/F/J/K Alignment Gate + residuals
+
+- **D1:** Brand Styles logo upload → customization assets → `logoAssetId` on `brand:baseline` draft/publish (prior logo preserved when omitted).
+- **D2–D5 / E / F / J:** Gate dispositions in [`session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md`](audit/session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md); Data Records/impact re-baselined in `DATA_WORKBENCH.md`.
+- **K1:** Optional S3 CMEK (`ATTACHMENT_S3_SSE=aws:kms` + `ATTACHMENT_S3_KMS_KEY_ID`); host evidence accepts KMS. Signed URLs remain deferred.
+- **G/H:** Still blocked — Docker Desktop Linux engine not running on this host.
+- Master tracker: [`plan-2026-09-30-sitewide-qol-launch-program.md`](audit/plan-2026-09-30-sitewide-qol-launch-program.md).
+
+## 2026-09-30 — Website Template multi-page MVP (Wave L)
 
 - Optional `multiPage` draft/export flag emits `about.html`, `leadership.html`, `contact.html` with shared nav; default remains single brochure.
 - What's new: `website-multi-page`. Program status: [`session-knowledge-2026-09-30-wave-l-program-status.md`](audit/session-knowledge-2026-09-30-wave-l-program-status.md).
@@ -2808,7 +2816,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `UX-001` — App Router `error.tsx` / `loading.tsx` / `not-found.tsx` for `[locale]` + Hub `/app`; shared `Skeleton`; EN/FR `routeUi` copy
 - [x] `SEC-007` — bcrypt auth path; demo roster production-gated; Postgres users via `AUTH_USERS_BACKEND`; invite create/accept APIs (email + password-reset deferred)
 - [x] Time module Drizzle adapter + store (`TIME_DB_BACKEND`); migrations `0004_time_tables` / `0005_time_rls`
-- [x] `FEAT-001` — durable attachments: local FS + S3-compatible (`@aws-sdk/client-s3`, SSE-S3 AES256), ClamAV HTTP client (`ATTACHMENT_SCANNER_URL` → `POST /scan`), Documents vault; CMEK / signed-URL upload remain stretch
+- [x] `FEAT-001` — durable attachments: local FS + S3-compatible (`@aws-sdk/client-s3`, SSE-S3 AES256 default; optional SSE-KMS/CMEK), ClamAV HTTP client (`ATTACHMENT_SCANNER_URL` → `POST /scan`), Documents vault; signed-URL upload remain stretch
 - [x] `TOOL-001` / `TOOL-006` / `TOOL-007` — LocalStorage try/catch + session fallback; Brand Kit v2 write-back; `opseu-*` → `unionops-*` keys
 - [x] `TOOL-002` — `useExportHandler` + danger Callout on canvas tool exports
 - [x] `FEAT-003` — Task entity + Hub board (`/app/tasks`, `MyTasksWidget`, CRUD `/api/tasks`, `"tasks"` HubModule); memory default + optional `TASKS_DB_BACKEND=postgres` (`DrizzleTaskAdapter`, migration `0009_tasks` + RLS; `0008` reserved for parallel SEC-003)

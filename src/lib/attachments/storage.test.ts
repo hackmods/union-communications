@@ -100,6 +100,29 @@ describe("S3ObjectStorage (mocked client)", () => {
     expect(cfg.serverSideEncryption).toBe("AES256");
   });
 
+  it("resolves SSE-KMS (CMEK) when ATTACHMENT_S3_KMS_KEY_ID is set", () => {
+    const cfg = resolveS3StorageConfig({
+      ATTACHMENT_S3_BUCKET: "vault",
+      ATTACHMENT_S3_ACCESS_KEY_ID: "key",
+      ATTACHMENT_S3_SECRET_ACCESS_KEY: "secret",
+      ATTACHMENT_S3_SSE: "aws:kms",
+      ATTACHMENT_S3_KMS_KEY_ID: "arn:aws:kms:us-east-1:123:key/abc",
+    });
+    expect(cfg.serverSideEncryption).toBe("aws:kms");
+    expect(cfg.kmsKeyId).toBe("arn:aws:kms:us-east-1:123:key/abc");
+  });
+
+  it("rejects aws:kms without a key id", () => {
+    expect(() =>
+      resolveS3StorageConfig({
+        ATTACHMENT_S3_BUCKET: "vault",
+        ATTACHMENT_S3_ACCESS_KEY_ID: "key",
+        ATTACHMENT_S3_SECRET_ACCESS_KEY: "secret",
+        ATTACHMENT_S3_SSE: "aws:kms",
+      }),
+    ).toThrow(/ATTACHMENT_S3_KMS_KEY_ID/);
+  });
+
   it("puts with ServerSideEncryption and round-trips via mock", async () => {
     const objects = new Map<string, { body: Buffer; contentType: string }>();
     const send = vi.fn(async (command: unknown) => {

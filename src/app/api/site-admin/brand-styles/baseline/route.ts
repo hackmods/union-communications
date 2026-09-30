@@ -5,6 +5,7 @@ import { requireSiteAdminSession } from "@/lib/auth/site-admin-session";
 import { auditLog } from "@/lib/audit/store";
 import { draftBrandBaselineFromTheme } from "@/lib/brand/brand-baseline-from-styles";
 import { unionBrandThemeSchema } from "@/lib/brand/union-brand-theme";
+import { idSchema } from "@/lib/customization/schemas";
 import { getTenantByUnionId } from "@/lib/tenant/loader";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
 import { isPostgresConfigured } from "@/lib/db/client";
@@ -17,6 +18,8 @@ const bodySchema = z
     brandTheme: unionBrandThemeSchema,
     publish: z.boolean().optional(),
     reason: z.string().trim().max(1000).optional(),
+    /** Omit to keep prior draft logo; null clears; string sets uploaded asset id. */
+    logoAssetId: idSchema.nullable().optional(),
   })
   .strict();
 
@@ -87,6 +90,9 @@ export async function POST(req: Request) {
       rlsContext: gate.rlsContext,
       publish: parsed.data.publish === true,
       reason: parsed.data.reason,
+      ...(parsed.data.logoAssetId !== undefined
+        ? { logoAssetId: parsed.data.logoAssetId }
+        : {}),
     });
     if (!result.ok) {
       return NextResponse.json(

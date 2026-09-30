@@ -145,6 +145,11 @@ export function BrandStylesAdminForm() {
   const [savingId, setSavingId] = useState<string | null>(null);
   const [baselineBusyId, setBaselineBusyId] = useState<string | null>(null);
   const [directoryBusyId, setDirectoryBusyId] = useState<string | null>(null);
+  const [logoBusyId, setLogoBusyId] = useState<string | null>(null);
+  /** Session-only logo asset ids to include on next baseline draft/publish. */
+  const [logoAssetIds, setLogoAssetIds] = useState<
+    Record<string, string | null>
+  >({});
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -272,6 +277,67 @@ export function BrandStylesAdminForm() {
     }
   };
 
+  const fileToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result;
+        if (typeof result !== "string") {
+          reject(new Error("read"));
+          return;
+        }
+        const comma = result.indexOf(",");
+        resolve(comma >= 0 ? result.slice(comma + 1) : result);
+      };
+      reader.onerror = () => reject(new Error("read"));
+      reader.readAsDataURL(file);
+    });
+
+  const uploadBaselineLogo = async (unionId: string, file: File | null) => {
+    if (!file) return;
+    const row = unions.find((u) => u.id === unionId);
+    setLogoBusyId(unionId);
+    setError(null);
+    setSuccess(null);
+    try {
+      const dataBase64 = await fileToBase64(file);
+      const res = await fetch("/api/site-admin/customization/assets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          target: {
+            id: `union-${unionId}`,
+            kind: "union",
+            unionId,
+            parentScopeId: "system",
+            archived: false,
+          },
+          mime: file.type || "image/png",
+          rightsNote: "Operator-uploaded union brand logo for brand:baseline",
+          altText: {
+            en: `${row?.name ?? unionId} logo`,
+            fr: `Logo ${row?.name ?? unionId}`,
+          },
+          dataBase64,
+        }),
+      });
+      const data = (await res.json()) as { assetId?: string; error?: string };
+      if (!res.ok || !data.assetId) {
+        throw new Error(data.error ?? "upload");
+      }
+      setLogoAssetIds((prev) => ({ ...prev, [unionId]: data.assetId! }));
+      setSuccess(t("brandStylesLogoUploaded"));
+    } catch (err) {
+      setError(
+        err instanceof Error && err.message !== "upload" && err.message !== "read"
+          ? err.message
+          : t("brandStylesLogoUploadFailed"),
+      );
+    } finally {
+      setLogoBusyId(null);
+    }
+  };
+
   const publishBaseline = async (unionId: string, publish: boolean) => {
     const draft = drafts[unionId];
     if (!draft?.themeEnabled) return;
@@ -287,6 +353,7 @@ export function BrandStylesAdminForm() {
     try {
       const saved = await save(unionId);
       if (!saved) return;
+      const logoAssetId = logoAssetIds[unionId];
       const res = await fetch("/api/site-admin/brand-styles/baseline", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -297,6 +364,7 @@ export function BrandStylesAdminForm() {
           reason: publish
             ? "Publish brand:baseline from Brand Styles"
             : "Draft brand:baseline from Brand Styles",
+          ...(logoAssetId !== undefined ? { logoAssetId } : {}),
         }),
       });
       const data = (await res.json()) as { error?: string };
@@ -727,40 +795,86 @@ export function BrandStylesAdminForm() {
                           : t("brandStylesSave")}
                       </Button>
                       {customizationAvailable && draft.themeEnabled ? (
-                        <>
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="secondary"
-                            disabled={
-                              baselineBusyId === row.id ||
-                              !valid ||
-                              savingId === row.id
-                            }
-                            onClick={() =>
-                              void publishBaseline(row.id, false)
-                            }
-                          >
-                            {baselineBusyId === row.id
-                              ? t("brandStylesBaselineBusy")
-                              : t("brandStylesBaselineDraft")}
-                          </Button>
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="secondary"
-                            disabled={
-                              baselineBusyId === row.id ||
-                              !valid ||
-                              savingId === row.id
-                            }
-                            onClick={() => void publishBaseline(row.id, true)}
-                          >
-                            {baselineBusyId === row.id
-                              ? t("brandStylesBaselineBusy")
-                              : t("brandStylesBaselinePublish")}
-                          </Button>
-                        </>
+                        <div className="flex w-full flex-col gap-3">
+                          <div className="space-y-1">
+                            <label
+                              htmlFor={`brand-logo-${row.id}`}
+                              className="block text-xs font-medium text-opseu-dark"
+                            >
+                              {t("brandStylesLogoLabel")}
+                            </label>
+                            <input
+                              id={`brand-logo-${row.id}`}
+                              type="file"
+                              accept="image/png,image/jpeg,image/webp"
+                              disabled={
+                                logoBusyId === row.id ||
+                                baselineBusyId === row.id
+                              }
+                              className="block w-full text-xs text-opseu-gray-dark file:mr-3 file:rounded-md file:border-0 file:bg-opseu-blue/10 file:px-3 file:py-2 file:text-xs file:font-medium file:text-opseu-blue"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0] ?? null;
+                                void uploadBaselineLogo(row.id, file);
+                                e.target.value = "";
+                              }}
+                            />
+                            <p className="text-xs text-opseu-gray-dark">
+                              {logoAssetIds[row.id]
+                                ? t("brandStylesLogoReady")
+                                : t("brandStylesLogoHint")}
+                            </p>
+                            {logoAssetIds[row.id] ? (
+                              <button
+                                type="button"
+                                className="text-xs text-opseu-blue underline-offset-2 hover:underline"
+                                onClick={() =>
+                                  setLogoAssetIds((prev) => ({
+                                    ...prev,
+                                    [row.id]: null,
+                                  }))
+                                }
+                              >
+                                {t("brandStylesLogoClear")}
+                              </button>
+                            ) : null}
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="secondary"
+                              disabled={
+                                baselineBusyId === row.id ||
+                                logoBusyId === row.id ||
+                                !valid ||
+                                savingId === row.id
+                              }
+                              onClick={() =>
+                                void publishBaseline(row.id, false)
+                              }
+                            >
+                              {baselineBusyId === row.id
+                                ? t("brandStylesBaselineBusy")
+                                : t("brandStylesBaselineDraft")}
+                            </Button>
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="secondary"
+                              disabled={
+                                baselineBusyId === row.id ||
+                                logoBusyId === row.id ||
+                                !valid ||
+                                savingId === row.id
+                              }
+                              onClick={() => void publishBaseline(row.id, true)}
+                            >
+                              {baselineBusyId === row.id
+                                ? t("brandStylesBaselineBusy")
+                                : t("brandStylesBaselinePublish")}
+                            </Button>
+                          </div>
+                        </div>
                       ) : null}
                     </div>
                     {!customizationAvailable ? (

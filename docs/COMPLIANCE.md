@@ -99,7 +99,7 @@ self-host operators remain responsible for their own policy and verification.
 ## Attachment storage & scanning (FEAT-001)
 
 - **Local (`ATTACHMENT_STORAGE=local`, default):** bytes under `ATTACHMENT_LOCAL_DIR` (`.data/attachments`). Encryption-at-rest depends on the host volume (LUKS, cloud disk encryption, etc.) — the app does not encrypt files itself.
-- **S3-compatible (`ATTACHMENT_STORAGE=s3`):** MinIO / Cloudflare R2 / AWS via `@aws-sdk/client-s3`. PutObject sets `ServerSideEncryption=AES256` (SSE-S3) by default. Customer-managed keys (CMEK / SSE-KMS) remain an optional stretch.
+- **S3-compatible (`ATTACHMENT_STORAGE=s3`):** MinIO / Cloudflare R2 / AWS via `@aws-sdk/client-s3`. PutObject sets `ServerSideEncryption=AES256` (SSE-S3) by default. Customer-managed keys (CMEK / SSE-KMS) via `ATTACHMENT_S3_SSE=aws:kms` + `ATTACHMENT_S3_KMS_KEY_ID`. Signed PUT/GET URL upload remain optional stretch.
 - **Virus scan:** when `ATTACHMENT_SCANNER_URL` is set, uploads POST raw bytes to `${ATTACHMENT_SCANNER_URL}/scan` (`Content-Type: application/octet-stream`). Expect JSON `{ ok, infected? }` or ClamAV-style `stream: OK` / `FOUND`. Unset URL → `skipped_dev` (unless `ATTACHMENT_SCAN_MODE=strict`). Network failures fail closed (`pending`) unless `ATTACHMENT_SCAN_ALLOW_SKIP_ON_ERROR=true`.
 
 ## Legal Disclaimer (display in app)

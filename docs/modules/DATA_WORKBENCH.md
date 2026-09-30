@@ -62,9 +62,18 @@ The first release does not include saved custom report definitions, declarative 
 
 ## UX and operator gaps
 
-The current UI is a functional foundation, not yet a safe recurring-import workbench. The Records surface still renders generic table data and history as JSON; review lacks a publish impact diff; the primary workflow is four tabs rather than guided stages; the active local and column sensitivity need stronger in-context treatment; and long uploads have no durable progress/recovery UI. The full prioritized UX audit, including accessibility and pilot acceptance scenarios, is in [`docs/audit/session-knowledge-2026-09-20-unionops-data.md`](../audit/session-knowledge-2026-09-20-unionops-data.md).
+**Re-baselined 2026-09-30 (Wave E Alignment Gate):** The Records surface is no longer a JSON `<pre>` dump — officers get searchable people, filters, pagination, and `PersonProfilePanel` (membership/employment/dues). Import detail shows map → review → publish steps, an active-local banner, and a publication impact summary for member/employment runs (with MFA step-up before publish).
 
-Close those pilot gaps before exposing member data to officers beyond synthetic trials. Keep saved reports out of the navigation or label them as planned until saved definitions, as-of behavior, freshness/held-row disclosure, reproducibility, and per-run export authorization exist.
+Still open before a real-data pilot:
+
+- Asynchronous parse/publish jobs with durable progress, cancel, and refresh recovery (upload parsing remains request-scoped).
+- Richer row-level before/after impact diffs and guided Dataset → History stage chrome beyond the three import steps.
+- Stronger in-context sensitivity marking for restricted columns and source-file access disclosure.
+- Saved custom report definitions (Reports now runs curated as-of / published-table exports; definitions remain follow-on).
+
+Keep the officer-only, local-scoped boundary in release notes until async jobs and retention operations ship. The full prioritized UX audit remains in [`docs/audit/session-knowledge-2026-09-20-unionops-data.md`](../audit/session-knowledge-2026-09-20-unionops-data.md).
+
+Close remaining pilot gaps before exposing member data to officers beyond synthetic trials. Keep saved reports out of the navigation or label them as planned until saved definitions, as-of behavior, freshness/held-row disclosure, reproducibility, and per-run export authorization exist.
 
 ## Expansion sequence
 

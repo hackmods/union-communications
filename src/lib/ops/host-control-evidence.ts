@@ -54,7 +54,9 @@ function hasApprovedStorageConfiguration(env: EvidenceEnvironment): boolean {
       const config = resolveS3StorageConfig(env);
       return (
         Boolean(env.ATTACHMENT_S3_REGION?.trim()) &&
-        config.serverSideEncryption === "AES256"
+        (config.serverSideEncryption === "AES256" ||
+          (config.serverSideEncryption === "aws:kms" &&
+            Boolean(config.kmsKeyId)))
       );
     } catch {
       return false;

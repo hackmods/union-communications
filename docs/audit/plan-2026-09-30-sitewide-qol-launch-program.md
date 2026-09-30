@@ -57,19 +57,32 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-b-fitgap.md`](session-knowledge-202
 
 | ID | Status | Verdict | Notes |
 |----|--------|---------|-------|
-| D1–D5 | open | OPEN | Logo upload + admin gaps |
+| D1 Logo → baseline | done | FULL | Brand Styles asset upload + `logoAssetId` on draft/publish |
+| D2 Sector bindings UI | deferred | SKIP | Table/adapter exist; UI demand-driven |
+| D3 Preset catalog admin | deferred | SKIP | Bind existing presets only |
+| D4 Auto-apply baseline | deferred | SKIP | Manual Apply remains correct |
+| D5 Honest customization gaps | done | NARROW | Unavailable/MFA copy already honest |
+
+Fit-gap: [`session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md`](session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md)
 
 ### Wave E — Data workbench
 
 | ID | Status | Verdict | Notes |
 |----|--------|---------|-------|
-| E1–E7 | open | OPEN | Re-baseline first |
+| E1 Guided stages | partial | NARROW | Map/review/publish + local banner |
+| E2 Async jobs | deferred | SKIP | Request-scoped parse remains |
+| E3 Publish impact | done | SKIP | Shipped + MFA step-up |
+| E4 Records tool | done | SKIP | People + profile; docs re-baselined |
+| E5–E7 Sensitivity / review / reports | partial | NARROW | Curated reports; saved defs deferred |
+
+Fit-gap: [`session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md`](session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md)
 
 ### Wave F — Portal member UX
 
 | ID | Status | Verdict | Notes |
 |----|--------|---------|-------|
-| F1–F2 | open | OPEN | |
+| F1 Access / share / updates UI | done | SKIP | Access panel + reason + shares + updates |
+| F2 Postgres browser lifecycle | blocked | BLOCKED | Needs Wave G Docker Postgres |
 
 ## Track T2 — Durability + Launch Trust
 
@@ -83,8 +96,9 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-b-fitgap.md`](session-knowledge-202
 
 | Wave | Status | Notes |
 |------|--------|-------|
-| J Outreach P4 SSE | open | |
-| K CMEK / signed URLs | open | |
+| J Outreach P4 SSE | deferred | SKIP — still product-deferred |
+| K1 CMEK / SSE-KMS | done | `aws:kms` + key id; host evidence |
+| K2 Signed URLs | deferred | SKIP — stretch |
 | L Website multi-page MVP | done | Optional `multiPage` export |
 
 ## Fit-gap log
@@ -94,3 +108,8 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-b-fitgap.md`](session-knowledge-202
 | 2026-09-30 | A1–A5 (+A6–A8 disposition) | [session-knowledge-2026-09-30-wave-a-fitgap.md](session-knowledge-2026-09-30-wave-a-fitgap.md) |
 | 2026-09-30 | B1–B8 | [session-knowledge-2026-09-30-wave-b-fitgap.md](session-knowledge-2026-09-30-wave-b-fitgap.md) |
 | 2026-09-30 | L1–L3 + C–K status | [session-knowledge-2026-09-30-wave-l-program-status.md](session-knowledge-2026-09-30-wave-l-program-status.md) |
+| 2026-09-30 | D1–D5, E1–E7, F1–F2, J, K1–K2 | [session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md](session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md) |
+
+## Program completion rule
+
+Goal is **not** complete while any ID remains OPEN without SKIP/HUMAN/BLOCKED disposition, or while G/H/I claim evidence without host/counsel proof. Remaining open/human/blocked: **C**, **G**, **H**, **I** (plus A2/A8/B6 human rows).

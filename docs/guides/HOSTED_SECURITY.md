@@ -26,7 +26,7 @@ Grievance notes, bumping strategy, and confidential Hub casework **never** appea
 | Hub session / JWT | TLS + HttpOnly cookie | Signed token only | — |
 | Hub case rows (Postgres) | TLS | **Plaintext in DB** unless operator encrypts disk | LUKS / cloud volume encryption |
 | Hub attachments (local FS) | TLS on download | **Not app-encrypted** — host volume | Encrypt `ATTACHMENT_LOCAL_DIR` volume |
-| Hub attachments (S3) | TLS | SSE-S3 AES256 on PutObject (default) | CMEK optional |
+| Hub attachments (S3) | TLS | SSE-S3 AES256 on PutObject (default); optional SSE-KMS via `ATTACHMENT_S3_SSE=aws:kms` + `ATTACHMENT_S3_KMS_KEY_ID` | Signed upload URLs still deferred |
 | Hybrid export download | TLS (`Cache-Control: no-store`) | Plaintext JSON over session; browser encrypts after | Passphrase never sent to server |
 | Portal Circles content | TLS | Plaintext in process memory or Postgres, depending on `PORTAL_DB_BACKEND` | Memory-backed activity is lost on restart; Postgres-backed records persist subject to operator database and disk protections |
 | Site feedback | TLS | Postgres or memory per `FEEDBACK_DB_BACKEND` | Prefer Postgres for production |

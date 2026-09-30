@@ -8,8 +8,11 @@ import { draftContentHash, getDraft, saveDraft } from "@/lib/customization/draft
 import { publishAtomically } from "@/lib/customization/publish";
 import { getCustomizationAdapter } from "@/lib/customization/store";
 import type { CustomizationScope } from "@/lib/customization/types";
+import { buildBrandBaselineLayerFromTheme } from "@/lib/brand/brand-baseline-layer";
 import type { UnionBrandTheme } from "@/lib/brand/union-brand-theme";
 import type { RlsSessionContext } from "@/lib/db/rls-context";
+
+export { buildBrandBaselineLayerFromTheme } from "@/lib/brand/brand-baseline-layer";
 
 const systemScope: CustomizationScope = {
   id: "system",
@@ -33,51 +36,6 @@ export function isCustomizationPublishAvailable(
   return customizationConfigurationError(env) === null;
 }
 
-function brandBaselineLayer(
-  scopeId: string,
-  unionName: string,
-  theme: UnionBrandTheme,
-) {
-  const key = "brand:baseline" as const;
-  return {
-    schemaVersion: 1 as const,
-    key,
-    scopeId,
-    revisionId: "draft-brand-styles",
-    mode: "define" as const,
-    resource: {
-      schemaVersion: 1 as const,
-      key,
-      policy: {
-        audience: "public" as const,
-        enabled: true,
-        editableFields: [
-          "label",
-          "primaryColor",
-          "secondaryColor",
-          "accentColor",
-          "headlineFontId",
-          "bodyFontId",
-          "logoAssetId",
-        ],
-      },
-      payload: {
-        kind: "brand" as const,
-        label: {
-          en: `${unionName} brand`,
-          fr: `Marque ${unionName}`,
-        },
-        primaryColor: theme.primaryColor,
-        secondaryColor: theme.secondaryColor,
-        accentColor: theme.accentColor,
-        headlineFontId: theme.headlineFontId ?? "montserrat",
-        bodyFontId: theme.bodyFontId ?? "sourceSans",
-        logoAssetId: null,
-      },
-    },
-  };
-}
-
 /**
  * Draft (and optionally publish) `brand:baseline` from a Brand Styles theme.
  * Requires a customization-capable RLS context (MFA when enabled).
@@ -90,6 +48,8 @@ export async function draftBrandBaselineFromTheme(input: {
   rlsContext: RlsSessionContext;
   publish?: boolean;
   reason?: string;
+  /** When set (including null), replaces baseline logo; when omitted, keeps prior draft logo. */
+  logoAssetId?: string | null;
 }): Promise<
   | {
       ok: true;
@@ -139,7 +99,19 @@ export async function draftBrandBaselineFromTheme(input: {
   }
 
   const existing = await getDraft(adapter, input.rlsContext, resourceId);
-  const layer = brandBaselineLayer(target.id, input.unionName, input.theme);
+  const priorLogo =
+    existing?.payload.mode === "define" &&
+    existing.payload.resource.payload.kind === "brand"
+      ? existing.payload.resource.payload.logoAssetId
+      : null;
+  const logoAssetId =
+    input.logoAssetId !== undefined ? input.logoAssetId : priorLogo;
+  const layer = buildBrandBaselineLayerFromTheme({
+    scopeId: target.id,
+    unionName: input.unionName,
+    theme: input.theme,
+    logoAssetId,
+  });
   const reason =
     input.reason?.trim() || "Brand Styles theme → brand:baseline draft";
   const reviewedAt = new Date().toISOString();

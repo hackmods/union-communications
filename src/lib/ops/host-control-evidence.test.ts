@@ -79,6 +79,12 @@ describe("readHostedControlEvidence", () => {
     expect(readHostedControlEvidence(env, TODAY).attachmentStorageApproved).toBe(
       false,
     );
+
+    env.ATTACHMENT_S3_SSE = "aws:kms";
+    env.ATTACHMENT_S3_KMS_KEY_ID = "arn:aws:kms:ca-central-1:123:key/abc";
+    expect(readHostedControlEvidence(env, TODAY).attachmentStorageApproved).toBe(
+      true,
+    );
   });
 
   it("requires complete public contacts and a recent monitored-address review", () => {

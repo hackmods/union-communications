@@ -27,10 +27,15 @@ Give platform operators a full Site Admin surface to configure per-union brand t
 
 | Capability | Notes |
 |------------|--------|
-| Logo assets in theme editor | Wire logo upload into baseline draft form |
 | Sector / collection bindings UI | Productize `customization_preset_bindings` sector_id matrix + OPSEU sectors |
 | Preset catalog admin | Add/edit Comms presets without code changes to `unionPresets.ts` |
-| Auto-apply published baseline on Hub seed | Opt-in policy (never silent overwrite of steward kits) |
+| Auto-apply published baseline on Hub seed | Opt-in policy (never silent overwrite of steward kits) — Apply button remains correct |
+
+## Shipped after theme-admin (2026-09-30)
+
+| Capability | Notes |
+|------------|--------|
+| Logo assets in Brand Styles → baseline | Upload PNG/JPEG/WebP via customization assets; `logoAssetId` on draft/publish |
 
 ## Constraints
 

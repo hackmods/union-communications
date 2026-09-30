@@ -154,8 +154,10 @@ export type S3StorageConfig = {
   secretAccessKey: string;
   endpoint?: string;
   forcePathStyle: boolean;
-  /** SSE-S3 algorithm; omit / "none" disables ServerSideEncryption on PutObject. */
-  serverSideEncryption?: "AES256";
+  /** SSE-S3 AES256 or SSE-KMS (CMEK). Omit / "none" disables ServerSideEncryption on PutObject. */
+  serverSideEncryption?: "AES256" | "aws:kms";
+  /** Required when serverSideEncryption is aws:kms. */
+  kmsKeyId?: string;
 };
 
 export function resolveS3StorageConfig(
@@ -182,10 +184,26 @@ export function resolveS3StorageConfig(
   }
 
   const sseRaw = (env.ATTACHMENT_S3_SSE ?? "AES256").trim().toUpperCase();
-  const serverSideEncryption =
-    sseRaw === "" || sseRaw === "NONE" || sseRaw === "OFF"
-      ? undefined
-      : ("AES256" as const);
+  let serverSideEncryption: S3StorageConfig["serverSideEncryption"];
+  let kmsKeyId: string | undefined;
+  if (sseRaw === "" || sseRaw === "NONE" || sseRaw === "OFF") {
+    serverSideEncryption = undefined;
+  } else if (
+    sseRaw === "AWS:KMS" ||
+    sseRaw === "AWS_KMS" ||
+    sseRaw === "KMS"
+  ) {
+    const key = env.ATTACHMENT_S3_KMS_KEY_ID?.trim();
+    if (!key) {
+      throw new Error(
+        "ATTACHMENT_S3_SSE=aws:kms requires ATTACHMENT_S3_KMS_KEY_ID",
+      );
+    }
+    serverSideEncryption = "aws:kms";
+    kmsKeyId = key;
+  } else {
+    serverSideEncryption = "AES256";
+  }
 
   const forcePathStyle =
     env.ATTACHMENT_S3_FORCE_PATH_STYLE?.trim().toLowerCase() === "true" ||
@@ -199,6 +217,7 @@ export function resolveS3StorageConfig(
     endpoint: env.ATTACHMENT_S3_ENDPOINT?.trim() || undefined,
     forcePathStyle,
     serverSideEncryption,
+    ...(kmsKeyId ? { kmsKeyId } : {}),
   };
 }
 
@@ -267,7 +286,13 @@ export class S3ObjectStorage implements ObjectStorageAdapter {
         Body: bytes,
         ContentType: contentType,
         ...(this.config.serverSideEncryption
-          ? { ServerSideEncryption: this.config.serverSideEncryption }
+          ? {
+              ServerSideEncryption: this.config.serverSideEncryption,
+              ...(this.config.serverSideEncryption === "aws:kms" &&
+              this.config.kmsKeyId
+                ? { SSEKMSKeyId: this.config.kmsKeyId }
+                : {}),
+            }
           : {}),
       }),
     );
