@@ -214,7 +214,7 @@ Save and **redeploy**.
 | Variable | Purpose |
 |----------|---------|
 | `EMAIL_ENABLED` + `SMTP_*` | Invites, password reset, meeting reminders |
-| `CRON_SECRET` | `/api/cron/meeting-reminders` |
+| `CRON_SECRET` | `/api/cron/meeting-reminders`, `/api/cron/incident-step-up-cleanup`, deploy-notify |
 | `ATTACHMENT_LOCAL_DIR=/app/data/attachments` | Persist uploaded files (mount a volume) |
 
 **Demo cleanup purge** (after durable flip, when sample `is_demo` rows must leave a **demo** host):

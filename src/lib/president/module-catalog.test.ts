@@ -6,6 +6,7 @@ import {
   PRESIDENT_OVERLAY_MODULES,
   applyHubModuleToggle,
   applyPortalSurfaceToggle,
+  circleStarterNeedsPortalApply,
   getPresidentPreset,
   isDestructiveHubOff,
   portalNavLinkAllowed,
@@ -100,5 +101,17 @@ describe("president module catalog", () => {
         NEXT_PUBLIC_WORKFORCE_TIME_ENABLED: "true",
       }).some((row) => row.id === "time"),
     ).toBe(true);
+  });
+
+  it("signals Apply-and-create when Portal is draft-only on union scope", () => {
+    expect(
+      circleStarterNeedsPortalApply("union", ["portal"], []),
+    ).toBe(true);
+    expect(
+      circleStarterNeedsPortalApply("union", ["portal"], ["portal"]),
+    ).toBe(false);
+    expect(
+      circleStarterNeedsPortalApply("local", ["portal"], []),
+    ).toBe(false);
   });
 });

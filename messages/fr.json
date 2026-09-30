@@ -7487,8 +7487,8 @@
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
       "president-role-tools-toggle": {
-        "title": "Les outils de rôle pour la présidence sont facultatifs",
-        "body": "Dans la configuration de la présidence, activez les raccourcis grand livre, invitations et réunions seulement si votre section en a besoin. Ils restent désactivés par défaut pour garder le Hub des dirigeants plus calme."
+        "title": "Outils dirigeants plus calmes pour la présidence",
+        "body": "Dans la configuration de la présidence, activez le grand livre, les dépenses, les voyages, les invitations, les réunions, la diffusion et les sondages seulement si votre section en a besoin. Ils restent désactivés par défaut."
       },
       "organization-structure-admin": {
         "title": "Structure organisationnelle pour l’admin du site",
@@ -9519,14 +9519,22 @@
       "saveSuccess": "Enregistré. Les menus se mettent à jour au prochain chargement de page.",
       "forbidden": "Seules les présidentes et présidents locaux, les admins du syndicat et les admins du site peuvent changer ces modules.",
       "alwaysOnTitle": "Outils de rôle pour la présidence",
-      "alwaysOnBody": "Raccourcis facultatifs du Hub des dirigeants pour le grand livre, les invitations et les réunions. Désactivés par défaut — activez seulement ce dont votre section a besoin. Les liens de configuration mènent encore à ces pages lorsque les raccourcis sont désactivés.",
+      "alwaysOnBody": "Raccourcis facultatifs du Hub des dirigeants pour les fonds, la diffusion, les invitations et les réunions. Désactivés par défaut — activez seulement ce dont votre section a besoin. Les liens de configuration mènent encore à ces pages lorsque les raccourcis sont désactivés.",
       "alwaysOn": {
         "financialSummaries": "Sommaires financiers locaux (Grand livre)",
         "invites": "Invitations",
-        "meetings": "Réunions et confirmations de présence",
+        "meetings": "Réunions et RSVP",
+        "expenses": "Dépenses",
+        "travel": "Demandes de voyage",
+        "broadcast": "Diffusion",
+        "polls": "Sondages",
         "financialSummariesBlurb": "Afficher les sommaires financiers locaux (Grand livre) dans les outils dirigeants.",
         "invitesBlurb": "Afficher Invitations dans les outils dirigeants. La liste de démarrage y mène encore si c’est désactivé.",
-        "meetingsBlurb": "Afficher Réunions et RSVP dans les outils dirigeants."
+        "meetingsBlurb": "Afficher Réunions et RSVP dans les outils dirigeants.",
+        "expensesBlurb": "Afficher Dépenses dans les outils dirigeants.",
+        "travelBlurb": "Afficher Demandes de voyage dans les outils dirigeants.",
+        "broadcastBlurb": "Afficher Diffusion dans les outils dirigeants.",
+        "pollsBlurb": "Afficher Sondages dans les outils dirigeants."
       },
       "hubExecutiveTitle": "Hub des dirigeants — modules exécutifs",
       "hubExecutiveBody": "Surfaces d’aperçu à forte valeur pour le travail quotidien de la présidence. Activés par défaut pour les nouvelles sections.",
@@ -9643,7 +9651,7 @@
       },
       "starterTitle": "Trousse de démarrage des Cercles",
       "starterBody": "Ouvre la Salle et crée un Cercle de comité (modèle LEC) pour que Ensemble ne soit pas vide.",
-      "starterCta": "Créer Salle + comité",
+      "starterCta": "Créer la Salle + comité",
       "starterBusy": "Création…",
       "starterSuccess": "Salle et Cercle de comité prêts.",
       "starterError": "Impossible de créer la Salle ou le comité. Vérifiez que le Portail est activé, puis réessayez.",
@@ -9651,7 +9659,14 @@
       "starterCommitteeDesc": "Cercle de démarrage pour le travail du conseil.",
       "roleToolsUnionOnly": "Les raccourcis des outils de rôle s’enregistrent pour toute l’unité. Passez à la portée Toute l’unité pour les modifier.",
       "starterPortalOff": "Activez le Portail local et appliquez les changements avant de créer la Salle et un comité.",
-      "starterMfaRequired": "Confirmez votre authentificateur sur la page MFA du Hub des dirigeants, puis réessayez Créer la Salle."
+      "starterMfaRequired": "Confirmez votre authentificateur sur la page MFA du Hub des dirigeants, puis réessayez Créer la Salle.",
+      "starterApplyCta": "Appliquer et créer la Salle",
+      "invitesNudgeTitle": "Invitez votre conseil",
+      "invitesNudgeBody": "Les invitations restent hors des outils dirigeants jusqu’à ce que vous activiez le raccourci. Vous pouvez quand même ouvrir Invitations maintenant, ou activer le raccourci plus bas.",
+      "invitesNudgeOpen": "Ouvrir Invitations",
+      "invitesNudgeEnable": "Afficher Invitations dans les outils dirigeants",
+      "previewRoleTools": "Raccourcis de rôle activés : {count}",
+      "previewRoleToolsNone": "Aucun raccourci de rôle facultatif activé."
     },
     "presidentToday": {
       "title": "Que puis-je faire ensuite ?",
@@ -9663,7 +9678,7 @@
       "portal": "Portail local",
       "portalBlurb": "Voir ce que les membres voient.",
       "meetings": "Réunions",
-      "meetingsBlurb": "Horaire et confirmations de présence."
+      "meetingsBlurb": "Horaire et RSVP."
     },
     "presidentChecklist": {
       "title": "Configuration et administration de la section",

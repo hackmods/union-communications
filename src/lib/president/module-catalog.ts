@@ -257,12 +257,20 @@ export const DEFAULT_PORTAL_SURFACES: readonly PortalSurfaceId[] =
 export type PresidentRoleToolId =
   | "financialSummaries"
   | "invites"
-  | "meetings";
+  | "meetings"
+  | "expenses"
+  | "travel"
+  | "broadcast"
+  | "polls";
 
 export const PRESIDENT_ROLE_TOOL_ROWS = [
   { id: "financialSummaries" as const, href: "/app/ledger", defaultOn: false },
   { id: "invites" as const, href: "/app/invites", defaultOn: false },
   { id: "meetings" as const, href: "/app/meetings", defaultOn: false },
+  { id: "expenses" as const, href: "/app/expenses", defaultOn: false },
+  { id: "travel" as const, href: "/app/travel", defaultOn: false },
+  { id: "broadcast" as const, href: "/app/broadcast", defaultOn: false },
+  { id: "polls" as const, href: "/app/polls", defaultOn: false },
 ] as const;
 
 /** @deprecated Use PRESIDENT_ROLE_TOOL_ROWS */
@@ -297,6 +305,19 @@ export function sameRoleToolSet(
   if (a.length !== b.length) return false;
   const left = new Set(a);
   return b.every((id) => left.has(id));
+}
+
+/** Hall starter must apply union draft when Portal is on in draft only. */
+export function circleStarterNeedsPortalApply(
+  scope: "union" | "local",
+  draftModules: readonly HubModule[],
+  savedModules: readonly HubModule[],
+): boolean {
+  return (
+    scope === "union" &&
+    draftModules.includes("portal") &&
+    !savedModules.includes("portal")
+  );
 }
 
 export function isHubModuleDefaultOn(id: HubModule): boolean {

@@ -13,6 +13,7 @@ import {
   applyHubModuleToggle,
   applyPortalSurfaceToggle,
   applyPresidentRoleToolToggle,
+  circleStarterNeedsPortalApply,
   getPresidentPreset,
   isDestructiveHubOff,
   portalNavLinkAllowed,
@@ -106,9 +107,11 @@ function ModuleToggle({
 function PreviewPanel({
   modules,
   surfaces,
+  roleTools,
 }: {
   modules: HubModule[];
   surfaces: PortalSurfaceId[];
+  roleTools: PresidentRoleToolId[];
 }) {
   const t = useTranslations("hub.presidentConfig");
   const hubOn = visibleHubConfigRows().filter((row) => modules.includes(row.id));
@@ -131,6 +134,11 @@ function PreviewPanel({
       </h2>
       <p className="mt-1 text-xs leading-relaxed text-slate-600">
         {t("previewBody")}
+      </p>
+      <p className="mt-3 text-xs text-slate-600">
+        {roleTools.length > 0
+          ? t("previewRoleTools", { count: roleTools.length })
+          : t("previewRoleToolsNone")}
       </p>
       <div className="mt-4 space-y-4">
         <div>
@@ -242,7 +250,7 @@ export function PresidentConfiguration({
           operatorUnionId != null && operatorUnionId.length > 0
             ? `?unionId=${encodeURIComponent(operatorUnionId)}`
             : "";
-        const res = await fetch(`/api/tenant${qs}`);
+        const res = await fetch(`/api/tenant/${qs}`);
         if (cancelled) return;
         if (!res.ok) {
           setCanManage(false);
@@ -375,6 +383,83 @@ export function PresidentConfiguration({
     setSuccess(t("undoSuccess"));
   }
 
+  async function applyUnionDraft(): Promise<{ saved: boolean; portalEnabled: boolean }> {
+    const modulesRes = await fetch("/api/tenant/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(
+        operatorBody({
+          action: "set_modules",
+          enabledModules: draftModules,
+        }),
+      ),
+    });
+    if (!modulesRes.ok) {
+      const body = (await modulesRes.json().catch(() => null)) as {
+        error?: string;
+      } | null;
+      setError(body?.error ?? t("saveError"));
+      return { saved: false, portalEnabled: false };
+    }
+    const modulesBody = (await modulesRes.json()) as {
+      enabledModules: HubModule[];
+    };
+
+    const surfacesRes = await fetch("/api/tenant/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(
+        operatorBody({
+          action: "set_portal_surfaces",
+          portalSurfaces: draftSurfaces,
+        }),
+      ),
+    });
+    if (!surfacesRes.ok) {
+      const body = (await surfacesRes.json().catch(() => null)) as {
+        error?: string;
+      } | null;
+      setError(body?.error ?? t("saveError"));
+      return { saved: false, portalEnabled: false };
+    }
+    const surfacesBody = (await surfacesRes.json()) as {
+      portalSurfaces: PortalSurfaceId[];
+    };
+
+    const roleToolsRes = await fetch("/api/tenant/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(
+        operatorBody({
+          action: "set_president_role_tools",
+          presidentRoleTools: draftRoleTools,
+        }),
+      ),
+    });
+    if (!roleToolsRes.ok) {
+      const body = (await roleToolsRes.json().catch(() => null)) as {
+        error?: string;
+      } | null;
+      setError(body?.error ?? t("saveError"));
+      return { saved: false, portalEnabled: false };
+    }
+    const roleToolsBody = (await roleToolsRes.json()) as {
+      presidentRoleTools: PresidentRoleToolId[];
+    };
+
+    setSavedModules(modulesBody.enabledModules);
+    setSavedSurfaces(surfacesBody.portalSurfaces);
+    setSavedRoleTools(roleToolsBody.presidentRoleTools);
+    setDraftModules(modulesBody.enabledModules);
+    setDraftSurfaces(surfacesBody.portalSurfaces);
+    setDraftRoleTools(roleToolsBody.presidentRoleTools);
+    window.dispatchEvent(new Event("unionops:tenant-updated"));
+    return {
+      saved: true,
+      portalEnabled: modulesBody.enabledModules.includes("portal"),
+    };
+  }
+
   async function applyChanges() {
     setSaving(true);
     setError(null);
@@ -385,7 +470,7 @@ export function PresidentConfiguration({
           setError(t("localScopeMissing"));
           return;
         }
-        const res = await fetch("/api/tenant", {
+        const res = await fetch("/api/tenant/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(
@@ -409,77 +494,8 @@ export function PresidentConfiguration({
         return;
       }
 
-      const modulesRes = await fetch("/api/tenant", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          operatorBody({
-            action: "set_modules",
-            enabledModules: draftModules,
-          }),
-        ),
-      });
-      if (!modulesRes.ok) {
-        const body = (await modulesRes.json().catch(() => null)) as {
-          error?: string;
-        } | null;
-        setError(body?.error ?? t("saveError"));
-        return;
-      }
-      const modulesBody = (await modulesRes.json()) as {
-        enabledModules: HubModule[];
-      };
-
-      const surfacesRes = await fetch("/api/tenant", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          operatorBody({
-            action: "set_portal_surfaces",
-            portalSurfaces: draftSurfaces,
-          }),
-        ),
-      });
-      if (!surfacesRes.ok) {
-        const body = (await surfacesRes.json().catch(() => null)) as {
-          error?: string;
-        } | null;
-        setError(body?.error ?? t("saveError"));
-        return;
-      }
-      const surfacesBody = (await surfacesRes.json()) as {
-        portalSurfaces: PortalSurfaceId[];
-      };
-
-      const roleToolsRes = await fetch("/api/tenant", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          operatorBody({
-            action: "set_president_role_tools",
-            presidentRoleTools: draftRoleTools,
-          }),
-        ),
-      });
-      if (!roleToolsRes.ok) {
-        const body = (await roleToolsRes.json().catch(() => null)) as {
-          error?: string;
-        } | null;
-        setError(body?.error ?? t("saveError"));
-        return;
-      }
-      const roleToolsBody = (await roleToolsRes.json()) as {
-        presidentRoleTools: PresidentRoleToolId[];
-      };
-
-      setSavedModules(modulesBody.enabledModules);
-      setSavedSurfaces(surfacesBody.portalSurfaces);
-      setSavedRoleTools(roleToolsBody.presidentRoleTools);
-      setDraftModules(modulesBody.enabledModules);
-      setDraftSurfaces(surfacesBody.portalSurfaces);
-      setDraftRoleTools(roleToolsBody.presidentRoleTools);
-      setSuccess(t("saveSuccess"));
-      window.dispatchEvent(new Event("unionops:tenant-updated"));
+      const result = await applyUnionDraft();
+      if (result.saved) setSuccess(t("saveSuccess"));
     } catch {
       setError(t("saveError"));
     } finally {
@@ -492,7 +508,7 @@ export function PresidentConfiguration({
     setSaving(true);
     setError(null);
     try {
-      const res = await fetch("/api/tenant", {
+      const res = await fetch("/api/tenant/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
@@ -526,10 +542,26 @@ export function PresidentConfiguration({
     setError(null);
     setSuccess(null);
     try {
-      if (!savedModules.includes("portal")) {
+      const needsApply = circleStarterNeedsPortalApply(
+        scope,
+        draftModules,
+        savedModules,
+      );
+      if (needsApply) {
+        const result = await applyUnionDraft();
+        if (!result.saved) return;
+        if (!result.portalEnabled) {
+          setError(t("starterPortalOff"));
+          return;
+        }
+      } else if (!savedModules.includes("portal") && !draftModules.includes("portal")) {
+        setError(t("starterPortalOff"));
+        return;
+      } else if (!savedModules.includes("portal")) {
         setError(t("starterPortalOff"));
         return;
       }
+
       const res = await fetch("/api/tenant/circle-starter/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -559,6 +591,12 @@ export function PresidentConfiguration({
       setStarterBusy(false);
     }
   }
+
+  const starterNeedsApply = circleStarterNeedsPortalApply(
+    scope,
+    draftModules,
+    savedModules,
+  );
 
   if (loading) {
     return (
@@ -837,6 +875,36 @@ export function PresidentConfiguration({
                 {t("recommendedOff")}
               </span>
             </div>
+            {!draftRoleTools.includes("invites") && canManage ? (
+              <Callout tone="muted" measure="fill">
+                <p className="font-semibold text-opseu-dark">{t("invitesNudgeTitle")}</p>
+                <p className="mt-1 text-sm text-slate-700">{t("invitesNudgeBody")}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Link
+                    href="/app/invites"
+                    className="inline-flex min-h-10 items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-opseu-dark hover:bg-slate-50"
+                  >
+                    {t("invitesNudgeOpen")}
+                  </Link>
+                  {scope === "union" ? (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      disabled={saving}
+                      onClick={() => {
+                        pushUndo();
+                        setDraftRoleTools(
+                          applyPresidentRoleToolToggle(draftRoleTools, "invites", true),
+                        );
+                      }}
+                    >
+                      {t("invitesNudgeEnable")}
+                    </Button>
+                  ) : null}
+                </div>
+              </Callout>
+            ) : null}
             <div className="grid gap-3 md:grid-cols-2">
               {PRESIDENT_ROLE_TOOL_ROWS.map((tool) => (
                 <ModuleToggle
@@ -974,7 +1042,11 @@ export function PresidentConfiguration({
                     disabled={starterBusy || saving}
                     onClick={() => void runCircleStarter()}
                   >
-                    {starterBusy ? t("starterBusy") : t("starterCta")}
+                    {starterBusy
+                      ? t("starterBusy")
+                      : starterNeedsApply
+                        ? t("starterApplyCta")
+                        : t("starterCta")}
                   </Button>
                 </div>
               </>
@@ -983,7 +1055,11 @@ export function PresidentConfiguration({
         </div>
 
         <div className="lg:sticky lg:top-[calc(var(--site-header-height,3.5rem)+5rem)]">
-          <PreviewPanel modules={draftModules} surfaces={draftSurfaces} />
+          <PreviewPanel
+            modules={draftModules}
+            surfaces={draftSurfaces}
+            roleTools={draftRoleTools}
+          />
         </div>
       </div>
 

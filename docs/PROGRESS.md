@@ -1,4 +1,14 @@
-﻿## 2026-09-29 — CI test gate parallelization
+﻿## 2026-09-29 — President Hub QOL leftovers
+
+- Opt-in Officer tools expanded: expenses, travel, broadcast, and polls join ledger/invites/meetings (default off); catalog + Configuration toggles gate nav only.
+- Hall starter: when Portal is draft-only, primary CTA is **Apply and create Hall** (union scope) via `/api/tenant/` then `/api/tenant/circle-starter/`.
+- Soft-launch invites Callout on Configuration when the Invites shortcut is off; setup checklist still links `/app/invites`.
+- Docs: Hub≠Portal MFA/API boundary in `PRESIDENT_CONFIGURATION` + `LOCAL_PORTAL`.
+- Packet 7: migration `0081` + incident step-up grant cleanup cron; provisional incident-row retention + metadata-only tabletop noted in LAUNCH tracker.
+- FR Meetings/RSVP role-tool + Today-strip claims aligned; quiet preview line for role-shortcut count.
+- What's new: `president-role-tools-toggle`.
+
+## 2026-09-29 — CI test gate parallelization
 
 - Split serial `test-and-build` (~20 min) into `quality` ∥ `build-app` → 4× `e2e-smoke` shards + `test-gate`.
 - Build once; shards download standalone artifact (`include-hidden-files` for nested `.next/BUILD_ID`); Playwright Chromium cached; CI `workers` stay at 1.

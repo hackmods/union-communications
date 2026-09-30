@@ -56,8 +56,22 @@ register. This does not implement customer-tenant incident workspaces.
   the rationale, and approve final notification decisions.
 - No incident is seeded and no notification or incident drill was performed.
   There is still no full privacy access/correction/deletion request workflow.
-- No incident retention period was selected. Expired step-up grant rows are
-  inert but currently have no scheduled cleanup. Both are open Packet 7 work.
+- **Retention (provisional operator target, 2026-09-29):** Incident *register*
+  rows stay until Privacy Officer / counsel approve a purge schedule. Where
+  PIPEDA breach-recording duties apply, retain breach-determination records for
+  at least 24 months from determination (counsel must confirm). Do not bake an
+  automated incident-row purge into cron until that approval lands.
+- **Expired step-up grants:** Migration `0081_incident_step_up_grant_cleanup`
+  adds `app_count_expired_incident_step_up_grants` /
+  `app_purge_expired_incident_step_up_grants` (SECURITY DEFINER, retention-job
+  GUC). Cron `GET|POST /api/cron/incident-step-up-cleanup` (Bearer /
+  `x-cron-secret` = `CRON_SECRET`) dry-runs on GET and purges on POST. App role
+  still cannot `DELETE` grant rows directly (0070 revoke).
+- **Tabletop drill (metadata-only, 2026-09-29):** Operators walked the unlock →
+  list → create-form → lock path on `/app/site-admin/incidents` without saving
+  a narrative or seeding PII. Confirmed MFA challenge copy resolves and the
+  empty register state is bilingual. A live customer-host RLS denial under
+  `unionops_app` and a counsel-approved notification exercise remain open.
 - The initial incident-register slice accepted the existing verifier's current
   +/- one time-step window without recording which counter matched. The
   follow-up [TOTP replay slice](session-knowledge-2026-09-27-totp-replay.md)
@@ -69,8 +83,8 @@ register. This does not implement customer-tenant incident workspaces.
   run the official Drizzle contract generator/check before image build or DB
   deploy. Run live RLS/direct-API tests under `unionops_app` before customer
   records are entered.
-- The migration is append-only after `0065`; the Drizzle journal now has 67
-  entries. Do not retrofit these definitions into a second migration ledger.
+- The migration is append-only after `0065`; journal tip is
+  `0081_incident_step_up_grant_cleanup` after this cleanup slice.
 - Self-hosted operators are responsible for their own incident register,
   privacy/breach process, storage, access control, retention, and evidence.
   This page is only for UnionOps platform operations.

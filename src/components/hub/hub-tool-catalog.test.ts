@@ -25,6 +25,10 @@ const ALL_ROLE_TOOLS: PresidentRoleToolId[] = [
   "financialSummaries",
   "invites",
   "meetings",
+  "expenses",
+  "travel",
+  "broadcast",
+  "polls",
 ];
 
 describe("HUB_TOOL_CATALOG", () => {
@@ -73,6 +77,10 @@ describe("resolveHubToolAccess", () => {
     expect(hrefs).not.toContain("/app/ledger");
     expect(hrefs).not.toContain("/app/meetings");
     expect(hrefs).not.toContain("/app/invites");
+    expect(hrefs).not.toContain("/app/expenses");
+    expect(hrefs).not.toContain("/app/travel");
+    expect(hrefs).not.toContain("/app/broadcast");
+    expect(hrefs).not.toContain("/app/polls");
     expect(hrefs).toContain("/app/configuration");
   });
 

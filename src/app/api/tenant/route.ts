@@ -82,6 +82,10 @@ const presidentRoleToolSchema = z.enum([
   "financialSummaries",
   "invites",
   "meetings",
+  "expenses",
+  "travel",
+  "broadcast",
+  "polls",
 ]);
 
 const createLocalSchema = z.object({
@@ -147,7 +151,7 @@ const setPortalSurfacesSchema = z.object({
 
 const setPresidentRoleToolsSchema = z.object({
   action: z.literal("set_president_role_tools"),
-  presidentRoleTools: z.array(presidentRoleToolSchema).max(8),
+  presidentRoleTools: z.array(presidentRoleToolSchema).max(16),
   unionId: z.string().min(1).optional(),
 });
 

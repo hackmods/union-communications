@@ -314,20 +314,30 @@ export function resolveHubToolAccess(
       canAccessMeetingsModule(roles),
     broadcast:
       localCasework &&
+      roleTools.has("broadcast") &&
       (roles.includes("local_president") ||
         roles.includes("local_exec") ||
         roles.includes("union_admin") ||
         roles.includes("platform_admin") ||
         roles.includes("local_member")),
-    polls: localCasework && canAccessPollsModule(roles),
+    polls:
+      localCasework &&
+      roleTools.has("polls") &&
+      canAccessPollsModule(roles),
     ledger:
       localCasework &&
       roleTools.has("financialSummaries") &&
       (roles.includes("local_president") ||
         roles.includes("local_exec") ||
         canCrossLocalGrievance(roles)),
-    travel: localCasework && canAccessTravelModule(roles),
-    expenses: localCasework && canAccessExpensesModule(roles),
+    travel:
+      localCasework &&
+      roleTools.has("travel") &&
+      canAccessTravelModule(roles),
+    expenses:
+      localCasework &&
+      roleTools.has("expenses") &&
+      canAccessExpensesModule(roles),
     handoff: localCasework && canInitiateHandoff(roles),
     // Setup chrome is role-gated only — visible while tenant loads or modules are off.
     invites: roleTools.has("invites") && canManageInvites(roles),

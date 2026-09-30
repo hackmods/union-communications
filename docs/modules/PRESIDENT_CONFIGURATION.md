@@ -56,11 +56,26 @@ reason Comms is omitted — the site header already elevates it).
 | Surface | Path | Default nav |
 |---------|------|-------------|
 | Local financial summaries (Ledger) | `/app/ledger` | **Off** |
+| Expenses | `/app/expenses` | **Off** |
+| Travel claims | `/app/travel` | **Off** |
 | Invites | `/app/invites` | **Off** (setup checklist still links) |
 | Meetings & RSVP | `/app/meetings` | **Off** |
+| Broadcast | `/app/broadcast` | **Off** |
+| Polls | `/app/polls` | **Off** |
 
 These stay available by role at the route; Configuration toggles only Officer
-tools / Today-strip chrome. Most locals leave them off.
+tools / Today-strip chrome. Most locals leave them off. Governance and setup
+chrome (configuration, onboarding, minutes, officers, committees, elections,
+handoff, audit, reports, officer learning) stay role-visible.
+
+### Hub vs Portal API boundary
+
+Hall and Circle starter actions from `/app/configuration` use
+`POST /api/tenant/circle-starter` under Hub MFA (`sessionMfaOk`). Do **not**
+call `/api/portal/*` from Hub chrome for these mutations — Portal
+`requirePortalSession` is a stricter hosted boundary (actor MFA + Portal
+module). Future Hub→Circle work should follow the same Hub-scoped route
+pattern.
 
 ### Local Portal surfaces (dedicated list)
 
@@ -97,7 +112,7 @@ tools / Today-strip chrome. Most locals leave them off.
 | Catalog + defaults | `src/lib/president/module-catalog.ts` |
 | Portal surface store | `src/lib/tenant/portal-surfaces.ts` |
 | Overlay defaults | `DEFAULT_OVERLAY_MODULES` in `src/lib/tenant/overlay.ts` |
-| API | `POST /api/tenant` `set_modules` / `set_portal_surfaces` (+ optional `unionId` for platform admin) |
+| API | `POST /api/tenant` `set_modules` / `set_portal_surfaces` / `set_president_role_tools` (+ optional `unionId` for platform admin); Hall starter `POST /api/tenant/circle-starter` |
 | UI | `src/components/hub/PresidentConfiguration.tsx` → `/app/configuration` |
 | Nav peers | `LocalPortalNavLink` + `OfficerHubNavLink` in Header / MobileNavDrawer |
 
