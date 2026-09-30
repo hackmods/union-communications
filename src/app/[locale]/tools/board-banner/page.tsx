@@ -62,6 +62,7 @@ import { BoardBannerCanvas } from "@/components/tools/board-banner/BoardBannerCa
 import { BoardTrimCanvas } from "@/components/tools/board-banner/BoardTrimCanvas";
 import { BoardBannerSheet } from "@/components/tools/board-banner/BoardBannerSheet";
 import { Button } from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/Checkbox";
 import { Input } from "@/components/ui/Input";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { ToolLoadingFallback } from "@/components/tools/ToolLoadingFallback";
@@ -608,17 +609,13 @@ function BoardBannerPageContent() {
                   setState({ ...state, showLocal })
                 }
               />
-              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-                <input
-                  type="checkbox"
-                  checked={state.showByline}
-                  onChange={(e) =>
-                    setState({ ...state, showByline: e.target.checked })
-                  }
-                  className="size-4"
-                />
-                {t("showByline")}
-              </label>
+              <Checkbox
+                checked={state.showByline}
+                onChange={(e) =>
+                  setState({ ...state, showByline: e.target.checked })
+                }
+                label={t("showByline")}
+              />
               {state.showByline ? (
                 <Input
                   label={t("byline")}

@@ -37,7 +37,15 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-a-fitgap.md`](session-knowledge-202
 
 | ID | Status | Verdict | Notes |
 |----|--------|---------|-------|
-| B1–B8 | open | | |
+| B1–B2 | done | NARROW | Board-banner byline → shared Checkbox; rest already migrated |
+| B3 | done | SKIP | Meeting Background already on shared primitives + safe zone |
+| B4 | deferred | SKIP | Art residuals demand-driven |
+| B5 | deferred | SKIP | Optional growth backlog |
+| B6 | human | HUMAN | Steward CAAT-S sign-off |
+| B7 | deferred | SKIP | COPY-006 demand-driven |
+| B8 | deferred | SKIP | Caption packs need content owners |
+
+Fit-gap: [`session-knowledge-2026-09-30-wave-b-fitgap.md`](session-knowledge-2026-09-30-wave-b-fitgap.md)
 
 ### Wave C — Public discovery
 
@@ -84,3 +92,4 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-a-fitgap.md`](session-knowledge-202
 | Date | IDs | File |
 |------|-----|------|
 | 2026-09-30 | A1–A5 (+A6–A8 disposition) | [session-knowledge-2026-09-30-wave-a-fitgap.md](session-knowledge-2026-09-30-wave-a-fitgap.md) |
+| 2026-09-30 | B1–B8 | [session-knowledge-2026-09-30-wave-b-fitgap.md](session-knowledge-2026-09-30-wave-b-fitgap.md) |

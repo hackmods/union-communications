@@ -1,4 +1,10 @@
-﻿## 2026-09-30 — Wave A Hub composition + member Portal-off landing
+﻿## 2026-09-30 — Wave B poster-family alignment
+
+- Alignment Gate: poster QOL plan largely already shipped (shared Select/Checkbox/ToolColourSection/treatments).
+- Residual: Board Banner byline uses shared `Checkbox`.
+- Fit-gap: [`docs/audit/session-knowledge-2026-09-30-wave-b-fitgap.md`](audit/session-knowledge-2026-09-30-wave-b-fitgap.md).
+
+## 2026-09-30 — Wave A Hub composition + member Portal-off landing
 
 - Scripted VL-HUB-2 1280 composition for Hub dashboard, grievance detail, and Portal Hall (`assertDesktopComposition`, `e2e/hub.composition.spec.ts`).
 - VL-HUB-4: automated 200% zoom approximation on dashboard; human SR checklist remains.
