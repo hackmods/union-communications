@@ -234,11 +234,11 @@ export function MfaPageClient() {
       const body = (await res.json()) as { mfaGrant?: string };
       if (!body.mfaGrant) {
         setError(
-          officerMfaErrorMessage(
-            "storage_unavailable",
-            (key) => tErrors(key),
-            t("mfaError"),
-          ),
+        officerMfaErrorMessage(
+          "grant_unavailable",
+          (key) => tErrors(key),
+          t("mfaError"),
+        ),
         );
         verifyLockRef.current = false;
         setLoading(false);

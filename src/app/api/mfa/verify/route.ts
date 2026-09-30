@@ -95,8 +95,7 @@ export async function POST(request: Request) {
       return respond(
         {
           error: "MFA verification safeguards are unavailable.",
-          code: "storage_unavailable",
-          reason: "attempt_reserve_failed",
+          code: "attempt_store_unavailable",
         },
         { status: 503, headers: { "Cache-Control": "private, no-store" } },
       );
@@ -154,9 +153,7 @@ export async function POST(request: Request) {
     return respond(
       {
         error: "Could not create a secure session grant. Try again shortly.",
-        code: "storage_unavailable",
-        // Ops-facing discriminator for CapRover logs / support; Hub UI keys off `code` only.
-        reason: "grant_issue_failed",
+        code: "grant_unavailable",
       },
       { status: 503, headers: { "Cache-Control": "private, no-store" } },
     );

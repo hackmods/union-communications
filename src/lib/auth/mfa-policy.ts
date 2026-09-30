@@ -185,7 +185,7 @@ export async function verifyMfaCode(input: {
         ok: false,
         status: 503,
         error: "MFA verification safeguards are unavailable.",
-        code: "storage_unavailable",
+        code: "attempt_store_unavailable",
       };
     }
   }
@@ -261,7 +261,7 @@ export async function verifyMfaCode(input: {
       ok: false,
       status: 503,
       error: "TOTP replay protection is unavailable.",
-      code: "storage_unavailable",
+      code: "replay_store_unavailable",
     };
   }
   return { ok: true, mode };

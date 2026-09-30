@@ -34,9 +34,19 @@ describe("classifySubmittedMfaCode", () => {
 describe("officerMfaErrorMessage", () => {
   it("maps known codes and falls back otherwise", () => {
     expect(isMfaClientCode("replayed")).toBe(true);
+    expect(isMfaClientCode("attempt_store_unavailable")).toBe(true);
+    expect(isMfaClientCode("grant_unavailable")).toBe(true);
+    expect(isMfaClientCode("replay_store_unavailable")).toBe(true);
     expect(
       officerMfaErrorMessage("replayed", (key) => `t:${key}`, "fallback"),
     ).toBe("t:replayed");
+    expect(
+      officerMfaErrorMessage(
+        "attempt_store_unavailable",
+        (key) => `t:${key}`,
+        "fallback",
+      ),
+    ).toBe("t:attempt_store_unavailable");
     expect(officerMfaErrorMessage("nope", () => "x", "fallback")).toBe("fallback");
   });
 });

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   isMfaEnabled,
   isHostedCustomerMode,
@@ -8,9 +8,13 @@ import {
   sessionMfaOk,
   verifyMfaCode,
 } from "@/lib/auth/mfa-policy";
+import * as attemptLimits from "@/lib/auth/mfa-attempt-limits";
 import { resetMfaVerificationAttemptsForTests } from "@/lib/auth/mfa-attempt-limits";
 
-afterEach(() => resetMfaVerificationAttemptsForTests());
+afterEach(() => {
+  resetMfaVerificationAttemptsForTests();
+  vi.restoreAllMocks();
+});
 
 describe("isMfaEnabled (opt-in, default off)", () => {
   it("is false when unset", () => {
@@ -240,6 +244,26 @@ describe("verifyMfaCode", () => {
     });
     expect(second.ok).toBe(false);
     if (!second.ok) expect(second.code).toBe("replayed");
+  });
+
+  it("returns attempt_store_unavailable when attempt reservation throws", async () => {
+    vi.spyOn(attemptLimits, "reserveMfaVerificationAttempt").mockRejectedValue(
+      new Error("Failed query: insert into mfa_verification_attempts"),
+    );
+    const result = await verifyMfaCode({
+      userId: "user-president-7",
+      code: "123456",
+      env: {
+        NODE_ENV: "production",
+        AUTH_MFA_ENABLED: "true",
+        AUTH_MFA_MODE: "totp",
+      },
+    });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.status).toBe(503);
+      expect(result.code).toBe("attempt_store_unavailable");
+    }
   });
 
   it("returns TOTP not enrolled when secret missing", async () => {
