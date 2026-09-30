@@ -4,12 +4,12 @@
 
 Prévoyez **30 minutes** pour la lecture et l'autoévaluation. Apportez la clause de conservation de vos règlements (le cas échéant), un croquis de votre arborescence de dossiers numériques, et la dernière liste de contrôle de transition de dirigeants utilisée par votre section — ou un modèle vierge si des élections approchent. Parcourez les garde-fous de cybersécurité avec votre exécutif avant de déplacer des dossiers de griefs ou des données d'adhésion vers un nouveau lecteur.
 
-Les sections passent de l'architecture de l'information aux calendriers de conservation, à la cybersécurité et à la liste de contrôle de transition de dirigeants. Associez le module 11 (listes de membres et confidentialité des données) et `/learn/membership-signup`. Le **module 11** possède le contenu des listes et qui peut les recevoir (Rand, interdictions politiques/commerciales) ; **ce module** possède où vivent tous les dossiers syndicaux, combien de temps on les conserve, et comment les dirigeants les remettent — les deux interdisent OneDrive/Teams de l'employeur, pour des emplois différents. L'éducation des secrétaires du **CTC** et les matériaux d'administration locale du **SCFP** renforcent la discipline de conservation ; les sections locales de l'Ontario doivent confirmer les règles financières de sept ans avec leur syndicat national et les directives de l'ARC.
+Commencez par décider où chaque dossier doit vivre, combien de temps le garder et comment le prochain dirigeant en prendra possession. Le module 11 traite du contenu des listes de membres et des personnes qui peuvent les recevoir; ce module porte sur l'architecture des dossiers et la passation. Les ressources du **CTC** et du **SCFP** aident les secrétaires dans l'administration locale; confirmez les règles de conservation financière auprès de votre syndicat national et de l'ARC.
 
 🪞 Réflexion : Un mot de passe perdu est un inconvénient. Un dossier de grief sur OneDrive de l'employeur est une brèche en attente.
 
 ## Objectif général
-Former les secrétaires de section à concevoir des structures de classement numériques sécurisées, à maintenir des calendriers de conservation documentaire statutaires, à exécuter des passations de leadership fluides, et à appliquer des protocoles de cybersécurité modernes qui protègent les dossiers syndicaux confidentiels contre la surveillance de l'employeur et les fuites de données.
+Les dossiers doivent rester faciles à retrouver après votre départ. Ce module aide à bâtir un classement sûr, à fixer des durées de conservation réalistes et à préparer une passation que la prochaine équipe pourra suivre. Gardez les dossiers confidentiels hors des espaces contrôlés par l'employeur.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : Les périodes de conservation légalement prescrites pour les dossiers locaux (procès-verbaux, griefs, relevés bancaires) ; les éléments essentiels de la cybersécurité syndicale, y compris l'A2F et les passations par gestionnaire de mots de passe.
@@ -61,7 +61,7 @@ Les dossiers de griefs restent **actifs** jusqu'à résolution complète. Si un 
 ---
 
 ## 3. Garde-fous de cybersécurité
-Les dossiers syndicaux rivalisent avec les services TI de l'employeur et les attaquants externes pour la confidentialité. **Ne stockez jamais de dossiers syndicaux sur OneDrive, Teams, SharePoint ou courriel de travail de l'employeur.** L'employeur peut légalement surveiller, analyser et récupérer les données sur ses réseaux — la stratégie de grief, les ébauches de PV et les discussions sur l'adhésion ne sont pas en sécurité.
+Les comptes administrés par l'employeur restent soumis aux contrôles et aux règles de conservation de son milieu de travail. Gardez les stratégies de grief, les ébauches de procès-verbaux et les discussions sur les membres dans un espace contrôlé par le syndicat, jamais sur le OneDrive, Teams, SharePoint ou courriel de travail de l'employeur.
 
 ### Règles du plancher que chaque section devrait adopter
 
@@ -104,7 +104,7 @@ Les dirigeants sortants **ne conservent pas** de mots de passe personnels sur le
 
 **À appliquer :** Arrêter immédiatement les nouveaux téléversements. Migrer griefs et adhésion vers un stockage syndical chiffré (sections 1 et 3). Construire l'architecture de dossiers avant la numérisation en masse. Triage de conservation : PV et règlements permanents vers `01_Gouvernance_démocratique/` ; déchiqueter les reçus de repas de plus de sept ans après approbation du syndic (section 2). Voter en exécutif pour rejeter le stockage employeur et adopter l'A2F plus un gestionnaire de mots de passe avant le prochain CE.
 
-**À ne pas appliquer :** Ne pas déchiqueter les PV d'AGM pour libérer de l'espace. Ne pas protéger par mot de passe un dossier sur OneDrive et appeler cela sécurisé. Ne pas retarder la mise à jour des signataires bancaires « après les fêtes ».
+**À ne pas appliquer :** Ne pas déchiqueter les PV d'AGM pour libérer de l'espace. Ne laissez pas un dirigeant sortant comme seul propriétaire du compte : transférez le contrôle administratif à la section et retirez son accès à la fin de son mandat. Ne retardez pas la mise à jour des signataires bancaires « après les fêtes ».
 
 **Deuxième temps — passation électorale.** Le trésorier sortant envoie les mots de passe bancaires par texto au successeur et reste sur le compte « pour un an au cas où ».
 
@@ -147,12 +147,12 @@ Exercice : **Tour 1 — Architecture de dossiers.** Sur une page, dessinez les s
 
 ## Pièges courants
 
-1. **Stockage « gratuit » de l'employeur** — OneDrive/Teams semble pratique ; les TI de l'employeur peuvent le lire.
+1. **Compte administrateur orphelin** — Le seul propriétaire quitte après une élection et personne ne peut réinitialiser les accès au domaine ou au lecteur.
 2. **Textos de mots de passe** — Passations rapides non vérifiables ni révocables.
 3. **Déchiquetage des PV** — Confondre les règles financières de sept ans et les dossiers de gouvernance permanents.
 4. **Systèmes de dossiers parallèles** — Chaque dirigeant invente sa propre arborescence ; rien n'est trouvable.
 5. **Retard sur la banque** — Le trésorier sortant signe encore des chèques des mois après l'élection.
-6. **Griefs dans le courriel** — Les archives de courriel employeur consultables ne sont pas des dossiers.
+6. **Passation non vérifiée** — Le successeur découvre que l'archive promise est incomplète lorsqu'un membre demande un document.
 
 ---
 

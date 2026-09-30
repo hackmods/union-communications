@@ -4,12 +4,12 @@
 
 Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez le **budget local**, un **bon de dépenses** type, vos **règlements** sur les signataires, et un **carnet**. Les erreurs financières érodent la confiance des membres plus vite que n'importe quel grief perdu — traitez les contrôles comme de la solidarité, pas de la bureaucratie.
 
-Les sections 1 à 4 couvrent le but syndical, les doubles signatures, la budgétisation et les audits des fiduciaires. Le module 4 a couvert les rencontres de gouvernance où les budgets sont approuvés. Associez `/learn/union-boards` et assurez-vous des règles de quorum du module 4 avant tout vote de dépense.
+Un budget approuvé n'est utile que si les membres peuvent suivre les dépenses et les contrôles. Ce module montre comment relier les paiements aux décisions de l'assemblée, partager la responsabilité des signatures et laisser aux syndics un dossier vérifiable. Le module 4 traite des réunions où le budget est adopté; `/learn/union-boards` aide à organiser le travail des dirigeants.
 
 ⚠️ Avertissement : Ne signez jamais un chèque ou un virement électronique sans reçus détaillés correspondants — aucune exception pour les dirigeants.
 
 ## Objectif général
-Fournir aux trésoriers et fiduciaires indépendants les compétences administratives rigoureuses nécessaires pour maintenir des contrôles financiers à double signature, compiler des budgets locaux priorisés par programme, et exécuter des audits internes objectifs.
+Les membres devraient pouvoir comprendre les finances de leur section locale sans deviner. Ce module explique les contrôles à deux signatures, les budgets établis par programme et le travail des fiduciaires qui vérifient les comptes.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : La règle constitutionnelle centrale selon laquelle tous les fonds locaux doivent être utilisés strictement à des fins syndicales légitimes ; et le rôle constitutionnel des fiduciaires élus.

@@ -4,14 +4,14 @@
 
 Prévoyez **20 minutes** pour la lecture et l'autoévaluation. Apportez le **formulaire de description de poste (PDF)** actuel du membre, tout **brouillon** que le gestionnaire vient de remettre, l'article de votre convention sur les **bandes salariales / l'évaluation des emplois**, et un carnet. Lisez dans un espace privé : le journal des tâches indique qui a dirigé le travail et peut nommer des collègues.
 
-Les sections passent de l'anatomie du PDF aux dumps de tâches, au journal de fréquence sur 14 jours, aux commentaires de l'employé, puis au comité mixte d'évaluation des emplois (JJEC) ou au grief de classification. Associez le **module 1** avant de déposer. **Ce module** possède la discipline du délégué pour **auditer les PDF**, consigner les **tâches réelles**, rédiger les **commentaires de l'employé** et ouvrir un dossier de **reclassification**. Le **module 16** possède les **listes** d'ancienneté et les arbres de bumping — pas l'évaluation des bandes salariales. Le **module 10** possède les comités conjoints en général ; utilisez-le quand le forum est un CSTS ou un CMT, pas un panel d'évaluation des emplois. Le **module 8** possède le libellé de règlement une fois le dossier déposé.
+Le dossier de classification le plus solide compare l'ancien formulaire, le brouillon et un journal daté du travail réel. Ce module suit ces preuves jusqu'aux commentaires écrits et à la prochaine étape prévue par votre convention. Le module 1 couvre l'admission du grief, le module 16 l'ancienneté et le bumping, et le module 8 les conditions de règlement. Le module 10 traite des comités de santé-sécurité et patronaux-syndicaux, pas des comités d'évaluation des emplois.
 
 Les formations de délégués du **CTC**, les documents du **SCFP** sur la classification et la formation d'**Unifor** sur l'évaluation des emplois approfondissent la lecture des facteurs. Les délais de révision et l'existence d'un JJEC sont **propres à votre CC** — confirmez les vôtres avant de citer un nombre de jours.
 
 🪞 Réflexion : Un « ménage administratif » du PDF n'est pas une courtoisie. C'est une prétention sur l'emploi. Votre travail est de tester cette prétention contre le travail réellement fait.
 
 ## Objectif général
-Outiller les délégués ontariens avec la discipline de preuve pour auditer les formulaires de description de poste, documenter l'élargissement de tâches non compensé, rédiger les commentaires de l'employé dans le délai de révision de la CC, et ouvrir un grief de classification ou un renvoi à l'évaluation conjointe des emplois, sans traiter la grille de facteurs d'un seul secteur comme loi universelle.
+Quand une description de poste est modifiée, comparez-la au travail réellement effectué. Ce module montre comment tenir un journal de tâches, contester le brouillon dans le délai prévu à la convention et amorcer la démarche de classification appropriée. Les grilles varient : utilisez celle de votre milieu.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : Qu'un PDF est la description officielle de l'employeur des tâches régulières et récurrentes, et le fondement habituel de la classification sur la grille ; comment les plans à facteurs attribuent habituellement des points à la scolarité, à la complexité, à l'imputabilité, à la communication, à l'effort physique ou sensoriel et aux conditions de travail (les libellés varient selon le plan) ; et que les délais de révision et les processus JJEC viennent de **votre CC**, pas de ce module.
@@ -57,6 +57,8 @@ Les délégués du **SCFP** en classification et les documents d'**Unifor** sur 
 
 ## 3. Le journal de fréquence des tâches sur 14 jours
 Quand le membre conteste le brouillon, rassemblez une **preuve de temps objective** avant la fermeture du délai de révision.
+
+Par exemple, si un membre consacre 35 minutes aux rapports d'exception le lundi et 50 minutes à la même tâche le mardi, consignez les deux jours au lieu de qualifier la tâche d'« occasionnelle » de mémoire. Notez la tâche, le temps consacré, l'outil utilisé et la personne qui l'a assignée. À la fin de la période, comparez le journal à l'étiquette de fréquence du brouillon et demandez au membre de confirmer que le relevé correspond au travail.
 
 ### Quoi consigner (10 à 14 jours ouvrables consécutifs)
 *   Nom de la tâche dans les mots du membre, puis rattaché à une ligne du PDF.

@@ -4,12 +4,12 @@
 
 Prévoyez **26 minutes** pour la lecture et l'autoévaluation. Apportez les articles de discipline de votre **convention collective**, toute lettre d'avertissement ou avis de suspension récent, et un **carnet**. Les dossiers disciplinaires sont émotionnellement chargés — si possible, révisez ce module avec un délégué mentor avant votre première rencontre disciplinaire.
 
-Les sections 1 à 5 couvrent l'encadrement par rapport à la discipline, les étapes progressives, les facteurs atténuants, l'obéir maintenant et plaider ensuite, et le lien hors service. Associez `/learn/grievance-process` pour les étapes de dépôt et `/learn/right-to-refuse` lorsque des exceptions de sécurité surviennent. Les principes de la LSST de l'Ontario apparaissent dans l'exception de sécurité de la section 4 — connaissez l'équivalent de votre province.
+Commencez par distinguer une mesure de gestion d'une mesure disciplinaire. Ensuite, vérifiez la progression, les facteurs atténuants et ce que le membre doit faire pendant qu'un grief suit son cours. Le guide `/learn/grievance-process` couvre les étapes de dépôt; consultez `/learn/right-to-refuse` lorsqu'une question de sécurité se présente. Vérifiez les lois applicables dans votre province.
 
 💡 Note : En matière de discipline, l'employeur porte le fardeau de la preuve. Votre rôle est de tester ses preuves et de présenter l'atténuation — pas de prouver l'innocence du membre à partir de zéro.
 
 ## Objectif général
-Instruire les délégués sur la façon de défendre vigoureusement les travailleurs confrontés à une discipline de l'employeur, reconnaître les étapes de la discipline progressive, tirer parti des facteurs atténuants, et naviguer les cas complexes de rendement, d'absentéisme innocent et de conduite hors service.
+Quand l'employeur impose une mesure disciplinaire, le membre a besoin d'un délégué qui ralentit la rencontre et vérifie les faits. Ce module passe en revue la cause juste, les étapes disciplinaires, les facteurs atténuants et les dossiers plus délicats de rendement, d'absence ou de conduite hors travail.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : La distinction stricte entre l'encadrement/le coaching non disciplinaire et la mesure disciplinaire formelle ; la définition juridique de la « cause juste » et de la discipline progressive.

@@ -4,12 +4,12 @@
 
 Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Lisez avec votre **convention collective**, une carte de milieu de travail vierge (quarts × classifications), et un carnet pour les idées d'escalade. Parcourez les limites juridiques de la section 4 avec votre représentant de service ou un conseiller juridique avant de lancer tout *work-to-rule* — ce module enseigne la carte ; le conseil juridique assume le jugement de risque.
 
-Les sections passent du cycle de négociation à la cartographie démographique, à l'échelle d'escalade à cinq échelons, et aux limites de grève du *Code des relations de travail* (LRT) de l'Ontario. Associez `/learn/workplace-mapping`, `/learn/bargaining`, `/learn/strike`, et `/learn/membership-signup`. Le **module 6** possède le langage de négociation d'équité et la RAD ; **ce module** possède les échelles de mobilisation et les limites de grève en cours de convention du LRT — les guides publics sont des cahiers de marche, pas un second cours OL. L'éducation à l'organisation du **CTC** et le **Leadership en milieu de travail d'Unifor** approfondissent la pratique de cartographie ; les chapitres du **manuel des délégués du SCFP** sur la pression au lieu de travail renforcent la prudence juridique.
+Le fil conducteur est clair : cartographiez le lieu de travail avant de choisir une tactique, puis vérifiez la convention et la loi avant de demander aux membres d'agir. Consultez `/learn/workplace-mapping`, `/learn/bargaining`, `/learn/strike` et `/learn/membership-signup` pour les guides pratiques. Le module 6 traite du langage d'équité et du règlement adapté; celui-ci explique la mobilisation et les limites des moyens de pression pendant la convention. La formation à l'organisation du **CTC**, le programme **Leadership en milieu de travail d'Unifor** et le **manuel des délégués du SCFP** approfondissent ces sujets.
 
 🪞 Réflexion : Une convention sans plancher organisé est un document. Votre travail est de transformer l'encre en pouvoir — légalement.
 
 ## Objectif général
-Équiper les délégués comme mobilisateurs et partenaires de négociation qui cartographient le milieu de travail, escaladent la pression des membres par une échelle disciplinée de tactiques, et restent à l'intérieur des limites juridiques qui séparent la solidarité protégée de l'activité de grève illégale en cours de convention selon le droit du travail ontarien.
+Pour gagner du poids à la table, il faut savoir qui appuie l'équipe, qui hésite et ce que la convention permet. Ce module aide à cartographier le milieu de travail, à bâtir la pression graduellement et à vérifier les limites juridiques des actions pendant la convention.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : Les phases du cycle de négociation (Application, Élaboration des demandes et Négociation) ; la distinction juridique entre une action protégée de *work-to-rule* et un ralentissement ou une grève illégale.

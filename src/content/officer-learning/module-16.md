@@ -4,14 +4,14 @@
 
 Allow **32 minutes** for the reading and self-test. Bring your **collective agreement** layoff, seniority, and recall articles; a recent employer seniority list (or a redacted sample); and a **notepad**. Read in a private space — bumping files often involve medical leaves, accommodation, and job loss.
 
-Sections move from seniority lists vs. service dates through bumping trees, skills/qualifications language, layoff notice clocks, trial periods, and human-rights collisions. Pair with `/learn/seniority-bumping` and **Module 1**. The **seniority-bumping guide** owns sector playbook mechanics — cascade examples, worksheet exports, and committee run sheets. **This module** owns steward discipline for **reading seniority lists**, tracing **bumping trees**, tracking **notice clocks**, and running **intake** when displacement hits the floor. **Module 1** owns the complaint-vs-grievance filter, 6 W's, and FAR — use them here before you file.
+Start with the list and the service dates, then test each possible move against the rights and qualifications in your agreement. `/learn/seniority-bumping` has the sector worksheet and cascade examples; this module focuses on steward intake, notice clocks, and accommodation collisions. Use Module 1's grievance filter and FAR sheet before filing.
 
 **CLC** steward education, **CUPE** layoff materials, and **Unifor** displacement training deepen list reading; Ontario **Employment Standards Act** notice rules sit beside — not instead of — your CA clocks.
 
 🪞 Reflection: A bumping tree drawn on a napkin is not a grievance file. Your job is to turn employer charts into dated, verifiable facts before the recall window closes.
 
 ## Overarching Purpose
-To equip Ontario stewards with the analytical and intake discipline to read seniority lists accurately, trace CA-specific bumping rights, enforce layoff and recall notice clocks, and protect members facing displacement — including those in accommodation — without treating one college sector formula as universal law.
+When layoffs arrive, a small mistake in the seniority list can change who gets to stay. This module shows stewards how to check the list, trace the bumping rights in their own agreement, calendar notice and recall dates, and flag accommodation issues without assuming one sector's rules fit every workplace.
 
 ## Core Learning Objectives
 *   **Know**: The difference between seniority **lists**, **service dates**, and **classification** rules; how bumping rights interact with skills/qualifications language; layoff and recall notice obligations under your CA and applicable statutes; trial/familiarization periods when the CA provides them; and that human rights accommodation can constrain bumping outcomes (see **Module 3**).
@@ -27,7 +27,7 @@ Employers publish **seniority lists** during layoffs, recalls, and posting dispu
 | --- | --- | --- |
 | **Seniority list** | Employer snapshot of order within a unit, classification, or department | Is the list current? Does scope match the bargaining unit? |
 | **Service date** | Date continuous service began for seniority purposes under the CA | Breaks in service, leaves, transfers — CA defines what resets the clock |
-| **Classification seniority** | Separate ladders for FT/PT, job family, or pay band | Bumping may run inside one classification only — **check your CA** |
+| **Classification seniority** | Separate ladders for FT/PT, job family, or pay band | The agreement may limit bumping to one classification |
 | **Departmental / facility seniority** | Localized order when the CA says so | A college campus, hospital site, or municipal depot may be its own pool |
 | **Probationary / trial service** | Period when seniority may not accrue or bumping may be limited | New hires and redeployed members — CA language varies |
 
@@ -49,7 +49,7 @@ Employers publish **seniority lists** during layoffs, recalls, and posting dispu
 ## 2. Reading a Bumping Tree (CA-Specific)
 **Bumping trees** — who may displace whom, in what order — are **entirely CA-specific**. Ontario public-sector agreements (colleges, hospitals, municipalities, school boards) use different cascade models. No steward should memorize one sector's chart as Ontario law.
 
-### Common tree elements (labels vary — check your CA)
+### Common tree elements (labels vary — read your agreement's wording)
 *   **Primary bump** — more senior member in a declared surplus classification bumps into a junior-held job they are **qualified** to perform.
 *   **Secondary / reverse bump** — junior member bumped out may bump into another lower classification if the CA allows.
 *   **Surplus / displaced status** — interim category with recall rights; rights differ by CA.
@@ -111,7 +111,7 @@ Run the **6 W's** on every displacement intake:
 *   **WHEN** — notice dates, effective layoff date, election deadlines, recall offer dates.
 *   **WHERE** — facility, department, bargaining unit scope.
 *   **WHY** — CA articles allegedly violated (open-door wording on grievance).
-*   **WANT** — reinstatement, correct bump, recall, make-whole pay — **check your CA** for available remedies.
+*   **WANT** — reinstatement, correct bump, recall, make-whole pay — confirm which remedies your agreement provides.
 
 💡 Note: Calendar every deadline the day notice lands. Stewards who "will get to it next week" lose recall grievances.
 
@@ -163,7 +163,7 @@ Displacement can collide with **accommodation** — modified duties, reduced hou
 
 ## 7. Bargaining Unit Scope & Past Practice in Displacement
 Bumping trees fail when the **wrong pool** is used. Ontario multi-union stewards see scope fights in:
-*   **Multi-campus colleges** — unit-wide vs. campus seniority (**check your CA**).
+*   **Multi-campus colleges** — unit-wide vs. campus seniority; read the agreement's pool definition.
 *   **Health care** — program vs. facility pools.
 *   **Municipal** — department vs. corporate seniority.
 *   **Split units** — FT/PT, casual, and student streams rarely intermix.
@@ -274,7 +274,7 @@ A more senior member wants to bump into a job held by a worker on **accommodated
 ### Question 3
 HR claims a surplus member is "not qualified" for a bumped-into role. Junior incumbents were hired without the newly demanded certification. Strongest union angle?
 *   A) Qualifications are irrelevant in every layoff — seniority alone decides.
-*   B) Challenge selective enforcement and compare pre-layoff job requirements, training rights, and past practice (**check your CA**).
+*   B) Challenge selective enforcement and compare pre-layoff job requirements, training rights, and past practice; confirm the applicable agreement language.
 *   C) Abandon the bump because HR used the word "unqualified."
 *   D) Argue Meiorin step three from memory without medical evidence.
 
@@ -303,7 +303,7 @@ A member bumps into a higher classification. After three weeks, management says 
 
 ### Question 6
 Which intake tool from **Module 1** should anchor every displacement file before the first grievance step meeting?
-*   A) The Universal Quorum Scale for general meetings.
+*   A) The quorum rule for general meetings.
 *   B) The 6 W's investigation framework and FAR preparation sheet.
 *   C) The Meiorin three-step test for every skills dispute.
 *   D) The Membership List Directive for Rand payers.

@@ -4,12 +4,12 @@
 
 Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Apportez vos **règlements locaux**, toute **politique de dépenses** existante, un **bon d'honoraire** type et les notes du **module 5** sur la double signature — le module 5 couvre budgets et audits des fiduciaires ; **ce module** couvre la conception de politiques de dépenses, les honoraires imposables et la gouvernance des fonds de détresse.
 
-Les sections passent des politiques de dépenses approuvées à l'AG aux honoraires conformes à l'ARC et aux comités de détresse à examen aveugle. L'éducation trésorier du **CTC**, les manuels financiers du **SCFP** et les ateliers **FTO** rappellent : compassion sans contrôles invite la douleur d'audit.
+Les membres devraient pouvoir suivre l'argent sans deviner. Ce module couvre les dépenses approuvées par les membres, la déclaration des honoraires et les fonds d'aide assortis de contrôles qui protègent les personnes aidées et la section locale. Pour les questions fiscales, consultez une personne qualifiée. Les ressources du **CTC**, du **SCFP** et de la **FTO** offrent des repères pour les trésoriers.
 
 🪞 Réflexion : Un chèque de détresse sans deuxième signature n'aide personne quand l'audit du fiduciaire demande qui a autorisé le paiement.
 
 ## Objectif général
-Instruire les trésoriers locaux et fiduciaires dans une intendance financière avancée — établir des politiques de dépenses légalement conformes approuvées par les membres, gérer les honoraires imposables des dirigeants avec déclaration appropriée, et exploiter des fonds de détresse sécurisés, compatissants et à l'épreuve de l'audit.
+Les membres devraient pouvoir suivre l'argent sans deviner. Ce module couvre les dépenses approuvées par les membres, la déclaration des honoraires et les fonds d'aide assortis de contrôles qui protègent les personnes aidées et la section locale. Pour les questions fiscales, consultez une personne qualifiée.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : La distinction stricte entre un remboursement de dépense non imposable appuyé par reçus et un honoraire imposable de dirigeant ; les règles structurelles régissant les fonds de détresse syndicaux et les comités à examen aveugle.

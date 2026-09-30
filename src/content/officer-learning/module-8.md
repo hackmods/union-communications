@@ -4,12 +4,12 @@
 
 Allow **32 minutes** for the reading and self-test. Bring a recent grievance file (or the blank intake from Document Generator), your **collective agreement**, and a notepad for settlement language. Practice open-door wording on a live file before your next step meeting — theory without a draft rarely sticks.
 
-Sections move from the five-part grievance file through open-door wording, without prejudice vs. without precedent, and Four Corners settlement discipline. Pair with `/learn/grievance-process` and `/utilities/complaint-vs-grievance`. **Module 1** owns the complaint-vs-grievance filter, 6 W's, and FAR intake; **this module** owns trial-ready file pillars, open-door drafting, and MOS / Four Corners settlement discipline — the grievance-process guide covers step filing mechanics. Use Document Generator grievance intake worksheets to structure chronology. **CUPE steward handbook** and **Unifor Grievance Handling** courses deepen file architecture; arbitral practice on make-whole remedies informs remedy asks.
+The file has to survive the handoff from intake to settlement: dates, records, witness statements, and wording that leaves room for what the evidence shows. Module 1 covers the intake filter and FAR sheet; `/learn/grievance-process` covers filing steps; this module focuses on case files and settlement terms. The Document Generator intake worksheet can help organize a chronology. **CUPE** and **Unifor Grievance Handling** materials offer more on file building and remedies.
 
 🪞 Reflection: A weak grievance form loses arguments before the meeting starts. Write for the arbitrator you hope never to need.
 
 ## Overarching Purpose
-To train stewards to build trial-ready grievance files, draft open-door statements that preserve legal flexibility, negotiate settlements that protect contract integrity, and recognize when to walk away from a bad deal rather than lock the local into unenforceable side promises.
+When a grievance reaches a serious meeting, a tidy story is not enough. This module shows you how to build a file from dated evidence, keep the grievance wording open as facts develop, and put every settlement promise in writing before the union withdraws.
 
 ## Core Learning Objectives
 *   **Know**: The core files and chronological evidence structures required for a trial-ready grievance; the legal definitions of "without prejudice" and "without precedent".

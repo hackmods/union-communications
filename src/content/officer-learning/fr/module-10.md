@@ -4,12 +4,12 @@
 
 Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez les termes de référence de votre CSTS (ou notes de structure requises par la LSST), tout procès-verbal de comité patronal-syndical (CPS), et une plainte actuelle de danger ou de charge de travail du plancher. Esquissez qui siège où avec `/create/org-chart` avant l'exercice pratique — le pouvoir des comités est inutile si les délégués ne trouvent pas la bonne porte.
 
-Les sections passent des mandats CSTS vs CPS à la discipline de caucus uni, à l'escalade multi-comités, et aux voies de refus de travail de la LSST qui engagent le CSTS. Associez `/learn/joint-committee` et `/learn/right-to-refuse`. **Ce module** forme le routage des délégués, la discipline de caucus et l'escalade parallèle ; le **guide des comités conjoints** possède les chartes, le rythme et les opérations de réunion — ne reconstruisez pas ces modèles ici. L'éducation en santé et sécurité du **CTC** et les concepts provinciaux de la LSST approfondissent les pouvoirs statutaires ; la pratique du CPS reste consultative sauf si votre CC dit autrement.
+Certains problèmes vont au comité de santé et sécurité, d'autres à la table patronale-syndicale, et quelques-uns aux deux. Ce module aide le caucus syndical à garder le cap, à distinguer les obligations légales de la consultation et à porter les problèmes non résolus au bon endroit. Les guides `/learn/joint-committee` et `/learn/right-to-refuse` détaillent les démarches au plancher. La formation en santé-sécurité du **CTC** et la loi applicable dans votre province approfondissent les pouvoirs des comités.
 
 🪞 Réflexion : Les tables conjointes sont des caucus avec un but — pas des auditoires pour les présentations de la direction.
 
 ## Objectif général
-Former les leaders locaux à utiliser les comités conjoints de santé et sécurité et les comités patronaux-syndicaux comme centres de pouvoir coordonnés — avec une discipline de caucus uni, des limites statutaires vs consultatives claires, et une escalade multi-portes qui déplace ensemble les dangers, la charge de travail et les frictions contractuelles au lieu de piéger les enjeux dans la mauvaise salle.
+Certains problèmes vont au comité de santé-sécurité, d'autres à la table patronale-syndicale, et quelques-uns aux deux. Ce module aide le caucus syndical à garder le cap, à distinguer les obligations légales de la consultation et à porter les problèmes non résolus au bon endroit.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : Les mandats juridiques, pouvoirs et limites du comité conjoint de santé et sécurité (CSTS) et du comité patronal-syndical (CPS) ; la règle de la « discipline de caucus uni ».

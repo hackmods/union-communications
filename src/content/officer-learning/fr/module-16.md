@@ -4,14 +4,14 @@
 
 Prévoyez **32 minutes** pour la lecture et l'autoévaluation. Apportez les articles de votre **convention collective** sur les mises à pied, l'ancienneté et le rappel ; une liste d'ancienneté récente de l'employeur (ou un échantillon caviardé) ; et un **carnet**. Lisez dans un espace privé — les dossiers de bumping touchent souvent aux congés médicaux, à l'accommodement et à la perte d'emploi.
 
-Les sections passent des listes d'ancienneté vs dates de service aux arbres de bumping, au langage sur les compétences et qualifications, aux délais de préavis de mise à pied, aux périodes d'essai et aux collisions avec les droits de la personne. Associez `/learn/seniority-bumping` et le **module 1**. Le **guide seniority-bumping** possède les mécaniques du guide sectoriel — exemples de cascade, export de feuilles de travail et fiches de comité. **Ce module** possède la discipline du délégué pour **lire les listes d'ancienneté**, tracer les **arbres de bumping**, suivre les **délais de préavis** et mener l'**admission** quand le déplacement frappe le plancher. Le **module 1** possède le filtre plainte/grief, les 6 W et la FAR — utilisez-les ici avant de déposer.
+Lisez la liste et la définition du bassin dans la convention avant de tracer une chaîne de déplacement. Ce module montre comment comparer les droits d'ancienneté, préserver les délais et repérer les collisions avec l'accommodement; le **module 1** fournit les 6 W et la fiche FAR pour ouvrir le dossier. `/learn/seniority-bumping` propose des exemples et des outils de comité.
 
 Les formations de délégués du **CTC**, les documents du **SCFP** sur les mises à pied et la formation d'**Unifor** sur le déplacement approfondissent la lecture des listes ; les règles de préavis de la **Loi sur les normes d'emploi** (LNE) de l'Ontario coexistent avec — sans remplacer — les délais de votre CC.
 
 🪞 Réflexion : Un arbre de bumping dessiné sur une serviette n'est pas un dossier de grief. Votre travail est de transformer les graphiques de l'employeur en faits datés et vérifiables avant la fermeture de la fenêtre de rappel.
 
 ## Objectif général
-Outiller les délégués ontariens avec la discipline analytique et d'admission pour lire les listes d'ancienneté avec précision, tracer les droits de bumping propres à la CC, faire respecter les délais de préavis de mise à pied et de rappel, et protéger les membres confrontés au déplacement — y compris ceux en accommodement — sans traiter une formule d'un secteur collégial comme loi universelle.
+Lors d'une mise à pied, une erreur dans la liste d'ancienneté peut changer qui garde son emploi. Ce module montre comment vérifier la liste, suivre les droits de déplacement prévus par votre convention, noter les délais de préavis et de rappel, et signaler les enjeux d'accommodement.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : La différence entre **listes** d'ancienneté, **dates de service** et règles de **classification** ; comment les droits de bumping interagissent avec le langage sur les compétences et qualifications ; les obligations de préavis de mise à pied et de rappel sous votre CC et les lois applicables ; les périodes d'essai/familiarisation lorsque la CC les prévoit ; et que l'accommodement en matière de droits de la personne peut limiter les résultats de bumping (voir le **module 3**).
@@ -303,7 +303,7 @@ Un membre bump dans une classification supérieure. Après trois semaines, la di
 
 ### Question 6
 Quel outil d'admission du **module 1** doit ancrer chaque dossier de déplacement avant la première rencontre d'étape de grief ?
-*   A) L'échelle de quorum universelle pour les assemblées générales.
+*   A) La règle de quorum des assemblées générales.
 *   B) Le cadre d'enquête des 6 W et la fiche de préparation FAR.
 *   C) Le test Meiorin en trois étapes pour tout litige sur les compétences.
 *   D) La directive sur les listes de membres pour les payeurs Rand.

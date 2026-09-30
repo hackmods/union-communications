@@ -4,12 +4,12 @@
 
 Allow **32 minutes** for the reading and self-test. Bring your **local bylaws**, any existing **expense policy**, a sample **honorarium voucher**, and the **Module 5** notes on double-signature controls — Module 5 covers budget basics and trustee audits; **this module** covers expense policy design, taxable honorariums, and hardship fund governance.
 
-Sections move from GMM-approved expense policies through CRA-aware honorarium reporting and blind-review hardship committees. **CLC** local treasurer education, **CUPE** financial handbooks, and **OFL** steward-officer workshops reinforce that compassion without controls invites audit pain.
+Compassion and good controls belong together. Start with a clear spending policy, record honorariums properly, and protect hardship applicants through a fair review process. **CLC**, **CUPE**, and **OFL** treasurer education can help local officers apply those habits.
 
 🪞 Reflection: A hardship cheque that skips a second signature helps nobody when the Trustee audit asks who authorized the payout.
 
 ## Overarching Purpose
-To instruct Local Treasurers and Trustees in advanced financial stewardship — establishing legally compliant, membership-approved expense policies, managing taxable officer honorariums with proper reporting, and operating secure, compassionate, audit-proof member hardship funds.
+Members should be able to follow the money without guessing. This module covers expense rules approved by the membership, honorarium reporting, and hardship funds with controls that protect both the recipient and the local. Confirm tax and reporting questions with the local's qualified advisor.
 
 ## Core Learning Objectives
 *   **Know**: The strict distinction between a non-taxable expense reimbursement backed by receipts and a taxable officer honorarium; the structural rules governing union hardship funds and blind-review committees.

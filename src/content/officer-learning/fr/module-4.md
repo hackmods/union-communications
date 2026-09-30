@@ -4,15 +4,15 @@
 
 Prévoyez **25 minutes** pour la lecture et l'autoévaluation. Apportez vos **règlements locaux**, le dernier jeu de **procès-verbaux**, une calculatrice pour le calcul du quorum, et un **carnet**. Si votre section locale prépare une élection, lisez la section 4 deux fois avant la soirée de mise en candidature.
 
-Les sections couvrent les rôles des dirigeants, les paliers de quorum, les procès-verbaux sobres, et la procédure du scrutin secret. Croisez avec votre constitution nationale — l'échelle universelle de quorum ici correspond à la pratique locale canadienne courante ; confirmez dans vos documents régissant. Associez `/learn/union-boards` pour le contexte des rôles de dirigeants.
+Les règles de réunion inspirent confiance quand les membres peuvent comprendre comment une décision a été prise. Dans la section sur le quorum, trouvez le seuil dans vos propres règlements et gardez le compte à jour; les sections sur les procès-verbaux et les élections montrent quoi noter lorsque l'assemblée approche de ce seuil. Consultez `/learn/union-boards` pour le contexte des rôles de dirigeants.
 
 💡 Note : Les échecs démocratiques sont procéduraux — un quorum perdu et des vainqueurs à la pluralité se corrigent avant de devenir des crises si le secrétaire suit le décompte en temps réel.
 
 ## Objectif général
-Instruire les secrétaires et dirigeants de section locale sur les devoirs administratifs du leadership local, l'établissement démocratique de l'ordre du jour, les calculs dynamiques de quorum, et l'exécution rigoureuse d'élections au scrutin secret à plusieurs tours.
+Les membres font confiance à une section locale quand les réunions sont justes et les décisions bien consignées. Ce module traite des rôles, du quorum, des procès-verbaux et des élections secrètes; vérifiez toujours les règles dans vos statuts et règlements.
 
 ## Objectifs d'apprentissage
-*   **Savoir** : Les limites constitutionnelles et administratives des dirigeants de la section locale ; les seuils mathématiques de quorum selon la taille de l'effectif local.
+*   **Savoir** : Les limites constitutionnelles et administratives des dirigeants locaux; où les règlements fixent le quorum et comment calculer le nombre de membres requis.
 *   **Ressentir/Comprendre** : Engagement à maintenir des systèmes locaux ouverts, hautement accessibles et démocratiques ; valorisation de procès-verbaux objectifs axés sur les décisions (« écriture sobre ») plutôt que de notes verbatim.
 *   **Être capable de** : Calculer et surveiller le quorum local en temps réel ; gérer la transition vers les « affaires non votantes » si le quorum est perdu ; et mener une élection au scrutin secret à plusieurs tours en calculant des majorités claires de 50 %+1.
 
@@ -33,22 +33,19 @@ Les ateliers de leadership local de la **Fédération du travail de l'Ontario** 
 ---
 
 ## 2. Quorum : mathématiques, suivi et états de perte
-Le **quorum** est le nombre minimum de membres inscrits en règle qui doivent être présents à une rencontre pour traiter légalement les affaires syndicales, adopter des motions et tenir des votes.
+Le **quorum** est le nombre minimum de membres, défini dans vos documents régissants, qui doivent être présents pour traiter les affaires et tenir les votes de la rencontre.
 
-### L'échelle universelle de quorum
-Pour assurer la responsabilité démocratique selon la taille des sections locales, le quorum se calcule selon une échelle mathématique par paliers :
-*   **Sections locales de 1 à 20 membres** : Le quorum est de **50 pour cent** de l'effectif inscrit.
-*   **Sections locales de 21 à 200 membres** : Le quorum est exactement de **10 membres**.
-*   **Sections locales de 201 membres ou plus** : Le quorum est de **5 pour cent** de l'effectif inscrit.
+### Trouver la règle de quorum de votre section
+Il n'existe pas une seule formule de quorum pour toutes les sections locales. Vérifiez dans votre constitution et vos règlements le seuil et la façon de compter les membres en règle. Si la règle prévoit un pourcentage, calculez le nombre avant l'assemblée et inscrivez-le près de la feuille de présence; si elle fixe un nombre, utilisez ce nombre. Pour une question limite, consultez votre syndicat national avant l'assemblée au lieu de deviner à partir de la pratique d'une autre section.
 
 ### Fonctionner en état de « quorum perdu »
 Si l'assistance tombe sous le seuil de quorum requis durant une rencontre, le secrétaire local doit immédiatement le signaler au président de séance.
 *   **Consigner le quorum perdu** : Le secrétaire doit consigner l'heure exacte et le décompte lorsque le quorum a été perdu dans le procès-verbal.
-*   **L'état non votant** : La rencontre n'a pas à se terminer immédiatement. La section locale peut encore procéder aux **affaires non votantes** (comme écouter des conférenciers invités, discuter de mises à jour éducatives ou recevoir des rapports de comités). Cependant, **aucun vote, motion ou élection ne peut être tenu**. Tout vote tenu après la perte du quorum est juridiquement nul et ouvert à une contestation constitutionnelle.
+*   **L'état non votant** : La rencontre n'a pas à se terminer immédiatement. La section locale peut encore procéder aux **affaires non votantes** (comme écouter des conférenciers invités, discuter de mises à jour éducatives ou recevoir des rapports de comités). Ne tenez pas de vote, de motion ou d'élection après la perte du quorum; consultez vos documents régissants et votre syndicat national pour savoir comment consigner l'interruption.
 
 ⚠️ Avertissement : « On a commencé avec le quorum » ne sauve pas un vote après que des gens sont partis. Le secrétaire devrait annoncer le quorum perdu dès que le décompte baisse.
 
-📝 Exercice : Calculez le quorum pour des sections locales de 12, 85, 300 et 2 400 membres inscrits. Écrivez la formule utilisée pour chaque palier.
+📝 Exercice : Appliquez la règle réelle de votre section pour calculer le quorum d'une petite assemblée, d'une assemblée moyenne et d'une assemblée à pleine participation. Notez la clause source et le nombre près de chaque effectif pour qu'un autre dirigeant puisse vérifier le calcul.
 
 ---
 
@@ -90,7 +87,7 @@ Les matériaux de démocratie locale du Congrès du travail du Canada et les sé
 ### Avis de rencontre et discipline de l'ordre du jour
 Les rencontres démocratiques commencent avant l'arrivée des membres. Le secrétaire émet un avis avec la date, l'heure, le lieu (ou le lien virtuel) et un projet d'ordre du jour selon les règlements — typiquement un nombre minimum de jours à l'avance. Les motions qui dépensent de l'argent ou modifient les règlements devraient figurer à l'ordre du jour pour que les membres puissent se préparer. Les votes surprises de dernière minute sur de grandes dépenses invitent la contestation même lorsque le quorum est atteint.
 
-📝 Exercice : Rédigez un avis de rencontre d'une page pour une AGM qui inclut l'approbation du budget et des élections de dirigeants. Listez les éléments statutaires : seuil de quorum pour la taille de votre section locale, admissibilité au vote, et comment soumettre des points à l'ordre du jour.
+📝 Exercice : Rédigez un avis de rencontre d'une page pour une AGM qui inclut l'approbation du budget et des élections de dirigeants. Vérifiez dans vos règlements le seuil de quorum, l'admissibilité au vote et la façon dont les membres peuvent proposer des points à l'ordre du jour.
 
 ### Bulletins postaux et électroniques
 Certaines sections locales utilisent des bulletins postaux ou électroniques pour les élections de dirigeants ou les votes de ratification lorsque le quorum en personne est difficile. Les règlements et la constitution nationale peuvent fixer des règles précises — n'improvisez jamais le vote électronique sans vérifier les documents régissant. Si le bulletin postal est autorisé : fixez une échéance claire, utilisez des enveloppes de retour signées ou des identifiants de membres vérifiés, nommez des scrutateurs pour le décompte, et consignez le processus dans des procès-verbaux sobres. La présence hybride ne signifie pas automatiquement un vote hybride à moins que les règlements ne le permettent.
@@ -101,23 +98,23 @@ Certaines sections locales utilisent des bulletins postaux ou électroniques pou
 
 ## Scénario commenté
 
-**La motion de charité après l'autobus.** Votre section locale a 300 membres inscrits ; le quorum est de 15. L'AGM ouvre avec 18 membres. Durant une présentation d'un conférencier, quatre membres partent pour prendre l'autobus. Immédiatement après, une motion est adoptée pour donner 1 000 $ à une œuvre communautaire.
+**La motion de charité après l'autobus.** Dans cet exemple, les règlements fixent le quorum à 15. L'AGM ouvre avec 18 membres. Durant une présentation, quatre membres partent pour prendre l'autobus. Immédiatement après, une motion est adoptée pour donner 1 000 $ à une œuvre communautaire.
 
-**À appliquer :** Le secrétaire compte 14 restants — quorum perdu. Annoncez et consignez l'heure et le décompte. La discussion sur la charité peut continuer comme affaire non votante, mais la motion est nulle. Le président ne doit pas signer de chèques basés sur ce vote. Replanifiez le vote lorsque le quorum peut être atteint ou utilisez un bulletin postal/courriel si les règlements le permettent.
+**À appliquer :** Le secrétaire compte 14 personnes — sous le seuil fixé par ces règlements. Annoncez et consignez l'heure et le décompte. La discussion sur la charité peut continuer sans vote, mais n'appliquez pas la motion; consultez les documents régissants pour savoir comment traiter un vote tenté après la perte du quorum. Replanifiez le vote lorsque le quorum peut être atteint ou utilisez un bulletin postal/courriel si les règlements le permettent.
 
-**À ne pas appliquer :** Ne cachez pas les départs dans les procès-verbaux. N'arguez pas que les votes de charité sont exemptés du quorum — les motions de dépense exigent le quorum comme toute autre. Ne déclarez pas le candidat en tête élu à 45 % au premier scrutin.
+**À ne pas appliquer :** Ne cachez pas les départs dans les procès-verbaux. Ne présumez pas qu'un vote de charité ou de dépense est exempté; vérifiez la règle dans vos règlements. Ne déclarez pas le candidat en tête élu à 45 % au premier scrutin.
 
 ---
 
 ## Exercice pratique
 
-Exercice : AGM simulée avec cartes de décompte papier. Le secrétaire suit le quorum pour une section locale fictive de 85 membres (quorum 10). À des moments scénarisés, des membres « partent » — le secrétaire doit annoncer le statut et le président de séance doit permettre ou bloquer les motions. Deuxième tour : menez un scrutin présidentiel à trois candidats avec 100 bulletins valides (45/35/20) et documentez la prochaine étape correcte.
+Exercice : AGM simulée avec cartes de décompte papier. La section locale fictive compte 85 membres et ses règlements fixent le quorum à 10. À des moments scénarisés, des membres « partent » — le secrétaire annonce le décompte et le président de séance vérifie si les affaires peuvent continuer. Deuxième tour : menez un scrutin présidentiel à trois candidats avec 100 bulletins valides (45/35/20) et documentez la prochaine étape correcte.
 
 ---
 
 ## Liste de contrôle du plancher
 
-- [ ] Confirmer les règles de quorum dans les règlements locaux (l'échelle universelle est un défaut pédagogique)
+- [ ] Confirmer dans les règlements locaux la règle de quorum et la méthode de décompte des membres
 - [ ] Calculer le quorum avant la rencontre en utilisant l'effectif inscrit actuel
 - [ ] Feuille de présence : membres en règle seulement
 - [ ] Annoncer le statut de quorum à l'ouverture et après tout changement de décompte
@@ -133,7 +130,7 @@ Exercice : AGM simulée avec cartes de décompte papier. Le secrétaire suit le 
 ## Pièges courants
 
 1. **Vainqueurs à la pluralité** — La première place n'est pas élue sans 50 %+1.
-2. **Amnésie du quorum** — Les votes après des départs sont nuls même si la salle semblait « assez pleine ».
+2. **Amnésie du quorum** — Un vote après des départs peut être contesté selon les documents régissants, même si la salle semblait « assez pleine ».
 3. **Procès-verbaux romanesques** — Les transcriptions dramatiques créent de la responsabilité et enterrent les décisions.
 4. **Omettre les scrutateurs** — Les décomptes contestés sans observateurs invitent la méfiance.
 5. **Portes ouvertes durant le scrutin** — Le verrouillage prévient les contestations de double vote.
@@ -151,24 +148,24 @@ Exercice : AGM simulée avec cartes de décompte papier. Le secrétaire suit le 
 ## Quiz d'autoévaluation
 
 ### Question 1
-Une section locale a 300 membres inscrits. Selon l'échelle universelle de quorum, combien de membres doivent être présents à une assemblée générale pour voter légalement sur une motion visant à modifier les règlements de la section locale ?
-*   A) 10 membres.
-*   B) 15 membres (5 % de 300).
-*   C) 150 membres (50 % de 300).
-*   D) 50 membres.
+Les règlements d'une section locale exigent 15 membres pour le quorum. Quatorze personnes restent lorsqu'une motion de modification des règlements est présentée. Que devrait faire le président de séance ?
+*   A) Tenir le vote parce que la rencontre a commencé avec le quorum.
+*   B) Suspendre les votes, annoncer le décompte et suivre les règlements pour reprendre les affaires.
+*   C) Demander au secrétaire d'omettre le décompte des procès-verbaux.
+*   D) Continuer si la motion ne rencontre aucune opposition.
 
 **Correct Answer: B**
-*Explication* : Pour les sections locales de 201 membres ou plus, l'échelle universelle de quorum pédagogique utilise 5 % de l'effectif inscrit. 5 % de 300 égale 15. Confirmez vos règlements locaux — cette échelle est un défaut pour la pratique, pas chaque constitution.
+*Explication* : Les règlements fixent le seuil à 15; 14 personnes ne suffisent pas. Consignez le décompte et suivez les documents régissants avant de reprendre un vote.
 
 ### Question 2
 Durant une assemblée générale tendue, 4 membres quittent la salle pour prendre l'autobus, laissant seulement 12 membres dans une section locale qui exige 15 pour le quorum. Une motion est immédiatement présentée et adoptée pour dépenser 1 000 $ pour une œuvre locale. Quel est le statut de ce vote ?
 *   A) Le vote est valide parce que la rencontre a commencé avec le quorum.
-*   B) Le vote est nul parce que le quorum a été perdu avant le vote. La section locale ne peut tenir que des affaires non votantes.
+*   B) Arrêter le vote, consigner le décompte et ne voter de nouveau que si le quorum revient selon les règlements.
 *   C) Le vote est valide tant que le secrétaire ne consigne pas que les membres sont partis.
 *   D) Le vote est valide parce que les dons de charité n'exigent pas le quorum.
 
 **Correct Answer: B**
-*Explication* : Le quorum doit être maintenu tout au long de la rencontre pour qu'un vote puisse avoir lieu. Une fois que l'assistance tombe sous le seuil, la rencontre entre dans un état non votant. Tout vote tenu sans quorum est juridiquement nul.
+*Explication* : Suivez la règle de quorum de la section pendant toute la rencontre. Consignez le moment où le décompte passe sous le seuil et consultez les documents régissants pour traiter tout vote tenté après cette perte.
 
 ### Question 3
 Dans une élection locale pour la présidence, 100 bulletins valides sont exprimés. Le candidat A reçoit 45 voix, le candidat B en reçoit 35, et le candidat C en reçoit 20. Que se passe-t-il ensuite ?

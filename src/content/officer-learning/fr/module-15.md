@@ -15,7 +15,7 @@ La formation des délégués du Congrès du travail du Canada, les documents du 
 💡 Note : Ce module porte sur le métier de délégué, pas sur des conseils juridiques. Lorsque les enjeux sont élevés ou les faits contestés, escaladez tôt — un appel opportun au service de représentation vaut mieux qu'une excuse tardive à un membre.
 
 ## Objectif général
-Doter les représentants en milieu de travail en Ontario des habitudes d'enquête, de communication et de discipline des échéances requises pour respecter le devoir de représentation équitable du syndicat — protéger les membres par un processus équitable tout en protégeant la section locale contre les refus arbitraires, discriminatoires ou de mauvaise foi.
+Le syndicat peut refuser un grief faible, mais il ne peut pas sauter l'enquête. Ce module aide à entendre le membre, vérifier les preuves, appliquer les mêmes critères, expliquer la décision et respecter les délais.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : Ce qu'est le DRE en vertu du droit du travail ontarien; en quoi il diffère du droit du membre de gagner chaque grief; les tests juridiques (arbitraire, discriminatoire, refus de mauvaise foi); et la place de `/learn/dfr` dans votre processus.

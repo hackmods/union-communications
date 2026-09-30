@@ -15,7 +15,7 @@ CLC steward education, CUPE grievance-handling materials, and Unifor representat
 💡 Note: This module is steward craft, not legal advice. When stakes are high or facts are disputed, escalate early — a timely call to servicing beats a late apology to a member.
 
 ## Overarching Purpose
-To equip Ontario workplace representatives with the investigative, communicative, and clock-discipline habits required to meet the union's duty of fair representation — protecting members through fair process while protecting the local from arbitrary, discriminatory, or bad-faith refusals to represent.
+The union can turn down a weak grievance, but it cannot skip the investigation. This module builds the habits that make a decision fair and explainable: hear the member, check the evidence, apply the same standards, give a clear answer, and watch the deadlines.
 
 ## Core Learning Objectives
 *   **Know**: What DFR is under Ontario labour law; how it differs from a member's right to win every grievance; the legal tests (arbitrary, discriminatory, bad-faith refusal); and where `/learn/dfr` fits in your workflow.

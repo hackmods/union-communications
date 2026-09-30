@@ -158,7 +158,6 @@ export default async function PrintGuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("flyers.tip")}</p>
         </GuideCallout>
         <GuideActionRow>
@@ -237,7 +236,6 @@ export default async function PrintGuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("digital.tip")}</p>
         </GuideCallout>
       </GuideSection>

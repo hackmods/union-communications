@@ -624,7 +624,7 @@
           "content": "Lien stable qui-sommes-nous et comment-nous-joindre pour les codes QR et les médias. Guide du site Web pour le ZIP."
         }
       },
-      "warningTitle": "Un message, quatre surfaces",
+      "warningTitle": "Dates et consigne cohérentes",
       "warning": "Si l'heure de réunion sur le tract ne correspond pas à la publication Facebook, les membres cessent de faire confiance aux quatre."
     },
     "platforms": {
@@ -820,7 +820,11 @@
     "moduleQuizBadge": "Autoévaluation",
     "deepen": {
       "title": "Module du Centre de formation",
-      "body": "Le module {number} approfondit ce guide avec des scénarios, une autoévaluation, des listes de contrôle sur le terrain et des fiches imprimables à emporter en réunion."
+      "variants": {
+        "practice": "Le module {number} permet de pratiquer la prochaine étape avec un scénario et une liste de contrôle à apporter en réunion.",
+        "file": "Le module {number} vous aide à suivre un dossier, des premiers faits jusqu'à la décision. Gardez votre convention à portée de main.",
+        "meeting": "Avant la prochaine réunion, ouvrez le module {number} et utilisez son exemple pour préparer la question, le dossier ou la décision qui attend votre section."
+      }
     },
     "callout": {
       "focus": {
@@ -1394,7 +1398,7 @@
           },
           "d3": {
             "label": "Jour 3 — liste de recrutement",
-            "summary": "Cibles internes pour le métier de /guide/membership-signup."
+            "summary": "Préparez une liste interne de recrutement à l'aide du guide pratique d'adhésion."
           },
           "d7": {
             "label": "Jour 7 — stockage sûr",
@@ -2016,7 +2020,7 @@
     "protect": {
       "navLabel": "Vie privée",
       "title": "Protéger les adresses des membres",
-      "intro": "Une liste de membres est une information personnelle. Traitez chaque envoi comme si le voisin ou l'employeur d'un membre pouvait voir le message.",
+      "intro": "Avant l'envoi, vérifiez que la liste est à jour, limitée aux membres concernés et conservée hors des systèmes de l'employeur. Le guide d'adhésion explique comment protéger les dossiers eux-mêmes.",
       "bccTitle": "Utilisez la CCI depuis une boîte personnelle",
       "bccBody": "Quand vous écrivez à une liste depuis Outlook ou Gmail, placez chaque membre en CCI (copie carbone invisible). Les champs À et Cc montrent toutes les adresses à chaque destinataire. La CCI garde ces adresses privées.",
       "employerTitle": "N'utilisez pas le courriel de l'employeur",
@@ -2036,7 +2040,7 @@
     "checklist": {
       "navLabel": "Avant d'envoyer",
       "title": "Avant d'envoyer",
-      "intro": "Parcourez ces points une fois par courriel, comme la Première semaine parcourt tableaux, impression, puis réseaux.",
+      "intro": "Avant chaque envoi, vérifiez la liste de destinataires, l'objet, les liens et la date. Le guide Première semaine aide à planifier l'ensemble des communications.",
       "items": {
         "subject": "L'objet nomme l'action et le jour, pas un bulletin générique.",
         "facts": "La première phrase contient la date, l'heure, le lieu ou le lien de vote.",
@@ -2085,7 +2089,7 @@
     "strategy": {
       "navLabel": "Publication",
       "title": "Une demande, puis un endroit où aller",
-      "content": "Ouvrez avec qui, quoi et quand dès la première seconde. Une action par clip. Commencez par la plateforme que les membres utilisent déjà. Beaucoup de sections vivent encore dans un groupe Facebook fermé. TikTok est facultatif, pas une étape de la Première semaine. Laissez tomber les trucs de classement de la semaine ; ils vieillissent vite. Les pages officielles sont dans les sources plus bas.",
+      "content": "Ouvrez avec qui, quoi et quand dès la première seconde. Gardez une seule action par clip et commencez sur une plateforme que les membres utilisent déjà; plusieurs sections fonctionnent encore avec un groupe Facebook fermé. TikTok est facultatif. Pour les étapes de configuration, consultez les guides connexes à la fin de cette page. Laissez de côté les conseils hebdomadaires de classement, qui vieillissent vite.",
       "items": {
         "hook": "Mettez la demande à l’écran autant que dans la voix, pour que le clip fonctionne sans le son.",
         "oneAsk": "Une réunion, une pétition ou un site. Pas les trois.",
@@ -2096,7 +2100,7 @@
     "checklist": {
       "navLabel": "Avant de publier",
       "title": "Avant de publier",
-      "intro": "Parcourez ces points une fois par clip, comme la Première semaine parcourt tableaux, impression, puis réseaux.",
+      "intro": "Avant de publier un clip, vérifiez que la demande est claire, que les personnes filmées ont donné leur accord et que la légende fonctionne sans le son. Le guide Première semaine aide à coordonner les autres canaux.",
       "items": {
         "consent": "Consentement photo est fait, y compris les visages en arrière-plan et les étiquettes de lieu désactivées.",
         "cover": "Une couverture ou une carte de fin en hauteur est exportée (Portrait du Créateur graphique, format Story du Redimensionneur, ou une affiche solidarité 9:16).",
@@ -2185,7 +2189,7 @@
       "title": "Pourquoi le consentement, c'est la solidarité",
       "intro": "Le consentement protège les membres de la surveillance de l'employeur et des bonnes intentions des autres.",
       "retaliationTitle": "Surveillance de l'employeur",
-      "retaliationBody": "N'identifiez pas les membres au travail, n'activez pas les étiquettes de lieu, et ne publiez pas une photo qui prouve qu'ils étaient à une activité syndicale si cela peut se retourner contre eux. Dans le doute, recadrez ou ne publiez pas."
+      "retaliationBody": "N'identifiez pas les membres au travail, ne laissez pas les données de lieu activées et ne publiez pas une preuve de leur présence à une activité syndicale si cela peut leur nuire. Retirez les détails qui les exposent; si le risque demeure, gardez la photo hors ligne."
     },
     "tiers": {
       "navLabel": "Trois contextes",
@@ -2324,7 +2328,7 @@
       "items": {
         "ipc": {
           "label": "CIPVP Ontario",
-          "content": "La capture vidéo et photo au travail devrait respecter les principes de proportionnalité et d'avis — voir les sources ci-dessous."
+          "content": "Au travail, filmez ou photographiez seulement ce qui est nécessaire à la tâche et donnez un avis clair. Les sources à la fin du guide expliquent les principes de confidentialité à respecter."
         },
         "pipeda": {
           "label": "Base PIPEDA",
@@ -2735,7 +2739,7 @@
       },
       "picket-flyer": {
         "title": "Tract de piquetage / rassemblement",
-        "description": "Énergie d'un tract imprimable adaptée au partage social - le lieu d'abord.",
+        "description": "Tract de piquetage : porte 3, samedi à 7 h. Apportez de l'eau; la tente syndicale est près de l'entrée sud.",
         "why": {
           "0": "Les tracts imposent une hiérarchie : nom, lieu, heure.",
           "1": "Le même actif sert au tableau syndical et en ligne."
@@ -2774,7 +2778,7 @@
       },
       "bargaining-update": {
         "title": "Mise à jour de la table de négociation",
-        "description": "Ton professionnel : ce qui s'est passé, ce qu'il reste, comment rester informé.",
+        "description": "À la table mardi, la direction a répondu à deux propositions et en a reporté trois. Il nous faut encore une réponse sur les congés payés pour les réunions; les membres peuvent consulter le suivi jeudi.",
         "why": {
           "0": "Les membres veulent le statut, pas du spin - commencez par la mise à jour.",
           "1": "Les couleurs de marque distinguent les messages officiels."
@@ -2800,7 +2804,7 @@
       },
       "town-hall-thanks": {
         "title": "Graphique de remerciement - assemblée",
-        "description": "Célébrez la participation avec un remerciement chaleureux et une statistique mémorable.",
+        "description": "Merci aux [X] membres présents à [Event Name]. Prochaine étape : [prochaine réunion, action ou date]. À bientôt.",
         "why": {
           "0": "Remercier publiquement renforce la participation la prochaine fois.",
           "1": "Un chiffre de participation suffit - évitez le compte rendu complet."
@@ -4151,7 +4155,7 @@
         },
         "test": {
           "label": "Tester avant d'imprimer",
-          "content": "Scannez chaque QR sur votre propre téléphone avant d'imprimer une pile. Confirmez qu'il ouvre le bon formulaire pour la bonne collection."
+          "content": "Avant le tirage, demandez à une personne qui n'est pas connectée à votre compte de scanner le code et de confirmer que le bon formulaire s'ouvre."
         },
         "collection": {
           "label": "Correspondre à la collection",
@@ -4963,12 +4967,12 @@
         }
       },
       "warningTitle": "Si deux dirigeants publient des faits différents",
-      "warning": "Arrêtez les publications publiques jusqu'à ce que le président et le responsable Comms s'alignent sur une seule correction. Les membres font moins confiance au silence qu'ils détestent la contradiction — mais la contradiction détruit la confiance le plus vite."
+      "warning": "Mettez les mises à jour en pause jusqu'à ce que la présidence et la personne responsable des communications s'entendent sur la correction. Dites ensuite quand les membres recevront des nouvelles, même si vous n'avez pas encore de nouvel élément."
     },
     "roles": {
       "navLabel": "Rôles",
       "title": "Qui fait quoi",
-      "intro": "Inscrivez les noms sur un post-it avant l'ouverture du piquet. Les volontaires tournent ; les rôles, non.",
+      "intro": "Nommez la personne porte-parole et sa relève avant qu'un problème soit public. Gardez la chaîne d'approbation assez courte pour fonctionner même si quelqu'un est indisponible.",
       "items": {
         "president": {
           "label": "Président",
@@ -5000,7 +5004,7 @@
         },
         "schedule": {
           "label": "Publiez l'horaire que le comité de grève a déjà fixé",
-          "content": "Les mêmes entrées, heures et notes météo que portent déjà les capitaines. Mettez ces faits sur la page grève et à chaque entrée. N'inventez pas une version plus jolie qui contredit."
+          "content": "Tenez la page de grève et les avis aux portes à jour selon le lieu, l'heure et le plan météo approuvés. Demandez aux capitaines de vérifier leur consigne à cette source avant leur quart."
         },
         "safety": {
           "label": "La sécurité d'abord sur la ligne",
@@ -5114,7 +5118,7 @@
     "rhythm": {
       "navLabel": "Rythme",
       "title": "Une source de vérité prévisible, pas un quota",
-      "intro": "Les membres consultent leur téléphone constamment. Donnez-leur un seul endroit officiel où regarder, et mettez à jour quand les faits changent. N'inventez pas un calendrier de publications que vous ne pouvez pas tenir.",
+      "intro": "Choisissez le canal que les membres savent devoir consulter et nommez la personne qui le vérifie après chaque nouvelle décision. Publiez-y les faits confirmés pour que chacun sache où regarder.",
       "items": {
         "morning": {
           "label": "Si la ligne est ouverte — horaire et sécurité d'abord",
@@ -5122,7 +5126,7 @@
         },
         "midday": {
           "label": "Seulement si les faits ont changé",
-          "content": "Passez si rien de nouveau. Le silence bat le bruit quand les faits sont stables."
+          "content": "Si rien n'a changé à midi, confirmez avec l'équipe que la dernière mise à jour tient toujours. Publiez de nouveau seulement si les membres ont besoin de nouvelles consignes."
         },
         "evening": {
           "label": "Récap seulement si les membres ont besoin des faits de demain",
@@ -5197,7 +5201,7 @@
     "tools": {
       "navLabel": "Boîte à outils",
       "title": "Outils sur appareil pour les communications de crise",
-      "intro": "Gardez les visuels cohérents quand les volontaires tournent. Tout fonctionne sur votre appareil — pas de comptes Canva improvisés.",
+      "intro": "Utilisez les modèles approuvés pour qu'une nouvelle personne porte-parole puisse prendre la relève sans changer le message. Gardez les fichiers modifiables sur cet appareil et partagez l'image finale dans le canal convenu.",
       "items": {
         "brand": {
           "label": "Trousse de marque",
@@ -5453,7 +5457,7 @@
         },
         "overPromise": {
           "label": "Promettre la victoire",
-          "content": "« On va faire annuler ça » — puis un refus arrive. Correctif : promettez le processus et les délais, pas le résultat."
+          "content": "« On va faire annuler ça » — puis un refus arrive. Expliquez l'étape à venir, les éléments manquants et la date du prochain suivi; ne prédisez pas le résultat."
         },
         "personalBias": {
           "label": "Conflit personnel à la base de la décision",
@@ -5472,7 +5476,7 @@
         },
         "status": {
           "label": "Mises à jour selon un calendrier",
-          "content": "Si vous promettez une mise à jour vendredi, envoyez-la — même si la réponse est « toujours en attente de documents ». Le silence ressemble à de l’abandon."
+          "content": "Si vous promettez une mise à jour vendredi, envoyez-la — même si la réponse est « toujours en attente de documents ». Une note brève évite au membre de devoir courir après le dossier."
         },
         "confidential": {
           "label": "Garder son histoire confidentielle",
@@ -5697,7 +5701,7 @@
     },
     "trainingPath": {
       "title": "Parcours de formation du délégué",
-      "intro": "Parcourez ces guides pratiques dans l'ordre pendant que vous attendez la formation locale ou nationale.",
+      "intro": "Suivez ces liens dans l'ordre. Si vous attendez une formation officielle de délégué, notez les questions qui surgissent pendant votre lecture.",
       "steps": [
         {
           "label": "Délégué 101",
@@ -6019,7 +6023,7 @@
     },
     "next": {
       "title": "Aller plus loin",
-      "body": "Parcourez ces guides pratiques dans l'ordre pendant que vous attendez la formation locale ou nationale de délégué."
+      "body": "Choisissez le guide qui répond à une question actuelle sur le plancher. Apportez ce que vous aurez appris à votre prochain échange avec un délégué expérimenté ou votre représentant de service."
     }
   },
   "grievanceGuide": {
@@ -12751,12 +12755,12 @@
       "welcome": {
         "category": "Général",
         "title": "Accueil des nouveaux membres",
-        "caption": "Bienvenue dans la famille! Nous sommes ravis de vous accueillir à la [Local Number] [Sub-text]. Ensemble, nous sommes plus forts. Des questions? Communiquez avec votre délégué ou consultez notre page en tout temps."
+        "caption": "Bienvenue à la [Local Number] [Sub-text]. Votre délégué est [Name]; vous pouvez le joindre à [contact]. La prochaine assemblée des membres aura lieu le [date] à [place]. Venez avec vos questions."
       },
       "agm": {
         "category": "AGA",
         "title": "Annonce d'assemblée générale annuelle",
-        "caption": "ASSEMBLÉE GÉNÉRALE ANNUELLE\n\nDate : [Date]\nHeure : [Time]\nLieu : [Location/Virtual link]\n\nTous les membres sont encouragés à y participer. Votre voix oriente la direction de notre section. À bientôt!"
+        "caption": "ASSEMBLÉE GÉNÉRALE ANNUELLE\n\nDate : [Date]\nHeure : [Time]\nLieu : [Location/Virtual link]\n\nNous voterons sur le budget et élirons les dirigeants si nous avons quorum. Consultez l'avis pour connaître les règles de vote et venez avec vos questions."
       },
       "bargaining": {
         "category": "Négociation",
@@ -12771,12 +12775,12 @@
       "spotlight": {
         "category": "Membre en vedette",
         "title": "Membre en vedette",
-        "caption": "MEMBRE EN VEDETTE\n\nVoici [Name], qui milite dans notre section depuis [X] ans. [Quote or achievement]. Merci pour tout ce que vous faites pour nos membres!"
+        "caption": "MEMBRE EN VEDETTE\n\nVoici [Name], qui milite dans notre section depuis [X] ans. [Quote or achievement]. Merci pour [contribution précise]."
       },
       "event-thanks": {
         "category": "Événements",
         "title": "Remerciement après un événement",
-        "caption": "Merci à toutes les personnes qui se sont jointes à nous pour [Event Name]! [X] membres sont venus manifester leur solidarité. Ensemble, nous changeons les choses."
+        "caption": "Merci aux [X] membres présents à [Event Name]. Prochaine étape : [prochaine réunion, action ou date]. À bientôt."
       }
     },
     "copyNamed": "Copier {title}",
@@ -12843,7 +12847,7 @@
         "navLabel": "Créateur de logo",
         "title": "Créer votre identité",
         "do": "Ouvrez le <strong>Créateur de logo</strong>. Indiquez le numéro de section et les couleurs au besoin, générez un logo circulaire, puis téléchargez le PNG. C'est le fichier que vous emportez.",
-        "facilitator": "Si la trousse est vide, importez d'abord le fichier de démo. Partagez le Créateur de logo, pas la Trousse de marque, comme temps identité. Montrez que le téléchargement PNG fonctionne."
+        "facilitator": "Si la Trousse de marque locale n'est pas encore configurée, importez le fichier de démonstration. Partagez le Créateur de logo pour l'exercice d'identité, puis montrez où se trouve le PNG téléchargé."
       },
       "inspiration": {
         "time": "8 min",
@@ -15138,7 +15142,7 @@
         },
         "tracking": {
           "label": "Suivi",
-          "content": "Suivez chaque proposition, contre-proposition et accord. Gardez la stratégie hors des serveurs de l'employeur — utilisez le Suivi des propositions sur l'appareil et exportez en CSV sur une clé USB après chaque séance."
+          "content": "Suivez chaque proposition, contre-proposition et approbation. Gardez la stratégie hors des serveurs de l'employeur; après chaque séance de négociation, conservez un CSV daté sur le support de sauvegarde du syndicat."
         }
       },
       "tip": "Si l'employeur fait fuiter une demi-histoire, répondez avec une seule fiche de faits partagée — pas un fil de clavardage de rumeurs concurrentes."
@@ -15187,7 +15191,7 @@
         },
         "csv": {
           "label": "Exportez après chaque séance",
-          "content": "Exportez en CSV sur une clé USB étiquetée avant de ranger. Si le navigateur efface le stockage, la clé USB est la sauvegarde."
+          "content": "Avant de quitter la table, exportez un CSV daté sur la clé USB du syndicat. Vérifiez que le fichier s'ouvre avant d'effacer ou de remplacer la copie du navigateur."
         }
       },
       "calloutTitle": "La stratégie de négociation est confidentielle",
@@ -16434,7 +16438,7 @@
       },
       "materials": {
         "label": "Quoi apporter",
-        "content": "Cartes territoriales imprimées, le PDF de votre fédération, une feuille par personne (téléchargement ci-dessous), et un moyen de projeter Native-Land.ca ou Whose Land."
+        "content": "Cartes territoriales imprimées, PDF de votre fédération, une feuille imprimée par personne; le bouton de téléchargement se trouve dans la section Feuille à distribuer ci-dessous, et un moyen de projeter Native-Land.ca ou Whose Land."
       },
       "room": {
         "label": "Comment disposer la salle",
@@ -16652,10 +16656,10 @@
       "library": "Bibliothèque de référence"
     },
     "storage": {
-      "on-device": "Le travail ou la progression est enregistré dans ce navigateur ; aucune synchronisation automatique",
-      "on-device-hub-optional": "Enregistré dans ce navigateur ; les dirigeants autorisés peuvent envoyer une copie au Hub",
+      "on-device": "Sur cet appareil; pas de synchronisation automatique",
+      "on-device-hub-optional": "Sur cet appareil; sauvegarde au Hub facultative",
       "officer-hub": "Utilise le Hub des dirigeants",
-      "none": "Lecture seulement ; cet élément n'enregistre pas votre travail"
+      "none": "Lecture seule"
     },
     "deliverables": {
       "brand-kit": "Couleurs, logo, numéro et liens locaux enregistrés",

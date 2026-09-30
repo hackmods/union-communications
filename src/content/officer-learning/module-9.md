@@ -4,12 +4,12 @@
 
 Allow **30 minutes** for the reading and self-test. Bring a blank functional abilities form example (if your workplace uses one), your **benefits booklet** summary pages, and notes from any Attendance Management Program (AMP) letters members have received. This module is **claims advocacy** — insurer pressure, LTD/WSIB navigation, AMP audits, and diagnostic privacy — not a repeat of Module 3's Meiorin/BFOR accommodation framework (pair Module 3 for BFOR fights; use `/utilities/rtw-accommodation` for return-to-work planning).
 
-Sections move from medical information boundaries through Joint Insurance Committee (JIC) oversight, IME limits, and de-mechanizing AMPs. Pair with `/learn/steward-101` and `/utilities/rtw-accommodation`. **OHRC** *Human Rights at Work* and **CUPE** duty-to-accommodate resources anchor privacy and AMP challenges; pension/benefits text always yields to your plan documents and counsel.
+Start by separating functional limits from diagnosis. Then look at who can review a denial, when an IME request needs scrutiny, and how an attendance program treats disability-related days. `/learn/steward-101` and `/utilities/rtw-accommodation` support the steward's next steps. Use your plan documents and counsel for pension or benefit terms; **OHRC** and **CUPE** materials add context on privacy and accommodation.
 
 🪞 Reflection: The employer needs to know what the member can safely do — not what keeps them up at night. Guard the diagnosis.
 
 ## Overarching Purpose
-To prepare stewards to advocate through benefits, pension, and disability claim systems while enforcing medical privacy, challenging insurer denials through joint oversight, limiting improper Independent Medical Examinations, and stopping mechanistic attendance programs from punishing disability-related absences.
+Members can need help with a denied claim and protection from overbroad medical requests at the same time. This module covers insurer appeals, benefits-committee oversight, IME limits, and attendance programs that count disability-related absences. Keep the plan text and your collective agreement beside you; they set the actual process.
 
 ## Core Learning Objectives
 *   **Know**: The jurisdictional role of the joint benefits/insurance committee (JIC is the Ontario-college CAAT label); the legal limits of Independent Medical Examinations (IMEs); the distinction between active support and punitive Attendance Management Programs (AMPs).

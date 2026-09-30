@@ -4,12 +4,12 @@
 
 Allow **28 minutes** for the reading and self-test. Read in a setting where you can pause and reflect. Bring bargaining survey drafts if available, your **collective agreement** preamble and leave language, and a **notepad**. Discuss Section 4 cultural protocols with Indigenous members or your local's equity committee before hosting ceremonies — this module introduces protocols; community relationships guide practice.
 
-Sections move from systemic vs. individual bias through equity bargaining, contract language, and ADR with cultural protocols. Pair with `/learn/bargaining`, `/learn/strike`, and `/learn/membership-signup` for campaign runbooks. **Module 7** deepens mobilization ladders and LRA mid-term strike boundaries — this module owns equity language and ADR. **CLC** anti-racism labour education and **CUPE Stop Harassment guide** deepen Sections 1 and 3.
+The first job is to see whether a problem comes from one person's conduct or a rule that keeps producing the same harm. From there, the module moves to bargaining changes and restorative options. The `/learn/bargaining` and `/learn/strike` guides cover campaign steps; Module 7 covers mobilization and mid-term strike boundaries. **CLC** anti-racism labour education and the **CUPE Stop Harassment guide** deepen Sections 1 and 3.
 
 🪞 Reflection: Systemic change is slower than calling out one racist joke — but it is how the next member avoids the same barrier.
 
 ## Overarching Purpose
-To ground local leadership in anti-racism organizing, detailing how to audit and restructure the collective bargaining cycle to represent marginalized workers, negotiate anti-racist contract language, and establish restorative, community-based dispute resolution paths.
+This module asks a hard question: whose working lives does the agreement leave out? You'll learn to find barriers in bargaining, write language that addresses them, and make room for restorative ways to resolve harm when the grievance process is not the right tool.
 
 ## Core Learning Objectives
 *   **Know**: The structural definition of systemic racism and colonization in the workplace and union, and how they differ from individual bias.

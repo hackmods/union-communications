@@ -80,9 +80,9 @@ A steward should never enter a grievance meeting with management unprepared. The
 
 | Section | Description | Example |
 | :--- | :--- | :--- |
-| **F - Facts** | The objective, unassailable details established during your investigation. No emotions, just data. | "Member Jane Doe was denied overtime on Friday, Oct 12, despite being first on the seniority rotation list." |
-| **A - Argument** | How the facts connect to a violation of the collective agreement, past practice, or law. | "Article 14.02 states overtime must be offered by seniority. Denying Jane Doe the shift is a direct breach." |
-| **R - Resolution** | The specific remedy that will fully resolve the grievance and make the member whole. | "Pay Jane Doe 4 hours of overtime pay at the 1.5x rate." |
+| **F - Facts** | The objective, unassailable details established during your investigation. No emotions, just data. | "Maria was skipped for Saturday overtime despite having eight years' seniority and fewer overtime hours than two coworkers who were offered shifts." |
+| **A - Argument** | How the facts connect to a violation of the collective agreement, past practice, or law. | "Article 12.04 says weekend overtime is offered by seniority within the department. The time records show Maria was passed over." |
+| **R - Resolution** | The specific remedy that will fully resolve the grievance and make the member whole. | "Pay Maria the missed overtime at the correct rate and confirm that future weekend offers follow Article 12.04." |
 
 The FAR sheet is your meeting anchor. When a supervisor drifts into character attacks or unrelated history, you can calmly return to Facts, then Argument, then Resolution. CLC labour education steward workshops treat this structure as non-negotiable preparation — not optional paperwork.
 

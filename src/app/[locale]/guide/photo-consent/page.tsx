@@ -193,7 +193,6 @@ export default async function PhotoConsentGuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout tone="muted" className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("recordKeeping.tip")}</p>
         </GuideCallout>
       </GuideSection>

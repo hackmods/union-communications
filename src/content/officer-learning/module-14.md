@@ -4,12 +4,12 @@
 
 Allow **28 minutes** for the reading and self-test. Bring a draft welcome-kit checklist, any affinity discount agreements your local already has, and one community partner your executive could realistically stand beside this year. Read Module 6 only to **contrast** — Module 6 covers equity barriers, ADR, and bargaining equity clauses; this module covers Day-1 welcome culture, affinity cards without sharing lists, and community coalitions.
 
-Sections move from the 15-minute orientation through secure affinity programs and community unionism. Pair with `/learn/membership-signup` for card signing and Module 11 for list-privacy rules. **CLC** member engagement education and **CUPE** steward welcome materials reinforce first-day contact; **Unifor** community campaigns show coalition models across Ontario.
+The welcome starts at work, but it can reach beyond the workplace. First, make a new member's first fifteen minutes useful; then offer affinity benefits without exposing the roster; finally, connect workplace concerns with community partners. `/learn/membership-signup` covers card signing, and Module 11 covers list privacy. **CLC**, **CUPE**, and **Unifor** materials offer further examples.
 
 🪞 Reflection: Members who only meet the union during a crisis think we are an insurance company. Day-1 welcome turns the union into their team.
 
 ## Overarching Purpose
-To equip local executives and shop stewards with the tools to build everyday union pride, solidarity, and loyalty through brief Day-1 new member orientations, secure affinity discount programs, and community-based alliances — without sharing membership lists with vendors or confusing welcome culture with bargaining-table equity work.
+Members should meet the union before they need a grievance. This module gives local officers a short first-day welcome, a way to offer discounts without handing over member lists, and practical steps for building community allies around shared concerns.
 
 ## Core Learning Objectives
 *   **Know**: The design of a 15-minute Day-1 orientation and welcome kit; the affinity model that verifies eligibility without releasing member databases; how community unionism links workplace struggles to public good.

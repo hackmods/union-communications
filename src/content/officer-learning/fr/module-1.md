@@ -9,7 +9,7 @@ Lisez les sections 1 à 4 dans l'ordre ; elles intègrent le **filtre en 5 point
 💡 Note : Ce module suppose que vous savez déjà où se trouvent les délais de grief dans votre convention. Sinon, signalez cela comme premier devoir avant de représenter formellement qui que ce soit.
 
 ## Objectif général
-Doter les représentants en milieu de travail des compétences analytiques, d'enquête et de réunion fondamentales requises pour faire respecter la convention collective, distinguer les griefs valides des plaintes, et protéger les droits des membres sur un pied d'égalité avec la direction.
+Le premier travail du délégué, c'est de lire la convention et de défendre les droits qu'elle protège. Ce module aide à distinguer un grief d'une plainte, à monter un dossier solide et à prendre sa place à la table avec la direction.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : La distinction entre une plainte générale en milieu de travail et un grief contractuel formel, ainsi que le fondement juridique de l'« immunité du représentant syndical ».
@@ -80,9 +80,9 @@ Un délégué ne doit jamais entrer dans une rencontre de grief avec la directio
 
 | Section | Description | Exemple |
 | :--- | :--- | :--- |
-| **F - Faits** | Les détails objectifs et inattaquables établis durant votre enquête. Pas d'émotions, seulement des données. | « La membre Jane Doe s'est vu refuser des heures supplémentaires le vendredi 12 octobre, malgré qu'elle était la première sur la liste de rotation par ancienneté. » |
-| **A - Argument** | Comment les faits se rattachent à une violation de la convention collective, d'une pratique passée ou d'une loi. | « L'article 14.02 prévoit que les heures supplémentaires doivent être offertes par ancienneté. Refuser le quart à Jane Doe constitue une violation directe. » |
-| **R - Résolution** | Le redressement précis qui résoudra entièrement le grief et remettra le membre dans sa situation antérieure. | « Payer à Jane Doe 4 heures d'heures supplémentaires au taux de 1,5. » |
+| **F - Faits** | Les détails objectifs établis durant votre enquête. Pas d'émotions, seulement des données. | « Maria a été passée pour un quart d'heures supplémentaires le samedi, malgré ses huit ans d'ancienneté et le fait que deux collègues avaient fait plus d'heures qu'elle. » |
+| **A - Argument** | Comment les faits se rattachent à une violation de la convention collective, d'une pratique passée ou d'une loi. | « L'article 12.04 prévoit que les heures supplémentaires de fin de semaine sont offertes par ancienneté dans le service. Les relevés montrent que Maria a été passée. » |
+| **R - Résolution** | Le redressement précis qui résoudra le grief et remettra le membre dans sa situation antérieure. | « Payer à Maria les heures supplémentaires manquées au taux applicable et confirmer que les prochaines offres de fin de semaine suivront l'article 12.04. » |
 
 La fiche FAR est votre ancrage en rencontre. Lorsqu'un superviseur dérive vers des attaques personnelles ou un historique sans rapport, vous pouvez calmement revenir aux Faits, puis à l'Argument, puis à la Résolution. Les ateliers de formation syndicale du CTC traitent cette structure comme une préparation non négociable — pas une paperasse facultative.
 

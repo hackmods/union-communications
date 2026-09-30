@@ -251,7 +251,6 @@ export default async function BargainingGuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("table.tip")}</p>
         </GuideCallout>
       </GuideSection>
@@ -369,7 +368,6 @@ export default async function BargainingGuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("ratify.tip")}</p>
         </GuideCallout>
         <GuideCallout tone="warning" className="mt-5">
@@ -434,7 +432,6 @@ export default async function BargainingGuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("failureModes.tip")}</p>
         </GuideCallout>
       </GuideSection>

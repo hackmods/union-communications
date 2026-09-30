@@ -165,7 +165,6 @@ export default async function GuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("platforms.tip")}</p>
         </GuideCallout>
       </GuideSection>
@@ -254,7 +253,6 @@ export default async function GuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("fullWeek.tip")}</p>
         </GuideCallout>
       </GuideSection>
@@ -303,5 +301,4 @@ export default async function GuidePage({
     </GuideLayout>
   );
 }
-
 

@@ -4,12 +4,12 @@
 
 Allow **32 minutes** for the reading and self-test. Read with your **collective agreement**, a blank workplace map (shifts × classifications), and a notepad for escalation ideas. Walk Section 4 legal boundaries with your servicing representative or legal counsel before launching any work-to-rule — this module teaches the map; counsel owns the risk call.
 
-Sections move from the bargaining cycle through demographic mapping, the five-rung escalation ladder, and Ontario *Labour Relations Act* (LRA) strike boundaries. Pair with `/learn/workplace-mapping`, `/learn/bargaining`, `/learn/strike`, and `/learn/membership-signup`. **Module 6** owns equity bargaining language and ADR; **this module** owns mobilization ladders and mid-term LRA strike boundaries — the public guides are runbooks, not a second OL course. **CLC** organizing education and **Unifor Workplace Leadership** deepen mapping practice; **CUPE steward handbook** chapters on worksite pressure reinforce legal caution.
+The through-line is simple: map the workplace before choosing a tactic, then check the agreement and the law before you ask members to act. Use `/learn/workplace-mapping`, `/learn/bargaining`, `/learn/strike`, and `/learn/membership-signup` for the local runbooks. Module 6 covers equity language and ADR. **CLC** organizing education, **Unifor Workplace Leadership**, and the **CUPE steward handbook** deepen the mapping and pressure work.
 
 🪞 Reflection: A contract without an organized floor is a document. Your job is to turn ink into power — legally.
 
 ## Overarching Purpose
-To equip stewards as mobilizers and bargaining partners who map the workplace, escalate member pressure through a disciplined ladder of tactics, and stay inside the legal boundaries that separate protected solidarity from illegal mid-term strike activity under Ontario labour law.
+When a local needs power at the table, start by knowing who is with you, who is unsure, and what the agreement lets members do. This module helps stewards map the workplace, build pressure step by step, and check the legal limits on action during the life of an agreement.
 
 ## Core Learning Objectives
 *   **Know**: The phases of the bargaining cycle (Enforcement, Demand-Setting, and Negotiation); the legal distinction between a protected "work-to-rule" action and an illegal work slowdown or strike.

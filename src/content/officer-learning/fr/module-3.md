@@ -9,7 +9,7 @@ Parcourez les sections 1 à 4 dans l'ordre : primauté des droits de la personne
 🪞 Réflexion : L'accommodement est un dialogue, pas une seule note médicale. Votre rôle est de faire avancer le processus tout en protégeant la confidentialité médicale.
 
 ## Objectif général
-Fournir aux dirigeants de section locale et aux délégués un cadre solide pour identifier les motifs de discrimination interdits, appliquer les normes statutaires de droits de la personne aux règles de l'employeur, protéger la confidentialité médicale des membres, et concevoir des programmes de retour au travail collaboratifs et sans obstacles.
+Quand une règle du travail exclut un membre, ce module aide à repérer la discrimination et à appliquer le test Meiorin. Il montre aussi comment contester les prétextes d'« atteinte excessive », protéger les renseignements médicaux et préparer un retour au travail progressif.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : Les motifs de discrimination interdits en vertu de la législation sur les droits de la personne, et la primauté statutaire des droits de la personne sur les conventions collectives.

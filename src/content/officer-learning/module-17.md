@@ -4,14 +4,14 @@
 
 Allow **20 minutes** for the reading and self-test. Bring the member's **current Position Description Form (PDF)**, any **draft update** the manager just issued, the **pay-band / job-evaluation article** in your collective agreement, and a notepad. Read in a private space — duty logs record who directed the work and can name colleagues.
 
-Sections move from PDF anatomy through duty dumps, a 14-day frequency log, Employee Comments, and Joint Job Evaluation Committee (JJEC) or classification-grievance escalation. Pair with **Module 1** before you file. **This module** owns steward discipline for **auditing PDFs**, logging **actual duties**, writing **Employee Comments**, and starting a **reclassification** file. **Module 16** owns seniority **lists** and bumping trees — not pay-band job evaluation. **Module 10** owns joint committees generally; use it when the forum is a JHSC or LMC, not a job-eval panel. **Module 8** owns settlement wording once the file is filed.
+The strongest classification file compares the old form, the new draft, and a dated log of actual work. This module follows that evidence into written comments and the next step under your agreement. Module 1 covers grievance intake, Module 16 covers seniority and bumping, and Module 8 covers settlement wording. Module 10 is for safety and labour-management committees, not a job-evaluation panel.
 
 **CLC** steward education, **CUPE** classification materials, and **Unifor** job-evaluation training deepen factor reading. Review windows and JJEC existence are **CA-specific** — confirm yours before you quote a number of days.
 
 🪞 Reflection: A manager's "routine cleanup" of a PDF is not a courtesy. It is a claim about the job. Your job is to test that claim against the work actually done.
 
 ## Overarching Purpose
-To equip Ontario stewards with the evidence discipline to audit Position Description Forms, document uncompensated scope creep, write Employee Comments inside the CA review window, and initiate a classification grievance or joint job-evaluation review without treating one sector's point-factor grid as universal law.
+When an updated job description arrives, compare it with the work the member actually does. This module shows stewards how to log duties, challenge inaccurate comments inside the agreement's review window, and start the right classification or joint-evaluation process. Rating grids differ, so use the one named in your agreement.
 
 ## Core Learning Objectives
 *   **Know**: That a PDF is the employer's official description of regular, recurring duties and the usual foundation for pay-band classification; how point-factor plans typically score education, complexity, accountability, communication, physical or sensory demand, and working conditions (labels vary by plan); and that review windows and JJEC processes come from **your CA**, not from this module.
@@ -57,6 +57,8 @@ Duty dumps also steal **bargaining-unit work** from higher-rated classifications
 
 ## 3. The 14-Day Duty Frequency Audit Log
 When the member disputes the draft, gather **objective time evidence** before the review window closes.
+
+For example, if a member spends 35 minutes on exception reports Monday and 50 minutes on the same task Tuesday, record both days instead of calling it "occasional" from memory. Note the task, time spent, tool used, and who assigned it. At the end of the window, compare the log with the draft's frequency label and ask the member to check that the record matches the work.
 
 ### What to log (10–14 consecutive working days)
 *   Task name in the member's words, then mapped to a PDF line.

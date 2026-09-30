@@ -20,9 +20,15 @@ export async function OfficerLearningModuleCallout({
   className,
 }: Props) {
   const t = await getTranslations("officerLearning");
+  const variant =
+    moduleNumber % 3 === 1
+      ? "practice"
+      : moduleNumber % 3 === 2
+        ? "file"
+        : "meeting";
   const body = focus
     ? t(`callout.focus.${focus}`, { number: moduleNumber })
-    : t("deepen.body", { number: moduleNumber });
+    : t(`deepen.variants.${variant}`, { number: moduleNumber });
 
   return (
     <Callout tone="brand" className={className ?? "mb-8 max-w-3xl"}>

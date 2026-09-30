@@ -4,12 +4,12 @@
 
 Allow **28 minutes** for the reading and self-test. Bring your JHSC terms of reference (or OHSA-required structure notes), any Labour-Management Committee (LMC) minutes, and a current hazard or workload complaint from the floor. Sketch who sits where using `/create/org-chart` before the practice drill — committee power is useless if stewards cannot find the right door.
 
-Sections move from JHSC vs. LMC mandates through United Caucus Discipline, multi-committee escalation, and OHSA work-refusal routes that engage the JHSC. Pair with `/learn/joint-committee` and `/learn/right-to-refuse`. **This module** trains steward routing, caucus discipline, and parallel escalation; the **joint-committee guide** owns standing-committee charters, cadence, and meeting ops — do not rebuild those templates here. **CLC** health and safety education and provincial OHSA concepts deepen statutory powers; LMC practice stays consultative unless your CA says otherwise.
+The module keeps two questions in view: what authority does this committee have, and where does the issue go if it cannot resolve it? It covers caucus preparation, escalation across committees, and the OHSA refusal route. The `/learn/joint-committee` guide supplies meeting and charter practices; `/learn/right-to-refuse` walks through the refusal steps. **CLC** health and safety education can add context. LMC practice remains consultative unless your agreement says otherwise.
 
 🪞 Reflection: Joint tables are caucuses with a purpose — not audiences for management presentations.
 
 ## Overarching Purpose
-To train local leaders to use Joint Health and Safety Committees and Labour-Management Committees as coordinated power centres — with united caucus discipline, clear statutory vs. consultative boundaries, and multi-door escalation that moves hazards, workload, and contract friction together instead of trapping issues in the wrong room.
+Some problems need a safety committee, some need a labour-management table, and some need both. This module helps the union caucus stay aligned, keep statutory duties separate from consultation, and carry unresolved issues to the right next forum.
 
 ## Core Learning Objectives
 *   **Know**: The legal mandates, powers, and limits of the Joint Health and Safety Committee (JHSC) and the Labour-Management Committee (LMC); the rule of "United Caucus Discipline".

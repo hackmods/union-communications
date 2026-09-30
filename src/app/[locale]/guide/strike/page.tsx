@@ -277,7 +277,6 @@ export default async function StrikeOpsGuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout tone="muted" className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("readiness.tip")}</p>
         </GuideCallout>
       </GuideSection>
@@ -333,7 +332,6 @@ export default async function StrikeOpsGuidePage({
           }))}
         />
         <GuideCallout tone="muted" className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("coverage.tip")}</p>
         </GuideCallout>
       </GuideSection>
@@ -420,7 +418,6 @@ export default async function StrikeOpsGuidePage({
           </Link>
         </GuideActionRow>
         <GuideCallout tone="muted" className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("captains.tip")}</p>
         </GuideCallout>
       </GuideSection>
@@ -484,7 +481,6 @@ export default async function StrikeOpsGuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout tone="muted" className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("allies.tip")}</p>
         </GuideCallout>
       </GuideSection>
@@ -525,7 +521,6 @@ export default async function StrikeOpsGuidePage({
           ))}
         </GuideTipGrid>
         <GuideCallout tone="muted" className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("rhythms.tip")}</p>
         </GuideCallout>
         <GuideActionRow>
@@ -581,7 +576,6 @@ export default async function StrikeOpsGuidePage({
           ))}
         </GuideOutlineList>
         <GuideCallout tone="muted" className="mt-5">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("fullScenario.tip")}</p>
         </GuideCallout>
       </GuideSection>

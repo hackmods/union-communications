@@ -4,12 +4,12 @@
 
 Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Apportez une liste de contrôle de trousse d'accueil, tout accord de rabais d'affinité que votre section possède déjà, et un partenaire communautaire que votre exécutif pourrait réalistement soutenir cette année. Lisez le module 6 seulement pour **contraster** — le module 6 couvre les barrières d'équité, la RDA et les clauses d'équité en négociation ; ce module couvre la culture d'accueil du jour 1, les cartes d'affinité sans partage de listes, et les coalitions communautaires.
 
-Les sections passent de l'orientation de 15 minutes aux programmes d'affinité sécurisés et au syndicalisme communautaire. Associez `/learn/membership-signup` pour la signature de cartes et le module 11 pour les règles de confidentialité des listes. L'éducation à l'engagement des membres du **CTC** et les matériaux d'accueil des délégués du **SCFP** renforcent le contact du premier jour ; les campagnes communautaires d'**Unifor** montrent des modèles de coalition à travers l'Ontario.
+Les membres devraient rencontrer le syndicat avant d'avoir un grief. Ce module prépare un accueil utile le premier jour, une façon d'offrir des rabais sans partager la liste et des gestes concrets pour bâtir des alliances communautaires. `/learn/membership-signup` couvre l'adhésion; le module 11 porte sur la confidentialité des listes. Les ressources du **CTC**, du **SCFP** et d'**Unifor** donnent d'autres exemples d'engagement.
 
 🪞 Réflexion : Les membres qui ne rencontrent le syndicat qu'en crise pensent que nous sommes une compagnie d'assurance. L'accueil du jour 1 transforme le syndicat en leur équipe.
 
 ## Objectif général
-Équiper les exécutifs locaux et les délégués d'atelier des outils pour bâtir la fierté syndicale quotidienne, la solidarité et la loyauté par de brefs accueils des nouveaux membres le jour 1, des programmes de rabais d'affinité sécurisés, et des alliances communautaires — sans partager les listes d'adhésion avec les fournisseurs ni confondre la culture d'accueil avec le travail d'équité à la table de négociation.
+Les membres devraient rencontrer le syndicat avant d'avoir besoin d'un grief. Ce module propose un accueil utile dès la première journée, des rabais sans transmission de la liste des membres et des façons concrètes de bâtir des alliances autour de préoccupations communes.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : La conception d'une orientation de 15 minutes le jour 1 et d'une trousse d'accueil ; le modèle d'affinité qui vérifie l'admissibilité sans divulguer les bases de données ; comment le syndicalisme communautaire relie les luttes en milieu de travail au bien public.

@@ -435,7 +435,7 @@
   },
   "socialMediaPlan": {
     "title": "Comms getting started",
-    "subtitle": "After Brand Kit: boards, print, socials, and a simple website. One message, four channels.",
+    "subtitle": "After Brand Kit: boards, print, socials, and a simple website. Keep the dates and next steps aligned.",
     "intro": "Set Brand Kit first, then follow this roadmap. Practice tone and platforms in The Blueprint; orientation and sources are in Comms Resources.",
     "relatedLabel": "Also see",
     "stepsNavLabel": "Roadmap steps",
@@ -604,7 +604,7 @@
     },
     "channels": {
       "navLabel": "Four channels",
-      "title": "Four channels, one message",
+      "title": "Four places to reach members",
       "intro": "Members learn the union in different places. The facts should match everywhere.",
       "items": {
         "social": {
@@ -624,7 +624,7 @@
           "content": "Stable who-we-are and how-to-reach-us link for QR codes and media. Website Guide for the ZIP."
         }
       },
-      "warningTitle": "One message, four surfaces",
+      "warningTitle": "Keep the date and action aligned",
       "warning": "If the meeting time on the flyer does not match the Facebook post, members stop trusting all four."
     },
     "platforms": {
@@ -820,7 +820,11 @@
     "moduleQuizBadge": "Self-test quiz",
     "deepen": {
       "title": "Officer Learning module",
-      "body": "Module {number} expands this playbook with scenarios, a self-test, floor checklists, and printable take-to-meeting sheets."
+      "variants": {
+        "practice": "Use Module {number} when you want to practise the next step with a scenario and a checklist you can bring to a meeting.",
+        "file": "Module {number} gives you room to work a file from the first facts through the decision. Keep your agreement beside you as you go.",
+        "meeting": "Before the next meeting, open Module {number} and use its worked example to prepare the question, record, or decision in front of your local."
+      }
     },
     "callout": {
       "focus": {
@@ -1136,7 +1140,7 @@
       "contract-enforcement": {
         "title": "Worked file timeline",
         "aria": "Day-by-day contract enforcement file from intake to next step",
-        "caption": "Copy the spacing: filter and records before you file, Step 1 on the clock, then a recorded employer answer.",
+        "caption": "Maria's file shows the order: confirm the breach, preserve the time records, file before the deadline, and record the employer's answer.",
         "phases": {
           "d0": {
             "label": "Day 0 — member intake",
@@ -1394,7 +1398,7 @@
           },
           "d3": {
             "label": "Day 3 — signup list",
-            "summary": "Build internal outreach targets for /guide/membership-signup craft."
+            "summary": "Build an internal outreach list using the Membership Signup playbook."
           },
           "d7": {
             "label": "Day 7 — secure store",
@@ -1883,7 +1887,7 @@
         },
         "qr": {
           "label": "QR codes bridge print and digital",
-          "content": "Point the code at your local website, a membership form, or an Officer Hub RSVP link. Paper gives the facts; the scan gives the live page if details change."
+          "content": "The paper keeps the key facts visible. Point the code to the live signup or event page, then scan it on a phone before the print run."
         },
         "type": {
           "label": "Large, high-contrast type",
@@ -1941,7 +1945,7 @@
     "digital": {
       "navLabel": "Print plus digital",
       "title": "Print plus digital",
-      "intro": "Print and digital are not competing channels. The same facts should appear on the board, the flyer, social, and the website: one message, four channels.",
+      "intro": "Print and digital are not competing channels. Put the same date and next step on the board, flyer, social post, and website so members can act wherever they see the notice.",
       "items": {
         "facts": {
           "label": "Lock the facts once",
@@ -2016,7 +2020,7 @@
     "protect": {
       "navLabel": "Privacy",
       "title": "Protect member addresses",
-      "intro": "A membership list is personal information. Treat every send as if a member's neighbour or employer might see the message.",
+      "intro": "Before sending, check that the list is current, limited to members who should receive this message, and held outside employer systems. The Membership Signup guide covers the records themselves.",
       "bccTitle": "Use BCC from a personal inbox",
       "bccBody": "When you email a list from Outlook or Gmail, put every member in BCC (blind carbon copy). To and CC show every address to every recipient. BCC keeps those addresses private.",
       "employerTitle": "Do not use employer email",
@@ -2036,7 +2040,7 @@
     "checklist": {
       "navLabel": "Before you send",
       "title": "Before you hit send",
-      "intro": "Work through these once per mail, the same way First week walks boards then print then socials.",
+      "intro": "Before each send, check the recipient list, subject line, links, and date. Use the First week guide to plan how these communications fit together.",
       "items": {
         "subject": "The subject line names the action and the day, not a generic newsletter.",
         "facts": "The first sentence has the date, time, place, or vote link.",
@@ -2085,7 +2089,7 @@
     "strategy": {
       "navLabel": "Posting",
       "title": "One ask, then a place to go",
-      "content": "Open with who, what, and when in the first second. One action per clip. Start with the platform members already use. Many locals still live in a closed Facebook group. TikTok is optional, not a First week step. Skip weekly ranking tips; they go stale. Official how-to pages are in Sources below.",
+      "content": "Open with who, what, and when in the first second. Keep one action per clip and start on a platform members already use; many locals still work through a closed Facebook group. TikTok is optional. For setup steps, use the related guides linked at the end of this page. Skip weekly ranking tips because they go stale.",
       "items": {
         "hook": "Put the ask on screen as well as in speech, so the clip works with the sound off.",
         "oneAsk": "One meeting, one petition, or one website. Not all three.",
@@ -2096,7 +2100,7 @@
     "checklist": {
       "navLabel": "Before you post",
       "title": "Before you post",
-      "intro": "Work through these once per clip, the same way First week walks boards then print then socials.",
+      "intro": "Run this check before you publish a clip: confirm the ask is clear, the people shown have agreed, and the caption works with sound off. The First week guide helps coordinate the rest of the campaign.",
       "items": {
         "consent": "Photo Consent is done, including background faces and location tags turned off.",
         "cover": "A tall cover or end card is exported (Graphic Maker Portrait, Image Resizer Story size, or a 9:16 Solidarity Poster).",
@@ -2185,7 +2189,7 @@
       "title": "Why consent is solidarity",
       "intro": "Consent protects members from employer watch and from each other’s good intentions.",
       "retaliationTitle": "Employer watch",
-      "retaliationBody": "Do not tag members at work, leave location on, or post proof they attended a union event if that could be used against them. When in doubt, crop or do not post."
+      "retaliationBody": "Do not tag members at work, leave location on, or post proof they attended a union event if that could be used against them. Remove details that identify or expose them; if the risk remains, keep the image offline."
     },
     "tiers": {
       "navLabel": "Three settings",
@@ -2324,7 +2328,7 @@
       "items": {
         "ipc": {
           "label": "IPC Ontario",
-          "content": "Video and photo capture in workplaces should follow proportionality and notice principles — see sources below."
+          "content": "Video and photo capture at work should be limited to what the task needs, with clear notice. The sources at the end of this guide explain the privacy principles behind that practice."
         },
         "pipeda": {
           "label": "PIPEDA baseline",
@@ -2735,7 +2739,7 @@
       },
       "picket-flyer": {
         "title": "Picket / rally flyer",
-        "description": "Print-ready handout energy adapted for a social share - location first.",
+        "description": "Picket flyer: Gate 3, 7 a.m. Saturday. Bring water; the union tent is beside the south entrance.",
         "why": {
           "0": "Flyer layouts force hierarchy: event name, place, time.",
           "1": "Same asset can print for the board and post online."
@@ -2774,7 +2778,7 @@
       },
       "bargaining-update": {
         "title": "Bargaining table update",
-        "description": "Professional tone: what happened, what we still need, how to stay informed.",
+        "description": "At Tuesday's table, the employer answered two proposals and took three away. We still need a response on paid release time; members can read the tracker at Thursday's meeting.",
         "why": {
           "0": "Members want status, not spin - lead with the update.",
           "1": "Brand colours keep official updates distinct from personal posts."
@@ -4151,7 +4155,7 @@
         },
         "test": {
           "label": "Test before you print",
-          "content": "Scan every QR on your own phone before you print a stack. Confirm it opens the correct form for the right collection."
+          "content": "Before sending the file to the printer, scan the QR on a phone that is not signed in to your account. Confirm the link reaches the intended form and audience."
         },
         "collection": {
           "label": "Match the collection",
@@ -5017,12 +5021,12 @@
         }
       },
       "warningTitle": "If two officers are posting different facts",
-      "warning": "Stop public posting until president and comms lead align on one correction. Members trust silence less than they hate contradiction — but contradiction kills trust fastest."
+      "warning": "Pause updates until the president and communications lead agree on the correction. Then say when members will hear from you again, even if there is no new information yet."
     },
     "roles": {
       "navLabel": "Roles",
       "title": "Who does what",
-      "intro": "Write names on a sticky note before the picket line opens. Volunteers rotate; roles do not.",
+      "intro": "Name the spokesperson and backup before a live issue reaches the public. Keep the approval chain short enough to work when one person is unavailable.",
       "items": {
         "president": {
           "label": "President",
@@ -5054,7 +5058,7 @@
         },
         "schedule": {
           "label": "Publish the schedule the strike committee set",
-          "content": "Same gates, times, and weather notes the captains already carry. Put those facts on the strike page and at each gate. Do not invent a prettier version that disagrees."
+          "content": "Keep the strike page and gate notices current with the approved location, time, and weather plan. Ask the captains to check their briefing against that source before a shift starts."
         },
         "safety": {
           "label": "Safety first on the line",
@@ -5168,7 +5172,7 @@
     "rhythm": {
       "navLabel": "Rhythm",
       "title": "A predictable source of truth, not a quota",
-      "intro": "Members check phones constantly. Give them one official place to look, and update it when facts change. Do not invent a posting calendar you cannot keep.",
+      "intro": "Choose the channel members have been told to watch, and name who checks it after each new decision. Publish confirmed details there so people know where to look.",
       "items": {
         "morning": {
           "label": "If the line is live — schedule and safety first",
@@ -5176,7 +5180,7 @@
         },
         "midday": {
           "label": "Only if facts changed",
-          "content": "Skip if nothing new. Silence beats noise when the facts are stable."
+          "content": "If nothing has changed by midday, confirm with the team that the last update still holds. Post again only when members need new instructions."
         },
         "evening": {
           "label": "Recap only if members need tomorrow’s facts",
@@ -5251,7 +5255,7 @@
     "tools": {
       "navLabel": "Toolbox",
       "title": "On-device tools for crisis comms",
-      "intro": "Keep visuals consistent when volunteers rotate. Everything runs on your device — no ad hoc Canva accounts.",
+      "intro": "Use approved templates so a new spokesperson can pick up the work without changing the message. Keep editable files on this device and share the finished image through the agreed channel.",
       "items": {
         "brand": {
           "label": "Brand Kit",
@@ -5470,7 +5474,7 @@
       "intro": "Member Alex receives a written warning on Tuesday, 3 March 2026, for “failure to follow scheduling procedure.” Alex believes the warning is without just cause. Your CA gives ten calendar days from receipt to file Step 1. Step 1 deadline: Friday, 13 March 2026.",
       "phases": {
         "d0": {
-          "label": "Day 0 — Monday 3 March",
+          "label": "Day 0 — Tuesday 3 March",
           "content": "Alex calls at 4 p.m. You log intake: warning letter date, supervisor name, CA discipline article, and Step 1 due 13 March. You calendar 11 March as your internal “officer decision” date to leave two days’ slack."
         },
         "d2": {
@@ -5507,7 +5511,7 @@
         },
         "overPromise": {
           "label": "Promising victory",
-          "content": "“We will get this thrown out” — then a decline lands. Fix: promise process and timelines, not outcomes."
+          "content": "“We will get this thrown out.” Then the file is denied. Tell the member what evidence is still missing, who will review it, and when you will report back."
         },
         "personalBias": {
           "label": "Personal conflict driving the decision",
@@ -5526,7 +5530,7 @@
         },
         "status": {
           "label": "Status on a schedule",
-          "content": "If you promise an update by Friday, send one — even if the answer is “still waiting on documents.” Silence reads as abandonment."
+          "content": "If you promise an update by Friday, send one — even if the answer is “still waiting on documents.” A short update keeps the member from having to chase the file."
         },
         "confidential": {
           "label": "Keep their story confidential",
@@ -5751,7 +5755,7 @@
     },
     "trainingPath": {
       "title": "Steward training path",
-      "intro": "Work through these playbooks in order while you wait for local or national steward school.",
+      "intro": "Follow these links in order. If you are waiting for formal steward training, note the questions that come up as you work through them.",
       "steps": [
         {
           "label": "Steward 101",
@@ -6073,7 +6077,7 @@
     },
     "next": {
       "title": "Go deeper",
-      "body": "Work through these playbooks in order while you wait for local or national steward training."
+      "body": "Choose a guide that matches a live question on your floor. Bring what you learn to your next check-in with an experienced steward or servicing representative."
     }
   },
   "grievanceGuide": {
@@ -12751,12 +12755,12 @@
       "welcome": {
         "category": "General",
         "title": "Welcome new members",
-        "caption": "Welcome to the family! We're thrilled to have you join [Local Number] [Sub-text]. Together, we're stronger. Questions? Reach out to your steward or visit our page anytime."
+        "caption": "Welcome to [Local Number] [Sub-text]. Your steward is [Name]; reach them at [contact]. The next member meeting is [date] at [place]. Bring your questions."
       },
       "agm": {
         "category": "AGM",
         "title": "AGM announcement",
-        "caption": "ANNUAL GENERAL MEETING\n\nDate: [Date]\nTime: [Time]\nLocation: [Location/Virtual link]\n\nAll members are encouraged to attend. Your participation shapes our local's direction. See you there!"
+        "caption": "ANNUAL GENERAL MEETING\n\nDate: [Date]\nTime: [Time]\nLocation: [Location/Virtual link]\n\nWe need quorum to vote on the budget and elect officers. Check the notice for the voting rules, and come ready to ask questions."
       },
       "bargaining": {
         "category": "Bargaining",
@@ -12771,12 +12775,12 @@
       "spotlight": {
         "category": "Member spotlight",
         "title": "Member spotlight",
-        "caption": "MEMBER SPOTLIGHT\n\nMeet [Name], who has served our local for [X] years. [Quote or achievement]. Thank you for everything you do for our members!"
+        "caption": "MEMBER SPOTLIGHT\n\nMeet [Name], who has served our local for [X] years. [Quote or achievement]. Thank you for [specific contribution]."
       },
       "event-thanks": {
         "category": "Events",
         "title": "Event thank-you",
-        "caption": "Thank you to everyone who joined us at [Event Name]! [X] members came out to show their solidarity. Together, we make a difference."
+        "caption": "Thanks to the [X] members who joined us at [Event Name]. The next step is [next meeting, action, or date]. See you there."
       }
     },
     "copyNamed": "Copy {title}",
@@ -12843,7 +12847,7 @@
         "navLabel": "Logo Builder",
         "title": "Creating your identity",
         "do": "Open <strong>Logo Builder</strong>. Set your local number and colours if needed, generate a circular logo, and download the PNG. This is the file you take home.",
-        "facilitator": "If the kit is empty, import the demo Brand Kit first. Share Logo Builder, not Brand Kit, as the identity beat. Show the PNG download succeeding."
+        "facilitator": "If your local Brand Kit has not been set up, import the demo Brand Kit first. Share Logo Builder for the identity exercise, then show where the PNG download lands."
       },
       "inspiration": {
         "time": "8 min",
@@ -14611,7 +14615,7 @@
     "examples": {
       "navLabel": "Peer examples",
       "title": "What other unions publish",
-      "intro": "You do not need to invent structure from scratch. Open the Sources list at the bottom for live PDFs, then use these notes as a map.",
+      "intro": "You do not need to invent structure from scratch. The CUPE, Unifor, and OPSEU / SEFPO constitutions and bylaws guides are linked in Reference materials below; use these notes as a map, then confirm every rule against your own governing documents.",
       "items": {
         "cupe": {
           "label": "CUPE",
@@ -15138,7 +15142,7 @@
         },
         "tracking": {
           "label": "Tracking",
-          "content": "Track every proposal, counter, and sign-off. Keep strategy off employer servers — use the on-device Proposal Tracker and export CSV to a USB drive after each session."
+          "content": "Track every proposal, counter, and sign-off. Keep strategy off employer servers; save a dated CSV copy to the union's backup drive after each bargaining session."
         }
       },
       "tip": "If the employer leaks a half-story, answer with one shared fact sheet — not a chat thread of competing rumours."
@@ -15165,7 +15169,7 @@
           "content": "When a lawful stoppage is near, Strike operations runs the line. Crisis comms owns who may speak and what never goes public."
         }
       },
-      "tip": "One message, many channels. If the email and the board notice disagree, members will trust neither.",
+      "tip": "Members compare the email with the board notice. Keep the dates, facts, and next step aligned across both.",
       "crisisCta": "Open crisis comms"
     },
     "tracker": {
@@ -15187,7 +15191,7 @@
         },
         "csv": {
           "label": "Export every session",
-          "content": "Export CSV to a labelled USB stick before you pack up. If the browser clears storage, the USB is the backup."
+          "content": "Before you leave the table, export a dated CSV to the union's labelled USB drive. Confirm the file opens before clearing or replacing the browser copy."
         }
       },
       "calloutTitle": "Bargaining strategy is confidential",
@@ -15260,7 +15264,7 @@
           "content": "Once ratified, both parties sign the new Collective Agreement and arrange printing or digital distribution for stewards and members."
         }
       },
-      "tip": "Put the vote link, meeting time, eligibility, and majority rule in the first line of the email. Members should not hunt for the mandate.",
+      "tip": "Put the vote link, meeting time, who can vote, and the threshold near the top of the email. A member should not have to search the thread to know what decision is being asked of them.",
       "rejectTitle": "Rejected TA is not failure — it is a mandate",
       "rejectBody": "Members can say No. Your job is a clean process, a clear next step, and no rumours about who \"lost.\" Keep the tracker current and the update cadence alive."
     },
@@ -16434,7 +16438,7 @@
       },
       "materials": {
         "label": "What to bring",
-        "content": "Printed territory maps, your federation PDF, one worksheet per person (download below), and a way to project Native-Land.ca or Whose Land."
+        "content": "Printed territory maps, your federation PDF, one printed worksheet per person; the download button is in the Handout section below, and a way to project Native-Land.ca or Whose Land."
       },
       "room": {
         "label": "How to set up the room",
@@ -16652,10 +16656,10 @@
       "library": "Reference library"
     },
     "storage": {
-      "on-device": "Work or progress saves in this browser; it will not sync automatically",
-      "on-device-hub-optional": "Saved in this browser; eligible officers can optionally send a copy to Officer Hub",
+      "on-device": "On this device; no automatic sync",
+      "on-device-hub-optional": "On this device; Officer Hub backup is optional",
       "officer-hub": "Uses Officer Hub",
-      "none": "Reading only; this item does not save your work"
+      "none": "Read-only"
     },
     "deliverables": {
       "brand-kit": "Saved local colours, logo, number, and links",

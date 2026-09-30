@@ -9,7 +9,7 @@ Associez `/learn/membership-signup` pour l'art des campagnes de signature — ce
 🪞 Réflexion : Un payeur de cotisations qui n'a jamais signé de carte paie pour la solidarité — mais ne peut voter qu'une fois membre démocratiquement. Votre travail sur les listes transforme les lignes de paie en adhésion organisée.
 
 ## Objectif général
-Équiper les secrétaires locaux, trésoriers et administrateurs des compétences techniques et juridiques pour nettoyer, réconcilier et gérer en toute sécurité les listes de membres — en distinguant les données de cotisations fournies par l'employeur des membres titulaires de carte en règle, tout en maintenant une confidentialité absolue selon les garde-fous constitutionnels.
+Le relevé des cotisations de l'employeur n'est pas la liste des membres. Ce module montre comment rapprocher les cotisations et les cartes signées, distinguer les personnes en règle et protéger les coordonnées. Une erreur peut donner un vote à la mauvaise personne ou en priver un membre admissible.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : Les termes stricts de la **directive sur les listes de membres** ; la distinction juridique entre un payeur de cotisations sous la **formule Rand** et un membre titulaire de carte en règle avec droit de vote.

@@ -9,7 +9,7 @@ Sections 1–5 build from coaching vs. discipline through progressive steps, mit
 💡 Note: In discipline, the employer carries the burden of proof. Your job is to test their evidence and present mitigation — not to prove the member innocent from scratch.
 
 ## Overarching Purpose
-To instruct stewards on how to vigorously defend workers facing employer discipline, recognize the stages of progressive discipline, leverage mitigating factors, and navigate complex performance, innocent absenteeism, and off-duty conduct cases.
+When discipline lands, the member needs a steward who can slow the meeting down and check the facts. This module walks through just cause, the discipline ladder, mitigating factors, and the harder files involving performance, innocent absence, or conduct outside work.
 
 ## Core Learning Objectives
 *   **Know**: The strict distinction between non-disciplinary counseling/coaching and formal disciplinary action; the legal definition of "just cause" and progressive discipline.

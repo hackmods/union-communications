@@ -4,12 +4,12 @@
 
 Prévoyez **30 minutes** pour la lecture et l'autoévaluation. Apportez un exemple de formulaire d'aptitudes fonctionnelles vierge (si votre milieu de travail en utilise un), les pages sommaires de votre **livret d'avantages**, et des notes de toute lettre de programme de gestion de l'assiduité (PGA) que des membres ont reçues. Ce module est de la **défense des réclamations** — pression de l'assureur, navigation ILD/CSPAAT, audits de PGA et confidentialité diagnostique — pas une reprise du cadre d'accommodement Meiorin/EPJ du module 3 (associez le module 3 pour les combats EPJ ; utilisez `/utilities/rtw-accommodation` pour la planification du retour au travail).
 
-Les sections passent des limites d'information médicale à la surveillance du comité conjoint d'assurance (CCA), aux limites d'EME et à la démécanisation des PGA. Associez `/learn/steward-101` et `/utilities/rtw-accommodation`. **Les droits de la personne au travail** de la **CODP** et les ressources du **SCFP** sur le devoir d'accommodement ancrent la confidentialité et les défis de PGA ; le texte pensions/avantages cède toujours à vos documents de régime et au conseil juridique.
+Commencez par distinguer les limites fonctionnelles du diagnostic. Examinez ensuite qui peut revoir un refus, quand une demande d'EME mérite un examen et comment un programme de présence traite les absences liées à un handicap. `/learn/steward-101` et `/utilities/rtw-accommodation` appuient les prochaines étapes. Les documents de votre régime et le conseil juridique déterminent les questions de pension et d'avantages; la **CODP** et le **SCFP** offrent du contexte sur la confidentialité et l'accommodement.
 
 🪞 Réflexion : L'employeur a besoin de savoir ce que le membre peut faire en sécurité — pas ce qui le tient éveillé la nuit. Protégez le diagnostic.
 
 ## Objectif général
-Préparer les délégués à défendre à travers les systèmes de réclamations d'avantages, de pensions et d'invalidité tout en faisant respecter la confidentialité médicale, en contestant les refus d'assureur par une surveillance conjointe, en limitant les examens médicaux indépendants inappropriés, et en empêchant les programmes d'assiduité mécanistes de punir les absences liées à l'invalidité.
+Un membre peut avoir besoin d'aide après un refus d'assurance et de protection contre une demande médicale trop large. Ce module traite des appels, du comité des assurances, des limites aux examens indépendants et des programmes d'assiduité qui comptent les absences liées à une invalidité. Le régime et la convention déterminent la marche à suivre.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : Le rôle juridictionnel du comité conjoint d'assurance (CCA) ; les limites juridiques des examens médicaux indépendants (EME) ; la distinction entre soutien actif et programmes de gestion de l'assiduité (PGA) punitifs.

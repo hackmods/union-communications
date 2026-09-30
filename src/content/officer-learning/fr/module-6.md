@@ -4,12 +4,12 @@
 
 Prévoyez **28 minutes** pour la lecture et l'autoévaluation. Lisez dans un cadre où vous pouvez faire pause et réfléchir. Apportez des brouillons de sondages de négociation si disponibles, le préambule et le langage de congé de votre **convention collective**, et un **carnet**. Discutez des protocoles culturels de la section 4 avec des membres autochtones ou le comité d'équité de votre section locale avant d'accueillir des cérémonies — ce module introduit les protocoles ; les relations communautaires guident la pratique.
 
-Les sections passent du biais systémique vs individuel à la négociation d'équité, au langage contractuel, et au RAD avec protocoles culturels. Associez `/learn/bargaining`, `/learn/strike` et `/learn/membership-signup` pour les cahiers de campagne. Le **module 7** approfondit les échelles de mobilisation et les limites de grève en cours de convention du LRT — ce module possède le langage d'équité et la RAD. La formation antraciste du **CTC** et le guide **Arrêter le harcèlement** du SCFP approfondissent les sections 1 et 3.
+Commencez par vérifier si le problème vient d'un geste individuel ou d'une règle qui reproduit le même préjudice. Le module vous mène ensuite vers des changements à la table et des options de réparation. Les guides `/learn/bargaining` et `/learn/strike` couvrent les campagnes; le module 7 traite de la mobilisation et des limites juridiques des moyens de pression. La formation antiraciste du **CTC** et le guide **Arrêter le harcèlement** du **SCFP** approfondissent les sections 1 et 3.
 
 🪞 Réflexion : Le changement systémique est plus lent que de dénoncer une blague raciste — mais c'est ainsi que le prochain membre évite le même obstacle.
 
 ## Objectif général
-Ancrer le leadership local dans l'organisation antiraciste, en détaillant comment auditer et restructurer le cycle de négociation collective pour représenter les travailleurs marginalisés, négocier un langage contractuel antiraciste, et établir des voies de résolution de différends restauratives et communautaires.
+Ce module pose une question difficile : qui la convention laisse-t-elle de côté? Vous apprendrez à repérer les obstacles dans la négociation, à proposer des clauses qui les corrigent et à ouvrir des voies de réparation quand le grief n'est pas le bon outil.
 
 ## Objectifs d'apprentissage
 *   **Savoir** : La définition structurelle du racisme systémique et de la colonisation en milieu de travail et dans le syndicat, et en quoi ils diffèrent du biais individuel.
