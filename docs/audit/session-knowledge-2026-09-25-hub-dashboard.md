@@ -12,10 +12,10 @@ The task-first home shipped in PR #120. See the [UX audit, implementation record
 
 ## Follow-up goals
 
-1. **Decide the member landing state when Portal is disabled.** `signedInHomeHref(["local_member"], ["comms"])` currently returns `/app`, and the Portal session redirects away when the module is disabled. Define a member-safe destination or explanation for this opt-out case, then cover it in route tests. Keep the current Portal-enabled member redirect and invite-only Hub boundary.
-2. **Browser-verify a platform administrator.** The dashboard role model covers the platform operator surface, but the seeded browser roster used in this pass had no platform-admin sign-in. Add a test-only authenticated fixture that does not weaken production access, then check that host operations appear without local casework suggestions or cross-union data.
-3. **Complete human accessibility checks.** Automated EN/FR reflow passed at 375, 768, 1280, 1536, and 1920 px; forced-colour, reduced-motion, keyboard drawer, and contrast checks passed. Test with a screen reader and actual browser zoom at 200%. A 640 CSS-pixel viewport was only an approximation of the latter.
-4. **Add live attention signals only when scoped data supports them.** Meeting and casework deadlines could be useful here if their adapters expose trustworthy union/local-scoped summaries. Keep generic links labelled as actions rather than claiming a count or urgency that was not fetched.
+1. **~~Decide the member landing state when Portal is disabled.~~** Closed 2026-09-30 — members always get `HubFeatureTeaser` on `/app`; Portal-off copy explains the gap without casework widgets. See Wave A fit-gap.
+2. **~~Browser-verify a platform administrator.~~** Closed 2026-09-30 — demo `platform.admin@unionops.test` + dashboard smoke asserts Platform work without local Attention widgets.
+3. **Complete human accessibility checks.** Automated EN/FR reflow passed; 200% zoom approximation shipped 2026-09-30. Test with a screen reader and record results in the accessibility manual checklist.
+4. **Add live attention signals only when scoped data supports them.** **Still SKIP** — do not invent deadline counts without adapter summaries.
 
 ## Second-nav corrective rework (same day follow-on)
 

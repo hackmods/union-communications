@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { hubLogin, loginAsMember, loginAsPresident, loginAsSteward, completeMfaIfNeeded } from "./helpers/auth";
+import { hubLogin, loginAsMember, loginAsPlatformAdmin, loginAsPresident, loginAsSteward, completeMfaIfNeeded } from "./helpers/auth";
 import { assertNoHorizontalOverflow } from "./helpers/layout";
 import { expectNoSeriousA11yViolations } from "./helpers/axe";
 import AxeBuilder from "@axe-core/playwright";
@@ -29,6 +29,17 @@ test.describe("Officer Hub task-first home @smoke", () => {
     await expect(page.getByRole("heading", { name: "Local setup and administration" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Platform operator" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: /Grievances/i }).first()).toBeVisible();
+  });
+
+  test("platform admin sees host operations without local Attention widgets", async ({ page }) => {
+    await loginAsPlatformAdmin(page);
+    await page.goto("/en/app");
+    await expect(page.getByRole("heading", { name: "Platform work" })).toBeVisible();
+    await expect(page.getByTestId("hub-attention-widgets")).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "What needs my attention?" })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Local setup and administration" })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Platform operator" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Site admin$/i }).first()).toBeVisible();
   });
 
   test("empty work and failed loads have different messages", async ({ page }) => {

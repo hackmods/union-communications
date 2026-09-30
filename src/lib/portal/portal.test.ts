@@ -30,11 +30,11 @@ describe("portal access", () => {
     expect(signedInHomeHref(["local_member"], ["comms"])).toBe("/app");
   });
 
-  it("shows Hub teaser for members when Portal is their home", () => {
+  it("shows Hub teaser for members whether Portal is on or off", () => {
     expect(shouldShowHubFeatureTeaser(["local_member"], ["comms", "portal"])).toBe(
       true,
     );
-    expect(shouldShowHubFeatureTeaser(["local_member"], ["comms"])).toBe(false);
+    expect(shouldShowHubFeatureTeaser(["local_member"], ["comms"])).toBe(true);
     expect(shouldShowHubFeatureTeaser(["local_president"], ["comms", "portal"])).toBe(
       false,
     );

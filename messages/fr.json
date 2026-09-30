@@ -8261,10 +8261,12 @@
       "eyebrow": "Hub des dirigeants",
       "title": "Les outils des dirigeants sont ici",
       "body": "Le Hub des dirigeants est destiné aux délégués et aux dirigeants — griefs, réunions et autre travail confidentiel de la section. Les membres de la base restent en général dans le Portail local. Votre accueil reste Ensemble lorsque le Portail est activé.",
+      "bodyPortalOff": "Le Hub des dirigeants est destiné aux délégués et aux dirigeants — griefs, réunions et autre travail confidentiel de la section. Le Portail local (Ensemble et Cercles) n’est pas activé pour cette section, alors cette page explique le Hub au lieu d’ouvrir les outils de dossiers.",
       "bulletCasework": "Suivre les griefs et les échéances avec votre équipe de délégués",
       "bulletMeetings": "Planifier les réunions d’assemblée et gérer les RSVP",
       "bulletTools": "Utiliser les tableaux de dirigeants que votre section a activés",
       "askOfficers": "Demandez à vos dirigeants si vous avez besoin d’un accès délégué ou dirigeant dans le Hub.",
+      "askOfficersPortalOff": "Demandez à vos dirigeants d’activer le Portail local pour les membres, ou de vous accorder un accès délégué ou dirigeant si vous avez besoin des outils du Hub.",
       "openPortal": "Ouvrir le Portail local"
     },
     "dashboardHome": {
@@ -9419,7 +9421,8 @@
         "president1337": "Président de la section 1337",
         "stability7": "Comité de stabilité, section 777",
         "member7": "Membre de la section 777",
-        "solo": "Délégué sans section"
+        "solo": "Délégué sans section",
+        "platformAdmin": "Opérateur de plateforme (administration du site)"
       }
     },
     "forgotPassword": "Mot de passe oublié ?",

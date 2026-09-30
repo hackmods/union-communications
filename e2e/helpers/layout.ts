@@ -12,6 +12,36 @@ export async function assertNoHorizontalOverflow(page: Page) {
   expect(overflow).toBeLessThanOrEqual(1);
 }
 
+/**
+ * Hub/Portal composition smoke at desktop widths (VL-HUB-2):
+ * - no page horizontal overflow
+ * - primary heading visible in the first viewport
+ * - longest line measure on main copy stays bounded (not a stretched mobile shell)
+ */
+export async function assertDesktopComposition(
+  page: Page,
+  opts: {
+    heading: { boundingBox: () => Promise<{ x: number; y: number; width: number; height: number } | null> };
+    /** Prefer a body/prose node; falls back to heading width check when omitted. */
+    measure?: { boundingBox: () => Promise<{ x: number; y: number; width: number; height: number } | null> };
+    maxHeadingY?: number;
+    maxMeasurePx?: number;
+  },
+) {
+  await assertNoHorizontalOverflow(page);
+  const viewport = page.viewportSize();
+  expect(viewport).toBeTruthy();
+  const headingBox = await opts.heading.boundingBox();
+  expect(headingBox).toBeTruthy();
+  expect(headingBox!.y).toBeLessThan(opts.maxHeadingY ?? viewport!.height);
+  const measureBox = opts.measure
+    ? await opts.measure.boundingBox()
+    : headingBox;
+  expect(measureBox).toBeTruthy();
+  // At ~1280 a usable work column should not span the full chrome as a phone stack.
+  expect(measureBox!.width).toBeLessThanOrEqual(opts.maxMeasurePx ?? 720);
+}
+
 /** Element's border box must sit inside the layout viewport (1px slack). */
 export async function assertFitsViewport(
   page: Page,

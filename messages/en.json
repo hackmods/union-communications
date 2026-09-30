@@ -8315,10 +8315,12 @@
       "eyebrow": "Officer Hub",
       "title": "Officer tools live here",
       "body": "Officer Hub is for stewards and officers — grievances, meetings, and other confidential local work. Rank-and-file members usually stay in Local Portal. Your home is still Together when Portal is on.",
+      "bodyPortalOff": "Officer Hub is for stewards and officers — grievances, meetings, and other confidential local work. Local Portal (Together and Circles) is not turned on for this local, so this page explains Officer Hub instead of opening casework tools.",
       "bulletCasework": "Track grievances and case deadlines with your steward team",
       "bulletMeetings": "Schedule membership meetings and manage RSVPs",
       "bulletTools": "Use officer boards your local has turned on",
       "askOfficers": "Ask your officers if you need steward or officer access in Officer Hub.",
+      "askOfficersPortalOff": "Ask your officers to turn on Local Portal for members, or to grant steward or officer access if you need Hub tools.",
       "openPortal": "Open Local Portal"
     },
     "dashboardHome": {
@@ -9473,7 +9475,8 @@
         "president1337": "Local 1337 president",
         "stability7": "Local 777 stability committee",
         "member7": "Local 777 member",
-        "solo": "Solo steward (no local)"
+        "solo": "Solo steward (no local)",
+        "platformAdmin": "Platform operator (host Site Admin)"
       }
     },
     "forgotPassword": "Forgot password?",

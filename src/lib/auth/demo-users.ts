@@ -154,6 +154,20 @@ export const DEMO_USERS: DemoUser[] = [
     roles: ["solo_account"],
     requiresMfa: false,
   },
+  {
+    id: "user-platform-admin",
+    email: demoEmail("platform.admin"),
+    passwordHash: DEMO_PASSWORD_HASH,
+    name: "Platform Operator (demo)",
+    unionId: "union-b7p",
+    divisionId: "division-b7p",
+    localId: "local-7",
+    bargainingUnitId: "bu-7-ft",
+    accessibleLocalIds: ["local-7"],
+    roles: ["platform_admin"],
+    requiresMfa: true,
+    totpSecret: "JBSWY3DPEHPK3PXP",
+  },
 ];
 
 export async function findDemoUser(

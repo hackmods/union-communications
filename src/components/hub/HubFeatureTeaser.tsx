@@ -15,7 +15,7 @@ export function HubFeatureTeaser({ portalEnabled }: { portalEnabled: boolean }) 
     <FeatureTeaserPanel
       eyebrow={t("eyebrow")}
       title={t("title")}
-      body={t("body")}
+      body={portalEnabled ? t("body") : t("bodyPortalOff")}
       bullets={[t("bulletCasework"), t("bulletMeetings"), t("bulletTools")]}
       actions={
         <>
@@ -24,7 +24,9 @@ export function HubFeatureTeaser({ portalEnabled }: { portalEnabled: boolean }) 
               {t("openPortal")}
             </ButtonLink>
           ) : null}
-          <p className="text-sm text-gray-600 sm:self-center">{t("askOfficers")}</p>
+          <p className="text-sm text-gray-600 sm:self-center">
+            {portalEnabled ? t("askOfficers") : t("askOfficersPortalOff")}
+          </p>
         </>
       }
     />

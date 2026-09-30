@@ -1,4 +1,14 @@
-﻿## 2026-09-30 — Outreach polish P1–P3
+﻿## 2026-09-30 — Wave A Hub composition + member Portal-off landing
+
+- Scripted VL-HUB-2 1280 composition for Hub dashboard, grievance detail, and Portal Hall (`assertDesktopComposition`, `e2e/hub.composition.spec.ts`).
+- VL-HUB-4: automated 200% zoom approximation on dashboard; human SR checklist remains.
+- VL-HUB-3: smoke axe subset adds bylaws + proposals (full suite stays non-blocking).
+- Members with Portal off always see `HubFeatureTeaser` (not the officer Attention board); EN/FR Portal-off copy.
+- Demo `platform.admin@unionops.test` + dashboard smoke for host operations without local Attention widgets.
+- A6 deadline counts SKIP; A7 peers mobile SKIP (already covered); A8 human checklist still open.
+- Fit-gap: [`docs/audit/session-knowledge-2026-09-30-wave-a-fitgap.md`](audit/session-knowledge-2026-09-30-wave-a-fitgap.md). Master tracker: [`docs/audit/plan-2026-09-30-sitewide-qol-launch-program.md`](audit/plan-2026-09-30-sitewide-qol-launch-program.md).
+
+## 2026-09-30 — Outreach polish P1–P3
 
 - Hub list **create** (`POST /api/outreach-lists` action `create`, no MFA); durable confirm via migration `0089_outreach_confirm` + `/api/outreach-lists/confirm` + `/outreach/confirm`; import mints confirm tokens and sends transactional confirm mail when gates allow; dry-run import returns preview confirm URLs.
 - Member broadcast **dry-run** preview + **50-recipient** cap per send; `docs/audit/session-knowledge-2026-09-30-outreach-polish.md` + RLS migration source checks in `db:rls-smoke`.

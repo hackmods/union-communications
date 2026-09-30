@@ -49,14 +49,15 @@ export function signedInHomeHref(
 }
 
 /**
- * Member-only users whose home is Portal — show an Officer Hub teaser on
- * `/app` instead of redirecting straight to `/portal`.
+ * Rank-and-file members always get the Officer Hub teaser on `/app` instead of
+ * the officer Attention board — whether Local Portal is on (Together is home)
+ * or off (members still must not land on casework widgets).
  */
 export function shouldShowHubFeatureTeaser(
   roles: UserRole[],
-  enabledModules?: readonly HubModule[],
+  _enabledModules?: readonly HubModule[],
 ): boolean {
-  return signedInHomeHref(roles, enabledModules) === "/portal";
+  return prefersPortalHome(roles);
 }
 
 /** Portal module flag for the signed-in union (default true when unknown). */

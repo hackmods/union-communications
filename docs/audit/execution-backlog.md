@@ -972,28 +972,28 @@ Source plan: [`docs/audit/plan-2026-09-26-viewport-lab-followups.md`](plan-2026-
 **Affected Architecture/Files:** `e2e/hub.mobile.spec.ts`, `e2e/portal.mobile.spec.ts`
 **Implementation Blueprint:** Auth fixtures + overflow asserts at 375.
 
-### [VL-HUB-2] OPEN
+### [VL-HUB-2] ✅ CLOSED (2026-09-30)
 **Category:** Hub / Portal responsive
 **Severity/Priority:** Medium
-**Status:** Open — 1280 composition human/scripted pass.
+**Status:** Closed — scripted 1280 composition for dashboard, grievance detail, and Portal Hall (`e2e/hub.composition.spec.ts` + `assertDesktopComposition`). Fit-gap: [`session-knowledge-2026-09-30-wave-a-fitgap.md`](session-knowledge-2026-09-30-wave-a-fitgap.md).
 **Problem/Gap Statement:** Overflow-zero is not composition-complete (CTA wrap, measure, sparse shell).
 **Affected Architecture/Files:** Hub dashboard, grievance detail, Portal circle; `responsive-layouts.mdc`
 **Implementation Blueprint:** Findings → fix tickets; do not reopen Viewport Lab framing.
 
-### [VL-HUB-3] OPEN
+### [VL-HUB-3] PARTIAL (2026-09-30)
 **Category:** Hub / Portal a11y
 **Severity/Priority:** Low
-**Status:** Open — optional axe smoke widen; keep MFA serial; do not block default CI on full hub.a11y.
+**Status:** Partial — smoke axe subset widened with bylaws + proposals; full `hub.a11y` stays serial / non-default-CI. Further widen remains demand-driven.
 **Problem/Gap Statement:** Smoke axe subset is dashboard/grievances/time only.
 **Affected Architecture/Files:** `e2e/hub.a11y.spec.ts`
 **Implementation Blueprint:** Opt-in widen after VL-HUB-1.
 
-### [VL-HUB-4] OPEN
+### [VL-HUB-4] PARTIAL (2026-09-30)
 **Category:** Hub a11y human
 **Severity/Priority:** Low
-**Status:** Open — screen reader + 200% zoom follow-up from hub-dashboard session knowledge.
+**Status:** Partial — automated 200% zoom approximation + drawer on dashboard shipped; human NVDA/VoiceOver checklist still open in Wave A fit-gap.
 **Problem/Gap Statement:** Automated reflow passed; human a11y still open.
-**Affected Architecture/Files:** `docs/audit/session-knowledge-2026-09-25-hub-dashboard.md`
+**Affected Architecture/Files:** `docs/audit/session-knowledge-2026-09-25-hub-dashboard.md`, `e2e/hub.composition.spec.ts`
 **Implementation Blueprint:** Document results; file fix tickets if needed.
 
 ### [VL-404-1] ✅ CLOSED (2026-09-26)

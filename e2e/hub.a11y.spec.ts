@@ -107,6 +107,16 @@ const HUB_A11Y_PAGES: {
     heading: /President configuration|Configuration présidence/i,
   },
   {
+    label: "bylaws",
+    path: "/en/app/bylaws",
+    heading: /Local bylaws|Règlements locaux/i,
+  },
+  {
+    label: "proposals",
+    path: "/en/app/proposals",
+    heading: /Bargaining proposals|Propositions de négociation/i,
+  },
+  {
     label: "profile",
     path: "/en/app/profile",
     heading: /Your profile|Votre profil/i,
@@ -190,7 +200,7 @@ test.describe("Hub authenticated a11y", () => {
 
 /** Minimal Hub axe subset kept in default CI (`test:smoke`). */
 const HUB_A11Y_SMOKE_PAGES = HUB_A11Y_PAGES.filter((p) =>
-  ["dashboard", "grievances", "time"].includes(p.label),
+  ["dashboard", "grievances", "time", "bylaws", "proposals"].includes(p.label),
 );
 const HUB_A11Y_SMOKE_CASES = [
   ...HUB_A11Y_SMOKE_PAGES.map((page) => ({ ...page, locale: "en" as const })),

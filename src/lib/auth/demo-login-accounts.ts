@@ -27,6 +27,7 @@ export const DEMO_LOGIN_ROLE_KEYS = [
   "stability7",
   "member7",
   "solo",
+  "platformAdmin",
 ] as const;
 
 export type DemoLoginRoleKey = (typeof DEMO_LOGIN_ROLE_KEYS)[number];
@@ -88,5 +89,10 @@ export const DEMO_LOGIN_ACCOUNTS: readonly DemoLoginAccount[] = [
     userId: "user-solo",
     roleKey: "solo",
     email: demoEmail("solo"),
+  },
+  {
+    userId: "user-platform-admin",
+    roleKey: "platformAdmin",
+    email: demoEmail("platform.admin"),
   },
 ];

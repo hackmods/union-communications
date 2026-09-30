@@ -95,3 +95,9 @@ export async function loginAsSteward(page: Page) {
   await hubLogin(page, "steward.7@unionops.test");
   await completeMfaIfNeeded(page);
 }
+
+/** Demo platform_admin — host operations on Hub home, not local Attention widgets. */
+export async function loginAsPlatformAdmin(page: Page) {
+  await hubLogin(page, "platform.admin@unionops.test");
+  await completeMfaIfNeeded(page);
+}
