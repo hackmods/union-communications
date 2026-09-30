@@ -182,10 +182,10 @@ During a tense bargaining round, a supervisor asks a steward to perform a volunt
 What is the primary purpose of constructing a "Workplace Map" during the bargaining cycle?
 *   A) To help the employer track member attendance and scheduling.
 *   B) To identify physical hazards and submit them directly to the Joint Health and Safety Committee.
-*   C) To visually plot shift rotations, departments, and demographics to identify unengaged pockets and organize representative workplace networks.
-*   D) To replace the need for bargaining surveys and membership meetings.
+*   C) To replace the need for bargaining surveys and membership meetings.
+*   D) To visually plot shift rotations, departments, and demographics to identify unengaged pockets and organize representative workplace networks.
 
-**Correct Answer: C**
+**Correct Answer: D**
 *Explanation*: Workplace mapping is an organizing tool used to identify natural leaders, track social networks, and locate pockets of the membership that are isolated or disengaged from union activities.
 
 ### Question 3
@@ -200,30 +200,30 @@ Which of the following is considered a procedural "red flag" that could turn a w
 
 ### Question 4
 Which sequence best reflects the continuous bargaining cycle stewards work inside?
-*   A) Negotiation only — enforcement and surveys happen after ratification.
-*   B) Enforcement between rounds, demand-setting from floor evidence, then negotiation at the table.
+*   A) Enforcement between rounds, demand-setting from floor evidence, then negotiation at the table.
+*   B) Negotiation only — enforcement and surveys happen after ratification.
 *   C) Strike readiness first, then mapping, then silent enforcement.
 *   D) Demand-setting by the employer, then steward rubber-stamping.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Stewards enforce the deal, convert floor pain into demands, then back the table — the cycle does not start at notice to bargain alone.
 
 ### Question 5
 A local jumps from a successful shirt day straight to a mid-term overtime ban without legal advice. What is the main risk?
 *   A) Shirt days become illegal once OT is discussed.
-*   B) Concerted mid-term overtime bans can be treated as illegal strike activity under Ontario's broad LRA strike definition.
-*   C) Employers must accept OT bans as protected speech.
+*   B) Employers must accept OT bans as protected speech.
+*   C) Concerted mid-term overtime bans can be treated as illegal strike activity under Ontario's broad LRA strike definition.
 *   D) Overtime bans are always lawful if the petition has fifty signatures.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Ontario labour law treats many concerted withdrawals of services during the life of a CA — including OT bans and slowdowns — as strike activity that can be unlawful mid-term.
 
 ### Question 6
 You have mapped three organic night-shift leaders and a day-shift core that already attends GMMs. Best next mobilizing step?
 *   A) Run all actions only through the day-shift core to keep messaging simple.
-*   B) Recruit and resource the night-shift leaders so escalation reaches unengaged pockets first.
-*   C) Publish a public list of who is "disengaged" by name.
-*   D) Skip solidarity events and announce strike readiness immediately.
+*   B) Publish a public list of who is "disengaged" by name.
+*   C) Skip solidarity events and announce strike readiness immediately.
+*   D) Recruit and resource the night-shift leaders so escalation reaches unengaged pockets first.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Mapping only helps if you organize the isolated pockets — organic leaders on nights turn a day-shift club into site-wide power.

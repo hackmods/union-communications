@@ -159,12 +159,12 @@ Practice in the tool: open Tools → Steward worksheets → Pre-disciplinary log
 
 ### Question 1
 An employer issues a "Letter of Counseling" to a member regarding their punctuation and tone in emails. The letter concludes with the sentence: "Continued issues with professional communication will result in progressive discipline, up to and including dismissal." As a steward, how should you respond?
-*   A) Do nothing, because counseling is non-disciplinary and cannot be grieved.
-*   B) Demand the letter be destroyed because employers are not allowed to monitor employee email tones.
-*   C) File a grievance or demand the removal of the warning sentence, because the threat of future discipline transforms a non-disciplinary coaching tool into a formal disciplinary warning.
+*   A) File a grievance or demand the removal of the warning sentence, because the threat of future discipline transforms a non-disciplinary coaching tool into a formal disciplinary warning.
+*   B) Do nothing, because counseling is non-disciplinary and cannot be grieved.
+*   C) Demand the letter be destroyed because employers are not allowed to monitor employee email tones.
 *   D) Advise the member to ignore it and start BCC'ing the union on all emails.
 
-**Correct Answer: C**
+**Correct Answer: A**
 *Explanation*: A true counseling or coaching letter must be supportive and non-disciplinary. The moment it contains a threat of future discipline ("will result in progressive discipline..."), it crosses the boundary into formal discipline and must be treated—and challenged—as a disciplinary warning.
 
 ### Question 2
@@ -185,34 +185,34 @@ An employee posts a public rant on Facebook on a Sunday evening, calling their e
 *   D) No, unless the employee used work-provided internet to make the post.
 
 **Correct Answer: C**
-*Explanation*: Off-duty conduct can be disciplined if the employer can prove a "nexus" to the workplace. Because the post was public, targeted the employer, and resulted in actual client complaints, a clear nexus of reputational harm is established.
+*Explanation*: Off-duty conduct can be disciplined when the employer can show a connection to the workplace. Here the post was public, targeted the employer, and drew client complaints. If you picked A, personal time does not settle the question when the post has a clear workplace connection; the facts and the employer's proof still matter.
 
 ### Question 4
 A long-service member with a clean record receives a five-day suspension for a single heated argument with a coworker. The coworker was not disciplined. Which defense angle is strongest in addition to challenging employer proof?
 *   A) Demand the coworker be fired instead.
-*   B) Present inconsistent enforcement and proportionality mitigations — one argument without prior discipline warrants a lesser penalty.
-*   C) Refuse to attend the grievance meeting until the coworker is suspended.
-*   D) Argue that arguments are never disciplinable.
+*   B) Refuse to attend the grievance meeting until the coworker is suspended.
+*   C) Argue that arguments are never disciplinable.
+*   D) Present inconsistent enforcement and proportionality mitigations — one argument without prior discipline warrants a lesser penalty.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Mitigating factors include clean record, seniority, and inconsistent enforcement. Proportionality challenges a five-day suspension as excessive for a first incident, especially when the peer faced no penalty.
 
 ### Question 5
 Before a disciplinary meeting, HR emails the member: "Bring any notes you have about the incident." The member asks whether to prepare a written statement. What do you advise?
 *   A) Write a detailed apology admitting fault so HR sees cooperation.
-*   B) Attend with the steward, take notes, ask for full disclosure of employer evidence first, and avoid written admissions until you have reviewed proof and mitigation.
-*   C) Refuse to attend until HR drops the meeting.
-*   D) Send the written statement directly to the supervisor without the steward.
+*   B) Refuse to attend until HR drops the meeting.
+*   C) Send the written statement directly to the supervisor without the steward.
+*   D) Attend with the steward, take notes, ask for full disclosure of employer evidence first, and avoid written admissions until you have reviewed proof and mitigation.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Members should not hand employers unreviewed admissions. Stewards ensure disclosure, control the narrative with verified facts, and preserve mitigation — cooperation does not mean self-incrimination before proof.
 
 ### Question 6
 An employer skips straight to a three-day suspension for a first-time attendance issue. No prior verbal or written warnings appear in the file. What is the strongest procedural argument?
 *   A) Attendance issues can never be disciplined.
-*   B) The employer failed to follow progressive discipline — skipping rungs without justification weakens just-cause and supports penalty reduction or withdrawal.
-*   C) Only the president can discuss attendance.
+*   B) Only the president can discuss attendance.
+*   C) The employer failed to follow progressive discipline — skipping rungs without justification weakens just-cause and supports penalty reduction or withdrawal.
 *   D) The member must accept the suspension and grieve later without mentioning the ladder.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Progressive discipline requires proportionate steps. Jumping to suspension on a first incident without documented prior steps is a core defense — demand proof of each rung on the ladder.

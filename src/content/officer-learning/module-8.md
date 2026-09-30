@@ -153,64 +153,54 @@ Why should a steward include the phrase "and/or any other relevant article of th
 *   D) To automatically convert every grievance into a policy grievance without membership approval.
 
 **Correct Answer: B**
-*Explanation*: "Open-door" phrasing prevents the employer from blocking the grievance at arbitration on a technicality if the union uncovers violations of additional articles during the investigation.
+*Explanation*: "Open-door" phrasing keeps the employer from blocking an additional contractual theory on a technicality if new evidence turns up. Keep a separate dated fact sheet beside the form: the wording preserves room to argue, while the chronology pins down what happened.
 
 ### Question 2
 If a settlement is signed "Without Precedent," what does this legally mean for future disputes?
-*   A) The settlement cannot be cited or used by either party as a binding precedent in any future, unrelated grievance or arbitration.
-*   B) The employer agrees that they were completely in the wrong and will pay damages.
-*   C) The union cannot file any more grievances under that specific article of the contract.
+*   A) The employer agrees that they were completely in the wrong and will pay damages.
+*   B) The union cannot file any more grievances under that specific article of the contract.
+*   C) The settlement cannot be cited or used by either party as a binding precedent in any future, unrelated grievance or arbitration.
 *   D) The grievance remains open until an arbitrator endorses the settlement.
 
-**Correct Answer: A**
+**Correct Answer: C**
 *Explanation*: "Without precedent" ensures that the compromise made to settle a specific dispute does not establish a permanent interpretation of the contract that can be weaponized in future cases.
 
 ### Question 3
 During a step meeting, HR verbally promises to clean up the scheduling backlog if the union withdraws the grievance. The steward signs a "Full and Final" settlement that does not mention this promise. Can the union enforce the verbal promise later?
 *   A) Yes, verbal agreements made during step meetings are legally binding.
 *   B) Yes, but only if there are at least two witnesses who heard the promise.
-*   C) No, under the "Four Corners" rule, any verbal terms not written directly into the signed settlement are generally legally unenforceable.
-*   D) Yes, if the steward sends a confirming text message after signing.
+*   C) Yes, if the steward sends a confirming text message after signing.
+*   D) No, under the "Four Corners" rule, any verbal terms not written directly into the signed settlement are generally legally unenforceable.
 
-**Correct Answer: C**
-*Explanation*: Once a "Full and Final" settlement is signed, it represents the entire agreement. Any verbal side-deals that are omitted are legally dead.
+**Correct Answer: D**
+*Explanation*: A signed Full and Final settlement generally contains the whole deal, so verbal promises left out are usually unenforceable. If unusual circumstances may affect that result, flag them to counsel instead of assuming the promise is lost. If you picked A, a step-meeting promise still needs to be written into the settlement before the union withdraws.
 
 ### Question 4
-Which item belongs in the chronological fact sheet pillar of a grievance file?
-*   A) A day-by-day dated log of events, communications, and supervisor interactions.
-*   B) Only the final arbitration award from a different local.
-*   C) Unsigned hallway rumours collected after the hearing date.
-*   D) The employer's preferred narrative with no union dates attached.
-
-**Correct Answer: A**
-*Explanation*: Chronology discipline — dated, attributed entries — is the spine that holds witness statements and documents together.
-
-### Question 5
 What is the strongest remedy ask on an open-door promotion grievance?
 *   A) "Please consider the Grievor for future postings."
-*   B) "Make the Grievor whole in every aspect, including retroactive pay and full benefits, and award them the position."
-*   C) "Pay one day of wages as a symbolic gesture."
+*   B) "Pay one day of wages as a symbolic gesture."
+*   C) "Make the Grievor whole in every aspect, including retroactive pay and full benefits, and award them the position."
 *   D) "Issue a verbal apology with no paper trail."
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Make-whole language preserves full restorative relief; token asks cap recovery before bargaining even starts at the step table.
 
-### Question 6
+### Question 5
 HR offers a quick withdrawal deal but refuses to write a training-pay promise into the MOS. Best steward move?
 *   A) Sign full-and-final and trust the handshake.
 *   B) Narrow the grievance form so fewer remedies are possible.
-*   C) Walk away or hold the grievance until the promise appears inside the Four Corners of the settlement.
-*   D) Accept a without-precedent label as a substitute for the missing pay language.
+*   C) Accept a without-precedent label as a substitute for the missing pay language.
+*   D) Walk away or hold the grievance until the promise appears inside the Four Corners of the settlement.
 
-**Correct Answer: C**
+**Correct Answer: D**
 *Explanation*: Labels do not replace operative terms. If the consideration is not written, Four Corners will not save it after withdrawal.
 
-### Question 7
+### Question 6
 What does marking a settlement discussion **"Without Prejudice"** primarily protect?
 *   A) It permanently rewrites the collective agreement for every future grievance under the same article.
-*   B) It keeps exploratory offers and compromise positions from being waved later as admissions of liability.
-*   C) It forces the employer to concede that they were completely wrong on the merits.
-*   D) It replaces the need to write payment amounts and deadlines into the signed MOS.
+*   B) It forces the employer to concede that they were completely wrong on the merits.
+*   C) It replaces the need to write payment amounts and deadlines into the signed MOS.
+*   D) It keeps exploratory offers and compromise positions from being waved later as admissions of liability.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: "Without prejudice" marks settlement talks so exploratory offers are not treated as admissions. It is not the same as "without precedent," which limits how a signed deal binds future unrelated cases.

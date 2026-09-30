@@ -167,31 +167,31 @@ Practice in the tool: open Tools → Steward worksheets → RTW & accommodation 
 ### Question 1
 An employee returning from a severe back injury brings a doctor's note stating they "cannot sit or stand continuously for more than 30 minutes, and require a specialized ergonomic sit-stand desk." The employer refuses, claiming that because the collective agreement does not mention ergonomic desks, they are under no obligation to purchase one. Is the employer's position correct?
 *   A) Yes. If it is not in the contract, the union cannot enforce it.
-*   B) No. Human rights legislation has quasi-constitutional primacy over collective agreements. The employer must accommodate the disability up to the point of undue hardship, regardless of contract silence.
-*   C) Yes, but only if the union pays for half of the desk.
-*   D) No, but only if the employee has at least 10 years of seniority.
+*   B) Yes, but only if the union pays for half of the desk.
+*   C) No, but only if the employee has at least 10 years of seniority.
+*   D) No. Human rights legislation has quasi-constitutional primacy over collective agreements. The employer must accommodate the disability up to the point of undue hardship, regardless of contract silence.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Human rights legislation has statutory primacy, meaning it supersedes the collective agreement. Silence in the contract is irrelevant; the employer is legally mandated to accommodate disabilities up to the point of undue hardship.
 
 ### Question 2
 An employer refuses to accommodate a Muslim employee's request for a 15-minute shift adjustment on Fridays to attend prayers. The employer claims that other workers in the department are complaining about "favoritism" and that co-worker morale will plummet, creating an "undue hardship." Is this a legally valid defense?
-*   A) Yes, because co-worker morale is a recognized factor under undue hardship.
-*   B) No. Co-worker morale and complaints of favoritism are explicitly excluded from the legal definition of undue hardship.
+*   A) No. Co-worker morale and complaints of favoritism are explicitly excluded from the legal definition of undue hardship.
+*   B) Yes, because co-worker morale is a recognized factor under undue hardship.
 *   C) Yes, because religious practices are not protected grounds under human rights legislation.
 *   D) No, unless the employee agrees to deduct the 15 minutes from their lunch break.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Under human rights standards, only quantifiable costs, outside funding, and direct health and safety risks can be used to prove undue hardship. Co-worker resentment or morale does not qualify as undue hardship.
 
 ### Question 3
 During an accommodation meeting, a manager demands to see the returning employee's full psychiatric assessment file to "verify for themselves" that the employee is fit to return from a mental health leave. How should the steward respond?
 *   A) Advise the employee to hand over the file, because cooperation in the accommodation process is mandatory.
-*   B) Refuse the request and state that the employer is only entitled to information regarding the employee's functional abilities and restrictions, not their specific medical diagnosis or raw clinical files.
-*   C) Agree, but only if the manager signs a non-disclosure agreement.
-*   D) Suggest that the supervisor contact the employee's doctor directly on the phone.
+*   B) Agree, but only if the manager signs a non-disclosure agreement.
+*   C) Suggest that the supervisor contact the employee's doctor directly on the phone.
+*   D) Refuse the request and state that the employer is only entitled to information regarding the employee's functional abilities and restrictions, not their specific medical diagnosis or raw clinical files.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Member privacy is paramount. While cooperation is required, the employer's right to information is strictly limited to "functional abilities" (what the member can and cannot do). They have no legal entitlement to know the underlying diagnosis or read clinical psychiatric notes.
 
 ### Question 4
@@ -205,21 +205,21 @@ An employer says accommodation is impossible because seniority rules in the coll
 *Explanation*: Conflict with collective agreement language does not constitute undue hardship. The employer must explore accommodations — sometimes via variance, modified duties, or bargaining-unit-preserving adjustments — before claiming impossibility.
 
 ### Question 5
-HR insists the member provide a surgeon's letter naming the diagnosis before approving a sit-stand desk. The member has already supplied functional limits from their treating provider. What should the steward do?
-*   A) Tell the member to provide the surgeon's letter to speed things up.
-*   B) Refuse diagnosis disclosure, restate functional limits only, and cite human rights privacy limits on employer medical inquiries.
-*   C) Withdraw the accommodation request until the member agrees to full file disclosure.
-*   D) Accept that employers always need diagnosis for ergonomic equipment.
+At a return-to-work meeting, HR offers the member a lower-paid casual assignment outside the bargaining unit. The member's restrictions can be met by bundling tasks within their regular unit job. What should the steward do?
+*   A) Propose a phased plan using suitable bargaining-unit tasks while preserving the member's rate and standing, then document and escalate any deadlock.
+*   B) Accept the casual assignment because any work is better than a delayed return.
+*   C) Tell the member to refuse all modified work until they can do every regular duty.
+*   D) Agree to lower pay temporarily and sort out the member's status after full duties resume.
 
-**Correct Answer: B**
-*Explanation*: Employers are entitled to functional abilities information, not raw diagnosis or surgical detail for a desk accommodation. Stewards gate medical privacy and keep the dialogue on restrictions and solutions.
+**Correct Answer: A**
+*Explanation*: Accommodation should be individualized and should preserve bargaining-unit work, professional standing, and the member's wage rate wherever possible. Propose task bundling and a phased schedule; the member need not accept a punitive assignment or the employer's first offer. If talks stall, document dates and escalate.
 
 ### Question 6
 Three weeks pass after the accommodation request. The employer says they are "still reviewing" but offers no counter-proposal. Best next step?
 *   A) Wait indefinitely — accommodation has no timeline.
-*   B) Document each delay date, send a written follow-up proposing phased RTW or equipment, and prepare a grievance while dialogue continues.
-*   C) Tell the member to stop working until the desk arrives.
-*   D) Drop the request because silence means denial is final.
+*   B) Tell the member to stop working until the desk arrives.
+*   C) Drop the request because silence means denial is final.
+*   D) Document each delay date, send a written follow-up proposing phased RTW or equipment, and prepare a grievance while dialogue continues.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Undue delay can be as harmful as undue denial. Log timelines, keep proposing solutions, and prepare formal escalation — accommodation dialogue and grievance prep can run in parallel.

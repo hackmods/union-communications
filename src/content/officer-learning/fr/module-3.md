@@ -167,31 +167,31 @@ Exercice dans l'outil : ouvrez Outils → Fiches délégué → RAT et accommode
 ### Question 1
 Un employé revenant d'une blessure grave au dos apporte une note médicale indiquant qu'il « ne peut pas s'asseoir ou rester debout continuellement plus de 30 minutes, et a besoin d'un bureau ergonomique assis-debout spécialisé ». L'employeur refuse, affirmant que parce que la convention collective ne mentionne pas les bureaux ergonomiques, il n'a aucune obligation d'en acheter un. La position de l'employeur est-elle correcte ?
 *   A) Oui. Si ce n'est pas dans la convention, le syndicat ne peut pas l'appliquer.
-*   B) Non. La législation sur les droits de la personne a une primauté quasi constitutionnelle sur les conventions collectives. L'employeur doit accommoder le handicap jusqu'au point de contrainte excessive, indépendamment du silence de la convention.
-*   C) Oui, mais seulement si le syndicat paie la moitié du bureau.
-*   D) Non, mais seulement si l'employé a au moins 10 ans d'ancienneté.
+*   B) Oui, mais seulement si le syndicat paie la moitié du bureau.
+*   C) Non, mais seulement si l'employé a au moins 10 ans d'ancienneté.
+*   D) Non. La législation sur les droits de la personne a une primauté quasi constitutionnelle sur les conventions collectives. L'employeur doit accommoder le handicap jusqu'au point de contrainte excessive, indépendamment du silence de la convention.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : La législation sur les droits de la personne a une primauté statutaire, ce qui signifie qu'elle prévaut sur la convention collective. Le silence de la convention est sans pertinence ; l'employeur est légalement tenu d'accommoder les handicaps jusqu'au point de contrainte excessive.
 
 ### Question 2
 Un employeur refuse d'accommoder la demande d'un employé musulman pour un ajustement de quart de 15 minutes le vendredi afin d'assister aux prières. L'employeur affirme que d'autres travailleurs du service se plaignent de « favoritisme » et que le moral des collègues s'effondrera, créant une « contrainte excessive ». Est-ce une défense juridiquement valide ?
-*   A) Oui, parce que le moral des collègues est un facteur reconnu de la contrainte excessive.
-*   B) Non. Le moral des collègues et les plaintes de favoritisme sont explicitement exclus de la définition juridique de la contrainte excessive.
+*   A) Non. Le moral des collègues et les plaintes de favoritisme sont explicitement exclus de la définition juridique de la contrainte excessive.
+*   B) Oui, parce que le moral des collègues est un facteur reconnu de la contrainte excessive.
 *   C) Oui, parce que les pratiques religieuses ne sont pas des motifs protégés en vertu de la législation sur les droits de la personne.
 *   D) Non, à moins que l'employé n'accepte de déduire les 15 minutes de sa pause-dîner.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Selon les normes de droits de la personne, seuls les coûts quantifiables, le financement externe et les risques directs pour la santé et la sécurité peuvent servir à prouver la contrainte excessive. Le ressentiment ou le moral des collègues ne qualifie pas comme contrainte excessive.
 
 ### Question 3
 Durant une rencontre d'accommodement, un gestionnaire exige de voir le dossier d'évaluation psychiatrique complet de l'employé qui revient afin de « vérifier lui-même » que l'employé est apte à revenir d'un congé de santé mentale. Comment le délégué doit-il répondre ?
 *   A) Conseiller à l'employé de remettre le dossier, parce que la coopération dans le processus d'accommodement est obligatoire.
-*   B) Refuser la demande et indiquer que l'employeur n'a droit qu'à de l'information sur les capacités fonctionnelles et les restrictions de l'employé, pas à son diagnostic médical précis ni à ses dossiers cliniques bruts.
-*   C) Accepter, mais seulement si le gestionnaire signe une entente de non-divulgation.
-*   D) Suggérer que le superviseur contacte directement le médecin de l'employé par téléphone.
+*   B) Accepter, mais seulement si le gestionnaire signe une entente de non-divulgation.
+*   C) Suggérer que le superviseur contacte directement le médecin de l'employé par téléphone.
+*   D) Refuser la demande et indiquer que l'employeur n'a droit qu'à de l'information sur les capacités fonctionnelles et les restrictions de l'employé, pas à son diagnostic médical précis ni à ses dossiers cliniques bruts.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : La confidentialité du membre est primordiale. Bien que la coopération soit requise, le droit de l'employeur à l'information est strictement limité aux « capacités fonctionnelles » (ce que le membre peut et ne peut pas faire). Il n'a aucun droit légal de connaître le diagnostic sous-jacent ou de lire des notes psychiatriques cliniques.
 
 ### Question 4
@@ -205,21 +205,21 @@ Un employeur dit que l'accommodement est impossible parce que les règles d'anci
 *Explication* : Le conflit avec le libellé de la convention collective ne constitue pas une contrainte excessive. L'employeur doit explorer des accommodements — parfois via une dérogation, des tâches modifiées ou des ajustements préservant l'unité de négociation — avant de revendiquer l'impossibilité.
 
 ### Question 5
-Les RH insistent pour que le membre fournisse une lettre du chirurgien nommant le diagnostic avant d'approuver un bureau assis-debout. Le membre a déjà fourni des limites fonctionnelles de son professionnel traitant. Que doit faire le délégué ?
-*   A) Dire au membre de fournir la lettre du chirurgien pour accélérer.
-*   B) Refuser la divulgation du diagnostic, réitérer les limites fonctionnelles seulement, et citer les limites du Code des droits de la personne sur les demandes médicales de l'employeur.
-*   C) Retirer la demande d'accommodement jusqu'à ce que le membre accepte la divulgation complète du dossier.
-*   D) Accepter que les employeurs ont toujours besoin du diagnostic pour l'équipement ergonomique.
+À une rencontre de retour au travail, les RH proposent au membre un poste temporaire moins payé, à l'extérieur de l'unité de négociation. Ses restrictions peuvent être respectées en regroupant des tâches dans son emploi habituel au sein de l'unité. Que devrait faire le délégué ?
+*   A) Proposer un plan progressif avec des tâches convenables dans l'unité, tout en préservant son taux de salaire et son statut, puis consigner et faire remonter toute impasse.
+*   B) Accepter le poste temporaire parce que tout travail vaut mieux qu'un retour retardé.
+*   C) Dire au membre de refuser tout travail modifié jusqu'à ce qu'il puisse faire toutes ses tâches habituelles.
+*   D) Accepter une baisse temporaire de salaire et régler le statut du membre après son retour à toutes ses tâches.
 
-**Correct Answer: B**
-*Explication* : Les employeurs ont droit aux renseignements sur les capacités fonctionnelles, pas au diagnostic brut ou au détail chirurgical pour un bureau. Les délégués protègent la confidentialité médicale et orientent le dialogue vers les restrictions et les solutions.
+**Correct Answer: A**
+*Explication* : L'accommodement doit être individualisé et préserver autant que possible le travail dans l'unité, le statut professionnel et le taux de salaire du membre. Proposez un regroupement de tâches et un horaire progressif ; le membre n'a pas à accepter une affectation punitive ni la première offre de l'employeur. Si les discussions bloquent, consignez les dates et faites remonter le dossier.
 
 ### Question 6
 Trois semaines passent après la demande d'accommodement. L'employeur dit qu'il « examine encore » mais n'offre aucune contre-proposition. Meilleure prochaine étape ?
 *   A) Attendre indéfiniment — l'accommodement n'a pas d'échéance.
-*   B) Documenter chaque date de retard, envoyer un suivi écrit proposant un RAT échelonné ou de l'équipement, et préparer un grief pendant que le dialogue continue.
-*   C) Dire au membre d'arrêter de travailler jusqu'à l'arrivée du bureau.
-*   D) Abandonner la demande parce que le silence signifie un refus final.
+*   B) Dire au membre d'arrêter de travailler jusqu'à l'arrivée du bureau.
+*   C) Abandonner la demande parce que le silence signifie un refus final.
+*   D) Documenter chaque date de retard, envoyer un suivi écrit proposant un RAT échelonné ou de l'équipement, et préparer un grief pendant que le dialogue continue.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : Un retard excessif peut être aussi préjudiciable qu'un refus excessif. Consignez les échéances, continuez à proposer des solutions, et préparez l'escalade formelle — dialogue d'accommodement et préparation du grief peuvent avancer en parallèle.

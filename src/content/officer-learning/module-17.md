@@ -168,11 +168,11 @@ A duty dump that adds independence or system ownership is a **factor** argument,
 ### Question 1
 Management hands a member an updated Position Description Form (PDF) that adds system administration duties and guiding new staff, but leaves their pay rate unchanged. What should the steward advise the member to do first?
 *   A) Refuse to read the document and immediately walk out of the supervisor's office.
-*   B) Sign the PDF immediately without reading it, because manager signatures are final.
-*   C) Review the draft with the steward, log actual daily tasks, and prepare written Employee Comments highlighting the added higher-level duties.
+*   B) Review the draft with the steward, log actual daily tasks, and prepare written Employee Comments highlighting the added higher-level duties.
+*   C) Sign the PDF immediately without reading it, because manager signatures are final.
 *   D) File a health and safety refusal because system administration causes eye strain.
 
-**Correct Answer: C**
+**Correct Answer: B**
 *Explanation*: Members should never blindly sign a contested PDF nor flatly refuse to review it. The proper first step is to review the draft with a steward, document actual time on higher-level tasks, and attach detailed written Employee Comments before escalating to a reclassification grievance or JJEC.
 
 ### Question 2
@@ -188,21 +188,21 @@ In point-factor job evaluation systems, how are job pay bands determined?
 ### Question 3
 What is the primary purpose of a 14-Day Duty Frequency Audit Log?
 *   A) To spy on co-workers' lunch break habits.
-*   B) To provide objective, time-stamped evidence of actual daily tasks and duration to prove management's PDF draft is inaccurate.
-*   C) To replace the collective agreement during wage negotiations.
+*   B) To replace the collective agreement during wage negotiations.
+*   C) To provide objective, time-stamped evidence of actual daily tasks and duration to prove management's PDF draft is inaccurate.
 *   D) To automatically calculate overtime pay rates without manager approval.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: A Duty Frequency Audit Log tracks exact time on tasks over about two working weeks so the union can prove higher-level duties are regular and recurring, not minor occasional extras.
 
 ### Question 4
 The member disagrees with several duty percentages on the draft PDF. The comments box is empty and the manager wants a signature today. Best steward advice?
 *   A) Leave comments blank and sign so the file can "move along."
-*   B) Write detailed Employee Comments, sign Received & Contested, and keep a copy.
-*   C) Refuse all signatures forever and wait for arbitration to describe the job.
+*   B) Refuse all signatures forever and wait for arbitration to describe the job.
+*   C) Write detailed Employee Comments, sign Received & Contested, and keep a copy.
 *   D) Tell the member to resign and apply to the higher-rated posting instead.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Blank comments read as agreement. The member records the contest on the form, keeps a copy, and preserves the right to escalate inside the CA process.
 
 ### Question 5
@@ -217,10 +217,10 @@ A draft PDF lists "reset user access and train new clerks" as occasional. The 14
 
 ### Question 6
 Your CA gives 12 working days to review a draft PDF with the union. HR says "sign by Friday" three days after delivery. What should the steward do first?
-*   A) Accept Friday because verbal HR deadlines always control.
-*   B) Calendar the CA window from the date of receipt, file comments inside that window, and challenge any shortened deadline in writing.
+*   A) Calendar the CA window from the date of receipt, file comments inside that window, and challenge any shortened deadline in writing.
+*   B) Accept Friday because verbal HR deadlines always control.
 *   C) Wait until day 20 so the log looks more complete, even if the CA window has closed.
 *   D) Quote "15 working days" as Ontario law and ignore the CA article.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Review windows come from your CA. Stewards calendar the contractual clock on day one and contest employer shortcuts in writing. Do not invent a statutory number of days, and do not miss the real window to finish a perfect log.

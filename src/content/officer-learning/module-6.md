@@ -172,59 +172,59 @@ Practice: **Round 1 — Bargaining committee tabletop.** Given membership map sh
 ### Question 1
 Which of the following is the best example of a "systemic barrier" within a local union's own operations?
 *   A) A steward making an offensive joke during a lunch break.
-*   B) A policy requiring all members to attend in-person meetings at a suburban hall that is not accessible by public transit.
-*   C) A supervisor refusing to grant a vacation request for a racialized worker.
-*   D) A treasurer losing a receipt for a meeting expense.
+*   B) A supervisor refusing to grant a vacation request for a racialized worker.
+*   C) A treasurer losing a receipt for a meeting expense.
+*   D) A policy requiring all members to attend in-person meetings at a suburban hall that is not accessible by public transit.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Systemic barriers are seemingly neutral policies or setups that disproportionately exclude or disadvantage a specific group. Holding meetings in an area inaccessible by public transit systematically excludes lower-income, precarious, or racialized workers who are less likely to own personal vehicles.
 
 ### Question 2
 The bargaining committee wants to propose expanding bereavement leave to include "chosen family." The employer objects, claiming "family" must be strictly defined by legal marriage and bloodlines to prevent abuse. How can the union justify this proposal?
-*   A) By arguing that traditional bloodline definitions reflect colonial and nuclear family structures that systematically exclude diverse cultural, LGBTQ2S+, and marginalized community kinship networks.
-*   B) By agreeing to let the employer approve each chosen family member on a case-by-case basis.
+*   A) By agreeing to let the employer approve each chosen family member on a case-by-case basis.
+*   B) By arguing that traditional bloodline definitions reflect colonial and nuclear family structures that systematically exclude diverse cultural, LGBTQ2S+, and marginalized community kinship networks.
 *   C) By stating that the union will pay for any extra bereavement days.
 *   D) By dropping the proposal and focusing only on wage increases.
 
-**Correct Answer: A**
+**Correct Answer: B**
 *Explanation*: Broadening the definition of family to include "chosen family" is a key equity-seeking contract demand. It recognizes that kinship networks vary widely across different cultural and marginalized communities, and that traditional bloodline-only rules are exclusionary.
 
 ### Question 3
 The local is inviting an Indigenous Elder to conduct an opening ceremony for a weekend union school. Protocols vary by nation and community — always ask the Elder or your equity committee what they prefer. Which option is a widely taught example of respectful protocol (not the only correct practice everywhere)?
-*   A) A standard corporate gift basket with jams and chocolates.
-*   B) A traditional tobacco tie (organic tobacco wrapped in colored broadcloth) offered respectfully with the left hand (closest to the heart) — when that is the protocol the Elder or community uses.
+*   A) A traditional tobacco tie (organic tobacco wrapped in colored broadcloth) offered respectfully with the left hand (closest to the heart) — when that is the protocol the Elder or community uses.
+*   B) A standard corporate gift basket with jams and chocolates.
 *   C) A written promise to donate to a political party.
 *   D) A cash payment in an open envelope before they speak.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Many communities teach offering a tobacco tie with the left hand when inviting an Elder — but protocols vary by nation and community. Confirm with Indigenous members or your equity committee before hosting ceremonies; never treat one protocol as universal.
 
 ### Question 4
 A member wants ADR with an Elder instead of a formal grievance meeting with management. Best steward response?
 *   A) ADR replaces grievance rights once chosen.
-*   B) Confirm ADR is voluntary, grievance timelines and formal rights remain if ADR fails or the member opts out.
-*   C) Refuse — grievances must always be adversarial.
-*   D) Require the member to disclose full medical history to the Elder.
+*   B) Refuse — grievances must always be adversarial.
+*   C) Require the member to disclose full medical history to the Elder.
+*   D) Confirm ADR is voluntary, grievance timelines and formal rights remain if ADR fails or the member opts out.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Voluntary ADR supplements, not supplants, formal processes. Members may try restorative paths while preserving the right to return to the grievance procedure.
 
 ### Question 5
 Survey data shows part-time racialized members cannot attend 6 p.m. suburban meetings. The executive says turnout proves "those members don't care." Best steward response?
-*   A) Accept low turnout as apathy and focus on engaged members only.
-*   B) Name the systemic barrier, propose accessible times/locations or hybrid options, and tie turnout fixes to bargaining survey proposals.
+*   A) Name the systemic barrier, propose accessible times/locations or hybrid options, and tie turnout fixes to bargaining survey proposals.
+*   B) Accept low turnout as apathy and focus on engaged members only.
 *   C) Force smudge at every meeting to increase attendance.
 *   D) Remove part-time members from the membership list to improve quorum math.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Structure shapes turnout. Stewards connect barrier analysis to concrete local fixes and bargaining packages — apathy framing hides exclusion.
 
 ### Question 6
 A supervisor's repeated microaggressions are active while the bargaining team pursues a new equity clause for next contract. What should happen now?
-*   A) Wait until the new clause is ratified — no grievance yet.
-*   B) File on the live hostile conduct using existing policy and human rights routes while bargaining enforcement language for the next round.
+*   A) File on the live hostile conduct using existing policy and human rights routes while bargaining enforcement language for the next round.
+*   B) Wait until the new clause is ratified — no grievance yet.
 *   C) Drop the grievance if the member agrees to ADR.
 *   D) Trade the grievance for preamble language only.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Active harm gets grieved now. Bargaining builds systemic enforcement for later — the two tracks complement each other; do not leave members unprotected while language is negotiated.

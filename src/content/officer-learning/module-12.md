@@ -154,58 +154,58 @@ Many locals reserve budget lines for a **Member Hardship Fund** — emergency ai
 A Local President receives a monthly honorarium of $200 for volunteer administrative time. At year-end they ask the Treasurer not to report the income on a tax slip because "it is a volunteer union stipend, not a regular workplace salary." What must the Treasurer do?
 *   A) Comply with the President's request to maintain smooth executive relations.
 *   B) Agree to treat the honorarium as a travel expense reimbursement to bypass tax reporting.
-*   C) Refuse. Under Canadian tax law, officer honorariums are taxable income and must be reported on a T4A when statutory thresholds are exceeded.
-*   D) Report only the months when the President submitted a handwritten thank-you note.
+*   C) Report only the months when the President submitted a handwritten thank-you note.
+*   D) Refuse. Under Canadian tax law, officer honorariums are taxable income and must be reported on a T4A when statutory thresholds are exceeded.
 
-**Correct Answer: C**
+**Correct Answer: D**
 *Explanation*: Treasurers must maintain tax compliance. Honorariums are income; failing to file required T4A slips exposes the local to CRA penalties and audit risk.
 
 ### Question 2
 The Hardship Committee approves a $500 emergency payout after a member's apartment fire. The President is out of town and the member needs funds immediately. Can the Treasurer sign the cheque alone?
-*   A) Yes, because it is an approved emergency hardship case and time is of the essence.
-*   B) No. All payouts from local funds require two authorized executive signatures — hardship emergencies do not suspend double-signature controls.
+*   A) No. All payouts from local funds require two authorized executive signatures — hardship emergencies do not suspend double-signature controls.
+*   B) Yes, because it is an approved emergency hardship case and time is of the essence.
 *   C) Yes, but only if the Treasurer writes "Emergency Approved" in the memo line.
 *   D) Yes, if the member signs a personal IOU to the local.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Double-signature controls are non-negotiable for fraud prevention. Contact an alternate signatory — speed without controls creates audit and trust failures.
 
 ### Question 3
-Which is a financial best practice when designing a Local Expense Policy?
-*   A) Allow officers to submit credit card statements instead of itemized store receipts.
-*   B) Specify that members cannot claim flat-rate meal per diems when a meal is already provided free at union training.
-*   C) Provide a flat monthly gas allowance to all stewards without documenting mileage.
-*   D) Let the executive set per diem amounts informally each trip.
+Rina attends a Saturday GMM and pays a caregiver to stay with her father. The local's approved expense policy covers reasonable dependent-care costs for meeting attendance. What should the Treasurer require?
+*   A) Nothing; small caregiver payments do not need to be recorded.
+*   B) A signed statement from the member, but no caregiver receipt because it is not a hotel or meal expense.
+*   C) A manager's approval because the meeting happened on a weekend.
+*   D) A receipt or invoice for the actual care cost, then reimbursement under the approved policy.
 
-**Correct Answer: B**
-*Explanation*: Robust policies prevent double-dipping. Per diems cover out-of-pocket food; provided meals negate the claim. Itemized receipts remain the reimbursement standard.
+**Correct Answer: D**
+*Explanation*: A written policy can cover reasonable care costs that let members take part in union meetings. Keep the expense tied to the GMM-approved policy and require a caregiver receipt or invoice; do not turn it into an undocumented cash payment.
 
 ### Question 4
-How does Module 12's expense policy work relate to Module 5's foundation?
-*   A) Module 12 replaces double-signature rules with hardship discretion.
-*   B) Module 5 covers budgets and trustee audits; Module 12 adds GMM-approved claim rules, honorarium tax treatment, and hardship committee design on top of those controls.
-*   C) Module 5 applies only to national unions, not locals.
-*   D) Module 12 eliminates the need for trustee audits when a hardship fund exists.
+The Hardship Committee approves a grant after a member's apartment fire. The Treasurer wants to record it as "miscellaneous petty cash" so the member's name stays out of the ledger. What is the sound approach?
+*   A) Put the member's name and personal circumstances in the public GMM minutes.
+*   B) Use the miscellaneous line so Trustees cannot trace the payment to a recipient.
+*   C) Record it in the hardship fund with a reference to the committee approval, and report aggregate totals without sharing applicant gossip.
+*   D) Skip the ledger entry because the committee decision is confidential.
 
-**Correct Answer: B**
-*Explanation*: Module 5 establishes financial health basics; Module 12 advances policy design and specialized payouts — all still subject to dual signatures and audits.
+**Correct Answer: C**
+*Explanation*: Privacy does not mean hiding a disbursement from the books. Record the grant under the hardship fund with the committee-minute reference, protect identifying details in the deliberation record, and report totals rather than applicant gossip.
 
 ### Question 5
 A steward attends a weekend training conference. Registration includes lunch both days. They submit per diem claims for every lunch plus hotel receipts. What should the Treasurer do?
-*   A) Pay all per diems — travel is exhausting.
-*   B) Deny lunch per diems for meals already provided; pay eligible hotel and other approved expenses with documentation.
+*   A) Deny lunch per diems for meals already provided; pay eligible hotel and other approved expenses with documentation.
+*   B) Pay all per diems — travel is exhausting.
 *   C) Pay double lunch per diems because steward work is unpaid volunteer time.
 *   D) Convert unpaid lunch per diems into an honorarium without T4A.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Expense policy prohibits double-dipping. Provided meals block lunch per diem claims; honorariums follow separate tax rules.
 
 ### Question 6
 Who should **not** typically sit on a local Hardship Committee reviewing blind applications?
-*   A) An elected rank-and-file member from a different work site.
-*   B) A retired member trustee emeritus with no current executive role.
-*   C) The Local President and Local Treasurer serving as primary decision-makers.
+*   A) The Local President and Local Treasurer serving as primary decision-makers.
+*   B) An elected rank-and-file member from a different work site.
+*   C) A retired member trustee emeritus with no current executive role.
 *   D) A steward with no family relation to current applicants.
 
-**Correct Answer: C**
+**Correct Answer: A**
 *Explanation*: Executive officers on hardship committees create favouritism risk and audit questions. Independent committees with blind review protect members and officers.

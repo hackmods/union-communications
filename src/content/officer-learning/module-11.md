@@ -153,21 +153,21 @@ Raw Excel or CSV sheets from employer payroll departments are notoriously messy.
 ### Question 1
 An employee has worked in your bargaining unit for three years. Union dues have been deducted every pay cycle under the Rand Formula, but they have never signed a union card. A critical contract ratification vote is this week. Is this employee eligible to vote?
 *   A) Yes. Since they have paid dues for three years, they are automatically a member in good standing.
-*   B) No. While they pay dues under the Rand Formula, they only obtain voting rights once they sign an official union membership card.
-*   C) Yes, but only if they pay a special ratification voting fee at the door of the meeting.
+*   B) Yes, but only if they pay a special ratification voting fee at the door of the meeting.
+*   C) No. While they pay dues under the Rand Formula, they only obtain voting rights once they sign an official union membership card.
 *   D) Yes, if a steward verbally confirms they support the union.
 
-**Correct Answer: B**
-*Explanation*: Dues deduction is a statutory requirement under the Rand Formula, but democratic voting rights are conditional on signing a membership card per bylaws. The Secretary's duty includes converting dues payers into signed members before votes.
+**Correct Answer: C**
+*Explanation*: Dues deduction and voting membership are different things; the local's constitution and bylaws set card and good-standing rules. If you picked A, years of Rand deductions do not by themselves prove the worker has signed up as a voting member. Get cards signed before the vote.
 
 ### Question 2
 The Local Executive Board wants to support a progressive city councillor endorsed by the union. The candidate's campaign manager asks the Secretary for a CSV of member phone numbers for a text campaign. What should the Secretary do?
 *   A) Provide the list immediately, as the candidate's platform aligns with the local's goals.
-*   B) Provide the list, but only after removing last names to preserve privacy.
-*   C) Refuse to share the list. Under the Membership List Directive, union lists cannot be released to outside political campaigns; the local runs its own internal member outreach instead.
+*   B) Refuse to share the list. Under the Membership List Directive, union lists cannot be released to outside political campaigns; the local runs its own internal member outreach instead.
+*   C) Provide the list, but only after removing last names to preserve privacy.
 *   D) Provide phone numbers only for members who attended the last GMM.
 
-**Correct Answer: C**
+**Correct Answer: B**
 *Explanation*: The Membership List Directive prohibits releasing member contact details to third parties, including political campaigns — even endorsed ones. Internal union channels must carry the message.
 
 ### Question 3
@@ -183,29 +183,29 @@ Where is the most secure place for a Local Secretary to store and edit the activ
 ### Question 4
 Your monthly reconciliation shows twelve full-time workers classified as "temporary" on the payroll report. Dues are deducted at the lower part-time rate. Best first step?
 *   A) Ignore — payroll classification is the employer's problem alone.
-*   B) Document the pattern, notify affected members, and pursue correction through grievance or group action per the collective agreement.
-*   C) Delete the twelve rows from the union database until payroll fixes them.
+*   B) Delete the twelve rows from the union database until payroll fixes them.
+*   C) Document the pattern, notify affected members, and pursue correction through grievance or group action per the collective agreement.
 *   D) Add them to the voting list without cards because dues are being deducted.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Classification errors affect dues, benefits, and bargaining unit integrity. Secretaries document discrepancies; stewards and servicing reps pursue contractual correction.
 
 ### Question 5
 A vendor offers a 15% work-boot discount if the Treasurer emails the full membership list for "eligibility verification." What complies with the Membership List Directive?
-*   A) Email the list with a confidentiality clause in the email body.
-*   B) Refuse the list share; give members a union-issued discount card they present at checkout.
+*   A) Refuse the list share; give members a union-issued discount card they present at checkout.
+*   B) Email the list with a confidentiality clause in the email body.
 *   C) Share only members who purchased boots last year.
 *   D) Charge the vendor an admin fee, then send the list.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Commercial partners never receive membership databases. Union-branded discount cards verify eligibility without exposing PII to third parties.
 
 ### Question 6
 The employer dues report lists 540 workers; your signed-card database has 401 active cards. What does this gap most likely indicate?
-*   A) The employer is illegally deducting dues from non-members.
-*   B) A large pool of Rand Formula dues payers who have not signed cards — priority targets for sign-up drives.
+*   A) A large pool of Rand Formula dues payers who have not signed cards — priority targets for sign-up drives.
+*   B) The employer is illegally deducting dues from non-members.
 *   C) The Secretary should delete 139 payroll rows as duplicates without verification.
 *   D) All 540 are voting members because Rand Formula equals membership.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Gaps between payroll and signed cards usually mean dues payers who lack democratic membership — a normal reconciliation finding that drives card-signing campaigns.

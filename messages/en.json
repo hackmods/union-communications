@@ -8170,6 +8170,10 @@
         "title": "Learn links and hedges tightened",
         "body": "Wrong module callouts are fixed, dead bibliography links are replaced, Officer Learning quizzes carry the same constitutional hedges as the lesson text, and Learn pages now point at canonical /learn URLs instead of legacy /guide paths."
       },
+      "learn-quiz-self-tests": {
+        "title": "Officer Learning self-tests teach from mistakes",
+        "body": "The module self-tests now use more distinct workplace decisions, balanced answer positions, and explanations that address common steward mistakes."
+      },
       "learn-ui-chrome": {
         "title": "Learn pages start sooner",
         "body": "Related links sit after the lesson, Steward 101 opens on the floor content faster, Officer Learning shows a compact progress rail, workshop copy drops jargon, and Create tools link to canonical /learn pages."

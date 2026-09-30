@@ -30,6 +30,12 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/tools/website-template",
   },
   {
+    id: "learn-quiz-self-tests",
+    date: "2026-09-30",
+    kind: "improved",
+    href: "/learn/",
+  },
+  {
     id: "union-outreach-lists",
     date: "2026-09-30",
     kind: "added",

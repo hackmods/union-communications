@@ -34,6 +34,12 @@
 - A6 deadline counts SKIP; A7 peers mobile SKIP (already covered); A8 human checklist still open.
 - Fit-gap: [`docs/audit/session-knowledge-2026-09-30-wave-a-fitgap.md`](audit/session-knowledge-2026-09-30-wave-a-fitgap.md). Master tracker: [`docs/audit/plan-2026-09-30-sitewide-qol-launch-program.md`](audit/plan-2026-09-30-sitewide-qol-launch-program.md).
 
+﻿## 2026-09-30 — Officer Learning quiz remediation
+
+- Rebalanced all 102 authored answers to A 26 / B 25 / C 26 / D 25; stable option order, six questions in each of 17 modules.
+- Replaced overlapping privacy, finance, benefits, and module-navigation scenarios; qualified legal feedback and improved plausible distractors in EN/FR.
+- Added `npm run test:quiz-bank`, quiz authoring guidance, scoring/persistence browser coverage, and the remediation ledger in `docs/audit/learn-quiz-implementation.md`.
+
 ## 2026-09-30 — Outreach polish P1–P3
 
 - Hub list **create** (`POST /api/outreach-lists` action `create`, no MFA); durable confirm via migration `0089_outreach_confirm` + `/api/outreach-lists/confirm` + `/outreach/confirm`; import mints confirm tokens and sends transactional confirm mail when gates allow; dry-run import returns preview confirm URLs.

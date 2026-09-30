@@ -155,34 +155,34 @@ Practice: **Round 1 — Privacy script.** Role-play HR demanding medications lis
 ## Self-Test Quiz
 
 ### Question 1
-An employer demands that a returning worker provide their full medical file, including clinical psychiatrist notes, before approving an accommodation. How should the steward respond?
-*   A) Advise the member to comply to ensure their return-to-work is approved.
-*   B) State that the employer is only legally entitled to "functional abilities" (limitations and restrictions), not the diagnosis or clinical treatment notes, and refuse the request.
-*   C) Suggest the employer contact the doctor directly without the member's consent.
-*   D) Offer the full chart if HR agrees to store it in a locked cabinet.
+An LTD denial letter relies on a missed specialist appointment from eight months ago and does not address three recent supporting reports. What is the steward's strongest first move?
+*   A) Tell the member the insurer's decision is final and close the file.
+*   B) Ask the employer's doctor to replace the treating specialist's opinion.
+*   C) Gather the recent reports, calendar the plan's appeal deadline, and bring the disputed decision to the JIC while preparing the appeal.
+*   D) Wait for the next JIC meeting before checking the appeal clock.
 
-**Correct Answer: B**
-*Explanation*: Employers have a right to know what duties a worker can safely perform, but they have no right to confidential diagnostic or therapeutic notes under established human rights privacy principles.
+**Correct Answer: C**
+*Explanation*: A denial is the start of the appeal file, not the end of representation. Gather the plan's reasons and supporting records, calendar the plan deadline, and use the JIC to press the process. If you picked A, a carrier's first decision is not a final verdict.
 
 ### Question 2
 When can an employer legally force a member to undergo an Independent Medical Examination (IME) by an employer-selected doctor?
 *   A) Whenever a manager suspects a worker is exaggerating an illness.
-*   B) Only under highly specific, contractually-negotiated collective agreement terms, or when the treating physician's restrictions are demonstrably contradictory or insufficient to design a safe accommodation.
-*   C) Every time a worker requests more than three consecutive sick days.
+*   B) Every time a worker requests more than three consecutive sick days.
+*   C) The usual triggers are defined collective agreement language or treating-provider information that is genuinely contradictory or insufficient; the steward should check the agreement and get advice on the facts and scope.
 *   D) Automatically after any WSIB claim is opened, regardless of CA language.
 
-**Correct Answer: B**
-*Explanation*: Forcing an employee to see an employer-appointed physician is an invasion of privacy. It is only permitted when explicitly negotiated in the collective agreement or when the employee's doctor fails to clarify conflicting functional restrictions.
+**Correct Answer: C**
+*Explanation*: An employer-selected exam is a serious privacy intrusion, not a routine tool. The module describes typical triggers: defined collective agreement language or treating-provider information that is genuinely contradictory or insufficient. The right and scope are fact-specific, so check the agreement and seek advice; suspicion alone is not enough.
 
 ### Question 3
 An employer's Attendance Management Program (AMP) automatically places a member on a corrective action plan because they missed 10 days of work due to documented treatments for a chronic disability. Is this program administration legal?
-*   A) Yes, because the program is applied equally and neutrally to all employees.
-*   B) No, because automatic, mechanistic triggers that penalize disability-related absences violate the Duty to Accommodate and constitute systemic discrimination.
+  *   A) Not as described without an accommodation review: automatically counting disability-related treatment days can be discriminatory and should be challenged.
+*   B) Yes, because the program is applied equally and neutrally to all employees.
 *   C) Yes, provided the corrective action plan is called "supportive" rather than "disciplinary."
 *   D) Yes, if the AMP booklet was given to the member at orientation.
 
-**Correct Answer: B**
-*Explanation*: Applying a "neutral" attendance policy mechanistically to a worker with a disability is discriminatory. Disability-related absences must be accommodated and excluded from punitive AMP counts.
+**Correct Answer: A**
+*Explanation*: A neutral label does not settle it. Counting disability-related absences without an accommodation review can be discriminatory; ask that those days be removed from punitive counts and raise a recurring pattern through the JIC.
 
 ### Question 4
 What is the primary advocacy role of a joint benefits/insurance committee (sometimes called a JIC in Ontario college CAAT settings) when a carrier denies LTD?
@@ -195,21 +195,21 @@ What is the primary advocacy role of a joint benefits/insurance committee (somet
 *Explanation*: JICs are joint oversight forums — they escalate pattern denials and delay; they do not erase plan appeal clocks or privacy duties.
 
 ### Question 5
-How does this module's focus differ from Module 3's Meiorin/BFOR training?
-*   A) This module replaces human rights law with insurance marketing.
-*   B) This module centres claims advocacy, insurer pressure, LTD/WSIB navigation, AMP audits, and diagnostic privacy rather than testing essential-requirement defences.
-*   C) Module 3 is only about pensions; this module is only about uniforms.
-*   D) There is no difference — both modules are identical accommodation scripts.
+The carrier has not issued a decision on a member's LTD claim for nine weeks. HR says it is waiting on the carrier, and two other members report similar delays. What should the steward do?
+*   A) Wait quietly; the appeal clock does not matter until a decision arrives.
+*   B) File a grievance against the treating physician for not resolving the claim.
+*   C) Ask the member to submit a second claim so the first one can be closed.
+*   D) Record the dates, request a status update through HR and the carrier, raise the delay pattern at the JIC, and track any plan deadline.
 
-**Correct Answer: B**
-*Explanation*: Keep the tracks straight: BFOR fights test essential requirements; this module fights claim systems, privacy overreach, and punitive attendance math.
+**Correct Answer: D**
+*Explanation*: A JIC can review turnaround times and press HR or the carrier when plan administration stalls, but it does not replace the member's plan deadlines. If you picked A, a pending decision is a reason to track the file and press for an update, not to stop monitoring it.
 
 ### Question 6
-A functional abilities form already supports modified day shifts. HR still demands medication names "for safety." Best steward response?
-*   A) Provide medications because safety always overrides privacy.
-*   B) Refuse medication disclosure; confirm functional limits already address safe assignment; grieve if HR blocks RTW without diagnostic detail.
-*   C) Advise the member to quit and reapply when healthy.
-*   D) Allow HR to attend therapy sessions as a workplace representative.
+On Thursday, Amira receives an LTD denial with an appeal deadline next Wednesday. The same week, HR sends an AMP warning that counts six days missed for treatment. The JIC meets in two weeks. What should the steward do?
+*   A) Hold the LTD appeal for the JIC; its review can stand in for the plan's appeal process.
+*   B) Calendar the plan deadline and prepare the appeal now; challenge the AMP count through the accommodation process and put the pattern on the JIC agenda.
+*   C) Grieve the AMP warning first and wait for the grievance result before preparing the insurer appeal.
+*   D) Send Amira's full medical file to HR so it can remove the treatment days before the appeal is filed.
 
 **Correct Answer: B**
-*Explanation*: When functions already enable safe work design, medication lists are diagnostic fishing — not a safety prerequisite.
+*Explanation*: Run the tracks in parallel: protect the plan's appeal deadline, challenge the mechanistic count of disability-related days, and use the JIC to press the benefits process. The JIC does not pause appeal clocks. Share functional limits for work planning; do not send a full chart to solve an AMP warning.

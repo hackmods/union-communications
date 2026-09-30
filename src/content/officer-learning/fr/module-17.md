@@ -168,11 +168,11 @@ Un dump qui ajoute de l'autonomie ou la possession d'un système est un argument
 ### Question 1
 La direction remet à un membre un formulaire de description de poste (PDF) mis à jour qui ajoute l'administration de systèmes et le guidage du nouveau personnel, sans changer le taux de salaire. Que le délégué devrait-il conseiller en premier ?
 *   A) Refuser de lire le document et quitter immédiatement le bureau du superviseur.
-*   B) Signer le PDF tout de suite sans le lire, parce que la signature du gestionnaire est définitive.
-*   C) Réviser le brouillon avec le délégué, consigner les tâches quotidiennes réelles et préparer des commentaires écrits de l'employé qui soulignent les tâches de niveau supérieur ajoutées.
+*   B) Réviser le brouillon avec le délégué, consigner les tâches quotidiennes réelles et préparer des commentaires écrits de l'employé qui soulignent les tâches de niveau supérieur ajoutées.
+*   C) Signer le PDF tout de suite sans le lire, parce que la signature du gestionnaire est définitive.
 *   D) Déposer un refus en santé-sécurité parce que l'administration de systèmes fatigue les yeux.
 
-**Correct Answer: C**
+**Correct Answer: B**
 *Explication* : Les membres ne doivent ni signer un PDF contesté les yeux fermés, ni refuser de le lire. La première étape est de réviser le brouillon avec un délégué, de documenter le temps réel sur les tâches de niveau supérieur, et de joindre des commentaires écrits détaillés avant d'escalader vers un grief de reclassification ou un JJEC.
 
 ### Question 2
@@ -188,21 +188,21 @@ Dans les systèmes d'évaluation des emplois à facteurs, comment les bandes sal
 ### Question 3
 Quel est le but premier d'un journal de fréquence des tâches sur 14 jours ?
 *   A) Espionner les habitudes de dîner des collègues.
-*   B) Fournir une preuve objective et horodatée des tâches quotidiennes réelles et de leur durée pour démontrer que le brouillon de PDF de la direction est inexact.
-*   C) Remplacer la convention collective pendant la négociation salariale.
+*   B) Remplacer la convention collective pendant la négociation salariale.
+*   C) Fournir une preuve objective et horodatée des tâches quotidiennes réelles et de leur durée pour démontrer que le brouillon de PDF de la direction est inexact.
 *   D) Calculer automatiquement les taux de heures supplémentaires sans approbation du gestionnaire.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Un journal de fréquence consigne le temps exact passé aux tâches sur environ deux semaines ouvrables pour que le syndicat prouve que les tâches de niveau supérieur sont régulières et récurrentes, et non des extras mineurs occasionnels.
 
 ### Question 4
 Le membre conteste plusieurs pourcentages de tâches sur le brouillon de PDF. La case commentaires est vide et le gestionnaire veut une signature aujourd'hui. Meilleur conseil du délégué ?
 *   A) Laisser les commentaires vides et signer pour que le dossier « avance ».
-*   B) Rédiger des commentaires détaillés de l'employé, signer Reçu et contesté, et conserver une copie.
-*   C) Refuser toute signature pour toujours et attendre que l'arbitrage décrive l'emploi.
+*   B) Refuser toute signature pour toujours et attendre que l'arbitrage décrive l'emploi.
+*   C) Rédiger des commentaires détaillés de l'employé, signer Reçu et contesté, et conserver une copie.
 *   D) Dire au membre de démissionner et de postuler à l'affichage mieux coté.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Des commentaires vides se lisent comme un accord. Le membre consigne la contestation sur le formulaire, garde une copie et préserve le droit d'escalader dans le processus de la CC.
 
 ### Question 5
@@ -217,10 +217,10 @@ Un brouillon de PDF classe « réinitialiser les accès et former les nouveaux c
 
 ### Question 6
 Votre CC donne 12 jours ouvrables pour réviser un brouillon de PDF avec le syndicat. Les RH disent « signez vendredi » trois jours après la remise. Que le délégué devrait-il faire en premier ?
-*   A) Accepter vendredi parce que les délais verbaux des RH contrôlent toujours.
-*   B) Inscrire au calendrier le délai de la CC à partir de la date de réception, déposer les commentaires dans cette fenêtre, et contester par écrit tout raccourcissement.
+*   A) Inscrire au calendrier le délai de la CC à partir de la date de réception, déposer les commentaires dans cette fenêtre, et contester par écrit tout raccourcissement.
+*   B) Accepter vendredi parce que les délais verbaux des RH contrôlent toujours.
 *   C) Attendre le 20e jour pour que le journal soit plus complet, même si le délai de la CC est fermé.
 *   D) Citer « 15 jours ouvrables » comme loi ontarienne et ignorer l'article de la CC.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Les délais de révision viennent de votre CC. Les délégués inscrivent l'horloge contractuelle dès le premier jour et contestent par écrit les raccourcis de l'employeur. N'inventez pas un nombre de jours légal, et ne manquez pas la vraie fenêtre pour finir un journal parfait.

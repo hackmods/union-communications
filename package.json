@@ -62,6 +62,7 @@
     "office:fixtures": "tsx scripts/generate-office-smoke.ts",
     "pdf:preview": "node scripts/pdf-preview.mjs",
     "test:union-audit": "vitest run src/lib/audit/union-audit-guards.test.ts src/lib/officer-learning/inline-markdown.test.ts",
+    "test:quiz-bank": "vitest run src/lib/officer-learning/quiz-bank.test.ts",
     "test:external-links": "node scripts/check-external-links.mjs",
     "check:public-document-links": "node scripts/check-public-document-links.mjs",
     "test:union-audit:e2e": "playwright test e2e/union-audit.site.spec.ts e2e/officer-learning.quiz.audit.spec.ts --grep @smoke",

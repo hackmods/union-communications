@@ -148,52 +148,52 @@ Exercice : **Tour 1 — Caucus.** Deux délégués sont en désaccord sur si le 
 
 ### Question 1
 Durant une rencontre du comité conjoint de santé et sécurité (CSTS), un représentant syndical et un autre membre syndical commencent à argumenter devant le gestionnaire des RH sur si un garde de sécurité est nécessaire. Quelle règle centrale d'organisation de comité a été violée ?
-*   A) La règle du consensus statutaire.
-*   B) La discipline de caucus uni.
+*   A) La discipline de caucus uni.
+*   B) La règle du consensus statutaire.
 *   C) La norme de divulgation de l'employeur.
 *   D) La règle de libellé de grief à porte ouverte.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Les représentants syndicaux doivent toujours présenter un front complètement uni à la direction durant les rencontres conjointes. Tout désaccord doit être réglé en préréunions privées (caucus).
 
 ### Question 2
-Quel comité a le pouvoir statutaire et juridiquement mandaté de forcer un employeur à répondre à des recommandations de sécurité écrites dans un délai législatif fixé ?
-*   A) Le comité patronal-syndical (CPS).
-*   B) Le comité conjoint de santé et sécurité (CSTS).
-*   C) Le comité des élections du conseil exécutif.
-*   D) Le comité social qui planifie le pique-nique du personnel.
+Quel comité a le pouvoir légal d'obliger l'employeur à répondre par écrit à des recommandations de sécurité dans un délai prévu par la loi ?
+*   A) Le comité des relations de travail (CRT).
+*   B) Le comité mixte de santé et de sécurité (CMSS).
+  *   C) Le caucus syndical du CSTS, car sa résolution seule oblige l'employeur à répondre dans le délai prévu par la loi.
+*   D) Le comité des griefs, au moyen d'un grief de politique.
 
 **Correct Answer: B**
-*Explication* : Sous la législation de santé et sécurité, le CSTS a des pouvoirs statutaires uniques pour faire des recommandations formelles, et les employeurs sont légalement tenus de fournir une réponse écrite dans un délai strict (souvent 21 jours).
+*Explication* : La LSST accorde au CMSS le pouvoir de formuler des recommandations officielles qui exigent une réponse écrite de l'employeur. Si vous avez choisi C, une résolution du caucus syndical n'est pas la recommandation du comité mixte qui déclenche ce processus ; vérifiez le délai applicable sous la LSST.
 
 ### Question 3
 Un délégué découvre qu'un département fait face à un stress sévère et à des blessures physiques en raison d'un sous-effectif systémique. Quelle est la stratégie d'escalade multi-comités la plus efficace ?
 *   A) Déposer un seul grief individuel et attendre l'arbitrage.
-*   B) Ignorer l'enjeu puisque le sous-effectif est un droit de la direction.
-*   C) Orienter les blessures physiques vers le CSTS pour une enquête de danger, mettre la charge de travail et la friction d'horaire à l'ordre du jour du CPS, et déposer simultanément un grief de groupe pour violations de convention.
+*   B) Orienter les blessures physiques vers le CSTS pour une enquête de danger, mettre la charge de travail et la friction d'horaire à l'ordre du jour du CPS, et déposer simultanément un grief de groupe pour violations de convention.
+*   C) Ignorer l'enjeu puisque le sous-effectif est un droit de la direction.
 *   D) Le soulever seulement comme plainte personnelle auprès d'un superviseur amical.
 
-**Correct Answer: C**
+**Correct Answer: B**
 *Explication* : Escalader l'enjeu par plusieurs comités conjoints et le processus de grief simultanément maximise la pression organisationnelle sur l'employeur, le forçant à traiter le sous-effectif systémique tôt.
 
 ### Question 4
 Un travailleur refuse d'opérer un équipement avec un verrouillage de sécurité désactivé. La direction dit « mettez-le à l'ordre du jour du CPS du mois prochain ». Meilleure réponse du délégué ?
 *   A) Accepter — le CPS est le seul forum légal pour les refus.
-*   B) Appuyer le processus de refus de travail de la LSST maintenant et engager les voies du CSTS ; utiliser le CPS plus tard pour la politique de dotation liée si besoin.
-*   C) Ordonner à tous les travailleurs de quitter immédiatement sans processus.
-*   D) Dire au membre de travailler prudemment jusqu'à ce que le comité du pique-nique se réunisse.
+  *   B) Sauter les étapes internes du refus et demander à un inspecteur du ministère de trancher avant que le travailleur suive le processus de la LSST.
+*   C) Appuyer le processus de refus de travail de la LSST maintenant et engager les voies du CSTS ; utiliser le CPS plus tard pour la politique de dotation liée si besoin.
+  *   D) Déposer un grief et demander au membre de retourner à la machine pendant le traitement du grief.
 
-**Correct Answer: B**
-*Explication* : Les refus vivants suivent le processus de la LSST et l'implication du CSTS ; la discussion au CPS n'est pas un substitut pour retirer le danger.
+**Correct Answer: C**
+*Explication* : Appuyez le travailleur dans les étapes de refus prévues par la LSST et faites intervenir les représentants certifiés du CSTS selon les règles. Si vous avez choisi D, un grief peut traiter la réponse de l'employeur, mais ne remplace pas le processus immédiat de refus et ne rend pas sécuritaire un danger qui persiste.
 
 ### Question 5
 Qu'est-ce qui appartient à un caucus syndical qui n'appartient **pas** à la rencontre conjointe avec la direction présente ?
-*   A) La demande unie finale que le syndicat présentera.
-*   B) Le débat interne sur les tactiques, désaccords et quel représentant mènera — résolu avant d'entrer.
+*   A) Le débat interne sur les tactiques, désaccords et quel représentant mènera — résolu avant d'entrer.
+*   B) La demande unie finale que le syndicat présentera.
 *   C) La recommandation écrite du CSTS déjà signifiée à l'employeur.
 *   D) La feuille de présence pour le quorum statutaire.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Le caucus est où vit le désaccord. La table conjointe entend une position syndicale disciplinée.
 
 ### Question 6

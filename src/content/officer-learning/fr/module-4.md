@@ -150,41 +150,41 @@ Exercice : AGM simulée avec cartes de décompte papier. La section locale ficti
 ### Question 1
 Les règlements d'une section locale exigent 15 membres pour le quorum. Quatorze personnes restent lorsqu'une motion de modification des règlements est présentée. Que devrait faire le président de séance ?
 *   A) Tenir le vote parce que la rencontre a commencé avec le quorum.
-*   B) Suspendre les votes, annoncer le décompte et suivre les règlements pour reprendre les affaires.
-*   C) Demander au secrétaire d'omettre le décompte des procès-verbaux.
-*   D) Continuer si la motion ne rencontre aucune opposition.
+*   B) Demander au secrétaire d'omettre le décompte des procès-verbaux.
+*   C) Continuer si la motion ne rencontre aucune opposition.
+*   D) Suspendre les votes, annoncer le décompte et suivre les règlements pour reprendre les affaires.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : Les règlements fixent le seuil à 15; 14 personnes ne suffisent pas. Consignez le décompte et suivez les documents régissants avant de reprendre un vote.
 
 ### Question 2
-Durant une assemblée générale tendue, 4 membres quittent la salle pour prendre l'autobus, laissant seulement 12 membres dans une section locale qui exige 15 pour le quorum. Une motion est immédiatement présentée et adoptée pour dépenser 1 000 $ pour une œuvre locale. Quel est le statut de ce vote ?
-*   A) Le vote est valide parce que la rencontre a commencé avec le quorum.
-*   B) Arrêter le vote, consigner le décompte et ne voter de nouveau que si le quorum revient selon les règlements.
-*   C) Le vote est valide tant que le secrétaire ne consigne pas que les membres sont partis.
-*   D) Le vote est valide parce que les dons de charité n'exigent pas le quorum.
-
-**Correct Answer: B**
-*Explication* : Suivez la règle de quorum de la section pendant toute la rencontre. Consignez le moment où le décompte passe sous le seuil et consultez les documents régissants pour traiter tout vote tenté après cette perte.
-
-### Question 3
-Dans une élection locale pour la présidence, 100 bulletins valides sont exprimés. Le candidat A reçoit 45 voix, le candidat B en reçoit 35, et le candidat C en reçoit 20. Que se passe-t-il ensuite ?
-*   A) Le candidat A est déclaré élu parce qu'il a le plus de voix (pluralité).
-*   B) Un tirage au sort est tenu entre le candidat A et le candidat B.
-*   C) Le candidat C est éliminé, et un second scrutin est tenu entre le candidat A et le candidat B pour déterminer qui obtient une majorité claire (plus de la moitié).
-*   D) L'élection est déclarée nulle et doit être reportée au mois suivant.
+Durant une assemblée générale tendue, quatre membres quittent la salle pour prendre l'autobus. Il ne reste que 12 membres dans une section locale dont le quorum est de 15. Une motion est immédiatement présentée et adoptée pour dépenser 1 000 $ à une œuvre de bienfaisance locale. Quel est le statut de ce vote ?
+*   A) Le vote est valide parce que la réunion a commencé avec le quorum.
+*   B) Le vote est valide si la secrétaire omet le départ des membres du procès-verbal.
+*   C) La motion n'a pas été validement adoptée ; consigner le nombre de personnes et consulter les règlements sur la contestation ou la ratification.
+*   D) Le vote est valide parce que les dons à une œuvre de bienfaisance n'exigent pas de quorum.
 
 **Correct Answer: C**
-*Explication* : Les élections de section locale exigent une majorité claire (plus de 50 % des bulletins valides, ce qui dans ce cas serait au moins 51 voix). Parce qu'aucun candidat n'a atteint 51 voix, le candidat avec le moins de voix (candidat C avec 20 voix) est éliminé, et un second scrutin est tenu entre A et B.
+*Explication* : Le quorum doit être maintenu pour chaque vote, pas seulement à l'ouverture de la réunion. Avec 12 membres présents pour un seuil de 15, la motion n'a pas été validement adoptée et peut être contestée ; vérifiez les documents constitutifs pour la suite ou une procédure de ratification. Si vous avez choisi B, le procès-verbal consigne les faits, mais ne rétablit pas le quorum après le départ des membres.
+
+### Question 3
+Les statuts de la section locale exigent des tours successifs jusqu’à l’obtention d’une majorité claire. À l’élection de la présidence, 100 bulletins valides sont exprimés. Le candidat A reçoit 45 voix, le candidat B en reçoit 35 et le candidat C en reçoit 20. Que se passe-t-il ensuite ?
+*   A) Le candidat C est éliminé, et un second scrutin est tenu entre le candidat A et le candidat B pour déterminer qui obtient une majorité claire (plus de la moitié).
+*   B) Le candidat A est déclaré élu parce qu'il a le plus de voix (pluralité).
+  *   C) Tenir un second scrutin entre les candidats A et B, mais élire celui qui obtient le plus de voix même si aucun n'a la majorité.
+  *   D) Déclarer l'élection nulle et reprendre les mises en candidature à la prochaine assemblée parce que personne ne l'a remportée.
+
+**Correct Answer: A**
+*Explication* : Selon ces règles, il faut plus de la moitié des bulletins valides — ici, au moins 51 voix. Comme personne n'a obtenu 51 voix, éliminez C et tenez un autre scrutin entre A et B. N'appliquez pas une règle de pluralité en cours d'élection ; suivez toujours les statuts de la section locale.
 
 ### Question 4
 Un secrétaire veut consigner que « le membre X s'est opposé avec colère à la motion et a accusé l'exécutif de corruption » dans les procès-verbaux. Meilleur conseil ?
-*   A) Le consigner verbatim — les procès-verbaux doivent capturer le débat.
-*   B) Consigner seulement la motion, le vote et toute tâche de suivi assignée — pas les accusations personnelles ni le ton.
+*   A) Consigner seulement la motion, le vote et toute tâche de suivi assignée — pas les accusations personnelles ni le ton.
+*   B) Le consigner verbatim — les procès-verbaux doivent capturer le débat.
 *   C) Omettre entièrement la motion parce que le débat était tendu.
 *   D) Consigner les accusations mais omettre le résultat de la motion.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : La norme d'écriture sobre consigne les décisions et actions, pas le débat émotionnel ni les attaques personnelles. Le libellé de la motion, le résultat et les tâches assignées constituent le dossier juridique.
 
 ### Question 5

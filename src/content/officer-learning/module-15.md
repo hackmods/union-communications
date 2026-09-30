@@ -253,30 +253,30 @@ What is the union's core obligation under Ontario's duty of fair representation 
 A steward investigates a grievance thoroughly, keeps the member updated, obtains executive approval, and loses at arbitration on the merits. Does this automatically mean the union breached DFR?
 *   A) Yes — any arbitration loss proves unfair representation.
 *   B) Yes — unless the member is an executive officer.
-*   C) No — DFR requires a fair process, not a winning outcome on every file.
-*   D) No — arbitration losses are always the arbitrator's fault, never the union's.
+*   C) No — arbitration losses are always the arbitrator's fault, never the union's.
+*   D) No — DFR requires a fair process, not a winning outcome on every file.
 
-**Correct Answer: C**
+**Correct Answer: D**
 *Explanation*: A reasoned, communicated, non-discriminatory process that ends in loss can still meet DFR. Breaches focus on arbitrary, discriminatory, or bad-faith **refusal or handling**, not the scorecard at arbitration.
 
 ### Question 3
 A member asks for help on a Friday; the steward says "I'm not a lawyer" and never follows up. The member never receives a written decision. Which DFR risk is strongest?
 *   A) Arbitrary treatment only if the grievance would have won.
-*   B) Bad-faith refusal / abandonment — failing to investigate, communicate, or escalate.
-*   C) No risk — volunteers cannot owe duties to members.
-*   D) Discrimination — unless the member files a human-rights complaint first.
+*   B) No risk — volunteers cannot owe duties to members.
+*   C) Discrimination — unless the member files a human-rights complaint first.
+*   D) Bad-faith refusal / abandonment — failing to investigate, communicate, or escalate.
 
-**Correct Answer: B**
-*Explanation*: "Not a lawyer" does not end the duty. Ghosting after a request for help is classic abandonment. The remedy is investigation, written communication, and escalation to servicing — not silence.
+**Correct Answer: D**
+*Explanation*: "Not a lawyer" does not end the duty. Ghosting after a request for help is classic abandonment. The remedy is investigation, written communication, and escalation to servicing — not silence. If you picked B, volunteer status does not erase the duty that comes with the union's exclusive representation.
 
 ### Question 4
 Before declining to file a grievance, what minimum step best protects the union from an arbitrary-treatment claim?
 *   A) Ask the member to resign from the union.
-*   B) Conduct a documented investigation (facts, contract check, comparators) and communicate a written reason with a review path.
-*   C) Tell the supervisor the member is not credible.
+*   B) Tell the supervisor the member is not credible.
+*   C) Conduct a documented investigation (facts, contract check, comparators) and communicate a written reason with a review path.
 *   D) Wait six months to see if the problem goes away.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Arbitrary declines lack a discernible, reasoned basis. Investigation notes plus a written, reviewable decline show fair process.
 
 ### Question 5
@@ -293,8 +293,8 @@ A member's Step 1 grievance deadline is in two days. The assigned steward is uns
 When may a union lawfully decline to pursue a member's complaint after investigation?
 *   A) Never — DFR requires filing every request.
 *   B) When the member criticized the steward's friend on social media.
-*   C) When investigation shows no contractual or statutory breach and the decline is reasoned, non-discriminatory, communicated in writing, with review/escalation options.
-*   D) Whenever the employer asks the union not to file.
+*   C) Whenever the employer asks the union not to file.
+*   D) When investigation shows no contractual or statutory breach and the decline is reasoned, non-discriminatory, communicated in writing, with review/escalation options.
 
-**Correct Answer: C**
+**Correct Answer: D**
 *Explanation*: Unions may decline weak or non-grievable matters after fair investigation — but not for punitive, discriminatory, or secret reasons. Written reasons and review paths are essential.

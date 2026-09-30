@@ -175,49 +175,49 @@ The Local President submits an expense claim for $150 to reimburse them for buyi
 ### Question 2
 The Local Treasurer is going on vacation for two weeks. To ensure that bills can be paid while they are away, they sign three blank cheques and leave them in the President's desk drawer. Is this an acceptable practice?
 *   A) Yes, because it ensures the continuity of union operations and avoids late fees.
-*   B) No. Pre-signing blank cheques completely bypasses the double-signature financial control system and is a severe breach of financial security.
-*   C) Yes, provided the President promises to only use them for emergencies.
+*   B) Yes, provided the President promises to only use them for emergencies.
+*   C) No. Pre-signing blank cheques completely bypasses the double-signature financial control system and is a severe breach of financial security.
 *   D) No, unless the Secretary witnesses where the cheques are hidden.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Pre-signing blank cheques is a critical financial control violation. It allows a single officer to spend union funds without oversight, exposing the local to high risks of error, theft, or unauthorized transactions.
 
 ### Question 3
 An elected Local Trustee is asked to fill a sudden vacancy for the position of Local Vice-President. Can the Trustee serve as Vice-President while continuing their term as Trustee?
-*   A) Yes, as long as they promise not to audit any of their own Vice-President expense claims.
-*   B) No. To preserve the independent oversight role, Trustees must remain strictly separate from the Executive Board and cannot hold any other office in the local.
+*   A) No. To preserve the independent oversight role, Trustees must remain strictly separate from the Executive Board and cannot hold any other office in the local.
+*   B) Yes, as long as they promise not to audit any of their own Vice-President expense claims.
 *   C) Yes, because holding multiple offices shows high commitment to the union.
 *   D) No, unless the General Membership Meeting passes a special waiver.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Trustees serve as an independent audit committee. To ensure an unbiased audit of the local's financial operations, Trustees cannot hold any other office on the Executive Board that has spending or decision-making authority.
 
 ### Question 4
-A member asks why the local cannot donate $500 from dues to a politician's campaign. Best answer?
-*   A) Dues may only fund legitimate trade union purposes; direct political candidate donations are prohibited uses of local funds per your constitution and election law.
-*   B) Donations are fine if the politician supports unions.
+A member asks whether the local can use $500 from dues for a candidate's campaign. Best answer?
+*   A) Donations are fine if the politician supports unions.
+*   B) Start with the local's constitution and election rules: dues fund legitimate trade union purposes, and any political spending must use the authority and funds those rules allow.
 *   C) Only the President decides political spending.
 *   D) Donations under $500 are always allowed.
 
-**Correct Answer: A**
-*Explanation*: Local funds must advance trade union purposes. Personal or candidate political donations usually fall outside approved expenditures — confirm against your constitution and election law (some unions use separate political-action funds).
+**Correct Answer: B**
+*Explanation*: The module says candidate donations are governed by the local constitution and election law; some unions use a separate political-action fund. If you picked A, a candidate's support for unions does not create authority to spend dues. The module does not set a universal dollar rule, so check the governing documents before any payment.
 
 ### Question 5
 A vendor demands same-day payment by single-signer e-transfer because "cheque delay will cancel the hall booking." Best response?
 *   A) Send the e-transfer from the President's personal account and reimburse later without receipts.
-*   B) Refuse single-signer e-transfers. Use dual authorized approval per bylaws, or pay after both signers are available — urgency does not waive dual control.
-*   C) Allow any officer to e-transfer under $1,000 without a second signature.
-*   D) Pre-authorize the Treasurer to e-transfer alone for the rest of the year.
+*   B) Allow any officer to e-transfer under $1,000 without a second signature.
+*   C) Pre-authorize the Treasurer to e-transfer alone for the rest of the year.
+*   D) Refuse single-signer e-transfers. Use dual authorized approval per bylaws, or pay after both signers are available — urgency does not waive dual control.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Electronic payments still need dual control and documented purpose. Same-day pressure is a classic control bypass — reschedule the booking or wait for two authorized approvers.
 
 ### Question 6
 Trustees find a $400 meal receipt with alcohol listed among food items, paid from the education budget line. Correct action?
 *   A) Ignore — under $500 is immaterial.
-*   B) Report in the audit finding: alcohol is not a legitimate trade union education expense; recommend executive repayment and policy reminder to membership.
-*   C) Reclassify as "miscellaneous" and move on.
-*   D) Ask the President to approve verbally after the fact.
+*   B) Leave it in the education line because the President approved it verbally; the Trustees should not second-guess an officer's judgment.
+*   C) Ask the President to approve verbally after the fact.
+*   D) Report in the audit finding: alcohol is not a legitimate trade union education expense; recommend executive repayment and policy reminder to membership.
 
-**Correct Answer: B**
-*Explanation*: Trustees report facts and recommend corrective motions — alcohol on an education line is a policy breach. Itemized receipts exist precisely to catch category and purpose errors.
+**Correct Answer: D**
+*Explanation*: Trustees should record the itemized facts, compare the charge with the approved policy and authorization, and recommend correction through the proper process if it does not fit. If you picked B or C, verbal approval does not change the expense's purpose or replace the local's controls.

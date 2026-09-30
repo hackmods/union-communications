@@ -154,58 +154,58 @@ De nombreux locaux réservent des lignes budgétaires pour un **fonds de détres
 Un président local reçoit un honoraire mensuel de 200 $ pour temps administratif bénévole. En fin d'année il demande au trésorier de ne pas déclarer ce revenu sur un feuillet fiscal parce que « c'est une allocation bénévole syndicale, pas un salaire régulier ». Que doit faire le trésorier?
 *   A) Acquiescer à la demande du président pour préserver l'harmonie exécutive.
 *   B) Accepter de traiter l'honoraire comme remboursement de déplacement pour contourner la déclaration fiscale.
-*   C) Refuser. Selon le droit fiscal canadien, les honoraires de dirigeants sont un revenu imposable et doivent être déclarés sur un T4A lorsque les seuils statutaires sont dépassés.
-*   D) Déclarer seulement les mois où le président a soumis un mot de remerciement manuscrit.
+*   C) Déclarer seulement les mois où le président a soumis un mot de remerciement manuscrit.
+*   D) Refuser. Selon le droit fiscal canadien, les honoraires de dirigeants sont un revenu imposable et doivent être déclarés sur un T4A lorsque les seuils statutaires sont dépassés.
 
-**Correct Answer: C**
+**Correct Answer: D**
 *Explication* : Les trésoriers doivent maintenir la conformité fiscale. Les honoraires sont un revenu ; ne pas produire les T4A requis expose le local à des pénalités et risques d'audit de l'ARC.
 
 ### Question 2
 Le comité de détresse approuve un paiement d'urgence de 500 $ après l'incendie de l'appartement d'un membre. Le président est absent et le membre a besoin des fonds immédiatement. Le trésorier peut-il signer seul le chèque?
-*   A) Oui, car c'est un cas de détresse approuvé et le temps presse.
-*   B) Non. Tous les paiements des fonds locaux exigent deux signatures exécutives autorisées — les urgences de détresse ne suspendent pas la double signature.
+*   A) Non. Tous les paiements des fonds locaux exigent deux signatures exécutives autorisées — les urgences de détresse ne suspendent pas la double signature.
+*   B) Oui, car c'est un cas de détresse approuvé et le temps presse.
 *   C) Oui, mais seulement si le trésorier écrit « Urgence approuvée » sur la ligne mémo du chèque.
 *   D) Oui, si le membre signe un IOU personnel au local.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : La double signature est non négociable pour prévenir la fraude. Joindre un signataire substitut — la rapidité sans contrôles crée des échecs d'audit et de confiance.
 
 ### Question 3
-Laquelle est une bonne pratique financière lors de la conception d'une politique de dépenses locale?
-*   A) Permettre aux dirigeants de soumettre des relevés de carte de crédit au lieu de reçus détaillés de magasin.
-*   B) Préciser que les membres ne peuvent pas réclamer de per diem repas forfaitaires lorsqu'un repas est déjà fourni gratuitement à une formation syndicale.
-*   C) Fournir une allocation mensuelle d'essence forfaitaire à tous les délégués sans documenter le kilométrage réel.
-*   D) Laisser l'exécutif fixer les montants de per diem informellement à chaque déplacement.
+Rina assiste à une assemblée générale du samedi et paie une personne pour prendre soin de son père. La politique de dépenses approuvée par la section locale couvre les frais raisonnables de soins pour la participation aux réunions. Que devrait exiger le trésorier ?
+*   A) Rien ; les petits paiements de soins n'ont pas besoin d'être consignés.
+*   B) Une déclaration signée par le membre, mais aucun reçu de la personne qui a fourni les soins puisqu'il ne s'agit ni d'un hôtel ni d'un repas.
+*   C) L'approbation d'un gestionnaire parce que la réunion avait lieu la fin de semaine.
+*   D) Un reçu ou une facture correspondant au coût réel des soins, puis un remboursement selon la politique approuvée.
 
-**Correct Answer: B**
-*Explication* : Une politique robuste prévient le double dip. Les per diem couvrent repas déboursés ; repas fournis annulent la réclamation. Les reçus détaillés restent la norme de remboursement.
+**Correct Answer: D**
+*Explication* : Une politique écrite peut couvrir des frais raisonnables de soins qui permettent aux membres de participer aux réunions syndicales. Associez la dépense à la politique approuvée par l'assemblée et exigez un reçu ou une facture ; n'en faites pas un paiement en espèces non documenté.
 
 ### Question 4
-Comment le travail sur la politique de dépenses du module 12 se rapporte-t-il à la fondation du module 5?
-*   A) Le module 12 remplace la double signature par la discrétion de détresse.
-*   B) Le module 5 couvre budgets et audits fiduciaires ; le module 12 ajoute règles de réclamation approuvées AG, traitement fiscal des honoraires et conception de comité de détresse par-dessus ces contrôles.
-*   C) Le module 5 s'applique seulement aux syndicats nationaux, pas aux locaux.
-*   D) Le module 12 élimine le besoin d'audits fiduciaires lorsqu'un fonds de détresse existe.
+Le comité de détresse approuve une aide après l'incendie de l'appartement d'un membre. Le trésorier veut l'inscrire comme « petite caisse — divers » pour que le nom du membre n'apparaisse pas au grand livre. Quelle est la bonne approche ?
+*   A) Inscrire le nom et les circonstances personnelles du membre dans le procès-verbal public de l'assemblée.
+*   B) Utiliser le poste « divers » pour empêcher les fiduciaires de relier le paiement à un bénéficiaire.
+*   C) Inscrire la dépense au fonds de détresse avec une référence à l'approbation du comité et rapporter des totaux sans divulguer les renseignements personnels du demandeur.
+*   D) Omettre l'inscription au grand livre parce que la décision du comité est confidentielle.
 
-**Correct Answer: B**
-*Explication* : Le module 5 établit les bases de santé financière ; le module 12 approfondit la conception de politiques et paiements spécialisés — toujours soumis à double signature et audits.
+**Correct Answer: C**
+*Explication* : Protéger la vie privée ne signifie pas cacher un déboursé des livres comptables. Inscrivez la subvention au fonds de détresse avec une référence au procès-verbal du comité, protégez les renseignements d'identification dans le dossier de délibération et rapportez les totaux sans colporter les détails du demandeur.
 
 ### Question 5
 Un délégué assiste à une formation de fin de semaine. L'inscription inclut le dîner les deux jours. Il soumet des réclamations de per diem pour chaque dîner plus reçus d'hôtel. Que doit faire le trésorier?
-*   A) Payer tous les per diem — les déplacements épuisent.
-*   B) Refuser les per diem dîner pour repas déjà fournis ; payer hôtel et autres dépenses admissibles avec documentation.
+*   A) Refuser les per diem dîner pour repas déjà fournis ; payer hôtel et autres dépenses admissibles avec documentation.
+*   B) Payer tous les per diem — les déplacements épuisent.
 *   C) Payer double per diem dîner parce que le travail de délégué est bénévole non payé.
 *   D) Convertir les per diem dîner non payés en honoraire sans T4A.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : La politique interdit le double dip. Repas fournis bloquent réclamations per diem dîner ; honoraires suivent des règles fiscales séparées.
 
 ### Question 6
 Qui ne devrait **typiquement pas** siéger à un comité local de détresse examinant des demandes aveugles?
-*   A) Un membre élu du plancher d'un autre lieu de travail.
-*   B) Un membre retraité fiduciaire émérite sans rôle exécutif actuel.
-*   C) Le président local et le trésorier local comme décideurs principaux.
+*   A) Le président local et le trésorier local comme décideurs principaux.
+*   B) Un membre élu du plancher d'un autre lieu de travail.
+*   C) Un membre retraité fiduciaire émérite sans rôle exécutif actuel.
 *   D) Un délégué sans lien familial avec les demandeurs actuels.
 
-**Correct Answer: C**
+**Correct Answer: A**
 *Explication* : Des dirigeants exécutifs au comité de détresse créent risque de favoritisme et questions d'audit. Des comités indépendants à examen aveugle protègent membres et dirigeants.

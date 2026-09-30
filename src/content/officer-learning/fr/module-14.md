@@ -177,23 +177,23 @@ Exercice : **Tour 1 — Script d'orientation.** Chronométrez-vous en livrant le
 
 ### Question 1
 Un délégué anime sa première session d'orientation de 15 minutes pour nouveaux membres le jour 1 pour trois employés nouvellement embauchés. Laquelle des approches suivantes est la plus efficace pour bâtir l'engagement syndical à long terme ?
-*   A) Passer les 15 minutes entières à leur expliquer les étapes juridiques strictes de la procédure formelle de grief.
-*   B) Les accueillir chaleureusement, leur remettre un dossier d'accueil professionnel avec leur convention collective et la carte de contact du délégué, expliquer que leur convention garantit leur sécurité, et leur faire signer leur carte d'adhésion syndicale.
+*   A) Les accueillir chaleureusement, leur remettre un dossier d'accueil professionnel avec leur convention collective et la carte de contact du délégué, expliquer que leur convention garantit leur sécurité, et leur faire signer leur carte d'adhésion syndicale.
+*   B) Passer les 15 minutes entières à leur expliquer les étapes juridiques strictes de la procédure formelle de grief.
 *   C) Leur donner un salut rapide de 2 minutes et leur dire de consulter le site web du syndicat s'ils sont disciplinés par la direction.
 *   D) Reporter l'orientation jusqu'à la première campagne de convention pour que l'urgence motive les adhésions.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Les premières impressions comptent. Une orientation du jour 1 doit être accueillante, informative et centrée sur la connexion et la sécurité, se terminant par l'étape administrative cruciale de signer la carte d'adhésion.
 
 ### Question 2
-Un magasin d'équipement de travail offre à tous les membres de votre section un rabais de 15 % sur les bottes de travail, mais exige que le trésorier local leur envoie par courriel une liste de tous les noms des membres et leurs adresses courriel personnelles pour vérifier l'admissibilité. Que devrait faire le trésorier ?
-*   A) Envoyer immédiatement la liste par courriel pour que les membres accèdent au rabais de 15 %.
-*   B) Envoyer la liste, mais seulement après facturer au magasin un petit frais administratif de coordination.
-*   C) Refuser de partager la liste d'adhésion. Offrir plutôt aux membres une carte de rabais syndicale physique ou numérique qu'ils peuvent présenter à la caisse du magasin pour vérifier eux-mêmes leur admissibilité.
-*   D) Afficher la liste des membres sur le babillard syndical pour que le magasin puisse la copier.
+Avant une réunion d'un grand groupe WhatsApp local, un délégué publie une photo des feuilles d'inscription des nouveaux membres pour que tout le monde puisse leur souhaiter la bienvenue. Les feuilles montrent les noms, les numéros de téléphone et les adresses personnelles. Que faut-il faire ?
+*   A) Laisser la photo parce que le groupe est privé et réservé au syndicat.
+*   B) Retirer la photo et rappeler que l'adhésion au syndicat ne signifie pas consentir à diffuser les renseignements d'inscription ; souhaiter la bienvenue sans données personnelles.
+*   C) Flouter seulement les adresses ; les noms et numéros de téléphone peuvent rester visibles.
+*   D) Garder la photo si le délégué demande aux membres de ne pas la transférer.
 
-**Correct Answer: C**
-*Explication* : Protéger les données des membres est primordial. Les syndicats ne doivent jamais partager les bases de données d'adhésion ni les coordonnées personnelles avec des entités commerciales. Fournir des cartes de rabais à l'effigie du syndicat maintient la sécurité tout en offrant l'avantage d'affinité.
+**Correct Answer: B**
+*Explication* : Un groupe réservé au syndicat reste un large auditoire, et une photo peut être enregistrée ou transférée. Adhérer au syndicat ne signifie pas consentir à diffuser des renseignements personnels. Retirez l'image et accueillez les nouveaux membres sans exposer leurs données.
 
 ### Question 3
 Lequel des éléments suivants est le meilleur exemple de « syndicalisme communautaire » en action ?
@@ -206,31 +206,31 @@ Lequel des éléments suivants est le meilleur exemple de « syndicalisme commun
 *Explication* : Le syndicalisme communautaire relie les luttes en milieu de travail au bien public plus large. Campagner aux côtés de partenaires communautaires pour la sécurité publique et le financement bâtit une solidarité mutuelle puissante qui profite aux travailleurs et à la communauté locale.
 
 ### Question 4
-Votre section veut maximiser la participation à la ratification. Meilleure pratique d'orientation liée à ce module ?
-*   A) Expliquer que les cotisants votent automatiquement — pas besoin de carte.
-*   B) Faire signer les cartes d'adhésion pendant l'orientation du jour 1 via `/learn/membership-signup` pour que les nouveaux soient admissibles avant le premier vote.
-*   C) Attendre un vote de grève pour présenter le syndicat.
-*   D) Envoyer la liste d'adhésion à une campagne politique pour rappeler aux membres de voter.
+Votre section veut maximiser la participation à la ratification. Quelle pratique d'orientation est la meilleure ?
+*   A) Expliquer que les personnes qui paient des cotisations votent automatiquement ; aucune carte n'est nécessaire.
+*   B) Attendre un vote de grève pour présenter le syndicat.
+*   C) Envoyer la liste des membres à une campagne politique pour leur rappeler de voter.
+*   D) Faire signer les cartes d'adhésion pendant l'orientation du jour 1 afin que les nouvelles personnes soient admissibles avant le premier vote.
 
-**Correct Answer: B**
-*Explication* : Le droit de vote exige une carte signée ; la signature le jour 1 convertit les nouveaux en participants admissibles tôt — sans partager les listes à l'extérieur.
+**Correct Answer: D**
+*Explication* : Ce module enseigne que la carte d'adhésion signée est l'étape requise pour l'admissibilité au vote ; l'inscription dès le premier jour permet aux nouvelles personnes de participer à temps. Si vous avez choisi A, la retenue de cotisations ne suffit pas à établir le droit de vote : suivez les règles locales sur la carte et la qualité de membre en règle.
 
 ### Question 5
-En quoi le module 14 diffère-t-il du module 6 (Bâtir le pouvoir collectif) ?
-*   A) Le module 14 remplace les clauses d'équité et la RDA par des cartes de rabais seulement.
-*   B) Le module 14 se concentre sur l'accueil du jour 1, les avantages d'affinité sans partage de listes, et les coalitions communautaires ; le module 6 se concentre sur les barrières d'équité, la RDA et le langage d'équité en négociation.
-*   C) Le module 6 est pour les délégués ; le module 14 est seulement pour les employeurs.
-*   D) Ils sont identiques — ne suivez qu'un seul.
+La section locale prépare avec un conseil de parents une campagne pour améliorer la dotation en personnel scolaire. Le conseil offre son appui, mais demande au syndicat d'appuyer en échange sa liste de candidats, sans lien avec la campagne. Que devrait faire la section locale ?
+*   A) Signer l'appui parce que tout soutien de coalition vaut le prix demandé.
+*   B) Mettre fin à la relation ; les syndicats ne devraient pas travailler avec des groupes communautaires.
+*   C) Centrer le partenariat sur l'objectif commun de dotation et préciser publiquement ce que chaque groupe appuie, sans accepter de condition d'appui sans lien.
+*   D) Envoyer la liste des membres au conseil pour mesurer le soutien local.
 
-**Correct Answer: B**
-*Explication* : Le module 6 traite l'équité structurelle et l'application ; le module 14 bâtit l'appartenance quotidienne et les alliances publiques — complémentaires, pas interchangeables.
+**Correct Answer: C**
+*Explication* : Une coalition est plus solide lorsque les partenaires nomment leur objectif public commun et gardent leurs positions respectives claires. N'échangez pas un appui général contre l'accès à un partenariat. Si vous avez choisi A, le soutien à la dotation scolaire ne transforme pas toutes les positions sans lien en éléments de l'entente.
 
 ### Question 6
 Une ONG communautaire demande votre liste de courriels des membres pour inviter les travailleurs à un rassemblement sur le logement aligné sur vos thèmes de négociation. Meilleure réponse ?
 *   A) Envoyer la liste — la cause est progressiste.
-*   B) Inviter les membres par les canaux syndicaux que vous contrôlez ; ne jamais divulguer la base de données ; co-organiser le rassemblement public avec l'ONG.
-*   C) Ignorer l'ONG — le travail communautaire est hors mission.
-*   D) Laisser l'employeur envoyer des courriels aux membres au nom du syndicat.
+*   B) Ignorer l'ONG — le travail communautaire est hors mission.
+*   C) Laisser l'employeur envoyer des courriels aux membres au nom du syndicat.
+*   D) Inviter les membres par les canaux syndicaux que vous contrôlez ; ne jamais divulguer la base de données ; co-organiser le rassemblement public avec l'ONG.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : La communication interne syndicale préserve la confidentialité des listes (module 11) ; le travail de coalition public se fait dans des espaces partagés, pas par transfert de données des membres.

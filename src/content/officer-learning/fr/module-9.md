@@ -155,34 +155,34 @@ Exercice : **Tour 1 — Script de confidentialité.** Jouez le rôle des RH exig
 ## Quiz d'autoévaluation
 
 ### Question 1
-Un employeur exige qu'un travailleur de retour fournisse son dossier médical complet, y compris les notes cliniques du psychiatre, avant d'approuver un accommodement. Comment le délégué devrait-il répondre ?
-*   A) Conseiller au membre de se conformer pour assurer l'approbation de son retour au travail.
-*   B) Affirmer que l'employeur n'a légalement droit qu'aux « aptitudes fonctionnelles » (limitations et restrictions), pas au diagnostic ou aux notes de traitement cliniques, et refuser la demande.
-*   C) Suggérer que l'employeur contacte le médecin directement sans le consentement du membre.
-*   D) Offrir le dossier complet si les RH acceptent de le ranger dans une armoire verrouillée.
+La lettre de refus d'une demande d'ILD s'appuie sur un rendez-vous spécialisé manqué il y a huit mois et ne traite pas de trois rapports récents à l'appui de la demande. Quelle est la meilleure première intervention du délégué ?
+*   A) Dire au membre que la décision de l'assureur est définitive et fermer le dossier.
+*   B) Demander au médecin de l'employeur de remplacer l'avis du spécialiste traitant.
+*   C) Réunir les rapports récents, inscrire au calendrier la date limite d'appel prévue par le régime et porter le refus au CCA tout en préparant l'appel.
+*   D) Attendre la prochaine rencontre du CCA avant de vérifier le délai d'appel.
 
-**Correct Answer: B**
-*Explication* : Les employeurs ont le droit de savoir quelles tâches un travailleur peut accomplir en sécurité, mais ils n'ont aucun droit aux notes diagnostiques ou thérapeutiques confidentielles sous les principes établis de confidentialité des droits de la personne.
+**Correct Answer: C**
+*Explication* : Un refus ouvre le dossier d'appel ; il ne met pas fin à la représentation. Réunissez les motifs du régime et les documents à l'appui, inscrivez le délai au calendrier et utilisez le CCA pour faire avancer le processus. Si vous avez choisi A, la première décision de l'assureur n'est pas un verdict final.
 
 ### Question 2
 Quand un employeur peut-il légalement forcer un membre à subir un examen médical indépendant (EME) par un médecin choisi par l'employeur ?
 *   A) Chaque fois qu'un gestionnaire suspecte qu'un travailleur exagère une maladie.
-*   B) Seulement sous des conditions hautement spécifiques et négociées dans la convention collective, ou quand les restrictions du médecin traitant sont démontrablement contradictoires ou insuffisantes pour concevoir un accommodement sécuritaire.
-*   C) Chaque fois qu'un travailleur demande plus de trois jours de maladie consécutifs.
+*   B) Chaque fois qu'un travailleur demande plus de trois jours de maladie consécutifs.
+*   C) Les déclencheurs typiques sont un libellé précis de la convention ou des renseignements du professionnel traitant réellement contradictoires ou insuffisants ; le délégué devrait vérifier la convention et demander conseil selon les faits et la portée de l'examen.
 *   D) Automatiquement après l'ouverture de toute réclamation CSPAAT, indépendamment du langage de la CC.
 
-**Correct Answer: B**
-*Explication* : Forcer un employé à voir un médecin nommé par l'employeur est une atteinte à la vie privée. Cela n'est permis que lorsqu'explicitement négocié dans la convention collective ou quand le médecin de l'employé échoue à clarifier des restrictions fonctionnelles conflictuelles.
+**Correct Answer: C**
+*Explication* : Un examen par un médecin choisi par l'employeur est une intrusion sérieuse dans la vie privée, pas un outil de routine. Le module décrit des déclencheurs typiques : un libellé précis de la convention ou des renseignements du professionnel traitant réellement contradictoires ou insuffisants. Le droit et la portée dépendent des faits ; vérifiez la convention et demandez conseil. Un simple soupçon ne suffit pas.
 
 ### Question 3
 Le programme de gestion de l'assiduité (PGA) d'un employeur place automatiquement un membre sur un plan d'action correctif parce qu'il a manqué 10 jours de travail en raison de traitements documentés pour une invalidité chronique. Cette administration du programme est-elle légale ?
-*   A) Oui, parce que le programme est appliqué également et neutrement à tous les employés.
-*   B) Non, parce que les déclencheurs automatiques et mécanistes qui pénalisent les absences liées à l'invalidité violent le devoir d'accommodement et constituent de la discrimination systémique.
+  *   A) Pas sans examen de l'accommodement comme ici : compter automatiquement les jours de traitement liés au handicap peut être discriminatoire et devrait être contesté.
+*   B) Oui, parce que le programme est appliqué également et neutrement à tous les employés.
 *   C) Oui, pourvu que le plan d'action correctif soit appelé « de soutien » plutôt que « disciplinaire ».
 *   D) Oui, si le livret de PGA a été remis au membre à l'orientation.
 
-**Correct Answer: B**
-*Explication* : Appliquer une politique d'assiduité « neutre » de façon mécaniste à un travailleur avec une invalidité est discriminatoire. Les absences liées à l'invalidité doivent être accommodées et exclues des comptes PGA punitifs.
+**Correct Answer: A**
+*Explication* : L'étiquette neutre ne règle pas la question. Compter les absences liées au handicap sans examiner l'accommodement peut être discriminatoire ; demandez que ces jours soient retirés du décompte punitif et signalez au comité mixte les tendances récurrentes.
 
 ### Question 4
 Quel est le principal rôle de défense d'un comité conjoint d'assurance (CCA) quand un transporteur refuse l'ILD ?
@@ -195,21 +195,21 @@ Quel est le principal rôle de défense d'un comité conjoint d'assurance (CCA) 
 *Explication* : Les CCA sont des forums de surveillance conjointe — ils escaladent les schémas de refus et de retard ; ils n'effacent pas les horloges d'appel du régime ni les devoirs de confidentialité.
 
 ### Question 5
-En quoi le focus de ce module diffère-t-il de la formation Meiorin/EPJ du module 3 ?
-*   A) Ce module remplace le droit des droits de la personne par le marketing d'assurance.
-*   B) Ce module centre la défense des réclamations, la pression de l'assureur, la navigation ILD/CSPAAT, les audits de PGA et la confidentialité diagnostique plutôt que de tester les défenses d'exigence essentielle.
-*   C) Le module 3 ne traite que des pensions ; ce module ne traite que des uniformes.
-*   D) Il n'y a pas de différence — les deux modules sont des scripts d'accommodement identiques.
+L'assureur n'a toujours pas rendu de décision sur la demande d'ILD d'un membre après neuf semaines. Les RH disent attendre l'assureur et deux autres membres signalent des retards semblables. Que devrait faire le délégué ?
+*   A) Attendre sans intervenir ; le délai d'appel ne compte qu'après une décision.
+*   B) Porter grief contre le médecin traitant parce qu'il n'a pas réglé la demande.
+*   C) Demander au membre de soumettre une deuxième demande pour fermer la première.
+*   D) Consigner les dates, demander une mise à jour aux RH et à l'assureur, soulever le problème de délais au CCA et suivre tout délai prévu au régime.
 
-**Correct Answer: B**
-*Explication* : Gardez les voies droites : les combats EPJ testent les exigences essentielles ; ce module combat les systèmes de réclamations, le dépassement de confidentialité et le calcul punitif d'assiduité.
+**Correct Answer: D**
+*Explication* : Le CCA peut examiner les délais de traitement et presser les RH ou l'assureur lorsque l'administration du régime stagne, mais il ne remplace pas les échéances d'appel du membre. Si vous avez choisi A, l'attente justifie de suivre le dossier et de demander une mise à jour, pas de cesser de surveiller les délais.
 
 ### Question 6
-Un formulaire d'aptitudes fonctionnelles appuie déjà des quarts de jour modifiés. Les RH exigent encore les noms de médicaments « pour la sécurité ». Meilleure réponse du délégué ?
-*   A) Fournir les médicaments parce que la sécurité prime toujours sur la confidentialité.
-*   B) Refuser la divulgation des médicaments ; confirmer que les limites fonctionnelles traitent déjà l'assignation sécuritaire ; porter grief si les RH bloquent le RTW sans détail diagnostique.
-*   C) Conseiller au membre de démissionner et de postuler de nouveau quand il sera en santé.
-*   D) Permettre aux RH d'assister aux séances de thérapie comme représentant du milieu de travail.
+Jeudi, Amira reçoit un refus de prestations d’ILD dont la lettre fixe la date limite d’appel au mercredi suivant. La même semaine, les RH envoient un avis de programme de gestion des absences qui compte six jours de traitement. Le comité mixte se réunit dans deux semaines. Que devrait faire le délégué ?
+*   A) Attendre l’examen du comité mixte avant l’appel d’ILD ; il peut remplacer le processus d’appel du régime.
+*   B) Inscrire la date limite du régime et préparer l’appel sans attendre ; contester le décompte du programme par la voie d’accommodement et inscrire la tendance à l’ordre du jour du comité mixte.
+*   C) Déposer d’abord un grief sur l’avertissement et attendre son résultat avant de préparer l’appel à l’assureur.
+*   D) Envoyer le dossier médical complet d’Amira aux RH afin que les jours de traitement soient retirés avant le dépôt de l’appel.
 
 **Correct Answer: B**
-*Explication* : Quand les fonctions permettent déjà de concevoir un travail sécuritaire, les listes de médicaments sont de la pêche diagnostique — pas une condition préalable de sécurité.
+*Explication* : Menez les démarches en parallèle : protégez le délai d’appel du régime, contestez le décompte mécanique des absences liées au handicap et utilisez le comité mixte pour faire avancer le dossier d’assurance. Le comité ne suspend pas les délais d’appel. Transmettez les limites fonctionnelles pour planifier le travail, pas le dossier médical complet pour régler un avis de programme.

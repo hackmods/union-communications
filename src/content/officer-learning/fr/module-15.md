@@ -253,30 +253,30 @@ Quelle est l'obligation fondamentale du syndicat en vertu du devoir de représen
 Un délégué enquête minutieusement sur un grief, tient le membre informé, obtient l'approbation de l'exécutif et perd à l'arbitrage sur le fond. Est-ce que le syndicat a automatiquement manqué au DRE?
 *   A) Oui — toute perte à l'arbitrage prouve une représentation inéquitable.
 *   B) Oui — sauf si le membre est un dirigeant de l'exécutif.
-*   C) Non — le DRE exige un processus équitable, et non un résultat gagnant sur chaque dossier.
-*   D) Non — les pertes à l'arbitrage sont toujours la faute de l'arbitre, jamais du syndicat.
+*   C) Non — les pertes à l'arbitrage sont toujours la faute de l'arbitre, jamais du syndicat.
+*   D) Non — le DRE exige un processus équitable, et non un résultat gagnant sur chaque dossier.
 
-**Correct Answer: C**
+**Correct Answer: D**
 *Explication* : Un processus motivé, communiqué et non discriminatoire qui se termine par une perte peut encore respecter le DRE. Les manquements portent sur un **refus ou un traitement** arbitraire, discriminatoire ou de mauvaise foi, et non sur le tableau des scores à l'arbitrage.
 
 ### Question 3
 Un membre demande de l'aide un vendredi; le délégué dit « je ne suis pas avocat » et ne donne jamais suite. Le membre ne reçoit aucune décision écrite. Quel risque DRE est le plus fort?
 *   A) Traitement arbitraire seulement si le grief aurait gagné.
-*   B) Refus de mauvaise foi / abandon — omission d'enquêter, de communiquer ou d'escalader.
-*   C) Aucun risque — les bénévoles ne peuvent avoir de devoirs envers les membres.
-*   D) Discrimination — sauf si le membre dépose d'abord une plainte en droits de la personne.
+*   B) Aucun risque — les bénévoles ne peuvent avoir de devoirs envers les membres.
+*   C) Discrimination — sauf si le membre dépose d'abord une plainte en droits de la personne.
+*   D) Refus de mauvaise foi / abandon — omission d'enquêter, de communiquer ou d'escalader.
 
-**Correct Answer: B**
-*Explication* : « Je ne suis pas avocat » ne met pas fin au devoir. Ignorer un membre après une demande d'aide est un abandon classique. Le recours est l'enquête, la communication écrite et l'escalade vers le service de représentation — et non le silence.
+**Correct Answer: D**
+*Explication* : « Je ne suis pas avocat » ne met pas fin au devoir. Ignorer un membre après une demande d'aide est un abandon classique. Le recours est l'enquête, la communication écrite et l'escalade vers le service de représentation — et non le silence. Si vous avez choisi B, le statut bénévole n'efface pas le devoir associé à la représentation exclusive du syndicat.
 
 ### Question 4
 Avant de refuser de déposer un grief, quelle étape minimale protège le mieux le syndicat contre une allégation de traitement arbitraire?
 *   A) Demander au membre de démissionner du syndicat.
-*   B) Mener une enquête documentée (faits, vérification contractuelle, comparateurs) et communiquer un motif écrit avec une voie d'examen.
-*   C) Dire au superviseur que le membre n'est pas crédible.
+*   B) Dire au superviseur que le membre n'est pas crédible.
+*   C) Mener une enquête documentée (faits, vérification contractuelle, comparateurs) et communiquer un motif écrit avec une voie d'examen.
 *   D) Attendre six mois pour voir si le problème disparaît.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Les refus arbitraires manquent d'une base discernable et motivée. Les notes d'enquête plus un refus écrit et révisable démontrent un processus équitable.
 
 ### Question 5
@@ -293,8 +293,8 @@ L'échéance de grief à l'étape 1 d'un membre est dans deux jours. Le délégu
 Dans quelles circonstances un syndicat peut-il licitement refuser de poursuivre la plainte d'un membre après enquête?
 *   A) Jamais — le DRE exige de déposer chaque demande.
 *   B) Lorsque le membre a critiqué l'ami du délégué sur les médias sociaux.
-*   C) Lorsque l'enquête ne révèle aucune violation contractuelle ou légale et que le refus est motivé, non discriminatoire, communiqué par écrit, avec options d'examen ou d'escalade.
-*   D) Chaque fois que l'employeur demande au syndicat de ne pas déposer.
+*   C) Chaque fois que l'employeur demande au syndicat de ne pas déposer.
+*   D) Lorsque l'enquête ne révèle aucune violation contractuelle ou légale et que le refus est motivé, non discriminatoire, communiqué par écrit, avec options d'examen ou d'escalade.
 
-**Correct Answer: C**
+**Correct Answer: D**
 *Explication* : Les syndicats peuvent refuser des dossiers faibles ou non griefables après une enquête équitable — mais pas pour des motifs punitifs, discriminatoires ou secrets. Les motifs écrits et les voies d'examen sont essentiels.

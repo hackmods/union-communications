@@ -163,51 +163,51 @@ Practice in the tool: open Tools → Steward worksheets → Complaint vs grievan
 ### Question 1
 A member approaches you angry because their supervisor told them they cannot display a personal family photo on their desk. The supervisor allows other team members to display photos, but claims this member's desk is visible to clients and must remain "strictly professional." The collective agreement is silent on desk decorations. Does this situation pass the 5-Point Grievance Checklist?
 *   A) No, because desk decorations are not mentioned in the collective agreement.
-*   B) Yes, because it violates fair and consistent application of employer policy and represents arbitrary treatment compared to peers.
-*   C) No, because management has an absolute right to control how desks look to clients.
+*   B) No, because management has an absolute right to control how desks look to clients.
+*   C) Yes, because it violates fair and consistent application of employer policy and represents arbitrary treatment compared to peers.
 *   D) Yes, but only if the family photo displays a protected human rights ground.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Even though the collective agreement is silent, the employer's selective and inconsistent application of an unwritten rule (allowing some employees photos while denying others without a clear, objective business reason) represents arbitrary and unfair treatment, satisfying Point 4 and Point 5 of the checklist.
 
 ### Question 2
-During a heated Step 1 grievance meeting, a supervisor repeatedly cuts off a steward and calls the union's argument "ridiculous and stupid." Frustrated, the steward bangs their hand on the table and says, "That is a lie, and you know it. Your interpretation is completely incompetent!" Can the supervisor discipline the steward for insubordination?
-*   A) Yes. Banging on the table and calling a supervisor incompetent is insubordination under any circumstance.
-*   B) No, because the steward is protected by Union Representative Immunity as they are acting on an equal footing with management during a formal representation meeting.
-*   C) Yes, because calling a supervisor a liar is a personal attack that falls outside the boundaries of immunity.
-*   D) No, but only if the steward apologizes immediately after the meeting ends.
+During a heated Step 1 grievance meeting, a supervisor repeatedly cuts off a steward and calls the union's argument "ridiculous and stupid." Frustrated, the steward bangs their hand on the table and says, "That is a lie, and you know it. Your interpretation is completely incompetent!" What is the soundest assessment of the discipline risk?
+*   A) Vigorous representation is strongly protected on equal footing, but a personal insult can make immunity arguable; document the exchange and check with servicing before promising an outcome.
+*   B) The supervisor can discipline the steward for any disagreement raised during a grievance meeting.
+*   C) Any words short of physical violence during a formal meeting are automatically protected.
+*   D) A steward may never raise their voice or challenge a supervisor's interpretation.
 
-**Correct Answer: B**
-*Explanation*: Under the equal footing principle, stewards are granted representative immunity during meetings with management. While banging on a table and using strong words is heated, it does not cross the boundary into physical violence or illegal acts, and therefore cannot be penalized as insubordination.
+**Correct Answer: A**
+*Explanation*: Equal footing strongly protects vigorous representation in a formal meeting, but it is not a blank cheque for personal abuse. Calling the supervisor a liar or incompetent can make immunity arguable. If you picked C, protection is broader than a violence-only rule, but personal abuse can still weaken the claim. Document the exchange and get advice before promising the member an outcome.
 
 ### Question 3
 Which of the following is the most effective and legally sound "Want" (remedy) for a grievance involving an unpaid suspension?
-*   A) "That the supervisor be formally disciplined and reprimanded by the employer."
-*   B) "That the grievor be made whole in every way."
-*   C) "That the suspension be immediately rescinded, the member's personnel file be cleared of any record of the discipline, and they be fully compensated for all lost wages, benefits, and seniority."
+*   A) "That the suspension be immediately rescinded, the member's personnel file be cleared of any record of the discipline, and they be fully compensated for all lost wages, benefits, and seniority."
+*   B) "That the supervisor be formally disciplined and reprimanded by the employer."
+*   C) "That the grievor be made whole in every way."
 *   D) "That the employer pay a fine to the union local for violating the collective agreement."
 
-**Correct Answer: C**
-*Explanation*: A remedy must be specific, actionable, and focused on making the grievor "whole" (restoring them to the position they would have been in had the violation not occurred). Option C specifies exactly what must be done to clear the record and restore lost wages/seniority. Option A is generally outside an arbitrator's jurisdiction (unions cannot usually dictate management's internal discipline). Option B is too vague to enforce.
+**Correct Answer: A**
+*Explanation*: A remedy must be specific, actionable, and focused on making the grievor "whole" (restoring them to the position they would have been in had the violation not occurred). The detailed reinstatement, record-clearing, and compensation request names the actions needed to restore the member. Asking an arbitrator to discipline a manager is generally outside the union's control, while a bare "make whole" request is too vague to enforce.
 
 ### Question 4
 A member asks you to investigate a scheduling issue but insists you not speak to their supervisor because "it will make things worse." You have time records that partially support the claim but no witness statements. What is the best next step?
 *   A) File immediately using only the member's verbal account to beat the deadline.
-*   B) Explain that a grievance file requires verified facts; work with the member on which witnesses or records you need, and document what they refuse.
-*   C) Tell the member they have no case without witness statements and close the file.
-*   D) Contact the supervisor yourself without telling the member to gather facts secretly.
+*   B) Tell the member they have no case without witness statements and close the file.
+*   C) Contact the supervisor yourself without telling the member to gather facts secretly.
+*   D) Explain that a grievance file requires verified facts; work with the member on which witnesses or records you need, and document what they refuse.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Investigation requires objective facts. You must balance member concerns with the need for a defensible file, document limitations transparently, and avoid filing hearsay-only grievances or conducting covert investigations that breach trust and procedural fairness.
 
 ### Question 5
 The collective agreement requires a written grievance within ten working days of the member becoming aware of the violation. Maria learned she was skipped on Saturday but waits until the following Friday to call you because she was embarrassed. Today is Monday of week two. What is the steward's priority?
 *   A) Decline the file because the member waited too long without a good excuse.
-*   B) Calculate the awareness date from Saturday, confirm whether the ten-day clock still runs, and file immediately if inside the window — document Maria's delay in the notes.
-*   C) Backdate the grievance form to Saturday without telling the member.
+*   B) Backdate the grievance form to Saturday without telling the member.
+*   C) Calculate the awareness date from Saturday, confirm whether the ten-day clock still runs, and file immediately if inside the window — document Maria's delay in the notes.
 *   D) Wait for two more witnesses before counting the clock.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Filing clocks usually start from awareness, not the underlying incident. Stewards must calculate deadlines the same day, file inside the window when possible, and document member delay honestly — embarrassment is not malice, but missed clocks are fatal.
 
 ### Question 6

@@ -254,51 +254,51 @@ When HR imports a "standard" chart from another employer in the sector, your fir
 ### Question 1
 An employer publishes a unit-wide seniority list for a layoff, but your collective agreement defines **campus seniority** within the classification. What should the steward do first?
 *   A) Accept the list because the employer always uses unit-wide order in crises.
-*   B) Rebuild the pool from CA definitions, document discrepancies, and preserve the flawed list while requesting correction before bumping elections close.
-*   C) Tell members to ignore seniority and apply for external jobs only.
-*   D) Wait until arbitration to raise scope — election deadlines do not matter.
+*   B) Tell members to ignore seniority and apply for external jobs only.
+*   C) Wait until arbitration to raise scope — election deadlines do not matter.
+*   D) Rebuild the pool from CA definitions, document discrepancies, and preserve the flawed list while requesting correction before bumping elections close.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Bumping trees and lists are CA-specific. The steward verifies pool scope, preserves evidence, and acts before election clocks expire — not after.
 
 ### Question 2
 A more senior member wants to bump into a job held by a worker on **accommodated modified duties** for a back injury. HR says seniority controls. Best steward response?
-*   A) Support the bump immediately — seniority always beats accommodation.
-*   B) Refuse all meetings until the member provides a full medical diagnosis to the steward.
-*   C) Pause the bump, request human-rights/accommodation analysis, and document whether transfer can occur without undue hardship (**Module 3**).
+*   A) Pause the bump, request human-rights/accommodation analysis, and document whether transfer can occur without undue hardship (**Module 3**).
+*   B) Support the bump immediately — seniority always beats accommodation.
+*   C) Refuse all meetings until the member provides a full medical diagnosis to the steward.
 *   D) Tell the accommodated member to resign to avoid conflict.
 
-**Correct Answer: C**
+**Correct Answer: A**
 *Explanation*: Do not bump someone out of an accommodation without human-rights analysis. Seniority and accommodation collide; Module 3 governs the accommodation track.
 
 ### Question 3
 HR claims a surplus member is "not qualified" for a bumped-into role. Junior incumbents were hired without the newly demanded certification. Strongest union angle?
-*   A) Qualifications are irrelevant in every layoff — seniority alone decides.
-*   B) Challenge selective enforcement and compare pre-layoff job requirements, training rights, and past practice; confirm the applicable agreement language.
+*   A) Challenge selective enforcement and compare pre-layoff job requirements, training rights, and past practice; confirm the applicable agreement language.
+*   B) Qualifications are irrelevant in every layoff — seniority alone decides.
 *   C) Abandon the bump because HR used the word "unqualified."
 *   D) Argue Meiorin step three from memory without medical evidence.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Qualifications language is CA-driven. Stewards gather posting history, training offers, and selective enforcement — not DIY Meiorin on skills alone.
 
 ### Question 4
 Your CA grants a **14-day bumping election window** from the date of union notice. HR gives union notice on March 1 but tells members elections are due March 10. March 12, a member asks you to file. What is the likely problem?
 *   A) No problem — HR's verbal deadline always controls.
-*   B) The member may still be within the CA window if notice was defective or HR shortened it without authority — but you should have calendared March 15 on March 1.
-*   C) Grievances cannot be filed for layoff procedure.
+*   B) Grievances cannot be filed for layoff procedure.
+*   C) The member may still be within the CA window if notice was defective or HR shortened it without authority — but you should have calendared March 15 on March 1.
 *   D) Election windows apply only to recalls, not bumps.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Notice clocks are procedural lifelines. Stewards calendar CA deadlines on day one; defective notice or HR-imposed shortcuts may be grieved — waiting until members ask is too late.
 
 ### Question 5
 A member bumps into a higher classification. After three weeks, management says the member "failed trial" and returns them to layoff without citing a CA trial article. Your CA **is silent** on trial periods for bumped members. Best next step?
 *   A) Accept failure because three weeks is industry standard.
-*   B) Check whether employer policy or past practice creates enforceable limits; grieve if return to layoff violated procedure — do not invent a trial length from another CA.
-*   C) Automatically demand one-year trial because college agreements usually provide it.
+*   B) Automatically demand one-year trial because college agreements usually provide it.
+*   C) Check whether employer policy or past practice creates enforceable limits; grieve if return to layoff violated procedure — do not invent a trial length from another CA.
 *   D) Withdraw — silent CAs mean unlimited employer discretion always wins.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Trial/familiarization rights come from your CA, past practice, or binding policy — not from another sector's formula. Stewards verify before conceding failure.
 
 ### Question 6

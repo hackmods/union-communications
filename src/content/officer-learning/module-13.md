@@ -170,42 +170,42 @@ Practice: **Round 1 — Folder IA.** On one page, draw your local's six top-leve
 
 ### Question 1
 A newly elected Local Secretary discovers boxes of unorganized local records dating back fifteen years. The Secretary wants to clear space and is planning to shred everything older than seven years. Which of the following records is the Secretary legally and constitutionally prohibited from destroying?
-*   A) Approved General Membership Meeting (GMM) Minutes and Local Bylaws.
-*   B) Original paper meal receipts and monthly phone bill vouchers from 2012.
+*   A) Original paper meal receipts and monthly phone bill vouchers from 2012.
+*   B) Approved General Membership Meeting (GMM) Minutes and Local Bylaws.
 *   C) Bank deposit slips and cancelled checks from a local training seminar held ten years ago.
 *   D) Superseded draft minutes that were never approved at a GMM.
 
-**Correct Answer: A**
+**Correct Answer: B**
 *Explanation*: Meeting minutes and local bylaws are permanent legal records of the union and must never be destroyed. Financial receipts and bank records must be kept for a minimum of seven years for tax audit compliance, after which they can be securely shredded.
 
 ### Question 2
 The Local Executive Board is setting up its digital file storage system. The President suggests creating a folder on their employer-provided Microsoft OneDrive account because "we already have free enterprise storage there and it's easy to log in on our work computers." What should the Secretary advise?
 *   A) Agree with the President, as utilizing free employer storage saves the local money.
-*   B) Strongly oppose. Union records must never be stored on employer-controlled servers or devices because the employer has the legal right to monitor their networks and access these files, completely compromising union confidentiality.
-*   C) Agree, but only if they password-protect the specific folders containing active grievance files.
+*   B) Agree, but only if they password-protect the specific folders containing active grievance files.
+*   C) Strongly oppose. Union records must never be stored on employer-controlled servers or devices because the employer has the legal right to monitor their networks and access these files, completely compromising union confidentiality.
 *   D) Agree for financial files only, but keep grievance files on personal USB drives.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Storing union records on employer servers violates the basic principle of union independence and confidentiality. Employers can monitor, scan, and retrieve data from their networks at any time.
 
 ### Question 3
 An election has just occurred, and a new Local Treasurer has been elected, replacing the outgoing Treasurer who served for six years. How should the transition of digital accounts and bank access be managed?
 *   A) The outgoing Treasurer should text their personal passwords to the new Treasurer and keep their name on the bank account for another year just in case.
-*   B) The local must execute a formal transition checklist, updating signing authorities at the bank immediately, transferring administrative ownership of union drives, and using a password manager to securely reset and transfer all digital credentials.
-*   C) The new Treasurer should create entirely new bank accounts and digital drives, leaving the old ones active but unmonitored.
+*   B) The new Treasurer should create entirely new bank accounts and digital drives, leaving the old ones active but unmonitored.
+*   C) The local must execute a formal transition checklist, updating signing authorities at the bank immediately, transferring administrative ownership of union drives, and using a password manager to securely reset and transfer all digital credentials.
 *   D) Wait until the Trustee audit next year to update signing authorities so the books stay continuous.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: A secure, professional transition ensures data integrity and asset security. Signing authorities must be updated immediately at the bank, and administrative ownership of all digital assets must be formally transferred using secure protocols.
 
 ### Question 4
 Which cybersecurity practice best protects the local when multiple officers share access to the union cloud drive?
-*   A) One shared password written on a sticky note in the union office.
-*   B) Requiring multi-factor authentication (2FA) on every union account and rotating shared credentials through a password manager during handover.
+*   A) Requiring multi-factor authentication (2FA) on every union account and rotating shared credentials through a password manager during handover.
+*   B) One shared password written on a sticky note in the union office.
 *   C) Using employer SSO because it already has 2FA built in.
 *   D) Disabling 2FA for the Secretary so they can always recover accounts quickly.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: 2FA blocks most credential theft; password managers enable auditable, revocable handovers without texting personal passwords.
 
 ### Question 5
@@ -220,10 +220,10 @@ A closed grievance from 2018 adjusted seniority for twelve members. The file clo
 
 ### Question 6
 The Secretary is building `03_Contract_Enforcement/`. Which sub-folder setup best matches this module's standards?
-*   A) Public shared link on employer SharePoint so stewards can access from work PCs.
-*   B) Encrypted sub-folders with role-based access; active cases separated from settlements; no employer-controlled hosting.
-*   C) Single Excel sheet on the President's personal Google Drive with no 2FA.
-*   D) Print all grievances and store only in the steward's locker.
+  *   A) A password-protected employer SharePoint folder limited to officers, since its enterprise account already uses MFA.
+*   B) Single Excel sheet on the President's personal Google Drive with no 2FA.
+*   C) Encrypted sub-folders with role-based access; active cases separated from settlements; no employer-controlled hosting.
+  *   D) Keep active cases and closed settlements in one shared union folder and leave access unchanged when officers change roles.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explanation*: Active grievance files demand encryption, least-privilege access, and union-only hosting — not employer systems or informal personal accounts.

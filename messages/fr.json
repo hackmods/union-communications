@@ -8116,6 +8116,10 @@
         "title": "Liens et réserves Apprendre resserrés",
         "body": "Les encadrés de module erronés sont corrigés, les liens bibliographiques morts sont remplacés, les quiz de Formation des dirigeants portent les mêmes réserves constitutionnelles que le texte de la leçon, et les pages Apprendre pointent maintenant vers les URL canoniques /learn plutôt que les anciens chemins /guide."
       },
+      "learn-quiz-self-tests": {
+        "title": "Les autoévaluations de la Formation des dirigeants enseignent à partir des erreurs",
+        "body": "Les autoévaluations des modules présentent des décisions de travail plus distinctes, répartissent mieux les bonnes réponses et expliquent des erreurs courantes de représentation syndicale."
+      },
       "learn-ui-chrome": {
         "title": "Les pages Apprendre démarrent plus vite",
         "body": "Les liens connexes passent après la leçon, Steward 101 ouvre plus vite sur le contenu de plancher, la Formation des dirigeants montre un rail de progression compact, le texte des ateliers abandonne le jargon, et les outils Créer pointent vers les pages /learn canoniques."

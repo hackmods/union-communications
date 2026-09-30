@@ -148,52 +148,52 @@ Practice: **Round 1 — Caucus.** Two stewards disagree on whether understaffing
 
 ### Question 1
 During a Joint Health and Safety Committee (JHSC) meeting, a union rep and another union member start arguing in front of the HR manager about whether a safety guard is necessary. Which core rule of committee organizing was violated?
-*   A) The rule of statutory consensus.
-*   B) United Caucus Discipline.
+*   A) United Caucus Discipline.
+*   B) The rule of statutory consensus.
 *   C) The employer-disclosure standard.
 *   D) The open-door grievance wording rule.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Union representatives must always present a completely united front to management during joint meetings. Any disagreements must be worked out in private pre-meetings (caucuses).
 
 ### Question 2
 Which committee has the statutory, legally-mandated power to force an employer to respond to written safety recommendations within a set, legislative timeline?
 *   A) The Labour-Management Committee (LMC).
 *   B) The Joint Health and Safety Committee (JHSC).
-*   C) The Executive Board Elections Committee.
-*   D) The social committee planning the staff picnic.
+  *   C) The union JHSC caucus, because its resolution alone binds the employer to respond within the statutory time.
+*   D) The grievance committee, through a policy grievance.
 
 **Correct Answer: B**
-*Explanation*: Under health and safety legislation, the JHSC has unique statutory powers to make formal recommendations, and employers are legally required to provide a written response within a strict deadline (often 21 days).
+*Explanation*: Under health and safety legislation, the JHSC has statutory power to make formal recommendations that require a written employer response. If you picked C, a union-side caucus resolution is not the joint committee recommendation that starts that process; confirm the applicable OHSA timeline.
 
 ### Question 3
 A steward discovers that a department is facing severe stress and physical injuries due to systemic understaffing. Which is the most effective multi-committee escalation strategy?
 *   A) File a single individual grievance and wait for arbitration.
-*   B) Ignore the issue since understaffing is a management right.
-*   C) Route the physical injuries to the JHSC for a hazard investigation, put the workload and scheduling friction on the LMC agenda, and file a group grievance for contract violations simultaneously.
+*   B) Route the physical injuries to the JHSC for a hazard investigation, put the workload and scheduling friction on the LMC agenda, and file a group grievance for contract violations simultaneously.
+*   C) Ignore the issue since understaffing is a management right.
 *   D) Raise it only as a personal complaint to one friendly supervisor.
 
-**Correct Answer: C**
+**Correct Answer: B**
 *Explanation*: Escalating the issue through multiple joint committees and the grievance process simultaneously maximizes organizational pressure on the employer, forcing them to address the systemic understaffing early.
 
 ### Question 4
 A worker refuses to operate equipment with a disabled safety interlock. Management says "put it on next month's LMC agenda." Best steward response?
 *   A) Agree — LMC is the only lawful forum for refusals.
-*   B) Support the OHSA work-refusal process now and engage JHSC pathways; use LMC later for related staffing policy if needed.
-*   C) Order all workers to walk out immediately without process.
-*   D) Tell the member to work carefully until the picnic committee meets.
+*   B) Skip the internal refusal steps and ask a Ministry inspector to decide before the worker follows the OHSA process.
+*   C) Support the OHSA work-refusal process now and engage JHSC pathways; use LMC later for related staffing policy if needed.
+*   D) File a grievance and ask the member to return to the machine while the grievance is pending.
 
-**Correct Answer: B**
-*Explanation*: Live refusals follow OHSA process and JHSC involvement; LMC discussion is not a substitute for removing the hazard.
+**Correct Answer: C**
+*Explanation*: Support the worker through the OHSA refusal steps and engage certified JHSC representatives as required. If you picked D, a grievance may address the employer's response, but it does not replace the immediate refusal process or make an unresolved hazard safe.
 
 ### Question 5
 What belongs in a union caucus that does **not** belong in the joint meeting with management present?
-*   A) The final united ask the union will present.
-*   B) Internal debate over tactics, disagreements, and which rep will lead — resolved before entering.
+*   A) Internal debate over tactics, disagreements, and which rep will lead — resolved before entering.
+*   B) The final united ask the union will present.
 *   C) The written JHSC recommendation already served on the employer.
 *   D) The attendance sheet for statutory quorum.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: Caucus is where disagreement lives. The joint table hears one disciplined union position.
 
 ### Question 6

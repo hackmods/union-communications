@@ -216,7 +216,10 @@ function parseQuiz(lines: string[]): QuizQuestion[] {
       if (current?.prompt && current.options?.length && current.correctOptionId) {
         questions.push(current as QuizQuestion);
       }
-      const qNum = questions.length + 1;
+      // The authored question number supplies the stable, module-local id.
+      // Reordering answer options therefore never changes question identity.
+      const headingNumber = trimmed.match(/^### Question\s+(\d+)\s*$/)?.[1];
+      const qNum = headingNumber ? Number(headingNumber) : questions.length + 1;
       current = {
         id: `q${qNum}`,
         prompt: "",

@@ -150,41 +150,41 @@ Practice: Mock GMM with paper headcount cards. The fictional local has 85 member
 ### Question 1
 A local's bylaws say that 15 members must be present for quorum. Fourteen members remain when a motion to amend the bylaws is called. What should the chair do?
 *   A) Take the vote because the meeting opened with quorum.
-*   B) Pause voting, announce the count, and follow the bylaws on resuming business.
-*   C) Ask the Secretary to leave the count out of the minutes.
-*   D) Continue if the motion has no opposition.
+*   B) Ask the Secretary to leave the count out of the minutes.
+*   C) Continue if the motion has no opposition.
+*   D) Pause voting, announce the count, and follow the bylaws on resuming business.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: The bylaws set the threshold at 15, so 14 members is below quorum. Record the count and follow the governing documents before taking another vote.
 
 ### Question 2
 During a heated General Membership Meeting, 4 members leave the hall to catch a bus, leaving only 12 members in a local that requires 15 for quorum. A motion is immediately introduced and passed to spend $1,000 on a local charity. What is the status of this vote?
 *   A) The vote is valid because the meeting started with quorum.
-*   B) Stop the vote, record the count, and resume voting only if quorum returns under the bylaws.
-*   C) The vote is valid as long as the Secretary does not record that the members left.
+*   B) The vote is valid as long as the Secretary does not record that the members left.
+*   C) The motion was not validly adopted; record the count and check the bylaws for a challenge or ratification process.
 *   D) The vote is valid because charity donations do not require quorum.
 
-**Correct Answer: B**
-*Explanation*: Follow the local's quorum rule throughout the meeting. Record when the count falls below the threshold and consult the governing documents about how to handle any vote attempted afterward.
+**Correct Answer: C**
+*Explanation*: Quorum must hold for each vote, not only when the meeting opens. With 12 present against a threshold of 15, the motion was not validly adopted and is open to challenge; check the governing documents for the next step or any ratification process. If you picked B, minutes record what happened but cannot create quorum after members have left.
 
 ### Question 3
-In a local election for President, 100 valid ballots are cast. Candidate A receives 45 votes, Candidate B receives 35 votes, and Candidate C receives 20 votes. What happens next?
-*   A) Candidate A is declared elected because they have the most votes (plurality).
-*   B) A coin toss is held between Candidate A and Candidate B.
-*   C) Candidate C is eliminated, and a second ballot is run between Candidate A and Candidate B to determine who secures a clear majority (more than half).
-*   D) The election is declared void and must be postponed to next month.
+The local constitution requires successive balloting to a clear majority. In an election for President, 100 valid ballots are cast. Candidate A receives 45 votes, Candidate B receives 35 votes, and Candidate C receives 20 votes. What happens next?
+*   A) Candidate C is eliminated, and a second ballot is run between Candidate A and Candidate B to determine who secures a clear majority (more than half).
+*   B) Candidate A is declared elected because they have the most votes (plurality).
+*   C) Run a second ballot between Candidates A and B, but elect whoever gets more votes even if neither wins a majority.
+*   D) Declare the election void and restart nominations at the next meeting because no one won outright.
 
-**Correct Answer: C**
-*Explanation*: Under successive-balloting constitutions, elections require a clear majority (more than half of valid ballots — here at least 51). Because no candidate reached 51, Candidate C is eliminated and A and B reballot. Confirm your constitution — some unions permit plurality.
+**Correct Answer: A**
+*Explanation*: Under these rules, a candidate must receive more than half of valid ballots — here, at least 51. With no candidate at 51, eliminate C and reballot between A and B. Do not switch to a plurality rule halfway through; always follow the local constitution.
 
 ### Question 4
 A Secretary wants to record that "Member X angrily opposed the motion and accused the executive of corruption" in the minutes. Best advice?
-*   A) Record it verbatim — minutes must capture debate.
-*   B) Record only the motion, vote, and any assigned follow-up tasks — not personal accusations or tone.
+*   A) Record only the motion, vote, and any assigned follow-up tasks — not personal accusations or tone.
+*   B) Record it verbatim — minutes must capture debate.
 *   C) Omit the motion entirely because the debate was heated.
 *   D) Record accusations but omit the motion result.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: The dull writing standard records decisions and actions, not emotional debate or personal attacks. The motion wording, outcome, and assigned tasks are the legal record.
 
 ### Question 5

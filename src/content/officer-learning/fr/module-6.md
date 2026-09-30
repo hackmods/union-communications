@@ -172,59 +172,59 @@ Exercice : **Tour 1 — table de comité de négociation.** Étant donné une ca
 ### Question 1
 Lequel des éléments suivants est le meilleur exemple d'un « obstacle systémique » dans les propres opérations d'une section locale ?
 *   A) Un délégué faisant une blague offensante durant une pause-dîner.
-*   B) Une politique exigeant que tous les membres assistent à des rencontres en personne dans une salle de banlieue inaccessible par transport en commun.
-*   C) Un superviseur refusant une demande de vacances à un travailleur racialisé.
-*   D) Un trésorier perdant un reçu pour une dépense de rencontre.
+*   B) Un superviseur refusant une demande de vacances à un travailleur racialisé.
+*   C) Un trésorier perdant un reçu pour une dépense de rencontre.
+*   D) Une politique exigeant que tous les membres assistent à des rencontres en personne dans une salle de banlieue inaccessible par transport en commun.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : Les obstacles systémiques sont des politiques ou montages apparemment neutres qui excluent ou désavantagent de façon disproportionnée un groupe précis. Tenir des rencontres dans une zone inaccessible par transport en commun exclut systématiquement les travailleurs à faible revenu, précaires ou racialisés qui sont moins susceptibles de posséder un véhicule personnel.
 
 ### Question 2
 Le comité de négociation veut proposer d'élargir le congé de deuil pour inclure la « famille choisie ». L'employeur s'y oppose, affirmant que la « famille » doit être strictement définie par le mariage légal et les liens de sang pour prévenir les abus. Comment le syndicat peut-il justifier cette proposition ?
-*   A) En argumentant que les définitions traditionnelles par liens de sang reflètent des structures coloniales et de famille nucléaire qui excluent systématiquement les réseaux de parenté culturels divers, LGBTQ2S+ et des communautés marginalisées.
-*   B) En acceptant de laisser l'employeur approuver chaque membre de famille choisie au cas par cas.
+*   A) En acceptant de laisser l'employeur approuver chaque membre de famille choisie au cas par cas.
+*   B) En argumentant que les définitions traditionnelles par liens de sang reflètent des structures coloniales et de famille nucléaire qui excluent systématiquement les réseaux de parenté culturels divers, LGBTQ2S+ et des communautés marginalisées.
 *   C) En affirmant que le syndicat paiera tout jour de deuil supplémentaire.
 *   D) En abandonnant la proposition et en se concentrant seulement sur les augmentations salariales.
 
-**Correct Answer: A**
+**Correct Answer: B**
 *Explication* : Élargir la définition de la famille pour inclure la « famille choisie » est une demande contractuelle clé d'équité. Elle reconnaît que les réseaux de parenté varient largement selon les communautés culturelles et marginalisées, et que les règles traditionnelles limitées aux liens de sang sont exclusives.
 
 ### Question 3
 La section locale invite un Aîné autochtone à mener une cérémonie d'ouverture pour une école syndicale de fin de semaine. Les protocoles varient selon la nation et la communauté — demandez toujours à l'Aîné ou à votre comité d'équité ce qu'ils préfèrent. Quelle option est un exemple largement enseigné de protocole respectueux (pas la seule pratique correcte partout) ?
-*   A) Un panier-cadeau corporatif standard avec confitures et chocolats.
-*   B) Un lien de tabac traditionnel (tabac organique enveloppé dans du drap coloré) offert respectueusement avec la main gauche (la plus proche du cœur).
+*   A) Un lien de tabac traditionnel (tabac organique enveloppé dans du drap coloré) offert respectueusement avec la main gauche (la plus proche du cœur).
+*   B) Un panier-cadeau corporatif standard avec confitures et chocolats.
 *   C) Une promesse écrite de don à un parti politique.
 *   D) Un paiement en espèces dans une enveloppe ouverte avant qu'ils ne parlent.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Bien des communautés enseignent d'offrir un lien de tabac avec la main gauche lorsqu'on invite un Aîné — mais les protocoles varient selon la nation et la communauté. Confirmez avec les membres autochtones ou votre comité d'équité avant d'accueillir des cérémonies ; ne traitez jamais un protocole comme universel.
 
 ### Question 4
 Un membre veut une RAD avec un Aîné plutôt qu'une rencontre de grief formelle avec la direction. Meilleure réponse du délégué ?
 *   A) La RAD remplace les droits de grief une fois choisie.
-*   B) Confirmer que la RAD est volontaire ; les délais de grief et les droits formels demeurent si la RAD échoue ou si le membre se retire.
-*   C) Refuser — les griefs doivent toujours être adversariaux.
-*   D) Exiger que le membre divulgue son historique médical complet à l'Aîné.
+*   B) Refuser — les griefs doivent toujours être adversariaux.
+*   C) Exiger que le membre divulgue son historique médical complet à l'Aîné.
+*   D) Confirmer que la RAD est volontaire ; les délais de grief et les droits formels demeurent si la RAD échoue ou si le membre se retire.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : La RAD volontaire complète, sans remplacer, les processus formels. Les membres peuvent essayer des voies restauratives tout en préservant le droit de revenir à la procédure de grief.
 
 ### Question 5
 Les données du sondage montrent que les membres racialisés à temps partiel ne peuvent pas assister aux réunions suburbaines à 18 h. L'exécutif dit que la participation prouve que « ces membres s'en fichent ». Meilleure réponse du délégué ?
-*   A) Accepter la faible participation comme apathie et ne viser que les membres engagés.
-*   B) Nommer la barrière systémique, proposer des heures/lieux accessibles ou des options hybrides, et lier les correctifs de participation aux propositions du sondage de négociation.
+*   A) Nommer la barrière systémique, proposer des heures/lieux accessibles ou des options hybrides, et lier les correctifs de participation aux propositions du sondage de négociation.
+*   B) Accepter la faible participation comme apathie et ne viser que les membres engagés.
 *   C) Imposer une cérémonie de purification à chaque réunion pour augmenter la participation.
 *   D) Retirer les membres à temps partiel de la liste pour améliorer le calcul du quorum.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : La structure façonne la participation. Les délégués relient l'analyse des barrières à des correctifs locaux concrets et à des forfaits de négociation — le cadrage apathique masque l'exclusion.
 
 ### Question 6
 Des microagressions répétées d'un superviseur sont actives pendant que l'équipe de négociation poursuit une nouvelle clause d'équité pour le prochain contrat. Que doit-il se passer maintenant ?
-*   A) Attendre la ratification de la nouvelle clause — pas encore de grief.
-*   B) Déposer sur la conduite hostile en cours en utilisant la politique existante et les voies des droits de la personne, tout en négociant le langage d'application pour le prochain tour.
+*   A) Déposer sur la conduite hostile en cours en utilisant la politique existante et les voies des droits de la personne, tout en négociant le langage d'application pour le prochain tour.
+*   B) Attendre la ratification de la nouvelle clause — pas encore de grief.
 *   C) Abandonner le grief si le membre accepte la RAD.
 *   D) Échanger le grief contre un préambule seulement.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Le préjudice actif fait l'objet d'un grief maintenant. La négociation construit l'application systémique pour plus tard — les deux voies se complètent ; ne laissez pas les membres sans protection pendant la négociation du langage.

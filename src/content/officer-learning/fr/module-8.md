@@ -146,71 +146,61 @@ Exercice : **Tour 1 — Dossier en cinq parties.** Pour un grief d'heures suppl�
 ## Quiz d'autoévaluation
 
 ### Question 1
-Pourquoi un délégué devrait-il inclure la phrase « et/ou tout autre article pertinent de la convention collective » sur un formulaire de grief formel ?
-*   A) Pour éviter d'avoir à préciser des articles durant la rencontre de grief.
-*   B) Pour préserver le droit juridique du syndicat d'arguer différentes violations contractuelles si de nouvelles preuves surgissent durant l'arbitrage.
-*   C) Pour forcer les RH à deviner quels articles la direction a réellement violés.
-*   D) Pour convertir automatiquement chaque grief en grief de politique sans approbation des membres.
+Pourquoi un délégué devrait-il inclure la phrase « et/ou tout autre article pertinent de la convention collective » dans un formulaire de grief formel ?
+*   A) Pour éviter d'avoir à préciser des articles pendant la rencontre de grief.
+*   B) Pour préserver le droit du syndicat de faire valoir d'autres violations contractuelles si de nouveaux éléments apparaissent en arbitrage.
+*   C) Pour obliger les RH à deviner quels articles la direction a enfreints.
+*   D) Pour convertir automatiquement chaque grief en grief de politique sans l'approbation des membres.
 
 **Correct Answer: B**
-*Explication* : Le libellé « à porte ouverte » empêche l'employeur de bloquer le grief en arbitrage sur une technicité si le syndicat découvre des violations d'articles supplémentaires durant l'enquête.
+*Explication* : Une formulation ouverte empêche l'employeur de bloquer un nouvel argument contractuel sur un détail technique si de nouveaux éléments apparaissent. Gardez à côté du formulaire une chronologie datée : le libellé conserve une marge de manœuvre, tandis que la chronologie établit les faits.
 
 ### Question 2
 Si un règlement est signé « sans précédent », que signifie cela juridiquement pour les différends futurs ?
-*   A) Le règlement ne peut pas être cité ou utilisé par l'une ou l'autre partie comme précédent contraignant dans tout grief ou arbitrage futur non lié.
-*   B) L'employeur convient qu'il avait complètement tort et paiera des dommages.
-*   C) Le syndicat ne peut plus déposer de griefs sous cet article précis de la convention.
+*   A) L'employeur convient qu'il avait complètement tort et paiera des dommages.
+*   B) Le syndicat ne peut plus déposer de griefs sous cet article précis de la convention.
+*   C) Le règlement ne peut pas être cité ou utilisé par l'une ou l'autre partie comme précédent contraignant dans tout grief ou arbitrage futur non lié.
 *   D) Le grief demeure ouvert jusqu'à ce qu'un arbitre endosse le règlement.
 
-**Correct Answer: A**
+**Correct Answer: C**
 *Explication* : « Sans précédent » assure que le compromis fait pour régler un différend précis n'établit pas une interprétation permanente de la convention qui peut être armée dans des dossiers futurs.
 
 ### Question 3
-Durant une rencontre d'étape, les RH promettent verbalement de nettoyer l'arriéré d'horaire si le syndicat retire le grief. Le délégué signe un règlement « plein et final » qui ne mentionne pas cette promesse. Le syndicat peut-il faire respecter la promesse verbale plus tard ?
-*   A) Oui, les ententes verbales faites durant les rencontres d'étape sont juridiquement contraignantes.
-*   B) Oui, mais seulement s'il y a au moins deux témoins qui ont entendu la promesse.
-*   C) Non, sous la règle des « Quatre coins », toute condition verbale non écrite directement dans le règlement signé est généralement juridiquement inexécutoire.
-*   D) Oui, si le délégué envoie un texto de confirmation après la signature.
+Lors d'une rencontre d'étape, les RH promettent verbalement de régler l'arriéré d'horaires si le syndicat retire le grief. Le délégué signe un règlement « complet et final » qui ne mentionne pas cette promesse. Le syndicat pourra-t-il faire respecter la promesse plus tard ?
+*   A) Oui, les ententes verbales conclues lors des rencontres d'étape sont exécutoires.
+*   B) Oui, mais seulement si au moins deux témoins ont entendu la promesse.
+*   C) Oui, si le délégué envoie un texto de confirmation après la signature.
+*   D) Non — selon la règle des quatre coins du document, les modalités verbales omises d'un règlement signé sont généralement inexécutoires.
 
-**Correct Answer: C**
-*Explication* : Une fois qu'un règlement « plein et final » est signé, il représente l'entente entière. Toute entente latérale verbale omise est juridiquement morte.
+**Correct Answer: D**
+*Explication* : Un règlement complet et final signé contient généralement toute l'entente ; les promesses verbales qui en sont absentes sont habituellement inexécutoires. Si des circonstances inhabituelles peuvent changer cette conclusion, consultez un conseiller juridique plutôt que de présumer que la promesse est perdue. Si vous avez choisi A, une promesse faite à une rencontre d'étape doit être écrite dans le règlement avant le retrait du grief.
 
 ### Question 4
-Quel élément appartient au pilier de la fiche de faits chronologique d'un dossier de grief ?
-*   A) Un journal daté jour par jour des événements, communications et interactions avec le superviseur.
-*   B) Seulement la sentence d'arbitrage finale d'une autre section locale.
-*   C) Des rumeurs de couloir non signées recueillies après la date d'audience.
-*   D) Le récit préféré de l'employeur sans dates syndicales attachées.
-
-**Correct Answer: A**
-*Explication* : La discipline chronologique — entrées datées et attribuées — est la colonne vertébrale qui tient ensemble les déclarations de témoins et les documents.
-
-### Question 5
 Quelle est la demande de remède la plus forte sur un grief de promotion à porte ouverte ?
 *   A) « Veuillez considérer le plaignant pour de futurs affichages. »
-*   B) « Remettre le plaignant en état à tous égards, y compris salaire rétroactif et avantages complets, et lui conférer le poste. »
-*   C) « Payer une journée de salaire comme geste symbolique. »
+*   B) « Payer une journée de salaire comme geste symbolique. »
+*   C) « Remettre le plaignant en état à tous égards, y compris salaire rétroactif et avantages complets, et lui conférer le poste. »
 *   D) « Émettre des excuses verbales sans trace écrite. »
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Le langage de réparation intégrale préserve un soulagement restauratif complet ; les demandes symboliques plafonnent le recouvrement avant même que la négociation commence à la table d'étape.
 
-### Question 6
+### Question 5
 Les RH offrent un retrait rapide mais refusent d'écrire une promesse de paie de formation dans le PR. Meilleur geste du délégué ?
 *   A) Signer plein et final et faire confiance à la poignée de main.
 *   B) Étroitiser le formulaire de grief pour que moins de remèdes soient possibles.
-*   C) Quitter ou retenir le grief jusqu'à ce que la promesse apparaisse à l'intérieur des Quatre coins du règlement.
-*   D) Accepter une étiquette sans précédent comme substitut au langage de paie manquant.
+*   C) Accepter une étiquette sans précédent comme substitut au langage de paie manquant.
+*   D) Quitter ou retenir le grief jusqu'à ce que la promesse apparaisse à l'intérieur des Quatre coins du règlement.
 
-**Correct Answer: C**
+**Correct Answer: D**
 *Explication* : Les étiquettes ne remplacent pas les conditions opératoires. Si la contrepartie n'est pas écrite, les Quatre coins ne la sauveront pas après le retrait.
 
-### Question 7
+### Question 6
 Que protège principalement le marquage d'une discussion de règlement **« sans préjudice »** ?
 *   A) Il réécrit de façon permanente la convention collective pour tout grief futur sous le même article.
-*   B) Il empêche que les offres exploratoires et positions de compromis soient agitées plus tard comme admissions de responsabilité.
-*   C) Il force l'employeur à concéder qu'il avait complètement tort sur le fond.
-*   D) Il remplace le besoin d'écrire les montants et échéances de paiement dans le PR signé.
+*   B) Il force l'employeur à concéder qu'il avait complètement tort sur le fond.
+*   C) Il remplace le besoin d'écrire les montants et échéances de paiement dans le PR signé.
+*   D) Il empêche que les offres exploratoires et positions de compromis soient agitées plus tard comme admissions de responsabilité.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : « Sans préjudice » marque les pourparlers de règlement pour que les offres exploratoires ne soient pas traitées comme des admissions. Ce n'est pas la même chose que « sans précédent », qui limite la façon dont une entente signée lie des dossiers futurs non liés.

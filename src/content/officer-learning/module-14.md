@@ -177,23 +177,23 @@ Practice: **Round 1 — Orientation script.** Time yourself delivering the four-
 
 ### Question 1
 A steward is running their first 15-minute Day-1 New Member Orientation session for three newly hired employees. Which of the following approaches is most effective for building long-term union engagement?
-*   A) Spend the entire 15 minutes walking them through the strict legal steps of the formal grievance procedure.
-*   B) Welcome them warmly, hand them a professional welcome folder with their collective agreement and steward contact card, explain that their contract guarantees their safety, and have them sign their union membership cards.
+*   A) Welcome them warmly, hand them a professional welcome folder with their collective agreement and steward contact card, explain that their contract guarantees their safety, and have them sign their union membership cards.
+*   B) Spend the entire 15 minutes walking them through the strict legal steps of the formal grievance procedure.
 *   C) Give them a quick 2-minute greeting and tell them to look up the union's website if they ever get disciplined by management.
 *   D) Delay orientation until the first contract campaign so the urgency motivates sign-ups.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explanation*: First impressions matter. A Day-1 orientation should be welcoming, informative, and focused on building connection and security, ending with the crucial administrative step of signing their membership card.
 
 ### Question 2
-A local workwear store offers to provide all members of your local with a 15% discount on work boots, but they demand that the Local Treasurer email them a list of all member names and personal email addresses to verify eligibility. What should the Treasurer do?
-*   A) Send the email list immediately to ensure members can access the 15% discount.
-*   B) Send the list, but only after charging the store a small administrative coordination fee.
-*   C) Refuse to share the membership list. Instead, provide members with a physical or digital Union Discount Card that they can present at the store cash register to verify eligibility themselves.
-*   D) Post the member list on the union bulletin board so the store can copy it.
+Before a large local WhatsApp group meeting, a steward posts a photo of new-member sign-up sheets so everyone can welcome the new hires. The sheets show names, phone numbers, and home addresses. What should happen?
+*   A) Leave the photo up because the group is private and union-only.
+*   B) Remove the photo and remind stewards that joining the union is not consent to broadcast sign-up details; use a welcome message that shares no personal data.
+*   C) Blur only the home addresses; names and phone numbers are fine to share.
+*   D) Keep it up as long as the steward asks members not to forward the image.
 
-**Correct Answer: C**
-*Explanation*: Protecting member data is paramount. Unions must never share membership databases or personal contact info with commercial entities. Providing members with union-branded discount cards maintains security while delivering the affinity benefit.
+**Correct Answer: B**
+*Explanation*: A union-only group is still a broad audience, and a photo can be saved or forwarded. Joining the union is not consent to broadcast personal information. Remove the image and welcome the new members without exposing their sign-up details.
 
 ### Question 3
 Which of the following is the best example of "Community Unionism" in action?
@@ -208,29 +208,29 @@ Which of the following is the best example of "Community Unionism" in action?
 ### Question 4
 Your local wants to maximize ratification turnout. Best orientation practice tied to this module?
 *   A) Explain that dues payers automatically vote — no card needed.
-*   B) Sign membership cards during Day-1 orientation using `/learn/membership-signup` so new hires are eligible before the first vote.
-*   C) Wait until a strike vote to introduce the union.
-*   D) Email the membership list to a political campaign to remind members to vote.
+*   B) Wait until a strike vote to introduce the union.
+*   C) Email the membership list to a political campaign to remind members to vote.
+*   D) Sign membership cards during Day-1 orientation using `/learn/membership-signup` so new hires are eligible before the first vote.
 
-**Correct Answer: B**
-*Explanation*: Voting rights require a signed card; Day-1 signing converts new hires into eligible participants early — without sharing lists externally.
+**Correct Answer: D**
+*Explanation*: A signed membership card is the step this module teaches for voting eligibility, and early sign-up helps new hires take part before a vote. If you picked A, dues deduction alone does not establish voting membership; follow your local's card and good-standing rules.
 
 ### Question 5
-How does Module 14 differ from Module 6 (Building Collective Power)?
-*   A) Module 14 replaces equity clauses and ADR with discount cards only.
-*   B) Module 14 focuses on Day-1 welcome, affinity perks without list sharing, and community coalitions; Module 6 focuses on equity barriers, ADR, and bargaining equity language.
-*   C) Module 6 is for stewards; Module 14 is only for employers.
-*   D) They are identical — take only one.
+The local is building a campaign with a parent council for safer school staffing. The council offers support but asks the union to endorse its unrelated candidate slate as part of the deal. What should the local do?
+*   A) Sign the endorsement because any coalition support is worth the price.
+*   B) End the relationship; unions should not work with community groups.
+*   C) Keep the partnership focused on the shared staffing goal and agree publicly on what each group is supporting, without accepting unrelated endorsement terms.
+*   D) Send the council the membership list so it can measure the local's support.
 
-**Correct Answer: B**
-*Explanation*: Module 6 addresses structural equity and enforcement; Module 14 builds everyday belonging and public alliances — complementary, not interchangeable.
+**Correct Answer: C**
+*Explanation*: Coalition work is strongest when the partners name the shared public goal and keep their own positions clear. Do not trade a blanket endorsement for access to a partnership. If you picked A, support for school staffing does not make every unrelated position part of the deal.
 
 ### Question 6
 A community NGO asks for your membership email list to invite workers to a housing rally aligned with your bargaining themes. Best response?
 *   A) Send the list — the cause is progressive.
-*   B) Invite members through union channels you control; never release the database; co-host the public rally with the NGO.
-*   C) Ignore the NGO — community work is off-mission.
-*   D) Let the employer email members on the union's behalf.
+*   B) Ignore the NGO — community work is off-mission.
+*   C) Let the employer email members on the union's behalf.
+*   D) Invite members through union channels you control; never release the database; co-host the public rally with the NGO.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explanation*: Internal union communication preserves list privacy (Module 11); public coalition work happens in shared spaces, not via member data transfers.

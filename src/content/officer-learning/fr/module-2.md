@@ -159,12 +159,12 @@ Exercice dans l'outil : ouvrez Outils → Fiches délégué → Journal prédisc
 
 ### Question 1
 Un employeur émet une « lettre d'encadrement » à un membre au sujet de sa ponctuation et du ton de ses courriels. La lettre se termine par la phrase : « Des problèmes persistants de communication professionnelle entraîneront une discipline progressive, pouvant aller jusqu'au congédiement. » En tant que délégué, comment devez-vous réagir ?
-*   A) Ne rien faire, parce que l'encadrement n'est pas disciplinaire et ne peut pas faire l'objet d'un grief.
-*   B) Exiger que la lettre soit détruite parce que les employeurs n'ont pas le droit de surveiller le ton des courriels des employés.
-*   C) Déposer un grief ou exiger le retrait de la phrase d'avertissement, parce que la menace de discipline future transforme un outil d'encadrement non disciplinaire en avertissement disciplinaire formel.
+*   A) Déposer un grief ou exiger le retrait de la phrase d'avertissement, parce que la menace de discipline future transforme un outil d'encadrement non disciplinaire en avertissement disciplinaire formel.
+*   B) Ne rien faire, parce que l'encadrement n'est pas disciplinaire et ne peut pas faire l'objet d'un grief.
+*   C) Exiger que la lettre soit détruite parce que les employeurs n'ont pas le droit de surveiller le ton des courriels des employés.
 *   D) Conseiller au membre de l'ignorer et de mettre le syndicat en CCI sur tous les courriels.
 
-**Correct Answer: C**
+**Correct Answer: A**
 *Explication* : Une véritable lettre d'encadrement ou de coaching doit être de soutien et non disciplinaire. Dès qu'elle contient une menace de discipline future (« entraînera une discipline progressive... »), elle franchit la limite de la discipline formelle et doit être traitée — et contestée — comme un avertissement disciplinaire.
 
 ### Question 2
@@ -185,34 +185,34 @@ Un employé publie un coup de gueule public sur Facebook un dimanche soir, quali
 *   D) Non, à moins que l'employé n'ait utilisé l'internet fourni par l'employeur pour faire la publication.
 
 **Correct Answer: C**
-*Explication* : La conduite hors service peut faire l'objet d'une discipline si l'employeur peut prouver un « lien » avec le milieu de travail. Parce que la publication était publique, visait l'employeur et a entraîné de véritables plaintes de clients, un lien clair de préjudice réputationnel est établi.
+*Explication* : Une conduite hors service peut être sanctionnée lorsque l'employeur établit un lien avec le travail. Ici, la publication était publique, visait l'employeur et a suscité des plaintes de clients. Si vous avez choisi A, le fait d'être sur son temps personnel ne règle pas la question quand la publication a un lien clair avec le travail ; les faits et la preuve de l'employeur comptent toujours.
 
 ### Question 4
 Un membre de longue date avec un dossier propre reçoit une suspension de cinq jours pour une seule dispute animée avec un collègue. Le collègue n'a pas été discipliné. Quel angle de défense est le plus fort en plus de contester la preuve de l'employeur ?
 *   A) Exiger que le collègue soit congédié à la place.
-*   B) Présenter l'application incohérente et les atténuations de proportionnalité — une dispute sans discipline antérieure mérite une sanction moindre.
-*   C) Refuser d'assister à la rencontre de grief jusqu'à ce que le collègue soit suspendu.
-*   D) Arguer que les disputes ne sont jamais disciplinables.
+*   B) Refuser d'assister à la rencontre de grief jusqu'à ce que le collègue soit suspendu.
+*   C) Arguer que les disputes ne sont jamais disciplinables.
+*   D) Présenter l'application incohérente et les atténuations de proportionnalité — une dispute sans discipline antérieure mérite une sanction moindre.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : Les facteurs atténuants incluent un dossier propre, l'ancienneté et l'application incohérente. La proportionnalité conteste une suspension de cinq jours comme excessive pour un premier incident, surtout lorsque le pair n'a fait l'objet d'aucune sanction.
 
 ### Question 5
 Avant une rencontre disciplinaire, les RH envoient au membre : « Apportez toutes les notes que vous avez sur l'incident. » Le membre demande s'il doit préparer une déclaration écrite. Que conseillez-vous ?
 *   A) Rédiger des excuses détaillées admettant la faute pour montrer la coopération aux RH.
-*   B) Assister avec le délégué, prendre des notes, exiger la divulgation complète des preuves de l'employeur d'abord, et éviter les aveux écrits jusqu'à avoir examiné la preuve et l'atténuation.
-*   C) Refuser d'assister jusqu'à ce que les RH annulent la rencontre.
-*   D) Envoyer la déclaration écrite directement au superviseur sans le délégué.
+*   B) Refuser d'assister jusqu'à ce que les RH annulent la rencontre.
+*   C) Envoyer la déclaration écrite directement au superviseur sans le délégué.
+*   D) Assister avec le délégué, prendre des notes, exiger la divulgation complète des preuves de l'employeur d'abord, et éviter les aveux écrits jusqu'à avoir examiné la preuve et l'atténuation.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : Les membres ne doivent pas remettre aux employeurs des aveux non revus. Les délégués assurent la divulgation, contrôlent le récit avec des faits vérifiés, et préservent l'atténuation — la coopération ne signifie pas l'auto-incrimination avant la preuve.
 
 ### Question 6
 Un employeur passe directement à une suspension de trois jours pour un premier problème d'assiduité. Aucun avertissement verbal ou écrit antérieur n'apparaît au dossier. Quel est l'argument procédural le plus fort ?
 *   A) Les problèmes d'assiduité ne peuvent jamais faire l'objet d'une discipline.
-*   B) L'employeur n'a pas suivi la discipline progressive — sauter des paliers sans justification affaiblit la cause juste et appuie la réduction ou le retrait de la sanction.
-*   C) Seul le président peut discuter de l'assiduité.
+*   B) Seul le président peut discuter de l'assiduité.
+*   C) L'employeur n'a pas suivi la discipline progressive — sauter des paliers sans justification affaiblit la cause juste et appuie la réduction ou le retrait de la sanction.
 *   D) Le membre doit accepter la suspension et porter grief plus tard sans mentionner l'échelle.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : La discipline progressive exige des étapes proportionnées. Passer à une suspension lors d'un premier incident sans étapes antérieures documentées est une défense centrale — exigez la preuve de chaque palier de l'échelle.

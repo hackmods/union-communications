@@ -151,23 +151,23 @@ Les feuilles Excel ou CSV brutes des services de paie de l'employeur sont notoir
 ## Quiz d'autoévaluation
 
 ### Question 1
-Un employé travaille dans votre unité de négociation depuis trois ans. Des cotisations syndicales sont retenues à chaque paie selon la formule Rand, mais il n'a jamais signé de carte syndicale. Un vote de ratification critique a lieu cette semaine. Cet employé est-il admissible à voter?
-*   A) Oui. Puisqu'il paie des cotisations depuis trois ans, il est automatiquement membre en règle.
-*   B) Non. Bien qu'il paie des cotisations selon la formule Rand, il n'obtient le droit de vote qu'une fois la carte officielle signée.
-*   C) Oui, mais seulement s'il paie des frais spéciaux de vote à la porte de l'assemblée.
-*   D) Oui, si un délégué confirme verbalement qu'il appuie le syndicat.
+Un employé travaille dans votre unité de négociation depuis trois ans. Des cotisations syndicales sont retenues à chaque paie selon la formule Rand, mais il n'a jamais signé de carte syndicale. Un vote crucial de ratification a lieu cette semaine. Cet employé peut-il voter ?
+*   A) Oui. Trois ans de cotisations en font automatiquement un membre en règle.
+*   B) Oui, si un délégué confirme verbalement qu'il appuie le syndicat.
+*   C) Non. Les cotisations Rand ne confèrent pas le droit de vote ; selon les règlements, seule une carte d'adhésion signée le confère. Faites signer la carte avant le vote.
+*   D) Oui, mais seulement s'il paie des frais spéciaux de vote à la porte de la réunion.
 
-**Correct Answer: B**
-*Explication* : La retenue de cotisations est une exigence statutaire sous la formule Rand, mais les droits démocratiques de vote sont conditionnels à la signature d'une carte selon les règlements. Le devoir du secrétaire inclut de convertir les payeurs en membres signés avant les votes.
+**Correct Answer: C**
+*Explication* : La retenue des cotisations et l'adhésion donnant le droit de vote sont deux choses différentes ; la constitution et les règlements locaux fixent les règles de carte et de membre en règle. Si vous avez choisi A, plusieurs années de cotisations Rand ne prouvent pas à elles seules que la personne a adhéré comme membre votant. Faites signer les cartes avant le vote.
 
 ### Question 2
 Le conseil exécutif local veut appuyer un conseiller municipal progressiste endossé par le syndicat. Le directeur de campagne demande au secrétaire un CSV de numéros de téléphone pour une campagne de textos. Que doit faire le secrétaire?
 *   A) Fournir la liste immédiatement, car la plateforme du candidat correspond aux objectifs du local.
-*   B) Fournir la liste, mais seulement après avoir retiré les noms de famille pour préserver la confidentialité.
-*   C) Refuser de partager la liste. Selon la directive sur les listes de membres, les listes syndicales ne peuvent être remises à des campagnes politiques externes ; le local mène sa propre sensibilisation interne.
+*   B) Refuser de partager la liste. Selon la directive sur les listes de membres, les listes syndicales ne peuvent être remises à des campagnes politiques externes ; le local mène sa propre sensibilisation interne.
+*   C) Fournir la liste, mais seulement après avoir retiré les noms de famille pour préserver la confidentialité.
 *   D) Fournir les numéros seulement pour les membres ayant assisté à la dernière AG.
 
-**Correct Answer: C**
+**Correct Answer: B**
 *Explication* : La directive interdit de remettre les coordonnées à des tiers, y compris des campagnes politiques — même appuyées. Les canaux internes du syndicat doivent porter le message.
 
 ### Question 3
@@ -183,29 +183,29 @@ Où est l'endroit le plus sécuritaire pour qu'un secrétaire local stocke et mo
 ### Question 4
 Votre réconciliation mensuelle montre douze travailleurs à temps plein classés « temporaires » au rapport de paie. Les cotisations sont retenues au taux partiel inférieur. Meilleure première étape?
 *   A) Ignorer — la classification paie est seulement le problème de l'employeur.
-*   B) Documenter le pattern, aviser les membres touchés et poursuivre la correction par grief ou grief de groupe selon la convention.
-*   C) Supprimer les douze lignes de la base syndicale jusqu'à ce que la paie corrige.
+*   B) Supprimer les douze lignes de la base syndicale jusqu'à ce que la paie corrige.
+*   C) Documenter le pattern, aviser les membres touchés et poursuivre la correction par grief ou grief de groupe selon la convention.
 *   D) Les ajouter au registre électoral sans cartes parce que des cotisations sont retenues.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Les erreurs de classification touchent cotisations, avantages et intégrité de l'unité. Les secrétaires documentent ; délégués et représentants de service poursuivent la correction contractuelle.
 
 ### Question 5
 Un vendeur offre 15 % de rabais sur bottes de travail si le trésorier envoie par courriel la liste complète pour « vérifier l'admissibilité ». Qu'est-ce qui respecte la directive?
-*   A) Envoyer la liste avec une clause de confidentialité dans le corps du courriel.
-*   B) Refuser le partage ; remettre aux membres une carte-rabais syndicale à présenter à la caisse.
+*   A) Refuser le partage ; remettre aux membres une carte-rabais syndicale à présenter à la caisse.
+*   B) Envoyer la liste avec une clause de confidentialité dans le corps du courriel.
 *   C) Partager seulement les membres ayant acheté des bottes l'an dernier.
 *   D) Facturer des frais admin au vendeur, puis envoyer la liste.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Les partenaires commerciaux ne reçoivent jamais les bases de membres. Les cartes-rabais syndicales vérifient l'admissibilité sans exposer les renseignements personnels à des tiers.
 
 ### Question 6
 Le rapport de cotisations employeur liste 540 travailleurs ; votre base de cartes signées en compte 401 actives. Que signifie le plus probablement cet écart?
-*   A) L'employeur prélève illégalement des cotisations de non-membres.
-*   B) Un grand bassin de payeurs Rand sans cartes signées — cibles prioritaires pour campagnes d'inscription.
+*   A) Un grand bassin de payeurs Rand sans cartes signées — cibles prioritaires pour campagnes d'inscription.
+*   B) L'employeur prélève illégalement des cotisations de non-membres.
 *   C) Le secrétaire devrait supprimer 139 lignes paie comme doublons sans vérification.
 *   D) Les 540 sont membres votants parce que la formule Rand équivaut à l'adhésion.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Les écarts entre paie et cartes signées signifient généralement des payeurs de cotisations sans adhésion démocratique — constat normal de réconciliation qui alimente les campagnes de signature.

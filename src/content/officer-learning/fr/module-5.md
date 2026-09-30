@@ -175,49 +175,49 @@ Le président de la section locale soumet une réclamation de dépenses de 150 $
 ### Question 2
 Le trésorier de la section locale part en vacances pour deux semaines. Pour s'assurer que les factures peuvent être payées pendant son absence, il signe trois chèques en blanc et les laisse dans le tiroir du bureau du président. Est-ce une pratique acceptable ?
 *   A) Oui, parce que cela assure la continuité des opérations syndicales et évite les frais de retard.
-*   B) Non. Présigner des chèques en blanc contourne complètement le système de contrôle financier à double signature et constitue une grave violation de la sécurité financière.
-*   C) Oui, pourvu que le président promette de ne les utiliser qu'en cas d'urgence.
+*   B) Oui, pourvu que le président promette de ne les utiliser qu'en cas d'urgence.
+*   C) Non. Présigner des chèques en blanc contourne complètement le système de contrôle financier à double signature et constitue une grave violation de la sécurité financière.
 *   D) Non, à moins que le secrétaire n'ait été témoin de l'endroit où les chèques sont cachés.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Présigner des chèques en blanc est une violation critique du contrôle financier. Cela permet à un seul dirigeant de dépenser les fonds syndicaux sans surveillance, exposant la section locale à des risques élevés d'erreur, de vol ou de transactions non autorisées.
 
 ### Question 3
 Un fiduciaire local élu est prié de combler une vacance soudaine pour le poste de vice-président local. Le fiduciaire peut-il servir de vice-président tout en poursuivant son mandat de fiduciaire ?
-*   A) Oui, tant qu'il promet de ne pas auditer ses propres réclamations de dépenses de vice-président.
-*   B) Non. Pour préserver le rôle de surveillance indépendante, les fiduciaires doivent rester strictement séparés du conseil exécutif et ne peuvent détenir aucun autre poste dans la section locale.
+*   A) Non. Pour préserver le rôle de surveillance indépendante, les fiduciaires doivent rester strictement séparés du conseil exécutif et ne peuvent détenir aucun autre poste dans la section locale.
+*   B) Oui, tant qu'il promet de ne pas auditer ses propres réclamations de dépenses de vice-président.
 *   C) Oui, parce que détenir plusieurs postes montre un engagement élevé envers le syndicat.
 *   D) Non, à moins que l'assemblée générale n'adopte une dérogation spéciale.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Les fiduciaires servent de comité d'audit indépendant. Pour assurer un audit impartial des opérations financières de la section locale, les fiduciaires ne peuvent détenir aucun autre poste au conseil exécutif ayant un pouvoir de dépense ou de décision.
 
 ### Question 4
-Un membre demande pourquoi la section locale ne peut pas donner 500 $ de cotisations à la campagne d'un politicien. Meilleure réponse ?
-*   A) Les cotisations ne peuvent financer que des fins syndicales légitimes ; les dons directs à des candidats politiques sont des utilisations interdites des fonds locaux selon votre constitution et le droit électoral.
-*   B) Les dons sont acceptables si le politicien appuie les syndicats.
+Un membre demande si la section locale peut utiliser 500 $ de cotisations pour la campagne d'un candidat. Meilleure réponse ?
+*   A) Les dons sont acceptables si le politicien appuie les syndicats.
+*   B) Commencer par la constitution de la section locale et les règles électorales : les cotisations servent à des fins syndicales légitimes, et toute dépense politique doit utiliser les fonds et l'autorisation que ces règles permettent.
 *   C) Seul le président décide des dépenses politiques.
 *   D) Les dons sous 500 $ sont toujours permis.
 
-**Correct Answer: A**
-*Explication* : Les fonds locaux doivent faire avancer des fins syndicales. Les dons politiques personnels ou à des candidats sortent habituellement des dépenses approuvées — confirmez contre votre constitution et le droit électoral (certains syndicats utilisent des fonds d'action politique distincts).
+**Correct Answer: B**
+*Explication* : Le module indique que les dons à des candidats sont régis par la constitution locale et le droit électoral ; certains syndicats utilisent un fonds d'action politique distinct. Si vous avez choisi A, l'appui d'un candidat aux syndicats ne donne pas le droit de dépenser les cotisations. Le module ne fixe aucun seuil universel : vérifiez les documents applicables avant tout paiement.
 
 ### Question 5
 Un fournisseur exige un paiement le jour même par virement électronique à un seul signataire parce que « le retard de chèque annulera la réservation de salle ». Meilleure réponse ?
 *   A) Envoyer le virement du compte personnel du président et se faire rembourser plus tard sans reçus.
-*   B) Refuser les virements à un seul signataire. Utiliser l'approbation double selon les règlements, ou payer quand les deux signataires sont disponibles — l'urgence ne lève pas le double contrôle.
-*   C) Autoriser tout dirigeant à virer moins de 1 000 $ sans seconde signature.
-*   D) Préautoriser le trésorier à virer seul pour le reste de l'année.
+*   B) Autoriser tout dirigeant à virer moins de 1 000 $ sans seconde signature.
+*   C) Préautoriser le trésorier à virer seul pour le reste de l'année.
+*   D) Refuser les virements à un seul signataire. Utiliser l'approbation double selon les règlements, ou payer quand les deux signataires sont disponibles — l'urgence ne lève pas le double contrôle.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : Les paiements électroniques exigent encore un double contrôle et un objet documenté. La pression du jour même est un classique de contournement — replanifiez la réservation ou attendez deux approbateurs autorisés.
 
 ### Question 6
-Les fiduciaires trouvent un reçu de repas de 400 $ avec de l'alcool parmi les aliments, payé à partir de la ligne budget formation. Action correcte ?
-*   A) Ignorer — sous 500 $ est négligeable.
-*   B) Signaler dans la constatation d'audit : l'alcool n'est pas une dépense syndicale légitime de formation ; recommander le remboursement par l'exécutif et un rappel de politique à l'assemblée.
-*   C) Reclasser en « divers » et passer à autre chose.
-*   D) Demander au président d'approuver verbalement après coup.
+Les fiduciaires trouvent un reçu de repas de 400 $ où de l'alcool figure parmi les aliments, payé à même le budget de formation. Quelle est la bonne mesure ?
+*   A) Ignorer la dépense : moins de 500 $, elle est négligeable.
+*   B) Laisser la dépense dans le poste de formation parce que le président l'a approuvée verbalement ; les fiduciaires ne devraient pas remettre son jugement en question.
+*   C) Demander l'approbation verbale du président après coup.
+*   D) Consigner les détails du reçu, vérifier la politique et l'autorisation approuvées, puis recommander une correction par la procédure appropriée si la dépense ne convient pas.
 
-**Correct Answer: B**
-*Explication* : Les fiduciaires rapportent les faits et recommandent des motions correctives — l'alcool sur une ligne formation est une violation de politique. Les reçus détaillés existent précisément pour repérer les erreurs de catégorie et d'objet.
+**Correct Answer: D**
+*Explication* : Les fiduciaires consignent les détails du reçu, les comparent à la politique et à l'autorisation approuvées, puis recommandent une correction par la procédure appropriée si la dépense ne convient pas. Si vous avez choisi B ou C, l'approbation verbale ne change pas la finalité de la dépense et ne remplace pas les contrôles de la section locale.

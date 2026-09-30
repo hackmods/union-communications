@@ -254,51 +254,51 @@ Quand les RH importent un graphique « standard » d'un autre employeur du secte
 ### Question 1
 Un employeur publie une liste d'ancienneté d'unité pour une mise à pied, mais votre convention collective définit l'**ancienneté de campus** dans la classification. Que doit faire le délégué en premier ?
 *   A) Accepter la liste parce que l'employeur utilise toujours l'ordre d'unité en crise.
-*   B) Reconstruire le bassin selon les définitions de la CC, documenter les écarts et conserver la liste erronée tout en demandant correction avant la fermeture des élections de bumping.
-*   C) Dire aux membres d'ignorer l'ancienneté et de postuler seulement à l'externe.
-*   D) Attendre l'arbitrage pour soulever la portée — les délais d'élection n'importent pas.
+*   B) Dire aux membres d'ignorer l'ancienneté et de postuler seulement à l'externe.
+*   C) Attendre l'arbitrage pour soulever la portée — les délais d'élection n'importent pas.
+*   D) Reconstruire le bassin selon les définitions de la CC, documenter les écarts et conserver la liste erronée tout en demandant correction avant la fermeture des élections de bumping.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : Les arbres et listes de bumping sont propres à la CC. Le délégué vérifie la portée du bassin, conserve les preuves et agit avant l'expiration des horloges d'élection — pas après.
 
 ### Question 2
 Un membre plus ancien veut bumper dans un emploi détenu par un travailleur en **tâches modifiées accommodées** pour une blessure au dos. Les RH disent que l'ancienneté commande. Meilleure réponse du délégué ?
-*   A) Soutenir le bump immédiatement — l'ancienneté l'emporte toujours sur l'accommodement.
-*   B) Refuser toute rencontre jusqu'à ce que le membre fournisse un diagnostic médical complet au délégué.
-*   C) Suspendre le bump, demander une analyse en droits de la personne/accommodement et documenter si un transfert peut avoir lieu sans fardeau indu (**module 3**).
+*   A) Suspendre le bump, demander une analyse en droits de la personne/accommodement et documenter si un transfert peut avoir lieu sans fardeau indu (**module 3**).
+*   B) Soutenir le bump immédiatement — l'ancienneté l'emporte toujours sur l'accommodement.
+*   C) Refuser toute rencontre jusqu'à ce que le membre fournisse un diagnostic médical complet au délégué.
 *   D) Dire au membre accommodé de démissionner pour éviter le conflit.
 
-**Correct Answer: C**
+**Correct Answer: A**
 *Explication* : Ne bump pas quelqu'un hors d'un accommodement sans analyse en droits de la personne. Ancienneté et accommodement entrent en collision ; le module 3 régit la voie d'accommodement.
 
 ### Question 3
 Les RH prétendent qu'un membre excédentaire n'est « pas qualifié » pour un rôle bumpé. Les titulaires juniors ont été embauchés sans la certification nouvellement exigée. Angle syndical le plus fort ?
-*   A) Les qualifications sont sans pertinence dans toute mise à pied — l'ancienneté seule décide.
-*   B) Contester l'application sélective et comparer les exigences d'emploi d'avant mise à pied, les droits de formation et la pratique antérieure (**vérifiez votre CC**).
+*   A) Contester l'application sélective et comparer les exigences d'emploi d'avant mise à pied, les droits de formation et la pratique antérieure (**vérifiez votre CC**).
+*   B) Les qualifications sont sans pertinence dans toute mise à pied — l'ancienneté seule décide.
 *   C) Abandonner le bump parce que les RH ont dit « non qualifié ».
 *   D) Plaider l'étape trois Meiorin de mémoire sans preuve médicale.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Le langage sur les qualifications est dicté par la CC. Les délégués rassemblent l'historique d'affichage, les offres de formation et l'application sélective — pas un Meiorin bricolé sur les compétences seules.
 
 ### Question 4
 Votre CC accorde une **fenêtre d'élection de bumping de 14 jours** à partir de la date du préavis syndical. Les RH donnent le préavis syndical le 1er mars mais disent aux membres que les élections sont dues le 10 mars. Le 12 mars, un membre vous demande de déposer. Quel est le problème probable ?
 *   A) Aucun problème — le délai verbal des RH commande toujours.
-*   B) Le membre peut encore être dans la fenêtre de la CC si le préavis était défectueux ou si les RH l'ont raccourci sans autorité — mais vous auriez dû inscrire le 15 mars au calendrier le 1er mars.
-*   C) Les griefs ne peuvent pas être déposés pour la procédure de mise à pied.
+*   B) Les griefs ne peuvent pas être déposés pour la procédure de mise à pied.
+*   C) Le membre peut encore être dans la fenêtre de la CC si le préavis était défectueux ou si les RH l'ont raccourci sans autorité — mais vous auriez dû inscrire le 15 mars au calendrier le 1er mars.
 *   D) Les fenêtres d'élection s'appliquent seulement aux rappels, pas aux bumps.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Les horloges de préavis sont des lignes de vie procédurales. Les délégués inscrivent les délais de la CC le jour un ; un préavis défectueux ou des raccourcis imposés par les RH peuvent être griefés — attendre que les membres demandent est trop tard.
 
 ### Question 5
 Un membre bump dans une classification supérieure. Après trois semaines, la direction dit que le membre a « échoué l'essai » et le remet en mise à pied sans citer un article d'essai de la CC. Votre CC est **silencieuse** sur les périodes d'essai pour les membres bumpés. Meilleure prochaine étape ?
 *   A) Accepter l'échec parce que trois semaines est la norme du secteur.
-*   B) Vérifier si la politique de l'employeur ou la pratique antérieure crée des limites exécutoires ; grievez si le retour en mise à pied a violé la procédure — n'inventez pas une durée d'essai d'une autre CC.
-*   C) Exiger automatiquement un essai d'un an parce que les conventions collégiales le prévoient habituellement.
+*   B) Exiger automatiquement un essai d'un an parce que les conventions collégiales le prévoient habituellement.
+*   C) Vérifier si la politique de l'employeur ou la pratique antérieure crée des limites exécutoires ; grievez si le retour en mise à pied a violé la procédure — n'inventez pas une durée d'essai d'une autre CC.
 *   D) Se retirer — une CC silencieuse signifie que la discrétion illimitée de l'employeur gagne toujours.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Les droits d'essai/familiarisation viennent de votre CC, de la pratique antérieure ou d'une politique contraignante — pas de la formule d'un autre secteur. Les délégués vérifient avant de concéder l'échec.
 
 ### Question 6

@@ -170,42 +170,42 @@ Exercice : **Tour 1 — Architecture de dossiers.** Sur une page, dessinez les s
 
 ### Question 1
 Un secrétaire de section nouvellement élu découvre des boîtes de dossiers locaux non organisés remontant à quinze ans. Le secrétaire veut libérer de l'espace et prévoit de tout déchiqueter de plus de sept ans. Lequel des dossiers suivants le secrétaire est-il légalement et constitutionnellement interdit de détruire ?
-*   A) Procès-verbaux d'assemblée générale des membres (AGM) approuvés et règlements de la section.
-*   B) Reçus de repas originaux et pièces justificatives de factures téléphoniques mensuelles de 2012.
+*   A) Reçus de repas originaux et pièces justificatives de factures téléphoniques mensuelles de 2012.
+*   B) Procès-verbaux d'assemblée générale des membres (AGM) approuvés et règlements de la section.
 *   C) Bordereaux de dépôt bancaire et chèques annulés d'un séminaire de formation local datant de dix ans.
 *   D) Ébauches de procès-verbaux abrogées qui n'ont jamais été approuvées en AGM.
 
-**Correct Answer: A**
+**Correct Answer: B**
 *Explication* : Les procès-verbaux d'assemblée et les règlements de la section sont des dossiers juridiques permanents du syndicat et ne doivent jamais être détruits. Les reçus financiers et dossiers bancaires doivent être conservés au minimum sept ans pour la conformité aux vérifications fiscales, après quoi ils peuvent être déchiquetés de façon sécurisée.
 
 ### Question 2
 Le conseil d'administration local configure son système de stockage numérique. Le président propose de créer un dossier sur son compte Microsoft OneDrive fourni par l'employeur parce que « nous avons déjà du stockage d'entreprise gratuit et c'est facile de se connecter sur nos ordinateurs de travail ». Que devrait conseiller le secrétaire ?
 *   A) Accepter la proposition du président, car utiliser le stockage gratuit de l'employeur économise de l'argent pour la section.
-*   B) S'opposer fermement. Les dossiers syndicaux ne doivent jamais être stockés sur des serveurs ou appareils contrôlés par l'employeur, car l'employeur a le droit légal de surveiller ses réseaux et d'accéder à ces fichiers, compromettant totalement la confidentialité syndicale.
-*   C) Accepter, mais seulement s'ils protègent par mot de passe les dossiers contenant des griefs actifs.
+*   B) Accepter, mais seulement s'ils protègent par mot de passe les dossiers contenant des griefs actifs.
+*   C) S'opposer fermement. Les dossiers syndicaux ne doivent jamais être stockés sur des serveurs ou appareils contrôlés par l'employeur, car l'employeur a le droit légal de surveiller ses réseaux et d'accéder à ces fichiers, compromettant totalement la confidentialité syndicale.
 *   D) Accepter pour les dossiers financiers seulement, mais garder les griefs sur des clés USB personnelles.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Stocker des dossiers syndicaux sur les serveurs de l'employeur viole le principe fondamental d'indépendance et de confidentialité syndicale. Les employeurs peuvent surveiller, analyser et récupérer les données de leurs réseaux à tout moment.
 
 ### Question 3
 Une élection vient d'avoir lieu et un nouveau trésorier local est élu, remplaçant le trésorier sortant qui a servi six ans. Comment devrait être gérée la transition des comptes numériques et de l'accès bancaire ?
 *   A) Le trésorier sortant devrait envoyer par texto ses mots de passe personnels au nouveau trésorier et garder son nom sur le compte bancaire encore un an au cas où.
-*   B) La section doit exécuter une liste de contrôle de transition formelle, mettre à jour immédiatement les signataires à la banque, transférer la propriété administrative des lecteurs syndicaux, et utiliser un gestionnaire de mots de passe pour réinitialiser et transférer tous les identifiants numériques de façon sécurisée.
-*   C) Le nouveau trésorier devrait créer entièrement de nouveaux comptes bancaires et lecteurs numériques, laissant les anciens actifs mais non surveillés.
+*   B) Le nouveau trésorier devrait créer entièrement de nouveaux comptes bancaires et lecteurs numériques, laissant les anciens actifs mais non surveillés.
+*   C) La section doit exécuter une liste de contrôle de transition formelle, mettre à jour immédiatement les signataires à la banque, transférer la propriété administrative des lecteurs syndicaux, et utiliser un gestionnaire de mots de passe pour réinitialiser et transférer tous les identifiants numériques de façon sécurisée.
 *   D) Attendre la vérification du syndic l'année prochaine pour mettre à jour les signataires afin que les livres restent continus.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Une transition sécurisée et professionnelle assure l'intégrité des données et la sécurité des actifs. Les signataires doivent être mis à jour immédiatement à la banque, et la propriété administrative de tous les actifs numériques doit être transférée formellement selon des protocoles sécurisés.
 
 ### Question 4
 Quelle pratique de cybersécurité protège le mieux la section lorsque plusieurs dirigeants partagent l'accès au lecteur cloud syndical ?
-*   A) Un mot de passe partagé écrit sur un autocollant dans le local syndical.
-*   B) Exiger l'authentification multifacteur (A2F) sur chaque compte syndical et renouveler les identifiants partagés via un gestionnaire de mots de passe lors de la passation.
+*   A) Exiger l'authentification multifacteur (A2F) sur chaque compte syndical et renouveler les identifiants partagés via un gestionnaire de mots de passe lors de la passation.
+*   B) Un mot de passe partagé écrit sur un autocollant dans le local syndical.
 *   C) Utiliser la SSO de l'employeur parce qu'elle a déjà l'A2F intégrée.
 *   D) Désactiver l'A2F pour le secrétaire afin qu'il puisse toujours récupérer les comptes rapidement.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : L'A2F bloque la plupart des vols d'identifiants ; les gestionnaires de mots de passe permettent des passations vérifiables et révocables sans envoyer des mots de passe personnels par texto.
 
 ### Question 5
@@ -219,11 +219,11 @@ Un grief clos de 2018 a modifié l'ancienneté de douze membres. Le dossier a cl
 *Explication* : Les dossiers de griefs clos exigent au moins sept ans après clôture ; les ajustements d'ancienneté faisant jurisprudence justifient un résumé permanent même lorsque le dossier complet finit par expirer.
 
 ### Question 6
-Le secrétaire construit `03_Application_de_la_convention/`. Quelle configuration de sous-dossiers correspond le mieux aux normes de ce module ?
-*   A) Lien partagé public sur SharePoint de l'employeur pour que les délégués accèdent depuis les PC de travail.
-*   B) Sous-dossiers chiffrés avec accès par rôle ; dossiers actifs séparés des règlements ; aucun hébergement contrôlé par l'employeur.
-*   C) Feuille Excel unique sur Google Drive personnel du président sans A2F.
-*   D) Imprimer tous les griefs et les stocker seulement dans le casier du délégué.
+Le secrétaire prépare le dossier « 03_Application_de_la_convention ». Quelle structure de sous-dossiers respecte le mieux les normes de ce module ?
+  *   A) Un dossier SharePoint de l'employeur protégé par mot de passe et limité aux dirigeants, puisque le compte d'entreprise utilise déjà l'A2F.
+*   B) Une seule feuille Excel sur le Google Drive personnel du président, sans A2F.
+*   C) Des sous-dossiers chiffrés avec accès selon les rôles ; les dossiers actifs sont séparés des règlements ; aucun hébergement contrôlé par l'employeur.
+  *   D) Garder les dossiers actifs et les règlements clos dans un seul dossier syndical partagé et laisser les accès tels quels lors d'un changement de dirigeants.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Les dossiers de griefs actifs exigent le chiffrement, l'accès au moindre privilège et un hébergement syndical uniquement — pas les systèmes de l'employeur ni des comptes personnels informels.

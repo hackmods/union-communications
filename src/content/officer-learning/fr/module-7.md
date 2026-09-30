@@ -182,10 +182,10 @@ Durant un tour de négociation tendu, un superviseur demande à un délégué d'
 Quel est le but premier de construire une « carte du milieu de travail » durant le cycle de négociation ?
 *   A) Aider l'employeur à suivre la présence et l'horaire des membres.
 *   B) Identifier les dangers physiques et les soumettre directement au comité conjoint de santé et sécurité.
-*   C) Tracer visuellement les rotations de quarts, départements et démographies pour identifier les poches non engagées et organiser des réseaux représentatifs en milieu de travail.
-*   D) Remplacer le besoin de sondages de négociation et d'assemblées.
+*   C) Remplacer le besoin de sondages de négociation et d'assemblées.
+*   D) Tracer visuellement les rotations de quarts, départements et démographies pour identifier les poches non engagées et organiser des réseaux représentatifs en milieu de travail.
 
-**Correct Answer: C**
+**Correct Answer: D**
 *Explication* : La cartographie du milieu de travail est un outil d'organisation utilisé pour identifier les leaders naturels, suivre les réseaux sociaux et localiser les poches de l'effectif isolées ou désengagées des activités syndicales.
 
 ### Question 3
@@ -200,30 +200,30 @@ Lequel des éléments suivants est considéré comme un « drapeau rouge » proc
 
 ### Question 4
 Quelle séquence reflète le mieux le cycle de négociation continu dans lequel les délégués travaillent ?
-*   A) Négociation seulement — l'application et les sondages se font après la ratification.
-*   B) Application entre les tours, élaboration des demandes à partir des preuves du plancher, puis négociation à la table.
+*   A) Application entre les tours, élaboration des demandes à partir des preuves du plancher, puis négociation à la table.
+*   B) Négociation seulement — l'application et les sondages se font après la ratification.
 *   C) Préparation à la grève d'abord, puis cartographie, puis application silencieuse.
 *   D) Élaboration des demandes par l'employeur, puis tamponnage du délégué.
 
-**Correct Answer: B**
+**Correct Answer: A**
 *Explication* : Les délégués appliquent la convention, convertissent la douleur du plancher en demandes, puis appuient la table — le cycle ne commence pas à l'avis de négocier seul.
 
 ### Question 5
 Une section locale passe d'une journée de chandails réussie directement à une interdiction d'heures supplémentaires en cours de convention sans avis juridique. Quel est le risque principal ?
 *   A) Les journées de chandails deviennent illégales une fois que les HS sont discutées.
-*   B) Les interdictions concertées d'heures supplémentaires en cours de convention peuvent être traitées comme activité de grève illégale sous la définition large de grève du LRT ontarien.
-*   C) Les employeurs doivent accepter les interdictions d'HS comme expression protégée.
+*   B) Les employeurs doivent accepter les interdictions d'HS comme expression protégée.
+*   C) Les interdictions concertées d'heures supplémentaires en cours de convention peuvent être traitées comme activité de grève illégale sous la définition large de grève du LRT ontarien.
 *   D) Les interdictions d'heures supplémentaires sont toujours légales si la pétition a cinquante signatures.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Le droit du travail ontarien traite de nombreux retraits concertés de services pendant la durée d'une CC — y compris interdictions d'HS et ralentissements — comme activité de grève qui peut être illégale en cours de convention.
 
 ### Question 6
 Vous avez cartographié trois leaders organiques de nuit et un noyau de jour qui assiste déjà aux AGM. Meilleure prochaine étape de mobilisation ?
 *   A) Mener toutes les actions seulement par le noyau de jour pour garder le message simple.
-*   B) Recruter et outiller les leaders de nuit pour que l'escalade atteigne d'abord les poches non engagées.
-*   C) Publier une liste publique de qui est « désengagé » par nom.
-*   D) Sauter les événements de solidarité et annoncer immédiatement la préparation à la grève.
+*   B) Publier une liste publique de qui est « désengagé » par nom.
+*   C) Sauter les événements de solidarité et annoncer immédiatement la préparation à la grève.
+*   D) Recruter et outiller les leaders de nuit pour que l'escalade atteigne d'abord les poches non engagées.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : La cartographie n'aide que si vous organisez les poches isolées — les leaders organiques de nuit transforment un club de jour en pouvoir à l'échelle du site.

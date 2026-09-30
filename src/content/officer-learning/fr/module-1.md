@@ -163,51 +163,51 @@ Exercice dans l'outil : ouvrez Outils → Fiches délégué → Plainte ou grief
 ### Question 1
 Un membre s'approche de vous, en colère, parce que son superviseur lui a dit qu'il ne peut pas afficher une photo de famille sur son bureau. Le superviseur permet à d'autres membres de l'équipe d'afficher des photos, mais prétend que le bureau de ce membre est visible par les clients et doit rester « strictement professionnel ». La convention collective est muette sur les décorations de bureau. Cette situation passe-t-elle la liste de contrôle en 5 points pour les griefs ?
 *   A) Non, parce que les décorations de bureau ne sont pas mentionnées dans la convention collective.
-*   B) Oui, parce que cela viole l'application juste et cohérente de la politique de l'employeur et constitue un traitement arbitraire par rapport aux pairs.
-*   C) Non, parce que la direction a un droit absolu de contrôler l'apparence des bureaux aux yeux des clients.
+*   B) Non, parce que la direction a un droit absolu de contrôler l'apparence des bureaux aux yeux des clients.
+*   C) Oui, parce que cela viole l'application juste et cohérente de la politique de l'employeur et constitue un traitement arbitraire par rapport aux pairs.
 *   D) Oui, mais seulement si la photo de famille affiche un motif protégé en droits de la personne.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Même si la convention collective est muette, l'application sélective et incohérente d'une règle non écrite (permettre des photos à certains employés tout en en refusant à d'autres sans raison d'affaires claire et objective) constitue un traitement arbitraire et inéquitable, satisfaisant les points 4 et 5 de la liste de contrôle.
 
 ### Question 2
-Durant une rencontre de grief à l'étape 1, un superviseur coupe constamment la parole à un délégué et qualifie l'argument du syndicat de « ridicule et stupide ». Frustré, le délégué frappe la table et dit : « C'est un mensonge, et vous le savez. Votre interprétation est complètement incompétente ! » Le superviseur peut-il discipliner le délégué pour insubordination ?
-*   A) Oui. Frapper la table et qualifier un superviseur d'incompétent constitue de l'insubordination en toute circonstance.
-*   B) Non, parce que le délégué est protégé par l'immunité du représentant syndical puisqu'il agit sur un pied d'égalité avec la direction durant une rencontre formelle de représentation.
-*   C) Oui, parce qu'appeler un superviseur menteur est une attaque personnelle qui dépasse les limites de l'immunité.
-*   D) Non, mais seulement si le délégué s'excuse immédiatement après la fin de la rencontre.
+Durant une rencontre de grief à l'étape 1 tendue, un superviseur interrompt constamment un délégué et qualifie l'argument syndical de « ridicule et stupide ». Frustré, le délégué frappe la table et dit : « C'est un mensonge, et vous le savez. Votre interprétation est complètement incompétente ! » Quelle est l'évaluation la plus juste du risque de discipline ?
+*   A) La représentation vigoureuse est fortement protégée sur un pied d'égalité, mais une insulte personnelle peut rendre l'immunité discutable ; consignez l'échange et consultez le service syndical avant de promettre un résultat.
+*   B) Le superviseur peut discipliner le délégué pour tout désaccord soulevé pendant une rencontre de grief.
+*   C) Toute parole qui ne constitue pas de la violence physique pendant une rencontre formelle est automatiquement protégée.
+*   D) Un délégué ne peut jamais élever la voix ni contester l'interprétation d'un superviseur.
 
-**Correct Answer: B**
-*Explication* : Selon le principe du pied d'égalité, les délégués bénéficient de l'immunité du représentant durant les rencontres avec la direction. Bien que frapper la table et employer des mots forts soit tendu, cela ne franchit pas la limite de la violence physique ou d'actes illégaux, et ne peut donc pas être sanctionné comme insubordination.
+**Correct Answer: A**
+*Explication* : Le principe du pied d'égalité protège fortement une représentation vigoureuse lors d'une rencontre formelle, mais ce n'est pas un chèque en blanc pour les attaques personnelles. Traiter le superviseur de menteur ou d'incompétent peut rendre l'immunité discutable. Si vous avez choisi C, la protection ne se limite pas à une règle « pas de violence », mais les attaques personnelles peuvent tout de même fragiliser la position. Consignez l'échange et demandez conseil avant de promettre un résultat au membre.
 
 ### Question 3
 Lequel des éléments suivants constitue le « Vouloir » (redressement) le plus efficace et juridiquement solide pour un grief impliquant une suspension sans solde ?
-*   A) « Que le superviseur soit formellement discipliné et réprimandé par l'employeur. »
-*   B) « Que le plaignant soit remis dans sa situation antérieure à tous égards. »
-*   C) « Que la suspension soit immédiatement annulée, que le dossier personnel du membre soit purgé de tout enregistrement disciplinaire, et qu'il soit entièrement compensé pour tous les salaires, avantages et ancienneté perdus. »
+*   A) « Que la suspension soit immédiatement annulée, que le dossier personnel du membre soit purgé de tout enregistrement disciplinaire, et qu'il soit entièrement compensé pour tous les salaires, avantages et ancienneté perdus. »
+*   B) « Que le superviseur soit formellement discipliné et réprimandé par l'employeur. »
+*   C) « Que le plaignant soit remis dans sa situation antérieure à tous égards. »
 *   D) « Que l'employeur verse une amende à la section locale pour avoir violé la convention collective. »
 
-**Correct Answer: C**
-*Explication* : Un redressement doit être précis, exécutoire et axé sur le fait de remettre le plaignant « dans sa situation antérieure » (le restaurer à la position où il se serait trouvé si la violation n'avait pas eu lieu). L'option C précise exactement ce qui doit être fait pour purger le dossier et restaurer les salaires et l'ancienneté perdus. L'option A dépasse généralement la compétence d'un arbitre (les syndicats ne peuvent habituellement pas dicter la discipline interne de la direction). L'option B est trop vague pour être exécutée.
+**Correct Answer: A**
+*Explication* : Un redressement doit être précis, exécutoire et viser à remettre le membre dans la situation où il se serait trouvé sans la violation. La demande détaillée d'annulation, de retrait du dossier et d'indemnisation nomme les mesures nécessaires. Demander à l'arbitre de discipliner un gestionnaire échappe généralement au contrôle du syndicat, tandis qu'une simple demande de « remise en situation antérieure » est trop vague pour être exécutée.
 
 ### Question 4
 Un membre vous demande d'enquêter sur un problème d'horaire mais insiste pour que vous ne parliez pas à son superviseur parce que « ça va empirer les choses ». Vous avez des relevés de temps qui appuient partiellement l'allégation, mais aucune déclaration de témoin. Quelle est la meilleure prochaine étape ?
 *   A) Déposer immédiatement en utilisant seulement le récit verbal du membre pour respecter le délai.
-*   B) Expliquer qu'un dossier de grief exige des faits vérifiés ; travailler avec le membre sur les témoins ou dossiers nécessaires, et documenter ce qu'il refuse.
-*   C) Dire au membre qu'il n'a pas de cas sans déclarations de témoins et fermer le dossier.
-*   D) Contacter le superviseur vous-même sans informer le membre pour recueillir des faits en secret.
+*   B) Dire au membre qu'il n'a pas de cas sans déclarations de témoins et fermer le dossier.
+*   C) Contacter le superviseur vous-même sans informer le membre pour recueillir des faits en secret.
+*   D) Expliquer qu'un dossier de grief exige des faits vérifiés ; travailler avec le membre sur les témoins ou dossiers nécessaires, et documenter ce qu'il refuse.
 
-**Correct Answer: B**
+**Correct Answer: D**
 *Explication* : L'enquête exige des faits objectifs. Vous devez équilibrer les préoccupations du membre avec le besoin d'un dossier défendable, documenter les limites de façon transparente, et éviter de déposer des griefs fondés uniquement sur des ouï-dire ou de mener des enquêtes secrètes qui brisent la confiance et l'équité procédurale.
 
 ### Question 5
 La convention collective exige un grief écrit dans les dix jours ouvrables suivant la prise de connaissance de la violation par le membre. Maria apprend qu'elle a été passée samedi, mais attend le vendredi suivant pour vous appeler par embarras. Aujourd'hui, c'est lundi de la deuxième semaine. Quelle est la priorité du délégué ?
 *   A) Refuser le dossier parce que le membre a attendu trop longtemps sans excuse valable.
-*   B) Calculer la date de prise de connaissance à partir de samedi, confirmer si le délai de dix jours court encore, et déposer immédiatement si la fenêtre est ouverte — documenter le retard de Maria dans les notes.
-*   C) Antidater le formulaire de grief au samedi sans en informer le membre.
+*   B) Antidater le formulaire de grief au samedi sans en informer le membre.
+*   C) Calculer la date de prise de connaissance à partir de samedi, confirmer si le délai de dix jours court encore, et déposer immédiatement si la fenêtre est ouverte — documenter le retard de Maria dans les notes.
 *   D) Attendre deux témoins supplémentaires avant de compter le délai.
 
-**Correct Answer: B**
+**Correct Answer: C**
 *Explication* : Les délais de dépôt commencent habituellement à la prise de connaissance, pas à l'incident lui-même. Les délégués doivent calculer les échéances le jour même, déposer dans la fenêtre lorsque possible, et documenter honnêtement le retard du membre — l'embarras n'est pas de la malveillance, mais les délais manqués sont fatals.
 
 ### Question 6
