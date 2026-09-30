@@ -1,9 +1,16 @@
-﻿## 2026-09-30 — Wave D/E/F/J/K Alignment Gate + residuals
+﻿## 2026-09-30 — Wave G local durable verify + Portal smoke REALIGN
+
+- Started Docker Desktop; `npm run ops:verify-durable` passed (deploy `0089`, seed, durability, RLS).
+- CLI seed/smoke scripts import `scripts/register-server-only.mjs` so `tsx` can load `server-only` modules outside Next.
+- Portal durability smoke REALIGN: union-scoped Circles allowed for local presidents; Sidebar ensure serialized; smoke passed as `unionops_app`.
+- Production `*_DB_BACKEND` / `PORTAL_DB_BACKEND` flips and Launch Trust host/counsel packets remain HUMAN.
+- Fit-gap: [`session-knowledge-2026-09-30-wave-g-i-durable.md`](audit/session-knowledge-2026-09-30-wave-g-i-durable.md).
+
+## 2026-09-30 — Wave D/E/F/J/K Alignment Gate + residuals
 
 - **D1:** Brand Styles logo upload → customization assets → `logoAssetId` on `brand:baseline` draft/publish (prior logo preserved when omitted).
 - **D2–D5 / E / F / J:** Gate dispositions in [`session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md`](audit/session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md); Data Records/impact re-baselined in `DATA_WORKBENCH.md`.
 - **K1:** Optional S3 CMEK (`ATTACHMENT_S3_SSE=aws:kms` + `ATTACHMENT_S3_KMS_KEY_ID`); host evidence accepts KMS. Signed URLs remain deferred.
-- **G/H:** Still blocked — Docker Desktop Linux engine not running on this host.
 - Master tracker: [`plan-2026-09-30-sitewide-qol-launch-program.md`](audit/plan-2026-09-30-sitewide-qol-launch-program.md).
 
 ## 2026-09-30 — Website Template multi-page MVP (Wave L)

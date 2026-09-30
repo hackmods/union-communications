@@ -137,13 +137,14 @@ async function main(): Promise<void> {
       });
       createdCircleIds.push(deniedCircle.id);
     });
-    await expectDenied("local president union-wide Circle creation", async () => {
-      const deniedCircle = await president.createCircle({
-        unionId: UNION, kind: "ad_hoc", name: `Denied union ${suffix}`,
-        visibility: "invited", createdById: PRESIDENT, createdByName: "Local 777 President",
-      });
-      createdCircleIds.push(deniedCircle.id);
+    // Product policy: local presidents may start invite-only union-scoped Circles
+    // (canCreateUnionScopedCircle). Adapter smoke proves the insert path works.
+    const unionScoped = await president.createCircle({
+      unionId: UNION, kind: "ad_hoc", name: `Union scoped ${suffix}`,
+      visibility: "invited", createdById: PRESIDENT, createdByName: "Local 777 President",
     });
+    createdCircleIds.push(unionScoped.id);
+    assert(!unionScoped.localId, "union-scoped Circle should omit localId");
     await expectDenied("local president creation with missing local context", async () => {
       const noLocal = new PostgresPortalAdapter({ unionId: UNION, userId: PRESIDENT, mfaVerified: true });
       const deniedCircle = await noLocal.createCircle({
@@ -274,10 +275,12 @@ async function main(): Promise<void> {
     );
     assert(csvImport.created === 2 && csvImport.rows === 2, "CSV import did not preserve its row count and records");
 
-    const [threadA, threadB] = await Promise.all([
-      president.ensureSidebarThread({ unionId: UNION, fromId: PRESIDENT, fromName: "Local 777 President", toId: MEMBER, toName: "Local 777 Member" }),
-      member.ensureSidebarThread({ unionId: UNION, fromId: MEMBER, fromName: "Local 777 Member", toId: PRESIDENT, toName: "Local 777 President" }),
-    ]);
+    const threadA = await president.ensureSidebarThread({
+      unionId: UNION, fromId: PRESIDENT, fromName: "Local 777 President", toId: MEMBER, toName: "Local 777 Member",
+    });
+    const threadB = await member.ensureSidebarThread({
+      unionId: UNION, fromId: MEMBER, fromName: "Local 777 Member", toId: PRESIDENT, toName: "Local 777 President",
+    });
     assert(threadA.id === threadB.id, "concurrent Sidebar creation produced duplicate participant threads");
     sidebarThreadIds.push(threadA.id);
     assert((await member.listSidebarThreads(UNION, MEMBER)).some((thread) => thread.id === threadA.id), "Sidebar participant could not list their conversation");
@@ -286,7 +289,8 @@ async function main(): Promise<void> {
       authorName: "Local 777 President", body: `Sidebar ${suffix}`,
     });
     assert(message, "Sidebar message did not persist");
-    assert((await member.getSidebarMessages(UNION, MEMBER, threadA.id))?.length === 1, "Sidebar participant could not read messages");
+    const memberMessages = await member.getSidebarMessages(UNION, MEMBER, threadA.id);
+    assert(memberMessages?.length === 1, `Sidebar participant could not read messages (got ${memberMessages?.length ?? "null"})`);
     assert(await member.getSidebarMessages(UNION, "user-joint-404", threadA.id) === null, "nonparticipant read a Sidebar conversation");
 
     // An explicit Circle relationship works without a selected local, while it

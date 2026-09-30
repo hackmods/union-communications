@@ -82,15 +82,17 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md`](session-knowledg
 | ID | Status | Verdict | Notes |
 |----|--------|---------|-------|
 | F1 Access / share / updates UI | done | SKIP | Access panel + reason + shares + updates |
-| F2 Postgres browser lifecycle | blocked | BLOCKED | Needs Wave G Docker Postgres |
+| F2 Postgres browser lifecycle | partial | HUMAN | Local Portal durability smoke passed; browser lifecycle / process-restart still need Playwright + operator fixture |
 
 ## Track T2 — Durability + Launch Trust
 
 | Wave | Status | Notes |
 |------|--------|-------|
-| G Postgres flip | blocked | Local Postgres unavailable (`ECONNREFUSED`) |
-| H Portal cutover | blocked | Needs G + Ryan |
-| I Launch packets 1–10 | open | Living LAUNCH tracker; human evidence |
+| G Postgres flip | local done / prod HUMAN | `ops:verify-durable` passed on Docker Postgres 16; production host flip still Ryan |
+| H Portal cutover | local smoke done / prod HUMAN | `db:portal-durability-smoke` passed after policy REALIGN; `PORTAL_DB_BACKEND` prod flip needs operator |
+| I Launch packets 1–10 | open | Living LAUNCH tracker; human evidence / counsel |
+
+Fit-gap: [`session-knowledge-2026-09-30-wave-g-i-durable.md`](session-knowledge-2026-09-30-wave-g-i-durable.md)
 
 ## Track T3 — Stretch
 
@@ -109,7 +111,8 @@ Fit-gap: [`session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md`](session-knowledg
 | 2026-09-30 | B1–B8 | [session-knowledge-2026-09-30-wave-b-fitgap.md](session-knowledge-2026-09-30-wave-b-fitgap.md) |
 | 2026-09-30 | L1–L3 + C–K status | [session-knowledge-2026-09-30-wave-l-program-status.md](session-knowledge-2026-09-30-wave-l-program-status.md) |
 | 2026-09-30 | D1–D5, E1–E7, F1–F2, J, K1–K2 | [session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md](session-knowledge-2026-09-30-wave-d-f-jk-fitgap.md) |
+| 2026-09-30 | G–I durable + Launch disposition | [session-knowledge-2026-09-30-wave-g-i-durable.md](session-knowledge-2026-09-30-wave-g-i-durable.md) |
 
 ## Program completion rule
 
-Goal is **not** complete while any ID remains OPEN without SKIP/HUMAN/BLOCKED disposition, or while G/H/I claim evidence without host/counsel proof. Remaining open/human/blocked: **C**, **G**, **H**, **I** (plus A2/A8/B6 human rows).
+Goal is **not** complete while any ID remains OPEN without SKIP/HUMAN/BLOCKED disposition, or while G/H/I claim **production** evidence without host/counsel proof. Remaining human/open: **C**, **I**, production flips for **G/H**, plus A2/A8/B6 human rows.

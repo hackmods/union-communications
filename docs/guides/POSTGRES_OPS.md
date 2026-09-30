@@ -25,7 +25,7 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
    npm run ops:verify-durable
    ```
 
-   That runs migrate → seed → `db:durability-smoke` → `db:rls-smoke` without printing secret values.
+   That runs migrate → seed → `db:durability-smoke` → `db:rls-smoke` without printing secret values. Seed and those smokes load `scripts/register-server-only.mjs` so `tsx` can import modules that use `server-only` outside Next.js.
 4. **Flip module flags** (start with one module, verify, then expand):
 
 | Variable | Values | Module |
