@@ -18,8 +18,11 @@ counter across MFA verification requests and app replicas.
   concurrent conflicts, so a second replica cannot also consume that counter.
 - The table has `ENABLE` and `FORCE ROW LEVEL SECURITY` with policy scope on
   `app.current_user_id`. Runtime queries execute through `withRlsContext()`.
-  The app role has no DELETE privilege, so runtime code cannot clear its own
-  counter to make an already-used code valid again.
+  The app role has no DELETE privilege, so runtime code cannot delete its own
+  counter to make an already-used code valid again. Enrollment reset therefore
+  **UPDATE**s `last_counter` to `0` (see `clearTotpCounterForUser` /
+  `clearTotpEnrollmentForUser`) — a DELETE would fail and roll back secret
+  clear, locking operators out of Site Admin MFA reset.
   The current counter is state, not a retained authentication-event log; it is
   removed with its user row through the account foreign key.
 - Hosted customer mode refuses the in-memory fallback. It requires both

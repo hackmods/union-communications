@@ -103,7 +103,12 @@ export async function clearTotpEnrollmentForUser(
           sessionVersion: sql`${users.sessionVersion} + 1`,
         })
         .where(eq(users.id, userId));
-      await db.delete(mfaTotpCounters).where(eq(mfaTotpCounters.userId, userId));
+      // Do not DELETE — `unionops_app` has no DELETE on `mfa_totp_counters`
+      // (0071). A failed delete used to roll back secret clear too.
+      await db
+        .update(mfaTotpCounters)
+        .set({ lastCounter: 0 })
+        .where(eq(mfaTotpCounters.userId, userId));
     });
   } else {
     clearConfirmedSecretOverride(userId);
