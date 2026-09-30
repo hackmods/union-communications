@@ -9,7 +9,12 @@ import { withRlsContext } from "@/lib/db/rls-context";
 export async function POST(request: Request) {
   const admin = await requireSiteAdminSession();
   if (!admin.ok) return NextResponse.json({ error: admin.error }, { status: admin.status });
-  if (!isMfaEnabled()) return NextResponse.json({ error: "Enable host MFA before recovery" }, { status: 403 });
+  if (!isMfaEnabled()) {
+    return NextResponse.json(
+      { error: "Enable host MFA before recovery", code: "mfa_disabled" },
+      { status: 503 },
+    );
+  }
   if (!isPostgresConfigured()) return NextResponse.json({ error: "Recovery requires Postgres" }, { status: 503 });
   const body = await request.json().catch(() => null) as { documentId?: string; reason?: string } | null;
   const documentId = body?.documentId?.trim();
