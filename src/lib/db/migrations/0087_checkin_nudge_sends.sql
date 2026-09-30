@@ -19,12 +19,18 @@ CREATE INDEX IF NOT EXISTS "checkin_nudge_sends_schedule_period_idx"
 --> statement-breakpoint
 ALTER TABLE checkin_nudge_sends ENABLE ROW LEVEL SECURITY;
 --> statement-breakpoint
+DROP POLICY IF EXISTS checkin_nudge_sends_retention_job ON checkin_nudge_sends;
+--> statement-breakpoint
 CREATE POLICY checkin_nudge_sends_retention_job ON checkin_nudge_sends FOR ALL
   USING (current_setting('app.current_retention_job', true) = 'true')
   WITH CHECK (current_setting('app.current_retention_job', true) = 'true');
 --> statement-breakpoint
+DROP POLICY IF EXISTS checkin_schedules_retention_job_read ON checkin_schedules;
+--> statement-breakpoint
 CREATE POLICY checkin_schedules_retention_job_read ON checkin_schedules FOR SELECT
   USING (current_setting('app.current_retention_job', true) = 'true');
+--> statement-breakpoint
+DROP POLICY IF EXISTS checkin_answers_retention_job_read ON checkin_answers;
 --> statement-breakpoint
 CREATE POLICY checkin_answers_retention_job_read ON checkin_answers FOR SELECT
   USING (current_setting('app.current_retention_job', true) = 'true');
