@@ -378,7 +378,7 @@ function LookPackDownloads({
 export function AssetPackPanel() {
   const t = useTranslations("assets");
   const tPack = useTranslations("brandKit.identityPack");
-  const tLogo = useTranslations("brandKit.logoSettings");
+  const tLogo = useTranslations("brandKit.logo");
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const [kitBusy, setKitBusy] = useState(false);
