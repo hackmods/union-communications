@@ -742,12 +742,16 @@ jobs:
           # so tip can land a few minutes after GHCR publish without failing CI.
           for i in $(seq 1 40); do
             sleep 15
-            body="$(curl -fsSL --max-time 30 "${TARGET}" 2>/dev/null || true)"
+            # No -f: /api/health returns HTTP 503 when status is degraded, and
+            # curl -f would discard the JSON body (reports as <unreachable>)
+            # even when .commit already matches the deploy SHA.
+            body="$(curl -sSL --max-time 30 "${TARGET}" 2>/dev/null || true)"
             if [ -n "$body" ]; then
               reported="$(echo "$body" | jq -r '.commit // empty')"
               built="$(echo "$body" | jq -r '.builtAt // empty')"
+              status="$(echo "$body" | jq -r '.status // empty')"
               if [ "$reported" = "$EXPECTED_COMMIT" ] || [ "$reported" = "$SHORT_COMMIT" ]; then
-                echo "::warning::Production already reports commit=${reported} builtAt=${built} without CI CapRover CLI secrets. Restore CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP so the next push uses Method 3 image pull (no on-droplet next build)."
+                echo "::warning::Production already reports commit=${reported} builtAt=${built} status=${status} without CI CapRover CLI secrets. Restore CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP so the next push uses Method 3 image pull (no on-droplet next build)."
                 echo "EXTERNAL_DEPLOY_CONFIRMED=1" >> "$GITHUB_OUTPUT"
                 exit 0
               fi
@@ -831,14 +835,19 @@ jobs:
           echo "smoking ${TARGET} — expecting commit ${EXPECTED_COMMIT} (short=${SHORT_COMMIT}) from image ${DEPLOYED_IMAGE}"
           for i in $(seq 1 20); do
             sleep 15
-            body="$(curl -fsSL --max-time 30 "${TARGET}" 2>/dev/null || true)"
+            # No -f: /api/health returns HTTP 503 when status is degraded, and
+            # curl -f would discard the JSON body (reports as <unreachable>)
+            # even when .commit already matches the deploy SHA.
+            body="$(curl -sSL --max-time 30 "${TARGET}" 2>/dev/null || true)"
             if [ -n "$body" ]; then
               reported="$(echo "$body" | jq -r '.commit // empty')"
               built="$(echo "$body" | jq -r '.builtAt // empty')"
+              status="$(echo "$body" | jq -r '.status // empty')"
               # .commit may be reported as either full SHA or short SHA
-              # depending on the build stamp; accept both.
+              # depending on the build stamp; accept both. Degraded is OK
+              # for commit matching — tip is live even if dependencies warn.
               if [ "$reported" = "$EXPECTED_COMMIT" ] || [ "$reported" = "$SHORT_COMMIT" ]; then
-                echo "smoke OK: ${TARGET} reports commit=${reported} builtAt=${built}"
+                echo "smoke OK: ${TARGET} reports commit=${reported} builtAt=${built} status=${status}"
                 exit 0
               fi
             fi
