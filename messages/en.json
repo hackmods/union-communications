@@ -9902,6 +9902,7 @@
         "enrollment_store_unavailable": "Authenticator setup could not save the QR secret. This is a host storage problem, not a wrong code. Try Generate setup code again, or ask whoever runs this Officer Hub to check pending enrollment storage in the app logs.",
         "attempt_store_unavailable": "Sign-in could not start the authenticator check. This is not a wrong code — the host could not record the attempt. Try again in a moment, or ask whoever runs this Officer Hub to check the app logs for MFA attempt-limit.",
         "grant_unavailable": "Your code was accepted, but this browser could not finish the signed-in session. Wait for the next authenticator number and try again. If it keeps failing, ask whoever runs this Officer Hub to check MFA session grants.",
+        "grant_pending": "A verified sign-in is waiting to finish in another tab or browser window. Return there and complete it before trying another code.",
         "replay_store_unavailable": "Your code matched, but replay protection could not be saved. Wait for the next authenticator number and try again. If it keeps failing, ask whoever runs this Officer Hub to check MFA replay storage.",
         "session_not_verified": "Your authenticator is saved, but this browser still needs a new code from your app. Open the identity page and enter the next number — not the one you just used.",
         "not_enrolled": "This account does not have an authenticator yet. Set one up, then try again.",

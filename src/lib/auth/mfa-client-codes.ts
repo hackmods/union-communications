@@ -11,6 +11,7 @@ export const MFA_CLIENT_CODES = [
   "enrollment_store_unavailable",
   "attempt_store_unavailable",
   "grant_unavailable",
+  "grant_pending",
   "replay_store_unavailable",
   "session_not_verified",
   "not_enrolled",

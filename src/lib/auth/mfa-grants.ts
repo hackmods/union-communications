@@ -1,5 +1,5 @@
 import { createHash, randomBytes } from "node:crypto";
-import { and, eq, isNull } from "drizzle-orm";
+import { and, eq, gte, isNotNull, isNull, lte, ne, or } from "drizzle-orm";
 import { hostedCustomerProfileEnabled } from "@/lib/auth/mfa-requirements";
 import { noteMfaDurableFallback } from "@/lib/auth/mfa-durable-fallback-signal";
 import { mustFailClosedOnMfaDurableStoreError } from "@/lib/auth/mfa-durable-store-policy";
@@ -22,6 +22,13 @@ export interface MfaGrant {
 
 const GRANT_TTL_MS = 60_000;
 const memoryGrants = new Map<string, MfaGrant>();
+
+export class MfaGrantPendingError extends Error {
+  constructor() {
+    super("An MFA session grant is already waiting for this account.");
+    this.name = "MfaGrantPendingError";
+  }
+}
 
 function postgresGrantStoreEnabled(
   env: NodeJS.ProcessEnv = process.env,
@@ -52,11 +59,41 @@ export function getMfaGrant(userId: string): MfaGrant | undefined {
   return memoryGrants.get(userId);
 }
 
+/** Refuse factor consumption when an earlier verified browser still owns a grant. */
+export async function assertNoPendingMfaGrant(
+  userId: string,
+  now = Date.now(),
+  sessionVersion = 0,
+  env: NodeJS.ProcessEnv = process.env,
+): Promise<void> {
+  if (postgresGrantStoreEnabled(env)) {
+    const [grant] = await withRlsContext({ userId }, async () =>
+      getDb().select({ userId: mfaSessionGrants.userId })
+        .from(mfaSessionGrants)
+        .where(and(
+          eq(mfaSessionGrants.userId, userId),
+          eq(mfaSessionGrants.sessionVersion, sessionVersion),
+          isNull(mfaSessionGrants.consumedAt),
+          gte(mfaSessionGrants.expiresAt, new Date(now)),
+        ))
+        .for("update")
+        .limit(1),
+    );
+    if (grant) throw new MfaGrantPendingError();
+    return;
+  }
+  const grant = memoryGrants.get(userId);
+  if (grant && grant.sessionVersion === sessionVersion && grant.expiresAt > now) {
+    throw new MfaGrantPendingError();
+  }
+}
+
 export async function issueMfaGrant(
   userId: string,
   now = Date.now(),
   sessionVersion = 0,
   env: NodeJS.ProcessEnv = process.env,
+  options: { rejectPending?: boolean } = {},
 ): Promise<string> {
   assertGrantStoreAvailable(env);
   const nonce = randomBytes(32).toString("base64url");
@@ -66,7 +103,7 @@ export async function issueMfaGrant(
   if (postgresGrantStoreEnabled(env)) {
     try {
       await withRlsContext({ userId }, async () => {
-        await getDb()
+        const [grant] = await getDb()
           .insert(mfaSessionGrants)
           .values({
             userId,
@@ -85,17 +122,40 @@ export async function issueMfaGrant(
               expiresAt,
               consumedAt: null,
             },
-          });
+            ...(options.rejectPending
+              ? {
+                  setWhere: or(
+                    isNotNull(mfaSessionGrants.consumedAt),
+                    lte(mfaSessionGrants.expiresAt, issuedAt),
+                    ne(mfaSessionGrants.sessionVersion, sessionVersion),
+                  ),
+                }
+              : {}),
+          })
+          .returning({ userId: mfaSessionGrants.userId });
+        if (options.rejectPending && !grant) throw new MfaGrantPendingError();
       });
       memoryGrants.delete(userId);
       return nonce;
     } catch (error) {
+      if (error instanceof MfaGrantPendingError) throw error;
       console.error("[auth] MFA grant Postgres write failed", {
         userId,
         message: error instanceof Error ? error.message : String(error),
       });
       noteMfaDurableFallback("session_grant");
       if (mustFailClosedOnMfaDurableStoreError(env)) throw error;
+    }
+  }
+
+  if (options.rejectPending) {
+    const existing = memoryGrants.get(userId);
+    if (
+      existing &&
+      existing.sessionVersion === sessionVersion &&
+      existing.expiresAt > now
+    ) {
+      throw new MfaGrantPendingError();
     }
   }
 

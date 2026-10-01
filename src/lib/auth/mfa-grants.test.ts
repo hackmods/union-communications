@@ -7,9 +7,12 @@ vi.mock("@/lib/db/rls-context", () => ({
 }));
 
 import {
+  assertNoPendingMfaGrant,
   clearMfaGrants,
   consumeMfaGrant,
+  getMfaGrant,
   issueMfaGrant,
+  MfaGrantPendingError,
 } from "@/lib/auth/mfa-grants";
 
 const postgresEnv = {
@@ -38,5 +41,28 @@ describe("MFA grants with a selected durable backend", () => {
     await expect(
       consumeMfaGrant("user-a", nonce, Date.now(), 0, postgresEnv),
     ).rejects.toThrow("simulated Postgres outage");
+  });
+});
+
+describe("MFA grant handoff policy", () => {
+  const memoryEnv = { AUTH_USERS_BACKEND: "memory" } as unknown as NodeJS.ProcessEnv;
+
+  it("preserves a pending browser grant and refuses to mint a replacement", async () => {
+    const first = await issueMfaGrant("user-pending", Date.now(), 3, memoryEnv);
+    await expect(assertNoPendingMfaGrant("user-pending", Date.now(), 3, memoryEnv))
+      .rejects.toBeInstanceOf(MfaGrantPendingError);
+    await expect(issueMfaGrant("user-pending", Date.now(), 3, memoryEnv, { rejectPending: true }))
+      .rejects.toBeInstanceOf(MfaGrantPendingError);
+    expect(getMfaGrant("user-pending")?.nonce).toBe(first);
+  });
+
+  it("allows a new grant after the previous one expires or belongs to an old session", async () => {
+    await issueMfaGrant("user-expired", 1_000, 3, memoryEnv);
+    const fresh = await issueMfaGrant("user-expired", 62_000, 3, memoryEnv, { rejectPending: true });
+    expect(fresh).toBeTruthy();
+
+    await issueMfaGrant("user-version", Date.now(), 3, memoryEnv);
+    await expect(issueMfaGrant("user-version", Date.now(), 4, memoryEnv, { rejectPending: true }))
+      .resolves.toBeTruthy();
   });
 });

@@ -1,18 +1,18 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { auditLog } from "@/lib/audit/store";
-import { issueMfaGrant, consumeMfaGrant } from "@/lib/auth/mfa-grants";
+import { assertNoPendingMfaGrant, issueMfaGrant, MfaGrantPendingError } from "@/lib/auth/mfa-grants";
 import { classifySubmittedMfaCode } from "@/lib/auth/mfa-client-codes";
 import { resolveMfaMode, verifyMfaCode } from "@/lib/auth/mfa-policy";
 import { consumeMfaRecoveryCode } from "@/lib/auth/mfa-recovery-codes";
 import { reserveMfaVerificationAttempt } from "@/lib/auth/mfa-attempt-limits";
 import { consumeTotpCounterForUser } from "@/lib/auth/mfa-totp-counters";
 import { createAuditRequestContext } from "@/lib/audit/request-correlation";
+import { withMfaAccountLock } from "@/lib/auth/mfa-account-lock";
 
-/**
- * MFA verify — match factor, issue grant, then consume replay state.
- * Grant failure must not burn the TOTP counter (SEC-001 handoff).
- */
+class MfaFactorStoreUnavailableError extends Error {}
+
+/** Verify, consume the factor, and issue its one-time grant as one account operation. */
 export async function POST(request: Request) {
   const correlation = createAuditRequestContext();
   const respond = (body: unknown, init: ResponseInit = {}) =>
@@ -65,196 +65,119 @@ export async function POST(request: Request) {
     );
   }
 
-  const recoveryAttempt = resolveMfaMode() === "totp" && submitted === "recovery";
-  let attemptAlreadyReserved = false;
-  if (recoveryAttempt) {
-    try {
-      const attempt = await reserveMfaVerificationAttempt(session.user.id);
-      if (!attempt.allowed) {
-        await recordOutcome("auth.mfa_verify_failed", "denied");
-        return respond(
-          {
-            error: "Too many verification attempts. Try again after the limit resets.",
-            code: "limited",
-          },
-          {
-            status: 429,
-            headers: {
+  try {
+    return await withMfaAccountLock(session.user.id, async () => {
+      const recoveryAttempt = resolveMfaMode() === "totp" && submitted === "recovery";
+      let attemptAlreadyReserved = false;
+      if (recoveryAttempt) {
+        try {
+          const attempt = await reserveMfaVerificationAttempt(session.user.id);
+          if (!attempt.allowed) {
+            await recordOutcome("auth.mfa_verify_failed", "denied");
+            return respond({
+              error: "Too many verification attempts. Try again after the limit resets.",
+              code: "limited",
+            }, { status: 429, headers: {
               "Retry-After": String(attempt.retryAfterSeconds),
               "Cache-Control": "private, no-store",
-            },
-          },
-        );
+            } });
+          }
+          attemptAlreadyReserved = true;
+        } catch (error) {
+          console.error("[auth] MFA verify attempt reserve failed", {
+            userId: session.user.id,
+            message: error instanceof Error ? error.message : String(error),
+          });
+          await recordOutcome("auth.mfa_verify_unavailable", "error");
+          return respond({ error: "MFA verification safeguards are unavailable.",
+            code: "attempt_store_unavailable" }, { status: 503,
+            headers: { "Cache-Control": "private, no-store" } });
+        }
       }
-      attemptAlreadyReserved = true;
-    } catch (error) {
-      console.error("[auth] MFA verify attempt reserve failed", {
-        userId: session.user.id,
-        message: error instanceof Error ? error.message : String(error),
-      });
-      await recordOutcome("auth.mfa_verify_unavailable", "error");
-      return respond(
-        {
-          error: "MFA verification safeguards are unavailable.",
-          code: "attempt_store_unavailable",
-        },
-        { status: 503, headers: { "Cache-Control": "private, no-store" } },
-      );
-    }
-  }
 
-  // Match only — do not consume recovery/TOTP until grant is issued.
-  if (!recoveryAttempt) {
-    const result = await verifyMfaCode({
-      userId: session.user.id,
-      code,
-      attemptAlreadyReserved,
-      consumeCounter: false,
-    });
+      let matchedCounter: number | undefined;
+      if (!recoveryAttempt) {
+        const result = await verifyMfaCode({
+          userId: session.user.id,
+          code,
+          attemptAlreadyReserved,
+          consumeCounter: false,
+        });
+        if (!result.ok) {
+          await recordOutcome(result.status === 503 ? "auth.mfa_verify_unavailable" : "auth.mfa_verify_failed",
+            result.status === 503 ? "error" : "denied");
+          return respond({ error: result.error, code: result.code,
+            ...(result.code === "not_enrolled" ? { needsEnrollment: true } : {}) }, {
+            status: result.status,
+            ...(result.status === 429 ? { headers: { "Retry-After": String(result.retryAfterSeconds ?? 900),
+              "Cache-Control": "private, no-store" } } : {}),
+          });
+        }
+        matchedCounter = result.matchedCounter;
+      }
 
-    if (!result.ok) {
-      await recordOutcome(
-        result.status === 503 ? "auth.mfa_verify_unavailable" : "auth.mfa_verify_failed",
-        result.status === 503 ? "error" : "denied",
-      );
-      const needsEnrollment = result.code === "not_enrolled";
-      return respond(
-        {
-          error: result.error,
-          code: result.code,
-          ...(needsEnrollment ? { needsEnrollment: true } : {}),
-        },
-        {
-          status: result.status,
-          ...(result.status === 429
-            ? {
-                headers: {
-                  "Retry-After": String(result.retryAfterSeconds ?? 900),
-                  "Cache-Control": "private, no-store",
-                },
-              }
-            : {}),
-        },
-      );
-    }
-
-    let mfaGrant: string;
-    try {
-      mfaGrant = await issueMfaGrant(
+      await assertNoPendingMfaGrant(
         session.user.id,
         Date.now(),
         session.user.sessionVersion ?? 0,
       );
-    } catch (error) {
-      console.error("[auth] MFA grant issue failed", {
+
+      if (typeof matchedCounter === "number") {
+        let consumed: boolean;
+        try {
+          consumed = await consumeTotpCounterForUser(session.user.id, matchedCounter);
+        } catch (error) {
+          throw new MfaFactorStoreUnavailableError(error instanceof Error ? error.message : String(error));
+        }
+        if (!consumed) {
+          await recordOutcome("auth.mfa_verify_failed", "denied");
+          return respond({ error: "That code was already used.", code: "replayed" }, { status: 400 });
+        }
+      } else if (recoveryAttempt) {
+        let recoveryUsed: boolean;
+        try {
+          recoveryUsed = await consumeMfaRecoveryCode(session.user.id, code);
+        } catch (error) {
+          throw new MfaFactorStoreUnavailableError(error instanceof Error ? error.message : String(error));
+        }
+        if (!recoveryUsed) {
+          await recordOutcome("auth.mfa_verify_failed", "denied");
+          return respond({ error: "Invalid code", code: "invalid" }, { status: 400 });
+        }
+      }
+
+      const mfaGrant = await issueMfaGrant(
+        session.user.id,
+        Date.now(),
+        session.user.sessionVersion ?? 0,
+        process.env,
+        { rejectPending: true },
+      );
+      await recordOutcome(recoveryAttempt ? "auth.mfa_recovery_code_use" : "auth.mfa_verify", "success");
+      return respond({ success: true, mfaGrant });
+    });
+  } catch (error) {
+    if (error instanceof MfaGrantPendingError) {
+      await recordOutcome("auth.mfa_verify_failed", "denied");
+      return respond({ error: "A verified sign-in is already waiting to finish in this browser. Complete it before trying another code.",
+        code: "grant_pending" }, { status: 409, headers: { "Cache-Control": "private, no-store" } });
+    }
+    if (error instanceof MfaFactorStoreUnavailableError) {
+      console.error("[auth] MFA replay protection unavailable", {
         userId: session.user.id,
-        message: error instanceof Error ? error.message : String(error),
-        phase: "verify",
+        message: error.message,
       });
       await recordOutcome("auth.mfa_verify_unavailable", "error");
-      return respond(
-        {
-          error: "Could not create a secure session grant. Try again shortly.",
-          code: "grant_unavailable",
-        },
-        { status: 503, headers: { "Cache-Control": "private, no-store" } },
-      );
+      return respond({ error: "MFA replay protection is unavailable.",
+        code: "replay_store_unavailable" }, { status: 503,
+        headers: { "Cache-Control": "private, no-store" } });
     }
-
-    const burnGrant = async () => {
-      try {
-        await consumeMfaGrant(
-          session.user.id,
-          mfaGrant,
-          Date.now(),
-          session.user.sessionVersion ?? 0,
-        );
-      } catch {
-        // Best-effort invalidate; grant TTL is short.
-      }
-    };
-
-    if (typeof result.matchedCounter === "number") {
-      try {
-        const consumed = await consumeTotpCounterForUser(
-          session.user.id,
-          result.matchedCounter,
-        );
-        if (!consumed) {
-          await burnGrant();
-          await recordOutcome("auth.mfa_verify_failed", "denied");
-          return respond(
-            {
-              error: "That code was already used.",
-              code: "replayed",
-            },
-            { status: 400 },
-          );
-        }
-      } catch (error) {
-        await burnGrant();
-        console.error("[auth] TOTP replay protection unavailable after grant", {
-          userId: session.user.id,
-          message: error instanceof Error ? error.message : String(error),
-        });
-        await recordOutcome("auth.mfa_verify_unavailable", "error");
-        return respond(
-          {
-            error: "TOTP replay protection is unavailable.",
-            code: "replay_store_unavailable",
-          },
-          { status: 503, headers: { "Cache-Control": "private, no-store" } },
-        );
-      }
-    }
-
-    await recordOutcome("auth.mfa_verify", "success");
-    return respond({ success: true, mfaGrant });
-  }
-
-  // Recovery-code path: grant first, then consume the code.
-  let mfaGrant: string;
-  try {
-    mfaGrant = await issueMfaGrant(
-      session.user.id,
-      Date.now(),
-      session.user.sessionVersion ?? 0,
-    );
-  } catch (error) {
-    console.error("[auth] MFA grant issue failed", {
+    console.error("[auth] MFA factor handoff failed", {
       userId: session.user.id,
       message: error instanceof Error ? error.message : String(error),
-      phase: "verify",
     });
     await recordOutcome("auth.mfa_verify_unavailable", "error");
-    return respond(
-      {
-        error: "Could not create a secure session grant. Try again shortly.",
-        code: "grant_unavailable",
-      },
-      { status: 503, headers: { "Cache-Control": "private, no-store" } },
-    );
+    return respond({ error: "Could not create a secure session grant. Try again shortly.",
+      code: "grant_unavailable" }, { status: 503, headers: { "Cache-Control": "private, no-store" } });
   }
-
-  const recoveryUsed = await consumeMfaRecoveryCode(session.user.id, code);
-  if (!recoveryUsed) {
-    try {
-      await consumeMfaGrant(
-        session.user.id,
-        mfaGrant,
-        Date.now(),
-        session.user.sessionVersion ?? 0,
-      );
-    } catch {
-      // Best-effort invalidate; grant TTL is short.
-    }
-    await recordOutcome("auth.mfa_verify_failed", "denied");
-    return respond(
-      { error: "Invalid code", code: "invalid" },
-      { status: 400 },
-    );
-  }
-
-  await recordOutcome("auth.mfa_recovery_code_use", "success");
-  return respond({ success: true, mfaGrant });
 }

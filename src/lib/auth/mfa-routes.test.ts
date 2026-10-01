@@ -459,6 +459,23 @@ describe("MFA API routes", () => {
       });
     });
 
+    it("keeps the first concurrent browser handoff and does not overwrite its grant", async () => {
+      process.env.AUTH_MFA_ENABLED = "true";
+      process.env.AUTH_MFA_MODE = "shared_code_insecure";
+      process.env.AUTH_MFA_CODE = "424242";
+      const userId = "concurrent-grant-user";
+      authMock.mockResolvedValue(session({ id: userId }));
+
+      const [first, second] = await Promise.all([
+        verifyMfa(jsonRequest({ code: "424242" })),
+        verifyMfa(jsonRequest({ code: "424242" })),
+      ]);
+      const statuses = [first.status, second.status].sort();
+      expect(statuses).toEqual([200, 409]);
+      expect(await first.json()).toMatchObject({ success: true });
+      expect(await second.json()).toMatchObject({ code: "grant_pending" });
+    });
+
     it("does not issue a second grant for a TOTP counter already accepted", async () => {
       process.env.AUTH_MFA_ENABLED = "true";
       process.env.AUTH_MFA_MODE = "totp";
@@ -466,6 +483,11 @@ describe("MFA API routes", () => {
 
       const code = generateTotp("JBSWY3DPEHPK3PXP");
       const first = await verifyMfa(jsonRequest({ code }));
+      const firstBody = await first.json() as { mfaGrant: string };
+      await applyTrustedSessionUpdate({
+        sub: "user-president-7",
+        roles: ["local_president"],
+      } as never, { mfaGrant: firstBody.mfaGrant });
       const replay = await verifyMfa(jsonRequest({ code }));
 
       expect(first.status).toBe(200);
@@ -530,10 +552,13 @@ describe("MFA API routes", () => {
       authMock.mockResolvedValue(session({ id: "recovery-user" }));
       const [recoveryCode] = await rotateMfaRecoveryCodes("recovery-user");
 
+      const invalid = await verifyMfa(jsonRequest({ code: "ZZZZ-ZZZZ-ZZZZ-ZZZZ" }));
+      expect(invalid.status).toBe(400);
+      expect(invalid.headers.get("X-Request-ID")).toBeTruthy();
       const first = await verifyMfa(jsonRequest({ code: recoveryCode }));
       expect(first.status).toBe(200);
       expect(await first.json()).toMatchObject({ success: true });
-      expect((await verifyMfa(jsonRequest({ code: recoveryCode }))).status).toBe(400);
+      expect((await verifyMfa(jsonRequest({ code: recoveryCode }))).status).toBe(409);
     });
 
     it("rotates recovery codes only after a fresh TOTP challenge", async () => {
