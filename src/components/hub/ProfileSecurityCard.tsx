@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Callout } from "@/components/ui/Callout";
+import { Button } from "@/components/ui/Button";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import {
   hubMfaChallengeHref,
@@ -18,6 +19,7 @@ type MfaStatus = {
   enrolled: boolean;
   needsEnrollment: boolean;
   mfaVerified: boolean;
+  reenrollGrace: boolean;
   recoveryCodesRemaining: number | null;
 };
 
@@ -31,41 +33,42 @@ export function ProfileSecurityCard() {
   const [state, setState] = useState<LoadState>("loading");
   const [status, setStatus] = useState<MfaStatus | null>(null);
 
-  useEffect(() => {
-    let cancelled = false;
-    void fetch("/api/mfa/status")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: Partial<MfaStatus> | null) => {
-        if (cancelled) return;
-        if (!data) {
-          setState("error");
-          setStatus(null);
-          return;
-        }
-        setStatus({
-          enabled: Boolean(data.enabled),
-          required: Boolean(data.required),
-          mode: data.mode ?? null,
-          enrolled: Boolean(data.enrolled),
-          needsEnrollment: Boolean(data.needsEnrollment),
-          mfaVerified: Boolean(data.mfaVerified),
-          recoveryCodesRemaining:
-            typeof data.recoveryCodesRemaining === "number"
-              ? data.recoveryCodesRemaining
-              : null,
-        });
-        setState("ready");
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setState("error");
-          setStatus(null);
-        }
+  const loadStatus = useCallback(async () => {
+    setState("loading");
+    setStatus(null);
+    try {
+      const response = await fetch("/api/mfa/status", { cache: "no-store" });
+      const data = (response.ok ? await response.json() : null) as
+        | Partial<MfaStatus>
+        | null;
+      if (!data) {
+        setState("error");
+        setStatus(null);
+        return;
+      }
+      setStatus({
+        enabled: Boolean(data.enabled),
+        required: Boolean(data.required),
+        mode: data.mode ?? null,
+        enrolled: Boolean(data.enrolled),
+        needsEnrollment: Boolean(data.needsEnrollment),
+        mfaVerified: Boolean(data.mfaVerified),
+        reenrollGrace: Boolean(data.reenrollGrace),
+        recoveryCodesRemaining:
+          typeof data.recoveryCodesRemaining === "number"
+            ? data.recoveryCodesRemaining
+            : null,
       });
-    return () => {
-      cancelled = true;
-    };
+      setState("ready");
+    } catch {
+      setState("error");
+      setStatus(null);
+    }
   }, []);
+
+  useEffect(() => {
+    void Promise.resolve().then(() => loadStatus());
+  }, [loadStatus]);
 
   const remaining = status?.recoveryCodesRemaining ?? null;
   const low =
@@ -87,9 +90,19 @@ export function ProfileSecurityCard() {
       ) : null}
 
       {state === "error" ? (
-        <Callout tone="danger" role="alert" measure="fill" className="mt-4">
-          {t("loadFailed")}
-        </Callout>
+        <div className="mt-4 space-y-3">
+          <Callout tone="danger" role="alert" measure="fill">
+            {t("loadFailed")}
+          </Callout>
+          <Button
+            type="button"
+            variant="outline"
+            className="min-h-11"
+            onClick={() => void loadStatus()}
+          >
+            {t("loadFailedRetry")}
+          </Button>
+        </div>
       ) : null}
 
       {state === "ready" && status && !status.enabled ? (
@@ -103,7 +116,26 @@ export function ProfileSecurityCard() {
         </div>
       ) : null}
 
-      {state === "ready" && status?.enabled && !status.required ? (
+      {state === "ready" && status?.enabled && status.reenrollGrace ? (
+        <div className="mt-4 space-y-3">
+          <Callout tone="warning" measure="fill">
+            <p className="font-medium text-opseu-dark">
+              {t("reenrollGraceTitle")}
+            </p>
+            <p className="mt-1 text-sm text-opseu-gray-dark">
+              {t("reenrollGraceBody")}
+            </p>
+          </Callout>
+          <ButtonLink href={hubMfaSetupHref(PROFILE_NEXT)} className="min-h-11">
+            {t("ctaReenroll")}
+          </ButtonLink>
+        </div>
+      ) : null}
+
+      {state === "ready" &&
+      status?.enabled &&
+      !status.reenrollGrace &&
+      !status.required ? (
         <div className="mt-4 space-y-3">
           <p className="text-sm text-gray-700">{t("optionalBody")}</p>
           {!status.enrolled ? (
@@ -118,6 +150,7 @@ export function ProfileSecurityCard() {
 
       {state === "ready" &&
       status?.enabled &&
+      !status.reenrollGrace &&
       status.required &&
       (status.needsEnrollment || !status.enrolled) ? (
         <div className="mt-4 space-y-3">
@@ -135,6 +168,7 @@ export function ProfileSecurityCard() {
 
       {state === "ready" &&
       status?.enabled &&
+      !status.reenrollGrace &&
       status.required &&
       status.enrolled &&
       !status.mfaVerified ? (
@@ -183,6 +217,7 @@ export function ProfileSecurityCard() {
 
       {state === "ready" &&
       status?.enabled &&
+      !status.reenrollGrace &&
       status.required &&
       status.enrolled &&
       status.mfaVerified ? (
@@ -204,6 +239,14 @@ export function ProfileSecurityCard() {
             {t("helpBlurb")}
           </p>
           <p>{t("lostDevice")}</p>
+          {status?.enabled && status.enrolled && !status.reenrollGrace ? (
+            <Link
+              href={hubMfaSetupHref(PROFILE_NEXT, "replace")}
+              className="inline-block font-medium text-opseu-blue hover:underline"
+            >
+              {t("linkReplace")}
+            </Link>
+          ) : null}
         </div>
       ) : null}
     </Card>

@@ -233,10 +233,10 @@ export function MfaPageClient() {
         if (!response.ok || !body.recoveryCodes?.length || !body.mfaGrant) {
           if (body.code === "limited") {
             retryCountdown.start(Number(response.headers.get("Retry-After")) || 900);
-            setRotateError(tErrors("limited"));
-          } else {
-            setRotateError(t("mfaError"));
           }
+          setRotateError(
+            officerMfaErrorMessage(body.code, (key) => tErrors(key), t("mfaError")),
+          );
           return;
         }
         retryCountdown.clear();

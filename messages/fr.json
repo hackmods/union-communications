@@ -8472,7 +8472,7 @@
       "title": "Sécurité",
       "subtitle": "État de l’authentificateur pour le travail confidentiel du Hub des dirigeants.",
       "loading": "Vérification de l’état de sécurité…",
-      "loadFailed": "Impossible de charger l’état de sécurité. Actualisez la page, ou ouvrez la vérification d’identité depuis le menu.",
+      "loadFailed": "Impossible de charger l’état de sécurité. Réessayez, ou ouvrez la vérification d’identité depuis le menu.",
       "hostOffTitle": "La connexion par authentificateur est désactivée sur cet hôte",
       "hostOffBody": "Les démos laissent souvent cela désactivé. La personne qui gère ce Hub des dirigeants peut l’activer pour le vrai travail de dossier. Aucune action n’est requise de votre part pour le moment.",
       "optionalBody": "Votre rôle peut utiliser le Hub des dirigeants sans authentificateur sur cet hôte. Vous pouvez tout de même en configurer un si votre section vous le demande.",
@@ -8495,7 +8495,11 @@
       "linkRegenerate": "Générer de nouveaux codes de récupération",
       "helpLink": "Besoin d’aide?",
       "helpBlurb": "Ouvrez la page guidée de vérification d’identité pour les étapes de configuration et les conseils de récupération.",
-      "lostDevice": "Vous avez perdu votre téléphone ou votre authentificateur? Contactez la personne qui gère ce Hub des dirigeants — le soutien aux comptes peut l’effacer pour que vous puissiez le configurer de nouveau."
+      "lostDevice": "Vous avez perdu votre téléphone? Si vous avez encore un code de récupération, utilisez Remplacer l’authentificateur et choisissez Code de récupération. Si vous n’avez plus de facteur utilisable, contactez la personne qui gère ce Hub des dirigeants — le soutien aux comptes peut l’effacer pour que vous puissiez le configurer de nouveau.",
+      "loadFailedRetry": "Réessayer",
+      "reenrollGraceTitle": "Reconfigurez votre authentificateur",
+      "reenrollGraceBody": "Votre authentificateur précédent a été réinitialisé. Terminez la configuration pendant cette période de récupération pour retrouver le travail protégé du Hub.",
+      "ctaReenroll": "Configurer un nouvel authentificateur"
     },
     "profileName": "Nom",
     "unionAdmin": {
@@ -10273,7 +10277,8 @@
         "emptyWarning": "Il ne vous reste aucun code de récupération inutilisé. Générez-en un nouvel ensemble avant d’en avoir besoin.",
         "saveOnceTitle": "Enregistrez ces codes maintenant",
         "download": "Télécharger en fichier texte",
-        "doneSaving": "J’ai enregistré ces codes"
+        "doneSaving": "J’ai enregistré ces codes",
+        "copyFailed": "Impossible de copier. Téléchargez le fichier, ou sélectionnez les codes et copiez-les manuellement."
       },
       "help": {
         "needHelp": "Besoin d’aide ?",
@@ -10288,7 +10293,7 @@
           },
           "recovery": {
             "title": "Puis-je utiliser un code de récupération ?",
-            "body": "Oui. Si vous avez enregistré des codes de récupération à l’inscription, collez-en un dans le champ de vérification à la place du code à six chiffres. Chaque code de récupération ne fonctionne qu’une fois."
+            "body": "Oui. Choisissez Code de récupération, puis entrez un code inutilisé que vous avez enregistré à la configuration. Chaque code de récupération ne fonctionne qu’une fois."
           },
           "notWorking": {
             "title": "Mon code ne fonctionne pas",
@@ -10330,7 +10335,7 @@
         "manage": {
           "lostPhone": {
             "title": "J’ai perdu mon téléphone",
-            "body": "Si vous pouvez encore ouvrir une session avec un code de récupération enregistré, ouvrez Remplacer l’authenticator et choisissez Code de récupération pour configurer une nouvelle appli. Ce code est consommé au début de la configuration. L’ancienne appli reste active jusqu’à la confirmation de la nouvelle. Si vous n’avez plus de facteur utilisable, contactez la personne qui gère ce Hub des dirigeants pour récupérer votre compte."
+            "body": "Si vous pouvez encore ouvrir une session avec un code de récupération enregistré, ouvrez Remplacer l’authentificateur et choisissez Code de récupération pour configurer une nouvelle appli. Ce code est consommé au début de la configuration ; l’ancienne appli reste active jusqu’à la confirmation de la nouvelle. Si vous n’avez plus de facteur utilisable, contactez la personne qui gère ce Hub des dirigeants pour récupérer votre compte."
           },
           "recoveryManage": {
             "title": "Que sont les codes de récupération ?",
@@ -10371,7 +10376,7 @@
         "replay_store_unavailable": "Votre code correspond, mais la protection contre la réutilisation n’a pas pu être enregistrée. Attendez le prochain numéro de l’authenticator et réessayez. Si le problème continue, demandez à la personne qui gère ce Hub des dirigeants de vérifier le stockage anti-réutilisation AMF.",
         "session_not_verified": "Votre authenticator est enregistré, mais ce navigateur a encore besoin d’un nouveau code de votre appli. Ouvrez la page d’identité et entrez le prochain numéro — pas celui que vous venez d’utiliser.",
         "not_enrolled": "Ce compte n’a pas encore d’authenticator. Configurez-en un, puis réessayez.",
-        "limited": "Trop d’essais. Attendez quelques minutes, puis entrez un nouveau code de votre appli.",
+        "limited": "Trop d’essais. Attendez quelques minutes, puis essayez un nouveau code.",
         "no_pending": "Aucune configuration QR n’est en attente. Elle a peut-être expiré ou déjà été confirmée. Essayez le code de votre authenticator. Générez un nouveau code QR seulement si la configuration n’a pas abouti.",
         "enrollment_state_changed": "L’état de votre authenticator a changé pendant que cette page était ouverte. Actualisez la page et réessayez.",
         "nextCodeHint": "Si une autre page demande un code, utilisez le prochain numéro affiché par votre appli — pas celui que vous venez d’entrer.",

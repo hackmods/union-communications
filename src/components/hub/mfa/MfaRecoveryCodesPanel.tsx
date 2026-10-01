@@ -50,6 +50,7 @@ export function MfaRecoveryCodesPanel({
   const t = useTranslations("hub.mfaJourney.recovery");
   const [saved, setSaved] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [copyFailed, setCopyFailed] = useState(false);
   const [rotationCode, setRotationCode] = useState("");
 
   const low =
@@ -60,11 +61,14 @@ export function MfaRecoveryCodesPanel({
       : null;
 
   const handleCopy = async () => {
+    setCopyFailed(false);
     try {
       await navigator.clipboard.writeText(codes.join("\n"));
       setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
     } catch {
       setCopied(false);
+      setCopyFailed(true);
     }
   };
 
@@ -116,6 +120,11 @@ export function MfaRecoveryCodesPanel({
             >
               {t("download")}
             </Button>
+            {copyFailed ? (
+              <p className="basis-full text-sm text-red-600" role="alert">
+                {t("copyFailed")}
+              </p>
+            ) : null}
             {requireAcknowledge ? (
               <label className="flex min-h-11 items-center gap-2 text-sm text-gray-700 sm:ml-1">
                 <input

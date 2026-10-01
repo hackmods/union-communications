@@ -8526,7 +8526,7 @@
       "title": "Security",
       "subtitle": "Authenticator status for confidential Officer Hub work.",
       "loading": "Checking security status…",
-      "loadFailed": "Could not load security status. Refresh the page, or open identity verification from the menu.",
+      "loadFailed": "Could not load security status. Try again, or open identity verification from the menu.",
       "hostOffTitle": "Authenticator sign-in is off on this host",
       "hostOffBody": "Demos often leave this off. Whoever runs this Officer Hub can turn it on for real casework. No action needed from you right now.",
       "optionalBody": "Your role can use Officer Hub without an authenticator on this host. You can still set one up if your local asks you to.",
@@ -8549,7 +8549,11 @@
       "linkRegenerate": "Generate new recovery codes",
       "helpLink": "Need help?",
       "helpBlurb": "Open the guided identity verification page for setup steps and recovery tips.",
-      "lostDevice": "Lost your phone or authenticator? Contact whoever runs this Officer Hub — Account Support can clear it so you can set up again."
+      "lostDevice": "Lost your phone? If you still have a recovery code, use Replace authenticator and choose Recovery code. If you have no usable factor, contact whoever runs this Officer Hub — Account Support can clear it so you can set up again.",
+      "loadFailedRetry": "Try again",
+      "reenrollGraceTitle": "Set up your authenticator again",
+      "reenrollGraceBody": "Your previous authenticator was reset. Finish setup during this recovery period to regain protected Hub work.",
+      "ctaReenroll": "Set up a new authenticator"
     },
     "profileName": "Name",
     "unionAdmin": {
@@ -9991,7 +9995,8 @@
         "emptyWarning": "You have no unused recovery codes left. Generate a new set before you need one.",
         "saveOnceTitle": "Save these codes now",
         "download": "Download as text file",
-        "doneSaving": "I saved these codes"
+        "doneSaving": "I saved these codes",
+        "copyFailed": "Could not copy. Download the file, or select the codes and copy them manually."
       },
       "help": {
         "needHelp": "Need help?",
@@ -10006,7 +10011,7 @@
           },
           "recovery": {
             "title": "Can I use a recovery code?",
-            "body": "Yes. If you saved recovery codes when you enrolled, paste one into the verification field instead of the six-digit app code. Each recovery code works once."
+            "body": "Yes. Choose Recovery code, then enter one unused code you saved at setup. Each recovery code works once."
           },
           "notWorking": {
             "title": "My code is not working",
@@ -10089,7 +10094,7 @@
         "replay_store_unavailable": "Your code matched, but replay protection could not be saved. Wait for the next authenticator number and try again. If it keeps failing, ask whoever runs this Officer Hub to check MFA replay storage.",
         "session_not_verified": "Your authenticator is saved, but this browser still needs a new code from your app. Open the identity page and enter the next number — not the one you just used.",
         "not_enrolled": "This account does not have an authenticator yet. Set one up, then try again.",
-        "limited": "Too many tries. Wait a few minutes, then enter a new code from your app.",
+        "limited": "Too many tries. Wait a few minutes, then try a new code.",
         "no_pending": "No QR setup is waiting. It may have expired or already been confirmed. Try your authenticator code; generate a new QR code only if setup did not finish.",
         "enrollment_state_changed": "Your authenticator status changed while this page was open. Refresh the page and try again.",
         "nextCodeHint": "If another page asks for a code, use the next number your app shows — not the one you just entered.",
